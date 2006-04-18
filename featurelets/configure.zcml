@@ -5,4 +5,14 @@
 
   <include package="zope.app.annotation" />
 
+  <adapter for="zope.app.annotation.interfaces.IAnnotatable"
+           provides=".interfaces.IFeatureletSupporter"
+           factory=".supporter.FeatureletSupporter"
+           />
+
+  <adapter for="zope.app.annotation.interfaces.IAnnotatable"
+           provides=".interfaces.IMenuSupporter"
+           factory=".menusupporter.MenuSupporter"
+           />
+
 </configure>

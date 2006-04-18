@@ -73,3 +73,39 @@ class IFeatureletSupporter(Interface):
         """
         Uninstalls the provided featurelet, if it is installed.
         """
+
+class IMenuSupporter(Interface):
+    """
+    Marks an object as being able to receive BrowserMenuItem objects
+    as provided by a featurelet.
+    """
+    
+    def addMenuItem(menu_id, menu_item):
+        """
+        Adds a menu item to the specified menu.  Does nothing if a
+        menu item with the same title already exists.
+
+        o menu_id - A string representing the id of the menu w/ which
+        the item should be registered.
+
+        o menu_item - A BrowserMenuItem object.
+        """
+
+    def removeMenuItem(menu_id, menu_item_title):
+        """
+        Removes the menu item w/ the specified title from the
+        specified menu.  Does nothing if a menu item w/ the specified
+        title does not exist.
+
+        o menu_id - A string representing the id of the menu from
+        which the item should be removed.
+
+        o menu_item_title - A string representing the title of the
+        menu item that should be removed.
+        """
+
+    def getMenuItems(menu_id):
+        """
+        Returns a mapping of menu items for the specified menu id.
+        Keys are the titles, values are BrowserMenuItem objects.
+        """
