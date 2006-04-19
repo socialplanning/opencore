@@ -6,9 +6,9 @@ from OFS.interfaces import IObjectManager
 from Products.OpenPlans.interfaces import IProject
 from opencore.content.roster import OpenRoster
 
-from interfaces import IFeaturelet
-from interfaces import IFeatureletSupporter
-from base import BaseFeaturelet
+from topp.featurelets.interfaces import IFeaturelet
+from topp.featurelets.interfaces import IFeatureletSupporter
+from topp.featurelets.base import BaseFeaturelet
 
 class RosterFeaturelet(BaseFeaturelet):
     """

@@ -9,8 +9,8 @@ from zope.app.annotation.interfaces import IAttributeAnnotatable
 
 from Testing.ZopeTestCase import ZopeTestCase
 
-from opencore.featurelets.interfaces import IFeatureletSupporter
-from opencore.featurelets.interfaces import IMenuSupporter
+from topp.featurelets.interfaces import IFeatureletSupporter
+from topp.featurelets.interfaces import IMenuSupporter
 from opencore.featurelets.roster import RosterFeaturelet
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from Products.OpenPlans.tests.openplanstestcase import makeContent
