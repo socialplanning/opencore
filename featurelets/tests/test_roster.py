@@ -26,11 +26,15 @@ class TestRosterFeaturelet(OpenPlansTestCase):
     def test_addFeaturelet(self):
         featurelet = RosterFeaturelet()
         self.assertEqual(self.project.objectIds(), [])
+        team = makeContent(self.portal.portal_teams, 'Team', 'OpenTeam')
+        self.project.setSpaceTeams([team])
         fletsupporter = IFeatureletSupporter(self.project)
         fletsupporter.installFeaturelet(featurelet)
         
         roster_id = featurelet._info['content'][0]['id']
         self.failUnless(roster_id in self.project.objectIds())
+        roster = self.project._getOb(roster_id)
+        self.failUnless(roster.getTeams() == [team])
         menusupporter = IMenuSupporter(self.project)
         menu_items = menusupporter.getMenuItems(featurelet._menu_id)
         item_title = featurelet._info['menu_items'][0]['title']

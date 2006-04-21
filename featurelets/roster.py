@@ -7,7 +7,6 @@ from Products.OpenPlans.interfaces import IProject
 from opencore.content.roster import OpenRoster
 
 from topp.featurelets.interfaces import IFeaturelet
-from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.base import BaseFeaturelet
 
 class RosterFeaturelet(BaseFeaturelet):
@@ -17,11 +16,9 @@ class RosterFeaturelet(BaseFeaturelet):
 
     implements(IFeaturelet)
 
-    ###########################
-    # IFeaturelet implemenation
-    ###########################
-
     id = "openroster"
+    title = "Project Roster"
+
     # XXX create FeatureletInfo objects
     _info = {'content': ({'id':'roster', 'title':'Roster',
                           'portal_type':OpenRoster.portal_type},),
@@ -41,7 +38,13 @@ class RosterFeaturelet(BaseFeaturelet):
     _required_interfaces = BaseFeaturelet._required_interfaces + \
                            (IProject,)
 
-    def getConfigView(self):
+    def deliverPackage(self, obj):
         """
         See IFeaturelet.
         """
+        BaseFeaturelet.deliverPackage(self, obj)
+        objmgr = IObjectManager(obj)
+        project = IProject(obj)
+        roster = objmgr._getOb(self._info['content'][0]['id'])
+        roster.setTeams(project.getTeams())
+        return self._info
