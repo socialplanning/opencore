@@ -20,11 +20,11 @@ class RosterFeaturelet(BaseFeaturelet):
     title = "Project Roster"
 
     # XXX create FeatureletInfo objects
-    _info = {'content': ({'id':'roster', 'title':'Roster',
+    _info = {'content': ({'id':'proj_roster', 'title':'Project Roster',
                           'portal_type':OpenRoster.portal_type},),
-             'menu_items': ({'title': u'roster',
+             'menu_items': ({'title': u'Project Roster',
                              'description': u'Project Roster',
-                             'action': u'roster',
+                             'action': u'proj_roster',
                              'extra': None,
                              'order': 0,
                              'permission': None,
