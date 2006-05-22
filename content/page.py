@@ -63,4 +63,14 @@ class OpenPage(RichDocument):
         path = self.getPhysicalPath()
         return '/'.join(path[:-1])
 
+    def post_validate(self, REQUEST, errors):
+        """
+        When there is existing binary content in the 'text' field it
+        is okay to leave that field blank.
+        """
+        if errors.has_key('text') and 'required' in errors['text']:
+            field = self.getField('text')
+            if field.getFilename(self) and field.get_size(self):
+                errors.pop('text')
+
 registerType(OpenPage, package=PROJECTNAME)
