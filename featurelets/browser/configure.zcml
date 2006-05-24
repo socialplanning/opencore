@@ -1,0 +1,13 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:i18n="http://namespaces.zope.org/i18n"
+           i18n_domain="topp">
+
+  <browser:page
+     for="opencore.featurelets.interfaces.IListenFeatureletInstalled"
+     class="opencore.featurelets.browser.listen.ListenConfigView"
+     permission="zope2.View"
+     name="listen_config"
+     />
+
+</configure>
