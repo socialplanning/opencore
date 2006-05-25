@@ -40,3 +40,11 @@ class ListenFeaturelet(BaseFeaturelet):
 
     _required_interfaces = BaseFeaturelet._required_interfaces + \
                            (IProject,)
+
+    def deliverPackage(self, obj):
+        """
+        See IFeaturelet.
+        """
+        BaseFeaturelet.deliverPackage(self, obj)
+        container = obj._getOb(self._info['content'][0]['id'])
+        container.setLayout('mailing_lists')

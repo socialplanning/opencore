@@ -5,9 +5,10 @@
 
   <browser:page
      for="opencore.featurelets.interfaces.IListenFeatureletInstalled"
-     class="opencore.featurelets.browser.listen.ListenConfigView"
-     permission="zope2.View"
      name="listen_config"
+     template="listen_config.pt"
+     class=".listen.ListenConfigView"
+     permission="zope2.View"
      />
 
 </configure>
