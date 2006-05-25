@@ -48,3 +48,4 @@ class ListenFeaturelet(BaseFeaturelet):
         BaseFeaturelet.deliverPackage(self, obj)
         container = obj._getOb(self._info['content'][0]['id'])
         container.setLayout('mailing_lists')
+        return self._info
