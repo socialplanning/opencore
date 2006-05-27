@@ -17,11 +17,22 @@ class OpenRoster(TeamRoster):
     actions=(
         {'name':        'Project Roster',
          'id':          'view',
-         'action':      'roster_view',
+         'action':      'string:${object_url}',
          'permissions': (View,),
          'category'   : 'object',
          },
         )
+
+    aliases = {
+        '(Default)'    : 'roster_view',
+        'edit'         : 'base_edit',
+        'gethtml'      : '',
+        'index.html'   : '',
+        'properties'   : '',
+        'sharing'      : '',
+        'subscribers'  : '',
+        'view'         : '(Default)',
+        }
 
 registerType(OpenRoster, package=PROJECTNAME)
 
