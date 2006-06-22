@@ -4,6 +4,8 @@ from Products.listen.interfaces import IMailingList
 from zope.schema import ASCII
 from zope.i18nmessageid import MessageIDFactory
 
+from utils import isValidPrefix
+
 _ = MessageIDFactory('opencore')
 
 class IOpenMailingList(IMailingList):
@@ -15,6 +17,7 @@ class IOpenMailingList(IMailingList):
         description = _(u"The prefix portion of the main address "
                         u"for the mailing list."),
         required = True,
+        constraint = isValidPrefix,
         )
 
     mailto.order = IMailingList['mailto'].order
