@@ -1,5 +1,6 @@
 from zope.interface import Interface
 from zope.interface import implements
+from zope.interface import directlyProvides
 
 from zope.component import getMultiAdapter
 
@@ -8,6 +9,7 @@ from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.base import BaseFeaturelet
 
 from interfaces import IListenFeatureletInstalled
+from interfaces import IListenContainer
 
 from Products.OpenPlans.interfaces import IProject
 
@@ -48,4 +50,5 @@ class ListenFeaturelet(BaseFeaturelet):
         BaseFeaturelet.deliverPackage(self, obj)
         container = obj._getOb(self._info['content'][0]['id'])
         container.setLayout('mailing_lists')
+        directlyProvides(container, IListenContainer)
         return self._info
