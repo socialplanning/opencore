@@ -11,4 +11,12 @@
      permission="zope2.View"
      />
 
+  <browser:page
+     for="opencore.featurelets.interfaces.IListenContainer"
+     name="confirm_delete_list"
+     class=".listen.DeleteListView"
+     permission="listen.AddMailingList"
+     attribute="confirmDeleteList"
+     />
+
 </configure>
