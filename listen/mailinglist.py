@@ -1,6 +1,7 @@
 from Products.listen.content.mailinglist import MailingList
 from Products.listen.content.mailinglist import factory_type_information \
      as base_fti
+from Products.listen.permissions import InviteSubscribers
 from Products.OpenPlans.config import PROJECTNAME
 
 from zope.interface import implements
@@ -13,6 +14,14 @@ fti['id'] = 'Open Mailing List'
 fti['meta_type'] = "OpenMailingList"
 fti['product'] = PROJECTNAME
 fti['factory'] = 'addOpenMailingList'
+# Add subscription invitation
+fti['aliases']['invite'] = '@@inviteMembers'
+fti['actions'] = fti['actions'] + (
+    {'id': 'invite_members',
+     'name': 'Invite Members',
+     'action': 'string:${object_url}/invite',
+     'permissions': (InviteSubscribers,)
+     },)
 
 def addOpenMailingList(self, id, title=u''):
     """ Add an OpenMailingList """
