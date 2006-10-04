@@ -51,12 +51,12 @@ class TestListenFeaturelet(OpenPlansTestCase):
         item_title = featurelet._info['menu_items'][0]['title']
         self.failUnless(menu_items.has_key(item_title))
 
-        try:
-            view = getMultiAdapter((self.project, request),
-                                   Interface, ListenFeaturelet.config_view)
-        except ComponentLookupError:
-            self.fail("Config view should be available after the "
-                      "featurelet is installed.")
+        #try:
+        #    view = getMultiAdapter((self.project, request),
+        #                           Interface, ListenFeaturelet.config_view)
+        #except ComponentLookupError:
+        #    self.fail("Config view should be available after the "
+        #              "featurelet is installed.")
 
     def test_removeFeaturelet(self):
         featurelet = ListenFeaturelet()
