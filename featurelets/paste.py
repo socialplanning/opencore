@@ -31,6 +31,11 @@ The basic pattern for using this is::
         # can override entry_point_config:
         ep_kw = {} 
 
+Be sure to then call ``MyFeaturelet.register()`` somewhere in your
+startup code so that the featurelet gets registered with the system.
+You can pass keyword arguments to register to customize the installation
+locally.
+
 """
 
 from OFS.interfaces import IObjectManager
@@ -40,12 +45,18 @@ from topp.zwsgi.zpaste import FivePasteWSGIAppBase
 
 class BasePasteFeaturelet(BaseFeaturelet):
 
+    def __init__(self, **extra_config):
+        self.extra_config = extra_config
+        BaseFeaturelet.__init__(self)
+
     def entry_point_config(self, obj):
         """
         Override this to determine the keyword arguments to
         instantiate the WSGI app dynamically.
         """
-        return self.ep_kw
+        kwargs = self.ep_kw.copy()
+        kwargs.update(self.extra_config)
+        return kwargs
 
     def deliverPackage(self, obj):
         """
