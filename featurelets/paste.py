@@ -82,14 +82,15 @@ class BasePasteFeaturelet(BaseFeaturelet):
         objmgr = IObjectManager(obj)
         objmgr.manage_delObjects(ids=[self.id])
 
-    def register(cls):
+    def register(cls, **extra_config):
         """
-        Registers this class as a featurelet provider.
+        Registers this class as a featurelet provider.  Any keyword
+        arguments will turn into extra config for the WSGI application.
         """
         from zope.component import getUtility
         from topp.featurelets.interfaces import IFeatureletRegistry
         flet_registry = getUtility(IFeatureletRegistry)
-        flet_registry.registerFeaturelet(cls())
+        flet_registry.registerFeaturelet(cls(**extra_config))
 
     register = classmethod(register)
     
