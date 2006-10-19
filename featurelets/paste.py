@@ -67,7 +67,8 @@ class BasePasteFeaturelet(BaseFeaturelet):
         objmgr = IObjectManager(obj)
         kwargs = self.entry_point_config(obj)
         bucket = FivePasteWSGIAppBase(
-            self.dist, self.ep_name, **kwargs)
+            self.id, self.dist, self.ep_name,
+            **kwargs)
         objmgr._setObject(self.id, bucket)
         directlyProvides(bucket, self.container_interface)
         return self._info
