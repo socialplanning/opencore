@@ -42,6 +42,71 @@ from OFS.interfaces import IObjectManager
 from zope.interface import directlyProvides, implements, Interface
 from topp.featurelets.base import BaseFeaturelet
 from topp.zwsgi.zpaste import FivePasteWSGIAppBase
+from Products.OpenPlans import utils
+from Products.CMFCore.utils import getToolByName 
+
+class ToppWSGIAppBase(FivePasteWSGIAppBase):
+
+    def _get_app(self):
+        app = FivePasteWSGIAppBase._get_app(self)
+        app = ToppMiddleware(app)
+        return app
+
+class ToppMiddleware(object):
+
+    """
+    Middleware that adds TOPP-specific keys to the WSGI environment
+    """
+
+    def __init__(self, app):
+        self.app = app
+
+    def __call__(self, environ, start_response):
+        request = environ['zope.request']
+        context = environ['zope.context']
+        project = utils.get_project(context)
+        environ['topp.project_name'] = project.getId()
+        environ['topp.project_info'] = make_dict_from_project(project)
+        pm = getToolByName(context, 'portal_membership')
+        # Should we handled pm.isAnonymousUser() specially?
+        member = pm.getAuthenticatedMember()
+        print 'got member', repr(member)
+        if not pm.isAnonymousUser():
+            environ['topp.user_info'] = make_dict_from_member(member, project)
+        environ['topp.project_members'] = ProjectMembers(project)
+        # @@ This should probably be handled specially
+        environ['paste.throw_errors'] = True
+        return self.app(environ, start_response)
+
+def make_dict_from_member(member, project):
+    return {
+        'username': member.getId(),
+        'fullname': member.getFullname(),
+        'email': member.getEmail(),
+        'roles': member.getRolesInContext(project),
+        'zope_member_object': member,
+        }    
+
+def make_dict_from_project(project):
+    return {
+        'name': project.getId(),
+        'title': project.Title(),
+        'zope_project_object': project,
+        }
+
+class ProjectMembers(object):
+    
+    def __init__(self, project):
+        self.project = project
+
+    def project_members(self):
+        user_infos = []
+        for member in self.project.projectMembers():
+            user_infos.append(make_dict_from_member(member, self.project))
+        return user_infos
+
+    def __repr__(self):
+        return '<Project member getter for project %r>' % self.project
 
 class BasePasteFeaturelet(BaseFeaturelet):
 
@@ -63,10 +128,9 @@ class BasePasteFeaturelet(BaseFeaturelet):
         See IFeaturelet
         """
         BaseFeaturelet.deliverPackage(self, obj)
-
         objmgr = IObjectManager(obj)
         kwargs = self.entry_point_config(obj)
-        bucket = FivePasteWSGIAppBase(
+        bucket = ToppWSGIAppBase(
             self.id, self.dist, self.ep_name,
             **kwargs)
         objmgr._setObject(self.id, bucket)
