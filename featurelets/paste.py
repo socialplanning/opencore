@@ -84,7 +84,7 @@ def make_dict_from_member(member, project):
         'email': member.getEmail(),
         'roles': member.getRolesInContext(project),
         'zope_member_object': member,
-        'edit_user_link' : member.absolute_url_path + "/edit",
+        'edit_user_link' : member.absolute_url_path() + "/edit",
         }    
 
 def make_dict_from_project(project):
