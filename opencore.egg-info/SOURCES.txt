@@ -1,0 +1,9 @@
+setup.cfg
+setup.py
+opencore/__init__.py
+opencore.egg-info/PKG-INFO
+opencore.egg-info/SOURCES.txt
+opencore.egg-info/dependency_links.txt
+opencore.egg-info/entry_points.txt
+opencore.egg-info/not-zip-safe
+opencore.egg-info/top_level.txt
