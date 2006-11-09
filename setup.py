@@ -22,7 +22,7 @@ setup(name='opencore',
           'topp.featurelets',
       ],
       dependency_links=[
-          'http://traffic.openplans.org/dependency_links.html',
+          'https://svn.openplans.org/svn/topp.deploy/trunk/dependency_links.html',
       ],
       entry_points="""
       # -*- Entry points: -*-
