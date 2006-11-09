@@ -19,6 +19,10 @@ setup(name='opencore',
       zip_safe=False,
       install_requires=[
           # -*- Extra requirements: -*-
+          'topp.featurelets',
+      ],
+      dependency_links=[
+          'https://svn.openplans.org/svn/topp.featurelets/branches/setuptools#egg=topp.utils',
       ],
       entry_points="""
       # -*- Entry points: -*-
