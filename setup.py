@@ -22,7 +22,7 @@ setup(name='opencore',
           'topp.featurelets',
       ],
       dependency_links=[
-          'https://svn.openplans.org/svn/topp.featurelets/branches/setuptools#egg=topp.utils',
+          'https://svn.openplans.org/svn/topp.featurelets/branches/setuptools#egg=topp.featurelets',
       ],
       entry_points="""
       # -*- Entry points: -*-
