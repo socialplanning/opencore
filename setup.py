@@ -20,6 +20,7 @@ setup(name='opencore',
       install_requires=[
           # -*- Extra requirements: -*-
           'topp.featurelets',
+          'memojito',
       ],
       dependency_links=[
           'https://svn.openplans.org/svn/topp.deploy/trunk/dependency_links.html',
