@@ -6,7 +6,7 @@ from interfaces import ITaskTrackerFeatureletInstalled, ITaskTrackerContainer
 
 class TaskTrackerFeaturelet(BasePasteFeaturelet):
     """
-    A featurelet that installs a Hello World style application
+    A featurelet that installs a Task Tracker
     """
 
     implements(IFeaturelet)
