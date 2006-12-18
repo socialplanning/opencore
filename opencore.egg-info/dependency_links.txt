@@ -1,1 +1,1 @@
-http://traffic.openplans.org/dependency_links.html
+https://svn.openplans.org/svn/topp.deploy/trunk/dependency_links.html
