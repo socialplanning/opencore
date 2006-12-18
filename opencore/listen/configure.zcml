@@ -1,10 +1,10 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:five="http://namespaces.zope.org/five"
-           xmlns:ploneschema="http://namespaces.plone.org/ploneschema"
+           xmlns:browser="http://namespaces.zope.org/browser"
            xmlns:i18n="http://namespaces.zope.org/i18n"
            i18n_domain="opencore">
 
-  <ploneschema:addform
+  <browser:addform
      schema="opencore.listen.interfaces.IOpenMailingList"
      label="Add Mailing List"
      description="A mailing list which recieves, archives, and redistributes mail"
@@ -22,9 +22,9 @@
     <widget
        field="mailto"
        class=".widgets.OpenListNameWidget" />
-  </ploneschema:addform>
+  </browser:addform>
 
-  <ploneschema:editform
+  <browser:editform
      schema="opencore.listen.interfaces.IOpenMailingList"
      label="Edit Mailing List"
      name="edit"
@@ -39,6 +39,6 @@
     <widget
        field="mailto"
        class=".widgets.OpenListNameWidget" />
-  </ploneschema:editform>
+  </browser:editform>
 
 </configure>
