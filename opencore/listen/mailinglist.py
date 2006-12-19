@@ -61,8 +61,8 @@ factory_type_information = ( {
 #                         },
                         {
                         'id': 'subscribers',
-                        'name': 'Subscribers',
-                        'action': 'string:${object_url}/subscribers',
+                        'name': 'membership',
+                        'action': 'string:${object_url}/manage_membership',
                         'permissions': (permissions.ManageSubscriptions,)
                         },
                        ),
