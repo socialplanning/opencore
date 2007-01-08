@@ -70,6 +70,7 @@ class ToppMiddleware(object):
         pm = getToolByName(context, 'portal_membership')
         # Should we handled pm.isAnonymousUser() specially?
         member = pm.getAuthenticatedMember()
+        print 'got member', repr(member)
         if not pm.isAnonymousUser():
             environ['topp.user_info'] = make_dict_from_member(member, project)
         environ['topp.project_members'] = ProjectMembers(project)
@@ -84,7 +85,6 @@ def make_dict_from_member(member, project):
         'email': member.getEmail(),
         'roles': member.getRolesInContext(project),
         'zope_member_object': member,
-        'edit_user_link' : member.absolute_url_path() + "/edit",
         }    
 
 def make_dict_from_project(project):
