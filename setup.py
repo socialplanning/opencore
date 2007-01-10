@@ -23,7 +23,7 @@ setup(name='opencore',
           'memojito',
       ],
       dependency_links=[
-          'https://svn.openplans.org/svn/topp.deploy/trunk/dependency_links.html',
+          'https://svn.openplans.org/svn/topp.deploy/trunk/dependency_links_local.html',
       ],
       entry_points="""
       # -*- Entry points: -*-
