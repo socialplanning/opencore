@@ -1,6 +1,7 @@
 Test for Cookie Auth
 ====================
 
+  >>> import sha
   >>> import base64
   >>> from urllib import quote
   >>> from zope.interface import implementedBy
@@ -9,7 +10,7 @@ Test for Cookie Auth
 
 Make sure cookie plugin is installed and activated.
 
-  >>> uf.objectIds(Signed Cookie Auth Helper')
+  >>> uf.objectIds('Signed Cookie Auth Helper')
   ['credentials_signed_cookie_auth']
 
   >>> plugins = uf.plugins
@@ -42,7 +43,8 @@ Pluggable Auth Service too.
 
 Login to Plone site using Cookie Auth should work too.
 
-  >>> encoded = base64.encodestring('%s:%s' % (user_name, user_password))
+  >>> auth = sha.new(user_name + user_password + self.secret).hexdigest()
+  >>> encoded = base64.encodestring('%s:%s:%s' % (user_name, user_password, auth))
   >>> print http(r"""
   ... GET /%s/manage HTTP/1.1
   ... Cookie: __ac=%s;
