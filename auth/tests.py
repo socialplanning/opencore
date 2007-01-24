@@ -54,6 +54,7 @@ HTTPResponse.exception = exception
 HTTPResponse.setBody = setBody
 
 def test_suite():
+    print "TEST THIS"
     suite = unittest.TestSuite()
     DocFileSuite = ZopeTestCase.FunctionalDocFileSuite
     tests = (
@@ -67,3 +68,5 @@ def test_suite():
         suite.addTest(t)
     return suite
 
+if __name__ == '__main__':
+    unittest.TextTestRunner().run(test_suite())
