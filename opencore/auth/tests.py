@@ -70,6 +70,7 @@ def test_suite():
                          test_class=klass,
                          optionflags = doctest.ELLIPSIS,
                          package='opencore.auth.tests')
+        #all openplans tests need this
         t.layer = OpenPlansLayer
         suite.addTest(t)
     return suite
