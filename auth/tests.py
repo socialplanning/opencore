@@ -58,6 +58,7 @@ HTTPResponse._traceback = _traceback
 HTTPResponse.exception = exception
 HTTPResponse.setBody = setBody
 
+import warnings; warnings.filterwarnings("ignore")
 def test_suite():
     suite = unittest.TestSuite()
     DocFileSuite = ZopeTestCase.FunctionalDocFileSuite
