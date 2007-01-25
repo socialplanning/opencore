@@ -49,9 +49,9 @@ Login to Plone site using Signed Cookie Auth should work too.
   >>> cookie = uf['credentials_signed_cookie_auth']
 
   >>> auth = hmac.new(password, user_name + user_password, sha).hexdigest()
-  >>> encoded = base64.encodestring('%s:%s:%s' % (user_name, user_password, auth))
-  >>> print base64.encodestring('%s:%s:%s' % (user_name, user_password, auth))
-  YmF6OmJhc...
+  >>> encoded = base64.encodestring('%s\0%s\0%s' % (user_name, user_password, auth))
+  >>> print base64.encodestring('%s\0%s\0%s' % (user_name, user_password, auth))
+  YmF6AGJhc...
   ...
 
 The cookie set by PlonePAS should be URL-quoted.
@@ -62,10 +62,10 @@ The cookie set by PlonePAS should be URL-quoted.
   ... """ % (portal_name, quote(encoded)), handle_errors=False)
   HTTP/1.1 200 OK
   ...
-  Set-Cookie: __ac="Oj...
+  Set-Cookie: __ac="AA...
 
 Bad cookies should be rejected
-  >>> bad = base64.encodestring('%s:%s:%s' % (user_name, user_password, 'bogusauth'))
+  >>> bad = base64.encodestring('%s\0%s\0%s' % (user_name, user_password, 'bogusauth'))
   >>> print http(r"""
   ... GET /%s/logged_in HTTP/1.1
   ... Cookie: __ac=%s

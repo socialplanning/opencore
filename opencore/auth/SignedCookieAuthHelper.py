@@ -100,7 +100,7 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
 
         elif cookie and cookie != 'deleted':
             cookie_val = decodestring(unquote(cookie))
-            login, password, hash = cookie_val.split(':')
+            login, password, hash = cookie_val.split('\0')
 
             if not hash == hmac.new(self.secret, login + password, sha).hexdigest():
                 return None
@@ -123,7 +123,7 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
         """ Respond to change of credentials (NOOP for basic auth). """
 
         auth = hmac.new(self.secret, login + new_password, sha).hexdigest()
-        cookie_val = encodestring('%s:%s:%s' % (login, new_password, auth))
+        cookie_val = encodestring('%s\0%s\0%s' % (login, new_password, auth))
         cookie_val = cookie_val.rstrip()
         response.setCookie(self.cookie_name, quote(cookie_val), path='/')
 
