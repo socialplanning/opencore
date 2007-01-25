@@ -10,46 +10,31 @@ Test for Cookie Auth
 
 Make sure cookie plugin is installed and activated.
 
+  >>> uf = self.portal.acl_users
+
   >>> uf.objectIds('Signed Cookie Auth Helper')
   ['credentials_signed_cookie_auth']
 
   >>> plugins = uf.plugins
   >>> cookie = uf['credentials_signed_cookie_auth']
 
-Login to Plone site using Cookie Auth should work too.
-
-  >>> encoded = base64.encodestring('%s:%s' % (user_name, user_password))
-  >>> print http(r"""
-  ... GET /%s/manage HTTP/1.1
-  ... Cookie: __ac=%s;
-  ... """ % (portal_name, encoded), handle_errors=False)
-  HTTP/1.1 200 OK...
-
-User in parent folder
----------------------
-
-User Exists on the folder containing the Plone Site, which should be a
-Pluggable Auth Service too.
-
-  >>> uf = self.portal.aq_parent.acl_users
-  >>> print uf.meta_type
-  Pluggable Auth Service
+Create a user
 
   >>> user_name, user_password, user_role = ('baz', 'bar', 'Manager')
   >>> uf.userFolderAddUser(user_name, user_password, [user_role], [])
 
   >>> uf.getUserById(user_name)
-  <PropertiedUser 'baz'>
+  <MembraneUser 'baz'>
 
-Login to Plone site using Cookie Auth should work too.
+Login to Plone site using Signed Cookie Auth should work too.
 
-  >>> auth = sha.new(user_name + user_password + self.secret).hexdigest()
+  >>> cookie = uf['credentials_signed_cookie_auth']
+
+  >>> auth = sha.new(user_name + user_password + cookie.secret).hexdigest()
   >>> encoded = base64.encodestring('%s:%s:%s' % (user_name, user_password, auth))
-  >>> print http(r"""
-  ... GET /%s/manage HTTP/1.1
-  ... Cookie: __ac=%s;
-  ... """ % (portal_name, quote(encoded)), handle_errors=False)
-  HTTP/1.1 200 OK...
+  >>> print base64.encodestring('%s:%s:%s' % (user_name, user_password, auth))
+  YmF6OmJhcjoxYmE3YjVjZGY2NmExNGUwMjkxYzUwZjRlYWEyY2Q2NWU1NzlkY2Qx
+  ...
 
 The cookie set by PlonePAS should be URL-quoted.
 
@@ -59,5 +44,5 @@ The cookie set by PlonePAS should be URL-quoted.
   ... """ % (portal_name, quote(encoded)), handle_errors=False)
   HTTP/1.1 200 OK
   ...
-  Set-Cookie: __ac="Og%3D%3D"; Path=/...
+  Set-Cookie: __ac="OjplNWU5ZmExYmEzMWVjZDFhZTg0Zjc1Y2FhYTQ3NGYzYTY2M2YwNWY0"; Path=/...
 

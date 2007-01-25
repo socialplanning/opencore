@@ -1,5 +1,9 @@
 ##############################################################################
 #
+# Signed Cookie Auth
+# Copyright 2007 The Open Planning Project
+# 
+# based on
 # PlonePAS - Adapt PluggableAuthService for use in Plone
 # Copyright (C) 2005 Enfold Systems, Kapil Thangavelu, et al
 #
@@ -19,13 +23,14 @@ $Id: test_doctests.py 32811 2006-11-06 14:01:12Z shh42 $
 # Load fixture
 import unittest
 from Testing import ZopeTestCase
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansLayer
 from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
 from Products.PloneTestCase.PloneTestCase import setupPloneSite
 
-from Products.CMFCore.utils import getToolByName
-
 from zExceptions.ExceptionFormatter import format_exception
 from ZPublisher.HTTPResponse import HTTPResponse
+from Testing.ZopeTestCase import installProduct
+import doctest
 
 setupPloneSite()
 
@@ -54,7 +59,6 @@ HTTPResponse.exception = exception
 HTTPResponse.setBody = setBody
 
 def test_suite():
-    print "TEST THIS"
     suite = unittest.TestSuite()
     DocFileSuite = ZopeTestCase.FunctionalDocFileSuite
     tests = (
@@ -64,7 +68,9 @@ def test_suite():
     for fname, klass in tests:
         t = DocFileSuite(fname,
                          test_class=klass,
+                         optionflags = doctest.ELLIPSIS,
                          package='opencore.auth.tests')
+        t.layer = OpenPlansLayer
         suite.addTest(t)
     return suite
 
