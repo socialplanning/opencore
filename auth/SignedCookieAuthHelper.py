@@ -35,6 +35,7 @@ from Products.PlonePAS.plugins.cookie_handler import ExtendedCookieAuthHelper
 
 import hmac
 import sha
+import os
 
 from Acquisition import aq_base
 
@@ -55,13 +56,35 @@ def manage_addSignedCookieAuthHelper(self, id, title='',
 from Globals import DTMLFile
 manage_addSignedCookieAuthHelperForm = DTMLFile("../zmi/SignedCookieAuthHelperForm", globals())
 
+def get_secret():
+    secret_file_name = os.environ.get('TOPP_SECRET_FILENAME', '')
+    if not secret_file_name:
+        secret_file_name = os.path.join(os.environ.get('INSTANCE_HOME'), 'secret.txt')
+
+    if os.path.exists(secret_file_name):
+        f = open (secret_file_name)
+        password = f.readline().strip()
+        f.close()
+    else:
+        #this may throw an error if the file cannot be created, but that's OK, because 
+        #then users will know to create it themselves
+        f = open (secret_file_name, "w")
+        from random import SystemRandom
+        random = SystemRandom()
+        letters = [chr(ord('A') + i) for i in xrange (26)]
+        letters += [chr(ord('a') + i) for i in xrange (26)]
+        letters += map (str, xrange(10))
+        password = "".join([random.choice(letters) for i in xrange(10)])
+        f.write(password)
+        f.close()
+    return password
 
 class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
     """ Multi-plugin for managing details of Cookie Authentication with signing. """
 
     meta_type = 'Signed Cookie Auth Helper'
     security = ClassSecurityInfo()
-    secret = 'secret'
+    secret = get_secret()
 
     security.declarePrivate('extractCredentials')
     def extractCredentials(self, request):
