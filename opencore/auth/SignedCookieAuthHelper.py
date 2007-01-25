@@ -33,6 +33,7 @@ from Products.PluggableAuthService.utils import classImplements
 from Products.PluggableAuthService.plugins.CookieAuthHelper import ICookieAuthHelper
 from Products.PlonePAS.plugins.cookie_handler import ExtendedCookieAuthHelper
 
+import hmac
 import sha
 
 from Acquisition import aq_base
@@ -78,7 +79,7 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
             cookie_val = decodestring(unquote(cookie))
             login, password, hash = cookie_val.split(':')
 
-            if not hash == sha.new(login + password + self.secret).hexdigest():
+            if not hash == hmac.new(self.secret, login + password, sha).hexdigest():
                 return None
 
             creds['login'] = login
@@ -98,7 +99,7 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
     def updateCredentials(self, request, response, login, new_password):
         """ Respond to change of credentials (NOOP for basic auth). """
 
-        auth = sha.new(login + new_password + self.secret).hexdigest()
+        auth = hmac.new(self.secret, login + new_password, sha).hexdigest()
         cookie_val = encodestring('%s:%s:%s' % (login, new_password, auth))
         cookie_val = cookie_val.rstrip()
         response.setCookie(self.cookie_name, quote(cookie_val), path='/')

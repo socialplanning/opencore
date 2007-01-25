@@ -1,6 +1,7 @@
 Test for Cookie Auth
 ====================
 
+  >>> import hmac
   >>> import sha
   >>> import base64
   >>> from urllib import quote
@@ -30,10 +31,10 @@ Login to Plone site using Signed Cookie Auth should work too.
 
   >>> cookie = uf['credentials_signed_cookie_auth']
 
-  >>> auth = sha.new(user_name + user_password + cookie.secret).hexdigest()
+  >>> auth = hmac.new(cookie.secret, user_name + user_password, sha).hexdigest()
   >>> encoded = base64.encodestring('%s:%s:%s' % (user_name, user_password, auth))
   >>> print base64.encodestring('%s:%s:%s' % (user_name, user_password, auth))
-  YmF6OmJhcjoxYmE3YjVjZGY2NmExNGUwMjkxYzUwZjRlYWEyY2Q2NWU1NzlkY2Qx
+  YmF6OmJhcjoyZmRiNGI2N2ZkNDMwZGU3ODA2OTUxYWRkZGRhZWZjZGNiMGMwZGIw
   ...
 
 The cookie set by PlonePAS should be URL-quoted.
@@ -44,5 +45,15 @@ The cookie set by PlonePAS should be URL-quoted.
   ... """ % (portal_name, quote(encoded)), handle_errors=False)
   HTTP/1.1 200 OK
   ...
-  Set-Cookie: __ac="OjplNWU5ZmExYmEzMWVjZDFhZTg0Zjc1Y2FhYTQ3NGYzYTY2M2YwNWY0"; Path=/...
+  Set-Cookie: __ac="OjoyNWFmNjE3NGEwZmNlY2M0ZDM0NjY4MGE3MmI3Y2U2NDRiOWE4OGU4"; Path=/...
+
+Bad cookies should be rejected
+  >>> bad = base64.encodestring('%s:%s:%s' % (user_name, user_password, 'bogusauth'))
+  >>> print http(r"""
+  ... GET /%s/logged_in HTTP/1.1
+  ... Cookie: __ac=%s
+  ... """ % (portal_name, quote(bad)), handle_errors=False)
+  HTTP/1.1 200 OK
+  ...
+  Set-Cookie: __ac="deleted";...
 
