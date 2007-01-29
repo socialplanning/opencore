@@ -1,0 +1,87 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="plone">
+  <head><title></title></head>
+  <body>
+
+    <!-- Rich Widgets -->
+
+    <metal:view_macro define-macro="view"
+                      tal:define="transformable python: here.isTransformable(fieldName);">
+      <span tal:condition="transformable"
+            tal:replace="structure accessor"/>
+<tal:comment replace="nothing">
+Commented out the View/Edit links for ordinary display - feel free to
+enable these in your site, but they should definitely not be there by
+default.
+      <tal:download tal:condition="widget/allow_file_upload | python:1">
+        <metal:block use-macro="here/widgets/file/macros/file_view">download link</metal:block>
+      </tal:download>
+</tal:comment>
+    </metal:view_macro>
+ 
+    <metal:define define-macro="edit">
+      <metal:use use-macro="field_macro | here/widgets/field/macros/edit">
+        <metal:fill fill-slot="widget_body"
+                    tal:define="base python:hasattr(value, 'isUnit');
+                                binary python:base and value.isBinary() or here.isBinary(fieldName);">
+          <tal:area_format tal:condition="widget/allow_format_edit | python:1">
+            <div style="text-align: right; margin-right: 0.75em;">
+              <metal:block use-macro="here/binsmart_visual/macros/area_format" />
+            </div>
+          </tal:area_format>
+          <fieldset tal:condition="binary" id="binary_info" i18n:translate="binary_info">
+            This page's content resides in a binary file.  To edit this page, you
+            have two options:
+            <ul>
+              <li>
+                <a tal:attributes="href string:${here/absolute_url}/at_download/$fieldName">Download</a>
+                the existing file, edit it using the appropriate application, and 
+                then reupload the modified file using the upload box below.
+              </li>
+              <li>
+                Switch to using the WYSIWYG editor to manage this page
+                by selecting "HTML" from the "Text Format" selector
+                above.  <em>NOTE</em>: THIS WILL DELETE THE
+                EXISTING CONTENT!
+              </li>
+            </ul>
+          </fieldset>
+          <span id="wysiwygEditorBox"
+                tal:define="content python: not not base and value.getRaw() or value;
+                            content python: not binary and content or '';
+                            inputname fieldName;
+                            inputvalue content;
+                            tabindex tabindex/next;
+                            rows widget/rows;
+                            cols widget/cols;"
+                tal:attributes="style python:test(binary, 'display:none', 'display:block')">
+            <metal:use use-macro="here/wysiwyg_support/macros/wysiwygEditorBox" />
+          </span>
+          <div style="text-align: right; margin-right: 0.75em;"
+               tal:condition="widget/allow_file_upload | python:1">
+              <span class="discreet" 
+                    i18n:translate="or_upload_a_file">or upload a file (existing content will be replaced)</span>
+              <input type="file"
+                     size="30"
+                     tabindex="" 
+                     tal:attributes="name string:${fieldName}_file;
+                                     id string:${fieldName}_file;
+                                     tabindex tabindex/next;
+                                     "/>
+          </div>
+        </metal:fill>
+      </metal:use>
+    </metal:define>
+
+    <div metal:define-macro="search">
+      <div metal:use-macro="here/widgets/rich/macros/edit">
+      </div>
+    </div>
+
+  </body>
+
+</html>
+

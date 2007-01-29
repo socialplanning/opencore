@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en-US"
+      lang="en-US"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"      
+      i18n:domain="plone"
+      metal:use-macro="here/main_template/macros/master">
+<body>
+<div metal:fill-slot="main">
+
+<div tal:define="ve portal/validate_email">
+
+<h1 i18n:translate="heading_welcome">Welcome!</h1>
+
+<p i18n:translate="description_you_are_registered">You have been registered as a member.</p>
+
+<p tal:condition="ve" i18n:translate="description_you_will_get_password"> 
+You will receive an email shortly containing your password 
+    and instructions on how to activate your membership. 
+</p>
+
+<tal:block condition="python:not(ve)"> 
+    <span i18n:translate="description_you_can_log_on_now">Click the button to log in immediately and return to where you were.</span>
+    <form action=""
+          method="post"
+          tal:define="username request/id; 
+		      password request/password;
+		      came_from python: request.get('came_from', '');
+		      dest python: came_from.find('logout')==-1 and came_from or '%s/logged_in' % here.portal_url();"
+          tal:attributes="action dest"
+	        >
+        <input type="hidden" 
+               name="came_from" 
+               value=""
+               tal:attributes="value request/came_from|nothing;" />
+        <input type="hidden" 
+               name="__ac_name" 
+               value=""
+               tal:attributes="value username;" />
+        <input type="hidden"
+               name="__ac_password"
+               value=""
+               tal:attributes="value password;" />
+        <input class="standalone"
+               type="submit"
+               value="Log in" 
+               i18n:attributes="value"
+               />
+    </form>         
+</tal:block>
+
+</div>
+
+</div>
+</body>
+</html>
