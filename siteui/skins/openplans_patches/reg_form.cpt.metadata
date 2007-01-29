@@ -1,0 +1,11 @@
+[default]
+title=Register
+
+[validators]
+validators = validate_registration, validate_base
+
+[actions]
+action.failure = traverse_to:string:reg_form
+action.success = traverse_to:string:do_register
+action.success..next = traverse_to:string:register_schemata
+action.success..previous = traverse_to:string:register_schemata

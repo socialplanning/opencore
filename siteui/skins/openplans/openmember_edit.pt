@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="openplans">
+
+<body>
+
+<metal:topslot define-macro="topslot"
+               tal:define="dummy python:request.set('disable_border', 1)" />
+
+<metal:header define-macro="header">
+  <h1>Edit Personal Info and Preferences</h1>
+</metal:header>
+
+<metal:body define-macro="body"
+            tal:define="edit_macros here/portal_skins/archetypes/edit_macros/macros">
+  <ul class="configlets">
+    <li>
+      <a href="PASSWORD_FORM"
+         tal:attributes="href string:$portal_url/password_form">
+        <img src="lock_icon.gif" alt="" />
+        Change Password
+      </a>
+    </li>
+  </ul>
+  <div metal:use-macro="edit_macros/body" />
+</metal:body>
+
+</body>
+</html>
