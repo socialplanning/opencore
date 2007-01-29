@@ -1,0 +1,125 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+
+  <body>
+
+    <div metal:fill-slot="main">
+    <metal:main-macro define-macro="main">
+
+    <div tal:define="userinfo view/getUserInfo; portal_types portal/portal_types;">
+
+      <h1><span tal:replace="userinfo/login"></span>'s Profile</h1><br>
+
+      <div style="position: relative">
+
+
+        <!-- listing of content created by this user -->
+        <div style="float: right; text-align: center; ">
+        <tal:authorContent define="author_content python:here.author_find_content(userinfo['login']);"
+                           condition="author_content">
+        
+            <h2 i18n:translate="heading_author_content">
+                Latest content
+            </h2>
+            
+            <div metal:define-macro="user_content_listing" >
+            <table class="listing" summary="Lists content written by an author grouped by content type" i18n:attributes="summary summary_author_content_list;">
+                <tal:repeat repeat="content_by_type author_content">
+                  <tal:grouping define="getTypeInfo nocall:portal_types/getTypeInfo;
+                                        content_type_ content_by_type/portal_type;
+                                        type_title python: getTypeInfo(content_type_) or None"
+                                condition="type_title">		
+                    <tr>
+                        <th colspan="2"
+                            i18n:translate=""
+                            tal:define="getTypeInfo nocall:portal_types/getTypeInfo;
+                                        content_type_ content_by_type/portal_type;
+                                        type_title python: getTypeInfo(content_type_) or None"
+                            tal:content="python:type_title and type_title.Title() or content_type_ + ' is not available'">
+                            Type
+                        </th>
+                    </tr>
+                    <tal:repeat repeat="item content_by_type/content_items">
+                        <tr>
+                            <td>
+                                <a href="" tal:attributes="href item/getURL"
+                                   tal:content="item/pretty_title_or_id">title</a>
+                            </td>
+                            <td tal:content="python:here.toLocalizedTime(item.Date)">
+                                Date
+                            </td>
+                        </tr>
+                    </tal:repeat>
+                  </tal:grouping>
+                </tal:repeat>
+            </table>
+            </div>
+
+            <div style="text-align: right">
+            <a href=""
+               tal:attributes="href string:$here_url/search?Creator=${userinfo/login}&amp;sort_on=Date&amp;sort_order=reverse"
+               i18n:translate="go_to_search_author_content">All content...</a>
+            </div>
+
+        </tal:authorContent>
+      </div> <!-- end latest user content -->
+
+
+
+        <!-- float left container -->
+        <div style="float: left; min-width: 26em; max-width: 39em">
+
+          <!-- portrait+text -->
+          <div style="clear: right">
+
+            <!-- portrait -->
+            <div style="float: left; padding-right: 10px">
+              <span tal:condition="userinfo/portrait" tal:replace="structure userinfo/portrait"></span>
+              <img tal:condition="python: not userinfo['portrait']" tal:attributes="src string:defaultUser.gif">
+            </div> <!-- end portrait -->
+
+            <!-- text -->
+            <div style="vertical-align: top; float: left">
+              <div tal:condition="userinfo/fullname" tal:content="userinfo/fullname" style="font-weight: bold"></div>
+              <div tal:condition="userinfo/location" tal:content="userinfo/location" style="margin-bottom: 1em"></div>
+              <div tal:condition="userinfo/projects">
+                <div style="font-weight: bold"> projects</div>
+                <ul>
+                  <tal:repeat repeat="proj userinfo/projects">
+                  <li><a href="" tal:attributes="href string:${proj/absolute_url}"><span tal:replace="python: proj.full_name or proj.getId()"></span></a></li>
+                  </tal:repeat>
+                </ul>
+              </div>
+            </div> <!-- text -->
+
+          </div> <!-- end portrait + text -->
+
+
+          <!-- wiki -->
+          <div style="float: left; padding: 5px; margin-top: 40px; clear: left">
+            <div style="border-top: thin solid gray; margin-bottom: 10px">
+              <div tal:condition="userinfo/editpermission" style="text-align: right">
+                <a href="edit">edit</a>
+              </div>
+            </div>
+            <div tal:content="structure userinfo/wiki"></div>
+          </div> <!-- end of wiki -->
+
+        </div> <!-- end float left container -->
+
+      </div>
+
+    </div>
+
+      <!-- for debugging: -->
+      <!--
+      <br> <span tal:replace="python: dir(userinfo['member'])"></span>
+      -->
+
+    </metal:main-macro>
+    </div> <!-- main metal fill slot -->
+
+  </body>
+</html>

@@ -1,0 +1,13 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:browser="http://namespaces.zope.org/browser">
+
+  <browser:page
+     for="Products.CMFCore.interfaces.IDynamicType"
+     class=".memberinfo.MemberInfoView"
+     permission="zope.Public"
+     name="member_info"
+     allowed_interface=".interfaces.IMemberInfo"
+     />
+
+</configure>

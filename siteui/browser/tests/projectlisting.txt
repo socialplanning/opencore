@@ -1,0 +1,48 @@
+======================
+ Project Listing View
+======================
+
+first, load our component architecture and utils::
+
+    >>> from zope.app.tests.placelesssetup import setUp, tearDown
+    >>> from Products.Five import zcml
+    >>> import Products.Five
+    >>> import Products.CMFCore
+    >>> import Products.ATContentTypes
+    >>> from Products import testing
+    >>> from Products.OpenPlans import browser
+    >>> setUp()
+    >>> zcml.load_config('meta.zcml', Products.Five)
+    >>> zcml.load_config("permissions.zcml", Products.Five)
+    >>> zcml.load_config('traversal.zcml', testing)
+    >>> zcml.load_config('configure.zcml', Products.CMFCore)
+    >>> zcml.load_config('configure.zcml', Products.ATContentTypes)
+    >>> zcml.load_config('projectlisting.zcml', browser)
+    >>> from Products.ATContentTypes.z3.interfaces import IATBTreeFolder
+    >>> from Products.Five.utilities.marker import mark
+    >>> try:
+    ...     from zope.publisher.interfaces.browser import IDefaultBrowserLayer
+    ... except:
+    ...     from zope.publisher.interfaces.browser import IBrowserRequest as IDefaultBrowserLayer
+
+let's setup some stubs::
+
+    >>> mark(self.folder, IATBTreeFolder)
+    >>> mark(self.folder.REQUEST, IDefaultBrowserLayer)
+    >>> tfolder = getattr(self.folder, self.folder.invokeFactory('Folder', id='testoid'))
+    >>> from Products.OpenPlans.Extensions.Install import createIndexes
+    >>> from cStringIO import StringIO
+    >>> createIndexes(self.portal, StringIO())
+    >>> tfolder.project_policy = 'open_policy'
+    >>> tfolder.portal_type = 'OpenProject'
+    >>> cat = self.portal.portal_catalog
+    >>> cat.catalog_object(tfolder, '/'.join(tfolder.getPhysicalPath()), idxs=['project_policy'])
+    >>> from Products.OpenPlans.browser.projectlisting import ProjectListingView
+    >>> view = ProjectListingView(self.folder, self.folder.REQUEST)
+    >>> len(view.getProjects())
+    1
+
+    >>> tfolder.project_policy = 'closed_policy'
+    >>> cat.catalog_object(tfolder, '/'.join(tfolder.getPhysicalPath()), idxs=['project_policy'])
+    >>> len(view.getProjects())
+    0
