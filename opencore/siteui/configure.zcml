@@ -60,7 +60,7 @@
 
 
   <subscriber
-     for="..interfaces.IProject
+     for="opencore.interfaces.IProject
           zope.app.event.interfaces.IObjectModifiedEvent"
      factory=".featurelet_supporter_view.saveFeaturelets" />
 
