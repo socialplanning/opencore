@@ -26,9 +26,9 @@ from App.class_init import default__class_init__ as InitializeClass
 
 from Products.PluggableAuthService.interfaces.plugins import \
     ILoginPasswordHostExtractionPlugin, IChallengePlugin, ICredentialsUpdatePlugin, \
-    ICredentialsResetPlugin
+    ICredentialsResetPlugin, IAuthenticationPlugin
 
-from Products.PluggableAuthService.utils import classImplements
+from zope.interface import implements
 
 from Products.PluggableAuthService.plugins.CookieAuthHelper import ICookieAuthHelper
 from Products.PlonePAS.plugins.cookie_handler import ExtendedCookieAuthHelper
@@ -86,6 +86,14 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
     security = ClassSecurityInfo()
     secret = get_secret()
 
+
+    implements( ICookieAuthHelper
+               , ILoginPasswordHostExtractionPlugin
+               , IChallengePlugin
+               , ICredentialsUpdatePlugin
+               , ICredentialsResetPlugin
+               , IAuthenticationPlugin )
+
     security.declarePrivate('extractCredentials')
     def extractCredentials(self, request):
         """ Extract credentials from cookie or 'request'. """
@@ -100,13 +108,14 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
 
         elif cookie and cookie != 'deleted':
             cookie_val = decodestring(unquote(cookie))
-            login, password, hash = cookie_val.split('\0')
+            login, hash = cookie_val.split('\0')
 
-            if not hash == hmac.new(self.secret, login + password, sha).hexdigest():
+            if not hash == hmac.new(self.secret, login, sha).hexdigest():
                 return None
 
             creds['login'] = login
-            creds['password'] = password
+            #creds['password'] = password
+            creds['hash'] = hash
 
         if creds:
             creds['remote_host'] = request.get('REMOTE_HOST', '')
@@ -122,19 +131,15 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
     def updateCredentials(self, request, response, login, new_password):
         """ Respond to change of credentials (NOOP for basic auth). """
 
-        auth = hmac.new(self.secret, login + new_password, sha).hexdigest()
-        cookie_val = encodestring('%s\0%s\0%s' % (login, new_password, auth))
+        auth = hmac.new(self.secret, login, sha).hexdigest()
+        cookie_val = encodestring('%s\0%s' % (login, auth))
         cookie_val = cookie_val.rstrip()
         response.setCookie(self.cookie_name, quote(cookie_val), path='/')
 
+    #IAuthenticationPlugin
 
-classImplements( SignedCookieAuthHelper
-               , ICookieAuthHelper
-               , ILoginPasswordHostExtractionPlugin
-               , IChallengePlugin
-               , ICredentialsUpdatePlugin
-               , ICredentialsResetPlugin
-               )
+    def authenticateCredentials(self, credentials):
+        if credentials['hash'] == hmac.new(self.secret, credentials['login'], sha).hexdigest():
+            return (credentials['login'], credentials['login'])
 
 InitializeClass(SignedCookieAuthHelper)
-
