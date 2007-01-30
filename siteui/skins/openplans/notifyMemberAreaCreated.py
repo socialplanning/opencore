@@ -23,5 +23,5 @@ mtool = getToolByName(context, 'portal_membership')
 
 member = mtool.getAuthenticatedMember()
 
-from Products.OpenPlans.browser.profile import fireFirstLoginEvent
-fireFirstLoginEvent(member)
+from opencore.siteui.memberprofile import notifyFirstLogin
+notifyFirstLogint(member)

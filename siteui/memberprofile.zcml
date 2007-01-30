@@ -13,7 +13,7 @@
 
   <subscriber
     for=".interfaces.IFirstLoginEvent"
-    factory=".memberprofile.handleFirstLoginEvent"
+    factory=".memberprofile.create_home_directory"
     />
 
 </configure>
