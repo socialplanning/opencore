@@ -57,7 +57,7 @@
   <include file="memberinfo.zcml" />
   <include file="menus.zcml" />
   <include file="memberprofile.zcml" />
-  <include file="project_members_xml.zcml" />
+
 
   <subscriber
      for="..interfaces.IProject
