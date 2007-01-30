@@ -1,11 +1,14 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser"
 	   xmlns:five="http://namespaces.zope.org/five">
-  <include package="opencore.api" />
-  <include package="opencore.siteui" />
+
+  <include file="permissions.zcml" />
   <include package="topp.featurelets" />
   <include package="opencore.featurelets.browser" />
-  <include package="opencore.listen" />
+  <include package="opencore.api" />
   <include package="opencore.auth" />
-  <include package="opencore.configuration" />
+
+  <include package="opencore.listen" />
+  <include package="opencore.siteui" />
+
 </configure>
