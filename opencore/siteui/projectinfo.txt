@@ -4,19 +4,11 @@
 
 first, load our component architecture and utils::
 
-    >>> from zope.interface import implements
-    >>> from zope.app.apidoc.component import getProvidedAdapters as gpa
-    >>> import zope.component
-    >>> from zope.contentprovider import interfaces
     >>> from zope.interface import Interface, implements
-    >>> from Products.OpenPlans.browser import projectinfo
-    >>> import Products.Five
-    >>> from Products.Five import zcml
-    >>> import Products.CMFCore
-    >>> from Products import testing
+    >>> from opencore.siteui import projectinfo
+    >>> from collective import testing
     >>> from Products.testing.teamspaces import getGetTeams
     >>> from Products.testing.tools import PortalMembership
-    >>> from Products.OpenPlans import browser
     >>> from Products.Five.utilities.marker import mark
     >>> from Products.CMFCore.interfaces import IDynamicType
     >>> from Products.Five.traversable import FakeRequest
@@ -44,19 +36,5 @@ we have to stub out some utilities and pseudo functions to support 'projectMembe
     ...                     member=testing.dummy(dict(getId=lambda self: 'user')))
     >>> self.folder.aq_parent.portal_membership = mt
     >>> self.folder.getTeams=getGetTeams()
-    >>> inst = projectinfo.ProjectActionView(testoid, self.folder.REQUEST)
-    >>> mengen = inst.getActions() 
-    >>> menuitem = mengen.next()
-    >>> print menuitem['action']
-    http://nohost/test_folder_1_/contact_project_admins
 
-now let's get that view by traversal::
 
-    >>> view = testoid.restrictedTraverse('@@project_actions')
-    >>> mengen = view.getActions()
-    >>> menuitem = mengen.next()
-    >>> print menuitem['action']
-    http://nohost/test_folder_1_/contact_project_admins
-
-    >>> print menuitem['id']
-    project_tabs-get-involved
