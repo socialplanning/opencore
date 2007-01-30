@@ -6,8 +6,8 @@ functional test for livesearch view
 
 Let's try out our classes first
 
-    >>> import translate as tr
-    >>> import livesearch as ls
+    >>> from opencore.siteui import translate as tr
+    >>> from opencore.siteui import livesearch as ls
     >>> translate = tr.TranslationAdapter(self.portal)
     >>> translate('label_no_results_found')
     'label_no_results_found'

@@ -23,7 +23,7 @@ let's setup some stubs::
     >>> tfolder.portal_type = 'OpenProject'
     >>> cat = self.portal.portal_catalog
     >>> cat.catalog_object(tfolder, '/'.join(tfolder.getPhysicalPath()), idxs=['project_policy'])
-    >>> from Products.OpenPlans.browser.projectlisting import ProjectListingView
+    >>> from projectlisting import ProjectListingView
     >>> view = ProjectListingView(self.folder, self.folder.REQUEST)
     >>> len(view.getProjects())
     1
