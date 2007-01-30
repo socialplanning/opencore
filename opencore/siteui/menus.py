@@ -6,8 +6,19 @@ from Products.Five.viewlet.viewlet import ViewletBase
 from Products.OpenPlans.interfaces import IProject
 from topp.featurelets.interfaces import IFeatureletSupporter
 from projectinfo import ProjectInfoView
-from memberinfo import MemberInfoView
-from menu_item import MenuItem
+
+
+class MenuItem(object):
+    """ a simple class that contains minimal info about menu items """
+
+    title=''
+    action=''
+    description=''
+
+    def __init__(self, title='', action='', description=''):
+          self.title=title
+          self.action=action
+          self.description=description
 
 class MenuItemList(ViewletBase):
 
