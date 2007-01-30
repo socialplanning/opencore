@@ -7,9 +7,6 @@ from zope.viewlet.interfaces import IViewletManager
 class IOpenPlansSkin(IDefaultBrowserLayer):
     """Skin for OpenPlans"""
 
-class IPersonalBar(IViewletManager):
-    """Viewlets for the personal bar (e.g. 'project home')"""
-
 class IPersonaltools(IViewletManager):
     """Viewlets for personal tools (e.g. breadcrumbs + croutons)"""
 

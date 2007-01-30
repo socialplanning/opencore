@@ -59,7 +59,7 @@
   <include file="projectinfo.zcml" />
   <include file="projectlisting.zcml" />
   <include file="memberinfo.zcml" />
-  <include package="menu" />
+  <include package=".menu" />
   <include file="memberprofile.zcml" />
 
 
