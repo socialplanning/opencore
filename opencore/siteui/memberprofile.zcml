@@ -13,7 +13,7 @@
 
   <subscriber
     for=".interfaces.IFirstLoginEvent"
-    factory=".profile.handleFirstLoginEvent"
+    factory=".memberprofile.handleFirstLoginEvent"
     />
 
 </configure>
