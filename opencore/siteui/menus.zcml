@@ -20,7 +20,7 @@
      name="project_menu"
      for="*"
      manager=".interfaces.IPersonalBar"
-     class=".viewlets.NavMenu"
+     class=".menus.NavMenu"
      template="project_menu.pt"
      permission="zope2.View"
      />

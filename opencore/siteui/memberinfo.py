@@ -1,16 +1,10 @@
-"""
-This is a multiadapter for member info
-"""
-from zope.interface import implements
-
 from Products.CMFCore.utils import getToolByName 
 from Products.Five import BrowserView
 from Products.remember.interfaces import IReMember
-
-from memojito import memoizedproperty, memoize
-
-from interfaces import IMemberInfo
 from interfaces import IMemberFolder
+from interfaces import IMemberInfo
+from memojito import memoizedproperty, memoize
+from zope.interface import implements
 
 
 class MemberInfoView(BrowserView):
