@@ -3,11 +3,10 @@
            xmlns:browser="http://namespaces.zope.org/browser">
 
   <browser:page
-     for="Products.OpenPlans.interfaces.IProject"
+     for="opencore.interfaces.IProject"
      permission="zope.Public"
      name="members.xml"
      template="project_members_xml.pt"
-     allowed_interface=".interfaces.IProjectInfo"
      class=".projectxml.MemberXML"
      />
 
