@@ -1,5 +1,7 @@
 """
 Profile View
+
+@@ tests?
 """
 from AccessControl import allow_module
 
@@ -8,14 +10,19 @@ from Products.Five import BrowserView
 from interfaces import IMemberHomePage
 from interfaces import IMemberFolder
 from interfaces import IFirstLoginEvent
-from zope.interface import implements, directlyProvides, alsoProvides
+# always use alsoProvides since directlyProvides erases all other marker interfaces
+from zope.interface import implements, alsoProvides
 from memberinfo import MemberInfoView
 from zope.event import notify
 
 # XXX this is too promiscuous, we should move fireFirstLoginEvent into
-#     its own module so we don't need to expose the rest of this to
-#     TTW code
-allow_module('Products.OpenPlans.browser.profile')
+# its own module so we don't need to expose the rest of this to TTW
+# code
+
+# @@ wouldn't worry about it. you don't do anything in this
+# module that would compromise security
+
+allow_module('opencore.siteui.memberprofile')
 
 
 class ProfileView(BrowserView):
@@ -35,15 +42,18 @@ class ProfileView(BrowserView):
     def getUserInfo(self):
         """Returns a dict with user info that gets displayed on profile view"""
         if self.info is None:
-            self.info = {}
-            self.info['member'] = self.member
-            self.info['login'] = self.memberlogin
-            self.info['fullname'] = self.member.fullname
-            self.info['location'] = self.member.getLocation()
-            self.info['portrait'] = self.member.getPortrait()
-            self.info['projects'] = self.member.getProjectListing() # @@@ this should be indexed and then returned by a catalog call
-            self.info['wiki'] = getattr(self.memberfolder, '%s-home' % self.memberlogin).CookedBody()
-            self.info['editpermission'] = self.mtool.checkPermission('Modify portal content', self.context)
+
+            # this is an alternate spelling for creating a dict
+            
+            self.info = dict(member=self.member,
+                             login=self.memberlogin,
+                             fullname=self.member.fullname,
+                             location=self.member.getLocation(),
+                             portrait=self.member.getPortrait(),
+                             projects=self.member.getProjectListing(), # @@@ this should be indexed and then returned by a catalog call
+                             wiki=getattr(self.memberfolder, '%s-home' % self.memberlogin).CookedBody(),
+                             editpermission=self.mtool.checkPermission('Modify portal content', self.context)
+                             )
         return self.info
 
 
@@ -53,18 +63,26 @@ class FirstLoginEvent(object):
         self.member = member
 
 
-def fireFirstLoginEvent(member):
+def notifyFirstLogin(member):
     notify(FirstLoginEvent(member))
 
 
-def handleFirstLoginEvent(event):
+def create_home_directory(event):
+    # @@ where are the tests?
+
+    # name your handler after what it does, not what it's for with
+    # events, I may add many more subscribers that handle "first
+    # login", but only this one creates a home directory.
+    
     member = event.member
     mtool = getToolByName(member, 'portal_membership')
     member_id = member.getId()
 
     folder = mtool.getHomeFolder(member_id)
-    directlyProvides(folder, IMemberFolder)
-    alsoProvides(folder, IMemberHomePage)
+    alsoProvides(folder, IMemberFolder)
+
+    #the folder is not the homepage
+    #alsoProvides(folder, IMemberHomePage)
 
     page_id = "%s-home" % member_id
     title = "%s Home" % member_id
@@ -73,8 +91,9 @@ def handleFirstLoginEvent(event):
     #folder.setDefaultPage(page_id)
     
     page = getattr(folder, page_id)
-    # XXX acquisition, ugh
+    # XXX acquisition, ugh @@ huh?
     page_text = member.member_index(member_id=member_id)
     page.setText(page_text)
 
-    #directlyProvides(page, IMemberHomePage)
+    # the page is the homepage
+    alsoProvides(page, IMemberHomePage)
