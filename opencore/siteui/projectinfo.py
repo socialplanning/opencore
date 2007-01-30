@@ -8,9 +8,7 @@ from Products.Five import BrowserView
 from Products.Five.browser.TrustedExpression import getEngine
 from Products.wicked.lib.normalize import titleToNormalizedId as normalize
 from Products.OpenPlans.interfaces import IProject
-
 from memojito import memoizedproperty
-
 from interfaces import IProjectInfo
 
 
