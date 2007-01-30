@@ -1,0 +1,16 @@
+<!-- personalbar.pt -->
+<!-- THE PERSONAL BAR DEFINITION 
+     CURRENTLY ONLY HANDLES PART OF THE PERSONAL BAR -->
+
+<!--div metal:define-macro="breadcrumb_personalbar" 
+     tal:omit-tag="">
+
+  <div id="portal-navigation-personal"-->
+
+    <tal:personal-viewlets repeat="viewlet view/viewlets">
+      <tal:viewlet replace="structure viewlet" />
+    </tal:personal-viewlets>
+
+  <!--/div>
+</div-->
+
