@@ -87,8 +87,7 @@ def create_home_directory(event):
     page_id = "%s-home" % member_id
     title = "%s Home" % member_id
     folder.invokeFactory('Document', page_id, title=title)
-    # XXX how to make 'profile' the default view for the member folder?
-    #folder.setDefaultPage(page_id)
+    folder.setDefaultPage(page_id)
     
     page = getattr(folder, page_id)
     # XXX acquisition, ugh @@ huh?
@@ -97,3 +96,6 @@ def create_home_directory(event):
 
     # the page is the homepage
     alsoProvides(page, IMemberHomePage)
+
+    # this may do it... not sure
+    page.setLayout('profile.html')
