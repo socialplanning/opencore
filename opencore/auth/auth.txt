@@ -20,9 +20,9 @@ Ensure that the environment is set up
   >>> os.path.exists(secret_file_name)
   True
   >>> f = open (secret_file_name)
-  >>> password = f.readline().strip()
+  >>> secret = f.readline().strip()
   >>> f.close()
-  >>> len(password) > 0
+  >>> len(secret) > 0
   True
 
 
@@ -48,10 +48,10 @@ Login to Plone site using Signed Cookie Auth should work too.
 
   >>> cookie = uf['credentials_signed_cookie_auth']
 
-  >>> auth = hmac.new(password, user_name + user_password, sha).hexdigest()
-  >>> encoded = base64.encodestring('%s\0%s\0%s' % (user_name, user_password, auth))
-  >>> print base64.encodestring('%s\0%s\0%s' % (user_name, user_password, auth))
-  YmF6AGJhc...
+  >>> auth = hmac.new(secret, user_name, sha).hexdigest()
+  >>> encoded = base64.encodestring('%s\0%s' % (user_name, auth))
+  >>> print base64.encodestring('%s\0%s' % (user_name, auth))
+  YmF6AGUzM...
   ...
 
 The cookie set by PlonePAS should be URL-quoted.
@@ -62,10 +62,10 @@ The cookie set by PlonePAS should be URL-quoted.
   ... """ % (portal_name, quote(encoded)), handle_errors=False)
   HTTP/1.1 200 OK
   ...
-  Set-Cookie: __ac="AA...
+  Set-Cookie: __ac="AG...
 
 Bad cookies should be rejected
-  >>> bad = base64.encodestring('%s\0%s\0%s' % (user_name, user_password, 'bogusauth'))
+  >>> bad = base64.encodestring('%s\0%s' % (user_name, 'bogusauth'))
   >>> print http(r"""
   ... GET /%s/logged_in HTTP/1.1
   ... Cookie: __ac=%s
