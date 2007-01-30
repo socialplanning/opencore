@@ -3,9 +3,8 @@ from zope.component import getUtility
 
 from Products.CMFCore.utils import getToolByName
 from Products.Five.viewlet.viewlet import ViewletBase
-from Products.OpenPlans.interfaces import IProject
+from opencore.interfaces import IProject
 from topp.featurelets.interfaces import IFeatureletSupporter
-from projectinfo import ProjectInfoView
 
 
 class MenuItem(object):
