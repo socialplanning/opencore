@@ -4,11 +4,11 @@
 
   <browser:page
      for=".interfaces.IMemberHomePage"
-     class=".profile.ProfileView"
+     class=".memberprofile.ProfileView"
      permission="zope.Public"
      name="profile.html"
      allowed_interface=".interfaces.IMemberHomePage"
-     template="profile.pt"
+     template="member-profile.pt"
      />
 
   <subscriber
