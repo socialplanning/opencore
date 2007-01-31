@@ -7,7 +7,6 @@
   <include package="opencore.featurelets.browser" />
   <include package="opencore.api" />
   <include package="opencore.auth" />
-
   <include package="opencore.listen" />
   <include package="opencore.siteui" />
 
