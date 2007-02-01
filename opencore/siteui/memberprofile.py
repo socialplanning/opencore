@@ -10,7 +10,6 @@ from Products.Five import BrowserView
 from interfaces import IMemberHomePage
 from interfaces import IMemberFolder
 from interfaces import IFirstLoginEvent
-# always use alsoProvides since directlyProvides erases all other marker interfaces
 from zope.interface import implements, alsoProvides
 from memberinfo import MemberInfoView
 from zope.event import notify
@@ -43,8 +42,6 @@ class ProfileView(BrowserView):
         """Returns a dict with user info that gets displayed on profile view"""
         if self.info is None:
 
-            # this is an alternate spelling for creating a dict
-            
             self.info = dict(member=self.member,
                              login=self.memberlogin,
                              fullname=self.member.fullname,
@@ -68,21 +65,14 @@ def notifyFirstLogin(member):
 
 
 def create_home_directory(event):
-    # @@ where are the tests?
+    # TODO write tests
 
-    # name your handler after what it does, not what it's for with
-    # events, I may add many more subscribers that handle "first
-    # login", but only this one creates a home directory.
-    
     member = event.member
     mtool = getToolByName(member, 'portal_membership')
     member_id = member.getId()
 
     folder = mtool.getHomeFolder(member_id)
     alsoProvides(folder, IMemberFolder)
-
-    #the folder is not the homepage
-    #alsoProvides(folder, IMemberHomePage)
 
     page_id = "%s-home" % member_id
     title = "%s Home" % member_id
@@ -97,5 +87,5 @@ def create_home_directory(event):
     # the page is the homepage
     alsoProvides(page, IMemberHomePage)
 
-    # this may do it... not sure
+    # make profile the default view on the homepage
     page.setLayout('profile.html')
