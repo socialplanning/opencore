@@ -46,6 +46,7 @@ class ProfileView(BrowserView):
                              login=self.memberlogin,
                              fullname=self.member.fullname,
                              location=self.member.getLocation(),
+                             prefsurl=self.member.absolute_url() + '/edit',
                              portrait=self.member.getPortrait(),
                              projects=self.member.getProjectListing(), # @@@ this should be indexed and then returned by a catalog call
                              wiki=getattr(self.memberfolder, '%s-home' % self.memberlogin).CookedBody(),

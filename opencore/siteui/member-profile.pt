@@ -76,8 +76,19 @@
 
             <!-- portrait -->
             <div style="float: left; padding-right: 10px">
+              <!-- if they have a portrait -->
               <span tal:condition="userinfo/portrait" tal:replace="structure userinfo/portrait"></span>
-              <img tal:condition="python: not userinfo['portrait']" tal:attributes="src string:defaultUser.gif">
+              <!-- if they don't have a portrait -->
+                <!-- but they can add one -->
+                <span tal:condition="python: not userinfo['portrait'] and userinfo['editpermission']">
+                  <a tal:attributes="href userinfo/prefsurl">
+                    <img tal:attributes="src string:defaultUser-edit.gif">
+                  </a>
+                </span>
+                <!-- can't add one -->
+                <span tal:condition="python: not userinfo['portrait'] and not userinfo['editpermission']">
+                  <img tal:attributes="src string:defaultUser.gif">
+                </span>
             </div> <!-- end portrait -->
 
             <!-- text -->
