@@ -15,7 +15,8 @@
       <div style="position: relative">
 
 
-        <!-- listing of content created by this user -->
+        <!-- latest content -->
+        <!-- TODO only show "pages" and "openprojects" (and just call them "projects") -->
         <div style="float: right; text-align: center; ">
         <tal:authorContent define="author_content python:here.author_find_content(userinfo['login']);"
                            condition="author_content">
@@ -64,14 +65,14 @@
             </div>
 
         </tal:authorContent>
-      </div> <!-- end latest user content -->
+      </div> <!-- end latest content -->
 
 
 
         <!-- float left container -->
-        <div style="float: left; min-width: 26em; max-width: 39em">
+        <div style="float: left; min-width: 26em; ">
 
-          <!-- portrait+text -->
+          <!-- portrait + text -->
           <div style="clear: right">
 
             <!-- portrait -->
@@ -95,21 +96,22 @@
             <div style="vertical-align: top; float: left">
               <div tal:condition="userinfo/fullname" tal:content="userinfo/fullname" style="font-weight: bold"></div>
               <div tal:condition="userinfo/location" tal:content="userinfo/location" style="margin-bottom: 1em"></div>
-              <div tal:condition="userinfo/projects">
-                <div style="font-weight: bold"> projects</div>
-                <ul>
-                  <tal:repeat repeat="proj userinfo/projects">
-                  <li><a href="" tal:attributes="href string:${proj/absolute_url}"><span tal:replace="python: proj.full_name or proj.getId()"></span></a></li>
-                  </tal:repeat>
-                </ul>
-              </div>
             </div> <!-- text -->
 
           </div> <!-- end portrait + text -->
 
+          <!-- projects listing -->
+          <div tal:condition="userinfo/projects" style="float: left; padding: 5px; margin-top: 20px; clear: left">
+            <div style="font-weight: bold">projects</div>
+            <ul>
+              <tal:repeat repeat="proj userinfo/projects">
+              <li style="display: inline"><a href="" tal:attributes="href string:${proj/absolute_url}"><span tal:replace="python: proj.full_name or proj.getId()"></span></a></li>
+              </tal:repeat>
+            </ul>
+          </div> <!-- end projects listing -->
 
           <!-- wiki -->
-          <div style="float: left; padding: 5px; margin-top: 40px; clear: left">
+          <div style="float: left; padding: 5px; margin-top: 20px; clear: left">
             <div style="border-top: thin solid gray; margin-bottom: 10px">
               <div tal:condition="userinfo/editpermission" style="text-align: right">
                 <a href="edit">edit</a>
