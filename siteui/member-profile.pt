@@ -15,14 +15,13 @@
 
 
       <!-- page left container -->
-      <div style="width: 75%; min-width: 26em">
+      <div style="float:left; width: 75%; min-width: 26em">
 
         <!-- portrait + text -->
         <div style="float: left">
 
-
           <!-- portrait -->
-          <div style="float: left; padding-right: 10px; width: 20%">
+          <div style="float: left; padding-right: 10px;">
             <!-- if they have a portrait -->
             <span tal:condition="userinfo/portrait" tal:replace="structure userinfo/portrait"></span>
             <!-- if they don't have a portrait -->
@@ -39,7 +38,7 @@
           </div> <!-- end portrait -->
 
           <!-- text -->
-          <div style="vertical-align: top; float: left">
+          <div style="vertical-align: top">
             <div tal:condition="userinfo/fullname" tal:content="userinfo/fullname" style="font-weight: bold"></div>
             <div tal:condition="userinfo/location" tal:content="userinfo/location" style="margin-bottom: 1em"></div>
 
@@ -49,7 +48,7 @@
               <ul>
                 <tal:repeat repeat="proj userinfo/projects">
                   <li style="display: inline">
-                    <a href="" tal:attributes="href string:${proj/absolute_url}"><span tal:replace="python: proj.getFull_name() or proj.getId()" /></a>
+                    <a href="" tal:attributes="href proj/absolute_url"><span tal:replace="python: proj.getFull_name() or proj.getId()" /></a>
                   </li>
                 </tal:repeat>
               </ul>

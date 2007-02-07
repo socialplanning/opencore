@@ -5,24 +5,21 @@ Profile View
 """
 from AccessControl import allow_module
 
-from Products.CMFCore.utils import getToolByName 
+from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.permissions import ModifyPortalContent
 from Products.Five import BrowserView
+
+from zope.interface import implements, alsoProvides
+from zope.event import notify
+from zope.component import getMultiAdapter
+
+from memberinfo import MemberInfoView
+
 from interfaces import IMemberHomePage
 from interfaces import IMemberFolder
 from interfaces import IFirstLoginEvent
-from zope.interface import implements, alsoProvides
-from memberinfo import MemberInfoView
-from zope.event import notify
-
-# XXX this is too promiscuous, we should move fireFirstLoginEvent into
-# its own module so we don't need to expose the rest of this to TTW
-# code
-
-# @@ wouldn't worry about it. you don't do anything in this
-# module that would compromise security
 
 allow_module('opencore.siteui.memberprofile')
-
 
 class ProfileView(BrowserView):
     implements(IMemberHomePage)
@@ -30,27 +27,39 @@ class ProfileView(BrowserView):
         self.context = context
         self.request = request
         self.request.set('disable_border', 1)
-        self.mtool = getToolByName(self.context, 'portal_membership')
-        self.mdtool = getToolByName(self.context, 'portal_memberdata')
-        self.miv = MemberInfoView(context, request)
-        self.member = self.miv.member
-        self.memberlogin = self.member.getId()
-        self.memberfolder = self.miv.member_folder
         self.info = None
 
     def getUserInfo(self):
         """Returns a dict with user info that gets displayed on profile view"""
         if self.info is None:
+            mtool = getToolByName(self.context, 'portal_membership')
+            #miv = getMultiAdapter((self.context, self.request),
+            #                      IMemberHomePage,
+            #                      name='member_info')
+            miv = MemberInfoView(self.context, self.request)
+            member = miv.member
+            memberlogin = member.getId()
+            memberfolder = miv.member_folder
 
-            self.info = dict(member=self.member,
-                             login=self.memberlogin,
-                             fullname=self.member.fullname,
-                             location=self.member.getLocation(),
-                             prefsurl=self.member.absolute_url() + '/edit',
-                             portrait=self.member.getPortrait(),
-                             projects=self.member.getProjectListing(), # @@@ this should be indexed and then returned by a catalog call
-                             wiki=getattr(self.memberfolder, '%s-home' % self.memberlogin).CookedBody(),
-                             editpermission=self.mtool.checkPermission('Modify portal content', self.context)
+            homepage_id = memberfolder.getDefaultPage()
+            if homepage_id is not None:
+                homepage = memberfolder._getOb(homepage_id)
+                wiki = homepage.CookedBody()
+            else:
+                wiki = ''
+
+            editpermission = mtool.checkPermission(ModifyPortalContent,
+                                                   self.context)
+
+            self.info = dict(member=member,
+                             login=memberlogin,
+                             fullname=member.getFullname(),
+                             location=member.getLocation(),
+                             prefsurl=member.absolute_url() + '/edit',
+                             portrait=member.getPortrait(),
+                             projects=member.getProjects(), # @@@ this should be indexed and then returned by a catalog call
+                             wiki=wiki,
+                             editpermission=editpermission,
                              )
         return self.info
 
