@@ -54,7 +54,7 @@
   <five:traversable
      class="Products.Archetypes.BaseObject.BaseObject" />
 
-  <!-- include file="thirdparty.zcml"  /-->
+  <include file="thirdparty.zcml"  />
   <include file="livesearch.zcml" />
   <include file="projectinfo.zcml" />
   <include file="projectlisting.zcml" />
