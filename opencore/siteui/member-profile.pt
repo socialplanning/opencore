@@ -13,9 +13,9 @@
 
       <h1 tal:content="string: ${userinfo/login}'s Profile" />
 
-
+      <div>
       <!-- page left container -->
-      <div style="float:left; width: 75%; min-width: 26em">
+      <div style="float:left; width: 70%; min-width: 26em">
 
         <!-- portrait + text -->
         <div style="float: left">
@@ -126,7 +126,7 @@
 
         </tal:authorContent>
       </div> <!-- end latest content -->
-
+      </div>
     </tal:block>
 
     </metal:main-macro>
