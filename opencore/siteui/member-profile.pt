@@ -8,16 +8,25 @@
     <div metal:fill-slot="main">
     <metal:main-macro define-macro="main">
 
-    <div tal:define="userinfo view/getUserInfo; portal_types portal/portal_types;">
+    <tal:block define="userinfo view/getUserInfo;
+                       portal_types portal/portal_types;">
 
-      <h1><span tal:replace="userinfo/login"></span>'s Profile</h1><br>
+      <h1 tal:content="string: ${userinfo/login}'s Profile" />
 
       <div style="position: relative">
 
 
+
+
+        <!-- float left container -->
+        <div style="float: left; min-width: 26em; ">
+
+          <!-- portrait + text -->
+          <div style="clear: right">
+
         <!-- latest content -->
         <!-- TODO only show "pages" and "openprojects" (and just call them "projects") -->
-        <div style="float: right; text-align: center; ">
+        <div style="float: right; padding-left: 20px; text-align: center; ">
         <tal:authorContent define="author_content python:here.author_find_content(userinfo['login']);"
                            condition="author_content">
         
@@ -65,15 +74,7 @@
             </div>
 
         </tal:authorContent>
-      </div> <!-- end latest content -->
-
-
-
-        <!-- float left container -->
-        <div style="float: left; min-width: 26em; ">
-
-          <!-- portrait + text -->
-          <div style="clear: right">
+        </div> <!-- end latest content -->
 
             <!-- portrait -->
             <div style="float: left; padding-right: 10px">
@@ -111,7 +112,7 @@
           </div> <!-- end projects listing -->
 
           <!-- wiki -->
-          <div style="float: left; padding: 5px; margin-top: 20px; clear: left">
+          <div style="padding: 5px; margin-top: 20px; clear: left">
             <div style="border-top: thin solid gray; margin-bottom: 10px">
               <div tal:condition="userinfo/editpermission" style="text-align: right">
                 <a href="edit">edit</a>
@@ -124,7 +125,7 @@
 
       </div>
 
-    </div>
+    </tal:block>
 
       <!-- for debugging: -->
       <!--
