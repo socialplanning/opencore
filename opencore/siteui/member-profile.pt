@@ -102,7 +102,7 @@
           </div> <!-- end portrait + text -->
 
           <!-- projects listing -->
-          <div tal:condition="userinfo/projects" style="float: left; padding: 5px; margin-top: 20px; clear: left">
+          <div tal:condition="userinfo/projects" style="clear: left; padding: 5px; margin-top: 20px">
             <div style="font-weight: bold">projects</div>
             <ul>
               <tal:repeat repeat="proj userinfo/projects">
