@@ -13,7 +13,7 @@
 
       <h1 tal:content="string: ${userinfo/login}'s Profile" />
 
-      <div>
+      <div style="width: 95%">
       <!-- page left container -->
       <div style="float:left; width: 70%; min-width: 26em">
 
@@ -76,7 +76,7 @@
 
       <!-- latest content -->
       <!-- TODO only show "pages" and "openprojects" (and just call them "projects") -->
-      <div style="width: 20%; float: right; padding-left: 20px; text-align: center; ">
+      <div style="float: right; padding-left: 20px; text-align: center; ">
         <tal:authorContent define="author_content python:here.author_find_content(userinfo['login']);"
                            condition="author_content">
 
