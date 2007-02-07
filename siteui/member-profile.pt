@@ -43,7 +43,7 @@
             <div tal:condition="userinfo/location" tal:content="userinfo/location" style="margin-bottom: 1em"></div>
 
             <!-- projects listing -->
-            <div tal:condition="userinfo/projects" style="float: left; padding: 5px; margin-top: 20px">
+            <div tal:condition="userinfo/projects" style="padding: 5px; margin-top: 20px">
               <div style="font-weight: bold">projects</div>
               <ul>
                 <tal:repeat repeat="proj userinfo/projects">
