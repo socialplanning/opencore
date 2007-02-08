@@ -40,7 +40,13 @@
           <!-- text -->
           <div style="vertical-align: top">
             <div tal:condition="userinfo/fullname" tal:content="userinfo/fullname" style="font-weight: bold"></div>
-            <div tal:condition="userinfo/location" tal:content="userinfo/location" style="margin-bottom: 1em"></div>
+            <div style="margin-bottom: 1em">
+              <span tal:condition="userinfo/location" tal:content="userinfo/location" />
+            </div>
+            <div tal:condition="not: userinfo/isme">
+              <a href="" 
+                 tal:attributes="href string:${portal_url}/author/${userinfo/login}">Contact this person.</a>
+            </div>
 
             <!-- projects listing -->
             <div tal:condition="userinfo/projects" style="padding: 5px; margin-top: 20px">
@@ -77,9 +83,8 @@
       <!-- latest content -->
       <!-- TODO only show "pages" and "openprojects" (and just call them "projects") -->
       <div style="width: 25%; float: right; padding-left: 20px; text-align: center; ">
-        <tal:authorContent define="author_content python:here.author_find_content(userinfo['login']);"
+        <tal:authorContent define="author_content python:view.getLatestContent();"
                            condition="author_content">
-
 
           <div metal:define-macro="user_content_listing" >
 

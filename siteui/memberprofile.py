@@ -33,10 +33,8 @@ class ProfileView(BrowserView):
         """Returns a dict with user info that gets displayed on profile view"""
         if self.info is None:
             mtool = getToolByName(self.context, 'portal_membership')
-            #miv = getMultiAdapter((self.context, self.request),
-            #                      IMemberHomePage,
-            #                      name='member_info')
-            miv = MemberInfoView(self.context, self.request)
+            miv = getMultiAdapter((self.context, self.request),
+                                  name='member_info')
             member = miv.member
             memberlogin = member.getId()
             memberfolder = miv.member_folder
@@ -51,6 +49,8 @@ class ProfileView(BrowserView):
             editpermission = mtool.checkPermission(ModifyPortalContent,
                                                    self.context)
 
+            isme = member == mtool.getAuthenticatedMember()
+
             self.info = dict(member=member,
                              login=memberlogin,
                              fullname=member.getFullname(),
@@ -60,9 +60,41 @@ class ProfileView(BrowserView):
                              projects=member.getProjects(), # @@@ this should be indexed and then returned by a catalog call
                              wiki=wiki,
                              editpermission=editpermission,
+                             isme=isme,
                              )
         return self.info
 
+    def getLatestContent(self, limit_per_type=5):
+        catalog = getToolByName(self.context, 'portal_catalog')
+        types = ('OpenProject', 'Document')
+
+        userinfo = self.getUserInfo()
+
+        found   = {}
+        content = catalog.searchResults(Creator      = userinfo['login'],
+                                        portal_type  = types,
+                                        sort_on      = 'modified',
+                                        sort_order   = 'reverse')
+
+        for item in content:
+            itemType = item.portal_type
+
+            if not found.has_key(itemType):
+                found[itemType] = []
+            if len(found[itemType]) < limit_per_type:
+                found[itemType].append(item)
+
+        types = found.keys()
+        types.sort()
+
+        results = []
+
+        for t in types:
+            results.append({'portal_type' : t,
+                            'content_items' : found[t]})
+
+        return results
+        
 
 class FirstLoginEvent(object):
     implements(IFirstLoginEvent)
