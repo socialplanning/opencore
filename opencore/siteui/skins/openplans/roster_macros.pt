@@ -6,7 +6,7 @@
 
 <!-- roster display wrapper -->
 <div metal:define-macro="roster_template">
-  <div tal:define="sort_on python:request.get('sort_on','getlastName');
+  <div tal:define="sort_on python:request.get('sort_on','getFullname');
                    search_str python:request.get('search_str','');
 		   batch_size python:test(batch_size, batch_size, 25);
                    member_brains python:here.rosterSearchResults( REQUEST={ 'RosterSearchableText':search_str }, sort_on=request.get('sort_on','getId') );">

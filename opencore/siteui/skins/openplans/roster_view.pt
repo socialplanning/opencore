@@ -15,7 +15,8 @@
           <tal:block tal:repeat="member_brain batch">
             <table>  
               <tr tal:define="member member_brain/getObject;
-                              member_url string:${member/absolute_url}/view;">
+                              mem_folder python: mtool.getHomeFolder(member.getId());
+                              member_url mem_folder/absolute_url | nothing;">
                 <td valign="top">
                   <a tal:attributes="href member_url">
                     <div>
