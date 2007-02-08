@@ -22,8 +22,6 @@
 	              <img tal:replace="structure member/getPortrait" />
                     </div>
                   </a>
-                  <br />
-                  <a tal:attributes="href member_url">details</a>&nbsp;&raquo;
                 </td>
 
                 <td valign="top">
