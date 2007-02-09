@@ -28,7 +28,7 @@
                 <td valign="top">
                   <table>
                     <tr>
-                      <td class="lg" colspan="2">
+                      <td class="lg" colspan="2" nowrap>
                         <b><a tal:attributes="href member_url"
                               tal:content="member/getFullname">FULL NAME</a></b>&nbsp;&raquo;
                       </td>
@@ -36,18 +36,18 @@
 
                     <tr>
                       <td class="md" align="right" valign="top" nowrap><b>member id:</b></td>
-                      <td class="md" nowrap tal:content="member/getId">ID</td>
+                      <td class="md" tal:content="member/getId">ID</td>
                     </tr>
 
                     <tr>
                       <td class="md" align="right" valign="top" nowrap><b>location:</b></td>
-                      <td class="md" nowrap
+                      <td class="md"
                           tal:content="member/getLocation"></td>
                     </tr>
 
                     <tr tal:condition="python: hasattr(member, 'getProjectListing')">
                       <td class="md" align="right" valign="top" nowrap><b>projects:</b></td>
-                      <td class="md" nowrap
+                      <td class="md"
                           tal:define="projects python:member.getProjectListing()">
                         <span metal:use-macro="here/member_projects/macros/projectslist" />
                       </td>
