@@ -38,6 +38,8 @@ content_schema['email'].read_permission = ModifyPortalContent
 
 content_schema['mail_me'].regfield = 0
 
+content_schema['make_private'].widget.visible = {'edit': 'invisible'}
+
 content_schema += atapi.Schema((
     atapi.BooleanField('useAnonByDefault',
                        mode='rw',
