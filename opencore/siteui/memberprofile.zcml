@@ -1,0 +1,19 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:browser="http://namespaces.zope.org/browser">
+
+  <browser:page
+     for=".interfaces.IMemberHomePage"
+     class=".memberprofile.ProfileView"
+     permission="zope.Public"
+     name="profile.html"
+     allowed_interface=".interfaces.IMemberHomePage"
+     template="member-profile.pt"
+     />
+
+  <subscriber
+    for=".interfaces.IFirstLoginEvent"
+    factory=".memberprofile.create_home_directory"
+    />
+
+</configure>

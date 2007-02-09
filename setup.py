@@ -17,16 +17,13 @@ setup(name='opencore',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
       zip_safe=False,
+      dependency_links=['https://svn.openplans.org/svn/topp.deploy/trunk/dependency_links_live.html'],
       install_requires=[
           # -*- Extra requirements: -*-
           'topp.featurelets',
           'memojito',
       ],
-      dependency_links=[
-          'https://svn.openplans.org/svn/topp.deploy/trunk/dependency_links_live.html',
-      ],
-      entry_points="""
+#      entry_points="""
       # -*- Entry points: -*-
-      """,
+#      """,
       )
-      

@@ -1,0 +1,12 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:browser="http://namespaces.zope.org/browser">
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     permission="zope.Public"
+     name="info.xml"
+     template="project_info_xml.pt"
+     />
+
+</configure>
