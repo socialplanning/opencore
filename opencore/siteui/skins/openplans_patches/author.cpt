@@ -36,28 +36,28 @@
  
     <div id="content"
          class="documentEditable"
-         tal:define="showtabs python:member.getUserName()==author"
-         tal:attributes="class python: test(showtabs, 'documentEditable', '')">
+         tal:define="isOwner python:member.getUserName()==author"
+         tal:attributes="class python: test(isOwner, 'documentEditable', '')">
 
         <h5 class="hiddenStructure"
-            tal:condition="showtabs">Views</h5>
+            tal:condition="isOwner">Views</h5>
         
         <ul class="contentViews"
-            tal:condition="showtabs">
+            tal:condition="isOwner">
           <li class="selected">
             <a href=""
                tal:attributes="href string: ${portal_url}/author/${member}"
-               i18n:translate="">View</a>
+               i18n:translate="label_view">View</a>
           </li>
           <li>
             <a href=""
                tal:attributes="href string:${portal_url}/personalize_form"
-               i18n:translate="label_groups">Edit</a>
+               i18n:translate="label_edit">Edit</a>
           </li>
         </ul>
 
         <div class="contentActions"
-             tal:condition="showtabs">
+             tal:condition="isOwner">
           &nbsp;
         </div>
 
@@ -65,6 +65,10 @@
 
             <a name="documentContent"></a>
                     
+            <div metal:use-macro="here/global_statusmessage/macros/portal_message">
+                Portal status message
+            </div>
+
             <!-- Author information -->
             <h1 class="documentFirstHeading" tal:condition="authorinfo/fullname" tal:content="authorinfo/fullname">
                 Author name
@@ -132,7 +136,7 @@
 
             <!-- feedback form -->        
             <tal:feedbackForm condition="not:isAnon">
-        
+            <tal:owner condition="not:isOwner">
                 <p class="discreet"
                    i18n:translate="description_author_feedback">
                     If you want to contact this author, fill in the form
@@ -232,12 +236,13 @@
                 <input type="hidden" name="form.submitted" value="1" />
 
                 </form>
+            </tal:owner>
             </tal:feedbackForm>
 
         </div>
     </div> <!-- end simulated tabs -->
         
-        </tal:haveAuthor>
+    </tal:haveAuthor>
 
     </tal:main-macro>
 
