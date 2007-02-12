@@ -3,7 +3,7 @@
            xmlns:browser="http://namespaces.zope.org/browser">
 
   <browser:page
-     for="Products.CMFCore.interfaces.IDynamicType"
+     for="OFS.interfaces.IItem"
      class=".memberinfo.MemberInfoView"
      permission="zope.Public"
      name="member_info"
