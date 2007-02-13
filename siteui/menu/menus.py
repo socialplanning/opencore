@@ -2,8 +2,13 @@ from zope.component import queryMultiAdapter
 from zope.component import getUtility
 
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.permissions import ModifyPortalContent
 from Products.Five.viewlet.viewlet import ViewletBase
+
+from Products.OpenPlans.permissions import CopyOrMove
+
 from opencore.interfaces import IProject
+
 from topp.featurelets.interfaces import IFeatureletSupporter
 
 
@@ -42,37 +47,38 @@ class NavMenu(MenuItemList):
         homefolder = self.mtool.getHomeFolder()
         member = self.mtool.getAuthenticatedMember()
         self.addMenuItem('my profile', homefolder.absolute_url())
-        self.addMenuItem('my preferences', member.absolute_url() + '/edit')
+        self.addMenuItem('my preferences', '%s/edit' % member.absolute_url())
 
     def addMemberView(self):
-        memberfolder = self.memberInfoView.member_folder or self.mtool.getHomeFolder(self.memberInfoView.member.getId())
+        mem_id = self.memberInfoView.member.getId()
+        memberfolder = self.memberInfoView.member_folder or \
+                       self.mtool.getHomeFolder(mem_id)
         if memberfolder:
             self.addMenuItem('member profile', memberfolder.absolute_url())
 
-        # the 'member home' link that follows is deprecated by the new profile view
-        #member_folder = self.memberInfoView.member_folder
-        #if member_folder is None:
-        #    member_folder = self.mtool.getHomeFolder(self.memberInfoView.member.getId())
-        #if member_folder is not None: # why isn't this an 'else:'?
-        #    self.addMenuItem('Member Home', 
-        #                     member_folder.absolute_url())
-
     def addProjectView(self):
         projectInfoView = self.projectInfoView
-        proj_home_url = projectInfoView.project.absolute_url()
+        project = projectInfoView.project
+        proj_home_url = project.absolute_url()
         self.addMenuItem('project home', proj_home_url)
-        self.addMenuItem('contents', '/'.join((proj_home_url, 'folder_contents')))
-        self.addMenuItem('contact', '/'.join((proj_home_url, 'contact_project_admins')))
+
+        if self.mtool.checkPermission(CopyOrMove, project):
+            self.addMenuItem('contents',
+                             '%s/folder_contents' % proj_home_url)
+
+        self.addMenuItem('contact',
+                         '%s/contact_project_admins' % proj_home_url)
 
         supporter = IFeatureletSupporter(projectInfoView.project)
 
         for i in supporter.getInstalledFeatureletIds():
             desc = supporter.getFeatureletDescriptor(i)
             self.addMenuItem(desc['content'][0]['title'],
-                             '/'.join((proj_home_url, desc['content'][0]['id'])))
-        
-        if projectInfoView.projectMembership:
-            self.addMenuItem('preferences', '/'.join((proj_home_url, 'base_edit')))
+                             '%s/%s' % (proj_home_url,
+                                        desc['content'][0]['id']))
+
+        if self.mtool.checkPermission(ModifyPortalContent, project):
+            self.addMenuItem('preferences', '%s/edit' % proj_home_url)
 
     def menuItems(self):
         """
