@@ -22,6 +22,12 @@ from Products.OpenPlans.config import PROJECTNAME
 member_schema = id_schema + contact_schema + plone_schema + \
                 security_schema + login_info_schema
 content_schema = member_schema.copy() # copy before editing
+
+# specify which fields are searchable in the roster
+content_schema['id'].rosterSearch = 1
+content_schema['fullname'].rosterSearch = 1
+content_schema['location'].rosterSearch = 1
+
 content_schema['title'].write_permission = 'Manage users'
 content_schema['title'].widget.visible= {'view': 'invisible'}
 
