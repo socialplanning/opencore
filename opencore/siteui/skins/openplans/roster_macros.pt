@@ -9,7 +9,7 @@
   <div tal:define="sort_on python:request.get('sort_on','exact_getFullname');
                    search_str python:request.get('search_str','');
 		   batch_size python:test(batch_size, batch_size, 25);
-                   member_brains python:here.rosterSearchResults(REQUEST={ 'RosterSearchableText':search_str }, sort_on=sort_on );">
+                   member_brains python:here.rosterSearchResults(RosterSearchableText=search_str, sort_on=sort_on );">
 
     <div tal:define="Batch python:modules['Products.CMFPlone'].Batch;
               	     b_start python:request.get('b_start',0);
