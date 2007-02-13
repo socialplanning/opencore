@@ -1,6 +1,5 @@
 <div id="portal-breadcrumbs">
   <ul>
-    &nbsp;
     <li tal:repeat="menu_item view/menuItems">
       <a tal:content="menu_item/title"
          tal:attributes="href menu_item/url">MENU ITEM</a>
