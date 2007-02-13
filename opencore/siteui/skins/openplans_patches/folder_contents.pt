@@ -77,7 +77,7 @@
                                    preSorted python:query_path or ((contentFilter and contentFilter.get('sort_on', 'getObjPositionInParent')!='getObjPositionInParent') or (not contentFilter and request.get('sort_on', 'getObjPositionInParent')!='getObjPositionInParent'));
                                    isOrderable python:ifacetool.objectImplements(here, orderable_iface);
                                    nosortclass python:test(isOrderable, 'nosort', '');
-                                   canModifyFolderContent is_editable;">
+                                   canModifyFolderContent python:mtool.checkPermission('Copy or Move', here);">
           <div tal:condition="standalone|nothing">
           <metal:add_button define-macro="add_button"
                             tal:define="num_types python:len(contentTypes);">
@@ -288,13 +288,14 @@
                tal:attributes="value template_id"/>
         <tal:buttons tal:repeat="button actions/folder_buttons|nothing"
                      tal:define="contentFilter contentFilter|python:{'path':'/'};
-                                 query_path python:path('contentFilter/path|nothing') or request.get('path',None) or context.portal_type == 'Topic';">
+                                 query_path python:path('contentFilter/path|nothing') or request.get('path',None) or context.portal_type == 'Topic';
+                                 canModifyFolderContent python:mtool.checkPermission('Copy or Move', here);">
           <input class="context"
                  type="submit"
                  name=""
                  value=""
                  tabindex=""
-                 tal:condition="python:is_editable and (batch or here.cb_dataValid and button['id'] == 'paste') and not ( query_path and button['id'] in ['cut','copy','paste'])"
+                 tal:condition="python:canModifyFolderContent and (batch or here.cb_dataValid and button['id'] == 'paste') and not ( query_path and button['id'] in ['cut','copy','paste'])"
                  i18n:attributes="value"
                  tal:attributes="value button/name;
                                  name button/url;
