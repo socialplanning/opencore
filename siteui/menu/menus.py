@@ -46,27 +46,27 @@ class NavMenu(MenuItemList):
     def addPersonalView(self):
         homefolder = self.mtool.getHomeFolder()
         member = self.mtool.getAuthenticatedMember()
-        self.addMenuItem('my profile', homefolder.absolute_url())
-        self.addMenuItem('my preferences', '%s/edit' % member.absolute_url())
+        self.addMenuItem('My Profile', homefolder.absolute_url())
+        self.addMenuItem('My Preferences', '%s/edit' % member.absolute_url())
 
     def addMemberView(self):
         mem_id = self.memberInfoView.member.getId()
         memberfolder = self.memberInfoView.member_folder or \
                        self.mtool.getHomeFolder(mem_id)
         if memberfolder:
-            self.addMenuItem('member profile', memberfolder.absolute_url())
+            self.addMenuItem('Member Profile', memberfolder.absolute_url())
 
     def addProjectView(self):
         projectInfoView = self.projectInfoView
         project = projectInfoView.project
         proj_home_url = project.absolute_url()
-        self.addMenuItem('project home', proj_home_url)
+        self.addMenuItem('Project Home', proj_home_url)
 
         if self.mtool.checkPermission(CopyOrMove, project):
-            self.addMenuItem('contents',
+            self.addMenuItem('Contents',
                              '%s/folder_contents' % proj_home_url)
 
-        self.addMenuItem('contact',
+        self.addMenuItem('Contact',
                          '%s/contact_project_admins' % proj_home_url)
 
         supporter = IFeatureletSupporter(projectInfoView.project)
@@ -78,7 +78,7 @@ class NavMenu(MenuItemList):
                                         desc['content'][0]['id']))
 
         if self.mtool.checkPermission(ModifyPortalContent, project):
-            self.addMenuItem('preferences', '%s/edit' % proj_home_url)
+            self.addMenuItem('Preferences', '%s/edit' % proj_home_url)
 
     def menuItems(self):
         """
