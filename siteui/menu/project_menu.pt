@@ -1,6 +1,6 @@
-<div id="portal-breadcrumbs" tal:condition="python:view.menuItems">
+<div id="portal-breadcrumbs" tal:define="items view/menuItems" tal:condition="items">
   <ul>
-    <li tal:repeat="menu_item view/menuItems">
+    <li tal:repeat="menu_item items">
       <a tal:content="menu_item/title" tal:attributes="href menu_item/url">MENU ITEM</a>
     </li>
   </ul>
