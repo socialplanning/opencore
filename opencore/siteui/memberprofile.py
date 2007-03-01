@@ -40,7 +40,7 @@ class ProfileView(BrowserView):
             memberfolder = miv.member_folder
 
             utool = getToolByName(self, 'acl_users')
-            membrane_member = utool.getUserById(self.memberlogin)
+            membrane_member = utool.getUserById(memberlogin)
             portrait_image = membrane_member.getProperty('portrait', None)
             portrait_url = portrait_image and portrait_image.absolute_url()
 
