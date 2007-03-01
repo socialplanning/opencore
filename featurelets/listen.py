@@ -1,6 +1,6 @@
 from zope.interface import Interface
 from zope.interface import implements
-from zope.interface import directlyProvides
+from zope.interface import alsoProvides
 
 from zope.component import getMultiAdapter
 
@@ -50,5 +50,5 @@ class ListenFeaturelet(BaseFeaturelet):
         BaseFeaturelet.deliverPackage(self, obj)
         container = obj._getOb(self._info['content'][0]['id'])
         container.setLayout('mailing_lists')
-        directlyProvides(container, IListenContainer)
+        alsoProvides(container, IListenContainer)
         return self._info
