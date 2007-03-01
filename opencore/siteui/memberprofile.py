@@ -39,6 +39,11 @@ class ProfileView(BrowserView):
             memberlogin = member.getId()
             memberfolder = miv.member_folder
 
+            utool = getToolByName(self, 'acl_users')
+            membrane_member = utool.getUserById(self.memberlogin)
+            portrait_image = membrane_member.getProperty('portrait', None)
+            portrait_url = portrait_image and portrait_image.absolute_url()
+
             homepage_id = memberfolder.getDefaultPage()
             if homepage_id is not None:
                 homepage = memberfolder._getOb(homepage_id)
@@ -56,8 +61,8 @@ class ProfileView(BrowserView):
                              fullname=member.getFullname(),
                              location=member.getLocation(),
                              prefsurl=member.absolute_url() + '/edit',
-                             portrait=member.getPortrait(),
-                             portraiturl=getToolByName(self, 'acl_users').getUserById(memberlogin).getProperty('portrait', None).absolute_url(),
+                             portrait=member.getPortrait(), # XXX deprecated by portraiturl with NAKED
+                             portraiturl=portrait_url,
                              projects=member.getProjects(), # @@@ this should be indexed and then returned by a catalog call
                              wiki=wiki,
                              editpermission=editpermission,
