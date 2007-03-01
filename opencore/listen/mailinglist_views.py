@@ -14,7 +14,6 @@ class MailingListAddForm(MailingListAddForm):
     form_fields = form.FormFields(IOpenMailingList)
     form_fields['description'].custom_widget = DescriptionWidget
     form_fields['mailto'].custom_widget = OpenListNameWidget
-    form_fields['admin_email'].custom_widget = ASCIIWidget
 
     portal_type = 'Open Mailing List'
         
