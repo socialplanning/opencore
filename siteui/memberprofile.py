@@ -57,7 +57,7 @@ class ProfileView(BrowserView):
                              location=member.getLocation(),
                              prefsurl=member.absolute_url() + '/edit',
                              portrait=member.getPortrait(),
-                             portraiturl=getToolByName(self, 'acl_users').getUserById(self.memberlogin).getProperty('portrait', None).absolute_url()
+                             portraiturl=getToolByName(self, 'acl_users').getUserById(self.memberlogin).getProperty('portrait', None).absolute_url(),
                              projects=member.getProjects(), # @@@ this should be indexed and then returned by a catalog call
                              wiki=wiki,
                              editpermission=editpermission,

@@ -8,65 +8,68 @@
     <div metal:fill-slot="main">
     <metal:main-macro define-macro="main">
 
-    <tal:block define="userinfo view/getUserInfo;
+    	<tal:block define="userinfo view/getUserInfo;
                        portal_types portal/portal_types;">
 
-      <h1 tal:content="string: ${userinfo/login}'s Profile" />
+	<div id="content-title">
+		<h1 class="documentFirstHeading" tal:content="string: ${userinfo/login}'s Profile" />
+	</div>
 
-      <div style="width: 95%">
+      <div id="content-main">
+	
       <!-- page left container -->
-      <div style="float:left; width: 70%; min-width: 26em">
+      <div id="op-main">
 
-        <!-- portrait + text -->
-        <div style="float: left">
+        <!-- portrait + info -->
+        <div id="op-member-info">
+		
+		<!-- view/edit tabs -->
+		
+		<div id="op-member-details-wrapper" class="clear-after">
 
           <!-- portrait -->
           <div style="float: left; padding-right: 10px;">
             <!-- if they have a portrait -->
-            <span tal:condition="userinfo/portrait" tal:replace="structure userinfo/portrait"></span>
+            <img id="op-member-portrait" tal:condition="userinfo/portrait" tal:attributes="src userinfo/portraiturl"/>
             <!-- if they don't have a portrait -->
             <!-- but they can add one -->
             <span tal:condition="python: not userinfo['portrait'] and userinfo['editpermission']">
               <a tal:attributes="href userinfo/prefsurl">
-                <img tal:attributes="src string:defaultUser-edit.gif">
+                <img id="op-member-noportrait-edit" tal:attributes="src string:defaultUser-edit.gif">
               </a>
             </span>
             <!-- can't add one -->
             <span tal:condition="python: not userinfo['portrait'] and not userinfo['editpermission']">
-              <img tal:attributes="src string:defaultUser.gif">
+              <img id="op-member-noportrait" tal:attributes="src string:defaultUser.gif">
             </span>
           </div> <!-- end portrait -->
 
-          <!-- text -->
-          <div style="vertical-align: top">
-            <div tal:condition="userinfo/fullname" tal:content="userinfo/fullname" style="font-weight: bold"></div>
-            <div style="margin-bottom: 1em">
-              <span tal:condition="userinfo/location" tal:content="userinfo/location" />
-            </div>
-            <div tal:condition="not: userinfo/isme">
-              <a href="" 
-                 tal:attributes="href string:${portal_url}/author/${userinfo/login}">Contact this person.</a>
-            </div>
-
-            <!-- projects listing -->
-            <div tal:condition="userinfo/projects" style="padding: 5px; margin-top: 20px">
-              <div style="font-weight: bold">projects</div>
-              <ul>
-                <tal:repeat repeat="proj userinfo/projects">
-                  <li style="display: inline">
-                    <a href="" tal:attributes="href proj/absolute_url"><span tal:replace="python: proj.getFull_name() or proj.getId()" /></a>
-                  </li>
-                </tal:repeat>
-              </ul>
-            </div> <!-- end projects listing -->
-          </div> <!-- end text -->
-
-        </div> <!-- end portrait + text -->
+          <!-- details -->
+          <dl id="op-member-details">
+			<dt>Name</dt>
+            <dd><a href="" tal:attributes="href string:${portal_url}/author/${userinfo/login}"><span tal:condition="userinfo/fullname" tal:content="userinfo/fullname"></span></a></dd>
+            <dt>Location</dt>
+            <dd tal:condition="userinfo/location" tal:content="userinfo/location"></dd>
+			<dt>Projects</dt>
+			<dd id="op-member-details-projects"><!-- projects listing -->
+				<div tal:condition="userinfo/projects">
+	              <ul>
+	                <tal:repeat repeat="proj userinfo/projects">
+	                  <li>
+	                    <a href="" tal:attributes="href proj/absolute_url"><span tal:replace="python: proj.getFull_name() or proj.getId()" /></a>
+	                  </li>
+	                </tal:repeat>
+	              </ul>
+	            </div>
+			</dd><!-- end projects listing -->
+            </dl><!-- end details -->
+        </div>
+        </div> <!-- end portrait + info -->
 
         <!-- wiki -->
-        <div style="padding: 5px; margin-top: 20px; float: left">
+        <div id="op-member-wiki">
 
-          <!-- edit link -->
+          <!-- edit link --><!-- REDO as standard view and edit tabs -->
           <div style="border-top: thin solid gray; margin-bottom: 10px">
             <div tal:condition="userinfo/editpermission" style="text-align: right">
               <a href="edit">edit</a>
@@ -80,19 +83,20 @@
       </div> <!-- end page left container -->
 
 
-      <!-- latest content -->
-      <!-- TODO only show "pages" and "openprojects" (and just call them "projects") -->
-      <div style="width: 25%; float: right; padding-left: 20px; text-align: center; ">
+      
+      <!-- TODO only show "pages" and "projects" -->
+      <div class="op-sbar"><!-- sidebar -->
+		<div id="op-member-activity"><!-- latest content -->
         <tal:authorContent define="author_content python:view.getLatestContent();"
                            condition="author_content">
 
           <div metal:define-macro="user_content_listing" >
 
           <h2 i18n:translate="heading_author_content">
-            Latest content
+            Recent activity
           </h2>
 
-            <table class="listing" summary="Lists content written by an author grouped by content type" 
+            <table class="listing smallText" summary="List of content written by an author grouped by content type" 
                    i18n:attributes="summary summary_author_content_list;">
               <tal:repeat repeat="content_by_type author_content">
                 <tal:grouping define="getTypeInfo nocall:portal_types/getTypeInfo;
@@ -100,7 +104,7 @@
                                       type_title python: getTypeInfo(content_type_) or None"
                               condition="type_title">
                   <tr>
-                    <th colspan="2"
+                    <th scope="col"
                         i18n:translate=""
                         tal:define="getTypeInfo nocall:portal_types/getTypeInfo;
                                     content_type_ content_by_type/portal_type;
@@ -108,6 +112,9 @@
                         tal:content="python:type_title and type_title.Title() or content_type_ + ' is not available'">
                       Type
                     </th>
+
+					<th scope="col">Date</th>
+					
                   </tr>
                   <tal:repeat repeat="item content_by_type/content_items">
                     <tr>
@@ -125,7 +132,7 @@
             </table>
           </div>
 
-          <div style="text-align: right">
+          <div>
             <a href=""
                tal:attributes="href string:$here_url/search?Creator=${userinfo/login}&amp;sort_on=Date&amp;sort_order=reverse"
                i18n:translate="go_to_search_author_content">All content...</a>
@@ -133,6 +140,7 @@
 
         </tal:authorContent>
       </div> <!-- end latest content -->
+	</div> <!-- end sidebar -->
       </div>
     </tal:block>
 
