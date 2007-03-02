@@ -13,21 +13,11 @@
      class=".mailinglist_views.MailingListAddForm"
      />
 
-  <browser:editform
-     schema="opencore.listen.interfaces.IOpenMailingList"
-     label="Edit Mailing List"
+  <browser:page
      name="edit"
-     permission="listen.EditMailingList">
-    <!-- Change the width of the description widget, the default is huge -->
-    <widget
-       field="description"
-       class="zope.app.form.browser.TextAreaWidget"
-       width="40"
-       height="5" />
-    <!-- We don't need an area widget for the list address -->
-    <widget
-       field="mailto"
-       class=".widgets.OpenListNameWidget" />
-  </browser:editform>
+     for="opencore.listen.interfaces.IOpenMailingList"
+     permission="listen.EditMailingList"
+     class=".mailinglist_views.MailingListEditForm"
+     />
 
 </configure>
