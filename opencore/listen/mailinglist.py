@@ -13,13 +13,13 @@ from fieldproperty import ListNameFieldProperty
 PKG_NAME = 'listen'
 
 factory_type_information = ( {
-    'id'             : 'Mailing List',
+    'id'             : 'Open Mailing List',
     'icon'           : 'mailboxer_icon.png',
-    'meta_type'      : 'MailingList',
+    'meta_type'      : 'OpenMailingList',
     'description'    : "A mailing list manages user subscriptions and "\
                        "processes incoming mail",
-    'product'        : PKG_NAME,
-    'factory'        : 'addMailingList',
+    'product'        : PROJECTNAME,
+    'factory'        : 'addOpenMailingList',
     'immediate_view' : 'edit',
     'aliases'        : {'(Default)'     :'mailinglist_view',
                         'index.html'    :'mailinglist_view',
@@ -41,28 +41,27 @@ factory_type_information = ( {
                         'permissions': (permissions.EditMailingList,)
                         },
                         {
+                        'id': 'search_archive',
+                        'name': 'Search',
+                        'action': 'string:${object_url}/archive/search_archive',
+                        'permissions': (CMFPermissions.View,)
+                        },
+                        {
                         'id': 'archive',
-                        'name': 'archive',
+                        'name': 'Archive',
                         'action': 'string:${object_url}/archive',
                         'permissions': (CMFPermissions.View,)
                         },
-# TODO: Moderation and bounced/disabled address management TTW
-#                         {
-#                         'id': 'moderate',
-#                         'name': 'Moderate',
-#                         'action': 'string:${object_url}/mqueue',
-#                         'permissions': (permissions.ManageSubscriptions,)
-#                         },
-#                         {
-#                         'id': 'managelist',
-#                         'name': 'Manage List',
-#                         'action': 'string:${object_url}/manage-list',
-#                         'permissions': (permissions.ManageSubscriptions,)
-#                         },
                         {
-                        'id': 'subscribers',
-                        'name': 'membership',
+                        'id': 'membership',
+                        'name': 'Membership',
                         'action': 'string:${object_url}/manage_membership',
+                        'permissions': (permissions.ManageSubscriptions,)
+                        },
+                        {
+                        'id': 'moderation',
+                        'name': 'Moderation',
+                        'action': 'string:${object_url}/moderation',
                         'permissions': (permissions.ManageSubscriptions,)
                         },
                        ),
@@ -74,18 +73,7 @@ factory_type_information = ( {
 )
 
 fti = factory_type_information[0].copy()
-fti['id'] = 'Open Mailing List'
-fti['meta_type'] = "OpenMailingList"
-fti['product'] = PROJECTNAME
-fti['factory'] = 'addOpenMailingList'
-# Add subscription invitation
-fti['aliases']['invite'] = '@@inviteMembers'
-fti['actions'] = fti['actions'] + (
-    {'id': 'invite_members',
-     'name': 'Invite Members',
-     'action': 'string:${object_url}/invite',
-     'permissions': (InviteSubscribers,)
-     },)
+
 
 def addOpenMailingList(self, id, title=u''):
     """ Add an OpenMailingList """
