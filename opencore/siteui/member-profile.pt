@@ -13,10 +13,10 @@
 
     <div id="content-title">
         <h1 class="documentFirstHeading" tal:content="python: (userinfo['fullname'] or userinfo['login']) + '\'s Profile'" />
-    </div>
-    <div id="content-memberdates">
-        Member since <span tal:replace="userinfo/membersince" />
-        Last login <span tal:replace="userinfo/lastlogin" />
+	    <div id="op-member-dates" class="smallText">
+	        <span tal:replace="userinfo/login" /> has been a member since <span tal:replace="userinfo/membersince" />
+	        and was last online at <span tal:replace="userinfo/lastlogin" />
+	    </div>
     </div>
 
       <div id="content-main">
