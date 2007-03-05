@@ -74,7 +74,7 @@ class ProfileView(BrowserView):
 
         userinfo = self.getUserInfo()
 
-        found   = {}
+        found = {}
         content = catalog.searchResults(Creator      = userinfo['login'],
                                         portal_type  = types,
                                         sort_on      = 'modified',

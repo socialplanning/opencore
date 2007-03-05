@@ -8,60 +8,76 @@
     <div metal:fill-slot="main">
     <metal:main-macro define-macro="main">
 
-    	<tal:block define="userinfo view/getUserInfo;
+        <tal:block define="userinfo view/getUserInfo;
                        portal_types portal/portal_types;">
 
-	<div id="content-title">
-		<h1 class="documentFirstHeading" tal:content="string: ${userinfo/login}'s Profile" />
-	</div>
+    <div id="content-title">
+        <h1 class="documentFirstHeading" tal:content="python: (userinfo['fullname'] or userinfo['login']) + '\'s Profile'" />
+    </div>
 
       <div id="content-main">
-	
+    
       <!-- page left container -->
       <div id="op-main">
 
         <!-- portrait + info -->
         <div id="op-member-info">
-		
-		<!-- view/edit tabs -->
-		
-		<div id="op-member-details-wrapper" class="clear-after">
+
+            <ul tal:condition="userinfo/editpermission" class="contentViews">
+                <li class="contentview-view selected"><a>View</a></li>
+                <li class="contentview-edit"><a tal:attributes="href userinfo/prefsurl">Edit</a></li>
+            </ul>
+        
+        <div id="op-member-details-wrapper" class="clear-after">
 
           <!-- portrait -->
-          <div style="float: left; padding-right: 10px;">
+            <div id="op-member-portrait">
             <!-- if they have a portrait -->
-            <img id="op-member-portrait" tal:condition="userinfo/portrait" tal:attributes="src userinfo/portraiturl"/>
+            <img tal:condition="userinfo/portrait" tal:attributes="src userinfo/portraiturl" alt="" />
             <!-- if they don't have a portrait -->
             <!-- but they can add one -->
-            <span tal:condition="python: not userinfo['portrait'] and userinfo['editpermission']">
-              <a tal:attributes="href userinfo/prefsurl">
-                <img id="op-member-noportrait-edit" tal:attributes="src string:defaultUser-edit.gif">
-              </a>
+            <span tal:condition="python: not userinfo['portrait'] and userinfo['editpermission']"
+              ><a tal:attributes="href userinfo/prefsurl"
+                ><img id="op-member-noportrait-edit" tal:attributes="src string:defaultUser-edit.gif" alt="add an image"
+              /></a>
             </span>
             <!-- can't add one -->
             <span tal:condition="python: not userinfo['portrait'] and not userinfo['editpermission']">
-              <img id="op-member-noportrait" tal:attributes="src string:defaultUser.gif">
+              <img id="op-member-noportrait" tal:attributes="src string:defaultUser.gif" alt=""/>
             </span>
-          </div> <!-- end portrait -->
+            </div>
+          <!-- end portrait -->
 
           <!-- details -->
           <dl id="op-member-details">
-			<dt>Name</dt>
-            <dd><a href="" tal:attributes="href string:${portal_url}/author/${userinfo/login}"><span tal:condition="userinfo/fullname" tal:content="userinfo/fullname"></span></a></dd>
-            <dt>Location</dt>
-            <dd tal:condition="userinfo/location" tal:content="userinfo/location"></dd>
-			<dt>Projects</dt>
-			<dd id="op-member-details-projects"><!-- projects listing -->
-				<div tal:condition="userinfo/projects">
-	              <ul>
-	                <tal:repeat repeat="proj userinfo/projects">
-	                  <li>
-	                    <a href="" tal:attributes="href proj/absolute_url"><span tal:replace="python: proj.getFull_name() or proj.getId()" /></a>
-	                  </li>
-	                </tal:repeat>
-	              </ul>
-	            </div>
-			</dd><!-- end projects listing -->
+            <dt>Name</dt>
+            <dd tal:condition="userinfo/fullname"><span tal:condition="userinfo/fullname"
+                tal:replace="python: userinfo['fullname'] + ' '" />(<span tal:replace="userinfo/login" />)</dd>
+            <dd tal:condition="python: not userinfo['fullname'] and userinfo['editpermission']"
+                tal:content="structure string:<a href='${userinfo/prefsurl}'>add your name</a>" />
+            <dd class="missingText" tal:condition="python: not userinfo['fullname'] and not userinfo['editpermission']"
+                >(<span tal:content="userinfo/login"></span>)</dd>
+<!--
+                <span tal:condition="userinfo/fullname" tal:content="python: userinfo['fullname'] + ' '" />(<a href="" tal:attributes="href string:${portal_url}/author/${userinfo/login}"><span tal:content="userinfo/login"></span></a>)</dd>
+-->
+            <dt tal:condition="python: userinfo['location'] or userinfo['editpermission']">Location</dt>
+            <dd tal:condition="userinfo/location" tal:content="userinfo/location" />
+            <dd tal:condition="python: not userinfo['location'] and userinfo['editpermission']" tal:content="structure
+                string:<a href='${userinfo/prefsurl}'>add your location</a>"/>
+            <dt>Projects (<span tal:replace="python:len(userinfo['projects'])" />)</dt>
+            <dd><!-- projects listing -->
+                  <ul id="op-member-details-projects" tal:condition="userinfo/projects">
+                    <tal:repeat repeat="proj userinfo/projects">
+                      <li><a href="" tal:attributes="href proj/absolute_url"
+                          ><span tal:replace="python: proj.getFull_name() or proj.getId()" /></a>
+                      </li>
+                    </tal:repeat>
+                  </ul>
+                <span class="missingText" tal:condition="python: not userinfo['projects']">
+                   <span tal:condition="userinfo/isme" tal:replace="string:you do" /><span tal:condition="not: userinfo/isme"
+                       tal:replace="python: (userinfo['login']) + ' does '" /> not belong to any projects
+                </span>
+            </dd><!-- end projects listing -->
             </dl><!-- end details -->
         </div>
         </div> <!-- end portrait + info -->
@@ -70,11 +86,11 @@
         <div id="op-member-wiki">
 
           <!-- edit link --><!-- REDO as standard view and edit tabs -->
-          <div style="border-top: thin solid gray; margin-bottom: 10px">
-            <div tal:condition="userinfo/editpermission" style="text-align: right">
-              <a href="edit">edit</a>
-            </div>
-          </div> <!-- end edit link -->
+            <ul tal:condition="userinfo/editpermission" class="contentViews">
+              <li class="contentview-view selected"><a>View</a></li>
+              <li class="contentview-edit"><a href="edit">Edit</a></li>
+            </ul>
+          <!-- end edit link -->
 
           <div tal:content="structure userinfo/wiki" />
 
@@ -84,15 +100,14 @@
 
 
       
-      <!-- TODO only show "pages" and "projects" -->
       <div class="op-sbar"><!-- sidebar -->
-		<div id="op-member-activity"><!-- latest content -->
+        <div id="op-member-activity"><!-- latest content -->
         <tal:authorContent define="author_content python:view.getLatestContent();"
                            condition="author_content">
 
           <div metal:define-macro="user_content_listing" >
 
-          <h2 i18n:translate="heading_author_content">
+          <h2 class="documentFirstHeading" i18n:translate="heading_author_content">
             Recent activity
           </h2>
 
@@ -113,8 +128,8 @@
                       Type
                     </th>
 
-					<th scope="col">Date</th>
-					
+                    <th scope="col">Date</th>
+                    
                   </tr>
                   <tal:repeat repeat="item content_by_type/content_items">
                     <tr>
@@ -129,18 +144,18 @@
                   </tal:repeat>
                 </tal:grouping>
               </tal:repeat>
+                <tr>
+                    <th scope="row"><a href=""
+                       tal:attributes="href string:$here_url/search?Creator=${userinfo/login}&amp;sort_on=Date&amp;sort_order=reverse"
+                       i18n:translate="go_to_search_author_content">All content...</a></th>
             </table>
+
           </div>
 
-          <div>
-            <a href=""
-               tal:attributes="href string:$here_url/search?Creator=${userinfo/login}&amp;sort_on=Date&amp;sort_order=reverse"
-               i18n:translate="go_to_search_author_content">All content...</a>
-          </div>
 
         </tal:authorContent>
       </div> <!-- end latest content -->
-	</div> <!-- end sidebar -->
+    </div> <!-- end sidebar -->
       </div>
     </tal:block>
 
