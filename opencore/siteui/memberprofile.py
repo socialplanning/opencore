@@ -56,6 +56,8 @@ class ProfileView(BrowserView):
 
             self.info = dict(member=member,
                              login=memberlogin,
+                             membersince=member.CreationDate(), # TODO format with pretty date
+                             lastlogin=member.getLast_login_time(), # TODO format with pretty date
                              fullname=member.getFullname(),
                              location=member.getLocation(),
                              prefsurl=member.absolute_url() + '/edit',
