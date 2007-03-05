@@ -56,13 +56,13 @@ factory_type_information = ( {
                         'id': 'membership',
                         'name': 'Membership',
                         'action': 'string:${object_url}/manage_membership',
-                        'permissions': (permissions.ManageSubscriptions,)
+                        'permissions': (permissions.EditMailingList,)
                         },
                         {
                         'id': 'moderation',
                         'name': 'Moderation',
                         'action': 'string:${object_url}/moderation',
-                        'permissions': (permissions.ManageSubscriptions,)
+                        'permissions': (permissions.EditMailingList,)
                         },
                        ),
     'filter_content_types' : True,
