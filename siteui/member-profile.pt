@@ -12,11 +12,11 @@
                        portal_types portal/portal_types;">
 
     <div id="content-title">
-        <h1 class="documentFirstHeading" tal:content="python: (userinfo['fullname'] or userinfo['login']) + '\'s Profile'" />
-	    <div id="op-member-dates" class="smallText">
-	        <span tal:replace="userinfo/login" /> has been a member since <span tal:replace="userinfo/membersince" />
-	        and was last online at <span tal:replace="userinfo/lastlogin" />
-	    </div>
+        <h1 class="documentFirstHeading" style="display: inline" tal:content="python: (userinfo['fullname'] or userinfo['login'])" />
+	    <ul id="op-member-dates" class="smallText">
+	        <li>member since <span tal:replace="userinfo/membersince" /></li>
+	        <li>last online <span tal:replace="userinfo/lastlogin" /></li>
+	    </ul>
     </div>
 
       <div id="content-main">
