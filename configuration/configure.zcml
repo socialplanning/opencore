@@ -11,7 +11,7 @@
   <include package="opencore.listen" />
   <include package="opencore.siteui" />
   <!-- include package="opencore.xinha" / -->
-  <!-- include package="opencore.rpcss" / -->
-  <!-- include package="opencore.unskin" / -->
+  <include package="opencore.rpcss" />
+  <include package="opencore.unskin" />
 
 </configure>
