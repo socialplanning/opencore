@@ -19,6 +19,9 @@ from interfaces import IMemberHomePage
 from interfaces import IMemberFolder
 from interfaces import IFirstLoginEvent
 
+from topp.utils.dateutil import zdt2pydt, zdtstr2pydt
+from topp.utils.pretty_date import prettyDate
+
 allow_module('opencore.siteui.memberprofile')
 
 class ProfileView(BrowserView):
@@ -54,10 +57,14 @@ class ProfileView(BrowserView):
 
             isme = member == mtool.getAuthenticatedMember()
 
+
+            membersince = prettyDate(zdtstr2pydt(member.CreationDate()))
+            lastlogin = prettyDate(zdt2pydt(member.getLast_login_time()))
+
             self.info = dict(member=member,
                              login=memberlogin,
-                             membersince=member.CreationDate(), # TODO format with pretty date
-                             lastlogin=member.getLast_login_time(), # TODO format with pretty date
+                             membersince=membersince,
+                             lastlogin=lastlogin,
                              fullname=member.getFullname(),
                              location=member.getLocation(),
                              prefsurl=member.absolute_url() + '/edit',
@@ -66,7 +73,7 @@ class ProfileView(BrowserView):
                              projects=member.getProjects(), # @@@ this should be indexed and then returned by a catalog call
                              wiki=wiki,
                              editpermission=editpermission,
-                             isme=isme,
+                             isme=isme
                              )
         return self.info
 
