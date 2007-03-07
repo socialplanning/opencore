@@ -1,10 +1,18 @@
+from zope.interface import invariant
+from zope.interface import Invalid
+
 from Products.CMFCore.utils import getToolByName
-from Products.listen.interfaces import IMailingList
+
+from Products.listen.interfaces.mailinglist import duplicate_mailto
+from Products.listen.interfaces.mailinglist import IMailingList
 
 from zope.schema import ASCII
 from zope.i18nmessageid import MessageIDFactory
 
 from utils import isValidPrefix
+
+from config import LIST_SUFFIX as SUFFIX
+
 
 _ = MessageIDFactory('opencore')
 
@@ -21,3 +29,11 @@ class IOpenMailingList(IMailingList):
         )
 
     mailto.order = IMailingList['mailto'].order
+
+    @invariant
+    def duplicate_mailto_check(ml):
+        value = ml.mailto + SUFFIX
+        if duplicate_mailto(ml, value):
+            raise Invalid("A mailing list with that address already exists: " + value)
+
+
