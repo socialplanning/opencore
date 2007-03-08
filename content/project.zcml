@@ -48,4 +48,12 @@
           zope.app.event.interfaces.IObjectModifiedEvent"
      factory=".wf_policy_support.saveWFPolicy" />
 
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class="opencore.redirect.Redirector"
+     permission="zope.Public"
+     attribute="redirect"
+     name="opencore.redirect"
+     />
+
 </configure>
