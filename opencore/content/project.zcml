@@ -15,6 +15,15 @@
      class=".project.ProjectAddView"
      />
 
+  <fate:addform
+     name="add_project"
+     for="opencore.interfaces.IAddSubProject"
+     permission="zope2.View"
+     product="OpenPlans"
+     meta_type="OpenProject"
+     class=".project.SubProjectAddView"
+     />
+
   <fate:editform
      name="edit_project"
      for="opencore.interfaces.IEditProject"
@@ -34,7 +43,7 @@
   <browser:page 
      name="projects"
      for="opencore.redirect.interfaces.IRedirected"
-     class="opencore.redirect.subproject_listing.SubProjectListingView"
+     class=".project.SubProjectListingView"
      permission="zope2.View"
      template="subproject_listing.pt" 
      />
