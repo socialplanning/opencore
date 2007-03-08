@@ -57,6 +57,11 @@ class ProjectAddView(BaseAddView):
 class SubProjectAddView(ProjectAddView):
     """add view for redirected areas
     """
+    def __init__(self, view, request):
+        self.context = view.context
+        self.request = request
+        self.context_view = view
+        
     def handle_environ(self, instance):
         theme_parent = self.request.environ.get(redirect.PARENT_KEY, False)
         if theme_parent:
