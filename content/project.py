@@ -22,8 +22,8 @@ class ProjectAddView(BaseAddView):
     """
     Perform initialization after creation.
     """
-    def handle_environ(self):
-        pass
+    def handle_environ(self, instance=None):
+        return instance
         
     def createAndAdd(self):
         """
