@@ -5,7 +5,7 @@ class IAfterProjectAddedEvent(Interface):
     """What happens after a project is added"""
 
 
-class IAfterSubProjectAddedEvent():
+class IAfterSubProjectAddedEvent(IAfterProjectAddedEvent):
     """What happens after a subproject is added"""
     
 
