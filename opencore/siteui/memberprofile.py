@@ -19,7 +19,6 @@ from interfaces import IMemberHomePage
 from interfaces import IMemberFolder
 from interfaces import IFirstLoginEvent
 
-from topp.utils.dateutil import zdt2pydt, zdtstr2pydt
 from topp.utils.pretty_date import prettyDate
 
 allow_module('opencore.siteui.memberprofile')
@@ -58,8 +57,8 @@ class ProfileView(BrowserView):
             isme = member == mtool.getAuthenticatedMember()
 
 
-            membersince = prettyDate(zdtstr2pydt(member.CreationDate()))
-            lastlogin = prettyDate(zdt2pydt(member.getLast_login_time()))
+            membersince = prettyDate(member.CreationDate())
+            lastlogin = prettyDate(member.getLast_login_time())
 
             self.info = dict(member=member,
                              login=memberlogin,
