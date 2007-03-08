@@ -3,7 +3,6 @@ from zope.interface import Invalid
 
 from Products.CMFCore.utils import getToolByName
 
-from Products.listen.interfaces.mailinglist import duplicate_mailto
 from Products.listen.interfaces.mailinglist import IMailingList
 
 from zope.schema import ASCII
@@ -29,11 +28,4 @@ class IOpenMailingList(IMailingList):
         )
 
     mailto.order = IMailingList['mailto'].order
-
-    @invariant
-    def duplicate_mailto_check(ml):
-        value = ml.mailto + SUFFIX
-        if duplicate_mailto(ml, value):
-            raise Invalid("A mailing list with that address already exists: " + value)
-
 
