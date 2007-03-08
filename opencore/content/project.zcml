@@ -53,10 +53,6 @@
      template="subproject_listing.pt" 
      />
 
-  <subscriber 
-     handler="opencore.redirect.handle_parent_child_association" 
-     />
-
   <subscriber
      for="opencore.interfaces.IProject
           zope.app.event.interfaces.IObjectModifiedEvent"
