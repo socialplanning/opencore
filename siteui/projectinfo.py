@@ -27,7 +27,7 @@ class ProjectInfoView(BrowserView):
         chain = self.context.aq_chain
         for item in chain:
             if IProject.providedBy(item):
-                return project
+                return item
 
     @memoizedproperty
     def inProject(self):
