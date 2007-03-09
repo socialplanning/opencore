@@ -28,6 +28,14 @@ $Id: SignedCookieAuthHelper.py 72211 2007-01-24 12:41:44Z novalis $
 from base64 import encodestring, decodestring
 from urllib import quote, unquote
 
+import hmac
+import sha
+import os
+
+from zope.interface import implements
+
+from Acquisition import aq_base
+
 from AccessControl.SecurityInfo import ClassSecurityInfo
 from OFS.Folder import Folder
 from App.class_init import default__class_init__ as InitializeClass
@@ -36,16 +44,18 @@ from Products.PluggableAuthService.interfaces.plugins import \
     ILoginPasswordHostExtractionPlugin, IChallengePlugin, ICredentialsUpdatePlugin, \
     ICredentialsResetPlugin, IAuthenticationPlugin
 
-from zope.interface import implements
-
 from Products.PluggableAuthService.plugins.CookieAuthHelper import ICookieAuthHelper
 from Products.PlonePAS.plugins.cookie_handler import ExtendedCookieAuthHelper
 
-import hmac
-import sha
-import os
-
-from Acquisition import aq_base
+def getCookieDomainKW(context):
+    domain_kw = {}
+    app = context.getPhysicalRoot()
+    bid_mgr = app._getOb('browser_id_manager', None)
+    if bid_mgr is not None:
+        domain = bid_mgr.getCookieDomain()
+        if domain:
+            domain_kw['domain'] = domain
+    return domain_kw
 
 def manage_addSignedCookieAuthHelper(self, id, title='',
                                        RESPONSE=None, **kw):
@@ -142,7 +152,15 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
         auth = hmac.new(self.secret, login, sha).hexdigest()
         cookie_val = encodestring('%s\0%s' % (login, auth))
         cookie_val = cookie_val.rstrip()
-        response.setCookie(self.cookie_name, quote(cookie_val), path='/')
+        domain_kw = getCookieDomainKW(self)
+        response.setCookie(self.cookie_name, quote(cookie_val),
+                           path='/', **domain_kw)
+
+    security.declarePrivate('resetCredentials')
+    def resetCredentials(self, request, response):
+        """ clear cookie """
+        domain_kw = getCookieDomainKW(self)
+        response.expireCookie(self.cookie_name, path='/', **domain_kw)
 
     #IAuthenticationPlugin
 
