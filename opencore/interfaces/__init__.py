@@ -9,5 +9,6 @@ except ImportError:
     class IProject(Interface):
         """dummy placeholder"""
 
-class IAddSubProject(IAddProject):
+from zope.interface import Interface 
+class IAddSubProject(Interface):
     """I add sub-projects"""
