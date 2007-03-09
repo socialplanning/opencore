@@ -6,7 +6,6 @@ from zope.interface import implements
 from Products.CMFCore.utils import getToolByName 
 from Products.Five import BrowserView
 from Products.Five.browser.TrustedExpression import getEngine
-from Products.wicked.lib.normalize import titleToNormalizedId as normalize
 from Products.OpenPlans.interfaces import IProject
 from memojito import memoizedproperty
 from interfaces import IProjectInfo
@@ -26,12 +25,9 @@ class ProjectInfoView(BrowserView):
     def project(self):
         # probably wrap this in an adapter
         chain = self.context.aq_chain
-        project = None
         for item in chain:
             if IProject.providedBy(item):
-                project = item
-                break
-        return project
+                return project
 
     @memoizedproperty
     def inProject(self):

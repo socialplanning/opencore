@@ -14,13 +14,14 @@ class MemberInfoView(BrowserView):
     def __init__(self, context, request):
         self._context = (context,)
         self.request = request
-        self.mtool = getToolByName(self.context(), 'portal_membership')
+        self.mtool = getToolByName(context, 'portal_membership')
 
+    @property
     def context(self):
         return self._context[0]
 
     def interfaceInAqChain(self, iface):
-        chain = self.context().aq_chain
+        chain = self.context.aq_chain
         for item in chain:
             if iface.providedBy(item):
                 return item
