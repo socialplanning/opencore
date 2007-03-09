@@ -1,8 +1,8 @@
 """
 Profile View
-
-@@ tests?
 """
+# TODO write tests
+
 from AccessControl import allow_module
 
 from Products.CMFCore.utils import getToolByName
@@ -31,48 +31,39 @@ class ProfileView(BrowserView):
         self.request.set('disable_border', 1)
         self.info = None
 
+
+    def _getPortraitURL(self, member):
+        portrait = member.getProperty('portrait', None)
+        return portrait and portrait.absolute_url()
+
+
+    def _getWiki(self, memberfolder):
+        homepage_id = memberfolder.getDefaultPage()
+        if homepage_id is not None:
+            homepage = memberfolder._getOb(homepage_id)
+            wiki = homepage.CookedBody()
+        else:
+            wiki = ''
+
+
     def getUserInfo(self):
         """Returns a dict with user info that gets displayed on profile view"""
         if self.info is None:
             mtool = getToolByName(self.context, 'portal_membership')
-            miv = getMultiAdapter((self.context, self.request),
-                                  name='member_info')
-            member = miv.member
-            memberlogin = member.getId()
-            memberfolder = miv.member_folder
-
-            portrait_image = member.getProperty('portrait', None)
-            portrait_url = portrait_image and portrait_image.absolute_url()
-
-            homepage_id = memberfolder.getDefaultPage()
-            if homepage_id is not None:
-                homepage = memberfolder._getOb(homepage_id)
-                wiki = homepage.CookedBody()
-            else:
-                wiki = ''
-
-            editpermission = mtool.checkPermission(ModifyPortalContent,
-                                                   self.context)
-
-            isme = member == mtool.getAuthenticatedMember()
-
-
-            membersince = prettyDate(member.CreationDate())
-            lastlogin = prettyDate(member.getLast_login_time())
-
-            self.info = dict(member=member,
-                             login=memberlogin,
-                             membersince=membersince,
-                             lastlogin=lastlogin,
+            miv = getMultiAdapter((self.context, self.request), name='member_info')
+            member, memberfolder = miv.member, miv.member_folder
+            self.info = dict(login=member.getId(),
                              fullname=member.getFullname(),
+                             membersince=prettyDate(member.created()),
+                             lastlogin=prettyDate(member.getLast_login_time()),
                              location=member.getLocation(),
                              prefsurl=member.absolute_url() + '/edit',
-                             portrait=member.getPortrait(), # XXX deprecated by portraiturl with NAKED
-                             portraiturl=portrait_url,
+                             portrait=member.getPortrait(), # XXX NAKED will deprecate this with portraiturl
+                             portraiturl=self._getPortraitURL(member),
                              projects=member.getProjects(), # @@@ this should be indexed and then returned by a catalog call
-                             wiki=wiki,
-                             editpermission=editpermission,
-                             isme=isme
+                             wiki=self._getWiki(memberfolder),
+                             editpermission=mtool.checkPermission(ModifyPortalContent, self.context),
+                             isme=member == mtool.getAuthenticatedMember()
                              )
         return self.info
 
