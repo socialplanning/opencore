@@ -19,3 +19,6 @@ class AfterProjectAddedEvent(object):
 class AfterSubProjectAddedEvent(AfterProjectAddedEvent):
     implements(IAfterSubProjectAddedEvent)
 
+    def __init__(self, project, parent, request): 
+        AfterProjectAddedEvent.__init__(self, project, request)
+        self.parent = parent 

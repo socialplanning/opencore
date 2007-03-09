@@ -29,8 +29,6 @@ class ProjectAddView(BaseAddView):
     """
     Perform initialization after creation.
     """
-    event_class = AfterProjectAddedEvent
-
     @memoize
     def projects_container(self):
         """climb acquisition and find the proper container for project adding"""
@@ -41,24 +39,24 @@ class ProjectAddView(BaseAddView):
 
     @memoize
     def instance(self):
-        name = self.projects_container().invokeFactory(self._portal_type, self._content_name)
+        projects = self.projects_container() 
+        name = projects.invokeFactory(self._portal_type, self._content_name)
         if name is None:
             name = self._content_name
-        return self.context._getOb(name)
+        return projects._getOb(name)
 
     def createAndAdd(self):
         """
         Perform some post-creation initialization.
         """
         instance = self.instance()
-        event.notify(self.event_class(instance, self.request))
+        event.notify(AfterProjectAddedEvent(instance, self.request))
         return instance
     
     
 class SubProjectAddView(ProjectAddView):
     """add view for creating projects as subprojects of themed areas
     """
-    event_class = AfterSubProjectAddedEvent
     
     def __init__(self, view, request):
         self.context = view.context
@@ -66,8 +64,10 @@ class SubProjectAddView(ProjectAddView):
         self.context_view = view
 
     def createAndAdd(self):
-        import pdb;pdb.set_trace()
-        return super(SubProjectAddView, self).createAndAdd()
+        instance = self.instance()
+        event.notify(AfterSubProjectAddedEvent(instance, self.context, 
+                                               self.request))
+        return instance 
 
 # ==  post creation handlers == #
 
@@ -97,15 +97,18 @@ def handle_postcreation(event):
 def handle_subproject_redirection(event):
     instance = event.project
     request = event.request
-    theme_parent = request.environ.get(redirect.PARENT_KEY, False)
-    if theme_parent:
-        parent = instance.unrestrictedTraverse(theme_parent)
-        _handle_parent_child_association(instance, parent)
+    parent = event.parent 
+    _handle_parent_child_association(parent, instance)
+
+    #theme_parent = request.environ.get(redirect.PARENT_KEY, False)
+    #if theme_parent:
+    #    parent = instance.unrestrictedTraverse(theme_parent)
+    #    _handle_parent_child_association(instance, parent)
 
 
 def _handle_parent_child_association(parent, child):
     child_id = child.getId()
-    parent_info = get_info(parent)
+    parent_info = redirect.get_info(parent)
     parent_path = redirect.pathstr(child)
     parent_info[child_id] = parent_path
     child_url = "%s/%s" %(parent_info.url, child_id) 
@@ -120,6 +123,12 @@ class SubProjectListingView(ProjectListingView, Traversable):
     """
     implements(IAddSubProject)
 
+    def __init__(self, context, request): 
+        ProjectListingView.__init__(self, context, request)
+        # XXX this may be a horrendous hack, but it appears 
+        # to be what Five expects to find during traversal... ?!
+        self.REQUEST = request 
+    
     @memoizedproperty
     def redirect_info(self): 
         return redirect.get_info(self.context)
