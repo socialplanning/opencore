@@ -40,10 +40,10 @@
                  Products.ploneundelete.interfaces.IUndeleteContainer" />
   </content>
 
-  <adapter 
+  <!-- adapter 
      factory="opencore.redirect.DefaultingRedirectTraverser" 
      for="opencore.interfaces.IProject" 
-     />
+     /-->
 
   <browser:page 
      name="projects"
@@ -52,6 +52,9 @@
      permission="zope2.View"
      template="subproject_listing.pt" 
      />
+
+  <subscriber handler=".project.handle_postcreation" />
+  <subscriber handler=".project.handle_subproject_redirection" />
 
   <subscriber
      for="opencore.interfaces.IProject
