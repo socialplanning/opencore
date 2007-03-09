@@ -11,7 +11,7 @@ class IAfterSubProjectAddedEvent(IAfterProjectAddedEvent):
 
 class AfterProjectAddedEvent(object):
     implements(IAfterProjectAddedEvent)
-    def __init__(self, project):
+    def __init__(self, project, request):
         self.project = project
         self.request = request
 
