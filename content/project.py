@@ -65,6 +65,9 @@ class SubProjectAddView(ProjectAddView):
         self.request = request
         self.context_view = view
 
+    def createAndAdd(self):
+        import pdb;pdb.set_trace()
+        return super(SubProjectAddView, self).createAndAdd()
 
 # ==  post creation handlers == #
 
