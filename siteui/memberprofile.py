@@ -41,9 +41,8 @@ class ProfileView(BrowserView):
         homepage_id = memberfolder.getDefaultPage()
         if homepage_id is not None:
             homepage = memberfolder._getOb(homepage_id)
-            wiki = homepage.CookedBody()
-        else:
-            wiki = ''
+            return homepage.CookedBody()
+        return ''
 
 
     def getUserInfo(self):
