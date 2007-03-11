@@ -10,8 +10,8 @@ from memojito import memoizedproperty, memoize
 from Products.CMFCore.utils import getToolByName
 from Products.Five.traversable import Traversable
 from zope.interface import implements
-from zope.component import adapter
-from opencore.interfaces import IAddSubProject, IAddProject
+from zope.component import adapter, adapts
+from opencore.interfaces import IAddSubProject, IAddProject, IProject
 from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
 from opencore.interfaces.event import IAfterProjectAddedEvent, IAfterSubProjectAddedEvent
 from zope import event
@@ -143,3 +143,12 @@ class SubProjectListingView(ProjectListingView, Traversable):
         
     def allprojects(self): 
         return self.portal_catalog(path=self.project_paths, sort_on='sortable_title')
+
+# default redirection 
+
+class DefaultProjectRedirectTraverser(redirect.DefaultingRedirectTraverser): 
+    """
+    a traverser that redirects non-IRedirected IProjects to a 
+    default host / path
+    """
+    adapts(IProject)

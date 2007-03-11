@@ -40,11 +40,6 @@
                  Products.ploneundelete.interfaces.IUndeleteContainer" />
   </content>
 
-  <!-- adapter 
-     factory="opencore.redirect.DefaultingRedirectTraverser" 
-     for="opencore.interfaces.IProject" 
-     /-->
-
   <browser:page 
      name="projects"
      for="opencore.redirect.interfaces.IRedirected"
@@ -68,5 +63,16 @@
      attribute="redirect"
      name="opencore.redirect"
      />
+
+  <adapter factory=".project.DefaultProjectRedirectTraverser" />
+
+  <!-- this enables 'default redirect' replace w/ default host  
+    browser:defaultredirect
+     host="http://localhost:8080/"
+     path="/projects"
+     for=".project.DefaultProjectRedirectTraverser"
+  / -->
+
+
 
 </configure>
