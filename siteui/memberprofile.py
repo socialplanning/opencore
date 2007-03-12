@@ -57,7 +57,6 @@ class ProfileView(BrowserView):
                              lastlogin=prettyDate(member.getLast_login_time()),
                              location=member.getLocation(),
                              prefsurl=member.absolute_url() + '/edit',
-                             portrait=member.getPortrait(), # XXX NAKED will deprecate this with portraiturl
                              portraiturl=self._getPortraitURL(member),
                              projects=member.getProjects(), # @@@ this should be indexed and then returned by a catalog call
                              wiki=self._getWiki(memberfolder),
