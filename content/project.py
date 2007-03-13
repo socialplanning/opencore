@@ -12,8 +12,10 @@ from Products.Five.traversable import Traversable
 from zope.interface import implements
 from zope.component import adapter, adapts
 from opencore.interfaces import IAddSubProject, IAddProject, IProject
-from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
-from opencore.interfaces.event import IAfterProjectAddedEvent, IAfterSubProjectAddedEvent
+from opencore.interfaces.event import AfterProjectAddedEvent, \
+     AfterSubProjectAddedEvent
+from opencore.interfaces.event import IAfterProjectAddedEvent, \
+     IAfterSubProjectAddedEvent
 from zope import event
 from Acquisition import aq_parent
 
@@ -31,7 +33,8 @@ class ProjectAddView(BaseAddView):
     """
     @memoize
     def projects_container(self):
-        """climb acquisition and find the proper container for project adding"""
+        """climb acquisition and find the proper container for project
+        adding"""
         obj = self
         while obj is not None and not IAddProject.providedBy(obj):
             obj = aq_parent(obj)
@@ -142,7 +145,9 @@ class SubProjectListingView(ProjectListingView, Traversable):
         return getToolByName(self.context, 'portal_catalog')
         
     def allprojects(self): 
-        return self.portal_catalog(portal_type='OpenProject', path=self.project_paths, sort_on='sortable_title')
+        return self.portal_catalog(portal_type='OpenProject',
+                                   path=self.project_paths,
+                                   sort_on='sortable_title')
 
 # default redirection 
 
