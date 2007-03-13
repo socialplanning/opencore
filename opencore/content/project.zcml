@@ -64,7 +64,10 @@
      name="opencore.redirect"
      />
 
-  <adapter factory=".project.DefaultProjectRedirectTraverser" />
+  <adapter 
+    for="opencore.interfaces.IProject" 
+    provides="zope.app.traversing.interfaces.ITraverser" 
+    factory=".project.DefaultProjectRedirectTraverser" />
 
   <!-- this enables 'default redirect' for projects, replace w/ default host  
     browser:defaultredirect
