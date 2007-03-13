@@ -142,7 +142,7 @@ class SubProjectListingView(ProjectListingView, Traversable):
         return getToolByName(self.context, 'portal_catalog')
         
     def allprojects(self): 
-        return self.portal_catalog(path=self.project_paths, sort_on='sortable_title')
+        return self.portal_catalog(portal_type='OpenProject', path=self.project_paths, sort_on='sortable_title')
 
 # default redirection 
 

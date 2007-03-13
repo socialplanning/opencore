@@ -66,9 +66,16 @@
 
   <adapter factory=".project.DefaultProjectRedirectTraverser" />
 
-  <!-- this enables 'default redirect' replace w/ default host  
+  <!-- this enables 'default redirect' for projects, replace w/ default host  
     browser:defaultredirect
-     host="http://localhost:8080/"
+     host="http://localhost:8080"
+     path="/openplans/projects"
+     for=".project.DefaultProjectRedirectTraverser"
+  / -->
+
+  <!-- an example for the instance at www.openplans.org 
+    browser:defaultredirect
+     host="http://www.openplans.org"
      path="/projects"
      for=".project.DefaultProjectRedirectTraverser"
   / -->
