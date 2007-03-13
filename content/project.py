@@ -103,11 +103,6 @@ def handle_subproject_redirection(event):
     parent = event.parent 
     _handle_parent_child_association(parent, instance)
 
-    #theme_parent = request.environ.get(redirect.PARENT_KEY, False)
-    #if theme_parent:
-    #    parent = instance.unrestrictedTraverse(theme_parent)
-    #    _handle_parent_child_association(instance, parent)
-
 
 def _handle_parent_child_association(parent, child):
     child_id = child.getId()
