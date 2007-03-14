@@ -1,9 +1,8 @@
-<div id="portal-breadcrumbs">
+<div id="portal-breadcrumbs" tal:define="items view/menuItems">
   <ul>
-    &nbsp;
-    <li tal:repeat="menu_item view/menuItems">
-      <a tal:content="menu_item/title"
-         tal:attributes="href menu_item/url">MENU ITEM</a>
+    <li tal:repeat="menu_item items">
+      <a tal:content="menu_item/title" tal:attributes="href menu_item/url">MENU ITEM</a>
     </li>
   </ul>
+  <span tal:condition="not: items">&nbsp;</span>
 </div>

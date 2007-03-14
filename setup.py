@@ -18,11 +18,14 @@ setup(name='opencore',
       include_package_data=True,
       zip_safe=False,
       dependency_links=['https://svn.openplans.org/svn/topp.deploy/trunk/dependency_links_live.html'],
+                        'https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect'],
       install_requires=[
           # -*- Extra requirements: -*-
           'topp.featurelets',
           'memojito',
-      ],
+          'OpencoreRedirect'
+      ]
+
 #      entry_points="""
       # -*- Entry points: -*-
 #      """,

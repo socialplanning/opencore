@@ -4,38 +4,19 @@
 <body>
 
 <!-- THE SECTION TABS DEFINITION -->
-<div metal:define-macro="portal_tabs"
-     tal:omit-tag=""
+<div metal:define-macro="portal_tabs" tal:omit-tag=""
      tal:define="selected_tabs python:here.selectedTabs('index_html', here, portal_tabs);
                  selected_portal_tab selected_tabs/portal;"
      tal:condition="portal_tabs">
-    <!-- h5 class="hiddenStructure" i18n:translate="heading_sections">Sections</h5 -->
-    <div id="navwrap" >
-    <ul id="portal-globalnav">
-        <tal:tabs tal:repeat="tab portal_tabs">
-	  <li tal:attributes="id string:portaltab-${tab/id};
-                            class python:test(selected_portal_tab==tab['id'], 'selected', 'plain');">
-            <a href="" 
-               tal:content="tab/name"
-               tal:attributes="href tab/url;
-                               title tab/description|nothing">
-            Tab Name
-            </a>
-	</li>
-	</tal:tabs>
-    </ul>
-    </div>
-	
-	<!--//old links for reference
-	
-	   
-        	<li><a href="#">OpenPlans home |</a></li>
-			<li><a href="#">My Projects or Login |</a></li>
-			<li><a href="#">Logout (only if My Projects is on</a></li>
-			<li id="ts-startproject"><a href="#">Start a Project</a></li>
-	</ul>
-	//-->
+    <ul id="portal-globalnav"
+        ><tal:tabs tal:repeat="tab portal_tabs"
+	    ><li tal:attributes="id string:portaltab-${tab/id};
+                                class python:test(selected_portal_tab==tab['id'], 'selected', 'plain');"
+                ><a href="" tal:content="tab/name" tal:attributes="href tab/url; title tab/description|nothing"
+                    >tab name</a
+            ></li
+	></tal:tabs
+     ></ul>
 </div>
-
 </body>
 </html>

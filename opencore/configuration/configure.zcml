@@ -2,13 +2,20 @@
            xmlns:browser="http://namespaces.zope.org/browser"
 	   xmlns:five="http://namespaces.zope.org/five">
 
+  <include package="opencore.content" />
   <include file="permissions.zcml" />
   <include package="topp.featurelets" />
+  <include package="topp.utils" />
   <include package="opencore.featurelets.browser" />
   <include package="opencore.api" />
   <include package="opencore.auth" />
   <include package="opencore.listen" />
   <include package="opencore.siteui" />
+  <!-- include package="opencore.unskin" /-->
+  <!-- include package="opencore.rpcss" / -->
   <!-- include package="opencore.xinha" / -->
+  <include package="opencore.redirect" />
+  <!-- include package="rhizome.five" / -->
 
 </configure>
+ 

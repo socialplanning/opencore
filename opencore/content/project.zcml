@@ -1,0 +1,88 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+	   xmlns:five="http://namespaces.zope.org/five"
+	   xmlns:fate="http://namespaces.plone.org/fate">
+
+  <include package="Products.Fate" file="meta.zcml" />
+  <include package="opencore.siteui" />
+
+  <fate:addform
+     name="add_project"
+     for="opencore.interfaces.IAddProject"
+     permission="zope2.View"
+     product="OpenPlans"
+     meta_type="OpenProject"
+     class=".project.ProjectAddView"
+     />
+
+  <fate:addform
+     name="add_project"
+     for="opencore.interfaces.IAddSubProject"
+     permission="zope2.View"
+     product="OpenPlans"
+     meta_type="OpenProject"
+     class=".project.SubProjectAddView"
+     />
+
+  <fate:editform
+     name="edit_project"
+     for="opencore.interfaces.IEditProject"
+     permission="zope2.View"
+     />
+
+  <five:traversable
+     class=".project.OpenProject" />
+
+  <content class=".project.OpenProject">
+    <implements
+      interface="opencore.interfaces.IEditProject
+                 zope.app.annotation.interfaces.IAttributeAnnotatable
+                 Products.ploneundelete.interfaces.IUndeleteContainer" />
+  </content>
+
+  <browser:page 
+     name="projects"
+     for="opencore.redirect.interfaces.IRedirected"
+     class=".project.SubProjectListingView"
+     permission="zope2.View"
+     template="subproject_listing.pt" 
+     />
+
+  <subscriber handler=".project.handle_postcreation" />
+  <subscriber handler=".project.handle_subproject_redirection" />
+
+  <subscriber
+     for="opencore.interfaces.IProject
+          zope.app.event.interfaces.IObjectModifiedEvent"
+     factory=".wf_policy_support.saveWFPolicy" />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class="opencore.redirect.Redirector"
+     permission="zope.Public"
+     attribute="redirect"
+     name="opencore.redirect"
+     />
+
+  <adapter 
+    for="opencore.interfaces.IProject" 
+    provides="zope.app.traversing.interfaces.ITraverser" 
+    factory=".project.DefaultProjectRedirectTraverser" />
+
+  <!-- this enables 'default redirect' for projects, replace w/ default host  
+    browser:defaultredirect
+     host="http://localhost:8080"
+     path="/openplans/projects"
+     for=".project.DefaultProjectRedirectTraverser"
+  / -->
+
+  <!-- an example for the instance at www.openplans.org 
+    browser:defaultredirect
+     host="http://www.openplans.org"
+     path="/projects"
+     for=".project.DefaultProjectRedirectTraverser"
+  / -->
+
+
+
+</configure>

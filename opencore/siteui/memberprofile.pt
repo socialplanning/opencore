@@ -1,5 +1,4 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      lang="en"
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
       metal:use-macro="here/main_template/macros/master"
       i18n:domain="plone">
 
@@ -23,16 +22,18 @@
           <!-- portrait -->
           <div style="float: left; padding-right: 10px;">
             <!-- if they have a portrait -->
-            <span tal:condition="userinfo/portrait" tal:replace="structure userinfo/portrait"></span>
+            <span tal:condition="userinfo/portraiturl">
+              <img tal:attributes="src userinfo/portraiturl" />
+            </span>
             <!-- if they don't have a portrait -->
             <!-- but they can add one -->
-            <span tal:condition="python: not userinfo['portrait'] and userinfo['editpermission']">
+            <span tal:condition="python: not userinfo['portraiturl'] and userinfo['editpermission']">
               <a tal:attributes="href userinfo/prefsurl">
                 <img tal:attributes="src string:defaultUser-edit.gif">
               </a>
             </span>
             <!-- can't add one -->
-            <span tal:condition="python: not userinfo['portrait'] and not userinfo['editpermission']">
+            <span tal:condition="python: not userinfo['portraiturl'] and not userinfo['editpermission']">
               <img tal:attributes="src string:defaultUser.gif">
             </span>
           </div> <!-- end portrait -->

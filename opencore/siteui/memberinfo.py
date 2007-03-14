@@ -8,24 +8,23 @@ from zope.interface import implements
 
 
 class MemberInfoView(BrowserView):
+    """A view which also provides contextual information about a member."""
     implements(IMemberInfo)
 
     def __init__(self, context, request):
         self._context = (context,)
         self.request = request
-        self.mtool = getToolByName(self.context(), 'portal_membership')
+        self.mtool = getToolByName(context, 'portal_membership')
 
+    @property
     def context(self):
         return self._context[0]
 
     def interfaceInAqChain(self, iface):
-        chain = self.context().aq_chain
-        match = None
+        chain = self.context.aq_chain
         for item in chain:
             if iface.providedBy(item):
-                match = item
-                break
-        return match
+                return item
 
     @memoizedproperty
     def member_folder(self):
@@ -37,18 +36,17 @@ class MemberInfoView(BrowserView):
 
     @memoizedproperty
     def member(self):
-        member = None
+        """Returns the member object found by traversing the acquisition chain."""
         mf = self.member_folder
         if mf is not None:
             # XXX we shouldn't rely on the folder id matching the user id;
             #     maybe store the member id in an annotation on the folder?
-            member = self.mtool.getMemberById(mf.getId())
-        elif self.member_object is not None:
-            member = self.member_object
-        return member
+            return self.mtool.getMemberById(mf.getId())
+        return self.member_object
 
     @memoizedproperty
     def personal_folder(self):
+        """Returns the folder of the authenticated member."""
         mem_id = self.mtool.getAuthenticatedMember().getId()
         return self.mtool.getHomeFolder(mem_id)
 
@@ -58,8 +56,8 @@ class MemberInfoView(BrowserView):
 
     @memoizedproperty
     def inSelf(self):
-        return self.inMemberObject and self.member_object == \
-               self.mtool.getAuthenticatedMember()
+        return self.inMemberObject and \
+               self.member_object == self.mtool.getAuthenticatedMember()
 
     @memoizedproperty
     def inMemberArea(self):
