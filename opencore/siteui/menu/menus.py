@@ -73,9 +73,9 @@ class NavMenu(MenuItemList):
 
         for i in supporter.getInstalledFeatureletIds():
             desc = supporter.getFeatureletDescriptor(i)
-            self.addMenuItem(desc['content'][0]['title'],
+            self.addMenuItem(desc['menu_items'][0]['title'],
                              '%s/%s' % (proj_home_url,
-                                        desc['content'][0]['id']))
+                                        desc['menu_items'][0]['action']))
 
         if self.mtool.checkPermission(ModifyPortalContent, project):
             self.addMenuItem('Preferences', '%s/edit' % proj_home_url)
