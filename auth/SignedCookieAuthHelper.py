@@ -174,7 +174,7 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
 
     def authenticateCredentials(self, credentials):
         login = credentials['login']
-        if credentials['hash'] == self.generateHash(login)
+        if credentials['hash'] == self.generateHash(login):
             return (login, login)
 
 InitializeClass(SignedCookieAuthHelper)
