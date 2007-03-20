@@ -10,20 +10,20 @@ from Products.listen.browser.mailinglist_views import MailingListEditForm \
 from interfaces import IOpenMailingList
 from widgets import OpenListNameWidget
 
-from Products.listen.browser.mailinglist_views import ArchiveListWidget
-from Products.listen.browser.mailinglist_views import ListTypeListWidget
+from Products.listen.browser.mailinglist_views import create_radio_widget
+from Products.listen.browser.mailinglist_views import create_radio_widget
 
-
+openplans_form_fields = form.FormFields(IOpenMailingList)
+openplans_form_fields['description'].custom_widget = DescriptionWidget
+openplans_form_fields['mailto'].custom_widget = OpenListNameWidget
+openplans_form_fields['archived'].custom_widget = create_radio_widget
+openplans_form_fields['list_type'].custom_widget = create_radio_widget
 
 class MailingListAddForm(BaseAddForm):
     """
     A form for adding OpenMailingList objects.
     """
-    form_fields = form.FormFields(IOpenMailingList)
-    form_fields['description'].custom_widget = DescriptionWidget
-    form_fields['mailto'].custom_widget = OpenListNameWidget
-    form_fields['archived'].custom_widget = ArchiveListWidget
-    form_fields['list_type'].custom_widget = ListTypeListWidget
+    form_fields = openplans_form_fields
     portal_type = 'Open Mailing List'
 
 
@@ -31,8 +31,4 @@ class MailingListEditForm(BaseEditForm):
     """A form for editing MailingList objects.
 
     """
-    form_fields = form.FormFields(IOpenMailingList)
-    form_fields['description'].custom_widget = DescriptionWidget
-    form_fields['mailto'].custom_widget = OpenListNameWidget
-    form_fields['archived'].custom_widget = ArchiveListWidget
-    form_fields['list_type'].custom_widget = ListTypeListWidget
+    form_fields = openplans_form_fields
