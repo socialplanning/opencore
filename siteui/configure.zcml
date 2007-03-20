@@ -8,12 +8,13 @@
 
   <five:registerPackage 
      package="opencore.siteui" 
-     initialize="opencore.siteui.zope2.initialize"/>
+     initialize="opencore.siteui.zope2.initialize"
+     />
 
   <browser:resource
-    file="projpage.js"
-    name="projpage.js"
-  />
+     file="projpage.js"
+     name="projpage.js"
+     />
 
   <browser:page
      for="Products.OpenPlans.interfaces.IProject"
@@ -56,17 +57,12 @@
 
   <include file="thirdparty.zcml"  />
   <include file="livesearch.zcml" />
+  <include file="project.zcml" />
   <include file="projectinfo.zcml" />
   <include file="projectlisting.zcml" />
   <include file="memberinfo.zcml" />
   <include package=".menu" />
   <include file="memberprofile.zcml" />
-
-
-  <subscriber
-     for="opencore.interfaces.IProject
-          zope.app.event.interfaces.IObjectModifiedEvent"
-     factory=".featurelet_supporter_view.saveFeaturelets" />
 
 
 </configure>
