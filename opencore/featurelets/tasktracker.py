@@ -1,10 +1,14 @@
-import random
 from zope.interface import implements, Interface
-from topp.featurelets.interfaces import IFeaturelet
-from opencore.featurelets.paste import BasePasteFeaturelet
-from interfaces import ITaskTrackerFeatureletInstalled, ITaskTrackerContainer
 
-class TaskTrackerFeaturelet(BasePasteFeaturelet):
+from topp.featurelets.interfaces import IFeaturelet
+from topp.featurelets.base import BaseFeaturelet
+
+from interfaces import ITaskTrackerFeatureletInstalled, ITaskTrackerContainer
+from Products.OpenPlans.interfaces import IProject
+
+from httplib2 import Http
+
+class TaskTrackerFeaturelet(BaseFeaturelet):
     """
     A featurelet that installs a Task Tracker
     """
@@ -14,38 +18,43 @@ class TaskTrackerFeaturelet(BasePasteFeaturelet):
     id = "tasks"
     title = "Task Tracker"
     installed_marker = ITaskTrackerFeatureletInstalled
-    container_interface = ITaskTrackerContainer
 
-    _info = {'menu_items': ({'title': u'Task Tracker',
-                             #'description': '...',
-                             'action': id,
-                             #'extra': None,
-                             #'order': 0,
-                             #'permission': None,
-                             #'filter': None,
-                             #'icon': None,
-                             #'_for': Interface,
+    _info = {'menu_items': ({'title': u'tasks',
+                             'description': u'Task Tracker',
+                             'action': 'tasks'
                              },
                             ),
              }
 
-    dist = 'TaskTracker'
-    ep_name = 'main'
-    ep_kw = {
-        'cache_dir': '/tmp/tasktracker/data',
-        'session_key': 'tasktracker',
-        }
+    _required_interfaces = BaseFeaturelet._required_interfaces + (IProject,)
 
-    def entry_point_config(self, obj):
-        kwargs = BasePasteFeaturelet.entry_point_config(self, obj)
-        secret = ''.join([chr(random.randint(32, 128)) for i in range(12)])
-        kwargs.setdefault('session_secret', secret)
-        # sqlobject.dburi is hard to set as a keyword argument; copy
-        # it from database if database is there
-        if 'database' in kwargs:
-            kwargs.setdefault('sqlobject.dburi', kwargs['database'])
-        return kwargs
+    def _makeHttpReqAsUser(uri, method="POST", headers=None):
+        if headers is None:
+            headers = dict()
 
-        
-        
+        from Products.CMFCore.utils import getToolByName
+        user_name = getToolByName(obj, 'portal_membership').getAuthenticatedMember().getId()
 
+        scah = obj.acl_users.objectIds('Signed Cookie Auth Helper')[0]
+        scah = obj.acl_users[scah]
+
+        headers['Cookie'] = scah.generateCookie(user_name)
+
+        http = Http()
+        return http.request(uri, method=method, headers=headers)
+
+    def deliverPackage(self, obj):
+        uri = "%s/tasks/project/initialize/" % obj.absolute_url()
+        response = self._makeHttpReqAsUser(uri, obj=obj)
+        if response.status != '200':
+            pass  #just kidding -- do something terrible instead
+
+        return BaseFeaturelet.deliverPackage(self, obj)
+
+    def removePackage(self, obj):
+        uri = "%s/tasks/project/initialize/" % obj.absolute_url()
+        response = self._makeHttpReqAsUser(uri, obj=obj)
+        if response.status != '200':
+            pass  #just kidding -- do something terrible instead
+
+        return BaseFeaturelet.removePackage(self, obj)
