@@ -1,4 +1,6 @@
 import os.path
+import cgi
+
 from Acquisition import aq_parent
 
 from zope import event
@@ -68,6 +70,7 @@ class ProjectAddView(BaseAddView):
         """
         mtool = getToolByName(self.context, 'portal_membership')
         final_url = "%s/do_add_project" % self.context.absolute_url()
+        final_url = cgi.urllib.quote(final_url)
         if mtool.isAnonymousUser():
             portal_url = getToolByName(self.context, 'portal_url')()
             redirect = "%s/login_form?came_from=%s" % (portal_url,
