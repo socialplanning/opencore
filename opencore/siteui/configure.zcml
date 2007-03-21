@@ -57,6 +57,7 @@
 
   <include file="thirdparty.zcml"  />
   <include file="livesearch.zcml" />
+  <include package="opencore.redirect" file="meta.zcml" />
   <include file="project.zcml" />
   <include file="projectinfo.zcml" />
   <include file="projectlisting.zcml" />
