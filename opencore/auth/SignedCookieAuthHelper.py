@@ -80,18 +80,18 @@ def get_secret():
         secret_file_name = os.path.join(os.environ.get('INSTANCE_HOME'), 'secret.txt')
 
     if os.path.exists(secret_file_name):
-        f = open (secret_file_name)
+        f = open(secret_file_name)
         password = f.readline().strip()
         f.close()
     else:
         #this may throw an error if the file cannot be created, but that's OK, because 
         #then users will know to create it themselves
-        f = open (secret_file_name, "w")
+        f = open(secret_file_name, "w")
         from random import SystemRandom
         random = SystemRandom()
-        letters = [chr(ord('A') + i) for i in xrange (26)]
-        letters += [chr(ord('a') + i) for i in xrange (26)]
-        letters += map (str, xrange(10))
+        letters = [chr(ord('A') + i) for i in xrange(26)]
+        letters += [chr(ord('a') + i) for i in xrange(26)]
+        letters += map(str, xrange(10))
         password = "".join([random.choice(letters) for i in xrange(10)])
         f.write(password)
         f.close()
@@ -112,6 +112,16 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
                , ICredentialsResetPlugin
                , IAuthenticationPlugin )
 
+    def generateHash(self, login):
+        return hmac.new(self.secret, login, sha).hexdigest()
+
+    def generateCookieVal(self, login):
+        return encodestring("%s\0%s" % (login, self.generateHash(login)))
+
+    def generateCookie(self, login):
+        cookie_val = self.generateCookieVal(login)
+        return '__ac=%s' % quote(cookie_val)
+
     security.declarePrivate('extractCredentials')
     def extractCredentials(self, request):
         """ Extract credentials from cookie or 'request'. """
@@ -128,7 +138,7 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
             cookie_val = decodestring(unquote(cookie))
             login, hash = cookie_val.split('\0')
 
-            if not hash == hmac.new(self.secret, login, sha).hexdigest():
+            if not hash == self.generateHash(login):
                 return None
 
             creds['login'] = login
@@ -148,9 +158,7 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
     security.declarePrivate('updateCredentials')
     def updateCredentials(self, request, response, login, new_password):
         """ Respond to change of credentials (NOOP for basic auth). """
-
-        auth = hmac.new(self.secret, login, sha).hexdigest()
-        cookie_val = encodestring('%s\0%s' % (login, auth))
+        cookie_val = self.generateCookieVal(login)
         cookie_val = cookie_val.rstrip()
         domain_kw = getCookieDomainKW(self)
         response.setCookie(self.cookie_name, quote(cookie_val),
@@ -165,7 +173,8 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
     #IAuthenticationPlugin
 
     def authenticateCredentials(self, credentials):
-        if credentials['hash'] == hmac.new(self.secret, credentials['login'], sha).hexdigest():
-            return (credentials['login'], credentials['login'])
+        login = credentials['login']
+        if credentials['hash'] == self.generateHash(login):
+            return (login, login)
 
 InitializeClass(SignedCookieAuthHelper)
