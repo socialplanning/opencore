@@ -11,7 +11,7 @@ from Products.Five import BrowserView
 
 from zope.interface import implements, alsoProvides
 from zope.event import notify
-from zope.component import getMultiAdapter
+from zope.component import getMultiAdapter, adapts
 
 from memberinfo import MemberInfoView
 
@@ -20,6 +20,10 @@ from interfaces import IMemberFolder
 from interfaces import IFirstLoginEvent
 
 from topp.utils.pretty_date import prettyDate
+
+from opencore import redirect 
+from opencore.redirect import IRedirected 
+from opencore.interfaces import IProject 
 
 allow_module('opencore.siteui.memberprofile')
 
@@ -99,12 +103,12 @@ class ProfileView(BrowserView):
 
 class FirstLoginEvent(object):
     implements(IFirstLoginEvent)
-    def __init__(self, member):
+    def __init__(self, member, request):
         self.member = member
+        self.request = request
 
-
-def notifyFirstLogin(member):
-    notify(FirstLoginEvent(member))
+def notifyFirstLogin(member, request):
+    notify(FirstLoginEvent(member, request))
 
 
 def create_home_directory(event):
@@ -115,7 +119,9 @@ def create_home_directory(event):
     member_id = member.getId()
 
     folder = mtool.getHomeFolder(member_id)
+    maybe_apply_member_folder_redirection(folder, event.request)
     alsoProvides(folder, IMemberFolder)
+
 
     page_id = "%s-home" % member_id
     title = "%s Home" % member_id
@@ -132,3 +138,33 @@ def create_home_directory(event):
 
     # make profile the default view on the homepage
     page.setLayout('profile.html')
+
+
+
+def maybe_apply_member_folder_redirection(folder, request):
+    if not request or not 'PARENTS' in request:
+        return
+
+    parents = request['PARENTS']
+
+    for parent in parents:
+        # check the request for a redirected project
+        if (IRedirected.providedBy(parent) and
+            IProject.providedBy(parent)):
+            # yes, so apply redirection to the folder
+            apply_member_folder_redirection(folder, parent)
+            break
+
+def apply_member_folder_redirection(folder, parent):
+    parent_info = redirect.get_info(parent)
+    folder_id = folder.getId()
+    folder_path = "%s/people/%s" % (parent_info.url, folder_id)
+    redirect.activate(folder, url=folder_path)
+
+
+class DefaultProfileRedirectTraverser(redirect.DefaultingRedirectTraverser): 
+    """
+    a traverser that redirects non-IRedirected IProjects to a 
+    default host / path
+    """
+    adapts(IMemberFolder)

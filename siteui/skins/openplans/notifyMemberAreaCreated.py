@@ -24,4 +24,4 @@ mtool = getToolByName(context, 'portal_membership')
 member = mtool.getAuthenticatedMember()
 
 from opencore.siteui.memberprofile import notifyFirstLogin
-notifyFirstLogin(member)
+notifyFirstLogin(member, container.REQUEST)
