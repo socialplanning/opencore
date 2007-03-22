@@ -40,7 +40,7 @@
         description
       </div>
 
-      <a href="opencore.add_mailinglist"
+      <a href="+/opencore.add_mailinglist"
          tal:condition="can_add_lists">Add mailing list</a>
 
         <metal:listingmacro define-macro="listing">
