@@ -22,7 +22,6 @@ class ListAddView(BaseAddView):
             if not fti.isConstructionAllowed(context):
                 raise Unauthorized, 'Object construction not allowed'
 
-        import pdb; pdb.set_trace()
         title = self.request.form.get('field.title')
         list_id = normalizeString(title, context)
         content._setId(list_id)
