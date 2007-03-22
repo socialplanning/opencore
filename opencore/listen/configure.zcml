@@ -13,7 +13,8 @@
      content_factory=".mailinglist.OpenMailingList"
      name="opencore.add_mailinglist"
      permission="listen.AddMailingList"
-     set_before_add="title mailto">
+     set_before_add="title mailto"
+     class=".browser.ListAddView">
     <!-- Change the width of the description widget, the default is huge -->
     <widget
        field="description"
