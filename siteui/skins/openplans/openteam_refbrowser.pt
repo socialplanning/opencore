@@ -53,7 +53,7 @@
         </div>
         <tal:addonly condition="exists: view/object_stub">
             <tal:override define="container_path python:'/'.join(context.getPhysicalPath());
-                                  global at_url string:${container_path}/@@add_project/object_stub" />
+                                  global at_url string:${container_path}/@@do_add_project/object_stub" />
         </tal:addonly>
 
       <!-- START OF ACTUAL REF BROWSER WIDGET CODE -->
