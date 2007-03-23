@@ -87,13 +87,13 @@ class SubProjectAddView(ProjectAddView):
         self.context = view.context
         self.request = request
         self.context_view = view
+        import pdb;pdb.set_trace()
 
     def createAndAdd(self):
         instance = self.instance()
         event.notify(AfterSubProjectAddedEvent(instance, self.context, 
                                                self.request))
         return instance 
-
 
 # == other views == #
 
@@ -124,6 +124,15 @@ class SubProjectListingView(ProjectListingView, Traversable):
         return self.portal_catalog(portal_type='OpenProject',
                                    path=self.project_paths,
                                    sort_on='sortable_title')
+    @memoize
+    def blocked_content(self):
+        return getattr(self.aq_parent, self.__name__, False)
+
+    def __call__(self, *args, **kwargs):
+        content = self.blocked_content()
+        if content is not False:
+            return content()
+        return self.index(self, *args, **kw)
 
 # default redirection 
 
