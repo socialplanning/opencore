@@ -3,6 +3,7 @@
 	   xmlns:five="http://namespaces.zope.org/five"
 	   xmlns:fate="http://namespaces.plone.org/fate">
 
+  <!-- @@ move to go in opencore.content.project? -->
   <include package="Products.Fate" file="meta.zcml" />
 
   <browser:page
