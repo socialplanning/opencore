@@ -22,6 +22,7 @@
      class=".project.ProjectAddView"
      />
 
+  <!-- are both of these necessary? -->
   <browser:page
      name="do_add_project"
      for="opencore.interfaces.IAddSubProject"
