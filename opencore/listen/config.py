@@ -1,1 +1,1 @@
-LIST_SUFFIX = '@cabraham-listen.openplans.org'
+LIST_SUFFIX = '@lists.openplans.org'
