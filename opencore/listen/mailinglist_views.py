@@ -12,12 +12,14 @@ from widgets import OpenListNameWidget
 
 from Products.listen.browser.mailinglist_views import create_radio_widget
 from Products.listen.browser.mailinglist_views import create_radio_widget
+from Products.listen.browser.listwidget.widget import DynamicListWidget
 
 openplans_form_fields = form.FormFields(IOpenMailingList)
 openplans_form_fields['description'].custom_widget = DescriptionWidget
 openplans_form_fields['mailto'].custom_widget = OpenListNameWidget
 openplans_form_fields['archived'].custom_widget = create_radio_widget
 openplans_form_fields['list_type'].custom_widget = create_radio_widget
+#openplans_form_fields['admins'].custom_widget = DynamicListWidget
 
 class MailingListAddForm(BaseAddForm):
     """
