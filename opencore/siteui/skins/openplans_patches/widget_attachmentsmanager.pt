@@ -10,7 +10,7 @@
 <metal:block define-macro="view"
                 tal:define="voc field/Vocabulary; 
                             accessor python:field.getAccessor(here);
-                            value python: voc and voc.getValue(accessor()) or accessor();
+                            value python: voc and voc.getValue(str(accessor())) or accessor();
                             attachments python:here.getFolderContents(contentFilter = {'portal_type' : ['FileAttachment']})">
 
 	<tal:block condition="python:value and attachments">
