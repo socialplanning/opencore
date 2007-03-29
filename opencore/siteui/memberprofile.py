@@ -162,9 +162,3 @@ def apply_member_folder_redirection(folder, parent):
     redirect.activate(folder, url=folder_path)
 
 
-class DefaultProfileRedirectTraverser(redirect.DefaultingRedirectTraverser): 
-    """
-    a traverser that redirects non-IRedirected IProjects to a 
-    default host / path
-    """
-    adapts(IMemberFolder)
