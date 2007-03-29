@@ -16,10 +16,7 @@
     factory=".memberprofile.create_home_directory"
     />
 
-
   <!-- Profile redirection configuration --> 
-
-
 
   <browser:page
      for=".interfaces.IMemberFolder"
@@ -28,11 +25,6 @@
      attribute="redirect"
      name="opencore.redirect"
      />
-
-  <adapter 
-    for=".interfaces.IMemberFolder" 
-    provides="zope.app.traversing.interfaces.ITraverser" 
-    factory=".memberprofile.DefaultProfileRedirectTraverser" /> 
 
   <five:traversable class="OFS.Folder.Folder" />
   
