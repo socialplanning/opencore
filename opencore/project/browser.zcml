@@ -6,6 +6,44 @@
   <!-- @@ move to go in opencore.content.project? -->
   <include package="Products.Fate" file="meta.zcml" />
 
+  <browser:resource
+     file="projpage.js"
+     name="projpage.js"
+     />
+
+  <browser:page
+     for="Products.OpenPlans.interfaces.IProject"
+     class=".wf_policy_view.WorkflowPolicyView"
+     permission="zope2.View"
+     name="policy_support"
+     allowed_interface="Products.OpenPlans.interfaces.IReadWorkflowPolicySupport"
+     />
+
+  <browser:page
+     for="Products.OpenPlans.interfaces.IProject"
+     class=".wf_policy_view.WorkflowPolicyWriterView"
+     permission="openplans.ManageWorkflowPolicy"
+     name="policy_writer"
+     allowed_interface="Products.OpenPlans.interfaces.IWriteWorkflowPolicySupport"
+     />
+
+  <browser:page
+     for="Products.OpenPlans.interfaces.IProject"
+     class=".featurelet_supporter_view.FeatureletSupporterView"
+     permission="zope2.View"
+     name="featurelet_support"
+     allowed_interface="topp.featurelets.interfaces.IFeatureletSupporter"
+     allowed_attributes="getSupportableFeaturelets"
+     />
+
+  <browser:page
+     for="Products.OpenPlans.interfaces.IProject"
+     class=".featurelet_menu.FeatureletMenuView"
+     permission="zope2.View"
+     name="featurelet_menu"
+     allowed_attributes="menu_items"
+     />
+
   <browser:page
      name="project_listing"
      for="Products.ATContentTypes.z3.interfaces.IATBTreeFolder"
@@ -80,8 +118,6 @@
      name="opencore.redirect"
      />
 
-  <subscriber handler=".project.handle_postcreation" />
-  <subscriber handler=".project.handle_subproject_redirection" />
 
   <!-- this enables 'default redirect' for projects, replace w/ default host  
     browser:defaultredirect
