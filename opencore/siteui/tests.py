@@ -20,12 +20,13 @@ def test_suite():
     from Products.PloneTestCase import setup
     from opencore.testing import create_test_content
     from zope.interface import alsoProvides
+    from Products.Five.utilities.marker import erase as noLongerProvides
     from opencore import redirect
 
     setup.setupPloneSite()
     def readme_setup(tc):
         create_test_content(tc.portal)
-        tc.portal.projects.p1.invokeFactory('Document', id='projects', text="show me")
+        tc._refreshSkinData()
 
 
     globs = locals()
