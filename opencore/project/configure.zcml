@@ -1,0 +1,29 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
+	   xmlns:fate="http://namespaces.plone.org/fate">
+
+  <five:traversable
+     class=".content.OpenProject" />
+
+  <content class=".content.OpenProject">
+    <implements
+      interface="opencore.interfaces.IEditProject
+                 zope.app.annotation.interfaces.IAttributeAnnotatable
+                 Products.ploneundelete.interfaces.IUndeleteContainer" />
+  </content>
+
+  <subscriber
+     for="opencore.interfaces.IProject
+          zope.app.event.interfaces.IObjectModifiedEvent"
+     factory="opencore.lib.wf_policy_support.saveWFPolicy" />
+
+  <subscriber
+     for="opencore.interfaces.IProject
+          zope.app.event.interfaces.IObjectModifiedEvent"
+     factory="opencore.siteui.featurelet_supporter_view.saveFeaturelets" />
+
+  <include file="browser.zcml" />
+  <include file="projectinfo.zcml" />
+  <include file="projectlisting.zcml" />
+
+</configure>
