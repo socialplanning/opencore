@@ -29,7 +29,7 @@
 
   <browser:page
      for="Products.OpenPlans.interfaces.IProject"
-     class=".featurelet_supporter_view.FeatureletSupporterView"
+     class=".featurelet.FeatureletSupporterView"
      permission="zope2.View"
      name="featurelet_support"
      allowed_interface="topp.featurelets.interfaces.IFeatureletSupporter"
@@ -38,7 +38,7 @@
 
   <browser:page
      for="Products.OpenPlans.interfaces.IProject"
-     class=".featurelet_menu.FeatureletMenuView"
+     class=".featurelet.FeatureletMenuView"
      permission="zope2.View"
      name="featurelet_menu"
      allowed_attributes="menu_items"
@@ -65,7 +65,7 @@
      name="add_project"
      for="opencore.interfaces.IAddProject"
      permission="zope2.View"
-     class=".project.ProjectAddView"
+     class="..browser.ProjectAddView"
      attribute="redirect"
      />
 
@@ -75,7 +75,7 @@
      permission="zope2.View"
      product="OpenPlans"
      meta_type="OpenProject"
-     class=".project.ProjectAddView"
+     class="..browser.ProjectAddView"
      />
 
   <!-- are both of these necessary? -->
@@ -83,7 +83,7 @@
      name="do_add_project"
      for="opencore.interfaces.IAddSubProject"
      permission="zope2.View"
-     class=".project.SubProjectAddView"
+     class="..browser.SubProjectAddView"
      attribute="redirect"
      />
 
@@ -93,7 +93,7 @@
      permission="zope2.View"
      product="OpenPlans"
      meta_type="OpenProject"
-     class=".project.SubProjectAddView"
+     class="..browser.SubProjectAddView"
      />
 
   <fate:editform
@@ -105,7 +105,7 @@
   <browser:page 
      name="projects"
      for="opencore.redirect.interfaces.IRedirected"
-     class=".project.SubProjectListingView"
+     class="..browser.SubProjectListingView"
      permission="zope2.View"
      template="subproject_listing.pt" 
      />
@@ -117,20 +117,5 @@
      attribute="redirect"
      name="opencore.redirect"
      />
-
-
-  <!-- this enables 'default redirect' for projects, replace w/ default host  
-    browser:defaultredirect
-     host="http://localhost:8080"
-     path="/openplans/projects"
-     for=".project.DefaultProjectRedirectTraverser"
-  / -->
-
-  <!-- an example for the instance at www.openplans.org 
-    browser:defaultredirect
-     host="http://www.openplans.org"
-     path="/projects"
-     for=".project.DefaultProjectRedirectTraverser"
-  / -->
 
 </configure>

@@ -6,7 +6,7 @@
   <five:traversable
      class=".content.OpenProject" />
 
-  <content class=".content.OpenProject">
+  <content class="Products.OpenPlans.content.project.OpenProject">
     <implements
       interface="opencore.interfaces.IEditProject
                  zope.app.annotation.interfaces.IAttributeAnnotatable
@@ -24,7 +24,7 @@
   <subscriber
      for="opencore.interfaces.IProject
           zope.app.event.interfaces.IObjectModifiedEvent"
-     factory="opencore.siteui.featurelet_supporter_view.saveFeaturelets" />
+     factory="opencore.project.handler.saveFeaturelets" />
 
   <include package=".browser" />
 
