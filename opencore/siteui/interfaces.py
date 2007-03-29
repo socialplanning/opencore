@@ -7,13 +7,14 @@ from zope.viewlet.interfaces import IViewletManager
 class IOpenPlansSkin(IDefaultBrowserLayer):
     """Skin for OpenPlans"""
 
+
 class IPersonaltools(IViewletManager):
     """Viewlets for personal tools (e.g. breadcrumbs + croutons)"""
+
 
 class INavigation(IViewletManager):
     """Viewlets for navigation"""
 
-###
 
 class IInterceptEdit(Interface):
     """
@@ -23,15 +24,7 @@ class IInterceptEdit(Interface):
         """
         current user has permission to edit object
         """
-        
-class IProjectInfo(Interface):
-    """
-    A project centric form of basic teamspace info. 
-    """
-    inProject = Attribute("whether or not a piece of content is within a project")
-    project = Attribute("the project for a contained piece of content")
-    isProjectMember = Attribute("current user is member of project")
-    projectMembership = Attribute("a current user's membership object")
+
 
 class IMemberInfo(Interface):
     """
@@ -47,15 +40,19 @@ class IMemberInfo(Interface):
     member = Attribute("member object corresponding to the context's member "
                        "folder or object, if it exists; None if not")
 
+
 class IMemberFolder(Interface):
     """ Marker interface for member folders """
+
 
 class IMemberHomePage(Interface):
     """ Marker interface for member homepages """
 
+
 class IFirstLoginEvent(Interface):
     """ Interface for FirstLoginEvent """
     
+
 
 # this is deprecated for the plonents version
 class ITranslate(Interface):
@@ -73,13 +70,7 @@ class ITranslate(Interface):
         @return string : translated, unicode if applicable
         """
 
-class IProjectListingAllow(Interface):
-    
-    def getProjects():
-        """
-        return project in a path in alphabetical order
-        """
-
+#@@ remove for plone3
 class ILiveSearch(Interface):
 
     legend_livesearch = Attribute('Legend / title for searchbox')
