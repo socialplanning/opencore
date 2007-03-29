@@ -26,6 +26,6 @@
           zope.app.event.interfaces.IObjectModifiedEvent"
      factory="opencore.siteui.featurelet_supporter_view.saveFeaturelets" />
 
-  <include file="browser.zcml" />
+  <include package=".browser" />
 
 </configure>

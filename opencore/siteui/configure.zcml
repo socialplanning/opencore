@@ -5,45 +5,14 @@
   <!-- dead chickens -->
   <include package="opencore.configuration" file="permissions.zcml" />
   <include package="Products.listen" file="permissions.zcml" />
+  <include package="opencore.redirect" file="meta.zcml" />
 
   <five:registerPackage 
      package="opencore.siteui" 
      initialize="opencore.siteui.zope2.initialize"
      />
 
-  <browser:page
-     for="Products.OpenPlans.interfaces.IProject"
-     class=".wf_policy_view.WorkflowPolicyView"
-     permission="zope2.View"
-     name="policy_support"
-     allowed_interface="Products.OpenPlans.interfaces.IReadWorkflowPolicySupport"
-     />
-
-  <browser:page
-     for="Products.OpenPlans.interfaces.IProject"
-     class=".wf_policy_view.WorkflowPolicyWriterView"
-     permission="openplans.ManageWorkflowPolicy"
-     name="policy_writer"
-     allowed_interface="Products.OpenPlans.interfaces.IWriteWorkflowPolicySupport"
-     />
-
-  <browser:page
-     for="Products.OpenPlans.interfaces.IProject"
-     class=".featurelet_supporter_view.FeatureletSupporterView"
-     permission="zope2.View"
-     name="featurelet_support"
-     allowed_interface="topp.featurelets.interfaces.IFeatureletSupporter"
-     allowed_attributes="getSupportableFeaturelets"
-     />
-
-  <browser:page
-     for="Products.OpenPlans.interfaces.IProject"
-     class=".featurelet_menu.FeatureletMenuView"
-     permission="zope2.View"
-     name="featurelet_menu"
-     allowed_attributes="menu_items"
-     />
-
+  <!-- @@ remove for plone3 -->
   <five:traversable
      class="Products.CMFCore.DynamicType.DynamicType" />
 
@@ -52,10 +21,8 @@
 
   <include file="thirdparty.zcml"  />
   <include file="livesearch.zcml" />
-  <include package="opencore.redirect" file="meta.zcml" />
   <include file="memberinfo.zcml" />
   <include package=".menu" />
   <include file="memberprofile.zcml" />
-
 
 </configure>
