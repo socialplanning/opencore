@@ -16,7 +16,7 @@ import Products.OpenPlans.content.project as project
 
 from memojito import memoizedproperty, memoize
 
-from opencore.siteui.projectlisting import ProjectListingView
+from projectlisting import ProjectListingView
 from opencore import redirect
 from opencore.interfaces import IAddSubProject, IAddProject, IProject
 from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
