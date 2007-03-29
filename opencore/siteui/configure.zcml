@@ -11,11 +11,6 @@
      initialize="opencore.siteui.zope2.initialize"
      />
 
-  <browser:resource
-     file="projpage.js"
-     name="projpage.js"
-     />
-
   <browser:page
      for="Products.OpenPlans.interfaces.IProject"
      class=".wf_policy_view.WorkflowPolicyView"
