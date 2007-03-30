@@ -101,10 +101,6 @@ class SubProjectAddView(ProjectAddView):
 
 # == other views == #
 
-class ISubProjectListingView(IAddSubProject):
-    """unique interface for this unique situation"""
-
-
 class SubProjectListingView(ProjectListingView, Traversable): 
     """mandatory docstring
     """
