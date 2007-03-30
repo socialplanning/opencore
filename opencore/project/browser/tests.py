@@ -12,9 +12,7 @@ def test_suite():
     from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
     from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
     from Products.PloneTestCase import setup
-    from opencore.testing import create_test_content
-    from zope.interface import alsoProvides
-    from Products.Five.utilities.marker import erase as noLongerProvides
+    from opencore.testing import alsoProvides, noLongerProvides, create_test_content
     from opencore import redirect
 
     setup.setupPloneSite()
@@ -25,7 +23,7 @@ def test_suite():
     globs = locals()
     readme = FunctionalDocFileSuite("README.txt",
                                     optionflags=optionflags,
-                                    package='opencore.siteui',
+                                    package='opencore.project.browser',
                                     test_class=FunctionalTestCase,
                                     globs = globs,
                                     setUp=readme_setup
