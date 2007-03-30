@@ -1,7 +1,11 @@
 from opencore.interfaces.event import IAfterProjectAddedEvent, IAfterSubProjectAddedEvent
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.interfaces import IFeatureletRegistry
-from zope.component import adapter
+from zope.component import adapter, getUtility
+from opencore.interfaces import IProject
+from zope.app.event.interfaces import IObjectModifiedEvent
+from opencore import redirect
+from Products.OpenPlans.interfaces import IWriteWorkflowPolicySupport
 
 
 @adapter(IAfterProjectAddedEvent)
@@ -9,13 +13,17 @@ def handle_postcreation(event):
     instance = event.project
 
     # add the 'project home' menu item before any others
+    #@@ move to function or subscriber
     instance._initProjectHomeMenuItem()
 
     # Fetch the values from request and store them.
     instance.processForm()
 
-    # We don't need this here
-    instance._initializeProject(event.request)
+    # We don't need this here. do we? DWM
+    _initialize_project(instance, event.request)
+
+    # add defaulting redirect hooks
+    redirect.activate(instance)
 
     # ugh... roster might have been created by an event before a
     # team was associated (in _initializeProject), need to fix up
@@ -24,6 +32,27 @@ def handle_postcreation(event):
         roster = instance._getOb(roster_id[0])
         if not roster.getTeams():
             roster.setTeams(instance.getTeams())
+    
+
+#@@ should this be own subscriber
+def _initialize_project(instance, request):
+    """
+    This is called by the IAfterProjectAddedEvent to perform after creation
+    to initialize the content within the project.
+    """
+    # Assign a default team only if requested
+    assign_team = request.get('team_assignment', None)
+    if assign_team:
+        instance._createTeam()
+        
+    # @@ move to subscriber
+    instance._createIndexPage()
+    
+    # Set initial security policy
+    policy = request.get('workflow_policy', None)
+    policy_writer = IWriteWorkflowPolicySupport(instance)
+    if policy_writer is not None:
+        policy_writer.setPolicy(policy)
 
 
 @adapter(IAfterSubProjectAddedEvent)
@@ -43,7 +72,8 @@ def _handle_parent_child_association(parent, child):
     redirect.activate(child, url=child_url, parent=parent_path)
 
 
-def saveFeaturelets(obj, event):
+@adapter(IProject, IObjectModifiedEvent)
+def save_featurelets(obj, event):
     """
     IObjectModified event subscriber that installs the appropriate
     featurelets.

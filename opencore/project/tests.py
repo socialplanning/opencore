@@ -14,6 +14,7 @@ def test_suite():
     from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
     from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
     from opencore import redirect
+    from pprint import pprint
     from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
     from opencore.testing import create_test_content
     from zope.interface import alsoProvides
