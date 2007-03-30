@@ -9,13 +9,14 @@ optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 
 
 def test_suite():
-    from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
-    from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
+    from Products.Five.utilities.marker import erase as noLongerProvides
     from Products.PloneTestCase import setup
+    from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
+    from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
+    from opencore import redirect
+    from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
     from opencore.testing import create_test_content
     from zope.interface import alsoProvides
-    from Products.Five.utilities.marker import erase as noLongerProvides
-    from opencore import redirect
 
     setup.setupPloneSite()
     def readme_setup(tc):
@@ -25,7 +26,7 @@ def test_suite():
     globs = locals()
     readme = FunctionalDocFileSuite("README.txt",
                                     optionflags=optionflags,
-                                    package='opencore.siteui',
+                                    package='opencore.project',
                                     test_class=FunctionalTestCase,
                                     globs = globs,
                                     setUp=readme_setup
