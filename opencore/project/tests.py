@@ -7,6 +7,7 @@ from Products.OpenPlans.tests.openplanstestcase import OpenPlansLayer
 
 optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 
+import warnings; warnings.filterwarnings("ignore")
 
 def test_suite():
     from Products.Five.utilities.marker import erase as noLongerProvides
