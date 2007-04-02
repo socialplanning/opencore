@@ -46,10 +46,4 @@
   <include package="Products.listen" file="permissions.zcml" />
   <include package="opencore.redirect" file="meta.zcml" />
 
-  <!-- Move back to products? -->
-  <five:registerPackage 
-     package="opencore.siteui" 
-     initialize="opencore.siteui.zope2.initialize"
-     />
-
 </configure>
