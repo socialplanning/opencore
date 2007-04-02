@@ -24,7 +24,7 @@ def test_suite():
     from opencore import redirect
 
     setup.setupPloneSite()
-    def readme_setup(tc):
+    def general_setup(tc):
         create_test_content(tc.portal)
         tc._refreshSkinData()
 
@@ -35,17 +35,26 @@ def test_suite():
                                     package='opencore.siteui',
                                     test_class=FunctionalTestCase,
                                     globs = globs,
-                                    setUp=readme_setup
+                                    setUp=general_setup
+                                    )
+
+    member = FunctionalDocFileSuite("member.txt",
+                                    optionflags=optionflags,
+                                    package='opencore.siteui',
+                                    test_class=FunctionalTestCase,
+                                    globs = globs,
+                                    setUp=general_setup
                                     )
 
     livesearch = FunctionalDocFileSuite('livesearch.txt',
                                    package='opencore.siteui',
                                    test_class=LiveSearchTestCase,
                                    optionflags=optionflags)
+    
     livesearch.layer = SiteSetupLayer
     readme.layer = OpenPlansLayer
-
-    return unittest.TestSuite((readme, livesearch))
+    member.layer = OpenPlansLayer
+    return unittest.TestSuite((readme, livesearch, member))
 
 
 if __name__ == '__main__':

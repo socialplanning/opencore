@@ -1,0 +1,6 @@
+===========
+ member ui
+===========
+
+general test for member related ui elements::
+
