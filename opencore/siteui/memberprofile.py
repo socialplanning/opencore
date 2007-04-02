@@ -1,31 +1,83 @@
 """
 Profile View
 """
-# TODO write tests
-
 from AccessControl import allow_module
-
-from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import ModifyPortalContent
+from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
-
-from zope.interface import implements, alsoProvides
-from zope.event import notify
-from zope.component import getMultiAdapter, adapts
-
-from memberinfo import MemberInfoView
-
-from interfaces import IMemberHomePage
-from interfaces import IMemberFolder
+from Products.remember.interfaces import IReMember
 from interfaces import FirstLoginEvent
-
-from topp.utils.pretty_date import prettyDate
-
+from interfaces import IMemberFolder, IMemberHomePage
+from interfaces import IMemberInfo, IFirstLoginEvent
+from memojito import memoizedproperty, memoize
 from opencore import redirect 
-from opencore.redirect import IRedirected 
 from opencore.interfaces import IProject 
+from topp.utils.pretty_date import prettyDate
+from zope.component import getMultiAdapter, adapts
+from zope.event import notify
+from zope.interface import implements, alsoProvides
 
-allow_module('opencore.siteui.memberprofile')
+allow_module('opencore.siteui.member')
+
+class MemberInfoView(BrowserView):
+    """A view which also provides contextual information about a member."""
+    implements(IMemberInfo)
+
+    def __init__(self, context, request):
+        self._context = (context,)
+        self.request = request
+        self.mtool = getToolByName(context, 'portal_membership')
+
+    @property
+    def context(self):
+        return self._context[0]
+
+    def interfaceInAqChain(self, iface):
+        chain = self.context.aq_chain
+        for item in chain:
+            if iface.providedBy(item):
+                return item
+
+    @memoizedproperty
+    def member_folder(self):
+        return self.interfaceInAqChain(IMemberFolder)
+
+    @memoizedproperty
+    def member_object(self):
+        return self.interfaceInAqChain(IReMember)
+
+    @memoizedproperty
+    def member(self):
+        """Returns the member object found by traversing the acquisition chain."""
+        mf = self.member_folder
+        if mf is not None:
+            # XXX we shouldn't rely on the folder id matching the user id;
+            #     maybe store the member id in an annotation on the folder?
+            return self.mtool.getMemberById(mf.getId())
+        return self.member_object
+
+    @memoizedproperty
+    def personal_folder(self):
+        """Returns the folder of the authenticated member."""
+        mem_id = self.mtool.getAuthenticatedMember().getId()
+        return self.mtool.getHomeFolder(mem_id)
+
+    @memoizedproperty
+    def inMemberObject(self):
+        return self.member_object is not None
+
+    @memoizedproperty
+    def inSelf(self):
+        return self.inMemberObject and \
+               self.member_object == self.mtool.getAuthenticatedMember()
+
+    @property
+    def inMemberArea(self):
+        return self.member_folder is not None
+
+    @memoizedproperty
+    def inPersonalArea(self):
+        return self.inMemberArea and self.member_folder == self.personal_folder
 
 
 class ProfileView(BrowserView):
@@ -105,7 +157,7 @@ class ProfileView(BrowserView):
 def notifyFirstLogin(member, request):
     notify(FirstLoginEvent(member, request))
 
-
+@adapter(IFirstLoginEvent)
 def create_home_directory(event):
     # TODO write tests
 
@@ -144,11 +196,12 @@ def maybe_apply_member_folder_redirection(folder, request):
 
     for parent in parents:
         # check the request for a redirected project
-        if (IRedirected.providedBy(parent) and
+        if (redirect.IRedirected.providedBy(parent) and
             IProject.providedBy(parent)):
             # yes, so apply redirection to the folder
             apply_member_folder_redirection(folder, parent)
             break
+
 
 def apply_member_folder_redirection(folder, parent):
     parent_info = redirect.get_info(parent)
