@@ -2,26 +2,9 @@
            xmlns:browser="http://namespaces.zope.org/browser"
 	   xmlns:five="http://namespaces.zope.org/five">
 
-  <!-- dead chickens -->
-  <include package="opencore.configuration" file="permissions.zcml" />
-  <include package="Products.listen" file="permissions.zcml" />
-  <include package="opencore.redirect" file="meta.zcml" />
-
-  <five:registerPackage 
-     package="opencore.siteui" 
-     initialize="opencore.siteui.zope2.initialize"
-     />
-
-  <!-- @@ remove for plone3 -->
-  <five:traversable
-     class="Products.CMFCore.DynamicType.DynamicType" />
-
-  <five:traversable
-     class="Products.Archetypes.BaseObject.BaseObject" />
-
   <browser:page
      for=".interfaces.IMemberHomePage"
-     class=".memberprofile.ProfileView"
+     class=".member.ProfileView"
      permission="zope.Public"
      name="profile.html"
      allowed_interface=".interfaces.IMemberHomePage"
@@ -30,18 +13,11 @@
 
   <browser:page
      for="OFS.interfaces.IItem"
-     class=".memberinfo.MemberInfoView"
+     class=".member.MemberInfoView"
      permission="zope.Public"
      name="member_info"
      allowed_interface=".interfaces.IMemberInfo"
      />
-
-  <subscriber
-    for=".interfaces.IFirstLoginEvent"
-    handler=".memberprofile.create_home_directory"
-    />
-
-  <!-- Profile redirection configuration --> 
 
   <browser:page
      for=".interfaces.IMemberFolder"
@@ -51,11 +27,29 @@
      name="opencore.redirect"
      />
 
+  <subscriber handler=".member.create_home_directory"/>
+
+  <include package=".menu" />
+  <include file="thirdparty.zcml"  />
+
+  <!-- @@ remove for plone3 -->
+  <five:traversable class="Products.CMFCore.DynamicType.DynamicType" />
+
+  <five:traversable class="Products.Archetypes.BaseObject.BaseObject" />
+
   <five:traversable class="OFS.Folder.Folder" />
 
-
-  <include file="thirdparty.zcml"  />
   <include file="livesearch.zcml" />
-  <include package=".menu" />
+
+  <!-- dead chickens -->
+  <include package="opencore.configuration" file="permissions.zcml" />
+  <include package="Products.listen" file="permissions.zcml" />
+  <include package="opencore.redirect" file="meta.zcml" />
+
+  <!-- Move back to products? -->
+  <five:registerPackage 
+     package="opencore.siteui" 
+     initialize="opencore.siteui.zope2.initialize"
+     />
 
 </configure>
