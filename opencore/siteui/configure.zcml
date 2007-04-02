@@ -19,10 +19,43 @@
   <five:traversable
      class="Products.Archetypes.BaseObject.BaseObject" />
 
+  <browser:page
+     for=".interfaces.IMemberHomePage"
+     class=".memberprofile.ProfileView"
+     permission="zope.Public"
+     name="profile.html"
+     allowed_interface=".interfaces.IMemberHomePage"
+     template="memberprofile.pt"
+     />
+
+  <browser:page
+     for="OFS.interfaces.IItem"
+     class=".memberinfo.MemberInfoView"
+     permission="zope.Public"
+     name="member_info"
+     allowed_interface=".interfaces.IMemberInfo"
+     />
+
+  <subscriber
+    for=".interfaces.IFirstLoginEvent"
+    handler=".memberprofile.create_home_directory"
+    />
+
+  <!-- Profile redirection configuration --> 
+
+  <browser:page
+     for=".interfaces.IMemberFolder"
+     class="opencore.redirect.Redirector"
+     permission="zope.Public"
+     attribute="redirect"
+     name="opencore.redirect"
+     />
+
+  <five:traversable class="OFS.Folder.Folder" />
+
+
   <include file="thirdparty.zcml"  />
   <include file="livesearch.zcml" />
-  <include file="memberinfo.zcml" />
   <include package=".menu" />
-  <include file="memberprofile.zcml" />
 
 </configure>
