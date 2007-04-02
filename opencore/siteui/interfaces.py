@@ -1,4 +1,4 @@
-from zope.interface import Interface, Attribute
+from zope.interface import Interface, Attribute, implements
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from zope.viewlet.interfaces import IViewletManager
 
