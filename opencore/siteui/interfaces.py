@@ -51,7 +51,13 @@ class IMemberHomePage(Interface):
 
 class IFirstLoginEvent(Interface):
     """ Interface for FirstLoginEvent """
+
     
+class FirstLoginEvent(object):
+    implements(IFirstLoginEvent)
+    def __init__(self, member, request):
+        self.member = member
+        self.request = request
 
 
 # this is deprecated for the plonents version
