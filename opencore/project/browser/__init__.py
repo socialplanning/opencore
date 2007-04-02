@@ -88,7 +88,7 @@ class SubProjectAddView(ProjectAddView):
         self.context = view.context
         self.request = request
         self.context_view = view
-        import pdb;pdb.set_trace()
+
 
     def createAndAdd(self):
         instance = self.instance()
