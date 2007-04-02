@@ -13,7 +13,7 @@ from memojito import memoizedproperty, memoize
 from opencore import redirect 
 from opencore.interfaces import IProject 
 from topp.utils.pretty_date import prettyDate
-from zope.component import getMultiAdapter, adapts
+from zope.component import getMultiAdapter, adapts, adapter
 from zope.event import notify
 from zope.interface import implements, alsoProvides
 
