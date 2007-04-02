@@ -5,6 +5,8 @@
 All things project: content, content views, listing views, various
 subscribers, etc
 
+    >>> import pdb; st = pdb.set_trace
+
 Project Creation
 ================
 
@@ -60,14 +62,23 @@ Our title should be set::
 
 And our project should contain a roster and list instance
 
-    >>> objs = list(sorted(handroll.objectValues()))
-    >>> pprint(objs)
-    [<WorkflowPolicyConfig at /plone/projects/handroll/.wf_policy_conf>,
-     <OpenRoster at /plone/projects/handroll/proj_roster>,
-     <ATFolder at /plone/projects/handroll/lists>,
-     <OpenPage at /plone/projects/handroll/project-home>]
+    >>> ids = handroll.objectIds()
+    >>> pprint(sorted(ids))
+    ['.wf_policy_config', 'lists', 'proj_roster', 'project-home']
 
+When a subproject is created, we add an additional subscriber that
+does 2 things: registers the redirect information and associates a
+child project to it's parent. To test, we will need to prep a project
+as a parent::
 
+    >>> parent = projects.p1
+    >>> pinfo = redirect.activate(parent, "http://redirected") # note, no subprojects
 
-#    >>> from opencore.project.handler import handle_subproject_redirection
-#    >>> AfterSubProjectAddedEvent()
+    >>> from opencore.project.handler import handle_subproject_redirection
+    >>> event = AfterSubProjectAddedEvent(handroll, projects.p1, request)
+    >>> st(); handle_subproject_redirection(event)
+    >>> redirect.get_info(handroll).parent
+    '/plone/projects/p1'
+
+    >>> pinfo.values()
+    ['/plone/projects/handroll']
