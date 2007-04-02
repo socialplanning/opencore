@@ -66,8 +66,9 @@ def handle_subproject_redirection(event):
 def _handle_parent_child_association(parent, child):
     child_id = child.getId()
     parent_info = redirect.get_info(parent)
-    parent_path = redirect.pathstr(child)
-    parent_info[child_id] = parent_path
+    child_path = redirect.pathstr(child)
+    parent_path = redirect.pathstr(parent)
+    parent_info[child_id] = child_path
     child_url = "%s/%s" %(parent_info.url, child_id) 
     redirect.activate(child, url=child_url, parent=parent_path)
 
