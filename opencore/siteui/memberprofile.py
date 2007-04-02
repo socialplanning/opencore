@@ -17,7 +17,7 @@ from memberinfo import MemberInfoView
 
 from interfaces import IMemberHomePage
 from interfaces import IMemberFolder
-from interfaces import IFirstLoginEvent
+from interfaces import FirstLoginEvent
 
 from topp.utils.pretty_date import prettyDate
 
@@ -26,6 +26,7 @@ from opencore.redirect import IRedirected
 from opencore.interfaces import IProject 
 
 allow_module('opencore.siteui.memberprofile')
+
 
 class ProfileView(BrowserView):
     implements(IMemberHomePage)
@@ -100,12 +101,6 @@ class ProfileView(BrowserView):
 
         return results
         
-
-class FirstLoginEvent(object):
-    implements(IFirstLoginEvent)
-    def __init__(self, member, request):
-        self.member = member
-        self.request = request
 
 def notifyFirstLogin(member, request):
     notify(FirstLoginEvent(member, request))
