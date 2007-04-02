@@ -59,7 +59,7 @@ class MemberInfoView(BrowserView):
         return self.inMemberObject and \
                self.member_object == self.mtool.getAuthenticatedMember()
 
-    @memoizedproperty
+    @property
     def inMemberArea(self):
         return self.member_folder is not None
 
