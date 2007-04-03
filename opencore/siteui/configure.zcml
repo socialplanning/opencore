@@ -32,6 +32,15 @@
   <include package=".menu" />
   <include file="thirdparty.zcml"  />
 
+  <!-- convenience view to create_test_content -->
+  <browser:page
+     for="Products.CMFPlone.Portal.PloneSite"
+     permission="five.ManageSite"
+     name="create_test_content"
+     class=".create_test_content.TestContentCreator"
+     />
+
+
   <!-- @@ remove for plone3 -->
   <five:traversable class="Products.CMFCore.DynamicType.DynamicType" />
 
