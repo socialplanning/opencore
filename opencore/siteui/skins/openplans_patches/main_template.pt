@@ -79,7 +79,9 @@
                    tal:attributes="href string:${request/ACTUAL_URL}#portlet-navigation-tree"
                    i18n:translate="label_skiptonavigation">Skip to navigation</a>
 
+        <!--
 		<div style="float:left; clear:both; width: 100%" >
+            -->
 
                   <!-- div metal:use-macro="here/global_skinswitcher/macros/skin_tabs">
                        The skin switcher tabs. Based on which role you have, you
@@ -87,6 +89,7 @@
 
                        </div -->
 
+        <!--
                   <a metal:use-macro="here/global_logo/macros/portal_logo">
                     The portal logo, linked to the portal root
                   </a>
@@ -99,6 +102,16 @@
                     The quicksearch box, normally placed at the top right
                   </div>
 		</div>
+        -->
+
+
+
+        <!-- use the new topnav view -->
+        <div tal:replace="structure here/@@opencore-topnav" />
+        <!-- end new topnav view -->
+
+
+
               </div>
 	    </div>
           </td>
@@ -107,14 +120,18 @@
         <tr>
 	  <td id="bannerrow">
 
+        <!--
 	    <div metal:use-macro="here/banner_header/macros/banner_header">
 	      the image banner and for ts, the project name banner
 	    </div>
+        -->
 
 
+        <!--
 	    <div metal:use-macro="here/breadcrumb_personalbar/macros/breadcrumb_personalbar">
 	      The breadcrumb navigation ("you are here")
 	    </div>
+        -->
 
           </td>
         </tr>

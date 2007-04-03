@@ -1,0 +1,75 @@
+<link rel="stylesheet" type="text/css" src="topnav.css" /> <!-- XXX -->
+
+<metal:block use-macro="here/global_defines/macros/defines" />
+<tal:inproject define="global inProject here/@@project_info/inProject | nothing" />
+
+      <div id="portal-top" class="clear-after" i18n:domain="plone">
+        <div id="portal-header">
+          <div id="portal-global">
+            <h1 id="portal-global-title" metal:define-macro="portal_logo">
+              <a href="/"
+                  tal:attributes="href navigation_root_url"
+                  tal:define="portal_title portal_properties/title">
+                  <img src="oppbar_logo_bw.gif" tal:attributes="alt string:$portal_title"/>
+              </a>
+            </h1>
+
+            <ul id="portal-personaltools-wrapper" class="op-dropdown">
+
+              <li tal:define="selected_tabs python:here.selectedTabs('index_html', here, portal_tabs);
+                  selected_portal_tab selected_tabs/portal;"
+                  tal:condition="portal_tabs">
+                  explore &raquo;
+                <ul id="portal-globalnav">
+                  <li><a href="" tal:attributes="href string:${portal_url}/people">people</a></li>
+                  <li><a href="" tal:attributes="href string:${portal_url}/groups">groups</a></li>
+                  <li><a href="" tal:attributes="href string:${portal_url}/projects">projects</a></li>
+                  <li class="op-dropdown-divider"><a href="" tal:attributes="href string:${portal_url}/projects/add_project">start a project</a></li>
+                </ul>
+             </li>
+
+             <tal:anon condition="isAnon">
+               <li><a href="" tal:attributes="href string:${portal_url}/login_form">log in</a></li>
+               <li><a href="" tal:attributes="href string:${portal_url}/join_form">join</a></li>
+             </tal:anon>
+             <tal:notAnon condition="not: isAnon" tal:define="display_actions python:user_actions[:-1]+global_actions+user_actions[-1:]">
+               <li class="portalUser" tal:define="userid user/getId;
+                                                  profileurl string:${portal_url}/people/${userid};
+                                                  prefsurl string:${portal_url}/portal_memberdata/${userid}/edit">
+                 <a id="user-name" tal:attributes="href profileurl">
+                   <span class="visualCaseSensitive" tal:replace="python:user and user.getUserName()" /> &raquo;
+                 </a>
+                 <ul>
+                   <li><a tal:attributes="href profileurl">profile</a></li>
+                   <li><a tal:attributes="href prefsurl">preferences</a></li>
+                 </ul>
+               </li>
+               <li><a href="" tal:attributes="href string:${portal_url}/logout">log out</a></li>
+             </tal:notAnon>
+            </ul>
+            <div id="portal-global-search">
+              <span metal:use-macro="here/global_searchbox/macros/quick_search" />
+            </div>
+          </div>
+
+        </div>
+
+        <div id="portal-subcontext" tal:define="projInfo here/project_info | nothing;
+            projurl projInfo/project/absolute_url | nothing;">
+          <tal:inProject tal:condition="inProject">
+            <ul class="op-dropdown">
+              <li><a tal:attributes="href projurl">home</a></li>
+              <li><a tal:attributes="href string:${projurl}/lists">mailing lists</a></li>
+              <li><a tal:attributes="href string:${projurl}/proj_roster">team</a></li>
+              <li><a tal:attributes="href string:${projurl}/contact_project_admins">contact</a></li>
+              <li tal:condition="user">manage &raquo;<!-- TODO: show for only managers -->
+                <ul>
+                  <li><a tal:attributes="href string:${projurl}/folder_contents">content</a></li>
+                  <li><a tal:attributes="href string:${projurl}/edit">project preferences</a></li>
+                  <li><a tal:attributes="href string:${portal_url}/portal_teams/${projInfo/project/id}">team preferences</a></li>
+                </ul>
+              </li>
+            </ul>
+          </tal:inProject>
+        </div>
+      </div>

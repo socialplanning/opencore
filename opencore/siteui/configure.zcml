@@ -66,4 +66,18 @@
   <include file="memberprofile.zcml" />
 
 
+  <!-- browser:page for new topnav view -->
+  <browser:page
+     for="OFS.interfaces.IItem"
+     permission="zope.Public"
+     name="opencore-topnav"
+     template="topnav.pt"
+     />
+  <browser:resource
+     file="topnav.css"
+     name="topnav.css"
+     />
+  <!-- end new topnav view -->
+
+
 </configure>
