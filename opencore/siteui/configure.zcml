@@ -73,10 +73,6 @@
      name="opencore-topnav"
      template="topnav.pt"
      />
-  <browser:resource
-     file="topnav.css"
-     name="topnav.css"
-     />
   <!-- end new topnav view -->
 
 
