@@ -79,36 +79,11 @@
                    tal:attributes="href string:${request/ACTUAL_URL}#portlet-navigation-tree"
                    i18n:translate="label_skiptonavigation">Skip to navigation</a>
 
-        <!--
-		<div style="float:left; clear:both; width: 100%" >
-            -->
-
-                  <!-- div metal:use-macro="here/global_skinswitcher/macros/skin_tabs">
-                       The skin switcher tabs. Based on which role you have, you
-                       get a selection of skins that you can switch between.
-
-                       </div -->
-
-        <!--
-                  <a metal:use-macro="here/global_logo/macros/portal_logo">
-                    The portal logo, linked to the portal root
-                  </a>
-
-                  <span metal:use-macro="here/global_sections/macros/portal_tabs">
-                    The global sections tabs. (Welcome, News etc)
-                  </span>
-
-                  <div metal:use-macro="here/global_searchbox/macros/quick_search">
-                    The quicksearch box, normally placed at the top right
-                  </div>
-		</div>
-        -->
 
 
-
-        <!-- use the new topnav view -->
-        <div tal:replace="structure here/@@opencore-topnav" />
-        <!-- end new topnav view -->
+                <!-- use the new topnav view -->
+                <div tal:replace="structure here/@@opencore-topnav" />
+                <!-- end new topnav view -->
 
 
 
