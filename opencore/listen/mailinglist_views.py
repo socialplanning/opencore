@@ -19,7 +19,7 @@ openplans_form_fields['description'].custom_widget = DescriptionWidget
 openplans_form_fields['mailto'].custom_widget = OpenListNameWidget
 openplans_form_fields['archived'].custom_widget = create_radio_widget
 openplans_form_fields['list_type'].custom_widget = create_radio_widget
-openplans_form_fields['admins'].custom_widget = DynamicListWidget
+openplans_form_fields['managers'].custom_widget = DynamicListWidget
 
 class MailingListAddForm(BaseAddForm):
     """
