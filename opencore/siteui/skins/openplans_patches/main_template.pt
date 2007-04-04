@@ -64,52 +64,15 @@
           <td id="toprightshadow_out"><div class="fill"></div></td>
         </tr>
 
-        <tr>
-          <td rowspan="3" id="leftshadow"><div class="fill"></div></td>
-          <td id="headerrow">
-            <div id="portal-top" i18n:domain="plone" >
-              <div id="portal-header">
-                <a class="hiddenStructure"
-                   accesskey="2"
-                   tal:attributes="href string:${request/ACTUAL_URL}#documentContent"
-                   i18n:translate="label_skiptocontent">Skip to content</a>
-
-                <a class="hiddenStructure"
-                   accesskey="6"
-                   tal:attributes="href string:${request/ACTUAL_URL}#portlet-navigation-tree"
-                   i18n:translate="label_skiptonavigation">Skip to navigation</a>
 
 
 
-                <!-- use the new topnav view -->
-                <div tal:replace="structure here/@@opencore-topnav" />
-                <!-- end new topnav view -->
+        <!-- use the new topnav view -->
+        <div tal:replace="structure here/@@opencore-topnav" />
+        <!-- end new topnav view -->
 
 
 
-              </div>
-	    </div>
-          </td>
-          <td rowspan="3" id="rightshadow"><div class="fill"></div></td>
-        </tr>
-        <tr>
-	  <td id="bannerrow">
-
-        <!--
-	    <div metal:use-macro="here/banner_header/macros/banner_header">
-	      the image banner and for ts, the project name banner
-	    </div>
-        -->
-
-
-        <!--
-	    <div metal:use-macro="here/breadcrumb_personalbar/macros/breadcrumb_personalbar">
-	      The breadcrumb navigation ("you are here")
-	    </div>
-        -->
-
-          </td>
-        </tr>
 
         <!--// table row for main content
             THIS NEVER CHANGES//-->	
