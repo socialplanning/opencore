@@ -36,10 +36,16 @@
   <browser:page
      for="Products.CMFPlone.Portal.PloneSite"
      permission="five.ManageSite"
-     name="create_test_content"
-     class=".create_test_content.TestContentCreator"
+     name="topp-testcontent.html"
+     class=".management.TestContentCreator"
      />
 
+  <browser:page
+     for="OFS.Folder.Folder"
+     name="add-openplans.html"
+     permission="five.ManageSite"
+     class=".management.AddOpenPlansForm"
+     />
 
   <!-- @@ remove for plone3 -->
   <five:traversable class="Products.CMFCore.DynamicType.DynamicType" />
