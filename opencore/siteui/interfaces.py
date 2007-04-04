@@ -1,6 +1,10 @@
 from zope.interface import Interface, Attribute, implements
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
+from zope.schema import ASCIILine, TextLine, List, Bool
+from zope.i18nmessageid import MessageFactory
 from zope.viewlet.interfaces import IViewletManager
+
+_ = MessageFactory('opencore')
 
 ### Interfaces for viewlet managers
 
@@ -115,4 +119,26 @@ class ILiveSearch(Interface):
         """
 
 
+class IAddOpenPlans(Interface):
+    """Add form for topp site"""
 
+    id = ASCIILine(
+        title=_(u"Id"),
+        description=_(u"The object id."),
+        default='openplans',
+        required=True
+        )
+    
+    title = TextLine(
+        title=_(u"Title"),
+        description=_(u"A short description of the event."),
+        default=u"Open Plans",
+        required=True
+        )
+
+    testcontent = Bool(
+        title=_("Create test content"),
+        description=_(u"Please create example projects and members"),
+        default=False,
+        required=False
+        )
