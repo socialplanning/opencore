@@ -1,169 +1,4 @@
-﻿{ @charset "UTF-8"; }
-
-body {
-	margin: 0;
-	padding: 0 8px;
-}
-
-a img {
-	border: none;
-}
-	/* This makes sure hyperlinked images don't have borders by default */
-	
-/* THEMING & BACKGROUNDS
--------------------------------------------- */
-
-body {
-	background: url(http://www.digg.com/img/page-back.gif) repeat-x;
-	color: #333333;
-}
-	
-	a {
-		color: #86B0E1;
-	}
-		
-		a:hover {
-			color: #777777;
-		}
-	
-#visual-portal-wrapper {
-	background-color: white;
-}
-	
-#portal-top {
-	background-color: #AAC683;
-	color: white;
-}
-	
-	#portal-top a {
-		color: white;
-		text-decoration: none;
-	}
-	
-		#portal-top a:hover {
-		}
-		
-	#portal-header {
-		background: #2B7284 url(http://www.openplans.org/opp_bar_bg.gif) repeat-x scroll center top;
-		border-bottom: 2px solid white;
-	}
-	
-		#portal-global {
-			background: transparent;
-		}
-		
-			#portal-global-search #LSResult {
-			background-color: #2B7284;
-			}
-		
-#content-container {
-	padding: 0 1em;
-}
-		
-#portal-footer {
-    background-color: #eee;
-	color: #aaa;
-}
-
-		#portal-footer a {
-		  color: gray;
-			text-decoration: none;
-		}
-		
-			#portal-footer a:hover {
-				color: #555;
-			}
-		
-.missingText {
-	color: gray;
-}
-
-/* Drop-down menu styles GLOBAL (see far below for structure) */
-
-ul.op-dropdown, .op-dropdown ul {
-cursor: pointer;
-font-weight: bold;
-}
-
-	.op-dropdown li {
-		text-transform: lowercase;
-	}
-
-		.op-dropdown li ul {
-			border-top: 1px solid #999;
-			font-weight: normal;
-
-		}
-	
-			.op-dropdown li ul li {
-				width: 12em;
-			}
-				.op-dropdown li ul li.op-dropdown-divider {
-					border-top: 1px dotted #999;
-				}
-			
-			.op-dropdown li ul li a {
-			}
-	
-
-		.op-dropdown li:hover, .op-dropdown li:hover ul,
-		.op-dropdown li.sfhover, .op-dropdown li.sfhover ul {
-			background-color: #666;
-		}
-
-		.op-dropdown li:hover ul,
-		.op-dropdown li.sfhover ul {
-		}
-
-			.op-dropdown li:hover ul li:hover,
-			.op-dropdown li.sfhover ul li.sfhover {
-				background-color: #bbb;
-			}
-
-	/* Drop-down menu styles for the HEADER (see far below for structure) */
-	
-	#portal-top ul.op-dropdown, .op-dropdown ul {
-		line-height: normal;
-	}
-	
-		#portal-top  .op-dropdown li {
-		}
-	
-			#portal-top .op-dropdown li ul {
-				border-top: 1px solid #A5CC7A;
-				background-color: #CCDEAF;
-			}
-		
-				#portal-top .op-dropdown li ul li {
-				}
-					#portal-top .op-dropdown li ul li.op-dropdown-divider {
-						border-top: 1px dotted #A5CC7A;
-					}
-				
-				#portal-top .op-dropdown li ul li a {
-				
-				}
-				
-				#portal-top .op-dropdown li ul li a:hover {
-					color: #325B0A;
-				}
-	
-			#portal-top .op-dropdown li:hover, .op-dropdown li:hover ul,
-			#portal-top .op-dropdown li.sfhover, .op-dropdown li.sfhover ul {
-				background-color: #CCDEAF;
-				color: #325B0A;
-			}
-	
-			#portal-top .op-dropdown li:hover ul,
-			#portal-top .op-dropdown li.sfhover ul {
-			}
-	
-				#portal-top .op-dropdown li:hover ul li:hover,
-				#portal-top .op-dropdown li.sfhover ul li.sfhover {
-					background-color: #AAC683;
-				}
-
-/* GENERAL TYPOGRAPHY 
+/* GENERAL NAKED TYPOGRAPHY 
 -------------------------------------------- */
 /* This should be the only place where font information is specified */
 
@@ -194,7 +29,7 @@ h1, h2, h3, h4, h5, h6,
 		margin-bottom: 0.75em; /* 18px ÷ 24px = 0.75em */
 	}
 
-	h2, .h2, #portal-context h1 {
+	h2, .h2, #topnav-context h1 {
 		font-size: 1.5em; /* 18px ÷ 12px = 1.5em */
 		line-height: 1em; /* 18px ÷ 18px = 1em */
 		margin: 1em 0;
@@ -215,8 +50,8 @@ h1, h2, h3, h4, h5, h6,
 	
 	/* Layout and Navigation */
 		.documentByLine,
-		#portal-top .op-dropdown,
-		#portal-global-search,
+		#topnav .op-dropdown,
+		#topnav-openplans-search,
 		#portal-footer,
 		.documentEditable #content-title .documentFirstHeading,
 	
@@ -252,98 +87,144 @@ h1, h2, h3, h4, h5, h6,
 			text-decoration: underline;
 		}
 
-/* PLONE
+/* THEMING for header
 -------------------------------------------- */
 
-.hiddenStructure {
-	display: none;
+#topnav {
+	background-color: #AAC683;
 }
-	/* This class seems to apply to, duh, hidden structures */
-
-.documentContent {
-	border: none !important;
-}
-	/* This class seems to be applied to div id="region-content" when in Manager mode */
-
-/* PAGE
-This section defines the basic body structure of a page. */
-
-#visual-portal-wrapper {
-	max-width: 70em;
-	min-width: 52em;
-	margin: 0 auto;
-	padding: 0;
-}
-	/* As a rule, measure should be between two and three alphabets long. In other words, between 52 and 78 characters, including spaces. Since characters average out to about one-half EM in width this translates to a minimum width of 26em and a maximum of 39em, or two to three alphabets. 
-
-	IN OTHER WORDS: avoid changing the width. */
-
-	/* IE Hack \*/
-	* html * #visual-portal-wrapper { width: 70em; }
-
-	/* HEADER
-	Global, context, and subcontext menus */
 	
-	#portal-top {
+	#topnav a {
+		color: white;
+		text-decoration: none;
+	}
+	
+		#topnav a:hover {
+		}
+		
+	#topnav-global {
+		background: #2B7284 url(http://www.openplans.org/opp_bar_bg.gif) repeat-x scroll center top;
+		border-bottom: 2px solid white;
+	}
+	
+		#topnav-openplans {
+			background: transparent;
+		}
+		
+			#topnav-openplans-search #LSResult {
+				background-color: #2B7284;
+			}
+			
+		#topnav-context h1 {
+			text-transform: none;
+		}
+			
+	/* Drop-down menu styles for the HEADER (see far below for structure) */
+	
+	#topnav ul.op-dropdown, .op-dropdown ul {
+		line-height: normal;
+	}
+	
+		#topnav  .op-dropdown li {
+		}
+	
+			#topnav .op-dropdown li ul {
+				border-top: 1px solid #A5CC7A;
+				background-color: #CCDEAF;
+			}
+		
+				#topnav .op-dropdown li ul li {
+				}
+					#topnav .op-dropdown li ul li.op-dropdown-divider {
+						border-top: 1px dotted #A5CC7A;
+					}
+				
+				#topnav .op-dropdown li ul li a {
+				
+				}
+				
+				#topnav .op-dropdown li ul li a:hover {
+					color: #325B0A;
+				}
+	
+			#topnav .op-dropdown li:hover, .op-dropdown li:hover ul,
+			#topnav .op-dropdown li.sfhover, .op-dropdown li.sfhover ul {
+				background-color: #CCDEAF;
+				color: #325B0A;
+			}
+	
+			#topnav .op-dropdown li:hover ul,
+			#topnav .op-dropdown li.sfhover ul {
+			}
+	
+				#topnav .op-dropdown li:hover ul li:hover,
+				#topnav .op-dropdown li.sfhover ul li.sfhover {
+					background-color: #AAC683;
+				}
+
+
+/* STRUCTURE for header
+-------------------------------------------- */
+
+	#topnav {
 		text-align: left;
 		margin-bottom: 0.5em;
 	}
 	
-		#portal-top .op-dropdown{
+		#topnav .op-dropdown{
 		}
 	
-		#portal-header {
+		#topnav-global {
 			padding: 0.25em;
 			padding-left: 1em;
 			position: relative;
 		}
 			/* This is the site-wide header */
 			
-			/* CLEAR-AFTER HACK applied to #portal-header
+			/* CLEAR-AFTER HACK applied to #topnav-global
 				see .clear-after below */
 				
-			#portal-context {
+			#topnav-context {
 				float: left;
 				padding: 0;
 				padding-bottom: 0.25em;
 			}
 			
-				#portal-context h1 {
+				#topnav-context h1 {
 					position: absolute;
 					bottom: 0.5em;
 					float: left;
 					margin: 0;
 					margin-right: 0.5em;
 					padding: 0;
-					text-transform: none;
 				}				
 			
-			#portal-global {
+			#topnav-openplans {
 				float: right;
 				display: block;
 				padding: 0.25em;
 			}
 			
-				#portal-global-title,
-				#portal-personaltools-wrapper,
-				#portal-global-search {
+				#topnav-openplans-title,
+				#topnav-openplans-wrapper,
+				#topnav-openplans-search {
 					display: inline;
 				}
 				
-					#portal-global-title {
+					#topnav-openplans-title {
 						float: left;
 						margin: 0.125em 0;
 						padding: 0;
 						text-transform: none; 
 					}
 					
-						#portal-global-title img {
+						#topnav-openplans-title img {
 							margin: 0;
 							padding: 0;
 							vertical-align: middle;
 						}
 						
-					#portal-global-search {
+					#topnav-openplans-search {
 						margin: 0.125em 0;
 						padding: 0;
 					}
@@ -383,790 +264,30 @@ This section defines the basic body structure of a page. */
 									margin: 0;
 								}
 				
-				#portal-personaltools-wrapper {
+				#topnav-openplans-wrapper {
 					margin: 0 0.5em;
 				}
 								
 							.portalUser {}
 
-		#portal-subcontext {
+		#topnav-subcontext {
 			padding: 0 1em;
 		}
 			
-			#portal-subcontext-title, #portal-subcontext-title h1 {
+			#topnav-subcontext-title, #topnav-subcontext-title h1 {
 				margin: 0;
 				padding: 0;
 				line-height: normal;
 			}
 
-	/* CONTENT
-	This section defines the main content */
-
-	#content-container {
-	}
-		
-		#portal-column-one,
-		#portal-column-two {
-			display: none;
-		}
-
-		#content {
-		}
-			
-			#content-title {
-				position: relative;
-				margin: .75em 0;
-			}
-					
-				#content-title .documentFirstHeading {
-					display: inline;
-				}
-				
-				#content-byline {
-					padding: 0.125em 0.25em;
-					position: absolute;
-					right: 0.5em;
-					top: 0;
-				}
-				
-					.documentByLine {
-						color: gray;
-					}
-
-				.documentDescription {
-					display: none;
-				}
-					/* This hides the display of the document description on wiki pages. 
-					I don't know if we want to do this or not */
-					
-			#content-main {
-			}
-
-	/* FOOTER
-	Global footer */
-
-	#portal-footer {
-		clear: both;
-		margin: 3em 0 0 0;
-		padding: .5em 1em;
-	}
-		/* This is the site-wide footer */
-
-		#portal-footer ul {
-		  list-style-type: none;
-		  padding: 0;
-		  margin: 0;
-		  float: right;
-		}
-	
-			#portal-footer li {
-			  display: inline;
-			  padding: 0 0.5em;
-			}
-
-/* GENERAL LAYOUT for OpenPlans Pages
--------------------------------------------- */
-/* This is where general layout elements within the content of a page are defined. Could also aply to how we implement templates. 
-
-TODO Clean up this section */
-
-#op-main {
-	float: left;
-    width: 65%;
-}
-
-	.documentEditable #op-main {
-		width: 100%;
-	}
-		/* Keep wiki pages full page span. */
-	
-	.op-main-item {
-		padding-bottom: 1em;
-		border-bottom: 1px dashed #333333;
-	}
-		/* This is a block of content within the main content element. */
-		
-	.op-main-columnGroup {
-		margin-bottom: 1em;
-		display: block;
-		height: auto;
-		padding-bottom: 1em;
-		border-bottom: 1px dashed #333333;
-	}
-		/* This is a two-column group. */
-			
-		.op-subColumnA, .op-subColumnB {
-			width: 48%;
-			padding: 0;
-			margin: 0;
-			position: static;
-			border: none;
-		}
-			/* This defines the two-columns within the group. */
-		
-		.op-subColumnA {
-			float: left;
-		}
-			
-		.op-subColumnB {
-			float: right;
-		}
-			
-		.op-subColumnBox {
-			margin-top: 1em;
-			border: 1px solid #333333;
-		}
-			/* This is used in tandem with the above classes to apply a border to a column. */
-	
-	.op-gettingstarted {
-		white-space: nowrap;
-		padding: 1em 0;
-		width: 100%;
-	}
-		/* This defines the Getting Started drop-down menu on the home page. */
-		
-		.op-gettingstarted h2 {
-			display: inline;
-		}
-		
-		.op-gettingstarted select {
-			width: 70%;
-			font-size: 145%;
-		}
-
-.op-sbar, .op-sbar-right, op-sbar-left {
-	float: right;
-	width: 33%;
-    margin-bottom: 2em;
-	padding: 0;
-}
-
-	.op-sbar-left {
-		float: left;
-	}
-	
-	.op-sbar > div {
-		background-color: #eee;
-		padding: 1em;
-		margin-bottom: 1em;
-	}
-
-	/* This defines the sidebar. */
-
-.op-highlight {
-	width: 90%;
-	margin: auto;
-	padding: 1em;
-	background: #333333;
-	color: white;
-}
-	/* This defines a highlighted pull-quote. It is best used in a narrow element auch as a column or sidebar, not in wide elements like a main content item. */
-	
-	.op-highlight h2, .op-highlight h3, .op-highlight h4 {
-		margin: 0; 
-		padding: 0; 
-	}
-	
-/* Wiki pages */
-
-#content-title {
-}
-
-	.documentEditable #content-title .documentFirstHeading {
-		display: block;
-		width: 60%;
-		margin-bottom: 0;
-		line-height: normal;
-		letter-spacing: normal;
-		font-weight: normal;
-	}
-	
-	.documentEditable #content-title ul.contentViews {
-		margin-top: -1em;
-	}
-	
-/* Member profile pages */
-
-#op-member-info {
-}
-
-	#op-member-info .contentViews {
-		margin-bottom: 0;
-	}
-	
-		#op-member-info .contentViews .contentview-view a {
-			background-color: #eee;
-			border-bottom: 2px solid #eee;
-		}
-
-	#op-member-details-wrapper {
-		background-color: #eee;
-		padding: 1em;
-	}
-	
-		#op-member-portrait {
-			/* These images should be constrained to a max-width of ~200px */
-			max-width: 47%;
-			display: block;
-			float: left;
-		}
-		
-			img#op-member-noportrait-edit {}
-		
-			img#op-member-noportrait {}
-	
-		#op-member-details {
-			display: block;
-			font-size: 100%;
-			line-height: 1.25;
-			float: left;
-			clear: none;
-			margin: 0 1em;
-		}
-		
-		#op-member-fullname-none {
-			color: #ccc;
-		}
-	
-			#op-member-details dt {
-				font-weight: bold;
-			}
-		
-			dl#op-member-details dd {
-				margin: 0; 
-				padding: 0 0 0.5em 0;
-			}
-			
-			ul#op-member-details-projects {
-				display: inline;
-				list-style-type: none;
-				padding: 0;
-				margin: 0;
-			}
-
-			#op-member-details-projects-none {
-				color: #ccc;
-			}
-
-			
-				ul#op-member-details-projects li {
-				}
-				
-	#op-member-dates {
-		color: gray;
-		list-style-type: none;
-		padding: 0;
-		margin: 0;
-		display: inline;
-		text-align: right;
-	}
-	
-#op-member-wiki {
-	margin: 1em 0;
-}
-	
-#op-member-activity table{
-	width: 100%;
-}
-
-	/* The table styles here need to be cleaned up, a lot. */
-	
-	#op-member-activity table,
-	#op-member-activity table * {
-		border: none;
-		padding-left: 0;
-		margin-left: 0;
-	}
-
-	#op-member-activity table th{
-		text-align: left;
-		text-transform: none;
-		font-weight: bold;
-		background-color: transparent;
-	}
-
-/* FEEDS & FORMS
--------------------------------------------- */
-
-form {}
-
-	.op-formtable-main {
-		width: 65%;
-	}
-	
-	.op-formtable-main tr,
-	.op-formtable-main th,
-	.op-formtable-main td {
-		vertical-align: center;
-	}
-	
-	.op-formtable-main .formControls a {
-		text-decoration: none;
-		padding-left: 1em;
-	}
-		
-		.op-formtable-main .formControls a:hover {
-			text-decoration: underline;
-			}
-
-	fieldset {
-		border: none;
-		padding: 0;
-		margin: 0;
-	}
-
-		.formsmall fieldset legend {
-			display: none;
-		}
-		
-		tr.op-formtable-legend th {
-			text-align: left;
-			width: 100%;
-		}
-		
-			tr.op-formtable-legend th h2 {
-				margin: 0;
-				margin-top: 1em;
-				padding: 0;
-				padding-top: 0.125em;
-				border-top: 1px dashed #333333;	
-				font-size: 118%;
-			}
-
-	label,
-	.feed_title {
-		font-weight: bold;
-		word-spacing: -0.125em;
-	}
-	
-		label,
-		.ArchetypesBooleanWidget {
-			/* margin-top: 0.5em; */
-		}
-	
-		.formsmall label,
-		.feed_title {
-			display: block;
-		}
-	
-		.op-formtable-main th {
-			text-align: right;
-			max-width: 10em;
-			padding-right: 0.5em;
-		}
-		
-			.op-formtable-main th label{
-				display: inline;
-			}
-	
-			.ArchetypesBooleanWidget label {
-				display: inline;
-				font-weight: normal;
-				padding-left: 0.25em;
-			}
-	
-	.field {
-		margin: 1.8em 0 0;
-		}
-	
-	.field input {
-		/* border: 1px solid #eee; Sadly, the input[type=file] doesn't accept this style. */
-		padding: 0.25em;
-	}
-	
-		.formsmall .field input {
-			max-width: 15em;
-		}
-		
-		.op-formtable-main .field input {
-		width: 97%;
-		}
-
-		td#op-startproject-webaddress {
-			white-space: nowrap;
-		}
-		
-				td#op-startproject-webaddress input {
-					width: 10em;
-				}
-		
-		input[type=checkbox],
-		input[type=radio],
-		.ArchetypesBooleanWidget input,
-		.op-formtable-main .ArchetypesBooleanWidget input {
-			margin: 0;
-			padding: 0;
-			width: auto;
-			display: inline;
-		}
-			
-	.formOptions {
-		padding: 0;
-		list-style-type: none;
-	}
-
-	.formControls {
-		margin-top: 1em;
-	}
-
-	.fieldRequired {
-		padding-left: 1em;
-		color: white;
-		background: transparent url(http://www.openplans.org/required.gif) no-repeat scroll left center;
-	}
-	
-		.op-formtable-main .fieldRequired {
-			background: transparent url(http://www.openplans.org/required.gif) no-repeat scroll left center;
-		}
-
-	.formHelp,
-	.feed_data {
-		color: gray;
-	}
-	
-		.formHelp {
-			width: 39em; /* TODO This is only a stopgao measure */
-		}
-
-		.op-formtable-main .formHelp {
-			padding-left: 1.5em;
-			display: block;
-			margin-left: 1em;
-			width: 10em;
-		}
-		
-		.formsmall .formHelp {
-			display: inline;
-		}
-
-div.feed_block {
-}
-
-	.op-subColumnBox div.feed_block {
-	padding: 1em;
-	}
-
-	ul.feed_list {
-		list-style-type: none;
-		margin: 0;
-		padding: 0;
-	}
-	
-		ul.feed_list li {
-			border-top: 1px dashed gray;
-			padding: 0.75em 0;
-		}
-	
-		.feed_title { /* See "label" above */ }
-
-		.feed_desc {
-			font-weight: normal;
-		}
-
-		.feed_data { /* See .formHelp above */ }
-		
-textarea {
-	display: block;
-}
-
-/* TAG CLOUDS
--------------------------------------------- */
-/* TODO redo text sizes to correspond to typographic standards */
-
-ul.tag_cloud, ul.tag_cloud li {
-	display: inline;
-	list-style: none;
-	margin: 0 !important;
-	padding: 0 !important;
-}
-	
-	li.tag1 a, li.tag2 a, li.tag3 a, li.tag4 a {
-		text-decoration: none;
-	}
-		
-	/* li.tag1 a:visited, li.tag2 a:visited, li.tag3 a:visited, li.tag4 a:visited {
-		text-decoration: line-through;
-	} */
-		
-	li.tag1 a:hover, li.tag2 a:hover, li.tag3 a:hover, li.tag4 a:hover {
-		text-decoration: underline;
-	}
-	
-	li.tag1 a {
-		font-size: 75%;
-		color: #600;
-	}
-
-	li.tag2 a {
-		font-size: 100%;
-		color: #900;
-	}
-
-	li.tag3 a {
-		font-size: 125%;
-		color: #c00;
-	}
-
-	li.tag4 a {
-		font-size: 150%;
-		color: #bbb;
-	}
-
-/* PLONE
--------------------------------------------- */
-
-	/* PLONE -- contentViews
-		These classes define the look of the tabs on wiki pages and elsewhere. */
-
-ul.contentViews {
-	background-color: transparent;
-	padding-right: 1em;
-	margin: 1em 0;
-	border-bottom: 1px solid #333333;
-	line-height: normal;
-	list-style-image: none;
-	list-style-position: outside;
-	list-style-type: none;
-	text-align: right;
-	text-transform: lowercase;
-}
-
-	.contentViews li {
-		display: inline;
-		padding: 0.5em 0;
-		cursor: pointer;
-	}
-
-		.contentViews li a {
-			z-index: 1;
-			border: 1px solid #333333;
-			border-bottom: none;
-			margin-right: 0.5em;
-			padding: 0 1em;
-			text-decoration: none;
-			line-height: normal;
-			color: #333333;
-		}
-
-			.contentViews li a:hover {
-				background-color: #bbb;
-				color: white;
-				border-bottom: 1px #bbb solid;
-			}
-
-	.contentViews .selected a {
-		background-color: transparent;
-		border-bottom: white 2px solid; /* Must be same color as the background of the body (or container) */
-		color: #333333;
-	}
-
-	#contentview-grey_edit a, .contentview-grey_edit a {
-		background-color: #eee;
-		border-color: gray;
-		border-bottom-color: transparent;
-		color: gray;
-	}
-
-	#contentview-grey_edit a:hover, .contentview-grey_edit a:hover {
-		background-color: #bbb;
-	}
-
-	#contentview-moremenu {
-			cursor: pointer;
-	}
-		
-		#contentview-moremenu ul {
-			display: none;
-			position: absolute;
-			right: -1em;
-			margin: 0;
-			padding: 0;
-			text-transform: lowercase;
-			border: 1px solid #333333;
-			background-color: white;
-			text-align: left;
-		}
-
-				#contentview-moremenu li {
-					display: block;
-					margin: 0;
-					padding: 0.25em;
-					width: 5em;					
-				}
-
-
-			li#contentview-moremenu:hover,
-			li#contentview-moremenu .sfhover {
-				color: #bbb;
-			}
-			
-				li#contentview-moremenu:hover ul,
-				li#contentview-moremenu .sfhover ul {
-					display: inline;
-					color: #333333;
-				}
-
-					li#contentview-moremenu:hover ul li:hover,
-					li#contentview-moremenu .sfhover ul li.sfhover {
-						background-color: #bbb;
-					}
-					
-	/* PLONE -- documentActions
-		This class deals with the "Print" and "Email" buttons */
-		
-.documentActions {
-	display: none;
-}
-
-	/* PLONE -- contentActions
-		These classes apply only to the Manager mode, we probably don't want to deal with them? */
-	
-.contentActions {
-	margin-bottom: 1em;
-	background-color: transparent;
-	border: none;
-	color: #333333;
-	text-align: right;
-	text-transform: lowercase;
-	padding: 0 0 0 1em;
-	z-index: 2;
-	position:relative;
-	font-size: 0.8333em;
-	display: none;
-}
-	
-	.contentActions ul,
-	.contentActions li {
-		margin: 0;
-		list-style: none;
-		list-style-image: none;
-		display: inline;
-		color: white;
-		text-align: left;
-	}
-	
-	.contentActions ul {
-		line-height: normal;
-		padding: 0;
-		margin: 0;
-	}
-		
-		.contentActions li {
-			float: right;
-			z-index: 4;
-			border: none;
-		}
-		
-	.contentActions a {
-		text-decoration: none;
-		color: #333333;
-		padding: 0 0.5em;
-	}
-
-	/* PLONE -- portalMessage
-		These classes apply to the portal messages (such as "Changes Saved") */
-
-	.portalMessage,
-	.portalWarningMessage,
-	.portalStopMessage,
-	.system-message,
-	#error-handling {
-		background-color: #FFF6BF;
-		border: 1px solid gray;
-		border-right: 1.5em solid gray;
-		color: #333333;
-		font-weight: bold;
-		margin: 0.25em 0em;
-		padding: 0.125em 0.25em;
-		padding-right: 0.25em;
-		position: relative;
-		vertical-align: middle;
-	}
-	
-		.portalMessage div#portalMessageX {
-			color: #ddd;
-			cursor: pointer;
-			font-weight: bold;
-			padding: 0.125em 0.5em;
-			position: absolute;
-			right: -1.5em;
-			top: 0;
-			font-size: 100%;
-		}
-
-		/* PLONE -- .context
-			This class determines what (some) buttons look like
-	
-	.context, .documentEditable * .context {
-		background: #333333;
-		color: white;
-		border: none;
-		cursor: pointer;
-		font-size: inherit;
-		overflow: visible;
-		padding: 0.125em;
-		margin: 0.125em;
-		margin-left: 0;
-		margin-top: 0.5em;
-		text-transform: lowercase;
-	} */
-
-	/* OpenPlans -- Projects Page
-		These classes apply to the global "Projects" page. */
-
-#column-one {
-	display: none;
-}
-
-#column-two {
-	display:block;
-	float: left;
-	text-align: left;
-	font-size: 0.8333em;
-}
-
-#abc-click {
-display: none;
-}
-
-#project-list {
-}
-
-	#projects-table {
-		border-collapse: collapse;
-	}
-
-		#projects-table th {
-			padding: 0.125em 0.5em;
-			text-transform: lowercase;
-			border: none;
-			margin: 0;
-		}
-		
-		#projects-table td {
-			padding: 0.125em 0.5em;
-			vertical-align: top;
-			border-collapse: collapse;
-			margin: 0;
-		}
-		
-		#projects-table a {
-			text-decoration: none;
-		}
-		
-		#projects-table a:hover {
-			text-decoration: underline;
-		}
-
-
-/* CLEAR-AFTER Hack, op-dropdown Dropdowns, and other "Custom" CSS
+/* "Custom" CSS : Clear-After Hack, op-dropdown Dropdowns
 -------------------------------------------- */
 
 /* This hack replicates the CSS3 "clear-after" property.
 The IE hacks take advantage of several IE non-compliance issues to clear-after the floated columns. */
 
 .clear-after:after,
-#portal-header:after,
+#topnav-global:after,
 #content-container:after 
 { 
 	content: ""; 
@@ -1180,7 +301,7 @@ The IE hacks take advantage of several IE non-compliance issues to clear-after t
 	* html * .clear-after { height: 1%; }
 		
 	/* IE Hack \*/
-	* html * #portal-header { height: 1%; }
+	* html * #topnav-global { height: 1%; }
 
 	/* IE Hack \*/
 	* html * #content-main-container { height: 1%; }
