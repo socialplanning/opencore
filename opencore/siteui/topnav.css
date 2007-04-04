@@ -1,91 +1,13 @@
-/* GENERAL NAKED TYPOGRAPHY 
--------------------------------------------- */
-/* This should be the only place where font information is specified */
-
-body, textarea {
-	font-size: 12px; /* ~12px */
-	line-height: 1.5em; /* 18px ÷ 12px = 1.5em */
-	font-family: "Lucida Grande", "Frutiger", "Univers", "Helvetica Neue", Arial, Helvetica, sans-serif;
-	/* These typographic rules will establish rhythm of 18px at base font size */
-}
-
-#content * p {
-	margin: 0 0 1.5em 0;
-}
-
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
-	letter-spacing: 0;
-}
-		
-	h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 abbr {
-		border: none;
-	}
-
-	h1, .h1 {
-		font-size: 2em; /* 24px ÷ 12px = 2em */
-		line-height: 0.75em; /* 18px ÷ 24px = 0.75em */
-		margin-top: 1.5em; /* 36px ÷ 24px = 1.5em */
-		margin-bottom: 0.75em; /* 18px ÷ 24px = 0.75em */
-	}
-
-	h2, .h2, #topnav-context h1 {
-		font-size: 1.5em; /* 18px ÷ 12px = 1.5em */
-		line-height: 1em; /* 18px ÷ 18px = 1em */
-		margin: 1em 0;
-	}
-
-	h3, .h3, h4, .h4  {
-		font-size: 1.1667em; /* 14px ÷ 12px = 1.1667em */
-		line-height: 1.286em; /* 18px ÷ 14px = 1.286em */
-		margin-top: 1.929em; /* 27px ÷ 14px = 1.929em */
-		margin-bottom: 0.643em; /* 9px ÷ 14px = 0.643em */
-	}
-
-	h4, .h4 {
-		font-weight: normal;
-	}
-	
 .smallText,
 	
 	/* Layout and Navigation */
-		.documentByLine,
 		#topnav .op-dropdown,
-		#topnav-openplans-search,
-		#portal-footer,
-		.documentEditable #content-title .documentFirstHeading,
-	
-	/*Feeds and Forms */
-		.field input,
-		.formHelp,
-		.feed_data,
-		.feed_desc,
-		ul.contentViews,
-	
-	/* Error Messages */
-		.portalMessage,
-		.portalWarningMessage,
-		.portalStopMessage,
-		.system-message,
-		#error-handling
+		#topnav-openplans-search
 	
 	{
 	font-size: 0.8333em; /* 10px ÷ 12px = 0.8333em */
 	line-height: 1.8em /* 18px ÷ 10px = .9em */
 }
-
-.documentFirstHeading,
-.simpleHeading {
-	margin-top: 0;
-}
-
-	.simpleHeading a {
-		text-decoration: none;
-	}
-		
-		.simpleHeading a:hover {
-			text-decoration: underline;
-		}
 
 /* THEMING for header
 -------------------------------------------- */
@@ -117,16 +39,19 @@ h1, h2, h3, h4, h5, h6,
 			
 		#topnav-context h1 {
 			text-transform: none;
+            color: white;
 		}
 			
 	/* Drop-down menu styles for the HEADER (see far below for structure) */
 	
 	#topnav ul.op-dropdown, .op-dropdown ul {
 		line-height: normal;
+        color: white;
 	}
 	
 		#topnav  .op-dropdown li {
 		}
+
 	
 			#topnav .op-dropdown li ul {
 				border-top: 1px solid #A5CC7A;
