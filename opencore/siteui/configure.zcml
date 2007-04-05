@@ -61,4 +61,14 @@
   <include package="Products.listen" file="permissions.zcml" />
   <include package="opencore.redirect" file="meta.zcml" />
 
+  <!-- browser:page for new topnav view -->
+  <browser:page
+     for="OFS.interfaces.IItem"
+     permission="zope.Public"
+     name="opencore-topnav"
+     template="topnav.pt"
+     />
+  <!-- end new topnav view -->
+
+
 </configure>
