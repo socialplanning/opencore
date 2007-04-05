@@ -36,6 +36,13 @@ def test_suite():
                                     globs = globs,
                                     setUp=readme_setup
                                     )
+    topnav = FunctionalDocFileSuite("topnav.txt",
+                                    optionflags=optionflags,
+                                    package='opencore.siteui',
+                                    test_class=FunctionalTestCase,
+                                    globs = globs,
+                                    setUp=readme_setup
+                                    )
 
     livesearch = FunctionalDocFileSuite('livesearch.txt',
                                    package='opencore.siteui',
@@ -43,8 +50,9 @@ def test_suite():
                                    optionflags=optionflags)
     livesearch.layer = SiteSetupLayer
     readme.layer = OpenPlansLayer
+    topnav.layer = OpenPlansLayer
 
-    return unittest.TestSuite((readme, livesearch))
+    return unittest.TestSuite((readme, topnav, livesearch))
 
 
 if __name__ == '__main__':
