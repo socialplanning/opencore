@@ -63,7 +63,7 @@
 
   <!-- browser:page for new topnav view -->
   <browser:page
-     for="OFS.interfaces.IItem"
+     for="Products.CMFCore.intefaces.IContentish"
      permission="zope.Public"
      name="opencore-topnav"
      template="topnav.pt"
