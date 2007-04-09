@@ -19,7 +19,7 @@
   <subscriber
      for="opencore.interfaces.IProject
           zope.app.event.interfaces.IObjectModifiedEvent"
-     factory="opencore.lib.wf_policy_support.saveWFPolicy" />
+     handler="opencore.lib.wf_policy_support.saveWFPolicy" />
 
   <subscriber handler="opencore.project.handler.save_featurelets" />
 
