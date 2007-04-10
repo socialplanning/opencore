@@ -3,11 +3,14 @@ import sys, os
 
 version = '0.8'
 
+f = open('README.txt')
+readme = "".join(f.readlines())
+f.close()
+
 setup(name='opencore',
       version=version,
       description="openplans.org software",
-      long_description="""\
-""",
+      long_description=readme,
       classifiers=[], # Get strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       keywords='openplans openplans.org topp',
       author='The Open Planning Project',
@@ -23,11 +26,9 @@ setup(name='opencore',
           # -*- Extra requirements: -*-
           'topp.featurelets',
           'memojito',
-          'OpencoreRedirect'
+          'OpencoreRedirect',
+          'httplib2',
+          'simplejson'
       ]
-
-#      entry_points="""
-      # -*- Entry points: -*-
-#      """,
       )
-      
+
