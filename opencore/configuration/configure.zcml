@@ -11,6 +11,7 @@
   <include package="opencore.auth" />
   <include package="opencore.listen" />
   <include package="opencore.siteui" />
+  <include package="opencore.project" />
   <!-- include package="opencore.rpcss" / -->
   <!-- include package="opencore.xinha" / -->
   <include package="opencore.redirect" />

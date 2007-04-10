@@ -2,76 +2,74 @@
            xmlns:browser="http://namespaces.zope.org/browser"
 	   xmlns:five="http://namespaces.zope.org/five">
 
-  <!-- dead chickens -->
-  <include package="opencore.configuration" file="permissions.zcml" />
-  <include package="Products.listen" file="permissions.zcml" />
-
-  <five:registerPackage 
-     package="opencore.siteui" 
-     initialize="opencore.siteui.zope2.initialize"
-     />
-
-  <browser:resource
-     file="projpage.js"
-     name="projpage.js"
+  <browser:page
+     for=".interfaces.IMemberHomePage"
+     class=".member.ProfileView"
+     permission="zope.Public"
+     name="profile.html"
+     allowed_interface=".interfaces.IMemberHomePage"
+     template="memberprofile.pt"
      />
 
   <browser:page
-     for="Products.OpenPlans.interfaces.IProject"
-     class=".wf_policy_view.WorkflowPolicyView"
-     permission="zope2.View"
-     name="policy_support"
-     allowed_interface="Products.OpenPlans.interfaces.IReadWorkflowPolicySupport"
+     for="OFS.interfaces.IItem"
+     class=".member.MemberInfoView"
+     permission="zope.Public"
+     name="member_info"
+     allowed_interface=".interfaces.IMemberInfo"
      />
 
   <browser:page
-     for="Products.OpenPlans.interfaces.IProject"
-     class=".wf_policy_view.WorkflowPolicyWriterView"
-     permission="openplans.ManageWorkflowPolicy"
-     name="policy_writer"
-     allowed_interface="Products.OpenPlans.interfaces.IWriteWorkflowPolicySupport"
+     for=".interfaces.IMemberFolder"
+     class="opencore.redirect.Redirector"
+     permission="zope.Public"
+     attribute="redirect"
+     name="opencore.redirect"
      />
 
-  <browser:page
-     for="Products.OpenPlans.interfaces.IProject"
-     class=".featurelet_supporter_view.FeatureletSupporterView"
-     permission="zope2.View"
-     name="featurelet_support"
-     allowed_interface="topp.featurelets.interfaces.IFeatureletSupporter"
-     allowed_attributes="getSupportableFeaturelets"
-     />
+  <subscriber handler=".member.create_home_directory"/>
 
-  <browser:page
-     for="Products.OpenPlans.interfaces.IProject"
-     class=".featurelet_menu.FeatureletMenuView"
-     permission="zope2.View"
-     name="featurelet_menu"
-     allowed_attributes="menu_items"
-     />
+  <include package=".menu" />
+  <include file="thirdparty.zcml"  />
 
   <!-- convenience view to create_test_content -->
   <browser:page
      for="Products.CMFPlone.Portal.PloneSite"
      permission="five.ManageSite"
-     name="create_test_content"
-     class=".create_test_content.TestContentCreator"
+     name="topp-testcontent.html"
+     class=".management.TestContentCreator"
      />
 
-  <five:traversable
-     class="Products.CMFCore.DynamicType.DynamicType" />
+  <browser:page
+     for="OFS.Folder.Folder"
+     name="add-openplans.html"
+     permission="five.ManageSite"
+     class=".management.AddOpenPlansForm"
+     />
 
-  <five:traversable
-     class="Products.Archetypes.BaseObject.BaseObject" />
 
-  <include file="thirdparty.zcml"  />
+  <!-- @@ remove for plone3 -->
+  <five:traversable class="Products.CMFCore.DynamicType.DynamicType" />
+
+  <five:traversable class="Products.Archetypes.BaseObject.BaseObject" />
+
+  <five:traversable class="OFS.Folder.Folder" />
+
   <include file="livesearch.zcml" />
+
+  <!-- dead chickens -->
+  <include package="opencore.configuration" file="permissions.zcml" />
+  <include package="Products.listen" file="permissions.zcml" />
   <include package="opencore.redirect" file="meta.zcml" />
-  <include file="project.zcml" />
-  <include file="projectinfo.zcml" />
-  <include file="projectlisting.zcml" />
-  <include file="memberinfo.zcml" />
-  <include package=".menu" />
-  <include file="memberprofile.zcml" />
+
+  <!-- browser:page for new topnav view -->
+  <browser:page
+     for="*"
+     permission="zope.Public"
+     name="opencore-topnav"
+     template="topnav.pt"
+     />
+  <!-- end new topnav view -->
 
 
 </configure>
