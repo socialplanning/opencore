@@ -31,9 +31,11 @@ def init_subproject_vhoster(event):
     #@@ httplib?
     POST("%s/remote_uris" %url, params=dict(add=out.getvalue()))
 
+
 @adapter(IProject, IObjectRemovedEvent)
 def remove_project(obj, event):
     pass
+
 
 @adapter(IProject, IObjectWillBeMovedEvent)
 def move_project(obj, event):
