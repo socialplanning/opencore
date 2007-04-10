@@ -76,7 +76,7 @@ as a parent::
 
     >>> from opencore.project.handler import handle_subproject_redirection
     >>> event = AfterSubProjectAddedEvent(handroll, projects.p1, request)
-    >>> st(); handle_subproject_redirection(event)
+    >>> handle_subproject_redirection(event)
     >>> redirect.get_info(handroll).parent
     '/plone/projects/p1'
 
