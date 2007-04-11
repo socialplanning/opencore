@@ -1,0 +1,44 @@
+<metal:block use-macro="here/global_defines/macros/defines" />
+
+<!-- TODO eliminate plone cruft -->
+
+
+        <div id="content-container"
+             metal:define-macro="content"
+             tal:define="show_border python:here.showEditableBorder(template_id=template_id, actions=actions );
+             tabindex python:Iterator(pos=0, mainSlot=True)">
+
+          <metal:ifborder tal:condition="show_border" >
+            
+            <!--
+            <div metal:use-macro="here/global_contentviews/macros/content_views">
+              The content views (View, Edit, Properties, Workflow)
+            </div>
+            -->
+
+            <div metal:use-macro="here/global_contentviews/macros/content_actions">
+              The content bar
+            </div>
+          </metal:ifborder>
+
+          <div id="content" class="documentContent">
+
+            <div metal:use-macro="here/global_statusmessage/macros/portal_message">
+              Portal status message
+            </div>
+
+            <metal:header metal:define-slot="header" tal:content="nothing">
+              Visual Header
+            </metal:header>
+
+            <metal:bodytext metal:define-slot="main" tal:content="nothing">
+              Page body text
+            </metal:bodytext>
+
+            <metal:sub metal:define-slot="sub">
+              <metal:discussion use-macro="here/viewThreadsAtBottom/macros/discussionView" />
+            </metal:sub>
+
+          </div><!-- content -->
+
+        </div><!-- content-container -->

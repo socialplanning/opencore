@@ -61,14 +61,31 @@
   <include package="Products.listen" file="permissions.zcml" />
   <include package="opencore.redirect" file="meta.zcml" />
 
-  <!-- browser:page for new topnav view -->
+
+  <!-- browser:page for topnav view -->
   <browser:page
      for="*"
      permission="zope.Public"
      name="opencore-topnav"
      template="topnav.pt"
      />
-  <!-- end new topnav view -->
+  <!-- end topnav view -->
+
+  <!-- browser:page for contentwell view -->
+  <browser:page
+     for="*"
+     permission="zope.Public"
+     name="opencore-contentwell"
+     template="contentwell.pt"
+     />
+  <!-- end contentwell view -->
+
+  <!-- resources for nakedized views -->
+  <browser:resource
+     file="naked.css"
+     name="naked.css"
+     />
+  <!-- end naked resources -->
 
 
 </configure>

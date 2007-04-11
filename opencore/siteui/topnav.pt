@@ -1,55 +1,108 @@
 <metal:block use-macro="here/global_defines/macros/defines" />
+<tal:inproject define="global inProject here/@@project_info/inProject | nothing" />
 
-<tr>
-  <td rowspan="3" id="leftshadow"><div class="fill"></div></td>
-  <td id="headerrow">
-    <div id="portal-top" i18n:domain="plone" >
-      <div id="portal-header">
-        <a class="hiddenStructure"
-          accesskey="2"
-          tal:attributes="href string:${request/ACTUAL_URL}#documentContent"
-          i18n:translate="label_skiptocontent">Skip to content</a>
+      <div id="topnav" class="clear-after" i18n:domain="plone">
 
-        <a class="hiddenStructure"
-          accesskey="6"
-          tal:attributes="href string:${request/ACTUAL_URL}#portlet-navigation-tree"
-          i18n:translate="label_skiptonavigation">Skip to navigation</a>
-        <div style="float:left; clear:both; width: 100%" >
+        <div id="topnav-global">
+          <p class="hiddenStructure">
+            <a accesskey="2"
+               tal:attributes="href string:${current_page_url}#content"
+               i18n:translate="label_skiptocontent">Skip to content</a>
 
-          <div metal:use-macro="here/global_skinswitcher/macros/skin_tabs">
-            The skin switcher tabs. Based on which role you have, you
-            get a selection of skins that you can switch between.
+            <a accesskey="6"
+               tal:attributes="href string:${current_page_url}#topnav"
+               i18n:translate="label_skiptonavigation">Skip to navigation</a>
 
-          </div>
+            <a tal:attributes="href string:${current_page_url}#footer"
+               i18n:translate="label_skiptonavigation">Skip to footer</a>
+          </p>
 
-          <a metal:use-macro="here/global_logo/macros/portal_logo">
-            The portal logo, linked to the portal root
-          </a>
+          <div id="topnav-context" tal:define="projInfo here/project_info | nothing;">
+            <tal:inProject condition="inProject">
+              <a tal:attributes="href projInfo/project/absolute_url">
+                <h1 tal:content="projInfo/project/getFull_name">The Name of the Project</h1>
+              </a>
+            </tal:inProject>
+            <tal:notInProject condition="not:inProject">
+              <tal:memberinfo define="mem_info here/member_info | nothing; member python:mem_info.member">
+                <h1 tal:condition="python:member is not None" tal:content="python:dir(member)">
+                  <!-- a tal:attributes="href href string:${portal_url}/people/${member.getId}" tal:content="python:member.getId()">Member Name</a -->
+                </h1>
+                <h1 tal:condition="python:member is None" tal:content="python: here.title">
+                  Page Title
+                </h1><!-- FIXME sometimes this title is whack (e.g. add new user) -->
+              </tal:memberinfo>
+            </tal:notInProject>
+          </div><!-- topnav-context -->
 
-          <span metal:use-macro="here/global_sections/macros/portal_tabs">
-            The global sections tabs. (Welcome, News etc)
-          </span>
 
-          <div metal:use-macro="here/global_searchbox/macros/quick_search">
-            The quicksearch box, normally placed at the top right
-          </div>
-        </div>
+          <div id="topnav-openplans">
+
+            <h1 id="topnav-openplans-title" metal:define-macro="portal_logo">
+              <a href="/"
+                tal:attributes="href navigation_root_url"
+                tal:define="portal_title portal_properties/title">
+                <img src="oppbar_logo_bw.gif" tal:attributes="alt string:$portal_title"/>
+              </a>
+            </h1>
+
+            <ul id="topnav-openplans-wrapper" class="op-dropdown">
+
+              <li tal:define="selected_tabs python:here.selectedTabs('index_html', here, portal_tabs);
+                selected_portal_tab selected_tabs/portal;"
+                tal:condition="portal_tabs">
+                explore &raquo;
+                <ul id="topnav-openplans-nav">
+                  <li><a href="" tal:attributes="href string:${portal_url}/people">people</a></li>
+                  <li><a href="" tal:attributes="href string:${portal_url}/projects">projects</a></li>
+                  <li class="op-dropdown-divider"><a href="" tal:attributes="href string:${portal_url}/projects/add_project">start a project</a></li>
+                </ul>
+              </li>
+
+              <tal:anon condition="isAnon">
+                <li><a href="" tal:attributes="href string:${portal_url}/login_form">log in</a></li>
+                <li><a href="" tal:attributes="href string:${portal_url}/join_form">join</a></li>
+              </tal:anon>
+              <tal:notAnon condition="not: isAnon" tal:define="display_actions python:user_actions[:-1]+global_actions+user_actions[-1:]">
+                <li class="portalUser" tal:define="userid user/getId;
+                  profileurl string:${portal_url}/people/${userid};
+                  prefsurl string:${portal_url}/portal_memberdata/${userid}/edit">
+                  <a id="user-name" tal:attributes="href profileurl">
+                    <span class="visualCaseSensitive" tal:replace="python:user and user.getUserName()" /> &raquo;
+                  </a>
+                  <ul>
+                    <li><a tal:attributes="href profileurl">profile</a></li>
+                    <li><a tal:attributes="href prefsurl">preferences</a></li>
+                  </ul>
+                </li>
+                <li><a href="" tal:attributes="href string:${portal_url}/logout">log out</a></li>
+              </tal:notAnon>
+            </ul>
+
+
+            <div id="topnav-openplans-search"><span metal:use-macro="here/global_searchbox/macros/quick_search" /></div>
+
+          </div><!-- topnav-openplans -->
+
+        </div><!-- topnav-global -->
+
+        <div id="topnav-subcontext" tal:define="projInfo here/project_info | nothing;
+            projurl projInfo/project/absolute_url | nothing;">
+          <tal:inProject tal:condition="inProject">
+            <ul class="op-dropdown">
+              <li><a tal:attributes="href projurl">home</a></li>
+              <li><a tal:attributes="href string:${projurl}/lists">mailing lists</a></li>
+              <li><a tal:attributes="href string:${projurl}/proj_roster">team</a></li>
+              <li><a tal:attributes="href string:${projurl}/contact_project_admins">contact</a></li>
+              <li tal:condition="user">manage &raquo;<!-- TODO: show for only managers -->
+                <ul>
+                  <li><a tal:attributes="href string:${projurl}/folder_contents">content</a></li>
+                  <li><a tal:attributes="href string:${projurl}/edit">project preferences</a></li>
+                  <li><a tal:attributes="href string:${portal_url}/portal_teams/${projInfo/project/id}">team preferences</a></li>
+                </ul>
+              </li>
+            </ul>
+          </tal:inProject>
+        </div><!-- topnav-subcontext -->
+
       </div>
-    </div>
-  </td>
-  <td rowspan="3" id="rightshadow"><div class="fill"></div></td>
-</tr>
-<tr>
-  <td id="bannerrow">
-
-    <div metal:use-macro="here/banner_header/macros/banner_header">
-      the image banner and for ts, the project name banner
-    </div>
-
-
-    <div metal:use-macro="here/breadcrumb_personalbar/macros/breadcrumb_personalbar">
-      The breadcrumb navigation ("you are here")
-    </div>
-
-  </td>
-</tr>
