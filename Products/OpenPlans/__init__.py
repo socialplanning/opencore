@@ -42,6 +42,7 @@ def initialize(context):
     from opencore.content import *
     from opencore.featurelets.roster import RosterFeaturelet
     from opencore.featurelets.listen import ListenFeaturelet
+    from opencore.featurelets.tasktracker import TaskTrackerFeaturelet
     from opencore.listen import mailinglist
 
     # Register customization policy
@@ -81,7 +82,8 @@ def initialize(context):
     flet_registry = getUtility(IFeatureletRegistry)
     flet_registry.registerFeaturelet(RosterFeaturelet())
     flet_registry.registerFeaturelet(ListenFeaturelet())
-
+    flet_registry.registerFeaturelet(TaskTrackerFeaturelet())
+    
     from opencore.auth import SignedCookieAuthHelper
     from AccessControl.Permissions import add_user_folders
     context.registerClass( SignedCookieAuthHelper.SignedCookieAuthHelper,
