@@ -28,7 +28,7 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
 
     _required_interfaces = BaseFeaturelet._required_interfaces + (IProject,)
 
-    def _makeHttpReqAsUser(uri, method="POST", headers=None):
+    def _makeHttpReqAsUser(self, uri, obj, method="POST", headers=None):
         if headers is None:
             headers = dict()
 
@@ -45,16 +45,18 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
 
     def deliverPackage(self, obj):
         uri = "%s/tasks/project/initialize/" % obj.absolute_url()
-        response = self._makeHttpReqAsUser(uri, obj=obj)
-        if response.status != '200':
-            pass  #just kidding -- do something terrible instead
+        response, content = self._makeHttpReqAsUser(uri, obj=obj)
+        if response.status != 200: 
+	    raise AssertionError("Terrible!")
+	    #            pass  #just kidding -- do something terrible instead
 
         return BaseFeaturelet.deliverPackage(self, obj)
 
     def removePackage(self, obj):
         uri = "%s/tasks/project/initialize/" % obj.absolute_url()
-        response = self._makeHttpReqAsUser(uri, obj=obj)
-        if response.status != '200':
-            pass  #just kidding -- do something terrible instead
+        response, content = self._makeHttpReqAsUser(uri, obj=obj)
+        if response.status != 200:
+	    raise AssertionError("Terrible!")
+            #pass  #just kidding -- do something terrible instead
 
         return BaseFeaturelet.removePackage(self, obj)
