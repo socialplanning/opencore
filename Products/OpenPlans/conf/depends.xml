@@ -1,0 +1,10 @@
+<schema>
+    <description format="rest">
+Dependency Schema. Simply indicate which products your depends on and
+the runtime can install them for you or take appropriate action.
+    </description>
+
+<multikey name="zrequire"  attribute="zrequire" handler="zrequired"/>
+<multikey name="require"  attribute="require" handler="required"/>
+<multikey name="optional" attribute="optional" handler="optional"/>
+</schema>

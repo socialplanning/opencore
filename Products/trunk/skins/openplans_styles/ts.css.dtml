@@ -1,0 +1,861 @@
+/*
+* This is the file where you put your CSS changes.
+* You should preferrably use this and override the
+* relevant properties you want to change here instead
+* of customizing plone.css to survive upgrades. Writing
+* your own plone.css only makes sense for very heavy
+* customizations. Useful variables from Plone are
+* documented at the bottom of this file.
+*/
+
+/* <dtml-with base_properties> (do not remove this :) */
+/* <dtml-call "REQUEST.set('portal_url', portal_url())"> (not this either :) */
+
+/* small fixes */
+
+#contentview-grey_edit a {
+    border-top-color: #c8c8c8;
+    border-right-color: #c8c8c8;
+    border-left-color: #c8c8c8;
+    color: #c8c8c8;
+}
+
+#contentview-grey_edit a:hover {
+background-color: #fffbde;
+}
+
+.documentContent li{
+   margin-left: 1.25em;
+}
+
+.contentActions li {
+    border-bottom: &dtml-borderWidth; &dtml-borderStyle; &dtml-contentViewBorderColor;;
+}
+
+#content {
+    padding: 1em 0em 0em 0em !important;
+    margin: 0em 0em 2em 0em; 
+}
+
+.contentActions 
+{
+  background-color: #FFF;
+  border-left: none;
+  border-right: none;
+  /* border-right: &dtml-borderWidth; &dtml-borderStyle; &dtml-contentViewBorderColor;; */
+  }
+
+.actionMenu .actionMenuContent ul 
+{
+  background: #FFF;
+  }
+
+.documentEditable 
+{
+  /*padding: 0em 2em 1em 2em !important;*/
+  padding: 0em 0em 0em 0em !important;
+  }
+
+.documentEditable .documentContent 
+{
+  border: none;                                   
+  /* border: &dtml-borderWidth; &dtml-borderStyle; &dtml-contentViewBorderColor;; */
+  }
+
+#archetypes-fieldname-title input    
+{
+  font-size: 100%;
+  }
+
+a.wickedadd:link
+{
+  color: red;
+}
+
+a.wickedadd:visited
+{
+  color: red;
+}
+
+/* end small fixes */
+
+#portal-bannerheader 
+{ 
+  background-color: transparent;
+  }
+
+table#ts_bannerheader 
+{ 
+  background-color:&dtml-bannerheaderBackgroundColor;; 
+  border-collapse: collapse; 
+  border-spacing: 0; 
+  height: 55px; 
+  width: 100%; 
+  }
+
+table#ts_bannerheader td, tr
+{
+  padding: 0px;
+  width: auto;
+  }
+
+td#ts_imagecol 
+{ 
+  width: auto;
+  background-color:#aac683;
+  vertical-align: top;
+  text-align: right;
+  }
+
+div#ts_image 
+{
+  background-color:#aac683;
+  background-image: url("&dtml-portal_url;/symbols.gif");
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 55px;
+  margin-left: auto;
+  width: 200px;
+  }
+
+td#ts-titleheadercol 
+{
+  /* width: 35em; */
+  /*width:100%; */
+  vertical-align: middle;
+  width: auto;
+  }
+
+#ts-titleheader 
+{
+  margin: 1em 0em 1em 1.5em; 
+  }
+
+#ts-titleheader h1
+{
+  color: #ffffff;
+  font-family: Georgia;
+  font-size: 2em;
+  border: 0;
+  margin-right: auto;
+  white-space: nowrap;
+  }
+
+#ts-titleheader b
+{
+  color: #ffffff;
+  font-family: Georgia;
+  font-size: 12px;
+  font-weight: normal;
+  border: 0;
+  margin: 0px 0px 5px 0px;
+  }
+
+/******************* project `menu` ******************/
+
+#project-tabs 
+{ 
+  color: #EEEEEE;
+  text-transform: &dtml-textTransform;;
+  border: 0px;
+  width: 100%;
+  /* vertical-align: bottom; */
+  text-align: left;
+  }
+
+div#project-tabs 
+{  
+  padding-bottom: 1px;
+  padding-left: 6.25em;
+  }
+
+td#project-tabs 
+{
+  width:auto;
+  }
+
+ul#project-tabs
+{
+  margin: 0em;
+  display: inline;  
+  list-style: none;
+  list-style-type: none;
+  list-style-image: none;
+  color: #ffffff; 
+  }
+
+#project-tabs li
+{ 
+  display: inline;  
+  list-style: none;
+  list-style-type: none;
+  list-style-image: none;
+  } 
+
+#project-tabs a
+{  
+  margin-right: 1px;
+  padding: .3em;
+  text-decoration: none; 
+  color: #ffffff;
+}
+
+#project-tabs a:hover
+{
+  border-top: 1px solid #BD8;
+  border-left: 1px solid #BD8;
+  border-right: 1px solid #BD9;
+  border-bottom: 1px solid #BD9;
+  background-color: #9C5; 
+  /* aac683 */
+  /* &dtml-bannerheaderBackgroundColor;;  */
+  /* background-color: &dtml-portalNavigationPersonalBackgroundColor;; */
+  /* border: 1px solid &dtml-breadcrumb_personalbarBGcolor;; */
+ }
+
+/******************* ts globalnav *******************/
+#ts-globalnavwrapper
+{
+  height: 55px;
+  width: 150px;
+  /* background-color: #ffffff; */
+  }
+
+#ts-globalnav 
+{
+  background-color: transparent;
+  list-style: none;
+  list-style-image: none;
+  list-style-type: none;
+  }
+
+/* ts buttons */
+ul#ts-globalnav 
+{ 
+  height: 33px; 
+  margin-left: 0px; 
+  margin-top: 0px; 
+  margin: 0px;
+}
+ul#ts-globalnav li 
+{ 
+  display: block; 
+  padding: 0; 
+  margin: 0px;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  height: 33px;
+}
+
+ul#ts-globalnav li a, ul#ts-globalnav li a:hover
+{ 
+  display: block;
+  padding: 33px 0 0 0;
+  border: 0;
+  height: 0px !important;
+  height /**/:33px;
+  }
+
+li#ts-watchproject a { background-image: url("&dtml-portal_url;/watchproject_off.gif");
+background-position: 0px 0px;
+width: 150px;
+}
+li#ts-watchproject a:hover { background-image: url("&dtml-portal_url;/watchproject_on.gif");
+background-position: 0px 0px;
+width: 150px;
+}
+
+li#ts-joinproject a { background-image: url("&dtml-portal_url;/joinproject_off.gif");
+background-position: 0px 0px;
+width: 150px;
+}
+li#ts-joinproject a:hover { background-image: url("&dtml-portal_url;/joinproject_on.gif");
+background-position: 0px 0px;
+width: 150px;
+}
+
+li#ts-submitcontent a { background-image: url("&dtml-portal_url;/submitcontent_off.gif");
+background-position: 0px 0px;
+width: 150px;
+}
+li#ts-submitcontent a:hover { background-image: url("&dtml-portal_url;/submitcontent_on.gif");
+background-position: 0px 0px;
+width: 150px;
+}
+
+/********************************end ts nav with bitmaps ********************************/
+td#headerrow 
+{
+  height: 27px;
+  background: url(&dtml-portal_url;/opp_bar_bg.gif) repeat-x;
+  width: 100%;
+  background-position : bottom;
+  background-color: #2b7284;	
+}
+
+td#bannerrow {background-color: transparent;}
+
+#portal-logo {
+    background: url(&dtml-portal_url;/oppbar_logo.gif) no-repeat;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    width: 103px;
+    height: 29px;
+    float: left; 
+    z-index: 1; 
+    position: relative;
+}
+
+
+#portal-logo a {
+    display: block;
+    text-decoration: none;
+    overflow: hidden;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    padding-top: 29px;
+    height: 0px !important;
+    height /**/: 29px;
+    width: 103px;
+    cursor: pointer;
+}
+
+/*********ts space top nav**************/
+#navwrap 
+{
+  float: left; 
+  z-index: 2; 
+  clear: none
+  }
+
+#portal-globalnav 
+{
+  background-color: transparent;
+  list-style: none;
+  list-style-image: none;
+  list-style-type: none;
+  white-space: nowrap;
+  }
+
+ul#portal-globalnav 
+{ 
+  margin-left: 0px; 
+  margin-top: 1em; 
+  margin: 0px;
+  }
+
+ul#portal-globalnav li 
+{ 
+  float: left; 
+  margin: .75em 0px 1px 0px; 
+  background-color: transparent;
+  }
+
+ul#portal-globalnav li a, 
+ul#portal-globalnav li a:hover, 
+ul#portal-globalnav li.selected a 
+{
+  color: #ffffff; 
+  text-decoration: none; 
+  background-color: transparent; 
+  border: 0px; 
+  }
+
+
+li#portaltab-startproject 
+{ 
+  border-left: 0px; 
+  display: block; 
+  float: left; 
+  padding: 0; 
+  margin: 0; 
+  overflow: hidden; 
+  background-repeat: no-repeat; 
+  height: 23px; 
+  }
+
+li#portaltab-startproject a 
+{
+  display: block; 
+  padding: 23px 0 0 0; 
+  border: 0; 
+  height: 0px !important; height /**/:23px;  
+  background-image: url("&dtml-portal_url;/ts_startproject.gif"); 
+  background-position: 0px 0px; width: 101px; 
+  }
+
+li#portaltab-startproject a:hover 
+{
+  display: block; 
+  padding: 23px 0 0 0; 
+  border: 0; 
+  height: 0px !important; height /**/:23px;  
+  background-image: url("&dtml-portal_url;/ts_startproject.gif"); 
+  background-position: 0px 0px; 
+  width: 101px; 
+  }
+
+/* search */
+
+#portal-searchbox {
+    float: right;
+    /* clear: both; */
+    background-color: transparent;
+    margin: .5em 0 0 0;
+    padding: 0 1em 0 0;
+    text-align: right;
+    text-transform: &dtml-textTransform;;
+    white-space: nowrap;
+    z-index: 1;
+}
+
+/* LiveSearch styles */
+
+.LSRes {
+    font-family:  &dtml-fontFamily;;
+    visibility: visible;
+    color: #777;;
+    /* background-color: &dtml-backgroundColor;; */
+    vertical-align: middle;
+    display:block;
+    list-style-image: none;
+    list-style-type: none;
+    text-align: left;
+    min-width: 16.5em;
+    text-transform: none;
+    margin-left: 0;
+    line-height: 1.1em;
+}
+
+.LSRow {
+    border: &dtml-borderWidth; &dtml-borderStyle; &dtml-portalNavigationPersonalBackgroundColor;;
+    white-space: normal;
+    padding-left: 2px;
+    padding:0;
+    margin: 0;
+    list-style-image: none;
+    list-style-type: none;
+}
+
+.LSRow a {
+    text-decoration: none;
+    font-weight:bold;
+    white-space:nowrap
+}
+
+.LSDescr {
+    color: &dtml-discreetColor;;
+    text-transform: &dtml-textTransform;;
+    padding-left:2.1em;
+    margin-top:-0.1em;
+}
+
+.LSResult {
+    position:relative;
+    display: block;
+    text-align:right;
+    padding-top: 5px;
+    margin: 0;
+    left: 3px;
+    z-index: 3;
+
+}
+
+.LSShadow {
+    position:relative;
+    text-align:right;
+}
+
+#LSHighlight {
+    background-color: &dtml-contentViewBackgroundColor;;
+    border: &dtml-borderWidth; &dtml-borderStyle; &dtml-breadcrumb_personalbarBGcolor;;
+    color: &dtml-globalFontColor;;
+}
+
+#livesearchLegend {
+     background-color: &dtml-bannerheaderBackgroundColor;; 
+     line-height: -4em;
+     color: White;
+     border: 1px solid #777;; 
+     border-bottom: 1px solid #777;;
+     padding-right: 1em;
+     padding-left: 1em;
+     padding-top: .1em;
+     padding-bottom: .05em;
+     width: 100%;
+     font-size: 1em;
+     margin: -1.7em 0em 0em -1px;
+     font-family: &dtml-headingFontFamily;;
+}
+
+.LSIEFix {
+    background-color: &dtml-portalNavigationPersonalBackgroundColor;; /* &dtml-backgroundColor;; */
+    padding: 0.5em !important;
+    z-index: 20;
+}
+.livesearchContainer li, ul {
+  padding: 0;
+  margin: 0;
+  color: #777;
+}
+
+.livesearchContainer {
+    width:275px;
+    line-height: -3em;
+    text-transform: none;
+    border: &dtml-borderWidth; &dtml-borderStyle; #777;; /*  */
+    background-color: &dtml-portalNavigationPersonalBackgroundColor;; /* &dtml-backgroundColor */
+    margin-top: 0;
+    padding: 0 !important;
+    position: absolute;
+    right:0px;
+    /* Currently exposes a rendering bug in Mozilla */
+    top: -4px;
+    white-space: normal;
+    font-family:  &dtml-headingFontFamily;;
+    visibility: visible;
+    text-align:left;
+    color: &dtml-globalFontColor;;
+    background-color: &dtml-portalNavigationPersonalBackgroundColor;
+}
+
+
+
+/*********teamspace tablemain**************/
+table#tablemain 
+{
+  text-align:center; 
+  margin-left:auto; 
+  margin-right:auto;
+  width: 100% !important;
+  border-collapse: collapse;
+  border-spacing: 0;
+  empty-cells: show;
+}
+table#tablemain tr,td 
+{
+  text-align:left;
+  padding: 0;
+}
+
+td#topshadow, td#topleftshadow_out, td#toprightshadow_out, div#topleftshadow_in, div#toprightshadow_in 
+{display:none;}
+
+td#bottomleftshadow_out 
+{
+  background-image: url("&dtml-portal_url;/ts_bottomleftshadow_out.gif");
+  width: 10px;
+  height: 20px;
+  empty-cells: show;
+}
+td#bottomshadow {background-image: url("&dtml-portal_url;/ts_bottomshadow.gif");}
+td#bottomrightshadow_out {background-image: url("&dtml-portal_url;/ts_bottomrightshadow_out.gif");
+width: 10px;
+height: 20px;
+empty-cells: show;}
+
+div#bottomleftshadow_in {background-image: url("&dtml-portal_url;/ts_bottomleftshadow_in.gif");
+width: 10px;
+height: 20px;
+float: left;}
+
+div#bottomrightshadow_in 
+{
+  background-image: url("&dtml-portal_url;/ts_bottomrightshadow_in.gif");
+  width: 10px;
+  height: 20px;
+  float: right;
+  }
+
+td#leftshadow 
+{
+  background-image: url("&dtml-portal_url;/ts_leftshadow.gif");
+  width: 10px;
+  height: 1px;
+  empty-cells: show;
+  }
+
+td#rightshadow 
+{
+  background-image: url("&dtml-portal_url;/ts_rightshadow.gif");
+  width: 10px;
+  height: 1px;
+  empty-cells: show;
+  }
+
+
+
+#ts_userrole {
+    /* Bar with personalized menu (user preferences, favorites etc) */
+	background-color: #ffffff;
+    color: &dtml-fontColor;;
+    padding: 5px 5px 0px 0px;
+	height: 30px;
+    margin: 0;
+    text-align: right;
+    list-style: none;
+	color: #666666;
+}
+
+.ts_portalUser{
+    /* Bar with personalized menu (user preferences, favorites etc) */
+	color: #256e81;
+	font-family: Arial;
+	font-size: 10px;
+}
+
+#portal-column-one {
+    vertical-align: top;
+    width: 150px;
+}
+
+
+body {
+    font: &dtml-fontBaseSize; <dtml-var fontFamily>;
+    background: url(&dtml-portal_url;/ts_bg.gif) repeat;
+    background-color: &dtml-backgroundColor;;
+    color: &dtml-fontColor;;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-left: 0;
+    margin: 0;
+    padding: 0;
+}
+
+
+/*changed border bottom
+    border-bottom: 1px dashed #999999; */
+h1, h2, h3, h4, h5, h6 
+{
+  color: black;
+  background-color: transparent;
+  font-family: Georgia;
+  font-weight: normal;
+  margin: 0em 0em .5em 0em;
+  border-bottom: 0px;
+}
+
+/* breadcrumbs and featurelet menu */
+
+#portal-breadcrumbs li {
+color: &dtml-globalFontColor;;
+margin-left: 1em;
+display: inline;
+}
+
+/* copy of plone's portal personal tools and breadcrumbs*/
+
+#portal-navigation-personal 
+{ 
+  border-top: 1px solid #777;
+  border-bottom: 1px solid #777;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  font-family: Georgia;
+  width: 100%;
+  background-color: &dtml-portalNavigationPersonalBackgroundColor;;
+} 
+
+#portal-breadcrumbs 
+{
+  border-top: 0px solid #777;
+  border-bottom: 0px solid #777;
+  white-space: nowrap;
+  background-color: transparent;
+  padding-left: 0em;
+  }
+
+#portal-personaltools {
+    /* Bar with personalized menu (user preferences, favorites etc) */
+    background-color: transparent;
+    border-top-width: 0;
+    border-bottom-width:  0; 
+    line-height: 1.6em;
+    color: &dtml-fontColor;;
+    padding: 0em 3em 0em 3em;
+    margin: 0;
+    text-align: right;
+    text-transform: &dtml-textTransform;;
+    list-style: none;
+    float: right;                        
+}
+
+#portal-personaltools ul {  
+    margin: .1em 0em 0em 0em;
+}
+
+#portal-personaltools .portalUser {
+    background: transparent url(&dtml-portal_url;/user.gif) center left no-repeat;
+    padding-left: 15px;
+}
+
+#portal-personaltools .portalNotLoggedIn {
+    /* Used on all descriptions relevant to those not logged in */
+    color: &dtml-fontColor;;
+    padding: 0;
+    background: transparent;
+    background-image: none;
+}
+
+#portal-personaltools li {
+    color: &dtml-globalFontColor;;
+    margin-left: 1em;
+    display: inline;
+}
+
+#portal-personaltools li a {
+    text-decoration: none;
+    color: &dtml-globalFontColor;;
+}
+
+#portal-personaltools .visualIconPadding {
+    padding-left: 10px;
+}
+
+/* Projects page */
+#column-one
+{
+  float:left; 
+  padding-right:0em;
+  padding-left: 1em;
+  display:block;
+  width:*;
+  margin-right:*;
+  }
+
+#column-two
+{ 
+  width:355px;  
+  float:right;
+  text-align:right;
+  margin-right: 2em;
+  display:block;
+  }
+
+#allProjectHeading 
+{ 
+  padding-right: 1em;
+  padding-bottom: .5em;
+  padding-left: 1em;
+  background-color: #FFF
+  }
+
+#project-list
+{  
+  background-color: &dtml-portalNavigationPersonalBackgroundColor;;
+  }
+
+#projects-table
+{
+  border-right: 1px solid #777;
+  border-left: 1px solid #777;
+  border-bottom: 1px solid #777;
+  font-size: &dtml-fontSmallSize;;
+  border: collapse;
+}
+
+#projects-table th
+{  
+  padding: 0.25em 1em;
+  text-transform: &dtml-textTransform;;
+  font-weight: normal;
+  background-color: &dtml-bannerheaderBackgroundColor;; 
+  color: White;
+  border: none;
+  margin:0em;
+  border: 1px solid #777;
+}
+
+#projects-table td 
+{ 
+  padding: 0.25em 1em;
+  vertical-align: top;
+  border-collapse: collapse;
+  margin:0em;
+ }
+
+#projects-table a
+{ 
+  text-decoration: none; 
+  }
+
+#projects-table a:hover {
+    text-decoration: underline;
+}
+
+#project-list .project-info
+{
+  visibility:hidden;
+ }
+
+#project-list .collapse-cell
+{  
+  visibility:collapse;
+}
+
+#project-list .uncollapse-cell
+{
+ visibility:visible;
+}
+
+#abc-click 
+{ 
+  background-color: &dtml-portalNavigationPersonalBackgroundColor;;
+  font-size: &dtml-fontSmallSize;;
+  border-top: 1px solid #777;
+  border-right: 1px solid #777;
+  border-left: 1px solid #777;
+  padding-right: .5em;
+  padding-bottom: .2em;
+ }
+
+#abc-show-all 
+{
+  float: left;
+  background-color: #FFA;
+  border: 1px solid #777;
+  padding: .1em !important;
+  margin: 1px;
+  display:box !important;
+}
+
+#abc-click ul
+{
+  display:inline;
+  list-style: none;
+  border: none;
+  }
+
+#abc-click li
+{ 
+ background-color: &dtml-portalNavigationPersonalBackgroundColor;;
+  display:inline;
+  list-style: none;
+  border: none;
+  text-align:center;
+  margin:0;
+  padding:0;
+}
+
+
+#abc-click a
+{
+  padding:0;
+  padding:.05em;
+  text-decoration: none;   
+  margin:.05em;
+}
+
+#abc-click li:hover
+{ 
+  background-color: #FFA;
+}
+
+#abc-click a:visited
+{
+  color: &dtml-linkColor;;
+}
+
+/* </dtml-with> */

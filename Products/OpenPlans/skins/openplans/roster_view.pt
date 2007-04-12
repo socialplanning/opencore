@@ -1,0 +1,71 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US"
+      lang="en-US"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+
+  <metal:border fill-slot="head_slot">
+    <tal:border define="dummy python:request.set('enable_border',1)" />
+  </metal:border>
+
+  <body>
+
+    <div metal:fill-slot="main" tal:define="batch_size python:12">
+      <div metal:use-macro="here/roster_macros/macros/roster_template">
+	<div metal:fill-slot="display_members">
+          <tal:block tal:repeat="member_brain batch">
+            <table>  
+              <tr tal:define="member member_brain/getObject;
+                              mem_folder python: mtool.getHomeFolder(member.getId());
+                              member_url mem_folder/absolute_url | nothing;">
+                <td valign="top">
+                  <a tal:attributes="href member_url">
+                    <div>
+	              <img tal:replace="structure member/getPortrait" />
+                    </div>
+                  </a>
+                </td>
+
+                <td valign="top">
+                  <table>
+                    <tr>
+                      <td class="lg" colspan="2" nowrap>
+                        <b><a tal:attributes="href member_url"
+                              tal:content="member/getFullname">FULL NAME</a></b>&nbsp;&raquo;
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="md" align="right" valign="top" nowrap><b>member id:</b></td>
+                      <td class="md" tal:content="member/getId">ID</td>
+                    </tr>
+
+                    <tr>
+                      <td class="md" align="right" valign="top" nowrap><b>location:</b></td>
+                      <td class="md"
+                          tal:content="member/getLocation"></td>
+                    </tr>
+
+                    <tr tal:condition="python: hasattr(member, 'getProjectListing')">
+                      <td class="md" align="right" valign="top" nowrap><b>projects:</b></td>
+                      <td class="md"
+                          tal:define="projects python:member.getProjectListing()">
+                        <span metal:use-macro="here/member_projects/macros/projectslist" />
+                      </td>
+                    </tr>
+
+                  </table>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="2"><hr size="1"></td>
+              </tr>
+            </table>  
+          </tal:block>
+        </div>
+      </div>
+
+    </div>
+
+  </body>
+</html>

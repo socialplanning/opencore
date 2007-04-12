@@ -1,0 +1,16 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+  <include package="zope.app.annotation" />
+  <include package="opencore.configuration" file="permissions.zcml" />
+  <include package="Products.listen" file="permissions.zcml" />
+  <include package="opencore.configuration" />
+
+  <include file="metadata.zcml" />
+
+  <adapter
+     for="opencore.interfaces.IProject"
+     provides="opencore.interfaces.IWriteWorkflowPolicySupport"
+     factory=".content.wf_policy_support.WorkflowPolicyWriteAdapter"
+     permission="openplans.ManageWorkflowPolicy"
+     />
+
+</configure>

@@ -1,0 +1,222 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="plone">
+  <head><title></title></head>
+  <body>
+
+<!-- Attachments -->
+<metal:block define-macro="view"
+                tal:define="voc field/Vocabulary; 
+                            accessor python:field.getAccessor(here);
+                            value python: voc and voc.getValue(str(accessor())) or accessor();
+                            attachments python:here.getFolderContents(contentFilter = {'portal_type' : ['FileAttachment']})">
+
+	<tal:block condition="python:value and attachments">
+	    <fieldset id="attachmentsBox">
+            <legend>Attachments</legend>
+            <ul class="visualNoMarker">
+            <tal:related tal:repeat="item attachments">
+                <li tal:define="
+                        desc      item/Description;
+                        item_type item/portal_type;
+                        item_type_class python: 'contenttype-' + putils.normalizeString(item_type);
+                        item_wf_state       item/review_state|python: getInfoFor(item, 'review_state', '');
+                        item_wf_state_class python: 'state-' + putils.normalizeString(item_wf_state);
+		                item_url           item/getURL;">
+                    <span tal:attributes="class item_type_class">
+                    <a href="" class="visualIconPadding"
+                        tal:attributes="href  item_url;
+                                        title desc;"
+                        tal:content="item/pretty_title_or_id">
+                        Related Item
+                    </a>
+                    </span>
+                </li>
+            </tal:related>
+            </ul>
+        </fieldset>
+	</tal:block>
+	
+</metal:block>
+
+<metal:block define-macro="edit">
+
+	<tal:block define="attachments python:here.getFolderContents(contentFilter = {'portal_type' : ['FileAttachment']})">
+	
+	<!-- Show preview box, adapted from AT boolean widget -->
+	<script>
+	    // this function turns a checkbox into a radio button... sort of
+	    function toggle_boolean(visibleCheckbox, hiddenBoolean) {
+	    vis = document.getElementById(visibleCheckbox);
+	    hidden = document.getElementById(hiddenBoolean);
+	    if (vis.checked) {
+	    hidden.value = 1;
+	    } else {
+	    hidden.value = 0;
+	    }
+	    return true;
+	    }
+    </script>
+    <metal:use use-macro="field_macro | here/widgets/field/macros/edit">
+	    <metal:fill metal:fill-slot="widget_body_label_prefix"
+               tal:define="value python:test(not not value and value not in ('0', 'False'), 1, 0)">
+    	  <input class="noborder"
+    		 type="checkbox"
+    		 value="on"
+    		 tabindex=""
+    		 tal:attributes="tabindex tabindex/next;
+                    		 name string:${fieldName}_visible;
+                    		 onClick string:toggle_boolean('${fieldName}', '${fieldName}_hidden');; return true;
+                    		 id fieldName;
+                    		 checked python:value;"
+    		 />
+    	  <input type="hidden"
+    		 tal:attributes="name fieldName;
+    		 id string:${fieldName}_hidden;
+    		 value value;"
+    		 />
+    	</metal:fill>
+    </metal:use>
+
+	<dl id="attachment-controls" class="collapsible inline collapsedOnLoad"
+	    tal:attributes="class python:widget.expanded and 'collapsible inline' or 'collapsible inline collapsedOnLoad'">
+        <dt class="collapsibleHeader">Manage Attachments</dt>
+        <dd class="collapsibleContent">
+
+    <div tal:condition="nocall:attachments">
+
+	<table>
+	<tal:repeat repeat="attachment attachments">
+		
+	<tr>
+		<td valign="top">	
+			<input
+				type="checkbox"
+				class="noborder"
+				name="attachmentIds:list"
+				id="#"
+				value="#" 
+				tal:attributes="value attachment/getId;"
+				/>
+		</td>
+		<td valign="top" align="center" style="padding: 2px">
+		    <a href="" target="_blank" tal:attributes="href attachment/getURL">
+                <img tal:replace="structure here/file_icon.gif"/>
+            </a>
+		</td>
+		<td valign="middle" style="margin-left: 2em">
+			<input 
+				type="hidden" 
+				name="attachmentTitles.id:records" 
+				tal:attributes="value attachment/getId" />
+			<input
+				style="margin-left: 2px"
+				type="text"
+				name="attachmentTitles.title:records" 
+				size="30" 
+				tabindex=""
+				id="#"
+				value="#"
+				tal:attributes="tabindex tabindex/next;
+								value attachment/Title;"/>
+			<div class="discreet">
+    			(<a href="" target="_blank" tal:attributes="href attachment/getURL"
+    				tal:content="attachment/getId">Id</a> -  
+    			 <span tal:replace="attachment/getObjSize"/>)
+			 </div>
+		</td>
+	</tr>
+	</tal:repeat>
+	</table>
+
+    <div class="formControls" tal:condition="nocall:attachments">
+        <input class="context"
+               type="submit"
+               name="form.button.RenameAttachments"
+               value="Change titles"
+               i18n:attributes="value" 
+               tal:attributes="tabindex tabindex/next;"/>
+        <input class="context"
+               type="submit"
+               name="form.button.MoveAttachments"
+               value="Move first"
+               i18n:attributes="value" 
+               tal:attributes="tabindex tabindex/next;"/>
+        <input class="destructive"
+               type="submit"
+               name="form.button.DeleteAttachments"
+               value="Delete selected"
+               i18n:attributes="value"
+               tal:attributes="tabindex tabindex/next;"/>
+    </div>
+    
+    </div>
+    
+    <div class="bottomDivider">&nbsp;</div>
+
+	<div class="field"
+			tal:define="error_title errors/attachmentTitle|nothing;"
+	        tal:attributes="class python:test(error_title, 'field error', 'field')">
+		  
+		  <label for="title">
+		  	Add attachment to document
+		  </label>
+		  <div class="formHelp">
+				Enter a title for the attachment
+		  </div>
+		  <div tal:content="error_title">Validation error output</div>
+		  <input type="string" 
+				 name="attachmentTitle" 
+				 size="30" 
+				 tabindex=""
+				 tal:attributes="tabindex tabindex/next;"
+				 value=""/>
+				 
+	</div>    
+   <div 
+	 class="field "
+	 tal:define="error_file errors/attachmentFile|nothing;"
+	 tal:attributes="class python:test(error_file, 'field error', 'field')"> 
+		<div class="formHelp">
+			Select an attachment to add and click 'Upload'
+		</div>
+		
+		<div tal:content="error_file">Validation error output</div>
+
+		<input 				   
+			type="file" 
+			name="attachmentFile"
+			size="30" 
+			tabindex="" 
+			tal:attributes="tabindex tabindex/next;
+							value request/attachmentFile/filename | nothing"
+		/>
+	</div>
+		  
+	  
+	<div class="formControls"> 
+		<input class="context"
+			   tabindex=""
+			   type="submit" 
+			   name="form.button.UploadAttachment" 
+			   value="Upload" 
+			   i18n:attributes="value"
+			   tal:attributes="tabindex tabindex/next;" /> 
+			<div class="formHelp">
+			  Once an attachment is uploaded, you can link to it in your body
+			  text by putting double parentheses around either the ((title))
+                          or the ((filename)).
+		        </div>
+	 </div>
+
+    </dd>
+    </dl>
+    <br/><br/>
+	</tal:block>
+	
+</metal:block>
+
+</body>
+</html>
