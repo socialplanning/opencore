@@ -505,7 +505,15 @@ def registerJS(portal, out):
     new = ('openplans.js',)
     for script in new:
         if script not in existing:
+            print >> out, '-> Registering %s' % script
             jsreg.registerScript(script)
+
+    for script in ('formUnload.js', 'formsubmithelpers.js'):
+        if jsreg.getResource(script) is not None:
+            print >> out, '-> Setting condition on %s' % script
+            expr = "python:request.get('HTTP_X_OPENPLANS_APPLICATION', '') " \
+                + "!= 'tasktracker'"
+            jsreg.updateScript(script, expression=expr)
 
 def addHelpCenter(portal, out):
     ttool = getToolByName(portal, 'portal_types')
