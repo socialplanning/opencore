@@ -37,6 +37,22 @@ class ProjectInfoView(BrowserView):
         return inside
 
     @memoizedproperty
+    def navname(self):
+      return self.inProject and self.project.Title()
+
+    @memoizedproperty
+    def fullname(self):
+      return self.inProject and self.project.getFull_name()
+
+    @memoizedproperty
+    def fullname_t(self, n=30):
+      """Return the full name truncated to n characters"""
+      if self.inProject:
+          if len(self.fullname) < n:
+              return self.fullname
+          return self.fullname[:n] + '...'
+
+    @memoizedproperty
     def projectMembership(self):
         pm = getToolByName(self.context, 'portal_membership')
         if pm.isAnonymousUser():
