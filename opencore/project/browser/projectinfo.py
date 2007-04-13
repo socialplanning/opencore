@@ -54,9 +54,10 @@ class ProjectInfoView(BrowserView):
 
     @memoizedproperty
     def pageTitle(self):
-      """Return the full name truncated to n characters"""
-      if self.inProject:
-          return self.fullname_t + ' :: OpenPlans'
+        """Returns the title of the page
+        (tacks on ' :: OpenPlans' to the truncated project fullname"""
+        if self.inProject:
+            return self.fullname_t + ' :: OpenPlans'
 
     @memoizedproperty
     def homePageHTML(self):
