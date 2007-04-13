@@ -24,6 +24,7 @@ body {
 			color: #777777;
 		}
 	
+#page-container,
 #visual-portal-wrapper {
 	background-color: white;
 }
@@ -222,7 +223,7 @@ h1, h2, h3, h4, h5, h6,
 		#topnav .op-dropdown,
 		#topnav-openplans-search,
 		#footer,
-		.documentEditable #content-title .documentFirstHeading,
+    #content-title-pagetitle,
 	
 	/*Feeds and Forms */
 		.field input,
@@ -230,6 +231,7 @@ h1, h2, h3, h4, h5, h6,
 		.feed_data,
 		.feed_desc,
 		ul.contentViews,
+		ul.op-tabs,
 	
 	/* Error Messages */
 		.portalMessage,
@@ -272,7 +274,8 @@ h1, h2, h3, h4, h5, h6,
 /* PAGE
 This section defines the basic body structure of a page. */
 
-#visual-portal-wrapper {
+#page-container,
+#visual-portal-wrapper { /* visual-portal-wrapper is inherited plone cruft */
 	max-width: 70em;
 	min-width: 52em;
 	margin: 0 auto;
@@ -283,7 +286,8 @@ This section defines the basic body structure of a page. */
 	IN OTHER WORDS: avoid changing the width. */
 
 	/* IE Hack \*/
-	* html * #visual-portal-wrapper { width: 70em; }
+	* html * #page-container,
+  * html * #visual-portal-wrapper { width: 70em; }
 
 	/* HEADER
 	Global, context, and subcontext menus */
@@ -423,7 +427,7 @@ This section defines the basic body structure of a page. */
 				margin: 1.5em 0 0.75em;
 			}
 				
-				#content-tile-pagetitle {
+				#content-title-pagetitle {
 					position: absolute;
 					bottom: 0;
 					display: block;
@@ -467,10 +471,12 @@ This section defines the basic body structure of a page. */
 #op-member-info {
 }
 
+	#op-member-info .op-tabs,
 	#op-member-info .contentViews {
 		margin-bottom: 0;
 	}
 	
+		#op-member-info .op-tabs .contentview-view a,
 		#op-member-info .contentViews .contentview-view a {
 			background-color: #eee;
 			border-bottom: 2px solid #eee;
@@ -753,6 +759,7 @@ textarea {
 	/* PLONE -- contentViews
 		These classes define the look of the tabs on wiki pages and elsewhere. */
 
+ul.op-tabs,
 ul.contentViews {
 	background-color: transparent;
 	padding-right: 1em;
@@ -766,12 +773,14 @@ ul.contentViews {
 	text-transform: lowercase;
 }
 
+	.op-tabs li,
 	.contentViews li {
 		display: inline;
 		padding: 0.5em 0;
 		cursor: pointer;
 	}
 
+		.op-tabs li a,
 		.contentViews li a {
 			z-index: 1;
 			border: 1px solid #333333;
@@ -783,12 +792,14 @@ ul.contentViews {
 			color: #333333;
 		}
 
+			.op-tabs li a:hover,
 			.contentViews li a:hover {
 				background-color: #bbb;
 				color: white;
 				border-bottom: 1px #bbb solid;
 			}
 
+	.op-tabs .selected a,
 	.contentViews .selected a {
 		background-color: transparent;
 		border-bottom: white 2px solid; /* Must be same color as the background of the body (or container) */
