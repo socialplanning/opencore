@@ -53,6 +53,20 @@ class ProjectInfoView(BrowserView):
           return self.fullname[:n] + '...'
 
     @memoizedproperty
+    def pageTitle(self):
+      """Return the full name truncated to n characters"""
+      if self.inProject:
+          return self.fullname_t + ' :: OpenPlans'
+
+    @memoizedproperty
+    def homePageHTML(self):
+        """Returns the 'cooked body' of the project's homepage."""
+        if self.inProject:
+            homepage = self.project.getDefaultPage()
+            homepage = self.project.unrestrictedTraverse(homepage)
+            return homepage.CookedBody()
+
+    @memoizedproperty
     def projectMembership(self):
         pm = getToolByName(self.context, 'portal_membership')
         if pm.isAnonymousUser():
