@@ -6,9 +6,21 @@
   <body>
     <div id="page-container">
 
-      <!-- topnav view -->
-      <div tal:replace="structure here/@@opencore-topnav" />
-      <!-- end topnav view -->
+
+      <!-- topnav -->
+
+      <!-- stub for transcluder -->
+      <a tal:condition="nothing"
+         href="here/@@opencore-topnav" rel="include">navigation</a>
+      <!-- end stub for transcluder -->
+
+      <!-- stub for zope -->
+      <div tal:condition="not:nothing"
+           tal:replace="structure here/@@opencore-topnav" />
+      <!-- end stub for zope -->
+
+      <!-- end topnav -->
+
 
       <div id="content-container">
         <div id="content-title">
@@ -19,9 +31,21 @@
           </ul>
         </div>
 
-        <!-- contentwell view -->
-        <div tal:replace="structure here/@@opencore-contentwell" />
-        <!-- end topnav view -->
+
+        <!-- contentwell-->
+
+        <!-- stub for transcluder -->
+        <a tal:condition="nothing"
+           href="here/@@opencore-contentwell" rel="include">content</a>
+        <!-- end stub for transcluder -->
+
+        <!-- stub for zope -->
+        <div tal:condition="not:nothing"
+             tal:replace="structure here/@@opencore-contentwell" />
+        <!-- end stub for zope -->
+
+        <!-- end contentwell -->
+
 
       </div> <!-- content-container -->
     </div> <!-- page-container -->
