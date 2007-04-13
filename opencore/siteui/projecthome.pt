@@ -1,0 +1,33 @@
+<metal:block use-macro="here/global_defines/macros/defines" />
+<tal:vars tal:define="projInfoView here/@@project_info;
+                      projNavName   projInfoView/navname;
+                      projFullName  projInfoView/fullname;
+                      projFullNameT projInfoView/fullname_t;
+                      projHome      projInfoView/project/getDefaultPage">
+<html>
+  <head>
+    <link rel="stylesheet" href="++resource++naked.css" type="text/css" />
+    <title tal:content="python: projFullNameT + ' :: OpenPlans'" />
+  </head>
+  <body>
+    <div id="page-container">
+      <!-- topnav view -->
+      <div tal:replace="structure here/@@opencore-topnav" />
+      <!-- end topnav view -->
+
+      <div id="content-container">
+        <div id="content-title">
+          <span id="content-title-pagetitle" tal:content="projFullName"/>
+          <ul class="op-tabs">
+            <li><a href="project-home">View</a></li>
+            <li><a href="project-home/edit">Edit</a></li>
+          </ul>
+        </div>
+
+        <div id="content-main" tal:content="structure python:projInfoView.project.unrestrictedTraverse(projHome).CookedBody()" />
+
+      </div> <!-- content-container -->
+    </div> <!-- page-container -->
+  </body>
+</html>
+</tal:vars>
