@@ -40,16 +40,17 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
 
         headers['Cookie'] = scah.generateCookie(user_name)
 
+        # @@ we are going to replace this with a utility(so we can do
+        # mocking for tests)
         http = Http()
         return http.request(uri, method=method, headers=headers)
 
     def deliverPackage(self, obj):
+        #@@ what is initialize?????
         uri = "%s/tasks/project/initialize/" % obj.absolute_url()
         response, content = self._makeHttpReqAsUser(uri, obj=obj)
         if response.status != 200: 
-	    raise AssertionError("Terrible!")
-	    #            pass  #just kidding -- do something terrible instead
-
+	    raise AssertionError("yo...initialize doesn't exist....")
         return BaseFeaturelet.deliverPackage(self, obj)
 
     def removePackage(self, obj):
