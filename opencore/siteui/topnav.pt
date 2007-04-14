@@ -25,7 +25,7 @@
             </tal:inProject>
             <tal:notInProject condition="not:inProject">
               <tal:memberinfo define="mem_info here/member_info | nothing; member python:mem_info.member">
-                <h1 tal:condition="python:member is not None" tal:content="python:dir(member)">
+                <h1 tal:condition="python:member is not None" tal:content="member/fullname">
                   <!-- a tal:attributes="href href string:${portal_url}/people/${member.getId}" tal:content="python:member.getId()">Member Name</a -->
                 </h1>
                 <h1 tal:condition="python:member is None" tal:content="python: here.title">
