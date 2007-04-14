@@ -1,0 +1,17 @@
+<div id="footer">
+  <ul>
+    <li><a href="/about">about</a></li>
+    <li><a href="/contact">contact</a></li>
+    <li><a href="/legal">legal</a></li>
+    <li><a href="/privacy">privacy</a></li>
+  </ul>
+
+  <!-- TODO
+    nmembers   = len(catalog.query(portal_type='OpenProject'))
+    nprojects  = len(catalog.query(portal_type='OpenMember'))
+    opbirthday = ???
+    -->
+  <span tal:define="nmembers python:'XXX'; nprojects python:'YYY'; opbirthday python:'ZZZ'"
+    tal:content="string: OpenPlans is ${nmembers} members and ${nprojects}
+    projects since ${opbirthday}." />
+</div>

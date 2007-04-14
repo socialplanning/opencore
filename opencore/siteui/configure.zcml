@@ -69,6 +69,15 @@
      />
   <!-- end naked resources -->
 
+  <!-- browser:page for projecthome view -->
+  <browser:page
+     for="*"
+     permission="zope.Public"
+     name="opencore-projecthome"
+     template="projecthome.pt"
+     />
+  <!-- end projecthome view -->
+
   <!-- browser:page for topnav view -->
   <browser:page
      for="*"
@@ -87,14 +96,14 @@
      />
   <!-- end contentwell view -->
 
-  <!-- browser:page for topnav view -->
+  <!-- browser:page for footer view -->
   <browser:page
      for="*"
      permission="zope.Public"
-     name="opencore-projecthome"
-     template="projecthome.pt"
+     name="opencore-footer"
+     template="footer.pt"
      />
-  <!-- end topnav view -->
+  <!-- end footer view -->
 
 
 </configure>

@@ -46,8 +46,24 @@
 
         <!-- end contentwell -->
 
-
       </div> <!-- content-container -->
+
+
+      <!-- footer -->
+
+      <!-- stub for transcluder -->
+      <a tal:condition="nothing"
+        href="here/@@opencore-footer" rel="include">footer</a>
+      <!-- end stub for transcluder -->
+
+      <!-- stub for zope -->
+      <div tal:condition="not:nothing"
+        tal:replace="structure here/@@opencore-footer" />
+      <!-- end stub for zope -->
+
+      <!-- end footer -->
+
+
     </div> <!-- page-container -->
   </body>
 </html>
