@@ -10,12 +10,12 @@
       <!-- topnav -->
 
       <!-- stub for transcluder -->
-      <a tal:condition="nothing"
-         href="here/@@opencore-topnav" rel="include">navigation</a>
+      <a tal:condition="not:nothing"
+         href="@@opencore-topnav" rel="include">navigation</a>
       <!-- end stub for transcluder -->
 
       <!-- stub for zope -->
-      <div tal:condition="not:nothing"
+      <div tal:condition="nothing"
            tal:replace="structure here/@@opencore-topnav" />
       <!-- end stub for zope -->
 
@@ -35,12 +35,12 @@
         <!-- contentwell-->
 
         <!-- stub for transcluder -->
-        <a tal:condition="nothing"
-           href="here/@@opencore-contentwell" rel="include">content</a>
+        <a tal:condition="not:nothing"
+           href="@@opencore-contentwell" rel="include">content</a>
         <!-- end stub for transcluder -->
 
         <!-- stub for zope -->
-        <div tal:condition="not:nothing"
+        <div tal:condition="nothing"
              tal:replace="structure here/@@opencore-contentwell" />
         <!-- end stub for zope -->
 
@@ -52,12 +52,12 @@
       <!-- footer -->
 
       <!-- stub for transcluder -->
-      <a tal:condition="nothing"
-        href="here/@@opencore-footer" rel="include">footer</a>
+      <a tal:condition="not:nothing"
+         href="@@opencore-footer" rel="include">footer</a>
       <!-- end stub for transcluder -->
 
       <!-- stub for zope -->
-      <div tal:condition="not:nothing"
+      <div tal:condition="nothing"
         tal:replace="structure here/@@opencore-footer" />
       <!-- end stub for zope -->
 
