@@ -132,7 +132,7 @@ class IAddOpenPlans(Interface):
     title = TextLine(
         title=_(u"Title"),
         description=_(u"Name of the site instance"),
-        default=u"Open Plans",
+        default=u"OpenPlans",
         required=True
         )
 
