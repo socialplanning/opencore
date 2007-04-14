@@ -11,6 +11,7 @@ from Products.OpenPlans.interfaces import IWriteWorkflowPolicySupport
 @adapter(IAfterProjectAddedEvent)
 def handle_postcreation(event):
     instance = event.project
+    request = instance.REQUEST
 
     # add the 'project home' menu item before any others
     #@@ move to function or subscriber
@@ -24,6 +25,9 @@ def handle_postcreation(event):
 
     # add defaulting redirect hooks
     redirect.activate(instance)
+
+    # add the featurelets, if any
+    save_featurelets(instance, request=request)
 
     # ugh... roster might have been created by an event before a
     # team was associated (in _initializeProject), need to fix up
@@ -54,6 +58,7 @@ def _initialize_project(instance, request):
     if policy_writer is not None:
         policy_writer.setPolicy(policy)
 
+    
 
 @adapter(IAfterSubProjectAddedEvent)
 def handle_subproject_redirection(event):
@@ -74,25 +79,32 @@ def _handle_parent_child_association(parent, child):
 
 
 @adapter(IProject, IObjectModifiedEvent)
-def save_featurelets(obj, event):
+def save_featurelets(obj, event=None, request=None):
     """
     IObjectModified event subscriber that installs the appropriate
     featurelets.
     """
-    req = obj.REQUEST
-    if req.get('set_flets') is None:
+    if not request:
+        request = obj.REQUEST
+
+    if event and request.get('__initialize_project__', None):
+        # bail if project isn't actuated yet and we are used via an
+        # IObjectModifiedEvent event
+        return
+    
+    if request.get('set_flets') is None:
         # don't do anything unless we're actually coming from the
         # project edit screen
         return
 
     # XXX there must be a better way... :-|
-    if req.get('flet_recurse_flag') is not None:
+    if request.get('flet_recurse_flag') is not None:
         return
-    req.set('flet_recurse_flag', True)
+    request.set('flet_recurse_flag', True)
     registry = getUtility(IFeatureletRegistry)
     supporter = IFeatureletSupporter(obj)
 
-    desired = req.get('featurelets')
+    desired = request.get('featurelets')
     if desired is None:
         desired = tuple()
     desired = set(desired)
