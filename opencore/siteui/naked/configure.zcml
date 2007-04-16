@@ -41,8 +41,8 @@
   <browser:page
      for="*"
      permission="zope.Public"
-     name="opencore-contentwell"
-     template="contentwell.pt"
+     name="opencore-projectcontent"
+     template="projectcontent.pt"
      />
 
  </configure>

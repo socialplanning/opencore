@@ -31,17 +31,17 @@
         </div>
 
 
-        <!-- contentwell-->
+        <!-- project content-->
 
         <!-- for transcluder -->
         <a tal:condition="transclude"
-           href="@@opencore-contentwell" rel="include">content</a>
+           href="@@opencore-projectcontent" rel="include">content</a>
 
         <!-- for zope -->
         <div tal:condition="not:transclude"
-             tal:replace="structure here/@@opencore-contentwell" />
+             tal:replace="structure here/@@opencore-projectcontent" />
 
-        <!-- end contentwell -->
+        <!-- end project content -->
 
 
       </div> <!-- content-container -->
