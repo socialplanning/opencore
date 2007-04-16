@@ -1,6 +1,6 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser"
-	   xmlns:five="http://namespaces.zope.org/five">
+           xmlns:five="http://namespaces.zope.org/five">
 
   <browser:page
      for=".interfaces.IMemberHomePage"
@@ -62,48 +62,7 @@
   <include package="opencore.redirect" file="meta.zcml" />
 
 
-  <!-- resources for nakedized views -->
-  <browser:resource
-     file="naked.css"
-     name="naked.css"
-     />
-  <!-- end naked resources -->
-
-  <!-- browser:page for projecthome view -->
-  <browser:page
-     for="*"
-     permission="zope.Public"
-     name="opencore-projecthome"
-     template="projecthome.pt"
-     />
-  <!-- end projecthome view -->
-
-  <!-- browser:page for topnav view -->
-  <browser:page
-     for="*"
-     permission="zope.Public"
-     name="opencore-topnav"
-     template="topnav.pt"
-     />
-  <!-- end topnav view -->
-
-  <!-- browser:page for contentwell view -->
-  <browser:page
-     for="*"
-     permission="zope.Public"
-     name="opencore-contentwell"
-     template="contentwell.pt"
-     />
-  <!-- end contentwell view -->
-
-  <!-- browser:page for footer view -->
-  <browser:page
-     for="*"
-     permission="zope.Public"
-     name="opencore-footer"
-     template="footer.pt"
-     />
-  <!-- end footer view -->
-
+  <!-- include naked configuration -->
+  <include package="opencore.siteui.naked" file="configure.zcml" />
 
 </configure>

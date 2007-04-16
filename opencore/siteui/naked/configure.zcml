@@ -1,0 +1,48 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:five="http://namespaces.zope.org/five">
+
+
+  <!-- resources for naked views -->
+  <browser:resource
+     file="naked.css"
+     name="naked.css"
+     />
+
+
+  <!-- topnav view -->
+  <browser:page
+     for="*"
+     permission="zope.Public"
+     name="opencore-topnav"
+     template="topnav.pt"
+     />
+
+
+  <!-- footer view -->
+  <browser:page
+     for="*"
+     permission="zope.Public"
+     name="opencore-footer"
+     template="footer.pt"
+     />
+
+
+  <!-- projecthome view -->
+  <browser:page
+     for="*"
+     permission="zope.Public"
+     name="opencore-projecthome"
+     template="projecthome.pt"
+     />
+
+
+  <!-- projectcontent view -->
+  <browser:page
+     for="*"
+     permission="zope.Public"
+     name="opencore-contentwell"
+     template="contentwell.pt"
+     />
+
+ </configure>
