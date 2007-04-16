@@ -4,20 +4,19 @@
     <title tal:content="here/@@project_info/pageTitle" />
   </head>
   <body>
-    <div id="page-container">
+    <div id="page-container"
+         tal:define="transclude python:request.get_header('X-transcluded')">
 
 
       <!-- topnav -->
 
-      <!-- stub for transcluder -->
-      <a tal:condition="not:nothing"
+      <!-- for transcluder -->
+      <a tal:condition="transclude"
          href="@@opencore-topnav" rel="include">navigation</a>
-      <!-- end stub for transcluder -->
 
-      <!-- stub for zope -->
-      <div tal:condition="nothing"
+      <!-- for zope -->
+      <div tal:condition="not:transclude"
            tal:replace="structure here/@@opencore-topnav" />
-      <!-- end stub for zope -->
 
       <!-- end topnav -->
 
@@ -34,32 +33,29 @@
 
         <!-- contentwell-->
 
-        <!-- stub for transcluder -->
-        <a tal:condition="not:nothing"
+        <!-- for transcluder -->
+        <a tal:condition="transclude"
            href="@@opencore-contentwell" rel="include">content</a>
-        <!-- end stub for transcluder -->
 
-        <!-- stub for zope -->
-        <div tal:condition="nothing"
+        <!-- for zope -->
+        <div tal:condition="not:transclude"
              tal:replace="structure here/@@opencore-contentwell" />
-        <!-- end stub for zope -->
 
         <!-- end contentwell -->
+
 
       </div> <!-- content-container -->
 
 
       <!-- footer -->
 
-      <!-- stub for transcluder -->
-      <a tal:condition="not:nothing"
+      <!-- for transcluder -->
+      <a tal:condition="transclude"
          href="@@opencore-footer" rel="include">footer</a>
-      <!-- end stub for transcluder -->
 
-      <!-- stub for zope -->
-      <div tal:condition="nothing"
-        tal:replace="structure here/@@opencore-footer" />
-      <!-- end stub for zope -->
+      <!-- for zope -->
+      <div tal:condition="not:transclude"
+           tal:replace="structure here/@@opencore-footer" />
 
       <!-- end footer -->
 
