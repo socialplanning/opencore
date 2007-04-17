@@ -6,9 +6,11 @@ URI convenience api
 ===================
 
     >>> from opencore.tasktracker import uri as tt_uri
-    >>> tt_uri.get()
-    <opencore.tasktracker.uri.TaskTrackerURI object at ...>
 
+#@@ this should be cleaned up and return none
+
+    >>> tt_uri.get() 
+    u'http://localhost:5050'
 
 featurelet tests
 ================
