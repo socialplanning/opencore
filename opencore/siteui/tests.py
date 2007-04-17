@@ -36,7 +36,7 @@ def test_suite():
                                     setUp=general_setup
                                     )
 
-    topnav = FunctionalDocFileSuite("topnav.txt",
+    topnav = FunctionalDocFileSuite("naked/topnav.txt",
                                     optionflags=optionflags,
                                     package='opencore.siteui',
                                     test_class=FunctionalTestCase,
