@@ -4,60 +4,45 @@
     <title tal:content="here/@@project_info/pageTitle" />
   </head>
   <body>
-    <div id="page-container">
-
+    <div id="page-container"
+      tal:define="transclude python:request.get_header('X-transcluded')">
 
       <!-- topnav -->
-
-      <!-- for transcluder -->
       <a tal:condition="transclude"
          href="@@opencore-topnav" rel="include">navigation</a>
-
-      <!-- for zope -->
       <div tal:condition="not:transclude"
-           tal:replace="structure here/@@opencore-topnav" />
-
-      <!-- end topnav -->
+         tal:replace="structure here/@@opencore-topnav" />
 
 
       <div id="content-container">
+
+        <!-- page title and view/edit/etc tabs -->
         <div id="content-title">
-          <span id="content-title-pagetitle" tal:content="here/@@project_info/fullname"/>
+          <span id="content-title-pagetitle"
+            tal:content="here/@@project_info/fullname"/>
           <ul class="op-tabs">
             <li><a href="project-home">View</a></li>
             <li><a href="project-home/edit">Edit</a></li>
+            <li><a href="project-home/versions_history_form">History</a></li>
+            <!-- TODO check permissions for edit/history -->
           </ul>
         </div>
 
-
         <!-- project content-->
-
-        <!-- for transcluder -->
         <a tal:condition="transclude"
            href="@@opencore-projectcontent" rel="include">content</a>
-
-        <!-- for zope -->
         <div tal:condition="not:transclude"
-             tal:replace="structure here/@@opencore-projectcontent" />
-
-        <!-- end project content -->
+           tal:replace="structure here/@@opencore-projectcontent" />
 
 
       </div> <!-- content-container -->
 
 
       <!-- footer -->
-
-      <!-- for transcluder -->
       <a tal:condition="transclude"
          href="@@opencore-footer" rel="include">footer</a>
-
-      <!-- for zope -->
       <div tal:condition="not:transclude"
-           tal:replace="structure here/@@opencore-footer" />
-
-      <!-- end footer -->
-
+         tal:replace="structure here/@@opencore-footer" />
 
     </div> <!-- page-container -->
   </body>

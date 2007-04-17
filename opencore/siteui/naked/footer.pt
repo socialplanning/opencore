@@ -7,11 +7,11 @@
   </ul>
 
   <!-- TODO
-    nmembers   = len(catalog.query(portal_type='OpenProject'))
-    nprojects  = len(catalog.query(portal_type='OpenMember'))
-    opbirthday = ???
+    nmembers  = len(catalog.query(portal_type='OpenProject'))
+    nprojects = len(catalog.query(portal_type='OpenMember'))
+    dob = ???
     -->
-  <span tal:define="nmembers python:'XXX'; nprojects python:'YYY'; opbirthday python:'ZZZ'"
+  <span tal:define="nmembers python:'XXX'; nprojects python:'YYY'; dob python:'ZZZ'"
     tal:content="string: OpenPlans is ${nmembers} members and ${nprojects}
-    projects since ${opbirthday}." />
+    projects since ${dob}." />
 </div>
