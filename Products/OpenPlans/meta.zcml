@@ -1,6 +1,5 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope"
-    xmlns:meta="http://namespaces.zope.org/meta">
+   xmlns="http://namespaces.zope.org/zope">
   <!-- @@ really we should use site.zcml or in package-includes to
        call opencore.configuration rather than depending on Five's
        magic for loading configure and meta zcml.

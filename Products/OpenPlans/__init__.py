@@ -42,7 +42,7 @@ def initialize(context):
     from opencore.content import *
     from opencore.featurelets.roster import RosterFeaturelet
     from opencore.featurelets.listen import ListenFeaturelet
-    from opencore.featurelets.tasktracker import TaskTrackerFeaturelet
+    from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
     from opencore.listen import mailinglist
 
     # Register customization policy
