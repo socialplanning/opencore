@@ -11,12 +11,4 @@ class IListenContainer(Interface):
     featurelet.
     """
 
-class ITaskTrackerFeatureletInstalled(Interface):
-    """
-    Marks an object as having the task tracker featurelet installed.
-    """
 
-class ITaskTrackerContainer(Interface):
-    """
-    Marks an object as a task tracker container
-    """

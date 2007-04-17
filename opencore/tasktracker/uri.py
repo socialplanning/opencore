@@ -17,8 +17,8 @@ def set_tt_info(uri):
 
 def configure_tt_info(_context, uri):
     _context.action(
-        # if more than one DH is registered, will raise conflict
-        # warning. can be overridden
+        # if more than one TT_info is registered, will raise conflict
+        # warning. can be overridden after configuration
         discriminator = 'opencore.tasktracker.tt_info already registered',
         callable = set_tt_info,
         args = (host, path, vhost)
