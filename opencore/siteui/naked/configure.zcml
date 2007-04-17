@@ -13,6 +13,7 @@
   <!-- topnav view -->
   <browser:page
      for="*"
+     class=".nakedview.NakedView"
      permission="zope.Public"
      name="opencore-topnav"
      template="topnav.pt"
@@ -22,6 +23,7 @@
   <!-- footer view -->
   <browser:page
      for="*"
+     class=".nakedview.NakedView"
      permission="zope.Public"
      name="opencore-footer"
      template="footer.pt"
@@ -31,6 +33,7 @@
   <!-- projecthome view -->
   <browser:page
      for="*"
+     class=".nakedview.NakedView"
      permission="zope.Public"
      name="opencore-projecthome"
      template="projecthome.pt"
@@ -40,6 +43,7 @@
   <!-- projectcontent view -->
   <browser:page
      for="*"
+     class=".nakedview.NakedView"
      permission="zope.Public"
      name="opencore-projectcontent"
      template="projectcontent.pt"

@@ -4,15 +4,10 @@
     <title tal:content="here/@@project_info/pageTitle" />
   </head>
   <body>
-    <div id="page-container"
-      tal:define="transclude python:request.get_header('X-transcluded')">
+    <div id="page-container">
 
       <!-- topnav -->
-      <a tal:condition="transclude"
-         href="@@opencore-topnav" rel="include">navigation</a>
-      <div tal:condition="not:transclude"
-         tal:replace="structure here/@@opencore-topnav" />
-
+      <div tal:replace="structure python:view.include('opencore-topnav')" />
 
       <div id="content-container">
 
@@ -29,20 +24,12 @@
         </div>
 
         <!-- project content-->
-        <a tal:condition="transclude"
-           href="@@opencore-projectcontent" rel="include">content</a>
-        <div tal:condition="not:transclude"
-           tal:replace="structure here/@@opencore-projectcontent" />
-
+        <div tal:replace="structure python:view.include('opencore-projectcontent')" />
 
       </div> <!-- content-container -->
 
-
       <!-- footer -->
-      <a tal:condition="transclude"
-         href="@@opencore-footer" rel="include">footer</a>
-      <div tal:condition="not:transclude"
-         tal:replace="structure here/@@opencore-footer" />
+      <div tal:replace="structure python:view.include('opencore-footer')" />
 
     </div> <!-- page-container -->
   </body>
