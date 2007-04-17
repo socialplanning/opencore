@@ -6,6 +6,8 @@ from topp.featurelets.base import BaseFeaturelet
 from interfaces import ITaskTrackerFeatureletInstalled, ITaskTrackerContainer
 from Products.OpenPlans.interfaces import IProject
 
+from opencore.tasktracker import uri as tt_uri
+
 from httplib2 import Http
 
 class TaskTrackerFeaturelet(BaseFeaturelet):
@@ -39,6 +41,7 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
         scah = obj.acl_users[scah]
 
         headers['Cookie'] = scah.generateCookie(user_name)
+        headers['X-Openplans-Project'] = obj.id
 
         # @@ we are going to replace this with a utility(so we can do
         # mocking for tests)
@@ -46,18 +49,15 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
         return http.request(uri, method=method, headers=headers)
 
     def deliverPackage(self, obj):
-        #@@ what is initialize?????
-        uri = "%s/tasks/project/initialize/" % obj.absolute_url()
+        uri = "%s/project/initialize/" % tt_uri.get()
         response, content = self._makeHttpReqAsUser(uri, obj=obj)
         if response.status != 200: 
-	    raise AssertionError("yo...initialize doesn't exist....")
+	    raise AssertionError("Project initialization failed: status %d" % response.status)
         return BaseFeaturelet.deliverPackage(self, obj)
 
     def removePackage(self, obj):
-        uri = "%s/tasks/project/initialize/" % obj.absolute_url()
+        uri = "%s/project/uninitialize/" % tt_uri.get()
         response, content = self._makeHttpReqAsUser(uri, obj=obj)
         if response.status != 200:
 	    raise AssertionError("Terrible!")
-            #pass  #just kidding -- do something terrible instead
-
         return BaseFeaturelet.removePackage(self, obj)
