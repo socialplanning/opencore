@@ -45,19 +45,9 @@ class ProjectInfoView(BrowserView):
       return self.inProject and self.project.getFull_name()
 
     @memoizedproperty
-    def fullname_t(self, n=30):
-      """Return the full name truncated to n characters"""
-      if self.inProject:
-          if len(self.fullname) < n:
-              return self.fullname
-          return self.fullname[:n] + '...'
-
-    @memoizedproperty
-    def pageTitle(self):
-        """Returns the title of the page
-        (tacks on ' :: OpenPlans' to the truncated project fullname"""
-        if self.inProject:
-            return self.fullname_t + ' :: OpenPlans'
+    def url(self):
+        """Returns the url of the project"""
+        return self.project and self.project.absolute_url()
 
     @memoizedproperty
     def homePageHTML(self):

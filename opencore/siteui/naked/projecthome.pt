@@ -1,7 +1,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="++resource++naked.css" type="text/css" />
-    <title tal:content="here/@@project_info/pageTitle" />
+    <title tal:content="view/renderPageTitle" />
   </head>
   <body>
     <div id="page-container">

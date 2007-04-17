@@ -39,6 +39,18 @@ class MemberInfoView(BrowserView):
                 return item
 
     @memoizedproperty
+    def memberid(self):
+        return self.member and self.member.getId()
+
+    @memoizedproperty
+    def membername(self):
+        return self.member and self.member.getFull_name()
+
+    @memoizedproperty
+    def url(self):
+        return self.member and self.member.absolute_url()
+
+    @memoizedproperty
     def member_folder(self):
         return self.interfaceInAqChain(IMemberFolder)
 
