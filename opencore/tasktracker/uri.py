@@ -4,6 +4,7 @@ tasktracker instance
 """
 from opencore.tasktracker.interfaces import ITaskTrackerInfo
 from zope.interface import implements
+from zope.component import getUtility
 
 class TaskTrackerURI(object):
     implements(ITaskTrackerInfo)
@@ -13,7 +14,6 @@ class TaskTrackerURI(object):
 _tt_info = TaskTrackerURI()
 
 def set_tt_info(uri):
-    import pdb;pdb.set_trace()
     _tt_info.uri=uri
 
 def configure_tt_info(_context, uri):
@@ -24,3 +24,6 @@ def configure_tt_info(_context, uri):
         callable = set_tt_info,
         args = (uri,)
         )
+
+def get():
+    return getUtility(ITaskTrackerInfo).uri
