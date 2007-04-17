@@ -30,13 +30,14 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
 
     _required_interfaces = BaseFeaturelet._required_interfaces + (IProject,)
 
-    def _makeHttpReqAsUser(self, uri, obj, method="POST", headers=None):
+    def _makeHttpReqAsUser(self, uri, obj, method="POST", headers=None, user_name=None):
         if headers is None:
             headers = dict()
 
-        from Products.CMFCore.utils import getToolByName
-        user_name = getToolByName(obj, 'portal_membership').getAuthenticatedMember().getId()
-
+        if not user_name:
+            from Products.CMFCore.utils import getToolByName
+            user_name = getToolByName(obj, 'portal_membership').getAuthenticatedMember().getId()
+        
         scah = obj.acl_users.objectIds('Signed Cookie Auth Helper')[0]
         scah = obj.acl_users[scah]
 
@@ -50,8 +51,9 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
 
     def deliverPackage(self, obj):
         uri = "%s/project/initialize/" % tt_uri.get()
-        response, content = self._makeHttpReqAsUser(uri, obj=obj)
-        if response.status != 200: 
+        response, content = self._makeHttpReqAsUser(uri, obj=obj,
+                                                    headers={"X-Tasktracker-Initialize":"True"})
+        if response.status != 200:
 	    raise AssertionError("Project initialization failed: status %d" % response.status)
         return BaseFeaturelet.deliverPackage(self, obj)
 
