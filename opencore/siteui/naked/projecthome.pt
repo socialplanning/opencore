@@ -4,8 +4,7 @@
     <title tal:content="here/@@project_info/pageTitle" />
   </head>
   <body>
-    <div id="page-container"
-         tal:define="transclude python:request.get_header('X-transcluded')">
+    <div id="page-container">
 
 
       <!-- topnav -->
