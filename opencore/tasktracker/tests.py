@@ -22,19 +22,28 @@ def readme_setup(tc):
     tc.new_request._hacked_path=None
     tc.log = InstalledHandler(opencore.tasktracker.LOG)
 
-def test_suite():
-    from zope.component import getMultiAdapter
-    from zope.interface import alsoProvides
+def directive_setup(tc):
+    import opencore.tasktracker
+    zcml.load_config('test-directive.zcml', opencore.tasktracker)
 
-    readme = ztc.FunctionalDocFileSuite('README.txt',
-                                        package='opencore.tasktracker',
-                                        optionflags=optionflags,
-                                        setUp=readme_setup,
-                                        globs=locals())
+def test_suite():
+    from zope.component import getMultiAdapter, getUtility
+    from zope.interface import alsoProvides
+##     readme = ztc.FunctionalDocFileSuite('README.txt',
+##                                         package='opencore.tasktracker',
+##                                         optionflags=optionflags,
+##                                         setUp=readme_setup,
+##                                         globs=locals())
     
-    suites = (readme,)
-    for suite in suites:
-        suite.layer = ZCMLLayer
+##     suites = (readme,)
+##     for suite in suites:
+##         suite.layer = ZCMLLayer
+    directive = doctest.DocFileSuite('directive.txt',
+                                     package='opencore.tasktracker',
+                                     optionflags=optionflags,
+                                     setUp=directive_setup,
+                                     globs=locals())
+    suites = (directive,)
     return unittest.TestSuite(suites)
 
 if __name__ == '__main__':
