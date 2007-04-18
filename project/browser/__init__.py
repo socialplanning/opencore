@@ -61,6 +61,7 @@ class ProjectAddView(BaseAddView):
         """
         Perform some post-creation initialization.
         """
+        self.request.set('__initialize_project__', True)
         instance = self.instance()
         event.notify(AfterProjectAddedEvent(instance, self.request))
         return instance
