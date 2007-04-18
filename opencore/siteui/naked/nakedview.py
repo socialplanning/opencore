@@ -23,12 +23,11 @@ class NakedView(BrowserView):
             return '<a href="%s" rel="include">%s</a>' % (view, view)
         return self.context.unrestrictedTraverse(view).index()
 
-    @memoizedproperty
     def _title_info(self):
         if self.piv.inProject:
             title = self.piv.fullname
             url = self.piv.url
-        elif self.miv.member:
+        elif self.miv.inMemberArea:
             title = self.miv.membername
             url = self.miv.url
         else:
@@ -37,12 +36,12 @@ class NakedView(BrowserView):
         return title, url
 
     def renderPageTitle(self):
-        title, _ = self._title_info
+        title, _ = self._title_info()
         title = truncate(title)
         return '%s :: OpenPlans' % title
 
     def renderTopnavTitle(self):
-        title, url = self._title_info
+        title, url = self._title_info()
         title = truncate(title, max=64)
         h1 = '<h1>%s</h1>' % title
         return '<a href="%s">%s</a>' % (url, h1)

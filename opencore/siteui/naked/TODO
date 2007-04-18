@@ -1,3 +1,5 @@
+* what's going on with topnav of join form?
+
 * how to programmatically disable all css
   except naked.css?
 
@@ -15,3 +17,6 @@
 * are the @@'s necessary?
 
 * unrestrictedTraverse vs. restrictedTraverse?
+
+* address FIXMEs and TODOs and XXXs in various places
+  - opencore.siteui.member
