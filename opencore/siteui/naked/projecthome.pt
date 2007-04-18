@@ -14,7 +14,7 @@
         <!-- page title and view/edit/etc tabs -->
         <div id="content-title">
           <span id="content-title-pagetitle"
-            tal:content="here/@@project_info/fullname"/>
+            tal:content="here/project_info/fullname"/>
           <ul class="op-tabs">
             <li><a href="project-home">View</a></li>
             <li><a href="project-home/edit">Edit</a></li>

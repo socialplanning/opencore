@@ -1,9 +1,9 @@
 <div id="footer">
   <ul>
-    <li><a href="/about">about</a></li>
-    <li><a href="/contact">contact</a></li>
-    <li><a href="/legal">legal</a></li>
-    <li><a href="/privacy">privacy</a></li>
+    <li><a href="about">about</a></li>
+    <li><a href="contact">contact</a></li>
+    <li><a href="legal">legal</a></li>
+    <li><a href="privacy">privacy</a></li>
   </ul>
 
   <!-- TODO
