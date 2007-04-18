@@ -1,5 +1,6 @@
 from zope.interface import implements, Interface
-
+from zope.component import getUtility
+#from opencore.utility.interfaces import IHTTPClient 
 from topp.featurelets.interfaces import IFeaturelet
 from topp.featurelets.base import BaseFeaturelet
 
@@ -7,6 +8,7 @@ from interfaces import ITaskTrackerFeatureletInstalled, ITaskTrackerContainer
 from Products.OpenPlans.interfaces import IProject
 
 from opencore.tasktracker import uri as tt_uri
+from memojito import memoizedproperty
 
 from httplib2 import Http
 
@@ -30,7 +32,11 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
 
     _required_interfaces = BaseFeaturelet._required_interfaces + (IProject,)
 
-    def _makeHttpReqAsUser(self, uri, obj, method="POST", headers=None, user_name=None):
+    @memoizedproperty
+    def http(self):
+        pass
+
+    def _makeHttpReqAsUser(self, uri, obj, method="POST", headers=None):
         if headers is None:
             headers = dict()
 
