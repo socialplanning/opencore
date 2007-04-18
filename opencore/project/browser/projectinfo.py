@@ -49,6 +49,12 @@ class ProjectInfoView(BrowserView):
         """Returns the url of the project"""
         return self.project and self.project.absolute_url()
 
+    def featurelets(self):
+      """Returns a dict of featurelets installed for this project.
+      Keys are the featurelet names, values are their urls."""
+      # TODO
+      return {}
+
     @memoizedproperty
     def homePageHTML(self):
         """Returns the 'cooked body' of the project's homepage."""

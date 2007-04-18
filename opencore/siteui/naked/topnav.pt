@@ -16,9 +16,10 @@
     <tal:inproj tal:condition="inproj">
       <ul class="op-dropdown">
         <li><a tal:attributes="href projurl">home</a></li>
-        <li><a tal:attributes="href string:${projurl}/lists">mailing lists</a></li>
-        <li><a tal:attributes="href string:${projurl}/proj_roster">team</a></li>
         <li><a tal:attributes="href string:${projurl}/contact_project_admins">contact</a></li>
+        <li tal:repeat="name pinfo/featurelets">
+          <a tal:attributes="href python:pinfo.featurelets()[name]" tal:content="name" />
+        </li>
         <li tal:condition="user">manage &raquo;<!-- TODO: show for only managers -->
           <ul>
             <li><a tal:attributes="href string:${projurl}/folder_contents">content</a></li>
