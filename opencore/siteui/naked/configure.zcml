@@ -10,7 +10,7 @@
      />
 
 
-  <!-- topnav view -->
+  <!-- topnav -->
   <browser:page
      for="*"
      class=".nakedview.NakedView"
@@ -19,8 +19,27 @@
      template="topnav.pt"
      />
 
+  <!-- topnav menus etc -->
+  <browser:page
+     for="*"
+     class=".nakedview.NakedView"
+     permission="zope.Public"
+     name="opencore-topnav-menus"
+     template="topnav-menus.pt"
+     />
 
-  <!-- footer view -->
+  <!-- topnav accessibility -->
+  <browser:page
+     for="*"
+     class=".nakedview.NakedView"
+     permission="zope.Public"
+     name="opencore-topnav-accessibility"
+     template="topnav-accessibility.pt"
+     />
+
+
+
+  <!-- footer -->
   <browser:page
      for="*"
      class=".nakedview.NakedView"
@@ -30,7 +49,7 @@
      />
 
 
-  <!-- projecthome view -->
+  <!-- projecthome -->
   <browser:page
      for="*"
      class=".nakedview.NakedView"
@@ -40,7 +59,7 @@
      />
 
 
-  <!-- projectcontent view -->
+  <!-- projectcontent -->
   <browser:page
      for="*"
      class=".nakedview.NakedView"

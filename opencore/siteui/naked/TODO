@@ -1,0 +1,17 @@
+* how to programmatically disable all css
+  except naked.css?
+
+* override main_template.pt in this directory?
+  - would no longer need naked branch of OpenPlans
+
+* no longer rely on old tal variables in topnav
+
+* rename id's
+
+* in accessibility.pt: are accesskeys arbitrary?
+
+* oppbar_logo_bw.gif in topnav
+
+* are the @@'s necessary?
+
+* unrestrictedTraverse vs. restrictedTraverse?

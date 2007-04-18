@@ -32,7 +32,8 @@ class NakedView(BrowserView):
             title = self.miv.membername
             url = self.miv.url
         else:
-            title = url = 'FIXME'
+            title = self.context.title
+            url = None
         return title, url
 
     def renderPageTitle(self):
