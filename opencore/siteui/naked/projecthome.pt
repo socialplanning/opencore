@@ -1,7 +1,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="++resource++naked.css" type="text/css" />
-    <title tal:content="view/renderPageTitle" />
+    <title tal:content="view/renderWindowTitle" />
   </head>
   <body>
     <div id="page-container">
@@ -13,8 +13,7 @@
 
         <!-- page title and view/edit/etc tabs -->
         <div id="content-title">
-          <span id="content-title-pagetitle"
-            tal:content="here/project_info/fullname"/>
+          <span id="content-title-pagetitle" tal:content="structure view/renderPageTitle"/>
           <ul class="op-tabs">
             <li><a href="project-home">View</a></li>
             <li><a href="project-home/edit">Edit</a></li>

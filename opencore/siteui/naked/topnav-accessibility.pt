@@ -1,13 +1,5 @@
 <p class="hiddenStructure">
-  <a accesskey="1"
-    tal:attributes="href string:#topnav"
-    i18n:translate="label_skiptonavigation">Skip to navigation</a>
-
-  <a accesskey="2"
-    tal:attributes="href string:#content"
-    i18n:translate="label_skiptocontent">Skip to content</a>
-
-  <a accesskey="3"
-    tal:attributes="href string:#footer"
-    i18n:translate="label_skiptonavigation">Skip to footer</a>
+  <a accesskey="1" href="#topnav">Skip to navigation</a>
+  <a accesskey="2" href="#content">Skip to content</a>
+  <a accesskey="3" href="#footer">Skip to footer</a>
 </p>

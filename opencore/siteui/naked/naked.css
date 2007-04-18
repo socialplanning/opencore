@@ -436,6 +436,11 @@ This section defines the basic body structure of a page. */
 					letter-spacing: normal;
 					font-weight: normal;
 				}
+
+				#content-title-pagetitle a {
+          text-decoration: none;
+          color: black;
+        }
 					
 			#content-main {
 			}

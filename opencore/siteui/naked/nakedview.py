@@ -14,8 +14,9 @@ class NakedView(BrowserView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        self.piv = self.context.unrestrictedTraverse('project_info')
-        self.miv = self.context.unrestrictedTraverse('member_info')
+        self.sitetitle = 'OpenPlans' # TODO make more generic
+        self.piv = context.unrestrictedTraverse('project_info') # TODO make more generic
+        self.miv = context.unrestrictedTraverse('member_info') # TODO make more generic
 
     def _transclude(self):
         return self.request.get_header('X-transcluded')
@@ -28,22 +29,28 @@ class NakedView(BrowserView):
     def _title_info(self):
         if self.piv.inProject:
             title = self.piv.fullname
-            url = self.piv.url
+            subtitle = self.context.title
         elif self.miv.inMemberArea:
             title = self.miv.membername
-            url = self.miv.url
+            subtitle = 'foo'
         else:
             title = self.context.title
-            url = self.context.absolute_url()
-        return title, url
+            subtitle = 'bar'
+        return title, subtitle
 
-    def renderPageTitle(self):
-        title, _ = self._title_info()
-        title = truncate(title)
-        return '%s :: OpenPlans' % title
+    def renderWindowTitle(self):
+        title, subtitle = self._title_info()
+        title, subtitle = truncate(title, max=16), truncate(subtitle, max=24)
+        windowtitle = [subtitle, title, self.sitetitle]
+        return ' :: '.join([i for i in windowtitle if i])
 
     def renderTopnavTitle(self):
-        title, url = self._title_info()
+        title, _ = self._title_info()
         title = truncate(title, max=64)
         h1 = '<h1>%s</h1>' % title
-        return '<a href="%s">%s</a>' % (url, h1)
+        return '<a href="%s">%s</a>' % (self.context.absolute_url(), h1)
+
+    def renderPageTitle(self):
+        _, subtitle = self._title_info()
+        subtitle = truncate(subtitle, max=256)
+        return '<a href="%s">%s</a>' % (self.context.absolute_url(), subtitle)
