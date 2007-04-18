@@ -90,3 +90,38 @@ class OpenMailingList(MailingList):
     meta_type = "OpenMailingList"
 
     mailto = ListNameFieldProperty(IOpenMailingList['mailto'])
+
+
+
+from Products.listen.utilities.token_to_email import MemberToEmail
+from Products.CMFCore.utils import getToolByName
+
+def oc__init__(self, context):
+    """
+    Overrides the regular MemberToEmail to provide a more efficient way
+    of finding the id for a given email for the opencore stack
+    which uses membrane for user management.
+    """
+    self.context = context
+    self.mtool = getToolByName(context, 'membrane_tool')
+    
+def oc_to_memberid(self, email):
+    mems = self.mtool(getEmail=email)
+    if mems:
+        return mems[0].getId
+    else:
+        return None
+
+
+def oc_lookup_memberid(self, member_id):
+    member_obj = self.mtool(getID=member_id)
+    
+    if member_obj: 
+        return member_obj[0].getEmail
+    else:
+        return None
+    
+        
+MemberToEmail.__init__ = oc__init__
+MemberToEmail.to_memberid = oc_to_memberid
+MemberToEmail._lookup_memberid = oc_lookup_memberid
