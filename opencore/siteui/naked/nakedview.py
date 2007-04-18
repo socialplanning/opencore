@@ -32,7 +32,7 @@ class NakedView(BrowserView):
             url = self.miv.url
         else:
             title = self.context.title
-            url = None
+            url = '#'
         return title, url
 
     def renderPageTitle(self):

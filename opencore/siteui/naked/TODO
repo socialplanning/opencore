@@ -6,6 +6,8 @@
 * override main_template.pt in this directory?
   - would no longer need naked branch of OpenPlans
 
+* have main_template use nakedviews renderPageTitle
+
 * no longer rely on old tal variables in topnav
 
 * rename id's
