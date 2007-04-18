@@ -40,9 +40,8 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
         if headers is None:
             headers = dict()
 
-        if not user_name:
-            from Products.CMFCore.utils import getToolByName
-            user_name = getToolByName(obj, 'portal_membership').getAuthenticatedMember().getId()
+        from Products.CMFCore.utils import getToolByName
+        user_name = getToolByName(obj, 'portal_membership').getAuthenticatedMember().getId()
         
         scah = obj.acl_users.objectIds('Signed Cookie Auth Helper')[0]
         scah = obj.acl_users[scah]
