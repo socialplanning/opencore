@@ -11,12 +11,5 @@ class IListenContainer(Interface):
     featurelet.
     """
 
-class ITaskTrackerFeatureletInstalled(Interface):
-    """
-    Marks an object as having the task tracker featurelet installed.
-    """
+from opencore.tasktracker.interfaces import *
 
-class ITaskTrackerContainer(Interface):
-    """
-    Marks an object as a task tracker container
-    """
