@@ -27,20 +27,8 @@ def handle_postcreation(event):
     redirect.activate(instance)
 
     # add the featurelets, if any
-    try: 
-        save_featurelets(instance, request=request)
-    except:
-        good = instance.restrictedTraverse("members.xml")
-        print good.index()
-        theurl = instance.absolute_url()
-        from httplib2 import Http
-        h = Http()
-        try1, cont = h.request(uri="%s/members.xml" % theurl)
-        try2, cont = h.request(uri="%s/@@members.xml" % theurl)
-        print try1.status
-        print try2.status
-        import pdb; pdb.set_trace()
-
+    save_featurelets(instance, request=request)
+    
     # ugh... roster might have been created by an event before a
     # team was associated (in _initializeProject), need to fix up
     roster_id = instance.objectIds(spec='OpenRoster')
