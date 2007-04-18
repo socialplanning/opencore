@@ -14,12 +14,14 @@ class NakedView(BrowserView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        self.transclude = request.get_header('X-transcluded')
         self.piv = self.context.unrestrictedTraverse('project_info')
         self.miv = self.context.unrestrictedTraverse('member_info')
 
+    def _transclude(self):
+        return self.request.get_header('X-transcluded')
+
     def include(self, view):
-        if self.transclude:
+        if self._transclude():
             return '<a href="%s" rel="include">%s</a>' % (view, view)
         return self.context.unrestrictedTraverse(view).index()
 
