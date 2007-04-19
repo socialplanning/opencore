@@ -21,10 +21,33 @@ class NakedView(BrowserView):
     def _transclude(self):
         return self.request.get_header('X-transcluded')
 
-    def include(self, view):
+    def include(self, viewname):
         if self._transclude():
-            return '<a href="%s" rel="include">%s</a>' % (view, view)
-        return self.context.unrestrictedTraverse(view).index()
+            return '<a href="%s" rel="include">%s</a>' % (viewname, viewname)
+        return self.context.unrestrictedTraverse(viewname).index()
+
+    def userHasEditPrivs(self):
+        """Returns true iff currently-logged-in user has edit privileges on
+        this view."""
+        # TODO
+        return False
+
+    def tabs(self):
+        # XXX code review
+        def isSelected(taburl):
+            if self.context == self.context.unrestrictedTraverse(taburl):
+                return 'selected'
+        def isDisabled(tabRequiresEdit):
+            if not (tabRequiresEdit and self.userHasEditPrivs()):
+                return 'disabled'
+        def getClass(taburl, tabRequiresEdit):
+            return isSelected(taburl) or isDisabled(tabRequiresEdit) or ''
+        names = ['View', 'Edit', 'History']
+        requiresEditPrivs = [False, True, True]
+        urls = [self.context._getURL() + i for i in ['', '/edit', '/versions_history_form']]
+        classes = map(getClass, urls, requiresEditPrivs)
+        return [dict(name=name, url=url, cssclass=cssclass) for
+            name, url, cssclass in zip(names, urls, classes)]
 
     def _title_info(self):
         if self.piv.inProject:

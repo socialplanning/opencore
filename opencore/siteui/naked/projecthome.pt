@@ -11,18 +11,10 @@
 
       <div id="content-container">
 
-        <!-- page title and view/edit/etc tabs -->
-        <div id="content-title">
-          <span id="content-title-pagetitle" tal:content="structure view/renderPageTitle"/>
-          <ul class="op-tabs">
-            <li><a href="project-home">View</a></li>
-            <li><a href="project-home/edit">Edit</a></li>
-            <li><a href="project-home/versions_history_form">History</a></li>
-            <!-- TODO check permissions for edit/history -->
-          </ul>
-        </div>
+        <!-- project-tabs -->
+        <div tal:replace="structure python:view.include('opencore-project-tabs')" />
 
-        <!-- project content-->
+        <!-- project-content-->
         <div tal:replace="structure python:view.include('opencore-projectcontent')" />
 
       </div> <!-- content-container -->

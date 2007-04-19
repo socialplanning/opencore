@@ -58,6 +58,14 @@
      template="projecthome.pt"
      />
 
+  <!-- projecttabs -->
+  <browser:page
+     for="*"
+     class=".nakedview.NakedView"
+     permission="zope.Public"
+     name="opencore-project-tabs"
+     template="project-tabs.pt"
+     />
 
   <!-- projectcontent -->
   <browser:page
