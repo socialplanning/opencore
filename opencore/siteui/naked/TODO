@@ -1,3 +1,8 @@
+* replace links of View and History tabs -- they should link to new templates
+  - make template for "Hey! You need to log in!" screen
+
+* replace metal macro for quick_search in topnav-menus.pt
+
 * replacement of old siteui with naked?
   - cleaning up directory structure
   - can remove old templates in OpenPlans/skins/openplans_patches

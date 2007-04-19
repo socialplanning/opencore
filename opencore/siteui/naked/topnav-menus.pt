@@ -5,7 +5,7 @@
                      global member minfo/member" />
 
 
-<h1 id="topnav-openplans-title" metal:define-macro="portal_logo">
+<h1 id="topnav-openplans-title">
   <a href="/"
     tal:attributes="href navigation_root_url"
     tal:define="portal_title portal_properties/title">
@@ -47,4 +47,6 @@
   </tal:notAnon>
 </ul>
 
-<div id="topnav-openplans-search"><span metal:use-macro="here/global_searchbox/macros/quick_search" /></div>
+<div id="topnav-openplans-search">
+  <span metal:use-macro="here/global_searchbox/macros/quick_search" />
+</div>

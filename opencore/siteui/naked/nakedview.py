@@ -49,6 +49,10 @@ class NakedView(BrowserView):
         return [dict(name=name, url=url, cssclass=cssclass) for
             name, url, cssclass in zip(names, urls, classes)]
 
+    def renderLastModifiedInfo(self):
+        # TODO
+        return ''
+
     def _title_info(self):
         if self.piv.inProject:
             title = self.piv.fullname
