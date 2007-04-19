@@ -93,8 +93,10 @@ class OpenMailingList(MailingList):
 
 
 
-from Products.listen.utilities.token_to_email import MemberToEmail
+from zope.component import queryUtility
 from Products.CMFCore.utils import getToolByName
+from Products.listen.utilities.token_to_email import MemberToEmail
+from Products.listen.interfaces import IMemberLookup
 
 def oc__init__(self, context):
     """
@@ -112,16 +114,14 @@ def oc_to_memberid(self, email):
     else:
         return None
 
-
 def oc_lookup_memberid(self, member_id):
-    member_obj = self.mtool(getID=member_id)
+    member_obj = self.mtool(getId=member_id)
     
     if member_obj: 
         return member_obj[0].getEmail
     else:
         return None
     
-        
 MemberToEmail.__init__ = oc__init__
 MemberToEmail.to_memberid = oc_to_memberid
 MemberToEmail._lookup_memberid = oc_lookup_memberid
