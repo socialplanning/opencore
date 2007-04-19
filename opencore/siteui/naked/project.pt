@@ -15,7 +15,7 @@
         <div tal:replace="structure python:view.include('opencore-project-tabs')" />
 
         <!-- project-content-->
-        <div tal:replace="structure python:view.include('opencore-projectcontent')" />
+        <div tal:replace="structure python:view.include('opencore-project-content')" />
 
       </div> <!-- content-container -->
 

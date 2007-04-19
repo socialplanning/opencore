@@ -49,13 +49,13 @@
      />
 
 
-  <!-- projecthome -->
+  <!-- project -->
   <browser:page
      for="*"
      class=".nakedview.NakedView"
      permission="zope.Public"
-     name="opencore-projecthome"
-     template="projecthome.pt"
+     name="opencore-project"
+     template="project.pt"
      />
 
   <!-- projecttabs -->
@@ -72,8 +72,8 @@
      for="*"
      class=".nakedview.NakedView"
      permission="zope.Public"
-     name="opencore-projectcontent"
-     template="projectcontent.pt"
+     name="opencore-project-content"
+     template="project-content.pt"
      />
 
  </configure>
