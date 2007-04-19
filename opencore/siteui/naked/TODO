@@ -1,3 +1,8 @@
+* replacement of old siteui with naked?
+  - cleaning up directory structure
+  - can remove old templates in OpenPlans/skins/openplans_patches
+  - mapping the naked views to the appropriate portal_types (OpenProject, OpenMember, etc)
+
 * subtitle of naked/projects/p1/@@opencore-projecthome should be same as
   subtitle of naked/projects/p1/project-home/@@opencore-projecthome
 

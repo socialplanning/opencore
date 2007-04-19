@@ -14,7 +14,7 @@ class NakedView(BrowserView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        self.sitetitle = 'OpenPlans' # TODO make more generic
+        self.portal = getToolByName(context, 'portal_url').getPortalObject() 
         self.piv = context.unrestrictedTraverse('project_info') # TODO make more generic
         self.miv = context.unrestrictedTraverse('member_info') # TODO make more generic
 
@@ -41,7 +41,7 @@ class NakedView(BrowserView):
     def renderWindowTitle(self):
         title, subtitle = self._title_info()
         title, subtitle = truncate(title, max=16), truncate(subtitle, max=24)
-        windowtitle = [subtitle, title, self.sitetitle]
+        windowtitle = [subtitle, title, self.portal.title]
         return ' :: '.join([i for i in windowtitle if i])
 
     def renderTopnavTitle(self):
@@ -54,3 +54,18 @@ class NakedView(BrowserView):
         _, subtitle = self._title_info()
         subtitle = truncate(subtitle, max=256)
         return '<a href="%s">%s</a>' % (self.context.absolute_url(), subtitle)
+
+    def nmembers(self):
+        """Returns the number of members of the site."""
+        # TODO
+        return 1337
+
+    def nprojects(self):
+        """Returns the number of projects hosted by the site."""
+        # TODO
+        return 1337
+
+    def dob(self):
+        """Returns OpenPlans' "date of birth"."""
+        # TODO
+        return 'January 3, 1937'

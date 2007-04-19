@@ -1,17 +1,14 @@
 <div id="footer">
   <ul>
-    <li><a href="about">about</a></li>
-    <li><a href="contact">contact</a></li>
-    <li><a href="legal">legal</a></li>
-    <li><a href="privacy">privacy</a></li>
+    <li><a tal:attributes="href string:${here/portal_url}/about">about</a></li>
+    <li><a tal:attributes="href string:${here/portal_url}/contact">contact</a></li>
+    <li><a tal:attributes="href string:${here/portal_url}/legal">legal</a></li>
+    <li><a tal:attributes="href string:${here/portal_url}/privacy">privacy</a></li>
   </ul>
 
-  <!-- TODO
-    nmembers  = len(catalog.query(portal_type='OpenProject'))
-    nprojects = len(catalog.query(portal_type='OpenMember'))
-    dob = ???
-    -->
-  <span tal:define="nmembers python:'XXX'; nprojects python:'YYY'; dob python:'ZZZ'"
-    tal:content="string: OpenPlans is ${nmembers} members and ${nprojects}
-    projects since ${dob}." />
+  <span tal:content="string:
+    OpenPlans is
+    ${view/nmembers} members and
+    ${view/nprojects} projects since
+    ${view/dob}." />
 </div>
