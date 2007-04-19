@@ -811,14 +811,18 @@ ul.contentViews {
 		color: #333333;
 	}
 
-	#contentview-grey_edit a, .contentview-grey_edit a {
+    .op-tabs .disabled a,
+	#contentview-grey_edit a,
+    .contentview-grey_edit a {
 		background-color: #eee;
 		border-color: gray;
 		border-bottom-color: transparent;
 		color: gray;
 	}
 
-	#contentview-grey_edit a:hover, .contentview-grey_edit a:hover {
+    .op-tabs .disabled a:hover,
+	#contentview-grey_edit a:hover,
+    .contentview-grey_edit a:hover {
 		background-color: #bbb;
 	}
 
