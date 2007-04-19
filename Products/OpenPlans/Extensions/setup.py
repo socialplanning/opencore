@@ -8,6 +8,7 @@ from Products.CMFPlone.setup.SetupBase import SetupWidget
 from Products.CMFPlone import MigrationTool
 from Products.Archetypes.public import listTypes
 from Products.Archetypes.Extensions.utils import installTypes
+from Products.Archetypes.Extensions.utils import install_subskin
 from Products.OpenPlans import config
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from zLOG import INFO, ERROR
@@ -64,6 +65,10 @@ def reinstallTypes(self, portal):
                  config.PROJECTNAME)
     hideActionTabs(portal, out)
 
+def reinstallSubskins(self, portal):
+    out = StringIO()
+    install_subskin(portal, out, config.GLOBALS)
+
 functions = dict(
     setupKupu = convertFunc(setupKupu),
     fixUpEditTab = convertFunc(fixUpEditTab),
@@ -75,6 +80,7 @@ functions = dict(
     reinstallWorkflows = reinstallWorkflows,
     reinstallWorkflowPolicies = reinstallWorkflowPolicies,
     reinstallTypes = reinstallTypes,
+    reinstallSubskins = reinstallSubskins,
     addFormControllerOverrides = convertFunc(addFormControllerOverrides),
     securityTweaks = convertFunc(securityTweaks),
     uiTweaks = convertFunc(uiTweaks),
