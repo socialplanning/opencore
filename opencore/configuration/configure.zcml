@@ -1,6 +1,8 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser"
-	   xmlns:five="http://namespaces.zope.org/five">
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:opencore="http://namespaces.openplans.org/opencore"
+           >
 
   <include package="opencore.content" />
   <include file="permissions.zcml" />
@@ -15,6 +17,10 @@
   <include package="opencore.tasktracker" />
   <include package="opencore.redirect" />
   <!-- include package="opencore.rpcss" / -->
+
+  <!--opencore:defaulthost
+      host="localhost:8080"
+      /-->
 
 </configure>
  
