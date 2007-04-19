@@ -1,6 +1,8 @@
 """
 Naked Base View
 """
+from sitewide import windowTitleSeparator, topplogo
+
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from memojito import memoizedproperty, memoize
@@ -14,9 +16,12 @@ class NakedView(BrowserView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
+        self.topplogo = topplogo
         self.portal = getToolByName(context, 'portal_url').getPortalObject() 
-        self.piv = context.unrestrictedTraverse('project_info') # TODO make more generic
-        self.miv = context.unrestrictedTraverse('member_info') # TODO make more generic
+        self.url = context._getURL()
+        self.siteurl = self.portal.absolute_url()
+        self.piv = context.unrestrictedTraverse('project_info') # TODO don't rely on this
+        self.miv = context.unrestrictedTraverse('member_info')  # TODO don't rely on this
 
     def _transclude(self):
         return self.request.get_header('X-transcluded')
@@ -26,26 +31,54 @@ class NakedView(BrowserView):
             return '<a href="%s" rel="include">%s</a>' % (viewname, viewname)
         return self.context.unrestrictedTraverse(viewname).index()
 
+    def isUserLoggedIn(self):
+        # TODO
+        return False
+
+    def topnavLinks(self):
+        text = ['people', 'projects']
+        urls = ['/people', '/projects']
+        if self.isUserLoggedIn():
+            text += ['start a project', 'someuser', 'log out']
+            urls += ['/projects/add_project', '/people/someuser', '/logout']
+        else:
+            text += ['log in/join']
+            urls += ['/loginjoin_form']
+        urls = map(lambda url: self.siteurl + url, urls)
+        return [dict(url=url, text=text) for url, text in zip(urls, text)]
+
+    def subnavLinks(self):
+        if self.inProject():
+            text = ['home', 'contents', 'contact']
+            urls = ['', '/folder_contents', '/contact_project_admins']
+            if self.userHasEditPrivs():
+                text += ['project preferences', 'team preferences']
+                urls += ['/edit', '%s/portal_teams/%s' % (self.siteurl, self.projectNavName())]
+        else: # TODO
+            text = ['morx']
+            urls = ['/morx']
+        urls = map(lambda url: self.siteurl + url, urls)
+        return [dict(url=url, text=text) for url, text in zip(urls, text)]
+
     def userHasEditPrivs(self):
-        """Returns true iff currently-logged-in user has edit privileges on
-        this view."""
+        """Returns true iff user has edit privileges on this view."""
         # TODO
         return False
 
     def tabs(self):
         # XXX code review
         def isSelected(taburl):
-            if self.context == self.context.unrestrictedTraverse(taburl):
+            if True: #TODO self.context == self.context.unrestrictedTraverse(taburl):
                 return 'selected'
         def isDisabled(tabRequiresEdit):
             if not (tabRequiresEdit and self.userHasEditPrivs()):
                 return 'disabled'
-        def getClass(taburl, tabRequiresEdit):
+        def getCssClass(taburl, tabRequiresEdit):
             return isSelected(taburl) or isDisabled(tabRequiresEdit) or ''
-        names = ['View', 'Edit', 'History']
+        names = ['view', 'edit', 'history']
         requiresEditPrivs = [False, True, True]
-        urls = [self.context._getURL() + i for i in ['', '/edit', '/versions_history_form']]
-        classes = map(getClass, urls, requiresEditPrivs)
+        urls = ['/'.join((self.url, i)) for i in names] # XXX
+        classes = map(getCssClass, urls, requiresEditPrivs)
         return [dict(name=name, url=url, cssclass=cssclass) for
             name, url, cssclass in zip(names, urls, classes)]
 
@@ -53,32 +86,52 @@ class NakedView(BrowserView):
         # TODO
         return ''
 
-    def _title_info(self):
-        if self.piv.inProject:
+    def inProject(self):
+        # TODO
+        return self.piv.inProject
+
+    def project(self):
+        # TODO
+        return self.piv.project
+
+    def projectNavName(self):
+        return self.project().Title()
+
+    def projectFullName(self):
+        return self.project().getFull_name()
+
+    def featurelets(self):
+      # TODO
+      names = []
+      urls = []
+      return zip(names, urls)
+
+    def titleInfo(self):
+        if self.inProject():
             title = self.piv.fullname
             subtitle = self.context.title
         elif self.miv.inMemberArea:
             title = self.miv.membername
-            subtitle = 'foo'
+            subtitle = 'foo' #TODO
         else:
             title = self.context.title
-            subtitle = 'bar'
+            subtitle = 'bar' #TODO
         return title, subtitle
 
     def renderWindowTitle(self):
-        title, subtitle = self._title_info()
+        title, subtitle = self.titleInfo()
         title, subtitle = truncate(title, max=16), truncate(subtitle, max=24)
         windowtitle = [subtitle, title, self.portal.title]
-        return ' :: '.join([i for i in windowtitle if i])
+        return windowTitleSeparator.join([i for i in windowtitle if i])
 
     def renderTopnavTitle(self):
-        title, _ = self._title_info()
+        title, _ = self.titleInfo()
         title = truncate(title, max=64)
         h1 = '<h1>%s</h1>' % title
         return '<a href="%s">%s</a>' % (self.context.absolute_url(), h1)
 
     def renderPageTitle(self):
-        _, subtitle = self._title_info()
+        _, subtitle = self.titleInfo()
         subtitle = truncate(subtitle, max=256)
         return '<a href="%s">%s</a>' % (self.context.absolute_url(), subtitle)
 

@@ -19,7 +19,7 @@
      template="topnav.pt"
      />
 
-  <!-- topnav menus etc -->
+  <!-- topnav-menus -->
   <browser:page
      for="*"
      class=".nakedview.NakedView"
@@ -28,7 +28,16 @@
      template="topnav-menus.pt"
      />
 
-  <!-- topnav accessibility -->
+  <!-- topnav-subcontext -->
+  <browser:page
+     for="*"
+     class=".nakedview.NakedView"
+     permission="zope.Public"
+     name="opencore-topnav-subcontext"
+     template="topnav-subcontext.pt"
+     />
+
+  <!-- topnav-accessibility -->
   <browser:page
      for="*"
      class=".nakedview.NakedView"

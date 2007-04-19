@@ -1,34 +1,8 @@
-<metal:block use-macro="here/global_defines/macros/defines" />
-<tal:project define="global pinfo  here/@@project_info | nothing;
-                     global inproj pinfo/inProject | nothing" />
-<tal:member  define="global minfo  here/member_info | nothing;
-                     global member minfo/member" />
-
 <div id="topnav" class="clear-after" i18n:domain="plone">
-
   <div id="topnav-global">
     <div tal:replace="structure here/opencore-topnav-accessibility" />
-    <div id="topnav-context"   tal:content="structure view/renderTopnavTitle" />
+    <div id="topnav-title" tal:content="structure view/renderTopnavTitle" />
     <div id="topnav-openplans" tal:content="structure here/opencore-topnav-menus" />
-  </div><!-- topnav-global -->
-
-  <div id="topnav-subcontext" tal:define="projurl pinfo/project/absolute_url | nothing;">
-    <tal:inproj tal:condition="inproj">
-      <ul class="op-dropdown">
-        <li><a tal:attributes="href projurl">home</a></li>
-        <li><a tal:attributes="href string:${projurl}/contact_project_admins">contact</a></li>
-        <li tal:repeat="name pinfo/featurelets">
-          <a tal:attributes="href python:pinfo.featurelets()[name]" tal:content="name" />
-        </li>
-        <li tal:condition="user">manage &raquo;<!-- TODO: show for only managers -->
-          <ul>
-            <li><a tal:attributes="href string:${projurl}/folder_contents">content</a></li>
-            <li><a tal:attributes="href string:${projurl}/edit">project preferences</a></li>
-            <li><a tal:attributes="href string:${portal_url}/portal_teams/${pinfo/project/id}">team preferences</a></li>
-          </ul>
-        </li>
-      </ul>
-    </tal:inproj>
-  </div><!-- topnav-subcontext -->
-
-</div><!-- topnav -->
+  </div>
+  <div id="topnav-subcontext" tal:content="structure here/opencore-topnav-subcontext" />
+</div>

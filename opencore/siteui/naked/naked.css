@@ -45,6 +45,7 @@ body {
 	#topnav-global {
 		background: #2B7284 url(http://www.openplans.org/opp_bar_bg.gif) repeat-x scroll center top;
 		border-bottom: 2px solid white;
+    height: 40px;
 	}
 	
 		#topnav-openplans {
@@ -55,7 +56,7 @@ body {
 				background-color: #2B7284;
 			}
 			
-		#topnav-context h1 {
+		#topnav-title h1 {
 			text-transform: none;
 		}
 		
@@ -199,7 +200,7 @@ h1, h2, h3, h4, h5, h6,
 		margin-bottom: 0.75em; /* 18px Ã· 24px = 0.75em */
 	}
 
-	h2, .h2, #topnav-context h1 {
+	h2, .h2, #topnav-title h1 {
 		font-size: 1.5em; /* 18px Ã· 12px = 1.5em */
 		line-height: 1em; /* 18px Ã· 18px = 1em */
 		margin: 1em 0;
@@ -301,8 +302,10 @@ This section defines the basic body structure of a page. */
 		}
 	
 		#topnav-global {
+      /*
 			padding: 0.25em;
 			padding-left: 1em;
+      */
 			position: relative;
 		}
 			/* This is the site-wide header */
@@ -310,13 +313,19 @@ This section defines the basic body structure of a page. */
 			/* CLEAR-AFTER HACK applied to #topnav-global
 				see .clear-after below */
 				
-			#topnav-context {
+			#topnav-title {
+        /*
 				float: left;
 				padding: 0;
 				padding-bottom: 0.25em;
+        */
+        position: absolute;
+        top: 36px;
+        left: 10px;
+        width: 100%;
 			}
 			
-				#topnav-context h1 {
+				#topnav-title h1 {
 					position: absolute;
 					bottom: 0.5em;
 					float: left;
@@ -331,27 +340,41 @@ This section defines the basic body structure of a page. */
 				padding: 0.25em;
 			}
 			
-				#topnav-openplans-title,
+				/*#topnav-openplans-logo,*/
 				#topnav-openplans-wrapper,
 				#topnav-openplans-search {
 					display: inline;
 				}
 				
-					#topnav-openplans-title {
-						float: left;
-						margin: 0.125em 0;
-						padding: 0;
-						text-transform: none; 
+					#topnav-openplans-logo {
+            position: absolute;
+						margin: 0;
+            top: 2px;
+            right: 4px;
 					}
-					
-						#topnav-openplans-title img {
+
+						#topnav-openplans-logo img {
 							margin: 0;
 							padding: 0;
 							vertical-align: middle;
 						}
-						
+
+					#topnav-openplans-links {
+            padding-top: 3px;
+            padding-right: 3px;
+          }
+
+					#topnav-openplans-links li {
+						margin: 0;
+						padding-left: 0.75em;
+						text-transform: none; 
+            list-style-type: none;
+            display: inline;
+            font-size: 75%;
+					}
+					
 					#topnav-openplans-search {
-						margin: 0.125em 0;
+						margin: 0;
 						padding: 0;
 					}
 						
@@ -366,7 +389,7 @@ This section defines the basic body structure of a page. */
 						}
 							
 							input#searchGadget {
-								width: 5em;
+								width: 7em;
 								font-size: 100%;
 								background: white url(searchglass.png) no-repeat 2px center;
 								padding-left: 15px;

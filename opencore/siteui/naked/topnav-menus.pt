@@ -1,52 +1,18 @@
-<metal:block use-macro="here/global_defines/macros/defines" />
-<tal:project define="global pinfo  here/@@project_info | nothing;
-                     global inproj pinfo/inProject | nothing" />
-<tal:member  define="global minfo  here/member_info | nothing;
-                     global member minfo/member" />
-
-
-<h1 id="topnav-openplans-title">
-  <a href="/"
-    tal:attributes="href navigation_root_url"
-    tal:define="portal_title portal_properties/title">
-    <img src="oppbar_logo_bw.gif" tal:attributes="alt string:$portal_title"/>
-  </a>
+<!-- OpenPlans logo -->
+<h1 id="topnav-openplans-logo">
+  <a tal:attributes="href here/portal_url"><img
+      tal:attributes="src view/topplogo; alt view/portal/title"/></a>
 </h1>
 
-
-<ul id="topnav-openplans-wrapper" class="op-dropdown">
-
-  <li tal:define="selected_tabs python:here.selectedTabs('index_html', here, portal_tabs);
-    selected_portal_tab selected_tabs/portal;"
-    tal:condition="portal_tabs">
-    explore &raquo;
-    <ul id="topnav-openplans-nav">
-      <li><a href="" tal:attributes="href string:${portal_url}/people">people</a></li>
-      <li><a href="" tal:attributes="href string:${portal_url}/projects">projects</a></li>
-      <li class="op-dropdown-divider"><a href="" tal:attributes="href string:${portal_url}/projects/add_project">start a project</a></li>
-    </ul>
+<!-- navigation links -->
+<ul id="topnav-openplans-links">
+  <li tal:repeat="link view/topnavLinks">
+    <a tal:attributes="href link/url" tal:content="link/text" />
   </li>
-
-  <tal:anon condition="isAnon">
-    <li><a href="" tal:attributes="href string:${portal_url}/login_form">log in</a></li>
-    <li><a href="" tal:attributes="href string:${portal_url}/join_form">join</a></li>
-  </tal:anon>
-  <tal:notAnon condition="not: isAnon" tal:define="display_actions python:user_actions[:-1]+global_actions+user_actions[-1:]">
-    <li class="portalUser" tal:define="userid user/getId;
-      profileurl string:${portal_url}/people/${userid};
-      prefsurl string:${portal_url}/portal_memberdata/${userid}/edit">
-      <a id="user-name" tal:attributes="href profileurl">
-        <span class="visualCaseSensitive" tal:replace="python:user and user.getUserName()" /> &raquo;
-      </a>
-      <ul>
-        <li><a tal:attributes="href profileurl">profile</a></li>
-        <li><a tal:attributes="href prefsurl">preferences</a></li>
-      </ul>
-    </li>
-    <li><a href="" tal:attributes="href string:${portal_url}/logout">log out</a></li>
-  </tal:notAnon>
 </ul>
 
+<!-- TODO
 <div id="topnav-openplans-search">
-  <span metal:use-macro="here/global_searchbox/macros/quick_search" />
+  <input type="text" accesskey="4" title="Search Site" size="15" id="searchGadget"/>
 </div>
+-->

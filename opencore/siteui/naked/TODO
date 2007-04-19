@@ -1,4 +1,8 @@
-* replace links of View and History tabs -- they should link to new templates
+* optimize nakedview (@memoize? @property? @memoizedproperty? can check for transclude on init only?)
+
+* replace links of menus in topnav-menus.pt -- they should link to new templates
+
+* replace links of View and History tabs in project-tabs.pt -- they should link to new templates
   - make template for "Hey! You need to log in!" screen
 
 * replace metal macro for quick_search in topnav-menus.pt
@@ -15,13 +19,16 @@
 
 * catalog queries for footer
 
+* remove plone cruft from naked.css
+
 * how to programmatically disable all css
   except naked.css?
 
+* redo main_template
+  - use nakedview's renderPageTitle
+
 * override main_template.pt in this directory?
   - would no longer need naked branch of OpenPlans
-
-* have main_template use nakedviews renderPageTitle
 
 * no longer rely on old tal variables in topnav
 
