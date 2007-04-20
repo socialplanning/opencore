@@ -1,5 +1,5 @@
 from Products.CMFCore.utils  import getToolByName
-from Products.PloneTestCase.layer import PloneSite
+from Products.PloneTestCase.layer import PloneSite, ZCML
 import transaction as txn
 from utils import get_portal, get_portal_as_owner, create_test_content
 from Products.PloneTestCase.setup import setupPloneSite
