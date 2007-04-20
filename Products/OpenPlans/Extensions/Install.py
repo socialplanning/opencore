@@ -514,6 +514,7 @@ def registerJS(portal, out):
             expr = "python:request.get('HTTP_X_OPENPLANS_APPLICATION', '') " \
                 + "!= 'tasktracker'"
             jsreg.updateScript(script, expression=expr)
+            jsreg.cookResources()
 
 def addHelpCenter(portal, out):
     ttool = getToolByName(portal, 'portal_types')
