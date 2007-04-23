@@ -4,8 +4,9 @@ from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase 
 from Products.ATContentTypes.tests.atcttestcase import ATCTFunctionalSiteTestCase 
 from Testing.ZopeTestCase import FunctionalDocFileSuite
-from opencore.testing.layer import SiteSetupLayer, OpenCoreContent
+from opencore.testing.layer import SiteSetupLayer, OpencoreContent
 from opencore.testing.utils import create_test_content
+from Products.PloneTestCase import ptc
 
 optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 
@@ -19,9 +20,9 @@ def test_suite():
     from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
     from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
     from Products.PloneTestCase import setup
-    from zope.interface import alsoProvides
-    from Products.Five.utilities.marker import erase as noLongerProvides
     from opencore import redirect
+    from opencore.testing import *
+    from opencore.siteui.interfaces import IMemberFolder, IMemberHomePage
 
     setup.setupPloneSite()
     def general_setup(tc):
@@ -47,7 +48,7 @@ def test_suite():
     member = FunctionalDocFileSuite("member.txt",
                                     optionflags=optionflags,
                                     package='opencore.siteui',
-                                    test_class=FunctionalTestCase,
+                                    test_class=ptc.PloneTestCase,
                                     globs = globs,
                                     setUp=general_setup
                                     )
@@ -61,7 +62,7 @@ def test_suite():
 
     ocui = readme, member, topnav,
     for suite in ocui:
-        suite.layer = OpenCoreContent
+        suite.layer = OpencoreContent
 
     return unittest.TestSuite(ocui + (livesearch,))
 
