@@ -3,7 +3,7 @@ from zope.testing import doctest
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase 
 from Testing.ZopeTestCase import FunctionalDocFileSuite
-from Products.OpenPlans.tests.openplanstestcase import OpenPlansLayer
+from opencore.testing.layer import OpencoreContent
 
 optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 
@@ -22,7 +22,6 @@ def test_suite():
 
     setup.setupPloneSite()
     def readme_setup(tc):
-        create_test_content(tc.portal)
         tc._refreshSkinData()
 
     globs = locals()
@@ -34,7 +33,7 @@ def test_suite():
                                     setUp=readme_setup
                                     )
 
-    readme.layer = OpenPlansLayer
+    readme.layer = OpencoreContent
 
     return unittest.TestSuite((readme,))
 

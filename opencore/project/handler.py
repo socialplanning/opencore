@@ -3,6 +3,7 @@ from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.interfaces import IFeatureletRegistry
 from zope.component import adapter, getUtility
 from opencore.interfaces import IProject
+from zope.app.event.interfaces import IObjectCreatedEvent 
 from zope.app.event.interfaces import IObjectModifiedEvent
 from opencore import redirect
 from Products.OpenPlans.interfaces import IWriteWorkflowPolicySupport
@@ -23,7 +24,8 @@ def handle_postcreation(event):
     # We don't need this here. do we? DWM
     _initialize_project(instance, event.request)
 
-    # add defaulting redirect hooks
+    # add defaulting redirect hooks(may be overwritten by other
+    # events)
     redirect.activate(instance)
 
     # add the featurelets, if any
@@ -59,7 +61,6 @@ def _initialize_project(instance, request):
         policy_writer.setPolicy(policy)
 
     
-
 @adapter(IAfterSubProjectAddedEvent)
 def handle_subproject_redirection(event):
     instance = event.project
@@ -119,3 +120,11 @@ def save_featurelets(obj, event=None, request=None):
     for flet_id in removed:
         flet = registry.getFeaturelet(flet_id)
         supporter.removeFeaturelet(flet)
+
+
+def add_redirection_hooks(container, ignore=[]):
+    for obj in container.objectValues():
+        if IProject.providedBy(obj) and obj.getId() not in ignore:
+            redirect.activate(obj, explicit=False)
+            
+    

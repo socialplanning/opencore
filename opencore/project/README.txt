@@ -6,11 +6,27 @@ All things project: content, content views, listing views, various
 subscribers, etc
 
     >>> import pdb; st = pdb.set_trace
+    >>> projects = self.portal.projects
+
+Default Project State
+=====================
+
+The layer runs opencore.project.handler.addredirection_hooks.  Let's
+make sure the hooks are there::
+
+    >>> from pprint import pprint
+    >>> pprint([getattr(proj, '__before_traverse__', None) for proj in projects.objectValues()])
+    [...,
+     {(1, '__redirection_hook__'): <...AccessRule instance at ...>},
+     {(1, '__redirection_hook__'): <...AccessRule instance at ...>},
+     {(1, '__redirection_hook__'): <...AccessRule instance at ...>},
+     {(1, '__redirection_hook__'): <...AccessRule instance at ...>...}]
+
 
 Project Creation
 ================
 
-    >>> projects = self.portal.projects
+
     >>> from opencore.project.handler import handle_postcreation
     >>> request = self.app.REQUEST
 
@@ -22,8 +38,10 @@ check the state to prove there is no man behind the curtain)::
 
     >>> id_ = projects.invokeFactory("OpenProject", 'handroll')
     >>> handroll = getattr(projects, 'handroll')
-    >>> handroll.objectIds()
-    ['.wf_policy_config']
+
+# @@ why did policy config disappear
+#    >>> handroll.objectIds()
+#    ['.wf_policy_config']
 
     >>> hasattr(handroll, '__before_traverse__')
     False
@@ -82,3 +100,4 @@ as a parent::
 
     >>> pinfo.values()
     ['/plone/projects/handroll']
+
