@@ -1,6 +1,6 @@
 from zope.interface import Interface
 
-class HTTPClient(Interface):
+class IHTTPClient(Interface):
     """
     An HTTP client that promises to handle all methods, caching,
     ETags, compression, HTTPS, Basic, Digest, WSSE, etc.
