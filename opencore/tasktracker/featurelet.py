@@ -1,16 +1,15 @@
 from zope.interface import implements, Interface
 from zope.component import getUtility
-#from opencore.utility.interfaces import IHTTPClient 
+from opencore.utility.interfaces import IHTTPClient 
 from topp.featurelets.interfaces import IFeaturelet
 from topp.featurelets.base import BaseFeaturelet
+from Products.CMFCore.utils import getToolByName
 
 from interfaces import ITaskTrackerFeatureletInstalled, ITaskTrackerContainer
 from Products.OpenPlans.interfaces import IProject
 
 from opencore.tasktracker import uri as tt_uri
 from memojito import memoizedproperty
-
-from httplib2 import Http
 
 class TaskTrackerFeaturelet(BaseFeaturelet):
     """
@@ -34,37 +33,44 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
 
     @memoizedproperty
     def http(self):
-        pass
+        return getUtility(IHTTPClient)
+
+    @memoizedproperty
+    def uri(self):
+        return tt_uri.get()
+
+    @property
+    def init_uri(self):
+        return "%s/project/initialize/" % self.uri
+
+    @property
+    def uninit_uri(self):
+        return "%s/project/uninitialize/" % self.uri
 
     def _makeHttpReqAsUser(self, uri, obj, method="POST", headers=None):
         if headers is None:
             headers = dict()
 
-        from Products.CMFCore.utils import getToolByName
         user_name = getToolByName(obj, 'portal_membership').getAuthenticatedMember().getId()
         
         scah = obj.acl_users.objectIds('Signed Cookie Auth Helper')[0]
         scah = obj.acl_users[scah]
 
         headers['Cookie'] = scah.generateCookie(user_name)
-        headers['X-Openplans-Project'] = obj.id
-
-        # @@ we are going to replace this with a utility(so we can do
-        # mocking for tests)
-        http = Http()
-        return http.request(uri, method=method, headers=headers)
+        headers['X-Openplans-Project'] = obj.getId()
+        return self.http.request(uri, method=method, headers=headers)
 
     def deliverPackage(self, obj):
-        uri = "%s/project/initialize/" % tt_uri.get()
-        response, content = self._makeHttpReqAsUser(uri, obj=obj,
-                                                    headers={"X-Tasktracker-Initialize":"True"})
+        header = {"X-Tasktracker-Initialize":"True"}
+        response, content = self._makeHttpReqAsUser(self.init_uri, obj=obj,
+                                                    headers=header)
         if response.status != 200:
 	    raise AssertionError("Project initialization failed: status %d" % response.status)
         return BaseFeaturelet.deliverPackage(self, obj)
 
     def removePackage(self, obj):
-        uri = "%s/project/uninitialize/" % tt_uri.get()
-        response, content = self._makeHttpReqAsUser(uri, obj=obj)
+        response, content = self._makeHttpReqAsUser(self.uninit_uri, obj=obj)
         if response.status != 200:
+            # @@ raise a real error, por fa
 	    raise AssertionError("Terrible!")
         return BaseFeaturelet.removePackage(self, obj)
