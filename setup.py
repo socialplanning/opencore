@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.8.4'
+version = '0.8.5'
 
 f = open('README.txt')
 readme = "".join(f.readlines())
@@ -20,8 +20,7 @@ setup(name='opencore',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
       zip_safe=False,
-      dependency_links=['https://svn.openplans.org/svn/topp.deploy/trunk/dependency_links_local.html',
-                        'https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect'],
+      dependency_links=['https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect'],
       install_requires=[
           # -*- Extra requirements: -*-
           'topp.featurelets',
