@@ -187,26 +187,29 @@ def create_home_directory(event):
     page.setLayout('profile.html')
 
 
-
-def maybe_apply_member_folder_redirection(folder, request):
-    if not request or not 'PARENTS' in request:
-        return
-
+def in_project(request):
     parents = request['PARENTS']
 
     for parent in parents:
         # check the request for a redirected project
         if (redirect.IRedirected.providedBy(parent) and
             IProject.providedBy(parent)):
-            # yes, so apply redirection to the folder
-            apply_member_folder_redirection(folder, parent)
-            break
+            return parent
+        
+
+def apply_member_folder_redirection(folder, request):
+    if not request or not 'PARENTS' in request:
+        return
+
+    parent = get_parent_project(request) 
+    if parent:
+        parent_info = redirect.get_info(parent)
+        folder_id = folder.getId()
+        folder_path = "%s/people/%s" % (parent_info.url, folder_id)
+        return redirect.activate(folder, url=folder_path)
+    return redirect.activate(folder, explicit=False)
 
 
-def apply_member_folder_redirection(folder, parent):
-    parent_info = redirect.get_info(parent)
-    folder_id = folder.getId()
-    folder_path = "%s/people/%s" % (parent_info.url, folder_id)
-    redirect.activate(folder, url=folder_path)
 
+    
 
