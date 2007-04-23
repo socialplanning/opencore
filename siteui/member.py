@@ -159,16 +159,13 @@ def notifyFirstLogin(member, request):
 
 @adapter(IFirstLoginEvent)
 def create_home_directory(event):
-    # TODO write tests
-
     member = event.member
     mtool = getToolByName(member, 'portal_membership')
     member_id = member.getId()
 
     folder = mtool.getHomeFolder(member_id)
-    maybe_apply_member_folder_redirection(folder, event.request)
     alsoProvides(folder, IMemberFolder)
-
+    apply_member_folder_redirection(folder, event.request)
 
     page_id = "%s-home" % member_id
     title = "%s Home" % member_id
@@ -187,8 +184,8 @@ def create_home_directory(event):
     page.setLayout('profile.html')
 
 
-def in_project(request):
-    parents = request['PARENTS']
+def get_parent_project(request):
+    parents = request.get('PARENTS', tuple())
 
     for parent in parents:
         # check the request for a redirected project
@@ -198,9 +195,6 @@ def in_project(request):
         
 
 def apply_member_folder_redirection(folder, request):
-    if not request or not 'PARENTS' in request:
-        return
-
     parent = get_parent_project(request) 
     if parent:
         parent_info = redirect.get_info(parent)
