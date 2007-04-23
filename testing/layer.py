@@ -4,6 +4,7 @@ import transaction as txn
 from utils import get_portal, get_portal_as_owner, create_test_content
 from Products.PloneTestCase.setup import setupPloneSite
 from Products.OpenPlans.tests.utils import installConfiguredProducts
+from opencore.testing.utility import setup_mock_http
 from Testing import ZopeTestCase
 
 class SiteSetupLayer(PloneSite):
@@ -43,7 +44,7 @@ class OpenPlansLayer(SiteSetupLayer):
         raise NotImplementedError
 
 
-class OpenCoreContent(OpenPlansLayer):
+class OpencoreContent(OpenPlansLayer):
     @classmethod
     def setUp(cls):
         portal = get_portal_as_owner()
@@ -53,3 +54,15 @@ class OpenCoreContent(OpenPlansLayer):
     @classmethod
     def tearDown(cls):
         raise NotImplementedError
+
+OpenCoreContent = OpencoreContent
+
+class MockHTTP(ZCML):
+    @classmethod
+    def setUp(cls):
+        setup_mock_http()
+
+    @classmethod
+    def tearDown(cls):
+        raise NotImplementedError
+
