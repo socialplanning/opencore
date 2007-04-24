@@ -1,2 +1,2 @@
 -f http://www.openplans.org/projects/opencore/dependencies
--e OpencoreNuiBranch
+-e nui
