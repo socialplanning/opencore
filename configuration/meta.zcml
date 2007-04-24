@@ -1,4 +1,5 @@
 <configure xmlns="http://namespaces.zope.org/zope">
   <!-- addform meta goes here too -->
   <include package="opencore.tasktracker" file="meta.zcml" />
+  <include package="opencore.redirect" file="meta.zcml" />
 </configure>
