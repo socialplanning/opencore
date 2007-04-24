@@ -47,6 +47,14 @@
      class=".management.AddOpenPlansForm"
      />
 
+  <!-- portal_javascripts conditions -->
+  <browser:page
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     name="in_app"
+     permission="zope.Public"
+     class=".utils.JSConditions"
+     attribute="in_app"
+     />
 
   <!-- @@ remove for plone3 -->
   <five:traversable class="Products.CMFCore.DynamicType.DynamicType" />

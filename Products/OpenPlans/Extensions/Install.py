@@ -511,8 +511,7 @@ def registerJS(portal, out):
     for script in ('formUnload.js', 'formsubmithelpers.js'):
         if jsreg.getResource(script) is not None:
             print >> out, '-> Setting condition on %s' % script
-            expr = "python:request.get('HTTP_X_OPENPLANS_APPLICATION', '') " \
-                + "!= 'tasktracker'"
+            expr = "python:not portal.restrictedTraverse('@@in_app')('tasktracker')"
             jsreg.updateScript(script, expression=expr)
             jsreg.cookResources()
 
