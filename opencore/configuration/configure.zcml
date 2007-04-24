@@ -17,8 +17,5 @@
   <include package="opencore.redirect" />
   <!-- include package="rhizome.five" / -->
 
-  <!-- overrides go here -->
-  <includeOverrides package="opencore.listen" file="overrides.zcml" />
-
 </configure>
  
