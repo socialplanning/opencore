@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.8.5'
+version = '0.8.6'
 
 f = open('README.txt')
 readme = "".join(f.readlines())
@@ -15,7 +15,7 @@ setup(name='opencore',
       keywords='openplans openplans.org topp',
       author='The Open Planning Project',
       author_email='info@openplans.org',
-      url='http://topp.openplans.org/',
+      url='http://www.openplans.org/projects/opencore',
       license='GPL',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
