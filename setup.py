@@ -20,7 +20,8 @@ setup(name='opencore',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
       zip_safe=False,
-      dependency_links=['https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect'],
+      dependency_links=['https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect'
+                        'http://www.openplans.org/projects/opencore/dependencies'],
       install_requires=[
           # -*- Extra requirements: -*-
           'topp.featurelets',
