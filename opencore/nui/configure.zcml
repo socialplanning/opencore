@@ -3,76 +3,92 @@
     xmlns:five="http://namespaces.zope.org/five">
 
 
-  <!-- zope3 views for the nui templates -->
-  <include file="views.zcml" />
+  <!-- resource directories for css, images, etc -->
+  <browser:resourceDirectory
+    name="css"
+    directory="css"
+    />
+  <browser:resourceDirectory
+    name="img"
+    directory="img"
+    />
 
 
+  <!-- nui template views -->
+
+  <!-- topnav -->
   <browser:page
-     for=".interfaces.IMemberHomePage"
-     class=".member.ProfileView"
+     for="*"
+     class=".opencoreview.OpencoreView"
      permission="zope.Public"
-     name="profile.html"
-     allowed_interface=".interfaces.IMemberHomePage"
-     template="memberprofile.pt"
+     name="oc-topnav"
+     template="topnav.pt"
      />
 
+  <!-- topnav-menus -->
   <browser:page
-     for="OFS.interfaces.IItem"
-     class=".member.MemberInfoView"
+     for="*"
+     class=".opencoreview.OpencoreView"
      permission="zope.Public"
-     name="member_info"
-     allowed_interface=".interfaces.IMemberInfo"
+     name="oc-topnav-menus"
+     template="topnav-menus.pt"
      />
 
+  <!-- topnav-subcontext -->
   <browser:page
-     for=".interfaces.IMemberFolder"
-     class="opencore.redirect.Redirector"
+     for="*"
+     class=".opencoreview.OpencoreView"
      permission="zope.Public"
-     attribute="redirect"
-     name="opencore.redirect"
+     name="oc-topnav-subcontext"
+     template="topnav-subcontext.pt"
      />
 
-  <subscriber handler=".member.create_home_directory"/>
-
-  <include package=".menu" />
-  <include file="thirdparty.zcml" />
-
-  <!-- convenience view to create_test_content -->
+  <!-- topnav-accessibility -->
   <browser:page
-     for="Products.CMFPlone.Portal.PloneSite"
-     permission="five.ManageSite"
-     name="topp-testcontent.html"
-     class=".management.TestContentCreator"
-     />
-
-  <browser:page
-     for="OFS.Folder.Folder"
-     name="add-openplans.html"
-     permission="five.ManageSite"
-     class=".management.AddOpenPlansForm"
-     />
-
-  <!-- portal_javascripts conditions -->
-  <browser:page
-     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-     name="in_app"
+     for="*"
+     class=".opencoreview.OpencoreView"
      permission="zope.Public"
-     class=".utils.JSConditions"
-     attribute="in_app"
+     name="oc-topnav-accessibility"
+     template="topnav-accessibility.pt"
      />
 
-  <!-- @@ remove for plone3 -->
-  <five:traversable class="Products.CMFCore.DynamicType.DynamicType" />
 
-  <five:traversable class="Products.Archetypes.BaseObject.BaseObject" />
 
-  <five:traversable class="OFS.Folder.Folder" />
+  <!-- footer -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-footer"
+     template="footer.pt"
+     />
 
-  <include file="livesearch.zcml" />
 
-  <!-- dead chickens -->
-  <include package="opencore.configuration" file="permissions.zcml" />
-  <include package="Products.listen" file="permissions.zcml" />
-  <include package="opencore.redirect" file="meta.zcml" />
+  <!-- project -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-project"
+     template="project.pt"
+     />
+
+  <!-- projecttabs -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-project-tabs"
+     template="project-tabs.pt"
+     />
+
+  <!-- projectcontent -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-project-content"
+     template="project-content.pt"
+     />
 
 </configure>

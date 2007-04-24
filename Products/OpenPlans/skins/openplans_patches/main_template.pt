@@ -49,61 +49,144 @@
   <body tal:attributes="class here/getSectionFromURL;
     dir python:test(isRTL, 'rtl', 'ltr')">
     
-    <div id="page-container">
+    <div id="visual-portal-wrapper">
 
-        <div tal:replace="structure here/opencore-topnav" />
+      <div id="portal-top" i18n:domain="plone">
 
-        <div id="content-container" tal:define="tabindex python:Iterator(pos=0)">
-
-          <metal:block define-slot="content">
-            <div id="content" metal:define-macro="content"
-              tal:define="show_border python:here.showEditableBorder(template_id=template_id, actions=actions);"
-              tal:attributes="class python:test(show_border,'documentEditable','')">
-              <metal:ifborder tal:condition="show_border" >
-                <div metal:use-macro="here/global_contentviews/macros/content_views">
-                  The content views (View, Edit, Properties, Workflow)
-                </div>
-                <div metal:use-macro="here/global_contentviews/macros/content_actions">
-                  The content bar
-                </div>
-              </metal:ifborder>
-
-              <div  id="content-main" class="documentContent">
-                <a name="documentContent"></a>
-
-                <div metal:use-macro="here/global_statusmessage/macros/portal_message">
-                  Portal status message
-                </div>
-
-                <metal:header metal:define-slot="header" tal:content="nothing">
-                  Visual Header
-                </metal:header>
-
-                <div metal:define-slot="main" tal:content="nothing">
-                  Page body text
-                </div>
-
-                <metal:sub metal:define-slot="sub">
-                  <metal:discussion use-macro="here/viewThreadsAtBottom/macros/discussionView" />
-                </metal:sub>
-              </div><!-- documentContent -->
-
-            </div><!-- content -->
-
-          </metal:block>
-
-        </div> <!-- content-container -->
-
-        <tal:comment replace="nothing">
-          End of main content block
-        </tal:comment>
+        <table id="tablemain">
+          <tbody>
+            <tr>
+              <td id="topleftshadow_out"><div class="fill"></div></td>
+              <td id="topshadow"><div id="topleftshadow_in"></div><div id="toprightshadow_in"></div></td>
+              <td id="toprightshadow_out"><div class="fill"></div></td>
+            </tr>
 
 
-        <!-- insert footer view -->
-        <div tal:replace="structure here/opencore-footer" />
-        <!-- end footer view -->
+            <!-- use topnav view -->
+            <div tal:replace="structure here/@@opencore-topnav" />
+            <!-- end topnav view -->
 
+
+            <!--// table row for main content
+            THIS NEVER CHANGES//-->	
+            <tr>
+              <td>
+                <div class="visualClear"><!-- --></div>
+                <tal:comment replace="nothing">
+                  The wrapper table. It contains the three columns. There's a table-less
+                  alternative in the plone_tableless skin layer that you can use if you
+                  prefer layouts that don't use tables.
+                </tal:comment>
+                <table id="portal-columns">
+                  <tbody>
+                    <tr>
+                      <tal:comment replace="nothing"> Start of the left column </tal:comment>
+                      <td id="portal-column-one" metal:define-slot="column_one_slot" tal:condition="sl">
+                        <div class="visualPadding">
+                          <metal:portlets define-slot="portlets_one_slot">
+                            <metal:leftportlets use-macro="here/portlets_fetcher/macros/left_column">
+                              This instruction gets the portlets (boxes) for the left column.
+                            </metal:leftportlets>
+                          </metal:portlets>
+                          &nbsp;
+                        </div>
+                      </td>
+                      <tal:comment replace="nothing">
+                        End of the left column
+                      </tal:comment>
+
+                      <tal:comment replace="nothing">
+                        Start of main content block
+                      </tal:comment>
+
+                      <td id="portal-column-content" tal:define="tabindex python:Iterator(pos=0)">
+
+                        <metal:block define-slot="content">
+                          <div id="content" metal:define-macro="content"
+                            tal:define="show_border python:here.showEditableBorder(template_id=template_id, actions=actions);"
+                            tal:attributes="class python:test(show_border,'documentEditable','')">
+
+                            <metal:ifborder tal:condition="show_border" >
+                              <div metal:use-macro="here/global_contentviews/macros/content_views">
+                                The content views (View, Edit, Properties, Workflow)
+                              </div>
+
+                              <div metal:use-macro="here/global_contentviews/macros/content_actions">
+                                The content bar
+                              </div>
+                            </metal:ifborder>
+
+                            <div class="documentContent" id="region-content">
+                              <a name="documentContent"></a>
+
+                              <div metal:use-macro="here/global_statusmessage/macros/portal_message">
+                                Portal status message
+                              </div>
+
+                              <metal:header metal:define-slot="header" tal:content="nothing">
+                                Visual Header
+                              </metal:header>
+
+                              <metal:bodytext metal:define-slot="main" tal:content="nothing">
+                                Page body text
+                              </metal:bodytext>
+
+                              <metal:sub metal:define-slot="sub">
+                                <metal:discussion use-macro="here/viewThreadsAtBottom/macros/discussionView" />
+                              </metal:sub>
+                            </div><!-- "documentContent" -->
+
+                          </div><!-- "content" -->
+
+                        </metal:block>
+
+                      </td>
+
+                      <tal:comment replace="nothing">
+                        End of main content block
+                      </tal:comment>
+
+
+                      <tal:comment replace="nothing">
+                        Start of right column
+                      </tal:comment>
+
+                      <td id="portal-column-two" metal:define-slot="column_two_slot" tal:condition="sr">
+                        <div class="visualPadding">
+                          <metal:portlets define-slot="portlets_two_slot">
+                            <metal:rightportlets use-macro="here/portlets_fetcher/macros/right_column">
+                              This instruction gets the portlets (boxes) for the right column.
+                            </metal:rightportlets>
+                          </metal:portlets>
+                          &nbsp;
+                        </div>
+                      </td>
+
+                      <tal:comment replace="nothing">
+                        End of the right column
+                      </tal:comment>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr><!--// end table row for main content -->
+
+            <tr>
+              <td id="bottomleftshadow_out"><div class="fill"></div></td>
+              <td id="bottomshadow"><div id="bottomleftshadow_in"></div><div id="bottomrightshadow_in"></div></td>
+              <td id="bottomrightshadow_out"><div class="fill"></div></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>  
     </div>
+
+    <tal:comment replace="nothing">
+      end column wrapper
+    </tal:comment>
+
+    <div class="visualClear"><!-- --></div>
 
   </body>
 

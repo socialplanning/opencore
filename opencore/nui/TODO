@@ -12,12 +12,9 @@
   - can remove old templates in OpenPlans/skins/openplans_patches
   - mapping the naked views to the appropriate portal_types (OpenProject, OpenMember, etc)
 
-* subtitle of naked/projects/p1/@@opencore-projecthome should be same as
-  subtitle of naked/projects/p1/project-home/@@opencore-projecthome
-
 * what's going on with topnav of join form?
 
-* catalog queries for footer
+* footer
 
 * remove plone cruft from naked.css
 
@@ -32,11 +29,12 @@
 
 * in topnav-accessibility.pt: are accesskeys arbitrary?
 
-* move/rename oppbar_logo_bw.gif?
+* use ++resource++ for images e.g. oppbar_logo_bw.gif
 
 * @@?
 
-* unrestrictedTraverse vs. restrictedTraverse?
+* write view getter instead of using unrestrictedTraverse
+  (when Rob and Whit get here)
 
 * address FIXMEs and TODOs and XXXs in various places
   - opencore.siteui.member
