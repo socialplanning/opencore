@@ -1,3 +1,5 @@
+* write tests for opencoreview
+
 * optimize opencoreview (@memoize? @property? @memoizedproperty? can check for transclude on init only?)
 
 * replace links of menus in topnav-menus.pt -- they should link to new templates
@@ -30,8 +32,6 @@
 * in topnav-accessibility.pt: are accesskeys arbitrary?
 
 * use ++resource++ for images e.g. oppbar_logo_bw.gif
-
-* @@?
 
 * write view getter instead of using unrestrictedTraverse
   (when Rob and Whit get here)

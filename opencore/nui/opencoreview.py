@@ -29,11 +29,11 @@ class OpencoreView(BrowserView):
 
     def include(self, viewname):
         if self.transclude():
-            return '<a href="%s" rel="include">%s</a>' % (viewname, viewname)
+            return '<a href="@@%s" rel="include">%s</a>' % (viewname, viewname)
         return self.renderView(viewname)
 
     def renderView(self, viewname):
-        return self.context.unrestrictedTraverse(viewname).index()
+        return self.context.unrestrictedTraverse('@@' + viewname).index()
 
     def isUserLoggedIn(self):
         # TODO
