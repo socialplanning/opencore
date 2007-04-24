@@ -5,7 +5,9 @@ from utils import get_portal, get_portal_as_owner, create_test_content
 from Products.PloneTestCase.setup import setupPloneSite
 from Products.OpenPlans.tests.utils import installConfiguredProducts
 from opencore.testing.utility import setup_mock_http
+from opencore.project.handler import add_redirection_hooks 
 from Testing import ZopeTestCase
+
 
 class SiteSetupLayer(PloneSite):
     setupPloneSite()
@@ -49,6 +51,7 @@ class OpencoreContent(OpenPlansLayer):
     def setUp(cls):
         portal = get_portal_as_owner()
         create_test_content(portal)
+        add_redirection_hooks(portal.projects)
         txn.commit()
 
     @classmethod
