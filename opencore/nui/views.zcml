@@ -1,0 +1,87 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:five="http://namespaces.zope.org/five">
+
+
+  <browser:resource
+    file="opencore.css"
+    name="opencore.css"
+  />
+
+
+  <!-- topnav -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="opencore-topnav"
+     template="topnav.pt"
+     />
+
+  <!-- topnav-menus -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="opencore-topnav-menus"
+     template="topnav-menus.pt"
+     />
+
+  <!-- topnav-subcontext -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="opencore-topnav-subcontext"
+     template="topnav-subcontext.pt"
+     />
+
+  <!-- topnav-accessibility -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="opencore-topnav-accessibility"
+     template="topnav-accessibility.pt"
+     />
+
+
+
+  <!-- footer -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="opencore-footer"
+     template="footer.pt"
+     />
+
+
+  <!-- project -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="opencore-project"
+     template="project.pt"
+     />
+
+  <!-- projecttabs -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="opencore-project-tabs"
+     template="project-tabs.pt"
+     />
+
+  <!-- projectcontent -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="opencore-project-content"
+     template="project-content.pt"
+     />
+
+ </configure>

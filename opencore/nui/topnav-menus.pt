@@ -1,0 +1,18 @@
+<!-- OpenPlans logo -->
+<h1 id="topnav-openplans-logo">
+  <a tal:attributes="href here/portal_url"><img tal:attributes="src view/logoURL;
+      alt view/sitetitle" /></a>
+</h1>
+
+<!-- navigation links -->
+<ul id="topnav-openplans-links">
+  <li tal:repeat="link view/topnavLinks">
+    <a tal:attributes="href link/url" tal:content="link/text" />
+  </li>
+</ul>
+
+<!-- TODO
+<div id="topnav-openplans-search">
+  <input type="text" accesskey="4" title="Search Site" size="15" id="searchGadget"/>
+</div>
+-->

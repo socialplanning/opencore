@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="++resource++opencore.css" type="text/css" />
+    <title tal:content="view/renderWindowTitle" />
+  </head>
+  <body>
+    <div id="page-container">
+
+      <!-- topnav -->
+      <div tal:replace="structure python:view.include('opencore-topnav')" />
+
+      <div id="content-container">
+
+        <!-- project-tabs -->
+        <div tal:replace="structure python:view.include('opencore-project-tabs')" />
+
+        <!-- project-content-->
+        <div tal:replace="structure python:view.include('opencore-project-content')" />
+
+      </div> <!-- content-container -->
+
+      <!-- footer -->
+      <div tal:replace="structure python:view.include('opencore-footer')" />
+
+    </div> <!-- page-container -->
+  </body>
+</html>

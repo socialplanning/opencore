@@ -1,0 +1,23 @@
+<div id="topnav-subcontext" tal:define="projurl pinfo/project/absolute_url | nothing;">
+  <ul class="op-dropdown">
+    <li tal:repeat="link view/subnavLinks">
+      <a tal:attributes="href link/url" tal:content="link/text" />
+    </li>
+  </ul>
+</div>
+
+<!--
+      <li><a tal:attributes="href projurl">home</a></li>
+      <li><a tal:attributes="href string:${projurl}/contact_project_admins">contact</a></li>
+      <li tal:repeat="name pinfo/featurelets">
+        <a tal:attributes="href python:pinfo.featurelets()[name]" tal:content="name" />
+      </li>
+      <li tal:condition="user">manage &raquo;
+        <ul>
+          <li><a tal:attributes="href string:${projurl}/folder_contents">content</a></li>
+          <li><a tal:attributes="href string:${projurl}/edit">project preferences</a></li>
+          <li><a tal:attributes="href string:${portal_url}/portal_teams/${pinfo/project/id}">team preferences</a></li>
+        </ul>
+      </li>
+    </ul>
+-->

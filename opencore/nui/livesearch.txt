@@ -1,0 +1,53 @@
+-----------------------------------
+functional test for livesearch view
+-----------------------------------
+
+    >>> from StringIO import StringIO
+
+Let's try out our classes first
+
+    >>> from opencore.siteui import translate as tr
+    >>> from opencore.siteui import livesearch as ls
+    >>> translate = tr.TranslationAdapter(self.portal)
+    >>> translate('label_no_results_found')
+    'label_no_results_found'
+    
+    >>> translate.utranslate('label_no_results_found')
+    u'label_no_results_found'
+    
+    >>> tr.TranslationView(self.portal, self.portal.REQUEST)('label_no_results_found')
+    'label_no_results_found'
+
+    >>> view = ls.LiveSearch(self.portal, self.portal.REQUEST)
+    >>> page_id = self.folder.invokeFactory('Document', id='wheeeee', title="a title")
+    >>> brains = view._getResults('whee*')
+    >>> len(brains)
+    1
+    
+    >>> brains[0].getId == page_id
+    True
+
+    >>> data = view.getResData(brains[0])
+    >>> data['full_title']
+    'a title'
+
+    >>> data['score']
+    '100%'
+
+Test the header returned is xml
+
+    >>> print http(r'''
+    ... GET /plone/livesearch_reply?q=whe HTTP/1.1
+    ... ''')
+    HTTP/1.1 200 OK
+    Content-Length: ...
+    Content-Type: text/xml;charset=utf-8...
+
+Test a null search
+
+    >>> print http(r'''
+    ... GET /plone/livesearch_reply?q=quahog HTTP/1.1
+    ... ''')
+    HTTP/1.1 200 OK
+    Content-Length: ...
+    Content-Type: text/xml;charset=utf-8...

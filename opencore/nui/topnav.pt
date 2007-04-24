@@ -1,0 +1,8 @@
+<div id="topnav" class="clear-after" i18n:domain="plone">
+  <div id="topnav-global">
+    <div tal:replace="structure here/opencore-topnav-accessibility" />
+    <div id="topnav-title" tal:content="structure view/renderTopnavTitle" />
+    <div id="topnav-openplans" tal:content="structure here/opencore-topnav-menus" />
+  </div>
+  <div id="topnav-subcontext" tal:content="structure here/opencore-topnav-subcontext" />
+</div>

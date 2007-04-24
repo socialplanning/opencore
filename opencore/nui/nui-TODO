@@ -1,0 +1,42 @@
+* optimize opencoreview (@memoize? @property? @memoizedproperty? can check for transclude on init only?)
+
+* replace links of menus in topnav-menus.pt -- they should link to new templates
+
+* replace links of View and History tabs in project-tabs.pt -- they should link to new templates
+  - make template for "Hey! You need to log in!" screen
+
+* replace metal macro for quick_search in topnav-menus.pt
+
+* replacement of old siteui with nui?
+  - cleaning up directory structure
+  - can remove old templates in OpenPlans/skins/openplans_patches
+  - mapping the naked views to the appropriate portal_types (OpenProject, OpenMember, etc)
+
+* subtitle of naked/projects/p1/@@opencore-projecthome should be same as
+  subtitle of naked/projects/p1/project-home/@@opencore-projecthome
+
+* what's going on with topnav of join form?
+
+* catalog queries for footer
+
+* remove plone cruft from naked.css
+
+* programmatically manage css
+
+* main_template
+  - use nakedview's renderPageTitle
+
+* override main_template.pt in this directory?
+
+* rename id's
+
+* in topnav-accessibility.pt: are accesskeys arbitrary?
+
+* move/rename oppbar_logo_bw.gif?
+
+* @@?
+
+* unrestrictedTraverse vs. restrictedTraverse?
+
+* address FIXMEs and TODOs and XXXs in various places
+  - opencore.siteui.member
