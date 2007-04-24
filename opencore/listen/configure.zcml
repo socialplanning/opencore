@@ -20,4 +20,12 @@
      class=".mailinglist_views.MailingListEditForm"
      />
 
+  <browser:page
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     name="send_listen_mail"
+     class="Products.listen.utilities.list_lookup.MailDeliveryView"
+     permission="zope2.Public"
+     />
+
+
 </configure>
