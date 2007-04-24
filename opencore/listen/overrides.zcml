@@ -1,0 +1,14 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           >
+    
+    <!-- use the portal instead of the zope root so that requests can come
+         www.openplans.org -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="send_listen_mail"
+        class="Products.listen.utilities.list_lookup.MailDeliveryView"
+        permission="zope2.Public"
+        />
+
+</configure>
