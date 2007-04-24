@@ -47,7 +47,7 @@
 
         <div class="visualClear"><!-- --></div>
 
-        <tal:block condition="python:here.getField('displayAttachments') is not None">
+        <tal:block condition="python:here.getDisplayAttachments()">
           <div metal:use-macro="python:here.widget('displayAttachments')"/>
         </tal:block>
 
