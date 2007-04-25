@@ -69,6 +69,15 @@ def reinstallSubskins(self, portal):
     out = StringIO()
     install_subskin(portal, out, config.GLOBALS)
 
+def migrate_listen_member_lookup(self, portal):
+    from Products.listen.interfaces import IMemberLookup
+    from zope.component import getUtility
+    from opencore.listen.utility_overrides import OpencoreMemberLookup
+    portal.utilities.manage_delObjects(['IMemberLookup'])
+    opencore_memberlookup = OpencoreMemberLookup(portal)
+    sm = portal.getSiteManager()
+    sm.registerUtility(IMemberLookup, opencore_memberlookup)
+
 functions = dict(
     setupKupu = convertFunc(setupKupu),
     fixUpEditTab = convertFunc(fixUpEditTab),
@@ -89,6 +98,7 @@ functions = dict(
     installZ3Types = convertFunc(installZ3Types),
     registerJS = convertFunc(registerJS),
     createMemIndexes = convertFunc(createMemIndexes),
+    migrate_listen_member_lookup=migrate_listen_member_lookup,
     )
 
 class TOPPSetup(SetupWidget):
