@@ -106,7 +106,6 @@ class SubProjectListingView(ProjectListingView, Traversable):
     implements(IAddSubProject)
 
     def __init__(self, context, request):
-        import pdb;pdb.set_trace()
         ProjectListingView.__init__(self, context, request)
         # XXX this may be a horrendous hack, but it appears 
         # to be what Five expects to find during traversal... ?!
