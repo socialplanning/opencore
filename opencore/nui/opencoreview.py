@@ -3,6 +3,8 @@ OpenCore Base View
 """
 import globalui
 
+from opencore.content.page import OpenPage
+from Products.OpenPlans.content.project import OpenProject
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from memojito import memoizedproperty, memoize
@@ -34,6 +36,9 @@ class OpencoreView(BrowserView):
 
     def renderView(self, viewname):
         return self.context.unrestrictedTraverse('@@' + viewname).index()
+
+    def renderOpenPage(self, page):
+        return page.CookedBody()
 
     def isUserLoggedIn(self):
         # TODO
@@ -112,10 +117,22 @@ class OpencoreView(BrowserView):
             homepagename = self.project().getDefaultPage()
             return self.project().unrestrictedTraverse(homepagename)
 
+    def renderProjectContent(self):
+        if isinstance(self.context, OpenProject):
+            return self.renderProjectHomePage()
+        elif isinstance(self.context, OpenPage):
+            return self.renderOpenPage(self.context)
+        else:
+            # TODO
+            print """Unexpected error in OpencoreView.renderProjectContent:
+            self.context is neither an OpenProject nor an OpenPage"""
+            import pdb; pdb.set_trace()
+            
+
     def renderProjectHomePage(self):
         projecthome = self.projectHomePage()
         if projecthome:
-            return projecthome.CookedBody()
+            return self.renderOpenPage(projecthome)
 
     def featurelets(self):
       # TODO
