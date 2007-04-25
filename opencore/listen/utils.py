@@ -2,6 +2,9 @@ import re
 
 from zope.i18nmessageid import MessageFactory
 from zope.schema import ValidationError
+from Products.listen.interfaces.mailinglist import check_mailto
+
+from config import LIST_SUFFIX as SUFFIX
 
 _ = MessageFactory("opencore")
 
@@ -17,6 +20,8 @@ def isValidPrefix(prefix):
     """
     Returns True if the prefix only contains valid email prefix chars.
     """
+    check_mailto(prefix + SUFFIX)
+
     match = regex.search(prefix)
     if match is not None:
         raise InvalidPrefix
