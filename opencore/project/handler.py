@@ -26,7 +26,7 @@ def handle_postcreation(event):
 
     # add defaulting redirect hooks(may be overwritten by other
     # events)
-    redirect.activate(instance)
+    redirect.activate(instance, explicit=False)
 
     # add the featurelets, if any
     save_featurelets(instance, request=request)
