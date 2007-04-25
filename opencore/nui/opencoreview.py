@@ -117,23 +117,21 @@ class OpencoreView(BrowserView):
             homepagename = self.project().getDefaultPage()
             return self.project().unrestrictedTraverse(homepagename)
 
+    def currentProjectPage(self):
+        if self.inProject():
+            if isinstance(self.context, OpenProject):
+                return self.projectHomePage()
+            elif isinstance(self.context, OpenPage):
+                return self.context
+            else:
+                # TODO
+                print """Unexpected error in OpencoreView.currentProjectPage:
+                self.context is neither an OpenProject nor an OpenPage"""
+                import pdb; pdb.set_trace()
+
     def renderProjectContent(self):
-        if isinstance(self.context, OpenProject):
-            return self.renderProjectHomePage()
-        elif isinstance(self.context, OpenPage):
-            return self.renderOpenPage(self.context)
-        else:
-            # TODO
-            print """Unexpected error in OpencoreView.renderProjectContent:
-            self.context is neither an OpenProject nor an OpenPage"""
-            import pdb; pdb.set_trace()
+        return self.renderOpenPage(self.currentProjectPage())
             
-
-    def renderProjectHomePage(self):
-        projecthome = self.projectHomePage()
-        if projecthome:
-            return self.renderOpenPage(projecthome)
-
     def featurelets(self):
       # TODO
       names = []
@@ -143,7 +141,7 @@ class OpencoreView(BrowserView):
     def titles(self):
         if self.inProject():
             title = self.projectFullName()
-            subtitle = self.projectHomePage().title
+            subtitle = self.currentProjectPage().title
         elif self.inMemberArea():
             title = self.miv.membername
             subtitle = 'some subtitle for a member area page' #TODO
