@@ -559,6 +559,13 @@ def setSiteIndexPage(portal, out):
         page.setText(page_file.read())
         portal.setDefaultPage(index_id)
 
+def setCookieDomain(portal, out):
+    app = portal.getPhysicalRoot()
+    bid_mgr = app._getOb('browser_id_manager', None)
+    if bid_mgr is not None:
+        bid_mgr.setCookieDomain(config.COOKIE_DOMAIN)
+        print >> out, "Set cookie domain to %s" % config.COOKIE_DOMAIN
+
 def installCookieAuth(portal, out):
     
     uf = portal.acl_users
@@ -602,6 +609,7 @@ def install(self, migrate_atdoc_to_openpage=True):
     installZ3Types(portal, out)
     installWorkflows(portal, out)
     installWorkflowPolicies(portal, out)
+    setCookieDomain(portal, out)
     installCookieAuth(portal, out)
     securityTweaks(portal, out)
     uiTweaks(portal, out)

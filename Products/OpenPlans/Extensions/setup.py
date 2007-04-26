@@ -19,7 +19,7 @@ from Install import installColumns, fixUpEditTab, hideActions, \
      installWorkflows, setupPortalActions, addFormControllerOverrides, \
      installWorkflowPolicies, hideActionTabs, securityTweaks, uiTweaks, \
      migrateATDocToOpenPage, createIndexes, installZ3Types, registerJS, \
-     setupProjectLayout, createMemIndexes
+     setupProjectLayout, createMemIndexes, setCookieDomain
 
 from cStringIO import StringIO
 
@@ -98,6 +98,7 @@ functions = dict(
     installZ3Types = convertFunc(installZ3Types),
     registerJS = convertFunc(registerJS),
     createMemIndexes = convertFunc(createMemIndexes),
+    setCookieDomain = convertFunc(setCookieDomain),
     migrate_listen_member_lookup=migrate_listen_member_lookup,
     )
 

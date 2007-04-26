@@ -36,6 +36,8 @@ NAVTREE_TYPES = ['Collector', 'HelpCenterErrorReferencefolder',
 
 SITE_INDEX_TEMPLATE = 'site_index_html'
 
+COOKIE_DOMAIN = '.openplans.org'
+
 try:
     # When Reference are in CMFCore
     from Products.CMFCore.reference_config import *
