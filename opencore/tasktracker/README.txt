@@ -31,11 +31,11 @@ to tasktracker::
     >>> ttf._makeHttpReqAsUser(ttf.init_uri, obj=project, headers=header)
     Called httplib2.Http.request(
         u'http://localhost:5050/project/initialize/',
-        headers={'X-Openplans-Project': 'p1', 'Cookie': '__ac=dGVzdF91c2VyXzFfADhjMGEyOGI4ZmZiNTI5ZDMzNjJmNmEzYzU0ODM0YzQ3MzZmODE0ZjI%3D%0A', 'X-Tasktracker-Initialize': 'True'},
+        headers={'X-Openplans-Project': 'p1', 'Cookie': '__ac=...', 'X-Tasktracker-Initialize': 'True'},
         method='POST')
 
     >>> ttf._makeHttpReqAsUser(ttf.uninit_uri, obj=project)
     Called httplib2.Http.request(
         u'http://localhost:5050/project/uninitialize/',
-        headers={'X-Openplans-Project': 'p1', 'Cookie': '__ac=dGVzdF91c2VyXzFfADhjMGEyOGI4ZmZiNTI5ZDMzNjJmNmEzYzU0ODM0YzQ3MzZmODE0ZjI%3D%0A'},
+        headers={'X-Openplans-Project': 'p1', 'Cookie': '__ac=...'},
         method='POST')
