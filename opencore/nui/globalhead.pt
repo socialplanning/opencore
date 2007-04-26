@@ -1,0 +1,2 @@
+<link rel="stylesheet" href="++resource++css/opencore.css" type="text/css" />
+<title tal:content="view/renderWindowTitle" />

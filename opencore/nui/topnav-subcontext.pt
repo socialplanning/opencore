@@ -1,10 +1,8 @@
-<div id="topnav-subcontext" tal:define="projurl pinfo/project/absolute_url | nothing;">
   <ul class="op-dropdown">
     <li tal:repeat="link view/subnavLinks">
       <a tal:attributes="href link/url" tal:content="link/text" />
     </li>
   </ul>
-</div>
 
 <!--
       <li><a tal:attributes="href projurl">home</a></li>

@@ -16,6 +16,15 @@
 
   <!-- nui template views -->
 
+  <!-- globalhead -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-globalhead"
+     template="globalhead.pt"
+     />
+
   <!-- topnav -->
   <browser:page
      for="*"

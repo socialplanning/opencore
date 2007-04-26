@@ -37,8 +37,21 @@ class OpencoreView(BrowserView):
     def renderView(self, viewname):
         return self.context.unrestrictedTraverse('@@' + viewname).index()
 
-    def renderOpenPage(self, page):
-        return page.CookedBody()
+    def renderTemplate(self, headviews='', bodyviews=''):
+        head = self.renderView('oc-globalhead')
+        for i in headviews:
+            head += self.renderView(i)
+        head = globalui.wrapWithTag(head, 'head')
+
+        body = self.include('oc-topnav')
+        for i in bodyviews:
+            body += self.include(i)
+        body += self.include('oc-footer')
+        body = globalui.wrapWithTag(body, 'div', 'content-container')
+        body = globalui.wrapWithTag(body, 'div', 'page-container')
+        body = globalui.wrapWithTag(body, 'body')
+
+        return '\n'.join((head, body))
 
     def isUserLoggedIn(self):
         # TODO
@@ -130,7 +143,7 @@ class OpencoreView(BrowserView):
                 import pdb; pdb.set_trace()
 
     def renderProjectContent(self):
-        return self.renderOpenPage(self.currentProjectPage())
+        return globalui.renderOpenPage(self.currentProjectPage())
             
     def featurelets(self):
       # TODO
