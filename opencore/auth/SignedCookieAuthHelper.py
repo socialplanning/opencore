@@ -160,15 +160,28 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
         """ Respond to change of credentials (NOOP for basic auth). """
         cookie_val = self.generateCookieVal(login)
         cookie_val = cookie_val.rstrip()
-        domain_kw = getCookieDomainKW(self)
         response.setCookie(self.cookie_name, quote(cookie_val),
-                           path='/', **domain_kw)
+                           path='/')
+        domain_kw = getCookieDomainKW(self)
+        if domain_kw:
+            # can't use 'setCookie' again b/c it will slam the first value
+            domain_cookie_value = '%s="%s"; Path=/; Domain=%s' % \
+                                  (self.cookie_name, quote(cookie_val),
+                                   domain_kw['domain'])
+            response.addHeader('Set-Cookie', domain_cookie_value)
 
     security.declarePrivate('resetCredentials')
     def resetCredentials(self, request, response):
         """ clear cookie """
+        response.expireCookie(self.cookie_name, path='/')
         domain_kw = getCookieDomainKW(self)
-        response.expireCookie(self.cookie_name, path='/', **domain_kw)
+        if domain_kw:
+            # can't use 'expireCookie' again b/c it will override
+            exp_string = "Expires=Wed, 31-Dec-97 23:59:59 GMT; Max-Age=0"
+            domain_cookie_expire = '%s="deleted"; Path=/; Domain=%s; %s' % \
+                                   (self.cookie_name, domain_kw['domain'],
+                                    exp_string)
+            response.addHeader('Set-Cookie', domain_cookie_expire)
 
     #IAuthenticationPlugin
 
