@@ -16,6 +16,15 @@
 
   <!-- nui template views -->
 
+  <!-- magic -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="magic"
+     template="magic.pt"
+     />
+
   <!-- globalhead -->
   <browser:page
      for="*"

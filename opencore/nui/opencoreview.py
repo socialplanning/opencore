@@ -27,7 +27,12 @@ class OpencoreView(BrowserView):
         self.miv = context.unrestrictedTraverse('member_info')  # TODO don't rely on this
 
     def magic(self):
-        return 'hello!'
+        if self.inProject():
+            return nui.renderView(self.getViewByName('oc-project'))
+        elif self.inMemberArea():
+            return "@@magic knows you're in a member area"
+        else:
+            return "@@magic doesn't know where you are"
 
     def transclude(self):
         return self.request.get_header('X-transcluded')
