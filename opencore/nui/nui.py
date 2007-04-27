@@ -13,3 +13,5 @@ def wrapWithTag(towrap, tag, id=None):
     closing = '</%s>' % tag
     return '\n'.join((opening, towrap, closing))
 
+def renderView(view):
+    return view.index()

@@ -26,21 +26,24 @@ class OpencoreView(BrowserView):
         self.piv = context.unrestrictedTraverse('project_info') # TODO don't rely on this
         self.miv = context.unrestrictedTraverse('member_info')  # TODO don't rely on this
 
+    def magic(self):
+        return 'hello!'
+
     def transclude(self):
         return self.request.get_header('X-transcluded')
 
     def include(self, viewname):
         if self.transclude():
             return '<a href="@@%s" rel="include">%s</a>\n' % (viewname, viewname)
-        return self.renderView(viewname)
+        return nui.renderView(self.getViewByName(viewname))
 
-    def renderView(self, viewname):
-        return self.context.unrestrictedTraverse('@@' + viewname).index()
+    def getViewByName(self, viewname):
+        return self.context.unrestrictedTraverse('@@' + viewname)
 
     def renderTemplate(self, headviews='', bodyviews=''):
-        head = self.renderView('oc-globalhead')
+        head = nui.renderView(self.getViewByName('oc-globalhead'))
         for i in headviews:
-            head += self.renderView(i)
+            head += nui.renderView(self.getViewByName(i))
         head = nui.wrapWithTag(head, 'head')
 
         body = ''
