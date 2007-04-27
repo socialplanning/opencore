@@ -1,0 +1,150 @@
+/* 
+ OpenPlans Default Theme
+ One of many to come?
+
+ */
+	
+#page-container,
+#visual-portal-wrapper {
+	background-color: white;
+}
+	
+#topnav {
+	background-color: #AAC683;
+	color: white;
+}
+	
+#topnav a {
+	color: white;
+	text-decoration: none;
+}
+	
+#topnav a:hover {
+}
+		
+#topnav-global {
+	background: #2B7284 url(http://www.openplans.org/opp_bar_bg.gif) repeat-x scroll center top;
+	border-bottom: 2px solid white;
+	height: 40px;
+}
+	
+#topnav-openplans {
+	background: transparent;
+}
+
+#topnav-openplans-search #LSResult {
+	background-color: #2B7284;
+}
+			
+#topnav-title h1 {
+	text-transform: none;
+}
+		
+#content-container {
+	padding: 0 1em;
+}
+		
+#footer {
+    background-color: #eee;
+	color: #aaa;
+}
+
+#footer a {
+  color: gray;
+	text-decoration: none;
+}
+
+#footer a:hover {
+	color: #555;
+}
+		
+.missingText {
+	color: gray;
+}
+
+body, textarea {
+	font-size: 12px; /* ~12px */
+	line-height: 1.5em; /* 18px √É¬∑ 12px = 1.5em */
+	font-family: "Lucida Grande", "Frutiger", "Univers", "Helvetica Neue", Arial, Helvetica, sans-serif;
+	/* These typographic rules will establish rhythm of 18px at base font size */
+}
+
+#content * p {
+	margin: 0 0 1.5em 0;
+}
+
+/* HTML & TYPOGRAPHY */
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+	letter-spacing: 0;
+}
+		
+h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 abbr {
+	border: none;
+}
+
+h1, .h1 {
+	
+}
+
+h2, .h2, #topnav-title h1 {
+	
+}
+
+h3, .h3, h4, .h4  {
+	
+}
+
+h4, .h4 {
+	
+}
+	
+.smallText,
+	/* Layout and Navigation */
+		.documentByLine,
+		#topnav .oc-dropdown,
+		#topnav-openplans-search,
+		#footer,
+    	#content-title-pagetitle,
+	
+	/*Feeds and Forms */
+		.field input,
+		.formHelp,
+		.feed_data,
+		.feed_desc,
+		ul.contentViews,
+		ul.oc-tabs,
+	
+	/* Error Messages */
+		.portalMessage,
+		.portalWarningMessage,
+		.portalStopMessage,
+		.system-message,
+		#error-handling
+	
+	{
+	
+}
+
+.documentFirstHeading,
+.simpleHeading {
+	
+}
+
+.simpleHeading a {
+	
+}
+
+.simpleHeading a:hover {
+	
+}
+
+a {
+	
+}
+	
+a:hover {
+	
+}
+
