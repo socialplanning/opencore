@@ -31,7 +31,7 @@ class OpencoreView(BrowserView):
 
     def magicContent(self):
         if self.inProject():
-            return self.include('oc-project')
+            return self.include('oc-yourprojects')
         elif self.inMemberArea():
             return "@@magic knows you're in a member area"
         else:

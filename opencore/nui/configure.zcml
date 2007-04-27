@@ -12,6 +12,10 @@
     name="img"
     directory="img"
     />
+  <browser:resourceDirectory
+    name="javascripts"
+    directory="javascripts"
+    />
 
 
 
@@ -70,8 +74,16 @@
      name="oc-topnav-accessibility"
      template="topnav-accessibility.pt"
      />
-
-
+   
+   <!-- your projects -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-yourprojects"
+     template="yourprojects.pt"
+     />
+  
 
   <!-- footer -->
   <browser:page

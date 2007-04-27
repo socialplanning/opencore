@@ -1,4 +1,4 @@
-  <ul class="op-dropdown">
+  <ul class="oc-dropdown">
     <li tal:repeat="link view/subnavLinks">
       <a tal:attributes="href link/url" tal:content="link/text" />
     </li>

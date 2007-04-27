@@ -1,7 +1,7 @@
 <!-- tabs for project content (view/edit/history) -->
 <div id="content-title">
   <span id="content-title-pagetitle" tal:content="structure view/renderPageTitle"/>
-  <ul class="op-tabs">
+  <ul class="oc-tabs">
     <li tal:repeat="tab view/tabs" tal:attributes="class tab/cssclass">
       <a tal:attributes="href tab/url" tal:content="tab/name" />
     </li>
