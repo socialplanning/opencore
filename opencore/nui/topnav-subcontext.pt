@@ -2,7 +2,7 @@
     <li tal:repeat="link view/subnavLinks">
       <a tal:attributes="href link/url" tal:content="link/text" />
     </li>
-  </ul>
+  </ul> 
 
 <!--
       <li><a tal:attributes="href projurl">home</a></li>
