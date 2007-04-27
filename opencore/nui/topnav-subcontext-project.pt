@@ -1,0 +1,12 @@
+<li>
+  <a tal:attributes="href string:${view/projectURL}/@@magic"
+    tal:content="string:home" />
+</li>
+<li>
+  <a tal:attributes="href string:${view/projectURL}/@@magic?specific_something=oc-project-contents"
+    tal:content="string:contents" />
+</li>
+<li>
+  <a tal:attributes="href string:${view/projectURL}/@@magic?specific_something=oc-project-contact"
+    tal:content="string:contact" />
+</li>
