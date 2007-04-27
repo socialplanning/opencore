@@ -1,1 +1,14 @@
-<div tal:replace="structure view/magic"/>
+<!-- doctype -->
+<html>
+  <head>
+    <link tal:replace="structure here/@@oc-globalhead" />
+    <!-- any context-specific head content should be magically pulled here -->
+  </head>
+  <body>
+    <div id="page-container">
+      <div tal:replace="structure python:view.include('oc-topnav')" />
+      <div tal:content="structure python:view.magicContent()" id="content-container"/>
+      <div tal:replace="structure python:view.include('oc-footer')" />
+    </div>
+  </body>
+</html>

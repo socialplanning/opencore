@@ -26,9 +26,12 @@ class OpencoreView(BrowserView):
         self.piv = context.unrestrictedTraverse('project_info') # TODO don't rely on this
         self.miv = context.unrestrictedTraverse('member_info')  # TODO don't rely on this
 
-    def magic(self):
+    def magicHead(self):
+        return ''
+
+    def magicContent(self):
         if self.inProject():
-            return nui.renderView(self.getViewByName('oc-project'))
+            return self.include('oc-project')
         elif self.inMemberArea():
             return "@@magic knows you're in a member area"
         else:
@@ -44,23 +47,6 @@ class OpencoreView(BrowserView):
 
     def getViewByName(self, viewname):
         return self.context.unrestrictedTraverse('@@' + viewname)
-
-    def renderTemplate(self, headviews='', bodyviews=''):
-        head = nui.renderView(self.getViewByName('oc-globalhead'))
-        for i in headviews:
-            head += nui.renderView(self.getViewByName(i))
-        head = nui.wrapWithTag(head, 'head')
-
-        body = ''
-        for i in bodyviews:
-            body += self.include(i)
-        body = nui.wrapWithTag(body, 'div', 'content-container')
-        body += self.include('oc-footer')
-        body = self.include('oc-topnav') + body
-        body = nui.wrapWithTag(body, 'div', 'page-container')
-        body = nui.wrapWithTag(body, 'body')
-
-        return '\n'.join((head, body))
 
     def isUserLoggedIn(self):
         # TODO

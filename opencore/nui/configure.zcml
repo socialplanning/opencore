@@ -14,9 +14,10 @@
     />
 
 
-  <!-- nui template views -->
 
-  <!-- magic -->
+  <!-- templates -->
+
+  <!-- magic (the global template) -->
   <browser:page
      for="*"
      class=".opencoreview.OpencoreView"
@@ -89,24 +90,6 @@
      permission="zope.Public"
      name="oc-project"
      template="project.pt"
-     />
-
-  <!-- projecttabs -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-project-tabs"
-     template="project-tabs.pt"
-     />
-
-  <!-- projectcontent -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-project-content"
-     template="project-content.pt"
      />
 
 </configure>
