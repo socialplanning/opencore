@@ -1,7 +1,7 @@
 """
 OpenCore Base View
 """
-import globalui
+import nui
 
 from opencore.content.page import OpenPage
 from Products.OpenPlans.content.project import OpenProject
@@ -19,7 +19,7 @@ class OpencoreView(BrowserView):
         portal = getToolByName(context, 'portal_url').getPortalObject()
         self.context = context
         self.request = request
-        self.logoURL = globalui.logoURL
+        self.logoURL = nui.logoURL
         self.siteURL = portal.absolute_url()
         self.sitetitle = portal.title
         self.url = context.absolute_url()
@@ -41,16 +41,16 @@ class OpencoreView(BrowserView):
         head = self.renderView('oc-globalhead')
         for i in headviews:
             head += self.renderView(i)
-        head = globalui.wrapWithTag(head, 'head')
+        head = nui.wrapWithTag(head, 'head')
 
         body = ''
         for i in bodyviews:
             body += self.include(i)
-        body = globalui.wrapWithTag(body, 'div', 'content-container')
+        body = nui.wrapWithTag(body, 'div', 'content-container')
         body += self.include('oc-footer')
         body = self.include('oc-topnav') + body
-        body = globalui.wrapWithTag(body, 'div', 'page-container')
-        body = globalui.wrapWithTag(body, 'body')
+        body = nui.wrapWithTag(body, 'div', 'page-container')
+        body = nui.wrapWithTag(body, 'body')
 
         return '\n'.join((head, body))
 
@@ -144,7 +144,7 @@ class OpencoreView(BrowserView):
                 import pdb; pdb.set_trace()
 
     def renderProjectContent(self):
-        return globalui.renderOpenPage(self.currentProjectPage())
+        return nui.renderOpenPage(self.currentProjectPage())
             
     def featurelets(self):
       # TODO
@@ -168,7 +168,7 @@ class OpencoreView(BrowserView):
         title, subtitle = self.titles()
         title, subtitle = truncate(title, max=16), truncate(subtitle, max=24)
         windowtitle = [subtitle, title, self.sitetitle]
-        return globalui.windowTitleSeparator.join([i for i in windowtitle if i])
+        return nui.windowTitleSeparator.join([i for i in windowtitle if i])
 
     def renderTopnavTitle(self):
         title = self.titles()[0]
