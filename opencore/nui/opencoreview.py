@@ -31,7 +31,7 @@ class OpencoreView(BrowserView):
 
     def include(self, viewname):
         if self.transclude():
-            return '<a href="@@%s" rel="include">%s</a>' % (viewname, viewname)
+            return '<a href="@@%s" rel="include">%s</a>\n' % (viewname, viewname)
         return self.renderView(viewname)
 
     def renderView(self, viewname):
@@ -43,11 +43,12 @@ class OpencoreView(BrowserView):
             head += self.renderView(i)
         head = globalui.wrapWithTag(head, 'head')
 
-        body = self.include('oc-topnav')
+        body = ''
         for i in bodyviews:
             body += self.include(i)
-        body += self.include('oc-footer')
         body = globalui.wrapWithTag(body, 'div', 'content-container')
+        body += self.include('oc-footer')
+        body = self.include('oc-topnav') + body
         body = globalui.wrapWithTag(body, 'div', 'page-container')
         body = globalui.wrapWithTag(body, 'body')
 

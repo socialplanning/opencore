@@ -4,7 +4,7 @@ windowTitleSeparator = ' :: '
 logoURL = '++resource++img/logo.gif'
 
 
-def renderOpenPage(self, page):
+def renderOpenPage(page):
     return page.CookedBody()
 
 def wrapWithTag(towrap, tag, id=None):
