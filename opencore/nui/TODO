@@ -1,3 +1,7 @@
+* confirm: if you can view any page within a project, then
+           you can view the project's folder_contents
+           (for project.pt's contents tab)
+
 * write tests for opencoreview
 
 * optimize opencoreview (@memoize? @property? @memoizedproperty? can check for transclude on init only?)

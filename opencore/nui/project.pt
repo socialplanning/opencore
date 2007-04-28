@@ -1,4 +1,4 @@
-<!-- tabs for project content (view/edit/history) -->
+<!-- title of and tabs for project content (view/edit/history) -->
 <div id="content-title">
   <span id="content-title-pagetitle" tal:content="structure view/renderPageTitle"/>
   <ul class="oc-tabs">

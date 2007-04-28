@@ -15,6 +15,7 @@ from topp.utils.pretty_text import truncate
 from zope.component import getMultiAdapter, adapts, adapter
 
 class OpencoreView(BrowserView):
+
     def __init__(self, context, request):
         portal = getToolByName(context, 'portal_url').getPortalObject()
         self.context = context
@@ -26,23 +27,32 @@ class OpencoreView(BrowserView):
         self.piv = context.unrestrictedTraverse('project_info') # TODO don't rely on this
         self.miv = context.unrestrictedTraverse('member_info')  # TODO don't rely on this
 
-    def magicHead(self):
-        return ''
+    def magicTopnavSubcontext(self):
+        if self.inProject():
+            return nui.renderView(self.getViewByName('oc-topnav-subcontext-project'))
+        return 'oc-blank'
+        #elif self.inMemberArea():
+        #    return "@@magic knows you're in a member area"
+        #else:
+        #    return "@@magic doesn't know where you are"
 
     def magicContent(self):
         if self.inProject():
-            return self.include('oc-yourprojects')
-        elif self.inMemberArea():
-            return "@@magic knows you're in a member area"
-        else:
-            return "@@magic doesn't know where you are"
+            return 'oc-project'
+        return 'oc-blank'
+        #elif self.inMemberArea():
+        #    return "@@magic knows you're in a member area"
+        #else:
+        #    return "@@magic doesn't know where you are"
 
     def transclude(self):
         return self.request.get_header('X-transcluded')
 
-    def include(self, viewname):
+    def include(self, viewname=None):
+        if not viewname:
+            viewname = self.magicContent()
         if self.transclude():
-            return '<a href="@@%s" rel="include">%s</a>\n' % (viewname, viewname)
+            return nui.renderTranscluderLink(viewname)
         return nui.renderView(self.getViewByName(viewname))
 
     def getViewByName(self, viewname):
@@ -113,6 +123,12 @@ class OpencoreView(BrowserView):
     def project(self):
         # TODO
         return self.piv.project
+
+    def projectURL(self):
+        return self.project().absolute_url()
+
+    def projectHomePageURL(self):
+        return self.projectHomePage().absolute_url()
 
     def projectNavName(self):
         return self.project().getId()

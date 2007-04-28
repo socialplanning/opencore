@@ -1,14 +1,18 @@
 <ul class="oc-dropdown">
 <li>
-  <a tal:attributes="href string:${view/projectURL}/@@magic"
+  <a tal:attributes="href string:${view/projectURL}/@@magic?oc-content=oc-project"
     tal:content="string:home" />
 </li>
 <li>
-  <a tal:attributes="href string:${view/projectURL}/@@magic?specific_something=oc-project-contents"
+  <a tal:attributes="href string:${view/projectURL}/@@magic?oc-content=oc-project-contents"
     tal:content="string:contents" />
 </li>
 <li>
-  <a tal:attributes="href string:${view/projectURL}/@@magic?specific_something=oc-project-contact"
+  <a tal:attributes="href string:${view/projectURL}/@@magic?oc-content=oc-project-contact"
     tal:content="string:contact" />
+</li>
+<li>
+  <a tal:attributes="href string:${view/projectURL}/@@magic?oc-content=oc-yourprojects"
+    tal:content="string:your projects" />
 </li>
 </ul>

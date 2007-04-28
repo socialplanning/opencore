@@ -66,6 +66,15 @@
      template="topnav-subcontext.pt"
      />
 
+  <!-- topnav-subcontext-project -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-topnav-subcontext-project"
+     template="topnav-subcontext-project.pt"
+     />
+
   <!-- topnav-accessibility -->
   <browser:page
      for="*"
@@ -102,6 +111,33 @@
      permission="zope.Public"
      name="oc-project"
      template="project.pt"
+     />
+
+  <!-- project -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-project-contents"
+     template="project-contents.pt"
+     />
+
+  <!-- project -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-project-contact"
+     template="project-contact.pt"
+     />
+
+  <!-- blank (for testing) -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-blank"
+     template="blank.pt"
      />
 
 </configure>
