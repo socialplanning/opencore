@@ -1,92 +1,91 @@
-	<div id="content-main">
-		<div class="headingBlock">
-			<h1>Your Projects</h1>
-			<p class="headingContext">View and manage your project memberships</p>
-		</div>
-		
-		<div class="widget-invitations">
-			<div class="headingBlock">
-				<h2>Membership invitations you've received (x)</h2>
-			</div>
-			<ul class="invitations-list">
-				<li class="invitation">
-					<div class="avatar">
-						<img src="" />
-					</div>
-					<div class="invitation-content">
-						<p><a href="">Animal Campaign</a> has invited you to become a member</p>
-					</div>
-					<ul class="actions">
-						<li><a href="" class="button chooseAccept">Accept</a></li>
-						<li><a href="" class="button chooseReject">Reject</a></li>
-						<li><a href="" class="button chooseSpam">Spam</a></li>
-					</ul>
-				</li>
-				<li class="invitation">
-					<div class="avatar">
-						<img src="" />
-					</div>
-					<div class="invitation-content">
-						<p><a href="">Animal Campaign</a> has invited you to become a member</p>
-					</div>
-					<ul class="actions">
-						<li><a href="" class="button chooseAccept">Accept</a></li>
-						<li><a href="" class="button chooseReject">Reject</a></li>
-						<li><a href="" class="button chooseSpam">Spam</a></li>
-					</ul>
-				</li>
-			</ul>
-		</div><!-- end .widget-invitations -->
-		
-		<hr />
+<div id="content-main">
+  <div class="headingBlock">
+    <h1>Your Projects</h1>
+    <p class="headingContext">View and manage your project memberships</p>
+  </div>
+  
+  <div class="widget-invitations">
+    <div class="headingBlock">
+      <h2>Membership invitations you've received (x)</h2>
+    </div>
+    <ul class="invitations-list">
+      <li class="invitation">
+        <div class="avatar">
+          <img src="" />
+        </div>
+        <div class="invitation-content">
+          <p><a href="">Animal Campaign</a> has invited you to become a member</p>
+        </div>
+        <ul class="actions">
+          <li><a href="" class="button chooseAccept">Accept</a></li>
+          <li><a href="" class="button chooseReject">Reject</a></li>
+          <li><a href="" class="button chooseSpam">Spam</a></li>
+        </ul>
+      </li>
+      <li class="invitation">
+        <div class="avatar">
+          <img src="" />
+        </div>
+        <div class="invitation-content">
+          <p><a href="">Animal Campaign</a> has invited you to become a member</p>
+        </div>
+        <ul class="actions">
+          <li><a href="" class="button chooseAccept">Accept</a></li>
+          <li><a href="" class="button chooseReject">Reject</a></li>
+          <li><a href="" class="button chooseSpam">Spam</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div><!-- end .widget-invitations -->
+  
+  <hr />
 
-		<div class="widget-tableData">
-			<div class="headingBlock">
-				<h2 class="toggleFold">Projects you belong to (x)</h2>
-			</div>
-		
-			<table id="" cellpadding="0" cellspacing="0">
-				<thead>
-					<tr>
-						<th class=""><input type="checkbox" /></th>
-						<th class="columnSortable">Project </th>
-						<th class="columnSortable">Role</th>
-						<th class="columnSortable">Since</th>
-						<th class="columnSortable">Status</th>
-						<th class="columnAction">Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><input type="checkbox" /></td>
-						<td>Animal Campaign</td>
-						<td>Member</td>
-						<td>5:30am</td>
-						<td>not set</td>
-						<td><a href="#" class="edit">Leave project</a></td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" /></td>
-						<td>Animal Campaign 2</td>
-						<td>Member</td>
-						<td>5:30am</td>
-						<td>not set</td>
-						<td><a href="#" class="edit">Leave project</a></td>
-					</tr>
-				</tbody>
-			</table>
-			<ul class="actions">
-				<li><input type="submit" value="Leave project" class="chooseThis" /></li>
-				<li><input type="submit" value="Do something else" /></li>
-			</ul>
-		</div><!-- end .widget-tableData -->
-		
-		
-		
-	
-	</div><!-- end #content-main -->
-	<div id="content-rbar33">
-		Sidebar
-	</div><!-- end #content-rbar33 -->
-	<hr />
+  <div class="widget-tableData">
+    <div class="headingBlock">
+      <h2 class="toggleFold">Projects you belong to (x)</h2>
+    </div>
+  
+    <table id="" cellpadding="0" cellspacing="0">
+      <thead>
+        <tr>
+          <th class=""><input type="checkbox" /></th>
+          <th class="columnSortable">Project </th>
+          <th class="columnSortable">Role</th>
+          <th class="columnSortable">Since</th>
+          <th class="columnSortable">Status</th>
+          <th class="columnAction">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="checkbox" /></td>
+          <td>Animal Campaign</td>
+          <td>Member</td>
+          <td>5:30am</td>
+          <td>not set</td>
+          <td><a href="#" class="edit">Leave project</a></td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" /></td>
+          <td>Animal Campaign 2</td>
+          <td>Member</td>
+          <td>5:30am</td>
+          <td>not set</td>
+          <td><a href="#" class="edit">Leave project</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <ul class="actions">
+      <li><input type="submit" value="Leave project" class="chooseThis" /></li>
+      <li><input type="submit" value="Do something else" /></li>
+    </ul>
+  </div><!-- end .widget-tableData -->
+  
+  
+  
 
+</div><!-- end #content-main -->
+<div id="content-rbar33">
+  Sidebar
+</div><!-- end #content-rbar33 -->
+<hr />

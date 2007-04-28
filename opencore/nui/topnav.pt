@@ -1,0 +1,10 @@
+<div id="topnav" class="clear-after">
+  <div id="topnav-global">
+    <div tal:replace="structure here/oc-topnav-accessibility" />
+    <div id="topnav-title" tal:content="structure view/renderTopnavTitle" />
+    <div id="topnav-openplans" tal:content="structure here/oc-topnav-menus" />
+  </div>
+  <div id="topnav-subcontext">
+    <div tal:replace="structure view/magicTopnavSubcontext" />
+  </div>
+</div>
