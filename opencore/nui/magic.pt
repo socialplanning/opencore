@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head profile="http://gmpg.org/xfn/11">
-  	<title tal:content="view/renderWindowTitle" />
+  	<title tal:content="view/windowTitle" />
   	<link rel="stylesheet" href="++resource++css/opencore.css" type="text/css" media="all" />
   	<link rel="stylesheet" href="++resource++css/plone.css" type="text/css" media="all" />
   	
@@ -13,16 +13,16 @@
   	<link rel="stylesheet" href="++resource++css/themes/openplans.css" type="text/css" media="all" />
   	<!-- TODO print style sheet -->
   	
-  	<script language="javascript" type="text/javascript" src="++resource++javascripts/utilities.js"></script>
-  	<script language="javascript" type="text/javascript" src="++resource++javascripts/ded-chain-min.js"></script>
+    <script language="javascript" type="text/javascript" src="++resource++javascripts/utilities.js" />
+    <script language="javascript" type="text/javascript" src="++resource++javascripts/ded-chain-min.js" />
 	
-	<script type="text/javascript" src="++resource++javascripts/behaviors.js"></script>
+    <script type="text/javascript" src="++resource++javascripts/behaviors.js" />
   </head>  
   <body>
     <div id="page-container">
       <div tal:replace="structure here/@@oc-topnav" />
-      <div id="content-container" tal:define="vn request/oc-content | nothing"
-           tal:content="structure python:view.include(viewname=vn)" />
+      <div id="content-container" tal:define="content request/oc-content | nothing"
+           tal:content="structure python:view.renderContent(content)" />
       <div tal:replace="structure here/@@oc-footer" />
     </div>
   </body>

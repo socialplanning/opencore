@@ -5,14 +5,17 @@
 </h1>
 
 <!-- navigation links -->
-<ul id="topnav-openplans-links">
-  <li tal:repeat="link view/topnavLinks">
-    <a tal:attributes="href link/url" tal:content="link/text" />
+<ul id="topnav-openplans-links" tal:define="site here/portal_url">
+  <li>
+    <a tal:attributes="href string:${site}/people/@@magic?oc-content=oc-people">people</a>
+  </li>
+  <li>
+    <a tal:attributes="href string:${site}/projects/@@magic?oc-content=oc-projects">projects</a>
+  </li>
+  <li>
+    <a tal:attributes="href string:${site}/@@magic?oc-content=oc-start-project">start a project</a>
+  </li>
+  <li>
+    <a tal:attributes="href string:${site}/@@magic?oc-content=oc-login-join">login/join</a>
   </li>
 </ul>
-
-<!-- TODO
-<div id="topnav-openplans-search">
-  <input type="text" accesskey="4" title="Search Site" size="15" id="searchGadget"/>
-</div>
--->

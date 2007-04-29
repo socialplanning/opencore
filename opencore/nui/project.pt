@@ -1,12 +1,29 @@
-<!-- title of and tabs for project content (view/edit/history) -->
 <div id="content-title">
-  <span id="content-title-pagetitle" tal:content="structure view/renderPageTitle"/>
+  <!-- title -->
+  <span id="content-title-pagetitle">
+    <a tal:attributes="href string:${view/pageURL}/@@magic"
+       tal:content="view/pageTitle" />
+  </span>
+
+  <!-- tabs -->
   <ul class="oc-tabs">
-    <li tal:repeat="tab view/tabs" tal:attributes="class tab/cssclass">
-      <a tal:attributes="href tab/url" tal:content="tab/name" />
+    <li class="selected">
+      <a href="">view</a>
+    </li>
+    <li class="disabled">
+      <a href="">edit</a>
+    </li>
+    <li class="deselected">
+      <a href="">history</a>
     </li>
   </ul>
 </div>
 
 <!-- project content -->
 <div id="content-main" tal:content="structure view/renderProjectContent" />
+
+<!-- last modified -->
+<div>Last modified
+  on <span tal:replace="view/lastModifiedOn" />
+  by <span tal:replace="view/lastModifiedBy" />
+</div>

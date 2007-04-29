@@ -113,7 +113,7 @@
      template="project.pt"
      />
 
-  <!-- project -->
+  <!-- project-contents -->
   <browser:page
      for="*"
      class=".opencoreview.OpencoreView"
@@ -122,7 +122,7 @@
      template="project-contents.pt"
      />
 
-  <!-- project -->
+  <!-- project-contact -->
   <browser:page
      for="*"
      class=".opencoreview.OpencoreView"
@@ -130,6 +130,46 @@
      name="oc-project-contact"
      template="project-contact.pt"
      />
+
+
+
+  <!-- projects -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-projects"
+     template="projects.pt"
+     />
+
+  <!-- people -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-people"
+     template="people.pt"
+     />
+
+  <!-- start-project -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-start-project"
+     template="start-project.pt"
+     />
+
+  <!-- login-join -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-login-join"
+     template="login-join.pt"
+     />
+
+
 
   <!-- blank (for testing) -->
   <browser:page

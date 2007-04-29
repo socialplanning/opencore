@@ -1,5 +1,5 @@
 """
-OpenCore Base View
+OpencoreView: the base view for all of opencore's new z views.
 """
 import nui
 
@@ -27,30 +27,30 @@ class OpencoreView(BrowserView):
         self.piv = context.unrestrictedTraverse('project_info') # TODO don't rely on this
         self.miv = context.unrestrictedTraverse('member_info')  # TODO don't rely on this
 
+    def transclude(self):
+        return self.request.get_header('X-transcluded')
+
     def magicTopnavSubcontext(self):
         if self.inProject():
-            return nui.renderView(self.getViewByName('oc-topnav-subcontext-project'))
+            return 'oc-topnav-subcontext-project'
         return 'oc-blank'
-        #elif self.inMemberArea():
-        #    return "@@magic knows you're in a member area"
-        #else:
-        #    return "@@magic doesn't know where you are"
 
     def magicContent(self):
         if self.inProject():
             return 'oc-project'
         return 'oc-blank'
-        #elif self.inMemberArea():
-        #    return "@@magic knows you're in a member area"
-        #else:
-        #    return "@@magic doesn't know where you are"
 
-    def transclude(self):
-        return self.request.get_header('X-transcluded')
+    def renderTopnavSubcontext(self, viewname):
+        if not viewname:
+            viewname = self.magicTopnavSubcontext()
+        return nui.renderView(self.getViewByName(viewname))
 
-    def include(self, viewname=None):
+    def renderContent(self, viewname):
         if not viewname:
             viewname = self.magicContent()
+        return nui.renderView(self.getViewByName(viewname))
+
+    def include(self, viewname):
         if self.transclude():
             return nui.renderTranscluderLink(viewname)
         return nui.renderView(self.getViewByName(viewname))
@@ -58,70 +58,26 @@ class OpencoreView(BrowserView):
     def getViewByName(self, viewname):
         return self.context.unrestrictedTraverse('@@' + viewname)
 
-    def isUserLoggedIn(self):
-        # TODO
+    def isUserLoggedIn(self): # TODO
         return False
 
-    def topnavLinks(self):
-        text = ['people', 'projects']
-        urls = ['/people', '/projects']
-        if self.isUserLoggedIn():
-            text += ['start a project', 'someuser', 'log out']
-            urls += ['/projects/add_project', '/people/someuser', '/logout']
-        else:
-            text += ['log in/join']
-            urls += ['/loginjoin_form']
-        urls = map(lambda url: self.siteURL + url, urls)
-        return [dict(url=url, text=text) for url, text in zip(urls, text)]
-
-    def subnavLinks(self):
-        if self.inProject():
-            projURL = '/'.join((self.siteURL, 'projects', self.projectNavName()))
-            text = ['home', 'contents', 'contact']
-            urls = [projURL + i for i in ['', '/folder_contents', '/contact_project_admins']]
-            if self.userHasEditPrivs():
-                text += ['project preferences', 'team preferences']
-                urls += [projURL + '/edit', '%s/portal_teams/%s' % (self.siteURL, self.projectNavName())]
-        else: # TODO
-            text = ['aSubnavLink']
-            urls = [self.siteURL]
-        return [dict(url=url, text=text) for url, text in zip(urls, text)]
-
-    def userHasEditPrivs(self):
+    def userHasEditPrivs(self): # TODO
         """Returns true iff user has edit privileges on this view."""
-        # TODO
         return False
 
-    def tabs(self):
-        def isSelected(taburl):
-            if False: # TODO... self.context == self.context.unrestrictedTraverse(taburl) ???
-                return 'selected'
-        def isDisabled(tabRequiresEdit):
-            if not (tabRequiresEdit and self.userHasEditPrivs()):
-                return 'disabled'
-        def getCssClass(taburl, tabRequiresEdit):
-            return isSelected(taburl) or isDisabled(tabRequiresEdit) or ''
-        names = ['view', 'edit', 'history']
-        requiresEditPrivs = [False, True, True]
-        urls = ['/'.join((self.url, i)) for i in names] # XXX
-        classes = map(getCssClass, urls, requiresEditPrivs)
-        return [dict(name=name, url=url, cssclass=cssclass) for
-            name, url, cssclass in zip(names, urls, classes)]
+    def lastModifiedOn(self): # TODO
+        return '1/13/37'
 
-    def renderLastModifiedInfo(self):
-        # TODO
-        return ''
+    def lastModifiedBy(self): # TODO
+        return 'joetestuser'
 
-    def inProject(self):
-        # TODO
+    def inProject(self): # TODO
         return self.piv.inProject
 
-    def inMemberArea(self):
-        # TODO
+    def inMemberArea(self): # TODO
         return self.miv.inMemberArea
 
-    def project(self):
-        # TODO
+    def project(self): # TODO
         return self.piv.project
 
     def projectURL(self):
@@ -147,50 +103,47 @@ class OpencoreView(BrowserView):
                 return self.projectHomePage()
             elif isinstance(self.context, OpenPage):
                 return self.context
-            else:
-                # TODO
-                print """Unexpected error in OpencoreView.currentProjectPage:
-                self.context is neither an OpenProject nor an OpenPage"""
-                import pdb; pdb.set_trace()
+            else: # TODO
+                return 'Unexpected error in OpencoreView.currentProjectPage: ' \
+                       'self.context is neither an OpenProject nor an OpenPage'
 
     def renderProjectContent(self):
         return nui.renderOpenPage(self.currentProjectPage())
             
-    def featurelets(self):
-      # TODO
+    def featurelets(self): # TODO
       names = []
       urls = []
       return zip(names, urls)
 
-    def titles(self):
+    def pageTitle(self):
         if self.inProject():
-            title = self.projectFullName()
-            subtitle = self.currentProjectPage().title
-        elif self.inMemberArea():
-            title = self.miv.membername
-            subtitle = 'some subtitle for a member area page' #TODO
-        else:
-            title = self.context.title
-            subtitle = 'what should the subtitle be for this page?' #TODO
-        return title, subtitle
+            return self.currentProjectPage().title
+        else: # TODO
+            return ''
 
-    def renderWindowTitle(self):
-        title, subtitle = self.titles()
-        title, subtitle = truncate(title, max=16), truncate(subtitle, max=24)
-        windowtitle = [subtitle, title, self.sitetitle]
-        return nui.windowTitleSeparator.join([i for i in windowtitle if i])
+    def areaTitle(self):
+        if self.inProject():
+            return self.projectFullName()
+        else: # TODO
+            return ''
 
-    def renderTopnavTitle(self):
-        title = self.titles()[0]
-        title = truncate(title, max=64)
-        h1 = '<h1>%s</h1>' % title
-        return '<a href="%s">%s</a>' % (self.url, h1)
+    def pageURL(self):
+        if self.inProject():
+            return self.currentProjectPage().absolute_url()
+        else: # TODO
+            return ''
 
-    def renderPageTitle(self):
-        """Renders the page's subtitle in <a><h1> tags"""
-        subtitle = self.titles()[1]
-        subtitle = truncate(subtitle, max=256)
-        return '<a href="%s">%s</a>' % (self.url, subtitle)
+    def areaURL(self):
+        if self.inProject():
+            return self.projectURL()
+        else: # TODO
+            return ''
+
+    def windowTitle(self):
+        pagetitle, areatitle = self.pageTitle(), self.areaTitle()
+        pagetitle, areatitle = truncate(pagetitle, max=24), truncate(areatitle, max=16)
+        titles = [pagetitle, areatitle, self.sitetitle]
+        return nui.windowTitleSeparator.join([i for i in titles if i])
 
     def nmembers(self):
         """Returns the number of members of the site."""
