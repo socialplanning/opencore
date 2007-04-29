@@ -19,14 +19,6 @@
      allowed_interface=".interfaces.IMemberInfo"
      />
 
-  <browser:page
-     for=".interfaces.IMemberFolder"
-     class="opencore.redirect.Redirector"
-     permission="zope.Public"
-     attribute="redirect"
-     name="opencore.redirect"
-     />
-
   <subscriber handler=".member.create_home_directory"/>
 
   <include package=".menu" />
