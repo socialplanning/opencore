@@ -1,20 +1,20 @@
 <div id="content-title">
   <!-- title -->
   <span id="content-title-pagetitle">
-    <a tal:attributes="href string:${view/pageURL}/@@magic"
+    <a tal:attributes="href string:${view/pageURL}/@@magic?oc-content=oc-project-view"
        tal:content="view/pageTitle" />
   </span>
 
   <!-- tabs -->
   <ul class="oc-tabs">
     <li class="selected">
-      <a href="">view</a>
+      <a tal:attributes="href string:${view/pageURL}/@@magic?oc-content=oc-project-view">view</a>
     </li>
     <li class="disabled">
-      <a href="">edit</a>
+      <a tal:attributes="href string:${view/pageURL}/@@magic?oc-content=oc-project-edit">edit</a>
     </li>
     <li class="deselected">
-      <a href="">history</a>
+      <a tal:attributes="href string:${view/pageURL}/@@magic?oc-content=oc-project-history">history</a>
     </li>
   </ul>
 </div>

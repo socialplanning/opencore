@@ -104,13 +104,31 @@
      />
 
 
-  <!-- project -->
+  <!-- project-view -->
   <browser:page
      for="*"
      class=".opencoreview.OpencoreView"
      permission="zope.Public"
-     name="oc-project"
-     template="project.pt"
+     name="oc-project-view"
+     template="project-view.pt"
+     />
+
+  <!-- project-edit -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-project-edit"
+     template="project-edit.pt"
+     />
+
+  <!-- project-history -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-project-history"
+     template="project-history.pt"
      />
 
   <!-- project-contents -->

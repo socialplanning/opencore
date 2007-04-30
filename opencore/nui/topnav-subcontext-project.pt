@@ -1,6 +1,6 @@
 <ul class="oc-dropdown">
   <li>
-    <a tal:attributes="href string:${view/projectURL}/@@magic?oc-content=oc-project"
+    <a tal:attributes="href string:${view/projectHomePageURL}/@@magic?oc-content=oc-project-view"
       tal:content="string:home" />
   </li>
   <li>

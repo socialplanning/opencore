@@ -37,7 +37,7 @@ class OpencoreView(BrowserView):
 
     def magicContent(self):
         if self.inProject():
-            return 'oc-project'
+            return 'oc-project-view'
         return 'oc-blank'
 
     def renderTopnavSubcontext(self, viewname):

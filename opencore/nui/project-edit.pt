@@ -1,0 +1,25 @@
+<div id="content-title">
+  <!-- title -->
+  <span id="content-title-pagetitle">
+    <a tal:attributes="href string:${view/pageURL}/@@magic?oc-content=oc-project-view"
+       tal:content="view/pageTitle" />
+  </span>
+
+  <!-- tabs -->
+  <ul class="oc-tabs">
+    <li class="deselected">
+      <a tal:attributes="href string:${view/pageURL}/@@magic?oc-content=oc-project-view">view</a>
+    </li>
+    <li class="selected">
+      <a tal:attributes="href string:${view/pageURL}/@@magic?oc-content=oc-project-edit">edit</a>
+    </li>
+    <li class="deselected">
+      <a tal:attributes="href string:${view/pageURL}/@@magic?oc-content=oc-project-history">history</a>
+    </li>
+  </ul>
+</div>
+
+<!-- TODO editable project content -->
+<div id="content-main">
+project-edit template
+</div>
