@@ -15,7 +15,18 @@
   <li>
     <a tal:attributes="href string:${site}/@@magic?oc-content=oc-start-project">start a project</a>
   </li>
-  <li>
-    <a tal:attributes="href string:${site}/@@magic?oc-content=oc-login-join">login/join</a>
-  </li>
+  <tal:block tal:condition="view/isUserLoggedIn">
+    <li>
+      <a tal:attributes="href string:${site}/people/${view/userLogin}/@@magic?oc-content=oc-user-profile"
+         tal:content="view/userLogin" />
+    </li>
+    <li>
+      <a tal:attributes="href string:${site}/logout/@@magic?oc-content=oc-user-logout">log out</a>
+    </li>
+  </tal:block>
+  <tal:block tal:condition="not:view/isUserLoggedIn">
+    <li>
+      <a tal:attributes="href string:${site}/@@magic?oc-content=oc-login-join">log in/join</a>
+    </li>
+  </tal:block>
 </ul>

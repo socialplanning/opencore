@@ -1,5 +1,5 @@
 """
-OpencoreView: the base view for all of opencore's new z views.
+OpencoreView: the base view for all of opencore's new zope3 views.
 """
 import nui
 
@@ -17,12 +17,13 @@ from zope.component import getMultiAdapter, adapts, adapter
 class OpencoreView(BrowserView):
 
     def __init__(self, context, request):
-        portal = getToolByName(context, 'portal_url').getPortalObject()
         self.context = context
         self.request = request
+        self.portaltool = getToolByName(context, 'portal_url').getPortalObject()
+        self.membertool = getToolByName(context, 'portal_membership')
         self.logoURL = nui.logoURL
-        self.siteURL = portal.absolute_url()
-        self.sitetitle = portal.title
+        self.siteURL = self.portaltool.absolute_url()
+        self.sitetitle = self.portaltool.title
         self.url = context.absolute_url()
         self.piv = context.unrestrictedTraverse('project_info') # TODO don't rely on this
         self.miv = context.unrestrictedTraverse('member_info')  # TODO don't rely on this
@@ -63,13 +64,19 @@ class OpencoreView(BrowserView):
         return self.context.unrestrictedTraverse('@@' + viewname)
 
     def isUserLoggedIn(self): # TODO
-        return True
+        return self.membertool.getAuthenticatedMember().getId() is not None
 
     def getUserLoggedIn(self): # TODO
-        return 'jab'
+        return self.membertool.getAuthenticatedMember()
 
     def getUserFromURL(self): # TODO
         return self.miv.member
+
+    def userLogin(self): # TODO
+        return 'jab'
+
+    def userFullName(self): # TODO
+        return 'Joshua Bronson'
 
     def userHasEditPrivs(self): # TODO
         """Returns true iff user has edit privileges on this view."""
