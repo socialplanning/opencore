@@ -1,0 +1,10 @@
+<ul class="oc-dropdown">
+  <li>
+    <a tal:attributes="href string:${view/userProfileURL}/@@magic?oc-content=oc-user-profile"
+       tal:content="string:profile" />
+  </li>
+  <li>
+    <a tal:attributes="href string:${view/userProfileURL}/@@magic?oc-content=oc-user-contact"
+       tal:content="string:contact" />
+  </li>
+</ul>

@@ -8,7 +8,7 @@
 
   <span tal:content="string:
     OpenPlans is
-    ${view/nmembers} members and
+    ${view/nusers} users and
     ${view/nprojects} projects since
     ${view/dob}." />
 </div>

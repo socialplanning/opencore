@@ -33,11 +33,15 @@ class OpencoreView(BrowserView):
     def magicTopnavSubcontext(self):
         if self.inProject():
             return 'oc-topnav-subcontext-project'
+        elif self.inUserArea():
+            return 'oc-topnav-subcontext-user'
         return 'oc-blank'
 
     def magicContent(self):
         if self.inProject():
             return 'oc-project-view'
+        elif self.inUserArea():
+            return 'oc-user-profile'
         return 'oc-blank'
 
     def renderTopnavSubcontext(self, viewname):
@@ -59,23 +63,26 @@ class OpencoreView(BrowserView):
         return self.context.unrestrictedTraverse('@@' + viewname)
 
     def isUserLoggedIn(self): # TODO
-        return False
+        return True
+
+    def getUserLoggedIn(self): # TODO
+        return 'jab'
+
+    def getUserFromURL(self): # TODO
+        return self.miv.member
 
     def userHasEditPrivs(self): # TODO
         """Returns true iff user has edit privileges on this view."""
         return False
 
-    def lastModifiedOn(self): # TODO
-        return '1/13/37'
-
-    def lastModifiedBy(self): # TODO
-        return 'joetestuser'
-
     def inProject(self): # TODO
         return self.piv.inProject
 
-    def inMemberArea(self): # TODO
+    def inUserArea(self): # TODO
         return self.miv.inMemberArea
+
+    def userProfileURL(self): # TODO
+        return self.siteURL + '/people/jab/@@magic'
 
     def project(self): # TODO
         return self.piv.project
@@ -124,6 +131,8 @@ class OpencoreView(BrowserView):
     def areaTitle(self):
         if self.inProject():
             return self.projectFullName()
+        elif self.inUserArea():
+            return self.getUserFromURL().fullname
         else: # TODO
             return ''
 
@@ -136,6 +145,8 @@ class OpencoreView(BrowserView):
     def areaURL(self):
         if self.inProject():
             return self.projectURL()
+        elif self.inUserArea():
+            return self.userProfileURL()
         else: # TODO
             return ''
 
@@ -145,8 +156,8 @@ class OpencoreView(BrowserView):
         titles = [pagetitle, areatitle, self.sitetitle]
         return nui.windowTitleSeparator.join([i for i in titles if i])
 
-    def nmembers(self):
-        """Returns the number of members of the site."""
+    def nusers(self):
+        """Returns the number of users of the site."""
         # TODO
         return 1337
 
@@ -159,3 +170,10 @@ class OpencoreView(BrowserView):
         """Returns OpenPlans' "date of birth"."""
         # TODO
         return 'January 3, 1937'
+
+    def lastModifiedOn(self): # TODO
+        return '1/13/37'
+
+    def lastModifiedBy(self): # TODO
+        return 'joetestuser'
+
