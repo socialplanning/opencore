@@ -10,7 +10,7 @@
     <li class="selected">
       <a tal:attributes="href string:${view/pageURL}/@@magic?oc-content=oc-project-view">view</a>
     </li>
-    <li tal:attribrutes="class python:view.userHasEditPrivs() and 'deselected' or 'disabled'">
+    <li tal:attributes="class python:view.userHasEditPrivs() and 'deselected' or 'disabled'">
       <a tal:attributes="href string:${view/pageURL}/@@magic?oc-content=oc-project-edit">edit</a>
     </li>
     <li class="deselected">

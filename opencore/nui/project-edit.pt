@@ -19,7 +19,13 @@
   </ul>
 </div>
 
-<!-- TODO editable project content -->
+<!-- TODO -->
 <div id="content-main">
-project-edit template
+  project-edit template
+  <div tal:condition="view/userHasEditPrivs">
+    <!-- editable project content here -->
+  </div>
+  <div tal:condition="not:view/userHasEditPrivs">
+    <!-- insufficient privileges message here -->
+  </div>
 </div>
