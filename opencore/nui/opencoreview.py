@@ -82,7 +82,7 @@ class OpencoreView(BrowserView):
         return self.miv.inMemberArea
 
     def userProfileURL(self): # TODO
-        return self.siteURL + '/people/jab/@@magic'
+        return self.siteURL + '/people/jab'
 
     def project(self): # TODO
         return self.piv.project
@@ -175,5 +175,5 @@ class OpencoreView(BrowserView):
         return '1/13/37'
 
     def lastModifiedBy(self): # TODO
-        return 'joetestuser'
+        return 'jab'
 
