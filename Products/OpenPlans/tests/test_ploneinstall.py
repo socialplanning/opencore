@@ -28,9 +28,13 @@ from Products.OpenPlans.Extensions.Install import migrateATDocToOpenPage
 from Testing.ZopeTestCase import PortalTestCase
 
 from openplanstestcase import SiteSetupLayer
+import transaction as txn
 
 class TPILayer(SiteSetupLayer):
     """ try and isolate this puppy """
+    @classmethod
+    def setUp(cls):
+        txn.begin()
 
     @classmethod
     def tearDown(cls):
@@ -51,7 +55,7 @@ class TestPloneInstall(ptc.PloneTestCase):
         traceback.print_exc(tb, out)
         self.fail("%s ::\n %s\n %s\n %s\n" %( msg, t, e,  out.getvalue()) )
 
-    def xtestQIDependencies(self):
+    def testQIDependencies(self):
         try:
             installDepends(self.portal)
         except :
@@ -82,6 +86,8 @@ class TestPloneInstall(ptc.PloneTestCase):
         try:
             install(self.portal, migrate_atdoc_to_openpage=False)
         except:
+            import pdb, sys
+            pdb.post_mortem(sys.exc_info()[2])
             self.fail_tb('\nInstall without migration failed')
             
         self.portal.invokeFactory('Document', 'test_doc')
@@ -92,14 +98,11 @@ class TestPloneInstall(ptc.PloneTestCase):
         self.failIf(hasattr(ttool, 'OpenPage'))
         self.failUnless(ttool.Document.content_meta_type == 'OpenPage')
 
-    def tearDown(self):
-        # avoid any premature tearing down
-        PortalTestCase.tearDown(self)
                         
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
-    suite.addTest(makeSuite(TestPloneInstall))
+    #suite.addTest(makeSuite(TestPloneInstall))
     return suite
 
 if __name__ == '__main__':
