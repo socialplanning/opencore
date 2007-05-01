@@ -100,6 +100,8 @@ functions = dict(
     createMemIndexes = convertFunc(createMemIndexes),
     setCookieDomain = convertFunc(setCookieDomain),
     migrate_listen_member_lookup=migrate_listen_member_lookup,
+    setCookieDomain = convertFunc(setCookieDomain),
+    migrate_listen_member_lookup=migrate_listen_member_lookup,
     )
 
 class TOPPSetup(SetupWidget):
