@@ -184,3 +184,32 @@ class OpencoreView(BrowserView):
     def lastModifiedBy(self): # TODO
         return 'jab'
 
+
+class YourProjectsView(OpencoreView):
+    def __init__(self, context, request):
+        OpencoreView.__init__(self, context, request)
+        self.member = self.membertool.getAuthenticatedMember()
+
+
+    def get_projects_for_user(self):
+        projects = self.member.getProjectListing()
+
+        out = []
+        for project in projects:
+            roles = ', '.join(project.getTeamRolesForAuthMember())
+            teams = project.getTeams()
+            for team in teams:
+                # eventually this will be 1:1 relationship, project:team
+                mship = team.getMembershipByMemberId(self.member.getId())
+                if mship is not None:
+                    created = mship.created()
+
+            out.append({'title':project.title, 'role':roles, 'since':created, 'status':'not set'})
+
+        return out
+
+    def get_invitations_for_user(self):
+        invites = []
+        invites.append({'name':'Big Animals'})
+        invites.append({'name':'Small Animals'})
+        return invites

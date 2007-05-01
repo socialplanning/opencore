@@ -4,30 +4,21 @@
     <p class="headingContext">View and manage your project memberships</p>
   </div>
   
-  <div class="widget-invitations">
+  <div class="widget-invitations"
+       tal:define="invites view/get_invitations_for_user">
     <div class="headingBlock">
-      <h2>Membership invitations you've received (x)</h2>
+      <h2>Membership invitations you've received 
+      (<span tal:replace="python: len(invites)">1</span>)</h2>
     </div>
     <ul class="invitations-list">
-      <li class="invitation">
+      <li class="invitation"
+	  tal:repeat="invite invites">
         <div class="avatar">
           <img src="" />
         </div>
         <div class="invitation-content">
-          <p><a href="">Animal Campaign</a> has invited you to become a member</p>
-        </div>
-        <ul class="actions">
-          <li><a href="" class="button chooseAccept">Accept</a></li>
-          <li><a href="" class="button chooseReject">Reject</a></li>
-          <li><a href="" class="button chooseSpam">Spam</a></li>
-        </ul>
-      </li>
-      <li class="invitation">
-        <div class="avatar">
-          <img src="" />
-        </div>
-        <div class="invitation-content">
-          <p><a href="">Animal Campaign</a> has invited you to become a member</p>
+          <p><a href="" tal:content="invite/name">Animal Campaign</a> 
+	    has invited you to become a member</p>
         </div>
         <ul class="actions">
           <li><a href="" class="button chooseAccept">Accept</a></li>
@@ -40,9 +31,11 @@
   
   <hr />
 
-  <div class="widget-tableData">
+  <div class="widget-tableData" 
+       tal:define="projects view/get_projects_for_user">
     <div class="headingBlock">
-      <h2 class="toggleFold">Projects you belong to (x)</h2>
+      <h2 class="toggleFold">Projects you belong to
+      (<span tal:replace="python: len(projects)">1</span>)</h2>
     </div>
   
     <table id="" cellpadding="0" cellspacing="0">
@@ -57,20 +50,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr tal:repeat="project projects">
           <td><input type="checkbox" /></td>
-          <td>Animal Campaign</td>
-          <td>Member</td>
-          <td>5:30am</td>
-          <td>not set</td>
-          <td><a href="#" class="edit">Leave project</a></td>
-        </tr>
-        <tr>
-          <td><input type="checkbox" /></td>
-          <td>Animal Campaign 2</td>
-          <td>Member</td>
-          <td>5:30am</td>
-          <td>not set</td>
+          <td tal:content="project/title">Animal Campaign</td>
+          <td tal:content="project/role">Member</td>
+          <td tal:content="project/since">5:30am</td>
+          <td tal:content="project/status">not set</td>
           <td><a href="#" class="edit">Leave project</a></td>
         </tr>
       </tbody>

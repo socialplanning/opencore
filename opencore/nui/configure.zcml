@@ -78,7 +78,7 @@
    <!-- your projects -->
   <browser:page
      for="*"
-     class=".opencoreview.OpencoreView"
+     class=".opencoreview.YourProjectsView"
      permission="zope.Public"
      name="oc-yourprojects"
      template="yourprojects.pt"
