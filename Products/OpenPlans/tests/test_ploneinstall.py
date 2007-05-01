@@ -29,11 +29,17 @@ from Testing.ZopeTestCase import PortalTestCase
 
 from openplanstestcase import SiteSetupLayer
 
+class TPILayer(SiteSetupLayer):
+    """ try and isolate this puppy """
+
+    @classmethod
+    def tearDown(cls):
+        raise NotImplementedError
 
 class TestPloneInstall(ptc.PloneTestCase):
     """ basic test for installation, qi """
 
-    layer = SiteSetupLayer
+    layer = TPILayer
 
     def afterSetUp(self):
         self.loginAsPortalOwner()
@@ -45,7 +51,7 @@ class TestPloneInstall(ptc.PloneTestCase):
         traceback.print_exc(tb, out)
         self.fail("%s ::\n %s\n %s\n %s\n" %( msg, t, e,  out.getvalue()) )
 
-    def testQIDependencies(self):
+    def xtestQIDependencies(self):
         try:
             installDepends(self.portal)
         except :
