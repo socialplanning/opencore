@@ -1,0 +1,1 @@
+<include package="opencore.configuration" file="meta.zcml" />

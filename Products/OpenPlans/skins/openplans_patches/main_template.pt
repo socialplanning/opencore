@@ -1,0 +1,194 @@
+<metal:page define-macro="master">
+<metal:doctype define-slot="doctype">
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+</metal:doctype>
+
+<tal:inproject define="global inProject here/@@project_info/inProject | nothing" />
+
+<metal:block define-slot="top_slot" />
+<metal:block use-macro="here/global_defines/macros/defines" />
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+  tal:attributes="lang language; xml:lang language">
+
+  <head metal:use-macro="here/header/macros/html_header">
+    <metal:fillbase fill-slot="base">
+      <metal:baseslot define-slot="base">
+        <base href="" tal:attributes="href here/renderBase" />
+      </metal:baseslot>
+    </metal:fillbase>
+
+    <metal:headslot fill-slot="head_slot" tal:define="lang language;
+      charset site_properties/default_charset|string:utf-8">
+      <metal:cache use-macro="here/global_cache_settings/macros/cacheheaders">
+        Get the global cache headers located in global_cache_settings.
+      </metal:cache>
+      <metal:headslot define-slot="head_slot" />
+      <tal:comment replace="nothing">
+        A slot where you can insert elements in the header from a template
+      </tal:comment>
+    </metal:headslot>
+
+    <metal:cssslot fill-slot="css_slot">
+      <tal:comment replace="nothing">
+        A slot where you can insert CSS in the header from a template
+      </tal:comment>
+      <metal:cssslot define-slot="css_slot" />
+    </metal:cssslot>
+
+    <metal:javascriptslot fill-slot="javascript_head_slot">
+      <tal:comment replace="nothing">
+        A slot where you can insert javascript in the header from a template
+      </tal:comment>
+      <metal:javascriptslot define-slot="javascript_head_slot" />
+      <metal:style_slot define-slot="style_slot" />
+    </metal:javascriptslot>
+  </head>
+
+  <body tal:attributes="class here/getSectionFromURL;
+    dir python:test(isRTL, 'rtl', 'ltr')">
+    
+    <div id="visual-portal-wrapper">
+
+      <div id="portal-top" i18n:domain="plone">
+
+        <table id="tablemain">
+          <tbody>
+            <tr>
+              <td id="topleftshadow_out"><div class="fill"></div></td>
+              <td id="topshadow"><div id="topleftshadow_in"></div><div id="toprightshadow_in"></div></td>
+              <td id="toprightshadow_out"><div class="fill"></div></td>
+            </tr>
+
+
+            <!-- use topnav view -->
+            <div tal:replace="structure here/@@opencore-topnav" />
+            <!-- end topnav view -->
+
+
+            <!--// table row for main content
+            THIS NEVER CHANGES//-->	
+            <tr>
+              <td>
+                <div class="visualClear"><!-- --></div>
+                <tal:comment replace="nothing">
+                  The wrapper table. It contains the three columns. There's a table-less
+                  alternative in the plone_tableless skin layer that you can use if you
+                  prefer layouts that don't use tables.
+                </tal:comment>
+                <table id="portal-columns">
+                  <tbody>
+                    <tr>
+                      <tal:comment replace="nothing"> Start of the left column </tal:comment>
+                      <td id="portal-column-one" metal:define-slot="column_one_slot" tal:condition="sl">
+                        <div class="visualPadding">
+                          <metal:portlets define-slot="portlets_one_slot">
+                            <metal:leftportlets use-macro="here/portlets_fetcher/macros/left_column">
+                              This instruction gets the portlets (boxes) for the left column.
+                            </metal:leftportlets>
+                          </metal:portlets>
+                          &nbsp;
+                        </div>
+                      </td>
+                      <tal:comment replace="nothing">
+                        End of the left column
+                      </tal:comment>
+
+                      <tal:comment replace="nothing">
+                        Start of main content block
+                      </tal:comment>
+
+                      <td id="portal-column-content" tal:define="tabindex python:Iterator(pos=0)">
+
+                        <metal:block define-slot="content">
+                          <div id="content" metal:define-macro="content"
+                            tal:define="show_border python:here.showEditableBorder(template_id=template_id, actions=actions);"
+                            tal:attributes="class python:test(show_border,'documentEditable','')">
+
+                            <metal:ifborder tal:condition="show_border" >
+                              <div metal:use-macro="here/global_contentviews/macros/content_views">
+                                The content views (View, Edit, Properties, Workflow)
+                              </div>
+
+                              <div metal:use-macro="here/global_contentviews/macros/content_actions">
+                                The content bar
+                              </div>
+                            </metal:ifborder>
+
+                            <div class="documentContent" id="region-content">
+                              <a name="documentContent"></a>
+
+                              <div metal:use-macro="here/global_statusmessage/macros/portal_message">
+                                Portal status message
+                              </div>
+
+                              <metal:header metal:define-slot="header" tal:content="nothing">
+                                Visual Header
+                              </metal:header>
+
+                              <metal:bodytext metal:define-slot="main" tal:content="nothing">
+                                Page body text
+                              </metal:bodytext>
+
+                              <metal:sub metal:define-slot="sub">
+                                <metal:discussion use-macro="here/viewThreadsAtBottom/macros/discussionView" />
+                              </metal:sub>
+                            </div><!-- "documentContent" -->
+
+                          </div><!-- "content" -->
+
+                        </metal:block>
+
+                      </td>
+
+                      <tal:comment replace="nothing">
+                        End of main content block
+                      </tal:comment>
+
+
+                      <tal:comment replace="nothing">
+                        Start of right column
+                      </tal:comment>
+
+                      <td id="portal-column-two" metal:define-slot="column_two_slot" tal:condition="sr">
+                        <div class="visualPadding">
+                          <metal:portlets define-slot="portlets_two_slot">
+                            <metal:rightportlets use-macro="here/portlets_fetcher/macros/right_column">
+                              This instruction gets the portlets (boxes) for the right column.
+                            </metal:rightportlets>
+                          </metal:portlets>
+                          &nbsp;
+                        </div>
+                      </td>
+
+                      <tal:comment replace="nothing">
+                        End of the right column
+                      </tal:comment>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr><!--// end table row for main content -->
+
+            <tr>
+              <td id="bottomleftshadow_out"><div class="fill"></div></td>
+              <td id="bottomshadow"><div id="bottomleftshadow_in"></div><div id="bottomrightshadow_in"></div></td>
+              <td id="bottomrightshadow_out"><div class="fill"></div></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>  
+    </div>
+
+    <tal:comment replace="nothing">
+      end column wrapper
+    </tal:comment>
+
+    <div class="visualClear"><!-- --></div>
+
+  </body>
+
+</html>
+</metal:page>

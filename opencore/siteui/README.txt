@@ -1,5 +1,9 @@
 =============
  opencore.siteui
 =============
+    >>> import pdb; st = pdb.set_trace
 
-package for openplan's web prescense ui
+
+tests that have no other home go here
+
+

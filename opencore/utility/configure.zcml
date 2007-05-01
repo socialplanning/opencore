@@ -1,0 +1,11 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+	   xmlns:five="http://namespaces.zope.org/five">
+    <five:implements 
+       class="httplib2.Http"
+       interface="opencore.utility.interfaces.IHTTPClient" 
+       />
+
+    <utility factory="httplib2.Http"
+	     provides="opencore.utility.interfaces.IHTTPClient"
+	     />
+</configure>
