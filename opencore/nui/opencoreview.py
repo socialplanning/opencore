@@ -21,6 +21,8 @@ class OpencoreView(BrowserView):
         self.request = request
         self.portaltool = getToolByName(context, 'portal_url').getPortalObject()
         self.membertool = getToolByName(context, 'portal_membership')
+        self.membranetool = getToolByName(context, 'membrane_tool')
+        self.catalogtool = getToolByName(context, 'portal_catalog')
         self.logoURL = nui.logoURL
         self.siteURL = self.portaltool.absolute_url()
         self.sitetitle = self.portaltool.title
@@ -165,13 +167,13 @@ class OpencoreView(BrowserView):
 
     def nusers(self):
         """Returns the number of users of the site."""
-        # TODO
-        return 1337
+        all_users = self.membranetool(getId='')
+        return len(all_users)
 
     def nprojects(self):
         """Returns the number of projects hosted by the site."""
-        # TODO
-        return 1337
+        all_projects = self.catalogtool(portal_type='OpenProject')
+        return len(all_projects)
 
     def dob(self):
         """Returns OpenPlans' "date of birth"."""
