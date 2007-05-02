@@ -1,4 +1,4 @@
-<div id="topnav" class="clear-after">
+<div id="topnav" class="clearAfter">
   <div id="topnav-global">
     <div tal:replace="structure here/oc-topnav-accessibility" />
     <div id="topnav-title">
