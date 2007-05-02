@@ -19,16 +19,15 @@ from zope.component import getMultiAdapter, adapts, adapter
 class OpencoreView(BrowserView):
 
     def __init__(self, context, request):
-        self.context = context
-        self.request = request
-        self.portaltool = getToolByName(context, 'portal_url').getPortalObject()
-        self.catalogtool = getToolByName(context, 'portal_catalog')
+        self.context      = context
+        self.request      = request
         self.membranetool = getToolByName(context, 'membrane_tool')
-        self.membertool = getToolByName(context, 'portal_membership')
-        self.logoURL = nui.logoURL
-        self.siteURL = self.portaltool.absolute_url()
-        self.sitetitle = self.portaltool.title
-        self.url = context.absolute_url()
+        self.membertool   = getToolByName(context, 'portal_membership')
+        self.catalogtool  = getToolByName(context, 'portal_catalog')
+        self.portal       = getToolByName(context, 'portal_url').getPortalObject()
+        self.sitetitle    = self.portal.title
+        self.siteURL      = self.portal.absolute_url()
+        self.logoURL      = nui.logoURL
         self.piv = context.unrestrictedTraverse('project_info') # TODO don't rely on this
         self.miv = context.unrestrictedTraverse('member_info')  # TODO don't rely on this
 
