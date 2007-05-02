@@ -11,7 +11,7 @@
       <li class="contentview-edit"><a tal:attributes="href userinfo/prefsurl">Edit</a></li>
     </ul>
 
-    <div id="op-member-details-wrapper" class="clear-after">
+    <div id="op-member-details-wrapper" class="clearAfter">
 
       <!-- portrait -->
       <div id="op-member-portrait">
