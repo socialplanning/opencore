@@ -23,9 +23,9 @@
 <div id="content-main">
   project-edit template
   <div tal:condition="view/user/canedit">
-    <!-- editable project content here -->
+    soon you'll be able to edit this page
   </div>
   <div tal:condition="not:view/user/canedit">
-    <!-- insufficient privileges message here -->
+    you do not have sufficient privileges to edit this page
   </div>
 </div>

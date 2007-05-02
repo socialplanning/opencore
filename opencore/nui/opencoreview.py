@@ -4,7 +4,9 @@ OpencoreView: the base view for all of opencore's new zope3 views.
 import nui
 
 from opencore.content.page import OpenPage
+from opencore.content.member import OpenMember
 from Products.OpenPlans.content.project import OpenProject
+from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from memojito import memoizedproperty, memoize
@@ -64,21 +66,34 @@ class OpencoreView(BrowserView):
 
     def getViewByName(self, viewname):
         return self.context.unrestrictedTraverse('@@' + viewname)
+    
+    @property
+    def userobj(self):
+        return self.membertool.getAuthenticatedMember()
+
+    @property
+    def loggedin(self):
+        return self.userobj.getId() is not None
 
     @property
     def user(self):
-        """Provide pertinent user information in a dict
-        to make it easy for templates to access."""
-        obj = self.membertool.getAuthenticatedMember()
-        return dict(obj=obj, id=obj.getId(), fullname=obj.fullname,
-                    profileurl='/'.join((self.siteURL, 'people', obj.getId())),
-                    lastlogin=obj.getLast_login_time(),
-                    canedit=False) # TODO
-
+        """Returns a dict containing information about the
+        currently-logged-in user for easy templates access.
+        If no user is logged in, there's just less info to return."""
+        if self.loggedin:
+            usr = self.userobj
+            canedit = self.membertool.checkPermission(ModifyPortalContent, self.context) and True or False
+            return dict(id=usr.getId(), fullname=usr.fullname,
+                        profileurl=usr.absolute_url(),
+                        lastlogin=usr.getLast_login_time(),
+                        canedit=canedit)
+        return dict(canedit=False)
+    @property
     def loggedin(self):
         return self.membertool.getAuthenticatedMember().getId() is not None
 
     def viewed_user(self): # TODO
+        """Returns the user found in the context's acquisition chain, if any."""
         return self.miv.member
 
     def inProject(self): # TODO
@@ -135,7 +150,7 @@ class OpencoreView(BrowserView):
         if self.inProject():
             return self.projectFullName()
         elif self.inUserArea():
-            return self.viewed_user().fullname
+            return self.viewed_user.fullname
         else: # TODO
             return ''
 

@@ -17,7 +17,7 @@
   </li>
   <tal:block tal:condition="view/loggedin">
     <li>
-      <a tal:attributes="href string:${site}/people/${view/user/id}/@@magic?oc-content=oc-user-profile"
+      <a tal:attributes="href string:${view/user/profileurl}/@@magic?oc-content=oc-user-profile"
          tal:content="view/user/id" />
     </li>
     <li>
