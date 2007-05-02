@@ -127,9 +127,9 @@ class OpencoreView(BrowserView):
         return nui.renderOpenPage(self.currentProjectPage())
             
     def featurelets(self): # TODO
-      names = []
-      urls = []
-      return zip(names, urls)
+        names = []
+        urls = []
+        return zip(names, urls)
 
     def pageTitle(self):
         if self.inProject():
