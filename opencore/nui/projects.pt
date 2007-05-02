@@ -1,9 +1,97 @@
-<div id="nprojects">
-     <h2>Projects on OpenPlans.org</h2>
-     <p>Currently Helping <span tal:replace="view/nprojects">1337</span> projects</p>
-</div>
+<div id="content-main">
+	<div id="nprojects" class="headingBlock">
+	     <h2>Projects on OpenPlans.org</h2>
+	     <p class="headingContext">Currently Helping <span tal:replace="view/nprojects">1337</span> projects</p>
+	</div>
 
-<div id="project-search">
-     <h2>Search for Projects</h2>
-     <form tal:attributes="python: self.view.absolute_url()">
+<form id="projects-search" tal:attributes="python: self.view.absolute_url()">     
+	<label><h2>Search for Projects</h2></label>
+</form>
+
+<ul class="widget-alphabet">
+	<li><a href="">A</a></li>
+	<li><a href="">B</a></li>
+	<li><a href="">C</a></li>
+	<li><a href="">D</a></li>
+	<li><a href="">E</a></li>
+	<li><a href="">F</a></li>
+	<li><a href="">G</a></li>
+	<li><a href="">H</a></li>
+	<li><a href="">I</a></li>
+	<li><a href="">J</a></li>
+	<li><a href="">K</a></li>
+	<li><a href="">L</a></li>
+	<li><a href="">M</a></li>
+	<li><a href="">N</a></li>
+	<li><a href="">O</a></li>
+	<li><a href="">P</a></li>
+	<li><a href="">Q</a></li>
+	<li><a href="">R</a></li>
+	<li><a href="">S</a></li>
+	<li><a href="">T</a></li>
+	<li><a href="">U</a></li>
+	<li><a href="">V</a></li>
+	<li><a href="">W</a></li>
+	<li><a href="">X</a></li>
+	<li><a href="">Y</a></li>
+	<li><a href="">Z</a></li>
+</ul>
+
+<div>
+<h2>Recently updated projects</h2>
+<ul class="widget-feed">
+	<li class="feed-item clearAfter">
+        <div class="avatar">
+          <img src="" />
+        </div>
+		<div class="item-content">
+			<div class="item-title">
+				<a href="">Project Title</a>
+			</div>
+			<p class="item-data discreetText">
+				YY members, active since Jan 1937
+			</p>
+	        <p class="item-description">
+	         Animal Campaign has invited you to become a member
+	        </p>
+		</div>
+		<hr />
+	</li>
+	<li class="feed-item clearAfter">
+        <div class="avatar">
+          <img src="" />
+        </div>
+		<div class="item-content">
+			<div class="item-title">
+				<a href="">Project Title</a>
+			</div>
+			<p class="item-data discreetText">
+				YY members, active since Jan 1937
+			</p>
+	        <p class="item-description">
+	         Animal Campaign has invited you to become a member
+	        </p>
+		</div>
+		<hr />
+	</li>
+	<li class="feed-item clearAfter">
+		<div class="avatar">
+          <img src="http://media3.washingtonpost.com/wp-dyn/content/photo/2007/05/02/PH2007050201581.jpg" width="130px" />
+        </div>
+		<div class="item-content">
+			<div class="item-title">
+				<a href="">Another Project Title</a>
+			</div>
+			<p class="item-data discreetText">
+				YY members, active since Jan 1937
+			</p>
+	        <p class="item-description">
+	        Join us in our efforts to achieve world domination through diabolical plans like shaving innocent kitties and mooning inanimate objects.
+	        Join us in our efforts to achieve world domination through diabolical plans like shaving innocent kitties and mooning inanimate objects.
+			</p>
+		</div>
+		<hr />
+	</li>
+</ul>
+
 </div>
