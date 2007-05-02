@@ -80,16 +80,6 @@ class OpencoreView(BrowserView):
     def viewed_user(self): # TODO
         return self.miv.member
 
-    def userLogin(self): # TODO
-        return 'jab'
-
-    def userFullName(self): # TODO
-        return 'Joshua Bronson'
-
-    def userHasEditPrivs(self): # TODO
-        """Returns true iff user has edit privileges on this view."""
-        return False
-
     def inProject(self): # TODO
         return self.piv.inProject
 
