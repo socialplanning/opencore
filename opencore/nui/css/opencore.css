@@ -296,9 +296,9 @@ ul.oc-dropdown, .oc-dropdown ul {
 }
 #content-main p {
 	/* min-width: 26em;
-	max-width: 39em; */
+	max-width: 39em;
 	margin-top: 0;
-	margin-bottom: .5em;
+	margin-bottom: .5em; */
 	}
 
 #content-main ol, #content-main ul, #content-main dl {
@@ -351,8 +351,6 @@ ul.oc-dropdown, .oc-dropdown ul {
   display: inline;
   padding: 0 0.5em;
 }
-
-
 
 /* LAYOUT for @OpenPlans Pages
 -------------------------------------------- */
@@ -460,247 +458,20 @@ ul.oc-dropdown, .oc-dropdown ul {
 		background-color: transparent;
 	}
 
-/* @FEEDS & FORMS *** TODO : Redo this all! ***
--------------------------------------------- */
-
-form {}
-
-	.oc-formtable-main {
-		width: 65%;
-	}
-	
-	.oc-formtable-main tr,
-	.oc-formtable-main th,
-	.oc-formtable-main td {
-		vertical-align: center;
-	}
-	
-	.oc-formtable-main .formControls a {
-		text-decoration: none;
-		padding-left: 1em;
-	}
-		
-		.oc-formtable-main .formControls a:hover {
-			text-decoration: underline;
-			}
-
-	fieldset {
-		border: none;
-		padding: 0;
-		margin: 0;
-	}
-
-		.formsmall fieldset legend {
-			display: none;
-		}
-		
-		tr.oc-formtable-legend th {
-			text-align: left;
-			width: 100%;
-		}
-		
-			tr.oc-formtable-legend th h2 {
-				margin: 0;
-				margin-top: 1em;
-				padding: 0;
-				padding-top: 0.125em;
-				border-top: 1px dashed #333333;	
-				font-size: 118%;
-			}
-
-	label,
-	.feed_title {
-		font-weight: bold;
-		word-spacing: -0.125em;
-	}
-	
-		label,
-		.ArchetypesBooleanWidget {
-			/* margin-top: 0.5em; */
-		}
-	
-		.formsmall label,
-		.feed_title {
-			display: block;
-		}
-	
-		.oc-formtable-main th {
-			text-align: right;
-			max-width: 10em;
-			padding-right: 0.5em;
-		}
-		
-			.oc-formtable-main th label{
-				display: inline;
-			}
-	
-			.ArchetypesBooleanWidget label {
-				display: inline;
-				font-weight: normal;
-				padding-left: 0.25em;
-			}
-	
-	.field {
-		margin: 1.8em 0 0;
-		}
-	
-	.field input {
-		/* border: 1px solid #eee; Sadly, the input[type=file] doesn't accept this style. */
-		padding: 0.25em;
-	}
-	
-		.formsmall .field input {
-			max-width: 15em;
-		}
-		
-		.oc-formtable-main .field input {
-		width: 97%;
-		}
-
-		td#oc-startproject-webaddress {
-			white-space: nowrap;
-		}
-		
-				td#oc-startproject-webaddress input {
-					width: 10em;
-				}
-		
-		input[type=checkbox],
-		input[type=radio],
-		.ArchetypesBooleanWidget input,
-		.oc-formtable-main .ArchetypesBooleanWidget input {
-			margin: 0;
-			padding: 0;
-			width: auto;
-			display: inline;
-		}
-			
-	.formOptions {
-		padding: 0;
-		list-style-type: none;
-	}
-
-	.formControls {
-		margin-top: 1em;
-	}
-
-	.fieldRequired {
-		padding-left: 1em;
-		color: white;
-		background: transparent url(http://www.openplans.org/required.gif) no-repeat scroll left center;
-	}
-	
-		.oc-formtable-main .fieldRequired {
-			background: transparent url(http://www.openplans.org/required.gif) no-repeat scroll left center;
-		}
-
-	.formHelp,
-	.feed_data {
-		color: gray;
-	}
-	
-		.formHelp {
-			width: 39em; /* TODO This is only a stopgao measure */
-		}
-
-		.oc-formtable-main .formHelp {
-			padding-left: 1.5em;
-			display: block;
-			margin-left: 1em;
-			width: 10em;
-		}
-		
-		.formsmall .formHelp {
-			display: inline;
-		}
-
-div.feed_block {
-}
-
-	.oc-subColumnBox div.feed_block {
-	padding: 1em;
-	}
-
-	ul.feed_list {
-		list-style-type: none;
-		margin: 0;
-		padding: 0;
-	}
-	
-		ul.feed_list li {
-			border-top: 1px dashed gray;
-			padding: 0.75em 0;
-		}
-	
-		.feed_title { /* See "label" above */ }
-
-		.feed_desc {
-			font-weight: normal;
-		}
-
-		.feed_data { /* See .formHelp above */ }
-		
-textarea {
-	display: block;
-}
-
 
 /* OpenPlans -- @Projects Page
-   These classes apply to the global "Projects" page. 
+   These classes apply to the "Projects Portal" page. 
 ------------------------------------------------------------*/
 
-#column-one {
-	display: none;
-}
-
-#column-two {
-	display:block;
-	float: left;
-	text-align: left;
-	font-size: 0.8333em;
-}
-
-#abc-click {
-display: none;
-}
-
-#project-list {
-}
-
-	#projects-table {
-		border-collapse: collapse;
-	}
-
-		#projects-table th {
-			padding: 0.125em 0.5em;
-			text-transform: lowercase;
-			border: none;
-			margin: 0;
-		}
-		
-		#projects-table td {
-			padding: 0.125em 0.5em;
-			vertical-align: top;
-			border-collapse: collapse;
-			margin: 0;
-		}
-		
-		#projects-table a {
-			text-decoration: none;
-		}
-		
-		#projects-table a:hover {
-			text-decoration: underline;
-		}
 
 
-/* "@Custom" CSS : Clear-After Hack, op-dropdown Dropdowns
+/* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
 -------------------------------------------- */
 
-/* This hack replicates the CSS3 "clear-after" property.
-The IE hacks take advantage of several IE non-compliance issues to clear-after the floated columns. */
+/* This hack replicates the CSS3 "clearAfter" property.
+The IE hacks take advantage of several IE non-compliance issues to clearAfter the floated columns. */
 
-.clear-after:after,
+.clearAfter:after,
 #topnav-global:after,
 #content-container:after 
 { 
@@ -766,7 +537,7 @@ z-index: 5;
 			}
 
 			
-/* GENERAL CLASSES & @WIDGETS - reusable thingys
+/* GENERAL CLASSES & @FORMS & @WIDGETS - reusable thingys
 -------------------------------------------*/
 .hidden {
  	display:none;
@@ -774,6 +545,24 @@ z-index: 5;
 .hover {
  	background: #fdffdd;
 }
+
+/* Actions */
+.chooseThis { /* Default option */
+	font-weight: bold;
+}
+.actions .chooseAccept,
+.actions a.chooseAccept {
+	color: #0c0;
+}
+.actions .chooseReject,
+.actions a.chooseReject {
+	color: #c00;
+}
+.actions .chooseSpam,
+.actions a.chooseSpam {
+	color: #999;
+}
+
 /* Widget heading blocks */
 .widget-invitations .headingBlock,
 .widget-tableData .headingBlock {
@@ -785,7 +574,6 @@ z-index: 5;
 }
 .widget-invitations .headingContext,
 .widget-tableData .headingContext {
-	
 }
 
 /* List table */
@@ -820,13 +608,38 @@ z-index: 5;
 	display: inline;
 	padding: .25em .5em;
 }
-input.defaultOption {
- 	font-weight: bold;
+
+/* Feeds */
+.widget-feed {
+	list-style: none;
+	padding: 0;
+}
+li.feed-item {
+	margin: 1em 0;
+	padding-bottom: 0.5em;
+	border-bottom: 1px solid #eee;
+
+}
+li.feed-item .avatar {
+	float: left;
+	margin-right: 0.5em;
+}
+li.feed-item .item-content {
+ 	margin: 0;
+}
+li.feed-item .item-content p {
+	margin: 0;
+}
+li.feed-item .item-title {
+	font-weight: bold;
+}
+li.feed-item .item-data {
+}
+li.feed-item .item-description {
 }
 
 /* Invitations Widget */
 .widget-invitations {
-	
 }
 .invitations-list {
  	margin: 0;
@@ -836,15 +649,18 @@ input.defaultOption {
 li.invitation {
 	clear: both;
 	list-style:none;
-	margin: 0;
-	padding: 0;
+	margin: 0 0 0.5em;
+	padding: 1em;
+	background-color: #eee;
+	border: 1px solid #ccc;
 }
-li.invitaiton .avatar {
+li.invitation .avatar {
 	float: left;
 }
 li.invitation .invitation-content {
- 	float: left;
+	float: left;
  	clear: none;
+ 	margin: 0;
 }
 li.invitation .actions {
 	float: right;
@@ -853,21 +669,41 @@ li.invitation .actions li {
  	display: inline;
 }
 
+/* Alphabet search */
 
+ul.widget-alphabet {
+	list-style: none;
+	padding: 0.5em;
+	white-space: nowrap;
+	background-color: #eee;
+	border:1px solid #ccc;
+	text-align: center;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 0.833em;
+}
+.widget-alphabet li {
+	display: inline;
+	margin: 0 0.125em;
+}
+.widget-alphabet li a {
+	text-decoration: none;
+}
 
-/* @HTML ELEMENTS GENERAL @TYPOGRAPHY - This should be the only place where font information is specified
+/* @HTML ELEMENTS GENERAL @TYPOGRAPHY
+This should be the only place where font information is specified
 -------------------------------------------- */
 
 body, textarea {
 	font-size: 12px; /* ~12px */
-	line-height: 1.5em; /* 18px √É¬∑ 12px = 1.5em */
+	line-height: 1.5em; /* 18px % 12px = 1.5em */
 	font-family: "Lucida Grande", "Frutiger", "Univers", "Helvetica Neue", Arial, Helvetica, sans-serif;
 	/* These typographic rules will establish rhythm of 18px at base font size */
 }
 
-#content-container p {
+/* #content-container p {
 	margin: 0 0 1.5em 0;
-}
+} */
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
@@ -878,28 +714,56 @@ h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 ab
 	border: none;
 }
 
-h1, .h1 {
-	font-size: 2em; /* 24px √É¬∑ 12px = 2em */
-	line-height: 0.75em; /* 18px √É¬∑ 24px = 0.75em */
-	margin-top: 1.5em; /* 36px √É¬∑ 24px = 1.5em */
-	margin-bottom: 0.75em; /* 18px √É¬∑ 24px = 0.75em */
+h1, .h1, biggestText {
+	font-size: 2em; /* 24px % 12px = 2em */
+	line-height: 0.75em; /* 18px % 24px = 0.75em */
+	margin-top: 1.5em; /* 36px % 24px = 1.5em */
+	margin-bottom: 0.75em; /* 18px % 24px = 0.75em */
 }
 
-h2, .h2, #topnav-title h1 {
-	font-size: 1.5em; /* 18px √É¬∑ 12px = 1.5em */
-	line-height: 1em; /* 18px √É¬∑ 18px = 1em */
+h2, .h2, .biggerText, #topnav-title h1 {
+	font-size: 1.5em; /* 18px % 12px = 1.5em */
+	line-height: 1em; /* 18px % 18px = 1em */
 	margin: 1em 0;   
 }
 
-h3, .h3  {
-	font-size: 1.1667em; /* 14px √É¬∑ 12px = 1.1667em */
-	line-height: 1.286em; /* 18px √É¬∑ 14px = 1.286em */
-	margin-top: 1.929em; /* 27px √É¬∑ 14px = 1.929em */
-	margin-bottom: 0.643em; /* 9px √É¬∑ 14px = 0.643em */
+h3, .h3, .bigText  {
+	font-size: 1.1667em; /* 14px % 12px = 1.1667em */
+	line-height: 1.286em; /* 18px % 14px = 1.286em */
+	margin-top: 1.929em; /* 27px % 14px = 1.929em */
+	margin-bottom: 0.643em; /* 9px % 14px = 0.643em */
 }
 
 h4, .h4 {
 	font-weight: bold;
+}
+
+.smallText,
+.discreetText,
+	/* Layout and Navigation */
+		.documentByLine,
+		#topnav .oc-dropdown,
+		#topnav-openplans-search,
+		#footer,
+    	#content-title-pagetitle,
+	
+	/*Feeds and Forms */
+		ul.oc-tabs,
+	
+	/* Error Messages */
+		.portalMessage,
+		.portalWarningMessage,
+		.portalStopMessage,
+		.system-message,
+		#error-handling
+	
+	{
+	font-size: 0.8333em; /* 10px % 12px = 0.8333em */
+	line-height: 1.8em /* 18px % 10px = .9em */
+}
+
+.discreetText {
+	color: #999;
 }
 
 /* Heading Blocks */
@@ -924,50 +788,21 @@ h4, .h4 {
 .headingSimple a:hover {
 	text-decoration: underline;
 }
-
-	
-.smallText,
-	/* Layout and Navigation */
-		.documentByLine,
-		#topnav .oc-dropdown,
-		#topnav-openplans-search,
-		#footer,
-    	#content-title-pagetitle,
-	
-	/*Feeds and Forms */
-		.field input,
-		.formHelp,
-		.feed_data,
-		.feed_desc,
-		ul.contentViews,
-		ul.oc-tabs,
-	
-	/* Error Messages */
-		.portalMessage,
-		.portalWarningMessage,
-		.portalStopMessage,
-		.system-message,
-		#error-handling
-	
-	{
-	font-size: 0.8333em; /* 10px √É¬∑ 12px = 0.8333em */
-	line-height: 1.8em /* 18px √É¬∑ 10px = .9em */
-}
-
 a {
 	color: #86B0E1;
-}
-	
+}	
 a:hover {
 	color: #777777;
 }
 img {
  	border: none;
 }
-hr {
+.clearAfter hr {
  visibility: hidden;
  clear: both;
- height: 0px;
+ height: 0;
+ padding: 0;
+ margin: 0;
 }
 	
 
