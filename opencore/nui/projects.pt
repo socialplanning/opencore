@@ -1,1 +1,9 @@
-projects template
+<div id="nprojects">
+     <h2>Projects on OpenPlans.org</h2>
+     <p>Currently Helping <span tal:replace="view/nprojects">1337</span> projects</p>
+</div>
+
+<div id="project-search">
+     <h2>Search for Projects</h2>
+     <form tal:attributes="python: self.view.absolute_url()">
+</div>

@@ -23,8 +23,6 @@ class OpencoreView(BrowserView):
         self.catalogtool = getToolByName(context, 'portal_catalog')
         self.membranetool = getToolByName(context, 'membrane_tool')
         self.membertool = getToolByName(context, 'portal_membership')
-        self.userobj = self.membertool.getAuthenticatedMember()
-        self.loggedin = self.userobj.getId() is not None
         self.logoURL = nui.logoURL
         self.siteURL = self.portaltool.absolute_url()
         self.sitetitle = self.portaltool.title
@@ -71,11 +69,14 @@ class OpencoreView(BrowserView):
     def user(self):
         """Provide pertinent user information in a dict
         to make it easy for templates to access."""
-        obj = self.userobj
+        obj = self.membertool.getAuthenticatedMember()
         return dict(obj=obj, id=obj.getId(), fullname=obj.fullname,
                     profileurl='/'.join((self.siteURL, 'people', obj.getId())),
                     lastlogin=obj.getLast_login_time(),
                     canedit=False) # TODO
+
+    def loggedin(self):
+        return self.membertool.getAuthenticatedMember().getId() is not None
 
     def viewed_user(self): # TODO
         return self.miv.member
