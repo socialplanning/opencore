@@ -49,13 +49,11 @@ class OpencoreView(BrowserView):
         return 'oc-blank'
 
     def renderTopnavSubcontext(self, viewname):
-        if not viewname:
-            viewname = self.magicTopnavSubcontext()
+        viewname = viewname or self.magicTopnavSubcontext()
         return nui.renderView(self.getViewByName(viewname))
 
     def renderContent(self, viewname):
-        if not viewname:
-            viewname = self.magicContent()
+        viewname = viewname or self.magicContent()
         return nui.renderView(self.getViewByName(viewname))
 
     def include(self, viewname):
@@ -148,7 +146,7 @@ class OpencoreView(BrowserView):
     def areaTitle(self):
         if self.inProject():
             return self.projectFullName()
-        elif self.inUserArea():
+        if self.inUserArea():
             return self.viewed_user.fullname
         else: # TODO
             return ''
@@ -162,7 +160,7 @@ class OpencoreView(BrowserView):
     def areaURL(self):
         if self.inProject():
             return self.projectURL()
-        elif self.inUserArea():
+        if self.inUserArea():
             return self.user['profileurl']
         else: # TODO
             return ''
