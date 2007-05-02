@@ -14,7 +14,7 @@
           <img src="" />
         </div>
         <p class="invitation-content">
-          <a href="" tal:content="invite/name">Animal Campaign</a> 
+          <a href="">Animal Campaign</a> 
 	    has invited you to become a member
         </p>
         <ul class="actions">

@@ -22,10 +22,10 @@
 <!-- TODO -->
 <div id="content-main">
   project-edit template
-  <div tal:condition="view/userHasEditPrivs">
+  <div tal:condition="view/user/canedit">
     <!-- editable project content here -->
   </div>
-  <div tal:condition="not:view/userHasEditPrivs">
+  <div tal:condition="not:view/user/canedit">
     <!-- insufficient privileges message here -->
   </div>
 </div>

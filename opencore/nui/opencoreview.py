@@ -20,9 +20,11 @@ class OpencoreView(BrowserView):
         self.context = context
         self.request = request
         self.portaltool = getToolByName(context, 'portal_url').getPortalObject()
-        self.membertool = getToolByName(context, 'portal_membership')
-        self.membranetool = getToolByName(context, 'membrane_tool')
         self.catalogtool = getToolByName(context, 'portal_catalog')
+        self.membranetool = getToolByName(context, 'membrane_tool')
+        self.membertool = getToolByName(context, 'portal_membership')
+        self.userobj = self.membertool.getAuthenticatedMember()
+        self.loggedin = self.userobj.getId() is not None
         self.logoURL = nui.logoURL
         self.siteURL = self.portaltool.absolute_url()
         self.sitetitle = self.portaltool.title
@@ -65,13 +67,17 @@ class OpencoreView(BrowserView):
     def getViewByName(self, viewname):
         return self.context.unrestrictedTraverse('@@' + viewname)
 
-    def isUserLoggedIn(self): # TODO
-        return self.membertool.getAuthenticatedMember().getId() is not None
+    @property
+    def user(self):
+        """Provide pertinent user information in a dict
+        to make it easy for templates to access."""
+        obj = self.userobj
+        return dict(obj=obj, id=obj.getId(), fullname=obj.fullname,
+                    profileurl='/'.join((self.siteURL, 'people', obj.getId())),
+                    lastlogin=obj.getLast_login_time(),
+                    canedit=False) # TODO
 
-    def getUserLoggedIn(self): # TODO
-        return self.membertool.getAuthenticatedMember()
-
-    def getUserFromURL(self): # TODO
+    def viewed_user(self): # TODO
         return self.miv.member
 
     def userLogin(self): # TODO
@@ -89,9 +95,6 @@ class OpencoreView(BrowserView):
 
     def inUserArea(self): # TODO
         return self.miv.inMemberArea
-
-    def userProfileURL(self): # TODO
-        return self.siteURL + '/people/jab'
 
     def project(self): # TODO
         return self.piv.project
@@ -141,7 +144,7 @@ class OpencoreView(BrowserView):
         if self.inProject():
             return self.projectFullName()
         elif self.inUserArea():
-            return self.getUserFromURL().fullname
+            return self.viewed_user().fullname
         else: # TODO
             return ''
 
@@ -155,7 +158,7 @@ class OpencoreView(BrowserView):
         if self.inProject():
             return self.projectURL()
         elif self.inUserArea():
-            return self.userProfileURL()
+            return self.user['profileurl']
         else: # TODO
             return ''
 
