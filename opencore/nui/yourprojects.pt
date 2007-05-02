@@ -13,9 +13,10 @@
         <div class="avatar">
           <img src="" />
         </div>
-        <div class="invitation-content">
-          <p><a href="">Animal Campaign</a> has invited you to become a member</p>
-        </div>
+        <p class="invitation-content">
+          <a href="" tal:content="invite/name">Animal Campaign</a> 
+	    has invited you to become a member
+        </p>
         <ul class="actions">
           <li><a href="" class="button chooseAccept">Accept</a></li>
           <li><a href="" class="button chooseReject">Reject</a></li>
