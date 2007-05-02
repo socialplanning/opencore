@@ -4,8 +4,11 @@
      <p class="headingContext">Currently Helping <span tal:replace="view/nprojects">1337</span> projects</p>
   </div>
 
-<form id="projects-search" tal:attributes="action context/absolute_url">   
+<form id="projects-search" action="." tal:attributes="action string:${context/absolute_url}/@@magic">
   <label><h2>Search for Projects</h2></label>
+  <input type="text" name="projname" />
+  <input type="hidden" name="oc-content" value="oc-projects" />
+  <input type="submit" value="Search" />
 </form>
 
 <ul class="widget-alphabet" tal>
