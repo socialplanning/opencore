@@ -187,6 +187,21 @@ class OpencoreView(BrowserView):
                 return 'Unexpected error in OpencoreView.currentProjectPage: ' \
                        'self.context is neither an OpenProject nor an OpenPage'
 
+    def recentprojects(self):
+        # XXX
+        # This is not exactly what we want
+        # These get all modifications on the project itself
+        # but will miss wiki page changes in the project
+        # which is the sort of thing you would expect here
+        query = dict(portal_type='OpenProject',
+                     sort_on='Modified',
+                     sort_order='descending',
+                     sort_limit=5,
+                     )
+        # do we want brains or objects?
+        project_brains = self.catalogtool(**query) 
+        projects = (x.getObject() for x in project_brains)
+        return projects
 
 
 class YourProjectsView(OpencoreView):

@@ -20,16 +20,16 @@
 <div>
 <h2>Recently updated projects</h2>
 <ul class="widget-feed">
-  <li class="feed-item clearAfter">
+  <li class="feed-item clearAfter" tal:repeat="project view/recentprojects">
     <div class="avatar">
       <img src="" />
     </div>
     <div class="item-content">
       <div class="item-title">
-        <a href="">Project Title</a>
+        <a href="" tal:attributes="href project/absolute_url" tal:content="nocall: project/title">Project Title</a>
       </div>
       <p class="item-data discreetText">
-        YY members, active since Jan 1937
+        YY members, active since <span tal:replace="nocall: view/dob">Jan 1937</span>
       </p>
       <p class="item-description">
        Animal Campaign has invited you to become a member
@@ -37,6 +37,7 @@
     </div>
     <hr />
   </li>
+  <!-- implement other below changes as well, ie project images
   <li class="feed-item clearAfter">
     <div class="avatar">
       <img src="" />
@@ -72,6 +73,7 @@
     </div>
     <hr />
   </li>
+  -->
 </ul>
 
 </div>
