@@ -592,12 +592,17 @@ def installCookieAuth(portal, out):
     from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
     activatePluginInterfaces(portal, 'credentials_signed_cookie_auth', out)
 
-    credentials_cookie_auth = uf._getOb('credentials_signed_cookie_auth')
-    if 'login_form' in credentials_cookie_auth.objectIds():
-        credentials_cookie_auth.manage_delObjects(ids=['login_form'])
-        print >> out, "Removed default login_form from credentials cookie auth."
-    credentials_cookie_auth.cookie_name = cookie_name
-    credentials_cookie_auth.login_path = login_path
+    signed_cookie_auth = uf._getOb('credentials_signed_cookie_auth')
+    if 'login_form' in signed_cookie_auth.objectIds():
+        signed_cookie_auth.manage_delObjects(ids=['login_form'])
+        print >> out, "Removed default login_form from signed cookie auth."
+    signed_cookie_auth.cookie_name = cookie_name
+    signed_cookie_auth.login_path = login_path
+
+    old_cookie_auth = uf._getOb('credentials_cookie_auth', None)
+    if old_cookie_auth is not None:
+        old_cookie_auth.manage_activateInterfaces([])
+        print >> out, "Deactivated unsigned cookie auth plugin"
 
 def install(self, migrate_atdoc_to_openpage=True):
     out = StringIO()
