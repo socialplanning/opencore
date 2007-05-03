@@ -39,10 +39,10 @@
       </li>
       <li class="oc-invite oc-clearAfter">
         <div class="oc-avatar">
-          <img src="" />
+          <img src="http://missmoun.com/openplans/topmenu_user.gif" width="50" height="50" />
         </div>
         <p class="oc-invite-content">
-          <a href="">Animal Campaign</a> 
+          <a href="">Animal Campaign for a really important animal named Charlie</a> 
 	    has invited you to become a member
         </p>
         <ul class="oc-actions oc-invite-actions">
@@ -74,19 +74,27 @@
       <tbody>
         <tr>
           <td><input type="checkbox" /></td>
-          <td><a href="">Animal Campaign</a></td>
+          <td class="oc-table-row-title"><a href="">Animal Campaign for a poor little sick kittie named Fatty</a></td>
           <td>Member</td>
           <td>5:30am</td>
           <td>not set</td>
-          <td><a href="#" class="edit">Leave project</a></td>
+          <td>
+          	<ul class="oc-actions oc-table-row-actions">
+          		<li><a href="#">Leave</a></li>
+          	</ul>
+          </td>
         </tr>
         <tr>
           <td><input type="checkbox" /></td>
-          <td><a href="">Animal Campaign 2</a></td>
+          <td class="oc-table-row-title"><a href="">Animal Campaign 2</a></td>
           <td>Member</td>
           <td>5:30am</td>
           <td>not set</td>
-          <td><a href="#" class="edit">Leave project</a></td>
+          <td>
+          	<ul class="oc-actions oc-table-row-actions">
+          		<li><a href="#">Leave</a></li>
+          	</ul>
+          </td>
         </tr>
       </tbody>
     </table>

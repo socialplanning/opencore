@@ -550,6 +550,7 @@ z-index: 5;
 input.oc-button {
 	display: inline;
 	padding: .25em .5em;
+	font-size: inherit;
 }
 
 /* GENERIC: Elements */
@@ -568,6 +569,9 @@ input.oc-button {
 }
 
 /* Actions */
+.oc-actions { 
+
+}
 .oc-chooseThis { /* Default option */
 	font-weight: bold;
 }
@@ -598,6 +602,8 @@ input.oc-button {
 /* List table */
 .oc-table  {
  	width: 100%;
+ 	white-space: nowrap;
+ 	font-size: .833em;
 }
 .oc-table thead {
  	background: #eee;
@@ -611,14 +617,22 @@ input.oc-button {
 	border-bottom: 2px solid #ccc;
 }
 .oc-table td {
-	padding: .3em .2em;
+	padding: .25em .5em;
 	border-bottom: 1px solid #ccc;
 	/* font-size: .833em; */
 } 
+.oc-table-row-title {
+ 	white-space: normal;
+ 	font-size: 1.2em;
+}
+.oc-table-row-actions li {
+	list-style: none;
+}
 .oc-table-actions {
 	float: left;
  	padding: .5em 0;
  	margin:0;
+ 	font-size: .833em;
 }
 .oc-table-actions li {
  	display: inline;
@@ -626,6 +640,7 @@ input.oc-button {
 .oc-table-paginator {
 	float: right;
 	padding: .5em 0;
+	font-size: .833em;
 }
 
 
@@ -662,6 +677,7 @@ li.oc-feed-item .oc-item-description {
 .oc-widget-invite {
 }
 .oc-invite-list {
+	font-size: .833em;
  	margin: 0;
  	padding: 0;
 }
@@ -809,7 +825,7 @@ h4, .h4 {
 	text-decoration: underline;
 }
 a {
-	color: #86B0E1;
+	color: #337f92;
 }	
 a:hover {
 	color: #777777;
