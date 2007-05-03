@@ -224,19 +224,27 @@ class ProjectsView(OpencoreView):
     def __call__(self):
         search_action = self.request.get('action_search_projects', None)
         projname = self.request.get('projname', None)
+        letter_search = self.request.get('letter_search', None)
         self.search_projects = None
+        self.searched = False
 
-        if search_action and projname:
+        if letter_search:
+            self.search_projects = self.search_for_project(letter_search, startswith=True)
+            self.searched = True
+        elif search_action and projname:
             self.search_projects = self.search_for_project(projname)
-
+            self.searched = True
+            
         return self.template()
             
 
-    def search_for_project(self, project):
+    def search_for_project(self, project, startswith=False):
         query = dict(portal_type="OpenProject",
                      sort_limit=5,
                      Title=project,
                      )
+        if startswith:
+            query['Title'] = query['Title'] + '*'
         project_brains = self.catalogtool(**query) 
         projects = [x.getObject() for x in project_brains]
         return projects

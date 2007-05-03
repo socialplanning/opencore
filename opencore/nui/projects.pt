@@ -4,20 +4,22 @@
      <p class="headingContext">Currently serving <span tal:replace="view/nprojects"/> projects</p>
   </div>
 
-<form name="projects-search" action="." tal:attributes="action request/ACTUAL_URL">
+<form name="projects_search" action="." tal:attributes="action request/ACTUAL_URL">
   <label><h2>Search for Projects</h2></label>
   <input type="text" name="projname" />
   <input type="hidden" name="oc-content" value="oc-projects" />
+  <input type="hidden" name="letter_search" />
   <input type="submit" name="action_search_projects" value="Search" />
-</form>
 
 <ul class="widget-alphabet" tal>
   <li tal:repeat="letter modules/string/uppercase">
-    <a href=""><span tal:replace="letter">A</span></a>
+    <a href="" tal:content="letter" tal:attributes="href string:javascript:projects_search_letter('${letter}');;">A</a>
   </li>
 </ul>
+</form>
 
-<tal:searchresults condition="request/action_search_projects | nothing">
+
+<tal:searchresults condition="view/searched">
 <h2>Search Results</h2>
 <ul class="widget-feed" tal:condition="nocall: view/search_projects">
   <li class="feed-item clearAfter" tal:repeat="project view/search_projects">
