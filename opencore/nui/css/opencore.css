@@ -652,25 +652,17 @@ input.oc-button {
 li.oc-feed-item {
 	margin: 1em 0;
 	padding-bottom: 0.5em;
-	border-bottom: 1px solid #eee;
-
+	border-bottom: 1px dotted #eee;
 }
 li.oc-feed-item .oc-avatar {
-	float: left;
+	float: right;
+	clear: both;
 	margin-right: 0.5em;
 }
-li.oc-feed-item .oc-item-content {
- 	margin: 0;
-}
-li.oc-feed-item .oc-item-content p {
+li.oc-feed-item .oc-feed-item-title,
+li.oc-feed-item .oc-feed-item-data,
+li.oc-feed-item .oc-feed-item-description {
 	margin: 0;
-}
-li.oc-feed-item .oc-item-title {
-	font-weight: bold;
-}
-li.oc-feed-item .oc-item-data {
-}
-li.oc-feed-item .oc-item-description {
 }
 
 /* Invitations Widget */
