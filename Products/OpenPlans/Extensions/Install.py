@@ -16,6 +16,7 @@ from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
 from Products.CMFEditions.Permissions import RevertToPreviousVersions
 from Products.RichDocument.Extensions.utils import \
      registerAttachmentsFormControllerActions
+from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
 from Products.OpenPlans import config
 from Products.OpenPlans import content
 from Products.OpenPlans.permissions import DEFAULT_PERMISSIONS_DATA
@@ -606,7 +607,7 @@ def installCookieAuth(portal, out):
 
     plugins = uf._getOb('plugins', None)
     if plugins is not None:
-        plugins.movePluginsUp('IChallengePlugin',
+        plugins.movePluginsUp(IChallengePlugin,
                               ['credentials_signed_cookie_auth'],)
         print >> out, ("Move signed cookie auth to be top priority challenge "
                        "plugin")
