@@ -127,8 +127,6 @@ class OpencoreView(BrowserView):
         projects = self.catalogtool(portal_type='OpenProject')
         return len(projects)
 
-
-
     def user(self):
         """Returns a dict containing information about the
         currently-logged-in user for easy template access.
@@ -191,21 +189,20 @@ class OpencoreView(BrowserView):
 
 
 
-
 class YourProjectsView(OpencoreView):
-    def __init__(self, context, request):
-        OpencoreView.__init__(self, context, request)
-        self.member = self.membertool.getAuthenticatedMember()
 
     def get_projects_for_user(self):
-        projects = self.member.getProjectListing()
+        member = self.userobj()
+        id = member.getId()
+        if id is None: return []
+        projects = member.getProjectListing()
         out = []
         for project in projects:
             roles = ', '.join(project.getTeamRolesForAuthMember())
             teams = project.getTeams()
             for team in teams:
                 # eventually this will be 1:1 relationship, project:team
-                mship = team.getMembershipByMemberId(self.member.getId())
+                mship = team.getMembershipByMemberId(id)
                 if mship is not None:
                     created = mship.created()
 
