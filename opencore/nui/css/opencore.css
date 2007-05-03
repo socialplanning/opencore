@@ -701,13 +701,12 @@ li.oc-invite .oc-invite-content {
 ul.oc-widget-alphabet {
 	list-style: none;
 	padding: 0.5em;
-	white-space: nowrap;
 	background-color: #eee;
 	border:1px solid #ccc;
 	text-align: center;
 	text-transform: uppercase;
 	font-weight: bold;
-	font-size: 0.833em;
+	font-size: 1.1667em;
 }
 .oc-widget-alphabet li {
 	display: inline;
@@ -807,7 +806,7 @@ h4, .h4 {
 .oc-headingBlock h1 { 
 	font-size: 1.5em;
 }
-.oc-headingBlock .headingContext {
+.oc-headingBlock .oc-headingContext {
 	margin: 0 0 1.5em;
 }
 .oc-headingSimple a {
