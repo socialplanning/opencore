@@ -135,12 +135,22 @@ class OpencoreView(BrowserView):
         If no user is logged in, there's just less info to return."""
         if self.loggedin():
             usr = self.userobj()
-            canedit = self.membertool.checkPermission(ModifyPortalContent, self.context) and True or False
-            return dict(id=usr.getId(),
-                        fullname=usr.fullname,
-                        url=self.membertool.getHomeUrl(),
-                        lastlogin=usr.getLast_login_time(),
-                        canedit=canedit)
+            id = usr.getId()
+            user_dict = dict(id=id,
+                             fullname=usr.fullname,
+                             url=self.membertool.getHomeUrl(),
+                             )
+            # XXX admins don't have as many properties, so we have a special case for them
+            # right now checking for string 'admin', we should check if the user has the right role instead
+            if id == 'admin':
+                user_dict['canedit'] = True
+                return user_dict
+            else:
+                canedit = bool(self.membertool.checkPermission(ModifyPortalContent, self.context))
+                user_dict.update(dict(canedit=canedit,
+                                      lastlogin=usr.getLast_login_time(),
+                                      ))
+                return user_dict
         return dict(canedit=False)
 
     def project(self): # TODO
