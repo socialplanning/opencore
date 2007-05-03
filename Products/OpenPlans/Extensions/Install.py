@@ -573,7 +573,7 @@ def installCookieAuth(portal, out):
 
     print >> out, "signed cookie plugin setup"
 
-    login_path = 'login_form'
+    login_path = 'require_login'
     logout_path = 'logged_out'
     cookie_name = '__ac'
 
