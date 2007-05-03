@@ -604,6 +604,13 @@ def installCookieAuth(portal, out):
         old_cookie_auth.manage_activateInterfaces([])
         print >> out, "Deactivated unsigned cookie auth plugin"
 
+    plugins = uf._getOb('plugins', None)
+    if plugins is not None:
+        plugins.movePluginsUp('IChallengePlugin',
+                              ['credentials_signed_cookie_auth'],)
+        print >> out, ("Move signed cookie auth to be top priority challenge "
+                       "plugin")
+
 def install(self, migrate_atdoc_to_openpage=True):
     out = StringIO()
     portal = getToolByName(self, 'portal_url').getPortalObject()
