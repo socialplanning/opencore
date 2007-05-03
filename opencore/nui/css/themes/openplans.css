@@ -4,61 +4,61 @@
 
  */
 	
-#page-container,
+#oc-page-container,
 #visual-portal-wrapper {
 	background-color: white;
 }
 	
-#topnav {
+#oc-topnav {
 	background-color: #AAC683;
 	color: white;
 }
 	
-#topnav a {
+#oc-topnav a {
 	color: white;
 	text-decoration: none;
 }
 	
-#topnav a:hover {
+#oc-topnav a:hover {
 }
 		
-#topnav-global {
+#oc-topnav-global {
 	background: #2B7284 url(http://www.openplans.org/opp_bar_bg.gif) repeat-x scroll center top;
 	border-bottom: 2px solid white;
 	height: 40px;
 }
 	
-#topnav-openplans {
+#oc-topnav-openplans {
 	background: transparent;
 }
 
-#topnav-openplans-search #LSResult {
+#oc-topnav-openplans-search #oc-LSResult {
 	background-color: #2B7284;
 }
 			
-#topnav-title h1 {
+#oc-topnav-title h1 {
 	text-transform: none;
 }
 		
-#content-container {
+#oc-content-container {
 	padding: 0 1em;
 }
 		
-#footer {
+#oc-footer {
     background-color: #eee;
 	color: #aaa;
 }
 
-#footer a {
+#oc-footer a {
   color: gray;
 	text-decoration: none;
 }
 
-#footer a:hover {
+#oc-footer a:hover {
 	color: #555;
 }
 		
-.missingText {
+oc-.missingText {
 	color: gray;
 }
 
@@ -69,7 +69,7 @@ body, textarea {
 	/* These typographic rules will establish rhythm of 18px at base font size */
 }
 
-#content * p {
+#oc-content * p {
 	margin: 0 0 1.5em 0;
 }
 
@@ -88,7 +88,7 @@ h1, .h1 {
 	
 }
 
-h2, .h2, #topnav-title h1 {
+h2, .h2, #oc-topnav-title h1 {
 	
 }
 
@@ -100,43 +100,43 @@ h4, .h4 {
 	
 }
 	
-.smallText,
+.oc-smallText,
 	/* Layout and Navigation */
-		.documentByLine,
-		#topnav .oc-dropdown,
-		#topnav-openplans-search,
-		#footer,
-    	#content-title-pagetitle,
+		.oc-documentByLine,
+		#oc-topnav .oc-dropdown,
+		#oc-topnav-openplans-search,
+		#oc-footer,
+    	#oc-content-title-pagetitle,
 	
 	/*Feeds and Forms */
-		.field input,
-		.formHelp,
-		.feed_data,
-		.feed_desc,
-		ul.contentViews,
-		ul.oc-tabs,
+		.oc-field input,
+		.oc-formHelp,
+		.oc-feed_data,
+		.oc-feed_desc,
+		ul.oc-contentViews,
+		ul.oc-oc-tabs,
 	
 	/* Error Messages */
-		.portalMessage,
-		.portalWarningMessage,
-		.portalStopMessage,
-		.system-message,
-		#error-handling
+		.oc-portalMessage,
+		.oc-portalWarningMessage,
+		.oc-portalStopMessage,
+		.oc-system-message,
+		#oc-error-handling
 	
 	{
 	
 }
 
-.documentFirstHeading,
-.simpleHeading {
+.oc-documentFirstHeading,
+.oc-simpleHeading {
 	
 }
 
-.simpleHeading a {
+.oc-simpleHeading a {
 	
 }
 
-.simpleHeading a:hover {
+.oc-simpleHeading a:hover {
 	
 }
 

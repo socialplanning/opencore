@@ -1,13 +1,13 @@
 <tal:vars tal:define="global site here/portal_url" />
 
 <!-- OpenPlans logo -->
-<h1 id="topnav-openplans-logo">
+<h1 id="oc-topnav-openplans-logo">
   <a tal:attributes="href site"><img tal:attributes="src view/logoURL;
       alt view/sitetitle" /></a>
 </h1>
 
 <!-- navigation links -->
-<ul id="topnav-openplans-links">
+<ul id="oc-topnav-openplans-links">
   <li>
     <a tal:attributes="href string:${site}/people/@@magic?oc-content=oc-people">people</a>
   </li>

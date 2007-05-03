@@ -1,4 +1,4 @@
-<div id="footer">
+<div id="oc-footer">
   <ul>
     <li><a tal:attributes="href string:${here/portal_url}/about">about</a></li>
     <li><a tal:attributes="href string:${here/portal_url}/contact">contact</a></li>

@@ -28,26 +28,26 @@ body {
 	background: url(http://www.digg.com/img/page-back.gif) repeat-x;
 	color: #333333;
 }
-#page-container {
+#oc-page-container {
 	max-width: 70em; /* As a rule, measure should be between two and three alphabets long. In other words, between 52 and 78 characters, including spaces. Since characters average out to about one-half EM in width this translates to a minimum width of 26em and a maximum of 39em, or two to three alphabets. 	IN OTHER WORDS: avoid changing the width. */
 	min-width: 52em;
 	margin: 0 auto;
 	padding: 0;
 }
-#topnav {
+#oc-topnav {
 	text-align: left;
 	margin-bottom: 0.5em;
 }
-#content-container {
+#oc-content-container {
  	margin: 2em 1em;
 }
-#project-tabs {
+#oc-project-tabs {
 
 }
-#project-content {
+#oc-project-content {
 
 }
-#footer {
+#oc-footer {
 	clear: both;
 	margin: 3em 0 0 0;
 	padding: .5em 1em;
@@ -56,10 +56,10 @@ body {
 /* @Header - Global, context & subcontext menus 
 ---------------------------------------*/
 
-#topnav .oc-dropdown{
+#oc-topnav .oc-dropdown{
 }
 
-#topnav-global {
+#oc-topnav-global {
 /*
 	padding: 0.25em;
 	padding-left: 1em;
@@ -67,14 +67,14 @@ body {
 	position: relative;
 }
 		
-#topnav-title {
+#oc-topnav-title {
 	position: absolute;
 	top: 55px;
 	left: 10px;
 	width: 100%;
 }
 	
-#topnav-title h1 {
+#oc-topnav-title h1 {
 	position: absolute;
 	bottom: 0.5em;
 	float: left;
@@ -83,37 +83,37 @@ body {
 	padding: 0;
 }				
 	
-#topnav-openplans {
+#oc-topnav-openplans {
 	float: right;
 	display: block;
 	padding: 0.25em;
 }
 	
 /*#topnav-openplans-logo,*/
-#topnav-openplans-wrapper,
-#topnav-openplans-search {
+#oc-topnav-openplans-wrapper,
+#oc-topnav-openplans-search {
 	display: inline;
 }
 		
-#topnav-openplans-logo {
+#oc-topnav-openplans-logo {
 	position: absolute;
 	margin: 0;
 	top: 2px;
 	right: 4px;
 }
 
-#topnav-openplans-logo img {
+#oc-topnav-openplans-logo img {
 	margin: 0;
 	padding: 0;
 	vertical-align: middle;
 }
 
-#topnav-openplans-links {
+#oc-topnav-openplans-links {
 	padding-top: 3px;
 	padding-right: 3px;
 }
 
-#topnav-openplans-links li {
+#oc-topnav-openplans-links li {
 	margin: 0;
 	padding-left: 0.75em;
 	text-transform: none; 
@@ -122,13 +122,13 @@ body {
 	font-size: 75%;
 }
 			
-#topnav-openplans-search {
+#oc-topnav-openplans-search {
 	margin: 0;
 	padding: 0;
 }
 				
-#portal-searchbox,
-#portal-searchbox form,
+#oc-portal-searchbox,
+#oc-portal-searchbox form,
 div.LSBox {
 	margin: 0.125em 0;
 	float: left;
@@ -137,42 +137,42 @@ div.LSBox {
 	position: relative;
 }
 					
-input#searchGadget {
+input#oc-searchGadget {
 	width: 7em;
 	font-size: 100%;
 	background: white url(searchglass.png) no-repeat 2px center;
 	padding-left: 15px;
 }
 
-div.LSBox input.searchButton {
+div.oc-LSBox input.oc-searchButton {
 	display: none;
 }
 
-div#LSResult {
+div#oc-LSResult {
 	z-index: 5;
 	position: absolute;
 	right: 0;
 }
 
-div#LSResult legend {
+div#oc-LSResult legend {
 	display: none;
 }
 	
-div#LSResult ul {
+div#oc-LSResult ul {
 	list-style-type: none;
 	padding: 0.5em;
 	margin: 0;
 }
 		
-#topnav-openplans-wrapper {
+#oc-topnav-openplans-wrapper {
 	margin: 0 0.5em;
 }
 						
-#topnav-subcontext {
+#oc-topnav-subcontext {
 	padding: 0 1em;
 }
 	
-#topnav-subcontext-title, #topnav-subcontext-title h1 {
+#oc-topnav-subcontext-title, #oc-topnav-subcontext-title h1 {
 	margin: 0;
 	padding: 0;
 	line-height: normal;
@@ -224,44 +224,44 @@ ul.oc-dropdown, .oc-dropdown ul {
 
 /* Drop-down menu styles for the HEADER (see far below for structure) */
 
-#topnav ul.oc-dropdown, .oc-dropdown ul {
+#oc-topnav ul.oc-dropdown, .oc-dropdown ul {
 	line-height: normal;
 }
 
-#topnav  .oc-dropdown li {
+#oc-topnav  .oc-dropdown li {
 }
 
-#topnav .oc-dropdown li ul {
+#oc-topnav .oc-dropdown li ul {
 	border-top: 1px solid #A5CC7A;
 	background-color: #CCDEAF;
 }
 
-#topnav .oc-dropdown li ul li {
+#oc-topnav .oc-dropdown li ul li {
 }
-#topnav .oc-dropdown li ul li.oc-dropdown-divider {
+#oc-topnav .oc-dropdown li ul li.oc-dropdown-divider {
 	border-top: 1px dotted #A5CC7A;
 }
 
-#topnav .oc-dropdown li ul li a {
+#oc-topnav .oc-dropdown li ul li a {
 	color: #325B0A;
 }
 
-#topnav .oc-dropdown li ul li a:hover {
+#oc-topnav .oc-dropdown li ul li a:hover {
 	color: #325B0A;
 }
 
-#topnav .oc-dropdown li:hover, .oc-dropdown li:hover ul,
-#topnav .oc-dropdown li.sfhover, .oc-dropdown li.sfhover ul {
+#oc-topnav .oc-dropdown li:hover, .oc-dropdown li:hover ul,
+#oc-topnav .oc-dropdown li.sfhover, .oc-dropdown li.sfhover ul {
 	background-color: #CCDEAF;
 	color: #325B0A;
 }
 
-#topnav .oc-dropdown li:hover ul,
-#topnav .oc-dropdown li.sfhover ul {
+#oc-topnav .oc-dropdown li:hover ul,
+#oc-topnav .oc-dropdown li.sfhover ul {
 }
 
-#topnav .oc-dropdown li:hover ul li:hover,
-#topnav .oc-dropdown li.sfhover ul li.sfhover {
+#oc-topnav .oc-dropdown li:hover ul li:hover,
+#oc-topnav .oc-dropdown li.sfhover ul li.sfhover {
 	background-color: #AAC683;
 }
 
@@ -269,12 +269,12 @@ ul.oc-dropdown, .oc-dropdown ul {
 /* @CONTENT - This section defines the main content 
 ---------------------------------------------------*/
 
-#content-title {
+#oc-content-title {
 	position: relative;
 	margin: 1.5em 0 0.75em;
 }
 			
-#content-title-pagetitle {
+#oc-content-title-pagetitle {
 	position: absolute;
 	bottom: 0;
 	display: block;
@@ -284,29 +284,29 @@ ul.oc-dropdown, .oc-dropdown ul {
 	font-weight: normal;
 }
 
-#content-title-pagetitle a {
+#oc-content-title-pagetitle a {
   text-decoration: none;
   color: black;
 }
 				
-#content-main {
+#oc-content-main {
 	float: left;
 	width: 65%;
 	margin-bottom: 2em;
 }
-#content-main p {
+#oc-content-main p {
 	/* min-width: 26em;
 	max-width: 39em;
 	margin-top: 0;
 	margin-bottom: .5em; */
 	}
 
-#content-main ol, #content-main ul, #content-main dl {
+#oc-content-main ol, #oc-content-main ul, #oc-content-main dl {
 	line-height: 1.25;
 	}
 		
 		
-#content-main dl {
+#oc-content-main dl {
 	min-width: 20em;
 	max-width: 33em;
 	margin: 1em;
@@ -315,23 +315,23 @@ ul.oc-dropdown, .oc-dropdown ul {
 	line-height: 1.25;
 	margin-bottom: -0.125em;
 }
-#content-main dt { 
+#oc-content-main dt { 
 	float: left; 
 	clear: left; 
 	width: 8em; 
 	text-align: right; 
 	font-weight: bold;
 }
-#content-main dt:after {
+#oc-content-main dt:after {
 	content: ":";
 }
-#content-main dd { 
+#oc-content-main dd { 
 	margin: 0 0 0 9.5em; 
 	padding: 0 0 0.65em 0;
 }
 
 /* Sidebar */
-#content-rbar33 {
+#oc-content-rbar33 {
 	float: right;
     width: 33%;
     margin-bottom: 2em;
@@ -341,13 +341,13 @@ ul.oc-dropdown, .oc-dropdown ul {
 
 /* @FOOTER - Global footer
 --------------------------------------- */
-#footer ul {
+#oc-footer ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
   float: right;
 }
-#footer li {
+#oc-footer li {
   display: inline;
   padding: 0 0.5em;
 }
@@ -471,10 +471,10 @@ ul.oc-dropdown, .oc-dropdown ul {
 /* This hack replicates the CSS3 "clearAfter" property.
 The IE hacks take advantage of several IE non-compliance issues to clearAfter the floated columns. */
 
-.clearAfter:after,
-#topnav-global:after,
-#content-container:after,
-.invitation:after
+.oc-clearAfter:after,
+#oc-topnav-global:after,
+#oc-content-container:after,
+.oc-invite:after
 { 
 	content: ""; 
 	display: block; 
@@ -483,7 +483,7 @@ The IE hacks take advantage of several IE non-compliance issues to clearAfter th
 	visibility: hidden;
 }
 
-.last-child {
+.oc-last-child {
 	/* Use this class as a selector for last-children (not currently in use) */
 }
 
@@ -540,116 +540,132 @@ z-index: 5;
 			
 /* GENERAL CLASSES & @FORMS & @WIDGETS - reusable thingys
 -------------------------------------------*/
-.hidden {
+.oc-hidden {
  	display:none;
 }
-.hover {
+.oc-hover {
  	background: #fdffdd;
+}
+/* GENERIC: Buttons */
+input.oc-button {
+	display: inline;
+	padding: .25em .5em;
+}
+
+/* GENERIC: Elements */
+.oc-paginator {
+	margin: 0;
+	padding: 0;
+}
+.oc-paginator li {
+	display: inline;
+	padding: 2px 3px;
 }
 
 /* Widgets */
-.widget {
+.oc-widget {
 
 }
 
 /* Actions */
-.chooseThis { /* Default option */
+.oc-chooseThis { /* Default option */
 	font-weight: bold;
 }
-.actions .chooseAccept,
-.actions a.chooseAccept {
+.oc-actions .oc-chooseAccept,
+.oc-actions a.oc-chooseAccept {
 	color: #0c0;
 }
-.actions .chooseReject,
-.actions a.chooseReject {
+.oc-actions .oc-chooseReject,
+.oc-actions a.oc-chooseReject {
 	color: #c00;
 }
-.actions .chooseSpam,
+.oc-actions .oc-chooseSpam,
 .actions a.chooseSpam {
 	color: #999;
 }
 
 /* Widget heading blocks */
-.widget .headingBlock {
+.oc-widget .oc-headingBlock {
  	margin-bottom: .5em;
+ 	clear: both;
 }
-.widget .headingBlock h2 {
+.oc-widget .oc-headingBlock h2 {
 	font-size: 1.167em; /* h3 size */
 }
-.widget .headingContext {
+.oc-widget .oc-headingContext {
 }
 
 /* List table */
-.widget-tableData table {
+.oc-table  {
  	width: 100%;
 }
-.widget-tableData thead {
+.oc-table thead {
  	background: #eee;
 }
-.widget-tableData th, 
-.widget-tableData th.sortableColumn, 
-.widget-tableData th.columnActions {
+.oc-table th, 
+.oc-table th.oc-sortableColumn, 
+.oc-table th.oc-columnActions {
 	text-align: left;
 	padding: .3em .2em;
-	font-size: .833em;
+	/* font-size: .833em; */
 	border-bottom: 2px solid #ccc;
 }
-.widget-tableData td {
+.oc-table td {
 	padding: .3em .2em;
 	border-bottom: 1px solid #ccc;
-	font-size: .833em;
-}
-.widget-tableData .actions {
+	/* font-size: .833em; */
+} 
+.oc-table-actions {
+	float: left;
  	padding: .5em 0;
  	margin:0;
 }
-.widget-tableData .actions li {
+.oc-table-actions li {
  	display: inline;
 }
-.widget-tableData .actions input {
-	font-size: .9em;
-	display: inline;
-	padding: .25em .5em;
+.oc-table-paginator {
+	float: right;
+	padding: .5em 0;
 }
 
+
 /* Feeds */
-.widget-feed {
+.oc-widget-feed {
 	list-style: none;
 	padding: 0;
 }
-li.feed-item {
+li.oc-feed-item {
 	margin: 1em 0;
 	padding-bottom: 0.5em;
 	border-bottom: 1px solid #eee;
 
 }
-li.feed-item .avatar {
+li.oc-feed-item .oc-avatar {
 	float: left;
 	margin-right: 0.5em;
 }
-li.feed-item .item-content {
+li.oc-feed-item .oc-item-content {
  	margin: 0;
 }
-li.feed-item .item-content p {
+li.oc-feed-item .oc-item-content p {
 	margin: 0;
 }
-li.feed-item .item-title {
+li.oc-feed-item .oc-item-title {
 	font-weight: bold;
 }
-li.feed-item .item-data {
+li.oc-feed-item .oc-item-data {
 }
-li.feed-item .item-description {
+li.oc-feed-item .oc-item-description {
 }
 
 /* Invitations Widget */
-.widget-invitations {
+.oc-widget-invite {
 }
-.invitations-list {
+.oc-invite-list {
  	margin: 0;
  	padding: 0;
- 	font-size: .833em;
 }
-li.invitation {
+li.oc-invite {
 	clear: both;
 	list-style:none;
 	margin: 0 0 0.5em;
@@ -657,24 +673,24 @@ li.invitation {
 	background-color: #eee;
 	border: 1px solid #ccc;
 }
-li.invitation .avatar {
+li.oc-invite .oc-avatar {
 	float: left;
 }
-li.invitation .invitation-content {
+li.oc-invite .oc-invite-content {
 	float: left;
  	clear: none;
  	margin: 0;
 }
-li.invitation .actions {
+.oc-invite-actions {
 	float: right;
 }
-li.invitation .actions li {
+.oc-invite-actions li {
  	display: inline;
 }
 
 /* Alphabet search */
 
-ul.widget-alphabet {
+ul.oc-widget-alphabet {
 	list-style: none;
 	padding: 0.5em;
 	white-space: nowrap;
@@ -685,13 +701,14 @@ ul.widget-alphabet {
 	font-weight: bold;
 	font-size: 0.833em;
 }
-.widget-alphabet li {
+.oc-widget-alphabet li {
 	display: inline;
 	margin: 0 0.125em;
 }
-.widget-alphabet li a {
+.oc-widget-alphabet li a {
 	text-decoration: none;
 }
+
 
 /* @HTML ELEMENTS GENERAL @TYPOGRAPHY
 This should be the only place where font information is specified
@@ -717,20 +734,20 @@ h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 ab
 	border: none;
 }
 
-h1, .h1, biggestText {
+h1, .oc-biggestText {
 	font-size: 2em; /* 24px % 12px = 2em */
 	line-height: 0.75em; /* 18px % 24px = 0.75em */
 	margin-top: 1.5em; /* 36px % 24px = 1.5em */
 	margin-bottom: 0.75em; /* 18px % 24px = 0.75em */
 }
 
-h2, .h2, .biggerText, #topnav-title h1 {
+h2, .oc-biggerText, #oc-topnav-title h1 {
 	font-size: 1.5em; /* 18px % 12px = 1.5em */
 	line-height: 1em; /* 18px % 18px = 1em */
 	margin: 1em 0;   
 }
 
-h3, .h3, .bigText  {
+h3, .oc-bigText  {
 	font-size: 1.1667em; /* 14px % 12px = 1.1667em */
 	line-height: 1.286em; /* 18px % 14px = 1.286em */
 	margin-top: 1.929em; /* 27px % 14px = 1.929em */
@@ -741,54 +758,54 @@ h4, .h4 {
 	font-weight: bold;
 }
 
-.smallText,
-.discreetText,
+.oc-smallText,
+.oc-discreetText,
 	/* Layout and Navigation */
-		.documentByLine,
-		#topnav .oc-dropdown,
-		#topnav-openplans-search,
-		#footer,
-    	#content-title-pagetitle,
+		.oc-documentByLine,
+		#oc-topnav .oc-dropdown,
+		#oc-topnav-openplans-search,
+		#oc-footer,
+    	#oc-content-title-pagetitle,
 	
 	/*Feeds and Forms */
 		ul.oc-tabs,
 	
 	/* Error Messages */
-		.portalMessage,
-		.portalWarningMessage,
-		.portalStopMessage,
-		.system-message,
-		#error-handling
+		.oc-portalMessage,
+		.oc-portalWarningMessage,
+		.oc-portalStopMessage,
+		.oc-system-message,
+		#oc-error-handling
 	
 	{
 	font-size: 0.8333em; /* 10px % 12px = 0.8333em */
 	line-height: 1.8em /* 18px % 10px = .9em */
 }
 
-.discreetText {
+.oc-discreetText {
 	color: #999;
 }
 
 /* Heading Blocks */
-.headingBlock {
+.oc-headingBlock {
 
 }
-.headingBlock h1,
-.headingBlock h2,
-.headingBlock h3,
-.headingBlock h4 {
+.oc-headingBlock h1,
+.oc-headingBlock h2,
+.oc-headingBlock h3,
+.oc-headingBlock h4 {
 	margin: 0;
 }
-.headingBlock h1 { 
+.oc-headingBlock h1 { 
 	font-size: 1.5em;
 }
-.headingBlock .headingContext {
+.oc-headingBlock .headingContext {
 	margin: 0 0 1.5em;
 }
-.headingSimple a {
+.oc-headingSimple a {
 	text-decoration: none;
 }
-.headingSimple a:hover {
+.oc-headingSimple a:hover {
 	text-decoration: underline;
 }
 a {
@@ -800,7 +817,7 @@ a:hover {
 img {
  	border: none;
 }
-hr.clear {
+.oc-clearElement {
 	visibility: hidden;
 	clear: both;
 	height: 0;
