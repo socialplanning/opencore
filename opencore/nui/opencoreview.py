@@ -194,7 +194,7 @@ class OpencoreView(BrowserView):
         # but will miss wiki page changes in the project
         # which is the sort of thing you would expect here
         query = dict(portal_type='OpenProject',
-                     sort_on='Modified',
+                     sort_on='modified',
                      sort_order='descending',
                      sort_limit=5,
                      )
