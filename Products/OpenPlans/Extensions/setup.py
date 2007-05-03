@@ -19,7 +19,7 @@ from Install import installColumns, fixUpEditTab, hideActions, \
      installWorkflows, setupPortalActions, addFormControllerOverrides, \
      installWorkflowPolicies, hideActionTabs, securityTweaks, uiTweaks, \
      migrateATDocToOpenPage, createIndexes, installZ3Types, registerJS, \
-     setupProjectLayout, createMemIndexes, setCookieDomain
+     setupProjectLayout, createMemIndexes, setCookieDomain, installCookieAuth
 
 from cStringIO import StringIO
 
