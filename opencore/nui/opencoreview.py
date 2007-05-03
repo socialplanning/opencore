@@ -15,6 +15,7 @@ from opencore.interfaces import IProject
 from topp.utils.pretty_date import prettyDate
 from topp.utils.pretty_text import truncate
 from zope.component import getMultiAdapter, adapts, adapter
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 class OpencoreView(BrowserView):
     def __init__(self, context, request):
@@ -31,6 +32,7 @@ class OpencoreView(BrowserView):
         self.dob          = nui.dob
         self.piv = context.unrestrictedTraverse('project_info') # TODO don't rely on this
         self.miv = context.unrestrictedTraverse('member_info')  # TODO don't rely on this
+
 
     def include(self, viewname):
         if self.transcluded:
@@ -187,6 +189,12 @@ class OpencoreView(BrowserView):
                 return 'Unexpected error in OpencoreView.currentProjectPage: ' \
                        'self.context is neither an OpenProject nor an OpenPage'
 
+
+
+class ProjectsView(OpencoreView):
+
+    template = ZopeTwoPageTemplateFile('projects.pt')
+
     def recentprojects(self):
         # XXX
         # This is not exactly what we want
@@ -202,6 +210,27 @@ class OpencoreView(BrowserView):
         project_brains = self.catalogtool(**query) 
         projects = (x.getObject() for x in project_brains)
         return projects
+
+    def __call__(self):
+        search_action = self.request.get('action_search_projects', None)
+        projname = self.request.get('projname', None)
+        self.search_projects = None
+
+        if search_action and projname:
+            self.search_projects = self.search_for_project(projname)
+
+        return self.template()
+            
+
+    def search_for_project(self, project):
+        query = dict(portal_type="OpenProject",
+                     sort_limit=5,
+                     Title=project,
+                     )
+        project_brains = self.catalogtool(**query) 
+        projects = [x.getObject() for x in project_brains]
+        return projects
+    
 
 
 class YourProjectsView(OpencoreView):

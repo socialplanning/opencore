@@ -165,7 +165,7 @@
   <!-- projects -->
   <browser:page
      for="*"
-     class=".opencoreview.OpencoreView"
+     class=".opencoreview.ProjectsView"
      permission="zope.Public"
      name="oc-projects"
      template="projects.pt"

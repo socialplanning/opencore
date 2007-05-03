@@ -18,4 +18,4 @@ def wrapWithTag(towrap, tag, id=None):
     return '\n'.join((opening, towrap, closing))
 
 def renderView(view):
-    return view.index()
+    return view()
