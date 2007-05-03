@@ -473,7 +473,8 @@ The IE hacks take advantage of several IE non-compliance issues to clearAfter th
 
 .clearAfter:after,
 #topnav-global:after,
-#content-container:after 
+#content-container:after,
+.invitation:after
 { 
 	content: ""; 
 	display: block; 
@@ -546,6 +547,11 @@ z-index: 5;
  	background: #fdffdd;
 }
 
+/* Widgets */
+.widget {
+
+}
+
 /* Actions */
 .chooseThis { /* Default option */
 	font-weight: bold;
@@ -564,16 +570,13 @@ z-index: 5;
 }
 
 /* Widget heading blocks */
-.widget-invitations .headingBlock,
-.widget-tableData .headingBlock {
+.widget .headingBlock {
  	margin-bottom: .5em;
 }
-.widget-invitations .headingBlock h2,
-.widget-tableData .headingBlock h2 {
+.widget .headingBlock h2 {
 	font-size: 1.167em; /* h3 size */
 }
-.widget-invitations .headingContext,
-.widget-tableData .headingContext {
+.widget .headingContext {
 }
 
 /* List table */
@@ -797,12 +800,12 @@ a:hover {
 img {
  	border: none;
 }
-.clearAfter hr {
- visibility: hidden;
- clear: both;
- height: 0;
- padding: 0;
- margin: 0;
+hr.clear {
+	visibility: hidden;
+	clear: both;
+	height: 0;
+	padding: 0;
+	margin: 0;
 }
 	
 

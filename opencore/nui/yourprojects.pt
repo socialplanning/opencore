@@ -4,12 +4,12 @@
     <p class="headingContext">View and manage your project memberships</p>
   </div>
   
-  <div class="widget-invitations">
+  <div class="widget widget-invitations">
     <div class="headingBlock">
       <h2>Membership invitations you've received (x)</h2>
     </div>
     <ul class="invitations-list">
-      <li class="invitation">
+      <li class="invitation clearAfter">
         <div class="avatar">
           <img src="" />
         </div>
@@ -23,13 +23,28 @@
           <li><a href="" class="button chooseSpam">Spam</a></li>
         </ul>
       </li>
-      <li class="invitation">
+      <li class="invitation clearAfter">
         <div class="avatar">
           <img src="" />
         </div>
-        <div class="invitation-content">
-          <p><a href="">Animal Campaign</a> has invited you to become a member</p>
+        <p class="invitation-content">
+          <a href="">Animal Campaign</a> 
+	    has invited you to become a member
+        </p>	
+        <ul class="actions">
+          <li><a href="" class="button chooseAccept">Accept</a></li>
+          <li><a href="" class="button chooseReject">Reject</a></li>
+          <li><a href="" class="button chooseSpam">Spam</a></li>
+        </ul>
+      </li>
+      <li class="invitation clearAfter">
+        <div class="avatar">
+          <img src="" />
         </div>
+        <p class="invitation-content">
+          <a href="">Animal Campaign</a> 
+	    has invited you to become a member
+        </p>
         <ul class="actions">
           <li><a href="" class="button chooseAccept">Accept</a></li>
           <li><a href="" class="button chooseReject">Reject</a></li>
@@ -41,7 +56,7 @@
   
   <hr />
 
-  <div class="widget-tableData">
+  <div class="widget widget-tableData">
     <div class="headingBlock">
       <h2 class="toggleFold">Projects you belong to (x)</h2>
     </div>
