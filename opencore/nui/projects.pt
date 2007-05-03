@@ -1,7 +1,7 @@
 <div id="content-main">
   <div id="nprojects" class="headingBlock">
      <h2>Projects on OpenPlans.org</h2>
-     <p class="headingContext">Currently Helping <span tal:replace="view/nprojects">1337</span> projects</p>
+     <p class="headingContext">Currently serving <span tal:replace="view/nprojects"/> projects</p>
   </div>
 
 <form id="projects-search" action="." tal:attributes="action string:${context/absolute_url}/@@magic">

@@ -2,7 +2,7 @@
   <!-- title -->
   <span id="content-title-pagetitle">
     <a tal:attributes="href string:${view/pageURL}/@@magic?oc-content=oc-project-view"
-       tal:content="view/pageTitle" />
+       tal:content="view/pagetitle" />
   </span>
 
   <!-- tabs -->

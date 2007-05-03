@@ -1,10 +1,12 @@
+<tal:vars tal:define="global usr view/user" />
+
 <ul class="oc-dropdown">
   <li>
-    <a tal:attributes="href string:${view/user/profileurl}/@@magic?oc-content=oc-user-profile"
+    <a tal:attributes="href string:${usr/url}/@@magic?oc-content=oc-user-profile"
        tal:content="string:profile" />
   </li>
   <li>
-    <a tal:attributes="href string:${view/user/profileurl}/@@magic?oc-content=oc-user-contact"
+    <a tal:attributes="href string:${usr/url}/@@magic?oc-content=oc-user-contact"
        tal:content="string:contact" />
   </li>
 </ul>

@@ -1,12 +1,16 @@
+<tal:vars tal:define="global usr view/user;
+                      global canedit usr/canedit;
+                      global page view/page" />
+
 <div id="content-title">
   <!-- title -->
   <span id="content-title-pagetitle">
     <a tal:attributes="href string:${view/pageURL}/@@magic?oc-content=oc-project-view"
-       tal:content="view/pageTitle" />
+       tal:content="view/pagetitle" />
   </span>
 
   <!-- tabs -->
-  <ul class="oc-tabs" tal:define="canedit view/user/canedit">
+  <ul class="oc-tabs">
     <li class="selected">
       <a tal:attributes="href string:${view/pageURL}/@@magic?oc-content=oc-project-view">view</a>
     </li>
@@ -23,7 +27,4 @@
 <div id="content-main" tal:content="structure view/renderProjectContent" />
 
 <!-- last modified -->
-<div>Last modified
-  on <span tal:replace="view/lastModifiedOn" />
-  by <span tal:replace="view/lastModifiedBy" />
-</div>
+<div tal:content="string: Last modified on ${page/lastModifiedOn} by ${page/lastModifiedBy}" />

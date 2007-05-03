@@ -3,7 +3,7 @@
     <div tal:replace="structure here/oc-topnav-accessibility" />
     <div id="topnav-title">
       <a tal:attributes="href string:${view/areaURL}/@@magic"><h1
-         tal:content="view/areaTitle"/></a>
+         tal:content="view/areatitle"/></a>
     </div>
     <div id="topnav-openplans" tal:content="structure here/oc-topnav-menus" />
   </div>
