@@ -22,6 +22,7 @@
           <li><a href="" class="oc-button oc-chooseReject">Reject</a></li>
           <li><a href="" class="oc-button oc-chooseSpam">Spam</a></li>
         </ul>
+        <a href="#" title="Ignore" class="oc-close">X</a>
       </li>
       <li class="oc-invite oc-clearAfter">
         <div class="oc-avatar">
@@ -36,10 +37,11 @@
           <li><a href="" class="oc-button oc-chooseReject">Reject</a></li>
           <li><a href="" class="oc-button oc-chooseSpam">Spam</a></li>
         </ul>
+        <a href="#" title="Ignore" class="oc-close">X</a>
       </li>
       <li class="oc-invite oc-clearAfter">
         <div class="oc-avatar">
-          <img src="http://missmoun.com/openplans/topmenu_user.gif" width="50" height="50" />
+          <img src="http://www.3dvalley.com/tutorials/modeling_basketball_clip_image037.gif" />
         </div>
         <p class="oc-invite-content">
           <a href="">Animal Campaign for a really important animal named Charlie</a> 
@@ -50,6 +52,7 @@
           <li><a href="" class="oc-button oc-chooseReject">Reject</a></li>
           <li><a href="" class="oc-button oc-chooseSpam">Spam</a></li>
         </ul>
+        <a href="#" title="Ignore" class="oc-close">X</a>	
       </li>
     </ul>
   </div><!-- end .widget-invitations -->
@@ -110,11 +113,38 @@
 		<li><a href="">Next &rarr;</a></li>
 	</ul>
   </div><!-- end .widget-table -->
-  
-  
-  
 
 </div><!-- end #oc-content-main -->
-<div id="oc-content-rbar33">
-  Sidebar
+<div id="oc-content-sidebar">
+	<div class="oc-headingBlock">
+		<h2>Recent activity</h2>
+	</div>
+  	<div class="oc-widget oc-widget-lastModified">
+		<div class="headingBlock">
+			<h3>Pages last modified</h3>
+		</div><!-- end .headingBlock -->
+		<table class="oc-table" cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					<th scope="col">Date</th>
+					<th scope="col">Page</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Jan 1</td>
+					<td><a href="">My awesome page</a></td>
+				</tr>
+				<tr>
+					<td>Dec 31</td>
+					<td><a href="">My really awesome page</a></td>
+				</tr>
+				<tr>
+					<td>Oct 12</td>
+					<td><a href="">My kinda awesome page</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div><!-- end .oc-widget-lastModified -->
+	
 </div><!-- end #oc-content-rbar33 -->

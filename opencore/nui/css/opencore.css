@@ -41,6 +41,18 @@ body {
 #oc-content-container {
  	margin: 2em 1em;
 }
+#oc-content-main {
+	float: left;
+	width: 65%;
+	margin-bottom: 2em;
+}
+#oc-content-sidebar {
+	float: right;
+    width: 33%;
+    margin-bottom: 2em;
+	padding: 0;
+    line-height: 1.35;
+}
 #oc-project-tabs {
 
 }
@@ -289,11 +301,7 @@ ul.oc-dropdown, .oc-dropdown ul {
   color: black;
 }
 				
-#oc-content-main {
-	float: left;
-	width: 65%;
-	margin-bottom: 2em;
-}
+/* Main */
 #oc-content-main p {
 	/* min-width: 26em;
 	max-width: 39em;
@@ -331,13 +339,7 @@ ul.oc-dropdown, .oc-dropdown ul {
 }
 
 /* Sidebar */
-#oc-content-rbar33 {
-	float: right;
-    width: 33%;
-    margin-bottom: 2em;
-	padding: 0;
-    line-height: 1.35;
-}
+
 
 /* @FOOTER - Global footer
 --------------------------------------- */
@@ -562,16 +564,30 @@ input.oc-button {
 	display: inline;
 	padding: 2px 3px;
 }
-
-/* Widgets */
-.oc-widget {
-
+a.oc-close {
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	color: red;
+	display: block;
+	padding: 2px;
+	text-decoration: none;
+	font-weight: bold;
+}
+a.oc-close:hover {
+	background: red;
+	color: white;
 }
 
 /* Actions */
 .oc-actions { 
-
+	margin: 0;
+	padding: 0;
 }
+.oc-actions li {
+	margin: 0 .25em;
+}
+
 .oc-chooseThis { /* Default option */
 	font-weight: bold;
 }
@@ -586,6 +602,11 @@ input.oc-button {
 .oc-actions .oc-chooseSpam,
 .actions a.chooseSpam {
 	color: #999;
+}
+
+/* Widgets */
+.oc-widget {
+
 }
 
 /* Widget heading blocks */
@@ -643,6 +664,13 @@ input.oc-button {
 	font-size: 10px;
 }
 
+/* Last Modified Stuff */
+.oc-widget-lastModified thead {
+	display: none;
+}
+.oc-widget-lastModified td {
+	border-bottom: none;
+}
 
 /* Feeds */
 .oc-widget-feed {
@@ -677,17 +705,23 @@ li.oc-invite {
 	clear: both;
 	list-style:none;
 	margin: 0 0 0.5em;
-	padding: 1em;
+	padding: 1em 2em 1em 1em;
 	background-color: #eee;
 	border: 1px solid #ccc;
+	position: relative;
 }
 li.oc-invite .oc-avatar {
 	float: left;
+	margin-right: 1em;
+}
+li.oc-invite .oc-avatar img {
+	width: 75px;
 }
 li.oc-invite .oc-invite-content {
 	float: left;
  	clear: none;
  	margin: 0;
+ 	width: 25em; /* TODO: find a way not to specify width */
 }
 .oc-invite-actions {
 	float: right;
