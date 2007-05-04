@@ -358,6 +358,39 @@ ul.oc-dropdown, .oc-dropdown ul {
 -------------------------------------------- */
 /* This is where general layout elements within the content of a page are defined. Could also aply to how we implement templates. 
 	
+/* Search results */
+
+.oc-searchresults {
+}
+.oc-searchresults-list {
+	list-style-type: none;
+	margin:  0;
+	padding: 0;
+	clear: both;
+	border-top: 2px solid #eee;
+
+}
+.oc-searchresults-item {
+	margin: 0.25em 0;
+	padding-bottom: 0.25em;
+	border-bottom: 1px dotted #eee;
+}
+.oc-searchresults-item h3 {
+	display: inline;
+	font-size: 12px;
+}
+.oc-searchresults-item p {
+	margin: 0;
+}
+.oc-searchresults-nresults {
+	float: left;
+	font-size: 10px;
+}
+.oc-searchresults .oc-paginator {
+	float: right;
+	font-size: 10px;
+}
+
 /* Member profile pages */
 
 #oc-member-info {
@@ -562,7 +595,7 @@ input.oc-button {
 }
 .oc-paginator li {
 	display: inline;
-	padding: 2px 3px;
+	padding: 0 .25em;
 }
 a.oc-close {
 	position: absolute;
@@ -604,9 +637,8 @@ a.oc-close:hover {
 	color: #999;
 }
 
-/* Widgets */
+/* @WIDGETS */
 .oc-widget {
-
 }
 
 /* Widget heading blocks */
@@ -678,7 +710,7 @@ a.oc-close:hover {
 	padding: 0;
 }
 li.oc-feed-item {
-	margin: 1em 0;
+	margin: 0.5em 0;
 	padding-bottom: 0.5em;
 	border-bottom: 1px dotted #eee;
 }
@@ -836,10 +868,9 @@ h4, .h4 {
 .oc-headingBlock h3,
 .oc-headingBlock h4 {
 	margin: 0;
+	margin-bottom: 0.25em;
 }
-.oc-headingBlock h1 { 
-	font-size: 1.5em;
-}
+
 .oc-headingBlock .oc-headingContext {
 	margin: 0 0 1.5em;
 }
@@ -858,6 +889,9 @@ a:hover {
 img {
  	border: none;
 }
+/* hr {
+	clear: both;
+} */
 .oc-clearElement {
 	visibility: hidden;
 	clear: both;
