@@ -38,6 +38,9 @@ def updateContainerMetadata(obj, event):
 def notifyObjectModified(obj):
     zope.event.notify(objectevent.ObjectModifiedEvent(obj))
 
+def notifyObjectCreated(obj):
+    zope.event.notify(objectevent.ObjectCreatedEvent(obj))
+
 def addDispatcherToMethod(func, dispatch):
     def new_func(*args, **kwargs):
         obj = args[0]

@@ -17,6 +17,11 @@
   <subscriber handler=".handler.handle_subproject_redirection" />
 
   <subscriber
+     for="Products.OpenPlans.interfaces.IOpenMembership
+          zope.app.event.interfaces.IObjectCreatedEvent"
+     handler=".handler.handle_membership_creation" />
+
+  <subscriber
      for="opencore.interfaces.IProject
           zope.app.event.interfaces.IObjectModifiedEvent"
      handler="opencore.lib.wf_policy_support.saveWFPolicy" />

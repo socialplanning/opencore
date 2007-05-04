@@ -7,7 +7,6 @@ from openplanstestcase import OpenPlansTestCase, makeContent
 class TestOpenProject(OpenPlansTestCase):
 
     def afterSetUp(self):
-
         # make some test content
         mstool = getToolByName(self.portal, 'portal_membership')
         self.loginAsPortalOwner()

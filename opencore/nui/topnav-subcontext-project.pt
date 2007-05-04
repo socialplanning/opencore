@@ -1,0 +1,22 @@
+<tal:vars tal:define="global proj view/project;
+                      global featurelets proj/featurelets" />
+
+<ul class="oc-dropdown">
+  <li>
+    <a tal:attributes="href string:${proj/url}/@@magic?oc-content=oc-project-view"
+       tal:content="string:home" />
+  </li>
+  <li>
+    <a tal:attributes="href string:${proj/url}/@@magic?oc-content=oc-project-contents"
+       tal:content="string:contents" />
+  </li>
+  <li>
+    <a tal:attributes="href string:${proj/url}/@@magic?oc-content=oc-project-contact"
+       tal:content="string:contact" />
+  </li>
+  <tal:block tal:condition="featurelets" tal:repeat="featurelet featurelets">
+    <li>
+      <a tal:attributes="href featurelet/url" tal:content="featurelet/name"/>
+    </li>
+  </tal:block>
+</ul>
