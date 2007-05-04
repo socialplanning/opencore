@@ -171,6 +171,15 @@
      template="projects.pt"
      />
 
+  <!-- projects-searchresults -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-projects-searchresults"
+     template="projects-searchresults.pt"
+     />
+
   <!-- people -->
   <browser:page
      for="*"
@@ -178,6 +187,15 @@
      permission="zope.Public"
      name="oc-people"
      template="people.pt"
+     />
+
+  <!-- people-searchresults -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-people-searchresults"
+     template="people-searchresults.pt"
      />
 
   <!-- start-project -->
