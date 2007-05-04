@@ -1,0 +1,869 @@
+/* 
+Title: NUI for OpenCore
+Date: April 2007
+Author: Rolando Penate & Nick Grossman
+Version: 1ish
+
+@Contents: (@ symbol to make searching easy)
+ - Global Layout
+ - Header
+ - Content
+ - Footer
+ - Layout for OpenPlans pages
+ - OpenPlans Project Page
+ - "Custom" CSS - little tricks & snazzy stuff
+ - General Classes
+ - HTML Elements & General Typography
+
+*/
+
+/* @Global Layout
+-----------------------------------------*/
+html {
+
+}
+body {
+	margin: 0;
+	padding: 0 8px;
+	background: url(http://www.digg.com/img/page-back.gif) repeat-x;
+	color: #333333;
+}
+#oc-page-container {
+	max-width: 70em; /* As a rule, measure should be between two and three alphabets long. In other words, between 52 and 78 characters, including spaces. Since characters average out to about one-half EM in width this translates to a minimum width of 26em and a maximum of 39em, or two to three alphabets. 	IN OTHER WORDS: avoid changing the width. */
+	min-width: 52em;
+	margin: 0 auto;
+	padding: 0;
+}
+#oc-topnav {
+	text-align: left;
+	margin-bottom: 0.5em;
+}
+#oc-content-container {
+ 	margin: 2em 1em;
+}
+#oc-content-main {
+	float: left;
+	width: 65%;
+	margin-bottom: 2em;
+}
+#oc-content-sidebar {
+	float: right;
+    width: 33%;
+    margin-bottom: 2em;
+	padding: 0;
+    line-height: 1.35;
+}
+#oc-project-tabs {
+
+}
+#oc-project-content {
+
+}
+#oc-footer {
+	clear: both;
+	margin: 3em 0 0 0;
+	padding: .5em 1em;
+}
+
+/* @Header - Global, context & subcontext menus 
+---------------------------------------*/
+
+#oc-topnav .oc-dropdown{
+}
+
+#oc-topnav-global {
+/*
+	padding: 0.25em;
+	padding-left: 1em;
+*/
+	position: relative;
+}
+		
+#oc-topnav-title {
+	position: absolute;
+	top: 55px;
+	left: 10px;
+	width: 100%;
+}
+	
+#oc-topnav-title h1 {
+	position: absolute;
+	bottom: 0.5em;
+	float: left;
+	margin: 0;
+	margin-right: 0.5em;
+	padding: 0;
+}				
+	
+#oc-topnav-openplans {
+	float: right;
+	display: block;
+	padding: 0.25em;
+}
+	
+/*#topnav-openplans-logo,*/
+#oc-topnav-openplans-wrapper,
+#oc-topnav-openplans-search {
+	display: inline;
+}
+		
+#oc-topnav-openplans-logo {
+	position: absolute;
+	margin: 0;
+	top: 2px;
+	right: 4px;
+}
+
+#oc-topnav-openplans-logo img {
+	margin: 0;
+	padding: 0;
+	vertical-align: middle;
+}
+
+#oc-topnav-openplans-links {
+	padding-top: 3px;
+	padding-right: 3px;
+}
+
+#oc-topnav-openplans-links li {
+	margin: 0;
+	padding-left: 0.75em;
+	text-transform: none; 
+	list-style-type: none;
+	display: inline;
+	font-size: 75%;
+}
+			
+#oc-topnav-openplans-search {
+	margin: 0;
+	padding: 0;
+}
+				
+#oc-portal-searchbox,
+#oc-portal-searchbox form,
+div.LSBox {
+	margin: 0.125em 0;
+	float: left;
+	clear: none;
+	display: inline;
+	position: relative;
+}
+					
+input#oc-searchGadget {
+	width: 7em;
+	font-size: 100%;
+	background: white url(searchglass.png) no-repeat 2px center;
+	padding-left: 15px;
+}
+
+div.oc-LSBox input.oc-searchButton {
+	display: none;
+}
+
+div#oc-LSResult {
+	z-index: 5;
+	position: absolute;
+	right: 0;
+}
+
+div#oc-LSResult legend {
+	display: none;
+}
+	
+div#oc-LSResult ul {
+	list-style-type: none;
+	padding: 0.5em;
+	margin: 0;
+}
+		
+#oc-topnav-openplans-wrapper {
+	margin: 0 0.5em;
+}
+						
+#oc-topnav-subcontext {
+	padding: 0 1em;
+}
+	
+#oc-topnav-subcontext-title, #oc-topnav-subcontext-title h1 {
+	margin: 0;
+	padding: 0;
+	line-height: normal;
+}
+
+
+/*Drop-down menu styles GLOBAL (see far below for structure)
+---------------------------------------*/
+
+ul.oc-dropdown, .oc-dropdown ul {
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.oc-dropdown li {
+	text-transform: lowercase;
+}
+
+.oc-dropdown li ul {
+	border-top: 1px solid #999;
+	font-weight: normal;
+
+}
+	
+.oc-dropdown li ul li {
+	width: 12em;
+}
+.oc-dropdown li ul li.oc-dropdown-divider {
+	border-top: 1px dotted #999;
+}
+			
+.oc-dropdown li ul li a {
+}
+	
+
+.oc-dropdown li:hover, .oc-dropdown li:hover ul,
+.oc-dropdown li.sfhover, .oc-dropdown li.sfhover ul {
+	background-color: #666;
+}
+
+.oc-dropdown li:hover ul,
+.oc-dropdown li.sfhover ul {
+}
+
+.oc-dropdown li:hover ul li:hover,
+.oc-dropdown li.sfhover ul li.sfhover {
+	background-color: #bbb;
+}
+
+/* Drop-down menu styles for the HEADER (see far below for structure) */
+
+#oc-topnav ul.oc-dropdown, .oc-dropdown ul {
+	line-height: normal;
+}
+
+#oc-topnav  .oc-dropdown li {
+}
+
+#oc-topnav .oc-dropdown li ul {
+	border-top: 1px solid #A5CC7A;
+	background-color: #CCDEAF;
+}
+
+#oc-topnav .oc-dropdown li ul li {
+}
+#oc-topnav .oc-dropdown li ul li.oc-dropdown-divider {
+	border-top: 1px dotted #A5CC7A;
+}
+
+#oc-topnav .oc-dropdown li ul li a {
+	color: #325B0A;
+}
+
+#oc-topnav .oc-dropdown li ul li a:hover {
+	color: #325B0A;
+}
+
+#oc-topnav .oc-dropdown li:hover, .oc-dropdown li:hover ul,
+#oc-topnav .oc-dropdown li.sfhover, .oc-dropdown li.sfhover ul {
+	background-color: #CCDEAF;
+	color: #325B0A;
+}
+
+#oc-topnav .oc-dropdown li:hover ul,
+#oc-topnav .oc-dropdown li.sfhover ul {
+}
+
+#oc-topnav .oc-dropdown li:hover ul li:hover,
+#oc-topnav .oc-dropdown li.sfhover ul li.sfhover {
+	background-color: #AAC683;
+}
+
+	
+/* @CONTENT - This section defines the main content 
+---------------------------------------------------*/
+
+#oc-content-title {
+	position: relative;
+	margin: 1.5em 0 0.75em;
+}
+			
+#oc-content-title-pagetitle {
+	position: absolute;
+	bottom: 0;
+	display: block;
+	width: 60%;
+	line-height: normal;
+	letter-spacing: normal;
+	font-weight: normal;
+}
+
+#oc-content-title-pagetitle a {
+  text-decoration: none;
+  color: black;
+}
+				
+/* Main */
+#oc-content-main p {
+	/* min-width: 26em;
+	max-width: 39em;
+	margin-top: 0;
+	margin-bottom: .5em; */
+	}
+
+#oc-content-main ol, #oc-content-main ul, #oc-content-main dl {
+	line-height: 1.25;
+	}
+		
+		
+#oc-content-main dl {
+	min-width: 20em;
+	max-width: 33em;
+	margin: 1em;
+	padding: 0 2em;
+	font-size: 100%;
+	line-height: 1.25;
+	margin-bottom: -0.125em;
+}
+#oc-content-main dt { 
+	float: left; 
+	clear: left; 
+	width: 8em; 
+	text-align: right; 
+	font-weight: bold;
+}
+#oc-content-main dt:after {
+	content: ":";
+}
+#oc-content-main dd { 
+	margin: 0 0 0 9.5em; 
+	padding: 0 0 0.65em 0;
+}
+
+/* Sidebar */
+
+
+/* @FOOTER - Global footer
+--------------------------------------- */
+#oc-footer ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  float: right;
+}
+#oc-footer li {
+  display: inline;
+  padding: 0 0.5em;
+}
+
+/* LAYOUT for @OpenPlans Pages
+-------------------------------------------- */
+/* This is where general layout elements within the content of a page are defined. Could also aply to how we implement templates. 
+	
+/* Member profile pages */
+
+#oc-member-info {
+}
+
+	#oc-member-info .oc-tabs,
+	#oc-member-info .contentViews {
+		margin-bottom: 0;
+	}
+	
+		#oc-member-info .oc-tabs .contentview-view a,
+		#oc-member-info .contentViews .contentview-view a {
+			background-color: #eee;
+			border-bottom: 2px solid #eee;
+		}
+
+	#oc-member-details-wrapper {
+		background-color: #eee;
+		padding: 1em;
+	}
+	
+		#oc-member-portrait {
+			/* These images should be constrained to a max-width of ~200px */
+			max-width: 47%;
+			display: block;
+			float: left;
+		}
+		
+			img#oc-member-noportrait-edit {}
+		
+			img#oc-member-noportrait {}
+	
+		#oc-member-details {
+			display: block;
+			font-size: 100%;
+			line-height: 1.25;
+			float: left;
+			clear: none;
+			margin: 0 1em;
+		}
+		
+		#oc-member-fullname-none {
+			color: #ccc;
+		}
+	
+			#oc-member-details dt {
+				font-weight: bold;
+			}
+		
+			dl#oc-member-details dd {
+				margin: 0; 
+				padding: 0 0 0.5em 0;
+			}
+			
+			ul#oc-member-details-projects {
+				display: inline;
+				list-style-type: none;
+				padding: 0;
+				margin: 0;
+			}
+
+			#oc-member-details-projects-none {
+				color: #ccc;
+			}
+
+			
+				ul#oc-member-details-projects li {
+				}
+				
+	#oc-member-dates {
+		color: gray;
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+		display: inline;
+		text-align: right;
+	}
+	
+#oc-member-wiki {
+	margin: 1em 0;
+}
+	
+#oc-member-activity table{
+	width: 100%;
+}
+
+	/* The table styles here need to be cleaned up, a lot. */
+	
+	#oc-member-activity table,
+	#oc-member-activity table * {
+		border: none;
+		padding-left: 0;
+		margin-left: 0;
+	}
+
+	#oc-member-activity table th{
+		text-align: left;
+		text-transform: none;
+		font-weight: bold;
+		background-color: transparent;
+	}
+
+
+/* OpenPlans -- @Projects Page
+   These classes apply to the "Projects Portal" page. 
+------------------------------------------------------------*/
+
+
+
+/* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
+-------------------------------------------- */
+
+/* This hack replicates the CSS3 "clearAfter" property.
+The IE hacks take advantage of several IE non-compliance issues to clearAfter the floated columns. */
+
+.oc-clearAfter:after,
+#oc-topnav-global:after,
+#oc-content-container:after,
+.oc-invite:after
+{ 
+	content: ""; 
+	display: block; 
+	height: 0; 
+	clear: both;
+	visibility: hidden;
+}
+
+.oc-last-child {
+	/* Use this class as a selector for last-children (not currently in use) */
+}
+
+/* This is based on the "Son of op-dropdown" drop down menus */
+
+ul.oc-dropdown, .oc-dropdown ul {
+float: left;
+margin: 0;
+padding: 0;
+list-style: none;
+z-index: 5;
+}
+
+	.oc-dropdown li {
+		float: left;
+		display: block;
+		margin: 0;
+		padding: 0.75em;
+	}
+
+		.oc-dropdown li ul {
+			position: absolute;
+			left: -999em;
+		}
+	
+			.oc-dropdown li ul li {
+				float: none;
+				width: 12em;
+				padding: 0 0.75em;
+			}
+				.oc-dropdown li ul li.oc-dropdown-divider {
+				}
+			
+			.oc-dropdown li ul li a {
+				display: block;
+				width: 100%;
+				padding: 0.75em 0;
+			}
+	
+		.oc-dropdown li:hover, .oc-dropdown li:hover ul,
+		.oc-dropdown li.sfhover, .oc-dropdown li.sfhover ul {
+		}
+
+		.oc-dropdown li:hover ul,
+		.oc-dropdown li.sfhover ul {
+			left: auto;
+			margin: 0.75em 0 0 -0.75em;
+		}
+
+			.oc-dropdown li:hover ul li:hover,
+			.oc-dropdown li.sfhover ul li.sfhover {
+			}
+
+			
+/* GENERAL CLASSES & @FORMS & @WIDGETS - reusable thingys
+-------------------------------------------*/
+.oc-hidden {
+ 	display:none;
+}
+.oc-hover {
+ 	background: #fdffdd;
+}
+/* GENERIC: Buttons */
+input.oc-button {
+	display: inline;
+	padding: .25em .5em;
+	font-size: inherit;
+}
+
+/* GENERIC: Elements */
+.oc-paginator {
+	margin: 0;
+	padding: 0;
+}
+.oc-paginator li {
+	display: inline;
+	padding: 2px 3px;
+}
+a.oc-close {
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	color: red;
+	display: block;
+	padding: 2px;
+	text-decoration: none;
+	font-weight: bold;
+}
+a.oc-close:hover {
+	background: red;
+	color: white;
+}
+
+/* Actions */
+.oc-actions { 
+	margin: 0;
+	padding: 0;
+}
+.oc-actions li {
+	margin: 0 .25em;
+}
+
+.oc-chooseThis { /* Default option */
+	font-weight: bold;
+}
+.oc-actions .oc-chooseAccept,
+.oc-actions a.oc-chooseAccept {
+	color: #0c0;
+}
+.oc-actions .oc-chooseReject,
+.oc-actions a.oc-chooseReject {
+	color: #c00;
+}
+.oc-actions .oc-chooseSpam,
+.actions a.chooseSpam {
+	color: #999;
+}
+
+/* Widgets */
+.oc-widget {
+
+}
+
+/* Widget heading blocks */
+.oc-widget .oc-headingBlock {
+ 	margin-bottom: .5em;
+ 	clear: both;
+}
+.oc-widget .oc-headingBlock h2 {
+	font-size: 14px;
+}
+.oc-widget .oc-headingContext {
+}
+
+/* List table */
+.oc-table  {
+ 	width: 100%;
+ 	white-space: nowrap;
+ 	font-size: 10px;
+}
+.oc-table thead {
+ 	background: #eee;
+}
+.oc-table th, 
+.oc-table th.oc-sortableColumn, 
+.oc-table th.oc-columnActions {
+	text-align: left;
+	padding: .3em .2em;
+	/* font-size: 10px; */
+	border-bottom: 2px solid #ccc;
+}
+.oc-table td {
+	padding: .25em .5em;
+	border-bottom: 1px solid #ccc;
+	/* font-size: 10px; */
+} 
+.oc-table-row-title {
+ 	white-space: normal;
+ 	font-size: 12px;
+}
+.oc-table-row-actions li {
+	list-style: none;
+}
+.oc-table-actions {
+	float: left;
+ 	padding: .5em 0;
+ 	margin:0;
+ 	font-size: 10px;
+}
+.oc-table-actions li {
+ 	display: inline;
+}
+.oc-table-paginator {
+	float: right;
+	padding: .5em 0;
+	font-size: 10px;
+}
+
+/* Last Modified Stuff */
+.oc-widget-lastModified thead {
+	display: none;
+}
+.oc-widget-lastModified td {
+	border-bottom: none;
+}
+
+/* Feeds */
+.oc-widget-feed {
+	list-style: none;
+	padding: 0;
+}
+li.oc-feed-item {
+	margin: 1em 0;
+	padding-bottom: 0.5em;
+	border-bottom: 1px dotted #eee;
+}
+li.oc-feed-item .oc-avatar {
+	float: right;
+	clear: both;
+	margin-right: 0.5em;
+}
+li.oc-feed-item .oc-feed-item-title,
+li.oc-feed-item .oc-feed-item-data,
+li.oc-feed-item .oc-feed-item-description {
+	margin: 0;
+}
+
+/* Invitations Widget */
+.oc-widget-invite {
+}
+.oc-invite-list {
+	font-size: 10px;
+ 	margin: 0;
+ 	padding: 0;
+}
+li.oc-invite {
+	clear: both;
+	list-style:none;
+	margin: 0 0 0.5em;
+	padding: 1em 2em 1em 1em;
+	background-color: #eee;
+	border: 1px solid #ccc;
+	position: relative;
+}
+li.oc-invite .oc-avatar {
+	float: left;
+	margin-right: 1em;
+}
+li.oc-invite .oc-avatar img {
+	width: 75px;
+}
+li.oc-invite .oc-invite-content {
+	float: left;
+ 	clear: none;
+ 	margin: 0;
+ 	width: 25em; /* TODO: find a way not to specify width */
+}
+.oc-invite-actions {
+	float: right;
+}
+.oc-invite-actions li {
+ 	display: inline;
+}
+
+/* Alphabet search */
+
+ul.oc-widget-alphabet {
+	list-style: none;
+	padding: 0.5em;
+	background-color: #eee;
+	border:1px solid #ccc;
+	text-align: center;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 14px;
+}
+.oc-widget-alphabet li {
+	display: inline;
+	margin: 0 0.125em;
+}
+.oc-widget-alphabet li a {
+	text-decoration: none;
+}
+
+
+/* @HTML ELEMENTS GENERAL @TYPOGRAPHY
+This should be the only place where font information is specified
+-------------------------------------------- */
+
+body, textarea {
+	font-size: 12px;
+	line-height: 1.5em;
+	font-family: "Lucida Grande", "Frutiger", "Univers", "Helvetica Neue", Arial, Helvetica, sans-serif;
+	/* These typographic rules will establish rhythm of 18px at base font size */
+}
+
+/* #content-container p {
+	margin: 0 0 1.5em 0;
+} */
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+	letter-spacing: 0;
+}
+		
+h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 abbr {
+	border: none;
+}
+
+h1, .oc-biggestText {
+	font-size: 24px;
+	line-height: 0.75em;
+	margin-top: 1.5em;
+	margin-bottom: 0.75em;
+}
+
+h2, .oc-biggerText, #oc-topnav-title h1 {
+	font-size: 18px;
+	line-height: 1em;
+	margin: 1em 0;   
+}
+
+h3, .oc-bigText  {
+	font-size: 14px;
+	line-height: 1.286em;
+	margin-top: 1.929em;
+	margin-bottom: 0.643em;
+}
+
+h4, .h4 {
+	font-weight: bold;
+}
+
+.oc-smallText,
+.oc-discreetText,
+	/* Layout and Navigation */
+		.oc-documentByLine,
+		#oc-topnav .oc-dropdown,
+		#oc-topnav-openplans-search,
+		#oc-footer,
+    	#oc-content-title-pagetitle,
+	
+	/*Feeds and Forms */
+		ul.oc-tabs,
+	
+	/* Error Messages */
+		.oc-portalMessage,
+		.oc-portalWarningMessage,
+		.oc-portalStopMessage,
+		.oc-system-message,
+		#oc-error-handling
+	
+	{
+	font-size: 10px;
+	line-height: 1.8em;
+}
+
+.oc-discreetText {
+	color: #999;
+}
+
+/* Heading Blocks */
+.oc-headingBlock {
+
+}
+.oc-headingBlock h1,
+.oc-headingBlock h2,
+.oc-headingBlock h3,
+.oc-headingBlock h4 {
+	margin: 0;
+}
+.oc-headingBlock h1 { 
+	font-size: 1.5em;
+}
+.oc-headingBlock .oc-headingContext {
+	margin: 0 0 1.5em;
+}
+.oc-headingSimple a {
+	text-decoration: none;
+}
+.oc-headingSimple a:hover {
+	text-decoration: underline;
+}
+a {
+	color: #337f92;
+}	
+a:hover {
+	color: #777777;
+}
+img {
+ 	border: none;
+}
+.oc-clearElement {
+	visibility: hidden;
+	clear: both;
+	height: 0;
+	padding: 0;
+	margin: 0;
+}
+	
+

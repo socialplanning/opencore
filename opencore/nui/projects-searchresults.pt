@@ -1,0 +1,9 @@
+  <div class="oc-headingBlock">
+     <h1>Projects on OpenPlans.org</h1>
+     <p class="oc-headingContext">Currently serving <span tal:replace="view/nprojects"/> projects</p>
+  </div>
+
+<div id="oc-content-main">
+
+
+</div> <!-- oc-content-main -->
