@@ -665,7 +665,7 @@ a.oc-close:hover {
 .oc-table th.oc-sortableColumn, 
 .oc-table th.oc-columnActions {
 	text-align: left;
-	padding: .3em .2em;
+	padding: .25em .5em;
 	/* font-size: 10px; */
 	border-bottom: 2px solid #ccc;
 }
@@ -782,6 +782,36 @@ ul.oc-widget-alphabet {
 	text-decoration: none;
 }
 
+/* @Behaviors 
+--------------------------*/
+.oc-liveEdit,
+.oc-table td.oc-liveEdit {
+}
+.oc-liveEdit-value {
+	border: 1px solid transparent;
+	border-bottom: 1px dotted #256E81; 
+}
+.oc-liveEdit-value .oc-liveEdit-hover {
+ border-bottom: 1px solid red;
+}
+.oc-liveEdit-form,
+.oc-liveEdit-selected {
+	background: #eee;
+}
+.oc-liveEdit-hover,
+.oc-table td.liveEdit-hover {
+	background: #eeeeee;
+	cursor: pointer;
+	border-bottom: 1px dotted red;
+}
+.oc-liveEdit-form select {
+	background: #eee;
+	border:1px solid #999;
+	padding:1px;
+	margin:0;
+	width:100%;
+	font-size: 11px;
+}
 
 /* @HTML ELEMENTS GENERAL @TYPOGRAPHY
 This should be the only place where font information is specified
