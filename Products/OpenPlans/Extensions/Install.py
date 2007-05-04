@@ -16,6 +16,7 @@ from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
 from Products.CMFEditions.Permissions import RevertToPreviousVersions
 from Products.RichDocument.Extensions.utils import \
      registerAttachmentsFormControllerActions
+from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
 from Products.OpenPlans import config
 from Products.OpenPlans import content
 from Products.OpenPlans.permissions import DEFAULT_PERMISSIONS_DATA
@@ -572,7 +573,7 @@ def installCookieAuth(portal, out):
 
     print >> out, "signed cookie plugin setup"
 
-    login_path = 'login_form'
+    login_path = 'require_login'
     logout_path = 'logged_out'
     cookie_name = '__ac'
 
@@ -603,6 +604,13 @@ def installCookieAuth(portal, out):
     if old_cookie_auth is not None:
         old_cookie_auth.manage_activateInterfaces([])
         print >> out, "Deactivated unsigned cookie auth plugin"
+
+    plugins = uf._getOb('plugins', None)
+    if plugins is not None:
+        plugins.movePluginsUp(IChallengePlugin,
+                              ['credentials_signed_cookie_auth'],)
+        print >> out, ("Move signed cookie auth to be top priority challenge "
+                       "plugin")
 
 def install(self, migrate_atdoc_to_openpage=True):
     out = StringIO()
