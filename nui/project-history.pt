@@ -1,0 +1,25 @@
+<div id="content-title">
+  <!-- title -->
+  <span id="content-title-pagetitle">
+    <a tal:attributes="href string:${view/pageURL}/@@magic?oc-content=oc-project-view"
+       tal:content="view/pagetitle" />
+  </span>
+
+  <!-- tabs -->
+  <ul class="oc-tabs" tal:define="canedit view/user/canedit">
+    <li class="deselected">
+      <a tal:attributes="href string:${view/pageURL}/@@magic?oc-content=oc-project-view">view</a>
+    </li>
+    <li tal:attributes="class python:canedit and 'deselected' or 'disabled'">
+      <a tal:attributes="href string:${view/pageURL}/@@magic?oc-content=oc-project-edit">edit</a>
+    </li>
+    <li class="selected">
+      <a tal:attributes="href string:${view/pageURL}/@@magic?oc-content=oc-project-history">history</a>
+    </li>
+  </ul>
+</div>
+
+<!-- TODO project history -->
+<div id="content-main">
+project-history template
+</div>
