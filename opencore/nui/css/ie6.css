@@ -1,0 +1,9 @@
+/* IE 6 hacks go here */
+
+#page-container { width: 70em; }	
+
+.clear-after { height: 1%; }
+		
+#topnav-global { height: 1%; }
+
+#content-main-container { height: 1%; }

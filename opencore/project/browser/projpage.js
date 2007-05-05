@@ -179,17 +179,21 @@ SortableManager.prototype, {
 	/*** makes rows uncollapse and collapse by regex ***/
 	for (var i = 0; i < rows.length; i++) {		
 	    var row = rows[i];
-	    row.style.visibility='visible';
+	    row.style.display = ""; 
+
 	    if(regex){
 		cell = row.getElementsByTagName('td')[0];
-		if(cell.textContent.trim().match(regex)){
-		    log(cell.textContent.trim() + " " + row.style.visibility);
-		    row.style.visiblity='visible';
-		} else {
-		    row.style.visibility='collapse';
+		var txt = ''
+		if (cell.textContent) {
+		    txt = cell.textContent;
 		}
-	    } else {
-		row.style.visibility='visible';
+		else if (cell.innerText) {
+		    txt = cell.innerText; 
+		}
+
+		if(!txt.trim().match(regex)){
+		    row.style.display = "none"; /* visibility='collapsed'; */
+		}
 	    }
 	}
 	

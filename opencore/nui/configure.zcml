@@ -1,0 +1,230 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five">
+
+
+  <!-- resource directories for css, images, etc -->
+  <browser:resourceDirectory
+    name="css"
+    directory="css"
+    />
+  <browser:resourceDirectory
+    name="img"
+    directory="img"
+    />
+  <browser:resourceDirectory
+    name="javascripts"
+    directory="javascripts"
+    />
+
+
+
+  <!-- templates -->
+
+  <!-- magic (the global template) -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="magic"
+     template="magic.pt"
+     />
+
+  <!-- topnav -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-topnav"
+     template="topnav.pt"
+     />
+
+  <!-- topnav-menus -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-topnav-menus"
+     template="topnav-menus.pt"
+     />
+
+  <!-- topnav-subcontext-project -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-topnav-subcontext-project"
+     template="topnav-subcontext-project.pt"
+     />
+
+  <!-- topnav-subcontext-user -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-topnav-subcontext-user"
+     template="topnav-subcontext-user.pt"
+     />
+
+  <!-- topnav-accessibility -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-topnav-accessibility"
+     template="topnav-accessibility.pt"
+     />
+   
+   <!-- your projects -->
+  <browser:page
+     for="*"
+     class=".opencoreview.YourProjectsView"
+     permission="zope.Public"
+     name="oc-yourprojects"
+     template="yourprojects.pt"
+     />
+  
+
+  <!-- footer -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-footer"
+     template="footer.pt"
+     />
+
+
+  <!-- project-view -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-project-view"
+     template="project-view.pt"
+     />
+
+  <!-- project-edit -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-project-edit"
+     template="project-edit.pt"
+     />
+
+  <!-- project-history -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-project-history"
+     template="project-history.pt"
+     />
+
+  <!-- project-contents -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-project-contents"
+     template="project-contents.pt"
+     />
+
+  <!-- project-contact -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-project-contact"
+     template="project-contact.pt"
+     />
+
+  <!-- user-profile -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-user-profile"
+     template="user-profile.pt"
+     />
+
+  <!-- user-contact -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-user-contact"
+     template="user-contact.pt"
+     />
+
+
+
+
+
+  <!-- projects -->
+  <browser:page
+     for="*"
+     class=".opencoreview.ProjectsView"
+     permission="zope.Public"
+     name="oc-projects"
+     template="projects.pt"
+     />
+
+  <!-- projects-searchresults -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-projects-searchresults"
+     template="projects-searchresults.pt"
+     />
+
+  <!-- people -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-people"
+     template="people.pt"
+     />
+
+  <!-- people-searchresults -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-people-searchresults"
+     template="people-searchresults.pt"
+     />
+
+  <!-- start-project -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-start-project"
+     template="start-project.pt"
+     />
+
+  <!-- login-join -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-login-join"
+     template="login-join.pt"
+     />
+
+
+
+  <!-- blank (for testing) -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-blank"
+     template="blank.pt"
+     />
+
+</configure>

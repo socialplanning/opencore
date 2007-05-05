@@ -1,0 +1,102 @@
+  <div class="oc-headingBlock">
+     <h1>Projects on OpenPlans.org</h1>
+     <p class="oc-headingContext">Currently serving <span tal:replace="view/nprojects"/> projects</p>
+  </div>
+
+<div id="oc-content-main">
+	
+	<div class="oc-searchresults">
+		<h2>Search results for &ldquo;your search&rdquo;</h2>
+		<div class="oc-searchresults-nresults">Results 1&ndash;10 of 376</div>
+	    <ul class="oc-paginator">
+			<!--<li>&larr; Prev</li>-->
+			<li>Page 1</li>
+			<li><a href="">2</a></li>
+			<li><a href="">3</a></li>
+			<li><a href="">Next &rarr;</a></li>
+		</ul>
+		<ol class="oc-searchresults-list">
+			<li class="oc-searchresults-item">
+				<h3><a href="link to project">Project name</a></h3>
+				<span class="oc-discreetText">
+					<span>created by <a href="link to user profile">yet another username</a>, on Tuesday at 11:37pm</span> <!-- for normal sorting -->
+					<!-- <span>last updated by <a href="link to user profile">username</a>, at 1:37am</span> --> <!-- for sorting by recent activity -->
+				</span>
+				<p>Then there is this bit about the mission statement and our goals and whatnot...</p>
+			</li>
+			<li class="oc-searchresults-item">
+				<h3><a href="link to project">Another project name</a></h3>
+				<span class="oc-discreetText">
+					<span>created by <a href="link to user profile">another username</a>, on Tuesday at 11:37pm</span> <!-- for normal sorting -->
+					<!-- <span>last updated by <a href="link to user profile">username</a>, at 1:37am</span> --> <!-- for sorting by recent activity -->
+				</span>
+				<p>Then there is this bit about the mission statement and our goals and whatnot...</p>
+			</li>
+			<li class="oc-searchresults-item">
+				<h3><a href="link to project">Yet another project name</a></h3>
+				<span class="oc-discreetText">
+					<span>created by <a href="link to user profile">username</a>, on Tuesday at 11:37pm</span> <!-- for normal sorting -->
+					<!-- <span>last updated by <a href="link to user profile">username</a>, at 1:37am</span> --> <!-- for sorting by recent activity -->
+				</span>
+				<p>Then there is this bit about the mission statement and our goals and whatnot...</p>
+			</li>
+			<li class="oc-searchresults-item">
+				<h3><a href="link to project">Project name</a></h3>
+				<span class="oc-discreetText">
+					<span>created by <a href="link to user profile">yet another username</a>, on Tuesday at 11:37pm</span> <!-- for normal sorting -->
+					<!-- <span>last updated by <a href="link to user profile">username</a>, at 1:37am</span> --> <!-- for sorting by recent activity -->
+				</span>
+				<p>Then there is this bit about the mission statement and our goals and whatnot...</p>
+			</li>
+			<li class="oc-searchresults-item">
+				<h3><a href="link to project">Another project name</a></h3>
+				<span class="oc-discreetText">
+					<span>created by <a href="link to user profile">another username</a>, on Tuesday at 11:37pm</span> <!-- for normal sorting -->
+					<!-- <span>last updated by <a href="link to user profile">username</a>, at 1:37am</span> --> <!-- for sorting by recent activity -->
+				</span>
+				<p>Then there is this bit about the mission statement and our goals and whatnot...</p>
+			</li>
+			<li class="oc-searchresults-item">
+				<h3><a href="link to project">Yet another project name</a></h3>
+				<span class="oc-discreetText">
+					<span>created by <a href="link to user profile">username</a>, on Tuesday at 11:37pm</span> <!-- for normal sorting -->
+					<!-- <span>last updated by <a href="link to user profile">username</a>, at 1:37am</span> --> <!-- for sorting by recent activity -->
+				</span>
+				<p>Then there is this bit about the mission statement and our goals and whatnot...</p>
+			</li>
+			<li class="oc-searchresults-item">
+				<h3><a href="link to project">Project name</a></h3>
+				<span class="oc-discreetText">
+					<span>created by <a href="link to user profile">yet another username</a>, on Tuesday at 11:37pm</span> <!-- for normal sorting -->
+					<!-- <span>last updated by <a href="link to user profile">username</a>, at 1:37am</span> --> <!-- for sorting by recent activity -->
+				</span>
+				<p>Then there is this bit about the mission statement and our goals and whatnot...</p>
+			</li>
+			<li class="oc-searchresults-item">
+				<h3><a href="link to project">Another project name</a></h3>
+				<span class="oc-discreetText">
+					<span>created by <a href="link to user profile">another username</a>, on Tuesday at 11:37pm</span> <!-- for normal sorting -->
+					<!-- <span>last updated by <a href="link to user profile">username</a>, at 1:37am</span> --> <!-- for sorting by recent activity -->
+				</span>
+				<p>Then there is this bit about the mission statement and our goals and whatnot...</p>
+			</li>
+			<li class="oc-searchresults-item">
+				<h3><a href="link to project">Yet another project name</a></h3>
+				<span class="oc-discreetText">
+					<span>created by <a href="link to user profile">username</a>, on Tuesday at 11:37pm</span> <!-- for normal sorting -->
+					<!-- <span>last updated by <a href="link to user profile">username</a>, at 1:37am</span> --> <!-- for sorting by recent activity -->
+				</span>
+				<p>Then there is this bit about the mission statement and our goals and whatnot...</p>
+			</li>
+		</ol>
+		<div class="oc-searchresults-nresults">Results 1&ndash;10 of 376</div>
+	    <ul class="oc-paginator">
+			<!--<li>&larr; Prev</li>-->
+			<li>Page 1</li>
+			<li><a href="">2</a></li>
+			<li><a href="">3</a></li>
+			<li><a href="">Next &rarr;</a></li>
+		</ul>
+	</div> <!-- oc-searchresults -->
+
+</div> <!-- oc-content-main -->
