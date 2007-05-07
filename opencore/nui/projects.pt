@@ -27,7 +27,7 @@
 <h2>Recently updated projects</h2>
 <ul class="oc-widget-feed-list">
   <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recentprojects">
-      <img class="oc-avatar" src="" />
+      <img class="oc-avatar" src="" tal:attributes="src project/image_src | nothing" />
       <h3 class="oc-feed-item-title">
         <a href="" tal:attributes="href project/absolute_url" tal:content="nocall: project/title">Project Title</a>
       </h3>
@@ -45,7 +45,7 @@
 </tal:nosearch>
 
 <tal:searchresults condition="view/searched">
-<h2>Search Results</h2>
+<h2>Search Results for "<span tal:replace="request/projname | nothing" />"</h2>
 <ul class="oc-widget-feed" tal:condition="nocall: view/search_results">
     <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/search_results">
       <h3 class="oc-feed-item-title">
