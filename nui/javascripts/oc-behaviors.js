@@ -7,25 +7,19 @@
 	*/
 	function OC() {
 		this.liveEditForms = new Array();
+		this.closeButtons = new Array();
 	}
 	var OC = new OC();
 
 	/*
 	#
-	# Live Edit Form
+	# Live Edit Forms
 	#
 	*/
 	function LiveEditForm (elId) {
 		//parse elId and get base & id
 		this.base = parseId().base;
 		this.id = parseId().id;
-		
-		//get references for included elements
-		this.container = Ext.get(this.base + "_container_" + this.id);
-		this.value = Ext.get(this.base + "_value_" + this.id);
-		this.form = Ext.get(this.base + "_form_" + this.id);
-		this.selectBoxes = Ext.query("#" + elId + " select");  //quick for demo.		
-		this.selectBox = Ext.get(this.selectBoxes[0]); //quick for demo.
 		
 		function parseId() {
 			/* IDs should follow the form: base_type_id (e.g., liveEdit_value_12) */
@@ -34,6 +28,13 @@
 			results.id = elId.split('_')[2];
 			return results;
 		}
+		
+		//get references for included elements
+		this.container = Ext.get(this.base + "_container_" + this.id);
+		this.value = Ext.get(this.base + "_value_" + this.id);
+		this.form = Ext.get(this.base + "_form_" + this.id);
+		this.selectBoxes = Ext.query("#" + elId + " select");  //quick for demo.		
+		this.selectBox = Ext.get(this.selectBoxes[0]); //quick for demo.
 		
 		/*
 		# Attach Behviors
@@ -84,6 +85,29 @@
 		this.selectBox.on('change', this.selectBoxChange, this);
 				
 	}
+	
+	/* 
+	#
+	# Close Buttons
+	#
+	*/
+	function CloseButton (el) {
+		// get references.  No ID naming scheme yet.  just use parent node.
+		this.closeButton = Ext.get(el);
+		this.container = Ext.get(this.closeButton.dom.parentNode);
+		this.container.setVisibilityMode(Ext.Element.DISPLAY);
+				
+		//behaviors
+		this.closeButtonClick = function(e, el, o) {
+			if (confirm('are you sure?')) {
+				//ajax call
+				
+				//fade out
+				this.container.fadeOut({});
+			}
+		}
+		this.closeButton.on('click', this.closeButtonClick, this)
+	}
 		
   		
 	//Load Em up
@@ -93,7 +117,10 @@
 		Ext.query('.oc-liveEdit-container').forEach(function(el) {
 			OC.liveEditForms.push(new LiveEditForm(el.id));
 		});	
-				
-			
-					
+		
+		// Find close butons and make them CloseButton objects
+		Ext.query('.oc-close').forEach(function(el) {
+			OC.closeButtons.push(new CloseButton(el));
+		});
+							
 	}); // onReady
