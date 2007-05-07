@@ -1,0 +1,31 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:meta="http://namespaces.zope.org/meta"
+           xmlns:browser="http://namespaces.zope.org/browser">
+
+  <browser:layer name="magic" />
+  <browser:skin
+      name="nui"
+      layers="magic default"
+      />
+
+  <!-- browser:defaultSkin name="nui" / -->
+
+  <browser:page
+     for="*"
+     class="..opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="main_template"
+     template="main_template.pt"
+     layer='magic'
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class="..opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="index.html"
+     template="project-view.pt"
+     layer="magic"
+     />
+  
+</configure>
