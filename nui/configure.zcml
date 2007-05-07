@@ -107,7 +107,7 @@
     class=".opencoreview.OpencoreView"
     permission="zope2.Public"
     name="index.html"
-    template="templates/project-view.pt"
+    template="pages/project-view.pt"
     />
 
   <!-- wiki-view -->
