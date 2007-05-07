@@ -5,7 +5,7 @@
 
 <div id="oc-content-main">
   <div class="oc-searchresults">
-    <h2>Search Results <span tal:condition="request/projname" tal:replace="structure string:for &ldquo;${request/projname}&rdquo;" /></h2>
+    <h2>Search Results <span tal:condition="view/search_query | nothing" tal:replace="structure view/search_query" /></h2>
 
     <tal:got_results condition="view/search_results">
       <div class="oc-searchresults-nresults">Results 1&ndash;10 of 376</div>
