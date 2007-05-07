@@ -201,7 +201,15 @@ class OpencoreView(BrowserView):
                 return 'Unexpected error in OpencoreView.currentProjectPage: ' \
                        'self.context is neither an OpenProject nor an OpenPage'
 
-
+    def userExists(self):
+        def user_exists(username):
+            users = self.membranetool(getId=username)
+            return len(users) > 0
+        try:
+            username = self.request.username
+            return user_exists(username)
+        except AttributeError:
+            return False
 
 class ProjectsView(OpencoreView):
 
