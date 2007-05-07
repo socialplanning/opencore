@@ -8,6 +8,8 @@
 	function OC() {
 		this.liveEditForms = new Array();
 		this.closeButtons = new Array();
+		this.expanders = new Array();
+		this.wikiTabs = new Array();
 	}
 	var OC = new OC();
 
@@ -108,6 +110,93 @@
 		}
 		this.closeButton.on('click', this.closeButtonClick, this)
 	}
+	
+	/* 
+	#
+	# Expanders
+	#
+	*/
+	function Expander (el) {
+		// get references. 
+		this.container = Ext.get(el);
+		this.expanderLink = Ext.get(Ext.query(".oc-expander-link", this.container.dom)[0]);
+		this.content = Ext.get(Ext.query(".oc-expander-content",  this.container.dom)[0]);
+				
+		//link
+		this.linkClick = function(e, el, o) {
+			//fade out
+			this.content.show();
+			YAHOO.util.Event.stopEvent(e);
+		}
+		this.expanderLink.on('click', this.linkClick, this);
+		
+		//contents 
+		this.content.setVisibilityMode(Ext.Element.DISPLAY);
+		this.content.hide();
+	}
+	
+	/* 
+	#
+	# WikiTabs
+	#
+	*/
+	function WikiTab (el) {
+		// get references. 
+		this.tab = Ext.get(el);
+		this.wikiEdit = Ext.get(Ext.query(".oc-wiki-edit")[0]);
+		this.wikiContent = Ext.get(Ext.query(".oc-wiki-content")[0]);
+		this.wikiHistory = Ext.get(Ext.query(".oc-wiki-history")[0]);
+		
+		// contents box
+		this.wikiContent.setVisibilityMode(Ext.Element.DISPLAY);
+		
+		// edit box
+		this.wikiEdit.setVisibilityMode(Ext.Element.DISPLAY);
+		this.wikiEdit.hide();
+		
+		//history
+		this.wikiHistory.setVisibilityMode(Ext.Element.DISPLAY);
+		this.wikiHistory.hide();
+		
+						
+		this.viewClick = function(e, el, o) {
+			this.wikiEdit.hide();
+			this.wikiContent.show();
+			this.wikiHistory.hide();
+			Ext.select('.oc-tabs li a').removeClass('oc-selected');
+			Ext.get(el).addClass('oc-selected');
+			YAHOO.util.Event.stopEvent(e);
+		}
+		this.editClick = function(e, el, o) {
+			this.wikiEdit.show();
+			this.wikiContent.hide();
+			this.wikiHistory.hide();
+			Ext.select('.oc-tabs li a').removeClass('oc-selected');
+			Ext.get(el).addClass('oc-selected');
+			YAHOO.util.Event.stopEvent(e);
+		}
+		this.historyClick = function(e, el, o) {
+			this.wikiEdit.hide();
+			this.wikiContent.hide();
+			this.wikiHistory.show();
+			Ext.select('.oc-tabs li a').removeClass('oc-selected');
+			Ext.get(el).addClass('oc-selected');
+			YAHOO.util.Event.stopEvent(e);
+		}
+			
+		if (el.rel == "view") 
+		{
+			this.tab.on('click', this.viewClick, this);
+		} 
+		else if (el.rel == "edit") 
+		{
+			this.tab.on('click', this.editClick, this);
+		} 
+		else if (el.rel == "history") 
+		{
+			this.tab.on('click', this.historyClick, this);
+		}	
+	}
 		
   		
 	//Load Em up
@@ -118,9 +207,19 @@
 			OC.liveEditForms.push(new LiveEditForm(el.id));
 		});	
 		
-		// Find close butons and make them CloseButton objects
+		// Find close buttons and make them CloseButton objects
 		Ext.query('.oc-close').forEach(function(el) {
 			OC.closeButtons.push(new CloseButton(el));
+		});
+		
+		// Find expanders and make them Expander objects
+		Ext.query('.oc-expander-container').forEach(function(el) {
+			OC.expanders.push(new Expander(el));
+		});
+		
+		// Find wiki tabs and make them wikiTab objects
+		Ext.query('.oc-tabs li a').forEach(function(el) {
+			OC.wikiTabs.push(new WikiTab(el));
 		});
 							
 	}); // onReady

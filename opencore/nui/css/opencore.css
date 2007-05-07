@@ -47,6 +47,9 @@ body {
 	width: 65%;
 	margin-bottom: 2em;
 }
+#oc-content-main.oc-content-main-fullWidth {
+	width: 100%;
+}
 #oc-content-sidebar {
 	float: right;
 	clear: none;
@@ -408,6 +411,10 @@ ul.oc-dropdown, .oc-dropdown ul {
 			background-color: #eee;
 			border-bottom: 2px solid #eee;
 		}
+		.oc-tabs .oc-selected {
+			background: pink;
+			color: #fff;
+		}
 
 	#oc-member-details-wrapper {
 		background-color: #eee;
@@ -499,6 +506,18 @@ ul.oc-dropdown, .oc-dropdown ul {
 /* OpenPlans -- @Projects Page
    These classes apply to the "Projects Portal" page. 
 ------------------------------------------------------------*/
+
+
+
+/* Wiki
+------------------------------------------------------------*/
+.oc-wiki {
+
+}
+.oc-wiki-edit-content {
+ border: 1px solid #ccc;
+ height: 300px; /* TODO: remove this once xinha is in */
+}
 
 
 
@@ -626,9 +645,11 @@ a.oc-close:hover {
 .oc-actions { 
 	margin: 0;
 	padding: 0;
+	font-size: 11px;
 }
 .oc-actions li {
 	margin: 0 .25em;
+	display: inline;
 }
 
 .oc-chooseThis { /* Default option */
@@ -698,7 +719,7 @@ a.oc-close:hover {
  	font-size: 10px;
 }
 .oc-table-actions li {
- 	display: inline;
+ 	
 }
 .oc-table-paginator {
 	float: right;
@@ -843,14 +864,6 @@ ul.oc-widget-alphabet {
 .oc-table td.oc-liveEdit-editing {
 	background: #ffb342;
 }
-.oc-liveEdit-form select {
-	background: #eee;
-	border:1px solid #999;
-	padding:1px;
-	margin:0;
-	width:100%;
-	font-size: 11px;
-}
 
 /* @HTML ELEMENTS GENERAL @TYPOGRAPHY
 This should be the only place where font information is specified
@@ -902,6 +915,13 @@ h3, .oc-bigText  {
 
 h4, .h4 {
 	font-weight: bold;
+}
+select {
+	background: #eee;
+	border:1px solid #999;
+	padding:1px;
+	margin:0;
+	font-size: 11px;
 }
 
 .oc-smallText,
