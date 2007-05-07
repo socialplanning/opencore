@@ -1,59 +1,61 @@
 <!-- TODO project history -->
 
 <div id="oc-content-main" class="oc-content-main-fullWidth">
-	
-	<div class="oc-wiki">
-		<div class="headingBlock oc-wiki-headingBlock">
-			<h2>Your page title</h2>
-		</div>
-		<ul class="oc-tabs">
-			<li class="">
-			  <a href="" rel="view">view</a>
-			</li>
-			<li>
-			  <a href="" rel="edit">edit</a>
-			</li>
-			<li class="oc-tabs-selected">
-			  <a href="" rel="history">history</a>
-			</li>
-			<li>
-				<select>
-					<option>More...</option>
-				</select>
-			</li>
-		</ul><!-- end .oc-tabs -->
-		
-		<div class="oc-wiki-content">
-			Wiki Content
-		</div><!-- end .oc-wiki-content -->
-		
-		<div class="oc-wiki-edit">
-			<div class="oc-wiki-edit-content">
-		  	Wiki Edit
-		  	</div><!-- end .oc-wiki-edit-content" -->
-		
-		
-			<div class="oc-tasks oc-wiki-edit-tasks">
-				<div class="oc-expander-container">
-					<a href="http://google.com" class="oc-expander-link">[+] Manage attachments</a>
-					<div class="oc-expander-content">
-						this is the attachment manager...
-					</div><!-- end .oc-expander-content -->
-				</div><!-- end .oc-expander -->
-			</div><!-- end .oc-tasks -->	
-		
-			<form>
-				<ul class="oc-actions oc-wiki-actions">
-					<li><input type="submit" value="Save" class="oc-button oc-chooseThis" /></li>
-					<li>or <a href="">cancel</a></li>
-					<li><a href="">[+] Add note</a></li>
-				</ul>	
-			</form>
-		</div><!-- end .oc-wiki-edit -->
-		
-		<div class="oc-wiki-history">
-			Wiki history
-		</div><!-- end .oc-wiki-history -->
-	
-	</div><!-- end .oc-wiki -->
+  
+  <div class="oc-wiki">
+    <div class="headingBlock oc-wiki-headingBlock">
+      <h2>Your page title</h2>
+    </div>
+    <ul class="oc-tabs">
+      <li class="">
+        <a href="" rel="view">view</a>
+      </li>
+      <li>
+        <a href="" rel="edit">edit</a>
+      </li>
+      <li class="oc-tabs-selected">
+        <a href="" rel="history">history</a>
+      </li>
+      <li>
+        <form>
+          <select>
+            <option value="">More...</option>
+          </select>
+        </form>
+      </li>
+    </ul><!-- end .oc-tabs -->
+    
+    <div class="oc-wiki-content">
+      Wiki Content
+    </div><!-- end .oc-wiki-content -->
+    
+    <div class="oc-wiki-edit">
+      <div class="oc-wiki-edit-content">
+        Wiki Edit
+        </div><!-- end .oc-wiki-edit-content" -->
+    
+    
+      <div class="oc-tasks oc-wiki-edit-tasks">
+        <div class="oc-expander-container">
+          <a href="http://google.com" class="oc-expander-link">[+] Manage attachments</a>
+          <div class="oc-expander-content">
+            this is the attachment manager...
+          </div><!-- end .oc-expander-content -->
+        </div><!-- end .oc-expander -->
+      </div><!-- end .oc-tasks -->  
+    
+      <form>
+        <ul class="oc-actions oc-wiki-actions">
+          <li><input type="submit" value="Save" class="oc-button oc-chooseThis" /></li>
+          <li>or <a href="">cancel</a></li>
+          <li><a href="">[+] Add note</a></li>
+        </ul>  
+      </form>
+    </div><!-- end .oc-wiki-edit -->
+    
+    <div class="oc-wiki-history">
+      Wiki history
+    </div><!-- end .oc-wiki-history -->
+  
+  </div><!-- end .oc-wiki -->
 </div><!-- end #oc-content-main -->
