@@ -1,109 +1,225 @@
 /* Behaviors */
 
-		// Utilities
-  		var OC = {}
-  		OC.util = {
-  			parseId: function(elId) {
-  				/* IDs should follow the form: base_type_id (e.g., liveEdit_value_12) */
-  				var parsedId = new Array();
-  				parsedId['base'] = elId.split('_')[0];
-				parsedId['type'] = elId.split('_')[1];
-				parsedId['id'] = elId.split('_')[2];
-  				return parsedId;
-  			}
-  		}
-  		
-  		
-  		//Extend Ded|Chain to allow looping over queries
-		DED.extendChain('filter', function(f) {
-		   this.el = this.el.filter(f);
-		   return this;
-		});
-		DED.extendChain('do', function(f, a, override) {
-		   YAHOO.util.DOM.batch(this.el, f, a, override);
-		   return this;
-		});
-		
-		//Live Edit Forms
-		function LiveEditForm (elId) {
-			//parse elId and get base & id
-			this.base = parseId().base;
-			this.id = parseId().id;
-			
-			//set IDs for form elements
-			this.container = Ext.get(this.base + "_container_" + this.id);
-			this.value = Ext.get(this.base + "_value_" + this.id);
-			this.form = Ext.get(this.base + "_form_" + this.id);
-			
+	/*
+	#
+	# OC object - elements we'll use, settings
+	#
+	*/
+	function OC() {
+		this.liveEditForms = new Array();
+		this.closeButtons = new Array();
+		this.expanders = new Array();
+		this.wikiTabs = new Array();
+	}
+	var OC = new OC();
 
-			function parseId() {
-				/* IDs should follow the form: base_type_id (e.g., liveEdit_value_12) */
-				results = new Array();
-				results.base = elId.split('_')[0];
-				results.id = elId.split('_')[2];
-				return results;
-			}
-			
-			this.test = function() {
-				//alert(this.container);
-			}
+	/*
+	#
+	# Live Edit Forms
+	#
+	*/
+	function LiveEditForm (elId) {
+		//parse elId and get base & id
+		this.base = parseId().base;
+		this.id = parseId().id;
+		
+		function parseId() {
+			/* IDs should follow the form: base_type_id (e.g., liveEdit_value_12) */
+			results = new Array();
+			results.base = elId.split('_')[0];
+			results.id = elId.split('_')[2];
+			return results;
 		}
 		
+		//get references for included elements
+		this.container = Ext.get(this.base + "_container_" + this.id);
+		this.value = Ext.get(this.base + "_value_" + this.id);
+		this.form = Ext.get(this.base + "_form_" + this.id);
+		this.selectBoxes = Ext.query("#" + elId + " select");  //quick for demo.		
+		this.selectBox = Ext.get(this.selectBoxes[0]); //quick for demo.
+		
+		/*
+		# Attach Behviors
+		*/
+		// container
+		this.containerMouseOver = function(e, el, o) {
+			this.container.addClass('oc-liveEdit-hover');
+			this.value.addClass('oc-liveEdit-hover');
+		}
+		this.container.on('mouseover', this.containerMouseOver, this);
+		
+		this.containerMouseOut = function(e, el, o) {
+			this.container.removeClass('oc-liveEdit-hover');
+			this.value.removeClass('oc-liveEdit-hover');
+		}
+		this.container.on('mouseout', this.containerMouseOut, this);
+		
+		this.containerClick = function(e, el, o) {
+			this.value.hide();
+			this.form.show();
+			this.container.addClass('oc-liveEdit-editing');
+		}
+		this.container.on('click', this.containerClick, this);
+		
+		//value
+		this.value.setVisibilityMode(Ext.Element.DISPLAY);
+		
+		//form
+		this.form.setVisibilityMode(Ext.Element.DISPLAY);
+		this.form.hide();
+		
+		//select
+		// temp.  this will change to be a smarter query.
+		this.selectBoxChange = function (e, el, o){
+			//show/hide
+			this.value.show();
+			this.form.hide();
+			
+			//do an ajax call
+			
+			//update the target
+			this.value.update(el.value);
+			
+			//highlight
+			this.container.removeClass('oc-liveEdit-editing');
+			this.container.highlight('c6ff80', { endColor: 'ffffff' });
+		}
+		this.selectBox.on('change', this.selectBoxChange, this);
+				
+	}
+	
+	/* 
+	#
+	# Close Buttons
+	#
+	*/
+	function CloseButton (el) {
+		// get references.  No ID naming scheme yet.  just use parent node.
+		this.closeButton = Ext.get(el);
+		this.container = Ext.get(this.closeButton.dom.parentNode);
+		this.container.setVisibilityMode(Ext.Element.DISPLAY);
+				
+		//behaviors
+		this.closeButtonClick = function(e, el, o) {
+			if (confirm('are you sure?')) {
+				//ajax call
+				
+				//fade out
+				this.container.fadeOut({});
+			}
+		}
+		this.closeButton.on('click', this.closeButtonClick, this)
+	}
+	
+	/* 
+	#
+	# Expanders
+	#
+	*/
+	function Expander (el) {
+		// get references. 
+		this.container = Ext.get(el);
+		this.expanderLink = Ext.get(Ext.query(".oc-expander-link", this.container.dom)[0]);
+		this.content = Ext.get(Ext.query(".oc-expander-content",  this.container.dom)[0]);
+				
+		//link
+		this.linkClick = function(e, el, o) {
+			//fade out
+			this.content.show();
+			YAHOO.util.Event.stopEvent(e);
+		}
+		this.expanderLink.on('click', this.linkClick, this);
+		
+		//contents 
+		this.content.setVisibilityMode(Ext.Element.DISPLAY);
+		this.content.hide();
+	}
+	
+	/* 
+	#
+	# WikiTabs
+	#
+	*/
+	function WikiTab (el) {
+		// get references. 
+		this.tab = Ext.get(el);
+		this.wikiEdit = Ext.get(Ext.query(".oc-wiki-edit")[0]);
+		this.wikiContent = Ext.get(Ext.query(".oc-wiki-content")[0]);
+		this.wikiHistory = Ext.get(Ext.query(".oc-wiki-history")[0]);
+		
+		// contents box
+		this.wikiContent.setVisibilityMode(Ext.Element.DISPLAY);
+		
+		// edit box
+		this.wikiEdit.setVisibilityMode(Ext.Element.DISPLAY);
+		this.wikiEdit.hide();
+		
+		//history
+		this.wikiHistory.setVisibilityMode(Ext.Element.DISPLAY);
+		this.wikiHistory.hide();
+		
+						
+		this.viewClick = function(e, el, o) {
+			this.wikiEdit.hide();
+			this.wikiContent.show();
+			this.wikiHistory.hide();
+			Ext.select('.oc-tabs li a').removeClass('oc-selected');
+			Ext.get(el).addClass('oc-selected');
+			YAHOO.util.Event.stopEvent(e);
+		}
+		this.editClick = function(e, el, o) {
+			this.wikiEdit.show();
+			this.wikiContent.hide();
+			this.wikiHistory.hide();
+			Ext.select('.oc-tabs li a').removeClass('oc-selected');
+			Ext.get(el).addClass('oc-selected');
+			YAHOO.util.Event.stopEvent(e);
+		}
+		this.historyClick = function(e, el, o) {
+			this.wikiEdit.hide();
+			this.wikiContent.hide();
+			this.wikiHistory.show();
+			Ext.select('.oc-tabs li a').removeClass('oc-selected');
+			Ext.get(el).addClass('oc-selected');
+			YAHOO.util.Event.stopEvent(e);
+		}
+			
+		if (el.rel == "view") 
+		{
+			this.tab.on('click', this.viewClick, this);
+		} 
+		else if (el.rel == "edit") 
+		{
+			this.tab.on('click', this.editClick, this);
+		} 
+		else if (el.rel == "history") 
+		{
+			this.tab.on('click', this.historyClick, this);
+		}	
+	}
 		
   		
-  		//Behaviors
-  		_$(window).on('load', function() {
-				
-			var liveEdit = new LiveEditForm('oc-liveEdit_container_12');
-			liveEdit.test();
+	//Load Em up
+	Ext.onReady(function() {
 			
-			var liveEdit2 = new LiveEditForm('oc-liveEdit_container_9');
-			liveEdit2.test();
-				
-			//row mouseovers
-			_$('tbody tr').on('mouseover', function(el,e) {
-				_$(el).addClass('hover');
-			});
-			_$('tbody tr').on('mouseout', function(el,e) {
-				_$(el).removeClass('hover');
-			});
-			
-			//live edits
-			_$('.oc-liveEdit-form').hide();
-			_$('.oc-liveEdit').on('mouseover', function(el, e) {
-				_$(el).addClass('oc-liveEdit-hover');
-				_$("#" + el.id + " .oc-liveEdit-value").addClass('oc-liveEdit-hover');
-			});
-			_$('.oc-liveEdit').on('mouseout', function(el, e) {
-				_$(el).removeClass('oc-liveEdit-hover');
-				_$("#" + el.id + " .oc-liveEdit-value").removeClass('oc-liveEdit-hover');
-			});
-			_$('.oc-liveEdit-value').on('click', function(el,e){
-				// TODO the whole live edit form should be an object.
-				var parsedId = OC.util.parseId(el.id);
-				var form = parsedId.base + '_form_' + parsedId.id;
-				var container = parsedId.base + '_container_' + parsedId.id;
-				
-				_$(el).hide();
-				_$('#' + form).show();							
-			});
-			_$('.oc-liveEdit-form select').on('change', function(el, e) {
-				var parsedId = OC.util.parseId(el.parentNode.id);
-				var form = parsedId.base + '_form_' + parsedId.id;
-				var value = parsedId.base + '_value_' + parsedId.id;
-				var container = parsedId.base + '_container_' + parsedId.id;
-				
-				//show/hide
-				_$('#' + value).show();
-				_$('#' + form).hide();
-				
-				//do an ajax call
-				
-				//update the target
-				Ext.get(value).update(el.value);
-				
-				//highlight
-				Ext.get(container).highlight('ffff9c', { endColor: 'ffffff' });
-			});
-			
-		}); // end window load events
+		// Find each live edit form and make an array of LiveEditForm objects
+		Ext.query('.oc-liveEdit-container').forEach(function(el) {
+			OC.liveEditForms.push(new LiveEditForm(el.id));
+		});	
+		
+		// Find close buttons and make them CloseButton objects
+		Ext.query('.oc-close').forEach(function(el) {
+			OC.closeButtons.push(new CloseButton(el));
+		});
+		
+		// Find expanders and make them Expander objects
+		Ext.query('.oc-expander-container').forEach(function(el) {
+			OC.expanders.push(new Expander(el));
+		});
+		
+		// Find wiki tabs and make them wikiTab objects
+		Ext.query('.oc-tabs li a').forEach(function(el) {
+			OC.wikiTabs.push(new WikiTab(el));
+		});
+							
+	}); // onReady

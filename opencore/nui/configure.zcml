@@ -17,8 +17,6 @@
     directory="javascripts"
     />
 
-
-
   <!-- templates -->
 
   <!-- magic (the global template) -->
@@ -83,7 +81,6 @@
      name="oc-yourprojects"
      template="yourprojects.pt"
      />
-  
 
   <!-- footer -->
   <browser:page
@@ -94,7 +91,6 @@
      template="footer.pt"
      />
 
-
   <!-- project-view -->
   <browser:page
      for="*"
@@ -102,6 +98,16 @@
      permission="zope.Public"
      name="oc-project-view"
      template="project-view.pt"
+     />
+
+  <!-- wiki-view -->
+  <!-- XXX project-view was supposed to be this -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-wiki-view"
+     template="wiki-view.pt"
      />
 
   <!-- project-edit -->
@@ -158,10 +164,6 @@
      template="user-contact.pt"
      />
 
-
-
-
-
   <!-- projects -->
   <browser:page
      for="*"
@@ -215,8 +217,6 @@
      name="oc-login-join"
      template="login-join.pt"
      />
-
-
 
   <!-- blank (for testing) -->
   <browser:page
