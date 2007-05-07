@@ -228,4 +228,16 @@
      template="blank.pt"
      />
 
+  <!-- username exists? -->
+  <browser:pages
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     >
+    <browser:page
+       name="user-exists"
+       attribute="userExists"
+       />       
+  </browser:pages>
+
 </configure>
