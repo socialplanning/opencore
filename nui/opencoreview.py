@@ -238,11 +238,14 @@ class ProjectsView(OpencoreView):
         projname = self.request.get('projname', None)
         letter_search = self.request.get('letter_search', None)
         self.search_results = None
+        self.search_query = None
 
         if letter_search:
             self.search_results = self.search_for_project(letter_search, startswith=True)
+            self.search_query = 'for projects starting with &ldquo;%s&rdquo;' % letter_search
         elif search_action and projname:
             self.search_results = self.search_for_project(projname)
+            self.search_query = 'for &ldquo;%s&rdquo;' % projname
             
         return self.template()
             
