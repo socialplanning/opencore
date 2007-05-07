@@ -612,6 +612,14 @@ a.oc-close:hover {
 	color: white;
 }
 
+/* @Form Stuff */
+
+.oc-form-fieldBlock {
+	white-space: nowrap;
+}
+.oc-input-typeText { /* Since browser support for selecting by type is... limited */
+}
+
 /* Actions */
 .oc-actions { 
 	margin: 0;
@@ -705,9 +713,16 @@ a.oc-close:hover {
 }
 
 /* Feeds */
-.oc-widget-feed {
+
+.oc-widget-feed h2{
+	margin: 0;
+}
+.oc-widget-feed-list {
 	list-style: none;
+	margin: 0.5em 0 0.5em;
 	padding: 0;
+	border-top: 1px dotted #eee;
+
 }
 li.oc-feed-item {
 	margin: 0.5em 0;
@@ -762,13 +777,35 @@ li.oc-invite .oc-invite-content {
  	display: inline;
 }
 
+/* Search box */
+
+.oc-widget-search {
+	margin: 0 0 1.5em;
+	padding: 0.5em; 
+	background: #eee;
+	border: 1px solid #ccc;
+}
+.oc-widget-search form input {
+	font-size: 10px;
+}
+.oc-widget-search form .oc-input-typeText {
+	width: 80%;
+}
+.oc-widget-search h2 {
+	margin: 0 0 0.5em;
+}
+.oc-widget-search ul.oc-widget-alphabet {
+	margin-top: 0.5em;
+}
+
 /* Alphabet search */
 
 ul.oc-widget-alphabet {
 	list-style: none;
 	padding: 0.5em;
+	margin: 0;
 	background-color: #eee;
-	border:1px solid #ccc;
+	border: 1px solid #ccc;
 	text-align: center;
 	text-transform: uppercase;
 	font-weight: bold;
@@ -840,21 +877,25 @@ h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 ab
 h1, .oc-biggestText {
 	font-size: 24px;
 	line-height: 0.75em;
-	margin-top: 1.5em;
-	margin-bottom: 0.75em;
+	/* margin-top: 1.5em; */
+	/* margin-bottom: 0.75em; */
+	margin: 0 0 1em;
 }
 
 h2, .oc-biggerText, #oc-topnav-title h1 {
 	font-size: 18px;
 	line-height: 1em;
-	margin: 1em 0;   
+	/* margin: 1em 0; */
+	margin: 0 0 1em;
+
 }
 
 h3, .oc-bigText  {
 	font-size: 14px;
 	line-height: 1.286em;
-	margin-top: 1.929em;
-	margin-bottom: 0.643em;
+	/* margin-top: 1.929em; */
+	/* margin-bottom: 0.643em; */
+	margin: 0 0 1em;
 }
 
 h4, .h4 {
