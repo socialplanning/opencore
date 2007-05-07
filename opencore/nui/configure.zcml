@@ -17,6 +17,7 @@
     directory="javascripts"
     />
 
+
   <!-- templates -->
 
   <!-- magic (the global template) -->
@@ -99,6 +100,15 @@
      name="oc-project-view"
      template="project-view.pt"
      />
+
+  <!-- project-view THE RIGHT WAY -->
+  <browser:page
+    for="opencore.interfaces.IProject"
+    class=".opencoreview.OpencoreView"
+    permission="zope2.Public"
+    name="index.html"
+    template="templates/project-view.pt"
+    />
 
   <!-- wiki-view -->
   <!-- XXX project-view was supposed to be this -->

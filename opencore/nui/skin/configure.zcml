@@ -25,14 +25,6 @@
     layer="magic"
     />
 
-  <browser:page
-    for="opencore.interfaces.IProject"
-    class="..opencoreview.OpencoreView"
-    permission="zope2.Public"
-    name="index.html"
-    template="project-view.pt"
-    />
-
   <browser:view
     for="*"
     name="standard_macros"
