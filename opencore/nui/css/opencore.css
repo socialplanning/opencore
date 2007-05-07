@@ -808,11 +808,17 @@ li.oc-invite .oc-invite-content {
 	background: #eee;
 	border: 1px solid #ccc;
 }
+#oc-content-sidebar .oc-widget-search {
+	background: none;
+}
 .oc-widget-search form input {
 	font-size: 10px;
 }
-.oc-widget-search form .oc-input-typeText {
+#oc-content-main .oc-widget-search form .oc-input-typeText {
 	width: 80%;
+}
+#oc-content-sidebar .oc-widget-search form .oc-input-typeText {
+	width: 65%;
 }
 .oc-widget-search h2 {
 	margin: 0 0 0.5em;
@@ -823,7 +829,7 @@ li.oc-invite .oc-invite-content {
 
 /* Alphabet search */
 
-ul.oc-widget-alphabet {
+.oc-widget-alphabet {
 	list-style: none;
 	padding: 0.5em;
 	margin: 0;
@@ -833,6 +839,9 @@ ul.oc-widget-alphabet {
 	text-transform: uppercase;
 	font-weight: bold;
 	font-size: 14px;
+}
+#oc-content-sidebar ul.oc-widget-alphabet {
+	background: none;
 }
 .oc-widget-alphabet li {
 	display: inline;
