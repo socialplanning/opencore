@@ -183,6 +183,15 @@
      template="projects.pt"
      />
 
+  <!-- projects-searchresults -->
+  <browser:page
+     for="*"
+     class=".opencoreview.ProjectsResultsView"
+     permission="zope.Public"
+     name="oc-projects-searchresults"
+     template="projects-searchresults.pt"
+     />
+
   <!-- people -->
   <browser:page
      for="*"

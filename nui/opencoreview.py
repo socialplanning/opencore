@@ -238,14 +238,11 @@ class ProjectsView(OpencoreView):
         projname = self.request.get('projname', None)
         letter_search = self.request.get('letter_search', None)
         self.search_results = None
-        self.searched = False
 
         if letter_search:
             self.search_results = self.search_for_project(letter_search, startswith=True)
-            self.searched = True
         elif search_action and projname:
             self.search_results = self.search_for_project(projname)
-            self.searched = True
             
         return self.template()
             
@@ -268,6 +265,9 @@ class ProjectsView(OpencoreView):
         return prettyDate(datetime_obj)
 
 
+class ProjectsResultsView(ProjectsView):
+    template = ZopeTwoPageTemplateFile('projects-searchresults.pt')
+    
 
 class YourProjectsView(OpencoreView):
 

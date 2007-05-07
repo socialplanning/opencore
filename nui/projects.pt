@@ -5,14 +5,12 @@
 
 <div id="oc-content-main">
 
-<tal:nosearch condition="not: view/searched">
-    
 <div class="oc-widget oc-widget-search">    
 <form name="projects_search" action="." tal:attributes="action request/ACTUAL_URL">
   <label><h2>Search for projects</h2></label>
   <span class="oc-form-fieldBlock">
   <input class="oc-input-typeText" type="text" name="projname" />
-  <input type="hidden" name="oc-content" value="oc-projects" />
+  <input type="hidden" name="oc-content" value="oc-projects-searchresults" />
   <input type="hidden" name="letter_search" />
   <input type="submit" name="action_search_projects" value="Search" />
   </span>
@@ -43,48 +41,14 @@
     </div>
 
     <hr class="oc-clearElement" />
-  </tal:nosearch>
 
-  <tal:searchresults condition="view/searched">
-    <div class="oc-searchresults">
-      <h2>Search Results <span tal:condition="request/projname" tal:replace="structure string:for &ldquo;${request/projname}&rdquo;" /></h2>
-      <div class="oc-searchresults-nresults">Results 1&ndash;10 of 376</div>
-      <ul class="oc-paginator">
-    <!--<li>&larr; Prev</li>-->
-    <li>Page 1</li>
-    <li><a href="">2</a></li>
-    <li><a href="">3</a></li>
-    <li><a href="">Next &rarr;</a></li>
-      </ul>
-      <ol class="oc-searchresults-list" tal:condition="nocall: view/search_results">
-    <li class="oc-searchresults-item" tal:repeat="project view/search_results">
-      <h3><a href="" tal:attributes="href project/absolute_url" tal:content="nocall: project/title">Project Title</a></h3>
-      <span class="oc-discreetText">
-            <span>created by <a tal:attributes="href project/CreatorPage | nothing" tal:content="project/Creator" />, <span tal:content="python: view.create_date(project)" /></span>
-        <!-- <span>last updated by <a href="link to user profile">username</a>, at 1:37am</span> --> <!-- for sorting by recent activity -->
-      </span>
-      <!-- XXX put in correct mission statement -->
-      <p tal:content="project/mission | string: project mission statement goes here" />
-    </li>
-      </ol>
-      <div class="oc-searchresults-nresults">Results 1&ndash;10 of 376</div>
-      <ul class="oc-paginator">
-    <!--<li>&larr; Prev</li>-->
-    <li>Page 1</li>
-    <li><a href="">2</a></li>
-    <li><a href="">3</a></li>
-    <li><a href="">Next &rarr;</a></li>
-      </ul>
-      <div tal:condition="not: nocall: view/search_results"> No results found.</div>
-    </div> <!-- oc-searchresults -->
-  </tal:searchresults>
+
 
 </div><!-- content-main -->
 
 
 <!-- content-sidebar -->
 <div id="oc-content-sidebar">
-  <tal:sidebarsearch condition="not: nocall: view/search_results">
     <h2>Featured projects</h2>
     <p>The sidebar is full of editorial content for Rollie to deal with.</p>
     <h3>Transportation </h3>
@@ -119,23 +83,5 @@
       <li><a title="TOPP: video production" href="projects/topp-video-production/project-home" target="_self">TOPP Video Production</a></li>
       <li><a title="wicked : wiki distilled" href="projects/wicked/project-home" target="_self">Wicked : wiki distilled</a></li>
     </ul>
-  </tal:sidebarsearch>
 
-  <tal:sidebarnosearch condition="nocall: view/search_results">
-    <div class="oc-widget oc-widget-search">    
-      <form name="projects_search" action="." tal:attributes="action request/ACTUAL_URL">
-    <label><h2>New Search</h2></label>
-    <input type="text" name="projname" />
-    <input type="hidden" name="oc-content" value="oc-projects" />
-    <input type="hidden" name="letter_search" />
-    <input type="submit" name="action_search_projects" value="Search" />
-      </form>
-  
-      <ul class="oc-widget-alphabet" tal>
-    <li tal:repeat="letter modules/string/uppercase">
-      <a href="" tal:content="letter" tal:attributes="href string:javascript:projects_search_letter('${letter}');;">A</a>
-    </li>
-      </ul>
-    </div>
-  </tal:sidebarnosearch>
 </div><!-- content-sidebar -->
