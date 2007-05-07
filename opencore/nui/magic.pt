@@ -19,10 +19,14 @@
       }
     </script>
 
-    <script language="javascript" type="text/javascript" src="++resource++javascripts/utilities.js" />
-    <script language="javascript" type="text/javascript" src="++resource++javascripts/ded-chain-min.js" />
-	
-    <script type="text/javascript" src="++resource++javascripts/behaviors.js" />
+    <script language="javascript" type="text/javascript" src="++resource++javascripts/utilities.js"></script>
+    <!--
+    <script language="javascript" type="text/javascript" src="++resource++javascripts/ded-chain-min.js"></script>
+    -->
+    <script language="javascript" type="text/javascript" src="++resource++javascripts/ext.js"></script>
+    <script language="javascript" type="text/javascript" src="++resource++javascripts/oc-behaviors.js"></script>
+    
+    
   </head>  
   <body>
     <div id="oc-page-container">
@@ -31,5 +35,7 @@
            tal:content="structure python:view.renderContent(content)" />
       <div tal:replace="structure here/@@oc-footer" />
     </div>
+    
+    <div id="oc-debug"></div>
   </body>
 </html>
