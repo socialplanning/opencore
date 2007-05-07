@@ -259,6 +259,8 @@ class ProjectsView(OpencoreView):
         datetime_obj = datetime.datetime(*time_obj[0:6])
         return prettyDate(datetime_obj)
 
+
+
 class YourProjectsView(OpencoreView):
 
     def get_projects_for_user(self):
