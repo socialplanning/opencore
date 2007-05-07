@@ -3,6 +3,8 @@ OpencoreView: the base view for all of opencore's new zope3 views.
 """
 import nui
 
+from time import strptime
+import datetime
 from opencore.content.page import OpenPage
 from opencore.content.member import OpenMember
 from Products.OpenPlans.content.project import OpenProject
@@ -216,7 +218,9 @@ class ProjectsView(OpencoreView):
                      sort_order='descending',
                      sort_limit=5,
                      )
+
         # do we want brains or objects?
+        # most likely brains, but we use objects for now
         project_brains = self.catalogtool(**query) 
         projects = (x.getObject() for x in project_brains)
         return projects
@@ -225,14 +229,14 @@ class ProjectsView(OpencoreView):
         search_action = self.request.get('action_search_projects', None)
         projname = self.request.get('projname', None)
         letter_search = self.request.get('letter_search', None)
-        self.search_projects = None
+        self.search_results = None
         self.searched = False
 
         if letter_search:
-            self.search_projects = self.search_for_project(letter_search, startswith=True)
+            self.search_results = self.search_for_project(letter_search, startswith=True)
             self.searched = True
         elif search_action and projname:
-            self.search_projects = self.search_for_project(projname)
+            self.search_results = self.search_for_project(projname)
             self.searched = True
             
         return self.template()
@@ -249,7 +253,11 @@ class ProjectsView(OpencoreView):
         projects = [x.getObject() for x in project_brains]
         return projects
     
-
+    def create_date(self, project):
+        cd = project.CreationDate()
+        time_obj = strptime(cd, '%Y-%m-%d %H:%M:%S')
+        datetime_obj = datetime.datetime(*time_obj[0:6])
+        return prettyDate(datetime_obj)
 
 class YourProjectsView(OpencoreView):
 
