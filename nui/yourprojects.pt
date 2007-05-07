@@ -78,9 +78,28 @@
         <tr>
           <td><input type="checkbox" /></td>
           <td class="oc-table-row-title"><a href="">Animal Campaign for a poor little sick kittie named Fatty</a></td>
-          <td>Member</td>
+          <td id="liveEdit_container_11" class="oc-liveEdit-container">
+			<span id="liveEdit_value_11" class="oc-liveEdit-value">not set</span>
+			<div id="liveEdit_form_11" class="oc-liveEdit-form">
+				<select>
+					<option>Member</option>
+					<option>Administrator</option>
+					<option>Administrator2</option>
+					<option>Administrator3</option>
+				</select>
+			</div>
+          </td>
           <td>5:30am</td>
-          <td>not set</td>
+          <td id="oc-liveEdit_container_12" class="oc-liveEdit-container">
+			<span id="oc-liveEdit_value_12" class="oc-liveEdit-value">not set</span>
+			<div id="oc-liveEdit_form_12" class="oc-liveEdit-form">
+				<select>
+					<option>-- not set --</option>
+					<option>Active</option>
+					<option>Banned</option>
+				</select>
+			</div>
+          </td>
           <td>
           	<ul class="oc-actions oc-table-row-actions">
           		<li><a href="#">Leave</a></li>
@@ -90,9 +109,29 @@
         <tr>
           <td><input type="checkbox" /></td>
           <td class="oc-table-row-title"><a href="">Animal Campaign 2</a></td>
-          <td>Member</td>
-          <td>5:30am</td>
-          <td>not set</td>
+          <td id="oc-liveEdit_container_9" class="oc-liveEdit-container">
+			<span id="oc-liveEdit_value_9" class="oc-liveEdit-value">not set</span>
+			<div id="oc-liveEdit_form_9" class="oc-liveEdit-form">
+				<select>
+					<option>-- not set --</option>
+					<option>Active</option>
+					<option>Banned</option>
+				</select>
+			</div>
+          </td>          <td>5:30am</td>
+          <td id="oc-liveEdit_container_13" class="oc-liveEdit-container">
+			<span id="oc-liveEdit_value_13" class="oc-liveEdit-value">not set</span>
+			<div id="oc-liveEdit_form_13" class="oc-liveEdit-form">
+				<select>
+					<option>-- not set --</option>
+					<option>Member</option>
+					<option>Administrator</option>
+					<option>Administrator2</option>
+					<option>Administrator3</option>
+				</select>
+				<!--<input type="submit" value="save" />-->
+			</div>
+          </td>
           <td>
           	<ul class="oc-actions oc-table-row-actions">
           		<li><a href="#">Leave</a></li>

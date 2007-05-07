@@ -784,9 +784,6 @@ ul.oc-widget-alphabet {
 
 /* @Behaviors 
 --------------------------*/
-.oc-liveEdit,
-.oc-table td.oc-liveEdit {
-}
 .oc-liveEdit-value {
 	border: 1px solid transparent;
 	border-bottom: 1px dotted #256E81; 
@@ -798,11 +795,14 @@ ul.oc-widget-alphabet {
 .oc-liveEdit-selected {
 	background: #eee;
 }
-.oc-liveEdit-hover,
-.oc-table td.liveEdit-hover {
-	background: #eeeeee;
+.oc-liveEdit-hover {
+	background: #ffffcc;
 	cursor: pointer;
 	border-bottom: 1px dotted red;
+}
+.oc-liveEdit-editing,
+.oc-table td.oc-liveEdit-editing {
+	background: #ffb342;
 }
 .oc-liveEdit-form select {
 	background: #eee;
