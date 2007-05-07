@@ -20,7 +20,7 @@
 	<li class="oc-searchresults-item" tal:repeat="project view/search_results">
 	  <h3><a href="" tal:attributes="href project/absolute_url" tal:content="nocall: project/title">Project Title</a></h3>
 	  <span class="oc-discreetText">
-            <span>created by <a tal:attributes="href project/CreatorPage | nothing" tal:content="project/Creator" />, <span tal:content="python: view.create_date(project)" /></span>
+            <span>created by <a tal:attributes="href string:${context/portal_url}/author/${project/Creator}" tal:content="project/Creator" />, <span tal:content="python: view.create_date(project)" /></span>
             <!-- <span>last updated by <a href="link to user profile">username</a>, at 1:37am</span> --> <!-- for sorting by recent activity -->
 	  </span>
 	  <!-- XXX put in correct mission statement -->
