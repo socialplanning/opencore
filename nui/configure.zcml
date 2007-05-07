@@ -17,8 +17,6 @@
     directory="javascripts"
     />
 
-
-
   <!-- templates -->
 
   <!-- magic (the global template) -->
@@ -83,7 +81,6 @@
      name="oc-yourprojects"
      template="yourprojects.pt"
      />
-  
 
   <!-- footer -->
   <browser:page
@@ -93,7 +90,6 @@
      name="oc-footer"
      template="footer.pt"
      />
-
 
   <!-- project-view -->
   <browser:page
@@ -158,10 +154,6 @@
      template="user-contact.pt"
      />
 
-
-
-
-
   <!-- projects -->
   <browser:page
      for="*"
@@ -215,8 +207,6 @@
      name="oc-login-join"
      template="login-join.pt"
      />
-
-
 
   <!-- blank (for testing) -->
   <browser:page
