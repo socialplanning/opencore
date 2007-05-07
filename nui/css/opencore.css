@@ -20,7 +20,6 @@ Version: 1ish
 /* @Global Layout
 -----------------------------------------*/
 html {
-
 }
 body {
 	margin: 0;
@@ -39,15 +38,18 @@ body {
 	margin-bottom: 0.5em;
 }
 #oc-content-container {
- 	margin: 2em 1em;
+ 	margin: 0;
+ 	padding: 1em;
 }
 #oc-content-main {
 	float: left;
+	clear: none;
 	width: 65%;
 	margin-bottom: 2em;
 }
 #oc-content-sidebar {
 	float: right;
+	clear: none;
     width: 33%;
     margin-bottom: 2em;
 	padding: 0;
