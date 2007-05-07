@@ -1,40 +1,44 @@
-<html 
-   metal:use-macro="here/@@standard_macros/master"
-   >
+<tal:vars tal:define="global usr view/user;
+                      global canedit usr/canedit;
+                      global page view/page" />
+
+<html metal:use-macro="here/@@standard_macros/master">
   <head>
     <link metal:fill-slot="link" />
     <script metal:fill-slot="script" />
   </head>
-  <div metal:fill-slot="content">
-    <tal:vars tal:define="global usr view/user;
-			  global canedit usr/canedit;
-			  global page view/page" />
+  <body>
+    <div metal:fill-slot="content">
 
-    <div id="content-title">
-      <!-- title -->
-      <span id="content-title-pagetitle">
-	<a tal:attributes="href view/pageURL"
-	   tal:content="view/pagetitle" />
-      </span>
+      <div id="content-title">
 
-      <!-- tabs -->
-      <ul class="oc-tabs">
-	<li class="selected">
-	  <a tal:attributes="href string:${view/pageURL}/view">view</a>
-	</li>
-	<li tal:attributes="class python:canedit and 'deselected' or 'disabled'">
-	  <a tal:attributes="href string:${view/pageURL}/edit">edit</a>
-	</li>
-	<li class="deselected">
-	  <a tal:attributes="href string:${view/pageURL}/oc-project-history">history</a>
-	</li>
-      </ul>
+        <!-- title -->
+        <span id="content-title-pagetitle">
+          <a tal:attributes="href view/pageURL"
+            tal:content="view/pagetitle" />
+        </span>
+
+        <!-- tabs -->
+        <ul class="oc-tabs">
+          <li class="selected">
+            <a tal:attributes="href string:${view/pageURL}/view">view</a>
+          </li>
+          <li tal:attributes="class python:canedit and 'deselected' or 'disabled'">
+            <a tal:attributes="href string:${view/pageURL}/edit">edit</a>
+          </li>
+          <li class="deselected">
+            <a tal:attributes="href string:${view/pageURL}/oc-project-history">history</a>
+          </li>
+        </ul>
+
+      </div>
+
+      <!-- project content -->
+      <div id="content-main" tal:content="structure view/renderProjectContent" />
+
+      <!-- last modified -->
+      <div tal:content="string: Last modified on ${page/lastModifiedOn} by ${page/lastModifiedBy}" />
+
     </div>
-
-    <!-- project content -->
-    <div id="content-main" tal:content="structure view/renderProjectContent" />
-
-    <!-- last modified -->
-    <div tal:content="string: Last modified on ${page/lastModifiedOn} by ${page/lastModifiedBy}" />
-  </div>
+  </body>
 </html>
