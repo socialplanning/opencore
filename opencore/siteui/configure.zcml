@@ -60,7 +60,6 @@
   <!-- dead chickens -->
   <include package="opencore.configuration" file="permissions.zcml" />
   <include package="Products.listen" file="permissions.zcml" />
-  <include package="opencore.redirect" file="meta.zcml" />
 
   <!-- browser:page for new topnav view -->
   <browser:page

@@ -19,9 +19,5 @@
   <include package="opencore.redirect" />
   <include package="opencore.utility" />
 
-  <!--opencore:defaulthost
-      host="localhost:8080"
-      /-->
-
 </configure>
  
