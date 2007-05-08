@@ -9,7 +9,7 @@
 		this.liveEditForms = new Array();
 		this.closeButtons = new Array();
 		this.expanders = new Array();
-		this.wikiTabs = new Array();
+		//this.wikiTabs = new Array();
 		this.registerForm;
 	}
 	var OC = new OC();
@@ -130,7 +130,11 @@
 		//link
 		this.linkClick = function(e, el, o) {
 			//fade out
-			this.content.show();
+			if (!this.content.isVisible())
+			  this.content.slideIn('t',{duration: .1});
+		  else 
+		    this.content.slideOut('t',{duration: .1});
+		    
 			YAHOO.util.Event.stopEvent(e);
 		}
 		this.expanderLink.on('click', this.linkClick, this);
@@ -260,9 +264,9 @@
 		});
 		
 		// Find wiki tabs and make them wikiTab objects
-		Ext.query('.oc-tabs li a').forEach(function(el) {
-			OC.wikiTabs.push(new WikiTab(el));
-		});
+		//Ext.query('.oc-tabs li a').forEach(function(el) {
+		//	OC.wikiTabs.push(new WikiTab(el));
+		//});
 		
 		// Find login form and make LoginForm object
 		if (Ext.get('oc-register-form')) {

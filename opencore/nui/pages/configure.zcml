@@ -19,6 +19,13 @@
     name="index.html"
     template="wiki-view.pt"
     />
+  <browser:page
+    for="opencore.content.page.OpenPage"
+    class="..opencoreview.OpencoreView"
+    permission="zope2.Public"
+    name="edit.html"
+    template="wiki-edit.pt"
+    />
 
   <browser:page
      for="*"

@@ -8,7 +8,7 @@
     <script metal:fill-slot="script" />
   </head>
   <body>
-    <div metal:fill-slot="content">
+    <div id="oc-content-container" metal:fill-slot="content">
 
       <!-- TODO project history -->
       
@@ -19,10 +19,10 @@
             <h2>Your page title</h2>
           </div>
           <ul class="oc-tabs">
-            <li class="oc-selected">
+            <li class="">
               <a href="" rel="view">view</a>
             </li>
-            <li>
+            <li class="oc-selected">
               <a href="" rel="edit">edit</a>
             </li>
             <li>
@@ -38,41 +38,55 @@
             </li>
           </ul><!-- end .oc-tabs -->
           
-          <div class="oc-wiki-content">
-            Wiki Content
-          </div><!-- end .oc-wiki-content -->
-          
           <div class="oc-wiki-edit">
             <div class="oc-wiki-edit-content">
           Wiki Edit: kupu goes here
               </div><!-- end .oc-wiki-edit-content" -->
           
             <div class="oc-options oc-wiki-edit-options">
-              <div class="oc-expander-container">
+              <div class="oc-expander">
                 <a href="#oc-wiki-manageAttachments" class="oc-expander-link">manage attachments</a>
                 <div id="oc-wiki-manageAttachments" class="oc-expander-content">
-                  this is the attachment manager...
+                 <!-- this should submit with the parent form -->
+                    <table class="oc-form">
+                      <thead></thead>
+                      <tbody>
+                        <tr class="oc-form-row">
+                          <th class="oc-form-label">Locate file</th>
+                          <td class="oc-form-value"><input type="file" /></td>
+                          <td class="oc-form-help"></td>
+                        </tr>
+                        <tr class="oc-table-row">
+                          <th class="oc-form-label">Enter title</th>
+                          <td class="oc-form-value"><input type="text" /></td>
+                          <td class="oc-form-help">
+                            <span class="oc-table-validator"></span>
+                          </td>
+                        </tr>
+                        <tr class="oc-options">
+                          <th class="oc-form-label"></th>
+                          <td class="oc-form-value">
+                          <input type="submit" value="Upload" /> or cancel</td>
+                          <td class="oc-form-help"></td>
+                        </tr>
+                      </tbody>
+                    </table>
                 </div><!-- end .oc-expander-content -->
               </div><!-- end .oc-expander-container -->
-              <div class="oc-expander-container">
+              <div class="oc-expander">
                 <a href="#oc-wiki-addNote" class="oc-expander-link">add note</a>
                 <div id="oc-wiki-addNote" class="oc-expander-content">
-                  this is the note field...
+                  <label for="">Add change note</label>
+                    <textarea rows="2" cols="80"></textarea>
                 </div><!-- end .oc-expander-content -->
               </div><!-- end .oc-expander-container -->
             </div><!-- end .oc-options -->  
           
-            <form>
               <ul class="oc-actions oc-wiki-actions">
                 <li><input type="submit" value="Save" class="oc-button oc-chooseThis" /></li>
                 <li>or <a href="">cancel</a></li>
               </ul>  
-            </form>
           </div><!-- end .oc-wiki-edit -->
-          
-          <div class="oc-wiki-history">
-            Wiki history
-          </div><!-- end .oc-wiki-history -->
         
         </div><!-- end .oc-wiki -->
       </div><!-- end #oc-content-main -->
