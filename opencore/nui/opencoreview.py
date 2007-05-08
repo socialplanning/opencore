@@ -257,8 +257,16 @@ class ProjectsView(OpencoreView):
         letter = letter.lower()
         query = dict(portal_type="OpenProject",
                      Title=letter + '*')
-        project_brains = self.catalogtool(**query) 
-        project_brains = [x for x in project_brains if x.Title.lower().startswith(letter)]
+        project_brains = self.catalogtool(**query)
+
+        def matches(brain):
+            title = brain.Title.lower()
+            return title.startswith(letter) \
+                or title.startswith('the ' + letter) \
+                or title.startswith('a ' + letter) \
+                or title.startswith('an ' + letter)
+
+        project_brains = filter(matches, project_brains)
         # this is expensive $$$
         # we get object for project creation time
         projects = [{'brain':x} for x in project_brains]
