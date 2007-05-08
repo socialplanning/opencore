@@ -3,6 +3,16 @@
     xmlns:five="http://namespaces.zope.org/five">
 
 
+  <!-- macros -->
+  <browser:page
+     for="opencore.content.page.OpenPage"
+     class="..opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="wiki_macros"
+     template="wiki_macros.pt"
+     />
+
+
    <!-- Login: bind to site root -->
   <browser:page
      for="*"
@@ -21,10 +31,18 @@
     />
   <browser:page
     for="opencore.content.page.OpenPage"
-    class="..opencoreview.OpencoreView"
+    class="..opencoreview.ProjectEditView"
     permission="zope2.Public"
     name="edit.html"
     template="wiki-edit.pt"
+    />
+
+  <browser:page
+    for="opencore.content.page.OpenPage"
+    class="..opencoreview.ProjectEditView"
+    permission="zope2.Public"
+    name="uploadAttachment"
+    attribute="uploadAttachment"
     />
 
   <browser:page

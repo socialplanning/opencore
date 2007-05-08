@@ -229,12 +229,12 @@ class ProjectEditView(OpencoreView):
 
             self.context.processForm(values=self.request.form)
             self.request.response.redirect(self.context.absolute_url())
-        elif self.request.form.get('upload'):
-            #
-            pass
         else:
             #render
             return super(ProjectEditView, self).__call__()
+
+    def uploadAttachment(self):
+        pass
 
 class ProjectsView(OpencoreView):
 
