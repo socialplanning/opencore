@@ -412,6 +412,11 @@ ul.oc-dropdown, .oc-dropdown ul {
 	float: left;
 	font-size: 10px;
 }
+.oc-searchresults-nresults form,
+.oc-searchresults-nresults form input {
+  display: inline;
+  font-size: 100%;
+}
 .oc-searchresults .oc-paginator {
 	float: right;
 	font-size: 10px;

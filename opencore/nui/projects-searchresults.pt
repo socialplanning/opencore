@@ -8,27 +8,32 @@
     <h2>Search Results <span tal:condition="view/search_query | nothing" tal:replace="structure view/search_query" /></h2>
 
     <tal:got_results condition="view/search_results">
-      <div class="oc-searchresults-nresults">Results 1&ndash;10 of <span tal:replace="python: len(view.search_results)">376</span></div>
+      <div class="oc-searchresults-nresults">Results 1&ndash;10 of <span tal:replace="python: len(view.search_results)">376</span> sorting by
+      <form>
+        <select>
+          <option value="">relevancy</option>
+          <option value="">date updated</option>
+          <option value="">date created</option>
+          <option value="">project name</option>
+          <option value="">member name</option>
+        </select>
+        <input type="submit" value="sort" />
+      </form>
+      </div>
       <ul class="oc-paginator">
-  <!--<li>&larr; Prev</li>-->
-  <li>Page 1</li>
-  <li><a href="">2</a></li>
-  <li><a href="">3</a></li>
-  <li><a href="">Next &rarr;</a></li>
+				<!--<li>&larr; Prev</li>-->
+				<li>Page 1</li>
+				<li><a href="">2</a></li>
+				<li><a href="">3</a></li>
+				<li><a href="">Next &rarr;</a></li>
       </ul>
-  <form>
-    <select>
-      <option value="relevancy">relevancy</option>
-    </select>
-    <input type="submit"/>
-  </form>
       <ol class="oc-searchresults-list">
   <li class="oc-searchresults-item" tal:repeat="item view/search_results">
     <h3><a href="" tal:attributes="href string:${context/portal_url}/projects/${item/brain/getId}" tal:content="item/brain/Title">Project Title</a></h3>
     <span class="oc-discreetText">
             <span>created by <a tal:attributes="href string:${context/portal_url}/author/${item/brain/Creator}" tal:content="item/brain/Creator" />, 
-	      <span tal:content="python: view.create_date(item['brain'].getObject())" />
-	    </span>
+        <span tal:content="python: view.create_date(item['brain'].getObject())" />
+      </span>
             <!-- <span>last updated by <a href="link to user profile">username</a>, at 1:37am</span> --> <!-- for sorting by recent activity -->
     </span>
     <!--<p tal:condition="item/rel | nothing" tal:content="string:Relevancy: ${item/rel}%"/>-->
