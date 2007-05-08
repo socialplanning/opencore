@@ -9,7 +9,7 @@
   </head>
   <body>
     <div metal:fill-slot="content">
-
+      <div id="oc-content-container">
         <div class="oc-headingBlock">
           <h1>Login</h1>
           <p class="oc-headingContext">Please login to edit or access certain areas of this site.</p>
@@ -79,6 +79,7 @@
           <p><a class="oc-button" href=""> create an account</a></p>
           <p><a href="">Learn more</a></p>
       </div><!-- end #content-sidebar -->
+      </div><!-- end #oc-content-container -->
     </div><!-- end content slot -->
   </body>
 </html>
