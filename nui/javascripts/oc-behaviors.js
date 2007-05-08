@@ -25,19 +25,23 @@
 		this.id = parseId().id;
 		
 		function parseId() {
-			/* IDs should follow the form: base_type_id (e.g., liveEdit_value_12) */
+			/* IDs should follow the form: base_id (e.g., liveEdit_12_value) */
 			results = new Array();
 			results.base = elId.split('_')[0];
-			results.id = elId.split('_')[2];
+			results.id = elId.split('_')[1];
 			return results;
 		}
 		
 		//get references for included elements
-		this.container = Ext.get(this.base + "_container_" + this.id);
-		this.value = Ext.get(this.base + "_value_" + this.id);
-		this.form = Ext.get(this.base + "_form_" + this.id);
+		this.container = Ext.get(this.base + "_" + this.id);
+		this.value = Ext.get(this.base + "_" + this.id + "_value");
+		this.form = Ext.get(this.base + "_" + this.id + "_form");
 		this.selectBoxes = Ext.query("#" + elId + " select");  //quick for demo.		
 		this.selectBox = Ext.get(this.selectBoxes[0]); //quick for demo.
+		
+		// check to make sure we have everything
+		if(!this.container || !this.value || !this.form || !this.selectBoxes || !this.selectBox)
+		  return;
 		
 		/*
 		# Attach Behviors
@@ -213,21 +217,22 @@
 	# Register Form
 	#
 	*/
-	function RegisterForm() {
+	function JoinForm() {
 	  // setup references
-    this.form = Ext.get('oc-register-form');
+    this.form = Ext.get('oc-join-form');
     this.usernameField = Ext.get('__ac_name');
     this.usernameValidator = Ext.get('oc-username-validator');
+    // hacking this together for the moment.
     
     //check references
     if (!this.form || !this.usernameField || !this.usernameValidator)
       return;
-    
+     
+    //username field   
     this.usernameKeyPress = function(e, el, o) {
-      
       //setup request
       var options = {
-         url: 'register'
+         url: 'login'
          , method:'get'
          , callback: function(options, bSuccess, response) {
              if (bSuccess)
@@ -235,9 +240,11 @@
          }
          , scope: this
       };
+      // make ajax call
       new Ext.data.Connection().request(options);
     }
-    this.usernameField.on('keypress', this.usernameKeyPress, this)
+    this.usernameField.on('keypress', this.usernameKeyPress, this);
+    
 	}
 		
   		
@@ -245,7 +252,7 @@
 	Ext.onReady(function() {
 			
 		// Find each live edit form and make an array of LiveEditForm objects
-		Ext.query('.oc-liveEdit-container').forEach(function(el) {
+		Ext.query('.oc-liveEdit').forEach(function(el) {
 			OC.liveEditForms.push(new LiveEditForm(el.id));
 		});	
 		
@@ -255,7 +262,7 @@
 		});
 		
 		// Find expanders and make them Expander objects
-		Ext.query('.oc-expander-container').forEach(function(el) {
+		Ext.query('.oc-expander').forEach(function(el) {
 			OC.expanders.push(new Expander(el));
 		});
 		
@@ -265,8 +272,8 @@
 		});
 		
 		// Find login form and make LoginForm object
-		if (Ext.get('oc-register-form')) {
-			OC.registerForm = new RegisterForm();
+		if (Ext.get('oc-join-form')) {
+			OC.registerForm = new JoinForm();
 		}
 							
 	}); // onReady

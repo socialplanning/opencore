@@ -634,7 +634,24 @@ a.oc-close:hover {
 }
 
 /* @Form Stuff */
+.oc-form {
+}
+.oc-form-label {
+  text-align: right;
+}
+.oc-form-value {
 
+}
+.oc-form-help {
+
+}
+.oc-form-context {
+  color: #666;
+  font-style: italic;
+}
+.oc-form-validator {
+
+}
 .oc-form-fieldBlock {
 	white-space: nowrap;
 }
