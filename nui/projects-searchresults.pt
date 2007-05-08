@@ -18,13 +18,14 @@
       </ul>
       <ol class="oc-searchresults-list">
   <li class="oc-searchresults-item" tal:repeat="project view/search_results">
-    <h3><a href="" tal:attributes="href project/absolute_url" tal:content="nocall: project/title">Project Title</a></h3>
+    <h3><a href="" tal:attributes="href project/obj/absolute_url" tal:content="nocall: project/obj/title">Project Title</a></h3>
     <span class="oc-discreetText">
-            <span>created by <a tal:attributes="href string:${context/portal_url}/author/${project/Creator}" tal:content="project/Creator" />, <span tal:content="python: view.create_date(project)" /></span>
+            <span>created by <a tal:attributes="href string:${context/portal_url}/author/${project/obj/Creator}" tal:content="project/obj/Creator" />, <span tal:content="python: view.create_date(project['obj'])" /></span>
             <!-- <span>last updated by <a href="link to user profile">username</a>, at 1:37am</span> --> <!-- for sorting by recent activity -->
     </span>
     <!-- XXX put in correct mission statement -->
-    <p tal:content="project/mission | string: project mission statement goes here" />
+    <p tal:condition="project/rel | nothing" tal:content="string:Relevancy: ${project/rel}%"/>
+    <p tal:content="project/obj/mission | string: project mission statement goes here" />
   </li>
       </ol>
       <div class="oc-searchresults-nresults">Results 1&ndash;10 of <span tal:replace="python: len(view.search_results)">376</span></div>
