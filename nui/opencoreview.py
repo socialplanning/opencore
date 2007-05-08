@@ -227,9 +227,9 @@ class ProjectsView(OpencoreView):
                      sort_limit=5,
                      )
 
-        # do we want brains or objects?
-        # most likely brains, but we use objects for now
         project_brains = self.catalogtool(**query) 
+        # XXX expensive $$$
+        # we get object for number of project members
         projects = (x.getObject() for x in project_brains)
         return projects
 
@@ -241,7 +241,7 @@ class ProjectsView(OpencoreView):
         self.search_query = None
 
         if letter_search:
-            self.search_results = self.search_for_project(letter_search, startswith=True)
+            self.search_results = self.search_for_project(letter_search)
             self.search_query = 'for projects starting with &ldquo;%s&rdquo;' % letter_search
         elif search_action and projname:
             self.search_results = self.search_for_project(projname)
@@ -250,14 +250,22 @@ class ProjectsView(OpencoreView):
         return self.template()
             
 
-    def search_for_project(self, project, startswith=False):
+    def search_for_project(self, project):
+        project = project.lower()
+
+        proj_query = project
+        if not proj_query.endswith('*'):
+            proj_query = proj_query + '*'
+
         query = dict(portal_type="OpenProject",
-                     sort_limit=5,
-                     Title=project,
+                     Title=proj_query,
                      )
-        if startswith:
-            query['Title'] = query['Title'] + '*'
+
         project_brains = self.catalogtool(**query) 
+        project_brains = [x for x in project_brains if x.Title.lower().startswith(project)]
+
+        # XXX this is expensive $$$
+        # we get object for project creation time
         projects = [x.getObject() for x in project_brains]
         return projects
     
