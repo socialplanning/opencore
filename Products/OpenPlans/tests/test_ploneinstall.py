@@ -30,14 +30,21 @@ from Testing.ZopeTestCase import PortalTestCase
 from openplanstestcase import SiteSetupLayer
 import transaction as txn
 
+class TPILayer(SiteSetupLayer):
+    """ try and isolate this puppy """
+
     @classmethod
     def setUp(cls):
         txn.begin()
 
+    @classmethod
+    def tearDown(cls):
+        raise NotImplementedError
+
 class TestPloneInstall(ptc.PloneTestCase):
     """ basic test for installation, qi """
 
-    layer = SiteSetupLayer
+    layer = TPILayer
 
     def afterSetUp(self):
         self.loginAsPortalOwner()
