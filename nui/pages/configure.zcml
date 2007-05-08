@@ -1,0 +1,24 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five">
+
+
+   <!-- Login: bind to site root -->
+  <browser:page
+     for="*"
+     class="..opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="login"
+     template="login.pt"
+     />
+     
+  <browser:page
+    for="opencore.content.page.OpenPage"
+    class="..opencoreview.OpencoreView"
+    permission="zope2.Public"
+    name="index.html"
+    template="wiki-view.pt"
+    />
+
+
+</configure>
