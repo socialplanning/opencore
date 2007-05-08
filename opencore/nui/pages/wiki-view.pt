@@ -19,13 +19,13 @@
             <h2>Your page title</h2>
           </div>
           <ul class="oc-tabs">
-            <li class="">
+            <li class="oc-selected">
               <a href="" rel="view">view</a>
             </li>
             <li>
               <a href="" rel="edit">edit</a>
             </li>
-            <li class="oc-tabs-selected">
+            <li>
               <a href="" rel="history">history</a>
             </li>
             <li>
