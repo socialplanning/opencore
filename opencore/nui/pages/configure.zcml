@@ -29,28 +29,42 @@
     name="index.html"
     template="wiki-view.pt"
     />
+
   <browser:page
     for="opencore.content.page.OpenPage"
     class="..opencoreview.ProjectEditView"
     permission="zope2.Public"
-    name="edit.html"
+    name="edit"
     template="wiki-edit.pt"
     />
 
-  <browser:page
-    for="opencore.content.page.OpenPage"
-    class="..opencoreview.ProjectEditView"
-    permission="zope2.Public"
-    name="uploadAttachment"
-    attribute="uploadAttachment"
-    />
+ <!-- needs templates for snippets
+      <browser:pages
+	 for="opencore.content.page.OpenPage"
+	 class="..opencoreview.AttachmentAsync"
+	 >
+	<page 
+	   name="upload-att"
+	   template="create-att.pt"
+	   permission="cmf.AddPortalContent"
+	   />
+    <page
+       name="delete-att"
+       permission="zope2.DeleteObjects"
+       template="delete-att.pt"
+       />
+    <page
+       name="update-att"
+       permission="cmf.ModifyPortalContent"
+       template="update-att.pt"
+       />
+    <page 
+       name="nojs-att"
+       template="nojs-att.pt"
+       permission="cmf.AddPortalContent"
+       />
+  </browser:pages>
+-->
 
-  <browser:page
-     for="*"
-     class="..opencoreview.ProjectEditView"
-     permission="zope.Public"
-     name="wiki-edit"
-     template="wiki-edit.pt"
-     />
 
 </configure>
