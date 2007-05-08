@@ -441,6 +441,9 @@ ul.oc-dropdown, .oc-dropdown ul {
 			background: #fff;
 			border-bottom: 1px solid #fff;
 		}
+		.oc-tabs form {
+		  display:inline;
+		}
 
 	#oc-member-details-wrapper {
 		background-color: #eee;

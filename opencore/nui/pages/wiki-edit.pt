@@ -29,11 +29,12 @@
               <a href="" rel="history">history</a>
             </li>
             <li>
-              <form class="" style="display: inline; font-size: 10px;">
-                <select>
+              <form class="" >
+                <select class="oc-dropdown-links">
                   <option value="">More...</option>
+                  <option value="http://www.google.com">I'm feeling lucky</option>
                 </select>
-            <input type="submit" value="Go" style="font-size: 100%;"/>
+            <input type="submit" value="Go" style=""/>
               </form>
             </li>
           </ul><!-- end .oc-tabs -->
