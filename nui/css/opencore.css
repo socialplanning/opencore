@@ -518,7 +518,10 @@ ul.oc-dropdown, .oc-dropdown ul {
  border: 1px solid #ccc;
  height: 300px; /* TODO: remove this once xinha is in */
 }
-
+.oc-actions.oc-wiki-actions {
+  border-top: 2px solid;
+  padding-top: .5em;
+}
 
 
 /* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
@@ -636,8 +639,12 @@ a.oc-close:hover {
 /* @Form Stuff */
 .oc-form {
 }
+.oc-form * {
+  vertical-align: top;
+}
 .oc-form-label {
   text-align: right;
+  width: 8em;
 }
 .oc-form-value {
 
@@ -656,6 +663,17 @@ a.oc-close:hover {
 	white-space: nowrap;
 }
 .oc-input-typeText { /* Since browser support for selecting by type is... limited */
+}
+
+/* Expanders */
+.oc-expander {
+  margin: .25em 0;
+}
+.oc-expander-content {
+  margin: .25em 0;
+  padding: .5em;
+  background: #eee;
+  border: 1px solid #ccc;
 }
 
 /* Actions */
@@ -952,6 +970,10 @@ fieldset {
   border: none;
   padding: 0;
   margin: 0;
+}
+label {
+  font-weight: bold;
+  display: block;
 }
 
 .oc-smallText,
