@@ -34,7 +34,8 @@ class OpencoreView(BrowserView):
         self.dob          = nui.dob
         self.piv = context.unrestrictedTraverse('project_info') # TODO don't rely on this
         self.miv = context.unrestrictedTraverse('member_info')  # TODO don't rely on this
-
+        self.errors = {}
+        self.portal_status_message = None
 
     def include(self, viewname):
         if self.transcluded:
