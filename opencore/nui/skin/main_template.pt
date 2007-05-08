@@ -33,6 +33,7 @@
   <body>
     <div id="oc-page-container">
       <div tal:replace="structure here/@@oc-topnav" />
+      <div tal:condition="view/portal_status_message" tal:content="view/portal_status_message" class="error"/>
       <!-- content is rendered here -->
       <div metal:define-slot="content" />
       <div tal:replace="structure here/@@oc-footer" />

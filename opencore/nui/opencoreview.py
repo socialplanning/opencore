@@ -18,12 +18,6 @@ from topp.utils.pretty_date import prettyDate
 from topp.utils.pretty_text import truncate
 from zope.component import getMultiAdapter, adapts, adapter
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-import formencode
-
-class OpenPageSchema(formencode.Schema):
-    allow_extra_fields = True
-    filter_extra_fields = True
-    text = formencode.validators.String()
 
 class OpencoreView(BrowserView):
     def __init__(self, context, request):
@@ -40,7 +34,8 @@ class OpencoreView(BrowserView):
         self.dob          = nui.dob
         self.piv = context.unrestrictedTraverse('project_info') # TODO don't rely on this
         self.miv = context.unrestrictedTraverse('member_info')  # TODO don't rely on this
-
+        self.errors = {}
+        self.portal_status_message = None
 
     def include(self, viewname):
         if self.transcluded:
@@ -227,10 +222,11 @@ class ProjectEditView(OpencoreView):
         if self.request.form.get('submitted'):
             #save
             #fixme: validate
-            errors = {}
-            self.context.validate(REQUEST=self.request, errors=errors, data=1, metadata=0)
-            if errors:
-                return super(ProjectEditView, self).__call__(errors=errors, portal_status_message='Please correct these errors, moron')
+            self.errors = {}
+            self.context.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
+            if self.errors:
+                self.portal_status_message='Please correct these errors.'
+                return super(ProjectEditView, self).__call__(errors=self.errors)
 
             self.context.processForm(values=self.request.form)
             self.request.response.redirect(self.context.absolute_url())
