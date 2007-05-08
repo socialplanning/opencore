@@ -242,7 +242,7 @@ class ProjectsView(OpencoreView):
         self.search_query = None
 
         if letter_search:
-            self.search_results = self.search_for_project(letter_search)
+            self.search_results = self.search_for_project_by_letter(letter_search)
             self.search_query = 'for projects starting with &ldquo;%s&rdquo;' % letter_search
         elif search_action and projname:
             self.search_results = self.search_for_project(projname)
@@ -250,6 +250,16 @@ class ProjectsView(OpencoreView):
             
         return self.template()
             
+    def search_for_project_by_letter(self, letter):
+        letter = letter.lower()
+        query = dict(portal_type="OpenProject",
+                     Title=letter + '*')
+        project_brains = self.catalogtool(**query) 
+        project_brains = [x for x in project_brains if x.Title.lower().startswith(letter)]
+        # this is expensive $$$
+        # we get object for project creation time
+        projects = [x.getObject() for x in project_brains]
+        return projects
 
     def search_for_project(self, project):
         project = project.lower()
@@ -259,11 +269,10 @@ class ProjectsView(OpencoreView):
             proj_query = proj_query + '*'
 
         query = dict(portal_type="OpenProject",
-                     Title=proj_query,
+                     SearchableText=proj_query,
                      )
 
         project_brains = self.catalogtool(**query) 
-        project_brains = [x for x in project_brains if x.Title.lower().startswith(project)]
 
         # XXX this is expensive $$$
         # we get object for project creation time
