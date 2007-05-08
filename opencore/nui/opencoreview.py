@@ -19,6 +19,8 @@ from topp.utils.pretty_text import truncate
 from zope.component import getMultiAdapter, adapts, adapter
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
+from Products.AdvancedQuery import Eq, RankByQueries_Sum
+
 class OpencoreView(BrowserView):
     def __init__(self, context, request):
         self.context      = context
@@ -259,7 +261,7 @@ class ProjectsView(OpencoreView):
         project_brains = [x for x in project_brains if x.Title.lower().startswith(letter)]
         # this is expensive $$$
         # we get object for project creation time
-        projects = [x.getObject() for x in project_brains]
+        projects = [{'obj':x.getObject()} for x in project_brains]
         return projects
 
     def search_for_project(self, project):
@@ -269,15 +271,19 @@ class ProjectsView(OpencoreView):
         if not proj_query.endswith('*'):
             proj_query = proj_query + '*'
 
-        query = dict(portal_type="OpenProject",
-                     SearchableText=proj_query,
-                     )
+        rs = RankByQueries_Sum((Eq('Title', proj_query),32), (Eq('getFull_name', proj_query),16))
+        norm = 1 + rs.getQueryValueSum()
 
-        project_brains = self.catalogtool(**query) 
+        project_brains = self.catalogtool.evalAdvancedQuery(
+            Eq('portal_type', 'OpenProject') & Eq('SearchableText', proj_query), 
+            (rs,)
+            ) 
 
         # XXX this is expensive $$$
         # we get object for project creation time
-        projects = [x.getObject() for x in project_brains]
+        projects = [{'obj':x.getObject(), 
+                     'rel':round(100*float((1 + x.data_record_score_[0])) / norm, 1)} 
+                    for x in project_brains]
         return projects
     
     def create_date(self, project):
