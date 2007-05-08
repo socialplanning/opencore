@@ -31,8 +31,8 @@
      for="*"
      class="..opencoreview.ProjectEditView"
      permission="zope.Public"
-     name="project-edit"
-     template="project-edit.pt"
+     name="wiki-edit"
+     template="wiki-edit.pt"
      />
 
 </configure>

@@ -233,7 +233,7 @@ copied to pages/configure.zcml
      template="start-project.pt"
      />
 
-  <!-- login-join -->
+  <!-- login-join
   <browser:page
      for="*"
      class=".opencoreview.OpencoreView"
@@ -241,7 +241,7 @@ copied to pages/configure.zcml
      name="oc-login-join"
      template="login-join.pt"
      />
-
+ -->
   <!-- blank (for testing) -->
   <browser:page
      for="*"
