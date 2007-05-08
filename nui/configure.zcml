@@ -84,6 +84,15 @@
      template="login.pt"
      />
      
+  <!-- Join -->
+  <browser:page
+     for="*"
+     class=".opencoreview.YourProjectsView"
+     permission="zope.Public"
+     name="oc-join"
+     template="join.pt"
+     />
+     
    <!-- your projects -->
   <browser:page
      for="*"

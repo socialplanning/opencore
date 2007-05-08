@@ -4,7 +4,6 @@
 </div><!-- end .headingBlock -->
 
 <div id="oc-content-main">
-  <h3>Returning members</h3>
   <form method="post" id="oc-login-form" action="/login">
       <input type="hidden" name="came_from" value="http://www.openplans.org/" />
         <input type="hidden" name="form.submitted" value="1" />
@@ -15,8 +14,8 @@
 
     <fieldset>
       <legend class="headingBlock">
-          <h2>Hi</h2>
-          <p class="headingContext">Yo</p>
+          <h3>Returning members</h3>
+          <p class="headingContext">Login below</p>
       </legend> 
         <table class="oc-form" cellpadding="0" cellspacing="0">
           <thead></thead>
@@ -36,6 +35,11 @@
               <td class="oc-form-help">
   
               </td>
+            </tr>
+            <tr class="oc-options">
+              <th></th>
+              <td><input type="checkbox" name="" /> Remember me on this computer</td>
+              <td class="oc-form-helpBlock"></td>
             </tr>
             <tr class="oc-actions">
               <th></th>
