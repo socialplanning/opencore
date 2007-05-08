@@ -232,6 +232,15 @@
      template="start-project.pt"
      />
 
+  <!-- home-page -->
+  <browser:page
+     for="*"
+     class=".opencoreview.HomeView"
+     permission="zope.Public"
+     name="oc-home"
+     template="home.pt"
+     />
+
   <!-- blank (for testing) -->
   <browser:page
      for="*"
