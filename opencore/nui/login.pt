@@ -1,34 +1,36 @@
 <div class="headingBlock">
   <h1>Login</h1>
-    <p>Please login to edit or access certain areas of this site.</p>
+  <p class="headingContext">Please login to edit or access certain areas of this site.</p>
 </div><!-- end .headingBlock -->
 
 <div id="oc-content-main">
   <h3>Returning members</h3>
   <form method="post" id="oc-login-form" action="/login">
-    <fieldset>
-      <legend></legend>
-      
-        <input type="hidden" name="came_from" value="http://www.openplans.org/" />
+      <input type="hidden" name="came_from" value="http://www.openplans.org/" />
         <input type="hidden" name="form.submitted" value="1" />
         <input type="hidden" name="js_enabled" id="js_enabled" value="0" />
         <input type="hidden" name="cookies_enabled" id="cookies_enabled" value="" />
         <input type="hidden" name="login_name" id="login_name" value="" />
         <input type="hidden" name="pwd_empty" id="pwd_empty" value="0" />
-        
+
+    <fieldset>
+      <legend class="headingBlock">
+          <h2>Hi</h2>
+          <p class="headingContext">Yo</p>
+      </legend> 
         <table class="oc-form" cellpadding="0" cellspacing="0">
           <thead></thead>
           <tbody>
             <tr>
-              <th class="oc-form-label"><label for="__ac_name">Username: </label></th>
+              <th class="oc-form-title" scope="row"><label for="__ac_name">Username: </label></th>
               <td class="oc-form-value"><input type="text" size="15" tabindex="0" name="__ac_name" value="" id="__ac_name" /></td>
-              <td class="oc-form-help">
-                <span class="oc-form-help"></span>
-                <span id="oc-login-username-validator" class="oc-form-validator"></span>
+              <td class="oc-form-helpBlock">
+                <span class="oc-form-helpContext"></span>
+                <span id="oc-validator-username" class="oc-form-validator"></span>
               </td>
             </tr>
             <tr>
-              <th><label for="__ac_password">Password: </label></th>
+              <th scope="row"><label for="__ac_password">Password: </label></th>
               <td><input type="password" size="15"
                      name="__ac_password" id="__ac_password" /></td>
               <td class="oc-form-help">
