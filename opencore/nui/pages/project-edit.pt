@@ -132,7 +132,7 @@
 <!-- Kupu: defines. TODO: move (some of) these up to main template -->
   <tal:block define="Iterator python:modules['Products.CMFPlone'].IndexIterator;
 		     lockable python:hasattr(here, 'wl_isLocked');
-		     errors python:{};
+		     errors python: options.get('errors', {});
 		     isLocked python:lockable and here.wl_isLocked();
 		     member python:here.portal_membership.getAuthenticatedMember();
 		     portal python:context.portal_url.getPortalObject();
@@ -146,7 +146,6 @@
             class="enableUnloadProtection"
             action=""
             tal:attributes="action python:here.absolute_url()  + '/@@project-edit'">
-<!--            tal:attributes="action python:here.absolute_url()+'/'+template.id"> -->
 
 <input type="hidden" name="submitted" value="1" />
 

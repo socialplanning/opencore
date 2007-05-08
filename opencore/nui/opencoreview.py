@@ -18,12 +18,12 @@ from topp.utils.pretty_date import prettyDate
 from topp.utils.pretty_text import truncate
 from zope.component import getMultiAdapter, adapts, adapter
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from formencode import *
+import formencode
 
 class OpenPageSchema(formencode.Schema):
     allow_extra_fields = True
     filter_extra_fields = True
-    text = String()
+    text = formencode.validators.String()
 
 class OpencoreView(BrowserView):
     def __init__(self, context, request):
@@ -227,11 +227,16 @@ class ProjectEditView(OpencoreView):
         if self.request.form.get('submitted'):
             #save
             #fixme: validate
+            errors = {}
+            self.context.validate(REQUEST=self.request, errors=errors, data=1, metadata=0)
+            if errors:
+                return super(ProjectEditView, self).__call__(errors=errors, portal_status_message='Please correct these errors, moron')
 
             self.context.processForm(values=self.request.form)
             self.request.response.redirect(self.context.absolute_url())
         elif self.request.form.get('upload'):
             #
+            pass
         else:
             #render
             return super(ProjectEditView, self).__call__()
