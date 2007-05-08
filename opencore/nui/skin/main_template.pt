@@ -1,4 +1,4 @@
-<metal:template define-macro="master">
+<metal:template define-macro="master" tal:define="portal_status view/portal_status_message">
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head profile="http://gmpg.org/xfn/11">
@@ -33,7 +33,7 @@
   <body>
     <div id="oc-page-container">
       <div tal:replace="structure here/@@oc-topnav" />
-      <div tal:condition="view/portal_status_message" tal:content="view/portal_status_message" class="error"/>
+      <div tal:condition="portal_status" tal:content="portal_status" class="error"/>
       <!-- content is rendered here -->
       <div metal:define-slot="content" />
       <div tal:replace="structure here/@@oc-footer" />
