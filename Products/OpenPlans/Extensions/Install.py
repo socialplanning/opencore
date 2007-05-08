@@ -634,8 +634,8 @@ def install(self, migrate_atdoc_to_openpage=True):
     registerCSS(portal, out)
     registerJS(portal, out)
     addHelpCenter(portal, out)
-    setupKupu(portal, out)
     setupPeopleFolder(portal, out)
+    setupKupu(portal, out)
     installColumns(portal, out)
     if migrate_atdoc_to_openpage: # needed for unit test sanity
         migrateATDocToOpenPage(portal, out)
