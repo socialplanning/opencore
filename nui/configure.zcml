@@ -74,6 +74,15 @@
      template="topnav-accessibility.pt"
      />
    
+   <!-- Login -->
+  <browser:page
+     for="*"
+     class=".opencoreview.YourProjectsView"
+     permission="zope.Public"
+     name="oc-login"
+     template="login.pt"
+     />
+     
    <!-- your projects -->
   <browser:page
      for="*"

@@ -10,6 +10,7 @@
 		this.closeButtons = new Array();
 		this.expanders = new Array();
 		this.wikiTabs = new Array();
+		this.registerForm;
 	}
 	var OC = new OC();
 
@@ -121,6 +122,10 @@
 		this.container = Ext.get(el);
 		this.expanderLink = Ext.get(Ext.query(".oc-expander-link", this.container.dom)[0]);
 		this.content = Ext.get(Ext.query(".oc-expander-content",  this.container.dom)[0]);
+		
+		// check to make sure we have everything
+		if(!this.container || !this.expanderLink || !this.content)
+		  return;
 				
 		//link
 		this.linkClick = function(e, el, o) {
@@ -143,22 +148,26 @@
 	function WikiTab (el) {
 		// get references. 
 		this.tab = Ext.get(el);
-		this.wikiEdit = Ext.get(Ext.query(".oc-wiki-edit")[0]);
-		this.wikiContent = Ext.get(Ext.query(".oc-wiki-content")[0]);
-		this.wikiHistory = Ext.get(Ext.query(".oc-wiki-history")[0]);
+		this.wikiEdit = Ext.get(Ext.select(".oc-wiki-edit"));
+		this.wikiContent = Ext.get(Ext.select(".oc-wiki-content"));
+		this.wikiHistory = Ext.get(Ext.select(".oc-wiki-history"));
 		
-		// contents box
+		//check to make sure we've got everything
+		if (!this.tab || !this.wikiEdit || !this.wikiContent || !this.wikiHistory)
+		  return;
+		
+		// content box
 		this.wikiContent.setVisibilityMode(Ext.Element.DISPLAY);
 		
 		// edit box
 		this.wikiEdit.setVisibilityMode(Ext.Element.DISPLAY);
 		this.wikiEdit.hide();
 		
-		//history
+		// history box
 		this.wikiHistory.setVisibilityMode(Ext.Element.DISPLAY);
 		this.wikiHistory.hide();
 		
-						
+		// view tab				
 		this.viewClick = function(e, el, o) {
 			this.wikiEdit.hide();
 			this.wikiContent.show();
@@ -167,6 +176,12 @@
 			Ext.get(el).addClass('oc-selected');
 			YAHOO.util.Event.stopEvent(e);
 		}
+		if (el.rel == "view") {
+		  this.tab.addClass('oc-selected');
+			this.tab.on('click', this.viewClick, this);
+		} 
+		
+		//edit tab
 		this.editClick = function(e, el, o) {
 			this.wikiEdit.show();
 			this.wikiContent.hide();
@@ -175,6 +190,11 @@
 			Ext.get(el).addClass('oc-selected');
 			YAHOO.util.Event.stopEvent(e);
 		}
+		if (el.rel == "edit") {
+			this.tab.on('click', this.editClick, this);
+		} 
+		
+		// history tab
 		this.historyClick = function(e, el, o) {
 			this.wikiEdit.hide();
 			this.wikiContent.hide();
@@ -183,19 +203,41 @@
 			Ext.get(el).addClass('oc-selected');
 			YAHOO.util.Event.stopEvent(e);
 		}
-			
-		if (el.rel == "view") 
-		{
-			this.tab.on('click', this.viewClick, this);
-		} 
-		else if (el.rel == "edit") 
-		{
-			this.tab.on('click', this.editClick, this);
-		} 
-		else if (el.rel == "history") 
-		{
+		if (el.rel == "history") {
 			this.tab.on('click', this.historyClick, this);
 		}	
+	}
+	
+	/*
+	#
+	# Register Form
+	#
+	*/
+	function RegisterForm() {
+	  // setup references
+    this.form = Ext.get('oc-register-form');
+    this.usernameField = Ext.get('__ac_name');
+    this.usernameValidator = Ext.get('oc-username-validator');
+    
+    //check references
+    if (!this.form || !this.usernameField || !this.usernameValidator)
+      return;
+    
+    this.usernameKeyPress = function(e, el, o) {
+      
+      //setup request
+      var options = {
+         url: 'register'
+         , method:'get'
+         , callback: function(options, bSuccess, response) {
+             if (bSuccess)
+              this.usernameValidator.update('yes');
+         }
+         , scope: this
+      };
+      new Ext.data.Connection().request(options);
+    }
+    this.usernameField.on('keypress', this.usernameKeyPress, this)
 	}
 		
   		
@@ -221,5 +263,10 @@
 		Ext.query('.oc-tabs li a').forEach(function(el) {
 			OC.wikiTabs.push(new WikiTab(el));
 		});
+		
+		// Find login form and make LoginForm object
+		if (Ext.get('oc-register-form')) {
+			OC.registerForm = new RegisterForm();
+		}
 							
 	}); // onReady
