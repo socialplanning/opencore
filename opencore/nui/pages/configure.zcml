@@ -34,5 +34,13 @@
     template="wiki-edit.pt"
     />
 
+  <browser:page
+     for="*"
+     class="..opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="history"
+     template="wiki-history.pt"
+     />
+
 
 </configure>
