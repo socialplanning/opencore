@@ -41,7 +41,8 @@ class OpencoreView(BrowserView):
         if self.transcluded:
             return nui.renderTranscluderLink(viewname)
         return nui.renderView(self.getViewByName(viewname))
-
+    
+    # deprecated
     def magicTopnavSubcontext(self): # TODO get rid of magic inference
         if self.inproject():
             return 'oc-topnav-subcontext-project'
@@ -49,6 +50,7 @@ class OpencoreView(BrowserView):
             return 'oc-topnav-subcontext-user'
         return 'oc-blank'
 
+    #deprecated
     def magicContent(self): # TODO get rid of magic inference
         if self.inproject():
             return 'oc-project-view'
@@ -120,7 +122,6 @@ class OpencoreView(BrowserView):
             return self.user()['url']
         else: # TODO
             return ''
-
 
     def nusers(self): # TODO cache
         """Returns the number of users of the site."""
@@ -234,6 +235,21 @@ class ProjectEditView(OpencoreView):
 
     def uploadAttachment(self):
         pass
+
+
+class AttachmentAsync(BrowserView):
+
+    """bind methods to templates if necessary"""
+
+    def update(self):
+        pass
+    
+    def delete(self):
+        pass
+
+    def create(self):
+        pass
+
 
 class ProjectsView(OpencoreView):
 
