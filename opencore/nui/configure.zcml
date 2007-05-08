@@ -232,15 +232,6 @@
      template="start-project.pt"
      />
 
-  <!-- login-join -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-login-join"
-     template="login-join.pt"
-     />
-
   <!-- blank (for testing) -->
   <browser:page
      for="*"
