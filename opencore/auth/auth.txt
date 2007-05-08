@@ -5,6 +5,7 @@ Test for Cookie Auth
   >>> import hmac
   >>> import sha
   >>> import base64
+  >>> import re
   >>> from urllib import quote
   >>> from zope.interface import implementedBy
   >>> from Interface.Implements import flattenInterfaces
@@ -56,13 +57,16 @@ Login to Plone site using Signed Cookie Auth should work too.
 
 The cookie set by PlonePAS should be URL-quoted.
 
-  >>> print http(r"""
+  >>> response = http(r"""
   ... GET /%s/logged_in HTTP/1.1
   ... Cookie: __ac=%s
   ... """ % (portal_name, quote(encoded)), handle_errors=False)
-  HTTP/1.1 200 OK
-  ...
-  Set-Cookie: __ac="AG...
+  >>> response = str(response)
+  >>> response.startswith('HTTP/1.1 200 OK')
+  True
+  >>> match = re.search('Set-Cookie: __ac="[^"]*"', response)
+  >>> match is not None
+  True
 
 Bad cookies should be rejected
   >>> bad = base64.encodestring('%s\0%s' % (user_name, 'bogusauth'))
