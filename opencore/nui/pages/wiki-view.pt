@@ -48,13 +48,13 @@
               </div><!-- end .oc-wiki-edit-content" -->
           
             <div class="oc-options oc-wiki-edit-options">
-              <div class="oc-expander-container">
+              <div class="oc-expander">
                 <a href="#oc-wiki-manageAttachments" class="oc-expander-link">manage attachments</a>
                 <div id="oc-wiki-manageAttachments" class="oc-expander-content">
                   this is the attachment manager...
                 </div><!-- end .oc-expander-content -->
               </div><!-- end .oc-expander-container -->
-              <div class="oc-expander-container">
+              <div class="oc-expander">
                 <a href="#oc-wiki-addNote" class="oc-expander-link">add note</a>
                 <div id="oc-wiki-addNote" class="oc-expander-content">
                   this is the note field...

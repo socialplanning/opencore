@@ -11,6 +11,13 @@
      name="login"
      template="login.pt"
      />
+  <browser:page
+     for="*"
+     class="..opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="join"
+     template="join.pt"
+     />
      
   <browser:page
     for="opencore.content.page.OpenPage"
