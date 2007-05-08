@@ -17,15 +17,17 @@
   <li><a href="">Next &rarr;</a></li>
       </ul>
       <ol class="oc-searchresults-list">
-  <li class="oc-searchresults-item" tal:repeat="project view/search_results">
-    <h3><a href="" tal:attributes="href project/obj/absolute_url" tal:content="nocall: project/obj/title">Project Title</a></h3>
+  <li class="oc-searchresults-item" tal:repeat="item view/search_results">
+    <h3><a href="" tal:attributes="href string:${context/portal_url}/projects/${item/brain/getId}" tal:content="item/brain/Title">Project Title</a></h3>
     <span class="oc-discreetText">
-            <span>created by <a tal:attributes="href string:${context/portal_url}/author/${project/obj/Creator}" tal:content="project/obj/Creator" />, <span tal:content="python: view.create_date(project['obj'])" /></span>
+            <span>created by <a tal:attributes="href string:${context/portal_url}/author/${item/brain/Creator}" tal:content="item/brain/Creator" />, 
+	      <span tal:content="python: view.create_date(item['brain'].getObject())" />
+	    </span>
             <!-- <span>last updated by <a href="link to user profile">username</a>, at 1:37am</span> --> <!-- for sorting by recent activity -->
     </span>
     <!-- XXX put in correct mission statement -->
-    <p tal:condition="project/rel | nothing" tal:content="string:Relevancy: ${project/rel}%"/>
-    <p tal:content="project/obj/mission | string: project mission statement goes here" />
+    <p tal:condition="item/rel | nothing" tal:content="string:Relevancy: ${item/rel}%"/>
+    <p tal:content="string: item mission statement goes here" />
   </li>
       </ol>
       <div class="oc-searchresults-nresults">Results 1&ndash;10 of <span tal:replace="python: len(view.search_results)">376</span></div>

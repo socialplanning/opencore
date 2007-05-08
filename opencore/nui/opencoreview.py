@@ -261,7 +261,7 @@ class ProjectsView(OpencoreView):
         project_brains = [x for x in project_brains if x.Title.lower().startswith(letter)]
         # this is expensive $$$
         # we get object for project creation time
-        projects = [{'obj':x.getObject()} for x in project_brains]
+        projects = [{'brain':x} for x in project_brains]
         return projects
 
     def search_for_project(self, project):
@@ -281,7 +281,7 @@ class ProjectsView(OpencoreView):
 
         # XXX this is expensive $$$
         # we get object for project creation time
-        projects = [{'obj':x.getObject(), 
+        projects = [{'brain':x, 
                      'rel':round(100*float((1 + x.data_record_score_[0])) / norm, 1)} 
                     for x in project_brains]
         return projects
