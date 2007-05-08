@@ -17,10 +17,11 @@
         <a href="" rel="history">history</a>
       </li>
       <li>
-        <form>
+        <form class="" style="display: inline; font-size: 10px;">
           <select>
             <option value="">More...</option>
           </select>
+		  <input type="submit" value="Go" style="font-size: 100%;"/>
         </form>
       </li>
     </ul><!-- end .oc-tabs -->
@@ -31,24 +32,28 @@
     
     <div class="oc-wiki-edit">
       <div class="oc-wiki-edit-content">
-        Wiki Edit
+		Wiki Edit: kupu goes here
         </div><!-- end .oc-wiki-edit-content" -->
     
-    
-      <div class="oc-tasks oc-wiki-edit-tasks">
+      <div class="oc-options oc-wiki-edit-options">
         <div class="oc-expander-container">
-          <a href="http://google.com" class="oc-expander-link">[+] Manage attachments</a>
-          <div class="oc-expander-content">
+          <a href="#oc-wiki-manageAttachments" class="oc-expander-link">manage attachments</a>
+          <div id="oc-wiki-manageAttachments" class="oc-expander-content">
             this is the attachment manager...
           </div><!-- end .oc-expander-content -->
-        </div><!-- end .oc-expander -->
-      </div><!-- end .oc-tasks -->  
+        </div><!-- end .oc-expander-container -->
+        <div class="oc-expander-container">
+          <a href="#oc-wiki-addNote" class="oc-expander-link">add note</a>
+          <div id="oc-wiki-addNote" class="oc-expander-content">
+            this is the note field...
+          </div><!-- end .oc-expander-content -->
+        </div><!-- end .oc-expander-container -->
+      </div><!-- end .oc-options -->  
     
       <form>
         <ul class="oc-actions oc-wiki-actions">
           <li><input type="submit" value="Save" class="oc-button oc-chooseThis" /></li>
           <li>or <a href="">cancel</a></li>
-          <li><a href="">[+] Add note</a></li>
         </ul>  
       </form>
     </div><!-- end .oc-wiki-edit -->
