@@ -1,3 +1,108 @@
+<tal:vars tal:define="global usr view/user;
+                      global canedit usr/canedit;
+                      global page view/page" />
+
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <metal:do metal:fill-slot="link" >
+                    
+                    
+                        <style type="text/css"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles3308.css); --></style>
+                    
+                    
+                
+            
+            
+                
+                    
+                    
+                        <style type="text/css"
+    media="screen"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles6765.css); --></style>
+                    
+            
+            
+                
+                    
+                    
+                        <style type="text/css"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles9116.css); --></style>
+
+                    
+            
+            
+                
+                    
+                    
+                        <style type="text/css"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles0440.css); --></style>
+                    
+                    
+                
+            
+            
+                
+                    
+                    
+                        <style type="text/css"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles2216.css); --></style>
+                    
+                    
+                
+            
+            
+                
+                    
+                    
+                        <style type="text/css"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles1915.css); --></style>
+                    
+                    
+</metal:do>
+    <metal:do metal:fill-slot="script" >
+
+
+            
+                <script type="text/javascript"
+                        src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts3780.js">
+                </script>
+                
+            
+            
+                <script type="text/javascript"
+                        src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts3071.js">
+                </script>
+                
+            
+            
+                <script type="text/javascript"
+                        src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts2343.js">
+                </script>
+                
+            
+            
+                <script type="text/javascript"
+                        src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts6045.js">
+                </script>
+                
+            
+            
+                <script type="text/javascript"
+                        src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts5277.js">
+                </script>
+
+                
+            
+            
+                <script type="text/javascript"
+                        src="http://www.openplans.org/portal_javascripts/Plone%20Default/kupuploneeditor.js">
+                </script>
+                
+            
+            
+                <script type="text/javascript"
+                        src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts9249.js">
+                </script>
+</metal:do>
+  </head>
+  <body>
+    <div metal:fill-slot="content">
+
 <div id="content-title">
   <!-- title -->
   <span id="content-title-pagetitle">
@@ -40,7 +145,7 @@
             enctype="multipart/form-data"
             class="enableUnloadProtection"
             action=""
-            tal:attributes="action python:here.absolute_url()  + '/@@magic?oc-content=oc-project-edit'">
+            tal:attributes="action python:here.absolute_url()  + '/@@project-edit'">
 <!--            tal:attributes="action python:here.absolute_url()+'/'+template.id"> -->
 
 <input type="hidden" name="submitted" value="1" />
@@ -214,3 +319,7 @@
     you do not have sufficient privileges to edit this page
   </div>
 </div>
+
+    </div><!-- end content slot -->
+  </body>
+</html>

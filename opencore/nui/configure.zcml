@@ -3,7 +3,7 @@
     xmlns:five="http://namespaces.zope.org/five">
 
   <include package=".skin"/>
-
+  <include package=".pages" />
   <!-- resource directories for css, images, etc -->
   <browser:resourceDirectory
     name="css"
@@ -75,8 +75,9 @@
      template="topnav-accessibility.pt"
      />
    
-   <!-- Login -->
-  <browser:page
+   <!-- Login
+   MOVED TO pages/configure.zcml -->
+     <browser:page
      for="*"
      class=".opencoreview.YourProjectsView"
      permission="zope.Public"
@@ -120,17 +121,9 @@
      template="project-view.pt"
      />
 
-  <!-- project-view THE RIGHT WAY -->
-  <browser:page
-    for="opencore.interfaces.IProject"
-    class=".opencoreview.OpencoreView"
-    permission="zope2.Public"
-    name="index.html"
-    template="pages/project-view.pt"
-    />
 
-  <!-- wiki-view -->
-  <!-- XXX project-view was supposed to be this -->
+  <!-- wiki-view 
+  MOVED TO pages/configure.zcml
   <browser:page
      for="*"
      class=".opencoreview.OpencoreView"
@@ -138,11 +131,13 @@
      name="oc-wiki-view"
      template="wiki-view.pt"
      />
+    -->
 
   <!-- project-edit -->
+<!-- copied to pages/configure.zcml -->
   <browser:page
      for="*"
-     class=".opencoreview.OpencoreView"
+     class=".opencoreview.ProjectEditView"
      permission="zope.Public"
      name="oc-project-edit"
      template="project-edit.pt"
