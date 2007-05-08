@@ -21,9 +21,11 @@
           document.projects_search.submit();
       }
     </script>
-    <script language="javascript" type="text/javascript" src="++resource++javascripts/utilities.js" />
-    <script language="javascript" type="text/javascript" src="++resource++javascripts/ded-chain-min.js" />
-    <script type="text/javascript" src="++resource++javascripts/behaviors.js" />
+    <script language="javascript" type="text/javascript" src="++resource++javascripts/utilities.js "></script>
+    <script language="javascript" type="text/javascript" src="++resource++javascripts/ded-chain-min.js" ></script>
+    <script type="text/javascript" src="++resource++javascripts/ext.js" ></script>
+    <script type="text/javascript" src="++resource++javascripts/oc-behaviors.js" ></script>
+
 
     <!-- allows for the insertion of javascript -->
     <metal:script-slot define-slot="script"/>
