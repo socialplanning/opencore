@@ -219,10 +219,8 @@ class OpencoreView(BrowserView):
 
 class ProjectEditView(OpencoreView):
     def __call__(self):
-        print self.request.form
         if self.request.form.get('submitted'):
             #save
-            #fixme: validate
             self.errors = {}
             self.context.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
             if self.errors:
