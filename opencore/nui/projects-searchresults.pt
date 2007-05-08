@@ -16,6 +16,12 @@
   <li><a href="">3</a></li>
   <li><a href="">Next &rarr;</a></li>
       </ul>
+  <form>
+    <select>
+      <option value="relevancy">relevancy</option>
+    </select>
+    <input type="submit"/>
+  </form>
       <ol class="oc-searchresults-list">
   <li class="oc-searchresults-item" tal:repeat="item view/search_results">
     <h3><a href="" tal:attributes="href string:${context/portal_url}/projects/${item/brain/getId}" tal:content="item/brain/Title">Project Title</a></h3>
@@ -25,8 +31,8 @@
 	    </span>
             <!-- <span>last updated by <a href="link to user profile">username</a>, at 1:37am</span> --> <!-- for sorting by recent activity -->
     </span>
-    <!-- XXX put in correct mission statement -->
     <!--<p tal:condition="item/rel | nothing" tal:content="string:Relevancy: ${item/rel}%"/>-->
+    <!-- XXX put in correct mission statement -->
     <p tal:content="string: item mission statement goes here" />
   </li>
       </ol>
