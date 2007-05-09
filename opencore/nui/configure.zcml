@@ -168,24 +168,6 @@
      template="user-contact.pt"
      />
 
-  <!-- people -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-people"
-     template="people.pt"
-     />
-
-  <!-- people-searchresults -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-people-searchresults"
-     template="people-searchresults.pt"
-     />
-
   <!-- start-project -->
   <browser:page
      for="*"
