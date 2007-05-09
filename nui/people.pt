@@ -1,1 +1,74 @@
-people template
+<div class="oc-headingBlock">
+   <h1>People on OpenPlans</h1>
+   <p class="oc-headingContext">Currently bringing together <span>XXX</span> members</p>
+</div>
+
+<div id="oc-content-main">
+
+<div class="oc-widget oc-widget-search">    
+<form name="projects_search" action="." tal:attributes="action request/ACTUAL_URL">
+  <label><h2>Search for people</h2></label>
+  <span class="oc-form-fieldBlock">
+  <input class="oc-input-typeText" type="text" name="projname" />
+  <input type="hidden" name="oc-content" value="oc-projects-searchresults" />
+  <input type="hidden" name="letter_search" />
+  <input type="submit" name="action_search_projects" value="Search" />
+  </span>
+</form>
+    <ul class="oc-widget-alphabet" tal>
+        <li tal:repeat="letter modules/string/uppercase">
+        <a href="" tal:content="letter" tal:attributes="href string:javascript:projects_search_letter('${letter}');;">A</a>
+        </li>
+    </ul>
+</div>
+
+<div class="oc-widget oc-widget-feed">
+	<h2>Recent activity</h2>
+	<ul class="oc-widget-feed-list">
+		<li class="oc-feed-item oc-clearAfter">
+			<div class="oc-avatar">
+				<a href="link to member profile">
+				<img src="" title="member name" />
+				</a>
+			</div>
+			<div class="oc-feed-item-content">
+				<h3 class="oc-feed-item-title">
+					<a href="">Project Title</a>
+				</h3>
+				<p class="oc-feed-item-data oc-discreetText">
+					active since <span>Jan 1937</span>
+				</p>
+				<p class="oc-feed-item-description">
+					This is the descriptive text for a project. Apparently it doesn't quite work right yet. Is there even a field for users to fill out or entry to call from a database?
+				</p>
+			</div>
+		</li>
+	</ul>
+</div>
+
+</div><!-- content-main -->
+
+
+<!-- content-sidebar -->
+
+<div id="oc-content-sidebar">
+
+<div> <!-- if not logged in -->
+	<h2>Become a member</h2>
+	<p></p>
+</div>
+
+	<div> <!-- if not logged in, blank slate -->
+		<h2>Participate on OpenPlans</h2>
+		<ul>
+		<li>Customize your profile</li>
+			<li>Upload a photo</li>
+			<li>Invite others</li>
+			<li>Join a project (in your area)</li>
+			<li>Start a project</li>
+		</ul>
+	</div>
+
+</div><!-- content-sidebar -->
+
+<hr class="oc-clearElement" />
