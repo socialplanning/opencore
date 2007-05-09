@@ -1,41 +1,31 @@
 <!-- put macros here -->
 <table metal:define-macro="attachment">
-			<tr>
-			  <td valign="top">	
-			    <input
-			       type="checkbox"
-			       class="noborder"
-			       name="attachmentIds:list"
-			       id="#"
-			       value="#" 
-			       tal:attributes="value attachment/getId;"
-			       />
-			  </td>
-			  <td valign="top" align="center" style="padding: 2px">
-			    <a href="" target="_blank" tal:attributes="href attachment/getURL">
-			      <img tal:replace="structure here/file_icon.gif"/>
-			    </a>
-			  </td>
-			  <td valign="middle" style="margin-left: 2em">
-			    <input 
-			       type="hidden" 
-			       name="attachmentTitles.id:records" 
-			       tal:attributes="value attachment/getId" />
-			    <input
-			       style="margin-left: 2px"
-			       type="text"
-			       name="attachmentTitles.title:records" 
-			       size="30" 
-			       tabindex=""
-			       id="#"
-			       value="#"
-			       tal:attributes="tabindex tabindex/next;
-					       value attachment/Title;"/>
-			    <div class="discreet">
-    			      (<a href="" target="_blank" tal:attributes="href attachment/getURL"
-    				  tal:content="attachment/getId">Id</a> -  
-    			      <span tal:replace="attachment/getObjSize"/>)
-			    </div>
-			  </td>
-			</tr>
+  <tr>
+    <td valign="top" align="center" style="padding: 2px">
+      <a href="" target="_blank" tal:attributes="href attachment/getURL">
+	<img tal:replace="structure here/file_icon.gif"/>
+      </a>
+    </td>
+    <td valign="middle" style="margin-left: 2em">
+      <input 
+	 type="hidden" 
+	 name="attachmentTitles.id:records" 
+	 tal:attributes="value attachment/getId" />
+      <input
+	 style="margin-left: 2px"
+	 type="text"
+	 name="attachmentTitles.title:records" 
+	 size="30" 
+	 tabindex=""
+	 id="#"
+	 value="#"
+	 tal:attributes="tabindex tabindex/next;
+			 value attachment/Title;"/>
+      <div class="discreet">
+    	(<a href="" target="_blank" tal:attributes="href attachment/getURL"
+    	    tal:content="attachment/getId">Id</a> -  
+    	<span tal:replace="attachment/getObjSize"/>)
+      </div>
+    </td>
+  </tr>
 </table>
