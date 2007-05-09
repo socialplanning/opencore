@@ -63,7 +63,7 @@
   <!-- people portal -->
   <browser:page
      for="*"
-     class="..opencoreview.PeopleView"
+     class="..opencoreview.ProjectsView"
      permission="zope.Public"
      name="oc-people"
      template="people.pt"
@@ -72,7 +72,7 @@
   <!-- people-searchresults -->
   <browser:page
      for="*"
-     class="..opencoreview.PeopleResultsView"
+     class="..opencoreview.ProjectsResultsView"
      permission="zope.Public"
      name="oc-people-searchresults"
      template="people-searchresults.pt"
