@@ -168,24 +168,6 @@
      template="user-contact.pt"
      />
 
-  <!-- projects -->
-  <browser:page
-     for="*"
-     class=".opencoreview.ProjectsView"
-     permission="zope.Public"
-     name="oc-projects"
-     template="projects.pt"
-     />
-
-  <!-- projects-searchresults -->
-  <browser:page
-     for="*"
-     class=".opencoreview.ProjectsResultsView"
-     permission="zope.Public"
-     name="oc-projects-searchresults"
-     template="projects-searchresults.pt"
-     />
-
   <!-- people -->
   <browser:page
      for="*"
@@ -211,15 +193,6 @@
      permission="zope.Public"
      name="oc-start-project"
      template="start-project.pt"
-     />
-
-  <!-- home-page -->
-  <browser:page
-     for="*"
-     class=".opencoreview.HomeView"
-     permission="zope.Public"
-     name="oc-home"
-     template="home.pt"
      />
 
   <!-- blank (for testing) -->
