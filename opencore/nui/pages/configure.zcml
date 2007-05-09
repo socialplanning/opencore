@@ -8,6 +8,14 @@
      for="*"
      class="..opencoreview.OpencoreView"
      permission="zope.Public"
+     name="batch_macros"
+     template="batch_macros.pt"
+     />
+
+  <browser:page
+     for="*"
+     class="..opencoreview.OpencoreView"
+     permission="zope.Public"
      name="login"
      template="login.pt"
      />
@@ -42,5 +50,31 @@
      template="wiki-history.pt"
      />
 
+  <!-- projects -->
+  <browser:page
+     for="*"
+     class="..opencoreview.ProjectsView"
+     permission="zope.Public"
+     name="oc-projects"
+     template="projects.pt"
+     />
+
+  <!-- projects-searchresults -->
+  <browser:page
+     for="*"
+     class="..opencoreview.ProjectsResultsView"
+     permission="zope.Public"
+     name="oc-projects-searchresults"
+     template="projects-searchresults.pt"
+     />
+
+  <!-- home-page -->
+  <browser:page
+     for="*"
+     class="..opencoreview.HomeView"
+     permission="zope.Public"
+     name="oc-home"
+     template="home.pt"
+     />
 
 </configure>
