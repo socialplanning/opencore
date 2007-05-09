@@ -3,7 +3,7 @@ from Products.CMFCore.utils import getToolByName
 marker = object()
 
 def migrate_membership_roles(self, portal):
-    tmtool = getToolByName('portal_teams')
+    tmtool = getToolByName(portal, 'portal_teams')
 
     for team_id in tmtool.objectIds(spec='OpenTeam'):
         team = tmtool._getOb(team_id)
