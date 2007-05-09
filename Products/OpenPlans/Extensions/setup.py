@@ -20,6 +20,7 @@ from Install import installColumns, fixUpEditTab, hideActions, \
      installWorkflowPolicies, hideActionTabs, securityTweaks, uiTweaks, \
      migrateATDocToOpenPage, createIndexes, installZ3Types, registerJS, \
      setupProjectLayout, createMemIndexes, setCookieDomain, installCookieAuth
+from migrate_teams_to_projects import migrate_teams_to_projects
 
 from cStringIO import StringIO
 
@@ -101,6 +102,7 @@ functions = dict(
     setCookieDomain = convertFunc(setCookieDomain),
     installCookieAuth=convertFunc(installCookieAuth),
     migrate_listen_member_lookup=migrate_listen_member_lookup,
+    migrate_teams_to_projects=migrate_teams_to_projects,
     )
 
 class TOPPSetup(SetupWidget):
