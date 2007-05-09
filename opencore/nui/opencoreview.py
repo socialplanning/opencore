@@ -19,6 +19,7 @@ from topp.utils.pretty_text import truncate
 from zope.component import getMultiAdapter, adapts, adapter
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
+from Products.CMFPlone import Batch
 from Products.AdvancedQuery import Eq, RankByQueries_Sum
 
 class OpencoreView(BrowserView):
@@ -245,18 +246,30 @@ class ProjectsView(OpencoreView):
         search_action = self.request.get('action_search_projects', None)
         projname = self.request.get('projname', None)
         letter_search = self.request.get('letter_search', None)
+        start = self.request.get('b_start', 0)
         self.search_results = None
         self.search_query = None
 
         if letter_search:
-            self.search_results = self.search_for_project_by_letter(letter_search)
+            self.search_results = self._get_batch(self.search_for_project_by_letter(letter_search), start)
             self.search_query = 'for projects starting with &ldquo;%s&rdquo;' % letter_search
         elif search_action and projname:
-            self.search_results = self.search_for_project(projname)
+            self.search_results = self._get_batch(self.search_for_project(projname), start)
             self.search_query = 'for &ldquo;%s&rdquo;' % projname
             
         return self.template()
             
+    def _get_batch(self, brains, start=0):
+        return Batch(brains, 
+                     size=4, 
+                     start=start, 
+                     end=0, 
+                     orphan=0, 
+                     overlap=0, 
+                     pagerange=5, 
+                     quantumleap=0, 
+                     b_start_str='b_start')
+
     def search_for_project_by_letter(self, letter):
         letter = letter.lower()
         query = dict(portal_type="OpenProject",
@@ -273,8 +286,8 @@ class ProjectsView(OpencoreView):
         project_brains = filter(matches, project_brains)
         # this is expensive $$$
         # we get object for project creation time
-        projects = [{'brain':x} for x in project_brains]
-        return projects
+#        projects = [{'brain':x} for x in project_brains]
+        return project_brains
 
     def search_for_project(self, project):
         project = project.lower()
@@ -293,10 +306,10 @@ class ProjectsView(OpencoreView):
 
         # XXX this is expensive $$$
         # we get object for project creation time
-        projects = [{'brain':x, 
-                     'rel':round(100*float((1 + x.data_record_score_[0])) / norm, 1)} 
-                    for x in project_brains]
-        return projects
+#        projects = [{'brain':x, 
+#                     'rel':round(100*float((1 + x.data_record_score_[0])) / norm, 1)} 
+#                    for x in project_brains]
+        return project_brains
     
     def create_date(self, project):
         cd = project.CreationDate()
