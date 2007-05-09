@@ -260,14 +260,14 @@ class ProjectsView(OpencoreView):
         return self.template()
             
     def _get_batch(self, brains, start=0):
-        return Batch(brains, 
-                     size=4, 
-                     start=start, 
-                     end=0, 
-                     orphan=0, 
-                     overlap=0, 
-                     pagerange=5, 
-                     quantumleap=0, 
+        return Batch(brains,
+                     size=12,
+                     start=start,
+                     end=0,
+                     orphan=0,
+                     overlap=0,
+                     pagerange=6,
+                     quantumleap=0,
                      b_start_str='b_start')
 
     def search_for_project_by_letter(self, letter):
