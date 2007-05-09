@@ -537,9 +537,12 @@ ul.oc-dropdown, .oc-dropdown ul {
 
 }
 .oc-wiki-edit-content {
- height: auto; /* TODO: remove this once xinha is in */
-}
 
+}
+.oc-actions.oc-wiki-actions {
+  border-top: 2px solid;
+  padding-top: .5em;
+}
 
 
 /* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
@@ -655,11 +658,43 @@ a.oc-close:hover {
 }
 
 /* @Form Stuff */
+.oc-form {
+}
+.oc-form * {
+  vertical-align: top;
+}
+.oc-form-label {
+  text-align: right;
+  width: 8em;
+}
+.oc-form-value {
 
+}
+.oc-form-help {
+
+}
+.oc-form-context {
+  color: #666;
+  font-style: italic;
+}
+.oc-form-validator {
+
+}
 .oc-form-fieldBlock {
 	white-space: nowrap;
 }
 .oc-input-typeText { /* Since browser support for selecting by type is... limited */
+}
+
+/* Expanders */
+.oc-expander {
+  margin: .25em 0;
+}
+.oc-expander-content {
+  margin: .25em 0;
+  padding: .5em;
+  background: #eee;
+  border: 1px solid #ccc;
 }
 
 /* Actions */
@@ -883,7 +918,7 @@ li.oc-invite .oc-invite-content {
 }
 .oc-liveEdit-form,
 .oc-liveEdit-selected {
-	background: #eee;
+
 }
 .oc-liveEdit-hover {
 	background: #ffffcc;
@@ -915,6 +950,9 @@ h1, h2, h3, h4, h5, h6,
 	letter-spacing: 0;
 }
 		
+h4 {
+  margin: 0 0 .5em;
+}
 h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 abbr {
 	border: none;
 }
@@ -956,6 +994,10 @@ fieldset {
   border: none;
   padding: 0;
   margin: 0;
+}
+label {
+  font-weight: bold;
+  display: block;
 }
 
 .oc-smallText,

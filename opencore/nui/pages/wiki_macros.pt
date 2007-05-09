@@ -1,4 +1,5 @@
 <!-- put macros here -->
+<!--
 <table metal:define-macro="attachment">
   <tr>
     <td valign="top" align="center" style="padding: 2px">
@@ -29,3 +30,24 @@
     </td>
   </tr>
 </table>
+-->
+
+
+<li metal:define-macro="attachment" class="oc-file oc-liveEdit">
+  <!-- to do: pass mime type to CSS -->
+      <div class="oc-liveEdit-value">
+          <span tal:replace="attachment/Title"></span>
+        
+        (<a href="" target="_blank" tal:attributes="href attachment/getURL" tal:content="attachment/getId">Id</a> -  
+        <span tal:replace="attachment/getObjSize"></span>)
+        <a href="">Edit</a> | <a href="" class="">Delete</a>
+      </div><!-- end .liveEdit-value -->
+      <div class="oc-liveEdit-form">
+        <form method="post" action="">
+          <input type="hidden" name="attachmentTitles.id:records" tal:attributes="value attachment/getId" />
+          <input type="text" name="attachmentTitles.title:records"  size="30" tabindex="" id="#" value="#" tal:attributes="tabindex tabindex/next; value attachment/Title;"/>
+        </form>
+        <span> or <a class="oc-liveEdit-cancel" href="">Cancel</a></span>
+      </div><!-- end .liveEdit-form -->
+  
+</li><!-- end metal -->

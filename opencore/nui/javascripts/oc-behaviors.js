@@ -12,7 +12,8 @@
 		this.dropDownLinks = new Array();
 		//this.wikiTabs = new Array();
 		this.registerForm;
-	}
+		this.wikiAttachmentform;
+	} //end OC
 	var OC = new OC();
 
 	/*
@@ -20,25 +21,16 @@
 	# Live Edit Forms
 	#
 	*/
-	function LiveEditForm (elId) {
-		//parse elId and get base & id
-		this.base = parseId().base;
-		this.id = parseId().id;
-		
-		function parseId() {
-			/* IDs should follow the form: base_type_id (e.g., liveEdit_value_12) */
-			results = new Array();
-			results.base = elId.split('_')[0];
-			results.id = elId.split('_')[2];
-			return results;
-		}
-		
+	function LiveEditForm (el) {
 		//get references for included elements
-		this.container = Ext.get(this.base + "_container_" + this.id);
-		this.value = Ext.get(this.base + "_value_" + this.id);
-		this.form = Ext.get(this.base + "_form_" + this.id);
-		this.selectBoxes = Ext.query("#" + elId + " select");  //quick for demo.		
-		this.selectBox = Ext.get(this.selectBoxes[0]); //quick for demo.
+		this.container = Ext.get(el);
+		this.value = Ext.get(Ext.query('.oc-liveEdit-value', el)[0]);
+		this.form = Ext.get(Ext.query('.oc-liveEdit-form', el)[0]);
+		this.cancel = Ext.get(Ext.query('.oc-liveEdit-cancel', el)[0])
+		
+		// check to make sure we have everything
+		if(!this.container || !this.value || !this.form)
+		  return;
 		
 		/*
 		# Attach Behviors
@@ -70,7 +62,26 @@
 		this.form.setVisibilityMode(Ext.Element.DISPLAY);
 		this.form.hide();
 		
-		//select
+		//cancel
+		if (this.cancel) {
+        this.cancelClick = function(e, el, o) {
+          this.value.show();
+          this.form.hide();
+          this.container.removeClass('oc-liveEdit-editing');
+          YAHOO.util.Event.stopEvent(e);
+          //TODO: clear form
+		    }
+		    this.cancel.on('click', this.cancelClick, this);
+		}
+				
+	}
+	
+	/* for later - extend this for other types of forms
+			//this.selectBoxes = Ext.query("#" + elId + " select");  //quick for demo.		
+		//this.selectBox = Ext.get(this.selectBoxes[0]); //quick for demo.
+			
+			//select
+			
 		// temp.  this will change to be a smarter query.
 		this.selectBoxChange = function (e, el, o){
 			//show/hide
@@ -86,9 +97,8 @@
 			this.container.removeClass('oc-liveEdit-editing');
 			this.container.highlight('c6ff80', { endColor: 'ffffff' });
 		}
-		this.selectBox.on('change', this.selectBoxChange, this);
-				
-	}
+		//this.selectBox.on('change', this.selectBoxChange, this);
+  */
 	
 	/* 
 	#
@@ -163,7 +173,7 @@
 		
 		//contents 
 		this.content.setVisibilityMode(Ext.Element.DISPLAY);
-		this.content.hide();
+		//this.content.hide();
 	}
 	
 	/* 
@@ -239,21 +249,22 @@
 	# Register Form
 	#
 	*/
-	function RegisterForm() {
+	function JoinForm() {
 	  // setup references
-    this.form = Ext.get('oc-register-form');
+    this.form = Ext.get('oc-join-form');
     this.usernameField = Ext.get('__ac_name');
     this.usernameValidator = Ext.get('oc-username-validator');
+    // hacking this together for the moment.
     
     //check references
     if (!this.form || !this.usernameField || !this.usernameValidator)
       return;
-    
+     
+    //username field   
     this.usernameKeyPress = function(e, el, o) {
-      
       //setup request
       var options = {
-         url: 'register'
+         url: 'login'
          , method:'get'
          , callback: function(options, bSuccess, response) {
              if (bSuccess)
@@ -261,18 +272,55 @@
          }
          , scope: this
       };
+      // make ajax call
       new Ext.data.Connection().request(options);
     }
-    this.usernameField.on('keypress', this.usernameKeyPress, this)
+    this.usernameField.on('keypress', this.usernameKeyPress, this);
+    
 	}
+	
+	/*
+	#
+	# Wiki Attachment Form
+	#
+	*/
+	function WikiAttachmentForm(el) {
+	  // setup references
+    this.form = Ext.get('oc-wiki-addAttachment');
+    
+    // check references
+    if (!this.form)
+      return;
+     
+    // send form 
+    this.formSubmit = function(e, el, o) {
+      YAHOO.util.Event.stopEvent(e);
+      alert('after click');
+      YAHOO.util.Connect.setForm(el,true); 
+      var cObj = YAHOO.util.Connect.asyncRequest('POST', 'http://www.wrkng.org', this.afterUpload); 
+    }
+    this.form.on('submit', this.formSubmit, this);
+    
+    // handle response
+    this.afterUpload = function() {
+      alert('after upload');
+    }
+    
+	}
+
+	
 		
   		
-	//Load Em up
+	/*
+	#------------------------------------------------------------------------
+	# Load Em up
+	#------------------------------------------------------------------------
+	*/
 	Ext.onReady(function() {
 			
 		// Find each live edit form and make an array of LiveEditForm objects
-		Ext.query('.oc-liveEdit-container').forEach(function(el) {
-			OC.liveEditForms.push(new LiveEditForm(el.id));
+		Ext.query('.oc-liveEdit').forEach(function(el) {
+			OC.liveEditForms.push(new LiveEditForm(el));
 		});	
 		
 		// Find close buttons and make them CloseButton objects
@@ -296,8 +344,13 @@
 		//});
 		
 		// Find login form and make LoginForm object
-		if (Ext.get('oc-register-form')) {
-			OC.registerForm = new RegisterForm();
+		if (Ext.get('oc-join-form')) {
+			OC.registerForm = new JoinForm();
 		}
-							
+		
+		// Find attachment form and make WikiAttachmentForm object
+		if (Ext.get('oc-wiki-addAttachment')) {
+			OC.wikiAttachmentForm = new WikiAttachmentForm();
+		}
+  							
 	}); // onReady
