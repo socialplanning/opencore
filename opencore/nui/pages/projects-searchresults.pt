@@ -20,8 +20,14 @@
 	     define="batch view/search_results;
 		     template_id view/template/getId;
 		     batch_base_url request/ACTUAL_URL;
+                     start batch/start;
+                     end batch/end;
+                     sequence_length batch/sequence_length;
 		     ">
-          <div class="oc-searchresults-nresults">Results 1&ndash;10 of <span tal:replace="python: len(view.search_results)">376</span> sorted by
+          <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
+            Result<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
+            <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
+            of <span tal:replace="sequence_length">376</span> sorted by
           <form>
             <select>
               <option value="">relevancy</option>
@@ -48,7 +54,10 @@
         <p tal:content="string: item mission statement goes here" />
       </li>
           </ol>
-          <div class="oc-searchresults-nresults">Results 1&ndash;10 of <span tal:replace="python: len(view.search_results)">376</span></div>
+          <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
+            Result<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
+            <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
+            of <span tal:replace="sequence_length">376</span> </div>
 	  <div metal:use-macro="context/@@batch_macros/pagination"/>
         </tal:got_results>
         <div tal:condition="not: view/search_results">No results found.</div>
