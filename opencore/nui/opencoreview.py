@@ -18,7 +18,7 @@ from topp.utils.pretty_date import prettyDate
 from topp.utils.pretty_text import truncate
 from zope.component import getMultiAdapter, adapts, adapter
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-
+from zope.app.pagetemplate import ViewPageTemplateFile
 from Products.AdvancedQuery import Eq, RankByQueries_Sum
 
 class OpencoreView(BrowserView):
@@ -239,19 +239,76 @@ class ProjectEditView(OpencoreView):
         pass
 
 
-class AttachmentAsync(BrowserView):
+from decorator import decorator
 
+@decorator
+def noAjax(fun, self, *args, **kwargs):
+    result = self.fun(*args, **kwargs)
+    if not self.request.get('userHasJavascript'):
+        render_some_other_template_instead
+
+
+class AttachmentAsync(OpencoreView):
     """bind methods to templates if necessary"""
 
+#    whole_page = ZopeTwoPageTemplateFile('wiki-edit')
+#    create_page = ZopeTwoPageTemplateFile('create-att')
+#    delete_page = ZopeTwoPageTemplateFile('delete-att')
+#    update_page = ZopeTwoPageTemplateFile('create-att')
+
+    @noAjax
     def update(self):
-        pass
+        attachment = self.context._getOb(self.request.form['attachment_id'])
+        attachment.setTitle(self.request.form['attachment_title'])
+        attachment.reindexObject()
     
+    @noAjax
     def delete(self):
-        pass
+        self.context.manage_delObjects([attachmentId])
+
 
     def create(self):
-        pass
+#         attachmentTitle = self.request.get('attachmentTitle')
+#         attachmentFile = self.request.get('attachmentFile')
 
+#         if not attachmentFile:
+#             self.errors = {'attachmentFile' : 'you forgot to upload something'}
+
+#         # Make sure we have a unique file name
+#         fileName = attachmentFile.filename
+
+#         imageId = ''
+
+#         if fileName:
+#             fileName = fileName.split('/')[-1]
+#             fileName = fileName.split('\\')[-1]
+#             fileName = fileName.split(':')[-1]
+
+#             imageId = plone_utils.normalizeString(fileName)
+
+#         if not imageId:
+#             imageId = plone_utils.normalizeString(attachmentTitle)
+
+#         imageId = findUniqueId(imageId)
+
+#         newImageId = new_context.invokeFactory(id = imageId, type_name = 'FileAttachment')
+#         if newImageId is not None and newImageId != '':
+#             imageId = newImageId
+
+#         object = getattr(new_context, imageId, None)
+#         object.setTitle(attachmentTitle)
+#         object.setFile(attachmentFile)
+#         object.reindexObject()
+
+        self.render_page_by_name("create-att.pt")
+
+
+    def render_page_by_name(self, page):
+        #if user_has_js:
+        self.index = ZopeTwoPageTemplateFile(page, 'pages')
+        #else:
+        #    self.index = ViewPageTemplateFile('wholething', 'pages')
+        self()
 
 class ProjectsView(OpencoreView):
 

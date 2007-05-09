@@ -38,33 +38,29 @@
     template="wiki-edit.pt"
     />
 
- <!-- needs templates for snippets
-      <browser:pages
-	 for="opencore.content.page.OpenPage"
-	 class="..opencoreview.AttachmentAsync"
-	 >
-	<page 
-	   name="upload-att"
-	   template="create-att.pt"
-	   permission="cmf.AddPortalContent"
-	   />
-    <page
-       name="delete-att"
-       permission="zope2.DeleteObjects"
-       template="delete-att.pt"
-       />
-    <page
-       name="update-att"
-       permission="cmf.ModifyPortalContent"
-       template="update-att.pt"
-       />
-    <page 
-       name="nojs-att"
-       template="nojs-att.pt"
-       permission="cmf.AddPortalContent"
-       />
-  </browser:pages>
--->
+<!-- attachments -->
+  <browser:page
+     name="update-att"
+     permission="cmf.ModifyPortalContent"
+     attribute="update"
+     for="opencore.content.page.OpenPage"
+     class="..opencoreview.AttachmentAsync"
+     />
 
+  <browser:page
+     name="create-att"
+     permission="cmf.AddPortalContent"
+     attribute="create"
+     for="opencore.content.page.OpenPage"
+     class="..opencoreview.AttachmentAsync"
+     />
+
+  <browser:page
+     name="delete-att"
+     permission="zope2.DeleteObjects"
+     attribute="delete"
+     for="opencore.content.page.OpenPage"
+     class="..opencoreview.AttachmentAsync"
+     />
 
 </configure>
