@@ -42,7 +42,7 @@
     template="wiki-edit.pt"
     />
 
-  <!-- projects -->
+  <!-- projects portal -->
   <browser:page
      for="*"
      class="..opencoreview.ProjectsView"
@@ -58,6 +58,24 @@
      permission="zope.Public"
      name="oc-projects-searchresults"
      template="projects-searchresults.pt"
+     />
+  
+  <!-- people portal -->
+  <browser:page
+     for="*"
+     class="..opencoreview.PeopleView"
+     permission="zope.Public"
+     name="oc-people"
+     template="people.pt"
+     />
+
+  <!-- people-searchresults -->
+  <browser:page
+     for="*"
+     class="..opencoreview.PeopleResultsView"
+     permission="zope.Public"
+     name="oc-people-searchresults"
+     template="people-searchresults.pt"
      />
 
   <!-- home-page -->
