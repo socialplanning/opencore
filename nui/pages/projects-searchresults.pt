@@ -28,14 +28,20 @@
             Result<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
             <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
             of <span tal:replace="sequence_length">376</span> sorted by
-          <form>
-            <select>
-              <option value="">relevancy</option>
-              <option value="">date updated</option>
-              <option value="">date created</option>
-              <option value="">project name</option>
-              <option value="">member name</option>
+        <form name="projects_sort" action="." tal:attributes="action string:${context/portal_url}/oc-projects-searchresults">
+            <select name="sort_by" tal:define="sorted_by python: request.get('sort_by')">
+              <option value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
+              <option value="modified" tal:attributes="selected python: sorted_by == 'modified'">date updated</option>
+              <option value="created" tal:attributes="selected python: sorted_by == 'created'">date created</option>
+              <option value="Title" tal:attributes="selected python: sorted_by == 'Title'">project name</option>
+              <option value="Creator" tal:attributes="selected python: sorted_by == 'Creator'">member name</option>
             </select>
+            <input tal:condition="request/projname | nothing" type="hidden" name="projname"
+                   tal:attributes="value request/projname" />
+            <input tal:condition="request/letter_search | nothing" type="hidden" name="letter_search"
+                   tal:attributes="value request/letter_search" />
+            <input tal:condition="request/b_start | nothing" type="hidden" name="b_start:int"
+                   tal:attributes="value request/b_start" />
             <input type="submit" value="sort" />
           </form>
           </div>
