@@ -101,7 +101,6 @@ functions = dict(
     setCookieDomain = convertFunc(setCookieDomain),
     installCookieAuth=convertFunc(installCookieAuth),
     migrate_listen_member_lookup=migrate_listen_member_lookup,
-    installCookieAuth=installCookieAuth,
     )
 
 class TOPPSetup(SetupWidget):

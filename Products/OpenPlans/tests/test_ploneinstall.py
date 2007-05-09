@@ -30,10 +30,6 @@ from Testing.ZopeTestCase import PortalTestCase
 from openplanstestcase import SiteSetupLayer
 import transaction as txn
 
-    @classmethod
-    def setUp(cls):
-        txn.begin()
-
 class TestPloneInstall(ptc.PloneTestCase):
     """ basic test for installation, qi """
 
