@@ -1,6 +1,7 @@
-<tal:vars tal:define="global usr view/user;
-                      global canedit usr/canedit;
-                      global page view/page" />
+<tal:vars tal:define="usr view/user;
+                      canedit usr/canedit;
+                      page view/page;
+                      "/>
 
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
@@ -80,3 +81,5 @@
     </div><!-- end content slot -->
   </body>
 </html>
+
+</tal:vars>
