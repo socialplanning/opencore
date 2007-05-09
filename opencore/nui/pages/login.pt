@@ -62,7 +62,7 @@
                      <tr class="oc-options">
                       <th></th>
                       <td>
-                        <input type="checkbox" name="" /> Remember me on this computer
+                        <input type="checkbox" name="no_expire_cookie" /> Remember me on this computer
                       </td>
                       <td class="oc-form-field-help">What does this mean?</td>
                     </tr>
