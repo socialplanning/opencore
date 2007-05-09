@@ -239,15 +239,6 @@ class ProjectEditView(OpencoreView):
         pass
 
 
-from decorator import decorator
-
-@decorator
-def noAjax(fun, self, *args, **kwargs):
-    result = self.fun(*args, **kwargs)
-    if not self.request.get('userHasJavascript'):
-        render_some_other_template_instead
-
-
 class AttachmentAsync(OpencoreView):
     """bind methods to templates if necessary"""
 
