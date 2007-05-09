@@ -286,6 +286,7 @@ ul.oc-dropdown, .oc-dropdown ul {
 /* @CONTENT - This section defines the main content 
 ---------------------------------------------------*/
 
+/* Holdovers from the Typography Study
 #oc-content-title {
 	position: relative;
 	margin: 1.5em 0 0.75em;
@@ -304,21 +305,9 @@ ul.oc-dropdown, .oc-dropdown ul {
 #oc-content-title-pagetitle a {
   text-decoration: none;
   color: black;
-}
-				
-/* Main */
-#oc-content-main p {
-	/* min-width: 26em;
-	max-width: 39em;
-	margin-top: 0;
-	margin-bottom: .5em; */
-	}
-
-#oc-content-main ol, #oc-content-main ul, #oc-content-main dl {
-	line-height: 1.25;
-	}
+} */
 		
-		
+/* Rollie's nifty Definition Lists
 #oc-content-main dl {
 	min-width: 20em;
 	max-width: 33em;
@@ -341,7 +330,7 @@ ul.oc-dropdown, .oc-dropdown ul {
 #oc-content-main dd { 
 	margin: 0 0 0 9.5em; 
 	padding: 0 0 0.65em 0;
-}
+} */
 
 /* Sidebar */
 
@@ -534,7 +523,13 @@ ul.oc-dropdown, .oc-dropdown ul {
 /* Wiki
 ------------------------------------------------------------*/
 .oc-wiki {
-
+}
+.oc-wiki-content {
+}
+.oc-wiki-content ol,
+.oc-wiki-content ul,
+.oc-wiki-content dl {
+	line-height: 1.25;
 }
 .oc-wiki-edit-content {
  border: 1px solid #ccc;
