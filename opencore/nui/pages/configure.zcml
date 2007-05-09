@@ -8,6 +8,14 @@
      for="*"
      class="..opencoreview.OpencoreView"
      permission="zope.Public"
+     name="batch_macros"
+     template="batch_macros.pt"
+     />
+
+  <browser:page
+     for="*"
+     class="..opencoreview.OpencoreView"
+     permission="zope.Public"
      name="login"
      template="login.pt"
      />
