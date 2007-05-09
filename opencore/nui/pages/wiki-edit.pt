@@ -14,102 +14,63 @@
 
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
-<!-- cruft to include CSS and JS: please replace with portal_javascripts stuff -->
+    <!-- cruft to include CSS and JS: please replace with portal_javascripts stuff -->
     <metal:do metal:fill-slot="link" >
-                    
-                    
-                        <style type="text/css"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles3308.css); --></style>
-                    
-                    
-                
-            
-            
-                
-                    
-                    
-                        <style type="text/css"
-    media="screen"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles6765.css); --></style>
-                    
-            
-            
-                
-                    
-                    
-                        <style type="text/css"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles9116.css); --></style>
-
-                    
-            
-            
-                
-                    
-                    
-                        <style type="text/css"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles0440.css); --></style>
-                    
-                    
-                
-            
-            
-                
-                    
-                    
-                        <style type="text/css"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles2216.css); --></style>
-                    
-                    
-                
-            
-            
-                
-                    
-                    
-                        <style type="text/css"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles1915.css); --></style>
-                    
-                    
-</metal:do>
+      <style type="text/css"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles3308.css); --></style>
+      <style type="text/css"    
+	     media="screen"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles6765.css); --></style>
+      <style type="text/css"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles9116.css); --></style>
+      <style type="text/css"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles0440.css); --></style>
+      <style type="text/css"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles2216.css); --></style>
+      <style type="text/css"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles1915.css); --></style>
+      
+    </metal:do>
     <metal:do metal:fill-slot="script" >
+      <script type="text/javascript"
+              src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts3780.js">
+      </script>
+      
+      
+      
+      <script type="text/javascript"
+              src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts3071.js">
+      </script>
+      
+      
+      
+      <script type="text/javascript"
+              src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts2343.js">
+      </script>
+      
+      
+      
+      <script type="text/javascript"
+              src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts6045.js">
+      </script>
+      
+      
+      
+      <script type="text/javascript"
+              src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts5277.js">
+      </script>
 
+      
+      
+      
+      <script type="text/javascript"
+              tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupuploneeditor.js">
+      </script>
 
-            
-                <script type="text/javascript"
-                        src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts3780.js">
-                </script>
-                
-            
-            
-                <script type="text/javascript"
-                        src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts3071.js">
-                </script>
-                
-            
-            
-                <script type="text/javascript"
-                        src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts2343.js">
-                </script>
-                
-            
-            
-                <script type="text/javascript"
-                        src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts6045.js">
-                </script>
-                
-            
-            
-                <script type="text/javascript"
-                        src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts5277.js">
-                </script>
-
-                
-            
-            
-                <script type="text/javascript"
-                        src="http://www.openplans.org/portal_javascripts/Plone%20Default/kupuploneeditor.js">
-                </script>
-                
-            
-            
-                <script type="text/javascript"
-                        src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts9249.js">
-                </script>
-</metal:do>
+      <script type="text/javascript"
+              tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupudrawers.js">
+      </script>
+      
+      
+      
+      <script type="text/javascript"
+              src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts9249.js">
+      </script>
+    </metal:do>
 <!-- end cruft -->
   </head>
   <body>
@@ -180,27 +141,6 @@
 			<tr metal:use-macro="here/@@standard_macros/attachment"/>
 		      </tal:repeat>
 		    </table>
-
-		    <div class="formControls" >
-		      <input class="context"
-			     type="submit"
-			     name="form.button.RenameAttachments"
-			     value="Change titles"
-			     i18n:attributes="value" 
-			     tal:attributes="tabindex tabindex/next;"/>
-		      <input class="context"
-			     type="submit"
-			     name="form.button.MoveAttachments"
-			     value="Move first"
-			     i18n:attributes="value" 
-			     tal:attributes="tabindex tabindex/next;"/>
-		      <input class="destructive"
-			     type="submit"
-			     name="form.button.DeleteAttachments"
-			     value="Delete selected"
-			     i18n:attributes="value"
-			     tal:attributes="tabindex tabindex/next;"/>
-		    </div>
 
 		  </tal:block>
 
