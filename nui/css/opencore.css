@@ -375,8 +375,10 @@ ul.oc-dropdown, .oc-dropdown ul {
 
 /* Search results */
 
+.oc-lineup,
 .oc-searchresults {
 }
+.oc-lineup-list,
 .oc-searchresults-list {
 	list-style-type: none;
 	margin:  0;
@@ -385,27 +387,34 @@ ul.oc-dropdown, .oc-dropdown ul {
 	border-top: 2px solid #eee;
 
 }
+.oc-lineup-item,
 .oc-searchresults-item {
 	margin: 0.25em 0;
 	padding-bottom: 0.25em;
 	border-bottom: 1px dotted #eee;
 }
+.oc-lineup-item h3,
 .oc-searchresults-item h3 {
 	display: inline;
 	font-size: 12px;
 }
+.oc-lineup-item p,
 .oc-searchresults-item p {
 	margin: 0;
 }
+.oc-lineup-item-sorter,
 .oc-searchresults-nresults {
 	float: left;
 	font-size: 10px;
 }
+.oc-lineup-item-sorter form,
+.oc-lineup-item-sorter input,
 .oc-searchresults-nresults form,
 .oc-searchresults-nresults form input {
   display: inline;
   font-size: 100%;
 }
+.oc-lineup .oc-paginator,
 .oc-searchresults .oc-paginator {
 	float: right;
 	font-size: 10px;
@@ -804,7 +813,7 @@ li.oc-feed-item {
 	padding-bottom: 0.5em;
 	border-bottom: 1px dotted #eee;
 }
-li.oc-feed-item .oc-avatar {
+li.oc-feed-item .oc-project-logo {
 	float: right;
 	clear: both;
 	margin-right: 0.5em;
