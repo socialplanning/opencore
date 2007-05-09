@@ -11,23 +11,25 @@
     
       <tal:block 
 	 tal:define="version_id python:request.get('version_id', None);
-                     history python:pr.getHistory(here, countPurged=False);"
+                     history python:pr.getHistory(here, countPurged=False);
+                     people_url python:here.portal_membership.getMembersFolder().absolute_url();"
 	 tal:condition="python: pr.isVersionable(context)">
         
 	
 	<div class="oc-headingBlock"
-	     tal:define="lastChange python:history[-1]"> 
+	     tal:define="lastChange python:history[0]"> 
 	  <h1>History of <span tal:replace="here/title_or_id">page</span></h1>
 	  <p class="oc-headingContext">
 	    Last edit performed by 
 	    <!-- FIXME what's the proper way to link to the person whose id is 
 		 given by principal --> 
-	    <a tal:attributes="href string:FIXME">
-	      <span tal:replace="lastChange/sys_metadata/principal">somebody</span>
-	    </a> on 
+	    <a tal:define="author lastChange/sys_metadata/principal" 
+	       tal:attributes="href string:${people_url}/${author}" 
+	       tal:content="author">author</a>
+
             <span tal:content="python:here.toLocalizedTime(lastChange.sys_metadata['timestamp'],long_format=1)">2004/10/21 03:15 PM</span>
 	    <BR>
-	    <span tal:replace="python:len(history)"/> versions total
+	    <span tal:replace="python:len(history)"/> versions total.
           </p>
 	</div> <!-- end of headingBlock --> 
 	
@@ -36,26 +38,31 @@
 	  <div class="oc-lineup"> 
 	    Select 2 versions to compare them OR click a version number to see it.
 	    <ul class="oc-lineup-list">
-	      <tal:block repeat="version python:list(history)[::-1]">
+	      <tal:block repeat="version history">
 		<li class="oc-lineup-item" 
 		    tal:define="version_id version/version_id">
 		  <input type="checkbox" name="version"
 			 tal:attributes="value version_id;
 					 id string:version-${version_id}"
 			 onchange="checkboxChanged(this)">
-		  <label tal:attributes="for string:version-${version_id}">
-		    <!-- FIXME here_url ?? --> 
-		    <a tal:attributes="href string:FIXME/history_version?id=${version_id}">
-		      <tal:if condition="repeat/version/start">Current</tal:if>
-                      <tal:if condition="not: repeat/version/start">
-		        <tal:if condition="repeat/version/end">Initial</tal:if>
-		        <tal:if condition="not: repeat/version/end">
-			  Version <span tal:replace="version_id" />
-                        </tal:if>
-		      </tal:if>
-		    </a>
-		  </label>
-		  by <a href="FIXME" tal:content="version/sys_metadata/principal">person</a>
+		  <h3>
+		    <label tal:attributes="for string:version-${version_id}">
+		      <!-- FIXME here_url ?? --> 
+		      <a tal:attributes="href string:FIXME/history_version?id=${version_id}">
+			<tal:if condition="repeat/version/start">Current</tal:if>
+			<tal:if condition="not: repeat/version/start">
+		          <tal:if condition="repeat/version/end">Initial</tal:if>
+		          <tal:if condition="not: repeat/version/end">
+			    Version <span tal:replace="python: version_id + 1" />
+                          </tal:if>
+			</tal:if>
+		      </a>
+		    </label>
+		  </h3>
+		  by 
+		  <a tal:define="author version/sys_metadata/principal" 
+		     tal:attributes="href string:${people_url}/${author}" 
+		     tal:content="author">author</a>
 		  on <span tal:replace="python: here.toLocalizedTime(version.sys_metadata['timestamp'], long_format=1)">(time)</span>
 		  <br>
 		  <span tal:replace="version/comment">comment</span>
