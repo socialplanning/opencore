@@ -1,6 +1,7 @@
 from Products.CMFCore.utils import getToolByName
 
 marker = object()
+allowed_roles = ('ProjectMember', 'ProjectAdmin')
 
 def migrate_membership_roles(self, portal):
     tmtool = getToolByName(portal, 'portal_teams')
@@ -13,7 +14,8 @@ def migrate_membership_roles(self, portal):
             if team_roles is marker:
                 # mship possibly created after the new code deployment
                 continue
-            mship.editTeamRoles(list(team_roles))
+            team_roles = [role for role in team_roles if role in allowed_roles]
+            mship.editTeamRoles(team_roles)
 
             
             
