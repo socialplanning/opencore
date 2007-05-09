@@ -74,27 +74,8 @@
      name="oc-topnav-accessibility"
      template="topnav-accessibility.pt"
      />
-   
-   <!-- Login
-   MOVED TO pages/configure.zcml -->
-     <browser:page
-     for="*"
-     class=".opencoreview.YourProjectsView"
-     permission="zope.Public"
-     name="oc-login"
-     template="login.pt"
-     />
-     
-  <!-- Join -->
-  <browser:page
-     for="*"
-     class=".opencoreview.YourProjectsView"
-     permission="zope.Public"
-     name="oc-join"
-     template="join.pt"
-     />
-     
-   <!-- your projects -->
+  
+  <!-- your projects -->
   <browser:page
      for="*"
      class=".opencoreview.YourProjectsView"
