@@ -8,7 +8,7 @@
     <h2>Search Results <span tal:condition="view/search_query | nothing" tal:replace="structure view/search_query" /></h2>
 
     <tal:got_results condition="view/search_results">
-      <div class="oc-searchresults-nresults">Results 1&ndash;10 of <span tal:replace="python: len(view.search_results)">376</span> sorting by
+      <div class="oc-searchresults-nresults">Results 1&ndash;10 of <span tal:replace="python: len(view.search_results)">376</span> sorted by
       <form>
         <select>
           <option value="">relevancy</option>
@@ -21,11 +21,11 @@
       </form>
       </div>
       <ul class="oc-paginator">
-				<!--<li>&larr; Prev</li>-->
-				<li>Page 1</li>
-				<li><a href="">2</a></li>
-				<li><a href="">3</a></li>
-				<li><a href="">Next &rarr;</a></li>
+        <!--<li>&larr; Prev</li>-->
+        <li>Page 1</li>
+        <li><a href="">2</a></li>
+        <li><a href="">3</a></li>
+        <li><a href="">Next &rarr;</a></li>
       </ul>
       <ol class="oc-searchresults-list">
   <li class="oc-searchresults-item" tal:repeat="item view/search_results">
