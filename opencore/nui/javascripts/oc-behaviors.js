@@ -9,6 +9,7 @@
 		this.liveEditForms = new Array();
 		this.closeButtons = new Array();
 		this.expanders = new Array();
+		this.dropDownLinks = new Array();
 		//this.wikiTabs = new Array();
 		this.registerForm;
 	}
@@ -110,6 +111,27 @@
 			}
 		}
 		this.closeButton.on('click', this.closeButtonClick, this)
+	}
+	
+	/* 
+	#
+	# Dropdown Links
+	#
+	*/
+	function DropDownLinks (el) {
+		// get references.  No ID naming scheme yet.  just use parent node.
+		this.select = Ext.get(el);
+		this.submit = Ext.get(Ext.query('input[type=submit]', el.parentNode)[0]);
+				
+		//submit 
+		this.submit.setVisibilityMode(Ext.Element.DISPLAY);
+		this.submit.hide();
+		
+		//behaviors
+		this.selectChange = function(e, el, o) {
+      window.location = el.value;
+		} 
+		this.select.on('change', this.selectChange, this)
 	}
 	
 	/* 
@@ -258,8 +280,13 @@
 			OC.closeButtons.push(new CloseButton(el));
 		});
 		
+		// Find drop down links and make them DropDownLinks objects
+		Ext.query('.oc-dropdown-links').forEach(function(el) {
+			OC.dropDownLinks.push(new DropDownLinks(el));
+		});
+		
 		// Find expanders and make them Expander objects
-		Ext.query('.oc-expander-container').forEach(function(el) {
+		Ext.query('.oc-expander').forEach(function(el) {
 			OC.expanders.push(new Expander(el));
 		});
 		

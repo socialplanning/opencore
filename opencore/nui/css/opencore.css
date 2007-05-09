@@ -363,6 +363,27 @@ ul.oc-dropdown, .oc-dropdown ul {
 -------------------------------------------- */
 /* This is where general layout elements within the content of a page are defined. Could also aply to how we implement templates. 
 	
+/* Generic layout elements */
+
+.oc-column-group {
+	width: 100%;
+}
+.oc-column-left {
+	float: left;
+	clear: none;
+	width: 49%;
+}
+.oc-column-left {
+	float: right;
+	clear: none;
+	width: 49%;
+}
+
+.oc-image-bright { /* A newspaper term for an image used to emphasize a block of text */
+	margin: 0 0.5em 0.5em 0;
+	float: left;
+}
+
 /* Search results */
 
 .oc-searchresults {
@@ -391,6 +412,11 @@ ul.oc-dropdown, .oc-dropdown ul {
 	float: left;
 	font-size: 10px;
 }
+.oc-searchresults-nresults form,
+.oc-searchresults-nresults form input {
+  display: inline;
+  font-size: 100%;
+}
 .oc-searchresults .oc-paginator {
 	float: right;
 	font-size: 10px;
@@ -414,6 +440,9 @@ ul.oc-dropdown, .oc-dropdown ul {
 		.oc-tabs .oc-selected {
 			background: #fff;
 			border-bottom: 1px solid #fff;
+		}
+		.oc-tabs form {
+		  display:inline;
 		}
 
 	#oc-member-details-wrapper {
@@ -501,13 +530,6 @@ ul.oc-dropdown, .oc-dropdown ul {
 		font-weight: bold;
 		background-color: transparent;
 	}
-
-
-/* OpenPlans -- @Projects Page
-   These classes apply to the "Projects Portal" page. 
-------------------------------------------------------------*/
-
-
 
 /* Wiki
 ------------------------------------------------------------*/

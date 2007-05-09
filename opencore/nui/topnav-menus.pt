@@ -1,8 +1,8 @@
-<tal:vars tal:define="global site here/portal_url" />
+<tal:vars tal:define="global site context/portal_url" />
 
 <!-- OpenPlans logo -->
 <h1 id="oc-topnav-openplans-logo">
-  <a tal:attributes="href site"><img tal:attributes="src view/logoURL;
+  <a tal:attributes="href string:${context/portal_url}/@@magic?oc-content=oc-home"><img tal:attributes="src view/logoURL;
       alt view/sitetitle" /></a>
 </h1>
 

@@ -233,13 +233,13 @@ copied to pages/configure.zcml
      template="start-project.pt"
      />
 
-  <!-- login-join
+  <!-- home-page -->
   <browser:page
      for="*"
-     class=".opencoreview.OpencoreView"
+     class=".opencoreview.HomeView"
      permission="zope.Public"
-     name="oc-login-join"
-     template="login-join.pt"
+     name="oc-home"
+     template="home.pt"
      />
  -->
   <!-- blank (for testing) -->
