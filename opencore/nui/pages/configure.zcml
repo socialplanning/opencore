@@ -6,7 +6,7 @@
    <!-- Login: bind to site root -->
   <browser:page
      for="*"
-     class="..opencoreview.OpencoreView"
+     class="..opencoreview.LoginView"
      permission="zope.Public"
      name="batch_macros"
      template="batch_macros.pt"

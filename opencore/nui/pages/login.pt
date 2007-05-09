@@ -1,6 +1,8 @@
 <tal:vars tal:define="global usr view/user;
                       global canedit usr/canedit;
-                      global page view/page" />
+                      global page view/page;
+		      global auth nocall:here/acl_users/credentials_cookie_auth|here/cookie_authentication|nothing;
+		      " />
 
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
@@ -16,18 +18,21 @@
         </div><!-- end .headingBlock -->
           
         <div id="oc-content-main">
-          <form method="post" id="oc-login-form" action="/login">
-              <input type="hidden" name="came_from" value="http://www.openplans.org/" />
-                <input type="hidden" name="form.submitted" value="1" />
-                <input type="hidden" name="js_enabled" id="js_enabled" value="0" />
-                <input type="hidden" name="cookies_enabled" id="cookies_enabled" value="" />
-                <input type="hidden" name="login_name" id="login_name" value="" />
-                <input type="hidden" name="pwd_empty" id="pwd_empty" value="0" />
+          <form method="post" id="oc-login-form"
+		tal:attributes="action python:context.absolute_url()+'/logged_in'"
+		>
+            <!-- <input type="hidden" name="came_from" value="http://www.openplans.org/" /> -->
+	    
+            <input type="hidden" name="form.submitted" value="1" />
+            <input type="hidden" name="js_enabled" id="js_enabled" value="0" />
+            <input type="hidden" name="cookies_enabled" id="cookies_enabled" value="" />
+            <input type="hidden" name="login_name" id="login_name" value="" />
+            <input type="hidden" name="pwd_empty" id="pwd_empty" value="0" />
         
             <fieldset>
               <legend class="headingBlock">
-                  <h3>Returning members</h3>
-                  <p class="headingContext">Login below</p>
+                <h3>Returning members</h3>
+                <p class="headingContext">Login below</p>
               </legend> 
                 <table class="oc-form" cellpadding="0" cellspacing="0">
                   <thead></thead>
