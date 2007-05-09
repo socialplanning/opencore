@@ -221,7 +221,7 @@ class OpencoreView(BrowserView):
 
 class ProjectsView(OpencoreView):
 
-    template = ZopeTwoPageTemplateFile('projects.pt')
+    template = ZopeTwoPageTemplateFile('pages/projects.pt')
 
     def recentprojects(self):
         # XXX
@@ -306,10 +306,10 @@ class ProjectsView(OpencoreView):
 
 
 class ProjectsResultsView(ProjectsView):
-    template = ZopeTwoPageTemplateFile('projects-searchresults.pt')
+    template = ZopeTwoPageTemplateFile('pages/projects-searchresults.pt')
     
 class HomeView(ProjectsView):
-    template = ZopeTwoPageTemplateFile('home.pt')
+    template = ZopeTwoPageTemplateFile('pages/home.pt')
 
 class YourProjectsView(OpencoreView):
 
