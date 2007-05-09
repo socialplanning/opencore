@@ -37,7 +37,12 @@ class OpencoreView(BrowserView):
         self.piv = context.unrestrictedTraverse('project_info') # TODO don't rely on this
         self.miv = context.unrestrictedTraverse('member_info')  # TODO don't rely on this
         self.errors = {}
-        self.portal_status_message = None
+
+    def portal_status_message(self):
+        plone_utils = getToolByName(self.context, 'plone_utils')
+        msgs = plone_utils.showPortalMessages()
+        msgs = [msg.message for msg in msgs]
+        return msgs
 
     def include(self, viewname):
         if self.transcluded:
@@ -204,7 +209,6 @@ class OpencoreView(BrowserView):
                 return 'Unexpected error in OpencoreView.currentProjectPage: ' \
                        'self.context is neither an OpenProject nor an OpenPage'
     
-#    @staticmethod makes this not work, why is this->whit?
     def user_exists(self, username):
         users = self.membranetool(getId=username)
         return len(users) > 0
