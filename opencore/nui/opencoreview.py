@@ -321,8 +321,14 @@ class ProjectsView(OpencoreView):
 class ProjectsResultsView(ProjectsView):
     template = ZopeTwoPageTemplateFile('pages/projects-searchresults.pt')
     
+class PeopleResultsView(ProjectsView):
+    template = ZopeTwoPageTemplateFile('pages/people-searchresults.pt')
+
 class HomeView(ProjectsView):
     template = ZopeTwoPageTemplateFile('pages/home.pt')
+
+class PeopleView(ProjectsView):
+    template = ZopeTwoPageTemplateFile('pages/people.pt')
 
 class YourProjectsView(OpencoreView):
 
