@@ -90,24 +90,12 @@
                 <input type="hidden" name="submitted" value="1"/>
                 <metal:fieldMacro use-macro="python:here.widget('text', mode='edit')"/>
               </div><!-- end .oc-wiki-edit-content" -->
->>>>>>> .r5142
-<<<<<<< .mine
-          
-            <div class="oc-options oc-wiki-edit-options">
-              <div class="oc-expander">
-                <a href="#oc-wiki-manageAttachments" class="oc-expander-link">manage attachments</a>                
-=======
->>>>>>> .r5142
-
-<<<<<<< .mine
-=======
+              
               <div class="oc-options oc-wiki-edit-options">
                 <div class="oc-expander">
                   <a href="#oc-wiki-manageAttachments" class="oc-expander-link">manage attachments</a>
-
->>>>>>> .r5142
-                  <!-- nick, move this div around -->
-                  <div class="field "
+                  <div class="oc-expander-content">
+                  <div class="field" 
                     tal:define="error_file errors/attachmentFile|nothing;"
                     tal:attributes="class python: error_file and 'field error' or 'field'"> 
                 <div class="field" tal:define="error_file errors/attachmentFile|nothing;" tal:attributes="class python: error_file and 'field error' or 'field'"> 
