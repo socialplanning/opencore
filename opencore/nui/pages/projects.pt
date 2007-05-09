@@ -34,9 +34,9 @@
           <h2>Recently updated projects</h2>
           <ul class="oc-widget-feed-list">
         <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recentprojects">
-          <div class="oc-project-logo">
-            <a tal:attributes="href project/absolute_url" >
-            <img src="" tal:attributes="src project/image_src | nothing; alt project/Title; title project/Title" />
+          <div class="oc-project-logo" tal:condition="project/logo | nothing"> <!-- NOTE once images do exist this div will NOT be conditional but its contents will -->
+            <a tal:attributes="href project/absolute_url" tal:condition="project/logo | nothing">
+            <img src="" tal:attributes="src project/image_src | nothing; alt project/Title; title project/Title" tal:condition="project/logo | nothing" />
             </a>
           </div>
           <h3 class="oc-feed-item-title">
