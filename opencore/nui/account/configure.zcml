@@ -12,6 +12,13 @@
 
   <browser:page
      for="*"
+     class=".accountview.PasswordResetView"
+     permission="zope.Public"
+     name="reset-password"
+     />
+
+  <browser:page
+     for="*"
      class=".accountview.ForgotLoginView"
      permission="zope.Public"
      name="forgot"

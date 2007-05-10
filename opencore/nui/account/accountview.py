@@ -46,3 +46,7 @@ class ForgotLoginView(OpencoreView):
         return "An email has been sent to you, %s" % userid
         return self.index(*args, **kw) # XXX not really right
 
+class PasswordResetView(OpencoreView):
+    def __call__(self, *args, **kw):        
+        self.request.get('key', None)
+        return "foo"
