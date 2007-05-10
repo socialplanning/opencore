@@ -50,14 +50,14 @@ class DoPasswordResetView(OpencoreView):
     def __call__(self, *args, **kw):
         password = self.request.get("password")
         if not password:
-            return "Failed."
+            return "Failed, no password."
         userid = self.request.get("userid")
         randomstring = self.request.get("randomstring")
         pw_tool = getToolByName(self.context, "portal_password_reset")
         try:
             pw_tool.resetPassword(userid, randomstring, password)
         except: # XXX DUMB
-            return "Failed."
+            return "Failed, shit is not okay."
         plone_utils = getToolByName(self.context, 'plone_utils')
         from Products.CMFPlone import PloneMessageFactory
         plone_utils.addPortalMessage(PloneMessageFactory(u'Your password has been reset'))
@@ -74,4 +74,5 @@ class PasswordResetView(OpencoreView):
             return "You fool! The Internet Police have already been notified of this incident. Your IP has been confiscated."
         except "ExpiredRequestError": # XXX rollie?
             return "YOU HAVE EXPIRED."
+        kw['randomstring'] = key
         return self.index(*args, **kw)
