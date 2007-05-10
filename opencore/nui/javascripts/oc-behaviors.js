@@ -258,11 +258,15 @@
     this.usernameKeyPress = function(e, el, o) {
       //setup request
       var options = {
-         url: 'login'
-         , method:'get'
+         url: 'user-exists'
+         , method:'post'
+	 , params:{username:this.usernameField.dom.value}
          , callback: function(options, bSuccess, response) {
-             if (bSuccess)
-              this.usernameValidator.update('yes');
+	      if (bSuccess) {
+		  if( response.responseText )
+		      this.usernameValidator.update('no good');
+		  else this.usernameValidator.update('ok!');
+	      }
          }
          , scope: this
       };

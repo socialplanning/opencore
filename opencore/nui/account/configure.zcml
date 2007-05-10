@@ -1,0 +1,29 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five">
+
+  <browser:page
+     for="*"
+     class=".accountview.LoginView"
+     permission="zope.Public"
+     name="login"
+     template="login.pt"
+     />
+
+  <browser:page
+     for="*"
+     class=".accountview.ForgotLoginView"
+     permission="zope.Public"
+     name="forgot"
+     template="forgot.pt"
+     />
+
+  <browser:page
+     for="*"
+     class=".accountview.JoinView"
+     permission="zope.Public"
+     name="join"
+     template="join.pt"
+     />
+
+</configure>
