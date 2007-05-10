@@ -14,7 +14,37 @@ Get the list of projects that were recently updated
    >>> recent_titles
    ['Proj1', 'Proj2', 'Proj3', 'Proj4']
 
+Test searching for projects that start with a letter
+   >>> brains = view.search_for_project_by_letter('P')
+   >>> titles = [p.Title for p in brains]
+   >>> titles.sort()
+   >>> titles
+   ['Proj1', 'Proj2', 'Proj3', 'Proj4']
+
+Searching for a letter that doesn't match any projects
+   >>> view.search_for_project_by_letter('X')
+   []
+
+Search for a project by string
+   >>> brains = view.search_for_project('Proj3')
+   >>> len(brains)
+   1
+   >>> brains[0].Title
+   'Proj3'
+
+Try a substring search
+   >>> brains = view.search_for_project('Proj')
+   >>> titles = [b.Title for b in brains]
+   >>> titles.sort()
+   >>> titles
+   ['Proj1', 'Proj2', 'Proj3', 'Proj4']
+
+Render the view to see if there are any errors
+XXX this raises an Unauthorized
+Not authorized to access binding: context
+   >> response = view()
+
 Traversing to the url should yield the same class
-   >>> view = self.portal.unrestrictedTraverse('projects/@@index.html')
-   >>> view
+   >> view = self.portal.projects.unrestrictedTraverse('@@index.html')
+   >> view
    <Products.Five.metaclass.SimpleViewClass from ...>

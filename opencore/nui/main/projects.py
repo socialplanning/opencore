@@ -61,7 +61,7 @@ class ProjectsView(OpencoreView):
                      quantumleap=0,
                      b_start_str='b_start')
 
-    def search_for_project_by_letter(self, letter, sort_by):
+    def search_for_project_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
         query = dict(portal_type="OpenProject",
                      Title=letter + '*')
@@ -90,7 +90,7 @@ class ProjectsView(OpencoreView):
 
         return project_brains
 
-    def search_for_project(self, project, sort_by):
+    def search_for_project(self, project, sort_by=None):
         project = project.lower()
 
         proj_query = project
