@@ -229,9 +229,9 @@ def fixup_chunks(chunks):
                 trailing_whitespace = True
             else:
                 trailing_whitespace = False
-            if chunk.startswith('\000'):
-                type, data, tag = chunk.split('\000')
-                cur_word = tag_token(data, html_repr=tag, 
+            #if chunk.startswith('\000'):
+            #    type, data, tag = chunk.split('\000')
+            #    cur_word = tag_token(data, html_repr=tag, 
             cur_word = token(chunk, pre_tags=tag_accum, trailing_whitespace=trailing_whitespace)
             tag_accum = []
             result.append(cur_word)
