@@ -34,5 +34,16 @@ class OpenRoster(TeamRoster):
         'view'         : '(Default)',
         }
 
+    def rosterSearchResults(self, REQUEST=None, **kw):
+        """
+        Override the default since we can go to the catalog.
+        """
+        kw = kw.copy()
+        kw[USER_ID_VARIABLE] = self.getActiveMemberIds()
+        mbtool = getToolByName(self, 'membrane_tool')
+        results = mcat_tool.searchResults(REQUEST=REQUEST, **kw)
+        return results
+
+
 registerType(OpenRoster, package=PROJECTNAME)
 

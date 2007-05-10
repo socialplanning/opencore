@@ -5,6 +5,11 @@
 The skin is very similar to the concept of the cmf skin, except it is
 derived from a z3 view rather than a ZODB object or object proxy.
 
+Macros
+======
+
+#@@ note: currently we are just using the default skin
+
 The most important piece of the skin is perhaps the
 *main_template*. This view (derived from magic.pt), is an overlay of the
 general structure needed by an openplans page. Within in it, named

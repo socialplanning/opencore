@@ -1,0 +1,97 @@
+<tal:vars tal:define="global usr view/user;
+                      global canedit usr/canedit;
+                      global page view/page" />
+
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <link metal:fill-slot="link" />
+    <script metal:fill-slot="script" />
+  </head>
+  <body>
+    <div id="oc-content-container" metal:fill-slot="content">
+
+      <!-- TODO project history -->
+      
+      <div id="oc-content-main" class="oc-content-main-fullWidth">
+        
+        <div class="oc-wiki">
+          <div class="headingBlock oc-wiki-headingBlock">
+            <h2>Your page title</h2>
+          </div>
+          <ul class="oc-tabs">
+            <li class="">
+              <a href="" rel="view">view</a>
+            </li>
+            <li class="oc-selected">
+              <a href="" rel="edit">edit</a>
+            </li>
+            <li>
+              <a href="" rel="history">history</a>
+            </li>
+            <li>
+              <form class="" >
+                <select class="oc-dropdown-links">
+                  <option value="">More...</option>
+                  <option value="http://www.google.com">I'm feeling lucky</option>
+                </select>
+            <input type="submit" value="Go" style=""/>
+              </form>
+            </li>
+          </ul><!-- end .oc-tabs -->
+          
+          <div class="oc-wiki-edit">
+            <div class="oc-wiki-edit-content">
+          Wiki Edit: kupu goes here
+              </div><!-- end .oc-wiki-edit-content" -->
+          
+            <div class="oc-options oc-wiki-edit-options">
+              <div class="oc-expander">
+                <a href="#oc-wiki-manageAttachments" class="oc-expander-link">manage attachments</a>
+                <div id="oc-wiki-manageAttachments" class="oc-expander-content">
+                 <!-- this should submit with the parent form -->
+                    <table class="oc-form">
+                      <thead></thead>
+                      <tbody>
+                        <tr class="oc-form-row">
+                          <th class="oc-form-label">Locate file</th>
+                          <td class="oc-form-value"><input type="file" /></td>
+                          <td class="oc-form-help"></td>
+                        </tr>
+                        <tr class="oc-table-row">
+                          <th class="oc-form-label">Enter title</th>
+                          <td class="oc-form-value"><input type="text" /></td>
+                          <td class="oc-form-help">
+                            <span class="oc-table-validator"></span>
+                          </td>
+                        </tr>
+                        <tr class="oc-options">
+                          <th class="oc-form-label"></th>
+                          <td class="oc-form-value">
+                          <input type="submit" value="Upload" /> or cancel</td>
+                          <td class="oc-form-help"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div><!-- end .oc-expander-content -->
+              </div><!-- end .oc-expander-container -->
+              <div class="oc-expander">
+                <a href="#oc-wiki-addNote" class="oc-expander-link">add note</a>
+                <div id="oc-wiki-addNote" class="oc-expander-content">
+                  <label for="">Add change note</label>
+                    <textarea rows="2" cols="80"></textarea>
+                </div><!-- end .oc-expander-content -->
+              </div><!-- end .oc-expander-container -->
+            </div><!-- end .oc-options -->  
+          
+              <ul class="oc-actions oc-wiki-actions">
+                <li><input type="submit" value="Save" class="oc-button oc-chooseThis" /></li>
+                <li>or <a href="">cancel</a></li>
+              </ul>  
+          </div><!-- end .oc-wiki-edit -->
+        
+        </div><!-- end .oc-wiki -->
+      </div><!-- end #oc-content-main -->
+
+    </div><!-- end content slot -->
+  </body>
+</html>

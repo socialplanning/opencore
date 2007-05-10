@@ -286,6 +286,7 @@ ul.oc-dropdown, .oc-dropdown ul {
 /* @CONTENT - This section defines the main content 
 ---------------------------------------------------*/
 
+/* Holdovers from the Typography Study
 #oc-content-title {
 	position: relative;
 	margin: 1.5em 0 0.75em;
@@ -304,21 +305,9 @@ ul.oc-dropdown, .oc-dropdown ul {
 #oc-content-title-pagetitle a {
   text-decoration: none;
   color: black;
-}
-				
-/* Main */
-#oc-content-main p {
-	/* min-width: 26em;
-	max-width: 39em;
-	margin-top: 0;
-	margin-bottom: .5em; */
-	}
-
-#oc-content-main ol, #oc-content-main ul, #oc-content-main dl {
-	line-height: 1.25;
-	}
+} */
 		
-		
+/* Rollie's nifty Definition Lists
 #oc-content-main dl {
 	min-width: 20em;
 	max-width: 33em;
@@ -341,7 +330,7 @@ ul.oc-dropdown, .oc-dropdown ul {
 #oc-content-main dd { 
 	margin: 0 0 0 9.5em; 
 	padding: 0 0 0.65em 0;
-}
+} */
 
 /* Sidebar */
 
@@ -363,10 +352,33 @@ ul.oc-dropdown, .oc-dropdown ul {
 -------------------------------------------- */
 /* This is where general layout elements within the content of a page are defined. Could also aply to how we implement templates. 
 	
+/* Generic layout elements */
+
+.oc-column-group {
+	width: 100%;
+}
+.oc-column-left {
+	float: left;
+	clear: none;
+	width: 49%;
+}
+.oc-column-left {
+	float: right;
+	clear: none;
+	width: 49%;
+}
+
+.oc-image-bright { /* A newspaper term for an image used to emphasize a block of text */
+	margin: 0 0.5em 0.5em 0;
+	float: left;
+}
+
 /* Search results */
 
+.oc-lineup,
 .oc-searchresults {
 }
+.oc-lineup-list,
 .oc-searchresults-list {
 	list-style-type: none;
 	margin:  0;
@@ -375,22 +387,34 @@ ul.oc-dropdown, .oc-dropdown ul {
 	border-top: 2px solid #eee;
 
 }
+.oc-lineup-item,
 .oc-searchresults-item {
 	margin: 0.25em 0;
 	padding-bottom: 0.25em;
 	border-bottom: 1px dotted #eee;
 }
+.oc-lineup-item h3,
 .oc-searchresults-item h3 {
 	display: inline;
 	font-size: 12px;
 }
+.oc-lineup-item p,
 .oc-searchresults-item p {
 	margin: 0;
 }
+.oc-lineup-item-sorter,
 .oc-searchresults-nresults {
 	float: left;
 	font-size: 10px;
 }
+.oc-lineup-item-sorter form,
+.oc-lineup-item-sorter input,
+.oc-searchresults-nresults form,
+.oc-searchresults-nresults form input {
+  display: inline;
+  font-size: 100%;
+}
+.oc-lineup .oc-paginator,
 .oc-searchresults .oc-paginator {
 	float: right;
 	font-size: 10px;
@@ -412,8 +436,11 @@ ul.oc-dropdown, .oc-dropdown ul {
 			border-bottom: 2px solid #eee;
 		}
 		.oc-tabs .oc-selected {
-			background: pink;
-			color: #fff;
+			background: #fff;
+			border-bottom: 1px solid #fff;
+		}
+		.oc-tabs form {
+		  display:inline;
 		}
 
 	#oc-member-details-wrapper {
@@ -502,23 +529,25 @@ ul.oc-dropdown, .oc-dropdown ul {
 		background-color: transparent;
 	}
 
-
-/* OpenPlans -- @Projects Page
-   These classes apply to the "Projects Portal" page. 
-------------------------------------------------------------*/
-
-
-
 /* Wiki
 ------------------------------------------------------------*/
 .oc-wiki {
-
+}
+.oc-wiki-content {
+}
+.oc-wiki-content ol,
+.oc-wiki-content ul,
+.oc-wiki-content dl {
+	line-height: 1.25;
 }
 .oc-wiki-edit-content {
  border: 1px solid #ccc;
  height: 300px; /* TODO: remove this once xinha is in */
 }
-
+.oc-actions.oc-wiki-actions {
+  border-top: 2px solid;
+  padding-top: .5em;
+}
 
 
 /* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
@@ -634,11 +663,43 @@ a.oc-close:hover {
 }
 
 /* @Form Stuff */
+.oc-form {
+}
+.oc-form * {
+  vertical-align: top;
+}
+.oc-form-label {
+  text-align: right;
+  width: 8em;
+}
+.oc-form-value {
 
+}
+.oc-form-help {
+
+}
+.oc-form-context {
+  color: #666;
+  font-style: italic;
+}
+.oc-form-validator {
+
+}
 .oc-form-fieldBlock {
 	white-space: nowrap;
 }
 .oc-input-typeText { /* Since browser support for selecting by type is... limited */
+}
+
+/* Expanders */
+.oc-expander {
+  margin: .25em 0;
+}
+.oc-expander-content {
+  margin: .25em 0;
+  padding: .5em;
+  background: #eee;
+  border: 1px solid #ccc;
 }
 
 /* Actions */
@@ -692,9 +753,9 @@ a.oc-close:hover {
 .oc-table thead {
  	background: #eee;
 }
-.oc-table th, 
-.oc-table th.oc-sortableColumn, 
-.oc-table th.oc-columnActions {
+.oc-table thead th, 
+.oc-table thead th.oc-sortableColumn, 
+.oc-table thead th.oc-columnActions {
 	text-align: left;
 	padding: .25em .5em;
 	/* font-size: 10px; */
@@ -740,7 +801,7 @@ a.oc-close:hover {
 .oc-widget-feed h2{
 	margin: 0;
 }
-.oc-widget-feed-list {
+.oc-feed-list {
 	list-style: none;
 	margin: 0.5em 0 0.5em;
 	padding: 0;
@@ -753,9 +814,23 @@ li.oc-feed-item {
 	border-bottom: 1px dotted #eee;
 }
 li.oc-feed-item .oc-avatar {
-	float: right;
-	clear: both;
-	margin-right: 0.5em;
+	width: 80px;
+	height: 100px;
+	float: left;
+	clear: none;
+	margin-right: 1em;
+}
+li.oc-feed-item .oc-project-logo {
+	width: 80px;
+	height: 100px;
+	float: left;
+	clear: none;
+	margin-right: 1em;
+}
+li.oc-feed-item .oc-feed-item-content {
+	float: left;
+	clear: none;
+	width: 80%;
 }
 li.oc-feed-item .oc-feed-item-title,
 li.oc-feed-item .oc-feed-item-data,
@@ -808,11 +883,17 @@ li.oc-invite .oc-invite-content {
 	background: #eee;
 	border: 1px solid #ccc;
 }
+#oc-content-sidebar .oc-widget-search {
+	background: none;
+}
 .oc-widget-search form input {
 	font-size: 10px;
 }
-.oc-widget-search form .oc-input-typeText {
+#oc-content-main .oc-widget-search form .oc-input-typeText {
 	width: 80%;
+}
+#oc-content-sidebar .oc-widget-search form .oc-input-typeText {
+	width: 65%;
 }
 .oc-widget-search h2 {
 	margin: 0 0 0.5em;
@@ -823,7 +904,7 @@ li.oc-invite .oc-invite-content {
 
 /* Alphabet search */
 
-ul.oc-widget-alphabet {
+.oc-widget-alphabet {
 	list-style: none;
 	padding: 0.5em;
 	margin: 0;
@@ -833,6 +914,9 @@ ul.oc-widget-alphabet {
 	text-transform: uppercase;
 	font-weight: bold;
 	font-size: 14px;
+}
+#oc-content-sidebar ul.oc-widget-alphabet {
+	background: none;
 }
 .oc-widget-alphabet li {
 	display: inline;
@@ -917,11 +1001,19 @@ h4, .h4 {
 	font-weight: bold;
 }
 select {
-	background: #eee;
 	border:1px solid #999;
 	padding:1px;
 	margin:0;
 	font-size: 11px;
+}
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+label {
+  font-weight: bold;
+  display: block;
 }
 
 .oc-smallText,
