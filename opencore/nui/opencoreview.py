@@ -220,45 +220,76 @@ class OpencoreView(BrowserView):
 
 
 class ProjectEditView(OpencoreView):
-    def __call__(self):
-        if self.request.form.get('submitted'):
-            #save
-            self.errors = {}
-            self.context.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
-            if self.errors:
-                self.portal_status_message='Please correct these errors.'
-                return super(ProjectEditView, self).__call__(errors=self.errors)
+    confirm = ZopeTwoPageTemplateFile('confirm.pt')
+    wiki_edit = ZopeTwoPageTemplateFile('wiki-edit.pt', 'pages')
 
-            self.context.processForm(values=self.request.form)
-            self.request.response.redirect(self.context.absolute_url())
+    def __call__(self, *args, **kwargs):
+        action = self.request.form.get('action', 'show')
+        if not action in ['show', 'update']:
+            return 
+
+        if action == 'show' or self.request.method == "POST":
+            return getattr(self, action)()
         else:
-            #render
-            return super(ProjectEditView, self).__call__()
+            self.action = action
+            return self.confirm(*args, **kwargs)
 
-    def uploadAttachment(self):
-        pass
-
-
-class AttachmentAsync(OpencoreView):
-    """bind methods to templates if necessary"""
-
-#    whole_page = ZopeTwoPageTemplateFile('wiki-edit')
-#    create_page = ZopeTwoPageTemplateFile('create-att')
-#    delete_page = ZopeTwoPageTemplateFile('delete-att')
-#    update_page = ZopeTwoPageTemplateFile('create-att')
-
-    @noAjax
     def update(self):
+
+        self.errors = {}
+        self.context.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
+        if self.errors:
+            self.portal_status_message='Please correct these errors.'
+            return super(ProjectEditView, self).__call__(errors=self.errors)
+        
+        self.context.processForm(values=self.request.form)
+        self.request.response.redirect(self.context.absolute_url())
+
+    def show(self):
+        #return super(ProjectEditView, self).__call__()
+        return self.wiki_edit()
+
+class AttachmentView(OpencoreView):
+    confirm = ZopeTwoPageTemplateFile('confirm.pt')
+    create_snippet = ZopeTwoPageTemplateFile('create-att.pt', 'pages')
+
+    def handle_updateAtt(self):
         attachment = self.context._getOb(self.request.form['attachment_id'])
         attachment.setTitle(self.request.form['attachment_title'])
         attachment.reindexObject()
+        return attachment
     
-    @noAjax
-    def delete(self):
+    def updateAtt(self):
+        """do not assign directly because this will implicitly wrap the
+        attachment in the view.  """
+
+        self.new_attachment = lambda : self.handle_updateAtt() 
+        return self.create_snippet()
+
+    def handle_createAtt(self):
+        return "not done yet"
+
+    def createAtt(self):
+        self.new_attachment = self.handle_createAtt()
+        return self.create_snippet()
+
+    def noJS(self):
+        action = self.request.form.get('action')
+        if not action in ['updateAtt', 'createAtt', 'deleteAtt']:
+            return 
+
+        if self.request.method == "POST":
+            getattr(self, 'handle_' + action)()
+            return self.whole_page()
+        else:
+            self.action = action
+            return self.confirm(*args, **kwargs)
+
+    
+    def deleteAtt(self):
         self.context.manage_delObjects([attachmentId])
 
-
-    def create(self):
+    def createAtt(self):
 #         attachmentTitle = self.request.get('attachmentTitle')
 #         attachmentFile = self.request.get('attachmentFile')
 
@@ -291,7 +322,7 @@ class AttachmentAsync(OpencoreView):
 #         object.setFile(attachmentFile)
 #         object.reindexObject()
 
-        self.render_page_by_name("create-att.pt")
+        self.render_page_by_name("create-att")
 
 
     def render_page_by_name(self, page):

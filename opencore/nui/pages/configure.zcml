@@ -40,27 +40,27 @@
 
 <!-- attachments -->
   <browser:page
-     name="update-att"
+     name="updateAtt"
      permission="cmf.ModifyPortalContent"
-     attribute="update"
+     attribute="updateAtt"
      for="opencore.content.page.OpenPage"
-     class="..opencoreview.AttachmentAsync"
+     class="..opencoreview.AttachmentView"
      />
 
   <browser:page
-     name="create-att"
+     name="createAtt"
      permission="cmf.AddPortalContent"
-     attribute="create"
+     template="create-att.pt"
      for="opencore.content.page.OpenPage"
-     class="..opencoreview.AttachmentAsync"
+     class="..opencoreview.AttachmentView"
      />
 
   <browser:page
-     name="delete-att"
+     name="deleteAtt"
      permission="zope2.DeleteObjects"
-     attribute="delete"
+     template="delete-att.pt"
      for="opencore.content.page.OpenPage"
-     class="..opencoreview.AttachmentAsync"
+     class="..opencoreview.AttachmentView"
      />
 
 </configure>
