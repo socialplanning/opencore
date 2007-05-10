@@ -14,7 +14,7 @@
     
     <div id="oc-content-main">
       <div class="oc-searchresults">
-        <h2>Search Results <span tal:condition="view/search_query | nothing" tal:replace="structure view/search_query" /></h2>
+        <h2>Search results <span tal:condition="view/search_query | nothing" tal:replace="structure view/search_query" /></h2>
     
         <tal:got_results condition="view/search_results"
        define="batch view/search_results;
