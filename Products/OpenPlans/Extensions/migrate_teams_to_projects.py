@@ -4,7 +4,7 @@ from Products.TeamSpace.relations import TeamSpaceTeamRelation
 
 def migrate_teams_to_projects(self, portal):
     pfolder = portal.projects
-    tmtool = getToolByName(self, 'portal_teams')
+    tmtool = getToolByName(portal, 'portal_teams')
     tm_roles = ('ProjectAdmin', 'ProjectMember')
     
     for proj_id in pfolder.objectIds(spec='OpenProject'):
