@@ -1,0 +1,130 @@
+htmldiff2 does HTML comparisons.  These are word-based comparisons.
+
+First, a handy function for normalizing whitespace and doing word wrapping::
+
+   >>> import re, textwrap
+   >>> def pwrapped(text):
+   ...     text = re.sub(r'[ \n\t\r]+', ' ', text)
+   ...     text = textwrap.fill(text)
+   ...     print text
+   >>> def pdiff(text1, text2):
+   ...     pwrapped(htmldiff(text1, text2))
+
+Example::
+
+    >>> from htmldiff2 import htmldiff, split_unbalanced
+    >>> html1 = '<p>This is some test text with some changes and some same stuff</p>'
+    >>> html2 = '''<p>This is some test textual writing with some changed stuff 
+    ... and some same stuff</p>'''
+    >>> pdiff(html1, html2)
+    <p>This is some test <ins>textual writing</ins> <del>text</del> with
+    some <ins>changed stuff</ins> <del>changes</del> and some same
+    stuff</p>
+
+Style tags are largely ignored in terms of differences, though markup is not eliminated::
+
+    >>> html1 = '<p>Hi <i>you guys</i></p>'
+    >>> html2 = '<p>Hi <i>you</i> guys</p>'
+    >>> pdiff(html1, html2)
+    <p>Hi <i>you</i> guys</p>
+    >>> pdiff('text', '<p>text</p>')
+    <p>text</p>
+    >>> pdiff('<i>Hi guys</i> !!', '<i>Hi guy</i> !!')
+    <i>Hi <ins>guy</ins> <del>guys</del> </i> !!
+    >>> pdiff('H<i>i</i>', 'Hi')
+    <ins>Hi</ins> <del>H<i>i</i></del>
+    >>> pdiff('<i>A B</i> C', '<i>A</i> C')
+    <i>A <del>B</del> </i> C
+    >>> pdiff('<i>A B</i> C', '<i>B</i> C')
+    <i> <del>A</del> B</i> C
+    >>> pdiff('<p></p>', '<p></p>')
+    <p></p>
+    >>> pdiff('<p>Hi</p>', '<p>Bye</p>')
+    <ins><p>Bye</p></ins> <del><p>Hi</p></del>
+    >>> pdiff('<p>Hi Guy</p>', '<p>Bye Guy</p>')
+    <p> <ins>Bye</ins> <del>Hi</del> Guy</p>
+
+Whitespace is ignored, as it's not meaningful in HTML::
+
+    >>> pdiff('<div>Hi\n\nguys</div>', '<div>Hi guy</div>')
+    <div>Hi <ins>guy</ins> <del>guys</del> </div>
+
+Movement between paragraphs is ignored, as tag-based changes are generally ignored::
+
+    >>> pdiff('<p>Hello</p><p>World</p>', '<p>Hello World</p>')
+    <p>Hello World</p>
+
+As a special case, changing the href of a link is displayed, and
+images are treated like words:
+
+    >>> pdiff('<a href="http://yahoo.com">search</a>', '<a href="http://google.com">search</a>')
+    <a href="http://google.com">search (link <del>http://yahoo.com</del> <ins>http://google.com</ins>)</a>
+    >>> pdiff('<p>Print this <img src="print.gif"></p>', '<p>Print this</p>')
+    <p>Print this <del><img src="print.gif"></del></p>
+
+The sixteen combinations::
+
+First "insert start" (del start/middle/end/none):
+
+    >>> pdiff('<b>A B C</b>', '<b>D B C</b')
+    <b> <ins>D</ins> <del>A</del> B C</b>
+    >>> pdiff('<b>A B C</b>', '<b>D A C</b>')
+    <b> <ins>D</ins> A <del>B</del> C</b>
+    >>> pdiff('<b>A B C</b>', '<b>D A B</b>')
+    <b> <ins>D</ins> A B <del>C</del> </b>
+    >>> pdiff('<b>A B C</b>', '<b>D A B C</b>')
+    <b> <ins>D</ins> A B C</b>
+
+Next, "insert middle" (del start/middle/end/none):
+
+    >>> pdiff('<b>A B C</b>', '<b>D B C</b>')
+    <b> <ins>D</ins> <del>A</del> B C</b>
+    >>> pdiff('<b>A B C</b>', '<b>A D C</b>')
+    <b>A <ins>D</ins> <del>B</del> C</b>
+    >>> pdiff('<b>A B C</b>', '<b>A D B</b>')
+    <b>A <ins>D</ins> B <del>C</del> </b>
+    >>> pdiff('<b>A B C</b>', '<b>A D B C</b>')
+    <b>A <ins>D</ins> B C</b>
+
+
+Then "insert end" (del start/middle/end/none):
+
+    >>> pdiff('<b>A B C</b>', '<b>B C D</b>')
+    <b> <del>A</del> B C <ins>D</ins> </b>
+    >>> pdiff('<b>A B C</b>', '<b>A C D</b>')
+    <b>A <del>B</del> C <ins>D</ins> </b>
+    >>> pdiff('<b>A B C</b>', '<b>A B D</b>')
+    <b>A B <ins>D</ins> <del>C</del> </b>
+    >>> pdiff('<b>A B C</b>', '<b>A B C D</b>')
+    <b>A B C <ins>D</ins> </b>
+
+Then no insert (del start/middle/end):
+
+    >>> pdiff('<b>A B C</b>', '<b>B C</b>')
+    <b> <del>A</del> B C</b>
+    >>> pdiff('<b>A B C</b>', '<b>A C</b>')
+    <b>A <del>B</del> C</b>
+    >>> pdiff('<b>A B C</b>', '<b>A B</b>')
+    <b>A B <del>C</del> </b>
+
+    >>> pdiff('<b>A B</b> C', '<b>A B</b>')
+    <b>A B</b> <del>C</del>
+    >>> pdiff('<b>A B</b> <b>C</b>', '<b>A B</b>')
+    <b>A B</b> <del><b>C</b></del>
+    >>> pdiff('A <p><b>hey there</b> <i>how are you?</i></p>', 'A')
+    A <del><p><b>hey there</b> <i>how are you?</i></p></del>
+    
+
+Testing split_unbalanced:
+
+    >>> split_unbalanced(['<a href="blah">', 'hey', '</a>'])
+    ([], ['<a href="blah">', 'hey', '</a>'], [])
+    >>> split_unbalanced(['<a href="blah">', 'hey'])
+    (['<a href="blah">'], ['hey'], [])
+    >>> split_unbalanced(['Hey', '</i>', 'You', '</b>'])
+    ([], ['Hey', 'You'], ['</i>', '</b>'])
+    >>> split_unbalanced(['So', '</i>', 'Hi', '<b>', 'There', '</b>'])
+    ([], ['So', 'Hi', '<b>', 'There', '</b>'], ['</i>'])
+    >>> split_unbalanced(['So', '</i>', 'Hi', '<b>', 'There'])
+    (['<b>'], ['So', 'Hi', 'There'], ['</i>'])
+    
