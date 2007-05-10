@@ -1,0 +1,53 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five">
+
+  <!-- projects portal -->
+  <!-- opencore.interfaces.IProjectsFolder -->
+  <browser:page
+     for="Products.OpenPlans.interfaces.adding.IAddProject"
+     class=".projects.ProjectsView"
+     permission="zope.Public"
+     name="index.html"
+     template="projects.pt"
+     />
+
+  <!-- projects-searchresults -->
+  <browser:page
+     for="Products.OpenPlans.interfaces.adding.IAddProject"
+     class=".projects.ProjectsResultsView"
+     permission="zope.Public"
+     name="results"
+     template="projects-searchresults.pt"
+     />
+  
+  <!-- people portal -->
+  <!-- opencore.interfaces.IPeopleFolder: index.html -->
+  <browser:page
+     for="*"
+     class=".projects.PeopleView"
+     permission="zope.Public"
+     name="peoplesearch"
+     template="people.pt"
+     />
+
+  <!-- people-searchresults -->
+  <browser:page
+     for="*"
+     class=".projects.PeopleResultsView"
+     permission="zope.Public"
+     name="results"
+     template="people-searchresults.pt"
+     />
+
+  <!-- home-->
+  <!-- Products.CMFPlone.interfaces.IPloneSite -->
+  <browser:page
+     for="*"
+     class=".projects.HomeView"
+     permission="zope.Public"
+     name="index.html"
+     template="home.pt"
+     />
+
+</configure>

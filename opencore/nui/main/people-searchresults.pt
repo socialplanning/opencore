@@ -1,0 +1,87 @@
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <link metal:fill-slot="link" />
+    <script metal:fill-slot="script" language="javascript" type="text/javascript" src="++resource++javascripts/searching.js" />
+  </head>
+  <body>
+
+    <div id="oc-content-container" metal:fill-slot="content">              
+
+    <div class="oc-headingBlock">
+      <h1>Projects on OpenPlans</h1>
+      <p class="oc-headingContext">Currently serving <span tal:replace="view/nprojects"/> projects</p>
+    </div>
+    
+    <div id="oc-content-main">
+      <div class="oc-searchresults">
+        <h2>Search Results <span tal:condition="view/search_query | nothing" tal:replace="structure view/search_query" /></h2>
+    
+        <tal:got_results condition="view/search_results"
+       define="batch view/search_results;
+         template_id view/template/getId;
+         batch_base_url request/ACTUAL_URL;
+                     start batch/start;
+                     end batch/end;
+                     sequence_length batch/sequence_length;
+         ">
+          <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
+            Result<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
+            <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
+            of <span tal:replace="sequence_length">376</span> sorted by
+          <form>
+            <select>
+              <option value="">relevancy</option>
+              <option value="">date updated</option>
+              <option value="">date created</option>
+              <option value="">project name</option>
+              <option value="">member name</option>
+            </select>
+            <input type="submit" value="sort" />
+          </form>
+          </div>
+    <div metal:use-macro="context/@@batch_macros/pagination"/>
+          <ol class="oc-searchresults-list">
+      <li class="oc-searchresults-item" tal:repeat="item view/search_results">
+        <h3><a href="" tal:attributes="href string:${context/portal_url}/projects/${item/getId}" tal:content="item/Title">Project Title</a></h3>
+        <span class="oc-discreetText">
+                <span>created by <a tal:attributes="href string:${context/portal_url}/author/${item/Creator}" tal:content="item/Creator" />, 
+            <span tal:content="python: view.create_date(item.getObject())" />
+          </span>
+                <!-- <span>last updated by <a href="link to user profile">username</a>, at 1:37am</span> --> <!-- for sorting by recent activity -->
+        </span>
+        <!--<p tal:condition="item/rel | nothing" tal:content="string:Relevancy: ${item/rel}%"/>-->
+        <!-- XXX put in correct mission statement -->
+        <p tal:content="string: item mission statement goes here" />
+      </li>
+          </ol>
+          <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
+            Result<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
+            <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
+            of <span tal:replace="sequence_length">376</span> </div>
+    <div metal:use-macro="context/@@batch_macros/pagination"/>
+        </tal:got_results>
+        <div tal:condition="not: view/search_results">No results found.</div>
+
+      </div> <!-- oc-searchresults -->
+    </div> <!-- content-main -->
+    
+    
+    <div id="oc-content-sidebar">
+      <div class="oc-widget oc-widget-search">    
+        <form name="projects_search" action="." tal:attributes="action string:${context/portal_url}/oc-projects-searchresults">
+          <label><h2>New search</h2></label>
+          <input type="text" name="projname" tal:attributes="value request/projname | nothing" />
+          <input type="hidden" name="letter_search" />
+          <input type="submit" name="action_search_projects" value="Search" />
+        </form>
+        
+        <ul class="oc-widget-alphabet" tal>
+          <li tal:repeat="letter modules/string/uppercase">
+      <a href="" tal:content="letter" tal:attributes="href string:javascript:projects_search_letter('${letter}');;">A</a>
+          </li>
+        </ul>
+      </div>
+    </div><!-- content-sidebar -->
+    </div><!-- oc-content-container -->
+  </body>
+</html>
