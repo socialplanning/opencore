@@ -8,7 +8,7 @@
      for="Products.OpenPlans.interfaces.adding.IAddProject"
      class=".projects.ProjectsView"
      permission="zope.Public"
-     name="index.html"
+     name="oc-projects"
      template="projects.pt"
      />
 
