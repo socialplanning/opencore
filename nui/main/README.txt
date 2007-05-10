@@ -39,12 +39,10 @@ Try a substring search
    >>> titles
    ['Proj1', 'Proj2', 'Proj3', 'Proj4']
 
-Render the view to see if there are any errors
-XXX this raises an Unauthorized
-Not authorized to access binding: context
-   >> response = view()
-
 Traversing to the url should yield the same class
-   >> view = self.portal.projects.unrestrictedTraverse('@@index.html')
-   >> view
-   <Products.Five.metaclass.SimpleViewClass from ...>
+   >>> view = self.portal.projects.unrestrictedTraverse('oc-projects')
+   >>> view
+   <Products.Five.metaclass.SimpleViewClass from ...projects.pt object at...>
+
+Render the view to see if there are any errors
+   >>> response = view()
