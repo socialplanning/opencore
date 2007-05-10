@@ -22,8 +22,7 @@
      for="*"
      class=".accountview.DoPasswordResetView"
      permission="zope.Public"
-     name="_reset-password"
-     template="reset-password.pt"
+     name="do-reset-password"
      />
 
   <browser:page
