@@ -20,6 +20,14 @@
 
   <browser:page
      for="*"
+     class=".accountview.DoPasswordResetView"
+     permission="zope.Public"
+     name="_reset-password"
+     template="reset-password.pt"
+     />
+
+  <browser:page
+     for="*"
      class=".accountview.ForgotLoginView"
      permission="zope.Public"
      name="forgot"
