@@ -47,9 +47,28 @@ class ForgotLoginView(OpencoreView):
         return self.index(*args, **kw) # XXX not really right
 
 class PasswordResetView(OpencoreView):
+    def resetPassword(self, *args, **kw):  # XXX NO VALIDATION FOR SECOND PASSWORD
+        password = self.request.get("password")
+        if not password:
+            return False
+        userid = self.request.get("userid")
+        randomstring = self.request.get("randomstring")
+        pw_tool = getToolByName(self.context, "portal_password_reset")
+        try:
+            pw_tool.resetPassword(userid, randomstring, password)
+        except: # XXX DUMB
+            return False
+        return True
+
     def __call__(self, *args, **kw):
         key = self.request.get('key')
         pw_tool = getToolByName(self.context, "portal_password_reset")
+        
+        if self.resetPassword(*args, **kw):
+            return self.request.RESPONSE.redirect(self.siteURL)
+
+        return self.index(*args, **kw) # XXX REALLY DONT DO THIS - TEST
+    
         try:
             pw_tool.verifyKey(key)
         except "InvalidRequestError": # XXX rollie?
