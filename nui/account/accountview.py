@@ -6,6 +6,9 @@ from opencore.nui.opencoreview import OpencoreView
 
 class JoinView(OpencoreView):
     pass
+#def __call__(self, *args, **kw):
+#        
+#        return self.index(*args, **kw)
 
 class LoginView(OpencoreView):
     @property
@@ -35,11 +38,11 @@ class ForgotLoginView(OpencoreView):
             return self.index(*args, **kw)
 
         brain = brains[0]
-        email = brain.getEmail
+        userid = brain.getId
         
-        #sendEmail(to=user) XXX ask Ra
-        #addAnnotation(user) XXX ask Whit
-
-        kw['email'] = email
+        portal_reg = getToolByName(self.context, 'portal_registration')
+        portal_reg.mailPassword(userid, self.request)
+        
+        return "An email has been sent to you, %s" % userid
         return self.index(*args, **kw) # XXX not really right
 
