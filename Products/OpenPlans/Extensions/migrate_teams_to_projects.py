@@ -27,8 +27,16 @@ def migrate_teams_to_projects(self, portal):
             proj.setSpaceTeams(new_team)
 
         elif len(teams) > 1:
-            # create a new one and consolidate the memberships
+            # record the project membership info
+            team_map = {}
+            for mem_id in proj.projectMemberIds():
+                roles = proj.get_local_roles_for_userid(mem_id)
+                roles = [r for r in roles if r in tm_roles]
+                team_map[mem_id] = roles
+
+            # create a new team and create the memberships
             team_ids = [tm.getId() for tm in teams]
+
             if proj_id in team_ids:
                 # rename the old one out of the way
                 tmtool.manage_renameObject(proj_id, 'old_%s' % proj_id)
@@ -36,12 +44,6 @@ def migrate_teams_to_projects(self, portal):
             new_team = tmtool._getOb(proj_id)
             mships = list(new_team.objectIds(spec='OpenMembership'))
             new_team.manage_delObjects(mships)
-
-            team_map = {}
-            for mem_id in proj.projectMemberIds():
-                roles = proj.get_local_roles_for_userid(mem_id)
-                roles = [r for r in roles if r in tm_roles]
-                team_map[mem_id] = roles
 
             new_team.addMembers(team_map.keys())
             for mem_id, roles in team_map.items():
