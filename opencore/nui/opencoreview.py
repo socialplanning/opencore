@@ -19,6 +19,7 @@ from topp.utils.pretty_text import truncate
 from zope.component import getMultiAdapter, adapts, adapter
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
+from Products.CMFPlone import Batch
 from Products.AdvancedQuery import Eq, RankByQueries_Sum
 
 class OpencoreView(BrowserView):
@@ -231,12 +232,11 @@ class LoginView(OpencoreView):
     def __call__(self, *args, **kw):
         if self.login:
             return self.request.RESPONSE.redirect(self.came_from or self.siteURL)
-        kw['failure'] = "mooble"
         return self.index(*args, **kw)
 
 class ProjectsView(OpencoreView):
 
-    template = ZopeTwoPageTemplateFile('projects.pt')
+    template = ZopeTwoPageTemplateFile('pages/projects.pt')
 
     def recentprojects(self):
         # XXX
@@ -257,22 +257,34 @@ class ProjectsView(OpencoreView):
         return projects
 
     def __call__(self):
-        search_action = self.request.get('action_search_projects', None)
         projname = self.request.get('projname', None)
         letter_search = self.request.get('letter_search', None)
+        start = self.request.get('b_start', 0)
+        sort_by = self.request.get('sort_by', None)
         self.search_results = None
         self.search_query = None
 
         if letter_search:
-            self.search_results = self.search_for_project_by_letter(letter_search)
+            self.search_results = self._get_batch(self.search_for_project_by_letter(letter_search, sort_by), start)
             self.search_query = 'for projects starting with &ldquo;%s&rdquo;' % letter_search
-        elif search_action and projname:
-            self.search_results = self.search_for_project(projname)
+        elif projname:
+            self.search_results = self._get_batch(self.search_for_project(projname, sort_by), start)
             self.search_query = 'for &ldquo;%s&rdquo;' % projname
             
         return self.template()
             
-    def search_for_project_by_letter(self, letter):
+    def _get_batch(self, brains, start=0):
+        return Batch(brains,
+                     size=3,
+                     start=start,
+                     end=0,
+                     orphan=0,
+                     overlap=0,
+                     pagerange=6,
+                     quantumleap=0,
+                     b_start_str='b_start')
+
+    def search_for_project_by_letter(self, letter, sort_by):
         letter = letter.lower()
         query = dict(portal_type="OpenProject",
                      Title=letter + '*')
@@ -286,32 +298,41 @@ class ProjectsView(OpencoreView):
                 or title.startswith('an ' + letter)
 
         project_brains = filter(matches, project_brains)
-        # this is expensive $$$
-        # we get object for project creation time
-        projects = [{'brain':x} for x in project_brains]
-        return projects
 
-    def search_for_project(self, project):
+        def sort_key_fn(x):
+            if sort_by is None: return 0
+
+            prop = getattr(x, sort_by)
+            if prop == 'relevancy': return 0
+            
+            if callable(prop):
+                return prop()
+            return prop
+
+        project_brains.sort(key=sort_key_fn)
+
+        return project_brains
+
+    def search_for_project(self, project, sort_by):
         project = project.lower()
 
         proj_query = project
         if not proj_query.endswith('*'):
             proj_query = proj_query + '*'
 
-        rs = RankByQueries_Sum((Eq('Title', proj_query),32), (Eq('getFull_name', proj_query),16))
-        norm = 1 + rs.getQueryValueSum()
+        if not sort_by or sort_by == 'relevancy':
+            rs = (RankByQueries_Sum((Eq('Title', proj_query),32), (Eq('getFull_name', proj_query),16)),)
+        else:
+            # we can't sort by title
+            if sort_by == 'Title':
+                sort_by = 'sortable_title'
+            rs = ((sort_by, 'desc'),)
 
         project_brains = self.catalogtool.evalAdvancedQuery(
-            Eq('portal_type', 'OpenProject') & Eq('SearchableText', proj_query), 
-            (rs,)
-            ) 
-
-        # XXX this is expensive $$$
-        # we get object for project creation time
-        projects = [{'brain':x, 
-                     'rel':round(100*float((1 + x.data_record_score_[0])) / norm, 1)} 
-                    for x in project_brains]
-        return projects
+            Eq('portal_type', 'OpenProject') & Eq('SearchableText', proj_query),
+            rs,
+            )
+        return project_brains
     
     def create_date(self, project):
         cd = project.CreationDate()
@@ -321,10 +342,16 @@ class ProjectsView(OpencoreView):
 
 
 class ProjectsResultsView(ProjectsView):
-    template = ZopeTwoPageTemplateFile('projects-searchresults.pt')
+    template = ZopeTwoPageTemplateFile('pages/projects-searchresults.pt')
     
+class PeopleResultsView(ProjectsView):
+    template = ZopeTwoPageTemplateFile('pages/people-searchresults.pt')
+
 class HomeView(ProjectsView):
-    template = ZopeTwoPageTemplateFile('home.pt')
+    template = ZopeTwoPageTemplateFile('pages/home.pt')
+
+class PeopleView(ProjectsView):
+    template = ZopeTwoPageTemplateFile('pages/people.pt')
 
 class YourProjectsView(OpencoreView):
 

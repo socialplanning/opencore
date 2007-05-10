@@ -1,0 +1,64 @@
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <link metal:fill-slot="link" />
+    <script metal:fill-slot="script" language="javascript" type="text/javascript" src="++resource++javascripts/searching.js" />
+  </head>
+  <body>
+
+<div id="oc-content-container" metal:fill-slot="content">
+
+<div class="oc-headingBlock">
+   <h1>People on OpenPlans</h1>
+   <p class="oc-headingContext">Currently bringing together <span>XXX</span> members</p>
+</div>
+
+<div id="oc-content-main">
+
+<div class="oc-widget oc-widget-search">    
+<form name="projects_search" action="." tal:attributes="action request/ACTUAL_URL">
+  <label><h2>Search for people</h2></label>
+  <span class="oc-form-fieldBlock">
+  <input class="oc-input-typeText" type="text" name="projname" />
+  <input type="hidden" name="oc-content" value="oc-projects-searchresults" />
+  <input type="hidden" name="letter_search" />
+  <input type="submit" name="action_search_projects" value="Search" />
+  </span>
+</form>
+    <ul class="oc-widget-alphabet" tal>
+        <li tal:repeat="letter modules/string/uppercase">
+        <a href="" tal:content="letter" tal:attributes="href string:javascript:projects_search_letter('${letter}');;">A</a>
+        </li>
+    </ul>
+</div>
+
+<div> <!-- if not logged in -->
+  <h2>Become a member</h2>
+  <p>Our tools help you <a style="" href="http://www.openplans.org/projects/openplans-help/create-a-new-project">create</a> or <a style="" href="http://www.openplans.org/projects/openplans-help/contribute-to-an-existing-project">contribute</a> to web sites, <a style="" href="http://www.openplans.org/projects/openplans-help/add-files-to-a-page">share files</a>, upload photos, <a style="" href="http://www.openplans.org/projects/openplans-help/create-and-manage-mailing-lists">manage mailing lists</a>, and manage task lists. OpenPlans is collaborative software so most <a style="" href="http://www.openplans.org/projects/openplans-help/edit-an-existing-page">pages are editable</a>. It takes just seconds to <a style="" href="http://www.openplans.org/join_form">register</a> and, once you <a style="" href="http://www.openplans.org/login_form">log in</a>, you can <a style="" href="http://www.openplans.org/projects/openplans-help/create-a-new-project">start your own project</a> or <a style="" href="http://www.openplans.org/projects/openplans-help/contribute-to-an-existing-project">contribute to an existing one</a>.</p>
+</div>
+
+  <div> <!-- if not logged in, blank slate -->
+    <h2>Participate on OpenPlans</h2>
+    <ul>
+    <li>Customize your profile</li>
+      <li>Upload a photo</li>
+      <li>Invite others</li>
+      <li>Join a project (in your area)</li>
+      <li>Start a project</li>
+    </ul>
+  </div>
+
+</div><!-- content-main -->
+
+
+<!-- content-sidebar -->
+
+<div id="oc-content-sidebar">
+
+</div><!-- content-sidebar -->
+
+<hr class="oc-clearElement" />
+
+</div><!-- oc-content-container -->
+
+  </body>
+</html>

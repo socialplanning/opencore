@@ -15,12 +15,6 @@
 
     <!-- allows for the insertion of css and other linked features -->
     <metal:link-slot define-slot="link"/>  	
-    <script language="javascript" type="text/javascript">
-      function projects_search_letter(letter) {
-          document.projects_search.letter_search.value = letter;
-          document.projects_search.submit();
-      }
-    </script>
     <script language="javascript" type="text/javascript" src="++resource++javascripts/utilities.js "></script>
     <script language="javascript" type="text/javascript" src="++resource++javascripts/ded-chain-min.js" ></script>
     <script type="text/javascript" src="++resource++javascripts/ext.js" ></script>
