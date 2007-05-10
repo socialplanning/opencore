@@ -46,29 +46,28 @@ class ForgotLoginView(OpencoreView):
         return "An email has been sent to you, %s" % userid  # XXX rollie?
         return self.index(*args, **kw) # XXX not really right
 
-class PasswordResetView(OpencoreView):
-    def resetPassword(self, *args, **kw):  # XXX NO VALIDATION FOR SECOND PASSWORD
+class DoPasswordResetView(OpencoreView):
+    def __call__(self, *args, **kw):
         password = self.request.get("password")
         if not password:
-            return False
+            return "Failed."
         userid = self.request.get("userid")
         randomstring = self.request.get("randomstring")
         pw_tool = getToolByName(self.context, "portal_password_reset")
         try:
             pw_tool.resetPassword(userid, randomstring, password)
         except: # XXX DUMB
-            return False
-        return True
+            return "Failed."
+        plone_utils = getToolByName(self.context, 'plone_utils')
+        from Products.CMFPlone import PloneMessageFactory
+        plone_utils.addPortalMessage(PloneMessageFactory(u'Your password has been reset'))
+        return self.request.RESPONSE.redirect(self.siteURL)
 
+class PasswordResetView(OpencoreView):
     def __call__(self, *args, **kw):
         key = self.request.get('key')
         pw_tool = getToolByName(self.context, "portal_password_reset")
         
-        if self.resetPassword(*args, **kw):
-            return self.request.RESPONSE.redirect(self.siteURL)
-
-        return self.index(*args, **kw) # XXX REALLY DONT DO THIS - TEST
-    
         try:
             pw_tool.verifyKey(key)
         except "InvalidRequestError": # XXX rollie?
