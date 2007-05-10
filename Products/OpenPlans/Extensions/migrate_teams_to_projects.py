@@ -31,7 +31,7 @@ def migrate_teams_to_projects(self, portal):
             team_ids = [tm.getId() for tm in teams]
             if proj_id in team_ids:
                 # rename the old one out of the way
-                tmtool.manage_renameObject(proj_id, 'old_%' % proj_id)
+                tmtool.manage_renameObject(proj_id, 'old_%s' % proj_id)
             proj._createTeam() # <--- adds a membership that we need to remove
             new_team = tmtool._getOb(proj_id)
             mships = list(new_team.objectIds(spec='OpenMembership'))
