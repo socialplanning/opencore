@@ -7,4 +7,4 @@
 ##title=Create the URL where passwords are reset
 ##parameters=randomstring
 host = container.absolute_url()
-return "%s/reset-password/%s" % (host, randomstring)
+return "%s/reset-password?key=%s" % (host, randomstring)
