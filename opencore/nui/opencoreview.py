@@ -220,20 +220,6 @@ class OpencoreView(BrowserView):
             return self.user_exists(username)
         return False
 
-class LoginView(OpencoreView):
-    @property
-    def came_from(self):
-        return self.request.get('came_from')
-
-    @property
-    def login(self):
-        return self.loggedin()
-
-    def __call__(self, *args, **kw):
-        if self.login:
-            return self.request.RESPONSE.redirect(self.came_from or self.siteURL)
-        return self.index(*args, **kw)
-
 class ProjectsView(OpencoreView):
 
     template = ZopeTwoPageTemplateFile('pages/projects.pt')

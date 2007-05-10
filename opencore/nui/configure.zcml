@@ -4,6 +4,7 @@
 
   <include package=".skin"/>
   <include package=".pages" />
+  <include package=".account" />
   <!-- resource directories for css, images, etc -->
   <browser:resourceDirectory
     name="css"
