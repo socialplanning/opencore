@@ -15,6 +15,6 @@ Get the list of projects that were recently updated
    ['Proj1', 'Proj2', 'Proj3', 'Proj4']
 
 Traversing to the url should yield the same class
-   >>> view = self.portal.unrestrictedTraverse('oc-projects')
+   >>> view = self.portal.unrestrictedTraverse('projects/@@index.html')
    >>> view
-   'name of object'
+   <Products.Five.metaclass.SimpleViewClass from ...>
