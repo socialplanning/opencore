@@ -15,6 +15,7 @@
      class=".accountview.PasswordResetView"
      permission="zope.Public"
      name="reset-password"
+     template="reset-password.pt"
      />
 
   <browser:page
