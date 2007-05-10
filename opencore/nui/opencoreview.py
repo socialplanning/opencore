@@ -250,6 +250,12 @@ class ProjectsView(OpencoreView):
         self.search_results = None
         self.search_query = None
 
+        # this resets pagination when the sort order is changed
+        if self.request.get('REQUEST_METHOD', None) == 'POST':
+            start = 0
+            self.request.set('b_start', 0)
+            
+
         if letter_search:
             self.search_results = self._get_batch(self.search_for_project_by_letter(letter_search, sort_by), start)
             self.search_query = 'for projects starting with &ldquo;%s&rdquo;' % letter_search
