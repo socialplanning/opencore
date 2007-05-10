@@ -68,7 +68,7 @@
                     <tr class="oc-options">
                       <th></th>
                       <td>
-                        <a href="">Forgot your username or password?</a>
+                        <a href="forgot">Forgot your username or password?</a>
                       </td>
                       <td class="oc-form-helpBlock"></td>
                     </tr>
@@ -80,7 +80,7 @@
       
       <div id="oc-content-sidebar">
           <h3>First time here?</h3>
-          <p><a class="oc-button" href=""> create an account</a></p>
+          <p><a class="oc-button" href="join"> create an account</a></p>
           <p><a href="">Learn more</a></p>
       </div><!-- end #content-sidebar -->
       </div><!-- end #oc-content-container -->
