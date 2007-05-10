@@ -21,8 +21,7 @@
           <form method="post" id="oc-login-form"
 		tal:attributes="action python:context.absolute_url()+'/logged_in'"
 		>
-            <!-- <input type="hidden" name="came_from" value="http://www.openplans.org/" /> -->
-	    
+
             <input type="hidden" name="form.submitted" value="1" />
             <input type="hidden" name="js_enabled" id="js_enabled" value="0" />
             <input type="hidden" name="cookies_enabled" id="cookies_enabled" value="" />

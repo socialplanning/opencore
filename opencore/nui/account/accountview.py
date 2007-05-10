@@ -38,7 +38,8 @@ class ForgotLoginView(OpencoreView):
         email = brain.getEmail
         
         #sendEmail(to=user) XXX ask Ra
-        
+        #addAnnotation(user) XXX ask Whit
+
         kw['email'] = email
         return self.index(*args, **kw) # XXX not really right
 

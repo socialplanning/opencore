@@ -1,7 +1,3 @@
-<tal:vars tal:define="global usr view/user;
-                      global canedit usr/canedit;
-                      global page view/page" />
-
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
     <link metal:fill-slot="link" />
