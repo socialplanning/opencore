@@ -276,21 +276,21 @@ class AttachmentView(OpencoreView):
         self.context.manage_delObjects([attachmentId])
 
     def createAtt(self):
-#         attachmentTitle = self.request.get('attachmentTitle')
-#         attachmentFile = self.request.get('attachmentFile')
+         attachmentTitle = self.request.get('attachment_title')
+         attachmentFile = self.request.get('attachment_file')
 
-#         if not attachmentFile:
-#             self.errors = {'attachmentFile' : 'you forgot to upload something'}
+         if not attachmentFile:
+             self.errors = {'attachment_file' : 'you forgot to upload something'}
 
 #         # Make sure we have a unique file name
-#         fileName = attachmentFile.filename
+         fileName = attachmentFile.filename
 
-#         imageId = ''
+         imageId = ''
 
-#         if fileName:
-#             fileName = fileName.split('/')[-1]
-#             fileName = fileName.split('\\')[-1]
-#             fileName = fileName.split(':')[-1]
+         if fileName:
+             fileName = fileName.split('/')[-1]
+             fileName = fileName.split('\\')[-1]
+             fileName = fileName.split(':')[-1]
 
 #             imageId = plone_utils.normalizeString(fileName)
 
@@ -308,7 +308,6 @@ class AttachmentView(OpencoreView):
 #         object.setFile(attachmentFile)
 #         object.reindexObject()
 
-        self.render_page_by_name("create-att")
 
 
     def render_page_by_name(self, page):
