@@ -220,22 +220,9 @@ class OpencoreView(BrowserView):
 
 
 class ProjectEditView(OpencoreView):
-    confirm = ZopeTwoPageTemplateFile('confirm.pt')
     wiki_edit = ZopeTwoPageTemplateFile('wiki-edit.pt', 'pages')
 
-    def __call__(self, *args, **kwargs):
-        action = self.request.form.get('action', 'show')
-        if not action in ['show', 'update']:
-            return 
-
-        if action == 'show' or self.request.method == "POST":
-            return getattr(self, action)()
-        else:
-            self.action = action
-            return self.confirm(*args, **kwargs)
-
     def update(self):
-
         self.errors = {}
         self.context.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
@@ -246,11 +233,9 @@ class ProjectEditView(OpencoreView):
         self.request.response.redirect(self.context.absolute_url())
 
     def show(self):
-        #return super(ProjectEditView, self).__call__()
         return self.wiki_edit()
 
 class AttachmentView(OpencoreView):
-    confirm = ZopeTwoPageTemplateFile('confirm.pt')
     create_snippet = ZopeTwoPageTemplateFile('create-att.pt', 'pages')
 
     def handle_updateAtt(self):
