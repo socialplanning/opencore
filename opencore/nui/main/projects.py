@@ -1,13 +1,9 @@
-# projects page classes
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFPlone import Batch
 from Products.AdvancedQuery import Eq, RankByQueries_Sum
  
 from opencore.nui.opencoreview import OpencoreView
 
 class ProjectsView(OpencoreView):
-
-    template = ZopeTwoPageTemplateFile('projects.pt')
 
     def recentprojects(self):
         # XXX
@@ -48,7 +44,7 @@ class ProjectsView(OpencoreView):
             self.search_results = self._get_batch(self.search_for_project(projname, sort_by), start)
             self.search_query = 'for &ldquo;%s&rdquo;' % projname
             
-        return self.template()
+        return self.index()
             
     def _get_batch(self, brains, start=0):
         return Batch(brains,
@@ -119,13 +115,13 @@ class ProjectsView(OpencoreView):
 
 
 class ProjectsResultsView(ProjectsView):
-    template = ZopeTwoPageTemplateFile('projects-searchresults.pt')
+    pass
     
 class PeopleResultsView(ProjectsView):
-    template = ZopeTwoPageTemplateFile('people-searchresults.pt')
+    pass
 
 class HomeView(ProjectsView):
-    template = ZopeTwoPageTemplateFile('home.pt')
+    pass
 
 class PeopleView(ProjectsView):
-    template = ZopeTwoPageTemplateFile('people.pt')
+    pass
