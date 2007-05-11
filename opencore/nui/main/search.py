@@ -3,7 +3,7 @@ from Products.AdvancedQuery import Eq, RankByQueries_Sum
  
 from opencore.nui.opencoreview import OpencoreView
 
-class ProjectsView(OpencoreView):
+class SearchView(OpencoreView):
 
     def recentprojects(self):
         # XXX
@@ -112,16 +112,3 @@ class ProjectsView(OpencoreView):
         time_obj = strptime(cd, '%Y-%m-%d %H:%M:%S')
         datetime_obj = datetime.datetime(*time_obj[0:6])
         return prettyDate(datetime_obj)
-
-
-class ProjectsResultsView(ProjectsView):
-    pass
-    
-class PeopleResultsView(ProjectsView):
-    pass
-
-class HomeView(ProjectsView):
-    pass
-
-class PeopleView(ProjectsView):
-    pass
