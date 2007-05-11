@@ -21,6 +21,11 @@ Test searching for projects that start with a letter
    >>> titles
    ['Proj1', 'Proj2', 'Proj3', 'Proj4']
 
+Now try sorting the projects
+   >>> brains = view.search_for_project_by_letter('P', sort_by='modified')
+   >>> [b.Title for b in brains]
+   ['Proj2', 'Proj3', 'Proj1', 'Proj4']
+
 Searching for a letter that doesn't match any projects
    >>> view.search_for_project_by_letter('X')
    []
@@ -38,6 +43,11 @@ Try a substring search
    >>> titles.sort()
    >>> titles
    ['Proj1', 'Proj2', 'Proj3', 'Proj4']
+
+And now sort them by creation time
+   >>> brains = view.search_for_project('Proj', sort_by='created')
+   >>> [b.Title for b in brains]
+   ['Proj2', 'Proj3', 'Proj1', 'Proj4']
 
 Traversing to the url should yield the same class
    >>> view = self.portal.projects.unrestrictedTraverse('oc-projects')
