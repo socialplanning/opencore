@@ -7,86 +7,110 @@
 
     <div id="oc-content-container" metal:fill-slot="content">              
 
-    <div class="oc-headingBlock">
-      <h1>Projects on OpenPlans</h1>
-      <p class="oc-headingContext">Currently serving <span tal:replace="view/nprojects"/> projects</p>
-    </div>
-    
-    <div id="oc-content-main">
-      <div class="oc-searchresults">
-        <h2>Search results <span tal:condition="view/search_query | nothing" tal:replace="structure view/search_query" /></h2>
-    
-        <tal:got_results condition="view/search_results"
-       define="batch view/search_results;
-         batch_base_url request/ACTUAL_URL;
-                     start batch/start;
-                     end batch/end;
-                     sequence_length batch/sequence_length;
-         ">
-          <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
-            Result<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
-            <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
-            of <span tal:replace="sequence_length">376</span> sorted by
-        <form name="projects_sort" method="POST" action="." tal:attributes="action string:${context/portal_url}/projects/searchresults">
-            <select name="sort_by" tal:define="sorted_by python: request.get('sort_by')">
-              <option value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
-              <option value="modified" tal:attributes="selected python: sorted_by == 'modified'">date updated</option>
-              <option value="created" tal:attributes="selected python: sorted_by == 'created'">date created</option>
-              <option value="Title" tal:attributes="selected python: sorted_by == 'Title'">project name</option>
-              <option value="Creator" tal:attributes="selected python: sorted_by == 'Creator'">member name</option>
-            </select>
-            <input tal:condition="request/projname | nothing" type="hidden" name="projname"
-                   tal:attributes="value request/projname" />
-            <input tal:condition="request/letter_search | nothing" type="hidden" name="letter_search"
-                   tal:attributes="value request/letter_search" />
-            <input tal:condition="request/b_start | nothing" type="hidden" name="b_start:int"
-                   tal:attributes="value request/b_start" />
-            <input type="submit" name="action_sort_projects" value="sort" />
-          </form>
-          </div>
-    <div metal:use-macro="context/@@batch_macros/pagination"/>
-          <ol class="oc-searchresults-list">
-      <li class="oc-searchresults-item" tal:repeat="item view/search_results">
-        <h3><a href="" tal:attributes="href string:${context/portal_url}/projects/${item/getId}" tal:content="item/Title">Project Title</a></h3>
-        <span class="oc-discreetText">
-                <span>created by <a tal:attributes="href string:${context/portal_url}/author/${item/Creator}" tal:content="item/Creator" />, 
-            <span tal:content="python: view.create_date(item.getObject())" />
-          </span>
-                <!-- <span>last updated by <a href="link to user profile">username</a>, at 1:37am</span> --> <!-- for sorting by recent activity -->
-        </span>
-        <!--<p tal:condition="item/rel | nothing" tal:content="string:Relevancy: ${item/rel}%"/>-->
-        <!-- XXX put in correct mission statement -->
-        <p tal:content="string: item mission statement goes here" />
-      </li>
-          </ol>
-          <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
-            Result<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
-            <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
-            of <span tal:replace="sequence_length">376</span> </div>
-    <div metal:use-macro="context/@@batch_macros/pagination"/>
-        </tal:got_results>
-        <div tal:condition="not: view/search_results">No results found.</div>
-
-      </div> <!-- oc-searchresults -->
-    </div> <!-- content-main -->
-    
-    
-    <div id="oc-content-sidebar">
-      <div class="oc-widget oc-widget-search">    
-        <form name="projects_search" action="." tal:attributes="action string:${context/portal_url}/projects/searchresults">
-          <label><h2>New search</h2></label>
-          <input type="text" name="projname" tal:attributes="value request/projname | nothing" />
-          <input type="hidden" name="letter_search" />
-          <input type="submit" name="action_search_projects" value="Search" />
-        </form>
-        
-        <ul class="oc-widget-alphabet" tal>
-          <li tal:repeat="letter modules/string/uppercase">
-	    <a href="" tal:content="letter" tal:attributes="href string:${request/ACTUAL_URL}?letter_search=${letter}">A</a>
-          </li>
-        </ul>
+      <div class="oc-headingBlock">
+        <h1>Projects on OpenPlans</h1>
+        <p class="oc-headingContext">Currently serving <span tal:replace="view/nprojects"/> projects</p>
       </div>
-    </div><!-- content-sidebar -->
+      
+      <div id="oc-content-main">
+
+        <div class="oc-searchresults">
+          <h2>Search results <span tal:condition="view/search_query | nothing" tal:replace="structure view/search_query" /></h2>
+
+          <!-- batch needs to have some variables set up to work properly.
+               here is where they are defined -->
+          <tal:got_results condition="view/search_results"
+                           define="batch view/search_results;
+                                   batch_base_url request/ACTUAL_URL;
+                                   start batch/start;
+                                   end batch/end;
+                                   sequence_length batch/sequence_length;
+                                   ">
+
+            <!-- display the number of results that came back -->
+            <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
+              Result<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
+              <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
+              of <span tal:replace="sequence_length">376</span> sorted by
+
+              <!-- when sorting, we post the action to distinguish between searching
+                   this was necessary because the batch macro reposts the request data, and we see problems
+                   when trying to reset to page when the sorting changes -->
+              <form name="projects_sort" method="POST" action="." tal:attributes="action string:${context/portal_url}/projects/searchresults">
+                <select name="sort_by" tal:define="sorted_by python: request.get('sort_by')">
+                  <option value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
+                  <option value="modified" tal:attributes="selected python: sorted_by == 'modified'">date updated</option>
+                  <option value="created" tal:attributes="selected python: sorted_by == 'created'">date created</option>
+                  <option value="Title" tal:attributes="selected python: sorted_by == 'Title'">project name</option>
+                  <option value="Creator" tal:attributes="selected python: sorted_by == 'Creator'">member name</option>
+                </select>
+                <input tal:condition="request/projname | nothing" type="hidden" name="projname"
+                       tal:attributes="value request/projname" />
+                <input tal:condition="request/letter_search | nothing" type="hidden" name="letter_search"
+                       tal:attributes="value request/letter_search" />
+                <input tal:condition="request/b_start | nothing" type="hidden" name="b_start:int"
+                       tal:attributes="value request/b_start" />
+                <input type="submit" name="action_sort_projects" value="sort" />
+              </form>
+            </div>
+
+            <!-- pagination uses the batch macro -->
+            <div metal:use-macro="context/@@batch_macros/pagination"/>
+
+            <!-- the results are displayed here -->
+            <ol class="oc-searchresults-list">
+              <li class="oc-searchresults-item" tal:repeat="item view/search_results">
+                <h3><a href="" tal:attributes="href string:${context/portal_url}/projects/${item/getId}" tal:content="item/Title">Project Title</a></h3>
+                <span class="oc-discreetText">
+                  <span>created by <a tal:attributes="href string:${context/portal_url}/author/${item/Creator}" tal:content="item/Creator" />, 
+                    <span tal:content="python: view.create_date(item.getObject())" />
+                  </span>
+                  <!-- <span>last updated by <a href="link to user profile">username</a>, at 1:37am</span> --> <!-- for sorting by recent activity -->
+                </span>
+                <!--<p tal:condition="item/rel | nothing" tal:content="string:Relevancy: ${item/rel}%"/>-->
+                <!-- XXX put in correct mission statement -->
+                <p tal:content="string: item mission statement goes here" />
+              </li>
+            </ol>
+            <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
+              Result<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
+              <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
+              of <span tal:replace="sequence_length">376</span> </div>
+
+            <!-- we put pagination on the bottom of the page too -->
+            <div metal:use-macro="context/@@batch_macros/pagination"/>
+          </tal:got_results>
+
+          <!-- if we get no results, this is what is displayed -->
+          <div tal:condition="not: view/search_results">No results found.</div>
+
+        </div> <!-- oc-searchresults -->
+      </div> <!-- content-main -->
+      
+      
+      <div id="oc-content-sidebar">
+
+        <!-- the sidebar contains the search for the project, as well as the letters that search for projects
+             starting with that letter
+             we can possibly create a macro that displays this form and letters generically -->
+        <div class="oc-widget oc-widget-search">    
+          <form name="projects_search" action="." tal:attributes="action string:${context/portal_url}/projects/searchresults">
+            <label><h2>New search</h2></label>
+            <input type="text" name="projname" tal:attributes="value request/projname | nothing" />
+            <input type="hidden" name="letter_search" />
+            <input type="submit" name="action_search_projects" value="Search" />
+          </form>
+          
+          <ul class="oc-widget-alphabet" tal>
+            <li tal:repeat="letter modules/string/uppercase">
+              <a href="" tal:content="letter" tal:attributes="href string:${request/ACTUAL_URL}?letter_search=${letter}">A</a>
+            </li>
+          </ul>
+        </div>
+
+      </div><!-- content-sidebar -->
+
     </div><!-- oc-content-container -->
+
   </body>
 </html>
