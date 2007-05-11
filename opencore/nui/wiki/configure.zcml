@@ -20,6 +20,7 @@
     />
 				   
   <!-- Test for upload form: bind to site root -->
+  <!-- 
   <browser:page
      for="*"
      class="..opencoreview.OpencoreView"
@@ -27,6 +28,8 @@
      name="update-test"
      template="update-test.pt"
      />
+   where is this?
+   -->
      
   <browser:page
     for="opencore.content.page.OpenPage"
