@@ -1,7 +1,7 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
     <link metal:fill-slot="link" />
-    <script metal:fill-slot="script" language="javascript" type="text/javascript" src="++resource++javascripts/searching.js" />
+    <script metal:fill-slot="script" />
   </head>
   <body>
 
@@ -82,7 +82,7 @@
         
         <ul class="oc-widget-alphabet" tal>
           <li tal:repeat="letter modules/string/uppercase">
-      <a href="" tal:content="letter" tal:attributes="href string:javascript:projects_search_letter('${letter}');;">A</a>
+	    <a href="" tal:content="letter" tal:attributes="href string:${request/ACTUAL_URL}?letter_search=${letter}">A</a>
           </li>
         </ul>
       </div>
