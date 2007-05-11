@@ -420,6 +420,45 @@ ul.oc-dropdown, .oc-dropdown ul {
 	font-size: 10px;
 }
 
+/* People search results */
+
+.oc-peopleresults {
+}
+.oc-peopleresults-list {
+	list-style-type: none;
+	padding: 0;
+}
+.oc-peopleresults li {
+	margin-bottom: 0.5em;
+	width: 49%;
+	float: left;
+	clear: none;
+	white-space: nowrap;
+}
+.oc-peopleresults .oc-avatar {
+	width: 80px;
+	height: 80px;
+	background: #eee;
+	float: left;
+	clear: none;
+	margin-right: 1em;
+}
+.oc-peopleresults-content {
+	float: left;
+	clear: none;
+	width: 60%;
+	white-space: normal;
+}
+.oc-peopleresults-username {
+	margin: 0;
+}
+.oc-peopleresults-realname {
+	margin: 0;
+}
+.oc-peopleresults-location {
+  font-style: normal;
+}
+
 /* Member profile pages */
 
 #oc-member-info {
@@ -623,8 +662,29 @@ z-index: 5;
 			}
 
 			
-/* GENERAL CLASSES & @FORMS & @WIDGETS - reusable thingys
--------------------------------------------*/
+/* GENERIC CLASSES & FORMS & WIDGETS & BEHAVIORS oh my - reusable thingys
+-------------------------------------------
+
+GENERIC: Buttons
+GENERIC: Elements
+
+@FORM Stuff
+  Expanders
+  Actions
+
+@WIDGETS
+  headingBlock
+  List table
+  Last modified
+  Feeds
+  Invitations
+  Search box
+  Alphabet Search
+  
+@BEHAVIORS
+
+*/
+
 .oc-hidden {
  	display:none;
 }
@@ -662,7 +722,7 @@ a.oc-close:hover {
 	color: white;
 }
 
-/* @Form Stuff */
+/* @FORM Stuff */
 .oc-form {
 }
 .oc-form * {
@@ -815,14 +875,12 @@ li.oc-feed-item {
 }
 li.oc-feed-item .oc-avatar {
 	width: 80px;
-	height: 100px;
 	float: left;
 	clear: none;
 	margin-right: 1em;
 }
 li.oc-feed-item .oc-project-logo {
 	width: 80px;
-	height: 100px;
 	float: left;
 	clear: none;
 	margin-right: 1em;
@@ -926,7 +984,7 @@ li.oc-invite .oc-invite-content {
 	text-decoration: none;
 }
 
-/* @Behaviors 
+/* @BEHAVIORS
 --------------------------*/
 .oc-liveEdit-value {
 	border: 1px solid transparent;
