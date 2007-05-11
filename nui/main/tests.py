@@ -18,11 +18,6 @@ def test_suite():
     from zope.interface import alsoProvides
 
     setup.setupPloneSite()
-    #def readme_setup(tc):
-    #    tc._refreshSkinData()
-
-    # self.app
-    # self.portal
 
     globs = locals()
     readme = FunctionalDocFileSuite("README.txt",
@@ -30,7 +25,6 @@ def test_suite():
                                     package='opencore.nui.main',
                                     test_class=FunctionalTestCase,
                                     globs = globs,
-                                    #setUp=readme_setup
                                     )
     readme.layer = OpencoreContent
 
