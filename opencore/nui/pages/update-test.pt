@@ -7,7 +7,7 @@
     <a href="" class="oc-liveEdit-edit">Edit</a> | <a href="" class="">Delete</a>
 
   </div><!-- end .liveEdit-value -->  
-    <form style="" id="ext-gen17" class="oc-liveEdit-form" method="post" action="@@updateAtt">
+    <form style="" id="ext-gen17" class="oc-liveEdit-form" method="post" action="@@update-test">
       <input name="attachmentTitles.id:records" value="parking3.jpg" type="hidden">
       <input name="attachmentTitles.title:records" size="30" id="#" value="hi" type="text">
       <input value="Edit" type="submit">

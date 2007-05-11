@@ -10,7 +10,6 @@
 		this.closeButtons = new Array();
 		this.expanders = new Array();
 		this.dropDownLinks = new Array();
-		//this.wikiTabs = new Array();
 		this.registerForm;
 		this.wikiAttachmentform;
 	} //end OC
@@ -22,6 +21,7 @@
 	#
 	*/
 	function LiveEditForm (el) {
+	
 		//get references for included elements
 		this.container = Ext.get(el);
 		this.value = Ext.get(Ext.query('.oc-liveEdit-value', el)[0]);
@@ -29,18 +29,13 @@
 		this.form = Ext.get(Ext.query('.oc-liveEdit-form', el)[0]);
 		this.cancel = Ext.get(Ext.query('.oc-liveEdit-cancel', el)[0]);
 		
-		console.log('new form');
-    console.log(el);
-		console.log(this.container);
-		console.log(this.value);
-		console.log(this.form);
-
-		//this.target = this.form.dom.action;
-		
-		// check to make sure we have everything
+		// check to make sure we have what we need
 		if(!this.container || !this.value || !this.form)
 		  return;
-		console.log('have elements');
+		  
+		// set additional refs that depend on elements
+		this.action = this.form.dom.action;    
+
 		
 		/*
 		# Attach Behviors
@@ -86,26 +81,31 @@
 		//ajax request
 		this.formSubmit = function(e, el, o) {
       YAHOO.util.Connect.setForm(el);
-      var cObj = YAHOO.util.Connect.asyncRequest("POST","http://localhost:8080/openplans/projects/nicktestproj/project-home/@@update-test", { success: this.afterUpdate, failure: this.afterUpdate, scope: this });
+      var cObj = YAHOO.util.Connect.asyncRequest("POST", this.action, { success: this.afterSuccess, failure: this.afterFailure, scope: this });
       YAHOO.util.Event.stopEvent(e);
     }
     this.form.on('submit', this.formSubmit, this);
     
     // after request
-    this.afterUpdate = function(o) {
-      // insert new
+    this.afterSuccess = function(o) {
+    
+      // insert new - DomHelper.insertHtml converts string to DOM nodes
       var newItem = Ext.get(Ext.DomHelper.insertHtml('afterEnd', this.container.dom, o.responseText));
 
-      // remove delete existing elements
+      // delete original container
       this.container.remove();
       
       // highlight
       newItem.highlight();
-      //TODO: re-up liveEdit behaviors or add HTML to DOM
+      
+      // re-up liveEdit behaviors on new element
       new LiveEditForm(newItem.dom);
     }
+    this.afterFailure = function(o) {
+      alert('Oops! There was a problem.\n\n' + o.responseText); 
+    }
 		
-		//cancel
+		// cancel link
 		if (this.cancel) {
         this.cancelClick = function(e, el, o) {
           this.value.show();
@@ -119,29 +119,6 @@
 				
 	}
 	
-	/* for later - extend this for other types of forms
-			//this.selectBoxes = Ext.query("#" + elId + " select");  //quick for demo.		
-		//this.selectBox = Ext.get(this.selectBoxes[0]); //quick for demo.
-			
-			//select
-			
-		// temp.  this will change to be a smarter query.
-		this.selectBoxChange = function (e, el, o){
-			//show/hide
-			this.value.show();
-			this.form.hide();
-			
-			//do an ajax call
-			
-			//update the target
-			this.value.update(el.value);
-			
-			//highlight
-			this.container.removeClass('oc-liveEdit-editing');
-			this.container.highlight('c6ff80', { endColor: 'ffffff' });
-		}
-		//this.selectBox.on('change', this.selectBoxChange, this);
-  */
 	
 	/* 
 	#
@@ -218,74 +195,7 @@
 		this.content.setVisibilityMode(Ext.Element.DISPLAY);
 		//this.content.hide();
 	}
-	
-	/* 
-	#
-	# WikiTabs
-	#
-	*/
-	function WikiTab (el) {
-		// get references. 
-		this.tab = Ext.get(el);
-		this.wikiEdit = Ext.get(Ext.select(".oc-wiki-edit"));
-		this.wikiContent = Ext.get(Ext.select(".oc-wiki-content"));
-		this.wikiHistory = Ext.get(Ext.select(".oc-wiki-history"));
-		
-		//check to make sure we've got everything
-		if (!this.tab || !this.wikiEdit || !this.wikiContent || !this.wikiHistory)
-		  return;
-		
-		// content box
-		this.wikiContent.setVisibilityMode(Ext.Element.DISPLAY);
-		
-		// edit box
-		this.wikiEdit.setVisibilityMode(Ext.Element.DISPLAY);
-		this.wikiEdit.hide();
-		
-		// history box
-		this.wikiHistory.setVisibilityMode(Ext.Element.DISPLAY);
-		this.wikiHistory.hide();
-		
-		// view tab				
-		this.viewClick = function(e, el, o) {
-			this.wikiEdit.hide();
-			this.wikiContent.show();
-			this.wikiHistory.hide();
-			Ext.select('.oc-tabs li a').removeClass('oc-selected');
-			Ext.get(el).addClass('oc-selected');
-			YAHOO.util.Event.stopEvent(e);
-		}
-		if (el.rel == "view") {
-		  this.tab.addClass('oc-selected');
-			this.tab.on('click', this.viewClick, this);
-		} 
-		
-		//edit tab
-		this.editClick = function(e, el, o) {
-			this.wikiEdit.show();
-			this.wikiContent.hide();
-			this.wikiHistory.hide();
-			Ext.select('.oc-tabs li a').removeClass('oc-selected');
-			Ext.get(el).addClass('oc-selected');
-			YAHOO.util.Event.stopEvent(e);
-		}
-		if (el.rel == "edit") {
-			this.tab.on('click', this.editClick, this);
-		} 
-		
-		// history tab
-		this.historyClick = function(e, el, o) {
-			this.wikiEdit.hide();
-			this.wikiContent.hide();
-			this.wikiHistory.show();
-			Ext.select('.oc-tabs li a').removeClass('oc-selected');
-			Ext.get(el).addClass('oc-selected');
-			YAHOO.util.Event.stopEvent(e);
-		}
-		if (el.rel == "history") {
-			this.tab.on('click', this.historyClick, this);
-		}	
-	}
+
 	
 	/*
 	#
@@ -387,11 +297,6 @@
 		Ext.query('.oc-expander').forEach(function(el) {
 			OC.expanders.push(new Expander(el));
 		});
-		
-		// Find wiki tabs and make them wikiTab objects
-		//Ext.query('.oc-tabs li a').forEach(function(el) {
-		//	OC.wikiTabs.push(new WikiTab(el));
-		//});
 		
 		// Find login form and make LoginForm object
 		if (Ext.get('oc-join-form')) {
