@@ -1,5 +1,8 @@
+import datetime
+from time import strptime
 from Products.CMFPlone import Batch
 from Products.AdvancedQuery import Eq, RankByQueries_Sum
+from topp.utils.pretty_date import prettyDate
  
 from opencore.nui.opencoreview import OpencoreView
 
@@ -36,7 +39,6 @@ class SearchView(OpencoreView):
             start = 0
             self.request.set('b_start', 0)
             
-
         if letter_search:
             self.search_results = self._get_batch(self.search_for_project_by_letter(letter_search, sort_by), start)
             self.search_query = 'for projects starting with &ldquo;%s&rdquo;' % letter_search

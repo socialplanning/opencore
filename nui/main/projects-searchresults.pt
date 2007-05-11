@@ -18,7 +18,6 @@
     
         <tal:got_results condition="view/search_results"
        define="batch view/search_results;
-         template_id view/template/getId;
          batch_base_url request/ACTUAL_URL;
                      start batch/start;
                      end batch/end;
@@ -28,7 +27,7 @@
             Result<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
             <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
             of <span tal:replace="sequence_length">376</span> sorted by
-        <form name="projects_sort" method="POST" action="." tal:attributes="action string:${context/portal_url}/oc-projects-searchresults">
+        <form name="projects_sort" method="POST" action="." tal:attributes="action string:${context/portal_url}/projects/searchresults">
             <select name="sort_by" tal:define="sorted_by python: request.get('sort_by')">
               <option value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
               <option value="modified" tal:attributes="selected python: sorted_by == 'modified'">date updated</option>
@@ -74,7 +73,7 @@
     
     <div id="oc-content-sidebar">
       <div class="oc-widget oc-widget-search">    
-        <form name="projects_search" action="." tal:attributes="action string:${context/portal_url}/oc-projects-searchresults">
+        <form name="projects_search" action="." tal:attributes="action string:${context/portal_url}/projects/searchresults">
           <label><h2>New search</h2></label>
           <input type="text" name="projname" tal:attributes="value request/projname | nothing" />
           <input type="hidden" name="letter_search" />

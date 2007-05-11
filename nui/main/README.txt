@@ -50,7 +50,7 @@ And now sort them by creation time
    ['Proj2', 'Proj3', 'Proj1', 'Proj4']
 
 Traversing to the url should yield the same class
-   >>> view = self.portal.projects.unrestrictedTraverse('oc-projects')
+   >>> view = self.portal.projects.unrestrictedTraverse('searchresults')
    >>> view
    <Products.Five.metaclass.SimpleViewClass from ...projects.pt object at...>
 
