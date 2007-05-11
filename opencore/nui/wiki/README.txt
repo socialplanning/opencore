@@ -14,7 +14,7 @@ Test wiki page registrations::
     <...SimpleViewClass ...wiki/wiki_macros.pt object at ...>
     
     >>> page.restrictedTraverse('@@update-test')
-    <...SimpleViewClass ...wiki/update-test.pt object at ...>    
+    <...SimpleViewClass from ...wiki/update-test.pt object at ...>
     
     >>> page.restrictedTraverse('@@edit')
     <...SimpleViewClass from ...wiki/wiki-edit.pt object at ...>
@@ -25,10 +25,14 @@ Test wiki page registrations::
 Test wiki attachment registrations::
 
     >>> page.restrictedTraverse('@@updateAtt')
-    <...SimpleViewClass from ...wiki/ ...>
+    Traceback (most recent call last):
+    ...
+    Unauthorized: You are not allowed to access '@@updateAtt' in this context
 
     >>> page.restrictedTraverse('@@createAtt')    
-    <...SimpleViewClass from ...wiki/ ...>
+    <...SimpleViewClass from ...wiki/create-att.pt object at ...>
 
     >>> page.restrictedTraverse('@@deleteAtt')    
-    <...SimpleViewClass from ...wiki/ ...>
+    Traceback (most recent call last):
+    ...
+    Unauthorized: You are not allowed to access '@@deleteAtt' in this context
