@@ -15,7 +15,7 @@
     <div id="oc-content-main">
     
     <div class="oc-widget oc-widget-search">    
-    <form name="projects_search" action="." tal:attributes="action string:${context/portal_url}/oc-projects-searchresults">
+    <form name="projects_search" action="." tal:attributes="action string:${context/portal_url}/projects/searchresults">
       <label><h2>Search for projects</h2></label>
       <span class="oc-form-fieldBlock">
       <input class="oc-input-typeText" type="text" name="projname" />

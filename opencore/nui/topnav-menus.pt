@@ -12,7 +12,7 @@
     <a tal:attributes="href string:${site}/people/@@magic?oc-content=oc-people">people</a>
   </li>
   <li>
-    <a tal:attributes="href string:${site}/oc-projects">projects</a>
+    <a tal:attributes="href string:${site}/projects/@@index.html">projects</a>
   </li>
   <li>
     <a tal:attributes="href string:${site}/@@magic?oc-content=oc-start-project">start a project</a>

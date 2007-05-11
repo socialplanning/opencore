@@ -8,7 +8,7 @@
      for="Products.OpenPlans.interfaces.adding.IAddProject"
      class=".search.SearchView"
      permission="zope.Public"
-     name="oc-projects"
+     name="index.html"
      template="projects.pt"
      />
 
@@ -17,7 +17,7 @@
      for="Products.OpenPlans.interfaces.adding.IAddProject"
      class=".search.SearchView"
      permission="zope.Public"
-     name="results"
+     name="searchresults"
      template="projects-searchresults.pt"
      />
   
