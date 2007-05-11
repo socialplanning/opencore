@@ -152,22 +152,22 @@
      template="project-contact.pt"
      />
 
-  <!-- user-profile -->
+  <!-- member-profile -->
   <browser:page
      for="*"
      class=".opencoreview.OpencoreView"
      permission="zope.Public"
-     name="oc-user-profile"
-     template="user-profile.pt"
+     name="oc-member-profile"
+     template="member-profile.pt"
      />
 
-  <!-- user-contact -->
+  <!-- member-contact -->
   <browser:page
      for="*"
      class=".opencoreview.OpencoreView"
      permission="zope.Public"
-     name="oc-user-contact"
-     template="user-contact.pt"
+     name="oc-member-contact"
+     template="member-contact.pt"
      />
 
   <!-- start-project -->

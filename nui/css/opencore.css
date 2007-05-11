@@ -199,6 +199,8 @@ div#oc-LSResult ul {
 /*Drop-down menu styles GLOBAL (see far below for structure)
 ---------------------------------------*/
 
+/*
+
 ul.oc-dropdown, .oc-dropdown ul {
 	cursor: pointer;
 	font-weight: bold;
@@ -239,7 +241,11 @@ ul.oc-dropdown, .oc-dropdown ul {
 	background-color: #bbb;
 }
 
+*/
+
 /* Drop-down menu styles for the HEADER (see far below for structure) */
+
+/*
 
 #oc-topnav ul.oc-dropdown, .oc-dropdown ul {
 	line-height: normal;
@@ -282,6 +288,7 @@ ul.oc-dropdown, .oc-dropdown ul {
 	background-color: #AAC683;
 }
 
+*/
 	
 /* @CONTENT - This section defines the main content 
 ---------------------------------------------------*/
