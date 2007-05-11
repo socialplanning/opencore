@@ -6,7 +6,7 @@
   <!-- opencore.interfaces.IProjectsFolder -->
   <browser:page
      for="Products.OpenPlans.interfaces.adding.IAddProject"
-     class=".projects.ProjectsView"
+     class=".search.SearchView"
      permission="zope.Public"
      name="oc-projects"
      template="projects.pt"
@@ -15,7 +15,7 @@
   <!-- projects-searchresults -->
   <browser:page
      for="Products.OpenPlans.interfaces.adding.IAddProject"
-     class=".projects.ProjectsResultsView"
+     class=".search.SearchView"
      permission="zope.Public"
      name="results"
      template="projects-searchresults.pt"
@@ -25,7 +25,7 @@
   <!-- opencore.interfaces.IPeopleFolder: index.html -->
   <browser:page
      for="*"
-     class=".projects.PeopleView"
+     class=".search.SearchView"
      permission="zope.Public"
      name="peoplesearch"
      template="people.pt"
@@ -34,7 +34,7 @@
   <!-- people-searchresults -->
   <browser:page
      for="*"
-     class=".projects.PeopleResultsView"
+     class=".search.SearchView"
      permission="zope.Public"
      name="results"
      template="people-searchresults.pt"
@@ -44,7 +44,7 @@
   <!-- Products.CMFPlone.interfaces.IPloneSite -->
   <browser:page
      for="*"
-     class=".projects.HomeView"
+     class=".search.SearchView"
      permission="zope.Public"
      name="index.html"
      template="home.pt"

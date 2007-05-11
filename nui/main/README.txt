@@ -3,9 +3,9 @@ views for main pages
 ====================
 
 Instantiate a new projects view
-   >>> from opencore.nui.main import projects
+   >>> from opencore.nui.main import search
    >>> request = self.portal.REQUEST
-   >>> view = projects.ProjectsView(self.portal.projects, request)
+   >>> view = search.SearchView(self.portal.projects, request)
 
 Get the list of projects that were recently updated
    >>> recent_projects = view.recentprojects()
