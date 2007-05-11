@@ -2,6 +2,14 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:five="http://namespaces.zope.org/five">
 
+  <browser:page
+     for="*"
+     class="..opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="batch_macros"
+     template="batch_macros.pt"
+     />
+    
   <!-- projects portal -->
   <!-- opencore.interfaces.IProjectsFolder -->
   <browser:page

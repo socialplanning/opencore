@@ -4,14 +4,6 @@
 
    <!-- Login: bind to site root -->
   <browser:page
-     for="*"
-     class="..opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="batch_macros"
-     template="batch_macros.pt"
-     />
-    
-  <browser:page
     for="opencore.content.page.OpenPage"
     class="..opencoreview.OpencoreView"
     permission="zope2.Public"
