@@ -12,7 +12,7 @@
      />
 
   <browser:view
-    for="opencore.interfaces.IOpenPage"
+    for="*"
     name="wiki_macros"
     class=".macros.WikiMacros"
     permission="zope2.Public"

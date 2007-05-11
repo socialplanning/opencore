@@ -220,7 +220,7 @@ class OpencoreView(BrowserView):
 
 
 class ProjectEditView(OpencoreView):
-    wiki_edit = ZopeTwoPageTemplateFile('wiki-edit.pt', 'pages')
+    wiki_edit = ZopeTwoPageTemplateFile('wiki-edit.pt')
 
     def update(self):
         self.errors = {}
@@ -236,7 +236,7 @@ class ProjectEditView(OpencoreView):
         return self.wiki_edit()
 
 class AttachmentView(OpencoreView):
-    create_snippet = ZopeTwoPageTemplateFile('create-att.pt', 'pages')
+    create_snippet = ZopeTwoPageTemplateFile('create-att.pt')
 
     def handle_updateAtt(self):
         attachment = self.context._getOb(self.request.form['attachment_id'])
@@ -307,15 +307,6 @@ class AttachmentView(OpencoreView):
 #         object.setTitle(attachmentTitle)
 #         object.setFile(attachmentFile)
 #         object.reindexObject()
-
-
-
-    def render_page_by_name(self, page):
-        #if user_has_js:
-        self.index = ZopeTwoPageTemplateFile(page, 'pages')
-        #else:
-        #    self.index = ViewPageTemplateFile('wholething', 'pages')
-        self()
 
 class ProjectsView(OpencoreView):
 

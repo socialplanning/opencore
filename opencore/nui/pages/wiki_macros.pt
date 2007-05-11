@@ -1,6 +1,5 @@
 <!-- put macros here -->
 <li metal:define-macro="attachment" class="oc-file oc-liveEdit">
-<!--<span tal:replace="python:dir(attachment)"/>-->
 
   <!-- to do: pass mime type to CSS -->
       <div class="oc-liveEdit-value">

@@ -3,7 +3,7 @@
     xmlns:five="http://namespaces.zope.org/five">
 
   <include package=".skin"/>
-  <include package=".pages" />
+  <include package=".wiki" />
   <!-- resource directories for css, images, etc -->
   <browser:resourceDirectory
     name="css"
