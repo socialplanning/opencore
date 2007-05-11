@@ -5,6 +5,9 @@
     >>> page_id = self.portal.projects.p1.getDefaultPage()
     >>> page = getattr(self.portal.projects.p1, page_id)
 
+Registrations
+=============
+
 Test wiki page registrations::
 
     >>> page.restrictedTraverse('@@index.html')
