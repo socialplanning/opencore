@@ -86,7 +86,7 @@
             tal:attributes="action python:here.absolute_url()  + '/@@project-edit'">
             
             <div class="oc-wiki-edit" >
-              <div class="oc-wiki-edit-content" style="height: 40px;">
+              <div class="oc-wiki-edit-content">
                 <input type="hidden" name="submitted" value="1"/>
                 <metal:fieldMacro use-macro="python:here.widget('text', mode='edit')"/>
               </div><!-- end .oc-wiki-edit-content" --> 

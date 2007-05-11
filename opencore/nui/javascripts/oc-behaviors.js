@@ -90,7 +90,8 @@
     this.afterSuccess = function(o) {
     
       // insert new - DomHelper.insertHtml converts string to DOM nodes
-      var newItem = Ext.get(Ext.DomHelper.insertHtml('afterEnd', this.container.dom, o.responseText));
+      Ext.DomHelper.insertHtml('afterEnd', this.container.dom, o.responseText);
+      var newItem = Ext.get(Ext.get(this.container).getNextSibling());
 
       // delete original container
       this.container.remove();
@@ -102,7 +103,7 @@
       new LiveEditForm(newItem.dom);
     }
     this.afterFailure = function(o) {
-      alert('Oops! There was a problem.\n\n' + o.responseText); 
+      console.log('Oops! There was a problem.\n\n' + o.responseText); 
     }
 		
 		// cancel link

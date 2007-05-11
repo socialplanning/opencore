@@ -10,9 +10,9 @@
         <span tal:replace="attachment/getObjSize"></span>)
         <a href="" class="oc-liveEdit-edit">Edit</a> | <a href="" class="">Delete</a>
       </div><!-- end .liveEdit-value -->  
-        <form method="post" class="oc-liveEdit-form" action="@@update-test">
-          <input type="hidden" name="attachmentTitles.id:records" tal:attributes="value attachment/getId" />
-          <input type="text" name="attachmentTitles.title:records"  size="30" id="#" value="#" tal:attributes="value attachment/Title;"/>
+        <form method="post" class="oc-liveEdit-form" action="@@updateAtt">
+          <input type="hidden" name="attachment_id" tal:attributes="value attachment/getId" />
+          <input type="text" name="attachment_title"  size="30" id="#" value="#" tal:attributes="value attachment/Title;"/>
           <input type="submit" value="Edit" />
            or <a class="oc-liveEdit-cancel" href="">Cancel</a>
         </form><!-- end .liveEdit-form -->
