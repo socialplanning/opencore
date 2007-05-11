@@ -2,7 +2,7 @@
 
 <!-- OpenPlans logo -->
 <h1 id="oc-topnav-openplans-logo">
-  <a tal:attributes="href string:${context/portal_url}/oc-home"><img tal:attributes="src view/logoURL;
+  <a tal:attributes="href string:${site}/oc-home"><img tal:attributes="src view/logoURL;
       alt view/sitetitle" /></a>
 </h1>
 
@@ -28,7 +28,7 @@
   </tal:block>
   <tal:block tal:condition="not:view/loggedin">
     <li>
-      <a tal:attributes="href string:${site}/@@magic?oc-content=oc-login-join">log in/join</a>
+      <a tal:attributes="href string:${site}/login">log in/join</a>
     </li>
   </tal:block>
 </ul>
