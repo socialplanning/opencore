@@ -25,12 +25,22 @@
 		//get references for included elements
 		this.container = Ext.get(el);
 		this.value = Ext.get(Ext.query('.oc-liveEdit-value', el)[0]);
+		this.edit = Ext.get(Ext.query('.oc-liveEdit-edit', el)[0]);
 		this.form = Ext.get(Ext.query('.oc-liveEdit-form', el)[0]);
-		this.cancel = Ext.get(Ext.query('.oc-liveEdit-cancel', el)[0])
+		this.cancel = Ext.get(Ext.query('.oc-liveEdit-cancel', el)[0]);
+		
+		console.log('new form');
+    console.log(el);
+		console.log(this.container);
+		console.log(this.value);
+		console.log(this.form);
+
+		//this.target = this.form.dom.action;
 		
 		// check to make sure we have everything
 		if(!this.container || !this.value || !this.form)
 		  return;
+		console.log('have elements');
 		
 		/*
 		# Attach Behviors
@@ -55,12 +65,45 @@
 		}
 		this.container.on('click', this.containerClick, this);
 		
+		//edit
+		this.editClick = function(e, el, o) {
+		  YAHOO.util.Event.stopEvent(e);
+			this.value.hide();
+			this.form.show();
+			this.container.addClass('oc-liveEdit-editing');
+		}
+		if (this.edit) {
+		  this.edit.on('click', this.editClick, this);
+		}
+		
 		//value
 		this.value.setVisibilityMode(Ext.Element.DISPLAY);
 		
 		//form
 		this.form.setVisibilityMode(Ext.Element.DISPLAY);
 		this.form.hide();
+		
+		//ajax request
+		this.formSubmit = function(e, el, o) {
+      YAHOO.util.Connect.setForm(el);
+      var cObj = YAHOO.util.Connect.asyncRequest("POST","http://localhost:8080/openplans/projects/nicktestproj/project-home/@@update-test", { success: this.afterUpdate, failure: this.afterUpdate, scope: this });
+      YAHOO.util.Event.stopEvent(e);
+    }
+    this.form.on('submit', this.formSubmit, this);
+    
+    // after request
+    this.afterUpdate = function(o) {
+      // insert new
+      var newItem = Ext.get(Ext.DomHelper.insertHtml('afterEnd', this.container.dom, o.responseText));
+
+      // remove delete existing elements
+      this.container.remove();
+      
+      // highlight
+      newItem.highlight();
+      //TODO: re-up liveEdit behaviors or add HTML to DOM
+      new LiveEditForm(newItem.dom);
+    }
 		
 		//cancel
 		if (this.cancel) {
@@ -295,15 +338,21 @@
     // send form 
     this.formSubmit = function(e, el, o) {
       YAHOO.util.Event.stopEvent(e);
-      alert('after click');
       YAHOO.util.Connect.setForm(el,true); 
-      var cObj = YAHOO.util.Connect.asyncRequest('POST', 'http://www.wrkng.org', this.afterUpload); 
+      var cObj = YAHOO.util.Connect.asyncRequest('POST', '/openplans/projects/nicktestproj/project-home/@@edit', this.afterUpload); 
     }
     this.form.on('submit', this.formSubmit, this);
     
     // handle response
-    this.afterUpload = function() {
-      alert('after upload');
+    this.afterUpload = {
+      success: this.success,
+      failure: this.failure
+    };
+    this.success = function(o) {
+      alert('success');
+    }
+    this.failure = function(o) {
+      alert('failure');
     }
     
 	}
@@ -317,6 +366,7 @@
 	#------------------------------------------------------------------------
 	*/
 	Ext.onReady(function() {
+			
 			
 		// Find each live edit form and make an array of LiveEditForm objects
 		Ext.query('.oc-liveEdit').forEach(function(el) {

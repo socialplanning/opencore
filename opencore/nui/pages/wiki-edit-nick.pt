@@ -1,0 +1,208 @@
+<tal:vars tal:define="usr view/user;
+                      attachments python:here.getFolderContents(contentFilter = {'portal_type' : ['FileAttachment']});
+                      canedit usr/canedit;
+                      page view/page;
+                      Iterator python:modules['Products.CMFPlone'].IndexIterator;
+                      lockable python:hasattr(here, 'wl_isLocked');
+                      errors python: options.get('errors', {});
+                      isLocked python:lockable and here.wl_isLocked();
+                      member python:here.portal_membership.getAuthenticatedMember();
+                      portal python:context.portal_url.getPortalObject();
+                      portal_url here/portal_url;
+                      tabindex python:Iterator(pos=7000);
+                      ">
+
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <!-- cruft to include CSS and JS: please replace with portal_javascripts stuff -->
+    <metal:do metal:fill-slot="link" >
+      <style type="text/css"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles2216.css); -->      </style>
+    </metal:do>
+    <metal:do metal:fill-slot="script" >
+      <script type="text/javascript"
+        src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts3780.js">
+      </script>
+      <script type="text/javascript"
+        src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts3071.js">
+      </script>
+      <script type="text/javascript"
+        src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts2343.js">
+      </script>
+      <script type="text/javascript"
+        src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts6045.js">
+      </script>
+      <script type="text/javascript"
+        src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts5277.js">
+      </script>
+      <script type="text/javascript"
+        tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupuploneeditor.js">
+      </script>
+      <script type="text/javascript"
+        tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupudrawers.js">
+      </script>
+      <script type="text/javascript"
+        src="http://www.openplans.org/portal_javascripts/Plone%20Default/ploneScripts9249.js">
+      </script>
+    </metal:do>
+    <!-- end cruft -->
+  </head>
+  <body>
+    <div id="oc-content-container" metal:fill-slot="content">
+
+      <!-- TODO project history -->
+
+      <div id="oc-content-main" class="oc-content-main-fullWidth">
+
+        <div class="oc-wiki">
+          <div class="headingBlock oc-wiki-headingBlock">
+            <h2 tal:content="view/pagetitle"></h2>
+          </div>
+          <ul class="oc-tabs">
+            <li class="">
+              <a href="" rel="view">view</a>
+            </li>
+            <li class="oc-selected">
+              <a href="" rel="edit">edit</a>
+            </li>
+            <li>
+              <a href="" rel="history">history</a>
+            </li>
+            <li>
+              <form class="" >
+                <select class="oc-dropdown-links">
+                  <option value="">More...</option>
+                  <option value="http://www.google.com">I'm feeling lucky</option>
+                </select>
+                <input type="submit" value="Go" style=""/>
+              </form>
+            </li>
+          </ul><!-- end .oc-tabs -->
+
+          <form name="edit_form"
+            method="post"
+            enctype="multipart/form-data"
+            class="enableUnloadProtection"
+            action=""
+            tal:attributes="action python:here.absolute_url()  + '/@@project-edit'">
+            
+            <div class="oc-wiki-edit" >
+              <div class="oc-wiki-edit-content" style="height: 40px;">
+                <input type="hidden" name="submitted" value="1"/>
+                <metal:fieldMacro use-macro="python:here.widget('text', mode='edit')"/>
+              </div><!-- end .oc-wiki-edit-content" --> 
+
+              <ul class="oc-actions oc-wiki-actions">
+                <li><input type="submit" value="Save" class="oc-button oc-chooseThis" /></li>
+                <li>or <a href="">cancel</a></li>
+              </ul>  
+              
+            </div><!-- end .oc-wiki-edit -->
+            
+          </form>
+        
+            <form style="display: none;">
+            <div class="oc-options oc-wiki-edit-options">
+                <div class="oc-expander">
+                  <a href="#oc-wiki-manageAttachments" class="oc-expander-link">manage attachments</a>
+                  <div class="oc-expander-content">
+                  <div class="field" 
+                    tal:define="error_file errors/attachmentFile|nothing;"
+                    tal:attributes="class python: error_file and 'field error' or 'field'"> 
+                <div class="field" tal:define="error_file errors/attachmentFile|nothing;" tal:attributes="class python: error_file and 'field error' or 'field'"> 
+                  <div tal:content="error_file">Validation error output</div>
+                </div>
+              
+                <tal:block condition="nocall:attachments">
+                    <h4>Current attachments:</h4>
+                    <ul class="oc-attachments">
+                    <tal:repeat repeat="attachment attachments">
+                      <li metal:use-macro="here/@@standard_macros/attachment"/>
+                    </tal:repeat>
+                  </ul>
+                </tal:block>
+              
+      
+              
+                <fieldset>
+                  <legend><h4>Upload a new file:</h4></legend>
+                    <table class="oc-form">
+                    <thead></thead>
+                    <tbody>
+                      <tr class="oc-form-row">
+                        <th class="oc-form-label"><label for="attachmentFile">Locate file</label></th>
+                        <td class="oc-form-value"><input type="file"	       
+               id="attachmentFile"
+               name="attachmentFile"
+               size="30" 
+               tabindex="" 
+               tal:attributes="tabindex tabindex/next;
+                   value request/attachmentFile/filename | nothing"
+               /></td>
+                        <td class="oc-form-help"></td>
+                      </tr>
+                      <tr class="oc-table-row">
+                        <th class="oc-form-label"><label for="attachmentTitle">Enter title</label></th>
+                        <td class="oc-form-value"><input type="text" 
+               id="attachmentTitle" 
+               name="attachmentTitle" 
+               size="30" 
+               tabindex=""
+               tal:attributes="tabindex tabindex/next;"
+               value=""/></td>
+                        <td class="oc-form-help">
+                          <span class="oc-form-context">(optional)</span>
+                          <span class="oc-table-validator"></span>
+                        </td>
+                      </tr>
+                      <tr class="oc-options">
+                        <th class="oc-form-label"></th>
+                        <td class="oc-form-value">
+                        <input type="submit" value="Upload" /> or cancel</td>
+                        <td class="oc-form-help"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </fieldset>
+              
+                </div><!-- end .oc-expander-content -->
+              </div><!-- end .oc-expander -->
+              
+              </div><!-- end .oc-options --> 
+            </form>
+        </div><!-- end .oc-wiki -->
+
+        <hr />
+        <div class="oc-options oc-wiki-edit-options">
+
+          <div class="oc-expander">
+              <a href="#oc-wiki-manageAttachments" class="oc-expander-link">manage attachments</a>
+              <div class="oc-expander-content">
+                <tal:block condition="nocall:attachments">
+                      <h4>Current attachments:</h4>
+                      <ul class="oc-attachments">
+                      <tal:repeat repeat="attachment attachments">
+                        <li metal:use-macro="here/@@standard_macros/attachment"/>
+                      </tal:repeat>
+                    </ul>
+                  </tal:block>
+              </div><!-- end expander-content -->
+            </div><!-- end expander -->
+          <hr />
+           <div class="oc-expander">
+              <a href="#oc-wiki-addNote" class="oc-expander-link">add note</a>
+              <div id="oc-wiki-addNote" class="oc-expander-content">
+              <label for="">Add change note</label>
+              
+                <textarea rows="2" cols="80"></textarea>
+            </div><!-- end .oc-expander-content -->
+          </div><!-- end .oc-expander --> 
+        </div><!-- end .oc-options -->
+        
+
+      </div><!-- end #oc-content-main -->
+    </div><!-- end content slot -->
+  </body>
+  
+</html>
+
+</tal:vars>

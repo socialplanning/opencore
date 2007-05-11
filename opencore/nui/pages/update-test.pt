@@ -1,0 +1,16 @@
+<li class="oc-liveEdit">
+  <div id="ext-gen16" class="oc-liveEdit-value">
+      file from the server
+    
+    (<a href="http://localhost:8080/openplans/portal_catalog" target="_blank">from-server.jpg</a> -  
+    47.4 kB)
+    <a href="" class="oc-liveEdit-edit">Edit</a> | <a href="" class="">Delete</a>
+
+  </div><!-- end .liveEdit-value -->  
+    <form style="" id="ext-gen17" class="oc-liveEdit-form" method="post" action="@@updateAtt">
+      <input name="attachmentTitles.id:records" value="parking3.jpg" type="hidden">
+      <input name="attachmentTitles.title:records" size="30" id="#" value="hi" type="text">
+      <input value="Edit" type="submit">
+       or <a id="ext-gen18" class="oc-liveEdit-cancel" href="">Cancel</a>
+    </form><!-- end .liveEdit-form -->
+</li>
