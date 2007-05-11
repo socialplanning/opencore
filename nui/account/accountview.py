@@ -3,6 +3,7 @@ AccountView: the view for some of opencore's new zope3 views.
 """
 from Products.CMFCore.utils import getToolByName
 from opencore.nui.opencoreview import OpencoreView
+from Products.Five import BrowserView
 
 class JoinView(OpencoreView):
     pass
@@ -76,3 +77,19 @@ class PasswordResetView(OpencoreView):
             return "YOU HAVE EXPIRED."
         kw['randomstring'] = key
         return self.index(*args, **kw)
+
+
+from Products.CMFCore.utils import getToolByName
+
+class Confirmation(BrowserView):
+    """screw you zpublisher"""
+    
+    def do_confirmation(self):
+        cat = getToolByName(self, "portal_catalog")
+        uid = self.request.get('id')
+        result = cat(UID=uid)
+        assert len(result) == 1
+        member = result[0].getObject()
+        pf = getToolByName(self, "portal_workflow")
+        pf.doActionFor(member, 'Approve member, make profile public')
+        self.request.RESPONSE.redirect('@@success')
