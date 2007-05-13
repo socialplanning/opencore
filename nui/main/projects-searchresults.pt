@@ -44,13 +44,17 @@
                   <option value="Title" tal:attributes="selected python: sorted_by == 'Title'">project name</option>
                   <option value="Creator" tal:attributes="selected python: sorted_by == 'Creator'">member name</option>
                 </select>
+
+		<!-- resend the current data when sorting -->
                 <input tal:condition="request/projname | nothing" type="hidden" name="projname"
                        tal:attributes="value request/projname" />
+
                 <input tal:condition="request/letter_search | nothing" type="hidden" name="letter_search"
                        tal:attributes="value request/letter_search" />
                 <input tal:condition="request/b_start | nothing" type="hidden" name="b_start:int"
                        tal:attributes="value request/b_start" />
                 <input type="submit" name="action_sort_projects" value="sort" />
+
               </form>
             </div>
 

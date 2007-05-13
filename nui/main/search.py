@@ -75,11 +75,9 @@ class SearchView(OpencoreView):
         project_brains = filter(matches, project_brains)
 
         def sort_key_fn(x):
-            if sort_by is None: return 0
+            if sort_by is None or sort_by == 'relevancy': return 0
 
             prop = getattr(x, sort_by)
-            if prop == 'relevancy': return 0
-            
             if callable(prop):
                 return prop()
             return prop
