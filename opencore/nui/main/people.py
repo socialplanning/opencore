@@ -5,7 +5,7 @@ from opencore.nui.opencoreview import OpencoreView
 class PeopleSearchView(OpencoreView):
 
     def __call__(self):
-        projname = self.request.get('projname', None)
+        personname = self.request.get('personname', None)
         letter_search = self.request.get('letter_search', None)
         start = self.request.get('b_start', 0)
         sort_by = self.request.get('sort_by', None)
@@ -19,10 +19,10 @@ class PeopleSearchView(OpencoreView):
             
         if letter_search:
             self.search_results = self._get_batch(self.search_for_person_by_letter(letter_search, sort_by), start)
-            self.search_query = 'for persons starting with &ldquo;%s&rdquo;' % letter_search
-        elif projname:
-            self.search_results = self._get_batch(self.search_for_person(projname, sort_by), start)
-            self.search_query = 'for &ldquo;%s&rdquo;' % projname
+            self.search_query = 'for members starting with &ldquo;%s&rdquo;' % letter_search
+        elif personname:
+            self.search_results = self._get_batch(self.search_for_person(personname, sort_by), start)
+            self.search_query = 'for &ldquo;%s&rdquo;' % personname
             
         return self.index()
 
@@ -53,11 +53,9 @@ class PeopleSearchView(OpencoreView):
         people_brains = filter(matches, people_brains)
 
         def sort_key_fn(x):
-            if sort_by is None: return 0
+            if sort_by is None or sort_by == 'relevancy': return 0
 
             prop = getattr(x, sort_by)
-            if prop == 'relevancy': return 0
-            
             if callable(prop):
                 return prop()
             return prop

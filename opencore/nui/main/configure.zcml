@@ -49,9 +49,8 @@
      />
 
   <!-- home-->
-  <!-- Products.CMFPlone.interfaces.IPloneSite -->
   <browser:page
-     for="*"
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      class=".search.SearchView"
      permission="zope.Public"
      name="index.html"
