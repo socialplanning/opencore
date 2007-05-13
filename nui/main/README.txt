@@ -56,3 +56,28 @@ Traversing to the url should yield the same class
 
 Render the view to see if there are any errors
    >>> response = view()
+
+Get a view to the people page
+Instantiate a new projects view
+   >>> from opencore.nui.main import people
+   >>> request = self.portal.REQUEST
+   >>> view = people.PeopleSearchView(self.portal.people, request)
+
+Get the list of people matching the search
+   >>> people = view.search_for_person('test_user_1_')
+   >>> people[0].getId
+   'test_user_1_'
+   >>> len(people)
+   1
+
+Search for people starting with a letter
+   >>> people = view.search_for_person_by_letter('M')
+   >>> names = [p.getId for p in people]
+   >>> names
+   ['m2', 'm3', 'm1', 'm4']
+
+Search for members starting with a letter, only sort the results
+   >>> people = view.search_for_person_by_letter('M', sort_by='getId')
+   >>> names = [p.getId for p in people]
+   >>> names
+   ['m1', 'm2', 'm3', 'm4']

@@ -42,9 +42,9 @@
   <!-- people-searchresults -->
   <browser:page
      for="*"
-     class=".search.SearchView"
+     class=".people.PeopleSearchView"
      permission="zope.Public"
-     name="results"
+     name="searchresults"
      template="people-searchresults.pt"
      />
 
