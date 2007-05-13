@@ -5,7 +5,8 @@ from Testing.ZopeTestCase import PortalTestCase
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from opencore.testing.layer import OpencoreContent
 
-optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
+#optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
+optionflags = doctest.ELLIPSIS
 
 import warnings; warnings.filterwarnings("ignore")
 
