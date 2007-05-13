@@ -31,6 +31,8 @@
   
   <!-- people portal -->
   <!-- opencore.interfaces.IPeopleFolder: index.html -->
+  <!-- currently set to name peoplesearch,
+       because there is no special interface on the people folder -->
   <browser:page
      for="*"
      class=".search.SearchView"
