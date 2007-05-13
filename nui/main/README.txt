@@ -93,3 +93,13 @@ Search, explicitly specifying relevancy sort
    >>> names = [p.getId for p in people]
    >>> names
    ['m2', 'm3', 'm1', 'm4']
+
+Traversing to the correct people search url should yield the same class
+XXX currently is a name, because we don't have a special interface for
+the people folder
+   >>> view = self.portal.people.unrestrictedTraverse('peoplesearch')
+   >>> view
+   <Products.Five.metaclass.SimpleViewClass from ...people.pt object at...>
+
+Render the view to see if there are any errors
+   >>> response = view()
