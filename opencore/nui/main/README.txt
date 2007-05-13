@@ -17,14 +17,20 @@ Get the list of projects that were recently updated
 Test searching for projects that start with a letter
    >>> brains = view.search_for_project_by_letter('P')
    >>> titles = [p.Title for p in brains]
-   >>> titles.sort()
    >>> titles
-   ['Proj1', 'Proj2', 'Proj3', 'Proj4']
+   ['Proj4', 'Proj1', 'Proj3', 'Proj2']
 
 Now try sorting the projects
    >>> brains = view.search_for_project_by_letter('P', sort_by='modified')
    >>> [b.Title for b in brains]
    ['Proj2', 'Proj3', 'Proj1', 'Proj4']
+
+Explicitly sort on relevancy
+   >>> brains = view.search_for_project_by_letter('P', sort_by='relevancy')
+   >>> titles = [p.Title for p in brains]
+   >>> titles
+   ['Proj4', 'Proj1', 'Proj3', 'Proj2']
+
 
 Searching for a letter that doesn't match any projects
    >>> view.search_for_project_by_letter('X')
@@ -81,3 +87,9 @@ Search for members starting with a letter, only sort the results
    >>> names = [p.getId for p in people]
    >>> names
    ['m1', 'm2', 'm3', 'm4']
+
+Search, explicitly specifying relevancy sort
+   >>> people = view.search_for_person_by_letter('M', sort_by='relevancy')
+   >>> names = [p.getId for p in people]
+   >>> names
+   ['m2', 'm3', 'm1', 'm4']
