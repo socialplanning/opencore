@@ -118,7 +118,7 @@
 
                   <fieldset>
                     <legend><h4>Upload a new file:</h4></legend>
-                    <form id="oc-wiki-addAttachment">
+                    <form id="oc-wiki-addAttachment" class="oc-liveEdit-form" action="@@createAtt">
 
                       <table class="oc-form">
                         <thead></thead>
@@ -165,8 +165,7 @@
             </div><!-- end expander -->
           <hr />
 
-
-           <div class="oc-expander">
+           <div class="oc-expander" tal:condition="nothing">
               <a href="#oc-wiki-addNote" class="oc-expander-link">add note</a>
               <div id="oc-wiki-addNote" class="oc-expander-content">
               <label for="">Add change note</label>
