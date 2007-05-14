@@ -6,10 +6,8 @@ from opencore.nui.opencoreview import OpencoreView
 from Products.Five import BrowserView
 
 class JoinView(OpencoreView):
-    pass
-#def __call__(self, *args, **kw):
-#        
-#        return self.index(*args, **kw)
+    def __call__(self, *args, **kw):            
+        return self.index(*args, **kw)
 
 class LoginView(OpencoreView):
     @property
