@@ -90,7 +90,7 @@
         </div><!-- end .oc-wiki -->
 
         <hr />
-        <div class="oc-options oc-wiki-edit-options" tal:condition="nothing">
+        <div class="oc-options oc-wiki-edit-options">
 
           <div class="oc-expander">
               <a href="#oc-wiki-manageAttachments" class="oc-expander-link">manage attachments</a>
