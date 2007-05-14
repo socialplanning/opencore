@@ -9,6 +9,10 @@ except ImportError:
     class IProject(Interface):
         """dummy placeholder"""
 
+from Products.wicked.interfaces import IAmWicked
 from zope.interface import Interface 
 class IAddSubProject(Interface):
     """I add sub-projects"""
+
+class IOpenPage(IAmWicked):
+    """an openplans wiki page"""
