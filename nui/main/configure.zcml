@@ -13,7 +13,7 @@
   <!-- projects portal -->
   <!-- opencore.interfaces.IProjectsFolder -->
   <browser:page
-     for="Products.OpenPlans.interfaces.adding.IAddProject"
+     for="opencore.interfaces.adding.IAddProject"
      class=".search.ProjectsSearchView"
      permission="zope.Public"
      name="index.html"
@@ -22,7 +22,7 @@
 
   <!-- projects-searchresults -->
   <browser:page
-     for="Products.OpenPlans.interfaces.adding.IAddProject"
+     for="opencore.interfaces.adding.IAddProject"
      class=".search.ProjectsSearchView"
      permission="zope.Public"
      name="searchresults"
@@ -34,7 +34,7 @@
   <!-- currently set to name peoplesearch,
        because there is no special interface on the people folder -->
   <browser:page
-     for="Products.OpenPlans.interfaces.IAmAPeopleFolder"
+     for="opencore.interfaces.IAmAPeopleFolder"
      class=".search.PeopleSearchView"
      permission="zope.Public"
      name="index.html"
@@ -43,7 +43,7 @@
 
   <!-- people-searchresults -->
   <browser:page
-     for="Products.OpenPlans.interfaces.IAmAPeopleFolder"
+     for="opencore.interfaces.IAmAPeopleFolder"
      class=".search.PeopleSearchView"
      permission="zope.Public"
      name="searchresults"
