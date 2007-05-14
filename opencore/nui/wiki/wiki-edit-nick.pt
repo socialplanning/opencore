@@ -95,19 +95,20 @@
           <div class="oc-expander">
               <a href="#oc-wiki-manageAttachments" class="oc-expander-link">manage attachments</a>
               <div class="oc-expander-content">
-                <tal:block condition="nocall:attachments">
-                      <h4>Current attachments:</h4>
-                      <ul class="oc-attachments">
-                      <tal:repeat repeat="attachment attachments">
-                        <li metal:use-macro="here/@@wiki_macros/attachment"/>
-                      </tal:repeat>
+                <h4>Current attachments:</h4>
+                    <ul class="oc-attachments" id="oc-wiki-attachments">
+                      <tal:block condition="nocall:attachments">
+                        <tal:repeat repeat="attachment attachments">
+                          <li metal:use-macro="here/@@wiki_macros/attachment"/>
+                        </tal:repeat>
+                      </tal:block>
                     </ul>
-                  </tal:block>
 
                   <fieldset>
                     <legend><h4>Upload a new file:</h4></legend>
-                    <form id="oc-wiki-addAttachment" class="oc-liveEdit-form" action="@@createAtt">
-
+                    <form id="oc-wiki-addAttachment" class="oc-updateForm" action="@@createAtt" enctype="multipart/form-data">
+                      <input type="hidden" name="oc-target" value="oc-wiki-attachments" />
+                      
                       <table class="oc-form">
                         <thead></thead>
                         <tbody>
