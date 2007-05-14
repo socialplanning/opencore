@@ -95,46 +95,6 @@
      template="footer.pt"
      />
 
-  <!-- project-view -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-project-view"
-     template="project-view.pt"
-     />
-
-
-  <!-- wiki-view 
-  MOVED TO pages/configure.zcml
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-wiki-view"
-     template="wiki-view.pt"
-     />
-    -->
-
-  <!-- project-edit 
-copied to pages/configure.zcml
-  <browser:page
-     for="*"
-     class=".opencoreview.ProjectEditView"
-     permission="zope.Public"
-     name="oc-project-edit"
-     template="project-edit.pt"
-     />
- -->
-  <!-- project-history -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-project-history"
-     template="project-history.pt"
-     />
-
   <!-- project-contents -->
   <browser:page
      for="*"
