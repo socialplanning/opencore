@@ -8,8 +8,6 @@ from Products.Five import BrowserView
 class JoinView(OpencoreView):
 
     def validate(self):
-        # XXX completely ignore this crepe
-
         return self.context.validate(REQUEST=self.request)
 
     def __call__(self, *args, **kw):
@@ -19,7 +17,7 @@ class JoinView(OpencoreView):
 
         errors = self.validate()
 
-        if not errors:  
+        if not errors:
             return self.context.do_register()
         else:
             return self.index(*args, **kw)

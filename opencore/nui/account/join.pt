@@ -8,8 +8,9 @@
       <div id="oc-content-main">
         <form id="oc-join-form" name="edit_form" method="post" enctype="multipart/form-data"
 	      tal:attributes="action python:context.absolute_url()+'/join'">
+	  
+          <fieldset>
 
-	  <fieldset>
             <legend class="headingBlock">
               <h1>Join OpenPlans</h1>
               <p class="oc-headingContext">Registration is free and your email will not be
@@ -17,15 +18,17 @@
                 spam bots abusing this system
               </p>
             </legend> 
+
             <table class="oc-form">
               <thead></thead>
               <tbody>
-                <tr class="oc-form-row">
+            
+		<tr class="oc-form-row">
                   <th class="oc-form-label">
                     <label for="">Username</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" name="__ac_name" id="__ac_name" />              
+                    <input type="text" name="id" id="id" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
@@ -34,14 +37,15 @@
                     <span id="oc-username-validator" class="oc-form-validator">
                       
                     </span>
-                  </td>
+                  </td>		  
                 </tr>
+
                 <tr>
                   <th class="oc-form-label">
                     <label for="">Full Name</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" />  
+                    <input type="text" name="fullname" id="fullname"/>  
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
@@ -52,12 +56,13 @@
                     </span>
                   </td>
                 </tr>
+
                 <tr>
                   <th class="oc-form-label">
                     <label for="">Email</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" />  
+                    <input type="text" name="email" id="email" />  
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
@@ -68,12 +73,13 @@
                     </span>
                   </td>
                 </tr>
+
                 <tr>
                   <th class="oc-form-label">
                     <label for="">Password</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" />  
+                    <input type="password" name="password" id="password" />  
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
@@ -84,12 +90,13 @@
                     </span>
                   </td>
                 </tr>
+		
                 <tr>
                   <th class="oc-form-label">
                     <label for="">Confirm passsword</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" />  
+                    <input type="password" name="confirm_password" id="confirm_password" />  
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
@@ -100,6 +107,23 @@
                     </span>
                   </td>
                 </tr>
+
+		<!--
+		    <tr>
+                  <td class="oc-form-value">
+                    <input type="hidden" name="fieldset" value="default" />
+                  </td>
+                  <td class="oc-form-help">
+                    <span class="oc-form-context">
+                      
+                    </span>
+                    <span class="oc-form-validator">
+                      
+                    </span>
+                  </td>
+                </tr>
+		    -->
+
                 <tr class="oc-actions">
                   <th class="oc-form-label">
                   </th>
@@ -115,18 +139,21 @@
                     </span>
                   </td>
                 </tr>
+		
               </tbody>
             </table>            
 	  </fieldset>
+	  
 	</form>
-      </div><!-- end #content-main -->
+      </div><!-- end #oc-content-main -->
       
       <div id="oc-content-sidebar">
         <h3>Why join?</h3>
         <p>Here's why...<a href="">Learn more</a></p>
         <h3>What's with the full name?</h3>
         <p>That way, we can sell your identity. <br /><a href="">Learn more</a></p>
-      </div><!-- end #content-sidebar -->
+      </div><!-- end #oc-content-sidebar -->
+
     </div><!-- end content slot -->
   </body>
 </html>

@@ -5,7 +5,7 @@
   </head>
   <body>
 
-    <div id="oc-content-container" metal:fill-slot="content">              
+    <div metal:fill-slot="content">              
 
       <div class="oc-headingBlock">
         <h1>Projects on OpenPlans</h1>
@@ -38,7 +38,7 @@
         <div class="oc-widget oc-widget-feed">
           <h2>Recently updated projects</h2>
           <ul class="oc-feed-list">
-            <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recentprojects">
+            <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recently_updated_projects">
               <div class="oc-project-logo" tal:condition="project/logo | nothing"> <!-- NOTE once images do exist this div will NOT be conditional but its contents will -->
                 <a tal:attributes="href project/absolute_url" tal:condition="project/logo | nothing">
                   <img src="" tal:attributes="src project/image_src | nothing; alt project/Title; title project/Title" tal:condition="project/logo | nothing" />
@@ -100,9 +100,7 @@
         </ul>
         
       </div><!-- content-sidebar -->
-    </div><!-- oc-content-container -->
-    
-    <hr class="oc-clearElement" />
+    </div><!-- content-fill-slot -->
     
   </body>
 </html>

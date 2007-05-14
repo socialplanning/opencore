@@ -12,4 +12,7 @@ class NuiMacros(BrowserView):
 
 
 class StandardMacros(BaseMacros):
-    macro_pages = ('nui_macros', 'wiki_macros', 'five_template', 'standard_macros', 'batch_macros')
+    macro_pages = ('nui_macros',
+                   'five_template',
+                   'standard_macros',
+                   'batch_macros')

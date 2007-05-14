@@ -8,23 +8,31 @@ from opencore.nui.opencoreview import OpencoreView
 
 class SearchView(OpencoreView):
 
-    def recentprojects(self):
-        # XXX
-        # This is not exactly what we want
-        # These get all modifications on the project itself
-        # but will miss wiki page changes in the project
-        # which is the sort of thing you would expect here
-        query = dict(portal_type='OpenProject',
-                     sort_on='modified',
-                     sort_order='descending',
-                     sort_limit=5,
-                     )
+    def _get_batch(self, brains, start=0):
+        return Batch(brains,
+                     size=3,
+                     start=start,
+                     end=0,
+                     orphan=0,
+                     overlap=0,
+                     pagerange=6,
+                     quantumleap=0,
+                     b_start_str='b_start')
 
-        project_brains = self.catalogtool(**query) 
-        # XXX expensive $$$
-        # we get object for number of project members
-        projects = (x.getObject() for x in project_brains)
-        return projects
+    def create_sort_fn(self, sort_by):
+
+        def sort_key_fn(x):
+            if sort_by is None or sort_by == 'relevancy': return 0
+            
+            prop = getattr(x, sort_by)
+            if callable(prop):
+                return prop()
+            return prop
+
+        return sort_key_fn
+
+
+class ProjectsSearchView(SearchView):
 
     def __call__(self):
         projname = self.request.get('projname', None)
@@ -48,17 +56,6 @@ class SearchView(OpencoreView):
             
         return self.index()
             
-    def _get_batch(self, brains, start=0):
-        return Batch(brains,
-                     size=3,
-                     start=start,
-                     end=0,
-                     orphan=0,
-                     overlap=0,
-                     pagerange=6,
-                     quantumleap=0,
-                     b_start_str='b_start')
-
     def search_for_project_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
         query = dict(portal_type="OpenProject",
@@ -74,15 +71,7 @@ class SearchView(OpencoreView):
 
         project_brains = filter(matches, project_brains)
 
-        def sort_key_fn(x):
-            if sort_by is None or sort_by == 'relevancy': return 0
-
-            prop = getattr(x, sort_by)
-            if callable(prop):
-                return prop()
-            return prop
-
-        project_brains.sort(key=sort_key_fn)
+        project_brains.sort(key=self.create_sort_fn(sort_by))
 
         return project_brains
 
@@ -107,8 +96,104 @@ class SearchView(OpencoreView):
             )
         return project_brains
     
+    def recently_updated_projects(self):
+        # XXX
+        # This is not exactly what we want
+        # These get all modifications on the project itself
+        # but will miss wiki page changes in the project
+        # which is the sort of thing you would expect here
+        query = dict(portal_type='OpenProject',
+                     sort_on='modified',
+                     sort_order='descending',
+                     sort_limit=5,
+                     )
+
+        project_brains = self.catalogtool(**query) 
+        # XXX expensive $$$
+        # we get object for number of project members
+        projects = (x.getObject() for x in project_brains)
+        return projects
+
     def create_date(self, project):
         cd = project.CreationDate()
         time_obj = strptime(cd, '%Y-%m-%d %H:%M:%S')
         datetime_obj = datetime.datetime(*time_obj[0:6])
         return prettyDate(datetime_obj)
+
+
+class PeopleSearchView(SearchView):
+
+    def __call__(self):
+        personname = self.request.get('personname', None)
+        letter_search = self.request.get('letter_search', None)
+        start = self.request.get('b_start', 0)
+        sort_by = self.request.get('sort_by', None)
+        self.search_results = None
+        self.search_query = None
+
+        # this resets pagination when the sort order is changed
+        if self.request.get('REQUEST_METHOD', None) == 'POST':
+            start = 0
+            self.request.set('b_start', 0)
+            
+        if letter_search:
+            self.search_results = self._get_batch(self.search_for_person_by_letter(letter_search, sort_by), start)
+            self.search_query = 'for members starting with &ldquo;%s&rdquo;' % letter_search
+        elif personname:
+            self.search_results = self._get_batch(self.search_for_person(personname, sort_by), start)
+            self.search_query = 'for &ldquo;%s&rdquo;' % personname
+            
+        return self.index()
+
+    def search_for_person_by_letter(self, letter, sort_by=None):
+        letter = letter.lower()
+        query = dict(portal_type="OpenMember",
+                     Title=letter + '*')
+        people_brains = self.catalogtool(**query)
+
+        people_brains = sorted(people_brains, key=self.create_sort_fn(sort_by))
+
+        return people_brains
+
+    def search_for_person(self, person, sort_by=None):
+        person = person.lower()
+
+        proj_query = person
+        if not proj_query.endswith('*'):
+            proj_query = proj_query + '*'
+
+        if not sort_by or sort_by == 'relevancy':
+            rs = (RankByQueries_Sum((Eq('Title', proj_query),32), (Eq('getFull_name', proj_query),16)),)
+        else:
+            # we can't sort by title
+            if sort_by == 'Title':
+                sort_by = 'sortable_title'
+            rs = ((sort_by, 'desc'),)
+
+        people_brains = self.catalogtool.evalAdvancedQuery(
+            Eq('portal_type', 'OpenMember') & Eq('SearchableText', proj_query),
+            rs,
+            )
+        return people_brains
+
+
+class HomeView(SearchView):
+    def __init__(self, context, request):
+        OpencoreView.__init__(self, context, request)
+        self.projects_search = ProjectsSearchView(context, request)
+
+    def recently_updated_projects(self):
+        return self.projects_search.recently_updated_projects()
+
+    def recently_created_projects(self):
+        query = dict(portal_type='OpenProject',
+                     sort_on='Creator',
+                     sort_order='descending',
+                     sort_limit=5,
+                     )
+
+        project_brains = self.catalogtool(**query) 
+        # XXX expensive $$$
+        # we get object for number of project members
+        projects = (x.getObject() for x in project_brains)
+        return projects
