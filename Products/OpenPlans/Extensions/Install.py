@@ -35,8 +35,8 @@ from Products.OpenPlans.workflows import member
 from Products.OpenPlans.workflows import team
 from Products.OpenPlans.workflows import WORKFLOW_MAP
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
-from Products.OpenPlans.interfaces import IAddProject
-from Products.OpenPlans.interfaces import IAmAPeopleFolder
+from opencore.interfaces import IAddProject
+from opencore.interfaces import IAmAPeopleFolder
 
 from zope.interface import directlyProvides, directlyProvidedBy, alsoProvides
 from Products.OpenPlans.Extensions.utils import setupKupu
