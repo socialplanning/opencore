@@ -21,30 +21,18 @@
 	# Live Edit Forms
 	#
 	*/
-	function LiveEditForm (elId) {
-		//parse elId and get base & id
-		this.base = parseId().base;
-		this.id = parseId().id;
-		
-		function parseId() {
-			/* IDs should follow the form: base_id (e.g., liveEdit_12_value) */
-			results = new Array();
-			results.base = elId.split('_')[0];
-			results.id = elId.split('_')[1];
-			return results;
-		}
-		
+	function LiveEditForm (el) {
 		//get references for included elements
-		this.container = Ext.get(this.base + "_" + this.id);
-		this.value = Ext.get(this.base + "_" + this.id + "_value");
-		this.form = Ext.get(this.base + "_" + this.id + "_form");
-		this.selectBoxes = Ext.query("#" + elId + " select");  //quick for demo.		
-		this.selectBox = Ext.get(this.selectBoxes[0]); //quick for demo.
+		this.container = Ext.get(el);
+		this.value = Ext.get(Ext.query('.oc-liveEdit-value', el)[0]);
+		this.edit = Ext.get(Ext.query('.oc-liveEdit-edit', el)[0]);
+		this.form = Ext.get(Ext.query('.oc-liveEdit-form', el)[0]);
+		this.cancel = Ext.get(Ext.query('.oc-liveEdit-cancel', el)[0]);
 		
-		// check to make sure we have everything
-		if(!this.container || !this.value || !this.form || !this.selectBoxes || !this.selectBox)
+		// check to make sure we have what we need
+		if(!this.container || !this.value || !this.form)
 		  return;
-		
+
 		/*
 		# Attach Behviors
 		*/
