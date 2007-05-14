@@ -2,17 +2,17 @@ htmldiff2 does HTML comparisons.  These are word-based comparisons.
 
 First, a handy function for normalizing whitespace and doing word wrapping::
 
-   >>> import re, textwrap
-   >>> def pwrapped(text):
-   ...     text = re.sub(r'[ \n\t\r]+', ' ', text)
-   ...     text = textwrap.fill(text)
-   ...     print text
-   >>> def pdiff(text1, text2):
-   ...     pwrapped(htmldiff(text1, text2))
+    >>> import re, textwrap
+    >>> def pwrapped(text):
+    ...     text = re.sub(r'[ \n\t\r]+', ' ', text)
+    ...     text = textwrap.fill(text)
+    ...     print text
+    >>> def pdiff(text1, text2):
+    ...     pwrapped(htmldiff(text1, text2))
 
 Example::
 
-    >>> from htmldiff2 import htmldiff, split_unbalanced
+    >>> from htmldiff2 import htmldiff, split_unbalanced, html_annotate
     >>> html1 = '<p>This is some test text with some changes and some same stuff</p>'
     >>> html2 = '''<p>This is some test textual writing with some changed stuff 
     ... and some same stuff</p>'''
@@ -131,3 +131,37 @@ Testing split_unbalanced:
     >>> split_unbalanced(['So', '</i>', 'Hi', '<b>', 'There'])
     (['<b>'], ['So', 'Hi', 'There'], ['</i>'])
     
+
+Annotation of content can also be done, where every bit of content is
+marked up with information about where it came from.
+
+First, some setup; note that html_annotate is called with a sequence
+of documents and the annotation associated with that document.  We'll
+just use indexes, but you could use author or timestamp information.
+
+    >>> def markup(text, annotation):
+    ...     return '<span version="%s">%s</span>' % (annotation, text)
+    >>> def panno(*docs):
+    ...     pwrapped(html_annotate([(doc, index) for index, doc in enumerate(docs)],
+    ...                            markup=markup))
+
+Now, a sequence of documents:
+
+    >>> panno('Hello cruel world', 'Hi cruel world', 'Hi world')
+    <span version="1">Hi</span> <span version="0">world</span>
+    >>> panno('A similar document', 'A similar document',
+    ...       'A similar document here')
+    <span version="0">A similar document</span> <span
+    version="2">here</span>
+    >>> panno('<p>P1 para</p><p>P2 para</p>', '<p>P1 para</p><p>P3 foo</p>')
+    <p><span version="0">P1 para</span></p><p><span version="1">P3
+    foo</span></p>
+    >>> panno('Hello<p>There World</p>','Hello<p>There Town</p>')
+    <span version="0">Hello</span><p><span version="0">There</span> <span
+    version="1">Town</span></p>
+    >>> panno('<p>Hello</p>There World','<p>Hello</p>There Town')
+    <p><span version="0">Hello</span></p><span version="0">There</span>
+    <span version="1">Town</span>
+    >>> panno('<p>Hello</p><p>There World</p>','<p>Hello</p><p>There Town</p>')
+    <p><span version="0">Hello</span></p><p><span version="0">There</span>
+    <span version="1">Town</span></p>

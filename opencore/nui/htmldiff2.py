@@ -3,10 +3,95 @@ from lxml import etree
 import cgi
 import re
 
-def htmldiff(html1, html2):
-    html1_tokens = tokenize(html1)
-    html2_tokens = tokenize(html2)
-    result = htmldiff_tokens(html1_tokens, html2_tokens)
+def html_annotate(doclist, markup):
+    """
+    doclist should be ordered from oldest to newest 
+    """
+    tokenlist = [tokenize_annotated(doc, version)
+                 for doc, version in doclist]
+    cur_tokens = tokenlist[0]
+    for tokens in tokenlist[1:]:
+        cur_tokens = html_annotate_diff(cur_tokens, tokens)
+
+    cur_tokens = compress_tokens(cur_tokens)
+    result = markup_serialize_tokens(cur_tokens, markup)
+    return ''.join(result).strip()
+
+def tokenize_annotated(doc, annotation): 
+    tokens = tokenize(doc)
+    for tok in tokens: 
+        tok.annotation = annotation
+    return tokens
+
+def html_annotate_diff(tokens_old, tokens_new): 
+    s = difflib.SequenceMatcher()
+    s.set_seq1(tokens_old)
+    s.set_seq2(tokens_new)
+    commands = s.get_opcodes()
+    result = [] 
+
+    for command, i1, i2, j1, j2 in commands:
+        if command == 'equal': 
+            eq_old = tokens_old[i1:i2]
+            eq_new = tokens_new[j1:j2]
+            copy_annotations(eq_old, eq_new)
+            result.extend(eq_new)
+        if command == 'insert' or command == 'replace':
+            result.extend(tokens_new[j1:j2])
+
+    return result 
+
+def copy_annotations(src, dest): 
+    for src_tok, dest_tok in zip(src, dest): 
+        dest_tok.annotation = src_tok.annotation
+
+def compress_tokens(tokens):
+    result = [tokens[0]] 
+    for tok in tokens[1:]: 
+        if (not result[-1].post_tags and 
+            not tok.pre_tags and 
+            result[-1].annotation == tok.annotation): 
+            merge_back(result, tok)
+        else: 
+            result.append(tok)
+    return result
+
+def merge_back(tokens, tok): 
+    last = tokens[-1]
+    if type(last) is not token or type(tok) is not token: 
+        tokens.append(tok)
+    else:
+        text = unicode(last)
+        if last.trailing_whitespace:
+            text += ' '
+        text += tok
+        merged = token(text,
+                       pre_tags=last.pre_tags,
+                       post_tags=tok.post_tags,
+                       trailing_whitespace=tok.trailing_whitespace)
+        merged.annotation = last.annotation
+        tokens[-1] = merged
+    
+
+def markup_serialize_tokens(tokens, markup_func):
+    for token in tokens:
+        for pre in token.pre_tags:
+            yield pre
+        html = token.html()
+        html = markup_func(html, token.annotation)
+        if token.trailing_whitespace:
+            html += ' '
+        yield html
+        for post in token.post_tags:
+            yield post
+
+
+def htmldiff(old_html, new_html):
+    """ 
+    """ 
+    old_html_tokens = tokenize(old_html)
+    new_html_tokens = tokenize(new_html)
+    result = htmldiff_tokens(old_html_tokens, new_html_tokens)
     return ''.join(result).strip()
 
 def htmldiff_tokens(html1_tokens, html2_tokens):
