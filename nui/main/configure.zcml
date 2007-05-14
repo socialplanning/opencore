@@ -34,16 +34,16 @@
   <!-- currently set to name peoplesearch,
        because there is no special interface on the people folder -->
   <browser:page
-     for="*"
+     for="Products.OpenPlans.interfaces.IAmAPeopleFolder"
      class=".search.SearchView"
      permission="zope.Public"
-     name="peoplesearch"
+     name="index.html"
      template="people.pt"
      />
 
   <!-- people-searchresults -->
   <browser:page
-     for="*"
+     for="Products.OpenPlans.interfaces.IAmAPeopleFolder"
      class=".people.PeopleSearchView"
      permission="zope.Public"
      name="searchresults"
