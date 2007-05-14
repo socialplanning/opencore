@@ -4,7 +4,6 @@
 
   <include package=".skin"/>
   <include package=".wiki" />
-  <include package=".account" />
   <include package=".main" />
   <include package=".account" />
   <include package=".main" />
