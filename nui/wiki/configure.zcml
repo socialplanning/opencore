@@ -76,7 +76,7 @@
 
   <browser:page
      name="createAtt"
-     permission="cmf.AddPortalContent"
+     permission="cmf.ModifyPortalContent"
      attribute="createAtt"
      for="opencore.content.page.OpenPage"
      class=".view.AttachmentView"
@@ -84,7 +84,7 @@
 
   <browser:page
      name="deleteAtt"
-     permission="zope2.DeleteObjects"
+     permission="cmf.ModifyPortalContent"
      attribute="deleteAtt"
      for="opencore.content.page.OpenPage"
      class=".view.AttachmentView"
