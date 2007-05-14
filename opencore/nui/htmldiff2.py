@@ -17,7 +17,7 @@ def htmldiff_tokens(html1_tokens, html2_tokens):
     result = []
     for command, i1, i2, j1, j2 in commands:
         if command == 'equal':
-            result.extend(expand_tokens(html2_tokens[j1:j2]))
+            result.extend(expand_tokens(html2_tokens[j1:j2], equal=True))
             continue
         if command == 'insert' or command == 'replace':
             ins_tokens = expand_tokens(html2_tokens[j1:j2])
@@ -28,14 +28,15 @@ def htmldiff_tokens(html1_tokens, html2_tokens):
     result = cleanup_delete(result)
     return result
 
-def expand_tokens(tokens):
+def expand_tokens(tokens, equal=False):
     for token in tokens:
         for pre in token.pre_tags:
             yield pre
-        if token.trailing_whitespace:
-            yield unicode(token) + ' '
-        else:
-            yield unicode(token)
+        if not equal or not token.hide_when_equal:
+            if token.trailing_whitespace:
+                yield token.html() + ' '
+            else:
+                yield token.html()
         for post in token.post_tags:
             yield post
 
@@ -101,6 +102,11 @@ def split_unbalanced(chunks):
             continue
         endtag = chunk[1] == '/'
         name = chunk.split()[0].strip('<>/')
+        if name in empty_tags:
+            assert not endtag, (
+                "Empty tag %r should have no end tag" % chunk)
+            balanced.append(chunk)
+            continue
         if endtag:
             if tag_stack and tag_stack[-1][0] == name:
                 balanced.append(chunk)
@@ -183,6 +189,8 @@ def locate_unbalanced_end(unbalanced_end, pre_delete, post_delete):
 
 class token(unicode):
 
+    hide_when_equal = False
+
     def __new__(cls, text, pre_tags=None, post_tags=None, trailing_whitespace=False):
         obj = unicode.__new__(cls, text)
 
@@ -204,7 +212,38 @@ class token(unicode):
         return 'token(%s, %r, %r)' % (unicode.__repr__(self), self.pre_tags, self.post_tags)
 
     def html(self):
-        return ''.join(self.pre_tags) + self + ''.join(self.post_tags)
+        return unicode(self)
+
+class tag_token(token):
+
+    def __new__(cls, tag, data, html_repr, pre_tags=None, 
+                post_tags=None, trailing_whitespace=False):
+        obj = token.__new__(cls, "%s: %s" % (type, data), 
+                            pre_tags=pre_tags, 
+                            post_tags=post_tags, 
+                            trailing_whitespace=trailing_whitespace)
+        obj.tag = tag
+        obj.data = data
+        obj.html_repr = html_repr
+        return obj
+
+    def __repr__(self):
+        return 'tag_token(%s, %s, html_repr=%s, post_tags=%r, pre_tags=%r, trailing_whitespace=%s)' % (
+            self.tag, 
+            self.data, 
+            self.html_repr, 
+            self.pre_tags, 
+            self.post_tags, 
+            self.trailing_whitespace)
+    def html(self):
+        return self.html_repr
+
+class anchor_token(token):
+
+    hide_when_equal = True
+
+    def html(self):
+        return 'Link: %s' % self
 
 def tokenize(html):
     html = '<html><head></head><body><div>%s</div></body></html>' % html
@@ -223,15 +262,32 @@ def fixup_chunks(chunks):
     result = []
     chunks=list(chunks)
     for chunk in chunks:
+        if isinstance(chunk, tuple):
+            if chunk[0] == 'img':
+                src = chunk[1]
+                tag = chunk[2]
+                if tag.endswith(' '):
+                    tag = tag[:-1]
+                    trailing_whitespace = True
+                else:
+                    trailing_whitespace = False
+                cur_word = tag_token('img', src, html_repr=tag,
+                                     pre_tags=tag_accum,
+                                     trailing_whitespace=trailing_whitespace)
+                tag_accum = []
+                result.append(cur_word)
+            elif chunk[0] == 'anchor':
+                href = chunk[1]
+                cur_word = anchor_token(href, pre_tags=tag_accum, trailing_whitespace=True)
+                tag_accum = []
+                result.append(cur_word)
+            continue
         if is_word(chunk):
             if chunk.endswith(' '):
                 chunk = chunk[:-1]
                 trailing_whitespace = True
             else:
                 trailing_whitespace = False
-            #if chunk.startswith('\000'):
-            #    type, data, tag = chunk.split('\000')
-            #    cur_word = tag_token(data, html_repr=tag, 
             cur_word = token(chunk, pre_tags=tag_accum, trailing_whitespace=trailing_whitespace)
             tag_accum = []
             result.append(cur_word)
@@ -264,9 +320,7 @@ empty_tags = (
 def flatten_el(el, drop_tag=False):
     if not drop_tag:
         if el.tag == 'img':
-            yield image_tag(el)
-        elif el.tag == 'a' and el.attrib.get('href'):
-            yield anchor_tag(el)
+            yield ('img', el.attrib['src'], start_tag(el))
         else:
             yield start_tag(el)
     if el.tag in empty_tags and not el.text and not len(el):
@@ -277,17 +331,13 @@ def flatten_el(el, drop_tag=False):
     for child in el:
         for item in flatten_el(child):
             yield item
+    if el.tag == 'a' and el.attrib.get('href'):
+        yield ('anchor', el.attrib['href'])
     if not drop_tag:
         yield end_tag(el)
         end_words = split_words(el.tail)
         for word in end_words:
             yield cgi.escape(word)
-
-def image_tag(el):
-    return '\000image\000%s\000%s' % (el.attrib['src'], start_tag(el))
-
-def anchor_tag(el):
-    return '\000anchor\000%s\000%s' % (el.attrib['href'], start_tag(el))
 
 def split_words(text):
     if not text or not text.strip():

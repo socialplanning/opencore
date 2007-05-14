@@ -50,7 +50,7 @@ Whitespace is ignored, as it's not meaningful in HTML::
     <div>Hi <ins>guy</ins> <del>guys</del> </div>
 
 Movement between paragraphs is ignored, as tag-based changes are generally ignored::
-
+    >>> 
     >>> pdiff('<p>Hello</p><p>World</p>', '<p>Hello World</p>')
     <p>Hello World</p>
 
@@ -58,9 +58,12 @@ As a special case, changing the href of a link is displayed, and
 images are treated like words:
 
     >>> pdiff('<a href="http://yahoo.com">search</a>', '<a href="http://google.com">search</a>')
-    <a href="http://google.com">search (link <del>http://yahoo.com</del> <ins>http://google.com</ins>)</a>
+    <a href="http://google.com">search <ins>Link: http://google.com</ins>
+    <del>Link: http://yahoo.com</del> </a>
     >>> pdiff('<p>Print this <img src="print.gif"></p>', '<p>Print this</p>')
-    <p>Print this <del><img src="print.gif"></del></p>
+    <p>Print this <del><img src="print.gif"></del> </p>
+    >>> pdiff('<a href="http://yahoo.com">search</a>', '<a href="http://yahoo.com">search</a>')
+    <a href="http://yahoo.com">search</a>
 
 The sixteen combinations::
 
