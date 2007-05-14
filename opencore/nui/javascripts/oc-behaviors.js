@@ -73,47 +73,46 @@
 		//form
 		this.form.setVisibilityMode(Ext.Element.DISPLAY);
 		this.form.hide();
-		
+
 		//ajax request
 		this.formSubmit = function(e, el, o) {
-      YAHOO.util.Connect.setForm(el);
-      var cObj = YAHOO.util.Connect.asyncRequest("POST", this.action, { success: this.afterSuccess, failure: this.afterFailure, scope: this });
-      YAHOO.util.Event.stopEvent(e);
-    }
-    this.form.on('submit', this.formSubmit, this);
-    
+		    YAHOO.util.Connect.setForm(el);
+		    var cObj = YAHOO.util.Connect.asyncRequest("POST", el.action, { success: this.afterSuccess, failure: this.afterFailure, scope: this });
+		    YAHOO.util.Event.stopEvent(e);
+		}
+		this.form.on('submit', this.formSubmit, this);
+		
     // after request
-    this.afterSuccess = function(o) {
+		this.afterSuccess = function(o) {
     
-      // insert new - DomHelper.insertHtml converts string to DOM nodes
-      Ext.DomHelper.insertHtml('afterEnd', this.container.dom, o.responseText);
-      var newItem = Ext.get(Ext.get(this.container).getNextSibling());
+		    // insert new - DomHelper.insertHtml converts string to DOM nodes
+		    Ext.DomHelper.insertHtml('afterEnd', this.container.dom, o.responseText);
+		    var newItem = Ext.get(Ext.get(this.container).getNextSibling());
 
-      // delete original container
-      this.container.remove();
+		    // delete original container
+		    this.container.remove();
       
-      // highlight
-      newItem.highlight();
+		    // highlight
+		    newItem.highlight();
       
-      // re-up liveEdit behaviors on new element
-      new LiveEditForm(newItem.dom);
-    }
-    this.afterFailure = function(o) {
-      console.log('Oops! There was a problem.\n\n' + o.responseText); 
-    }
+		    // re-up liveEdit behaviors on new element
+		    new LiveEditForm(newItem.dom);
+		}
+		this.afterFailure = function(o) {
+		    console.log('Oops! There was a problem.\n\n' + o.responseText); 
+		}
 		
 		// cancel link
 		if (this.cancel) {
-        this.cancelClick = function(e, el, o) {
-          this.value.show();
-          this.form.hide();
-          this.container.removeClass('oc-liveEdit-editing');
-          YAHOO.util.Event.stopEvent(e);
-          //TODO: clear form
+		    this.cancelClick = function(e, el, o) {
+			this.value.show();
+			this.form.hide();
+			this.container.removeClass('oc-liveEdit-editing');
+			YAHOO.util.Event.stopEvent(e);
+			//TODO: clear form
 		    }
 		    this.cancel.on('click', this.cancelClick, this);
 		}
-				
 	}
 	
 	/* 
