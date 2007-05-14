@@ -3,7 +3,7 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
     <link metal:fill-slot="link" />
-    <script metal:fill-slot="script" />
+    <script metal:fill-slot="script" language="javascript" type="text/javascript" src="++resource++javascripts/checkbox-limit-select.js" />
   </head>
   <body>
     <div metal:fill-slot="content"
@@ -31,24 +31,34 @@
 	    <BR>
 	    <span tal:replace="python:len(history)"/> versions total.
           </p>
-	</div> <!-- end of headingBlock --> 
+	</div> <!-- end .oc-headingBlock --> 
 	
 	<div id="oc-content-main">
 	  
+	  <!-- FIXME: we should give an error when you try to submit without two
+	       checkboxes selected -->
+	  <form action="version_diff" method="GET">
+
 	  <div class="oc-lineup"> 
-	    Select 2 versions to compare them OR click a version number to see it.
+	    <!-- FIXME: this language makes it seem like you can check a single
+		 version to see a preview of that version, but you actually have
+		 to click the link/name of the version -->
+	    select 2 versions to compare them OR click a version number to see it.
 	    <ul class="oc-lineup-list">
 	      <tal:block repeat="version history">
 		<li class="oc-lineup-item" 
 		    tal:define="version_id version/version_id">
-		  <input type="checkbox" name="version"
+		  <input type="checkbox" name="version_id"
 			 tal:attributes="value version_id;
 					 id string:version-${version_id}"
-			 onchange="checkboxChanged(this)">
+			 limit-select="2">
+
 		  <h3>
+		    <!-- FIXME: when you click the link, because the link is a label
+			 it also checks/unchecks the checkbox -->
 		    <label tal:attributes="for string:version-${version_id}">
-		      <!-- FIXME here_url ?? --> 
-		      <a tal:attributes="href string:FIXME/history_version?id=${version_id}">
+		      <!-- FIXME should this be absolute ?? --> 
+		      <a tal:attributes="href string:versions_history_form?version_id=${version_id}">
 			<tal:if condition="repeat/version/start">Current</tal:if>
 			<tal:if condition="not: repeat/version/start">
 		          <tal:if condition="repeat/version/end">Initial</tal:if>
@@ -69,8 +79,13 @@
 		</li> 
 	      </tal:block> <!-- end repeat version history --> 
 	    </ul>	 
-	  </div> <!-- end oc-history div --> 
-	</div>
+	  </div> <!-- end #oc-lineup div --> 
+
+	  <input type="submit" value="Compare Versions">
+	  
+	  </form>
+
+	</div> <!-- end #oc-content-main -->
 	
       </tal:block><!-- end of content for versionable objects --> 
       
@@ -80,6 +95,6 @@
 	</div>
       </tal:block> 
       
-    </div><!-- end content slot -->
+    </div><!-- end fill-slot=content -->
   </body>
 </html>
