@@ -11,7 +11,43 @@
     <body>
       <div metal:fill-slot="content">
 
+<<<<<<< .mine
+      <!-- opencore.nui.wiki/wiki-view.pt -->
+      <!-- TODO project history -->
+      <div id="oc-content-main" class="oc-content-main-fullWidth">
+        
+        <div class="oc-wiki">
+          <div class="headingBlock oc-wiki-headingBlock">
+            <h2 tal:content="view/pagetitle"/>
+          </div>
+          <ul class="oc-tabs">
+            <li class="oc-selected">
+              <a href="view" rel="view">view</a>
+            </li>
+            <li>
+              <a href="edit" rel="edit">edit</a>
+            </li>
+            <li tal:condition="nothing">
+              <a href="" rel="history">history</a>
+            </li>
+            <li tal:condition="nothing">
+              <form class="" >
+                <select class="oc-dropdown-links">
+                  <option value="">More...</option>
+                  <option value="http://www.google.com">I'm feeling lucky</option>
+                </select>
+                <input type="submit" value="Go" style=""/>
+              </form>
+            </li>
+          </ul><!-- end .oc-tabs -->
+          
+          <div class="oc-wiki-content" tal:content="structure view/renderProjectContent"/>
+        
+        </div><!-- end .oc-wiki -->
+      </div><!-- end #oc-content-main -->
+=======
         <!-- TODO project history -->
+>>>>>>> .r5250
 
         <div id="oc-content-main" class="oc-content-main-fullWidth">
 
