@@ -3,7 +3,10 @@
     xmlns:five="http://namespaces.zope.org/five">
 
   <include package=".skin"/>
-  <include package=".pages" />
+  <include package=".wiki" />
+  <include package=".main" />
+  <include package=".account" />
+  <include package=".main" />
   <!-- resource directories for css, images, etc -->
   <browser:resourceDirectory
     name="css"
@@ -93,53 +96,6 @@
      template="footer.pt"
      />
 
-  <!-- project-view -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-project-view"
-     template="project-view.pt"
-     />
-
-
-  <!-- wiki-view 
-  MOVED TO pages/configure.zcml
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-wiki-view"
-     template="wiki-view.pt"
-     />
-    -->
-
-  <!-- project-edit -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-project-edit"
-     template="project-edit.pt"
-     />
-
-  <!-- project-history -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-project-history"
-     template="project-history.pt"
-     />
-
-  <!-- project-contents -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-project-contents"
-     template="project-contents.pt"
-     />
 
   <!-- project-contact -->
   <browser:page
@@ -150,40 +106,22 @@
      template="project-contact.pt"
      />
 
-  <!-- user-profile -->
+  <!-- member-profile -->
   <browser:page
      for="*"
      class=".opencoreview.OpencoreView"
      permission="zope.Public"
-     name="oc-user-profile"
-     template="user-profile.pt"
+     name="oc-member-profile"
+     template="member-profile.pt"
      />
 
-  <!-- user-contact -->
+  <!-- member-contact -->
   <browser:page
      for="*"
      class=".opencoreview.OpencoreView"
      permission="zope.Public"
-     name="oc-user-contact"
-     template="user-contact.pt"
-     />
-
-  <!-- people -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-people"
-     template="people.pt"
-     />
-
-  <!-- people-searchresults -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-people-searchresults"
-     template="people-searchresults.pt"
+     name="oc-member-contact"
+     template="member-contact.pt"
      />
 
   <!-- start-project -->

@@ -4,7 +4,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 
 class NuiMacros(BrowserView):
-    """"""
+    """ """
     template = ZopeTwoPageTemplateFile('main_template.pt')
 
     def __getitem__(self, key):
@@ -12,4 +12,7 @@ class NuiMacros(BrowserView):
 
 
 class StandardMacros(BaseMacros):
-    macro_pages = ('nui_macros', 'five_template', 'standard_macros', 'batch_macros')
+    macro_pages = ('nui_macros',
+                   'five_template',
+                   'standard_macros',
+                   'batch_macros')

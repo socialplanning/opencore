@@ -12,6 +12,7 @@
 		this.dropDownLinks = new Array();
 		//this.wikiTabs = new Array();
 		this.registerForm;
+		this.wikiAttachmentform;
 	}
 	var OC = new OC();
 
@@ -20,30 +21,18 @@
 	# Live Edit Forms
 	#
 	*/
-	function LiveEditForm (elId) {
-		//parse elId and get base & id
-		this.base = parseId().base;
-		this.id = parseId().id;
-		
-		function parseId() {
-			/* IDs should follow the form: base_id (e.g., liveEdit_12_value) */
-			results = new Array();
-			results.base = elId.split('_')[0];
-			results.id = elId.split('_')[1];
-			return results;
-		}
-		
+	function LiveEditForm (el) {
 		//get references for included elements
-		this.container = Ext.get(this.base + "_" + this.id);
-		this.value = Ext.get(this.base + "_" + this.id + "_value");
-		this.form = Ext.get(this.base + "_" + this.id + "_form");
-		this.selectBoxes = Ext.query("#" + elId + " select");  //quick for demo.		
-		this.selectBox = Ext.get(this.selectBoxes[0]); //quick for demo.
+		this.container = Ext.get(el);
+		this.value = Ext.get(Ext.query('.oc-liveEdit-value', el)[0]);
+		this.edit = Ext.get(Ext.query('.oc-liveEdit-edit', el)[0]);
+		this.form = Ext.get(Ext.query('.oc-liveEdit-form', el)[0]);
+		this.cancel = Ext.get(Ext.query('.oc-liveEdit-cancel', el)[0]);
 		
-		// check to make sure we have everything
-		if(!this.container || !this.value || !this.form || !this.selectBoxes || !this.selectBox)
+		// check to make sure we have what we need
+		if(!this.container || !this.value || !this.form)
 		  return;
-		
+
 		/*
 		# Attach Behviors
 		*/
@@ -67,6 +56,17 @@
 		}
 		this.container.on('click', this.containerClick, this);
 		
+		//edit
+		this.editClick = function(e, el, o) {
+		  YAHOO.util.Event.stopEvent(e);
+			this.value.hide();
+			this.form.show();
+			this.container.addClass('oc-liveEdit-editing');
+		}
+		if (this.edit) {
+		  this.edit.on('click', this.editClick, this);
+		}
+		
 		//value
 		this.value.setVisibilityMode(Ext.Element.DISPLAY);
 		
@@ -74,23 +74,45 @@
 		this.form.setVisibilityMode(Ext.Element.DISPLAY);
 		this.form.hide();
 		
-		//select
-		// temp.  this will change to be a smarter query.
-		this.selectBoxChange = function (e, el, o){
-			//show/hide
-			this.value.show();
-			this.form.hide();
-			
-			//do an ajax call
-			
-			//update the target
-			this.value.update(el.value);
-			
-			//highlight
-			this.container.removeClass('oc-liveEdit-editing');
-			this.container.highlight('c6ff80', { endColor: 'ffffff' });
+		//ajax request
+		this.formSubmit = function(e, el, o) {
+      YAHOO.util.Connect.setForm(el);
+      var cObj = YAHOO.util.Connect.asyncRequest("POST", this.action, { success: this.afterSuccess, failure: this.afterFailure, scope: this });
+      YAHOO.util.Event.stopEvent(e);
+    }
+    this.form.on('submit', this.formSubmit, this);
+    
+    // after request
+    this.afterSuccess = function(o) {
+    
+      // insert new - DomHelper.insertHtml converts string to DOM nodes
+      Ext.DomHelper.insertHtml('afterEnd', this.container.dom, o.responseText);
+      var newItem = Ext.get(Ext.get(this.container).getNextSibling());
+
+      // delete original container
+      this.container.remove();
+      
+      // highlight
+      newItem.highlight();
+      
+      // re-up liveEdit behaviors on new element
+      new LiveEditForm(newItem.dom);
+    }
+    this.afterFailure = function(o) {
+      console.log('Oops! There was a problem.\n\n' + o.responseText); 
+    }
+		
+		// cancel link
+		if (this.cancel) {
+        this.cancelClick = function(e, el, o) {
+          this.value.show();
+          this.form.hide();
+          this.container.removeClass('oc-liveEdit-editing');
+          YAHOO.util.Event.stopEvent(e);
+          //TODO: clear form
+		    }
+		    this.cancel.on('click', this.cancelClick, this);
 		}
-		this.selectBox.on('change', this.selectBoxChange, this);
 				
 	}
 	
@@ -169,7 +191,7 @@
 		this.content.setVisibilityMode(Ext.Element.DISPLAY);
 		this.content.hide();
 	}
-	
+
 	/* 
 	#
 	# WikiTabs
@@ -258,11 +280,15 @@
     this.usernameKeyPress = function(e, el, o) {
       //setup request
       var options = {
-         url: 'login'
-         , method:'get'
+         url: 'user-exists'
+         , method:'post'
+	 , params:{username:this.usernameField.dom.value}
          , callback: function(options, bSuccess, response) {
-             if (bSuccess)
-              this.usernameValidator.update('yes');
+	      if (bSuccess) {
+		  if( response.responseText )
+		      this.usernameValidator.update('no good');
+		  else this.usernameValidator.update('ok!');
+	      }
          }
          , scope: this
       };
@@ -272,14 +298,56 @@
     this.usernameField.on('keypress', this.usernameKeyPress, this);
     
 	}
+	
+	/*
+	#
+	# Wiki Attachment Form
+	#
+	*/
+	function WikiAttachmentForm(el) {
+	  // setup references
+    this.form = Ext.get('oc-wiki-addAttachment');
+    
+    // check references
+    if (!this.form)
+      return;
+     
+    // send form 
+    this.formSubmit = function(e, el, o) {
+      YAHOO.util.Event.stopEvent(e);
+      YAHOO.util.Connect.setForm(el,true); 
+      var cObj = YAHOO.util.Connect.asyncRequest('POST', '/openplans/projects/nicktestproj/project-home/@@edit', this.afterUpload); 
+    }
+    this.form.on('submit', this.formSubmit, this);
+    
+    // handle response
+    this.afterUpload = {
+      success: this.success,
+      failure: this.failure
+    };
+    this.success = function(o) {
+      alert('success');
+    }
+    this.failure = function(o) {
+      alert('failure');
+    }
+    
+	}
+
+	
 		
   		
-	//Load Em up
+	/*
+	#------------------------------------------------------------------------
+	# Load Em up
+	#------------------------------------------------------------------------
+	*/
 	Ext.onReady(function() {
+			
 			
 		// Find each live edit form and make an array of LiveEditForm objects
 		Ext.query('.oc-liveEdit').forEach(function(el) {
-			OC.liveEditForms.push(new LiveEditForm(el.id));
+			OC.liveEditForms.push(new LiveEditForm(el));
 		});	
 		
 		// Find close buttons and make them CloseButton objects
@@ -297,14 +365,14 @@
 			OC.expanders.push(new Expander(el));
 		});
 		
-		// Find wiki tabs and make them wikiTab objects
-		//Ext.query('.oc-tabs li a').forEach(function(el) {
-		//	OC.wikiTabs.push(new WikiTab(el));
-		//});
-		
 		// Find login form and make LoginForm object
 		if (Ext.get('oc-join-form')) {
 			OC.registerForm = new JoinForm();
 		}
-							
+		
+		// Find attachment form and make WikiAttachmentForm object
+		if (Ext.get('oc-wiki-addAttachment')) {
+			OC.wikiAttachmentForm = new WikiAttachmentForm();
+		}
+  							
 	}); // onReady

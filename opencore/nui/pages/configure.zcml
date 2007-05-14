@@ -8,73 +8,8 @@
      for="*"
      class="..opencoreview.OpencoreView"
      permission="zope.Public"
-     name="batch_macros"
-     template="batch_macros.pt"
-     />
-
-  <browser:page
-     for="*"
-     class="..opencoreview.OpencoreView"
-     permission="zope.Public"
      name="login"
      template="login.pt"
      />
-  <browser:page
-     for="*"
-     class="..opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="join"
-     template="join.pt"
-     />
      
-  <browser:page
-    for="opencore.content.page.OpenPage"
-    class="..opencoreview.OpencoreView"
-    permission="zope2.Public"
-    name="index.html"
-    template="wiki-view.pt"
-    />
-  <browser:page
-    for="opencore.content.page.OpenPage"
-    class="..opencoreview.OpencoreView"
-    permission="zope2.Public"
-    name="edit.html"
-    template="wiki-edit.pt"
-    />
-
-  <browser:page
-     for="*"
-     class="..opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="history"
-     template="wiki-history.pt"
-     />
-
-  <!-- projects -->
-  <browser:page
-     for="*"
-     class="..opencoreview.ProjectsView"
-     permission="zope.Public"
-     name="oc-projects"
-     template="projects.pt"
-     />
-
-  <!-- projects-searchresults -->
-  <browser:page
-     for="*"
-     class="..opencoreview.ProjectsResultsView"
-     permission="zope.Public"
-     name="oc-projects-searchresults"
-     template="projects-searchresults.pt"
-     />
-
-  <!-- home-page -->
-  <browser:page
-     for="*"
-     class="..opencoreview.HomeView"
-     permission="zope.Public"
-     name="oc-home"
-     template="home.pt"
-     />
-
 </configure>

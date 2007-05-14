@@ -36,8 +36,9 @@ from Products.OpenPlans.workflows import team
 from Products.OpenPlans.workflows import WORKFLOW_MAP
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from Products.OpenPlans.interfaces import IAddProject
+from Products.OpenPlans.interfaces import IAmAPeopleFolder
 
-from zope.interface import directlyProvides, directlyProvidedBy
+from zope.interface import directlyProvides, directlyProvidedBy, alsoProvides
 from Products.OpenPlans.Extensions.utils import setupKupu
 from Products.OpenPlans.metadata import cols
 from Products.OpenPlans.indexing import createIndexes
@@ -490,6 +491,15 @@ def setupPeopleFolder(portal, out):
     if not mtool.getMemberareaCreationFlag():
         print >> out, '-> Setting member area creation flag'
         mtool.setMemberareaCreationFlag()
+
+    # mark the people folder with an interface
+    pf = getattr(portal, 'people')
+    if not IAmAPeopleFolder.providedBy(pf):
+        alsoProvides(pf, IAmAPeopleFolder)
+
+    # set the default layout
+    pf.setLayout('index.html')
+    
 
 def registerCSS(portal, out):
     print >> out, 'Registering style sheets'

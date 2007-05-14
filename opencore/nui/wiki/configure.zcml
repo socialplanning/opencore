@@ -1,0 +1,85 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five">
+
+  <!-- macros -->
+  <browser:page
+     for="opencore.content.page.OpenPage"
+     class="..opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="wiki_macros"
+     template="wiki_macros.pt"
+     />
+
+  <browser:view
+    for="*"
+    name="wiki_macros"
+    class=".macros.WikiMacros"
+    permission="zope2.Public"
+    allowed_interface="zope.interface.common.mapping.IItemMapping"
+    />
+				   
+  <!-- Test for upload form: bind to site root -->
+  <!-- 
+  <browser:page
+     for="*"
+     class="..opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="update-test"
+     template="update-test.pt"
+     />
+   where is this?
+   -->
+     
+  <browser:page
+    for="opencore.content.page.OpenPage"
+    class="..opencoreview.OpencoreView"
+    permission="zope2.Public"
+    name="index.html"
+    template="wiki-view.pt"
+    />
+
+  <browser:page
+    for="opencore.content.page.OpenPage"
+    class=".view.WikiEdit"
+    permission="cmf.ModifyPortalContent"
+    name="update"
+    attribute="update"
+    />
+    
+  <browser:page
+    for="opencore.content.page.OpenPage"
+    class=".view.WikiEdit"
+    permission="cmf.ModifyPortalContent"
+    name="edit"
+    template="wiki-edit.pt"
+    />
+
+  <!-- attachments -->
+  <!-- establish an order to help scanning? -->
+  <browser:page
+     attribute="updateAtt"
+     class=".view.AttachmentView"
+     for="opencore.content.page.OpenPage"
+     name="updateAtt"
+     permission="cmf.ModifyPortalContent"
+     />
+
+  <browser:page
+     name="createAtt"
+     permission="cmf.AddPortalContent"
+     template="create-att.pt"
+     for="opencore.content.page.OpenPage"
+     class=".view.AttachmentView"
+     />
+
+  <browser:page
+     name="deleteAtt"
+     permission="zope2.DeleteObjects"
+     template="delete-att.pt"
+     for="opencore.content.page.OpenPage"
+     class=".view.AttachmentView"
+     />
+
+
+</configure>

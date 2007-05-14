@@ -8,7 +8,7 @@ from Products.Archetypes.public import BooleanField
 from Products.RichDocument.content.richdocument import RichDocument
 from Products.RichDocument.widgets.attachments import AttachmentsManagerWidget
 from Products.wicked.example.wickeddoc import schema as WickedSchema
-from Products.wicked.interfaces import IAmWicked
+from opencore.interfaces import IOpenPage
 from Products.OpenPlans.config import PROJECTNAME
 
 from zope.interface import implements
@@ -59,7 +59,7 @@ class OpenPage(RichDocument):
 
     schema = schema
 
-    implements(IAmWicked)
+    implements(IOpenPage)
 
     def getContainerPath(self):
         path = self.getPhysicalPath()
