@@ -8,3 +8,5 @@ class IAddProject(Interface):
     """Marker interface that indicates OpenProjects can be added.
     """
 
+class IAmAPeopleFolder(Interface):
+    """Marker interface that indicates that this folder contains people"""
