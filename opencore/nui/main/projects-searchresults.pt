@@ -5,7 +5,7 @@
   </head>
   <body>
 
-    <div id="oc-content-container" metal:fill-slot="content">              
+    <div metal:fill-slot="content">              
 
       <div class="oc-headingBlock">
         <h1>Projects on OpenPlans</h1>

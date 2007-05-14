@@ -36,7 +36,7 @@
     <!-- end cruft -->
   </head>
   <body>
-    <div id="oc-content-container" metal:fill-slot="content">
+    <div metal:fill-slot="content">
 
       <!-- TODO project history -->
 

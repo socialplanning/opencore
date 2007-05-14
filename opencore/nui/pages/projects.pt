@@ -5,58 +5,58 @@
   </head>
   <body>
 
-    <div id="oc-content-container" metal:fill-slot="content">              
+    <div metal:fill-slot="content">              
 
-    <div class="oc-headingBlock">
-       <h1>Projects on OpenPlans</h1>
-       <p class="oc-headingContext">Currently serving <span tal:replace="view/nprojects"/> projects</p>
-    </div>
-    
-    <div id="oc-content-main">
-    
-    <div class="oc-widget oc-widget-search">    
-    <form name="projects_search" action="." tal:attributes="action string:${context/portal_url}/oc-projects-searchresults">
-      <label><h2>Search for projects</h2></label>
-      <span class="oc-form-fieldBlock">
-      <input class="oc-input-typeText" type="text" name="projname" />
-      <input type="hidden" name="letter_search" />
-      <input type="submit" name="action_search_projects" value="Search" />
-      </span>
-    </form>
-        <ul class="oc-widget-alphabet" tal>
+      <div class="oc-headingBlock">
+        <h1>Projects on OpenPlans</h1>
+        <p class="oc-headingContext">Currently serving <span tal:replace="view/nprojects"/> projects</p>
+      </div>
+
+      <div id="oc-content-main">
+
+        <div class="oc-widget oc-widget-search">    
+          <form name="projects_search" action="." tal:attributes="action string:${context/portal_url}/oc-projects-searchresults">
+            <label><h2>Search for projects</h2></label>
+            <span class="oc-form-fieldBlock">
+              <input class="oc-input-typeText" type="text" name="projname" />
+              <input type="hidden" name="letter_search" />
+              <input type="submit" name="action_search_projects" value="Search" />
+            </span>
+          </form>
+          <ul class="oc-widget-alphabet" tal>
             <li tal:repeat="letter modules/string/uppercase">
-            <a href="" tal:content="letter" tal:attributes="href string:javascript:projects_search_letter('${letter}');;">A</a>
+              <a href="" tal:content="letter" tal:attributes="href string:javascript:projects_search_letter('${letter}');;">A</a>
             </li>
-        </ul>
-    </div>
-    
+          </ul>
+        </div>
+
         <div class="oc-widget oc-widget-feed">
           <h2>Recently updated projects</h2>
           <ul class="oc-feed-list">
-        <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recentprojects">
-          <div class="oc-project-logo" tal:condition="project/logo | nothing"> <!-- NOTE once images do exist this div will NOT be conditional but its contents will -->
-            <a tal:attributes="href project/absolute_url" tal:condition="project/logo | nothing">
-            <img src="" tal:attributes="src project/image_src | nothing; alt project/Title; title project/Title" tal:condition="project/logo | nothing" />
-            </a>
-          </div>
-          <h3 class="oc-feed-item-title">
+            <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recentprojects">
+              <div class="oc-project-logo" tal:condition="project/logo | nothing"> <!-- NOTE once images do exist this div will NOT be conditional but its contents will -->
+                <a tal:attributes="href project/absolute_url" tal:condition="project/logo | nothing">
+                  <img src="" tal:attributes="src project/image_src | nothing; alt project/Title; title project/Title" tal:condition="project/logo | nothing" />
+                </a>
+              </div>
+              <h3 class="oc-feed-item-title">
                 <a href="" tal:attributes="href project/absolute_url" tal:content="nocall: project/title">Project Title</a>
-          </h3>
+              </h3>
               <p class="oc-feed-item-data oc-discreetText" tal:define="nmembers python: len(project.projectMemberIds())">
                 <span tal:replace="nmembers">YY</span> member<span tal:condition="python: nmembers > 1" tal:replace="string:s" />, active since <span tal:replace="python: view.create_date(project)">Jan 1937</span>
               </p>
-          <p class="oc-feed-item-description" tal:content="project/mission | string: project mission statement goes here">
-            This is the descriptive text for a project. Apparently it doesn't quite work right yet. Is there even a field for users to fill out or entry to call from a database?
-          </p>
-        </li>
+              <p class="oc-feed-item-description" tal:content="project/mission | string: project mission statement goes here">
+                This is the descriptive text for a project. Apparently it doesn't quite work right yet. Is there even a field for users to fill out or entry to call from a database?
+              </p>
+            </li>
           </ul>
         </div>
-    
-    </div><!-- content-main -->
-    
-    
-    <!-- content-sidebar -->
-    <div id="oc-content-sidebar">
+
+      </div><!-- content-main -->
+
+
+      <!-- content-sidebar -->
+      <div id="oc-content-sidebar">
         <h2>Featured projects</h2>
         <p>The sidebar is full of editorial content for Rollie to deal with.</p>
         <h3>Transportation </h3>
@@ -91,11 +91,11 @@
           <li><a title="TOPP: video production" href="projects/topp-video-production/project-home" target="_self">TOPP Video Production</a></li>
           <li><a title="wicked : wiki distilled" href="projects/wicked/project-home" target="_self">Wicked : wiki distilled</a></li>
         </ul>
-    
-    </div><!-- content-sidebar -->
+
+      </div><!-- content-sidebar -->
     </div><!-- oc-content-container -->
-    
+
     <hr class="oc-clearElement" />
-    
+
   </body>
 </html>
