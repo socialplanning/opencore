@@ -82,8 +82,7 @@
             method="post"
             enctype="multipart/form-data"
             class="enableUnloadProtection"
-            tal:attributes="action python:here.absolute_url()  + '/@@project-edit'">
-            <!-- XXX I think this should be @@edit and not @@project-edit -->
+            tal:attributes="action python:here.absolute_url()  + '/@@update'">
             
             <div class="oc-wiki-edit" >
               <div class="oc-wiki-edit-content">

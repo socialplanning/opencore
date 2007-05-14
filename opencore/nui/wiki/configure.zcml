@@ -43,8 +43,8 @@
     for="opencore.content.page.OpenPage"
     class=".view.WikiEdit"
     permission="zope2.Public"
-    name="edit"
-    template="wiki-edit.pt"
+    name="update"
+    attribute="update"
     />
     
   <browser:page
