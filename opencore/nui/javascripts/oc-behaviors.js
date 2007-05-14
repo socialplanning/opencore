@@ -194,7 +194,7 @@
 		
 		//contents 
 		this.content.setVisibilityMode(Ext.Element.DISPLAY);
-		//this.content.hide();
+		this.content.hide();
 	}
 
 	
