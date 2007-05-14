@@ -8,7 +8,7 @@
 
     (<a href="" target="_blank" tal:attributes="href attachment/absolute_url" tal:content="attachment/getId">Id</a> -  
     <span tal:replace="attachment/getObjSize"></span>)
-    <a href="" class="oc-liveEdit-edit">Edit</a> | <a href="" class="">Delete</a>
+    <a href="" class="oc-liveEdit-edit">Edit</a> | <a href="" class="oc-liveEdit-delete">Delete</a>
   </div><!-- end .liveEdit-value -->  
   <form method="post" class="oc-liveEdit-form" action="@@updateAtt">
     <input type="hidden" name="attachment_id" tal:attributes="value attachment/getId" />

@@ -55,6 +55,15 @@
     template="wiki-edit.pt"
     />
 
+  <browser:page
+    for="opencore.content.page.OpenPage"
+    class=".view.WikiEdit"
+    permission="cmf.ModifyPortalContent"
+    name="edit-nick"
+    template="wiki-edit-nick.pt"
+    />
+
+
   <!-- attachments -->
   <!-- establish an order to help scanning? -->
   <browser:page
@@ -68,7 +77,7 @@
   <browser:page
      name="createAtt"
      permission="cmf.AddPortalContent"
-     template="create-att.pt"
+     attribute="createAtt"
      for="opencore.content.page.OpenPage"
      class=".view.AttachmentView"
      />
@@ -76,7 +85,7 @@
   <browser:page
      name="deleteAtt"
      permission="zope2.DeleteObjects"
-     template="delete-att.pt"
+     attribute="deleteAtt"
      for="opencore.content.page.OpenPage"
      class=".view.AttachmentView"
      />

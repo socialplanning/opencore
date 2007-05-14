@@ -26,6 +26,7 @@
 		this.container = Ext.get(el);
 		this.value = Ext.get(Ext.query('.oc-liveEdit-value', el)[0]);
 		this.edit = Ext.get(Ext.query('.oc-liveEdit-edit', el)[0]);
+		this.delete = Ext.get(Ext.query('.oc-liveEdit-delete', el)[0]);
 		this.form = Ext.get(Ext.query('.oc-liveEdit-form', el)[0]);
 		this.cancel = Ext.get(Ext.query('.oc-liveEdit-cancel', el)[0]);
 		
@@ -48,24 +49,37 @@
 			this.value.removeClass('oc-liveEdit-hover');
 		}
 		this.container.on('mouseout', this.containerMouseOut, this);
-		
+		/*
 		this.containerClick = function(e, el, o) {
 			this.value.hide();
 			this.form.show();
 			this.container.addClass('oc-liveEdit-editing');
 		}
 		this.container.on('click', this.containerClick, this);
-		
+		*/
 		//edit
 		this.editClick = function(e, el, o) {
-		  YAHOO.util.Event.stopEvent(e);
-			this.value.hide();
-			this.form.show();
-			this.container.addClass('oc-liveEdit-editing');
+		    YAHOO.util.Event.stopEvent(e);
+		    this.value.hide();
+		    this.form.show();
+		    this.container.addClass('oc-liveEdit-editing');
 		}
 		if (this.edit) {
 		  this.edit.on('click', this.editClick, this);
 		}
+
+		this.deleteClick = function(e, el, o) {
+		    YAHOO.util.Event.stopEvent(e);
+		    if (confirm("Are you sure you want to delete?")) {
+			YAHOO.util.Connect.setForm(this.form.dom);
+			var action = this.form.dom.action.replace(/(.*)update/, '$1delete');
+			var cObj = YAHOO.util.Connect.asyncRequest("POST", action, { success: this.afterDelete, failure: this.afterFailure, scope: this });
+		    }		    
+		}
+		if (this.delete) {
+		  this.delete.on('click', this.deleteClick, this);
+		}
+
 		
 		//value
 		this.value.setVisibilityMode(Ext.Element.DISPLAY);
@@ -83,6 +97,12 @@
 		this.form.on('submit', this.formSubmit, this);
 		
     // after request
+
+		this.afterDelete = function(o) {
+		    // delete original container
+		    this.container.remove();
+		}
+
 		this.afterSuccess = function(o) {
     
 		    // insert new - DomHelper.insertHtml converts string to DOM nodes
