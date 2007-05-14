@@ -46,10 +46,7 @@ def _initialize_project(instance, request):
     This is called by the IAfterProjectAddedEvent to perform after creation
     to initialize the content within the project.
     """
-    # Assign a default team only if requested
-    assign_team = request.get('team_assignment', None)
-    if assign_team:
-        instance._createTeam()
+    instance._createTeam()
         
     # @@ move to subscriber
     instance._createIndexPage()

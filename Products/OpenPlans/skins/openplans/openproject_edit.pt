@@ -1,46 +1,14 @@
-<metal:js define-macro="javascript_head"
-          tal:define="add_view exists:view/object_stub;">
-    <!-- Some base styles -->
-    <style type="text/css"
-           tal:condition="add_view">
-            #archetypes-fieldname-space_teams { margin-left: 3em; }
-    </style>
-    <style type="text/css"
-           tal:condition="not:add_view">
-            #TeamAssignment { display: none; }
-    </style>
-
-    <script type="text/javascript"
-            tal:condition="add_view">
-      <!--
-      function hideTeams(ev) {
-            var teams = document.getElementById('archetypes-fieldname-space_teams');
-            teams.style.display = 'none';
-      }
-      function showTeams(ev) {
-            var teams = document.getElementById('archetypes-fieldname-space_teams');
-            teams.style.display = 'block';
-      }
-      function setupProjectAdd(ev) {
-            var no_teams = document.getElementById('team-assignment1');
-            var yes_teams = document.getElementById('team-assignment2');
-            var teams = document.getElementById('archetypes-fieldname-space_teams');
-            if (no_teams.checked) {
-                teams.style.display = 'none';
-            }
-            registerEventListener(no_teams, "click", hideTeams);
-            registerEventListener(yes_teams, "click", showTeams);
-      }
-      registerPloneFunction(setupProjectAdd);
-      -->
-    </script>
-
-    <script type="text/javascript"
-            src="flet_confirm.js"
-            tal:condition="not:add_view">
-    </script>
-
-</metal:js>
+<metal:header define-macro="header"
+            tal:define="edit_macros here/portal_skins/archetypes/edit_macros/macros">
+  <div metal:use-macro="edit_macros/header">
+    <metal:block fill-slot="extra_info">
+      <div class="field"><a href="TEAM MGMT URL"
+              tal:define="team_url python:here.getSpaceTeams()[0].absolute_url();"
+              tal:attributes="href team_url">Manage project membership</a>
+      </div>
+    </metal:block>
+  </div>
+</metal:header>
 
 <metal:body define-macro="body"
             tal:define="edit_macros here/portal_skins/archetypes/edit_macros/macros">
