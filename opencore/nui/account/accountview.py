@@ -6,8 +6,24 @@ from opencore.nui.opencoreview import OpencoreView
 from Products.Five import BrowserView
 
 class JoinView(OpencoreView):
-    def __call__(self, *args, **kw):            
-        return self.index(*args, **kw)
+
+    def validate(self):
+        # XXX completely ignore this crepe
+
+        return self.context.validate(REQUEST=self.request)
+
+    def __call__(self, *args, **kw):
+
+        if self.request.environ['REQUEST_METHOD'] == 'GET':
+            return self.index(*args, **kw)
+
+        errors = self.validate()
+
+        if not errors:  
+            return self.context.do_register()
+        else:
+            return self.index(*args, **kw)
+
 
 class LoginView(OpencoreView):
     @property
@@ -75,9 +91,6 @@ class PasswordResetView(OpencoreView):
             return "YOU HAVE EXPIRED."
         kw['randomstring'] = key
         return self.index(*args, **kw)
-
-
-from Products.CMFCore.utils import getToolByName
 
 class Confirmation(BrowserView):
     """screw you zpublisher"""
