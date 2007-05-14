@@ -35,10 +35,14 @@
       <div id="oc-content-container">
         <!-- content is injected here -->
         <div metal:define-slot="content" />
+
+        <hr class="oc-clearElement" />
+
       </div>
 
       <div tal:replace="structure here/@@oc-footer" />
     </div>
+
   </body>
 </html>
 </metal:template>
