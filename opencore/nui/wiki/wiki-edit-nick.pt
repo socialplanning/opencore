@@ -59,15 +59,15 @@
           </div>
           <ul class="oc-tabs">
             <li class="">
-              <a href="" rel="view">view</a>
+              <a href="@@index.html" rel="view">view</a>
             </li>
             <li class="oc-selected">
               <a href="" rel="edit">edit</a>
             </li>
-            <li>
+            <li tal:condition="nothing">
               <a href="" rel="history">history</a>
             </li>
-            <li>
+            <li tal:condition="nothing">
               <form class="" >
                 <select class="oc-dropdown-links">
                   <option value="">More...</option>
@@ -92,7 +92,7 @@
 
               <ul class="oc-actions oc-wiki-actions">
                 <li><input type="submit" value="Save" class="oc-button oc-chooseThis" /></li>
-                <li>or <a href="">cancel</a></li>
+                <li>or <a href="@@index.html">cancel</a></li>
               </ul>  
               
             </div><!-- end .oc-wiki-edit -->
@@ -101,7 +101,7 @@
         </div><!-- end .oc-wiki -->
 
         <hr />
-        <div class="oc-options oc-wiki-edit-options">
+        <div class="oc-options oc-wiki-edit-options" tal:condition="nothing">
 
           <div class="oc-expander">
               <a href="#oc-wiki-manageAttachments" class="oc-expander-link">manage attachments</a>

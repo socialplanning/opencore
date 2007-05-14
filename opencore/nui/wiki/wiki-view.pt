@@ -1,7 +1,7 @@
 <tal:vars tal:define="usr view/user;
                       canedit usr/canedit;
                       page view/page;
-                      "/>
+                      ">
 
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
@@ -17,63 +17,30 @@
         
         <div class="oc-wiki">
           <div class="headingBlock oc-wiki-headingBlock">
-            <h2>Your page title</h2>
+            <h2 tal:content="view/pagetitle"/>
           </div>
           <ul class="oc-tabs">
             <li class="oc-selected">
               <a href="" rel="view">view</a>
             </li>
             <li>
-              <a href="" rel="edit">edit</a>
+              <a href="@@edit-nick" rel="edit">edit</a>
             </li>
-            <li>
+            <li tal:condition="nothing">
               <a href="" rel="history">history</a>
             </li>
-            <li>
-              <form class="" style="display: inline; font-size: 10px;">
-                <select>
+            <li tal:condition="nothing">
+              <form class="" >
+                <select class="oc-dropdown-links">
                   <option value="">More...</option>
+                  <option value="http://www.google.com">I'm feeling lucky</option>
                 </select>
-            <input type="submit" value="Go" style="font-size: 100%;"/>
+                <input type="submit" value="Go" style=""/>
               </form>
             </li>
           </ul><!-- end .oc-tabs -->
           
-          <div class="oc-wiki-content">
-            Wiki Content
-          </div><!-- end .oc-wiki-content -->
-          
-          <div class="oc-wiki-edit">
-            <div class="oc-wiki-edit-content">
-          Wiki Edit: kupu goes here
-              </div><!-- end .oc-wiki-edit-content" -->
-          
-            <div class="oc-options oc-wiki-edit-options">
-              <div class="oc-expander-container">
-                <a href="#oc-wiki-manageAttachments" class="oc-expander-link">manage attachments</a>
-                <div id="oc-wiki-manageAttachments" class="oc-expander-content">
-                  this is the attachment manager...
-                </div><!-- end .oc-expander-content -->
-              </div><!-- end .oc-expander-container -->
-              <div class="oc-expander-container">
-                <a href="#oc-wiki-addNote" class="oc-expander-link">add note</a>
-                <div id="oc-wiki-addNote" class="oc-expander-content">
-                  this is the note field...
-                </div><!-- end .oc-expander-content -->
-              </div><!-- end .oc-expander-container -->
-            </div><!-- end .oc-options -->  
-          
-            <form>
-              <ul class="oc-actions oc-wiki-actions">
-                <li><input type="submit" value="Save" class="oc-button oc-chooseThis" /></li>
-                <li>or <a href="">cancel</a></li>
-              </ul>  
-            </form>
-          </div><!-- end .oc-wiki-edit -->
-          
-          <div class="oc-wiki-history">
-            Wiki history
-          </div><!-- end .oc-wiki-history -->
+          <div class="oc-wiki-content" tal:content="structure view/renderProjectContent"/>
         
         </div><!-- end .oc-wiki -->
       </div><!-- end #oc-content-main -->

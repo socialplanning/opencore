@@ -42,7 +42,7 @@
   <browser:page
     for="opencore.content.page.OpenPage"
     class=".view.WikiEdit"
-    permission="zope2.Public"
+    permission="cmf.ModifyPortalContent"
     name="update"
     attribute="update"
     />
@@ -50,7 +50,7 @@
   <browser:page
     for="opencore.content.page.OpenPage"
     class=".view.WikiEdit"
-    permission="zope2.Public"
+    permission="cmf.ModifyPortalContent"
     name="edit-nick"
     template="wiki-edit-nick.pt"
     />
