@@ -264,6 +264,7 @@ class OpenProject(BrowserDefaultMixin, TeamSpace):
         members = set()
         teams = self.getTeams()
         if admin_only:
+            # XXX we need this
             pass
         else:
             for team in teams:
