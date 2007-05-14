@@ -5,10 +5,10 @@ views for main pages
 Instantiate a new projects view
    >>> from opencore.nui.main import search
    >>> request = self.portal.REQUEST
-   >>> view = search.SearchView(self.portal.projects, request)
+   >>> view = search.ProjectsSearchView(self.portal.projects, request)
 
 Get the list of projects that were recently updated
-   >>> recent_projects = view.recentprojects()
+   >>> recent_projects = view.recently_updated_projects()
    >>> recent_titles = [p.Title() for p in recent_projects]
    >>> recent_titles.sort()
    >>> recent_titles
@@ -65,9 +65,8 @@ Render the view to see if there are any errors
 
 Get a view to the people page
 Instantiate a new projects view
-   >>> from opencore.nui.main import people
    >>> request = self.portal.REQUEST
-   >>> view = people.PeopleSearchView(self.portal.people, request)
+   >>> view = search.PeopleSearchView(self.portal.people, request)
 
 Get the list of people matching the search
    >>> people = view.search_for_person('test_user_1_')
