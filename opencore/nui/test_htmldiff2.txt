@@ -165,3 +165,15 @@ Now, a sequence of documents:
     >>> panno('<p>Hello</p><p>There World</p>','<p>Hello</p><p>There Town</p>')
     <p><span version="0">Hello</span></p><p><span version="0">There</span>
     <span version="1">Town</span></p>
+    >>> panno('<p>Hi <img src="/foo"> You</p>',
+    ...       '<p>Hi You</p>',
+    ...       '<p>Hi You <img src="/bar"></p>')
+    <p><span version="0">Hi</span> <span version="1">You</span> <span
+    version="2"><img src="/bar"></span></p>
+    >>> panno('<p><a href="/foo">Hey</a></p>',
+    ...       '<p><a href="/bar">Hey</a></p>')
+    <p><a href="/bar"><span version="0">Hey</span></a></p>
+    >>> panno('<p><a href="/foo">Hey You</a></p>',
+    ...       '<p><a href="/foo">Hey Guy</a></p>')
+    <p><a href="/foo"><span version="0">Hey</span> <span
+    version="1">Guy</span></a></p>

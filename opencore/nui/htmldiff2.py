@@ -57,7 +57,7 @@ def html_annotate(doclist, markup=default_markup):
 def tokenize_annotated(doc, annotation): 
     """Tokenize a document and add an annotation attribute to each token
     """
-    tokens = tokenize(doc)
+    tokens = tokenize(doc, include_hrefs=False)
     for tok in tokens: 
         tok.annotation = annotation
     return tokens
@@ -500,7 +500,7 @@ class href_token(token):
     def html(self):
         return 'Link: %s' % self
 
-def tokenize(html):
+def tokenize(html, include_hrefs=True):
     """
     Parse the given HTML and returns token objects (words with attached tags).
 
@@ -512,7 +512,9 @@ def tokenize(html):
 
     <ins> and <del> tags are also eliminated from the document, as
     that gets confusing.
-    """
+
+    If include_hrefs is true, then the href attribute of <a> tags is
+    included as a special kind of diffable token."""
     # This removes any extra markup or structure like <head>:
     html = cleanup_html(html)
     # lxml requires basic structure, so we insert a predictable set of structure:
@@ -524,7 +526,7 @@ def tokenize(html):
     # structure we added previously:
     body_el = doc.xpath('/html/body/div')[0]
     # Then we split the document into text chunks for each tag, word, and end tag:
-    chunks = flatten_el(body_el, drop_tag=True)
+    chunks = flatten_el(body_el, drop_tag=True, include_hrefs=include_hrefs)
     # Finally re-joining them into token objects:
     return fixup_chunks(chunks)
 
@@ -570,7 +572,7 @@ def fixup_chunks(chunks):
                                      trailing_whitespace=trailing_whitespace)
                 tag_accum = []
                 result.append(cur_word)
-            elif chunk[0] == 'anchor':
+            elif chunk[0] == 'href':
                 href = chunk[1]
                 cur_word = href_token(href, pre_tags=tag_accum, trailing_whitespace=True)
                 tag_accum = []
@@ -611,7 +613,7 @@ empty_tags = (
     'param', 'img', 'area', 'br', 'basefont', 'input',
     'base', 'meta', 'link', 'col')
 
-def flatten_el(el, drop_tag=False):
+def flatten_el(el, include_hrefs, drop_tag=False):
     """ Takes an lxml element el, and generates all the text chunks for
     that tag.  Each start tag is a chunk, each word is a chunk, and each
     end tag is a chunk.
@@ -629,10 +631,10 @@ def flatten_el(el, drop_tag=False):
     for word in start_words:
         yield cgi.escape(word)
     for child in el:
-        for item in flatten_el(child):
+        for item in flatten_el(child, include_hrefs=include_hrefs):
             yield item
-    if el.tag == 'a' and el.attrib.get('href'):
-        yield ('anchor', el.attrib['href'])
+    if el.tag == 'a' and el.attrib.get('href') and include_hrefs:
+        yield ('href', el.attrib['href'])
     if not drop_tag:
         yield end_tag(el)
         end_words = split_words(el.tail)
