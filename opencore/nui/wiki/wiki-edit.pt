@@ -46,7 +46,7 @@
           <div class="headingBlock oc-wiki-headingBlock">
             <h2 tal:content="view/pagetitle"></h2>
           </div>
-          <ul class="oc-tabs">
+          <ul class="contentViews">
             <li class="">
               <a href="@@index.html" rel="view">view</a>
             </li>

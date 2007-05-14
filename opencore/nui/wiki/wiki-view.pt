@@ -18,8 +18,8 @@
             <div class="headingBlock oc-wiki-headingBlock">
               <h2 tal:content="view/pagetitle"/>
             </div>
-            <ul class="oc-tabs">
-              <li class="oc-selected">
+            <ul class="contentViews">
+              <li class="selected">
 		<a href="view" rel="view">view</a>
               </li>
               <li>
