@@ -47,6 +47,7 @@
     attribute="update"
     />
     
+  <!-- FIXME what are the permissions on history exactly? --> 
   <browser:page
     for="opencore.content.page.OpenPage"
     class=".view.WikiEdit"
@@ -54,6 +55,14 @@
     name="edit"
     template="wiki-edit.pt"
     />
+
+  <browser:page
+     for="*"
+     class="..opencoreview.OpencoreView"
+     permission="cmf.ModifyPortalContent"
+     name="history"
+     template="wiki-history.pt"
+     />
 
   <!-- attachments -->
   <!-- establish an order to help scanning? -->
