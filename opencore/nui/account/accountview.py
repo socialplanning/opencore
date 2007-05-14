@@ -18,7 +18,8 @@ class JoinView(OpencoreView):
         errors = self.validate()
 
         if not errors:
-            return self.context.do_register()
+            #            import pdb; pdb.set_trace()
+            return self.context.do_register(id=self.request.get('id'), password=self.request.get('password'))
         else:
             return self.index(*args, **kw)
 
