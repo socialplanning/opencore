@@ -103,3 +103,11 @@ the people folder
 
 Render the view to see if there are any errors
    >>> response = view()
+
+Navigating to the portal home should not produce any errors
+   >>> view = self.portal.unrestrictedTraverse('@@index.html')
+   >>> view
+   <Products.Five.metaclass.SimpleViewClass from ...home.pt object at...>
+
+Render the view to see if there are any errors
+   >>> response = view()
