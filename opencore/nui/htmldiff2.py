@@ -3,60 +3,106 @@ from lxml import etree
 import cgi
 import re
 
-def html_annotate(doclist, markup):
+__all__ = ['html_annotate', 'htmldiff']
+
+
+############################################################
+## Annotation
+############################################################
+
+def default_markup(text, version):
+    return '<span title="%s">%s</span>' % (
+        cgi.escape(unicode(version), 1), text)
+
+def html_annotate(doclist, markup=default_markup):
     """
-    doclist should be ordered from oldest to newest 
+    doclist should be ordered from oldest to newest, like::
+
+        >>> version1 = 'Hello World'
+        >>> version2 = 'Goodbye World'
+        >>> html_annotate([(version1, 'version 1'),
+        ...                (version2, 'version 2')])
+        u'<span title="version 2">Goodbye</span> <span title="version 1">World</span>'
+
+    The documents must be *fragments* (str/UTF8 or unicode), not
+    complete documents
+
+    The markup argument is a function to markup the spans of words.
+    This function is called like markup('Hello', 'version 2'), and
+    returns HTML.  The first argument is text and never includes any
+    markup.  The default uses a span with a title:
+
+        >>> default_markup('Some Text', 'by Joe')
+        u'<span title="by Joe">Some Text</span>'
     """
+    # The basic strategy we have is to split the documents up into
+    # logical tokens (which are words with attached markup).  We then
+    # do diffs of each of the versions to track when a token first
+    # appeared in the document; the annotation attached to the token
+    # is the version where it first appeared.
     tokenlist = [tokenize_annotated(doc, version)
                  for doc, version in doclist]
     cur_tokens = tokenlist[0]
     for tokens in tokenlist[1:]:
-        cur_tokens = html_annotate_diff(cur_tokens, tokens)
+        html_annotate_merge_annotations(cur_tokens, tokens)
+        cur_tokens = tokens
 
+    # After we've tracked all the tokens, we can combine spans of text
+    # that are adjacent and have the same annotation
     cur_tokens = compress_tokens(cur_tokens)
+    # And finally add markup
     result = markup_serialize_tokens(cur_tokens, markup)
     return ''.join(result).strip()
 
 def tokenize_annotated(doc, annotation): 
+    """Tokenize a document and add an annotation attribute to each token
+    """
     tokens = tokenize(doc)
     for tok in tokens: 
         tok.annotation = annotation
     return tokens
 
-def html_annotate_diff(tokens_old, tokens_new): 
+def html_annotate_merge_annotations(tokens_old, tokens_new): 
+    """Merge the annotations from tokens_old into tokens_new, when the
+    tokens in the new document already existed in the old document.
+    """
     s = difflib.SequenceMatcher()
     s.set_seq1(tokens_old)
     s.set_seq2(tokens_new)
     commands = s.get_opcodes()
-    result = [] 
 
     for command, i1, i2, j1, j2 in commands:
         if command == 'equal': 
             eq_old = tokens_old[i1:i2]
             eq_new = tokens_new[j1:j2]
             copy_annotations(eq_old, eq_new)
-            result.extend(eq_new)
-        if command == 'insert' or command == 'replace':
-            result.extend(tokens_new[j1:j2])
-
-    return result 
 
 def copy_annotations(src, dest): 
+    """
+    Copy annotations from the tokens listed in src to the tokens in dest
+    """
+    assert len(src) == len(dest)
     for src_tok, dest_tok in zip(src, dest): 
         dest_tok.annotation = src_tok.annotation
 
 def compress_tokens(tokens):
+    """
+    Combine adjacent tokens when there is no HTML between the tokens, 
+    and they share an annotation
+    """
     result = [tokens[0]] 
     for tok in tokens[1:]: 
         if (not result[-1].post_tags and 
             not tok.pre_tags and 
             result[-1].annotation == tok.annotation): 
-            merge_back(result, tok)
+            compress_merge_back(result, tok)
         else: 
             result.append(tok)
     return result
 
-def merge_back(tokens, tok): 
+def compress_merge_back(tokens, tok): 
+    """ Merge tok into the last element of tokens (modifying the list of
+    tokens in-place).  """
     last = tokens[-1]
     if type(last) is not token or type(tok) is not token: 
         tokens.append(tok)
@@ -72,8 +118,11 @@ def merge_back(tokens, tok):
         merged.annotation = last.annotation
         tokens[-1] = merged
     
-
 def markup_serialize_tokens(tokens, markup_func):
+    """
+    Serialize the list of tokens into a list of text chunks, calling
+    markup_func around text to add annotations.
+    """
     for token in tokens:
         for pre in token.pre_tags:
             yield pre
@@ -86,8 +135,24 @@ def markup_serialize_tokens(tokens, markup_func):
             yield post
 
 
+############################################################
+## HTML Diffs
+############################################################
+
 def htmldiff(old_html, new_html):
-    """ 
+    """ Do a diff of the old and new document.  The documents are HTML
+    *fragments* (str/UTF8 or unicode), they are not complete documents
+    (i.e., no <html> tag).
+
+    Returns HTML with <ins> and <del> tags added around the
+    appropriate text.  
+
+    Markup is generally ignored, with the markup from new_html
+    preserved, and possibly some markup from old_html (though it is
+    considered acceptable to lose some of the old markup).  Only the
+    words in the HTML are diffed.  The exception is <img> tags, which
+    are treated like words, and the href attribute of <a> tags, which
+    are noted inside the tag itself when there are changes.
     """ 
     old_html_tokens = tokenize(old_html)
     new_html_tokens = tokenize(new_html)
@@ -95,6 +160,22 @@ def htmldiff(old_html, new_html):
     return ''.join(result).strip()
 
 def htmldiff_tokens(html1_tokens, html2_tokens):
+    """ Does a diff on the tokens themselves, returning a list of text
+    chunks (not tokens).
+    """
+    # There are several passes as we do the differences.  The tokens
+    # isolate the portion of the content we care to diff; difflib does
+    # all the actual hard work at that point.  
+    #
+    # Then we must create a valid document from pieces of both the old
+    # document and the new document.  We generally prefer to take
+    # markup from the new document, and only do a best effort attempt
+    # to keep markup from the old document; anything that we can't
+    # resolve we throw away.  Also we try to put the deletes as close
+    # to the location where we think they would have been -- because
+    # we are only keeping the markup from the new document, it can be
+    # fuzzy where in the new document the old text would have gone.
+    # Again we just do a best effort attempt.
     s = difflib.SequenceMatcher()
     s.set_seq1(html1_tokens)
     s.set_seq2(html2_tokens)
@@ -110,10 +191,17 @@ def htmldiff_tokens(html1_tokens, html2_tokens):
         if command == 'delete' or command == 'replace':
             del_tokens = expand_tokens(html1_tokens[i1:i2])
             merge_delete(del_tokens, result)
+    # If deletes were inserted directly as <del> then we'd have an
+    # invalid document at this point.  Instead we put in special
+    # markers, and when the complete diffed document has been created
+    # we try to move the deletes around and resolve any problems.
     result = cleanup_delete(result)
     return result
 
 def expand_tokens(tokens, equal=False):
+    """Given a list of tokens, return a generator of the chunks of
+    text for the data in the tokens.
+    """
     for token in tokens:
         for pre in token.pre_tags:
             yield pre
@@ -125,41 +213,69 @@ def expand_tokens(tokens, equal=False):
         for post in token.post_tags:
             yield post
 
-def merge_insert(chunks, result):
-    unbalanced_start, balanced, unbalanced_end = split_unbalanced(chunks)
-    result.extend(unbalanced_start)
-    if result and not result[-1].endswith(' '):
+def merge_insert(ins_chunks, doc):
+    """ doc is the already-handled document (as a list of text chunks);
+    here we add <ins>ins_chunks</ins> to the end of that.  """
+    # Though we don't throw away unbalanced_start or unbalanced_end
+    # (we assume there is accompanying markup later or earlier in the
+    # document), we only put <ins> around the balanced portion.
+    unbalanced_start, balanced, unbalanced_end = split_unbalanced(ins_chunks)
+    doc.extend(unbalanced_start)
+    if doc and not doc[-1].endswith(' '):
         # Fix up the case where the word before the insert didn't end with 
         # a space
-        result[-1] += ' '
-    result.append('<ins>')
+        doc[-1] += ' '
+    doc.append('<ins>')
     if balanced and balanced[-1].endswith(' '):
         # We move space outside of </ins>
         balanced[-1] = balanced[-1][:-1]
-    result.extend(balanced)
-    result.append('</ins> ')
-    result.extend(unbalanced_end)
+    doc.extend(balanced)
+    doc.append('</ins> ')
+    doc.extend(unbalanced_end)
 
+# These are sentinals to represent the start and end of a <del>
+# segment, until we do the cleanup phase to turn them into proper
+# markup:
 class DEL_START:
     pass
 class DEL_END:
     pass
 
 class NoDeletes(Exception):
-    pass
+    """ Raised when the document no longer contains any pending deletes
+    (DEL_START/DEL_END) """
 
-def merge_delete(chunks, result):
-    result.append(DEL_START)
-    result.extend(chunks)
-    result.append(DEL_END)
+def merge_delete(del_chunks, doc):
+    """ Adds the text chunks in del_chunks to the document doc (another
+    list of text chunks) with marker to show it is a delete.
+    cleanup_delete later resolves these markers into <del> tags."""
+    doc.append(DEL_START)
+    doc.extend(del_chunks)
+    doc.append(DEL_END)
 
 def cleanup_delete(chunks):
+    """ Cleans up any DEL_START/DEL_END markers in the document, replacing
+    them with <del></del>.  To do this while keeping the document
+    valid, it may need to drop some tags (either start or end tags).
+
+    It may also move the del into adjacent tags to try to move it to a
+    similar location where it was originally located (e.g., moving a
+    delete into preceding <div> tag, if the del looks like (DEL_START,
+    'Text</div>', DEL_END)"""
     while 1:
+        # Find a pending DEL_START/DEL_END, splitting the document
+        # into stuff-preceding-DEL_START, stuff-inside, and
+        # stuff-following-DEL_END
         try:
             pre_delete, delete, post_delete = split_delete(chunks)
         except NoDeletes:
+            # Nothing found, we've cleaned up the entire doc
             break
+        # The stuff-inside-DEL_START/END may not be well balanced
+        # markup.  First we figure out what unbalanced portions there are:
         unbalanced_start, balanced, unbalanced_end = split_unbalanced(delete)
+        # Then we move the span forward and/or backward based on these
+        # unbalanced portions:
         locate_unbalanced_start(unbalanced_start, pre_delete, post_delete)
         locate_unbalanced_end(unbalanced_end, pre_delete, post_delete)
         doc = pre_delete
@@ -177,6 +293,13 @@ def cleanup_delete(chunks):
     return chunks
 
 def split_unbalanced(chunks):
+    """Return (unbalanced_start, balanced, unbalanced_end), where each is
+    a list of text and tag chunks.
+
+    unbalanced_start is a list of all the tags that are opened, but
+    not closed in this span.  Similarly, unbalanced_end is a list of
+    tags that are closed but were not opened.  Extracting these might
+    mean some reordering of the chunks."""
     start = []
     end = []
     tag_stack = []
@@ -212,6 +335,10 @@ def split_unbalanced(chunks):
     return start, balanced, end
 
 def split_delete(chunks):
+    """ Returns (stuff_before_DEL_START, stuff_inside_DEL_START_END,
+    stuff_after_DEL_END).  Returns the first case found (there may be
+    more DEL_STARTs in stuff_after_DEL_END).  Raises NoDeletes if
+    there's no DEL_START found. """
     try:
         pos = chunks.index(DEL_START)
     except ValueError:
@@ -220,6 +347,27 @@ def split_delete(chunks):
     return chunks[:pos], chunks[pos+1:pos2], chunks[pos2+1:]
 
 def locate_unbalanced_start(unbalanced_start, pre_delete, post_delete):
+    """ pre_delete and post_delete implicitly point to a place in the
+    document (where the two were split).  This moves that point (by
+    popping items from one and pushing them onto the other).  It moves
+    the point to try to find a place where unbalanced_start applies.
+
+    As an example::
+
+        >>> unbalanced_start = ['<div>']
+        >>> doc = ['<p>', 'Text', '</p>', '<div>', 'More Text', '</div>']
+        >>> pre, post = doc[:3], doc[3:]
+        >>> pre, post
+        (['<p>', 'Text', '</p>'], ['<div>', 'More Text', '</div>'])
+        >>> locate_unbalanced_start(unbalanced_start, pre, post)
+        >>> pre, post
+        (['<p>', 'Text', '</p>', '<div>'], ['More Text', '</div>'])
+
+    As you can see, we moved the point so that the dangling <div> that
+    we found will be effectively replaced by the div in the original
+    document.  If this doesn't work out, we just throw away
+    unbalanced_start without doing anything.
+    """
     while 1:
         if not unbalanced_start:
             # We have totally succeded in finding the position
@@ -243,12 +391,14 @@ def locate_unbalanced_start(unbalanced_start, pre_delete, post_delete):
             "Unexpected delete tag: %r" % next)
         if name == finding_name:
             unbalanced_start.pop(0)
-            pre_delete.extend(post_delete.pop(0))
+            pre_delete.append(post_delete.pop(0))
         else:
             # Found a tag that doesn't match
             break
 
 def locate_unbalanced_end(unbalanced_end, pre_delete, post_delete):
+    """ like locate_unbalanced_start, except handling end tags and
+    possibly moving the point earlier in the document.  """
     while 1:
         if not unbalanced_end:
             # Success
@@ -273,7 +423,20 @@ def locate_unbalanced_end(unbalanced_end, pre_delete, post_delete):
             break
 
 class token(unicode):
+    """ Represents a diffable token, generally a word that is displayed to
+    the user.  Opening tags are attached to this token when they are
+    adjacent (pre_tags) and closing tags that follow the word
+    (post_tags).  Some exceptions occur when there are empty tags
+    adjacent to a word, so there may be close tags in pre_tags, or
+    open tags in post_tags.
 
+    We also keep track of whether the word was originally followed by
+    whitespace, even though we do not want to treat the word as
+    equivalent to a similar word that does not have a trailing
+    space."""
+
+    # When this is true, the token will be eliminated from the
+    # displayed diff if no change has occurred:
     hide_when_equal = False
 
     def __new__(cls, text, pre_tags=None, post_tags=None, trailing_whitespace=False):
@@ -301,6 +464,10 @@ class token(unicode):
 
 class tag_token(token):
 
+    """ Represents a token that is actually a tag.  Currently this is just
+    the <img> tag, which takes up visible space just like a word but
+    is only represented in a document by a tag.  """
+
     def __new__(cls, tag, data, html_repr, pre_tags=None, 
                 post_tags=None, trailing_whitespace=False):
         obj = token.__new__(cls, "%s: %s" % (type, data), 
@@ -323,7 +490,10 @@ class tag_token(token):
     def html(self):
         return self.html_repr
 
-class anchor_token(token):
+class href_token(token):
+
+    """ Represents the href in an anchor tag.  Unlike other words, we only
+    show the href when it changes.  """
 
     hide_when_equal = True
 
@@ -331,21 +501,60 @@ class anchor_token(token):
         return 'Link: %s' % self
 
 def tokenize(html):
+    """
+    Parse the given HTML and returns token objects (words with attached tags).
+
+    This parses only the content of a page; anything in the head is
+    ignored, and the <head> and <body> elements are themselves
+    optional.  The content is then parsed by lxml, which ensures the
+    validity of the resulting parsed document (though lxml may make
+    incorrect guesses when the markup is particular bad).
+
+    <ins> and <del> tags are also eliminated from the document, as
+    that gets confusing.
+    """
+    # This removes any extra markup or structure like <head>:
+    html = cleanup_html(html)
+    # lxml requires basic structure, so we insert a predictable set of structure:
     html = '<html><head></head><body><div>%s</div></body></html>' % html
     doc = etree.HTML(html)
     if doc is None:
         raise ValueError('HTML is malformed: %r' % html)
+    # Then we strip out the content that was passed in, ignoring the
+    # structure we added previously:
     body_el = doc.xpath('/html/body/div')[0]
+    # Then we split the document into text chunks for each tag, word, and end tag:
     chunks = flatten_el(body_el, drop_tag=True)
+    # Finally re-joining them into token objects:
     return fixup_chunks(chunks)
+
+_body_re = re.compile(r'<body.*?>', re.I|re.S)
+_end_body_re = re.compile(r'</body.*?>', re.I|re.S)
+_ins_del_re = re.compile(r'</?(ins|del).*?>', re.I|re.S)
+
+def cleanup_html(html):
+    """ This 'cleans' the HTML, meaning that any page structure is removed
+    (only the contents of <body> are used, if there is any <body).
+    Also <ins> and <del> tags are removed.  """
+    match = _body_re.search(html)
+    if match:
+        html = html[match.end():]
+    match = _end_body_re.search(html)
+    if match:
+        html = html[:match.start()]
+    html = _ins_del_re.sub('', html)
+    return html
+    
 
 end_whitespace_re = re.compile(r'[ \t\n\r]$')
 
 def fixup_chunks(chunks):
+    """
+    This function takes a list of chunks and produces a list of tokens.
+    """
     tag_accum = []
     cur_word = None
     result = []
-    chunks=list(chunks)
     for chunk in chunks:
         if isinstance(chunk, tuple):
             if chunk[0] == 'img':
@@ -363,7 +572,7 @@ def fixup_chunks(chunks):
                 result.append(cur_word)
             elif chunk[0] == 'anchor':
                 href = chunk[1]
-                cur_word = anchor_token(href, pre_tags=tag_accum, trailing_whitespace=True)
+                cur_word = href_token(href, pre_tags=tag_accum, trailing_whitespace=True)
                 tag_accum = []
                 result.append(cur_word)
             continue
@@ -403,6 +612,12 @@ empty_tags = (
     'base', 'meta', 'link', 'col')
 
 def flatten_el(el, drop_tag=False):
+    """ Takes an lxml element el, and generates all the text chunks for
+    that tag.  Each start tag is a chunk, each word is a chunk, and each
+    end tag is a chunk.
+
+    If drop_tag is true, then the outermost container tag is
+    not returned (just its contents)."""
     if not drop_tag:
         if el.tag == 'img':
             yield ('img', el.attrib['src'], start_tag(el))
@@ -425,6 +640,8 @@ def flatten_el(el, drop_tag=False):
             yield cgi.escape(word)
 
 def split_words(text):
+    """ Splits some text into words. Includes trailing whitespace (one
+    space) on each word when appropriate.  """
     if not text or not text.strip():
         return []
     words = [w + ' ' for w in text.strip().split()]
@@ -435,11 +652,16 @@ def split_words(text):
 start_whitespace_re = re.compile(r'^[ \t\n\r]')
 
 def start_tag(el):
+    """
+    The text representation of the start tag for a tag.
+    """
     return '<%s%s>' % (
         el.tag, ''.join(' %s="%s"' % (name, cgi.escape(value, True))
                         for name, value in el.attrib.items()))
 
 def end_tag(el):
+    """ The text representation of an end tag for a tag.  Includes
+    trailing whitespace when appropriate.  """
     if el.tail and start_whitespace_re.search(el.tail):
         extra = ' '
     else:
@@ -457,4 +679,5 @@ def is_start_tag(tok):
 
 if __name__ == '__main__':
     import doctest
+    doctest.testmod()
     doctest.testfile('test_htmldiff2.txt')
