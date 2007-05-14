@@ -2,7 +2,6 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:five="http://namespaces.zope.org/five">
 
-
   <!-- macros -->
   <browser:page
      for="opencore.content.page.OpenPage"
@@ -14,23 +13,6 @@
 
 
    <!-- Login: bind to site root -->
-  <browser:page
-     for="*"
-     class="..opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="login"
-     template="login.pt"
-     />
-  
-  <!-- Test for upload form: bind to site root -->
-  <browser:page
-     for="*"
-     class="..opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="update-test"
-     template="update-test.pt"
-     />
-     
   <browser:page
     for="opencore.content.page.OpenPage"
     class="..opencoreview.OpencoreView"

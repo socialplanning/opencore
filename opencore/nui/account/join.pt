@@ -1,7 +1,3 @@
-<tal:vars tal:define="global usr view/user;
-                      global canedit usr/canedit;
-                      global page view/page" />
-
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
     <link metal:fill-slot="link" />
@@ -10,7 +6,8 @@
   <body>
     <div id="oc-content-container" metal:fill-slot="content">              
         <div id="oc-content-main">
-          <form id="oc-join-form" name="edit_form" method="post" enctype="multipart/form-data" action="http://www.openplans.org/portal_memberdata/portal_factory/OpenMember/openmember.2007-05-08.0523490218/reg_form">
+          <form id="oc-join-form" name="edit_form" method="post" enctype="multipart/form-data"
+		action="http://www.openplans.org/portal_memberdata/portal_factory/OpenMember/openmember.2007-05-08.0523490218/reg_form">
 
             <fieldset>
               <legend class="headingBlock">

@@ -15,12 +15,6 @@
 
     <!-- allows for the insertion of css and other linked features -->
     <metal:link-slot define-slot="link"/>  	
-    <script language="javascript" type="text/javascript">
-      function projects_search_letter(letter) {
-          document.projects_search.letter_search.value = letter;
-          document.projects_search.submit();
-      }
-    </script>
     <script language="javascript" type="text/javascript" src="++resource++javascripts/utilities.js "></script>
     <script language="javascript" type="text/javascript" src="++resource++javascripts/ded-chain-min.js" ></script>
     <script type="text/javascript" src="++resource++javascripts/ext.js" ></script>
@@ -33,7 +27,9 @@
   <body>
     <div id="oc-page-container">
       <div tal:replace="structure here/@@oc-topnav" />
-      <div tal:condition="portal_status" tal:content="portal_status" class="error"/>
+      <tal:for tal:repeat="status_msg portal_status">
+	<div tal:content="status_msg" class="error"/>
+      </tal:for>
       <!-- content is rendered here -->
       <div metal:define-slot="content" />
       <div tal:replace="structure here/@@oc-footer" />

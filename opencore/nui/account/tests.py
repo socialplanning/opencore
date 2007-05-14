@@ -24,7 +24,7 @@ def test_suite():
     globs = locals()
     readme = FunctionalDocFileSuite("README.txt",
                                     optionflags=optionflags,
-                                    package='opencore.nui',
+                                    package='opencore.nui.account',
                                     test_class=FunctionalTestCase,
                                     globs = globs,
                                     setUp=readme_setup
