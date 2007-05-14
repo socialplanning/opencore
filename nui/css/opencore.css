@@ -587,8 +587,7 @@ ul.oc-dropdown, .oc-dropdown ul {
 	line-height: 1.25;
 }
 .oc-wiki-edit-content {
- border: 1px solid #ccc;
- height: 300px; /* TODO: remove this once xinha is in */
+
 }
 .oc-actions.oc-wiki-actions {
   border-top: 2px solid;
@@ -1002,7 +1001,7 @@ li.oc-invite .oc-invite-content {
 }
 .oc-liveEdit-form,
 .oc-liveEdit-selected {
-	background: #eee;
+
 }
 .oc-liveEdit-hover {
 	background: #ffffcc;
@@ -1034,6 +1033,9 @@ h1, h2, h3, h4, h5, h6,
 	letter-spacing: 0;
 }
 		
+h4 {
+  margin: 0 0 .5em;
+}
 h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 abbr {
 	border: none;
 }

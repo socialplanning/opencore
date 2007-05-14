@@ -12,6 +12,7 @@
 		this.dropDownLinks = new Array();
 		//this.wikiTabs = new Array();
 		this.registerForm;
+		this.wikiAttachmentform;
 	}
 	var OC = new OC();
 
@@ -67,6 +68,17 @@
 		}
 		this.container.on('click', this.containerClick, this);
 		
+		//edit
+		this.editClick = function(e, el, o) {
+		  YAHOO.util.Event.stopEvent(e);
+			this.value.hide();
+			this.form.show();
+			this.container.addClass('oc-liveEdit-editing');
+		}
+		if (this.edit) {
+		  this.edit.on('click', this.editClick, this);
+		}
+		
 		//value
 		this.value.setVisibilityMode(Ext.Element.DISPLAY);
 		
@@ -74,23 +86,45 @@
 		this.form.setVisibilityMode(Ext.Element.DISPLAY);
 		this.form.hide();
 		
-		//select
-		// temp.  this will change to be a smarter query.
-		this.selectBoxChange = function (e, el, o){
-			//show/hide
-			this.value.show();
-			this.form.hide();
-			
-			//do an ajax call
-			
-			//update the target
-			this.value.update(el.value);
-			
-			//highlight
-			this.container.removeClass('oc-liveEdit-editing');
-			this.container.highlight('c6ff80', { endColor: 'ffffff' });
+		//ajax request
+		this.formSubmit = function(e, el, o) {
+      YAHOO.util.Connect.setForm(el);
+      var cObj = YAHOO.util.Connect.asyncRequest("POST", this.action, { success: this.afterSuccess, failure: this.afterFailure, scope: this });
+      YAHOO.util.Event.stopEvent(e);
+    }
+    this.form.on('submit', this.formSubmit, this);
+    
+    // after request
+    this.afterSuccess = function(o) {
+    
+      // insert new - DomHelper.insertHtml converts string to DOM nodes
+      Ext.DomHelper.insertHtml('afterEnd', this.container.dom, o.responseText);
+      var newItem = Ext.get(Ext.get(this.container).getNextSibling());
+
+      // delete original container
+      this.container.remove();
+      
+      // highlight
+      newItem.highlight();
+      
+      // re-up liveEdit behaviors on new element
+      new LiveEditForm(newItem.dom);
+    }
+    this.afterFailure = function(o) {
+      console.log('Oops! There was a problem.\n\n' + o.responseText); 
+    }
+		
+		// cancel link
+		if (this.cancel) {
+        this.cancelClick = function(e, el, o) {
+          this.value.show();
+          this.form.hide();
+          this.container.removeClass('oc-liveEdit-editing');
+          YAHOO.util.Event.stopEvent(e);
+          //TODO: clear form
+		    }
+		    this.cancel.on('click', this.cancelClick, this);
 		}
-		this.selectBox.on('change', this.selectBoxChange, this);
 				
 	}
 	
@@ -169,7 +203,7 @@
 		this.content.setVisibilityMode(Ext.Element.DISPLAY);
 		this.content.hide();
 	}
-	
+
 	/* 
 	#
 	# WikiTabs
@@ -276,14 +310,56 @@
     this.usernameField.on('keypress', this.usernameKeyPress, this);
     
 	}
+	
+	/*
+	#
+	# Wiki Attachment Form
+	#
+	*/
+	function WikiAttachmentForm(el) {
+	  // setup references
+    this.form = Ext.get('oc-wiki-addAttachment');
+    
+    // check references
+    if (!this.form)
+      return;
+     
+    // send form 
+    this.formSubmit = function(e, el, o) {
+      YAHOO.util.Event.stopEvent(e);
+      YAHOO.util.Connect.setForm(el,true); 
+      var cObj = YAHOO.util.Connect.asyncRequest('POST', '/openplans/projects/nicktestproj/project-home/@@edit', this.afterUpload); 
+    }
+    this.form.on('submit', this.formSubmit, this);
+    
+    // handle response
+    this.afterUpload = {
+      success: this.success,
+      failure: this.failure
+    };
+    this.success = function(o) {
+      alert('success');
+    }
+    this.failure = function(o) {
+      alert('failure');
+    }
+    
+	}
+
+	
 		
   		
-	//Load Em up
+	/*
+	#------------------------------------------------------------------------
+	# Load Em up
+	#------------------------------------------------------------------------
+	*/
 	Ext.onReady(function() {
+			
 			
 		// Find each live edit form and make an array of LiveEditForm objects
 		Ext.query('.oc-liveEdit').forEach(function(el) {
-			OC.liveEditForms.push(new LiveEditForm(el.id));
+			OC.liveEditForms.push(new LiveEditForm(el));
 		});	
 		
 		// Find close buttons and make them CloseButton objects
@@ -301,14 +377,14 @@
 			OC.expanders.push(new Expander(el));
 		});
 		
-		// Find wiki tabs and make them wikiTab objects
-		//Ext.query('.oc-tabs li a').forEach(function(el) {
-		//	OC.wikiTabs.push(new WikiTab(el));
-		//});
-		
 		// Find login form and make LoginForm object
 		if (Ext.get('oc-join-form')) {
 			OC.registerForm = new JoinForm();
 		}
-							
+		
+		// Find attachment form and make WikiAttachmentForm object
+		if (Ext.get('oc-wiki-addAttachment')) {
+			OC.wikiAttachmentForm = new WikiAttachmentForm();
+		}
+  							
 	}); // onReady
