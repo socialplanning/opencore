@@ -4,7 +4,7 @@
     <script metal:fill-slot="script" />
   </head>
   <body>
-    <div id="oc-content-container" metal:fill-slot="content">              
+    <div metal:fill-slot="content">              
       <div class="oc-headingBlock">
          <h1>Welcome to OpenPlans!</h1>
          <p class="oc-headingContext">OpenPlans aims to transform social activism by providing tools that connect people and enable them to share ideas, stay organized, and act collectively to effect change.</p>
