@@ -7,6 +7,7 @@
 	*/
 	function OC() {
 		this.liveEditForms = new Array();
+		this.updateForms = new Array();
 		this.closeButtons = new Array();
 		this.expanders = new Array();
 		this.dropDownLinks = new Array();
@@ -15,6 +16,65 @@
 		this.wikiAttachmentform;
 	}
 	var OC = new OC();
+	
+	/* 
+	#
+	# OC Update Form
+	# 
+	*/
+	function UpdateForm(el) {
+	  //get references
+	  this.form = Ext.get(el);
+	  this.targetId = Ext.get(Ext.query('input[name=oc-target]',el)[0]).dom.value;
+	  this.target = Ext.get(this.targetId);
+	  
+	  //check refs
+	  if (!this.form || !this.target)
+	   return;
+	   
+	 //vars
+	 this.isUpload = false;
+	  
+   if (this.form.dom.enctype)
+    this.isUpload = true;
+   	  
+	  //ajax request
+		this.formSubmit = function(e, el, o) {
+		  
+		  if (this.isupload)
+		    YAHOO.util.Connect.setForm(el, true);
+		  else 
+		    YAHOO.util.Connect.setForm(el);
+		  
+		    var cObj = YAHOO.util.Connect.asyncRequest("POST", this.form.dom.action, { success: this.afterSuccess, failure: this.afterSuccess, scope: this });
+		    YAHOO.util.Event.stopEvent(e);
+		}
+		this.form.on('submit', this.formSubmit, this);
+		
+    // after request
+		this.afterSuccess = function(o) {
+        console.log('success\n\n' + o.responseText);
+        
+		    // insert new - DomHelper.insertHtml converts string to DOM nodes
+		    var newItem = Ext.get(Ext.DomHelper.insertHtml('beforeEnd', this.target.dom, "<li>Hi.  this is new</li>"));
+		    
+		    console.log(newItem);
+		    //var newItem = Ext.get(this.target); // should be LAST sibling
+      
+		    // highlight
+		    newItem.highlight("ffffcc", { endColor: "eeeeee"});
+      
+		    // re-up liveEdit behaviors on new element
+		    //new LiveEditForm(newItem.dom);
+
+		}
+		
+		this.afterFailure = function(o) {
+		    console.log('Oops! There was a problem.\n\n' + o.responseText); 
+		}
+
+	   
+	}
 
 	/*
 	#
@@ -33,6 +93,8 @@
 		// check to make sure we have what we need
 		if(!this.container || !this.value || !this.form)
 		  return;
+		  
+		console.log(this.form.dom);
 
 		/*
 		# Attach Behviors
@@ -368,6 +430,11 @@
 		Ext.query('.oc-liveEdit').forEach(function(el) {
 			OC.liveEditForms.push(new LiveEditForm(el));
 		});	
+		
+		// Find each update form and make an array of UpdateForm objects
+		Ext.query('.oc-updateForm').forEach(function(el) {
+			OC.updateForms.push(new UpdateForm(el));
+		});
 		
 		// Find close buttons and make them CloseButton objects
 		Ext.query('.oc-close').forEach(function(el) {
