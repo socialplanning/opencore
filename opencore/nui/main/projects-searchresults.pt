@@ -22,9 +22,9 @@
           <tal:got_results condition="view/search_results"
                            define="batch view/search_results;
                                    batch_base_url request/ACTUAL_URL;
-                                   start batch/start;
-                                   end batch/end;
-                                   sequence_length batch/sequence_length;
+                                   start batch/start | nothing;
+                                   end batch/end | nothing;
+                                   sequence_length batch/sequence_length | nothing;
                                    ">
 
             <!-- display the number of results that came back -->
