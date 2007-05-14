@@ -9,7 +9,7 @@
     <script metal:fill-slot="script" />
   </head>
   <body>
-    <div metal:fill-slot="content">
+    <div id="oc-content-container" metal:fill-slot="content">
 
       <!-- TODO project history -->
       
