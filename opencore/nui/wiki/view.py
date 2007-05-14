@@ -40,20 +40,6 @@ class AttachmentView(OpencoreView):
     def createAtt(self):
         self.new_attachment = self.handle_createAtt()
         return self.create_snippet()
-
-# We're not actually doing this yet.
-#     def noJS(self):
-#         action = self.request.form.get('action')
-#         if not action in ['updateAtt', 'createAtt', 'deleteAtt']:
-#             return 
-
-#         if self.request.method == "POST":
-#             getattr(self, 'handle_' + action)()
-#             return self.whole_page()
-#         else:
-#             self.action = action
-#             return self.confirm(*args, **kwargs)
-
     
     def deleteAtt(self):
         self.context.manage_delObjects([attachmentId])
