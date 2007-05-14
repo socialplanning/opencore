@@ -14,20 +14,15 @@
   	
     <script language="javascript" type="text/javascript">
       function projects_search_letter(letter) {
-          document.projects_search.projname.value = '';
           document.projects_search.letter_search.value = letter;
           document.projects_search.submit();
       }
     </script>
 
-    <script language="javascript" type="text/javascript" src="++resource++javascripts/utilities.js"></script>
-    <!--
-    <script language="javascript" type="text/javascript" src="++resource++javascripts/ded-chain-min.js"></script>
-    -->
-    <script language="javascript" type="text/javascript" src="++resource++javascripts/ext.js"></script>
-    <script language="javascript" type="text/javascript" src="++resource++javascripts/oc-behaviors.js"></script>
-    
-    
+    <script language="javascript" type="text/javascript" src="++resource++javascripts/utilities.js" />
+    <script language="javascript" type="text/javascript" src="++resource++javascripts/ded-chain-min.js" />
+	
+    <script type="text/javascript" src="++resource++javascripts/behaviors.js" />
   </head>  
   <body>
     <div id="oc-page-container">
@@ -36,7 +31,5 @@
            tal:content="structure python:view.renderContent(content)" />
       <div tal:replace="structure here/@@oc-footer" />
     </div>
-    
-    <div id="oc-debug"></div>
   </body>
 </html>

@@ -4,8 +4,6 @@
 
   <browser:layer name="magic" />
 
-  <meta:redefinePermission from="zope2.Public" to="zope.Public" />
-
   <!--
   <browser:skin
       name="nui"
@@ -25,19 +23,19 @@
     layer="magic"
     />
 
-  <browser:view
-    for="*"
-    name="standard_macros"
-    class=".macros.StandardMacros"
-    permission="zope2.Public"
-    allowed_interface="zope.interface.common.mapping.IItemMapping"
+  <browser:page
+    for="opencore.interfaces.IProject"
+    class="..opencoreview.OpencoreView"
+    permission="zope.Public"
+    name="xindex.html"
+    template="project-view.pt"
     />
 
   <browser:view
     for="*"
-    name="nui_macros"
-    class=".macros.NuiMacros"
-    permission="zope2.Public"
+    name="standard_macros"
+    class=".macros.StandardMacros"
+    permission="zope.View"
     allowed_interface="zope.interface.common.mapping.IItemMapping"
     />
 

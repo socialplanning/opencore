@@ -2,9 +2,7 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:five="http://namespaces.zope.org/five">
 
-  <include package=".skin"/>
-  <include package=".pages" />
-  <include package=".account" />
+
   <!-- resource directories for css, images, etc -->
   <browser:resourceDirectory
     name="css"
@@ -18,6 +16,7 @@
     name="javascripts"
     directory="javascripts"
     />
+
 
 
   <!-- templates -->
@@ -75,8 +74,8 @@
      name="oc-topnav-accessibility"
      template="topnav-accessibility.pt"
      />
-  
-  <!-- your projects -->
+   
+   <!-- your projects -->
   <browser:page
      for="*"
      class=".opencoreview.YourProjectsView"
@@ -84,6 +83,7 @@
      name="oc-yourprojects"
      template="yourprojects.pt"
      />
+  
 
   <!-- footer -->
   <browser:page
@@ -94,6 +94,7 @@
      template="footer.pt"
      />
 
+
   <!-- project-view -->
   <browser:page
      for="*"
@@ -102,18 +103,6 @@
      name="oc-project-view"
      template="project-view.pt"
      />
-
-
-  <!-- wiki-view 
-  MOVED TO pages/configure.zcml
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-wiki-view"
-     template="wiki-view.pt"
-     />
-    -->
 
   <!-- project-edit -->
   <browser:page
@@ -169,6 +158,46 @@
      template="user-contact.pt"
      />
 
+
+
+
+
+  <!-- projects -->
+  <browser:page
+     for="*"
+     class=".opencoreview.ProjectsView"
+     permission="zope.Public"
+     name="oc-projects"
+     template="projects.pt"
+     />
+
+  <!-- projects-searchresults -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-projects-searchresults"
+     template="projects-searchresults.pt"
+     />
+
+  <!-- people -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-people"
+     template="people.pt"
+     />
+
+  <!-- people-searchresults -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-people-searchresults"
+     template="people-searchresults.pt"
+     />
+
   <!-- start-project -->
   <browser:page
      for="*"
@@ -178,6 +207,17 @@
      template="start-project.pt"
      />
 
+  <!-- login-join -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-login-join"
+     template="login-join.pt"
+     />
+
+
+
   <!-- blank (for testing) -->
   <browser:page
      for="*"
@@ -186,17 +226,5 @@
      name="oc-blank"
      template="blank.pt"
      />
-
-  <!-- username exists? -->
-  <browser:pages
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     >
-    <browser:page
-       name="user-exists"
-       attribute="userExists"
-       />       
-  </browser:pages>
 
 </configure>

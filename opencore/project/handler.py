@@ -1,31 +1,13 @@
-from zope.component import adapter, getUtility
-from zope.app.event.interfaces import IObjectCreatedEvent 
-from zope.app.event.interfaces import IObjectModifiedEvent
-
+from opencore.interfaces.event import IAfterProjectAddedEvent, IAfterSubProjectAddedEvent
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.interfaces import IFeatureletRegistry
-
-from opencore.interfaces.event import IAfterProjectAddedEvent, \
-     IAfterSubProjectAddedEvent
+from zope.component import adapter, getUtility
 from opencore.interfaces import IProject
+from zope.app.event.interfaces import IObjectCreatedEvent 
+from zope.app.event.interfaces import IObjectModifiedEvent
 from opencore import redirect
-
-from Products.CMFCore.utils import getToolByName
-
 from Products.OpenPlans.interfaces import IWriteWorkflowPolicySupport
 
-
-def handle_membership_creation(object, event):
-    mtool = getToolByName(object, 'portal_membership')
-    mailhost = getToolByName(object, 'MailHost')
-    mem = mtool.getAuthenticatedMember()
-    # weak, but sufficient, check
-    if mem.getId() == object.getId():
-        # XXX send an email to the project admins
-        pass
-    else:
-        # XXX send an email to the member
-        pass
 
 @adapter(IAfterProjectAddedEvent)
 def handle_postcreation(event):

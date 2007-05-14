@@ -27,68 +27,22 @@ from Products.OpenPlans.utils import installDepends
 from Products.OpenPlans.Extensions.Install import migrateATDocToOpenPage
 from Testing.ZopeTestCase import PortalTestCase
 
-from opencore.testing.layer import SiteSetupLayer, PloneSite
-import transaction as txn
-from Products.OpenPlans.tests.utils import installConfiguredProducts
+from openplanstestcase import SiteSetupLayer
 
-class TPILayer(PloneSite):
-    """ try and isolate this puppy """
-    installConfiguredProducts()
+class TestPloneInstall(ptc.PloneTestCase):
+    """ basic test for installation, qi """
 
-    @classmethod
-    def setUp(cls):
-        ZopeTestCase.installProduct('OpenPlans')
-
-    @classmethod
-    def tearDown(cls):
-        raise NotImplementedError
-
-class BasePloneInstallTest(ptc.PloneTestCase):
-    layer = TPILayer
+    layer = SiteSetupLayer
 
     def afterSetUp(self):
         self.loginAsPortalOwner()
-        setup_tool = self.portal.portal_setup
-        setup_tool.setImportContext('profile-membrane:default')
-        setup_tool.runAllImportSteps()
 
-        setup_tool.setImportContext('profile-remember:default')
-        setup_tool.runAllImportSteps()
-        
     def fail_tb(self, msg):
         """ special fail for capturing errors::good for integration testing(qi, etc) """
         out = StringIO()
         t, e, tb = sys.exc_info()
         traceback.print_exc(tb, out)
         self.fail("%s ::\n %s\n %s\n %s\n" %( msg, t, e,  out.getvalue()) )
-
-    def installProducts(self, products):
-        """ install a list of products using the quick installer """
-        if type(products)!=type([]):
-            products = [products,]
-        qi = self.portal.portal_quickinstaller
-        qi.installProducts(products, stoponerror=1)
-
-
-class TestSetupMethods(BasePloneInstallTest):
-
-    def afterSetUp(self):
-        BasePloneInstallTest.afterSetUp(self)
-        from Products.OpenPlans.Extensions.Install import install
-        install(self.portal)
-        self.request = self.portal.REQUEST
-        
-    def test_setupkupu_precidence(self):
-        self._refreshSkinData()
-        self.request.set('resource_type', 'mediaobject')
-        try:
-            xml = self.portal.restrictedTraverse("site-home/kupulibraries.xml")()
-        except :
-            self.fail_tb('Pathologic expression in kupu library tool for resource = mediaobject')
-
-class TestPloneInstall(BasePloneInstallTest):
-    # @@ current causes issues with demostorage
-    """ basic test for installation, qi """
 
     def testQIDependencies(self):
         try:
@@ -102,6 +56,13 @@ class TestPloneInstall(BasePloneInstallTest):
         except :
             self.fail_tb('QI install failed')
 
+    def installProducts(self, products):
+        """ install a list of products using the quick installer """
+        if type(products)!=type([]):
+            products = [products,]
+        qi = self.portal.portal_quickinstaller
+        qi.installProducts(products, stoponerror=1)
+
     def testInstallMethod(self):
         from Products.OpenPlans.Extensions.Install import install
         try:
@@ -113,9 +74,7 @@ class TestPloneInstall(BasePloneInstallTest):
         from Products.OpenPlans.Extensions.Install import install
         try:
             install(self.portal, migrate_atdoc_to_openpage=False)
-        except: 
-            import pdb, sys
-            pdb.post_mortem(sys.exc_info()[2])
+        except:
             self.fail_tb('\nInstall without migration failed')
             
         self.portal.invokeFactory('Document', 'test_doc')
@@ -126,12 +85,14 @@ class TestPloneInstall(BasePloneInstallTest):
         self.failIf(hasattr(ttool, 'OpenPage'))
         self.failUnless(ttool.Document.content_meta_type == 'OpenPage')
 
+    def tearDown(self):
+        # avoid any premature tearing down
+        PortalTestCase.tearDown(self)
                         
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
-    #suite.addTest(makeSuite(TestPloneInstall))
-    suite.addTest(makeSuite(TestSetupMethods))
+    suite.addTest(makeSuite(TestPloneInstall))
     return suite
 
 if __name__ == '__main__':

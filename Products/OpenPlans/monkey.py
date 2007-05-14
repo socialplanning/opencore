@@ -1,6 +1,5 @@
 from Products.Archetypes.BaseObject import BaseObject
 from metadata import addDispatcherToMethod, notifyObjectModified
-from metadata import notifyObjectCreated
 
 ##################################################
 # have Archetypes trigger object modified events
@@ -14,10 +13,6 @@ BaseObject.update = addDispatcherToMethod(BaseObject.update,
                                           notifyObjectModified)
 BaseObject.edit = BaseObject.update
 
-
-BaseObject.manage_afterAdd_old = BaseObject.manage_afterAdd
-BaseObject.manage_afterAdd = addDispatcherToMethod(BaseObject.manage_afterAdd,
-                                                   notifyObjectCreated)
 
 ##################################################
 # make MaildropHost work like SecureMailHost
