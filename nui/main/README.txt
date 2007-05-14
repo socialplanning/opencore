@@ -111,3 +111,11 @@ Navigating to the portal home should not produce any errors
 
 Render the view to see if there are any errors
    >>> response = view()
+
+Render the projects search results view with no search
+   >>> view = self.portal.projects.unrestrictedTraverse('searchresults')
+   >>> response = view()
+
+Render the people search results view with no search
+   >>> view = self.portal.people.unrestrictedTraverse('searchresults')
+   >>> response = view()
