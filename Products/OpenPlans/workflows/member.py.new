@@ -1,0 +1,32 @@
+
+<HTML>
+<HEAD>
+<TITLE>Workflow id:survey_workflow not found!</TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF">
+<FORM ACTION="./manage_main" METHOD="GET" >
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="10">
+<TR>
+  <TD VALIGN="TOP">
+  <BR>
+  <CENTER><B><FONT SIZE="+6" COLOR="#77003B">!</FONT></B></CENTER>
+  </TD>
+  <TD VALIGN="TOP">
+  <BR><BR>
+  <CENTER>
+  Workflow id:survey_workflow not found!
+  </CENTER>
+  </TD>
+</TR>
+<TR>
+  <TD VALIGN="TOP">
+  </TD>
+  <TD VALIGN="TOP">
+  <CENTER>
+  <INPUT TYPE="SUBMIT" VALUE="   Ok   ">
+  </CENTER>
+  </TD>
+</TR>
+</TABLE>
+</FORM>
+</BODY></HTML>
