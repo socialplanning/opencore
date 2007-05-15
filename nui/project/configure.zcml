@@ -6,7 +6,7 @@
      name="createProject"
      permission="cmf.ModifyPortalContent"
      attribute="createProject"
-     for="opencore.content.page.OpenPage"
+     for="*"
      class="..project.ProjectView"
      />
 
@@ -14,7 +14,7 @@
      name="updateProject"
      permission="cmf.ModifyPortalContent"
      attribute="updateproject"
-     for="opencore.content.page.OpenPage"
+     for="*"
      class="..project.ProjectView"
      />
 
