@@ -12,7 +12,7 @@ class SearchView(OpencoreView):
 
     def _get_batch(self, brains, start=0):
         return Batch(brains,
-                     size=3,
+                     size=10,
                      start=start,
                      end=0,
                      orphan=0,
