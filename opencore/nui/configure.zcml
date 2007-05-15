@@ -8,6 +8,7 @@
   <include package=".main" />
   <include package=".account" />
   <include package=".main" />
+
   <!-- resource directories for css, images, etc -->
   <browser:resourceDirectory
     name="css"
