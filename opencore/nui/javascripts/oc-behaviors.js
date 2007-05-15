@@ -13,7 +13,6 @@ function OC() {
     this.dropDownLinks = new Array();
     //this.wikiTabs = new Array();
     this.registerForm;
-    this.wikiAttachmentform;
 }
 var OC = new OC();
 
@@ -401,41 +400,6 @@ function JoinForm() {
     this.usernameField.on('keypress', this.usernameKeyPress, this);
 }
 
-/*
-#
-# Wiki Attachment Form
-#
- */
-function WikiAttachmentForm(el) {
-    // setup references
-    this.form = Ext.get('oc-wiki-addAttachment');
-
-    // check references
-    if (!this.form)
-        return;
-
-    // send form 
-    this.formSubmit = function(e, el, o) {
-        YAHOO.util.Event.stopEvent(e);
-        YAHOO.util.Connect.setForm(el,true); 
-        var cObj = YAHOO.util.Connect.asyncRequest('POST', '/openplans/projects/nicktestproj/project-home/@@edit', this.afterUpload); 
-    }
-    this.form.on('submit', this.formSubmit, this);
-
-    // handle response
-    this.afterUpload = {
-        success: this.success,
-        failure: this.failure
-    };
-    this.success = function(o) {
-        alert('success');
-    }
-    this.failure = function(o) {
-        alert('failure');
-    }
-
-}
-
 
 
 
@@ -474,11 +438,6 @@ Ext.onReady(function() {
    // Find login form and make LoginForm object
    if (Ext.get('oc-join-form')) {
        OC.registerForm = new JoinForm();
-   }
-
-   // Find attachment form and make WikiAttachmentForm object
-   if (Ext.get('oc-wiki-addAttachment')) {
-       OC.wikiAttachmentForm = new WikiAttachmentForm();
    }
 
 }); // onReady
