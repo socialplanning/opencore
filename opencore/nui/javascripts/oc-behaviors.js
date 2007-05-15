@@ -374,5 +374,10 @@
 		if (Ext.get('oc-wiki-addAttachment')) {
 			OC.wikiAttachmentForm = new WikiAttachmentForm();
 		}
+		
+		// Find firstFocus elements and focus the first one
+		if (Ext.get(Ext.query('.oc-firstFocus')[0])) {
+			Ext.get(Ext.query('.oc-firstFocus')[0]).focus();
+		}
   							
 	}); // onReady
