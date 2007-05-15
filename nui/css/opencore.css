@@ -422,7 +422,8 @@ ul.oc-dropdown, .oc-dropdown ul {
   font-size: 100%;
 }
 .oc-lineup .oc-paginator,
-.oc-searchresults .oc-paginator {
+.oc-searchresults .oc-paginator,
+.oc-peopleresults .oc-paginator {
 	float: right;
 	clear: none;
 	font-size: 10px;
