@@ -73,7 +73,7 @@
                   <a href="" tal:attributes="href string:${context/portal_url}/people/${item/getId}" tal:content="item/getId">Username</a>
                 </h3>
                 <p class="oc-peopleresults-realname" tal:content="item/Title">real name</p>
-                <p class="oc-peopleresults-location" tal:define="loc item/getLocation" tal:condition="loc" tal:content="loc">location</p>
+                <address class="oc-peopleresults-location" tal:define="loc item/getLocation" tal:condition="loc" tal:content="loc">location</address>
               </div>
             </li>
           </ol>
