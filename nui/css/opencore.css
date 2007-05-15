@@ -432,6 +432,7 @@ ul.oc-dropdown, .oc-dropdown ul {
 .oc-peopleresults {
 }
 .oc-peopleresults-list {
+	clear: both;
 	list-style-type: none;
 	padding: 0;
 }
