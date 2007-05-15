@@ -58,10 +58,17 @@
 
   <browser:page
      for="*"
-     class="..opencoreview.OpencoreView"
+     class=".historyview.WikiHistory"
      permission="cmf.ModifyPortalContent"
      name="history"
      template="wiki-history.pt"
+     />
+
+  <browser:page
+     for="*"
+     class=".historyview.WikiVersionCompare"
+     permission="cmf.ModifyPortalContent"
+     name="version_compare"
      />
 
   <!-- attachments -->

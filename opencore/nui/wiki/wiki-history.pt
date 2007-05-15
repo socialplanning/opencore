@@ -11,7 +11,7 @@
     
       <tal:block 
 	 tal:define="version_id python:request.get('version_id', None);
-                     history python:pr.getHistory(here, countPurged=False);
+                     history view/get_versions;
                      people_url python:here.portal_membership.getMembersFolder().absolute_url();"
 	 tal:condition="python: pr.isVersionable(context)">
         
@@ -37,7 +37,7 @@
 	  
 	  <!-- FIXME: we should give an error when you try to submit without two
 	       checkboxes selected -->
-	  <form action="version_diff" method="GET">
+	  <form action="version_compare" method="GET">
 
 	  <div class="oc-lineup"> 
 	    <!-- FIXME: this language makes it seem like you can check a single
@@ -45,9 +45,9 @@
 		 to click the link/name of the version -->
 	    select 2 versions to compare them OR click a version number to see it.
 	    <ul class="oc-lineup-list">
-	      <tal:block repeat="version history">
+	      <tal:block repeat="version python: history">
 		<li class="oc-lineup-item" 
-		    tal:define="version_id version/version_id">
+		    tal:define="version_id version/version_id | string:current">
 		  <input type="checkbox" name="version_id"
 			 tal:attributes="value version_id;
 					 id string:version-${version_id}"

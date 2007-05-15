@@ -1,0 +1,45 @@
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <link metal:fill-slot="link" />
+    <script metal:fill-slot="script" />
+  </head>
+  <body>
+    <div metal:fill-slot="content">
+      
+      <tal:let define="people_url python:here.portal_membership.getMembersFolder().absolute_url();">
+
+	<div class="oc-headingBlock">
+	  <h1>Compare Versions: <span tal:replace="here/title_or_id">page</span></h1>
+	  <p class="oc-headingContext">
+	    Comparing Version <span tal:replace="view/old_version_id" /> 
+	    by <a tal:define="author view/old_version/sys_metadata/principal" 
+		  tal:attributes="href string:${people_url}/${author}"
+		  tal:content="author">author</a>
+	    on <span tal:replace="python:here.toLocalizedTime(view.old_version.sys_metadata['timestamp'], long_format=True)" />
+	    <br>
+	    to Version <span tal:replace="view/new_version_id" /> 
+	    by <a tal:define="author view/new_version/sys_metadata/principal" 
+		  tal:attributes="href string:${people_url}/${author}"
+		  tal:content="author">author</a>
+	    on <span tal:replace="python:here.toLocalizedTime(view.new_version.sys_metadata['timestamp'], long_format=True)" />
+	  </p>
+	  <!-- FIXME: probably this floaty thing should be redone -->
+	  <div style="float: right">
+	    Legend:
+	    <ul>
+	      <li><del>deleted</del></li>
+	      <li><ins>inserted</ins></li>
+	    </ul>
+	  </div>
+	</div> <!-- end .oc-headingBlock --> 
+	
+	<div id="oc-content-main"
+	     tal:content="structure view/html_diff">
+	  
+	</div>
+
+      </tal:let>
+
+    </div><!-- end content slot -->
+  </body>
+</html>
