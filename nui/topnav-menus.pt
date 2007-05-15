@@ -15,7 +15,7 @@
     <a tal:attributes="href string:${site}/projects/@@index.html">projects</a>
   </li>
   <li>
-    <a tal:attributes="href string:${site}/@@magic?oc-content=oc-start-project">start a project</a>
+    <a tal:attributes="href string:${site}/@@createProject">start a project</a>
   </li>
   <tal:block tal:condition="view/loggedin" tal:define="usr view/user">
     <li>
