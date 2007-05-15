@@ -663,6 +663,7 @@ a.oc-close:hover {
 .oc-form-label {
   text-align: right;
   width: 8em;
+  line-height: normal;
 }
 .oc-form-radiolist {
 	list-style-type: none;
@@ -687,6 +688,13 @@ a.oc-close:hover {
 	white-space: nowrap;
 }
 .oc-input-typeText { /* Since browser support for selecting by type is... limited */
+}
+
+.oc-input-typeRadio,
+.oc-input-typeCheck {
+font-size: 100%;
+width: 1em;
+height: 1em;
 }
 
 /* Expanders */
@@ -1015,8 +1023,8 @@ fieldset {
   margin: 0;
 }
 label {
-  font-weight: bold;
-  display: block;
+  /* font-weight: bold; */
+  /* display: block; */
 }
 address {
 	font-style: normal;
