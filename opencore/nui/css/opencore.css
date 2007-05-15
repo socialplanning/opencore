@@ -435,14 +435,14 @@ ul.oc-dropdown, .oc-dropdown ul {
 	list-style-type: none;
 	padding: 0;
 }
-.oc-peopleresults li {
+.oc-peopleresults-list li {
 	margin-bottom: 0.5em;
 	width: 49%;
 	float: left;
 	clear: none;
 	white-space: nowrap;
 }
-.oc-peopleresults .oc-avatar {
+.oc-peopleresults-list .oc-avatar {
 	width: 80px;
 	height: 80px;
 	background: #eee;
@@ -663,15 +663,9 @@ a.oc-close:hover {
 }
 .oc-form-radiolist {
 	list-style-type: none;
-	padding-left: 8em;
 }
 .oc-form-radiolist ul {
 	list-style-type: none;
-}
-.oc-form-label-inline,
-.oc-form-radiolist label {
-	display: inline;
-	font-weight: normal;
 }
 .oc-form-value {
 
