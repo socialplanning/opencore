@@ -25,18 +25,22 @@ class JoinView(OpencoreView):
 class ConfirmAccountView(OpencoreView):
 
     def do_confirmation(self, member):
+        ### there may be some form thingy here to check for
+
         pf = getToolByName(self, "portal_workflow")
 
         if pf.getInfoFor(member, 'review_state') != 'pending':
             return False
 
-        pf.doActionFor(member, 'Approve member, make profile public')
+        setattr(member, 'isConfirmable', True)
+        pf.doActionFor(member, 'register_public')
+        delattr(member, 'isConfirmable')
+
+        return True
 
     def __call__(self, *args, **kw):
         key = self.request.get("key")
-        uid_tool = getToolByName(self, "uid_catalog")
-
-        matches = uid_tool(UID=key)
+        matches = self.membranetool.unrestrictedSearchResults(UID=key)
         
         if not matches:
             return "You is denied, muthafuka!"
@@ -45,8 +49,12 @@ class ConfirmAccountView(OpencoreView):
         member = matches[0].getObject()
 
         if self.do_confirmation(member):
-            return "You is confirmed, yo."        
-        self.request.RESPONSE.redirect('@@success')
+            plone_utils = getToolByName(self.context, 'plone_utils')
+            from Products.CMFPlone import PloneMessageFactory
+            plone_utils.addPortalMessage(PloneMessageFactory(u'Your account has been confirmed, maggot!'))
+            self.request.RESPONSE.redirect(self.siteURL + '/login')
+        else:
+            return "You is denied muthafuk1"
 
 
 class LoginView(OpencoreView):
