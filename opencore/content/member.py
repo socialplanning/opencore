@@ -27,6 +27,8 @@ content_schema = member_schema.copy() # copy before editing
 content_schema['id'].rosterSearch = 1
 content_schema['fullname'].rosterSearch = 1
 content_schema['location'].rosterSearch = 1
+content_schema['location'].index = \
+  ('membrane_tool/ZCTextIndex,lexicon_id=member_lexicon,index_type=Cosine Measure|TextIndex:brains',)
 
 content_schema['title'].write_permission = 'Manage users'
 content_schema['title'].widget.visible= {'view': 'invisible'}
