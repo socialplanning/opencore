@@ -18,10 +18,35 @@ class JoinView(OpencoreView):
         errors = self.validate()
 
         if not errors:
-            #            import pdb; pdb.set_trace()
             return self.context.do_register(id=self.request.get('id'), password=self.request.get('password'))
         else:
             return self.index(*args, **kw)
+
+class ConfirmAccountView(OpencoreView):
+
+    def do_confirmation(self, member):
+        pf = getToolByName(self, "portal_workflow")
+
+        if pf.getInfoFor(member, 'review_state') != 'pending':
+            return False
+
+        pf.doActionFor(member, 'Approve member, make profile public')
+
+    def __call__(self, *args, **kw):
+        key = self.request.get("key")
+        uid_tool = getToolByName(self, "uid_catalog")
+
+        matches = uid_tool(UID=key)
+        
+        if not matches:
+            return "You is denied, muthafuka!"
+        assert len(matches) == 1
+        
+        member = matches[0].getObject()
+
+        if self.do_confirmation(member):
+            return "You is confirmed, yo."        
+        self.request.RESPONSE.redirect('@@success')
 
 
 class LoginView(OpencoreView):
@@ -90,16 +115,4 @@ class PasswordResetView(OpencoreView):
             return "YOU HAVE EXPIRED."
         kw['randomstring'] = key
         return self.index(*args, **kw)
-
-class Confirmation(BrowserView):
-    """screw you zpublisher"""
     
-    def do_confirmation(self):
-        cat = getToolByName(self, "portal_catalog")
-        uid = self.request.get('id')
-        result = cat(UID=uid)
-        assert len(result) == 1
-        member = result[0].getObject()
-        pf = getToolByName(self, "portal_workflow")
-        pf.doActionFor(member, 'Approve member, make profile public')
-        self.request.RESPONSE.redirect('@@success')
