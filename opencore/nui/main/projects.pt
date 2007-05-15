@@ -1,0 +1,106 @@
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <link metal:fill-slot="link" />
+    <script metal:fill-slot="script" />
+  </head>
+  <body>
+
+    <div metal:fill-slot="content">              
+
+      <div class="oc-headingBlock">
+        <h1>Projects on OpenPlans</h1>
+        <p class="oc-headingContext">Currently serving <span tal:replace="view/nprojects"/> projects</p>
+      </div>
+      
+      <div id="oc-content-main">
+        
+        <!-- section that searches for the project  XXX maybe create a macro out of this? maybe just the letters part? -->
+        <div class="oc-widget oc-widget-search">    
+          <form name="projects_search" action="." tal:attributes="action string:${context/portal_url}/projects/searchresults">
+            <label><h2>Search for projects</h2></label>
+            <span class="oc-form-fieldBlock">
+              <input class="oc-input-typeText" type="text" name="projname" />
+              <input type="hidden" name="letter_search" />
+              <input type="submit" name="action_search_projects" value="Search" />
+            </span>
+          </form>
+
+          <!-- letters searches section -->
+          <ul class="oc-widget-alphabet" tal>
+            <li tal:repeat="letter modules/string/uppercase">
+              <a href="" tal:content="letter" tal:attributes="href string:${context/portal_url}/projects/searchresults?letter_search=${letter}">A</a>
+            </li>
+          </ul>
+
+        </div>
+        
+        <!-- list of recently updated projects. XXX maybe create a macro out of this? Generic for recent content? -->
+        <div class="oc-widget oc-widget-feed">
+          <h2>Recently updated projects</h2>
+          <ul class="oc-feed-list">
+            <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recently_updated_projects">
+              <div class="oc-project-logo" tal:condition="project/logo | nothing"> <!-- NOTE once images do exist this div will NOT be conditional but its contents will -->
+                <a tal:attributes="href project/absolute_url" tal:condition="project/logo | nothing">
+                  <img src="" tal:attributes="src project/image_src | nothing; alt project/Title; title project/Title" tal:condition="project/logo | nothing" />
+                </a>
+              </div>
+              <h3 class="oc-feed-item-title">
+                <a href="" tal:attributes="href project/absolute_url" tal:content="nocall: project/title">Project Title</a>
+              </h3>
+              <p class="oc-feed-item-data oc-discreetText" tal:define="nmembers python: len(project.projectMemberIds())">
+                <span tal:replace="nmembers">YY</span> member<span tal:condition="python: nmembers > 1" tal:replace="string:s" />, active since <span tal:replace="python: view.create_date(project)">Jan 1937</span>
+              </p>
+              <p class="oc-feed-item-description" tal:content="project/mission | string: project mission statement goes here">
+                This is the descriptive text for a project. Apparently it doesn't quite work right yet. Is there even a field for users to fill out or entry to call from a database?
+              </p>
+            </li>
+          </ul>
+        </div>
+        
+      </div><!-- content-main -->
+      
+      
+      <!-- XXX we need to think about how we are going to implement this with dynamic data
+           wiki page snippet pulled from a particular location? -->
+      <!-- content-sidebar -->
+      <div id="oc-content-sidebar">
+        <h2>Featured projects</h2>
+        <p>The sidebar is full of editorial content for Rollie to deal with.</p>
+        <h3>Transportation </h3>
+        <ul style="list-style: none; padding: 0;">
+          <li><a title="Car Free Central Park Main Page" href="projects/carfreepark/project-home" target="_self">Car Free Central Park</a></li>
+          <li><a title="Cadman Park Plaza" href="projects/cadman-park/project-home" target="_self">Cadman Park Plaza - Parking Lot</a></li>
+          <li><a title="Project Home" href="projects/laf-st-bikelane/project-home" target="_self">Lafayette Street Bike Lane</a></li>
+          <li><a title="NYCSR" href="projects/nycstreets/project-home" target="_self">NYC Streets Renaissance Campaign</a></li>
+          <li><a title="Project Home" href="projects/park-and-ride/project-home" target="_self">Park and Ride</a></li>
+          <li><a title="Testimony" href="projects/downtown-brooklyn-ped-plaza/project-home" target="_self">Willoughby Adams Pedestrian Plaza</a></li>
+        </ul>
+        <h3>Community</h3>
+        <ul style="list-style: none; padding: 0;">
+          <li><a title="Clean Up Projects in Pawtucket and the Blackstone Valley" href="projects/pawtucket-clean-up/project-home" target="_self">Pawtucket Clean Up</a></li>
+          <li><a title="Closing the GAP. Creating a Place to Bring Brooklyn Together" href="projects/gap/project-home" target="_self">Grand Army Plaza Reclamation </a></li>
+          <li><a title="Project Home" href="projects/the-campaign/project-home" target="_self">Campaign for Community-Based Planning</a></li>
+          <li><a title="Liz Christy Garden" href="projects/liz-christy-garden/project-home" target="_self">Liz Christie Community Garden</a></li>
+          <li><a title="Mark Lanes in Bay Ridge" href="projects/mark-lanes/project-home" target="_self">Mark Lanes</a></li>
+          <li><a title="Western Virginia Broadband Initiative" href="projects/wwbi/project-home" target="_self">West Virginia Broadband Initiative</a></li>
+        </ul>
+        <h3>Conference, Organization, <br />and Event Planning</h3>
+        <ul style="list-style: none; padding: 0;">
+          <li><a title="Brownstone Brooklyn Traffic Forum" href="../projects/brownstone-brooklyn-traffic/project-home" target="_self">Brownstone Brooklyn Community Forum</a></li>
+          <li><a title="Project Home" href="projects/whereweare/project-home" target="_self">Where We Are</a></li>
+          <li><a title="MAS Exhibition Preparations" href="projects/mas/project-home" target="_self">NYC Streets Renaissance exhibit </a></li>
+          <li><a title="Project Home" href="projects/plone-marketing/project-home" target="_self">Plone Marketing</a></li>
+        </ul>
+        <h3>TOPP Projects</h3>
+        <ul style="list-style: none; padding: 0;">
+          <li><a title="The Open Planning Project" href="projects/topp-the-organization/project-home" target="_self">TOPP: The Organization</a></li>
+          <li><a title="OpenCore Software" href="projects/opencore/project-home" target="_self">OpenCore Software</a></li>
+          <li><a title="TOPP: video production" href="projects/topp-video-production/project-home" target="_self">TOPP Video Production</a></li>
+          <li><a title="wicked : wiki distilled" href="projects/wicked/project-home" target="_self">Wicked : wiki distilled</a></li>
+        </ul>
+        
+      </div><!-- content-sidebar -->
+    </div><!-- content-fill-slot -->
+    
+  </body>
+</html>

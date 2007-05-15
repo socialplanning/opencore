@@ -1,0 +1,8 @@
+<tal:block condition="view/errors">
+error!
+</tal:block>
+
+<tal:return define="attachment view/new_attachment">
+  <tal:block condition="not:view/errors" metal:use-macro="here/@@wiki_macros/attachment" />
+</tal:return>
+

@@ -1,5 +1,6 @@
 """functions and variables for site-wide ui"""
 
+# XXX this is shit. -egj, mp
 
 dob = 'September 2, 2005' # OpenPlans' "date of birth"
 windowTitleSeparator = ' :: '
@@ -11,11 +12,6 @@ def renderTranscluderLink(viewname):
 
 def renderOpenPage(page):
     return page.CookedBody()
-
-def wrapWithTag(towrap, tag, id=None):
-    opening = id and '<%s id="%s">' % (tag, id) or '<%s>' % tag
-    closing = '</%s>' % tag
-    return '\n'.join((opening, towrap, closing))
 
 def renderView(view):
     return view()

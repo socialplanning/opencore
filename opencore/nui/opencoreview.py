@@ -12,10 +12,8 @@ from Products.Five import BrowserView
 from memojito import memoize, memoizedproperty
 from opencore import redirect 
 from opencore.interfaces import IProject 
-from topp.utils.pretty_date import prettyDate
-from topp.utils.pretty_text import truncate
 from zope.component import getMultiAdapter, adapts, adapter
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from topp.utils.pretty_text import truncate
 
 class OpencoreView(BrowserView):
     def __init__(self, context, request):
@@ -32,7 +30,13 @@ class OpencoreView(BrowserView):
         self.dob          = nui.dob
         self.piv = context.unrestrictedTraverse('project_info') # TODO don't rely on this
         self.miv = context.unrestrictedTraverse('member_info')  # TODO don't rely on this
+        self.errors = {}
 
+    def portal_status_message(self):
+        plone_utils = getToolByName(self.context, 'plone_utils')
+        msgs = plone_utils.showPortalMessages()
+        msgs = [msg.message for msg in msgs]
+        return msgs
 
     def include(self, viewname):
         if self.transcluded:
@@ -198,58 +202,16 @@ class OpencoreView(BrowserView):
             else: # TODO
                 return 'Unexpected error in OpencoreView.currentProjectPage: ' \
                        'self.context is neither an OpenProject nor an OpenPage'
-
-
-
-class ProjectsView(OpencoreView):
-
-    template = ZopeTwoPageTemplateFile('projects.pt')
-
-    def recentprojects(self):
-        # XXX
-        # This is not exactly what we want
-        # These get all modifications on the project itself
-        # but will miss wiki page changes in the project
-        # which is the sort of thing you would expect here
-        query = dict(portal_type='OpenProject',
-                     sort_on='modified',
-                     sort_order='descending',
-                     sort_limit=5,
-                     )
-        # do we want brains or objects?
-        project_brains = self.catalogtool(**query) 
-        projects = (x.getObject() for x in project_brains)
-        return projects
-
-    def __call__(self):
-        search_action = self.request.get('action_search_projects', None)
-        projname = self.request.get('projname', None)
-        letter_search = self.request.get('letter_search', None)
-        self.search_projects = None
-        self.searched = False
-
-        if letter_search:
-            self.search_projects = self.search_for_project(letter_search, startswith=True)
-            self.searched = True
-        elif search_action and projname:
-            self.search_projects = self.search_for_project(projname)
-            self.searched = True
-            
-        return self.template()
-            
-
-    def search_for_project(self, project, startswith=False):
-        query = dict(portal_type="OpenProject",
-                     sort_limit=5,
-                     Title=project,
-                     )
-        if startswith:
-            query['Title'] = query['Title'] + '*'
-        project_brains = self.catalogtool(**query) 
-        projects = [x.getObject() for x in project_brains]
-        return projects
     
+    def user_exists(self, username):
+        users = self.membranetool(getId=username)
+        return len(users) > 0
 
+    def userExists(self):
+        username = self.request.get("username")
+        if username is not None:
+            return self.user_exists(username)
+        return False
 
 class YourProjectsView(OpencoreView):
 

@@ -19,7 +19,8 @@ from Install import installColumns, fixUpEditTab, hideActions, \
      installWorkflows, setupPortalActions, addFormControllerOverrides, \
      installWorkflowPolicies, hideActionTabs, securityTweaks, uiTweaks, \
      migrateATDocToOpenPage, createIndexes, installZ3Types, registerJS, \
-     setupProjectLayout, createMemIndexes, setCookieDomain, installCookieAuth
+     setupProjectLayout, createMemIndexes, setCookieDomain, installCookieAuth, \
+     setupPeopleFolder
 
 from cStringIO import StringIO
 
@@ -99,8 +100,9 @@ functions = dict(
     registerJS = convertFunc(registerJS),
     createMemIndexes = convertFunc(createMemIndexes),
     setCookieDomain = convertFunc(setCookieDomain),
+    installCookieAuth=convertFunc(installCookieAuth),
     migrate_listen_member_lookup=migrate_listen_member_lookup,
-    installCookieAuth=installCookieAuth,
+    setupPeopleFolder=convertFunc(setupPeopleFolder),
     )
 
 class TOPPSetup(SetupWidget):

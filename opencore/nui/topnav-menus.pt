@@ -1,18 +1,18 @@
-<tal:vars tal:define="global site here/portal_url" />
+<tal:vars tal:define="global site context/portal_url" />
 
 <!-- OpenPlans logo -->
 <h1 id="oc-topnav-openplans-logo">
-  <a tal:attributes="href site"><img tal:attributes="src view/logoURL;
+  <a tal:attributes="href string:${site}/oc-home"><img tal:attributes="src view/logoURL;
       alt view/sitetitle" /></a>
 </h1>
 
 <!-- navigation links -->
 <ul id="oc-topnav-openplans-links">
   <li>
-    <a tal:attributes="href string:${site}/people/@@magic?oc-content=oc-people">people</a>
+    <a tal:attributes="href string:${site}/people/@@index.html">people</a>
   </li>
   <li>
-    <a tal:attributes="href string:${site}/projects/@@magic?oc-content=oc-projects">projects</a>
+    <a tal:attributes="href string:${site}/projects/@@index.html">projects</a>
   </li>
   <li>
     <a tal:attributes="href string:${site}/@@magic?oc-content=oc-start-project">start a project</a>
@@ -28,7 +28,7 @@
   </tal:block>
   <tal:block tal:condition="not:view/loggedin">
     <li>
-      <a tal:attributes="href string:${site}/@@magic?oc-content=oc-login-join">log in/join</a>
+      <a tal:attributes="href string:${site}/login">log in/join</a>
     </li>
   </tal:block>
 </ul>

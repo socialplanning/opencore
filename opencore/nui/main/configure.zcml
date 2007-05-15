@@ -1,0 +1,62 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five">
+
+  <browser:page
+     for="*"
+     class="..opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="batch_macros"
+     template="batch_macros.pt"
+     />
+    
+  <!-- projects portal -->
+  <!-- opencore.interfaces.IProjectsFolder -->
+  <browser:page
+     for="opencore.interfaces.adding.IAddProject"
+     class=".search.ProjectsSearchView"
+     permission="zope.Public"
+     name="index.html"
+     template="projects.pt"
+     />
+
+  <!-- projects-searchresults -->
+  <browser:page
+     for="opencore.interfaces.adding.IAddProject"
+     class=".search.ProjectsSearchView"
+     permission="zope.Public"
+     name="searchresults"
+     template="projects-searchresults.pt"
+     />
+  
+  <!-- people portal -->
+  <!-- opencore.interfaces.IPeopleFolder: index.html -->
+  <!-- currently set to name peoplesearch,
+       because there is no special interface on the people folder -->
+  <browser:page
+     for="opencore.interfaces.IAmAPeopleFolder"
+     class=".search.PeopleSearchView"
+     permission="zope.Public"
+     name="index.html"
+     template="people.pt"
+     />
+
+  <!-- people-searchresults -->
+  <browser:page
+     for="opencore.interfaces.IAmAPeopleFolder"
+     class=".search.PeopleSearchView"
+     permission="zope.Public"
+     name="searchresults"
+     template="people-searchresults.pt"
+     />
+
+  <!-- home-->
+  <browser:page
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     class=".search.HomeView"
+     permission="zope.Public"
+     name="index.html"
+     template="home.pt"
+     />
+
+</configure>

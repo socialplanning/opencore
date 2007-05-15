@@ -20,7 +20,6 @@ Version: 1ish
 /* @Global Layout
 -----------------------------------------*/
 html {
-
 }
 body {
 	margin: 0;
@@ -39,15 +38,21 @@ body {
 	margin-bottom: 0.5em;
 }
 #oc-content-container {
- 	margin: 2em 1em;
+ 	margin: 0;
+ 	padding: 1em;
 }
 #oc-content-main {
 	float: left;
+	clear: none;
 	width: 65%;
 	margin-bottom: 2em;
 }
+#oc-content-main.oc-content-main-fullWidth {
+	width: 100%;
+}
 #oc-content-sidebar {
 	float: right;
+	clear: none;
     width: 33%;
     margin-bottom: 2em;
 	padding: 0;
@@ -194,6 +199,8 @@ div#oc-LSResult ul {
 /*Drop-down menu styles GLOBAL (see far below for structure)
 ---------------------------------------*/
 
+/*
+
 ul.oc-dropdown, .oc-dropdown ul {
 	cursor: pointer;
 	font-weight: bold;
@@ -234,7 +241,11 @@ ul.oc-dropdown, .oc-dropdown ul {
 	background-color: #bbb;
 }
 
+*/
+
 /* Drop-down menu styles for the HEADER (see far below for structure) */
+
+/*
 
 #oc-topnav ul.oc-dropdown, .oc-dropdown ul {
 	line-height: normal;
@@ -277,10 +288,12 @@ ul.oc-dropdown, .oc-dropdown ul {
 	background-color: #AAC683;
 }
 
+*/
 	
 /* @CONTENT - This section defines the main content 
 ---------------------------------------------------*/
 
+/* Holdovers from the Typography Study
 #oc-content-title {
 	position: relative;
 	margin: 1.5em 0 0.75em;
@@ -299,21 +312,9 @@ ul.oc-dropdown, .oc-dropdown ul {
 #oc-content-title-pagetitle a {
   text-decoration: none;
   color: black;
-}
-				
-/* Main */
-#oc-content-main p {
-	/* min-width: 26em;
-	max-width: 39em;
-	margin-top: 0;
-	margin-bottom: .5em; */
-	}
-
-#oc-content-main ol, #oc-content-main ul, #oc-content-main dl {
-	line-height: 1.25;
-	}
+} */
 		
-		
+/* Rollie's nifty Definition Lists
 #oc-content-main dl {
 	min-width: 20em;
 	max-width: 33em;
@@ -336,7 +337,7 @@ ul.oc-dropdown, .oc-dropdown ul {
 #oc-content-main dd { 
 	margin: 0 0 0 9.5em; 
 	padding: 0 0 0.65em 0;
-}
+} */
 
 /* Sidebar */
 
@@ -358,10 +359,33 @@ ul.oc-dropdown, .oc-dropdown ul {
 -------------------------------------------- */
 /* This is where general layout elements within the content of a page are defined. Could also aply to how we implement templates. 
 	
+/* Generic layout elements */
+
+.oc-column-group {
+	width: 100%;
+}
+.oc-column-left {
+	float: left;
+	clear: none;
+	width: 49%;
+}
+.oc-column-left {
+	float: right;
+	clear: none;
+	width: 49%;
+}
+
+.oc-image-bright { /* A newspaper term for an image used to emphasize a block of text */
+	margin: 0 0.5em 0.5em 0;
+	float: left;
+}
+
 /* Search results */
 
+.oc-lineup,
 .oc-searchresults {
 }
+.oc-lineup-list,
 .oc-searchresults-list {
 	list-style-type: none;
 	margin:  0;
@@ -370,134 +394,128 @@ ul.oc-dropdown, .oc-dropdown ul {
 	border-top: 2px solid #eee;
 
 }
+.oc-lineup-item,
 .oc-searchresults-item {
 	margin: 0.25em 0;
 	padding-bottom: 0.25em;
 	border-bottom: 1px dotted #eee;
 }
+.oc-lineup-item h3,
 .oc-searchresults-item h3 {
 	display: inline;
 	font-size: 12px;
 }
+.oc-lineup-item p,
 .oc-searchresults-item p {
 	margin: 0;
 }
+.oc-lineup-item-sorter,
 .oc-searchresults-nresults {
 	float: left;
 	font-size: 10px;
 }
+.oc-lineup-item-sorter form,
+.oc-lineup-item-sorter input,
+.oc-searchresults-nresults form,
+.oc-searchresults-nresults form input {
+  display: inline;
+  font-size: 100%;
+}
+.oc-lineup .oc-paginator,
 .oc-searchresults .oc-paginator {
 	float: right;
 	font-size: 10px;
 }
 
+/* People search results */
+
+.oc-peopleresults {
+}
+.oc-peopleresults-list {
+	list-style-type: none;
+	padding: 0;
+}
+.oc-peopleresults li {
+	margin-bottom: 0.5em;
+	width: 49%;
+	float: left;
+	clear: none;
+	white-space: nowrap;
+}
+.oc-peopleresults .oc-avatar {
+	width: 80px;
+	height: 80px;
+	background: #eee;
+	float: left;
+	clear: none;
+	margin-right: 1em;
+}
+.oc-peopleresults-content {
+	float: left;
+	clear: none;
+	width: 60%;
+	white-space: normal;
+}
+.oc-peopleresults-username {
+	margin: 0;
+}
+.oc-peopleresults-realname {
+	margin: 0;
+}
+.oc-peopleresults-location {
+  font-style: normal;
+}
+
 /* Member profile pages */
 
-#oc-member-info {
+#oc-member-badge {
+	padding: 1em;
+	background-color: #eee;
+	border: 1px solid #ccc;
+}
+#oc-member-badge img {
+	max-width: 47%; 
+	float: left; 
+	clear: none; 
+	margin: 0 1em 1em 0;
+}
+#oc-member-badge .oc-member-details {
+	float: left; 
+	clear: none;
+	background: red;
+}
+#oc-member-badge .oc-member-details .oc-headingBlock p {
+	margin: 0;
+	line-height: normal;
+}
+dl.oc-member-info {
+	line-height: normal;
+}
+dl.oc-member-info dt {
+	font-weight: bold;
+}
+dl.oc-member-info dd {
+	margin: 0 0 1em;
 }
 
-	#oc-member-info .oc-tabs,
-	#oc-member-info .contentViews {
-		margin-bottom: 0;
-	}
-	
-		#oc-member-info .oc-tabs .contentview-view a,
-		#oc-member-info .contentViews .contentview-view a {
-			background-color: #eee;
-			border-bottom: 2px solid #eee;
-		}
-
-	#oc-member-details-wrapper {
-		background-color: #eee;
-		padding: 1em;
-	}
-	
-		#oc-member-portrait {
-			/* These images should be constrained to a max-width of ~200px */
-			max-width: 47%;
-			display: block;
-			float: left;
-		}
-		
-			img#oc-member-noportrait-edit {}
-		
-			img#oc-member-noportrait {}
-	
-		#oc-member-details {
-			display: block;
-			font-size: 100%;
-			line-height: 1.25;
-			float: left;
-			clear: none;
-			margin: 0 1em;
-		}
-		
-		#oc-member-fullname-none {
-			color: #ccc;
-		}
-	
-			#oc-member-details dt {
-				font-weight: bold;
-			}
-		
-			dl#oc-member-details dd {
-				margin: 0; 
-				padding: 0 0 0.5em 0;
-			}
-			
-			ul#oc-member-details-projects {
-				display: inline;
-				list-style-type: none;
-				padding: 0;
-				margin: 0;
-			}
-
-			#oc-member-details-projects-none {
-				color: #ccc;
-			}
-
-			
-				ul#oc-member-details-projects li {
-				}
-				
-	#oc-member-dates {
-		color: gray;
-		list-style-type: none;
-		padding: 0;
-		margin: 0;
-		display: inline;
-		text-align: right;
-	}
-	
-#oc-member-wiki {
-	margin: 1em 0;
-}
-	
-#oc-member-activity table{
-	width: 100%;
-}
-
-	/* The table styles here need to be cleaned up, a lot. */
-	
-	#oc-member-activity table,
-	#oc-member-activity table * {
-		border: none;
-		padding-left: 0;
-		margin-left: 0;
-	}
-
-	#oc-member-activity table th{
-		text-align: left;
-		text-transform: none;
-		font-weight: bold;
-		background-color: transparent;
-	}
-
-
-/* OpenPlans -- @Projects Page
-   These classes apply to the "Projects Portal" page. 
+/* Wiki
 ------------------------------------------------------------*/
+.oc-wiki {
+}
+.oc-wiki-content {
+}
+.oc-wiki-content ol,
+.oc-wiki-content ul,
+.oc-wiki-content dl {
+	line-height: 1.25;
+}
+.oc-wiki-edit-content {
 
+}
+.oc-actions.oc-wiki-actions {
+  border-top: 2px solid;
+  padding-top: .5em;
+}
 
 
 /* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
@@ -573,8 +591,29 @@ z-index: 5;
 			}
 
 			
-/* GENERAL CLASSES & @FORMS & @WIDGETS - reusable thingys
--------------------------------------------*/
+/* GENERIC CLASSES & FORMS & WIDGETS & BEHAVIORS oh my - reusable thingys
+-------------------------------------------
+
+GENERIC: Buttons
+GENERIC: Elements
+
+@FORM Stuff
+  Expanders
+  Actions
+
+@WIDGETS
+  headingBlock
+  List table
+  Last modified
+  Feeds
+  Invitations
+  Search box
+  Alphabet Search
+  
+@BEHAVIORS
+
+*/
+
 .oc-hidden {
  	display:none;
 }
@@ -612,13 +651,67 @@ a.oc-close:hover {
 	color: white;
 }
 
+/* @FORM Stuff */
+.oc-form {
+}
+.oc-form * {
+  vertical-align: top;
+}
+.oc-form-label {
+  text-align: right;
+  width: 8em;
+}
+.oc-form-radiolist {
+	list-style-type: none;
+	padding-left: 8em;
+}
+.oc-form-radiolist ul {
+	list-style-type: none;
+}
+.oc-form-label-inline,
+.oc-form-radiolist label {
+	display: inline;
+	font-weight: normal;
+}
+.oc-form-value {
+
+}
+.oc-form-help {
+
+}
+.oc-form-context {
+  color: #666;
+  font-style: italic;
+}
+.oc-form-validator {
+
+}
+.oc-form-fieldBlock {
+	white-space: nowrap;
+}
+.oc-input-typeText { /* Since browser support for selecting by type is... limited */
+}
+
+/* Expanders */
+.oc-expander {
+  margin: .25em 0;
+}
+.oc-expander-content {
+  margin: .25em 0;
+  padding: .5em;
+  background: #eee;
+  border: 1px solid #ccc;
+}
+
 /* Actions */
 .oc-actions { 
 	margin: 0;
 	padding: 0;
+	font-size: 11px;
 }
 .oc-actions li {
 	margin: 0 .25em;
+	display: inline;
 }
 
 .oc-chooseThis { /* Default option */
@@ -661,9 +754,9 @@ a.oc-close:hover {
 .oc-table thead {
  	background: #eee;
 }
-.oc-table th, 
-.oc-table th.oc-sortableColumn, 
-.oc-table th.oc-columnActions {
+.oc-table thead th, 
+.oc-table thead th.oc-sortableColumn, 
+.oc-table thead th.oc-columnActions {
 	text-align: left;
 	padding: .25em .5em;
 	/* font-size: 10px; */
@@ -688,7 +781,7 @@ a.oc-close:hover {
  	font-size: 10px;
 }
 .oc-table-actions li {
- 	display: inline;
+ 	
 }
 .oc-table-paginator {
 	float: right;
@@ -705,9 +798,16 @@ a.oc-close:hover {
 }
 
 /* Feeds */
-.oc-widget-feed {
+
+.oc-widget-feed h2{
+	margin: 0;
+}
+.oc-feed-list {
 	list-style: none;
+	margin: 0.5em 0 0.5em;
 	padding: 0;
+	border-top: 1px dotted #eee;
+
 }
 li.oc-feed-item {
 	margin: 0.5em 0;
@@ -715,9 +815,21 @@ li.oc-feed-item {
 	border-bottom: 1px dotted #eee;
 }
 li.oc-feed-item .oc-avatar {
-	float: right;
-	clear: both;
-	margin-right: 0.5em;
+	width: 80px;
+	float: left;
+	clear: none;
+	margin-right: 1em;
+}
+li.oc-feed-item .oc-project-logo {
+	width: 80px;
+	float: left;
+	clear: none;
+	margin-right: 1em;
+}
+li.oc-feed-item .oc-feed-item-content {
+	float: left;
+	clear: none;
+	width: 80%;
 }
 li.oc-feed-item .oc-feed-item-title,
 li.oc-feed-item .oc-feed-item-data,
@@ -762,17 +874,48 @@ li.oc-invite .oc-invite-content {
  	display: inline;
 }
 
+/* Search box */
+
+.oc-widget-search {
+	margin: 0 0 1.5em;
+	padding: 0.5em; 
+	background: #eee;
+	border: 1px solid #ccc;
+}
+#oc-content-sidebar .oc-widget-search {
+	background: none;
+}
+.oc-widget-search form input {
+	font-size: 10px;
+}
+#oc-content-main .oc-widget-search form .oc-input-typeText {
+	width: 80%;
+}
+#oc-content-sidebar .oc-widget-search form .oc-input-typeText {
+	width: 65%;
+}
+.oc-widget-search h2 {
+	margin: 0 0 0.5em;
+}
+.oc-widget-search ul.oc-widget-alphabet {
+	margin-top: 0.5em;
+}
+
 /* Alphabet search */
 
-ul.oc-widget-alphabet {
+.oc-widget-alphabet {
 	list-style: none;
 	padding: 0.5em;
+	margin: 0;
 	background-color: #eee;
-	border:1px solid #ccc;
+	border: 1px solid #ccc;
 	text-align: center;
 	text-transform: uppercase;
 	font-weight: bold;
 	font-size: 14px;
+}
+#oc-content-sidebar ul.oc-widget-alphabet {
+	background: none;
 }
 .oc-widget-alphabet li {
 	display: inline;
@@ -782,11 +925,8 @@ ul.oc-widget-alphabet {
 	text-decoration: none;
 }
 
-/* @Behaviors 
+/* @BEHAVIORS
 --------------------------*/
-.oc-liveEdit,
-.oc-table td.oc-liveEdit {
-}
 .oc-liveEdit-value {
 	border: 1px solid transparent;
 	border-bottom: 1px dotted #256E81; 
@@ -796,21 +936,16 @@ ul.oc-widget-alphabet {
 }
 .oc-liveEdit-form,
 .oc-liveEdit-selected {
-	background: #eee;
+
 }
-.oc-liveEdit-hover,
-.oc-table td.liveEdit-hover {
-	background: #eeeeee;
+.oc-liveEdit-hover {
+	background: #ffffcc;
 	cursor: pointer;
 	border-bottom: 1px dotted red;
 }
-.oc-liveEdit-form select {
-	background: #eee;
-	border:1px solid #999;
-	padding:1px;
-	margin:0;
-	width:100%;
-	font-size: 11px;
+.oc-liveEdit-editing,
+.oc-table td.oc-liveEdit-editing {
+	background: #ffb342;
 }
 
 /* @HTML ELEMENTS GENERAL @TYPOGRAPHY
@@ -833,6 +968,9 @@ h1, h2, h3, h4, h5, h6,
 	letter-spacing: 0;
 }
 		
+h4 {
+  margin: 0 0 .5em;
+}
 h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 abbr {
 	border: none;
 }
@@ -840,25 +978,47 @@ h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 ab
 h1, .oc-biggestText {
 	font-size: 24px;
 	line-height: 0.75em;
-	margin-top: 1.5em;
-	margin-bottom: 0.75em;
+	/* margin-top: 1.5em; */
+	/* margin-bottom: 0.75em; */
+	margin: 0 0 1em;
 }
 
 h2, .oc-biggerText, #oc-topnav-title h1 {
 	font-size: 18px;
 	line-height: 1em;
-	margin: 1em 0;   
+	/* margin: 1em 0; */
+	margin: 0 0 1em;
+
 }
 
 h3, .oc-bigText  {
 	font-size: 14px;
 	line-height: 1.286em;
-	margin-top: 1.929em;
-	margin-bottom: 0.643em;
+	/* margin-top: 1.929em; */
+	/* margin-bottom: 0.643em; */
+	margin: 0 0 1em;
 }
 
 h4, .h4 {
 	font-weight: bold;
+}
+select {
+	border:1px solid #999;
+	padding:1px;
+	margin:0;
+	font-size: 11px;
+}
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+label {
+  font-weight: bold;
+  display: block;
+}
+address {
+	font-style: normal;
 }
 
 .oc-smallText,

@@ -1,0 +1,67 @@
+<div id="oc-content-main">
+  <div id="oc-member-badge" class="oc-clearAfter" style="width: auto; padding: 1em; background-color: #eee; border: 1px solid #ccc;">
+    <img src="http://www.openplans.org/site-home/orange_logo.gif" style="float: left; clear: none; margin: 0 1em 1em 0;" />
+    <div class="oc-member-details" style="float: left; clear: none; background: red;">
+      <div class="oc-headingBlock">
+        <h1>Username</h1>
+        <p class="oc-member-fullname">Full name</p>
+        <p class="oc-headingContext oc-discreetText">member since January 13, 1937 and last online 1 hour ago</p>
+      </div>
+      <dl>
+        <dt>Location</dt>
+        <dd>
+          <address>New York, NY</address>
+        </dd>
+        <dt>Projects</dt>
+        <dd>
+        	<a href="#">Project 1</a>, <a href="#">Project 2</a> <span class="oc-discreetText">(private)</span>, <a href="#">Project 3</a>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <dl class="oc-member-info">
+    <dt>Personal Statement</dt>
+    <dd>To telle yow al the condicioun / Of ech of hem, so as it semed me, / And whiche they weren, and of what degree, / And eek in what array that they were inne; / The general outline or summary,</dd>
+    <dt>Skills</dt>
+    <dd>cook, clean, code, creep, crest, craft, coast, clash</dd>
+    <dt>Affiliations</dt>
+    <dd>The Open Planning Project, Brown Student Radio, The Indy, Parenthesis</dd>
+    <dt>Background</dt>
+    <dd>I grew up in Miami and went to school in Rhode Island</dd>
+    <dt>Favorites</dt>
+    <dd>Koyaanisqasti, Heroes, Foucault, NYTimes, Tom's Diner</dd>
+  </dl>
+</div><!-- end #oc-content-main -->
+
+<div id="oc-content-sidebar">
+  <div class="oc-headingBlock">
+    <h2>Recent activity</h2>
+  </div>
+    <div class="oc-widget oc-widget-lastModified">
+      <div class="oc-headingBlock">
+        <h3>Pages last modified</h3>
+      </div><!-- end .oc-headingBlock -->
+      <table class="oc-table" cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Page</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Jan 1</td>
+            <td><a href="">My awesome page</a></td>
+          </tr>
+          <tr>
+            <td>Dec 31</td>
+            <td><a href="">My really awesome page</a></td>
+          </tr>
+          <tr>
+            <td>Oct 12</td>
+            <td><a href="">My kinda awesome page</a></td>
+          </tr>
+        </tbody>
+      </table>
+  </div><!-- end .oc-widget-lastModified -->
+</div><!-- end .oc-content-sidebar -->

@@ -35,9 +35,10 @@ from Products.OpenPlans.workflows import member
 from Products.OpenPlans.workflows import team
 from Products.OpenPlans.workflows import WORKFLOW_MAP
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
-from Products.OpenPlans.interfaces import IAddProject
+from opencore.interfaces import IAddProject
+from opencore.interfaces import IAmAPeopleFolder
 
-from zope.interface import directlyProvides, directlyProvidedBy
+from zope.interface import directlyProvides, directlyProvidedBy, alsoProvides
 from Products.OpenPlans.Extensions.utils import setupKupu
 from Products.OpenPlans.metadata import cols
 from Products.OpenPlans.indexing import createIndexes
@@ -491,6 +492,15 @@ def setupPeopleFolder(portal, out):
         print >> out, '-> Setting member area creation flag'
         mtool.setMemberareaCreationFlag()
 
+    # mark the people folder with an interface
+    pf = getattr(portal, 'people')
+    if not IAmAPeopleFolder.providedBy(pf):
+        alsoProvides(pf, IAmAPeopleFolder)
+
+    # set the default layout
+    pf.setLayout('index.html')
+    
+
 def registerCSS(portal, out):
     print >> out, 'Registering style sheets'
     cssreg = getToolByName(portal, 'portal_css')
@@ -634,8 +644,8 @@ def install(self, migrate_atdoc_to_openpage=True):
     registerCSS(portal, out)
     registerJS(portal, out)
     addHelpCenter(portal, out)
-    setupKupu(portal, out)
     setupPeopleFolder(portal, out)
+    setupKupu(portal, out)
     installColumns(portal, out)
     if migrate_atdoc_to_openpage: # needed for unit test sanity
         migrateATDocToOpenPage(portal, out)
