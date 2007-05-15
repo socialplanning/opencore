@@ -4,9 +4,10 @@ from Products.CMFCore.utils import getToolByName
 
 class ProjectView(OpencoreView):
     project_preferences = ZopeTwoPageTemplateFile('project-preferences.pt')
+    project_create = ZopeTwoPageTemplateFile('project-create.pt')
 
     def updateProject(self):
         return self.project_preferences()
 
     def createProject(self):
-        return self.project_preferences()
+        return self.project_create()
