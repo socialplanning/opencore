@@ -13,6 +13,7 @@ function OC() {
     this.dropDownLinks = new Array();
     //this.wikiTabs = new Array();
     this.registerForm;
+    this.historyList;
 }
 var OC = new OC();
 
@@ -409,6 +410,77 @@ function JoinForm() {
     this.usernameField.on('keypress', this.usernameKeyPress, this);
 }
 
+/*
+#
+# History List
+#
+ */
+function HistoryList() {
+    // setup references
+    this.form = Ext.get('oc-wiki-history');
+    this.compare = Ext.get(Ext.select('#oc-wiki-history input[type=submit]'));
+    this.versions  = Ext.get(Ext.select('#oc-wiki-history li'));
+    this.checkboxes = Ext.get(Ext.select('#oc-wiki-history input[type=checkbox]'));
+   
+    //check references
+    if (!this.form || !this.compare || !this.versions)
+        return;
+    
+    //compare buttons
+    this.enableCompareButtons = function() {
+      this.compare.each(function(el){
+        el.dom.disabled = false;
+      });
+    }
+    this.disableCompareButtons = function() {
+      this.compare.each(function(el){
+        el.dom.disabled = true;
+      });
+    }
+    this.disableCompareButtons();
+    
+    //checkboxes
+    this.clearCheckboxes = function() {
+      this.checkboxes.each(function(el) {
+          el.dom.checked = false;
+          Ext.get(el.dom.parentNode).removeClass('oc-selected');
+      });
+    }
+    this.checkboxesClick = function(e, el, o) {
+      //count # checked
+      var numChecked = 0;
+      this.checkboxes.each(function(el) {
+        if (el.dom.checked) {
+          numChecked++;
+        }
+      });
+      
+      //if more than 2, clear all and check currentStyle
+      if (numChecked > 2) {
+        this.clearCheckboxes();
+        el.checked = true;
+      }
+      
+      //if exactly 2, enable compare buttons
+      if (numChecked == 2) {
+        this.enableCompareButtons();
+      } else {
+        this.disableCompareButtons();    
+      }
+      
+      //highlight this checkbox's parent
+      if (el.checked)
+        Ext.get(el.parentNode).addClass('oc-selected');
+      else
+        Ext.get(el.parentNode).removeClass('oc-selected');
+    }
+    this.checkboxes.on('click', this.checkboxesClick, this)
+    
+    
+    console.log(this.form.dom.elements);
+}
+
+
 
 
 
@@ -447,6 +519,10 @@ Ext.onReady(function() {
    // Find login form and make LoginForm object
    if (Ext.get('oc-join-form')) {
        OC.registerForm = new JoinForm();
+   }
+   // Find login form and make LoginForm object
+   if (Ext.get('oc-wiki-history')) {
+       OC.historyList = new HistoryList();
    }
    
    
