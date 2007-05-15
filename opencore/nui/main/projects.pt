@@ -48,7 +48,7 @@
                 <a href="" tal:attributes="href project/absolute_url" tal:content="nocall: project/title">Project Title</a>
               </h3>
               <p class="oc-feed-item-data oc-discreetText" tal:define="nmembers python: len(project.projectMemberIds())">
-                <span tal:replace="nmembers">YY</span> member<span tal:condition="python: nmembers > 1" tal:replace="string:s" />, active since <span tal:replace="python: view.create_date(project)">Jan 1937</span>
+                <span tal:replace="nmembers">YY</span> member<span tal:condition="python: nmembers > 1" tal:replace="string:s" />, active since <span tal:replace="python: view.pretty_date(project.CreationDate())">Jan 1937</span>
               </p>
               <p class="oc-feed-item-description" tal:content="project/mission | string: project mission statement goes here">
                 This is the descriptive text for a project. Apparently it doesn't quite work right yet. Is there even a field for users to fill out or entry to call from a database?
