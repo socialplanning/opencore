@@ -1,21 +1,21 @@
 <configure xmlns="http://namespaces.zope.org/zope"
-    xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:five="http://namespaces.zope.org/five">
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:five="http://namespaces.zope.org/five">
 
   <browser:page
-     name="createProject"
-     permission="cmf.ModifyPortalContent"
-     attribute="createProject"
-     for="*"
-     class=".project.ProjectView"
-     />
+    for="*"
+    name="createProject"
+    permission="cmf.ModifyPortalContent"
+    class=".view.ProjectView"
+    attribute="createProject"
+    />
 
   <browser:page
-     name="updateProject"
-     permission="cmf.ModifyPortalContent"
-     attribute="updateProject"
-     for="*"
-     class=".project.ProjectView"
-     />
+    for="*"
+    name="updateProject"
+    permission="cmf.ModifyPortalContent"
+    class=".view.ProjectView"
+    attribute="updateProject"
+    />
 
 </configure>
