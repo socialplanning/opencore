@@ -411,7 +411,7 @@ ul.oc-dropdown, .oc-dropdown ul {
 }
 .oc-lineup-item-sorter,
 .oc-searchresults-nresults {
-	float: left;
+	/* float: left; */
 	font-size: 10px;
 }
 .oc-lineup-item-sorter form,
@@ -424,6 +424,7 @@ ul.oc-dropdown, .oc-dropdown ul {
 .oc-lineup .oc-paginator,
 .oc-searchresults .oc-paginator {
 	float: right;
+	clear: none;
 	font-size: 10px;
 }
 
