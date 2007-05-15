@@ -1,0 +1,23 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five">
+
+  <browser:page
+     name="createProject"
+     permission="cmf.ModifyPortalContent"
+     attribute="createProject"
+     for="opencore.content.page.OpenPage"
+     class="..project.ProjectView"
+     />
+
+  <browser:page
+     name="updateProject"
+     permission="cmf.ModifyPortalContent"
+     attribute="updateproject"
+     for="opencore.content.page.OpenPage"
+     class="..project.ProjectView"
+     />
+
+
+
+</configure>
