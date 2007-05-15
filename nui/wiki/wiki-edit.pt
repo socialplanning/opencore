@@ -14,9 +14,10 @@
 
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
-    <!-- cruft to include CSS and JS: please replace with portal_javascripts stuff -->
     <metal:do metal:fill-slot="link" >
-      <style type="text/css"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles2216.css); -->      </style>
+      <link rel="stylesheet" tal:attributes="href string:${view/siteURL}/portal_css/Plone%20Default/kupustyles.css" media="all"/>
+      <link rel="stylesheet" tal:attributes="href string:${view/siteURL}/portal_css/Plone%20Default/kupuplone.css" media="all"/>
+      <link rel="stylesheet" tal:attributes="href string:${view/siteURL}/portal_css/Plone%20Default/kupudrawerstyles.css" media="all"/>
     </metal:do>
     <metal:do metal:fill-slot="script" >
       <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/sarissa.js"></script>
@@ -33,7 +34,6 @@
       <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupusourceedit.js"></script>
       <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupudrawers.js"></script>
     </metal:do>
-    <!-- end cruft -->
   </head>
   <body>
     <div metal:fill-slot="content">
@@ -51,7 +51,7 @@
               <a href="@@index.html" rel="view">view</a>
             </li>
             <li class="oc-selected">
-              <a href="" rel="edit">edit</a>
+              <a href="@@edit" rel="edit">edit</a>
             </li>
             <li tal:condition="nothing">
               <a href="" rel="history">history</a>
