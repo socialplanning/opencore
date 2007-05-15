@@ -27,16 +27,35 @@
 	  this.form = Ext.get(el);
 	  this.targetId = Ext.get(Ext.query('input[name=oc-target]',el)[0]).dom.value;
 	  this.target = Ext.get(this.targetId);
+	  this.indicator = Ext.get(Ext.query('.oc-indicator',el)[0]);
+	  this.submit = Ext.get(Ext.query('input[type=submit]',el)[0])
 	  
 	  //check refs
-	  if (!this.form || !this.target)
-	   return;
+	  if (!this.form || !this.target || !this.indicator || !this.submit) {
+	    console.log('element missing');
+	    return;
+	  }
 	   
-	 //vars
+	 //vars & settings
 	 this.isUpload = false;
-	  
    if (this.form.dom.enctype)
     this.isUpload = true;
+   this.indicator.setVisibilityMode(Ext.Element.DISPLAY);
+   this.indicator.hide();
+    
+   // loading
+   this.startLoading = function() {
+      this.indicator.show();
+      this.submit.dom.disabled = true;
+      this.submit.originalValue = this.submit.dom.value;
+      this.submit.dom.value = "Please wait..."
+   }
+   this.stopLoading = function() {
+      this.indicator.hide();
+      this.submit.dom.disabled = false;
+      this.submit.dom.value = this.submit.originalValue;
+      this.form.dom.reset();
+   }
    	  
 	  //ajax request
 		this.formSubmit = function(e, el, o) {
@@ -47,12 +66,14 @@
 		    YAHOO.util.Connect.setForm(el);
 		  
 		    var cObj = YAHOO.util.Connect.asyncRequest("POST", this.form.dom.action, { success: this.afterSuccess, failure: this.afterSuccess, scope: this });
+		    this.startLoading();
 		    YAHOO.util.Event.stopEvent(e);
 		}
 		this.form.on('submit', this.formSubmit, this);
 		
     // after request
 		this.afterSuccess = function(o) {
+		    this.stopLoading();
         console.log('success\n\n' + o.responseText);
         
 		    // insert new - DomHelper.insertHtml converts string to DOM nodes
