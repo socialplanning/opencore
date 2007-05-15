@@ -16,10 +16,10 @@ Test wiki page registrations::
     >>> page.restrictedTraverse('@@wiki_macros')
     <...SimpleViewClass ...wiki/wiki_macros.pt object at ...>
     
-    >>> page.restrictedTraverse('@@edit-nick')
+    >>> page.restrictedTraverse('@@edit')
     Traceback (most recent call last):
     ...
-    Unauthorized: You are not allowed to access '@@edit-nick' in this context
+    Unauthorized: You are not allowed to access '@@edit' in this context
 
 
 Test wiki attachment registrations::
@@ -51,8 +51,8 @@ Test wiki page registrations (logged in)::
     >>> page.restrictedTraverse('@@wiki_macros')
     <...SimpleViewClass ...wiki/wiki_macros.pt object at ...>
     
-    >>> page.restrictedTraverse('@@edit-nick')
-    <...SimpleViewClass ...wiki/wiki-edit-nick.pt object at ...>
+    >>> page.restrictedTraverse('@@edit')
+    <...SimpleViewClass ...wiki/wiki-edit.pt object at ...>
 
 Test wiki attachment registrations (logged in)::
 
