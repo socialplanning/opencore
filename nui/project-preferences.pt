@@ -1,0 +1,84 @@
+<div class="oc-headingBlock">
+<h1>Start a project</h1>
+</div>
+<div id="oc-content-main">
+<form>
+<fieldset>
+	<legend><h2>Step 1: Enter Details</h2></legend>
+	<table class="oc-form">
+		<tbody>
+			<tr class="oc-form-row">
+				<th class="oc-form-label" scope="row">
+					<label>Name</label>
+				</th>
+				<td class="oc-form-value"><input type="text" /></td>
+				<td class="oc-form-help">
+					<span class="oc-form-context"></span>
+					<span id="oc-username-validator" class="oc-form-validator"></span>
+				</td>
+			</tr>
+			<tr class="oc-form-row">
+				<th class="oc-form-label" scope="row">
+					<label>http://</label>
+				</th>
+				<td class="oc-form-value"><input type="text" />.openplans.org</td>
+				<td class="oc-form-help">
+					<span class="oc-form-context"></span>
+					<span id="oc-username-validator" class="oc-form-validator"></span>
+				</td>
+			</tr>
+			<tr class="oc-form-row">
+				<th class="oc-form-label" scope="row">
+					<label>Mission Statement</label>
+				</th>
+				<td class="oc-form-value"><input type="text" /></td>
+				<td class="oc-form-help">
+					<span class="oc-form-context"></span>
+					<span id="oc-username-validator" class="oc-form-validator"></span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</fieldset>
+
+<fieldset>
+	<legend><h2>Step 2: Security settings</h2></legend>
+				<p><strong>Visitors to the site can:</strong></p>
+				<ul class="oc-form-radiolist" >
+					<li>
+						<input type="radio" id="" name="" />
+						<label for="">not even view content</label>
+					</li>
+					<li>
+						<input type="radio" id="" name="" />
+						<label for="">only view content</label>
+					</li>
+					<li>
+						<input type="radio" id="" name="" />
+						<label for="">view and contribute content</label>
+							<ul class="oc-discreetText">
+								<li>
+									<input type="checkbox" id="" />
+									<label for="">do not show project in search results</label>
+								</li>
+							</ul>
+					</li>
+				</ul>
+</fieldset>
+
+<fieldset>
+	<legend><h2>Step 3: Add tools &amp; features</h2></legend>
+				<p><strong>Visitors to the site can:</strong></p>
+				<ul class="oc-form-radiolist" >
+					<li>
+						<input type="checkbox" id="" name="" />
+						<label for="">Task Tracker</label>
+					</li>
+					<li>
+						<input type="checkbox" id="" name="" />
+						<label for="">Mailing lists</label>
+					</li>
+				</ul>
+</fieldset>
+
+</div><!-- end .oc-content-main -->
