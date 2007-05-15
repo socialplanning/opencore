@@ -9,7 +9,6 @@ import Products.wicked
 import Products.Archetypes
 import Products.Fate
 import Products.OpenPlans
-import Products.plone_schemas
 import Products.testing
 import Products.CMFCore
 import Products.ATContentTypes
