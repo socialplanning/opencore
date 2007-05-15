@@ -1,4 +1,5 @@
-<tal:return define="attachment view/new_attachment">
+{success : true }
+<tal:return define="attachment view/new_attachment" tal:condition="nothing">
 <div class="oc-success">
   <tal:block condition="not:view/errors" metal:use-macro="here/@@wiki_macros/attachment" />
 </div>
