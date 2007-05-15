@@ -39,6 +39,7 @@ function UpdateForm(el) {
     this.isUpload = false;
     if (this.form.dom.enctype)
         this.isUpload = true;
+    console.log(this.form.dom.enctype);
     this.indicator.setVisibilityMode(Ext.Element.DISPLAY);
     this.indicator.hide();
 
@@ -58,20 +59,28 @@ function UpdateForm(el) {
 
     //ajax request
     this.formSubmit = function(e, el, o) {
-
-        if (this.isupload)
+                
+        if (this.isUpload)
             YAHOO.util.Connect.setForm(el, true);
         else 
             YAHOO.util.Connect.setForm(el);
 
-        var cObj = YAHOO.util.Connect.asyncRequest("POST", this.form.dom.action, { success: this.afterSuccess, failure: this.afterSuccess, scope: this });
+        var callback = {
+          success: this.afterSuccess,
+          upload: this.afterUpload,
+          failure: this.afterFailure,
+          scope: this
+        }
+        var cObj = YAHOO.util.Connect.asyncRequest("POST", this.form.dom.action, callback);
         this.startLoading();
+        
         YAHOO.util.Event.stopEvent(e);
+
     }
     this.form.on('submit', this.formSubmit, this);
 
     // after request
-    this.afterSuccess = function(o) {
+    this.afterUpload = function(o) {
         this.stopLoading();
         console.log('success\n\n' + o.responseText);
 
@@ -439,5 +448,7 @@ Ext.onReady(function() {
    if (Ext.get('oc-join-form')) {
        OC.registerForm = new JoinForm();
    }
+   
+   
 
 }); // onReady
