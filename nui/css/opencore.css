@@ -448,6 +448,7 @@ ul.oc-dropdown, .oc-dropdown ul {
 .oc-peopleresults-list .oc-avatar {
 	width: 80px;
 	height: 80px;
+	overflow: hidden;
 	background: #eee;
 	float: left;
 	clear: none;
