@@ -7,15 +7,15 @@
      permission="cmf.ModifyPortalContent"
      attribute="createProject"
      for="*"
-     class="..project.ProjectView"
+     class=".project.ProjectView"
      />
 
   <browser:page
      name="updateProject"
      permission="cmf.ModifyPortalContent"
-     attribute="updateproject"
+     attribute="updateProject"
      for="*"
-     class="..project.ProjectView"
+     class=".project.ProjectView"
      />
 
 
