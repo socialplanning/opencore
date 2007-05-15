@@ -69,7 +69,7 @@
     <h3 class="oc-peopleresults-username">
                   <a href="" tal:attributes="href string:${context/portal_url}/people/${item/getId}" tal:content="item/getId">Username</a>
     </h3>
-    <p tal:content="item/Title">
+    <p class="oc-peopleresults-realname" tal:content="item/Title">
                   Real name
     </p>
               </div>
