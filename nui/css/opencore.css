@@ -921,6 +921,10 @@ li.oc-invite .oc-invite-content {
 .oc-widget-alphabet li a {
 	text-decoration: none;
 }
+.oc-widget-alphabet li a:hover {
+	background-color: #337f92;
+	color: #eee;
+}
 
 /* @BEHAVIORS
 --------------------------*/
@@ -942,7 +946,7 @@ li.oc-invite .oc-invite-content {
 }
 .oc-liveEdit-editing,
 .oc-table td.oc-liveEdit-editing {
-	background: #ffb342;
+	background-color: #ffb342;
 }
 
 /* @HTML ELEMENTS GENERAL @TYPOGRAPHY
