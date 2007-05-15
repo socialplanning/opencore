@@ -468,112 +468,35 @@ ul.oc-dropdown, .oc-dropdown ul {
 
 /* Member profile pages */
 
-#oc-member-info {
+#oc-member-badge {
+	padding: 1em;
+	background-color: #eee;
+	border: 1px solid #ccc;
 }
-
-	#oc-member-info .oc-tabs,
-	#oc-member-info .contentViews {
-		margin-bottom: 0;
-	}
-	
-		#oc-member-info .oc-tabs .contentview-view a,
-		#oc-member-info .contentViews .contentview-view a {
-			background-color: #eee;
-			border-bottom: 2px solid #eee;
-		}
-		.oc-tabs .oc-selected {
-			background: #fff;
-			border-bottom: 1px solid #fff;
-		}
-		.oc-tabs form {
-		  display:inline;
-		}
-
-	#oc-member-details-wrapper {
-		background-color: #eee;
-		padding: 1em;
-	}
-	
-		#oc-member-portrait {
-			/* These images should be constrained to a max-width of ~200px */
-			max-width: 47%;
-			display: block;
-			float: left;
-		}
-		
-			img#oc-member-noportrait-edit {}
-		
-			img#oc-member-noportrait {}
-	
-		#oc-member-details {
-			display: block;
-			font-size: 100%;
-			line-height: 1.25;
-			float: left;
-			clear: none;
-			margin: 0 1em;
-		}
-		
-		#oc-member-fullname-none {
-			color: #ccc;
-		}
-	
-			#oc-member-details dt {
-				font-weight: bold;
-			}
-		
-			dl#oc-member-details dd {
-				margin: 0; 
-				padding: 0 0 0.5em 0;
-			}
-			
-			ul#oc-member-details-projects {
-				display: inline;
-				list-style-type: none;
-				padding: 0;
-				margin: 0;
-			}
-
-			#oc-member-details-projects-none {
-				color: #ccc;
-			}
-
-			
-				ul#oc-member-details-projects li {
-				}
-				
-	#oc-member-dates {
-		color: gray;
-		list-style-type: none;
-		padding: 0;
-		margin: 0;
-		display: inline;
-		text-align: right;
-	}
-	
-#oc-member-wiki {
-	margin: 1em 0;
+#oc-member-badge img {
+	max-width: 47%; 
+	float: left; 
+	clear: none; 
+	margin: 0 1em 1em 0;
 }
-	
-#oc-member-activity table{
-	width: 100%;
+#oc-member-badge .oc-member-details {
+	float: left; 
+	clear: none;
+	background: red;
 }
-
-	/* The table styles here need to be cleaned up, a lot. */
-	
-	#oc-member-activity table,
-	#oc-member-activity table * {
-		border: none;
-		padding-left: 0;
-		margin-left: 0;
-	}
-
-	#oc-member-activity table th{
-		text-align: left;
-		text-transform: none;
-		font-weight: bold;
-		background-color: transparent;
-	}
+#oc-member-badge .oc-member-details .oc-headingBlock p {
+	margin: 0;
+	line-height: normal;
+}
+dl.oc-member-info {
+	line-height: normal;
+}
+dl.oc-member-info dt {
+	font-weight: bold;
+}
+dl.oc-member-info dd {
+	margin: 0 0 1em;
+}
 
 /* Wiki
 ------------------------------------------------------------*/
@@ -737,6 +660,18 @@ a.oc-close:hover {
 .oc-form-label {
   text-align: right;
   width: 8em;
+}
+.oc-form-radiolist {
+	list-style-type: none;
+	padding-left: 8em;
+}
+.oc-form-radiolist ul {
+	list-style-type: none;
+}
+.oc-form-label-inline,
+.oc-form-radiolist label {
+	display: inline;
+	font-weight: normal;
 }
 .oc-form-value {
 
@@ -1081,6 +1016,9 @@ fieldset {
 label {
   font-weight: bold;
   display: block;
+}
+address {
+	font-style: normal;
 }
 
 .oc-smallText,
