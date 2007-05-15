@@ -97,15 +97,6 @@
      template="footer.pt"
      />
 
-  <!-- project-contact -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-project-contact"
-     template="project-contact.pt"
-     />
-
   <!-- member-profile -->
   <browser:page
      for="*"
@@ -122,15 +113,6 @@
      permission="zope.Public"
      name="oc-member-contact"
      template="member-contact.pt"
-     />
-
-  <!-- start-project -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-start-project"
-     template="start-project.pt"
      />
 
   <!-- blank (for testing) -->
