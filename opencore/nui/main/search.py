@@ -116,10 +116,12 @@ class ProjectsSearchView(SearchView):
         projects = (x.getObject() for x in project_brains)
         return projects
 
-    def create_date(self, project):
-        cd = project.CreationDate()
-        time_obj = strptime(cd, '%Y-%m-%d %H:%M:%S')
-        datetime_obj = datetime.datetime(*time_obj[0:6])
+    def pretty_date(self, date):
+        try:
+            time_obj = strptime(date, '%Y-%m-%d %H:%M:%S')
+            datetime_obj = datetime.datetime(*time_obj[0:6])
+        except TypeError:
+            datetime_obj = date
         return prettyDate(datetime_obj)
 
 

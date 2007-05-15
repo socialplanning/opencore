@@ -65,13 +65,23 @@
             <ol class="oc-searchresults-list">
               <li class="oc-searchresults-item" tal:repeat="item view/search_results">
                 <h3><a href="" tal:attributes="href string:${context/portal_url}/projects/${item/getId}" tal:content="item/Title">Project Title</a></h3>
-                <span class="oc-discreetText">
-                  <span>created by <a tal:attributes="href string:${context/portal_url}/author/${item/Creator}" tal:content="item/Creator" />, 
-                    <span tal:content="python: view.create_date(item.getObject())" />
-                  </span>
-                  <!-- <span>last updated by <a href="link to user profile">username</a>, at 1:37am</span> --> <!-- for sorting by recent activity -->
+
+                <span class="oc-discreetText" tal:define="sorting_by request/sort_by | nothing">
+
+                  <tal:not-modified-block tal:condition="python: sorting_by != 'modified'">
+                    created by
+                    <a tal:attributes="href string:${context/portal_url}/author/${item/Creator}" tal:content="item/Creator" />,
+                    <span tal:content="python: view.pretty_date(item.CreationDate)" />
+                  </tal:not-modified-block>
+
+                  <tal:modified-block tal:condition="python: sorting_by == 'modified'">
+                    last updated by
+                    <a tal:attributes="href string:${context/portal_url}/author/${item/lastModifiedAuthor}" tal:content="string: no lastModifiedAuthor in catalog" />,
+                    at
+                    <span tal:content="python: view.pretty_date(item.ModificationDate)" />
+                  </tal:modified-block>
+
                 </span>
-                <!--<p tal:condition="item/rel | nothing" tal:content="string:Relevancy: ${item/rel}%"/>-->
                 <!-- XXX put in correct mission statement -->
                 <p tal:content="string: item mission statement goes here" />
               </li>
