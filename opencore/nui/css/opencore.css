@@ -727,7 +727,24 @@ a.oc-close:hover {
 	background: red;
 	color: white;
 }
-
+a.oc-button {
+  display: block;
+  background: #eee;
+  border: 1px solid #ccc;
+  padding: .625em;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+a.oc-button:hover {
+  background: #aac683;
+  color: #2b7284;
+  border: 1px solid #2b7284;
+}
+.oc-todo {
+  color: orangered;
+  font-style: italic;
+}
 /* @FORM Stuff */
 .oc-form {
 }
@@ -737,12 +754,13 @@ a.oc-close:hover {
 .oc-form-label {
   text-align: right;
   width: 8em;
+  padding: 0 1em .5em 0;
 }
 .oc-form-value {
-
+  padding: 0 0 .5em;
 }
 .oc-form-help {
-
+  padding: 0 0 .5em 1em;
 }
 .oc-form-context {
   color: #666;
@@ -1080,7 +1098,6 @@ fieldset {
 }
 label {
   font-weight: bold;
-  display: block;
 }
 
 .oc-smallText,
@@ -1113,7 +1130,7 @@ label {
 
 /* Heading Blocks */
 .oc-headingBlock {
-
+ margin: 0 0 1.5em;
 }
 .oc-headingBlock h1,
 .oc-headingBlock h2,
@@ -1124,7 +1141,7 @@ label {
 }
 
 .oc-headingBlock .oc-headingContext {
-	margin: 0 0 1.5em;
+  margin: 0;
 }
 .oc-headingSimple a {
 	text-decoration: none;

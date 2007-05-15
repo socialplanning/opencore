@@ -35,16 +35,16 @@
                 <thead></thead>
                 <tbody>
                   <tr>
-                    <th class="oc-form-field-title" scope="row"><label for="__ac_name">Username </label></th>
-                    <td class="oc-form-field-value"><input type="text" size="15" tabindex="0" name="__ac_name" value="" id="__ac_name" /></td>
-                    <td class="oc-form-field-help">
-                      <span class="oc-form-helpContext"></span>
+                    <th class="oc-form-label" scope="row"><label for="__ac_name">Username </label></th>
+                    <td class="oc-form-value"><input type="text" size="15" tabindex="0" name="__ac_name" value="" id="__ac_name" /></td>
+                    <td class="oc-form-help">
+                      <span class="oc-form-context"></span>
                       <span id="oc-validator-username" class="oc-form-validator"></span>
                     </td>
                   </tr>
                   <tr>
-                    <th scope="row"><label for="__ac_password">Password </label></th>
-                    <td><input type="password" size="15" name="__ac_password" id="__ac_password" /></td>
+                    <th class="oc-form-label" scope="row"><label for="__ac_password">Password </label></th>
+                    <td class="oc-form-value"><input type="password" size="15" name="__ac_password" id="__ac_password" /></td>
                     <td class="oc-form-help"> </td>
                   </tr>
                   <tr class="oc-actions">
@@ -56,9 +56,10 @@
                   <tr class="oc-options">
                     <th></th>
                     <td>
-                      <input type="checkbox" name="no_expire_cookie" /> Remember me on this computer
+                      <input type="checkbox" name="no_expire_cookie" id="no_expire_cookie" /> 
+                      <label for="no_expire_cookie">Remember me on this computer</label>
                     </td>
-                    <td class="oc-form-field-help">What does this mean?</td>
+                    <td class="oc-form-help">What does this mean?</td>
                   </tr>
                   <tr class="oc-options">
                     <th></th>
