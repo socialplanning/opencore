@@ -521,6 +521,19 @@ dl.oc-member-info dd {
   padding-top: .5em;
 }
 
+/* History */
+.oc-wiki-history-item-context {
+  padding: 0 0 0 2.5em;
+  margin: 0;
+}
+.oc-wiki-history-item {
+  margin: .25em 0;
+  border: 1px solid #fff;
+}
+.oc-wiki-history-item.oc-selected {
+  background: lightgreen;
+  border: 1px solid green;
+}
 
 /* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
 -------------------------------------------- */
@@ -1024,8 +1037,7 @@ fieldset {
   margin: 0;
 }
 label {
-  /* font-weight: bold; */
-  /* display: block; */
+  font-weight: bold;
 }
 address {
 	font-style: normal;
@@ -1053,6 +1065,12 @@ address {
 	{
 	font-size: 10px;
 	line-height: 1.8em;
+}
+.oc-tabs a.oc-selected {
+ /*  border-bottom: 2px solid #fff; */
+} 
+.oc-tabs form {
+  display: inline;
 }
 
 .oc-discreetText {
