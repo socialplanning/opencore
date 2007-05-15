@@ -3,7 +3,7 @@
   i18n:domain="plone">
   <body>
     <!-- Navigation -->
-    <div class="listingBar"
+    <div
       metal:define-macro="pagination"
       tal:define="request request|here/request|container/request|nothing;
       batch batch|nothing;
