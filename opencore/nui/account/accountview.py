@@ -49,9 +49,7 @@ class ConfirmAccountView(OpencoreView):
         member = matches[0].getObject()
 
         if self.do_confirmation(member):
-            plone_utils = getToolByName(self.context, 'plone_utils')
-            from Products.CMFPlone import PloneMessageFactory
-            plone_utils.addPortalMessage(PloneMessageFactory(u'Your account has been confirmed, maggot!'))
+            self.addPortalStatusMessage(u'Your account has been confirmed, maggot!')
             self.request.RESPONSE.redirect(self.siteURL + '/login')
         else:
             return "You is denied muthafuk1"
@@ -79,9 +77,7 @@ class ForgotLoginView(OpencoreView):
 
         brains = self.membranetool(getId=user_lookup) or self.membranetool(getEmail=user_lookup)
         if not len(brains):
-            plone_utils = getToolByName(self.context, 'plone_utils')
-            from Products.CMFPlone import PloneMessageFactory
-            plone_utils.addPortalMessage(PloneMessageFactory(u'You do not exist'))
+            self.addPortalStatusMessage(u"You do not exist")
             return self.index(*args, **kw)
 
         brain = brains[0]
@@ -105,9 +101,7 @@ class DoPasswordResetView(OpencoreView):
             pw_tool.resetPassword(userid, randomstring, password)
         except: # XXX DUMB
             return "Failed, shit is not okay."
-        plone_utils = getToolByName(self.context, 'plone_utils')
-        from Products.CMFPlone import PloneMessageFactory
-        plone_utils.addPortalMessage(PloneMessageFactory(u'Your password has been reset'))
+        self.addPortalStatusMessage(u'Your password has been reset')
         return self.request.RESPONSE.redirect(self.siteURL)
 
 class PasswordResetView(OpencoreView):
