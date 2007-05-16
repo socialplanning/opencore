@@ -13,13 +13,13 @@
   	<link rel="stylesheet" href="++resource++css/themes/openplans.css" type="text/css" media="all" />
   	<!-- TODO print style sheet -->
 
-    <!-- allows for the insertion of css and other linked features -->
-    <metal:link-slot define-slot="link"/>  	
-    <script language="javascript" type="text/javascript" src="++resource++javascripts/utilities.js "></script>
-    <script language="javascript" type="text/javascript" src="++resource++javascripts/ded-chain-min.js" ></script>
+    <script type="text/javascript" src="++resource++javascripts/utilities.js "></script>
+    <script type="text/javascript" src="++resource++javascripts/ded-chain-min.js" ></script>
     <script type="text/javascript" src="++resource++javascripts/ext.js" ></script>
     <script type="text/javascript" src="++resource++javascripts/oc-behaviors.js" ></script>
 
+    <!-- allows for the insertion of css and other linked features -->
+    <metal:link-slot define-slot="link"/>  	
 
     <!-- allows for the insertion of javascript -->
     <metal:script-slot define-slot="script"/>
@@ -35,9 +35,7 @@
       <div id="oc-content-container">
         <!-- content is injected here -->
         <div metal:define-slot="content" />
-
         <hr class="oc-clearElement" />
-
       </div>
 
       <div tal:replace="structure here/@@oc-footer" />
