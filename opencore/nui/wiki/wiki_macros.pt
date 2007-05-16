@@ -21,7 +21,7 @@
 </li><!-- end metal -->
 
 <!-- BEGIN FILE UPLOAD FORM -->
-<form metal:define-macro="upload" id="oc-wiki-addAttachment" class="oc-updateForm" action="@@createAtt" tal:attributes="action python:context.absolute_url() + /@@'createAtt'"> enctype="multipart/form-data">
+<form metal:define-macro="upload" id="oc-wiki-addAttachment" class="oc-updateForm" action="@@createAtt" tal:attributes="action python:context.absolute_url() + /@@'createAtt'" enctype="multipart/form-data">
   <input type="hidden" name="oc-target" value="oc-wiki-attachments" />
   
   <table class="oc-form">
