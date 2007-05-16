@@ -30,7 +30,9 @@ def updateContainerMetadata(obj, event):
     # make comment conditional to team security policy...
 
     prox = proxy(dict(lastModifiedTitle=obj.title_or_id(),
-                      ModificationDate=obj.modified()))
+                      ModificationDate=obj.modified(),
+                      lastModifiedAuthor=getAuthenticatedMemberId(parent),
+                      ))
 
     selectiveMetadataUpdate(catalog._catalog, parentuid, prox)
     catalog._catalog.catalogObject(prox, parentuid, idxs=['modified'], update_metadata=0)
@@ -66,6 +68,13 @@ def selectiveMetadataUpdate(catalog, uid, proxy):
     record = catalog.recordify(proxy)
     if catalog.data.get(index, 0) != record:
         catalog.data[index] = record
+
+
+def getAuthenticatedMemberId(context):
+    mtool = getToolByName(context, 'portal_membership')
+    mem = mtool.getAuthenticatedMember()
+    id = mem.getId()
+    return id
 
 from interfaces.catalog import IIndexingGhost
 class MetadataGhost(object):

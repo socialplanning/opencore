@@ -142,7 +142,15 @@ event::
     >>> brain = catalog(path={'query' : '/'.join(self.folder.getPhysicalPath()), 'depth' : 0})[0]
     >>> brain.ModificationDate >= doc.modified()
     True
+    >>> brain.lastModifiedAuthor
+    'test_user_1_'
 
 Return things to normal
 
     >>> CatalogBrains.GETOBJECT_RAISES=False
+
+Let's make sure that we can get the id of the currently
+authenticated member
+
+    >>> md.getAuthenticatedMemberId(self.portal)
+    'test_user_1_'
