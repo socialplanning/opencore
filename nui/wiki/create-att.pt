@@ -1,1 +1,1 @@
-{success : true }
+<span tal:replace="view/attachment_url"/>
