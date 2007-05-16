@@ -72,6 +72,7 @@ function UpdateForm(el) {
           failure: this.afterFailure,
           scope: this
         }
+	console.log(this.form.dom.action);
         var cObj = YAHOO.util.Connect.asyncRequest("POST", this.form.dom.action, callback);
         this.startLoading();
         

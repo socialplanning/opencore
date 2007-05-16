@@ -25,9 +25,11 @@ class WikiEdit(OpencoreView):
 class AttachmentView(OpencoreView):
     attachment_snippet = ZopeTwoPageTemplateFile('attachment.pt')
     create_snippet = ZopeTwoPageTemplateFile('create-att.pt')
+    failed_snippet = ZopeTwoPageTemplateFile('failed.pt')
     delete_snippet = ZopeTwoPageTemplateFile('delete-att.pt')
 
     def attachment_url(self):
+        print self.context.absolute_url + "/@@attachmentSnippet?attachment_id=" + self.request.get('attachment_id')
         return self.context.absolute_url + "/@@attachmentSnippet?attachment_id=" + self.request.get('attachment_id')
 
     def attachmentSnippet(self):
@@ -52,7 +54,7 @@ class AttachmentView(OpencoreView):
         new_attachment = self.handle_createAtt()
 
         if new_attachment is None:
-            return #XXX should be error 500 with marked-up form
+            return self.failed_snippet()
         
         self.new_attachment = lambda: new_attachment
 
