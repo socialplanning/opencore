@@ -83,6 +83,14 @@
      />
 
   <browser:page
+     name="attachmentSnippet"
+     permission="cmf.ModifyPortalContent"
+     attribute="attachmentSnippet"
+     for="opencore.content.page.OpenPage"
+     class=".view.AttachmentView"
+     />
+
+  <browser:page
      name="deleteAtt"
      permission="cmf.ModifyPortalContent"
      attribute="deleteAtt"
