@@ -46,10 +46,10 @@ function UpdateForm(el) {
 
     // loading
     this.startLoading = function() {
-        this.indicator.show();
-        this.submit.dom.disabled = true;
+        //this.indicator.show();
+        //this.submit.dom.disabled = true;
         this.submit.originalValue = this.submit.dom.value;
-        this.submit.dom.value = "Please wait..."
+        //this.submit.dom.value = "Please wait..."
     }
     this.stopLoading = function() {
         this.indicator.hide();
@@ -83,7 +83,11 @@ function UpdateForm(el) {
     // after request
     this.afterUpload = function(o) {
         this.stopLoading();
-        console.log('success\n\n' + o.responseText);
+        console.log('this.afterUpload RESPONSE BELOW:\n\n');
+        for (prop in o) {
+          console.log(prop + ":");
+          console.log(o["" + prop + ""]);
+        }
 
         // insert new - DomHelper.insertHtml converts string to DOM nodes
         var newItem = Ext.get(Ext.DomHelper.insertHtml('beforeEnd', this.target.dom, "<li>Hi.  this is new</li>"));
@@ -100,7 +104,18 @@ function UpdateForm(el) {
     }
 
     this.afterFailure = function(o) {
-        console.log('Oops! There was a problem.\n\n' + o.responseText); 
+        console.log('this.afterFailure RESPONSE BELOW:\n\n');
+        for (prop in o) {
+          console.log(prop + ":");
+          console.log(o["" + prop + ""]);
+        }
+    }
+    this.afterSuccess = function(o) {
+        console.log('this.afterSuccess RESPONSE BELOW:\n\n'); 
+        for (prop in o) {
+          console.log(prop + ":");
+          console.log(o["" + prop + ""]);
+        }
     }
 
 
