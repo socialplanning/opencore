@@ -62,14 +62,26 @@
 
             <fieldset>
               <div class="oc-headingBlock">
-                <h2>General security settings</h2>
-                <p class="oc-headingContext oc-discreetText">Choose permission settings for your project.</p>
+                <h2>General Security Level</h2>
+                <p class="oc-headingContext oc-discreetText">Choose what level of access you want to give non-members of your project team.</p>
+                <p> Visitors to the site can:</p>
               </div>
               <ul class="oc-form-radiolist" tal:define="seclevel proj/security">
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="" name="securitylevel"
+                    tal:attributes="checked python: seclevel==3 and 'checked' or ''" />
+                  <label for="">View your content</label>
+                </li>
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="" name="securitylevel" 
+                    tal:attributes="checked python: seclevel==2 and 'checked' or ''" />
+                  <label for="">and contribute to it</label>
+                </li>
+                <li>
+		  OR<br/>
+                  <input type="radio" class="oc-input-typeRadio" id="" name="securitylevel"
                     tal:attributes="checked python: seclevel < 2 and 'checked' or ''" />
-                  <label for="">Only members can view and edit</label>
+                  <label for="">Non-members cannot see your project</label>
                   <ul> <!-- TODO make this UL conditional on whether or not the above radio button is selected -->
                     <li class="oc-smallText">
                       <input type="checkbox" class="oc-input-typeCheck" id="" name="searchable"
@@ -77,16 +89,6 @@
                       <label for="">Do not show project in search results</label>
                     </li>
                   </ul>
-                </li>
-                <li>
-                  <input type="radio" class="oc-input-typeRadio" id="" name="securitylevel" 
-                    tal:attributes="checked python: seclevel==2 and 'checked' or ''" />
-                  <label for="">Members can view and edit, others can only view</label>
-                </li>
-                <li>
-                  <input type="radio" class="oc-input-typeRadio" id="" name="securitylevel"
-                    tal:attributes="checked python: seclevel==3 and 'checked' or ''" />
-                  <label for="">Anyone can view or edit</label>
                 </li>
               </ul>
             </fieldset>
