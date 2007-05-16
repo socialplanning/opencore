@@ -68,25 +68,25 @@
               </div>
               <ul class="oc-form-radiolist" tal:define="seclevel proj/security">
                 <li>
-                  <input type="radio" class="oc-input-typeRadio" id="" name="securitylevel"
+                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-3" name="securitylevel"
                     tal:attributes="checked python: seclevel==3 and 'checked' or ''" />
-                  <label for="securitylevel-2">View your content</label>
+                  <label for="securitylevel-3">View your content</label>
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="securitylevel-2" name="securitylevel" 
                     tal:attributes="checked python: seclevel==2 and 'checked' or ''" />
-                  <label for="securitylevel-1">and contribute to it</label>
+                  <label for="securitylevel-2">and contribute to it</label>
                 </li>
                 <li>
 		  OR<br/>
                   <input type="radio" class="oc-input-typeRadio" id="securitylevel-1" name="securitylevel"
                     tal:attributes="checked python: seclevel < 2 and 'checked' or ''" />
-                  <label for="searchable">Non-members cannot see your project</label>
+                  <label for="securitylevel-1">Non-members cannot see your project</label>
                   <ul> <!-- TODO make this UL conditional on whether or not the above radio button is selected -->
                     <li class="oc-smallText">
                       <input type="checkbox" class="oc-input-typeCheck" id="searchable" name="searchable"
                         tal:attributes="checked python: seclevel==0 and 'checked' or ''" />
-                      <label for="">Do not show project in search results</label>
+                      <label for="searchable">Do not show project in search results</label>
                     </li>
                   </ul>
                 </li>
