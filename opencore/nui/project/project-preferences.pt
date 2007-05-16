@@ -34,10 +34,10 @@
                   </tr>
                   <tr class="oc-form-row">
                     <th class="oc-form-label" scope="row">
-                      <label>http://</label>
+                      <label>navname</label>
                     </th>
                     <td class="oc-form-value">
-                      <input type="text" readonly="true" disabled="true" tal:attributes="value proj/navname">.openplans.org
+                      <span tal:content="proj/url"/>
                     </td>
                     <td class="oc-form-help">
                       <span class="oc-form-context"></span>
@@ -96,16 +96,18 @@
                 <h2>Tools &amp; features</h2>
                 <p class="oc-headingContext oc-discreetText">Select extra features for your project.</p>
               </div>
-              <ul class="oc-form-radiolist" >
+              <ul class="oc-form-radiolist" tal:define="featurelets python:[f['name'] for f in proj['featurelets']]">
                 <li>
-                  <input type="checkbox" class="oc-input-typeCheck" id="" name="" />
+                  <input type="checkbox" class="oc-input-typeCheck" id="" name="" 
+                    tal:attributes="checked python: 'tasktracker' in featurelets and 'checked' or ''" />
                   <label for="">Task Tracker</label>
                   <p class="oc-form-context">An extensive to-do list manager that makes it easy to share tasks and get things done.</p>
                 </li>
                 <li>
-                  <input type="checkbox" class="oc-input-typeCheck" id="" name="" />
+                  <input type="checkbox" class="oc-input-typeCheck" id="" name=""
+                    tal:attributes="checked python: 'listen' in featurelets and 'checked' or ''" />
                   <label for="">Mailing lists</label>
-                  <p class="oc-form-context">Email and forum&ndash;based discussion spaces.</p>
+                  <p class="oc-form-context">Email and forum-based discussion spaces.</p>
                 </li>
               </ul>
             </fieldset>
