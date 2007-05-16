@@ -166,6 +166,8 @@ class OpencoreView(BrowserView):
                         fullname=proj.getFull_name(),
                         url=proj.absolute_url(), # XXX use self.projectHomePage.absolute_url() instead?
                         home=self.projectHomePage(),
+                        mission='dummy mission statement',
+                        security=2, # where, in unix speak, 1 = 660, 2 = 664, 3 = 666, 0 = 1 with no search results
                         featurelets=self.projectFeaturelets())
 
     def page(self): # TODO

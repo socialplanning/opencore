@@ -1,106 +1,117 @@
-<html metal:use-macro="here/@@standard_macros/master">
-  <head>
-    <link metal:fill-slot="link" />
-    <script metal:fill-slot="script" />
-  </head>
-  <body>
-    <div metal:fill-slot="content">
-      <div class="oc-headingBlock">
-        <h1>Project preferences</h1>
-        <p class="oc--headingContext">Modify the general preferences for your project</p>
-      </div>
-      <div id="oc-content-main">
-        <form>
-          <fieldset>
-            <div class="oc-headingBlock">
-              <h2>Details</h2>
-              <p class="oc-headingContext oc-discreetText">Modify the basic information about your project.
-                The URL cannot be edited once a project is created.
-              </p>
-            </div>
-            <table class="oc-form">
-              <tbody>
-                <tr class="oc-form-row">
-                  <th class="oc-form-label" scope="row">
-                    <label>Name</label>
-                  </th>
-                  <td class="oc-form-value"><input type="text" /></td>
-                  <td class="oc-form-help">
-                    <span class="oc-form-context"></span>
-                    <span id="oc-username-validator" class="oc-form-validator"></span>
-                  </td>
-                </tr>
-                <tr class="oc-form-row">
-                  <th class="oc-form-label" scope="row">
-                    <label>http://</label>
-                  </th>
-                  <td class="oc-form-value"><input type="text" />.openplans.org</td>
-                  <td class="oc-form-help">
-                    <span class="oc-form-context"></span>
-                    <span id="oc-username-validator" class="oc-form-validator"></span>
-                  </td>
-                </tr>
-                <tr class="oc-form-row">
-                  <th class="oc-form-label" scope="row">
-                    <label>Mission Statement</label>
-                  </th>
-                  <td class="oc-form-value"><input type="text" /></td>
-                  <td class="oc-form-help">
-                    <span class="oc-form-context"></span>
-                    <span id="oc-username-validator" class="oc-form-validator"></span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </fieldset>
+<tal:vars define="proj view/project">
+  <html metal:use-macro="here/@@standard_macros/master">
+    <head>
+      <link metal:fill-slot="link" />
+      <script metal:fill-slot="script" />
+    </head>
+    <body>
+      <div metal:fill-slot="content">
+        <div class="oc-headingBlock">
+          <h1>Project preferences</h1>
+          <p class="oc--headingContext">Modify the general preferences for your project</p>
+        </div>
+        <div id="oc-content-main">
+          <form>
+            <fieldset>
+              <div class="oc-headingBlock">
+                <h2>Details</h2>
+                <p class="oc-headingContext oc-discreetText">Modify the basic information about your project.
+                </p>
+              </div>
+              <table class="oc-form">
+                <tbody>
+                  <tr class="oc-form-row">
+                    <th class="oc-form-label" scope="row">
+                      <label>Name</label>
+                    </th>
+                    <td class="oc-form-value">
+                      <input type="text" tal:attributes="value proj/fullname"/>
+                    </td>
+                    <td class="oc-form-help">
+                      <span class="oc-form-context"></span>
+                      <span id="oc-username-validator" class="oc-form-validator"></span>
+                    </td>
+                  </tr>
+                  <tr class="oc-form-row">
+                    <th class="oc-form-label" scope="row">
+                      <label>http://</label>
+                    </th>
+                    <td class="oc-form-value">
+                      <input type="text" readonly="true" disabled="true" tal:attributes="value proj/navname">.openplans.org
+                    </td>
+                    <td class="oc-form-help">
+                      <span class="oc-form-context"></span>
+                      <span id="oc-username-validator" class="oc-form-validator"></span>
+                    </td>
+                  </tr>
+                  <tr class="oc-form-row">
+                    <th class="oc-form-label" scope="row">
+                      <label>Mission Statement</label>
+                    </th>
+                    <td class="oc-form-value">
+                      <input type="text" tal:attributes="value proj/mission" />
+                    </td>
+                    <td class="oc-form-help">
+                      <span class="oc-form-context"></span>
+                      <span id="oc-username-validator" class="oc-form-validator"></span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </fieldset>
 
-          <fieldset>
-            <div class="oc-headingBlock">
-              <h2>General security settings</h2>
-              <p class="oc-headingContext oc-discreetText">Choose what level of permission you want to allow.</p>
-            </div>
-            <ul class="oc-form-radiolist" >
-              <li>
-                <input type="radio" class="oc-input-typeRadio" id="" name="" />
-                <label for="">Only members can view or edit, visitors cannot view or edit anything</label>
-                <ul> <!-- NOTE make this UL conditional on whether or not the above radio button is selected -->
-                  <li class="oc-smallText">
-                    <input type="checkbox" class="oc-input-typeCheck" id="" />
-                    <label for="">Do not show project in search results</label>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <input type="radio" class="oc-input-typeRadio" id="" name="" />
-                <label for="">Members can view or edit, visitors can only view</label>
-              </li>
-              <li>
-                <input type="radio" class="oc-input-typeRadio" id="" name="" />
-                <label for="">Anyone can view or edit</label>
-              </li>
-            </ul>
-          </fieldset>
+            <fieldset>
+              <div class="oc-headingBlock">
+                <h2>General security settings</h2>
+                <p class="oc-headingContext oc-discreetText">Choose permission settings for your project.</p>
+              </div>
+              <ul class="oc-form-radiolist" tal:define="seclevel proj/security">
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="" name="securitylevel"
+                    tal:attributes="checked python: seclevel < 2 and 'checked' or ''" />
+                  <label for="">Only members can view and edit</label>
+                  <ul> <!-- TODO make this UL conditional on whether or not the above radio button is selected -->
+                    <li class="oc-smallText">
+                      <input type="checkbox" class="oc-input-typeCheck" id="" name="searchable"
+                        tal:attributes="checked python: seclevel==0 and 'checked' or ''" />
+                      <label for="">Do not show project in search results</label>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="" name="securitylevel" 
+                    tal:attributes="checked python: seclevel==2 and 'checked' or ''" />
+                  <label for="">Members can view and edit, others can only view</label>
+                </li>
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="" name="securitylevel"
+                    tal:attributes="checked python: seclevel==3 and 'checked' or ''" />
+                  <label for="">Anyone can view or edit</label>
+                </li>
+              </ul>
+            </fieldset>
 
-          <fieldset>
-            <div class="oc-headingBlock">
-              <h2>Tools &amp; features</h2>
-              <p class="oc-headingContext oc-discreetText">Select extra features for your project.</p>
-            </div>
-            <ul class="oc-form-radiolist" >
-              <li>
-                <input type="checkbox" class="oc-input-typeCheck" id="" name="" />
-                <label for="">Task Tracker</label>
-                <p class="oc-form-context">An extensive to-do list manager that makes it easy to share tasks and get things done.</p>
-              </li>
-              <li>
-                <input type="checkbox" class="oc-input-typeCheck" id="" name="" />
-                <label for="">Mailing lists</label>
-                <p class="oc-form-context">Email and forum&ndash;based discussion spaces.</p>
-              </li>
-            </ul>
-          </fieldset>
-        </form>
-      </div><!-- end .oc-content-main -->
-    </div><!-- end content-fill-slot -->
-  </body>
-</html>
+            <fieldset>
+              <div class="oc-headingBlock">
+                <h2>Tools &amp; features</h2>
+                <p class="oc-headingContext oc-discreetText">Select extra features for your project.</p>
+              </div>
+              <ul class="oc-form-radiolist" >
+                <li>
+                  <input type="checkbox" class="oc-input-typeCheck" id="" name="" />
+                  <label for="">Task Tracker</label>
+                  <p class="oc-form-context">An extensive to-do list manager that makes it easy to share tasks and get things done.</p>
+                </li>
+                <li>
+                  <input type="checkbox" class="oc-input-typeCheck" id="" name="" />
+                  <label for="">Mailing lists</label>
+                  <p class="oc-form-context">Email and forum&ndash;based discussion spaces.</p>
+                </li>
+              </ul>
+            </fieldset>
+          </form>
+        </div><!-- end .oc-content-main -->
+      </div><!-- end content-fill-slot -->
+    </body>
+  </html>
+</tal:vars>
