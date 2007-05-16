@@ -65,7 +65,7 @@
                 <option value="">Edit your profile</option>  <!-- Make conditional: logged in -->
               </optgroup>
             </select>
-            <input type="submit" value="Go" style="font-size: 100%; display: none;"/>
+            <input type="submit" value="Go" />
           </form>
       
           <div class="oc-widget oc-widget-feed">
