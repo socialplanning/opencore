@@ -23,9 +23,15 @@ class WikiEdit(OpencoreView):
 
 
 class AttachmentView(OpencoreView):
+    attachment_snippet = ZopeTwoPageTemplateFile('attachment.pt')
     create_snippet = ZopeTwoPageTemplateFile('create-att.pt')
     delete_snippet = ZopeTwoPageTemplateFile('delete-att.pt')
 
+    def attachmentSnippet(self):
+        attachment = self.context._getOb(self.request.get('attachment_id'))
+        self.new_attachment = lambda: attachment
+        return self.attachment_snippet()
+    
     def handle_updateAtt(self):
         attachment = self.context._getOb(self.request.get('attachment_id'))
         attachment.setTitle(self.request.get('attachment_title'))
@@ -37,7 +43,7 @@ class AttachmentView(OpencoreView):
         attachment in the view.  """
         new_attachment = self.handle_updateAtt()
         self.new_attachment = lambda: new_attachment
-        return self.create_snippet()
+        return self.attachment_snippet()
 
     def createAtt(self):
         new_attachment = self.handle_createAtt()
