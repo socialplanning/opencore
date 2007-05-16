@@ -34,41 +34,30 @@ class WikiVersionCompare(OpencoreView):
         new_page = self.get_page(self.new_version_id)
         self.html_diff = htmldiff2.htmldiff(old_page.EditableBody(), 
                                             new_page.EditableBody())
-        import pdb; pdb.set_trace()
         return self.version_compare()
 
     def get_version(self, version_id):
-        if version_id == 'current':
-            return CurrentVersion(self.context)
-        else:
-            version_id = int(version_id)
+        version_id = int(version_id)
         pr = self.context.portal_repository
         return pr.retrieve(self.context, version_id)
 
     def get_page(self, version_id):
-        if version_id == 'current':
-            return self.context
-        else:
-            pr = self.context.portal_repository
-            doc = pr.retrieve(self.context, version_id)
-            return doc.object
+        pr = self.context.portal_repository
+        doc = pr.retrieve(self.context, version_id)
+        return doc.object
         
 
     def sort_versions(self, v1, v2):
         """
         Return older_version, newer_version
         """
-        if v1 == 'current':
-            return int(v2), v1
-        elif v2 == 'current':
-            return int(v1), v2
+
+        v1 = int(v1)
+        v2 = int(v2)
+        if v1 > v2:
+            return v2, v1
         else:
-            v1 = int(v1)
-            v2 = int(v2)
-            if v1 > v2:
-                return v2, v1
-            else:
-                return v1, v2
+            return v1, v2
             
 
 class WikiHistory(OpencoreView):
@@ -78,22 +67,6 @@ class WikiHistory(OpencoreView):
         Returns a list of versions on the object.
         """
         pr = self.context.portal_repository
-        versions = pr.getHistory(self.context, countPurged=False)
-        versions = list(versions)
-        versions.insert(0, CurrentVersion(self.context))
-        return versions
+        return pr.getHistory(self.context, countPurged=False)
     
 
-class CurrentVersion(object):
-    """
-    Wraps the current version of a document and makes it seem like old versions
-    """
-
-    def __init__(self, doc):
-        self.object = doc
-        self.sys_metadata = {
-            'principal': doc.Creator(),
-            'timestamp': doc.modified(),
-            }
-        self.version_id = 'current'
-        self.comment = ''
