@@ -4,7 +4,7 @@
   <head profile="http://gmpg.org/xfn/11">
     <!-- erroneous base tag was getting drawn in somehow for some templates
          but the following line fixes it -->
-    <base tal:attributes="href context/absolute_url"/>
+    <base tal:attributes="href string:${context/absolute_url}/"/>
   	<title tal:content="view/windowtitle" />
   	<link rel="stylesheet" href="++resource++css/opencore.css" type="text/css" media="all" />
   	<link rel="stylesheet" href="++resource++css/plone.css" type="text/css" media="all" />
