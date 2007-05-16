@@ -2,6 +2,8 @@
    xmlns:browser="http://namespaces.zope.org/browser"
    xmlns:five="http://namespaces.zope.org/five">
 
+
+  <!-- templates -->
   <browser:page
     for="*"
     name="createProject"
