@@ -9,7 +9,7 @@ class WikiEdit(OpencoreView):
         self.errors = {}
         self.context.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
-            self.portal_status_message='Please correct these errors.'
+            self.portal_status_message='Please correct the indicated errors.'
             return super(WikiEdit, self).__call__(errors=self.errors)
         
         self.context.processForm(values=self.request)
