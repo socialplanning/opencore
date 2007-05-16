@@ -14,6 +14,7 @@ from opencore import redirect
 from opencore.interfaces import IProject 
 from zope.component import getMultiAdapter, adapts, adapter
 from topp.utils.pretty_text import truncate
+from opencore.nui.static import render_static
 
 class OpencoreView(BrowserView):
     def __init__(self, context, request):
@@ -31,6 +32,7 @@ class OpencoreView(BrowserView):
         self.piv = context.unrestrictedTraverse('project_info') # TODO don't rely on this
         self.miv = context.unrestrictedTraverse('member_info')  # TODO don't rely on this
         self.errors = {}
+        self.render_static = render_static
 
     def portal_status_message(self):
         plone_utils = getToolByName(self.context, 'plone_utils')
