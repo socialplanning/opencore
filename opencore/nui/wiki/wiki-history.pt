@@ -18,7 +18,7 @@
 	
 	<div class="oc-headingBlock"
 	     tal:define="lastChange python:history[0]"> 
-	  <h1>History of <span tal:replace="here/title_or_id">page</span></h1>
+	  <h1>All versions of <span tal:replace="here/title_or_id">page</span></h1>
 	  <p class="oc-headingContext">
 	    Last edit performed by 
 	    <!-- FIXME what's the proper way to link to the person whose id is 
@@ -44,30 +44,33 @@
 		 version to see a preview of that version, but you actually have
 		 to click the link/name of the version -->
 	    select 2 versions to compare them OR click a version number to see it.
+
+	    <!-- FIXME this upper input is more likely to be used, ok'd by 
+		 mouna, maybe we want the lower button to be conditional 
+		 on a large number of versions 
+	      --> 	    	   
+	    <BR>
+	    <input type="submit" value="compare">
+
 	    <ul class="oc-lineup-list">
 	      <tal:block repeat="version python: history">
 		<li class="oc-lineup-item" 
-		    tal:define="version_id version/version_id | string:current">
+		    tal:define="version_id version/version_id;
+				version_title python:view.version_title(version_id)">
+		  
 		  <input type="checkbox" name="version_id"
 			 tal:attributes="value version_id;
-					 id string:version-${version_id}"
+					 id string:version-${version_id};
+					 title version_title"
 			 limit-select="2">
 
 		  <h3>
 		    <!-- FIXME: when you click the link, because the link is a label
 			 it also checks/unchecks the checkbox -->
-		    <label tal:attributes="for string:version-${version_id}">
-		      <!-- FIXME should this be absolute ?? --> 
-		      <a tal:attributes="href string:version?version_id=${version_id}">
-			<tal:if condition="repeat/version/start">Current</tal:if>
-			<tal:if condition="not: repeat/version/start">
-		          <tal:if condition="repeat/version/end">Initial</tal:if>
-		          <tal:if condition="not: repeat/version/end">
-			    Version <span tal:replace="python: version_id + 1" />
-                          </tal:if>
-			</tal:if>
-		      </a>
-		    </label>
+		    <!-- FIXME should this be absolute ?? --> 
+		    <a tal:attributes="href string:version?version_id=${version_id}">
+		      <tal:span replace="version_title" /> 
+		    </a>
 		  </h3>
 		  by 
 		  <a tal:define="author version/sys_metadata/principal" 
@@ -81,7 +84,7 @@
 	    </ul>	 
 	  </div> <!-- end #oc-lineup div --> 
 
-	  <input type="submit" value="Compare Versions">
+	  <input type="submit" value="compare">
 	  
 	  </form>
 

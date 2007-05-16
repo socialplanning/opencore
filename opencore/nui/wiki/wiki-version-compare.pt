@@ -4,20 +4,90 @@
     <script metal:fill-slot="script" />
   </head>
   <body>
+
+    <!-- FIXME something needs to indicate tag / breadcrumbs ? --> 
+    
     <div metal:fill-slot="content">
       
-      <tal:let define="people_url python:here.portal_membership.getMembersFolder().absolute_url();">
+      <tal:let define="people_url python:here.portal_membership.getMembersFolder().absolute_url();
+		       old_id view/old_version_id;
+		       new_id view/new_version_id;
+		       prev_old_id python: view.previous_id(old_id);
+		       next_old_id python: view.next_id(old_id);
+		       prev_new_id python: view.previous_id(new_id); 
+		       next_new_id python: view.next_id(new_id); 		       
+		       ">
 
 	<div class="oc-headingBlock">
-	  <h1>Compare Versions: <span tal:replace="here/title_or_id">page</span></h1>
+
+	  <!-- <h1>Compare Versions: <span tal:replace="here/title_or_id">page</span></h1> --> 
+
 	  <p class="oc-headingContext">
-	    Comparing Version <span tal:replace="python: view.old_version_id + 1;" /> 
+
+	    Comparing 
+	    
+	    <!-- FIXME prev widget --> 
+	    <tal:if condition="python: prev_old_id is not None">
+	      <a tal:attributes="href string:version_compare?version_id=${prev_old_id}&version_id=${new_id}">
+		&lt;<!-- FIXME -->
+	      </a>
+	    </tal:if>
+	    <tal:if condition="python: prev_old_id is None">
+	      &lt;<!-- FIXME -->
+	    </tal:if>&nbsp;
+	    	    
+
+	    <a tal:attributes="href string:version?version_id=${old_id}">
+	      <span tal:replace="python: view.version_title(old_id);" /> 
+	    </a>
+
+	    <!-- FIXME next widget --> 
+	    &nbsp;<tal:if condition="python: next_old_id is not None">
+	      <a tal:attributes="href string:version_compare?version_id=${next_old_id}&version_id=${new_id}">
+		&gt;<!-- FIXME -->
+	      </a>
+	    </tal:if>
+	    <tal:if condition="python: next_old_id is None">
+	      &gt;<!-- FIXME -->
+	    </tal:if>
+	    
 	    by <a tal:define="author view/old_version/sys_metadata/principal" 
 		  tal:attributes="href string:${people_url}/${author}"
 		  tal:content="author">author</a>
 	    on <span tal:replace="python:here.toLocalizedTime(view.old_version.sys_metadata['timestamp'], long_format=True)" />
 	    <br>
-	    to Version <span tal:replace="python: view.new_version_id + 1" /> 
+
+
+
+	    <!--    Other Version     --> 
+
+	    to 
+	    
+	    <!-- FIXME prev widget --> 
+	    <tal:if condition="python: prev_new_id is not None">
+	      <a tal:attributes="href string:version_compare?version_id=${old_id}&version_id=${prev_new_id}">
+		&lt;<!-- FIXME -->
+	      </a>
+	    </tal:if>
+	    <tal:if condition="python: prev_new_id is None">
+	      &lt;<!-- FIXME -->
+	    </tal:if>&nbsp; 
+
+	    <a tal:attributes="href string:version?version_id=${new_id}">
+	      <span tal:replace="python: view.version_title(new_id);" />
+	    </a>
+
+
+	    <!-- FIXME next widget --> 
+	    &nbsp;<tal:if condition="python: next_new_id is not None">
+	      <a tal:attributes="href string:version_compare?version_id=${old_id}&version_id=${next_new_id}">
+		&gt;<!-- FIXME -->
+	      </a>
+	    </tal:if>
+	    <tal:if condition="python: next_new_id is None">
+	      &gt;<!-- FIXME -->
+	    </tal:if>
+
 	    by <a tal:define="author view/new_version/sys_metadata/principal" 
 		  tal:attributes="href string:${people_url}/${author}"
 		  tal:content="author">author</a>

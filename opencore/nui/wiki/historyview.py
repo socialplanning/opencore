@@ -21,6 +21,30 @@ class WikiVersionView(OpencoreView):
         pr = self.context.portal_repository
         return pr.retrieve(self.context, version_id)
 
+    def version_title(self, version_id): 
+        if version_id == 0:
+            return "Initial"
+        elif version_id == self.current_id():
+            return "Current"
+        else: 
+            return "Version %d" % (version_id + 1)
+
+    def current_id(self): 
+        return len(self.get_versions()) - 1
+
+    def previous_id(self, version_id): 
+        if version_id == 0:
+            return None
+        else:
+            return version_id - 1
+    
+    def next_id(self, version_id): 
+        if version_id == self.current_id():
+            return None
+        else:
+            return version_id + 1
+            
+
     
 
 class WikiVersionCompare(WikiVersionView):
