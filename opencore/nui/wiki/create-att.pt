@@ -1,1 +1,1 @@
-<span tal:replace="view/attachment_url"/>
+{status: 'success', 'updateURL' : '<span tal:replace="view/attachment_url"/>' } 
