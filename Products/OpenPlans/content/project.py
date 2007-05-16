@@ -73,9 +73,13 @@ ProjectSchema['space_teams'].widget = ReferenceBrowserWidget(
                 label_msgid="label_teams",
                 description="Search for teams to associate with this Project",
                 description_msgid="description_teams",
-                helper_js=("openteam_refbrowser.js",),)
+                helper_js=("openteam_refbrowser.js",),
+                visible={'view': 'invisible',
+                         'edit': 'invisible',},
+                )
 
 ProjectSchema['space_teams'].allowed_types = ('OpenTeam',)
+ProjectSchema['space_teams'].write_permission = ManagePortal
 ProjectSchema.moveField('space_teams', pos='bottom')
 
 # items for the 'breadcrumbs' menu bar
@@ -260,6 +264,7 @@ class OpenProject(BrowserDefaultMixin, TeamSpace):
         members = set()
         teams = self.getTeams()
         if admin_only:
+            # XXX we need this
             pass
         else:
             for team in teams:
