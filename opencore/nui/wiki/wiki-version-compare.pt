@@ -11,13 +11,13 @@
 	<div class="oc-headingBlock">
 	  <h1>Compare Versions: <span tal:replace="here/title_or_id">page</span></h1>
 	  <p class="oc-headingContext">
-	    Comparing Version <span tal:replace="view/old_version_id" /> 
+	    Comparing Version <span tal:replace="python: view.old_version_id + 1;" /> 
 	    by <a tal:define="author view/old_version/sys_metadata/principal" 
 		  tal:attributes="href string:${people_url}/${author}"
 		  tal:content="author">author</a>
 	    on <span tal:replace="python:here.toLocalizedTime(view.old_version.sys_metadata['timestamp'], long_format=True)" />
 	    <br>
-	    to Version <span tal:replace="view/new_version_id" /> 
+	    to Version <span tal:replace="python: view.new_version_id + 1" /> 
 	    by <a tal:define="author view/new_version/sys_metadata/principal" 
 		  tal:attributes="href string:${people_url}/${author}"
 		  tal:content="author">author</a>
