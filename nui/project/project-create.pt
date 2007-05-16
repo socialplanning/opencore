@@ -7,11 +7,17 @@
     <div metal:fill-slot="content">
       <div class="oc-headingBlock">
         <h1>Start a project</h1>
+        <p class="oc--headingContext">description here</p>
       </div>
       <div id="oc-content-main">
         <form>
           <fieldset>
-            <legend><h2>Step 1: Enter Details</h2></legend>
+            <div class="oc-headingBlock">
+              <h2>Details</h2>
+              <p class="oc-headingContext oc-discreetText">Set basic information about your project.<br/>
+                Note: The URL cannot be edited once a project is created.
+              </p>
+            </div>
             <table class="oc-form">
               <tbody>
                 <tr class="oc-form-row">
