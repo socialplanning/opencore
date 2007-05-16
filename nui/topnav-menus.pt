@@ -2,7 +2,7 @@
 
 <!-- OpenPlans logo -->
 <h1 id="oc-topnav-openplans-logo">
-  <a tal:attributes="href string:${site}/oc-home"><img tal:attributes="src view/logoURL;
+  <a tal:attributes="href string:${site}/@@index.html"><img tal:attributes="src view/logoURL;
       alt view/sitetitle" /></a>
 </h1>
 

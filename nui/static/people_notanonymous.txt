@@ -1,0 +1,8 @@
+            <h2>Participate on OpenPlans</h2>
+            <ul>
+              <li>Customize your profile</li>
+              <li>Upload a photo</li>
+              <li>Invite others</li>
+              <li>Join a project (in your area)</li>
+              <li>Start a project</li>
+            </ul>
