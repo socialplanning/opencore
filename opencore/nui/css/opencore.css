@@ -369,7 +369,7 @@ ul.oc-dropdown, .oc-dropdown ul {
 	clear: none;
 	width: 49%;
 }
-.oc-column-left {
+.oc-column-right {
 	float: right;
 	clear: none;
 	width: 49%;
@@ -547,6 +547,10 @@ dl.oc-member-info dd {
 	font-size: 18px;
 	font-weight: bold;
 	color: #333;
+}
+.oc-getstarted input {
+	font-size: 100%;
+	display: none;
 }
 
 /* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
