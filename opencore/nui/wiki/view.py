@@ -29,8 +29,8 @@ class AttachmentView(OpencoreView):
     delete_snippet = ZopeTwoPageTemplateFile('delete-att.pt')
 
     def attachment_url(self):
-        print self.context.absolute_url + "/@@attachmentSnippet?attachment_id=" + self.request.get('attachment_id')
-        return self.context.absolute_url + "/@@attachmentSnippet?attachment_id=" + self.request.get('attachment_id')
+
+        return self.context.absolute_url() + "/@@attachmentSnippet?attachment_id=" + self.new_attachment().id
 
     def attachmentSnippet(self):
         attachment = self.context._getOb(self.request.get('attachment_id'))
