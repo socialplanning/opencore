@@ -191,8 +191,8 @@ class OpencoreView(BrowserView):
 
     def projectFeaturelets(self): # TODO
         featurelets = []
-        featurelets.append({'name': 'featurelet1', 'url': ''})
-        featurelets.append({'name': 'featurelet2', 'url': ''})
+        featurelets.append({'name': 'tasktracker', 'url': ''})
+        featurelets.append({'name': 'listen', 'url': ''})
         return featurelets
 
     def currentProjectPage(self):
