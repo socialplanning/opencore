@@ -60,15 +60,15 @@
             <ul class="oc-form-radiolist" >
               <li>
                 <input type="radio" id="" name="" />
-                <label for="">not even view content</label>
-              </li>
-              <li>
-                <input type="radio" id="" name="" />
                 <label for="">only view content</label>
               </li>
               <li>
                 <input type="radio" id="" name="" />
                 <label for="">view and contribute content</label>
+              </li>
+              <li>
+                <input type="radio" id="" name="" />
+                <label for="">not even view content</label>
                 <ul class="oc-discreetText">
                   <li>
                     <input type="checkbox" id="" />
