@@ -478,20 +478,19 @@ ul.oc-dropdown, .oc-dropdown ul {
 	border: 1px solid #ccc;
 }
 #oc-member-badge .oc-avatar {
-	width: 240px; 
+	width: 200px;
 	overflow: hidden;
 	float: left; 
 	clear: none; 
 }
 #oc-member-badge .oc-avatar img {
+	width: 200px;
 	text-align: center;
 	margin: 0 auto;
 }
 #oc-member-badge .oc-member-details {
-	margin-left: 240px;
+	margin-left: 200px;
 	padding-left: 1em;
-	clear: none;
-	background: red;
 }
 #oc-member-badge .oc-member-details .oc-headingBlock p {
 	margin: 0;
