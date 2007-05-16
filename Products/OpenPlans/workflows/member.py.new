@@ -25,7 +25,7 @@ from Products.ExternalMethod.ExternalMethod import ExternalMethod
 def setup_openplans_member_workflow(wf):
     """Setup the workflow
     """
-    wf.setProperties(title='Open Member Workflow : Email Confirmation')
+    wf.setProperties(title='OpenPlans Member Workflow')
 
     for s in ('disabled', 'new', 'pending', 'private', 'public'):
         wf.states.addState(s)
@@ -393,4 +393,4 @@ def create_openplans_member_workflow(id):
 
 addWorkflowFactory(create_openplans_member_workflow,
                    id='openplans_member_workflow',
-                   title='Open Member Workflow : Email Confirmation')
+                   title='OpenPlans Member Workflow')
