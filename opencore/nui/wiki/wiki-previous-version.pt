@@ -1,0 +1,32 @@
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <link metal:fill-slot="link" />
+    <script metal:fill-slot="script" />
+  </head>
+  <body>
+    <div metal:fill-slot="content">
+      
+      <tal:let define="people_url python:here.portal_membership.getMembersFolder().absolute_url();
+		       version_id python:int(request['version_id']); 
+		       version python:view.get_version(version_id);" >
+
+	<div class="oc-headingBlock">
+	  <h1>Previous Version of <span tal:replace="here/title_or_id">page</span></h1>
+	  <p class="oc-headingContext">
+	    Version <span tal:replace="python: version_id + 1;" /> 
+	    by <a tal:define="author version/sys_metadata/principal" 
+		  tal:attributes="href string:${people_url}/${author}"
+		  tal:content="author">author</a>
+	    on <span tal:replace="python:here.toLocalizedTime(version.sys_metadata['timestamp'], long_format=True)" />
+	  </p>
+	</div> <!-- end .oc-headingBlock --> 
+	
+	<div id="oc-content-main"
+	     tal:content="structure python: view.get_page(version_id).EditableBody()">
+	</div>
+
+      </tal:let>
+
+    </div><!-- end content slot -->
+  </body>
+</html>

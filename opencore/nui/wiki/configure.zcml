@@ -58,10 +58,18 @@
 
   <browser:page
      for="*"
-     class=".historyview.WikiHistory"
+     class=".historyview.WikiVersionView"
      permission="cmf.ModifyPortalContent"
      name="history"
      template="wiki-history.pt"
+     />
+
+  <browser:page
+     for="*"
+     class=".historyview.WikiVersionView"
+     permission="cmf.ModifyPortalContent"
+     name="version"
+     template="wiki-previous-version.pt"
      />
 
   <browser:page

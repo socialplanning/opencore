@@ -2,7 +2,28 @@ from opencore.nui.opencoreview import OpencoreView
 from opencore.nui import htmldiff2
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
-class WikiVersionCompare(OpencoreView):
+class WikiVersionView(OpencoreView): 
+
+    def get_page(self, version_id):
+        pr = self.context.portal_repository
+        doc = pr.retrieve(self.context, version_id)
+        return doc.object
+        
+    def get_versions(self):
+        """
+        Returns a list of versions on the object.
+        """
+        pr = self.context.portal_repository
+        return pr.getHistory(self.context, countPurged=False)
+
+    def get_version(self, version_id):
+        version_id = int(version_id)
+        pr = self.context.portal_repository
+        return pr.retrieve(self.context, version_id)
+
+    
+
+class WikiVersionCompare(WikiVersionView):
 
     version_compare = ZopeTwoPageTemplateFile('wiki-version-compare.pt')
     # FIXME: there's probably something generic like this already.
@@ -36,17 +57,6 @@ class WikiVersionCompare(OpencoreView):
                                             new_page.EditableBody())
         return self.version_compare()
 
-    def get_version(self, version_id):
-        version_id = int(version_id)
-        pr = self.context.portal_repository
-        return pr.retrieve(self.context, version_id)
-
-    def get_page(self, version_id):
-        pr = self.context.portal_repository
-        doc = pr.retrieve(self.context, version_id)
-        return doc.object
-        
-
     def sort_versions(self, v1, v2):
         """
         Return older_version, newer_version
@@ -58,15 +68,7 @@ class WikiVersionCompare(OpencoreView):
             return v2, v1
         else:
             return v1, v2
-            
 
-class WikiHistory(OpencoreView):
 
-    def get_versions(self):
-        """
-        Returns a list of versions on the object.
-        """
-        pr = self.context.portal_repository
-        return pr.getHistory(self.context, countPurged=False)
     
 

@@ -58,7 +58,7 @@
 			 it also checks/unchecks the checkbox -->
 		    <label tal:attributes="for string:version-${version_id}">
 		      <!-- FIXME should this be absolute ?? --> 
-		      <a tal:attributes="href string:versions_history_form?version_id=${version_id}">
+		      <a tal:attributes="href string:version?version_id=${version_id}">
 			<tal:if condition="repeat/version/start">Current</tal:if>
 			<tal:if condition="not: repeat/version/start">
 		          <tal:if condition="repeat/version/end">Initial</tal:if>
