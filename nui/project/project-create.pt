@@ -44,7 +44,7 @@
                   <th class="oc-form-label" scope="row">
                     <label>Mission Statement</label>
                   </th>
-                  <td class="oc-form-value"><input type="text" /></td>
+                    <td class="oc-form-value"><textarea name="mission" rows="3" cols="40" ></textarea></td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
                     <span id="oc-username-validator" class="oc-form-validator"></span>
