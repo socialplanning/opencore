@@ -485,6 +485,7 @@ ul.oc-dropdown, .oc-dropdown ul {
 }
 #oc-member-badge .oc-avatar img {
 	text-align: center;
+	margin: 0 auto;
 }
 #oc-member-badge .oc-member-details {
 	margin-left: 240px;
@@ -543,7 +544,7 @@ dl.oc-member-info dd {
 
 .oc-getstarted {
 	display: block; 
-	width: 100%; 
+	width: 80%; 
 	margin-bottom: 1em;
 }
 .oc-getstarted select {
@@ -554,7 +555,7 @@ dl.oc-member-info dd {
 }
 .oc-getstarted input {
 	font-size: 100%;
-	display: none;
+	/* display: none; */
 }
 
 /* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
