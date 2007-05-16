@@ -380,7 +380,7 @@ ul.oc-dropdown, .oc-dropdown ul {
 	float: left;
 }
 
-/* Search results */
+/* Search results & & Lineups */
 
 .oc-lineup,
 .oc-searchresults {
@@ -502,8 +502,8 @@ dl.oc-member-info dd {
 	margin: 0 0 1em;
 }
 
-/* Wiki
-------------------------------------------------------------*/
+/* Wiki pages */
+
 .oc-wiki {
 }
 .oc-wiki-content {
@@ -533,6 +533,20 @@ dl.oc-member-info dd {
 .oc-wiki-history-item.oc-selected {
   background: lightgreen;
   border: 1px solid green;
+}
+
+/* Home page */
+
+.oc-getstarted {
+	display: block; 
+	width: 100%; 
+	margin-bottom: 1em;
+}
+.oc-getstarted select {
+	width: 100%;
+	font-size: 18px;
+	font-weight: bold;
+	color: #333;
 }
 
 /* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
