@@ -61,19 +61,19 @@
 
           <!-- the results are displayed here -->
           <ol class="oc-peopleresults-list oc-clearAfter">
-            <li class="oc-clearAfter" tal:repeat="item view/search_results">
+            <li class="oc-clearAfter vcard" tal:repeat="item view/search_results">
               <div class="oc-avatar" tal:define="mem item/getObject; imgdata mem/getPortrait">
                 <a href="" tal:attributes="href string:${context/portal_url}/people/${item/getId}">
-                  <img tal:condition="imgdata" tal:replace="structure imgdata" />
+                  <img tal:condition="imgdata" tal:replace="structure imgdata" /><!-- needs class="photo" for hCard compliance -->
                   <img tal:condition="not: imgdata" tal:attributes="src string:defaultUser.gif" />
                 </a>
               </div>
               <div class="oc-peopleresults-content">
-                <h3 class="oc-peopleresults-username">
+                <h3 class="oc-peopleresults-username fn">
                   <a href="" tal:attributes="href string:${context/portal_url}/people/${item/getId}" tal:content="item/getId">Username</a>
                 </h3>
-                <p class="oc-peopleresults-realname" tal:content="item/Title">real name</p>
-                <address class="oc-peopleresults-location" tal:define="loc item/getLocation" tal:condition="loc" tal:content="loc">location</address>
+                <div class="oc-peopleresults-fullname n" tal:content="item/Title">real name</p>
+                <div class="oc-peopleresults-location adr" tal:define="loc item/getLocation" tal:condition="loc" tal:content="loc">location</address>
               </div>
             </li>
           </ol>

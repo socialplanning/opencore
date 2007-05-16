@@ -463,7 +463,7 @@ ul.oc-dropdown, .oc-dropdown ul {
 .oc-peopleresults-username {
 	margin: 0;
 }
-.oc-peopleresults-realname {
+.oc-peopleresults-fullname {
 	margin: 0;
 }
 .oc-peopleresults-location {
@@ -477,14 +477,18 @@ ul.oc-dropdown, .oc-dropdown ul {
 	background-color: #eee;
 	border: 1px solid #ccc;
 }
-#oc-member-badge img {
-	max-width: 47%; 
+#oc-member-badge .oc-avatar {
+	width: 240px; 
+	overflow: hidden;
 	float: left; 
 	clear: none; 
-	margin: 0 1em 1em 0;
+}
+#oc-member-badge .oc-avatar img {
+	text-align: center;
 }
 #oc-member-badge .oc-member-details {
-	float: left; 
+	margin-left: 240px;
+	padding-left: 1em;
 	clear: none;
 	background: red;
 }
