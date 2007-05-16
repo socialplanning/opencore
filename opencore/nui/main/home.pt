@@ -10,8 +10,7 @@
       </div>
       
       <div id="oc-content-main">
-        <p>OpenPlans aims to transform social activism by providing tools that connect people and enable them to share ideas, stay organized, and act collectively to effect change.</p>
-        <p>Whether you are advocating for public space or working towards better schools, we hope you use OpenPlans to make your community a better place.&nbsp; Our tools help you <a style="" href="http://www.openplans.org/projects/openplans-help/create-a-new-project">create</a> or <a style="" href="http://www.openplans.org/projects/openplans-help/contribute-to-an-existing-project">contribute</a> to web sites, <a style="" href="http://www.openplans.org/projects/openplans-help/add-files-to-a-page">share files</a>, upload photos, <a style="" href="http://www.openplans.org/projects/openplans-help/create-and-manage-mailing-lists">manage mailing lists</a>, and (soon!) manage to-do lists. OpenPlans is collaborative software so most <a style="" href="http://www.openplans.org/projects/openplans-help/edit-an-existing-page">pages are editable</a>. It takes just seconds to <a style="" href="http://www.openplans.org/join_form">register</a> and, once you <a style="" href="http://www.openplans.org/login_form">log in</a>, you can <a style="" href="http://www.openplans.org/projects/openplans-help/create-a-new-project">start your own project</a> or <a style="" href="http://www.openplans.org/projects/openplans-help/contribute-to-an-existing-project">contribute to an existing one</a>.</p>
+	<div id="oc-content-sidebar" tal:replace="structure python: view.render_static('home_intro.txt')" />
         
         <div class="oc-column-group">
             <div class="oc-widget oc-widget-feed oc-column-left">
@@ -85,8 +84,7 @@
       
       <div class="oc-clearAfter">
         <h2>About us</h2>
-        <img class="oc-image-bright" src="http://www.openplans.org/site-home/orange_logo.gif" alt="The Open Planning Project" />
-        <p>OpenPlans is a production of <a href="http://topp.openplans.org/">The Open Planning Project</a>, a New York City based non-profit organization dedicated to using technology to enhance community participation. In addition to OpenPlans, we also sponsor <a href="http://www.geoserver.org/">GeoServer</a>, an open source platform for sharing geographic information, and the <a ref="http://www.nycsr.org/">New York City Streets Renaissance Campaign</a>, which advocates for lively public space in New York City.</p>
+        <div condition="not: view/loggedin" tal:replace="structure python: view.render_static('home_aboutus.txt')" />	
       </div>
       
       </div><!-- content-sidebar -->
