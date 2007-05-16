@@ -51,20 +51,20 @@
       
       <div id="oc-content-sidebar">
       
-          <form class="oc-getstarted">
-            <select>
+          <form name="do_something_form" class="oc-getstarted" action="." tal:attributes="action string:${context/portal_url}/@@index.html">
+            <select name="go_here">
                 <option value="">Get started!</option>
               <optgroup label="">
-                <option value="">Discover projects</option>
-                <option value="">Find people</option>
-                <option value="">Start a project</option> <!-- Make conditional: logged in -->
+                <option tal:attributes="value string:${context/portal_url}/projects/@@index.html">Discover projects</option>
+                <option tal:attributes="value string:${context/portal_url}/people/@@index.html">Find people</option>
+                <option tal:condition="view/loggedin" tal:attributes="value string:${context/portal_url}/@@createProject">Start a project</option> 
               </optgroup>
               <optgroup label="">
-                <option value="">Become a member</option> <!-- Make conditional: not logged in -->
-                <option value="">Edit your profile</option>  <!-- Make conditional: logged in -->
+                <option tal:condition="not: view/loggedin" tal:attributes="value string:${context/portal_url}/login">Become a member</option> 
+                <option tal:condition="view/loggedin" tal:attributes="value string:${context/portal_url}/@@edit_profile">Edit your profile</option> 
               </optgroup>
             </select>
-            <input type="submit" value="Go" />
+            <input type="submit" name="do_something" value="Go" />
           </form>
       
           <div class="oc-widget oc-widget-feed">

@@ -4,7 +4,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import Batch
 from Products.AdvancedQuery import Eq, RankByQueries_Sum
 from topp.utils.pretty_date import prettyDate
- 
+from zExceptions import Redirect 
 from opencore.nui.opencoreview import OpencoreView
 
 
@@ -187,6 +187,15 @@ class HomeView(SearchView):
     def __init__(self, context, request):
         SearchView.__init__(self, context, request)
         self.projects_search = ProjectsSearchView(context, request)
+
+    def __call__(self):
+        go_here = self.request.get('go_here', None)
+
+        if go_here:
+            raise Redirect, go_here
+        
+        return self.index()
+
 
     def recently_updated_projects(self):
         return self.projects_search.recently_updated_projects()
