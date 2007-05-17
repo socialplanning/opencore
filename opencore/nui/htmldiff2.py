@@ -66,9 +66,7 @@ def html_annotate_merge_annotations(tokens_old, tokens_new):
     """Merge the annotations from tokens_old into tokens_new, when the
     tokens in the new document already existed in the old document.
     """
-    s = difflib.SequenceMatcher()
-    s.set_seq1(tokens_old)
-    s.set_seq2(tokens_new)
+    s = InsensitiveSequenceMatcher(a=tokens_old, b=tokens_new)
     commands = s.get_opcodes()
 
     for command, i1, i2, j1, j2 in commands:
@@ -177,9 +175,7 @@ def htmldiff_tokens(html1_tokens, html2_tokens):
     # we are only keeping the markup from the new document, it can be
     # fuzzy where in the new document the old text would have gone.
     # Again we just do a best effort attempt.
-    s = difflib.SequenceMatcher()
-    s.set_seq1(html1_tokens)
-    s.set_seq2(html2_tokens)
+    s = InsensitiveSequenceMatcher(a=html1_tokens, b=html2_tokens)
     commands = s.get_opcodes()
     result = []
     for command, i1, i2, j1, j2 in commands:
@@ -858,6 +854,42 @@ def _merge_element_contents(el):
             else:
                 previous.tail = text
     parent[index:index+1] = el.getchildren()
+
+class InsensitiveSequenceMatcher(difflib.SequenceMatcher):
+    """
+    Acts like SequenceMatcher, but tries not to find very small equal
+    blocks amidst large spans of changes
+    """
+
+    threshold = 2
+
+    def get_matching_blocks(self):
+        size = min(len(self.b), len(self.b))
+        threshold = min(self.threshold, size / 4)
+        actual = difflib.SequenceMatcher.get_matching_blocks(self)
+        return [item for item in actual
+                if item[2] > threshold
+                or not item[2]]
+
+    
+# def get_matching_blocks(self):
+#         size = min(len(self.b), len(self.b))
+#         threshold = min(self.threshold, size / 4)
+#         actual = difflib.SequenceMatcher.get_matching_blocks(self)
+#         last_equal_a = 0
+#         eliminate = []
+#         for i in xrange(1, len(actual)-1):
+#             start_diff_length = actual[i][0] - (actual[i-1][0] + actual[i-1][2])
+#             end_diff_length = actual[i+1][0]
+#         for a_pos, b_pos, length in actual:
+#             if (last_equal_a - a_pos is big
+#                 and length is small
+#                 and next_equal_a is far away):
+#                 continue
+#             result.append((a_pos, b_pos, length))
+#             last_equal_a = a_pos+length
+#         return result
+            
 
 if __name__ == '__main__':
     import doctest

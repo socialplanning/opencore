@@ -17,9 +17,8 @@ Example::
     >>> html2 = '''<p>This is some test textual writing with some changed stuff 
     ... and some same stuff</p>'''
     >>> pdiff(html1, html2)
-    <p>This is some test <ins>textual writing</ins> <del>text</del> with
-    some <ins>changed stuff</ins> <del>changes</del> and some same
-    stuff</p>
+    <p>This is some test <ins>textual writing with some changed
+    stuff</ins> <del>text with some changes</del> and some same stuff</p>
 
 Style tags are largely ignored in terms of differences, though markup is not eliminated::
 
@@ -88,8 +87,11 @@ Next, "insert middle" (del start/middle/end/none):
     <b>A <ins>D</ins> <del>B</del> C</b>
     >>> pdiff('<b>A B C</b>', '<b>A D B</b>')
     <b>A <ins>D</ins> B <del>C</del> </b>
+
+This one case hits the threshold of our insensitive matching:
+
     >>> pdiff('<b>A B C</b>', '<b>A D B C</b>')
-    <b>A <ins>D</ins> B C</b>
+    <b> <ins>A D</ins> <del>A</del> B C</b>
 
 
 Then "insert end" (del start/middle/end/none):
@@ -119,20 +121,30 @@ Then no insert (del start/middle/end):
     >>> pdiff('A <p><b>hey there</b> <i>how are you?</i></p>', 'A')
     A <p><del><b>hey there</b> <i>how are you?</i></del></p>
     
+Testing a larger document, to make sure there are not weird
+unnecessary parallels found:
 
-Testing split_unbalanced:
-
-    >>> split_unbalanced(['<a href="blah">', 'hey', '</a>'])
-    ([], ['<a href="blah">', 'hey', '</a>'], [])
-    >>> split_unbalanced(['<a href="blah">', 'hey'])
-    (['<a href="blah">'], ['hey'], [])
-    >>> split_unbalanced(['Hey', '</i>', 'You', '</b>'])
-    ([], ['Hey', 'You'], ['</i>', '</b>'])
-    >>> split_unbalanced(['So', '</i>', 'Hi', '<b>', 'There', '</b>'])
-    ([], ['So', 'Hi', '<b>', 'There', '</b>'], ['</i>'])
-    >>> split_unbalanced(['So', '</i>', 'Hi', '<b>', 'There'])
-    (['<b>'], ['So', 'Hi', 'There'], ['</i>'])
+    >>> pdiff('''
+    ... <p>This is a test document with many words in it that goes on
+    ... for a while and doesn't have anything do to with the next
+    ... document that we match this against</p>''', '''
+    ... <p>This is another document with few similarities to the preceding
+    ... one, but enough that it may have overlap that could turn into
+    ... a confusing series of deletes and inserts.
+    ... </p>''')
+    <p><ins>This is another document with few similarities to the
+    preceding one, but enough that it may have overlap that could turn
+    into a confusing series of deletes and inserts. </ins></p>
+    <p><del>This is a test document with many words in it that goes on for
+    a while and doesn't have anything do to with the next document that we
+    match this against</del></p>
+    >>> pdiff('''
+    ... <p>Some text that is really similar until you get a way in and then
+    ... it gets exciting!</p>''', '''
+    ... <p>Some text that is really similar until you get a way in and then
+    ... it becomes exciting!</p>''')
     
+
 
 Annotation of content can also be done, where every bit of content is
 marked up with information about where it came from.
@@ -225,3 +237,17 @@ More utility:
     <td><ins>More stuff</ins></td>
     </tr></table>
 
+
+Testing split_unbalanced:
+
+    >>> split_unbalanced(['<a href="blah">', 'hey', '</a>'])
+    ([], ['<a href="blah">', 'hey', '</a>'], [])
+    >>> split_unbalanced(['<a href="blah">', 'hey'])
+    (['<a href="blah">'], ['hey'], [])
+    >>> split_unbalanced(['Hey', '</i>', 'You', '</b>'])
+    ([], ['Hey', 'You'], ['</i>', '</b>'])
+    >>> split_unbalanced(['So', '</i>', 'Hi', '<b>', 'There', '</b>'])
+    ([], ['So', 'Hi', '<b>', 'There', '</b>'], ['</i>'])
+    >>> split_unbalanced(['So', '</i>', 'Hi', '<b>', 'There'])
+    (['<b>'], ['So', 'Hi', 'There'], ['</i>'])
+    
