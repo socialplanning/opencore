@@ -1,15 +1,25 @@
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <link metal:fill-slot="link" />
+    <script metal:fill-slot="script" language="javascript" type="text/javascript" src="++resource++javascripts/searching.js" />
+  </head>
+  <body>
+
+    <div metal:fill-slot="content">
+
+<div class="oc-headingBlock">
+	<h1>Your account</h1>
+	<p class="oc-headingContext">View and manage your project memberships and account settings</p>
+</div>
+  
 <div id="oc-content-main">
-  <div class="oc-headingBlock">
-    <h1>Your Projects</h1>
-    <p class="oc-headingContext">View and manage your project memberships</p>
-  </div>
   
   <div class="oc-widget oc-widget-invite">
     <div class="oc-headingBlock">
       <h2>Membership invitations you've received (x)</h2>
     </div>
     <ul class="oc-invite-list">
-      <li class="oc-invite oc-clearAfter">
+      <li class="oc-invite oc-boxy oc-clearAfter">
         <div class="oc-avatar">
           <img src="" />
         </div>
@@ -24,7 +34,7 @@
         </ul>
         <a href="#" title="Ignore" class="oc-close">X</a>
       </li>
-      <li class="oc-invite oc-clearAfter">
+      <li class="oc-invite oc-boxy oc-clearAfter">
         <div class="oc-avatar">
           <img src="" />
         </div>
@@ -39,7 +49,7 @@
         </ul>
         <a href="#" title="Ignore" class="oc-close">X</a>
       </li>
-      <li class="oc-invite oc-clearAfter">
+      <li class="oc-invite oc-boxy oc-clearAfter">
         <div class="oc-avatar">
           <img src="http://www.3dvalley.com/tutorials/modeling_basketball_clip_image037.gif" />
         </div>
@@ -154,36 +164,56 @@
   </div><!-- end .widget-table -->
 
 </div><!-- end #oc-content-main -->
+
 <div id="oc-content-sidebar">
-	<div class="oc-headingBlock">
-		<h2>Recent activity</h2>
+	<div class="oc-boxy">
+	  <div class="oc-headingBlock">
+			<h2>Account settings</h2>
+		</div>
+		<a href="#">Edit profile</a>
+		<form class="oc-expander">
+			<fieldset>
+				<legend class="oc-legend-label">
+					<a href="#" class="oc-expander-link">Change email</a>
+				</legend>
+				<ul class="oc-expander-content oc-plainList">
+					<li>
+						<label for="">Email</label><br />
+						<input type="text" />
+					</li>
+					<li class="oc-form-fieldBlock oc-smallText">
+						<input type="checkbox" class="oc-input-typeCheck" />
+						<label for="">Hide email address by default?</label>
+					</li>
+				</ul>
+			</fieldset>
+		</form>
+		<form class="oc-expander">
+			<fieldset>
+				<legend class="oc-legend-label">
+					<a href="#" class="oc-expander-link">Change password</a>
+				</legend>
+				<ul class="oc-expander-content oc-plainList">
+					<li>
+						<label for="">Current password</label><br />
+						<input type="password" />
+					</li>
+					<li>
+						<label for="">New password</label><br />
+						<input type="password" />
+					</li>
+					<li>
+						<label for="">Confirm new password</label><br />
+						<input type="password" />
+					</li>
+				</ul>
+			</fieldset>
+		</form>
 	</div>
-  	<div class="oc-widget oc-widget-lastModified">
-		<div class="headingBlock">
-			<h3>Pages last modified</h3>
-		</div><!-- end .headingBlock -->
-		<table class="oc-table" cellpadding="0" cellspacing="0">
-			<thead>
-				<tr>
-					<th scope="col">Date</th>
-					<th scope="col">Page</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>Jan 1</td>
-					<td><a href="">My awesome page</a></td>
-				</tr>
-				<tr>
-					<td>Dec 31</td>
-					<td><a href="">My really awesome page</a></td>
-				</tr>
-				<tr>
-					<td>Oct 12</td>
-					<td><a href="">My kinda awesome page</a></td>
-				</tr>
-			</tbody>
-		</table>
-	</div><!-- end .oc-widget-lastModified -->
 	
-</div><!-- end #oc-content-rbar33 -->
+</div><!-- end #oc-content-sidebar -->
+
+
+  </div><!-- content-fill-slot -->
+</body>
+</html>

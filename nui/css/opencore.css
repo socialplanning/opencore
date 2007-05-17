@@ -359,8 +359,18 @@ ul.oc-dropdown, .oc-dropdown ul {
 -------------------------------------------- */
 /* This is where general layout elements within the content of a page are defined. Could also aply to how we implement templates. 
   
-/* Generic layout elements */
+/* GENERIC layout elements */
 
+.oc-plainList { /* list with no formatting */
+	list-style-type: none;
+	padding: 0;
+}
+.oc-boxy {
+	padding: 1em;
+	background-color: #eee;
+	border: 1px solid #ccc;
+	margin-bottom: 1em;
+}
 .oc-column-group {
   width: 100%;
 }
@@ -374,15 +384,14 @@ ul.oc-dropdown, .oc-dropdown ul {
   clear: none;
   width: 49%;
 }
-
-.oc-image-bright { /* A newspaper term for an image used to emphasize a block of text */
+.oc-image-bright { /* newspaper term for an image used to emphasize a block of text */
   margin: 0 0.5em 0.5em 0;
   float: left;
 }
 
-/* Search results & & Lineups */
+/* GENERIC search results & lineups */
 
-.oc-lineup,
+.oc-lineup, /* series of similar items */
 .oc-searchresults {
 }
 .oc-lineup-list,
@@ -429,7 +438,7 @@ ul.oc-dropdown, .oc-dropdown ul {
   font-size: 10px;
 }
 
-/* People search results */
+/* People search results (people-searchresults.pt) */
 
 .oc-peopleresults {
 }
@@ -470,7 +479,7 @@ ul.oc-dropdown, .oc-dropdown ul {
   font-style: normal;
 }
 
-/* Member profile pages */
+/* Member profile */
 
 #oc-member-badge {
   padding: 1em;
@@ -504,6 +513,17 @@ dl.oc-member-info dt {
 }
 dl.oc-member-info dd {
   margin: 0 0 1em;
+}
+
+/* Member profile edit */
+
+.oc-member-editimage {
+	float: left;
+	width: 200px;
+	margin-right: 1em;
+}
+.oc-member-edit textarea {
+	width: 100%;
 }
 
 /* Wiki pages */
@@ -565,8 +585,7 @@ The IE hacks take advantage of several IE non-compliance issues to clearAfter th
 
 .oc-clearAfter:after,
 #oc-topnav-global:after,
-#oc-content-container:after,
-.oc-invite:after
+#oc-page-container:after
 { 
   content: ""; 
   display: block; 
@@ -574,61 +593,6 @@ The IE hacks take advantage of several IE non-compliance issues to clearAfter th
   clear: both;
   visibility: hidden;
 }
-
-.oc-last-child {
-  /* Use this class as a selector for last-children (not currently in use) */
-}
-
-/* This is based on the "Son of op-dropdown" drop down menus */
-
-ul.oc-dropdown, .oc-dropdown ul {
-float: left;
-margin: 0;
-padding: 0;
-list-style: none;
-z-index: 5;
-}
-
-  .oc-dropdown li {
-    float: left;
-    display: block;
-    margin: 0;
-    padding: 0.75em;
-  }
-
-    .oc-dropdown li ul {
-      position: absolute;
-      left: -999em;
-    }
-  
-      .oc-dropdown li ul li {
-        float: none;
-        width: 12em;
-        padding: 0 0.75em;
-      }
-        .oc-dropdown li ul li.oc-dropdown-divider {
-        }
-      
-      .oc-dropdown li ul li a {
-        display: block;
-        width: 100%;
-        padding: 0.75em 0;
-      }
-  
-    .oc-dropdown li:hover, .oc-dropdown li:hover ul,
-    .oc-dropdown li.sfhover, .oc-dropdown li.sfhover ul {
-    }
-
-    .oc-dropdown li:hover ul,
-    .oc-dropdown li.sfhover ul {
-      left: auto;
-      margin: 0.75em 0 0 -0.75em;
-    }
-
-      .oc-dropdown li:hover ul li:hover,
-      .oc-dropdown li.sfhover ul li.sfhover {
-      }
-
       
 /* GENERIC CLASSES & FORMS & WIDGETS & BEHAVIORS oh my - reusable thingys
 -------------------------------------------
@@ -704,7 +668,7 @@ fieldset fieldset fieldset .oc-legend-heading {
   font-size: 12px;
 }
 fieldset .oc-legend-label {
-  margin: 0 0 .5em;
+  margin: 0;
   padding: 0;
   font-size: 12px;
 }
@@ -746,7 +710,14 @@ fieldset .oc-heading-context {
 
 }
 .oc-form-fieldBlock {
-  white-space: nowrap;
+  /* white-space: nowrap; */
+}
+.oc-form-fieldBlock label {
+	font-weight: normal;
+}
+.oc-form-fieldBlock input.oc-input-typeCheck,
+.oc-form-fieldBlock input.oc-input-typeRadio {
+	margin-left: 0;
 }
 .oc-input-typeText { /* Since browser support for selecting by type is... limited */
 }
@@ -762,6 +733,7 @@ height: 1em;
 .oc-expander {
   margin: .25em 0;
 }
+
 .oc-expander-content {
   margin: .25em 0;
   padding: .5em;
@@ -914,10 +886,6 @@ li.oc-feed-item .oc-feed-item-description {
 li.oc-invite {
   clear: both;
   list-style:none;
-  margin: 0 0 0.5em;
-  padding: 1em 2em 1em 1em;
-  background-color: #eee;
-  border: 1px solid #ccc;
   position: relative;
 }
 li.oc-invite .oc-avatar {
@@ -943,13 +911,8 @@ li.oc-invite .oc-invite-content {
 /* Search box */
 
 .oc-widget-search {
-  margin: 0 0 1.5em;
-  padding: 0.5em; 
-  background: #eee;
-  border: 1px solid #ccc;
 }
 #oc-content-sidebar .oc-widget-search {
-  background: none;
 }
 .oc-widget-search form input {
   font-size: 10px;
@@ -963,22 +926,19 @@ li.oc-invite .oc-invite-content {
 .oc-widget-search h2 {
   margin: 0 0 0.5em;
 }
-.oc-widget-search ul.oc-widget-alphabet {
-  margin-top: 0.5em;
-}
 
 /* Alphabet search */
 
 .oc-widget-alphabet {
   list-style: none;
-  padding: 0.5em;
-  margin: 0;
-  background-color: #eee;
-  border: 1px solid #ccc;
+  margin-bottom: 0;
   text-align: center;
   text-transform: uppercase;
   font-weight: bold;
   font-size: 14px;
+}
+.oc-widget-search ul.oc-widget-alphabet {
+  margin-top: 1em;
 }
 #oc-content-sidebar ul.oc-widget-alphabet {
   background: none;
@@ -1164,3 +1124,14 @@ img {
   padding: 0;
   margin: 0;
 }
+
+/* MICROFORMATS
+-------------------------------------------- */
+
+/* @hCard
+-----------
+.vcard {} Identifies the hCard
+.vcard .fn {} Formatted name: this is necessary and can only be used once; we use it for usernames
+.vcard .n {} Name: this is optional and can be inferred from .fn; we use it for real names
+.vcard .adr {} Address: this is optional and describes location; we use it for location
+*/
