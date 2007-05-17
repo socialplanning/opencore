@@ -157,7 +157,8 @@ def htmldiff(old_html, new_html):
     old_html_tokens = tokenize(old_html)
     new_html_tokens = tokenize(new_html)
     result = htmldiff_tokens(old_html_tokens, new_html_tokens)
-    return ''.join(result).strip()
+    result = ''.join(result).strip()
+    return fixup_ins_del_tags(result)
 
 def htmldiff_tokens(html1_tokens, html2_tokens):
     """ Does a diff on the tokens themselves, returning a list of text
@@ -196,6 +197,7 @@ def htmldiff_tokens(html1_tokens, html2_tokens):
     # markers, and when the complete diffed document has been created
     # we try to move the deletes around and resolve any problems.
     result = cleanup_delete(result)
+
     return result
 
 def expand_tokens(tokens, equal=False):
@@ -515,9 +517,23 @@ def tokenize(html, include_hrefs=True):
 
     If include_hrefs is true, then the href attribute of <a> tags is
     included as a special kind of diffable token."""
-    # This removes any extra markup or structure like <head>:
-    html = cleanup_html(html)
-    # lxml requires basic structure, so we insert a predictable set of structure:
+    body_el = parse_html(html, cleanup=True)
+    # Then we split the document into text chunks for each tag, word, and end tag:
+    chunks = flatten_el(body_el, drop_tag=True, include_hrefs=include_hrefs)
+    # Finally re-joining them into token objects:
+    return fixup_chunks(chunks)
+
+def parse_html(html, cleanup=True):
+    """
+    Parses an HTML fragment, returning an lxml element.  Note that the HTML will be
+    wrapped in a <div> tag that was not in the original document.
+
+    If cleanup is true, make sure there's no <head> or <body>, and get
+    rid of any <ins> and <del> tags.
+    """
+    if cleanup:
+        # This removes any extra markup or structure like <head>:
+        html = cleanup_html(html)
     html = '<html><head></head><body><div>%s</div></body></html>' % html
     doc = etree.HTML(html)
     if doc is None:
@@ -525,10 +541,8 @@ def tokenize(html, include_hrefs=True):
     # Then we strip out the content that was passed in, ignoring the
     # structure we added previously:
     body_el = doc.xpath('/html/body/div')[0]
-    # Then we split the document into text chunks for each tag, word, and end tag:
-    chunks = flatten_el(body_el, drop_tag=True, include_hrefs=include_hrefs)
-    # Finally re-joining them into token objects:
-    return fixup_chunks(chunks)
+    return body_el
+
 
 _body_re = re.compile(r'<body.*?>', re.I|re.S)
 _end_body_re = re.compile(r'</body.*?>', re.I|re.S)
@@ -613,6 +627,47 @@ empty_tags = (
     'param', 'img', 'area', 'br', 'basefont', 'input',
     'base', 'meta', 'link', 'col')
 
+block_level_tags = (
+    'address',
+    'blockquote',
+    'center',
+    'dir',
+    'div',
+    'dl',
+    'fieldset',
+    'form',
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
+    'hr',
+    'isindex',
+    'menu',
+    'noframes',
+    'noscript',
+    'ol',
+    'p',
+    'pre',
+    'table',
+    'ul',
+    )
+
+block_level_container_tags = (
+    'dd',
+    'dt',
+    'frameset',
+    'li',
+    'tbody',
+    'td',
+    'tfoot',
+    'th',
+    'thead',
+    'tr',
+    )
+
+
 def flatten_el(el, include_hrefs, drop_tag=False):
     """ Takes an lxml element el, and generates all the text chunks for
     that tag.  Each start tag is a chunk, each word is a chunk, and each
@@ -678,6 +733,131 @@ def is_end_tag(tok):
 
 def is_start_tag(tok):
     return tok.startswith('<') and not tok.startswith('</')
+
+def fixup_ins_del_tags(html):
+    """ Given an html string, move any <ins> or <del> tags inside of any
+    block-level elements, e.g. transform <ins><p>word</p></ins> to
+    <p><ins>word</ins></p> """
+    doc = parse_html(html, cleanup=False)
+    _fixup_ins_del_tags(doc)
+    html = serialize_html_fragment(doc, drop_outer=True)
+    return html
+
+def serialize_html_fragment(el, drop_outer=False):
+    """ Serialize a single lxml element as HTML.  The serialized form
+    includes the elements tail.  
+
+    If drop_outer is true, then don't serialize the outermost tag
+    """
+    
+    html_xsl = """\
+<xsl:transform xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:output method="html" encoding="UTF-8" />
+  <xsl:template match="/">
+    <xsl:copy-of select="."/>
+  </xsl:template>
+</xsl:transform>
+"""
+    transform = etree.XSLT(etree.XML(html_xsl))
+    assert not isinstance(el, basestring), (
+        "You should pass in an element, not a string like %r" % el)
+    html = str(transform(el))
+    if drop_outer:
+        # Get rid of the extra starting tag:
+        html = html[html.find('>')+1:]
+    if drop_outer:
+        # Get rid of the extra end tag:
+        html = html[:html.rfind('<')]
+    if drop_outer:
+        return html.strip()
+    else:
+        return html.lstrip()
+
+def _fixup_ins_del_tags(doc):
+    """fixup_ins_del_tags that works on an lxml document in-place
+    """
+    for tag in ['ins', 'del']:
+        for el in doc.xpath('descendant-or-self::%s' % tag):
+            if not _contains_block_level_tag(el):
+                continue
+            _move_el_inside_block(el, tag=tag)
+            _merge_element_contents(el)
+
+def _contains_block_level_tag(el):
+    """True if the element contains any block-level elements, like <p>, <td>, etc.
+    """
+    if el.tag in block_level_tags or el.tag in block_level_container_tags:
+        return True
+    for child in el:
+        if _contains_block_level_tag(child):
+            return True
+    return False
+
+def _move_el_inside_block(el, tag):
+    """ helper for _fixup_ins_del_tags; actually takes the <ins> etc tags
+    and moves them inside any block-level tags.  """
+    for child in el:
+        if _contains_block_level_tag(child):
+            break
+    else:
+        # No block-level tags in any child
+        children_tag = etree.Element(tag)
+        children_tag.text = el.text
+        el.text = None
+        children_tag.extend(list(el))
+        el[:] = [children_tag]
+        return
+    for child in list(el):
+        if _contains_block_level_tag(child):
+            _move_el_inside_block(child, tag)
+            if child.tail:
+                tail_tag = etree.Element(tag)
+                tail_tag.text = child.tail
+                child.tail = None
+                el.insert(el.index(child)+1, tail_tag)
+        else:
+            child_tag = etree.Element(tag)
+            el.replace(child, child_tag)
+            child_tag.append(child)
+    if el.text:
+        text_tag = etree.Element(tag)
+        text_tag.text = el.text
+        el.text = None
+        el.insert(0, text_tag)
+            
+def _merge_element_contents(el):
+    """
+    Removes an element, but merges its contents into its place, e.g.,
+    given <p>Hi <i>there!</i></p>, if you remove the <i> element you get
+    <p>Hi there!</p>
+    """
+    parent = el.getparent()
+    text = el.text or ''
+    if el.tail:
+        if not len(el):
+            text += el.tail
+        else:
+            if el[-1].tail:
+                el[-1].tail += el.tail
+            else:
+                el[-1].tail = el.tail
+    index = parent.index(el)
+    if text:
+        if index == 0:
+            previous = None
+        else:
+            previous = parent[index-1]
+        if previous is None:
+            if parent.text:
+                parent.text += text
+            else:
+                parent.text = text
+        else:
+            if previous.tail:
+                previous.tail += text
+            else:
+                previous.tail = text
+    parent[index:index+1] = el.getchildren()
 
 if __name__ == '__main__':
     import doctest

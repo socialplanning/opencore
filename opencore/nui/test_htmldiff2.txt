@@ -40,9 +40,11 @@ Style tags are largely ignored in terms of differences, though markup is not eli
     >>> pdiff('<p></p>', '<p></p>')
     <p></p>
     >>> pdiff('<p>Hi</p>', '<p>Bye</p>')
-    <ins><p>Bye</p></ins> <del><p>Hi</p></del>
+    <p><ins>Bye</ins></p> <p><del>Hi</del></p>
     >>> pdiff('<p>Hi Guy</p>', '<p>Bye Guy</p>')
     <p> <ins>Bye</ins> <del>Hi</del> Guy</p>
+    >>> pdiff('<p>Hey there</p>', '')
+    <ins></ins> <p><del>Hey there</del></p>
 
 Whitespace is ignored, as it's not meaningful in HTML::
 
@@ -115,7 +117,7 @@ Then no insert (del start/middle/end):
     >>> pdiff('<b>A B</b> <b>C</b>', '<b>A B</b>')
     <b>A B</b> <del><b>C</b></del>
     >>> pdiff('A <p><b>hey there</b> <i>how are you?</i></p>', 'A')
-    A <del><p><b>hey there</b> <i>how are you?</i></p></del>
+    A <p><del><b>hey there</b> <i>how are you?</i></del></p>
     
 
 Testing split_unbalanced:
@@ -177,3 +179,49 @@ Now, a sequence of documents:
     ...       '<p><a href="/foo">Hey Guy</a></p>')
     <p><a href="/foo"><span version="0">Hey</span> <span
     version="1">Guy</span></a></p>
+
+
+
+Here's a test of a utility function!:
+
+    >>> from htmldiff2 import _merge_element_contents
+    >>> from lxml import etree
+    >>> doc = '''<html><body><div>
+    ... <div id="c1">a b <span id="d1">content</span> c d</div>
+    ... <div id="c2"><span id="d2">content <b>and more</b> stuff</span> trailing</div>
+    ... <div id="c3"><b>hi</b><span id="d3"><i>content</i></span></div>
+    ... <div id="c4"><b>Hi</b> <span id="d4">some stuff<i>more stuff</i></span></div>
+    ... </div></body></html>'''
+    >>> doc = etree.HTML(doc)
+    >>> def show_result(id):
+    ...     el = doc.xpath("//*[@id='d%s']" % id)[0]
+    ...     _merge_element_contents(el)
+    ...     container = doc.xpath("//*[@id='c%s']" % id)[0]
+    ...     print etree.tostring(container).strip()
+    >>> show_result(1)
+    <div id="c1">a b content c d</div>
+    >>> show_result(2)
+    <div id="c2">content <b>and more</b> stuff trailing</div>
+    >>> show_result(3)
+    <div id="c3"><b>hi</b><i>content</i></div>
+    >>> show_result(4)
+    <div id="c4"><b>Hi</b> some stuff<i>more stuff</i></div>
+
+More utility:
+
+    >>> from htmldiff2 import fixup_ins_del_tags
+    >>> def pfixup(text):
+    ...     print fixup_ins_del_tags(text).strip()
+    >>> pfixup('<ins><p>some text <b>and more text</b> and more</p></ins>')
+    <p><ins>some text <b>and more text</b> and more</ins></p>
+    >>> pfixup('<p><ins>Hi!</ins> you</p>')
+    <p><ins>Hi!</ins> you</p>
+    >>> pfixup('<div>Some text <ins>and <p>more text</p></ins> </div>')
+    <div>Some text <ins>and </ins><p><ins>more text</ins></p> </div>
+    >>> pfixup('''
+    ...    <ins><table><tr><td>One table</td><td>More stuff</td></tr></table></ins>''')
+    <table><tr>
+    <td><ins>One table</ins></td>
+    <td><ins>More stuff</ins></td>
+    </tr></table>
+
