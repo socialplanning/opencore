@@ -182,6 +182,11 @@ class PeopleSearchView(SearchView):
             )
         return people_brains
 
+    def no_home(self, userid):
+        """ check to see if a user has a people folder (has logged in)
+            note: not using mtool.getHomeFolder for efficiency reasons """
+        return not self.context.has_key(userid)
+
 
 class HomeView(SearchView):
     def __init__(self, context, request):
