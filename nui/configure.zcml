@@ -98,6 +98,15 @@
      template="member-profile.pt"
      />
 
+  <!-- member-profile-edit -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-member-profile-edit"
+     template="member-profile-edit.pt"
+     />
+
   <!-- member-contact -->
   <browser:page
      for="*"
