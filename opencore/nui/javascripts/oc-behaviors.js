@@ -28,7 +28,7 @@ function OC() {
     
     /* 
     #
-    # breathes life (aka js behaviors) into HTML elements 
+    # breathes life (aka js behaviors) into HTML elements.
     # a bit slow since it loops through everything each time.  
     # Eventually we could add an index.
     #
@@ -324,7 +324,7 @@ function LiveEditForm (extEl) {
 #
  */
 function CloseButton (extEl) {
-    // get references.  No ID naming scheme yet.  just use parent node.
+    // get references.  No ID naming scheme.  just use parent node.
     this.closeButton = extEl;
     this.container = Ext.get(this.closeButton.dom.parentNode);
     this.container.setVisibilityMode(Ext.Element.DISPLAY);
