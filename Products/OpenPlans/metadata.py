@@ -15,27 +15,27 @@ def proxy(attrs):
 
 def updateContainerMetadata(obj, event):
     parent = getattr(obj, 'aq_parent', None)
-    repo = getToolByName(obj, 'portal_repository', None)
-    if not (repo and parent and IProject.providedBy(parent)):
+    if not (parent and IProject.providedBy(parent)):
         return
 
     parentuid = '/'.join(parent.getPhysicalPath())
 
-    history = []
-    principal = ''
-    comment = ''
-    
     catalog = getToolByName(parent, 'portal_catalog')
 
     # make comment conditional to team security policy...
-
+    lastmodifiedauthor=getAuthenticatedMemberId(parent)
     prox = proxy(dict(lastModifiedTitle=obj.title_or_id(),
                       ModificationDate=obj.modified(),
-                      lastModifiedAuthor=getAuthenticatedMemberId(parent),
+                      lastModifiedAuthor=lastmodifiedauthor,
                       ))
 
     selectiveMetadataUpdate(catalog._catalog, parentuid, prox)
     catalog._catalog.catalogObject(prox, parentuid, idxs=['modified'], update_metadata=0)
+    
+    # XXX hack to attach last modified author to open pages metadata
+    obj.lastModifiedAuthor = lastmodifiedauthor
+    obj.reindexObject()
+    obj._p_changed=True
     
 def notifyObjectModified(obj):
     zope.event.notify(objectevent.ObjectModifiedEvent(obj))
