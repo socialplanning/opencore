@@ -21,11 +21,11 @@
 	  <!-- FIXME prev widget --> 
 	  <tal:if condition="python: previous_id is not None">
 	    <a tal:attributes="href string:version?version_id=${previous_id}">
-	      &lt;<!-- FIXME -->
+	      &larr;<!-- FIXME -->
 	    </a>
 	  </tal:if>
 	  <tal:if condition="python: previous_id is None">
-	    &lt;<!-- FIXME -->
+	    &larr;<!-- FIXME -->
 	  </tal:if>&nbsp;
 	  
 	  <h1><span tal:replace="python: view.version_title(version_id);" /></h1>
@@ -33,11 +33,11 @@
 	  <!-- FIXME next widget --> 
 	  &nbsp;<tal:if condition="python: next_id is not None">
 	    <a tal:attributes="href string:version?version_id=${next_id}">
-	      &gt;<!-- FIXME -->
+	      &rarr;<!-- FIXME -->
 	    </a>
 	  </tal:if>
 	  <tal:if condition="python: next_id is None">
-	    &gt;<!-- FIXME -->
+	    &rarr;<!-- FIXME -->
 	  </tal:if>
 	  
 	  <p class="oc-headingContext">	   
@@ -51,9 +51,11 @@
 	    <a tal:attributes = "href string:version_compare?version_id=${version_id}&version_id=${cur_id}">
 	      compare with current version
 	    </a>
-	    <a tal:attributes = "href string:revertversion?version_id=${version_id}">
-	      Revert to this version
-	    </a>
+	    <tal:if condition="python: version_id != view.current_id()">
+	      <form method="POST" tal:attributes = "action string:revertversion?version_id=${version_id}">
+		<input type="submit" name="revert" value="revert to this version" />
+	      </form>
+	    </tal:if>
 	    <br/>
 	    Note:
 	    <br/>

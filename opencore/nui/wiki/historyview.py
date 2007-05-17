@@ -27,7 +27,7 @@ class WikiVersionView(OpencoreView):
         elif version_id == self.current_id():
             return "Current"
         else: 
-            return "Version %d" % (version_id + 1)
+            return "Version %d" % version_id
 
     def current_id(self): 
         return len(self.get_versions()) - 1
@@ -79,6 +79,13 @@ class WikiVersionCompare(WikiVersionView):
         new_page = self.get_page(self.new_version_id)
         self.html_diff = htmldiff2.htmldiff(old_page.EditableBody(), 
                                             new_page.EditableBody())
+
+        self.old_next_enabled = self.old_version_id + 1 < self.new_version_id
+        self.old_prev_enabled = self.old_version_id > 0
+        self.new_next_enabled = self.new_version_id < self.current_id() 
+        self.new_prev_enabled = self.old_next_enabled
+
+
         return self.version_compare()
 
     def sort_versions(self, v1, v2):
@@ -92,6 +99,7 @@ class WikiVersionCompare(WikiVersionView):
             return v2, v1
         else:
             return v1, v2
+
 
 
     
