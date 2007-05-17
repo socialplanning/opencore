@@ -63,14 +63,14 @@
           <ol class="oc-peopleresults-list oc-clearAfter">
             <li class="oc-clearAfter vcard" tal:repeat="item view/search_results">
               <div class="oc-avatar" tal:define="mem item/getObject; imgdata mem/getPortrait">
-                <a href="" tal:attributes="href string:${context/portal_url}/people/${item/getId}">
-                  <img tal:condition="imgdata" tal:replace="structure imgdata" /><!-- needs class="photo" for hCard compliance -->
+                <a href="" tal:omit-tag="python: view.no_home(item.getId)" tal:attributes="href string:${context/portal_url}/people/${item/getId}">
+                  <img tal:condition="imgdata" tal:replace="structure imgdata" /><!-- XXX needs class="photo" for hCard compliance -->
                   <img tal:condition="not: imgdata" tal:attributes="src string:defaultUser.gif" />
                 </a>
               </div>
               <div class="oc-peopleresults-content">
                 <h3 class="oc-peopleresults-username fn">
-                  <a href="" tal:attributes="href string:${context/portal_url}/people/${item/getId}" tal:content="item/getId">Username</a>
+                  <a href="" tal:omit-tag="python: view.no_home(item.getId)" tal:attributes="href string:${context/portal_url}/people/${item/getId}" tal:content="item/getId">Username</a>
                 </h3>
                 <div class="oc-peopleresults-fullname n" tal:content="item/Title">real name</div>
                 <div class="oc-peopleresults-location adr" tal:define="loc item/getLocation" tal:condition="loc" tal:content="loc"><address>location</address></div>
