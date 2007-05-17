@@ -60,7 +60,6 @@
               </form>
             </div>
 
-
             <!-- the results are displayed here -->
             <ol class="oc-searchresults-list">
               <li class="oc-searchresults-item" tal:repeat="item view/search_results">
@@ -68,17 +67,19 @@
 
                 <span class="oc-discreetText" tal:define="sorting_by request/sort_by | nothing">
 
-                  <tal:not-modified-block tal:condition="python: sorting_by != 'modified'">
+                  <tal:not-modified-block condition="python: sorting_by != 'modified'">
                     created by
-                    <a tal:attributes="href string:${context/portal_url}/author/${item/Creator}" tal:content="item/Creator" />,
+                    <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
                     <span tal:content="python: view.pretty_date(item.CreationDate)" />
                   </tal:not-modified-block>
 
                   <tal:modified-block tal:condition="python: sorting_by == 'modified'">
-                    last updated by
-                    <a tal:attributes="href string:${context/portal_url}/author/${item/lastModifiedAuthor}" tal:content="string: no lastModifiedAuthor in catalog" />,
-                    at
+                    <tal:has_updated_text define="userid item/lastModifiedAuthor" condition="userid">
+                      last updated by
+                      <a tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
+                      at
                     <span tal:content="python: view.pretty_date(item.ModificationDate)" />
+                    </tal:has_updated_text>
                   </tal:modified-block>
 
                 </span>
