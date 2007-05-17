@@ -15,7 +15,7 @@
       <div id="oc-content-main">
         
         <!-- section that searches for the project  XXX maybe create a macro out of this? maybe just the letters part? -->
-        <div class="oc-widget oc-widget-search">    
+        <div class="oc-widget oc-widget-search oc-boxy">    
           <form name="projects_search" action="." tal:attributes="action string:${context/portal_url}/projects/searchresults">
             <label><h2>Search for projects</h2></label>
             <span class="oc-form-fieldBlock">
@@ -26,7 +26,7 @@
           </form>
 
           <!-- letters searches section -->
-          <ul class="oc-widget-alphabet" tal>
+          <ul class="oc-widget-alphabet oc-boxy" tal>
             <li tal:repeat="letter modules/string/uppercase">
               <a href="" tal:content="letter" tal:attributes="href string:${context/portal_url}/projects/searchresults?letter_search=${letter}">A</a>
             </li>

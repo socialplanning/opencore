@@ -107,7 +107,7 @@
         <!-- the sidebar contains the search for the project, as well as the letters that search for projects
              starting with that letter
              we can possibly create a macro that displays this form and letters generically -->
-        <div class="oc-widget oc-widget-search">    
+        <div class="oc-widget oc-widget-search oc-boxy">    
           <form name="projects_search" action="." tal:attributes="action string:${context/portal_url}/projects/searchresults">
             <label><h2>New search</h2></label>
             <input type="text" name="projname" tal:attributes="value request/projname | nothing" />
@@ -115,7 +115,7 @@
             <input type="submit" name="action_search_projects" value="Search" />
           </form>
           
-          <ul class="oc-widget-alphabet" tal>
+          <ul class="oc-widget-alphabet oc-boxy" tal>
             <li tal:repeat="letter modules/string/uppercase">
               <a href="" tal:content="letter" tal:attributes="href string:${request/ACTUAL_URL}?letter_search=${letter}">A</a>
             </li>
