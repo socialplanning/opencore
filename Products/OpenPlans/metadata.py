@@ -11,7 +11,7 @@ from Products.OpenPlans.interfaces import IProject
 
 def proxy(attrs):
     obj = type('metadata proxy', (object,), attrs)()
-    return obj 
+    return obj
 
 def updateContainerMetadata(obj, event):
     parent = getattr(obj, 'aq_parent', None)
@@ -68,7 +68,8 @@ def selectiveMetadataUpdate(catalog, uid, proxy):
     record = catalog.recordify(proxy)
     if catalog.data.get(index, 0) != record:
         catalog.data[index] = record
-
+        catalog._p_changed = True
+        catalog.data._p_changed = True
 
 def getAuthenticatedMemberId(context):
     mtool = getToolByName(context, 'portal_membership')
