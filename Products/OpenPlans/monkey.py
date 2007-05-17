@@ -6,19 +6,6 @@ from Products.AdvancedQuery import In, Eq, Le, Ge
 from Products.AdvancedQuery.eval import eval as _eval
 
 ##################################################
-# have Archetypes trigger object modified events
-##################################################
-BaseObject._processForm_old = BaseObject._processForm
-BaseObject._processForm = addDispatcherToMethod(BaseObject._processForm,
-                                                notifyObjectModified)
-
-BaseObject.update_old = BaseObject.update
-BaseObject.update = addDispatcherToMethod(BaseObject.update,
-                                          notifyObjectModified)
-BaseObject.edit = BaseObject.update
-
-
-##################################################
 # make MaildropHost work like SecureMailHost
 ##################################################
 try:
