@@ -38,40 +38,22 @@
   <body>
     <div metal:fill-slot="content">
 
-      <!-- TODO project history -->
-
       <div id="oc-content-main" class="oc-content-main-fullWidth">
 
         <div class="oc-wiki">
           <div class="headingBlock oc-wiki-headingBlock">
             <h2 tal:content="view/pagetitle"></h2>
           </div>
-          <ul class="oc-tabs">
-            <li class="">
-              <a href="@@index.html" rel="view">view</a>
-            </li>
-            <li class="oc-selected">
-              <a href="@@edit" rel="edit">edit</a>
-            </li>
-            <li tal:condition="nothing">
-              <a href="" rel="history">history</a>
-            </li>
-            <li tal:condition="nothing">
-              <form class="" >
-                <select class="oc-dropdown-links">
-                  <option value="">More...</option>
-                  <option value="http://www.google.com">I'm feeling lucky</option>
-                </select>
-                <input type="submit" value="Go" style=""/>
-              </form>
-            </li>
-          </ul><!-- end .oc-tabs -->
+
+          <!--
+          <metal:tabslot define-slot="tabs" />
+          -->
 
           <form name="edit_form"
             method="post"
             enctype="multipart/form-data"
             class="enableUnloadProtection"
-            tal:attributes="action python:here.absolute_url()  + '/@@update'">
+            tal:attributes="action string:${here/absolute_url}/@@update">
             
             <div class="oc-wiki-edit" >
               <div class="oc-wiki-edit-content">
@@ -81,7 +63,7 @@
 
               <ul class="oc-actions oc-wiki-actions">
                 <li><input type="submit" value="Save" class="oc-button oc-chooseThis" /></li>
-                <li>or <a href="@@index.html">cancel</a></li>
+                <li>or <a href="index.html">cancel</a></li>
               </ul>  
               
             </div><!-- end .oc-wiki-edit -->
