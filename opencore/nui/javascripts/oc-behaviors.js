@@ -295,7 +295,7 @@ function JoinForm() {
 	// make ajax call
 	new Ext.data.Connection().request(options);
     }
-    this.usernameField.on('keypress', this.usernameKeyPress, this);
+    this.usernameField.on('keyup', this.usernameKeyPress, this);
 	    
 }
 	
