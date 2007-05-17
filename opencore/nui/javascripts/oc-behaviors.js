@@ -13,7 +13,7 @@ function OC() {
     /* 
     #
     # how we know which elements get which features
-    # css or xpath selector : JS class name
+    # css or xpath selector : JS Class
     #
     */
     this.liveElementKey = {
@@ -36,11 +36,11 @@ function OC() {
     this.breatheLife = function() {
       // loop through selectors specified above
       for (var selector in this.liveElementKey) {
-                
+        
+        // within each query, loop through each Ext Element and check if there's an object        
         var elements = Ext.query(selector);
         if(elements.length > 0){
           
-          //within each query, loop through each Ext Element and check if there's an object
           for (var i = 0; i < elements.length; i++) {
           
             //get an Ext Obj for your element

@@ -691,6 +691,30 @@ a.oc-close:hover {
 }
 
 /* @FORM Stuff */
+fieldset .oc-legend-heading {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+}
+fieldset fieldset .oc-legend-heading {
+  font-size: 14px;
+}
+fieldset fieldset fieldset .oc-legend-heading {
+  font-size: 12px;
+}
+fieldset .oc-legend-label {
+  margin: 0 0 .5em;
+  padding: 0;
+  font-size: 12px;
+  font-weight: bold;
+}
+fieldset .oc-heading-context {
+  margin: 0 0 .5em;
+  padding: 0;
+}
+
+
 .oc-form {
 }
 .oc-form * {
@@ -703,6 +727,8 @@ a.oc-close:hover {
 }
 .oc-form-radiolist {
   list-style-type: none;
+  margin: 0 0 0 8em;
+  padding: 0;
 }
 .oc-form-radiolist ul {
   list-style-type: none;
