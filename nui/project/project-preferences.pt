@@ -14,9 +14,7 @@
           <form>
             <fieldset>
               <div class="oc-headingBlock">
-                <h2>Details</h2>
-                <p class="oc-headingContext oc-discreetText">Modify the basic information about your project.
-                </p>
+                <h2>Name and Mission Statement</h2>
               </div>
               <table class="oc-form">
                 <tbody>
@@ -34,7 +32,7 @@
                   </tr>
                   <tr class="oc-form-row">
                     <th class="oc-form-label" scope="row">
-                      http://
+                      <label>URL</label>
                     </th>
                     <td class="oc-form-value">
                       <span tal:content="proj/url"/>
@@ -61,32 +59,29 @@
             </fieldset>
 
             <fieldset>
-              <div class="oc-headingBlock">
-                <h2>General Security Level</h2>
-                <p class="oc-headingContext oc-discreetText">Choose what level of access you want to give non-members of your project team.</p>
-                <p> Visitors to the site can:</p>
-              </div>
+              <legend><h2>Security settings</h2></legend>
+              <p><strong>Non-members of the project can:</strong></p>
               <ul class="oc-form-radiolist" tal:define="seclevel proj/security">
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="securitylevel-3" name="securitylevel"
                     tal:attributes="checked python: seclevel==3 and 'checked' or ''" />
-                  <label for="securitylevel-3">View your content</label>
+                  <label for="securitylevel-3">view and edit content</label>
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="securitylevel-2" name="securitylevel" 
                     tal:attributes="checked python: seclevel==2 and 'checked' or ''" />
-                  <label for="securitylevel-2">and contribute to it</label>
+                  <label for="securitylevel-2">only view content</label>
                 </li>
                 <li>
-		  OR<br/>
                   <input type="radio" class="oc-input-typeRadio" id="securitylevel-1" name="securitylevel"
                     tal:attributes="checked python: seclevel < 2 and 'checked' or ''" />
-                  <label for="securitylevel-1">Non-members cannot see your project</label>
-                  <ul> <!-- TODO make this UL conditional on whether or not the above radio button is selected -->
+                  <label for="securitylevel-1">not even view content</label>
+                  <ul class="oc-discreetText">
                     <li class="oc-smallText">
+                      <!-- TODO only enable this checkbox if security level is 3 -->
                       <input type="checkbox" class="oc-input-typeCheck" id="searchable" name="searchable"
                         tal:attributes="checked python: seclevel==0 and 'checked' or ''" />
-                      <label for="searchable">Do not show project in search results</label>
+                      <label for="searchable">do not show project in search results</label>
                     </li>
                   </ul>
                 </li>
@@ -94,10 +89,7 @@
             </fieldset>
 
             <fieldset>
-              <div class="oc-headingBlock">
-                <h2>Tools &amp; features</h2>
-                <p class="oc-headingContext oc-discreetText">Select extra features for your project.</p>
-              </div>
+              <legend><h2>Additional tools</h2></legend>
               <ul class="oc-form-radiolist" tal:define="featurelets python:[f['name'] for f in proj['featurelets']]">
                 <li>
                   <input type="checkbox" class="oc-input-typeCheck" id="tasktracker" name="tasktracker" 
@@ -113,6 +105,7 @@
                 </li>
               </ul>
             </fieldset>
+            <button type="submit" class="oc-input-typeButton">update</button>
           </form>
         </div><!-- end .oc-content-main -->
       </div><!-- end content-fill-slot -->
