@@ -8,7 +8,7 @@
       <div metal:fill-slot="content">
         <div class="oc-headingBlock">
           <h1>Project preferences</h1>
-          <p class="oc--headingContext">Modify the general preferences for your project</p>
+          <!-- <p class="oc-headingContext">Modify the general preferences for your project</p> -->
         </div>
         <div id="oc-content-main">
           <form>
@@ -95,13 +95,13 @@
                   <input type="checkbox" class="oc-input-typeCheck" id="tasktracker" name="tasktracker" 
                     tal:attributes="checked python: 'tasktracker' in featurelets and 'checked' or ''" />
                   <label for="tasktracker">Task Tracker</label>
-                  <p class="oc-form-context">An extensive to-do list manager that makes it easy to share tasks and get things done.</p>
+                  <!-- <p class="oc-form-context">An extensive to-do list manager that makes it easy to share tasks and get things done.</p> -->
                 </li>
                 <li>
                   <input type="checkbox" class="oc-input-typeCheck" id="listen" name="listen"
                     tal:attributes="checked python: 'listen' in featurelets and 'checked' or ''" />
                   <label for="listen">Mailing lists</label>
-                  <p class="oc-form-context">Email and forum-based discussion spaces.</p>
+                  <!-- <p class="oc-form-context">Email and forum-based discussion spaces.</p> -->
                 </li>
               </ul>
             </fieldset>
