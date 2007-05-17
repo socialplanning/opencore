@@ -30,11 +30,11 @@ function UpdateForm(el) {
     this.indicator = Ext.get(Ext.query('.oc-indicator',el)[0]);
     this.submit = Ext.get(Ext.query('input[type=submit]',el)[0])
 
-        //check refs
-        if (!this.form || !this.target || !this.indicator || !this.submit) {
-            console.log('element missing');
-            return;
-        }
+    //check refs
+    if (!this.form || !this.target || !this.indicator || !this.submit) {
+        console.log('element missing');
+        return;
+    }
 
     //vars & settings
     this.isUpload = false;
@@ -46,10 +46,10 @@ function UpdateForm(el) {
 
     // loading
     this.startLoading = function() {
-        //this.indicator.show();
-        //this.submit.dom.disabled = true;
+        this.indicator.show();
+        this.submit.dom.disabled = true;
         this.submit.originalValue = this.submit.dom.value;
-        //this.submit.dom.value = "Please wait..."
+        this.submit.dom.value = "Please wait..."
     }
     this.stopLoading = function() {
         this.indicator.hide();
@@ -83,25 +83,43 @@ function UpdateForm(el) {
 
     // after request
     this.afterUpload = function(o) {
-        this.stopLoading();
-        console.log('this.afterUpload RESPONSE BELOW:\n\n');
-        for (prop in o) {
-          console.log(prop + ":");
-          console.log(o["" + prop + ""]);
-        }
-
-        // insert new - DomHelper.insertHtml converts string to DOM nodes
-        var newItem = Ext.get(Ext.DomHelper.insertHtml('beforeEnd', this.target.dom, "<li>Hi.  this is new</li>"));
-
-        console.log(newItem);
-        //var newItem = Ext.get(this.target); // should be LAST sibling
-
-        // highlight
-        newItem.highlight("ffffcc", { endColor: "eeeeee"});
-
-        // re-up liveEdit behaviors on new element
-        //new LiveEditForm(newItem.dom);
-
+        this.stopLoading(); 
+        
+        //turn into a real object. CAREFUL - only do this with trusted content
+        var response = eval( '(' + o.responseText + ')' );
+        
+        switch (response.status) {
+          case "success" :
+            this.afterUploadSuccess(response);
+          break;
+          case "failure" :
+            this.afterUploadFailure(response);
+          break;
+          default:
+            console.log('default');
+        } 
+    }
+    this.afterUploadSuccess = function(response) {
+      console.log('this.afterUploadSuccess');
+      
+      //2nd ajax request
+      var cObj = YAHOO.util.Connect.asyncRequest("GET", response.updateURL, { 
+        success: function(o) {
+          // insert new - DomHelper.insertHtml converts string to DOM nodes
+          console.log(o.responseText);
+          o.responseText = Ext.util.Format.trim(o.responseText);
+          var newItem = Ext.get(Ext.DomHelper.insertHtml('beforeEnd', this.target.dom, o.responseText));
+          newItem.highlight("ffffcc", { endColor: "eeeeee"});
+          //re-up liveEdit behaviors on new element
+          new LiveEditForm(newItem.dom); //TEMPORARY!!  TODO - generalize this.
+        }, 
+        failure: function(o) {
+          console.log('upload failed');
+        },
+        scope: this 
+      });
+      
+      
     }
 
     this.afterFailure = function(o) {
@@ -208,7 +226,8 @@ function LiveEditForm (el) {
 
     this.afterDelete = function(o) {
         // delete original container
-        this.container.remove();
+        this.container.setVisibilityMode(Ext.Element.DISPLAY);
+        this.container.fadeOut();
     }
 
     this.afterSuccess = function(o) {

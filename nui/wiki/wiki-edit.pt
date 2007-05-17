@@ -18,12 +18,6 @@
       <link rel="stylesheet" tal:attributes="href string:${view/siteURL}/portal_css/Plone%20Default/kupustyles.css" media="all"/>
       <link rel="stylesheet" tal:attributes="href string:${view/siteURL}/portal_css/Plone%20Default/kupuplone.css" media="all"/>
       <link rel="stylesheet" tal:attributes="href string:${view/siteURL}/portal_css/Plone%20Default/kupudrawerstyles.css" media="all"/>
-      <style>
-        fieldset {
-          border: 1px solid;
-          padding: 1em;
-        }
-      </style>
     </metal:do>
     <metal:do metal:fill-slot="script" >
       <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/sarissa.js"></script>
@@ -131,84 +125,7 @@
         </div><!-- end .oc-options -->
         
 
-      </div><!-- end #oc-content-main -->
-      
-      <hr />
-      <h2>Testing - add forms for each possible response type here.</h2>
-        <fieldset>
-          <legend>404 w/out upload</legend>
-          <form class="oc-updateForm" action="/my404" method="post">
-            <input type="hidden" name="oc-target" value="oc-target-404" />
-            <span class="oc-indicator">Loading...</span>
-            <input type="submit" value="Go - 404 w/out upload" />
-          </form>
-          
-          <div id="oc-target-404">
-          
-          </div>
-          
-          <p>NOTE: this triggers a proper 404 and calls this.afterFailure()</p>
-        </fieldset>
-        
-        <fieldset>
-          <legend>TODO: Success w/out upload</legend>
-          <form class="oc-updateForm" action="/myPage" method="post">
-            <input type="hidden" name="oc-target" value="oc-target-success" />
-            <span class="oc-indicator">Loading...</span>
-            <input type="submit" value="Go - Success w/out upload" />
-          </form>
-          
-          <div id="oc-target-success">
-          
-          </div>
-          
-          <p>NOTE: this should return a proper response and call this.afterSuccess()</p>
-        </fieldset>
-        
-        <fieldset>
-          <legend>Upload hits 404</legend>
-          <form class="oc-updateForm" action="/my404" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="oc-target" value="oc-target-upload-404" />
-            <input type="file" name="myfile" />
-            <span class="oc-indicator">Loading...</span>
-            <input type="submit" value="Go - Upload hits 404" />
-          </form>
-          <div id="oc-target-upload-404">
-          
-          </div>
-          <p>NOTE: this does not trigger a real 404 response.  Instead, it calls this.afterUpload and sends response HTML</p>
-        </fieldset>
-        
-        <fieldset>
-          <legend>TODO: Upload failure, but not 404</legend>
-          <form class="oc-updateForm" action="" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="oc-target" value="oc-target-upload-failure" />
-            <input type="file" name="myfile" />
-            <span class="oc-indicator">Loading...</span>
-            <input type="submit" value="Go - Upload failure (non 404)" />
-          </form>
-          <div id="oc-target-upload-failure">
-          
-          </div>
-          <p>We will have to parse the error code/message from the response HTML</p>
-        </fieldset>
-        
-        <fieldset>
-          <legend>TODO: Upload success</legend>
-          <form class="oc-updateForm" action="" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="oc-target" value="oc-target-upload-success" />
-            <input type="file" name="myfile" />
-            <span class="oc-indicator">Loading...</span>
-            <input type="submit" value="Go - Upload success" />
-          </form>
-          <div id="oc-target-upload-success">
-          
-          </div>
-          <p>We will have to parse the error code/message from the response HTML</p>
-        </fieldset>
-        
-        
-        
+      </div><!-- end #oc-content-main -->        
     </div><!-- end content slot -->
   </body>
   
