@@ -7,24 +7,22 @@
     <div metal:fill-slot="content">
       <div class="oc-headingBlock">
         <h1>Start a project</h1>
-        <p class="oc--headingContext">description here</p>
       </div>
       <div id="oc-content-main">
         <form>
           <fieldset>
             <div class="oc-headingBlock">
-              <h2>Details</h2>
-              <p class="oc-headingContext oc-discreetText">Set basic information about your project.<br/>
-                Note: The URL cannot be edited once a project is created.
-              </p>
+              <h2>Step 1. Enter name and mission statement</h2>
             </div>
             <table class="oc-form">
               <tbody>
                 <tr class="oc-form-row">
                   <th class="oc-form-label" scope="row">
-                    <label>Name</label>
+                    <label for="fullname">Name</label>
                   </th>
-                  <td class="oc-form-value"><input type="text" /></td>
+                  <td class="oc-form-value">
+                    <input type="text" id="fullname" />
+                  </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
                     <span id="oc-username-validator" class="oc-form-validator"></span>
@@ -34,7 +32,9 @@
                   <th class="oc-form-label" scope="row">
                     <label>http://</label>
                   </th>
-                  <td class="oc-form-value"><input type="text" />.openplans.org</td>
+                  <td class="oc-form-value">
+                    <input type="text" />.openplans.org
+                  </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
                     <span id="oc-username-validator" class="oc-form-validator"></span>
@@ -42,9 +42,11 @@
                 </tr>
                 <tr class="oc-form-row">
                   <th class="oc-form-label" scope="row">
-                    <label>Mission Statement</label>
+                    <label for="mission">Mission Statement</label>
                   </th>
-                    <td class="oc-form-value"><textarea name="mission" rows="3" cols="40" ></textarea></td>
+                  <td class="oc-form-value">
+                    <textarea name="mission" id="mission" rows="3" cols="40"></textarea>
+                  </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
                     <span id="oc-username-validator" class="oc-form-validator"></span>
@@ -55,24 +57,25 @@
           </fieldset>
 
           <fieldset>
-            <legend><h2>Step 2: Security settings</h2></legend>
-            <p><strong>Visitors to the site can:</strong></p>
-            <ul class="oc-form-radiolist" >
+            <legend><h2>Step 2: Choose security settings</h2></legend>
+            <p><strong>Non-members of the project can:</strong></p>
+            <ul class="oc-form-radiolist">
               <li>
-                <input type="radio" id="" name="" />
-                <label for="">only view content</label>
+                <input type="radio" class="oc-input-typeRadio" id="securitylevel-3" name="securitylevel" />
+                <label for="securitylevel-3">view and edit content</label>
               </li>
               <li>
-                <input type="radio" id="" name="" />
-                <label for="">view and contribute content</label>
+                <input type="radio" class="oc-input-typeRadio" id="securitylevel-2" name="securitylevel" />
+                <label for="securitylevel-2">only view content</label>
               </li>
               <li>
-                <input type="radio" id="" name="" />
-                <label for="">not even view content</label>
+                <input type="radio" class="oc-input-typeRadio" id="securitylevel-1" name="securitylevel" />
+                <label for="securitylevel-1">not even view content</label>
                 <ul class="oc-discreetText">
-                  <li>
-                    <input type="checkbox" id="" />
-                    <label for="">do not show project in search results</label>
+                  <li class="oc-smallText">
+                    <!-- TODO only enable this checkbox if security level is 3 -->
+                    <input type="checkbox" class="oc-input-typeCheck" id="searchable" name="searchable" />
+                    <label for="searchable">do not show project in search results</label>
                   </li>
                 </ul>
               </li>
@@ -80,19 +83,19 @@
           </fieldset>
 
           <fieldset>
-            <legend><h2>Step 3: Add tools &amp; features</h2></legend>
-            <p><strong>Visitors to the site can:</strong></p>
+            <legend><h2>Step 3: Add tools</h2></legend>
             <ul class="oc-form-radiolist" >
               <li>
-                <input type="checkbox" id="" name="" />
-                <label for="">Task Tracker</label>
+                <input type="checkbox" class="oc-input-typeCheck" id="tasktracker" name="tasktracker" />
+                <label for="tasktracker">Task Tracker</label>
               </li>
               <li>
-                <input type="checkbox" id="" name="" />
-                <label for="">Mailing lists</label>
+                <input type="checkbox" class="oc-input-typeCheck" id="listen" name="listen" />
+                <label for="listen">Mailing lists</label>
               </li>
             </ul>
           </fieldset>
+          <button type="submit" class="oc-input-typeButton">create</button>
         </form>
 
       </div><!-- end .oc-content-main -->
