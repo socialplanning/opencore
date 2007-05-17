@@ -13,9 +13,8 @@
         <div id="oc-content-main">
           <form>
             <fieldset>
-              <div class="oc-headingBlock">
-                <h2>Name and Mission Statement</h2>
-              </div>
+              <legend class="oc-legend-heading">Project details</legend>
+              <p class="oc-heading-context">What do you want your project to be named?</p>
               <table class="oc-form">
                 <tbody>
                   <tr class="oc-form-row">
@@ -59,37 +58,39 @@
             </fieldset>
 
             <fieldset>
-              <legend><h2>Security settings</h2></legend>
-              <p><strong>Non-members of the project can:</strong></p>
-              <ul class="oc-form-radiolist" tal:define="seclevel proj/security">
-                <li>
-                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-3" name="securitylevel"
-                    tal:attributes="checked python: seclevel==3 and 'checked' or ''" />
-                  <label for="securitylevel-3">view and edit content</label>
-                </li>
-                <li>
-                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-2" name="securitylevel" 
-                    tal:attributes="checked python: seclevel==2 and 'checked' or ''" />
-                  <label for="securitylevel-2">only view content</label>
-                </li>
-                <li>
-                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-1" name="securitylevel"
-                    tal:attributes="checked python: seclevel < 2 and 'checked' or ''" />
-                  <label for="securitylevel-1">not even view content</label>
-                  <ul class="oc-discreetText">
-                    <li class="oc-smallText">
-                      <!-- TODO only enable this checkbox if security level is 3 -->
-                      <input type="checkbox" class="oc-input-typeCheck" id="searchable" name="searchable"
-                        tal:attributes="checked python: seclevel==0 and 'checked' or ''" />
-                      <label for="searchable">do not show project in search results</label>
+              <legend class="oc-legend-heading">Security settings</legend>
+              <fieldset>
+                <legend class="oc-legend-label">Non-members of the project can:</legend>
+                  <ul class="oc-form-radiolist" tal:define="seclevel proj/security">
+                    <li>
+                      <input type="radio" class="oc-input-typeRadio" id="securitylevel-3" name="securitylevel"
+                        tal:attributes="checked python: seclevel==3 and 'checked' or ''" />
+                      <label for="securitylevel-3">view and edit content</label>
+                    </li>
+                    <li>
+                      <input type="radio" class="oc-input-typeRadio" id="securitylevel-2" name="securitylevel" 
+                        tal:attributes="checked python: seclevel==2 and 'checked' or ''" />
+                      <label for="securitylevel-2">only view content</label>
+                    </li>
+                    <li>
+                      <input type="radio" class="oc-input-typeRadio" id="securitylevel-1" name="securitylevel"
+                        tal:attributes="checked python: seclevel < 2 and 'checked' or ''" />
+                      <label for="securitylevel-1">not even view content</label>
+                      <ul class="oc-discreetText">
+                        <li class="oc-smallText">
+                          <!-- TODO only enable this checkbox if security level is 3 -->
+                          <input type="checkbox" class="oc-input-typeCheck" id="searchable" name="searchable"
+                            tal:attributes="checked python: seclevel==0 and 'checked' or ''" />
+                          <label for="searchable">do not show project in search results</label>
+                        </li>
+                      </ul>
                     </li>
                   </ul>
-                </li>
-              </ul>
+              </fieldset>
             </fieldset>
 
             <fieldset>
-              <legend><h2>Additional tools</h2></legend>
+              <legend class="oc-legend-heading">Additional tools</legend>
               <ul class="oc-form-radiolist" tal:define="featurelets python:[f['name'] for f in proj['featurelets']]">
                 <li>
                   <input type="checkbox" class="oc-input-typeCheck" id="tasktracker" name="tasktracker" 
@@ -105,7 +106,11 @@
                 </li>
               </ul>
             </fieldset>
-            <button type="submit" class="oc-input-typeButton">update</button>
+            <ul class="oc-actions">
+              <li><button type="submit" class="oc-button oc-chooseThis">Update</button></li>
+              <li>or <a href="">cancel</a></li>
+            </ul>
+            
           </form>
         </div><!-- end .oc-content-main -->
       </div><!-- end content-fill-slot -->
