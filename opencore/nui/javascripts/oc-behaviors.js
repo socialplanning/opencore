@@ -2,33 +2,86 @@
 
 /*
 #
-# OC object - elements we'll use, settings
+# OC object - black magic
 #
 */
 function OC() {
-    this.liveEditForms = new Array();
-    this.updateForms = new Array();
-    this.closeButtons = new Array();
-    this.expanders = new Array();
-    this.dropDownLinks = new Array();
-    //this.wikiTabs = new Array();
-    this.registerForm;
-    this.historyList;
+    
+    // where we'll store all our live elements
+    this.liveElements = new Array();
+    
+    /* 
+    #
+    # how we know which elements get which features
+    # css or xpath selector : JS class name
+    #
+    */
+    this.liveElementKey = {
+      ".oc-updateForm" : "UpdateForm",
+      ".oc-liveEdit" : "LiveEditForm",
+      ".oc-close" : "CloseButton",
+      ".oc-dropdown-links" : "DropDownLinks",
+      ".oc-expander" : "Expander",
+      "#oc-wiki-history" : "HistoryList",
+      "#oc-join-form" : "JoinForm"
+    }
+    
+    /* 
+    #
+    # breathes life (aka js behaviors) into HTML elements 
+    # a bit slow since it loops through everything each time.  
+    # Eventually we could add an index.
+    #
+    */
+    this.breatheLife = function() {
+      // loop through selectors specified above
+      for (var selector in this.liveElementKey) {
+                
+        var elements = Ext.query(selector);
+        if(elements.length > 0){
+          
+          //within each query, loop through each Ext Element and check if there's an object
+          for (var i = 0; i < elements.length; i++) {
+          
+            //get an Ext Obj for your element
+            var extEl = Ext.get(elements[i]);
+            
+            // check if an object already exists for this.  If not, create one.
+            if (this.liveElements[extEl.dom.id])
+              continue;
+            
+            //get reference to the proper constructor
+            var constructor = window[this.liveElementKey[selector]];
+            
+            // add a new liveElement to OC.liveElements
+            this.liveElements[extEl.dom.id] = new constructor(extEl);
+          }
+        }      
+      }
+    } // this.breatheLife()
 }
+// Singleton for use throughout
 var OC = new OC();
+
+/*
+#------------------------------------------------------------------------
+# Classes - will become liveElement objects
+#------------------------------------------------------------------------
+*/
 
 /* 
 #
 # OC Update Form
 # 
 */
-function UpdateForm(el) {
+function UpdateForm(extEl) {
+  console.log('update form!');
     //get references
-    this.form = Ext.get(el);
-    this.targetId = Ext.get(Ext.query('input[name=oc-target]',el)[0]).dom.value;
+    this.form = extEl;
+    this.targetId = Ext.get(Ext.query('input[name=oc-target]',extEl.dom)[0]).dom.value;
     this.target = Ext.get(this.targetId);
-    this.indicator = Ext.get(Ext.query('.oc-indicator',el)[0]);
-    this.submit = Ext.get(Ext.query('input[type=submit]',el)[0])
+    this.indicator = Ext.get(Ext.query('.oc-indicator',extEl.dom)[0]);
+    this.submit = Ext.get(Ext.query('input[type=submit]',extEl.dom)[0])
 
     //check refs
     if (!this.form || !this.target || !this.indicator || !this.submit) {
@@ -105,13 +158,15 @@ function UpdateForm(el) {
       //2nd ajax request
       var cObj = YAHOO.util.Connect.asyncRequest("GET", response.updateURL, { 
         success: function(o) {
+          
           // insert new - DomHelper.insertHtml converts string to DOM nodes
           console.log(o.responseText);
           o.responseText = Ext.util.Format.trim(o.responseText);
           var newItem = Ext.get(Ext.DomHelper.insertHtml('beforeEnd', this.target.dom, o.responseText));
           newItem.highlight("ffffcc", { endColor: "eeeeee"});
+
           //re-up liveEdit behaviors on new element
-          new LiveEditForm(newItem.dom); //TEMPORARY!!  TODO - generalize this.
+          OC.breatheLife();
         }, 
         failure: function(o) {
           console.log('upload failed');
@@ -137,7 +192,7 @@ function UpdateForm(el) {
         }
     }
 
-
+  return this;
 }
 
 /*
@@ -145,14 +200,14 @@ function UpdateForm(el) {
 # Live Edit Forms
 #
 */
-function LiveEditForm (el) {
+function LiveEditForm (extEl) {
     //get references for included elements
-    this.container = Ext.get(el);
-    this.value = Ext.get(Ext.query('.oc-liveEdit-value', el)[0]);
-    this.edit = Ext.get(Ext.query('.oc-liveEdit-edit', el)[0]);
-    this.delete = Ext.get(Ext.query('.oc-liveEdit-delete', el)[0]);
-    this.form = Ext.get(Ext.query('.oc-liveEdit-form', el)[0]);
-    this.cancel = Ext.get(Ext.query('.oc-liveEdit-cancel', el)[0]);
+    this.container = extEl;
+    this.value = Ext.get(Ext.query('.oc-liveEdit-value', extEl.dom)[0]);
+    this.edit = Ext.get(Ext.query('.oc-liveEdit-edit', extEl.dom)[0]);
+    this.delete = Ext.get(Ext.query('.oc-liveEdit-delete', extEl.dom)[0]);
+    this.form = Ext.get(Ext.query('.oc-liveEdit-form', extEl.dom)[0]);
+    this.cancel = Ext.get(Ext.query('.oc-liveEdit-cancel', extEl.dom)[0]);
 
     // check to make sure we have what we need
     if(!this.container || !this.value || !this.form)
@@ -243,7 +298,7 @@ function LiveEditForm (el) {
         newItem.highlight();
 
         // re-up liveEdit behaviors on new element
-        new LiveEditForm(newItem.dom);
+        OC.breatheLife();
     }
     this.afterFailure = function(o) {
         console.log('Oops! There was a problem.\n\n' + o.responseText); 
@@ -260,6 +315,7 @@ function LiveEditForm (el) {
         }
         this.cancel.on('click', this.cancelClick, this);
     }
+    return this;
 }
 
 /* 
@@ -267,9 +323,9 @@ function LiveEditForm (el) {
 # Close Buttons
 #
  */
-function CloseButton (el) {
+function CloseButton (extEl) {
     // get references.  No ID naming scheme yet.  just use parent node.
-    this.closeButton = Ext.get(el);
+    this.closeButton = extEl;
     this.container = Ext.get(this.closeButton.dom.parentNode);
     this.container.setVisibilityMode(Ext.Element.DISPLAY);
 
@@ -282,7 +338,9 @@ function CloseButton (el) {
             this.container.fadeOut({});
         }
     }
-    this.closeButton.on('click', this.closeButtonClick, this)
+    this.closeButton.on('click', this.closeButtonClick, this);
+    
+    return this;
 }
 
 /* 
@@ -290,10 +348,10 @@ function CloseButton (el) {
 # Dropdown Links
 #
  */
-function DropDownLinks (el) {
+function DropDownLinks (extEl) {
     // get references.  No ID naming scheme yet.  just use parent node.
-    this.select = Ext.get(el);
-    this.submit = Ext.get(Ext.query('input[type=submit]', el.parentNode)[0]);
+    this.select = extEl;
+    this.submit = Ext.get(Ext.query('input[type=submit]', extEl.dom.parentNode)[0]);
 
     //submit 
     this.submit.setVisibilityMode(Ext.Element.DISPLAY);
@@ -303,7 +361,9 @@ function DropDownLinks (el) {
     this.selectChange = function(e, el, o) {
         window.location = el.value;
     } 
-    this.select.on('change', this.selectChange, this)
+    this.select.on('change', this.selectChange, this);
+    
+    return this;
 }
 
 /* 
@@ -311,9 +371,9 @@ function DropDownLinks (el) {
 # Expanders
 #
  */
-function Expander (el) {
+function Expander (extEl) {
     // get references. 
-    this.container = Ext.get(el);
+    this.container = extEl;
     this.expanderLink = Ext.get(Ext.query(".oc-expander-link", this.container.dom)[0]);
     this.content = Ext.get(Ext.query(".oc-expander-content",  this.container.dom)[0]);
 
@@ -336,74 +396,8 @@ function Expander (el) {
     //contents 
     this.content.setVisibilityMode(Ext.Element.DISPLAY);
     this.content.hide();
-}
-
-/* 
-#
-# WikiTabs
-#
- */
-function WikiTab (el) {
-    // get references. 
-    this.tab = Ext.get(el);
-    this.wikiEdit = Ext.get(Ext.select(".oc-wiki-edit"));
-    this.wikiContent = Ext.get(Ext.select(".oc-wiki-content"));
-    this.wikiHistory = Ext.get(Ext.select(".oc-wiki-history"));
-
-    //check to make sure we've got everything
-    if (!this.tab || !this.wikiEdit || !this.wikiContent || !this.wikiHistory)
-        return;
-
-    // content box
-    this.wikiContent.setVisibilityMode(Ext.Element.DISPLAY);
-
-    // edit box
-    this.wikiEdit.setVisibilityMode(Ext.Element.DISPLAY);
-    this.wikiEdit.hide();
-
-    // history box
-    this.wikiHistory.setVisibilityMode(Ext.Element.DISPLAY);
-    this.wikiHistory.hide();
-
-    // view tab                
-    this.viewClick = function(e, el, o) {
-        this.wikiEdit.hide();
-        this.wikiContent.show();
-        this.wikiHistory.hide();
-        Ext.select('.oc-tabs li a').removeClass('oc-selected');
-        Ext.get(el).addClass('oc-selected');
-        YAHOO.util.Event.stopEvent(e);
-    }
-    if (el.rel == "view") {
-        this.tab.addClass('oc-selected');
-        this.tab.on('click', this.viewClick, this);
-    } 
-
-    //edit tab
-    this.editClick = function(e, el, o) {
-        this.wikiEdit.show();
-        this.wikiContent.hide();
-        this.wikiHistory.hide();
-        Ext.select('.oc-tabs li a').removeClass('oc-selected');
-        Ext.get(el).addClass('oc-selected');
-        YAHOO.util.Event.stopEvent(e);
-    }
-    if (el.rel == "edit") {
-        this.tab.on('click', this.editClick, this);
-    } 
-
-    // history tab
-    this.historyClick = function(e, el, o) {
-        this.wikiEdit.hide();
-        this.wikiContent.hide();
-        this.wikiHistory.show();
-        Ext.select('.oc-tabs li a').removeClass('oc-selected');
-        Ext.get(el).addClass('oc-selected');
-        YAHOO.util.Event.stopEvent(e);
-    }
-    if (el.rel == "history") {
-        this.tab.on('click', this.historyClick, this);
-    }    
+    
+    return this;
 }
 
 /*
@@ -411,7 +405,7 @@ function WikiTab (el) {
 # Register Form
 #
  */
-function JoinForm() {
+function JoinForm(extEl) {
     // setup references
     this.form = Ext.get('oc-join-form');
     this.usernameField = Ext.get('__ac_name');
@@ -443,19 +437,21 @@ function JoinForm() {
         new Ext.data.Connection().request(options);
     }
     this.usernameField.on('keypress', this.usernameKeyPress, this);
+    
+    return this;
 }
 
 /*
 #
 # History List
 #
- */
-function HistoryList() {
+*/
+function HistoryList(extEl) {
     // setup references
-    this.form = Ext.get('oc-wiki-history');
-    this.compare = Ext.get(Ext.select('#oc-wiki-history input[type=submit]'));
-    this.versions  = Ext.get(Ext.select('#oc-wiki-history li'));
-    this.checkboxes = Ext.get(Ext.select('#oc-wiki-history input[type=checkbox]'));
+    this.form = extEl;
+    this.compare = Ext.get(Ext.select('#' + extEl.dom.id + ' input[type=submit]'));
+    this.versions  = Ext.get(Ext.select('#' + extEl.dom.id + ' li'));
+    this.checkboxes = Ext.get(Ext.select('#' + extEl.dom.id + ' input[type=checkbox]'));
    
     //check references
     if (!this.form || !this.compare || !this.versions)
@@ -513,53 +509,19 @@ function HistoryList() {
     
     
     console.log(this.form.dom.elements);
+    
+    return this;
 }
-
-
-
-
 
 /*
 #------------------------------------------------------------------------
 # Load Em up
 #------------------------------------------------------------------------
- */
+*/
+
 Ext.onReady(function() {
 
-   // Find each live edit form and make an array of LiveEditForm objects
-   Ext.query('.oc-liveEdit').forEach(function(el) {
-       OC.liveEditForms.push(new LiveEditForm(el));
-       });    
+   /* Short and Sweet */
+   OC.breatheLife();
 
-   // Find each update form and make an array of UpdateForm objects
-   Ext.query('.oc-updateForm').forEach(function(el) {
-       OC.updateForms.push(new UpdateForm(el));
-       });
-
-   // Find close buttons and make them CloseButton objects
-   Ext.query('.oc-close').forEach(function(el) {
-       OC.closeButtons.push(new CloseButton(el));
-       });
-
-   // Find drop down links and make them DropDownLinks objects
-   Ext.query('.oc-dropdown-links').forEach(function(el) {
-       OC.dropDownLinks.push(new DropDownLinks(el));
-       });
-
-   // Find expanders and make them Expander objects
-   Ext.query('.oc-expander').forEach(function(el) {
-           OC.expanders.push(new Expander(el));
-           });
-
-   // Find login form and make LoginForm object
-   if (Ext.get('oc-join-form')) {
-       OC.registerForm = new JoinForm();
-   }
-   // Find login form and make LoginForm object
-   if (Ext.get('oc-wiki-history')) {
-       OC.historyList = new HistoryList();
-   }
-   
-   
-
-}); // onReady
+});

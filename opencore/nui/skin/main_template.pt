@@ -17,7 +17,6 @@
   	<!-- TODO print style sheet -->
 
     <script type="text/javascript" src="++resource++javascripts/utilities.js "></script>
-    <script type="text/javascript" src="++resource++javascripts/ded-chain-min.js" ></script>
     <script type="text/javascript" src="++resource++javascripts/ext.js" ></script>
     <script type="text/javascript" src="++resource++javascripts/oc-behaviors.js" ></script>
 

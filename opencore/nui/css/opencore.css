@@ -986,11 +986,11 @@ li.oc-invite .oc-invite-content {
 .oc-liveEdit-hover {
 	background: #ffffcc;
 	cursor: pointer;
-	border-bottom: 1px dotted red;
 }
 .oc-liveEdit-editing,
 .oc-table td.oc-liveEdit-editing {
-	background-color: #ffb342;
+	background-color: #cbeb9b;
+	padding: 3px;
 }
 
 /* @HTML ELEMENTS GENERAL @TYPOGRAPHY
