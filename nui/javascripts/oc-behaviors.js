@@ -386,10 +386,13 @@ OC.Expander = function(extEl) {
     //link
     this.linkClick = function(e, el, o) {
         //fade out
-        if (!this.content.isVisible())
+        if (!this.content.isVisible()) {
             this.content.slideIn('t',{duration: .1});
-        else 
+            this.container.removeClass('oc-expander-open');
+        } else {
             this.content.slideOut('t',{duration: .1});
+            this.container.addClass('oc-expander-open');
+        } 
 
         YAHOO.util.Event.stopEvent(e);
     }

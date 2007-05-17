@@ -68,12 +68,12 @@
   </div><!-- end .widget-invitations -->
   
 
-  <div class="oc-widget oc-widget-table oc-clearAfter">
+  <div class="oc-widget oc-widget-dataTable oc-clearAfter">
     <div class="oc-headingBlock">
       <h2 class="oc-toggleFold">Projects you belong to (x)</h2>
     </div><!-- end .headingBlock -->
   
-    <table id="" class="oc-table" cellpadding="0" cellspacing="0">
+    <table id="" class="oc-dataTable" cellpadding="0" cellspacing="0">
       <thead>
         <tr>
           <th class="" scope="col"><input type="checkbox" /></th>
@@ -87,7 +87,7 @@
       <tbody>
         <tr>
           <td><input type="checkbox" /></td>
-          <td class="oc-table-row-title"><a href="">Animal Campaign for a poor little sick kittie named Fatty</a></td>
+          <td class="oc-dataTable-row-title"><a href="">Animal Campaign for a poor little sick kittie named Fatty</a></td>
           <td id="liveEdit_11" class="oc-liveEdit">
 			<span id="liveEdit_11_value" class="oc-liveEdit-value">not set</span>
 			<div id="liveEdit_11_form" class="oc-liveEdit-form">
@@ -111,14 +111,14 @@
 			</div>
           </td>
           <td>
-          	<ul class="oc-actions oc-table-row-actions">
+          	<ul class="oc-actions oc-dataTable-row-actions">
           		<li><a href="#">Leave</a></li>
           	</ul>
           </td>
         </tr>
         <tr>
           <td><input type="checkbox" /></td>
-          <td class="oc-table-row-title"><a href="">Animal Campaign 2</a></td>
+          <td class="oc-dataTable-row-title"><a href="">Animal Campaign 2</a></td>
           <td id="oc-liveEdit_9" class="oc-liveEdit">
 			<span id="oc-liveEdit_9_value" class="oc-liveEdit-value">not set</span>
 			<div id="oc-liveEdit_9_form" class="oc-liveEdit-form">
@@ -143,18 +143,18 @@
 			</div>
           </td>
           <td>
-          	<ul class="oc-actions oc-table-row-actions">
+          	<ul class="oc-actions oc-dataTable-row-actions">
           		<li><a href="#">Leave</a></li>
           	</ul>
           </td>
         </tr>
       </tbody>
     </table>
-    <ul class="oc-actions oc-table-actions">
+    <ul class="oc-actions oc-dataTable-actions">
       <li><input type="submit" value="Leave project" class="oc-button oc-chooseThis" /></li>
       <li><input type="submit" value="Do something else" class="oc-button" /></li>
     </ul>
-    <ul class="oc-paginator oc-table-paginator">
+    <ul class="oc-paginator oc-dataTable-paginator">
 		<!--<li>&larr; Prev</li>-->
 		<li>Page 1</li>
 		<li><a href="">2</a></li>
