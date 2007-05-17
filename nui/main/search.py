@@ -33,6 +33,15 @@ class SearchView(OpencoreView):
 
         return sort_key_fn
 
+    def pretty_date(self, date):
+        try:
+            time_obj = strptime(date, '%Y-%m-%d %H:%M:%S')
+            datetime_obj = datetime.datetime(*time_obj[0:6])
+        except TypeError:
+            datetime_obj = date
+        return prettyDate(datetime_obj)
+
+
 
 class ProjectsSearchView(SearchView):
 
@@ -115,14 +124,6 @@ class ProjectsSearchView(SearchView):
         # we get object for number of project members
         projects = (x.getObject() for x in project_brains)
         return projects
-
-    def pretty_date(self, date):
-        try:
-            time_obj = strptime(date, '%Y-%m-%d %H:%M:%S')
-            datetime_obj = datetime.datetime(*time_obj[0:6])
-        except TypeError:
-            datetime_obj = date
-        return prettyDate(datetime_obj)
 
 
 class PeopleSearchView(SearchView):
@@ -218,3 +219,48 @@ class HomeView(SearchView):
         projects = (x.getObject() for x in project_brains)
         return projects
 
+
+class SitewideSearchView(SearchView):
+
+    def __call__(self):
+        search_string = self.request.get('search_string', None)
+        search_action = self.request.get('search_action', None)
+        start = self.request.get('b_start', 0)
+        sort_by = self.request.get('sort_by', None)
+        self.search_results = None
+        self.search_query = None
+
+        # this resets pagination when the sort order is changed
+        if self.request.get('REQUEST_METHOD', None) == 'POST':
+            start = 0
+            self.request.set('b_start', 0)
+            
+        if search_string:
+            self.search_results = self._get_batch(self.search(search_string, sort_by), start)
+            self.search_query = 'for &ldquo;%s&rdquo;' % search_string
+            
+        return self.index()
+            
+
+    def search(self, search_string, sort_by=None):
+        search_string = search_string.lower()
+
+        search_query = search_string
+        if not search_query.endswith('*'):
+            search_query = search_query + '*'
+
+        if not sort_by or sort_by == 'relevancy':
+            rs = (RankByQueries_Sum((Eq('getId', search_query),32), (Eq('getFull_name', search_query),16)),)
+        else:
+            # we can't sort by title
+            if sort_by == 'getId':
+                rs = ((sort_by, 'asc'),)
+            else:
+                rs = ((sort_by, 'desc'),)
+
+        brains = self.catalogtool.evalAdvancedQuery(
+            Eq('SearchableText', search_query),
+            rs,
+            )
+        return brains
+    
