@@ -15,24 +15,24 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
     <metal:do metal:fill-slot="link" >
-      <link rel="stylesheet" tal:attributes="href string:${view/siteURL}/portal_css/Plone%20Default/kupustyles.css" media="all"/>
-      <link rel="stylesheet" tal:attributes="href string:${view/siteURL}/portal_css/Plone%20Default/kupuplone.css" media="all"/>
-      <link rel="stylesheet" tal:attributes="href string:${view/siteURL}/portal_css/Plone%20Default/kupudrawerstyles.css" media="all"/>
+      <link rel="stylesheet" href="++resource++css/kupustyles.css" media="all"/>
+      <link rel="stylesheet" href="++resource++css/kupuplone.css" media="all"/>
+      <link rel="stylesheet" href="++resource++css/kupudrawerstyles.css" media="all"/>
     </metal:do>
     <metal:do metal:fill-slot="script" >
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/sarissa.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/sarissa_ieemu_xpath.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupunoi18n.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupuhelpers.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupueditor.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupubasetools.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupuloggers.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupucontentfilters.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupucontextmenu.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupuploneeditor.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupuploneinit.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupusourceedit.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupudrawers.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/sarissa.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/sarissa_ieemu_xpath.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupunoi18n.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupuhelpers.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupueditor.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupubasetools.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupuloggers.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupucontentfilters.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupucontextmenu.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupuploneeditor.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupuploneinit.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupusourceedit.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupudrawers.js"></script>
     </metal:do>
   </head>
   <body>
