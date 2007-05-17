@@ -1,0 +1,106 @@
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <link metal:fill-slot="link" />
+    <script metal:fill-slot="script" language="javascript" type="text/javascript" src="++resource++javascripts/searching.js" />
+  </head>
+  <body>
+
+    <div metal:fill-slot="content">
+
+<div class="oc-headingBlock">
+  <h1>Username&apos;s preferences</h1>
+  <p class="oc-headingContext oc-discreetText">member since January 13, 1937 and last online 1 hour ago</p>
+</div>
+
+<div id="oc-content-main">
+<form>
+  <div id="oc-member-badge" class="oc-clearAfter">
+    <fieldset>
+      <div class="oc-avatar">
+        <img src="http://photos-115.ak.facebook.com/ip002/v45/56/33/1007094/n1007094_30702115_2963.jpg" />
+      </div>
+      <div class="oc-expander">
+        <a href="#" class="oc-expander-link"><h2>Change image</h2></a>
+        <div class="oc-expander-content">
+          <input type="file" />
+          or <a href="#">remove image</a>
+        </div>
+    </fieldset>
+    <fieldset class="oc-member-details">
+        <label for="">Full name</label>
+        <input type="text" />
+        <label for="">Location</label>
+        <input type="text" />
+        <label for="">Email</label>
+        <input type="text" />
+        <input type="radio" class="oc-input-typeRadio" />
+        <label for="">Hide email address by default?</label>
+    </fieldset>
+    <fieldset class="oc-expander">
+        <a href="#" class="oc-expander-link"><h2>Change password</h2></a>
+        <div class="oc-expander-content">
+          <label for="">Current password</label>
+          <input type="password" />
+          <label for="">New password</label>
+          <input type="password" />
+          <label for="">Confirm new password</label>
+          <input type="password" />
+        </div>
+    </fieldset>
+  </div>
+  <fieldset>
+    <label for="">Personal Statement</label>
+    <textarea rows="2" cols="80"></textarea>
+    <label for="">Skills</label>
+    <textarea rows="2" cols="80"></textarea>
+    <label for="">Affiliations</label>
+    <textarea rows="2" cols="80"></textarea>
+    <label for="">Background</label>
+    <textarea rows="2" cols="80"></textarea>
+    <label for="">Favorites</label>
+    <textarea rows="2" cols="80"></textarea>
+  </fieldset>
+  
+	<ul class="oc-actions oc-wiki-actions">
+		<li><input type="submit" value="Save" class="oc-button oc-chooseThis" /></li>
+		<li>or <a href="#">cancel</a></li>
+	</ul> 
+</form>
+</div><!-- end #oc-content-main -->
+
+<div id="oc-content-sidebar">
+  <div class="oc-headingBlock">
+    <h2>Recent activity</h2>
+  </div>
+    <div class="oc-widget oc-widget-lastModified">
+      <div class="oc-headingBlock">
+        <h3>Pages last modified</h3>
+      </div><!-- end .oc-headingBlock -->
+      <table class="oc-table" cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Page</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Jan 1</td>
+            <td><a href="">My awesome page</a></td>
+          </tr>
+          <tr>
+            <td>Dec 31</td>
+            <td><a href="">My really awesome page</a></td>
+          </tr>
+          <tr>
+            <td>Oct 12</td>
+            <td><a href="">My kinda awesome page</a></td>
+          </tr>
+        </tbody>
+      </table>
+  </div><!-- end .oc-widget-lastModified -->
+</div><!-- end .oc-content-sidebar -->
+
+  </div><!-- content-fill-slot -->
+</body>
+</html>
