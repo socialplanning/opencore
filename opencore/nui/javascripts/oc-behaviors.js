@@ -5,63 +5,65 @@
 # OC object - black magic
 #
 */
-function OC() {
-    
-    // where we'll store all our live elements
-    this.liveElements = new Array();
-    
-    /* 
-    #
-    # how we know which elements get which features
-    # css or xpath selector : JS Class
-    #
-    */
-    this.liveElementKey = {
-      ".oc-updateForm" : "UpdateForm",
-      ".oc-liveEdit" : "LiveEditForm",
-      ".oc-close" : "CloseButton",
-      ".oc-dropdown-links" : "DropDownLinks",
-      ".oc-expander" : "Expander",
-      "#oc-wiki-history" : "HistoryList",
-      "#oc-join-form" : "JoinForm"
-    }
-    
-    /* 
-    #
-    # breathes life (aka js behaviors) into HTML elements.
-    # a bit slow since it loops through everything each time.  
-    # Eventually we could add an index.
-    #
-    */
-    this.breatheLife = function() {
-      // loop through selectors specified above
-      for (var selector in this.liveElementKey) {
-        
-        // within each query, loop through each Ext Element and check if there's an object        
-        var elements = Ext.query(selector);
-        if(elements.length > 0){
-          
-          for (var i = 0; i < elements.length; i++) {
-          
-            //get an Ext Obj for your element
-            var extEl = Ext.get(elements[i]);
-            
-            // check if an object already exists for this.  If not, create one.
-            if (this.liveElements[extEl.dom.id])
-              continue;
-            
-            //get reference to the proper constructor
-            var constructor = window[this.liveElementKey[selector]];
-            
-            // add a new liveElement to OC.liveElements
-            this.liveElements[extEl.dom.id] = new constructor(extEl);
-          }
-        }      
-      }
-    } // this.breatheLife()
-}
 // Singleton for use throughout
-var OC = new OC();
+if (typeof OC == "undefined") { 
+  var OC = {}
+}
+
+// where we'll store all our live elements
+OC.liveElements = new Array();
+    
+/* 
+#
+# how we know which elements get which features
+# css or xpath selector : OC Object name (without OC.)
+#
+*/
+OC.liveElementKey = {
+  ".oc-updateForm" : "UpdateForm",
+  ".oc-liveEdit" : "LiveEditForm",
+  ".oc-close" : "CloseButton",
+  ".oc-dropdown-links" : "DropDownLinks",
+  ".oc-expander" : "Expander",
+  "#oc-wiki-history" : "HistoryList",
+  "#oc-join-form" : "JoinForm"
+}
+    
+/* 
+#
+# breathes life (aka js behaviors) into HTML elements.
+# a bit slow since it loops through everything each time.  
+# Eventually we could add an index.
+#
+*/
+OC.breatheLife = function() {
+  // loop through selectors specified above
+  for (var selector in OC.liveElementKey) {
+    
+    // within each query, loop through each Ext Element and check if there's an object        
+    var elements = Ext.query(selector);
+    if(elements.length > 0){
+      
+      for (var i = 0; i < elements.length; i++) {
+      
+        //get an Ext Obj for your element
+        var extEl = Ext.get(elements[i]);
+        
+        // check if an object already exists for this.  If not, create one.
+        if (OC.liveElements[extEl.dom.id])
+          continue;
+        
+        //get reference to the proper constructor
+        var constructor = OC[this.liveElementKey[selector]];        
+        
+        
+        // add a new liveElement to OC.liveElements
+        OC.liveElements[extEl.dom.id] = new constructor(extEl);
+      }
+    }      
+  }
+} // OC.breatheLife()
+
 
 /*
 #------------------------------------------------------------------------
@@ -74,7 +76,7 @@ var OC = new OC();
 # OC Update Form
 # 
 */
-function UpdateForm(extEl) {
+OC.UpdateForm = function(extEl) {
   console.log('update form!');
     //get references
     this.form = extEl;
@@ -200,7 +202,7 @@ function UpdateForm(extEl) {
 # Live Edit Forms
 #
 */
-function LiveEditForm (extEl) {
+OC.LiveEditForm = function(extEl) {
     //get references for included elements
     this.container = extEl;
     this.value = Ext.get(Ext.query('.oc-liveEdit-value', extEl.dom)[0]);
@@ -323,7 +325,7 @@ function LiveEditForm (extEl) {
 # Close Buttons
 #
  */
-function CloseButton (extEl) {
+OC.CloseButton = function(extEl) {
     // get references.  No ID naming scheme.  just use parent node.
     this.closeButton = extEl;
     this.container = Ext.get(this.closeButton.dom.parentNode);
@@ -348,7 +350,7 @@ function CloseButton (extEl) {
 # Dropdown Links
 #
  */
-function DropDownLinks (extEl) {
+OC.DropDownLinks = function(extEl) {
     // get references.  No ID naming scheme yet.  just use parent node.
     this.select = extEl;
     this.submit = Ext.get(Ext.query('input[type=submit]', extEl.dom.parentNode)[0]);
@@ -371,7 +373,7 @@ function DropDownLinks (extEl) {
 # Expanders
 #
  */
-function Expander (extEl) {
+OC.Expander = function(extEl) {
     // get references. 
     this.container = extEl;
     this.expanderLink = Ext.get(Ext.query(".oc-expander-link", this.container.dom)[0]);
@@ -405,7 +407,7 @@ function Expander (extEl) {
 # Register Form
 #
  */
-function JoinForm(extEl) {
+OC.JoinForm = function(extEl) {
     // setup references
     this.form = Ext.get('oc-join-form');
     this.usernameField = Ext.get('__ac_name');
@@ -446,7 +448,7 @@ function JoinForm(extEl) {
 # History List
 #
 */
-function HistoryList(extEl) {
+OC.HistoryList = function(extEl) {
     // setup references
     this.form = extEl;
     this.compare = Ext.get(Ext.select('#' + extEl.dom.id + ' input[type=submit]'));
@@ -506,7 +508,6 @@ function HistoryList(extEl) {
         Ext.get(el.parentNode).removeClass('oc-selected');
     }
     this.checkboxes.on('click', this.checkboxesClick, this)
-    
     
     console.log(this.form.dom.elements);
     
