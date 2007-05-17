@@ -46,12 +46,12 @@
 		  tal:content="author">author</a>
 	    on <span tal:replace="python:here.toLocalizedTime(version.sys_metadata['timestamp'], long_format=True)" />
 	    <br/>
-	    <!-- FIXME ? relative --> 
-	    <!-- FIXME this should be a widget that selects the version to compare to --> 
-	    <a tal:attributes = "href string:version_compare?version_id=${version_id}&version_id=${cur_id}">
-	      compare with current version
-	    </a>
+
 	    <tal:if condition="python: version_id != view.current_id()">
+	      <!-- FIXME ? relative --> 
+	      <a tal:attributes = "href string:version_compare?version_id=${version_id}&version_id=${cur_id}">
+		compare with current version
+	      </a>
 	      <form method="POST" tal:attributes = "action string:revertversion?version_id=${version_id}">
 		<input type="submit" name="revert" value="revert to this version" />
 	      </form>
