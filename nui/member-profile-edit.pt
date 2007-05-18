@@ -26,20 +26,20 @@
             <input type="text" />
           </li>
           <li>
-						<label for="">Location</label><br />
-						<input type="text" />
-					</li>
-				</ul>
+            <label for="">Location</label><br />
+            <input type="text" />
+          </li>
+        </ul>
     </fieldset>
     <fieldset class="oc-expander" style="clear: left;">
-			<legend class="oc-legend-label">
-				<a href="#" class="oc-expander-link">Change image</a>
-			</legend>
-			<div class="oc-expander-content">
-				<input type="file" size="25" /><br />
-				or <a href="#">remove image</a>
-			</div>
-		</fieldset>
+      <legend class="oc-legend-label">
+        <a href="#" class="oc-expander-link">Change image</a>
+      </legend>
+      <div class="oc-expander-content">
+        <input type="file" size="25" /><br />
+        or <a href="#">remove image</a>
+      </div>
+    </fieldset>
   </div>
   <fieldset>
     <label for="">Personal Statement</label><br />
