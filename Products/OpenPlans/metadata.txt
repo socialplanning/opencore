@@ -116,7 +116,7 @@ First, we'll hand feed the subscriber::
     >>> brain.lastModifiedTitle == doc.Title()
     True
 
-    >>> brain.ModificationDate >= doc.modified()
+    >>> brain.ModificationDate >= self.folder.modified()
     True
 
 Now lets update the version info and hand feed the notification::
