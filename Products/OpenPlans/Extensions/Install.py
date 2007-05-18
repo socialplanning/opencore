@@ -623,7 +623,7 @@ def installCookieAuth(portal, out):
                        "plugin")
 
 def installDefaultContent(portal, out):
-    print >> out, ("Creating '%s' content" % 'sitenews')
+    print >> out, ("Creating '%s' content" % 'news')
     existing_item = getattr(portal.aq_base, 'news', None)
     if existing_item is not None and existing_item.Type() != 'Folder':
         portal.manage_delObjects([existing_item.getId()])
