@@ -736,6 +736,7 @@ height: 1em;
 .oc-expander-open {
   background: #eee;
   border: 1px solid #ccc;
+  padding: .5em;
 }
 .oc-expander-content {
   margin: .25em 0;

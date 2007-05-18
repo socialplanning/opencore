@@ -10,6 +10,21 @@ if (typeof OC == "undefined") {
   var OC = {}
 }
 
+// Debug Function.  Turn off for live code or IE
+OC.debug = function(string) {
+  var method = "console"; /* "console", "alert" or "" */
+  switch (method) {
+    case "console" :
+      console.log(string);
+      break;
+    case "alert" :
+      alert(string);
+      break;
+    default:
+      return;
+  }
+}
+
 // where we'll store all our live elements
 OC.liveElements = new Array();
     
@@ -32,8 +47,7 @@ OC.liveElementKey = {
 /* 
 #
 # breathes life (aka js behaviors) into HTML elements.
-# a bit slow since it loops through everything each time.  
-# Eventually we could add an index.
+# call this on load, and again each time we add new stuff to the DOM.  
 #
 */
 OC.breatheLife = function() {
@@ -77,7 +91,7 @@ OC.breatheLife = function() {
 # 
 */
 OC.UpdateForm = function(extEl) {
-  console.log('update form!');
+    OC.debug('OC.UpdateForm');
     //get references
     this.form = extEl;
     this.targetId = Ext.get(Ext.query('input[name=oc-target]',extEl.dom)[0]).dom.value;
@@ -87,7 +101,7 @@ OC.UpdateForm = function(extEl) {
 
     //check refs
     if (!this.form || !this.target || !this.indicator || !this.submit) {
-        console.log('element missing');
+        OC.debug('element missing');
         return;
     }
 
@@ -95,7 +109,7 @@ OC.UpdateForm = function(extEl) {
     this.isUpload = false;
     if (this.form.dom.enctype)
         this.isUpload = true;
-    console.log(this.form.dom.enctype);
+    OC.debug(this.form.dom.enctype);
     this.indicator.setVisibilityMode(Ext.Element.DISPLAY);
     this.indicator.hide();
 
@@ -127,7 +141,7 @@ OC.UpdateForm = function(extEl) {
           failure: this.afterFailure,
           scope: this
         }
-	console.log(this.form.dom.action);
+	OC.debug(this.form.dom.action);
         var cObj = YAHOO.util.Connect.asyncRequest("POST", this.form.dom.action, callback);
         this.startLoading();
         
@@ -151,18 +165,18 @@ OC.UpdateForm = function(extEl) {
             this.afterUploadFailure(response);
           break;
           default:
-            console.log('default');
+            OC.debug('default');
         } 
     }
     this.afterUploadSuccess = function(response) {
-      console.log('this.afterUploadSuccess');
+      OC.debug('this.afterUploadSuccess');
       
       //2nd ajax request
       var cObj = YAHOO.util.Connect.asyncRequest("GET", response.updateURL, { 
         success: function(o) {
           
           // insert new - DomHelper.insertHtml converts string to DOM nodes
-          console.log(o.responseText);
+          OC.debug(o.responseText);
           o.responseText = Ext.util.Format.trim(o.responseText);
           var newItem = Ext.get(Ext.DomHelper.insertHtml('beforeEnd', this.target.dom, o.responseText));
           newItem.highlight("ffffcc", { endColor: "eeeeee"});
@@ -171,7 +185,7 @@ OC.UpdateForm = function(extEl) {
           OC.breatheLife();
         }, 
         failure: function(o) {
-          console.log('upload failed');
+          OC.debug('upload failed');
         },
         scope: this 
       });
@@ -180,17 +194,17 @@ OC.UpdateForm = function(extEl) {
     }
 
     this.afterFailure = function(o) {
-        console.log('this.afterFailure RESPONSE BELOW:\n\n');
+        OC.debug('this.afterFailure RESPONSE BELOW:\n\n');
         for (prop in o) {
-          console.log(prop + ":");
-          console.log(o["" + prop + ""]);
+          OC.debug(prop + ":");
+          OC.debug(o["" + prop + ""]);
         }
     }
     this.afterSuccess = function(o) {
-        console.log('this.afterSuccess RESPONSE BELOW:\n\n'); 
+        OC.debug('this.afterSuccess RESPONSE BELOW:\n\n'); 
         for (prop in o) {
-          console.log(prop + ":");
-          console.log(o["" + prop + ""]);
+          OC.debug(prop + ":");
+          OC.debug(o["" + prop + ""]);
         }
     }
 
@@ -215,7 +229,7 @@ OC.LiveEditForm = function(extEl) {
     if(!this.container || !this.value || !this.form)
         return;
 
-    console.log(this.form.dom);
+    OC.debug(this.form.dom);
 
     /*
      # Attach Behviors
@@ -303,7 +317,7 @@ OC.LiveEditForm = function(extEl) {
         OC.breatheLife();
     }
     this.afterFailure = function(o) {
-        console.log('Oops! There was a problem.\n\n' + o.responseText); 
+        OC.debug('Oops! There was a problem.\n\n' + o.responseText); 
     }
 
     // cancel link
@@ -388,10 +402,10 @@ OC.Expander = function(extEl) {
         //fade out
         if (!this.content.isVisible()) {
             this.content.slideIn('t',{duration: .1});
-            this.container.removeClass('oc-expander-open');
+            this.container.addClass('oc-expander-open');
         } else {
             this.content.slideOut('t',{duration: .1});
-            this.container.addClass('oc-expander-open');
+            this.container.removeClass('oc-expander-open');
         } 
 
         YAHOO.util.Event.stopEvent(e);
@@ -512,7 +526,7 @@ OC.HistoryList = function(extEl) {
     }
     this.checkboxes.on('click', this.checkboxesClick, this)
     
-    console.log(this.form.dom.elements);
+    OC.debug(this.form.dom.elements);
     
     return this;
 }
