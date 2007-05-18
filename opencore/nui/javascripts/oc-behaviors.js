@@ -10,21 +10,6 @@ if (typeof OC == "undefined") {
   var OC = {}
 }
 
-// Debug Function.  Turn off for live code or IE
-OC.debug = function(string) {
-  var method = "console"; /* "console", "alert" or "" */
-  switch (method) {
-    case "console" :
-      console.log(string);
-      break;
-    case "alert" :
-      alert(string);
-      break;
-    default:
-      return;
-  }
-}
-
 // where we'll store all our live elements
 OC.liveElements = new Array();
     
@@ -36,7 +21,8 @@ OC.liveElements = new Array();
 */
 OC.liveElementKey = {
   ".oc-updateForm" : "UpdateForm",
-  ".oc-liveEdit" : "LiveEditForm",
+  ".oc-liveAction" : "LiveAction",
+  ".oc-liveEdit" : "LiveEdit",
   ".oc-close" : "CloseButton",
   ".oc-dropdown-links" : "DropDownLinks",
   ".oc-expander" : "Expander",
@@ -181,7 +167,7 @@ OC.UpdateForm = function(extEl) {
           var newItem = Ext.get(Ext.DomHelper.insertHtml('beforeEnd', this.target.dom, o.responseText));
           newItem.highlight("ffffcc", { endColor: "eeeeee"});
 
-          //re-up liveEdit behaviors on new element
+          //re-up behaviors on new element
           OC.breatheLife();
         }, 
         failure: function(o) {
@@ -216,18 +202,18 @@ OC.UpdateForm = function(extEl) {
 # Live Edit Forms
 #
 */
-OC.LiveEditForm = function(extEl) {
+OC.LiveEdit = function(extEl) {
     //get references for included elements
     this.container = extEl;
-    this.value = Ext.get(Ext.query('.oc-liveEdit-value', extEl.dom)[0]);
-    this.edit = Ext.get(Ext.query('.oc-liveEdit-edit', extEl.dom)[0]);
-    this.delete = Ext.get(Ext.query('.oc-liveEdit-delete', extEl.dom)[0]);
-    this.form = Ext.get(Ext.query('.oc-liveEdit-form', extEl.dom)[0]);
-    this.cancel = Ext.get(Ext.query('.oc-liveEdit-cancel', extEl.dom)[0]);
+    this.value = Ext.select(Ext.DomQuery.select('.oc-liveEdit-value',this.container.dom));
+    this.edit = Ext.get(Ext.query('.oc-liveEdit-edit', this.container.dom)[0]);
+    this.delete = Ext.get(Ext.query('.oc-liveEdit-delete', this.container.dom)[0]);
+    this.form = Ext.get(Ext.query('.oc-liveEdit-form', this.container.dom)[0]);
+    this.cancel = Ext.get(Ext.query('.oc-liveEdit-cancel', this.container.dom)[0]);
 
     // check to make sure we have what we need
-    if(!this.container || !this.value || !this.form)
-        return;
+    //if(!this.container || !this.value || !this.form)
+    //    return;
 
     OC.debug(this.form.dom);
 
@@ -333,6 +319,35 @@ OC.LiveEditForm = function(extEl) {
     }
     return this;
 }
+
+/* 
+#
+# LiveAction
+#
+*/
+OC.LiveAction = function(extEl) {
+    // get references
+    this.container = extEl;
+    this.actionLinks = Ext.select(Ext.DomQuery.select('.oc-liveAction-actionLink',this.container.dom));
+
+    // settings
+    this.container.setVisibilityMode(Ext.Element.DISPLAY);
+    
+    //behaviors
+    this.actionLinkClick = function(e, el, o) {
+      YAHOO.util.Event.stopEvent(e);
+      if (confirm('are you sure?')) {
+          //ajax call
+
+          //fade out
+          this.container.fadeOut({});
+      }
+    }
+    this.actionLinks.on('click', this.actionLinkClick, this);
+    
+    return this;
+}
+
 
 /* 
 #
@@ -529,6 +544,27 @@ OC.HistoryList = function(extEl) {
     OC.debug(this.form.dom.elements);
     
     return this;
+}
+
+/*
+#------------------------------------------------------------------------
+# Utilities
+#------------------------------------------------------------------------
+*/
+
+// Debug Function.  Turn off for live code or IE
+OC.debug = function(string) {
+  var method = "console"; /* "console", "alert" or "" */
+  switch (method) {
+    case "console" :
+      console.log(string);
+      break;
+    case "alert" :
+      alert(string);
+      break;
+    default:
+      return;
+  }
 }
 
 /*

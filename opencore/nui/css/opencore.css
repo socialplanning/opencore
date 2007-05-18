@@ -776,6 +776,7 @@ height: 1em;
 
 /* @WIDGETS */
 .oc-widget {
+ clear: both;
 }
 
 /* Widget heading blocks */
@@ -811,6 +812,11 @@ height: 1em;
   border-bottom: 1px solid #ccc;
   /* font-size: 10px; */
 } 
+.oc-dataTable a.oc-columnSortable {
+  color: #000;
+}
+.oc-dataTable a.oc-columnSortable.oc-selected {
+}
 .oc-dataTable th.oc-dataTable-checkBoxColumn {
   width: 25px;
 }
@@ -823,9 +829,9 @@ height: 1em;
 }
 .oc-dataTable-actions {
   float: left;
-   padding: .5em 0;
-   margin:0;
-   font-size: 10px;
+  padding: .5em 0;
+  margin:0;
+  font-size: 10px;
 }
 .oc-dataTable-actions li {
    
@@ -969,7 +975,7 @@ li.oc-invite .oc-invite-content {
 --------------------------*/
 .oc-liveEdit-value {
   border: 1px solid transparent;
-  border-bottom: 1px dotted #256E81; 
+  /* border-bottom: 1px dotted #256E81; */ 
 }
 .oc-liveEdit-value .oc-liveEdit-hover {
  border-bottom: 1px solid red;
