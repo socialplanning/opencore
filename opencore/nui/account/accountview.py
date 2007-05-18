@@ -6,7 +6,7 @@ from opencore.nui.opencoreview import OpencoreView
 from Products.Five import BrowserView
 
 class JoinView(OpencoreView):
-    form_fields = form.FormFields(IJoinOpenplans)
+##     form_fields = form.FormFields(IJoinOpenplans)
 
     def validate(self):
         return self.context.validate(REQUEST=self.request)
