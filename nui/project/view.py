@@ -11,3 +11,9 @@ class ProjectView(OpencoreView):
 
     def createProject(self):
         return self.project_create()
+
+    def doUpdateProject(self):
+        proj = self.context
+        proj.setFull_name(self.request.get('fullname'))
+        proj.setDescription(self.request.get('mission'))
+        self.request.response.redirect(proj.absolute_url())

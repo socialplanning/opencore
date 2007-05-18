@@ -19,6 +19,14 @@
     class=".view.ProjectView"
     attribute="updateProject"
     />
+
+  <browser:page
+    for="*"
+    name="doUpdateProject"
+    permission="cmf.ModifyPortalContent"
+    class=".view.ProjectView"
+    attribute="doUpdateProject"
+    />
     
 <!--
     <browser:page
