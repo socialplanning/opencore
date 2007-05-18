@@ -24,9 +24,9 @@
                      given by principal --> 
               <a tal:define="author lastChange/sys_metadata/principal" 
                  tal:attributes="href string:${people_url}/${author}" 
-                 tal:content="author">author</a>
+                 tal:content="author">author</a>, 
               
-              <span tal:content="python:here.toLocalizedTime(lastChange.sys_metadata['timestamp'],long_format=1)">2004/10/21 03:15 PM</span>
+              <span tal:replace="python: view.pretty_mod_date(lastChange)" /> 
               <BR>
               <span tal:replace="python:len(history)"/> versions total.
             </p>
@@ -69,8 +69,8 @@
                       by 
                       <a tal:define="author version/sys_metadata/principal" 
                          tal:attributes="href string:${people_url}/${author}" 
-                         tal:content="author">author</a>
-                      on <span tal:replace="python: here.toLocalizedTime(version.sys_metadata['timestamp'], long_format=1)">(time)</span>
+                         tal:content="author">author</a>, 
+                      <span tal:replace="python: view.pretty_mod_date(version)" />
                       <br>
                       <span tal:replace="version/comment">comment</span>
                     </li> 
