@@ -55,14 +55,29 @@
     template="wiki-edit.pt"
     />
 
-  
+  <!-- FIXME what are the permissions on history exactly? -->   
   <browser:page
-    for="opencore.content.page.OpenPage"
-    class=".view.WikiEdit"
-    permission="cmf.ModifyPortalContent"
-    name="history"
-    template="wiki-history.pt"
-    />
+     for="opencore.content.page.OpenPage"
+     class=".historyview.WikiVersionView"
+     permission="cmf.ModifyPortalContent"
+     name="history"
+     template="wiki-history-real.pt"
+     />
+
+  <browser:page
+     for="opencore.content.page.OpenPage"
+     class=".historyview.WikiVersionView"
+     permission="cmf.ModifyPortalContent"
+     name="version"
+     template="wiki-previous-version.pt"
+     />
+
+  <browser:page
+     for="opencore.content.page.OpenPage"
+     class=".historyview.WikiVersionCompare"
+     permission="cmf.ModifyPortalContent"
+     name="version_compare"
+     />
 
   <!-- attachments -->
   <!-- establish an order to help scanning? -->
