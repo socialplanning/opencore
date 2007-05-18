@@ -63,7 +63,7 @@
       <!-- XXX we need to think about how we are going to implement this with dynamic data
            wiki page snippet pulled from a particular location? -->
       <!-- content-sidebar -->
-      <div id="oc-content-sidebar" tal:content="structure python: view.render_static('featured_projects.txt')" />
+      <div id="oc-content-sidebar" tal:content="structure python: view.render_static('main_projects_featured_projects.txt')" />
     </div><!-- content-fill-slot -->
     
   </body>
