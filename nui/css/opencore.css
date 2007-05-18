@@ -518,13 +518,17 @@ dl.oc-member-info dd {
 
 /* Member profile edit */
 
-#oc-member-badge .oc-member-editimage {
+.oc-member-edit #oc-member-badge {
+	background-color: transparent;
+}
+.oc-member-edit #oc-member-badge .oc-member-editimage {
 	float: left;
 	width: 200px;
 	margin-right: 1em;
+	margin-bottom: 0.5em;
 }
-#oc-member-badge .oc-plainList input {
-	width: 100%;
+.oc-member-edit #oc-member-badge .oc-plainList input {
+	width: 75%;
 }
 .oc-member-edit textarea {
 	width: 99%;
@@ -567,12 +571,10 @@ dl.oc-member-info dd {
 
 .oc-getstarted {
   display: block; 
-  width: 80%; 
   margin-bottom: 1em;
 }
 .oc-getstarted select {
   width: 100%;
-  font-size: 18px;
   font-weight: bold;
   color: #333;
 }
@@ -665,16 +667,24 @@ fieldset .oc-legend-heading {
   margin: 0;
   padding: 0;
 }
-fieldset fieldset .oc-legend-heading {
+fieldset fieldset .oc-legend-heading,
+#oc-content-sidebar fieldset .oc-legend-heading {
   font-size: 14px;
 }
-fieldset fieldset fieldset .oc-legend-heading {
+fieldset fieldset fieldset .oc-legend-heading,
+#oc-content-sidebar fieldset fieldset .oc-legend-heading {
   font-size: 12px;
+}
+#oc-content-sidebar fieldset fieldset fieldset .oc-legend-heading {
+  font-size: 10px;
 }
 fieldset .oc-legend-label {
   margin: 0;
   padding: 0;
   font-size: 12px;
+}
+#oc-content-sidebar fieldset .oc-legend-label {
+	font-size: 10px;
 }
 fieldset .oc-heading-context {
   margin: 0 0 .5em;
@@ -776,7 +786,7 @@ height: 1em;
 
 /* @WIDGETS */
 .oc-widget {
- clear: both;
+ /* clear: both; */
 }
 
 /* Widget heading blocks */
@@ -1004,49 +1014,48 @@ body, textarea {
   font-family: "Lucida Grande", "Frutiger", "Univers", "Helvetica Neue", Arial, Helvetica, sans-serif;
   /* These typographic rules will establish rhythm of 18px at base font size */
 }
-
-/* #content-container p {
-  margin: 0 0 1.5em 0;
-} */
-
+#oc-content-sidebar {
+	font-size: 10px;
+}
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   letter-spacing: 0;
-}
-    
+   margin: 0 0 1em;
+}   
 h4 {
   margin: 0 0 .5em;
 }
 h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 abbr {
   border: none;
 }
-
 h1, .oc-biggestText {
   font-size: 24px;
   line-height: 0.75em;
   /* margin-top: 1.5em; */
   /* margin-bottom: 0.75em; */
-  margin: 0 0 1em;
 }
-
-h2, .oc-biggerText, #oc-topnav-title h1 {
+h2, .oc-biggerText, #oc-topnav-title h1,
+#oc-content-sidebar h1 {
   font-size: 18px;
   line-height: 1em;
   /* margin: 1em 0; */
-  margin: 0 0 1em;
-
 }
-
-h3, .oc-bigText  {
+h3, .oc-bigText,
+#oc-content-sidebar h2 {
   font-size: 14px;
   line-height: 1.286em;
   /* margin-top: 1.929em; */
   /* margin-bottom: 0.643em; */
-  margin: 0 0 1em;
 }
-
+#oc-content-sidebar h3 {
+  font-size: 12px;
+}
 h4, .h4 {
-  font-weight: bold;
+	font-size: 14px;
+  font-style: italics;
+}
+#oc-content-sidebar h4 {
+  font-size: 12px;
 }
 select,
 input,
@@ -1055,6 +1064,11 @@ textarea {
   padding: 0.125em;
   margin: 0;
   font-size: 12px;
+}
+#oc-content-sidebar select,
+#oc-content-sidebar input,
+#oc-content-sidebar textarea {
+	font-size: 10px;
 }
 textarea {
 	margin-bottom: 1em;
@@ -1070,7 +1084,6 @@ label {
 address {
   font-style: normal;
 }
-
 .oc-smallText,
 .oc-discreetText,
   /* Layout and Navigation */
@@ -1094,6 +1107,10 @@ address {
   font-size: 10px;
   line-height: 1.8em;
 }
+#oc-content-sidebar .smallText,
+#oc-content-sidebar .discreetText {
+	font-size: 10px;
+}
 .oc-tabs a.oc-selected {
  /*  border-bottom: 2px solid #fff; */
 } 
@@ -1103,7 +1120,9 @@ address {
 .oc-discreetText {
   color: #999;
 }
+
 /* Heading Blocks */
+
 .oc-headingBlock {
 }
 .oc-headingBlock h1,
