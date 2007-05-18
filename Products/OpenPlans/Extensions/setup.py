@@ -81,6 +81,17 @@ def migrate_listen_member_lookup(self, portal):
     sm = portal.getSiteManager()
     sm.registerUtility(IMemberLookup, opencore_memberlookup)
 
+def save_all_projects(portal, out):
+    catalog = getToolByName(portal, 'portal_catalog')
+    brains = catalog(portal_type='OpenProject')
+    projects = (b.getObject() for b in brains)
+    for project in projects:
+        title = project.Title()
+        values = dict(title=title)
+        project.processForm(values=values)
+        out.write('processed project: %s\n' % title)
+    return out.getvalue()
+
 functions = dict(
     setupKupu = convertFunc(setupKupu),
     fixUpEditTab = convertFunc(fixUpEditTab),
@@ -107,6 +118,7 @@ functions = dict(
     setupPeopleFolder=convertFunc(setupPeopleFolder),
     migrate_teams_to_projects=migrate_teams_to_projects,
     migrate_membership_roles=migrate_membership_roles,
+    save_all_projects=convertFunc(save_all_projects),
     )
 
 class TOPPSetup(SetupWidget):
