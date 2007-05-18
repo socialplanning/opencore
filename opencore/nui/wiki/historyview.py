@@ -1,5 +1,5 @@
 from opencore.nui.opencoreview import OpencoreView
-from opencore.nui import htmldiff2
+from opencore.nui.wiki import htmldiff2
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 class WikiVersionView(OpencoreView): 

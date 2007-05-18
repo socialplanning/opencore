@@ -25,6 +25,15 @@ Test wiki page registrations::
     >>> page.restrictedTraverse('@@edit-nick')
     <...SimpleViewClass from ...wiki/wiki-edit-nick.pt object at ...>
 
+    >>> page.restrictedTraverse('history')
+    <>
+
+    >>> page.restrictedTraverse('version?version_id=0')
+    <>
+
+    >>> page.restrictedTraverse('version_compare?version_id=0&version_id=0')
+    <>
+
 Test wiki attachment registrations::
 
     >>> page.restrictedTraverse('@@updateAtt')
