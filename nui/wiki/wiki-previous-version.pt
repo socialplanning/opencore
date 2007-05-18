@@ -10,62 +10,62 @@
     <div metal:fill-slot="content">
       
       <tal:let define="people_url python:here.portal_membership.getMembersFolder().absolute_url();
-		       version_id python:int(request['version_id']); 
-		       version python:view.get_version(version_id);
-		       cur_id python: view.current_id();
-		       previous_id python: view.previous_id(version_id); 
-		       next_id python: view.next_id(version_id);" >
+                       version_id python:int(request['version_id']); 
+                       version python:view.get_version(version_id);
+                       cur_id python: view.current_id();
+                       previous_id python: view.previous_id(version_id); 
+                       next_id python: view.next_id(version_id);" >
 
-	<div class="oc-headingBlock">
-	  
-	  <!-- FIXME prev widget --> 
-	  <tal:if condition="python: previous_id is not None">
-	    <a tal:attributes="href string:version?version_id=${previous_id}">
-	      &larr;<!-- FIXME -->
-	    </a>
-	  </tal:if>
-	  <tal:if condition="python: previous_id is None">
-	    &larr;<!-- FIXME -->
-	  </tal:if>&nbsp;
-	  
-	  <h1><span tal:replace="python: view.version_title(version_id);" /></h1>
-	  
-	  <!-- FIXME next widget --> 
-	  &nbsp;<tal:if condition="python: next_id is not None">
-	    <a tal:attributes="href string:version?version_id=${next_id}">
-	      &rarr;<!-- FIXME -->
-	    </a>
-	  </tal:if>
-	  <tal:if condition="python: next_id is None">
-	    &rarr;<!-- FIXME -->
-	  </tal:if>
-	  
-	  <p class="oc-headingContext">	   
-	    by <a tal:define="author version/sys_metadata/principal" 
-		  tal:attributes="href string:${people_url}/${author}"
-		  tal:content="author">author</a>
-	    on <span tal:replace="python:here.toLocalizedTime(version.sys_metadata['timestamp'], long_format=True)" />
-	    <br/>
+        <div class="oc-headingBlock">
+          
+          <!-- FIXME prev widget --> 
+          <tal:if condition="python: previous_id is not None">
+            <a tal:attributes="href string:version?version_id=${previous_id}">
+              &larr;<!-- FIXME -->
+            </a>
+          </tal:if>
+          <tal:if condition="python: previous_id is None">
+            &larr;<!-- FIXME -->
+          </tal:if>&nbsp;
+          
+          <h1><span tal:replace="python: view.version_title(version_id);" /></h1>
+          
+          <!-- FIXME next widget --> 
+          &nbsp;<tal:if condition="python: next_id is not None">
+            <a tal:attributes="href string:version?version_id=${next_id}">
+              &rarr;<!-- FIXME -->
+            </a>
+          </tal:if>
+          <tal:if condition="python: next_id is None">
+            &rarr;<!-- FIXME -->
+          </tal:if>
+          
+          <p class="oc-headingContext">     
+            by <a tal:define="author version/sys_metadata/principal" 
+                  tal:attributes="href string:${people_url}/${author}"
+                  tal:content="author">author</a>
+            on <span tal:replace="python:here.toLocalizedTime(version.sys_metadata['timestamp'], long_format=True)" />
+            <br/>
 
-	    <tal:if condition="python: version_id != view.current_id()">
-	      <!-- FIXME ? relative --> 
-	      <a tal:attributes = "href string:version_compare?version_id=${version_id}&version_id=${cur_id}">
-		compare with current version
-	      </a>
-	      <form method="POST" tal:attributes = "action string:revertversion?version_id=${version_id}">
-		<input type="submit" name="revert" value="revert to this version" />
-	      </form>
-	    </tal:if>
-	    <br/>
-	    Note:
-	    <br/>
-	    <span tal:replace="version/comment" />
-	  </p> <!-- end .oc-headingContext" --> 
-	</div> <!-- end .oc-headingBlock --> 
-	
-	<div id="oc-content-main"
-	     tal:content="structure python: view.get_page(version_id).EditableBody()">
-	</div> <!-- end #oc-content-main -->
+            <tal:if condition="python: version_id != view.current_id()">
+              <!-- FIXME ? relative --> 
+              <a tal:attributes = "href string:version_compare?version_id=${version_id}&version_id=${cur_id}">
+                compare with current version
+              </a>
+              <form method="POST" tal:attributes = "action string:revertversion?version_id=${version_id}">
+                <input type="submit" name="revert" value="revert to this version" />
+              </form>
+            </tal:if>
+            <br/>
+            Note:
+            <br/>
+            <span tal:replace="version/comment" />
+          </p> <!-- end .oc-headingContext" --> 
+        </div> <!-- end .oc-headingBlock --> 
+        
+        <div id="oc-content-main"
+             tal:content="structure python: view.get_page(version_id).EditableBody()">
+        </div> <!-- end #oc-content-main -->
 
       </tal:let>
 
