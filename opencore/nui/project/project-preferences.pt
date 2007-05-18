@@ -10,7 +10,7 @@
           <h1>Project preferences</h1>
         </div>
         <div id="oc-content-main">
-          <form>
+          <form action="@@doUpdateProject">
             <fieldset>
               <legend class="oc-legend-heading">Project details</legend>
               <p class="oc-heading-context">Name, url, and mission</p>
