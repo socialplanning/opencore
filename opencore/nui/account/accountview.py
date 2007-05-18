@@ -6,15 +6,15 @@ from opencore.nui.opencoreview import OpencoreView
 from Products.Five import BrowserView
 
 class JoinView(OpencoreView):
+    form_fields = form.FormFields(IJoinOpenplans)
 
     def validate(self):
         return self.context.validate(REQUEST=self.request)
 
     def __call__(self, *args, **kw):
-
         if self.request.environ['REQUEST_METHOD'] == 'GET':
             return self.index(*args, **kw)
-
+        
         errors = self.validate()
 
         if not errors:
@@ -22,24 +22,23 @@ class JoinView(OpencoreView):
         else:
             return self.index(*args, **kw)
 
+
 class ConfirmAccountView(OpencoreView):
 
     def do_confirmation(self, member):
-        ### there may be some form thingy here to check for
-
         pf = getToolByName(self, "portal_workflow")
-
         if pf.getInfoFor(member, 'review_state') != 'pending':
             return False
 
         setattr(member, 'isConfirmable', True)
         pf.doActionFor(member, 'register_public')
         delattr(member, 'isConfirmable')
-
         return True
 
     def __call__(self, *args, **kw):
         key = self.request.get("key")
+        
+        # we need to do an unrestrictedSearch because a default search will filter results by user permissions
         matches = self.membranetool.unrestrictedSearchResults(UID=key)
         
         if not matches:
@@ -56,21 +55,22 @@ class ConfirmAccountView(OpencoreView):
 
 
 class LoginView(OpencoreView):
+
     @property
     def came_from(self):
         return self.request.get('came_from')
 
-    @property
-    def login(self):
-        return self.loggedin()
-
     def __call__(self, *args, **kw):
-        if self.login:
+        if self.loggedin():
             return self.request.RESPONSE.redirect(self.came_from or self.siteURL)
         return self.index(*args, **kw)
 
 class ForgotLoginView(OpencoreView):
+
     def __call__(self, *args, **kw):
+        if self.request.environ['REQUEST_METHOD'] == 'GET':
+            return self.index(*args, **kw)
+
         user_lookup = self.request.get("__ac_name")
         if not user_lookup:
             return self.index(*args, **kw)
@@ -89,7 +89,9 @@ class ForgotLoginView(OpencoreView):
         return "An email has been sent to you, %s" % userid  # XXX rollie?
         return self.index(*args, **kw) # XXX not really right
 
+
 class DoPasswordResetView(OpencoreView):
+
     def __call__(self, *args, **kw):
         password = self.request.get("password")
         if not password:
@@ -104,7 +106,9 @@ class DoPasswordResetView(OpencoreView):
         self.addPortalStatusMessage(u'Your password has been reset')
         return self.request.RESPONSE.redirect(self.siteURL)
 
+
 class PasswordResetView(OpencoreView):
+
     def __call__(self, *args, **kw):
         key = self.request.get('key')
         pw_tool = getToolByName(self.context, "portal_password_reset")
