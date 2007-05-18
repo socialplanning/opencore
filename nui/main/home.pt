@@ -81,8 +81,8 @@
 		</h3>
 		<p class="oc-feed-item-data oc-discreetText">
 		  by 
-                  <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />
-		  on <span tal:content="python: view.pretty_date(item.CreationDate)">Jan 1937</span>
+                  <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
+		  <span tal:content="python: view.pretty_date(item.CreationDate)">Jan 1937</span>
 		</p>
 	      </li>
 	      <a tal:attributes="href string:${context/portal_url}/news">more news</a>
