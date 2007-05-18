@@ -271,7 +271,7 @@ class SitewideSearchView(SearchView):
                 rs = ((sort_by, 'desc'),)
 
         brains = self.catalogtool.evalAdvancedQuery(
-            Eq('SearchableText', search_query),
+            (Eq('portal_type', 'OpenProject') | Eq('portal_type', 'Document') | Eq('portal_type', 'OpenMember')) & Eq('SearchableText', search_query),
             rs,
             )
         return brains

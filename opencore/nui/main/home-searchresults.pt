@@ -44,7 +44,7 @@
                   <option value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
                   <option value="getId" tal:attributes="selected python: sorted_by == 'getId'">alphabetical</option>
                   <option value="modified" tal:attributes="selected python: sorted_by == 'modified'">date updated</option>
-                  <option value="portal_type" tal:attributes="selected python: sorted_by == 'potal_type'">content type</option>
+                  <option value="portal_type" tal:attributes="selected python: sorted_by == 'portal_type'">content type</option>
                   <option value="updated_by" tal:attributes="selected python: sorted_by == 'updated_by'">update by</option>
 		</select>
 
