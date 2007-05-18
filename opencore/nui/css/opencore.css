@@ -385,6 +385,10 @@ ul.oc-dropdown, .oc-dropdown ul {
   clear: none;
   width: 49%;
 }
+.oc-column-left.oc-boxy,
+.oc-column-right.oc-boxy {
+width: 44%;
+}
 .oc-image-bright { /* newspaper term for an image used to emphasize a block of text */
   margin: 0 0.5em 0.5em 0;
   float: left;
@@ -862,6 +866,9 @@ height: 1em;
 
 /* Feeds */
 
+.oc-widget-feed {
+	margin-bottom: 1em;
+}
 .oc-widget-feed h2{
   margin: 0;
 }
