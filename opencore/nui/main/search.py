@@ -219,6 +219,18 @@ class HomeView(SearchView):
         projects = (x.getObject() for x in project_brains)
         return projects
 
+    def news(self):
+        news_path = '/'.join(self.context.portal.getPhysicalPath()) + '/news'
+        query = dict(portal_type='Document',
+                     sort_on='created',
+                     sort_order='descending',
+                     sort_limit=4,
+                     path=news_path
+                     )
+        brains = self.catalogtool(**query)
+        return brains
+        
+
 
 class SitewideSearchView(SearchView):
 
