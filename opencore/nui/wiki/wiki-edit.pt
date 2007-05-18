@@ -14,31 +14,29 @@
 
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
-    <!-- cruft to include CSS and JS: please replace with portal_javascripts stuff -->
     <metal:do metal:fill-slot="link" >
-      <style type="text/css"><!-- @import url(http://www.openplans.org/portal_css/Plone%20Default/ploneStyles2216.css); -->      </style>
+      <link rel="stylesheet" href="++resource++css/kupustyles.css" media="all"/>
+      <link rel="stylesheet" href="++resource++css/kupuplone.css" media="all"/>
+      <link rel="stylesheet" href="++resource++css/kupudrawerstyles.css" media="all"/>
     </metal:do>
     <metal:do metal:fill-slot="script" >
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/sarissa.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/sarissa_ieemu_xpath.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupunoi18n.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupuhelpers.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupueditor.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupubasetools.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupuloggers.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupucontentfilters.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupucontextmenu.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupuploneeditor.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupuploneinit.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupusourceedit.js"></script>
-      <script type="text/javascript" tal:attributes="src string:${view/siteURL}/portal_javascripts/Plone%20Default/kupudrawers.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/sarissa.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/sarissa_ieemu_xpath.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupunoi18n.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupuhelpers.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupueditor.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupubasetools.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupuloggers.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupucontentfilters.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupucontextmenu.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupuploneeditor.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupuploneinit.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupusourceedit.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupudrawers.js"></script>
     </metal:do>
-    <!-- end cruft -->
   </head>
   <body>
     <div metal:fill-slot="content">
-
-      <!-- TODO project history -->
 
       <div id="oc-content-main" class="oc-content-main-fullWidth">
 
@@ -46,32 +44,16 @@
           <div class="headingBlock oc-wiki-headingBlock">
             <h2 tal:content="view/pagetitle"></h2>
           </div>
-          <ul class="oc-tabs">
-            <li class="">
-              <a href="@@index.html" rel="view">view</a>
-            </li>
-            <li class="oc-selected">
-              <a href="" rel="edit">edit</a>
-            </li>
-            <li tal:condition="nothing">
-              <a href="" rel="history">history</a>
-            </li>
-            <li tal:condition="nothing">
-              <form class="" >
-                <select class="oc-dropdown-links">
-                  <option value="">More...</option>
-                  <option value="http://www.google.com">I'm feeling lucky</option>
-                </select>
-                <input type="submit" value="Go" style=""/>
-              </form>
-            </li>
-          </ul><!-- end .oc-tabs -->
+
+          <!--
+          <metal:tabslot define-slot="tabs" />
+          -->
 
           <form name="edit_form"
             method="post"
             enctype="multipart/form-data"
             class="enableUnloadProtection"
-            tal:attributes="action python:here.absolute_url()  + '/@@update'">
+            tal:attributes="action string:${here/absolute_url}/@@update">
             
             <div class="oc-wiki-edit" >
               <div class="oc-wiki-edit-content">
@@ -81,7 +63,7 @@
 
               <ul class="oc-actions oc-wiki-actions">
                 <li><input type="submit" value="Save" class="oc-button oc-chooseThis" /></li>
-                <li>or <a href="@@index.html">cancel</a></li>
+                <li>or <a href="index.html">cancel</a></li>
               </ul>  
               
             </div><!-- end .oc-wiki-edit -->
@@ -125,7 +107,7 @@
         </div><!-- end .oc-options -->
         
 
-      </div><!-- end #oc-content-main -->
+      </div><!-- end #oc-content-main -->        
     </div><!-- end content slot -->
   </body>
   
