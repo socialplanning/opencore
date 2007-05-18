@@ -62,7 +62,7 @@
      class=".historyview.WikiVersionView"
      permission="cmf.ModifyPortalContent"
      name="history"
-     template="wiki-history.pt"
+     template="wiki-history-real.pt"
      />
 
   <browser:page
@@ -79,14 +79,6 @@
      permission="cmf.ModifyPortalContent"
      name="version_compare"
      />
-
-  <browser:page
-    for="opencore.content.page.OpenPage"
-    class=".view.WikiEdit"
-    permission="cmf.ModifyPortalContent"
-    name="history"
-    template="wiki-history-real.pt"
-    />
 
   <!-- attachments -->
   <!-- establish an order to help scanning? -->
