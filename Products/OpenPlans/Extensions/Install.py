@@ -622,6 +622,16 @@ def installCookieAuth(portal, out):
         print >> out, ("Move signed cookie auth to be top priority challenge "
                        "plugin")
 
+def installDefaultContent(portal, out):
+    print >> out, ("Creating '%s' content" % 'sitenews')
+    existing_item = getattr(portal.aq_base, 'news', None)
+    if existing_item is not None and existing_item.Type() != 'Folder':
+        portal.manage_delObjects([existing_item.getId()])
+        
+    if getattr(portal.aq_base, 'news', None) is None:
+        portal.invokeFactory('Folder', 'news', title='OpenPlans News')
+
+
 def install(self, migrate_atdoc_to_openpage=True):
     out = StringIO()
     portal = getToolByName(self, 'portal_url').getPortalObject()
@@ -656,5 +666,6 @@ def install(self, migrate_atdoc_to_openpage=True):
     createGreyEditTab(portal, out)
     createIndexes(portal, out)
     createMemIndexes(portal, out)
+    installDefaultContent(portal, out)
     print >> out, "Successfully installed %s." % config.PROJECTNAME
     return out.getvalue()
