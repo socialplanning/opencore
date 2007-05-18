@@ -8,13 +8,12 @@
       <div metal:fill-slot="content">
         <div class="oc-headingBlock">
           <h1>Project preferences</h1>
-          <!-- <p class="oc-headingContext">Modify the general preferences for your project</p> -->
         </div>
         <div id="oc-content-main">
           <form>
             <fieldset>
               <legend class="oc-legend-heading">Project details</legend>
-              <p class="oc-heading-context">What do you want your project to be named?</p>
+              <p class="oc-heading-context">Name, url, and mission</p>
               <table class="oc-form">
                 <tbody>
                   <tr class="oc-form-row">
@@ -60,7 +59,7 @@
             <fieldset>
               <legend class="oc-legend-heading">Security settings</legend>
               <fieldset>
-                <legend class="oc-legend-label">Non-members of the project can:</legend>
+                <legend class="oc-legend-label">Logged-in users who are not project members can:</legend>
                   <ul class="oc-form-radiolist" tal:define="seclevel proj/security">
                     <li>
                       <input type="radio" class="oc-input-typeRadio" id="securitylevel-3" name="securitylevel"
