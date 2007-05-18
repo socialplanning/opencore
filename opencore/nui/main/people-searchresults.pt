@@ -61,17 +61,19 @@
 
           <!-- the results are displayed here -->
           <ol class="oc-peopleresults-list oc-clearAfter">
-            <li class="oc-clearAfter" tal:repeat="item view/search_results">
-              <div class="oc-avatar">
-    <img >
+            <li class="oc-clearAfter vcard" tal:repeat="item view/search_results">
+              <div class="oc-avatar" tal:define="mem item/getObject; imgdata mem/getPortrait">
+                <a href="" tal:omit-tag="python: view.no_home(item.getId)" tal:attributes="href string:${context/portal_url}/people/${item/getId}">
+                  <img tal:condition="imgdata" tal:replace="structure imgdata" /><!-- XXX needs class="photo" for hCard compliance -->
+                  <img tal:condition="not: imgdata" tal:attributes="src string:defaultUser.gif" />
+                </a>
               </div>
               <div class="oc-peopleresults-content">
-    <h3 class="oc-peopleresults-username">
-                  <a href="" tal:attributes="href string:${context/portal_url}/people/${item/getId}" tal:content="item/getId">Username</a>
-    </h3>
-    <p class="oc-peopleresults-realname" tal:content="item/Title">
-                  Real name
-    </p>
+                <h3 class="oc-peopleresults-username fn">
+                  <a href="" tal:omit-tag="python: view.no_home(item.getId)" tal:attributes="href string:${context/portal_url}/people/${item/getId}" tal:content="item/getId">Username</a>
+                </h3>
+                <div class="oc-peopleresults-fullname n" tal:content="item/Title">real name</div>
+                <div class="oc-peopleresults-location adr" tal:define="loc item/getLocation" tal:condition="loc" tal:content="loc"><address>location</address></div>
               </div>
             </li>
           </ol>
@@ -99,7 +101,7 @@
       <!-- the sidebar contains the search for the project, as well as the letters that search for projects
       starting with that letter
       we can possibly create a macro that displays this form and letters generically -->
-      <div class="oc-widget oc-widget-search">    
+      <div class="oc-widget oc-widget-search oc-boxy">    
         <form name="people_search" action="." tal:attributes="action string:${context/portal_url}/people/searchresults">
           <label><h2>New search</h2></label>
           <input type="text" name="personname" tal:attributes="value request/personname | nothing" />
@@ -107,7 +109,7 @@
           <input type="submit" name="action_search_people" value="Search" />
         </form>
 
-        <ul class="oc-widget-alphabet" tal>
+        <ul class="oc-widget-alphabet oc-boxy" tal>
           <li tal:repeat="letter modules/string/uppercase">
             <a href="" tal:content="letter" tal:attributes="href string:${request/ACTUAL_URL}?letter_search=${letter}">A</a>
           </li>

@@ -14,6 +14,7 @@ from opencore import redirect
 from opencore.interfaces import IProject 
 from zope.component import getMultiAdapter, adapts, adapter
 from topp.utils.pretty_text import truncate
+from opencore.nui.static import render_static
 
 class OpencoreView(BrowserView):
     def __init__(self, context, request):
@@ -31,6 +32,7 @@ class OpencoreView(BrowserView):
         self.piv = context.unrestrictedTraverse('project_info') # TODO don't rely on this
         self.miv = context.unrestrictedTraverse('member_info')  # TODO don't rely on this
         self.errors = {}
+        self.render_static = render_static
 
     def portal_status_message(self):
         plone_utils = getToolByName(self.context, 'plone_utils')
@@ -166,6 +168,8 @@ class OpencoreView(BrowserView):
                         fullname=proj.getFull_name(),
                         url=proj.absolute_url(), # XXX use self.projectHomePage.absolute_url() instead?
                         home=self.projectHomePage(),
+                        mission=proj.Description(),
+                        security=2, # where, in unix speak, 1 = 660, 2 = 664, 3 = 666, 0 = 1 with no search results
                         featurelets=self.projectFeaturelets())
 
     def page(self): # TODO
@@ -189,8 +193,8 @@ class OpencoreView(BrowserView):
 
     def projectFeaturelets(self): # TODO
         featurelets = []
-        featurelets.append({'name': 'featurelet1', 'url': ''})
-        featurelets.append({'name': 'featurelet2', 'url': ''})
+        featurelets.append({'name': 'tasktracker', 'url': ''})
+        featurelets.append({'name': 'listen', 'url': ''})
         return featurelets
 
     def currentProjectPage(self):

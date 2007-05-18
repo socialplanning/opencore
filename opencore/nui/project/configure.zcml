@@ -1,0 +1,41 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:five="http://namespaces.zope.org/five">
+
+
+  <!-- templates -->
+  <browser:page
+    for="*"
+    name="createProject"
+    permission="cmf.ModifyPortalContent"
+    class=".view.ProjectView"
+    attribute="createProject"
+    />
+
+  <browser:page
+    for="*"
+    name="updateProject"
+    permission="cmf.ModifyPortalContent"
+    class=".view.ProjectView"
+    attribute="updateProject"
+    />
+
+  <browser:page
+    for="*"
+    name="doUpdateProject"
+    permission="cmf.ModifyPortalContent"
+    class=".view.ProjectView"
+    attribute="doUpdateProject"
+    />
+    
+<!--
+    <browser:page
+    for="opencore.interfaces.IProject"
+    name="project-contents"
+    permission="cmf.ModifyPortalContent"
+    class=".view.ProjectView"
+    template="project-contents.pt"
+    />
+-->
+
+</configure>

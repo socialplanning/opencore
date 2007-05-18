@@ -4,9 +4,11 @@
 
   <include package=".skin"/>
   <include package=".wiki" />
+  <include package=".project" />
   <include package=".main" />
   <include package=".account" />
   <include package=".main" />
+
   <!-- resource directories for css, images, etc -->
   <browser:resourceDirectory
     name="css"
@@ -23,15 +25,6 @@
 
 
   <!-- templates -->
-
-  <!-- magic (the global template) -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="magic"
-     template="magic.pt"
-     />
 
   <!-- topnav -->
   <browser:page
@@ -96,24 +89,6 @@
      template="footer.pt"
      />
 
-  <!-- project-preferences -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-project-preferences"
-     template="project-preferences.pt"
-     />
-
-  <!-- project-contact -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-project-contact"
-     template="project-contact.pt"
-     />
-
   <!-- member-profile -->
   <browser:page
      for="*"
@@ -123,6 +98,15 @@
      template="member-profile.pt"
      />
 
+  <!-- member-profile-edit -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-member-profile-edit"
+     template="member-profile-edit.pt"
+     />
+
   <!-- member-contact -->
   <browser:page
      for="*"
@@ -130,15 +114,6 @@
      permission="zope.Public"
      name="oc-member-contact"
      template="member-contact.pt"
-     />
-
-  <!-- start-project -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-start-project"
-     template="start-project.pt"
      />
 
   <!-- blank (for testing) -->

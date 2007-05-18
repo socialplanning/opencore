@@ -22,7 +22,6 @@ def readme_setup(tc):
     import opencore.tasktracker
     from zope.app.annotation.interfaces import IAttributeAnnotatable
     from zope.testing.loggingsupport import InstalledHandler
-    tc.new_request._hacked_path=None
     tc.log = InstalledHandler(opencore.tasktracker.LOG)
 
 def directive_setup(tc):

@@ -1,0 +1,108 @@
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <link metal:fill-slot="link" />
+    <script metal:fill-slot="script" />
+  </head>
+  <body>
+    <div metal:fill-slot="content">
+      <div class="oc-headingBlock">
+        <h1>Start a project</h1>
+      </div>
+      <div id="oc-content-main">
+        <form>
+          <fieldset>
+            <div class="oc-headingBlock">
+              <h2>Step 1. Enter project details</h2>
+            </div>
+            <table class="oc-form">
+              <tbody>
+                <tr class="oc-form-row">
+                  <th class="oc-form-label" scope="row">
+                    <label for="fullname">Name</label>
+                  </th>
+                  <td class="oc-form-value">
+                    <input type="text" id="fullname" />
+                  </td>
+                  <td class="oc-form-help">
+                    <span class="oc-form-context"></span>
+                    <span id="oc-username-validator" class="oc-form-validator"></span>
+                  </td>
+                </tr>
+                <tr class="oc-form-row">
+                  <th class="oc-form-label" scope="row">
+                    <label>http://</label>
+                  </th>
+                  <td class="oc-form-value">
+                    <input type="text" />.openplans.org
+                  </td>
+                  <td class="oc-form-help">
+                    <span class="oc-form-context"></span>
+                    <span id="oc-username-validator" class="oc-form-validator"></span>
+                  </td>
+                </tr>
+                <tr class="oc-form-row">
+                  <th class="oc-form-label" scope="row">
+                    <label for="mission">Mission Statement</label>
+                  </th>
+                  <td class="oc-form-value">
+                    <textarea name="mission" id="mission" rows="3" cols="40"></textarea>
+                  </td>
+                  <td class="oc-form-help">
+                    <span class="oc-form-context"></span>
+                    <span id="oc-username-validator" class="oc-form-validator"></span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </fieldset>
+
+          <fieldset>
+            <legend><h2>Step 2: Choose security settings</h2></legend>
+            <fieldset>
+              <legend class="oc-legend-label">Project members can modify project content.<br/>
+                <strong>Other logged-in users can:</strong>
+              </legend>
+              <ul class="oc-form-radiolist">
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-3" name="securitylevel" />
+                  <label for="securitylevel-3">view and edit content</label>
+                </li>
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-2" name="securitylevel" />
+                  <label for="securitylevel-2">only view content</label>
+                </li>
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-1" name="securitylevel" />
+                  <label for="securitylevel-1">not even view content</label>
+                  <ul class="oc-discreetText">
+                    <li class="oc-smallText">
+                      <!-- TODO only enable this checkbox if security level is 3 -->
+                      <input type="checkbox" class="oc-input-typeCheck" id="searchable" name="searchable" />
+                      <label for="searchable">do not show project in search results</label>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </fieldset>
+          </fieldset>
+
+          <fieldset>
+            <legend><h2>Step 3: Add tools</h2></legend>
+            <ul class="oc-form-radiolist" >
+              <li>
+                <input type="checkbox" class="oc-input-typeCheck" id="tasktracker" name="tasktracker" />
+                <label for="tasktracker">Task Tracker</label>
+              </li>
+              <li>
+                <input type="checkbox" class="oc-input-typeCheck" id="listen" name="listen" />
+                <label for="listen">Mailing lists</label>
+              </li>
+            </ul>
+          </fieldset>
+          <button type="submit" class="oc-input-typeButton">create</button>
+        </form>
+
+      </div><!-- end .oc-content-main -->
+    </div><!-- end content-fill-slot -->
+  </body>
+</html>

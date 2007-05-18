@@ -1,6 +1,6 @@
 <configure xmlns="http://namespaces.zope.org/zope"
-    xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:five="http://namespaces.zope.org/five">
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:five="http://namespaces.zope.org/five">
 
   <!-- macros -->
   <browser:page
@@ -56,6 +56,7 @@
     template="wiki-edit.pt"
     />
 
+  
   <browser:page
      for="opencore.content.page.OpenPage"
      class=".historyview.WikiVersionView"
@@ -83,8 +84,8 @@
     for="opencore.content.page.OpenPage"
     class=".view.WikiEdit"
     permission="cmf.ModifyPortalContent"
-    name="edit-nick"
-    template="wiki-edit-nick.pt"
+    name="history"
+    template="wiki-history-real.pt"
     />
 
   <!-- attachments -->
@@ -101,6 +102,14 @@
      name="createAtt"
      permission="cmf.ModifyPortalContent"
      attribute="createAtt"
+     for="opencore.content.page.OpenPage"
+     class=".view.AttachmentView"
+     />
+
+  <browser:page
+     name="attachmentSnippet"
+     permission="cmf.ModifyPortalContent"
+     attribute="attachmentSnippet"
      for="opencore.content.page.OpenPage"
      class=".view.AttachmentView"
      />

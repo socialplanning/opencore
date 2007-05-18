@@ -1,16 +1,18 @@
 import datetime
 from time import strptime
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import Batch
 from Products.AdvancedQuery import Eq, RankByQueries_Sum
 from topp.utils.pretty_date import prettyDate
- 
+from zExceptions import Redirect 
 from opencore.nui.opencoreview import OpencoreView
+
 
 class SearchView(OpencoreView):
 
     def _get_batch(self, brains, start=0):
         return Batch(brains,
-                     size=3,
+                     size=10,
                      start=start,
                      end=0,
                      orphan=0,
@@ -30,6 +32,15 @@ class SearchView(OpencoreView):
             return prop
 
         return sort_key_fn
+
+    def pretty_date(self, date):
+        try:
+            time_obj = strptime(date, '%Y-%m-%d %H:%M:%S')
+            datetime_obj = datetime.datetime(*time_obj[0:6])
+        except TypeError:
+            datetime_obj = date
+        return prettyDate(datetime_obj)
+
 
 
 class ProjectsSearchView(SearchView):
@@ -114,14 +125,11 @@ class ProjectsSearchView(SearchView):
         projects = (x.getObject() for x in project_brains)
         return projects
 
-    def create_date(self, project):
-        cd = project.CreationDate()
-        time_obj = strptime(cd, '%Y-%m-%d %H:%M:%S')
-        datetime_obj = datetime.datetime(*time_obj[0:6])
-        return prettyDate(datetime_obj)
-
 
 class PeopleSearchView(SearchView):
+    def __init__(self, context, request):
+        SearchView.__init__(self, context, request)
+        self.membrane_tool = getToolByName(context, 'membrane_tool')
 
     def __call__(self):
         personname = self.request.get('personname', None)
@@ -147,9 +155,8 @@ class PeopleSearchView(SearchView):
 
     def search_for_person_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
-        query = dict(portal_type="OpenMember",
-                     Title=letter + '*')
-        people_brains = self.catalogtool(**query)
+        query = dict(Title=letter + '*')
+        people_brains = self.membrane_tool(**query)
 
         people_brains = sorted(people_brains, key=self.create_sort_fn(sort_by))
 
@@ -158,29 +165,43 @@ class PeopleSearchView(SearchView):
     def search_for_person(self, person, sort_by=None):
         person = person.lower()
 
-        proj_query = person
-        if not proj_query.endswith('*'):
-            proj_query = proj_query + '*'
+        person_query = person
+        if not person_query.endswith('*'):
+            person_query = person_query + '*'
 
         if not sort_by or sort_by == 'relevancy':
-            rs = (RankByQueries_Sum((Eq('Title', proj_query),32), (Eq('getFull_name', proj_query),16)),)
+            rs = (RankByQueries_Sum((Eq('Title', person_query),32), (Eq('getId', person_query),16)),)
         else:
             # we can't sort by title
             if sort_by == 'Title':
-                sort_by = 'sortable_title'
+                sort_by = 'exact_getFullname'
             rs = ((sort_by, 'desc'),)
 
-        people_brains = self.catalogtool.evalAdvancedQuery(
-            Eq('portal_type', 'OpenMember') & Eq('SearchableText', proj_query),
+        people_brains = self.membrane_tool.evalAdvancedQuery(
+            Eq('RosterSearchableText', person_query),
             rs,
             )
         return people_brains
 
+    def no_home(self, userid):
+        """ check to see if a user has a people folder (has logged in)
+            note: not using mtool.getHomeFolder for efficiency reasons """
+        return not self.context.has_key(userid)
+
 
 class HomeView(SearchView):
     def __init__(self, context, request):
-        OpencoreView.__init__(self, context, request)
+        SearchView.__init__(self, context, request)
         self.projects_search = ProjectsSearchView(context, request)
+
+    def __call__(self):
+        go_here = self.request.get('go_here', None)
+
+        if go_here:
+            raise Redirect, go_here
+        
+        return self.index()
+
 
     def recently_updated_projects(self):
         return self.projects_search.recently_updated_projects()
@@ -197,3 +218,49 @@ class HomeView(SearchView):
         # we get object for number of project members
         projects = (x.getObject() for x in project_brains)
         return projects
+
+
+class SitewideSearchView(SearchView):
+
+    def __call__(self):
+        search_string = self.request.get('search_string', None)
+        search_action = self.request.get('search_action', None)
+        start = self.request.get('b_start', 0)
+        sort_by = self.request.get('sort_by', None)
+        self.search_results = None
+        self.search_query = None
+
+        # this resets pagination when the sort order is changed
+        if self.request.get('REQUEST_METHOD', None) == 'POST':
+            start = 0
+            self.request.set('b_start', 0)
+            
+        if search_string:
+            self.search_results = self._get_batch(self.search(search_string, sort_by), start)
+            self.search_query = 'for &ldquo;%s&rdquo;' % search_string
+            
+        return self.index()
+            
+
+    def search(self, search_string, sort_by=None):
+        search_string = search_string.lower()
+
+        search_query = search_string
+        if not search_query.endswith('*'):
+            search_query = search_query + '*'
+
+        if not sort_by or sort_by == 'relevancy':
+            rs = (RankByQueries_Sum((Eq('getId', search_query),32), (Eq('getFull_name', search_query),16)),)
+        else:
+            # we can't sort by title
+            if sort_by == 'getId':
+                rs = ((sort_by, 'asc'),)
+            else:
+                rs = ((sort_by, 'desc'),)
+
+        brains = self.catalogtool.evalAdvancedQuery(
+            Eq('SearchableText', search_query),
+            rs,
+            )
+        return brains
+    

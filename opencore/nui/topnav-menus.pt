@@ -2,7 +2,7 @@
 
 <!-- OpenPlans logo -->
 <h1 id="oc-topnav-openplans-logo">
-  <a tal:attributes="href string:${site}/oc-home"><img tal:attributes="src view/logoURL;
+  <a tal:attributes="href string:${site}/@@index.html"><img tal:attributes="src view/logoURL;
       alt view/sitetitle" /></a>
 </h1>
 
@@ -15,7 +15,7 @@
     <a tal:attributes="href string:${site}/projects/@@index.html">projects</a>
   </li>
   <li>
-    <a tal:attributes="href string:${site}/@@magic?oc-content=oc-start-project">start a project</a>
+    <a tal:attributes="href string:${site}/@@createProject">start a project</a>
   </li>
   <tal:block tal:condition="view/loggedin" tal:define="usr view/user">
     <li>

@@ -8,7 +8,7 @@
         />
 
     <subscriber
-        for="Products.CMFCore.interfaces.IDynamicType
+        for="opencore.interfaces.IOpenPage
              zope.app.event.interfaces.IObjectModifiedEvent"
         handler=".metadata.updateContainerMetadata"
         />

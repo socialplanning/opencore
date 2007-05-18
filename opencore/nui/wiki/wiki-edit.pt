@@ -1,0 +1,116 @@
+<tal:vars tal:define="usr view/user;
+                      attachments python:here.getFolderContents(contentFilter = {'portal_type' : ['FileAttachment']});
+                      canedit usr/canedit;
+                      page view/page;
+                      Iterator python:modules['Products.CMFPlone'].IndexIterator;
+                      lockable python:hasattr(here, 'wl_isLocked');
+                      errors python: options.get('errors', {});
+                      isLocked python:lockable and here.wl_isLocked();
+                      member python:here.portal_membership.getAuthenticatedMember();
+                      portal python:context.portal_url.getPortalObject();
+                      portal_url here/portal_url;
+                      tabindex python:Iterator(pos=7000);
+                      ">
+
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <metal:do metal:fill-slot="link" >
+      <link rel="stylesheet" href="++resource++css/kupustyles.css" media="all"/>
+      <link rel="stylesheet" href="++resource++css/kupuplone.css" media="all"/>
+      <link rel="stylesheet" href="++resource++css/kupudrawerstyles.css" media="all"/>
+    </metal:do>
+    <metal:do metal:fill-slot="script" >
+      <script type="text/javascript" src="++resource++javascripts/sarissa.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/sarissa_ieemu_xpath.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupunoi18n.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupuhelpers.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupueditor.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupubasetools.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupuloggers.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupucontentfilters.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupucontextmenu.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupuploneeditor.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupuploneinit.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupusourceedit.js"></script>
+      <script type="text/javascript" src="++resource++javascripts/kupudrawers.js"></script>
+    </metal:do>
+  </head>
+  <body>
+    <div metal:fill-slot="content">
+
+      <div id="oc-content-main" class="oc-content-main-fullWidth">
+
+        <div class="oc-wiki">
+          <div class="headingBlock oc-wiki-headingBlock">
+            <h2 tal:content="view/pagetitle"></h2>
+          </div>
+
+          <!--
+          <metal:tabslot define-slot="tabs" />
+          -->
+
+          <form name="edit_form"
+            method="post"
+            enctype="multipart/form-data"
+            class="enableUnloadProtection"
+            tal:attributes="action string:${here/absolute_url}/@@update">
+            
+            <div class="oc-wiki-edit" >
+              <div class="oc-wiki-edit-content">
+                <input type="hidden" name="submitted" value="1"/>
+                <metal:fieldMacro use-macro="python:here.widget('text', mode='edit')"/>
+              </div><!-- end .oc-wiki-edit-content" --> 
+
+              <ul class="oc-actions oc-wiki-actions">
+                <li><input type="submit" value="Save" class="oc-button oc-chooseThis" /></li>
+                <li>or <a href="index.html">cancel</a></li>
+              </ul>  
+              
+            </div><!-- end .oc-wiki-edit -->
+            
+          </form>
+        </div><!-- end .oc-wiki -->
+
+        <hr />
+        <div class="oc-options oc-wiki-edit-options">
+
+          <div class="oc-expander">
+              <a href="#oc-wiki-manageAttachments" class="oc-expander-link">manage attachments</a>
+              <div class="oc-expander-content">
+                <h4>Current attachments:</h4>
+                    <ul class="oc-attachments" id="oc-wiki-attachments">
+                      <tal:block condition="nocall:attachments">
+                        <tal:repeat repeat="attachment attachments">
+                          <li metal:use-macro="here/@@wiki_macros/attachment"/>
+                        </tal:repeat>
+                      </tal:block>
+                    </ul>
+
+                  <fieldset>
+                    <legend><h4>Upload a new file:</h4></legend>
+                     <form metal:use-macro="here/@@wiki_macros/upload"/>
+                  </fieldset>
+
+
+              </div><!-- end expander-content -->
+            </div><!-- end expander -->
+          <hr />
+
+           <div class="oc-expander" tal:condition="nothing">
+              <a href="#oc-wiki-addNote" class="oc-expander-link">add note</a>
+              <div id="oc-wiki-addNote" class="oc-expander-content">
+              <label for="">Add change note</label>
+              
+                <textarea rows="2" cols="80"></textarea>
+            </div><!-- end .oc-expander-content -->
+          </div><!-- end .oc-expander --> 
+        </div><!-- end .oc-options -->
+        
+
+      </div><!-- end #oc-content-main -->        
+    </div><!-- end content slot -->
+  </body>
+  
+</html>
+
+</tal:vars>

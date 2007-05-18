@@ -60,18 +60,28 @@
               </form>
             </div>
 
-
             <!-- the results are displayed here -->
             <ol class="oc-searchresults-list">
               <li class="oc-searchresults-item" tal:repeat="item view/search_results">
                 <h3><a href="" tal:attributes="href string:${context/portal_url}/projects/${item/getId}" tal:content="item/Title">Project Title</a></h3>
-                <span class="oc-discreetText">
-                  <span>created by <a tal:attributes="href string:${context/portal_url}/author/${item/Creator}" tal:content="item/Creator" />, 
-                    <span tal:content="python: view.create_date(item.getObject())" />
-                  </span>
-                  <!-- <span>last updated by <a href="link to user profile">username</a>, at 1:37am</span> --> <!-- for sorting by recent activity -->
+
+                <span class="oc-discreetText" tal:define="sorting_by request/sort_by | nothing">
+
+                  <tal:not-modified-block condition="python: sorting_by != 'modified'">
+                    created by
+                    <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
+                    <span tal:content="python: view.pretty_date(item.CreationDate)" />
+                  </tal:not-modified-block>
+
+                  <tal:modified-block tal:condition="python: sorting_by == 'modified'">
+                    <tal:has_updated_text define="userid item/lastModifiedAuthor" condition="userid">
+                      last updated by
+                      <a tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
+                    <span tal:content="python: view.pretty_date(item.ModificationDate)" />
+                    </tal:has_updated_text>
+                  </tal:modified-block>
+
                 </span>
-                <!--<p tal:condition="item/rel | nothing" tal:content="string:Relevancy: ${item/rel}%"/>-->
                 <!-- XXX put in correct mission statement -->
                 <p tal:content="string: item mission statement goes here" />
               </li>
@@ -97,7 +107,7 @@
         <!-- the sidebar contains the search for the project, as well as the letters that search for projects
              starting with that letter
              we can possibly create a macro that displays this form and letters generically -->
-        <div class="oc-widget oc-widget-search">    
+        <div class="oc-widget oc-widget-search oc-boxy">    
           <form name="projects_search" action="." tal:attributes="action string:${context/portal_url}/projects/searchresults">
             <label><h2>New search</h2></label>
             <input type="text" name="projname" tal:attributes="value request/projname | nothing" />
@@ -105,7 +115,7 @@
             <input type="submit" name="action_search_projects" value="Search" />
           </form>
           
-          <ul class="oc-widget-alphabet" tal>
+          <ul class="oc-widget-alphabet oc-boxy" tal>
             <li tal:repeat="letter modules/string/uppercase">
               <a href="" tal:content="letter" tal:attributes="href string:${request/ACTUAL_URL}?letter_search=${letter}">A</a>
             </li>
