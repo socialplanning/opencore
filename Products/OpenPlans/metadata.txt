@@ -106,15 +106,17 @@ First, we'll hand feed the subscriber::
 
     >>> from Products.OpenPlans.interfaces import IProject
     >>> from Products.Five.utilities.marker import mark
+    >>> from opencore.interfaces import IOpenPage
     >>> mark(self.folder, IProject)
     >>> doc = getattr(self.folder, fid)
+    >>> marker.mark(doc, IOpenPage)
     >>> event = md.objectevent.ObjectModifiedEvent(doc)
     >>> md.updateContainerMetadata(doc, event)
     >>> brain = catalog(path={'query' : '/'.join(self.folder.getPhysicalPath()), 'depth' : 0})[0]
     >>> brain.lastModifiedTitle == doc.Title()
     True
 
-    >>> brain.ModificationDate >= doc.modified()
+    >>> brain.ModificationDate >= self.folder.modified()
     True
 
 Now lets update the version info and hand feed the notification::
@@ -137,12 +139,26 @@ event::
     >>> Document.edit_old = Document.edit
     >>> Document.edit = md.addDispatcherToMethod(Document.edit, md.notifyObjectModified)
     >>> doc.edit('text/html', 'hellllllllo')
+
+Fire the object modified event manually in the test here
+This will happen automatically in the archetypes BaseObject processForm
+    >>> import zope.event
+    >>> zope.event.notify(event)
+
     >>> history.comment = 'more new stuff'
     >>> history.sys_metadata['principal'] = 'U3'
     >>> brain = catalog(path={'query' : '/'.join(self.folder.getPhysicalPath()), 'depth' : 0})[0]
     >>> brain.ModificationDate >= doc.modified()
     True
+    >>> brain.lastModifiedAuthor
+    'test_user_1_'
 
 Return things to normal
 
     >>> CatalogBrains.GETOBJECT_RAISES=False
+
+Let's make sure that we can get the id of the currently
+authenticated member
+
+    >>> md.getAuthenticatedMemberId(self.portal)
+    'test_user_1_'
