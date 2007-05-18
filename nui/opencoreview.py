@@ -15,6 +15,7 @@ from opencore.interfaces import IProject
 from zope.component import getMultiAdapter, adapts, adapter
 from topp.utils.pretty_text import truncate
 from opencore.nui.static import render_static
+from topp.featurelets.interfaces import IFeatureletSupporter
 
 class OpencoreView(BrowserView):
     def __init__(self, context, request):
@@ -191,10 +192,10 @@ class OpencoreView(BrowserView):
             homepagename = self.projectobj().getDefaultPage()
             return self.projectobj().unrestrictedTraverse(homepagename)
 
-    def projectFeaturelets(self): # TODO
-        featurelets = []
-        featurelets.append({'name': 'tasktracker', 'url': ''})
-        featurelets.append({'name': 'listen', 'url': ''})
+    def projectFeaturelets(self):
+        fletsupporter = IFeatureletSupporter(self.context)
+        featurelet_ids = fletsupporter.getInstalledFeatureletIds()
+        featurelets = [{'name': id, 'url' : fletsupporter.getFeatureletDescriptor(id)['content'][0]['id']} for id in featurelet_ids]
         return featurelets
 
     def currentProjectPage(self):
