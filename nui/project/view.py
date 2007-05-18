@@ -15,7 +15,6 @@ class ProjectView(OpencoreView):
         return self.project_create()
 
     def createProject(self):
-        import pdb; pdb.set_trace()
         putils = getToolByName(self.context, 'plone_utils')
         self.request.set('__initialize_project__', True)
         self.errors = {}
