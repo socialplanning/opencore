@@ -50,8 +50,9 @@
               <p class="oc-feed-item-data oc-discreetText" tal:define="nmembers python: len(project.projectMemberIds())">
                 <span tal:replace="nmembers">YY</span> member<span tal:condition="python: nmembers > 1" tal:replace="string:s" />, active since <span tal:replace="python: view.pretty_date(project.CreationDate())">Jan 1937</span>
               </p>
-              <p class="oc-feed-item-description" tal:content="project/mission | string: project mission statement goes here">
-                This is the descriptive text for a project. Apparently it doesn't quite work right yet. Is there even a field for users to fill out or entry to call from a database?
+              <p class="oc-feed-item-description" tal:define="desc project/Description">
+                  <span tal:condition="desc" tal:replace="desc" />
+                  <span tal:condition="not: desc" tal:replace="string:no mission statement (project description)" />
               </p>
             </li>
           </ul>
