@@ -12,7 +12,7 @@
         <form>
           <fieldset>
             <div class="oc-headingBlock">
-              <h2>Step 1. Enter name and mission statement</h2>
+              <h2>Step 1. Enter project details</h2>
             </div>
             <table class="oc-form">
               <tbody>
@@ -58,28 +58,32 @@
 
           <fieldset>
             <legend><h2>Step 2: Choose security settings</h2></legend>
-            <p><strong>Non-members of the project can:</strong></p>
-            <ul class="oc-form-radiolist">
-              <li>
-                <input type="radio" class="oc-input-typeRadio" id="securitylevel-3" name="securitylevel" />
-                <label for="securitylevel-3">view and edit content</label>
-              </li>
-              <li>
-                <input type="radio" class="oc-input-typeRadio" id="securitylevel-2" name="securitylevel" />
-                <label for="securitylevel-2">only view content</label>
-              </li>
-              <li>
-                <input type="radio" class="oc-input-typeRadio" id="securitylevel-1" name="securitylevel" />
-                <label for="securitylevel-1">not even view content</label>
-                <ul class="oc-discreetText">
-                  <li class="oc-smallText">
-                    <!-- TODO only enable this checkbox if security level is 3 -->
-                    <input type="checkbox" class="oc-input-typeCheck" id="searchable" name="searchable" />
-                    <label for="searchable">do not show project in search results</label>
-                  </li>
-                </ul>
-              </li>
-            </ul>
+            <fieldset>
+              <legend class="oc-legend-label">Project members can modify project content.<br/>
+                <strong>Other logged-in users can:</strong>
+              </legend>
+              <ul class="oc-form-radiolist">
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-3" name="securitylevel" />
+                  <label for="securitylevel-3">view and edit content</label>
+                </li>
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-2" name="securitylevel" />
+                  <label for="securitylevel-2">only view content</label>
+                </li>
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-1" name="securitylevel" />
+                  <label for="securitylevel-1">not even view content</label>
+                  <ul class="oc-discreetText">
+                    <li class="oc-smallText">
+                      <!-- TODO only enable this checkbox if security level is 3 -->
+                      <input type="checkbox" class="oc-input-typeCheck" id="searchable" name="searchable" />
+                      <label for="searchable">do not show project in search results</label>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </fieldset>
           </fieldset>
 
           <fieldset>

@@ -20,6 +20,7 @@
     attribute="updateProject"
     />
     
+<!--
     <browser:page
     for="opencore.interfaces.IProject"
     name="project-contents"
@@ -27,5 +28,6 @@
     class=".view.ProjectView"
     template="project-contents.pt"
     />
+-->
 
 </configure>
