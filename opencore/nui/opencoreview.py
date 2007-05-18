@@ -41,6 +41,11 @@ class OpencoreView(BrowserView):
         msgs = [msg.message for msg in msgs]
         return msgs
 
+    def addPortalStatusMessage(self, msg):
+        plone_utils = getToolByName(self.context, 'plone_utils')
+        from Products.CMFPlone import PloneMessageFactory
+        plone_utils.addPortalMessage(PloneMessageFactory(msg))
+
     def include(self, viewname):
         if self.transcluded:
             return nui.renderTranscluderLink(viewname)

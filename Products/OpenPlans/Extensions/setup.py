@@ -20,7 +20,7 @@ from Install import installColumns, fixUpEditTab, hideActions, \
      installWorkflowPolicies, hideActionTabs, securityTweaks, uiTweaks, \
      migrateATDocToOpenPage, createIndexes, installZ3Types, registerJS, \
      setupProjectLayout, createMemIndexes, setCookieDomain, installCookieAuth, \
-     setupPeopleFolder
+     setupPeopleFolder, install_confirmation_workflow
 from migrate_teams_to_projects import migrate_teams_to_projects
 from migrate_membership_roles import migrate_membership_roles
 
@@ -81,7 +81,7 @@ def migrate_listen_member_lookup(self, portal):
     sm = portal.getSiteManager()
     sm.registerUtility(IMemberLookup, opencore_memberlookup)
 
-functions = dict(
+topp_functions = dict(
     setupKupu = convertFunc(setupKupu),
     fixUpEditTab = convertFunc(fixUpEditTab),
     installMetadataColumns = convertFunc(installColumns),
@@ -113,7 +113,7 @@ class TOPPSetup(SetupWidget):
     """ OpenPlans Setup Bucket Brigade  """
 
     type = 'TOPP Setup'
-
+    functions = topp_functions
     description = ' utillity methods for TOPP site setup '
 
     def setup(self):
@@ -121,14 +121,14 @@ class TOPPSetup(SetupWidget):
 
     def run(self, fn, **kwargs):
         out = []
-        out.append((functions[fn](self, self.portal, **kwargs),INFO))
+        out.append((self.functions[fn](self, self.portal, **kwargs),INFO))
         out.append(('Function %s has been applied' % fn, INFO))
         return out
 
     def addItems(self, fns):
         out = []
         for fn in fns:
-            out.append((functions[fn](self, self.portal),INFO))
+            out.append((self.functions[fn](self, self.portal),INFO))
             out.append(('Function %s has been applied' % fn, INFO))
         return out
 
@@ -137,6 +137,16 @@ class TOPPSetup(SetupWidget):
 
     def available(self):
         """ Go get the functions """
-        return functions.keys()
+        return self.functions.keys()
+
+nui_functions = dict(install_confirmation_workflow=convertFunc(install_confirmation_workflow))
+
+class NuiSetup(TOPPSetup):
+    """ OpenPlans NUI Setup Bucket Brigade  """
+
+    type = 'NUI Setup'
+    description = ' utillity methods for NUI site setup '
+    functions = nui_functions
     
 MigrationTool.registerSetupWidget(TOPPSetup)
+MigrationTool.registerSetupWidget(NuiSetup)

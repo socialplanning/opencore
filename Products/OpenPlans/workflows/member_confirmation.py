@@ -22,10 +22,10 @@ from Products.DCWorkflow.DCWorkflow import DCWorkflowDefinition
 from Products.PythonScripts.PythonScript import PythonScript
 from Products.ExternalMethod.ExternalMethod import ExternalMethod
 
-def setup_openplans_member_workflow(wf):
+def setup_openplans_member_confirmation_workflow(wf):
     """Setup the workflow
     """
-    wf.setProperties(title='OpenPlans Member Workflow')
+    wf.setProperties(title='OpenPlans Member Confirmation Workflow')
 
     for s in ('disabled', 'new', 'pending', 'private', 'public'):
         wf.states.addState(s)
@@ -384,13 +384,13 @@ def setup_openplans_member_workflow(wf):
                           ExternalMethod('register', '',
                                          'remember.workflow', 'register'))
     
-def create_openplans_member_workflow(id):
+def create_openplans_member_confirmation_workflow(id):
     """Create, setup and return the workflow.
     """
     ob = DCWorkflowDefinition(id)
-    setup_openplans_member_workflow(ob)
+    setup_openplans_member_confirmation_workflow(ob)
     return ob
 
-addWorkflowFactory(create_openplans_member_workflow,
-                   id='openplans_member_workflow',
-                   title='OpenPlans Member Workflow')
+addWorkflowFactory(create_openplans_member_confirmation_workflow,
+                   id='openplans_member_confirmation_workflow',
+                   title='OpenPlans Member Confirmation Workflow')
