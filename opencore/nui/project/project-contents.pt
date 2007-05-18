@@ -55,7 +55,7 @@
                     <td>
                       <ul class="oc-actions oc-dataTable-row-actions">
                         <li><a href="#" class="oc-liveEdit-edit">Rename</a></li>
-                        <li><a href="#">Delete</a></li>
+                        <li><a href="#" class="oc-liveEdit-delete">Delete</a></li>
                         <li><a href="#">Archive</a></li>
                       </ul>
                     </td>
@@ -82,7 +82,7 @@
                     <td>
                       <ul class="oc-actions oc-dataTable-row-actions">
                         <li><a href="#" class="oc-liveEdit-edit">Rename</a></li>
-                        <li><a href="#">Delete</a></li>
+                        <li><a href="#" class="oc-liveEdit-delete">Delete</a></li>
                         <li><a href="#">Archive</a></li>
                       </ul>
                     </td>
@@ -145,7 +145,7 @@
                     <td>
                       <ul class="oc-actions oc-dataTable-row-actions">
                         <li><a href="#" class="oc-liveEdit-edit">Rename</a></li>
-                        <li><a href="#">Delete</a></li>
+                        <li><a href="#" class="oc-liveEdit-delete">Delete</a></li>
                         <li><a href="#">Archive</a></li>
                       </ul>
                     </td>
@@ -219,7 +219,7 @@
                     </td>
                     <td>
                       <ul class="oc-actions oc-dataTable-row-actions">
-                        <li><a href="#" class="oc-liveAction-actionLink" action="delete">Remove</a></li>
+                        <li><a href="#" class="oc-liveEdit-delete">Remove</a></li>
                       </ul>
                     </td>
                   </tr>
@@ -232,7 +232,7 @@
                     </td>
                     <td>
                       <ul class="oc-actions oc-dataTable-row-actions">
-                        <li><a href="#" class="oc-liveAction-actionLink" action="delete">Remove</a></li>
+                        <li><a href="#" class="oc-liveEdit-delete">Remove</a></li>
                       </ul>
                     </td>
                   </tr>
