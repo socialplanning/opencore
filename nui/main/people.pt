@@ -31,8 +31,8 @@
         </div>
 
 
-        <div tal:condition="not: view/loggedin" tal:content="structure python: view.render_static('people_anonymous.txt')" />
-        <div tal:condition="view/loggedin" tal:content="structure python: view.render_static('people_notanonymous.txt')" />
+        <div tal:condition="not: view/loggedin" tal:content="structure python: view.render_static('main_people_anonymous.txt')" />
+        <div tal:condition="view/loggedin" tal:content="structure python: view.render_static('main_people_notanonymous.txt')" />
 
       </div><!-- content-main -->
 

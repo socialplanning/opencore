@@ -10,7 +10,7 @@
       </div>
       
       <div id="oc-content-main">
-  <div id="oc-content-sidebar" tal:replace="structure python: view.render_static('home_intro.txt')" />
+  <div id="oc-content-sidebar" tal:replace="structure python: view.render_static('main_home_intro.txt')" />
         
         <div class="oc-column-group">
             <div class="oc-widget oc-widget-feed oc-column-left">
@@ -88,7 +88,7 @@
         </div><!-- OpenPlans News -->
         <div class="oc-clearAfter">
           <h2>About us</h2>
-          <div condition="not: view/loggedin" tal:replace="structure python: view.render_static('home_aboutus.txt')" /> 
+          <div condition="not: view/loggedin" tal:replace="structure python: view.render_static('main_home_aboutus.txt')" /> 
         </div>      
       </div><!-- content-sidebar -->
     </div><!-- content-fill-slot -->
