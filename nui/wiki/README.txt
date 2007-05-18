@@ -21,6 +21,24 @@ Test wiki page registrations::
     ...
     Unauthorized: You are not allowed to access '@@edit' in this context
 
+Test wiki history registrations::
+
+    >>> page.restrictedTraverse('history')
+    Traceback (most recent call last):
+    ...
+    Unauthorized: You are not allowed to access 'history' in this context
+
+    >>> page.restrictedTraverse('version')
+    Traceback (most recent call last):
+    ...
+    Unauthorized: You are not allowed to access 'version' in this context
+    
+
+    >>> page.restrictedTraverse('version_compare')
+    Traceback (most recent call last):
+    ...
+    Unauthorized: You are not allowed to access 'version_compare' in this context
+
 
 Test wiki attachment registrations::
 
@@ -54,6 +72,18 @@ Test wiki page registrations (logged in)::
     >>> page.restrictedTraverse('@@edit')
     <...SimpleViewClass ...wiki/wiki-edit.pt object at ...>
 
+Test wiki history registrations (logged in)::
+
+    >>> page.restrictedTraverse('history')
+    <Products.Five.metaclass.SimpleViewClass ...wiki/wiki-history-real.pt object at ...>
+
+    >>> page.restrictedTraverse('version')
+    <Products.Five.metaclass.SimpleViewClass ...wiki/wiki-previous-version.pt object at ...>
+
+    >>> page.restrictedTraverse('version_compare')
+    <Products.Five.metaclass.WikiVersionCompare object at ...>
+
+    
 Test wiki attachment registrations (logged in)::
 
     >>> page.restrictedTraverse('@@updateAtt')

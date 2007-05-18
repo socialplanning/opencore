@@ -1,0 +1,107 @@
+<!-- todo: date format? checkbox javascript -->
+
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <link metal:fill-slot="link" />
+    <script metal:fill-slot="script" language="javascript" type="text/javascript" src="++resource++javascripts/checkbox-limit-select.js" />
+  </head>
+  <body>
+    <div metal:fill-slot="content"
+       tal:define="pr nocall:here/portal_repository;">
+    
+      <tal:block 
+	 tal:define="version_id python:request.get('version_id', None);
+                     history view/get_versions;
+                     people_url python:here.portal_membership.getMembersFolder().absolute_url();"
+	 tal:condition="python: pr.isVersionable(context)">
+        
+	
+	<tal:if condition="python:len(history) > 0"> 
+	  <div class="oc-headingBlock"
+	       tal:define="lastChange python:history[0]"> 
+	    <h1>All versions of <span tal:replace="here/title_or_id">page</span></h1>
+	    <p class="oc-headingContext">
+	      Last edit performed by 
+	      <!-- FIXME what's the proper way to link to the person whose id is 
+		 given by principal --> 
+	      <a tal:define="author lastChange/sys_metadata/principal" 
+		 tal:attributes="href string:${people_url}/${author}" 
+		 tal:content="author">author</a>
+	      
+              <span tal:content="python:here.toLocalizedTime(lastChange.sys_metadata['timestamp'],long_format=1)">2004/10/21 03:15 PM</span>
+	      <BR>
+	      <span tal:replace="python:len(history)"/> versions total.
+            </p>
+	  </div> <!-- end .oc-headingBlock --> 
+
+	  <div id="oc-content-main">
+	    
+	    <!-- FIXME: we should give an error when you try to submit without two
+		 checkboxes selected -->
+	    <form action="version_compare" method="GET">
+	      
+	      <div class="oc-lineup"> 
+		<!-- FIXME: this language makes it seem like you can check a single
+		     version to see a preview of that version, but you actually have
+		     to click the link/name of the version -->
+		select 2 versions to compare them OR click a version number to see it.
+		
+		<!-- FIXME this upper input is more likely to be used, ok'd by 
+		     mouna, maybe we want the lower button to be conditional 
+		     on a large number of versions 
+		  --> 	    	   
+		<BR>
+		<input type="submit" value="compare">
+		
+		<ul class="oc-lineup-list">
+		  <tal:block repeat="version python: history">
+		    <li class="oc-lineup-item" 
+			tal:define="version_id version/version_id;
+				    version_title python:view.version_title(version_id)">
+		      
+		      <input type="checkbox" name="version_id"
+			     tal:attributes="value version_id;
+					     id string:version-${version_id};
+					     title version_title"
+			     limit-select="2">
+		      
+		      <h3>
+			<!-- FIXME: when you click the link, because the link is a label
+			     it also checks/unchecks the checkbox -->
+			<!-- FIXME should this be absolute ?? --> 
+			<a tal:attributes="href string:version?version_id=${version_id}">
+			  <tal:span replace="version_title" /> 
+			</a>
+		      </h3>
+		      by 
+		      <a tal:define="author version/sys_metadata/principal" 
+			 tal:attributes="href string:${people_url}/${author}" 
+			 tal:content="author">author</a>
+		      on <span tal:replace="python: here.toLocalizedTime(version.sys_metadata['timestamp'], long_format=1)">(time)</span>
+		      <br>
+		      <span tal:replace="version/comment">comment</span>
+		    </li> 
+		  </tal:block> <!-- end repeat version history --> 
+		</ul>	 
+	      </div> <!-- end #oc-lineup div --> 
+
+	      <input type="submit" value="compare">
+	      
+	    </form>
+	    
+	  </div> <!-- end #oc-content-main -->
+	</tal:if>
+	<tal:if condition="python: len(history) == 0">
+	  There are no previous versions of this page
+	</tal:if>
+      </tal:block><!-- end of content for versionable objects --> 
+      
+      <tal:block tal:condition="python: not pr.isVersionable(context)">
+	<div id="oc-content-main"> 
+	  This content does not have versioning information.
+	</div>
+      </tal:block> 
+      
+    </div><!-- end fill-slot=content -->
+  </body>
+</html>
