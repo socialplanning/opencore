@@ -9,7 +9,8 @@
         <h1>Start a project</h1>
       </div>
       <div id="oc-content-main">
-        <form>
+        <form name="create_form" method="post" enctype="multipart/form-data" class="enableUnloadProtection"
+            tal:attributes="action string:${here/absolute_url}/@@createProject">
           <fieldset>
             <div class="oc-headingBlock">
               <h2>Step 1. Enter project details</h2>
@@ -18,10 +19,10 @@
               <tbody>
                 <tr class="oc-form-row">
                   <th class="oc-form-label" scope="row">
-                    <label for="fullname">Name</label>
+                    <label for="full_name">Name</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" id="fullname" />
+                    <input type="text" id="full_name" name="full_name" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
@@ -33,7 +34,9 @@
                     <label>http://</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" />.openplans.org
+                    <!-- TODO dynamically populate this input with javascript based on what was entered for project name -->
+                    <input type="text" name="title" id="title" />.openplans.org
+                    <!-- XXX the name "title" of this input is misleading, but we inherited it from the schema -->
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
@@ -64,15 +67,15 @@
               </legend>
               <ul class="oc-form-radiolist">
                 <li>
-                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-3" name="securitylevel" />
+                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-3" name="workflow_policy" />
                   <label for="securitylevel-3">view and edit content</label>
                 </li>
                 <li>
-                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-2" name="securitylevel" />
+                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-2" name="workflow_policy" />
                   <label for="securitylevel-2">only view content</label>
                 </li>
                 <li>
-                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-1" name="securitylevel" />
+                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-1" name="workflow_policy" />
                   <label for="securitylevel-1">not even view content</label>
                   <ul class="oc-discreetText">
                     <li class="oc-smallText">
@@ -90,11 +93,11 @@
             <legend><h2>Step 3: Add tools</h2></legend>
             <ul class="oc-form-radiolist" >
               <li>
-                <input type="checkbox" class="oc-input-typeCheck" id="tasktracker" name="tasktracker" />
+                <input type="checkbox" class="oc-input-typeCheck" id="tasktracker" name="featurelets:list" />
                 <label for="tasktracker">Task Tracker</label>
               </li>
               <li>
-                <input type="checkbox" class="oc-input-typeCheck" id="listen" name="listen" />
+                <input type="checkbox" class="oc-input-typeCheck" id="listen" name="featurlets:list" />
                 <label for="listen">Mailing lists</label>
               </li>
             </ul>
