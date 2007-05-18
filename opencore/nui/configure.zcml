@@ -96,6 +96,14 @@
      template="footer.pt"
      />
 
+  <!-- project-preferences -->
+  <browser:page
+     for="*"
+     class=".opencoreview.OpencoreView"
+     permission="zope.Public"
+     name="oc-project-preferences"
+     template="project-preferences.pt"
+     />
 
   <!-- project-contact -->
   <browser:page

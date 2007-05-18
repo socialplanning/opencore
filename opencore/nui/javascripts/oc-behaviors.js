@@ -7,6 +7,7 @@
 	*/
 	function OC() {
 		this.liveEditForms = new Array();
+		this.updateForms = new Array();
 		this.closeButtons = new Array();
 		this.expanders = new Array();
 		this.dropDownLinks = new Array();
@@ -15,6 +16,65 @@
 		this.wikiAttachmentform;
 	}
 	var OC = new OC();
+	
+	/* 
+	#
+	# OC Update Form
+	# 
+	*/
+	function UpdateForm(el) {
+	  //get references
+	  this.form = Ext.get(el);
+	  this.targetId = Ext.get(Ext.query('input[name=oc-target]',el)[0]).dom.value;
+	  this.target = Ext.get(this.targetId);
+	  
+	  //check refs
+	  if (!this.form || !this.target)
+	   return;
+	   
+	 //vars
+	 this.isUpload = false;
+	  
+   if (this.form.dom.enctype)
+    this.isUpload = true;
+   	  
+	  //ajax request
+		this.formSubmit = function(e, el, o) {
+		  
+		  if (this.isupload)
+		    YAHOO.util.Connect.setForm(el, true);
+		  else 
+		    YAHOO.util.Connect.setForm(el);
+		  
+		    var cObj = YAHOO.util.Connect.asyncRequest("POST", this.form.dom.action, { success: this.afterSuccess, failure: this.afterSuccess, scope: this });
+		    YAHOO.util.Event.stopEvent(e);
+		}
+		this.form.on('submit', this.formSubmit, this);
+		
+    // after request
+		this.afterSuccess = function(o) {
+        console.log('success\n\n' + o.responseText);
+        
+		    // insert new - DomHelper.insertHtml converts string to DOM nodes
+		    var newItem = Ext.get(Ext.DomHelper.insertHtml('beforeEnd', this.target.dom, "<li>Hi.  this is new</li>"));
+		    
+		    console.log(newItem);
+		    //var newItem = Ext.get(this.target); // should be LAST sibling
+      
+		    // highlight
+		    newItem.highlight("ffffcc", { endColor: "eeeeee"});
+      
+		    // re-up liveEdit behaviors on new element
+		    //new LiveEditForm(newItem.dom);
+
+		}
+		
+		this.afterFailure = function(o) {
+		    console.log('Oops! There was a problem.\n\n' + o.responseText); 
+		}
+
+	   
+	}
 
 	/*
 	#
@@ -26,12 +86,15 @@
 		this.container = Ext.get(el);
 		this.value = Ext.get(Ext.query('.oc-liveEdit-value', el)[0]);
 		this.edit = Ext.get(Ext.query('.oc-liveEdit-edit', el)[0]);
+		this.delete = Ext.get(Ext.query('.oc-liveEdit-delete', el)[0]);
 		this.form = Ext.get(Ext.query('.oc-liveEdit-form', el)[0]);
 		this.cancel = Ext.get(Ext.query('.oc-liveEdit-cancel', el)[0]);
 		
 		// check to make sure we have what we need
 		if(!this.container || !this.value || !this.form)
 		  return;
+		  
+		console.log(this.form.dom);
 
 		/*
 		# Attach Behviors
@@ -48,24 +111,37 @@
 			this.value.removeClass('oc-liveEdit-hover');
 		}
 		this.container.on('mouseout', this.containerMouseOut, this);
-		
+		/*
 		this.containerClick = function(e, el, o) {
 			this.value.hide();
 			this.form.show();
 			this.container.addClass('oc-liveEdit-editing');
 		}
 		this.container.on('click', this.containerClick, this);
-		
+		*/
 		//edit
 		this.editClick = function(e, el, o) {
-		  YAHOO.util.Event.stopEvent(e);
-			this.value.hide();
-			this.form.show();
-			this.container.addClass('oc-liveEdit-editing');
+		    YAHOO.util.Event.stopEvent(e);
+		    this.value.hide();
+		    this.form.show();
+		    this.container.addClass('oc-liveEdit-editing');
 		}
 		if (this.edit) {
 		  this.edit.on('click', this.editClick, this);
 		}
+
+		this.deleteClick = function(e, el, o) {
+		    YAHOO.util.Event.stopEvent(e);
+		    if (confirm("Are you sure you want to delete?")) {
+			YAHOO.util.Connect.setForm(this.form.dom);
+			var action = this.form.dom.action.replace(/(.*)update/, '$1delete');
+			var cObj = YAHOO.util.Connect.asyncRequest("POST", action, { success: this.afterDelete, failure: this.afterFailure, scope: this });
+		    }		    
+		}
+		if (this.delete) {
+		  this.delete.on('click', this.deleteClick, this);
+		}
+
 		
 		//value
 		this.value.setVisibilityMode(Ext.Element.DISPLAY);
@@ -73,47 +149,52 @@
 		//form
 		this.form.setVisibilityMode(Ext.Element.DISPLAY);
 		this.form.hide();
-		
+
 		//ajax request
 		this.formSubmit = function(e, el, o) {
-      YAHOO.util.Connect.setForm(el);
-      var cObj = YAHOO.util.Connect.asyncRequest("POST", this.action, { success: this.afterSuccess, failure: this.afterFailure, scope: this });
-      YAHOO.util.Event.stopEvent(e);
-    }
-    this.form.on('submit', this.formSubmit, this);
-    
+		    YAHOO.util.Connect.setForm(el);
+		    var cObj = YAHOO.util.Connect.asyncRequest("POST", el.action, { success: this.afterSuccess, failure: this.afterFailure, scope: this });
+		    YAHOO.util.Event.stopEvent(e);
+		}
+		this.form.on('submit', this.formSubmit, this);
+		
     // after request
-    this.afterSuccess = function(o) {
-    
-      // insert new - DomHelper.insertHtml converts string to DOM nodes
-      Ext.DomHelper.insertHtml('afterEnd', this.container.dom, o.responseText);
-      var newItem = Ext.get(Ext.get(this.container).getNextSibling());
 
-      // delete original container
-      this.container.remove();
+		this.afterDelete = function(o) {
+		    // delete original container
+		    this.container.remove();
+		}
+
+		this.afterSuccess = function(o) {
+    
+		    // insert new - DomHelper.insertHtml converts string to DOM nodes
+		    Ext.DomHelper.insertHtml('afterEnd', this.container.dom, o.responseText);
+		    var newItem = Ext.get(Ext.get(this.container).getNextSibling());
+
+		    // delete original container
+		    this.container.remove();
       
-      // highlight
-      newItem.highlight();
+		    // highlight
+		    newItem.highlight();
       
-      // re-up liveEdit behaviors on new element
-      new LiveEditForm(newItem.dom);
-    }
-    this.afterFailure = function(o) {
-      console.log('Oops! There was a problem.\n\n' + o.responseText); 
-    }
+		    // re-up liveEdit behaviors on new element
+		    new LiveEditForm(newItem.dom);
+		}
+		this.afterFailure = function(o) {
+		    console.log('Oops! There was a problem.\n\n' + o.responseText); 
+		}
 		
 		// cancel link
 		if (this.cancel) {
-        this.cancelClick = function(e, el, o) {
-          this.value.show();
-          this.form.hide();
-          this.container.removeClass('oc-liveEdit-editing');
-          YAHOO.util.Event.stopEvent(e);
-          //TODO: clear form
+		    this.cancelClick = function(e, el, o) {
+			this.value.show();
+			this.form.hide();
+			this.container.removeClass('oc-liveEdit-editing');
+			YAHOO.util.Event.stopEvent(e);
+			//TODO: clear form
 		    }
 		    this.cancel.on('click', this.cancelClick, this);
 		}
-				
 	}
 	
 	/* 
@@ -349,6 +430,11 @@
 		Ext.query('.oc-liveEdit').forEach(function(el) {
 			OC.liveEditForms.push(new LiveEditForm(el));
 		});	
+		
+		// Find each update form and make an array of UpdateForm objects
+		Ext.query('.oc-updateForm').forEach(function(el) {
+			OC.updateForms.push(new UpdateForm(el));
+		});
 		
 		// Find close buttons and make them CloseButton objects
 		Ext.query('.oc-close').forEach(function(el) {

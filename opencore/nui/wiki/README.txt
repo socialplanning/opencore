@@ -16,23 +16,11 @@ Test wiki page registrations::
     >>> page.restrictedTraverse('@@wiki_macros')
     <...SimpleViewClass ...wiki/wiki_macros.pt object at ...>
     
-    >>> page.restrictedTraverse('@@update-test')
-    <...SimpleViewClass from ...wiki/update-test.pt object at ...>
-    
-    >>> page.restrictedTraverse('@@edit')
-    <...SimpleViewClass from ...wiki/wiki-edit.pt object at ...>
-    
     >>> page.restrictedTraverse('@@edit-nick')
-    <...SimpleViewClass from ...wiki/wiki-edit-nick.pt object at ...>
+    Traceback (most recent call last):
+    ...
+    Unauthorized: You are not allowed to access '@@edit-nick' in this context
 
-    >>> page.restrictedTraverse('history')
-    <>
-
-    >>> page.restrictedTraverse('version?version_id=0')
-    <>
-
-    >>> page.restrictedTraverse('version_compare?version_id=0&version_id=0')
-    <>
 
 Test wiki attachment registrations::
 
@@ -42,9 +30,37 @@ Test wiki attachment registrations::
     Unauthorized: You are not allowed to access '@@updateAtt' in this context
 
     >>> page.restrictedTraverse('@@createAtt')    
-    <...SimpleViewClass from ...wiki/create-att.pt object at ...>
+    Traceback (most recent call last):
+    ...
+    Unauthorized: You are not allowed to access '@@createAtt' in this context
 
     >>> page.restrictedTraverse('@@deleteAtt')    
     Traceback (most recent call last):
     ...
     Unauthorized: You are not allowed to access '@@deleteAtt' in this context
+
+Test logged in user::
+
+    >>> self.loginAsPortalOwner()
+
+Test wiki page registrations (logged in)::
+
+    >>> page.restrictedTraverse('@@index.html')
+    <...SimpleViewClass from ...wiki/wiki-view.pt object at ...>
+    
+    >>> page.restrictedTraverse('@@wiki_macros')
+    <...SimpleViewClass ...wiki/wiki_macros.pt object at ...>
+    
+    >>> page.restrictedTraverse('@@edit-nick')
+    <...SimpleViewClass ...wiki/wiki-edit-nick.pt object at ...>
+
+Test wiki attachment registrations (logged in)::
+
+    >>> page.restrictedTraverse('@@updateAtt')
+    <Products.Five.metaclass.AttachmentView object at ...>
+
+    >>> page.restrictedTraverse('@@createAtt')    
+    <Products.Five.metaclass.AttachmentView object at ...>
+
+    >>> page.restrictedTraverse('@@deleteAtt')    
+    <Products.Five.metaclass.AttachmentView object at ...>

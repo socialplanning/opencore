@@ -14,8 +14,8 @@
 
       <div id="oc-content-main">
 
-        <div class="oc-searchresults">
-          <h2>Search Results <span tal:condition="view/search_query | nothing" tal:replace="structure view/search_query" /></h2>
+        <div class="oc-peopleresults">
+          <h2>Search results <span tal:condition="view/search_query | nothing" tal:replace="structure view/search_query" /></h2>
 
           <!-- batch needs to have some variables set up to work properly.
           here is where they are defined -->
@@ -29,6 +29,10 @@
 
             <!-- display the number of results that came back -->
             <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
+              
+              <!-- pagination uses the batch macro -->
+              <div metal:use-macro="context/@@batch_macros/pagination"/>
+              
               Result<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
               <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
               of <span tal:replace="sequence_length">376</span> sorted by
@@ -39,47 +43,48 @@
               <form name="people_sort" method="POST" action="." tal:attributes="action string:${context/portal_url}/people/searchresults">
                 <select name="sort_by" tal:define="sorted_by python: request.get('sort_by')">
                   <option value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
-                  <option value="modified" tal:attributes="selected python: sorted_by == 'modified'">date updated</option>
-                  <option value="created" tal:attributes="selected python: sorted_by == 'created'">date created</option>
+                  <option value="getId" tal:attributes="selected python: sorted_by == 'getId'">username</option>
+                  <option value="Title" tal:attributes="selected python: sorted_by == 'Title'">real name</option>
+    </select>
 
-                  <!-- sorting by getId and not Title, this means userid and not user name -->
-                  <option value="getId" tal:attributes="selected python: sorted_by == 'getId'">user id</option>
-
-                  <!-- creator doesn't make much sense for user -->
-                  <!-- option value="Creator" tal:attributes="selected python: sorted_by == 'Creator'">member name</option -->
-              </select>
-
-              <!-- resend the current data when sorting -->
-              <input tal:condition="request/personname | nothing" type="hidden" name="personname"
-                tal:attributes="value request/personname" />
-              <input tal:condition="request/letter_search | nothing" type="hidden" name="letter_search"
-                tal:attributes="value request/letter_search" />
-              <input tal:condition="request/b_start | nothing" type="hidden" name="b_start:int"
-                tal:attributes="value request/b_start" />
-              <input type="submit" name="action_sort_people" value="sort" />
-            </form>
-          </div>
+    <!-- resend the current data when sorting -->
+    <input tal:condition="request/personname | nothing" type="hidden" name="personname"
+                       tal:attributes="value request/personname" />
+    <input tal:condition="request/letter_search | nothing" type="hidden" name="letter_search"
+                       tal:attributes="value request/letter_search" />
+    <input tal:condition="request/b_start | nothing" type="hidden" name="b_start:int"
+                       tal:attributes="value request/b_start" />
+    <input type="submit" name="action_sort_people" value="sort" />
+              </form>
+            </div>
 
 
-          <!-- pagination uses the batch macro -->
-          <div metal:use-macro="context/@@batch_macros/pagination"/>
           <!-- the results are displayed here -->
-          <ol class="oc-searchresults-list">
-            <li class="oc-searchresults-item" tal:repeat="item view/search_results">
-
-              <!-- should this be the member Title? -->
-              <!-- here is where the data goes for the member search result -->
-              <h3><a href="" tal:attributes="href string:${context/portal_url}/people/${item/getId}" tal:content="item/Title">Member Title</a></h3>
-              <p tal:content="string: member info goes here" />
+          <ol class="oc-peopleresults-list oc-clearAfter">
+            <li class="oc-clearAfter" tal:repeat="item view/search_results">
+              <div class="oc-avatar">
+    <img >
+              </div>
+              <div class="oc-peopleresults-content">
+    <h3 class="oc-peopleresults-username">
+                  <a href="" tal:attributes="href string:${context/portal_url}/people/${item/getId}" tal:content="item/getId">Username</a>
+    </h3>
+    <p class="oc-peopleresults-realname" tal:content="item/Title">
+                  Real name
+    </p>
+              </div>
             </li>
           </ol>
           <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
+          
+            <!-- we put pagination on the bottom of the page too -->
+            <div metal:use-macro="context/@@batch_macros/pagination"/>
+          
             Result<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
             <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
-            of <span tal:replace="sequence_length">376</span> </div>
+            of <span tal:replace="sequence_length">376</span> 
 
-          <!-- we put pagination on the bottom of the page too -->
-          <div metal:use-macro="context/@@batch_macros/pagination"/>
+    </div>
         </tal:got_results>
 
         <!-- if we get no results, this is what is displayed -->
