@@ -111,9 +111,7 @@ def installZ3Types(portal, out):
             ttool._setObject(f['id'], fti)
             print >> out, "Registered %s with the types tool" % f['id']
 
-def installWorkflows(portal, out):
-    """ Installs workflows """
-    wfs = WORKFLOW_MAP
+def install_workflow_map(portal, out, wfs=WORKFLOW_MAP):
     wf_tool = getToolByName(portal, 'portal_workflow')
     # First, change WF for MemberDataContainer to PortalWorkflow
     existing_wfs = wf_tool.objectIds()
@@ -134,6 +132,14 @@ def installWorkflows(portal, out):
            addWorkflowScripts(wf_tool.getWorkflowById(wf))
     wf_tool.setDefaultChain('plone_openplans_workflow')
     wf_tool.updateRoleMappings()
+
+def installWorkflows(portal, out):
+    """ Installs workflows """
+    return install_workflow_map(portal, out)
+
+def install_confirmation_workflow(portal, out):
+    from Products.OpenPlans.workflows import member_confirmation_data
+    return install_workflow_map(portal, out, member_confirmation_data)
 
 def installWorkflowPolicies(portal, out):
     pwf_tool = getToolByName(portal, 'portal_placeful_workflow')
