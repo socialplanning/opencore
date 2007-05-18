@@ -27,7 +27,7 @@ OC.liveElementKey = {
   ".oc-dropdown-links" : "DropDownLinks",
   ".oc-expander" : "Expander",
   "#oc-wiki-history" : "HistoryList",
-  "#oc-join-form" : "JoinForm",
+  "#oc-join-form" : "JoinForm"
 }
     
 /* 
