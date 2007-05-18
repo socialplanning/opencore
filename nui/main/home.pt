@@ -10,7 +10,7 @@
       </div>
       
       <div id="oc-content-main">
-	<div id="oc-content-sidebar" tal:replace="structure python: view.render_static('home_intro.txt')" />
+  <div id="oc-content-sidebar" tal:replace="structure python: view.render_static('home_intro.txt')" />
         
         <div class="oc-column-group">
             <div class="oc-widget oc-widget-feed oc-column-left">
@@ -50,50 +50,46 @@
       </div><!-- content-main -->
       
       <div id="oc-content-sidebar">
-      
-          <form name="search_form" class="oc-widget oc-widget-search" action="." tal:attributes="action string:${context/portal_url}/sitesearch">
-	    <input type="text" name="search_string" value='' />
-            <input type="submit" name="search_action" value="Search" />
-          </form>
-          <form name="do_something_form" class="oc-getstarted" action="." tal:attributes="action string:${context/portal_url}/@@index.html">
-            <select name="go_here">
-                <option value="">Get started!</option>
-              <optgroup label="">
-                <option tal:attributes="value string:${context/portal_url}/projects/@@index.html">Discover projects</option>
-                <option tal:attributes="value string:${context/portal_url}/people/@@index.html">Find people</option>
-                <option tal:condition="view/loggedin" tal:attributes="value string:${context/portal_url}/@@createProject">Start a project</option> 
-              </optgroup>
-              <optgroup label="">
-                <option tal:condition="not: view/loggedin" tal:attributes="value string:${context/portal_url}/login">Become a member</option> 
-                <option tal:condition="view/loggedin" tal:attributes="value string:${context/portal_url}/@@edit_profile">Edit your profile</option> 
-              </optgroup>
-            </select>
-            <input type="submit" name="do_something" value="Go" />
-          </form>
-      
-          <div class="oc-widget oc-widget-feed">
-            <h2>OpenPlans News</h2>
-            <ul class="oc-feed-list">
-	      <li tal:repeat="item view/news" class="oc-feed-item oc-clearAfter">
-		<h3 class="oc-feed-item-title">
-		  <a tal:content="item/Title" 
-		     tal:attributes="href string:${context/portal_url}/news/${item/getId}">News item</a>
-		</h3>
-		<p class="oc-feed-item-data oc-discreetText">
-		  by 
-                  <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
-		  <span tal:content="python: view.pretty_date(item.CreationDate)">Jan 1937</span>
-		</p>
-	      </li>
-	      <a tal:attributes="href string:${context/portal_url}/news">more news</a>
-            </ul>
-          </div>
-      
-      <div class="oc-clearAfter">
-        <h2>About us</h2>
-        <div condition="not: view/loggedin" tal:replace="structure python: view.render_static('home_aboutus.txt')" />	
-      </div>
-      
+        <form name="search_form" class="oc-widget oc-widget-search oc-boxy" action="." tal:attributes="action string:${context/portal_url}/sitesearch">
+          <input type="text" name="search_string" value='' />
+          <input type="submit" name="search_action" value="Search" />
+        </form>
+        <form name="do_something_form" class="oc-getstarted oc-boxy" action="." tal:attributes="action string:${context/portal_url}/@@index.html">
+          <select name="go_here">
+              <option value="">Get started!</option>
+            <optgroup label="">
+              <option tal:attributes="value string:${context/portal_url}/projects/@@index.html">Discover projects</option>
+              <option tal:attributes="value string:${context/portal_url}/people/@@index.html">Find people</option>
+              <option tal:condition="view/loggedin" tal:attributes="value string:${context/portal_url}/@@createProject">Start a project</option> 
+            </optgroup>
+            <optgroup label="">
+              <option tal:condition="not: view/loggedin" tal:attributes="value string:${context/portal_url}/login">Become a member</option> 
+              <option tal:condition="view/loggedin" tal:attributes="value string:${context/portal_url}/@@edit_profile">Edit your profile</option> 
+            </optgroup>
+          </select>
+          <input type="submit" name="do_something" value="Go" />
+        </form>
+        <div class="oc-widget oc-widget-feed">
+          <h2>OpenPlans News</h2>
+          <ul class="oc-feed-list">
+            <li tal:repeat="item view/news" class="oc-feed-item oc-clearAfter">
+              <h3 class="oc-feed-item-title">
+                <a tal:content="item/Title" 
+                tal:attributes="href string:${context/portal_url}/news/${item/getId}">News item</a>
+              </h3>
+              <p class="oc-feed-item-data oc-discreetText">
+                by 
+                <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
+                <span tal:content="python: view.pretty_date(item.CreationDate)">Jan 1937</span>
+              </p>
+            </li>
+          </ul>
+          <a class="oc-paginator" tal:attributes="href string:${context/portal_url}/news">more news&hellip;</a>
+        </div><!-- OpenPlans News -->
+        <div class="oc-clearAfter">
+          <h2>About us</h2>
+          <div condition="not: view/loggedin" tal:replace="structure python: view.render_static('home_aboutus.txt')" /> 
+        </div>      
       </div><!-- content-sidebar -->
     </div><!-- content-fill-slot -->
   </body>
