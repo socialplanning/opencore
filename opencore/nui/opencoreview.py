@@ -196,7 +196,6 @@ class OpencoreView(BrowserView):
         fletsupporter = IFeatureletSupporter(self.context)
         featurelet_ids = fletsupporter.getInstalledFeatureletIds()
         featurelets = [{'name': id, 'url' : fletsupporter.getFeatureletDescriptor(id)['content'][0]['id']} for id in featurelet_ids]
-        import pdb;pdb.set_trace()
         return featurelets
 
     def currentProjectPage(self):
