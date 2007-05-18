@@ -53,8 +53,8 @@
 
             by <a tal:define="author view/new_version/sys_metadata/principal" 
                   tal:attributes="href string:${people_url}/${author}"
-                  tal:content="author">author</a>
-            on <span tal:replace="python:here.toLocalizedTime(view.new_version.sys_metadata['timestamp'], long_format=True)" />
+                  tal:content="author">author</a>, 
+            <span tal:replace="python: view.pretty_mod_date(view.new_version)" />
             
             <!--    Other Version     --> 
             
@@ -87,8 +87,8 @@
             
             by <a tal:define="author view/old_version/sys_metadata/principal" 
                   tal:attributes="href string:${people_url}/${author}"
-                  tal:content="author">author</a>
-            on <span tal:replace="python:here.toLocalizedTime(view.old_version.sys_metadata['timestamp'], long_format=True)" />
+                  tal:content="author">author</a>, 
+            <span tal:replace="python:view.pretty_mod_date(view.old_version)" />
 
           </p>
 

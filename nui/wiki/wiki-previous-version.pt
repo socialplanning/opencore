@@ -43,8 +43,8 @@
           <p class="oc-headingContext">     
             by <a tal:define="author version/sys_metadata/principal" 
                   tal:attributes="href string:${people_url}/${author}"
-                  tal:content="author">author</a>
-            on <span tal:replace="python:here.toLocalizedTime(version.sys_metadata['timestamp'], long_format=True)" />
+                  tal:content="author">author</a>, 
+            <span tal:replace="python:view.pretty_mod_date(version)" />
             <br/>
 
             <tal:if condition="python: version_id != view.current_id()">
