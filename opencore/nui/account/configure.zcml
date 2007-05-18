@@ -27,6 +27,13 @@
 
   <browser:page
      for="*"
+     class=".accountview.ConfirmAccountView"
+     permission="zope.Public"
+     name="confirm-account"
+     />
+
+  <browser:page
+     for="*"
      class=".accountview.ForgotLoginView"
      permission="zope.Public"
      name="forgot"

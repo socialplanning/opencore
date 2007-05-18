@@ -6,34 +6,77 @@ from opencore.nui.opencoreview import OpencoreView
 from Products.Five import BrowserView
 
 class JoinView(OpencoreView):
-    def __call__(self, *args, **kw):            
-        return self.index(*args, **kw)
+
+    def validate(self):
+        return self.context.validate(REQUEST=self.request)
+
+    def __call__(self, *args, **kw):
+        if self.request.environ['REQUEST_METHOD'] == 'GET':
+            return self.index(*args, **kw)
+        
+        errors = self.validate()
+
+        if not errors:
+            return self.context.do_register(id=self.request.get('id'), password=self.request.get('password'))
+        else:
+            return self.index(*args, **kw)
+
+
+class ConfirmAccountView(OpencoreView):
+
+    def do_confirmation(self, member):
+        pf = getToolByName(self, "portal_workflow")
+        if pf.getInfoFor(member, 'review_state') != 'pending':
+            return False
+
+        setattr(member, 'isConfirmable', True)
+        pf.doActionFor(member, 'register_public')
+        delattr(member, 'isConfirmable')
+        return True
+
+    def __call__(self, *args, **kw):
+        key = self.request.get("key")
+        
+        # we need to do an unrestrictedSearch because a default search will filter results by user permissions
+        matches = self.membranetool.unrestrictedSearchResults(UID=key)
+        
+        if not matches:
+            return "You is denied, muthafuka!"
+        assert len(matches) == 1
+        
+        member = matches[0].getObject()
+
+        if self.do_confirmation(member):
+            self.addPortalStatusMessage(u'Your account has been confirmed, maggot!')
+            self.request.RESPONSE.redirect(self.siteURL + '/login')
+        else:
+            return "You is denied muthafuk1"
+
 
 class LoginView(OpencoreView):
+
     @property
     def came_from(self):
         return self.request.get('came_from')
 
-    @property
-    def login(self):
-        return self.loggedin()
-
     def __call__(self, *args, **kw):
-        if self.login:
+        if self.loggedin():
             return self.request.RESPONSE.redirect(self.came_from or self.siteURL)
         return self.index(*args, **kw)
 
 class ForgotLoginView(OpencoreView):
+
     def __call__(self, *args, **kw):
+        if self.request.environ['REQUEST_METHOD'] == 'GET':
+            return self.index(*args, **kw)
+
         user_lookup = self.request.get("__ac_name")
         if not user_lookup:
             return self.index(*args, **kw)
 
         brains = self.membranetool(getId=user_lookup) or self.membranetool(getEmail=user_lookup)
         if not len(brains):
-            plone_utils = getToolByName(self.context, 'plone_utils')
-            from Products.CMFPlone import PloneMessageFactory
-            plone_utils.addPortalMessage(PloneMessageFactory(u'You do not exist'))
+            self.addPortalStatusMessage(u"You do not exist")
             return self.index(*args, **kw)
 
         brain = brains[0]
@@ -45,7 +88,9 @@ class ForgotLoginView(OpencoreView):
         return "An email has been sent to you, %s" % userid  # XXX rollie?
         return self.index(*args, **kw) # XXX not really right
 
+
 class DoPasswordResetView(OpencoreView):
+
     def __call__(self, *args, **kw):
         password = self.request.get("password")
         if not password:
@@ -57,12 +102,12 @@ class DoPasswordResetView(OpencoreView):
             pw_tool.resetPassword(userid, randomstring, password)
         except: # XXX DUMB
             return "Failed, shit is not okay."
-        plone_utils = getToolByName(self.context, 'plone_utils')
-        from Products.CMFPlone import PloneMessageFactory
-        plone_utils.addPortalMessage(PloneMessageFactory(u'Your password has been reset'))
+        self.addPortalStatusMessage(u'Your password has been reset')
         return self.request.RESPONSE.redirect(self.siteURL)
 
+
 class PasswordResetView(OpencoreView):
+
     def __call__(self, *args, **kw):
         key = self.request.get('key')
         pw_tool = getToolByName(self.context, "portal_password_reset")
@@ -76,18 +121,4 @@ class PasswordResetView(OpencoreView):
         kw['randomstring'] = key
         return self.index(*args, **kw)
 
-
-from Products.CMFCore.utils import getToolByName
-
-class Confirmation(BrowserView):
-    """screw you zpublisher"""
     
-    def do_confirmation(self):
-        cat = getToolByName(self, "portal_catalog")
-        uid = self.request.get('id')
-        result = cat(UID=uid)
-        assert len(result) == 1
-        member = result[0].getObject()
-        pf = getToolByName(self, "portal_workflow")
-        pf.doActionFor(member, 'Approve member, make profile public')
-        self.request.RESPONSE.redirect('@@success')
