@@ -19,8 +19,14 @@ WORKFLOW_MAP = {'plone_openplans_workflow': ('Default OpenPlans Workflow [Plone]
                 'openplans_team_membership_workflow': ('OpenPlans Team Membership Workflow',
                                                        ('Team Membership',
                                                         'OpenMembership') ),
+                
                 'openplans_member_workflow': ('OpenPlans Member Workflow',
                                              ('Member', 'OpenMember',) ),
+
+##                 # swap to make active (do using a setup widget)
+##                 'openplans_member_confirmation_workflow': ('OpenPlans Member Confirmation Workflow',
+##                                              ('Member', 'OpenMember',) ),
+                
                 'openplans_team_workflow': ('OpenPlans Team Workflow',
                                             ('Team', 'TeamsTool', 'OpenTeam') ),
                 'open_policy_workflow': ('Open Security Policy Workflow',
