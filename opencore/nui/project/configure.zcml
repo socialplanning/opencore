@@ -19,7 +19,7 @@
     />
 
   <browser:page
-    for="opencore.project.content.OpenProject"
+    for="*"
     name="createProject"
     permission="cmf.ModifyPortalContent"
     class=".view.ProjectView"
