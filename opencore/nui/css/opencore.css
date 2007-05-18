@@ -364,6 +364,7 @@ ul.oc-dropdown, .oc-dropdown ul {
 .oc-plainList { /* list with no formatting */
 	list-style-type: none;
 	padding: 0;
+	margin: 0 0 1em;
 }
 .oc-boxy {
 	padding: 1em;
@@ -517,13 +518,16 @@ dl.oc-member-info dd {
 
 /* Member profile edit */
 
-.oc-member-editimage {
+#oc-member-badge .oc-member-editimage {
 	float: left;
 	width: 200px;
 	margin-right: 1em;
 }
-.oc-member-edit textarea {
+#oc-member-badge .oc-plainList input {
 	width: 100%;
+}
+.oc-member-edit textarea {
+	width: 99%;
 }
 
 /* Wiki pages */
@@ -937,6 +941,7 @@ li.oc-invite .oc-invite-content {
 .oc-widget-alphabet {
   list-style: none;
   margin-bottom: 0;
+  padding: 0.25em;
   text-align: center;
   text-transform: uppercase;
   font-weight: bold;
@@ -1037,11 +1042,16 @@ h3, .oc-bigText  {
 h4, .h4 {
   font-weight: bold;
 }
-select {
-  border:1px solid #999;
-  padding:1px;
-  margin:0;
-  font-size: 11px;
+select,
+input,
+textarea {
+  border: 1px solid #ccc;
+  padding: 0.125em;
+  margin: 0;
+  font-size: 12px;
+}
+textarea {
+	margin-bottom: 1em;
 }
 fieldset {
   border: none;
@@ -1084,14 +1094,11 @@ address {
 .oc-tabs form {
   display: inline;
 }
-
 .oc-discreetText {
   color: #999;
 }
-
 /* Heading Blocks */
 .oc-headingBlock {
-
 }
 .oc-headingBlock h1,
 .oc-headingBlock h2,
@@ -1100,9 +1107,8 @@ address {
   margin: 0;
   margin-bottom: 0.25em;
 }
-
 .oc-headingBlock .oc-headingContext {
-  margin: 0 0 1.5em;
+  margin: 0 0 1em;
 }
 .oc-headingSimple a {
   text-decoration: none;
