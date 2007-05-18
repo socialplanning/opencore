@@ -1,9 +1,12 @@
 """
 AccountView: the view for some of opencore's new zope3 views.
 """
-from Products.CMFCore.utils import getToolByName
-from opencore.nui.opencoreview import OpencoreView
 from Products.Five import BrowserView
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone import transaction_note
+from Products.remember.utils import getAdderUtility
+
+from opencore.nui.opencoreview import OpencoreView
 
 class JoinView(OpencoreView):
 
@@ -14,10 +17,22 @@ class JoinView(OpencoreView):
         if self.request.environ['REQUEST_METHOD'] == 'GET':
             return self.index(*args, **kw)
         
-        errors = self.validate()
+        context = self.context
+        mdc = getToolByName(context, 'portal_memberdata')
+            
+        adder = getAdderUtility(context)
+        type_name = adder.default_member_type
+            
+        id=context.generateUniqueId(type_name)
+        mem = mdc.restrictedTraverse('portal_factory/%s/%s' % (type_name, id))
+        transaction_note('Initiated creation of %s with id %s in %s' % \
+                             (mem.getTypeInfo().getId(),
+                              id,
+                              context.absolute_url()))
+        errors = mem.validate(REQUEST=self.request)
 
         if not errors:
-            return self.context.do_register(id=self.request.get('id'), password=self.request.get('password'))
+            return mem.do_register(id=self.request.get('id'), password=self.request.get('password'))
         else:
             return self.index(*args, **kw)
 
