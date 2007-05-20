@@ -62,7 +62,7 @@
           <fieldset>
             <legend><h2>Step 2: Choose security settings</h2></legend>
             <fieldset>
-              <legend class="oc-legend-label">Project members can modify project content.<br/>
+              <legend class="oc-legend-label">All project members can view and edit project content.<br/>
                 <strong>Other logged-in users can:</strong>
               </legend>
               <ul class="oc-form-radiolist">
