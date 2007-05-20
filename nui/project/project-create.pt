@@ -67,7 +67,8 @@
               </legend>
               <ul class="oc-form-radiolist">
                 <li>
-                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-3" name="workflow_policy" />
+                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-3" name="workflow_policy"
+                    checked="checked"/>
                   <label for="securitylevel-3">view and edit content</label>
                 </li>
                 <li>
