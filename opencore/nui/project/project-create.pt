@@ -76,7 +76,7 @@
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="securitylevel-1" name="workflow_policy" />
-                  <label for="securitylevel-1">not even view content</label>
+                  <label for="securitylevel-1">neither view nor edit content</label>
                   <ul class="oc-discreetText">
                     <li class="oc-smallText">
                       <!-- TODO only enable this checkbox if security level is 3 -->
