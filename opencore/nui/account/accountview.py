@@ -81,6 +81,41 @@ class LoginView(OpencoreView):
 
 class ForgotLoginView(OpencoreView):
 
+    def mailPassword(self, forgotten_userid):
+        membership = getToolByName(self, 'portal_membership')
+        if not membership.checkPermission('Mail forgotten password', self):
+            raise Unauthorized, "Mailing forgotten passwords has been disabled"
+
+        member = self.membranetool(getId=forgotten_userid)
+
+        if member is None:
+            raise ValueError, 'The username you entered could not be found'
+        
+        member = member[0].getObject()
+        
+        field = member.getEmail
+        if field is None:
+            raise ValueError, 'Unable to retrieve email address'
+        email = field()
+
+        from smtplib import SMTPRecipientsRefused
+        try:
+            pwt = getToolByName(self, "portal_password_reset")
+            obj = pwt.requestReset(forgotten_userid)
+            randomstring = obj['randomstring']
+
+            mail_text = self.render_static("account_forgot_password_email.txt")
+            mail_text += '\n%s/reset-password?key=%s' % (self.siteURL, randomstring)
+            
+            host = getToolByName(self, 'MailHost')
+            host.send(mail_text,
+                      mfrom="help@openplans.org",
+                      mto=[email]
+                      )
+        except SMTPRecipientsRefused:
+            # Don't disclose email address on failure
+            raise SMTPRecipientsRefused('Recipient address rejected by server')
+
     def __call__(self, *args, **kw):
         if self.request.environ['REQUEST_METHOD'] == 'GET':
             return self.index(*args, **kw)
@@ -97,8 +132,7 @@ class ForgotLoginView(OpencoreView):
         brain = brains[0]
         userid = brain.getId
         
-        portal_reg = getToolByName(self.context, 'portal_registration')
-        portal_reg.mailPassword(userid, None)
+        self.mailPassword(userid)
         
         return "An email has been sent to you, %s" % userid  # XXX rollie?
         return self.index(*args, **kw) # XXX not really right
