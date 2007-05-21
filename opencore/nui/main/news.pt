@@ -1,0 +1,56 @@
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <link metal:fill-slot="link" />
+    <script metal:fill-slot="script" language="javascript" type="text/javascript" src="++resource++javascripts/searching.js" />
+  </head>
+  <body>
+
+   <div metal:fill-slot="content">              
+
+    <div class="oc-headingBlock">
+      <h1>OpenPlans News</h1>
+      <p class="oc-headingContext">Subpeona free for 456 days.</p>
+    </div>
+
+    <div id="oc-content-main">
+      <ul class="oc-widget oc-widget-feed oc-feed-list">
+        <li class="oc-feed-item">
+          <h2 class="oc-feed-item-title"><a href="">News Item Title</a></h2>
+          <p class="oc-feed-item-data oc-discreetText">by <a href="">rpenate</a>, today</p>
+          <p class="oc-feed-item-description">This should be the text from the description field, however long it is.</p>
+          <a href="">Read more&hellip;</a>
+        </li>
+      </ul>
+    </div><!-- content-main -->
+
+    <div id="oc-content-sidebar">
+      <div id="oc-about">
+        <h2>About OpenPlans</h2>>
+        <p>OpenPlans aims to transform social activism by providing tools that connect people and enable them to share ideas, stay organized, and act collectively to effect change.</p>
+        <h2>About us</h2>
+        <img class="oc-image-bright" src="http://www.openplans.org/site-home/orange_logo.gif" alt="The Open Planning Project" />
+        <p>OpenPlans is a production of <a href="http://topp.openplans.org/">The Open Planning Project</a>, a New York City based non-profit organization dedicated to using technology to enhance community participation. In addition to OpenPlans, we also sponsor <a href="http://www.geoserver.org/">GeoServer</a>, an open source platform for sharing geographic information, and the <a ref="http://www.nycsr.org/">New York City Streets Renaissance Campaign</a>, which advocates for lively public space in New York City.</p>
+      </div>
+      <div id="oc-contact">
+        <h2>Contact us</h2>
+        <address class="vcard">
+          <div class="fn org"><a class="url" href="http://topp.openplans.org">The Open Planning Project</a></div>
+          <dl>
+            <dd class="adr">
+              <div class="street-address">349 West 12th Street #3</a>
+              <span class="locality">New York</span>, <span class="region">NY</span> <span class="postal-code">10014</span>
+            </dd>
+            <dt>Phone</dt>
+            <dd class="tel">212.219.6070</dd>
+            <dt>Fax</dt>
+            <dd class="tel">646.390.2624</dd>
+            <dt>Email</dt>
+            <dd class="email">info [at] openplans [dot] org</dd>
+          </dl>
+        </address>
+      </div>
+    </div><!-- content-sidebar -->
+
+  </div><!-- content-fill-slot -->
+</body>
+</html>
