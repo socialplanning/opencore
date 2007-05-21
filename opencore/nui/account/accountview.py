@@ -98,7 +98,7 @@ class ForgotLoginView(OpencoreView):
         userid = brain.getId
         
         portal_reg = getToolByName(self.context, 'portal_registration')
-        portal_reg.mailPassword(userid, self.request)
+        portal_reg.mailPassword(userid, None)
         
         return "An email has been sent to you, %s" % userid  # XXX rollie?
         return self.index(*args, **kw) # XXX not really right
