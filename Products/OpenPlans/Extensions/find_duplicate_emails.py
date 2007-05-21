@@ -9,6 +9,7 @@ def find_duplicate_emails(self):
     unique_emails = set()
     duplicate_emails = []
     for email in all_emails:
+        if not email: continue
         if email in unique_emails:
             if email not in duplicate_emails:
                 duplicate_emails.append(email)
