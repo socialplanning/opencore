@@ -1,5 +1,3 @@
-<!-- todo: date format? checkbox javascript -->
-
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
     <link metal:fill-slot="link" />
@@ -20,21 +18,19 @@
             <h1>All versions of <span tal:replace="here/title_or_id">page</span></h1>
             <p class="oc-headingContext">
               Last edit performed by 
-              <!-- FIXME what's the proper way to link to the person whose id is 
-                     given by principal --> 
               <a tal:define="author lastChange/sys_metadata/principal" 
                  tal:attributes="href string:${people_url}/${author}" 
                  tal:content="author">author</a>, 
               
               <span tal:replace="python: view.pretty_mod_date(lastChange)" /> 
-              <BR>
+              <br />
               <span tal:replace="python:len(history)"/> versions total.
             </p>
           </div> <!-- end .oc-headingBlock --> 
           <div id="oc-content-main">            
-            <!-- FIXME: we should give an error when you try to submit without two
+            <!-- FIXME: we should give a javascript error when you try to submit without two
                  checkboxes selected -->
-            <form action="version_compare" method="GET">              
+            <form action="version_compare" method="get">
               <div class="oc-lineup"> 
                 <!-- FIXME: this language makes it seem like you can check a single
                      version to see a preview of that version, but you actually have
@@ -45,8 +41,8 @@
                      mouna, maybe we want one of the buttons to be conditional 
                      on a large number of versions 
                   -->            
-                <BR>
-                <input type="submit" value="compare">                
+                <br />
+                <input type="submit" value="compare" />
                 <ul class="oc-lineup-list">
                   <tal:block repeat="version python: history">
                     <li class="oc-lineup-item" 
@@ -56,11 +52,9 @@
                              tal:attributes="value version_id;
                                              id string:version-${version_id};
                                              title version_title"
-                             limit-select="2">
+                             limit-select="2" />
                       
                       <h3>
-                        <!-- FIXME: when you click the link, because the link is a label
-                             it also checks/unchecks the checkbox -->
                         <!-- FIXME should this be absolute ?? --> 
                         <a tal:attributes="href string:version?version_id=${version_id}">
                           <tal:span replace="version_title" /> 
@@ -71,13 +65,13 @@
                          tal:attributes="href string:${people_url}/${author}" 
                          tal:content="author">author</a>, 
                       <span tal:replace="python: view.pretty_mod_date(version)" />
-                      <br>
+                      <br />
                       <span tal:replace="version/comment">comment</span>
                     </li> 
                   </tal:block> <!-- end repeat version history --> 
                 </ul>   
               </div> <!-- end #oc-lineup div --> 
-              <input type="submit" value="compare">
+              <input type="submit" value="compare" />
             </form>
           </div> <!-- end #oc-content-main -->
         </tal:if>
