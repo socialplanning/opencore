@@ -76,7 +76,8 @@
 		  <a tal:attributes = "href string:version_compare?version_id=${version_id}&version_id=${cur_id}">
                     compare with current version
 		  </a>
-		  <form method="POST" tal:attributes = "action string:revertversion?version_id=${version_id}">
+		  <form method="post" id="revert_form" action="revertversion">
+		    <input type="hidden" name="version_id" tal:attributes="value version_id" />
                     <input type="submit" name="revert" value="revert to this version" />
 		  </form>
 		</tal:if>
