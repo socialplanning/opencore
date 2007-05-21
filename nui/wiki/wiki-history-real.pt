@@ -83,7 +83,8 @@
 			<input type="checkbox" name="version_id"
                                tal:attributes="value version_id;
                                                id string:version-${version_id};
-                                               title version_title" />
+                                               title version_title" 
+			       limit-select="2"/>
 			<!-- do not make this a label! it will make the checkbox
 			     check when you follow the link. use a title on the 
 			     checkbox instead. --> 
