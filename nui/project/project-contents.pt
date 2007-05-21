@@ -1,9 +1,5 @@
 <tal:vars define="proj view/project">
   <html metal:use-macro="here/@@standard_macros/master">
-    <head>
-      <link metal:fill-slot="link" />
-      <script metal:fill-slot="script" />
-    </head>
     <body>
       <div metal:fill-slot="content">
         <div class="oc-headingBlock">
