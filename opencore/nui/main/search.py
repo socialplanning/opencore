@@ -87,9 +87,10 @@ class ProjectsSearchView(SearchView):
         return project_brains
 
     def search_for_project(self, project, sort_by=None):
-        project = project.lower()
+        proj_query = project.lower().strip()
 
-        proj_query = project
+        if proj_query == '*':
+            return []
         if not proj_query.endswith('*'):
             proj_query = proj_query + '*'
 
@@ -163,9 +164,11 @@ class PeopleSearchView(SearchView):
         return people_brains
 
     def search_for_person(self, person, sort_by=None):
-        person = person.lower()
+        person_query = person.lower().strip()
 
-        person_query = person
+        if person_query == '*':
+            return []
+
         if not person_query.endswith('*'):
             person_query = person_query + '*'
 
@@ -255,9 +258,11 @@ class SitewideSearchView(SearchView):
             
 
     def search(self, search_string, sort_by=None):
-        search_string = search_string.lower()
+        search_query = search_string.lower().strip()
 
-        search_query = search_string
+        if search_query == '*':
+            return []
+
         if not search_query.endswith('*'):
             search_query = search_query + '*'
 
