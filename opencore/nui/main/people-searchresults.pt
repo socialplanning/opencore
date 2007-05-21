@@ -73,7 +73,7 @@
                   <a href="" tal:omit-tag="python: view.no_home(item.getId)" tal:attributes="href string:${context/portal_url}/people/${item/getId}" tal:content="item/getId">Username</a>
                 </h3>
                 <div class="oc-peopleresults-fullname n" tal:content="item/Title">real name</div>
-                <div class="oc-peopleresults-location adr" tal:define="loc item/getLocation" tal:condition="loc" tal:content="loc"><address>location</address></div>
+                <div class="oc-peopleresults-location adr" tal:define="loc item/getLocation" tal:condition="loc" tal:content="loc">location</div>
               </div>
             </li>
           </ol>
