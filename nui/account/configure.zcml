@@ -3,7 +3,7 @@
     xmlns:five="http://namespaces.zope.org/five">
 
   <browser:page
-     for="*"
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      class=".accountview.LoginView"
      permission="zope.Public"
      name="login"
@@ -11,7 +11,7 @@
      />
 
   <browser:page
-     for="*"
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      class=".accountview.PasswordResetView"
      permission="zope.Public"
      name="reset-password"
@@ -19,21 +19,21 @@
      />
 
   <browser:page
-     for="*"
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      class=".accountview.DoPasswordResetView"
      permission="zope.Public"
      name="do-reset-password"
      />
 
   <browser:page
-     for="*"
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      class=".accountview.ConfirmAccountView"
      permission="zope.Public"
      name="confirm-account"
      />
 
   <browser:page
-     for="*"
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      class=".accountview.ForgotLoginView"
      permission="zope.Public"
      name="forgot"
@@ -41,7 +41,7 @@
      />
 
   <browser:page
-     for="*"
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      class=".accountview.JoinView"
      permission="zope.Public"
      name="join"
