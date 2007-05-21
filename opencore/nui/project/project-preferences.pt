@@ -10,10 +10,10 @@
           <h1>Project preferences</h1>
         </div>
         <div id="oc-content-main">
-          <form action="@@doUpdateProject">
+          <form name="prefs_form" method="post" enctype="multipart/form-data" class="enableUnloadProtection"
+            tal:attributes="action string:${here/absolute_url}/@@handleUpdate">
             <fieldset>
-              <legend class="oc-legend-heading">Project details</legend>
-              <p class="oc-heading-context">Name, url, and mission</p>
+              <legend class="oc-legend-heading">Details</legend>
               <table class="oc-form">
                 <tbody>
                   <tr class="oc-form-row">

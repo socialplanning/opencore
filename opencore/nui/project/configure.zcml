@@ -5,33 +5,39 @@
   <browser:page
     for="*"
     name="create"
-    permission="cmf.ModifyPortalContent"
     class=".view.ProjectView"
     attribute="renderCreateForm"
+    permission="zope.Public"
     />
+    <!-- TODO
+    permission should be any logged in user
+    -->
 
   <browser:page
     for="*"
     name="update"
-    permission="cmf.ModifyPortalContent"
     class=".view.ProjectView"
     attribute="renderUpdateForm"
+    permission="cmf.ModifyPortalContent"
     />
 
   <browser:page
     for="*"
-    name="createProject"
-    permission="cmf.ModifyPortalContent"
+    name="handleCreate"
     class=".view.ProjectView"
-    attribute="createProject"
+    attribute="handleCreate"
+    permission="zope.Public"
     />
+    <!-- TODO
+    permission should be any logged in user
+    -->
 
   <browser:page
     for="*"
-    name="updateProject"
-    permission="cmf.ModifyPortalContent"
+    name="handleUpdate"
     class=".view.ProjectView"
-    attribute="updateProject"
+    attribute="handleUpdate"
+    permission="cmf.ModifyPortalContent"
     />
 
 </configure>
