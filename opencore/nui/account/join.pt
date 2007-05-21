@@ -1,8 +1,4 @@
 <html metal:use-macro="here/@@standard_macros/master">
-  <head>
-    <link metal:fill-slot="link" />
-    <script metal:fill-slot="script" />
-  </head>
   <body>
     <div id="oc-content-container" metal:fill-slot="content">              
       <div id="oc-content-main">
