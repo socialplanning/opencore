@@ -14,6 +14,7 @@ from opencore import redirect
 from opencore.interfaces import IProject 
 from zope.component import getMultiAdapter, adapts, adapter
 from topp.utils.pretty_text import truncate
+from topp.utils.pretty_date import prettyDate
 from opencore.nui.static import render_static
 from topp.featurelets.interfaces import IFeatureletSupporter
 
@@ -29,7 +30,8 @@ class OpencoreView(BrowserView):
         self.sitetitle    = self.portal.title
         self.siteURL      = self.portal.absolute_url()
         self.logoURL      = nui.logoURL
-        self.dob          = nui.dob
+        self.dob_datetime = self.context.portal.created()
+        self.dob          = prettyDate(self.dob_datetime)
         self.piv = context.unrestrictedTraverse('project_info') # TODO don't rely on this
         self.miv = context.unrestrictedTraverse('member_info')  # TODO don't rely on this
         self.errors = {}
