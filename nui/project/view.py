@@ -9,7 +9,7 @@ class ProjectView(OpencoreView):
     project_preferences = ZopeTwoPageTemplateFile('project-preferences.pt')
     project_create = ZopeTwoPageTemplateFile('project-create.pt')
 
-    def renderUpdateForm(self):
+    def renderPrefsForm(self):
         return self.project_preferences()
 
     def renderCreateForm(self):
@@ -51,5 +51,5 @@ class ProjectView(OpencoreView):
         event.notify(AfterProjectAddedEvent(proj, self.request))
         self.request.response.redirect(proj.absolute_url())
 
-    def handleUpdate(self):
+    def handlePrefs(self):
         pass

@@ -3,7 +3,7 @@
    xmlns:five="http://namespaces.zope.org/five">
 
   <browser:page
-    for="*"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
     name="create"
     class=".view.ProjectView"
     attribute="renderCreateForm"
@@ -14,15 +14,15 @@
     -->
 
   <browser:page
-    for="*"
+    for="opencore.project.content.OpenProject"
     name="update"
     class=".view.ProjectView"
-    attribute="renderUpdateForm"
+    attribute="rendePrefsForm"
     permission="cmf.ModifyPortalContent"
     />
 
   <browser:page
-    for="*"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
     name="handleCreate"
     class=".view.ProjectView"
     attribute="handleCreate"
@@ -33,10 +33,10 @@
     -->
 
   <browser:page
-    for="*"
-    name="handleUpdate"
+    for="opencore.project.content.OpenProject"
+    name="handlePrefs"
     class=".view.ProjectView"
-    attribute="handleUpdate"
+    attribute="handlePrefs"
     permission="cmf.ModifyPortalContent"
     />
 
