@@ -1123,6 +1123,7 @@ h4, .h4 {
 }
 select,
 input,
+button,
 textarea {
   border: 1px solid #ccc;
   padding: 0.125em;
