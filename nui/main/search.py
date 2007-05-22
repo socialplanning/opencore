@@ -1,4 +1,5 @@
 import datetime
+from DateTime import DateTime as zopedatetime
 from time import strptime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import Batch
@@ -296,3 +297,7 @@ class NewsView(SearchView):
         
     def can_add_news(self):
         return self.membertool.checkPermission('Manage Portal', self.context)
+
+    def subpoena_free(self):
+        delta = zopedatetime() - self.dob_datetime
+        return int(delta)
