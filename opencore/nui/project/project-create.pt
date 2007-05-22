@@ -18,11 +18,12 @@
                     <label for="full_name">Name</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" id="full_name" name="full_name" />
+                    <input type="text" id="full_name" name="full_name" tal:attributes="value request/full_name" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
                     <span id="oc-username-validator" class="oc-form-validator"></span>
+                    <span id="oc-error" class="oc-form-error" tal:condition="exists:view/errors/full_name" tal:content="view/errors/full_name" />
                   </td>
                 </tr>
                 <tr class="oc-form-row">
@@ -35,7 +36,8 @@
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
-                    <span id="oc-username-validator" class="oc-form-validator"></span>
+                    <span id="oc-title-validator" class="oc-form-validator"></span>
+                    <span id="oc-title-error" class="oc-form-error" tal:content="view/errors/title | nothing" />
                   </td>
                 </tr>
                 <tr class="oc-form-row">
@@ -44,11 +46,12 @@
                   </th>
                   <td class="oc-form-value">
                     <textarea name="description" id="description" rows="3" cols="40"></textarea>
-                    <!-- XXX this would be called mission instead of description if we weren't hijacking an existing field -->
+                    <!-- this would be called mission instead of description if we weren't hijacking an existing field -->
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
-                    <span id="oc-username-validator" class="oc-form-validator"></span>
+                    <span id="oc-mission-validator" class="oc-form-validator"></span>
+                    <span id="oc-title-error" class="oc-form-error" tal:content="view/errors/description | nothing" />
                   </td>
                 </tr>
               </tbody>
@@ -56,31 +59,32 @@
           </fieldset>
 
           <fieldset>
-            <legend><h2>Step 2: Choose security settings</h2></legend>
+            <legend><h2>Step 2: Set General Security Level</h2></legend>
             <fieldset>
-              <legend class="oc-legend-label">All project members can view and edit project content.<br/>
-                <strong>Other logged-in users can:</strong>
+              <legend class="oc-legend-label">Choose what level of
+permission you want to give to non-members of your project team.  You
+will create your team on the next page.<br/>
+                <strong>Visitors to the site can:</strong>
               </legend>
               <ul class="oc-form-radiolist">
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="securitylevel-3" name="workflow_policy"
                     value="open_policy" checked="checked"/>
-                  <label for="securitylevel-3">view and edit content</label>
+                  <label for="securitylevel-3">View your content</label>
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="securitylevel-2" name="workflow_policy"
                     value="medium_policy" />
-                  <label for="securitylevel-2">only view content</label>
+                  <label for="securitylevel-2">and contribute to it</label><br>
+		  OR
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="securitylevel-1" name="workflow_policy"
                     value="closed_policy" />
-                  <label for="securitylevel-1">neither view nor edit content</label>
+                  <label for="securitylevel-1">Non-members cannot see your project</label>
                   <ul class="oc-discreetText">
                     <li class="oc-smallText">
-                      <!-- TODO only enable this checkbox if security level is 3 -->
-                      <input type="checkbox" class="oc-input-typeCheck" id="searchable" name="searchable" />
-                      <label for="searchable">do not show project in search results</label>
+		      your project will not be shown in search results or site directories
                     </li>
                   </ul>
                 </li>
