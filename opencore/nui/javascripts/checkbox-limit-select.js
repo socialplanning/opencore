@@ -16,6 +16,8 @@ bound.
 
 */
 
+/* Disabling to use oc-behaviors.js
+
 if (typeof OC == 'undefined') {
    OC = {};
 }
@@ -81,3 +83,4 @@ OC.deselectAllCheckboxes = function (name) {
    }
 };
 
+*/

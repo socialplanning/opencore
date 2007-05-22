@@ -20,6 +20,14 @@
     attribute="renderPrefsForm"
     permission="cmf.ModifyPortalContent"
     />
+    
+   <browser:page
+     for="opencore.project.content.OpenProject"
+     class=".view.ProjectView"
+     permission="cmf.ModifyPortalContent"
+     name="project-contents"
+     template="project-contents.pt"
+     />
 
   <browser:page
     for="Products.CMFPlone.interfaces.IPloneSiteRoot"

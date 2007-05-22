@@ -10,7 +10,7 @@ if (typeof OC == "undefined") {
   var OC = {}
 }
 
-// where we'll store all our live elements
+// where we'll store all our live elementshist
 OC.liveElements = new Array();
     
 /* 
@@ -26,7 +26,7 @@ OC.liveElementKey = {
   ".oc-close" : "CloseButton",
   ".oc-dropdown-links" : "DropDownLinks",
   ".oc-expander" : "Expander",
-  "#oc-wiki-history" : "HistoryList",
+  "#version_compare_form" : "HistoryList",
   "#oc-join-form" : "JoinForm"
 }
     
@@ -284,6 +284,7 @@ OC.LiveEdit = function(extEl) {
     this.afterDelete = function(o) {
         // delete original container
         this.container.setVisibilityMode(Ext.Element.DISPLAY);
+        this.container.dom.style.backgroundColor = "red";
         this.container.fadeOut();
     }
 
@@ -482,63 +483,88 @@ OC.JoinForm = function(extEl) {
 OC.HistoryList = function(extEl) {
     // setup references
     this.form = extEl;
-    this.compare = Ext.get(Ext.select('#' + extEl.dom.id + ' input[type=submit]'));
+    this.compareButtons = Ext.select('#' + extEl.dom.id + ' input[type=submit]');
     this.versions  = Ext.get(Ext.select('#' + extEl.dom.id + ' li'));
     this.checkboxes = Ext.get(Ext.select('#' + extEl.dom.id + ' input[type=checkbox]'));
+    this.userMessage = Ext.get(Ext.query('.oc-message', extEl.dom)[0]);
    
     //check references
-    if (!this.form || !this.compare || !this.versions)
+    if (!this.form || !this.compareButtons || !this.versions || !this.userMessage) {
+        OC.debug("OC.historyList couldn't get all element references.");   
         return;
+    }
+    
+    //validator
+    this.userMessage.setVisibilityMode(Ext.Element.DISPLAY);
+    this.userMessage.hide();
     
     //compare buttons
-    this.enableCompareButtons = function() {
-      this.compare.each(function(el){
-        el.dom.disabled = false;
-      });
+    this.enableCompareButtons = true;
+    this.compareButtonClick = function(e, el, o) {
+      if (!this.enableCompareButtons) {
+        YAHOO.util.Event.stopEvent(e);
+        this.userMessage.update("Please select exactly 2 versions to compare.");
+        this.userMessage.addClass('oc-message-error');
+        this.userMessage.show();
+      }
     }
-    this.disableCompareButtons = function() {
-      this.compare.each(function(el){
-        el.dom.disabled = true;
-      });
-    }
-    this.disableCompareButtons();
+    this.compareButtons.on('click', this.compareButtonClick, this);
     
     //checkboxes
     this.clearCheckboxes = function() {
-      this.checkboxes.each(function(el) {
-          el.dom.checked = false;
-          Ext.get(el.dom.parentNode).removeClass('oc-selected');
+      this.checkboxes.each(function(extEl) {
+          extEl.dom.checked = false;
+          Ext.get(extEl.dom.parentNode).removeClass('oc-selected');
       });
     }
-    this.checkboxesClick = function(e, el, o) {
+    this.countChecked = function() {
       //count # checked
       var numChecked = 0;
-      this.checkboxes.each(function(el) {
-        if (el.dom.checked) {
+      this.checkboxes.each(function(extEl) {
+        if (extEl.dom.checked) {
           numChecked++;
         }
       });
+      OC.debug(numChecked);
+      return numChecked;
+    }
+    this.setList = function() {
+      //if exactly 2, enable compare buttons
+      if (this.countChecked() == 2) {
+        this.enableCompareButtons = true;
+        this.userMessage.fadeOut();
+      } else {
+        this.enableCompareButtons = false;   
+      }
       
+      this.checkboxes.each(function(extEl) {
+        //highlight this checkbox's parent
+        if (extEl.dom.checked) 
+          Ext.get(extEl.dom.parentNode).addClass('oc-selected');
+        else
+          Ext.get(extEl.dom.parentNode).removeClass('oc-selected');
+      }, this);
+    }
+    
+    this.checkboxClick = function(e, el, o) {
+      var checkMe = false;
+      if (el.checked) {
+        checkMe = true;
+      }
       //if more than 2, clear all and check currentStyle
-      if (numChecked > 2) {
+      if (this.countChecked() > 2) {
         this.clearCheckboxes();
+      } 
+      if (checkMe) {
+        // re-check since checklist clears it
         el.checked = true;
       }
-      
-      //if exactly 2, enable compare buttons
-      if (numChecked == 2) {
-        this.enableCompareButtons();
-      } else {
-        this.disableCompareButtons();    
-      }
-      
-      //highlight this checkbox's parent
-      if (el.checked)
-        Ext.get(el.parentNode).addClass('oc-selected');
-      else
-        Ext.get(el.parentNode).removeClass('oc-selected');
+      this.setList();
     }
-    this.checkboxes.on('click', this.checkboxesClick, this)
+    this.checkboxes.on('click', this.checkboxClick, this)
+    
+    //Init
+    this.setList();
     
     OC.debug(this.form.dom.elements);
     
