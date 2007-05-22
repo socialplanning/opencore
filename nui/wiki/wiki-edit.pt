@@ -84,13 +84,13 @@
               <a href="#oc-wiki-manageAttachments" class="oc-expander-link">manage attachments</a>
               <div class="oc-expander-content">
                 <h4>Current attachments:</h4>
-                    <ul class="oc-attachments" id="oc-wiki-attachments">
+                    <ol class="oc-attachments" id="oc-wiki-attachments">
                       <tal:block condition="nocall:attachments">
                         <tal:repeat repeat="attachment attachments">
                           <li metal:use-macro="here/@@wiki_macros/attachment"/>
                         </tal:repeat>
                       </tal:block>
-                    </ul>
+                    </ol>
 
                   <fieldset>
                     <legend><h4>Upload a new file:</h4></legend>

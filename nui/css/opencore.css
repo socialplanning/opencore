@@ -565,10 +565,42 @@ dl.oc-member-info dd {
 .oc-wiki-history-item {
   margin: .25em 0;
   border: 1px solid #fff;
+  padding: .25em;
+}
+.oc-wiki-history-item h3 {
+  display: inline;
 }
 .oc-wiki-history-item.oc-selected {
   background: lightgreen;
   border: 1px solid green;
+}
+.oc-widget-version-compare table {
+  float: left;
+}
+.oc-widget-version-compare th {
+  text-align: right;
+  padding: .125em 1em;
+}
+.oc-widget-version-compare td {
+  text-align: center;
+  padding: .125em .25em;
+}
+.oc-version-compare-legend {
+  float: right;
+}
+.oc-version-compare-legend ul {
+  margin: 0;
+  padding: 0 0 0 2em;
+}
+.oc-wiki del {
+ background: #ddd;
+ color: #666;
+ padding: 0 .125em;
+}
+.oc-wiki ins {
+  background: lightgreen;
+  text-decoration:none;
+  padding: 0 .125em;
 }
 
 /* Home page */
@@ -639,6 +671,17 @@ input.oc-button {
   padding: .25em .5em;
   font-size: inherit;
 }
+a.oc-button {
+  display: block;
+  padding:  0 .25em;
+  border: 1px solid #ccc;
+  text-decoration: none;
+  background: #eee;
+}
+a.oc-button:hover {
+  background: #ddd;
+  color: #000;
+}
 
 /* GENERIC: Elements */
 .oc-paginator {
@@ -662,6 +705,20 @@ a.oc-close {
 a.oc-close:hover {
   background: red;
   color: white;
+}
+.oc-message {
+  background-color: #FFF6BF;
+  border: 1px solid gray;
+	color: #333333;
+	font-weight: bold;
+	margin: 0.25em 0em;
+	padding: 0.125em 0.25em;
+	padding-right: 0.25em;
+	position: relative;
+	vertical-align: middle;
+}
+.oc-message-error {
+  background: pink;
 }
 
 /* @FORM Stuff */
@@ -1109,7 +1166,6 @@ address {
     .oc-portalStopMessage,
     .oc-system-message,
     #oc-error-handling
-  
   {
   font-size: 10px;
   line-height: 1.8em;
