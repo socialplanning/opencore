@@ -3,6 +3,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 from zope import event
 from opencore.interfaces.event import AfterProjectAddedEvent #, AfterSubProjectAddedEvent
+from zExceptions import BadRequest
 
 class ProjectView(OpencoreView):
     project_preferences = ZopeTwoPageTemplateFile('project-preferences.pt')
@@ -22,26 +23,30 @@ class ProjectView(OpencoreView):
         if not self.request.get('full_name'):
             self.errors['full_name'] = 'Please add a full name'
 
-        projid = self.request.form.get('projid')
-        projid = putils.normalizeString(projid)
-        if not projid:
-            self.errors['projid'] = 'You need to enter a short name for the project'
+        title = self.request.form.get('title')
+        title = putils.normalizeString(title)
+        if not title:
+            self.errors['title'] = 'You need to enter a short name for the project'
 
         if self.errors:
             self.portal_status_message = ['Please correct the indicated errors.', "%s" % self.errors]
             return self.renderCreateForm()
 
-
-
-        self.portal.projects.projects.invokeFactory('OpenProject', projid)
-        proj = self.portal.projects._getOb(projid)
+        try:
+            self.portal.projects.projects.invokeFactory('OpenProject', title)
+        except BadRequest:
+            self.errors = {'title' : 'The requested address is already in use.'}
+            self.portal_status_message = ['Please correct the indicated errors.', "%s" % self.errors]            
+            return self.renderCreateForm()
+            
+        proj = self.portal.projects._getOb(title)
         proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
             self.portal_status_message = ['Please correct the indicated errors.', "%s" % self.errors]
             return self.renderCreateForm()
 
 
-        self.context.portal_factory.doCreate(self.context, projid)
+        self.context.portal_factory.doCreate(self.context, title)
         
         event.notify(AfterProjectAddedEvent(proj, self.request))
         self.request.response.redirect(proj.absolute_url())

@@ -27,11 +27,11 @@
                 </tr>
                 <tr class="oc-form-row">
                   <th class="oc-form-label" scope="row">
-                    <label>http://</label>
+                    <label for="title">http://</label>
                   </th>
                   <td class="oc-form-value">
                     <!-- TODO dynamically populate this input with javascript based on what was entered for project name -->
-                    <input type="text" name="projid" id="projid" />.openplans.org
+                    <input type="text" name="title" id="title" />.openplans.org
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
