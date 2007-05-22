@@ -1,0 +1,28 @@
+<html metal:use-macro="here/@@standard_macros/master">
+  <body>
+
+    <div metal:fill-slot="content">              
+
+      <div class="oc-headingBlock">
+        <h1>News</h1>
+      </div>
+      
+      <div id="oc-content-main">
+        <ul>
+	  <li tal:repeat="item view/news_items">
+	    <a tal:content="item/Title" 
+	       tal:attributes="href string:${context/portal_url}/news/${item/getId}">
+	      News Item Title</a>
+            <p>Posted: <span tal:content="python: view.pretty_date(item.CreationDate)">Jan 1937</span></p>
+	    <p tal:content="item/Description">News Description</p>
+	    <a tal:attributes="href string:${context/portal_url}/news/${item/getId}">Read more...</a>
+	  </li>
+	</ul>
+        
+      </div><!-- content-main -->
+      
+      
+    </div><!-- content-fill-slot -->
+    
+  </body>
+</html>
