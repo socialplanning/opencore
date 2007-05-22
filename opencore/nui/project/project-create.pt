@@ -102,6 +102,12 @@ will create your team on the next page.<br/>
               <li>
                 <input type="checkbox" class="oc-input-typeCheck" id="listen" name="featurlets:list" />
                 <label for="listen">Mailing lists</label>
+		<ul>
+		  <li>
+                    <input type="checkbox" class="oc-input-typeCheck" id="listen_open" name="listen_open" />
+                    <label for="listen_open">Allow your project members to start new mailing lists</label>
+		  </li>
+		</ul>
               </li>
             </ul>
           </fieldset>
