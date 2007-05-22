@@ -57,8 +57,7 @@ class JoinView(OpencoreView):
         confirm = form.get("confirm_password")
         password = form.get("password")
         if password != confirm:
-            error = self.render_error("confirm_password", "nonmatching")
-        return error
+            return self.render_error("confirm_password", "nonmatching")
 
     def validate(self, form):
         errors = dict()
