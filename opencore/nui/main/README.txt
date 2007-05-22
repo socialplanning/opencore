@@ -122,7 +122,7 @@ Render the people search results view with no search
 Test the news view
    >>> view = self.portal.news.unrestrictedTraverse('@@index.html')
    >>> view
-   <Products.Five.metaclass.SimpleViewClass from ...news-contents.pt object at...>
+   <Products.Five.metaclass.SimpleViewClass from ...news.pt object at...>
 
    >>> view.news_items()
    []
