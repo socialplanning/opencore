@@ -98,6 +98,7 @@ def setup_nui(portal, out):
     reindex_membrane_tool(portal, out)
     move_interface_marking_on_projects_folder(portal, out)
     installNewsFolder(portal, out)
+    setupPeopleFolder(portal, out)
 
 topp_functions = dict(
     setupKupu = convertFunc(setupKupu),
@@ -178,6 +179,7 @@ nui_functions = dict(install_confirmation_workflow=convertFunc(install_confirmat
                      reindex_membrane_tool=convertFunc(reindex_membrane_tool),
                      move_interface_marking_on_projects_folder=convertFunc(move_interface_marking_on_projects_folder),
                      installNewsFolder=convertFunc(installNewsFolder),
+                     setupPeopleFolder=convertFunc(setupPeopleFolder),
                      )
 
 class NuiSetup(TOPPSetup):
