@@ -14,10 +14,12 @@ from Products.remember.content.member_schema \
      import id_schema, contact_schema, plone_schema, \
      security_schema, login_info_schema
 from Products.remember.content.member import FolderishMember
+from Products.remember.config import ALLOWED_MEMBER_ID_PATTERN
 
 from Products.TeamSpace.security import TeamSecurity
 
 from Products.OpenPlans.config import PROJECTNAME
+from Products.OpenPlans.config import PROHIBITED_MEMBER_PREFIXES
 
 member_schema = id_schema + contact_schema + plone_schema + \
                 security_schema + login_info_schema
@@ -173,5 +175,49 @@ class OpenMember(TeamSecurity, FolderishMember):
 
         data = ' '.join(data)
         return data
+
+    security.declarePrivate('validate_id')
+    def validate_id(self, id):
+        """
+        Override the default id validation to disallow ids that vary
+        from existing ids only by case.
+        """
+        # we can't always trust the id argument, b/c the autogen'd
+        # id will be passed in if the reg form id field is blank
+        form = self.REQUEST.form
+        if form.has_key('id') and not form['id']:
+            return self.translate('Input is required but no input given.',
+                                  default='You did not enter a login name.'),
+        elif self.getId() and id != self.getId():
+            # we only validate if we're changing the id
+            allowed = True
+            mbtool = getToolByName(self, 'membrane_tool')
+            if len(mbtool(getUserName=id)) > 0 or \
+                   not ALLOWED_MEMBER_ID_PATTERN.match(id):
+                allowed = False
+            for prefix in PROHIBITED_MEMBER_PREFIXES:
+                if id.lower().startswith(prefix):
+                    allowed = False
+            if not allowed:
+                msg = "The login name you selected is already " + \
+                      "in use or is not valid. Please choose another."
+                return self.translate(msg, default=msg)
+
+    security.declarePrivate('validate_email')
+    def validate_email(self, email):
+        """
+        Force email addresses to be unique throughout the system.
+        """
+        form = self.REQUEST.form
+        if form.has_key('email') and not form['email']:
+            return self.translate('Input is required but no input given.',
+                                  default='You did not enter an email address.'),
+        elif email != self.getEmail():
+            mbtool = getToolByName(self, 'membrane_tool')
+            if len(mbtool(getEmail=email)) > 0:
+                msg = ("That email address is already in use.  "
+                       "Please choose another.")
+                return self.translate(msg, default=msg)
+            
 
 atapi.registerType(OpenMember, package=PROJECTNAME)

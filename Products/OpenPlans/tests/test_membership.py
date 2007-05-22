@@ -29,4 +29,3 @@ def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestOpenMembership))
     return suite
-

@@ -21,54 +21,6 @@ class JoinView(OpencoreView):
         file_obj.close()
         return text
 
-    def validate_id(self, form):
-        error = None
-        ### usernames must be nonempty and must be unique
-        id = form.get("id")
-        if not id:
-            error = self.render_error("id", "missing")
-        elif self.membranetool(getId=id):
-            error = self.render_error("id", "already_exists")
-        return error
-
-    def validate_email(self, form):
-        error = None
-        ### email must be nonempty, must be unique and must look like an email address
-        email = form.get("email")
-        if not email:
-            error = self.render_error("email", "missing")
-        elif self.membranetool(getEmail=email):
-            error = self.render_error("email", "already_exists")
-        elif '@' not in email or '.' not in email: # this could not be sillier
-            error = self.render_error("email", "bad_address")
-        return error
-
-    def validate_password(self, form):
-        error = None
-        ### password must be nonempty and must be at least five characters long
-        password = form.get("password")
-        if not password:
-            error = self.render_error("password", "missing")
-        elif len(password) < 5:
-            error = self.render_error("password", "too_short")
-        return error
-
-    def validate_confirm_password(self, form):
-        confirm = form.get("confirm_password")
-        password = form.get("password")
-        if password != confirm:
-            return self.render_error("confirm_password", "nonmatching")
-
-    def validate(self, form):
-        errors = dict()
-        for field in form:
-            error = getattr(self, 'validate_%s' % field, None)
-            if not error: continue
-            error = error(form)
-            if error:
-                errors[field] = error
-        return errors
-
     def __call__(self, *args, **kw):
         if self.request.environ['REQUEST_METHOD'] == 'GET':
             return self.index(*args, **kw)
@@ -79,16 +31,20 @@ class JoinView(OpencoreView):
         adder = getAdderUtility(context)
         type_name = adder.default_member_type
             
-        id=context.generateUniqueId(type_name)
+        id = context.generateUniqueId(type_name)
         mem = mdc.restrictedTraverse('portal_factory/%s/%s' % (type_name, id))
         transaction_note('Initiated creation of %s with id %s in %s' % \
-                             (mem.getTypeInfo().getId(),
-                              id,
-                              context.absolute_url()))
-        self.errors = self.validate(self.request.form)
+                         (mem.getTypeInfo().getId(),
+                          id,
+                          context.absolute_url()))
+        self.errors = {}
+        self.errors = mem.validate(REQUEST=self.request,
+                                   errors=self.errors,
+                                   data=1, metadata=0)
 
         if not self.errors:
-            return mem.do_register(id=self.request.get('id'), password=self.request.get('password'))
+            return mem.do_register(id=self.request.get('id'),
+                                   password=self.request.get('password'))
         else:
             return self.index(*args, **kw)
 
@@ -108,7 +64,8 @@ class ConfirmAccountView(OpencoreView):
     def __call__(self, *args, **kw):
         key = self.request.get("key")
         
-        # we need to do an unrestrictedSearch because a default search will filter results by user permissions
+        # we need to do an unrestrictedSearch because a default search
+        # will filter results by user permissions
         matches = self.membranetool.unrestrictedSearchResults(UID=key)
         
         if not matches:
