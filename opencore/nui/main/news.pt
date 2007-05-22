@@ -5,7 +5,7 @@
 
       <div class="oc-headingBlock">
 	<h1>OpenPlans News</h1>
-	<p class="oc-headingContext">Subpeona free for 456 days.</p>
+	<p class="oc-headingContext">Subpeona free for <span tal:replace="view/subpoena_free">456</span> days.</p>
       </div>
 
       <div id="oc-content-main">
