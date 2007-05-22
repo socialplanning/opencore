@@ -18,7 +18,7 @@ def find_duplicate_emails(self):
     for email in duplicate_emails:
 	if not email: continue
         brains = mb(getEmail=email)
-        mems = [x.getObject() for x in brains]
+        mems = (m.getObject() for m in brains)
         out.write('%s\n' % email)
         for mem in mems:
             id = mem.getId()
