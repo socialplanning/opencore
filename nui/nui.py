@@ -2,7 +2,6 @@
 
 # XXX this is shit. -egj, mp
 
-dob = 'September 2, 2005' # OpenPlans' "date of birth"
 windowTitleSeparator = ' :: '
 logoURL = '++resource++img/logo.gif'
 
