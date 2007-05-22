@@ -100,11 +100,6 @@ class ProjectsSearchView(SearchView):
         return project_brains
     
     def recently_updated_projects(self):
-        # XXX
-        # This is not exactly what we want
-        # These get all modifications on the project itself
-        # but will miss wiki page changes in the project
-        # which is the sort of thing you would expect here
         query = dict(portal_type='OpenProject',
                      sort_on='modified',
                      sort_order='descending',
@@ -263,7 +258,6 @@ class SitewideSearchView(SearchView):
         if not sort_by or sort_by == 'relevancy':
             rs = (RankByQueries_Sum((Eq('getId', search_query),32), (Eq('getFull_name', search_query),16)),)
         else:
-            # we can't sort by title
             if sort_by == 'getId':
                 rs = ((sort_by, 'asc'),)
             else:
