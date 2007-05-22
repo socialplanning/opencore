@@ -294,3 +294,5 @@ class NewsView(SearchView):
         brains = self.catalogtool(**query)
         return brains
         
+    def can_add_news(self):
+        return self.membertool.checkPermission('Manage Portal', self.context)
