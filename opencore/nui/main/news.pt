@@ -9,6 +9,7 @@
       </div>
 
       <div id="oc-content-main">
+	<a tal:condition="view/can_add_news" tal:attributes="href string:${context/portal_url}/news/createObject?type_name=Document">Add news item...</a>
 	<ul class="oc-widget oc-widget-feed oc-feed-list">
           <li class="oc-feed-item" tal:repeat="item view/news_items">
             <h2 class="oc-feed-item-title">
