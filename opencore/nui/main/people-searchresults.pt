@@ -40,7 +40,7 @@
                 <select name="sort_by" tal:define="sorted_by python: request.get('sort_by')">
                   <option value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
                   <option value="getId" tal:attributes="selected python: sorted_by == 'getId'">username</option>
-                  <option value="Title" tal:attributes="selected python: sorted_by == 'Title'">real name</option>
+                  <option value="exact_getFullname" tal:attributes="selected python: sorted_by == 'exact_getFullname'">real name</option>
     </select>
 
     <!-- resend the current data when sorting -->
@@ -68,7 +68,7 @@
                 <h3 class="oc-peopleresults-username fn">
                   <a href="" tal:omit-tag="python: view.no_home(item.getId)" tal:attributes="href string:${context/portal_url}/people/${item/getId}" tal:content="item/getId">Username</a>
                 </h3>
-                <div class="oc-peopleresults-fullname n" tal:content="item/Title">real name</div>
+                <div class="oc-peopleresults-fullname n" tal:content="item/getFullname">real name</div>
                 <div class="oc-peopleresults-location adr" tal:define="loc item/getLocation" tal:condition="loc" tal:content="loc">location</div>
               </div>
             </li>
