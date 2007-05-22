@@ -48,7 +48,6 @@
               </p>
               <p class="oc-feed-item-description" tal:define="desc project/Description">
                   <span tal:condition="desc" tal:replace="desc" />
-                  <span tal:condition="not: desc" tal:replace="string:no mission statement (project description)" />
               </p>
             </li>
           </ul>
