@@ -17,7 +17,7 @@
     for="opencore.project.content.OpenProject"
     name="update"
     class=".view.ProjectView"
-    attribute="rendePrefsForm"
+    attribute="renderPrefsForm"
     permission="cmf.ModifyPortalContent"
     />
 
