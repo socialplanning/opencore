@@ -67,7 +67,13 @@
               </ul>  
               
             </div><!-- end .oc-wiki-edit -->
-            
+            <div class="oc-expander">
+              <a href="#oc-wiki-comment" class="oc-expander-link">Version note</a>
+              <div class="oc-expander-content">
+		<textarea name="comment" id="comment" rows="3" cols="60"></textarea>
+              </div><!-- end expander-content -->
+            </div><!-- end expander -->
+
           </form>
         </div><!-- end .oc-wiki -->
 
