@@ -192,6 +192,10 @@ class PeopleSearchView(SearchView):
             note: not using mtool.getHomeFolder for efficiency reasons """
         return not self.context.has_key(userid)
 
+    def add_class_to_img(self, imgdata, clss):
+        tag = str(imgdata)
+        return tag.replace('<img', '<img class="%s"' % clss)
+
 
 class HomeView(SearchView):
     def __init__(self, context, request):
