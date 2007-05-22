@@ -10,3 +10,6 @@ class IAddProject(Interface):
 
 class IAmAPeopleFolder(Interface):
     """Marker interface that indicates that this folder contains people"""
+
+class IAmANewsFolder(Interface):
+    """Marker interface that indicates that this is the OpenPlans news folder"""

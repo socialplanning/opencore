@@ -11,6 +11,7 @@ except ImportError:
 
 from adding import IAddProject
 from adding import IAmAPeopleFolder
+from adding import IAmANewsFolder
 
 from Products.wicked.interfaces import IAmWicked
 from zope.interface import Interface 
