@@ -176,9 +176,6 @@ class PeopleSearchView(SearchView):
         if not sort_by or sort_by == 'relevancy':
             rs = (RankByQueries_Sum((Eq('Title', person_query),32), (Eq('getId', person_query),16)),)
         else:
-            # we can't sort by title
-            if sort_by == 'Title':
-                sort_by = 'exact_getFullname'
             rs = ((sort_by, 'desc'),)
 
         people_brains = self.membrane_tool.evalAdvancedQuery(
