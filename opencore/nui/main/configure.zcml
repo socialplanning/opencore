@@ -68,4 +68,13 @@
      template="home-searchresults.pt"
      />
 
+  <!-- home-searchresults -->
+  <browser:page
+     for="*"
+     class=".search.NewsView"
+     permission="zope.Public"
+     name="index.html"
+     template="news-contents.pt"
+     />
+
 </configure>

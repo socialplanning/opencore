@@ -281,3 +281,16 @@ class SitewideSearchView(SearchView):
             )
         return brains
     
+
+class NewsView(SearchView):
+    def news_items(self):
+        news_path = '/'.join(self.context.portal.getPhysicalPath()) + '/news'
+        query = dict(portal_type='Document',
+                     sort_on='created',
+                     sort_order='descending',
+                     sort_limit=20,
+                     path=news_path
+                     )
+        brains = self.catalogtool(**query)
+        return brains
+        
