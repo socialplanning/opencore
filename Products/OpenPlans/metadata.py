@@ -14,6 +14,12 @@ def proxy(attrs):
     return obj
 
 def updateContainerMetadata(obj, event):
+    # XXX hack to attach last modified author to open pages metadata
+    lastmodifiedauthor = getAuthenticatedMemberId(obj)
+    obj.lastModifiedAuthor = lastmodifiedauthor
+    obj.reindexObject()
+    obj._p_changed=True
+
     parent = getattr(obj, 'aq_parent', None)
     if not (parent and IProject.providedBy(parent)):
         return
@@ -23,7 +29,6 @@ def updateContainerMetadata(obj, event):
     catalog = getToolByName(parent, 'portal_catalog')
 
     # make comment conditional to team security policy...
-    lastmodifiedauthor=getAuthenticatedMemberId(parent)
     prox = proxy(dict(lastModifiedTitle=obj.title_or_id(),
                       ModificationDate=obj.modified(),
                       lastModifiedAuthor=lastmodifiedauthor,
@@ -32,10 +37,6 @@ def updateContainerMetadata(obj, event):
     selectiveMetadataUpdate(catalog._catalog, parentuid, prox)
     catalog._catalog.catalogObject(prox, parentuid, idxs=['modified'], update_metadata=0)
     
-    # XXX hack to attach last modified author to open pages metadata
-    obj.lastModifiedAuthor = lastmodifiedauthor
-    obj.reindexObject()
-    obj._p_changed=True
     
 def notifyObjectModified(obj):
     zope.event.notify(objectevent.ObjectModifiedEvent(obj))
