@@ -22,18 +22,6 @@ class SearchView(OpencoreView):
                      quantumleap=0,
                      b_start_str='b_start')
 
-    def create_sort_fn(self, sort_by):
-
-        def sort_key_fn(x):
-            if sort_by is None or sort_by == 'relevancy': return 0
-            
-            prop = getattr(x, sort_by)
-            if callable(prop):
-                return prop()
-            return prop
-
-        return sort_key_fn
-
     def pretty_date(self, date):
         try:
             time_obj = strptime(date, '%Y-%m-%d %H:%M:%S')
@@ -72,6 +60,10 @@ class ProjectsSearchView(SearchView):
         letter = letter.lower()
         query = dict(portal_type="OpenProject",
                      Title=letter + '*')
+
+        if sort_by != 'relevancy':
+            query['sort_on'] = sort_by
+
         project_brains = self.catalogtool(**query)
 
         def matches(brain):
@@ -82,8 +74,6 @@ class ProjectsSearchView(SearchView):
                 or title.startswith('an ' + letter)
 
         project_brains = filter(matches, project_brains)
-
-        project_brains.sort(key=self.create_sort_fn(sort_by))
 
         return project_brains
 
@@ -157,10 +147,12 @@ class PeopleSearchView(SearchView):
 
     def search_for_person_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
-        query = dict(Title=letter + '*')
-        people_brains = self.membrane_tool(**query)
+        title_query = letter + '*'
+        query = dict(Title=title_query)
+        if sort_by != 'relevancy':
+            query['sort_on'] = sort_by
 
-        people_brains = sorted(people_brains, key=self.create_sort_fn(sort_by))
+        people_brains = self.membrane_tool(**query)
 
         return people_brains
 
