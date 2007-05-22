@@ -70,11 +70,11 @@
 
   <!-- home-searchresults -->
   <browser:page
-     for="*"
+     for="opencore.interfaces.IAmANewsFolder"
      class=".search.NewsView"
      permission="zope.Public"
      name="index.html"
-     template="news-contents.pt"
+     template="news.pt"
      />
 
 </configure>

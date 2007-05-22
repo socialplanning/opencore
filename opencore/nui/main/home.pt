@@ -80,7 +80,7 @@
               </p>
             </li>
           </ul>
-          <a class="oc-paginator" tal:attributes="href string:${context/portal_url}/news">more news&hellip;</a>
+          <a class="oc-paginator" tal:attributes="href string:${context/portal_url}/news/@@index.html">more news&hellip;</a>
         </div><!-- OpenPlans News -->
         <div class="oc-clearAfter">
           <h2>About us</h2>

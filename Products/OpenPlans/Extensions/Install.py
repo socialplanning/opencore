@@ -37,6 +37,7 @@ from Products.OpenPlans.workflows import WORKFLOW_MAP
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from opencore.interfaces import IAddProject
 from opencore.interfaces import IAmAPeopleFolder
+from opencore.interfaces import IAmANewsFolder
 
 from zope.interface import directlyProvides, directlyProvidedBy, alsoProvides
 from Products.OpenPlans.Extensions.utils import setupKupu
@@ -636,6 +637,11 @@ def installDefaultContent(portal, out):
         
     if getattr(portal.aq_base, 'news', None) is None:
         portal.invokeFactory('Folder', 'news', title='OpenPlans News')
+
+    # mark the news folder with an interface
+    pf = getattr(portal, 'news')
+    if not IAmANewsFolder.providedBy(pf):
+        alsoProvides(pf, IAmANewsFolder)
 
 
 def install(self, migrate_atdoc_to_openpage=True):
