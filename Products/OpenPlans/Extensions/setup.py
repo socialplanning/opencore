@@ -20,7 +20,7 @@ from Install import installColumns, fixUpEditTab, hideActions, \
      installWorkflowPolicies, hideActionTabs, securityTweaks, uiTweaks, \
      migrateATDocToOpenPage, createIndexes, installZ3Types, registerJS, \
      setupProjectLayout, createMemIndexes, setCookieDomain, installCookieAuth, \
-     setupPeopleFolder, install_confirmation_workflow
+     setupPeopleFolder, install_confirmation_workflow, installNewsFolder
 from migrate_teams_to_projects import migrate_teams_to_projects
 from migrate_membership_roles import migrate_membership_roles
 
@@ -92,6 +92,13 @@ def save_all_projects(portal, out):
         out.write('processed project: %s\n' % title)
     return out.getvalue()
 
+def setup_nui(portal, out):
+    """ this will call the nui setup functions in the right order """
+    reinstallTypes(portal, portal)
+    reindex_membrane_tool(portal, out)
+    move_interface_marking_on_projects_folder(portal, out)
+    installNewsFolder(portal, out)
+
 topp_functions = dict(
     setupKupu = convertFunc(setupKupu),
     fixUpEditTab = convertFunc(fixUpEditTab),
@@ -119,6 +126,7 @@ topp_functions = dict(
     migrate_teams_to_projects=migrate_teams_to_projects,
     migrate_membership_roles=migrate_membership_roles,
     save_all_projects=convertFunc(save_all_projects),
+    setup_nui=convertFunc(setup_nui)
     )
 
 class TOPPSetup(SetupWidget):
@@ -151,7 +159,26 @@ class TOPPSetup(SetupWidget):
         """ Go get the functions """
         return self.functions.keys()
 
-nui_functions = dict(install_confirmation_workflow=convertFunc(install_confirmation_workflow))
+def reindex_membrane_tool(portal, out):
+    mbtool = getToolByName(portal, 'membrane_tool')
+    mbtool.reindexIndex('getLocation', portal.REQUEST)
+
+def move_interface_marking_on_projects_folder(portal, out):
+    from zope.interface import directlyProvidedBy
+    from zope.interface import directlyProvides
+    from zope.interface import alsoProvides
+    from opencore.interfaces import IAddProject
+    pf = portal.projects
+    directlyProvides(pf, directlyProvidedBy(pf) - IAddProject)
+    alsoProvides(pf, IAddProject)
+
+
+nui_functions = dict(install_confirmation_workflow=convertFunc(install_confirmation_workflow),
+                     reinstallTypes=reinstallTypes,
+                     reindex_membrane_tool=convertFunc(reindex_membrane_tool),
+                     move_interface_marking_on_projects_folder=convertFunc(move_interface_marking_on_projects_folder),
+                     installNewsFolder=convertFunc(installNewsFolder),
+                     )
 
 class NuiSetup(TOPPSetup):
     """ OpenPlans NUI Setup Bucket Brigade  """
