@@ -45,7 +45,7 @@
                     <label for="mission">Mission Statement</label>
                   </th>
                   <td class="oc-form-value">
-                    <textarea name="description" id="description" rows="3" cols="40"></textarea>
+                    <textarea name="description" id="description" rows="3" cols="40" tal:content="request/description | nothing"/>
                     <!-- this would be called mission instead of description if we weren't hijacking an existing field -->
                   </td>
                   <td class="oc-form-help">
