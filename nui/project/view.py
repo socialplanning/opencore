@@ -29,20 +29,20 @@ class ProjectView(OpencoreView):
             self.errors['title'] = 'You need to enter a short name for the project'
 
         if self.errors:
-            self.portal_status_message = ['Please correct the indicated errors.', "%s" % self.errors]
+            self.portal_status_message = ['Please correct the indicated errors.']
             return self.renderCreateForm()
 
         try:
             self.portal.projects.projects.invokeFactory('OpenProject', title)
         except BadRequest:
             self.errors = {'title' : 'The requested address is already in use.'}
-            self.portal_status_message = ['Please correct the indicated errors.', "%s" % self.errors]            
+            self.portal_status_message = ['Please correct the indicated errors.']            
             return self.renderCreateForm()
             
         proj = self.portal.projects._getOb(title)
         proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
-            self.portal_status_message = ['Please correct the indicated errors.', "%s" % self.errors]
+            self.portal_status_message = ['Please correct the indicated errors.']
             return self.renderCreateForm()
 
 
