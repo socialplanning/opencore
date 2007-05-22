@@ -17,8 +17,8 @@
               <h3 class="oc-feed-item-title">
                     <a href="" tal:attributes="href project/absolute_url" tal:content="nocall: project/title">Project title</a>
               </h3>
-              <p class="oc-feed-item-description" tal:content="project/mission | string: project mission statement goes here">
-                This is the descriptive text for a project. Apparently it doesn't quite work right yet. Is there even a field for users to fill out or entry to call from a database?
+              <p class="oc-feed-item-description" tal:content="project/Description | nothing">
+                Project Mission
               </p>
             </li>
               </ul>

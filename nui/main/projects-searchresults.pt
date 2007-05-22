@@ -81,7 +81,6 @@
 
                 <p tal:define="desc item/Description">
                   <span tal:condition="desc" tal:replace="desc" />
-                  <span tal:condition="not: desc" tal:replace="string:no mission statement (project description)" />
                 </p>
 
               </li>
