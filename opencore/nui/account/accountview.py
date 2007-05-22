@@ -7,11 +7,68 @@ from Products.CMFPlone import transaction_note
 from Products.remember.utils import getAdderUtility
 
 from opencore.nui.opencoreview import OpencoreView
+import os
 
 class JoinView(OpencoreView):
 
-    def validate(self):
-        return self.context.validate(REQUEST=self.request)
+    def render_error(self, field, error):
+        curdir = os.path.dirname(__file__)
+        filename = os.path.join(curdir, "static", "errors", field)
+        file_obj = file(filename)
+        for line in file_obj:
+            if line.startswith(error):
+                text = line.replace(error, '')
+        file_obj.close()
+        return text
+
+    def validate_id(self, form):
+        error = None
+        ### usernames must be nonempty and must be unique
+        id = form.get("id")
+        if not id:
+            error = self.render_error("id", "missing")
+        elif self.membranetool(getId=id):
+            error = self.render_error("id", "already_exists")
+        return error
+
+    def validate_email(self, form):
+        error = None
+        ### email must be nonempty, must be unique and must look like an email address
+        email = form.get("email")
+        if not email:
+            error = self.render_error("email", "missing")
+        elif self.membranetool(getEmail=email):
+            error = self.render_error("email", "already_exists")
+        elif '@' not in email or '.' not in email: # this could not be sillier
+            error = self.render_error("email", "bad_address")
+        return error
+
+    def validate_password(self, form):
+        error = None
+        ### password must be nonempty and must be at least five characters long
+        password = form.get("password")
+        if not password:
+            error = self.render_error("password", "missing")
+        elif len(password) < 5:
+            error = self.render_error("password", "too_short")
+        return error
+
+    def validate_confirm_password(self, form):
+        confirm = form.get("confirm_password")
+        password = form.get("password")
+        if password != confirm:
+            error = self.render_error("confirm_password", "nonmatching")
+        return error
+
+    def validate(self, form):
+        errors = dict()
+        for field in form:
+            error = getattr(self, 'validate_%s' % field, None)
+            if not error: continue
+            error = error(form)
+            if error:
+                errors[field] = error
+        return errors
 
     def __call__(self, *args, **kw):
         if self.request.environ['REQUEST_METHOD'] == 'GET':
@@ -29,9 +86,9 @@ class JoinView(OpencoreView):
                              (mem.getTypeInfo().getId(),
                               id,
                               context.absolute_url()))
-        errors = mem.validate(REQUEST=self.request)
+        self.errors = self.validate(self.request.form)
 
-        if not errors:
+        if not self.errors:
             return mem.do_register(id=self.request.get('id'), password=self.request.get('password'))
         else:
             return self.index(*args, **kw)

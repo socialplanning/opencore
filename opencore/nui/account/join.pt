@@ -21,27 +21,33 @@
             
 		<tr class="oc-form-row">
                   <th class="oc-form-label">
-                    <label for="">Username</label>
+                    <label for="id">Username</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" name="id" id="id" />
+                    <input type="text" name="id" id="id"
+			   tal:attributes="value request/id | nothing" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
                       
                     </span>
-                    <span id="oc-username-validator" class="oc-form-validator">
+                    <span id="oc-id-validator" class="oc-form-validator">
                       
+                    </span>
+                    <span id="oc-id-error" class="oc-form-error"
+			  tal:content="view/errors/id | nothing">
+
                     </span>
                   </td>		  
                 </tr>
 
                 <tr>
                   <th class="oc-form-label">
-                    <label for="">Full Name</label>
+                    <label for="fullname">Full Name</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" name="fullname" id="fullname"/>  
+                    <input type="text" name="fullname" id="fullname"
+			   tal:attributes="value request/fullname | nothing" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
@@ -50,15 +56,20 @@
                     <span class="oc-form-validator">
                       
                     </span>
+                    <span id="oc-fullname-error" class="oc-form-error"
+			  tal:content="view/errors/fullname | nothing">
+
+                    </span>
                   </td>
                 </tr>
 
                 <tr>
                   <th class="oc-form-label">
-                    <label for="">Email</label>
+                    <label for="email">Email</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" name="email" id="email" />  
+                    <input type="text" name="email" id="email"
+			   tal:attributes="value request/email | nothing" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
@@ -67,15 +78,20 @@
                     <span class="oc-form-validator">
                       
                     </span>
+                    <span id="oc-email-error" class="oc-form-error"
+			  tal:content="view/errors/email | nothing">
+
+                    </span>
                   </td>
                 </tr>
 
                 <tr>
                   <th class="oc-form-label">
-                    <label for="">Password</label>
+                    <label for="password">Password</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="password" name="password" id="password" />  
+                    <input type="password" name="password" id="password" 
+			   />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
@@ -83,13 +99,17 @@
                     </span>
                     <span class="oc-form-validator">
                       
+                    </span>
+                    <span id="oc-password-error" class="oc-form-error"
+			  tal:content="view/errors/password | nothing">
+
                     </span>
                   </td>
                 </tr>
 		
                 <tr>
                   <th class="oc-form-label">
-                    <label for="">Confirm passsword</label>
+                    <label for="confirm_password">Confirm passsword</label>
                   </th>
                   <td class="oc-form-value">
                     <input type="password" name="confirm_password" id="confirm_password" />  
@@ -100,6 +120,10 @@
                     </span>
                     <span class="oc-form-validator">
                       
+                    </span>
+                    <span id="oc-confirm_password-error" class="oc-form-error"
+			  tal:content="view/errors/confirm_password | nothing">
+
                     </span>
                   </td>
                 </tr>
