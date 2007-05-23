@@ -53,10 +53,9 @@
       <tr>
         <th>Comparing</th>
         <td>
-          <!-- FIXME prev widget --> 
           <tal:if condition="view/new_prev_enabled">
             <a class="oc-button oc-smallText" title="older" tal:attributes="href string:version_compare?version_id=${old_id}&version_id=${prev_new_id}">
-                          &lt;<!-- FIXME -->
+                          &lt;
             </a>
           </tal:if>
           <tal:if condition="not: view/new_prev_enabled">
