@@ -103,6 +103,11 @@ class OpenMember(TeamSecurity, FolderishMember):
 
     actions = actions
 
+    security.declareProtected(ManagePortal, 'UID')
+    def UID(self):
+        """ xmlrpc! """
+        return super(OpenMember, self).UID()
+
     # team security support
     def _getTeamsForLocalRoles(self):
         """
