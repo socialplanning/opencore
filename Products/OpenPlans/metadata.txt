@@ -162,3 +162,30 @@ authenticated member
 
     >>> md.getAuthenticatedMemberId(self.portal)
     'test_user_1_'
+
+Unmark IProject from self.folder
+The last modified author on IOpenPages underneath it should still
+get updated
+    >>> from zope.interface import directlyProvidedBy
+    >>> from zope.interface import directlyProvides
+    >>> from zope.interface import alsoProvides
+    >>> directlyProvides(self.folder,
+    ...                  directlyProvidedBy(self.folder) - IProject)
+    >>> IProject.providedBy(self.folder)
+    False
+    
+Now create a new document and mark it as an IOpenPage
+    >>> fid = self.folder.invokeFactory('Document', id='test_auth', title='TEST')
+    >>> doc = getattr(self.folder, fid)
+    >>> catalog.indexObject(doc)
+    >>> marker.mark(doc, IOpenPage)
+
+Simulate the event being triggered
+    >>> event = md.objectevent.ObjectModifiedEvent(doc)
+    >>> md.updateContainerMetadata(doc, event)
+
+And check that the lastModifiedAuthor still gets set
+Even though the container is not an IProject
+    >>> brain = catalog(getId='test_auth')[0]
+    >>> brain.lastModifiedAuthor
+    'test_user_1_'
