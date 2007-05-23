@@ -1,0 +1,42 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+	   xmlns:browser="http://namespaces.zope.org/browser"
+	   xmlns:five="http://namespaces.zope.org/five">
+
+  <!-- your projects -->
+  <!-- @@ need a specific interface for a member folder -->
+  <browser:page
+     for="*"
+     class="opencore.nui.member.YourProjectsView"
+     permission="zope.Public"
+     name="projects"
+     template="yourprojects.pt"
+     />
+
+  <!-- member-profile-edit -->
+  <browser:page
+     for="*"
+     class="..base.BaseView"
+     permission="zope.Public"
+     name="profile-edit"
+     template="profile-edit.pt"
+     />
+
+  <!-- member-profile -->
+  <browser:page
+     for="*"
+     class="..base.BaseView"
+     permission="zope.Public"
+     name="profile"
+     template="profile.pt"
+     />
+
+  <!-- member-contact -->
+  <browser:page
+     for="*"
+     class="..base.BaseView"
+     permission="zope.Public"
+     name="contact"
+     template="contact.pt"
+     />
+
+</configure>
