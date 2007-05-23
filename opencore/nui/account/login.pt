@@ -55,10 +55,9 @@
                     <th></th>
                     <td class="oc-form-value">
                       <input type="checkbox" name="no_expire_cookie" id="no_expire_cookie" /> 
-                      <label for="no_expire_cookie">Remember me on this computer</label>
+                      <label for="no_expire_cookie">Keep me logged in for 2 weeks</label>
                     </td>
                     <td class="oc-form-help">
-                      <span class="oc-form-context"><a href="">What does this mean?</a></span>
                     </td>
                   </tr>
                   <tr class="oc-options">

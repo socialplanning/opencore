@@ -368,6 +368,7 @@ OC.CloseButton = function(extEl) {
             //fade out
             this.container.fadeOut({});
         }
+        YAHOO.util.Event.stopEvent(e);
     }
     this.closeButton.on('click', this.closeButtonClick, this);
     
