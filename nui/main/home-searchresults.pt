@@ -57,15 +57,16 @@
           <!-- the results are displayed here -->
           <ol class="oc-searchresults-list">
             <li class="oc-searchresults-item" tal:repeat="item view/search_results">
-        <tal:defines define="mem item/getObject">
+              <tal:defines define="mem item/getObject">
                 <img tal:attributes="src mem/getIcon" />
                 <h3><a href="" tal:attributes="href mem/absolute_url" tal:content="item/getId">Title</a></h3>
-                <tal:has_updated_text define="userid item/lastModifiedAuthor" condition="userid">
-                  last updated by
+                <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
+                  by
                   <a tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
+                </tal:has_updated_author>
+                  last updated
                   <span tal:content="python: view.pretty_date(item.ModificationDate)" />
-                </tal:has_updated_text>
-        </tal:defines>
+              </tal:defines>
             </li>
           </ol>
           <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
