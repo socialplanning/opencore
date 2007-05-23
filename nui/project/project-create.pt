@@ -111,7 +111,7 @@ will create your team on the next page.<br/>
               </li>
             </ul>
           </fieldset>
-          <button type="submit" class="oc-input-typeButton">create</button>
+          <button type="submit" class="oc-button oc-chooseThis">create</button>
         </form>
 
       </div><!-- end .oc-content-main -->

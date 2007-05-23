@@ -173,7 +173,7 @@ class OpencoreView(BrowserView):
         currently-viewed project for easy template access."""
         if self.inproject():
             proj = self.projectobj()
-            security = IReadWorkflowPolicySupport(self.context).getCurrentPolicyId()
+            security = IReadWorkflowPolicySupport(proj).getCurrentPolicyId()
             return dict(navname=proj.getId(),
                         fullname=proj.getFull_name(),
                         url=proj.absolute_url(), # XXX use self.projectHomePage.absolute_url() instead?
