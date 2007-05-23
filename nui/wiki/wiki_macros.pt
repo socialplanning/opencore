@@ -40,7 +40,7 @@
         <td class="oc-form-help"></td>
       </tr>
       <tr class="oc-table-row">
-        <th class="oc-form-label"><label for="attachmentTitle">Enter title</label></th>
+        <th class="oc-form-label"><label for="attachmentTitle">Enter new name</label></th>
         <td class="oc-form-value"><input type="text" 
             id="attachmentTitle" 
             name="attachmentTitle" 
