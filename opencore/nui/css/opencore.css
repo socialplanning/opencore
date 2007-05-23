@@ -24,7 +24,6 @@ html {
 body {
   margin: 0;
   padding: 0 8px;
-  background: url(http://www.digg.com/img/page-back.gif) repeat-x;
   color: #333333;
 }
 #oc-page-container {
@@ -1206,10 +1205,8 @@ address {
   text-decoration: underline;
 }
 a {
-  color: #337f92;
 }  
 a:hover {
-  color: #777777;
 }
 img {
    border: none;
