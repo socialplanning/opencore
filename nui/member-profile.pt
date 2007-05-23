@@ -21,7 +21,14 @@
         </dd>
         <dt>Projects</dt>
         <dd>
-          <a href="#">Project 1</a>, <a href="#">Project 2</a> <span class="oc-discreetText">(private)</span>, <a href="#">Project 3</a>, <a href="#">Project 1</a>, <a href="#">Project 2</a> <span class="oc-discreetText">(private)</span>, <a href="#">Project 3</a>
+          <ul class="oc-inlineList">
+            <li><a href="#">Project 1</a></li>
+            <li><a href="#">Project 2 <span class="oc-discreetText">(private)</span></li>
+            <li><a href="#">Project 3</a></li>
+            <li><a href="#">Project 1</a></li>
+            <li><a href="#">Project 2 <span class="oc-discreetText">(private)</span></li>
+            <li><a href="#">Project 3</a></li>
+          </ul>
         </dd>
       </dl>
     </div>
