@@ -69,15 +69,6 @@
      name="oc-topnav-accessibility"
      template="topnav-accessibility.pt"
      />
-  
-  <!-- your projects -->
-  <browser:page
-     for="*"
-     class=".opencoreview.YourProjectsView"
-     permission="zope.Public"
-     name="oc-yourprojects"
-     template="yourprojects.pt"
-     />
 
   <!-- footer -->
   <browser:page
@@ -86,33 +77,6 @@
      permission="zope.Public"
      name="oc-footer"
      template="footer.pt"
-     />
-
-  <!-- member-profile -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-member-profile"
-     template="member-profile.pt"
-     />
-
-  <!-- member-profile-edit -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-member-profile-edit"
-     template="member-profile-edit.pt"
-     />
-
-  <!-- member-contact -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-member-contact"
-     template="member-contact.pt"
      />
 
   <!-- blank (for testing) -->
