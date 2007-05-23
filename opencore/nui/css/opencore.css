@@ -1110,7 +1110,7 @@ h2, .oc-biggerText, #oc-topnav-title h1,
 h3, .oc-bigText,
 #oc-content-sidebar h2 {
   font-size: 14px;
-  line-height: 1.286em;
+  /* line-height: 1.286em; */
   /* margin-top: 1.929em; */
   /* margin-bottom: 0.643em; */
 }

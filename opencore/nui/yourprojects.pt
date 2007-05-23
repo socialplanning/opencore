@@ -12,24 +12,27 @@
   
   <div class="oc-widget oc-widget-invite">
     <div class="oc-headingBlock">
-      <h2>Membership invitations you've received (x)</h2>
+      <h2>Latest updates (x)</h2>
     </div>
     <ul class="oc-invite-list">
       <li class="oc-invite oc-boxy oc-clearAfter">
-        <div class="oc-avatar">
-          <img src="" />
-        </div>
-        <p class="oc-invite-content">
-          <a href="">Animal Campaign</a> 
-	    has invited you to become a member
-        </p>
-        <ul class="oc-actions oc-invite-actions">
-          <li><a href="" class="oc-button oc-chooseAccept">Accept</a></li>
-          <li><a href="" class="oc-button oc-chooseReject">Reject</a></li>
-          <li><a href="" class="oc-button oc-chooseSpam">Spam</a></li>
-        </ul>
-        <a href="#" title="Ignore" class="oc-close">X</a>
-      </li>
+          <div class="oc-avatar">
+            <img src="" />
+          </div>
+          <p class="oc-invite-content">
+            You have been accepted to <a href="">Turkey Time</a> 
+          </p>
+          <a href="#" title="Ignore" class="oc-close">X</a>
+        </li>
+      <li class="oc-invite oc-boxy oc-clearAfter">
+          <div class="oc-avatar">
+            <img src="" />
+          </div>
+          <p class="oc-invite-content">
+            You have been rejected from <a href="">Chicken Adidas</a> 
+          </p>
+          <a href="#" title="Ignore" class="oc-close">X</a>
+        </li>
       <li class="oc-invite oc-boxy oc-clearAfter">
         <div class="oc-avatar">
           <img src="" />
@@ -39,9 +42,9 @@
 	    has invited you to become a member
         </p>
         <ul class="oc-actions oc-invite-actions">
-          <li><a href="" class="oc-button oc-chooseAccept">Accept</a></li>
-          <li><a href="" class="oc-button oc-chooseReject">Reject</a></li>
-          <li><a href="" class="oc-button oc-chooseSpam">Spam</a></li>
+          <li><a href="" class="oc-actionLink oc-chooseAccept">Accept</a></li>
+          <li><a href="" class="oc-actionLink oc-chooseReject">Reject</a></li>
+          <li><a href="" class="oc-actionLink oc-chooseSpam">Spam</a></li>
         </ul>
         <a href="#" title="Ignore" class="oc-close">X</a>
       </li>
@@ -54,9 +57,9 @@
 	    has invited you to become a member
         </p>
         <ul class="oc-actions oc-invite-actions">
-          <li><a href="" class="oc-button oc-chooseAccept">Accept</a></li>
-          <li><a href="" class="oc-button oc-chooseReject">Reject</a></li>
-          <li><a href="" class="oc-button oc-chooseSpam">Spam</a></li>
+          <li><a href="" class="oc-actionLink oc-chooseAccept">Accept</a></li>
+          <li><a href="" class="oc-actionLink oc-chooseReject">Reject</a></li>
+          <li><a href="" class="oc-actionLink oc-chooseSpam">Spam</a></li>
         </ul>
         <a href="#" title="Ignore" class="oc-close">X</a>	
       </li>
@@ -162,10 +165,11 @@
 </div><!-- end #oc-content-main -->
 
 <div id="oc-content-sidebar">
-	<div class="oc-boxy">
-	  <div class="oc-headingBlock">
+  <div class="oc-headingBlock">
 			<h2>Account settings</h2>
 		</div>
+	<div class="oc-boxy">
+	  
 		<a href="#">Edit profile</a>
 		<form class="oc-expander">
 			<fieldset>
