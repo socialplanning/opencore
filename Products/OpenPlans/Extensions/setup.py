@@ -169,6 +169,9 @@ def move_interface_marking_on_projects_folder(portal, out):
     from zope.interface import directlyProvides
     from zope.interface import alsoProvides
     from opencore.interfaces import IAddProject
+    import sys
+    import opencore
+    sys.modules['Products.OpenPlans.interfaces.adding'] = opencore.interfaces.adding
     pf = portal.projects
     directlyProvides(pf, directlyProvidedBy(pf) - IAddProject)
     alsoProvides(pf, IAddProject)
