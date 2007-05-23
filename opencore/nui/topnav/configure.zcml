@@ -5,46 +5,46 @@
   <!-- topnav -->
   <browser:page
      for="*"
-     class=".topnav.TopNavView"
+     class="..base.BaseView"
      permission="zope.Public"
      name="oc-topnav"
-     template="topnav.pt"
+     template="historical/topnav.pt"
      />
 
   <!-- topnav-menus -->
   <browser:page
      for="*"
-     class=".topnav.TopNavView"
+     class="..base.BaseView"
      permission="zope.Public"
      name="oc-topnav-menus"
-     template="topnav-menus.pt"
+     template="historical/topnav-menus.pt"
      />
 
   <!-- topnav-subcontext-project -->
   <browser:page
      for="*"
-     class=".topnav.TopNavView"
+     class="..base.BaseView"
      permission="zope.Public"
      name="oc-topnav-subcontext-project"
-     template="topnav-subcontext-project.pt"
+     template="historical/topnav-subcontext-project.pt"
      />
 
   <!-- topnav-subcontext-user -->
   <browser:page
      for="*"
-     class=".topnav.TopNavView"
+     class="..base.BaseView"
      permission="zope.Public"
-     name="oc-topnav-subcontext-member"
-     template="topnav-subcontext-member.pt"
+     name="oc-topnav-subcontext-user"
+     template="historical/topnav-subcontext-user.pt"
      />
 
   <!-- topnav-accessibility -->
   <browser:page
      for="*"
-     class=".topnav.TopNavView"
+     class="..base.BaseView"
      permission="zope.Public"
      name="oc-topnav-accessibility"
-     template="topnav-accessibility.pt"
+     template="historical/topnav-accessibility.pt"
      />
 
 </configure>
