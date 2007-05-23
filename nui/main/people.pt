@@ -9,7 +9,6 @@
       </div>
 
       <div id="oc-content-main">
-
         <div class="oc-widget oc-widget-search oc-boxy">
           <form name="people_search" action="." tal:attributes="action string:${context/portal_url}/people/searchresults">
             <label><h2>Search for people</h2></label>
@@ -25,18 +24,14 @@
             </li>
           </ul>
         </div>
-
-
-        <div tal:condition="not: view/loggedin" tal:content="structure python: view.render_static('main_people_anonymous.txt')" />
-        <div tal:condition="view/loggedin" tal:content="structure python: view.render_static('main_people_notanonymous.txt')" />
-
       </div><!-- content-main -->
 
 
       <!-- content-sidebar -->
 
       <div id="oc-content-sidebar">
-
+        <div tal:condition="not: view/loggedin" tal:content="structure python: view.render_static('main_people_anonymous.txt')" />
+        <div tal:condition="view/loggedin" tal:content="structure python: view.render_static('main_people_notanonymous.txt')" />
       </div><!-- content-sidebar -->
 
     </div><!-- content-fill-slot -->
