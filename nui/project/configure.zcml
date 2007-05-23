@@ -3,18 +3,19 @@
    xmlns:five="http://namespaces.zope.org/five">
 
   <browser:page
-    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-    name="create"
-    class=".view.ProjectView"
-    attribute="renderCreateForm"
-    permission="zope.Public"
-    />
+     for="opencore.interfaces.IAddProject"
+     name="create"
+     class=".view.ProjectView"
+     attribute="renderCreateForm"
+     permission="zope.Public"
+     />
+
     <!-- TODO
     permission should be any logged in user
     -->
 
   <browser:page
-    for="opencore.project.content.OpenProject"
+    for="opencore.interfaces.IProject"
     name="update"
     class=".view.ProjectView"
     attribute="renderPrefsForm"
@@ -22,7 +23,7 @@
     />
     
    <browser:page
-     for="opencore.project.content.OpenProject"
+     for="opencore.interfaces.IProject"
      class=".view.ProjectView"
      permission="cmf.ModifyPortalContent"
      name="project-contents"
@@ -30,7 +31,7 @@
      />
 
   <browser:page
-    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    for="opencore.interfaces.IAddProject"
     name="handleCreate"
     class=".view.ProjectView"
     attribute="handleCreate"
@@ -41,7 +42,7 @@
     -->
 
   <browser:page
-    for="opencore.project.content.OpenProject"
+    for="opencore.interfaces.IProject"
     name="handlePrefs"
     class=".view.ProjectView"
     attribute="handlePrefs"
