@@ -81,6 +81,5 @@ class ProjectView(OpencoreView):
     def handlePrefs(self):
         self.context.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)        
         self.handleFeaturelets(self.context)
-        #need to change security somehow
         self.context.processForm(REQUEST=self.request)
         self.request.response.redirect(self.context.absolute_url())
