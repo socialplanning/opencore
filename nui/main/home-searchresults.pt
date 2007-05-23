@@ -57,15 +57,21 @@
           <!-- the results are displayed here -->
           <ol class="oc-searchresults-list">
             <li class="oc-searchresults-item" tal:repeat="item view/search_results">
-              <tal:defines define="mem item/getObject">
-                <img tal:attributes="src mem/getIcon" />
-                <h3><a href="" tal:attributes="href mem/absolute_url" tal:content="item/getId">Title</a></h3>
-                <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
-                  by
-                  <a tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
-                </tal:has_updated_author>
+              <tal:defines define="obj item/getObject; portal_type obj/portal_type; is_user python: portal_type == 'OpenMember'">
+                <img tal:attributes="src obj/getIcon" />
+                <h3><a href="" tal:attributes="href obj/absolute_url" tal:content="item/getId">Title</a></h3>
+                <tal:is_user condition="is_user">
+                  member since
+                  <span tal:replace="python: view.pretty_date(item.CreationDate)" />
+                </tal:is_user>
+                <tal:not_user condition="not: is_user">
+                  <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
+                    by
+                    <a tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
+                  </tal:has_updated_author>
                   last updated
-                  <span tal:content="python: view.pretty_date(item.ModificationDate)" />
+                  <span tal:replace="python: view.pretty_date(item.ModificationDate)" />
+                </tal:not_user>
               </tal:defines>
             </li>
           </ol>
