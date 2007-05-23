@@ -71,11 +71,12 @@
                   </tal:not-modified-block>
 
                   <tal:modified-block tal:condition="python: sorting_by == 'modified'">
-                    <tal:has_updated_text define="userid item/lastModifiedAuthor" condition="userid">
-                      last updated by
+                      last updated
+                    <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
+                      by
                       <a tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
-                    <span tal:content="python: view.pretty_date(item.ModificationDate)" />
-                    </tal:has_updated_text>
+                    </tal:has_updated_author>
+                      <span tal:content="python: view.pretty_date(item.ModificationDate)" />
                   </tal:modified-block>
 
                 </span>
