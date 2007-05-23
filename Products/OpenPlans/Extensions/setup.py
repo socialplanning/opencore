@@ -93,12 +93,9 @@ def save_all_projects(portal, out):
     return out.getvalue()
 
 def setup_nui(portal, out):
-    """ this will call the nui setup functions in the right order """
-    reinstallTypes(portal, portal)
-    reindex_membrane_tool(portal, out)
-    move_interface_marking_on_projects_folder(portal, out)
-    installNewsFolder(portal, out)
-    setupPeopleFolder(portal, out)
+    """ this will call all the  nui setup functions """
+    for fn in nui_functions.values():
+        fn(portal, portal)
 
 topp_functions = dict(
     setupKupu = convertFunc(setupKupu),
@@ -161,6 +158,9 @@ class TOPPSetup(SetupWidget):
         return self.functions.keys()
 
 def reindex_membrane_tool(portal, out):
+    # requires the types to be reinstalled first
+    reinstallTypes(portal, portal)
+
     mbtool = getToolByName(portal, 'membrane_tool')
     mbtool.reindexIndex('getLocation', portal.REQUEST)
 
@@ -175,7 +175,6 @@ def move_interface_marking_on_projects_folder(portal, out):
 
 
 nui_functions = dict(install_confirmation_workflow=convertFunc(install_confirmation_workflow),
-                     reinstallTypes=reinstallTypes,
                      reindex_membrane_tool=convertFunc(reindex_membrane_tool),
                      move_interface_marking_on_projects_folder=convertFunc(move_interface_marking_on_projects_folder),
                      installNewsFolder=convertFunc(installNewsFolder),
