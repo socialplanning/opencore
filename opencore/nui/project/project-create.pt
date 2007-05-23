@@ -66,29 +66,29 @@ permission you want to give to non-members of your project team.  You
 will create your team on the next page.<br/>
                 <strong>Visitors to the site can:</strong>
               </legend>
-              <ul class="oc-form-radiolist">
+	      <ul class="oc-form-radiolist">
                 <li>
-                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-3" name="workflow_policy"
-                    value="open_policy" checked="checked"/>
-                  <label for="securitylevel-3">View your content</label>
+                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
+			 value="open_policy" checked="checked"/>
+                  <label for="workflow_policy_open">View your content</label>
                 </li>
                 <li>
-                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-2" name="workflow_policy"
-                    value="medium_policy" />
-                  <label for="securitylevel-2">and contribute to it</label><br>
+                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
+			 value="medium_policy" />
+                  <label for="workflow_policy_medium">and contribute to it</label><br>
 		  OR
                 </li>
                 <li>
-                  <input type="radio" class="oc-input-typeRadio" id="securitylevel-1" name="workflow_policy"
-                    value="closed_policy" />
-                  <label for="securitylevel-1">Non-members cannot see your project</label>
+                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
+			 value="closed_policy" />
+                  <label for="workflow_policy_closed">Non-members cannot see your project</label>
                   <ul class="oc-discreetText">
                     <li class="oc-smallText">
 		      your project will not be shown in search results or site directories
                     </li>
                   </ul>
                 </li>
-              </ul>
+	      </ul>
             </fieldset>
           </fieldset>
 
