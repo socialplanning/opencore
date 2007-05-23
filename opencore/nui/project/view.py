@@ -51,8 +51,6 @@ class ProjectView(OpencoreView):
 
         self.context.portal_factory.doCreate(self.context, title)
         self.handleFeaturelets(proj)
-        import pdb;pdb.set_trace()
-        #saveWFPolicy(self, None)
         event.notify(AfterProjectAddedEvent(proj, self.request))
         self.request.response.redirect(proj.absolute_url())
 
@@ -81,4 +79,8 @@ class ProjectView(OpencoreView):
 
 
     def handlePrefs(self):
-        pass
+        self.context.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)        
+        self.handleFeaturelets(self.context)
+        #need to change security somehow
+        self.context.processForm(REQUEST=self.request)
+        self.request.response.redirect(self.context.absolute_url())
