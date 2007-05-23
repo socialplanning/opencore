@@ -65,6 +65,12 @@
                   <span tal:replace="python: view.pretty_date(item.CreationDate)" />
                 </tal:is_user>
                 <tal:not_user condition="not: is_user">
+                  <tal:is_page condition="python: portal_type == 'Document'">
+                    <tal:project_define define="proj python: obj.aq_parent">
+                      in
+                      <a href="" tal:attributes="href proj/absolute_url" tal:content="proj/Title" />
+                    </tal:project_define>
+                  </tal:is_page>
                   <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
                     by
                     <a tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
