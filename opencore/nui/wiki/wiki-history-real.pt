@@ -1,6 +1,6 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
-    <script metal:fill-slot="script" language="javascript" type="text/javascript" src="++resource++javascripts/checkbox-limit-select.js"></script>
+    <script metal:fill-slot="script" src="++resource++javascripts/checkbox-limit-select.js"></script>
   </head>
   <body>
     <div metal:fill-slot="content"
