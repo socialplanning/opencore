@@ -370,6 +370,20 @@ ul.oc-dropdown, .oc-dropdown ul {
 	padding: 0;
 	margin: 0 0 1em;
 }
+.oc-inlineList { /* comma-separated list (space-separated in IE) */
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.oc-inlineList li {
+	display: inline;
+}
+.oc-inlineList li:after {
+	content: ", ";
+}
+.oc-inlineList li:last-child:after {
+	content: "";
+}
 .oc-boxy {
 	padding: 1em;
 	background-color: #eee;
@@ -392,10 +406,6 @@ ul.oc-dropdown, .oc-dropdown ul {
 .oc-column-left.oc-boxy,
 .oc-column-right.oc-boxy {
 width: 44%;
-}
-.oc-image-bright { /* newspaper term for an image used to emphasize a block of text */
-  margin: 0 0.5em 0.5em 0;
-  float: left;
 }
 
 /* GENERIC search results & lineups */
@@ -433,11 +443,15 @@ width: 44%;
   font-size: 10px;
 }
 .oc-lineup-item-sorter form,
-.oc-lineup-item-sorter input,
+.oc-lineup-item-sorter select,
 .oc-searchresults-nresults form,
-.oc-searchresults-nresults form input {
+.oc-searchresults-nresults form select {
   display: inline;
   font-size: 100%;
+}
+.oc-lineup-item-sorter input,
+.oc-searchresults-nresults form input {
+	display: none;
 }
 .oc-lineup .oc-paginator,
 .oc-searchresults .oc-paginator,
@@ -478,15 +492,48 @@ width: 44%;
   width: 60%;
   white-space: normal;
 }
-.oc-peopleresults-username {
+.oc-peopleresults-content .fn, /* OpenPlans username */
+.oc-peopleresults-content .n /* full name */ {
   margin: 0;
 }
-.oc-peopleresults-fullname {
-  margin: 0;
-}
-.oc-peopleresults-location {
+.oc-peopleresults-content .adr /* location */ {
   font-style: normal;
 }
+
+/* Team View */
+.oc-roster {
+  clear: both;
+  list-style-type: none;
+  padding: 0;
+}
+.oc-roster .oc-avatar {
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  background: #eee;
+  float: left;
+  clear: none;
+  margin-right: 1em;
+}
+.oc-roster-content {
+  float: left;
+  clear: none;
+  width: 60%;
+  white-space: normal;
+}
+.oc-roster-content h3 /* OpenPlans username */{
+	display: inline;
+	margin: 0;
+}
+.oc-roster .adr /* location */ {
+	font-weight: bold;
+}
+.oc-roster .oc-roster-projects {
+	font-weight: bold;
+	float: left;
+	padding-right: 0.5em;
+}
+
 
 /* Member profile */
 
@@ -1011,7 +1058,7 @@ li.oc-invite .oc-invite-content {
   font-size: 10px;
 }
 #oc-content-main .oc-widget-search form .oc-input-typeText {
-  width: 80%;
+  width: 50%;
 }
 #oc-content-sidebar .oc-widget-search form .oc-input-typeText {
   width: 65%;

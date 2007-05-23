@@ -3,15 +3,9 @@
 
     <div metal:fill-slot="content">              
 
-      <div class="oc-headingBlock">
-        <h1>Members on OpenPlans</h1>
-        <p class="oc-headingContext">Currently serving <span tal:replace="view/nusers"/> users</p>
-      </div>
-
       <div id="oc-content-main">
 
-        <div class="oc-peopleresults">
-          <h2>Search results <span tal:condition="view/search_query | nothing" tal:replace="structure view/search_query" /></h2>
+          <h1>Team members</h1>
 
           <!-- batch needs to have some variables set up to work properly.
           here is where they are defined -->
@@ -56,20 +50,31 @@
 
 
           <!-- the results are displayed here -->
-          <ol class="oc-peopleresults-list oc-clearAfter">
-            <li class="oc-clearAfter vcard" tal:repeat="item view/search_results">
+          <ol class="oc-roster oc-clearAfter">
+            <li class="oc-clearAfter oc-boxy vcard" tal:repeat="item view/search_results">
               <div class="oc-avatar" tal:define="mem item/getObject; imgdata mem/getPortrait">
                 <a href="" tal:omit-tag="python: view.no_home(item.getId)" tal:attributes="href string:${context/portal_url}/people/${item/getId}">
                   <img tal:condition="imgdata" tal:replace="structure python: view.add_class_to_img(imgdata, 'photo')" />
                   <img tal:condition="not: imgdata" class="photo" tal:attributes="src string:defaultUser.gif" />
                 </a>
               </div>
-              <div class="oc-peopleresults-content">
+              <div class="oc-roster-content">
                 <h3 class="fn">
                   <a href="" tal:omit-tag="python: view.no_home(item.getId)" tal:attributes="href string:${context/portal_url}/people/${item/getId}" tal:content="item/getId">Username</a>
                 </h3>
-                <div class="n" tal:content="item/getFullname">real name</div>
-                <div class="oc-discreetText adr" tal:define="loc item/getLocation" tal:condition="loc" tal:content="loc">location</div>
+                <span class="oc-discreetText adr" tal:define="loc item/getLocation" tal:condition="loc" tal:content="loc"> Big City, ST</span>
+                <div class="oc-discreetText">XXX contributions since Jan 37 1947, latest 45 years ago</div>
+                <div>
+                  <span class="oc-roster-projects">Projects (N):</span>
+                  <ul class="oc-inlineList">
+                    <li><a href="#">Project 1</a></li>
+                    <li><a href="#">Project 2</a> <span class="oc-discreetText">(private)</span></li>
+                    <li><a href="#">Project 3</a></li>
+                    <li><a href="#">Project 1</a></li>
+                    <li><a href="#">Project 2</a> <span class="oc-discreetText">(private)</span></li>
+                    <li><a href="#">Project 3</a></li>
+                  </ul>
+                </div>
               </div>
             </li>
           </ol>
@@ -88,30 +93,12 @@
         <!-- if we get no results, this is what is displayed -->
         <div tal:condition="not: view/search_results">No results found.</div>
 
-      </div> <!-- oc-searchresults -->
     </div> <!-- content-main -->
 
 
     <div id="oc-content-sidebar">
-
-      <!-- the sidebar contains the search for the project, as well as the letters that search for projects
-      starting with that letter
-      we can possibly create a macro that displays this form and letters generically -->
-      <div class="oc-widget oc-widget-search oc-boxy">    
-        <form name="people_search" action="." tal:attributes="action string:${context/portal_url}/people/searchresults">
-          <label><h2>New search</h2></label>
-          <input type="text" name="personname" tal:attributes="value request/personname | nothing" />
-          <input type="hidden" name="letter_search" />
-          <input type="submit" name="action_search_people" value="Search" />
-        </form>
-
-        <ul class="oc-widget-alphabet oc-boxy" tal>
-          <li tal:repeat="letter modules/string/uppercase">
-            <a href="" tal:content="letter" tal:attributes="href string:${request/ACTUAL_URL}?letter_search=${letter}">A</a>
-          </li>
-        </ul>
-      </div>
     </div><!-- content-sidebar -->
+    
   </div><!-- content-fill-slot -->
 </body>
 </html>
