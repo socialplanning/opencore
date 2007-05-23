@@ -142,12 +142,14 @@ class PeopleSearchView(SearchView):
 
     def search_for_person_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
-        title_query = letter + '*'
-        query = dict(Title=title_query)
+        user_query = letter + '*'
+        query = dict(Title=user_query)
         if sort_by != 'relevancy':
             query['sort_on'] = sort_by
 
         people_brains = self.membrane_tool(**query)
+        startswith_letter = lambda b: b.getId.lower().startswith(letter)
+        people_brains = filter(startswith_letter, people_brains)
 
         return people_brains
 
