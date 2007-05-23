@@ -93,9 +93,6 @@ body {
 #oc-topnav-title h1 {
   position: absolute;
   bottom: 0.5em;
-  float: left;
-  margin: 0;
-  margin-right: 0.5em;
   padding: 0;
 }        
   
@@ -103,6 +100,14 @@ body {
   float: right;
   display: block;
   padding: 0.25em;
+}
+.oc-dropdown {
+  margin: 0;
+  padding: 0;
+}
+.oc-dropdown li {
+  display: inline;
+  padding: 0 1em 0 0;
 }
   
 /*#topnav-openplans-logo,*/
