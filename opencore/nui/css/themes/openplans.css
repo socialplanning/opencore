@@ -19,7 +19,7 @@ body {
 }
   
 #oc-topnav {
-  background: #777 url("http://scrollie.com/box/shadow.png") repeat-x bottom;
+  background: #777 url(/++resource++img/shadow.png) repeat-x bottom;
   color: white;
   width: 100%;
 }
@@ -33,7 +33,7 @@ body {
 }
     
 #oc-topnav-global {
-  background: #74AC07 url("http://scrollie.com/box/shadow.png") repeat-x bottom;
+  background: #74AC07 url(/++resource++img/shadow.png) repeat-x bottom;
   border-bottom: 1px solid #FFF;
   height: 40px;
 }
@@ -58,7 +58,7 @@ body {
 }
     
 #oc-footer {
-  background: #777 url("http://scrollie.com/box/shadow.png") repeat-x bottom;
+  background: #777 url(/++resource++img/shadow.png) repeat-x bottom;
   color: #ccc;
 }
 
