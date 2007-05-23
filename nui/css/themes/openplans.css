@@ -3,147 +3,156 @@
  One of many to come?
 
  */
-	
+body {
+  color: #333;
+  background-color: #333;
+  padding: 0;
+}
+
 #oc-page-container,
 #visual-portal-wrapper {
-	background-color: white;
+  background-color: white;
+  max-width: 100%;
+  min-width: 100%;
+  width: 100%;
+  margin: 0;
 }
-	
+  
 #oc-topnav {
-	background-color: #AAC683;
-	color: white;
+  background: #777 url("http://scrollie.com/box/shadow.png") repeat-x bottom;
+  color: white;
+  width: 100%;
 }
-	
+  
 #oc-topnav a {
-	color: white;
-	text-decoration: none;
+  color: white;
+  text-decoration: none;
 }
-	
+  
 #oc-topnav a:hover {
 }
-		
+    
 #oc-topnav-global {
-	background: #2B7284 url(http://www.openplans.org/opp_bar_bg.gif) repeat-x scroll center top;
-	border-bottom: 2px solid white;
-	height: 40px;
+  background: #74AC07 url("http://scrollie.com/box/shadow.png") repeat-x bottom;
+  border-bottom: 1px solid #FFF;
+  height: 40px;
 }
-	
+  
 #oc-topnav-openplans {
-	background: transparent;
+  background: transparent;
 }
 
 #oc-topnav-openplans-search #oc-LSResult {
-	background-color: #2B7284;
+  background-color: #92C506;
 }
-			
+      
 #oc-topnav-title h1 {
-	text-transform: none;
+  text-transform: none;
 }
-		
+    
 #oc-content-container {
+ background: #fff;
+ max-width: 70em; /* As a rule, measure should be between two and three alphabets long. In other words, between 52 and 78 characters, including spaces. Since characters average out to about one-half EM in width this translates to a minimum width of 26em and a maximum of 39em, or two to three alphabets.   IN OTHER WORDS: avoid changing the width. */
+ min-width: 52em;
+ margin: 0 auto;
 }
-		
+    
 #oc-footer {
-    background-color: #eee;
-	color: #aaa;
+  background: #777 url("http://scrollie.com/box/shadow.png") repeat-x bottom;
+  color: #ccc;
 }
 
 #oc-footer a {
-  color: gray;
-	text-decoration: none;
+  color: #eee;
+  text-decoration: none;
 }
 
 #oc-footer a:hover {
-	color: #555;
+  color: #555;
 }
-		
-oc-.missingText {
-	color: gray;
+    
+.oc-missingText {
+  color: gray;
 }
+/* @HTML ELEMENTS GENERAL @TYPOGRAPHY
+This should be the only place where font information is specified
+-------------------------------------------- */
 
 body, textarea {
-	font-size: 12px; /* ~12px */
-	line-height: 1.5em; /* 18px √É¬∑ 12px = 1.5em */
-	font-family: "Lucida Grande", "Frutiger", "Univers", "Helvetica Neue", Arial, Helvetica, sans-serif;
-	/* These typographic rules will establish rhythm of 18px at base font size */
+  font-size: 12px; /* ~12px */
+  line-height: 1.5em; /* 18px √É¬∑ 12px = 1.5em */
+  font-family: "Lucida Grande", "Frutiger", "Univers", "Helvetica Neue", Arial, Helvetica, sans-serif;
+  /* These typographic rules will establish rhythm of 18px at base font size */
 }
-
-#oc-content * p {
-	margin: 0 0 1.5em 0;
-}
-
-/* HTML & TYPOGRAPHY */
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
-	letter-spacing: 0;
+  letter-spacing: 0;
 }
-		
+    
 h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 abbr {
-	border: none;
+  border: none;
 }
 
-h1, .h1 {
-	
+h1, .oc-biggestText {
+}
+h2, .oc-biggerText, #oc-topnav-title h1,
+#oc-content-sidebar h1 {
 }
 
-h2, .h2, #oc-topnav-title h1 {
-	
+h3, .oc-bigText,
+#oc-content-sidebar h2 {
 }
-
-h3, .h3, h4, .h4  {
-	
+#oc-content-sidebar h3 {
 }
-
 h4, .h4 {
-	
 }
-	
+#oc-content-sidebar h4 {
+}
+  
 .oc-smallText,
-	/* Layout and Navigation */
-		.oc-documentByLine,
-		#oc-topnav .oc-dropdown,
-		#oc-topnav-openplans-search,
-		#oc-footer,
-    	#oc-content-title-pagetitle,
-	
-	/*Feeds and Forms */
-		.oc-field input,
-		.oc-formHelp,
-		.oc-feed_data,
-		.oc-feed_desc,
-		ul.oc-contentViews,
-		ul.oc-oc-tabs,
-	
-	/* Error Messages */
-		.oc-portalMessage,
-		.oc-portalWarningMessage,
-		.oc-portalStopMessage,
-		.oc-system-message,
-		#oc-error-handling
-	
-	{
-	
+.oc-discreetText,
+  /* Layout and Navigation */
+    .oc-documentByLine,
+    #oc-topnav .oc-dropdown,
+    #oc-topnav-openplans-search,
+    #oc-footer,
+      #oc-content-title-pagetitle,
+  
+  /*Feeds and Forms */
+    .oc-field input,
+    .oc-formHelp,
+    .oc-feed_data,
+    .oc-feed_desc,
+    ul.oc-contentViews,
+    ul.oc-oc-tabs,
+  
+  /* Error Messages */
+    .oc-portalMessage,
+    .oc-portalWarningMessage,
+    .oc-portalStopMessage,
+    .oc-system-message,
+    #oc-error-handling
+  
+  {
 }
 
 .oc-documentFirstHeading,
 .oc-simpleHeading {
-	
+  
 }
 
 .oc-simpleHeading a {
-	
 }
 
-.oc-simpleHeading a:hover {
-	
+.oc-simpleHeading a:hover { 
 }
 
 a {
-	
-}
-	
+  color: #74AC07;
+}  
 a:hover {
-	
+  color: #EB852B;
 }
-
+a:visited {
+  color: #568005;
