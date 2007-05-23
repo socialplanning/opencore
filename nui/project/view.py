@@ -4,6 +4,10 @@ from Products.CMFCore.utils import getToolByName
 from zope import event
 from opencore.interfaces.event import AfterProjectAddedEvent #, AfterSubProjectAddedEvent
 from zExceptions import BadRequest
+from zope.component import getUtility
+from topp.featurelets.interfaces import IFeatureletSupporter
+from topp.featurelets.interfaces import IFeatureletRegistry
+
 
 class ProjectView(OpencoreView):
     project_preferences = ZopeTwoPageTemplateFile('project-preferences.pt')
@@ -16,6 +20,7 @@ class ProjectView(OpencoreView):
         return self.project_create()
 
     def handleCreate(self):
+        #TODO: security, featurelets
         putils = getToolByName(self.context, 'plone_utils')
         self.request.set('__initialize_project__', True)
 
@@ -47,9 +52,33 @@ class ProjectView(OpencoreView):
 
 
         self.context.portal_factory.doCreate(self.context, title)
-        
+        self.handleFeaturelets(proj)
         event.notify(AfterProjectAddedEvent(proj, self.request))
         self.request.response.redirect(proj.absolute_url())
+
+    def handleFeaturelets(self, proj):
+        if self.request.get('flet_recurse_flag') is not None:
+            return
+        self.request.set('flet_recurse_flag', True)
+        registry = getUtility(IFeatureletRegistry)
+        supporter = IFeatureletSupporter(proj)
+        
+        desired = self.request.get('featurelets')
+        if desired is None:
+            desired = tuple()
+        desired = set(desired)
+        installed = set(supporter.getInstalledFeatureletIds())
+
+        needed = desired.difference(installed)
+        for flet_id in needed:
+            flet = registry.getFeaturelet(flet_id)
+            supporter.installFeaturelet(flet)
+
+        removed = installed.difference(desired)
+        for flet_id in removed:
+            flet = registry.getFeaturelet(flet_id)
+            supporter.removeFeaturelet(flet)
+
 
     def handlePrefs(self):
         pass
