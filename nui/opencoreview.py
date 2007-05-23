@@ -17,6 +17,7 @@ from topp.utils.pretty_text import truncate
 from topp.utils.pretty_date import prettyDate
 from opencore.nui.static import render_static
 from topp.featurelets.interfaces import IFeatureletSupporter
+from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
 
 class OpencoreView(BrowserView):
     def __init__(self, context, request):
@@ -172,12 +173,13 @@ class OpencoreView(BrowserView):
         currently-viewed project for easy template access."""
         if self.inproject():
             proj = self.projectobj()
+            security = IReadWorkflowPolicySupport(self.context).getCurrentPolicyId()
             return dict(navname=proj.getId(),
                         fullname=proj.getFull_name(),
                         url=proj.absolute_url(), # XXX use self.projectHomePage.absolute_url() instead?
                         home=self.projectHomePage(),
                         mission=proj.Description(),
-                        security=2, # where, in unix speak, 1 = 660, 2 = 664, 3 = 666, 0 = 1 with no search results
+                        security=security,
                         featurelets=self.projectFeaturelets())
 
     def page(self): # TODO

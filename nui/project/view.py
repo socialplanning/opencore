@@ -8,7 +8,6 @@ from zope.component import getUtility
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.interfaces import IFeatureletRegistry
 
-
 class ProjectView(OpencoreView):
     project_preferences = ZopeTwoPageTemplateFile('project-preferences.pt')
     project_create = ZopeTwoPageTemplateFile('project-create.pt')
@@ -20,7 +19,6 @@ class ProjectView(OpencoreView):
         return self.project_create()
 
     def handleCreate(self):
-        #TODO: security, featurelets
         putils = getToolByName(self.context, 'plone_utils')
         self.request.set('__initialize_project__', True)
 
@@ -53,6 +51,8 @@ class ProjectView(OpencoreView):
 
         self.context.portal_factory.doCreate(self.context, title)
         self.handleFeaturelets(proj)
+        import pdb;pdb.set_trace()
+        #saveWFPolicy(self, None)
         event.notify(AfterProjectAddedEvent(proj, self.request))
         self.request.response.redirect(proj.absolute_url())
 
