@@ -9,4 +9,9 @@
       interface="Products.ploneundelete.interfaces.ICanBeUndeleted" />
   </content>
 
+  <subscriber
+     for="opencore.interfaces.IOpenMembership
+          zope.app.container.interfaces.IObjectAddedEvent"
+     handler=".membership.fixupOwnership" />
+
 </configure>
