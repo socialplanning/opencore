@@ -18,7 +18,7 @@
 
   <browser:page
     for="*"
-    class="..opencoreview.OpencoreView"
+    class="..base.BaseView"
     permission="zope.Public"
     name="main_template"
     template="main_template.pt"
