@@ -18,6 +18,8 @@ class OpenMembership(TeamMembership):
 
     implements(IOpenMembership)
 
+    intended_visibility = 'public'
+
     def getTeamRoles(self):
         """
         Override the default b/c we want to store team roles on the
@@ -44,25 +46,31 @@ class OpenMembership(TeamMembership):
         transition that results in the desired membership visibility
         is exposed
         """
-        # XXX ignoring dest_state for now
+        if dest_state is not None and \
+           dest_state != self.intended_visibility:
+            return False
+
         mtool = getToolByName(self, 'portal_membership')
         wftool = getToolByName(self, 'portal_workflow')
 
         wf_hist = wftool.getHistoryOf(WF_ID, self)
         last_transition = wf_hist[-1]
-        if last_transition.get('review_state') != 'pending':
-            # if we're not in a pending state, this is moot
-            return False
 
-        auth_mem = mtool.getAuthenticatedMember()
-        owner_id = self.owner_info()['id']
-        actor_id = last_transition.get('actor')
+        review_state = last_transition.get('review_state')
+        if review_state == 'pending':
+            auth_mem = mtool.getAuthenticatedMember()
+            owner_id = self.owner_info()['id']
+            actor_id = last_transition.get('actor')
 
-        if actor_id == owner_id:
-            # requires project admin approval
+            if actor_id == owner_id:
+                # requires project admin approval
+                can = mtool.checkPermission(ManageTeamMembership, self)
+            else:
+                # requires member approval
+                can = owner_id == auth_mem.getId()
+        elif review_state == 'rejected_by_admin':
             can = mtool.checkPermission(ManageTeamMembership, self)
-        else:
-            # requires member approval
+        elif review_state == 'rejected_by_owner':
             can = owner_id == auth_mem.getId()
 
         return bool(can)
