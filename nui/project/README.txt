@@ -20,9 +20,6 @@ Add view
     >>> view.request.form.update(form_vars)
 
     >>> out = view.handle_request()
-    Traceback (most recent call last):
-    ...
-    Redirect: http://nohost/plone/projects/test1
 
     >>> proj = projects.test1
     >>> proj
