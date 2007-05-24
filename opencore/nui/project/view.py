@@ -1,24 +1,36 @@
-from opencore.nui.opencoreview import OpencoreView
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
-from zope import event
+from Products.CMFPlone.utils import transaction_note
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.interfaces.event import AfterProjectAddedEvent #, AfterSubProjectAddedEvent
+from opencore.nui.base import BaseView, button
 from zExceptions import BadRequest
-from zope.component import getUtility
-from topp.featurelets.interfaces import IFeatureletSupporter
-from topp.featurelets.interfaces import IFeatureletRegistry
+from zExceptions import Redirect
+from zope import event
 
-class ProjectView(OpencoreView):
-    project_preferences = ZopeTwoPageTemplateFile('project-preferences.pt')
-    project_create = ZopeTwoPageTemplateFile('project-create.pt')
 
-    def renderPrefsForm(self):
-        return self.project_preferences()
+class ProjectBase(BaseView):
+    """an abstract base"""
 
-    def renderCreateForm(self):
-        return self.project_create()
+    @property
+    def name(self):
+        return self.__name__
 
-    def handleCreate(self):
+    def handle_request(self):
+        raise NotImplementedError
+
+class ProjectPreferencesView(ProjectBase):
+
+    @button('update')
+    def handle_request(self):
+        self.context.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)        
+        self.context.processForm(REQUEST=self.request)
+        raise Redirect, self.context.absolute_url()
+
+
+class ProjectAddView(ProjectBase):
+
+    @button('add')
+    def handle_request(self):
         putils = getToolByName(self.context, 'plone_utils')
         self.request.set('__initialize_project__', True)
 
@@ -27,34 +39,28 @@ class ProjectView(OpencoreView):
             self.errors['full_name'] = 'Please add a full name'
 
         title = self.request.form.get('title')
-        title = putils.normalizeString(title)
         if not title:
             self.errors['title'] = 'You need to enter a short name for the project'
+        id_ = putils.normalizeString(title)
+        if self.context.has_key(id_):
+            self.errors = {'title' : 'The requested short name is already taken.'}
+            self.portal_status_message = ['Please correct the indicated errors.']          
 
         if self.errors:
             self.portal_status_message = ['Please correct the indicated errors.']
-            return self.renderCreateForm()
+            return 
 
-        try:
-            self.portal.projects.projects.invokeFactory('OpenProject', title)
-        except BadRequest:
-            self.errors = {'title' : 'The requested address is already in use.'}
-            self.portal_status_message = ['Please correct the indicated errors.']            
-            return self.renderCreateForm()
-            
-        proj = self.portal.projects._getOb(title)
+        proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
         proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
+            transaction_note('Started creation of project: %s' %title)
             self.portal_status_message = ['Please correct the indicated errors.']
-            return self.renderCreateForm()
+            return 
 
-
-        self.context.portal_factory.doCreate(self.context, title)
+        self.context.portal_factory.doCreate(proj, id_)
         event.notify(AfterProjectAddedEvent(proj, self.request))
-        self.request.response.redirect(proj.absolute_url())
+        transaction_note('Finished creation of project: %s' %title)
+        raise Redirect, proj.absolute_url()
 
-    def handlePrefs(self):
-        self.context.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)        
-        self.handleFeaturelets(self.context)
-        self.context.processForm(REQUEST=self.request)
-        self.request.response.redirect(self.context.absolute_url())
+
+
