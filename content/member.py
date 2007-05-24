@@ -103,10 +103,12 @@ class OpenMember(TeamSecurity, FolderishMember):
 
     actions = actions
 
-    security.declareProtected(ManagePortal, 'UID')
-    def UID(self):
-        """ xmlrpc! """
-        return super(OpenMember, self).UID()
+    security.declareProtected(ManagePortal, 'getUserConfirmationCode')
+    def getUserConfirmationCode(self):
+        """
+        Return the user's unique confirmation code to complete registration manually
+        """
+        return self.UID()
 
     # team security support
     def _getTeamsForLocalRoles(self):
