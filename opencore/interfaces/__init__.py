@@ -13,6 +13,8 @@ from adding import IAddProject
 from adding import IAmAPeopleFolder
 from adding import IAmANewsFolder
 
+from membership import IOpenMembership
+
 from Products.wicked.interfaces import IAmWicked
 from zope.interface import Interface 
 class IAddSubProject(Interface):

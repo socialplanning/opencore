@@ -23,7 +23,6 @@ from Products.OpenPlans.permissions import DEFAULT_PERMISSIONS_DATA
 from Products.OpenPlans.permissions import PLACEFUL_PERMISSIONS_DATA
 from Products.OpenPlans.permissions import ManageWorkflowPolicy
 from Products.OpenPlans.content.team import OpenTeam
-from Products.OpenPlans.content.membership import OpenMembership
 from Products.OpenPlans.utils import installDepends
 from Products.OpenPlans.utils import add_form_controller_overrides
 from Products.OpenPlans.utils import remove_form_controller_overrides
@@ -35,6 +34,7 @@ from Products.OpenPlans.workflows import member
 from Products.OpenPlans.workflows import team
 from Products.OpenPlans.workflows import WORKFLOW_MAP
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
+from opencore.content.membership import OpenMembership
 from opencore.interfaces import IAddProject
 from opencore.interfaces import IAmAPeopleFolder
 from opencore.interfaces import IAmANewsFolder

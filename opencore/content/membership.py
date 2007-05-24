@@ -1,8 +1,10 @@
 from zope.interface import implements
 
+from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.public import registerType
 from Products.TeamSpace.membership import TeamMembership
 
+from Products.OpenPlans.config import PROJECTNAME
 from Products.OpenPlans.interfaces import IOpenMembership
 
 class OpenMembership(TeamMembership):
@@ -29,4 +31,20 @@ class OpenMembership(TeamMembership):
         team = self.getTeam()
         team.setTeamRolesForMember(self.getId(), team_roles)
 
-registerType(OpenMembership)
+registerType(OpenMembership, package=PROJECTNAME)
+
+def fixupOwnership(obj, event):
+    mem = obj.getMember()
+    mtool = getToolByName(obj, 'portal_membership')
+    auth_mem = mtool.getAuthenticatedMember()
+    if mem == auth_mem:
+        # don't need to do anything
+        return
+
+    obj.manage_delLocalRoles([auth_mem.getId()])
+    uf = getToolByName(obj, 'acl_users')
+    mem_id = mem.getId()
+    user = uf.getUserById(mem_id)
+    if user is not None:
+        obj.changeOwnership(user)
+        obj.manage_setLocalRoles(mem_id, ('Owner',))

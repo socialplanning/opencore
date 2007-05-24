@@ -1,6 +1,5 @@
 import project
 import team
-import membership
 
 from opencore.listen import mailinglist
 
