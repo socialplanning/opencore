@@ -46,9 +46,9 @@ class BaseView(BrowserView):
 
     portal = instance.memoizedproperty(get_portal)
 
-    @print_class
-    def dummy(self):
-        pass
+##     @print_class
+##     def dummy(self):
+##         pass
 
     @property
     def dob_datetime(self):
