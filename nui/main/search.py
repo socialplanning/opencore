@@ -188,6 +188,9 @@ class HomeView(SearchView):
         SearchView.__init__(self, context, request)
         self.projects_search = ProjectsSearchView(context, request)
 
+    def intro(self):
+        return self.render_static('main_home_intro.txt')
+    
     def __call__(self):
         go_here = self.request.get('go_here', None)
 
