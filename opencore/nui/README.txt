@@ -88,3 +88,15 @@ These should also be properly wrapped(sort of)::
 
     >>> pview.portal_url.aq_parent
     <opencore.nui.base.BaseView object at ...>
+
+
+include
+-------
+
+# @@ needs a test
+
+loggedin
+--------
+
+# @@ needs a test
+
