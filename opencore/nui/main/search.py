@@ -143,7 +143,7 @@ class PeopleSearchView(SearchView):
     def search_for_person_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
         user_query = letter + '*'
-        query = dict(Title=user_query)
+        query = dict(RosterSearchableText=user_query)
         if sort_by != 'relevancy':
             query['sort_on'] = sort_by
 
