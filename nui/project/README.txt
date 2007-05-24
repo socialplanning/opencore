@@ -6,7 +6,6 @@ Add view
 ========
 
     >>> projects = self.portal.projects
-    >>> request = self.app.REQUEST
     >>> projects.restrictedTraverse("create")
     <...SimpleViewClass ...add.pt object ...>
 
@@ -41,6 +40,25 @@ Preference View
 
     >>> view.project()['featurelets']
     [{'url': 'lists', 'name': 'listen'}]
+
+    >>> form_vars = dict(
+    ...                  workflow_policy='closed_policy',
+    ...                  add=True, featurelets=[], set_flets=1)
+     >>> view.request.form.update(form_vars)
+
+     >>> out = view.handle_request()
+
+     >>> view = proj.restrictedTraverse('preferences')
+
+     >>> view.project()['security']
+     'closed_policy'
+
+     >>> view.project()['featurelets']
+     []
+
+     >> view.project()['title']
+
+#test changing them
 
 
 Contents view
