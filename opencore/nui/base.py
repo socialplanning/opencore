@@ -19,6 +19,7 @@ from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
 
 
 class BaseView(BrowserView):
+    """Base view for general use for nui templates and as an abstract base"""
     logoURL = '++resource++img/logo.gif'
     windowTitleSeparator = ' :: '
     render_static = staticmethod(render_static)
@@ -38,6 +39,13 @@ class BaseView(BrowserView):
         self.piv = context.unrestrictedTraverse('project_info') # TODO don't rely on this
         self.miv = context.unrestrictedTraverse('member_info')  # TODO don't rely on this
         self.errors = {}
+
+    @property
+    def name(self):
+        return self.__name__
+
+    def handle_request(self):
+        raise NotImplementedError
 
     @staticmethod
     def renderTranscluderLink(viewname):
