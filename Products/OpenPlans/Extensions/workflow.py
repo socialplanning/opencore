@@ -11,9 +11,11 @@ def pend(self, state_change):
         url_tool = getToolByName(obj, "portal_url")
         url = "%s/confirm-account?key=%s" % (url_tool(), uid)
 
+        mfrom = url_tool.getPortalObject().getProperty('email_from_address')
+
         mailhost_tool.send("how are you %s?\ngo here: %s" % (id, url),
                            mto=email,
-                           mfrom='help@openplans.org',
+                           mfrom=mfrom,
                            subject='OpenPlans account registration')
         
     except:
