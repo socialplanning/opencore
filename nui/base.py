@@ -7,7 +7,8 @@ from Products.OpenPlans.content.project import OpenProject
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
-from memojito import memoize, memoizedproperty
+from plone.memoize import instance
+from plone.memoize import view 
 from opencore import redirect 
 from opencore.interfaces import IProject 
 from zope.component import getMultiAdapter, adapts, adapter
@@ -43,7 +44,11 @@ class BaseView(BrowserView):
     def get_portal(self):
         return self.portal_url.getPortalObject()
 
-    portal = property(get_portal)
+    portal = instance.memoizedproperty(get_portal)
+
+    @print_class
+    def dummy(self):
+        pass
 
     @property
     def dob_datetime(self):
@@ -95,24 +100,6 @@ class BaseView(BrowserView):
     def include(self, viewname):
         if self.transcluded:
             return self.renderTranscluderLink(viewname)
-        return self.renderView(self.getViewByName(viewname))
-
-    def magicTopnavSubcontext(self): # TODO get rid of magic inference
-        if self.inproject():
-            return 'oc-topnav-subcontext-project'
-        elif self.inuser():
-            return 'oc-topnav-subcontext-user'
-        return 'oc-blank'
-
-    def magicContent(self): # TODO get rid of magic inference
-        if self.inproject():
-            return 'oc-project-view'
-        elif self.inuser():
-            return 'oc-user-profile'
-        return 'oc-blank'
-
-    def renderTopnavSubcontext(self, viewname):
-        viewname = viewname or self.magicTopnavSubcontext()
         return self.renderView(self.getViewByName(viewname))
 
     def renderContent(self, viewname):
@@ -266,6 +253,26 @@ class BaseView(BrowserView):
             else: # TODO
                 return 'Unexpected error in OpencoreView.currentProjectPage: ' \
                        'self.context is neither an OpenProject nor an OpenPage'
+
+# topnav drek #
+##     def magicTopnavSubcontext(self): # TODO get rid of magic inference
+##         if self.inproject():
+##             return 'oc-topnav-subcontext-project'
+##         elif self.inuser():
+##             return 'oc-topnav-subcontext-user'
+##         return 'oc-blank'
+
+##     def magicContent(self): # TODO get rid of magic inference
+##         if self.inproject():
+##             return 'oc-project-view'
+##         elif self.inuser():
+##             return 'oc-user-profile'
+##         return 'oc-blank'
+
+##     def renderTopnavSubcontext(self, viewname):
+##         viewname = viewname or self.magicTopnavSubcontext()
+##         return self.renderView(self.getViewByName(viewname))
+
 
 def button(name=None):
     def curry(handle_request):
