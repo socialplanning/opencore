@@ -5,7 +5,7 @@
   <!-- macros -->
   <browser:page
      for="opencore.content.page.OpenPage"
-     class="..opencoreview.OpencoreView"
+     class="..base.BaseView"
      permission="zope.Public"
      name="wiki_macros"
      template="wiki_macros.pt"
@@ -23,7 +23,7 @@
   <!-- 
   <browser:page
      for="*"
-     class="..opencoreview.OpencoreView"
+     class="..base.BaseView"
      permission="zope.Public"
      name="update-test"
      template="update-test.pt"
@@ -33,7 +33,7 @@
      
   <browser:page
     for="opencore.content.page.OpenPage"
-    class="..opencoreview.OpencoreView"
+    class="..base.BaseView"
     permission="zope2.Public"
     name="index.html"
     template="wiki-view.pt"
