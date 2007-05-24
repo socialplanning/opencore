@@ -1,6 +1,7 @@
 """
 some base class for opencore ui work
 """
+from Acquisition import aq_inner, aq_parent
 from opencore.content.page import OpenPage
 from opencore.content.member import OpenMember
 from Products.OpenPlans.content.project import OpenProject
@@ -17,6 +18,7 @@ from topp.utils.pretty_date import prettyDate
 from opencore.nui.static import render_static
 from topp.featurelets.interfaces import IFeatureletSupporter
 from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
+from zope.component import getMultiAdapter, adapts, adapter
 
 
 class BaseView(BrowserView):
@@ -24,35 +26,48 @@ class BaseView(BrowserView):
     logoURL = '++resource++img/logo.gif'
     windowTitleSeparator = ' :: '
     render_static = staticmethod(render_static)
-    
+
     def __init__(self, context, request):
         self.context      = context
         self.request      = request
         self.transcluded  = request.get_header('X-transcluded')
-
-        # contextless view memoize
-        self.membranetool = getToolByName(context, 'membrane_tool')
-        self.membertool   = getToolByName(context, 'portal_membership')
-        self.catalogtool  = getToolByName(context, 'portal_catalog')
-        self.portal_url   = getToolByName(context, 'portal_url')
-
         # view memoize
-        self.piv = context.unrestrictedTraverse('project_info') # TODO don't rely on this
-        self.miv = context.unrestrictedTraverse('member_info')  # TODO don't rely on this
         self.errors = {}
+
+    def portal_status_message(self):
+        plone_utils = getToolByName(self.context, 'plone_utils')
+        msgs = plone_utils.showPortalMessages()
+        msgs = [msg.message for msg in msgs]
+        return msgs
+
+    @view.memoize_contextless
+    def get_tool(self, name):
+        wrapped = self.__of__(aq_inner(self.context))
+        return wrapped.getToolByName(name)
+
+    getToolByName=getToolByName
 
     def get_portal(self):
         return self.portal_url.getPortalObject()
 
-    portal = instance.memoizedproperty(get_portal)
+    portal = property(view.memoize_contextless(get_portal))
 
-##     @print_class
-##     def dummy(self):
-##         pass
+    @view.memoize
+    def get_view(self, name):
+        view = getMultiAdapter((self.context, self.request), name=name)
+        return view.__of__(aq_inner(self.context))
+
+    @property
+    def piv(self):
+        return self.get_view('project_info').__of__(aq_inner(self.context))
+
+    @property
+    def miv(self):
+        return self.get_view('member_info')
 
     @property
     def dob_datetime(self):
-        return self.get_portal().created()
+        return self.portal.created()
 
     @property
     def dob(self):
@@ -86,11 +101,7 @@ class BaseView(BrowserView):
         # XXX do we really need this?
         return view()
 
-    def portal_status_message(self):
-        plone_utils = getToolByName(self.context, 'plone_utils')
-        msgs = plone_utils.showPortalMessages()
-        msgs = [msg.message for msg in msgs]
-        return msgs
+
 
     def addPortalStatusMessage(self, msg):
         plone_utils = getToolByName(self.context, 'plone_utils')
@@ -100,17 +111,14 @@ class BaseView(BrowserView):
     def include(self, viewname):
         if self.transcluded:
             return self.renderTranscluderLink(viewname)
-        return self.renderView(self.getViewByName(viewname))
+        return self.renderView(self.get_view(viewname))
 
     def renderContent(self, viewname):
         viewname = viewname or self.magicContent()
-        return self.renderView(self.getViewByName(viewname))
+        return self.renderView(self.get_view(viewname))
 
     def renderProjectContent(self):
         return self.renderOpenPage(self.currentProjectPage())
-
-    def getViewByName(self, viewname):
-        return self.context.unrestrictedTraverse('@@' + viewname)
 
     def projectobj(self): # TODO
         return self.piv.project
@@ -254,6 +262,25 @@ class BaseView(BrowserView):
                 return 'Unexpected error in OpencoreView.currentProjectPage: ' \
                        'self.context is neither an OpenProject nor an OpenPage'
 
+    @property
+    def membranetool(self):
+        return self.get_tool('membrane_tool')
+    
+    @property
+    def membertool(self):
+        return self.get_tool('portal_membership')
+
+    @property
+    def catalog(self):
+        return self.get_tool('portal_catalog')
+
+    catalogtool = catalog
+
+    @property
+    def portal_url(self):
+        return self.get_tool('portal_url')
+
+
 # topnav drek #
 ##     def magicTopnavSubcontext(self): # TODO get rid of magic inference
 ##         if self.inproject():
@@ -271,7 +298,7 @@ class BaseView(BrowserView):
 
 ##     def renderTopnavSubcontext(self, viewname):
 ##         viewname = viewname or self.magicTopnavSubcontext()
-##         return self.renderView(self.getViewByName(viewname))
+##         return self.renderView(self.get_view(viewname))
 
 
 def button(name=None):
