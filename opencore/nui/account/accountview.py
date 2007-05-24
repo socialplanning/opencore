@@ -110,10 +110,13 @@ class ForgotLoginView(OpencoreView):
 
             mail_text = self.render_static("account_forgot_password_email.txt")
             mail_text += '\n%s/reset-password?key=%s' % (self.siteURL, randomstring)
-            
+
+            url_tool = getToolByName(self, "portal_url")
+            mfrom = url_tool.getPortalObject().getProperty('email_from_address')            
             host = getToolByName(self, 'MailHost')
             host.send(mail_text,
-                      mfrom="help@openplans.org",
+                      mfrom=mfrom,
+                      subject='OpenPlans password reset',
                       mto=[email]
                       )
         except SMTPRecipientsRefused:
