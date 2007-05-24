@@ -8,6 +8,7 @@
         <div id="oc-content-main">
           <form name="prefs_form" method="post" enctype="multipart/form-data" class="enableUnloadProtection"
             tal:attributes="action string:${here/absolute_url}/@@handlePrefs">
+	  <input type="hidden" name="set_flets" value="1"/>
             <fieldset>
               <legend class="oc-legend-heading">Details</legend>
               <table class="oc-form">
