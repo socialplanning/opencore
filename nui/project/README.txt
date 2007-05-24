@@ -15,7 +15,7 @@ Add view
     >>> form_vars = dict(title='test1', __initialize_project__=True,
     ...                  full_name='test one',
     ...                  workflow_policy='medium_policy',
-    ...                  add=True, featurelets = ['listen'])
+    ...                  add=True, featurelets = ['listen'], set_flets=1)
     >>> view = projects.restrictedTraverse("create")
     >>> view.request.form.update(form_vars)
 
@@ -40,7 +40,7 @@ Preference View
     'medium_policy'
 
     >>> view.project()['featurelets']
-    ['listen']
+    [{'url': 'lists', 'name': 'listen'}]
 
 
 Contents view
