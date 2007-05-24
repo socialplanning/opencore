@@ -16,7 +16,7 @@
     
    <browser:page
       for="opencore.interfaces.IProject"
-      class=".view.ProjectBase"
+      class="opencore.nui.base.BaseView"
       permission="cmf.ModifyPortalContent"
       name="contents"
       template="contents.pt"
