@@ -5,48 +5,33 @@
   <browser:page
      for="opencore.interfaces.IAddProject"
      name="create"
-     class=".view.ProjectView"
-     attribute="renderCreateForm"
+     class=".view.ProjectAddView"
+     template="add.pt"
      permission="zope.Public"
      />
 
     <!-- TODO
     permission should be any logged in user
     -->
-
-  <browser:page
-    for="opencore.interfaces.IProject"
-    name="update"
-    class=".view.ProjectView"
-    attribute="renderPrefsForm"
-    permission="cmf.ModifyPortalContent"
-    />
     
    <browser:page
-     for="opencore.interfaces.IProject"
-     class=".view.ProjectView"
-     permission="cmf.ModifyPortalContent"
-     name="project-contents"
-     template="project-contents.pt"
-     />
+      for="opencore.interfaces.IProject"
+      class=".view.ProjectBase"
+      permission="cmf.ModifyPortalContent"
+      name="contents"
+      template="contents.pt"
+      />
 
-  <browser:page
-    for="opencore.interfaces.IAddProject"
-    name="handleCreate"
-    class=".view.ProjectView"
-    attribute="handleCreate"
-    permission="zope.Public"
-    />
     <!-- TODO
     permission should be any logged in user
     -->
 
   <browser:page
-    for="opencore.interfaces.IProject"
-    name="handlePrefs"
-    class=".view.ProjectView"
-    attribute="handlePrefs"
-    permission="cmf.ModifyPortalContent"
-    />
+     for="opencore.interfaces.IProject"
+     class=".view.ProjectPreferencesView"
+     permission="cmf.ModifyPortalContent"
+     name="preferences"
+     template="preferences.pt" 
+     />
 
 </configure>
