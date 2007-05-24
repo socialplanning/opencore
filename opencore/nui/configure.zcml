@@ -29,7 +29,7 @@
   <!-- footer -->
   <browser:page
      for="*"
-     class=".opencoreview.OpencoreView"
+     class=".base.BaseView"
      permission="zope.Public"
      name="oc-footer"
      template="footer.pt"
@@ -38,7 +38,7 @@
   <!-- blank (for testing) -->
   <browser:page
      for="*"
-     class=".opencoreview.OpencoreView"
+     class=".base.BaseView"
      permission="zope.Public"
      name="oc-blank"
      template="blank.pt"
@@ -47,7 +47,7 @@
   <!-- username exists? -->
   <browser:pages
      for="*"
-     class=".opencoreview.OpencoreView"
+     class=".base.BaseView"
      permission="zope.Public"
      >
     <browser:page
