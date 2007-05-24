@@ -11,16 +11,6 @@ import os
 
 class JoinView(OpencoreView):
 
-    def render_error(self, field, error):
-        curdir = os.path.dirname(__file__)
-        filename = os.path.join(curdir, "static", "errors", field)
-        file_obj = file(filename)
-        for line in file_obj:
-            if line.startswith(error):
-                text = line.replace(error, '')
-        file_obj.close()
-        return text
-
     def __call__(self, *args, **kw):
         if self.request.environ['REQUEST_METHOD'] == 'GET':
             return self.index(*args, **kw)
@@ -30,7 +20,7 @@ class JoinView(OpencoreView):
             
         adder = getAdderUtility(context)
         type_name = adder.default_member_type
-            
+        
         id = context.generateUniqueId(type_name)
         mem = mdc.restrictedTraverse('portal_factory/%s/%s' % (type_name, id))
         transaction_note('Initiated creation of %s with id %s in %s' % \
