@@ -58,7 +58,7 @@ And now sort them by creation time
 Traversing to the url should yield the same class
    >>> view = self.portal.projects.unrestrictedTraverse('@@index.html')
    >>> view
-    <opencore.nui.main.search.ProjectsSearchView object at ...>
+   <Products.Five.metaclass.SimpleViewClass from ...projects.pt object at...>
 
 Render the view to see if there are any errors
    >>> response = view()
