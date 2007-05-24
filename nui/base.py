@@ -245,17 +245,6 @@ class BaseView(BrowserView):
             else: # TODO
                 return 'Unexpected error in OpencoreView.currentProjectPage: ' \
                        'self.context is neither an OpenProject nor an OpenPage'
-    
-    def user_exists(self, username):
-        users = self.membranetool(getId=username)
-        return len(users) > 0
-
-    def userExists(self):
-        username = self.request.get("username")
-        if username is not None:
-            return self.user_exists(username)
-        return False
-
 
 def button(name=None):
     def curry(handle_request):

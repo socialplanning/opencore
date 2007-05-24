@@ -44,16 +44,4 @@
      template="blank.pt"
      />
 
-  <!-- username exists? -->
-  <browser:pages
-     for="*"
-     class=".base.BaseView"
-     permission="zope.Public"
-     >
-    <browser:page
-       name="user-exists"
-       attribute="userExists"
-       />       
-  </browser:pages>
-
 </configure>
