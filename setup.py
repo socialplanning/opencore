@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.8.6'
+version = '0.8.7'
 
 f = open('README.txt')
 readme = "".join(f.readlines())
@@ -21,14 +21,16 @@ setup(name='opencore',
       include_package_data=True,
       zip_safe=False,
       dependency_links=['https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect',
-                        'http://www.openplans.org/projects/opencore/dependencies'],
+                        'http://www.openplans.org/projects/opencore/dependencies',
+                        'https://svn.plone.org/svn/plone/plone.memoize/trunk#egg=plone.memoize-dev'],
       install_requires=[
           # -*- Extra requirements: -*-
           'topp.featurelets',
           'memojito',
           'OpencoreRedirect',
           'httplib2',
-          'simplejson'
+          'simplejson',
+          'plone.memoize'
       ]
       )
 
