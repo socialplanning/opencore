@@ -31,7 +31,6 @@ class BaseView(BrowserView):
         self.context      = context
         self.request      = request
         self.transcluded  = request.get_header('X-transcluded')
-        # view memoize
         self.errors = {}
 
     def portal_status_message(self):
