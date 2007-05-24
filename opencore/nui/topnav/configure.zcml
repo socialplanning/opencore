@@ -1,0 +1,50 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five">
+
+  <!-- topnav -->
+  <browser:page
+     for="*"
+     class="..base.BaseView"
+     permission="zope.Public"
+     name="oc-topnav"
+     template="historical/topnav.pt"
+     />
+
+  <!-- topnav-menus -->
+  <browser:page
+     for="*"
+     class="..base.BaseView"
+     permission="zope.Public"
+     name="oc-topnav-menus"
+     template="historical/topnav-menus.pt"
+     />
+
+  <!-- topnav-subcontext-project -->
+  <browser:page
+     for="*"
+     class="..base.BaseView"
+     permission="zope.Public"
+     name="oc-topnav-subcontext-project"
+     template="historical/topnav-subcontext-project.pt"
+     />
+
+  <!-- topnav-subcontext-user -->
+  <browser:page
+     for="*"
+     class="..base.BaseView"
+     permission="zope.Public"
+     name="oc-topnav-subcontext-user"
+     template="historical/topnav-subcontext-user.pt"
+     />
+
+  <!-- topnav-accessibility -->
+  <browser:page
+     for="*"
+     class="..base.BaseView"
+     permission="zope.Public"
+     name="oc-topnav-accessibility"
+     template="historical/topnav-accessibility.pt"
+     />
+
+</configure>

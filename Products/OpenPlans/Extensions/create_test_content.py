@@ -13,7 +13,7 @@ projects_map = {'p1':{'title':'Proj1',
 
 members_map = {'m1':{'fullname':'Member One',
                      'password':'testy',
-                     'email':'notreal@xyxyxyxy.com',
+                     'email':'notreal1@xyxyxyxy.com',
                      'projects': {'p1':tuple(),
                                   'p2':tuple(),
                                   'p3':('ProjectAdmin',),
@@ -21,7 +21,7 @@ members_map = {'m1':{'fullname':'Member One',
                      },
                'm2':{'fullname':'Member Two',
                      'password':'testy',
-                     'email':'notreal@xyxyxyxy.com',
+                     'email':'notreal2@xyxyxyxy.com',
                      'projects': {'p2':tuple(),
                                   'p3':tuple(),
                                   'p4':('ProjectAdmin',),
@@ -29,7 +29,7 @@ members_map = {'m1':{'fullname':'Member One',
                      },
                'm3':{'fullname':'Member Three',
                      'password':'testy',
-                     'email':'notreal@xyxyxyxy.com',
+                     'email':'notreal3@xyxyxyxy.com',
                      'projects': {'p3':tuple(),
                                   'p4':tuple(),
                                   'p1':('ProjectAdmin',),
@@ -37,7 +37,7 @@ members_map = {'m1':{'fullname':'Member One',
                      },
                'm4':{'fullname':'Member Four',
                      'password':'testy',
-                     'email':'notreal@xyxyxyxy.com',
+                     'email':'notreal4@xyxyxyxy.com',
                      'projects': {'p4':tuple(),
                                   'p1':tuple(),
                                   'p2':('ProjectAdmin',),
@@ -48,7 +48,7 @@ members_map = {'m1':{'fullname':'Member One',
 def create_test_content(self, p_map=None, m_map=None):
     """ populates an openplans site w/ dummy test content """
     portal = getToolByName(self, 'portal_url').getPortalObject()
-    portal.manage_changeProperties(email_from_address='rob.miller@openplans.org')
+    portal.manage_changeProperties(email_from_address='info@localhost')
     mdc = getToolByName(self, 'portal_memberdata')
     mdc.unit_test_mode = True # suppress registration emails
     tm_tool = getToolByName(self, 'portal_teams')

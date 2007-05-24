@@ -11,29 +11,32 @@ from Products.OpenPlans.interfaces import IProject
 
 def proxy(attrs):
     obj = type('metadata proxy', (object,), attrs)()
-    return obj 
+    return obj
 
 def updateContainerMetadata(obj, event):
+    # XXX hack to attach last modified author to open pages metadata
+    lastmodifiedauthor = getAuthenticatedMemberId(obj)
+    obj.lastModifiedAuthor = lastmodifiedauthor
+    obj.reindexObject()
+    obj._p_changed=True
+
     parent = getattr(obj, 'aq_parent', None)
-    repo = getToolByName(obj, 'portal_repository', None)
-    if not (repo and parent and IProject.providedBy(parent)):
+    if not (parent and IProject.providedBy(parent)):
         return
 
     parentuid = '/'.join(parent.getPhysicalPath())
 
-    history = []
-    principal = ''
-    comment = ''
-    
     catalog = getToolByName(parent, 'portal_catalog')
 
     # make comment conditional to team security policy...
-
     prox = proxy(dict(lastModifiedTitle=obj.title_or_id(),
-                      ModificationDate=obj.modified()))
+                      ModificationDate=obj.modified(),
+                      lastModifiedAuthor=lastmodifiedauthor,
+                      ))
 
     selectiveMetadataUpdate(catalog._catalog, parentuid, prox)
     catalog._catalog.catalogObject(prox, parentuid, idxs=['modified'], update_metadata=0)
+    
     
 def notifyObjectModified(obj):
     zope.event.notify(objectevent.ObjectModifiedEvent(obj))
@@ -66,6 +69,14 @@ def selectiveMetadataUpdate(catalog, uid, proxy):
     record = catalog.recordify(proxy)
     if catalog.data.get(index, 0) != record:
         catalog.data[index] = record
+        catalog._p_changed = True
+        catalog.data._p_changed = True
+
+def getAuthenticatedMemberId(context):
+    mtool = getToolByName(context, 'portal_membership')
+    mem = mtool.getAuthenticatedMember()
+    id = mem.getId()
+    return id
 
 from interfaces.catalog import IIndexingGhost
 class MetadataGhost(object):

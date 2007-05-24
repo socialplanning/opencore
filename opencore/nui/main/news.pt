@@ -1,0 +1,33 @@
+<html metal:use-macro="here/@@standard_macros/master">
+  <body>
+
+    <div metal:fill-slot="content">              
+
+      <div class="oc-headingBlock">
+	<h1>OpenPlans News</h1>
+	<p class="oc-headingContext">Subpeona free for <span tal:replace="view/subpoena_free">456</span> days.</p>
+      </div>
+
+      <div id="oc-content-main">
+	<a tal:condition="view/can_add_news" tal:attributes="href string:${context/portal_url}/news/createObject?type_name=Document">Add news item...</a>
+	<ul class="oc-widget oc-widget-feed oc-feed-list">
+          <li class="oc-feed-item" tal:repeat="item view/news_items">
+            <h2 class="oc-feed-item-title">
+	      <a href="" tal:content="item/Title" 
+		 tal:attributes="href string:${context/portal_url}/news/${item/getId}">News Item Title
+	      </a>
+	    </h2>
+            <p class="oc-feed-item-data oc-discreetText">by 
+	      <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid">repenate</a>,
+	      <span tal:content="python: view.pretty_date(item.CreationDate)">today</span></p>
+            <p class="oc-feed-item-description" tal:content="item/Description">This should be the text from the description field, however long it is.</p>
+            <a href="" tal:attributes="href string:${context/portal_url}/news/${item/getId}">Read more&hellip;</a>
+          </li>
+	</ul>
+      </div><!-- content-main -->
+
+      <div id="oc-content-sidebar" tal:content="structure python: view.render_static('main_news_sidebar.txt')" /> 
+
+    </div><!-- content-fill-slot -->
+  </body>
+</html>

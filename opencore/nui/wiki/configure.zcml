@@ -1,11 +1,11 @@
 <configure xmlns="http://namespaces.zope.org/zope"
-    xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:five="http://namespaces.zope.org/five">
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:five="http://namespaces.zope.org/five">
 
   <!-- macros -->
   <browser:page
      for="opencore.content.page.OpenPage"
-     class="..opencoreview.OpencoreView"
+     class="..base.BaseView"
      permission="zope.Public"
      name="wiki_macros"
      template="wiki_macros.pt"
@@ -23,7 +23,7 @@
   <!-- 
   <browser:page
      for="*"
-     class="..opencoreview.OpencoreView"
+     class="..base.BaseView"
      permission="zope.Public"
      name="update-test"
      template="update-test.pt"
@@ -33,7 +33,7 @@
      
   <browser:page
     for="opencore.content.page.OpenPage"
-    class="..opencoreview.OpencoreView"
+    class="..base.BaseView"
     permission="zope2.Public"
     name="index.html"
     template="wiki-view.pt"
@@ -55,14 +55,29 @@
     template="wiki-edit.pt"
     />
 
+  <!-- FIXME what are the permissions on history exactly? -->   
   <browser:page
-    for="opencore.content.page.OpenPage"
-    class=".view.WikiEdit"
-    permission="cmf.ModifyPortalContent"
-    name="edit-nick"
-    template="wiki-edit-nick.pt"
-    />
+     for="opencore.content.page.OpenPage"
+     class=".historyview.WikiVersionView"
+     permission="cmf.ModifyPortalContent"
+     name="history"
+     template="wiki-history-real.pt"
+     />
 
+  <browser:page
+     for="opencore.content.page.OpenPage"
+     class=".historyview.WikiVersionView"
+     permission="cmf.ModifyPortalContent"
+     name="version"
+     template="wiki-previous-version.pt"
+     />
+
+  <browser:page
+     for="opencore.content.page.OpenPage"
+     class=".historyview.WikiVersionCompare"
+     permission="cmf.ModifyPortalContent"
+     name="version_compare"
+     />
 
   <!-- attachments -->
   <!-- establish an order to help scanning? -->
@@ -78,6 +93,14 @@
      name="createAtt"
      permission="cmf.ModifyPortalContent"
      attribute="createAtt"
+     for="opencore.content.page.OpenPage"
+     class=".view.AttachmentView"
+     />
+
+  <browser:page
+     name="attachmentSnippet"
+     permission="cmf.ModifyPortalContent"
+     attribute="attachmentSnippet"
      for="opencore.content.page.OpenPage"
      class=".view.AttachmentView"
      />

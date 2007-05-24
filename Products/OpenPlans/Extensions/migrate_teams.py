@@ -2,7 +2,7 @@ import DateTime
 
 from Products.CMFCore.utils import getToolByName
 from Products.OpenPlans.content.team import OpenTeam
-from Products.OpenPlans.content.membership import OpenMembership
+from opencore.content.membership import OpenMembership
 
 def setOwnership(obj, owner_info):
     app = obj.getPhysicalRoot()

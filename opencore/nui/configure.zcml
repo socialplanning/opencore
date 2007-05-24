@@ -4,9 +4,12 @@
 
   <include package=".skin"/>
   <include package=".wiki" />
+  <include package=".project" />
   <include package=".main" />
   <include package=".account" />
-  <include package=".main" />
+  <include package=".member" />
+  <include package=".topnav" />
+
   <!-- resource directories for css, images, etc -->
   <browser:resourceDirectory
     name="css"
@@ -22,129 +25,20 @@
     />
 
 
-  <!-- templates -->
-
-  <!-- magic (the global template) -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="magic"
-     template="magic.pt"
-     />
-
-  <!-- topnav -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-topnav"
-     template="topnav.pt"
-     />
-
-  <!-- topnav-menus -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-topnav-menus"
-     template="topnav-menus.pt"
-     />
-
-  <!-- topnav-subcontext-project -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-topnav-subcontext-project"
-     template="topnav-subcontext-project.pt"
-     />
-
-  <!-- topnav-subcontext-user -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-topnav-subcontext-user"
-     template="topnav-subcontext-user.pt"
-     />
-
-  <!-- topnav-accessibility -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-topnav-accessibility"
-     template="topnav-accessibility.pt"
-     />
-  
-  <!-- your projects -->
-  <browser:page
-     for="*"
-     class=".opencoreview.YourProjectsView"
-     permission="zope.Public"
-     name="oc-yourprojects"
-     template="yourprojects.pt"
-     />
 
   <!-- footer -->
   <browser:page
      for="*"
-     class=".opencoreview.OpencoreView"
+     class=".base.BaseView"
      permission="zope.Public"
      name="oc-footer"
      template="footer.pt"
      />
 
-  <!-- project-preferences -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-project-preferences"
-     template="project-preferences.pt"
-     />
-
-  <!-- project-contact -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-project-contact"
-     template="project-contact.pt"
-     />
-
-  <!-- member-profile -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-member-profile"
-     template="member-profile.pt"
-     />
-
-  <!-- member-contact -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-member-contact"
-     template="member-contact.pt"
-     />
-
-  <!-- start-project -->
-  <browser:page
-     for="*"
-     class=".opencoreview.OpencoreView"
-     permission="zope.Public"
-     name="oc-start-project"
-     template="start-project.pt"
-     />
-
   <!-- blank (for testing) -->
   <browser:page
      for="*"
-     class=".opencoreview.OpencoreView"
+     class=".base.BaseView"
      permission="zope.Public"
      name="oc-blank"
      template="blank.pt"
@@ -153,7 +47,7 @@
   <!-- username exists? -->
   <browser:pages
      for="*"
-     class=".opencoreview.OpencoreView"
+     class=".base.BaseView"
      permission="zope.Public"
      >
     <browser:page

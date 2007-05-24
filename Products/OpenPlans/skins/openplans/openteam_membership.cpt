@@ -13,94 +13,19 @@
   <body>
 
    <div metal:fill-slot="main"
-         tal:define="standalone python:1;
-	             Batch python:modules['Products.CMFPlone'].Batch;
-                     b_size python:12;b_start python:0;b_start request/b_start | b_start;
-                     search_submitted request/role_submit|nothing;
-                     search_query python:test(search_submitted,
-                                              {request.get('search_param',''): request.get('search_term', '')},
-                                              {});
-                     search_results python:here.member_search(search_query);">
+        tal:define="standalone python:1;
+	            Batch python:modules['Products.CMFPlone'].Batch;
+                    b_size python:12;b_start python:0;b_start request/b_start | b_start;
+                    search_submitted request/role_submit|nothing;
+                    search_query python:test(search_submitted,
+                                             {request.get('search_param',''): request.get('search_term', '')},
+                                             {});
+                    search_results python:here.member_search(search_query);">
 
-
-        <h1>
-          <tal:block replace="structure python:getattr(here, here.getIcon(1))"/>
-          <span tal:content="here/title_or_id" tal:omit-tag="">Team Id</span>
-        </h1>
 
         <div metal:use-macro="here/document_actions/macros/document_actions">
           Team actions (print, sendto etc)
         </div>
-
-        <p tal:content="structure here/Description">
-          Description
-        </p>
-
-    <tal:team_props>
-      <h2 i18n:translate="team_management">Team Information</h2>
-      <fieldset>
-        <legend i18n:translate="team_properties">Team Properties</legend>
-        <form method="post"
-              name="team_edit"
-              action=""
-              tal:define="fieldnames python:['title'];
-                          errors options/state/getErrors | nothing;"
-              tal:attributes="action string:${here/absolute_url}/${template/id}">
-
-          <input type="hidden" name="fieldset" value="default" />
-          <input type="hidden" name="form.submitted" value="1" />
-          <input type="hidden" name="last_referer" value=""
-                 tal:attributes="value string:${here/absolute_url}/${template/id}" />
-
-          <tal:fields repeat="fieldname fieldnames">
-            <tal:block define="field python:here.getField(fieldname)">
-              <metal:fieldMacro use-macro="python:here.widget(fieldname, mode='edit')" />
-            </tal:block>
-          </tal:fields>
-
-          <input class="context"
-                 tabindex=""
-                 type="submit"
-                 name="form_submit"
-                 value="Save"
-                 i18n:attributes="value label_save;"
-                 tal:attributes="tabindex tabindex/next;"
-                 />
-          <input class="standalone"
-                 tabindex=""
-                 type="submit"
-                 name="form.button.cancel"
-                 value="Cancel"
-                 i18n:attributes="value label_cancel;"
-                 tal:attributes="tabindex tabindex/next"
-                 />
-
-        </form>
-      </fieldset>
-
-      <fieldset>
-         <legend i18n:translate="assoc_projects">Associated Projects</legend>
-         <table class="listing">
-           <thead>
-             <tr>
-               <th>
-                 Name
-               </th>
-             </tr>
-           </thead>
-           <tbody tal:define="projects here/getTeamSpaces;">
-             <tr tal:repeat="project projects">
-               <td class="field">
-                 <a href="" class=""
-                    tal:attributes="href project/absolute_url;
-                                    class project/Type;"
-                    tal:content="project/getFull_name | project/Title">Project Full Name</a>
-               </td>
-             </tr>
-           </tbody>
-         </table>
-      </fieldset>
-    </tal:team_props>
 
     <metal:block tal:condition="python:test(search_submitted and not search_results, 1, 0)">
       <h2 i18n:translate="heading_search_results">Search results</h2>
@@ -207,6 +132,8 @@
       </metal:block>
     </metal:block>
 
+    <div metal:use-macro="here/ts_team_mems_form_plone2_1/macros/team_mems_form" />
+
     <div>
     
       <tal:block condition="python: (not search_submitted or
@@ -276,8 +203,6 @@
         </form>
       </tal:block>
     </div>
-
-    <div metal:use-macro="here/ts_team_mems_form_plone2_1/macros/team_mems_form" />
 
    </div>
   </body>

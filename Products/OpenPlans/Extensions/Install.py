@@ -23,7 +23,6 @@ from Products.OpenPlans.permissions import DEFAULT_PERMISSIONS_DATA
 from Products.OpenPlans.permissions import PLACEFUL_PERMISSIONS_DATA
 from Products.OpenPlans.permissions import ManageWorkflowPolicy
 from Products.OpenPlans.content.team import OpenTeam
-from Products.OpenPlans.content.membership import OpenMembership
 from Products.OpenPlans.utils import installDepends
 from Products.OpenPlans.utils import add_form_controller_overrides
 from Products.OpenPlans.utils import remove_form_controller_overrides
@@ -35,8 +34,10 @@ from Products.OpenPlans.workflows import member
 from Products.OpenPlans.workflows import team
 from Products.OpenPlans.workflows import WORKFLOW_MAP
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
+from opencore.content.membership import OpenMembership
 from opencore.interfaces import IAddProject
 from opencore.interfaces import IAmAPeopleFolder
+from opencore.interfaces import IAmANewsFolder
 
 from zope.interface import directlyProvides, directlyProvidedBy, alsoProvides
 from Products.OpenPlans.Extensions.utils import setupKupu
@@ -111,9 +112,7 @@ def installZ3Types(portal, out):
             ttool._setObject(f['id'], fti)
             print >> out, "Registered %s with the types tool" % f['id']
 
-def installWorkflows(portal, out):
-    """ Installs workflows """
-    wfs = WORKFLOW_MAP
+def install_workflow_map(portal, out, wfs=WORKFLOW_MAP):
     wf_tool = getToolByName(portal, 'portal_workflow')
     # First, change WF for MemberDataContainer to PortalWorkflow
     existing_wfs = wf_tool.objectIds()
@@ -134,6 +133,14 @@ def installWorkflows(portal, out):
            addWorkflowScripts(wf_tool.getWorkflowById(wf))
     wf_tool.setDefaultChain('plone_openplans_workflow')
     wf_tool.updateRoleMappings()
+
+def installWorkflows(portal, out):
+    """ Installs workflows """
+    return install_workflow_map(portal, out)
+
+def install_confirmation_workflow(portal, out):
+    from Products.OpenPlans.workflows import member_confirmation_data
+    return install_workflow_map(portal, out, member_confirmation_data)
 
 def installWorkflowPolicies(portal, out):
     pwf_tool = getToolByName(portal, 'portal_placeful_workflow')
@@ -622,6 +629,21 @@ def installCookieAuth(portal, out):
         print >> out, ("Move signed cookie auth to be top priority challenge "
                        "plugin")
 
+def installNewsFolder(portal, out):
+    print >> out, ("Creating '%s' content" % 'news')
+    existing_item = getattr(portal.aq_base, 'news', None)
+    if existing_item is not None and existing_item.Type() != 'Folder':
+        portal.manage_delObjects([existing_item.getId()])
+        
+    if getattr(portal.aq_base, 'news', None) is None:
+        portal.invokeFactory('Folder', 'news', title='OpenPlans News')
+
+    # mark the news folder with an interface
+    pf = getattr(portal, 'news')
+    if not IAmANewsFolder.providedBy(pf):
+        alsoProvides(pf, IAmANewsFolder)
+
+
 def install(self, migrate_atdoc_to_openpage=True):
     out = StringIO()
     portal = getToolByName(self, 'portal_url').getPortalObject()
@@ -656,5 +678,6 @@ def install(self, migrate_atdoc_to_openpage=True):
     createGreyEditTab(portal, out)
     createIndexes(portal, out)
     createMemIndexes(portal, out)
+    installNewsFolder(portal, out)
     print >> out, "Successfully installed %s." % config.PROJECTNAME
     return out.getvalue()

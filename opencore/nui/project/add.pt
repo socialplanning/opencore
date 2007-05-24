@@ -1,0 +1,132 @@
+<tal:handle-request 
+   replace="nothing"
+   define="global fdata view/handle_request;">
+  This could be used to return a variety of template friendly info
+  regarding the processing of the form
+</tal:handle-request>
+<html metal:use-macro="here/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">
+      <div class="oc-headingBlock">
+        <h1>Start a project</h1>
+      </div>
+      <div id="oc-content-main">
+        <form name="create_form" method="post" class="enableUnloadProtection"
+            tal:attributes="action string:${view/name}">
+	  <input type="hidden" name="set_flets" value="1"/>
+          <fieldset>
+            <div class="oc-headingBlock">
+              <h2>Step 1. Enter details</h2>
+            </div>
+            <table class="oc-form">
+              <tbody>
+                <tr class="oc-form-row">
+                  <th class="oc-form-label" scope="row">
+                    <label for="full_name">Name</label>
+                  </th>
+                  <td class="oc-form-value">
+                    <input type="text" id="full_name" name="full_name" tal:attributes="value request/full_name | nothing" />
+                  </td>
+                  <td class="oc-form-help">
+                    <span class="oc-form-context"></span>
+                    <span id="oc-username-validator" class="oc-form-validator"></span>
+                    <span id="oc-error" class="oc-form-error" tal:content="view/errors/full_name | nothing" />
+                  </td>
+                </tr>
+                <tr class="oc-form-row">
+                  <th class="oc-form-label" scope="row">
+                    <label for="title">http://</label>
+                  </th>
+                  <td class="oc-form-value">
+                    <!-- TODO dynamically populate this input with javascript based on what was entered for project name -->
+                    <input type="text" name="title" id="title" tal:attributes="value request/title | nothing" />.openplans.org
+                  </td>
+                  <td class="oc-form-help">
+                    <span class="oc-form-context"></span>
+                    <span id="oc-title-validator" class="oc-form-validator"></span>
+                    <span id="oc-title-error" class="oc-form-error" tal:content="view/errors/title | nothing" />
+                  </td>
+                </tr>
+                <tr class="oc-form-row">
+                  <th class="oc-form-label" scope="row">
+                    <label for="mission">Mission Statement</label>
+                  </th>
+                  <td class="oc-form-value">
+                    <textarea name="description" id="description" rows="3" cols="40" tal:content="request/description | nothing"/>
+                    <!-- this would be called mission instead of description if we weren't hijacking an existing field -->
+                  </td>
+                  <td class="oc-form-help">
+                    <span class="oc-form-context"></span>
+                    <span id="oc-mission-validator" class="oc-form-validator"></span>
+                    <span id="oc-title-error" class="oc-form-error" tal:content="view/errors/description | nothing" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </fieldset>
+
+          <fieldset>
+            <legend><h2>Step 2: Set General Security Level</h2></legend>
+            <fieldset>
+              <legend class="oc-legend-label">Choose what level of
+permission you want to give to non-members of your project team.  You
+will create your team on the next page.<br/>
+                <strong>Visitors to the site can:</strong>
+              </legend>
+	      <ul class="oc-form-radiolist">
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
+			 value="open_policy" checked="checked"/>
+                  <label for="workflow_policy_open">View your content</label>
+                </li>
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
+			 value="medium_policy" />
+                  <label for="workflow_policy_medium">and contribute to it</label><br>
+		  OR
+                </li>
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
+			 value="closed_policy" />
+                  <label for="workflow_policy_closed">Non-members cannot see your project</label>
+                  <ul class="oc-discreetText">
+                    <li class="oc-smallText">
+		      your project will not be shown in search results or site directories
+                    </li>
+                  </ul>
+                </li>
+	      </ul>
+            </fieldset>
+          </fieldset>
+
+          <fieldset>
+            <legend><h2>Step 3: Add tools</h2></legend>
+            <ul class="oc-form-radiolist" >
+              <li>
+                <input type="checkbox" class="oc-input-typeCheck" id="tasktracker" name="featurelets:list" value="tasktracker" />
+                <label for="tasktracker">Task Tracker</label>
+              </li>
+              <li>
+                <input type="checkbox" class="oc-input-typeCheck" id="listen" name="featurelets:list" value="listen" />
+                <label for="listen">Mailing lists</label>
+		<ul>
+		  <li>
+                    <input type="checkbox" class="oc-input-typeCheck" id="listen_open" name="listen_open" />
+                    <label for="listen_open">Allow your project members to start new mailing lists</label>
+		  </li>
+		</ul>
+              </li>
+            </ul>
+          </fieldset>
+          <button type="submit" 
+		  name="add:boolean" 
+		  value="True" 
+		  class="oc-button oc-chooseThis">
+	    create
+	  </button>
+        </form>
+
+      </div><!-- end .oc-content-main -->
+    </div><!-- end content-fill-slot -->
+  </body>
+</html>

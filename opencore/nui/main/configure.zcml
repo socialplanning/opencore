@@ -50,13 +50,31 @@
      template="people-searchresults.pt"
      />
 
-  <!-- home-->
+  <!-- home -->
   <browser:page
      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      class=".search.HomeView"
      permission="zope.Public"
      name="index.html"
      template="home.pt"
+     />
+
+  <!-- home-searchresults -->
+  <browser:page
+     for="*"
+     class=".search.SitewideSearchView"
+     permission="zope.Public"
+     name="sitesearch"
+     template="home-searchresults.pt"
+     />
+
+  <!-- home-searchresults -->
+  <browser:page
+     for="opencore.interfaces.IAmANewsFolder"
+     class=".search.NewsView"
+     permission="zope.Public"
+     name="index.html"
+     template="news.pt"
      />
 
 </configure>

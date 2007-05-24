@@ -1,0 +1,88 @@
+<tal:vars tal:define="usr view/user;
+		      canedit usr/canedit;
+		      page view/page;
+		      ">
+<html metal:use-macro="here/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">
+
+      <!-- TODO project history -->
+
+      <div id="oc-content-main" class="oc-content-main-fullWidth">
+asfasdfasdfd
+        <div class="oc-wiki">
+          <div class="headingBlock oc-wiki-headingBlock">
+            <h2 tal:content="view/pagetitle"></h2>
+          </div>
+          <ul class="oc-tabs">
+            <li class="">
+              <a href="@@index.html" rel="view">view</a>
+            </li>
+            <li>
+              <a href="" rel="edit">edit</a>
+            </li>
+            <li>
+              <a href="" class="oc-selected" rel="history">history</a>
+            </li>
+            <!--<li tal:condition="nothing">-->
+            <li>
+              <form class="" >
+                <select class="oc-dropdown-links">
+                  <option value="">More...</option>
+                  <option value="http://www.google.com">I'm feeling lucky</option>
+                </select>
+                <input type="submit" value="Go" style=""/>
+              </form>
+            </li>
+          </ul><!-- end .oc-tabs -->
+          
+          <div class="oc-headingBlock">
+            <h2>All versions of "pageName"</h2>
+            <p class="oc-headingContext oc-discreetText">
+              Last edit performed by <a href="">Nick</a> on Thursday, May 1, 2007 at 7:05am<br />
+              14 versions total
+            </p>
+          </div>
+          <hr />
+          <p>Select 2 versions to compare them, or click a version number to view that version.</p>
+          
+          <div class="oc-lineup">
+            <form id="oc-wiki-history">
+                <div class="oc-actions">
+                  <input type="submit" value="Compare" />
+                </div><!-- end .oc-actions -->
+                <ul class="oc-lineup-list">
+                  <li class="oc-wiki-history-item">
+                    <input type="checkbox" name="oc-wiki-history-item" /> 
+                    <label for="oc-wiki-history-item">Current</label> 
+                    by <a href="">Nick</a> on January 1, 2007 at 5:55am
+                    <p class="oc-wiki-history-item-context oc-discreetText">Here's an edit.  It's sweeeet!</p>
+                  </li>
+                  <li class="oc-wiki-history-item">
+                    <input type="checkbox" name="oc-wiki-history-item" /> 
+                    <label for="oc-wiki-history-item">Version 2</label> 
+                    by <a href="">Nick</a> on January 1, 2007 at 5:55am
+                    <p class="oc-wiki-history-item-context oc-discreetText">Here's an edit.  It's sweeeet!</p>
+                  </li>
+                  <li class="oc-wiki-history-item">
+                    <input type="checkbox" name="oc-wiki-history-item" /> 
+                    <label for="oc-wiki-history-item">Version 3</label> 
+                    by <a href="">Nick</a> on January 1, 2007 at 5:55am
+                    <p class="oc-wiki-history-item-context oc-discreetText">Here's an edit.  It's sweeeet!</p>
+                  </li>
+                </ul>
+                <div class="oc-actions">
+                  <input type="submit" value="Compare" />
+                </div><!-- end .oc-actions -->
+            </form>
+          </div><!-- end .oc-lineup -->
+          
+        </div><!-- end .oc-wiki -->        
+
+      </div><!-- end #oc-content-main -->
+    </div><!-- end content slot -->
+  </body>
+  
+</html>
+
+</tal:vars>

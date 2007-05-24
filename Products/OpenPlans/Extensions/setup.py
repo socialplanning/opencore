@@ -20,7 +20,9 @@ from Install import installColumns, fixUpEditTab, hideActions, \
      installWorkflowPolicies, hideActionTabs, securityTweaks, uiTweaks, \
      migrateATDocToOpenPage, createIndexes, installZ3Types, registerJS, \
      setupProjectLayout, createMemIndexes, setCookieDomain, installCookieAuth, \
-     setupPeopleFolder
+     setupPeopleFolder, install_confirmation_workflow, installNewsFolder
+from migrate_teams_to_projects import migrate_teams_to_projects
+from migrate_membership_roles import migrate_membership_roles
 
 from cStringIO import StringIO
 
@@ -79,7 +81,23 @@ def migrate_listen_member_lookup(self, portal):
     sm = portal.getSiteManager()
     sm.registerUtility(IMemberLookup, opencore_memberlookup)
 
-functions = dict(
+def save_all_projects(portal, out):
+    catalog = getToolByName(portal, 'portal_catalog')
+    brains = catalog(portal_type='OpenProject')
+    projects = (b.getObject() for b in brains)
+    for project in projects:
+        title = project.Title()
+        values = dict(title=title)
+        project.processForm(values=values)
+        out.write('processed project: %s\n' % title)
+    return out.getvalue()
+
+def setup_nui(portal, out):
+    """ this will call all the  nui setup functions """
+    for fn in nui_functions.values():
+        fn(portal, portal)
+
+topp_functions = dict(
     setupKupu = convertFunc(setupKupu),
     fixUpEditTab = convertFunc(fixUpEditTab),
     installMetadataColumns = convertFunc(installColumns),
@@ -103,13 +121,17 @@ functions = dict(
     installCookieAuth=convertFunc(installCookieAuth),
     migrate_listen_member_lookup=migrate_listen_member_lookup,
     setupPeopleFolder=convertFunc(setupPeopleFolder),
+    migrate_teams_to_projects=migrate_teams_to_projects,
+    migrate_membership_roles=migrate_membership_roles,
+    save_all_projects=convertFunc(save_all_projects),
+    setup_nui=convertFunc(setup_nui)
     )
 
 class TOPPSetup(SetupWidget):
     """ OpenPlans Setup Bucket Brigade  """
 
     type = 'TOPP Setup'
-
+    functions = topp_functions
     description = ' utillity methods for TOPP site setup '
 
     def setup(self):
@@ -117,14 +139,14 @@ class TOPPSetup(SetupWidget):
 
     def run(self, fn, **kwargs):
         out = []
-        out.append((functions[fn](self, self.portal, **kwargs),INFO))
+        out.append((self.functions[fn](self, self.portal, **kwargs),INFO))
         out.append(('Function %s has been applied' % fn, INFO))
         return out
 
     def addItems(self, fns):
         out = []
         for fn in fns:
-            out.append((functions[fn](self, self.portal),INFO))
+            out.append((self.functions[fn](self, self.portal),INFO))
             out.append(('Function %s has been applied' % fn, INFO))
         return out
 
@@ -133,6 +155,41 @@ class TOPPSetup(SetupWidget):
 
     def available(self):
         """ Go get the functions """
-        return functions.keys()
+        return self.functions.keys()
+
+def reindex_membrane_tool(portal, out):
+    # requires the types to be reinstalled first
+    reinstallTypes(portal, portal)
+
+    mbtool = getToolByName(portal, 'membrane_tool')
+    mbtool.reindexIndex('getLocation', portal.REQUEST)
+
+def move_interface_marking_on_projects_folder(portal, out):
+    from zope.interface import directlyProvidedBy
+    from zope.interface import directlyProvides
+    from zope.interface import alsoProvides
+    from opencore.interfaces import IAddProject
+    import sys
+    import opencore
+    sys.modules['Products.OpenPlans.interfaces.adding'] = opencore.interfaces.adding
+    pf = portal.projects
+    directlyProvides(pf, directlyProvidedBy(pf) - IAddProject)
+    alsoProvides(pf, IAddProject)
+
+
+nui_functions = dict(install_confirmation_workflow=convertFunc(install_confirmation_workflow),
+                     reindex_membrane_tool=convertFunc(reindex_membrane_tool),
+                     move_interface_marking_on_projects_folder=convertFunc(move_interface_marking_on_projects_folder),
+                     installNewsFolder=convertFunc(installNewsFolder),
+                     setupPeopleFolder=convertFunc(setupPeopleFolder),
+                     )
+
+class NuiSetup(TOPPSetup):
+    """ OpenPlans NUI Setup Bucket Brigade  """
+
+    type = 'NUI Setup'
+    description = ' utillity methods for NUI site setup '
+    functions = nui_functions
     
 MigrationTool.registerSetupWidget(TOPPSetup)
+MigrationTool.registerSetupWidget(NuiSetup)

@@ -9,6 +9,7 @@ def find_duplicate_emails(self):
     unique_emails = set()
     duplicate_emails = []
     for email in all_emails:
+        if not email: continue
         if email in unique_emails:
             if email not in duplicate_emails:
                 duplicate_emails.append(email)
@@ -17,9 +18,12 @@ def find_duplicate_emails(self):
     for email in duplicate_emails:
 	if not email: continue
         brains = mb(getEmail=email)
-        mems = [x.getObject() for x in brains]
         out.write('%s\n' % email)
-        for mem in mems:
+        for brain in brains:
+            try:
+                mem = brain.getObject()
+            except AttributeError:
+                continue
             id = mem.getId()
             login_time = mem.login_time
             projects = mem.getProjectListing()

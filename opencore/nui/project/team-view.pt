@@ -1,0 +1,104 @@
+<html metal:use-macro="here/@@standard_macros/master">
+  <body>
+
+    <div metal:fill-slot="content">              
+
+      <div id="oc-content-main">
+
+          <h1>Team members</h1>
+
+          <!-- batch needs to have some variables set up to work properly.
+          here is where they are defined -->
+          <tal:got_results condition="view/search_results"
+                           define="batch view/search_results;
+                                   batch_base_url request/ACTUAL_URL;
+                                   start batch/start | nothing;
+                                   end batch/end | nothing;
+                                   sequence_length batch/sequence_length | nothing;
+            ">
+
+            <!-- display the number of results that came back -->
+            <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
+              
+              <!-- pagination uses the batch macro -->
+              <div metal:use-macro="context/@@batch_macros/pagination"/>
+              
+              Member<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
+              <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
+              of <span tal:replace="sequence_length">376</span> sorted by
+
+              <!-- when sorting, we post the action to distinguish between searching
+              this was necessary because the batch macro reposts the request data, and we see problems when trying to reset to page when the sorting changes -->
+              <form name="people_sort" method="POST" action="." tal:attributes="action string:${context/portal_url}/people/searchresults">
+              <!-- FIXME This should not require a button to work. -->
+                <select name="sort_by" tal:define="sorted_by python: request.get('sort_by')">
+                  <option value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
+                  <option value="getId" tal:attributes="selected python: sorted_by == 'getId'">username</option>
+                  <option value="exact_getFullname" tal:attributes="selected python: sorted_by == 'exact_getFullname'">real name</option>
+    </select>
+
+    <!-- resend the current data when sorting -->
+    <input tal:condition="request/personname | nothing" type="hidden" name="personname"
+                       tal:attributes="value request/personname" />
+    <input tal:condition="request/letter_search | nothing" type="hidden" name="letter_search"
+                       tal:attributes="value request/letter_search" />
+    <input tal:condition="request/b_start | nothing" type="hidden" name="b_start:int"
+                       tal:attributes="value request/b_start" />
+    <input type="submit" name="action_sort_people" value="sort" />
+              </form>
+            </div>
+
+
+          <!-- the results are displayed here -->
+          <ol class="oc-roster oc-clearAfter">
+            <li class="oc-clearAfter oc-boxy vcard" tal:repeat="item view/search_results">
+              <div class="oc-avatar" tal:define="mem item/getObject; imgdata mem/getPortrait">
+                <a href="" tal:omit-tag="python: view.no_home(item.getId)" tal:attributes="href string:${context/portal_url}/people/${item/getId}">
+                  <img tal:condition="imgdata" tal:replace="structure python: view.add_class_to_img(imgdata, 'photo')" />
+                  <img tal:condition="not: imgdata" class="photo" tal:attributes="src string:defaultUser.gif" />
+                </a>
+              </div>
+              <div class="oc-roster-content">
+                <h3 class="fn">
+                  <a href="" tal:omit-tag="python: view.no_home(item.getId)" tal:attributes="href string:${context/portal_url}/people/${item/getId}" tal:content="item/getId">Username</a>
+                </h3>
+                <span class="oc-discreetText adr" tal:define="loc item/getLocation" tal:condition="loc" tal:content="loc"> Big City, ST</span>
+                <div class="oc-discreetText">XXX contributions since Jan 37 1947, latest 45 years ago</div>
+                <div>
+                  <span class="oc-roster-projects">Projects (N):</span>
+                  <ul class="oc-inlineList">
+                    <li><a href="#">Project 1</a></li>
+                    <li><a href="#">Project 2</a> <span class="oc-discreetText">(private)</span></li>
+                    <li><a href="#">Project 3</a></li>
+                    <li><a href="#">Project 1</a></li>
+                    <li><a href="#">Project 2</a> <span class="oc-discreetText">(private)</span></li>
+                    <li><a href="#">Project 3</a></li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+          </ol>
+          <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
+          
+            <!-- we put pagination on the bottom of the page too -->
+            <div metal:use-macro="context/@@batch_macros/pagination"/>
+          
+            Member<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
+            <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
+            of <span tal:replace="sequence_length">376</span> 
+
+    </div>
+        </tal:got_results>
+
+        <!-- if we get no results, this is what is displayed -->
+        <div tal:condition="not: view/search_results">No results found.</div>
+
+    </div> <!-- content-main -->
+
+
+    <div id="oc-content-sidebar">
+    </div><!-- content-sidebar -->
+    
+  </div><!-- content-fill-slot -->
+</body>
+</html>

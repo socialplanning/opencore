@@ -1,0 +1,12 @@
+<!-- FIXME: This should be replaced with a more appropriate/global/general template -->
+
+<html metal:use-macro="here/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">
+
+Please go back and correct your error.
+      
+
+    </div><!-- end content slot -->
+  </body>
+</html>

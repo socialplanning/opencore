@@ -1,0 +1,37 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:five="http://namespaces.zope.org/five">
+
+  <browser:page
+     for="opencore.interfaces.IAddProject"
+     name="create"
+     class=".view.ProjectAddView"
+     template="add.pt"
+     permission="zope.Public"
+     />
+
+    <!-- TODO
+    permission should be any logged in user
+    -->
+    
+   <browser:page
+      for="opencore.interfaces.IProject"
+      class=".view.ProjectBase"
+      permission="cmf.ModifyPortalContent"
+      name="contents"
+      template="contents.pt"
+      />
+
+    <!-- TODO
+    permission should be any logged in user
+    -->
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".view.ProjectPreferencesView"
+     permission="cmf.ModifyPortalContent"
+     name="preferences"
+     template="preferences.pt" 
+     />
+
+</configure>

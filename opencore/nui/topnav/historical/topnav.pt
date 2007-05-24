@@ -1,0 +1,15 @@
+<div id="oc-topnav" class="oc-clearAfter">
+  <div id="oc-topnav-global">
+    <div tal:replace="structure here/oc-topnav-accessibility" />
+    <div id="oc-topnav-title">
+      <h1>
+      <a tal:attributes="href string:${view/areaURL}/@@magic" tal:content="view/areatitle"/>
+      </h1>
+    </div>
+    <div id="oc-topnav-openplans" tal:content="structure here/oc-topnav-menus" />
+  </div>
+  <div id="oc-topnav-subcontext">
+    <div tal:define="subcontext request/oc-subcontext | nothing"
+         tal:replace="structure python:view.renderTopnavSubcontext(subcontext)" />
+  </div>
+</div>

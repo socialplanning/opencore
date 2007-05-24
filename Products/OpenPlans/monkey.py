@@ -1,18 +1,9 @@
 from Products.Archetypes.BaseObject import BaseObject
 from metadata import addDispatcherToMethod, notifyObjectModified
 
-##################################################
-# have Archetypes trigger object modified events
-##################################################
-BaseObject._processForm_old = BaseObject._processForm
-BaseObject._processForm = addDispatcherToMethod(BaseObject._processForm,
-                                                notifyObjectModified)
-
-BaseObject.update_old = BaseObject.update
-BaseObject.update = addDispatcherToMethod(BaseObject.update,
-                                          notifyObjectModified)
-BaseObject.edit = BaseObject.update
-
+from Products.CMFCore.CatalogTool import _getAuthenticatedUser, _checkPermission, AccessInactivePortalContent
+from Products.AdvancedQuery import In, Eq, Le, Ge
+from Products.AdvancedQuery.eval import eval as _eval
 
 ##################################################
 # make MaildropHost work like SecureMailHost
@@ -74,3 +65,34 @@ def unapply_mailhost_patches():
 
 if MaildropHost is not None:
     apply_mailhost_patches()
+
+def new_evalAdvancedQuery(self,query,sortSpecs=()):
+    '''evaluate *query* for 'CatalogTool' and sort results according to *sortSpec*.'''
+    query = query._clone()
+
+    # taken from 'CatalogTool.searchResults'
+    user = _getAuthenticatedUser(self)
+    query &= In('allowedRolesAndUsers',self._listAllowedRolesAndUsers(user))
+    if not _checkPermission(AccessInactivePortalContent,self):
+        now= self.ZopeTime()
+        if 'ValidityRange' in self.Indexes.objectIds():
+            query &= Eq('ValidityRange', now)
+        else:
+            if 'effective' in self.Indexes.objectIds():
+                query &= Le('effective',now)
+            if 'expires' in self.Indexes.objectIds():            
+                query &= Ge('expires',now)
+    return _eval(self,query,sortSpecs)
+
+
+def patch_advanced_query():
+    """monkey patch dieter's advanced query to make less assumptions
+       about the catalog tool """
+    
+    try: from Products.CMFCore.CatalogTool import CatalogTool
+    except ImportError: CatalogTool= None
+    if CatalogTool:
+        CatalogTool.evalAdvancedQuery= new_evalAdvancedQuery
+        del CatalogTool
+
+patch_advanced_query()
