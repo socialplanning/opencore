@@ -28,7 +28,7 @@
   </head>  
   <body>
     <div id="oc-page-container">
-      <div tal:replace="structure here/@@oc-topnav" />
+      <!-- div tal:replace="structure here/@@oc-topnav" / -->
 
       <tal:for tal:repeat="status_msg portal_status">
         <div tal:content="status_msg" class="error"/>
