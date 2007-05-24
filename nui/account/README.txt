@@ -18,7 +18,7 @@ Test the workflow updating function::
 
 
 password reset
-=======
+==============
 
 Get the password reset view. In the future we can plug in a fake mailsender and can do more with this, but it'll do for now::
 
