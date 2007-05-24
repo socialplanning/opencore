@@ -4,7 +4,7 @@
 
   <browser:page
      for="*"
-     class="..opencoreview.OpencoreView"
+     class="..base.BaseView"
      permission="zope.Public"
      name="batch_macros"
      template="batch_macros.pt"
