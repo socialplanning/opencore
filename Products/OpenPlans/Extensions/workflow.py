@@ -13,8 +13,8 @@ def pend(self, state_change):
 
         mailhost_tool.send("how are you %s?\ngo here: %s" % (id, url),
                            mto=email,
-                           mfrom='hell-daemon@openplans.org',
-                           subject='Welcome to the mothafuckin\' site, maggots')
+                           mfrom='help@openplans.org',
+                           subject='OpenPlans account registration')
         
     except:
         # write tracebacks because otherwise workflow will swallow exceptions
