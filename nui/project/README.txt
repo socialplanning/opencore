@@ -22,7 +22,7 @@ Add view
     >>> out = view.handle_request()
     Traceback (most recent call last):
     ...
-    Redirect: http://nohost/plone/projects/portal_factory/OpenProject/test1
+    Redirect: http://nohost/plone/projects/test1
 
     >>> proj = projects.test1
     >>> proj
