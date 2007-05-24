@@ -99,7 +99,17 @@ class BaseView(BrowserView):
     def projectobj(self): # TODO
         return self.piv.project
 
+    @property
+    def current_user(self):
+        if self.current_member:
+            return self.current_member.getUser()
+
+    @property
+    def current_member(self):
+        return self.membertool.getAuthenticatedMember()
+
     def userobj(self):
+        # XXX eliminate
         return self.membertool.getAuthenticatedMember()
 
     def loggedin(self):
@@ -238,3 +248,13 @@ class BaseView(BrowserView):
             return self.user_exists(username)
         return False
 
+
+def button(name=None):
+    def curry(handle_request):
+        def new_method(self):
+            if self.request.get(name):
+                return handle_request(self)
+            return None
+        return new_method
+    return curry
+        
