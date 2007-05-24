@@ -17,15 +17,15 @@ class JoinView(OpencoreView):
         
         context = self.context
         mdc = getToolByName(context, 'portal_memberdata')
-            
+
         adder = getAdderUtility(context)
         type_name = adder.default_member_type
-        
-        id = context.generateUniqueId(type_name)
-        mem = mdc.restrictedTraverse('portal_factory/%s/%s' % (type_name, id))
+
+        id_ = context.generateUniqueId(type_name)
+        mem = mdc.restrictedTraverse('portal_factory/%s/%s' % (type_name, id_))
         transaction_note('Initiated creation of %s with id %s in %s' % \
                              (mem.getTypeInfo().getId(),
-                              id,
+                              id_,
                               context.absolute_url()))
         self.errors = {}
         self.errors = mem.validate(REQUEST=self.request,
