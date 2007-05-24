@@ -1,7 +1,4 @@
-<tal:vars tal:define="usr view/user;
-                      attachments python:here.getFolderContents(contentFilter = {'portal_type' : ['FileAttachment']});
-                      canedit usr/canedit;
-                      page view/page;
+<tal:vars tal:define="attachments python:here.getFolderContents(contentFilter = {'portal_type' : ['FileAttachment']});
                       Iterator python:modules['Products.CMFPlone'].IndexIterator;
                       lockable python:hasattr(here, 'wl_isLocked');
                       errors python: options.get('errors', {});
@@ -42,7 +39,7 @@
 
         <div class="oc-wiki">
           <div class="headingBlock oc-wiki-headingBlock">
-            <h2 tal:content="view/pagetitle"></h2>
+            <h2 tal:content="context/Title"></h2>
           </div>
 
           <!--
