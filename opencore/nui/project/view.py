@@ -61,7 +61,7 @@ class ProjectAddView(ProjectBase):
         proj = self.context._getOb(id_)
         event.notify(AfterProjectAddedEvent(proj, self.request))
         transaction_note('Finished creation of project: %s' %title)
-        self.request.RESPONSE.redirect(proj.absolute_url)
+        self.request.RESPONSE.redirect(proj.absolute_url())
 
 
 
