@@ -5,7 +5,6 @@
       <!-- TODO project history -->
 
       <div id="oc-content-main" class="oc-content-main-fullWidth">
-asfasdfasdfd
         <div class="oc-wiki">
           <div class="headingBlock oc-wiki-headingBlock">
             <h2 tal:content="view/pagetitle"></h2>
