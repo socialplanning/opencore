@@ -8,17 +8,7 @@ from zExceptions import Redirect
 from zope import event
 
 
-class ProjectBase(BaseView):
-    """an abstract base"""
-
-    @property
-    def name(self):
-        return self.__name__
-
-    def handle_request(self):
-        raise NotImplementedError
-
-class ProjectPreferencesView(ProjectBase):
+class ProjectPreferencesView(BaseView):
 
     @button('update')
     def handle_request(self):
@@ -27,7 +17,7 @@ class ProjectPreferencesView(ProjectBase):
         raise Redirect, self.context.absolute_url()
 
 
-class ProjectAddView(ProjectBase):
+class ProjectAddView(BaseView):
 
     @button('add')
     def handle_request(self):
