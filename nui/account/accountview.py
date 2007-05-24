@@ -8,7 +8,6 @@ from Products.CMFPlone import transaction_note
 from Products.remember.utils import getAdderUtility
 
 from opencore.nui.opencoreview import OpencoreView
-import os
 
 class JoinView(OpencoreView):
 
