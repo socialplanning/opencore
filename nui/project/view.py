@@ -58,6 +58,7 @@ class ProjectAddView(ProjectBase):
             return 
 
         self.context.portal_factory.doCreate(proj, id_)
+        proj = self.context._getOb(id_)
         event.notify(AfterProjectAddedEvent(proj, self.request))
         transaction_note('Finished creation of project: %s' %title)
         raise Redirect, proj.absolute_url()
