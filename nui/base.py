@@ -20,13 +20,16 @@ from topp.featurelets.interfaces import IFeatureletSupporter
 from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
 from zope.component import getMultiAdapter, adapts, adapter
 
+view.memoizedproperty = lambda func: property(view.memoize(func))
+view.mcproperty = lambda func: property(view.memoize_contextless(func))
 
 class BaseView(BrowserView):
     """Base view for general use for nui templates and as an abstract base"""
     logoURL = '++resource++img/logo.gif'
     windowTitleSeparator = ' :: '
     render_static = staticmethod(render_static)
-
+    getToolByName=getToolByName
+    
     def __init__(self, context, request):
         self.context      = context
         self.request      = request
@@ -39,12 +42,91 @@ class BaseView(BrowserView):
         msgs = [msg.message for msg in msgs]
         return msgs
 
+    def addPortalStatusMessage(self, msg):
+        plone_utils = self.get_tool('plone_utils')
+        # @@ can we toplevel this import?
+        from Products.CMFPlone import PloneMessageFactory
+        plone_utils.addPortalMessage(PloneMessageFactory(msg))
+
+    def include(self, viewname):
+        if self.transcluded:
+            return self.renderTranscluderLink(viewname)
+        return self.get_view(viewname)()
+
+    @view.memoizedproperty
+    def loggedin(self):
+        return not self.membertool.isAnonymousUser()
+
+    @view.memoize
+    def vieweduser(self): # TODO
+        """Returns the user found in the context's acquisition chain, if any."""
+        return self.miv.member
+
+    @view.memoizedproperty
+    def inmember(self):
+        return (self.miv.inMemberArea or self.miv.inMemberObject)
+
+    # XXX these two approach has different results
+    # which is correct???
+    def pagetitle(self):
+        if self.inproject():
+            return self.currentProjectPage().title
+        return self.context.title # TODO?
+
+    @property
+    def pagetitle(self):
+        return self.context.Title()
+
+    
+    @view.memoizedproperty
+    def areatitle(self):
+        # these require aq walks. might make more sense to have a
+        # traversal hook stash the info on/in the request.
+        title = ''
+        if self.piv.inProject:
+            title = self.piv.project.getFull_name()
+        elif self.inmember:
+            title = self.miv.member.getFullname()
+        return title
+
+    @instance.memoize
+    def windowtitle(self):
+        pagetitle, areatitle = truncate(self.pagetitle, max=24), \
+                               truncate(self.areatitle, max=16)
+        titles = [pagetitle, areatitle, self.sitetitle]
+        return self.windowTitleSeparator.join([i for i in titles if i])
+
+    @instance.memoizedproperty
+    def areaURL(self):
+        if self.piv.inProject:
+            return self.piv.project.absolute_url()
+        if self.inmember:
+            return self.miv.member.absolute_url()
+        else: # TODO
+            return ''
+
+    @view.memoize_contextless
+    def nusers(self): 
+        """Returns the number of users of the site."""
+        users = self.membranetool(getId='')
+        return len(users)
+
+    @view.memoize_contextless
+    def nprojects(self): # TODO cache
+        """Returns the number of projects hosted by the site."""
+        projects = self.catalogtool(portal_type='OpenProject')
+        return len(projects)
+
+    @view.memoizedproperty
+    def canedit(self):
+        canedit = self.membertool.checkPermission(ModifyPortalContent,
+                                                  self.context)
+        return bool(canedit)
+
     @view.memoize_contextless
     def get_tool(self, name):
         wrapped = self.__of__(aq_inner(self.context))
         return wrapped.getToolByName(name)
-
-    getToolByName=getToolByName
 
     def get_portal(self):
         return self.portal_url.getPortalObject()
@@ -100,18 +182,6 @@ class BaseView(BrowserView):
         # XXX do we really need this?
         return view()
 
-
-
-    def addPortalStatusMessage(self, msg):
-        plone_utils = getToolByName(self.context, 'plone_utils')
-        from Products.CMFPlone import PloneMessageFactory
-        plone_utils.addPortalMessage(PloneMessageFactory(msg))
-
-    def include(self, viewname):
-        if self.transcluded:
-            return self.renderTranscluderLink(viewname)
-        return self.renderView(self.get_view(viewname))
-
     def renderContent(self, viewname):
         viewname = viewname or self.magicContent()
         return self.renderView(self.get_view(viewname))
@@ -135,9 +205,6 @@ class BaseView(BrowserView):
         # XXX eliminate
         return self.membertool.getAuthenticatedMember()
 
-    def loggedin(self):
-        return self.userobj().getId() is not None
-
     def inproject(self): # TODO
         return self.piv.inProject
 
@@ -148,41 +215,12 @@ class BaseView(BrowserView):
         """Returns the user found in the context's acquisition chain, if any."""
         return self.miv.member
 
-    def pagetitle(self):
-        if self.inproject():
-            return self.currentProjectPage().title
-        return self.context.title # TODO?
-
-    def areatitle(self):
-        if self.inproject():
-            return self.project()['fullname']
-        if self.inuser():
-            return self.vieweduser().fullname
-        return self.context.title # TODO?
-
-    def windowtitle(self):
-        pagetitle, areatitle = truncate(self.pagetitle(), max=24), \
-                               truncate(self.areatitle(), max=16)
-        titles = [pagetitle, areatitle, self.sitetitle]
-        return self.windowTitleSeparator.join([i for i in titles if i])
-
     def pageURL(self):
         if self.inproject():
             return self.currentProjectPage().absolute_url()
         return self.context.absolute_url() # TODO?
 
-    def areaURL(self):
-        if self.inproject():
-            return self.project()['url']
-        if self.inuser():
-            return self.user()['url']
-        else: # TODO
-            return ''
 
-    def nusers(self): # TODO cache
-        """Returns the number of users of the site."""
-        users = self.membranetool(getId='')
-        return len(users)
 
     def nprojects(self): # TODO cache
         """Returns the number of projects hosted by the site."""
