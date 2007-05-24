@@ -13,13 +13,11 @@ from interfaces import IProjectInfo
 
 class ProjectInfoView(BrowserView):
     implements(IProjectInfo)
+
     def __init__(self, context, request):
+        self.context = context
         self._context = (context,)
         self.request = request
-
-    @property
-    def context(self):
-        return self._context[0]
 
     @memoizedproperty
     def project(self):
@@ -27,7 +25,7 @@ class ProjectInfoView(BrowserView):
             # get the related project
             return self.context.getProject()
         # probably wrap this in an adapter
-        chain = self.context.aq_chain
+        chain = self._context[0].aq_chain
         for item in chain:
             if IProject.providedBy(item):
                 return item
@@ -53,6 +51,19 @@ class ProjectInfoView(BrowserView):
                 return mship
             
         return False
+
+    @memoizedproperty
+    def featurelets(self):
+        flets = []
+        if self.project is not None:
+            supporter = IFeatureletSupporter(self.project)
+            flet_ids = supporter.getInstalledFeatureletIds()
+            getfletdesc = supporter.getFeatureletDescriptor
+            flets = [{'name': id,
+                      'url' : getfletdesc(id)['content'][0]['id']}
+                     for id in flet_ids]
+        return flets
+
 
 engine = getEngine()
 evaluate = lambda text, ec: engine.compile(text)(ec)
