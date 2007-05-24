@@ -24,20 +24,20 @@ class JoinView(OpencoreView):
         id = context.generateUniqueId(type_name)
         mem = mdc.restrictedTraverse('portal_factory/%s/%s' % (type_name, id))
         transaction_note('Initiated creation of %s with id %s in %s' % \
-                         (mem.getTypeInfo().getId(),
-                          id,
-                          context.absolute_url()))
+                             (mem.getTypeInfo().getId(),
+                              id,
+                              context.absolute_url()))
         self.errors = {}
         self.errors = mem.validate(REQUEST=self.request,
                                    errors=self.errors,
                                    data=1, metadata=0)
-
+        
         if not self.errors:
             return mem.do_register(id=self.request.get('id'),
                                    password=self.request.get('password'))
         else:
             return self.index(*args, **kw)
-
+        
 
 class ConfirmAccountView(OpencoreView):
 
@@ -59,16 +59,17 @@ class ConfirmAccountView(OpencoreView):
         matches = self.membranetool.unrestrictedSearchResults(UID=key)
         
         if not matches:
-            return "You is denied, muthafuka!"
+            self.addPortalStatusMessage(u'Denied')
+            self.request.RESPONSE.redirect(self.siteURL + '/login')
         assert len(matches) == 1
         
         member = matches[0].getObject()
 
         if self.do_confirmation(member):
-            self.addPortalStatusMessage(u'Your account has been confirmed, maggot!')
+            self.addPortalStatusMessage(u'Your account has been confirmed.')
             self.request.RESPONSE.redirect(self.siteURL + '/login')
         else:
-            return "You is denied muthafuk1"
+            return "Denied"
 
 
 class LoginView(OpencoreView):
@@ -153,7 +154,7 @@ class DoPasswordResetView(OpencoreView):
         try:
             pw_tool.resetPassword(userid, randomstring, password)
         except: # XXX DUMB
-            return "Failed, shit is not okay."
+            return "Something bad happened."
         self.addPortalStatusMessage(u'Your password has been reset')
         return self.request.RESPONSE.redirect(self.siteURL)
 
