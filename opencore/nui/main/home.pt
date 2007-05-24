@@ -7,8 +7,7 @@
       </div>
       
       <div id="oc-content-main">
-        <div id="oc-content-sidebar" tal:replace="structure python: view.render_static('main_home_intro.txt')" />
-        
+        <div id="oc-content-sidebar" tal:replace="structure view/intro" />
         <div class="oc-column-group">
           <div class="oc-widget oc-widget-feed oc-column-left">
             <h2>Newest projects</h2>
