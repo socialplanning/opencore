@@ -61,3 +61,17 @@ When the method is accessible, it should return a string code for the user::
     >>> m = user.restrictedTraverse("getUserConfirmationCode")
     >>> m()
     '...'
+
+join
+====
+
+Test the join view by adding a member to the site:
+
+    >>> view = portal.restrictedTraverse("@@join")
+    >>> request = self.app.REQUEST
+    >>> request.set('id', 'foobar')
+    >>> request.set('email', 'foobar@example.com')
+    >>> request.set('password', 'testy')
+    >>> request.set('confirm_password', 'testy')
+    >>> view()
+    '...Your registration request has been received...'
