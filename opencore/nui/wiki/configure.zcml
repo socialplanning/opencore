@@ -35,7 +35,7 @@
     for="opencore.content.page.OpenPage"
     class="..base.BaseView"
     permission="zope2.Public"
-    name="index.html"
+    name="view"
     template="wiki-view.pt"
     />
 
