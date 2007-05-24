@@ -46,3 +46,25 @@ See if a username exists::
     >>> request.set("username", 'm1')
     >>> view()
     True
+
+getuid
+======
+
+    >>> from Products.CMFCore.utils import getToolByName
+    >>> mt = getToolByName(portal, "portal_memberdata")
+    >>> user = mt.restrictedTraverse('m1')
+    >>> user
+    <OpenMember at ...>
+    >>> m = user.restrictedTraverse("getUserConfirmationCode")
+    Traceback (most recent call last):
+    ...
+    Unauthorized: You are not allowed to access 'getUserConfirmationCode' in this context
+    >>> self.login("m1")
+    >>> m = user.restrictedTraverse("getUserConfirmationCode")    	
+    Traceback (most recent call last):
+    ...
+    Unauthorized: You are not allowed to access 'getUserConfirmationCode' in this context
+    >>> self.loginAsPortalOwner()
+    >>> m = user.restrictedTraverse("getUserConfirmationCode")
+    >>> m()    
+    '...'
