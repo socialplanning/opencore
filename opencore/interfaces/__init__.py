@@ -18,7 +18,11 @@ from membership import IOpenMembership
 from Products.wicked.interfaces import IAmWicked
 from zope.interface import Interface 
 class IAddSubProject(Interface):
-    """I add sub-projects"""
+    """I add sub-projects.
+    This interface is soley for special-style
+    projects that automatically theme users and
+    projects created on their site, not
+    typical projects that may accept subprojects"""
 
 class IOpenPage(IAmWicked):
     """an openplans wiki page"""

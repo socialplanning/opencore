@@ -188,8 +188,10 @@ def get_parent_project(request):
     parents = request.get('PARENTS', tuple())
 
     for parent in parents:
-        # check the request for a redirected project
+        # check the request for a greedy project project,
+        # ie one that is redirected and marked with IAddSubProject
         if (redirect.IRedirected.providedBy(parent) and
+            IAddSubProject.providedBy(parent) and 
             IProject.providedBy(parent)):
             return parent
         
@@ -201,7 +203,8 @@ def apply_member_folder_redirection(folder, request):
         folder_id = folder.getId()
         folder_path = "%s/people/%s" % (parent_info.url, folder_id)
         return redirect.activate(folder, url=folder_path)
-    return redirect.activate(folder, explicit=False)
+    else:
+        return redirect.activate(folder)
 
 
 

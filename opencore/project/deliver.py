@@ -3,8 +3,6 @@ from OFS.interfaces import IObjectWillBeRemovedEvent, IObjectWillBeMovedEvent
 from cStringIO import StringIO
 from opencore.interfaces import IProject
 from opencore.interfaces.event import IAfterProjectAddedEvent, IAfterSubProjectAddedEvent
-from opencore.redirect import get_info
-from opencore.redirect.interfaces import IHostInfo
 from restclient import GET, POST, PUT, DELETE
 from zope.app.container.interfaces import IObjectMovedEvent
 from zope.app.event import IObjectCreatedEvent
@@ -14,8 +12,9 @@ from zope.interface import Interface
 import simplejson
 
 def service_url(project):
-    hostinfo = getUtility(IHostInfo)
-    return "http://%s.%s/.deliverance" %(project.getId(), hostinfo.host)
+    # XXX FIXME Subprojects... vhosting baseurl comes from where now ? 
+    host = 'openplans.org'
+    return "http://%s.%s/.deliverance" %(project.getId(), base_host)
 
 @adapter(IAfterProjectAddedEvent)
 def init_parent_vhoster(event):
@@ -25,6 +24,10 @@ def init_parent_vhoster(event):
 
 @adapter(IAfterSubProjectAddedEvent)
 def init_subproject_vhoster(event):
+
+    # XXX probably we want to post to an internal local trusted URL
+    # and set the HOST header ...
+    
     url = service_url(event.project)
     out = StringIO()
     simplejson.dump(out)

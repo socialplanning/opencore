@@ -93,7 +93,7 @@ class SubProjectAddView(ProjectAddView):
 
     def createAndAdd(self):
         instance = self.instance()
-        event.notify(AfterSubProjectAddedEvent(instance, self.context, 
+        event.notify(AfterSubProjectAddedEvent(instance, self.context,
                                                self.request))
         return instance 
 
@@ -134,5 +134,3 @@ class SubProjectListingView(ProjectListingView, Traversable):
         if name in parent.objectIds():
             return getattr(parent, name)
         return False
-
-

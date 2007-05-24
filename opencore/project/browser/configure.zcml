@@ -78,14 +78,7 @@
      class="..browser.ProjectAddView"
      />
 
-  <!-- are both of these necessary? -->
-  <browser:page
-     name="do_add_project"
-     for="opencore.interfaces.IAddSubProject"
-     permission="zope2.View"
-     class="..browser.SubProjectAddView"
-     attribute="redirect"
-     />
+  <!-- 
 
   <fate:addform
      name="add_project"
@@ -94,7 +87,17 @@
      product="OpenPlans"
      meta_type="OpenProject"
      class="..browser.SubProjectAddView"
-     />
+     /> 
+
+  <browser:page 
+     name="projects"
+     for="opencore.redirect.interfaces.IAddSubProject"
+     class="..browser.SubProjectListingView"
+     permission="zope2.View"
+     template="subproject_listing.pt" 
+     /> 
+  
+  --> 
 
   <fate:editform
      name="edit_project"
@@ -102,12 +105,6 @@
      permission="zope2.View"
      />
 
-  <!-- <browser:page 
-     name="projects"
-     for="opencore.redirect.interfaces.IRedirected"
-     class="..browser.SubProjectListingView"
-     permission="zope2.View"
-     template="subproject_listing.pt" 
-     /> --> 
+
 
 </configure>
