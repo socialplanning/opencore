@@ -1,9 +1,4 @@
-<tal:vars tal:define="usr view/user;
-  canedit usr/canedit;
-  page view/page;
-  auth nocall:here/acl_users/credentials_cookie_auth|here/cookie_authentication|nothing;
-  ">
-
+<tal:vars tal:define="auth nocall:here/acl_users/credentials_cookie_auth|here/cookie_authentication|nothing;">
   <html metal:use-macro="here/@@standard_macros/master">
     <body>
       <div metal:fill-slot="content">
