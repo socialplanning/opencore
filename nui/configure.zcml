@@ -10,6 +10,10 @@
   <include package=".member" />
   <include package=".topnav" />
 
+  <five:implements 
+     class="ZPublisher.HTTPRequest.HTTPRequest" 
+     interface="zope.app.annotation.IAttributeAnnotatable"/>
+
   <!-- resource directories for css, images, etc -->
   <browser:resourceDirectory
     name="css"
