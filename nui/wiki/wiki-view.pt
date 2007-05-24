@@ -1,28 +1,21 @@
-<tal:vars tal:define="usr view/user;
-  canedit usr/canedit;
-  page view/page;
-  ">
+<html metal:use-macro="here/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">
+      <div id="oc-content-main" class="oc-content-main-fullWidth">
 
-  <html metal:use-macro="here/@@standard_macros/master">
-    <body>
-      <div metal:fill-slot="content">
-        <div id="oc-content-main" class="oc-content-main-fullWidth">
+        <div class="oc-wiki">
+          <div class="headingBlock oc-wiki-headingBlock">
+            <h2 tal:content="view/pagetitle"/>
+          </div>
 
-          <div class="oc-wiki">
-            <div class="headingBlock oc-wiki-headingBlock">
-              <h2 tal:content="view/pagetitle"/>
-            </div>
+          <!--
+              <metal:tabslot define-slot="tabs" />
+              -->
 
-            <!--
-            <metal:tabslot define-slot="tabs" />
-            -->
+          <div class="oc-wiki-content" tal:content="structure here/getText"/>
 
-            <div class="oc-wiki-content" tal:content="structure view/renderProjectContent"/>
-
-          </div><!-- end .oc-wiki -->
-        </div><!-- end #oc-content-main -->
-      </div><!-- end content slot -->
-    </body>
-  </html>
-
-</tal:vars>
+        </div><!-- end .oc-wiki -->
+      </div><!-- end #oc-content-main -->
+    </div><!-- end content slot -->
+  </body>
+</html>
