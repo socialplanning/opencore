@@ -27,7 +27,9 @@
           <div class="oc-widget oc-widget-feed oc-column-right">
             <h2>Updated projects</h2>
             <ul class="oc-feed-list">
-              <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recently_updated_projects">
+	      <!-- @@ optimization potential -->
+              <li class="oc-feed-item oc-clearAfter" 
+		  tal:repeat="project view/recently_updated_projects">
                 <img class="oc-avatar" src="" tal:attributes="src project/image_src | nothing" />
                 <h3 class="oc-feed-item-title">
                   <a href="" tal:attributes="href project/absolute_url" tal:content="nocall: project/title">Project title</a>
