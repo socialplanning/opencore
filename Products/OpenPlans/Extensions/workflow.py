@@ -9,7 +9,7 @@ def pend(self, state_change):
         uid, id, email = obj.UID(), obj.getId(), obj.getEmail()
 
         url_tool = getToolByName(obj, "portal_url")
-        url = "%s/confirm-account?key=%s" % (url_tool.getPhysicalRoot().absolute_url(), uid)
+        url = "%s/confirm-account?key=%s" % (url_tool.getPortalObject().absolute_url(), uid)
 
         mailhost_tool.send("how are you %s?\ngo here: %s" % (id, url),
                            mto=email,
