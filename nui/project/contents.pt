@@ -1,0 +1,196 @@
+<tal:vars define="proj view/project">
+  <html metal:use-macro="here/@@standard_macros/master">
+    <body>
+      <div metal:fill-slot="content">
+        <div class="oc-headingBlock">
+          <h1>Project contents</h1>
+          <p class="oc-headingContext">Manage and rename your stuff.</p>
+        </div>
+        <div id="oc-content-main" class="oc-content-main-fullWidth">
+      
+             <div class="oc-widget oc-widget-dataTable">
+              <div class="oc-heading">
+                <h3>Wiki pages</h3>
+                <!--<p class="oc-heading-context">What do you want your project to be named?</p>-->
+              </div>
+              <div class="oc-searchresults-nresults">
+                1-20 of 55
+              </div>
+              <form>
+              <table class="oc-dataTable" cellpadding="0" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th class="oc-dataTable-checkBoxColumn"><input type="checkbox" /></th>
+                    <th scope="col"><a class="oc-columnSortable oc-selected" href="">Title &darr;</a></th>
+                    <th scope="col"><a class="oc-columnSortable" href="">Size</a></th>
+                    <th scope="col"><a class="oc-columnSortable" href="">Last modified</a></th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="oc-liveEdit">
+                    <td>
+                      <input type="checkbox" />
+                    </td>
+                    <td>
+                      <div class="oc-liveEdit-value">
+                        <a href="">My sweet page</a>
+                      </div>
+                      <div class="oc-liveEdit-form">                             
+                          <input type="text" value="My sweet page" /><br />
+                          <input type="submit" value="Save"/> 
+                          or <a href="#" class="oc-liveEdit-cancel">Cancel</a>                           
+                      </div><!-- end .liveEdit-form -->
+                    </td>
+                    <td>
+                      25kb
+                    </td>
+                    <td>
+                      5/1/07 at 10:54pm by <a href="">Rollie</a>
+                    </td>
+                    <td>
+                      <ul class="oc-actions oc-dataTable-row-actions">
+                        <li><a href="#" class="oc-liveEdit-edit">Rename</a></li>
+                        <li><a href="#" class="oc-liveEdit-delete">Delete</a></li>
+                        <li><a href="#">Archive</a></li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr class="oc-liveEdit">
+                    <td>
+                      <input type="checkbox" />
+                    </td>
+                    <td>
+                      <div class="oc-liveEdit-value">
+                        <a href="">My sweet page</a>
+                      </div>
+                      <div class="oc-liveEdit-form">
+                        Name: <input type="text" /><br />
+                        <input type="submit" value="Save"/> or <a href="#" class="oc-liveEdit-cancel">Cancel</a>
+                      </div>
+                    </td>
+                    <td>
+                      25kb
+                    </td>
+                    <td>
+                      5/1/07 at 10:54pm by <a href="">Rollie</a>
+                    </td>
+                    <td>
+                      <ul class="oc-actions oc-dataTable-row-actions">
+                        <li><a href="#" class="oc-liveEdit-edit">Rename</a></li>
+                        <li><a href="#" class="oc-liveEdit-delete">Delete</a></li>
+                        <li><a href="#">Archive</a></li>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <ul class="oc-actions oc-dataTable-actions">
+                  <li><input type="submit" value="Rename" class="oc-button" /></li>
+                  <li><input type="submit" value="Delete" class="oc-button" /></li>
+                  <li><input type="submit" value="Archive" class="oc-button" /></li>
+                </ul>
+                <ul class="oc-paginator oc-dataTable-paginator">
+                <!--<li>&larr; Prev</li>-->
+                <li>Page 1</li>
+                <li><a href="">2</a></li>
+                <li><a href="">3</a></li>
+                <li><a href="">Next &rarr;</a></li>
+              </ul>
+              </form>
+
+            </div><!-- end .oc-widget-dataTable -->
+            
+            <div class="oc-widget oc-widget-dataTable">
+              <div class="oc-heading">
+                <h3>Images & attachments</h3>
+                <!--<p class="oc-heading-context">What do you want your project to be named?</p>-->
+              </div>
+              <form>
+              <table class="oc-dataTable" cellpadding="0" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th class="oc-dataTable-checkBoxColumn"><input type="checkbox" /></th>
+                    <th scope="col"><a class="oc-columnSortable oc-selected" href="">Title &darr;</a></th>
+                    <th scope="col"><a class="oc-columnSortable" href="">Size</a></th>
+                    <th scope="col"><a class="oc-columnSortable" href="">Last modified</a></th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="oc-liveEdit">
+                    <td>
+                      <input type="checkbox" />
+                    </td>
+                    <td>
+                      <div class="oc-liveEdit-value">
+                        <a href="">My sweet page</a>
+                      </div>
+                      <div class="oc-liveEdit-form">                             
+                          <input type="text" value="My sweet page" /><br />
+                          <input type="submit" value="Save"/> 
+                          or <a href="#" class="oc-liveEdit-cancel">Cancel</a>                           
+                      </div><!-- end .liveEdit-form -->
+                    </td>
+                    <td>
+                      25kb
+                    </td>
+                    <td>
+                      5/1/07 at 10:54pm by <a href="">Rollie</a>
+                    </td>
+                    <td>
+                      <ul class="oc-actions oc-dataTable-row-actions">
+                        <li><a href="#" class="oc-liveEdit-edit">Rename</a></li>
+                        <li><a href="#" class="oc-liveEdit-delete">Delete</a></li>
+                        <li><a href="#">Archive</a></li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr class="oc-liveEdit">
+                    <td>
+                      <input type="checkbox" />
+                    </td>
+                    <td>
+                      <div class="oc-liveEdit-value">
+                        <a href="">My sweet page -- Delete Me!</a>
+                      </div>
+                      <div class="oc-liveEdit-form">
+                        Name: <input type="text" /><br />
+                        <input type="submit" value="Save"/> or <a href="#" class="oc-liveEdit-cancel">Cancel</a>
+                      </div>
+                    </td>
+                    <td>
+                      25kb
+                    </td>
+                    <td>
+                      5/1/07 at 10:54pm by <a href="">Rollie</a>
+                    </td>
+                    <td>
+                      <ul class="oc-actions oc-dataTable-row-actions">
+                        <li><a href="#" class="oc-liveEdit-edit">Rename</a></li>
+                        <li><a href="#" class="oc-liveEdit-delete">Delete</a></li>
+                        <li><a href="#">Archive</a></li>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <ul class="oc-actions oc-dataTable-actions">
+                  <li><input type="submit" value="Rename" class="oc-button" /></li>
+                  <li><input type="submit" value="Delete" class="oc-button" /></li>
+                  <li><input type="submit" value="Archive" class="oc-button" /></li>
+                </ul>
+                <ul class="oc-paginator oc-dataTable-paginator">
+                <!--<li>&larr; Prev</li>-->
+                <li>Page 1</li>
+                <li><a href="">2</a></li>
+                <li><a href="">3</a></li>
+                <li><a href="">Next &rarr;</a></li>
+              </ul>
+            </form>
+            </div>
+        </div><!-- end .oc-content-main -->
+      </div><!-- end content-fill-slot -->
+    </body>
+  </html>
+</tal:vars>
