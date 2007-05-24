@@ -48,7 +48,7 @@ members_map = {'m1':{'fullname':'Member One',
 def create_test_content(self, p_map=None, m_map=None):
     """ populates an openplans site w/ dummy test content """
     portal = getToolByName(self, 'portal_url').getPortalObject()
-    portal.manage_changeProperties(email_from_address='rob.miller@openplans.org')
+    portal.manage_changeProperties(email_from_address='info@localhost')
     mdc = getToolByName(self, 'portal_memberdata')
     mdc.unit_test_mode = True # suppress registration emails
     tm_tool = getToolByName(self, 'portal_teams')
