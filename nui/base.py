@@ -28,17 +28,38 @@ class BaseView(BrowserView):
         self.context      = context
         self.request      = request
         self.transcluded  = request.get_header('X-transcluded')
+
+        # contextless view memoize
         self.membranetool = getToolByName(context, 'membrane_tool')
         self.membertool   = getToolByName(context, 'portal_membership')
         self.catalogtool  = getToolByName(context, 'portal_catalog')
-        self.portal       = getToolByName(context, 'portal_url').getPortalObject()
-        self.sitetitle    = self.portal.title
-        self.siteURL      = self.portal.absolute_url()
-        self.dob_datetime = self.context.portal.created()
-        self.dob          = prettyDate(self.dob_datetime)
+        self.portal_url   = getToolByName(context, 'portal_url')
+
+        # view memoize
         self.piv = context.unrestrictedTraverse('project_info') # TODO don't rely on this
         self.miv = context.unrestrictedTraverse('member_info')  # TODO don't rely on this
         self.errors = {}
+
+    def get_portal(self):
+        return self.portal_url.getPortalObject()
+
+    portal = property(get_portal)
+
+    @property
+    def dob_datetime(self):
+        return self.get_portal().created()
+
+    @property
+    def dob(self):
+        return prettyDate(self.dob_datetime)
+
+    @property
+    def siteURL(self):
+        return str(self.portal_url)
+
+    @property
+    def sitetitle(self):
+        return self.get_portal().Title()
 
     @property
     def name(self):
