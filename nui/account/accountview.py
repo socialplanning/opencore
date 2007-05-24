@@ -1,6 +1,7 @@
 """
-AccountView: the view for some of opencore's new zope3 views.
+views pertaining to accounts -- creation, login, password reset
 """
+
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import transaction_note
