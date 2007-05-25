@@ -109,8 +109,8 @@
             <ul class="oc-actions">
               <li>
 		<button type="submit" 
-			name="update" 
-			value="boolean:True" 
+			name="update:boolean" 
+			value="True" 
 			class="oc-button oc-chooseThis">
 		  Update
 		</button>
