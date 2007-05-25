@@ -70,10 +70,11 @@ Test the join view by adding a member to the site:
     >>> view = portal.restrictedTraverse("@@join")
     >>> request = view.request
 
-    >>> request.set('id', 'foobar')
-    >>> request.set('email', 'foobar@example.com')
-    >>> request.set('password', 'testy')
-    >>> request.set('confirm_password', 'testy')
+    >>> form = dict(id='foobar',
+    ...             email='foobar@example.com',
+    ...             password= 'testy',
+    ...             confirm_password='testy')
+    >>> request.form.update(form)
     >>> view.handle_request()
 
 Ah, nothing happened... need to set method to POST::
