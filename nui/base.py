@@ -224,7 +224,7 @@ class BaseView(BrowserView):
 
     @property
     def siteURL(self):
-        return str(self.portal_url())
+        return self.portal_url()
 
     @property
     def sitetitle(self):
