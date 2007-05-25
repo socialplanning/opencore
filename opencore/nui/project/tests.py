@@ -17,7 +17,8 @@ def test_suite():
     from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
     from pprint import pprint
     from zope.interface import alsoProvides
-
+    from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
+    from opencore.project.browser.projectinfo import get_featurelets
     setup.setupPloneSite()
     def readme_setup(tc):
         tc._refreshSkinData()

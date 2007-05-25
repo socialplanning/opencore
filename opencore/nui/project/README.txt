@@ -34,29 +34,36 @@ Preference View
     <...SimpleViewClass ...preferences.pt...>
 
     >>> view = proj.restrictedTraverse('preferences')
-
-    >>> view.project()['security']
+    >>> view.project_info['security']
     'medium_policy'
 
-    >>> view.project()['featurelets']
+    >>> view.project_info['featurelets']
     [{'url': 'lists', 'name': 'listen'}]
 
-    >>> form_vars = dict(
+    >>> form_vars = dict(title='test one',
     ...                  workflow_policy='closed_policy',
-    ...                  add=True, featurelets=[], set_flets=1)
-     >>> view.request.form.update(form_vars)
+    ...                  update=True,
+    ...                  featurelets=[],
+    ...                  set_flets=1,
+    ...                  __initialize_project__=False)
 
-     >>> out = view.handle_request()
+    >>> view.request.set('flet_recurse_flag', None)
+    >>> view.request.form.update(form_vars)
+    >>> view.context.REQUEST.form.update(form_vars)
 
-     >>> view = proj.restrictedTraverse('preferences')
+    >>> view.handle_request()
+    >>> view = proj.restrictedTraverse('preferences')
 
-     >>> view.project()['security']
-     'closed_policy'
+    >>> proj.Title()
+    'test one'
 
-     >>> view.project()['featurelets']
-     []
+    >>> IReadWorkflowPolicySupport(proj).getCurrentPolicyId()
+    'closed_policy'
 
-     >> view.project()['title']
+    >>> get_featurelets(proj)
+    []
+
+
 
 #test changing them
 
