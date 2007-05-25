@@ -123,7 +123,8 @@ def install_workflow_map(portal, out, wfs=WORKFLOW_MAP):
 
             # XXX DCWorkflowDump doesn't yet support the 'manager_bypass'
             #     option.  when it does, the next 3 lines can be removed.
-            if wf != 'openplans_member_workflow':
+            if wf not in ('openplans_member_workflow',
+                          'openplans_team_membership_workflow'):
                 wfobj = wf_tool.getWorkflowById(wf)
                 wfobj.manager_bypass = 1
 

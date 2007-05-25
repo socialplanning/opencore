@@ -1,5 +1,8 @@
 from BTrees.OOBTree import OOBTree
+from zExceptions import Redirect
 from AccessControl import ClassSecurityInfo
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import _createObjectByType
 from Products.Archetypes.public import registerType
 from Products.TeamSpace.team import Team, team_type_information
 from Products.TeamSpace.permissions import ManageTeam, ViewTeam
@@ -107,5 +110,43 @@ class OpenTeam(Team):
         if roles_map is not marker:
             roles = roles_map.get(mem_id, [])
         return roles
+
+    security.declarePublic('join')
+    def join(self):
+        """
+        Apply for project membership for the currently authenticated
+        member.  Can't delegate to addMember b/c we need to bypass the
+        security checks when creating the membership object.
+        """
+        putils = getToolByName(self, 'plone_utils')
+        mtool = getToolByName(self, 'portal_membership')
+        mem = mtool.getAuthenticatedMember()
+        mem_id = mem.getId()
+        if self.getMembershipByMemberId(mem_id) is not None:
+            # already have a membership
+            msg = u'You already have a membership on this project.'
+            putils.addPortalMessage(msg)
+            raise Redirect, self.absolute_url()
+
+        mship_type = self.getDefaultMembershipType()
+        mship = _createObjectByType(mship_type, self, mem_id)
+        refclass = self.membership_reference_class
+        mem.addReference(mship,
+                         relationship=refclass.relationship,
+                         referenceClass=refclass)
+
+        # Assign the default Role to the member
+        # We want to assign the default roles to the member
+        mship.editTeamRoles(self._default_roles)
+
+        # And notify space objects as these are the most likely
+        # subclasses that could hook the event.
+        project = self.getProject()
+        project._updateMember('add', mem, mship, self)
+
+        msg = u'Membership created, pending approval.'
+        putils.addPortalMessage(msg)
+        # can't raise Redirect or we'll abort our changes
+        self.REQUEST.response.redirect(self.absolute_url())
 
 registerType(OpenTeam)
