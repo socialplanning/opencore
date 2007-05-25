@@ -1,4 +1,6 @@
-<html metal:use-macro="here/@@standard_macros/master">
+<html 
+   metal:use-macro="here/@@standard_macros/master"
+   tal:define="global fdata view/handle_request">
   <body>
     <div id="oc-content-container" metal:fill-slot="content">              
       <div id="oc-content-main">
@@ -148,7 +150,7 @@
                   <th class="oc-form-label">
                   </th>
                   <td class="oc-form-value">
-                    <input type="submit" value="Join" />  
+                    <button type="submit" name="join:boolean" value="True" />  
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">

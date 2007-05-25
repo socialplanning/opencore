@@ -4,26 +4,25 @@ views pertaining to accounts -- creation, login, password reset
 
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import transaction_note
 from Products.remember.utils import getAdderUtility
 
-from opencore.nui.opencoreview import OpencoreView
+from opencore.nui.base import BaseView, button, post_only
 
-class JoinView(OpencoreView):
+class JoinView(BaseView):
 
-    def __call__(self, *args, **kw):
-        if self.request.environ['REQUEST_METHOD'] == 'GET':
-            return self.index(*args, **kw)
-        
+    @button('join')
+    @post_only(raise_=False)
+    def handle_request(self):
         context = self.context
         mdc = getToolByName(context, 'portal_memberdata')
 
         adder = getAdderUtility(context)
         type_name = adder.default_member_type
 
+        #00 pythonscript call, move to fs code
         id_ = context.generateUniqueId(type_name)
         mem = mdc.restrictedTraverse('portal_factory/%s/%s' % (type_name, id_))
-        transaction_note('Initiated creation of %s with id %s in %s' % \
+        self.txn_note('Initiated creation of %s with id %s in %s' % \
                              (mem.getTypeInfo().getId(),
                               id_,
                               context.absolute_url()))
@@ -31,9 +30,9 @@ class JoinView(OpencoreView):
         self.errors = mem.validate(REQUEST=self.request,
                                    errors=self.errors,
                                    data=1, metadata=0)
-        
+
         if self.errors:
-            return self.index(*args, **kw)
+            return self.errors
 
         # if we use self.context.portal_factory we get "disallowed 
         result = mdc.portal_factory.doCreate(mem, id_)
@@ -43,17 +42,16 @@ class JoinView(OpencoreView):
         self._sendMailToPendingUser(id=self.request.get('id'),
                                     email=self.request.get('email'),
                                     uid=mem.UID())
-        return "You have an email."
+        return mdc._getOb(id_)
 
     def _sendMailToPendingUser(self, id, email, uid):
         """ send a mail to a pending user """
         ## XX todo only send mail if in the pending workflow state
         mailhost_tool = getToolByName(self.context, "MailHost")
         
-        url_tool = getToolByName(self.context, "portal_url")
-        url = "%s/confirm-account?key=%s" % (url_tool(), uid)
+        url = "%s/confirm-account?key=%s" % (self.portal_url(), uid)
         
-        mfrom = url_tool.getPortalObject().getProperty('email_from_address')
+        mfrom = self.portal.getProperty('email_from_address')
         
         mailhost_tool.send("how are you %s?\ngo here: %s" % (id, url),
                            mto=email,
@@ -61,7 +59,7 @@ class JoinView(OpencoreView):
                            subject='OpenPlans account registration')
         
 
-class ConfirmAccountView(OpencoreView):
+class ConfirmAccountView(BaseView):
 
     def do_confirmation(self, member):
         pf = getToolByName(self, "portal_workflow")
@@ -94,7 +92,7 @@ class ConfirmAccountView(OpencoreView):
             return "Denied"
 
 
-class LoginView(OpencoreView):
+class LoginView(BaseView):
 
     @property
     def came_from(self):
@@ -105,7 +103,7 @@ class LoginView(OpencoreView):
             return self.request.RESPONSE.redirect(self.came_from or self.siteURL)
         return self.index(*args, **kw)
 
-class ForgotLoginView(OpencoreView):
+class ForgotLoginView(BaseView):
 
     def mailPassword(self, forgotten_userid):
         membership = getToolByName(self, 'portal_membership')
@@ -167,7 +165,7 @@ class ForgotLoginView(OpencoreView):
         return self.index(*args, **kw) # XXX not really right
 
 
-class DoPasswordResetView(OpencoreView):
+class DoPasswordResetView(BaseView):
 
     def __call__(self, *args, **kw):
         password = self.request.get("password")
@@ -184,7 +182,7 @@ class DoPasswordResetView(OpencoreView):
         return self.request.RESPONSE.redirect(self.siteURL)
 
 
-class PasswordResetView(OpencoreView):
+class PasswordResetView(BaseView):
 
     def __call__(self, *args, **kw):
         key = self.request.get('key')
