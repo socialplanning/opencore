@@ -294,7 +294,7 @@ class BaseView(BrowserView):
         """Returns a dict containing information about the
         currently-logged-in user for easy template access.
         If no user is logged in, there's just less info to return."""
-        if self.loggedin():
+        if self.loggedin:
             usr = self.userobj()
             id = usr.getId()
             user_dict = dict(id=id,
