@@ -19,8 +19,7 @@ from opencore.nui.static import render_static
 from topp.featurelets.interfaces import IFeatureletSupporter
 from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
 from zope.component import getMultiAdapter, adapts, adapter
-from Products.CMFPlone import transaction_note
-
+from Products.CMFPlone import PloneMessageFactory, transaction_note
 
 view.memoizedproperty = lambda func: property(view.memoize(func))
 view.mcproperty = lambda func: property(view.memoize_contextless(func))
@@ -50,8 +49,6 @@ class BaseView(BrowserView):
 
     def addPortalStatusMessage(self, msg):
         plone_utils = self.get_tool('plone_utils')
-        # @@ can we toplevel this import?
-        from Products.CMFPlone import PloneMessageFactory
         plone_utils.addPortalMessage(PloneMessageFactory(msg))
 
     def include(self, viewname):
