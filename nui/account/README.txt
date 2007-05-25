@@ -85,4 +85,4 @@ Ah, nothing happened... need to set button::
 
     >>> request.set('join', True)
     >>> view.handle_request()
-
+    <OpenMember at /plone/portal_memberdata/openmember...>
