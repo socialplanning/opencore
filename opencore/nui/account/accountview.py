@@ -34,8 +34,8 @@ class JoinView(BaseView):
         if self.errors:
             return self.errors
 
-        # if we use self.context.portal_factory we get "disallowed 
-        result = mdc.portal_factory.doCreate(mem, id_)
+        # if we use self.context.portal_factory we get "disallowed"
+        result = mdc.portal_factory.doCreate(mem, id_)        
         
         #mem.do_register(id=self.request.get('id'),
         #                password=self.request.get('password'))
@@ -81,7 +81,9 @@ class ConfirmAccountView(BaseView):
         
         if not matches:
             self.addPortalStatusMessage(u'Denied')
-            self.request.RESPONSE.redirect(self.siteURL + '/login')
+            import pdb; pdb.set_trace()
+            return self.redirect(self.siteURL + '/login')
+
         assert len(matches) == 1
         
         member = matches[0].getObject()
