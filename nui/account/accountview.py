@@ -101,7 +101,7 @@ class LoginView(BaseView):
         return self.request.get('came_from')
 
     def __call__(self, *args, **kw):
-        if self.loggedin():
+        if self.loggedin:
             return self.request.RESPONSE.redirect(self.came_from or self.siteURL)
         return self.index(*args, **kw)
 
