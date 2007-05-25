@@ -72,6 +72,8 @@ class OpenMembership(TeamMembership):
         elif review_state == 'rejected_by_admin':
             can = mtool.checkPermission(ManageTeamMembership, self.getTeam())
         elif review_state == 'rejected_by_owner':
+            auth_mem = mtool.getAuthenticatedMember()
+            owner_id = self.owner_info()['id']
             can = owner_id == auth_mem.getId()
 
         return bool(can)
