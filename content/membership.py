@@ -64,12 +64,13 @@ class OpenMembership(TeamMembership):
 
             if actor_id == owner_id:
                 # requires project admin approval
-                can = mtool.checkPermission(ManageTeamMembership, self)
+                can = mtool.checkPermission(ManageTeamMembership,
+                                            self.getTeam())
             else:
                 # requires member approval
                 can = owner_id == auth_mem.getId()
         elif review_state == 'rejected_by_admin':
-            can = mtool.checkPermission(ManageTeamMembership, self)
+            can = mtool.checkPermission(ManageTeamMembership, self.getTeam())
         elif review_state == 'rejected_by_owner':
             can = owner_id == auth_mem.getId()
 
@@ -98,7 +99,8 @@ class OpenMembership(TeamMembership):
                     # owner rejection trumps admin rejection if they
                     # both apply
                     can = False
-                elif not mtool.checkPermission(ManageTeamMembership, self):
+                elif not mtool.checkPermission(ManageTeamMembership,
+                                               self.getTeam()):
                     can = False
         return can
 
