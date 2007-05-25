@@ -156,20 +156,26 @@ class BaseView(BrowserView):
                           url=url)
         return result
 
-    @instance.memoizedproperty
+    @view.mcproperty
     def project_info(self):
         """
         Returns a dict containing information about the
-        currently-viewed proj`ect for easy template access.
+        currently-viewed project for easy template access.
+
+        calculated once
         """
         proj_info = {}
         if self.piv.inProject:
-            proj = self.piv.project
+            proj = aq_inner(self.piv.project)
+            security = IReadWorkflowPolicySupport(proj).getCurrentPolicyId()
             proj_info.update(navname=proj.Title(),
                              fullname=proj.getFull_name(),
+                             title=proj.Title(),
+                             security=security,
                              url=proj.absolute_url(),
                              mission=proj.Description(),
-                             featurelets=self.piv.featurelets)
+                             featurelets=self.piv.featurelets,
+                             obj=proj)
         return proj_info
 
     def user_exists(self, username):
