@@ -93,7 +93,8 @@ Search, explicitly specifying relevancy sort
    >>> names
    ['m2', 'm3', 'm1', 'm4']
 
-Search for members, explicitly specifying full name sort
+Search for members, explicitly specifying full name sort::
+
    >>> people = view.search_for_person_by_letter('M', sort_by='exact_getFullname')
    >>> names = [p.getFullname for p in people]
    >>> names
@@ -101,8 +102,9 @@ Search for members, explicitly specifying full name sort
 
 Traversing to the correct people search url should yield the same class
 XXX currently is a name, because we don't have a special interface for
-the people folder
-   >>> view = self.portal.people.unrestrictedTraverse('@@view')
+the people folder::
+
+   >>> view = self.portal.people.unrestrictedTraverse('@@people_index')
    >>> view
    <Products.Five.metaclass.SimpleViewClass from ...people.pt object at...>
 
