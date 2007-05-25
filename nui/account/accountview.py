@@ -81,7 +81,6 @@ class ConfirmAccountView(BaseView):
         
         if not matches:
             self.addPortalStatusMessage(u'Denied')
-            import pdb; pdb.set_trace()
             return self.redirect(self.siteURL + '/login')
 
         assert len(matches) == 1
