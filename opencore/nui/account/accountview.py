@@ -34,19 +34,16 @@ class JoinView(BaseView):
         if self.errors:
             return self.errors
 
-        # if we use self.context.portal_factory we get "disallowed 
-        mem = mdc.portal_factory.doCreate(mem, id_)
-        #mem.do_register(id=self.request.get('id'),
-        #                password=self.request.get('password'))
+        mem_id = self.request.get('id')
+        mem = mdc.portal_factory.doCreate(mem, mem_id)
         result = mem.processForm()
-        import pdb; pdb.set_trace()
 
-        self._sendMailToPendingUser(id=self.request.get('id'),
+        self._sendMailToPendingUser(id=mem_id,
                                     email=self.request.get('email'),
                                     code=mem.getUserConfirmationCode())
         self.addPortalStatusMessage(mem.UID())
         #self.redirect("http://en.wikipedia.org/wiki/Unicorn")
-        return mdc._getOb(id_)
+        return mdc._getOb(mem_id)
 
     def _sendMailToPendingUser(self, id, email, code):
         """ send a mail to a pending user """
