@@ -124,7 +124,6 @@ topp_functions = dict(
     setupPeopleFolder=convertFunc(setupPeopleFolder),
     migrate_teams_to_projects=migrate_teams_to_projects,
     migrate_membership_roles=migrate_membership_roles,
-    save_all_projects=convertFunc(save_all_projects),
     setup_nui=convertFunc(setup_nui)
     )
 
@@ -185,6 +184,7 @@ nui_functions = dict(install_confirmation_workflow=convertFunc(install_confirmat
                      setupPeopleFolder=convertFunc(setupPeopleFolder),
                      setupProjectLayout=convertFunc(setupProjectLayout),
                      setupHomeLayout=convertFunc(setupHomeLayout),
+                     save_all_projects=convertFunc(save_all_projects),
                      )
 
 class NuiSetup(TOPPSetup):
