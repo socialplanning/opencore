@@ -35,9 +35,9 @@ class JoinView(BaseView):
             return self.errors
 
         # if we use self.context.portal_factory we get "disallowed 
-        #result = mdc.portal_factory.doCreate(mem, id_)
-        mem.do_register(id=self.request.get('id'),
-                        password=self.request.get('password'))
+        result = mdc.portal_factory.doCreate(mem, id_)
+        #mem.do_register(id=self.request.get('id'),
+        #password=self.request.get('password'))
         return mem.processForm()
 
         self._sendMailToPendingUser(id=self.request.get('id'),
