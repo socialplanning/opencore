@@ -1,6 +1,6 @@
+<tal:handle define="global fdata view/handle_request" replace="nothing"/>
 <html 
-   metal:use-macro="here/@@standard_macros/master"
-   tal:define="global fdata view/handle_request">
+   metal:use-macro="here/@@standard_macros/master">
   <body>
     <div id="oc-content-container" metal:fill-slot="content">              
       <div id="oc-content-main">
