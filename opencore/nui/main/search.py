@@ -64,7 +64,7 @@ class ProjectsSearchView(SearchView):
         if sort_by != 'relevancy':
             query['sort_on'] = sort_by
 
-        project_brains = self.catalogtool(**query)
+        project_brains = self.catalog(**query)
 
         def matches(brain):
             title = brain.Title.lower()
@@ -93,7 +93,7 @@ class ProjectsSearchView(SearchView):
                 sort_by = 'sortable_title'
             rs = ((sort_by, 'desc'),)
 
-        project_brains = self.catalogtool.evalAdvancedQuery(
+        project_brains = self.catalog.evalAdvancedQuery(
             Eq('portal_type', 'OpenProject') & Eq('SearchableText', proj_query),
             rs,
             )
@@ -106,7 +106,7 @@ class ProjectsSearchView(SearchView):
                      sort_limit=5,
                      )
 
-        project_brains = self.catalogtool(**query) 
+        project_brains = self.catalog(**query) 
         # XXX expensive $$$
         # we get object for number of project members
         projects = (x.getObject() for x in project_brains)
@@ -210,7 +210,7 @@ class HomeView(SearchView):
                      sort_limit=5,
                      )
 
-        project_brains = self.catalogtool(**query) 
+        project_brains = self.catalog(**query) 
         # XXX expensive $$$
         # we get object for number of project members
         projects = (x.getObject() for x in project_brains)
@@ -224,7 +224,7 @@ class HomeView(SearchView):
                      sort_limit=4,
                      path=news_path
                      )
-        brains = self.catalogtool(**query)
+        brains = self.catalog(**query)
         return brains
         
 
@@ -268,7 +268,7 @@ class SitewideSearchView(SearchView):
             else:
                 rs = ((sort_by, 'desc'),)
 
-        brains = self.catalogtool.evalAdvancedQuery(
+        brains = self.catalog.evalAdvancedQuery(
             (Eq('portal_type', 'OpenProject') | Eq('portal_type', 'Document') | Eq('portal_type', 'OpenMember')) & Eq('SearchableText', search_query),
             rs,
             )
@@ -284,7 +284,7 @@ class NewsView(SearchView):
                      sort_limit=20,
                      path=news_path
                      )
-        brains = self.catalogtool(**query)
+        brains = self.catalog(**query)
         return brains
         
     def can_add_news(self):
