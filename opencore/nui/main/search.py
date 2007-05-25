@@ -6,10 +6,10 @@ from Products.CMFPlone import Batch
 from Products.AdvancedQuery import Eq, RankByQueries_Sum
 from topp.utils.pretty_date import prettyDate
 from zExceptions import Redirect 
-from opencore.nui.opencoreview import OpencoreView
+from opencore.nui.base import BaseView
 
 
-class SearchView(OpencoreView):
+class SearchView(BaseView):
 
     def _get_batch(self, brains, start=0):
         return Batch(brains,
@@ -116,7 +116,6 @@ class ProjectsSearchView(SearchView):
 class PeopleSearchView(SearchView):
     def __init__(self, context, request):
         SearchView.__init__(self, context, request)
-        self.membrane_tool = getToolByName(context, 'membrane_tool')
 
     def __call__(self):
         personname = self.request.get('personname', None)
@@ -147,7 +146,7 @@ class PeopleSearchView(SearchView):
         if sort_by != 'relevancy':
             query['sort_on'] = sort_by
 
-        people_brains = self.membrane_tool(**query)
+        people_brains = self.membranetool(**query)
         startswith_letter = lambda b: b.getId.lower().startswith(letter)
         people_brains = filter(startswith_letter, people_brains)
 
@@ -167,7 +166,7 @@ class PeopleSearchView(SearchView):
         else:
             rs = ((sort_by, 'desc'),)
 
-        people_brains = self.membrane_tool.evalAdvancedQuery(
+        people_brains = self.membranetool.evalAdvancedQuery(
             Eq('RosterSearchableText', person_query),
             rs,
             )
