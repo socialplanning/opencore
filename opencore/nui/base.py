@@ -38,6 +38,8 @@ class BaseView(BrowserView):
         self.request      = request
         self.transcluded  = request.get_header('X-transcluded')
         self.errors = {}
+        self.response = self.request.RESPONSE
+        self.redirect = self.response.redirect
 
     @property
     def portal_status_message(self):
