@@ -135,7 +135,7 @@
             <thead>
               <metal:block tal:condition="batch|not:standalone|nothing">
                 <tr>
-                  <th tal:condition="python:canModifyFolderContent" class="nosort">
+                  <th tal:condition="python:canModifyFolderContent or template.id=='content_status_history'" class="nosort">
                       <input class="noborder"
                              type="checkbox"
                              src="select_all_icon.gif"
@@ -204,7 +204,7 @@
                             * Create title_or_id metadata in the catalog (why not just use item.Title or item.getId? (alecm))
                        </tal:comment>
 
-                       <td class="notDraggable" tal:condition="python:canModifyFolderContent">
+                       <td class="notDraggable" tal:condition="python:canModifyFolderContent or template.id=='content_status_history'">
                            <input type="checkbox"
                                   class="noborder"
                                   name="paths:list" id="#"
