@@ -35,10 +35,11 @@ class JoinView(BaseView):
             return self.errors
 
         # if we use self.context.portal_factory we get "disallowed 
-        result = mdc.portal_factory.doCreate(mem, id_)
+        mem = mdc.portal_factory.doCreate(mem, id_)
         #mem.do_register(id=self.request.get('id'),
-        #password=self.request.get('password'))
-        return mem.processForm()
+        #                password=self.request.get('password'))
+        result = mem.processForm()
+        import pdb; pdb.set_trace()
 
         self._sendMailToPendingUser(id=self.request.get('id'),
                                     email=self.request.get('email'),
@@ -80,6 +81,7 @@ class ConfirmAccountView(BaseView):
         # we need to do an unrestrictedSearch because a default search
         # will filter results by user permissions
         matches = self.membranetool.unrestrictedSearchResults(UID=key)
+        import pdb; pdb.set_trace()
         if not matches:
             self.addPortalStatusMessage(u'Denied')
             return self.redirect(self.siteURL + '/login')
