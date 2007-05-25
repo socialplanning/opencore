@@ -74,4 +74,4 @@ Test the join view by adding a member to the site:
     >>> request.set('password', 'testy')
     >>> request.set('confirm_password', 'testy')
     >>> view()
-    '...Your registration request has been received...'
+    u'...Your registration request has been received...'

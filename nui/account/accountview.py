@@ -32,11 +32,33 @@ class JoinView(OpencoreView):
                                    errors=self.errors,
                                    data=1, metadata=0)
         
-        if not self.errors:
-            return mem.do_register(id=self.request.get('id'),
-                                   password=self.request.get('password'))
-        else:
+        if self.errors:
             return self.index(*args, **kw)
+
+        # if we use self.context.portal_factory we get "disallowed 
+        result = mdc.portal_factory.doCreate(mem, id_)
+        
+        #mem.do_register(id=self.request.get('id'),
+        #                password=self.request.get('password'))
+        self._sendMailToPendingUser(id=self.request.get('id'),
+                                    email=self.request.get('email'),
+                                    uid=mem.UID())
+        return "You have an email."
+
+    def _sendMailToPendingUser(self, id, email, uid):
+        """ send a mail to a pending user """
+        ## XX todo only send mail if in the pending workflow state
+        mailhost_tool = getToolByName(self.context, "MailHost")
+        
+        url_tool = getToolByName(self.context, "portal_url")
+        url = "%s/confirm-account?key=%s" % (url_tool(), uid)
+        
+        mfrom = url_tool.getPortalObject().getProperty('email_from_address')
+        
+        mailhost_tool.send("how are you %s?\ngo here: %s" % (id, url),
+                           mto=email,
+                           mfrom=mfrom,
+                           subject='OpenPlans account registration')
         
 
 class ConfirmAccountView(OpencoreView):
