@@ -56,7 +56,7 @@ And now sort them by creation time
    ['Proj2', 'Proj3', 'Proj1', 'Proj4']
 
 Traversing to the url should yield the same class
-   >>> view = self.portal.projects.unrestrictedTraverse('@@index.html')
+   >>> view = self.portal.projects.unrestrictedTraverse('@@view')
    >>> view
    <Products.Five.metaclass.SimpleViewClass from ...projects.pt object at...>
 
@@ -102,7 +102,7 @@ Search for members, explicitly specifying full name sort
 Traversing to the correct people search url should yield the same class
 XXX currently is a name, because we don't have a special interface for
 the people folder
-   >>> view = self.portal.people.unrestrictedTraverse('@@index.html')
+   >>> view = self.portal.people.unrestrictedTraverse('@@view')
    >>> view
    <Products.Five.metaclass.SimpleViewClass from ...people.pt object at...>
 
@@ -110,7 +110,7 @@ Render the view to see if there are any errors
    >>> response = view()
 
 Navigating to the portal home should not produce any errors
-   >>> view = self.portal.unrestrictedTraverse('@@index.html')
+   >>> view = self.portal.unrestrictedTraverse('@@view')
    >>> view
    <Products.Five.metaclass.SimpleViewClass from ...home.pt object at...>
 
@@ -126,7 +126,7 @@ Render the people search results view with no search
    >>> response = view()
 
 Test the news view
-   >>> view = self.portal.news.unrestrictedTraverse('@@index.html')
+   >>> view = self.portal.news.unrestrictedTraverse('@@view')
    >>> view
    <Products.Five.metaclass.SimpleViewClass from ...news.pt object at...>
 

@@ -463,7 +463,11 @@ def setProjectFolderPermissions(portal, out):
 def setupProjectLayout(portal, out):
     print >> out, 'Setting projects folder view'
     pfolder = portal._getOb('projects')
-    pfolder.setLayout('project_listing')
+    pfolder.setLayout('view')
+
+def setupHomeLayout(portal, out):
+    print >> out, 'Setting home view'
+    portal.setLayout('view')
 
 def setupPeopleFolder(portal, out):
     """
@@ -506,7 +510,7 @@ def setupPeopleFolder(portal, out):
         alsoProvides(pf, IAmAPeopleFolder)
 
     # set the default layout
-    pf.setLayout('index.html')
+    pf.setLayout('view')
     
 
 def registerCSS(portal, out):
@@ -643,6 +647,9 @@ def installNewsFolder(portal, out):
     pf = getattr(portal, 'news')
     if not IAmANewsFolder.providedBy(pf):
         alsoProvides(pf, IAmANewsFolder)
+
+    # set the default view on the news folder
+    pf.setLayout('view')
 
 
 def install(self, migrate_atdoc_to_openpage=True):
