@@ -14,7 +14,7 @@ class ProjectPreferencesView(BaseView):
     def handle_request(self):
         self.context.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)        
         self.context.processForm(REQUEST=self.request)
-        raise Redirect, self.context.absolute_url()
+        self.redirect(self.context.absolute_url())
 
 
 class ProjectAddView(BaseView):
