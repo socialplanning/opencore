@@ -3,7 +3,8 @@ from zope.testing import doctest
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase 
 from Testing.ZopeTestCase import FunctionalDocFileSuite
-from opencore.testing.layer import OpenPlansLayer as test_layer
+#from opencore.testing.layer import OpenPlansLayer as test_layer
+from opencore.testing.layer import OpencoreContent as test_layer
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
@@ -24,6 +25,7 @@ def test_suite():
         tc.request = tc.app.REQUEST
         tc.response = tc.request.RESPONSE
         tc.homepage = getattr(tc.portal, 'site-home')
+        tc.projects = tc.portal.projects
     globs = locals()
     readme = FunctionalDocFileSuite("README.txt",
                                     optionflags=optionflags,
