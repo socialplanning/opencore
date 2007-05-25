@@ -1,6 +1,7 @@
 from zope.interface import implements
 
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.permissions import ManagePortal
 from Products.Archetypes.public import registerType
 from Products.TeamSpace.membership import TeamMembership
 from Products.TeamSpace.permissions import ManageTeamMembership
@@ -68,7 +69,9 @@ class OpenMembership(TeamMembership):
                                             self.getTeam())
             else:
                 # requires member approval
-                can = owner_id == auth_mem.getId()
+                can = (owner_id == auth_mem.getId()) or \
+                      mtool.checkPermission(ManagePortal, self.getTeam())
+                
         elif review_state == 'rejected_by_admin':
             can = mtool.checkPermission(ManageTeamMembership, self.getTeam())
         elif review_state == 'rejected_by_owner':

@@ -78,7 +78,6 @@ class ConfirmAccountView(BaseView):
         # we need to do an unrestrictedSearch because a default search
         # will filter results by user permissions
         matches = self.membranetool.unrestrictedSearchResults(UID=key)
-
         if not matches:
             self.addPortalStatusMessage(u'Denied')
             return self.redirect(self.siteURL + '/login')
