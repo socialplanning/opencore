@@ -18,7 +18,8 @@ def test_suite():
     from pprint import pprint
     from zope.interface import alsoProvides
 
-    setup.setupPloneSite()
+    #setup.setupPloneSite()
+
     def readme_setup(tc):
         tc._refreshSkinData()
 

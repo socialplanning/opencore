@@ -19,6 +19,8 @@ from opencore.nui.static import render_static
 from topp.featurelets.interfaces import IFeatureletSupporter
 from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
 from zope.component import getMultiAdapter, adapts, adapter
+from Products.CMFPlone import transaction_note
+
 
 view.memoizedproperty = lambda func: property(view.memoize(func))
 view.mcproperty = lambda func: property(view.memoize_contextless(func))
@@ -28,6 +30,7 @@ class BaseView(BrowserView):
     logoURL = '++resource++img/logo.gif'
     windowTitleSeparator = ' :: '
     render_static = staticmethod(render_static)
+    txn_note = staticmethod(transaction_note)
     getToolByName=getToolByName
     
     def __init__(self, context, request):
@@ -36,6 +39,7 @@ class BaseView(BrowserView):
         self.transcluded  = request.get_header('X-transcluded')
         self.errors = {}
 
+    @property
     def portal_status_message(self):
         plone_utils = getToolByName(self.context, 'plone_utils')
         msgs = plone_utils.showPortalMessages()
@@ -123,6 +127,66 @@ class BaseView(BrowserView):
                                                   self.context)
         return bool(canedit)
 
+    @instance.memoizedproperty
+    def mem_data_map(self):
+        """
+        Returns a dict containing information about the currently
+        authenticated member for easy template access.  If the member
+        is not currently logged in, the returned dictionary will be
+        empty.
+        """
+        member = None
+        if self.loggedin:
+            member = self.membertool.getAuthenticatedMember()
+
+        result = {}
+        if member is not None:
+            if IReMember.providedBy(member):
+                id = member.getId()
+                fullname=member.getFullname()
+                lastlogin=member.getLast_login_time()
+            else:
+                # we're an old school member object, i.e. an admin
+                # user
+                id = member.id
+                fullname = member.fullname
+                lastlogin = member.last_login_time
+            url = self.membertool.getHomeFolder(id).absolute_url()
+
+            result.update(id=id, fullname=fullname, lastlogin=lastlogin,
+                          url=url)
+        return result
+
+    @instance.memoizedproperty
+    def project_info(self):
+        """
+        Returns a dict containing information about the
+        currently-viewed proj`ect for easy template access.
+        """
+        proj_info = {}
+        if self.piv.inProject:
+            proj = self.piv.project
+            proj_info.update(navname=proj.Title(),
+                             fullname=proj.getFull_name(),
+                             url=proj.absolute_url(),
+                             mission=proj.Description(),
+                             featurelets=self.piv.featurelets)
+        return proj_info
+
+    def user_exists(self, username):
+        users = self.membranetool(getId=username)
+        return len(users) > 0
+
+    def userExists(self):
+        username = self.request.get("username")
+        if username is not None:
+            return self.user_exists(username)
+        return False
+
+    # end of rob's refactors
+
+    # tool and view handling
+
     @view.memoize_contextless
     def get_tool(self, name):
         wrapped = self.__of__(aq_inner(self.context))
@@ -145,6 +209,8 @@ class BaseView(BrowserView):
     @property
     def miv(self):
         return self.get_view('member_info')
+
+    # properties (formerly in __init__.py)
 
     @property
     def dob_datetime(self):
@@ -169,6 +235,8 @@ class BaseView(BrowserView):
     def handle_request(self):
         raise NotImplementedError
 
+    # formerly functions in nui
+
     @staticmethod
     def renderTranscluderLink(viewname):
         return '<a href="@@%s" rel="include">%s</a>\n' % (viewname, viewname)
@@ -181,6 +249,9 @@ class BaseView(BrowserView):
     def renderView(view):
         # XXX do we really need this?
         return view()
+
+
+    # stuff rob removed in his opencoreview
 
     def renderContent(self, viewname):
         viewname = viewname or self.magicContent()
@@ -208,9 +279,6 @@ class BaseView(BrowserView):
     def inproject(self): # TODO
         return self.piv.inProject
 
-    def inuser(self): # TODO
-        return self.miv.inMemberArea
-    
     def vieweduser(self): # TODO
         """Returns the user found in the context's acquisition chain, if any."""
         return self.miv.member
@@ -219,13 +287,6 @@ class BaseView(BrowserView):
         if self.inproject():
             return self.currentProjectPage().absolute_url()
         return self.context.absolute_url() # TODO?
-
-
-
-    def nprojects(self): # TODO cache
-        """Returns the number of projects hosted by the site."""
-        projects = self.catalogtool(portal_type='OpenProject')
-        return len(projects)
 
     def user(self):
         """Returns a dict containing information about the
@@ -346,4 +407,16 @@ def button(name=None):
             return None
         return new_method
     return curry
-        
+
+
+def post_only(raise_=True):
+    def inner_post_only(func):
+        """usually wrapped by a button"""
+        def new_method(self):
+            if self.request.environ['REQUEST_METHOD'] == 'GET':
+                if raise_:
+                    raise Forbidden('GET is not allowed here')
+                return
+            return func(self)
+        return new_method
+    return inner_post_only
