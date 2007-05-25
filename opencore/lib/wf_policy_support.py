@@ -6,11 +6,15 @@ from opencore.interfaces import IReadWorkflowPolicySupport
 from opencore.interfaces import IWriteWorkflowPolicySupport
 from zope.component import queryView
 from zope.interface import implements
+from zope.app.container.interfaces import IContainerModifiedEvent
 
 def saveWFPolicy(obj, event):
     """ IObjectModified event subscriber that changes the wf policy """
+    if IContainerModifiedEvent.providedBy(event):
+        # we only care about direct edits
+        return
     req = obj.REQUEST
-    new_policy = req.get('workflow_policy', '')
+    new_policy = req.form.get('workflow_policy', '')
     if new_policy:
         view = queryView(obj, u'policy_writer', req)
         if view is not None:
