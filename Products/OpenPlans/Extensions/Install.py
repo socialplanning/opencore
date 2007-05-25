@@ -510,6 +510,7 @@ def setupPeopleFolder(portal, out):
         alsoProvides(pf, IAmAPeopleFolder)
 
     # set the default layout
+    pf.manage_delObjects(['index_html'])
     pf.setDefaultPage(None)
     pf.setLayout('@@view')
     
