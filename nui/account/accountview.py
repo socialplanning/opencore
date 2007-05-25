@@ -34,23 +34,25 @@ class JoinView(BaseView):
         if self.errors:
             return self.errors
 
-        # if we use self.context.portal_factory we get "disallowed"
-        result = mdc.portal_factory.doCreate(mem, id_)        
-        
-        #mem.do_register(id=self.request.get('id'),
-        #                password=self.request.get('password'))
+        # if we use self.context.portal_factory we get "disallowed 
+        #result = mdc.portal_factory.doCreate(mem, id_)
+        mem.do_register(id=self.request.get('id'),
+                        password=self.request.get('password'))
+        return mem.processForm()
+
         self._sendMailToPendingUser(id=self.request.get('id'),
                                     email=self.request.get('email'),
-                                    uid=mem.UID())
-        self.redirect("http://en.wikipedia.org/wiki/Unicorn")
+                                    code=mem.getUserConfirmationCode())
+        self.addPortalStatusMessage(mem.UID())
+        #self.redirect("http://en.wikipedia.org/wiki/Unicorn")
         return mdc._getOb(id_)
 
-    def _sendMailToPendingUser(self, id, email, uid):
+    def _sendMailToPendingUser(self, id, email, code):
         """ send a mail to a pending user """
         ## XX todo only send mail if in the pending workflow state
         mailhost_tool = getToolByName(self.context, "MailHost")
         
-        url = "%s/confirm-account?key=%s" % (self.portal_url(), uid)
+        url = "%s/confirm-account?key=%s" % (self.portal_url(), code)
         
         mfrom = self.portal.getProperty('email_from_address')
         
@@ -78,7 +80,6 @@ class ConfirmAccountView(BaseView):
         # we need to do an unrestrictedSearch because a default search
         # will filter results by user permissions
         matches = self.membranetool.unrestrictedSearchResults(UID=key)
-        
         if not matches:
             self.addPortalStatusMessage(u'Denied')
             return self.redirect(self.siteURL + '/login')
