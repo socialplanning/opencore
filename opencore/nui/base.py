@@ -4,6 +4,7 @@ some base class for opencore ui work
 from Acquisition import aq_inner, aq_parent
 from opencore.content.page import OpenPage
 from opencore.content.member import OpenMember
+from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.OpenPlans.content.project import OpenProject
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
@@ -29,6 +30,7 @@ class BaseView(BrowserView):
     logoURL = '++resource++img/logo.gif'
     windowTitleSeparator = ' :: '
     render_static = staticmethod(render_static)
+    truncate = staticmethod(truncate)
     txn_note = staticmethod(transaction_note)
     getToolByName=getToolByName
     
@@ -79,7 +81,6 @@ class BaseView(BrowserView):
     @property
     def pagetitle(self):
         return self.context.Title()
-
     
     @view.memoizedproperty
     def areatitle(self):
@@ -94,8 +95,8 @@ class BaseView(BrowserView):
 
     @instance.memoize
     def windowtitle(self):
-        pagetitle, areatitle = truncate(self.pagetitle, max=24), \
-                               truncate(self.areatitle, max=16)
+        pagetitle = self.truncate(self.pagetitle, max=24)
+        areatitle = self.truncate(self.areatitle, max=16)
         titles = [pagetitle, areatitle, self.sitetitle]
         return self.windowTitleSeparator.join([i for i in titles if i])
 
@@ -198,6 +199,8 @@ class BaseView(BrowserView):
         return wrapped.getToolByName(name)
 
     def get_portal(self):
+        if IPloneSiteRoot.providedBy(self.context):
+            return aq_inner(self.context)
         return self.portal_url.getPortalObject()
 
     portal = property(view.memoize_contextless(get_portal))
@@ -231,7 +234,7 @@ class BaseView(BrowserView):
 
     @property
     def sitetitle(self):
-        return self.get_portal().Title()
+        return self.portal.Title()
 
     @property
     def name(self):
