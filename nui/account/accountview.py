@@ -8,12 +8,13 @@ from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
 from Products.remember.utils import getAdderUtility
 
-from opencore.nui.base import BaseView, button, post_only
+from opencore.nui.base import BaseView, button, post_only, anon_only
 
 class JoinView(BaseView):
     
     @button('join')
     @post_only(raise_=False)
+    @anon_only()
     def handle_request(self):
         context = self.context
         mdc = getToolByName(context, 'portal_memberdata')
@@ -63,6 +64,7 @@ class JoinView(BaseView):
 
 class ConfirmAccountView(BaseView):
 
+    @anon_only()
     def __call__(self, *args, **kw):
         key = self.request.get("key")
         
@@ -98,18 +100,13 @@ class ConfirmAccountView(BaseView):
 
 class LoginView(BaseView):
 
-    @property
-    def came_from(self):
-        return self.request.get('came_from')
-
+    @anon_only()
     def __call__(self, *args, **kw):
-        if self.loggedin:
-            return self.redirect(self.came_from or self.siteURL)
         return self.index(*args, **kw)
 
 class ForgotLoginView(BaseView):
 
-    def mailPassword(self, forgotten_userid):
+    def _mailPassword(self, forgotten_userid):
         membership = getToolByName(self, 'portal_membership')
         if not membership.checkPermission('Mail forgotten password', self):
             raise Unauthorized, "Mailing forgotten passwords has been disabled"
@@ -146,6 +143,7 @@ class ForgotLoginView(BaseView):
             # Don't disclose email address on failure
             raise SMTPRecipientsRefused('Recipient address rejected by server')
 
+    @anon_only()
     def __call__(self, *args, **kw):
         if self.request.environ['REQUEST_METHOD'] == 'GET':
             return self.index(*args, **kw)
@@ -162,7 +160,7 @@ class ForgotLoginView(BaseView):
         brain = brains[0]
         userid = brain.getId
         
-        self.mailPassword(userid)
+        self._mailPassword(userid)
         
         return "An email has been sent to you, %s" % userid  # XXX rollie?
         return self.index(*args, **kw) # XXX not really right
@@ -170,6 +168,7 @@ class ForgotLoginView(BaseView):
 
 class DoPasswordResetView(BaseView):
 
+    @anon_only()
     def __call__(self, *args, **kw):
         password = self.request.get("password")
         if not password:
@@ -194,6 +193,7 @@ class DoPasswordResetView(BaseView):
 
 class PasswordResetView(BaseView):
 
+    @anon_only()
     def __call__(self, *args, **kw):
         key = self.request.get('key')
         pw_tool = getToolByName(self.context, "portal_password_reset")
