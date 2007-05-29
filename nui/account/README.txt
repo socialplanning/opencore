@@ -20,14 +20,27 @@ Test the workflow updating function::
 password reset
 ==============
 
-Get the password reset view.
+Get the password reset view::
 
     >>> view = portal.restrictedTraverse("@@forgot")
     >>> view
     <Products.Five.metaclass.SimpleViewClass from ...>
+
+Try to reset the password, but you can't do this as a logged-in member::
+
     >>> request = self.app.REQUEST
     >>> request.environ["REQUEST_METHOD"] = "POST"
-    >>> request.set("__ac_name", 'm1')
+    >>> request.form["__ac_name"] = 'm1'
+    >>> view()
+    'http://nohost/plone'
+
+But if we log out, we can access this view::
+
+    >>> self.logout()
+    >>> view = portal.restrictedTraverse("@@forgot")
+    >>> request = self.app.REQUEST
+    >>> request.environ["REQUEST_METHOD"] = "POST"
+    >>> request.form["__ac_name"] = 'm1'
     >>> view()
     'An email has been sent to you, ...'
         
