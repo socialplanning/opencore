@@ -180,7 +180,14 @@ class DoPasswordResetView(BaseView):
             pw_tool.resetPassword(userid, randomstring, password)
         except: # XXX DUMB
             return "Something bad happened."
-        self.addPortalStatusMessage(u'Your password has been reset')
+
+        # Automatically log the user in
+        auth = getToolByName(getToolByName(self.portal, "acl_users"),
+                             "credentials_signed_cookie_auth")
+        auth.updateCredentials(self.request, self.request.response,
+                               userid, None)
+        
+        self.addPortalStatusMessage(u'Your password has been reset and you are now logged in.')
         return self.request.RESPONSE.redirect(self.siteURL)
 
 
