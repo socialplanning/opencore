@@ -50,7 +50,7 @@
                     <th></th>
                     <td class="oc-form-value">
                       <input type="checkbox" name="no_expire_cookie" id="no_expire_cookie" /> 
-                      <label for="no_expire_cookie">Keep me logged in for 2 weeks</label>
+                      <label for="no_expire_cookie">Keep me logged in</label>
                     </td>
                     <td class="oc-form-help">
                     </td>
