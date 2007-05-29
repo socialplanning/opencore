@@ -41,8 +41,7 @@ class JoinView(BaseView):
         self._sendMailToPendingUser(id=mem_id,
                                     email=self.request.get('email'),
                                     code=mem.getUserConfirmationCode())
-        self.addPortalStatusMessage(mem.UID())
-        #self.redirect("http://en.wikipedia.org/wiki/Unicorn")
+
         return mdc._getOb(mem_id)
 
     def _sendMailToPendingUser(self, id, email, code):
