@@ -81,8 +81,12 @@ join
 Test the join view by adding a member to the site::
 
     >>> view = portal.restrictedTraverse("@@join")
-    >>> request = view.request
 
+Log out and fill in the form::
+
+    >>> self.logout()
+    >>> view = portal.restrictedTraverse("@@join")
+    >>> request = view.request
     >>> form = dict(id='foobar',
     ...             email='foobar@example.com',
     ...             password= 'testy',
