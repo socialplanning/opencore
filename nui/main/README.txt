@@ -144,7 +144,7 @@ Traversing to the correct people search url should yield the same class
 XXX currently is a name, because we don't have a special interface for
 the people folder::
 
-   >>> view = self.portal.people.unrestrictedTraverse('@@people_index')
+   >>> view = self.portal.people.unrestrictedTraverse('@@view')
    >>> view
    <Products.Five.metaclass.SimpleViewClass from ...people.pt object at...>
 
