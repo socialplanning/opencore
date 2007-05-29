@@ -84,7 +84,9 @@ And now sort them by creation time::
 
    >>> brains = view.search_for_project('Proj', sort_by='created')
    >>> [b.Title for b in brains]
-   ['Proj2', 'Proj3', 'Proj1', 'Proj4']
+   ['Proj4', 'Proj1', 'Proj3', 'Proj2']
+
+   old: ['Proj2', 'Proj3', 'Proj1', 'Proj4']
 
 Traversing to the url should yield the same class::
 
