@@ -22,6 +22,8 @@ from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
 from zope.component import getMultiAdapter, adapts, adapter
 from Products.CMFPlone import PloneMessageFactory, transaction_note
 
+
+
 view.memoizedproperty = lambda func: property(view.memoize(func))
 view.mcproperty = lambda func: property(view.memoize_contextless(func))
 
@@ -32,6 +34,7 @@ class BaseView(BrowserView):
     render_static = staticmethod(render_static)
     truncate = staticmethod(truncate)
     txn_note = staticmethod(transaction_note)
+    site_iface = IPloneSiteRoot
     getToolByName=getToolByName
     
     def __init__(self, context, request):
@@ -53,6 +56,7 @@ class BaseView(BrowserView):
         plone_utils = self.get_tool('plone_utils')
         plone_utils.addPortalMessage(PloneMessageFactory(msg))
 
+    # memoize
     def include(self, viewname):
         if self.transcluded:
             return self.renderTranscluderLink(viewname)
@@ -93,7 +97,7 @@ class BaseView(BrowserView):
             title = self.miv.member.getFullname()
         return title
 
-    @instance.memoize
+    #@instance.memoize
     def windowtitle(self):
         pagetitle = self.truncate(self.pagetitle, max=24)
         areatitle = self.truncate(self.areatitle, max=16)
@@ -195,13 +199,11 @@ class BaseView(BrowserView):
 
     @view.memoize_contextless
     def get_tool(self, name):
-        wrapped = self.__of__(aq_inner(self.context))
+        wrapped = self.__of__(aq_inner(self.portal))
         return wrapped.getToolByName(name)
 
     def get_portal(self):
-        if IPloneSiteRoot.providedBy(self.context):
-            return aq_inner(self.context)
-        return self.portal_url.getPortalObject()
+        return aq_iface(self.context, self.site_iface)
 
     portal = property(view.memoize_contextless(get_portal))
 
@@ -391,26 +393,6 @@ class BaseView(BrowserView):
         return self.get_tool('portal_url')
 
 
-# topnav drek #
-##     def magicTopnavSubcontext(self): # TODO get rid of magic inference
-##         if self.inproject():
-##             return 'oc-topnav-subcontext-project'
-##         elif self.inuser():
-##             return 'oc-topnav-subcontext-user'
-##         return 'oc-blank'
-
-##     def magicContent(self): # TODO get rid of magic inference
-##         if self.inproject():
-##             return 'oc-project-view'
-##         elif self.inuser():
-##             return 'oc-user-profile'
-##         return 'oc-blank'
-
-##     def renderTopnavSubcontext(self, viewname):
-##         viewname = viewname or self.magicTopnavSubcontext()
-##         return self.renderView(self.get_view(viewname))
-
-
 def button(name=None):
     def curry(handle_request):
         def new_method(self):
@@ -433,6 +415,14 @@ def post_only(raise_=True):
         return new_method
     return inner_post_only
 
+
+def aq_iface(obj, iface):
+    obj = aq_inner(obj)
+    while obj is not None and not iface.providedBy(obj):
+        obj = aq_parent(obj)
+    return obj
+
+
 def anon_only(redirect_to=None):
     def inner_anon_only(func):
         def new_method(self, *args, **kw):
@@ -444,3 +434,4 @@ def anon_only(redirect_to=None):
             return func(self, *args, **kw)
         return new_method
     return inner_anon_only
+
