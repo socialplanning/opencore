@@ -98,3 +98,4 @@ Calling the view with no key in the request will fail::
     >>> view = portal.restrictedTraverse("@@confirm-account")
     >>> view()
     '...login...'
+
