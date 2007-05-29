@@ -80,14 +80,15 @@ This should be the only place where font information is specified
 
 body, textarea {
   font-size: 12px; /* ~12px */
-  line-height: 1.5em; /* 18px √É¬∑ 12px = 1.5em */
-  font-family: "Lucida Grande", "Frutiger", "Univers", "Helvetica Neue", Arial, Helvetica, sans-serif;
+  line-height: 1.5em; /* 18px % 12px = 1.5em */
+  font-family: "Lucida Grande", Arial, Helvetica, sans-serif;
   /* These typographic rules will establish rhythm of 18px at base font size */
 }
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
-  letter-spacing: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #444;
 }
     
 h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 abbr {
@@ -95,9 +96,11 @@ h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 ab
 }
 
 h1, .oc-biggestText {
+  letter-spacing: -0.0325em;
 }
 h2, .oc-biggerText, #oc-topnav-title h1,
 #oc-content-sidebar h1 {
+  letter-spacing: -0.0325em;
 }
 
 h3, .oc-bigText,

@@ -22,7 +22,7 @@
           </form>
 
           <!-- letters searches section -->
-          <ul class="oc-widget-alphabet oc-boxy" tal>
+          <ul class="oc-widget-alphabet oc-clearAfter oc-boxy" tal>
             <li tal:repeat="letter modules/string/uppercase">
               <a href="" tal:content="letter" tal:attributes="href string:${context/portal_url}/projects/searchresults?letter_search=${letter}">A</a>
             </li>
