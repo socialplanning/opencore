@@ -2,14 +2,14 @@
 	   xmlns:browser="http://namespaces.zope.org/browser"
 	   xmlns:five="http://namespaces.zope.org/five">
 
-  <!-- your projects -->
-  <!-- @@ need a specific interface for a member folder -->
+  <!-- member preferences -->
+  <!-- @@ TODO need a specific interface for a member folder -->
   <browser:page
      for="*"
      class="opencore.nui.member.YourProjectsView"
      permission="zope.Public"
-     name="projects"
-     template="yourprojects.pt"
+     name="preferences"
+     template="preferences.pt"
      />
 
   <!-- member-profile-edit -->
