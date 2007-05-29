@@ -27,7 +27,7 @@
           <div class="oc-widget oc-widget-feed oc-column-right">
             <h2>Updated projects</h2>
             <ul class="oc-feed-list">
-	      <!-- @@ optimization potential -->
+	      <!-- FIXME optimization potential -->
               <li class="oc-feed-item oc-clearAfter" 
 		  tal:repeat="project view/recently_updated_projects">
                 <img class="oc-avatar" src="" tal:attributes="src project/image_src | nothing" />
@@ -52,13 +52,13 @@
           <input type="text" name="search_string" value='' />
           <input type="submit" name="search_action" value="Search" />
         </form>
-        <form name="do_something_form" class="oc-getstarted oc-boxy" action="." tal:attributes="action string:${context/portal_url}/@@index.html">
+        <form name="do_something_form" class="oc-getstarted oc-boxy" action="." tal:attributes="action string:${context/portal_url}">
         <!-- FIXME This should not require a button to work. -->
           <select name="go_here">
             <option value="">Get started!</option>
             <optgroup label="">
-              <option tal:attributes="value string:${context/portal_url}/projects/@@index.html">Discover projects</option>
-              <option tal:attributes="value string:${context/portal_url}/people/@@index.html">Find people</option>
+              <option tal:attributes="value string:${context/portal_url}/projects">Discover projects</option>
+              <option tal:attributes="value string:${context/portal_url}/people">Find people</option>
               <option tal:condition="view/loggedin" tal:attributes="value string:${context/portal_url}/@@createProject">Start a project</option> 
             </optgroup>
             <optgroup label="">
@@ -83,7 +83,7 @@
               </p>
             </li>
           </ul>
-          <a class="oc-paginator" tal:attributes="href string:${context/portal_url}/news/@@index.html">more news&hellip;</a>
+          <a class="oc-paginator" tal:attributes="href string:${context/portal_url}/news">more news&hellip;</a>
         </div><!-- OpenPlans News -->
         <div class="oc-clearAfter">
           <h2>About us</h2>
