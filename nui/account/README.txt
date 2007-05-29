@@ -20,7 +20,7 @@ Test the workflow updating function::
 password reset
 ==============
 
-Get the password reset view. In the future we can plug in a fake mailsender and can do more with this, but it'll do for now::
+Get the password reset view.
 
     >>> view = portal.restrictedTraverse("@@forgot")
     >>> view
@@ -65,7 +65,7 @@ When the method is accessible, it should return a string code for the user::
 join
 ====
 
-Test the join view by adding a member to the site:
+Test the join view by adding a member to the site::
 
     >>> view = portal.restrictedTraverse("@@join")
     >>> request = view.request
@@ -88,3 +88,13 @@ Ah, nothing happened... need to set button::
     >>> view.handle_request()
     <OpenMember at /plone/portal_memberdata/foobar>
 
+confirm
+=======
+
+Test the account confirmation view:: (fill this in!)
+
+Calling the view with no key in the request will fail::
+
+    >>> view = portal.restrictedTraverse("@@confirm-account")
+    >>> view()
+    '...login...'
