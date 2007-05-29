@@ -1,85 +1,82 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
-
     <div metal:fill-slot="content">
+      <div id="oc-content-main">
+        <div id="oc-member-badge" class="oc-boxy oc-clearAfter vcard">
+          <div class="oc-avatar">
+            <img class="photo" src="http://photos-115.ak.facebook.com/ip002/v45/56/33/1007094/n1007094_30702115_2963.jpg" />
+          </div>
+          <div class="oc-member-details">
+            <div class="oc-headingBlock">
+              <h1 class="fn">Username</h1>
+              <p class="oc-member-fullname n">Full name</p>
+              <p class="oc-headingContext oc-discreetText">member since January 13, 1937 and last online 1 hour ago</p>
+            </div>
+            <dl class="oc-member-info">
+              <dt>Location</dt>
+              <dd class="adr">
+                New York, NY
+              </dd>
+              <dt>Projects</dt>
+              <dd>
+                <ul class="oc-inlineList">
+                  <li><a href="#">Project 1</a></li>
+                  <li><a href="#">Project 2 <span class="oc-discreetText">(private)</span></li>
+                  <li><a href="#">Project 3</a></li>
+                  <li><a href="#">Project 1</a></li>
+                  <li><a href="#">Project 2 <span class="oc-discreetText">(private)</span></li>
+                  <li><a href="#">Project 3</a></li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <dl class="oc-member-info">
+          <dt>Personal Statement</dt>
+          <dd>To telle yow al the condicioun / Of ech of hem, so as it semed me, / And whiche they weren, and of what degree, / And eek in what array that they were inne; / The general outline or summary,</dd>
+          <dt>Skills</dt>
+          <dd>cook, clean, code, creep, crest, craft, coast, clash</dd>
+          <dt>Affiliations</dt>
+          <dd>The Open Planning Project, Brown Student Radio, The Indy, Parenthesis</dd>
+          <dt>Background</dt>
+          <dd>I grew up in Miami and went to school in Rhode Island</dd>
+          <dt>Favorites</dt>
+          <dd>Koyaanisqasti, Heroes, Foucault, NYTimes, Tom's Diner</dd>
+        </dl>
+      </div><!-- end #oc-content-main -->
 
-<div id="oc-content-main">
-  <div id="oc-member-badge" class="oc-boxy oc-clearAfter vcard">
-    <div class="oc-avatar">
-      <img class="photo" src="http://photos-115.ak.facebook.com/ip002/v45/56/33/1007094/n1007094_30702115_2963.jpg" />
-    </div>
-    <div class="oc-member-details">
-      <div class="oc-headingBlock">
-        <h1 class="fn">Username</h1>
-        <p class="oc-member-fullname n">Full name</p>
-        <p class="oc-headingContext oc-discreetText">member since January 13, 1937 and last online 1 hour ago</p>
-      </div>
-      <dl class="oc-member-info">
-        <dt>Location</dt>
-        <dd class="adr">
-          New York, NY
-        </dd>
-        <dt>Projects</dt>
-        <dd>
-          <ul class="oc-inlineList">
-            <li><a href="#">Project 1</a></li>
-            <li><a href="#">Project 2 <span class="oc-discreetText">(private)</span></li>
-            <li><a href="#">Project 3</a></li>
-            <li><a href="#">Project 1</a></li>
-            <li><a href="#">Project 2 <span class="oc-discreetText">(private)</span></li>
-            <li><a href="#">Project 3</a></li>
-          </ul>
-        </dd>
-      </dl>
-    </div>
-  </div>
-  <dl class="oc-member-info">
-    <dt>Personal Statement</dt>
-    <dd>To telle yow al the condicioun / Of ech of hem, so as it semed me, / And whiche they weren, and of what degree, / And eek in what array that they were inne; / The general outline or summary,</dd>
-    <dt>Skills</dt>
-    <dd>cook, clean, code, creep, crest, craft, coast, clash</dd>
-    <dt>Affiliations</dt>
-    <dd>The Open Planning Project, Brown Student Radio, The Indy, Parenthesis</dd>
-    <dt>Background</dt>
-    <dd>I grew up in Miami and went to school in Rhode Island</dd>
-    <dt>Favorites</dt>
-    <dd>Koyaanisqasti, Heroes, Foucault, NYTimes, Tom's Diner</dd>
-  </dl>
-</div><!-- end #oc-content-main -->
-
-<div id="oc-content-sidebar">
-  <div class="oc-headingBlock">
-    <h2>Recent activity</h2>
-  </div>
-    <div class="oc-widget oc-widget-lastModified">
-      <div class="oc-headingBlock">
-        <h3>Pages last modified</h3>
-      </div><!-- end .oc-headingBlock -->
-      <table class="oc-table" cellpadding="0" cellspacing="0">
-        <thead>
-          <tr>
-            <th scope="col">Date</th>
-            <th scope="col">Page</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Jan 1</td>
-            <td><a href="">My awesome page</a></td>
-          </tr>
-          <tr>
-            <td>Dec 31</td>
-            <td><a href="">My really awesome page</a></td>
-          </tr>
-          <tr>
-            <td>Oct 12</td>
-            <td><a href="">My kinda awesome page</a></td>
-          </tr>
-        </tbody>
-      </table>
-  </div><!-- end .oc-widget-lastModified -->
-</div><!-- end .oc-content-sidebar -->
-
-  </div><!-- content-fill-slot -->
-</body>
+      <div id="oc-content-sidebar">
+        <div class="oc-headingBlock">
+          <h2>Recent activity</h2>
+        </div>
+        <div class="oc-widget oc-widget-lastModified">
+          <div class="oc-headingBlock">
+            <h3>Pages last modified</h3>
+          </div><!-- end .oc-headingBlock -->
+          <table class="oc-table" cellpadding="0" cellspacing="0">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Page</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Jan 1</td>
+                <td><a href="">My awesome page</a></td>
+              </tr>
+              <tr>
+                <td>Dec 31</td>
+                <td><a href="">My really awesome page</a></td>
+              </tr>
+              <tr>
+                <td>Oct 12</td>
+                <td><a href="">My kinda awesome page</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div><!-- end .oc-widget-lastModified -->
+      </div><!-- end .oc-content-sidebar -->
+    </div><!-- content-fill-slot -->
+  </body>
 </html>
