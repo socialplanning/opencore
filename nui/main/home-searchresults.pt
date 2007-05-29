@@ -102,9 +102,7 @@
 
     <div id="oc-content-sidebar">
 
-      <!-- the sidebar contains the search for the project, as well as the letters that search for projects
-      starting with that letter
-      we can possibly create a macro that displays this form and letters generically -->
+      <!-- the sidebar contains the search for the project, as well as the letters that search for projects starting with that letter we can possibly create a macro that displays this form and letters generically -->
       <div class="oc-widget oc-widget-search oc-boxy">    
         <form name="search_form" action="." tal:attributes="action string:${context/portal_url}/sitesearch">
           <label><h2>New search</h2></label>

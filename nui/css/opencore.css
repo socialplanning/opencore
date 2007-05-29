@@ -387,7 +387,6 @@ ul.oc-dropdown, .oc-dropdown ul {
 .oc-boxy {
 	padding: 1em;
 	background-color: #eee;
-	border: 1px solid #ccc;
 	margin-bottom: 1em;
 }
 .oc-column-group {
@@ -481,7 +480,6 @@ width: 44%;
   width: 80px;
   height: 80px;
   overflow: hidden;
-  background: #eee;
   float: left;
   clear: none;
   margin-right: 1em;
@@ -976,21 +974,26 @@ height: 1em;
 
 .oc-widget-feed {
 	margin-bottom: 1em;
+	background-color: #eee;
+	padding: 0.75em;
+	padding-bottom: 0.25em;
+}
+.oc-widget-feed.oc-column-left,
+.oc-widget-feed.oc-column-right {
+	width: 45%;
 }
 .oc-widget-feed h2{
   margin: 0;
 }
 .oc-feed-list {
   list-style: none;
-  margin: 0.5em 0 0.5em;
+  margin: 0;
   padding: 0;
-  border-top: 1px dotted #eee;
-
 }
 li.oc-feed-item {
-  margin: 0.5em 0;
-  padding-bottom: 0.5em;
-  border-bottom: 1px dotted #eee;
+  margin: 0.75em 0;
+  padding: 0.75em;
+  background-color: #fff;
 }
 li.oc-feed-item .oc-avatar {
   width: 80px;
@@ -1013,6 +1016,11 @@ li.oc-feed-item .oc-feed-item-title,
 li.oc-feed-item .oc-feed-item-data,
 li.oc-feed-item .oc-feed-item-description {
   margin: 0;
+  line-height: normal;
+}
+.oc-widget-feed .oc-paginator {
+	display: block;
+	padding: 0.75em 0;
 }
 
 /* Invitations Widget */
@@ -1085,11 +1093,14 @@ li.oc-invite .oc-invite-content {
   background: none;
 }
 .oc-widget-alphabet li {
-  display: inline;
-  margin: 0 0.125em;
+  display: block;
+  float: left;
 }
 .oc-widget-alphabet li a {
   text-decoration: none;
+  display: block;
+  float: left;
+  padding: 0.065em 0.25em;
 }
 .oc-widget-alphabet li a:hover {
 

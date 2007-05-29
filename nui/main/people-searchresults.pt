@@ -105,7 +105,7 @@
           <input type="submit" name="action_search_people" value="Search" />
         </form>
 
-        <ul class="oc-widget-alphabet oc-boxy" tal>
+        <ul class="oc-widget-alphabet oc-clearAfter oc-boxy" tal>
           <li tal:repeat="letter modules/string/uppercase">
             <a href="" tal:content="letter" tal:attributes="href string:${request/ACTUAL_URL}?letter_search=${letter}">A</a>
           </li>

@@ -18,7 +18,7 @@
               <input type="submit" name="action_search_people" value="Search" />
             </span>
           </form>
-          <ul class="oc-widget-alphabet oc-boxy" tal>
+          <ul class="oc-widget-alphabet oc-clearAfter oc-boxy" tal>
             <li tal:repeat="letter modules/string/uppercase">
               <a href="" tal:content="letter" tal:attributes="href string:${context/portal_url}/people/searchresults?letter_search=${letter}">A</a>
             </li>
