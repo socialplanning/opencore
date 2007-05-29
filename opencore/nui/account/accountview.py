@@ -2,6 +2,8 @@
 views pertaining to accounts -- creation, login, password reset
 """
 
+from smtplib import SMTPRecipientsRefused
+
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
 from Products.remember.utils import getAdderUtility
@@ -68,17 +70,17 @@ class ConfirmAccountView(BaseView):
         # will filter results by user permissions
         matches = self.membranetool.unrestrictedSearchResults(UID=key)
         if not matches:
-            self.addPortalStatusMessage(u'Denied')
+            self.addPortalStatusMessage(u'Denied -- bad key')
             return self.redirect(self.siteURL + '/login')
 
         assert len(matches) == 1
         
         member = matches[0].getObject()
-
+        
         # Move member into the confirmed workflow state
         pf = getToolByName(self, "portal_workflow")
         if pf.getInfoFor(member, 'review_state') != 'pending':
-            self.addPortalStatusMessage(u'Denied')
+            self.addPortalStatusMessage(u'Denied -- no confirmation pending')
             return self.redirect(self.siteURL + '/login')
         
         setattr(member, 'isConfirmable', True)
@@ -102,7 +104,7 @@ class LoginView(BaseView):
 
     def __call__(self, *args, **kw):
         if self.loggedin:
-            return self.request.RESPONSE.redirect(self.came_from or self.siteURL)
+            return self.redirect(self.came_from or self.siteURL)
         return self.index(*args, **kw)
 
 class ForgotLoginView(BaseView):
@@ -124,7 +126,6 @@ class ForgotLoginView(BaseView):
             raise ValueError, 'Unable to retrieve email address'
         email = field()
 
-        from smtplib import SMTPRecipientsRefused
         try:
             pwt = getToolByName(self, "portal_password_reset")
             obj = pwt.requestReset(forgotten_userid)
