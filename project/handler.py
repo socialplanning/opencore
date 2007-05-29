@@ -30,7 +30,7 @@ def handle_postcreation(event):
 
     # add defaulting redirect hooks(may be overwritten by other
     # events)
-    redirect.activate(instance, explicit=False)
+    redirect.activate(instance)
     
     # ugh... roster might have been created by an event before a
     # team was associated (in _initializeProject), need to fix up
@@ -74,7 +74,8 @@ def _handle_parent_child_association(parent, child):
     parent_path = redirect.pathstr(parent)
     parent_info[child_id] = child_path
     child_url = "%s/%s" %(parent_info.url, child_id) 
-    redirect.activate(child, url=child_url, parent=parent_path)
+    child_info = redirect.activate(child, url=child_url)
+    child_info.parent = parent_path
 
 
 @adapter(IProject, IObjectModifiedEvent)
@@ -128,6 +129,6 @@ def save_featurelets(obj, event=None, request=None):
 def add_redirection_hooks(container, ignore=[]):
     for obj in container.objectValues():
         if IProject.providedBy(obj) and obj.getId() not in ignore:
-            redirect.activate(obj, explicit=False)
+            redirect.activate(obj)
             
     

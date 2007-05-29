@@ -19,14 +19,6 @@
      allowed_interface=".interfaces.IMemberInfo"
      />
 
-  <browser:page
-     for=".interfaces.IMemberFolder"
-     class="opencore.redirect.Redirector"
-     permission="zope.Public"
-     attribute="redirect"
-     name="opencore.redirect"
-     />
-
   <subscriber handler=".member.create_home_directory"/>
 
   <include package=".menu" />
@@ -68,7 +60,6 @@
   <!-- dead chickens -->
   <include package="opencore.configuration" file="permissions.zcml" />
   <include package="Products.listen" file="permissions.zcml" />
-  <include package="opencore.redirect" file="meta.zcml" />
 
   <!-- browser:page for new topnav view -->
   <browser:page
