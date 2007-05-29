@@ -3,6 +3,7 @@ from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from zope.schema import ASCIILine, TextLine, List, Bool
 from zope.i18nmessageid import MessageFactory
 from zope.viewlet.interfaces import IViewletManager
+from opencore.interfaces import IMemberFolder
 
 _ = MessageFactory('opencore')
 
@@ -45,8 +46,7 @@ class IMemberInfo(Interface):
                        "folder or object, if it exists; None if not")
 
 
-class IMemberFolder(Interface):
-    """ Marker interface for member folders """
+
 
 
 class IMemberHomePage(Interface):

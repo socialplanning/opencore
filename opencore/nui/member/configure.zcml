@@ -5,8 +5,8 @@
   <!-- member preferences -->
   <!-- @@ TODO need a specific interface for a member folder -->
   <browser:page
-     for="*"
-     class="opencore.nui.member.YourProjectsView"
+     for="opencore.interfaces.IMemberFolder"
+     class="opencore.nui.member.MemberPreferences"
      permission="zope.Public"
      name="preferences"
      template="preferences.pt"
@@ -14,8 +14,8 @@
 
   <!-- member-profile-edit -->
   <browser:page
-     for="*"
-     class="..base.BaseView"
+     for="opencore.interfaces.IMemberFolder"
+     class="opencore.nui.base.BaseView"
      permission="zope.Public"
      name="profile-edit"
      template="profile-edit.pt"
@@ -23,8 +23,8 @@
 
   <!-- member-profile -->
   <browser:page
-     for="*"
-     class="..base.BaseView"
+     for="opencore.interfaces.IMemberFolder"
+     class="opencore.nui.base.BaseView"
      permission="zope.Public"
      name="profile"
      template="profile.pt"
@@ -32,8 +32,8 @@
 
   <!-- member-contact -->
   <browser:page
-     for="*"
-     class="..base.BaseView"
+     for="opencore.interfaces.IMemberFolder"
+     class="opencore.nui.base.BaseView"
      permission="zope.Public"
      name="contact"
      template="contact.pt"

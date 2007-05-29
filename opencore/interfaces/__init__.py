@@ -1,4 +1,3 @@
-#
 try:
     from Products.OpenPlans.interfaces import IProject
     from Products.OpenPlans.interfaces import IEditProject
@@ -22,3 +21,6 @@ class IAddSubProject(Interface):
 
 class IOpenPage(IAmWicked):
     """an openplans wiki page"""
+
+class IMemberFolder(Interface):
+    """ Marker interface for member folders """
