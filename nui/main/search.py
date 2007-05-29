@@ -86,7 +86,8 @@ class ProjectsSearchView(SearchView):
             proj_query = proj_query + '*'
 
         if not sort_by or sort_by == 'relevancy':
-            rs = (RankByQueries_Sum((Eq('Title', proj_query),32), (Eq('getFull_name', proj_query),16)),)
+            rs = RankByQueries_Sum((Eq('Title', proj_query),32),
+                                   (Eq('getFull_name', proj_query),16)),
         else:
             # we can't sort by title
             if sort_by == 'Title':
