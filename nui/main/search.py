@@ -31,8 +31,14 @@ class SearchView(BaseView):
         return prettyDate(datetime_obj)
 
 
+def first_letter_match(title, letter):
+    return title.startswith(letter) \
+           or title.startswith('the ' + letter) \
+           or title.startswith('a ' + letter) \
+           or title.startswith('an ' + letter)
 
 class ProjectsSearchView(SearchView):
+    match = staticmethod(first_letter_match)
 
     def __call__(self):
         projname = self.request.get('projname', None)
@@ -55,7 +61,7 @@ class ProjectsSearchView(SearchView):
             self.search_query = 'for &ldquo;%s&rdquo;' % projname
             
         return self.index()
-            
+        
     def search_for_project_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
         query = dict(portal_type="OpenProject",
@@ -66,14 +72,8 @@ class ProjectsSearchView(SearchView):
 
         project_brains = self.catalog(**query)
 
-        def matches(brain):
-            title = brain.Title.lower()
-            return title.startswith(letter) \
-                or title.startswith('the ' + letter) \
-                or title.startswith('a ' + letter) \
-                or title.startswith('an ' + letter)
-
-        project_brains = filter(matches, project_brains)
+        project_brains = [brain for brain in project_brains \
+                          if self.match(brain.Title.lower(), letter)]
 
         return project_brains
 
@@ -136,7 +136,6 @@ class PeopleSearchView(SearchView):
         elif personname:
             self.search_results = self._get_batch(self.search_for_person(personname, sort_by), start)
             self.search_query = 'for &ldquo;%s&rdquo;' % personname
-            
         return self.index()
 
     def search_for_person_by_letter(self, letter, sort_by=None):
@@ -147,9 +146,7 @@ class PeopleSearchView(SearchView):
             query['sort_on'] = sort_by
 
         people_brains = self.membranetool(**query)
-        startswith_letter = lambda b: b.getId.lower().startswith(letter)
-        people_brains = filter(startswith_letter, people_brains)
-
+        people_brains = [brain for brain in people_brains if brain.getId.lower().startswith(letter)]
         return people_brains
 
     def search_for_person(self, person, sort_by=None):
@@ -183,21 +180,18 @@ class PeopleSearchView(SearchView):
 
 
 class HomeView(SearchView):
+    """zpublisher"""
     def __init__(self, context, request):
+        # redirect asap
+        go_here = request.get('go_here', None)
+        if go_here:
+            raise Redirect, go_here        
         SearchView.__init__(self, context, request)
-        self.projects_search = ProjectsSearchView(context, request)
 
+        self.projects_search = ProjectsSearchView(context, request)
+        
     def intro(self):
         return self.render_static('main_home_intro.txt')
-    
-    def __call__(self):
-        go_here = self.request.get('go_here', None)
-
-        if go_here:
-            raise Redirect, go_here
-        
-        return self.index()
-
 
     def recently_updated_projects(self):
         return self.projects_search.recently_updated_projects()
