@@ -1,3 +1,5 @@
+<tal:vars define="usr view/vieweduser">
+
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
@@ -8,9 +10,10 @@
           </div>
           <div class="oc-member-details">
             <div class="oc-headingBlock">
-              <h1 class="fn">Username</h1>
-              <p class="oc-member-fullname n">Full name</p>
-              <p class="oc-headingContext oc-discreetText">member since January 13, 1937 and last online 1 hour ago</p>
+              <h1 class="fn" tal:content="usr/getId" />
+              <p class="oc-member-fullname n" tal:content="usr/getFullname" />
+              <p class="oc-headingContext oc-discreetText">member since
+                <span tal:replace="usr/CreationDate">1/3/37</span> and last online 1 hour ago</p>
             </div>
             <dl class="oc-member-info">
               <dt>Location</dt>
@@ -80,3 +83,4 @@
     </div><!-- content-fill-slot -->
   </body>
 </html>
+</tal:vars>
