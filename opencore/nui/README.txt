@@ -18,7 +18,7 @@ opencore.nui.base
     'Today'
     
     >>> view.siteURL
-    '<URLTool at portal_url>'
+    'http://nohost/plone'
 
     >>> view.sitetitle
     'Portal'
