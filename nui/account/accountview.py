@@ -9,7 +9,7 @@ from Products.remember.utils import getAdderUtility
 from opencore.nui.base import BaseView, button, post_only
 
 class JoinView(BaseView):
-
+    
     @button('join')
     @post_only(raise_=False)
     def handle_request(self):
@@ -61,16 +61,6 @@ class JoinView(BaseView):
 
 class ConfirmAccountView(BaseView):
 
-    def do_confirmation(self, member):
-        pf = getToolByName(self, "portal_workflow")
-        if pf.getInfoFor(member, 'review_state') != 'pending':
-            return False
-
-        setattr(member, 'isConfirmable', True)
-        pf.doActionFor(member, 'register_public')
-        delattr(member, 'isConfirmable')
-        return True
-
     def __call__(self, *args, **kw):
         key = self.request.get("key")
         
@@ -85,12 +75,24 @@ class ConfirmAccountView(BaseView):
         
         member = matches[0].getObject()
 
-        if self.do_confirmation(member):
-            self.addPortalStatusMessage(u'Your account has been confirmed.')
-            self.request.RESPONSE.redirect(self.siteURL + '/login')
-        else:
-            return "Denied"
+        # Move member into the confirmed workflow state
+        pf = getToolByName(self, "portal_workflow")
+        if pf.getInfoFor(member, 'review_state') != 'pending':
+            self.addPortalStatusMessage(u'Denied')
+            return self.redirect(self.siteURL + '/login')
+        
+        setattr(member, 'isConfirmable', True)
+        pf.doActionFor(member, 'register_public')
+        delattr(member, 'isConfirmable')
 
+        # Automatically log the user in
+        auth = getToolByName(getToolByName(self.portal, "acl_users"),
+                             "credentials_signed_cookie_auth")
+        auth.updateCredentials(self.request, self.request.response,
+                               member.id, None)
+
+        self.addPortalStatusMessage(u'Your account has been confirmed.')
+        self.request.RESPONSE.redirect(self.siteURL)
 
 class LoginView(BaseView):
 
