@@ -1,9 +1,4 @@
-<tal:vars tal:define="usr view/user;
-  canedit usr/canedit;
-  page view/page;
-  auth nocall:here/acl_users/credentials_cookie_auth|here/cookie_authentication|nothing;
-  ">
-
+<tal:vars tal:define="auth nocall:here/acl_users/credentials_cookie_auth|here/cookie_authentication|nothing;">
   <html metal:use-macro="here/@@standard_macros/master">
     <body>
       <div metal:fill-slot="content">
@@ -55,7 +50,7 @@
                     <th></th>
                     <td class="oc-form-value">
                       <input type="checkbox" name="no_expire_cookie" id="no_expire_cookie" /> 
-                      <label for="no_expire_cookie">Keep me logged in for 2 weeks</label>
+                      <label for="no_expire_cookie">Keep me logged in</label>
                     </td>
                     <td class="oc-form-help">
                     </td>

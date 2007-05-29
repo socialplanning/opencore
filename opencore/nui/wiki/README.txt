@@ -10,7 +10,7 @@ Registrations
 
 Test wiki page registrations::
 
-    >>> page.restrictedTraverse('@@index.html')
+    >>> page.restrictedTraverse('@@view')
     <...SimpleViewClass from ...wiki/wiki-view.pt object at ...>
     
     >>> page.restrictedTraverse('@@wiki_macros')
@@ -63,7 +63,7 @@ Test logged in user::
 
 Test wiki page registrations (logged in)::
 
-    >>> page.restrictedTraverse('@@index.html')
+    >>> page.restrictedTraverse('@@view')
     <...SimpleViewClass from ...wiki/wiki-view.pt object at ...>
     
     >>> page.restrictedTraverse('@@wiki_macros')

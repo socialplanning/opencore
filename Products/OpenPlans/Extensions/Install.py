@@ -123,7 +123,8 @@ def install_workflow_map(portal, out, wfs=WORKFLOW_MAP):
 
             # XXX DCWorkflowDump doesn't yet support the 'manager_bypass'
             #     option.  when it does, the next 3 lines can be removed.
-            if wf != 'openplans_member_workflow':
+            if wf not in ('openplans_member_workflow',
+                          'openplans_team_membership_workflow'):
                 wfobj = wf_tool.getWorkflowById(wf)
                 wfobj.manager_bypass = 1
 
@@ -462,7 +463,11 @@ def setProjectFolderPermissions(portal, out):
 def setupProjectLayout(portal, out):
     print >> out, 'Setting projects folder view'
     pfolder = portal._getOb('projects')
-    pfolder.setLayout('project_listing')
+    pfolder.setLayout('@@view')
+
+def setupHomeLayout(portal, out):
+    print >> out, 'Setting home view'
+    portal.setLayout('@@view')
 
 def setupPeopleFolder(portal, out):
     """
@@ -505,7 +510,11 @@ def setupPeopleFolder(portal, out):
         alsoProvides(pf, IAmAPeopleFolder)
 
     # set the default layout
-    pf.setLayout('index.html')
+    has_index = pf._getOb('index_html', None)
+    if has_index:
+        pf.manage_delObjects(['index_html'])
+    pf.setDefaultPage(None)
+    pf.setLayout('@@view')
     
 
 def registerCSS(portal, out):
@@ -642,6 +651,9 @@ def installNewsFolder(portal, out):
     pf = getattr(portal, 'news')
     if not IAmANewsFolder.providedBy(pf):
         alsoProvides(pf, IAmANewsFolder)
+
+    # set the default view on the news folder
+    pf.setLayout('@@view')
 
 
 def install(self, migrate_atdoc_to_openpage=True):

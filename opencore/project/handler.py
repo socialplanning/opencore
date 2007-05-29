@@ -7,7 +7,7 @@ from zope.app.event.interfaces import IObjectCreatedEvent
 from zope.app.event.interfaces import IObjectModifiedEvent
 from opencore import redirect
 from Products.OpenPlans.interfaces import IWriteWorkflowPolicySupport
-
+from zope.app.container.interfaces import IContainerModifiedEvent
 
 @adapter(IAfterProjectAddedEvent)
 def handle_postcreation(event):
@@ -18,6 +18,10 @@ def handle_postcreation(event):
     #@@ move to function or subscriber
     instance._initProjectHomeMenuItem()
 
+    # add the featurelets, if any
+    #save_featurelets(instance, request=request)    
+    request.set('__initialize_project__', None)
+
     # Fetch the values from request and store them.
     instance.processForm()
 
@@ -27,9 +31,6 @@ def handle_postcreation(event):
     # add defaulting redirect hooks(may be overwritten by other
     # events)
     redirect.activate(instance)
-
-    # add the featurelets, if any
-    save_featurelets(instance, request=request)
     
     # ugh... roster might have been created by an event before a
     # team was associated (in _initializeProject), need to fix up
@@ -83,6 +84,10 @@ def save_featurelets(obj, event=None, request=None):
     IObjectModified event subscriber that installs the appropriate
     featurelets.
     """
+    if IContainerModifiedEvent.providedBy(event):
+        # we only care about direct edits
+        return
+    
     if not request:
         request = obj.REQUEST
 
@@ -90,7 +95,7 @@ def save_featurelets(obj, event=None, request=None):
         # bail if project isn't actuated yet and we are used via an
         # IObjectModifiedEvent event
         return
-    
+
     if request.get('set_flets') is None:
         # don't do anything unless we're actually coming from the
         # project edit screen
@@ -99,11 +104,12 @@ def save_featurelets(obj, event=None, request=None):
     # XXX there must be a better way... :-|
     if request.get('flet_recurse_flag') is not None:
         return
+
     request.set('flet_recurse_flag', True)
     registry = getUtility(IFeatureletRegistry)
     supporter = IFeatureletSupporter(obj)
 
-    desired = request.get('featurelets')
+    desired = request.form.get('featurelets')
     if desired is None:
         desired = tuple()
     desired = set(desired)

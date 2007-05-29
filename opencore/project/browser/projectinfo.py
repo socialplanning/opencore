@@ -9,37 +9,43 @@ from Products.Five.browser.TrustedExpression import getEngine
 from Products.OpenPlans.interfaces import IProject, IOpenTeam
 from memojito import memoizedproperty
 from interfaces import IProjectInfo
+from topp.featurelets.interfaces import IFeatureletSupporter
+from opencore.project.utils import get_featurelets
+from plone.memoize import instance, view
 
+view.memoizedproperty = lambda func: property(view.memoize(func))
+
+# assumption here is that all instances of a piv in a request will be
+# for the same project. if this changes, we will memoize differently
+view.mcproperty = lambda func: property(view.memoize_contextless(func))
 
 class ProjectInfoView(BrowserView):
     implements(IProjectInfo)
+
     def __init__(self, context, request):
+        self.context = context
         self._context = (context,)
         self.request = request
 
-    @property
-    def context(self):
-        return self._context[0]
-
-    @memoizedproperty
+    @view.mcproperty
     def project(self):
         if IOpenTeam.providedBy(self.context):
             # get the related project
             return self.context.getProject()
         # probably wrap this in an adapter
-        chain = self.context.aq_chain
+        chain = self._context[0].aq_chain
         for item in chain:
             if IProject.providedBy(item):
                 return item
 
-    @memoizedproperty
+    @property
     def inProject(self):
         inside = self.project is not None
         # XXX is this needed any more?
         self.request.set('inProject', inside)
         return inside
 
-    @memoizedproperty
+    @view.mcproperty
     def projectMembership(self):
         pm = getToolByName(self.context, 'portal_membership')
         if pm.isAnonymousUser():
@@ -54,6 +60,16 @@ class ProjectInfoView(BrowserView):
             
         return False
 
+    @view.mcproperty
+    def featurelets(self):
+        flets = []
+        if self.project is not None:
+            flets = get_featurelets(self.project)
+        return flets
+
+
 engine = getEngine()
 evaluate = lambda text, ec: engine.compile(text)(ec)
 getContext = lambda data: engine.getContext(data)
+
+

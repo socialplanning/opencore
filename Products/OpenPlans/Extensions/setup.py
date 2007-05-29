@@ -20,7 +20,8 @@ from Install import installColumns, fixUpEditTab, hideActions, \
      installWorkflowPolicies, hideActionTabs, securityTweaks, uiTweaks, \
      migrateATDocToOpenPage, createIndexes, installZ3Types, registerJS, \
      setupProjectLayout, createMemIndexes, setCookieDomain, installCookieAuth, \
-     setupPeopleFolder, install_confirmation_workflow, installNewsFolder
+     setupPeopleFolder, setupProjectLayout, setupHomeLayout, \
+     install_confirmation_workflow, installNewsFolder
 from migrate_teams_to_projects import migrate_teams_to_projects
 from migrate_membership_roles import migrate_membership_roles
 
@@ -123,7 +124,6 @@ topp_functions = dict(
     setupPeopleFolder=convertFunc(setupPeopleFolder),
     migrate_teams_to_projects=migrate_teams_to_projects,
     migrate_membership_roles=migrate_membership_roles,
-    save_all_projects=convertFunc(save_all_projects),
     setup_nui=convertFunc(setup_nui)
     )
 
@@ -182,6 +182,9 @@ nui_functions = dict(install_confirmation_workflow=convertFunc(install_confirmat
                      move_interface_marking_on_projects_folder=convertFunc(move_interface_marking_on_projects_folder),
                      installNewsFolder=convertFunc(installNewsFolder),
                      setupPeopleFolder=convertFunc(setupPeopleFolder),
+                     setupProjectLayout=convertFunc(setupProjectLayout),
+                     setupHomeLayout=convertFunc(setupHomeLayout),
+                     save_all_projects=convertFunc(save_all_projects),
                      )
 
 class NuiSetup(TOPPSetup):

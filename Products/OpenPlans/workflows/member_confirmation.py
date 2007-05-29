@@ -7,7 +7,6 @@
 # the workflow, IT IS YOUR RESPONSABILITY TO MAKE BACKUPS FOR THESE SCRIPTS.
 #
 # The following scripts have been detected and should be backed up:
-# - pend (External Method)
 # - enable (External Method)
 # - disable (External Method)
 # - register (External Method)
@@ -181,7 +180,7 @@ def setup_openplans_member_confirmation_workflow(wf):
                        new_state_id='pending',
                        trigger_type=0,
                        script_name='',
-                       after_script_name='pend',
+                       after_script_name='',
                        actbox_name='',
                        actbox_url='',
                        actbox_category='',
@@ -375,11 +374,7 @@ def setup_openplans_member_confirmation_workflow(wf):
     wf.scripts._setObject('enable',
                           ExternalMethod('enable', '',
                                          'remember.workflow', 'enable'))
-    
-    wf.scripts._setObject('pend',
-                          ExternalMethod('pend', '',
-                                         'OpenPlans.workflow', 'pend'))
-    
+   
     wf.scripts._setObject('register',
                           ExternalMethod('register', '',
                                          'remember.workflow', 'register'))

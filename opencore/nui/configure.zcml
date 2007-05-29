@@ -10,6 +10,10 @@
   <include package=".member" />
   <include package=".topnav" />
 
+  <five:implements 
+     class="ZPublisher.HTTPRequest.HTTPRequest" 
+     interface="zope.app.annotation.IAttributeAnnotatable"/>
+
   <!-- resource directories for css, images, etc -->
   <browser:resourceDirectory
     name="css"
@@ -43,17 +47,5 @@
      name="oc-blank"
      template="blank.pt"
      />
-
-  <!-- username exists? -->
-  <browser:pages
-     for="*"
-     class=".base.BaseView"
-     permission="zope.Public"
-     >
-    <browser:page
-       name="user-exists"
-       attribute="userExists"
-       />       
-  </browser:pages>
 
 </configure>

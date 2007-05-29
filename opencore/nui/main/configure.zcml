@@ -2,9 +2,10 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:five="http://namespaces.zope.org/five">
 
+  <!-- macro to control pagination -->
   <browser:page
      for="*"
-     class="..opencoreview.OpencoreView"
+     class="..base.BaseView"
      permission="zope.Public"
      name="batch_macros"
      template="batch_macros.pt"
@@ -16,7 +17,7 @@
      for="opencore.interfaces.adding.IAddProject"
      class=".search.ProjectsSearchView"
      permission="zope.Public"
-     name="index.html"
+     name="view"
      template="projects.pt"
      />
 
@@ -30,14 +31,11 @@
      />
   
   <!-- people portal -->
-  <!-- opencore.interfaces.IPeopleFolder: index.html -->
-  <!-- currently set to name peoplesearch,
-       because there is no special interface on the people folder -->
   <browser:page
      for="opencore.interfaces.IAmAPeopleFolder"
      class=".search.PeopleSearchView"
      permission="zope.Public"
-     name="index.html"
+     name="view"
      template="people.pt"
      />
 
@@ -55,7 +53,7 @@
      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      class=".search.HomeView"
      permission="zope.Public"
-     name="index.html"
+     name="view"
      template="home.pt"
      />
 
@@ -73,7 +71,7 @@
      for="opencore.interfaces.IAmANewsFolder"
      class=".search.NewsView"
      permission="zope.Public"
-     name="index.html"
+     name="view"
      template="news.pt"
      />
 

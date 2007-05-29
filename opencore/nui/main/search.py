@@ -6,10 +6,10 @@ from Products.CMFPlone import Batch
 from Products.AdvancedQuery import Eq, RankByQueries_Sum
 from topp.utils.pretty_date import prettyDate
 from zExceptions import Redirect 
-from opencore.nui.opencoreview import OpencoreView
+from opencore.nui.base import BaseView
 
 
-class SearchView(OpencoreView):
+class SearchView(BaseView):
 
     def _get_batch(self, brains, start=0):
         return Batch(brains,
@@ -31,8 +31,14 @@ class SearchView(OpencoreView):
         return prettyDate(datetime_obj)
 
 
+def first_letter_match(title, letter):
+    return title.startswith(letter) \
+           or title.startswith('the ' + letter) \
+           or title.startswith('a ' + letter) \
+           or title.startswith('an ' + letter)
 
 class ProjectsSearchView(SearchView):
+    match = staticmethod(first_letter_match)
 
     def __call__(self):
         projname = self.request.get('projname', None)
@@ -55,7 +61,7 @@ class ProjectsSearchView(SearchView):
             self.search_query = 'for &ldquo;%s&rdquo;' % projname
             
         return self.index()
-            
+        
     def search_for_project_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
         query = dict(portal_type="OpenProject",
@@ -64,16 +70,10 @@ class ProjectsSearchView(SearchView):
         if sort_by != 'relevancy':
             query['sort_on'] = sort_by
 
-        project_brains = self.catalogtool(**query)
+        project_brains = self.catalog(**query)
 
-        def matches(brain):
-            title = brain.Title.lower()
-            return title.startswith(letter) \
-                or title.startswith('the ' + letter) \
-                or title.startswith('a ' + letter) \
-                or title.startswith('an ' + letter)
-
-        project_brains = filter(matches, project_brains)
+        project_brains = [brain for brain in project_brains \
+                          if self.match(brain.Title.lower(), letter)]
 
         return project_brains
 
@@ -93,7 +93,7 @@ class ProjectsSearchView(SearchView):
                 sort_by = 'sortable_title'
             rs = ((sort_by, 'desc'),)
 
-        project_brains = self.catalogtool.evalAdvancedQuery(
+        project_brains = self.catalog.evalAdvancedQuery(
             Eq('portal_type', 'OpenProject') & Eq('SearchableText', proj_query),
             rs,
             )
@@ -106,7 +106,7 @@ class ProjectsSearchView(SearchView):
                      sort_limit=5,
                      )
 
-        project_brains = self.catalogtool(**query) 
+        project_brains = self.catalog(**query) 
         # XXX expensive $$$
         # we get object for number of project members
         projects = (x.getObject() for x in project_brains)
@@ -116,7 +116,6 @@ class ProjectsSearchView(SearchView):
 class PeopleSearchView(SearchView):
     def __init__(self, context, request):
         SearchView.__init__(self, context, request)
-        self.membrane_tool = getToolByName(context, 'membrane_tool')
 
     def __call__(self):
         personname = self.request.get('personname', None)
@@ -137,7 +136,6 @@ class PeopleSearchView(SearchView):
         elif personname:
             self.search_results = self._get_batch(self.search_for_person(personname, sort_by), start)
             self.search_query = 'for &ldquo;%s&rdquo;' % personname
-            
         return self.index()
 
     def search_for_person_by_letter(self, letter, sort_by=None):
@@ -147,10 +145,8 @@ class PeopleSearchView(SearchView):
         if sort_by != 'relevancy':
             query['sort_on'] = sort_by
 
-        people_brains = self.membrane_tool(**query)
-        startswith_letter = lambda b: b.getId.lower().startswith(letter)
-        people_brains = filter(startswith_letter, people_brains)
-
+        people_brains = self.membranetool(**query)
+        people_brains = [brain for brain in people_brains if brain.getId.lower().startswith(letter)]
         return people_brains
 
     def search_for_person(self, person, sort_by=None):
@@ -167,7 +163,7 @@ class PeopleSearchView(SearchView):
         else:
             rs = ((sort_by, 'desc'),)
 
-        people_brains = self.membrane_tool.evalAdvancedQuery(
+        people_brains = self.membranetool.evalAdvancedQuery(
             Eq('RosterSearchableText', person_query),
             rs,
             )
@@ -184,18 +180,18 @@ class PeopleSearchView(SearchView):
 
 
 class HomeView(SearchView):
+    """zpublisher"""
     def __init__(self, context, request):
-        SearchView.__init__(self, context, request)
-        self.projects_search = ProjectsSearchView(context, request)
-
-    def __call__(self):
-        go_here = self.request.get('go_here', None)
-
+        # redirect asap
+        go_here = request.get('go_here', None)
         if go_here:
-            raise Redirect, go_here
-        
-        return self.index()
+            raise Redirect, go_here        
+        SearchView.__init__(self, context, request)
 
+        self.projects_search = ProjectsSearchView(context, request)
+        
+    def intro(self):
+        return self.render_static('main_home_intro.txt')
 
     def recently_updated_projects(self):
         return self.projects_search.recently_updated_projects()
@@ -207,7 +203,7 @@ class HomeView(SearchView):
                      sort_limit=5,
                      )
 
-        project_brains = self.catalogtool(**query) 
+        project_brains = self.catalog(**query) 
         # XXX expensive $$$
         # we get object for number of project members
         projects = (x.getObject() for x in project_brains)
@@ -221,7 +217,7 @@ class HomeView(SearchView):
                      sort_limit=4,
                      path=news_path
                      )
-        brains = self.catalogtool(**query)
+        brains = self.catalog(**query)
         return brains
         
 
@@ -265,7 +261,7 @@ class SitewideSearchView(SearchView):
             else:
                 rs = ((sort_by, 'desc'),)
 
-        brains = self.catalogtool.evalAdvancedQuery(
+        brains = self.catalog.evalAdvancedQuery(
             (Eq('portal_type', 'OpenProject') | Eq('portal_type', 'Document') | Eq('portal_type', 'OpenMember')) & Eq('SearchableText', search_query),
             rs,
             )
@@ -281,7 +277,7 @@ class NewsView(SearchView):
                      sort_limit=20,
                      path=news_path
                      )
-        brains = self.catalogtool(**query)
+        brains = self.catalog(**query)
         return brains
         
     def can_add_news(self):
