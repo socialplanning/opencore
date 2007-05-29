@@ -1,6 +1,6 @@
 from opencore.nui.base import BaseView
 
-class YourProjectsView(BaseView):
+class MemberPreferences(BaseView):
 
     def get_projects_for_user(self):
         member = self.userobj()
