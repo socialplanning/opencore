@@ -1,10 +1,10 @@
-from opencore.nui.opencoreview import OpencoreView
+from opencore.nui.base import BaseView
 from opencore.nui.wiki import htmldiff2
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from DateTime import DateTime
 from topp.utils.pretty_date import prettyDate
 
-class WikiVersionView(OpencoreView): 
+class WikiVersionView(BaseView): 
 
     def get_page(self, version_id):
         pr = self.context.portal_repository
