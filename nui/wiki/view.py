@@ -1,8 +1,8 @@
-from opencore.nui.opencoreview import OpencoreView
+from opencore.nui.base import BaseView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 
-class WikiEdit(OpencoreView):
+class WikiEdit(BaseView):
     wiki_edit = ZopeTwoPageTemplateFile('wiki-edit.pt')
 
     def update(self):
@@ -24,7 +24,7 @@ class WikiEdit(OpencoreView):
         return self.user()['canedit']
 
 
-class AttachmentView(OpencoreView):
+class AttachmentView(BaseView):
     attachment_snippet = ZopeTwoPageTemplateFile('attachment.pt')
     create_snippet = ZopeTwoPageTemplateFile('create-att.pt')
     failed_snippet = ZopeTwoPageTemplateFile('failed.pt')
