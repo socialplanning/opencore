@@ -58,7 +58,7 @@ class BaseView(BrowserView):
             return self.renderTranscluderLink(viewname)
         return self.get_view(viewname)()
 
-    @view.memoizedproperty
+    @property
     def loggedin(self):
         return not self.membertool.isAnonymousUser()
 
@@ -231,6 +231,10 @@ class BaseView(BrowserView):
     @property
     def siteURL(self):
         return self.portal_url()
+
+    @property
+    def came_from(self):
+        return self.request.get('came_from') or self.siteURL
 
     @property
     def sitetitle(self):
@@ -428,3 +432,15 @@ def post_only(raise_=True):
             return func(self)
         return new_method
     return inner_post_only
+
+def anon_only(redirect_to=None):
+    def inner_anon_only(func):
+        def new_method(self, *args, **kw):
+            redirect_path = redirect_to
+            if not redirect_path:
+                redirect_path = self.came_from
+            if self.loggedin:
+                return self.redirect(redirect_path)
+            return func(self, *args, **kw)
+        return new_method
+    return inner_anon_only
