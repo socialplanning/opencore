@@ -10,6 +10,14 @@ optionflags = doctest.ELLIPSIS
 
 import warnings; warnings.filterwarnings("ignore")
 
+def replace_datetimeidx(idx, cat):
+    """ replace the datetime index w/ a field index b/c we need
+    better than 1 minute resolution for our testing """
+    cat.delIndex(idx)
+    cat.manage_addIndex(idx, 'FieldIndex',
+                        extra={'indexed_attrs':idx})
+    cat.manage_reindexIndex(ids=[idx])
+
 def test_suite():
     from Products.Five.utilities.marker import erase as noLongerProvides
     from Products.PloneTestCase import setup
@@ -21,10 +29,16 @@ def test_suite():
     setup.setupPloneSite()
 
     globs = locals()
+    def setup(tc):
+        catalog = tc.portal.portal_catalog
+        for idx in 'created', 'modified':
+            replace_datetimeidx(idx, catalog)
+        
     readme = FunctionalDocFileSuite("README.txt",
                                     optionflags=optionflags,
                                     package='opencore.nui.main',
                                     test_class=FunctionalTestCase,
+                                    setUp=setup,
                                     globs = globs,
                                     )
     readme.layer = OpencoreContent
