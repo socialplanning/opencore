@@ -80,11 +80,10 @@ def create_test_content(self, p_map=None, m_map=None):
         out.append('Member %s added' % mem_id)
         for p_id, p_roles in mem_data['projects'].items():
             team = tm_tool.getTeamById(p_id)
-            if not team:
-                import pdb; pdb.set_trace()
             team.addMember(mem_id)
             out.append('-> added to project %s' % p_id)
             mship = team.getMembershipByMemberId(mem_id)
+            wf_tool.doActionFor(mship, 'approve_public')
             if p_roles:
                 mship.editTeamRoles(p_roles)
                 out.append('-> project roles granted: %s' % str(p_roles))

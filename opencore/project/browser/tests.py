@@ -18,8 +18,11 @@ def test_suite():
 
     setup.setupPloneSite()
     def readme_setup(tc):
+        orig_user = tc.portal.portal_membership.getAuthenticatedMember().getId()
+        tc.loginAsPortalOwner()
         create_test_content(tc.portal)
         tc._refreshSkinData()
+        tc.login(orig_user)
 
     globs = locals()
     readme = FunctionalDocFileSuite("README.txt",

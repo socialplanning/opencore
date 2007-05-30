@@ -1,13 +1,16 @@
+import transaction as txn
+
+from Testing import ZopeTestCase
+
 from Products.CMFCore.utils  import getToolByName
 from Products.PloneTestCase.layer import PloneSite, ZCML
-import transaction as txn
-from utils import get_portal, get_portal_as_owner, create_test_content
 from Products.PloneTestCase.setup import setupPloneSite
+from Products.remember.tests.base import MailHostMock
+
 from Products.OpenPlans.tests.utils import installConfiguredProducts
 from opencore.testing.utility import setup_mock_http
 from opencore.project.handler import add_redirection_hooks 
-from Testing import ZopeTestCase
-
+from utils import get_portal, get_portal_as_owner, create_test_content
 
 class SiteSetupLayer(PloneSite):
     setupPloneSite()
@@ -39,11 +42,17 @@ class OpenPlansLayer(SiteSetupLayer):
         portal = get_portal_as_owner()
         qi = getToolByName(portal, 'portal_quickinstaller')
         qi.installProduct('OpenPlans')
+
+        portal.oldMailHost = portal.MailHost
+        portal.MailHost = MailHostMock()
         txn.commit()
 
     @classmethod
     def tearDown(cls):
-        raise NotImplementedError
+        portal = get_portal_as_owner()
+        del portal.MailHost
+        portal.MailHost = portal.oldMailHost
+        del portal.oldMailHost
 
 
 class OpencoreContent(OpenPlansLayer):

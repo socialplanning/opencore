@@ -6,7 +6,7 @@ Integration product for the Open Planning Project platform
 to be hosted at http://www.openplans.org/
 
 """
-__authors__ = 'Rob Miller <rob.miller@openplans.org>'
+__authors__ = 'Rob Miller <robm@openplans.org>'
 __docformat__ = 'restructuredtext'
 
 import os.path
@@ -20,7 +20,7 @@ COPY_DIR               = 'copy'
 COPY_PATH              = os.path.join(PKG_HOME, COPY_DIR)
 
 DEFAULT_ROLES          = ('ProjectMember', 'ProjectAdmin')
-DEFAULT_ACTIVE_MSHIP_STATES=['committed']
+DEFAULT_ACTIVE_MSHIP_STATES=['public', 'private']
 
 NOT_ADDABLE_TYPES = ['Smartlink', 'IronicWiki', 'TeamSpace']
 
