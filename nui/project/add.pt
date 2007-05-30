@@ -10,14 +10,12 @@
       <div class="oc-headingBlock">
         <h1>Start a project</h1>
       </div>
-      <div id="oc-content-main">
+      <div id="oc-content-main" class="oc-content-main-fullWidth">
         <form name="create_form" method="post" class="enableUnloadProtection"
             tal:attributes="action string:${view/name}">
-	  <input type="hidden" name="set_flets" value="1"/>
-          <fieldset>
-            <div class="oc-headingBlock">
-              <h2>Step 1. Enter details</h2>
-            </div>
+          <input type="hidden" name="set_flets" value="1"/>
+          <fieldset class="oc-boxy">
+            <legend  class="oc-legend-heading">Step 1. Enter details</legend>
             <table class="oc-form">
               <tbody>
                 <tr class="oc-form-row">
@@ -65,43 +63,40 @@
             </table>
           </fieldset>
 
-          <fieldset>
-            <legend><h2>Step 2: Set General Security Level</h2></legend>
+          <fieldset class="oc-boxy">
+            <legend class="oc-legend-heading">Step 2: Set general security</legend>
+            <p class="oc-headingContext oc-smallText">Choose what level of permission you want to give to non-members of your project team.  You will create your team on the next page.</p>
             <fieldset>
-              <legend class="oc-legend-label">Choose what level of
-permission you want to give to non-members of your project team.  You
-will create your team on the next page.<br/>
+              <legend class="oc-legend-label">
                 <strong>Visitors to the site can:</strong>
               </legend>
-	      <ul class="oc-form-radiolist">
+              <ul class="oc-form-radiolist oc-form-fieldBlock">
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
-			 value="open_policy" checked="checked"/>
+                  value="open_policy" checked="checked"/>
                   <label for="workflow_policy_open">View your content</label>
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
-			 value="medium_policy" />
+                  value="medium_policy" />
                   <label for="workflow_policy_medium">and contribute to it</label><br>
-		  OR
+                  OR
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
-			 value="closed_policy" />
+                  value="closed_policy" />
                   <label for="workflow_policy_closed">Non-members cannot see your project</label>
                   <ul class="oc-discreetText">
-                    <li class="oc-smallText">
-		      your project will not be shown in search results or site directories
-                    </li>
+                    <li>Your project will not be shown in search results.</li>
                   </ul>
                 </li>
-	      </ul>
+              </ul>
             </fieldset>
           </fieldset>
 
-          <fieldset>
-            <legend><h2>Step 3: Add tools</h2></legend>
-            <ul class="oc-form-radiolist" >
+          <fieldset class="oc-boxy">
+            <legend class="oc-legend-heading">Step 3: Add tools</legend>
+            <ul class="oc-form-radiolist oc-form-fieldBlock" >
               <li>
                 <input type="checkbox" class="oc-input-typeCheck" id="tasktracker" name="featurelets:list" value="tasktracker" />
                 <label for="tasktracker">Task Tracker</label>
@@ -109,21 +104,21 @@ will create your team on the next page.<br/>
               <li>
                 <input type="checkbox" class="oc-input-typeCheck" id="listen" name="featurelets:list" value="listen" />
                 <label for="listen">Mailing lists</label>
-		<ul>
-		  <li>
+                <ul class="oc-smallText">
+                  <li>
                     <input type="checkbox" class="oc-input-typeCheck" id="listen_open" name="listen_open" />
-                    <label for="listen_open">Allow your project members to start new mailing lists</label>
-		  </li>
-		</ul>
+                    <label for="listen_open">Allow project members to reate new mailing lists</label>
+                  </li>
+                </ul>
               </li>
             </ul>
           </fieldset>
           <button type="submit" 
-		  name="add:boolean" 
-		  value="True" 
-		  class="oc-button oc-chooseThis">
-	    create
-	  </button>
+      name="add:boolean" 
+      value="True" 
+      class="oc-button oc-chooseThis">
+      Create
+    </button>
         </form>
 
       </div><!-- end .oc-content-main -->

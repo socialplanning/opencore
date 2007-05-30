@@ -385,9 +385,18 @@ ul.oc-dropdown, .oc-dropdown ul {
 	content: "";
 }
 .oc-boxy {
-	padding: 1em;
+	padding: 0.75em;
 	background-color: #eee;
 	margin-bottom: 1em;
+}
+fieldset.oc-boxy {
+	margin-top: -1.75em;
+}
+fieldset.oc-boxy .oc-legend-heading {
+  margin: 1.75em 0 0;
+}
+.oc-boxy textarea {
+	margin: 0;
 }
 .oc-column-group {
   width: 100%;
@@ -776,6 +785,10 @@ fieldset .oc-legend-heading {
   font-weight: bold;
   margin: 0;
   padding: 0;
+ }
+fieldset .oc-headingContext {
+	margin: 0 0 1em;
+	line-height: normal;
 }
 fieldset fieldset .oc-legend-heading,
 #oc-content-sidebar fieldset .oc-legend-heading {
@@ -800,6 +813,10 @@ fieldset .oc-heading-context {
   margin: 0 0 .5em;
   padding: 0;
 }
+.oc-label-option {
+	font-weight: normal;
+	font-size: 10px;
+}
 
 
 .oc-form {
@@ -821,10 +838,11 @@ fieldset .oc-heading-context {
   list-style-type: none;
 }
 .oc-form-value {
-
+	width: auto;
 }
 .oc-form-help {
-
+	display: block;
+	line-height: normal;
 }
 .oc-form-context {
   color: #666;

@@ -11,11 +11,11 @@
         <div class="oc-headingBlock">
           <h1>Project preferences</h1>
         </div>
-        <div id="oc-content-main">
+        <div id="oc-content-main" class="oc-content-main-fullWidth">
           <form name="prefs_form" method="post" class="enableUnloadProtection"
             tal:attributes="action string:${view/name}">
             <input type="hidden" name="set_flets" value="1"/>
-            <fieldset>
+            <fieldset class="oc-boxy">
               <legend class="oc-legend-heading">Details</legend>
               <table class="oc-form">
                 <tbody>
@@ -59,29 +59,29 @@
               </table>
             </fieldset>
 
-            <fieldset>
-              <legend class="oc-legend-heading">General Security Level</legend>
+            <fieldset class="oc-boxy">
+              <legend class="oc-legend-heading">General security level</legend>
               <fieldset>
                 <legend class="oc-legend-label">Visitors to the site can:</legend>
                 <ul class="oc-form-radiolist">
                   <li>
                     <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
-                      value="open_policy" tal:attributes="checked python:proj['security']=='open_policy' and 'checked' or ''"/>
+                    value="open_policy" tal:attributes="checked python:proj['security']=='open_policy' and 'checked' or ''"/>
                     <label for="workflow_policy_open">View your content</label>
                   </li>
                   <li>
                     <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
-                      value="medium_policy" tal:attributes="checked python:proj['security']=='medium_policy' and 'checked' or ''"/>
+                    value="medium_policy" tal:attributes="checked python:proj['security']=='medium_policy' and 'checked' or ''"/>
                     <label for="workflow_policy_medium">and contribute to it</label><br>
-                      OR
+                    OR
                   </li>
                   <li>
                     <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
-                      value="closed_policy" tal:attributes="checked python:proj['security']=='closed_policy' and 'checked' or ''"/>
+                    value="closed_policy" tal:attributes="checked 
                     <label for="workflow_policy_closed">Non-members cannot see your project</label>
                     <ul class="oc-discreetText">
                       <li class="oc-smallText">
-                        your project will not be shown in search results or site directories
+                      Your project will not be shown in search results.
                       </li>
                     </ul>
                   </li>
@@ -89,7 +89,7 @@
               </fieldset>
             </fieldset>
 
-            <fieldset>
+            <fieldset class="oc-boxy">
               <legend class="oc-legend-heading">Additional tools</legend>
               <ul class="oc-form-radiolist" tal:define="featurelets python:[f['name'] for f in proj['featurelets']]">
                 <li>
