@@ -56,6 +56,8 @@ mem_idxs = (('FieldIndex', 'exact_getFullname',
             ('ZCTextIndex', 'RosterSearchableText',
              {'index_type': 'Okapi BM25 Rank',
               'lexicon_id': 'lexicon'}),
+            ('FieldIndex', 'sortableLocation',
+             {'indexed_attrs': 'getLocation'}),
             )
 
 def createMemIndexes(portal, out):
