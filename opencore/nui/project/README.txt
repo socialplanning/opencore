@@ -101,3 +101,8 @@ Now try sorting by location
     3
     >>> [b.getId for b in brains]
     ['m4', 'm1', 'm3']
+
+Verify that traversing to the url gives us the expected class
+    >>> view = projects.p1.restrictedTraverse('team')
+    >>> view
+    <Products.Five.metaclass.SimpleViewClass from ...team-view.pt object at ...>
