@@ -1,6 +1,6 @@
 <tal:handle-request 
-   replace="nothing"
-   define="extra view/handle_request">
+  replace="nothing"
+  define="extra view/handle_request">
   This could be used to return a variety of template friendly info
   regarding the processing of the form
 </tal:handle-request>
@@ -14,7 +14,7 @@
         <div id="oc-content-main">
           <form name="prefs_form" method="post" class="enableUnloadProtection"
             tal:attributes="action string:${view/name}">
-	  <input type="hidden" name="set_flets" value="1"/>
+            <input type="hidden" name="set_flets" value="1"/>
             <fieldset>
               <legend class="oc-legend-heading">Details</legend>
               <table class="oc-form">
@@ -63,29 +63,29 @@
               <legend class="oc-legend-heading">General Security Level</legend>
               <fieldset>
                 <legend class="oc-legend-label">Visitors to the site can:</legend>
-		<ul class="oc-form-radiolist">
+                <ul class="oc-form-radiolist">
                   <li>
                     <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
-			   value="open_policy" tal:attributes="checked python:proj['security']=='open_policy' and 'checked' or ''"/>
+                      value="open_policy" tal:attributes="checked python:proj['security']=='open_policy' and 'checked' or ''"/>
                     <label for="workflow_policy_open">View your content</label>
                   </li>
                   <li>
                     <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
-			   value="medium_policy" tal:attributes="checked python:proj['security']=='medium_policy' and 'checked' or ''"/>
+                      value="medium_policy" tal:attributes="checked python:proj['security']=='medium_policy' and 'checked' or ''"/>
                     <label for="workflow_policy_medium">and contribute to it</label><br>
-		    OR
+                      OR
                   </li>
                   <li>
                     <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
-			   value="closed_policy" tal:attributes="checked python:proj['security']=='closed_policy' and 'checked' or ''"/>
+                      value="closed_policy" tal:attributes="checked python:proj['security']=='closed_policy' and 'checked' or ''"/>
                     <label for="workflow_policy_closed">Non-members cannot see your project</label>
                     <ul class="oc-discreetText">
                       <li class="oc-smallText">
-			your project will not be shown in search results or site directories
+                        your project will not be shown in search results or site directories
                       </li>
                     </ul>
                   </li>
-		</ul>
+                </ul>
               </fieldset>
             </fieldset>
 
@@ -108,16 +108,15 @@
             </fieldset>
             <ul class="oc-actions">
               <li>
-		<button type="submit" 
-			name="update:boolean" 
-			value="True" 
-			class="oc-button oc-chooseThis">
-		  Update
-		</button>
-	      </li>
+                <button type="submit" 
+                  name="update:boolean" 
+                  value="True" 
+                  class="oc-button oc-chooseThis">
+                  Update
+                </button>
+              </li>
               <li>or <a href="">cancel</a></li>
             </ul>
-            
           </form>
         </div><!-- end .oc-content-main -->
       </div><!-- end content-fill-slot -->
