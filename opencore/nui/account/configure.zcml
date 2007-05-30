@@ -48,4 +48,11 @@
      template="join.pt"
      />
 
+  <browser:page
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     class=".accountview.HomeView"
+     permission="zope.Public"
+     name="home"
+     />
+
 </configure>

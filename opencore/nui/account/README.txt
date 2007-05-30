@@ -43,7 +43,6 @@ But if we log out, we can access this view::
     >>> request.form["__ac_name"] = 'm1'
     >>> view()
     'An email has been sent to you, ...'
-        
 
 get account confirmation code
 =============================
@@ -115,9 +114,12 @@ confirm
 
 Test the account confirmation view:: (fill this in!)
 
-Calling the view with no key in the request will fail::
+Calling the view with no key in the request will fail and go to the login page::
 
     >>> view = portal.restrictedTraverse("@@confirm-account")
     >>> view()
     '...login...'
 
+Get the key for the pending member::
+    
+    
