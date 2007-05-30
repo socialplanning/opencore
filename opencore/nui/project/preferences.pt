@@ -77,7 +77,7 @@
                   </li>
                   <li>
                     <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
-                    value="closed_policy" tal:attributes="checked 
+                    value="closed_policy" tal:attributes="checked python:proj['security']=='closed_policy' and 'checked' or ''"/>
                     <label for="workflow_policy_closed">Non-members cannot see your project</label>
                     <ul class="oc-discreetText">
                       <li class="oc-smallText">
