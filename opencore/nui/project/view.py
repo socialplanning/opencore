@@ -38,7 +38,6 @@ class ProjectAddView(BaseView):
         id_ = putils.normalizeString(title)
         if self.context.has_key(id_):
             self.errors = {'title' : 'The requested short name is already taken.'}
-            self.addPortalStatusMessage(u'Please correct the indicated errors.')
 
         if self.errors:
             self.addPortalStatusMessage(u'Please correct the indicated errors.')
