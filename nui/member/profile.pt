@@ -80,6 +80,7 @@
           </table>
         </div><!-- end .oc-widget-lastModified -->
       </div><!-- end .oc-content-sidebar -->
+<div tal:content="python: dir(usr)"/>
     </div><!-- content-fill-slot -->
   </body>
 </html>

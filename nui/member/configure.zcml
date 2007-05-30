@@ -2,7 +2,7 @@
 	   xmlns:browser="http://namespaces.zope.org/browser"
 	   xmlns:five="http://namespaces.zope.org/five">
 
-  <!-- member preferences -->
+
   <!-- @@ TODO need a specific interface for a member folder -->
   <browser:page
      for="opencore.interfaces.IMemberFolder"
@@ -12,25 +12,25 @@
      template="preferences.pt"
      />
 
-  <!-- member-profile-edit -->
+
   <browser:page
      for="opencore.interfaces.IMemberFolder"
-     class="opencore.nui.base.BaseView"
+     class=".view.ProfileEditView"
      permission="zope.Public"
      name="profile-edit"
      template="profile-edit.pt"
      />
 
-  <!-- member-profile -->
+ 
   <browser:page
      for="opencore.interfaces.IMemberFolder"
-     class="opencore.nui.base.BaseView"
+     class=".view.ProfileView"
      permission="zope.Public"
      name="profile"
      template="profile.pt"
      />
 
-  <!-- member-contact -->
+
   <browser:page
      for="opencore.interfaces.IMemberFolder"
      class="opencore.nui.base.BaseView"
