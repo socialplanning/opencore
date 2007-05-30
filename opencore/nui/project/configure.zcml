@@ -31,7 +31,18 @@
      class=".view.ProjectPreferencesView"
      permission="cmf.ModifyPortalContent"
      name="preferences"
-     template="preferences.pt" 
+     template="preferences.pt"
+     />
+
+    <!-- TODO
+    permission depend on project security setting
+    -->
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".view.ProjectTeamView"
+     permission="zope.Public"
+     name="team"
+     template="team-view.pt"
      />
 
 </configure>

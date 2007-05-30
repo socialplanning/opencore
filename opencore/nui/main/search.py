@@ -30,6 +30,12 @@ class SearchView(BaseView):
             datetime_obj = date
         return prettyDate(datetime_obj)
 
+    # moved up from people search view, because project team view
+    # uses it as well
+    def no_home(self, userid):
+        """ check to see if a user has a people folder (has logged in)
+            note: not using mtool.getHomeFolder for efficiency reasons """
+        return not self.context.has_key(userid)
 
 def first_letter_match(title, letter):
     return title.startswith(letter) \
@@ -169,11 +175,6 @@ class PeopleSearchView(SearchView):
             rs,
             )
         return people_brains
-
-    def no_home(self, userid):
-        """ check to see if a user has a people folder (has logged in)
-            note: not using mtool.getHomeFolder for efficiency reasons """
-        return not self.context.has_key(userid)
 
     def add_class_to_img(self, imgdata, clss):
         tag = str(imgdata)

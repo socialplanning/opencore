@@ -3,6 +3,7 @@ from Products.CMFPlone.utils import transaction_note
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.interfaces.event import AfterProjectAddedEvent #, AfterSubProjectAddedEvent
 from opencore.nui.base import BaseView, button
+from opencore.nui.main import SearchView
 from zExceptions import BadRequest
 from zExceptions import Redirect
 from zope import event
@@ -55,3 +56,29 @@ class ProjectAddView(BaseView):
         event.notify(AfterProjectAddedEvent(proj, self.request))
         transaction_note('Finished creation of project: %s' %title)
         self.redirect(proj.absolute_url())
+
+
+class ProjectTeamView(SearchView):
+
+    @property
+    def memberships(self):
+        project = self.context
+        teams = project.getTeams()
+        assert len(teams) == 1
+        team = teams[0]
+        membership_brains = team.getMembershipBrains()
+        return self._get_batch(membership_brains)
+
+    def projects_for_member(self, member):
+        # XXX these should be brains
+        projects = self._projects_for_member(member)
+        # only return max 10 results
+        return projects[:10]
+
+    def more_than_ten_projects(self, member):
+        projects = self._projects_for_member(member)
+        return len(projects) > 10
+
+#    @memoized
+    def _projects_for_member(self, member):
+        return member.getProjects()
