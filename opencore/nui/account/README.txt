@@ -82,6 +82,11 @@ Test the join view by adding a member to the site::
 
     >>> view = portal.restrictedTraverse("@@join")
 
+Logged-in members cannot access the view at all::
+
+    >>> view()
+    'http://nohost/plone'
+
 Log out and fill in the form::
 
     >>> self.logout()
