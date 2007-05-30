@@ -3,9 +3,12 @@
 	   xmlns:five="http://namespaces.zope.org/five">
 
 
-  <!-- @@ TODO need a specific interface for a member folder -->
-  <browser:page
+  <!-- TODO write and run a migration and then use
      for="opencore.interfaces.IMemberFolder"
+  -->
+
+  <browser:page
+     for="opencore.siteui.interfaces.IMemberFolder"
      class="opencore.nui.member.MemberPreferences"
      permission="zope.Public"
      name="preferences"
@@ -14,7 +17,7 @@
 
 
   <browser:page
-     for="opencore.interfaces.IMemberFolder"
+     for="opencore.siteui.interfaces.IMemberFolder"
      class=".view.ProfileEditView"
      permission="zope.Public"
      name="profile-edit"
@@ -23,7 +26,7 @@
 
  
   <browser:page
-     for="opencore.interfaces.IMemberFolder"
+     for="opencore.siteui.interfaces.IMemberFolder"
      class=".view.ProfileView"
      permission="zope.Public"
      name="profile"
@@ -32,7 +35,7 @@
 
 
   <browser:page
-     for="opencore.interfaces.IMemberFolder"
+     for="opencore.siteui.interfaces.IMemberFolder"
      class="opencore.nui.base.BaseView"
      permission="zope.Public"
      name="contact"

@@ -6,12 +6,18 @@ from opencore.nui.base import BaseView, button
 from zExceptions import BadRequest
 from zExceptions import Redirect
 from zope import event
+from topp.utils.pretty_date import prettyDate
 
 
         
 class ProfileView(BaseView):
-    pass
 
+    def info(self):
+        """Returns profile information in a dict for easy template access."""
+        usr = self.vieweduser()
+        return dict(membersince = prettyDate(usr.getRawCreation_date()),
+                    lastonline  = prettyDate(usr.getLast_login_time()),
+                    )
 
 
 class ProfileEditView(BaseView):
