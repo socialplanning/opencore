@@ -51,7 +51,14 @@
   </fieldset>
   
   <ul class="oc-actions oc-wiki-actions">
-    <li><input type="submit" value="Save" class="oc-button oc-chooseThis" /></li>
+    <li>
+      <button type="submit"
+        name="update:boolean"
+        value="True"
+        class="oc-button oc-chooseThis">
+        Update
+      </button>
+    </li>
     <li>or <a href="#">cancel</a></li>
   </ul> 
 </form>
