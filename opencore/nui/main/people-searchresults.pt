@@ -27,7 +27,7 @@
             <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
               
               <!-- pagination uses the batch macro -->
-              <div metal:use-macro="context/@@batch_macros/pagination"/>
+              <div metal:use-macro="here/@@standard_macros/pagination"/>
               
               Member<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
               <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
