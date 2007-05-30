@@ -31,6 +31,14 @@ class TestOpenMember(OpenPlansTestCase):
         result = mem.validate_email('notreal2@xyxyxyxy.com')
         self.failIf(result is None)
 
+    def test_projectBrains(self):
+        mdtool = getToolByName(self.portal, 'portal_memberdata')
+        mem = mdtool._getOb('m1')
+        projbrains = mem.projectBrains()
+        titles = [i.Title for i in projbrains]
+        self.failIf(set(titles) != set(['Proj2', 'Proj3', 'Proj1']))
+        
+
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestOpenMember))

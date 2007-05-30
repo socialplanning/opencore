@@ -136,6 +136,15 @@ class OpenMember(TeamSecurity, FolderishMember):
                     projects[space] = None
         return projects.keys()            
 
+    security.declareProtected(View, 'projectBrains')
+    def projectBrains(self):
+        catalog = getToolByName(self, 'portal_catalog')
+        teamtool = getToolByName(self, 'portal_teams')
+        mships = catalog(id=self.getId(), portal_type='OpenMembership', review_state=teamtool.getDefaultActiveStates())
+        teams = [i.getPath().split('/')[-2] for i in mships]
+        projects = catalog(portal_type='OpenProject', id=teams)
+        return projects
+
     security.declareProtected(View, 'RosterSearchableText')
     def RosterSearchableText(self):
         ### abstract to a config or top of file
