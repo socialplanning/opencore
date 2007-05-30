@@ -28,6 +28,12 @@ class MailingListAddForm(BaseAddForm):
     form_fields = openplans_form_fields
     portal_type = 'Open Mailing List'
 
+    def __call__(self):
+        """
+        Disable editable border.
+        """
+        self.request.set('disable_border', True)
+        return BaseAddForm.__call__(self)
 
 class MailingListEditForm(BaseEditForm):
     """A form for editing MailingList objects.
