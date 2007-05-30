@@ -102,7 +102,7 @@ class ConfirmAccountView(BaseView):
         # Go to the user's Profile Page in Edit Mode
         self.addPortalStatusMessage(u'Welcome!')
         self.addPortalStatusMessage(u'first time!')
-        self.request.RESPONSE.redirect(self.home(member.id) + '/profile-edit')
+        self.redirect(self.home(member.id) + '/profile-edit')
 
 class LoginView(BaseView):
 
@@ -194,7 +194,7 @@ class DoPasswordResetView(BaseView):
                                userid, None)
         
         self.addPortalStatusMessage(u'Your password has been reset and you are now logged in.')
-        return self.request.RESPONSE.redirect(self.siteURL)
+        return self.redirect(self.siteURL)
 
 class PasswordResetView(BaseView):
 
@@ -218,5 +218,5 @@ class HomeView(BaseView):
     def __call__(self, *args, **kw):
         home = self.home()
         if home:
-            return self.request.RESPONSE.redirect(home)
-        return self.request.RESPONSE.redirect(self.siteURL)
+            return self.redirect(home)
+        return self.redirect(self.siteURL)
