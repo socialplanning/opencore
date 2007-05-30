@@ -29,13 +29,20 @@
 
               <!-- when sorting, we post the action to distinguish between searching
               this was necessary because the batch macro reposts the request data, and we see problems when trying to reset to page when the sorting changes -->
-              <form name="people_sort" method="POST" action="." tal:attributes="action string:${context/absolute_url}/team">
+              <form name="people_sort" class="enableUnloadProtection" method="POST" tal:attributes="action string:${view/name}">
               <!-- FIXME This should not require a button to work. -->
-                <select name="sort_by" tal:define="sorted_by python: request.get('sort_by')">
-                  <option value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
-                  <option value="getId" tal:attributes="selected python: sorted_by == 'getId'">username</option>
-                  <option value="exact_getFullname" tal:attributes="selected python: sorted_by == 'exact_getFullname'">real name</option>
+                <select name="sort_by" tal:define="sorted_by request/sort_by | nothing">
+                  <option value="username" tal:attributes="selected python: sorted_by == 'username'">user name</option>
+                  <option value="contributions" tal:attributes="selected python: sorted_by == 'contributions'">contributions</option>
+                  <option value="membership_date" tal:attributes="selected python: sorted_by == 'membership_date'">membership start date</option>
+                  <option value="location" tal:attributes="selected python: sorted_by == 'location'">location</option>
                 </select>
+		<button type="submit"
+			name="sort:boolean"
+			value="True"
+			class="oc-button oc-chooseThis">
+		  sort
+		</button> 
               </form>
             </div>
 
