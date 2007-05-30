@@ -7,7 +7,7 @@
      for="*"
      class="..base.BaseView"
      permission="zope.Public"
-     name="batch_macros"
+     name="nui_batch_macros"
      template="batch_macros.pt"
      />
     
