@@ -1,7 +1,6 @@
 """
 views pertaining to accounts -- creation, login, password reset
 """
-
 from smtplib import SMTPRecipientsRefused
 
 from Products.Five import BrowserView
@@ -215,8 +214,15 @@ class PasswordResetView(BaseView):
 class HomeView(BaseView):
     """redirects a user to their home"""
 
+    def joinurls(self, *args):
+        """This function is because urlparse.urljoin doesn't behave nice"""
+        # XXX probably this should be eliminated or moved
+        return '/'.join([ i.strip('/') for i in args ])
+
     def __call__(self, *args, **kw):
         home = self.home()
-        if home:
+        if home:            
+            if self.request.get('profile-edit') is not None:                
+                home = self.joinurls(home, 'profile-edit')
             return self.redirect(home)
         return self.redirect(self.siteURL)
