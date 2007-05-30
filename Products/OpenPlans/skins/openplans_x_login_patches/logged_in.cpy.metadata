@@ -1,5 +1,5 @@
 [actions]
 action.success=traverse_to:string:login_next
-action.initial_login=traverse_to:string:login_initial
+action.initial_login=redirect_to:string:home?profile-edit
 action.change_password=traverse_to:string:login_password
 action.failure=redirect_to:string:login

@@ -101,7 +101,7 @@ class ConfirmAccountView(BaseView):
         # Go to the user's Profile Page in Edit Mode
         self.addPortalStatusMessage(u'Welcome!')
         self.addPortalStatusMessage(u'first time!')
-        self.redirect(self.home(member.id) + '/profile-edit')
+        return self.redirect('logged_in')
 
 class LoginView(BaseView):
 
