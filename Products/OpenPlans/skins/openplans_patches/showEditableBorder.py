@@ -9,6 +9,7 @@
 ##
 
 # turn border on nearly all the time
+
 from Products.CMFCore.utils import getToolByName
 request = context.REQUEST
 
