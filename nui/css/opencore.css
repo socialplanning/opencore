@@ -892,7 +892,7 @@ height: 1em;
   font-size: 11px;
 }
 .oc-actions li {
-  margin: 0 .25em;
+  margin: 0;
   display: inline;
 }
 

@@ -113,12 +113,17 @@
               </li>
             </ul>
           </fieldset>
-          <button type="submit" 
-      name="add:boolean" 
-      value="True" 
-      class="oc-button oc-chooseThis">
-      Create
-    </button>
+          <ul class="oc-actions">
+            <li>
+              <button type="submit" 
+              name="add:boolean" 
+              value="True" 
+              class="oc-button oc-chooseThis">
+                Create
+              </button>
+            </li>
+            <li>or <a href="">cancel</a></li>
+          </ul>
         </form>
 
       </div><!-- end .oc-content-main -->
