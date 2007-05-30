@@ -73,3 +73,31 @@ Contents view
 
     >>> proj.restrictedTraverse('contents')
     <...SimpleViewClass ...contents.pt ...>
+
+
+Team view
+=========
+
+Set up the view
+    >>> from opencore.nui.project.view import ProjectTeamView
+    >>> request = self.portal.REQUEST
+    >>> proj = projects.p1
+    >>> view = ProjectTeamView(proj, request)
+
+Sort by username
+    >>> view.sort_by = 'username'
+    >>> results = view.memberships
+    >>> brains = list(results)
+    >>> len(brains)
+    3
+    >>> [b.getId for b in brains]
+    ['m1', 'm3', 'm4']
+
+Now try sorting by location
+    >>> view.sort_by = 'location'
+    >>> results = view.memberships
+    >>> brains = list(results)
+    >>> len(brains)
+    3
+    >>> [b.getId for b in brains]
+    ['m4', 'm1', 'm3']
