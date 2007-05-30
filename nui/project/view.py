@@ -81,17 +81,17 @@ class ProjectTeamView(SearchView):
         team_path = '/'.join(team.getPhysicalPath())
 
         if self.sort_by == 'location':
-            pass
+            mem_brains = []
         elif self.sort_by == 'membership_date':
-            pass
+            mem_brains = []
         elif self.sort_by == 'contributions':
-            pass
+            mem_brains = []
         else:
             #sort by username
             query = dict(portal_type='OpenMembership',
                      sort_on='id',
                      path=team_path,
-                     review_states='committed',
+                     review_state='committed',
                      )
             mem_brains = self.catalog(**query)
 
