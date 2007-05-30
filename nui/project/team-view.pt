@@ -9,8 +9,8 @@
 
           <!-- batch needs to have some variables set up to work properly.
           here is where they are defined -->
-          <tal:got_results condition="view/search_results"
-                           define="batch view/search_results;
+          <tal:got_results condition="view/memberships"
+                           define="batch view/memberships;
                                    batch_base_url request/ACTUAL_URL;
                                    start batch/start | nothing;
                                    end batch/end | nothing;
@@ -29,53 +29,63 @@
 
               <!-- when sorting, we post the action to distinguish between searching
               this was necessary because the batch macro reposts the request data, and we see problems when trying to reset to page when the sorting changes -->
-              <form name="people_sort" method="POST" action="." tal:attributes="action string:${context/portal_url}/people/searchresults">
+              <form name="people_sort" method="POST" action="." tal:attributes="action string:${context/absolute_url}/team">
               <!-- FIXME This should not require a button to work. -->
                 <select name="sort_by" tal:define="sorted_by python: request.get('sort_by')">
                   <option value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
                   <option value="getId" tal:attributes="selected python: sorted_by == 'getId'">username</option>
                   <option value="exact_getFullname" tal:attributes="selected python: sorted_by == 'exact_getFullname'">real name</option>
-    </select>
-
-    <!-- resend the current data when sorting -->
-    <input tal:condition="request/personname | nothing" type="hidden" name="personname"
-                       tal:attributes="value request/personname" />
-    <input tal:condition="request/letter_search | nothing" type="hidden" name="letter_search"
-                       tal:attributes="value request/letter_search" />
-    <input tal:condition="request/b_start | nothing" type="hidden" name="b_start:int"
-                       tal:attributes="value request/b_start" />
-    <input type="submit" name="action_sort_people" value="sort" />
+                </select>
               </form>
             </div>
 
-
           <!-- the results are displayed here -->
           <ol class="oc-roster oc-clearAfter">
-            <li class="oc-clearAfter oc-boxy vcard" tal:repeat="item view/search_results">
-              <div class="oc-avatar" tal:define="mem item/getObject; imgdata mem/getPortrait">
-                <a href="" tal:omit-tag="python: view.no_home(item.getId)" tal:attributes="href string:${context/portal_url}/people/${item/getId}">
-                  <img tal:condition="imgdata" tal:replace="structure python: view.add_class_to_img(imgdata, 'photo')" />
-                  <img tal:condition="not: imgdata" class="photo" tal:attributes="src string:defaultUser.gif" />
-                </a>
-              </div>
-              <div class="oc-roster-content">
-                <h3 class="fn">
-                  <a href="" tal:omit-tag="python: view.no_home(item.getId)" tal:attributes="href string:${context/portal_url}/people/${item/getId}" tal:content="item/getId">Username</a>
-                </h3>
-                <span class="oc-discreetText adr" tal:define="loc item/getLocation" tal:condition="loc" tal:content="loc"> Big City, ST</span>
-                <div class="oc-discreetText">XXX contributions since Jan 37 1947, latest 45 years ago</div>
-                <div>
-                  <span class="oc-roster-projects">Projects (N):</span>
-                  <ul class="oc-inlineList">
-                    <li><a href="#">Project 1</a></li>
-                    <li><a href="#">Project 2</a> <span class="oc-discreetText">(private)</span></li>
-                    <li><a href="#">Project 3</a></li>
-                    <li><a href="#">Project 1</a></li>
-                    <li><a href="#">Project 2</a> <span class="oc-discreetText">(private)</span></li>
-                    <li><a href="#">Project 3</a></li>
-                  </ul>
+            <li class="oc-clearAfter oc-boxy vcard" tal:repeat="membrain view/memberships">
+              <tal:member-result define="membership membrain/getObject; mem membership/getMember">
+                <div class="oc-avatar" tal:define="imgdata mem/getPortrait">
+                  <a href="" tal:omit-tag="python: view.no_home(mem.getId())" tal:attributes="href string:${context/portal_url}/people/${mem/getId}">
+                    <img tal:condition="imgdata" tal:replace="structure python: view.add_class_to_img(imgdata, 'photo')" />
+                    <img tal:condition="not: imgdata" class="photo" tal:attributes="src string:defaultUser.gif" />
+                  </a>
                 </div>
-              </div>
+                <div class="oc-roster-content">
+                  <h3 class="fn">
+                    <a href="" tal:omit-tag="python: view.no_home(mem.getId())"
+                       tal:attributes="href string:${context/portal_url}/people/${mem/getId}"
+                       tal:content="mem/getId"
+                       />
+                  </h3>
+                  <span class="oc-discreetText adr" tal:define="loc mem/getLocation" tal:condition="loc" tal:content="loc"> Big City, ST</span>
+                  <div class="oc-discreetText">XXX contributions since
+                    <span tal:replace="python: view.pretty_date(membrain.CreationDate)">January 1, 2000</span>,
+                    latest <span tal:replace="python: view.pretty_date(membrain.ModificationDate)">45 years ago</span>
+                  </div>
+                  <div tal:define="projects python: view.projects_for_member(mem);
+                                   nprojects python: len(projects);
+                                   plural python: nprojects > 1;
+                                   view_all python: view.more_than_ten_projects(mem)"
+                                   >
+                    <span class="oc-roster-projects">
+                      Project<span tal:condition="plural">s</span> (<span tal:replace="nprojects">N</span>):
+                    </span>
+                    <ul class="oc-inlineList">
+                      <li tal:repeat="project projects">
+                        <!-- isprivate setting -->
+                        <a href="" tal:attributes="href project/absolute_url" tal:define="isprivate nothing">
+                          <span tal:replace="project/Title" />
+                          <span tal:condition="isprivate" class="oc-discreetText">(private)</span>
+                          <a href=""
+                             tal:attributes="href string:${view/get_portal/absolute_url}/people/${mem/getId}"
+                             tal:condition="view_all"
+                             tal:content="string:(view all)"
+                             />
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </tal:member-result>
             </li>
           </ol>
           <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
@@ -91,7 +101,7 @@
         </tal:got_results>
 
         <!-- if we get no results, this is what is displayed -->
-        <div tal:condition="not: view/search_results">No results found.</div>
+        <div tal:condition="not: view/memberships">No results found.</div>
 
     </div> <!-- content-main -->
 
