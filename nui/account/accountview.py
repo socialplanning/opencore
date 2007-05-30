@@ -99,8 +99,10 @@ class ConfirmAccountView(BaseView):
         auth.updateCredentials(self.request, self.request.response,
                                member.id, None)
 
-        self.addPortalStatusMessage(u'Your account has been confirmed.')
-        self.request.RESPONSE.redirect(self.siteURL)
+        # Go to the user's Profile Page in Edit Mode
+        self.addPortalStatusMessage(u'Welcome!')
+        self.addPortalStatusMessage(u'first time!')
+        self.request.RESPONSE.redirect(self.home(member.id) + '/profile-edit')
 
 class LoginView(BaseView):
 
@@ -166,9 +168,9 @@ class ForgotLoginView(BaseView):
         
         self._mailPassword(userid)
         
+        # XXX this should go to itself, but not render the form, just text
         return "An email has been sent to you, %s" % userid  # XXX rollie?
         return self.index(*args, **kw) # XXX not really right
-
 
 class DoPasswordResetView(BaseView):
 
@@ -194,7 +196,6 @@ class DoPasswordResetView(BaseView):
         self.addPortalStatusMessage(u'Your password has been reset and you are now logged in.')
         return self.request.RESPONSE.redirect(self.siteURL)
 
-
 class PasswordResetView(BaseView):
 
     @anon_only()
@@ -211,4 +212,11 @@ class PasswordResetView(BaseView):
         kw['randomstring'] = key
         return self.index(*args, **kw)
 
-    
+class HomeView(BaseView):
+    """redirects a user to their home"""
+
+    def __call__(self, *args, **kw):
+        home = self.home()
+        if home:
+            return self.request.RESPONSE.redirect(home)
+        return self.request.RESPONSE.redirect(self.siteURL)
