@@ -17,9 +17,6 @@ class ProjectPreferencesView(BaseView):
         if not self.errors:
             self.context.processForm(REQUEST=self.request)
             self.redirect(self.context.absolute_url())
-        
-
-
 
 
 class ProjectAddView(BaseView):
@@ -63,10 +60,6 @@ class ProjectTeamView(SearchView):
     def __init__(self, context, request):
         SearchView.__init__(self, context, request)
         self.sort_by = None
-
-    @property
-    def name(self):
-        return self.__name__
    
     @button('sort')
     def handle_request(self):
@@ -94,10 +87,7 @@ class ProjectTeamView(SearchView):
                      review_state='committed',
                      )
             mem_brains = self.catalog(**query)
-
-
         return self._get_batch(mem_brains)
-
             
     def projects_for_member(self, member):
         # XXX these should be brains
