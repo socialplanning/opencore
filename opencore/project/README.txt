@@ -33,7 +33,7 @@ Project Creation
 Is done with a Fate addview.  This addview fires an event to handle
 all the opencore specific manage_after* stuff.
 
-By hand, this would look like so: first we would create project(we'll
+By hand, this would look like so: first we would create project (we'll
 check the state to prove there is no man behind the curtain)::
 
     >>> id_ = projects.invokeFactory("OpenProject", 'handroll')
@@ -53,7 +53,7 @@ check the state to prove there is no man behind the curtain)::
     u''
 
 we need to add some variables to the request, then we simulate firing
-the event and check it's state::
+the event and check its state::
 
     >>> req_vars = dict(team_assignment=True,
     ...                 workflow_policy='open_policy',
@@ -86,7 +86,7 @@ And our project should contain a roster and list instance
 
 When a subproject is created, we add an additional subscriber that
 does 2 things: registers the redirect information and associates a
-child project to it's parent. To test, we will need to prep a project
+child project to its parent. To test, we will need to prep a project
 as a parent::
 
     >>> parent = projects.p1
@@ -100,4 +100,3 @@ as a parent::
 
     >>> pinfo.values()
     ['/plone/projects/handroll']
-
