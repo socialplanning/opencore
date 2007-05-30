@@ -63,11 +63,10 @@
                   </div>
                   <div tal:define="projects python: view.projects_for_member(mem);
                                    nprojects python: len(projects);
-                                   plural python: nprojects > 1;
                                    view_all python: view.more_than_ten_projects(mem)"
                                    >
                     <span class="oc-roster-projects">
-                      Project<span tal:condition="plural">s</span> (<span tal:replace="nprojects">N</span>):
+                      Projects (<span tal:replace="nprojects">N</span>):
                     </span>
                     <ul class="oc-inlineList">
                       <li tal:repeat="project projects">
