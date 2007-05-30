@@ -22,8 +22,6 @@ from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
 from zope.component import getMultiAdapter, adapts, adapter
 from Products.CMFPlone import PloneMessageFactory, transaction_note
 
-
-
 view.memoizedproperty = lambda func: property(view.memoize(func))
 view.mcproperty = lambda func: property(view.memoize_contextless(func))
 
@@ -264,7 +262,6 @@ class BaseView(BrowserView):
         # XXX do we really need this?
         return view()
 
-
     # stuff rob removed in his opencoreview
 
     def renderContent(self, viewname):
@@ -285,6 +282,14 @@ class BaseView(BrowserView):
     @property
     def current_member(self):
         return self.membertool.getAuthenticatedMember()
+
+    def home(self, member=None):
+        """url of the member's homepage"""
+        if member is None:
+            if not self.loggedin: return None
+            member = self.current_member.id
+        retval = '/'.join((self.portal.absolute_url(), 'people', member))
+        return retval
 
     def userobj(self):
         # XXX eliminate
