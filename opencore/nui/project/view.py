@@ -60,15 +60,45 @@ class ProjectAddView(BaseView):
 
 class ProjectTeamView(SearchView):
 
+    def __init__(self, context, request):
+        SearchView.__init__(self, context, request)
+        self.sort_by = None
+
+    @property
+    def name(self):
+        return self.__name__
+   
+    @button('sort')
+    def handle_request(self):
+        self.sort_by = self.request.get('sort_by', None)
+
     @property
     def memberships(self):
         project = self.context
         teams = project.getTeams()
         assert len(teams) == 1
         team = teams[0]
-        membership_brains = team.getMembershipBrains()
-        return self._get_batch(membership_brains)
+        team_path = '/'.join(team.getPhysicalPath())
 
+        if self.sort_by == 'location':
+            pass
+        elif self.sort_by == 'membership_date':
+            pass
+        elif self.sort_by == 'contributions':
+            pass
+        else:
+            #sort by username
+            query = dict(portal_type='OpenMembership',
+                     sort_on='id',
+                     path=team_path,
+                     review_states='committed',
+                     )
+            mem_brains = self.catalog(**query)
+
+
+        return self._get_batch(mem_brains)
+
+            
     def projects_for_member(self, member):
         # XXX these should be brains
         projects = self._projects_for_member(member)
