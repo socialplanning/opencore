@@ -72,9 +72,22 @@ class ProjectTeamView(SearchView):
         assert len(teams) == 1
         team = teams[0]
         team_path = '/'.join(team.getPhysicalPath())
+        active_states = team.getActiveStates()
 
         if self.sort_by == 'location':
-            mem_brains = []
+            #sort by username
+            query = dict(portal_type='OpenMembership',
+                     path=team_path,
+                     review_state=active_states,
+                     )
+            mem_brains = self.catalog(**query)
+            mem_ids = [mem_brain.getId for mem_brain in mem_brains]
+            query = dict(sort_on='sortableLocation',
+                         getId=mem_ids,
+                         )
+            mem_brains = self.membranetool(**query)
+            
+
         elif self.sort_by == 'membership_date':
             mem_brains = []
         elif self.sort_by == 'contributions':
@@ -82,11 +95,18 @@ class ProjectTeamView(SearchView):
         else:
             #sort by username
             query = dict(portal_type='OpenMembership',
-                     sort_on='id',
                      path=team_path,
-                     review_state='committed',
+                     review_state=active_states,
                      )
             mem_brains = self.catalog(**query)
+
+            ids = [b.getId for b in mem_brains]
+            query = dict(portal_type='OpenMember',
+                         getId=ids,
+                         sort_on='getId',
+                         )
+            mem_brains = self.membranetool(**query)
+
         return self._get_batch(mem_brains)
             
     def projects_for_member(self, member):
