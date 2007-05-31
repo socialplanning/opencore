@@ -70,9 +70,11 @@
                        />
                   </h3>
                   <span class="oc-discreetText adr" tal:define="loc mem/getLocation" tal:condition="loc" tal:content="loc"> Big City, ST</span>
-                  <div class="oc-discreetText">XXX contributions since
-                    <span tal:replace="python: view.pretty_date(mem.CreationDate())">January 1, 2000</span>,
-                    latest <span tal:replace="python: view.pretty_date(mem.ModificationDate())">45 years ago</span>
+                  <div class="oc-discreetText"
+                       tal:define="memship python: view.membership_info_for(mem)">
+                    <span tal:replace="memship/contributions">XXX</span> contributions since
+                    <span tal:replace="memship/activation">January 1, 2000</span>,
+                    most recent <span tal:replace="memship/modification">45 years ago</span>
                   </div>
                   <div tal:define="projects python: view.projects_for_member(mem);
                                    nprojects python: len(projects);

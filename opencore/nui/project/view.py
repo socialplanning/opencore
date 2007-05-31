@@ -150,3 +150,19 @@ class ProjectTeamView(SearchView):
 #    @memoized
     def _projects_for_member(self, member):
         return member.getProjects()
+
+    def membership_info_for(self, member):
+        mem_id = member.getId()
+        project = self.context
+        project_id = project.getId()
+        portal_teams = getToolByName(self.context, 'portal_teams')
+        team = portal_teams._getOb(project_id)
+        membership = team._getOb(mem_id)
+
+        contributions = 'XXX'
+        activation = self.pretty_date(membership.made_active_date)
+        modification = self.pretty_date(membership.ModificationDate())
+        return dict(contributions=contributions,
+                    activation=activation,
+                    modification=modification,
+                    )
