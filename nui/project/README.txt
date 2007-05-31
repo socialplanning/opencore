@@ -81,6 +81,7 @@ Team view
 Set up the view
     >>> from opencore.nui.project.view import ProjectTeamView
     >>> request = self.portal.REQUEST
+    >>> req_annot = IAnnotations(request)
     >>> proj = projects.p1
     >>> view = ProjectTeamView(proj, request)
 
@@ -93,6 +94,9 @@ Sort by username
     >>> [b.getId for b in brains]
     ['m1', 'm3', 'm4']
 
+Clear the memoize from the request
+    >>> del req_annot['plone.memoize']
+
 Now try sorting by location
     >>> view.sort_by = 'location'
     >>> results = view.memberships
@@ -102,6 +106,9 @@ Now try sorting by location
     >>> [b.getId for b in brains]
     ['m4', 'm1', 'm3']
 
+Clear the memoize from the request
+    >>> del req_annot['plone.memoize']
+
 Let's sort based on the membership date
     >>> view.sort_by = 'membership_date'
     >>> results = view.memberships
@@ -110,6 +117,9 @@ Let's sort based on the membership date
     3
     >>> [b.getId for b in brains]
     ['m4', 'm1', 'm3']
+
+Clear the memoize from the request
+    >>> del req_annot['plone.memoize']
 
 Verify that traversing to the url gives us the expected class
     >>> view = projects.p1.restrictedTraverse('team')

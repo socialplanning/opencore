@@ -7,7 +7,8 @@ from opencore.nui.main import SearchView
 from zExceptions import BadRequest
 from zExceptions import Redirect
 from zope import event
-
+from plone.memoize.view import memoize
+from plone.memoize.view import memoize_contextless
 
 class ProjectContentsView(BaseView):
 
@@ -136,6 +137,7 @@ class ProjectTeamView(SearchView):
         return self.membranetool(**query)
 
     @property
+    @memoize
     def memberships(self):
         try:
             sort_fn = getattr(self, 'handle_sort_%s' % self.sort_by)
@@ -153,7 +155,7 @@ class ProjectTeamView(SearchView):
         projects = self._projects_for_member(member)
         return len(projects) > 10
 
-#    @memoized
+    @memoize_contextless
     def _projects_for_member(self, member):
         return member.getProjects()
 
