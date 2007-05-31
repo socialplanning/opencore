@@ -106,3 +106,6 @@ Verify that traversing to the url gives us the expected class
     >>> view = projects.p1.restrictedTraverse('team')
     >>> view
     <Products.Five.metaclass.SimpleViewClass from ...team-view.pt object at ...>
+
+Call the view to make sure there are no exceptions
+    >>> out = view()
