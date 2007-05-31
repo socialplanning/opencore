@@ -1,23 +1,35 @@
+<!-- join form -->
 <tal:handle define="global fdata view/handle_request" replace="nothing"/>
 <html 
    metal:use-macro="here/@@standard_macros/master">
   <body>
     <div id="oc-content-container" metal:fill-slot="content">              
       <div id="oc-content-main">
+
         <form id="oc-join-form" name="edit_form" method="post" enctype="multipart/form-data"
-	      tal:attributes="action python:context.absolute_url()+'/join'">
+	      tal:attributes="action python:context.absolute_url()+'/join'"
+	      >
 	  
           <fieldset>
 
             <legend class="headingBlock">
               <h1>Join OpenPlans</h1>
-              <p class="oc-headingContext">Registration is free and your email will not be
+
+              <p class="oc-headingContext" 
+		 tal:condition="not:fdata/getUser | nothing">
+		Registration is free and your email will not be
                 shared with anyone, however, you will need to confirm your email address in order to avoid 
                 spam bots abusing this system
               </p>
+
+	      <!-- on successful registration -->
+	      <p tal:condition="fdata/getUser | nothing">
+		"check yr email"
+	      </p>
             </legend> 
 
-            <table class="oc-form">
+            <table class="oc-form" 
+		   tal:condition="not:fdata/getUser | nothing">
               <thead></thead>
               <tbody>
             
