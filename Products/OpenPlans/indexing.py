@@ -44,7 +44,10 @@ def doCreateIndexes(out, catalog, idxs):
 
 
 MAILTO = 'mailto'
-idxs = (('FieldIndex', PROJECT_POLICY, None), ('FieldIndex', MAILTO, None),)
+idxs = (('FieldIndex', PROJECT_POLICY, None),
+        ('FieldIndex', MAILTO, None),
+        ('DateIndex', 'made_active_date', None),
+        )
 
 def createIndexes(portal, out):
     catalog = getToolByName(portal, 'portal_catalog')
