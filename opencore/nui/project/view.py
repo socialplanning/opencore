@@ -64,7 +64,7 @@ def make_batch(fn):
 class ProjectTeamView(SearchView):
 
     def __init__(self, context, request):
-        SearchView.__init__(self, context, request)
+        super(ProjectTeamView, self).__init__(self, context, request)
         project = self.context
         teams = project.getTeams()
         assert len(teams) == 1
