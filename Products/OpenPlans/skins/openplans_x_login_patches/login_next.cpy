@@ -15,8 +15,6 @@ import ZTUtils
 
 REQUEST = context.REQUEST
 
-import pdb;  pdb.set_trace()
-
 try:
     context.acl_users.credentials_cookie_auth.login()
 except AttributeError:
