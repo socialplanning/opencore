@@ -929,6 +929,9 @@ height: 1em;
 }
 
 /* List table */
+.oc-widget-dataTable {
+  clear: both;
+}
 .oc-dataTable  {
    width: 100%;
    white-space: nowrap;
