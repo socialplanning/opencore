@@ -415,7 +415,24 @@ fieldset.oc-boxy .oc-legend-heading {
 .oc-column-right.oc-boxy {
 width: 44%;
 }
-
+#oc-contact .fn {
+	margin-left: 4em;
+	margin-bottom: 0.5em;
+	font-weight: bold;
+}
+#oc-contact dl {
+	margin: 0;
+}
+#oc-contact dt {
+	float: left;
+	width: 3.5em;
+	margin-right: 0.5em;
+	text-align: right;
+	font-weight: bold;
+}
+#oc-contact dd {
+	margin-bottom: 0.5em;
+}
 /* GENERIC search results & lineups */
 
 .oc-lineup, /* series of similar items */
@@ -664,17 +681,29 @@ dl.oc-member-info dd {
 /* Home page */
 
 .oc-getstarted {
-  display: block; 
   margin-bottom: 1em;
 }
-.oc-getstarted select {
-  width: 100%;
-  font-weight: bold;
-  color: #333;
+.oc-getstarted h2 {
+  margin-bottom: 0.5em;
 }
-.oc-getstarted input {
-  font-size: 100%;
-  /* display: none; */
+.oc-getstarted-list {
+	background-color: #fff;
+	margin: 0;
+	padding: 0.75em;
+	list-style-type: none;
+}
+.oc-getstarted-list li h3 {
+	margin: 0;
+}
+.oc-getstarted-list li h3 a {
+	text-decoration: none;
+}
+.oc-getstarted-list li h3 a:hover {
+	text-decoration: underline;
+}
+.oc-getstarted-list li p.oc-discreetText {
+	margin: 0 0 0.5em;
+	line-height: normal;
 }
 
 /* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
