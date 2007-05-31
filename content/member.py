@@ -103,14 +103,6 @@ class OpenMember(TeamSecurity, FolderishMember):
 
     actions = actions
 
-
-    def __init__(self):
-        TeamSecurity.__init__(self)
-        FolderishMember.__init__(self)
-        self.statement = self.skills = self.background = \
-                         self.affiliations = self.favorites = 'not specified'
-
-
     security.declareProtected(ManagePortal, 'getUserConfirmationCode')
     def getUserConfirmationCode(self):
         """
