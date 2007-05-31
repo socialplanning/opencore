@@ -19,6 +19,7 @@ def test_suite():
     from zope.interface import alsoProvides
     from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
     from opencore.project.browser.projectinfo import get_featurelets
+    from zope.app.annotation.interfaces import IAnnotations
     setup.setupPloneSite()
     def readme_setup(tc):
         tc._refreshSkinData()
