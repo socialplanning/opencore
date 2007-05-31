@@ -2,28 +2,34 @@
 some base class for opencore ui work
 """
 from Acquisition import aq_inner, aq_parent
-from opencore.content.page import OpenPage
-from opencore.content.member import OpenMember
-from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.OpenPlans.content.project import OpenProject
+from Products.Five import BrowserView
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
-from Products.Five import BrowserView
+from Products.CMFPlone import PloneMessageFactory
+from Products.CMFPlone.utils import transaction_note
+from Products.CMFPlone.interfaces import IPloneSiteRoot
+
+from zope.component import getMultiAdapter, adapts, adapter
+from zope.component import getMultiAdapter, adapts, adapter
+
 from plone.memoize import instance
 from plone.memoize import view 
-from opencore import redirect 
-from opencore.interfaces import IProject 
-from zope.component import getMultiAdapter, adapts, adapter
-from topp.utils.pretty_text import truncate
-from topp.utils.pretty_date import prettyDate
-from opencore.nui.static import render_static
-from topp.featurelets.interfaces import IFeatureletSupporter
-from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
-from zope.component import getMultiAdapter, adapts, adapter
-from Products.CMFPlone import PloneMessageFactory, transaction_note
-
 view.memoizedproperty = lambda func: property(view.memoize(func))
 view.mcproperty = lambda func: property(view.memoize_contextless(func))
+
+from topp.utils.pretty_text import truncate
+from topp.utils.pretty_date import prettyDate
+from topp.featurelets.interfaces import IFeatureletSupporter
+
+from Products.OpenPlans.content.project import OpenProject
+from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
+
+from opencore import redirect 
+from opencore.interfaces import IProject 
+from opencore.content.page import OpenPage
+from opencore.content.member import OpenMember
+from opencore.nui.static import render_static
+
 
 class BaseView(BrowserView):
     """Base view for general use for nui templates and as an abstract base"""

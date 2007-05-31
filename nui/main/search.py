@@ -1,11 +1,13 @@
 import datetime
 from DateTime import DateTime as zopedatetime
 from time import strptime
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import Batch
-from Products.AdvancedQuery import Eq, RankByQueries_Sum
-from topp.utils.pretty_date import prettyDate
 from zExceptions import Redirect 
+
+from Products.AdvancedQuery import Eq, RankByQueries_Sum
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.PloneBatch import Batch
+
+from topp.utils.pretty_date import prettyDate
 from opencore.nui.base import BaseView
 
 
