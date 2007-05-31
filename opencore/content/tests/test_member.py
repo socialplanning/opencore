@@ -28,7 +28,7 @@ class TestOpenMember(OpenPlansTestCase):
     def test_validateEmail(self):
         mdtool = getToolByName(self.portal, 'portal_memberdata')
         mem = mdtool._getOb('m1')
-        result = mem.validate_email('notreal2@xyxyxyxy.com')
+        result = mem.validate_email('notreal2@example.com')
         self.failIf(result is None)
 
     def test_projectBrains(self):

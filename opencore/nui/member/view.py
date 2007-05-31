@@ -15,8 +15,11 @@ class ProfileView(BaseView):
     def info(self):
         """Returns profile information in a dict for easy template access."""
         usr = self.vieweduser()
+        portrait = usr.getProperty('portrait', None)
+        portraitURL = portrait and portrait.absolute_url()
         return dict(membersince = prettyDate(usr.getRawCreation_date()),
                     lastonline  = prettyDate(usr.getLast_login_time()),
+                    portraitURL = portraitURL,
                     )
 
 
