@@ -21,8 +21,8 @@ class JoinView(BaseView):
         adder = getAdderUtility(context)
         type_name = adder.default_member_type
 
-        if self.loggedin:
-            raise Redirect, "/"
+##         if self.loggedin:
+##             raise Redirect, "/"
 
         #00 pythonscript call, move to fs code
         id_ = context.generateUniqueId(type_name)
@@ -101,10 +101,6 @@ class ConfirmAccountView(BaseView):
         self.addPortalStatusMessage(u'first time!')
         return self.redirect('logged_in')
 
-class LoginView(BaseView):
-
-    def __call__(self, *args, **kw):
-        return self.index(*args, **kw)
 
 class ForgotLoginView(BaseView):
 
