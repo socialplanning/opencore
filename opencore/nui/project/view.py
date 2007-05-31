@@ -55,60 +55,91 @@ class ProjectAddView(BaseView):
         self.redirect(proj.absolute_url())
 
 
+def make_batch(fn):
+    def wrapped(self):
+        lst = fn(self)
+        return self._get_batch(lst)
+    return wrapped
+
 class ProjectTeamView(SearchView):
 
     def __init__(self, context, request):
         SearchView.__init__(self, context, request)
+        project = self.context
+        teams = project.getTeams()
+        assert len(teams) == 1
+        team = teams[0]
+        self.team_path = '/'.join(team.getPhysicalPath())
+        self.active_states = team.getActiveStates()
         self.sort_by = None
    
     @button('sort')
     def handle_request(self):
         self.sort_by = self.request.get('sort_by', None)
 
+    @make_batch
+    def handle_sort_membership_date(self):
+        query = dict(portal_type='OpenMembership',
+                 path=self.team_path,
+                 review_state=self.active_states,
+                 sort_on='made_active_date',
+                 sort_order='descending',
+                 )
+        membership_brains = self.catalog(**query)
+        mem_ids = [b.getId for b in membership_brains]
+        query = dict(portal_type='OpenMember',
+                     getId=mem_ids,
+                     )
+        member_brains = self.membranetool(**query)
+        lookup_dict = dict((b.getId, b) for b in member_brains)
+
+        result = [lookup_dict.get(b.getId, None) for b in membership_brains]
+        # filter out None's, which appear for admins that are not openmembers
+        return filter(None, result)
+
+    @make_batch
+    def handle_sort_location(self):
+        query = dict(portal_type='OpenMembership',
+                 path=self.team_path,
+                 review_state=self.active_states,
+                 )
+        mem_brains = self.catalog(**query)
+        mem_ids = [mem_brain.getId for mem_brain in mem_brains]
+        query = dict(sort_on='sortableLocation',
+                     getId=mem_ids,
+                     )
+        return self.membranetool(**query)
+
+    @make_batch
+    def handle_sort_contributions(self):
+        return []
+
+    @make_batch
+    def handle_sort_default(self):
+        query = dict(portal_type='OpenMembership',
+                     path=self.team_path,
+                     review_state=self.active_states,
+                     )
+        mem_brains = self.catalog(**query)
+
+        ids = [b.getId for b in mem_brains]
+        query = dict(portal_type='OpenMember',
+                     getId=ids,
+                     sort_on='getId',
+                     )
+        return self.membranetool(**query)
+
     @property
     def memberships(self):
-        project = self.context
-        teams = project.getTeams()
-        assert len(teams) == 1
-        team = teams[0]
-        team_path = '/'.join(team.getPhysicalPath())
-        active_states = team.getActiveStates()
+        if self.sort_by is None:
+            return self.handle_sort_default()
 
-        if self.sort_by == 'location':
-            #sort by username
-            query = dict(portal_type='OpenMembership',
-                     path=team_path,
-                     review_state=active_states,
-                     )
-            mem_brains = self.catalog(**query)
-            mem_ids = [mem_brain.getId for mem_brain in mem_brains]
-            query = dict(sort_on='sortableLocation',
-                         getId=mem_ids,
-                         )
-            mem_brains = self.membranetool(**query)
-            
+        sort_fn = getattr(self, 'handle_sort_%s' % self.sort_by, None)
+        if sort_fn is None or not callable(sort_fn):
+            return self.handle_sort_default()
 
-        elif self.sort_by == 'membership_date':
-            mem_brains = []
-        elif self.sort_by == 'contributions':
-            mem_brains = []
-        else:
-            #sort by username
-            query = dict(portal_type='OpenMembership',
-                     path=team_path,
-                     review_state=active_states,
-                     )
-            mem_brains = self.catalog(**query)
+        return sort_fn()
 
-            ids = [b.getId for b in mem_brains]
-            query = dict(portal_type='OpenMember',
-                         getId=ids,
-                         sort_on='getId',
-                         )
-            mem_brains = self.membranetool(**query)
-
-        return self._get_batch(mem_brains)
-            
     def projects_for_member(self, member):
         # XXX these should be brains
         projects = self._projects_for_member(member)
