@@ -236,7 +236,7 @@ class BaseView(BrowserView):
 
     @property
     def siteURL(self):
-        return self.portal_url()
+        return aq_inner(self.portal).absolute_url()
 
     @property
     def came_from(self):
