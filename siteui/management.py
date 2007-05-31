@@ -1,7 +1,9 @@
+from cStringIO import StringIO
 from zope.formlib import form
 from Products.Five.formlib import formbase
 from Products.Five import BrowserView
 from Products.OpenPlans.Extensions.create_test_content import create_test_content
+from Products.OpenPlans.Extensions.setup import setup_nui
 from interfaces import IAddOpenPlans
 from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
@@ -34,3 +36,7 @@ class AddOpenPlansForm(formbase.AddForm):
         qi.installProduct('OpenPlans')
         if data.get('testcontent'):
             self.status = self.status + create_test_content(portal)
+        if data.get('setup_nui'):
+            out = StringIO()            
+            setup_nui(portal, out) 
+            self.status += out.getvalue()
