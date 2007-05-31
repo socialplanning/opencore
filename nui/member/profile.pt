@@ -43,7 +43,7 @@
         </div>
         <dl class="oc-member-info">
           <dt>Personal Statement</dt>
-          <dd>To telle yow al the condicioun / Of ech of hem, so as it semed me, / And whiche they weren, and of what degree, / And eek in what array that they were inne; / The general outline or summary,</dd>
+          <dd tal:content="usr/statement" />
           <dt>Skills</dt>
           <dd>cook, clean, code, creep, crest, craft, coast, clash</dd>
           <dt>Affiliations</dt>
