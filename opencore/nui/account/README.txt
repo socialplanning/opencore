@@ -5,9 +5,9 @@
 workflow
 ========
 
-Test the workflow updating function::
+Test the workflow updating function:: 
 
-    >>> from Products.OpenPlans.Extensions.Install import install_confirmation_workflow as icw
+    >>> from opencore.nui.setup import install_confirmation_workflow as icw
     >>> from StringIO import StringIO
     >>> out = StringIO()
     >>> portal.portal_workflow.getChainForPortalType('OpenMember')
@@ -24,7 +24,7 @@ Get the password reset view::
 
     >>> view = portal.restrictedTraverse("@@forgot")
     >>> view
-    <Products.Five.metaclass.SimpleViewClass from ...>
+    <...SimpleViewClass ...forgot.pt...>
 
 Try to reset the password, but you can't do this as a logged-in member::
 
