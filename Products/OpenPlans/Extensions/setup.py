@@ -186,6 +186,7 @@ nui_functions = dict(install_confirmation_workflow=convertFunc(install_confirmat
                      setupHomeLayout=convertFunc(setupHomeLayout),
                      save_all_projects=convertFunc(save_all_projects),
                      createMemIndexes=convertFunc(createMemIndexes),
+                     createIndexes=convertFunc(createIndexes),
                      )
 
 class NuiSetup(TOPPSetup):
