@@ -11,13 +11,9 @@ from opencore.nui.base import BaseView, button, post_only, anon_only
 
 class JoinView(BaseView):
 
-    @anon_only()
-    def __call__(self, *args, **kw):
-        return self.index(*args, **kw)
-
     @button('join')
     @post_only(raise_=False)
-    @anon_only()
+    #@anon_only()
     def handle_request(self):
         context = self.context
         mdc = getToolByName(context, 'portal_memberdata')
