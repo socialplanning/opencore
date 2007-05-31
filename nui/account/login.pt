@@ -9,7 +9,7 @@
 
         <div id="oc-content-main">
           <form method="post" id="oc-login-form"
-            tal:attributes="action python:context.absolute_url()+">
+            tal:attributes="action python:context.absolute_url()+'/logged_in'">
 
             <input type="hidden" name="form.submitted" value="1" />
             <input type="hidden" name="js_enabled" id="js_enabled" value="0" />
