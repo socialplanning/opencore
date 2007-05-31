@@ -12,11 +12,13 @@ from topp.utils.pretty_date import prettyDate
         
 class ProfileView(BaseView):
 
+    defaultPortraitURL = '++resource++img/gear-big.gif'
+
     def info(self):
         """Returns profile information in a dict for easy template access."""
         usr = self.vieweduser()
         portrait = usr.getProperty('portrait', None)
-        portraitURL = portrait and portrait.absolute_url()
+        portraitURL = portrait and portrait.absolute_url() or self.defaultPortraitURL
         return dict(membersince = prettyDate(usr.getRawCreation_date()),
                     lastonline  = prettyDate(usr.getLast_login_time()),
                     portraitURL = portraitURL,
