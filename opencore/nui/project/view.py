@@ -9,6 +9,12 @@ from zExceptions import Redirect
 from zope import event
 
 
+class ProjectContentsView(BaseView):
+
+    def wiki_pages(self):
+        return self.catalog(portal_type="Document",
+                            path='/'.join(self.context.getPhysicalPath()))
+
 class ProjectPreferencesView(BaseView):
 
     @button('update')
