@@ -31,7 +31,7 @@ class ProfileView(BaseView):
         query = dict(Creator=self.vieweduser().getId(), portal_type='Document', sort_on='modified', sort_order='reverse')
         brains = catalog.searchResults(**query)
         items = []
-        for brain in brains:
+        for brain in brains[:max]:
             items.append({'title': brain.Title, 'url': brain.getURL(), 'date': prettyDate(brain.getRawCreation_date())})
         return items
 
