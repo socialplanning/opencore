@@ -96,3 +96,14 @@ def patch_advanced_query():
         del CatalogTool
 
 patch_advanced_query()
+
+def patch_fileattachment():
+    """
+    tell the FileAttachment to display image types inline
+    """
+    from Products.RichDocument.content.attachments import FileAttachment
+    image_mimetypes = ('image/jpeg', 'image/gif', 'image/png')
+    new_val = image_mimetypes + FileAttachment.inlineMimetypes
+    patch_class(FileAttachment, 'inlineMimetypes', new_val)
+
+patch_fileattachment()
