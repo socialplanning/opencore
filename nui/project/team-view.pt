@@ -71,8 +71,8 @@
                   </h3>
                   <span class="oc-discreetText adr" tal:define="loc mem/getLocation" tal:condition="loc" tal:content="loc"> Big City, ST</span>
                   <div class="oc-discreetText">XXX contributions since
-                    <span tal:replace="python: view.pretty_date(membrain.CreationDate)">January 1, 2000</span>,
-                    latest <span tal:replace="python: view.pretty_date(membrain.ModificationDate)">45 years ago</span>
+                    <span tal:replace="python: view.pretty_date(mem.CreationDate())">January 1, 2000</span>,
+                    latest <span tal:replace="python: view.pretty_date(mem.ModificationDate())">45 years ago</span>
                   </div>
                   <div tal:define="projects python: view.projects_for_member(mem);
                                    nprojects python: len(projects);
