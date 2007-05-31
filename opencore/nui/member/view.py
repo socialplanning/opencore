@@ -24,6 +24,18 @@ class ProfileView(BaseView):
                     portraitURL = portraitURL,
                     )
 
+    def activity(self, max=5):
+        """Returns a list of dicts describing each of the `max` most recently
+        modified wiki pages for the viewed user."""
+        catalog = getToolByName(self.context, 'portal_catalog')
+        query = dict(Creator=self.vieweduser().getId(), portal_type='Document', sort_on='modified', sort_order='reverse')
+        brains = catalog.searchResults(**query)
+        items = []
+        for brain in brains:
+            items.append({'title': brain.Title, 'url': brain.getURL(), 'date': prettyDate(brain.getRawCreation_date())})
+        return items
+
+
 
 class ProfileEditView(BaseView):
 
