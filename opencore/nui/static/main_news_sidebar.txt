@@ -1,5 +1,5 @@
 	<div id="oc-about">
-          <h2>About OpenPlans</h2>>
+          <h2>About OpenPlans</h2>
           <p>OpenPlans aims to transform social activism by providing tools that connect people and enable them to share ideas, stay organized, and act collectively to effect change.</p>
           <h2>About us</h2>
           <img class="oc-image-bright" src="http://www.openplans.org/site-home/orange_logo.gif" alt="The Open Planning Project" />
