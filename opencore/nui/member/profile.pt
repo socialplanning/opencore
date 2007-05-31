@@ -27,7 +27,11 @@
               <dd>
                 <tal:projects condition="usr/projectBrains">
                   <ul class="oc-inlineList">
-                    <li tal:repeat="proj usr/projectBrains"><a tal:attributes="href proj/getURL" tal:content="proj/Title" /></li>
+                    <li tal:repeat="proj usr/projectBrains"><a
+                        tal:attributes="href proj/getURL"
+                        tal:content="proj/Title" /><tal:private
+                        condition="python: proj.review_state == 'closed'">
+                        (private)</tal:private></li>
                   </ul>
                 </tal:projects>
                 <tal:noprojects condition="not: usr/projectBrains">
