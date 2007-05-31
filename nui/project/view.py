@@ -131,15 +131,12 @@ class ProjectTeamView(SearchView):
 
     @property
     def memberships(self):
-        if self.sort_by is None:
+        try:
+            sort_fn = getattr(self, 'handle_sort_%s' % self.sort_by)
+            return sort_fn()
+        except (TypeError, AttributeError):
             return self.handle_sort_default()
-
-        sort_fn = getattr(self, 'handle_sort_%s' % self.sort_by, None)
-        if sort_fn is None or not callable(sort_fn):
-            return self.handle_sort_default()
-
-        return sort_fn()
-
+            
     def projects_for_member(self, member):
         # XXX these should be brains
         projects = self._projects_for_member(member)
