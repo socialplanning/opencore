@@ -76,6 +76,7 @@ def create_test_content(self, p_map=None, m_map=None):
         mem = mdc._getOb(mem_id)
         mem._setPassword(mem_data['password'])
         mem.fixOwnership()
+        wf_tool.doActionFor(mem, 'register_public')
         out.append('Member %s added' % mem_id)
         for p_id, p_roles in mem_data['projects'].items():
             team = tm_tool.getTeamById(p_id)
