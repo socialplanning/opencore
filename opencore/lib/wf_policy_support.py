@@ -70,14 +70,22 @@ class WorkflowPolicyWriteAdapter(WorkflowPolicyReadAdapter):
             config.manage_makeChanges(policy_in, policy_in)
             update_role_mappings = True
 
-        # we may have to change the state of the project itself
+        # we may have to change state of project/team objects
         proj_trans = PLACEFUL_POLICIES[policy_in]['proj_trans']
         for available_trans in wftool.getTransitionsFor(self.context):
             if proj_trans == available_trans['id']:
                 wftool.doActionFor(self.context, proj_trans)
                 update_role_mappings = True
                 break
- 
+        teams = self.context.getTeams()
+        if teams:
+            team = teams[0]
+            for available_trans in wftool.getTransitionsFor(team):
+                if proj_trans == available_trans['id']:
+                    wftool.doActionFor(team, proj_trans)
+                    update_role_mappings = True
+                    break
+
         if update_role_mappings:
             wfs = {}
             for wf_id in wftool.listWorkflows():
