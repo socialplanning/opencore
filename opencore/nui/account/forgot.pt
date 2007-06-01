@@ -1,3 +1,4 @@
+<tal:handle define="global emailsent view/handle_request" replace="nothing"/>
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
@@ -7,8 +8,15 @@
       </div><!-- end .headingBlock -->
 
       <div id="oc-content-main">
-        <form method="post" id="oc-login-form" tal:attributes="action string: ${context/absolute_url}/${view/__name__}">
-          <div tal:condition="exists:options/email" tal:replace="options/email" />
+	<div tal:condition="emailsent|devmode|nothing" 
+	     tal:define="devmode emailsent/devmode|nothing" class="">
+	  An email has been sent to you <span tal:content="view/userid">User</span>
+	  <a tal:attributes="href emailsent/reset_url" tal:condition="devmode">Hit link to reset</a>
+	</div>
+        <form
+	   tal:condition="not:emailsent"
+	   tal:attributes="action string: ${context/absolute_url}/${view/__name__}"
+	   method="post" id="oc-login-form">
         
           <fieldset>
             <legend>            </legend> 
@@ -17,7 +25,9 @@
               <thead></thead>
               <tbody>
                 <tr>
-                  <th class="oc-form-label" scope="row"><label for="__ac_name">Username or email address</label></th>
+                  <th class="oc-form-label" scope="row">
+		    <label for="__ac_name">Username or email address</label>
+		  </th>
                   <td class="oc-form-value"><input type="text" size="15" tabindex="0" name="__ac_name" value="" id="__ac_name" class="oc-firstFocus" /></td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
@@ -26,7 +36,10 @@
                 </tr>
                 <tr class="oc-actions">
                   <th></th>
-                  <td><input class="context" type="submit" name="submit" value="Send" /></td>
+                  <td>
+		    <button type="submit" 
+			    name="send:boolean" 
+			    value="True">Send</button>
                   <td class="oc-form-help"></td>
                 </tr>                    
               </tbody>
