@@ -2,6 +2,8 @@
 for setup widgets for those annoying little tasks that
 only need to happen occasionally
 """
+from logging import getLogger
+
 from Products.CMFCore import CMFCorePermissions
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.setup.SetupBase import SetupWidget
@@ -89,6 +91,40 @@ def setup_nui(portal, out):
     for fn in nui_functions.values():
         fn(portal, portal)
 
+def fixProjectWFStates(self, portal):
+    """
+    make sure the projects are in the WF state that matches the
+    chosen security policy
+    """
+    logger = getLogger('OpenPlans')
+    cat = getToolByName(portal, 'portal_catalog')
+    pwf = getToolByName(portal, 'portal_placeful_workflow')
+    wftool = getToolByName(portal, 'portal_workflow')
+    brains = cat(portal_type='OpenProject')
+    update_role_mappings = False
+    for brain in brains:
+        review_state = brain.review_state
+        project = brain.getObject()
+        config = pwf.getWorkflowPolicyConfig(project)
+        policy_id = config.getPolicyBelowId()
+        proj_trans = PLACEFUL_POLICIES[policy_id]['proj_trans']
+        for available_trans in wftool.getTransitionsFor(project):
+            if proj_trans == available_trans['id']:
+                wftool.doActionFor(project, proj_trans)
+                update_role_mappings = True
+                msg = "Fired %s transition for %s project" % (proj_trans,
+                                                              project.getId())
+                logger.log(INFO, msg)
+    if update_role_mappings:
+        wfs = {}
+        for wf_id in wftool.listWorkflows():
+            wf = wftool.getWorkflowById(wf_id)
+            wfs[wf_id] = wf
+        # XXX: Bad Touching to avoid waking up the entire portal
+        count = wftool._recursiveUpdateRoleMappings(self.context, wfs)
+        msg = "%d objects updated"
+        logger.log(INFO, msg)
+
 
 topp_functions = dict(
     setupKupu = convertFunc(setupKupu),
@@ -116,7 +152,8 @@ topp_functions = dict(
     setupPeopleFolder=convertFunc(setupPeopleFolder),
     migrate_teams_to_projects=migrate_teams_to_projects,
     migrate_membership_roles=migrate_membership_roles,
-    NUI_setup=convertFunc(setup_nui)
+    NUI_setup=convertFunc(setup_nui),
+    fixProjectWFStates=fixProjectWFStates,
     )
 
 class TOPPSetup(SetupWidget):
