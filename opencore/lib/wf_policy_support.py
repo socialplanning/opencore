@@ -77,7 +77,7 @@ class WorkflowPolicyWriteAdapter(WorkflowPolicyReadAdapter):
                 wftool.doActionFor(self.context, proj_trans)
                 update_role_mappings = True
                 break
-
+ 
         if update_role_mappings:
             wfs = {}
             for wf_id in wftool.listWorkflows():
