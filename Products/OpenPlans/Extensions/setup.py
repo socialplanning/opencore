@@ -28,6 +28,7 @@ from migrate_membership_roles import migrate_membership_roles
 from cStringIO import StringIO
 
 from opencore.interfaces import IWriteWorkflowPolicySupport
+from opencore.interfaces import IReadWorkflowPolicySupport
 
 from Products.OpenPlans.config import PROJECTNAME
 
@@ -96,6 +97,36 @@ def fixProjectWFStates(self, portal):
         policy_writer.setPolicy(policy_id)
         logger.log(INFO, 'set policy for %s project' % project.getId())
 
+def initializeTeamWorkflow(self, portal):
+    """
+    initialize the teams with the new team workflow
+    """
+    cat = getToolByName(portal, 'portal_catalog')
+    wftool = getToolByName(portal, 'portal_workflow')
+    brains = cat(portal_type='OpenTeam')
+
+    wfs = {}
+    for wf_id in wftool.listWorkflows():
+                wf = wftool.getWorkflowById(wf_id)
+                wfs[wf_id] = wf
+
+    for brain in brains:
+        tm = brain.getObject()
+        proj = tm.getProject()
+        policy_reader = IReadWorkflowPolicySupport(proj)
+        policy_id = policy_reader.getCurrentPolicyId()
+        review_state = policy_id.split('_')[0]
+        status = wftool.getStatusOf('openplans_team_workflow', tm).copy()
+        if status.get('review_state') != review_state:
+            status.update({'review_state': review_state, 'time': DateTime(),
+                           'actor': 'admin',
+                           'comments': 'Team permissions fixup'})
+            wftool.setStatusOf('openplans_team_workflow', tm, status)
+
+            # XXX: Bad Touching to avoid waking up the entire portal
+            wftool._recursiveUpdateRoleMappings(tm, wfs)
+
+
 functions = dict(
     setupKupu = convertFunc(setupKupu),
     fixUpEditTab = convertFunc(fixUpEditTab),
@@ -122,6 +153,7 @@ functions = dict(
     migrate_teams_to_projects=migrate_teams_to_projects,
     migrate_membership_roles=migrate_membership_roles,
     fixProjectWFStates=fixProjectWFStates,
+    initializeTeamWorkflow=initializeTeamWorkflow,
     )
 
 class TOPPSetup(SetupWidget):
