@@ -24,7 +24,7 @@ def test_suite():
 
     globs = locals()
     readme = FunctionalDocFileSuite("README.txt",
-                                    optionflags=optionflags,ac
+                                    optionflags=optionflags,
                                     package='opencore.nui.account',
                                     test_class=MockMailHostTestCase,
                                     globs = globs,
