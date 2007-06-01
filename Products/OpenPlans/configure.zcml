@@ -6,11 +6,4 @@
 
   <include file="metadata.zcml" />
 
-  <adapter
-     for="opencore.interfaces.IProject"
-     provides="opencore.interfaces.IWriteWorkflowPolicySupport"
-     factory=".content.wf_policy_support.WorkflowPolicyWriteAdapter"
-     permission="openplans.ManageWorkflowPolicy"
-     />
-
 </configure>

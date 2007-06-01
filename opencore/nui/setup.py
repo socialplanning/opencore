@@ -1,7 +1,9 @@
 from topp.utils import config
 from Products.OpenPlans.Extensions.setup import convertFunc, reinstallTypes
-from Products.OpenPlans.Extensions.Install import install_workflow_map, installNewsFolder
-from Products.OpenPlans.Extensions.Install import setupPeopleFolder, setupProjectLayout, setupHomeLayout
+from Products.OpenPlans.Extensions.Install import install_workflow_map, \
+     installNewsFolder
+from Products.OpenPlans.Extensions.Install import setupPeopleFolder, \
+     setupProjectLayout, setupHomeLayout
 from Products.OpenPlans.Extensions.Install import createMemIndexes
 from Products.CMFCore.utils import getToolByName
 import os

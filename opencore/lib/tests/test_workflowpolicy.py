@@ -8,7 +8,8 @@ from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
 
 from opencore.nui.project.view import ProjectAddView
 
-from openplanstestcase import OpenPlansTestCase, makeContent
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase, \
+     makeContent
 
 class TestWorkflowPolicy(OpenPlansTestCase):
 
