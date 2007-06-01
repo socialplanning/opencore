@@ -69,283 +69,55 @@ body {
   padding: .5em 1em;
 }
 
-/* @Header - Global, context & subcontext menus 
----------------------------------------*/
-
-#oc-topnav .oc-dropdown{
+/* @TOPNAV - Global header
+--------------------------------------- */
+#oc-topnav {
+	margin: 0;
+	padding: 0;
 }
-
-#oc-topnav-global {
-/*
-  padding: 0.25em;
-  padding-left: 1em;
-*/
-  position: relative;
+#oc-topnav h1 {
+	padding: 0.5em 0;
+	margin: 0;
+	margin-left: 0.5em;
+	color: #fff;
 }
-    
-#oc-topnav-title {
-  position: absolute;
-  top: 55px;
-  left: 10px;
-  width: 100%;
+ul#oc-topnav-context {
+	list-style-type: none;
+	display: block;
+	margin: 0;
+	margin-left: 0.75em;
+	padding: 0;
 }
-  
-#oc-topnav-title h1 {
-  position: absolute;
-  bottom: 0.5em;
-  padding: 0;
-}        
-  
-#oc-topnav-openplans {
-  float: right;
-  display: block;
-  padding: 0.25em;
+ul#oc-topnav-context li {
+	float: left;
+	clear: none;
+	display: block;
+	padding: 0.25em 0.5em;
+	margin: 0 0.25em;
+	background: #333;
 }
-.oc-dropdown {
-  margin: 0;
-  padding: 0;
+ul#oc-topnav-context li.oc-topnav-selected {
+	background: #fff;
+	color: #333;
 }
-.oc-dropdown li {
-  display: inline;
-  padding: 0 1em 0 0;
+#oc-topnav-usermenu {
+	position: absolute;
+	top: 0.5em;
+	right: 0.5em;
+	padding: 0.25em;
 }
-  
-/*#topnav-openplans-logo,*/
-#oc-topnav-openplans-wrapper,
-#oc-topnav-openplans-search {
-  display: inline;
+ul.oc-usermenu-list {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	font-size: 10px;
 }
-    
-#oc-topnav-openplans-logo {
-  position: absolute;
-  margin: 0;
-  top: 2px;
-  right: 4px;
+ul.oc-usermenu-list li {
+	float: left;
+	clear: none;
+	margin: 0 0.25em;
+	padding: 0.25em 0.5em;
 }
-
-#oc-topnav-openplans-logo img {
-  margin: 0;
-  padding: 0;
-  vertical-align: middle;
-}
-
-#oc-topnav-openplans-links {
-  padding-top: 3px;
-  padding-right: 3px;
-}
-
-#oc-topnav-openplans-links li {
-  margin: 0;
-  padding-left: 0.75em;
-  text-transform: none; 
-  list-style-type: none;
-  display: inline;
-  font-size: 75%;
-}
-      
-#oc-topnav-openplans-search {
-  margin: 0;
-  padding: 0;
-}
-        
-#oc-portal-searchbox,
-#oc-portal-searchbox form,
-div.LSBox {
-  margin: 0.125em 0;
-  float: left;
-  clear: none;
-  display: inline;
-  position: relative;
-}
-          
-input#oc-searchGadget {
-  width: 7em;
-  font-size: 100%;
-  background: white url(searchglass.png) no-repeat 2px center;
-  padding-left: 15px;
-}
-
-div.oc-LSBox input.oc-searchButton {
-  display: none;
-}
-
-div#oc-LSResult {
-  z-index: 5;
-  position: absolute;
-  right: 0;
-}
-
-div#oc-LSResult legend {
-  display: none;
-}
-  
-div#oc-LSResult ul {
-  list-style-type: none;
-  padding: 0.5em;
-  margin: 0;
-}
-    
-#oc-topnav-openplans-wrapper {
-  margin: 0 0.5em;
-}
-            
-#oc-topnav-subcontext {
-  padding: 0 1em;
-}
-  
-#oc-topnav-subcontext-title, #oc-topnav-subcontext-title h1 {
-  margin: 0;
-  padding: 0;
-  line-height: normal;
-}
-
-
-/*Drop-down menu styles GLOBAL (see far below for structure)
----------------------------------------*/
-
-/*
-
-ul.oc-dropdown, .oc-dropdown ul {
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.oc-dropdown li {
-  text-transform: lowercase;
-}
-
-.oc-dropdown li ul {
-  border-top: 1px solid #999;
-  font-weight: normal;
-
-}
-  
-.oc-dropdown li ul li {
-  width: 12em;
-}
-.oc-dropdown li ul li.oc-dropdown-divider {
-  border-top: 1px dotted #999;
-}
-      
-.oc-dropdown li ul li a {
-}
-  
-
-.oc-dropdown li:hover, .oc-dropdown li:hover ul,
-.oc-dropdown li.sfhover, .oc-dropdown li.sfhover ul {
-  background-color: #666;
-}
-
-.oc-dropdown li:hover ul,
-.oc-dropdown li.sfhover ul {
-}
-
-.oc-dropdown li:hover ul li:hover,
-.oc-dropdown li.sfhover ul li.sfhover {
-  background-color: #bbb;
-}
-
-*/
-
-/* Drop-down menu styles for the HEADER (see far below for structure) */
-
-/*
-
-#oc-topnav ul.oc-dropdown, .oc-dropdown ul {
-  line-height: normal;
-}
-
-#oc-topnav  .oc-dropdown li {
-}
-
-#oc-topnav .oc-dropdown li ul {
-  border-top: 1px solid #A5CC7A;
-  background-color: #CCDEAF;
-}
-
-#oc-topnav .oc-dropdown li ul li {
-}
-#oc-topnav .oc-dropdown li ul li.oc-dropdown-divider {
-  border-top: 1px dotted #A5CC7A;
-}
-
-#oc-topnav .oc-dropdown li ul li a {
-  color: #325B0A;
-}
-
-#oc-topnav .oc-dropdown li ul li a:hover {
-  color: #325B0A;
-}
-
-#oc-topnav .oc-dropdown li:hover, .oc-dropdown li:hover ul,
-#oc-topnav .oc-dropdown li.sfhover, .oc-dropdown li.sfhover ul {
-  background-color: #CCDEAF;
-  color: #325B0A;
-}
-
-#oc-topnav .oc-dropdown li:hover ul,
-#oc-topnav .oc-dropdown li.sfhover ul {
-}
-
-#oc-topnav .oc-dropdown li:hover ul li:hover,
-#oc-topnav .oc-dropdown li.sfhover ul li.sfhover {
-  background-color: #AAC683;
-}
-
-*/
-  
-/* @CONTENT - This section defines the main content 
----------------------------------------------------*/
-
-/* Holdovers from the Typography Study
-#oc-content-title {
-  position: relative;
-  margin: 1.5em 0 0.75em;
-}
-      
-#oc-content-title-pagetitle {
-  position: absolute;
-  bottom: 0;
-  display: block;
-  width: 60%;
-  line-height: normal;
-  letter-spacing: normal;
-  font-weight: normal;
-}
-
-#oc-content-title-pagetitle a {
-  text-decoration: none;
-  color: black;
-} */
-    
-/* Rollie's nifty Definition Lists
-#oc-content-main dl {
-  min-width: 20em;
-  max-width: 33em;
-  margin: 1em;
-  padding: 0 2em;
-  font-size: 100%;
-  line-height: 1.25;
-  margin-bottom: -0.125em;
-}
-#oc-content-main dt { 
-  float: left; 
-  clear: left; 
-  width: 8em; 
-  text-align: right; 
-  font-weight: bold;
-}
-#oc-content-main dt:after {
-  content: ":";
-}
-#oc-content-main dd { 
-  margin: 0 0 0 9.5em; 
-  padding: 0 0 0.65em 0;
-} */
-
-/* Sidebar */
-
-
 /* @FOOTER - Global footer
 --------------------------------------- */
 #oc-footer ul {
@@ -389,6 +161,11 @@ ul.oc-dropdown, .oc-dropdown ul {
 	background-color: #eee;
 	margin-bottom: 1em;
 }
+.oc-boxy-content {
+	background-color: #fff;
+	padding: 0.75em;
+	margin: 0;
+}
 fieldset.oc-boxy {
 	margin-top: -1.75em;
 }
@@ -413,7 +190,7 @@ fieldset.oc-boxy .oc-legend-heading {
 }
 .oc-column-left.oc-boxy,
 .oc-column-right.oc-boxy {
-width: 44%;
+	width: 45%;
 }
 #oc-contact .fn {
 	margin-left: 4em;
@@ -496,11 +273,13 @@ width: 44%;
   padding: 0;
 }
 .oc-peopleresults-list li {
-  margin-bottom: 0.5em;
-  width: 49%;
+  margin: 0 0.75em 0.75em 0;
+  width: 47%;
   float: left;
   clear: none;
   white-space: nowrap;
+  overflow: hidden;
+	border: 1px solid #ccc;
 }
 .oc-peopleresults-list .oc-avatar {
   width: 80px;
@@ -508,13 +287,12 @@ width: 44%;
   overflow: hidden;
   float: left;
   clear: none;
-  margin-right: 1em;
 }
 .oc-peopleresults-content {
   float: left;
   clear: none;
-  width: 60%;
   white-space: normal;
+  padding: 0.5em;
 }
 .oc-peopleresults-content .fn, /* OpenPlans username */
 .oc-peopleresults-content .n /* full name */ {
