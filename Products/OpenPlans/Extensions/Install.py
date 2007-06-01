@@ -139,9 +139,6 @@ def installWorkflows(portal, out):
     """ Installs workflows """
     return install_workflow_map(portal, out)
 
-def install_confirmation_workflow(portal, out):
-    from Products.OpenPlans.workflows import member_confirmation_data
-    return install_workflow_map(portal, out, member_confirmation_data)
 
 def installWorkflowPolicies(portal, out):
     pwf_tool = getToolByName(portal, 'portal_placeful_workflow')
