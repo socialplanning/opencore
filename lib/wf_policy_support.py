@@ -1,18 +1,15 @@
 from Acquisition import aq_get, aq_inner, aq_base
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
+from Products.OpenPlans.interfaces import IWriteWorkflowPolicySupport
+from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
-from opencore.interfaces import IReadWorkflowPolicySupport
-from opencore.interfaces import IWriteWorkflowPolicySupport
-from zope.component import queryView
+
 from zope.interface import implements
-from zope.app.container.interfaces import IContainerModifiedEvent
+from zope.component import queryView
 
 def saveWFPolicy(obj, event):
     """ IObjectModified event subscriber that changes the wf policy """
-    if IContainerModifiedEvent.providedBy(event):
-        # we only care about direct edits
-        return
     req = obj.REQUEST
     new_policy = req.form.get('workflow_policy', '')
     if new_policy:
@@ -66,23 +63,26 @@ class WorkflowPolicyWriteAdapter(WorkflowPolicyReadAdapter):
             addP = self.context.manage_addProduct['CMFPlacefulWorkflow']
             addP.manage_addWorkflowPolicyConfig()
             config = pwf.getWorkflowPolicyConfig(context)
+        
+        wftool = getToolByName(self.context, 'portal_workflow')
+        update_role_mappings = False
         if self.getCurrentPolicyId() != policy_in:
             config.manage_makeChanges(policy_in, policy_in)
+            update_role_mappings = True
 
-            pwf = getToolByName(self.context, 'portal_workflow')
+        # we may have to change the state of the project itself
+        proj_trans = PLACEFUL_POLICIES[policy_in]['proj_trans']
+        for available_trans in wftool.getTransitionsFor(self.context):
+            if proj_trans == available_trans['id']:
+                wftool.doActionFor(self.context, proj_trans)
+                update_role_mappings = True
+                break
+
+        if update_role_mappings:
             wfs = {}
-            for id in pwf.objectIds():
-                wf = pwf.getWorkflowById(id)
-                if hasattr(aq_base(wf), 'updateRoleMappingsFor'):
-                    wfs[id] = wf
-
-            # possibly change wf state of the project itself
-            proj_trans = PLACEFUL_POLICIES[policy_in]['proj_trans']
-            for available_trans in pwf.getTransitionsFor(self.context):
-                if proj_trans == available_trans['id']:
-                    pwf.doActionFor(self.context, proj_trans)
-                    break
-
+            for wf_id in wftool.listWorkflows():
+                wf = wftool.getWorkflowById(wf_id)
+                wfs[wf_id] = wf
             # XXX: Bad Touching to avoid waking up the entire portal
-            count = pwf._recursiveUpdateRoleMappings(self.context, wfs)
+            count = wftool._recursiveUpdateRoleMappings(self.context, wfs)
             return count

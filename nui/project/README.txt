@@ -115,8 +115,10 @@ Let's sort based on the membership date
     >>> brains = list(results)
     >>> len(brains)
     3
-    >>> [b.getId for b in brains]
-    ['m4', 'm1', 'm3']
+    >>> ids = [b.getId for b in brains]
+    >>> ids.sort()
+    >>> ids
+    ['m1', 'm3', 'm4']
 
 Clear the memoize from the request
     >>> del req_annot['plone.memoize']

@@ -13,6 +13,14 @@
                  Products.ploneundelete.interfaces.IUndeleteContainer" />
   </content>
 
+
+  <adapter
+     for="opencore.interfaces.IProject"
+     provides="opencore.interfaces.IWriteWorkflowPolicySupport"
+     factory="opencore.lib.wf_policy_support.WorkflowPolicyWriteAdapter"
+     permission="openplans.ManageWorkflowPolicy"
+     />
+
   <subscriber handler=".handler.handle_postcreation" />
   <subscriber handler=".handler.handle_subproject_redirection" />
 
