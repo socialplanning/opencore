@@ -5,23 +5,23 @@
     <!-- erroneous base tag was getting drawn in somehow for some templates
          but the following line fixes it -->
     <base tal:attributes="href string:${context/absolute_url}/" />
-  	<title tal:content="view/windowtitle" />
-  	<link rel="stylesheet" href="++resource++css/opencore.css" type="text/css" media="all" />
-  	<link rel="stylesheet" href="++resource++css/plone.css" type="text/css" media="all" />
-  	<!--[if IE 6]>
-	<link rel="stylesheet" href="++resource++css/ie6.css" type="text/css" media="all" />
-	<![endif]-->
-  	
-  	<!-- theme CSS -->
-  	<link rel="stylesheet" href="++resource++css/themes/openplans.css" type="text/css" media="all" />
-  	<!-- TODO print style sheet -->
+    <title tal:content="view/windowtitle" />
+    <link rel="stylesheet" href="++resource++css/opencore.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="++resource++css/plone.css" type="text/css" media="all" />
+    <!--[if IE 6]>
+  <link rel="stylesheet" href="++resource++css/ie6.css" type="text/css" media="all" />
+  <![endif]-->
+    
+    <!-- theme CSS -->
+    <link rel="stylesheet" href="++resource++css/themes/openplans.css" type="text/css" media="all" />
+    <!-- TODO print style sheet -->
 
     <script type="text/javascript" src="++resource++javascripts/utilities.js "></script>
     <script type="text/javascript" src="++resource++javascripts/ext.js" ></script>
     <script type="text/javascript" src="++resource++javascripts/oc-behaviors.js" ></script>
 
     <!-- allows for the insertion of css and other linked features -->
-    <metal:link-slot define-slot="link"/>  	
+    <metal:link-slot define-slot="link"/>   
 
     <!-- allows for the insertion of javascript -->
     <metal:script-slot define-slot="script"/>
@@ -29,6 +29,27 @@
   <body>
     <div id="oc-page-container">
       <!-- div tal:replace="structure here/@@oc-topnav" / -->
+      <div id="oc-topnav">
+        <h1>Another project about New York City Streets</h1>
+        <ul id="oc-topnav-context" class="oc-clearAfter">
+          <li>Home</li>
+          <li class="oc-topnav-selected">Tasks</li>
+          <li>Mailing lists</li>
+          <li>Contents</li>
+          <li>Team</li>
+          <li>Manage</li>
+        </ul>
+        <div id="oc-topnav-usermenu">
+        	<img src="++resource++img/logo.gif" style="display: inline; vertical-align: bottom;" />
+        	<input type="text" size="16" value="Search" style="display: inline; font-size: 10px; color: #333;" />
+          <ul class="oc-usermenu-list">
+            <li>explore</li>
+            <li>rpenate&rsquo;s stuff</li>
+            <li>logout</li>
+            <li>help</li>
+          </ul>
+        </div>
+      </div>
 
       <tal:for tal:repeat="status_msg portal_status">
         <div tal:content="status_msg" class="error"/>
