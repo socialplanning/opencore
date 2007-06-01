@@ -96,7 +96,7 @@ def fixProjectWFStates(self, portal):
     logger = getLogger('OpenPlans')
     cat = getToolByName(portal, 'portal_catalog')
     brains = cat(portal_type='OpenProject')
-    for b in brains:
+    for brain in brains:
         project = brain.getObject()
         policy_writer = IWriteWorkflowPolicySupport(project)
         policy_id = policy_writer.getCurrentPolicyId()
