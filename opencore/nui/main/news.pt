@@ -5,7 +5,9 @@
 
       <div class="oc-headingBlock">
   <h1>OpenPlans News</h1>
-  <p class="oc-headingContext">Subpeona free for <span tal:replace="view/subpoena_free">456</span> days.</p>
+  <p class="oc-headingContext" tal:define="days_free view/subpoena_free; plural python: days_free != 1">
+    Subpeona free for <span tal:replace="view/subpoena_free">456</span> day<span tal:condition="plural" tal:content="string:s"/>
+  </p>
       </div>
 
       <div id="oc-content-main">
