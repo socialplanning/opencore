@@ -3,11 +3,18 @@
 <html 
    metal:use-macro="here/@@standard_macros/master">
   <body>
-    <div id="oc-content-container" metal:fill-slot="content">              
-      <div id="oc-content-main">
+    <div id="oc-content-container" 
+	 tal:define="devmode fdata/devmode|nothing" 
+	 metal:fill-slot="content">              
+      <a tal:attributes="href fdata/confirmation" 
+	 tal:condition="devmode">
+	confirmation link for 
+	<span tal:replace="fdata/member_id" />
+      </a>
+      <div id="oc-content-main"  tal:condition="not:devmode">
 
         <form id="oc-join-form" name="edit_form" method="post" enctype="multipart/form-data"
-	      tal:attributes="action python:context.absolute_url()+'/join'"
+	      tal:attributes="action string:${context/absolute_url}/{view/name}"
 	      >
 	  
           <fieldset>

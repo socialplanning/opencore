@@ -6,9 +6,10 @@ from smtplib import SMTPRecipientsRefused
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
 from Products.remember.utils import getAdderUtility
-
+from plone.memoize import instance
 from opencore.nui.base import BaseView, button, post_only, anon_only
-from zExceptions import Forbidden
+from zExceptions import Forbidden, Redirect
+from Globals import DevelopmentMode as DEVMODE
 
 class JoinView(BaseView):
 
@@ -20,9 +21,6 @@ class JoinView(BaseView):
 
         adder = getAdderUtility(context)
         type_name = adder.default_member_type
-
-##         if self.loggedin:
-##             raise Redirect, "/"
 
         #00 pythonscript call, move to fs code
         id_ = context.generateUniqueId(type_name)
@@ -42,20 +40,25 @@ class JoinView(BaseView):
         mem_id = self.request.get('id')
         mem = mdc.portal_factory.doCreate(mem, mem_id)
         result = mem.processForm()
+        url = self.confirmation_url(mem)
+        
+        if DEVMODE:
+            return dict(confirmation=url, devmode=True, member_id=mem_id)
+        else:
+            self._sendMailToPendingUser(id=mem_id,
+                                        email=self.request.get('email'),
+                                        url=url)
+            return mdc._getOb(mem_id)
 
-        self._sendMailToPendingUser(id=mem_id,
-                                    email=self.request.get('email'),
-                                    code=mem.getUserConfirmationCode())
-
-        return mdc._getOb(mem_id)
-
-    def _sendMailToPendingUser(self, id, email, code):
+    def confirmation_url(self, mem):
+        code = mem.getUserConfirmationCode()
+        return "%s/confirm-account?key=%s" % (self.siteURL, code)
+    
+    def _sendMailToPendingUser(self, id, email, url):
         """ send a mail to a pending user """
         ## XX todo only send mail if in the pending workflow state
         mailhost_tool = getToolByName(self.context, "MailHost")
-        
-        url = "%s/confirm-account?key=%s" % (self.portal_url(), code)
-        
+
         mfrom = self.portal.getProperty('email_from_address')
         
         mailhost_tool.send("how are you %s?\ngo here: %s" % (id, url),
@@ -99,14 +102,37 @@ class ConfirmAccountView(BaseView):
         # Go to the user's Profile Page in Edit Mode
         self.addPortalStatusMessage(u'Welcome!')
         self.addPortalStatusMessage(u'first time!')
-        return self.redirect('logged_in')
+
+        return self.redirect(self.siteURL + '/logged_in')
 
 
 class ForgotLoginView(BaseView):
 
+    @button('send')
+    @post_only(raise_=False)
+    def handle_request(self):
+        if self.userid:
+            if DEVMODE:
+                return dict(devmode=True,
+                            reset_url=self.reset_url,
+                            userid = self.userid)
+            else:
+                self._mailPassword(self.userid)
+            return True
+        return False
+    
+    @instance.memoizedproperty
+    def randomstring(self):
+        pwt = self.get_tool("portal_password_reset")
+        obj = pwt.requestReset(self.userid)
+        return obj['randomstring']
+
+    @property
+    def reset_url(self):
+        return '\n%s/reset-password?key=%s' % (self.siteURL, self.randomstring)
+    
     def _mailPassword(self, forgotten_userid):
-        membership = getToolByName(self, 'portal_membership')
-        if not membership.checkPermission('Mail forgotten password', self):
+        if not self.membertool.checkPermission('Mail forgotten password', self):
             raise Unauthorized, "Mailing forgotten passwords has been disabled"
 
         member = self.membranetool(getId=forgotten_userid)
@@ -116,22 +142,14 @@ class ForgotLoginView(BaseView):
         
         member = member[0].getObject()
         
-        field = member.getEmail
-        if field is None:
-            raise ValueError, 'Unable to retrieve email address'
-        email = field()
+        email = member.getEmail()
 
         try:
-            pwt = getToolByName(self, "portal_password_reset")
-            obj = pwt.requestReset(forgotten_userid)
-            randomstring = obj['randomstring']
-
+            pwt = self.get_tool("portal_password_reset")
             mail_text = self.render_static("account_forgot_password_email.txt")
-            mail_text += '\n%s/reset-password?key=%s' % (self.siteURL, randomstring)
-
-            url_tool = getToolByName(self, "portal_url")
-            mfrom = url_tool.getPortalObject().getProperty('email_from_address')            
-            host = getToolByName(self, 'MailHost')
+            mail_text += self.reset_url
+            mfrom = self.portal.getProperty('email_from_address')            
+            host = self.get_tool('MailHost')
             host.send(mail_text,
                       mfrom=mfrom,
                       subject='OpenPlans password reset',
@@ -141,65 +159,60 @@ class ForgotLoginView(BaseView):
             # Don't disclose email address on failure
             raise SMTPRecipientsRefused('Recipient address rejected by server')
 
-    def __call__(self, *args, **kw):
-        if self.request.environ['REQUEST_METHOD'] == 'GET':
-            return self.index(*args, **kw)
-
+    @property
+    def userid(self):
         user_lookup = self.request.get("__ac_name")
         if not user_lookup:
-            return self.index(*args, **kw)
+            self.addPortalStatusMessage(u"Please enter a user id or email address")
+            return None
+        
+        if user_lookup.find('@') >= 0:
+            brains = self.membranetool(getEmail=user_lookup)
+        else:
+            brains = self.membranetool(getId=user_lookup)
 
-        brains = self.membranetool(getId=user_lookup) or self.membranetool(getEmail=user_lookup)
         if not len(brains):
-            self.addPortalStatusMessage(u"You do not exist")
-            return self.index(*args, **kw)
+            self.addPortalStatusMessage(u"User id or email not found")
+            return None
+        return brains[0].getId
 
-        brain = brains[0]
-        userid = brain.getId
-        
-        self._mailPassword(userid)
-        
-        # XXX this should go to itself, but not render the form, just text
-        return "An email has been sent to you, %s" % userid  # XXX rollie?
-        return self.index(*args, **kw) # XXX not really right
 
-class DoPasswordResetView(BaseView):
-
-    def __call__(self, *args, **kw):
+class PasswordResetView(BaseView):
+    
+    @button('set')
+    @post_only(raise_=False)
+    def handle_reset(self):
         password = self.request.get("password")
         if not password:
-            return "Failed, no password."
+            self.addPortalStatusMessage("you must enter a password.")
+            return False
+        
         userid = self.request.get("userid")
-        randomstring = self.request.get("randomstring")
-        pw_tool = getToolByName(self.context, "portal_password_reset")
-        try:
-            pw_tool.resetPassword(userid, randomstring, password)
-        except: # XXX DUMB
-            return "Something bad happened."
+        randomstring = self.request.get("key")
+        pw_tool = self.get_tool("portal_password_reset")
+        pw_tool.resetPassword(userid, randomstring, password)
 
         # Automatically log the user in
-        auth = getToolByName(getToolByName(self.portal, "acl_users"),
-                             "credentials_signed_cookie_auth")
+        auth = self.get_tool("acl_users").credentials_signed_cookie_auth
         auth.updateCredentials(self.request, self.request.response,
                                userid, None)
         
         self.addPortalStatusMessage(u'Your password has been reset and you are now logged in.')
-        return self.redirect(self.siteURL)
+        self.redirect(self.siteURL)
+        return True
 
-class PasswordResetView(BaseView):
-
-    def __call__(self, *args, **kw):
+    @property
+    def key(self):
         key = self.request.get('key')
-        pw_tool = getToolByName(self.context, "portal_password_reset")
-        
+        pw_tool = self.get_tool("portal_password_reset")
         try:
             pw_tool.verifyKey(key)
         except "InvalidRequestError": # XXX rollie?
-            return "You fool! The Internet Police have already been notified of this incident. Your IP has been confiscated."
+            raise Forbidden, "You fool! The Internet Police have already been notified of this incident. Your IP has been confiscated."
         except "ExpiredRequestError": # XXX rollie?
-            return "YOU HAVE EXPIRED."
-        kw['randomstring'] = key
-        return self.index(*args, **kw)
+            raise Forbidden, "YOUR KEY HAS EXPIRED. Please try again"
+        return key
+
 
 class HomeView(BaseView):
     """redirects a user to their home"""
@@ -209,10 +222,12 @@ class HomeView(BaseView):
         # XXX probably this should be eliminated or moved
         return '/'.join([ i.strip('/') for i in args ])
 
-    def __call__(self, *args, **kw):
+    def redirect(self):
         home = self.home()
+        url = self.siteURL
         if home:            
             if self.request.get('profile-edit') is not None:                
-                home = self.joinurls(home, 'profile-edit')
-            return self.redirect(home)
-        return self.redirect(self.siteURL)
+                url = self.joinurls(home, 'profile-edit')
+        raise Redirect, url
+
+

@@ -7,7 +7,8 @@ from Products.PasswordResetTool.tests.test_doctests import MockMailHostTestCase
 
 from opencore.testing.layer import OpencoreContent
 
-optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
+#optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
+optionflags = doctest.ELLIPSIS
 
 import warnings; warnings.filterwarnings("ignore")
 
@@ -18,14 +19,12 @@ def test_suite():
     from pprint import pprint
     from zope.interface import alsoProvides
 
-    #setup.setupPloneSite()
-
     def readme_setup(tc):
         tc._refreshSkinData()
 
     globs = locals()
     readme = FunctionalDocFileSuite("README.txt",
-                                    optionflags=optionflags,
+                                    optionflags=optionflags,ac
                                     package='opencore.nui.account',
                                     test_class=MockMailHostTestCase,
                                     globs = globs,

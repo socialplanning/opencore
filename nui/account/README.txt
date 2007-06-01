@@ -2,7 +2,7 @@
  account management
 ====================
 
-workflow
+Workflow
 ========
 
 Test the workflow updating function:: 
@@ -17,34 +17,74 @@ Test the workflow updating function::
     ('openplans_member_confirmation_workflow',)
 
 
-password reset
-==============
+Forgot Password
+===============
 
-Get the password reset view::
+the forgotten password view::
 
     >>> view = portal.restrictedTraverse("@@forgot")
     >>> view
     <...SimpleViewClass ...forgot.pt...>
 
-Try to reset the password, but you can't do this as a logged-in member::
+    >>> view.request.set('send', True)
+    >>> view.userid
 
-    >>> request = self.app.REQUEST
-    >>> request.environ["REQUEST_METHOD"] = "POST"
-    >>> request.form["__ac_name"] = 'm1'
-    >>> view()
-    'http://nohost/plone'
+With '__ac_name' set, it should find and confirm a userid::
 
-But if we log out, we can access this view::
+    >>> view.request.set('__ac_name', 'test_user_1_')
+    >>> 
+    >>> view.userid
+    'test_user_1_'
 
-    >>> self.logout()
-    >>> view = portal.restrictedTraverse("@@forgot")
-    >>> request = self.app.REQUEST
-    >>> request.environ["REQUEST_METHOD"] = "POST"
-    >>> request.form["__ac_name"] = 'm1'
-    >>> view()
-    'An email has been sent to you, ...'
+# test email lookup
 
-get account confirmation code
+Running handle request does all this, and sends the email::
+
+    >>> view.request.environ["REQUEST_METHOD"] = "POST"
+    >>> view.handle_request()
+    True
+
+    >>> view.request.environ["REQUEST_METHOD"] = "GET"
+
+Now we should be able to get a string for later matching::
+
+
+    >>> randomstring = view.randomstring
+    >>> randomstring
+    '...'
+
+Password Reset
+==============
+
+    >>> view = portal.restrictedTraverse("@@reset-password")
+    >>> view
+    <...SimpleViewClass ...reset-password.pt...>
+    
+If no key is set, we taunt you craxorz::
+
+    >>> view.key
+    Traceback (innermost last):
+    ...
+    Forbidden: You fool! The Internet Police have already been notified of this incident. Your IP has been confiscated.
+
+But if a key is set, we can use it::
+
+    >>> view.request.form['key']=randomstring
+    >>> view.key == randomstring
+    True
+
+To do the reset, we'll need to submit the form::
+
+    >>> view.request.environ["REQUEST_METHOD"] = "POST"
+    >>> view.request.form["set"]=True
+    >>> view.request.form["password"]='word'
+    >>> view.request.form["userid"]='test_user_1_'
+    >>> view.handle_reset()
+    True
+
+## test do reset
+
+Get account confirmation code
 =============================
 
 Get a user so that we can try to get a user's confirmation code for manual registration::
@@ -80,11 +120,6 @@ join
 Test the join view by adding a member to the site::
 
     >>> view = portal.restrictedTraverse("@@join")
-
-Logged-in members cannot access the view at all::
-
-    >>> view()
-    'http://nohost/plone'
 
 Log out and fill in the form::
 

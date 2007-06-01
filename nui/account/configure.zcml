@@ -20,13 +20,6 @@
 
   <browser:page
      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-     class=".accountview.DoPasswordResetView"
-     permission="zope.Public"
-     name="do-reset-password"
-     />
-
-  <browser:page
-     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      class=".accountview.ConfirmAccountView"
      permission="zope.Public"
      name="confirm-account"
@@ -51,6 +44,7 @@
   <browser:page
      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      class=".accountview.HomeView"
+     attribute="redirect"
      permission="zope.Public"
      name="home"
      />
