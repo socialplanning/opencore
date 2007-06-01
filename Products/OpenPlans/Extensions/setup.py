@@ -27,10 +27,7 @@ from migrate_membership_roles import migrate_membership_roles
 
 from cStringIO import StringIO
 
-try:
-    set = set
-except NameError:
-    from sets import Set as set
+from opencore.interfaces import IWriteWorkflowPolicySupport
 
 from Products.OpenPlans.config import PROJECTNAME
 
@@ -89,33 +86,15 @@ def fixProjectWFStates(self, portal):
     """
     logger = getLogger('OpenPlans')
     cat = getToolByName(portal, 'portal_catalog')
-    pwf = getToolByName(portal, 'portal_placeful_workflow')
-    wftool = getToolByName(portal, 'portal_workflow')
     brains = cat(portal_type='OpenProject')
-    update_role_mappings = False
-    for brain in brains:
-        review_state = brain.review_state
+    for b in brains:
         project = brain.getObject()
-        config = pwf.getWorkflowPolicyConfig(project)
-        policy_id = config.getPolicyBelowId()
-        proj_trans = PLACEFUL_POLICIES[policy_id]['proj_trans']
-        for available_trans in wftool.getTransitionsFor(project):
-            if proj_trans == available_trans['id']:
-                wftool.doActionFor(project, proj_trans)
-                update_role_mappings = True
-                msg = "Fired %s transition for %s project" % (proj_trans,
-                                                              project.getId())
-                logger.log(INFO, msg)
-    if update_role_mappings:
-        wfs = {}
-        for wf_id in wftool.listWorkflows():
-            wf = wftool.getWorkflowById(wf_id)
-            wfs[wf_id] = wf
-        # XXX: Bad Touching to avoid waking up the entire portal
-        count = wftool._recursiveUpdateRoleMappings(self.context, wfs)
-        msg = "%d objects updated"
-        logger.log(INFO, msg)
-
+        policy_writer = IWriteWorkflowPolicySupport(project)
+        policy_id = policy_writer.getCurrentPolicyId()
+        # setting the policy to what it already is should now sync up the
+        # project w/f state correctly
+        policy_writer.setPolicy(policy_id)
+        logger.log(INFO, 'set policy for %s project' % project.getId())
 
 functions = dict(
     setupKupu = convertFunc(setupKupu),
