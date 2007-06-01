@@ -48,7 +48,7 @@ PLACEFUL_POLICIES = {'open_policy': { 'title':       'Open',
         "content, and any logged in users can edit, add, or delete content.",
                                       'default':     ['open_policy_workflow'],
                                       'types':       {},
-                                      'proj_trans':  'open'
+                                      'proj_trans':  'open',
                                     },
                      'medium_policy': { 'title':     'Medium',
                                       'description': "Anyone can view " \

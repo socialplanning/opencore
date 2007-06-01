@@ -67,8 +67,7 @@ def create_test_content(self, p_map=None, m_map=None):
     for p_id, p_data in p_map.items():
         pcontainer.invokeFactory('OpenProject', p_id, **p_data)
         request = self.REQUEST
-        request.set('team_assignment', True)
-        request.set('workflow_policy', 'medium_policy')
+        request.form['workflow_policy'] = 'medium_policy'
         _initialize_project(getattr(pcontainer, p_id), request)
         out.append('Project %s added' % p_id)
 

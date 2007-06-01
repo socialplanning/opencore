@@ -63,23 +63,26 @@ class WorkflowPolicyWriteAdapter(WorkflowPolicyReadAdapter):
             addP = self.context.manage_addProduct['CMFPlacefulWorkflow']
             addP.manage_addWorkflowPolicyConfig()
             config = pwf.getWorkflowPolicyConfig(context)
+        
+        wftool = getToolByName(self.context, 'portal_workflow')
+        update_role_mappings = False
         if self.getCurrentPolicyId() != policy_in:
             config.manage_makeChanges(policy_in, policy_in)
+            update_role_mappings = True
 
-            pwf = getToolByName(self.context, 'portal_workflow')
+        # we may have to change the state of the project itself
+        proj_trans = PLACEFUL_POLICIES[policy_in]['proj_trans']
+        for available_trans in wftool.getTransitionsFor(self.context):
+            if proj_trans == available_trans['id']:
+                wftool.doActionFor(self.context, proj_trans)
+                update_role_mappings = True
+                break
+
+        if update_role_mappings:
             wfs = {}
-            for id in pwf.objectIds():
-                wf = pwf.getWorkflowById(id)
-                if hasattr(aq_base(wf), 'updateRoleMappingsFor'):
-                    wfs[id] = wf
-
-            # possibly change wf state of the project itself
-            proj_trans = PLACEFUL_POLICIES[policy_in]['proj_trans']
-            for available_trans in pwf.getTransitionsFor(self.context):
-                if proj_trans == available_trans['id']:
-                    pwf.doActionFor(self.context, proj_trans)
-                    break
-
+            for wf_id in wftool.listWorkflows():
+                wf = wftool.getWorkflowById(wf_id)
+                wfs[wf_id] = wf
             # XXX: Bad Touching to avoid waking up the entire portal
-            count = pwf._recursiveUpdateRoleMappings(self.context, wfs)
+            count = wftool._recursiveUpdateRoleMappings(self.context, wfs)
             return count

@@ -5,7 +5,11 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.OpenPlans.interfaces import IWriteWorkflowPolicySupport
 from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
-from openplanstestcase import OpenPlansTestCase, makeContent
+
+from opencore.nui.project.view import ProjectAddView
+
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase, \
+     makeContent
 
 class TestWorkflowPolicy(OpenPlansTestCase):
 
@@ -40,12 +44,29 @@ class TestWorkflowPolicy(OpenPlansTestCase):
     def test_projectEditTriggersWFPolicyEdit(self):
         req = self.proj.REQUEST
         policy = 'closed_policy'
-        req.set('workflow_policy', policy)
-        self.proj.edit(title='Some New Title')
+        req.form = {'workflow_policy': policy,
+                    'title': 'Some New Title',
+                    }
+        self.proj.processForm(REQUEST=req)
 
         policy_reader = IReadWorkflowPolicySupport(self.proj)
         returned_policy = policy_reader.getCurrentPolicyId()
         self.failUnless(policy == returned_policy)
+
+    def test_initialProjectStateIsRight(self):
+        form = {'title': 'Closed',
+                'full_name': 'Closed Project',
+                'workflow_policy': 'closed_policy',
+                'add': 'submit',
+                }
+        req = self.folder.REQUEST
+        req.form = form
+        addview = ProjectAddView(self.folder, req)
+        addview.handle_request()
+        proj = self.folder._getOb('closed')
+        wftool = getToolByName(self.folder, 'portal_workflow')
+        status = wftool.getInfoFor(proj, 'review_state')
+        self.failUnless(status == 'closed')
 
 def test_suite():
     suite = unittest.TestSuite()

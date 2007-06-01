@@ -1,11 +1,16 @@
-from opencore.interfaces.event import IAfterProjectAddedEvent, IAfterSubProjectAddedEvent
-from topp.featurelets.interfaces import IFeatureletSupporter
-from topp.featurelets.interfaces import IFeatureletRegistry
 from zope.component import adapter, getUtility
-from opencore.interfaces import IProject
 from zope.app.event.interfaces import IObjectCreatedEvent 
 from zope.app.event.interfaces import IObjectModifiedEvent
+from zope.app.container.interfaces import IContainerModifiedEvent
+
+from topp.featurelets.interfaces import IFeatureletSupporter
+from topp.featurelets.interfaces import IFeatureletRegistry
+
+from opencore.interfaces.event import IAfterProjectAddedEvent, \
+     IAfterSubProjectAddedEvent
+from opencore.interfaces import IProject
 from opencore import redirect
+
 from Products.OpenPlans.interfaces import IWriteWorkflowPolicySupport
 
 
