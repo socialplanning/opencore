@@ -207,7 +207,7 @@ OC.LiveEdit = function(extEl) {
     this.container = extEl;
     this.value = Ext.select(Ext.DomQuery.select('.oc-liveEdit-value',this.container.dom));
     this.edit = Ext.get(Ext.query('.oc-liveEdit-edit', this.container.dom)[0]);
-    this.delete = Ext.get(Ext.query('.oc-liveEdit-delete', this.container.dom)[0]);
+    this.delete_ = Ext.get(Ext.query('.oc-liveEdit-delete', this.container.dom)[0]);
     this.form = Ext.get(Ext.query('.oc-liveEdit-form', this.container.dom)[0]);
     this.cancel = Ext.get(Ext.query('.oc-liveEdit-cancel', this.container.dom)[0]);
 
@@ -259,8 +259,8 @@ OC.LiveEdit = function(extEl) {
             var cObj = YAHOO.util.Connect.asyncRequest("POST", action, { success: this.afterDelete, failure: this.afterFailure, scope: this });
         }            
     }
-    if (this.delete) {
-        this.delete.on('click', this.deleteClick, this);
+    if (this.delete_) {
+        this.delete_.on('click', this.deleteClick, this);
     }
 
 
