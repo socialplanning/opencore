@@ -148,9 +148,9 @@ unnecessary parallels found:
 
 
 wacky br test:
-    >>> pdiff("<br><br>asdfasdf<br><br><br>2nd change<br><br>uh what!<br><br>",
-    ...       "<br><br>asdfasdf<br><br><br>2nd change<br><br>uh what!<br><br>blurn")
-    <br><br>asdfasdf<br><br><br>2nd change<br><br>uh what!<br><br><ins>blurn</ins>
+    >>> pdiff("<br>abc<br>",
+    ...       "<br>abc<br>123")
+    <br>abc<br><ins>123</ins>
     
 Annotation of content can also be done, where every bit of content is
 marked up with information about where it came from.
