@@ -29,6 +29,10 @@ class ProjectContentsView(BaseView):
         return self.catalog(portal_type="Document",
                             path='/'.join(self.context.getPhysicalPath()))
 
+    def get_mailing_lists(self):
+        return self.catalog(portal_type="Open Mailing List",
+                            path='/'.join(self.context.getPhysicalPath()))
+
 class ProjectPreferencesView(BaseView):
 
     @button('update')
