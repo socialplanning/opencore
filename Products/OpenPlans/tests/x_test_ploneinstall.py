@@ -25,48 +25,25 @@ import Products.OpenPlans.config as config
 from Products.OpenPlans.utils import parseDepends, doc_file
 from Products.OpenPlans.utils import installDepends
 from Products.OpenPlans.Extensions.Install import migrateATDocToOpenPage
-from Testing.ZopeTestCase import PortalTestCase, Zope2
+from Testing.ZopeTestCase import PortalTestCase, Zope2, connections, utils, base
+from ZODB.DemoStorage import DemoStorage
+import ZODB
 
-from Products.PloneTestCase.setup import SiteSetup, default_base_profile
+from Products.PloneTestCase.setup import setupPloneSite
 from Products.PloneTestCase import five
-from opencore.testing.layer import ZCML
+from opencore.testing.layer import PloneSite
 import transaction as txn
 from Products.OpenPlans.tests.utils import installConfiguredProducts
 
 portal_name = 'o1'
 extension_profiles=['membrane:default', 'remember:default']
 
-
-sandbox = Zope2.sandbox()
-
-def app():
-    app = sandbox.app()
-    app = utils.makerequest(app)
-    connections.register(app)
-    return app
-
-class TPISetup(SiteSetup):
-    _app = staticmethod(app)
-
-class TPILayer:
-    """ try and isolate this puppy """
-    installConfiguredProducts()
-
-    @classmethod
-    def setUp(cls):
-        five.safe_load_site()
-        ZopeTestCase.installProduct('OpenPlans')
-        SiteSetup(portal_name, 'Default Plone', (), 0, 1,
-                  default_base_profile, extension_profiles).run()
-
-    @classmethod
-    def tearDown(cls):
-        five.cleanUp()
-
+installConfiguredProducts()
+setupPloneSite(id=portal_name, extension_profiles=extension_profiles)
+ZopeTestCase.installProduct('OpenPlans')
 
 class BasePloneInstallTest(ptc.FunctionalTestCase):
-    layer = TPILayer
-    _app = staticmethod(app)
+    layer = PloneSite
     
     def afterSetUp(self):
         self.loginAsPortalOwner()
@@ -155,7 +132,7 @@ class TestPloneInstall(BasePloneInstallTest):
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
-    #suite.addTest(makeSuite(TestPloneInstall))
+    suite.addTest(makeSuite(TestPloneInstall))
     suite.addTest(makeSuite(TestSetupMethods))
     return suite
 
