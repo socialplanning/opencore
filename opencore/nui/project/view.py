@@ -16,6 +16,10 @@ class ProjectContentsView(BaseView):
         import pdb; pdb.set_trace()
 
     def rename_wiki_pages(self, from_ids, to_ids):
+        # need to change their title as well as their id
+        for old, new in zip(from_ids, to_ids):
+            page = self.context.restrictedTraverse(old)
+            page.setTitle(new)
         self.context.manage_renameObjects(from_ids, to_ids)
 
     def delete_wiki_pages(self, ids):
