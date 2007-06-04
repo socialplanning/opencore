@@ -143,9 +143,15 @@ unnecessary parallels found:
     ... it gets exciting!</p>''', '''
     ... <p>Some text that is really similar until you get a way in and then
     ... it becomes exciting!</p>''')
+    <p>Some text that is really similar until you get a way in and then it
+    <ins>becomes exciting!</ins> <del>gets exciting!</del> </p>
+
+
+wacky br test:
+    >>> pdiff("<br><br>asdfasdf<br><br><br>2nd change<br><br>uh what!<br><br>",
+    ...       "<br><br>asdfasdf<br><br><br>2nd change<br><br>uh what!<br><br>blurn")
+    <br><br>asdfasdf<br><br><br>2nd change<br><br>uh what!<br><br><ins>blurn</ins>
     
-
-
 Annotation of content can also be done, where every bit of content is
 marked up with information about where it came from.
 
