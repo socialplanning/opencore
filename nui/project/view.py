@@ -29,6 +29,13 @@ class ProjectContentsView(BaseView):
         return self.catalog(portal_type="Document",
                             path='/'.join(self.context.getPhysicalPath()))
 
+    def rename_mailing_lists(self, from_ids, to_ids):
+        list_folder = self.context.lists
+        for old, new in zip(from_ids, to_ids):
+            list = list_folder.restrictedTraverse(old)
+            list.setTitle(new)
+        list_folder.manage_renameObjects(from_ids, to_ids)
+
     def get_mailing_lists(self):
         return self.catalog(portal_type="Open Mailing List",
                             path='/'.join(self.context.getPhysicalPath()))
