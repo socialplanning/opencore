@@ -1,3 +1,4 @@
+from Products.CMFCore.utils import getToolByName
 from opencore.nui.base import BaseView
 from opencore.nui.wiki import htmldiff2
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
@@ -6,22 +7,23 @@ from topp.utils.pretty_date import prettyDate
 
 class WikiVersionView(BaseView): 
 
+    def __init__(self, context, request):
+        BaseView.__init__(self, context, request)
+        self.pr = getToolByName(self.context, 'portal_repository')
+
     def get_page(self, version_id):
-        pr = self.context.portal_repository
-        doc = pr.retrieve(self.context, version_id)
+        doc = self.pr.retrieve(self.context, version_id)
         return doc.object
         
     def get_versions(self):
         """
         Returns a list of versions on the object.
         """
-        pr = self.context.portal_repository
-        return pr.getHistory(self.context, countPurged=False)
+        return self.pr.getHistory(self.context, countPurged=False)
 
     def get_version(self, version_id):
         version_id = int(version_id)
-        pr = self.context.portal_repository
-        return pr.retrieve(self.context, version_id)
+        return self.pr.retrieve(self.context, version_id)
 
     def version_title(self, version_id): 
         if version_id == 0:
@@ -74,7 +76,6 @@ class WikiVersionCompare(WikiVersionView):
         versions.sort()
         self.old_version_id, self.new_version_id = self.sort_versions(*versions)
 
-        pr = self.context.portal_repository
         # FIXME: catch exceptions when getting a version that doesn't exist
         self.old_version = self.get_version(self.old_version_id)
         self.new_version = self.get_version(self.new_version_id)
