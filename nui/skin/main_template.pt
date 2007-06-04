@@ -40,13 +40,20 @@
           <li>Manage</li>
         </ul>
         <div id="oc-topnav-usermenu">
-        	<img src="++resource++img/logo.gif" style="display: inline; vertical-align: bottom;" />
-        	<input type="text" size="16" value="Search" style="display: inline; font-size: 10px; color: #333;" />
-          <ul class="oc-usermenu-list">
-            <li>explore</li>
-            <li>rpenate&rsquo;s stuff</li>
-            <li>logout</li>
-            <li>help</li>
+          <img src="++resource++img/logo.gif" style="display: inline; vertical-align: bottom;" />
+          <input type="text" class="oc-input-typeText" size="10" value="search" />
+          <ul id="oc-usermenu-list">
+            <li><a href="#">Explore</a>
+            	<ul id="oc-usermenu-explore">
+            		<li><a href="#">Home</a></li>
+            		<li><a href="#">Projects</a></li>
+            		<li><a href="#">People</a></li>
+            		<li><a href="#">Start a project</a></li>
+            	</ul>
+            </li>
+            <li><a href="#">rpenate&rsquo;s Stuff</a></li>
+            <li><a href="#">Logout</a></li>
+            <li><a href="#">Help</a></li>
           </ul>
         </div>
       </div>
