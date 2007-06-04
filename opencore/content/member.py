@@ -21,6 +21,10 @@ from Products.TeamSpace.security import TeamSecurity
 from Products.OpenPlans.config import PROJECTNAME
 from Products.OpenPlans.config import PROHIBITED_MEMBER_PREFIXES
 
+from Products.Archetypes.public import Schema, StringField, StringWidget
+
+
+
 member_schema = id_schema + contact_schema + plone_schema + \
                 security_schema + login_info_schema
 content_schema = member_schema.copy() # copy before editing
@@ -49,6 +53,74 @@ content_schema['email'].read_permission = ModifyPortalContent
 content_schema['mail_me'].regfield = 0
 
 content_schema['make_private'].widget.visible = {'edit': 'invisible'}
+
+
+# new fields for nui profile
+nuischema = Schema((
+                    StringField(
+                      'statement',
+                      index='ZCTextIndex,lexicon_id=plone_lexicon,index_type=Cosine Measure|TextIndex:brains',
+                      searchable=1,
+                      widget=StringWidget(
+                        label='Statement',
+                        label_msgid='label_statement',
+                        description_msgid='desc_statement',
+                        description='statement description.',
+                        size=50,
+                        ),
+                      ),
+                    StringField(
+                      'skills',
+                      index='ZCTextIndex,lexicon_id=plone_lexicon,index_type=Cosine Measure|TextIndex:brains',
+                      searchable=1,
+                      widget=StringWidget(
+                        label='skills',
+                        label_msgid='label_skills',
+                        description_msgid='desc_skills',
+                        description='skills description.',
+                        size=50,
+                        ),
+                      ),
+                    StringField(
+                      'affiliations',
+                      index='ZCTextIndex,lexicon_id=plone_lexicon,index_type=Cosine Measure|TextIndex:brains',
+                      searchable=1,
+                      widget=StringWidget(
+                        label='affiliations',
+                        label_msgid='label_affiliations',
+                        description_msgid='desc_affiliations',
+                        description='affiliations description.',
+                        size=50,
+                        ),
+                      ),
+                    StringField(
+                      'background',
+                      index='ZCTextIndex,lexicon_id=plone_lexicon,index_type=Cosine Measure|TextIndex:brains',
+                      searchable=1,
+                      widget=StringWidget(
+                        label='background',
+                        label_msgid='label_background',
+                        description_msgid='desc_background',
+                        description='background description.',
+                        size=50,
+                        ),
+                      ),
+                    StringField(
+                      'favorites',
+                      index='ZCTextIndex,lexicon_id=plone_lexicon,index_type=Cosine Measure|TextIndex:brains',
+                      searchable=1,
+                      widget=StringWidget(
+                        label='favorites',
+                        label_msgid='label_favorites',
+                        description_msgid='desc_favorites',
+                        description='favorites description.',
+                        size=50,
+                        ),
+                      ),
+                    ))
+
+content_schema += nuischema
+
 
 content_schema += atapi.Schema((
     atapi.BooleanField('useAnonByDefault',
