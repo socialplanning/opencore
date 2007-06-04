@@ -151,7 +151,7 @@ def htmldiff(old_html, new_html):
     words in the HTML are diffed.  The exception is <img> tags, which
     are treated like words, and the href attribute of <a> tags, which
     are noted inside the tag itself when there are changes.
-    """ 
+    """
     old_html_tokens = tokenize(old_html)
     new_html_tokens = tokenize(new_html)
     result = htmldiff_tokens(old_html_tokens, new_html_tokens)
@@ -676,8 +676,14 @@ def flatten_el(el, include_hrefs, drop_tag=False):
             yield ('img', el.attrib['src'], start_tag(el))
         else:
             yield start_tag(el)
+
     if el.tag in empty_tags and not el.text and not len(el):
+        if el.tail:
+            end_words = split_words(el.tail)
+            for word in end_words:
+                yield cgi.escape(word)
         return
+    
     start_words = split_words(el.text)
     for word in start_words:
         yield cgi.escape(word)
