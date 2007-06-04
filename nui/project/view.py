@@ -12,9 +12,6 @@ from plone.memoize.view import memoize_contextless
 
 class ProjectContentsView(BaseView):
 
-    def __call__(self):
-        import pdb; pdb.set_trace()
-
     def rename_wiki_pages(self, from_ids, to_ids):
         # need to change their title as well as their id
         for old, new in zip(from_ids, to_ids):
@@ -36,9 +33,16 @@ class ProjectContentsView(BaseView):
             list.setTitle(new)
         list_folder.manage_renameObjects(from_ids, to_ids)
 
+    def delete_mailing_lists(self, ids):
+        self.context.lists.manage_delObjects(ids)
+
     def get_mailing_lists(self):
         return self.catalog(portal_type="Open Mailing List",
                             path='/'.join(self.context.getPhysicalPath()))
+
+
+    def __call__(self):
+        import pdb; pdb.set_trace()
 
 class ProjectPreferencesView(BaseView):
 
