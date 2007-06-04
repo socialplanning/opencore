@@ -72,20 +72,19 @@ body {
 /* @TOPNAV - Global header
 --------------------------------------- */
 #oc-topnav {
-	margin: 0;
+	margin: 0 0 1em;
 	padding: 0;
+	position: relative;
 }
 #oc-topnav h1 {
-	padding: 0.5em 0;
+	padding: 0.5em 0 0.25em;
 	margin: 0;
 	margin-left: 0.5em;
-	color: #fff;
 }
 ul#oc-topnav-context {
 	list-style-type: none;
 	display: block;
 	margin: 0;
-	margin-left: 0.75em;
 	padding: 0;
 }
 ul#oc-topnav-context li {
@@ -94,29 +93,46 @@ ul#oc-topnav-context li {
 	display: block;
 	padding: 0.25em 0.5em;
 	margin: 0 0.25em;
-	background: #333;
 }
 ul#oc-topnav-context li.oc-topnav-selected {
-	background: #fff;
-	color: #333;
 }
 #oc-topnav-usermenu {
 	position: absolute;
 	top: 0.5em;
 	right: 0.5em;
 	padding: 0.25em;
+	text-align: right;
 }
-ul.oc-usermenu-list {
+#oc-topnav-usermenu input.oc-input-typeText {
+	text-align: right;
+	padding-right: 0.5em;
+	display: inline; 
+	font-size: 10px;
+	width: 10em;
+}
+#oc-usermenu-list {
+	position: relative;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	font-size: 10px;
+	text-transform: lowercase;
+	text-align: left;
+}
+#oc-usermenu-list li {
+	float: left;
+	margin: 0 0.25em;
+}
+#oc-usermenu-list li #oc-usermenu-explore {
+	position: absolute;
+	list-style: none;
 	margin: 0;
 	padding: 0;
-	list-style-type: none;
-	font-size: 10px;
+	background-color: red !important;
+	display: none;
 }
-ul.oc-usermenu-list li {
-	float: left;
-	clear: none;
-	margin: 0 0.25em;
-	padding: 0.25em 0.5em;
+#oc-usermenu-list li #oc-usermenu-explore li {
+	float: none;
 }
 /* @FOOTER - Global footer
 --------------------------------------- */
