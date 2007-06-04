@@ -157,3 +157,33 @@ Test actually creating, editing, deleting an attachment::
 
    # >>> page.restrictedTraverse('@@deleteAtt')    
    # <Products.Five.metaclass.AttachmentView object at ...>
+
+Verify that the right errors get returned when viewing the view improperly
+
+Set up the right view
+     >>> view = self.portal.unrestrictedTraverse('projects/p1/project-home/version_compare')
+     >>> view
+     <Products.Five.metaclass.WikiVersionCompare object at ...>
+
+Call it with no arguments
+     >>> response = view()
+     >>> 'You did not check any versions in the version compare form' in response
+     True
+
+Try it with just one argument
+     >>> view.request.set('version_id', '0')
+     >>> response = view()
+     >>> 'You did not check enough versions in the version compare form' in response
+     True
+
+Try with 2 arguments, but the versions don't exist
+     >>> view.request.set('version_id', ['0', '1'])
+     >>> response = view()
+     >>> 'Invalid version specified' in response
+     True
+
+Try with more than 2 versions
+     >>> view.request.set('version_id', ['0', '1', '2'])
+     >>> response = view()
+     >>> 'You may only check two versions in the version compare form' in response
+     True

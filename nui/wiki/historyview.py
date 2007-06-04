@@ -1,4 +1,5 @@
 from Products.CMFCore.utils import getToolByName
+from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
 from opencore.nui.base import BaseView
 from opencore.nui.wiki import htmldiff2
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
@@ -69,16 +70,19 @@ class WikiVersionCompare(WikiVersionView):
         elif len(versions) > 2:
             req_error = 'You may only check two versions in the version compare form'
         if req_error:
-            self.portal_status_message = [req_error]
+            self.addPortalStatusMessage(req_error)
             # FIXME: It's really a 400 Bad Request that we should be
             # sending here (with an error message):
             return self.generic_error()
         versions.sort()
         self.old_version_id, self.new_version_id = self.sort_versions(*versions)
 
-        # FIXME: catch exceptions when getting a version that doesn't exist
-        self.old_version = self.get_version(self.old_version_id)
-        self.new_version = self.get_version(self.new_version_id)
+        try:
+            self.old_version = self.get_version(self.old_version_id)
+            self.new_version = self.get_version(self.new_version_id)
+        except ArchivistRetrieveError:
+            self.addPortalStatusMessage('Invalid version specified')
+            return self.generic_error()
 
         old_page = self.get_page(self.old_version_id)
         new_page = self.get_page(self.new_version_id)
