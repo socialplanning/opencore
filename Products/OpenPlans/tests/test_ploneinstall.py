@@ -25,36 +25,61 @@ import Products.OpenPlans.config as config
 from Products.OpenPlans.utils import parseDepends, doc_file
 from Products.OpenPlans.utils import installDepends
 from Products.OpenPlans.Extensions.Install import migrateATDocToOpenPage
-from Testing.ZopeTestCase import PortalTestCase
+from Testing.ZopeTestCase import PortalTestCase, Zope2
 
-from opencore.testing.layer import SiteSetupLayer, PloneSite
+from Products.PloneTestCase.setup import SiteSetup, default_base_profile
+from Products.PloneTestCase import five
+from opencore.testing.layer import ZCML
 import transaction as txn
 from Products.OpenPlans.tests.utils import installConfiguredProducts
 
-class TPILayer(PloneSite):
+portal_name = 'o1'
+extension_profiles=['membrane:default', 'remember:default']
+
+
+sandbox = Zope2.sandbox()
+
+def app():
+    app = sandbox.app()
+    app = utils.makerequest(app)
+    connections.register(app)
+    return app
+
+class TPISetup(SiteSetup):
+    _app = staticmethod(app)
+
+class TPILayer:
     """ try and isolate this puppy """
     installConfiguredProducts()
 
     @classmethod
     def setUp(cls):
+        five.safe_load_site()
         ZopeTestCase.installProduct('OpenPlans')
+        SiteSetup(portal_name, 'Default Plone', (), 0, 1,
+                  default_base_profile, extension_profiles).run()
 
     @classmethod
     def tearDown(cls):
-        raise NotImplementedError
+        five.cleanUp()
 
-class BasePloneInstallTest(ptc.PloneTestCase):
+
+class BasePloneInstallTest(ptc.FunctionalTestCase):
     layer = TPILayer
-
+    _app = staticmethod(app)
+    
     def afterSetUp(self):
         self.loginAsPortalOwner()
-        setup_tool = self.portal.portal_setup
-        setup_tool.setImportContext('profile-membrane:default')
-        setup_tool.runAllImportSteps()
+##         setup_tool = self.portal.portal_setup
+##         setup_tool.setImportContext('profile-membrane:default')
+##         setup_tool.runAllImportSteps()
 
-        setup_tool.setImportContext('profile-remember:default')
-        setup_tool.runAllImportSteps()
-        
+##         setup_tool.setImportContext('profile-remember:default')
+##         setup_tool.runAllImportSteps()
+
+    def getPortal(self):
+        return getattr(self.app, portal_name)
+    
     def fail_tb(self, msg):
         """ special fail for capturing errors::good for integration testing(qi, etc) """
         out = StringIO()
