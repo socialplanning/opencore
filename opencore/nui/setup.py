@@ -66,6 +66,11 @@ def set_method_aliases(portal, out):
         fti.setMethodAliases(aliases)
         out.write('%s' %pprint(aliases, out))
 
+def updateOpenMemberSchema(portal, out):
+    # @@ this is causing a weird KeyError: 'opencore.content.member.OpenMember'
+    # [o.getObject()._updateSchema() for o in portal.membrane_tool()]
+    pass
+
 nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      installNewsFolder=convertFunc(installNewsFolder),
                      move_interface_marking_on_projects_folder=convertFunc(move_interface_marking_on_projects_folder),
@@ -74,7 +79,9 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      setupHomeLayout=convertFunc(setupHomeLayout),
                      install_confirmation_workflow=convertFunc(install_confirmation_workflow),
                      setupPeopleFolder=convertFunc(setupPeopleFolder),
-                     setupProjectLayout=convertFunc(setupProjectLayout),)
+                     setupProjectLayout=convertFunc(setupProjectLayout),
+                     updateOpenMemberSchema=convertFunc(updateOpenMemberSchema),
+                    )
 
 nui_functions['Update Method Aliases']=convertFunc(set_method_aliases)
 
