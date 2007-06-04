@@ -12,7 +12,16 @@ from plone.memoize.view import memoize_contextless
 
 class ProjectContentsView(BaseView):
 
-    def wiki_pages(self):
+    def __call__(self):
+        import pdb; pdb.set_trace()
+
+    def rename_wiki_pages(self, from_ids, to_ids):
+        self.context.manage_renameObjects(from_ids, to_ids)
+
+    def delete_wiki_pages(self, ids):
+        self.context.manage_delObjects(ids)
+
+    def get_wiki_pages(self):
         return self.catalog(portal_type="Document",
                             path='/'.join(self.context.getPhysicalPath()))
 
