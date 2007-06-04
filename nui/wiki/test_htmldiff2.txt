@@ -150,7 +150,7 @@ unnecessary parallels found:
 wacky br test:
     >>> pdiff("<br>abc<br>",
     ...       "<br>abc<br>123")
-    <br>abc<br><ins>123</ins>
+    <br>abc <ins><br>123</ins>
     
 Annotation of content can also be done, where every bit of content is
 marked up with information about where it came from.
@@ -185,7 +185,7 @@ Now, a sequence of documents:
     >>> panno('<p>Hello</p><p>There World</p>','<p>Hello</p><p>There Town</p>')
     <p><span version="0">Hello</span></p><p><span version="0">There</span>
     <span version="1">Town</span></p>
-    >>> panno('<p>Hi <img src="/foo"> You</p>',
+    >>> panno('<p>Hi <img src="/foo"></p>',
     ...       '<p>Hi You</p>',
     ...       '<p>Hi You <img src="/bar"></p>')
     <p><span version="0">Hi</span> <span version="1">You</span> <span
