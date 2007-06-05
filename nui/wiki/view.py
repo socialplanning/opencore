@@ -1,6 +1,5 @@
 from opencore.nui.base import BaseView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from Products.CMFCore.utils import getToolByName
 
 class WikiEdit(BaseView):
     wiki_edit = ZopeTwoPageTemplateFile('wiki-edit.pt')
@@ -82,7 +81,7 @@ class AttachmentView(BaseView):
              fileName = fileName.split('/')[-1]
              fileName = fileName.split('\\')[-1]
              fileName = fileName.split(':')[-1]
-             plone_utils = getToolByName(self.context, 'plone_utils')
+             plone_utils = self.get_tool('plone_utils')
              imageId = plone_utils.normalizeString(fileName)
 
          if not imageId:
