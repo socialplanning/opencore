@@ -11,6 +11,9 @@ from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
 
 class ProjectContentsView(BaseView):
+    
+    def __call__(self):
+        import pdb; pdb.set_trace()
 
     def rename_wiki_pages(self, from_ids, to_ids):
         # need to change their title as well as their id
