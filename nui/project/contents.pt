@@ -46,8 +46,8 @@
 			  <input type="text" 
 				 tal:attributes="name string:${page/Title}_name" />
 			  <br />
-                          <button type="submit" name="task"
-				  tal:attributes="value string:${page/getId}_update">
+                          <button type="submit"
+				  tal:attributes="value string:task=update&target=${page/getId}">
 			    Save
 			  </button>
 			  or
