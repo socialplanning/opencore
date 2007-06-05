@@ -165,13 +165,14 @@ OC.LiveForm = function(extEl) {
       var action = el.href.split("?")[0];
       requestData = el.href.split("?")[1];
       
+      var requestUri = el.href + "mode=async";
+      
       // make connection
-      var cObj = YAHOO.util.Connect.asyncRequest("GET", el.href, 
+      var cObj = YAHOO.util.Connect.asyncRequest("GET", requestUri, 
         { success: _afterSuccess, 
           failure: _afterFailure, 
           scope: this 
-        },
-        "mode=async"
+        }
       );
     } 
     actionLinks.on('click', _actionLinkClick, this);
