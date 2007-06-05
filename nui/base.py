@@ -5,7 +5,7 @@ from Acquisition import aq_inner, aq_parent
 from Products.Five import BrowserView
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import PloneMessageFactory
+from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone.utils import transaction_note
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 
@@ -51,14 +51,14 @@ class BaseView(BrowserView):
 
     @property
     def portal_status_message(self):
-        plone_utils = getToolByName(self.context, 'plone_utils')
+        plone_utils = self.get_tool('plone_utils')
         msgs = plone_utils.showPortalMessages()
         msgs = [msg.message for msg in msgs]
         return msgs
 
     def addPortalStatusMessage(self, msg):
         plone_utils = self.get_tool('plone_utils')
-        plone_utils.addPortalMessage(PloneMessageFactory(msg))
+        plone_utils.addPortalMessage(_(msg))
 
     # memoize
     def include(self, viewname):
@@ -78,13 +78,6 @@ class BaseView(BrowserView):
     @view.memoizedproperty
     def inmember(self):
         return (self.miv.inMemberArea or self.miv.inMemberObject)
-
-    # XXX these two approach has different results
-    # which is correct???
-    def pagetitle(self):
-        if self.inproject():
-            return self.currentProjectPage().title
-        return self.context.title # TODO?
 
     @property
     def pagetitle(self):
@@ -312,44 +305,6 @@ class BaseView(BrowserView):
         if self.inproject():
             return self.currentProjectPage().absolute_url()
         return self.context.absolute_url() # TODO?
-
-    def user(self):
-        """Returns a dict containing information about the
-        currently-logged-in user for easy template access.
-        If no user is logged in, there's just less info to return."""
-        if self.loggedin:
-            usr = self.userobj()
-            id = usr.getId()
-            user_dict = dict(id=id,
-                             fullname=usr.fullname,
-                             url=self.membertool.getHomeUrl(),
-                             )
-            # XXX admins don't have as many properties, so we have a special case for them
-            # right now checking for string 'admin', we should check if the user has the right role instead
-            if id == 'admin':
-                user_dict['canedit'] = True
-                return user_dict
-            else:
-                canedit = bool(self.membertool.checkPermission(ModifyPortalContent, self.context))
-                user_dict.update(dict(canedit=canedit,
-                                      lastlogin=usr.getLast_login_time(),
-                                      ))
-                return user_dict
-        return dict(canedit=False)
-
-    def project(self): # TODO
-        """Returns a dict containing information about the
-        currently-viewed project for easy template access."""
-        if self.inproject():
-            proj = self.projectobj()
-            security = IReadWorkflowPolicySupport(proj).getCurrentPolicyId()
-            return dict(navname=proj.getId(),
-                        fullname=proj.getFull_name(),
-                        url=proj.absolute_url(), # XXX use self.projectHomePage.absolute_url() instead?
-                        home=self.projectHomePage(),
-                        mission=proj.Description(),
-                        security=security,
-                        featurelets=self.projectFeaturelets())
 
     def page(self): # TODO
         """Returns a dict containing information about the
