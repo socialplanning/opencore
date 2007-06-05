@@ -183,7 +183,7 @@ OC.LiveForm = function(extEl) {
     OC.debug("_formSubmit");
     requestData = YAHOO.util.Connect.setForm(liveForm.dom);
     YAHOO.util.Event.stopEvent(e);
-    var action = "backend.php"; /* will be form.dom.action once we move to NUI  */
+    var action = form.dom.action;
     var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
       { success: _afterSuccess, 
         failure: _afterFailure, 
