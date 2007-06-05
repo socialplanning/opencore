@@ -82,6 +82,7 @@ OC.LiveForm = function(extEl) {
   var liveForm = extEl;
   var actionLinks = Ext.select('.oc-actionLink');
   var checkAll = Ext.select('#' + liveForm.dom.id + " .oc-checkAll" )
+  var liveItems = Ext.select('#' + liveForm.dom.id + " .oc-liveItem" )
 
   // check required refs
   if (!liveForm) {
@@ -127,6 +128,34 @@ OC.LiveForm = function(extEl) {
      checkAll.on('click', _checkAllClick, this); 
   }
   
+  // live items
+  if (liveItems) {
+    liveItems.each(function(extEl) {
+      // get references
+      var value = Ext.get(Ext.query('.oc-liveItem-value', extEl.dom)[0]); 
+      var editForm = Ext.get(Ext.query('.oc-liveItem-editForm', extEl.dom)[0]);
+      var toggleLinks = Ext.select(Ext.query('.oc-liveItem_toggle', extEl.dom))
+      
+      if (!value || !editForm) {
+        OC.debug("liveItems.each: Couldn't get element refs");
+        return;
+      }
+      
+      // hide edit form
+      editForm.setVisibilityMode(Ext.Element.DISPLAY);
+      editForm.hide();
+      
+      // toggle link
+      function _toggleLinksClick(e, el, o) {
+        YAHOO.util.Event.stopEvent(e);
+        value.toggle();
+        editForm.toggle();
+      }
+      toggleLinks.on('click', _toggleLinksClick, this);
+      
+    }, this);
+  }
+  
   // action links
   if (actionLinks) {
     function _actionLinkClick(e, el, o) {
@@ -137,7 +166,7 @@ OC.LiveForm = function(extEl) {
       requestData = el.href.split("?")[1];
       
       // make connection
-      var cObj = YAHOO.util.Connect.asyncRequest("GET", action, 
+      var cObj = YAHOO.util.Connect.asyncRequest("GET", el.href, 
         { success: _afterSuccess, 
           failure: _afterFailure, 
           scope: this 
@@ -169,28 +198,32 @@ OC.LiveForm = function(extEl) {
     OC.debug('_afterSuccess');
     updater = _getUpdater(requestData);
     OC.debug('updater.task: ' + updater.task);
-    OC.debug('updater.target: ' + updater.target.dom);
+    OC.debug('updater.target: ');
+    OC.debug(updater.target.dom)
     
-    if (updater.task == "update") {
+    switch (updater.task) {
+      case "update" :
       // replace element
       o.responseText = Ext.util.Format.trim(o.responseText);
       var newNode = Ext.DomHelper.insertHtml("beforeBegin", updater.target.dom, o.responseText);
       updater.target.remove();
       Ext.get(newNode).highlight();
+      break;
       
-    } else if (updater.task ==  "delete") {
-      
-      if (updater.target == "batch") {  // delete group of elements
-        
-        var items = o.responseText.split('&');
-        for (var i = 0; i<items.length; i++) {
-          _removeItem(Ext.select('#' + items[i]));
+      case "delete" :
+        if (updater.target == "batch") {  // delete group of elements
+          
+          var items = o.responseText.split('&');
+          for (var i = 0; i<items.length; i++) {
+            _removeItem(Ext.select('#' + items[i]));
+          }
+          
+        } else {  // delete single element
+          
+          _removeItem(updater.target);
         }
-        
-      } else {  // delete single element
-        
-        _removeItem(updater.target);
-      }
+      break;
+      
     } 
     
     OC.breatheLife();

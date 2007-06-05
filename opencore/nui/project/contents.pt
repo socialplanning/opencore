@@ -29,19 +29,19 @@
                 </thead>
                 <tbody>
 		  <tal:for repeat="page view/pages">
-                    <tr class="oc-liveEdit" tal:attributes="id page/getId">
+                    <tr class="oc-liveItem" tal:attributes="id page/getId">
                       <td>
 			<input type="checkbox" name="batch[]"
 			       tal:attributes="value page/getId" />
                       </td>
                       <td>
-			<div class="oc-liveEdit-value">
+			<div class="oc-liveItem-value">
                           <a href="TODO-FILLIN">
 			    <tal:dummy replace="page/Title" />
 			  </a>
 			</div>
 			
-			<div class="oc-liveEdit-form">
+			<div class="oc-liveItem-editForm">
                           Name: 
 			  <input type="text" 
 				 tal:attributes="name string:${page/Title}_name" />
@@ -51,7 +51,7 @@
 			    Save
 			  </button>
 			  or
-			  <a href="#" class="oc-liveEdit-cancel">
+			  <a href="#" class="oc-liveItem_toggle">
 			    Cancel
 			  </a>
 			</div>
@@ -68,7 +68,7 @@
                       </td>
                       <td>
 			<ul class="oc-actions oc-dataTable-row-actions">
-                          <li><a href="#" class="oc-liveEdit-edit">Rename</a></li>
+                          <li><a href="#" class="oc-liveItem_toggle">Rename</a></li>
                           <li>
 			    <a class="oc-actionLink"
 			       tal:attributes="href string:modify-contents?task=${page/getId}_delete">
