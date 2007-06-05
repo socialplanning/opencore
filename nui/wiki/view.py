@@ -30,7 +30,7 @@ class AttachmentView(BaseView):
     delete_snippet = ZopeTwoPageTemplateFile('delete-att.pt')
 
     def attachment_url(self):
-        return self.context.absolute_url() + "/@@attachmentSnippet?attachment_id=" + self.new_attachment().id
+        return "%s/@@attachmentSnippet?attachment_id=%s" % (self.context.absolute_url, self.new_attachment().id)
 
     def attachmentSnippet(self):
         attachment = self.context._getOb(self.request.get('attachment_id'))
@@ -111,7 +111,7 @@ class AttachmentView(BaseView):
         name = '.'.join(dotDelimited[:-1])
 
         idx = 0
-        while (name + '.' + str(idx) + '.' + ext) in contextIds:
+        while ('%s.%s.%s' % (name, str(idx), ext)) in contextIds:
             idx += 1
 
-        return name + '.' + str(idx) + '.' + ext
+        return ('%s.%s.%s' % (name, str(idx), ext))

@@ -8,7 +8,6 @@
       
       <div id="oc-content-main" class="oc-content-main-fullWidth">
 	
-	<!-- FIXME this should not be repeated everywhere --> 
 	<div class="oc-wiki">
 	  
 	  <tal:block 
@@ -20,28 +19,7 @@
 	    <div class="oc-headingBlock oc-wiki-headingBlock">
               <h2 tal:content="view/pagetitle"></h2>
             </div>
-            <ul class="oc-tabs">
-              <li class="">
-		<a href="@@index.html" rel="view">view</a>
-              </li>
-              <li>
-		<a href="" rel="edit">edit</a>
-              </li>
-              <li>
-		<a href="" class="oc-selected" rel="history">history</a>
-              </li>
-              <!--<li tal:condition="nothing">-->
-              <li>
-		<form class="" >
-                  <select class="oc-dropdown-links">
-                    <option value="">More...</option>
-                    <option value="http://www.google.com">I'm feeling lucky</option>
-                  </select>
-                  <input type="submit" value="Go" style=""/>
-		</form>
-              </li>
-            </ul><!-- end .oc-tabs -->
-	    <!-- FIXME --> 
+            <div metal:use-macro="here/@@wiki_macros/tabs"/>
 	    asd;flkjsdf;ldsk
 	    
 	    <tal:if condition="python:len(history) > 0"> 

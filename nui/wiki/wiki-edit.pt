@@ -42,9 +42,7 @@
             <h2 tal:content="context/Title"></h2>
           </div>
 
-          <!--
-          <metal:tabslot define-slot="tabs" />
-          -->
+          <div metal:use-macro="here/@@wiki_macros/tabs"/>
 
           <form name="edit_form"
             method="post"
