@@ -18,18 +18,6 @@
     permission="zope2.Public"
     allowed_interface="zope.interface.common.mapping.IItemMapping"
     />
-				   
-  <!-- Test for upload form: bind to site root -->
-  <!-- 
-  <browser:page
-     for="*"
-     class="..base.BaseView"
-     permission="zope.Public"
-     name="update-test"
-     template="update-test.pt"
-     />
-   where is this?
-   -->
      
   <browser:page
     for="opencore.content.page.OpenPage"
@@ -61,7 +49,7 @@
      class=".historyview.WikiVersionView"
      permission="cmf.ModifyPortalContent"
      name="history"
-     template="wiki-history-real.pt"
+     template="wiki-history.pt"
      />
 
   <browser:page
