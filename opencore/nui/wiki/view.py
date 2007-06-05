@@ -2,9 +2,8 @@ from opencore.nui.base import BaseView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 class WikiEdit(BaseView):
-    wiki_edit = ZopeTwoPageTemplateFile('wiki-edit.pt')
 
-    def update(self):
+    def __call__(self):
         self.errors = {}
         self.context.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
@@ -15,12 +14,6 @@ class WikiEdit(BaseView):
         repo = self.context.portal.portal_repository
         repo.save(self.context, comment = self.request.get('comment', ''))
         self.request.response.redirect(self.context.absolute_url())
-
-    def show(self):
-        return self.wiki_edit()
-
-    def canEdit(self):
-        return self.user()['canedit']
 
 
 class AttachmentView(BaseView):

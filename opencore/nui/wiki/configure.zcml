@@ -32,12 +32,11 @@
     class=".view.WikiEdit"
     permission="cmf.ModifyPortalContent"
     name="update"
-    attribute="update"
     />
-    
+
   <browser:page
     for="opencore.interfaces.IOpenPage"
-    class=".view.WikiEdit"
+    class="..base.BaseView"
     permission="cmf.ModifyPortalContent"
     name="edit"
     template="wiki-edit.pt"
