@@ -58,7 +58,7 @@
 
               <ul class="oc-actions oc-wiki-actions">
                 <li><input type="submit" value="Save" class="oc-button oc-chooseThis" /></li>
-                <li>or <a href="index.html">cancel</a></li>
+                <li>or <a href="" tal:attributes="href context/absolute_url">cancel</a></li>
               </ul>  
               
             </div><!-- end .oc-wiki-edit -->
