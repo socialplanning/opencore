@@ -54,15 +54,17 @@ def set_method_aliases(portal, out):
     amap = config.ConfigMap.load(ALIASES)
     out.write('Setting method aliases::')
     for type_name in amap:
-        out.write('<< %s >>' %type_name)
+        out.write('<< %s >>\n' %type_name)
         fti = getattr(pt, type_name)
         aliases = fti.getMethodAliases()
         new = amap[type_name]
 
-        # set all defaults
-        new['(Default)']=new['view']
+        # compensate for cfgparser lowercasing
+        if new.has_key('(default)'):
+            new['(Default)']=new['(default)']
+            del new['(default)']
+            
         aliases.update(new)
-        #pprint((type_name, aliases))
         fti.setMethodAliases(aliases)
         out.write('%s' %pprint(aliases, out))
 
@@ -76,7 +78,7 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      install_confirmation_workflow=convertFunc(install_confirmation_workflow),
                      setupPeopleFolder=convertFunc(setupPeopleFolder),
                      setupProjectLayout=convertFunc(setupProjectLayout),
-                    )
+                     )
 
 nui_functions['Update Method Aliases']=convertFunc(set_method_aliases)
 
