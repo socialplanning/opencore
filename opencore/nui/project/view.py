@@ -20,9 +20,9 @@ def octopus_form_handler(func):
     This method expects to decorate a method which takes, in order,
      * an action to apply (a unique identifier for a method to
                            delegate to),
-     * a list of sources (unique identifiers for items to act upon),
-     * a list of destinations (values to apply to the sources,
-                               in the same order as the sources)
+     * a list of targets (unique identifiers for items to act upon),
+     * a list of fields (a dict of fieldname:values to apply to the
+                         targets, in the same order as the targets)
 
     It expects to be returned a value to be sent, unmodified, directly
     to the client in the case of an AJAX request.
@@ -37,7 +37,16 @@ def octopus_form_handler(func):
         if type(target) != type([]):
             target = [target]
 
-        ret = func(self, action, target, None)
+        fields = []
+        for item in target:
+            itemdict = {}
+            filterby = item + '_'
+            keys = [key for key in self.request.form if key.startswith(filterby)]
+            for key in keys:
+                itemdict[key.replace(filterby, '')] = self.request.get(key)
+            fields.append(itemdict)
+            
+        ret = func(self, action, target, fields)
         mode = self.request.get("mode")
         if mode == "async":
             return ret
