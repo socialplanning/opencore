@@ -18,11 +18,11 @@ def octopus_form_handler(func):
     asynchronously or synchronously with javascript disabled.
 
     This method expects to decorate a method which takes, in order,
-     * an action to apply (a unique identifier for a method to
-                           delegate to),
-     * a list of targets (unique identifiers for items to act upon),
-     * a list of fields (a dict of fieldname:values to apply to the
-                         targets, in the same order as the targets)
+      * an action to apply (a unique identifier for a method to
+                            delegate to or an action to perform),
+      * a list of targets (unique identifiers for items to act upon),
+      * a list of fields (a dict of fieldname:values to apply to the
+                          targets, in the same order as the targets)
 
     It expects to be returned a value to be sent, unmodified, directly
     to the client in the case of an AJAX request.
@@ -32,11 +32,13 @@ def octopus_form_handler(func):
     def inner(self):
         # XXX todo don't rely on underscore special character
         target, action = self.request.get("task").split("_")
+
         if target == 'batch' and self.request.get('batch[]'):
             target = self.request.get("batch[]")
         if type(target) != type([]):
             target = [target]
 
+        # grab items' fields from request and fill dicts in an ordered list
         fields = []
         for item in target:
             itemdict = {}
@@ -45,49 +47,35 @@ def octopus_form_handler(func):
             for key in keys:
                 itemdict[key.replace(filterby, '')] = self.request.get(key)
             fields.append(itemdict)
-            
+        
         ret = func(self, action, target, fields)
         mode = self.request.get("mode")
         if mode == "async":
             return ret
-        return "NOT HERE"
-        # else redirect back to form
+        return "NOT HERE"        # else redirect back to form
+
     return inner
 
 class ProjectContentsView(BaseView):
     
     def __call__(self, *args, **kw):
-        self.pages = self.get_wiki_pages()
+        self.pages = self.catalog(portal_type="Document",
+                                  path='/'.join(self.context.getPhysicalPath()))
         return self.index(*args, **kw)
 
     @octopus_form_handler
-    def modify_contents(self, action, sources, destinations):
-        #self.delete_wiki_pages(list(sources))
-        return sources
+    def modify_contents(self, action, sources, fields):
+        if action == 'delete':
+            self.context.manage_delObjects(list(sources))
+            return sources
 
-        #ret = getattr(self, action + "_wiki_pages")
-        #ret = ret(target)
-        
-        #mode = self.request.get("mode")
-
-        #if mode == 'async':
-        #    return ret
-        #Return a_redirect
-
-    def rename_wiki_pages(self, from_ids, to_ids):
-        # need to change their title as well as their id
-        for old, new in zip(from_ids, to_ids):
-            page = self.context.restrictedTraverse(old)
-            page.setTitle(new)
-        # XXX we might get rid of the line below and only setTitles
-        self.context.manage_renameObjects(from_ids, to_ids)
-
-    def delete_wiki_pages(self, ids):
-        self.context.manage_delObjects(ids)
-
-    def get_wiki_pages(self):
-        return self.catalog(portal_type="Document",
-                            path='/'.join(self.context.getPhysicalPath()))
+        if action == 'update':
+            new_titles = [d['title'] for d in fields]
+            for old, new in zip(sources, fields):
+                page = self.context.restrictedTraverse(old)
+                page.setTitle(new['title'])
+            #self.context.manage_renameObjects(sources, [d['title'] for d in fields])
+            return '???'
 
     def rename_attachments_and_images(self, from_ids, to_ids):
         for old, new in zip(from_ids, to_ids):
