@@ -401,6 +401,34 @@ dl.oc-member-info dd {
 
 .oc-wiki {
 }
+.oc-wiki-headingBlock h2 {
+  font-size: 14px;
+}
+ul.oc-tabs {
+ line-height: 1.9em;
+}
+.oc-tabs li a {
+ border: 1px solid #666;
+ background: #eee;
+}
+.oc-tabs li a:hover {
+  background: #ccc;
+  border-bottom: 1px solid #000;
+  color: #000;
+}
+/* Selected tab */
+#oc-wiki-tabs-view .oc-wiki-tabs-view a,
+#oc-wiki-tabs-edit .oc-wiki-tabs-edit a,
+#oc-wiki-tabs-history .oc-wiki-tabs-history a,
+#oc-wiki-tabs-version_compare .oc-wiki-tabs-history a,
+#oc-wiki-tabs-version .oc-wiki-tabs-history a
+ {
+  border-bottom: 1px solid #fff;
+  background: #fff;
+}
+.oc-tabs form {
+  display: inline;
+}
 .oc-wiki-content {
 }
 .oc-wiki-content ol,
@@ -1102,31 +1130,7 @@ address {
 #oc-content-sidebar .discreetText {
 	font-size: 10px;
 }
-ul.oc-tabs {
- line-height: 1.9em;
-}
-.oc-tabs li a {
- border: 1px solid #666;
- background: #eee;
-}
-.oc-tabs li a:hover {
-  background: #ccc;
-  border-bottom: 1px solid #000;
-  color: #000;
-}
-/* Selected tab */
-#oc-wiki-tabs-view .oc-wiki-tabs-view a,
-#oc-wiki-tabs-edit .oc-wiki-tabs-edit a,
-#oc-wiki-tabs-history .oc-wiki-tabs-history a,
-#oc-wiki-tabs-version_compare .oc-wiki-tabs-history a,
-#oc-wiki-tabs-version .oc-wiki-tabs-history a
- {
-  border-bottom: 1px solid #fff;
-  background: #fff;
-}
-.oc-tabs form {
-  display: inline;
-}
+
 .oc-discreetText {
   color: #999;
 }

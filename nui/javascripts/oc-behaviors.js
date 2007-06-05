@@ -224,11 +224,11 @@ OC.LiveForm = function(extEl) {
     
     switch (updater.task) {
       case "update" :
-      // replace element
-      o.responseText = Ext.util.Format.trim(o.responseText);
-      var newNode = Ext.DomHelper.insertHtml("beforeBegin", updater.target.dom, o.responseText);
-      updater.target.remove();
-      Ext.get(newNode).highlight();
+        // replace element
+        o.responseText = Ext.util.Format.trim(o.responseText);
+        var newNode = Ext.DomHelper.insertHtml("beforeBegin", updater.target.dom, o.responseText);
+        updater.target.remove();
+        Ext.get(newNode).highlight();
       break;
       
       case "delete" :
@@ -240,19 +240,7 @@ OC.LiveForm = function(extEl) {
         for (var i = 0; i<IDs.length; i++) {
           _removeItem(IDs[i]);
         }
-        /*
-        if (updater.target == "batch") {  // delete group of elements
-          
-          var items = o.responseText.split('&');
-          for (var i = 0; i<items.length; i++) {
-            _removeItem(Ext.select('#' + items[i]));
-          }
-          
-        } else {  // delete single element
-          
-          _removeItem(updater.target);
-        }
-        */
+
       break;
       
     } 
