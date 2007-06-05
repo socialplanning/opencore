@@ -13,12 +13,9 @@ from Globals import DevelopmentMode as DEVMODE
 
 class JoinView(BaseView):
 
-    @button('join')
-    @post_only(raise_=False)
-    def handle_request(self):
+    def __call__(self, *args, **kw):
         context = self.context
         mdc = getToolByName(context, 'portal_memberdata')
-
         adder = getAdderUtility(context)
         type_name = adder.default_member_type
 
@@ -29,6 +26,20 @@ class JoinView(BaseView):
                              (mem.getTypeInfo().getId(),
                               id_,
                               context.absolute_url()))
+        self.temp_mem_id = id_
+        return self.index(*args, **kw)
+
+    @button('join')
+    @post_only(raise_=False)
+    def handle_request(self):
+        context = self.context
+        mdc = getToolByName(context, 'portal_memberdata')
+        adder = getAdderUtility(context)
+        type_name = adder.default_member_type
+
+        temp_mem_id = self.request.get('temp_mem_id')
+        mem = mdc.portal_factory.restrictedTraverse("%s/%s" % (type_name, temp_mem_id))
+
         self.errors = {}
         self.errors = mem.validate(REQUEST=self.request,
                                    errors=self.errors,
@@ -40,7 +51,7 @@ class JoinView(BaseView):
         mem_id = self.request.get('id')
         mem = mdc.portal_factory.doCreate(mem, mem_id)
         result = mem.processForm()
-        url = self.confirmation_url(mem)
+        url = self._confirmation_url(mem)
         
         if DEVMODE:
             return dict(confirmation=url, devmode=True, member_id=mem_id)
@@ -50,7 +61,7 @@ class JoinView(BaseView):
                                         url=url)
             return mdc._getOb(mem_id)
 
-    def confirmation_url(self, mem):
+    def _confirmation_url(self, mem):
         code = mem.getUserConfirmationCode()
         return "%s/confirm-account?key=%s" % (self.siteURL, code)
     
