@@ -1,18 +1,20 @@
 <configure xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:meta="http://namespaces.zope.org/meta"
     xmlns:five="http://namespaces.zope.org/five">
 
-  <include package=".skin"/>
+  <five:implements 
+     class="ZPublisher.HTTPRequest.HTTPRequest" 
+     interface="zope.app.annotation.IAttributeAnnotatable"/>
+
+  <meta:redefinePermission from="zope2.Public" to="zope.Public" />
+
   <include package=".wiki" />
   <include package=".project" />
   <include package=".main" />
   <include package=".account" />
   <include package=".member" />
   <include package=".topnav" />
-
-  <five:implements 
-     class="ZPublisher.HTTPRequest.HTTPRequest" 
-     interface="zope.app.annotation.IAttributeAnnotatable"/>
 
   <!-- resource directories for css, images, etc -->
   <browser:resourceDirectory
@@ -28,12 +30,37 @@
     directory="javascripts"
     />
 
+  <browser:layer name="magic" />
 
+  <browser:page
+    for="*"
+    class="opencore.nui.base.BaseView"
+    permission="zope.Public"
+    name="main_template"
+    template="main_template.pt"
+    layer="magic"
+    />
+
+  <browser:view
+    for="*"
+    name="standard_macros"
+    class=".macros.StandardMacros"
+    permission="zope2.Public"
+    allowed_interface="zope.interface.common.mapping.IItemMapping"
+    />
+
+  <browser:view
+    for="*"
+    name="nui_macros"
+    class=".macros.NuiMacros"
+    permission="zope2.Public"
+    allowed_interface="zope.interface.common.mapping.IItemMapping"
+    />
 
   <!-- footer -->
   <browser:page
      for="*"
-     class=".base.BaseView"
+     class="opencore.nui.base.BaseView"
      permission="zope.Public"
      name="oc-footer"
      template="footer.pt"
