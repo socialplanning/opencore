@@ -32,13 +32,12 @@ def octopus_form_handler(func):
     def inner(self):
         # XXX todo don't rely on underscore special character
         target, action = self.request.get("task").split("_")
-        sources = target
         if target == 'batch' and self.request.get('batch[]'):
-            sources = self.request.get("batch[]")
-        if type(sources) != type([]):
-            sources = [sources]
-            #import pdb; pdb.set_trace()
-        ret = func(self, sources)
+            target = self.request.get("batch[]")
+        if type(target) != type([]):
+            target = [target]
+
+        ret = func(self, action, target, None)
         mode = self.request.get("mode")
         if mode == "async":
             return ret
@@ -53,7 +52,7 @@ class ProjectContentsView(BaseView):
         return self.index(*args, **kw)
 
     @octopus_form_handler
-    def modify_contents(self, sources):
+    def modify_contents(self, action, sources, destinations):
         #self.delete_wiki_pages(list(sources))
         return sources
 
