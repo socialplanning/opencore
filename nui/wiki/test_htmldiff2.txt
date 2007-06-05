@@ -12,7 +12,7 @@ First, a handy function for normalizing whitespace and doing word wrapping::
 
 Example::
 
-    >>> from htmldiff2 import htmldiff, split_unbalanced, html_annotate
+    >>> from opencore.nui.wiki.htmldiff2 import htmldiff, split_unbalanced, html_annotate
     >>> html1 = '<p>This is some test text with some changes and some same stuff</p>'
     >>> html2 = '''<p>This is some test textual writing with some changed stuff 
     ... and some same stuff</p>'''
@@ -202,7 +202,7 @@ Now, a sequence of documents:
 
 Here's a test of a utility function!:
 
-    >>> from htmldiff2 import _merge_element_contents
+    >>> from opencore.nui.wiki.htmldiff2 import _merge_element_contents
     >>> from lxml import etree
     >>> doc = '''<html><body><div>
     ... <div id="c1">a b <span id="d1">content</span> c d</div>
@@ -227,7 +227,7 @@ Here's a test of a utility function!:
 
 More utility:
 
-    >>> from htmldiff2 import fixup_ins_del_tags
+    >>> from opencore.nui.wiki.htmldiff2 import fixup_ins_del_tags
     >>> def pfixup(text):
     ...     print fixup_ins_del_tags(text).strip()
     >>> pfixup('<ins><p>some text <b>and more text</b> and more</p></ins>')
