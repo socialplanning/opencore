@@ -11,6 +11,24 @@ from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
 
 def octopus_form_handler(func):
+    """
+    A (hopefully) generic decorator to handle complex forms with
+    multiple actions and multiple items which can be acted upon
+    either singly or in a batch, with the call made either 
+    asynchronously or synchronously with javascript disabled.
+
+    This method expects to decorate a method which takes, in order,
+     * an action to apply (a unique identifier for a method to
+                           delegate to),
+     * a list of sources (unique identifiers for items to act upon),
+     * a list of destinations (values to apply to the sources,
+                               in the same order as the sources)
+
+    It expects to be returned a value to be sent, unmodified, directly
+    to the client in the case of an AJAX request.
+
+    It expects a very specific format for the request, which will be documented in the future.
+    """
     def inner(self):
         target, action = self.request.get("task").split("_")
         sources = target
