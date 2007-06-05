@@ -199,3 +199,14 @@ Try with more than 2 versions
      Redirect: http://nohost/plone/projects/p1/project-home/history
      >>> 'You may only check two versions in the version compare form' in view.portal_status_message
      True
+
+Now edit 2 pages, so we can try a valid compare later
+     >>> view.request.set('version_id', ['0', '1'])
+     >>> repo = view.get_tool('portal_repository')
+     >>> page.processForm(values=dict(text='some new text'))
+     >>> repo.save(page, comment='new comment')
+     >>> page.processForm(values=dict(text='some even newer text'))
+     >>> repo.save(page, comment='newest comment')
+
+Now we should get a valid response
+     >>> response = view()
