@@ -36,7 +36,7 @@
                       </td>
                       <td>
                         <div class="oc-liveItem-value">
-                          <a href="TODO-FILLIN">
+                          <a tal:attributes="href python:'/'.join((view.context.absolute_url(), page.getId))">
                             <tal:dummy replace="page/Title" />
                           </a>
                         </div>
