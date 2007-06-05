@@ -6,8 +6,8 @@
          but the following line fixes it -->
     <base tal:attributes="href string:${context/absolute_url}/" />
     <title tal:content="view/windowtitle" />
-    <link rel="stylesheet" href="++resource++css/opencore.css" type="text/css" media="all" />
     <link rel="stylesheet" href="++resource++css/plone.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="++resource++css/opencore.css" type="text/css" media="all" />
     <!--[if IE 6]>
   <link rel="stylesheet" href="++resource++css/ie6.css" type="text/css" media="all" />
   <![endif]-->

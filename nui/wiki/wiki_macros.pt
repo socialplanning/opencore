@@ -65,17 +65,18 @@
 </form>
 <!-- END FILE UPLOAD FORM -->
 
-<div metal:define-macro="tabs">
+<div tal:attributes="id string:oc-wiki-tabs-${view/name}" metal:define-macro="tabs">
        <ul class="oc-tabs">
-         <li class="">
+         <li class="oc-wiki-tabs-view">
 	   <a tal:attributes="href context/absolute_url" rel="view">view</a>
          </li>
-         <li>
+         <li class="oc-wiki-tabs-edit">
 	   <a tal:attributes="href string:${context/absolute_url}/edit" rel="edit">edit</a>
          </li>
-         <li>
+         <li class="oc-wiki-tabs-history">
 	   <a tal:attributes="href string:${context/absolute_url}/history" class="oc-selected" rel="history">history</a>
          </li>
+         <!--
          <li>
 	   <form class="" >
              <select class="oc-dropdown-links">
@@ -85,5 +86,6 @@
              <input type="submit" value="Go" style=""/>
 	   </form>
          </li>
+         -->
        </ul>
 </div>
