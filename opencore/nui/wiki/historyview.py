@@ -1,3 +1,4 @@
+from zExceptions import Redirect
 from Products.CMFCore.utils import getToolByName
 from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
 from opencore.nui.base import BaseView
@@ -56,10 +57,6 @@ class WikiVersionView(BaseView):
 
 class WikiVersionCompare(WikiVersionView):
 
-    version_compare = ZopeTwoPageTemplateFile('wiki-version-compare.pt')
-    # FIXME: there's probably something generic like this already.
-    generic_error = ZopeTwoPageTemplateFile('wiki-generic-error.pt')
-
     def __call__(self):
         versions = self.request.get('version_id')
         req_error = None
@@ -69,20 +66,19 @@ class WikiVersionCompare(WikiVersionView):
             req_error = 'You did not check enough versions in the version compare form'
         elif len(versions) > 2:
             req_error = 'You may only check two versions in the version compare form'
+        if not req_error:
+            versions.sort()
+            self.old_version_id, self.new_version_id = self.sort_versions(*versions)
+            try:
+                self.old_version = self.get_version(self.old_version_id)
+                self.new_version = self.get_version(self.new_version_id)
+            except ArchivistRetrieveError:
+                req_error = 'Invalid version specified'
+            
         if req_error:
+            # redirect to input page on error
             self.addPortalStatusMessage(req_error)
-            # FIXME: It's really a 400 Bad Request that we should be
-            # sending here (with an error message):
-            return self.generic_error()
-        versions.sort()
-        self.old_version_id, self.new_version_id = self.sort_versions(*versions)
-
-        try:
-            self.old_version = self.get_version(self.old_version_id)
-            self.new_version = self.get_version(self.new_version_id)
-        except ArchivistRetrieveError:
-            self.addPortalStatusMessage('Invalid version specified')
-            return self.generic_error()
+            raise Redirect('%s/history' % self.context.absolute_url())
 
         old_page = self.get_page(self.old_version_id)
         new_page = self.get_page(self.new_version_id)

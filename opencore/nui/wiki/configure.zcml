@@ -64,6 +64,7 @@
      for="opencore.content.page.OpenPage"
      class=".historyview.WikiVersionCompare"
      permission="cmf.ModifyPortalContent"
+     template="wiki-version-compare.pt"
      name="version_compare"
      />
 

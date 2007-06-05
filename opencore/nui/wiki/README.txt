@@ -75,13 +75,13 @@ Test wiki page registrations (logged in)::
 Test wiki history registrations (logged in)::
 
     >>> page.restrictedTraverse('history')
-    <Products.Five.metaclass.SimpleViewClass ...wiki/wiki-history-real.pt object at ...>
+    <Products.Five.metaclass.SimpleViewClass from ...wiki-history.pt object at ...>
 
     >>> page.restrictedTraverse('version')
     <Products.Five.metaclass.SimpleViewClass ...wiki/wiki-previous-version.pt object at ...>
 
     >>> page.restrictedTraverse('version_compare')
-    <Products.Five.metaclass.WikiVersionCompare object at ...>
+    <Products.Five.metaclass.SimpleViewClass from ...wiki-version-compare.pt object at ...>
 
     
 Test wiki attachment registrations (logged in)::
@@ -158,32 +158,44 @@ Test actually creating, editing, deleting an attachment::
    # >>> page.restrictedTraverse('@@deleteAtt')    
    # <Products.Five.metaclass.AttachmentView object at ...>
 
-Verify that the right errors get returned when viewing the view improperly
+Verify that a redirect is raised on invalid input
 
 Set up the right view
      >>> view = self.portal.unrestrictedTraverse('projects/p1/project-home/version_compare')
      >>> view
-     <Products.Five.metaclass.WikiVersionCompare object at ...>
+     <Products.Five.metaclass.SimpleViewClass from ...wiki-version-compare.pt object at ...>
 
 Call it with no arguments
      >>> response = view()
-     >>> 'You did not check any versions in the version compare form' in response
+     Traceback (most recent call last):
+     ...
+     Redirect: http://nohost/plone/projects/p1/project-home/history
+     >>> 'You did not check any versions in the version compare form' in view.portal_status_message
      True
 
 Try it with just one argument
      >>> view.request.set('version_id', '0')
      >>> response = view()
-     >>> 'You did not check enough versions in the version compare form' in response
+     Traceback (most recent call last):
+     ...
+     Redirect: http://nohost/plone/projects/p1/project-home/history
+     >>> 'You did not check enough versions in the version compare form' in view.portal_status_message
      True
 
 Try with 2 arguments, but the versions don't exist
      >>> view.request.set('version_id', ['0', '1'])
      >>> response = view()
-     >>> 'Invalid version specified' in response
+     Traceback (most recent call last):
+     ...
+     Redirect: http://nohost/plone/projects/p1/project-home/history
+     >>> 'Invalid version specified' in view.portal_status_message
      True
 
 Try with more than 2 versions
      >>> view.request.set('version_id', ['0', '1', '2'])
      >>> response = view()
-     >>> 'You may only check two versions in the version compare form' in response
+     Traceback (most recent call last):
+     ...
+     Redirect: http://nohost/plone/projects/p1/project-home/history
+     >>> 'You may only check two versions in the version compare form' in view.portal_status_message
      True
