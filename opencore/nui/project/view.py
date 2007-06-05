@@ -41,9 +41,6 @@ class ProjectContentsView(BaseView):
                             path='/'.join(self.context.getPhysicalPath()))
 
 
-    def __call__(self):
-        import pdb; pdb.set_trace()
-
 class ProjectPreferencesView(BaseView):
 
     @button('update')
