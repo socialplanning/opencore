@@ -28,32 +28,57 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="oc-liveEdit" id="item1">
-                    <td>
-                      <input type="checkbox" name="batch[]" value="item1" />
-                    </td>
-                    <td>
-                      <div class="oc-liveEdit-value">
-                        <a href="">My sweet page 1</a>
-                      </div>
-                      <div class="oc-liveEdit-form">
-                        Name: <input type="text" name="item1_name" /><br />
-                        <button type="submit" name="task" value="item1_update">Save</button> or <a href="#" class="oc-liveEdit-cancel">Cancel</a>
-                      </div>
-                    </td>
-                    <td>
-                      25kb
-                    </td>
-                    <td>
-                      5/1/07 at 10:54pm by <a href="">Rollie</a>
-                    </td>
-                    <td>
-                      <ul class="oc-actions oc-dataTable-row-actions">
-                        <li><a href="#" class="oc-liveEdit-edit">Rename</a></li>
-                        <li><a href="backend.php?task=item1_delete" class="oc-actionLink">Delete</a></li>
-                      </ul>
-                    </td>
-                  </tr>
+		  <tal:for repeat="page view/pages">
+                    <tr class="oc-liveEdit" tal:attributes="id page/getId">
+                      <td>
+			<input type="checkbox" name="batch[]"
+			       tal:attributes="value page/getId" />
+                      </td>
+                      <td>
+			<div class="oc-liveEdit-value">
+                          <a href="TODO-FILLIN">
+			    <tal:dummy replace="page/Title" />
+			  </a>
+			</div>
+			
+			<div class="oc-liveEdit-form">
+                          Name: 
+			  <input type="text" 
+				 tal:attributes="name string:${page/Title}_name" />
+			  <br />
+                          <button type="submit" name="task"
+				  tal:attributes="value string:${page/getId}_update">
+			    Save
+			  </button>
+			  or
+			  <a href="#" class="oc-liveEdit-cancel">
+			    Cancel
+			  </a>
+			</div>
+                      </td>
+                      <td>
+			<tal:dummy replace="page/getObjSize" />
+                      </td>
+                      <td>
+			<tal:dummy replace="page/ModificationDate" />
+			by
+			<a href="TODO-FILLIN">
+			  <tal:dummy replace="page/lastModifiedAuthor" />
+			</a>
+                      </td>
+                      <td>
+			<ul class="oc-actions oc-dataTable-row-actions">
+                          <li><a href="#" class="oc-liveEdit-edit">Rename</a></li>
+                          <li>
+			    <a class="oc-actionLink"
+			       tal:attributes="href string:modify-contents?task=${page/getId}_delete">
+			      Delete
+			    </a>
+			  </li>
+			</ul>
+                      </td>
+                    </tr>
+		  </tal:for>
                 </tbody>
               </table>
               
