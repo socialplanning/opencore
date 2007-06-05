@@ -36,7 +36,7 @@
                       </td>
                       <td>
                         <div class="oc-liveItem-value">
-                          <a tal:attributes="href python:'/'.join((view.context.absolute_url(), page.getId))">
+                          <a tal:attributes="href page/getURL">
                             <tal:dummy replace="page/Title" />
                           </a>
                         </div>
