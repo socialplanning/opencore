@@ -31,9 +31,10 @@ def test_suite():
                                     setUp=readme_setup
                                     )
 
+    htmldiff2 = doctest.DocFileSuite('test_htmldiff2.txt')
     readme.layer = OpencoreContent
 
-    return unittest.TestSuite((readme,))
+    return unittest.TestSuite((readme, htmldiff2))
 
 
 if __name__ == '__main__':
