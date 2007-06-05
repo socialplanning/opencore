@@ -2,10 +2,10 @@
   <html metal:use-macro="here/@@standard_macros/master">
     <body>
       <div metal:fill-slot="content">
-	<div tal:condition="view/loggedin" >
-	  You are logged in. Go do stuff.
-	</div>
-	<tal:login condition="not:view/loggedin">
+        <div tal:condition="view/loggedin" >
+          You are logged in. Go do stuff.
+        </div>
+        <tal:login condition="not:view/loggedin">
           <div class="oc-headingBlock">
             <h1>Login</h1>
             <p class="oc-headingContext">Please login to edit or access certain areas of this site.</p>
@@ -13,7 +13,7 @@
 
           <div id="oc-content-main">
             <form method="post" id="oc-login-form"
-		  tal:attributes="action string:${context/absolute_url}/logged_in">
+                  tal:attributes="action string:${context/absolute_url}/logged_in">
 
               <input type="hidden" name="form.submitted" value="1" />
               <input type="hidden" name="js_enabled" id="js_enabled" value="0" />
@@ -22,62 +22,58 @@
               <input type="hidden" name="pwd_empty" id="pwd_empty" value="0" />
 
               <fieldset>
-		<legend>
-                  <div class="oc-headingBlock">
-                    <h3>Returning members</h3>
-                    <p class="oc-headingContext">Login below</p>
-                  </div>
-		</legend> 
-		<table class="oc-form" cellpadding="0" cellspacing="0">
+                <legend class="oc-legend-heading">Returning members</legend> 
+                <table class="oc-form" cellpadding="0" cellspacing="0">
                   <thead></thead>
                   <tbody>
                     <tr>
                       <th class="oc-form-label" scope="row"><label for="__ac_name">Username </label></th>
                       <td class="oc-form-value"><input type="text" size="15" tabindex="0" name="__ac_name" value="" id="__ac_name" class="oc-firstFocus" /></td>
                       <td class="oc-form-help">
-			<span class="oc-form-context"></span>
-			<span id="oc-validator-username" class="oc-form-validator"></span>
+                        <span class="oc-form-context"></span>
+                        <span id="oc-validator-username" class="oc-form-validator"></span>
                       </td>
                     </tr>
                     <tr>
-                      <th class="oc-form-label" scope="row"><label for="__ac_password">Password </label></th>
+                      <th class="oc-form-label" scope="row"><label for="__ac_password">Password </label>
+                      </th>
                       <td class="oc-form-value"><input type="password" size="15" name="__ac_password" id="__ac_password" /></td>
                       <td class="oc-form-help"> </td>
-                    </tr>
-                    <tr class="oc-actions">
-                      <th></th>
-                      <td class="oc-form-value"><input class="context" type="submit" name="submit" value="Log in" />
-			<!-- onclick="javascript:return setLoginVars('__ac_name','login_name','__ac_password','pwd_empty','js_enabled','cookies_enabled')" --></td>
-                      <td class="oc-form-help"></td>
                     </tr>
                     <tr class="oc-options">
                       <th></th>
                       <td class="oc-form-value">
-			<input type="checkbox" name="no_expire_cookie" id="no_expire_cookie" /> 
-			<label for="no_expire_cookie">Keep me logged in</label>
+                        <input type="checkbox" name="no_expire_cookie" id="no_expire_cookie" /> 
+                        <label for="no_expire_cookie">Keep me logged in</label>
                       </td>
                       <td class="oc-form-help">
                       </td>
                     </tr>
+                    <tr class="oc-actions">
+                      <th></th>
+                      <td class="oc-form-value"><input class="context" type="submit" name="submit" value="Log in" />
+                        <!-- onclick="javascript:return setLoginVars('__ac_name','login_name','__ac_password','pwd_empty','js_enabled','cookies_enabled')" --></td>
+                      <td class="oc-form-help"></td>
+                    </tr>
                     <tr class="oc-options">
                       <th></th>
                       <td>
-			<a href="forgot">Forgot your username or password?</a>
+                        <a class="oc-smallText" href="forgot">Forgot your username or password?</a>
                       </td>
                       <td class="oc-form-helpBlock"></td>
                     </tr>
                   </tbody>
-		</table>
+                </table>
               </fieldset>
             </form>
           </div><!-- end #content-main -->
 
           <div id="oc-content-sidebar">
-            <h3>First time here?</h3>
+            <h2>First time here?</h2>
             <p><a class="oc-button" href="join"> create an account</a></p>
             <p><a href="">Learn more</a></p>
           </div><!-- end #content-sidebar -->
-	</tal:login>
+        </tal:login>
       </div><!-- end content slot -->
     </body>
   </html>

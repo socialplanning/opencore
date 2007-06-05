@@ -6,7 +6,7 @@
     <li><a tal:attributes="href string:${here/portal_url}/privacy">privacy</a></li>
   </ul>
 
-  <span tal:content="string:
+  <div id="oc-footer-about" tal:content="string:
     OpenPlans is
     ${view/nusers} users and
     ${view/nprojects} projects since
