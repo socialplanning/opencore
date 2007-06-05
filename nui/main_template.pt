@@ -2,15 +2,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head profile="http://gmpg.org/xfn/11">
-    <!-- erroneous base tag was getting drawn in somehow for some templates
-         but the following line fixes it -->
     <base tal:attributes="href string:${context/absolute_url}/" />
     <title tal:content="view/windowtitle" />
     <link rel="stylesheet" href="++resource++css/plone.css" type="text/css" media="all" />
     <link rel="stylesheet" href="++resource++css/opencore.css" type="text/css" media="all" />
     <!--[if IE 6]>
-  <link rel="stylesheet" href="++resource++css/ie6.css" type="text/css" media="all" />
-  <![endif]-->
+      <link rel="stylesheet" href="++resource++css/ie6.css" type="text/css" media="all" />
+    <![endif]-->
     
     <!-- theme CSS -->
     <link rel="stylesheet" href="++resource++css/themes/openplans.css" type="text/css" media="all" />
@@ -28,35 +26,7 @@
   </head>  
   <body>
     <div id="oc-page-container">
-      <!-- div tal:replace="structure here/@@oc-topnav" / -->
-      <div id="oc-topnav">
-        <h1>Another project about New York City Streets</h1>
-        <ul id="oc-topnav-context" class="oc-clearAfter">
-          <li>Home</li>
-          <li class="oc-topnav-selected">Tasks</li>
-          <li>Mailing lists</li>
-          <li>Contents</li>
-          <li>Team</li>
-          <li>Manage</li>
-        </ul>
-        <div id="oc-topnav-usermenu">
-          <img src="++resource++img/logo.gif" style="display: inline; vertical-align: bottom;" />
-          <input type="text" class="oc-input-typeText" size="10" value="search" />
-          <ul id="oc-usermenu-list">
-            <li><a href="#">Explore</a>
-            	<ul id="oc-usermenu-explore">
-            		<li><a href="#">Home</a></li>
-            		<li><a href="#">Projects</a></li>
-            		<li><a href="#">People</a></li>
-            		<li><a href="#">Start a project</a></li>
-            	</ul>
-            </li>
-            <li><a href="#">rpenate&rsquo;s Stuff</a></li>
-            <li><a href="#">Logout</a></li>
-            <li><a href="#">Help</a></li>
-          </ul>
-        </div>
-      </div>
+      <div tal:replace="structure here/@@oc-topnav" />
 
       <tal:for tal:repeat="status_msg portal_status">
         <div tal:content="status_msg" class="error"/>

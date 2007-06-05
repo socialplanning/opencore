@@ -8,7 +8,7 @@
      class="..base.BaseView"
      permission="zope.Public"
      name="oc-topnav"
-     template="historical/topnav.pt"
+     template="topnav.pt"
      />
 
   <!-- topnav-menus -->
