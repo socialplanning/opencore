@@ -10,8 +10,6 @@ Test the workflow updating function::
     >>> from opencore.nui.setup import install_confirmation_workflow as icw
     >>> from StringIO import StringIO
     >>> out = StringIO()
-    >>> portal.portal_workflow.getChainForPortalType('OpenMember')
-    ('openplans_member_workflow',)
     >>> icw(portal, out)
     >>> portal.portal_workflow.getChainForPortalType('OpenMember')
     ('openplans_member_confirmation_workflow',)
