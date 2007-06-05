@@ -85,6 +85,10 @@ Set up the view
     >>> proj = projects.p1
     >>> view = ProjectTeamView(proj, request)
 
+Utility method to clear memoization on request
+    >>> def clear_memo():
+    ...     del req_annot['plone.memoize']
+
 Sort by username
     >>> view.sort_by = 'username'
     >>> results = view.memberships
@@ -95,7 +99,19 @@ Sort by username
     ['m1', 'm3', 'm4']
 
 Clear the memoize from the request
-    >>> del req_annot['plone.memoize']
+    >>> clear_memo()
+
+Sorting by nothing should sort by username
+    >>> view.sort_by = None
+    >>> results = view.memberships
+    >>> brains = list(results)
+    >>> len(brains)
+    3
+    >>> [b.getId for b in brains]
+    ['m1', 'm3', 'm4']
+
+Clear the memoize from the request
+    >>> clear_memo()
 
 Now try sorting by location
     >>> view.sort_by = 'location'
@@ -107,7 +123,7 @@ Now try sorting by location
     ['m4', 'm1', 'm3']
 
 Clear the memoize from the request
-    >>> del req_annot['plone.memoize']
+    >>> clear_memo()
 
 Let's sort based on the membership date
     >>> view.sort_by = 'membership_date'
@@ -121,7 +137,17 @@ Let's sort based on the membership date
     ['m1', 'm3', 'm4']
 
 Clear the memoize from the request
-    >>> del req_annot['plone.memoize']
+    >>> clear_memo()
+
+Sort base on contributions, should get no results
+    >>> view.sort_by = 'contributions'
+    >>> results = view.memberships
+    >>> brains = list(results)
+    >>> len(brains)
+    0
+
+Clear the memoize from the request
+    >>> clear_memo()
 
 Verify that traversing to the url gives us the expected class
     >>> view = projects.p1.restrictedTraverse('team')
