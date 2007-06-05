@@ -165,7 +165,7 @@ OC.LiveForm = function(extEl) {
       var action = el.href.split("?")[0];
       requestData = el.href.split("?")[1];
       
-      var requestUri = el.href + "mode=async";
+      var requestUri = el.href + "&mode=async";
       
       // make connection
       var cObj = YAHOO.util.Connect.asyncRequest("GET", requestUri, 
