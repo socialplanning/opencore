@@ -151,10 +151,9 @@ OC.LiveForm = function(extEl) {
         editForm.toggle();
       }
       
-      // liveEdit hover behavior
+      // liveEdit value behaviors
       function _valueMouseover(e, el, o) {
         value.addClass('oc-liveItem-hover');
-        OC.debug('mouseover')
       }
       value.on('mouseover', _valueMouseover, this);
       
@@ -222,7 +221,6 @@ OC.LiveForm = function(extEl) {
     updater = _getUpdater(requestData);
     OC.debug('updater.task: ' + updater.task);
     OC.debug('updater.target: ');
-    OC.debug(updater.target.dom)
     
     switch (updater.task) {
       case "update" :
@@ -234,6 +232,15 @@ OC.LiveForm = function(extEl) {
       break;
       
       case "delete" :
+        // Don't use updater.target here.  Server will pass back IDs to delete.
+        
+        // Create Array from o.responseText
+        var IDs = eval(o.responseText);
+        
+        for (var i = 0; i<IDs.length; i++) {
+          _removeItem(IDs[i]);
+        }
+        /*
         if (updater.target == "batch") {  // delete group of elements
           
           var items = o.responseText.split('&');
@@ -245,6 +252,7 @@ OC.LiveForm = function(extEl) {
           
           _removeItem(updater.target);
         }
+        */
       break;
       
     } 
@@ -258,7 +266,8 @@ OC.LiveForm = function(extEl) {
   }
   
   // remove item
-  function _removeItem(extEl) {
+  function _removeItem(id) {
+    var extEl = Ext.get(id);
     extEl.fadeOut({remove: true, useDisplay: true});
     
     // to do: send user message w/ undo link
