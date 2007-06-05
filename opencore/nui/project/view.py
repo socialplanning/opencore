@@ -105,12 +105,6 @@ class ProjectAddView(BaseView):
         self.redirect(proj.absolute_url())
 
 
-def make_batch(fn):
-    def wrapped(self):
-        lst = fn(self)
-        return self._get_batch(lst)
-    return wrapped
-
 class ProjectTeamView(SearchView):
 
     def __init__(self, context, request):
@@ -127,7 +121,6 @@ class ProjectTeamView(SearchView):
     def handle_request(self):
         self.sort_by = self.request.get('sort_by', None)
 
-    @make_batch
     def handle_sort_membership_date(self):
         query = dict(portal_type='OpenMembership',
                  path=self.team_path,
@@ -143,11 +136,11 @@ class ProjectTeamView(SearchView):
         member_brains = self.membranetool(**query)
         lookup_dict = dict((b.getId, b) for b in member_brains)
 
-        result = [lookup_dict.get(b.getId, None) for b in membership_brains]
+        results = [lookup_dict.get(b.getId, None) for b in membership_brains]
         # filter out None's, which appear for admins that are not openmembers
-        return filter(None, result)
+        results = filter(None, results)
+        return self._get_batch(results)
 
-    @make_batch
     def handle_sort_location(self):
         query = dict(portal_type='OpenMembership',
                  path=self.team_path,
@@ -158,13 +151,12 @@ class ProjectTeamView(SearchView):
         query = dict(sort_on='sortableLocation',
                      getId=mem_ids,
                      )
-        return self.membranetool(**query)
+        results = self.membranetool(**query)
+        return self._get_batch(results)
 
-    @make_batch
     def handle_sort_contributions(self):
-        return []
+        return self._get_batch([])
 
-    @make_batch
     def handle_sort_default(self):
         query = dict(portal_type='OpenMembership',
                      path=self.team_path,
@@ -177,7 +169,8 @@ class ProjectTeamView(SearchView):
                      getId=ids,
                      sort_on='getId',
                      )
-        return self.membranetool(**query)
+        results = self.membranetool(**query)
+        return self._get_batch(results)
 
     @property
     @memoize
