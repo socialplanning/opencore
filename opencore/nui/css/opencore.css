@@ -1113,7 +1113,10 @@ ul.oc-tabs {
 /* Selected tab */
 #oc-wiki-tabs-view .oc-wiki-tabs-view a,
 #oc-wiki-tabs-edit .oc-wiki-tabs-edit a,
-#oc-wiki-tabs-history .oc-wiki-tabs-history a {
+#oc-wiki-tabs-history .oc-wiki-tabs-history a,
+#oc-wiki-tabs-version_compare .oc-wiki-tabs-history a,
+#oc-wiki-tabs-version .oc-wiki-tabs-history a
+ {
   border-bottom: 1px solid #fff;
   background: #fff;
 }

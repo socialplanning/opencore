@@ -27,7 +27,8 @@ OC.liveElementKey = {
   ".oc-dropdown-links" : "DropDownLinks",
   ".oc-expander" : "Expander",
   "#version_compare_form" : "HistoryList",
-  "#oc-join-form" : "JoinForm"
+  "#oc-join-form" : "JoinForm",
+  ".oc-liveForm" : "LiveForm"
 }
     
 /* 
@@ -70,6 +71,144 @@ OC.breatheLife = function() {
 # Classes - will become liveElement objects
 #------------------------------------------------------------------------
 */
+
+/*
+#
+# Live Form
+#
+*/
+OC.LiveForm = function(extEl) {
+  // get references
+  var liveForm = extEl;
+  var actionLinks = Ext.select('.oc-actionLink');
+  var checkAll = Ext.select('#' + liveForm.dom.id + " .oc-checkAll" )
+
+  // check required refs
+  if (!liveForm) {
+    OC.debug("couldn't get element references")
+    return;
+  }  else {
+    OC.debug('Got element references');
+  }
+  
+  // properties
+  var updater = {
+    task : null,
+    target : null
+  }
+  var requestData = null; /* request params, once an action happens */
+    
+  // helper function to get update target
+  function _getUpdater(requestData) {
+    OC.debug("_getUpdater");
+    var data = requestData.split("&");
+    for (var i = 0; i<data.length; i++) {
+      item = data[i].split('=');
+      if (item[0] == "task") {
+        var target_task  = item[1].split('_');
+          updater.target = Ext.get(target_task[0]) || target_task[0];
+          updater.task = target_task[1];
+      }
+    }
+    return updater;
+  }
+  
+  // check all box
+  if (checkAll) {
+    function _checkAllClick(e, el, o) {
+      OC.debug('_checkAllClick');
+      var boxes = Ext.select(Ext.query('input[type=checkbox]', liveForm.dom));
+      if (el.checked) {
+        boxes.set({checked: true}, false);
+      } else {
+        boxes.set({checked: false}, false);
+      }
+    }
+     checkAll.on('click', _checkAllClick, this); 
+  }
+  
+  // action links
+  if (actionLinks) {
+    function _actionLinkClick(e, el, o) {
+      YAHOO.util.Event.stopEvent(e);
+      
+      // get action/href & split action from params
+      var action = el.href.split("?")[0];
+      requestData = el.href.split("?")[1];
+      
+      // make connection
+      var cObj = YAHOO.util.Connect.asyncRequest("GET", action, 
+        { success: _afterSuccess, 
+          failure: _afterFailure, 
+          scope: this 
+        },
+        "mode=async"
+      );
+    } 
+    actionLinks.on('click', _actionLinkClick, this);
+  }
+    
+  // form submit
+  function _formSubmit(e, el, o) {
+    OC.debug("_formSubmit");
+    requestData = YAHOO.util.Connect.setForm(liveForm.dom);
+    YAHOO.util.Event.stopEvent(e);
+    var action = "backend.php"; /* will be form.dom.action once we move to NUI  */
+    var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
+      { success: _afterSuccess, 
+        failure: _afterFailure, 
+        scope: this 
+      },
+      "mode=async"
+    );
+  }
+  liveForm.on('submit', _formSubmit, this);
+  
+  // after success
+  function _afterSuccess(o) {
+    OC.debug('_afterSuccess');
+    updater = _getUpdater(requestData);
+    OC.debug('updater.task: ' + updater.task);
+    OC.debug('updater.target: ' + updater.target.dom);
+    
+    if (updater.task == "update") {
+      // replace element
+      o.responseText = Ext.util.Format.trim(o.responseText);
+      var newNode = Ext.DomHelper.insertHtml("beforeBegin", updater.target.dom, o.responseText);
+      updater.target.remove();
+      Ext.get(newNode).highlight();
+      
+    } else if (updater.task ==  "delete") {
+      
+      if (updater.target == "batch") {  // delete group of elements
+        
+        var items = o.responseText.split('&');
+        for (var i = 0; i<items.length; i++) {
+          _removeItem(Ext.select('#' + items[i]));
+        }
+        
+      } else {  // delete single element
+        
+        _removeItem(updater.target);
+      }
+    } 
+    
+    OC.breatheLife();
+  }
+  
+  // after failure
+  function _afterFailure(o) {
+    OC.debug('_afterFailure');
+  }
+  
+  // remove item
+  function _removeItem(extEl) {
+    extEl.fadeOut({remove: true, useDisplay: true});
+    
+    // to do: send user message w/ undo link
+  }
+}
+
 
 /* 
 #
@@ -156,6 +295,7 @@ OC.UpdateForm = function(extEl) {
     }
     this.afterUploadSuccess = function(response) {
       OC.debug('this.afterUploadSuccess');
+      OC.debug(response);
       
       //2nd ajax request
       var cObj = YAHOO.util.Connect.asyncRequest("GET", response.updateURL, { 
