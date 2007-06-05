@@ -7,7 +7,7 @@ Add view
 
     >>> projects = self.portal.projects
     >>> projects.restrictedTraverse("create")
-    <...SimpleViewClass ...add.pt object ...>
+    <...SimpleViewClass ...create.pt object ...>
 
     #<...ProjectAddView object at ...>
 

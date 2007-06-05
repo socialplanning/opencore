@@ -6,7 +6,7 @@
      for="opencore.interfaces.IAddProject"
      name="create"
      class=".view.ProjectAddView"
-     template="add.pt"
+     template="create.pt"
      permission="zope.Public"
      />
 

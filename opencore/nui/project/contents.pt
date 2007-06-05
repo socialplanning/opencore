@@ -4,7 +4,7 @@
       <div metal:fill-slot="content">
         <div class="oc-headingBlock">
           <h1>Project contents</h1>
-          <p class="oc-headingContext">Manage and rename your stuff.</p>
+          <p class="oc-headingContext">Manage and rename your stuff. hi.</p>
         </div>
         <div id="oc-content-main" class="oc-content-main-fullWidth">
       
