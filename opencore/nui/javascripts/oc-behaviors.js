@@ -405,32 +405,35 @@ OC.DropDownLinks = function(extEl) {
  */
 OC.Expander = function(extEl) {
     // get references. 
-    this.container = extEl;
-    this.expanderLink = Ext.get(Ext.query(".oc-expander-link", this.container.dom)[0]);
-    this.content = Ext.get(Ext.query(".oc-expander-content",  this.container.dom)[0]);
+    var container = extEl;
+    var expanderLink = Ext.get(Ext.query(".oc-expander-link", container.dom)[0]);
+    var title = expanderLink.dom.innerHTML;
+    var content = Ext.get(Ext.query(".oc-expander-content",  container.dom)[0]);
 
     // check to make sure we have everything
-    if(!this.container || !this.expanderLink || !this.content)
+    if(!container || !expanderLink || !content)
         return;
 
     //link
-    this.linkClick = function(e, el, o) {
+    function linkClick(e, el, o) {
         //fade out
-        if (!this.content.isVisible()) {
-            this.content.slideIn('t',{duration: .1});
-            this.container.addClass('oc-expander-open');
+        if (!content.isVisible()) {
+            content.slideIn('t',{duration: .1});
+            container.addClass('oc-expander-open');
+            expanderLink.dom.innerHTML = "[x] Close";
         } else {
-            this.content.slideOut('t',{duration: .1});
-            this.container.removeClass('oc-expander-open');
+            content.slideOut('t',{duration: .1});
+            container.removeClass('oc-expander-open');
+            expanderLink.dom.innerHTML = title;
         } 
 
         YAHOO.util.Event.stopEvent(e);
     }
-    this.expanderLink.on('click', this.linkClick, this);
+    expanderLink.on('click', linkClick, this);
 
     //contents 
-    this.content.setVisibilityMode(Ext.Element.DISPLAY);
-    this.content.hide();
+    content.setVisibilityMode(Ext.Element.DISPLAY);
+    content.hide();
     
     return this;
 }
@@ -483,45 +486,45 @@ OC.JoinForm = function(extEl) {
 */
 OC.HistoryList = function(extEl) {
     // setup references
-    this.form = extEl;
-    this.compareButtons = Ext.select('#' + extEl.dom.id + ' input[type=submit]');
-    this.versions  = Ext.get(Ext.select('#' + extEl.dom.id + ' li'));
-    this.checkboxes = Ext.get(Ext.select('#' + extEl.dom.id + ' input[type=checkbox]'));
-    this.userMessage = Ext.get(Ext.query('.oc-message', extEl.dom)[0]);
+    var form = extEl;
+    var compareButtons = Ext.select('#' + form.dom.id + ' input[type=submit]');
+    var versions  = Ext.get(Ext.select('#' + form.dom.id + ' li'));
+    var checkboxes = Ext.get(Ext.select('#' + form.dom.id + ' input[type=checkbox]'));
+    var userMessage = Ext.get(Ext.query('.oc-message', form.dom)[0]);
    
     //check references
-    if (!this.form || !this.compareButtons || !this.versions || !this.userMessage) {
+    if (!form || !compareButtons || !versions || !userMessage) {
         OC.debug("OC.historyList couldn't get all element references.");   
         return;
     }
     
     //validator
-    this.userMessage.setVisibilityMode(Ext.Element.DISPLAY);
-    this.userMessage.hide();
+    userMessage.setVisibilityMode(Ext.Element.DISPLAY);
+    userMessage.hide();
     
     //compare buttons
-    this.enableCompareButtons = true;
-    this.compareButtonClick = function(e, el, o) {
-      if (!this.enableCompareButtons) {
+    var enableCompareButtons = true;
+    function _compareButtonClick(e, el, o) {
+      if (!enableCompareButtons) {
         YAHOO.util.Event.stopEvent(e);
-        this.userMessage.update("Please select exactly 2 versions to compare.");
-        this.userMessage.addClass('oc-message-error');
-        this.userMessage.show();
+        userMessage.update("Please select exactly 2 versions to compare.");
+        userMessage.addClass('oc-message-error');
+        userMessage.show();
       }
     }
-    this.compareButtons.on('click', this.compareButtonClick, this);
+    compareButtons.on('click', _compareButtonClick, this);
     
     //checkboxes
-    this.clearCheckboxes = function() {
-      this.checkboxes.each(function(extEl) {
+    function _clearCheckboxes() {
+      checkboxes.each(function(extEl) {
           extEl.dom.checked = false;
           Ext.get(extEl.dom.parentNode).removeClass('oc-selected');
       });
     }
-    this.countChecked = function() {
+    function _countChecked() {
       //count # checked
       var numChecked = 0;
-      this.checkboxes.each(function(extEl) {
+      checkboxes.each(function(extEl) {
         if (extEl.dom.checked) {
           numChecked++;
         }
@@ -529,16 +532,16 @@ OC.HistoryList = function(extEl) {
       OC.debug(numChecked);
       return numChecked;
     }
-    this.setList = function() {
+    function _setList() {
       //if exactly 2, enable compare buttons
-      if (this.countChecked() == 2) {
-        this.enableCompareButtons = true;
-        this.userMessage.fadeOut();
+      if (_countChecked() == 2) {
+        enableCompareButtons = true;
+        userMessage.fadeOut();
       } else {
-        this.enableCompareButtons = false;   
+        enableCompareButtons = false;   
       }
       
-      this.checkboxes.each(function(extEl) {
+      checkboxes.each(function(extEl) {
         //highlight this checkbox's parent
         if (extEl.dom.checked) 
           Ext.get(extEl.dom.parentNode).addClass('oc-selected');
@@ -547,27 +550,27 @@ OC.HistoryList = function(extEl) {
       }, this);
     }
     
-    this.checkboxClick = function(e, el, o) {
+    function _checkboxClick(e, el, o) {
       var checkMe = false;
       if (el.checked) {
         checkMe = true;
       }
       //if more than 2, clear all and check currentStyle
-      if (this.countChecked() > 2) {
-        this.clearCheckboxes();
+      if (_countChecked() > 2) {
+        _clearCheckboxes();
       } 
       if (checkMe) {
         // re-check since checklist clears it
         el.checked = true;
       }
-      this.setList();
+      _setList();
     }
-    this.checkboxes.on('click', this.checkboxClick, this)
+    checkboxes.on('click', _checkboxClick, this)
     
     //Init
-    this.setList();
+    _setList();
     
-    OC.debug(this.form.dom.elements);
+    OC.debug(form.dom.elements);
     
     return this;
 }

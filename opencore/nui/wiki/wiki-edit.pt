@@ -55,28 +55,29 @@
                 <input type="hidden" name="submitted" value="1"/>
                 <metal:fieldMacro use-macro="python:here.widget('text', mode='edit')"/>
               </div><!-- end .oc-wiki-edit-content" --> 
-
-              <ul class="oc-actions oc-wiki-actions">
-                <li><input type="submit" value="Save" class="oc-button oc-chooseThis" /></li>
-                <li>or <a href="" tal:attributes="href context/absolute_url">cancel</a></li>
-              </ul>  
-              
-            </div><!-- end .oc-wiki-edit -->
+ 
             <div class="oc-expander">
               <a href="#oc-wiki-comment" class="oc-expander-link">Version note</a>
               <div class="oc-expander-content">
-		<textarea name="comment" id="comment" rows="3" cols="60"></textarea>
+		            <textarea name="comment" id="comment" rows="3" cols="60"></textarea>
               </div><!-- end expander-content -->
             </div><!-- end expander -->
+            
+              <ul class="oc-actions oc-wiki-actions">
+                <li><input type="submit" value="Save" class="oc-button oc-chooseThis" /></li>
+                <li>or <a href="index.html">cancel</a></li>
+              </ul>  
+              
+            </div><!-- end .oc-wiki-edit -->
+
 
           </form>
         </div><!-- end .oc-wiki -->
 
-        <hr />
         <div class="oc-options oc-wiki-edit-options">
 
           <div class="oc-expander">
-              <a href="#oc-wiki-manageAttachments" class="oc-expander-link">manage attachments</a>
+              <a href="#oc-wiki-manageAttachments" class="oc-expander-link">Manage attachments</a>
               <div class="oc-expander-content">
                 <h4>Current attachments:</h4>
                     <ol class="oc-attachments" id="oc-wiki-attachments">
@@ -95,16 +96,6 @@
 
               </div><!-- end expander-content -->
             </div><!-- end expander -->
-          <hr />
-
-           <div class="oc-expander" tal:condition="nothing">
-              <a href="#oc-wiki-addNote" class="oc-expander-link">add note</a>
-              <div id="oc-wiki-addNote" class="oc-expander-content">
-              <label for="">Add change note</label>
-              
-                <textarea rows="2" cols="80"></textarea>
-            </div><!-- end .oc-expander-content -->
-          </div><!-- end .oc-expander --> 
         </div><!-- end .oc-options -->
         
 

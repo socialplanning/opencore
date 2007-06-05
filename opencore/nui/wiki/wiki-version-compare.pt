@@ -43,7 +43,7 @@
         </td>
         <td>
           <!-- TITLE -->
-          <a tal:attributes="href string:version?version_id=${new_id}">
+          <a class="oc-version-current" tal:attributes="href string:version?version_id=${new_id}">
 		        <span tal:replace="python: view.version_title(new_id);" />
 		      </a>
         </td>
@@ -69,10 +69,9 @@
       <tr>
         <th>to</th>
         <td>
-          <!-- FIXME prev widget --> 
           <tal:if condition="view/old_prev_enabled">
             <a class="oc-button oc-smallText" title="older" tal:attributes="href string:version_compare?version_id=${prev_old_id}&version_id=${new_id}">
-              &lt;<!-- FIXME -->
+              &lt;
             </a>
           </tal:if>
           <tal:if condition="not: view/old_prev_enabled">
@@ -80,7 +79,7 @@
           </tal:if>
         </td>
         <td>
-          <a tal:attributes="href string:version?version_id=${old_id}">
+          <a class="oc-version-old" tal:attributes="href string:version?version_id=${old_id}">
             <span tal:replace="python: view.version_title(old_id);" /> 
           </a>
         </td>
@@ -105,12 +104,13 @@
     </table>
               <!-- FIXME: probably this floaty thing should be redone -->
     <div id="" class="oc-boxy oc-version-compare-legend">
-      Legend:
+      <!-- Legend: -->
       <ul>
+        <li><ins>inserted</ins></li>      
         <li><del>deleted</del></li>
-        <li><ins>inserted</ins></li>
       </ul>
     </div><!-- end .oc-history-compare-legend -->
+    <hr class="oc-clearElement" />
     </div><!-- end .oc-widget-history-compare -->
     <hr class="oc-clearElement" />
             
