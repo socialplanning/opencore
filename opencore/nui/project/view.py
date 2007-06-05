@@ -14,8 +14,10 @@ class ProjectContentsView(BaseView):
     
     def __call__(self, *args, **kw):
         self.pages = self.get_wiki_pages()
-        import pdb; pdb.set_trace()
         return self.index(*args, **kw)
+
+    def modify_contents(self):
+        import pdb; pdb.set_trace()
 
     def rename_wiki_pages(self, from_ids, to_ids):
         # need to change their title as well as their id

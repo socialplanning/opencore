@@ -14,13 +14,22 @@
     permission should be any logged in user
     -->
     
-   <browser:page
+   <browser:pages
       for="opencore.interfaces.IProject"
-      class="opencore.nui.base.BaseView"
-      permission="cmf.ModifyPortalContent"
-      name="contents"
-      template="contents.pt"
-      />
+      class=".view.ProjectContentsView"
+      permission="zope.Public"
+      >
+     
+     <browser:page
+	name="contents"
+	template="contents.pt"
+	/>
+     <browser:page
+	name="modify-contents"
+	attribute="modify_contents"
+	/>
+
+    </browser:pages>
 
     <!-- TODO
     permission should be any logged in user
