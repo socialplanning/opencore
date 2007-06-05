@@ -35,7 +35,7 @@ class ProjectContentsView(BaseView):
 
     @octopus_form_handler
     def modify_contents(self, sources):
-        self.delete_wiki_pages(list(sources))
+        #self.delete_wiki_pages(list(sources))
         return sources
 
         #target, action = self.request.get("task").split("_")
