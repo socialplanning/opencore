@@ -433,8 +433,16 @@ dl.oc-member-info dd {
   background: lightgreen;
   border: 1px solid green;
 }
+
+.oc-widget-version-compare {
+  background: #eee;
+  border: 1px solid #ccc;
+  margin-bottom: .5em;
+}
 .oc-widget-version-compare table {
   float: left;
+  padding: .25em 1em 0;
+  border-right: 1px solid #ccc;
 }
 .oc-widget-version-compare th {
   text-align: right;
@@ -445,21 +453,42 @@ dl.oc-member-info dd {
   padding: .125em .25em;
 }
 .oc-version-compare-legend {
-  float: right;
+  float: left;
+  margin: 0 0 0 1em;
+  padding: .5em 1em;
+}
+.oc-widget-version-compare ul.oc-actions {
+  float: left;
+  margin: 0 0 0 1em;
+  padding: .5em 1em;
+}
+.oc-widget-version-compare ul.oc-actions li {
+  float: left;
+  padding-right: 1em;
 }
 .oc-version-compare-legend ul {
   margin: 0;
-  padding: 0 0 0 2em;
+  padding: 0;
 }
-.oc-wiki del {
+.oc-version-compare-legend li {
+  list-style: none;
+  padding: 0;
+}
+.oc-wiki del,
+.oc-widget-version-compare a.oc-version-old {
  background: #ddd;
  color: #666;
  padding: 0 .125em;
 }
-.oc-wiki ins {
+.oc-wiki ins,
+.oc-widget-version-compare a.oc-version-current {
   background: lightgreen;
   text-decoration:none;
   padding: 0 .125em;
+  color: #000;
+}
+.oc-widget-version-compare a.oc-version-current {
+  text-decoration: underline;
 }
 
 /* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
@@ -1018,7 +1047,8 @@ select,
 input,
 button,
 textarea {
-  border: 1px solid #ccc;
+  /* ToDo Style buttons nicely */
+  / * border: 1px solid #ccc; */
   padding: 0.125em;
   margin: 0;
   font-size: 12px;

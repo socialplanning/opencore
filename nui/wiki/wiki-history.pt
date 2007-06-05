@@ -8,6 +8,7 @@
       
       <div id="oc-content-main" class="oc-content-main-fullWidth">
 	
+	<!-- FIXME this should not be repeated everywhere --> 
 	<div class="oc-wiki">
 	  
 	  <tal:block 
@@ -21,9 +22,9 @@
             </div>
             <div metal:use-macro="here/@@wiki_macros/tabs"/>
 	    
-	    <tal:if condition="python:len(history) > 0"> 
-              <div class="oc-headingBlock"
-		   tal:define="lastChange python:history[0]"> 
+	   <tal:if condition="python:len(history) > 0"> 
+	   
+    <div class="oc-headingBlock" tal:define="lastChange python:history[0]"> 
 		<h2>All versions of <span tal:replace="here/title_or_id">page</span></h2>
 		<p class="oc-headingContext oc-discreetText">
 		  Last edit performed by 
@@ -35,22 +36,25 @@
 		  <br />
 		  <span tal:replace="python:len(history)"/> versions total.
 		</p>
-              </div> <!-- end .oc-headingBlock --> 
-	      <hr />
+    </div> <!-- end .oc-headingBlock --> 
 	      
-              <!-- FIXME: this language makes it seem like you can check a single
-                   version to see a preview of that version, but you actually have
-                   to click the link/name of the version -->
-              <p>Select 2 versions to compare them OR click a version number to see it.</p>
+  <!-- FIXME: this language makes it seem like you can check a single
+       version to see a preview of that version, but you actually have
+       to click the link/name of the version -->
+       
+  <tal:if condition="python:len(history) > 1">
+  <p>Select 2 versions to compare them OR click a version number to see it.</p>
+  </tal:if>
 	      
-              <div class="oc-lineup"> 		
-		<!-- FIXME: we should give a javascript error when you try to submit without two
-                     checkboxes selected -->
+    <div class="oc-lineup"> 		
 		<form action="version_compare" id="version_compare_form" method="get">
-                  
+      
+      <tal:if condition="python:len(history) > 1">            
 		  <div class="oc-actions">
-                    <input type="submit" value="Compare" />
+          <input type="submit" value="Compare" />
 		  </div> <!-- end .oc-actions --> 
+		  </tal:if>
+		  
 		  <div class="oc-message">
 		  
 		  </div>
@@ -60,17 +64,19 @@
 		      <li class="oc-wiki-history-item oc-lineup-item"
 			  tal:define="version_id version/version_id;
                                       version_title python:view.version_title(version_id)">
+           <tal:if condition="python:len(history) > 1">
 			     <input type="checkbox" name="version_id"
                                tal:attributes="value version_id;
                                                id string:version-${version_id};
                                                title version_title" 
 			       limit-select="2"/>
+			     </tal:if>
 			<!-- do not make this a label! it will make the checkbox
 			     check when you follow the link. use a title on the 
 			     checkbox instead. --> 
 			<h3>
-                          <!-- FIXME should this be absolute ?? --> 
-                          <a tal:attributes="href string:version?version_id=${version_id}"><tal:span replace="version_title" /></a>
+      <!-- FIXME should this be absolute ?? --> 
+      <a tal:attributes="href string:version?version_id=${version_id}"><tal:span replace="version_title" /></a>
 			</h3>
 			by 
 			<a tal:define="author version/sys_metadata/principal" 
@@ -82,16 +88,22 @@
 			</p>
                       </li> 
 		    </tal:block> <!-- end repeat version history --> 
-		  </ul>   		  
+		  </ul>   
+		  
+		  <tal:if condition="python:len(history) > 1">		  
 		  <div class="oc-actions">
 		    <input type="submit" value="compare" />
 		  </div> <!-- end .oc-actions --> 
+		  </tal:if>
+		  
 		</form> <!-- end #version_compare_form --> 
-              </div> <!-- end #oc-lineup div -->
-            </tal:if>
-            <tal:if condition="python: len(history) == 0">
-              There are no previous versions of this page
-            </tal:if>
+    </div> <!-- end #oc-lineup div -->
+    </tal:if><!-- end if gt 0 versions -->
+    
+    <tal:if condition="python: len(history) == 0">
+      There are no previous versions of this page
+    </tal:if>
+    
 	  </tal:block><!-- end of content for versionable objects -->       
 	  <tal:block tal:condition="python: not pr.isVersionable(context)">
             <div id="oc-content-main"> 
