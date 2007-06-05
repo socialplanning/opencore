@@ -104,12 +104,6 @@
               <li>
                 <input type="checkbox" class="oc-input-typeCheck" id="listen" name="featurelets:list" value="listen" />
                 <label for="listen">Mailing lists</label>
-                <ul class="oc-smallText">
-                  <li>
-                    <input type="checkbox" class="oc-input-typeCheck" id="listen_open" name="listen_open" />
-                    <label for="listen_open">Allow project members to reate new mailing lists</label>
-                  </li>
-                </ul>
               </li>
             </ul>
           </fieldset>
