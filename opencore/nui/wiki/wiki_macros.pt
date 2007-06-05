@@ -4,10 +4,10 @@
 
   <!-- to do: pass mime type to CSS -->
   <div class="oc-liveEdit-value">
-    <span tal:replace="attachment/Title"></span>
-
-    (<a href="" target="_blank" tal:attributes="href attachment/absolute_url" tal:content="attachment/getId">Id</a> -  
-    <span tal:replace="attachment/getObjSize"></span>)
+    <a href="" target="_blank" 
+       tal:attributes="href attachment/absolute_url" 
+       tal:content="attachment/Title | attachment/getId">Id</a> -  
+    <span tal:replace="attachment/getObjSize"></span>
     <a href="" class="oc-liveEdit-edit">Edit</a> | <a href="" class="oc-liveEdit-delete">Delete</a>
   </div><!-- end .liveEdit-value -->  
   <form method="post" class="oc-liveEdit-form" action="@@updateAtt">
@@ -65,3 +65,25 @@
 </form>
 <!-- END FILE UPLOAD FORM -->
 
+<div metal:define-macro="tabs">
+       <ul class="oc-tabs">
+         <li class="">
+	   <a tal:attributes="href context/absolute_url" rel="view">view</a>
+         </li>
+         <li>
+	   <a tal:attributes="href string:${context/absolute_url}/edit" rel="edit">edit</a>
+         </li>
+         <li>
+	   <a tal:attributes="href string:${context/absolute_url}/history" class="oc-selected" rel="history">history</a>
+         </li>
+         <li>
+	   <form class="" >
+             <select class="oc-dropdown-links">
+               <option value="">More...</option>
+               <option value="http://www.google.com">I'm feeling lucky</option>
+             </select>
+             <input type="submit" value="Go" style=""/>
+	   </form>
+         </li>
+       </ul>
+</div>

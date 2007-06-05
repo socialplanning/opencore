@@ -8,9 +8,7 @@
             <h2 tal:content="view/pagetitle"/>
           </div>
 
-          <!--
-              <metal:tabslot define-slot="tabs" />
-              -->
+          <div metal:use-macro="here/@@wiki_macros/tabs"/>
 
           <div class="oc-wiki-content" tal:content="structure here/getText"/>
 
