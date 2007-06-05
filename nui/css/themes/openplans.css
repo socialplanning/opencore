@@ -8,69 +8,38 @@ body {
   background-color: #333;
   padding: 0;
 }
-
-#oc-page-container,
-#visual-portal-wrapper {
+#oc-page-container {
   background-color: white;
-  max-width: 100%;
-  min-width: 100%;
-  width: 100%;
-  margin: 0;
+  margin: 0 auto;
 }
-  
 #oc-topnav {
   background: #777 url(/++resource++img/shadow.png) repeat-x bottom;
   color: white;
   width: 100%;
 }
-  
 #oc-topnav a {
   color: white;
   text-decoration: none;
 }
-  
 #oc-topnav a:hover {
 }
-    
-#oc-topnav-global {
-  background: #74AC07 url(/++resource++img/shadow.png) repeat-x bottom;
-  border-bottom: 1px solid #FFF;
-  height: 40px;
-}
-  
-#oc-topnav-openplans {
-  background: transparent;
-}
-
-#oc-topnav-openplans-search #oc-LSResult {
-  background-color: #92C506;
-}
-      
-#oc-topnav-title h1 {
-  text-transform: none;
-}
-    
 #oc-content-container {
  background: #fff;
  max-width: 70em; /* As a rule, measure should be between two and three alphabets long. In other words, between 52 and 78 characters, including spaces. Since characters average out to about one-half EM in width this translates to a minimum width of 26em and a maximum of 39em, or two to three alphabets.   IN OTHER WORDS: avoid changing the width. */
  min-width: 52em;
  margin: 0 auto;
 }
-    
 #oc-footer {
   background: #777 url(/++resource++img/shadow.png) repeat-x bottom;
   color: #ccc;
 }
-
 #oc-footer a {
   color: #eee;
   text-decoration: none;
 }
-
 #oc-footer a:hover {
   color: #555;
-}
-    
+}   
 .oc-missingText {
   color: gray;
 }
@@ -84,18 +53,15 @@ body, textarea {
   font-family: "Lucida Grande", Arial, Helvetica, sans-serif;
   /* These typographic rules will establish rhythm of 18px at base font size */
 }
-
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6,
 .oc-legend-heading {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #444;
 }
-    
 h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 abbr {
   border: none;
 }
-
 h1, .oc-biggestText {
   letter-spacing: -0.0325em;
 }
@@ -103,7 +69,6 @@ h2, .oc-biggerText, #oc-topnav-title h1,
 #oc-content-sidebar h1 {
   letter-spacing: -0.0325em;
 }
-
 h3, .oc-bigText,
 #oc-content-sidebar h2 {
 }
@@ -112,8 +77,7 @@ h3, .oc-bigText,
 h4, .h4 {
 }
 #oc-content-sidebar h4 {
-}
-  
+} 
 .oc-smallText,
 .oc-discreetText,
   /* Layout and Navigation */
@@ -140,18 +104,13 @@ h4, .h4 {
   
   {
 }
-
 .oc-documentFirstHeading,
-.oc-simpleHeading {
-  
+.oc-simpleHeading { 
 }
-
 .oc-simpleHeading a {
 }
-
 .oc-simpleHeading a:hover { 
 }
-
 a {
   color: #74AC07;
 }  
@@ -160,3 +119,4 @@ a:hover {
 }
 a:visited {
   color: #568005;
+}

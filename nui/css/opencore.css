@@ -128,7 +128,6 @@ ul#oc-topnav-context li.oc-topnav-selected {
 	list-style: none;
 	margin: 0;
 	padding: 0;
-	background-color: red !important;
 	display: none;
 }
 #oc-usermenu-list li #oc-usermenu-explore li {
@@ -136,11 +135,15 @@ ul#oc-topnav-context li.oc-topnav-selected {
 }
 /* @FOOTER - Global footer
 --------------------------------------- */
+#oc-footer-about {
+	text-align: right;
+}
+
 #oc-footer ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  float: right;
+  float: left;
 }
 #oc-footer li {
   display: inline;
@@ -173,20 +176,11 @@ ul#oc-topnav-context li.oc-topnav-selected {
 	content: "";
 }
 .oc-boxy {
-	padding: 0.75em;
-	background-color: #eee;
 	margin-bottom: 1em;
 }
 .oc-boxy-content {
-	background-color: #fff;
-	padding: 0.75em;
 	margin: 0;
-}
-fieldset.oc-boxy {
-	margin-top: -1.75em;
-}
-fieldset.oc-boxy .oc-legend-heading {
-  margin: 1.75em 0 0;
+	padding: 0;
 }
 .oc-boxy textarea {
 	margin: 0;
@@ -203,10 +197,6 @@ fieldset.oc-boxy .oc-legend-heading {
   float: right;
   clear: none;
   width: 49%;
-}
-.oc-column-left.oc-boxy,
-.oc-column-right.oc-boxy {
-	width: 45%;
 }
 #oc-contact .fn {
 	margin-left: 4em;
@@ -472,34 +462,6 @@ dl.oc-member-info dd {
   padding: 0 .125em;
 }
 
-/* Home page */
-
-.oc-getstarted {
-  margin-bottom: 1em;
-}
-.oc-getstarted h2 {
-  margin-bottom: 0.5em;
-}
-.oc-getstarted-list {
-	background-color: #fff;
-	margin: 0;
-	padding: 0.75em;
-	list-style-type: none;
-}
-.oc-getstarted-list li h3 {
-	margin: 0;
-}
-.oc-getstarted-list li h3 a {
-	text-decoration: none;
-}
-.oc-getstarted-list li h3 a:hover {
-	text-decoration: underline;
-}
-.oc-getstarted-list li p.oc-discreetText {
-	margin: 0 0 0.5em;
-	line-height: normal;
-}
-
 /* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
 -------------------------------------------- */
 
@@ -646,10 +608,13 @@ fieldset .oc-heading-context {
 }
 .oc-form * {
   vertical-align: top;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 .oc-form-label {
   text-align: right;
   width: 8em;
+  padding-right: 0.5em;
   line-height: normal;
 }
 .oc-form-radiolist {
@@ -818,8 +783,6 @@ height: 1em;
 
 .oc-widget-feed {
 	margin-bottom: 1em;
-	background-color: #eee;
-	padding: 0.75em;
 	padding-bottom: 0.25em;
 }
 .oc-widget-feed.oc-column-left,
@@ -835,9 +798,8 @@ height: 1em;
   padding: 0;
 }
 li.oc-feed-item {
-  margin: 0.75em 0;
-  padding: 0.75em;
-  background-color: #fff;
+  margin: 0.5em 0;
+  padding: 0;
 }
 li.oc-feed-item .oc-avatar {
   width: 80px;
@@ -947,7 +909,33 @@ li.oc-invite .oc-invite-content {
   padding: 0.065em 0.25em;
 }
 .oc-widget-alphabet li a:hover {
+}
 
+/* Get Started */
+
+.oc-getstarted {
+  margin-bottom: 1em;
+}
+.oc-getstarted h2 {
+  margin-bottom: 0.5em;
+}
+.oc-getstarted-list {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+.oc-getstarted-list li h3 {
+	margin: 0;
+}
+.oc-getstarted-list li h3 a {
+	text-decoration: none;
+}
+.oc-getstarted-list li h3 a:hover {
+	text-decoration: underline;
+}
+.oc-getstarted-list li p.oc-discreetText {
+	margin: 0 0 0.5em;
+	line-height: normal;
 }
 
 /* @BEHAVIORS
