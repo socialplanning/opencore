@@ -17,6 +17,7 @@ class ProjectContentsView(BaseView):
         for old, new in zip(from_ids, to_ids):
             page = self.context.restrictedTraverse(old)
             page.setTitle(new)
+        # XXX we might get rid of the line below and only setTitles
         self.context.manage_renameObjects(from_ids, to_ids)
 
     def delete_wiki_pages(self, ids):
@@ -26,11 +27,24 @@ class ProjectContentsView(BaseView):
         return self.catalog(portal_type="Document",
                             path='/'.join(self.context.getPhysicalPath()))
 
+    def rename_attachments_and_images(self, from_ids, to_ids):
+        for old, new in zip(from_ids, to_ids):
+            file = self.context.restrictedTraverse(old)
+            file.setTitle(new)
+
+    def delete_attachments_and_images(self, ids):
+        self.context.manage_delObjects(ids)
+
+    def get_attachments_and_images(self):
+        return self.catalog(portal_type=("FileAttachment","Image"),
+                            path='/'.join(self.context.getPhysicalPath()))
+
     def rename_mailing_lists(self, from_ids, to_ids):
         list_folder = self.context.lists
         for old, new in zip(from_ids, to_ids):
             list = list_folder.restrictedTraverse(old)
             list.setTitle(new)
+        # XXX we might get rid of the line below and only setTitles
         list_folder.manage_renameObjects(from_ids, to_ids)
 
     def delete_mailing_lists(self, ids):
