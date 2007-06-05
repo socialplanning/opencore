@@ -10,15 +10,44 @@ from zope import event
 from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
 
+def octopus_form_handler(func):
+    def inner(self):
+        target, action = self.request.get("task").split("_")
+        sources = target
+        if target == 'batch' and self.request.get('batch[]'):
+            sources = self.request.get("batch[]")
+        if type(sources) != type([]):
+            sources = [sources]
+            #import pdb; pdb.set_trace()
+        ret = func(self, sources)
+        mode = self.request.get("mode")
+        if mode == "async":
+            return ret
+        return "NOT HERE"
+        # else redirect back to form
+    return inner
+
 class ProjectContentsView(BaseView):
     
     def __call__(self, *args, **kw):
         self.pages = self.get_wiki_pages()
         return self.index(*args, **kw)
 
-    def modify_contents(self):
-        return "boo"
-        #import pdb; pdb.set_trace()
+    @octopus_form_handler
+    def modify_contents(self, sources):
+        self.delete_wiki_pages(list(sources))
+        return sources
+
+        #target, action = self.request.get("task").split("_")
+
+        #ret = getattr(self, action + "_wiki_pages")
+        #ret = ret(target)
+        
+        #mode = self.request.get("mode")
+
+        #if mode == 'async':
+        #    return ret
+        #Return a_redirect
 
     def rename_wiki_pages(self, from_ids, to_ids):
         # need to change their title as well as their id
