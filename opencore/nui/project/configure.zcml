@@ -14,22 +14,21 @@
     permission should be any logged in user
     -->
     
-   <browser:pages
+   <browser:page
       for="opencore.interfaces.IProject"
       class=".view.ProjectContentsView"
       permission="zope.Public"
-      >
-     
-     <browser:page
-	name="contents"
-	template="contents.pt"
-	/>
-     <browser:page
-	name="modify-contents"
-	attribute="modify_contents"
-	/>
+      name="contents"
+      template="contents.pt"
+      />
 
-    </browser:pages>
+   <browser:page
+      for="opencore.interfaces.IProject"
+      class=".view.ProjectContentsView"
+      permission="zope.Public"
+      name="modify-contents"
+      attribute="modify_contents"
+      />
 
     <!-- TODO
     permission should be any logged in user
