@@ -91,7 +91,7 @@ class WikiVersionCompare(WikiVersionView):
         self.new_prev_enabled = self.old_next_enabled
 
 
-        return self.version_compare()
+        return self.index()
 
     def sort_versions(self, v1, v2):
         """
