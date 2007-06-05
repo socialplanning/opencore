@@ -149,10 +149,10 @@
                   </td>
                 </tr>
 
-		<!--
-		    <tr>
+		<tr>
                   <td class="oc-form-value">
-                    <input type="hidden" name="fieldset" value="default" />
+                    <input type="hidden" name="temp_mem_id" 
+			   tal:attributes="value view/temp_mem_id" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
@@ -163,7 +163,6 @@
                     </span>
                   </td>
                 </tr>
-		    -->
 
                 <tr class="oc-actions">
                   <th class="oc-form-label">
