@@ -4,7 +4,7 @@
 
   <!-- macros -->
   <browser:page
-     for="opencore.content.page.OpenPage"
+     for="opencore.interfaces.IOpenPage"
      class="..base.BaseView"
      permission="zope.Public"
      name="wiki_macros"
@@ -20,7 +20,7 @@
     />
      
   <browser:page
-    for="opencore.content.page.OpenPage"
+    for="opencore.interfaces.IOpenPage"
     class="..base.BaseView"
     permission="zope2.Public"
     name="view"
@@ -28,7 +28,7 @@
     />
 
   <browser:page
-    for="opencore.content.page.OpenPage"
+    for="opencore.interfaces.IOpenPage"
     class=".view.WikiEdit"
     permission="cmf.ModifyPortalContent"
     name="update"
@@ -36,7 +36,7 @@
     />
     
   <browser:page
-    for="opencore.content.page.OpenPage"
+    for="opencore.interfaces.IOpenPage"
     class=".view.WikiEdit"
     permission="cmf.ModifyPortalContent"
     name="edit"
@@ -45,7 +45,7 @@
 
   <!-- FIXME what are the permissions on history exactly? -->   
   <browser:page
-     for="opencore.content.page.OpenPage"
+     for="opencore.interfaces.IOpenPage"
      class=".historyview.WikiVersionView"
      permission="cmf.ModifyPortalContent"
      name="history"
@@ -53,7 +53,7 @@
      />
 
   <browser:page
-     for="opencore.content.page.OpenPage"
+     for="opencore.interfaces.IOpenPage"
      class=".historyview.WikiVersionView"
      permission="cmf.ModifyPortalContent"
      name="version"
@@ -61,7 +61,7 @@
      />
 
   <browser:page
-     for="opencore.content.page.OpenPage"
+     for="opencore.interfaces.IOpenPage"
      class=".historyview.WikiVersionCompare"
      permission="cmf.ModifyPortalContent"
      template="wiki-version-compare.pt"
@@ -73,7 +73,7 @@
   <browser:page
      attribute="updateAtt"
      class=".view.AttachmentView"
-     for="opencore.content.page.OpenPage"
+     for="opencore.interfaces.IOpenPage"
      name="updateAtt"
      permission="cmf.ModifyPortalContent"
      />
@@ -82,7 +82,7 @@
      name="createAtt"
      permission="cmf.ModifyPortalContent"
      attribute="createAtt"
-     for="opencore.content.page.OpenPage"
+     for="opencore.interfaces.IOpenPage"
      class=".view.AttachmentView"
      />
 
@@ -90,7 +90,7 @@
      name="attachmentSnippet"
      permission="cmf.ModifyPortalContent"
      attribute="attachmentSnippet"
-     for="opencore.content.page.OpenPage"
+     for="opencore.interfaces.IOpenPage"
      class=".view.AttachmentView"
      />
 
@@ -98,7 +98,7 @@
      name="deleteAtt"
      permission="cmf.ModifyPortalContent"
      attribute="deleteAtt"
-     for="opencore.content.page.OpenPage"
+     for="opencore.interfaces.IOpenPage"
      class=".view.AttachmentView"
      />
 
