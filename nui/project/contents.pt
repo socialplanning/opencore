@@ -43,10 +43,10 @@
 
                         <div class="oc-liveItem-editForm">
                           <input type="text" 
-                            tal:attributes="name string:${page/Title}_title;value string:${page/Title}" 
+                            tal:attributes="name string:${page/getId}_title; value string:${page/Title}" 
                             />
-                          <button type="submit"
-                            tal:attributes="value string:task=update&target=${page/getId}">
+                          <button type="submit" name="task"
+                            tal:attributes="value string:${page/getId}_update">
                             Save
                           </button>
                           or
