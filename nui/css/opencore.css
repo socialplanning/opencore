@@ -969,16 +969,20 @@ li.oc-invite .oc-invite-content {
 
 /* @BEHAVIORS
 --------------------------*/
-.oc-liveEdit-value {
-  border: 1px solid transparent;
-  /* border-bottom: 1px dotted #256E81; */ 
+.oc-liveEdit-value,
+.oc-liveItem-value {
+  border-bottom: 1px solid transparent;
+  border-bottom: 1px dotted #256E81; 
 }
-.oc-liveEdit-value .oc-liveEdit-hover {
- border-bottom: 1px solid red;
+.oc-liveEdit-value .oc-liveEdit-hover,
+.oc-liveItem-hover {
+ background: #ffffcc;
 }
 .oc-liveEdit-form,
-.oc-liveEdit-selected {
-
+.oc-liveEdit-selected,
+.oc-liveItem-editForm {
+  background: #ffe5c1;
+  padding: .25em;
 }
 .oc-liveEdit-hover {
   background: #ffffcc;

@@ -141,15 +141,37 @@ OC.LiveForm = function(extEl) {
         return;
       }
       
-      // hide edit form
+      // settings
+      value.setVisibilityMode(Ext.Element.DISPLAY);
       editForm.setVisibilityMode(Ext.Element.DISPLAY);
       editForm.hide();
+      
+      function _toggleForm() {
+        value.toggle();
+        editForm.toggle();
+      }
+      
+      // liveEdit hover behavior
+      function _valueMouseover(e, el, o) {
+        value.addClass('oc-liveItem-hover');
+        OC.debug('mouseover')
+      }
+      value.on('mouseover', _valueMouseover, this);
+      
+      function _valueMouseout(e, el, o) {
+        value.removeClass('oc-liveItem-hover');
+      }
+      value.on('mouseout', _valueMouseout, this);
+      
+      function _valueClick(e,el,o) {
+        _toggleForm();
+      }
+      value.on('click', _valueClick, this)
       
       // toggle link
       function _toggleLinksClick(e, el, o) {
         YAHOO.util.Event.stopEvent(e);
-        value.toggle();
-        editForm.toggle();
+        _toggleForm();
       }
       toggleLinks.on('click', _toggleLinksClick, this);
       

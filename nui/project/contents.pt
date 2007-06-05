@@ -42,10 +42,9 @@
                         </div>
 
                         <div class="oc-liveItem-editForm">
-                          Name: 
                           <input type="text" 
-                            tal:attributes="name string:${page/Title}_name" />
-                          <br />
+                            tal:attributes="name string:${page/Title}_name;value string:${page/Title}" 
+                            />
                           <button type="submit"
                             tal:attributes="value string:task=update&target=${page/getId}">
                             Save
@@ -68,7 +67,6 @@
                       </td>
                       <td>
                         <ul class="oc-actions oc-dataTable-row-actions">
-                          <li><a href="#" class="oc-liveItem_toggle">Rename</a></li>
                           <li>
                             <a class="oc-actionLink"
                               tal:attributes="href string:modify-contents?task=${page/getId}_delete">
