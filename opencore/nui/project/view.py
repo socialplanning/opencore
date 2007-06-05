@@ -30,6 +30,7 @@ def octopus_form_handler(func):
     It expects a very specific format for the request, which will be documented in the future.
     """
     def inner(self):
+        # XXX todo don't rely on underscore special character
         target, action = self.request.get("task").split("_")
         sources = target
         if target == 'batch' and self.request.get('batch[]'):
@@ -55,8 +56,6 @@ class ProjectContentsView(BaseView):
     def modify_contents(self, sources):
         #self.delete_wiki_pages(list(sources))
         return sources
-
-        #target, action = self.request.get("task").split("_")
 
         #ret = getattr(self, action + "_wiki_pages")
         #ret = ret(target)
