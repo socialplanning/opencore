@@ -29,7 +29,7 @@
                 </thead>
                 <tbody>
                   <tal:for repeat="page view/pages">
-		    <tal:macro metal:use-macro="here/page_row/macros/page_row" />
+		    <tal:macro metal:use-macro="view/contents_row_snippet/macros/page_row" />
                   </tal:for>
                 </tbody>
               </table>
