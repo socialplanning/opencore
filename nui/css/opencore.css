@@ -27,14 +27,15 @@ body {
   color: #333333;
 }
 #oc-page-container {
-  max-width: 70em; /* As a rule, measure should be between two and three alphabets long. In other words, between 52 and 78 characters, including spaces. Since characters average out to about one-half EM in width this translates to a minimum width of 26em and a maximum of 39em, or two to three alphabets.   IN OTHER WORDS: avoid changing the width. */
-  min-width: 52em;
+  /* max-width: 70em; */ 
+  /* As a rule, measure should be between two and three alphabets long. In other words, between 52 and 78 characters, including spaces. Since characters average out to about one-half EM in width this translates to a minimum width of 26em and a maximum of 39em, or two to three alphabets.   IN OTHER WORDS: avoid changing the width. */
+  /* min-width: 52em; */
   margin: 0 auto;
   padding: 0;
 }
 #oc-topnav {
-  text-align: left;
-  margin-bottom: 0.5em;
+	margin: 0;
+	padding: 0;
 }
 #oc-content-container {
   margin: 0;
@@ -44,7 +45,6 @@ body {
   float: left;
   clear: none;
   width: 65%;
-  margin-bottom: 2em;
 }
 #oc-content-main.oc-content-main-fullWidth {
   width: 100%;
@@ -53,7 +53,6 @@ body {
   float: right;
   clear: none;
   width: 33%;
-  margin-bottom: 2em;
   padding: 0;
   line-height: 1.35;
 }
@@ -72,14 +71,12 @@ body {
 /* @TOPNAV - Global header
 --------------------------------------- */
 #oc-topnav {
-	margin: 0 0 1em;
-	padding: 0;
 	position: relative;
+  text-align: left;
 }
 #oc-topnav h1 {
 	padding: 0.5em 0 0.25em;
 	margin: 0;
-	margin-left: 0.5em;
 }
 ul#oc-topnav-context {
 	list-style-type: none;
@@ -98,10 +95,9 @@ ul#oc-topnav-context li.oc-topnav-selected {
 }
 #oc-topnav-usermenu {
 	position: absolute;
-	top: 0.5em;
-	right: 0.5em;
+	top: 0em;
+	right: 0em;
 	padding: 0.25em;
-	text-align: right;
 }
 #oc-topnav-usermenu input.oc-input-typeText {
 	text-align: right;
@@ -844,7 +840,7 @@ height: 1em;
 }
 .oc-widget-feed.oc-column-left,
 .oc-widget-feed.oc-column-right {
-	width: 45%;
+	width: 46%;
 }
 .oc-widget-feed h2{
   margin: 0;
@@ -1106,15 +1102,6 @@ address {
 }
 .oc-smallText,
 .oc-discreetText,
-  /* Layout and Navigation */
-    .oc-documentByLine,
-    #oc-topnav .oc-dropdown,
-    #oc-topnav-openplans-search,
-    #oc-footer,
-      #oc-content-title-pagetitle,
-  
-  /*Feeds and Forms */
-    ul.oc-tabs,
   
   /* Error Messages */
     .oc-portalMessage,
