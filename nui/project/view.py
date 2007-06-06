@@ -9,6 +9,7 @@ from zExceptions import Redirect
 from zope import event
 from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
+from plone.memoize.instance import memoizedproperty
 
 def octopus_form_handler(func):
     """
@@ -56,15 +57,17 @@ def octopus_form_handler(func):
 
     return inner
 
+
 class ProjectContentsView(BaseView):
     
     contents_row_snippet = ZopeTwoPageTemplateFile('page_row.pt')
 
-    def __call__(self, *args, **kw):
-        self.pages = self.catalog(portal_type="Document",
-                                  path='/'.join(self.context.getPhysicalPath()))
-        return self.index(*args, **kw)
-
+    @memoizedproperty
+    def pages(self):
+        brains = self.catalog(portal_type="Document",
+                              path='/'.join(self.context.getPhysicalPath()))
+        return brains
+    
     def _make_dict(self, obj):
         needed_values = ('getId',
                          'Title',
