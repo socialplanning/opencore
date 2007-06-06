@@ -11,6 +11,19 @@ from opencore.nui.base import BaseView, button, post_only, anon_only
 from zExceptions import Forbidden, Redirect
 from Globals import DevelopmentMode as DEVMODE
 
+class AccountView(BaseView):
+    """
+    base class for views dealing with accounts
+    distinguised by its login functionality
+    """
+
+    def login(self, member_id):
+        """login a user programmatically"""
+        auth = getToolByName(getToolByName(self.portal, "acl_users"),
+                             "credentials_signed_cookie_auth")
+        auth.updateCredentials(self.request, self.request.response,
+                               member_id, None)
+
 class JoinView(BaseView):
 
     def __call__(self, *args, **kw):
@@ -78,7 +91,7 @@ class JoinView(BaseView):
                            subject='OpenPlans account registration')
         
 
-class ConfirmAccountView(BaseView):
+class ConfirmAccountView(AccountView):
 
     def __call__(self, *args, **kw):
         key = self.request.get("key")
@@ -105,10 +118,7 @@ class ConfirmAccountView(BaseView):
         delattr(member, 'isConfirmable')
 
         # Automatically log the user in
-        auth = getToolByName(getToolByName(self.portal, "acl_users"),
-                             "credentials_signed_cookie_auth")
-        auth.updateCredentials(self.request, self.request.response,
-                               member.id, None)
+        self.login(member.id)
 
         # Go to the user's Profile Page in Edit Mode
         self.addPortalStatusMessage(u'Welcome!')
@@ -188,7 +198,7 @@ class ForgotLoginView(BaseView):
         return brains[0].getId
 
 
-class PasswordResetView(BaseView):
+class PasswordResetView(AccountView):
     
     @button('set')
     @post_only(raise_=False)
@@ -204,9 +214,7 @@ class PasswordResetView(BaseView):
         pw_tool.resetPassword(userid, randomstring, password)
 
         # Automatically log the user in
-        auth = self.get_tool("acl_users").credentials_signed_cookie_auth
-        auth.updateCredentials(self.request, self.request.response,
-                               userid, None)
+        self.login(userid)
         
         self.addPortalStatusMessage(u'Your password has been reset and you are now logged in.')
         self.redirect(self.siteURL)
@@ -227,6 +235,7 @@ class PasswordResetView(BaseView):
 
 class HomeView(BaseView):
     """redirects a user to their home"""
+    # XXX this doesn't work since __call__ has been switched to redirect.  
 
     def joinurls(self, *args):
         """This function is because urlparse.urljoin doesn't behave nice"""
