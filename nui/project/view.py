@@ -95,8 +95,9 @@ class ProjectContentsView(BaseView):
             for old, new in zip(sources, fields):
                 page = self.context.restrictedTraverse(old)
                 page.setTitle(new['title'])
+                page.reindexObject()
                 snippets.append(self.contents_row_snippet(page=self._make_dict(page)))
-
+                
             #self.context.manage_renameObjects(sources, [d['title'] for d in fields])
             return snippets[0]
 
