@@ -91,15 +91,15 @@ class ProjectContentsView(BaseView):
             return sources
 
         if action == 'update':
-            snippets = []
+            snippets = {}
             for old, new in zip(sources, fields):
                 page = self.context.restrictedTraverse(old)
                 page.setTitle(new['title'])
                 page.reindexObject()
-                snippets.append(self.contents_row_snippet(page=self._make_dict(page)))
+                snippets[page.getId()] = self.contents_row_snippet(page=self._make_dict(page))
                 
             #self.context.manage_renameObjects(sources, [d['title'] for d in fields])
-            return snippets[0]
+            return snippets
 
     def rename_attachments_and_images(self, from_ids, to_ids):
         for old, new in zip(from_ids, to_ids):
