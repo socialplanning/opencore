@@ -6,7 +6,7 @@
     </td>
     <td>
       <div class="oc-liveItem-value">
-        <a tal:attributes="href page/getURL">
+        <a tal:attributes="href page/getURL | page/absolute_path">
           <tal:dummy replace="page/Title" />
         </a>
       </div>
