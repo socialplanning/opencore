@@ -84,26 +84,6 @@ class ProjectContentsView(BaseView):
             obj_dict[field] = val
         return obj_dict
 
-    def _make_dict_and_translate(self, obj):
-        needed_values = {'id': ('getId',),
-                         'title': ('Title',),
-                         'url': ('getURL',
-                                 'absolute_url_path',),
-                         'object_size': ('getObjSize',),
-                         'last_modified_date': ('ModificationDate',),
-                         'last_modified_author': ('lastModifiedAuthor',),
-                         }
-        obj_dict = {}
-        for field in needed_values: # loop through fields that we need
-            for obj_field in field: # loop through object-specific ways of getting the field
-                val = getattr(obj, field, None)
-                if val is None: continue
-            if val is None:
-                raise Exception("Could not fetch a %s value from the object %s among the accessors %s!" % (field, obj, list(needed_values[field]))
-            if callable(val): val = val()
-            obj_dict[field] = val
-        return obj_dict
-        
     @octopus_form_handler
     def modify_contents(self, action, sources, fields):
         if action == 'delete':
@@ -118,7 +98,6 @@ class ProjectContentsView(BaseView):
                 snippets.append(self.contents_row_snippet(page=self._make_dict(page)))
 
             #self.context.manage_renameObjects(sources, [d['title'] for d in fields])
-                
             return snippets[0]
 
     def rename_attachments_and_images(self, from_ids, to_ids):
