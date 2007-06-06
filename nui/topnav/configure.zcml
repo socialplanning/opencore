@@ -5,7 +5,7 @@
   <!-- topnav -->
   <browser:page
      for="*"
-     class="..base.BaseView"
+     class=".topnav.TopNavView"
      permission="zope.Public"
      name="oc-topnav"
      template="topnav.pt"
@@ -14,7 +14,7 @@
   <!-- topnav-menus -->
   <browser:page
      for="*"
-     class="..base.BaseView"
+     class=".topnav.TopNavView"
      permission="zope.Public"
      name="oc-topnav-menus"
      template="historical/topnav-menus.pt"
@@ -23,25 +23,25 @@
   <!-- topnav-subcontext-project -->
   <browser:page
      for="*"
-     class="..base.BaseView"
+     class=".topnav.TopNavView"
      permission="zope.Public"
-     name="oc-topnav-subcontext-project"
-     template="historical/topnav-subcontext-project.pt"
+     name="topnav-project-menu"
+     template="project-menu.pt"
      />
 
   <!-- topnav-subcontext-user -->
   <browser:page
      for="*"
-     class="..base.BaseView"
+     class=".topnav.TopNavView"
      permission="zope.Public"
-     name="oc-topnav-subcontext-user"
-     template="historical/topnav-subcontext-user.pt"
+     name="topnav-member-menu"
+     template="member-menu.pt"
      />
 
   <!-- topnav-accessibility -->
   <browser:page
      for="*"
-     class="..base.BaseView"
+     class=".topnav.TopNavView"
      permission="zope.Public"
      name="oc-topnav-accessibility"
      template="historical/topnav-accessibility.pt"

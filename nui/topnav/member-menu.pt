@@ -1,0 +1,12 @@
+<tal:vars tal:define="global mem_url view/mem_data_map/url" />
+
+<ul id="oc-topnav-context" class="oc-clearAfter">
+  <li>
+    <a tal:attributes="href string:$mem_url"
+       tal:content="string:Profile" />
+  </li>
+  <li>
+    <a tal:attributes="href string:$mem_url"
+       tal:content="string:Contact" />
+  </li>
+</ul>
