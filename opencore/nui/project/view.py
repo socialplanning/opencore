@@ -91,19 +91,23 @@ class ProjectContentsView(BaseView):
 
     @octopus_form_handler
     def modify_contents(self, action, sources, fields):
-        import pdb; pdb.set_trace()
+        item_type = self.request.get("item_type")
+        parent = self.context
+        if item_type == 'listen':
+            parent = self.context.lists
+        
         if action == 'delete':
-            self.context.manage_delObjects(list(sources))
+            parent.manage_delObjects(list(sources))
             return sources
 
         if action == 'update':
             snippets = {}
             for old, new in zip(sources, fields):
-                page = self.context.restrictedTraverse(old)
+                page = parent.restrictedTraverse(old)
                 page.setTitle(new['title'])
                 page.reindexObject()
                 snippets[page.getId()] = self.contents_row_snippet(item=self._make_dict(page),
-                                                                   item_type='wicked')
+                                                                   item_type=item_type)
                 
             #self.context.manage_renameObjects(sources, [d['title'] for d in fields])
             return snippets
@@ -119,17 +123,6 @@ class ProjectContentsView(BaseView):
     def get_attachments_and_images(self):
         return self.catalog(portal_type=("FileAttachment","Image"),
                             path='/'.join(self.context.getPhysicalPath()))
-
-    def rename_mailing_lists(self, from_ids, to_ids):
-        list_folder = self.context.lists
-        for old, new in zip(from_ids, to_ids):
-            list = list_folder.restrictedTraverse(old)
-            list.setTitle(new)
-        # XXX we might get rid of the line below and only setTitles
-        list_folder.manage_renameObjects(from_ids, to_ids)
-
-    def delete_mailing_lists(self, ids):
-        self.context.lists.manage_delObjects(ids)
 
 
 class ProjectPreferencesView(BaseView):
