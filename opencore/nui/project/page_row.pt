@@ -1,22 +1,24 @@
-<tal:macro metal:define-macro="page_row" tal:define="page page | options/page">
-  <tr class="oc-liveItem" tal:attributes="id page/getId">
+<tal:macro metal:define-macro="item_row"
+	   tal:define="item item | options/item;
+		       item_type item_type | options/item_type">
+  <tr class="oc-liveItem" tal:attributes="id item/getId">
     <td>
       <input type="checkbox" name="batch[]"
-             tal:attributes="value page/getId" />
+             tal:attributes="value item/getId" />
     </td>
     <td>
       <div class="oc-liveItem-value">
-        <a tal:attributes="href page/getURL | page/absolute_url_path">
-          <tal:dummy replace="page/Title" />
+        <a tal:attributes="href item/getURL | item/absolute_url_path">
+          <tal:dummy replace="item/Title" />
         </a>
       </div>
       
       <div class="oc-liveItem-editForm">
         <input type="text" 
-               tal:attributes="name string:${page/getId}_title; value string:${page/Title}" 
+               tal:attributes="name string:${item/getId}_title; value string:${item/Title}" 
                />
         <button type="submit" name="task"
-                tal:attributes="value string:${page/getId}_update">
+                tal:attributes="value string:${item/getId}_update">
           Save
         </button>
         or
@@ -26,20 +28,20 @@
       </div>
     </td>
     <td>
-      <tal:dummy replace="page/getObjSize" />
+      <tal:dummy replace="item/getObjSize" />
     </td>
     <td>
-      <tal:dummy replace="page/ModificationDate" />
+      <tal:dummy replace="item/ModificationDate" />
       by
-      <a tal:attributes="href string:${view/siteURL}/people/${page/lastModifiedAuthor}">
-        <tal:dummy replace="page/lastModifiedAuthor" />
+      <a tal:attributes="href string:${view/siteURL}/people/${item/lastModifiedAuthor}">
+        <tal:dummy replace="item/lastModifiedAuthor" />
       </a>
     </td>
     <td>
       <ul class="oc-actions oc-dataTable-row-actions">
         <li>
           <a class="oc-actionLink"
-             tal:attributes="href string:modify-contents?task=${page/getId}_delete">
+             tal:attributes="href string:modify-contents?task=${item/getId}_delete&item_type=${item_type}">
             Delete
           </a>
         </li>

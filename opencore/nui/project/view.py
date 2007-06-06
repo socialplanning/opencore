@@ -67,7 +67,12 @@ class ProjectContentsView(BaseView):
         brains = self.catalog(portal_type="Document",
                               path='/'.join(self.context.getPhysicalPath()))
         return brains
-    
+
+    @memoizedproperty
+    def lists(self):
+        return self.catalog(portal_type="Open Mailing List",
+                            path='/'.join(self.context.getPhysicalPath()))
+
     def _make_dict(self, obj):
         needed_values = ('getId',
                          'Title',
@@ -86,6 +91,7 @@ class ProjectContentsView(BaseView):
 
     @octopus_form_handler
     def modify_contents(self, action, sources, fields):
+        import pdb; pdb.set_trace()
         if action == 'delete':
             self.context.manage_delObjects(list(sources))
             return sources
@@ -96,7 +102,8 @@ class ProjectContentsView(BaseView):
                 page = self.context.restrictedTraverse(old)
                 page.setTitle(new['title'])
                 page.reindexObject()
-                snippets[page.getId()] = self.contents_row_snippet(page=self._make_dict(page))
+                snippets[page.getId()] = self.contents_row_snippet(item=self._make_dict(page),
+                                                                   item_type='wicked')
                 
             #self.context.manage_renameObjects(sources, [d['title'] for d in fields])
             return snippets
@@ -123,10 +130,6 @@ class ProjectContentsView(BaseView):
 
     def delete_mailing_lists(self, ids):
         self.context.lists.manage_delObjects(ids)
-
-    def get_mailing_lists(self):
-        return self.catalog(portal_type="Open Mailing List",
-                            path='/'.join(self.context.getPhysicalPath()))
 
 
 class ProjectPreferencesView(BaseView):
