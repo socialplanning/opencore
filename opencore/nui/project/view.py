@@ -60,7 +60,7 @@ def octopus_form_handler(func):
 
 class ProjectContentsView(BaseView):
     
-    contents_row_snippet = ZopeTwoPageTemplateFile('page_row.pt')
+    contents_row_snippet = ZopeTwoPageTemplateFile('item_row.pt')
 
     @memoizedproperty
     def pages(self):
