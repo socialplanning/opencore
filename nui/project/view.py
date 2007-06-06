@@ -73,6 +73,11 @@ class ProjectContentsView(BaseView):
         return self.catalog(portal_type="Open Mailing List",
                             path='/'.join(self.context.getPhysicalPath()))
 
+    @memoizedproperty
+    def files(self):
+        return self.catalog(portal_type=("FileAttachment","Image"),
+                            path='/'.join(self.context.getPhysicalPath()))
+
     def _make_dict(self, obj):
         needed_values = ('getId',
                          'Title',
@@ -93,7 +98,7 @@ class ProjectContentsView(BaseView):
     def modify_contents(self, action, sources, fields):
         item_type = self.request.get("item_type")
         parent = self.context
-        if item_type == 'listen':
+        if item_type == 'lists':
             parent = self.context.lists
         
         if action == 'delete':
@@ -111,18 +116,6 @@ class ProjectContentsView(BaseView):
                 
             #self.context.manage_renameObjects(sources, [d['title'] for d in fields])
             return snippets
-
-    def rename_attachments_and_images(self, from_ids, to_ids):
-        for old, new in zip(from_ids, to_ids):
-            file = self.context.restrictedTraverse(old)
-            file.setTitle(new)
-
-    def delete_attachments_and_images(self, ids):
-        self.context.manage_delObjects(ids)
-
-    def get_attachments_and_images(self):
-        return self.catalog(portal_type=("FileAttachment","Image"),
-                            path='/'.join(self.context.getPhysicalPath()))
 
 
 class ProjectPreferencesView(BaseView):

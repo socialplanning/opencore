@@ -9,14 +9,20 @@
         <div id="oc-content-main" class="oc-content-main-fullWidth">
           
           <tal:setvar define="item_header string:Wiki pages;
-			      item_type string:wicked;
+			      item_type string:pages;
 			      item_collection view/pages">
 	    <tal:macro metal:use-macro="here/contents/macros/contents_table" />
 	  </tal:setvar>
 	  
           <tal:setvar define="item_header string:Mailing lists;
-			      item_type string:listen;
+			      item_type string:lists;
 			      item_collection view/lists">
+	    <tal:macro metal:use-macro="here/contents/macros/contents_table" /> 
+	  </tal:setvar> 
+
+          <tal:setvar define="item_header string:Images & Attachments;
+			      item_type string:files;
+			      item_collection view/files">
 	    <tal:macro metal:use-macro="here/contents/macros/contents_table" /> 
 	  </tal:setvar> 
 
