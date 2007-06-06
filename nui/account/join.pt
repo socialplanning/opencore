@@ -13,7 +13,7 @@
       </a>
       <div id="oc-content-main"  tal:condition="not:devmode">
 
-        <form id="oc-join-form" name="edit_form" method="post" enctype="multipart/form-data"
+        <form id="oc-join-form" name="edit_form" method="post" 
 	      tal:attributes="action string:${context/absolute_url}/${view/name}"
 	      >
 	  
