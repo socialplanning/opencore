@@ -5,36 +5,66 @@
  */
 body {
   color: #333;
-  background-color: #333;
+  background: #F0F3F6;
   padding: 0;
 }
 #oc-page-container {
-  background-color: white;
-  margin: 0 auto;
-}
-#oc-topnav {
-  background: #777 url(/++resource++img/shadow.png) repeat-x bottom;
-  color: white;
   width: 100%;
+  margin: 0;
 }
-#oc-topnav a {
-  color: white;
-  text-decoration: none;
-}
-#oc-topnav a:hover {
-}
-#oc-content-container {
- background: #fff;
+#oc-content-container,
+#oc-topnav,
+#oc-footer {
  max-width: 70em; /* As a rule, measure should be between two and three alphabets long. In other words, between 52 and 78 characters, including spaces. Since characters average out to about one-half EM in width this translates to a minimum width of 26em and a maximum of 39em, or two to three alphabets.   IN OTHER WORDS: avoid changing the width. */
  min-width: 52em;
  margin: 0 auto;
 }
+#oc-topnav-wrapper {
+}
+#oc-topnav {
+  width: 100%;
+  padding: 0 1em;
+  color: #fff;
+  background: #437080;
+  border-top: 0.75em solid #214652;
+  border-bottom: 1px solid #214652;
+}
+#oc-topnav a {
+  text-decoration: none;
+  color: #fff;
+}
+#oc-topnav a:hover {
+}
+#oc-topnav-usermenu {
+  top: 0;
+  right: 1em;
+  width: 31%;
+  background: #214652;
+  padding: 0.25em 0.5em;
+}
+#oc-content-container {
+ padding: 1em;
+ background-color: #fff;
+}
+#oc-content-main {
+}
+.oc-headingBlock {
+display: none;
+}
+#oc-content-sidebar {
+  background: #F0F3F6;
+  border: 1px solid #437080;
+  padding: 1em;
+  width: 31%;
+}
 #oc-footer {
-  background: #777 url(/++resource++img/shadow.png) repeat-x bottom;
-  color: #ccc;
+  color: #666;
+  background: transparent;
+  border-top: 1px solid #F0F3F6;
+  margin-bottom: 2em;
 }
 #oc-footer a {
-  color: #eee;
+  color: #999;
   text-decoration: none;
 }
 #oc-footer a:hover {
@@ -43,6 +73,7 @@ body {
 .oc-missingText {
   color: gray;
 }
+
 /* @HTML ELEMENTS GENERAL @TYPOGRAPHY
 This should be the only place where font information is specified
 -------------------------------------------- */
@@ -57,7 +88,6 @@ h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6,
 .oc-legend-heading {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #444;
 }
 h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 abbr {
   border: none;
@@ -112,11 +142,33 @@ h4, .h4 {
 .oc-simpleHeading a:hover { 
 }
 a {
-  color: #74AC07;
-}  
+  color: #437080;
+}
+a:visited {
+  color: #437080;
+}
 a:hover {
   color: #EB852B;
 }
-a:visited {
-  color: #568005;
+
+/* @BOXES THAT NEED STYLE
+-------------------------------------------- */
+
+.oc-widget-search {
+  background: #FCF9F6;
+  border: 1px solid #EB852B;
+  padding: 0.5em;
 }
+.oc-widget-alphabet {
+  border-top: 1px dotted #EB852B;
+  padding-left: 0;
+  padding-top: 0.5em;
+}
+.oc-widget-feed li.oc-feed-item {
+  border-top: 1px dotted #437080;
+  padding: 0.5em 0;
+}
+.oc-widget-feed{
+  border-bottom: 1px dotted #437080;
+}
+
