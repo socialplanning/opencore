@@ -85,15 +85,19 @@ class BaseView(BrowserView):
         return self.context.Title()
     
     @view.memoizedproperty
+    def area(self):
+        if self.piv.inProject:
+            return self.piv.project
+        elif self.inmember:
+            return self.miv.member
+        else:
+            return self.portal
+
+    @view.memoizedproperty
     def areatitle(self):
         # these require aq walks. might make more sense to have a
         # traversal hook stash the info on/in the request.
-        title = ''
-        if self.piv.inProject:
-            title = self.piv.project.getFull_name()
-        elif self.inmember:
-            title = self.miv.member.getFullname()
-        return title
+        return self.area.Title()
 
     #@instance.memoize
     def windowtitle(self):
@@ -104,12 +108,7 @@ class BaseView(BrowserView):
 
     @instance.memoizedproperty
     def areaURL(self):
-        if self.piv.inProject:
-            return self.piv.project.absolute_url()
-        if self.inmember:
-            return self.miv.member.absolute_url()
-        else: # TODO
-            return ''
+        return self.area.absolute_url()
 
     @view.memoize_contextless
     def nusers(self): 

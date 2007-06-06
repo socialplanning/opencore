@@ -2,10 +2,10 @@
 
   <h1>
     <a tal:attributes="href string:${view/areaURL}"
-       tal:content="view/areatitle"/>
+       tal:content="view/areatitle" />
   </h1>
 
-  <tal:contextMenu replace="structure python:view.subcontext()()" />
+  <tal:contextMenu replace="structure view/subcontext" />
 
   <div id="oc-topnav-usermenu">
     <img src="++resource++img/logo.gif" style="display: inline; vertical-align: bottom;" />

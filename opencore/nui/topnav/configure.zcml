@@ -11,16 +11,7 @@
      template="topnav.pt"
      />
 
-  <!-- topnav-menus -->
-  <browser:page
-     for="*"
-     class=".topnav.TopNavView"
-     permission="zope.Public"
-     name="oc-topnav-menus"
-     template="historical/topnav-menus.pt"
-     />
-
-  <!-- topnav-subcontext-project -->
+  <!-- topnav-project-menu -->
   <browser:page
      for="*"
      class=".topnav.TopNavView"
@@ -29,13 +20,22 @@
      template="project-menu.pt"
      />
 
-  <!-- topnav-subcontext-user -->
+  <!-- topnav-member-menu -->
   <browser:page
      for="*"
      class=".topnav.TopNavView"
      permission="zope.Public"
      name="topnav-member-menu"
      template="member-menu.pt"
+     />
+
+  <!-- topnav-default-menu -->
+  <browser:page
+     for="*"
+     class=".topnav.TopNavView"
+     permission="zope.Public"
+     name="topnav-default-menu"
+     template="default-menu.pt"
      />
 
   <!-- topnav-accessibility -->
