@@ -63,6 +63,10 @@ class ProjectContentsView(BaseView):
     def __call__(self, *args, **kw):
         self.pages = self.catalog(portal_type="Document",
                                   path='/'.join(self.context.getPhysicalPath()))
+        ### XXX this is where it breaks
+        # page = self.pages[0]
+        # html = self.contents_row_snippet(page=page)
+        # import pdb; pdb.set_trace()
         return self.index(*args, **kw)
 
     @octopus_form_handler
@@ -76,7 +80,6 @@ class ProjectContentsView(BaseView):
             for old, new in zip(sources, fields):
                 page = self.context.restrictedTraverse(old)
                 page.setTitle(new['title'])
-                ### XXX this is where it breaks
                 snippets.append(self.contents_row_snippet(page=page))
                 
             #self.context.manage_renameObjects(sources, [d['title'] for d in fields])
