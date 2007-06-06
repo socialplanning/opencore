@@ -1,5 +1,4 @@
 <tal:macro metal:define-macro="page_row" tal:define="page page | options/page">
-  <tal:do tal:replace="page/id" />
   <tr class="oc-liveItem" tal:attributes="id page/getId">
     <td>
       <input type="checkbox" name="batch[]"
@@ -7,7 +6,7 @@
     </td>
     <td>
       <div class="oc-liveItem-value">
-        <a tal:attributes="href page/getURL | page/absolute_path">
+        <a tal:attributes="href page/getURL | page/absolute_url_path">
           <tal:dummy replace="page/Title" />
         </a>
       </div>

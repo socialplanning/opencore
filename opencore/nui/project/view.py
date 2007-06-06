@@ -63,12 +63,24 @@ class ProjectContentsView(BaseView):
     def __call__(self, *args, **kw):
         self.pages = self.catalog(portal_type="Document",
                                   path='/'.join(self.context.getPhysicalPath()))
-        ### XXX this is where it breaks
-        # page = self.pages[0]
-        # html = self.contents_row_snippet(page=page)
-        # import pdb; pdb.set_trace()
         return self.index(*args, **kw)
 
+    def _make_dict(self, obj):
+        needed_values = ('getId',
+                         'Title',
+                         'getURL',
+                         'absolute_url_path',
+                         'getObjSize',
+                         'ModificationDate',
+                         'lastModifiedAuthor',)
+        obj_dict = {}
+        for field in needed_values:
+            val = getattr(obj, field, None)
+            if val is None: continue
+            if callable(val): val = val()
+            obj_dict[field] = val
+        return obj_dict
+        
     @octopus_form_handler
     def modify_contents(self, action, sources, fields):
         if action == 'delete':
@@ -80,7 +92,7 @@ class ProjectContentsView(BaseView):
             for old, new in zip(sources, fields):
                 page = self.context.restrictedTraverse(old)
                 page.setTitle(new['title'])
-                snippets.append(self.contents_row_snippet(page=page))
+                snippets.append(self.contents_row_snippet(page=self._make_dict(page)))
                 
             #self.context.manage_renameObjects(sources, [d['title'] for d in fields])
             
