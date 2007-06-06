@@ -8,8 +8,22 @@
   <tal:contextMenu replace="structure view/contextmenu" />
 
   <div id="oc-topnav-usermenu">
-    <img src="++resource++img/logo.gif" style="display: inline; vertical-align: bottom;" />
-    <input type="text" class="oc-input-typeText" size="10" value="search" />
+
+    <form name="searchform"
+          tal:attributes="action string:${view/portal/absolute_url}/search"
+          style="white-space:nowrap"
+          onsubmit="return liveSearchSubmit()">
+
+      <img src="++resource++img/logo.gif"
+           style="display: inline; vertical-align: bottom;" />
+      <!--label for="searchGadget" class="hiddenStructure">Search Site</label-->
+
+      <input id="searchGadget" name="SearchableText"
+             type="text" size="10" title="Search Site"
+             accesskey="4" class="oc-input-typeText" />
+
+      <!--div class="LSResult" id="LSResult" style=""><div class="LSShadow" id="LSShadow"></div></div-->
+    </form>
 
     <tal:userMenu replace="structure view/usermenu" />
 
