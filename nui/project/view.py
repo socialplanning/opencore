@@ -52,7 +52,7 @@ def octopus_form_handler(func):
         mode = self.request.get("mode")
         if mode == "async":
             return ret
-        return "NOT HERE"        # else redirect back to form
+        return self.redirect(self.request.environ['HTTP_REFERER'])
 
     return inner
 
