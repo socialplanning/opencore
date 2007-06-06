@@ -1,4 +1,4 @@
-<tal:vars tal:define="global mem_url view/mem_data_map/url" />
+<tal:vars tal:define="global mem_url view/miv/member/absolute_url" />
 
 <ul id="oc-topnav-context" class="oc-clearAfter">
   <li>
