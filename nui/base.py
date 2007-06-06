@@ -8,6 +8,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone.utils import transaction_note
 from Products.CMFPlone.interfaces import IPloneSiteRoot
+from Products.remember.interfaces import IReMember
 
 from zope.component import getMultiAdapter, adapts, adapter
 from zope.component import getMultiAdapter, adapts, adapter
