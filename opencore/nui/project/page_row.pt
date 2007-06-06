@@ -31,7 +31,7 @@
     <td>
       <tal:dummy replace="page/ModificationDate" />
       by
-      <a href="TODO-FILLIN">
+      <a tal:attributes="href string:${view/siteURL}/people/${page/lastModifiedAuthor}">
         <tal:dummy replace="page/lastModifiedAuthor" />
       </a>
     </td>
