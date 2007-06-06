@@ -38,6 +38,25 @@
      template="default-menu.pt"
      />
 
+
+  <!-- topnav-auth-user-menu -->
+  <browser:page
+     for="*"
+     class=".topnav.TopNavView"
+     permission="zope.Public"
+     name="topnav-auth-user-menu"
+     template="auth-user-menu.pt"
+     />
+
+  <!-- topnav-anon-user-menu -->
+  <browser:page
+     for="*"
+     class=".topnav.TopNavView"
+     permission="zope.Public"
+     name="topnav-anon-user-menu"
+     template="anon-user-menu.pt"
+     />
+
   <!-- topnav-accessibility -->
   <browser:page
      for="*"

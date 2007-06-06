@@ -1,0 +1,28 @@
+<tal:vars define="global mem_data view/mem_data_map" />
+
+<ul id="oc-usermenu-list">
+
+  <li><a href="#">Explore</a>
+    <ul id="oc-usermenu-explore">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Projects</a></li>
+      <li><a href="#">People</a></li>
+      <li><a href="#">Start a project</a></li>
+    </ul>
+  </li>
+
+  <li>
+    <a tal:attributes="href string:${view/portal/absolute_url}/login"
+       tal:content="string:Log In" />
+  </li>
+
+  <li>
+    <a tal:attributes="href string:${view/portal/absolute_url}/join"
+       tal:content="string:Join" />
+  </li>
+
+  <li>
+    <a href="#">Help</a>
+  </li>
+
+</ul>

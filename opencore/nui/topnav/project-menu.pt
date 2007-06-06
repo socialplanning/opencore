@@ -1,5 +1,5 @@
-<tal:vars tal:define="global proj_info view/project_info;
-                      global featurelets proj_info/featurelets" />
+<tal:vars define="global proj_info view/project_info;
+                  global featurelets proj_info/featurelets" />
 
 <ul id="oc-topnav-context" class="oc-clearAfter">
   <li>
@@ -11,12 +11,12 @@
        tal:content="string:Contents" />
   </li>
 
-  <tal:block tal:condition="featurelets">
+  <tal:flets condition="featurelets">
     <!-- begin featurelets menu -->
     <li tal:repeat="featurelet featurelets">
       <a tal:attributes="href featurelet/url" tal:content="featurelet/name" />
     </li><!-- featurelets menu -->
-  </tal:block>
+  </tal:flets>
 
   <li tal:condition="python:view.membertool.checkPermission('Modify portal content', proj_info.get('obj'))">
     <a tal:attributes="href string:${proj_info/url}/preferences"
