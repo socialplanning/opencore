@@ -89,7 +89,7 @@ class BaseView(BrowserView):
         if self.piv.inProject:
             return self.piv.project
         elif self.inmember:
-            return self.miv.member
+            return self.miv.member_folder
         else:
             return self.portal
 
