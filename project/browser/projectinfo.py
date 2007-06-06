@@ -33,7 +33,7 @@ class ProjectInfoView(BrowserView):
             # get the related project
             return self.context.getProject()
         # probably wrap this in an adapter
-        chain = self._context[0].aq_chain
+        chain = self.context.aq_inner.aq_chain
         for item in chain:
             if IProject.providedBy(item):
                 return item
