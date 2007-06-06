@@ -10,7 +10,7 @@
   <div id="oc-topnav-usermenu">
 
     <form name="searchform"
-          tal:attributes="action string:${view/portal/absolute_url}/search"
+          tal:attributes="action string:${view/portal/absolute_url}/sitesearch"
           style="white-space:nowrap"
           onsubmit="return liveSearchSubmit()">
 
@@ -18,7 +18,7 @@
            style="display: inline; vertical-align: bottom;" />
       <!--label for="searchGadget" class="hiddenStructure">Search Site</label-->
 
-      <input id="searchGadget" name="SearchableText"
+      <input id="searchGadget" name="search_string"
              type="text" size="10" title="Search Site"
              accesskey="4" class="oc-input-typeText" />
 
