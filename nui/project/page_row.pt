@@ -1,4 +1,5 @@
-<tal:macro metal:define-macro="page_row" tal:define="page options/page | page">
+<tal:macro metal:define-macro="page_row" tal:define="page page | options/page">
+  <tal:do tal:replace="page/id" />
   <tr class="oc-liveItem" tal:attributes="id page/getId">
     <td>
       <input type="checkbox" name="batch[]"
