@@ -33,7 +33,7 @@ class MemberInfoView(BrowserView):
         return self._context[0]
 
     def interfaceInAqChain(self, iface):
-        chain = self.context.aq_chain
+        chain = self.context.aq_inner.aq_chain
         for item in chain:
             if iface.providedBy(item):
                 return item
