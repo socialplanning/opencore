@@ -29,53 +29,7 @@
                 </thead>
                 <tbody>
                   <tal:for repeat="page view/pages">
-                    <tr class="oc-liveItem" tal:attributes="id page/getId">
-                      <td>
-                        <input type="checkbox" name="batch[]"
-                          tal:attributes="value page/getId" />
-                      </td>
-                      <td>
-                        <div class="oc-liveItem-value">
-                          <a tal:attributes="href page/getURL">
-                            <tal:dummy replace="page/Title" />
-                          </a>
-                        </div>
-
-                        <div class="oc-liveItem-editForm">
-                          <input type="text" 
-                            tal:attributes="name string:${page/getId}_title; value string:${page/Title}" 
-                            />
-                          <button type="submit" name="task"
-                            tal:attributes="value string:${page/getId}_update">
-                            Save
-                          </button>
-                          or
-                          <a href="#" class="oc-liveItem_toggle">
-                            Cancel
-                          </a>
-                        </div>
-                      </td>
-                      <td>
-                        <tal:dummy replace="page/getObjSize" />
-                      </td>
-                      <td>
-                        <tal:dummy replace="page/ModificationDate" />
-                        by
-                        <a href="TODO-FILLIN">
-                          <tal:dummy replace="page/lastModifiedAuthor" />
-                        </a>
-                      </td>
-                      <td>
-                        <ul class="oc-actions oc-dataTable-row-actions">
-                          <li>
-                            <a class="oc-actionLink"
-                              tal:attributes="href string:modify-contents?task=${page/getId}_delete">
-                              Delete
-                            </a>
-                          </li>
-                        </ul>
-                      </td>
-                    </tr>
+		    <tal:macro metal:use-macro="here/page_row/macros/page_row" />
                   </tal:for>
                 </tbody>
               </table>

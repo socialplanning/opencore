@@ -58,6 +58,8 @@ def octopus_form_handler(func):
 
 class ProjectContentsView(BaseView):
     
+    contents_row_snippet = ZopeTwoPageTemplateFile('page_row.pt')
+
     def __call__(self, *args, **kw):
         self.pages = self.catalog(portal_type="Document",
                                   path='/'.join(self.context.getPhysicalPath()))
