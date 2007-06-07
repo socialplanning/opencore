@@ -142,6 +142,7 @@ batch[] field with item ids::
     ...                       path='/'.join(view.context.getPhysicalPath()))
     >>> len(brains)
     0
-    >>> self.clearMemoCache()
+    >>> view._clear_instance_memos()
     >>> len(view.files)
     0
+

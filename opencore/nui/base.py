@@ -2,34 +2,29 @@
 some base class for opencore ui work
 """
 from Acquisition import aq_inner, aq_parent
-from Products.Five import BrowserView
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
-from Products.CMFPlone.utils import transaction_note
 from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.remember.interfaces import IReMember
-
-from zope.component import getMultiAdapter, adapts, adapter
-from zope.component import getMultiAdapter, adapts, adapter
-
-from plone.memoize import instance
-from plone.memoize import view 
-view.memoizedproperty = lambda func: property(view.memoize(func))
-view.mcproperty = lambda func: property(view.memoize_contextless(func))
-
-from topp.utils.pretty_text import truncate
-from topp.utils.pretty_date import prettyDate
-from topp.featurelets.interfaces import IFeatureletSupporter
-
+from Products.CMFPlone.utils import transaction_note
+from Products.Five import BrowserView
 from Products.OpenPlans.content.project import OpenProject
 from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
-
+from Products.remember.interfaces import IReMember
 from opencore import redirect 
-from opencore.interfaces import IProject 
-from opencore.content.page import OpenPage
 from opencore.content.member import OpenMember
+from opencore.content.page import OpenPage
+from opencore.interfaces import IProject 
 from opencore.nui.static import render_static
+from plone.memoize import instance
+from plone.memoize import view 
+from topp.featurelets.interfaces import IFeatureletSupporter
+from topp.utils.pretty_date import prettyDate
+from topp.utils.pretty_text import truncate
+from zope.component import getMultiAdapter, adapts, adapter
+
+view.memoizedproperty = lambda func: property(view.memoize(func))
+view.mcproperty = lambda func: property(view.memoize_contextless(func))
 
 
 class BaseView(BrowserView):
@@ -362,6 +357,9 @@ class BaseView(BrowserView):
     def portal_url(self):
         return self.get_tool('portal_url')
 
+    @instance.clearbefore
+    def _clear_instance_memos(self):
+        pass
 
 def button(name=None):
     def curry(handle_request):
