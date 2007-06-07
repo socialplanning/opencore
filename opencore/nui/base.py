@@ -152,7 +152,11 @@ class BaseView(BrowserView):
                 id = member.id
                 fullname = member.fullname
                 lastlogin = member.last_login_time
-            url = self.membertool.getHomeFolder(id).absolute_url()
+                
+            url = ''
+            folder = self.membertool.getHomeFolder(id)
+            if folder:
+                url = folder.absolute_url()
 
             result.update(id=id, fullname=fullname, lastlogin=lastlogin,
                           url=url)
