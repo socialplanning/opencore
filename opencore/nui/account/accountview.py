@@ -19,16 +19,22 @@ class AccountView(BaseView):
     distinguised by its login functionality
     """
 
+    @property
+    def auth(self):
+        acl = self.get_tool("acl_users")
+        return acl.credentials_signed_cookie_auth
+    
     def login(self, member_id):
         """login a user programmatically"""
-        acl = self.get_tool("acl_users")
-        auth = acl.credentials_signed_cookie_auth
-        auth.updateCredentials(self.request, self.response,
-                               member_id, None)
+        self.update_credentials(member_id)
         self.request.set('__ac_name', member_id)
-        auth.login()
+        self.auth.login()
         self.membertool.setLoginTimes()
+        return
 
+    def update_credentials(self, member_id):
+        return self.auth.updateCredentials(self.request, self.response,
+                                           member_id, None)
 
 class JoinView(BaseView):
 
