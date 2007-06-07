@@ -21,11 +21,30 @@ def test_suite():
     from opencore.project.browser.projectinfo import get_featurelets
     from zope.app.annotation.interfaces import IAnnotations
     setup.setupPloneSite()
+
+    def create_test_content(tc):
+        return
+        proj = tc.portal.projects.p1
+        content = {'Document': ('new1', 'new2'),
+                   'FileAttachment': ('file1', 'file2'),
+                   'Image': ('im1', 'im2'),
+                   }
+        for type in content:
+            for item in content[type]:
+                try:
+                    proj.invokeFactory(type, item, {})
+                except AttributeError:
+                    pass
+
     def readme_setup(tc):
         tc._refreshSkinData()
 
+    def setup(tc):
+        readme_setup(tc)
+        create_test_content(tc)
+
     globs = locals()
-    readme = FunctionalDocFileSuite("README.txt",
+    readme = FunctionalDocFileSuite("README.txt", "README_contents.txt",
                                     optionflags=optionflags,
                                     package='opencore.nui.project',
                                     test_class=FunctionalTestCase,
