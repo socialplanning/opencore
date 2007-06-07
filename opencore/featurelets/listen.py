@@ -30,12 +30,7 @@ class ListenFeaturelet(BaseFeaturelet):
              'menu_items': ({'title': u'Mailing Lists',
                              'description': u'Mailing Lists',
                              'action': u'lists',
-                             'extra': None,
                              'order': 0,
-                             'permission': None,
-                             'filter': None,
-                             'icon': None,
-                             '_for': Interface,
                              },
                             ),
              }

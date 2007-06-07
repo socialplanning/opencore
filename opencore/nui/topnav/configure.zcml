@@ -14,10 +14,10 @@
   <!-- topnav-project-menu -->
   <browser:page
      for="*"
-     class=".topnav.TopNavView"
+     class=".topnav.ProjectMenuView"
      permission="zope.Public"
      name="topnav-project-menu"
-     template="project-menu.pt"
+     template="context-menu.pt"
      />
 
   <!-- topnav-member-menu -->
