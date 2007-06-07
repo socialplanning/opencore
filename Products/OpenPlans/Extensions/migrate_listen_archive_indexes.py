@@ -11,7 +11,7 @@ def migrate_listen_archive_indexes(self):
     self.results = []
     for mapping in mappings:
         path = mapping['path']
-        ml = self.context.unrestrictedTraverse(path)
+        ml = self.unrestrictedTraverse(path)
         search_tool = getUtility(ISearchableArchive, context=ml)
         indexes = search_tool.indexes()
         search_tool.manage_reindexIndex(ids=indexes)
