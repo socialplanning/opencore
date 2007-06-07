@@ -38,7 +38,7 @@ Preference View
     'medium_policy'
 
     >>> view.project_info['featurelets']
-    [{'url': 'lists', 'name': 'listen'}]
+    [{'url': u'lists', 'name': 'listen', 'title': u'Mailing Lists'}]
 
     >>> form_vars = dict(title='test one',
     ...                  workflow_policy='closed_policy',
