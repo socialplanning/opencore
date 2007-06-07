@@ -37,7 +37,7 @@ def octopus_form_handler(func):
 
         if target == 'batch' and self.request.form.get('batch[]'):
             target = self.request.form.get("batch[]")
-        if type(target) != type([]):
+        if not isinstance(target, (tuple, list)):
             target = [target]
 
         # grab items' fields from request and fill dicts in an ordered list
@@ -138,26 +138,35 @@ class ProjectContentsView(BaseView):
     @octopus_form_handler
     def modify_contents(self, action, sources, fields=None):
         item_type = self.request.form.get("item_type")
-        parent = self.context
-        
-        if item_type == 'lists':
-            parent = self.context.lists
-        
+
+        parents = {}
+
+        ## XXX TODO this is mad slow. we don't want to get an object
+        # for each string id just to get a reference to the parent.
+        # is there any way to delete objects without a ref to parent?
+
+        path = '/'.join(self.context.getPhysicalPath())
+        brains = self.catalog(id=sources, path=path)
+        objects = dict([(b.getId, b.getObject()) for b in brains])
+
+        ## XXX TODO this is also wicked slow.
         if action == 'delete':
-            parent.manage_delObjects(list(sources))
+            for id, obj in objects.items():
+                parent = obj.aq_parent
+                parent.manage_delObjects([id])
             return sources
 
         if action == 'update':
             snippets = {}
             for old, new in zip(sources, fields):
-                page = parent.restrictedTraverse(old)
+                page = objects[old]
                 page.setTitle(new['title'])
                 page.reindexObject()
                 snippets[page.getId()] = self.contents_row_snippet(
-                    item=self._make_dict_and_translate(page, 
+                    item=self._make_dict_and_translate(page,
                                                        self.needed_values[item_type]),
                     item_type=item_type)
-                
+            
             #self.context.manage_renameObjects(sources, [d['title'] for d in fields])
             return snippets
 
