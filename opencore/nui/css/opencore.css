@@ -401,6 +401,7 @@ dl.oc-member-info dd {
   font-size: 14px;
 }
 ul.oc-tabs {
+  margin-top: -1.5em;
  line-height: 1.9em;
 }
 .oc-tabs li a {
@@ -587,6 +588,19 @@ a.oc-button:hover {
 .oc-paginator li {
   display: inline;
   padding: 0 .25em;
+}
+/* bcrumb */
+.oc-bcrumb {
+  padding: 0;
+  margin: 0;
+  display: inline;
+  font-size: 12px;
+}
+.oc-bcrumb li {
+  display: inline;
+}
+.oc-bcrumb .oc-bcrumb-current {
+  font-size: 14px;
 }
 a.oc-close {
   position: absolute;
@@ -995,8 +1009,15 @@ li.oc-invite .oc-invite-content {
 --------------------------*/
 .oc-liveEdit-value,
 .oc-liveItem-value {
-  border-bottom: 1px solid transparent;
-  border-bottom: 1px dotted #256E81; 
+  /* border-bottom: 1px solid transparent;
+  border-bottom: 1px dotted #256E81; */
+}
+a.oc-liveItem_editLink,
+a.oc-liveItem_editLink:visited {
+  color: #999;
+  text-decoration: none;
+  font-size: 9px;
+  text-transform: uppercase;
 }
 .oc-liveEdit-value .oc-liveEdit-hover,
 .oc-liveItem-hover {
@@ -1111,13 +1132,12 @@ address {
     #oc-error-handling
   {
   font-size: 10px;
-  line-height: 1.8em;
+  line-height: 1.9em;
 }
 #oc-content-sidebar .smallText,
 #oc-content-sidebar .discreetText {
 	font-size: 10px;
 }
-
 .oc-discreetText {
   color: #999;
 }

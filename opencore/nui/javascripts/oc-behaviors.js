@@ -28,7 +28,8 @@ OC.liveElementKey = {
   ".oc-expander" : "Expander",
   "#version_compare_form" : "HistoryList",
   "#oc-join-form" : "JoinForm",
-  ".oc-liveForm" : "LiveForm"
+  ".oc-liveForm" : "LiveForm",
+  ".oc-liveItem" : "LiveItem"
 }
     
 /* 
@@ -49,10 +50,6 @@ OC.breatheLife = function() {
       
         //get an Ext Obj for your element
         var extEl = Ext.get(elements[i]);
-        
-        // check if an object already exists for this.  If not, create one.
-        if (OC.liveElements[extEl.dom.id])
-          continue;
         
         //get reference to the proper constructor
         var constructor = OC[this.liveElementKey[selector]];        
@@ -126,56 +123,7 @@ OC.LiveForm = function(extEl) {
       }
     }
      checkAll.on('click', _checkAllClick, this); 
-  }
-  
-  // live items
-  if (liveItems) {
-    liveItems.each(function(extEl) {
-      // get references
-      var value = Ext.get(Ext.query('.oc-liveItem-value', extEl.dom)[0]); 
-      var editForm = Ext.get(Ext.query('.oc-liveItem-editForm', extEl.dom)[0]);
-      var toggleLinks = Ext.select(Ext.query('.oc-liveItem_toggle', extEl.dom))
-      
-      if (!value || !editForm) {
-        OC.debug("liveItems.each: Couldn't get element refs");
-        return;
-      }
-      
-      // settings
-      value.setVisibilityMode(Ext.Element.DISPLAY);
-      editForm.setVisibilityMode(Ext.Element.DISPLAY);
-      editForm.hide();
-      
-      function _toggleForm() {
-        value.toggle();
-        editForm.toggle();
-      }
-      
-      // liveEdit value behaviors
-      function _valueMouseover(e, el, o) {
-        value.addClass('oc-liveItem-hover');
-      }
-      value.on('mouseover', _valueMouseover, this);
-      
-      function _valueMouseout(e, el, o) {
-        value.removeClass('oc-liveItem-hover');
-      }
-      value.on('mouseout', _valueMouseout, this);
-      
-      function _valueClick(e,el,o) {
-        _toggleForm();
-      }
-      value.on('click', _valueClick, this)
-      
-      // toggle link
-      function _toggleLinksClick(e, el, o) {
-        YAHOO.util.Event.stopEvent(e);
-        _toggleForm();
-      }
-      toggleLinks.on('click', _toggleLinksClick, this);
-      
-    }, this);
-  }
+  }  
   
   // action links
   if (actionLinks) {
@@ -220,15 +168,24 @@ OC.LiveForm = function(extEl) {
     OC.debug('_afterSuccess');
     updater = _getUpdater(requestData);
     OC.debug('updater.task: ' + updater.task);
-    OC.debug('updater.target: ');
     
     switch (updater.task) {
       case "update" :
         // replace element
-        o.responseText = Ext.util.Format.trim(o.responseText);
+        var response = eval( "(" + o.responseText + ")" );
+        for (elId in response) {
+          var target = Ext.get(elId);
+          var html = Ext.util.Format.trim(response[elId]);
+          var newNode = Ext.DomHelper.insertHtml("beforeBegin", target.dom, html);
+          target.remove();
+          Ext.get(newNode).highlight();
+        }
+        
+        /* o.responseText = Ext.util.Format.trim(o.responseText);
         var newNode = Ext.DomHelper.insertHtml("beforeBegin", updater.target.dom, o.responseText);
         updater.target.remove();
         Ext.get(newNode).highlight();
+        */
       break;
       
       case "delete" :
@@ -262,6 +219,58 @@ OC.LiveForm = function(extEl) {
   }
 }
 
+/* 
+#
+# Live Items
+#
+*/
+OC.LiveItem = function(extEl) {
+
+      // get references
+      var value = Ext.get(Ext.query('.oc-liveItem-value', extEl.dom)[0]); 
+      var editForm = Ext.get(Ext.query('.oc-liveItem-editForm', extEl.dom)[0]);
+      var toggleLinks = Ext.select(Ext.query('.oc-liveItem_toggle', extEl.dom))
+      
+      if (!value || !editForm) {
+        OC.debug("liveItems.each: Couldn't get element refs");
+        return;
+      }
+      
+      // settings
+      value.setVisibilityMode(Ext.Element.DISPLAY);
+      editForm.setVisibilityMode(Ext.Element.DISPLAY);
+      editForm.hide();
+      
+      function _toggleForm() {
+        value.toggle();
+        editForm.toggle();
+      }
+      
+      // liveEdit value behaviors
+      function _valueMouseover(e, el, o) {
+        value.addClass('oc-liveItem-hover');
+      }
+      value.on('mouseover', _valueMouseover, this);
+      
+      function _valueMouseout(e, el, o) {
+        value.removeClass('oc-liveItem-hover');
+      }
+      value.on('mouseout', _valueMouseout, this);
+      
+      function _valueClick(e,el,o) {
+        _toggleForm();
+      }
+      value.on('click', _valueClick, this)
+      
+      // toggle link
+      function _toggleLinksClick(e, el, o) {
+        YAHOO.util.Event.stopEvent(e);
+        _toggleForm();
+      }
+      toggleLinks.on('click', _toggleLinksClick, this);
+      
+      return this;
+}
 
 /* 
 #
