@@ -8,7 +8,9 @@
     >>> view
     <...SimpleViewClass ...contents.pt ...>
 
-The view has properties to get info for all of its wiki pages, file attachments and mailing lists::
+The view has properties to get info for all of its wiki pages, file
+attachments and mailing lists::
+
     >>> view.pages
     [{...}]
     >>> len(view.pages)

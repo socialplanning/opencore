@@ -1,0 +1,14 @@
+
+<ul id="oc-usermenu-list">
+
+  <li>
+    Explore
+    <tal:exploremenu replace="structure context/topnav-explore-menu" />
+  </li>
+
+  <li tal:repeat="menuitem view/menudata">
+    <a tal:attributes="href menuitem/href"
+       tal:content="menuitem/content" />
+  </li>
+
+</ul>
