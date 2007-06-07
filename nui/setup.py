@@ -1,7 +1,7 @@
 from topp.utils import config
 from Products.OpenPlans.Extensions.setup import convertFunc, reinstallTypes
 from Products.OpenPlans.Extensions.Install import install_workflow_map, \
-     installNewsFolder
+     installNewsFolder, securityTweaks
 from Products.OpenPlans.Extensions.Install import setupPeopleFolder, \
      setupProjectLayout, setupHomeLayout
 from Products.OpenPlans.Extensions.Install import createMemIndexes
@@ -78,6 +78,7 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      install_confirmation_workflow=convertFunc(install_confirmation_workflow),
                      setupPeopleFolder=convertFunc(setupPeopleFolder),
                      setupProjectLayout=convertFunc(setupProjectLayout),
+                     securityTweaks=convertFunc(securityTweaks),
                      )
 
 nui_functions['Update Method Aliases']=convertFunc(set_method_aliases)
