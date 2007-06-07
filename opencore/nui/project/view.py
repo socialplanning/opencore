@@ -32,10 +32,10 @@ def octopus_form_handler(func):
     """
     def inner(self):
         # XXX todo don't rely on underscore special character
-        target, action = self.request.get("task").split("_")
+        target, action = self.request.form.get("task").split("_")
 
-        if target == 'batch' and self.request.get('batch[]'):
-            target = self.request.get("batch[]")
+        if target == 'batch' and self.request.form.get('batch[]'):
+            target = self.request.form.get("batch[]")
         if type(target) != type([]):
             target = [target]
 
@@ -46,11 +46,11 @@ def octopus_form_handler(func):
             filterby = item + '_'
             keys = [key for key in self.request.form if key.startswith(filterby)]
             for key in keys:
-                itemdict[key.replace(filterby, '')] = self.request.get(key)
+                itemdict[key.replace(filterby, '')] = self.request.form.get(key)
             fields.append(itemdict)
-        
+
         ret = func(self, action, target, fields)
-        mode = self.request.get("mode")
+        mode = self.request.form.get("mode")
         if mode == "async":
             return ret
         return self.redirect(self.request.environ['HTTP_REFERER'])
@@ -96,7 +96,6 @@ class ProjectContentsView(BaseView):
                 if val is None: continue
                 break
             if val is None:
-                import pdb; pdb.set_trace()
                 raise Exception("Could not fetch a %s value from the object %s among the accessors %s!" % (
                         field, obj, list(needed_values[field])))
             if callable(val): val = val()
@@ -137,7 +136,7 @@ class ProjectContentsView(BaseView):
 
     @octopus_form_handler
     def modify_contents(self, action, sources, fields=None):
-        item_type = self.request.get("item_type")
+        item_type = self.request.form.get("item_type")
         parent = self.context
         
         if item_type == 'lists':
