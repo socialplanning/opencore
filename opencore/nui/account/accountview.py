@@ -142,17 +142,18 @@ class ConfirmAccountView(AccountView):
 class InitialLogin(BaseView):
     
     def first_login(self):
+        member = self.membertool.getAuthenticatedMember()
         if not self.membertool.getHomeFolder():
-            member = self.membertool.getAuthenticatedMember()
             self.membertool.createMemberArea(member.getId())
 
-        folder=self.membertool.getHomeFolder(login)
+        folder=self.membertool.getHomeFolder(member.getId())
         
         # Go to the user's Profile Page in Edit Mode
         self.addPortalStatusMessage(u'Welcome to OpenPlans!')
-        return self.redirect("%s/%s" %(folder.absolute_url(), 'profile'))
+        return self.redirect("%s/%s" %(folder.absolute_url(), 'profile-edit'))
 
-
+    def __call__(self, *args, **kw):
+        return self.first_login()
 
 class ForgotLoginView(BaseView):
 
