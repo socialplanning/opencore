@@ -1,17 +1,17 @@
 """
 views pertaining to accounts -- creation, login, password reset
 """
-from smtplib import SMTPRecipientsRefused
-
-from Products.Five import BrowserView
-from Products.CMFCore.utils import getToolByName
-from Products.remember.utils import getAdderUtility
-from plone.memoize import instance
-from opencore.nui.base import BaseView, button, post_only, anon_only
-from zExceptions import Forbidden, Redirect
-from Globals import DevelopmentMode as DEVMODE
-from opencore.siteui.member import notifyFirstLogin
 from AccessControl.SecurityManagement import newSecurityManager
+from Globals import DevelopmentMode as DEVMODE
+from Products.CMFCore.utils import getToolByName
+from Products.Five import BrowserView
+from Products.remember.utils import getAdderUtility
+from opencore.nui.base import BaseView, button, post_only, anon_only
+from opencore.siteui.member import notifyFirstLogin
+from plone.memoize import instance
+from smtplib import SMTPRecipientsRefused
+from zExceptions import Forbidden, Redirect
+
 
 class AccountView(BaseView):
     """
@@ -28,6 +28,7 @@ class AccountView(BaseView):
         self.request.set('__ac_name', member_id)
         auth.login()
         self.membertool.setLoginTimes()
+
 
 class JoinView(BaseView):
 
