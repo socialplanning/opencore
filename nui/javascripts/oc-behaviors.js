@@ -84,10 +84,10 @@ OC.LiveForm = function(extEl) {
 
   // check required refs
   if (!liveForm) {
-    OC.debug("couldn't get element references")
+    OC.debug("LiveForm: couldn't get element references")
     return;
   }  else {
-    OC.debug('Got element references');
+    OC.debug('LiveForm: Got element references');
   }
   
   // properties
@@ -113,7 +113,8 @@ OC.LiveForm = function(extEl) {
   }
   
   // check all box
-  if (checkAll) {
+  if (checkAll) { 
+    checkAll.removeAllListeners();
     function _checkAllClick(e, el, o) {
       OC.debug('_checkAllClick');
       var boxes = Ext.select(Ext.query('input[type=checkbox]', liveForm.dom));
@@ -123,11 +124,13 @@ OC.LiveForm = function(extEl) {
         boxes.set({checked: false}, false);
       }
     }
+     
      checkAll.on('click', _checkAllClick, this); 
   }  
   
   // action links
   if (actionLinks) {
+    actionLinks.removeAllListeners();;
     function _actionLinkClick(e, el, o) {
       YAHOO.util.Event.stopEvent(e);
       
@@ -162,6 +165,7 @@ OC.LiveForm = function(extEl) {
       "mode=async"
     );
   }
+  liveForm.removeAllListeners();
   liveForm.on('submit', _formSubmit, this);
   
   // after success
