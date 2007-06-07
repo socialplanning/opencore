@@ -19,10 +19,11 @@ class AccountView(BaseView):
 
     def login(self, member_id):
         """login a user programmatically"""
-        auth = getToolByName(getToolByName(self.portal, "acl_users"),
-                             "credentials_signed_cookie_auth")
-        auth.updateCredentials(self.request, self.request.response,
+        acl = self.get_tool("acl_users")
+        auth = acl.credentials_signed_cookie_auth
+        auth.updateCredentials(self.request, self.response,
                                member_id, None)
+        auth.login()
 
 class JoinView(BaseView):
 
