@@ -130,3 +130,55 @@ class ProjectMenuView(OpencoreView):
                 )
 
         return menudata
+
+
+class AnonMenuView(OpencoreView):
+    """
+    View class for the user menu when user is anonymous.
+    """
+    @memoizedproperty
+    def menudata(self):
+        menudata = (
+
+            {'content': 'Log In',
+             'href': '%s/login' % self.siteURL,
+             },
+
+            {'content': 'Join',
+             'href': '%s/join' % self.siteURL,
+             },
+
+            {'content': 'Help',
+             'href': '%s/help' % self.siteURL,
+             },
+
+            )
+
+        return menudata
+
+
+class AuthMenuView(OpencoreView):
+    """
+    View class for the user menu when user is logged in.
+    """
+    @memoizedproperty
+    def menudata(self):
+        mem_data = self.mem_data_map
+        
+        menudata = (
+
+            {'content': "%s's Stuff" % mem_data.get('id'),
+             'href': mem_data.get('url'),
+             },
+
+            {'content': 'Log Out',
+             'href': '%s/logout' % self.siteURL,
+             },
+
+            {'content': 'Help',
+             'href': '%s/help' % self.siteURL,
+             },
+
+            )
+
+        return menudata
