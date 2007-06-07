@@ -23,10 +23,10 @@
   <!-- topnav-member-menu -->
   <browser:page
      for="*"
-     class=".topnav.TopNavView"
+     class=".topnav.MemberMenuView"
      permission="zope.Public"
      name="topnav-member-menu"
-     template="member-menu.pt"
+     template="context-menu.pt"
      />
 
   <!-- topnav-default-menu -->

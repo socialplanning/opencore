@@ -1,0 +1,17 @@
+<ul id="oc-topnav-context" class="oc-clearAfter">
+
+  <tal:menuitem repeat="menuitem view/menudata">
+    <li tal:condition="menuitem/selected"
+        class="oc-topnav-selected">
+      <a tal:attributes="href menuitem/href"
+         tal:content="menuitem/content" />
+    </li>
+
+    <li tal:condition="not: menuitem/selected">
+      <a tal:attributes="href menuitem/href"
+         tal:content="menuitem/content" />
+    </li>
+      
+  </tal:menuitem>
+
+</ul>
