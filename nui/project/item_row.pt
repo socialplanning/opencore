@@ -1,24 +1,24 @@
 <tal:macro metal:define-macro="item_row"
 	   tal:define="item item | options/item;
 		       item_type item_type | options/item_type">
-  <tr class="oc-liveItem" tal:attributes="id item/getId">
+  <tr class="oc-liveItem" tal:attributes="id item/id">
     <td>
       <input type="checkbox" name="batch[]"
-             tal:attributes="value item/getId" />
+             tal:attributes="value item/id" />
     </td>
     <td>
       <div class="oc-liveItem-value">
-        <a tal:attributes="href item/getURL | item/absolute_url_path">
-          <tal:dummy replace="item/Title" />
+        <a tal:attributes="href item/url">
+          <tal:dummy replace="item/title" />
         </a>
       </div>
       
       <div class="oc-liveItem-editForm">
         <input type="text" 
-               tal:attributes="name string:${item/getId}_title; value string:${item/Title}" 
+               tal:attributes="name string:${item/id}_title; value string:${item/title}" 
                />
         <button type="submit" name="task"
-                tal:attributes="value string:${item/getId}_update">
+                tal:attributes="value string:${item/id}_update">
           Save
         </button>
         or
@@ -28,20 +28,20 @@
       </div>
     </td>
     <td>
-      <tal:dummy replace="item/getObjSize" />
+      <tal:dummy replace="item/obj_size" />
     </td>
     <td>
-      <tal:dummy replace="item/ModificationDate" />
+      <tal:dummy replace="item/obj_date" />
       by
-      <a tal:attributes="href string:${view/siteURL}/people/${item/lastModifiedAuthor}">
-        <tal:dummy replace="item/lastModifiedAuthor" />
+      <a tal:attributes="href string:${view/siteURL}/people/${item/obj_author}">
+        <tal:dummy replace="item/obj_author" />
       </a>
     </td>
     <td>
       <ul class="oc-actions oc-dataTable-row-actions">
         <li>
           <a class="oc-actionLink"
-             tal:attributes="href string:modify-contents?task=${item/getId}_delete&item_type=${item_type}">
+             tal:attributes="href string:modify-contents?task=${item/id}_delete&item_type=${item_type}">
             Delete
           </a>
         </li>

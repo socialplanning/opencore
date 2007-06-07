@@ -62,30 +62,71 @@ class ProjectContentsView(BaseView):
     
     contents_row_snippet = ZopeTwoPageTemplateFile('item_row.pt')
 
+    needed_values = {'pages':{'id':('getId',),
+                              'title':('Title',),
+                              'url':('getURL',
+                                     'absolute_url_path',),
+                              'obj_size':('getObjSize',),
+                              'obj_date':('ModificationDate',),
+                              'obj_author':('lastModifiedAuthor',),
+                              },
+                     'files':{'id':('getId',),
+                              'title':('Title',),
+                              'url':('getURL',
+                                     'absolute_url_path',),
+                              'obj_size':('getObjSize',),
+                              'obj_date':('Date',),
+                              'obj_author':('Creator',),
+                              },
+                     'lists':{'id':('getId',),
+                              'title':('Title',),
+                              'url':('getURL',
+                                     'absolute_url_path',),
+                              'obj_size':('getObjSize',),
+                              'obj_date':('Date',),
+                              'obj_author':('Creator',),
+                              },
+                     }
+
+    def _make_dict_and_translate(self, obj, needed_values):
+        obj_dict = {}
+        for field in needed_values: # loop through fields that we need
+            for obj_field in needed_values[field]: # loop through object-specific ways of getting the field
+                val = getattr(obj, obj_field, None)
+                if val is None: continue
+                break
+            if val is None:
+                import pdb; pdb.set_trace()
+                raise Exception("Could not fetch a %s value from the object %s among the accessors %s!" % (
+                        field, obj, list(needed_values[field])))
+            if callable(val): val = val()
+            obj_dict[field] = val
+        return obj_dict
+
     @memoizedproperty
     def pages(self):
         brains = self.catalog(portal_type="Document",
                               path='/'.join(self.context.getPhysicalPath()))
-        return brains
+        needed_values = self.needed_values['pages']
+        return [self._make_dict_and_translate(brain, needed_values) for brain in brains]
 
     @memoizedproperty
     def lists(self):
-        return self.catalog(portal_type="Open Mailing List",
-                            path='/'.join(self.context.getPhysicalPath()))
+        brains = self.catalog(portal_type="Open Mailing List",
+                              path='/'.join(self.context.getPhysicalPath()))
+        needed_values = self.needed_values['lists']
+        return [self._make_dict_and_translate(brain, needed_values) for brain in brains]
+
 
     @memoizedproperty
     def files(self):
-        return self.catalog(portal_type=("FileAttachment","Image"),
-                            path='/'.join(self.context.getPhysicalPath()))
+        brains = self.catalog(portal_type=("FileAttachment","Image"),
+                              path='/'.join(self.context.getPhysicalPath()))
+        needed_values = self.needed_values['files']
+        return [self._make_dict_and_translate(brain, needed_values) for brain in brains]
 
-    def _make_dict(self, obj):
-        needed_values = ('getId',
-                         'Title',
-                         'getURL',
-                         'absolute_url_path',
-                         'getObjSize',
-                         'ModificationDate',
-                         'lastModifiedAuthor',)
+
+    def _make_dict(self, obj, needed_values):
         obj_dict = {}
         for field in needed_values:
             val = getattr(obj, field, None)
@@ -98,6 +139,7 @@ class ProjectContentsView(BaseView):
     def modify_contents(self, action, sources, fields):
         item_type = self.request.get("item_type")
         parent = self.context
+        
         if item_type == 'lists':
             parent = self.context.lists
         
@@ -111,8 +153,10 @@ class ProjectContentsView(BaseView):
                 page = parent.restrictedTraverse(old)
                 page.setTitle(new['title'])
                 page.reindexObject()
-                snippets[page.getId()] = self.contents_row_snippet(item=self._make_dict(page),
-                                                                   item_type=item_type)
+                snippets[page.getId()] = self.contents_row_snippet(
+                    item=self._make_dict_and_translate(page, 
+                                                       self.needed_values[item_type]),
+                    item_type=item_type)
                 
             #self.context.manage_renameObjects(sources, [d['title'] for d in fields])
             return snippets
