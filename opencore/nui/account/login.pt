@@ -13,7 +13,7 @@
 
           <div id="oc-content-main">
             <form method="post" id="oc-login-form"
-                  tal:attributes="action string:${context/absolute_url}/logged_in">
+                  tal:attributes="action string:${context/absolute_url}/login">
 
               <input type="hidden" name="form.submitted" value="1" />
               <input type="hidden" name="js_enabled" id="js_enabled" value="0" />
