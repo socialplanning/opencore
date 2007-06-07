@@ -14,9 +14,11 @@
           style="white-space:nowrap"
           onsubmit="return liveSearchSubmit()">
 
-      <img src="++resource++img/logo.gif"
-           style="display: inline; vertical-align: bottom;" />
-      <!--label for="searchGadget" class="hiddenStructure">Search Site</label-->
+      <a tal:attributes="href view/siteURL">
+        <img src="++resource++img/logo.gif"
+             style="display: inline; vertical-align: bottom;" />
+        <!--label for="searchGadget" class="hiddenStructure">Search Site</label-->
+      </a>
 
       <input id="searchGadget" name="search_string"
              type="text" size="10" title="Search Site"
