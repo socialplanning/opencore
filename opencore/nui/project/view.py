@@ -136,7 +136,7 @@ class ProjectContentsView(BaseView):
         return obj_dict
 
     @octopus_form_handler
-    def modify_contents(self, action, sources, fields):
+    def modify_contents(self, action, sources, fields=None):
         item_type = self.request.get("item_type")
         parent = self.context
         
