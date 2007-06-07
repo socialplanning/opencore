@@ -38,17 +38,30 @@
       <div id="oc-content-main" class="oc-content-main-fullWidth">
 
         <div class="oc-wiki">
-          <div class="headingBlock oc-wiki-headingBlock">
-            <h2 tal:content="context/Title"></h2>
-          </div>
-
-          <div metal:use-macro="here/@@wiki_macros/tabs"/>
+        
 
           <form name="edit_form"
             method="post"
             enctype="multipart/form-data"
             class="enableUnloadProtection"
             tal:attributes="action string:${here/absolute_url}/@@update">
+            
+          <div class="headingBlock oc-wiki-headingBlock">
+            <ul class="oc-bcrumb">
+            <!-- <li><a href="#">My Great Project</a> /</li> -->
+            <li class="oc-liveItem">
+              <span class="oc-liveItem-value">
+                <span class="oc-bcrumb-current" tal:content="context/Title" />
+                <a href="#" class="oc-liveItem_toggle oc-liveItem_editLink">EDIT</a>
+              </span>
+              <div class="oc-liveItem-editForm">
+                <input type="text" tal:attributes="value string:${context/Title}" /> <a href="#" class="oc-liveItem_toggle" >Cancel</a>
+              </div>
+              </li>
+            </ul>
+          </div>
+
+           <div metal:use-macro="here/@@wiki_macros/tabs"/>
             
             <div class="oc-wiki-edit" >
               <div class="oc-wiki-edit-content">
