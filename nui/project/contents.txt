@@ -16,6 +16,47 @@ The view has properties to get info for all of its wiki pages, file attachments 
     >>> view.files
     []
 
+
+
+Object abstraction
+==================
+
+_make_dict_and_translate is a non-public method for abstracting
+objects: given an object and an attribute translation dictionary,
+it will return a dictionary of attributes and values for that object.
+This allows templates to ignore object details like the precise spelling
+of their attributes. Translation dictionaries are defined for Documents,
+FileAttachments, Images, and Mailing Lists in ProjectContentsView.needed_values
+
+    >>> pages = view.catalog(portal_type="Document",
+    ...                      path='/'.join(view.context.getPhysicalPath()))
+    >>> trans = view.needed_values['pages']
+    >>> d1 = view._make_dict_and_translate(pages[0], trans)
+    >>> d2 = view._make_dict_and_translate(pages[0].getObject(), trans)
+    >>> d1 == d2
+    True
+
+    >>> pages = view.catalog(portal_type="Mailing Lists",
+    ...                      path='/'.join(view.context.getPhysicalPath()))
+    >>> trans = view.needed_values['lists']
+    >>> d1 = view._make_dict_and_translate(pages[0], trans)
+    >>> d2 = view._make_dict_and_translate(pages[0].getObject(), trans)
+    >>> d1 == d2
+    True
+
+    >>> pages = view.catalog(portal_type=("FileAttachment","Image"),
+    ...                      path='/'.join(view.context.getPhysicalPath()))
+    >>> trans = view.needed_values['files']
+    >>> d1 = view._make_dict_and_translate(pages[0], trans)
+    >>> d2 = view._make_dict_and_translate(pages[0].getObject(), trans)
+    >>> d1 == d2
+    True
+
+
+
+Multipart-Form handler
+======================
+
 modify_contents is the view's form handler. It takes an action, a list
 of sources, and a list of dicts of fields and values to apply to the
 sources. These are all filled and passed in from the request via the
