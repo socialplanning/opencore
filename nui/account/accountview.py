@@ -11,6 +11,7 @@ from opencore.nui.base import BaseView, button, post_only, anon_only
 from zExceptions import Forbidden, Redirect
 from Globals import DevelopmentMode as DEVMODE
 from opencore.siteui.member import notifyFirstLogin
+from AccessControl.SecurityManagement import newSecurityManager
 
 class AccountView(BaseView):
     """
@@ -93,7 +94,7 @@ class JoinView(BaseView):
                            mto=email,
                            mfrom=mfrom,
                            subject='OpenPlans account registration')
-        
+
 
 class ConfirmAccountView(AccountView):
 
@@ -126,10 +127,6 @@ class ConfirmAccountView(AccountView):
         setattr(member, 'isConfirmable', True)
         pf.doActionFor(member, 'register_public')
         delattr(member, 'isConfirmable')
-
-    def setup_memberarea(self):
-        self.membertool.createMemberArea()
-        notifyFirstLogin(self.member, self.request)
         
     def __call__(self, *args, **kw):
         member = self.member
@@ -139,17 +136,22 @@ class ConfirmAccountView(AccountView):
         
         self.confirm(member)
         
-        login = member.getId()
-        
-        self.login(login)
-        self.setup_memberarea()
+        self.login(member.getId())
+        return self.redirect("%s/init-login" %self.siteURL)
+
+class InitialLogin(BaseView):
+    
+    def first_login(self):
+        if not self.membertool.getHomeFolder():
+            member = self.membertool.getAuthenticatedMember()
+            self.membertool.createMemberArea(member.getId())
+
+        folder=self.membertool.getHomeFolder(login)
         
         # Go to the user's Profile Page in Edit Mode
         self.addPortalStatusMessage(u'Welcome to OpenPlans!')
-
-        folder=self.membertool.getHomeFolder(login)
-
         return self.redirect("%s/%s" %(folder.absolute_url(), 'profile'))
+
 
 
 class ForgotLoginView(BaseView):
