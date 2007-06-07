@@ -31,22 +31,6 @@ class AccountView(BaseView):
 
 class JoinView(BaseView):
 
-    def __call__(self, *args, **kw):
-        context = self.context
-        mdc = getToolByName(context, 'portal_memberdata')
-        adder = getAdderUtility(context)
-        type_name = adder.default_member_type
-
-        #00 pythonscript call, move to fs code
-        id_ = context.generateUniqueId(type_name)
-        mem = mdc.restrictedTraverse('portal_factory/%s/%s' % (type_name, id_))
-        self.txn_note('Initiated creation of %s with id %s in %s' % \
-                             (mem.getTypeInfo().getId(),
-                              id_,
-                              context.absolute_url()))
-        self.temp_mem_id = id_
-        return self.index(*args, **kw)
-
     @button('join')
     @post_only(raise_=False)
     def handle_request(self):
@@ -55,7 +39,7 @@ class JoinView(BaseView):
         adder = getAdderUtility(context)
         type_name = adder.default_member_type
 
-        temp_mem_id = self.request.get('temp_mem_id')
+        temp_mem_id = self.temp_mem_id
         mem = mdc.portal_factory.restrictedTraverse("%s/%s" % (type_name, temp_mem_id))
 
         self.errors = {}
@@ -74,16 +58,36 @@ class JoinView(BaseView):
         if DEVMODE:
             return dict(confirmation=url, devmode=True, member_id=mem_id)
         else:
-            self._sendMailToPendingUser(id=mem_id,
+            self._sendmail_to_pendinguser(id=mem_id,
                                         email=self.request.get('email'),
                                         url=url)
             return mdc._getOb(mem_id)
+
+    @instance.memoizedproperty
+    def temp_mem_id(self):
+        # only want to create one dummy
+        id_ = self.request.get('temp_mem_id')
+        if id_:
+            return id_
+
+        mdc = self.get_tool('portal_memberdata')
+        adder = getAdderUtility(self.context)
+        type_name = adder.default_member_type
+
+        #00 pythonscript call, move to fs code
+        id_ = self.context.generateUniqueId(type_name)
+        mem = mdc.restrictedTraverse('portal_factory/%s/%s' % (type_name, id_))
+        self.txn_note('Initiated creation of %s with id %s in %s' % \
+                             (mem.getTypeInfo().getId(),
+                              id_,
+                              self.context.absolute_url()))
+        return id_
 
     def _confirmation_url(self, mem):
         code = mem.getUserConfirmationCode()
         return "%s/confirm-account?key=%s" % (self.siteURL, code)
     
-    def _sendMailToPendingUser(self, id, email, url):
+    def _sendmail_to_pendinguser(self, id, email, url):
         """ send a mail to a pending user """
         ## XX todo only send mail if in the pending workflow state
         mailhost_tool = getToolByName(self.context, "MailHost")
@@ -139,6 +143,7 @@ class ConfirmAccountView(AccountView):
         self.login(member.getId())
         return self.redirect("%s/init-login" %self.siteURL)
 
+
 class InitialLogin(BaseView):
     
     def first_login(self):
@@ -152,8 +157,6 @@ class InitialLogin(BaseView):
         self.addPortalStatusMessage(u'Welcome to OpenPlans!')
         return self.redirect("%s/%s" %(folder.absolute_url(), 'profile-edit'))
 
-    def __call__(self, *args, **kw):
-        return self.first_login()
 
 class ForgotLoginView(BaseView):
 
