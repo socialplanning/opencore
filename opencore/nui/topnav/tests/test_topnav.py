@@ -4,6 +4,7 @@ import unittest
 from plone.memoize.view import ViewMemo
 from zope.annotation.interfaces import IAnnotations
 from zope.interface import alsoProvides
+from zope.component import getMultiAdapter
 
 from Products.CMFCore.utils import getToolByName
 
@@ -18,21 +19,26 @@ class TestTopNav(OpenPlansTestCase):
 
     layer = OpencoreContent
 
+    def afterSetUp(self):
+        OpenPlansTestCase.afterSetUp(self)
+        self.request = self.portal.REQUEST
+        
     def clearMemoCache(self):
-        req = self.portal.REQUEST
+        req = self.request
         annotations = IAnnotations(req)
         cache = annotations.get(ViewMemo.key, None)
         if cache is not None:
             annotations[ViewMemo.key] = dict()
 
     def test_contextmenu(self):
-        topnav = self.portal.unrestrictedTraverse('oc-topnav')
+        req = self.request
+        topnav = getMultiAdapter((self.portal, req), name='oc-topnav')
         self.assertEqual(topnav.contextmenu.name,
                          'topnav-default-menu')
 
         self.clearMemoCache()
         proj = self.portal.projects.p1
-        topnav = proj.unrestrictedTraverse('oc-topnav')
+        topnav = getMultiAdapter((proj, req), name='oc-topnav')
         self.assertEqual(topnav.contextmenu.name,
                          'topnav-project-menu')
 
@@ -41,10 +47,23 @@ class TestTopNav(OpenPlansTestCase):
         mtool.createMemberArea('m1')
         memhome = self.portal.people.m1
         alsoProvides(memhome, IMemberFolder)
-        topnav = memhome.unrestrictedTraverse('oc-topnav')
+        topnav = getMultiAdapter((memhome, req), name='oc-topnav')
         self.assertEqual(topnav.contextmenu.name,
                          'topnav-member-menu')
         
+    def test_usermenu(self):
+        req = self.request
+        self.login('m1')
+        topnav = getMultiAdapter((self.portal, req), name='oc-topnav')
+        self.assertEqual(topnav.usermenu.name,
+                         'topnav-auth-user-menu')
+
+        self.clearMemoCache()
+        self.logout()
+        topnav = getMultiAdapter((self.portal, req), name='oc-topnav')
+        self.assertEqual(topnav.usermenu.name,
+                         'topnav-anon-user-menu')
+
 
 def test_suite():
     suite = unittest.TestSuite()
