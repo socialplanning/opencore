@@ -11,7 +11,7 @@ if (typeof OC == "undefined") {
 }
 
 // where we'll store all our live elementshist
-OC.liveElements = new Array();
+ OC.liveElements = new Array();
     
 /* 
 #
@@ -39,6 +39,7 @@ OC.liveElementKey = {
 #
 */
 OC.breatheLife = function() {
+  
   // loop through selectors specified above
   for (var selector in OC.liveElementKey) {
     
@@ -50,16 +51,16 @@ OC.breatheLife = function() {
       
         //get an Ext Obj for your element
         var extEl = Ext.get(elements[i]);
-        
+                
         //get reference to the proper constructor
         var constructor = OC[this.liveElementKey[selector]];        
-        
         
         // add a new liveElement to OC.liveElements
         OC.liveElements[extEl.dom.id] = new constructor(extEl);
       }
     }      
   }
+
 } // OC.breatheLife()
 
 
@@ -236,12 +237,18 @@ OC.LiveItem = function(extEl) {
         return;
       }
       
+      // remove listeners.  For when we re-breathe life
+      value.removeAllListeners();
+      editForm.removeAllListeners();
+      toggleLinks.removeAllListeners();
+      
       // settings
       value.setVisibilityMode(Ext.Element.DISPLAY);
       editForm.setVisibilityMode(Ext.Element.DISPLAY);
       editForm.hide();
       
       function _toggleForm() {
+        OC.debug('_toggleForm');
         value.toggle();
         editForm.toggle();
       }
@@ -260,7 +267,7 @@ OC.LiveItem = function(extEl) {
       function _valueClick(e,el,o) {
         _toggleForm();
       }
-      value.on('click', _valueClick, this)
+      value.on('click', _valueClick, this);
       
       // toggle link
       function _toggleLinksClick(e, el, o) {
