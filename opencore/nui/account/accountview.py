@@ -10,6 +10,7 @@ from plone.memoize import instance
 from opencore.nui.base import BaseView, button, post_only, anon_only
 from zExceptions import Forbidden, Redirect
 from Globals import DevelopmentMode as DEVMODE
+from opencore.siteui.member import notifyFirstLogin
 
 class AccountView(BaseView):
     """
@@ -23,6 +24,7 @@ class AccountView(BaseView):
         auth = acl.credentials_signed_cookie_auth
         auth.updateCredentials(self.request, self.response,
                                member_id, None)
+        self.request.set('__ac_name', member_id)
         auth.login()
 
 class JoinView(BaseView):
@@ -94,22 +96,26 @@ class JoinView(BaseView):
 
 class ConfirmAccountView(AccountView):
 
-    def __call__(self, *args, **kw):
+    @property
+    def key(self):
         key = self.request.get("key")
-
         assert key
+        return key
+    
+    @instance.memoizedproperty
+    def member(self):
+        member = None
         
         # we need to do an unrestrictedSearch because a default search
         # will filter results by user permissions
-        matches = self.membranetool.unrestrictedSearchResults(UID=key)
-        if not matches:
-            self.addPortalStatusMessage(u'Denied -- bad key')
-            return self.redirect("%s/%s" %(self.siteURL, 'login'))
-        
-        member = matches[0].getObject()
-        
-        # Move member into the confirmed workflow state
-        pf = getToolByName(self, "portal_workflow")
+        matches = self.membranetool.unrestrictedSearchResults(UID=self.key)
+        if len(matches):
+            member = matches[0].getObject()
+        return member
+
+    def confirm(self, member):
+        """Move member into the confirmed workflow state"""
+        pf = self.get_tool("portal_workflow")
         if pf.getInfoFor(member, 'review_state') != 'pending':
             self.addPortalStatusMessage(u'Denied -- no confirmation pending')
             return self.redirect(self.siteURL + '/login')
@@ -118,14 +124,20 @@ class ConfirmAccountView(AccountView):
         pf.doActionFor(member, 'register_public')
         delattr(member, 'isConfirmable')
 
-        # Automatically log the user in
+    def __call__(self, *args, **kw):
+        member = self.member
+        if not member:
+            self.addPortalStatusMessage(u'Denied -- bad key')
+            return self.redirect("%s/%s" %(self.siteURL, 'login'))
+        
+        self.confirm(member)
         self.login(member.getId())
-
+        notifyFirstLogin(member, self.request)
+        
         # Go to the user's Profile Page in Edit Mode
         self.addPortalStatusMessage(u'Welcome!')
-        self.addPortalStatusMessage(u'first time!')
 
-        return self.redirect(self.siteURL + '/logged_in')
+        return self.redirect("%s/%s" %(self.siteURL, 'login'))
 
 
 class ForgotLoginView(BaseView):
