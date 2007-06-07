@@ -1,8 +1,6 @@
 import os, sys
 import unittest
 
-from plone.memoize.view import ViewMemo
-from zope.annotation.interfaces import IAnnotations
 from zope.interface import alsoProvides
 from zope.component import getMultiAdapter
 
@@ -22,13 +20,6 @@ class TestTopNav(OpenPlansTestCase):
     def afterSetUp(self):
         OpenPlansTestCase.afterSetUp(self)
         self.request = self.portal.REQUEST
-        
-    def clearMemoCache(self):
-        req = self.request
-        annotations = IAnnotations(req)
-        cache = annotations.get(ViewMemo.key, None)
-        if cache is not None:
-            annotations[ViewMemo.key] = dict()
 
     def test_contextmenu(self):
         req = self.request
