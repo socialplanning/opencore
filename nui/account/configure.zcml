@@ -27,6 +27,13 @@
 
   <browser:page
      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     class=".accountview.InitialLogin"
+     permission="zope.Public"
+     name="init-login"
+     />
+
+  <browser:page
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      class=".accountview.ForgotLoginView"
      permission="zope.Public"
      name="forgot"
