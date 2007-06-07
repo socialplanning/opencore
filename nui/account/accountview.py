@@ -95,15 +95,15 @@ class ConfirmAccountView(AccountView):
 
     def __call__(self, *args, **kw):
         key = self.request.get("key")
+
+        assert key
         
         # we need to do an unrestrictedSearch because a default search
         # will filter results by user permissions
         matches = self.membranetool.unrestrictedSearchResults(UID=key)
         if not matches:
             self.addPortalStatusMessage(u'Denied -- bad key')
-            return self.redirect(self.siteURL + '/login')
-
-        assert len(matches) == 1
+            return self.redirect("%s/%s" %(self.siteURL, 'login'))
         
         member = matches[0].getObject()
         
@@ -118,7 +118,7 @@ class ConfirmAccountView(AccountView):
         delattr(member, 'isConfirmable')
 
         # Automatically log the user in
-        self.login(member.id)
+        self.login(member.getId())
 
         # Go to the user's Profile Page in Edit Mode
         self.addPortalStatusMessage(u'Welcome!')
