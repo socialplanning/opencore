@@ -61,7 +61,7 @@ def test_suite():
                                     )
 
     readme.layer = OpencoreContent
-    contents.layer = EthanLayer
+    contents.layer = OpencoreContent
 
     return unittest.TestSuite((readme, contents))
 
