@@ -6,14 +6,14 @@ from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 
 from zope.interface import implements
-from zope.component import queryView
+from zope.component import getMultiAdapter
 
 def saveWFPolicy(obj, event):
     """ IObjectModified event subscriber that changes the wf policy """
     req = obj.REQUEST
     new_policy = req.form.get('workflow_policy', '')
     if new_policy:
-        view = queryView(obj, u'policy_writer', req)
+        view = getMultiAdapter((obj, req), name=u'policy_writer')
         if view is not None:
             view.setPolicy(new_policy)
 
