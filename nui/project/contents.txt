@@ -1,9 +1,6 @@
-======================
- opencore.nui.project
-======================
-
-Contents view
-=============
+=======================
+ Project Contents View
+=======================
 
     >>> self.loginAsPortalOwner()
     >>> proj = self.portal.projects.p2
@@ -29,6 +26,7 @@ synchronous requests, a redirect back to the referer is issued.
 
 Let's set up a request to synchronously rename the first wiki page in
 the project's contents listing to "Hobbes"::
+
     >>> wikid = view.pages[0]['id']
     >>> wikid
     'project-home'
@@ -49,6 +47,7 @@ the project's contents listing to "Hobbes"::
     'Hobbes'
 
 We can also issue the request asynchronously::
+
     >>> request = self.portal.REQUEST
     >>> form = {'task': '%s_update' % wikid,
     ...         '%s_title' % wikid: 'Hume',
@@ -62,6 +61,7 @@ We can also issue the request asynchronously::
     'Hume'
 
 Deletes work the same way::
+
     >>> request = self.portal.REQUEST
     >>> form = {'task': '%s_delete' % wikid,
     ...         'item_type': 'pages',

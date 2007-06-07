@@ -20,7 +20,8 @@ def test_suite():
     from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
     from opencore.project.browser.projectinfo import get_featurelets
     from zope.app.annotation.interfaces import IAnnotations
-    setup.setupPloneSite()
+    #setup.setupPloneSite()
+    
 
     def create_test_content(tc):
         return
@@ -39,12 +40,16 @@ def test_suite():
     def readme_setup(tc):
         tc._refreshSkinData()
 
-    def setup(tc):
-        readme_setup(tc)
-        create_test_content(tc)
-
     globs = locals()
-    readme = FunctionalDocFileSuite("README.txt", "README_contents.txt",
+    readme = FunctionalDocFileSuite("README.txt", 
+                                    optionflags=optionflags,
+                                    package='opencore.nui.project',
+                                    test_class=FunctionalTestCase,
+                                    globs = globs,
+                                    setUp=readme_setup
+                                    )
+
+    contents = FunctionalDocFileSuite("contents.txt",
                                     optionflags=optionflags,
                                     package='opencore.nui.project',
                                     test_class=FunctionalTestCase,
@@ -53,8 +58,9 @@ def test_suite():
                                     )
 
     readme.layer = OpencoreContent
+    contents.layer = OpencoreContent
 
-    return unittest.TestSuite((readme,))
+    return unittest.TestSuite((readme, contents))
 
 
 if __name__ == '__main__':
