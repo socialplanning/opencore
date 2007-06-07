@@ -20,6 +20,7 @@ from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
 from Products.OpenPlans import config
 from Products.OpenPlans import content
 from Products.OpenPlans.permissions import DEFAULT_PERMISSIONS_DATA
+from Products.OpenPlans.permissions import DEFAULT_PFOLDER_PERMISSIONS_DATA
 from Products.OpenPlans.permissions import PLACEFUL_PERMISSIONS_DATA
 from Products.OpenPlans.permissions import ManageWorkflowPolicy
 from Products.OpenPlans.content.team import OpenTeam
@@ -452,10 +453,7 @@ def addProjectsFolder(portal, out):
 def setProjectFolderPermissions(portal, out):
     print >> out, 'Setting extra permissions in projects folder'
     pfolder = portal._getOb('projects')
-    perms = ('OpenPlans: Add OpenProject', 'OpenPlans: Add OpenPage',
-             'ATContentTypes: Add Image', 'Add portal content',)
-    for perm in perms:
-        pfolder.manage_permission(perm, roles=('Manager', 'Member'))
+    setPermissions(pfolder, DEFAULT_PFOLDER_PERMISSIONS_DATA, out)
 
 def setupProjectLayout(portal, out):
     print >> out, 'Setting projects folder view'

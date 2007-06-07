@@ -51,6 +51,13 @@ DEFAULT_PERMISSIONS_DATA = (
      ['Add portal member',]),
     )
 
+DEFAULT_PFOLDER_PERMISSIONS_DATA = (
+    (['Manager', 'Member'],
+     ['OpenPlans: Add OpenProject', 'OpenPlans: Add OpenPage',
+       'ATContentTypes: Add Image', 'Add portal content',]
+     ),
+    )
+
 PLACEFUL_PERMISSIONS_DATA = {
     'portal_teams': ((['Manager',],
                       ['List folder contents']),
