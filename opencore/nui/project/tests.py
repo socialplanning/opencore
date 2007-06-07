@@ -10,6 +10,11 @@ optionflags = doctest.ELLIPSIS
 
 import warnings; warnings.filterwarnings("ignore")
 
+class EthanLayer(OpencoreContent):
+    @classmethod
+    def tearDown(cls):
+        raise NotImplementedError
+
 def test_suite():
     from Products.Five.utilities.marker import erase as noLongerProvides
     from Products.PloneTestCase import setup
@@ -21,7 +26,6 @@ def test_suite():
     from opencore.project.browser.projectinfo import get_featurelets
     from zope.app.annotation.interfaces import IAnnotations
     #setup.setupPloneSite()
-    
 
     def create_test_content(tc):
         return
@@ -48,7 +52,6 @@ def test_suite():
                                     globs = globs,
                                     setUp=readme_setup
                                     )
-
     contents = FunctionalDocFileSuite("contents.txt",
                                     optionflags=optionflags,
                                     package='opencore.nui.project',
@@ -58,7 +61,7 @@ def test_suite():
                                     )
 
     readme.layer = OpencoreContent
-    contents.layer = OpencoreContent
+    contents.layer = EthanLayer
 
     return unittest.TestSuite((readme, contents))
 
