@@ -26,6 +26,7 @@ class AccountView(BaseView):
                                member_id, None)
         self.request.set('__ac_name', member_id)
         auth.login()
+        self.membertool.setLoginTimes()
 
 class JoinView(BaseView):
 
@@ -118,12 +119,18 @@ class ConfirmAccountView(AccountView):
         pf = self.get_tool("portal_workflow")
         if pf.getInfoFor(member, 'review_state') != 'pending':
             self.addPortalStatusMessage(u'Denied -- no confirmation pending')
+
+            # use string interpolation pls
             return self.redirect(self.siteURL + '/login')
         
         setattr(member, 'isConfirmable', True)
         pf.doActionFor(member, 'register_public')
         delattr(member, 'isConfirmable')
 
+    def setup_memberarea(self):
+        self.membertool.createMemberArea()
+        notifyFirstLogin(self.member, self.request)
+        
     def __call__(self, *args, **kw):
         member = self.member
         if not member:
@@ -131,13 +138,18 @@ class ConfirmAccountView(AccountView):
             return self.redirect("%s/%s" %(self.siteURL, 'login'))
         
         self.confirm(member)
-        self.login(member.getId())
-        notifyFirstLogin(member, self.request)
+        
+        login = member.getId()
+        
+        self.login(login)
+        self.setup_memberarea()
         
         # Go to the user's Profile Page in Edit Mode
-        self.addPortalStatusMessage(u'Welcome!')
+        self.addPortalStatusMessage(u'Welcome to OpenPlans!')
 
-        return self.redirect("%s/%s" %(self.siteURL, 'login'))
+        folder=self.membertool.getHomeFolder(login)
+
+        return self.redirect("%s/%s" %(folder.absolute_url(), 'profile'))
 
 
 class ForgotLoginView(BaseView):
