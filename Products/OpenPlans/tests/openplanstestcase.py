@@ -1,12 +1,18 @@
-from Products.Archetypes.tests.ArchetypesTestCase import ArcheSiteTestCase
-from Products.CMFCore.utils  import getToolByName
-from Products.OpenPlans.Extensions.Install import migrateATDocToOpenPage as migrateOpenPage
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase
+
+from zope.annotation.interfaces import IAnnotations
+from plone.memoize.view import ViewMemo
+
+from Products.CMFCore.utils  import getToolByName
+from Products.Archetypes.tests.ArchetypesTestCase import ArcheSiteTestCase
+from Products.OpenPlans.Extensions.Install import migrateATDocToOpenPage as migrateOpenPage
+
+import Products.OpenPlans.config as config
+
 from opencore.testing.layer import SiteSetupLayer, OpenPlansLayer
 from opencore.testing.utils import makeContent, getPortal, login_portal_owner
 from utils import installConfiguredProducts
-import Products.OpenPlans.config as config
 
 # This is the test case. You will have to add test_<methods> to your
 # class in order to assert things about your Product.
@@ -27,3 +33,11 @@ class OpenPlansTestCase(ArcheSiteTestCase):
     def tearDown(self):
         # avoid any premature tearing down
         PortalTestCase.tearDown(self)
+
+    def clearMemoCache(self):
+        req = self.request
+        annotations = IAnnotations(req)
+        cache = annotations.get(ViewMemo.key, None)
+        if cache is not None:
+            annotations[ViewMemo.key] = dict()
+
