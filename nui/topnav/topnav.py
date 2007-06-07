@@ -5,6 +5,8 @@ TopNav view classes.
 from plone.memoize import view
 memoizedproperty = lambda func: property(view.memoize(func))
 
+from Products.CMFCore.permissions import ModifyPortalContent
+
 from opencore.nui.base import BaseView as OpencoreView
 
 
@@ -73,5 +75,58 @@ class MemberMenuView(OpencoreView):
              'selected': self.request.ACTUAL_URL == self.contact_url,
              },
             )
+
+        return menudata
+
+
+class ProjectMenuView(OpencoreView):
+    """
+    Contains the info req'd by the topnav's project context menu
+    """
+    @memoizedproperty
+    def atProjectHome(self):
+        result = False
+        proj = self.piv.project
+        if proj is not None:
+            proj_home = proj._getOb(proj.getDefaultPage())
+            if self.context == proj_home:
+                result = True
+        return result
+
+    @memoizedproperty
+    def menudata(self):
+        featurelets = self.piv.featurelets
+        contents_url = "%s/contents" % self.areaURL
+        prefs_url = "%s/preferences" % self.areaURL
+
+        menudata = (
+            {'content': 'Home',
+             'href': self.areaURL,
+             'selected': self.atProjectHome,
+             },
+
+            {'content': 'Contents',
+             'href': contents_url,
+             'selected': self.request.ACTUAL_URL == contents_url,
+             },
+            )
+
+        for flet in featurelets:
+            menudata += (
+                {'content': flet.get('title'),
+                 'href': '%s/%s' % (self.areaURL,
+                                    flet.get('url')),
+                 'selected': False, # XXX <-- need to calculate
+                 },
+                )
+
+        if self.membertool.checkPermission(ModifyPortalContent,
+                                           self.piv.project):
+            menudata += (
+                {'content': 'Manage',
+                 'href': prefs_url,
+                 'selected': self.request.ACTUAL_URL == prefs_url,
+                 },
+                )
 
         return menudata
