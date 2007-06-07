@@ -10,19 +10,22 @@
           
           <tal:setvar define="item_header string:Wiki pages;
 			      item_type string:pages;
-			      item_collection view/pages">
+			      item_collection view/pages;
+			      item_date_author_header string:Last Modified">
 	    <tal:macro metal:use-macro="here/contents/macros/contents_table" />
 	  </tal:setvar>
 	  
           <tal:setvar define="item_header string:Images & Attachments;
 			      item_type string:files;
-			      item_collection view/files">
+			      item_collection view/files;
+			      item_date_author_header string:Created">
 	    <tal:macro metal:use-macro="here/contents/macros/contents_table" /> 
 	  </tal:setvar> 
 
           <tal:setvar define="item_header string:Mailing lists;
 			      item_type string:lists;
-			      item_collection view/lists">
+			      item_collection view/lists;
+			      item_date_author_header string:Created">
 	    <tal:macro metal:use-macro="here/contents/macros/contents_table" /> 
 	  </tal:setvar> 
 
@@ -52,7 +55,9 @@
               <th class="oc-dataTable-checkBoxColumn"><input type="checkbox" class="oc-checkAll" /></th>
               <th scope="col"><a class="oc-columnSortable oc-selected" href="">Title &darr;</a></th>
               <th scope="col"><a class="oc-columnSortable" href="">Size</a></th>
-              <th scope="col"><a class="oc-columnSortable" href="">Last modified</a></th>
+              <th scope="col"><a class="oc-columnSortable" href="">
+		  <tal:dummy replace="item_date_author_header" />
+	      </a></th>
               <th>Actions</th>
             </tr>
 	  </thead>
