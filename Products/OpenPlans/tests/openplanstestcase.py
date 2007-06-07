@@ -35,7 +35,7 @@ class OpenPlansTestCase(ArcheSiteTestCase):
         PortalTestCase.tearDown(self)
 
     def clearMemoCache(self):
-        req = self.request
+        req = self.portal.REQUEST
         annotations = IAnnotations(req)
         cache = annotations.get(ViewMemo.key, None)
         if cache is not None:
