@@ -28,7 +28,8 @@ def octopus_form_handler(func):
     It expects to be returned a value to be sent, unmodified, directly
     to the client in the case of an AJAX request.
 
-    It expects a very specific format for the request, which will be documented in the future.
+    It expects a very specific format for the request; this is 
+    documented in contents.txt
     """
     def inner(self):
         # XXX todo don't rely on underscore special character
