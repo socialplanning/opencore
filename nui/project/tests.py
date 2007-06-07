@@ -27,19 +27,16 @@ def test_suite():
     from zope.app.annotation.interfaces import IAnnotations
     #setup.setupPloneSite()
 
-    def create_test_content(tc):
-        return
+    def contents_content(tc):
+        tc.loginAsPortalOwner()
         proj = tc.portal.projects.p1
-        content = {'Document': ('new1', 'new2'),
-                   'FileAttachment': ('file1', 'file2'),
-                   'Image': ('im1', 'im2'),
-                   }
-        for type in content:
-            for item in content[type]:
-                try:
-                    proj.invokeFactory(type, item, {})
-                except AttributeError:
-                    pass
+        proj.invokeFactory('Document', 'new1', title='new title')
+        proj.invokeFactory('Image', 'img1', title='new file')
+        proj.new1.invokeFactory('FileAttachment', 'fa1', title='new file')
+
+        tc.image = proj.img1
+        tc.page = proj.new1
+        tc.att = tc.page.fa1
 
     def readme_setup(tc):
         tc._refreshSkinData()
@@ -57,7 +54,7 @@ def test_suite():
                                     package='opencore.nui.project',
                                     test_class=FunctionalTestCase,
                                     globs = globs,
-                                    setUp=readme_setup
+                                    setUp=contents_content, 
                                     )
 
     readme.layer = OpencoreContent
