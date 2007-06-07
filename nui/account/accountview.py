@@ -52,6 +52,10 @@ class JoinView(BaseView):
 
         mem_id = self.request.get('id')
         mem = mdc.portal_factory.doCreate(mem, mem_id)
+        self.txn_note('Created %s with id %s in %s' % \
+                      (mem.getTypeInfo().getId(),
+                       mem_id,
+                       self.context.absolute_url()))
         result = mem.processForm()
         url = self._confirmation_url(mem)
         
@@ -77,10 +81,7 @@ class JoinView(BaseView):
         #00 pythonscript call, move to fs code
         id_ = self.context.generateUniqueId(type_name)
         mem = mdc.restrictedTraverse('portal_factory/%s/%s' % (type_name, id_))
-        self.txn_note('Initiated creation of %s with id %s in %s' % \
-                             (mem.getTypeInfo().getId(),
-                              id_,
-                              self.context.absolute_url()))
+
         return id_
 
     def _confirmation_url(self, mem):
