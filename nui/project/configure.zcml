@@ -10,10 +10,6 @@
      permission="openplans.AddOpenProject"
      />
 
-    <!-- TODO
-    permission should be any logged in user
-    -->
-    
    <browser:page
       for="opencore.interfaces.IProject"
       class=".view.ProjectContentsView"
@@ -21,18 +17,15 @@
       name="contents"
       template="contents.pt"
       />
+    <!-- TODO use correct permission -->
 
    <browser:page
       for="opencore.interfaces.IProject"
       class=".view.ProjectContentsView"
-      permission="zope.Public"
+      permission="zope.DeleteObjects"
       name="modify-contents"
       attribute="modify_contents"
       />
-
-    <!-- TODO
-    permission should be any logged in user
-    -->
 
   <browser:page
      for="opencore.interfaces.IProject"
@@ -42,9 +35,6 @@
      template="preferences.pt"
      />
 
-    <!-- TODO
-    permission depend on project security setting
-    -->
   <browser:page
      for="opencore.interfaces.IProject"
      class=".view.ProjectTeamView"
@@ -52,5 +42,6 @@
      name="team"
      template="team-view.pt"
      />
+    <!-- TODO use correct permission -->
 
 </configure>

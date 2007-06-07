@@ -15,4 +15,9 @@
     title="OpenPlans: Add OpenProject"
     />
 
+  <permission
+    id="zope.DeleteObjects"
+    title="Delete objects"
+    />
+
 </configure>
