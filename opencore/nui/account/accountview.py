@@ -39,30 +39,30 @@ class AccountView(BaseView):
 
 class LoginView(AccountView):
 
+    @property
     def referer(self):
-        #        return self.request.environ.get('HTTP_REFERER', 
-        #        self.request.get('came_from', ''))
         return self.request.get('came_from', '')
 
+    @property
     def destination(self):
         """where you go after you're logged in"""
-
-        retval = self.referer()
+        retval = self.referer
         if not retval:
             retval = '/'.join((self.home(), 'profile'))
         return retval
 
-    def __call__(self, *args, **kw):
-
+    @button('login')
+    @post_only(raise_=False)
+    def handle_login(self):
         if self.loggedin:
+            self.addPortalStatusMessage('You are logged in')
             self.update_credentials(self.current_member.getId())
-            return self.redirect(self.destination())
-        else:
-            if self.request.form.get('submit', '') == 'Log in':
-                self.addPortalStatusMessage('Login failed')
-            elif self.referer():
-                self.addPortalStatusMessage('Hey!')
-            return self.index.render(*args, **kw)
+            return self.redirect(self.destination)
+
+        self.addPortalStatusMessage('Login failed')
+            
+        if self.referer:
+            self.addPortalStatusMessage('Hey! you came from %s' %self.referer)
 
 
 class JoinView(BaseView):
