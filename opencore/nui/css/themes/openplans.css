@@ -8,12 +8,17 @@ body {
   background: #DEEAF2;
   padding: 0;
 }
-#oc-page-container {
+#oc-page-container {}
+
+#oc-topnav,
+#oc-content-container,
+#oc-footer {
  max-width: 78em; /* As a rule, measure should be between two and three alphabets long. In other words, between 52 and 78 characters, including spaces. Since characters average out to about one-half EM in width this translates to a minimum width of 26em and a maximum of 39em, or two to three alphabets.   IN OTHER WORDS: avoid changing the width. */
  min-width: 52em;
  margin: 0 auto;
+ padding: 0 1em;
 }
-#oc-topnav {
+#oc-topnav-wrapper {
   width: 100%;
   padding: 0;
   color: #fff;
@@ -21,8 +26,17 @@ body {
   border-top: 0.75em solid #2B7284 ;
   border-bottom: 1px solid #2B7284 ;
 }
+#oc-topnav {
+  padding: 0.5em 1em;
+}
 #oc-topnav h1 {
+<<<<<<< .mine
+  font-size: 30px;
+  padding: 0;
+  margin-bottom: 0.25em
+=======
   margin-left: 0.5em;
+>>>>>>> .r6215
 }
 #oc-topnav a {
   text-decoration: none;
@@ -49,19 +63,26 @@ body {
   padding: 0.125em 0.25em;
   font-weight: bold;
 }
-#oc-content-container {
- padding: 1em;
+ul#oc-topnav-context {
+  font-weight: bold;
+  margin: 0;
+}
+ul#oc-topnav-context li {
+  margin: 0  1em 0 0;
+  padding: 0;
+}
+#oc-content-wrapper {
+ padding: 1em 0;
  background-color: #fff;
 }
 #oc-content-main {
 }
-#oc-footer {
+#oc-footer-wrapper {
   color: #666;
   background: transparent;
-  border-top: 1px solid #F0F3F6;
+  border-top: 1px solid #AAC683 ;
   margin: 0 0 2em;
-  padding-left: 0;
-  padding-right: 0;
+	padding: 0.5em 0 0;
 }
 #oc-footer a {
   color: #999;
@@ -176,6 +197,11 @@ a:hover {
   border: 1px solid #AAC683;
   background-color: #FBFFF7;
   padding: 1em;
+}
+#oc-content-sidebar .oc-boxy h1,
+#oc-content-sidebar .oc-boxy h2 {
+  padding-bottom: 0.5em;
+  border-bottom: 1px dotted #AAC683;
 }
 #oc-content-sidebar .oc-getstarted {
 }
