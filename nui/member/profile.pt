@@ -1,10 +1,13 @@
-<tal:vars define="usr view/vieweduser;
+<tal:vars define="usr view/viewedmember;
                   info view/info">
 
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
+        <!-- TODO put some kind of edit link if viewing self? e.g.:
+        <a tal:condition="view/viewingself" tal:attributes="href profile-edit">edit</a>
+        -->
         <div id="oc-member-badge" class="oc-boxy oc-clearAfter vcard">
           <div class="oc-avatar">
             <img class="photo" tal:attributes="src info/portraitURL" />
@@ -37,6 +40,9 @@
                 </tal:projects>
                 <tal:noprojects condition="not: usr/projectBrains">
                   none
+                  <span tal:condition="view/viewingself">
+                    <a tal:attributes="href string:${view/siteURL}/projects">get involved</a>
+                  </span>
                 </tal:noprojects>
               </dd>
             </dl>
@@ -46,7 +52,7 @@
           <dt>Personal Statement</dt>
           <dd tal:condition="usr/getStatement" tal:content="usr/statement" />
           <dd tal:condition="not:usr/getStatement">not specified</dd>
-          <dt>Skills</dt>
+          <dt>Skills/Interests</dt>
           <dd tal:condition="usr/getSkills" tal:content="usr/getSkills" />
           <dd tal:condition="not:usr/getSkills">not specified</dd>
           <dt>Affiliations</dt>

@@ -252,19 +252,14 @@ class BaseView(BrowserView):
     # properties and methods associated with members
 
     @property
-    def current_user(self):
-        if self.current_member:
-            return self.current_member.getUser()
-
-    @property
-    def current_member(self):
-        return self.membertool.getAuthenticatedMember()
+    def loggedinmember(self):
+        return self.loggedin and self.membertool.getAuthenticatedMember()
 
     def home(self, member=None):
         """url of the member's homepage"""
         if member is None:
             if not self.loggedin: return None
-            member = self.current_member.id
+            member = self.loggedinmember.id
         retval = '/'.join((self.portal.absolute_url(), 'people', member))
         return retval
 
@@ -272,32 +267,18 @@ class BaseView(BrowserView):
         # XXX eliminate
         return self.membertool.getAuthenticatedMember()
 
-    def vieweduser(self): # TODO
-        """Returns the user found in the context's acquisition chain, if any."""
-        return self.miv.member
-
     @property
     def loggedin(self):
         return not self.membertool.isAnonymousUser()
 
     @view.memoize
-    def vieweduser(self): # TODO
+    def viewedmember(self):
         """Returns the user found in the context's acquisition chain, if any."""
         return self.miv.member
 
     @view.memoizedproperty
     def inmember(self):
         return (self.miv.inMemberArea or self.miv.inMemberObject)
-
-    def user_exists(self, username):
-        users = self.membranetool(getId=username)
-        return len(users) > 0
-
-    def userExists(self):
-        username = self.request.get("username")
-        if username is not None:
-            return self.user_exists(username)
-        return False
 
 
     # properties and methods associated with objects

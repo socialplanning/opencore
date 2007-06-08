@@ -1,102 +1,107 @@
+<tal:vars define="usr view/viewedmember;
+                  info view/info">
+
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
-
     <div metal:fill-slot="content">
+      <div id="oc-content-main">
+        <form class="oc-member-edit">
+          <div id="oc-member-badge" class="oc-boxy oc-clearAfter">
+            <div class="oc-member-editimage">
+              <div class="oc-avatar">
+                <img tal:attributes="src info/portraitURL" />
+              </div>
+            </div>
+            <fieldset>
+              <div class="oc-headingBlock">
+                <h1 class="fn" tal:content="usr/getId" />
+                <p class="oc-headingContext oc-discreetText">
+                  member since <span tal:replace="info/membersince" />,
+                  last online <span tal:replace="info/lastonline" />
+                </p>
+              </div>
+              <ul class="oc-plainList">
+                <li>
+                  <label for="fullname">Full name</label><br />
+                  <input type="text" id="fullname" tal:attributes="value usr/getFullname" />
+                </li>
+                <li>
+                  <label for="location">Location</label><br />
+                  <input type="text" id="location" tal:attributes="value usr/getLocation" />
+                </li>
+              </ul>
+            </fieldset>
+            <fieldset class="oc-expander" style="clear: left;">
+              <legend class="oc-legend-label">
+                <a href="#" class="oc-expander-link">Change image</a>
+              </legend>
+              <div class="oc-expander-content">
+                <input type="file" size="25" /><br />
+                or <a href="#">remove image</a>
+              </div>
+            </fieldset>
+          </div>
+          <fieldset>
+            <label for="">Personal Statement</label><br />
+            <textarea rows="3" cols="80" tal:content="usr/getStatement"></textarea>
+            <label for="">Skills/Interests</label><br />
+            <textarea rows="1" cols="80" tal:content="usr/getSkills"></textarea>
+            <label for="">Affiliations</label><br />
+            <textarea rows="1" cols="80" tal:content="usr/getAffiliations"></textarea>
+            <label for="">Background</label><br />
+            <textarea rows="1" cols="80" tal:content="usr/getBackground"></textarea>
+            <label for="">Favorites</label><br />
+            <textarea rows="1" cols="80" tal:content="usr/getFavorites"></textarea>
+          </fieldset>
 
-<div id="oc-content-main">
-<form class="oc-member-edit">
-  <div id="oc-member-badge" class="oc-boxy oc-clearAfter">
-    <div class="oc-member-editimage">
-      <div class="oc-avatar">
-        <img src="http://photos-115.ak.facebook.com/ip002/v45/56/33/1007094/n1007094_30702115_2963.jpg" />
-      </div>
-    </div>
-    <fieldset>
-      <div class="oc-headingBlock">
-        <h1 class="fn">Username</h1>
-        <p class="oc-headingContext oc-discreetText">member since January 13, 1937 and last online 1 hour ago</p>
-      </div>
-        <ul class="oc-plainList">
-          <li>
-            <label for="">Full name</label><br />
-            <input type="text" />
-          </li>
-          <li>
-            <label for="">Location</label><br />
-            <input type="text" />
-          </li>
-        </ul>
-    </fieldset>
-    <fieldset class="oc-expander" style="clear: left;">
-      <legend class="oc-legend-label">
-        <a href="#" class="oc-expander-link">Change image</a>
-      </legend>
-      <div class="oc-expander-content">
-        <input type="file" size="25" /><br />
-        or <a href="#">remove image</a>
-      </div>
-    </fieldset>
-  </div>
-  <fieldset>
-    <label for="">Personal Statement</label><br />
-    <textarea rows="3" cols="80"></textarea>
-    <label for="">Skills</label><br />
-    <textarea rows="1" cols="80"></textarea>
-    <label for="">Affiliations</label><br />
-    <textarea rows="1" cols="80"></textarea>
-    <label for="">Background</label><br />
-    <textarea rows="1" cols="80"></textarea>
-    <label for="">Favorites</label><br />
-    <textarea rows="1" cols="80"></textarea>
-  </fieldset>
-  
-  <ul class="oc-actions oc-wiki-actions">
-    <li>
-      <button type="submit"
-        name="update:boolean"
-        value="True"
-        class="oc-button oc-chooseThis">
-        Update
-      </button>
-    </li>
-    <li>or <a href="#">cancel</a></li>
-  </ul> 
-</form>
-</div><!-- end #oc-content-main -->
+          <ul class="oc-actions oc-wiki-actions">
+            <li>
+              <button type="submit"
+                name="update:boolean"
+                value="True"
+                class="oc-button oc-chooseThis">
+                Update
+              </button>
+            </li>
+            <li>or <a href="#">cancel</a></li>
+          </ul> 
+        </form>
+      </div><!-- end #oc-content-main -->
 
-<div id="oc-content-sidebar">
-  <div class="oc-headingBlock">
-    <h2>Recent activity</h2>
-  </div>
-    <div class="oc-widget oc-widget-lastModified">
-      <div class="oc-headingBlock">
-        <h3>Pages last modified</h3>
-      </div><!-- end .oc-headingBlock -->
-      <table class="oc-table" cellpadding="0" cellspacing="0">
-        <thead>
-          <tr>
-            <th scope="col">Date</th>
-            <th scope="col">Page</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Jan 1</td>
-            <td><a href="">My awesome page</a></td>
-          </tr>
-          <tr>
-            <td>Dec 31</td>
-            <td><a href="">My really awesome page</a></td>
-          </tr>
-          <tr>
-            <td>Oct 12</td>
-            <td><a href="">My kinda awesome page</a></td>
-          </tr>
-        </tbody>
-      </table>
-  </div><!-- end .oc-widget-lastModified -->
-</div><!-- end .oc-content-sidebar -->
+      <div id="oc-content-sidebar">
+        <div class="oc-headingBlock">
+          <h2>Recent activity</h2>
+        </div>
+        <div class="oc-widget oc-widget-lastModified">
+          <div class="oc-headingBlock">
+            <h3>Pages last modified</h3>
+          </div><!-- end .oc-headingBlock -->
+          <table class="oc-table" cellpadding="0" cellspacing="0">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Page</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Jan 1</td>
+                <td><a href="">My awesome page</a></td>
+              </tr>
+              <tr>
+                <td>Dec 31</td>
+                <td><a href="">My really awesome page</a></td>
+              </tr>
+              <tr>
+                <td>Oct 12</td>
+                <td><a href="">My kinda awesome page</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div><!-- end .oc-widget-lastModified -->
+      </div><!-- end .oc-content-sidebar -->
 
-  </div><!-- content-fill-slot -->
-</body>
+    </div><!-- content-fill-slot -->
+  </body>
 </html>
+</tal:vars>

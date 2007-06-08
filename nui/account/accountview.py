@@ -56,7 +56,7 @@ class LoginView(AccountView):
     def handle_login(self):
         if self.loggedin:
             self.addPortalStatusMessage('You are logged in')
-            self.update_credentials(self.current_member.getId())
+            self.update_credentials(self.loggedinmember.getId())
             return self.redirect(self.destination)
 
         self.addPortalStatusMessage('Login failed')
