@@ -117,8 +117,9 @@ Deletes work the same way::
     ...
     AttributeError: new1
     >>> view._clear_instance_memos()
+    >>> len(view.pages)
+    1
     >>> x = view.pages
-    >>> #x
     >>> x[1]
     Traceback (most recent call last):
     ...
