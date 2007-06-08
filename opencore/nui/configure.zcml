@@ -15,6 +15,7 @@
   <include package=".account" />
   <include package=".member" />
   <include package=".topnav" />
+  <include package=".error" />
 
   <!-- resource directories for css, images, etc -->
   <browser:resourceDirectory
