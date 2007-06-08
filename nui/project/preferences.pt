@@ -1,6 +1,6 @@
 <tal:handle-request 
   replace="nothing"
-  define="extra view/handle_request">
+  define="fdata view/handle_request">
   This could be used to return a variety of template friendly info
   regarding the processing of the form
 </tal:handle-request>
@@ -24,7 +24,8 @@
                       <label for="fullname">Name</label>
                     </th>
                     <td class="oc-form-value">
-                      <input type="text" id="fullname" name="fullname" tal:attributes="value proj/fullname"/>
+                      <!-- TODO changing this does not actually work! -->
+                      <input type="text" id="fullname" name="fullname" tal:attributes="value request/fullname | proj/fullname"/>
                     </td>
                     <td class="oc-form-help">
                       <span class="oc-form-context"></span>
@@ -48,7 +49,7 @@
                       <label for="mission">Mission Statement</label>
                     </th>
                     <td class="oc-form-value">
-                      <textarea name="mission" id="mission" tal:content="proj/mission" rows="3" cols="40" />
+                      <textarea name="mission" id="mission" tal:content="request/mission | proj/mission" rows="3" cols="40" />
                     </td>
                     <td class="oc-form-help">
                       <span class="oc-form-context"></span>

@@ -46,6 +46,9 @@ class ProfileEditView(ProfileView):
     @button('update')
     def handle_request(self):
         self.context.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
-        if not self.errors:
+        if self.errors:
+            pass #TODO
+        else:
+            print '\n\n\n\n\n\n    yayyyyy no errors    \n\n\n\n\n\n\n'
             self.context.processForm(REQUEST=self.request)
-            self.redirect(self.context.absolute_url())
+            self.redirect('profile')

@@ -1,11 +1,18 @@
-<tal:vars define="usr view/viewedmember;
-                  info view/info">
+<tal:handle-request 
+  replace="nothing"
+  define="global fdata view/handle_request;">
+  This could be used to return a variety of template friendly info
+  regarding the processing of the form
+</tal:handle-request>
+
+<tal:vars define="usr view/viewedmember; info view/info">
 
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
-        <form class="oc-member-edit">
+        <form name="profile_form" method="post" class="oc-member-edit"
+          tal:attributes="action string:${view/name}">
           <div id="oc-member-badge" class="oc-boxy oc-clearAfter">
             <div class="oc-member-editimage">
               <div class="oc-avatar">
@@ -23,16 +30,19 @@
               <ul class="oc-plainList">
                 <li>
                   <label for="fullname">Full name</label><br />
-                  <input type="text" id="fullname" tal:attributes="value usr/getFullname" />
+                  <input type="text" id="fullname" name="fullname"
+                    tal:attributes="value request/fullname | usr/getFullname" />
                 </li>
                 <li>
                   <label for="location">Location</label><br />
-                  <input type="text" id="location" tal:attributes="value usr/getLocation" />
+                  <input type="text" id="location" name="location"
+                    tal:attributes="value request/location | usr/getLocation" />
                 </li>
               </ul>
             </fieldset>
             <fieldset class="oc-expander" style="clear: left;">
               <legend class="oc-legend-label">
+                <!-- TODO -->
                 <a href="#" class="oc-expander-link">Change image</a>
               </legend>
               <div class="oc-expander-content">
@@ -43,15 +53,20 @@
           </div>
           <fieldset>
             <label for="">Personal Statement</label><br />
-            <textarea rows="3" cols="80" tal:content="usr/getStatement"></textarea>
+            <textarea rows="3" cols="80" name="statement"
+              tal:content="request/statement | usr/getStatement"></textarea>
             <label for="">Skills/Interests</label><br />
-            <textarea rows="1" cols="80" tal:content="usr/getSkills"></textarea>
+            <textarea rows="1" cols="80" name="skills"
+              tal:content="request/skills | usr/getSkills"></textarea>
             <label for="">Affiliations</label><br />
-            <textarea rows="1" cols="80" tal:content="usr/getAffiliations"></textarea>
+            <textarea rows="1" cols="80" name="affiliations"
+              tal:content="request/affiliations | usr/getAffiliations"></textarea>
             <label for="">Background</label><br />
-            <textarea rows="1" cols="80" tal:content="usr/getBackground"></textarea>
+            <textarea rows="1" cols="80" name="background"
+              tal:content="request/background | usr/getBackground"></textarea>
             <label for="">Favorites</label><br />
-            <textarea rows="1" cols="80" tal:content="usr/getFavorites"></textarea>
+            <textarea rows="1" cols="80" name="favorites"
+              tal:content="request/favorites | usr/getFavorites"></textarea>
           </fieldset>
 
           <ul class="oc-actions oc-wiki-actions">
