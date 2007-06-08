@@ -1,6 +1,6 @@
 <tal:handle-request 
-   replace="nothing"
-   define="global fdata view/handle_request;">
+  replace="nothing"
+  define="global fdata view/handle_request;">
   This could be used to return a variety of template friendly info
   regarding the processing of the form
 </tal:handle-request>

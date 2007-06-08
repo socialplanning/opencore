@@ -199,14 +199,14 @@ class ProjectAddView(BaseView):
 
         self.errors = {}
         if not self.request.get('full_name'):
-            self.errors['full_name'] = 'Please add a full name'
+            self.errors['full_name'] = 'Project requires a full name.'
 
         title = self.request.form.get('title')
         if not title:
-            self.errors['title'] = 'You need to enter a short name for the project'
+            self.errors['title'] = 'Project requires a url.'
         id_ = putils.normalizeString(title)
         if self.context.has_key(id_):
-            self.errors = {'title' : 'The requested short name is already taken.'}
+            self.errors = {'title' : 'The requested url is already taken.'}
 
         if self.errors:
             self.addPortalStatusMessage(u'Please correct the indicated errors.')
