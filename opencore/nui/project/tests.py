@@ -28,15 +28,11 @@ def test_suite():
         proj = tc.portal.projects.p2
         proj.invokeFactory('Document', 'new1', title='new title')
         proj.invokeFactory('Image', 'img1', title='new image')
-        proj.new1.invokeFactory('FileAttachment', 'fa1', title='new file')
+        proj.restrictedTraverse('project-home').invokeFactory('FileAttachment', 'fa1', title='new file')
         proj.invokeFactory('Folder', 'lists', title='Listen Stub')
         proj.lists.invokeFactory('Document', 'list1', title='new list')
         proj.lists.list1.portal_type = "Open Mailing List"
         proj.lists.list1.reindexObject()
-
-        tc.image = proj.img1
-        tc.page = proj.new1
-        tc.att = tc.page.fa1
 
     def readme_setup(tc):
         tc._refreshSkinData()
