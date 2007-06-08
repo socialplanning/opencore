@@ -139,7 +139,9 @@ Test actually creating, editing, deleting an attachment::
      <FileAttachment at /plone/projects/p1/project-home/secret.txt>
 
      Update attachment
-     #>>> view.attachmentSnippet()
+     >>> view.attachmentSnippet()
+     '...secret.txt...
+
      #>>> view.updateAtt()
 
 #      >>> user_name = 'm1'
