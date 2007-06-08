@@ -161,7 +161,7 @@ class ProjectContentsView(BaseView):
             for old, new in zip(sources, fields):
                 page = objects[old]
                 page.setTitle(new['title'])
-                page.reindexObject()
+                page.reindexObject(('Title',))
                 snippets[page.getId()] = self.contents_row_snippet(
                     item=self._make_dict_and_translate(page,
                                                        self.needed_values[item_type]),
