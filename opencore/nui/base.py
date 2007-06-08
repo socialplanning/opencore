@@ -63,19 +63,6 @@ class BaseView(BrowserView):
         return self.get_view(viewname)()
 
     @property
-    def loggedin(self):
-        return not self.membertool.isAnonymousUser()
-
-    @view.memoize
-    def vieweduser(self): # TODO
-        """Returns the user found in the context's acquisition chain, if any."""
-        return self.miv.member
-
-    @view.memoizedproperty
-    def inmember(self):
-        return (self.miv.inMemberArea or self.miv.inMemberObject)
-
-    @property
     def pagetitle(self):
         return self.context.Title()
     
@@ -179,16 +166,6 @@ class BaseView(BrowserView):
                              obj=proj)
         return proj_info
 
-    def user_exists(self, username):
-        users = self.membranetool(getId=username)
-        return len(users) > 0
-
-    def userExists(self):
-        username = self.request.get("username")
-        if username is not None:
-            return self.user_exists(username)
-        return False
-
     # end of rob's refactors
 
     # tool and view handling
@@ -272,6 +249,8 @@ class BaseView(BrowserView):
     def projectobj(self): # TODO
         return self.piv.project
 
+    # properties and methods associated with members
+
     @property
     def current_user(self):
         if self.current_member:
@@ -293,12 +272,38 @@ class BaseView(BrowserView):
         # XXX eliminate
         return self.membertool.getAuthenticatedMember()
 
-    def inproject(self): # TODO
-        return self.piv.inProject
-
     def vieweduser(self): # TODO
         """Returns the user found in the context's acquisition chain, if any."""
         return self.miv.member
+
+    @property
+    def loggedin(self):
+        return not self.membertool.isAnonymousUser()
+
+    @view.memoize
+    def vieweduser(self): # TODO
+        """Returns the user found in the context's acquisition chain, if any."""
+        return self.miv.member
+
+    @view.memoizedproperty
+    def inmember(self):
+        return (self.miv.inMemberArea or self.miv.inMemberObject)
+
+    def user_exists(self, username):
+        users = self.membranetool(getId=username)
+        return len(users) > 0
+
+    def userExists(self):
+        username = self.request.get("username")
+        if username is not None:
+            return self.user_exists(username)
+        return False
+
+
+    # properties and methods associated with objects
+
+    def inproject(self): # TODO
+        return self.piv.inProject
 
     def pageURL(self):
         if self.inproject():
