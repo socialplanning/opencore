@@ -9,8 +9,7 @@
     <td>
       <div class="oc-liveItem-value">
         <a tal:attributes="href item/url">
-          <tal:dummy replace="item/title" />
-        </a>
+          <tal:dummy replace="item/title" /></a> <a href="#" class="oc-liveItem_hoverShowForm">Edit</a>
       </div>
       
       <div class="oc-liveItem-editForm">
@@ -22,7 +21,7 @@
           Save
         </button>
         or
-        <a href="#" class="oc-liveItem_toggle">
+        <a href="#" class="oc-liveItem_cancel">
           Cancel
         </a>
       </div>
