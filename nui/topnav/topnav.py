@@ -7,10 +7,10 @@ memoizedproperty = lambda func: property(view.memoize(func))
 
 from Products.CMFCore.permissions import ModifyPortalContent
 
-from opencore.nui.base import BaseView as OpencoreView
+from opencore.nui.base import BaseView 
 
 
-class TopNavView(OpencoreView):
+class TopNavView(BaseView):
     """
     Provides req'd information for rendering top nav in any context.
     """
@@ -33,7 +33,7 @@ class TopNavView(OpencoreView):
         return self.get_view(viewname)
 
 
-class MemberMenuView(OpencoreView):
+class MemberMenuView(BaseView):
     """
     Contains the information req'd by the topnav's member context menu
     """
@@ -79,7 +79,7 @@ class MemberMenuView(OpencoreView):
         return menudata
 
 
-class ProjectMenuView(OpencoreView):
+class ProjectMenuView(BaseView):
     """
     Contains the info req'd by the topnav's project context menu
     """
@@ -132,7 +132,7 @@ class ProjectMenuView(OpencoreView):
         return menudata
 
 
-class AnonMenuView(OpencoreView):
+class AnonMenuView(BaseView):
     """
     View class for the user menu when user is anonymous.
     """
@@ -157,7 +157,7 @@ class AnonMenuView(OpencoreView):
         return menudata
 
 
-class AuthMenuView(OpencoreView):
+class AuthMenuView(BaseView):
     """
     View class for the user menu when user is logged in.
     """
