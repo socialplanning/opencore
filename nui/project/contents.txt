@@ -72,15 +72,13 @@ synchronous requests, a redirect back to the referer is issued.
 Let's set up a request to synchronously rename the first wiki page in
 the project's contents listing to "Hobbes"::
 
-    >>> assert 'new1' in [i['id'] for i in view.pages]
-    >>> wikid = 'new1'
-    >>> page = proj.restrictedTraverse(wikid)
+    >>> page = proj.new1
     >>> page.Title()
     'new title'
 
     >>> request = self.portal.REQUEST
-    >>> form = {'task': '%s_update' % wikid,
-    ...         '%s_title' % wikid: 'Hobbes',
+    >>> form = {'task': 'new1_update',
+    ...         'new1_title': 'Hobbes',
     ...         'item_type': 'pages'}
     >>> request.form = form
     >>> request.environ['HTTP_REFERER'] = 'http://nohost/openplans/projects/p2/contents'
@@ -93,8 +91,8 @@ the project's contents listing to "Hobbes"::
 We can also issue the request asynchronously::
 
     >>> request = self.portal.REQUEST
-    >>> form = {'task': '%s_update' % wikid,
-    ...         '%s_title' % wikid: 'Hume',
+    >>> form = {'task': 'new1_update',
+    ...         'new1_title': 'Hume',
     ...         'item_type': 'pages',
     ...         'mode': 'async'}
     >>> request.form = form
@@ -107,22 +105,62 @@ We can also issue the request asynchronously::
 Deletes work the same way::
 
     >>> request = self.portal.REQUEST
-    >>> form = {'task': '%s_delete' % wikid,
+    >>> form = {'task': 'new1_delete',
     ...         'item_type': 'pages',
     ...         'mode': 'async'}
     >>> request.form = form
     >>> view.modify_contents()
     ['new1']
 
-    >>> proj.restrictedTraverse(wikid)
+    >>> proj.restrictedTraverse('new1')
     Traceback (most recent call last):
     ...
     AttributeError: new1
+    >>> view._clear_instance_memos()
+    >>> x = view.pages
+    >>> #x
+    >>> x[1]
+    Traceback (most recent call last):
+    ...
+    IndexError: list index out of range
+    >>> len(x)
+    1
 
 To perform a batch action, label the task as batch and provide a
-batch[] field with item ids::
+batch[] field with item ids. Provide all the fields necessary for
+performing the action on all the items in the batch; extra fields
+will be ignored and only the items listed in the batch will be
+acted upon::
+    >>> proj.img1.Title()
+    'new image'
+    >>> proj.restrictedTraverse('project-home').fa1.Title()
+    'new file'
+    >>> proj.lists.list1.Title()
+    'Listen Stub'
+
+    >>> request = self.portal.REQUEST
+    >>> form = {'task': 'batch_update',
+    ...         'item_type': 'files',
+    ...         'fa1_title': 'Castor',
+    ...         'img1_title': 'Polydeuces',
+    ...         'list1_title': 'Clytemnestra',
+    ...         'mode': 'async',
+    ...         'batch[]':['fa1', 'img1']}
+    >>> request.form = form
+    >>> sorted(view.modify_contents().keys())
+    ['fa1', 'img1']
+
+    >>> proj.img1.Title()
+    'Polydeuces'
+    >>> proj.restrictedTraverse('project-home').fa1.Title()
+    'Castor'
+    >>> proj.lists.list1.Title()
+    'Listen Stub'
+
+
+Batch deletes work the same way::
     >>> proj.restrictedTraverse('img1')
-    <...>
+    <.d..>
 
     >>> request = self.portal.REQUEST
     >>> form = {'task': 'batch_delete',
@@ -139,12 +177,15 @@ batch[] field with item ids::
     AttributeError: img1
 
     >>> len(view.files)
-    2
-    >>> brains = view.catalog(portal_type=("FileAttachment","Image"),
-    ...                       path='/'.join(view.context.getPhysicalPath()))
-    >>> len(brains)
-    0
-    >>> view._clear_instance_memos()
-    >>> len(view.files)
     0
 
+Let's delete the mailing list too, to clean up::
+    >>> request = self.portal.REQUEST
+    >>> form = {'task': 'list1_delete',
+    ...         'item_type': 'lists',
+    ...         'mode': 'async'}
+    >>> request.form = form
+    >>> view.modify_contents()
+    ['list1']
+    >>> len(view.lists)
+    0
