@@ -22,7 +22,7 @@ body {
   width: 100%;
   padding: 0;
   color: #fff;
-  background: #2B7284;
+  background: #AAC683;
   border-top: 0.75em solid #2B7284 ;
   border-bottom: 1px solid #2B7284 ;
 }
@@ -30,13 +30,9 @@ body {
   padding: 0.5em 1em;
 }
 #oc-topnav h1 {
-<<<<<<< .mine
   font-size: 30px;
   padding: 0;
   margin-bottom: 0.25em
-=======
-  margin-left: 0.5em;
->>>>>>> .r6215
 }
 #oc-topnav a {
   text-decoration: none;
@@ -82,7 +78,7 @@ ul#oc-topnav-context li {
   background: transparent;
   border-top: 1px solid #AAC683 ;
   margin: 0 0 2em;
-	padding: 0.5em 0 0;
+  padding: 0.5em 0 0;
 }
 #oc-footer a {
   color: #999;
