@@ -104,6 +104,10 @@ class ProjectContentsView(BaseView):
         return obj_dict
 
     @memoizedproperty
+    def project_path(self):
+        return '/'.join(self.context.getPhysicalPath())
+
+    @memoizedproperty
     def pages(self):
         brains = self.catalog(portal_type="Document",
                               path='/'.join(self.context.getPhysicalPath()))
@@ -147,17 +151,22 @@ class ProjectContentsView(BaseView):
 
         path = '/'.join(self.context.getPhysicalPath())
         brains = self.catalog(id=sources, path=path)
-        objects = dict([(b.getId, b.getObject()) for b in brains])
 
-        ## XXX TODO this is also wicked slow.
         if action == 'delete':
-            for id, obj in objects.items():
-                parent = obj.aq_parent
-                parent.manage_delObjects([id])
+            parents = {}
+            for brain in brains:
+                parent_path, brain_id = brain.getPath().rsplit('/', 1)
+                parent_path = parent_path.split(path, 1)[-1].strip('/')
+                parents.setdefault(parent_path, []).append(brain_id)
+            for parent, child_ids in parents.items():
+                if child_ids:
+                    parent = self.context.restrictedTraverse(parent)
+                    parent.manage_delObjects(child_ids)
             return sources
 
-        if action == 'update':
+        elif action == 'update':
             snippets = {}
+            objects = dict([(b.getId, b.getObject()) for b in brains])
             for old, new in zip(sources, fields):
                 page = objects[old]
                 page.setTitle(new['title'])
