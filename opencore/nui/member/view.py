@@ -12,11 +12,11 @@ from topp.utils.pretty_date import prettyDate
         
 class ProfileView(BaseView):
 
-    defaultPortraitURL = '++resource++img/gear-big.gif'
+    defaultPortraitURL = '++resource++img/default-portrait.jpg'
 
     def info(self):
         """Returns profile information in a dict for easy template access."""
-        usr = self.vieweduser()
+        usr = self.viewedmember()
         portrait = usr.getProperty('portrait', None)
         portraitURL = portrait and portrait.absolute_url() or self.defaultPortraitURL
         return dict(membersince = prettyDate(usr.getRawCreation_date()),
@@ -28,16 +28,20 @@ class ProfileView(BaseView):
         """Returns a list of dicts describing each of the `max` most recently
         modified wiki pages for the viewed user."""
         catalog = getToolByName(self.context, 'portal_catalog')
-        query = dict(Creator=self.vieweduser().getId(), portal_type='Document', sort_on='modified', sort_order='reverse')
+        query = dict(Creator=self.viewedmember().getId(), portal_type='Document', sort_on='modified', sort_order='reverse')
         brains = catalog.searchResults(**query)
         items = []
         for brain in brains[:max]:
             items.append({'title': brain.Title, 'url': brain.getURL(), 'date': prettyDate(brain.getRawCreation_date())})
         return items
 
+    def viewingself(self):
+        return self.viewedmember() == self.loggedinmember
+      
 
 
-class ProfileEditView(BaseView):
+
+class ProfileEditView(ProfileView):
 
     @button('update')
     def handle_request(self):
