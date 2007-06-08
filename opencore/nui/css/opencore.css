@@ -34,8 +34,8 @@ body {
   padding: 0;
 }
 #oc-topnav {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 #oc-content-container {
   margin: 0;
@@ -71,66 +71,66 @@ body {
 /* @TOPNAV - Global header
 --------------------------------------- */
 #oc-topnav {
-	position: relative;
+  position: relative;
   text-align: left;
 }
 #oc-topnav h1 {
-	padding: 0.5em 0 0.25em;
-	margin: 0;
+  padding: 0.5em 0 0.25em;
+  margin: 0;
 }
 ul#oc-topnav-context {
-	list-style-type: none;
-	display: block;
-	margin: 0;
-	padding: 0;
+  list-style-type: none;
+  display: block;
+  margin: 0;
+  padding: 0;
 }
 ul#oc-topnav-context li {
-	float: left;
-	clear: none;
-	display: block;
-	padding: 0.25em 0.5em;
-	margin: 0 0.25em;
+  float: left;
+  clear: none;
+  display: block;
+  padding: 0.25em 0.5em;
+  margin: 0 0.25em;
 }
 ul#oc-topnav-context li.oc-topnav-selected {
 }
 #oc-topnav-usermenu {
-	position: absolute;
-	top: 0em;
-	right: 0em;
-	padding: 0.25em;
+  position: absolute;
+  top: 0em;
+  right: 0em;
+  padding: 0.25em;
 }
 #oc-topnav-usermenu input.oc-input-typeText {
-	padding-left: 0.25em;
-	display: inline; 
-	font-size: 10px;
+  padding-left: 0.25em;
+  display: inline; 
+  font-size: 10px;
 }
 #oc-usermenu-list {
-	position: relative;
-	padding: 0;
-	margin: 0;
-	list-style: none;
-	font-size: 10px;
-	text-transform: lowercase;
-	text-align: left;
+  position: relative;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-size: 10px;
+  text-transform: lowercase;
+  text-align: left;
 }
 #oc-usermenu-list li {
-	float: left;
-	margin: 0 0.25em;
+  float: left;
+  margin: 0 0.25em;
 }
 #oc-usermenu-list li #oc-usermenu-explore {
-	position: absolute;
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	display: none;
+  position: absolute;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: none;
 }
 #oc-usermenu-list li #oc-usermenu-explore li {
-	float: none;
+  float: none;
 }
 /* @FOOTER - Global footer
 --------------------------------------- */
 #oc-footer-about {
-	text-align: right;
+  text-align: right;
 }
 
 #oc-footer ul {
@@ -151,33 +151,33 @@ ul#oc-topnav-context li.oc-topnav-selected {
 /* GENERIC layout elements */
 
 .oc-plainList { /* list with no formatting */
-	list-style-type: none;
-	padding: 0;
-	margin: 0 0 1em;
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 1em;
 }
 .oc-inlineList { /* comma-separated list (space-separated in IE) */
-	list-style: none;
-	margin: 0;
-	padding: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 .oc-inlineList li {
-	display: inline;
+  display: inline;
 }
 .oc-inlineList li:after {
-	content: ", ";
+  content: ", ";
 }
 .oc-inlineList li:last-child:after {
-	content: "";
+  content: "";
 }
 .oc-boxy {
-	margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 .oc-boxy-content {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 .oc-boxy textarea {
-	margin: 0;
+  margin: 0;
 }
 .oc-column-group {
   width: 100%;
@@ -193,22 +193,22 @@ ul#oc-topnav-context li.oc-topnav-selected {
   width: 49%;
 }
 #oc-contact .fn {
-	margin-left: 4em;
-	margin-bottom: 0.5em;
-	font-weight: bold;
+  margin-left: 4em;
+  margin-bottom: 0.5em;
+  font-weight: bold;
 }
 #oc-contact dl {
-	margin: 0;
+  margin: 0;
 }
 #oc-contact dt {
-	float: left;
-	width: 3.5em;
-	margin-right: 0.5em;
-	text-align: right;
-	font-weight: bold;
+  float: left;
+  width: 3.5em;
+  margin-right: 0.5em;
+  text-align: right;
+  font-weight: bold;
 }
 #oc-contact dd {
-	margin-bottom: 0.5em;
+  margin-bottom: 0.5em;
 }
 /* GENERIC search results & lineups */
 
@@ -253,7 +253,7 @@ ul#oc-topnav-context li.oc-topnav-selected {
 }
 .oc-lineup-item-sorter input,
 .oc-searchresults-nresults form input {
-	display: none;
+  display: none;
 }
 .oc-lineup .oc-paginator,
 .oc-searchresults .oc-paginator,
@@ -279,7 +279,7 @@ ul#oc-topnav-context li.oc-topnav-selected {
   clear: none;
   white-space: nowrap;
   overflow: hidden;
-	border: 1px solid #ccc;
+  border: 1px solid #ccc;
 }
 .oc-peopleresults-list .oc-avatar {
   width: 80px;
@@ -324,16 +324,16 @@ ul#oc-topnav-context li.oc-topnav-selected {
   white-space: normal;
 }
 .oc-roster-content h3 /* OpenPlans username */{
-	display: inline;
-	margin: 0;
+  display: inline;
+  margin: 0;
 }
 .oc-roster .adr /* location */ {
-	font-weight: bold;
+  font-weight: bold;
 }
 .oc-roster .oc-roster-projects {
-	font-weight: bold;
-	float: left;
-	padding-right: 0.5em;
+  font-weight: bold;
+  float: left;
+  padding-right: 0.5em;
 }
 
 
@@ -376,19 +376,19 @@ dl.oc-member-info dd {
 /* Member profile edit */
 
 .oc-member-edit #oc-member-badge {
-	background-color: transparent;
+  background-color: transparent;
 }
 .oc-member-edit #oc-member-badge .oc-member-editimage {
-	float: left;
-	width: 200px;
-	margin-right: 1em;
-	margin-bottom: 0.5em;
+  float: left;
+  width: 200px;
+  margin-right: 1em;
+  margin-bottom: 0.5em;
 }
 .oc-member-edit #oc-member-badge .oc-plainList input {
-	width: 75%;
+  width: 75%;
 }
 .oc-member-edit textarea {
-	width: 99%;
+  width: 99%;
 }
 
 /* Wiki pages */
@@ -617,13 +617,13 @@ a.oc-close:hover {
 .oc-message {
   background-color: #FFF6BF;
   border: 1px solid gray;
-	color: #333333;
-	font-weight: bold;
-	margin: 0.25em 0em;
-	padding: 0.125em 0.25em;
-	padding-right: 0.25em;
-	position: relative;
-	vertical-align: middle;
+  color: #333333;
+  font-weight: bold;
+  margin: 0.25em 0em;
+  padding: 0.125em 0.25em;
+  padding-right: 0.25em;
+  position: relative;
+  vertical-align: middle;
 }
 .oc-message-error {
   background: pink;
@@ -637,8 +637,8 @@ fieldset .oc-legend-heading {
   padding: 0;
  }
 fieldset .oc-headingContext {
-	margin: 0 0 1em;
-	line-height: normal;
+  margin: 0 0 1em;
+  line-height: normal;
 }
 fieldset fieldset .oc-legend-heading,
 #oc-content-sidebar fieldset .oc-legend-heading {
@@ -657,15 +657,15 @@ fieldset .oc-legend-label {
   font-size: 12px;
 }
 #oc-content-sidebar fieldset .oc-legend-label {
-	font-size: 10px;
+  font-size: 10px;
 }
 fieldset .oc-heading-context {
   margin: 0 0 .5em;
   padding: 0;
 }
 .oc-label-option {
-	font-weight: normal;
-	font-size: 10px;
+  font-weight: normal;
+  font-size: 10px;
 }
 
 
@@ -691,11 +691,11 @@ fieldset .oc-heading-context {
   list-style-type: none;
 }
 .oc-form-value {
-	width: auto;
+  width: auto;
 }
 .oc-form-help {
-	display: block;
-	line-height: normal;
+  display: block;
+  line-height: normal;
 }
 .oc-form-context {
   color: #666;
@@ -708,11 +708,11 @@ fieldset .oc-heading-context {
   /* white-space: nowrap; */
 }
 .oc-form-fieldBlock label {
-	font-weight: normal;
+  font-weight: normal;
 }
 .oc-form-fieldBlock input.oc-input-typeCheck,
 .oc-form-fieldBlock input.oc-input-typeRadio {
-	margin-left: 0;
+  margin-left: 0;
 }
 .oc-input-typeText { /* Since browser support for selecting by type is... limited */
 }
@@ -847,12 +847,12 @@ height: 1em;
 /* Feeds */
 
 .oc-widget-feed {
-	margin-bottom: 1em;
-	padding-bottom: 0.25em;
+  margin-bottom: 1em;
+  padding-bottom: 0.25em;
 }
 .oc-widget-feed.oc-column-left,
 .oc-widget-feed.oc-column-right {
-	width: 46%;
+  width: 46%;
 }
 .oc-widget-feed h2{
   margin: 0;
@@ -890,8 +890,8 @@ li.oc-feed-item .oc-feed-item-description {
   line-height: normal;
 }
 .oc-widget-feed .oc-paginator {
-	display: block;
-	padding: 0.75em 0;
+  display: block;
+  padding: 0.75em 0;
 }
 
 /* Invitations Widget */
@@ -985,22 +985,22 @@ li.oc-invite .oc-invite-content {
   margin-bottom: 0.5em;
 }
 .oc-getstarted-list {
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
 .oc-getstarted-list li h3 {
-	margin: 0;
+  margin: 0;
 }
 .oc-getstarted-list li h3 a {
-	text-decoration: none;
+  text-decoration: none;
 }
 .oc-getstarted-list li h3 a:hover {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 .oc-getstarted-list li p.oc-discreetText {
-	margin: 0 0 0.5em;
-	line-height: normal;
+  margin: 0 0 0.5em;
+  line-height: normal;
 }
 
 /* @BEHAVIORS
@@ -1062,7 +1062,7 @@ body, textarea {
   /* These typographic rules will establish rhythm of 18px at base font size */
 }
 #oc-content-sidebar {
-	font-size: 10px;
+  font-size: 10px;
 }
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
@@ -1098,7 +1098,7 @@ h3, .oc-bigText,
   font-size: 12px;
 }
 h4, .h4 {
-	font-size: 14px;
+  font-size: 14px;
   font-style: italics;
 }
 #oc-content-sidebar h4 {
@@ -1117,10 +1117,10 @@ textarea {
 #oc-content-sidebar select,
 #oc-content-sidebar input,
 #oc-content-sidebar textarea {
-	font-size: 10px;
+  font-size: 10px;
 }
 textarea {
-	margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 fieldset {
   border: none;
@@ -1148,7 +1148,7 @@ address {
 }
 #oc-content-sidebar .smallText,
 #oc-content-sidebar .discreetText {
-	font-size: 10px;
+  font-size: 10px;
 }
 .oc-discreetText {
   color: #999;

@@ -17,12 +17,12 @@ body {
   width: 100%;
   padding: 0;
   color: #fff;
-  background: #AAC683;
+  background: #2B7284;
   border-top: 0.75em solid #2B7284 ;
   border-bottom: 1px solid #2B7284 ;
 }
 #oc-topnav h1 {
-	margin-left: 0.5em;
+  margin-left: 0.5em;
 }
 #oc-topnav a {
   text-decoration: none;
