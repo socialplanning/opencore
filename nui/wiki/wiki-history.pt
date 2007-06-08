@@ -18,7 +18,12 @@
              tal:condition="python: pr.isVersionable(context)">
 	    
 	    <div class="oc-headingBlock oc-wiki-headingBlock">
-            <h2 tal:content="view/pagetitle"></h2>
+	       <ul class="oc-bcrumb">
+            <!-- <li><a href="#">My Great Project</a> /</li> -->
+            <li>
+              <span class="oc-bcrumb-current" tal:content="view/pagetitle"></span>
+            </li>
+          </ul>
       </div>
       
       <div metal:use-macro="here/@@wiki_macros/tabs" />

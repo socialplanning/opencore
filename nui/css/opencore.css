@@ -395,8 +395,8 @@ dl.oc-member-info dd {
 
 .oc-wiki {
 }
-.oc-wiki-headingBlock h2 {
-  font-size: 14px;
+.oc-wiki-headingBlock {
+  margin-top: 1.5em;
 }
 ul.oc-tabs {
   margin-top: -1.5em;
