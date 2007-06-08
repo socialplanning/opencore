@@ -46,7 +46,7 @@
             class="enableUnloadProtection"
             tal:attributes="action string:${here/absolute_url}/@@update">
             
-          <div class="headingBlock oc-wiki-headingBlock">
+          <div class="oc-headingBlock oc-wiki-headingBlock">
             <ul class="oc-bcrumb">
             <!-- <li><a href="#">My Great Project</a> /</li> -->
             <li class="oc-liveItem">

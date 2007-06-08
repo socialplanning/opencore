@@ -4,8 +4,13 @@
       <div id="oc-content-main" class="oc-content-main-fullWidth">
 
         <div class="oc-wiki">
-          <div class="headingBlock oc-wiki-headingBlock">
-            <h2 tal:content="view/pagetitle"/>
+          <div class="oc-headingBlock oc-wiki-headingBlock">
+            <ul class="oc-bcrumb">
+              <!-- <li><a href="#">My Great Project</a> /</li> -->
+              <li>
+                <span class="oc-bcrumb-current" tal:content="view/pagetitle"></span>
+              </li>
+            </ul>
           </div>
 
           <div metal:use-macro="here/@@wiki_macros/tabs"/>
