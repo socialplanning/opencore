@@ -5,29 +5,24 @@
  */
 body {
   color: #333;
-  background: #F0F3F6;
+  background: #DEEAF2;
   padding: 0;
 }
 #oc-page-container {
-  width: 100%;
-  margin: 0;
-}
-#oc-content-container,
-#oc-topnav,
-#oc-footer {
- max-width: 70em; /* As a rule, measure should be between two and three alphabets long. In other words, between 52 and 78 characters, including spaces. Since characters average out to about one-half EM in width this translates to a minimum width of 26em and a maximum of 39em, or two to three alphabets.   IN OTHER WORDS: avoid changing the width. */
+ max-width: 78em; /* As a rule, measure should be between two and three alphabets long. In other words, between 52 and 78 characters, including spaces. Since characters average out to about one-half EM in width this translates to a minimum width of 26em and a maximum of 39em, or two to three alphabets.   IN OTHER WORDS: avoid changing the width. */
  min-width: 52em;
  margin: 0 auto;
 }
-#oc-topnav-wrapper {
-}
 #oc-topnav {
   width: 100%;
-  padding: 0 1em;
+  padding: 0;
   color: #fff;
-  background: #437080;
-  border-top: 0.75em solid #214652;
-  border-bottom: 1px solid #214652;
+  background: #AAC683;
+  border-top: 0.75em solid #2B7284 ;
+  border-bottom: 1px solid #2B7284 ;
+}
+#oc-topnav h1 {
+	margin-left: 0.5em;
 }
 #oc-topnav a {
   text-decoration: none;
@@ -39,8 +34,20 @@ body {
   top: 0;
   right: 1em;
   width: 31%;
-  background: #214652;
+  background: #2B7284 ;
   padding: 0.25em 0.5em;
+}
+#oc-topnav-usermenu input.oc-input-typeText {
+  background-color: #fff;
+  border: 1px solid #999;
+  width: 60%;
+}
+#oc-topnav-usermenu ul {
+  margin: 0.25em 0;
+}
+#oc-topnav-usermenu ul li {
+  padding: 0.125em 0.25em;
+  font-weight: bold;
 }
 #oc-content-container {
  padding: 1em;
@@ -48,20 +55,13 @@ body {
 }
 #oc-content-main {
 }
-.oc-headingBlock {
-display: none;
-}
-#oc-content-sidebar {
-  background: #F0F3F6;
-  border: 1px solid #437080;
-  padding: 1em;
-  width: 31%;
-}
 #oc-footer {
   color: #666;
   background: transparent;
   border-top: 1px solid #F0F3F6;
-  margin-bottom: 2em;
+  margin: 0 0 2em;
+  padding-left: 0;
+  padding-right: 0;
 }
 #oc-footer a {
   color: #999;
@@ -142,33 +142,40 @@ h4, .h4 {
 .oc-simpleHeading a:hover { 
 }
 a {
-  color: #437080;
+  color: #2B7284 ;
 }
 a:visited {
-  color: #437080;
+  color: #2B7284 ;
 }
 a:hover {
-  color: #EB852B;
+  color: #DE7C07;
 }
 
 /* @BOXES THAT NEED STYLE
 -------------------------------------------- */
 
-.oc-widget-search {
-  background: #FCF9F6;
-  border: 1px solid #EB852B;
-  padding: 0.5em;
+.oc-widget-search,
+#oc-content-sidebar .oc-widget-search,
+#oc-content-sidebar .oc-widget-search.oc-boxy {
+  border: 1px solid #94BA65;
+  padding: 1em;
 }
 .oc-widget-alphabet {
-  border-top: 1px dotted #EB852B;
+  border-top: 1px dotted #AAC683;
   padding-left: 0;
   padding-top: 0.5em;
 }
 .oc-widget-feed li.oc-feed-item {
-  border-top: 1px dotted #437080;
+  border-top: 1px dotted #AAC683;
   padding: 0.5em 0;
 }
 .oc-widget-feed{
-  border-bottom: 1px dotted #437080;
+  border-bottom: 1px dotted #AAC683;
 }
-
+#oc-content-sidebar .oc-boxy {
+  border: 1px solid #AAC683;
+  background-color: #FBFFF7;
+  padding: 1em;
+}
+#oc-content-sidebar .oc-getstarted {
+}

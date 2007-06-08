@@ -100,11 +100,9 @@ ul#oc-topnav-context li.oc-topnav-selected {
 	padding: 0.25em;
 }
 #oc-topnav-usermenu input.oc-input-typeText {
-	text-align: right;
-	padding-right: 0.5em;
+	padding-left: 0.25em;
 	display: inline; 
 	font-size: 10px;
-	width: 10em;
 }
 #oc-usermenu-list {
 	position: relative;
