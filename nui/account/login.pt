@@ -13,7 +13,7 @@
 
           <div id="oc-content-main">
             <form method="post" id="oc-login-form"
-                  tal:attributes="action string:${context/absolute_url}/login">
+                  tal:attributes="action string:${context/absolute_url}/${view/name}">
 
 	      <!-- cruft from the skinned version.  probably not needed.
 		  <input type="hidden" name="form.submitted" value="1" />
