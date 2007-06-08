@@ -136,7 +136,7 @@ acted upon::
     >>> proj.restrictedTraverse('project-home').fa1.Title()
     'new file'
     >>> proj.lists.list1.Title()
-    'Listen Stub'
+    'new list'
 
     >>> request = self.portal.REQUEST
     >>> form = {'task': 'batch_update',
@@ -155,12 +155,12 @@ acted upon::
     >>> proj.restrictedTraverse('project-home').fa1.Title()
     'Castor'
     >>> proj.lists.list1.Title()
-    'Listen Stub'
+    'new list'
 
 
 Batch deletes work the same way::
     >>> proj.restrictedTraverse('img1')
-    <.d..>
+    <ATImage at ...>
 
     >>> request = self.portal.REQUEST
     >>> form = {'task': 'batch_delete',
