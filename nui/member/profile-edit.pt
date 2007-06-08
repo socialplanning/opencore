@@ -84,23 +84,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Jan 1</td>
-                <td><a href="">My awesome page</a></td>
-              </tr>
-              <tr>
-                <td>Dec 31</td>
-                <td><a href="">My really awesome page</a></td>
-              </tr>
-              <tr>
-                <td>Oct 12</td>
-                <td><a href="">My kinda awesome page</a></td>
+              <tr tal:repeat="item view/activity">
+                <td tal:content="item/date" />
+                <td><a tal:attributes="href item/url" tal:content="item/title" /></td>
               </tr>
             </tbody>
           </table>
         </div><!-- end .oc-widget-lastModified -->
       </div><!-- end .oc-content-sidebar -->
-
     </div><!-- content-fill-slot -->
   </body>
 </html>
