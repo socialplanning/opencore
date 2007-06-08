@@ -116,27 +116,53 @@ Test actually creating, editing, deleting an attachment::
      >>> len(secret) > 0
      True
 
-     >>> user_name = 'm1'
-     >>> auth = hmac.new(secret, user_name, sha).hexdigest()
-     >>> encoded = base64.encodestring('%s\0%s' % (user_name, auth))
+     Create attachment
+     >>> from opencore.nui.wiki import view as v
+     >>> request = self.portal.REQUEST
+     >>> view = v.AttachmentView(page, request)
+     >>> view = view.__of__(page)
+     >>> view.createAtt()
+     "{'status' : 'failed' }\n"
+     >>> view.request['attachmentTitle'] = 'secret'
+     >>> class tempfile(file):
+     ...     def __init__(self, filename):
+     ...         self.filename = filename 
+     ...         file.__init__(self, filename)
+     >>> tfile = tempfile(secret_file_name)
+     >>> view.request['attachmentFile'] = tfile
+     >>> view.request['attachment_id'] = 'secret.txt'
+     >>> view.createAtt()
+     "{status: 'success',...
+     >>> view.attachment_url()
+     'http://nohost/plone/projects/p1/project-home/@@attachmentSnippet?attachment_id=secret.txt'
+     >>> page.restrictedTraverse(view.request['attachment_id'])
+     <FileAttachment at /plone/projects/p1/project-home/secret.txt>
+
+     Update attachment
+     #>>> view.attachmentSnippet()
+     #>>> view.updateAtt()
+
+#      >>> user_name = 'm1'
+#      >>> auth = hmac.new(secret, user_name, sha).hexdigest()
+#      >>> encoded = base64.encodestring('%s\0%s' % (user_name, auth))
 
 
-     >>> response = http(r"""
-     ... POST /plone/projects/p1/project-home/@@createAtt HTTP/1.1
-     ... Content-Type: multipart/form-data; boundary=---------------------------824273643241773564606887381
-     ... Cookie: __ac=%s
-     ... -----------------------------824273643241773564606887381
-     ... Content-Disposition: form-data; name="attachmentTitle"
-     ... 
-     ... thetitle
-     ... -----------------------------824273643241773564606887381
-     ... Content-Disposition: form-data; name="attachmentFile"; filename="fn.txt"
-     ... Content-Type: application/octet-stream
-     ... 
-     ... foo
-     ... 
-     ... -----------------------------824273643241773564606887381--
-     ... """ % encoded, handle_errors=False)
+#      >>> response = http(r"""
+#      ... POST /plone/projects/p1/project-home/@@createAtt HTTP/1.1
+#      ... Content-Type: multipart/form-data; boundary=---------------------------824273643241773564606887381
+#      ... Cookie: __ac=%s
+#      ... -----------------------------824273643241773564606887381
+#      ... Content-Disposition: form-data; name="attachmentTitle"
+#      ... 
+#      ... thetitle
+#      ... -----------------------------824273643241773564606887381
+#      ... Content-Disposition: form-data; name="attachmentFile"; filename="fn.txt"
+#      ... Content-Type: application/octet-stream
+#      ... 
+#      ... foo
+#      ... 
+#      ... -----------------------------824273643241773564606887381--
+#      ... """ % encoded, handle_errors=False)
 
 
 
