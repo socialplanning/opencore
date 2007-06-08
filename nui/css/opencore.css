@@ -271,6 +271,7 @@ ul#oc-topnav-context li.oc-topnav-selected {
   clear: both;
   list-style-type: none;
   padding: 0;
+  margin-bottom: 0;
 }
 .oc-peopleresults-list li {
   margin: 0 0.75em 0.75em 0;

@@ -28,19 +28,27 @@
   </head>  
   <body>
     <div id="oc-page-container">
-      <div tal:replace="structure here/@@oc-topnav" />
-
-      <tal:for tal:repeat="status_msg portal_status">
-        <div tal:content="status_msg" class="error"/>
-      </tal:for>
-
-      <div id="oc-content-container">
-        <!-- content is injected here -->
-        <div metal:define-slot="content" />
-        <hr class="oc-clearElement" />
+      
+      
+      <div id="oc-topnav-wrapper">
+        <div tal:replace="structure here/@@oc-topnav" />
       </div>
 
-      <div tal:replace="structure here/@@oc-footer" />
+      <div id="oc-content-wrapper">
+      
+        <tal:for tal:repeat="status_msg portal_status">
+          <div tal:content="status_msg" class="error"/>
+        </tal:for>
+        
+        <div id="oc-content-container">
+          <!-- content is injected here -->
+          <div metal:define-slot="content" />
+          <hr class="oc-clearElement" />
+        </div>
+      </div>
+      <div id="oc-footer-wrapper">
+        <div tal:replace="structure here/@@oc-footer" />
+      </div>
     </div>
 
   </body>
