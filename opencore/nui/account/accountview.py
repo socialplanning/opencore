@@ -60,6 +60,8 @@ class LoginView(AccountView):
         else:
             if self.request.form.get('submit', '') == 'Log in':
                 self.addPortalStatusMessage('Login failed')
+            elif self.referer():
+                self.addPortalStatusMessage('Hey!')
             return self.index.render(*args, **kw)
 
 
