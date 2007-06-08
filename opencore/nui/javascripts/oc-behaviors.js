@@ -178,6 +178,9 @@ OC.LiveForm = function(extEl) {
       case "update" :
         // replace element
         var response = eval( "(" + o.responseText + ")" );
+        
+        /* FIXME: What if this is an error page? (404, need login, etc) */
+        
         for (elId in response) {
           var target = Ext.get(elId);
           var html = Ext.util.Format.trim(response[elId]);
@@ -185,12 +188,6 @@ OC.LiveForm = function(extEl) {
           target.remove();
           Ext.get(newNode).highlight();
         }
-        
-        /* o.responseText = Ext.util.Format.trim(o.responseText);
-        var newNode = Ext.DomHelper.insertHtml("beforeBegin", updater.target.dom, o.responseText);
-        updater.target.remove();
-        Ext.get(newNode).highlight();
-        */
       break;
       
       case "delete" :
@@ -234,7 +231,9 @@ OC.LiveItem = function(extEl) {
       // get references
       var value = Ext.get(Ext.query('.oc-liveItem-value', extEl.dom)[0]); 
       var editForm = Ext.get(Ext.query('.oc-liveItem-editForm', extEl.dom)[0]);
-      var toggleLinks = Ext.select(Ext.query('.oc-liveItem_toggle', extEl.dom))
+      var showFormLink = Ext.select(Ext.query('.oc-liveItem_showForm', extEl.dom));
+      var hoverShowFormLink = Ext.select(Ext.query('.oc-liveItem_hoverShowForm', extEl.dom));
+      var cancelLink = Ext.select(Ext.query('.oc-liveItem_cancel', extEl.dom));
       
       if (!value || !editForm) {
         OC.debug("liveItems.each: Couldn't get element refs");
@@ -244,12 +243,15 @@ OC.LiveItem = function(extEl) {
       // remove listeners.  For when we re-breathe life
       value.removeAllListeners();
       editForm.removeAllListeners();
-      toggleLinks.removeAllListeners();
+      showFormLink.removeAllListeners();
+      hoverShowFormLink.removeAllListeners();
+      cancelLink.removeAllListeners();
       
       // settings
       value.setVisibilityMode(Ext.Element.DISPLAY);
       editForm.setVisibilityMode(Ext.Element.DISPLAY);
       editForm.hide();
+      hoverShowFormLink.hide();
       
       function _toggleForm() {
         OC.debug('_toggleForm');
@@ -260,16 +262,20 @@ OC.LiveItem = function(extEl) {
       // liveEdit value behaviors
       function _valueMouseover(e, el, o) {
         value.addClass('oc-liveItem-hover');
+        if (hoverShowFormLink)
+          hoverShowFormLink.show();
       }
       value.on('mouseover', _valueMouseover, this);
       
       function _valueMouseout(e, el, o) {
         value.removeClass('oc-liveItem-hover');
+        if (hoverShowFormLink)
+          hoverShowFormLink.hide();
       }
       value.on('mouseout', _valueMouseout, this);
       
       function _valueClick(e,el,o) {
-        _toggleForm();
+        //_toggleForm();
       }
       value.on('click', _valueClick, this);
       
@@ -278,7 +284,9 @@ OC.LiveItem = function(extEl) {
         YAHOO.util.Event.stopEvent(e);
         _toggleForm();
       }
-      toggleLinks.on('click', _toggleLinksClick, this);
+      showFormLink.on('click', _toggleLinksClick, this);
+      hoverShowFormLink.on('click', _toggleLinksClick, this);
+      cancelLink.on('click', _toggleLinksClick, this);
       
       return this;
 }
