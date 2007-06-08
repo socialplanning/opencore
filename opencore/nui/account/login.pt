@@ -15,11 +15,17 @@
             <form method="post" id="oc-login-form"
                   tal:attributes="action string:${context/absolute_url}/login">
 
-              <input type="hidden" name="form.submitted" value="1" />
-              <input type="hidden" name="js_enabled" id="js_enabled" value="0" />
-              <input type="hidden" name="cookies_enabled" id="cookies_enabled" value="" />
-              <input type="hidden" name="login_name" id="login_name" value="" />
-              <input type="hidden" name="pwd_empty" id="pwd_empty" value="0" />
+	      <!-- cruft from the skinned version.  probably not needed.
+		  <input type="hidden" name="form.submitted" value="1" />
+		  <input type="hidden" name="js_enabled" id="js_enabled" value="0" />
+		  <input type="hidden" name="cookies_enabled" id="cookies_enabled" value="" />
+		  <input type="hidden" name="login_name" id="login_name" value="" />
+		  <input type="hidden" name="pwd_empty" id="pwd_empty" value="0" />
+		  -->
+
+	      <input type="hidden" name="came_from" id="came_from" 
+		     tal:condition="view/request/came_from | nothing" 
+		     tal:attributes="value view/request/came_from" />
 
               <fieldset>
                 <legend class="oc-legend-heading">Returning members</legend> 
