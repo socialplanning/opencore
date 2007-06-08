@@ -110,14 +110,14 @@ class ProjectContentsView(BaseView):
     @memoizedproperty
     def pages(self):
         brains = self.catalog(portal_type="Document",
-                              path='/'.join(self.context.getPhysicalPath()))
+                              path=self.project_path)
         needed_values = self.needed_values['pages']
         return [self._make_dict_and_translate(brain, needed_values) for brain in brains]
 
     @memoizedproperty
     def lists(self):
         brains = self.catalog(portal_type="Open Mailing List",
-                              path='/'.join(self.context.getPhysicalPath()))
+                              path=self.project_path)
         needed_values = self.needed_values['lists']
         return [self._make_dict_and_translate(brain, needed_values) for brain in brains]
 
@@ -125,7 +125,7 @@ class ProjectContentsView(BaseView):
     @memoizedproperty
     def files(self):
         brains = self.catalog(portal_type=("FileAttachment","Image"),
-                              path='/'.join(self.context.getPhysicalPath()))
+                              path=self.project_path)
         needed_values = self.needed_values['files']
         return [self._make_dict_and_translate(brain, needed_values) for brain in brains]
 
@@ -149,14 +149,13 @@ class ProjectContentsView(BaseView):
         # for each string id just to get a reference to the parent.
         # is there any way to delete objects without a ref to parent?
 
-        path = '/'.join(self.context.getPhysicalPath())
-        brains = self.catalog(id=sources, path=path)
+        brains = self.catalog(id=sources, path=self.project_path)
 
         if action == 'delete':
             parents = {}
             for brain in brains:
                 parent_path, brain_id = brain.getPath().rsplit('/', 1)
-                parent_path = parent_path.split(path, 1)[-1].strip('/')
+                parent_path = parent_path.split(self.project_path, 1)[-1].strip('/')
                 parents.setdefault(parent_path, []).append(brain_id)
             for parent, child_ids in parents.items():
                 if child_ids:
