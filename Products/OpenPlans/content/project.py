@@ -1,6 +1,7 @@
 from AccessControl import ClassSecurityInfo
 from Acquisition import aq_base, aq_parent, aq_inner
 
+from Products.ZCTextIndex import ParseTree
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 from Products.Archetypes.ExtensibleMetadata import ExtensibleMetadata
 from Products.Archetypes.config import REFERENCE_CATALOG
@@ -228,7 +229,18 @@ class OpenProject(BrowserDefaultMixin, TeamSpace):
         cat = getToolByName(self, 'portal_catalog')
         query = {index: value,
                  'Type': self.Type()}
-        matches = cat(**query)
+        try:
+            matches = cat(**query)
+        except ParseTree.ParseError:
+            # parens confuse ZCTextIndex
+            illegals = (')', '(',)
+            vcopy = value
+            for illegal in illegals:
+                vcopy = vcopy.replace(illegal, '')
+            query = {index: vcopy,
+                     'Type': self.Type()}
+            matches = cat(**query)
+            
         for match in matches:
             if match.UID != self.UID():
                 # now we refine the comparison
