@@ -24,7 +24,6 @@
                       <label for="fullname">Name</label>
                     </th>
                     <td class="oc-form-value">
-                      <!-- TODO changing this does not actually work! -->
                       <input type="text" id="fullname" name="fullname" tal:attributes="value request/fullname | proj/fullname"/>
                     </td>
                     <td class="oc-form-help">
