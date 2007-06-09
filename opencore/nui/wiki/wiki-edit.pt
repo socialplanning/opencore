@@ -53,6 +53,7 @@
               <span class="oc-liveItem-value">
                 <span class="oc-bcrumb-current" tal:content="context/Title" />
                 <a href="#" class="oc-liveItem_showForm">EDIT</a>
+                <!-- XXX Nick: hit me up when it's time to hook this up. -Josh -->
               </span>
               <div class="oc-liveItem-editForm">
                 <input type="text" tal:attributes="value string:${context/Title}" /> <a href="#" class="oc-liveItem_cancel" >Cancel</a>

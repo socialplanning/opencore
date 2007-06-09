@@ -123,7 +123,7 @@ class ProjectMenuView(BaseView):
         if self.membertool.checkPermission(ModifyPortalContent,
                                            self.piv.project):
             menudata += (
-                {'content': 'Manage',
+                {'content': 'Preferences',
                  'href': prefs_url,
                  'selected': self.request.ACTUAL_URL == prefs_url,
                  },

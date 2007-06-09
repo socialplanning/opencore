@@ -51,4 +51,13 @@ class ProfileEditView(ProfileView):
         else:
             print '\n\n\n\n\n\n    yayyyyy no errors    \n\n\n\n\n\n\n'
             self.context.processForm(REQUEST=self.request)
+            # TODO?
+            usr = self.viewedmember()
+            usr.setFullname(self.request.form['fullname'])
+            usr.setLocation(self.request.form['location'])
+            usr.setStatement(self.request.form['statement'])
+            usr.setSkills(self.request.form['skills'])
+            usr.setAffiliations(self.request.form['affiliations'])
+            usr.setBackground(self.request.form['background'])
+            usr.setFavorites(self.request.form['favorites'])
             self.redirect('profile')
