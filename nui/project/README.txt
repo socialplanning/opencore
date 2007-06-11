@@ -62,7 +62,24 @@ Preference View
     >>> get_featurelets(proj)
     []
 
+    Verify who we are logged in as
+    >>> getToolByName(self.portal, 'portal_membership').getAuthenticatedMember().getId()
+    'test_user_1_'
 
+    Verify that if we try to access a closed project as an anonymous
+    user, we lose
+    >>> self.logout()
+    >>> proj.restrictedTraverse('preferences')
+    Traceback (most recent call last):
+    ...
+    Unauthorized: You are not allowed to access 'preferences' in this context
+
+    Log back in as the right user
+    >>> self.login('test_user_1_')
+
+    Now we can see it again
+    >>> proj.restrictedTraverse('preferences')
+    <...SimpleViewClass ...preferences.pt...>
 
 Team view
 =========
