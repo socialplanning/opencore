@@ -1,13 +1,12 @@
 """
 TopNav view classes.
 """
-
+from Products.CMFCore.permissions import ModifyPortalContent
+from opencore.nui.base import BaseView 
 from plone.memoize import view
+
 memoizedproperty = lambda func: property(view.memoize(func))
 
-from Products.CMFCore.permissions import ModifyPortalContent
-
-from opencore.nui.base import BaseView 
 
 
 class TopNavView(BaseView):
@@ -163,7 +162,7 @@ class AuthMenuView(BaseView):
     """
     @memoizedproperty
     def menudata(self):
-        mem_data = self.mem_data_map
+        mem_data = self.member_info
         
         menudata = (
 
