@@ -111,7 +111,7 @@ class BaseView(BrowserView):
         return bool(canedit)
 
     @instance.memoizedproperty
-    def mem_data_map(self):
+    def member_info(self):
         """
         Returns a dict containing information about the currently
         authenticated member for easy template access.  If the member
@@ -228,24 +228,6 @@ class BaseView(BrowserView):
     def renderTranscluderLink(viewname):
         return '<a href="@@%s" rel="include">%s</a>\n' % (viewname, viewname)
 
-    @staticmethod
-    def renderOpenPage(page):
-        return page.CookedBody()
-
-    @staticmethod
-    def renderView(view):
-        # XXX do we really need this?
-        return view()
-
-    # stuff rob removed in his opencoreview
-
-    def renderContent(self, viewname):
-        viewname = viewname or self.magicContent()
-        return self.renderView(self.get_view(viewname))
-
-    def renderProjectContent(self):
-        return self.renderOpenPage(self.currentProjectPage())
-
     def projectobj(self): # TODO
         return self.piv.project
 
@@ -280,50 +262,16 @@ class BaseView(BrowserView):
     def inmember(self):
         return (self.miv.inMemberArea or self.miv.inMemberObject)
 
-
     # properties and methods associated with objects
 
     def inproject(self): # TODO
         return self.piv.inProject
-
-    def pageURL(self):
-        if self.inproject():
-            return self.currentProjectPage().absolute_url()
-        return self.context.absolute_url() # TODO?
-
-    def page(self): # TODO
-        """Returns a dict containing information about the
-        currently-viewed page for easy template access."""
-        if self.inproject():
-            page = self.currentProjectPage()
-            lastModifiedOn = '1/13/37'
-            lastModifiedBy = 'jab'
-            if page:
-                return dict(title=page.title,
-                            url=page.absolute_url(),
-                            lastModifiedOn=lastModifiedOn,
-                            lastModifiedBy=lastModifiedBy)
-
-    def projectHomePage(self):
-        if self.inproject():
-            homepagename = self.projectobj().getDefaultPage()
-            return self.projectobj().unrestrictedTraverse(homepagename)
 
     def projectFeaturelets(self):
         fletsupporter = IFeatureletSupporter(self.context)
         featurelet_ids = fletsupporter.getInstalledFeatureletIds()
         featurelets = [{'name': id, 'url' : fletsupporter.getFeatureletDescriptor(id)['content'][0]['id']} for id in featurelet_ids]
         return featurelets
-
-    def currentProjectPage(self):
-        if self.inproject():
-            if isinstance(self.context, OpenProject):
-                return self.projectHomePage()
-            elif isinstance(self.context, OpenPage):
-                return self.context
-            else: # TODO
-                return 'Unexpected error in OpencoreView.currentProjectPage: ' \
-                       'self.context is neither an OpenProject nor an OpenPage'
 
     @property
     def membranetool(self):
@@ -388,4 +336,10 @@ def anon_only(redirect_to=None):
             return func(self, *args, **kw)
         return new_method
     return inner_anon_only
+
+def static_txt(fname):
+    """module level cache?"""
+    def new_func(self):
+        return self.render_static(fname)
+    return new_func
 
