@@ -11,7 +11,7 @@
       <div id="oc-content-main">
         
         <!-- section that searches for the project  XXX maybe create a macro out of this? maybe just the letters part? -->
-        <div class="oc-widget oc-widget-search oc-boxy">    
+        <div class="oc-widget oc-boxy oc-widget-search">    
           <form name="projects_search" action="." tal:attributes="action string:${context/portal_url}/projects/searchresults">
             <label><h2>Search for projects</h2></label>
             <span class="oc-form-fieldBlock">
@@ -64,7 +64,7 @@
       		<h2>Start a project</h2>
       		<p class="oc-boxy-content">Can&rsquo;t find a project you are interested in? See a need that is not being met? Why not <a href="">start a new project</a>?
       	</div>
-      	<div tal:content="structure python: view.render_static('main_projects_featured_projects.txt')" />
+      	<div class="oc-boxy" tal:content="structure python: view.render_static('main_projects_featured_projects.txt')" />
       </div>
     </div><!-- content-fill-slot -->
     

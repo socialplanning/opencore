@@ -5,7 +5,7 @@
  */
 body {
   color: #333;
-  background: #DEEAF2;
+  background: #F1F7F8;
   padding: 0;
 }
 #oc-page-container {}
@@ -74,18 +74,18 @@ ul#oc-topnav-context li {
 #oc-content-main {
 }
 #oc-footer-wrapper {
-  color: #666;
+  color: #999;
   background: transparent;
-  border-top: 1px solid #AAC683 ;
+  border-top: 1px solid #AAC683;
   margin: 0 0 2em;
-  padding: 0.5em 0 0;
+  padding: 0.5em 0;
 }
 #oc-footer a {
   color: #999;
   text-decoration: none;
 }
 #oc-footer a:hover {
-  color: #555;
+  color: #CCC;
 }   
 .oc-missingText {
   color: gray;
@@ -171,27 +171,11 @@ a:hover {
 /* @BOXES THAT NEED STYLE
 -------------------------------------------- */
 
-.oc-widget-search,
-#oc-content-sidebar .oc-widget-search,
-#oc-content-sidebar .oc-widget-search.oc-boxy {
-  border: 1px solid #94BA65;
-  padding: 1em;
-}
-.oc-widget-alphabet {
-  border-top: 1px dotted #AAC683;
-  padding-left: 0;
-  padding-top: 0.5em;
-}
-.oc-widget-feed li.oc-feed-item {
-  border-top: 1px dotted #AAC683;
-  padding: 0.5em 0;
-}
-.oc-widget-feed{
-  border-bottom: 1px dotted #AAC683;
-}
+/* Boxy */
+
 #oc-content-sidebar .oc-boxy {
   border: 1px solid #AAC683;
-  background-color: #FBFFF7;
+  background-color: #F6FBF0;
   padding: 1em;
 }
 #oc-content-sidebar .oc-boxy h1,
@@ -199,5 +183,46 @@ a:hover {
   padding-bottom: 0.5em;
   border-bottom: 1px dotted #AAC683;
 }
+
+/* Get Started */
+
 #oc-content-sidebar .oc-getstarted {
+  border-color: #DE7C07;
+  background-color: #FFFBF7;
+
+}
+#oc-content-sidebar .oc-getstarted h1,
+#oc-content-sidebar .oc-getstarted h2 {
+  border-color: #DE7C07;
+}
+#oc-content-sidebar .oc-getstarted-list a {
+ color: #DE7C07;
+}
+
+/* Search Widgets */
+
+.oc-widget-search,
+#oc-content-sidebar .oc-widget-search,
+#oc-content-sidebar .oc-widget-search.oc-boxy {
+  border: 1px solid #AAC683;
+  background: none;
+  padding: 1em;
+}
+.oc-widget-alphabet,
+#oc-content-sidebar ul.oc-widget-alphabet.oc-boxy {
+  border: none;
+  border-top: 1px dotted #AAC683;
+  padding: 0;
+  padding-top: 0.5em;
+  margin-top: 0.5em;
+}
+
+/* Feeds */
+
+.oc-widget-feed{
+  border-bottom: 1px dotted #AAC683;
+}
+.oc-widget-feed li.oc-feed-item {
+  border-top: 1px dotted #AAC683;
+  padding: 0.5em 0;
 }
