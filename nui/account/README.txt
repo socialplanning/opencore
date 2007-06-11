@@ -112,7 +112,7 @@ When the method is accessible, it should return a string code for the user::
     >>> m()
     '...'
 
-join
+Join
 ====
 
 Test the join view by adding a member to the site::
@@ -142,7 +142,7 @@ Ah, nothing happened... need to set button::
     >>> view.handle_request()
     <OpenMember at /plone/portal_memberdata/foobar>
 
-confirm
+Confirm
 =======
 
 Test the account confirmation view:: (fill this in!)
