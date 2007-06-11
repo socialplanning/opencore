@@ -21,7 +21,7 @@
 </li><!-- end metal -->
 
 <!-- BEGIN FILE UPLOAD FORM -->
-<form metal:define-macro="upload" class="oc-updateForm" action="@@createAtt" enctype="multipart/form-data">
+<form metal:define-macro="upload" class="oc-uploadForm" action="@@createAtt" enctype="multipart/form-data">
   <input type="hidden" name="oc-target" value="oc-wiki-attachments" />
   
   <table class="oc-form">
@@ -65,6 +65,7 @@
 </form>
 <!-- END FILE UPLOAD FORM -->
 
+<!-- BEGIN WIKI TABS -->
 <div tal:attributes="id string:oc-wiki-tabs-${view/name}" metal:define-macro="tabs">
        <ul class="oc-tabs">
          <li class="oc-wiki-tabs-view">
@@ -79,7 +80,7 @@
          <!--
          <li>
 	   <form class="" >
-             <select class="oc-dropdown-links">
+             <select class="oc-selectBoxAutoLinks">
                <option value="">More...</option>
                <option value="http://www.google.com">I'm feeling lucky</option>
              </select>
@@ -89,3 +90,4 @@
          -->
        </ul>
 </div>
+<!-- END WIKI TABS -->

@@ -20,11 +20,10 @@ if (typeof OC == "undefined") {
 #
 */
 OC.liveElementKey = {
-  ".oc-updateForm" : "UpdateForm",
-  ".oc-liveAction" : "LiveAction",
+  ".oc-uploadForm" : "UploadForm",
   ".oc-liveEdit" : "LiveEdit",
   ".oc-close" : "CloseButton",
-  ".oc-dropdown-links" : "DropDownLinks",
+  ".oc-selectBoxAutoLinks" : "SelectBoxAutoLinks",
   ".oc-expander" : "Expander",
   "#version_compare_form" : "HistoryList",
   "#oc-join-form" : "JoinForm",
@@ -35,34 +34,84 @@ OC.liveElementKey = {
 /* 
 #
 # breathes life (aka js behaviors) into HTML elements.
-# call this on load, and again each time we add new stuff to the DOM.  
+# call this on load w/ no argument to breathe life to entire document.
+# When adding new nodes to the dom, call breatheLife(newItem) to activate that element and it's children.
 #
 */
-OC.breatheLife = function() {
+OC.breatheLife = function(newNode) {
+
+  // set scope
+  if (!newNode) {
+    targetNode = document;
+  } else {
+    // accept HTML element or Ext Element
+    if (newNode.dom)
+      targetNode = newNode.dom;
+    else 
+      targetNode = newNode; 
+  }
   
   // loop through selectors specified above
   for (var selector in OC.liveElementKey) {
     
-    // within each query, loop through each Ext Element and check if there's an object        
-    var elements = Ext.query(selector);
+    // Get array of elements to apply behaviors to.  Include newNode itself in query.      
+    var elements = Ext.query(selector, targetNode);
+    if (Ext.DomQuery.is(targetNode, selector)) {
+      elements.push(Ext.get(targetNode))
+    }
+    
     if(elements.length > 0){
       
       for (var i = 0; i < elements.length; i++) {
       
         //get an Ext Obj for your element
         var extEl = Ext.get(elements[i]);
-                
+        
         //get reference to the proper constructor
         var constructor = OC[this.liveElementKey[selector]];        
         
         // add a new liveElement to OC.liveElements
         OC.liveElements[extEl.dom.id] = new constructor(extEl);
+        
       }
     }      
   }
 
 } // OC.breatheLife()
 
+/*
+#------------------------------------------------------------------------
+# Utilities
+#------------------------------------------------------------------------
+*/
+
+// Debug Function.  Turn off for live code or IE
+OC.debug = function(string) {
+  var method = "console"; /* "console", "alert" or "" */
+  switch (method) {
+    case "console" :
+      console.log(string);
+      break;
+    case "alert" :
+      alert(string);
+      break;
+    default:
+      return;
+  }
+}
+
+/*
+#------------------------------------------------------------------------
+# Load Em up
+#------------------------------------------------------------------------
+*/
+
+Ext.onReady(function() {
+
+   /* Short and Sweet */
+   OC.breatheLife();
+
+});
 
 /*
 #------------------------------------------------------------------------
@@ -73,6 +122,7 @@ OC.breatheLife = function() {
 /*
 #
 # Live Form
+# Takes a standard HTML Form and allows you to submit part or all of it via Ajax.
 #
 */
 OC.LiveForm = function(extEl) {
@@ -187,6 +237,7 @@ OC.LiveForm = function(extEl) {
           var newNode = Ext.DomHelper.insertHtml("beforeBegin", target.dom, html);
           target.remove();
           Ext.get(newNode).highlight();
+          OC.breatheLife(newNode);
         }
       break;
       
@@ -203,8 +254,6 @@ OC.LiveForm = function(extEl) {
       break;
       
     } 
-    
-    OC.breatheLife();
   }
   
   // after failure
@@ -223,7 +272,10 @@ OC.LiveForm = function(extEl) {
 
 /* 
 #
-# Live Items
+# Live item
+# Show/hide editable version of a value.  
+# LiveItems should always be part of a LiveForm.
+# FIXME: Replace LiveEdit with LiveItem + LiveForm
 #
 */
 OC.LiveItem = function(extEl) {
@@ -293,90 +345,88 @@ OC.LiveItem = function(extEl) {
 
 /* 
 #
-# OC Update Form
+# OC Upload Form
+# FIXME: Re-do this so it works as a LiveForm
 # 
 */
-OC.UpdateForm = function(extEl) {
-    OC.debug('OC.UpdateForm');
+OC.UploadForm = function(extEl) {
     //get references
-    this.form = extEl;
-    this.targetId = Ext.get(Ext.query('input[name=oc-target]',extEl.dom)[0]).dom.value;
-    this.target = Ext.get(this.targetId);
-    this.indicator = Ext.get(Ext.query('.oc-indicator',extEl.dom)[0]);
-    this.submit = Ext.get(Ext.query('input[type=submit]',extEl.dom)[0])
+    var form = extEl;
+    var targetId = Ext.get(Ext.query('input[name=oc-target]',form.dom)[0]).dom.value;
+    var target = Ext.get(targetId);
+    var indicator = Ext.get(Ext.query('.oc-indicator',form.dom)[0]);
+    var submit = Ext.get(Ext.query('input[type=submit]',form.dom)[0])
 
     //check refs
-    if (!this.form || !this.target || !this.indicator || !this.submit) {
-        OC.debug('element missing');
+    if (!form || !target || !indicator || !submit) {
+        OC.debug('UploadForm: element missing');
         return;
     }
 
     //vars & settings
-    this.isUpload = false;
-    if (this.form.dom.enctype)
-        this.isUpload = true;
-    OC.debug(this.form.dom.enctype);
-    this.indicator.setVisibilityMode(Ext.Element.DISPLAY);
-    this.indicator.hide();
+    var isUpload = false;
+    if (form.dom.enctype)
+        isUpload = true;
+    OC.debug("Enctype: " + form.dom.enctype);
+    indicator.setVisibilityMode(Ext.Element.DISPLAY);
+    indicator.hide();
 
     // loading
-    this.startLoading = function() {
-        this.indicator.show();
-        this.submit.dom.disabled = true;
-        this.submit.originalValue = this.submit.dom.value;
-        this.submit.dom.value = "Please wait..."
+    function _startLoading() {
+        indicator.show();
+        submit.dom.disabled = true;
+        submit.originalValue = submit.dom.value;
+        submit.dom.value = "Please wait..."
     }
-    this.stopLoading = function() {
-        this.indicator.hide();
-        this.submit.dom.disabled = false;
-        this.submit.dom.value = this.submit.originalValue;
-        this.form.dom.reset();
+    function _stopLoading() {
+        indicator.hide();
+        submit.dom.disabled = false;
+        submit.dom.value = submit.originalValue;
+        form.dom.reset();
     }
 
     //ajax request
-    this.formSubmit = function(e, el, o) {
-                
-        if (this.isUpload)
+    function _formSubmit(e, el, o) {
+        YAHOO.util.Event.stopEvent(e);
+             
+        if (isUpload)
             YAHOO.util.Connect.setForm(el, true);
         else 
             YAHOO.util.Connect.setForm(el);
 
         var callback = {
-          success: this.afterSuccess,
-          upload: this.afterUpload,
-          failure: this.afterFailure,
+          success: _afterSuccess,
+          upload: _afterUpload,
+          failure: _afterFailure,
           scope: this
         }
-	OC.debug(this.form.dom.action);
-        var cObj = YAHOO.util.Connect.asyncRequest("POST", this.form.dom.action, callback);
-        this.startLoading();
-        
-        YAHOO.util.Event.stopEvent(e);
+	     OC.debug("Action: " + form.dom.action);
+        var cObj = YAHOO.util.Connect.asyncRequest("POST", form.dom.action, callback);
+        _startLoading(); 
 
     }
-    this.form.on('submit', this.formSubmit, this);
+    form.on('submit', _formSubmit, this);
 
     // after request
-    this.afterUpload = function(o) {
-        this.stopLoading(); 
+    function _afterUpload(o) {
+        _stopLoading(); 
         
         //turn into a real object. CAREFUL - only do this with trusted content
         var response = eval( '(' + o.responseText + ')' );
         
         switch (response.status) {
           case "success" :
-            this.afterUploadSuccess(response);
+            _afterUploadSuccess(response);
           break;
           case "failure" :
-            this.afterUploadFailure(response);
+            _afterUploadFailure(response);
           break;
           default:
-            OC.debug('default');
+            OC.debug('_afterUpload response.status: default');
         } 
     }
-    this.afterUploadSuccess = function(response) {
-      OC.debug('this.afterUploadSuccess');
-      OC.debug(response);
+    function _afterUploadSuccess(response) {
+      OC.debug('_afterUploadSuccess');
       
       //2nd ajax request
       var cObj = YAHOO.util.Connect.asyncRequest("GET", response.updateURL, { 
@@ -385,11 +435,11 @@ OC.UpdateForm = function(extEl) {
           // insert new - DomHelper.insertHtml converts string to DOM nodes
           OC.debug(o.responseText);
           o.responseText = Ext.util.Format.trim(o.responseText);
-          var newItem = Ext.get(Ext.DomHelper.insertHtml('beforeEnd', this.target.dom, o.responseText));
-          newItem.highlight("ffffcc", { endColor: "eeeeee"});
+          var newNode = Ext.DomHelper.insertHtml('beforeEnd', target.dom, o.responseText);
+          Ext.get(newNode).highlight("ffffcc", { endColor: "eeeeee"});
 
           //re-up behaviors on new element
-          OC.breatheLife();
+          OC.breatheLife(newNode);
         }, 
         failure: function(o) {
           OC.debug('upload failed');
@@ -400,15 +450,15 @@ OC.UpdateForm = function(extEl) {
       
     }
 
-    this.afterFailure = function(o) {
-        OC.debug('this.afterFailure RESPONSE BELOW:\n\n');
+    function _afterFailure(o) {
+        OC.debug('_afterFailure RESPONSE BELOW:\n\n');
         for (prop in o) {
           OC.debug(prop + ":");
           OC.debug(o["" + prop + ""]);
         }
     }
-    this.afterSuccess = function(o) {
-        OC.debug('this.afterSuccess RESPONSE BELOW:\n\n'); 
+    function _afterSuccess(o) {
+        OC.debug('_afterSuccess RESPONSE BELOW:\n\n'); 
         for (prop in o) {
           OC.debug(prop + ":");
           OC.debug(o["" + prop + ""]);
@@ -425,148 +475,121 @@ OC.UpdateForm = function(extEl) {
 */
 OC.LiveEdit = function(extEl) {
     //get references for included elements
-    this.container = extEl;
-    this.value = Ext.select(Ext.DomQuery.select('.oc-liveEdit-value',this.container.dom));
-    this.edit = Ext.get(Ext.query('.oc-liveEdit-edit', this.container.dom)[0]);
-    this.delete_ = Ext.get(Ext.query('.oc-liveEdit-delete', this.container.dom)[0]);
-    this.form = Ext.get(Ext.query('.oc-liveEdit-form', this.container.dom)[0]);
-    this.cancel = Ext.get(Ext.query('.oc-liveEdit-cancel', this.container.dom)[0]);
+    var container = extEl;
+    var value = Ext.select(Ext.DomQuery.select('.oc-liveEdit-value', container.dom));
+    var edit = Ext.get(Ext.query('.oc-liveEdit-edit', container.dom)[0]);
+    var delete_ = Ext.get(Ext.query('.oc-liveEdit-delete', container.dom)[0]);
+    var form = Ext.get(Ext.query('.oc-liveEdit-form', container.dom)[0]);
+    var cancel = Ext.get(Ext.query('.oc-liveEdit-cancel', container.dom)[0]);
 
     // check to make sure we have what we need
     //if(!this.container || !this.value || !this.form)
     //    return;
 
-    OC.debug(this.form.dom);
+    OC.debug(form.dom);
+    
+    //clear listeners. Temporary as elements can be made liveItems repeatedly right now. 
+    container.removeAllListeners();
+    value.removeAllListeners();
+    edit.removeAllListeners();
+    delete_.removeAllListeners();
+    form.removeAllListeners();
+    cancel.removeAllListeners();
 
     /*
-     # Attach Behviors
+     # Attach Behaviors
      */
     // container
-    this.containerMouseOver = function(e, el, o) {
-        this.container.addClass('oc-liveEdit-hover');
-        this.value.addClass('oc-liveEdit-hover');
+    function _containerMouseOver(e, el, o) {
+        container.addClass('oc-liveEdit-hover');
+        value.addClass('oc-liveEdit-hover');
     }
-    this.container.on('mouseover', this.containerMouseOver, this);
+    container.on('mouseover', _containerMouseOver, this);
 
-    this.containerMouseOut = function(e, el, o) {
-        this.container.removeClass('oc-liveEdit-hover');
-        this.value.removeClass('oc-liveEdit-hover');
+    function _containerMouseOut(e, el, o) {
+        container.removeClass('oc-liveEdit-hover');
+        value.removeClass('oc-liveEdit-hover');
     }
-    this.container.on('mouseout', this.containerMouseOut, this);
-    /*
-       this.containerClick = function(e, el, o) {
-       this.value.hide();
-       this.form.show();
-       this.container.addClass('oc-liveEdit-editing');
-       }
-       this.container.on('click', this.containerClick, this);
-     */
+    container.on('mouseout', _containerMouseOut, this);
+
     //edit
-    this.editClick = function(e, el, o) {
+    function _editClick(e, el, o) {
         YAHOO.util.Event.stopEvent(e);
-        this.value.hide();
-        this.form.show();
-        this.container.addClass('oc-liveEdit-editing');
+        value.hide();
+        form.show();
+        container.addClass('oc-liveEdit-editing');
     }
-    if (this.edit) {
-        this.edit.on('click', this.editClick, this);
+    if (edit) {
+        edit.on('click', _editClick, this);
     }
 
-    this.deleteClick = function(e, el, o) {
+    function _deleteClick(e, el, o) {
         YAHOO.util.Event.stopEvent(e);
         if (confirm("Are you sure you want to delete?")) {
-            YAHOO.util.Connect.setForm(this.form.dom);
-            var action = this.form.dom.action.replace(/(.*)update/, '$1delete');
-            var cObj = YAHOO.util.Connect.asyncRequest("POST", action, { success: this.afterDelete, failure: this.afterFailure, scope: this });
+            YAHOO.util.Connect.setForm(form.dom);
+            var action = form.dom.action.replace(/(.*)update/, '$1delete');
+            var cObj = YAHOO.util.Connect.asyncRequest("POST", action, { success: _afterDelete, failure: _afterFailure, scope: this });
         }            
     }
-    if (this.delete_) {
-        this.delete_.on('click', this.deleteClick, this);
+    if (delete_) {
+        delete_.on('click', _deleteClick, this);
     }
 
 
     //value
-    this.value.setVisibilityMode(Ext.Element.DISPLAY);
+    value.setVisibilityMode(Ext.Element.DISPLAY);
 
     //form
-    this.form.setVisibilityMode(Ext.Element.DISPLAY);
-    this.form.hide();
+    form.setVisibilityMode(Ext.Element.DISPLAY);
+    form.hide();
 
     //ajax request
-    this.formSubmit = function(e, el, o) {
+    _formSubmit = function(e, el, o) {
         YAHOO.util.Connect.setForm(el);
-        var cObj = YAHOO.util.Connect.asyncRequest("POST", el.action, { success: this.afterSuccess, failure: this.afterFailure, scope: this });
+        var cObj = YAHOO.util.Connect.asyncRequest("POST", el.action, { success: _afterSuccess, failure: _afterFailure, scope: this });
         YAHOO.util.Event.stopEvent(e);
     }
-    this.form.on('submit', this.formSubmit, this);
+    form.on('submit', _formSubmit, this);
 
     // after request
 
-    this.afterDelete = function(o) {
+    function _afterDelete(o) {
         // delete original container
-        this.container.setVisibilityMode(Ext.Element.DISPLAY);
-        this.container.dom.style.backgroundColor = "red";
-        this.container.fadeOut();
+        container.setVisibilityMode(Ext.Element.DISPLAY);
+        container.dom.style.backgroundColor = "red";
+        container.fadeOut();
     }
 
-    this.afterSuccess = function(o) {
+    function _afterSuccess(o) {
 
         // insert new - DomHelper.insertHtml converts string to DOM nodes
-        Ext.DomHelper.insertHtml('afterEnd', this.container.dom, o.responseText);
-        var newItem = Ext.get(Ext.get(this.container).getNextSibling());
+        Ext.DomHelper.insertHtml('afterEnd', container.dom, o.responseText);
+        var newItem = Ext.get(Ext.get(container).getNextSibling());
 
         // delete original container
-        this.container.remove();
+        container.remove();
 
         // highlight
         newItem.highlight();
 
         // re-up liveEdit behaviors on new element
-        OC.breatheLife();
+        OC.breatheLife(newItem);
     }
-    this.afterFailure = function(o) {
+    function _afterFailure(o) {
         OC.debug('Oops! There was a problem.\n\n' + o.responseText); 
     }
 
     // cancel link
-    if (this.cancel) {
-        this.cancelClick = function(e, el, o) {
-            this.value.show();
-            this.form.hide();
-            this.container.removeClass('oc-liveEdit-editing');
+    if (cancel) {
+        function _cancelClick(e, el, o) {
+            value.show();
+            form.hide();
+            container.removeClass('oc-liveEdit-editing');
             YAHOO.util.Event.stopEvent(e);
             //TODO: clear form
         }
-        this.cancel.on('click', this.cancelClick, this);
+        cancel.on('click', _cancelClick, this);
     }
-    return this;
-}
-
-/* 
-#
-# LiveAction
-#
-*/
-OC.LiveAction = function(extEl) {
-    // get references
-    this.container = extEl;
-    this.actionLinks = Ext.select(Ext.DomQuery.select('.oc-liveAction-actionLink',this.container.dom));
-
-    // settings
-    this.container.setVisibilityMode(Ext.Element.DISPLAY);
-    
-    //behaviors
-    this.actionLinkClick = function(e, el, o) {
-      YAHOO.util.Event.stopEvent(e);
-      if (confirm('are you sure?')) {
-          //ajax call
-
-          //fade out
-          this.container.fadeOut({});
-      }
-    }
-    this.actionLinks.on('click', this.actionLinkClick, this);
-    
     return this;
 }
 
@@ -577,44 +600,44 @@ OC.LiveAction = function(extEl) {
  */
 OC.CloseButton = function(extEl) {
     // get references.  No ID naming scheme.  just use parent node.
-    this.closeButton = extEl;
-    this.container = Ext.get(this.closeButton.dom.parentNode);
-    this.container.setVisibilityMode(Ext.Element.DISPLAY);
+    var closeButton = extEl;
+    var container = Ext.get(closeButton.dom.parentNode);
+    container.setVisibilityMode(Ext.Element.DISPLAY);
 
     //behaviors
-    this.closeButtonClick = function(e, el, o) {
+    function _closeButtonClick(e, el, o) {
         if (confirm('are you sure?')) {
             //ajax call
 
             //fade out
-            this.container.fadeOut({});
+            container.fadeOut({});
         }
         YAHOO.util.Event.stopEvent(e);
     }
-    this.closeButton.on('click', this.closeButtonClick, this);
+    closeButton.on('click', _closeButtonClick, this);
     
     return this;
 }
 
 /* 
 #
-# Dropdown Links
+# Select Box Auto Links
 #
  */
-OC.DropDownLinks = function(extEl) {
+OC.SelectBoxAutoLinks = function(extEl) {
     // get references.  No ID naming scheme yet.  just use parent node.
-    this.select = extEl;
-    this.submit = Ext.get(Ext.query('input[type=submit]', extEl.dom.parentNode)[0]);
+    var select = extEl;
+    var submit = Ext.get(Ext.query('input[type=submit]', select.dom.parentNode)[0]);
 
     //submit 
-    this.submit.setVisibilityMode(Ext.Element.DISPLAY);
-    this.submit.hide();
+    submit.setVisibilityMode(Ext.Element.DISPLAY);
+    submit.hide();
 
     //behaviors
-    this.selectChange = function(e, el, o) {
+    function _selectChange(e, el, o) {
         window.location = el.value;
     } 
-    this.select.on('change', this.selectChange, this);
+    select.on('change', _selectChange, this);
     
     return this;
 }
@@ -632,29 +655,40 @@ OC.Expander = function(extEl) {
     var content = Ext.get(Ext.query(".oc-expander-content",  container.dom)[0]);
 
     // check to make sure we have everything
-    if(!container || !expanderLink || !content)
+    if(!container || !expanderLink || !content) {
+      OC.debug('OC.Expander: couldn\'t get element references');
         return;
+    }
+    
+    // settings
+    content.setVisibilityMode(Ext.Element.DISPLAY);
 
+    function _expand() {
+      content.slideIn('t',{duration: .1});
+      container.addClass('oc-expander-open');
+      expanderLink.dom.innerHTML = "[x] Close";
+    }
+    function _contract() {
+      content.slideOut('t',{duration: .1});
+      container.removeClass('oc-expander-open');
+      expanderLink.dom.innerHTML = title;
+    }
+    
     //link
-    function linkClick(e, el, o) {
-        //fade out
+    function _linkClick(e, el, o) {
         if (!content.isVisible()) {
-            content.slideIn('t',{duration: .1});
-            container.addClass('oc-expander-open');
-            expanderLink.dom.innerHTML = "[x] Close";
+            _expand();
         } else {
-            content.slideOut('t',{duration: .1});
-            container.removeClass('oc-expander-open');
-            expanderLink.dom.innerHTML = title;
+            _contract();
         } 
-
         YAHOO.util.Event.stopEvent(e);
     }
-    expanderLink.on('click', linkClick, this);
-
-    //contents 
-    content.setVisibilityMode(Ext.Element.DISPLAY);
-    content.hide();
+    expanderLink.on('click', _linkClick, this);
+    
+    // init (when breatheLife is called)
+    if (!container.hasClass('oc-expander-open')) {
+      _contract();
+    }
     
     return this;
 }
@@ -666,28 +700,28 @@ OC.Expander = function(extEl) {
  */
 OC.JoinForm = function(extEl) {
     // setup references
-    this.form = Ext.get('oc-join-form');
-    this.usernameField = Ext.get('__ac_name');
-    this.usernameValidator = Ext.get('oc-username-validator');
+    var form = Ext.get('oc-join-form');
+    var usernameField = Ext.get('__ac_name');
+    var usernameValidator = Ext.get('oc-username-validator');
     // hacking this together for the moment.
 
     //check references
-    if (!this.form || !this.usernameField || !this.usernameValidator)
+    if (!form || !usernameField || !usernameValidator)
         return;
 
     //username field   
-    this.usernameKeyPress = function(e, el, o) {
+    function _usernameKeyPress(e, el, o) {
         //setup request
         var options = {
            url: 'user-exists',
            method:'post',
-           params:{username:this.usernameField.dom.value},
+           params:{username: usernameField.dom.value},
            callback: function(options, bSuccess, response) {
                if (bSuccess) {
                    if( response.responseText )
-                       this.usernameValidator.update('no good');
+                       usernameValidator.update('no good');
                    else
-                       this.usernameValidator.update('ok!');
+                       usernameValidator.update('ok!');
                }
            },
            scope: this
@@ -695,7 +729,7 @@ OC.JoinForm = function(extEl) {
         // make ajax call
         new Ext.data.Connection().request(options);
     }
-    this.usernameField.on('keypress', this.usernameKeyPress, this);
+    usernameField.on('keypress', _usernameKeyPress, this);
     
     return this;
 }
@@ -795,37 +829,3 @@ OC.HistoryList = function(extEl) {
     
     return this;
 }
-
-/*
-#------------------------------------------------------------------------
-# Utilities
-#------------------------------------------------------------------------
-*/
-
-// Debug Function.  Turn off for live code or IE
-OC.debug = function(string) {
-  var method = "console"; /* "console", "alert" or "" */
-  switch (method) {
-    case "console" :
-      console.log(string);
-      break;
-    case "alert" :
-      alert(string);
-      break;
-    default:
-      return;
-  }
-}
-
-/*
-#------------------------------------------------------------------------
-# Load Em up
-#------------------------------------------------------------------------
-*/
-
-Ext.onReady(function() {
-
-   /* Short and Sweet */
-   OC.breatheLife();
-
-});
