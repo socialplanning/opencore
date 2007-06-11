@@ -6,7 +6,7 @@ from opencore.nui.wiki import htmldiff2
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from DateTime import DateTime
 from topp.utils.pretty_date import prettyDate
-
+from plone.memoize import instance
 
 
 class WikiVersionView(BaseView): 
@@ -59,7 +59,8 @@ class WikiVersionView(BaseView):
 
 class WikiVersionCompare(WikiVersionView):
 
-    def __call__(self):
+    @instance.memoizedproperty
+    def versions(self):
         versions = self.request.get('version_id')
         req_error = None
         if not versions:
@@ -70,10 +71,10 @@ class WikiVersionCompare(WikiVersionView):
             req_error = 'You may only check two versions in the version compare form'
         if not req_error:
             versions.sort()
-            self.old_version_id, self.new_version_id = self.sort_versions(*versions)
+            old_version_id, new_version_id = self.sort_versions(*versions)
             try:
-                self.old_version = self.get_version(self.old_version_id)
-                self.new_version = self.get_version(self.new_version_id)
+                old_version = self.get_version(old_version_id)
+                new_version = self.get_version(new_version_id)
             except ArchivistRetrieveError:
                 req_error = 'Invalid version specified'
             
@@ -81,7 +82,13 @@ class WikiVersionCompare(WikiVersionView):
             # redirect to input page on error
             self.addPortalStatusMessage(req_error)
             raise Redirect('%s/history' % self.context.absolute_url())
+        
+        return dict(old=(old_version_id, old_version),
+                    new=(new_version_id, new_version))
 
+    def handle_diff(self):
+        self.old_version_id, self.old_version = self.versions['old']
+        self.new_version_id, self.new_version = self.versions['new']
         old_page = self.get_page(self.old_version_id)
         new_page = self.get_page(self.new_version_id)
         self.html_diff = htmldiff2.htmldiff(old_page.EditableBody(), 
@@ -91,9 +98,6 @@ class WikiVersionCompare(WikiVersionView):
         self.old_prev_enabled = self.old_version_id > 0
         self.new_next_enabled = self.new_version_id < self.current_id() 
         self.new_prev_enabled = self.old_next_enabled
-
-
-        return self.index()
 
     def sort_versions(self, v1, v2):
         """
@@ -107,6 +111,9 @@ class WikiVersionCompare(WikiVersionView):
         else:
             return v1, v2
 
+    def __call__(self, *args, **kwargs):
+        self.handle_diff()
+        return super(BaseView, self).__call__(*args, **kwargs)
 
 
     
