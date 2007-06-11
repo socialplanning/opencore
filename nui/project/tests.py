@@ -19,7 +19,6 @@ def test_suite():
     from pprint import pprint
     from zope.interface import alsoProvides
     from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
-    from opencore.project.browser.projectinfo import get_featurelets
     from zope.app.annotation.interfaces import IAnnotations
     #setup.setupPloneSite()
 
