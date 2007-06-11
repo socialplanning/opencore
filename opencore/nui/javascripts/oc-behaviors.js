@@ -140,12 +140,15 @@ OC.LiveForm = function(extEl) {
     OC.debug('LiveForm: Got element references');
   }
   
-  // properties
+  // properties & settings
   var updater = {
     task : null,
     target : null
   }
   var requestData = null; /* request params, once an action happens */
+  var isUpload = false;
+  //if (form.dom.enctype)
+  //    isUpload = true;
     
   // helper function to get update target
   function _getUpdater(requestData) {
@@ -159,6 +162,9 @@ OC.LiveForm = function(extEl) {
           updater.task = target_task[1];
       }
     }
+    if (updater.task == "uploadAndUpdate" || updater.task == "uploadAndAdd")
+      isUpload = true;
+      
     return updater;
   }
   
@@ -204,33 +210,46 @@ OC.LiveForm = function(extEl) {
   // form submit
   function _formSubmit(e, el, o) {
     OC.debug("_formSubmit");
+    
     requestData = YAHOO.util.Connect.setForm(liveForm.dom);
-    YAHOO.util.Event.stopEvent(e);
-    var action = liveForm.dom.action;
-    var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
-      { success: _afterSuccess, 
-        failure: _afterFailure, 
-        scope: this 
-      },
-      "mode=async"
-    );
-  }
-  liveForm.removeAllListeners();
-  liveForm.on('submit', _formSubmit, this);
-  
-  // after success
-  function _afterSuccess(o) {
-    OC.debug('_afterSuccess');
     updater = _getUpdater(requestData);
+    
+    if (isUpload) 
+        YAHOO.util.Connect.setForm(liveForm.dom, true);
+
+    if (updater.task != "noAjax") {
+      YAHOO.util.Event.stopEvent(e);
+      var action = liveForm.dom.action;
+      var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
+        { success: _afterSuccess, 
+          upload: _afterSuccess,
+          failure: _afterFailure, 
+          scope: this 
+        },
+        "mode=async"
+      );
+    }
+  }
+  liveForm.on('submit', _formSubmit, this);
+  // after success
+  
+  
+  function _afterSuccess(o) {
+  // TEMPORARY FAKE RESPONSE
+  o.responseText = "{ 'oc-profile-avatar' : '<div class=oc-avatar id=oc-profile-avatar><img src=http://tbn0.google.com/images?q=tbn:VJbvYyBCC7STAM:ewancient.lysator.liu.se/pic/art/k/e/kent/unicorn.jpg /><fieldset class=oc-expander style=clear: left;> <legend class=oc-legend-label><!-- TODO --><a href=# class=oc-expander-link>Change image</a></legend><div class=oc-expander-content><input type=file size=14 /><br /><button type=submit name=task value=oc-profile-avatar_uploadAndUpdate>Update</button> or <a href=#>remove image</a></div></fieldset></div>' }";
+  
+    OC.debug('_afterSuccess');
     OC.debug('updater.task: ' + updater.task);
+    OC.debug('updater.target: ' + updater.target.id);
     
     switch (updater.task) {
       case "update" :
+        OC.debug('_afterSuccess, task: replace');
         // replace element
         var response = eval( "(" + o.responseText + ")" );
         
         /* FIXME: What if this is an error page? (404, need login, etc) */
-        
+        /* Response is an array.  [elementID : newHTML] */
         for (elId in response) {
           var target = Ext.get(elId);
           var html = Ext.util.Format.trim(response[elId]);
@@ -242,15 +261,45 @@ OC.LiveForm = function(extEl) {
       break;
       
       case "delete" :
-        // Don't use updater.target here.  Server will pass back IDs to delete.
-        
-        // Create Array from o.responseText
+        OC.debug('_afterSuccess, task: delete');
+        // Don't use updater.target here.  Server will pass back IDs to delete.      
+        /* Response is array of element IDs */
         var IDs = eval(o.responseText);
         
         for (var i = 0; i<IDs.length; i++) {
           _removeItem(IDs[i]);
         }
 
+      break;
+      
+      case "uploadAndUpdate" :
+        OC.debug('_afterSuccess, task: uploadAndUpdate');
+        OC.debug(o.responseText);
+        // replace element
+        var response = eval( "(" + o.responseText + ")" );
+        
+        /* FIXME: What if this is an error page? (404, need login, etc) */
+        /* Response is an array.  [elementID : newHTML] */
+        for (elId in response) {
+          var target = Ext.get(elId);
+          var html = Ext.util.Format.trim(response[elId]);
+          var newNode = Ext.DomHelper.insertHtml("beforeBegin", target.dom, html);
+          target.remove();
+          Ext.get(newNode).fadeIn();
+          OC.breatheLife(newNode);
+        }
+
+        
+      break;
+      
+      case "uploadAndAdd" :
+        OC.debug('_afterSuccess, task: uploadAndAdd');
+        OC.debug(o.responseText);
+      break;
+      
+      default: 
+        OC.debug('_afterSuccess, task: default');
+        OC.debug(o.responseText);
       break;
       
     } 
@@ -268,6 +317,130 @@ OC.LiveForm = function(extEl) {
     
     // to do: send user message w/ undo link
   }
+}
+
+/* 
+#
+# OC Upload Form
+# FIXME: Re-do this so it works as a LiveForm
+# 
+*/
+OC.UploadForm = function(extEl) {
+    //get references
+    var form = extEl;
+    var targetId = Ext.get(Ext.query('input[name=oc-target]',form.dom)[0]).dom.value;
+    var target = Ext.get(targetId);
+    var indicator = Ext.get(Ext.query('.oc-indicator',form.dom)[0]);
+    var submit = Ext.get(Ext.query('input[type=submit]',form.dom)[0])
+
+    //check refs
+    if (!form || !target || !indicator || !submit) {
+        OC.debug('UploadForm: element missing');
+        return;
+    }
+
+    //vars & settings
+    var isUpload = false;
+    if (form.dom.enctype)
+        isUpload = true;
+    OC.debug("Enctype: " + form.dom.enctype);
+    indicator.setVisibilityMode(Ext.Element.DISPLAY);
+    indicator.hide();
+
+    // loading
+    function _startLoading() {
+        indicator.show();
+        submit.dom.disabled = true;
+        submit.originalValue = submit.dom.value;
+        submit.dom.value = "Please wait..."
+    }
+    function _stopLoading() {
+        indicator.hide();
+        submit.dom.disabled = false;
+        submit.dom.value = submit.originalValue;
+        form.dom.reset();
+    }
+
+    //ajax request
+    function _formSubmit(e, el, o) {
+        YAHOO.util.Event.stopEvent(e);
+             
+        if (isUpload)
+            YAHOO.util.Connect.setForm(el, true);
+        else 
+            YAHOO.util.Connect.setForm(el);
+
+        var callback = {
+          success: _afterSuccess,
+          upload: _afterUpload,
+          failure: _afterFailure,
+          scope: this
+        }
+	     OC.debug("Action: " + form.dom.action);
+        var cObj = YAHOO.util.Connect.asyncRequest("POST", form.dom.action, callback);
+        _startLoading(); 
+
+    }
+    form.on('submit', _formSubmit, this);
+
+    // after request
+    function _afterUpload(o) {
+        _stopLoading(); 
+        
+        // response object will be { status : success }  or { status : failure }
+        var response = eval( '(' + o.responseText + ')' );
+        
+        switch (response.status) {
+          case "success" :
+            _afterUploadSuccess(response);
+          break;
+          case "failure" :
+            _afterUploadFailure(response);
+          break;
+          default:
+            OC.debug('_afterUpload response.status: default');
+        } 
+    }
+    function _afterUploadSuccess(response) {
+      OC.debug('_afterUploadSuccess');
+      
+      //2nd ajax request
+      var cObj = YAHOO.util.Connect.asyncRequest("GET", response.updateURL, { 
+        success: function(o) {
+          
+          // insert new - DomHelper.insertHtml converts string to DOM nodes
+          o.responseText = Ext.util.Format.trim(o.responseText);
+          var newNode = Ext.DomHelper.insertHtml('beforeEnd', target.dom, o.responseText);
+          Ext.get(newNode).highlight("ffffcc", { endColor: "eeeeee"});
+
+          //re-up behaviors on new element
+          OC.breatheLife(newNode);
+        }, 
+        failure: function(o) {
+          OC.debug('upload failed');
+        },
+        scope: this 
+      });
+      
+      
+    }
+
+    function _afterFailure(o) {
+        OC.debug('_afterFailure RESPONSE BELOW:\n\n');
+        for (prop in o) {
+          OC.debug(prop + ":");
+          OC.debug(o["" + prop + ""]);
+        }
+    }
+    function _afterSuccess(o) {
+        OC.debug('_afterSuccess RESPONSE BELOW:\n\n'); 
+        for (prop in o) {
+          OC.debug(prop + ":");
+          OC.debug(o["" + prop + ""]);
+        }
+    }
+
+  return this;
 }
 
 /* 
@@ -343,130 +516,6 @@ OC.LiveItem = function(extEl) {
       return this;
 }
 
-/* 
-#
-# OC Upload Form
-# FIXME: Re-do this so it works as a LiveForm
-# 
-*/
-OC.UploadForm = function(extEl) {
-    //get references
-    var form = extEl;
-    var targetId = Ext.get(Ext.query('input[name=oc-target]',form.dom)[0]).dom.value;
-    var target = Ext.get(targetId);
-    var indicator = Ext.get(Ext.query('.oc-indicator',form.dom)[0]);
-    var submit = Ext.get(Ext.query('input[type=submit]',form.dom)[0])
-
-    //check refs
-    if (!form || !target || !indicator || !submit) {
-        OC.debug('UploadForm: element missing');
-        return;
-    }
-
-    //vars & settings
-    var isUpload = false;
-    if (form.dom.enctype)
-        isUpload = true;
-    OC.debug("Enctype: " + form.dom.enctype);
-    indicator.setVisibilityMode(Ext.Element.DISPLAY);
-    indicator.hide();
-
-    // loading
-    function _startLoading() {
-        indicator.show();
-        submit.dom.disabled = true;
-        submit.originalValue = submit.dom.value;
-        submit.dom.value = "Please wait..."
-    }
-    function _stopLoading() {
-        indicator.hide();
-        submit.dom.disabled = false;
-        submit.dom.value = submit.originalValue;
-        form.dom.reset();
-    }
-
-    //ajax request
-    function _formSubmit(e, el, o) {
-        YAHOO.util.Event.stopEvent(e);
-             
-        if (isUpload)
-            YAHOO.util.Connect.setForm(el, true);
-        else 
-            YAHOO.util.Connect.setForm(el);
-
-        var callback = {
-          success: _afterSuccess,
-          upload: _afterUpload,
-          failure: _afterFailure,
-          scope: this
-        }
-	     OC.debug("Action: " + form.dom.action);
-        var cObj = YAHOO.util.Connect.asyncRequest("POST", form.dom.action, callback);
-        _startLoading(); 
-
-    }
-    form.on('submit', _formSubmit, this);
-
-    // after request
-    function _afterUpload(o) {
-        _stopLoading(); 
-        
-        //turn into a real object. CAREFUL - only do this with trusted content
-        var response = eval( '(' + o.responseText + ')' );
-        
-        switch (response.status) {
-          case "success" :
-            _afterUploadSuccess(response);
-          break;
-          case "failure" :
-            _afterUploadFailure(response);
-          break;
-          default:
-            OC.debug('_afterUpload response.status: default');
-        } 
-    }
-    function _afterUploadSuccess(response) {
-      OC.debug('_afterUploadSuccess');
-      
-      //2nd ajax request
-      var cObj = YAHOO.util.Connect.asyncRequest("GET", response.updateURL, { 
-        success: function(o) {
-          
-          // insert new - DomHelper.insertHtml converts string to DOM nodes
-          OC.debug(o.responseText);
-          o.responseText = Ext.util.Format.trim(o.responseText);
-          var newNode = Ext.DomHelper.insertHtml('beforeEnd', target.dom, o.responseText);
-          Ext.get(newNode).highlight("ffffcc", { endColor: "eeeeee"});
-
-          //re-up behaviors on new element
-          OC.breatheLife(newNode);
-        }, 
-        failure: function(o) {
-          OC.debug('upload failed');
-        },
-        scope: this 
-      });
-      
-      
-    }
-
-    function _afterFailure(o) {
-        OC.debug('_afterFailure RESPONSE BELOW:\n\n');
-        for (prop in o) {
-          OC.debug(prop + ":");
-          OC.debug(o["" + prop + ""]);
-        }
-    }
-    function _afterSuccess(o) {
-        OC.debug('_afterSuccess RESPONSE BELOW:\n\n'); 
-        for (prop in o) {
-          OC.debug(prop + ":");
-          OC.debug(o["" + prop + ""]);
-        }
-    }
-
-  return this;
-}
 
 /*
 #

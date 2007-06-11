@@ -11,12 +11,22 @@
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
-        <form name="profile_form" method="post" class="oc-member-edit"
-          tal:attributes="action string:${view/name}">
+        <form name="profile_form" id="profile_form" method="post" class="oc-member-edit oc-liveForm"
+         tal:attributes="action string:${view/name}">
           <div id="oc-member-badge" class="oc-boxy oc-clearAfter">
             <div class="oc-member-editimage">
-              <div class="oc-avatar">
+              <div class="oc-avatar" id="oc-profile-avatar">
                 <img tal:attributes="src info/portraitURL" />
+                <fieldset class="oc-expander" style="clear: left;">
+                  <legend class="oc-legend-label">
+                    <!-- TODO -->
+                    <a href="#" class="oc-expander-link">Change image</a>
+                  </legend>
+                  <div class="oc-expander-content">
+                    <input type="file" size="14" /><br />
+                    <button type="submit" name="task" value="oc-profile-avatar_uploadAndUpdate">Update</button> or <a href="#">remove image</a>
+                  </div>
+                </fieldset>
               </div>
             </div>
             <fieldset>
@@ -40,16 +50,6 @@
                 </li>
               </ul>
             </fieldset>
-            <fieldset class="oc-expander" style="clear: left;">
-              <legend class="oc-legend-label">
-                <!-- TODO -->
-                <a href="#" class="oc-expander-link">Change image</a>
-              </legend>
-              <div class="oc-expander-content">
-                <input type="file" size="25" /><br />
-                or <a href="#">remove image</a>
-              </div>
-            </fieldset>
           </div>
           <fieldset>
             <label for="">Personal Statement</label><br />
@@ -72,13 +72,12 @@
           <ul class="oc-actions oc-wiki-actions">
             <li>
               <button type="submit"
-                name="update:boolean"
-                value="True"
+                name="task"
+                value="this_noAjax"
                 class="oc-button oc-chooseThis">
                 Update
               </button>
             </li>
-            <li>or <a href="#">cancel</a></li>
           </ul> 
         </form>
       </div><!-- end #oc-content-main -->
