@@ -87,7 +87,7 @@
         </div><!-- OpenPlans News -->
         <div class="oc-boxy oc-clearAfter">
           <h2>About us</h2>
-          <div condition="not: view/loggedin" tal:replace="structure python: view.render_static('main_home_aboutus.txt')" /> 
+          <div condition="not: view/loggedin" tal:replace="structure view/aboutus" /> 
         </div>      
       </div><!-- content-sidebar -->
     </div><!-- content-fill-slot -->

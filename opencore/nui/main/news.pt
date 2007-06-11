@@ -28,7 +28,8 @@
   </ul>
       </div><!-- content-main -->
 
-      <div id="oc-content-sidebar" tal:content="structure python: view.render_static('main_news_sidebar.txt')" /> 
+      <div id="oc-content-sidebar" 
+	   tal:content="structure view/sidebar" /> 
 
     </div><!-- content-fill-slot -->
   </body>

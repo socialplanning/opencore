@@ -30,8 +30,8 @@
       <!-- content-sidebar -->
 
       <div id="oc-content-sidebar">
-        <div tal:condition="not: view/loggedin" tal:content="structure python: view.render_static('main_people_anonymous.txt')" />
-        <div tal:condition="view/loggedin" tal:content="structure python: view.render_static('main_people_notanonymous.txt')" />
+        <div tal:condition="not: view/loggedin" tal:content="structure view/anonymous_txt" />
+        <div tal:condition="view/loggedin" tal:content="structure view/notanonymous_txt" />
       </div><!-- content-sidebar -->
 
     </div><!-- content-fill-slot -->
