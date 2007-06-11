@@ -40,7 +40,7 @@ Preference View
     >>> view.project_info['featurelets']
     [{'url': u'lists', 'name': 'listen', 'title': u'Mailing Lists'}]
 
-    >>> form_vars = dict(fullname='new full name',
+    >>> form_vars = dict(full_name='new full name',
     ...                  workflow_policy='closed_policy',
     ...                  update=True,
     ...                  featurelets=[],

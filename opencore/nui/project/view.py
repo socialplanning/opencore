@@ -187,9 +187,6 @@ class ProjectPreferencesView(BaseView):
                               errors=self.errors, data=1, metadata=0)
         if not self.errors:
             self.context.processForm(REQUEST=self.request)
-            proj = self.project_info['obj']
-            proj.setFull_name(self.request.form['fullname'])
-            # TODO should the above be necessary?
             self.redirect(self.context.absolute_url())
 
 
