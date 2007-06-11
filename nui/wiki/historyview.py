@@ -7,11 +7,13 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from DateTime import DateTime
 from topp.utils.pretty_date import prettyDate
 
+
+
 class WikiVersionView(BaseView): 
 
     def __init__(self, context, request):
         BaseView.__init__(self, context, request)
-        self.pr = getToolByName(self.context, 'portal_repository')
+        self.pr = self.get_tool('portal_repository')
 
     def get_page(self, version_id):
         doc = self.pr.retrieve(self.context, version_id)
