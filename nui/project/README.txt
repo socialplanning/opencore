@@ -40,7 +40,7 @@ Preference View
     >>> view.project_info['featurelets']
     [{'url': u'lists', 'name': 'listen', 'title': u'Mailing Lists'}]
 
-    >>> form_vars = dict(title='test one',
+    >>> form_vars = dict(fullname='new full name',
     ...                  workflow_policy='closed_policy',
     ...                  update=True,
     ...                  featurelets=[],
@@ -54,8 +54,8 @@ Preference View
     >>> view.handle_request()
     >>> view = proj.restrictedTraverse('preferences')
 
-    >>> proj.Title()
-    'test one'
+    >>> proj.getFull_name()
+    'new full name'
 
     >>> IReadWorkflowPolicySupport(proj).getCurrentPolicyId()
     'closed_policy'
