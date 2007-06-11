@@ -25,8 +25,6 @@ Add view
     <OpenProject at /plone/projects/test1>
 
 
-# test for featurelet creation
-
 Preference View
 ===============
 
@@ -63,10 +61,6 @@ Preference View
     >>> from opencore.project.browser.projectinfo import get_featurelets
     >>> get_featurelets(proj)
     []
-
-
-
-#test changing them
 
 
 
