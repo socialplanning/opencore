@@ -853,7 +853,7 @@ height: 1em;
 }
 .oc-widget-feed.oc-column-left,
 .oc-widget-feed.oc-column-right {
-  width: 46%;
+  /* width: 46%; */
 }
 .oc-widget-feed h2{
   margin: 0;
