@@ -142,48 +142,53 @@ Test actually creating, editing, deleting an attachment::
      >>> view.attachmentSnippet()
      '...secret.txt...
 
-     #>>> view.updateAtt()
+     Reset attachment request variables
+     >>> request.set('attachment_id', '')
+     >>> request.set('attachmentTitle', '')
+     >>> request.set('attachmnetFile', '')
 
-#      >>> user_name = 'm1'
-#      >>> auth = hmac.new(secret, user_name, sha).hexdigest()
-#      >>> encoded = base64.encodestring('%s\0%s' % (user_name, auth))
+     Check error case (should it raise an error? error message instead?)
+     >>> view.updateAtt()
+     Traceback (most recent call last):
+     ...
+     AttributeError
+
+     Set valid attachment request variables
+     >>> request.set('attachment_id', 'secret.txt')
+     >>> request.set('attachmentFile', tfile)
+     >>> request.set('attachmnetTitle', 'new title')
+
+     Try again, should work great now
+     (uhh, what do we expect to get back? looks like a form?)
+     >>> response = view.updateAtt()
+     >>> '<form method="post"' in response
+     True
+     >>> 'secret.txt' in response
+     True
+
+     Now let's try to delete
+
+     Try the error case
+     >>> request.set('attachment_id', '')
+     >>> request.set('attachmentTitle', '')
+     >>> request.set('attachmnetFile', '')
+
+     Again, raising an AttributeError
+     Maybe we should return an error message instead
+     >>> view.deleteAtt()
+     Traceback (most recent call last):
+     ...
+     AttributeError
+
+     Set valid attachment request variables, and it should work
+     >>> request.set('attachment_id', 'secret.txt')
+     >>> request.set('attachmentFile', tfile)
+     >>> request.set('attachmnetTitle', 'new title')
+     >>> view.deleteAtt()
+     '<!-- deleted -->\n'
 
 
-#      >>> response = http(r"""
-#      ... POST /plone/projects/p1/project-home/@@createAtt HTTP/1.1
-#      ... Content-Type: multipart/form-data; boundary=---------------------------824273643241773564606887381
-#      ... Cookie: __ac=%s
-#      ... -----------------------------824273643241773564606887381
-#      ... Content-Disposition: form-data; name="attachmentTitle"
-#      ... 
-#      ... thetitle
-#      ... -----------------------------824273643241773564606887381
-#      ... Content-Disposition: form-data; name="attachmentFile"; filename="fn.txt"
-#      ... Content-Type: application/octet-stream
-#      ... 
-#      ... foo
-#      ... 
-#      ... -----------------------------824273643241773564606887381--
-#      ... """ % encoded, handle_errors=False)
-
-
-
-   # >>> page.restrictedTraverse('attachment_id')
-   # fleem
-
-   # >>> request = page.REQUEST
-   # >>> request.set('attachment_title', 'new_title')
-   # >>> request.set('attachment_id', 'fn.txt')
-
-   # >>> page.restrictedTraverse('@@updateAtt')
-   # <Products.Five.metaclass.AttachmentView object at ...>
-
-
-   # >>> page.restrictedTraverse('attachment_id')
-   # fleem
-
-   # >>> page.restrictedTraverse('@@deleteAtt')    
-   # <Products.Five.metaclass.AttachmentView object at ...>
+Now let's exercise some version compare stuff
 
 Verify that a redirect is raised on invalid input
 
