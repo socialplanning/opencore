@@ -166,8 +166,6 @@ class BaseView(BrowserView):
                              obj=proj)
         return proj_info
 
-    # end of rob's refactors
-
     # tool and view handling
 
     @view.memoize_contextless
