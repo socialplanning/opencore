@@ -1,13 +1,19 @@
+import os
+from cStringIO import StringIO
+from pprint import pprint
+
+from Products.CMFCore.utils import getToolByName
+from Products.Archetypes.Extensions.utils import install_subskin
+
 from topp.utils import config
+
 from Products.OpenPlans.Extensions.setup import convertFunc, reinstallTypes
 from Products.OpenPlans.Extensions.Install import install_workflow_map, \
      installNewsFolder, securityTweaks
 from Products.OpenPlans.Extensions.Install import setupPeopleFolder, \
      setupProjectLayout, setupHomeLayout
 from Products.OpenPlans.Extensions.Install import createMemIndexes
-from Products.CMFCore.utils import getToolByName
-import os
-from pprint import pprint
+from Products.OpenPlans import config as op_config
 
 HERE = os.path.dirname(__file__)
 ALIASES = os.path.join(HERE, 'aliases.cfg')
@@ -68,6 +74,9 @@ def set_method_aliases(portal, out):
         fti.setMethodAliases(aliases)
         out.write('%s' %pprint(aliases, out))
 
+def reinstallSubskins(self, portal):
+    out = StringIO()
+    install_subskin(portal, out, op_config.GLOBALS)
 
 nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      installNewsFolder=convertFunc(installNewsFolder),
@@ -79,7 +88,7 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      setupPeopleFolder=convertFunc(setupPeopleFolder),
                      setupProjectLayout=convertFunc(setupProjectLayout),
                      securityTweaks=convertFunc(securityTweaks),
+                     reinstallSubskins=reinstallSubskins,
                      )
 
 nui_functions['Update Method Aliases']=convertFunc(set_method_aliases)
-
