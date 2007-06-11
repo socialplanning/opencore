@@ -182,3 +182,8 @@ Test the news view::
 
    >>> view.news_items()
    []
+
+Check our static content::
+
+   >>> view.sidebar()
+   '...'

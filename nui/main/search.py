@@ -8,7 +8,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.PloneBatch import Batch
 
 from topp.utils.pretty_date import prettyDate
-from opencore.nui.base import BaseView
+from opencore.nui.base import BaseView, static_txt
 
 
 class SearchView(BaseView):
@@ -39,11 +39,13 @@ class SearchView(BaseView):
             note: not using mtool.getHomeFolder for efficiency reasons """
         return not self.context.has_key(userid)
 
+
 def first_letter_match(title, letter):
     return title.startswith(letter) \
            or title.startswith('the ' + letter) \
            or title.startswith('a ' + letter) \
            or title.startswith('an ' + letter)
+
 
 class ProjectsSearchView(SearchView):
     match = staticmethod(first_letter_match)
@@ -102,10 +104,8 @@ class ProjectsSearchView(SearchView):
                 sort_by = 'sortable_title'
             rs = ((sort_by, 'desc'),)
 
-        project_brains = self.catalog.evalAdvancedQuery(
-            Eq('portal_type', 'OpenProject') & Eq('SearchableText', proj_query),
-            rs,
-            )
+        query = Eq('portal_type', 'OpenProject') & Eq('SearchableText', proj_query)
+        project_brains = self.catalog.evalAdvancedQuery(query, rs)
         return project_brains
     
     def recently_updated_projects(self):
@@ -123,6 +123,7 @@ class ProjectsSearchView(SearchView):
 
 
 class PeopleSearchView(SearchView):
+
     def __init__(self, context, request):
         SearchView.__init__(self, context, request)
 
@@ -182,6 +183,8 @@ class PeopleSearchView(SearchView):
         tag = str(imgdata)
         return tag.replace('<img', '<img class="%s"' % clss)
 
+    anonymous_txt = static_txt('main_people_anonymous.txt')
+    notanonymous_txt = static_txt('main_people_notanonymous.txt')
 
 class HomeView(SearchView):
     """zpublisher"""
@@ -193,9 +196,8 @@ class HomeView(SearchView):
         SearchView.__init__(self, context, request)
 
         self.projects_search = ProjectsSearchView(context, request)
-        
-    def intro(self):
-        return self.render_static('main_home_intro.txt')
+
+    intro = static_txt('main_home_intro.txt')
 
     def recently_updated_projects(self):
         return self.projects_search.recently_updated_projects()
@@ -223,7 +225,8 @@ class HomeView(SearchView):
                      )
         brains = self.catalog(**query)
         return brains
-        
+    
+    aboutus = static_txt('main_home_aboutus.txt')
 
 
 class SitewideSearchView(SearchView):
@@ -246,8 +249,7 @@ class SitewideSearchView(SearchView):
             self.search_query = 'for &ldquo;%s&rdquo;' % search_string
             
         return self.index()
-            
-
+    
     def search(self, search_string, sort_by=None):
         search_query = search_string.lower().strip()
 
@@ -265,14 +267,16 @@ class SitewideSearchView(SearchView):
             else:
                 rs = ((sort_by, 'desc'),)
 
-        brains = self.catalog.evalAdvancedQuery(
-            (Eq('portal_type', 'OpenProject') | Eq('portal_type', 'Document') | Eq('portal_type', 'OpenMember')) & Eq('SearchableText', search_query),
-            rs,
-            )
+        query = Eq('portal_type', 'OpenProject') \
+                | Eq('portal_type', 'Document') \
+                | Eq('portal_type', 'OpenMember') \
+                & Eq('SearchableText', search_query)
+        brains = self.catalog.evalAdvancedQuery(query, rs)
         return brains
     
 
 class NewsView(SearchView):
+
     def news_items(self):
         news_path = '/'.join(self.context.portal.getPhysicalPath()) + '/news'
         query = dict(portal_type='Document',
@@ -290,3 +294,6 @@ class NewsView(SearchView):
     def subpoena_free(self):
         delta = zopedatetime() - self.dob_datetime
         return int(delta)
+
+    sidebar = static_txt('main_news_sidebar.txt')
+
