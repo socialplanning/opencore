@@ -173,7 +173,7 @@ a:hover {
 
 /* Boxy */
 
-#oc-content-sidebar .oc-boxy {
+.oc-boxy {
   border: 1px solid #AAC683;
   background-color: #F6FBF0;
   padding: 1em;
@@ -212,6 +212,7 @@ a:hover {
 #oc-content-sidebar ul.oc-widget-alphabet.oc-boxy {
   border: none;
   border-top: 1px dotted #AAC683;
+  background: none;
   padding: 0;
   padding-top: 0.5em;
   margin-top: 0.5em;
