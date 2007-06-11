@@ -49,7 +49,7 @@ Preference View
 
     >>> view.request.set('flet_recurse_flag', None)
     >>> view.request.form.update(form_vars)
-    >>> view.context.REQUEST.form.update(form_vars)
+    >>> view.request.form.update(form_vars)
 
     >>> view.handle_request()
     >>> view = proj.restrictedTraverse('preferences')
