@@ -21,10 +21,10 @@
                 <tbody>
                   <tr class="oc-form-row">
                     <th class="oc-form-label" scope="row">
-                      <label for="fullname">Name</label>
+                      <label for="full_name">Name</label>
                     </th>
                     <td class="oc-form-value">
-                      <input type="text" id="fullname" name="fullname" tal:attributes="value request/fullname | proj/fullname"/>
+                      <input type="text" id="full_name" name="full_name" tal:attributes="value request/full_name | proj/getFull_name"/>
                     </td>
                     <td class="oc-form-help">
                       <span class="oc-form-context"></span>
