@@ -11,7 +11,6 @@
 	<div tal:condition="emailsent|devmode|nothing" 
 	     tal:define="devmode emailsent/devmode|nothing" class="">
 	  An email has been sent to you <span tal:content="view/userid">User</span>
-	  <a tal:attributes="href emailsent/reset_url" tal:condition="devmode">Hit link to reset</a>
 	</div>
         <form
 	   tal:condition="not:emailsent"
