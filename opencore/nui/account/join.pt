@@ -4,15 +4,9 @@
    metal:use-macro="here/@@standard_macros/master">
   <body>
     <div id="oc-content-container" 
-	 tal:define="devmode fdata/devmode|nothing" 
 	 metal:fill-slot="content">              
-      <a tal:attributes="href fdata/confirmation" 
-	 tal:condition="devmode">
-	confirmation link for 
-	<span tal:replace="fdata/member_id" />
-      </a>
-      <div id="oc-content-main"  tal:condition="not:devmode">
-
+      <div id="oc-content-main">
+	
         <form id="oc-join-form" name="edit_form" method="post" 
 	      tal:attributes="action string:${context/absolute_url}/${view/name}"
 	      >

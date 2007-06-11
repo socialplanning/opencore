@@ -2,16 +2,31 @@
 views pertaining to accounts -- creation, login, password reset
 """
 from AccessControl.SecurityManagement import newSecurityManager
-from Globals import DevelopmentMode as DEVMODE
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.remember.utils import getAdderUtility
 from opencore.nui.base import BaseView, button, post_only, anon_only
 from opencore.siteui.member import notifyFirstLogin
 from plone.memoize import instance
-from smtplib import SMTPRecipientsRefused
+from smtplib import SMTPRecipientsRefused, SMTP
 from zExceptions import Forbidden, Redirect
+from App import config
+import socket
 
+# get email confirmation mode from zope.conf
+
+email_confirmation = True
+cfg = config.getConfiguration().product_config.get('opencore.nui')
+if cfg:
+    email_confirmation = eval(cfg.get('email-confirmation', 'True'))
+
+# alternatively, see if you can use sendmail
+# this could also be used in conjunction with the zope.conf variable
+#email_confirmation = True
+#try:
+#    SMTP('localhost')
+#except socket.error:
+#    email_confirmation = False
 
 class AccountView(BaseView):
     """
@@ -94,14 +109,14 @@ class JoinView(BaseView):
                        self.context.absolute_url()))
         result = mem.processForm()
         url = self._confirmation_url(mem)
-        
-        if DEVMODE:
-            return dict(confirmation=url, devmode=True, member_id=mem_id)
-        else:
+
+        if email_confirmation:
             self._sendmail_to_pendinguser(id=mem_id,
                                         email=self.request.get('email'),
                                         url=url)
             return mdc._getOb(mem_id)
+        else:
+            return self.redirect(url)
 
     @instance.memoizedproperty
     def temp_mem_id(self):
@@ -201,12 +216,10 @@ class ForgotLoginView(BaseView):
     @post_only(raise_=False)
     def handle_request(self):
         if self.userid:
-            if DEVMODE:
-                return dict(devmode=True,
-                            reset_url=self.reset_url,
-                            userid = self.userid)
-            else:
+            if email_confirmation:
                 self._mailPassword(self.userid)
+            else:
+                return self.redirect(self.reset_url)
             return True
         return False
     
@@ -218,7 +231,7 @@ class ForgotLoginView(BaseView):
 
     @property
     def reset_url(self):
-        return '\n%s/reset-password?key=%s' % (self.siteURL, self.randomstring)
+        return '%s/reset-password?key=%s' % (self.siteURL, self.randomstring)
     
     def _mailPassword(self, forgotten_userid):
         if not self.membertool.checkPermission('Mail forgotten password', self):
@@ -285,7 +298,7 @@ class PasswordResetView(AccountView):
         self.login(userid)
         
         self.addPortalStatusMessage(u'Your password has been reset and you are now logged in.')
-        self.redirect(self.siteURL)
+        self.redirect(self.home(userid) + '/profile')
         return True
 
     @property
