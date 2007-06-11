@@ -74,6 +74,14 @@ Preference View
     ...
     Unauthorized: You are not allowed to access 'preferences' in this context
 
+    We should also not be able to edit the default page
+    >>> page_id = proj.getDefaultPage()
+    >>> page = getattr(proj, page_id)
+    >>> page.restrictedTraverse('edit')
+    Traceback (most recent call last):
+    ...
+    Unauthorized: You are not allowed to access 'edit' in this context
+
     Log back in as the right user
     >>> self.login('test_user_1_')
 
