@@ -2,8 +2,17 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:five="http://namespaces.zope.org/five">
 
+  <five:implements
+    class="Products.CMFPlone.Portal.PloneSite"
+    interface="opencore.interfaces.IOpenSiteRoot" />
+
+  <five:implements
+    class="Products.OpenPlans.content.project.OpenProject"
+    interface="opencore.interfaces.IOpenSiteRoot" />
+
+
   <browser:page
-     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     for="opencore.interfaces.IOpenSiteRoot"
      class=".accountview.LoginView"
      permission="zope.Public"
      name="login"
@@ -11,7 +20,7 @@
      />
 
   <browser:page
-     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     for="opencore.interfaces.IOpenSiteRoot"
      class=".accountview.PasswordResetView"
      permission="zope.Public"
      name="reset-password"
@@ -19,14 +28,14 @@
      />
 
   <browser:page
-     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     for="opencore.interfaces.IOpenSiteRoot"
      class=".accountview.ConfirmAccountView"
      permission="zope.Public"
      name="confirm-account"
      />
 
   <browser:page
-     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     for="opencore.interfaces.IOpenSiteRoot"
      class=".accountview.InitialLogin"
      attribute="first_login"
      permission="zope.Public"
@@ -34,7 +43,7 @@
      />
 
   <browser:page
-     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     for="opencore.interfaces.IOpenSiteRoot"
      class=".accountview.ForgotLoginView"
      permission="zope.Public"
      name="forgot"
@@ -42,7 +51,7 @@
      />
 
   <browser:page
-     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     for="opencore.interfaces.IOpenSiteRoot"
      class=".accountview.JoinView"
      permission="zope.Public"
      name="join"

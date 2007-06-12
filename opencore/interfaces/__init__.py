@@ -24,3 +24,6 @@ class IOpenPage(IAmWicked):
 
 class IMemberFolder(Interface):
     """ Marker interface for member folders """
+
+class IOpenSiteRoot(Interface):
+    """ Marker interface for virtual site roots """
