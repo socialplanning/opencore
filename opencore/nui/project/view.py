@@ -1,18 +1,22 @@
-from Acquisition import aq_parent
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import transaction_note
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
-from opencore.interfaces import IAddProject, IAddSubProject 
-from opencore.nui.base import BaseView, button
-from opencore.nui.main import SearchView
+from zope import event
 from zExceptions import BadRequest
 from zExceptions import Redirect
-from zope import event
+
+from Acquisition import aq_parent
+
 from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
 from plone.memoize.instance import memoizedproperty
+
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import transaction_note
+
+from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
+from opencore.interfaces import IAddProject, IAddSubProject 
 from opencore.project.utils import get_featurelets
+from opencore.nui.base import BaseView, button
+from opencore.nui.main import SearchView
 
 def octopus_form_handler(func):
     """
