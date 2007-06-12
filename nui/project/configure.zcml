@@ -41,6 +41,5 @@
      name="team"
      template="team-view.pt"
      />
-    <!-- TODO use correct permission -->
 
 </configure>
