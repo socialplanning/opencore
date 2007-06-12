@@ -172,7 +172,7 @@ class ProjectContentsView(BaseView):
             obj_dict[field] = val
         return obj_dict
 
-    def delete(self, brains):
+    def _delete(self, brains):
         parents = {} 
         for brain in brains:
             parent_path, brain_id = brain.getPath().rsplit('/', 1)
@@ -193,7 +193,7 @@ class ProjectContentsView(BaseView):
         brains = self.catalog(id=sources, path=self.project_path)
 
         if action == 'delete':
-            self.delete(brains)
+            self._delete(brains)
             return sources
 
         elif action == 'update': # @@ move out to own method to optimize
