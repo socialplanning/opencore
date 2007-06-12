@@ -163,15 +163,15 @@ class ProjectContentsView(BaseView):
 
     @octopus_form_handler
     def modify_contents(self, action, sources, fields=None):
+        if 'project-home' in sources:
+            sources.remove("project-home")
+
         brains = self.catalog(id=sources, path=self.project_path)
 
         if action == 'delete':
             parents = {}
             for brain in brains:
                 parent_path, brain_id = brain.getPath().rsplit('/', 1)
-                if brain_id == 'project-home':  ## don't allow deletion of project-home cuz it's special
-                    sources.remove("project-home")
-                    continue 
                 parent_path = parent_path.split(self.project_path, 1)[-1].strip('/')
                 parents.setdefault(parent_path, []).append(brain_id)
             for parent, child_ids in parents.items():
