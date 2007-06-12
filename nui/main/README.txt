@@ -108,9 +108,9 @@ Instantiate a new projects view::
 
 Get the list of people matching the search::
 
-   >>> people = view.search_for_person('test_user_1_')
+   >>> people = view.search_for_person('m4')
    >>> people[0].getId
-   'test_user_1_'
+   'm4'
    >>> len(people)
    1
 
