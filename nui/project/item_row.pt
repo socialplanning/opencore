@@ -3,18 +3,30 @@
 		       item_type item_type | options/item_type">
   <tr class="oc-liveItem" tal:attributes="id item/id">
     <td>
-      <input type="checkbox" name="batch[]"
-             tal:attributes="value item/id" />
+      <tal:if condition="item/uneditable | nothing">
+	<input type="checkbox" name="batch[]"
+               tal:attributes="value item/id" 
+	       disabled="True" />
+      </tal:if>
+      <tal:if condition="not:item/uneditable | nothing">
+	<input type="checkbox" name="batch[]"
+               tal:attributes="value item/id" />
+      </tal:if>
     </td>
     <td>
       <div class="oc-liveItem-value">
         <a tal:attributes="href item/url">
-          <tal:dummy replace="item/title" /></a> <a href="#" class="oc-liveItem_hoverShowForm">Edit</a>
+          <tal:dummy replace="item/title" />
+	</a>
+	<a href="#" tal:condition="not:item/uneditable | nothing"
+	   class="oc-liveItem_hoverShowForm">Edit</a>
       </div>
       
-      <div class="oc-liveItem-editForm">
+      <div tal:condition="not:item/uneditable | nothing"
+	   class="oc-liveItem-editForm">
         <input type="text" 
-               tal:attributes="name string:${item/id}_title; value item/title" 
+               tal:attributes="name string:${item/id}_title;
+			       value item/title" 
                />
         <button type="submit" name="task"
                 tal:attributes="value string:${item/id}_update">
@@ -38,7 +50,7 @@
     </td>
     <td>
       <ul class="oc-actions oc-dataTable-row-actions">
-        <li>
+        <li tal:condition="not:item/uneditable | nothing">
           <a class="oc-actionLink"
              tal:attributes="href string:modify-contents?task=${item/id}_delete&item_type=${item_type}">
             Delete
