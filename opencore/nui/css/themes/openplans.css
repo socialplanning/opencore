@@ -68,7 +68,7 @@ ul#oc-topnav-context li {
   padding: 0;
 }
 #oc-content-wrapper {
- padding: 1em 0;
+ padding: 1.5em 0 0 ;
  background-color: #fff;
 }
 #oc-content-main {
@@ -226,4 +226,15 @@ a:hover {
 .oc-widget-feed li.oc-feed-item {
   border-top: 1px dotted #AAC683;
   padding: 0.5em 0;
+}
+
+/* Form Boxes */
+
+.oc-boxy legend.oc-legend-heading{
+  margin: 0;
+}
+
+#oc-join-form fieldset.oc-boxy,
+#oc-login-form fieldset.oc-boxy {
+  margin-top: -0.75em;
 }
