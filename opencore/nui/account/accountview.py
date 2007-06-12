@@ -168,7 +168,7 @@ class ConfirmAccountView(AccountView):
         # we need to do an unrestrictedSearch because a default search
         # will filter results by user permissions
         matches = self.membranetool.unrestrictedSearchResults(UID=self.key)
-        if len(matches):
+        if matches:
             member = matches[0].getObject()
         return member
 
@@ -269,12 +269,12 @@ class ForgotLoginView(BaseView):
             self.addPortalStatusMessage(u"Please enter a user id or email address")
             return None
         
-        if user_lookup.find('@') >= 0:
+        if '@' in user_lookup:
             brains = self.membranetool(getEmail=user_lookup)
         else:
             brains = self.membranetool(getId=user_lookup)
 
-        if not len(brains):
+        if not brains:
             self.addPortalStatusMessage(u"User id or email not found")
             return None
         return brains[0].getId
