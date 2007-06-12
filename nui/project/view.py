@@ -63,7 +63,7 @@ def octopus_form_handler(func):
 class ProjectContentsView(BaseView):
     
     contents_row_snippet = ZopeTwoPageTemplateFile('item_row.pt')
-
+    
     needed_values = {'pages':{'id':('getId',),
                               'title':('Title',),
                               'url':('getURL',
@@ -163,7 +163,9 @@ class ProjectContentsView(BaseView):
 
     @octopus_form_handler
     def modify_contents(self, action, sources, fields=None):
-        if 'project-home' in sources:
+        item_type = self.request.form.get("item_type")
+
+        if item_type == 'pages' and 'project-home' in sources:
             sources.remove("project-home")
 
         brains = self.catalog(id=sources, path=self.project_path)
@@ -181,7 +183,6 @@ class ProjectContentsView(BaseView):
             return sources
 
         elif action == 'update':
-            item_type = self.request.form.get("item_type")
             snippets = {}
             objects = dict([(b.getId, b.getObject()) for b in brains])
             for old, new in zip(sources, fields):
