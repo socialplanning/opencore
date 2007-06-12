@@ -49,12 +49,4 @@
      template="join.pt"
      />
 
-  <browser:page
-     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-     class=".accountview.HomeView"
-     attribute="redirect"
-     permission="zope.Public"
-     name="home"
-     />
-
 </configure>
