@@ -21,15 +21,16 @@
 			      item_date_author_header string:Created">
 	    <tal:macro metal:use-macro="here/contents/macros/contents_table" /> 
 	  </tal:setvar> 
-
-          <tal:setvar define="item_header string:Mailing lists;
+	  
+          <tal:setvar condition="view/has_mailing_lists" 
+		      define="item_header string:Mailing lists;
 			      item_type string:lists;
 			      item_collection view/lists;
 			      item_date_author_header string:Created">
 	    <tal:macro metal:use-macro="here/contents/macros/contents_table" /> 
 	  </tal:setvar> 
 
-	  <a rel="include"
+	  <a rel="include" tal:condition="view/has_task_tracker"
 	     tal:attributes="href string:${view/context/absolute_url}/tasks/manage">
 	    View tasklists
 	  </a>
