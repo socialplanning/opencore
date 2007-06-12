@@ -128,7 +128,13 @@ class ProjectContentsView(BaseView):
         brains = self.catalog(portal_type="Document",
                               path=self.project_path)
         needed_values = self.needed_values['pages']
-        return [self._make_dict_and_translate(brain, needed_values) for brain in brains]
+        ret = []
+        for brain in brains:
+            d = self._make_dict_and_translate(brain, needed_values)
+            if d['id'] == 'project-home':
+                d['uneditable'] = True
+            ret.append(d)
+        return ret
 
     @memoizedproperty
     def lists(self):
@@ -191,7 +197,7 @@ class ProjectContentsView(BaseView):
 
 
 class ProjectPreferencesView(BaseView):
-
+        
     @button('update')
     def handle_request(self):
         self.context.validate(REQUEST=self.request,
