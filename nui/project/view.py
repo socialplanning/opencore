@@ -10,6 +10,7 @@ from plone.memoize.instance import memoizedproperty
 
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.permissions import DeleteObjects
 from Products.CMFPlone.utils import transaction_note
 
 from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
@@ -157,6 +158,10 @@ class ProjectContentsView(BaseView):
         needed_values = self.needed_values['files']
         return [self._make_dict_and_translate(brain, needed_values) for brain in brains]
 
+    @memoizedproperty
+    def editable(self):
+        mtool = getToolByName(self.context, 'portal_membership')
+        return bool(mtool.checkPermission(DeleteObjects, self.context))
 
     def _make_dict(self, obj, needed_values):
         obj_dict = {}
@@ -204,7 +209,6 @@ class ProjectContentsView(BaseView):
                     item_type=item_type)
             
             return snippets
-
 
 class ProjectPreferencesView(BaseView):
         

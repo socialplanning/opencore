@@ -12,14 +12,28 @@
 			      item_type string:pages;
 			      item_collection view/pages;
 			      item_date_author_header string:Last Modified">
-	    <tal:macro metal:use-macro="here/contents/macros/contents_table" />
+	    <tal:macro tal:condition="view/editable">
+	      <tal:metal metal:use-macro="here/contents/macros/contents_table" />
+	    </tal:macro>
+
+	    <tal:macro tal:condition="not:view/editable">
+	      <tal:metal metal:use-macro="here/contents/macros/contents_table_uneditable" />
+	    </tal:macro>
+
 	  </tal:setvar>
 	  
           <tal:setvar define="item_header string:Images & Attachments;
 			      item_type string:files;
 			      item_collection view/files;
 			      item_date_author_header string:Created">
-	    <tal:macro metal:use-macro="here/contents/macros/contents_table" /> 
+	    <tal:macro tal:condition="view/editable">
+	      <tal:metal metal:use-macro="here/contents/macros/contents_table" /> 
+	    </tal:macro>
+
+	    <tal:macro tal:condition="not:view/editable">
+	      <tal:metal metal:use-macro="here/contents/macros/contents_table_uneditable" />
+	    </tal:macro>
+
 	  </tal:setvar> 
 	  
           <tal:setvar condition="view/has_mailing_lists" 
@@ -27,7 +41,14 @@
 			      item_type string:lists;
 			      item_collection view/lists;
 			      item_date_author_header string:Created">
-	    <tal:macro metal:use-macro="here/contents/macros/contents_table" /> 
+	    <tal:macro tal:condition="view/editable">
+	      <tal:metal metal:use-macro="here/contents/macros/contents_table" /> 
+	    </tal:macro>
+
+	    <tal:macro tal:condition="not:view/editable">
+	      <tal:metal metal:use-macro="here/contents/macros/contents_table_uneditable" />
+	    </tal:macro>
+
 	  </tal:setvar> 
 
 	  <a rel="include" tal:condition="view/has_task_tracker"
@@ -80,6 +101,38 @@
 	  </li>
 	</ul>
       </form>
+    </div> <!-- end .oc-widget-dataTable -->
+  </tal:macro>
+</tal:if>
+
+<tal:if condition="nothing"> <!-- hack to prevent non-macro execution -->
+  <tal:macro metal:define-macro="contents_table_uneditable">
+    <div class="oc-widget oc-widget-dataTable">
+      <div class="oc-heading">
+	<h3><tal:dummy replace="item_header" /></h3>
+	<!--<p class="oc-heading-context">What do you want your project to be named?</p>-->
+      </div>
+      <div class="oc-searchresults-nresults">
+	1-20 of 55
+      </div>
+      
+      <table class="oc-dataTable" cellpadding="0" cellspacing="0">
+	<thead>
+          <tr>
+            <th scope="col"><a class="oc-columnSortable oc-selected" href="">Title &darr;</a></th>
+            <th scope="col"><a class="oc-columnSortable" href="">Size</a></th>
+            <th scope="col"><a class="oc-columnSortable" href="">
+		<tal:dummy replace="item_date_author_header" />
+	    </a></th>
+          </tr>
+	</thead>
+	<tbody>
+          <tal:for repeat="item item_collection" define="uneditable string:True">
+	    <tal:macro metal:use-macro="view/contents_row_snippet/macros/item_row" />
+          </tal:for>
+	</tbody>
+      </table>
+
     </div> <!-- end .oc-widget-dataTable -->
   </tal:macro>
 </tal:if>

@@ -1,14 +1,15 @@
 <tal:macro metal:define-macro="item_row"
 	   tal:define="item item | options/item;
-		       item_type item_type | options/item_type">
+		       item_type item_type | options/item_type;
+		       editable editable | not:item/uneditable | nothing ">
   <tr class="oc-liveItem" tal:attributes="id item/id">
-    <td>
-      <tal:if condition="item/uneditable | nothing">
+    <td tal:condition="view/editable">
+      <tal:if condition="not:editable">
 	<input type="checkbox" name="batch[]"
                tal:attributes="value item/id" 
 	       disabled="True" />
       </tal:if>
-      <tal:if condition="not:item/uneditable | nothing">
+      <tal:if condition="editable">
 	<input type="checkbox" name="batch[]"
                tal:attributes="value item/id" />
       </tal:if>
@@ -18,11 +19,11 @@
         <a tal:attributes="href item/url">
           <tal:dummy replace="item/title" />
 	</a>
-	<a href="#" tal:condition="not:item/uneditable | nothing"
+	<a href="#" tal:condition="editable"
 	   class="oc-liveItem_hoverShowForm">Edit</a>
       </div>
       
-      <div tal:condition="not:item/uneditable | nothing"
+      <div tal:condition="editable"
 	   class="oc-liveItem-editForm">
         <input type="text" 
                tal:attributes="name string:${item/id}_title;
@@ -48,9 +49,9 @@
         <tal:dummy replace="item/obj_author" />
       </a>
     </td>
-    <td>
+    <td tal:condition="view/editable">
       <ul class="oc-actions oc-dataTable-row-actions">
-        <li tal:condition="not:item/uneditable | nothing">
+        <li tal:condition="editable">
           <a class="oc-actionLink"
              tal:attributes="href string:modify-contents?task=${item/id}_delete&item_type=${item_type}">
             Delete
