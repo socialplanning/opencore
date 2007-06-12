@@ -19,7 +19,6 @@
                 <img tal:attributes="src info/portraitURL" />
                 <fieldset class="oc-expander" style="clear: left;">
                   <legend class="oc-legend-label">
-                    <!-- TODO -->
                     <a href="#" class="oc-expander-link">Change image</a>
                   </legend>
                   <div class="oc-expander-content">
