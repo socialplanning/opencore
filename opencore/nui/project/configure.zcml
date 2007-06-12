@@ -13,11 +13,10 @@
    <browser:page
       for="opencore.interfaces.IProject"
       class=".view.ProjectContentsView"
-      permission="zope.Public"
+      permission="zope2.View"
       name="contents"
       template="contents.pt"
       />
-    <!-- TODO use correct permission -->
 
    <browser:page
       for="opencore.interfaces.IProject"
@@ -38,7 +37,7 @@
   <browser:page
      for="opencore.interfaces.IProject"
      class=".view.ProjectTeamView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="team"
      template="team-view.pt"
      />

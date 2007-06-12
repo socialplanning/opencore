@@ -14,7 +14,7 @@
       
       <div class="oc-liveItem-editForm">
         <input type="text" 
-               tal:attributes="name string:${item/id}_title; value string:${item/title}" 
+               tal:attributes="name string:${item/id}_title; value item/title" 
                />
         <button type="submit" name="task"
                 tal:attributes="value string:${item/id}_update">

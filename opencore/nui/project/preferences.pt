@@ -13,7 +13,7 @@
         </div>
         <div id="oc-content-main" class="oc-content-main-fullWidth">
           <form name="prefs_form" method="post" class="enableUnloadProtection"
-            tal:attributes="action string:${view/name}">
+            tal:attributes="action view/name">
             <input type="hidden" name="set_flets" value="1"/>
             <fieldset class="oc-boxy">
               <legend class="oc-legend-heading">Details</legend>
@@ -93,7 +93,7 @@
               <legend class="oc-legend-heading">Additional tools</legend>
               <ul class="oc-form-radiolist" tal:define="featurelets python:[f['name'] for f in proj['featurelets']]">
                 <li>
-                  <input type="checkbox" class="oc-input-typeCheck" id="tasktracker" name="tasktracker" 
+                  <input type="checkbox" class="oc-input-typeCheck" id="tasktracker" name="tasktracker"
                     tal:attributes="checked python: 'tasktracker' in featurelets and 'checked' or ''" />
                   <label for="tasktracker">Task Tracker</label>
                   <!-- <p class="oc-form-context">An extensive to-do list manager that makes it easy to share tasks and get things done.</p> -->
