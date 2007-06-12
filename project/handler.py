@@ -78,7 +78,12 @@ def _handle_parent_child_association(parent, child):
     child_path = redirect.pathstr(child)
     parent_path = redirect.pathstr(parent)
     parent_info[child_id] = child_path
-    child_url = "%s/%s" %(parent_info.url, child_id) 
+
+    child_url = parent_info.url
+    if not child_url.endswith('/'):
+        child_url += '/'
+    child_url += child_id
+
     child_info = redirect.activate(child, url=child_url)
     child_info.parent = parent_path
 

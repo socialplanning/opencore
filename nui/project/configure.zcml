@@ -10,6 +10,14 @@
      permission="openplans.AddOpenProject"
      />
 
+  <browser:page
+     for="opencore.interfaces.IAddSubProject"
+     name="create_project"
+     class=".view.SubProjectAddView"
+     template="create.pt"
+     permission="openplans.AddOpenProject"
+     />
+
    <browser:page
       for="opencore.interfaces.IProject"
       class=".view.ProjectContentsView"

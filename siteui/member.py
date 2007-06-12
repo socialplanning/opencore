@@ -11,7 +11,7 @@ from interfaces import IMemberFolder, IMemberHomePage
 from interfaces import IMemberInfo, IFirstLoginEvent
 from memojito import memoizedproperty, memoize
 from opencore import redirect 
-from opencore.interfaces import IProject 
+from opencore.interfaces import IProject, IAddSubProject
 from topp.utils.pretty_date import prettyDate
 from zope.component import getMultiAdapter, adapts, adapter
 from zope.event import notify
@@ -201,7 +201,11 @@ def apply_member_folder_redirection(folder, request):
     if parent:
         parent_info = redirect.get_info(parent)
         folder_id = folder.getId()
-        folder_path = "%s/people/%s" % (parent_info.url, folder_id)
+        folder_path = parent_info.url
+        if not folder_path.endswith('/'):
+            folder_path += '/'
+        #XXX not crazy about this assuming the folder is 'people'
+        folder_path += "people/%s" % folder_id
         return redirect.activate(folder, url=folder_path)
     else:
         return redirect.activate(folder)

@@ -1,7 +1,9 @@
+from Acquisition import aq_parent
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import transaction_note
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from opencore.interfaces.event import AfterProjectAddedEvent #, AfterSubProjectAddedEvent
+from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
+from opencore.interfaces import IAddProject, IAddSubProject 
 from opencore.nui.base import BaseView, button
 from opencore.nui.main import SearchView
 from zExceptions import BadRequest
@@ -239,11 +241,33 @@ class ProjectAddView(BaseView):
 
         self.context.portal_factory.doCreate(proj, id_)
         proj = self.context._getOb(id_)
-        event.notify(AfterProjectAddedEvent(proj, self.request))
+        self.notify(proj)
         transaction_note('Finished creation of project: %s' %title)
         self.redirect(proj.absolute_url())
 
+    def notify(self, project):
+        event.notify(AfterProjectAddedEvent(project, self.request))
 
+
+
+class SubProjectAddView(ProjectAddView):
+
+    def __init__(self, context, request):
+        self.parent_project = context
+        fake_ctx = self.find_project_container(context, request)
+        ProjectAddView.__init__(self, fake_ctx, request)
+
+    def find_project_container(self, obj, request):
+        cur = obj
+        while cur is not None and not IAddProject.providedBy(cur):
+            cur = aq_parent(obj)
+        return cur
+    
+    def notify(self, project): 
+        event.notify(AfterSubProjectAddedEvent(project,
+                                               self.parent_project,
+                                               self.request))
+    
 class ProjectTeamView(SearchView):
 
     def __init__(self, context, request):
