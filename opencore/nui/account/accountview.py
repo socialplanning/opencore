@@ -313,16 +313,3 @@ class PasswordResetView(AccountView):
         except "ExpiredRequestError": # XXX rollie?
             raise Forbidden, "YOUR KEY HAS EXPIRED. Please try again"
         return key
-
-
-class HomeView(BaseView):
-    """redirects a user to their home"""
-
-    def redirect(self):
-        url = self.siteURL
-        if home:            
-            if self.request.get('profile-edit') is not None:                
-                url = "%s/profile-edit" %self.home_url
-        raise Redirect, url
-
-
