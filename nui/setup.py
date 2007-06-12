@@ -1,11 +1,9 @@
 import os
-from cStringIO import StringIO
 from pprint import pprint
 
-from Products.CMFCore.utils import getToolByName
-from Products.Archetypes.Extensions.utils import install_subskin
-
 from topp.utils import config
+
+from Products.CMFCore.utils import getToolByName
 
 from Products.OpenPlans.Extensions.setup import convertFunc, reinstallTypes
 from Products.OpenPlans.Extensions.Install import install_workflow_map, \
@@ -13,6 +11,7 @@ from Products.OpenPlans.Extensions.Install import install_workflow_map, \
 from Products.OpenPlans.Extensions.Install import setupPeopleFolder, \
      setupProjectLayout, setupHomeLayout
 from Products.OpenPlans.Extensions.Install import createMemIndexes
+from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans import config as op_config
 
 HERE = os.path.dirname(__file__)
@@ -73,10 +72,6 @@ def set_method_aliases(portal, out):
         aliases.update(new)
         fti.setMethodAliases(aliases)
         out.write('%s' %pprint(aliases, out))
-
-def reinstallSubskins(self, portal):
-    out = StringIO()
-    install_subskin(portal, out, op_config.GLOBALS)
 
 nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      installNewsFolder=convertFunc(installNewsFolder),
