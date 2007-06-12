@@ -179,7 +179,7 @@ class ConfirmAccountView(AccountView):
             self.addPortalStatusMessage(u'Denied -- no confirmation pending')
 
             # use string interpolation pls
-            return self.redirect(self.siteURL + '/login')
+            return self.redirect("%s/login" %self.siteURL)
         
         setattr(member, 'isConfirmable', True)
         pf.doActionFor(member, 'register_public')
