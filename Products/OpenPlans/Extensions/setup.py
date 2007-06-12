@@ -10,12 +10,9 @@ from Products.CMFPlone.setup.SetupBase import SetupWidget
 from Products.CMFPlone import MigrationTool
 from Products.Archetypes.public import listTypes
 from Products.Archetypes.Extensions.utils import installTypes
-from Products.Archetypes.Extensions.utils import install_subskin
 from Products.OpenPlans import config
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from zLOG import INFO, ERROR
-
-from utils import setupKupu
 
 from Install import installColumns, fixUpEditTab, hideActions, \
      installWorkflows, setupPortalActions, addFormControllerOverrides, \
@@ -33,6 +30,8 @@ from opencore.interfaces import IWriteWorkflowPolicySupport
 from opencore.interfaces import IReadWorkflowPolicySupport
 
 from Products.OpenPlans.config import PROJECTNAME
+
+from utils import setupKupu, reinstallSubskins
 
 out = StringIO()
 def convertFunc(func):
@@ -69,10 +68,6 @@ def reinstallTypes(self, portal):
     installTypes(portal, out, listTypes(config.PROJECTNAME),
                  config.PROJECTNAME)
     hideActionTabs(portal, out)
-
-def reinstallSubskins(self, portal):
-    out = StringIO()
-    install_subskin(portal, out, config.GLOBALS)
 
 def migrate_listen_member_lookup(self, portal):
     from Products.listen.interfaces import IMemberLookup
