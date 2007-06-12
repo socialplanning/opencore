@@ -10,6 +10,7 @@ from zope import event
 from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
 from plone.memoize.instance import memoizedproperty
+from opencore.project.utils import get_featurelets
 
 def octopus_form_handler(func):
     """
@@ -102,6 +103,21 @@ class ProjectContentsView(BaseView):
             if callable(val): val = val()
             obj_dict[field] = val
         return obj_dict
+
+    @memoizedproperty
+    def has_mailing_lists(self):
+        return self._has_featurelet('listen')
+
+    @memoizedproperty
+    def has_task_tracker(self):
+        return self._has_featurelet('tasks')
+
+    def _has_featurelet(self, flet_id):
+        flets = get_featurelets(self.context)
+        for flet in flets:
+            if flet['name'] == flet_id:
+                return True
+        return False
 
     @memoizedproperty
     def project_path(self):

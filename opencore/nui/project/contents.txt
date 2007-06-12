@@ -8,8 +8,8 @@
     >>> view
     <...SimpleViewClass ...contents.pt ...>
 
-The view has properties to get info for all of its wiki pages, file
-attachments and mailing lists::
+The view has properties to get info for all of the project's
+wiki pages, file attachments and mailing lists::
 
     >>> view.pages
     [{...}]
@@ -20,7 +20,13 @@ attachments and mailing lists::
     >>> len(view.files)
     2
 
+The view has properties to determine whether the project has relevant
+featurelets installed::
 
+    >>> view.has_task_tracker
+    False
+    >>> view.has_mailing_lists
+    False
 
 Object abstraction
 ==================
