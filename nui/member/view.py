@@ -12,18 +12,6 @@ from topp.utils.pretty_date import prettyDate
         
 class ProfileView(BaseView):
 
-    defaultPortraitURL = '++resource++img/default-portrait.jpg'
-
-    def info(self):
-        """Returns profile information in a dict for easy template access."""
-        usr = self.viewedmember()
-        portrait = usr.getProperty('portrait', None)
-        portraitURL = portrait and portrait.absolute_url() or self.defaultPortraitURL
-        return dict(membersince = prettyDate(usr.getRawCreation_date()),
-                    lastonline  = prettyDate(usr.getLast_login_time()),
-                    portraitURL = portraitURL,
-                    )
-
     def activity(self, max=5):
         """Returns a list of dicts describing each of the `max` most recently
         modified wiki pages for the viewed user."""

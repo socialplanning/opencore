@@ -30,6 +30,7 @@ view.mcproperty = lambda func: property(view.memoize_contextless(func))
 class BaseView(BrowserView):
     """Base view for general use for nui templates and as an abstract base"""
     logoURL = '++resource++img/logo.gif'
+    defaultPortraitURL = '++resource++img/default-portrait.jpg'
     windowTitleSeparator = ' :: '
     render_static = staticmethod(render_static)
     truncate = staticmethod(truncate)
@@ -118,31 +119,67 @@ class BaseView(BrowserView):
         is not currently logged in, the returned dictionary will be
         empty.
         """
-        member = None
-        if self.loggedin:
-            member = self.membertool.getAuthenticatedMember()
+        return self.member_info_for_member(self.loggedinmember)
 
+    @instance.memoizedproperty
+    def viewed_member_info(self):
+        """
+        Returns a dict containing information about the currently
+        viewed member for easy template access.
+        """
+        return self.member_info_for_member(self.viewedmember())
+
+    def member_info_for_member(self, member):
         result = {}
         if member is not None:
             if IReMember.providedBy(member):
                 id = member.getId()
-                fullname=member.getFullname()
-                lastlogin=member.getLast_login_time()
+                fullname = member.getFullname()
+                membersince = prettyDate(member.getRawCreation_date())
+                lastlogin = prettyDate(member.getLast_login_time())
+                location = member.getLocation()
+                statement = member.getStatement()
+                skills = member.getSkills()
+                affiliations = member.getAffiliations()
+                background = member.getBackground()
+                favorites = member.getFavorites()
             else:
-                # we're an old school member object, i.e. an admin
-                # user
+                # XXX TODO
+                # we're an old school member object, e.g. an admin user
                 id = member.id
                 fullname = member.fullname
-                lastlogin = member.last_login_time
+                membersince = '' #prettyDate(member.creation_date)
+                lastlogin = '' #prettyDate(member.last_login_time)
+                location = '' #member.location
+                statement = ''
+                skills = ''
+                affiliations = ''
+                background = ''
+                favorites = ''
                 
             url = ''
             folder = self.membertool.getHomeFolder(id)
             if folder:
                 url = folder.absolute_url()
 
-            result.update(id=id, fullname=fullname, lastlogin=lastlogin,
-                          url=url)
+            portrait = member.getProperty('portrait', None)
+            portraiturl = portrait and portrait.absolute_url() or self.defaultPortraitURL
+
+            result.update(id=id,
+                          url=url,
+                          portraiturl=portraiturl,
+                          fullname=fullname,
+                          membersince=membersince,
+                          lastlogin=lastlogin,
+                          location=location,
+                          statement=statement,
+                          skills=skills,
+                          affiliations=affiliations,
+                          background=background,
+                          favorites=favorites,
+                         )
         return result
+
 
     @view.mcproperty
     def project_info(self):
