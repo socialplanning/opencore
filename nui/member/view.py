@@ -49,7 +49,6 @@ class ProfileEditView(ProfileView):
         if self.errors:
             pass #TODO
         else:
-            print '\n\n\n\n\n\n    yayyyyy no errors    \n\n\n\n\n\n\n'
             self.context.processForm(REQUEST=self.request)
             # TODO?
             usr = self.viewedmember()
