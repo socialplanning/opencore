@@ -14,13 +14,19 @@ import warnings; warnings.filterwarnings("ignore")
 
 def test_suite():
     from Products.Five.utilities.marker import erase as noLongerProvides
-    from Products.PloneTestCase import setup
+    from Products.PloneTestCase import ptc
     from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
     from pprint import pprint
     from zope.interface import alsoProvides
 
     def readme_setup(tc):
         tc._refreshSkinData()
+        pwt = tc.portal.portal_workflow
+        member = tc.portal.portal_membership.getAuthenticatedMember()
+        if pwt.getInfoFor(member, 'review_state') == 'pending':
+            member.isConfirmable = True
+            pwt.doActionFor(member, 'register_public')
+            del member.isConfirmable
 
     globs = locals()
     readme = FunctionalDocFileSuite("README.txt",
