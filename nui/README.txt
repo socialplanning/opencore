@@ -64,7 +64,7 @@ acquisition chain::
 
 @@ Practical question... does having these as view give use an
 advantage over other methods of getting info? they might be more
-efficient as mixins
+efficient(faster) as mixins
 
 Aliases to commonly used tools are provided and also memoized::
 
@@ -90,13 +90,34 @@ These should also be properly wrapped(sort of)::
     <opencore.nui.base.BaseView object at ...>
 
 
+User/Account methods
+====================
+
+    >>> pview.loggedin
+    True
+    
+    >>> pview.loggedinmember
+    <OpenMember at /plone/portal_memberdata/test_user_1_>
+    
+    >>> pview.home_url_for_id('m1')
+    'http://nohost/plone/people/test_user_1_/m1'
+
+    >>> pview.home_url
+    'http://nohost/plone/people/test_user_1_/test_user_1_'
+
+    >>> pprint(pview.member_info)
+    {'fullname': '',
+     'id': 'test_user_1_',
+     'lastlogin': DateTime('2000/01/01'),
+     'url': 'http://nohost/plone/people/test_user_1_'}
+
+
+
 include
 -------
 
 # @@ needs a test
 
-loggedin
---------
 
-# @@ needs a test
+
 
