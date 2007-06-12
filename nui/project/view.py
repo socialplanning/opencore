@@ -141,14 +141,6 @@ class ProjectContentsView(BaseView):
 
     @octopus_form_handler
     def modify_contents(self, action, sources, fields=None):
-        item_type = self.request.form.get("item_type")
-
-        parents = {}
-
-        ## XXX TODO this is mad slow. we don't want to get an object
-        # for each string id just to get a reference to the parent.
-        # is there any way to delete objects without a ref to parent?
-
         brains = self.catalog(id=sources, path=self.project_path)
 
         if action == 'delete':
@@ -164,6 +156,7 @@ class ProjectContentsView(BaseView):
             return sources
 
         elif action == 'update':
+            item_type = self.request.form.get("item_type")
             snippets = {}
             objects = dict([(b.getId, b.getObject()) for b in brains])
             for old, new in zip(sources, fields):
@@ -175,7 +168,6 @@ class ProjectContentsView(BaseView):
                                                        self.needed_values[item_type]),
                     item_type=item_type)
             
-            #self.context.manage_renameObjects(sources, [d['title'] for d in fields])
             return snippets
 
 

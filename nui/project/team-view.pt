@@ -115,7 +115,7 @@
         </tal:got_results>
 
         <!-- if we get no results, this is what is displayed -->
-        <div tal:condition="not: view/memberships">No results found.</div>
+        <div tal:condition="not: view/memberships">No team members found.</div>
 
     </div> <!-- content-main -->
 
