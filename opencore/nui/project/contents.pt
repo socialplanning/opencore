@@ -29,6 +29,11 @@
 	    <tal:macro metal:use-macro="here/contents/macros/contents_table" /> 
 	  </tal:setvar> 
 
+	  <a rel="include"
+	     tal:attributes="href string:${view/context/absolute_url}/tasks/manage">
+	    View tasklists
+	  </a>
+
         </div><!-- end .oc-content-main -->
       </div><!-- end content-fill-slot -->
     </body>
@@ -67,7 +72,7 @@
             </tal:for>
 	  </tbody>
 	</table>
-	
+
 	<ul class="oc-actions oc-dataTable-actions">
 	  <li>
             <button type="submit" name="task" value="batch_delete" class="oc-button" >Delete</button>
