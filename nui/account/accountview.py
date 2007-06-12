@@ -63,7 +63,7 @@ class LoginView(AccountView):
         """where you go after you're logged in"""
         retval = self.referer
         if not retval:
-            retval = '/'.join((self.home(), 'profile'))
+            retval = '%s/profile' %self.home_url
         return retval
 
     @button('login')
@@ -71,7 +71,8 @@ class LoginView(AccountView):
     def handle_login(self):
         if self.loggedin:
             self.addPortalStatusMessage('You are logged in')
-            self.update_credentials(self.loggedinmember.getId())
+            id_ = self.request.get('__ac_name')
+            self.update_credentials(id_)
             return self.redirect(self.destination)
 
         self.addPortalStatusMessage('Login failed')
@@ -298,7 +299,7 @@ class PasswordResetView(AccountView):
         self.login(userid)
         
         self.addPortalStatusMessage(u'Your password has been reset and you are now logged in.')
-        self.redirect(self.home(userid) + '/profile')
+        self.redirect('%s/profile', self.home_url_for_id(userid))
         return True
 
     @property
@@ -307,7 +308,7 @@ class PasswordResetView(AccountView):
         pw_tool = self.get_tool("portal_password_reset")
         try:
             pw_tool.verifyKey(key)
-        except "InvalidRequestError": # XXX rollie?
+        except "InvalidRequestError": # XXX rollie? # string exceptions?
             raise Forbidden, "You fool! The Internet Police have already been notified of this incident. Your IP has been confiscated."
         except "ExpiredRequestError": # XXX rollie?
             raise Forbidden, "YOUR KEY HAS EXPIRED. Please try again"
@@ -316,19 +317,12 @@ class PasswordResetView(AccountView):
 
 class HomeView(BaseView):
     """redirects a user to their home"""
-    # XXX this doesn't work since __call__ has been switched to redirect.  
-
-    def joinurls(self, *args):
-        """This function is because urlparse.urljoin doesn't behave nice"""
-        # XXX probably this should be eliminated or moved
-        return '/'.join([ i.strip('/') for i in args ])
 
     def redirect(self):
-        home = self.home()
         url = self.siteURL
         if home:            
             if self.request.get('profile-edit') is not None:                
-                url = self.joinurls(home, 'profile-edit')
+                url = "%s/profile-edit" %self.home_url
         raise Redirect, url
 
 

@@ -233,15 +233,21 @@ class BaseView(BrowserView):
 
     @property
     def loggedinmember(self):
-        return self.loggedin and self.membertool.getAuthenticatedMember()
+        if self.loggedin:
+            return self.membertool.getAuthenticatedMember()
 
-    def home(self, member=None):
+    def home_url_for_id(self, id_=None):
+        if id_ == None:
+            return self.home_url
+        return "%s/%s" %(self.membertool.getHomeFolder().absolute_url(), id_)
+
+    @view.mcproperty
+    def home_url(self):
         """url of the member's homepage"""
-        if member is None:
-            if not self.loggedin: return None
-            member = self.loggedinmember.id
-        retval = '/'.join((self.portal.absolute_url(), 'people', member))
-        return retval
+        if not self.loggedin:
+            return None
+        id_ = self.loggedinmember.getId()
+        return self.home_url_for_id(id_)
 
     def userobj(self):
         # XXX eliminate
