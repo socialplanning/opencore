@@ -1,5 +1,5 @@
 <tal:vars define="usr view/viewedmember;
-                  info view/info">
+                  data view/viewed_member_info">
 
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
@@ -7,25 +7,24 @@
       <div id="oc-content-main">
         <div id="oc-member-badge" class="oc-boxy oc-clearAfter vcard">
           <div class="oc-avatar">
-            <img class="photo" tal:attributes="src info/portraitURL" />
+            <img class="photo" tal:attributes="src data/portraiturl" />
           </div>
           <div class="oc-member-details">
             <div class="oc-headingBlock">
               <h1 class="fn">
-                <span tal:content="usr/getId" />
+                <span tal:content="data/id" />
                 <a tal:condition="view/viewingself" href="./profile-edit" class="oc-liveItem_showForm">Edit</a>
               </h1>
-              <p class="oc-member-fullname n" tal:content="usr/getFullname" />
+              <p class="oc-member-fullname n" tal:content="data/fullname" />
               <p class="oc-headingContext oc-discreetText">
-                member since <span tal:replace="info/membersince" />,
-                last online <span tal:replace="info/lastonline" />
+                member since <span tal:replace="data/membersince" />,
+                last login <span tal:replace="data/lastlogin" />
               </p>
             </div>
             <dl class="oc-member-info">
-              <tal:location>
+              <tal:location tal:condition="data/location">
                 <dt>Location</dt>
-                <dd class="adr" tal:condition="usr/getLocation" tal:content="usr/getLocation" />
-                <dd class="adr" tal:condition="not:usr/getLocation">not specified</dd>
+                <dd class="adr" tal:content="data/location" />
               </tal:location>
               <dt>Projects</dt>
               <dd>
@@ -49,21 +48,26 @@
           </div>
         </div>
         <dl class="oc-member-info">
-          <dt>Personal Statement</dt>
-          <dd tal:condition="usr/getStatement" tal:content="usr/statement" />
-          <dd tal:condition="not:usr/getStatement">not specified</dd>
-          <dt>Skills/Interests</dt>
-          <dd tal:condition="usr/getSkills" tal:content="usr/getSkills" />
-          <dd tal:condition="not:usr/getSkills">not specified</dd>
-          <dt>Affiliations</dt>
-          <dd tal:condition="usr/getAffiliations" tal:content="usr/getAffiliations" />
-          <dd tal:condition="not:usr/getAffiliations">not specified</dd>
-          <dt>Background</dt>
-          <dd tal:condition="usr/getBackground" tal:content="usr/getBackground" />
-          <dd tal:condition="not:usr/getBackground">not specified</dd>
-          <dt>Favorites</dt>
-          <dd tal:condition="usr/getFavorites" tal:content="usr/getFavorites" />
-          <dd tal:condition="not:usr/getFavorites">not specified</dd>
+          <tal:block condition="usr/getStatement">
+            <dt>Personal Statement</dt>
+            <dd tal:content="usr/statement" />
+          </tal:block>
+          <tal:block condition="usr/getSkills">
+            <dt>Skills/Interests</dt>
+            <dd tal:content="usr/getSkills" />
+          </tal:block>
+          <tal:block condition="usr/getAffiliations">
+            <dt>Affiliations</dt>
+            <dd tal:content="usr/getAffiliations" />
+          </tal:block>
+          <tal:block condition="usr/getBackground">
+            <dt>Background</dt>
+            <dd tal:content="usr/getBackground" />
+          </tal:block>
+          <tal:block condition="usr/getFavorites">
+            <dt>Favorites</dt>
+            <dd tal:content="usr/getFavorites" />
+          </tal:block>
         </dl>
       </div><!-- end #oc-content-main -->
 
