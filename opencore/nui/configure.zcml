@@ -22,16 +22,16 @@
     name="css"
     directory="css"
     />
+
   <browser:resourceDirectory
     name="img"
     directory="img"
     />
+
   <browser:resourceDirectory
     name="javascripts"
     directory="javascripts"
     />
-
-  <browser:layer name="magic" />
 
   <browser:page
     for="*"
@@ -39,7 +39,6 @@
     permission="zope.Public"
     name="main_template"
     template="main_template.pt"
-    layer="magic"
     />
 
   <browser:view
