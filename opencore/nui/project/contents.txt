@@ -28,6 +28,8 @@ featurelets installed::
     >>> view.has_mailing_lists
     False
 
+
+
 Object abstraction
 ==================
 
@@ -64,7 +66,7 @@ FileAttachments, Images, and Mailing Lists in ProjectContentsView.needed_values
 
 
 
-Multipart-Form handler
+Multipart form handler
 ======================
 
 modify_contents is the view's form handler. It takes an action, a list
