@@ -164,6 +164,7 @@ class ProjectContentsView(BaseView):
             for brain in brains:
                 parent_path, brain_id = brain.getPath().rsplit('/', 1)
                 if brain_id == 'project-home':  ## don't allow deletion of project-home cuz it's special
+                    sources.remove("project-home")
                     continue 
                 parent_path = parent_path.split(self.project_path, 1)[-1].strip('/')
                 parents.setdefault(parent_path, []).append(brain_id)
