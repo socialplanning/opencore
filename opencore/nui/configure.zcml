@@ -46,7 +46,7 @@
     for="*"
     name="standard_macros"
     class=".macros.StandardMacros"
-    permission="zope2.Public"
+    permission="zope.Public"
     allowed_interface="zope.interface.common.mapping.IItemMapping"
     />
 
@@ -54,7 +54,7 @@
     for="*"
     name="nui_macros"
     class=".macros.NuiMacros"
-    permission="zope2.Public"
+    permission="zope.Public"
     allowed_interface="zope.interface.common.mapping.IItemMapping"
     />
 
