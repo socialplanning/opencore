@@ -7,7 +7,6 @@ from Products.PasswordResetTool.tests.test_doctests import MockMailHostTestCase
 
 from opencore.testing.layer import OpencoreContent
 
-#optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
 
 import warnings; warnings.filterwarnings("ignore")
