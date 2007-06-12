@@ -3,44 +3,40 @@
 <html 
    metal:use-macro="here/@@standard_macros/master">
   <body>
-    <div id="oc-content-container" 
-	 metal:fill-slot="content">              
+    <div metal:fill-slot="content">
+         
       <div id="oc-content-main">
-	
+        
         <form id="oc-join-form" name="edit_form" method="post" 
-	      tal:attributes="action string:${context/absolute_url}/${view/name}"
-	      >
-	  
-          <fieldset>
+              tal:attributes="action string:${context/absolute_url}/${view/name}"
+              >
+          
+          <fieldset class="oc-boxy">
 
-            <legend class="headingBlock">
-              <h1>Join OpenPlans</h1>
+            <legend class="oc-legend-heading oc-biggestText">Join OpenPlans</legend>
 
-              <p class="oc-headingContext" 
-		 tal:condition="not:fdata/getUser | nothing">
-		Registration is free and your email will not be
-                shared with anyone, however, you will need to confirm your email address in order to avoid 
-                spam bots abusing this system
-              </p>
+            <p tal:condition="not:fdata/getUser | nothing">
+              Registration is free and your email will not be
+              shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system.
+            </p>
 
-	      <!-- on successful registration -->
-	      <p tal:condition="fdata/getUser | nothing">
-		"check yr email"
-	      </p>
-            </legend> 
+            <!-- on successful registration -->
+            <p tal:condition="fdata/getUser | nothing">
+              "check yr email"
+            </p>
 
             <table class="oc-form" 
-		   tal:condition="not:fdata/getUser | nothing">
+                   tal:condition="not:fdata/getUser | nothing">
               <thead></thead>
               <tbody>
             
-		<tr class="oc-form-row">
+                <tr class="oc-form-row">
                   <th class="oc-form-label">
                     <label for="id">Username</label>
                   </th>
                   <td class="oc-form-value">
                     <input type="text" name="id" id="id"
-			   tal:attributes="value request/id | nothing" />
+                           tal:attributes="value request/id | nothing" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
@@ -50,10 +46,10 @@
                       
                     </span>
                     <span id="oc-id-error" class="oc-form-error"
-			  tal:content="view/errors/id | nothing">
+                          tal:content="view/errors/id | nothing">
 
                     </span>
-                  </td>		  
+                  </td>           
                 </tr>
 
                 <tr>
@@ -62,7 +58,7 @@
                   </th>
                   <td class="oc-form-value">
                     <input type="text" name="fullname" id="fullname"
-			   tal:attributes="value request/fullname | nothing" />
+                           tal:attributes="value request/fullname | nothing" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
@@ -72,7 +68,7 @@
                       
                     </span>
                     <span id="oc-fullname-error" class="oc-form-error"
-			  tal:content="view/errors/fullname | nothing">
+                          tal:content="view/errors/fullname | nothing">
 
                     </span>
                   </td>
@@ -84,7 +80,7 @@
                   </th>
                   <td class="oc-form-value">
                     <input type="text" name="email" id="email"
-			   tal:attributes="value request/email | nothing" />
+                           tal:attributes="value request/email | nothing" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
@@ -94,7 +90,7 @@
                       
                     </span>
                     <span id="oc-email-error" class="oc-form-error"
-			  tal:content="view/errors/email | nothing">
+                          tal:content="view/errors/email | nothing">
 
                     </span>
                   </td>
@@ -106,7 +102,7 @@
                   </th>
                   <td class="oc-form-value">
                     <input type="password" name="password" id="password" 
-			   />
+                           />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
@@ -116,12 +112,12 @@
                       
                     </span>
                     <span id="oc-password-error" class="oc-form-error"
-			  tal:content="view/errors/password | nothing">
+                          tal:content="view/errors/password | nothing">
 
                     </span>
                   </td>
                 </tr>
-		
+                
                 <tr>
                   <th class="oc-form-label">
                     <label for="confirm_password">Confirm passsword</label>
@@ -137,16 +133,16 @@
                       
                     </span>
                     <span id="oc-confirm_password-error" class="oc-form-error"
-			  tal:content="view/errors/confirm_password | nothing">
+                          tal:content="view/errors/confirm_password | nothing">
 
                     </span>
                   </td>
                 </tr>
 
-		<tr>
+                <tr>
                   <td class="oc-form-value">
                     <input type="hidden" name="temp_mem_id" 
-			   tal:attributes="value view/temp_mem_id" />
+                           tal:attributes="value view/temp_mem_id" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
@@ -173,19 +169,23 @@
                     </span>
                   </td>
                 </tr>
-		
+                
               </tbody>
             </table>            
-	  </fieldset>
-	  
-	</form>
+          </fieldset>
+          
+        </form>
       </div><!-- end #oc-content-main -->
       
       <div id="oc-content-sidebar">
-        <h3>Why join?</h3>
-        <p>Here's why...<a href="">Learn more</a></p>
-        <h3>What's with the full name?</h3>
-        <p>That way, we can sell your identity. <br /><a href="">Learn more</a></p>
+        <div class="oc-boxy oc-getstarted">
+          <h2>Why join?</h2>
+          <p>Here's why...<a href="">Learn more</a></p>
+        </div>
+        <div class="oc-boxy">
+          <h2>What's with the full name?</h2>
+          <p>That way, we can sell your identity. <br /><a href="">Learn more</a></p>
+        </div>
       </div><!-- end #oc-content-sidebar -->
 
     </div><!-- end content slot -->

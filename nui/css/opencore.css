@@ -176,6 +176,10 @@ ul#oc-topnav-context li.oc-topnav-selected {
   margin: 0;
   padding: 0;
 }
+.oc-boxy legend.oc-legend-heading {
+	padding-left: 0.25em;
+	padding-right: 0.25em;
+}
 .oc-boxy textarea {
   margin: 0;
 }
@@ -634,6 +638,7 @@ fieldset .oc-legend-heading {
   font-size: 18px;
   font-weight: bold;
   margin: 0;
+  margin-bottom: 0.5em;
   padding: 0;
  }
 fieldset .oc-headingContext {
@@ -1075,13 +1080,13 @@ h4 {
 h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 abbr {
   border: none;
 }
-h1, .oc-biggestText {
+h1, .oc-biggestText, .oc-legend-heading.oc-biggestText {
   font-size: 24px;
   line-height: 0.75em;
   /* margin-top: 1.5em; */
   /* margin-bottom: 0.75em; */
 }
-h2, .oc-biggerText, #oc-topnav-title h1,
+h2, .oc-biggerText, .oc-legend-heading.oc-biggerText, #oc-topnav-title h1,
 #oc-content-sidebar h1 {
   font-size: 18px;
   line-height: 1em;
@@ -1103,6 +1108,9 @@ h4, .h4 {
 }
 #oc-content-sidebar h4 {
   font-size: 12px;
+}
+p {
+	margin-top: 0;
 }
 select,
 input,
@@ -1157,13 +1165,14 @@ address {
 /* Heading Blocks */
 
 .oc-headingBlock {
+  margin-bottom: 0.75em;
 }
 .oc-headingBlock h1,
 .oc-headingBlock h2,
 .oc-headingBlock h3,
 .oc-headingBlock h4 {
   margin: 0;
-  margin-bottom: 0.25em;
+  margin-bottom: 0.125em;
 }
 .oc-headingBlock .oc-headingContext {
   margin: 0 0 1em;
