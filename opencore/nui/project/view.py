@@ -167,6 +167,17 @@ class ProjectContentsView(BaseView):
             obj_dict[field] = val
         return obj_dict
 
+    def delete(self, brains):
+        parents = {} 
+        for brain in brains:
+            parent_path, brain_id = brain.getPath().rsplit('/', 1)
+            parent_path = parent_path.split(self.project_path, 1)[-1].strip('/')
+            parents.setdefault(parent_path, []).append(brain_id)
+        for parent, child_ids in parents.items():
+            if child_ids:
+                parent = self.context.restrictedTraverse(parent)
+                parent.manage_delObjects(child_ids)
+
     @octopus_form_handler
     def modify_contents(self, action, sources, fields=None):
         item_type = self.request.form.get("item_type")
@@ -177,18 +188,10 @@ class ProjectContentsView(BaseView):
         brains = self.catalog(id=sources, path=self.project_path)
 
         if action == 'delete':
-            parents = {}
-            for brain in brains:
-                parent_path, brain_id = brain.getPath().rsplit('/', 1)
-                parent_path = parent_path.split(self.project_path, 1)[-1].strip('/')
-                parents.setdefault(parent_path, []).append(brain_id)
-            for parent, child_ids in parents.items():
-                if child_ids:
-                    parent = self.context.restrictedTraverse(parent)
-                    parent.manage_delObjects(child_ids)
+            self.delete(brains)
             return sources
 
-        elif action == 'update':
+        elif action == 'update': # @@ move out to own method to optimize
             snippets = {}
             objects = dict([(b.getId, b.getObject()) for b in brains])
             for old, new in zip(sources, fields):
