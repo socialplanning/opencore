@@ -35,7 +35,7 @@
             </div>
             <fieldset>
               <div class="oc-headingBlock">
-                <h1 class="fn" tal:content="usr/getId" />
+                <h1 class="fn" tal:content="data/id" />
                 <p class="oc-headingContext oc-discreetText">
                   member since <span tal:replace="data/membersince" />,
                   last online <span tal:replace="data/lastlogin" />
@@ -45,32 +45,38 @@
                 <li>
                   <label for="fullname">Full name</label><br />
                   <input type="text" id="fullname" name="fullname"
-                    tal:attributes="value request/fullname | usr/getFullname" />
+                    tal:attributes="value request/fullname | data/fullname" />
                 </li>
                 <li>
                   <label for="location">Location</label><br />
                   <input type="text" id="location" name="location"
-                    tal:attributes="value request/location | usr/getLocation" />
+                    tal:attributes="value request/location | data/location" />
                 </li>
               </ul>
             </fieldset>
           </div>
           <fieldset>
-            <label for="">Personal Statement</label><br />
-            <textarea rows="3" cols="80" name="statement"
-              tal:content="request/statement | usr/getStatement"></textarea>
-            <label for="">Skills/Interests</label><br />
-            <textarea rows="1" cols="80" name="skills"
-              tal:content="request/skills | usr/getSkills"></textarea>
-            <label for="">Affiliations</label><br />
-            <textarea rows="1" cols="80" name="affiliations"
-              tal:content="request/affiliations | usr/getAffiliations"></textarea>
-            <label for="">Background</label><br />
-            <textarea rows="1" cols="80" name="background"
-              tal:content="request/background | usr/getBackground"></textarea>
-            <label for="">Favorites</label><br />
-            <textarea rows="1" cols="80" name="favorites"
-              tal:content="request/favorites | usr/getFavorites"></textarea>
+
+            <label for="statement">Personal Statement</label><br />
+            <textarea rows="3" cols="80" name="statement" id="statement"
+              tal:content="request/statement | data/statement"></textarea>
+
+            <label for="background">Background</label><br />
+            <textarea rows="1" cols="80" name="background" id="background"
+              tal:content="request/background | data/background"></textarea>
+
+            <label for="skills">Skills/Interests</label><br />
+            <textarea rows="1" cols="80" name="skills" id="skills"
+              tal:content="request/skills | data/skills"></textarea>
+
+            <label for="affiliations">Affiliations</label><br />
+            <textarea rows="1" cols="80" name="affiliations" id="affiliations"
+              tal:content="request/affiliations | data/affiliations"></textarea>
+
+            <label for="favorites">Favorites</label><br />
+            <textarea rows="1" cols="80" name="favorites" id="favorites"
+              tal:content="request/favorites | data/favorites"></textarea>
+
           </fieldset>
 
           <ul class="oc-actions oc-wiki-actions">
