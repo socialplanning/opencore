@@ -247,6 +247,7 @@ ul#oc-topnav-context li.oc-topnav-selected {
 .oc-searchresults-nresults {
   /* float: left; */
   font-size: 10px;
+  margin-bottom: 1em;
 }
 .oc-lineup-item-sorter form,
 .oc-lineup-item-sorter select,
@@ -275,11 +276,12 @@ ul#oc-topnav-context li.oc-topnav-selected {
   clear: both;
   list-style-type: none;
   padding: 0;
-  margin-bottom: 0;
+  margin: 0;
+  width: 101%;
 }
 .oc-peopleresults-list li {
-  margin: 0 0.75em 0.75em 0;
-  width: 47%;
+  margin: 0 0.5% 0.75em 0;
+  width: 49%;
   float: left;
   clear: none;
   white-space: nowrap;
@@ -634,8 +636,10 @@ a.oc-close:hover {
 }
 
 /* @FORM Stuff */
-fieldset .oc-legend-heading {
-  font-size: 18px;
+fieldset .oc-legend-heading,
+.oc-label-heading {
+  display: block;
+  /* font-size: 18px; */
   font-weight: bold;
   margin: 0;
   margin-bottom: 0.5em;
@@ -1072,7 +1076,7 @@ body, textarea {
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   letter-spacing: 0;
-   margin: 0 0 1em;
+  margin: 0 0 1em;
 }   
 h4 {
   margin: 0 0 .5em;
@@ -1086,7 +1090,8 @@ h1, .oc-biggestText, .oc-legend-heading.oc-biggestText {
   /* margin-top: 1.5em; */
   /* margin-bottom: 0.75em; */
 }
-h2, .oc-biggerText, .oc-legend-heading.oc-biggerText, #oc-topnav-title h1,
+h2, .oc-biggerText, 
+.oc-legend-heading.oc-biggerText, 
 #oc-content-sidebar h1 {
   font-size: 18px;
   line-height: 1em;
