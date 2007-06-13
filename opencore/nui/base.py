@@ -153,26 +153,26 @@ class BaseView(BrowserView):
         if member is not None:
             if IReMember.providedBy(member):
                 result = dict(
-                    id = member.getId(),
-                    fullname = member.getFullname(),
-                    membersince = prettyDate(member.getRawCreation_date()),
-                    lastlogin = prettyDate(member.getLast_login_time()),
-                    location = member.getLocation(),
-                    url='')
+                              id          = member.getId(),
+                              fullname    = member.getFullname(),
+                              membersince = prettyDate(member.getRawCreation_date()),
+                              lastlogin   = prettyDate(member.getLast_login_time()),
+                              location    = member.getLocation(),
+                              url         = '',
+                             )
             else:
                 # XXX TODO 
                 # we're an old school member object, e.g. an admin user
-                result = dict(id = member.id,
-                    fullname = member.fullname)
+                result = dict(id=member.id, fullname=member.fullname)
 
                 for key in 'membersince', 'lastlogin','location', \
-                        'statement', 'affiliations', 'skills',\
-                        'background',  'url', 'favorites',:
-                    result[key]=''
+                           'statement', 'affiliations', 'skills', \
+                           'background',  'url', 'favorites':
+                    result[key] = ''
 
             folder = self.membertool.getHomeFolder(result['id'])
             if folder:
-                result["url"] = folder.absolute_url()
+                result['url'] = folder.absolute_url()
                 
             result['portrait_url'] = self.defaultPortraitURL
             portrait = member.getProperty('portrait', None)
