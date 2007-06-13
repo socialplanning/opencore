@@ -28,7 +28,8 @@ OC.liveElementKey = {
   "#version_compare_form" : "HistoryList",
   "#oc-join-form" : "JoinForm",
   ".oc-liveForm" : "LiveForm",
-  ".oc-liveItem" : "LiveItem"
+  ".oc-liveItem" : "LiveItem",
+  ".oc-widget-multiSearch" : "SearchLinks"
 }
     
 /* 
@@ -641,6 +642,40 @@ OC.LiveEdit = function(extEl) {
     }
     return this;
 }
+
+/* 
+#
+# Search Links
+#
+*/
+OC.SearchLinks = function(extEl) {
+  // get references
+  var form = extEl;
+  var peopleLink = Ext.get(Ext.query('.oc-search-people', form.dom)[0]);
+  var projectsLink = Ext.get(Ext.query('.oc-search-projects', form.dom)[0]);
+  var everythingLink = Ext.get(Ext.query('.oc-search-everything', form.dom)[0]);
+  var links = Ext.select(Ext.query('a' ,form.dom));
+  var text = Ext.get(Ext.query('input[type=text]', form.dom)[0]);
+  
+  // find current searc & replace
+
+  
+  function _linksMouseover(e, el, o) {
+    // find current value
+    var url = el.href;
+    var querystring = url.split('?')[1];
+    var params = querystring.split('&');
+    var origQuery = params[0];
+      
+    // get form value
+    var newQuery = YAHOO.util.Connect.setForm(form.dom);
+    
+    // replace link 
+    el.href = el.href.replace(origQuery, newQuery);    
+  }
+  links.on('mouseover', _linksMouseover, this);
+
+} // end OC.SearchLinks();
 
 /* 
 #
