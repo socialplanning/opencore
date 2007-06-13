@@ -5,7 +5,8 @@ from AccessControl.SecurityManagement import newSecurityManager
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.remember.utils import getAdderUtility
-from opencore.nui.base import BaseView, button, post_only, anon_only
+from opencore.nui.base import BaseView
+from opencore.nui.formhandler import button, post_only, anon_only
 from opencore.siteui.member import notifyFirstLogin
 from plone.memoize import instance
 from smtplib import SMTPRecipientsRefused, SMTP
