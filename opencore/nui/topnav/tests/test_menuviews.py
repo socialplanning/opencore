@@ -53,8 +53,8 @@ class TestMemberMenu(OpenPlansTestCase):
         self.failIf(menudata[2]['selected'])
 
         self.clearMemoCache()
-        contact_url = "%s/contact" % self.mf.absolute_url()
-        self.request.ACTUAL_URL = contact_url
+        userprefs_url = "%s/preferences" % self.mf.absolute_url()
+        self.request.ACTUAL_URL = userprefs_url
         menudata = self.view.menudata
         self.failUnless(len(menudata) == 3)
         self.assertEqual(self.mf.absolute_url(), menudata[0]['href'])
