@@ -20,7 +20,7 @@ def email_confirmation():
     """get email confirmation mode from zope.conf"""
     cfg = config.getConfiguration().product_config.get('opencore.nui')
     if cfg:
-        val = cfg.get('email-confirmation', 'True')).title()
+        val = cfg.get('email-confirmation', 'True').title()
         if val == 'True':
             return True
         elif val == 'False':
