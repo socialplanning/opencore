@@ -6,13 +6,18 @@
       <div id="oc-content-main">
           
           <div class="oc-widget oc-widget-search oc-boxy">    
-            <form name="projects_search" action="." tal:attributes="action string:${context/portal_url}/projects/searchresults">
+            
+            <form class="oc-widget-multiSearch" action="/openplans/projects/" method="get">
               <label class="oc-label-heading oc-biggestText">Search</label>
-              <!-- <p>Search results <span tal:condition="view/search_query | nothing" tal:replace="structure view/search_query" /></p> -->
-              <input type="text" name="projname" tal:attributes="value request/projname | nothing" />
-              <input type="hidden" name="letter_search" />
-            <input type="submit" name="action_search_projects" value="Search" />
-            </form>
+              <ul class="oc-inlineList">
+                <li><a class="oc-search-people" href="/openplans/people/searchresults?search_for=test&letter_search=&action_search_people=Search">People</li>
+                <li><a class="oc-search-projects" href="/openplans/projects/searchresults?search_for=test&letter_search=&action_search_projects=Search">Projects</a></li>
+                <li><a class="oc-search-everything" href="/openplans/sitesearch?search_for=test">Everything</a></li>
+                
+              </ul>
+              <input class="oc-input-typeText" type="text" name="search_for" value="mysearch" size="25" />
+              <button type="submit">Search</button>
+            </form><!-- end .oc-widget-multiSearch -->
           
             <ul class="oc-widget-alphabet oc-clearAfter oc-boxy" tal>
               <li tal:repeat="letter modules/string/uppercase">
