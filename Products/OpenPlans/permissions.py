@@ -37,7 +37,7 @@ DEFAULT_PERMISSIONS_DATA = (
       'Quills: Add WeblogEntry', 'Quills: Add WeblogTopic',
       'Quills: Add WeblogArchive',]),
 
-    (['Manager', 'ProjectAdmin', 'Owner'],
+    (['Manager', 'ProjectAdmin', 'Owner', 'ProjectMember'],
      [ManageTeamMembership, 'TeamSpace: Manage team',
       ManageWorkflowPolicy, AddMailingList, InviteSubscribers]),
 
