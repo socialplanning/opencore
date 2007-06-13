@@ -3,14 +3,18 @@
 
     <div metal:fill-slot="content">              
 
-      <div class="oc-headingBlock">
-        <h1>Searching OpenPlans</h1>
-      </div>
-
       <div id="oc-content-main">
+      
+        <div class="oc-widget oc-widget-search oc-boxy">    
+          <form name="search_form" action="." tal:attributes="action string:${context/portal_url}/sitesearch">
+            <label class="oc-label-heading oc-biggestText">Search</label>
+            <!-- <p>Search results <span tal:condition="view/search_query | nothing" tal:replace="structure view/search_query" /></p> -->
+            <input type="text" name="search_string" tal:attributes="value request/search_string | nothing" />
+            <input type="submit" name="search_action" value="Search" />
+          </form>
+        </div>
 
-        <div class="oc-peopleresults">
-          <h2>Search results <span tal:condition="view/search_query | nothing" tal:replace="structure view/search_query" /></h2>
+        <div class="oc-searchresults">
 
           <!-- batch needs to have some variables set up to work properly.
           here is where they are defined -->
@@ -42,9 +46,9 @@
                   <option value="getId" tal:attributes="selected python: sorted_by == 'getId'">alphabetical</option>
                   <option value="modified" tal:attributes="selected python: sorted_by == 'modified'">date updated</option>
                   <option value="portal_type" tal:attributes="selected python: sorted_by == 'portal_type'">content type</option>
-    </select>
+                </select>
 
-    <!-- resend the current data when sorting -->
+          <!-- resend the current data when sorting -->
                   <input tal:condition="request/search_for | nothing" type="hidden" name="search_for"
                       tal:attributes="value request/search_for" />
                   <input tal:condition="request/b_start | nothing" type="hidden" name="b_start:int"
@@ -99,19 +103,6 @@
       </div> <!-- oc-searchresults -->
     </div> <!-- content-main -->
 
-
-    <div id="oc-content-sidebar">
-
-      <!-- the sidebar contains the search for the project, as well as the letters that search for projects starting with that letter we can possibly create a macro that displays this form and letters generically -->
-      <div class="oc-widget oc-widget-search oc-boxy">    
-        <form name="search_form" action="." tal:attributes="action string:${context/portal_url}/sitesearch">
-          <label><h2>New search</h2></label>
-          <input type="text" name="search_for" tal:attributes="value request/search_for | nothing" />
-          <input type="submit" name="search_action" value="Search" />
-        </form>
-
-      </div>
-    </div><!-- content-sidebar -->
   </div><!-- content-fill-slot -->
 </body>
 </html>
