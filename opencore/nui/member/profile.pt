@@ -7,7 +7,7 @@
       <div id="oc-content-main">
         <div id="oc-member-badge" class="oc-boxy oc-clearAfter vcard">
           <div class="oc-avatar">
-            <img class="photo" tal:attributes="src data/portraiturl" />
+            <img class="photo" tal:attributes="src data/portrait_url" />
           </div>
           <div class="oc-member-details">
             <div class="oc-headingBlock">
