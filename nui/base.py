@@ -283,7 +283,9 @@ class BaseView(BrowserView):
     def home_url_for_id(self, id_=None):
         if id_ == None:
             return self.home_url
-        return self.membertool.getHomeFolder(id_).absolute_url()
+        folder = self.membertool.getHomeFolder(id_)
+        if folder is not None:
+            return folder.absolute_url()
 
     @view.mcproperty
     def home_url(self):

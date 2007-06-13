@@ -98,12 +98,26 @@ User/Account methods
     
     >>> pview.loggedinmember
     <OpenMember at /plone/portal_memberdata/test_user_1_>
+
+
+Home url
+--------
+
+Nothing is member isn't confirmed::
     
     >>> pview.home_url_for_id('m1')
-    'http://nohost/plone/people/test_user_1_/m1'
+
+Should get the member folder url for a confirmed member::
+
+    >>> pview.home_url_for_id('test_user_1_')
+    'http://nohost/plone/people/test_user_1_'
 
     >>> pview.home_url
-    'http://nohost/plone/people/test_user_1_/test_user_1_'
+    'http://nohost/plone/people/test_user_1_'
+
+
+Member info
+-----------
 
     >>> pprint(pview.member_info)
     {'affiliations': '',

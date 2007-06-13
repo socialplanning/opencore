@@ -77,6 +77,7 @@ To do the reset, we'll need to submit the form::
     >>> view.request.environ["REQUEST_METHOD"] = "POST"
     >>> view.request.form["set"]=True
     >>> view.request.form["password"]='word'
+    >>> view.request.form["password2"]='word'
     >>> view.request.form["userid"]='test_user_1_'
     >>> view.handle_reset()
     True
