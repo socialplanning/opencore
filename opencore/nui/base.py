@@ -132,6 +132,23 @@ class BaseView(BrowserView):
         """
         return self.member_info_for_member(self.viewedmember())
 
+    def viewed_member_profile_tags(self, field):
+        return self.member_profile_tags(self.viewedmember(), field)
+
+    def member_profile_tags(self, member, field):
+        """
+        Returns a list of dicts mapping each tag in the given field of the
+        given member's profile to a url corresponding to a search for that tag.
+        """
+        if IReMember.providedBy(member):
+            tags = getattr(member, 'get%s' % field.title())()
+            tags = tags.split(',')
+            tagsearchurl = 'http://www.openplans.org/tagsearch/' # TODO
+            urls = [tagsearchurl + tag for tag in tags]
+            return [{'tag': tag, 'url': url} for tag, url in zip(tags, urls)]
+        return []
+
+
     def member_info_for_member(self, member):
         if member is not None:
             if IReMember.providedBy(member):
@@ -141,11 +158,6 @@ class BaseView(BrowserView):
                     membersince = prettyDate(member.getRawCreation_date()),
                     lastlogin = prettyDate(member.getLast_login_time()),
                     location = member.getLocation(),
-                    statement = member.getStatement(),
-                    skills = member.getSkills(),
-                    affiliations = member.getAffiliations(),
-                    background = member.getBackground(),
-                    favorites = member.getFavorites(),
                     url='')
             else:
                 # XXX TODO 
