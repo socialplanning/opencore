@@ -24,14 +24,6 @@ class SearchView(BaseView):
                      quantumleap=0,
                      b_start_str='b_start')
 
-    def pretty_date(self, date):
-        try:
-            time_obj = strptime(date, '%Y-%m-%d %H:%M:%S')
-            datetime_obj = datetime.datetime(*time_obj[0:6])
-        except TypeError:
-            datetime_obj = date
-        return prettyDate(datetime_obj)
-
     # moved up from people search view, because project team view
     # uses it as well
     def no_home(self, userid):

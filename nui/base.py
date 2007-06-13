@@ -341,6 +341,13 @@ class BaseView(BrowserView):
     def _clear_instance_memos(self):
         pass
 
+    def pretty_date(self, date):
+        try:
+            time_obj = strptime(date, '%Y-%m-%d %H:%M:%S')
+            datetime_obj = datetime.datetime(*time_obj[0:6])
+        except TypeError:
+            datetime_obj = date
+        return prettyDate(datetime_obj)
 
 def aq_iface(obj, iface):
     obj = aq_inner(obj)
