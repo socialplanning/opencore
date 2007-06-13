@@ -22,6 +22,7 @@ from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.utils.pretty_date import prettyDate
 from topp.utils.pretty_text import truncate
 from zope.component import getMultiAdapter, adapts, adapter
+from opencore.nui.formhandler import button, post_only, anon_only, octopus
 
 view.memoizedproperty = lambda func: property(view.memoize(func))
 view.mcproperty = lambda func: property(view.memoize_contextless(func))
@@ -130,56 +131,41 @@ class BaseView(BrowserView):
         return self.member_info_for_member(self.viewedmember())
 
     def member_info_for_member(self, member):
-        result = {}
         if member is not None:
             if IReMember.providedBy(member):
-                id = member.getId()
-                fullname = member.getFullname()
-                membersince = prettyDate(member.getRawCreation_date())
-                lastlogin = prettyDate(member.getLast_login_time())
-                location = member.getLocation()
-                statement = member.getStatement()
-                skills = member.getSkills()
-                affiliations = member.getAffiliations()
-                background = member.getBackground()
-                favorites = member.getFavorites()
+                result = dict(
+                    id = member.getId(),
+                    fullname = member.getFullname(),
+                    membersince = prettyDate(member.getRawCreation_date()),
+                    lastlogin = prettyDate(member.getLast_login_time()),
+                    location = member.getLocation(),
+                    statement = member.getStatement(),
+                    skills = member.getSkills(),
+                    affiliations = member.getAffiliations(),
+                    background = member.getBackground(),
+                    favorites = member.getFavorites(),
+                    url='')
             else:
-                # XXX TODO
+                # XXX TODO 
                 # we're an old school member object, e.g. an admin user
-                id = member.id
-                fullname = member.fullname
-                membersince = '' #prettyDate(member.creation_date)
-                lastlogin = '' #prettyDate(member.last_login_time)
-                location = '' #member.location
-                statement = ''
-                skills = ''
-                affiliations = ''
-                background = ''
-                favorites = ''
-                
-            url = ''
-            folder = self.membertool.getHomeFolder(id)
+                result = dict(id = member.id,
+                    fullname = member.fullname)
+
+                for key in 'membersince', 'lastlogin','location', \
+                        'statement', 'affiliations', 'skills',\
+                        'background',  'url', 'favorites',:
+                    result[key]=''
+
+            folder = self.membertool.getHomeFolder(result['id'])
             if folder:
-                url = folder.absolute_url()
-
+                result["url"] = folder.absolute_url()
+                
+            result['portrait_url'] = self.defaultPortraitURL
             portrait = member.getProperty('portrait', None)
-            portraiturl = portrait and portrait.absolute_url() or self.defaultPortraitURL
+            if portrait:
+                result['portrait_url'] = portrait.absolute_url()
 
-            result.update(id=id,
-                          url=url,
-                          portraiturl=portraiturl,
-                          fullname=fullname,
-                          membersince=membersince,
-                          lastlogin=lastlogin,
-                          location=location,
-                          statement=statement,
-                          skills=skills,
-                          affiliations=affiliations,
-                          background=background,
-                          favorites=favorites,
-                         )
         return result
-
 
     @view.mcproperty
     def project_info(self):
@@ -336,28 +322,6 @@ class BaseView(BrowserView):
     def _clear_instance_memos(self):
         pass
 
-def button(name=None):
-    def curry(handle_request):
-        def new_method(self):
-            if self.request.get(name):
-                return handle_request(self)
-            return None
-        return new_method
-    return curry
-
-
-def post_only(raise_=True):
-    def inner_post_only(func):
-        """usually wrapped by a button"""
-        def new_method(self):
-            if self.request.environ['REQUEST_METHOD'] == 'GET':
-                if raise_:
-                    raise Forbidden('GET is not allowed here')
-                return
-            return func(self)
-        return new_method
-    return inner_post_only
-
 
 def aq_iface(obj, iface):
     obj = aq_inner(obj)
@@ -365,18 +329,6 @@ def aq_iface(obj, iface):
         obj = aq_parent(obj)
     return obj
 
-
-def anon_only(redirect_to=None):
-    def inner_anon_only(func):
-        def new_method(self, *args, **kw):
-            redirect_path = redirect_to
-            if not redirect_path:
-                redirect_path = self.came_from
-            if self.loggedin:
-                return self.redirect(redirect_path)
-            return func(self, *args, **kw)
-        return new_method
-    return inner_anon_only
 
 def static_txt(fname):
     """module level cache?"""

@@ -1,70 +1,19 @@
-from zope import event
-from zExceptions import BadRequest
-from zExceptions import Redirect
-
 from Acquisition import aq_parent
-
-from plone.memoize.view import memoize
-from plone.memoize.view import memoize_contextless
-from plone.memoize.instance import memoizedproperty
-
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import DeleteObjects
 from Products.CMFPlone.utils import transaction_note
-
-from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.interfaces import IAddProject, IAddSubProject 
-from opencore.project.utils import get_featurelets
-from opencore.nui.base import BaseView, button
+from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
+from opencore.nui import formhandler
+from opencore.nui.base import BaseView
 from opencore.nui.main import SearchView
-
-def octopus_form_handler(func):
-    """
-    A (hopefully) generic decorator to handle complex forms with
-    multiple actions and multiple items which can be acted upon
-    either singly or in a batch, with the call made either 
-    asynchronously or synchronously with javascript disabled.
-
-    This method expects to decorate a method which takes, in order,
-      * an action to apply (a unique identifier for a method to
-                            delegate to or an action to perform),
-      * a list of targets (unique identifiers for items to act upon),
-      * a list of fields (a dict of fieldname:values to apply to the
-                          targets, in the same order as the targets)
-
-    It expects to be returned a value to be sent, unmodified, directly
-    to the client in the case of an AJAX request.
-
-    It expects a very specific format for the request; this is 
-    documented in contents.txt
-    """
-    def inner(self):
-        # XXX todo don't rely on underscore special character
-        target, action = self.request.form.get("task").split("_")
-
-        if target == 'batch' and self.request.form.get('batch[]'):
-            target = self.request.form.get("batch[]")
-        if not isinstance(target, (tuple, list)):
-            target = [target]
-
-        # grab items' fields from request and fill dicts in an ordered list
-        fields = []
-        for item in target:
-            itemdict = {}
-            filterby = item + '_'
-            keys = [key for key in self.request.form if key.startswith(filterby)]
-            for key in keys:
-                itemdict[key.replace(filterby, '')] = self.request.form.get(key)
-            fields.append(itemdict)
-
-        ret = func(self, action, target, fields)
-        mode = self.request.form.get("mode")
-        if mode == "async":
-            return ret
-        return self.redirect(self.request.environ['HTTP_REFERER'])
-
-    return inner
+from opencore.project.utils import get_featurelets
+from plone.memoize.instance import memoize, memoizedproperty
+from plone.memoize.view import memoize_contextless
+from zExceptions import BadRequest
+from zExceptions import Redirect
+from zope import event
 
 
 class ProjectContentsView(BaseView):
@@ -183,7 +132,7 @@ class ProjectContentsView(BaseView):
                 parent = self.context.restrictedTraverse(parent)
                 parent.manage_delObjects(child_ids)
 
-    @octopus_form_handler
+    @formhandler.octopus
     def modify_contents(self, action, sources, fields=None):
         item_type = self.request.form.get("item_type")
 
@@ -212,7 +161,7 @@ class ProjectContentsView(BaseView):
 
 class ProjectPreferencesView(BaseView):
         
-    @button('update')
+    @formhandler.button('update')
     def handle_request(self):
         self.context.validate(REQUEST=self.request,
                               errors=self.errors, data=1, metadata=0)
@@ -223,7 +172,7 @@ class ProjectPreferencesView(BaseView):
 
 class ProjectAddView(BaseView):
 
-    @button('add')
+    @formhandler.button('add')
     def handle_request(self):
         putils = getToolByName(self.context, 'plone_utils')
         self.request.set('__initialize_project__', True)
@@ -291,7 +240,7 @@ class ProjectTeamView(SearchView):
         self.active_states = team.getActiveStates()
         self.sort_by = None
    
-    @button('sort')
+    @formhandler.button('sort')
     def handle_request(self):
         self.sort_by = self.request.get('sort_by', None)
 
@@ -302,18 +251,18 @@ class ProjectTeamView(SearchView):
                  sort_on='made_active_date',
                  sort_order='descending',
                  )
+        
         membership_brains = self.catalog(**query)
         mem_ids = [b.getId for b in membership_brains]
+        
         query = dict(portal_type='OpenMember',
                      getId=mem_ids,
                      )
+        
         member_brains = self.membranetool(**query)
-        lookup_dict = dict((b.getId, b) for b in member_brains)
+        lookup_dict = dict((b.getId, b) for b in member_brains if b.getId)
 
-        results = [lookup_dict.get(b.getId, None) for b in membership_brains]
-        # filter out None's, which appear for admins that are not openmembers
-        results = filter(None, results)
-        return self._get_batch(results)
+        return self._get_batch(lookup_dict.get(b.getId) for b in membership_brains)
 
     def handle_sort_location(self):
         query = dict(portal_type='OpenMembership',
@@ -346,8 +295,7 @@ class ProjectTeamView(SearchView):
         results = self.membranetool(**query)
         return self._get_batch(results)
 
-    @property
-    @memoize
+    @memoizedproperty
     def memberships(self):
         try:
             sort_fn = getattr(self, 'handle_sort_%s' % self.sort_by)
