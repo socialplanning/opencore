@@ -121,6 +121,16 @@ class JoinView(BaseView):
         else:
             return self.redirect(url)
 
+    def validate(self):
+        mdc = self.get_tool('portal_memberdata')
+        mem = mdc.portal_factory.restrictedTraverse("OpenMember/%s" % self.temp_mem_id)
+
+        errors = {}
+        errors = mem.validate(REQUEST=self.request,
+                              errors=self.errors,
+                              data=1, metadata=0)
+        return errors
+
     @instance.memoizedproperty
     def temp_mem_id(self):
         # only want to create one dummy
