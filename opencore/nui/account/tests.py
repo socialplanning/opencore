@@ -14,6 +14,9 @@ import warnings; warnings.filterwarnings("ignore")
 # ensure that email_confirmation is set to true
 from App import config
 cfg = config.getConfiguration().product_config.get('opencore.nui')
+if cfg is None:
+    cfg = {}
+    config.getConfiguration().product_config['opencore.nui'] = cfg
 cfg['email-confirmation'] = 'True'
 
 def test_suite():
