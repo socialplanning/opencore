@@ -3,5 +3,8 @@
 	   xmlns:five="http://namespaces.zope.org/five"
            xmlns:opencore="http://namespaces.openplans.org/opencore">
   <utility component="opencore.tasktracker.uri._tt_info" />
-  <opencore:tasktracker uri="http://localhost:5050" />
+  <opencore:tasktracker
+     uri="http://localhost:5050"
+     external_uri="tasks" />
+  
 </configure>

@@ -10,6 +10,5 @@
     >>> tt_info.uri
     u'http://localhost:5050'
 
-
-
-    
+    >>> tt_info.external_uri
+    u'tasks'

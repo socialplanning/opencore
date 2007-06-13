@@ -12,12 +12,14 @@ from plone.memoize.view import memoize_contextless
 from opencore.interfaces import IAddProject, IAddSubProject 
 from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
 from opencore.project.utils import get_featurelets
+from opencore.tasktracker import uri as tt_uri
+
 from opencore.nui import formhandler
 from opencore.nui.base import BaseView
 from opencore.nui.main import SearchView
 
 class ProjectContentsView(BaseView):
-    
+
     contents_row_snippet = ZopeTwoPageTemplateFile('item_row.pt')
     
     needed_values = {'pages':{'id':('getId',),
@@ -45,7 +47,7 @@ class ProjectContentsView(BaseView):
                               'obj_author':('Creator',),
                               },
                      }
-
+    
     def _make_dict_and_translate(self, obj, needed_values):
         obj_dict = {}
         for field in needed_values: # loop through fields that we need
@@ -68,6 +70,16 @@ class ProjectContentsView(BaseView):
     def has_task_tracker(self):
         return self._has_featurelet('tasks')
 
+    @memoizedproperty
+    def tasktracker_url(self): 
+        # XXX todo all this logic prob ought be in opencore.tasktracker
+
+        loc = tt_uri.get_external_uri()
+
+        if loc.startswith('http://'): # XXX todo this is dumb
+            return loc
+        return "%s/%s" % (self.context.absolute_url(), loc)
+        
     def _has_featurelet(self, flet_id):
         flets = get_featurelets(self.context)
         for flet in flets:
