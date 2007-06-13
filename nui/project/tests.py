@@ -6,8 +6,8 @@ from Testing.ZopeTestCase import FunctionalDocFileSuite
 from opencore.testing.layer import OpencoreContent
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 
-optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
-#optionflags = doctest.ELLIPSIS
+#optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
+optionflags = doctest.ELLIPSIS
 
 import warnings; warnings.filterwarnings("ignore")
 
