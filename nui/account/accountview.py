@@ -216,11 +216,10 @@ class InitialLogin(BaseView):
         if not self.membertool.getHomeFolder():
             self.membertool.createMemberArea(member.getId())
 
-        folder=self.membertool.getHomeFolder(member.getId())
-        
         # Go to the user's Profile Page in Edit Mode
         self.addPortalStatusMessage(u'Welcome to OpenPlans!')
-        return self.redirect("%s/%s" %(folder.absolute_url(), 'profile-edit'))
+        return self.redirect("%s/%s" % (self.home_url_for_id(member.getId()),
+                                        'profile-edit'))
 
 
 class ForgotLoginView(BaseView):
@@ -231,9 +230,9 @@ class ForgotLoginView(BaseView):
         if self.userid:
             if email_confirmation():
                 self._mailPassword(self.userid)
-                return True
             else:
-                return self.redirect(self.reset_url)
+                self.redirect(self.reset_url)
+            return True
         return False
     
     @instance.memoizedproperty
@@ -244,6 +243,7 @@ class ForgotLoginView(BaseView):
 
     @property
     def reset_url(self):
+
         return '%s/reset-password?key=%s' % (self.siteURL, self.randomstring)
     
     def _mailPassword(self, forgotten_userid):
@@ -298,20 +298,34 @@ class PasswordResetView(AccountView):
     @post_only(raise_=False)
     def handle_reset(self):
         password = self.request.get("password")
-        if not password:
+        password2 = self.request.get("password2")
+        if not password or not password2:
             self.addPortalStatusMessage("you must enter a password.")
             return False
-        
+        if password != password2:
+            self.addPortalStatusMessage("passwords don't match")
+            return False
+
         userid = self.request.get("userid")
         randomstring = self.request.get("key")
+
         pw_tool = self.get_tool("portal_password_reset")
-        pw_tool.resetPassword(userid, randomstring, password)
+        try:
+            pw_tool.resetPassword(userid, randomstring, password)
+        except 'InvalidRequestError':
+            self.addPortalStatusMessage(u'Cannot reset password of "%s"' %
+                                        userid)
+            return False
+        except 'ExpiredRequestError':
+            self.addPortalStatusMessage(u'The password reset request for %s has expired' %
+                                        userid)
+            return False
 
         # Automatically log the user in
         self.login(userid)
         
         self.addPortalStatusMessage(u'Your password has been reset and you are now logged in.')
-        self.redirect('%s/profile', self.home_url_for_id(userid))
+        self.redirect('%s/profile' % self.home_url_for_id(userid))
         return True
 
     @property
