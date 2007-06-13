@@ -15,7 +15,7 @@
             tal:attributes="action view/name">
           <input type="hidden" name="set_flets" value="1"/>
           <fieldset class="oc-boxy">
-            <legend  class="oc-legend-heading">Step 1. Enter details</legend>
+            <legend  class="oc-legend-heading oc-biggerText">Step 1. Enter details</legend>
             <table class="oc-form">
               <tbody>
                 <tr class="oc-form-row">
@@ -64,7 +64,7 @@
           </fieldset>
 
           <fieldset class="oc-boxy">
-            <legend class="oc-legend-heading">Step 2: Set general security</legend>
+            <legend class="oc-legend-heading oc-biggerText">Step 2: Set general security</legend>
             <p class="oc-headingContext oc-smallText">Choose what level of permission you want to give to non-members of your project team.  You will create your team on the next page.</p>
             <fieldset>
               <legend class="oc-legend-label">
@@ -95,7 +95,7 @@
           </fieldset>
 
           <fieldset class="oc-boxy">
-            <legend class="oc-legend-heading">Step 3: Add tools</legend>
+            <legend class="oc-legend-heading oc-biggerText">Step 3: Add tools</legend>
             <ul class="oc-form-radiolist oc-form-fieldBlock" >
               <li>
                 <input type="checkbox" class="oc-input-typeCheck" id="tasktracker" name="featurelets:list" value="tasktracker" />
