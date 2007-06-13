@@ -642,7 +642,7 @@ fieldset .oc-legend-heading,
   /* font-size: 18px; */
   font-weight: bold;
   margin: 0;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.25em;
   padding: 0;
  }
 fieldset .oc-headingContext {
@@ -942,7 +942,8 @@ li.oc-invite .oc-invite-content {
 }
 #oc-content-sidebar .oc-widget-search {
 }
-.oc-widget-search form input {
+.oc-widget-search form input,
+.oc-widget-search form button {
   font-size: 10px;
 }
 #oc-content-main .oc-widget-search form .oc-input-typeText {
@@ -953,6 +954,11 @@ li.oc-invite .oc-invite-content {
 }
 .oc-widget-search h2 {
   margin: 0 0 0.5em;
+}
+.oc-widget-multiSearch {
+}
+.oc-widget-multiSearch ul.oc-inlineList {
+	margin: 0.5em 0;
 }
 
 /* Alphabet search */
