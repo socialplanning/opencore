@@ -41,8 +41,8 @@ class MemberMenuView(BaseView):
         return '%s/profile' % self.areaURL
 
     @memoizedproperty
-    def contact_url(self):
-        return '%s/contact' % self.areaURL
+    def userprefs_url(self):
+        return '%s/preferences' % self.areaURL
 
     @memoizedproperty
     def atMemberHome(self):
@@ -51,7 +51,7 @@ class MemberMenuView(BaseView):
         if memfolder is not None:
             homepage = memfolder._getOb(memfolder.getDefaultPage())
             if self.context == homepage and \
-               self.request.ACTUAL_URL not in (self.contact_url,
+               self.request.ACTUAL_URL not in (self.userprefs_url,
                                                self.profile_url):
                 result = True
         return result
@@ -69,9 +69,9 @@ class MemberMenuView(BaseView):
              'selected': self.request.ACTUAL_URL == self.profile_url,
              },
 
-            {'content': 'Contact',
-             'href': self.contact_url,
-             'selected': self.request.ACTUAL_URL == self.contact_url,
+            {'content': 'Preferences',
+             'href': self.userprefs_url,
+             'selected': self.request.ACTUAL_URL == self.userprefs_url,
              },
             )
 
