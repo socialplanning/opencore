@@ -112,7 +112,6 @@ We can also issue the request asynchronously::
 
 Deletes work the same way::
 
-    >>> view = proj.restrictedTraverse('contents')
     >>> request = self.portal.REQUEST
     >>> form = {'task': 'new1_delete',
     ...         'item_type': 'pages',
@@ -121,10 +120,21 @@ Deletes work the same way::
     >>> view.modify_contents()
     ['new1']
 
+
+Object no longer exists inside container::
+
     >>> proj.restrictedTraverse('new1')
     Traceback (most recent call last):
     ...
     AttributeError: new1
+
+It should also no longer exist in the catalog::
+
+    >>> self.portal.portal_catalog(path="/plone/projects/p2/new1")
+    []
+
+view.pages will be shorter::
+
     >>> x = view.pages
     >>> x[1]
     Traceback (most recent call last):
@@ -133,11 +143,19 @@ Deletes work the same way::
     >>> len(x)
     1
 
+The tests above frequently fail due to a persistence bug, let's clean
+up a bit::
+
+    >>> utils.clear_all_memos(view)
+    >>> view = proj.restrictedTraverse('contents')
+
+
 To perform a batch action, label the task as batch and provide a
 batch[] field with item ids. Provide all the fields necessary for
 performing the action on all the items in the batch; extra fields
 will be ignored and only the items listed in the batch will be
 acted upon::
+
     >>> proj.img1.Title()
     'new image'
     >>> proj.restrictedTraverse('project-home').fa1.Title()
