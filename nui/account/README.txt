@@ -51,6 +51,7 @@ Now we should be able to get a string for later matching::
     >>> randomstring
     '...'
 
+
 Password Reset
 ==============
 
@@ -82,7 +83,8 @@ To do the reset, we'll need to submit the form::
 
 ## test do reset
 
-Get account confirmation code
+
+Get Account Confirmation Code
 =============================
 
 Get a user so that we can try to get a user's confirmation code for manual registration::
@@ -111,6 +113,7 @@ When the method is accessible, it should return a string code for the user::
     >>> m = user.restrictedTraverse("getUserConfirmationCode")
     >>> m()
     '...'
+
 
 Join
 ====
@@ -141,6 +144,7 @@ Ah, nothing happened... need to set button::
     >>> request.set('join', True)
     >>> view.handle_request()
     <OpenMember at /plone/portal_memberdata/foobar>
+
 
 Confirm
 =======
