@@ -52,7 +52,7 @@
 	  </tal:setvar> 
 
 	  <a rel="include" tal:condition="view/has_task_tracker"
-	     tal:attributes="href string:${view/context/absolute_url}/tasks/manage">
+	     tal:attributes="href string:${view/tasktracker_url}/manage">
 	    View tasklists
 	  </a>
 

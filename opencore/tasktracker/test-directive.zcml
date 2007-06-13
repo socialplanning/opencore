@@ -4,6 +4,8 @@
 	   xmlns:opencore="http://namespaces.openplans.org/opencore">
   <include package="Products.Five" />
   <include file="meta.zcml" />
-  <opencore:tasktracker uri="http://localhost:5050" />
+  <opencore:tasktracker
+     uri="http://localhost:5050" 
+     external_uri="tasks" />
   <utility component="opencore.tasktracker.uri._tt_info" />
 </configure>

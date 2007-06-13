@@ -18,3 +18,7 @@ class ITaskTrackerInfo(Interface):
         title=u"Tasktracker URI", 
         description=u"Location of tasktracker",
         required=True)
+    external_uri = TextLine(
+        title=u"Tasktracker location",
+        description=u"How to get to tasktracker externally",
+        required=True)
