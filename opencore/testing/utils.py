@@ -3,6 +3,8 @@ from AccessControl.SecurityManagement import newSecurityManager
 from Products.PloneTestCase.setup import portal_name
 from Products.PloneTestCase.setup import portal_owner
 from Products.OpenPlans.Extensions.create_test_content import create_test_content
+from zope.app.annotation.interfaces import IAnnotations
+from plone.memoize import view, instance
 
 def login_portal_owner(app=None):
     if app is None:
@@ -31,3 +33,15 @@ def makeContent(container, id, portal_type, **kw):
     container.invokeFactory(id=id, type_name=portal_type, **kw)
     o = getattr(container, id)
     return o
+
+def clear_view_memo(request):
+    anot = IAnnotations(request)
+    if anot.has_key(view.ViewMemo.key):
+        del anot[view.ViewMemo.key]
+
+def clear_instance_memo(obj):
+    instance._m.clear(obj)
+
+def clear_all_memos(view):
+    clear_instance_memo(view)
+    clear_view_memo(view.request)
