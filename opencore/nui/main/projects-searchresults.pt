@@ -45,8 +45,8 @@
                 </select>
 
               <!-- resend the current data when sorting -->
-                <input tal:condition="request/projname | nothing" type="hidden" name="projname"
-                       tal:attributes="value request/projname" />
+                <input tal:condition="request/search_for | nothing" type="hidden" name="search_for"
+                       tal:attributes="value request/search_for" />
 
                 <input tal:condition="request/letter_search | nothing" type="hidden" name="letter_search"
                        tal:attributes="value request/letter_search" />
@@ -111,7 +111,7 @@
         <div class="oc-widget oc-widget-search oc-boxy">    
           <form name="projects_search" action="." tal:attributes="action string:${context/portal_url}/projects/searchresults">
             <label><h2>New search</h2></label>
-            <input type="text" name="projname" tal:attributes="value request/projname | nothing" />
+            <input type="text" name="search_for" tal:attributes="value request/search_for | nothing" />
             <input type="hidden" name="letter_search" />
             <input type="submit" name="action_search_projects" value="Search" />
           </form>

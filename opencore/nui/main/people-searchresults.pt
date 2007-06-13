@@ -44,8 +44,8 @@
     </select>
 
     <!-- resend the current data when sorting -->
-    <input tal:condition="request/personname | nothing" type="hidden" name="personname"
-                       tal:attributes="value request/personname" />
+    <input tal:condition="request/search_for | nothing" type="hidden" name="search_for"
+                       tal:attributes="value request/search_for" />
     <input tal:condition="request/letter_search | nothing" type="hidden" name="letter_search"
                        tal:attributes="value request/letter_search" />
     <input tal:condition="request/b_start | nothing" type="hidden" name="b_start:int"
@@ -100,7 +100,7 @@
       <div class="oc-widget oc-widget-search oc-boxy">    
         <form name="people_search" action="." tal:attributes="action string:${context/portal_url}/people/searchresults">
           <label><h2>New search</h2></label>
-          <input type="text" name="personname" tal:attributes="value request/personname | nothing" />
+          <input type="text" name="search_for" tal:attributes="value request/search_for | nothing" />
           <input type="hidden" name="letter_search" />
           <input type="submit" name="action_search_people" value="Search" />
         </form>
