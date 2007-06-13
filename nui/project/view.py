@@ -122,7 +122,8 @@ class ProjectContentsView(BaseView):
         return obj_dict
 
     def _delete(self, brains):
-        parents = {} 
+        parents = {}
+        surviving_children = []
         for brain in brains:
             parent_path, brain_id = brain.getPath().rsplit('/', 1)
             parent_path = parent_path.split(self.project_path, 1)[-1].strip('/')
@@ -131,6 +132,9 @@ class ProjectContentsView(BaseView):
             if child_ids:
                 parent = self.context.restrictedTraverse(parent)
                 parent.manage_delObjects(child_ids)
+            if child_ids: # deletion failed, we've a problem
+                surviving_children.extend(child_ids)
+        return surviving_children
 
     @formhandler.octopus
     def modify_contents(self, action, sources, fields=None):
@@ -142,7 +146,10 @@ class ProjectContentsView(BaseView):
         brains = self.catalog(id=sources, path=self.project_path)
 
         if action == 'delete':
-            self._delete(brains)
+            survivors = self._delete(brains)
+            # return a list of all successfully deleted items
+            if survivors:
+                return list(set(sources).difference(survivors))
             return sources
 
         elif action == 'update': # @@ move out to own method to optimize
