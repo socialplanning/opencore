@@ -22,6 +22,7 @@ from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.utils.pretty_date import prettyDate
 from topp.utils.pretty_text import truncate
 from zope.component import getMultiAdapter, adapts, adapter
+import urllib
 
 # XXX these shouldn't be imported here -- they aren't used in this file
 from opencore.nui.formhandler import button, post_only, anon_only, octopus
@@ -144,7 +145,7 @@ class BaseView(BrowserView):
             tags = getattr(member, 'get%s' % field.title())()
             tags = tags.split(',')
             tagsearchurl = 'http://www.openplans.org/tagsearch/' # TODO
-            urls = [tagsearchurl + tag for tag in tags]
+            urls = [tagsearchurl + urllib.quote(tag) for tag in tags]
             return [{'tag': tag, 'url': url} for tag, url in zip(tags, urls)]
         return []
 
