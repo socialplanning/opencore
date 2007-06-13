@@ -52,9 +52,13 @@
             <dt>Personal Statement</dt>
             <dd tal:content="usr/statement" />
           </tal:block>
-          <tal:block condition="usr/getSkills">
+          <tal:block define="skills python:view.viewed_member_profile_tags('skills')"
+              condition="skills">
             <dt>Skills/Interests</dt>
-            <dd tal:content="usr/getSkills" />
+            <dd>
+              <a tal:repeat="skill skills" tal:attributes="href skill/url"
+                 tal:content="skill/tag" />
+            </dd>
           </tal:block>
           <tal:block condition="usr/getAffiliations">
             <dt>Affiliations</dt>
