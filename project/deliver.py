@@ -1,48 +1,126 @@
 # handlers for managing a deliverance vhoster
-from OFS.interfaces import IObjectWillBeRemovedEvent, IObjectWillBeMovedEvent
-from cStringIO import StringIO
+
+#from OFS.interfaces import IObjectWillBeRemovedEvent, IObjectWillBeMovedEvent
+#from zope.app.event import IObjectCreatedEvent
+#from zope.app.event.interfaces import IObjectCreatedEvent
+#from zope.app.container.interfaces import IObjectMovedEvent
+
 from opencore.interfaces import IProject
-from opencore.interfaces.event import IAfterProjectAddedEvent, IAfterSubProjectAddedEvent
-from restclient import GET, POST, PUT, DELETE
-from zope.app.container.interfaces import IObjectMovedEvent
-from zope.app.event import IObjectCreatedEvent
-from zope.app.event.interfaces import IObjectCreatedEvent
-from zope.component import adapter, getUtility
-from zope.interface import Interface
+from opencore.interfaces.event import IAfterSubProjectAddedEvent
+from opencore.redirect import get_redirect_url
+from zope.component import adapter, getUtility, queryUtility
+from urlparse import urlsplit, urljoin
 import simplejson
+from opencore.utility.interfaces import IHTTPClient
+from zope.interface import Interface, implements
+from zope.schema import TextLine, Bool
+from zope.component.interfaces import ComponentLookupError
 
-def service_url(project):
-    # XXX FIXME Subprojects... vhosting baseurl comes from where now ? 
-    host = 'openplans.org'
-    return "http://%s.%s/.deliverance" %(project.getId(), base_host)
+class IVHosterInfo(Interface):
+    """
+    interface representing configuration of
+    vhoster location
+    """
+    uri = TextLine(
+        title=u"VHoster URI",
+        description=u"Location of vhoster",
+        required=True)
+    
+def vhoster_uri():
+    info = queryUtility(IVHosterInfo, default=None)
+    if info is not None:
+        return info.uri
+    else:
+        raise ComponentLookupError('No virtual hosting service has been registered')
 
-@adapter(IAfterProjectAddedEvent)
-def init_parent_vhoster(event):
-    # @@ don't know what this suppose to do
-    url = service_url(event.project)
-    ##
+
+def project_host(project):
+    url = get_redirect_url(project)
+    host = ''
+    if url:
+        host = urlsplit(url)[1]
+    return host
+        
 
 @adapter(IAfterSubProjectAddedEvent)
-def init_subproject_vhoster(event):
+def handle_subproject_vhoster(event):
+    parent = event.parent
+    subproj = event.project
 
-    # XXX probably we want to post to an internal local trusted URL
-    # and set the HOST header ...
+    virtual_host = project_host(parent)
+    if not virtual_host:
+        # don't think anything needs to happen
+        return
+
+    child_path = '/%s' % subproj.getId()
+
+    # XXX I hate his inline REST call, this should be
+    # packed up in a python API
     
-    url = service_url(event.project)
-    out = StringIO()
-    simplejson.dump(out)
-    #@@ httplib?
-    POST("%s/remote_uris" %url, params=dict(add=out.getvalue()))
+    # this info tells deliverance to set the X-Openplans-Project
+    # header to the subproject's id when visiting the url of the
+    # subproject. 
+    http = getUtility(IHTTPClient)
+
+    uri = urljoin(vhoster_uri(), "/.deliverance/remote_uris?add")
+    data = [{'path': child_path,
+            'headers': {'X-Openplans-Project': subproj.getId()}}]
+    headers = {'Host': virtual_host}
+    
+    # perform the RESTy call to deliverance 
+    rc = http.request(uri,
+                      method='POST',
+                      body=simplejson.dumps(data),
+                      headers=headers)[0]
+    status = rc['status']
+    status_code = int(status.split(' ')[0])
+
+    if status_code < 200 or status_code >= 300:
+        raise IOError("Unable to register project %s with virtual hosting service (status %s)" % (subproj.getId(), status))
+
+class VHosterInfo(object):
+    implements(IVHosterInfo)
+    def __init__(self, uri=None):
+        self._uri = ''
+        self._set_uri(uri)
 
 
-@adapter(IProject, IObjectRemovedEvent)
-def remove_project(obj, event):
-    pass
+    def _get_uri(self):
+        return self._uri
+    
+    def _set_uri(self, uri):
+        if not uri:
+            self._uri = ''
+            return
+        
+        if not '://' in uri:
+            self._uri = 'http://%s' % uri
+        else:
+            self._uri = uri
+            
+        if self._uri.endswith('/'):
+            self._uri += '/'
 
+    uri = property(fset=_set_uri, fget=_get_uri) 
+    
+_global_vhoster_info = VHosterInfo()
 
-@adapter(IProject, IObjectWillBeMovedEvent)
-def move_project(obj, event):
-    pass
+def _set_vhoster_info(uri):
+    _global_vhoster_info.uri = uri
+
+def configure_vhoster_info(_context, uri):
+    _context.action(
+        discriminator = 'opencore.project.deliver.vhoster_info already registered',
+        callable = _set_vhoster_info,
+        args = (uri,)
+        )
+
+#@adapter(IProject, IObjectRemovedEvent)
+#def remove_project(obj, event):
+#    pass
+#@adapter(IProject, IObjectWillBeMovedEvent)
+#def move_project(obj, event):
+#    pass
     
 # PUT http://project.openplans.org/.deliverance/remote_uris
 # content=[..., {'path': '/subproject', 'headers': {'X-Project-Name':
