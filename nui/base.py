@@ -22,6 +22,8 @@ from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.utils.pretty_date import prettyDate
 from topp.utils.pretty_text import truncate
 from zope.component import getMultiAdapter, adapts, adapter
+
+# XXX these shouldn't be imported here -- they aren't used in this file
 from opencore.nui.formhandler import button, post_only, anon_only, octopus
 
 view.memoizedproperty = lambda func: property(view.memoize(func))

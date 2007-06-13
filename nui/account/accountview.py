@@ -14,20 +14,21 @@ from zExceptions import Forbidden, Redirect
 from App import config
 import socket
 
-# get email confirmation mode from zope.conf
 
-email_confirmation = True
-cfg = config.getConfiguration().product_config.get('opencore.nui')
-if cfg:
-    email_confirmation = eval(cfg.get('email-confirmation', 'True'))
 
-# alternatively, see if you can use sendmail
-# this could also be used in conjunction with the zope.conf variable
-#email_confirmation = True
-#try:
-#    SMTP('localhost')
-#except socket.error:
-#    email_confirmation = False
+def email_confirmation():
+    """get email confirmation mode from zope.conf"""
+    cfg = config.getConfiguration().product_config.get('opencore.nui')
+    if cfg:
+        val = cfg.get('email-confirmation', 'True')).title()
+        if val == 'True':
+            return True
+        elif val == 'False':
+            return False
+        else:
+            raise ValueError('email-confirmation should be "True" or "False"')
+    return True # the default
+
 
 class AccountView(BaseView):
     """
@@ -112,7 +113,7 @@ class JoinView(BaseView):
         result = mem.processForm()
         url = self._confirmation_url(mem)
 
-        if email_confirmation:
+        if email_confirmation():
             self._sendmail_to_pendinguser(id=mem_id,
                                         email=self.request.get('email'),
                                         url=url)
@@ -218,11 +219,11 @@ class ForgotLoginView(BaseView):
     @post_only(raise_=False)
     def handle_request(self):
         if self.userid:
-            if email_confirmation:
+            if email_confirmation():
                 self._mailPassword(self.userid)
+                return True
             else:
                 return self.redirect(self.reset_url)
-            return True
         return False
     
     @instance.memoizedproperty

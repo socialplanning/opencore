@@ -11,6 +11,11 @@ optionflags = doctest.ELLIPSIS
 
 import warnings; warnings.filterwarnings("ignore")
 
+# ensure that email_confirmation is set to true
+from App import config
+cfg = config.getConfiguration().product_config.get('opencore.nui')
+cfg['email-confirmation'] = 'True'
+
 def test_suite():
     from Products.Five.utilities.marker import erase as noLongerProvides
     from Products.PloneTestCase import ptc
