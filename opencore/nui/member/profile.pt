@@ -52,25 +52,21 @@
             <dt>Personal Statement</dt>
             <dd tal:content="data/statement" />
           </tal:block>
-          <tal:block define="skills python:view.viewed_member_profile_tags('skills')"
-              condition="skills">
-            <dt>Skills/Interests</dt>
-            <dd>
-              <a tal:repeat="skill skills" tal:attributes="href skill/url"
-                 tal:content="skill/tag" />
-            </dd>
-          </tal:block>
-          <tal:block condition="usr/getAffiliations">
-            <dt>Affiliations</dt>
-            <dd tal:content="usr/getAffiliations" />
-          </tal:block>
           <tal:block condition="data/background">
             <dt>Background</dt>
             <dd tal:content="data/background" />
           </tal:block>
-          <tal:block condition="usr/getFavorites">
+          <tal:block define="skills python:view.viewed_member_profile_tags('skills')" condition="skills">
+            <dt>Skills/Interests</dt>
+            <dd><a tal:repeat="skill skills" tal:attributes="href skill/url" tal:content="skill/tag" /></dd>
+          </tal:block>
+          <tal:block define="affils python:view.viewed_member_profile_tags('affiliations')" condition="affils">
+            <dt>Affiliations</dt>
+            <dd><a tal:repeat="affil affils" tal:attributes="href affil/url" tal:content="affil/tag" /></dd>
+          </tal:block>
+          <tal:block define="favs python:view.viewed_member_profile_tags('favorites')" condition="favs">
             <dt>Favorites</dt>
-            <dd tal:content="usr/getFavorites" />
+            <dd><a tal:repeat="fav favs" tal:attributes="href fav/url" tal:content="fav/tag" /></dd>
           </tal:block>
         </dl>
       </div><!-- end #oc-content-main -->
