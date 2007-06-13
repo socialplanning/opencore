@@ -161,6 +161,9 @@ class BaseView(BrowserView):
                               location    = member.getLocation(),
                               statement   = member.getStatement(),
                               background  = member.getBackground(),
+                              skills      = member.getSkills(),
+                              affiliations= member.getAffiliations(),
+                              favorites   = member.getFavorites(),
                              )
             else:
                 # XXX TODO 
