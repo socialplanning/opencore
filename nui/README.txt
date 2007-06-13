@@ -106,11 +106,18 @@ User/Account methods
     'http://nohost/plone/people/test_user_1_/test_user_1_'
 
     >>> pprint(pview.member_info)
-    {'fullname': '',
+    {'affiliations': '',
+     'background': '',
+     'favorites': '',
+     'fullname': '',
      'id': 'test_user_1_',
-     'lastlogin': DateTime('2000/01/01'),
+     'lastlogin': 'January 1, 2000',
+     'location': '',
+     'membersince': 'Today',
+     'portrait_url': '++resource++img/default-portrait.jpg',
+     'skills': '',
+     'statement': '',
      'url': 'http://nohost/plone/people/test_user_1_'}
-
 
 
 include
