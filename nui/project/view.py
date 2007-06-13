@@ -142,7 +142,10 @@ class ProjectContentsView(BaseView):
             parents.setdefault(parent_path, []).append(brain_id)
         for parent, child_ids in parents.items():
             if child_ids:
-                parent = self.context.restrictedTraverse(parent)
+                if not parent:
+                    parent = self.context
+                else:
+                    parent = self.context.restrictedTraverse(parent)
                 parent.manage_delObjects(child_ids)
             if child_ids: # deletion failed, we've a problem
                 surviving_children.extend(child_ids)
