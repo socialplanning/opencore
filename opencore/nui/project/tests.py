@@ -20,8 +20,7 @@ def test_suite():
     from pprint import pprint
     from zope.interface import alsoProvides
     from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
-    from zope.app.annotation.interfaces import IAnnotations
-    #setup.setupPloneSite()
+    from opencore.testing import utils
 
     def contents_content(tc):
         tc.loginAsPortalOwner()
