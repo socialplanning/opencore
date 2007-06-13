@@ -51,7 +51,7 @@ class ProjectsSearchView(SearchView):
     match = staticmethod(first_letter_match)
 
     def __call__(self):
-        projname = self.request.get('projname', None)
+        search_for = self.request.get('search_for', None)
         letter_search = self.request.get('letter_search', None)
         start = self.request.get('b_start', 0)
         sort_by = self.request.get('sort_by', None)
@@ -66,9 +66,9 @@ class ProjectsSearchView(SearchView):
         if letter_search:
             self.search_results = self._get_batch(self.search_for_project_by_letter(letter_search, sort_by), start)
             self.search_query = 'for projects starting with &ldquo;%s&rdquo;' % letter_search
-        elif projname:
-            self.search_results = self._get_batch(self.search_for_project(projname, sort_by), start)
-            self.search_query = 'for &ldquo;%s&rdquo;' % projname
+        elif search_for:
+            self.search_results = self._get_batch(self.search_for_project(search_for, sort_by), start)
+            self.search_query = 'for &ldquo;%s&rdquo;' % search_for
             
         return self.index()
         
@@ -128,7 +128,7 @@ class PeopleSearchView(SearchView):
         SearchView.__init__(self, context, request)
 
     def __call__(self):
-        personname = self.request.get('personname', None)
+        search_for = self.request.get('search_for', None)
         letter_search = self.request.get('letter_search', None)
         start = self.request.get('b_start', 0)
         sort_by = self.request.get('sort_by', None)
@@ -143,9 +143,9 @@ class PeopleSearchView(SearchView):
         if letter_search:
             self.search_results = self._get_batch(self.search_for_person_by_letter(letter_search, sort_by), start)
             self.search_query = 'for members starting with &ldquo;%s&rdquo;' % letter_search
-        elif personname:
-            self.search_results = self._get_batch(self.search_for_person(personname, sort_by), start)
-            self.search_query = 'for &ldquo;%s&rdquo;' % personname
+        elif search_for:
+            self.search_results = self._get_batch(self.search_for_person(search_for, sort_by), start)
+            self.search_query = 'for &ldquo;%s&rdquo;' % search_for
         return self.index()
 
     def search_for_person_by_letter(self, letter, sort_by=None):
@@ -232,8 +232,7 @@ class HomeView(SearchView):
 class SitewideSearchView(SearchView):
 
     def __call__(self):
-        search_string = self.request.get('search_string', None)
-        search_action = self.request.get('search_action', None)
+        search_for = self.request.get('search_for', None)
         start = self.request.get('b_start', 0)
         sort_by = self.request.get('sort_by', None)
         self.search_results = None
@@ -244,14 +243,14 @@ class SitewideSearchView(SearchView):
             start = 0
             self.request.set('b_start', 0)
             
-        if search_string:
-            self.search_results = self._get_batch(self.search(search_string, sort_by), start)
-            self.search_query = 'for &ldquo;%s&rdquo;' % search_string
+        if search_for:
+            self.search_results = self._get_batch(self.search(search_for, sort_by), start)
+            self.search_query = 'for &ldquo;%s&rdquo;' % search_for
             
         return self.index()
     
-    def search(self, search_string, sort_by=None):
-        search_query = search_string.lower().strip()
+    def search(self, search_for, sort_by=None):
+        search_query = search_for.lower().strip()
 
         if search_query == '*':
             return []
