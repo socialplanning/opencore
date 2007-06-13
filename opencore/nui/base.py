@@ -158,7 +158,8 @@ class BaseView(BrowserView):
                               membersince = prettyDate(member.getRawCreation_date()),
                               lastlogin   = prettyDate(member.getLast_login_time()),
                               location    = member.getLocation(),
-                              url         = '',
+                              statement   = member.getStatement(),
+                              background  = member.getBackground(),
                              )
             else:
                 # XXX TODO 
