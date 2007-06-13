@@ -59,6 +59,7 @@ class ProjectContentsView(BaseView):
                 raise Exception("Could not fetch a %s value from the object %s among the accessors %s!" % (
                         field, obj, list(needed_values[field])))
             if callable(val): val = val()
+            if 'date' in field: val = self.pretty_date(val)  # would be fun to genericize this and pass in
             obj_dict[field] = val
         return obj_dict
 
