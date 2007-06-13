@@ -1,6 +1,4 @@
-import datetime
 from DateTime import DateTime as zopedatetime
-from time import strptime
 from zExceptions import Redirect 
 
 from Products.AdvancedQuery import Eq, RankByQueries_Sum
