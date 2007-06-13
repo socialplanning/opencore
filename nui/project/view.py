@@ -1,20 +1,20 @@
+from zope import event
+from zExceptions import BadRequest, Redirect
 from Acquisition import aq_parent
+
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import DeleteObjects
 from Products.CMFPlone.utils import transaction_note
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from plone.memoize.instance import memoize, memoizedproperty
+from plone.memoize.view import memoize_contextless
+
 from opencore.interfaces import IAddProject, IAddSubProject 
 from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
+from opencore.project.utils import get_featurelets
 from opencore.nui import formhandler
 from opencore.nui.base import BaseView
 from opencore.nui.main import SearchView
-from opencore.project.utils import get_featurelets
-from plone.memoize.instance import memoize, memoizedproperty
-from plone.memoize.view import memoize_contextless
-from zExceptions import BadRequest
-from zExceptions import Redirect
-from zope import event
-
 
 class ProjectContentsView(BaseView):
     
@@ -98,7 +98,6 @@ class ProjectContentsView(BaseView):
                               path=self.project_path)
         needed_values = self.needed_values['lists']
         return [self._make_dict_and_translate(brain, needed_values) for brain in brains]
-
 
     @memoizedproperty
     def files(self):
