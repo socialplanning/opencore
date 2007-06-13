@@ -1,7 +1,7 @@
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase
 
-from zope.annotation.interfaces import IAnnotations
+from zope.app.annotation.interfaces import IAnnotations
 from plone.memoize.view import ViewMemo
 
 from Products.CMFCore.utils  import getToolByName
