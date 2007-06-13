@@ -48,9 +48,9 @@
           </div>
         </div>
         <dl class="oc-member-info">
-          <tal:block condition="usr/getStatement">
+          <tal:block condition="data/statement">
             <dt>Personal Statement</dt>
-            <dd tal:content="usr/statement" />
+            <dd tal:content="data/statement" />
           </tal:block>
           <tal:block define="skills python:view.viewed_member_profile_tags('skills')"
               condition="skills">
@@ -64,9 +64,9 @@
             <dt>Affiliations</dt>
             <dd tal:content="usr/getAffiliations" />
           </tal:block>
-          <tal:block condition="usr/getBackground">
+          <tal:block condition="data/background">
             <dt>Background</dt>
-            <dd tal:content="usr/getBackground" />
+            <dd tal:content="data/background" />
           </tal:block>
           <tal:block condition="usr/getFavorites">
             <dt>Favorites</dt>
