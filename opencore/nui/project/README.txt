@@ -92,18 +92,15 @@ Preference View
 Team view
 =========
 
-Set up the view
+Set up the view::
+
     >>> from opencore.nui.project.view import ProjectTeamView
     >>> request = self.portal.REQUEST
-    >>> req_annot = IAnnotations(request)
     >>> proj = projects.p1
     >>> view = ProjectTeamView(proj, request)
 
-Utility method to clear memoization on request
-    >>> def clear_memo():
-    ...     del req_annot['plone.memoize']
+Sort by username::
 
-Sort by username
     >>> view.sort_by = 'username'
     >>> results = view.memberships
     >>> brains = list(results)
@@ -112,10 +109,12 @@ Sort by username
     >>> [b.getId for b in brains]
     ['m1', 'm3', 'm4']
 
-Clear the memoize from the request
-    >>> clear_memo()
+Clear the memoize from the request::
 
-Sorting by nothing should sort by username
+    >>> utils.clear_all_memos(view)
+
+Sorting by nothing should sort by username::
+
     >>> view.sort_by = None
     >>> results = view.memberships
     >>> brains = list(results)
@@ -124,10 +123,12 @@ Sorting by nothing should sort by username
     >>> [b.getId for b in brains]
     ['m1', 'm3', 'm4']
 
-Clear the memoize from the request
-    >>> clear_memo()
+Clear the memoize from the request::
 
-Now try sorting by location
+    >>> utils.clear_all_memos(view)
+
+Now try sorting by location::
+
     >>> view.sort_by = 'location'
     >>> results = view.memberships
     >>> brains = list(results)
@@ -136,10 +137,12 @@ Now try sorting by location
     >>> [b.getId for b in brains]
     ['m4', 'm1', 'm3']
 
-Clear the memoize from the request
-    >>> clear_memo()
+Clear the memoize from the request::
 
-Let's sort based on the membership date
+    >>> utils.clear_all_memos(view)
+
+Let's sort based on the membership date::
+
     >>> view.sort_by = 'membership_date'
     >>> results = view.memberships
     >>> brains = list(results)
@@ -150,24 +153,30 @@ Let's sort based on the membership date
     >>> ids
     ['m1', 'm3', 'm4']
 
-Clear the memoize from the request
-    >>> clear_memo()
 
-Sort base on contributions, should get no results
+Clear the memoize from the request::
+
+    >>> utils.clear_all_memos(view)
+
+
+Sort base on contributions, should get no results::
+
     >>> view.sort_by = 'contributions'
     >>> results = view.memberships
     >>> brains = list(results)
     >>> len(brains)
     0
 
-Clear the memoize from the request
-    >>> clear_memo()
+Clear the memoize from the request::
+    >>> utils.clear_all_memos(view)
 
-Verify that traversing to the url gives us the expected class
+Verify that traversing to the url gives us the expected class::
+
     >>> view = projects.p1.restrictedTraverse('team')
     >>> view
     <Products.Five.metaclass.SimpleViewClass from ...team-view.pt object at ...>
 
-Call the view to make sure there are no exceptions
+Call the view to make sure there are no exceptions::
+
     >>> out = view()
 
