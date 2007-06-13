@@ -132,6 +132,20 @@ Log out and fill in the form::
     ...             password= 'testy',
     ...             confirm_password='testy')
     >>> request.form.update(form)
+
+The view has a validate() method which returns an error dict::
+
+    >>> view.validate()
+    {}
+    >>> request.form['confirm_password'] = 'mesty'
+    >>> request.form['email'] = 'fakeemail'
+    >>> sorted(view.validate().keys())
+    ['confirm_password', 'email', 'password']
+
+Submit the form for real now::
+
+    >>> request.form['confirm_password'] = 'testy'
+    >>> request.form['email'] = 'foobar@example.com'
     >>> view.handle_request()
 
 Ah, nothing happened... need to set method to POST::

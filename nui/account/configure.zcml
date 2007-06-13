@@ -58,4 +58,12 @@
      template="join.pt"
      />
 
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
+     class=".accountview.JoinView"
+     permission="zope.Public"
+     name="validate"
+     attribute="validate"
+     />
+
 </configure>
