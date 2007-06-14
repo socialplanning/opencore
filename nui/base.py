@@ -146,7 +146,7 @@ class BaseView(BrowserView):
         if IReMember.providedBy(member):
             tags = getattr(member, 'get%s' % field.title())()
             tags = tags.split(',')
-            tags = [tag for tag in tags if tag.strip()]
+            tags = [tag.strip() for tag in tags if tag.strip()]
             tagsearchurl = 'http://www.openplans.org/tagsearch/' # TODO
             urls = [tagsearchurl + urllib.quote(tag) for tag in tags]
             return [{'tag': tag, 'url': url} for tag, url in zip(tags, urls)]
