@@ -11,5 +11,16 @@ class IListenContainer(Interface):
     featurelet.
     """
 
+class IWordpressFeatureletInstalled(Interface):
+    """
+    Marks an object as having the wordpress featurelet installed.
+    """
+
+class IWordpressContainer(Interface):
+    """
+    Marks an object as a wordpress container for the wordpress
+    featurelet.
+    """
+
 from opencore.tasktracker.interfaces import *
 
