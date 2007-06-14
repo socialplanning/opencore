@@ -347,8 +347,6 @@ ul#oc-topnav-context li.oc-topnav-selected {
 /* Member profile */
 
 #oc-member-badge {
-  padding: 1em;
-  border: 1px solid #ccc;
 }
 #oc-member-badge .oc-avatar {
   width: 200px;
@@ -851,6 +849,7 @@ height: 1em;
 }
 .oc-widget-lastModified td {
   border-bottom: none;
+	padding-left: 0;
 }
 
 /* Feeds */

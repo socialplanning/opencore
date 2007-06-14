@@ -23,8 +23,8 @@ body {
   padding: 0;
   color: #fff;
   background: #4B92A4;
-  border-top: 0.75em solid #2B7284 ;
-  border-bottom: 1px solid #2B7284 ;
+  border-top: 0.75em solid #2B7284;
+  border-bottom: 1px solid #2B7284;
 }
 #oc-topnav {
   padding: 0.5em 1em;
@@ -175,14 +175,14 @@ a:hover {
 /* Boxy */
 
 .oc-boxy {
-  border: 1px solid #4B92A4;
+  border: 1px solid #AAC683;
   background-color: #F6FBF0;
   padding: 1em;
 }
 #oc-content-sidebar .oc-boxy h1,
 #oc-content-sidebar .oc-boxy h2 {
   padding-bottom: 0.5em;
-  border-bottom: 1px dotted #4B92A4;
+  border-bottom: 1px dotted #AAC683;
 }
 
 /* Get Started */
@@ -221,14 +221,20 @@ a:hover {
 
 /* Feeds */
 
-.oc-widget-feed{
+.oc-widget-feed {
   border-bottom: 1px dotted #4B92A4;
 }
 .oc-widget-feed li.oc-feed-item {
   border-top: 1px dotted #4B92A4;
   padding: 0.5em 0;
 }
-
+.oc-widget-feed.oc-boxy {
+  border-bottom: 1px solid #AAC683;
+}
+.oc-widget-feed.oc-boxy li.oc-feed-item {
+  border-top: 1px dotted #AAC683;
+  padding: 0.5em 0;
+}
 /* Form Boxes */
 
 .oc-boxy legend.oc-legend-heading{
