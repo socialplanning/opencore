@@ -86,13 +86,34 @@ def octopus(func):
     return inner
 
 def deoctopize(func):
-    """undo the octopization for zope"""
+    """
+    A decorator to reformat an octopized request to match zope's conventions.
+    Intended to be decorated by octopus.
+
+    Constructs a zope-style request for each item in the target list and calls
+    the decorated function with that request per item, and constructs a JSONish
+    return value to match the format expected by the javascript based on the action.
+
+    Passes in an extra request field, 'octopus-item', with the id of the item being
+    acted upon, so that the decorated function has the necessary information about 
+    what item to act upon. This can, of course, be ignored entirely.
+    """
     def inner(self, action, target, fields):
         octo_form = self.request.form.copy()
-        ret = {}
+        if action == 'delete':
+            ret = []
+        elif action == 'update':
+            ret = {}
         for t, f in zip(target, fields):
-            self.request.form = f.copy()
-            ret[t] = func(self)
+            form = f.copy()
+            form['octopus-item'] = t
+            self.request.form = form
+            tret = func(self)
+            if action == 'delete':
+                if tret:
+                    ret.append[target]
+            elif action == 'update':
+                ret[t] = tret
         self.request.form = octo_form
         return ret
     return inner
