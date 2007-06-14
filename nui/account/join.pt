@@ -22,7 +22,7 @@
 
             <!-- on successful registration -->
             <p tal:condition="fdata/getUser | nothing">
-              "check yr email"
+              Check your email to confirm registration 
             </p>
 
             <table class="oc-form" 
