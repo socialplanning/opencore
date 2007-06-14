@@ -157,7 +157,6 @@ class ProjectContentsView(BaseView):
         return surviving_children
 
     @formhandler.octopus
-    @formhandler.deoctopize
     def modify_contents(self, action, sources, fields=None):
         item_type = self.request.form.get("item_type")
 
