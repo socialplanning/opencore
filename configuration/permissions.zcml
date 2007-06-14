@@ -20,4 +20,9 @@
     title="Delete objects"
     />
 
+  <permission
+     id="teamspace.ManageTeamMemberships"
+     title="TeamSpace: Manage team memberships"
+     />
+
 </configure>

@@ -8,11 +8,13 @@ from Products.CMFCore.permissions import DeleteObjects
 from Products.CMFPlone.utils import transaction_note
 from plone.memoize.instance import memoize, memoizedproperty
 from plone.memoize.view import memoize_contextless
-
+from plone.memoize.view import memoize as req_memoize
 from opencore.interfaces import IAddProject, IAddSubProject 
-from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
+from opencore.interfaces.event import AfterProjectAddedEvent, \
+      AfterSubProjectAddedEvent
 from opencore.project.utils import get_featurelets
 from opencore.tasktracker import uri as tt_uri
+from opencore.content.membership import OpenMembership
 
 from opencore.nui import formhandler
 from opencore.nui.base import BaseView
@@ -249,18 +251,24 @@ class SubProjectAddView(ProjectAddView):
         event.notify(AfterSubProjectAddedEvent(project,
                                                self.parent_project,
                                                self.request))
-    
-class ProjectTeamView(SearchView):
 
+class TeamRelatedView(SearchView):
+    """
+    Base class for views on the project that are actually related to
+    the team and team memberships.
+    """
     def __init__(self, context, request):
         SearchView.__init__(self, context, request)
         project = self.context
         teams = project.getTeams()
         assert len(teams) == 1
-        team = teams[0]
+        self.team = team = teams[0]
         self.team_path = '/'.join(team.getPhysicalPath())
         self.active_states = team.getActiveStates()
         self.sort_by = None
+
+
+class ProjectTeamView(TeamRelatedView):
    
     @formhandler.button('sort')
     def handle_request(self):
@@ -343,8 +351,7 @@ class ProjectTeamView(SearchView):
         mem_id = member.getId()
         project = self.context
         project_id = project.getId()
-        portal_teams = getToolByName(self.context, 'portal_teams')
-        team = portal_teams._getOb(project_id)
+        team = self.team
         membership = team._getOb(mem_id)
 
         contributions = 'XXX'
@@ -354,3 +361,31 @@ class ProjectTeamView(SearchView):
                     activation=activation,
                     modification=modification,
                     )
+
+class ManageTeamView(TeamRelatedView):
+    """
+    View class for the team management screens.
+    """
+    pending_member_snippet = ZopeTwoPageTemplateFile('pending_member.pt')
+    mship_type = OpenMembership.portal_type
+
+    @property
+    @req_memoize
+    def pending_mships(self):
+        cat = self.get_tool('portal_catalog')
+        return cat(portal_type=self.mship_type,
+                   path=self.team_path,
+                   review_state='pending',
+                   )
+
+    @property
+    @req_memoize
+    def pending_user_requests(self):
+        pending = self.pending_mships
+        return [b for b in pending if b.lastWorkflowActor == b.getId]
+
+    @property
+    @req_memoize
+    def pending_invitations(self):
+        pending = self.pending_mships
+        return [b for b in pending if b.lastWorkflowActor != b.getId]

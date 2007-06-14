@@ -1,0 +1,142 @@
+<tal:vars define="proj view/project_info">
+  <html metal:use-macro="here/@@standard_macros/master">
+    <body>
+      <div metal:fill-slot="content">
+        <div class="oc-headingBlock">
+          <h1>Team Management</h1>
+          <p class="oc-headingContext">X members, X pending memberships</p>
+        </div>
+
+        <div id="oc-security-settings" class="oc-security-settings">
+          <h2>Your security settings</h2>
+          <p>
+            Currently only your project members can view the content
+            of your project.  Only administrators can add new features
+            to the site.
+          </p>
+          <p><a href="project-security">Change security settings</a></p>
+        </div>
+
+        <div id="oc-content-main" class="oc-content-main-fullWidth">
+          
+          <tal:pending-from-user
+             define="item_header string:Users requesting to join your project;
+		     item_type string:user-request;
+		     item_collection view/pending_user_requests;">
+
+	    <metal:pending-from-user
+               use-macro="here/manage-team/macros/contents_table" />
+
+	  </tal:pending-from-user>
+	  
+          <!--tal:setvar define="item_header string:Images & Attachments;
+			      item_type string:files;
+			      item_collection view/files;
+			      item_date_author_header string:Created">
+	    <tal:macro tal:condition="view/editable">
+	      <tal:metal metal:use-macro="here/contents/macros/contents_table" /> 
+	    </tal:macro>
+
+	    <tal:macro tal:condition="not:view/editable">
+	      <tal:metal metal:use-macro="here/contents/macros/contents_table_uneditable" />
+	    </tal:macro>
+
+	  </tal:setvar> 
+	  
+          <tal:setvar condition="view/has_mailing_lists" 
+		      define="item_header string:Mailing lists;
+			      item_type string:lists;
+			      item_collection view/lists;
+			      item_date_author_header string:Created">
+	    <tal:macro tal:condition="view/editable">
+	      <tal:metal metal:use-macro="here/contents/macros/contents_table" /> 
+	    </tal:macro>
+
+	    <tal:macro tal:condition="not:view/editable">
+	      <tal:metal metal:use-macro="here/contents/macros/contents_table_uneditable" />
+	    </tal:macro>
+
+	  </tal:setvar> 
+
+	  <a rel="include" tal:condition="view/has_task_tracker"
+	     tal:attributes="href string:${view/tasktracker_url}/manage">
+	    View tasklists
+	  </a-->
+
+        </div><!-- end .oc-content-main -->
+      </div><!-- end content-fill-slot -->
+    </body>
+  </html>
+</tal:vars>
+
+<tal:if condition="nothing"> <!-- hack to prevent non-macro execution -->
+  <tal:macro metal:define-macro="contents_table">
+    <div class="oc-widget oc-widget-dataTable">
+      <div class="oc-heading">
+	<h3><tal:dummy replace="item_header" /></h3>
+	<!--<p class="oc-heading-context">What do you want your project to be named?</p>-->
+      </div>
+      <div class="oc-searchresults-nresults">
+	1-20 of 55
+      </div>
+      
+      <form class="oc-liveForm" action="modify-contents">
+	<input type="hidden" name="item_type"
+	       tal:attributes="value item_type" /> <!-- maybe this belongs elsewhere or needs class/id? -->
+	<table class="oc-dataTable" cellpadding="0" cellspacing="0">
+	  <thead>
+            <tr>
+              <th class="oc-dataTable-checkBoxColumn"><input type="checkbox" class="oc-checkAll" /></th>
+              <th scope="col"><a class="oc-columnSortable oc-selected" href="">Username &darr;</a></th>
+              <th scope="col"><a class="oc-columnSortable" href="">Status</a></th>
+              <th scope="col"><a class="oc-columnSortable" href="">Requested membership</a></th>
+            </tr>
+	  </thead>
+	  <tbody>
+            <tal:for repeat="item item_collection">
+	      <tal:macro metal:use-macro="view/pending_member_snippet/macros/item_row" />
+            </tal:for>
+	  </tbody>
+	</table>
+
+	<ul class="oc-actions oc-dataTable-actions">
+	  <li>
+            <button type="submit" name="task" value="batch_delete" class="oc-button" >Delete</button>
+	  </li>
+	</ul>
+      </form>
+    </div> <!-- end .oc-widget-dataTable -->
+  </tal:macro>
+</tal:if>
+
+<tal:if condition="nothing"> <!-- hack to prevent non-macro execution -->
+  <tal:macro metal:define-macro="contents_table_uneditable">
+    <div class="oc-widget oc-widget-dataTable">
+      <div class="oc-heading">
+	<h3><tal:dummy replace="item_header" /></h3>
+	<!--<p class="oc-heading-context">What do you want your project to be named?</p>-->
+      </div>
+      <div class="oc-searchresults-nresults">
+	1-20 of 55
+      </div>
+      
+      <table class="oc-dataTable" cellpadding="0" cellspacing="0">
+	<thead>
+          <tr>
+            <th scope="col"><a class="oc-columnSortable oc-selected" href="">Title &darr;</a></th>
+            <th scope="col"><a class="oc-columnSortable" href="">Size</a></th>
+            <th scope="col"><a class="oc-columnSortable" href="">
+		<tal:dummy replace="item_date_author_header" />
+	    </a></th>
+          </tr>
+	</thead>
+	<tbody>
+          <tal:for repeat="item item_collection" define="uneditable string:True">
+	    <tal:macro metal:use-macro="view/contents_row_snippet/macros/item_row" />
+          </tal:for>
+	</tbody>
+      </table>
+
+    </div> <!-- end .oc-widget-dataTable -->
+  </tal:macro>
+</tal:if>
