@@ -67,6 +67,9 @@ ul#oc-topnav-context li {
   margin: 0  1em 0 0;
   padding: 0;
 }
+ul#oc-topnav-context li.oc-topnav-selected {
+  border-bottom:2px solid #DE7C07;
+}
 #oc-content-wrapper {
  padding: 1.5em 0 1em;
  background-color: #fff;
