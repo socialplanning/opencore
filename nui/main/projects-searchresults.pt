@@ -5,26 +5,25 @@
       
       <div id="oc-content-main">
           
-          <div class="oc-widget oc-widget-search oc-boxy">    
-            
-            <form class="oc-widget-multiSearch" action="/openplans/projects/" method="get">
+          <div class="oc-widget oc-widget-search oc-widget-multiSearch oc-boxy">
+            <form action="/openplans/projects/" method="get">
               <label class="oc-label-heading oc-biggestText">Search</label>
               <ul class="oc-inlineList">
                 <li><a class="oc-search-people" href="/openplans/people/searchresults?search_for=test&letter_search=&action_search_people=Search">People</li>
                 <li><a class="oc-search-projects" href="/openplans/projects/searchresults?search_for=test&letter_search=&action_search_projects=Search">Projects</a></li>
-                <li><a class="oc-search-everything" href="/openplans/sitesearch?search_for=test">Everything</a></li>
-                
+                <li><a class="oc-search-everything" href="/openplans/sitesearch?search_for=test">Everything</a></li>      
               </ul>
-              <input class="oc-input-typeText" type="text" name="search_for" value="mysearch" size="25" />
-              <button type="submit">Search</button>
-            </form><!-- end .oc-widget-multiSearch -->
-          
+              <div class="oc-form-fieldBlock">
+                <input class="oc-input-typeText" type="text" name="search_for" value="mysearch" size="25" />
+                <button type="submit">Search</button>
+              </div>
+            </form>
             <ul class="oc-widget-alphabet oc-clearAfter oc-boxy" tal>
               <li tal:repeat="letter modules/string/uppercase">
                 <a href="" tal:content="letter" tal:attributes="href string:${request/ACTUAL_URL}?letter_search=${letter}">A</a>
               </li>
             </ul>
-          </div>
+          </div><!-- end .oc-widget-multiSearch -->
           
           <div class="oc-searchresults">
 
