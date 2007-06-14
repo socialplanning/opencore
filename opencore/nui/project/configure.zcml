@@ -50,4 +50,13 @@
      template="team-view.pt"
      />
 
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".view.ManageTeamView"
+     permission="teamspace.ManageTeamMemberships"
+     name="manage-team"
+     template="team-manage.pt"
+     />
+
 </configure>
