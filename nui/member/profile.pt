@@ -61,15 +61,27 @@
           </tal:block>
           <tal:block condition="skills">
             <dt>Skills/Interests</dt>
-            <dd><a tal:repeat="skill skills" tal:attributes="href skill/url" tal:content="skill/tag" /></dd>
+            <dd>
+              <ul class="oc-inlineList">
+                <li tal:repeat="skill skills"><a tal:attributes="href skill/url" tal:content="skill/tag" /></li>
+              </ul>
+            </dd>
           </tal:block>
           <tal:block condition="affils">
             <dt>Affiliations</dt>
-            <dd><a tal:repeat="affil affils" tal:attributes="href affil/url" tal:content="affil/tag" /></dd>
+            <dd>
+              <ul class="oc-inlineList">
+                <li tal:repeat="affil affils"><a tal:attributes="href affil/url" tal:content="affil/tag" /></li>
+              </ul>
+            </dd>
           </tal:block>
           <tal:block condition="favs">
             <dt>Favorites</dt>
-            <dd><a tal:repeat="fav favs" tal:attributes="href fav/url" tal:content="fav/tag" /></dd>
+            <dd>
+              <ul class="oc-inlineList">
+                <li tal:repeat="fav favs"><a tal:attributes="href fav/url" tal:content="fav/tag" /></li>
+              </ul>
+            </dd>
           </tal:block>
         </dl>
       </div><!-- end #oc-content-main -->

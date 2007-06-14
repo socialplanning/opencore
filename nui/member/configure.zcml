@@ -6,6 +6,7 @@
   <!-- TODO write and run a migration and then use
      for="opencore.interfaces.IMemberFolder"
   -->
+  <!-- TODO fix permissions -->
 
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
@@ -24,6 +25,15 @@
      template="profile-edit.pt"
      />
 
+
+  <browser:page
+     for="opencore.siteui.interfaces.IMemberFolder"
+     attribute="handle_form"
+     class=".view.ProfileEditView"
+     permission="zope.Public"
+     name="handle-form"
+     />
+
  
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
@@ -31,15 +41,6 @@
      permission="zope.Public"
      name="profile"
      template="profile.pt"
-     />
-
-
-  <browser:page
-     for="opencore.siteui.interfaces.IMemberFolder"
-     class="opencore.nui.base.BaseView"
-     permission="zope.Public"
-     name="contact"
-     template="contact.pt"
      />
 
 </configure>

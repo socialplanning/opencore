@@ -8,7 +8,6 @@ from zExceptions import Redirect
 from zope import event
 from topp.utils.pretty_date import prettyDate
 
-
         
 class ProfileView(BaseView):
 
@@ -27,24 +26,24 @@ class ProfileView(BaseView):
         return self.viewedmember() == self.loggedinmember
       
 
-
-
 class ProfileEditView(ProfileView):
 
-    @button('update')
     def handle_request(self):
-        self.context.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
-        if self.errors:
-            pass #TODO
-        else:
-            self.context.processForm(REQUEST=self.request)
-            # TODO?
-            usr = self.viewedmember()
-            usr.setFullname(self.request.form['fullname'])
-            usr.setLocation(self.request.form['location'])
-            usr.setStatement(self.request.form['statement'])
-            usr.setSkills(self.request.form['skills'])
-            usr.setAffiliations(self.request.form['affiliations'])
-            usr.setBackground(self.request.form['background'])
-            usr.setFavorites(self.request.form['favorites'])
-            self.redirect('profile')
+        pass
+
+    def handle_form(self):
+        usr = self.viewedmember()
+        portrait = self.request.form.get('portrait')
+        task = self.request.form.get('task')
+        if task == 'upload':
+            usr.setPortrait(portrait)
+            return { 'oc-profile-avatar' : '<div class=oc-avatar id=oc-profile-avatar><img src="%s" /><fieldset class=oc-expander style=clear: left;> <legend class=oc-legend-label><!-- TODO --><a href=# class=oc-expander-link>Change image</a></legend><div class=oc-expander-content><input type=file size=14 /><br /><button type=submit name=task value=oc-profile-avatar_uploadAndUpdate>Update</button> or <a href=#>remove image</a></div></fieldset></div>' % portrait.filename}
+
+        # task == 'update'
+        for field, value in self.request.form.items():
+            mutator = 'set%s' % field.capitalize()
+            mutator = getattr(usr, mutator, None)
+            if mutator:
+                mutator(value)
+
+        return self.redirect('profile')
