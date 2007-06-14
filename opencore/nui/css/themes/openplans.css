@@ -22,7 +22,7 @@ body {
   width: 100%;
   padding: 0;
   color: #fff;
-  background: #AAC683;
+  background: #4B92A4;
   border-top: 0.75em solid #2B7284 ;
   border-bottom: 1px solid #2B7284 ;
 }
@@ -76,7 +76,7 @@ ul#oc-topnav-context li {
 #oc-footer-wrapper {
   color: #999;
   background: transparent;
-  border-top: 1px solid #AAC683;
+  border-top: 1px solid #4B92A4;
   margin: 0 0 2em;
   padding: 0.5em 0;
 }
@@ -175,14 +175,14 @@ a:hover {
 /* Boxy */
 
 .oc-boxy {
-  border: 1px solid #AAC683;
+  border: 1px solid #4B92A4;
   background-color: #F6FBF0;
   padding: 1em;
 }
 #oc-content-sidebar .oc-boxy h1,
 #oc-content-sidebar .oc-boxy h2 {
   padding-bottom: 0.5em;
-  border-bottom: 1px dotted #AAC683;
+  border-bottom: 1px dotted #4B92A4;
 }
 
 /* Get Started */
@@ -205,14 +205,14 @@ a:hover {
 .oc-widget-search,
 #oc-content-sidebar .oc-widget-search,
 #oc-content-sidebar .oc-widget-search.oc-boxy {
-  border: 1px solid #AAC683;
+  border: 1px solid #4B92A4;
   background: none;
   padding: 1em;
 }
 .oc-widget-alphabet,
 #oc-content-sidebar ul.oc-widget-alphabet.oc-boxy {
   border: none;
-  border-top: 1px dotted #AAC683;
+  border-top: 1px dotted #4B92A4;
   background: none;
   padding: 0;
   padding-top: 0.5em;
@@ -222,10 +222,10 @@ a:hover {
 /* Feeds */
 
 .oc-widget-feed{
-  border-bottom: 1px dotted #AAC683;
+  border-bottom: 1px dotted #4B92A4;
 }
 .oc-widget-feed li.oc-feed-item {
-  border-top: 1px dotted #AAC683;
+  border-top: 1px dotted #4B92A4;
   padding: 0.5em 0;
 }
 
@@ -239,4 +239,3 @@ a:hover {
 #oc-login-form fieldset.oc-boxy {
   margin-top: -0.75em;
 }
-
