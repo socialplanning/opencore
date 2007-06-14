@@ -7,7 +7,7 @@
     <div metal:fill-slot="content">
       
       <div id="oc-content-main">
-        <form method="post" id="oc-login-form"
+        <form name="login_form" method="post" id="oc-login-form"
               tal:attributes="action string:${context/absolute_url}/${view/name}">
           
           <input type="hidden" name="came_from" id="came_from" 
