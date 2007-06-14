@@ -85,4 +85,14 @@ def octopus(func):
 
     return inner
 
-
+def deoctopize(func):
+    """undo the octopization for zope"""
+    def inner(self, action, target, fields):
+        octo_form = self.request.form.copy()
+        ret = {}
+        for t, f in zip(target, fields):
+            self.request.form = f.copy()
+            ret[t] = func(self)
+        self.request.form = octo_form
+        return ret
+    return inner
