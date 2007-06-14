@@ -53,11 +53,14 @@ class ProjectContentsView(BaseView):
     def _make_dict_and_translate(self, obj, needed_values):
         obj_dict = {}
         for field in needed_values: # loop through fields that we need
+            has_accessor = False
             for obj_field in needed_values[field]: # loop through object-specific ways of getting the field
-                val = getattr(obj, obj_field, None)
-                if val is None: continue
-                break
-            if val is None:
+                if hasattr(obj, obj_field):
+                    val = getattr(obj, obj_field)
+                    has_accessor = True
+                    break
+                
+            if not has_accessor:
                 raise Exception("Could not fetch a %s value from the object %s among the accessors %s!" % (
                         field, obj, list(needed_values[field])))
             if callable(val): val = val()
@@ -154,6 +157,7 @@ class ProjectContentsView(BaseView):
         return surviving_children
 
     @formhandler.octopus
+    @formhandler.deoctopize
     def modify_contents(self, action, sources, fields=None):
         item_type = self.request.form.get("item_type")
 
