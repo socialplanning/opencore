@@ -78,12 +78,24 @@ def getAuthenticatedMemberId(context):
     id = mem.getId()
     return id
 
+
+# XXX this metadata ghosting infrastructure is handy, but a bit
+# inflexible; it's only possible to register one metadata ghoster per
+# type, which may not suffice in the future.  when the need arises,
+# this should be changed to use the ifaceIndexer approach that is used
+# in indexing.py
+
 from interfaces.catalog import IIndexingGhost
 class MetadataGhost(object):
     """
     provides a ghost for metadata methods, returning existing
     value.  columns that are ghosted should be set external to
     the object in question
+
+    this implementation is used on Project objects to preserve the
+    settings of certain columns when the project is modified.  these
+    columns are actually informed by the page edits that happen WITHIN
+    the project.
     """
     implements(IIndexingGhost)
     def __init__(self, context):
@@ -95,24 +107,44 @@ class MetadataGhost(object):
         cat = catalog._catalog
         uid = '/'.join(self.context.getPhysicalPath())
         index = cat.uids.get(uid, 0)
-        record = cat.data[index]
+        if index == 0: # this is the first time indexing the object
+            return default
+        record = cat.data.get(index)
         table = dict(zip(cat.names, record))
         value = table.get(name, default)
         return value
 
+class MembershipMetadataGhost(object):
+    """
+    ghosts the 'lastWorkflowActor' metadata column for
+    IOpenMemberships
+    """
+    implements(IIndexingGhost)
+    def __init__(self, context):
+        self.context = context
+        self.wftool = getToolByName(self.context, 'portal_workflow')
+
+    def getValue(self, name, default=None):
+        wftool = self.wftool
+        wf_id = wftool.getChainFor(self.context)[0]
+        status = wftool.getStatusOf(wf_id, self.context)
+        return status.get('actor')
+    
+
 def registerMetadataGhost(name):
     def ghoster(obj, portal, **kwargs):
         try:
-            ghost=ICatalogingGhost(obj)
+            ghost=IIndexingGhost(obj)
         except TypeError:
             return
         return ghost.getValue(name)
-    return ghoster
     registerIndexableAttribute(name, ghoster)
+    return ghoster
 
 cols = ('lastModifiedTitle',
         'lastModifiedAuthor',
-        'lastModifiedComment')
+        'lastModifiedComment',
+        'lastWorkflowActor',)
 
 for col in cols:
     registerMetadataGhost(col)

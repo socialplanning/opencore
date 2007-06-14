@@ -36,7 +36,7 @@ setup the extra columns::
     >>> out = StringIO()
     >>> installColumns(self.portal, out)
     >>> print out.getvalue().strip()
-    metadata columns ('lastModifiedTitle', 'lastModifiedAuthor', 'lastModifiedComment') installed
+    metadata columns ('lastModifiedTitle', 'lastModifiedAuthor', 'lastModifiedComment', 'lastWorkflowActor') installed
     
     >>> Set(md.cols) & Set(catalog.schema()) == Set(md.cols)
     True

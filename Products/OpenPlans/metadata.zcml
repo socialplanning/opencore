@@ -7,6 +7,12 @@
         factory=".metadata.MetadataGhost"
         />
 
+    <adapter
+       for="opencore.interfaces.IOpenMembership"
+        provides=".interfaces.catalog.IIndexingGhost"
+        factory=".metadata.MembershipMetadataGhost"
+        />
+
     <subscriber
         for="opencore.interfaces.IOpenPage
              zope.app.event.interfaces.IObjectModifiedEvent"
