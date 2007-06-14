@@ -206,7 +206,7 @@ a:hover {
 #oc-content-sidebar .oc-widget-search,
 #oc-content-sidebar .oc-widget-search.oc-boxy {
   border: 1px solid #4B92A4;
-  background: none;
+  background: #F1F7F8;
   padding: 1em;
 }
 .oc-widget-alphabet,
@@ -218,7 +218,18 @@ a:hover {
   padding-top: 0.5em;
   margin-top: 0.5em;
 }
-
+.oc-widget-multiSearch {
+}
+.oc-widget-multiSearch .oc-label-heading {
+ display: inline;
+}
+.oc-widget-multiSearch ul.oc-inlineList {
+  margin: 0.5em;
+  display: inline;
+}
+.oc-widget-multiSearch .oc-form-fieldBlock {
+  margin-top: 0.5em;
+}
 /* Feeds */
 
 .oc-widget-feed {
