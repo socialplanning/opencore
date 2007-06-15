@@ -21,6 +21,7 @@ def test_suite():
     from zope.interface import alsoProvides
     from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
     from opencore.testing import utils
+    from opencore.nui.indexing import authenticated_memberid
 
     def contents_content(tc):
         tc.loginAsPortalOwner()
@@ -36,6 +37,10 @@ def test_suite():
     def readme_setup(tc):
         tc._refreshSkinData()
 
+    def metadata_setup(tc):
+        tc.project = tc.portal.projects.p1
+        tc.page = getattr(tc.project, 'project-home')
+
     globs = locals()
     readme = FunctionalDocFileSuite("README.txt", 
                                     optionflags=optionflags,
@@ -44,6 +49,15 @@ def test_suite():
                                     globs = globs,
                                     setUp=readme_setup
                                     )
+    
+    metadata = FunctionalDocFileSuite("metadata.txt", 
+                                    optionflags=optionflags,
+                                    package='opencore.nui.project',
+                                    test_class=FunctionalTestCase,
+                                    globs = globs,
+                                    setUp=metadata_setup
+                                    )
+    
     contents = FunctionalDocFileSuite("contents.txt",
                                     optionflags=optionflags,
                                     package='opencore.nui.project',
@@ -52,10 +66,11 @@ def test_suite():
                                     setUp=contents_content, 
                                     )
 
-    readme.layer = OpencoreContent
-    contents.layer = OpencoreContent
+    suites = (readme, contents, metadata)
+    for suite in suites:
+        suite.layer = OpencoreContent
 
-    return unittest.TestSuite((readme, contents))
+    return unittest.TestSuite(suites)
 
 
 if __name__ == '__main__':
