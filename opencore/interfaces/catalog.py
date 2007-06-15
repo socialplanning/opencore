@@ -17,3 +17,6 @@ class ILastWorkflowActor(Interface):
         for membership objects to efficiently determine who requested
         the team membership.
         """
+
+class ILastModifiedAuthorId(Interface):
+    """string id for last author to modify a piece of content"""

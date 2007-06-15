@@ -23,7 +23,7 @@ from Products.OpenPlans.interfaces import IWriteWorkflowPolicySupport, IReadWork
 
 installConfiguredProducts()
 
-from Products.OpenPlans.indexing import PROJECT_POLICY as ppidx
+from opencore.nui.indexing import PROJECT_POLICY as ppidx
 from Products.OpenPlans.content.project import OpenProject 
 
 class TestOpenPlansInstall(OpenPlansTestCase):

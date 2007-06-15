@@ -16,6 +16,7 @@
   <include package=".member" />
   <include package=".topnav" />
   <include package=".error" />
+  <include file="indexing.zcml" />
 
   <!-- resource directories for css, images, etc -->
   <browser:resourceDirectory

@@ -1,5 +1,4 @@
 from Products.Archetypes.BaseObject import BaseObject
-from metadata import addDispatcherToMethod, notifyObjectModified
 
 from Products.CMFCore.CatalogTool import _getAuthenticatedUser, _checkPermission, AccessInactivePortalContent
 from Products.AdvancedQuery import In, Eq, Le, Ge

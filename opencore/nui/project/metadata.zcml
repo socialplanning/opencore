@@ -2,15 +2,15 @@
            xmlns:five="http://namespaces.zope.org/">
 
     <adapter
-        for=".interfaces.project.IProject"
-        provides=".interfaces.catalog.IIndexingGhost"
-        factory=".metadata.MetadataGhost"
+        for="opencore.interfaces.IProject"
+        provides="opencore.interfaces.catalog.IIndexingGhost"
+        factory="opencore.nui.indexing.MetadataGhost"
         />
 
     <adapter
        for="opencore.interfaces.IOpenMembership"
-        provides=".interfaces.catalog.ILastWorkflowActor"
-        factory=".metadata.LastWorkflowActor"
+        provides="opencore.interfaces.catalog.ILastWorkflowActor"
+        factory="opencore.nui.indexing.LastWorkflowActor"
         />
 
     <subscriber

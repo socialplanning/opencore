@@ -28,6 +28,7 @@ from permissions import initialize as initialize_permissions
 
 import monkey
 import Extensions.setup
+from opencore.nui import indexing
 
 # Register Global Tools/Services/Config
 # (Skins)
@@ -92,3 +93,8 @@ def initialize(context):
                                             SignedCookieAuthHelper.manage_addSignedCookieAuthHelper ),
                            visibility = None
                            )
+    
+    # do all at import cataloging setup
+    indexing.register_ghosts()
+    indexing.register_indexable_attrs()
+    

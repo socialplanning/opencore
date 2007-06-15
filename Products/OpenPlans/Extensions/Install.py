@@ -42,9 +42,9 @@ from opencore.interfaces import IAmANewsFolder
 
 from zope.interface import directlyProvides, directlyProvidedBy, alsoProvides
 from Products.OpenPlans.Extensions.utils import setupKupu
-from Products.OpenPlans.metadata import cols
-from Products.OpenPlans.indexing import createIndexes
-from Products.OpenPlans.indexing import createMemIndexes
+from opencore.nui.indexing import metadata_cols, install_columns as installColumns
+from opencore.nui.indexing import createIndexes
+from opencore.nui.indexing import createMemIndexes
 from Products.CMFCore.Expression import Expression
 
 from opencore.auth.SignedCookieAuthHelper import SignedCookieAuthHelper
@@ -82,14 +82,6 @@ def createGreyEditTab(portal, out):
                               'View',
                               'object')
 
-def installColumns(portal, out):
-    catalog = getToolByName(portal, 'portal_catalog')
-    switch=dict([(x, True) for x in catalog.schema()])
-    add = catalog.addColumn
-    [add(col) for col in cols\
-     if not switch.has_key(col) ]
-
-    print >> out, 'metadata columns %s installed' %str(cols)
 
 def installRoles(portal, out):
     """ Installs custom roles """
