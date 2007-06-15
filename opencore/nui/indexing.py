@@ -1,6 +1,5 @@
 from Products.CMFPlone.CatalogTool import registerIndexableAttribute
 from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
-from Products.OpenPlans.interfaces.catalog import ILastWorkflowActor
 from Products.CMFCore.utils import getToolByName
 from opencore.nui.project.metadata import registerMetadataGhost
 from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, IIndexingGhost
