@@ -661,18 +661,32 @@ OC.SearchLinks = function(extEl) {
     OC.debug("SearchLinks: got element refs");
   }
   
-  function _linksMouseover(e, el, o) {
-    // find current value
-    var url = el.href;
-    var querystring = url.split('?')[1];
-    var params = querystring.split('&');
-    var origQuery = params[0];
+  // find current value
+  var url = window.location.toString();
+  var urlBase = url.split('?')[0];
+  var querystring = url.split('?')[1] || "";
+  if (querystring) {  
+    var param_groups = querystring.split('&');
+    var params = {}
+    for (var i=0; i<param_groups.length; i++) {
+        var key = param_groups[i].split("=")[0];
+        var value = param_groups[i].split("=")[1];
+        params[key] = value;
+    }
+  }
       
-    // get form value
-    var newQuery = YAHOO.util.Connect.setForm(form);
+  function _linksMouseover(e, el, o) {
+    var el_urlBase = el.href.split('?')[0];
     
-    // replace link 
-    el.href = el.href.replace(origQuery, newQuery);    
+    if (text.dom.value) {
+      // get form value
+      var newQuery = YAHOO.util.Connect.setForm(form);
+      // replace link 
+      el.href = el_urlBase + "?" + newQuery;    
+    } else {
+      el.href = el_urlBase + "?" + querystring;
+    }
+    
   }
   links.on('mouseover', _linksMouseover, this);
 
