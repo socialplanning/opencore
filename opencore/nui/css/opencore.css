@@ -1026,7 +1026,8 @@ li.oc-invite .oc-invite-content {
   position: relative;
 }
 a.oc-liveItem_showForm,
-a.oc-liveItem_showForm:visited {
+a.oc-liveItem_showForm:visited,
+a.oc-actionLink {
   color: #999;
   text-decoration: none;
   font-size: 9px;
@@ -1052,8 +1053,8 @@ a.oc-liveItem_cancel {
 .oc-liveEdit-form,
 .oc-liveEdit-selected,
 .oc-liveItem-editForm {
-  background: #ffe5c1;
-  padding: .25em;
+  /* background: #ffe5c1;
+  padding: .25em; */
 }
 .oc-liveEdit-hover {
   background: #ffffcc;

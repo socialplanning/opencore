@@ -12,6 +12,10 @@
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
+        <div class="oc-notification">
+          First time login notification goes here.  Nick or Rollie will style this soon.
+          <span class="oc-close">X</span>
+        </div>
         <form name="profile_form" id="profile_form" method="post" class="oc-member-edit oc-liveForm" action="handle-form">
           <div id="oc-member-badge" class="oc-boxy oc-clearAfter">
             <div class="oc-member-editimage">

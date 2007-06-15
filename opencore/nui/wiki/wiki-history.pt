@@ -33,14 +33,14 @@
     <div class="oc-headingBlock" tal:define="lastChange python:history[0]"> 
 		<h2>All versions of <span tal:replace="here/title_or_id">page</span></h2>
 		<p class="oc-headingContext oc-discreetText">
-		  Last edit performed by 
+		 <span tal:replace="python:len(history)"/> versions total. Last edit performed by 
 		  <a tal:define="author lastChange/sys_metadata/principal" 
                      tal:attributes="href string:${people_url}/${author}" 
                      tal:content="author">author</a>, 
 		  
-		  <span tal:replace="python: view.pretty_mod_date(lastChange)" /> 
-		  <br />
-		  <span tal:replace="python:len(history)"/> versions total.
+		  <span tal:replace="python: view.pretty_mod_date(lastChange)" />. 
+
+		  
 		</p>
     </div> <!-- end .oc-headingBlock --> 
 	      
@@ -49,7 +49,7 @@
        to click the link/name of the version -->
        
   <tal:if condition="python:len(history) > 1">
-  <p>Select 2 versions to compare them OR click a version number to see it.</p>
+  <p>Select two versions to compare them <strong>or</strong> click a version number to see it.</p>
   </tal:if>
 	      
     <div class="oc-lineup"> 		
@@ -98,7 +98,7 @@
 		  
 		  <tal:if condition="python:len(history) > 1">		  
 		  <div class="oc-actions">
-		    <input type="submit" value="compare" />
+		    <input type="submit" value="Compare" />
 		  </div> <!-- end .oc-actions --> 
 		  </tal:if>
 		  

@@ -69,7 +69,7 @@ class MemberMenuView(BaseView):
              'selected': self.request.ACTUAL_URL == self.profile_url,
              },
 
-            {'content': 'Preferences',
+            {'content': 'Account',
              'href': self.userprefs_url,
              'selected': self.request.ACTUAL_URL == self.userprefs_url,
              },
