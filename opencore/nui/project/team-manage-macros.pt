@@ -208,7 +208,10 @@
       </table>
 
       <ul class="oc-actions oc-dataTable-actions">
-        <metal:buttons use-macro="team_manage_macros/invitationbuttons" />
+        <li>
+          <button type="submit" name="task" value="remove"
+                  class="oc-button" >remove members</button>
+        </li>
       </ul>
     </form>
   </div> <!-- end .oc-widget-dataTable -->
