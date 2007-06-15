@@ -369,8 +369,11 @@ class ManageTeamView(TeamRelatedView):
     """
     View class for the team management screens.
     """
-    pending_member_snippet = ZopeTwoPageTemplateFile('pending_member.pt')
+    team_manage_macros = ZopeTwoPageTemplateFile('team-manage-macros.pt')
     mship_type = OpenMembership.portal_type
+    rolemap = {'ProjectAdmin': 'admin',
+               'ProjectMember': 'member',
+               }
 
     @property
     @req_memoize
@@ -383,7 +386,7 @@ class ManageTeamView(TeamRelatedView):
 
     @property
     @req_memoize
-    def pending_user_requests(self):
+    def pending_requests(self):
         pending = self.pending_mships
         return [b for b in pending if b.lastWorkflowActor == b.getId]
 
@@ -392,3 +395,23 @@ class ManageTeamView(TeamRelatedView):
     def pending_invitations(self):
         pending = self.pending_mships
         return [b for b in pending if b.lastWorkflowActor != b.getId]
+
+    #@property
+    #@req_memoize
+    def active_mships(self):
+        cat = self.get_tool('portal_catalog')
+        mem_ids = self.team.getActiveMemberIds()
+        brains = cat(portal_type=self.mship_type,
+                     path=self.team_path,
+                     id=mem_ids)
+        mships = []
+        for brain in brains:
+            data = {'id': brain.id,
+                    'getId': brain.getId,
+                    'review_state': brain.review_state,
+                    'active_since': brain.made_active_date,
+                    }
+            role = self.team.getHighestTeamRoleForMember(brain.id)
+            data['role'] = self.rolemap[role]
+            mships.append(data)
+        return mships
