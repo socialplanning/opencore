@@ -10,7 +10,8 @@ from Products.OpenPlans.Extensions.Install import install_workflow_map, \
      installNewsFolder, securityTweaks
 from Products.OpenPlans.Extensions.Install import setupPeopleFolder, \
      setupProjectLayout, setupHomeLayout
-from Products.OpenPlans.Extensions.Install import createMemIndexes
+from Products.OpenPlans.Extensions.Install import createMemIndexes, \
+     installColumns
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans import config as op_config
 
@@ -83,6 +84,7 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      setupPeopleFolder=convertFunc(setupPeopleFolder),
                      setupProjectLayout=convertFunc(setupProjectLayout),
                      securityTweaks=convertFunc(securityTweaks),
+                     installMetadataColumns=convertFunc(installColumns),
                      reinstallSubskins=reinstallSubskins,
                      )
 
