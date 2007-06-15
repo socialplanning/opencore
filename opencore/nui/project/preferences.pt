@@ -16,7 +16,7 @@
             tal:attributes="action view/name">
             <input type="hidden" name="set_flets" value="1"/>
             <fieldset class="oc-boxy">
-              <legend class="oc-legend-heading">Details</legend>
+              <legend class="oc-legend-heading oc-biggerText">Details</legend>
               <table class="oc-form">
                 <tbody>
                   <tr class="oc-form-row">
@@ -61,7 +61,7 @@
             </fieldset>
 
             <fieldset class="oc-boxy">
-              <legend class="oc-legend-heading">General security level</legend>
+              <legend class="oc-legend-heading oc-biggerText">General security level</legend>
               <fieldset>
                 <legend class="oc-legend-label">Visitors to the site can:</legend>
                 <ul class="oc-form-radiolist">
@@ -91,7 +91,7 @@
             </fieldset>
 
             <fieldset class="oc-boxy">
-              <legend class="oc-legend-heading">Additional tools</legend>
+              <legend class="oc-legend-heading oc-biggerText">Additional tools</legend>
               <ul class="oc-form-radiolist" tal:define="featurelets python:[f['name'] for f in proj['featurelets']]">
                 <li>
                   <input type="checkbox" class="oc-input-typeCheck" id="tasktracker" name="tasktracker"
