@@ -9,7 +9,15 @@ from topp.utils.pretty_date import prettyDate
 from opencore.nui.base import BaseView, static_txt
 
 
+def first_letter_match(title, letter):
+    return title.startswith(letter) \
+           or title.startswith('the ' + letter) \
+           or title.startswith('a ' + letter) \
+           or title.startswith('an ' + letter)
+
+
 class SearchView(BaseView):
+    match = staticmethod(first_letter_match)
 
     def _get_batch(self, brains, start=0):
         return Batch(brains,
@@ -30,15 +38,8 @@ class SearchView(BaseView):
         return not self.context.has_key(userid)
 
 
-def first_letter_match(title, letter):
-    return title.startswith(letter) \
-           or title.startswith('the ' + letter) \
-           or title.startswith('a ' + letter) \
-           or title.startswith('an ' + letter)
-
 
 class ProjectsSearchView(SearchView):
-    match = staticmethod(first_letter_match)
 
     def __call__(self):
         search_for = self.request.get('search_for', None)
@@ -239,6 +240,36 @@ class SitewideSearchView(SearchView):
             
         return self.index()
     
+
+    def search_by_letter(self, letter, sort_by=None):
+        letter = letter.lower()
+        query = (Eq('portal_type', 'OpenProject') & Eq('Title', letter + '*')) \
+                | (Eq('portal_type', 'Document') & Eq('Title', letter + '*')) \
+                | (Eq('portal_type', 'OpenMember') & Eq('Title', letter + '*'))
+
+        if not sort_by or sort_by == 'relevancy':
+            rs = ()
+        else:
+            if sort_by == 'getId':
+                rs = ((sort_by, 'asc'),)
+            else:
+                rs = ((sort_by, 'desc'),)
+
+        brains = self.catalog.evalAdvancedQuery(query, rs)
+        out_brains = []
+
+        for brain in brains:
+            if brain.portal_type in ('OpenProject', 'Document') and \
+                   self.match(brain.Title.lower(), letter):
+                out_brains.append(brain)
+            elif brain.portal_type == ('OpenMember') and \
+                    brain.getId.lower().startswith(letter):
+                out_brains.append(brain)
+                
+        return out_brains
+
+
+
     def search(self, search_for, sort_by=None):
         search_query = search_for.lower().strip()
 

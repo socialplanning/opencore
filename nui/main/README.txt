@@ -187,3 +187,19 @@ Check our static content::
 
    >>> view.sidebar()
    '...'
+
+
+Sitewide Search
+===============
+
+   >>> view = search.SitewideSearchView(self.portal.projects, request)
+   >>> brains = view.search('Proj')
+   >>> [b.Title for b in brains]
+   ['Proj2', 'Project Home', 'Proj3', 'Project Home', 'Proj1', 'Project Home', 'Proj4', 'Project Home', 'Welcome to Plone', 'OpenPlans Home']
+   >>> brains = view.search_by_letter('p')
+   >>> [b.Title for b in brains]
+   ['Proj2', 'Project Home', 'Proj3', 'Project Home', 'Proj1', 'Project Home', 'Proj4', 'Project Home']
+   >>> brains = view.search_by_letter('m')
+   >>> [b.getId for b in brains]
+   ['m4', 'm1', 'm3', 'm2']
+
