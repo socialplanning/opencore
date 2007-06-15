@@ -38,7 +38,6 @@
       <div id="oc-content-main" class="oc-content-main-fullWidth">
 
         <div class="oc-wiki">
-        
 
           <form name="edit_form"
             method="post"
@@ -46,36 +45,36 @@
             class="enableUnloadProtection"
             tal:attributes="action string:${here/absolute_url}/@@update">
             
-          <div class="oc-headingBlock oc-wiki-headingBlock">
-            <ul class="oc-bcrumb">
-            <!-- <li><a href="#">My Great Project</a> /</li> -->
-            <li class="oc-liveItem">
-              <span class="oc-liveItem-value">
-                <span class="oc-bcrumb-current" tal:content="context/Title" />
-                <a href="#" class="oc-liveItem_showForm">EDIT</a>
-                <!-- XXX Nick: hit me up when it's time to hook this up. -Josh -->
-              </span>
-              <div class="oc-liveItem-editForm">
-                <input name="title" type="text" tal:attributes="value string:${context/Title}" /> <a href="#" class="oc-liveItem_cancel" >Cancel</a>
-              </div>
-              </li>
-            </ul>
-          </div>
+            <div class="oc-headingBlock oc-wiki-headingBlock">
+              <ul class="oc-bcrumb">
+              <!-- <li><a href="#">My Great Project</a> /</li> -->
+              <li class="oc-liveItem">
+                <span class="oc-liveItem-value">
+                  <span class="oc-bcrumb-current" tal:content="context/Title" />
+                  <a href="#" class="oc-liveItem_showForm">EDIT</a>
+                </span>
+                <div class="oc-liveItem-editForm">
+                  <input name="title" type="text" tal:attributes="value string:${context/Title}" /> <a href="#" class="oc-liveItem_cancel" >Cancel</a>
+                </div>
+                </li>
+              </ul>
+            </div>
 
-           <div metal:use-macro="here/@@wiki_macros/tabs"/>
+            <div metal:use-macro="here/@@wiki_macros/tabs"/>
             
             <div class="oc-wiki-edit" >
+
               <div class="oc-wiki-edit-content">
                 <input type="hidden" name="submitted" value="1"/>
                 <metal:fieldMacro use-macro="python:here.widget('text', mode='edit')"/>
               </div><!-- end .oc-wiki-edit-content" --> 
  
-            <div class="oc-expander">
-              <a href="#oc-wiki-comment" class="oc-expander-link">Version note</a>
-              <div class="oc-expander-content">
-		            <textarea name="comment" id="comment" rows="3" cols="60"></textarea>
-              </div><!-- end expander-content -->
-            </div><!-- end expander -->
+              <div class="oc-expander">
+                <a href="#oc-wiki-comment" class="oc-expander-link">Version note</a>
+                <div class="oc-expander-content">
+		              <textarea name="comment" id="comment" rows="3" cols="60"></textarea>
+                </div><!-- end expander-content -->
+              </div><!-- end expander -->
             
               <ul class="oc-actions oc-wiki-actions">
                 <li><input type="submit" value="Save" class="oc-button oc-chooseThis" /></li>
@@ -84,39 +83,35 @@
               
             </div><!-- end .oc-wiki-edit -->
 
-
           </form>
         </div><!-- end .oc-wiki -->
+
 
         <div class="oc-options oc-wiki-edit-options">
 
           <div tal:attributes="class python:attachments and 'oc-expander oc-expander-open' or 'oc-expander'">
-              <a href="#oc-wiki-manageAttachments" class="oc-expander-link">Manage attachments</a>
-              <div class="oc-expander-content">
-                <h4>Current attachments:</h4>
-                    <ol class="oc-attachments" id="oc-wiki-attachments">
-                      <tal:block condition="nocall:attachments">
-                        <tal:repeat repeat="attachment attachments">
-                          <li metal:use-macro="here/@@wiki_macros/attachment"/>
-                        </tal:repeat>
-                      </tal:block>
-                    </ol>
+            <a href="#oc-wiki-manageAttachments" class="oc-expander-link">Manage attachments</a>
+            <div class="oc-expander-content">
+              <h4>Current attachments:</h4>
+                <ol class="oc-attachments" id="oc-wiki-attachments">
+                  <tal:block condition="nocall:attachments">
+                    <tal:repeat repeat="attachment attachments">
+                      <li metal:use-macro="here/@@wiki_macros/attachment"/>
+                    </tal:repeat>
+                  </tal:block>
+                </ol>
 
-                  <fieldset>
-                    <legend><h4>Upload a new file:</h4></legend>
-                     <form metal:use-macro="here/@@wiki_macros/upload"/>
-                  </fieldset>
+              <fieldset>
+                <legend><h4>Upload a new file:</h4></legend>
+                <form metal:use-macro="here/@@wiki_macros/upload"/>
+              </fieldset>
 
-
-              </div><!-- end expander-content -->
-            </div><!-- end expander -->
+            </div><!-- end expander-content -->
+          </div><!-- end expander -->
         </div><!-- end .oc-options -->
-        
-
       </div><!-- end #oc-content-main -->        
     </div><!-- end content slot -->
   </body>
-  
 </html>
 
 </tal:vars>
