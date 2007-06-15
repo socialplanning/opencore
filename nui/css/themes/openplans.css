@@ -225,6 +225,7 @@ a:hover {
 }
 .oc-widget-multiSearch .oc-label-heading {
  display: inline;
+ padding-right: 0.5em;
 }
 .oc-widget-multiSearch ul.oc-inlineList {
   margin: 0.5em;
