@@ -57,8 +57,8 @@
           <ol class="oc-searchresults-list">
             <li class="oc-searchresults-item" tal:repeat="item view/search_results">
               <tal:defines define="obj item/getObject; portal_type obj/portal_type; is_user python: portal_type == 'OpenMember'">
-                <img tal:attributes="src obj/getIcon" />
-                <h3><a href="" tal:attributes="href obj/absolute_url" tal:content="item/getId">Title</a></h3>
+                
+                <h3><img tal:attributes="src obj/getIcon" /> <a href="" tal:attributes="href obj/absolute_url" tal:content="item/getId">Title</a></h3>
                 <tal:is_user condition="is_user">
                   member since
                   <span tal:replace="python: view.pretty_date(item.CreationDate)" />

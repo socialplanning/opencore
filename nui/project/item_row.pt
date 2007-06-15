@@ -19,8 +19,6 @@
         <a tal:attributes="href item/url">
           <tal:dummy replace="item/title" />
 	</a>
-	<a href="#" tal:condition="editable"
-	   class="oc-liveItem_hoverShowForm">Edit</a>
       </div>
       
       <div tal:condition="editable"
@@ -51,6 +49,7 @@
     </td>
     <td tal:condition="view/editable">
       <ul class="oc-actions oc-dataTable-row-actions">
+        <li tal:condition="editable"><a href="#" class="oc-liveItem_showForm oc-actionLink">Rename</a></li>
         <li tal:condition="editable">
           <a class="oc-actionLink"
              tal:attributes="href string:modify-contents?task=${item/id}_delete&item_type=${item_type}">

@@ -847,7 +847,7 @@ OC.HistoryList = function(extEl) {
     function _compareButtonClick(e, el, o) {
       if (!enableCompareButtons) {
         YAHOO.util.Event.stopEvent(e);
-        userMessage.update("Please select exactly 2 versions to compare.");
+        userMessage.update("Please select exactly two versions to compare.");
         userMessage.addClass('oc-message-error');
         userMessage.show();
       }
