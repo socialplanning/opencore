@@ -88,7 +88,7 @@ OC.breatheLife = function(newNode) {
 
 // Debug Function.  Turn off for live code or IE
 OC.debug = function(string) {
-  var method = "console"; /* "console", "alert" or "" */
+  var method = ""; /* "console", "alert" or "" */
   switch (method) {
     case "console" :
       console.log(string);

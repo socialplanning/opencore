@@ -90,7 +90,7 @@
 
         <div class="oc-options oc-wiki-edit-options">
 
-          <div class="oc-expander">
+          <div tal:attributes="class python:attachments and 'oc-expander oc-expander-open' or 'oc-expander'">
               <a href="#oc-wiki-manageAttachments" class="oc-expander-link">Manage attachments</a>
               <div class="oc-expander-content">
                 <h4>Current attachments:</h4>
