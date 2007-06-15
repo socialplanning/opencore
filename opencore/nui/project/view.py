@@ -396,8 +396,8 @@ class ManageTeamView(TeamRelatedView):
         pending = self.pending_mships
         return [b for b in pending if b.lastWorkflowActor != b.getId]
 
-    #@property
-    #@req_memoize
+    @property
+    @req_memoize
     def active_mships(self):
         cat = self.get_tool('portal_catalog')
         mem_ids = self.team.getActiveMemberIds()
