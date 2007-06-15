@@ -1,0 +1,31 @@
+<div metal:define-macro="search_widget" class="oc-widget oc-widget-search oc-widget-multiSearch oc-boxy">    
+  <h1 class="oc-biggerText">Search</h1>
+  <form name="search_form" action="." tal:attributes="action string:${context/portal_url}/sitesearch">
+    <!-- <label class="oc-label-heading oc-bigText">Search</label>-->
+        
+        <a tal:condition="python:current_search_page!='people'" class="oc-search-people" href="/openplans/people/searchresults?search_for=test&letter_search=&action_search_people=Search">People</a>
+        
+        <strong tal:condition="python:current_search_page=='people'">People</strong>
+        
+       |
+      
+      <a tal:condition="python:current_search_page!='projects'" class="oc-search-projects" href="/openplans/projects/searchresults?search_for=test&letter_search=&action_search_projects=Search">Projects</a>
+      
+      <strong tal:condition="python:current_search_page=='projects'">Projects</strong>
+      
+      |
+        <a tal:condition="python:current_search_page!='sitesearch'" class="oc-search-everything" href="/openplans/sitesearch?search_for=test">Everything</a>      
+        <strong tal:condition="python:current_search_page=='sitesearch'">Everything</strong>
+     
+      <div class="oc-form-fieldBlock">
+      <input class="oc-input-typeText" type="text" name="search_for" tal:attributes="value request/search_for | nothing" />
+      <button type="submit">Search</button>
+    </div>
+  </form>
+  
+  <ul tal:condition="python:current_search_page!='sitesearch'" class="oc-widget-alphabet oc-clearAfter oc-boxy" tal>
+              <li tal:repeat="letter modules/string/uppercase">
+                <a href="" tal:content="letter" tal:attributes="href string:${request/ACTUAL_URL}?letter_search=${letter}">A</a>
+              </li>
+  </ul>
+</div><!-- end .oc-widget-multiSearch -->

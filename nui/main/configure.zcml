@@ -10,6 +10,15 @@
      name="nui_batch_macros"
      template="batch_macros.pt"
      />
+  
+  <!-- macros -->
+  <browser:page
+     class="opencore.nui.base.BaseView"
+     for="*"
+     name="main_macros"
+     permission="zope.Public"
+     template="main_macros.pt"
+     />
     
   <!-- projects portal -->
   <!-- opencore.interfaces.IProjectsFolder -->
