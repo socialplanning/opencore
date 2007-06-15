@@ -1,7 +1,7 @@
 <div metal:define-macro="search_widget" class="oc-widget oc-widget-search oc-widget-multiSearch oc-boxy">    
-  <h1 class="oc-biggerText">Search</h1>
+  <!--<h1 class="oc-biggerText">Search</h1>-->
   <form name="search_form" action="." tal:attributes="action string:${context/portal_url}/sitesearch">
-    <!-- <label class="oc-label-heading oc-bigText">Search</label>-->
+     <label class="oc-label-heading oc-biggerText" style="padding-right: 1em;">Search</label>
         
         <a tal:condition="python:current_search_page!='people'" class="oc-search-people" href="/openplans/people/searchresults?search_for=test&letter_search=&action_search_people=Search">People</a>
         
