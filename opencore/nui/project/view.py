@@ -409,9 +409,18 @@ class ManageTeamView(TeamRelatedView):
             data = {'id': brain.id,
                     'getId': brain.getId,
                     'review_state': brain.review_state,
-                    'active_since': brain.made_active_date,
                     }
+
+            made_active_date = brain.made_active_date
+            if not made_active_date:
+                made_active_date = brain.CreationDate
+            data['active_since'] = made_active_date
+
             role = self.team.getHighestTeamRoleForMember(brain.id)
             data['role'] = self.rolemap[role]
             mships.append(data)
         return mships
+
+    def getMemberURL(self, mem_id):
+        mtool = self.get_tool('portal_membership')
+        return mtool.getHomeUrl(mem_id)

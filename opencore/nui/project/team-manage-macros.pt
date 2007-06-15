@@ -1,6 +1,22 @@
 <tal:vars
    define="global team_manage_macros view/team_manage_macros/macros" />
 
+
+<!-- SHARED SNIPPETS -->
+
+<metal:memberlink define-macro="memberlink">
+  <div class="oc-liveItem-value"
+       tal:define="mem_id item/getId;
+                   mem_url python:view.getMemberURL(mem_id)">
+    <a tal:attributes="href mem_url"
+       tal:condition="mem_url"
+       tal:content="mem_id" />
+
+    <tal:memid condition="not: mem_url"
+               replace="mem_id" />
+  </div>
+</metal:memberlink>
+
 <!-- "PENDING" LISTS (MEMBERSHIP REQUESTS AND INVITATIONS) -->
 
 <metal:pendingrow define-macro="pendingrow">
@@ -12,9 +28,7 @@
     </td>
 
     <td>
-      <div class="oc-liveItem-value"
-           tal:content="item/getId">
-      </div>
+      <div metal:use-macro="team_manage_macros/memberlink" />
     </td>
 
     <td metal:define-slot="status" />
@@ -136,6 +150,7 @@
 </metal:pendinglist>
 
 
+
 <!-- ACTIVE TEAM MEMBER LIST  -->
 
 <metal:mshiplist define-macro="mshiplist">
@@ -176,9 +191,7 @@
               </td>
 
               <td>
-                <div class="oc-liveItem-value"
-                     tal:content="item/getId">
-                </div>
+                <div metal:use-macro="team_manage_macros/memberlink" />
               </td>
 
               <td>
