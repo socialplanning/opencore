@@ -36,8 +36,8 @@
                 </tr>
                 <tr class="oc-options">
                   <th></th>
-                  <td class="oc-form-value">
-                    <input type="checkbox" name="no_expire_cookie" id="no_expire_cookie" /> 
+                  <td class="oc-form-value oc-form-fieldBlock oc-smallText">
+                    <input class="oc-input-typeCheck" type="checkbox" name="no_expire_cookie" id="no_expire_cookie" /> 
                     <label for="no_expire_cookie">Keep me logged in</label>
                   </td>
                   <td class="oc-form-help">
