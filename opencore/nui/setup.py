@@ -55,6 +55,20 @@ def move_interface_marking_on_projects_folder(portal, out):
     alsoProvides(pf, IAddProject)
     print >> out, "Fixed up interfaces"
 
+def migrate_wiki_attachments(portal, out):
+    catalog = getToolByName(portal, 'portal_catalog')
+    query = dict(portal_type='FileAttachment')
+    brains = catalog(**query)
+    objs = (b.getObject() for b in brains)
+    out.write('beginning attachment title migration\n')
+    for attach in objs:
+        if not attach.Title():
+            attach_id = attach.getId()
+            out.write('Adding title to %s\n' % attach_id)
+            attach.setTitle(attach_id)
+    out.write('attachment title migration complete\n')
+    return out.getvalue()
+
 def set_method_aliases(portal, out):
     pt = getToolByName(portal, 'portal_types')
     amap = config.ConfigMap.load(ALIASES)
@@ -86,6 +100,7 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      securityTweaks=convertFunc(securityTweaks),
                      installMetadataColumns=convertFunc(installColumns),
                      reinstallSubskins=reinstallSubskins,
+                     migrate_wiki_attachments=convertFunc(migrate_wiki_attachments),
                      )
 
 nui_functions['Update Method Aliases']=convertFunc(set_method_aliases)

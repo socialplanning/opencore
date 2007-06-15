@@ -31,8 +31,10 @@ class AttachmentView(BaseView):
         return self.attachment_snippet()
     
     def handle_updateAtt(self):
-        attachment = self.context._getOb(self.request.get('attachment_id'))
-        attachment.setTitle(self.request.get('attachment_title'))
+        attach_id = self.request.get('attachment_id')
+        attachment = self.context._getOb(attach_id)
+        title = self.request.get('attachment_title') or attach_id
+        attachment.setTitle(title)
         attachment.reindexObject()
         return attachment
 
@@ -87,7 +89,7 @@ class AttachmentView(BaseView):
              imageId = newImageId
 
          object = self.context._getOb(imageId, None)
-         object.setTitle(attachmentTitle)
+         object.setTitle(attachmentTitle or imageId)
          object.setFile(attachmentFile)
          object.reindexObject()
          return object

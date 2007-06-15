@@ -133,42 +133,15 @@ Test actually creating, editing, deleting an attachment::
      >>> view.request['attachment_id'] = 'secret.txt'
      >>> view.createAtt()
      "{status: 'success',...
-     >>> view.attachment_url()
-     'http://nohost/plone/projects/p1/project-home/@@attachmentSnippet?attachment_id=secret.txt'
-     >>> page.restrictedTraverse(view.request['attachment_id'])
+     >>> newatt = view.context._getOb('secret.txt')
+     >>> newatt
      <FileAttachment at /plone/projects/p1/project-home/secret.txt>
+     >>> newatt.Title()
+     'secret'
 
-     Update attachment
-     >>> view.attachmentSnippet()
-     '...secret.txt...
 
-     Reset attachment request variables
-     >>> request.set('attachment_id', '')
-     >>> request.set('attachmentTitle', '')
-     >>> request.set('attachmnetFile', '')
+Now let's try to delete.  Try the error case::
 
-     Check error case (should it raise an error? error message instead?)
-     >>> view.updateAtt()
-     Traceback (most recent call last):
-     ...
-     AttributeError
-
-     Set valid attachment request variables
-     >>> request.set('attachment_id', 'secret.txt')
-     >>> request.set('attachmentFile', tfile)
-     >>> request.set('attachmnetTitle', 'new title')
-
-     Try again, should work great now
-     (uhh, what do we expect to get back? looks like a form?)
-     >>> response = view.updateAtt()
-     >>> '<form method="post"' in response
-     True
-     >>> 'secret.txt' in response
-     True
-
-     Now let's try to delete
-
-     Try the error case
      >>> request.set('attachment_id', '')
      >>> request.set('attachmentTitle', '')
      >>> request.set('attachmnetFile', '')
@@ -186,6 +159,49 @@ Test actually creating, editing, deleting an attachment::
      >>> request.set('attachmnetTitle', 'new title')
      >>> view.deleteAtt()
      '<!-- deleted -->\n'
+
+
+If we create an attachment with no title, the title should be the id::
+     >>> tfile = tempfile(secret_file_name)
+     >>> view.request['attachmentFile'] = tfile
+     >>> response = view.createAtt()
+     >>> "status: 'success'" in response
+     True
+     >>> newatt = view.context._getOb('secret.txt')
+     >>> newatt
+     <FileAttachment at /plone/projects/p1/project-home/secret.txt>
+     >>> newatt.Title()
+     'secret.txt'
+
+
+Test update attachment::
+     >>> view.attachmentSnippet()
+     '...secret.txt...
+
+     Reset attachment request variables
+     >>> request.set('attachment_id', '')
+     >>> request.set('attachmentTitle', '')
+     >>> request.set('attachmnetFile', '')
+
+Check error case (should it raise an error? error message instead?)::
+     >>> view.updateAtt()
+     Traceback (most recent call last):
+     ...
+     AttributeError
+
+     Set valid attachment request variables
+     >>> request.set('attachment_id', 'secret.txt')
+     >>> request.set('attachmentFile', tfile)
+     >>> request.set('attachmnetTitle', 'new title')
+
+Try again, should work great now::
+     (uhh, what do we expect to get back? looks like a form?)
+     >>> response = view.updateAtt()
+     >>> '<form method="post"' in response
+     True
+     >>> 'secret.txt' in response
+     True
+
 
 
 Now let's exercise some version compare stuff
