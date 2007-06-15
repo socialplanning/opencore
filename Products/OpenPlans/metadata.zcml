@@ -9,8 +9,8 @@
 
     <adapter
        for="opencore.interfaces.IOpenMembership"
-        provides=".interfaces.catalog.IIndexingGhost"
-        factory=".metadata.MembershipMetadataGhost"
+        provides=".interfaces.catalog.ILastWorkflowActor"
+        factory=".metadata.LastWorkflowActor"
         />
 
     <subscriber

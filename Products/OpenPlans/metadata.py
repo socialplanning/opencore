@@ -8,6 +8,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.CatalogTool import registerIndexableAttribute
 from Products.CMFEditions.interfaces.IArchivist import ArchivistUnregisteredError
 from Products.OpenPlans.interfaces import IProject
+from Products.OpenPlans.interfaces.catalog import ILastWorkflowActor
+from Products.OpenPlans.indexing import ifaceIndexer
 
 def proxy(attrs):
     obj = type('metadata proxy', (object,), attrs)()
@@ -114,23 +116,6 @@ class MetadataGhost(object):
         value = table.get(name, default)
         return value
 
-class MembershipMetadataGhost(object):
-    """
-    ghosts the 'lastWorkflowActor' metadata column for
-    IOpenMemberships
-    """
-    implements(IIndexingGhost)
-    def __init__(self, context):
-        self.context = context
-        self.wftool = getToolByName(self.context, 'portal_workflow')
-
-    def getValue(self, name, default=None):
-        wftool = self.wftool
-        wf_id = wftool.getChainFor(self.context)[0]
-        status = wftool.getStatusOf(wf_id, self.context)
-        return status.get('actor')
-    
-
 def registerMetadataGhost(name):
     def ghoster(obj, portal, **kwargs):
         try:
@@ -141,10 +126,29 @@ def registerMetadataGhost(name):
     registerIndexableAttribute(name, ghoster)
     return ghoster
 
-cols = ('lastModifiedTitle',
-        'lastModifiedAuthor',
-        'lastModifiedComment',
-        'lastWorkflowActor',)
+ghosted_cols = ('lastModifiedTitle',
+                'lastModifiedAuthor',
+                'lastModifiedComment',)
 
-for col in cols:
+for col in ghosted_cols:
     registerMetadataGhost(col)
+
+class LastWorkflowActor(object):
+    """
+    ghosts the 'lastWorkflowActor' metadata column for
+    IOpenMemberships
+    """
+    implements(ILastWorkflowActor)
+    def __init__(self, context):
+        self.context = context
+        self.wftool = getToolByName(self.context, 'portal_workflow')
+
+    def getValue(self):
+        wftool = self.wftool
+        wf_id = wftool.getChainFor(self.context)[0]
+        status = wftool.getStatusOf(wf_id, self.context)
+        return status.get('actor')
+    
+ifaceIndexer('lastWorkflowActor', ILastWorkflowActor, 'getValue')
+
+cols = ghosted_cols + ('lastWorkflowActor', 'made_active_date')

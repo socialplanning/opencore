@@ -9,3 +9,11 @@ class IIndexingGhost(Interface):
         or method.  
         """
 
+class ILastWorkflowActor(Interface):
+
+    def getValue():
+        """
+        Returns the 'actor' from the last workflow transition.  Used
+        for membership objects to efficiently determine who requested
+        the team membership.
+        """
