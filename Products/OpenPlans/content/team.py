@@ -11,6 +11,7 @@ from Products.TeamSpace.exceptions import MemberRoleNotAllowed
 from zope.interface import implements
 
 from Products.OpenPlans.interfaces import IOpenTeam
+from Products.OpenPlans.config import DEFAULT_ROLES
 
 marker = object()
 
@@ -78,7 +79,7 @@ class OpenTeam(Team):
         if spaces:
             return spaces[0]
 
-    security.declarePrivate('setRolesForMember')
+    security.declarePrivate('setTeamRolesForMember')
     def setTeamRolesForMember(self, mem_id, roles):
         """
         See IOpenTeam.
@@ -100,7 +101,7 @@ class OpenTeam(Team):
 
         roles_map[mem_id] = list(roles)
 
-    security.declarePrivate('getRolesForMember')
+    security.declarePrivate('getTeamRolesForMember')
     def getTeamRolesForMember(self, mem_id):
         """
         See IOpenTeam.
@@ -110,6 +111,19 @@ class OpenTeam(Team):
         if roles_map is not marker:
             roles = roles_map.get(mem_id, [])
         return roles
+
+    security.declarePrivate('getHighestTeamRoleForMember')
+    def getHighestTeamRoleForMember(self, mem_id):
+        """
+        See IOpenTeam.
+        """
+        roles = self.getTeamRolesForMember(mem_id)
+        highest_index = 0
+        for role in roles:
+            index = DEFAULT_ROLES.index(role)
+            if index > highest_index:
+                highest_index = index
+        return DEFAULT_ROLES[index]
 
     security.declarePublic('join')
     def join(self):
