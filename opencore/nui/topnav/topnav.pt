@@ -20,7 +20,7 @@
         <!--label for="searchGadget" class="hiddenStructure">Search Site</label-->
       </a>
 
-      <input id="searchGadget" name="search_string"
+      <input id="searchGadget" name="search_for"
              type="text" size="10" title="Search Site"
              accesskey="4" class="oc-input-typeText" />
 
