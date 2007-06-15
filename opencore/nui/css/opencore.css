@@ -849,7 +849,7 @@ height: 1em;
 }
 .oc-widget-lastModified td {
   border-bottom: none;
-	padding-left: 0;
+  padding: .25em .5em;
 }
 
 /* Feeds */

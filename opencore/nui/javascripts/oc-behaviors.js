@@ -650,15 +650,16 @@ OC.LiveEdit = function(extEl) {
 */
 OC.SearchLinks = function(extEl) {
   // get references
-  var form = extEl;
-  var peopleLink = Ext.get(Ext.query('.oc-search-people', form.dom)[0]);
-  var projectsLink = Ext.get(Ext.query('.oc-search-projects', form.dom)[0]);
-  var everythingLink = Ext.get(Ext.query('.oc-search-everything', form.dom)[0]);
-  var links = Ext.select(Ext.query('a' ,form.dom));
-  var text = Ext.get(Ext.query('input[type=text]', form.dom)[0]);
+  var form = extEl.dom.getElementsByTagName('form')[0];
+  var links = Ext.select(Ext.query('a' ,form));
+  var text = Ext.get(Ext.query('input[type=text]', form)[0]);
   
-  // find current searc & replace
-
+  // check refs
+  if (!form || !links || !text) {
+    OC.debug("SearchLinks: could not get element refs");
+  } else {
+    OC.debug("SearchLinks: got element refs");
+  }
   
   function _linksMouseover(e, el, o) {
     // find current value
@@ -668,7 +669,7 @@ OC.SearchLinks = function(extEl) {
     var origQuery = params[0];
       
     // get form value
-    var newQuery = YAHOO.util.Connect.setForm(form.dom);
+    var newQuery = YAHOO.util.Connect.setForm(form);
     
     // replace link 
     el.href = el.href.replace(origQuery, newQuery);    
