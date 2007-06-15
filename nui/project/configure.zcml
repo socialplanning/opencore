@@ -22,6 +22,14 @@
       for="opencore.interfaces.IProject"
       class=".view.ProjectContentsView"
       permission="zope2.View"
+      name="item_table_snippet"
+      template="item_table_snippet.pt"
+      />
+
+   <browser:page
+      for="opencore.interfaces.IProject"
+      class=".view.ProjectContentsView"
+      permission="zope2.View"
       name="contents"
       template="contents.pt"
       />

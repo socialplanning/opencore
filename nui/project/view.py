@@ -24,7 +24,8 @@ from opencore.nui.main import SearchView
 class ProjectContentsView(BaseView):
 
     contents_row_snippet = ZopeTwoPageTemplateFile('item_row.pt')
-    
+    item_table_snippet = ZopeTwoPageTemplateFile('item_table_snippet.pt')
+
     _portal_type = {'pages': "Document",
                     'lists': "Open Mailing List",
                     'files': ("FileAttachment", "Image")
@@ -105,7 +106,8 @@ class ProjectContentsView(BaseView):
 
     def _sorted_items(self, item_type, sort_by=None):
         brains = self.catalog(portal_type=self._portal_type[item_type],
-                              path=self.project_path)
+                              path=self.project_path,
+                              sort_on=sort_by)
         needed_values = self.needed_values[item_type]
         ret = []
         for brain in brains:
@@ -163,14 +165,12 @@ class ProjectContentsView(BaseView):
 
     def resort(self):
         item_type = self.request.form.get("item_type")
-        if not item_type: return
+        if item_type not in self._portal_type: return
 
         sort_by = self.request.form.get("sort_by")
         
-        item_getter = getattr(self, '_sorted_%s' % item_type, None)
-        if not items: return
-
-        items = item_getter(sort_by)
+        items = self._sorted_items(item_type, sort_by)
+        return self.item_table_snippet(items=items, item_type=item_type)
 
     @formhandler.octopus
     def modify_contents(self, action, sources, fields=None):
