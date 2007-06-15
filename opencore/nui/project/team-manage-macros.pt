@@ -1,0 +1,215 @@
+<tal:vars
+   define="global team_manage_macros view/team_manage_macros/macros" />
+
+<!-- "PENDING" LISTS (MEMBERSHIP REQUESTS AND INVITATIONS) -->
+
+<metal:pendingrow define-macro="pendingrow">
+  <tr class="oc-liveItem" tal:attributes="id item/id">
+
+    <td>
+      <input type="checkbox" name="batch[]"
+             tal:attributes="value item/id" />
+    </td>
+
+    <td>
+      <div class="oc-liveItem-value"
+           tal:content="item/getId">
+      </div>
+    </td>
+
+    <td metal:define-slot="status" />
+
+    <td metal:define-slot="requesteddate" />
+
+  </tr>
+</metal:pendingrow>
+
+
+<metal:pendingrequest
+   define-macro="pendingrequest">
+  <tr metal:use-macro="team_manage_macros/pendingrow">
+
+    <td metal:fill-slot="status"
+        tal:content="string:needs approval" />
+
+    <td metal:fill-slot="requesteddate"
+        tal:content="item/CreationDate" />
+
+  </tr> <!-- end pendingrow -->
+
+</metal:pendingrequest>
+
+
+<metal:pendinginvitation
+   define-macro="pendinginvitation">
+  <tr metal:use-macro="team_manage_macros/pendingrow">
+
+    <td metal:fill-slot="status"
+        tal:content="string:needs approval" />
+
+    <td metal:fill-slot="requesteddate"
+        tal:content="item/CreationDate" />
+
+  </tr> <!-- end pendingrow -->
+
+</metal:pendinginvitation>
+
+
+<metal:requestbuttons
+   define-macro="requestbuttons">
+
+  <li>
+    <button type="submit" name="task" value="approve"
+            class="oc-button" >approve</button>
+  </li>
+  <li>
+    <button type="submit" name="task" value="discard"
+            class="oc-button" >discard</button>
+  </li>
+  <li>
+    <button type="submit" name="task" value="reject"
+            class="oc-button" >reject</button>
+  </li>
+  <li>
+    <button type="submit" name="task" value="reject_msg"
+            class="oc-button" >reject with message</button>
+  </li>
+
+</metal:requestbuttons>
+
+
+<metal:invitationbuttons
+   define-macro="invitationbuttons">
+
+  <li>
+    <button type="submit" name="task" value="remove"
+            class="oc-button" >remove</button>
+  </li>
+  <li>
+    <button type="submit" name="task" value="send_reminder"
+            class="oc-button" >send reminder</button>
+  </li>
+
+</metal:invitationbuttons>
+
+
+<metal:pendinglist define-macro="pendinglist">
+  <div class="oc-widget oc-widget-dataTable">
+
+    <div class="oc-heading">
+      <h3 tal:content="string:$item_heading ($num_items)" />
+    </div>
+
+    <div class="oc-searchresults-nresults">
+      1-20 of 55
+    </div>
+    
+    <form class="oc-liveForm" action="modify-contents">
+      <input type="hidden" name="item_type"
+	     tal:attributes="value item_type" />
+      <table class="oc-dataTable" cellpadding="0" cellspacing="0">
+
+        <thead>
+          <tr>
+            <th class="oc-dataTable-checkBoxColumn"><input type="checkbox" class="oc-checkAll" /></th>
+            <th scope="col"><a class="oc-columnSortable oc-selected" href="">Username &darr;</a></th>
+            <th scope="col"><a class="oc-columnSortable" href="">Status</a></th>
+            <th scope="col"><a class="oc-columnSortable" href="">Date requested</a></th>
+          </tr>
+        </thead>
+
+	<tbody>
+
+          <tal:items repeat="item item_collection">
+            <tr metal:use-macro="python:team_manage_macros.get('pending%s' % item_type)" />
+          </tal:items>
+
+	</tbody>
+
+      </table>
+
+      <ul class="oc-actions oc-dataTable-actions">
+        <metal:buttons use-macro="python:team_manage_macros.get('%sbuttons' % item_type)" />
+      </ul>
+    </form>
+  </div> <!-- end .oc-widget-dataTable -->
+</metal:pendinglist>
+
+
+<!-- ACTIVE TEAM MEMBER LIST  -->
+
+<metal:mshiplist define-macro="mshiplist">
+  <div class="oc-widget oc-widget-dataTable"
+       tal:define="mships view/active_mships;
+                   num_items python:len(mships)">
+
+    <div class="oc-heading">
+      <h3 tal:content="string:Your team members ($num_items)" />
+    </div>
+
+    <div class="oc-searchresults-nresults">
+      1-20 of 55
+    </div>
+    
+    <form class="oc-liveForm" action="modify-contents">
+      <table class="oc-dataTable" cellpadding="0" cellspacing="0">
+
+        <thead>
+          <tr>
+            <th class="oc-dataTable-checkBoxColumn"><input type="checkbox" class="oc-checkAll" /></th>
+            <th scope="col"><a class="oc-columnSortable oc-selected" href="">Username &darr;</a></th>
+            <th scope="col"><a class="oc-columnSortable" href="">Role</a></th>
+            <th scope="col"><a class="oc-columnSortable" href="">Effective since</a></th>
+            <th scope="col"><a class="oc-columnSortable" href="">Listed</a></th>
+          </tr>
+        </thead>
+
+	<tbody>
+
+          <tal:items repeat="item mships">
+
+            <tr class="oc-liveItem" tal:attributes="id item/id">
+
+              <td>
+                <input type="checkbox" name="batch[]"
+                       tal:attributes="value item/id" />
+              </td>
+
+              <td>
+                <div class="oc-liveItem-value"
+                     tal:content="item/getId">
+                </div>
+              </td>
+
+              <td>
+                <div class="oc-liveItem-value"
+                     tal:content="item/role">
+                </div>
+              </td>
+
+              <td>
+                <div class="oc-liveItem-value"
+                     tal:content="item/active_since">
+                </div>
+              </td>
+
+              <td>
+                <div class="oc-liveItem-value"
+                     tal:content="item/review_state">
+                </div>
+              </td>
+
+            </tr>
+
+          </tal:items>
+
+	</tbody>
+
+      </table>
+
+      <ul class="oc-actions oc-dataTable-actions">
+        <metal:buttons use-macro="team_manage_macros/invitationbuttons" />
+      </ul>
+    </form>
+  </div> <!-- end .oc-widget-dataTable -->
+</metal:mshiplist>
