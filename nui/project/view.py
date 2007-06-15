@@ -111,8 +111,7 @@ class ProjectContentsView(BaseView):
         needed_values = self.needed_values[item_type]
         ret = []
         for brain in brains:
-            d = self._make_dict_and_translate(brain, needed_values)
-            ret.append(d)
+            ret.append(self._make_dict_and_translate(brain, needed_values))
         return ret
 
     @memoizedproperty
