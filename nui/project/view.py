@@ -9,6 +9,7 @@ from Products.CMFPlone.utils import transaction_note
 from plone.memoize.instance import memoize, memoizedproperty
 from plone.memoize.view import memoize_contextless
 from plone.memoize.view import memoize as req_memoize
+
 from opencore.interfaces import IAddProject, IAddSubProject 
 from opencore.interfaces.event import AfterProjectAddedEvent, \
       AfterSubProjectAddedEvent
@@ -24,6 +25,11 @@ class ProjectContentsView(BaseView):
 
     contents_row_snippet = ZopeTwoPageTemplateFile('item_row.pt')
     
+    _portal_type = {'pages': "Document",
+                    'lists': "Open Mailing List",
+                    'files': ("FileAttachment", "Image")
+                    }
+
     needed_values = {'pages':{'id':('getId',),
                               'title':('Title',),
                               'url':('getURL',
@@ -78,7 +84,7 @@ class ProjectContentsView(BaseView):
 
     @memoizedproperty
     def tasktracker_url(self): 
-        # XXX todo all this logic prob ought be in opencore.tasktracker
+        # XXX todo all this logic prob ought be in opencore.tasktracker.
 
         loc = tt_uri.get_external_uri()
 
@@ -97,32 +103,31 @@ class ProjectContentsView(BaseView):
     def project_path(self):
         return '/'.join(self.context.getPhysicalPath())
 
-    @memoizedproperty
-    def pages(self):
-        brains = self.catalog(portal_type="Document",
+    def _sorted_items(self, item_type, sort_by=None):
+        brains = self.catalog(portal_type=self._portal_type[item_type],
                               path=self.project_path)
-        needed_values = self.needed_values['pages']
+        needed_values = self.needed_values[item_type]
         ret = []
         for brain in brains:
             d = self._make_dict_and_translate(brain, needed_values)
-            if d['id'] == 'project-home':
-                d['uneditable'] = True
             ret.append(d)
         return ret
 
     @memoizedproperty
+    def pages(self):
+        objs = self._sorted_items('pages')
+        for d in objs:
+            if d['id'] == 'project-home':
+                d['uneditable'] = True
+        return objs
+
+    @memoizedproperty
     def lists(self):
-        brains = self.catalog(portal_type="Open Mailing List",
-                              path=self.project_path)
-        needed_values = self.needed_values['lists']
-        return [self._make_dict_and_translate(brain, needed_values) for brain in brains]
+        return self._sorted_items('lists')
 
     @memoizedproperty
     def files(self):
-        brains = self.catalog(portal_type=("FileAttachment","Image"),
-                              path=self.project_path)
-        needed_values = self.needed_values['files']
-        return [self._make_dict_and_translate(brain, needed_values) for brain in brains]
+        return self._sorted_items('files')
 
     @memoizedproperty
     def editable(self):
@@ -155,6 +160,17 @@ class ProjectContentsView(BaseView):
             if child_ids: # deletion failed, we've a problem
                 surviving_children.extend(child_ids)
         return surviving_children
+
+    def resort(self):
+        item_type = self.request.form.get("item_type")
+        if not item_type: return
+
+        sort_by = self.request.form.get("sort_by")
+        
+        item_getter = getattr(self, '_sorted_%s' % item_type, None)
+        if not items: return
+
+        items = item_getter(sort_by)
 
     @formhandler.octopus
     def modify_contents(self, action, sources, fields=None):
