@@ -10,14 +10,23 @@
     class="Products.OpenPlans.content.project.OpenProject"
     interface="opencore.interfaces.IOpenSiteRoot" />
 
-
-  <browser:page
-     for="opencore.interfaces.IOpenSiteRoot"
+  <browser:pages
      class=".accountview.LoginView"
-     permission="zope.Public"
-     name="login"
-     template="login.pt"
-     />
+     for="opencore.interfaces.IOpenSiteRoot"
+     permission="zope.Public">
+    <page name="login"
+	  template="login.pt"
+	  />
+    <page name="require_login"
+	  attribute="require_login"
+	  />
+    <page name="logout"
+	  attribute="logout"
+	  />
+    <page name="insufficient_privileges"
+	  template="insufficient_privileges.pt"
+	  />
+  </browser:pages>
 
   <browser:page
      for="opencore.interfaces.IOpenSiteRoot"
@@ -31,6 +40,7 @@
      for="opencore.interfaces.IOpenSiteRoot"
      class=".accountview.ConfirmAccountView"
      permission="zope.Public"
+     attribute="handle_confirmation"
      name="confirm-account"
      />
 

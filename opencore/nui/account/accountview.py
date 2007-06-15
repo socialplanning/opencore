@@ -10,24 +10,9 @@ from opencore.nui.formhandler import button, post_only, anon_only
 from opencore.siteui.member import notifyFirstLogin
 from plone.memoize import instance
 from smtplib import SMTPRecipientsRefused, SMTP
-from zExceptions import Forbidden, Redirect
+from zExceptions import Forbidden, Redirect, Unauthorized
 from App import config
 import socket
-
-
-
-def email_confirmation():
-    """get email confirmation mode from zope.conf"""
-    cfg = config.getConfiguration().product_config.get('opencore.nui')
-    if cfg:
-        val = cfg.get('email-confirmation', 'True').title()
-        if val == 'True':
-            return True
-        elif val == 'False':
-            return False
-        else:
-            raise ValueError('email-confirmation should be "True" or "False"')
-    return True # the default
 
 
 class AccountView(BaseView):
@@ -35,6 +20,8 @@ class AccountView(BaseView):
     base class for views dealing with accounts
     distinguised by its login functionality
     """
+
+    add_status_message = BaseView.addPortalStatusMessage
 
     @property
     def auth(self):
@@ -53,20 +40,12 @@ class AccountView(BaseView):
         return self.auth.updateCredentials(self.request, self.response,
                                            member_id, None)
 
+    @property
+    def login_url(self):
+        return "%s/login" %(self.context.absolute_url(), )
+
 
 class LoginView(AccountView):
-
-    @property
-    def referer(self):
-        return self.request.get('came_from', '')
-
-    @property
-    def destination(self):
-        """where you go after you're logged in"""
-        retval = self.referer
-        if not retval:
-            retval = '%s/profile' %self.home_url
-        return retval
 
     @button('login')
     @post_only(raise_=False)
@@ -79,8 +58,68 @@ class LoginView(AccountView):
 
         self.addPortalStatusMessage('Login failed')
             
-        if self.referer:
-            self.addPortalStatusMessage('Hey! you came from %s' %self.referer)
+##         if self.referer:
+##             self.addPortalStatusMessage('Hey! you came from %s' %self.referer)
+
+    @property
+    def referer(self):
+        return self.request.get('came_from', '')
+
+    def require_login(self):
+        if self.loggedin is False:
+            return self.redirect(self.login_url)
+        return self.redirect('insufficient_privileges')
+
+    def already_loggedin(self):
+        if self.loggedin and self.request.get('loggedout'):
+            return self.http_root_logout
+        if self.loggedin:
+            return True
+
+    @property
+    def destination(self):
+        """where you go after you're logged in"""
+        retval = self.referer
+        if not retval:
+            if self.home_url:
+                retval = '%s/profile' %self.home_url
+            else:
+                retval = self.siteURL
+        return retval
+
+    def logout(self, redirect=None):
+        logout = self.cookie_logout
+
+        self.invalidate_session()
+            
+        self.add_status_message("You are logged out")
+        
+        if redirect is None:
+            redirect = self.login_url
+            
+        self.redirect("%s?loggedout=yes" %redirect)
+
+    @property
+    def cookie_logout(self):
+        self.context.acl_users.logout(self.request)
+    
+    @property
+    def http_root_logout(self):
+        raise Redirect("%s/manage_zmi_logout" %self.context.getPhysicalRoot().absolute_url())
+        
+    def invalidate_session(self):
+        # Invalidate existing sessions, but only if they exist.
+        sdm = self.get_tool('session_data_manager')
+        if sdm is not None:
+            session = sdm.getSessionData(create=0)
+        if session is not None:
+            session.invalidate()
+
+    def privs_redirect(self):
+        self.add_status_message("Insufficient Privileges")
+        if not self.loggedin:
+            self.redirect(self.login_url)
+            
 
 
 class JoinView(BaseView):
@@ -197,7 +236,7 @@ class ConfirmAccountView(AccountView):
         pf.doActionFor(member, 'register_public')
         delattr(member, 'isConfirmable')
         
-    def __call__(self, *args, **kw):
+    def handle_confirmation(self, *args, **kw):
         member = self.member
         if not member:
             self.addPortalStatusMessage(u'Denied -- bad key')
@@ -339,3 +378,17 @@ class PasswordResetView(AccountView):
         except "ExpiredRequestError": # XXX rollie?
             raise Forbidden, "YOUR KEY HAS EXPIRED. Please try again"
         return key
+
+
+def email_confirmation():
+    """get email confirmation mode from zope.conf"""
+    cfg = config.getConfiguration().product_config.get('opencore.nui')
+    if cfg:
+        val = cfg.get('email-confirmation', 'True').title()
+        if val == 'True':
+            return True
+        elif val == 'False':
+            return False
+        else:
+            raise ValueError('email-confirmation should be "True" or "False"')
+    return True # the default
