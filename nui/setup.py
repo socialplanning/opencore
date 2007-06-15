@@ -89,3 +89,10 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      )
 
 nui_functions['Update Method Aliases']=convertFunc(set_method_aliases)
+
+def run_nui_setup(portal):
+    pm = portal.portal_migration
+    import transaction as txn
+    pm.alterItems('TOPP Setup', items=['NUI_setup'])
+    txn.commit()
+    
