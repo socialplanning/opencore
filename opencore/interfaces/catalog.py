@@ -1,4 +1,5 @@
 from zope.interface import Interface
+from zope.interface.common.mapping import IReadMapping
 
 class IIndexingGhost(Interface):
 
@@ -20,3 +21,6 @@ class ILastWorkflowActor(Interface):
 
 class ILastModifiedAuthorId(Interface):
     """string id for last author to modify a piece of content"""
+
+class IMetadataDictionary(IReadMapping):
+    """a dictionary of all the metadata stored for an object"""
