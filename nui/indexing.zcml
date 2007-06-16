@@ -13,4 +13,8 @@
      factory="opencore.nui.indexing.LastWorkflowActor"
      />
 
+  <adapter factory=".indexing.metadata_for_brain" />
+
+  <adapter factory=".indexing.metadata_for_portal_content" />
+
 </configure>
