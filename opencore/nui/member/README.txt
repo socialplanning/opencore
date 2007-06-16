@@ -12,10 +12,5 @@ Test registration of member related views::
     >>> m1_folder.restrictedTraverse("profile")
     <...SimpleViewClass ...profile.pt object...>
     
-    >>> m1_folder.restrictedTraverse("contact")
-    <...SimpleViewClass ...contact.pt ...>
-
-This one will need a method alias (projects -> @@projects should work?)::
-
-    >>> m1_folder.restrictedTraverse("@@preferences")
-    <...SimpleViewClass from ...preferences.pt...>
+    >>> m1_folder.restrictedTraverse("preferences")
+    <...SimpleViewClass ...preferences.pt ...>
