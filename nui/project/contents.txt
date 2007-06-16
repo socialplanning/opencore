@@ -112,6 +112,7 @@ We can also issue the request asynchronously::
 
 Deletes work the same way::
 
+    >>> utils.clear_all_memos(view)
     >>> request = self.portal.REQUEST
     >>> form = {'task': 'new1_delete',
     ...         'item_type': 'pages',
