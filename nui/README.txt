@@ -15,7 +15,7 @@ opencore.nui.base
     DateTime('...')
 
     >>> view.dob
-    'Today'
+    'today'
     
     >>> view.siteURL
     'http://nohost/plone'
@@ -127,7 +127,7 @@ Member info
      'id': 'test_user_1_',
      'lastlogin': 'January 1, 2000',
      'location': '',
-     'membersince': 'Today',
+     'membersince': 'today',
      'portrait_url': '++resource++img/default-portrait.jpg',
      'skills': '',
      'statement': '',
