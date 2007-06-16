@@ -1,8 +1,14 @@
+from Acquisition import aq_parent
+from Products.CMFCore.interfaces._content import IDynamicType
+from Products.CMFCore.interfaces._tools import ICatalogTool
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.CatalogTool import registerIndexableAttribute
 from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
-from Products.CMFCore.utils import getToolByName
+from Products.ZCatalog.CatalogBrains import AbstractCatalogBrain
+from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, IIndexingGhost, IMetadataDictionary
 from opencore.nui.project.metadata import registerMetadataGhost
-from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, IIndexingGhost
+from zope.component import adapter
+from zope.interface import Interface
 from zope.interface import implements, implementer
 
 _marker = object()
@@ -49,13 +55,30 @@ class LastWorkflowActor(object):
         status = wftool.getStatusOf(wf_id, self.context)
         return status.get('actor')
 
-
 @implementer(ILastModifiedAuthorId)
 def authenticated_memberid(context):
     mtool = getToolByName(context, 'portal_membership')
     mem = mtool.getAuthenticatedMember()
     return mem.getId()
 
+
+
+@adapter(AbstractCatalogBrain)
+@implementer(IMetadataDictionary)
+def metadata_for_brain(brain):
+    rid = brain.getRID()
+    catalog = aq_parent(brain)
+    metadata = catalog.getMetadataForRID(rid)
+    metadata['getURL']=brain.getURL()
+    return metadata
+
+@adapter(IDynamicType, ICatalogTool)
+@implementer(IMetadataDictionary)
+def metadata_for_portal_content(context, catalog):
+    uid = '/'.join(context.getPhysicalPath())
+    metadata = catalog.getMetadataForUID(uid)
+    metadata['getURL']=context.absolute_url()
+    return metadata
 
 class MetadataGhost(object):
     """
