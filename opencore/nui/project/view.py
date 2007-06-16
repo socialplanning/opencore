@@ -1,4 +1,5 @@
 from zope import event
+from zope.component import getMultiAdapter
 from zExceptions import BadRequest, Redirect
 from Acquisition import aq_parent
 
@@ -10,9 +11,11 @@ from plone.memoize.instance import memoize, memoizedproperty
 from plone.memoize.view import memoize_contextless
 from plone.memoize.view import memoize as req_memoize
 
-from opencore.interfaces import IAddProject, IAddSubProject 
+from opencore.interfaces import IAddProject, IAddSubProject
+from opencore.interfaces.catalog import IMetadataDictionary 
 from opencore.interfaces.event import AfterProjectAddedEvent, \
       AfterSubProjectAddedEvent
+
 from opencore.project.utils import get_featurelets
 from opencore.tasktracker import uri as tt_uri
 from opencore.content.membership import OpenMembership
@@ -20,6 +23,16 @@ from opencore.content.membership import OpenMembership
 from opencore.nui import formhandler
 from opencore.nui.base import BaseView
 from opencore.nui.main import SearchView
+
+_marker = object()
+
+def vdict(**extra): 
+    base=dict(id='getId',
+              title='Title',
+              url='getURL',
+              obj_size='getObjSize')
+    base.update(extra)
+    return base 
 
 class ProjectContentsView(BaseView):
 
@@ -31,48 +44,50 @@ class ProjectContentsView(BaseView):
                     'files': ("FileAttachment", "Image")
                     }
 
-    needed_values = {'pages':{'id':('getId',),
-                              'title':('Title',),
-                              'url':('getURL',
-                                     'absolute_url',),
-                              'obj_size':('getObjSize',),
-                              'obj_date':('ModificationDate',),
-                              'obj_author':('lastModifiedAuthor',),
-                              },
-                     'files':{'id':('getId',),
-                              'title':('Title',),
-                              'url':('getURL',
-                                     'absolute_url',),
-                              'obj_size':('getObjSize',),
-                              'obj_date':('Date',),
-                              'obj_author':('Creator',),
-                              },
-                     'lists':{'id':('getId',),
-                              'title':('Title',),
-                              'url':('getURL',
-                                     'absolute_url',),
-                              'obj_size':('getObjSize',),
-                              'obj_date':('Date',),
-                              'obj_author':('Creator',),
-                              },
-                     }
-    
+    needed_values = dict(pages=vdict(obj_date='ModificationDate',
+                                     obj_author='lastModifiedAuthor'),
+                         files=vdict(obj_date='Date',
+                                     obj_author='Creator'),
+                         lists=vdict(obj_date='Date',
+                                     obj_author='Creator'),
+                         )
+
+    def retrieve_metadata(self, obj):
+        ## DWM: not sure adaptation gives a real advantage here
+        try:
+            metadata = IMetadataDictionary(obj)
+        except TypeError:
+            metadata = getMultiAdapter((obj, self.catalog), IMetadataDictionary)
+        return metadata
+
     def _make_dict_and_translate(self, obj, needed_values):
+        # could probably fold this map a bit
         obj_dict = {}
+        metadata = self.retrieve_metadata(obj)
+        
         for field in needed_values: # loop through fields that we need
-            has_accessor = False
-            for obj_field in needed_values[field]: # loop through object-specific ways of getting the field
-                if hasattr(obj, obj_field):
-                    val = getattr(obj, obj_field)
-                    has_accessor = True
-                    break
+            val=_marker
+            val = metadata.get(needed_values[field], _marker)
+
+            if val is not _marker:
+                obj_dict[field] = val
+            else:
+                raise KeyError("field is missing: %s -- %s" %(field, obj))
+##                 continue
+            
+##             has_accessor = False
+##             for obj_field in needed_values[field]: # loop through object-specific ways of getting the field
+##                 if hasattr(obj, obj_field):
+##                     val = getattr(obj, obj_field)
+##                     has_accessor = True
+##                     break
                 
-            if not has_accessor:
-                raise Exception("Could not fetch a %s value from the object %s among the accessors %s!" % (
-                        field, obj, list(needed_values[field])))
-            if callable(val): val = val()
-            if 'date' in field: val = self.pretty_date(val)  # would be fun to genericize this and pass in
-            obj_dict[field] = val
+##             if not has_accessor:
+##                 raise Exception("Could not fetch a %s value from the object %s among the accessors %s!" % (
+##                         field, obj, list(needed_values[field])))
+##             if callable(val): val = val()
+##             if 'date' in field: val = self.pretty_date(val)  # would be fun to genericize this and pass in
+##             obj_dict[field] = val
         return obj_dict
 
     @memoizedproperty
