@@ -5,7 +5,8 @@
 
       <div id="oc-content-main">
         
-        <tal:set_var define="current_search_page string:sitesearch">
+        <tal:set_var define="current_search_page string:sitesearch;
+			     form_action_url string:${context/portal_url}/sitesearch">
         <div metal:use-macro="here/main_macros/search_widget" />
         </tal:set_var>
         
