@@ -1,0 +1,37 @@
+Formlite. 
+
+   >>> from opencore.nui.formhandler import FormLite, action
+   >>> class FormTest(FormLite):
+   ...     request = type('request', (object,), dict(form={}))()
+   ...     @action('roklok')
+   ...     def do_roklok(self):
+   ...         print "Rock!"
+   ...         
+   ...     @action('sod')    
+   ...     def do_sign_of_devil(self):
+   ...         print "eggs of the devil!"
+
+   >>> view = FormTest()
+
+The dispatch methods are loaded into a dictlike object::
+
+   >>> pprint(view.actions)
+   {'roklok': <opencore.nui.formhandler.Action object at ...>,
+    'sod': <opencore.nui.formhandler.Action object at ...>}
+
+The dispatcher is dumb as a rock.  Whatever action it finds first, it executes::
+
+   >>> view.request.form['sod']=True
+   >>> view.handle_request()
+   eggs of the devil!
+   
+   >>> del view.request.form['sod']
+
+A request with no actions will pass with incident::
+
+   >>> view.handle_request()
+
+Methods still work as normal
+
+   >>> view.do_roklok()
+   Rock!
