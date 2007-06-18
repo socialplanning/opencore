@@ -42,10 +42,12 @@
     </td>
     <td>
       <tal:dummy replace="item/obj_date" />
-      by
-      <a tal:attributes="href string:${view/siteURL}/people/${item/obj_author}">
-        <tal:dummy replace="item/obj_author" />
-      </a>
+      <tal:setvar define="author item/obj_author" condition="author">
+	by
+	<a tal:attributes="href string:${view/siteURL}/people/${author}">
+          <tal:dummy replace="author" />
+	</a>
+      </tal:setvar>
     </td>
     <td tal:condition="view/editable">
       <ul class="oc-actions oc-dataTable-row-actions">
