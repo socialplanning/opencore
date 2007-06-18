@@ -57,10 +57,18 @@
             <dt>Personal Statement</dt>
             <dd tal:content="data/statement" />
           </tal:block>
+          <tal:self_block condition="python: view.viewingself() and not data['statement']">
+            <dt>Personal Statement</dt>
+            <dd><a href="profile-edit#personal-statement">Edit</a></dd>
+          </tal:self_block>
           <tal:block condition="data/background">
             <dt>Background</dt>
             <dd tal:content="data/background" />
           </tal:block>
+          <tal:self_block condition="python: view.viewingself() and not data['background']">
+            <dt>Background</dt>
+            <dd><a href="profile-edit#background">Edit</a></dd>
+          </tal:self_block>
           <tal:block condition="skills">
             <dt>Skills/Interests</dt>
             <dd>
@@ -69,6 +77,10 @@
               </ul>
             </dd>
           </tal:block>
+          <tal:self_block condition="python: view.viewingself() and not skills">
+            <dt>Skills/Interests</dt>
+            <dd><a href="profile-edit#skills">Edit</a></dd>
+          </tal:self_block>
           <tal:block condition="affils">
             <dt>Affiliations</dt>
             <dd>
@@ -77,6 +89,10 @@
               </ul>
             </dd>
           </tal:block>
+          <tal:self_block condition="python: view.viewingself() and not affils">
+            <dt>Affiliations</dt>
+            <dd><a href="profile-edit#affiliations">Edit</a></dd>
+          </tal:self_block>
           <tal:block condition="favs">
             <dt>Favorites</dt>
             <dd>
@@ -85,6 +101,10 @@
               </ul>
             </dd>
           </tal:block>
+          <tal:self_block condition="python: view.viewingself() and not favs">
+            <dt>Favorites</dt>
+            <dd><a href="profile-edit#favorites">Edit</a></dd>
+          </tal:self_block>
         </dl>
       </div><!-- end #oc-content-main -->
 
