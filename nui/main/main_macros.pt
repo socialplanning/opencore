@@ -1,6 +1,6 @@
 <div metal:define-macro="search_widget" class="oc-widget oc-widget-search oc-widget-multiSearch oc-boxy">    
   <!--<h1 class="oc-biggerText">Search</h1>-->
-  <form name="search_form" action="." tal:attributes="action string:${context/portal_url}/sitesearch"
+  <form name="search_form" action="." tal:attributes="action form_action_url"
   tal:define="letter_search request/letter_search | string:; search_for request/search_for | string:">
     
      <label class="oc-label-heading oc-biggerText">Search</label>
