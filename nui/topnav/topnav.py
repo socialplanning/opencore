@@ -87,7 +87,10 @@ class ProjectMenuView(BaseView):
         result = False
         proj = self.piv.project
         if proj is not None:
-            proj_home = proj._getOb(proj.getDefaultPage())
+            proj_home = None
+            dp = proj.getDefaultPage()
+            if dp:
+                proj_home = proj._getOb(dp)
             if self.context == proj_home:
                 result = True
         return result
