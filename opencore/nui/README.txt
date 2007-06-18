@@ -127,7 +127,7 @@ Member info
      'id': 'test_user_1_',
      'lastlogin': 'January 1, 2000',
      'location': '',
-     'membersince': 'today',
+     'membersince': 'Today',
      'portrait_url': '++resource++img/default-portrait.jpg',
      'skills': '',
      'statement': '',
