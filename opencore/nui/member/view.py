@@ -1,7 +1,6 @@
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import transaction_note
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from opencore.interfaces.event import AfterProjectAddedEvent #, AfterSubProjectAddedEvent
 from opencore.nui.base import BaseView, button
 from zExceptions import BadRequest
 from zExceptions import Redirect
@@ -14,11 +13,16 @@ class ProfileView(BaseView):
     def activity(self, max=5):
         """Returns a list of dicts describing each of the `max` most recently
         modified wiki pages for the viewed user."""
-        catalog = getToolByName(self.context, 'portal_catalog')
-        query = dict(Creator=self.viewedmember().getId(), portal_type='Document', sort_on='modified', sort_order='reverse')
-        brains = catalog.searchResults(**query)
+        query = dict(Creator=self.viewedmember().getId(),
+                     portal_type='Document',
+                     sort_on='modified',
+                     sort_order='reverse',
+                     limit=max)
+        brains = self.catalog.searchResults(**query)
+
+        # use a list comprehension and a function?
         items = []
-        for brain in brains[:max]:
+        for brain in brains:
             items.append({'title': brain.Title, 'url': brain.getURL(), 'date': prettyDate(brain.getRawCreation_date())})
         return items
 
@@ -28,15 +32,16 @@ class ProfileView(BaseView):
 
 class ProfileEditView(ProfileView):
 
-    def handle_request(self):
-        pass
-
+    # should we have separate forms?
+    # is this going to be ajax only. register a single handler for upload?
     def handle_form(self):
         usr = self.viewedmember()
         portrait = self.request.form.get('portrait')
         task = self.request.form.get('task')
         if task == 'upload':
             usr.setPortrait(portrait)
+            # use a snippet rather than sticking lots of html into
+            # code
             return { 'oc-profile-avatar' : '<div class=oc-avatar id=oc-profile-avatar><img src="%s" /><fieldset class=oc-expander style=clear: left;> <legend class=oc-legend-label><!-- TODO --><a href=# class=oc-expander-link>Change image</a></legend><div class=oc-expander-content><input type=file size=14 /><br /><button type=submit name=task value=oc-profile-avatar_uploadAndUpdate>Update</button> or <a href=#>remove image</a></div></fieldset></div>' % portrait.filename}
 
         # task == 'update'
