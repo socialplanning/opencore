@@ -72,7 +72,7 @@
      for="opencore.interfaces.IOpenSiteRoot"
      class=".accountview.JoinView"
      permission="zope.Public"
-     name="validate"
+     name="validate-member"
      attribute="validate"
      />
 
