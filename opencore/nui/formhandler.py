@@ -119,9 +119,6 @@ def deoctopize(func):
     return inner
 
 
-
-
-
 class FormLite(object):
     """formlike but definitely not formlib"""
 
