@@ -32,17 +32,18 @@ class ProfileView(BaseView):
 
 class ProfileEditView(ProfileView):
 
-    # should we have separate forms?
-    # is this going to be ajax only. register a single handler for upload?
+    portrait_snippet = ZopeTwoPageTemplateFile('portrait-snippet.pt')
+
+    # TODO fix ajax w/ nickyg
+    # TODO resize portrait
     def handle_form(self):
         usr = self.viewedmember()
         portrait = self.request.form.get('portrait')
         task = self.request.form.get('task')
         if task == 'upload':
             usr.setPortrait(portrait)
-            # use a snippet rather than sticking lots of html into
-            # code
-            return { 'oc-profile-avatar' : '<div class=oc-avatar id=oc-profile-avatar><img src="%s" /><fieldset class=oc-expander style=clear: left;> <legend class=oc-legend-label><!-- TODO --><a href=# class=oc-expander-link>Change image</a></legend><div class=oc-expander-content><input type=file size=14 /><br /><button type=submit name=task value=oc-profile-avatar_uploadAndUpdate>Update</button> or <a href=#>remove image</a></div></fieldset></div>' % portrait.filename}
+            usr.reindexObject()
+            return { 'oc-profile-avatar' : self.portrait_snippet()}
 
         # task == 'update'
         for field, value in self.request.form.items():
@@ -50,5 +51,7 @@ class ProfileEditView(ProfileView):
             mutator = getattr(usr, mutator, None)
             if mutator:
                 mutator(value)
+
+        usr.reindexObject()
 
         return self.redirect('profile')
