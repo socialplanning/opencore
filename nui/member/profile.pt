@@ -13,7 +13,6 @@
             <div class="oc-headingBlock">
               <h1 class="fn">
                 <span tal:content="data/id" />
-                <a tal:condition="view/viewingself" href="./profile-edit" class="oc-liveItem_showForm">Edit</a>
               </h1>
               <p class="oc-member-fullname n" tal:content="data/fullname" />
               <p class="oc-headingContext oc-discreetText">
@@ -23,7 +22,7 @@
             </div>
             <dl class="oc-member-info">
               <tal:location tal:condition="data/location">
-                <dt>Location</dt>
+                <dt>Location <a class="oc-actionLink" href="profile-edit#location">Edit</a></dt>
                 <dd class="adr" tal:content="data/location" />
               </tal:location>
               <dt>Projects</dt>
@@ -40,7 +39,7 @@
                 <tal:noprojects condition="not: usr/projectBrains">
                   none
                   <span tal:condition="view/viewingself">
-                    <a tal:attributes="href string:${view/siteURL}/projects">get involved</a>
+                    <a tal:attributes="href string:${view/siteURL}/projects">Get involved</a>
                   </span>
                 </tal:noprojects>
               </dd>
@@ -58,16 +57,16 @@
             <dd tal:content="data/statement" />
           </tal:block>
           <tal:self_block condition="python: view.viewingself() and not data['statement']">
-            <dt>Personal Statement</dt>
-            <dd>None<a href="profile-edit#personal-statement">Edit</a></dd>
+            <dt>Personal Statement <a class="oc-actionLink" href="profile-edit#personal-statement">Edit</a></dt>
+            <dd>None</dd>
           </tal:self_block>
           <tal:block condition="data/background">
             <dt>Background</dt>
             <dd tal:content="data/background" />
           </tal:block>
           <tal:self_block condition="python: view.viewingself() and not data['background']">
-            <dt>Background</dt>
-            <dd>None<a href="profile-edit#background">Edit</a></dd>
+            <dt>Background <a class="oc-actionLink" href="profile-edit#background">Edit</a></dt>
+            <dd>None</dd>
           </tal:self_block>
           <tal:block condition="skills">
             <dt>Skills/Interests</dt>
@@ -78,8 +77,8 @@
             </dd>
           </tal:block>
           <tal:self_block condition="python: view.viewingself() and not skills">
-            <dt>Skills/Interests</dt>
-            <dd>None<a href="profile-edit#skills">Edit</a></dd>
+            <dt>Skills/Interests <a class="oc-actionLink" href="profile-edit#skills">Edit</a></dt>
+            <dd>None</dd>
           </tal:self_block>
           <tal:block condition="affils">
             <dt>Affiliations</dt>
@@ -90,8 +89,8 @@
             </dd>
           </tal:block>
           <tal:self_block condition="python: view.viewingself() and not affils">
-            <dt>Affiliations</dt>
-            <dd>None<a href="profile-edit#affiliations">Edit</a></dd>
+            <dt>Affiliations <a class="oc-actionLink" href="profile-edit#affiliations">Edit</a></dt>
+            <dd>None</dd>
           </tal:self_block>
           <tal:block condition="favs">
             <dt>Favorites</dt>
@@ -102,8 +101,8 @@
             </dd>
           </tal:block>
           <tal:self_block condition="python: view.viewingself() and not favs">
-            <dt>Favorites</dt>
-            <dd>None<a href="profile-edit#favorites">Edit</a></dd>
+            <dt>Favorites <a class="oc-actionLink" href="profile-edit#favorites">Edit</a></dt>
+            <dd>None</dd>
           </tal:self_block>
         </dl>
       </div><!-- end #oc-content-main -->
