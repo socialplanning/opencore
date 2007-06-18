@@ -27,6 +27,7 @@ from zope.component import getMultiAdapter, adapts, adapter
 import urllib
 
 # XXX these shouldn't be imported here -- they aren't used in this file
+# jeff, they are imported as a convenience api here 
 from opencore.nui.formhandler import button, post_only, anon_only, octopus
 
 view.memoizedproperty = lambda func: property(view.memoize(func))
