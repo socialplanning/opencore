@@ -30,7 +30,7 @@ def vdict(**extra):
     base=dict(id='getId',
               title='Title',
               url='getURL',
-              obj_size='getObjSize')
+              )
     base.update(extra)
     return base 
 
@@ -47,9 +47,11 @@ class ProjectContentsView(BaseView):
     needed_values = dict(pages=vdict(obj_date='ModificationDate',
                                      obj_author='lastModifiedAuthor'),
                          files=vdict(obj_date='Date',
-                                     obj_author='Creator'),
+                                     obj_author='Creator',
+                                     obj_size='getObjSize'),
                          lists=vdict(obj_date='Date',
-                                     obj_author='Creator'),
+                                     obj_author='Creator',
+                                     obj_size='getObjSize'),
                          )
 
     def retrieve_metadata(self, obj):
@@ -68,7 +70,8 @@ class ProjectContentsView(BaseView):
         for field in needed_values: # loop through fields that we need
             val=_marker
             val = metadata.get(needed_values[field], _marker)
-
+            if 'date' in field:
+                val = self.pretty_date(val)
             if val is not _marker:
                 obj_dict[field] = val
             else:
