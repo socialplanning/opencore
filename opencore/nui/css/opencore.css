@@ -604,19 +604,12 @@ a.oc-button:hover {
 .oc-bcrumb .oc-bcrumb-current {
   font-size: 14px;
 }
-a.oc-close {
+.oc-actionClose,
+.oc-close {
   position: absolute;
-  top: 2px;
-  right: 2px;
-  color: red;
+  top: 0.5em;
+  right: 1em;
   display: block;
-  padding: 2px;
-  text-decoration: none;
-  font-weight: bold;
-}
-a.oc-close:hover {
-  background: red;
-  color: white;
 }
 .oc-message {
   background-color: #FFF6BF;
@@ -923,13 +916,9 @@ li.oc-invite .oc-avatar img {
   width: 75px;
 }
 li.oc-invite .oc-invite-content {
-  float: left;
-   clear: none;
-   margin: 0;
-   width: 25em; /* TODO: find a way not to specify width */
+   margin: 0 12em 0 0;
 }
 .oc-invite-actions {
-  float: right;
 }
 .oc-invite-actions li {
    display: inline;
