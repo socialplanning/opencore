@@ -47,7 +47,8 @@
         tal:content="string:needs approval" />
 
     <td metal:fill-slot="requesteddate"
-        tal:content="item/CreationDate" />
+        tal:define="creationdate item/CreationDate"
+        tal:content="python:view.pretty_date(creationdate)" />
 
   </tr> <!-- end pendingrow -->
 
@@ -62,7 +63,8 @@
         tal:content="string:needs approval" />
 
     <td metal:fill-slot="requesteddate"
-        tal:content="item/CreationDate" />
+        tal:define="creationdate item/CreationDate"
+        tal:content="python:view.pretty_date(creationdate)" />
 
   </tr> <!-- end pendingrow -->
 
@@ -166,7 +168,8 @@
       1-20 of 55
     </div>
     
-    <form class="oc-liveForm" action="modify-contents">
+    <form class="oc-liveForm" name="team-members" method="post"
+          tal:attributes="action view/formsubmit">
       <table class="oc-dataTable" cellpadding="0" cellspacing="0">
 
         <thead>
@@ -186,7 +189,7 @@
             <tr class="oc-liveItem" tal:attributes="id item/id">
 
               <td>
-                <input type="checkbox" name="batch[]"
+                <input type="checkbox" name="member_ids:list"
                        tal:attributes="value item/id" />
               </td>
 
@@ -202,13 +205,14 @@
 
               <td>
                 <div class="oc-liveItem-value"
-                     tal:content="item/active_since">
+                     tal:define="active_since item/active_since"
+                     tal:content="python:view.pretty_date(active_since)">
                 </div>
               </td>
 
               <td>
                 <div class="oc-liveItem-value"
-                     tal:content="item/review_state">
+                     tal:content="item/listed">
                 </div>
               </td>
 
@@ -222,8 +226,8 @@
 
       <ul class="oc-actions oc-dataTable-actions">
         <li>
-          <button type="submit" name="task" value="remove"
-                  class="oc-button" >remove members</button>
+          <button type="submit" name="remove-members:boolean"
+                  value="True" class="oc-button" >remove members</button>
         </li>
       </ul>
     </form>

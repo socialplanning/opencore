@@ -408,6 +408,10 @@ class ManageTeamView(TeamRelatedView):
     rolemap = {'ProjectAdmin': 'admin',
                'ProjectMember': 'member',
                }
+    listedmap = {'public': 'yes',
+                 'private': 'no',
+                 }
+    formsubmit = 'manage-team'
 
     @property
     @req_memoize
@@ -442,8 +446,9 @@ class ManageTeamView(TeamRelatedView):
         for brain in brains:
             data = {'id': brain.id,
                     'getId': brain.getId,
-                    'review_state': brain.review_state,
                     }
+
+            data['listed'] = self.listedmap[brain.review_state]
 
             made_active_date = brain.made_active_date
             if not made_active_date:
@@ -458,3 +463,19 @@ class ManageTeamView(TeamRelatedView):
     def getMemberURL(self, mem_id):
         mtool = self.get_tool('portal_membership')
         return mtool.getHomeUrl(mem_id)
+
+    @formhandler.button('remove-members')
+    def remove_members(self):
+        """
+        Doesn't actually remove the membership objects, just puts them
+        into an inactive workflow state.
+        """
+        mem_ids = request.get('member_ids')
+        wftool = self.get_tool('portal_workflow')
+        team = self.team
+        for mem_id in mem_ids:
+            mship = team._getOb(mem_id)
+            wftool.doActionFor(mship, 'deactivate')
+        self.addPortalStatusMessage(u'%d members deactivated' % len(mem_ids))
+        self.redirect('%s/manage-team' % self.context.absolute_url())
+        
