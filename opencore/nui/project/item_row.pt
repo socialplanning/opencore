@@ -37,7 +37,7 @@
         </a>
       </div>
     </td>
-    <td>
+    <td tal:condition="python:item_type!='pages'">
       <tal:dummy replace="item/obj_size" />
     </td>
     <td>

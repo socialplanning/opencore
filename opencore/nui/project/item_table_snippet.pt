@@ -33,7 +33,7 @@
           <th scope="col">
             <a class="oc-columnSortable oc-selected" href="">Title &darr;</a>
           </th>
-          <th scope="col">
+          <th scope="col" tal:condition="python:item_type!='pages'">
             <a class="oc-columnSortable" href="">Size</a>
           </th>
           <th scope="col">
@@ -74,7 +74,7 @@
     <thead>
       <tr>
         <th scope="col"><a class="oc-columnSortable oc-selected" href="">Title &darr;</a></th>
-        <th scope="col"><a class="oc-columnSortable" href="">Size</a></th>
+        <th scope="col" tal:condition="python:item_type!='pages'"><a class="oc-columnSortable" href="">Size</a></th>
         <th scope="col"><a class="oc-columnSortable" href="">
             <tal:dummy replace="item_date_author_header" />
         </a></th>
