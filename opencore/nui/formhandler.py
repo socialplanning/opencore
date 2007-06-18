@@ -1,5 +1,5 @@
 """Decorators for working with form submission"""
-
+import sys
 from zExceptions import Forbidden
 
 def button(name=None):
@@ -117,3 +117,61 @@ def deoctopize(func):
         self.request.form = octo_form
         return ret
     return inner
+
+
+
+
+
+class FormLite(object):
+    """formlike but definitely not formlib"""
+
+    def handle_request(self, raise_=False):
+        for key in self.actions:
+            if self.request.form.has_key(key):
+                return self.actions[key](self)
+        if raise_:
+            raise KeyError("No actions in request")
+                
+
+class Actions(dict):
+    """ functions registry """
+    __repr__ = dict.__repr__
+
+
+class Action(object):
+
+    def __init__(self, name, **options):
+        self.name = name
+        self.options = options
+
+    def __call__(self, view):
+        method = getattr(view, self.name)
+        return method(**self.options)
+
+
+class action(object):
+    # modfied from zope.formlib (ZPL)
+    def __init__(self, label, actions=None, **options):
+        caller_locals = sys._getframe(1).f_locals
+        if actions is None:
+            actions = caller_locals.get('actions')
+        if actions is None:
+            actions = caller_locals['actions'] = Actions()
+        self.actions = actions
+        self.label = label
+        self.options = options
+
+    def __call__(self, func):
+        self.actions[self.label]= Action(func.__name__, **self.options)
+        return func
+    
+import os, sys, unittest, doctest
+from zope.testing import doctest
+
+flags = doctest.ELLIPSIS | doctest.REPORT_ONLY_FIRST_FAILURE
+
+def test_suite():
+    return doctest.DocFileSuite('formlite.txt', optionflags=flags)
+
+if __name__ == '__main__':
+    unittest.TextTestRunner().run(test_suite())
