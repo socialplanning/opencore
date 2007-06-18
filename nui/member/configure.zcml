@@ -11,7 +11,7 @@
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
      class="opencore.nui.member.MemberPreferences"
-     permission="zope.Public"
+     permission="cmf.ModifyPortalContent"
      name="preferences"
      template="preferences.pt"
      />
@@ -20,7 +20,7 @@
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
      class=".view.ProfileEditView"
-     permission="zope.Public"
+     permission="cmf.ModifyPortalContent"
      name="profile-edit"
      template="profile-edit.pt"
      />
@@ -28,9 +28,9 @@
 
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
-     attribute="handle_form"
      class=".view.ProfileEditView"
-     permission="zope.Public"
+     attribute="handle_form"
+     permission="cmf.ModifyPortalContent"
      name="handle-form"
      />
 
@@ -38,7 +38,7 @@
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
      class=".view.ProfileView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="profile"
      template="profile.pt"
      />
