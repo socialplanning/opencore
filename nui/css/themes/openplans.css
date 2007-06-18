@@ -183,20 +183,22 @@ a:hover {
   padding: 1em;
 }
 #oc-content-sidebar .oc-boxy h1,
-#oc-content-sidebar .oc-boxy h2 {
+#oc-content-sidebar .oc-boxy h2,
+.oc-getstarted h1,
+.oc-getstarted h2 {
   padding-bottom: 0.5em;
   border-bottom: 1px dotted #AAC683;
 }
 
 /* Get Started */
 
-#oc-content-sidebar .oc-getstarted {
+.oc-getstarted {
   border-color: #DE7C07;
   background-color: #FFFBF7;
 
 }
-#oc-content-sidebar .oc-getstarted h1,
-#oc-content-sidebar .oc-getstarted h2 {
+.oc-getstarted h1,
+.oc-getstarted h2 {
   border-color: #DE7C07;
 }
 #oc-content-sidebar .oc-getstarted-list a {

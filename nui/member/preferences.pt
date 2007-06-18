@@ -22,16 +22,16 @@
           <p class="oc-invite-content">
             You have been accepted to <a href="">Turkey Time</a> 
           </p>
-          <a href="#" title="Ignore" class="oc-close">X</a>
+          <a href="#" title="Close" class="oc-actionClose  oc-actionLink">Close</a>
         </li>
       <li class="oc-invite oc-boxy oc-clearAfter">
           <div class="oc-avatar">
             <img src="" />
           </div>
           <p class="oc-invite-content">
-            You have been rejected from <a href="">Chicken Adidas</a> 
+            You have been denied membership to <a href="">Chicken Adidas</a> 
           </p>
-          <a href="#" title="Ignore" class="oc-close">X</a>
+          <a href="#" title="Close" class="oc-actionClose  oc-actionLink">Close</a>
         </li>
       <li class="oc-invite oc-boxy oc-clearAfter">
         <div class="oc-avatar">
@@ -41,12 +41,11 @@
           <a href="">Animal Campaign</a> 
       has invited you to become a member
         </p>
-        <ul class="oc-actions oc-invite-actions">
+        <ul class="oc-actions oc-invite-actions oc-actionClose">
           <li><a href="" class="oc-actionLink oc-chooseAccept">Accept</a></li>
-          <li><a href="" class="oc-actionLink oc-chooseReject">Reject</a></li>
-          <li><a href="" class="oc-actionLink oc-chooseSpam">Spam</a></li>
+          <li><a href="" class="oc-actionLink oc-chooseReject">Deny</a></li>
+          <li><a href="" class="oc-actionLink oc-chooseIgnore">Ignore</a></li>
         </ul>
-        <a href="#" title="Ignore" class="oc-close">X</a>
       </li>
       <li class="oc-invite oc-boxy oc-clearAfter">
         <div class="oc-avatar">
@@ -56,12 +55,11 @@
           <a href="">Animal Campaign for a really important animal named Charlie</a> 
       has invited you to become a member
         </p>
-        <ul class="oc-actions oc-invite-actions">
+        <ul class="oc-actions oc-invite-actions oc-actionClose">
           <li><a href="" class="oc-actionLink oc-chooseAccept">Accept</a></li>
-          <li><a href="" class="oc-actionLink oc-chooseReject">Reject</a></li>
-          <li><a href="" class="oc-actionLink oc-chooseSpam">Spam</a></li>
+          <li><a href="" class="oc-actionLink oc-chooseReject">Deny</a></li>
+          <li><a href="" class="oc-actionLink oc-chooseIgnore">Ignore</a></li>
         </ul>
-        <a href="#" title="Ignore" class="oc-close">X</a> 
       </li>
     </ul>
   </div><!-- end .widget-invitations -->
