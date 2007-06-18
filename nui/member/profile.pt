@@ -44,6 +44,8 @@
                   </span>
                 </tal:noprojects>
               </dd>
+              <dt>OpenPlans Home</dt>
+              <dd><a class="url" href="http://www.openplans.org/people/">http://www.openplans.org/people/<span tal:replace="data/id" /></a></dd>
             </dl>
           </div>
         </div>
