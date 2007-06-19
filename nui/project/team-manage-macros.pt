@@ -196,9 +196,15 @@
                 <div metal:use-macro="team_manage_macros/memberlink" />
               </td>
 
-              <td>
-                <div class="oc-liveItem-value"
-                     tal:content="item/role">
+              <td tal:define="member_role item/role">
+                <div class="oc-liveItem-value">
+                  <select tal:attributes="name string:${item/id}-role">
+                    <tal:roleoptions repeat="roleitem view/rolemap/items">
+                      <option tal:attributes="value python:roleitem[0];
+                                              selected python:(roleitem[1] == member_role) or None"
+                              tal:content="python:roleitem[1]" />
+                    </tal:roleoptions>
+                  </select>
                 </div>
               </td>
 
