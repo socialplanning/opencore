@@ -30,14 +30,6 @@ class SearchView(BaseView):
                      quantumleap=0,
                      b_start_str='b_start')
 
-    # moved up from people search view, because project team view
-    # uses it as well
-    def no_home(self, userid):
-        """ check to see if a user has a people folder (has logged in)
-            note: not using mtool.getHomeFolder for efficiency reasons """
-        return not self.context.has_key(userid)
-
-
 
 class ProjectsSearchView(SearchView):
 
