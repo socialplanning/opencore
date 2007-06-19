@@ -37,13 +37,13 @@ class ProfileEditView(ProfileView):
 
     portrait_snippet = ZopeTwoPageTemplateFile('portrait-snippet.pt')
 
-    # TODO fix ajax w/ nickyg
-    # TODO resize portrait
     def handle_form(self):
         usr = self.viewedmember()
         portrait = self.request.form.get('portrait')
         mode = self.request.form.get('mode')
               
+       # TODO resize portrait if necessary
+
         if mode == 'async':
             usr.setPortrait(portrait)
             usr.reindexObject()
@@ -58,3 +58,5 @@ class ProfileEditView(ProfileView):
     
             usr.reindexObject()
             return self.redirect('profile')
+
+    #TODO handle_remove_image
