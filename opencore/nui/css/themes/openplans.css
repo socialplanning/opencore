@@ -197,7 +197,6 @@ a.oc-actionLink:hover {
 .oc-getstarted {
   border-color: #DE7C07;
   background-color: #FFFBF7;
-
 }
 .oc-getstarted h1,
 .oc-getstarted h2 {
@@ -238,6 +237,7 @@ a.oc-actionLink:hover {
 .oc-widget-multiSearch .oc-form-fieldBlock {
   margin-top: 0.5em;
 }
+
 /* Feeds */
 
 .oc-widget-feed {
@@ -254,13 +254,22 @@ a.oc-actionLink:hover {
   border-top: 1px dotted #AAC683;
   padding: 0.5em 0;
 }
+
 /* Form Boxes */
 
 .oc-boxy legend.oc-legend-heading{
   margin: 0;
 }
-
 #oc-join-form fieldset.oc-boxy,
 #oc-login-form fieldset.oc-boxy {
   margin-top: -0.75em;
 }
+
+/* Member badges */
+#oc-member-badge.vcard,
+.oc-peopleresults-list li.vcard,
+.oc-roster li.vcard {
+  background-color: #F6FBF0;
+  border-color: #AAC683;
+}
+

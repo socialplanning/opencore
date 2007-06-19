@@ -7,7 +7,7 @@
          
       <div id="oc-content-main">
         
-        <form class="oc-liveForm" name="edit_form" method="post" 
+        <form id="oc-join-form" class="oc-liveForm" name="edit_form" method="post" 
               tal:attributes="action string:${context/absolute_url}/${view/name}"
               >
           
