@@ -135,7 +135,7 @@ class ProjectContentsView(BaseView):
 
     @memoizedproperty
     def pages(self):
-        objs = self._sorted_items('pages')
+        objs = self._sorted_items('pages', 'sortable_title')
         for d in objs:
             if d['id'] == 'project-home':
                 d['uneditable'] = True
@@ -143,11 +143,11 @@ class ProjectContentsView(BaseView):
 
     @memoizedproperty
     def lists(self):
-        return self._sorted_items('lists')
+        return self._sorted_items('lists', 'sortable_title')
 
     @memoizedproperty
     def files(self):
-        return self._sorted_items('files')
+        return self._sorted_items('files', 'sortable_title')
 
     @memoizedproperty
     def editable(self):
