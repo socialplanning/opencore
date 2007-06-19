@@ -289,8 +289,8 @@ OC.LiveForm = function(extEl) {
   
   
   function _afterSuccess(o) {
+  OC.debug(o);
   // TEMPORARY FAKE RESPONSE
-  o.responseText = "{ 'oc-profile-avatar' : '<div class=oc-avatar id=oc-profile-avatar><img src=http://tbn0.google.com/images?q=tbn:VJbvYyBCC7STAM:ewancient.lysator.liu.se/pic/art/k/e/kent/unicorn.jpg /><fieldset class=oc-expander style=clear: left;> <legend class=oc-legend-label><!-- TODO --><a href=# class=oc-expander-link>Change image</a></legend><div class=oc-expander-content><input type=file size=14 /><br /><button type=submit name=task value=oc-profile-avatar_uploadAndUpdate>Update</button> or <a href=#>remove image</a></div></fieldset></div>' }";
   
     OC.debug('_afterSuccess');
     OC.debug('updater.task: ' + updater.task);
@@ -331,12 +331,14 @@ OC.LiveForm = function(extEl) {
         OC.debug(o.responseText);
         // replace element
         var response = eval( "(" + o.responseText + ")" );
+        OC.debug(response);
         
         /* FIXME: What if this is an error page? (404, need login, etc) */
         /* Response is an array.  [elementID : newHTML] */
         for (elId in response) {
           var target = Ext.get(elId);
           var html = Ext.util.Format.trim(response[elId]);
+          OC.debug(html);
           var newNode = Ext.DomHelper.insertHtml("beforeBegin", target.dom, html);
           target.remove();
           Ext.get(newNode).fadeIn();
