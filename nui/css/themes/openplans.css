@@ -168,8 +168,10 @@ a {
 a:visited {
   color: #2B7284 ;
 }
-a:hover {
+a:hover,
+a.oc-actionLink:hover {
   color: #DE7C07;
+  text-decoration: underline;
 }
 
 /* @BOXES THAT NEED STYLE
