@@ -16,8 +16,8 @@
                      npending python:len(view.pending_mships)"
          tal:content="string:$nmembers members, $npending pending memberships" />
     </div>
+    
     <div id="oc-content-main">
-
       <div id="oc-security-settings" class="oc-security-settings">
         <h2>Your security settings</h2>
         <p>
@@ -55,8 +55,9 @@
     </div><!-- end #oc-content-main -->
     
     <div class="oc-content-sidebar">
-      <h2>Add new members</h2>
-      <hr />
+      <div class="oc-headingBlock">
+        <h2>Add new members</h2>
+      </div>
       <h3>Search for members</h3>
       <p class="oc-discreet">Search and invite existing members</p>
 
