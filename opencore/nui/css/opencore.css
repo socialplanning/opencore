@@ -842,9 +842,11 @@ height: 1em;
 }
 .oc-widget-lastModified td {
   border-bottom: none;
-  padding: .25em .5em;
+  padding: .25em .5em .25em 0;
 }
-
+.oc-widget-lastModified td.oc-lastModified-date {
+	width: 6em;
+}
 /* Feeds */
 
 .oc-widget-feed {
@@ -1022,7 +1024,8 @@ li.oc-invite .oc-invite-content {
 }
 a.oc-liveItem_showForm,
 a.oc-liveItem_showForm:visited,
-a.oc-actionLink {
+a.oc-actionLink,
+a.oc-actionLink:visited {
   color: #999;
   text-decoration: none;
   font-size: 9px;
@@ -1158,7 +1161,7 @@ address {
     #oc-error-handling
   {
   font-size: 10px;
-  line-height: 1.9em;
+  /* line-height: 1.9em; */
 }
 #oc-content-sidebar .smallText,
 #oc-content-sidebar .discreetText {

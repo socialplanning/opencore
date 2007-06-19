@@ -110,8 +110,8 @@
               </thead>
               <tbody>
                 <tr tal:repeat="item view/activity">
-                  <td tal:content="item/date" />
-                  <td><a tal:attributes="href item/url" tal:content="item/title" /></td>
+                  <td tal:content="item/date" class="oc-lastModified-date" />
+                  <td class="oc-lastModified-title"><a tal:attributes="href item/url" tal:content="item/title" /></td>
                 </tr>
               </tbody>
             </table>

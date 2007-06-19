@@ -11,9 +11,7 @@
           </div>
           <div class="oc-member-details">
             <div class="oc-headingBlock">
-              <h1 class="fn">
-                <span tal:content="data/id" />
-              </h1>
+              <h1 class="fn" tal:content="data/id" />
               <p class="oc-member-fullname n" tal:content="data/fullname" />
               <p class="oc-headingContext oc-discreetText">
                 member since <span tal:replace="data/membersince" />,
@@ -123,8 +121,8 @@
               </thead>
               <tbody>
                 <tr tal:repeat="item view/activity">
-                  <td tal:content="item/date" />
-                  <td><a tal:attributes="href item/url" tal:content="item/title" /></td>
+                  <td tal:content="item/date" class="oc-lastModified-date" />
+                  <td class="oc-lastModified-title"><a tal:attributes="href item/url" tal:content="item/title" /></td>
                 </tr>
               </tbody>
             </table>
