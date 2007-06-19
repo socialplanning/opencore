@@ -23,7 +23,7 @@ OC.liveElementKey = {
   ".oc-uploadForm" : "UploadForm",
   ".oc-liveEdit" : "LiveEdit",
   ".oc-close" : "CloseButton",
-  ".oc-selectBoxAutoLinks" : "SelectBoxAutoLinks",
+  ".oc-autoSelect" : "AutoSelect",
   ".oc-expander" : "Expander",
   "#version_compare_form" : "HistoryList",
   "#oc-join-form" : "JoinForm",
@@ -88,7 +88,7 @@ OC.breatheLife = function(newNode) {
 
 // Debug Function.  Turn off for live code or IE
 OC.debug = function(string) {
-  var method = ""; /* "console", "alert" or "" */
+  var method = "console"; /* "console", "alert" or "" */
   switch (method) {
     case "console" :
       console.log(string);
@@ -723,18 +723,27 @@ OC.CloseButton = function(extEl) {
 # Select Box Auto Links
 #
  */
-OC.SelectBoxAutoLinks = function(extEl) {
+OC.AutoSelect = function(extEl) {
     // get references.  No ID naming scheme yet.  just use parent node.
     var select = extEl;
-    var submit = Ext.get(Ext.query('input[type=submit]', select.dom.parentNode)[0]);
+    var form = select.dom.parentNode;
+    var submit = Ext.get(Ext.query('input[type=submit]', form)[0]) || Ext.get(Ext.query('button[type=submit]', form)[0]);
+    
 
+    if (!select || !submit || !form) {
+      OC.debug('AutoSelect: couldnt get refs;');
+      return;
+    } else {
+      OC.debug("AutoSelect: got refs");
+    }
+    
     //submit 
     submit.setVisibilityMode(Ext.Element.DISPLAY);
     submit.hide();
 
     //behaviors
     function _selectChange(e, el, o) {
-        window.location = el.value;
+        form.submit();
     } 
     select.on('change', _selectChange, this);
     
