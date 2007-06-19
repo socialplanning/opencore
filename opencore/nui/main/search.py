@@ -113,6 +113,33 @@ class ProjectsSearchView(SearchView):
         return projects
 
 
+
+def searchForPerson(mcat, search_for, sort_by=None):
+    """
+    This is a function, not a method, so it can be called from
+    assorted view classes.
+    """
+    person_query = search_for.lower().strip()
+
+    if person_query == '*':
+        return []
+
+    if not person_query.endswith('*'):
+        person_query = person_query + '*'
+
+    if not sort_by or sort_by == 'relevancy':
+        rs = (RankByQueries_Sum((Eq('Title', person_query),32),
+                                (Eq('getId', person_query),16)),)
+    else:
+        rs = ((sort_by, 'desc'),)
+
+    people_brains = mcat.evalAdvancedQuery(
+        Eq('RosterSearchableText', person_query),
+        rs,
+        )
+    return people_brains
+    
+
 class PeopleSearchView(SearchView):
 
     def __init__(self, context, request):
@@ -151,24 +178,7 @@ class PeopleSearchView(SearchView):
         return people_brains
 
     def search_for_person(self, person, sort_by=None):
-        person_query = person.lower().strip()
-
-        if person_query == '*':
-            return []
-
-        if not person_query.endswith('*'):
-            person_query = person_query + '*'
-
-        if not sort_by or sort_by == 'relevancy':
-            rs = (RankByQueries_Sum((Eq('Title', person_query),32), (Eq('getId', person_query),16)),)
-        else:
-            rs = ((sort_by, 'desc'),)
-
-        people_brains = self.membranetool.evalAdvancedQuery(
-            Eq('RosterSearchableText', person_query),
-            rs,
-            )
-        return people_brains
+        return searchForPerson(self.membranetool, person, sort_by)
 
     def add_class_to_img(self, imgdata, clss):
         tag = str(imgdata)

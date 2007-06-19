@@ -1,0 +1,28 @@
+===============================
+ Project Team Management  View
+===============================
+
+First we set a project up w/ a membership invitation and a membership
+request so we've got some more useful data.
+
+    >>> proj = self.portal.projects.p3 # <-- m1 is ProjectAdmin
+    >>> team = proj.getTeams()[0]
+    >>> self.login('m4') # <-- m4 not on team
+    >>> team.join()
+    >>> self.login('m1')
+    >>> team.manage_delObjects(ids=['m3'])
+    >>> team.addMember('m3')
+    <OpenMembership at ...m3>
+    >>> view = proj.restrictedTraverse('manage-team')
+    >>> view
+    <...SimpleViewClass ...team-manage.pt ...>
+
+The view has properties to get info for the team members and all
+pending membership invitations and requests::
+
+    >>> len(view.pending_requests)
+    1
+    >>> len(view.pending_invitations)
+    1
+    >>> len(view.active_mships)
+    3
