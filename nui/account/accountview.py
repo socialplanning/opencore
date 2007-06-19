@@ -256,7 +256,6 @@ class InitialLogin(BaseView):
             self.membertool.createMemberArea(member.getId())
 
         # Go to the user's Profile Page in Edit Mode
-        self.addPortalStatusMessage(u'Welcome to OpenPlans!')
         return self.redirect("%s/%s" % (self.home_url_for_id(member.getId()),
                                         'profile-edit'))
 
