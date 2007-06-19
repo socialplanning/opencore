@@ -22,11 +22,12 @@ class ProfileView(BaseView):
                      limit=max)
         brains = self.catalog.searchResults(**query)
 
-        # use a list comprehension and a function?
-        items = []
-        for brain in brains:
-            items.append({'title': brain.Title, 'url': brain.getURL(), 'date': prettyDate(brain.getRawCreation_date())})
-        return items
+        def dictify(brain):
+            return {'title': brain.Title,
+                    'url':   brain.getURL(),
+                    'date':  prettyDate(brain.getRawCreation_date())}
+
+        return [dictify(brain) for brain in brains]
 
     def viewingself(self):
         return self.viewedmember() == self.loggedinmember
