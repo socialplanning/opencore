@@ -97,7 +97,7 @@ ul#oc-topnav-context li.oc-topnav-selected {
   position: absolute;
   top: 0em;
   right: 0em;
-  padding: 0.25em;
+  padding: 0.25em .25em 0 .25em;
 }
 #oc-topnav-usermenu input.oc-input-typeText {
   padding-left: 0.25em;
@@ -116,17 +116,42 @@ ul#oc-topnav-context li.oc-topnav-selected {
 #oc-usermenu-list li {
   float: left;
   margin: 0 0.25em;
+  border: 1px solid transparent;
+}
+
+/* explore menu */
+#oc-topnav-usermenu li.oc-dropdown-container {
+  background-image: url("/++resource++img/dropdown-indicator-2B7284.gif");
+  background-repeat: no-repeat;
+  background-position: 96% 8px;
+  padding-right: 15px;
+  cursor: pointer;
+}
+#oc-topnav-usermenu li.oc-dropdown-container.oc-selected {
+  border: 1px solid #87B6C1;
+  border-bottom: none;
+  background-color: transparent;
+}
+#oc-topnav-usermenu li.oc-dropdown-container.oc-hover {
+  border: 1px solid #87B6C1;
+  border-bottom: none;
+  background-color: transparent;
 }
 #oc-usermenu-list li #oc-usermenu-explore {
   position: absolute;
   list-style: none;
-  margin: 0;
+  margin: 1px 0;
+  left: .25em;
   padding: 0;
   display: none;
+  background: #2B7284;
+  border: 1px solid #87B6C1;
+  border-top: none;
 }
 #oc-usermenu-list li #oc-usermenu-explore li {
   float: none;
 }
+
 /* @FOOTER - Global footer
 --------------------------------------- */
 #oc-footer-about {

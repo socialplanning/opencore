@@ -45,7 +45,7 @@ body {
   right: 1em;
   width: 31%;
   background: #2B7284 ;
-  padding: 0.25em 0.5em;
+  padding: 0.25em 0.5em 0 .5em;
 }
 #oc-topnav-usermenu input.oc-input-typeText {
   background-color: #fff;
