@@ -78,6 +78,8 @@ OC.breatheLife = function(newNode) {
       }
     }      
   }
+  
+  OC.debug(OC.liveElements);
 
 } // OC.breatheLife()
 
@@ -128,11 +130,15 @@ Ext.onReady(function() {
 #
 */
 OC.LiveForm = function(extEl) {
+
   // get references
   var liveForm = extEl;
   var actionLinks = Ext.select('.oc-actionLink');
-  var checkAll = Ext.select('#' + liveForm.dom.id + " .oc-checkAll" )
-  var liveItems = Ext.select('#' + liveForm.dom.id + " .oc-liveItem" )
+  var checkAll = Ext.select(Ext.query('.oc-checkAll', liveForm.dom));
+  var liveItems = Ext.query(".oc-liveItem", liveForm.dom);
+  var liveValidatees = Ext.get(Ext.query('.oc-liveValidate', liveForm.dom));
+
+  OC.debug(liveValidatees);
 
   // check required refs
   if (!liveForm) {
@@ -149,8 +155,6 @@ OC.LiveForm = function(extEl) {
   }
   var requestData = null; /* request params, once an action happens */
   var isUpload = false;
-  //if (form.dom.enctype)
-  //    isUpload = true;
     
   // helper function to get update target
   function _getUpdater(requestData) {
@@ -158,14 +162,16 @@ OC.LiveForm = function(extEl) {
     var data = requestData.split("&");
     for (var i = 0; i<data.length; i++) {
       item = data[i].split('=');
+      
       if (item[0] == "task") {
         var target_task  = item[1].split('_');
           updater.target = Ext.get(target_task[0]) || target_task[0];
           updater.task = target_task[1];
       }
     }
-    if (updater.task == "uploadAndUpdate" || updater.task == "uploadAndAdd")
+    if (updater.task == "uploadAndUpdate" || updater.task == "uploadAndAdd") {
       isUpload = true;
+    }
       
     return updater;
   }
@@ -185,6 +191,52 @@ OC.LiveForm = function(extEl) {
      
      checkAll.on('click', _checkAllClick, this); 
   }  
+  
+  // live validatees
+  if (liveValidatees) {    
+    function _validateField(e, el, o) {
+      YAHOO.util.Event.stopEvent(e);
+      
+      var request = "";
+      for (var i=0; i<liveForm.dom.elements.length; i++) {
+        if (liveForm.dom.elements[i].value) {
+          request += liveForm.dom.elements[i].name + "=" + liveForm.dom.elements[i].value + "&";
+        }
+      }      
+      
+      // send ajax request
+      var action = liveForm.dom.action;
+      var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
+        { success: _afterValidateSuccess, 
+          failure: _afterValidateFailure, 
+          scope: this 
+        },
+        request + "only_validate=True"
+      );
+
+    }
+    liveValidatees.on('blur', _validateField, this);
+    
+    function _afterValidateSuccess(o) {
+        OC.debug('_afterValidateSuccess');
+    
+        var response = eval( "(" + o.responseText + ")" );
+        
+        /* FIXME: What if this is an error page? (404, need login, etc) */
+        /* Response is an array.  [elementID : newHTML] */
+        for (elId in response) {
+          var field = Ext.get(elId);
+          var validator = Ext.get("oc-" + elId + "-validator");
+          var message = Ext.util.Format.trim(response[elId]);
+          validator.update(message);
+        }
+    }
+    function _afterValidateFailure(o) {
+    
+    }
+    
+  }
+  
   
   // action links
   if (actionLinks) {
@@ -213,7 +265,7 @@ OC.LiveForm = function(extEl) {
   function _formSubmit(e, el, o) {
     OC.debug("_formSubmit");
     
-    requestData = YAHOO.util.Connect.setForm(liveForm.dom);
+    requestData = YAHOO.util.Connect.setForm(liveForm.dom);    
     updater = _getUpdater(requestData);
     
     if (isUpload) 
@@ -291,7 +343,6 @@ OC.LiveForm = function(extEl) {
           OC.breatheLife(newNode);
         }
 
-        
       break;
       
       case "uploadAndAdd" :
@@ -319,6 +370,8 @@ OC.LiveForm = function(extEl) {
     
     // to do: send user message w/ undo link
   }
+  
+  return this;
 }
 
 /* 

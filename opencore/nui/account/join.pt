@@ -7,7 +7,7 @@
          
       <div id="oc-content-main">
         
-        <form id="oc-join-form" name="edit_form" method="post" 
+        <form class="oc-liveForm" name="edit_form" method="post" 
               tal:attributes="action string:${context/absolute_url}/${view/name}"
               >
           
@@ -35,7 +35,7 @@
                     <label for="id">Username</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" name="id" id="id"
+                    <input type="text" name="id" id="id" class="oc-liveValidate"
                            tal:attributes="value request/id | nothing" />
                   </td>
                   <td class="oc-form-help">
