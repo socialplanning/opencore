@@ -20,20 +20,7 @@
         <form name="profile_form" id="profile_form" method="post" class="oc-member-edit oc-liveForm" action="handle-form">
           <div id="oc-member-badge" class="oc-boxy oc-clearAfter">
             <div class="oc-member-editimage">
-              <div class="oc-avatar" id="oc-profile-avatar">
-                <img tal:attributes="src data/portrait_url" />
-                <fieldset class="oc-expander" style="clear: left;">
-                  <legend class="oc-legend-label">
-                    <a href="#" class="oc-expander-link">Change image</a>
-                  </legend>
-                  <div class="oc-expander-content">
-                    <input type="file" size="14" name="portrait" /><br />
-                    <button type="submit" name="task"
-                        value="oc-profile-avatar_uploadAndUpdate">Update</button>
-                    or <a href="#">remove image</a>
-                  </div>
-                </fieldset>
-              </div>
+              <div metal:use-macro="view/portrait_snippet/macros/portrait" />
             </div>
             <fieldset>
               <div class="oc-headingBlock">
