@@ -41,19 +41,19 @@ class ProfileEditView(ProfileView):
     def handle_form(self):
         usr = self.viewedmember()
         portrait = self.request.form.get('portrait')
-        task = self.request.form.get('task')
-        if task == 'upload':
+        mode = self.request.form.get('mode')
+              
+        if mode == 'async':
             usr.setPortrait(portrait)
             usr.reindexObject()
             return { 'oc-profile-avatar' : self.portrait_snippet()}
 
-        # task == 'update'
-        for field, value in self.request.form.items():
-            mutator = 'set%s' % field.capitalize()
-            mutator = getattr(usr, mutator, None)
-            if mutator:
-                mutator(value)
-
-        usr.reindexObject()
-
-        return self.redirect('profile')
+        else:
+            for field, value in self.request.form.items():
+                mutator = 'set%s' % field.capitalize()
+                mutator = getattr(usr, mutator, None)
+                if mutator:
+                    mutator(value)
+    
+            usr.reindexObject()
+            return self.redirect('profile')

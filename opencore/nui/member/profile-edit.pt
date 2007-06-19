@@ -85,7 +85,7 @@
             <li>
               <button type="submit"
                 name="task"
-                value="update"
+                value="_noAjax"
                 class="oc-button oc-chooseThis">
                 Update
               </button>
