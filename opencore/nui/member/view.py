@@ -10,6 +10,8 @@ from topp.utils.pretty_date import prettyDate
         
 class ProfileView(BaseView):
 
+    field_snippet = ZopeTwoPageTemplateFile('field_snippet.pt')
+
     def activity(self, max=5):
         """Returns a list of dicts describing each of the `max` most recently
         modified wiki pages for the viewed user."""
@@ -28,7 +30,7 @@ class ProfileView(BaseView):
 
     def viewingself(self):
         return self.viewedmember() == self.loggedinmember
-      
+
 
 class ProfileEditView(ProfileView):
 
