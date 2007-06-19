@@ -1,16 +1,14 @@
+<tal:handle define="global fdata view/handle_request" replace="nothing"/>
 <tal:vars 
-   define="global loggedin view/already_loggedin;
-           global login view/handle_login" 
+   define="global login view/handle_login" 
    />
+
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
-	<div tal:condition="loggedin">Please log out if you wish to log in as another user</div>
         <form name="login_form" method="post" id="oc-login-form"
-              tal:attributes="action string:${context/absolute_url}/${view/name}"
-	      tal:condition="not:loggedin">
-          
+              tal:attributes="action string:${context/absolute_url}/${view/name}">
           <input type="hidden" name="came_from" id="came_from" 
                  tal:condition="view/request/came_from | nothing" 
                  tal:attributes="value view/request/came_from" />
