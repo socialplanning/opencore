@@ -170,8 +170,39 @@ Calling the view with no key in the request will fail and go to the login page::
 
     >>> view = portal.restrictedTraverse("@@confirm-account")
     >>> view()
-    '...login...'
+    'http://nohost/plone/login'
 
-Get the key for the pending member::
+
+
+Verify portal status messages aren't being swallowed
+====================================================
+
+    First, let's get an instance of a view that returns a portal status message, and redirects
+    >>> view = portal.restrictedTraverse('@@login')
+
+    Reset the portal status message
+    >>> view.portal_status_message
+    [...]
     
-    
+    Now setup a pseudo post
+    >>> request = view.request
+    >>> request.form = dict(__ac_name='m1')
+    >>> request.environ['REQUEST_METHOD'] = 'POST'
+
+    Monkey patch some methods for easier testing
+    >>> old_membertool_isanon = view.membertool.isAnonymousUser
+    >>> old_update = view.update_credentials
+    >>> view.membertool.isAnonymousUser = lambda *a:True
+    >>> view.update_credentials = lambda *a:None
+
+    Now we simulate the call to login
+    >>> view.handle_login()
+
+    The portal status message should have some data in it now
+    >>> len(view.portal_status_message) > 0
+    True
+
+    Now restore the original methods
+    >>> view.membertool.isAnonymousUser = old_membertool_isanon
+    >>> view.update_credentials = old_update
+
