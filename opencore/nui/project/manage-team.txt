@@ -26,3 +26,47 @@ pending membership invitations and requests::
     1
     >>> len(view.active_mships)
     3
+    >>> len(view.pending_mships)
+    2
+
+Now let's make sure the project admin can approve membership requests.
+First we need to clear out the request memos:
+
+    >>> self.clearMemoCache()
+    >>> view.request.form['member_ids'] = ['m4']
+    >>> view.approve_requests()
+    >>> len(view.pending_requests)
+    0
+    >>> len(view.active_mships)
+    4
+
+Next we recreate the request and test discarding:
+
+    >>> self.clearMemoCache()
+    >>> team.manage_delObjects(ids=['m4'])
+    >>> self.login('m4')
+    >>> team.join()
+    >>> self.login('m1')
+    >>> view.request.form['member_ids'] = ['m4']
+    >>> view.discard_requests()
+    >>> len(view.pending_requests)
+    0
+    >>> len(view.active_mships)
+    3
+    >>> 'm4' in team.objectIds()
+    False
+
+Try again, this time reject instead of discard:
+
+    >>> self.clearMemoCache()
+    >>> self.login('m4')
+    >>> team.join()
+    >>> self.login('m1')
+    >>> view.request.form['member_ids'] = ['m4']
+    >>> view.reject_requests()
+    >>> len(view.pending_requests)
+    0
+    >>> len(view.active_mships)
+    3
+    >>> 'm4' in team.objectIds()
+    True

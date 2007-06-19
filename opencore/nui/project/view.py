@@ -478,7 +478,7 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         successful.
         """
         if mem_ids is None:
-            mem_ids = self.request.get('member_ids')
+            mem_ids = self.request.form.get('member_ids')
         wftool = self.get_tool('portal_workflow')
         team = self.team
         for mem_id in mem_ids:
@@ -493,7 +493,7 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
 
     @formhandler.action('approve-requests')
     def approve_requests(self):
-        mem_ids = self.request.get('member_ids')
+        mem_ids = self.request.form.get('member_ids')
         wftool = self.get_tool('portal_workflow')
         team = self.team
 
@@ -518,9 +518,12 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         Actually deletes the membership objects, doesn't send a
         notifier.
         """
-        mem_ids = self.request.get('member_ids')
+        mem_ids = self.request.form.get('member_ids')
+        # have to get the number of removals now b/c manage_delObjects
+        # empties the passed in list
+        ndiscards = len(mem_ids)
         self.team.manage_delObjects(ids=mem_ids)
-        self.addPortalStatusMessage(u'%d requests discarded' % len(mem_ids))
+        self.addPortalStatusMessage(u'%d requests discarded' % ndiscards)
 
     @formhandler.action('reject-requests')
     def reject_requests(self):
@@ -540,7 +543,7 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         """
         Deletes the membership objects.  Should send notifier.
         """
-        mem_ids = self.request.get('member_ids')
+        mem_ids = self.request.form.get('member_ids')
         # have to get the number of removals now b/c manage_delObjects
         # empties the passed in list
         nremovals = len(mem_ids)
@@ -553,7 +556,7 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         Sends an email reminder to the specified membership
         invitations.
         """
-        mem_ids = self.request.get('member_ids')
+        mem_ids = self.request.form.get('member_ids')
         for mem_id in mem_ids:
             # XXX send email reminder
             pass
@@ -581,7 +584,13 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
     def search_members(self):
         """
         Performs the catalog query and then puts the results in an
-        attribute on the view object for use by the template.
+        attribute on the view object for use by the template.  Filters
+        out any members for which a team membership already exists,
+        since this is used to add new members to the team.
         """
-        search_for = self.request.get('search_for')
-        self.results = searchForPerson(self.membranetool, search_for)
+        existing_ids = dict.fromkeys(self.team.getMemberIds())
+
+        search_for = self.request.form.get('search_for')
+        results = searchForPerson(self.membranetool, search_for)
+        results = [r for r in results if r.getId not in existing_ids]
+        self.results = results
