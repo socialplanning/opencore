@@ -66,7 +66,14 @@ def test_suite():
                                     setUp=contents_content, 
                                     )
 
-    suites = (readme, contents, metadata)
+    manage_team = FunctionalDocFileSuite("manage-team.txt",
+                                         optionflags=optionflags,
+                                         package='opencore.nui.project',
+                                         test_class=OpenPlansTestCase,
+                                         globs = globs, 
+                                         )
+
+    suites = (readme, contents, metadata, manage_team)
     for suite in suites:
         suite.layer = OpencoreContent
 

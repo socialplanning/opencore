@@ -23,7 +23,7 @@
   <tr class="oc-liveItem" tal:attributes="id item/id">
 
     <td>
-      <input type="checkbox" name="batch[]"
+      <input type="checkbox" name="member_ids:list"
              tal:attributes="value item/id" />
     </td>
 
@@ -75,21 +75,21 @@
    define-macro="requestbuttons">
 
   <li>
-    <button type="submit" name="task" value="approve"
+    <button type="submit" name="approve-requests" value="approve-requests"
             class="oc-button" >approve</button>
   </li>
   <li>
-    <button type="submit" name="task" value="discard"
+    <button type="submit" name="discard-requests" value="discard-requests"
             class="oc-button" >discard</button>
   </li>
   <li>
-    <button type="submit" name="task" value="reject"
+    <button type="submit" name="reject-requests" value="reject-requests"
             class="oc-button" >reject</button>
   </li>
-  <li>
+  <!--li>
     <button type="submit" name="task" value="reject_msg"
             class="oc-button" >reject with message</button>
-  </li>
+  </li-->
 
 </metal:requestbuttons>
 
@@ -98,11 +98,11 @@
    define-macro="invitationbuttons">
 
   <li>
-    <button type="submit" name="task" value="remove"
+    <button type="submit" name="remove-invitations" value="remove-invitations"
             class="oc-button" >remove</button>
   </li>
   <li>
-    <button type="submit" name="task" value="send_reminder"
+    <button type="submit" name="remind-invitations" value="remind-invitations"
             class="oc-button" >send reminder</button>
   </li>
 
@@ -116,13 +116,12 @@
       <h3 tal:content="string:$item_heading ($num_items)" />
     </div>
 
-    <div class="oc-searchresults-nresults">
-      1-20 of 55
-    </div>
-    
-    <form class="oc-liveForm" action="modify-contents">
-      <input type="hidden" name="item_type"
-	     tal:attributes="value item_type" />
+    <form method="POST"
+          tal:attributes="action view/request/ACTUAL_URL;
+                          name item_type;
+                          id item_type">
+      <input type="hidden" name="handle_request:boolean" id="handle_request"
+             value="True" />
       <table class="oc-dataTable" cellpadding="0" cellspacing="0">
 
         <thead>
@@ -164,12 +163,12 @@
       <h3 tal:content="string:Your team members ($num_items)" />
     </div>
 
-    <div class="oc-searchresults-nresults">
-      1-20 of 55
-    </div>
-    
-    <form class="oc-liveForm" name="team-members" method="post"
-          tal:attributes="action view/formsubmit">
+    <!--form class="oc-liveForm" name="team-members" method="post"
+          tal:attributes="action view/request/ACTUAL_URL"-->
+    <form name="team-members" method="POST"
+          tal:attributes="action view/request/ACTUAL_URL">
+      <input type="hidden" name="handle_request:boolean" id="handle_request"
+             value="True" />
       <table class="oc-dataTable" cellpadding="0" cellspacing="0">
 
         <thead>

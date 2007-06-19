@@ -23,6 +23,7 @@ from opencore.content.membership import OpenMembership
 from opencore.nui import formhandler
 from opencore.nui.base import BaseView
 from opencore.nui.main import SearchView
+from opencore.nui.main.search import searchForPerson
 
 _marker = object()
 
@@ -399,7 +400,8 @@ class ProjectTeamView(TeamRelatedView):
                     modification=modification,
                     )
 
-class ManageTeamView(TeamRelatedView):
+
+class ManageTeamView(formhandler.FormLite, TeamRelatedView):
     """
     View class for the team management screens.
     """
@@ -411,7 +413,6 @@ class ManageTeamView(TeamRelatedView):
     listedmap = {'public': 'yes',
                  'private': 'no',
                  }
-    formsubmit = 'manage-team'
 
     @property
     @req_memoize
@@ -464,18 +465,123 @@ class ManageTeamView(TeamRelatedView):
         mtool = self.get_tool('portal_membership')
         return mtool.getHomeUrl(mem_id)
 
-    @formhandler.button('remove-members')
+    def doMshipWFAction(self, transition, mem_ids=None):
+        """
+        Fires the specified workflow transition for the memberships
+        associated with the specified member ids.
+
+        o mem_ids: list of member ids for which to fire the
+        transitions.  if this isn't provided, these will be obtained
+        from the request object's 'member_ids' key.
+
+        Returns the number of memberships for which the transition was
+        successful.
+        """
+        if mem_ids is None:
+            mem_ids = self.request.get('member_ids')
+        wftool = self.get_tool('portal_workflow')
+        team = self.team
+        for mem_id in mem_ids:
+            mship = team._getOb(mem_id)
+            wftool.doActionFor(mship, transition)
+        return len(mem_ids)
+
+
+    ##################
+    #### MEMBERSHIP REQUEST BUTTON HANDLERS
+    ##################
+
+    @formhandler.action('approve-requests')
+    def approve_requests(self):
+        mem_ids = self.request.get('member_ids')
+        wftool = self.get_tool('portal_workflow')
+        team = self.team
+
+        napproved = 0
+        for mem_id in mem_ids:
+            mship = team._getOb(mem_id)
+            # approval transition has a different id for public and
+            # private, have to look up by name
+            transition = [t for t in wftool.getTransitionsFor(mship)
+                          if t.get('name') == 'Approve']
+            if not transition:
+                continue
+            transition_id = transition[0]['id']
+            wftool.doActionFor(mship, transition_id)
+            napproved += 1
+
+        self.addPortalStatusMessage(u'%d members approved' % napproved)
+
+    @formhandler.action('discard-requests')
+    def discard_requests(self):
+        """
+        Actually deletes the membership objects, doesn't send a
+        notifier.
+        """
+        mem_ids = self.request.get('member_ids')
+        self.team.manage_delObjects(ids=mem_ids)
+        self.addPortalStatusMessage(u'%d requests discarded' % len(mem_ids))
+
+    @formhandler.action('reject-requests')
+    def reject_requests(self):
+        """
+        Notifiers should be handled by workflow transition script.
+        """
+        nrejected = self.doMshipWFAction('reject_by_admin')
+        self.addPortalStatusMessage(u'%d requests rejected' % nrejected)
+
+
+    ##################
+    #### MEMBERSHIP INVITATION BUTTON HANDLERS
+    ##################
+
+    @formhandler.action('remove-invitations')
+    def remove_invitations(self):
+        """
+        Deletes the membership objects.  Should send notifier.
+        """
+        mem_ids = self.request.get('member_ids')
+        # have to get the number of removals now b/c manage_delObjects
+        # empties the passed in list
+        nremovals = len(mem_ids)
+        self.team.manage_delObjects(ids=mem_ids)
+        self.addPortalStatusMessage(u'%d invitations removed' % nremovals)
+
+    @formhandler.action('remind-invitations')
+    def remind_invitations(self):
+        """
+        Sends an email reminder to the specified membership
+        invitations.
+        """
+        mem_ids = self.request.get('member_ids')
+        for mem_id in mem_ids:
+            # XXX send email reminder
+            pass
+
+
+    ##################
+    #### ACTIVE MEMBERSHIP BUTTON HANDLERS
+    ##################
+
+    @formhandler.action('remove-members')
     def remove_members(self):
         """
         Doesn't actually remove the membership objects, just puts them
         into an inactive workflow state.
         """
-        mem_ids = request.get('member_ids')
-        wftool = self.get_tool('portal_workflow')
-        team = self.team
-        for mem_id in mem_ids:
-            mship = team._getOb(mem_id)
-            wftool.doActionFor(mship, 'deactivate')
-        self.addPortalStatusMessage(u'%d members deactivated' % len(mem_ids))
-        self.redirect('%s/manage-team' % self.context.absolute_url())
-        
+        nremoved = self.doMshipWFAction('deactivate')
+        self.addPortalStatusMessage(u'%d members deactivated' % nremoved)
+
+
+    ##################
+    #### MEMBER SEARCH BUTTON HANDLER
+    ##################
+
+    @formhandler.action('search-members')
+    def search_members(self):
+        """
+        Performs the catalog query and then puts the results in an
+        attribute on the view object for use by the template.
+        """
+        search_for = self.request.get('search_for')
+        self.results = searchForPerson(self.membranetool, search_for)
