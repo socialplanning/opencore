@@ -182,13 +182,13 @@ class ProjectContentsView(BaseView):
         return surviving_children
 
     def resort(self):
-        """ don't use this yet """
         item_type = self.request.form.get("item_type")
         if item_type not in self._portal_type: return
 
         sort_by = self.request.form.get("sort_by")
         
-        items = self._sorted_items(item_type, sort_by)
+        items = self._sorted_items(item_type,
+                                   self._translate_field.get(sort_by))
         return self.item_table_snippet(items=items, item_type=item_type)
 
     @formhandler.octopus
