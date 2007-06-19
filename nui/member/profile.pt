@@ -46,10 +46,12 @@
             </dl>
           </div>
         </div>
+
         <dl class="oc-member-info"
-          tal:define="skills python:view.viewed_member_profile_tags('skills');
-                      affils python:view.viewed_member_profile_tags('affiliations');
-                      favs   python:view.viewed_member_profile_tags('favorites');">
+          tal:define="skills python: data['skills']      #instead use the following when tagger is ready: view.viewed_member_profile_tags('skills');
+                      affils python: data['affiliations']#instead use the following when tagger is ready: view.viewed_member_profile_tags('affiliations');
+                      favs   python: data['favorites']   #instead use the following when tagger is ready: view.viewed_member_profile_tags('favorites');">
+
           <tal:block condition="data/statement">
             <dt>Personal Statement</dt>
             <dd tal:content="data/statement" />
@@ -58,6 +60,7 @@
             <dt>Personal Statement <a class="oc-actionLink" href="profile-edit#personal-statement">Edit</a></dt>
             <dd>None</dd>
           </tal:self_block>
+
           <tal:block condition="data/background">
             <dt>Background</dt>
             <dd tal:content="data/background" />
@@ -66,36 +69,48 @@
             <dt>Background <a class="oc-actionLink" href="profile-edit#background">Edit</a></dt>
             <dd>None</dd>
           </tal:self_block>
+
           <tal:block condition="skills">
             <dt>Skills/Interests</dt>
             <dd>
-              <ul class="oc-inlineList">
-                <li tal:repeat="skill skills"><a tal:attributes="href skill/url" tal:content="skill/tag" /></li>
-              </ul>
+              <span tal:replace="skills" />
+              <tal:comment condition="nothing">instead use the following when tagger is ready:
+                <ul class="oc-inlineList">
+                  <li tal:repeat="skill skills"><a tal:attributes="href skill/url" tal:content="skill/tag" /></li>
+                </ul>
+              </tal:comment>
             </dd>
           </tal:block>
           <tal:self_block condition="python: view.viewingself() and not skills">
             <dt>Skills/Interests <a class="oc-actionLink" href="profile-edit#skills">Edit</a></dt>
             <dd>None</dd>
           </tal:self_block>
+
           <tal:block condition="affils">
             <dt>Affiliations</dt>
             <dd>
-              <ul class="oc-inlineList">
-                <li tal:repeat="affil affils"><a tal:attributes="href affil/url" tal:content="affil/tag" /></li>
-              </ul>
+              <span tal:replace="affils" />
+              <tal:comment condition="nothing">instead use the following when tagger is ready:
+                <ul class="oc-inlineList">
+                  <li tal:repeat="affil affils"><a tal:attributes="href affil/url" tal:content="affil/tag" /></li>
+                </ul>
+              </tal:comment>
             </dd>
           </tal:block>
           <tal:self_block condition="python: view.viewingself() and not affils">
             <dt>Affiliations <a class="oc-actionLink" href="profile-edit#affiliations">Edit</a></dt>
             <dd>None</dd>
           </tal:self_block>
+
           <tal:block condition="favs">
             <dt>Favorites</dt>
             <dd>
-              <ul class="oc-inlineList">
-                <li tal:repeat="fav favs"><a tal:attributes="href fav/url" tal:content="fav/tag" /></li>
-              </ul>
+              <span tal:replace="favs" />
+              <tal:comment condition="nothing">instead use the following when tagger is ready:
+                <ul class="oc-inlineList">
+                  <li tal:repeat="fav favs"><a tal:attributes="href fav/url" tal:content="fav/tag" /></li>
+                </ul>
+              </tal:comment>
             </dd>
           </tal:block>
           <tal:self_block condition="python: view.viewingself() and not favs">
