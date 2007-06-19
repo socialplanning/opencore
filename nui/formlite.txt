@@ -27,7 +27,7 @@ The dispatcher is dumb as a rock.  Whatever action it finds first, it executes::
    
    >>> del view.request.form['sod']
 
-A request with no actions will pass with incident::
+A request with no actions will pass without incident::
 
    >>> view.handle_request()
 
