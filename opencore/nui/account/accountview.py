@@ -136,6 +136,9 @@ class JoinView(BaseView):
     @button('join')
     @post_only(raise_=False)
     def handle_request(self):
+        if self.request.form.get("only_validate"):
+            return self.validate()
+
         context = self.context
         mdc = getToolByName(context, 'portal_memberdata')
         adder = getAdderUtility(context)
