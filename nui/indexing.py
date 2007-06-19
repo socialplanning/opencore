@@ -19,6 +19,9 @@ MAILTO = 'mailto'
 idxs = (('FieldIndex', PROJECT_POLICY, None),
         ('FieldIndex', MAILTO, None),
         ('DateIndex', 'made_active_date', None),
+        ('FieldIndex', 'getObjSize', None),
+        ('FieldIndex', 'lastModifiedAuthor', None),
+        ('DateIndex', 'ModificationDate', None),
         )
 
 mem_idxs = (('FieldIndex', 'exact_getFullname',
