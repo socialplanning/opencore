@@ -29,7 +29,8 @@ OC.liveElementKey = {
   "#oc-join-form" : "JoinForm",
   ".oc-liveForm" : "LiveForm",
   ".oc-liveItem" : "LiveItem",
-  ".oc-widget-multiSearch" : "SearchLinks"
+  ".oc-widget-multiSearch" : "SearchLinks",
+  '#oc-usermenu-list' : "TopNav"
 }
     
 /* 
@@ -442,6 +443,52 @@ OC.UploadForm = function(extEl) {
     }
 
   return this;
+}
+
+/*
+#
+# Top Nav
+#
+*/
+OC.TopNav = function(extEl) {
+  // get refs
+  var container = extEl;
+  var exploreItem = Ext.get(extEl.dom.getElementsByTagName('li')[0]);
+  var exploreMenu = Ext.get(exploreItem.dom.getElementsByTagName('ul')[0]);
+  
+  // check refs
+  if (!container || !exploreItem || !exploreMenu) {
+    OC.debug("TopNav: couldn't get refs");
+    return;
+  } else {
+    OC.debug("TopNav: got refs");
+  }
+  
+  function _showExplore(e, el, o) {
+    YAHOO.util.Event.stopEvent(e);
+    exploreMenu.show();
+    exploreItem.addClass('oc-selected');
+  }
+  exploreItem.on('click', _showExplore, this);
+  
+  function _hideExplore(e, el, o) {
+    if (exploreMenu.isVisible()) {
+          exploreMenu.hide();
+          exploreItem.removeClass('oc-selected');
+    }
+  }
+  Ext.get(document.body).on('click', _hideExplore, this);
+  
+  function _toggleMenuPreview(e, el, o) {
+    if (exploreItem.hasClass('oc-hover')) {
+       exploreItem.removeClass('oc-hover');
+    } else {
+      exploreItem.addClass('oc-hover');
+    }
+   
+  } 
+  exploreItem.on('mouseover', _toggleMenuPreview, this);
+  exploreItem.on('mouseout', _toggleMenuPreview, this)
 }
 
 /* 
