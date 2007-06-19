@@ -57,7 +57,7 @@
           <h2>Add new members</h2>
           <hr />
           <h3>Search for members</h3>
-          <p class="oc-discreet">Search and add existing members</p>
+          <p class="oc-discreet">Search and invite existing members</p>
 
           <form name="search-members" id="search-members"
                 tal:attributes="action view/request/ACTUAL_URL">
