@@ -57,10 +57,11 @@ class LoginView(AccountView):
             return self.redirect(self.destination)
 
         self.addPortalStatusMessage('Login failed')
-            
-##         if self.referer:
-##             self.addPortalStatusMessage('Hey! you came from %s' %self.referer)
 
+    def handle_request(self):
+        if self.loggedin:
+            return self.redirect(self.home_page)
+            
     @property
     def referer(self):
         return self.request.get('came_from', '')
@@ -77,12 +78,20 @@ class LoginView(AccountView):
             return True
 
     @property
+    def home_page(self):
+        """
+        returns the 'home page' of the user.
+        this is somewhat hacky.  maybe the urls will fix themselves
+        """
+        return '%s/profile' % self.home_url
+
+    @property
     def destination(self):
         """where you go after you're logged in"""
         retval = self.referer
         if not retval:
             if self.home_url:
-                retval = '%s/profile' %self.home_url
+                retval = self.home_page
             else:
                 retval = self.siteURL
         return retval
