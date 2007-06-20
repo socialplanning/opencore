@@ -264,6 +264,9 @@ a.oc-actionLink:hover {
 #oc-login-form fieldset.oc-boxy {
   margin-top: -0.75em;
 }
+#oc-join-form .oc-form-label{
+  width: 11em;
+}
 
 /* Member badges */
 #oc-member-badge.vcard,
