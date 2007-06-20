@@ -13,6 +13,7 @@ class WikiEdit(BaseView):
         self.context.processForm(values=self.request)
         repo = self.context.portal.portal_repository
         repo.save(self.context, comment = self.request.get('comment', ''))
+        self.addPortalStatusMessage('Changes saved.')
         self.request.response.redirect(self.context.absolute_url())
 
 
