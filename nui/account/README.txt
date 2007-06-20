@@ -172,7 +172,24 @@ Calling the view with no key in the request will fail and go to the login page::
     >>> view()
     'http://nohost/plone/login'
 
+Get the newly created member::
 
+    >>> user = mt.restrictedTraverse('foobar')
+    >>> user
+    <OpenMember at /plone/portal_memberdata/foobar>
+
+    >>> self.loginAsPortalOwner()
+    >>> m = user.restrictedTraverse("getUserConfirmationCode")
+    >>> key = m()
+    >>> key
+    '...'
+
+Calling the view with the proper key will bring you to your account page::
+
+    >>> view = portal.restrictedTraverse("@@confirm-account")
+    >>> request = view.request
+    >>> view.request.form['key'] = key
+    >>> view()
 
 Verify portal status messages aren't being swallowed
 ====================================================
@@ -205,4 +222,3 @@ Verify portal status messages aren't being swallowed
     Now restore the original methods
     >>> view.membertool.isAnonymousUser = old_membertool_isanon
     >>> view.update_credentials = old_update
-
