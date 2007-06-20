@@ -1,3 +1,5 @@
+<tal:vars define="data view/viewed_member_info">
+
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
 
@@ -167,7 +169,7 @@
     <h2>Next steps&hellip;</h2>
     <ol class="oc-getstarted-list">
         <li>
-          <h3><a href="#">1. Personalize your profile</a></h3>
+          <h3><a href="profile-edit">1. Personalize your profile</a></h3>
           <p class="oc-discreetText">Tell everyone a little about yourself.</p>
         </li> 
         <li>
@@ -186,7 +188,7 @@
   </div>
   <div class="oc-boxy">
     <h2>Account settings</h2>
-    <a href="#">Edit profile</a>
+    <a href="profile-edit">Edit profile</a>
     <form class="oc-expander">
       <fieldset>
         <legend class="oc-legend-label">
@@ -194,12 +196,12 @@
         </legend>
         <ul class="oc-expander-content oc-plainList">
           <li>
-            <label for="">Email</label><br />
-            <input type="text" />
+            <label for="email">Email</label><br />
+            <input type="text" id="email" tal:attributes="value data/email"/>
           </li>
           <li class="oc-form-fieldBlock oc-smallText">
-            <input type="checkbox" class="oc-input-typeCheck" />
-            <label for="">Hide email address by default?</label>
+            <input type="checkbox" class="oc-input-typeCheck" id="email_hide" />
+            <label for="email_hide">Hide email address by default?</label>
           </li>
           <li>
             <button type="submit" 
@@ -219,16 +221,16 @@
         </legend>
         <ul class="oc-expander-content oc-plainList">
           <li>
-            <label for="">Current password</label><br />
-            <input type="password" />
+            <label for="passwd_curr">Current password</label><br />
+            <input type="password" id="passwd_curr" />
           </li>
           <li>
-            <label for="">New password</label><br />
-            <input type="password" />
+            <label for="passwd_new">New password</label><br />
+            <input type="password" id="passwd_new" />
           </li>
           <li>
-            <label for="">Confirm new password</label><br />
-            <input type="password" />
+            <label for="passwd_new_confirm">Confirm new password</label><br />
+            <input type="password" id="passwd_new_confirm" />
           </li>
           <li>
             <button type="submit" 
@@ -249,3 +251,4 @@
   </div><!-- content-fill-slot -->
 </body>
 </html>
+</tal:vars>
