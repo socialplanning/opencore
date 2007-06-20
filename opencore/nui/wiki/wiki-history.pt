@@ -22,27 +22,16 @@
       
      <tal:if condition="python:len(history) > 0"> 
      
-    <div class="oc-headingBlock" tal:define="lastChange python:history[0]"> 
-    <h2>All versions of <span tal:replace="here/title_or_id">page</span></h2>
-    <p class="oc-headingContext oc-discreetText">
+    <div class="oc-headingBlock oc-boxy" tal:define="lastChange python:history[0]"> 
+    <h2>All versions of &ldquo;<span tal:replace="here/title_or_id">page</span>&rdquo;</h2>
+    <span class="oc-headingContext oc-discreetText">
      <span tal:replace="python:len(history)"/> versions total. Last edit performed by 
       <a tal:define="author lastChange/sys_metadata/principal" 
                      tal:attributes="href string:${people_url}/${author}" 
                      tal:content="author">author</a>, 
-      
       <span tal:replace="python: view.pretty_mod_date(lastChange)" />. 
-
-      
-    </p>
+    </span>
     </div> <!-- end .oc-headingBlock --> 
-        
-  <!-- FIXME: this language makes it seem like you can check a single
-       version to see a preview of that version, but you actually have
-       to click the link/name of the version -->
-       
-  <tal:if condition="python:len(history) > 1">
-  <p>Select two versions to compare them <strong>or</strong> click a version number to see it.</p>
-  </tal:if>
         
     <div class="oc-lineup">     
     <form action="version_compare" id="version_compare_form" method="get">
@@ -50,6 +39,9 @@
       <tal:if condition="python:len(history) > 1">            
       <div class="oc-actions">
           <input type="submit" value="Compare" />
+          <tal:if condition="python:len(history) > 1">
+            <span class="oc-discreetText">Select two versions to compare them or click a version number to view it.</span>
+          </tal:if>
       </div> <!-- end .oc-actions --> 
       </tal:if>
       
@@ -104,9 +96,9 @@
     
     </tal:block><!-- end of content for versionable objects -->       
     <tal:block tal:condition="python: not pr.isVersionable(context)">
-            <div id="oc-content-main"> 
-              This content does not have versioning information.
-            </div>
+      <div id="oc-content-main"> 
+        This content does not have versioning information.
+      </div>
     </tal:block> 
 
   </div> <!-- end .oc-wiki -->

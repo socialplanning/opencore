@@ -16,24 +16,24 @@
       <div metal:use-macro="here/@@wiki_macros/bcrumb" />      
       <div metal:use-macro="here/@@wiki_macros/tabs" />
       
-              <div class="oc-widget oc-widget-version-compare">
+              <div class="oc-widget oc-widget-version-compare oc-boxy oc-clearAfter">
                 <table cellpadding="0" cellspacing="0" border="0"> 
                   <tr>
                     <td>
                       <tal:if condition="python: previous_id is not None">
-                      <a class="oc-button oc-smallText" tal:attributes="href string:version?version_id=${previous_id}">&lt;</a>
+                      <a class="oc-button oc-smallText" tal:attributes="href string:version?version_id=${previous_id}" title="older">&lt;</a>
                       </tal:if>
-                
+
                       <tal:if condition="python: previous_id is None">
-                     
+
                       </tal:if>
                     </td>
-                    <td>
-                      <span tal:replace="python: view.version_title(version_id);" />
-                    </td>
+                    <th scope="row">
+                      <h2 tal:content="python: view.version_title(version_id);" />
+                    </th>
                     <td>
                       <tal:if condition="python: next_id is not None">
-                      <a class="oc-button oc-smallText" tal:attributes="href string:version?version_id=${next_id}">&gt;</a>
+                      <a class="oc-button oc-smallText" tal:attributes="href string:version?version_id=${next_id}" title="newer">&gt;</a>
                       </tal:if>
                       <tal:if condition="python: next_id is None">
                       
@@ -42,30 +42,27 @@
                       <td>
                         by <a tal:define="author version/sys_metadata/principal" 
                                 tal:attributes="href string:${people_url}/${author}"
-                                tal:content="author">author</a>, 
+                                tal:content="author">author</a>, modified 
                         <span tal:replace="python:view.pretty_mod_date(version)" />
                       </td>
                   </tr>
-                  <tal:if condition="python: version_id != view.current_id()">
-                  <tr>
-                    <td colspan="4">
-                      <a tal:attributes = "href string:version_compare?version_id=${version_id}&version_id=${cur_id}">compare with current version</a>
-                    </td>
-                  </tr>
-                  </tal:if>
                 </table>
                  <tal:if condition="python: version_id != view.current_id()">
                   <ul class="oc-actions">
                     <li>
                       <!-- FIXME ? relative --> 
                       <form method="post" id="revert_form" action="revertversion">
-                      <input type="hidden" name="version_id" tal:attributes="value version_id" />
-                                  <input type="submit" name="revert" value="revert to this version" />
+                        <input type="hidden" name="version_id" tal:attributes="value version_id" />
+                        <input type="submit" name="revert" value="revert to this version" />
                       </form> 
                     </li>
+                    <tal:if condition="python: version_id != view.current_id()">
+                      <li>
+                        <a tal:attributes = "href string:version_compare?version_id=${version_id}&version_id=${cur_id}">compare with current version</a>
+                      </li>
+                    </tal:if>
                   </ul>
                   </tal:if>
-                <hr class="oc-clearElement" />
               </div><!-- .oc-widget-version-compare -->
               
               <span tal:replace="version/comment" />
