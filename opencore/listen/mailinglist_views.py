@@ -6,6 +6,7 @@ from Products.listen.browser.mailinglist_views import MailingListAddForm \
      as BaseAddForm
 from Products.listen.browser.mailinglist_views import MailingListEditForm \
      as BaseEditForm
+from Products.listen.browser.mailinglist_views import MailingListView
 
 from interfaces import IOpenMailingList
 from widgets import OpenListNameWidget
@@ -40,3 +41,7 @@ class MailingListEditForm(BaseEditForm):
 
     """
     form_fields = openplans_form_fields
+
+from opencore.nui.base import BaseView
+class OpenMailingListView(BaseView, MailingListView):
+    pass

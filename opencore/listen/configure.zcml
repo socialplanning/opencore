@@ -27,5 +27,13 @@
      permission="zope2.Public"
      />
 
+  <!-- use a nui view -->
+  <browser:page
+     for=".interfaces.IOpenMailingList"
+     name="mailinglist_view"
+     class=".mailinglist_views.OpenMailingListView"
+     permission="zope2.View"
+     template="mailinglist_view.pt"
+     />
 
 </configure>
