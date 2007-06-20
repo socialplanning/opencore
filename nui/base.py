@@ -51,10 +51,15 @@ class BaseView(BrowserView):
         self.transcluded  = request.get_header('X-transcluded')
         self.errors = {}
         self.response = self.request.RESPONSE
-        self.redirect = self.response.redirect
 
+    def redirect(self, *args, **kwargs):
+        self._redirected = True
+        return self.response.redirect(*args, **kwargs)
+        
     @property
     def portal_status_message(self):
+        if hasattr(self, '_redirected'):
+            return []
         plone_utils = self.get_tool('plone_utils')
         msgs = plone_utils.showPortalMessages()
         if msgs:
