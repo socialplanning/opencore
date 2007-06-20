@@ -369,6 +369,7 @@ OC.LiveForm = function(extEl) {
   // remove item
   function _removeItem(id) {
     var extEl = Ext.get(id);
+    if (!extEl) return;
     extEl.fadeOut({remove: true, useDisplay: true});
     
     // to do: send user message w/ undo link
