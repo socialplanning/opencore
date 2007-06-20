@@ -5,12 +5,12 @@
   <tr class="oc-liveItem" tal:attributes="id item/id">
     <td tal:condition="view/editable">
       <tal:if condition="not:editable">
-	<input type="checkbox" name="batch[]"
+	<input type="checkbox" name="deletes:list"
                tal:attributes="value item/id" 
 	       disabled="True" />
       </tal:if>
       <tal:if condition="editable">
-	<input type="checkbox" name="batch[]"
+	<input type="checkbox" name="deletes:list"
                tal:attributes="value item/id" />
       </tal:if>
     </td>

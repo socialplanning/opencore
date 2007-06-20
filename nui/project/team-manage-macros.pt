@@ -165,10 +165,7 @@
 
     <!--form class="oc-liveForm" name="team-members" method="post"
           tal:attributes="action view/request/ACTUAL_URL"-->
-    <form name="team-members" method="POST"
-          tal:attributes="action view/request/ACTUAL_URL">
-      <input type="hidden" name="handle_request:boolean" id="handle_request"
-             value="True" />
+    <form name="team-members" method="POST" action="manage-memberships">
       <table class="oc-dataTable" cellpadding="0" cellspacing="0">
 
         <thead>
@@ -188,7 +185,7 @@
             <tr class="oc-liveItem" tal:attributes="id item/id">
 
               <td>
-                <input type="checkbox" name="member_ids:list"
+                <input type="checkbox" name="deletes:list"
                        tal:attributes="value item/id" />
               </td>
 
@@ -198,7 +195,9 @@
 
               <td tal:define="member_role item/role">
                 <div class="oc-liveItem-value">
-                  <select tal:attributes="name string:${item/id}-role">
+                  <input type="hidden" name="roles:list"
+                         tal:attributes="value item/id" />
+                  <select tal:attributes="name string:${item/id}_roles">
                     <tal:roleoptions repeat="roleitem view/rolemap/items">
                       <option tal:attributes="value python:roleitem[0];
                                               selected python:(roleitem[1] == member_role) or None"
@@ -231,8 +230,12 @@
 
       <ul class="oc-actions oc-dataTable-actions">
         <li>
-          <button type="submit" name="remove-members:boolean"
-                  value="True" class="oc-button" >remove members</button>
+          <button type="submit" name="task"
+                  value="batch:deletes_remove-members" class="oc-button" >remove members</button>
+          <!--noscript-->
+            <button type="submit" name="task"
+                    value="batch:roles_set-roles" class="oc-button" >set roles</button>
+          <!--/noscript-->
         </li>
       </ul>
     </form>

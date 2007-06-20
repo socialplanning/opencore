@@ -67,6 +67,14 @@
      template="team-manage.pt"
      />
 
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".view.ManageTeamView"
+     permission="teamspace.ManageTeamMemberships"
+     name="manage-memberships"
+     attribute="manage_memberships"
+     />
+
   <subscriber
      for="opencore.interfaces.IOpenPage
           zope.app.event.interfaces.IObjectModifiedEvent"

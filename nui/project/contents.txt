@@ -151,11 +151,11 @@ up a bit::
     >>> view = proj.restrictedTraverse('contents')
 
 
-To perform a batch action, label the task as batch and provide a
-batch[] field with item ids. Provide all the fields necessary for
-performing the action on all the items in the batch; extra fields
-will be ignored and only the items listed in the batch will be
-acted upon::
+To perform a batch action, label the task as batch:FORMFIELDNAME,
+where FORMFIELDNAME is the name of the form field that provides the
+item ids.  Provide all the fields necessary for performing the action
+on all the items in the batch; extra fields will be ignored and only
+the items listed in the batch will be acted upon::
 
     >>> proj.img1.Title()
     'new image'
@@ -165,13 +165,13 @@ acted upon::
     'new list'
 
     >>> request = self.portal.REQUEST
-    >>> form = {'task': 'batch_update',
+    >>> form = {'task': 'batch:files_update',
     ...         'item_type': 'files',
     ...         'fa1_title': 'Castor',
     ...         'img1_title': 'Polydeuces',
     ...         'list1_title': 'Clytemnestra',
     ...         'mode': 'async',
-    ...         'batch[]':['fa1', 'img1']}
+    ...         'files':['fa1', 'img1']}
     >>> request.form = form
     >>> sorted(view.modify_contents().keys())
     ['fa1', 'img1']
@@ -190,10 +190,10 @@ Batch deletes work the same way::
     <ATImage at ...>
 
     >>> request = self.portal.REQUEST
-    >>> form = {'task': 'batch_delete',
+    >>> form = {'task': 'batch:files_delete',
     ...         'item_type': 'files',
     ...         'mode': 'async',
-    ...         'batch[]':['fa1', 'img1']}
+    ...         'files':['fa1', 'img1']}
     >>> request.form = form
     >>> view.modify_contents()
     ['fa1', 'img1']
