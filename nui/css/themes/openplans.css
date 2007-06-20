@@ -76,6 +76,9 @@ ul#oc-topnav-context li.oc-topnav-selected {
 }
 #oc-content-main {
 }
+ul.oc-tabs {
+  border-color: #AAC683;
+}
 #oc-footer-wrapper {
   color: #999;
   background: transparent;
@@ -169,7 +172,8 @@ a:visited {
   color: #2B7284 ;
 }
 a:hover,
-a.oc-actionLink:hover {
+a.oc-actionLink:hover,
+ul.oc-tabs li a.oc-actionLink:hover {
   color: #DE7C07;
   text-decoration: underline;
 }

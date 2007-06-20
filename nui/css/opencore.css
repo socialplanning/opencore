@@ -425,30 +425,33 @@ dl.oc-member-info dd {
 .oc-wiki {
 }
 .oc-wiki-headingBlock {
-  margin-top: 1.5em;
+  margin: 0;
+  display: block;
 }
 ul.oc-tabs {
+  display: block;
   margin-top: -1.5em;
- line-height: 2em;
+  padding: 0;
+  border-bottom: 2px solid #000;
+  text-align: right;
 }
-.oc-tabs li a {
- border: 1px solid #666;
- background: #eee;
+ul.oc-tabs li {
+  display: inline;
 }
-.oc-tabs li a:hover {
-  background: #ccc;
-  border-bottom: 1px solid #000;
-  color: #000;
+ul.oc-tabs li a.oc-actionLink,
+ul.oc-tabs li a.oc-actionLink:visited {
+  padding: 0.5em;
+}
+ul.oc-tabs li a.oc-actionLink:hover {
 }
 /* Selected tab */
-#oc-wiki-tabs-view .oc-wiki-tabs-view a,
-#oc-wiki-tabs-edit .oc-wiki-tabs-edit a,
-#oc-wiki-tabs-history .oc-wiki-tabs-history a,
-#oc-wiki-tabs-version_compare .oc-wiki-tabs-history a,
-#oc-wiki-tabs-version .oc-wiki-tabs-history a
- {
-  border-bottom: 1px solid #fff;
-  background: #fff;
+#oc-tabs-wiki-view #oc-tabs-wikiview a,
+#oc-tabs-wiki-edit #oc-tabs-wikiedit a,
+#oc-tabs-wiki-history #oc-tabs-wikihistory a,
+#oc-tabs-wiki-version_compare #oc-tabs-wikihistory a,
+#oc-tabs-wiki-version #oc-tabs-wikihistory a {
+  color: #000;
+  font-weight: bold;
 }
 .oc-tabs form {
   display: inline;
@@ -623,7 +626,11 @@ a.oc-button:hover {
   display: inline;
   font-size: 12px;
 }
-.oc-bcrumb li {
+.oc-bcrumb li,
+.oc-bcrumb li h1,
+.oc-bcrumb li h2,
+.oc-bcrumb li h3,
+.oc-bcrumb li h4 {
   display: inline;
 }
 .oc-bcrumb .oc-bcrumb-current {
@@ -1218,7 +1225,9 @@ address {
 }
 a {
 }  
-a:hover {
+a:hover,
+a.oc-actionLink:hover,
+ul.oc-tabs li a.oc-actionLink:hover {
 }
 img {
    border: none;
