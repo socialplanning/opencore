@@ -30,7 +30,6 @@ the forgotten password view::
 With '__ac_name' set, it should find and confirm a userid::
 
     >>> view.request.form['__ac_name'] = 'test_user_1_'
-    >>> 
     >>> view.userid
     'test_user_1_'
 
@@ -189,8 +188,11 @@ Get the newly created member::
 Calling the view with the proper key will bring you to your account page::
 
     >>> view = portal.restrictedTraverse("@@confirm-account")
+    >>> view.request.form.clear()
     >>> view.request.form['key'] = key
     >>> view()
+    'http://nohost/plone/init-login'
+
 
 Verify portal status messages aren't being swallowed
 ====================================================

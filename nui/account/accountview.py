@@ -220,9 +220,7 @@ class ConfirmAccountView(AccountView):
 
     @property
     def key(self):
-        key = self.request.get("key")
-        assert key
-        return key
+        return self.request.form["key"]
     
     @instance.memoizedproperty
     def member(self):
