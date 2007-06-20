@@ -8,7 +8,8 @@ from Testing import ZopeTestCase as ztc
 from Products.Five import zcml
 from zope.interface import alsoProvides
 from zope.testing.cleanup import cleanUp
-from opencore.testing.layer import MockHTTP, OpencoreContent
+from opencore.testing.layer import OpencoreContent
+from opencore.tasktracker.mockhttp import MockTaskTrackerHTTP
 
 def clean_CA(tc):
     return cleanUp()
@@ -28,7 +29,7 @@ def directive_setup(tc):
     import opencore.tasktracker
     zcml.load_config('test-directive.zcml', opencore.tasktracker)
 
-class MockHTTPwithContent(MockHTTP, OpencoreContent):
+class MockTaskTrackerHTTPwithContent(MockTaskTrackerHTTP, OpencoreContent):
     """not sure this is the right spelling"""
 
 def test_suite():
@@ -52,7 +53,7 @@ def test_suite():
     
     zcml_suites = (readme,)
     for suite in zcml_suites:
-        suite.layer = MockHTTPwithContent
+        suite.layer = MockTaskTrackerHTTPwithContent
         
     suites = unit_suites + zcml_suites
     return unittest.TestSuite(suites)
