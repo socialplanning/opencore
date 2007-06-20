@@ -67,9 +67,14 @@
   </div><!-- end .widget-invitations -->
   
 
-  <div class="oc-widget oc-widget-dataTable oc-clearAfter">
+  <div class="oc-widget oc-widget-dataTable oc-clearAfter"
+       tal:define="proj_infos view/get_projects_for_user"
+       tal:condition="proj_infos"
+       >
     <div class="oc-headingBlock">
-      <h2 class="oc-toggleFold">Projects you belong to (x)</h2>
+      <h2 class="oc-toggleFold">
+        Projects you belong to (<span tal:replace="python: len(proj_infos)" />)
+      </h2>
     </div><!-- end .headingBlock -->
   
     <table id="" class="oc-dataTable" cellpadding="0" cellspacing="0">
