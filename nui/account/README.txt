@@ -170,8 +170,6 @@ Calling the view with no key in the request will fail and go to the login page::
     >>> view = portal.restrictedTraverse("@@confirm-account")
     >>> view()
     'http://nohost/plone/login'
-    >>> view.portal_status_message[-1]
-    u'Denied -- bad key'
 
 Get the newly created member::
 
