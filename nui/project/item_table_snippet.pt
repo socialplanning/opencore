@@ -17,7 +17,8 @@
     <h3><tal:dummy replace="item_header" /></h3>
   </div>
 
-  <form class="oc-liveForm" action="modify-contents">
+  <form class="oc-liveForm" action="modify-contents"
+	tal:attributes="name form_name">
     <input type="hidden" name="item_type"
       tal:attributes="value item_type" /> 
     <table class="oc-dataTable" cellpadding="0" cellspacing="0">
