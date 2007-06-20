@@ -5,9 +5,11 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.CatalogTool import registerIndexableAttribute
 from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
 from Products.ZCatalog.CatalogBrains import AbstractCatalogBrain
-from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, IIndexingGhost, IMetadataDictionary
+from Products.listen.interfaces import ISearchableArchive
+from Products.listen.interfaces.mailinglist import IMailingList
+from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, IIndexingGhost, IMetadataDictionary, IMailingListThreadCount
 from opencore.nui.project.metadata import registerMetadataGhost
-from zope.component import adapter
+from zope.component import adapter, getUtility
 from zope.interface import Interface
 from zope.interface import implements, implementer
 
@@ -22,6 +24,7 @@ idxs = (('FieldIndex', PROJECT_POLICY, None),
         ('FieldIndex', 'getObjSize', None),
         ('FieldIndex', 'lastModifiedAuthor', None),
         ('DateIndex', 'ModificationDate', None),
+        ('FieldIndex', 'mailing_list_threads', None),
         )
 
 mem_idxs = (('FieldIndex', 'exact_getFullname',
@@ -39,7 +42,7 @@ mem_idxs = (('FieldIndex', 'exact_getFullname',
 
 ghosted_cols = ()
 
-metadata_cols = ghosted_cols + ('lastWorkflowActor', 'made_active_date', 'lastModifiedAuthor')
+metadata_cols = ghosted_cols + ('lastWorkflowActor', 'made_active_date', 'lastModifiedAuthor', 'mailing_list_threads')
 
 
 class LastWorkflowActor(object):
@@ -82,6 +85,12 @@ def metadata_for_portal_content(context, catalog):
     metadata = catalog.getMetadataForUID(uid)
     metadata['getURL']=context.absolute_url()
     return metadata
+
+@adapter(IMailingList)
+@implementer(IMailingListThreadCount)
+def threads_for_mailing_list(lst):
+    util = getUtility(ISearchableArchive, context=lst)
+    return len(util.getToplevelMessages())
 
 class MetadataGhost(object):
     """
@@ -160,7 +169,7 @@ def register_indexable_attrs():
     registerInterfaceIndexer(PROJECT_POLICY, IReadWorkflowPolicySupport, 'getCurrentPolicyId')
     registerInterfaceIndexer('lastWorkflowActor', ILastWorkflowActor, 'getValue')
     registerInterfaceIndexer('lastModifiedAuthor', ILastModifiedAuthorId)
-    
+    registerInterfaceIndexer('mailing_list_threads', IMailingListThreadCount)
 class _extra:
     """ lame holder class to support index 'extra' argument """
     pass

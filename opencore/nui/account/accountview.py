@@ -136,6 +136,7 @@ class JoinView(BaseView):
     @button('join')
     @post_only(raise_=False)
     def handle_request(self):
+        import pdb; pdb.set_trace()
         if self.request.form.get("only_validate"):
             return self.validate()
 

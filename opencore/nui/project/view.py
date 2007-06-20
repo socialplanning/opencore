@@ -53,7 +53,7 @@ class ProjectContentsView(BaseView):
                                      obj_size='getObjSize'),
                          lists=vdict(obj_date='Date',
                                      obj_author='Creator',
-                                     obj_size='getObjSize'),
+                                     obj_size='mailing_list_threads'),
                          )
 
     def retrieve_metadata(self, obj):
@@ -128,6 +128,8 @@ class ProjectContentsView(BaseView):
         brains = self.catalog(portal_type=self._portal_type[item_type],
                               path=self.project_path,
                               sort_on=sort_by)
+        if item_type == 'lists': 
+            import pdb; pdb.set_trace()
         needed_values = self.needed_values[item_type]
         ret = []
         for brain in brains:
@@ -202,6 +204,7 @@ class ProjectContentsView(BaseView):
         brains = self.catalog(id=sources, path=self.project_path)
 
         if action == 'delete':
+            return sources
             survivors = self._delete(brains)
             # return a list of all successfully deleted items
             if survivors:

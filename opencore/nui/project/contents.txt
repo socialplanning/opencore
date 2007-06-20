@@ -29,6 +29,30 @@ featurelets installed::
     False
 
 
+Catalog indexes
+===============
+
+Three new indexes have been added to the portal_catalog.
+
+lastModifiedAuthor and ModificationDate::
+
+    >>> brain = view.catalog(portal_type="Document", path=view.project_path)[0]
+    >>> brain
+    <Products.ZCatalog.Catalog.mybrains object at ...>
+    >>> brain.lastModifiedAuthor
+    'portal_owner'
+    >>> brain.ModificationDate
+    '...'
+
+mailing_list_threads will be None unless the indexed object is a
+Open Mailing List; for lists it counts the number of distinct threads
+in the list::
+    >>> print brain.mailing_list_threads
+    None
+    >>> brain = view.catalog(portal_type="Open Mailing List", path=view.project_path)[0]
+    >>> print brain.mailing_list_threads
+    None
+
 
 Object abstraction
 ==================

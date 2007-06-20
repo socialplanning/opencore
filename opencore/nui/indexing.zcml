@@ -17,4 +17,6 @@
 
   <adapter factory=".indexing.metadata_for_portal_content" />
 
+  <adapter factory=".indexing.threads_for_mailing_list" />
+
 </configure>

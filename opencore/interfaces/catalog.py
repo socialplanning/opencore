@@ -24,3 +24,6 @@ class ILastModifiedAuthorId(Interface):
 
 class IMetadataDictionary(IReadMapping):
     """a dictionary of all the metadata stored for an object"""
+
+class IMailingListThreadCount(Interface):
+    """number of unique threads in a mailing list object"""
