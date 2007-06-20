@@ -2,122 +2,117 @@
   <body>
 
     <!-- FIXME something needs to indicate tag / breadcrumbs ? --> 
-    
+
     <div metal:fill-slot="content">
       <div id="oc-content-main" class="oc-content-main-fullWidth">
-	<div class="oc-wiki">
+        <div class="oc-wiki">
 
-	  <tal:let define="people_url python:here.portal_membership.getMembersFolder().absolute_url();
-			   old_id view/old_version_id;
-			   new_id view/new_version_id;
-			   prev_old_id python: view.previous_id(old_id);
-			   next_old_id python: view.next_id(old_id);
-			   prev_new_id python: view.previous_id(new_id); 
-			   next_new_id python: view.next_id(new_id);            
-			   ">
+          <tal:let define="people_url python:here.portal_membership.getMembersFolder().absolute_url();
+               old_id view/old_version_id;
+               new_id view/new_version_id;
+               prev_old_id python: view.previous_id(old_id);
+               next_old_id python: view.next_id(old_id);
+               prev_new_id python: view.previous_id(new_id); 
+               next_new_id python: view.next_id(new_id);            
+               ">
 
-            <div class="oc-headingBlock oc-wiki-headingBlock">
-              <h2 tal:content="view/pagetitle"></h2>
-            </div>
-            <div metal:use-macro="here/@@wiki_macros/tabs"/>
+          <div metal:use-macro="here/@@wiki_macros/bcrumb" />      
+          <div metal:use-macro="here/@@wiki_macros/tabs" />
 
-            
-
-
-    <div class="oc-headingBlock">
-      <!-- <h1>Compare Versions: <span tal:replace="here/title_or_id">page</span></h1> --> 
-    </div>
-    <div class="oc-widget oc-widget-version-compare">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tr>
-        <th>Comparing</th>
-        <td>
-          <tal:if condition="view/new_prev_enabled">
-            <a class="oc-button oc-smallText" title="older" tal:attributes="href string:version_compare?version_id=${old_id}&version_id=${prev_new_id}">
-                          &lt;
-            </a>
-          </tal:if>
-          <tal:if condition="not: view/new_prev_enabled">
-            <!-- FIXME -->
-          </tal:if>
-        </td>
-        <td>
-          <!-- TITLE -->
-          <a class="oc-version-current" tal:attributes="href string:version?version_id=${new_id}">
-		        <span tal:replace="python: view.version_title(new_id);" />
-		      </a>
-        </td>
-        <td>
-          <!-- next widget -->
-          <tal:if condition="view/new_next_enabled">
-            <a class="oc-button oc-smallText" title="newer" tal:attributes="href string:version_compare?version_id=${old_id}&version_id=${next_new_id}">
-                &gt;<!-- FIXME -->
-            </a>
-          </tal:if>
-          <tal:if condition="not: view/new_next_enabled">
-           <!-- FIXME -->
-          </tal:if>
-        </td>
-        <td>
-          <!-- meta -->
-          by <a tal:define="author view/new_version/sys_metadata/principal" 
-                      tal:attributes="href string:${people_url}/${author}"
-                      tal:content="author">author</a>, 
-		      <span tal:replace="python: view.pretty_mod_date(view.new_version)" />
-        </td>
-      </tr>
-      <tr>
-        <th>to</th>
-        <td>
-          <tal:if condition="view/old_prev_enabled">
-            <a class="oc-button oc-smallText" title="older" tal:attributes="href string:version_compare?version_id=${prev_old_id}&version_id=${new_id}">
-              &lt;
-            </a>
-          </tal:if>
-          <tal:if condition="not: view/old_prev_enabled">
-            <!-- FIXME -->
-          </tal:if>
-        </td>
-        <td>
-          <a class="oc-version-old" tal:attributes="href string:version?version_id=${old_id}">
-            <span tal:replace="python: view.version_title(old_id);" /> 
-          </a>
-        </td>
-        <td>
-          <!-- FIXME next widget --> 
-          <tal:if condition="view/old_next_enabled">
-            <a class="oc-button oc-smallText" title="newer" tal:attributes="href string:version_compare?version_id=${next_old_id}&version_id=${new_id}">
-                &gt;<!-- FIXME -->
-            </a>
-          </tal:if>
-          <tal:if condition="not: view/old_next_enabled">
-            <!-- FIXME -->
-          </tal:if>
-        </td>
-        <td>
-          by <a tal:define="author view/old_version/sys_metadata/principal" 
-                      tal:attributes="href string:${people_url}/${author}"
-                      tal:content="author">author</a>, 
-		      <span tal:replace="python:view.pretty_mod_date(view.old_version)" />
-        </td>
-      </tr>
-    </table>
-              <!-- FIXME: probably this floaty thing should be redone -->
-    <div id="" class="oc-boxy oc-version-compare-legend">
-      <!-- Legend: -->
-      <ul>
-        <li><ins>inserted</ins></li>      
-        <li><del>deleted</del></li>
-      </ul>
-    </div><!-- end .oc-history-compare-legend -->
-    <hr class="oc-clearElement" />
-    </div><!-- end .oc-widget-history-compare -->
-    <hr class="oc-clearElement" />
-            
-            <span tal:replace="structure view/html_diff" />
-            
-	  </tal:let>
-	</div> <!-- end .oc-wiki --> 
+          <div class="oc-headingBlock">
+            <!-- <h1>Compare Versions: <span tal:replace="here/title_or_id">page</span></h1> --> 
+          </div>
+          <div class="oc-widget oc-widget-version-compare">
+          <table cellpadding="0" cellspacing="0" border="0">
+            <tr>
+              <th>Comparing</th>
+              <td>
+                <tal:if condition="view/new_prev_enabled">
+                  <a class="oc-button oc-smallText" title="older" tal:attributes="href string:version_compare?version_id=${old_id}&version_id=${prev_new_id}">
+                    &lt;
+                  </a>
+                </tal:if>
+                <tal:if condition="not: view/new_prev_enabled">
+                  <!-- FIXME -->
+                </tal:if>
+              </td>
+              <td>
+                <!-- TITLE -->
+                <a class="oc-version-current" tal:attributes="href string:version?version_id=${new_id}">
+                  <span tal:replace="python: view.version_title(new_id);" />
+                </a>
+              </td>
+              <td>
+                <!-- next widget -->
+                <tal:if condition="view/new_next_enabled">
+                  <a class="oc-button oc-smallText" title="newer" tal:attributes="href string:version_compare?version_id=${old_id}&version_id=${next_new_id}">
+                    &gt;<!-- FIXME -->
+                  </a>
+                </tal:if>
+                <tal:if condition="not: view/new_next_enabled">
+                 <!-- FIXME -->
+                </tal:if>
+              </td>
+              <td>
+                <!-- meta -->
+                by <a tal:define="author view/new_version/sys_metadata/principal" 
+                            tal:attributes="href string:${people_url}/${author}"
+                            tal:content="author">author</a>, 
+                <span tal:replace="python: view.pretty_mod_date(view.new_version)" />
+              </td>
+            </tr>
+            <tr>
+              <th>to</th>
+              <td>
+                <tal:if condition="view/old_prev_enabled">
+                  <a class="oc-button oc-smallText" title="older" tal:attributes="href string:version_compare?version_id=${prev_old_id}&version_id=${new_id}">
+                    &lt;
+                  </a>
+                </tal:if>
+                <tal:if condition="not: view/old_prev_enabled">
+                  <!-- FIXME -->
+                </tal:if>
+              </td>
+              <td>
+                <a class="oc-version-old" tal:attributes="href string:version?version_id=${old_id}">
+                  <span tal:replace="python: view.version_title(old_id);" /> 
+                </a>
+              </td>
+              <td>
+                <!-- FIXME next widget --> 
+                <tal:if condition="view/old_next_enabled">
+                  <a class="oc-button oc-smallText" title="newer" tal:attributes="href string:version_compare?version_id=${next_old_id}&version_id=${new_id}">
+                      &gt;<!-- FIXME -->
+                  </a>
+                </tal:if>
+                <tal:if condition="not: view/old_next_enabled">
+                  <!-- FIXME -->
+                </tal:if>
+              </td>
+              <td>
+                by <a tal:define="author view/old_version/sys_metadata/principal" 
+                            tal:attributes="href string:${people_url}/${author}"
+                            tal:content="author">author</a>, 
+                <span tal:replace="python:view.pretty_mod_date(view.old_version)" />
+              </td>
+            </tr>
+          </table>
+                    <!-- FIXME: probably this floaty thing should be redone -->
+          <div id="" class="oc-boxy oc-version-compare-legend">
+            <!-- Legend: -->
+            <ul>
+              <li><ins>inserted</ins></li>      
+              <li><del>deleted</del></li>
+            </ul>
+          </div><!-- end .oc-history-compare-legend -->
+          <hr class="oc-clearElement" />
+          </div><!-- end .oc-widget-history-compare -->
+          <hr class="oc-clearElement" />
+                  
+                  <span tal:replace="structure view/html_diff" />
+                  
+          </tal:let>
+        </div> <!-- end .oc-wiki --> 
       </div> <!-- end #oc-content-main --> 
     </div><!-- end content slot -->
   </body>

@@ -28,7 +28,7 @@
     <tbody>
       <tr class="oc-form-row">
         <th class="oc-form-label"><label for="attachmentFile">Locate file</label></th>
-        <td class="oc-form-value"><input type="file"	       
+        <td class="oc-form-value"><input type="file"           
             id="attachmentFile"
             name="attachmentFile"
             size="30" 
@@ -64,29 +64,35 @@
 </form>
 <!-- END FILE UPLOAD FORM -->
 
+<!-- BEGIN WIKI BCRUMB -->
+<ul metal:define-macro="bcrumb" class="oc-headingBlock oc-wiki-headingBlock oc-bcrumb">
+  <li>
+    <h1 class="oc-bcrumb-current" tal:content="view/pagetitle"></h1>
+  </li>
+</ul>
+<!-- END WIKI BCRUMB -->
+
 <!-- BEGIN WIKI TABS -->
-<div tal:attributes="id string:oc-wiki-tabs-${view/name}" metal:define-macro="tabs">
-       <ul class="oc-tabs">
-         <li class="oc-wiki-tabs-view">
-	   <a tal:attributes="href context/absolute_url" rel="view">view</a>
-         </li>
-         <li class="oc-wiki-tabs-edit">
-	   <a tal:attributes="href string:${context/absolute_url}/edit" rel="edit">edit</a>
-         </li>
-         <li class="oc-wiki-tabs-history">
-	   <a tal:attributes="href string:${context/absolute_url}/history" class="oc-selected" rel="history">history</a>
-         </li>
-         <!--
-         <li>
-	   <form class="" >
-             <select class="oc-selectBoxAutoLinks">
-               <option value="">More...</option>
-               <option value="http://www.google.com">I'm feeling lucky</option>
-             </select>
-             <input type="submit" value="Go" style=""/>
-	   </form>
-         </li>
-         -->
-       </ul>
-</div>
+<ul class="oc-tabs" tal:attributes="id string:oc-tabs-wiki-${view/name}" metal:define-macro="tabs">
+  <li id="oc-tabs-wikiview">
+    <a class="oc-actionLink" tal:attributes="href context/absolute_url" rel="view">view</a>
+  </li>
+  <li id="oc-tabs-wikiedit">
+    <a class="oc-actionLink" tal:attributes="href string:${context/absolute_url}/edit" rel="edit">edit</a>
+  </li>
+  <li id="oc-tabs-wikihistory">
+    <a class="oc-actionLink" tal:attributes="href string:${context/absolute_url}/history" class="oc-selected" rel="history">history</a>
+  </li>
+  <!--
+  <li>
+   <form class="" >
+     <select class="oc-selectBoxAutoLinks">
+       <option value="">More...</option>
+       <option value="http://www.google.com">I'm feeling lucky</option>
+     </select>
+     <input type="submit" value="Go" style=""/>
+   </form>
+  </li>
+  -->
+</ul>
 <!-- END WIKI TABS -->
