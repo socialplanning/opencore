@@ -114,7 +114,7 @@ def save_featurelets(obj, event=None, request=None):
     # XXX there must be a better way... :-|
     if request.get('flet_recurse_flag') is not None:
         return
-    import pdb; pdb.set_trace()
+
     request.set('flet_recurse_flag', True)
     registry = getUtility(IFeatureletRegistry)
     supporter = IFeatureletSupporter(obj)
