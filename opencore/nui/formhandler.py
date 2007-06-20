@@ -59,11 +59,14 @@ def octopus(func):
     documented in opencore.nui.project/contents.txt
     """
     def inner(self):
-        # XXX todo don't rely on underscore special character
+        # XXX todo don't rely on '_' or ':' special characters
         target, action = self.request.form.get("task").split("_")
 
-        if target == 'batch' and self.request.form.get('batch[]'):
-            target = self.request.form.get("batch[]")
+        if target.startswith('batch:'):
+            target_elem = target.split(':')[1]
+            target = self.request.form.get(target_elem)
+            if target is None:
+                target = []
         if not isinstance(target, (tuple, list)):
             target = [target]
 

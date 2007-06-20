@@ -11,6 +11,7 @@ from plone.memoize.instance import memoize, memoizedproperty
 from plone.memoize.view import memoize_contextless
 from plone.memoize.view import memoize as req_memoize
 
+from Products.OpenPlans.config import DEFAULT_ROLES
 from opencore.interfaces import IAddProject, IAddSubProject
 from opencore.interfaces.catalog import IMetadataDictionary 
 from opencore.interfaces.event import AfterProjectAddedEvent, \
@@ -566,14 +567,39 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
     #### ACTIVE MEMBERSHIP BUTTON HANDLERS
     ##################
 
-    @formhandler.action('remove-members')
-    def remove_members(self):
+    def _remove_members(self, mem_ids):
         """
         Doesn't actually remove the membership objects, just puts them
         into an inactive workflow state.
         """
-        nremoved = self.doMshipWFAction('deactivate')
+        nremoved = self.doMshipWFAction('deactivate', mem_ids)
         self.addPortalStatusMessage(u'%d members deactivated' % nremoved)
+
+    def _set_roles(self, roles_from_form):
+        """
+        Brings the stored team roles into sync with the values stored
+        in the request form.
+        """
+        nchanges = 0
+        team = self.team
+        for mem_id in roles_from_form:
+            from_form = roles_from_form[mem_id]
+            if team.getHighestTeamRoleForMember(mem_id) != from_form:
+                index = DEFAULT_ROLES.index(from_form)
+                mem_roles = DEFAULT_ROLES[:index + 1]
+                team.setTeamRolesForMember(mem_id, mem_roles)
+                nchanges += 1
+
+        self.addPortalStatusMessage(u'%d roles changed' % nchanges)
+
+    @formhandler.octopus
+    def manage_memberships(self, action, targets, fields=None):
+        if action == "remove-members":
+            self._remove_members(targets)
+        if action == "set-roles":
+            roles = [f.get('roles') for f in fields]
+            roles_from_form = dict(zip(targets, roles))
+            self._set_roles(roles_from_form)
 
 
     ##################
@@ -594,3 +620,19 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         results = searchForPerson(self.membranetool, search_for)
         results = [r for r in results if r.getId not in existing_ids]
         self.results = results
+        self.addPortalStatusMessage(u'%d members found' % len(results))
+
+
+    ##################
+    #### MEMBER ADD BUTTON HANDLER
+    ##################
+    @formhandler.action('invite-member')
+    def invite_member(self):
+        """
+        Sends an invitation notice, and creates a pending membership
+        object, for a member id that is specified in the request form,
+        as the value for the 'invite-member' button.
+        """
+        mem_id = self.request.form.get('invite-member')
+        self.team.addMember(mem_id)
+        self.addPortalStatusMessage(u'%s invited' % mem_id)

@@ -47,7 +47,7 @@
 
     <ul class="oc-actions oc-dataTable-actions">
       <li>
-        <button type="submit" name="task" value="batch_delete" class="oc-button" >Delete</button>
+        <button type="submit" name="task" value="batch:deletes_delete" class="oc-button" >Delete</button>
       </li>
     </ul>
   </form>
