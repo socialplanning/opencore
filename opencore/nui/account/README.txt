@@ -206,7 +206,7 @@ Verify portal status messages aren't being swallowed
     
     Now setup a pseudo post
     >>> request = view.request
-    >>> request.form = dict(__ac_name='m1')
+    >>> request.form = dict(__ac_name='m1', login=True)
     >>> request.environ['REQUEST_METHOD'] = 'POST'
 
     Monkey patch some methods for easier testing
