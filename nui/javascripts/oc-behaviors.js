@@ -247,7 +247,8 @@ OC.LiveForm = function(extEl) {
       // get action/href & split action from params
       var action = el.href.split("?")[0];
       requestData = el.href.split("?")[1];
-      
+      OC.debug("request data is " + requestData);
+      updater = _getUpdater(requestData);
       var requestUri = el.href + "&mode=async";
       
       // make connection
@@ -265,7 +266,7 @@ OC.LiveForm = function(extEl) {
   function _formSubmit(e, el, o) {
     OC.debug("_formSubmit");
     
-    requestData = YAHOO.util.Connect.setForm(liveForm.dom);    
+    requestData = YAHOO.util.Connect.setForm(liveForm.dom);
     updater = _getUpdater(requestData);
     
     if (isUpload) 
