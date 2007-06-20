@@ -134,6 +134,18 @@ Member info
      'url': 'http://nohost/plone/people/test_user_1_'}
 
 
+portal_status_message
+=====================
+
+The BaseView class has a property portal_status_message which returns
+a list of all portal_status_messages: both those saved in the
+plone_utils tool and those passed into the request.
+
+    >>> self.request.form['portal_status_message'] = "I am a banana!"
+    >>> view = BaseView(self.homepage, self.request)
+    >>> view.portal_status_message
+    ['I am a banana!']
+
 include
 -------
 

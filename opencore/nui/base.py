@@ -57,7 +57,13 @@ class BaseView(BrowserView):
     def portal_status_message(self):
         plone_utils = self.get_tool('plone_utils')
         msgs = plone_utils.showPortalMessages()
-        msgs = [msg.message for msg in msgs]
+        if msgs:
+            msgs = [msg.message for msg in msgs]
+        else:
+            msgs = []
+        req_psm = self.request.form.get("portal_status_message")
+        if req_psm:
+            msgs.append(req_psm)
         return msgs
 
     def addPortalStatusMessage(self, msg):
