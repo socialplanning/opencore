@@ -31,7 +31,7 @@ tuple like httplib2.Http.request()::
 The response is set up to return status code 200::
     >>> response.status
     200
-    >>> response.content
+    >>> content
     'Mock request succeeded!'
 
 We will simulate 'deliverPackage' and 'removePackage', the http calls
@@ -44,9 +44,10 @@ to tasktracker::
         u'http://localhost:5050/project/initialize/',
         headers={'X-Openplans-Project': 'p1', 'Cookie': '__ac=...', 'X-Tasktracker-Initialize': 'True'},
         method='POST')
-
+    (<...MockResponse object at ...>, 'Mock request succeeded!')
     >>> ttf._makeHttpReqAsUser(ttf.uninit_uri, obj=project)
     Called httplib2.Http.request(
         u'http://localhost:5050/project/uninitialize/',
         headers={'X-Openplans-Project': 'p1', 'Cookie': '__ac=...'},
         method='POST')
+    (<...MockResponse object at ...>, 'Mock request succeeded!')
