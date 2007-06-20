@@ -226,9 +226,14 @@ class ConfirmAccountView(AccountView):
     def member(self):
         member = None
         
+        try:
+            UID = self.key
+        except KeyError:
+            return None
+    
         # we need to do an unrestrictedSearch because a default search
         # will filter results by user permissions
-        matches = self.membranetool.unrestrictedSearchResults(UID=self.key)
+        matches = self.membranetool.unrestrictedSearchResults(UID=UID)
         if matches:
             member = matches[0].getObject()
         return member
