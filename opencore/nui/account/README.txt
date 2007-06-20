@@ -24,12 +24,12 @@ the forgotten password view::
     >>> view
     <...SimpleViewClass ...forgot.pt...>
 
-    >>> view.request.set('send', True)
+    >>> view.request.form['send'] =  True
     >>> view.userid
 
 With '__ac_name' set, it should find and confirm a userid::
 
-    >>> view.request.set('__ac_name', 'test_user_1_')
+    >>> view.request.form['__ac_name'] = 'test_user_1_'
     >>> 
     >>> view.userid
     'test_user_1_'
@@ -156,7 +156,7 @@ Ah, nothing happened... need to set method to POST::
 
 Ah, nothing happened... need to set button::
 
-    >>> request.set('join', True)
+    >>> request.form['join'] = True
     >>> view.handle_request()
     <OpenMember at /plone/portal_memberdata/foobar>
 
@@ -171,6 +171,8 @@ Calling the view with no key in the request will fail and go to the login page::
     >>> view = portal.restrictedTraverse("@@confirm-account")
     >>> view()
     'http://nohost/plone/login'
+    >>> view.portal_status_message[-1]
+    u'Denied -- bad key'
 
 Get the newly created member::
 
@@ -187,7 +189,6 @@ Get the newly created member::
 Calling the view with the proper key will bring you to your account page::
 
     >>> view = portal.restrictedTraverse("@@confirm-account")
-    >>> request = view.request
     >>> view.request.form['key'] = key
     >>> view()
 
