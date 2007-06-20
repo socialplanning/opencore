@@ -171,6 +171,7 @@ class BaseView(BrowserView):
                 result = dict(
                               id          = member.getId(),
                               fullname    = member.getFullname(),
+                              email       = member.getEmail(),
                               membersince = prettyDate(member.getRawCreation_date()),
                               lastlogin   = prettyDate(member.getLast_login_time()),
                               location    = member.getLocation(),

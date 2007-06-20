@@ -230,6 +230,7 @@ class ProjectPreferencesView(BaseView):
                               errors=self.errors, data=1, metadata=0)
         if not self.errors:
             self.context.processForm(REQUEST=self.request)
+            self.addPortalStatusMessage('Changes saved.')
             self.redirect(self.context.absolute_url())
 
 
