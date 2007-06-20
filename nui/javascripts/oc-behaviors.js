@@ -271,7 +271,7 @@ OC.LiveForm = function(extEl) {
     if (isUpload) 
         YAHOO.util.Connect.setForm(liveForm.dom, true);
 
-    if (updater.task != "noAjax") {
+    if (updater.task && updater.task != "noAjax") {
       YAHOO.util.Event.stopEvent(e);
       var action = liveForm.dom.action;
       var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
