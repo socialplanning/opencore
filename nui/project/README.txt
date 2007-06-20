@@ -47,7 +47,6 @@ Preference View
 
     >>> view.request.set('flet_recurse_flag', None)
     >>> view.request.form.update(form_vars)
-    >>> view.request.form.update(form_vars)
 
     >>> view.handle_request()
     >>> view = proj.restrictedTraverse('preferences')
@@ -61,6 +60,20 @@ Preference View
     >>> from opencore.project.browser.projectinfo import get_featurelets
     >>> get_featurelets(proj)
     []
+
+Make sure we can install a TaskTracker featurelet too::
+    >>> form_vars = dict(full_name='new full name',
+    ...                  workflow_policy='closed_policy',
+    ...                  update=True,
+    ...                  featurelets=['tasks'],
+    ...                  set_flets=1,
+    ...                  __initialize_project__=False)
+    >>> view.request.set('flet_recurse_flag', None)
+    >>> view.request.form.update(form_vars)
+    >>> view.handle_request()
+    Called ...
+    >>> get_featurelets(proj)
+    [{'url': 'tasks', 'name': 'tasks', 'title': u'tasks'}]
 
     Verify who we are logged in as
     >>> getToolByName(self.portal, 'portal_membership').getAuthenticatedMember().getId()

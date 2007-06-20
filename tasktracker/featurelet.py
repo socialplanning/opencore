@@ -64,6 +64,8 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
         header = {"X-Tasktracker-Initialize":"True"}
         response, content = self._makeHttpReqAsUser(self.init_uri, obj=obj,
                                                     headers=header)
+        
+
         if response.status != 200:
 	    raise AssertionError("Project initialization failed: status %d" % response.status)
         return BaseFeaturelet.deliverPackage(self, obj)

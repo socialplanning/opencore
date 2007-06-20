@@ -21,7 +21,18 @@ featurelet install
 The mock http should be hooked up::
 
     >>> ttf.http
-    <Mock ... httplib2.Http>
+    <TaskTrackerMock httplib2.Http>
+
+Calling request(uri) on the mock http will return a (response, content)
+tuple like httplib2.Http.request()::
+    >>> response, content = ttf.http.request('http://nohost')
+    Called ...
+
+The response is set up to return status code 200::
+    >>> response.status
+    200
+    >>> response.content
+    'Mock request succeeded!'
 
 We will simulate 'deliverPackage' and 'removePackage', the http calls
 to tasktracker::

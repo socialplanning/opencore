@@ -66,7 +66,7 @@ class Mock(object):
                 new_name = self.mock_name + '.' + attr
             else:
                 new_name = attr
-            self.mock_attrs[attr] = Mock(new_name)
+            self.mock_attrs[attr] = self.__class__(new_name)
         return self.mock_attrs[attr]
 
     
