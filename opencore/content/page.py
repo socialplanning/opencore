@@ -25,6 +25,7 @@ schema['text'].scope = 'getContainerPath'
 schema['text'].widget.macro = "binsmart_rich"
 schema['text'].widget.helper_js = ("toggle_editor.js",)
 schema['text'].allowable_content_types = ('text/html',)
+schema['text'].default_output_type = 'text/x-html-safe'
 
 schema['description'].widget.rows = 1
 
