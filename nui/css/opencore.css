@@ -496,26 +496,51 @@ ul.oc-tabs li a.oc-actionLink:hover {
 }
 .oc-widget-version-compare table {
   float: left;
-  padding: .25em 1em 0;
-  border-right: 1px solid #ccc;
+  padding: 0;
+  margin: 0;
 }
 .oc-widget-version-compare th {
   text-align: right;
-  padding: .125em 1em;
+  padding: 0 0.5em 0;
+  font-weight: normal;
+  vertical-align: bottom;
+}
+.oc-widget-version-compare h2 {
+	margin: 0;
 }
 .oc-widget-version-compare td {
-  text-align: center;
-  padding: .125em .25em;
+  text-align: left;
+  padding: 0 .25em;
+  vertical-align: bottom;
+  line-height: normal;
+}
+.oc-widget-version-compare td a.oc-button {
+	font-weight: bold;
+	font-size: 12px;
+}
+.oc-widget-version-compare td a:hover.oc-button {
+	text-decoration: none;
 }
 .oc-version-compare-legend {
-  float: left;
-  margin: 0 0 0 1em;
-  padding: .5em 1em;
+  float: right;
+  margin: 0;
+  padding: 0;
+}
+.oc-version-compare-legend h3 {
+  margin: 0;
+  padding: 0;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.oc-version-compare-legend ul {
+  margin: 0;
+  padding: 0;
+  line-height: normal;
 }
 .oc-widget-version-compare ul.oc-actions {
-  float: left;
+  float: right;
   margin: 0 0 0 1em;
-  padding: .5em 1em;
+  padding: 0;
 }
 .oc-widget-version-compare ul.oc-actions li {
   float: left;
@@ -531,8 +556,8 @@ ul.oc-tabs li a.oc-actionLink:hover {
 }
 .oc-wiki del,
 .oc-widget-version-compare a.oc-version-old {
- background: #ddd;
- color: #666;
+ background: #eee;
+ color: #444;
  padding: 0 .125em;
 }
 .oc-wiki ins,
