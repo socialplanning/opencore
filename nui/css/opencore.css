@@ -486,21 +486,23 @@ ul.oc-tabs li a.oc-actionLink:hover {
 
 
 /* History */
-.oc-wiki-history-item-context {
-  padding: 0 0 0 2.5em;
-  margin: 0;
-}
+
 .oc-wiki-history-item {
   margin: .25em 0;
   border: 1px solid transparent;
   padding: .25em;
 }
+.oc-wiki-history-item.oc-selected {
+  background: #eee;
+  border: 1px solid #ccc;
+}
 .oc-wiki-history-item h3 {
   display: inline;
 }
-.oc-wiki-history-item.oc-selected {
-  background: lightgreen;
-  border: 1px solid green;
+.oc-wiki-history-item-context {
+  padding: 0 0 0 1.75em;
+  margin: 0;
+  width: 52em;
 }
 .oc-widget-version-compare {
   margin-bottom: .5em;
@@ -537,7 +539,7 @@ ul.oc-tabs li a.oc-actionLink:hover {
   margin: 0;
   padding: 0;
 }
-.oc-version-compare-legend h3 {
+.oc-version-compare-legend h2 {
   margin: 0;
   padding: 0;
   line-height: normal;
@@ -580,6 +582,15 @@ ul.oc-tabs li a.oc-actionLink:hover {
 }
 .oc-widget-version-compare a.oc-version-current {
   text-decoration: underline;
+}
+.oc-version-note.oc-boxy {
+	background-color: #eee;
+	border-color: #ccc;
+	padding: 0.5em 1em;
+}
+.oc-version-note h3,
+.oc-version-note p {
+	display: inline;
 }
 
 /* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
