@@ -70,7 +70,7 @@
       </h3>
       by 
       <a tal:define="author version/sys_metadata/principal" 
-                           tal:attributes="href string:${people_url}/${author}" 
+                           tal:attributes="href string:${people_url}/${author}/profile" 
                            tal:content="author">author</a>, 
       <span tal:replace="python: view.pretty_mod_date(version)" />
       <p class="oc-wiki-history-item-context oc-discreetText">

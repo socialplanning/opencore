@@ -41,7 +41,7 @@
                     </td>
                       <td>
                         by <a tal:define="author version/sys_metadata/principal" 
-                                tal:attributes="href string:${people_url}/${author}"
+                                tal:attributes="href string:${people_url}/${author}/profile"
                                 tal:content="author">author</a>, modified 
                         <span tal:replace="python:view.pretty_mod_date(version)" />
                       </td>
@@ -49,18 +49,18 @@
                 </table>
                  <tal:if condition="python: version_id != view.current_id()">
                   <ul class="oc-actions">
-                    <li>
-                      <!-- FIXME ? relative --> 
-                      <form method="post" id="revert_form" action="revertversion">
-                        <input type="hidden" name="version_id" tal:attributes="value version_id" />
-                        <input type="submit" name="revert" value="revert to this version" />
-                      </form> 
-                    </li>
                     <tal:if condition="python: version_id != view.current_id()">
                       <li>
                         <a tal:attributes = "href string:version_compare?version_id=${version_id}&version_id=${cur_id}">compare with current version</a>
                       </li>
                     </tal:if>
+                    <li>
+                      <!-- FIXME ? relative --> 
+                      <form method="post" id="revert_form" action="revertversion">
+                        <input type="hidden" name="version_id" tal:attributes="value version_id" />
+                        <input type="submit" name="revert" value="revert to this version" class="oc-smallText" />
+                      </form> 
+                    </li>
                   </ul>
                   </tal:if>
               </div><!-- .oc-widget-version-compare -->

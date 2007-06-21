@@ -484,6 +484,7 @@ ul.oc-tabs li a.oc-actionLink:hover {
   padding-top: .5em;
 }
 
+
 /* History */
 .oc-wiki-history-item-context {
   padding: 0 0 0 2.5em;
@@ -491,7 +492,7 @@ ul.oc-tabs li a.oc-actionLink:hover {
 }
 .oc-wiki-history-item {
   margin: .25em 0;
-  border: 1px solid #fff;
+  border: 1px solid transparent;
   padding: .25em;
 }
 .oc-wiki-history-item h3 {
@@ -501,10 +502,7 @@ ul.oc-tabs li a.oc-actionLink:hover {
   background: lightgreen;
   border: 1px solid green;
 }
-
 .oc-widget-version-compare {
-  background: #eee;
-  border: 1px solid #ccc;
   margin-bottom: .5em;
 }
 .oc-widget-version-compare table {
@@ -557,7 +555,7 @@ ul.oc-tabs li a.oc-actionLink:hover {
 }
 .oc-widget-version-compare ul.oc-actions li {
   float: left;
-  padding-right: 1em;
+  padding-left: 1em;
 }
 .oc-version-compare-legend ul {
   margin: 0;
@@ -575,10 +573,10 @@ ul.oc-tabs li a.oc-actionLink:hover {
 }
 .oc-wiki ins,
 .oc-widget-version-compare a.oc-version-current {
-  background: lightgreen;
+  background: #D7EBCB;
   text-decoration:none;
   padding: 0 .125em;
-  color: #000;
+  color: #003300;
 }
 .oc-widget-version-compare a.oc-version-current {
   text-decoration: underline;
