@@ -250,3 +250,25 @@ Verify portal status messages aren't being swallowed
     Now restore the original methods
     >>> view.membertool.isAnonymousUser = old_membertool_isanon
     >>> view.update_credentials = old_update
+
+Verify authentication challenges do the right thing
+===================================================
+
+Swallow those portal status messages
+
+    >>> view.portal_status_message
+    [...]
+
+Now go to the require_login location
+
+    >>> view = portal.restrictedTraverse('require_login')
+    >>> output = view()
+
+You shouldnt find the old skin in this page
+
+    >>> 'Hey! you need to log in!' in output
+    False
+
+    >>> 'caps lock key is not enabled' in output
+    False
+
