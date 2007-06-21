@@ -121,7 +121,7 @@ ul#oc-topnav-context li.oc-topnav-selected {
 
 /* explore menu */
 #oc-topnav-usermenu li.oc-dropdown-container {
-  background-image: url("/++resource++img/dropdown-indicator-2B7284.gif");
+  background-image: url("/++resource++img/dropdown-nub-87B6C1-2B7284.gif");
   background-repeat: no-repeat;
   background-position: 96% 8px;
   padding-right: 15px;
@@ -1113,6 +1113,13 @@ a.oc-liveItem_cancel {
 .oc-liveEdit-value .oc-liveEdit-hover,
 .oc-liveItem-hover {
  background: #ffffcc;
+}
+.oc-liveItem-directSelect {
+  background-image: url("/++resource++img/dropdown-nub-87B6C1-ffffff.gif");
+  background-position: right center;
+  background-repeat: no-repeat;
+  padding-right: 15px;
+  cursor: pointer;
 }
 
 .oc-liveEdit-form,

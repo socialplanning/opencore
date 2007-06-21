@@ -630,6 +630,7 @@ OC.LiveItem = function(extEl) {
 
       // get references
       var value = Ext.get(Ext.query('.oc-liveItem-value', extEl.dom)[0]); 
+      var directEdit = Ext.get(Ext.query('.oc-liveItem-directEdit', extEl.dom)[0]);
       var editForm = Ext.get(Ext.query('.oc-liveItem-editForm', extEl.dom)[0]);
       var showFormLink = Ext.select(Ext.query('.oc-liveItem_showForm', extEl.dom));
       var hoverShowFormLink = Ext.select(Ext.query('.oc-liveItem_hoverShowForm', extEl.dom));
@@ -674,10 +675,11 @@ OC.LiveItem = function(extEl) {
       }
       value.on('mouseout', _valueMouseout, this);
       
-      function _valueClick(e,el,o) {
-        //_toggleForm();
+      //value.on('click', _toggleForm, this);
+      
+      if (directEdit) {
+        directEdit.on('click', _toggleForm, this);
       }
-      value.on('click', _valueClick, this);
       
       // toggle link
       function _toggleLinksClick(e, el, o) {
@@ -711,14 +713,6 @@ OC.LiveEdit = function(extEl) {
     //    return;
 
     OC.debug(form.dom);
-    
-    //clear listeners. Temporary as elements can be made liveItems repeatedly right now. 
-    container.removeAllListeners();
-    value.removeAllListeners();
-    edit.removeAllListeners();
-    delete_.removeAllListeners();
-    form.removeAllListeners();
-    cancel.removeAllListeners();
 
     /*
      # Attach Behaviors
