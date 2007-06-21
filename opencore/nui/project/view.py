@@ -202,7 +202,6 @@ class ProjectContentsView(BaseView):
         brains = self.catalog(id=sources, path=self.project_path)
 
         if action == 'delete':
-            return sources
             survivors = self._delete(brains)
             # return a list of all successfully deleted items
             if survivors:
