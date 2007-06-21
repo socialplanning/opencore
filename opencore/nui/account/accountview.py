@@ -68,6 +68,7 @@ class LoginView(AccountView):
 
     def require_login(self):
         if self.loggedin is False:
+            self.addPortalStatusMessage('Hey!')
             return self.redirect(self.login_url)
         return self.redirect('insufficient_privileges')
 
