@@ -29,7 +29,7 @@
               <td>
                 <tal:if condition="view/new_prev_enabled">
                   <a class="oc-button oc-smallText" title="older" tal:attributes="href string:version_compare?version_id=${old_id}&version_id=${prev_new_id}">
-                    &lt;
+                    &larr;
                   </a>
                 </tal:if>
                 <tal:if condition="not: view/new_prev_enabled">
@@ -46,7 +46,7 @@
                 <!-- next widget -->
                 <tal:if condition="view/new_next_enabled">
                   <a class="oc-button oc-smallText" title="newer" tal:attributes="href string:version_compare?version_id=${old_id}&version_id=${next_new_id}">
-                    &gt;<!-- FIXME -->
+                    &rarr;<!-- FIXME -->
                   </a>
                 </tal:if>
                 <tal:if condition="not: view/new_next_enabled">
@@ -68,7 +68,7 @@
               <td>
                 <tal:if condition="view/old_prev_enabled">
                   <a class="oc-button oc-smallText" title="older" tal:attributes="href string:version_compare?version_id=${prev_old_id}&version_id=${new_id}">
-                    &lt;
+                    &larr;
                   </a>
                 </tal:if>
                 <tal:if condition="not: view/old_prev_enabled">
@@ -84,7 +84,7 @@
                 <!-- FIXME next widget --> 
                 <tal:if condition="view/old_next_enabled">
                   <a class="oc-button oc-smallText" title="newer" tal:attributes="href string:version_compare?version_id=${next_old_id}&version_id=${new_id}">
-                      &gt;<!-- FIXME -->
+                      &rarr;<!-- FIXME -->
                   </a>
                 </tal:if>
                 <tal:if condition="not: view/old_next_enabled">
@@ -104,16 +104,15 @@
                   <!-- FIXME ? relative --> 
                   <form method="post" id="revert_form" action="revertversion">
                     <input type="hidden" name="version_id" tal:attributes="value old_id" />
-                    <input type="submit" name="revert" value="revert to this version" />
+                    <input type="submit" class="oc-smallText" name="revert" value="revert to this version" />
                   </form> 
                 </tal:if>
               </td>
             </tr>
           </table>
-	  
-                    <!-- FIXME: probably this floaty thing should be redone -->
+
           <div class="oc-version-compare-legend oc-smallText">
-            <h3 class="oc-smallText">Key</h3>
+            <h2 class="oc-smallText">Key</h2>
             <ul>
               <li><ins>inserted</ins></li>      
               <li><del>deleted</del></li>
