@@ -191,6 +191,33 @@ Calling the view with the proper key will bring you to your account page::
     >>> view()
     'http://nohost/plone/init-login'
 
+Login
+=====
+
+Logout first
+
+    >>> self.logout()
+    >>> portal.portal_membership.getAuthenticatedMember()
+    <SpecialUser 'Anonymous User'>
+
+Get the login view
+
+    >>> view = portal.restrictedTraverse('@@login')
+
+Clear the portal status messages and form
+
+    >>> view.portal_status_message
+    [...]
+    >>> view.request.form.clear()
+
+Login [to be done]
+
+    >>> view.request.form['__ac_name'] = 'foobar'
+    >>> view.request.form['__ac_password'] = 'testy'
+    >>> output = view()
+
+[Output should really be the user's homepage.  but it isn't
+due to the fact that PAS isn't called.  Deal with this later]
 
 Verify portal status messages aren't being swallowed
 ====================================================
