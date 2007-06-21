@@ -50,8 +50,6 @@ in the list::
     >>> print brain.mailing_list_threads
     None
     >>> brain = view.catalog(portal_type="Open Mailing List", path=view.project_path)[0]
-    >>> brain.getObject().reindexObject('mailing_list_threads')
-    >>> brain = view.catalog(portal_type="Open Mailing List", path=view.project_path)[0]
     >>> brain.mailing_list_threads
     '0'
 
