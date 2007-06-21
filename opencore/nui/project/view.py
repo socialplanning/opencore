@@ -128,8 +128,6 @@ class ProjectContentsView(BaseView):
         brains = self.catalog(portal_type=self._portal_type[item_type],
                               path=self.project_path,
                               sort_on=sort_by)
-        if item_type == 'lists': 
-            import pdb; pdb.set_trace()
         needed_values = self.needed_values[item_type]
         ret = []
         for brain in brains:
