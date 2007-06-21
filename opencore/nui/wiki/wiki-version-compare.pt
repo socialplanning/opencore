@@ -98,13 +98,19 @@
                 <span tal:replace="python:view.pretty_mod_date(view.old_version)" />
               </td>
               <td>
-                <form method="post" id="revert_form" action="revertversion">
-                  <input type="hidden" name="version_id" />
-                  <input type="submit" name="revert" value="revert to this version" class="oc-smallText" />
-                </form> 
+                <!-- show the revert button if an old version is being 
+                     compared to the current version --> 
+                <tal:if condition="python: new_id == view.current_id()">
+                  <!-- FIXME ? relative --> 
+                  <form method="post" id="revert_form" action="revertversion">
+                    <input type="hidden" name="version_id" tal:attributes="value old_id" />
+                    <input type="submit" name="revert" value="revert to this version" />
+                  </form> 
+                </tal:if>
               </td>
             </tr>
           </table>
+	  
                     <!-- FIXME: probably this floaty thing should be redone -->
           <div class="oc-version-compare-legend oc-smallText">
             <h3 class="oc-smallText">Key</h3>
