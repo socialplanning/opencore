@@ -12,4 +12,12 @@
      template="list.pt"
      />
 
+  <browser:page
+     for="opencore.featurelets.interfaces.IListenContainer"
+     name="mailing_lists"
+     class="opencore.nui.base.BaseView"
+     permission="zope2.View"
+     template="lists.pt"
+     />
+
 </configure>

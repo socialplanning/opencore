@@ -1,0 +1,10 @@
+<html metal:use-macro="here/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">
+      <div id="oc-content-main">
+        someday i will display a list of all mailing lists
+        belonging to this project
+      </div>
+    </div>
+  </body>
+</html>
