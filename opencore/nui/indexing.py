@@ -90,10 +90,10 @@ def metadata_for_portal_content(context, catalog):
 @implementer(IMailingListThreadCount)
 def threads_for_mailing_list(lst):
     util = getUtility(ISearchableArchive, context=lst)
-    msgs = util.getToplevelMessages())
+    msgs = util.getToplevelMessages()
     # we will cast the result to a string because 0 == False
     # which causes Missing.Value trouble in the catalog
-    return str(len(msgs))  
+    return str(len(msgs))
 
 class MetadataGhost(object):
     """
