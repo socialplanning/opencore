@@ -9,7 +9,7 @@ from Products.listen.interfaces import ISearchableArchive
 from Products.listen.interfaces.mailinglist import IMailingList
 from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, IIndexingGhost, IMetadataDictionary, IMailingListThreadCount
 from opencore.nui.project.metadata import registerMetadataGhost
-from zope.component import adapter, getUtility
+from zope.component import adapter, queryUtility
 from zope.interface import Interface
 from zope.interface import implements, implementer
 
@@ -89,8 +89,14 @@ def metadata_for_portal_content(context, catalog):
 @adapter(IMailingList)
 @implementer(IMailingListThreadCount)
 def threads_for_mailing_list(lst):
-    util = getUtility(ISearchableArchive, context=lst)
-    msgs = util.getToplevelMessages()
+    util = queryUtility(ISearchableArchive, context=lst)
+    if not util:
+        # if we don't have an ISearchableArchive,
+        # we presumably have no threads either
+        msgs = []
+    else:
+        msgs = util.getToplevelMessages()
+
     # we will cast the result to a string because 0 == False
     # which causes Missing.Value trouble in the catalog
     return str(len(msgs))

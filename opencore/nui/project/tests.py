@@ -8,6 +8,9 @@ from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from zope.interface import alsoProvides
 from opencore.featurelets.interfaces import IListenContainer
 from opencore.tasktracker.tests import MockHTTPwithContent
+from zope.app.component.hooks import setSite
+from Products.Five.site.localsite import enableLocalSiteHook
+from zope.app.component.hooks import setSite, setHooks
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
@@ -36,6 +39,9 @@ def test_suite():
         lists = proj.lists
         lists.setLayout('mailing_lists')
         alsoProvides(lists, IListenContainer)
+        enableLocalSiteHook(tc.portal)
+        setSite(tc.portal)
+        setHooks()
         proj.lists.invokeFactory('Open Mailing List', 'list1', title=u'new list')
         
     def readme_setup(tc):
