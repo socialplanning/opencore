@@ -11,7 +11,7 @@
         <h1>Start a project</h1>
       </div>
       <div id="oc-content-main" class="oc-content-main-fullWidth">
-        <form name="create_form" method="post" class="enableUnloadProtection"
+        <form name="create_form" id="oc-project-create" method="post" class="enableUnloadProtection"
             tal:attributes="action view/name">
           <input type="hidden" name="set_flets" value="1"/>
           <fieldset class="oc-boxy">

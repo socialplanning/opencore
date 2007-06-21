@@ -30,7 +30,8 @@ OC.liveElementKey = {
   ".oc-liveForm" : "LiveForm",
   ".oc-liveItem" : "LiveItem",
   ".oc-widget-multiSearch" : "SearchLinks",
-  '#oc-usermenu-list' : "TopNav"
+  '#oc-usermenu-list' : "TopNav",
+  '#oc-project-create' : "ProjectCreateForm"
 }
     
 /* 
@@ -562,6 +563,60 @@ OC.TopNav = function(extEl) {
   exploreItem.on('mouseover', _toggleMenuPreview, this);
   exploreItem.on('mouseout', _toggleMenuPreview, this)
 }
+
+
+/* 
+#
+#  Project Create Form
+#
+*/
+OC.ProjectCreateForm = function(extEl) {
+  // get refs
+  var form = extEl;
+  var nameField = Ext.get(Ext.query('#full_name')[0], form.dom);
+  var urlField = Ext.get(Ext.query('#title')[0], form.dom);
+  
+  // check refs
+  if (!form || !nameField || !urlField) {
+    OC.debug("ProjectCreateForm: couldn't get refs");
+  } else {
+    OC.debug("ProjectCreateForm: got refs");
+  }
+  
+  // settings & properties
+  /* has the user manually overridden our suggested url? */
+  var customUrl = false;
+  
+  // suggested URL
+  var suggestedUrl = "";
+  
+  function _urlize(e, el, o) {
+    if (!customUrl) {
+       suggestedUrl = Ext.util.Format.trim(el.value).toLowerCase().replace(/[^a-zA-Z0-9\s]/gi, "").replace(/  /g, " ").replace(/ /g, "-");
+       OC.debug(suggestedUrl);
+       urlField.dom.value = suggestedUrl;
+    } else {
+      OC.debug('custom URL: will not suggest'); 
+    }
+  }
+  nameField.on('keyup', _urlize, this);
+  
+  function _checkForCustomUrl(e, el, o) {
+    if (el.value != suggestedUrl) {
+      customUrl = true;
+      OC.debug('custom url')
+    }
+  }
+  urlField.on('keyup', _checkForCustomUrl, this);
+  
+  /* TO DO: Validate project url via Ajax
+  #  title field: onblur
+  #  url field: onkeyup
+  #
+  */  
+
+
+}// end OC.ProjectCreateForm()
 
 /* 
 #
