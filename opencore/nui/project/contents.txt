@@ -53,6 +53,18 @@ in the list::
     >>> brain.mailing_list_threads
     '0'
 
+Create a new message in the mailing list::
+    >>> lst = brain.getObject()
+    >>> mail_msg = '''To: list1@example.com
+    ... From: test1@example.com
+    ... Subject: A new Subject
+    ... Date: Wed, 5 Mar 2005 12:00:00 -0000
+    ...
+    ...
+    ... A new message.
+    ... '''
+    >>> message = lst.addMail(mail_msg)
+    Woohoo!
 
 Object abstraction
 ==================
