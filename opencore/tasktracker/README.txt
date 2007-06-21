@@ -21,7 +21,7 @@ featurelet install
 The mock http should be hooked up::
 
     >>> ttf.http
-    <TaskTrackerMock httplib2.Http>
+    <HTTPMock ... httplib2.Http>
 
 Calling request(uri) on the mock http will return a (response, content)
 tuple like httplib2.Http.request()::

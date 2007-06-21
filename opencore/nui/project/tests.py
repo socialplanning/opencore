@@ -5,7 +5,7 @@ from Testing.ZopeTestCase import PortalTestCase
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from opencore.testing.layer import OpencoreContent
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
-from opencore.tasktracker.tests import MockTaskTrackerHTTPwithContent
+from opencore.tasktracker.tests import MockHTTPwithContent
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
@@ -77,7 +77,7 @@ def test_suite():
     suites = (contents, metadata, manage_team)
     for suite in suites:
         suite.layer = OpencoreContent
-    readme.layer = MockTaskTrackerHTTPwithContent
+    readme.layer = MockHTTPwithContent
 
     return unittest.TestSuite(suites + (readme,))
 
