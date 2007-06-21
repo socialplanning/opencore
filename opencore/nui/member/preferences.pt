@@ -80,8 +80,8 @@
     <table id="" class="oc-dataTable" cellpadding="0" cellspacing="0">
       <thead>
         <tr>
-          <th class="" scope="col"><input type="checkbox" /></th>
-          <th class="oc-columnSortable" scope="col">Project </th>
+          <th class="" style="width: 10px;" scope="col"><input type="checkbox" /></th>
+          <th class="oc-columnSortable" style="width: 200px;" scope="col">Project </th>
           <th class="oc-columnSortable" scope="col">Role</th>
           <th class="oc-columnSortable" scope="col">Since</th>
           <th class="oc-columnSortable" scope="col">Status</th>
@@ -92,26 +92,30 @@
         <tr>
           <td><input type="checkbox" /></td>
           <td class="oc-dataTable-row-title"><a href="">Animal Campaign for a poor little sick kittie named Fatty</a></td>
-          <td id="liveEdit_11" class="oc-liveEdit">
-      <span id="liveEdit_11_value" class="oc-liveEdit-value">not set</span>
-      <div id="liveEdit_11_form" class="oc-liveEdit-form">
-        <select>
-          <option>Member</option>
-          <option>Administrator</option>
-          <option>Administrator2</option>
-          <option>Administrator3</option>
-        </select>
-      </div>
-          </td>
-          <td>5:30am</td>
-          <td id="oc-liveEdit_12" class="oc-liveEdit">
-      <span id="oc-liveEdit_12_value" class="oc-liveEdit-value">not set</span>
-      <div id="oc-liveEdit_12_form" class="oc-liveEdit-form">
+            <td id="oc-liveEdit_8" class="oc-liveItem">
+      <span id="oc-liveEdit_8_value" class="oc-liveItem-value oc-liveItem-directEdit oc-liveItem-directSelect">not set</span>
+      <div id="oc-liveEdit_8_form" class="oc-liveItem-editForm">
         <select>
           <option>-- not set --</option>
           <option>Active</option>
           <option>Banned</option>
         </select>
+        <a href="#" class="oc-liveItem_cancel">Cancel</a>
+      </div>
+          </td>
+      <td>5:30am</td>
+          <td id="" class="oc-liveItem">
+      <span id="" class="oc-liveItem-value oc-liveItem-directEdit oc-liveItem-directSelect">not set</span>
+      <div id="" class="oc-liveItem-editForm">
+        <select>
+          <option>-- not set --</option>
+          <option>Member</option>
+          <option>Administrator</option>
+          <option>Administrator2</option>
+          <option>Administrator3</option>
+        </select>
+        <a href="#" class="oc-liveItem_cancel">Cancel</a>
+        <!--<input type="submit" value="save" />-->
       </div>
           </td>
           <td>
@@ -123,19 +127,20 @@
         <tr>
           <td><input type="checkbox" /></td>
           <td class="oc-dataTable-row-title"><a href="">Animal Campaign 2</a></td>
-          <td id="oc-liveEdit_9" class="oc-liveEdit">
-      <span id="oc-liveEdit_9_value" class="oc-liveEdit-value">not set</span>
-      <div id="oc-liveEdit_9_form" class="oc-liveEdit-form">
+          <td id="oc-liveEdit_9" class="oc-liveItem">
+      <span id="oc-liveEdit_9_value" class="oc-liveItem-value oc-liveItem-directEdit oc-liveItem-directSelect">not set</span>
+      <div id="oc-liveEdit_9_form" class="oc-liveItem-editForm">
         <select>
           <option>-- not set --</option>
           <option>Active</option>
           <option>Banned</option>
         </select>
+        <a href="#" class="oc-liveItem_cancel">Cancel</a>
       </div>
           </td>          <td>5:30am</td>
-          <td id="oc-liveEdit_13" class="oc-liveEdit">
-      <span id="oc-liveEdit_13_value" class="oc-liveEdit-value">not set</span>
-      <div id="oc-liveEdit_13_form" class="oc-liveEdit-form">
+          <td id="" class="oc-liveItem">
+      <span id="" class="oc-liveItem-value oc-liveItem-directEdit oc-liveItem-directSelect">not set</span>
+      <div id="" class="oc-liveItem-editForm">
         <select>
           <option>-- not set --</option>
           <option>Member</option>
@@ -143,6 +148,7 @@
           <option>Administrator2</option>
           <option>Administrator3</option>
         </select>
+        <a href="#" class="oc-liveItem_cancel">Cancel</a>
         <!--<input type="submit" value="save" />-->
       </div>
           </td>
