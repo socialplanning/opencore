@@ -150,6 +150,19 @@ ul#oc-topnav-context li.oc-topnav-selected {
 }
 #oc-usermenu-list li #oc-usermenu-explore li {
   float: none;
+  padding: 0;
+  margin: 0;
+}
+#oc-usermenu-list li #oc-usermenu-explore li a {
+  display: block;
+  margin: 0;
+  padding: .25em;
+}
+#oc-usermenu-list li #oc-usermenu-explore li a:hover {
+  display: block;
+  background: #444;
+  margin: 0;
+  padding: .25em;
 }
 
 /* @FOOTER - Global footer

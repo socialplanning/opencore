@@ -526,24 +526,24 @@ OC.TopNav = function(extEl) {
   }
     
   function _toggleExplore(e, el, o) {
-    YAHOO.util.Event.stopEvent(e);
+    //YAHOO.util.Event.stopEvent(e);
     
-    if (exploreMenu.isVisible()) {
+    if (exploreMenu.isVisible() && el.tagName != "A") {
       _hideExplore(e);
     } else {
       _showExplore(e); 
     }
   }
-  exploreLink.on('click', _toggleExplore, this, { stopPropogation: true});
+  exploreItem.on('click', _toggleExplore, this, { stopPropogation: true});
   
   function _showExplore(e, el, o) {
-    YAHOO.util.Event.stopEvent(e);
+    //YAHOO.util.Event.stopEvent(e);
     exploreMenu.show();
     exploreItem.addClass('oc-selected');
   }
   
   function _hideExplore(e, el, o) {
-    YAHOO.util.Event.stopEvent(e);
+    //YAHOO.util.Event.stopEvent(e);
     if (exploreMenu.isVisible()) {
           exploreMenu.hide();
           exploreItem.removeClass('oc-selected');
