@@ -514,6 +514,7 @@ OC.TopNav = function(extEl) {
   // get refs
   var container = extEl;
   var exploreItem = Ext.get(extEl.dom.getElementsByTagName('li')[0]);
+  var exploreLink = Ext.get(exploreItem.dom.getElementsByTagName('a')[0]);
   var exploreMenu = Ext.get(exploreItem.dom.getElementsByTagName('ul')[0]);
   
   // check refs
@@ -523,21 +524,32 @@ OC.TopNav = function(extEl) {
   } else {
     OC.debug("TopNav: got refs");
   }
+    
+  function _toggleExplore(e, el, o) {
+    YAHOO.util.Event.stopEvent(e);
+    
+    if (exploreMenu.isVisible()) {
+      _hideExplore(e);
+    } else {
+      _showExplore(e); 
+    }
+  }
+  exploreLink.on('click', _toggleExplore, this, { stopPropogation: true});
   
   function _showExplore(e, el, o) {
     YAHOO.util.Event.stopEvent(e);
     exploreMenu.show();
     exploreItem.addClass('oc-selected');
   }
-  exploreItem.on('click', _showExplore, this);
   
   function _hideExplore(e, el, o) {
+    YAHOO.util.Event.stopEvent(e);
     if (exploreMenu.isVisible()) {
           exploreMenu.hide();
           exploreItem.removeClass('oc-selected');
     }
   }
-  Ext.get(document.body).on('click', _hideExplore, this);
+  //exploreMenu.on('mouseout', _hideExplore, this);
   
   function _toggleMenuPreview(e, el, o) {
     if (exploreItem.hasClass('oc-hover')) {
