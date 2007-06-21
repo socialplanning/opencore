@@ -66,10 +66,28 @@ class Mock(object):
                 new_name = self.mock_name + '.' + attr
             else:
                 new_name = attr
-            self.mock_attrs[attr] = Mock(new_name)
+            self.mock_attrs[attr] = self.__class__(new_name)
         return self.mock_attrs[attr]
 
+class HTTPMock(Mock):
+    """ 
+    A mock object for simulating httplib2.Http objects
+    """
+    class MockResponse(object):
+        def __init__(self, status=200):
+            self.status = status
     
+    def __call__(self, *args, **kw):
+        base_response = Mock.__call__(self, *args, **kw)
+        if self.mock_name.endswith("request"):
+            response = HTTPMock.MockResponse(200)
+            content = "Mock request succeeded!"
+            return (response, content)
+        return base_response
+
+    def __repr__(self):
+        return '<HTTPMock %s %s>' % (hex(id(self)), self.mock_name)
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()

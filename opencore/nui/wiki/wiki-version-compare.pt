@@ -22,10 +22,10 @@
           <div class="oc-headingBlock">
             <!-- <h1>Compare Versions: <span tal:replace="here/title_or_id">page</span></h1> --> 
           </div>
-          <div class="oc-widget oc-widget-version-compare">
+          <div class="oc-widget oc-widget-version-compare oc-boxy oc-clearAfter">
           <table cellpadding="0" cellspacing="0" border="0">
             <tr>
-              <th>Comparing</th>
+              <th scope="row">Comparing</th>
               <td>
                 <tal:if condition="view/new_prev_enabled">
                   <a class="oc-button oc-smallText" title="older" tal:attributes="href string:version_compare?version_id=${old_id}&version_id=${prev_new_id}">
@@ -38,9 +38,9 @@
               </td>
               <td>
                 <!-- TITLE -->
-                <a class="oc-version-current" tal:attributes="href string:version?version_id=${new_id}">
+                <h2 class="oc-bigText"><a class="oc-version-current" tal:attributes="href string:version?version_id=${new_id}">
                   <span tal:replace="python: view.version_title(new_id);" />
-                </a>
+                </a></h2>
               </td>
               <td>
                 <!-- next widget -->
@@ -57,12 +57,12 @@
                 <!-- meta -->
                 by <a tal:define="author view/new_version/sys_metadata/principal" 
                             tal:attributes="href string:${people_url}/${author}"
-                            tal:content="author">author</a>, 
+                            tal:content="author">author</a>, modified
                 <span tal:replace="python: view.pretty_mod_date(view.new_version)" />
               </td>
             </tr>
             <tr>
-              <th>to</th>
+              <th scope="row">to</th>
               <td>
                 <tal:if condition="view/old_prev_enabled">
                   <a class="oc-button oc-smallText" title="older" tal:attributes="href string:version_compare?version_id=${prev_old_id}&version_id=${new_id}">
@@ -74,9 +74,9 @@
                 </tal:if>
               </td>
               <td>
-                <a class="oc-version-old" tal:attributes="href string:version?version_id=${old_id}">
+                <h2 class="oc-bigText"><a class="oc-version-old" tal:attributes="href string:version?version_id=${old_id}">
                   <span tal:replace="python: view.version_title(old_id);" /> 
-                </a>
+                </a></h2>
               </td>
               <td>
                 <!-- FIXME next widget --> 
@@ -92,22 +92,20 @@
               <td>
                 by <a tal:define="author view/old_version/sys_metadata/principal" 
                             tal:attributes="href string:${people_url}/${author}"
-                            tal:content="author">author</a>, 
+                            tal:content="author">author</a>, modified
                 <span tal:replace="python:view.pretty_mod_date(view.old_version)" />
               </td>
             </tr>
           </table>
                     <!-- FIXME: probably this floaty thing should be redone -->
-          <div id="" class="oc-boxy oc-version-compare-legend">
-            <!-- Legend: -->
+          <div class="oc-version-compare-legend oc-smallText">
+            <h3 class="oc-smallText">Key</h3>
             <ul>
               <li><ins>inserted</ins></li>      
               <li><del>deleted</del></li>
             </ul>
           </div><!-- end .oc-history-compare-legend -->
-          <hr class="oc-clearElement" />
           </div><!-- end .oc-widget-history-compare -->
-          <hr class="oc-clearElement" />
                   
                   <span tal:replace="structure view/html_diff" />
                   

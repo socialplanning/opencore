@@ -5,6 +5,9 @@ from Testing.ZopeTestCase import PortalTestCase
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from opencore.testing.layer import OpencoreContent
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
+from zope.interface import alsoProvides
+from opencore.featurelets.interfaces import IListenContainer
+from opencore.tasktracker.tests import MockHTTPwithContent
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
@@ -30,10 +33,11 @@ def test_suite():
         proj.invokeFactory('Image', 'img1', title='new image')
         proj.restrictedTraverse('project-home').invokeFactory('FileAttachment', 'fa1', title='new file')
         proj.invokeFactory('Folder', 'lists', title='Listen Stub')
-        proj.lists.invokeFactory('Document', 'list1', title='new list')
-        proj.lists.list1.portal_type = "Open Mailing List"
-        proj.lists.list1.reindexObject()
-
+        lists = proj.lists
+        lists.setLayout('mailing_lists')
+        alsoProvides(lists, IListenContainer)
+        proj.lists.invokeFactory('Open Mailing List', 'list1', title=u'new list')
+        
     def readme_setup(tc):
         tc._refreshSkinData()
 
@@ -73,11 +77,14 @@ def test_suite():
                                          globs = globs, 
                                          )
 
-    suites = (readme, contents, metadata, manage_team)
+    suites = (contents, metadata, manage_team)
     for suite in suites:
         suite.layer = OpencoreContent
 
-    return unittest.TestSuite(suites)
+    return unittest.TestSuite((contents,))
+
+    readme.layer = MockHTTPwithContent
+    return unittest.TestSuite(suites + (readme,))
 
 
 if __name__ == '__main__':
