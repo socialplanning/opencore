@@ -615,7 +615,9 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         out any members for which a team membership already exists,
         since this is used to add new members to the team.
         """
-        existing_ids = dict.fromkeys(self.team.getMemberIds())
+        filtered_states = ('pending', 'private', 'public')
+        existing_ids = self.team.getMemberIdsByStates(filtered_states)
+        existing_ids = dict.fromkeys(existing_ids)
 
         search_for = self.request.form.get('search_for')
         results = searchForPerson(self.membranetool, search_for)
@@ -635,5 +637,16 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         as the value for the 'invite-member' button.
         """
         mem_id = self.request.form.get('invite-member')
-        self.team.addMember(mem_id)
+        if not mem_id in self.team.getMemberIds():
+            # create the membership
+            self.team.addMember(mem_id)
+        else:
+            # reinvite existing membership
+            wftool = self.get_tool('portal_workflow')
+            mship = self.team.getMembershipByMemberId(mem_id)
+            transitions = wftool.getTransitionsFor(mship)
+            if 'reinvite' not in [t['id'] for t in transitions]:
+                self.addPortalStatusMessage(u'%s cannot be invited' % mem_id)
+                raise Redirect('%s/manage-team' % self.context.absolute_url())
+            wftool.doActionFor(mship, 'reinvite')
         self.addPortalStatusMessage(u'%s invited' % mem_id)
