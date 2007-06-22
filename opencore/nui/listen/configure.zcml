@@ -20,4 +20,30 @@
      template="lists.pt"
      />
 
+
+  <include package="plone.app.form" />
+
+  <browser:page
+     name="opencore.add_mailinglist"
+     for="opencore.featurelets.interfaces.IListenContainer"
+     permission="listen.AddMailingList"
+     class=".view.MailingListAddView"
+     template="../formlib.pt"
+     />
+
+  <browser:page
+     name="edit"
+     for="opencore.listen.interfaces.IOpenMailingList"
+     permission="listen.EditMailingList"
+     class=".view.MailingListEditView"
+     template="../formlib.pt"
+     />
+
+  <browser:page
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     name="send_listen_mail"
+     class="Products.listen.utilities.list_lookup.MailDeliveryView"
+     permission="zope2.Public"
+     />
+
 </configure>
