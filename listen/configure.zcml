@@ -4,6 +4,8 @@
            xmlns:i18n="http://namespaces.zope.org/i18n"
            i18n_domain="opencore">
 
+  <!-- moved to opencore/nui/listen/configure.zcml
+
   <include package="plone.app.form" />
 
   <browser:page
@@ -26,5 +28,7 @@
      class="Products.listen.utilities.list_lookup.MailDeliveryView"
      permission="zope2.Public"
      />
+
+   -->
 
 </configure>
