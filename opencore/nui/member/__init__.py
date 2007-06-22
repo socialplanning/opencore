@@ -31,14 +31,16 @@ class MemberPreferences(BaseView):
         elts = path.split('/')
         project_id = elts[-2]
         project_info = self._project_metadata_for(project_id)
-        project = project_info['Title']
+        proj_title = project_info['Title']
+        proj_id = project_info['getId']
 
         mship_activated_on = self.pretty_date(brain.made_active_date)
 
         review_state = brain.review_state
         listed = review_state == 'public'
 
-        return dict(title=project,
+        return dict(title=proj_title,
+                    proj_id=proj_id,
                     since=mship_activated_on,
                     listed=listed,
                     )
