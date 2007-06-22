@@ -63,6 +63,8 @@ class ProjectsSearchView(SearchView):
         if sort_by != 'relevancy':
             query['sort_on'] = sort_by
 
+        self.apply_context_restrictions(query)
+
         project_brains = self.catalog(**query)
 
         project_brains = [brain for brain in project_brains \
@@ -88,6 +90,9 @@ class ProjectsSearchView(SearchView):
             rs = ((sort_by, 'desc'),)
 
         query = Eq('portal_type', 'OpenProject') & Eq('SearchableText', proj_query)
+
+        query = self.adv_context_restrictions_applied(query)
+        
         project_brains = self.catalog.evalAdvancedQuery(query, rs)
         return project_brains
     
@@ -98,11 +103,28 @@ class ProjectsSearchView(SearchView):
                      sort_limit=5,
                      )
 
+        self.apply_context_restrictions(query)
+
         project_brains = self.catalog(**query) 
         # XXX expensive $$$
         # we get object for number of project members
         projects = (x.getObject() for x in project_brains)
         return projects
+
+    def apply_context_restrictions(self, query):
+        """
+        inserts additional query constraints into the
+        query dict given based on context
+        """
+        pass
+
+    def adv_context_restrictions_applied(self, adv_query):
+        """
+        returns a new advanced query based on the
+        query given with additional constraints based
+        on context
+        """
+        return adv_query
 
 
 class SubProjectsSearchView(ProjectsSearchView):
@@ -129,8 +151,9 @@ class SubProjectsSearchView(ProjectsSearchView):
         
     def apply_context_restrictions(self, query):
         query['path'] = self.subproject_paths()
-    
 
+    def adv_context_restrictions_applied(self, query):
+        return query & In('path', self.subproject_paths())
 
 
 def searchForPerson(mcat, search_for, sort_by=None):
