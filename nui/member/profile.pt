@@ -42,7 +42,11 @@
                 </tal:noprojects>
               </dd>
               <dt>OpenPlans Home</dt>
-              <dd><a class="url" href="http://www.openplans.org/people/">http://www.openplans.org/people/<span tal:replace="data/id" /></a></dd>
+              <dd>
+                <a class="url" tal:attributes="href string:${context/portal_url}/people/${data/id}">
+                  <span tal:replace="context/portal_url" />/people/<span tal:replace="data/id" />
+                </a>
+              </dd>
             </dl>
           </div>
         </div>
