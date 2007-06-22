@@ -379,7 +379,7 @@ class PasswordResetView(AccountView):
         self.login(userid)
         
         self.addPortalStatusMessage(u'Your password has been reset and you are now logged in.')
-        self.redirect('%s/profile' % self.home_url_for_id(userid))
+        self.redirect('%s/preferences' % self.home_url_for_id(userid))
         return True
 
     @property
