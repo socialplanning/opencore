@@ -123,7 +123,7 @@ class OpenTeam(Team):
             index = DEFAULT_ROLES.index(role)
             if index > highest_index:
                 highest_index = index
-        return DEFAULT_ROLES[index]
+        return DEFAULT_ROLES[highest_index]
 
     security.declarePublic('join')
     def join(self):
