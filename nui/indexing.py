@@ -5,7 +5,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.CatalogTool import registerIndexableAttribute
 from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
 from Products.ZCatalog.CatalogBrains import AbstractCatalogBrain
-from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, IIndexingGhost, IMetadataDictionary
+from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, \
+     IIndexingGhost, IMetadataDictionary, ILastWorkflowTransitionDate
 from opencore.nui.project.metadata import registerMetadataGhost
 from zope.component import adapter
 from zope.interface import Interface
@@ -33,18 +34,13 @@ mem_idxs = (('FieldIndex', 'exact_getFullname',
              {'indexed_attrs': 'getLocation'}),
              )
 
-## ghosted_cols = ('lastModifiedTitle',
-##                 'lastModifiedAuthor',
-##                 'lastModifiedComment',)
-
-ghosted_cols = ()
-
-metadata_cols = ghosted_cols + ('lastWorkflowActor', 'made_active_date', 'lastModifiedAuthor')
+metadata_cols = ('lastWorkflowActor', 'made_active_date', 'lastModifiedAuthor',
+                 'lastWorkflowTransitionDate')
 
 
 class LastWorkflowActor(object):
     """
-    ghosts the 'lastWorkflowActor' metadata column for
+    populates the 'lastWorkflowActor' metadata column for
     IOpenMemberships
     """
     implements(ILastWorkflowActor)
@@ -58,13 +54,28 @@ class LastWorkflowActor(object):
         status = wftool.getStatusOf(wf_id, self.context)
         return status.get('actor')
 
+class LastWorkflowTransitionDate(object):
+    """
+    populates the 'lastWorkflowTransitionDate' metadata column for
+    IOpenMemberships
+    """
+    implements(ILastWorkflowTransitionDate)
+    def __init__(self, context):
+        self.context = context
+        self.wftool = getToolByName(self.context, 'portal_workflow')
+
+    def getValue(self):
+        wftool = self.wftool
+        wf_id = wftool.getChainFor(self.context)[0]
+        status = wftool.getStatusOf(wf_id, self.context)
+        return status.get('time')
+
+
 @implementer(ILastModifiedAuthorId)
 def authenticated_memberid(context):
     mtool = getToolByName(context, 'portal_membership')
     mem = mtool.getAuthenticatedMember()
     return mem.getId()
-
-
 
 @adapter(AbstractCatalogBrain)
 @implementer(IMetadataDictionary)
@@ -82,37 +93,6 @@ def metadata_for_portal_content(context, catalog):
     metadata = catalog.getMetadataForUID(uid)
     metadata['getURL']=context.absolute_url()
     return metadata
-
-class MetadataGhost(object):
-    """
-    provides a ghost for metadata methods, returning existing
-    value.  columns that are ghosted should be set external to
-    the object in question
-
-    this implementation is used on Project objects to preserve the
-    settings of certain columns when the project is modified.  these
-    columns are actually informed by the page edits that happen WITHIN
-    the project.
-    """
-    implements(IIndexingGhost)
-    def __init__(self, context):
-        self.context = context
-        self.catalog = getToolByName(self.context, 'portal_catalog')
-        
-    def getValue(self, name, default=None):
-        if self.context.getId() == 'test_auth':
-            import pdb;pdb.set_trace()
-        catalog = self.catalog
-        cat = catalog._catalog
-        uid = '/'.join(self.context.getPhysicalPath())
-        index = cat.uids.get(uid, 0)
-        if index == 0: # this is the first time indexing the object
-            return default
-        record = cat.data.get(index)
-        table = dict(zip(cat.names, record))
-        value = table.get(name, default)
-        return value
-
 
 def createIndexes(portal, out, idxs=idxs, tool='portal_catalog'):
     catalog = getToolByName(portal, tool)
@@ -152,13 +132,14 @@ def registerInterfaceIndexer(idx, iface, method=None, default=None):
         return adapter
     registerIndexableAttribute(idx, indexfx)
 
-def register_ghosts(cols=ghosted_cols):
-    for col in cols:
-        registerMetadataGhost(col)
-
 def register_indexable_attrs():
-    registerInterfaceIndexer(PROJECT_POLICY, IReadWorkflowPolicySupport, 'getCurrentPolicyId')
-    registerInterfaceIndexer('lastWorkflowActor', ILastWorkflowActor, 'getValue')
+    registerInterfaceIndexer(PROJECT_POLICY, IReadWorkflowPolicySupport,
+                             'getCurrentPolicyId')
+    registerInterfaceIndexer('lastWorkflowActor', ILastWorkflowActor,
+                             'getValue')
+    registerInterfaceIndexer('lastWorkflowTransitionDate',
+                             ILastWorkflowTransitionDate,
+                             'getValue')
     registerInterfaceIndexer('lastModifiedAuthor', ILastModifiedAuthorId)
     
 class _extra:
