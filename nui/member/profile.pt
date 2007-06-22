@@ -1,5 +1,4 @@
-<tal:vars define="usr view/viewedmember;
-                  data view/viewed_member_info">
+<tal:vars define="data view/viewed_member_info">
 
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
@@ -26,9 +25,9 @@
               </tal:location>
               <dt>Projects</dt>
               <dd>
-                <tal:projects condition="usr/projectBrains">
+                <tal:projects condition="data/projects">
                   <ul class="oc-inlineList">
-                    <li tal:repeat="proj usr/projectBrains"><a
+                    <li tal:repeat="proj data/projects"><a
                         tal:attributes="href proj/getURL"
                         tal:content="proj/Title" /><tal:private
                         condition="python: proj.review_state == 'closed'">

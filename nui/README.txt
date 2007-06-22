@@ -130,6 +130,7 @@ Member info
      'location': '',
      'membersince': 'today',
      'portrait_url': '++resource++img/default-portrait.jpg',
+     'projects': [],
      'skills': '',
      'statement': '',
      'url': 'http://nohost/plone/people/test_user_1_'}
