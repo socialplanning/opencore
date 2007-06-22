@@ -261,6 +261,7 @@ Swallow those portal status messages and clear the form
     >>> view.request.form.clear()
     >>> view.request.form
     {}
+    >>> oldview = view
 
 Now go to the require_login location
 
@@ -272,8 +273,25 @@ This is not the view
     <FSPythonScript at /plone/require_login>
     >>> output = view()
 
-This is the old skin which redirects to the login page
+This is the old skin which redirects to the login page.
+It doesn't set the portal status message (yet?)
 
-    >>> f = file('/home/jhammel/output.html', 'w')
-    >>> print >> f, output
+    >>> 'Hey!' in output
+    False
+    >>> oldview.portal_status_message
+    []
 
+Now try the view
+
+    >>> view = portal.restrictedTraverse('@@require_login')
+    >>> view
+    <Products.Five.metaclass.LoginView object at ...>
+    >>> output = view()
+    >>> output
+    'http://nohost/plone/login'
+    >>> 'Hey!' in output
+    True
+    >>> view.portal_status_message
+    []
+
+Huh, "Hey!" should be there somewhere...where did it go?
