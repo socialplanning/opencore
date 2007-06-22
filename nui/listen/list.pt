@@ -49,8 +49,6 @@
               Please direct inquiries about this list to listmanager@example.com.
             </dd>
           </dl>
-        </div><!-- content-main -->
-        <div id="oc-content-sidebar">
           <div class="oc-listen-details-subscribe oc-boxy oc-clearAfter">
             <p tal:condition="python:isAnon or not can_subscribe" id="unsub-instructions" i18n:translate="unsub-instructions">
               To unsubscribe from this list send an email to the list with the subject
@@ -113,7 +111,7 @@
               </tal:pending>
             </form>
           </div><!-- end oc-listen-details-subscribe -->
-        </div><!-- content-sidebar -->
+        </div><!-- content-main -->
       </tal:vars>
     </div><!-- content-fill-slot -->
   </body>
