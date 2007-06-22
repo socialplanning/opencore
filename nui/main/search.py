@@ -7,7 +7,7 @@ from Products.CMFPlone.PloneBatch import Batch
 
 from topp.utils.pretty_date import prettyDate
 from opencore.nui.base import BaseView, static_txt
-
+from opencore import redirect
 
 def first_letter_match(title, letter):
     return title.startswith(letter) \
@@ -103,6 +103,33 @@ class ProjectsSearchView(SearchView):
         # we get object for number of project members
         projects = (x.getObject() for x in project_brains)
         return projects
+
+
+class SubProjectsSearchView(ProjectsSearchView):
+
+    def subproject_paths(self):
+        info = redirect.get_info(self.context)
+        if info:
+            return list(info.values())
+        else:
+            return []
+
+    def all_subprojects(self):
+        query = dict(portal_type="OpenProject",
+                     sort_on='sortable_title')
+
+        self.apply_context_restrictions(query)
+
+        project_brains = self.catalog(**query)
+
+        # XXX costly
+        projects = (x.getObject() for x in project_brains)
+        return projects
+
+        
+    def apply_context_restrictions(self, query):
+        query['path'] = self.subproject_paths()
+    
 
 
 
