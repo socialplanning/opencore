@@ -65,7 +65,7 @@
 
                   <tal:not-modified-block condition="python: sorting_by != 'modified'">
                     created by
-                    <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
+                    <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
                     <span tal:content="python: view.pretty_date(item.CreationDate)" />
                   </tal:not-modified-block>
 
@@ -73,7 +73,7 @@
                       last updated
                     <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
                       by
-                      <a tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
+                      <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
                     </tal:has_updated_author>
                       <span tal:content="python: view.pretty_date(item.ModificationDate)" />
                   </tal:modified-block>
