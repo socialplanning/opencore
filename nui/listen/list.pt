@@ -7,10 +7,12 @@
                     isAnon not: view/loggedin">
         <div id="oc-content-main">
          <div class="oc-headingBlock">
-            <h1>Fake mailing list name</h1>
-            <p class="oc-headingContext">
-              This description is also fake and needs to be made real along with the heading.
-            </p>
+            <h1 tal:content="context/Title" />
+            <p class="oc-headingContext"
+               tal:define="desc context/Description"
+               tal:condition="desc"
+               tal:content="desc"
+               />
           </div>
           <dl class="oc-plainList">
             <dt i18n:translate="" id="listaddress">
