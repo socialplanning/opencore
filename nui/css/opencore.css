@@ -277,6 +277,10 @@ ul#oc-topnav-context li.oc-topnav-selected {
   display: inline;
   font-size: 12px;
 }
+.oc-lineup-item h3 img,
+.oc-searchresults-item h3 img {
+  vertical-align: bottom;
+}
 .oc-lineup-item p,
 .oc-searchresults-item p {
   margin: 0;
