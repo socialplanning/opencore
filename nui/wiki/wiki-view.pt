@@ -6,7 +6,7 @@
         <div class="oc-wiki">
           <div metal:use-macro="here/@@wiki_macros/bcrumb" />      
           <div metal:use-macro="here/@@wiki_macros/tabs" />
-          <div class="oc-wiki-content" tal:content="structure here/getText"/>
+          <div id="oc-wiki-content" class="oc-wiki-content" tal:content="structure here/getText"/>
         </div><!-- end .oc-wiki -->
       </div><!-- end #oc-content-main -->
     </div><!-- end content slot -->
