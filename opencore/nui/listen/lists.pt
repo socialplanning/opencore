@@ -1,4 +1,5 @@
 <tal:vars define="can_add_lists python:view.membertool.checkPermission('Listen: Add list', here);
+                  site_properties here/portal_properties/site_properties;
                   isAnon not: view/loggedin">
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
