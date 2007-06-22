@@ -195,7 +195,7 @@ Batch deletes work the same way::
     ...         'mode': 'async',
     ...         'files':['fa1', 'img1']}
     >>> request.form = form
-    >>> view.modify_contents()
+    >>> sorted(view.modify_contents())
     ['fa1', 'img1']
 
     >>> proj.restrictedTraverse('img1')
