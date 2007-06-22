@@ -86,6 +86,8 @@ def metadata_for_portal_content(context, catalog):
     metadata['getURL']=context.absolute_url()
     return metadata
 
+### XXX todo write a test for this
+### XXX todo make this a class with a method to circumvent 0->Missing.Value without lame string casting
 @adapter(IMailingList)
 @implementer(IMailingListThreadCount)
 def threads_for_mailing_list(lst):

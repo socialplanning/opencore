@@ -16,6 +16,7 @@ from Products.listen.interfaces import ISearchableMessage, IMailMessage
 from zope.app.event.interfaces import IObjectModifiedEvent, IObjectCreatedEvent
 from zope.component import adapter
 
+### XXX todo write a test for this here -egj
 @adapter(IObjectCreatedEvent)
 def updateThreadCount(obj, event):
     print "Woohoo!"

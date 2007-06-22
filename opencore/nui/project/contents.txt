@@ -1,3 +1,7 @@
+### XXX todo move most of this out of project contents...
+octopus should be in octopus.txt, deletion and update methods should
+be tested directly.. etc -egj
+
 =======================
  Project Contents View
 =======================
