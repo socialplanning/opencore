@@ -262,13 +262,15 @@ Swallow those portal status messages
 Now go to the require_login location
 
     >>> view = portal.restrictedTraverse('require_login')
+    
+This is not the view
+
+    >>> view
+    <FSPythonScript at /plone/require_login>
     >>> output = view()
 
-You shouldnt find the old skin in this page
+This is the old skin which redirects to the login page
 
-    >>> 'Hey! you need to log in!' in output
-    False
-
-    >>> 'caps lock key is not enabled' in output
-    False
+    >>> f = file('/home/jhammel/output.html', 'w')
+    >>> print >> f, output
 

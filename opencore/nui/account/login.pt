@@ -1,6 +1,6 @@
-<tal:handle define="global fdata view/handle_request" replace="nothing"/>
 <tal:vars
-   define="global login view/handle_login"
+   define="global fdata view/handle_request;
+	   global login view/handle_login"
    />
 
 <html metal:use-macro="here/@@standard_macros/master">
