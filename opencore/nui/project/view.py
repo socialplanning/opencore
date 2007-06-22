@@ -559,10 +559,22 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         Deletes the membership objects.  Should send notifier.
         """
         mem_ids = self.request.form.get('member_ids')
-        # have to get the number of removals now b/c manage_delObjects
-        # empties the passed in list
         nremovals = len(mem_ids)
-        self.team.manage_delObjects(ids=mem_ids)
+        wftool = self.get_tool('portal_workflow')
+        wf_id = 'openplans_team_membership_workflow'
+        deletes = []
+        for mem_id in mem_ids:
+            mship = self.team.getMembershipByMemberId(mem_id)
+            status = wftool.getStatusOf(wf_id, mship)
+            if status.get('action') == 'reinvite':
+                # deactivate
+                wftool.doActionFor(mship, 'deactivate')
+            else:
+                # delete
+                deletes.append(mem_id)
+        if deletes:
+            self.team.manage_delObjects(ids=deletes)
+
         self.addPortalStatusMessage(u'%d invitations removed' % nremovals)
 
     @formhandler.action('remind-invitations')
@@ -646,8 +658,9 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
     def invite_member(self):
         """
         Sends an invitation notice, and creates a pending membership
-        object, for a member id that is specified in the request form,
-        as the value for the 'invite-member' button.
+        object (or puts the existing member object into the pending
+        state).  The member id is specified in the request form, as
+        the value for the 'invite-member' button.
         """
         mem_id = self.request.form.get('invite-member')
         if not mem_id in self.team.getMemberIds():

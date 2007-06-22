@@ -33,7 +33,8 @@
 
     <td metal:define-slot="status" />
 
-    <td metal:define-slot="requesteddate" />
+    <td tal:define="requesteddate item/lastWorkflowTransitionDate"
+        tal:content="python:view.pretty_date(requesteddate)" />
 
   </tr>
 </metal:pendingrow>
@@ -46,10 +47,6 @@
     <td metal:fill-slot="status"
         tal:content="string:needs approval" />
 
-    <td metal:fill-slot="requesteddate"
-        tal:define="creationdate item/CreationDate"
-        tal:content="python:view.pretty_date(creationdate)" />
-
   </tr> <!-- end pendingrow -->
 
 </metal:pendingrequest>
@@ -61,10 +58,6 @@
 
     <td metal:fill-slot="status"
         tal:content="string:needs approval" />
-
-    <td metal:fill-slot="requesteddate"
-        tal:define="creationdate item/CreationDate"
-        tal:content="python:view.pretty_date(creationdate)" />
 
   </tr> <!-- end pendingrow -->
 
@@ -165,7 +158,8 @@
 
     <!--form class="oc-liveForm" name="team-members" method="post"
           tal:attributes="action view/request/ACTUAL_URL"-->
-    <form name="team-members" method="POST" action="manage-memberships">
+    <form name="team-members" method="POST"
+          action="manage-memberships">
       <table class="oc-dataTable" cellpadding="0" cellspacing="0">
 
         <thead>
