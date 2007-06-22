@@ -254,10 +254,13 @@ Verify portal status messages aren't being swallowed
 Verify authentication challenges do the right thing
 ===================================================
 
-Swallow those portal status messages
+Swallow those portal status messages and clear the form
 
     >>> view.portal_status_message
     [...]
+    >>> view.request.form.clear()
+    >>> view.request.form
+    {}
 
 Now go to the require_login location
 

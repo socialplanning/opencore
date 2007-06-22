@@ -5,7 +5,7 @@ from zExceptions import Forbidden
 def button(name=None):
     def curry(handle_request):
         def new_method(self):
-            if self.request.get(name):
+            if self.request.form.get(name):
                 return handle_request(self)
             return None
         return new_method
