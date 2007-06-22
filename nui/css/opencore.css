@@ -110,13 +110,17 @@ ul#oc-topnav-context li.oc-topnav-selected {
   margin: 0;
   list-style: none;
   font-size: 10px;
-  text-transform: lowercase;
   text-align: left;
+  font-weight: bold;
+  text-transform: lowercase;
 }
 #oc-usermenu-list li {
   float: left;
   margin: 0 0.25em;
   border: 1px solid transparent;
+}
+#oc-usermenu-list li a:hover {
+  text-decoration: underline;
 }
 
 /* explore menu */
@@ -127,15 +131,15 @@ ul#oc-topnav-context li.oc-topnav-selected {
   padding-right: 15px;
   cursor: pointer;
 }
-#oc-topnav-usermenu li.oc-dropdown-container.oc-selected {
-  border: 1px solid #87B6C1;
-  border-bottom: none;
-  background-color: transparent;
-}
 #oc-topnav-usermenu li.oc-dropdown-container.oc-hover {
   border: 1px solid #87B6C1;
   border-bottom: none;
   background-color: transparent;
+}
+#oc-topnav-usermenu li.oc-dropdown-container.oc-selected {
+  background-color: #87B6C1;
+  border: 1px solid #2B7284;
+  border-bottom: none;
 }
 #oc-usermenu-list li #oc-usermenu-explore {
   position: absolute;
@@ -143,9 +147,10 @@ ul#oc-topnav-context li.oc-topnav-selected {
   margin: 1px 0;
   left: .25em;
   padding: 0;
+  width: 12em;
   display: none;
-  background: #2B7284;
-  border: 1px solid #87B6C1;
+  background: #87B6C1;
+  border: 1px solid #2B7284;
   border-top: none;
 }
 #oc-usermenu-list li #oc-usermenu-explore li {
@@ -160,7 +165,7 @@ ul#oc-topnav-context li.oc-topnav-selected {
 }
 #oc-usermenu-list li #oc-usermenu-explore li a:hover {
   display: block;
-  background: #444;
+  background: #2B7284;
   margin: 0;
   padding: .25em;
 }
@@ -191,6 +196,15 @@ ul#oc-topnav-context li.oc-topnav-selected {
 .oc-plainList { /* list with no formatting */
   list-style-type: none;
   padding: 0;
+  margin: 0 0 1em;
+}
+dl.oc-plainList {
+  line-height: normal;
+}
+dl.oc-plainList dt {
+  font-weight: bold;
+}
+dl.oc-plainList dd {
   margin: 0 0 1em;
 }
 .oc-inlineList { /* comma-separated list (space-separated in IE) */
@@ -409,6 +423,9 @@ ul#oc-topnav-context li.oc-topnav-selected {
   margin: 0;
   line-height: normal;
 }
+#oc-member-badge .oc-member-details a.oc-actionLink {
+	font-weight: bold;
+}
 dl.oc-member-info {
   line-height: normal;
 }
@@ -487,7 +504,6 @@ ul.oc-tabs li a.oc-actionLink:hover {
   border-top: 2px solid;
   padding-top: .5em;
 }
-
 
 /* History */
 
@@ -595,6 +611,21 @@ ul.oc-tabs li a.oc-actionLink:hover {
 .oc-version-note h3,
 .oc-version-note p {
 	display: inline;
+}
+
+/* Listen */
+
+.oc-listen-details-subscribe {
+}
+.oc-listen-details-subscribe h2 {
+	margin-bottom: 0;
+	float: left;
+}
+.oc-listen-details-subscribe p {
+	margin: 0;
+}
+.oc-listen-details-subscribe .oc-actions {
+  float: right;
 }
 
 /* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns

@@ -4,44 +4,39 @@
       <tal:vars define="can_subscribe view/canSubscribe;
                         subscribed view/isSubscribed;
                         isAnon not: view/loggedin">
-      <ul>
-        <li i18n:translate="" id="listaddress">
-          <b>Address:</b>
-          <div i18n:translate="" tal:content="view/address">
-            address@example.com
-          </div>
-        </li>
+      <dl class="oc-plainList">
+        <dt i18n:translate="" id="listaddress">
+          Address
+        </dt>
+				<dd i18n:translate="" tal:content="view/address">
+					address@example.com
+				</dd>
+        <dt i18n:translate="" id="listmanagers">
+          Managers
+        </dt>
+        <dd tal:repeat="manager view/list_managers">
+					<span tal:content="manager" />
+        </dd>
+        <dt i18n:translate="" id="list-type">
+          Type
+        </dt>
+				<dd tal:content="view/list_type" i18n:translate="">
+					List type
+				</dd>
+        <dt i18n:translate="" id="archival-state">
+         	Archive
+        </dt>
+				<dd>
+					<span tal:content="view/archived" i18n:translate="">
+						Messages to this list are archived
+					</span>
+					<a tal:condition="view/is_archived" tal:attributes="href python:'%s/archive' % view.context.absolute_url()" i18n:translate="">
+						View archive.
+					</a>
+				</dd>
+      </dl>
 
-        <li i18n:translate="" id="listmanagers">
-          <b>Managers:</b>
-          <tal:manager tal:repeat="manager view/list_managers"><br />
-            <span tal:content="manager" />
-          </tal:manager>
-        </li>
-
-        <li i18n:translate="" id="list-type">
-          <b>Type:</b>
-          <div tal:content="view/list_type" i18n:translate="">
-            List type
-          </div>
-        </li>
-
-        <li i18n:translate="" id="archival-state">
-          <b>Archive:</b>
-          <div>
-            <span tal:content="view/archived" i18n:translate="">
-              Messages to this list are archived
-            </span>
-            <a tal:condition="view/is_archived" tal:attributes="href python:'%s/archive' % view.context.absolute_url()" i18n:translate="">
-              view archive.
-            </a>
-          </div>
-        </li>
-
-      </ul>
-
-      <hr />
-
+		<div class="oc-listen-details-subscribe oc-boxy">
       <p tal:condition="python:isAnon or not can_subscribe" id="unsub-instructions" i18n:translate="unsub-instructions">
         To unsubscribe from this list send an email to the list with the subject
         "<span tal:replace="view/unsubscribe_keyword" i18n:name="sunsubscribe_keyword" />"
@@ -84,7 +79,7 @@
           <p id="subscription-satus" tal:condition="not:subscribed" i18n:translate="">
             You are not currently subscribed to this list.
           </p>
-          <div class="formControls">
+          <div class="oc-actions">
             <input type="submit" class="standalone" name="unsubscribe_member" value="Unsubscribe"
               tal:condition="subscribed" i18n:attributes="value" />
             <input type="submit" class="standalone" name="subscribe_member" value="Subscribe"
@@ -96,6 +91,7 @@
           Your subscription request is pending moderation by the list manager.
         </p>
       </form>
+    </div>
 
       <p id="manager_email" tal:content="view/manager_email" i18n:translate="">
         Please direct inquiries about this list to listmanager@example.com.
