@@ -32,6 +32,8 @@ Exercise the Member Preferences Class
     >>> project_dicts = view.get_projects_for_user()
 
     Check the projects and active states
+    >>> [d['proj_id'] for d in project_dicts]
+    ['p2', 'p3', 'p1']
     >>> [d['title'] for d in project_dicts]
     ['Proj2', 'Proj3', 'Proj1']
     >>> [d['listed'] for d in project_dicts]
@@ -50,6 +52,8 @@ Exercise the Member Preferences Class
     >>> project_dicts = view.get_projects_for_user()
 
     Check the projects and active states
+    >>> [d['proj_id'] for d in project_dicts]
+    ['p2', 'p3', 'p4']
     >>> [d['title'] for d in project_dicts]
     ['Proj2', 'Proj3', 'Proj4']
     >>> [d['listed'] for d in project_dicts]

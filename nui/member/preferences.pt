@@ -68,12 +68,12 @@
   
 
   <div class="oc-widget oc-widget-dataTable oc-clearAfter"
-       tal:define="proj_infos view/get_projects_for_user"
-       tal:condition="proj_infos"
+       tal:define="projinfos view/get_projects_for_user"
+       tal:condition="projinfos"
        >
     <div class="oc-headingBlock">
       <h2 class="oc-toggleFold">
-        Projects you belong to (<span tal:replace="python: len(proj_infos)" />)
+        Projects you belong to (<span tal:replace="python: len(projinfos)" />)
       </h2>
     </div><!-- end .headingBlock -->
   
@@ -82,14 +82,39 @@
         <tr>
           <th class="" style="width: 10px;" scope="col"><input type="checkbox" /></th>
           <th class="oc-columnSortable" style="width: 200px;" scope="col">Project </th>
-          <th class="oc-columnSortable" scope="col">Role</th>
           <th class="oc-columnSortable" scope="col">Since</th>
-          <th class="oc-columnSortable" scope="col">Status</th>
+          <th class="oc-columnSortable" scope="col">Listed</th>
           <th class="oc-columnAction" scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr tal:repeat="projinfo projinfos">
+          <td><input type="checkbox" /></td>
+          <td class="oc-dataTable-row-title">
+            <a href=""
+               tal:attributes="href string:${view/portal_url}/projects/${projinfo/proj_id}"
+               tal:content="projinfo/title">
+               Animal Campaign for a poor little sick kittie named Fatty
+            </a>
+          </td>
+          <td id="oc-liveEdit_8" class="oc-liveItem">
+            <span tal:replace="projinfo/since" />
+          </td>
+          <td id="" class="oc-liveItem">
+          <!--span id=""
+                class="oc-liveItem-value oc-liveItem-directEdit oc-liveItem-directSelect"
+                tal:content="python: projinfo['listed'] and 'yes' or 'no'" /-->
+            <span tal:define="listed python: projinfo['listed'] and 'yes' or 'no'"
+                  tal:replace="listed" />
+          </td>
+          <td>
+            <ul class="oc-actions oc-dataTable-row-actions">
+              <li><a href="#">Leave</a></li>
+            </ul>
+          </td>
+        </tr>
+        <!-- keep in a sample member with static data -->
+        <!--tr>
           <td><input type="checkbox" /></td>
           <td class="oc-dataTable-row-title"><a href="">Animal Campaign for a poor little sick kittie named Fatty</a></td>
             <td id="oc-liveEdit_8" class="oc-liveItem">
@@ -115,7 +140,6 @@
           <option>Administrator3</option>
         </select>
         <a href="#" class="oc-liveItem_cancel">Cancel</a>
-        <!--<input type="submit" value="save" />-->
       </div>
           </td>
           <td>
@@ -123,41 +147,7 @@
               <li><a href="#">Leave</a></li>
             </ul>
           </td>
-        </tr>
-        <tr>
-          <td><input type="checkbox" /></td>
-          <td class="oc-dataTable-row-title"><a href="">Animal Campaign 2</a></td>
-          <td id="oc-liveEdit_9" class="oc-liveItem">
-      <span id="oc-liveEdit_9_value" class="oc-liveItem-value oc-liveItem-directEdit oc-liveItem-directSelect">not set</span>
-      <div id="oc-liveEdit_9_form" class="oc-liveItem-editForm">
-        <select>
-          <option>-- not set --</option>
-          <option>Active</option>
-          <option>Banned</option>
-        </select>
-        <a href="#" class="oc-liveItem_cancel">Cancel</a>
-      </div>
-          </td>          <td>5:30am</td>
-          <td id="" class="oc-liveItem">
-      <span id="" class="oc-liveItem-value oc-liveItem-directEdit oc-liveItem-directSelect">not set</span>
-      <div id="" class="oc-liveItem-editForm">
-        <select>
-          <option>-- not set --</option>
-          <option>Member</option>
-          <option>Administrator</option>
-          <option>Administrator2</option>
-          <option>Administrator3</option>
-        </select>
-        <a href="#" class="oc-liveItem_cancel">Cancel</a>
-        <!--<input type="submit" value="save" />-->
-      </div>
-          </td>
-          <td>
-            <ul class="oc-actions oc-dataTable-row-actions">
-              <li><a href="#">Leave</a></li>
-            </ul>
-          </td>
-        </tr>
+        </tr-->
       </tbody>
     </table>
     <ul class="oc-actions oc-dataTable-actions">
