@@ -619,13 +619,11 @@ ul.oc-tabs li a.oc-actionLink:hover {
 }
 .oc-listen-details-subscribe h2 {
 	margin-bottom: 0;
-	float: left;
 }
 .oc-listen-details-subscribe p {
 	margin: 0;
 }
 .oc-listen-details-subscribe .oc-actions {
-  float: right;
 }
 
 /* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
