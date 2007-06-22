@@ -1,5 +1,21 @@
-from opencore.listen.mailinglist_views import MailingListView
+from opencore.listen.mailinglist_views import \
+    MailingListView, MailingListAddForm, MailingListEditForm
 from opencore.nui.base import BaseView
 
 class OpenMailingListView(BaseView, MailingListView):
-    pass
+    def __init__(self, context, request):
+        BaseView.__init__(self, context, request)
+        MailingListView.__init__(self, context, request)
+        self.errors = ()
+
+class MailingListAddView(BaseView, MailingListAddForm):
+    def __init__(self, context, request):
+        BaseView.__init__(self, context, request)
+        MailingListAddForm.__init__(self, context, request)
+        self.errors = ()
+
+class MailingListEditView(BaseView, MailingListEditForm):
+    def __init__(self, context, request):
+        BaseView.__init__(self, context, request)
+        MailingListEditForm.__init__(self, context, request)
+        self.errors = ()
