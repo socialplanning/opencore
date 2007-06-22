@@ -31,7 +31,8 @@ OC.liveElementKey = {
   ".oc-liveItem" : "LiveItem",
   ".oc-widget-multiSearch" : "SearchLinks",
   '#oc-usermenu-list' : "TopNav",
-  '#oc-project-create' : "ProjectCreateForm"
+  '#oc-project-create' : "ProjectCreateForm",
+  ".oc-autoFocus" : "AutoFocus"
 }
     
 /* 
@@ -381,6 +382,18 @@ OC.LiveForm = function(extEl) {
   
   return this;
 }
+
+/* 
+#
+# Auto Focus
+# 
+# 
+*/
+OC.AutoFocus = function(extEl) {
+  // get refs
+  extEl.dom.focus();
+}
+
 
 /* 
 #
