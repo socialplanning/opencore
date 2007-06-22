@@ -290,7 +290,7 @@ Now try the view
     >>> output
     'http://nohost/plone/login'
     >>> 'Hey!' in output
-    True
+    False
     >>> view.portal_status_message
     []
 
