@@ -165,22 +165,37 @@ class ProjectContentsView(BaseView):
         return obj_dict
 
     def _delete(self, brains):
+        """
+        delete the objects referenced by the list of brains passed in.
+        returns ([deleted_ids], [failed_nondeleted_ids])
+        """
         parents = {}
-        surviving_children = []
+        surviving_objects = []
+        deleted_objects = []
+
+        # put obj ids in dict keyed on their parents for optimal batch deletion
         for brain in brains:
             parent_path, brain_id = brain.getPath().rsplit('/', 1)
             parent_path = parent_path.split(self.project_path, 1)[-1].strip('/')
             parents.setdefault(parent_path, []).append(brain_id)
+
+        # delete objs in batches per parent obj
         for parent, child_ids in parents.items():
             if child_ids:
                 if not parent:
                     parent = self.context
                 else:
                     parent = self.context.restrictedTraverse(parent)
-                parent.manage_delObjects(child_ids)
-            if child_ids: # deletion failed, we've a problem
-                surviving_children.extend(child_ids)
-        return surviving_children
+                deletees = list(child_ids)
+                parent.manage_delObjects(child_ids)  ## dels ids from list as objs are deleted
+            if child_ids: # deletion failed for some objects
+                surviving_objects.extend(child_ids)  ## what's left in 'child_ids' was not deleted
+                deleted_objects.extend([oid for oid in deletees
+                                        if oid not in child_ids]) ## the difference btn deletees and child_ids == deleted
+            else: # deletion succeeded for every object
+                deleted_objects.extend(deletees)
+
+        return (deleted_objects, surviving_objects)
 
     def resort(self):
         item_type = self.request.form.get("item_type")
@@ -202,11 +217,9 @@ class ProjectContentsView(BaseView):
         brains = self.catalog(id=sources, path=self.project_path)
 
         if action == 'delete':
-            survivors = self._delete(brains)
-            # return a list of all successfully deleted items
-            if survivors:
-                return list(set(sources).difference(survivors))
-            return sources
+            deletions, survivors = self._delete(brains)
+            # for now we'll only return the deleted obj ids. later we may return the survivors too.
+            return deletions
 
         elif action == 'update': # @@ move out to own method to optimize
             snippets = {}
