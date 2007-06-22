@@ -6,6 +6,12 @@
                     subscribed view/isSubscribed;
                     isAnon not: view/loggedin">
         <div id="oc-content-main">
+         <div class="oc-headingBlock">
+            <h1>Fake mailing list name</h1>
+            <p class="oc-headingContext">
+              This description is also fake and needs to be made real along with the heading.
+            </p>
+          </div>
           <dl class="oc-plainList">
             <dt i18n:translate="" id="listaddress">
               Address
@@ -36,10 +42,13 @@
                 View archive.
               </a>
             </dd>
+            <dt>
+              Contact
+            </dt>
+            <dd id="manager_email" tal:content="view/manager_email" i18n:translate="">
+              Please direct inquiries about this list to listmanager@example.com.
+            </dd>
           </dl>
-          <p id="manager_email" tal:content="view/manager_email" i18n:translate="">
-            Please direct inquiries about this list to listmanager@example.com.
-          </p>
         </div><!-- content-main -->
         <div id="oc-content-sidebar">
           <div class="oc-listen-details-subscribe oc-boxy oc-clearAfter">
@@ -52,7 +61,21 @@
             <form name="subscription-form" id="subscription-form"
               tal:define="errors view/errors|nothing; isPending view/isPending"
               action="." tal:attributes="action request/ACTUAL_URL">
-      
+              <tal:member condition="python:can_subscribe and not isAnon and not isPending">
+                <h2>Subscription status</h2>
+                <p id="subscription-status" tal:condition="subscribed" i18n:translate="">
+                  You are currently <strong>subscribed</strong> to this list.
+                </p>
+                <p id="subscription-status" tal:condition="not:subscribed" i18n:translate="">
+                  You are currently <strong>not subscribed</strong> to this list.
+                </p>
+                <div class="oc-actions">
+                  <input type="submit" class="standalone" name="unsubscribe_member" value="Unsubscribe"
+                    tal:condition="subscribed" i18n:attributes="value" />
+                  <input type="submit" class="standalone" name="subscribe_member" value="Subscribe"
+                    tal:condition="not:subscribed" i18n:attributes="value" />
+                </div>
+              </tal:member>
               <tal:anon condition="python:isAnon and can_subscribe">
                 <p id="subscription-satus" i18n:translate="">
                   To subscribe to the list enter your email in the field below.
@@ -79,24 +102,15 @@
                   i18n:attributes="value" />
                 </div>
               </tal:anon>
-              <tal:member condition="python:can_subscribe and not isAnon and not isPending">
-                <h2 id="subscription-status" tal:condition="subscribed" i18n:translate="">
-                  You are currently subscribed to this list.
-                </h2>
-                <h2 id="subscription-status" tal:condition="not:subscribed" i18n:translate="">
-                  You are not currently subscribed to this list.
-                </h2>
-                <div class="oc-actions">
-                  <input type="submit" class="standalone" name="unsubscribe_member" value="Unsubscribe"
-                    tal:condition="subscribed" i18n:attributes="value" />
-                  <input type="submit" class="standalone" name="subscribe_member" value="Subscribe"
-                    tal:condition="not:subscribed" i18n:attributes="value" />
-                </div>
-              </tal:member>
-      
-              <p tal:condition="python: isPending">
-                Your subscription request is pending moderation by the list manager.
-              </p>
+              <tal:pending tal:condition="python: isPending">
+              <h2>Subscription pending</h2>
+                <p>
+                  Your subscription request is pending moderation by the list manager. 
+                  <span id="manager_email" tal:content="view/manager_email" i18n:translate="">
+                    Please direct inquiries to listmanager@example.com.
+                  </span>
+                </p>
+              </tal:pending>
             </form>
           </div><!-- end oc-listen-details-subscribe -->
         </div><!-- content-sidebar -->
