@@ -1,5 +1,4 @@
-<tal:vars define="dummy python:request.set('disable_border',1);
-                  can_add_lists python:view.membertool.checkPermission('Listen: Add list', here);
+<tal:vars define="can_add_lists python:view.membertool.checkPermission('Listen: Add list', here);
                   isAnon not: view/loggedin">
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
