@@ -1,3 +1,5 @@
+import re
+
 from zope import event
 from zope.component import getMultiAdapter
 from zExceptions import BadRequest, Redirect
@@ -7,6 +9,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import DeleteObjects
 from Products.CMFPlone.utils import transaction_note
+from Products.validation.validators.BaseValidators import EMAIL_RE
 from plone.memoize.instance import memoize, memoizedproperty
 from plone.memoize.view import memoize_contextless
 from plone.memoize.view import memoize as req_memoize
@@ -25,6 +28,8 @@ from opencore.nui import formhandler
 from opencore.nui.base import BaseView
 from opencore.nui.main import SearchView
 from opencore.nui.main.search import searchForPerson
+
+import mship_messages
 
 _marker = object()
 
@@ -430,6 +435,10 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
                  }
 
     @property
+    def mailhost(self):
+        return self.get_tool('MailHost')
+
+    @property
     @req_memoize
     def pending_mships(self):
         cat = self.get_tool('portal_catalog')
@@ -502,6 +511,50 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         return len(mem_ids)
 
 
+    def _constructMailMessage(self, msg_id, **kwargs):
+        """
+        Retrieves and returns the mail message text from the
+        mship_messages module that is in the same package as this
+        module.
+
+        o msg_id - the name of the message that is to be retrieved
+
+        o **kwargs - should be a set of key:value pairs that can be
+          substituted into the desired message.  extraneous kwargs
+          will be ignored; failing to include a kwarg required by the
+          specified message will raise a KeyError.
+        """
+        msg = getattr(mship_messages, msg_id)
+        return msg % kwargs
+
+    def _getAccountURLForMember(self, mem_id):
+        homeurl = self.membertool.getHomeUrl(mem_id)
+        return "%s/preferences" % homeurl
+
+    def _sendEmail(self, mto, msg, subject=None):
+        """
+        Sends an email.  It's assumed that the currently logged in
+        user is the sender.
+
+        o mto: the message recipient.  either an email address or a
+        member id.
+
+        o subject: message subject; if None it's assumed that the
+        subject header is already embedded in the message text.
+
+        o msg: message content
+        """
+        to_info = None
+        regex = re.compile(EMAIL_RE)
+        if regex.match(mto) is None:
+            to_mem = self.membertool.getMemberById(mto)
+            to_info = self.member_info_for_member(to_mem)
+            mto = to_info.get('email')
+
+        mfrom = self.member_info.get('email')
+        self.mailhost.send(msg, mto, mfrom, subject)
+
+
     ##################
     #### MEMBERSHIP REQUEST BUTTON HANDLERS
     ##################
@@ -524,6 +577,9 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
             transition_id = transition[0]['id']
             wftool.doActionFor(mship, transition_id)
             napproved += 1
+            msg = self._constructMailMessage('request_approved',
+                                             project_title=self.context.Title())
+            self._sendEmail(mem_id, msg)
 
         self.addPortalStatusMessage(u'%d members approved' % napproved)
 
@@ -546,6 +602,11 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         Notifiers should be handled by workflow transition script.
         """
         nrejected = self.doMshipWFAction('reject_by_admin')
+        mem_ids = self.request.form.get('member_ids')
+        msg = self._constructMailMessage('request_denied',
+                                         project_title=self.context.Title())
+        for mem_id in mem_ids:
+            self._sendEmail(mem_id, msg)
         self.addPortalStatusMessage(u'%d requests rejected' % nrejected)
 
 
@@ -563,6 +624,8 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         wftool = self.get_tool('portal_workflow')
         wf_id = 'openplans_team_membership_workflow'
         deletes = []
+        msg = self._constructMailMessage('invitation_retracted',
+                                         project_title=self.context.Title())
         for mem_id in mem_ids:
             mship = self.team.getMembershipByMemberId(mem_id)
             status = wftool.getStatusOf(wf_id, mship)
@@ -572,6 +635,8 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
             else:
                 # delete
                 deletes.append(mem_id)
+            self._sendEmail(mem_id, msg)
+
         if deletes:
             self.team.manage_delObjects(ids=deletes)
 
@@ -584,9 +649,13 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         invitations.
         """
         mem_ids = self.request.form.get('member_ids')
+        project_title = self.context.Title()
         for mem_id in mem_ids:
-            # XXX send email reminder
-            pass
+            msg_vars = {'project_title': project_title,
+                        'account_url': self._getAccountURLForMember(mem_id),
+                        }
+            msg = self._constructMailMessage('remind_invitee', **msg_vars)
+            self._sendEmail(mem_id, msg)
 
 
     ##################
@@ -675,4 +744,11 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
                 self.addPortalStatusMessage(u'%s cannot be invited' % mem_id)
                 raise Redirect('%s/manage-team' % self.context.absolute_url())
             wftool.doActionFor(mship, 'reinvite')
+
+
+        msg_subs = {'project_title': self.context.Title(),
+                    'account_url': self._getAccountURLForMember(mem_id),
+                    }
+        msg = self._constructMailMessage('invite_member', **msg_subs)
+        self._sendEmail(msg, mem_id)
         self.addPortalStatusMessage(u'%s invited' % mem_id)
