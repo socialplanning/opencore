@@ -46,11 +46,3 @@ The following slots are defined for the nui main_template::
 * script -- for ecmascript 
 
 * content -- for content
-
-
-
-
-
-
-
-

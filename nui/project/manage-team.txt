@@ -10,7 +10,7 @@ request so we've got some more useful data.
     >>> self.login('m4') # <-- m4 not on team
     >>> team.join()
     >>> self.login('m1')
-    >>> team.manage_delObjects(ids=['m3'])
+    >>> team.manage_delObjects(ids=['m3']) # <-- remove to re-add
     >>> team.addMember('m3')
     <OpenMembership at ...m3>
     >>> view = proj.restrictedTraverse('manage-team')
@@ -30,7 +30,7 @@ pending membership invitations and requests::
     2
 
 Now let's make sure the project admin can approve membership requests.
-First we need to clear out the request memos:
+First we need to clear out the memoized cache:
 
     >>> self.clearMemoCache()
     >>> view.request.form['member_ids'] = ['m4']
@@ -40,7 +40,14 @@ First we need to clear out the request memos:
     >>> len(view.active_mships)
     4
 
-Next we recreate the request and test discarding:
+Verify that the notifying email went out:
+
+    >>> mailhost = view.get_tool('MailHost')
+    >>> len(mailhost.messages)
+    1
+
+Next we recreate the request and test discarding; no add'l email
+should be sent:
 
     >>> self.clearMemoCache()
     >>> team.manage_delObjects(ids=['m4'])
@@ -55,8 +62,11 @@ Next we recreate the request and test discarding:
     3
     >>> 'm4' in team.objectIds()
     False
+    >>> len(mailhost.messages)
+    1
 
-Try again, this time reject instead of discard:
+Try again, this time reject instead of discard, should generate an
+email notifier:
 
     >>> self.clearMemoCache()
     >>> self.login('m4')
@@ -70,3 +80,36 @@ Try again, this time reject instead of discard:
     3
     >>> 'm4' in team.objectIds()
     True
+    >>> len(mailhost.messages)
+    2
+
+Verify that invitation reminders go out:
+    >>> view.request.form['member_ids'] = ['m3']
+    >>> view.remind_invitations()
+    >>> len(mailhost.messages)
+    3
+
+Make sure we can remove invitations; email notifier should be sent:
+
+    >>> self.clearMemoCache()
+    >>> view.request.form['member_ids'] = ['m3']
+    >>> view.remove_invitations()
+    >>> len(view.pending_invitations)
+    0
+    >>> len(mailhost.messages)
+    4
+
+Test membership removal.  We set the HTTP_REFERER on the request
+because the octopus decorator requires (and returns) it:
+
+    >>> #self.clearMemoCache()
+    >>> #view.request.form.clear()
+    >>> #view.request.form.update(
+    >>> #    {'task': 'batch:deletes_remove-members,
+    >>> #    'deletes': ['m2'],
+    >>> #    })
+    >>> #view.request.environ['HTTP_REFERER'] = 'referer'
+    >>> #view.manage_memberships()
+    
+    >>> #len(view.active_mships)
+    >>> # incomplete, finishing soon
