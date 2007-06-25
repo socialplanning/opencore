@@ -29,11 +29,9 @@ def updateThreadCount(obj, event):
         list_path = msg_path.rsplit('/', 4)[0]
         cat = getToolByName(msg, 'portal_catalog')
         md = cat.getMetadataForUID(list_path)
-        threads = int(md['mailing_list_threads'])
-        md['mailing_list_threads'] = str(threads + 1)
+        md['mailing_list_threads'] += 1
         proxy = type('proxy', (object,), md)()
-        alsoProvides(proxy, IMailingList)
-        cat.catalog_object(proxy, list_path, idxs=['mailing_list_threads'])
+        cat._catalog.catalogObject(proxy, list_path, idxs=['mailing_list_threads'])
 
 def updateContainerMetadata(obj, event):
     parent = getattr(obj, 'aq_parent', None)
