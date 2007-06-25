@@ -12,6 +12,26 @@ from opencore.interfaces.catalog import ILastModifiedAuthorId
 from opencore.interfaces.catalog import IIndexingGhost
 from Missing import MV
 
+from Products.listen.interfaces import ISearchableMessage, ISearchableArchive, IMailMessage, IMailingList
+from zope.app.event.interfaces import IObjectModifiedEvent, IObjectCreatedEvent
+from zope.component import adapter
+from zope.interface import alsoProvides
+
+### XXX todo write a test for this here -egj
+@adapter(IMailMessage, IObjectModifiedEvent)
+def updateThreadCount(obj, event):
+    msg = ISearchableMessage(obj)
+    if msg.isInitialMessage():
+        # we'd like to just reindexObject on the list
+        # but the new msg obj isn't really created yet
+        # so we have to do a lot of nonsense instead
+        msg_path = msg.absolute_url_path()
+        list_path = msg_path.rsplit('/', 4)[0]
+        cat = getToolByName(msg, 'portal_catalog')
+        md = cat.getMetadataForUID(list_path)
+        md['mailing_list_threads'] += 1
+        proxy = type('proxy', (object,), md)()
+        cat._catalog.catalogObject(proxy, list_path, idxs=['mailing_list_threads'])
 
 def updateContainerMetadata(obj, event):
     parent = getattr(obj, 'aq_parent', None)

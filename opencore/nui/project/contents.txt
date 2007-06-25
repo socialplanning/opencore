@@ -1,3 +1,7 @@
+### XXX todo move most of this out of project contents...
+octopus should be in octopus.txt, deletion and update methods should
+be tested directly.. etc -egj
+
 =======================
  Project Contents View
 =======================
@@ -29,6 +33,44 @@ featurelets installed::
     False
 
 
+Catalog indexes
+===============
+
+Three new indexes have been added to the portal_catalog.
+
+lastModifiedAuthor and ModificationDate::
+
+    >>> brain = view.catalog(portal_type="Document", path=view.project_path)[0]
+    >>> brain
+    <Products.ZCatalog.Catalog.mybrains object at ...>
+    >>> brain.lastModifiedAuthor
+    'portal_owner'
+    >>> brain.ModificationDate
+    '...'
+
+mailing_list_threads will be None unless the indexed object is a
+Open Mailing List; for lists it counts the number of distinct threads
+in the list::
+    >>> print brain.mailing_list_threads
+    None
+    >>> brain = view.catalog(portal_type="Open Mailing List", path=view.project_path)[0]
+    >>> brain.mailing_list_threads
+    0
+
+Create a new message in the mailing list::
+    >>> lst = brain.getObject()
+    >>> mail_msg = '''To: list1@example.com
+    ... From: test1@example.com
+    ... Subject: A new Subject
+    ... Date: Wed, 5 Mar 2005 12:00:00 -0000
+    ...
+    ...
+    ... A new message.
+    ... '''
+    >>> message = lst.addMail(mail_msg)
+    >>> brain = view.catalog(portal_type="Open Mailing List", path=view.project_path)[0]
+    >>> brain.mailing_list_threads
+    1
 
 Object abstraction
 ==================
