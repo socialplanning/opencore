@@ -107,6 +107,18 @@ FileAttachments, Images, and Mailing Lists in ProjectContentsView.needed_values
     True
 
 
+Sorting
+=======
+
+The view class has a _resort() method. It is awfully similar to
+_sorted_items and might ought to merge with it. It is called
+by the resort() method (bound to a view at resort_contents) to
+render a resorted contents table::
+    >>> [o['title'] for o in view._resort('pages', 'title')]
+    ['new title', 'Project Home']
+    >>> [o['id'] for o in view._resort('pages', 'id')]
+    ['new1', 'project-home']
+
 
 Multipart form handler
 ======================
@@ -151,11 +163,6 @@ We can also issue the request asynchronously::
 
     >>> page.Title()
     'Hume'
-
-The view has a resort() method to render a resorted contents table::
-    >>> request.form = {'item_type': 'pages', 'sort_by': 'title'}
-    >>> view.resort()
-    '...'
 
 Deletes work the same way::
 
