@@ -239,15 +239,17 @@ class ProjectContentsView(BaseView):
 
         return (deleted_objects, surviving_objects)
 
+    def _resort(self, item_type, sort_by):
+        if item_type not in self._portal_type:
+            return False
+        sort_by = self.needed_values[item_type].sortable(sort_by)
+        if not sort_by: sort_by = None
+        return self._sorted_items(item_type, sort_by)
+
     def resort(self):
         item_type = self.request.form.get("item_type")
-        if item_type not in self._portal_type: return
-
         sort_by = self.request.form.get("sort_by")
-        obj_info = self.needed_values[item_type]
-        sort_by = obj_info.sortable(sort_by)
-        if not sort_by: sort_by = None
-        items = self._sorted_items(item_type, sort_by)
+        items = self._resort(item_type, sort_by)
         return self.item_table_snippet(item_collection=items,
                                        item_date_author_header=(item_type=='pages' and "Last Modified" or "Created"))
         
