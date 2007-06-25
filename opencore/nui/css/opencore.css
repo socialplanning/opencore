@@ -152,6 +152,7 @@ ul#oc-topnav-context li.oc-topnav-selected {
   background: #87B6C1;
   border: 1px solid #2B7284;
   border-top: none;
+  z-index: 10;
 }
 #oc-usermenu-list li #oc-usermenu-explore li {
   float: none;
