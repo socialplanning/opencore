@@ -17,10 +17,10 @@
         </tal:setvar>
 
         <tal:setvar define="item_header string:Images & Attachments;
-                             item_type string:files;
-                             item_collection view/files;
-                             item_date_author_header string:Created;
-			     form_name string:files_contents">
+                            item_type string:files;
+                            item_collection view/files;
+                            item_date_author_header string:Created;
+			    form_name string:files_contents">
            <tal:macro metal:use-macro="here/item_table_snippet/macros/contents_table_wrapper" />
         </tal:setvar> 
 

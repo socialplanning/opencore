@@ -1,5 +1,10 @@
-<tal:hack condition="nothing"> <!-- hack to prevent non-macro execution -->
 <tal:macro metal:define-macro="contents_table_wrapper">
+ <tal:setvar define="item_header item_header | options/item_header;
+		     item_type item_type | options/item_type;
+		     item_collection item_collection | options/item_collection;
+		     item_date_author_header item_date_author_header | options/item_date_author_header;
+		     form_name form_name | string:${item_type}_contents
+		     ">
   <tal:if condition="view/editable">
     <tal:metal metal:use-macro="here/item_table_snippet/macros/contents_table" />
   </tal:if>
@@ -7,8 +12,8 @@
   <tal:if condition="not:view/editable">
     <tal:metal metal:use-macro="here/item_table_snippet/macros/contents_table_uneditable" />
   </tal:if> 
+ </tal:setvar>
 </tal:macro>
-</tal:hack>
 
 <tal:if condition="nothing"> <!-- hack to prevent non-macro execution -->
 <tal:macro metal:define-macro="contents_table">
