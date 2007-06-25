@@ -9,7 +9,7 @@ from Products.listen.interfaces import ISearchableArchive
 from Products.listen.interfaces.mailinglist import IMailingList
 from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, IIndexingGhost, IMetadataDictionary, IMailingListThreadCount
 from opencore.nui.project.metadata import registerMetadataGhost
-from zope.component import adapter, queryUtility
+from zope.component import adapter, queryUtility, adapts
 from zope.interface import Interface
 from zope.interface import implements, implementer
 
@@ -86,23 +86,19 @@ def metadata_for_portal_content(context, catalog):
     metadata['getURL']=context.absolute_url()
     return metadata
 
+class MailingListThreadCount(object):
+    adapts(IMailingList)
+    implements(IMailingListThreadCount)
 
-### XXX todo write a test for this
-### XXX todo make this a class with a method to circumvent 0->Missing.Value without lame string casting
-@adapter(IMailingList)
-@implementer(IMailingListThreadCount)
-def threads_for_mailing_list(lst):
-    util = queryUtility(ISearchableArchive, context=lst)
-    if not util:
-        # if we don't have an ISearchableArchive,
-        # we presumably have no threads either
-        msgs = []
-    else:
-        msgs = util.getToplevelMessages()
+    def __init__(self, context):
+        self.context = context
 
-    # we will cast the result to a string because 0 == False
-    # which causes Missing.Value trouble in the catalog
-    return str(len(msgs))
+    def getValue(self):
+        util = queryUtility(ISearchableArchive, context=self.context)
+        if not util:
+            return 0
+        else:
+            return len(util.getToplevelMessages())
 
 class MetadataGhost(object):
     """
@@ -181,7 +177,7 @@ def register_indexable_attrs():
     registerInterfaceIndexer(PROJECT_POLICY, IReadWorkflowPolicySupport, 'getCurrentPolicyId')
     registerInterfaceIndexer('lastWorkflowActor', ILastWorkflowActor, 'getValue')
     registerInterfaceIndexer('lastModifiedAuthor', ILastModifiedAuthorId)
-    registerInterfaceIndexer('mailing_list_threads', IMailingListThreadCount)
+    registerInterfaceIndexer('mailing_list_threads', IMailingListThreadCount, 'getValue')
 class _extra:
     """ lame holder class to support index 'extra' argument """
     pass

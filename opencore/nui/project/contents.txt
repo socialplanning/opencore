@@ -55,7 +55,7 @@ in the list::
     None
     >>> brain = view.catalog(portal_type="Open Mailing List", path=view.project_path)[0]
     >>> brain.mailing_list_threads
-    '0'
+    0
 
 Create a new message in the mailing list::
     >>> lst = brain.getObject()
@@ -70,7 +70,7 @@ Create a new message in the mailing list::
     >>> message = lst.addMail(mail_msg)
     >>> brain = view.catalog(portal_type="Open Mailing List", path=view.project_path)[0]
     >>> brain.mailing_list_threads
-    '1'
+    1
 
 Object abstraction
 ==================
