@@ -23,4 +23,6 @@
 
   <adapter factory=".indexing.metadata_for_portal_content" />
 
+  <adapter factory=".indexing.MailingListThreadCount" />
+
 </configure>

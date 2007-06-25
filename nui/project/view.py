@@ -33,14 +33,32 @@ import mship_messages
 
 _marker = object()
 
-def vdict(**extra): 
-    base=dict(id='getId',
-              title='Title',
-              url='getURL',
-              )
-    base.update(extra)
-    return base 
+class vdict(dict):
+    _sortable = dict(id=None,
+                     url=None,
+                     obj_size=None,
+                     obj_date=None,
+                     title='sortable_title')
 
+    def __init__(self, **extra): 
+        self['id'] = 'getId'
+        self['title'] = 'Title'
+        self['url'] = 'getURL'
+        self.update(extra)
+        
+    def sortable(self, prop):
+        """
+        Returns the string to pass in to a catalog query sort_on
+        for a given property; if there is no way to sort on that
+        property, returns False
+        """
+        if prop not in self._sortable.keys():
+            return False
+        key = self._sortable[prop] or self.get(prop)
+        if not key:
+            return False
+        return key
+            
 class ProjectContentsView(BaseView):
 
     contents_row_snippet = ZopeTwoPageTemplateFile('item_row.pt')
@@ -58,7 +76,7 @@ class ProjectContentsView(BaseView):
                                      obj_size='getObjSize'),
                          lists=vdict(obj_date='Date',
                                      obj_author='Creator',
-                                     obj_size='getObjSize'),
+                                     obj_size='mailing_list_threads'),
                          )
 
     def retrieve_metadata(self, obj):
@@ -185,8 +203,7 @@ class ProjectContentsView(BaseView):
             parent_path, brain_id = brain.getPath().rsplit('/', 1)
             parent_path = parent_path.split(self.project_path, 1)[-1].strip('/')
             parents.setdefault(parent_path, []).append(brain_id)
-
-
+            
             type = brain.portal_type
             ### our Documents are currently folderish 
             # and sometimes contain file-like things.
@@ -232,8 +249,9 @@ class ProjectContentsView(BaseView):
 
         sort_by = self.request.form.get("sort_by")
         
-        items = self._sorted_items(item_type,
-                                   self._translate_field.get(sort_by))
+        self.needed_values['needed_values']
+
+        items = self._sorted_items(item_type, sort_by)
         return self.item_table_snippet(items=items, item_type=item_type)
 
     @formhandler.octopus
