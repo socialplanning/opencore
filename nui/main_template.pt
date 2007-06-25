@@ -39,7 +39,7 @@
         <div id="oc-content-container">
         
           <tal:for tal:repeat="status_msg view/portal_status_message">
-            <div tal:content="status_msg" class="oc-statusMessage"/>
+            <div tal:content="structure status_msg" class="oc-statusMessage"/>
           </tal:for>
         
           <!-- content is injected here -->
