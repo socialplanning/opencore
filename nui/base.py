@@ -166,40 +166,40 @@ class BaseView(BrowserView):
 
 
     def member_info_for_member(self, member):
-        if member is not None:
-            if IReMember.providedBy(member):
-                result = dict(
-                              id          = member.getId(),
-                              fullname    = member.getFullname(),
-                              email       = member.getEmail(),
-                              membersince = prettyDate(member.getRawCreation_date()),
-                              lastlogin   = prettyDate(member.getLast_login_time()),
-                              projects    = member.projectBrains(),
-                              location    = member.getLocation(),
-                              statement   = member.getStatement(),
-                              background  = member.getBackground(),
-                              skills      = member.getSkills(),
-                              affiliations= member.getAffiliations(),
-                              favorites   = member.getFavorites(),
-                             )
-            else:
-                # XXX TODO 
-                # we're an old school member object, e.g. an admin user
-                result = dict(id=member.id, fullname=member.fullname)
+        result = {}
+        if IReMember.providedBy(member):
+            result.update(
+                id          = member.getId(),
+                fullname    = member.getFullname(),
+                email       = member.getEmail(),
+                membersince = prettyDate(member.getRawCreation_date()),
+                lastlogin   = prettyDate(member.getLast_login_time()),
+                projects    = member.projectBrains(),
+                location    = member.getLocation(),
+                statement   = member.getStatement(),
+                background  = member.getBackground(),
+                skills      = member.getSkills(),
+                affiliations= member.getAffiliations(),
+                favorites   = member.getFavorites(),
+                )
+        else:
+            # XXX TODO 
+            # we're an old school member object, e.g. an admin user
+            result.update(id=member.id, fullname=member.fullname)
 
-                for key in 'membersince', 'lastlogin','location', \
-                           'statement', 'affiliations', 'skills', \
-                           'background',  'url', 'favorites':
-                    result[key] = ''
+            for key in 'membersince', 'lastlogin','location', \
+                    'statement', 'affiliations', 'skills', \
+                    'background',  'url', 'favorites':
+                result[key] = ''
 
-            folder = self.membertool.getHomeFolder(result['id'])
-            if folder:
-                result['url'] = folder.absolute_url()
+        folder = self.membertool.getHomeFolder(result['id'])
+        if folder:
+            result['url'] = folder.absolute_url()
                 
-            result['portrait_url'] = self.defaultPortraitURL
-            portrait = member.getProperty('portrait', None)
-            if portrait:
-                result['portrait_url'] = portrait.absolute_url()
+        result['portrait_url'] = self.defaultPortraitURL
+        portrait = member.getProperty('portrait', None)
+        if portrait:
+            result['portrait_url'] = portrait.absolute_url()
 
         return result
 
