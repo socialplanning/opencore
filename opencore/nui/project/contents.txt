@@ -68,7 +68,9 @@ Create a new message in the mailing list::
     ... A new message.
     ... '''
     >>> message = lst.addMail(mail_msg)
-    Woohoo!
+    >>> brain = view.catalog(portal_type="Open Mailing List", path=view.project_path)[0]
+    >>> brain.mailing_list_threads
+    '1'
 
 Object abstraction
 ==================

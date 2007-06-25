@@ -81,8 +81,8 @@
      handler=".metadata.updateContainerMetadata"
      />
 
-    <subscriber
-       handler=".metadata.updateThreadCount"
-       />
+  <subscriber
+     handler=".metadata.updateThreadCount"
+     />
 
 </configure>
