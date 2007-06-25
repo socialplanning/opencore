@@ -112,21 +112,6 @@ class ProjectContentsView(BaseView):
                 obj_dict[field] = val
             else:
                 raise KeyError("field is missing: %s -- %s" %(field, obj))
-##                 continue
-            
-##             has_accessor = False
-##             for obj_field in needed_values[field]: # loop through object-specific ways of getting the field
-##                 if hasattr(obj, obj_field):
-##                     val = getattr(obj, obj_field)
-##                     has_accessor = True
-##                     break
-                
-##             if not has_accessor:
-##                 raise Exception("Could not fetch a %s value from the object %s among the accessors %s!" % (
-##                         field, obj, list(needed_values[field])))
-##             if callable(val): val = val()
-##             if 'date' in field: val = self.pretty_date(val)  # would be fun to genericize this and pass in
-##             obj_dict[field] = val
         return obj_dict
 
     @memoizedproperty
