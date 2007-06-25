@@ -64,3 +64,25 @@ Exercise the Member Preferences Class
     >>> invitations = view.get_invitations_for_user()
     >>> invitations
     [{'name': 'Big Animals'}, {'name': 'Small Animals'}]
+
+    Now, let's have a member leave a project::
+
+    But first, if we're not logged in as the member,
+    we should get a workflow exception when trying to leave the project
+    >>> view.leave_project('p2')
+    Traceback (most recent call last):
+    ...
+    WorkflowException: No workflow provides the "deactivate" action.
+
+    We have to login as m2 to get the modify portal content permission,
+    giving us access to the workflow transition
+    >>> self.logout()
+    >>> self.login('m2')
+
+    Now we should be able to leave the project just fine
+    >>> view.leave_project('p2')
+
+    And finally, m2 should no longer have active membership to project p2
+    >>> project_dicts = view.get_projects_for_user()
+    >>> [d['proj_id'] for d in project_dicts]
+    ['p3', 'p4']

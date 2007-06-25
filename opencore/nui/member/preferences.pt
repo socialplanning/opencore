@@ -109,7 +109,7 @@
           </td>
           <td>
             <ul class="oc-actions oc-dataTable-row-actions">
-              <li><a href="#">Leave</a></li>
+              <li><a tal:attributes="href string:${context/absolute_url}/${view/name}?action_leave=True&proj_id=${projinfo/proj_id}">Leave</a></li>
             </ul>
           </td>
         </tr>
