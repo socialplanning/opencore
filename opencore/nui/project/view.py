@@ -40,7 +40,8 @@ class vdict(dict):
                      obj_date=None,
                      title='sortable_title')
 
-    def __init__(self, **extra): 
+    def __init__(self, header, **extra):
+        self.header = header
         self['id'] = 'getId'
         self['title'] = 'Title'
         self['url'] = 'getURL'
@@ -69,12 +70,15 @@ class ProjectContentsView(BaseView):
                     'files': ("FileAttachment", "Image")
                     }
 
-    needed_values = dict(pages=vdict(obj_date='ModificationDate',
+    needed_values = dict(pages=vdict("Wiki pages",
+                                     obj_date='ModificationDate',
                                      obj_author='lastModifiedAuthor'),
-                         files=vdict(obj_date='Date',
+                         files=vdict("Images & Attachments",
+                                     obj_date='Date',
                                      obj_author='Creator',
                                      obj_size='getObjSize'),
-                         lists=vdict(obj_date='Date',
+                         lists=vdict("Mailing lists",
+                                     obj_date='Date',
                                      obj_author='Creator',
                                      obj_size='mailing_list_threads'),
                          )
@@ -248,12 +252,15 @@ class ProjectContentsView(BaseView):
         if item_type not in self._portal_type: return
 
         sort_by = self.request.form.get("sort_by")
-        
-        self.needed_values['needed_values']
-
+        obj_info = self.needed_values[item_type]
+        sort_by = obj_info.sortable(sort_by)
+        if not sort_by: sort_by = None
         items = self._sorted_items(item_type, sort_by)
-        return self.item_table_snippet(items=items, item_type=item_type)
-
+        return self.item_table_snippet(item_collection=items,
+                                       item_type=item_type,
+                                       item_header=obj_info.header,
+                                       item_date_author_header=(item_type=='pages' and "Last Modified" or "Created"))
+        
     @formhandler.octopus
     def modify_contents(self, action, sources, fields=None):
         item_type = self.request.form.get("item_type")

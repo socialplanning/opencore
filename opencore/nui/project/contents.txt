@@ -152,6 +152,11 @@ We can also issue the request asynchronously::
     >>> page.Title()
     'Hume'
 
+The view has a resort() method to render a resorted contents table::
+    >>> request.form = {'item_type': 'pages', 'sort_by': 'title'}
+    >>> view.resort()
+    '...'
+
 Deletes work the same way::
 
     >>> utils.clear_all_memos(view)
