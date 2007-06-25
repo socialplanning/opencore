@@ -42,8 +42,9 @@ class ProfileEditView(ProfileView):
         portrait = self.request.form.get('portrait')
         mode = self.request.form.get('mode')
               
-       # TODO resize portrait if necessary
+        # TODO resize portrait if necessary
 
+        # the only asynchronous form behavior is for change portrait
         if mode == 'async':
             usr.setPortrait(portrait)
             usr.reindexObject()
@@ -55,8 +56,16 @@ class ProfileEditView(ProfileView):
                 mutator = getattr(usr, mutator, None)
                 if mutator:
                     mutator(value)
+                self.user_updated()
     
             usr.reindexObject()
             return self.redirect('profile')
 
+
     #TODO handle_remove_image
+
+
+    def user_updated(self): # TODO
+        """callback to tell taggerstore a user updated (possibly) taggifiable
+        fields. something like a POST to /taggerstore/."""
+        pass
