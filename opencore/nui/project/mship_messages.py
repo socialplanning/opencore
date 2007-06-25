@@ -29,3 +29,10 @@ invitation_retracted = u"""Subject: OpenPlans project invitation retracted
 The invitation extended to you to join the %(project_title)s project
 on OpenPlans.org has been retracted.
 """
+
+membership_deactivated = u"""Subject: OpenPlans project membership deactivated
+
+Your membership in the %(project_title)s project on OpenPlans.org has
+been deactivated.
+"""
+

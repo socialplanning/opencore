@@ -709,6 +709,10 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         into an inactive workflow state.
         """
         nremoved = self.doMshipWFAction('deactivate', mem_ids)
+        for mem_id in mem_ids:
+            msg = self._constructMailMessage('membership_deactivated',
+                                             project_title=self.context.Title())
+            self._sendEmail(mem_id, msg)
         self.addPortalStatusMessage(u'%d members deactivated' % nremoved)
 
     def _set_roles(self, roles_from_form):
@@ -791,5 +795,5 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
                     'account_url': self._getAccountURLForMember(mem_id),
                     }
         msg = self._constructMailMessage('invite_member', **msg_subs)
-        self._sendEmail(msg, mem_id)
+        self._sendEmail(mem_id, msg)
         self.addPortalStatusMessage(u'%s invited' % mem_id)

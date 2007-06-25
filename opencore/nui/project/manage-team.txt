@@ -84,6 +84,8 @@ email notifier:
     2
 
 Verify that invitation reminders go out:
+
+    >>> self.clearMemoCache()
     >>> view.request.form['member_ids'] = ['m3']
     >>> view.remind_invitations()
     >>> len(mailhost.messages)
@@ -100,16 +102,115 @@ Make sure we can remove invitations; email notifier should be sent:
     4
 
 Test membership removal.  We set the HTTP_REFERER on the request
-because the octopus decorator requires (and returns) it:
+because the octopus decorator requires (and returns) it.  Notifier
+should be sent:
 
     >>> self.clearMemoCache()
     >>> view.request.form.clear()
     >>> view.request.form.update(
     ...    {'task': 'batch:deletes_remove-members',
-    ...    'deletes': ['m2'],
+    ...     'deletes': ['m2'],
     ...    })
     >>> view.request.environ['HTTP_REFERER'] = 'referer'
     >>> view.manage_memberships()
     'referer'
     >>> len(view.active_mships)
     2
+    >>> len(mailhost.messages)
+    5
+
+Ensure that form submissions changing the team roles for members
+behave as expected.  At the beginning we re-add and approve m3 so we
+can use him for testing later:
+
+    >>> view.request.form.clear()
+    >>> team.addMember('m3')
+    <OpenMembership at ...>
+    >>> view.request.form['member_ids'] = ['m3']
+    >>> view.approve_requests()
+    >>> team.getHighestTeamRoleForMember('m1')
+    'ProjectAdmin'
+    >>> team.getHighestTeamRoleForMember('portal_owner')
+    'ProjectAdmin'
+    >>> team.getHighestTeamRoleForMember('m3')
+    'ProjectMember'
+    >>> view.request.form.update(
+    ...    {'task': 'batch:roles_set-roles',
+    ...     'roles': ['m1', 'portal_owner', 'm3'],
+    ...     'm1_roles': 'ProjectAdmin',
+    ...     'portal_owner_roles': 'ProjectMember',
+    ...     'm3_roles': 'ProjectAdmin'
+    ...     })
+    >>> view.request.environ['HTTP_REFERER'] = 'referer'
+    >>> view.manage_memberships()
+    'referer'
+    >>> team.getHighestTeamRoleForMember('m1')
+    'ProjectAdmin'
+    >>> team.getHighestTeamRoleForMember('portal_owner')
+    'ProjectMember'
+    >>> team.getHighestTeamRoleForMember('m3')
+    'ProjectAdmin'
+    >>> team.removeMember('m3')
+
+Now test member search.  We should be getting results on members w/o
+team memberships, and inactive team memberships, but not on those that
+are active or pending approval.
+
+For the first search, m1 is active, m2 is inactive, m3 has no
+membership, and m4 is rejected_by_admin.  m1 is the only one shouldn't
+be returned by the search:
+
+    >>> view.request.form.clear()
+    >>> view.request.form['search_for'] = 'mem'
+    >>> view.search_members()
+    >>> len(view.results)
+    3
+    >>> ids = [b.getId for b in view.results]
+    >>> 'm1' in ids
+    False
+
+Now we add m3 as a pending member, should disappear from the results:
+
+    >>> team.addMember('m3') # <-- now pending
+    <OpenMembership at ...>
+    >>> view.search_members()
+    >>> len(view.results)
+    2
+    >>> ids = [b.getId for b in view.results]
+    >>> 'm1' in ids
+    False
+    >>> 'm3' in ids
+    False
+    >>> team.removeMember('m3')
+
+Finally, we test the 'invite' button for member invitation.  First we
+try with a member that is not on the team.  Notifier should go out:
+
+    >>> self.clearMemoCache()
+    >>> view.request.form.clear()
+    >>> view.request.form['invite-member'] = 'm3'
+    >>> view.invite_member()
+    >>> len(view.pending_invitations)
+    1
+    >>> len(mailhost.messages)
+    6
+
+Now try to reinvite an inactive member:
+
+    >>> self.clearMemoCache()
+    >>> view.request.form['invite-member'] = 'm2'
+    >>> view.invite_member()
+    >>> len(view.pending_invitations)
+    2
+    >>> len(mailhost.messages)
+    7
+
+And last we reinvite m4, who was rejected_by_admin:
+
+    >>> self.clearMemoCache()
+    >>> view.request.form['invite-member'] = 'm4'
+    >>> view.invite_member()
+    >>> len(view.pending_invitations)
+    3
+    >>> len(mailhost.messages)
+    8
