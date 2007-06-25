@@ -59,8 +59,15 @@ class vdict(dict):
         if not key:
             return False
         return key
-            
+
+
 class ProjectContentsView(BaseView):
+
+    class ContentsCollection(list):
+        def __init__(self, item_type, *contents):
+            self.item_type = item_type
+            self.info = ProjectContentsView.needed_values[item_type]
+            self.extend(contents)
 
     contents_row_snippet = ZopeTwoPageTemplateFile('item_row.pt')
     item_table_snippet = ZopeTwoPageTemplateFile('item_table_snippet.pt')
@@ -156,7 +163,7 @@ class ProjectContentsView(BaseView):
                               path=self.project_path,
                               sort_on=sort_by)
         needed_values = self.needed_values[item_type]
-        ret = []
+        ret = self.ContentsCollection(item_type)
         for brain in brains:
             ret.append(self._make_dict_and_translate(brain, needed_values))
         return ret
@@ -257,8 +264,6 @@ class ProjectContentsView(BaseView):
         if not sort_by: sort_by = None
         items = self._sorted_items(item_type, sort_by)
         return self.item_table_snippet(item_collection=items,
-                                       item_type=item_type,
-                                       item_header=obj_info.header,
                                        item_date_author_header=(item_type=='pages' and "Last Modified" or "Created"))
         
     @formhandler.octopus
