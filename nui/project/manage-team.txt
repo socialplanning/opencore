@@ -102,14 +102,14 @@ Make sure we can remove invitations; email notifier should be sent:
 Test membership removal.  We set the HTTP_REFERER on the request
 because the octopus decorator requires (and returns) it:
 
-    >>> #self.clearMemoCache()
-    >>> #view.request.form.clear()
-    >>> #view.request.form.update(
-    >>> #    {'task': 'batch:deletes_remove-members,
-    >>> #    'deletes': ['m2'],
-    >>> #    })
-    >>> #view.request.environ['HTTP_REFERER'] = 'referer'
-    >>> #view.manage_memberships()
-    
-    >>> #len(view.active_mships)
-    >>> # incomplete, finishing soon
+    >>> self.clearMemoCache()
+    >>> view.request.form.clear()
+    >>> view.request.form.update(
+    ...    {'task': 'batch:deletes_remove-members',
+    ...    'deletes': ['m2'],
+    ...    })
+    >>> view.request.environ['HTTP_REFERER'] = 'referer'
+    >>> view.manage_memberships()
+    'referer'
+    >>> len(view.active_mships)
+    2
