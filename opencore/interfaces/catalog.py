@@ -19,6 +19,15 @@ class ILastWorkflowActor(Interface):
         the team membership.
         """
 
+class ILastWorkflowTransitionDate(Interface):
+
+    def getValue():
+        """
+        Returns the timestamp from the last workflow transition.  Used
+        for membership objects to efficiently determine when the last
+        workflow transition happened.
+        """
+
 class ILastModifiedAuthorId(Interface):
     """string id for last author to modify a piece of content"""
 

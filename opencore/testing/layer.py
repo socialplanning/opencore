@@ -5,12 +5,30 @@ from Testing import ZopeTestCase
 from Products.CMFCore.utils  import getToolByName
 from Products.PloneTestCase.layer import PloneSite, ZCML
 from Products.PloneTestCase.setup import setupPloneSite
-from Products.remember.tests.base import MailHostMock
 
 from Products.OpenPlans.tests.utils import installConfiguredProducts
 from opencore.testing.utility import setup_mock_http
 from opencore.project.handler import add_redirection_hooks 
 from utils import get_portal, get_portal_as_owner, create_test_content
+
+
+class MailHostMock(object):
+    """
+    mock up the send method so that emails do not actually get sent
+    during automated tests
+    """
+    def __init__(self):
+        self.messages = []
+    def send(self, msg, mto=None, mfrom=None, subject=None):
+        msg = {'msg': msg,
+               'mto': mto,
+               'mfrom': mfrom,
+               'subject': subject,
+               }
+        self.messages.append(msg)
+    def validateSingleEmailAddress(self, email):
+        return True
+
 
 class SiteSetupLayer(PloneSite):
     setupPloneSite()

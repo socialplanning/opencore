@@ -21,7 +21,7 @@
                   <tr>
                     <td>
                       <tal:if condition="python: previous_id is not None">
-                      <a class="oc-button oc-smallText" tal:attributes="href string:version?version_id=${previous_id}" title="older">&lt;</a>
+                      <a class="oc-button oc-smallText" tal:attributes="href string:version?version_id=${previous_id}" title="older">&larr;</a>
                       </tal:if>
 
                       <tal:if condition="python: previous_id is None">
@@ -33,7 +33,7 @@
                     </th>
                     <td>
                       <tal:if condition="python: next_id is not None">
-                      <a class="oc-button oc-smallText" tal:attributes="href string:version?version_id=${next_id}" title="newer">&gt;</a>
+                      <a class="oc-button oc-smallText" tal:attributes="href string:version?version_id=${next_id}" title="newer">&rarr;</a>
                       </tal:if>
                       <tal:if condition="python: next_id is None">
                       
@@ -65,7 +65,10 @@
                   </tal:if>
               </div><!-- .oc-widget-version-compare -->
               
-              <span tal:replace="version/comment" />
+              <div tal:condition="version/comment" class="oc-boxy oc-version-note">
+              <h3>Revision note:</h3>
+              <p tal:content="version/comment" />
+              </div>
                
               <span tal:replace="structure python: view.get_page(version_id).EditableBody()" />
       

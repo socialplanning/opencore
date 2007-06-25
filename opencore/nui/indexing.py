@@ -7,7 +7,8 @@ from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
 from Products.ZCatalog.CatalogBrains import AbstractCatalogBrain
 from Products.listen.interfaces import ISearchableArchive
 from Products.listen.interfaces.mailinglist import IMailingList
-from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, IIndexingGhost, IMetadataDictionary, IMailingListThreadCount
+from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, \
+     IIndexingGhost, IMetadataDictionary, ILastWorkflowTransitionDate, IMailingListThreadCount
 from opencore.nui.project.metadata import registerMetadataGhost
 from zope.component import adapter, queryUtility, adapts
 from zope.interface import Interface
@@ -36,18 +37,13 @@ mem_idxs = (('FieldIndex', 'exact_getFullname',
              {'indexed_attrs': 'getLocation'}),
              )
 
-## ghosted_cols = ('lastModifiedTitle',
-##                 'lastModifiedAuthor',
-##                 'lastModifiedComment',)
-
-ghosted_cols = ()
-
-metadata_cols = ghosted_cols + ('lastWorkflowActor', 'made_active_date', 'lastModifiedAuthor', 'mailing_list_threads')
+metadata_cols = ('lastWorkflowActor', 'made_active_date', 'lastModifiedAuthor',
+                 'lastWorkflowTransitionDate', 'mailing_list_threads')
 
 
 class LastWorkflowActor(object):
     """
-    ghosts the 'lastWorkflowActor' metadata column for
+    populates the 'lastWorkflowActor' metadata column for
     IOpenMemberships
     """
     implements(ILastWorkflowActor)
@@ -61,13 +57,28 @@ class LastWorkflowActor(object):
         status = wftool.getStatusOf(wf_id, self.context)
         return status.get('actor')
 
+class LastWorkflowTransitionDate(object):
+    """
+    populates the 'lastWorkflowTransitionDate' metadata column for
+    IOpenMemberships
+    """
+    implements(ILastWorkflowTransitionDate)
+    def __init__(self, context):
+        self.context = context
+        self.wftool = getToolByName(self.context, 'portal_workflow')
+
+    def getValue(self):
+        wftool = self.wftool
+        wf_id = wftool.getChainFor(self.context)[0]
+        status = wftool.getStatusOf(wf_id, self.context)
+        return status.get('time')
+
+
 @implementer(ILastModifiedAuthorId)
 def authenticated_memberid(context):
     mtool = getToolByName(context, 'portal_membership')
     mem = mtool.getAuthenticatedMember()
     return mem.getId()
-
-
 
 @adapter(AbstractCatalogBrain)
 @implementer(IMetadataDictionary)
@@ -85,6 +96,7 @@ def metadata_for_portal_content(context, catalog):
     metadata = catalog.getMetadataForUID(uid)
     metadata['getURL']=context.absolute_url()
     return metadata
+
 
 class MailingListThreadCount(object):
     adapts(IMailingList)
@@ -130,7 +142,6 @@ class MetadataGhost(object):
         value = table.get(name, default)
         return value
 
-
 def createIndexes(portal, out, idxs=idxs, tool='portal_catalog'):
     catalog = getToolByName(portal, tool)
     create_indexes(out, catalog, idxs)
@@ -169,13 +180,14 @@ def registerInterfaceIndexer(idx, iface, method=None, default=None):
         return adapter
     registerIndexableAttribute(idx, indexfx)
 
-def register_ghosts(cols=ghosted_cols):
-    for col in cols:
-        registerMetadataGhost(col)
-
 def register_indexable_attrs():
-    registerInterfaceIndexer(PROJECT_POLICY, IReadWorkflowPolicySupport, 'getCurrentPolicyId')
-    registerInterfaceIndexer('lastWorkflowActor', ILastWorkflowActor, 'getValue')
+    registerInterfaceIndexer(PROJECT_POLICY, IReadWorkflowPolicySupport,
+                             'getCurrentPolicyId')
+    registerInterfaceIndexer('lastWorkflowActor', ILastWorkflowActor,
+                             'getValue')
+    registerInterfaceIndexer('lastWorkflowTransitionDate',
+                             ILastWorkflowTransitionDate,
+                             'getValue')
     registerInterfaceIndexer('lastModifiedAuthor', ILastModifiedAuthorId)
     registerInterfaceIndexer('mailing_list_threads', IMailingListThreadCount, 'getValue')
 class _extra:

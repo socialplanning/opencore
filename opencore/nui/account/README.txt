@@ -191,6 +191,33 @@ Calling the view with the proper key will bring you to your account page::
     >>> view()
     'http://nohost/plone/init-login'
 
+Login
+=====
+
+Logout first
+
+    >>> self.logout()
+    >>> portal.portal_membership.getAuthenticatedMember()
+    <SpecialUser 'Anonymous User'>
+
+Get the login view
+
+    >>> view = portal.restrictedTraverse('@@login')
+
+Clear the portal status messages and form
+
+    >>> view.portal_status_message
+    [...]
+    >>> view.request.form.clear()
+
+Login [to be done]
+
+    >>> view.request.form['__ac_name'] = 'foobar'
+    >>> view.request.form['__ac_password'] = 'testy'
+    >>> output = view()
+
+[Output should really be the user's homepage.  but it isn't
+due to the fact that PAS isn't called.  Deal with this later]
 
 Verify portal status messages aren't being swallowed
 ====================================================
@@ -223,3 +250,48 @@ Verify portal status messages aren't being swallowed
     Now restore the original methods
     >>> view.membertool.isAnonymousUser = old_membertool_isanon
     >>> view.update_credentials = old_update
+
+Verify authentication challenges do the right thing
+===================================================
+
+Swallow those portal status messages and clear the form
+
+    >>> view.portal_status_message
+    [...]
+    >>> view.request.form.clear()
+    >>> view.request.form
+    {}
+    >>> oldview = view
+
+Now go to the require_login location
+
+    >>> view = portal.restrictedTraverse('require_login')
+    
+This is not the view
+
+    >>> view
+    <FSPythonScript at /plone/require_login>
+    >>> output = view()
+
+This is the old skin which redirects to the login page.
+It doesn't set the portal status message (yet?)
+
+    >>> 'Hey!' in output
+    False
+    >>> oldview.portal_status_message
+    []
+
+Now try the view
+
+    >>> view = portal.restrictedTraverse('@@require_login')
+    >>> view
+    <Products.Five.metaclass.LoginView object at ...>
+    >>> output = view()
+    >>> output
+    'http://nohost/plone/login'
+    >>> 'Hey!' in output
+    False
+    >>> view.portal_status_message
+    []
+
+Huh, "Hey!" should be there somewhere...where did it go?

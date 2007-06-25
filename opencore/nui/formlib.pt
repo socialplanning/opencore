@@ -1,0 +1,35 @@
+<!-- template for nuified zope.formlib forms -->
+<html metal:use-macro="context/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">
+      <div id="oc-content-main">
+        <form class="edit-form" method="post"
+          tal:attributes="action request/URL">
+          <h1 tal:content="view/label">Edit something</h1>
+          <div class="summary" tal:condition="view/status"
+            tal:content="view/status">Status</div>
+
+          <div class="row" tal:repeat="widget view/widgets">
+            <div class="label">
+              <label for="field.name" title="The widget's hint"
+                tal:attributes="for widget/name; title widget/hint"
+                tal:content="widget/label">Label</label>
+            </div>
+            <div tal:condition="widget/error"
+              tal:content="structure widget/error">Error</div>
+            <div class="field">
+              <input tal:replace="structure widget" />
+            </div>
+          </div>
+          <span class="actionButtons"
+            tal:condition="view/availableActions">
+            <input tal:repeat="action view/actions"
+              tal:replace="structure action/render"
+              />
+          </span>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
+

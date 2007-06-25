@@ -1,3 +1,5 @@
+import re
+
 from zope import event
 from zope.component import getMultiAdapter
 from zExceptions import BadRequest, Redirect
@@ -7,6 +9,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import DeleteObjects
 from Products.CMFPlone.utils import transaction_note
+from Products.validation.validators.BaseValidators import EMAIL_RE
 from plone.memoize.instance import memoize, memoizedproperty
 from plone.memoize.view import memoize_contextless
 from plone.memoize.view import memoize as req_memoize
@@ -25,6 +28,8 @@ from opencore.nui import formhandler
 from opencore.nui.base import BaseView
 from opencore.nui.main import SearchView
 from opencore.nui.main.search import searchForPerson
+
+import mship_messages
 
 _marker = object()
 
@@ -165,22 +170,61 @@ class ProjectContentsView(BaseView):
         return obj_dict
 
     def _delete(self, brains):
+        """
+        delete the objects referenced by the list of brains passed in.
+        returns ([deleted_ids], [failed_nondeleted_ids])
+        """
         parents = {}
-        surviving_children = []
-        for brain in brains:
+        collateral_damage = {}
+
+        surviving_objects = []
+        deleted_objects = []
+
+        # put obj ids in dict keyed on their parents for optimal batch deletion
+        for brain in brains:                
             parent_path, brain_id = brain.getPath().rsplit('/', 1)
             parent_path = parent_path.split(self.project_path, 1)[-1].strip('/')
             parents.setdefault(parent_path, []).append(brain_id)
+
+
+            type = brain.portal_type
+            ### our Documents are currently folderish 
+            # and sometimes contain file-like things.
+            # Any child files will be deleted by this
+            # operation, so we need to tell the client
+            # that we deleted these files as well
+            if type == 'Document':
+                file_type = self._portal_type['files']
+                child_files = [b.getId for b in 
+                               self.catalog(portal_type=file_type,
+                                            path=brain.getPath())]
+                if child_files:
+                    collateral_damage.setdefault(brain_id, []).extend(child_files)
+
+        # delete objs in batches per parent obj
         for parent, child_ids in parents.items():
             if child_ids:
                 if not parent:
                     parent = self.context
                 else:
                     parent = self.context.restrictedTraverse(parent)
-                parent.manage_delObjects(child_ids)
-            if child_ids: # deletion failed, we've a problem
-                surviving_children.extend(child_ids)
-        return surviving_children
+                deletees = list(child_ids)
+                parent.manage_delObjects(child_ids)  ## dels ids from list as objs are deleted
+            if child_ids: # deletion failed for some objects
+                surviving_objects.extend(child_ids)  ## what's left in 'child_ids' was not deleted
+                deleted_objects.extend([oid for oid in deletees
+                                        if oid not in child_ids]) ## the difference btn deletees and child_ids == deleted
+            else: # deletion succeeded for every object
+                deleted_objects.extend(deletees)
+        
+        # if any additional objects (ie file attachments) were deleted
+        # as a consequence, add them to deleted_objects too
+        if collateral_damage: 
+            for oid in deleted_objects:
+                extra = collateral_damage.get(oid)
+                if extra: deleted_objects.extend(extra)
+
+        return (deleted_objects, surviving_objects)
 
     def resort(self):
         item_type = self.request.form.get("item_type")
@@ -202,11 +246,9 @@ class ProjectContentsView(BaseView):
         brains = self.catalog(id=sources, path=self.project_path)
 
         if action == 'delete':
-            survivors = self._delete(brains)
-            # return a list of all successfully deleted items
-            if survivors:
-                return list(set(sources).difference(survivors))
-            return sources
+            deletions, survivors = self._delete(brains)
+            # for now we'll only return the deleted obj ids. later we may return the survivors too.
+            return deletions
 
         elif action == 'update': # @@ move out to own method to optimize
             snippets = {}
@@ -417,6 +459,10 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
                  }
 
     @property
+    def mailhost(self):
+        return self.get_tool('MailHost')
+
+    @property
     @req_memoize
     def pending_mships(self):
         cat = self.get_tool('portal_catalog')
@@ -489,6 +535,50 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         return len(mem_ids)
 
 
+    def _constructMailMessage(self, msg_id, **kwargs):
+        """
+        Retrieves and returns the mail message text from the
+        mship_messages module that is in the same package as this
+        module.
+
+        o msg_id - the name of the message that is to be retrieved
+
+        o **kwargs - should be a set of key:value pairs that can be
+          substituted into the desired message.  extraneous kwargs
+          will be ignored; failing to include a kwarg required by the
+          specified message will raise a KeyError.
+        """
+        msg = getattr(mship_messages, msg_id)
+        return msg % kwargs
+
+    def _getAccountURLForMember(self, mem_id):
+        homeurl = self.membertool.getHomeUrl(mem_id)
+        return "%s/preferences" % homeurl
+
+    def _sendEmail(self, mto, msg, subject=None):
+        """
+        Sends an email.  It's assumed that the currently logged in
+        user is the sender.
+
+        o mto: the message recipient.  either an email address or a
+        member id.
+
+        o subject: message subject; if None it's assumed that the
+        subject header is already embedded in the message text.
+
+        o msg: message content
+        """
+        to_info = None
+        regex = re.compile(EMAIL_RE)
+        if regex.match(mto) is None:
+            to_mem = self.membertool.getMemberById(mto)
+            to_info = self.member_info_for_member(to_mem)
+            mto = to_info.get('email')
+
+        mfrom = self.member_info.get('email')
+        self.mailhost.send(msg, mto, mfrom, subject)
+
+
     ##################
     #### MEMBERSHIP REQUEST BUTTON HANDLERS
     ##################
@@ -511,6 +601,9 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
             transition_id = transition[0]['id']
             wftool.doActionFor(mship, transition_id)
             napproved += 1
+            msg = self._constructMailMessage('request_approved',
+                                             project_title=self.context.Title())
+            self._sendEmail(mem_id, msg)
 
         self.addPortalStatusMessage(u'%d members approved' % napproved)
 
@@ -533,6 +626,11 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         Notifiers should be handled by workflow transition script.
         """
         nrejected = self.doMshipWFAction('reject_by_admin')
+        mem_ids = self.request.form.get('member_ids')
+        msg = self._constructMailMessage('request_denied',
+                                         project_title=self.context.Title())
+        for mem_id in mem_ids:
+            self._sendEmail(mem_id, msg)
         self.addPortalStatusMessage(u'%d requests rejected' % nrejected)
 
 
@@ -546,10 +644,26 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         Deletes the membership objects.  Should send notifier.
         """
         mem_ids = self.request.form.get('member_ids')
-        # have to get the number of removals now b/c manage_delObjects
-        # empties the passed in list
         nremovals = len(mem_ids)
-        self.team.manage_delObjects(ids=mem_ids)
+        wftool = self.get_tool('portal_workflow')
+        wf_id = 'openplans_team_membership_workflow'
+        deletes = []
+        msg = self._constructMailMessage('invitation_retracted',
+                                         project_title=self.context.Title())
+        for mem_id in mem_ids:
+            mship = self.team.getMembershipByMemberId(mem_id)
+            status = wftool.getStatusOf(wf_id, mship)
+            if status.get('action') == 'reinvite':
+                # deactivate
+                wftool.doActionFor(mship, 'deactivate')
+            else:
+                # delete
+                deletes.append(mem_id)
+            self._sendEmail(mem_id, msg)
+
+        if deletes:
+            self.team.manage_delObjects(ids=deletes)
+
         self.addPortalStatusMessage(u'%d invitations removed' % nremovals)
 
     @formhandler.action('remind-invitations')
@@ -559,9 +673,13 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         invitations.
         """
         mem_ids = self.request.form.get('member_ids')
+        project_title = self.context.Title()
         for mem_id in mem_ids:
-            # XXX send email reminder
-            pass
+            msg_vars = {'project_title': project_title,
+                        'account_url': self._getAccountURLForMember(mem_id),
+                        }
+            msg = self._constructMailMessage('remind_invitee', **msg_vars)
+            self._sendEmail(mem_id, msg)
 
 
     ##################
@@ -615,7 +733,9 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         out any members for which a team membership already exists,
         since this is used to add new members to the team.
         """
-        existing_ids = dict.fromkeys(self.team.getMemberIds())
+        filtered_states = ('pending', 'private', 'public')
+        existing_ids = self.team.getMemberIdsByStates(filtered_states)
+        existing_ids = dict.fromkeys(existing_ids)
 
         search_for = self.request.form.get('search_for')
         results = searchForPerson(self.membranetool, search_for)
@@ -631,9 +751,28 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
     def invite_member(self):
         """
         Sends an invitation notice, and creates a pending membership
-        object, for a member id that is specified in the request form,
-        as the value for the 'invite-member' button.
+        object (or puts the existing member object into the pending
+        state).  The member id is specified in the request form, as
+        the value for the 'invite-member' button.
         """
         mem_id = self.request.form.get('invite-member')
-        self.team.addMember(mem_id)
+        if not mem_id in self.team.getMemberIds():
+            # create the membership
+            self.team.addMember(mem_id)
+        else:
+            # reinvite existing membership
+            wftool = self.get_tool('portal_workflow')
+            mship = self.team.getMembershipByMemberId(mem_id)
+            transitions = wftool.getTransitionsFor(mship)
+            if 'reinvite' not in [t['id'] for t in transitions]:
+                self.addPortalStatusMessage(u'%s cannot be invited' % mem_id)
+                raise Redirect('%s/manage-team' % self.context.absolute_url())
+            wftool.doActionFor(mship, 'reinvite')
+
+
+        msg_subs = {'project_title': self.context.Title(),
+                    'account_url': self._getAccountURLForMember(mem_id),
+                    }
+        msg = self._constructMailMessage('invite_member', **msg_subs)
+        self._sendEmail(msg, mem_id)
         self.addPortalStatusMessage(u'%s invited' % mem_id)

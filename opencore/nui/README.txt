@@ -122,6 +122,7 @@ Member info
     >>> pprint(pview.member_info)
     {'affiliations': '',
      'background': '',
+     'email': '',
      'favorites': '',
      'fullname': '',
      'id': 'test_user_1_',
@@ -129,6 +130,7 @@ Member info
      'location': '',
      'membersince': 'today',
      'portrait_url': '++resource++img/default-portrait.jpg',
+     'projects': [],
      'skills': '',
      'statement': '',
      'url': 'http://nohost/plone/people/test_user_1_'}

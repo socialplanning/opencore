@@ -22,7 +22,7 @@ wiki pages, file attachments and mailing lists::
     >>> len(view.lists)
     1
     >>> len(view.files)
-    2
+    3
 
 The view has properties to determine whether the project has relevant
 featurelets installed::
@@ -160,11 +160,14 @@ Deletes work the same way::
     ...         'item_type': 'pages',
     ...         'mode': 'async'}
     >>> request.form = form
-    >>> view.modify_contents()
-    ['new1']
+
+The form handler should return the ids of all deleted objects, which
+includes both the deleted page and the file that was attached to it::
+    >>> sorted(view.modify_contents())
+    ['fa2', 'new1']
 
 
-Object no longer exists inside container::
+The deleted object no longer exists inside container::
 
     >>> proj.restrictedTraverse('new1')
     Traceback (most recent call last):
@@ -237,7 +240,7 @@ Batch deletes work the same way::
     ...         'mode': 'async',
     ...         'files':['fa1', 'img1']}
     >>> request.form = form
-    >>> view.modify_contents()
+    >>> sorted(view.modify_contents())
     ['fa1', 'img1']
 
     >>> proj.restrictedTraverse('img1')

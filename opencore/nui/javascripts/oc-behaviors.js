@@ -30,7 +30,9 @@ OC.liveElementKey = {
   ".oc-liveForm" : "LiveForm",
   ".oc-liveItem" : "LiveItem",
   ".oc-widget-multiSearch" : "SearchLinks",
-  '#oc-usermenu-list' : "TopNav"
+  '#oc-usermenu-list' : "TopNav",
+  '#oc-project-create' : "ProjectCreateForm",
+  ".oc-autoFocus" : "AutoFocus"
 }
     
 /* 
@@ -383,6 +385,18 @@ OC.LiveForm = function(extEl) {
 
 /* 
 #
+# Auto Focus
+# 
+# 
+*/
+OC.AutoFocus = function(extEl) {
+  // get refs
+  extEl.dom.focus();
+}
+
+
+/* 
+#
 # OC Upload Form
 # FIXME: Re-do this so it works as a LiveForm
 # 
@@ -513,55 +527,124 @@ OC.UploadForm = function(extEl) {
 OC.TopNav = function(extEl) {
   // get refs
   var container = extEl;
-  var exploreItem = Ext.get(extEl.dom.getElementsByTagName('li')[0]);
-  var exploreLink = Ext.get(exploreItem.dom.getElementsByTagName('a')[0]);
-  var exploreMenu = Ext.get(exploreItem.dom.getElementsByTagName('ul')[0]);
+  var triggerItem = Ext.get(extEl.dom.getElementsByTagName('li')[0]);
+  var triggerLink = Ext.get(triggerItem.dom.getElementsByTagName('a')[0]);
+  var menu = Ext.get(triggerItem.dom.getElementsByTagName('ul')[0]);
+  var unclickArea = Ext.get(document.body);
+  OC.debug(unclickArea);
   
   // check refs
-  if (!container || !exploreItem || !exploreMenu) {
+  if (!container || !triggerItem || !menu) {
     OC.debug("TopNav: couldn't get refs");
     return;
   } else {
     OC.debug("TopNav: got refs");
   }
+  
+  // settings
+  var overrideHide = false;
     
-  function _toggleExplore(e, el, o) {
+  function _toggleMenu(e, el, o) {
     //YAHOO.util.Event.stopEvent(e);
     
-    if (exploreMenu.isVisible() && el.tagName != "A") {
-      _hideExplore(e);
+    if (menu.isVisible() && el.tagName != "A") {
+      _hideMenu(e);
     } else {
-      _showExplore(e); 
+      _showMenu(e); 
     }
   }
-  exploreItem.on('click', _toggleExplore, this, { stopPropogation: true});
   
-  function _showExplore(e, el, o) {
+  function _showMenu(e, el, o) {
     //YAHOO.util.Event.stopEvent(e);
-    exploreMenu.show();
-    exploreItem.addClass('oc-selected');
+    OC.debug('_showMenu: ');
+    overrideHide = true;
+    menu.show();
+    triggerItem.addClass('oc-selected');
   }
   
-  function _hideExplore(e, el, o) {
+  function _hideMenu(e, el, o) {
+    OC.debug(el);
+    OC.debug(menu.isVisible());
     //YAHOO.util.Event.stopEvent(e);
-    if (exploreMenu.isVisible()) {
-          exploreMenu.hide();
-          exploreItem.removeClass('oc-selected');
+    if (menu.isVisible() && !overrideHide) {
+          menu.hide();
+          triggerItem.removeClass('oc-selected');
     }
+    overrideHide = false;
   }
   //exploreMenu.on('mouseout', _hideExplore, this);
   
   function _toggleMenuPreview(e, el, o) {
-    if (exploreItem.hasClass('oc-hover')) {
-       exploreItem.removeClass('oc-hover');
+    if (triggerItem.hasClass('oc-hover')) {
+       triggerItem.removeClass('oc-hover');
     } else {
-      exploreItem.addClass('oc-hover');
+      triggerItem.addClass('oc-hover');
     }
    
   } 
-  exploreItem.on('mouseover', _toggleMenuPreview, this);
-  exploreItem.on('mouseout', _toggleMenuPreview, this)
+  triggerItem.on('mouseover', _toggleMenuPreview, this);
+  triggerItem.on('mouseout', _toggleMenuPreview, this);
+  
+  unclickArea.on('click', _hideMenu, this, { stopEvent : true } );
+  triggerItem.removeListener('click', _hideMenu);
+  triggerItem.on('click', _toggleMenu, this, { stopPropogation: true});
+
+
 }
+
+
+/* 
+#
+#  Project Create Form
+#
+*/
+OC.ProjectCreateForm = function(extEl) {
+  // get refs
+  var form = extEl;
+  var nameField = Ext.get(Ext.query('#full_name')[0], form.dom);
+  var urlField = Ext.get(Ext.query('#title')[0], form.dom);
+  
+  // check refs
+  if (!form || !nameField || !urlField) {
+    OC.debug("ProjectCreateForm: couldn't get refs");
+  } else {
+    OC.debug("ProjectCreateForm: got refs");
+  }
+  
+  // settings & properties
+  /* has the user manually overridden our suggested url? */
+  var customUrl = false;
+  
+  // suggested URL
+  var suggestedUrl = "";
+  
+  function _urlize(e, el, o) {
+    if (!customUrl) {
+       suggestedUrl = Ext.util.Format.trim(el.value).toLowerCase().replace(/[^a-zA-Z0-9\s]/gi, "").replace(/  /g, " ").replace(/ /g, "-");
+       OC.debug(suggestedUrl);
+       urlField.dom.value = suggestedUrl;
+    } else {
+      OC.debug('custom URL: will not suggest'); 
+    }
+  }
+  nameField.on('keyup', _urlize, this);
+  
+  function _checkForCustomUrl(e, el, o) {
+    if (el.value != suggestedUrl) {
+      customUrl = true;
+      OC.debug('custom url')
+    }
+  }
+  urlField.on('keyup', _checkForCustomUrl, this);
+  
+  /* TO DO: Validate project url via Ajax
+  #  title field: onblur
+  #  url field: onkeyup
+  #
+  */  
+
+
+}// end OC.ProjectCreateForm()
 
 /* 
 #
@@ -575,6 +658,7 @@ OC.LiveItem = function(extEl) {
 
       // get references
       var value = Ext.get(Ext.query('.oc-liveItem-value', extEl.dom)[0]); 
+      var directEdit = Ext.get(Ext.query('.oc-liveItem-directEdit', extEl.dom)[0]);
       var editForm = Ext.get(Ext.query('.oc-liveItem-editForm', extEl.dom)[0]);
       var showFormLink = Ext.select(Ext.query('.oc-liveItem_showForm', extEl.dom));
       var hoverShowFormLink = Ext.select(Ext.query('.oc-liveItem_hoverShowForm', extEl.dom));
@@ -619,10 +703,11 @@ OC.LiveItem = function(extEl) {
       }
       value.on('mouseout', _valueMouseout, this);
       
-      function _valueClick(e,el,o) {
-        //_toggleForm();
+      //value.on('click', _toggleForm, this);
+      
+      if (directEdit) {
+        directEdit.on('click', _toggleForm, this);
       }
-      value.on('click', _valueClick, this);
       
       // toggle link
       function _toggleLinksClick(e, el, o) {
@@ -656,14 +741,6 @@ OC.LiveEdit = function(extEl) {
     //    return;
 
     OC.debug(form.dom);
-    
-    //clear listeners. Temporary as elements can be made liveItems repeatedly right now. 
-    container.removeAllListeners();
-    value.removeAllListeners();
-    edit.removeAllListeners();
-    delete_.removeAllListeners();
-    form.removeAllListeners();
-    cancel.removeAllListeners();
 
     /*
      # Attach Behaviors

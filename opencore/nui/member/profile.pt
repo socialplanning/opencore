@@ -1,5 +1,4 @@
-<tal:vars define="usr view/viewedmember;
-                  data view/viewed_member_info">
+<tal:vars define="data view/viewed_member_info">
 
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
@@ -12,7 +11,7 @@
           <div class="oc-member-details">
             <div class="oc-headingBlock">
               <h1 class="fn" tal:content="data/id" />
-              <p class="oc-member-fullname n" tal:content="data/fullname"></p>
+              <p class="oc-member-fullname"><span class="n" tal:content="data/fullname" /> <a tal:condition="view/viewingself" class="oc-actionLink" href="profile-edit#fullname">Edit</a></p>
               
               <p class="oc-headingContext oc-discreetText">
                 member since <span tal:replace="data/membersince" />,
@@ -21,21 +20,21 @@
             </div>
             <dl class="oc-member-info">
               <tal:location tal:condition="data/location">
-                <dt>Location <a class="oc-actionLink" href="profile-edit#location">Edit</a></dt>
+                <dt>Location <a tal:condition="view/viewingself" class="oc-actionLink" href="profile-edit#location">Edit</a></dt>
                 <dd class="adr" tal:content="data/location" />
               </tal:location>
               <dt>Projects</dt>
               <dd>
-                <tal:projects condition="usr/projectBrains">
+                <tal:projects condition="data/projects">
                   <ul class="oc-inlineList">
-                    <li tal:repeat="proj usr/projectBrains"><a
+                    <li tal:repeat="proj data/projects"><a
                         tal:attributes="href proj/getURL"
                         tal:content="proj/Title" /><tal:private
                         condition="python: proj.review_state == 'closed'">
                         (private)</tal:private></li>
                   </ul>
                 </tal:projects>
-                <tal:noprojects condition="not: usr/projectBrains">
+                <tal:noprojects condition="not: data/projects">
                   none
                   <span tal:condition="view/viewingself">
                     <a tal:attributes="href string:${view/siteURL}/projects">Get involved</a>
@@ -43,7 +42,11 @@
                 </tal:noprojects>
               </dd>
               <dt>OpenPlans Home</dt>
-              <dd><a class="url" href="http://www.openplans.org/people/">http://www.openplans.org/people/<span tal:replace="data/id" /></a></dd>
+              <dd>
+                <a class="url" tal:attributes="href string:${context/portal_url}/people/${data/id}">
+                  <span tal:replace="context/portal_url" />/people/<span tal:replace="data/id" />
+                </a>
+              </dd>
             </dl>
           </div>
         </div>

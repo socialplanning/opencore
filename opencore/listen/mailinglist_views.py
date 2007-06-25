@@ -41,7 +41,3 @@ class MailingListEditForm(BaseEditForm):
 
     """
     form_fields = openplans_form_fields
-
-from opencore.nui.base import BaseView
-class OpenMailingListView(BaseView, MailingListView):
-    pass

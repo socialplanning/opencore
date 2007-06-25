@@ -95,6 +95,5 @@ def initialize(context):
                            )
     
     # do all at import cataloging setup
-    indexing.register_ghosts()
     indexing.register_indexable_attrs()
     

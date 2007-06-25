@@ -110,32 +110,36 @@ ul#oc-topnav-context li.oc-topnav-selected {
   margin: 0;
   list-style: none;
   font-size: 10px;
-  text-transform: lowercase;
   text-align: left;
+  font-weight: bold;
+  text-transform: lowercase;
 }
 #oc-usermenu-list li {
   float: left;
   margin: 0 0.25em;
   border: 1px solid transparent;
 }
+#oc-usermenu-list li a:hover {
+  text-decoration: underline;
+}
 
 /* explore menu */
 #oc-topnav-usermenu li.oc-dropdown-container {
-  background-image: url("/++resource++img/dropdown-indicator-2B7284.gif");
+  background-image: url("/++resource++img/dropdown-nub-87B6C1-2B7284.gif");
   background-repeat: no-repeat;
   background-position: 96% 8px;
   padding-right: 15px;
   cursor: pointer;
 }
-#oc-topnav-usermenu li.oc-dropdown-container.oc-selected {
-  border: 1px solid #87B6C1;
-  border-bottom: none;
-  background-color: transparent;
-}
 #oc-topnav-usermenu li.oc-dropdown-container.oc-hover {
   border: 1px solid #87B6C1;
   border-bottom: none;
   background-color: transparent;
+}
+#oc-topnav-usermenu li.oc-dropdown-container.oc-selected {
+  background-color: #87B6C1;
+  border: 1px solid #2B7284;
+  border-bottom: none;
 }
 #oc-usermenu-list li #oc-usermenu-explore {
   position: absolute;
@@ -143,10 +147,12 @@ ul#oc-topnav-context li.oc-topnav-selected {
   margin: 1px 0;
   left: .25em;
   padding: 0;
+  width: 12em;
   display: none;
-  background: #2B7284;
-  border: 1px solid #87B6C1;
+  background: #87B6C1;
+  border: 1px solid #2B7284;
   border-top: none;
+  z-index: 10;
 }
 #oc-usermenu-list li #oc-usermenu-explore li {
   float: none;
@@ -160,7 +166,7 @@ ul#oc-topnav-context li.oc-topnav-selected {
 }
 #oc-usermenu-list li #oc-usermenu-explore li a:hover {
   display: block;
-  background: #444;
+  background: #2B7284;
   margin: 0;
   padding: .25em;
 }
@@ -191,6 +197,15 @@ ul#oc-topnav-context li.oc-topnav-selected {
 .oc-plainList { /* list with no formatting */
   list-style-type: none;
   padding: 0;
+  margin: 0 0 1em;
+}
+dl.oc-plainList {
+  line-height: normal;
+}
+dl.oc-plainList dt {
+  font-weight: bold;
+}
+dl.oc-plainList dd {
   margin: 0 0 1em;
 }
 .oc-inlineList { /* comma-separated list (space-separated in IE) */
@@ -276,6 +291,10 @@ ul#oc-topnav-context li.oc-topnav-selected {
 .oc-searchresults-item h3 {
   display: inline;
   font-size: 12px;
+}
+.oc-lineup-item h3 img,
+.oc-searchresults-item h3 img {
+  vertical-align: bottom;
 }
 .oc-lineup-item p,
 .oc-searchresults-item p {
@@ -405,6 +424,9 @@ ul#oc-topnav-context li.oc-topnav-selected {
   margin: 0;
   line-height: normal;
 }
+#oc-member-badge .oc-member-details a.oc-actionLink {
+	font-weight: bold;
+}
 dl.oc-member-info {
   line-height: normal;
 }
@@ -485,26 +507,25 @@ ul.oc-tabs li a.oc-actionLink:hover {
 }
 
 /* History */
-.oc-wiki-history-item-context {
-  padding: 0 0 0 2.5em;
-  margin: 0;
-}
+
 .oc-wiki-history-item {
   margin: .25em 0;
-  border: 1px solid #fff;
+  border: 1px solid transparent;
   padding: .25em;
+}
+.oc-wiki-history-item.oc-selected {
+  background: #eee;
+  border: 1px solid #ccc;
 }
 .oc-wiki-history-item h3 {
   display: inline;
 }
-.oc-wiki-history-item.oc-selected {
-  background: lightgreen;
-  border: 1px solid green;
+.oc-wiki-history-item-context {
+  padding: 0 0 0 1.75em;
+  margin: 0;
+  width: 52em;
 }
-
 .oc-widget-version-compare {
-  background: #eee;
-  border: 1px solid #ccc;
   margin-bottom: .5em;
 }
 .oc-widget-version-compare table {
@@ -539,7 +560,7 @@ ul.oc-tabs li a.oc-actionLink:hover {
   margin: 0;
   padding: 0;
 }
-.oc-version-compare-legend h3 {
+.oc-version-compare-legend h2 {
   margin: 0;
   padding: 0;
   line-height: normal;
@@ -557,7 +578,7 @@ ul.oc-tabs li a.oc-actionLink:hover {
 }
 .oc-widget-version-compare ul.oc-actions li {
   float: left;
-  padding-right: 1em;
+  padding-left: 1em;
 }
 .oc-version-compare-legend ul {
   margin: 0;
@@ -575,13 +596,33 @@ ul.oc-tabs li a.oc-actionLink:hover {
 }
 .oc-wiki ins,
 .oc-widget-version-compare a.oc-version-current {
-  background: lightgreen;
+  background: #D7EBCB;
   text-decoration:none;
   padding: 0 .125em;
-  color: #000;
+  color: #003300;
 }
 .oc-widget-version-compare a.oc-version-current {
   text-decoration: underline;
+}
+.oc-version-note.oc-boxy {
+	background-color: #eee;
+	border-color: #ccc;
+	padding: 0.5em 1em;
+}
+.oc-version-note h3,
+.oc-version-note p {
+	display: inline;
+}
+
+/* Listen */
+
+.oc-listen-details-subscribe {
+}
+.oc-listen-details-subscribe h2 {
+}
+.oc-listen-details-subscribe p {
+}
+.oc-listen-details-subscribe .oc-actions {
 }
 
 /* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
@@ -681,12 +722,13 @@ a.oc-button:hover {
   right: 1em;
   display: block;
 }
-.oc-message {
-  background-color: #FFF6BF;
-  border: 1px solid gray;
+.oc-message,
+.oc-statusMessage {
+  background-color: #FFFBE6;
+  border: 1px solid #FFDB00;
   color: #333333;
   font-weight: bold;
-  margin: 0.25em 0em;
+  margin: 0 0 1.5em;
   padding: 0.125em 0.25em;
   padding-right: 0.25em;
   position: relative;
@@ -1115,6 +1157,13 @@ a.oc-liveItem_cancel {
 .oc-liveEdit-value .oc-liveEdit-hover,
 .oc-liveItem-hover {
  background: #ffffcc;
+}
+.oc-liveItem-directSelect {
+  background-image: url("/++resource++img/dropdown-nub-87B6C1-ffffff.gif");
+  background-position: right center;
+  background-repeat: no-repeat;
+  padding-right: 15px;
+  cursor: pointer;
 }
 
 .oc-liveEdit-form,

@@ -35,15 +35,17 @@
       </div>
 
       <div id="oc-content-wrapper">
-      
-        <tal:for tal:repeat="status_msg view/portal_status_message">
-          <div tal:content="status_msg" class="error"/>
-        </tal:for>
         
         <div id="oc-content-container">
+        
+          <tal:for tal:repeat="status_msg view/portal_status_message">
+            <div tal:content="structure status_msg" class="oc-statusMessage"/>
+          </tal:for>
+        
           <!-- content is injected here -->
           <div metal:define-slot="content" />
           <hr class="oc-clearElement" />
+        
         </div>
       </div>
       <div id="oc-footer-wrapper">
