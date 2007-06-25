@@ -527,54 +527,69 @@ OC.UploadForm = function(extEl) {
 OC.TopNav = function(extEl) {
   // get refs
   var container = extEl;
-  var exploreItem = Ext.get(extEl.dom.getElementsByTagName('li')[0]);
-  var exploreLink = Ext.get(exploreItem.dom.getElementsByTagName('a')[0]);
-  var exploreMenu = Ext.get(exploreItem.dom.getElementsByTagName('ul')[0]);
+  var triggerItem = Ext.get(extEl.dom.getElementsByTagName('li')[0]);
+  var triggerLink = Ext.get(triggerItem.dom.getElementsByTagName('a')[0]);
+  var menu = Ext.get(triggerItem.dom.getElementsByTagName('ul')[0]);
+  var unclickArea = Ext.get(document.body);
+  OC.debug(unclickArea);
   
   // check refs
-  if (!container || !exploreItem || !exploreMenu) {
+  if (!container || !triggerItem || !menu) {
     OC.debug("TopNav: couldn't get refs");
     return;
   } else {
     OC.debug("TopNav: got refs");
   }
+  
+  // settings
+  var overrideHide = false;
     
-  function _toggleExplore(e, el, o) {
+  function _toggleMenu(e, el, o) {
     //YAHOO.util.Event.stopEvent(e);
     
-    if (exploreMenu.isVisible() && el.tagName != "A") {
-      _hideExplore(e);
+    if (menu.isVisible() && el.tagName != "A") {
+      _hideMenu(e);
     } else {
-      _showExplore(e); 
+      _showMenu(e); 
     }
   }
-  exploreItem.on('click', _toggleExplore, this, { stopPropogation: true});
   
-  function _showExplore(e, el, o) {
+  function _showMenu(e, el, o) {
     //YAHOO.util.Event.stopEvent(e);
-    exploreMenu.show();
-    exploreItem.addClass('oc-selected');
+    OC.debug('_showMenu: ');
+    overrideHide = true;
+    menu.show();
+    triggerItem.addClass('oc-selected');
   }
   
-  function _hideExplore(e, el, o) {
+  function _hideMenu(e, el, o) {
+    OC.debug(el);
+    OC.debug(menu.isVisible());
     //YAHOO.util.Event.stopEvent(e);
-    if (exploreMenu.isVisible()) {
-          exploreMenu.hide();
-          exploreItem.removeClass('oc-selected');
+    if (menu.isVisible() && !overrideHide) {
+          menu.hide();
+          triggerItem.removeClass('oc-selected');
     }
+    overrideHide = false;
   }
   //exploreMenu.on('mouseout', _hideExplore, this);
   
   function _toggleMenuPreview(e, el, o) {
-    if (exploreItem.hasClass('oc-hover')) {
-       exploreItem.removeClass('oc-hover');
+    if (triggerItem.hasClass('oc-hover')) {
+       triggerItem.removeClass('oc-hover');
     } else {
-      exploreItem.addClass('oc-hover');
+      triggerItem.addClass('oc-hover');
     }
    
   } 
-  exploreItem.on('mouseover', _toggleMenuPreview, this);
-  exploreItem.on('mouseout', _toggleMenuPreview, this)
+  triggerItem.on('mouseover', _toggleMenuPreview, this);
+  triggerItem.on('mouseout', _toggleMenuPreview, this);
+  
+  unclickArea.on('click', _hideMenu, this, { stopEvent : true } );
+  triggerItem.removeListener('click', _hideMenu);
+  triggerItem.on('click', _toggleMenu, this, { stopPropogation: true});
+
+
 }
 
 
