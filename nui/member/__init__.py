@@ -56,3 +56,20 @@ class MemberPreferences(BaseView):
         invites.append({'name':'Small Animals'})
         return invites
 
+    def _membership_for_proj(self, proj_id):
+        tmtool = self.get_tool('portal_teams')
+        team = tmtool.getTeamById(proj_id)
+        mem = self.context
+        mem_id = mem.getId()
+        mship = team._getMembershipByMemberId(mem_id)
+        return mship
+
+    def leave_project(self, proj_id):
+        mship = self._membership_for_proj(proj_id)
+        wft = self.get_tool('portal_workflow')
+        wft.doActionFor(mship, 'deactivate')
+
+    def __call__(self, action_leave=None, proj_id=None):
+        if action_leave:
+            self.leave_project(proj_id)
+        return self.index()
