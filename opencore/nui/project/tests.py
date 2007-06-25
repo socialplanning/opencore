@@ -30,6 +30,7 @@ def test_suite():
         proj.invokeFactory('Document', 'new1', title='new title')
         proj.invokeFactory('Image', 'img1', title='new image')
         proj.restrictedTraverse('project-home').invokeFactory('FileAttachment', 'fa1', title='new file')
+        proj.new1.invokeFactory('FileAttachment', 'fa2', title='new1 file')
         proj.invokeFactory('Folder', 'lists', title='Listen Stub')
         proj.lists.invokeFactory('Document', 'list1', title='new list')
         proj.lists.list1.portal_type = "Open Mailing List"

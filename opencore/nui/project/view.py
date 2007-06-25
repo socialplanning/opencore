@@ -175,14 +175,31 @@ class ProjectContentsView(BaseView):
         returns ([deleted_ids], [failed_nondeleted_ids])
         """
         parents = {}
+        collateral_damage = {}
+
         surviving_objects = []
         deleted_objects = []
 
         # put obj ids in dict keyed on their parents for optimal batch deletion
-        for brain in brains:
+        for brain in brains:                
             parent_path, brain_id = brain.getPath().rsplit('/', 1)
             parent_path = parent_path.split(self.project_path, 1)[-1].strip('/')
             parents.setdefault(parent_path, []).append(brain_id)
+
+
+            type = brain.portal_type
+            ### our Documents are currently folderish 
+            # and sometimes contain file-like things.
+            # Any child files will be deleted by this
+            # operation, so we need to tell the client
+            # that we deleted these files as well
+            if type == 'Document':
+                file_type = self._portal_type['files']
+                child_files = [b.getId for b in 
+                               self.catalog(portal_type=file_type,
+                                            path=brain.getPath())]
+                if child_files:
+                    collateral_damage.setdefault(brain_id, []).extend(child_files)
 
         # delete objs in batches per parent obj
         for parent, child_ids in parents.items():
@@ -199,6 +216,13 @@ class ProjectContentsView(BaseView):
                                         if oid not in child_ids]) ## the difference btn deletees and child_ids == deleted
             else: # deletion succeeded for every object
                 deleted_objects.extend(deletees)
+        
+        # if any additional objects (ie file attachments) were deleted
+        # as a consequence, add them to deleted_objects too
+        if collateral_damage: 
+            for oid in deleted_objects:
+                extra = collateral_damage.get(oid)
+                if extra: deleted_objects.extend(extra)
 
         return (deleted_objects, surviving_objects)
 
