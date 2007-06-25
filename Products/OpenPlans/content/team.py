@@ -118,6 +118,8 @@ class OpenTeam(Team):
         See IOpenTeam.
         """
         roles = self.getTeamRolesForMember(mem_id)
+        if not roles:
+            return
         highest_index = 0
         for role in roles:
             index = DEFAULT_ROLES.index(role)

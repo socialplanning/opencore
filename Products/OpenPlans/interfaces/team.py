@@ -21,5 +21,6 @@ class IOpenTeam(Interface):
 
     def getHighestTeamRoleForMember(mem_id):
         """Returns the team role that provides the highest level of
-        permissions for the given member id.
+        permissions for the given member id.  Returns None if the
+        member has no corresponding team membership.
         """
