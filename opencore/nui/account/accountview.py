@@ -68,11 +68,11 @@ class LoginView(AccountView):
     def referer(self):
         return self.request.get('came_from', '')
 
-    def require_login(self):
-        if self.loggedin is False:
-            self.addPortalStatusMessage('Hey!')
-            return self.redirect(self.login_url)
-        return self.redirect('insufficient_privileges')
+#    def require_login(self):
+#        if self.loggedin is False:
+#            self.addPortalStatusMessage('Hey!')
+#            return self.redirect(self.login_url)
+#        return self.redirect('insufficient_privileges')
 
     def already_loggedin(self):
         if self.loggedin and self.request.get('loggedout'):
