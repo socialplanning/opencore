@@ -12,6 +12,7 @@ from plone.memoize import instance
 from smtplib import SMTPRecipientsRefused, SMTP
 from zExceptions import Forbidden, Redirect, Unauthorized
 from App import config
+import urllib
 import socket
 
 
@@ -56,7 +57,13 @@ class LoginView(AccountView):
             self.update_credentials(id_)
             self.membertool.setLoginTimes()
             self.membertool.createMemberArea()
-            return self.redirect(self.destination)
+
+            destination = self.destination
+            referer = self.request.form.get('referer')
+            if referer is not None:
+                destination = '%s?referer=%s' % (destination, 
+                                                 urllib.quote(referer))
+            return self.redirect(destination)
 
         self.addPortalStatusMessage('Login failed')
 
