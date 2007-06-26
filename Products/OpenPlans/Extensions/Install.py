@@ -36,6 +36,7 @@ from Products.OpenPlans.workflows import team
 from Products.OpenPlans.workflows import WORKFLOW_MAP
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from opencore.content.membership import OpenMembership
+from opencore.content.member import OpenMember
 from opencore.interfaces import IAddProject
 from opencore.interfaces import IAmAPeopleFolder
 from opencore.interfaces import IAmANewsFolder
@@ -642,6 +643,11 @@ def installNewsFolder(portal, out):
     # set the default view on the news folder
     pf.setLayout('@@view')
 
+
+def createValidationMember(portal, out):
+    mdtool = getToolByName(portal, 'portal_memberdata')
+    mem = OpenMember('validation_member')
+    mdtool._validation_member = mem
 
 def install(self, migrate_atdoc_to_openpage=True):
     out = StringIO()

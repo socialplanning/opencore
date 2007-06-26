@@ -189,8 +189,7 @@ class JoinView(FormLite, BaseView):
     @dict_to_json
     def validate(self):
         mdc = self.get_tool('portal_memberdata')
-        mem = mdc.portal_factory.restrictedTraverse("OpenMember/%s" % self.temp_mem_id)
-
+        mem = mdc._validation_member
         errors = {}
         errors = mem.validate(REQUEST=self.request,
                               errors=self.errors,
@@ -205,13 +204,13 @@ class JoinView(FormLite, BaseView):
             return id_
 
         mdc = self.get_tool('portal_memberdata')
-        adder = getAdderUtility(self.context)
-        type_name = adder.default_member_type
+        pf = mdc.portal_factory
 
         #00 pythonscript call, move to fs code
-        id_ = self.context.generateUniqueId(type_name)
-        mem = mdc.restrictedTraverse('portal_factory/%s/%s' % (type_name, id_))
+        id_ = self.context.generateUniqueId('OpenMember')
 
+        mem_folder = pf._getTempFolder('OpenMember')
+        mem = mem_folder.restrictedTraverse('%s' % id_)
         return id_
 
     def _confirmation_url(self, mem):
