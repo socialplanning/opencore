@@ -222,7 +222,9 @@ due to the fact that PAS isn't called.  Deal with this later]
 Verify portal status messages aren't being swallowed
 ====================================================
 
-    First, let's get an instance of a view that returns a portal status message, and redirects
+    First, let's get an instance of a view that returns a portal
+    status message, and redirects
+
     >>> view = portal.restrictedTraverse('@@login')
 
     Reset the portal status message
