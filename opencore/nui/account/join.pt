@@ -8,7 +8,7 @@
       <div id="oc-content-main">
         
         <form id="oc-join-form" class="oc-liveForm" name="edit_form" method="post" 
-              tal:attributes="action string:${context/absolute_url}/${view/name}"
+              tal:attributes="action string:${context/absolute_url}/do_join"
               >
           
           <fieldset class="oc-boxy">
@@ -64,7 +64,7 @@
                     <span class="oc-form-context">
                       (optional)
                     </span>
-                    <span class="oc-form-validator">
+                    <span id="oc-fullname-validator" class="oc-form-validator">
                       
                     </span>
                     <span id="oc-fullname-error" class="oc-form-error"
@@ -86,7 +86,7 @@
                     <span class="oc-form-context">
                       
                     </span>
-                    <span class="oc-form-validator">
+                    <span id="oc-email-validator" class="oc-form-validator">
                       
                     </span>
                     <span id="oc-email-error" class="oc-form-error"
@@ -108,7 +108,7 @@
                     <span class="oc-form-context">
                       
                     </span>
-                    <span class="oc-form-validator">
+                    <span id="oc-password-validator" class="oc-form-validator">
                       
                     </span>
                     <span id="oc-password-error" class="oc-form-error"
@@ -129,7 +129,7 @@
                     <span class="oc-form-context">
                       
                     </span>
-                    <span class="oc-form-validator">
+                    <span id="oc-confirm_password-validator" class="oc-form-validator">
                       
                     </span>
                     <span id="oc-confirm_password-error" class="oc-form-error"
@@ -143,14 +143,6 @@
                   <td class="oc-form-value">
                     <input type="hidden" name="temp_mem_id" 
                            tal:attributes="value view/temp_mem_id" />
-                  </td>
-                  <td class="oc-form-help">
-                    <span class="oc-form-context">
-                      
-                    </span>
-                    <span class="oc-form-validator">
-                      
-                    </span>
                   </td>
                 </tr>
 
