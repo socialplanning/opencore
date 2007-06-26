@@ -596,10 +596,10 @@ ul.oc-tabs li a.oc-actionLink:hover {
 }
 .oc-wiki ins,
 .oc-widget-version-compare a.oc-version-current {
-  background: #D7EBCB;
+  background: #B0EB8D;
   text-decoration:none;
   padding: 0 .125em;
-  color: #003300;
+  color: #006600;
 }
 .oc-widget-version-compare a.oc-version-current {
   text-decoration: underline;
