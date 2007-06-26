@@ -42,7 +42,7 @@ class AccountView(BaseView):
 
     @property
     def login_url(self):
-        return "%s/login" %(self.context.absolute_url(), )
+        return "%s/login" % self.context.absolute_url()
 
 
 class LoginView(AccountView):
