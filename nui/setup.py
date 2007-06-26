@@ -11,7 +11,7 @@ from Products.OpenPlans.Extensions.Install import install_workflow_map, \
 from Products.OpenPlans.Extensions.Install import setupPeopleFolder, \
      setupProjectLayout, setupHomeLayout
 from Products.OpenPlans.Extensions.Install import createMemIndexes, \
-     installColumns
+     installColumns, createValidationMember
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans import config as op_config
 
@@ -101,6 +101,7 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      installMetadataColumns=convertFunc(installColumns),
                      reinstallSubskins=reinstallSubskins,
                      migrate_wiki_attachments=convertFunc(migrate_wiki_attachments),
+                     createValidationMember=convertFunc(createValidationMember),
                      )
 
 nui_functions['Update Method Aliases']=convertFunc(set_method_aliases)
