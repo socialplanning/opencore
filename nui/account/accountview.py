@@ -198,6 +198,9 @@ class JoinView(FormLite, BaseView):
 
     @instance.memoizedproperty
     def temp_mem_id(self):
+        ### XXX todo this isn't needed any more i think
+        # but i am afraid to touch it right now -egj
+
         # only want to create one dummy
         id_ = self.request.get('temp_mem_id')
         if id_:
