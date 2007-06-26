@@ -201,9 +201,11 @@ OC.LiveForm = function(extEl) {
       
       var request = "";
       for (var i=0; i<liveForm.dom.elements.length; i++) {
-        if (liveForm.dom.elements[i].value) {
-          request += liveForm.dom.elements[i].name + "=" + liveForm.dom.elements[i].value + "&";
-        }
+	  input = liveForm.dom.elements[i];
+	  if (input.value && input.type != 'submit') {
+	      OC.debug(liveForm.dom.elements[i]);
+	      request += liveForm.dom.elements[i].name + "=" + liveForm.dom.elements[i].value + "&";
+	  }
       }      
       
       // send ajax request
