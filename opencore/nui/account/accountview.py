@@ -14,7 +14,7 @@ from zExceptions import Forbidden, Redirect, Unauthorized
 from App import config
 import urllib
 import socket
-
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 class AccountView(BaseView):
     """
@@ -142,6 +142,12 @@ class LoginView(AccountView):
 
 
 class JoinView(FormLite, BaseView):
+
+    form_template = ZopeTwoPageTemplateFile('join.pt')
+
+    @action('render', default=True)
+    def render(self):
+        return self.form_template()
 
     @action('join')
     @post_only(raise_=False)

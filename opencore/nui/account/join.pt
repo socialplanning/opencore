@@ -1,5 +1,5 @@
 <!-- join form -->
-<tal:handle define="global fdata view/handle_request" replace="nothing"/>
+
 <html 
    metal:use-macro="here/@@standard_macros/master">
   <body>
@@ -8,7 +8,7 @@
       <div id="oc-content-main">
         
         <form id="oc-join-form" class="oc-liveForm" name="edit_form" method="post" 
-              tal:attributes="action string:${context/absolute_url}/do_join"
+              tal:attributes="action string:${context/absolute_url}/join"
               >
           
           <fieldset class="oc-boxy">
