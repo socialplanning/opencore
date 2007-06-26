@@ -21,6 +21,7 @@ def post_only(raise_=True):
                     raise Forbidden('GET is not allowed here')
                 return
             return func(self)
+        new_method.__name__ = func.__name__
         return new_method
     return inner_post_only
 

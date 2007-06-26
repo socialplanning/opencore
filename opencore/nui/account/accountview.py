@@ -6,7 +6,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.remember.utils import getAdderUtility
 from opencore.nui.base import BaseView
-from opencore.nui.formhandler import button, post_only, anon_only
+from opencore.nui.formhandler import *
 from opencore.siteui.member import notifyFirstLogin
 from plone.memoize import instance
 from smtplib import SMTPRecipientsRefused, SMTP
@@ -134,14 +134,11 @@ class LoginView(AccountView):
             
 
 
-class JoinView(BaseView):
+class JoinView(FormLite, BaseView):
 
-    @button('join')
+    @action('join')
     @post_only(raise_=False)
-    def handle_request(self):
-        if self.request.form.get("only_validate"):
-            return self.validate()
-
+    def create_member(self):
         context = self.context
         mdc = getToolByName(context, 'portal_memberdata')
         adder = getAdderUtility(context)
@@ -175,6 +172,7 @@ class JoinView(BaseView):
         else:
             return self.redirect(url)
 
+    @action('only_validate')
     def validate(self):
         mdc = self.get_tool('portal_memberdata')
         mem = mdc.portal_factory.restrictedTraverse("OpenMember/%s" % self.temp_mem_id)

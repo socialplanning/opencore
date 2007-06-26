@@ -146,13 +146,6 @@ If you add 'only_validate=True' to the request before submitting
 the form the validate() method will be triggered::
 
     >>> request.form['only_validate'] = True
-    >>> view.handle_request()
-
-Oh, nothing happened; the decorators on the formhandling method
-require making a POST request and having a 'join' button::
-
-    >>> request.environ["REQUEST_METHOD"] = "POST"
-    >>> request.form['join'] = True
     >>> sorted(view.handle_request().keys())
     ['confirm_password', 'email', 'password']
 
@@ -161,6 +154,12 @@ Submit the form for real now::
     >>> request.form['confirm_password'] = 'testy'
     >>> request.form['email'] = 'foobar@example.com'
     >>> del request.form['only_validate']
+    >>> view.handle_request()
+
+Oh, nothing happened; we need to make the request a POST and
+set 'join=True'::
+    >>> request.environ["REQUEST_METHOD"] = "POST"
+    >>> request.form['join'] = True
     >>> view.handle_request()
     <OpenMember at /plone/portal_memberdata/foobar>
 
