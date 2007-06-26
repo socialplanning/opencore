@@ -13,6 +13,10 @@
                  tal:condition="view/request/came_from | nothing" 
                  tal:attributes="value view/request/came_from" />
 
+	  <input type="hidden" name="referer" id="referer" 
+		 tal:condition="view/request/referer | nothing"
+		 tal:attributes="value view/request/referer" />
+
           <fieldset class="oc-boxy">
             <legend class="oc-legend-heading oc-biggestText">Login</legend> 
             <table class="oc-form">

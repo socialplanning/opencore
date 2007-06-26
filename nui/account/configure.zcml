@@ -17,14 +17,8 @@
     <page name="login"
 	  template="login.pt"
 	  />
-    <page name="require_login"
-	  attribute="require_login"
-	  />
     <page name="logout"
 	  attribute="logout"
-	  />
-    <page name="insufficient_privileges"
-	  template="insufficient_privileges.pt"
 	  />
   </browser:pages>
 
