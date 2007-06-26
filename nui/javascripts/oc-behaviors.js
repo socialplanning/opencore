@@ -563,9 +563,6 @@ OC.TopNav = function(extEl) {
   }
   
   function _hideMenu(e, el, o) {
-    OC.debug(el);
-    OC.debug(menu.isVisible());
-    //YAHOO.util.Event.stopEvent(e);
     if (menu.isVisible() && !overrideHide) {
           menu.hide();
           triggerItem.removeClass('oc-selected');
@@ -585,7 +582,7 @@ OC.TopNav = function(extEl) {
   triggerItem.on('mouseover', _toggleMenuPreview, this);
   triggerItem.on('mouseout', _toggleMenuPreview, this);
   
-  unclickArea.on('click', _hideMenu, this, { stopEvent : true } );
+  unclickArea.on('click', _hideMenu, this );
   triggerItem.removeListener('click', _hideMenu);
   triggerItem.on('click', _toggleMenu, this, { stopPropogation: true});
 
