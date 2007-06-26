@@ -143,12 +143,15 @@ class FormLite(object):
                 return self.actions[key](self)
         if raise_:
             raise KeyError("No actions in request")
-                
+        if self.actions.default is not None:
+            return self.actions.default(self)
 
 class Actions(dict):
     """ functions registry """
     __repr__ = dict.__repr__
-
+    def __init__(self):
+        dict.__init__(self)
+        self.default = None
 
 class Action(object):
 
@@ -163,7 +166,8 @@ class Action(object):
 
 class action(object):
     # modfied from zope.formlib (ZPL)
-    def __init__(self, label, actions=None, **options):
+    def __init__(self, label, default=False, 
+                 actions=None, **options):
         caller_locals = sys._getframe(1).f_locals
         if actions is None:
             actions = caller_locals.get('actions')
@@ -172,9 +176,16 @@ class action(object):
         self.actions = actions
         self.label = label
         self.options = options
-
+        if default:
+            if actions.default is not None:
+                raise Exception("Only one default action is permitted per action registry")
+        self.default = default
+        
     def __call__(self, func):
-        self.actions[self.label]= Action(func.__name__, **self.options)
+        a = Action(func.__name__, **self.options)
+        self.actions[self.label] = a
+        if self.default:
+            self.actions.default = a
         return func
     
 import os, sys, unittest, doctest

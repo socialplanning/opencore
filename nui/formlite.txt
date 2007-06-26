@@ -13,7 +13,7 @@ Formlite.
 
    >>> class FormTest(FormLite):
    ...     request = type('request', (object,), dict(form={}))()
-   ...     @action('roklok')
+   ...     @action('roklok', default=True)
    ...     def do_roklok(self):
    ...         print "Rock!"
    ...         
@@ -47,9 +47,11 @@ The dispatcher is dumb as a rock.  Whatever action it finds first, it executes::
    
    >>> del view.request.form['sod']
 
-A request with no actions will pass without incident::
+A request with no actions will pass without incident, unless you
+set a default action::
 
    >>> view.handle_request()
+   Rock!
 
 The __name__ of the method decorated with @action is used in a getattr
 to find the method to call, so the outermost decorator before @action
