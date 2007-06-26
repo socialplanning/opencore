@@ -127,6 +127,7 @@ Log out and fill in the form::
     >>> self.logout()
     >>> view = portal.restrictedTraverse("@@join")
     >>> request = view.request
+    >>> request.environ["REQUEST_METHOD"] = "GET"
     >>> form = dict(id='foobar',
     ...             email='foobar@example.com',
     ...             password= 'testy',
@@ -151,17 +152,16 @@ the form the validate() method will be triggered::
     >>> view.handle_request()
     u"{...}"
 
-Submit the form for real now::
+Submit the form for real now; we need to add 'join' to the request::
 
     >>> request.form['confirm_password'] = 'testy'
     >>> request.form['email'] = 'foobar@example.com'
     >>> del request.form['only_validate']
+    >>> request.form['join'] = True
     >>> view.handle_request()
 
-Oh, nothing happened; we need to make the request a POST and
-set 'join=True'::
+Oh, nothing happened; we need to make the request a POST::
     >>> request.environ["REQUEST_METHOD"] = "POST"
-    >>> request.form['join'] = True
     >>> view.handle_request()
     <OpenMember at /plone/portal_memberdata/foobar>
 
