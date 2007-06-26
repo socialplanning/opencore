@@ -827,12 +827,11 @@ fieldset .oc-heading-context {
 }
 .oc-input-typeText { /* Since browser support for selecting by type is... limited */
 }
-
 .oc-input-typeRadio,
 .oc-input-typeCheck {
-font-size: 100%;
+/* font-size: 100%; This resizes radio and check elements to match the text
 width: 1em;
-height: 1em;
+height: 1em; */
 }
 
 /* Expanders */
@@ -1248,6 +1247,7 @@ textarea {
   padding: 0.125em;
   margin: 0;
   font-size: 12px;
+  vertical-align: bottom;
 }
 #oc-content-sidebar select,
 #oc-content-sidebar input,
@@ -1276,7 +1276,8 @@ address {
     .oc-portalWarningMessage,
     .oc-portalStopMessage,
     .oc-system-message,
-    #oc-error-handling
+    #oc-error-handling,
+    .formHelp /* FIXME */
   {
   font-size: 10px;
   /* line-height: 1.9em; */
