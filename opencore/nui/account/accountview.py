@@ -54,6 +54,8 @@ class LoginView(AccountView):
             self.addPortalStatusMessage('You are logged in')
             id_ = self.request.get('__ac_name')
             self.update_credentials(id_)
+            self.membertool.setLoginTimes()
+            self.membertool.createMemberArea()
             return self.redirect(self.destination)
 
         self.addPortalStatusMessage('Login failed')
