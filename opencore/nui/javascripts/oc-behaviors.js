@@ -201,6 +201,7 @@ OC.LiveForm = function(extEl) {
       
       // send ajax request
       var action = liveForm.dom.action;
+      
       var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
         { success: _afterValidateSuccess, 
           failure: _afterValidateFailure, 
