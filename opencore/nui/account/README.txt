@@ -162,7 +162,7 @@ Oh, nothing happened; we need to make the request a POST::
 
     >>> request.environ["REQUEST_METHOD"] = "POST"
     >>> view.handle_request()
-    '...'
+    u'...'
 
 # The above return value sucks; we'd prefer to get the thing below,
 # but that will require some thinkin' and probably merging of 
