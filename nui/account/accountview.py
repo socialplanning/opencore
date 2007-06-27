@@ -185,8 +185,7 @@ class JoinView(FormLite, BaseView):
         else:
             return self.redirect(url)
 
-    @action('only_validate')
-    @dict_to_json
+    @action('only_validate', apply=dict_to_json)
     def validate(self):
         mdc = self.get_tool('portal_memberdata')
         mem = mdc._validation_member
