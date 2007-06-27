@@ -6,6 +6,7 @@ from zExceptions import BadRequest
 from zExceptions import Redirect
 from zope import event
 from topp.utils.pretty_date import prettyDate
+from datetime import datetime
 
         
 class ProfileView(BaseView):
@@ -31,6 +32,11 @@ class ProfileView(BaseView):
 
     def viewingself(self):
         return self.viewedmember() == self.loggedinmember
+
+    def mangled_portrait_url(self):
+        """appends timestamp to portrait url to circumvent browser cache"""
+        return '%s?%s' % (self.viewed_member_info.get('portrait_url'),
+                          datetime.now().strftime('%s'))
 
 
 class ProfileEditView(ProfileView):
