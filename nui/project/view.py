@@ -252,13 +252,17 @@ class ProjectContentsView(BaseView):
         item_type = self.request.form.get("item_type")
         sort_by = self.request.form.get("sort_by")
         items = self._resort(item_type, sort_by)
-        return {'oc-%s-tbody' % item_type: self.item_tbody_snippet(
-                item_collection=items
-                ),
-                'oc-%s-thead' % item_type: self.item_thead_snippet(
-                item_type=item_type,
-                item_date_author_header=(item_type=='pages' and "Last Modified" or "Created")
-                )
+
+        thead_obj = {'html': self.item_thead_snippet(item_type=item_type,
+                                                     item_date_author_header=(item_type=='pages' and "Last Modified" or "Created")
+                                                     ),
+                     'effects': ''}
+        tbody_obj = {'html': self.item_tbody_snippet(item_collection=items),
+                     'effects': 'highlight',
+                     'psm': 'hi!'}
+        
+        return {'oc-%s-tbody' % item_type: tbody_obj,
+                'oc-%s-thead' % item_type: thead_obj
                 }
 
                 
