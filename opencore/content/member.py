@@ -9,6 +9,7 @@ from Products.Archetypes.ArchetypeTool import base_factory_type_information as b
 
 from types import TupleType, ListType, UnicodeType
 from Products.Archetypes.Field import STRING_TYPES
+from Products.validation.validators.BaseValidators import EMAIL_RE
 
 from Products.remember.content.member_schema \
      import id_schema, contact_schema, plone_schema, \
@@ -22,7 +23,7 @@ from Products.OpenPlans.config import PROJECTNAME
 from Products.OpenPlans.config import PROHIBITED_MEMBER_PREFIXES
 
 from Products.Archetypes.public import Schema, StringField, StringWidget
-
+import re
 
 
 member_schema = id_schema + contact_schema + plone_schema + \
@@ -306,6 +307,9 @@ class OpenMember(TeamSecurity, FolderishMember):
                 msg = ("That email address is already in use.  "
                        "Please choose another.")
                 return self.translate(msg, default=msg)
-            
+        regex = re.compile(EMAIL_RE)
+        if regex.match(email) is None:
+            msg = "That email address is invalid."
+            return self.translate(msg, default=msg)
 
 atapi.registerType(OpenMember, package=PROJECTNAME)
