@@ -1,0 +1,39 @@
+<tal:macro metal:define-macro="item_thead_snippet">
+  <tal:setvar define="item_type item_type | options/item_type;
+		      item_date_author_header item_date_author_header | options/item_date_author_header;
+		      ">
+
+  <tal:if condition="view/editable">
+    <thead tal:attributes="id string:oc-${item_type}-thead" >
+      <tr>
+        <th class="oc-dataTable-checkBoxColumn">
+          <input type="checkbox" class="oc-checkAll" />
+        </th>
+        <th scope="col">
+          <a class="oc-columnSortable oc-selected oc-actionLink" tal:attributes="href string:resort_contents?item_type=${item_type}&sort_by=title&task=oc-${item_type}-tbody_update">Title &darr;</a>
+        </th>
+        <th scope="col" tal:condition="python:item_type!='pages'">
+          <a class="oc-columnSortable" href="">Size</a>
+        </th>
+        <th scope="col">
+          <a class="oc-columnSortable" href="" tal:content="item_date_author_header" />
+        </th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+  </tal:if>
+
+  <tal:if condition="not:view/editable">
+    <thead tal:attributes="id string:oc-${item_type}-thead" >
+      <tr>
+        <th scope="col"><a class="oc-columnSortable oc-selected" href="">Title &darr;</a></th>
+        <th scope="col" tal:condition="python:item_type!='pages'"><a class="oc-columnSortable" href="">Size</a></th>
+        <th scope="col"><a class="oc-columnSortable" href="">
+            <tal:dummy replace="item_date_author_header" />
+        </a></th>
+      </tr>
+    </thead>
+  </tal:if>
+
+  </tal:setvar>
+</tal:macro>

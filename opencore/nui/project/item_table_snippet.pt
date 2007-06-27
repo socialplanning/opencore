@@ -26,29 +26,9 @@
 	tal:attributes="name form_name">
     <input type="hidden" name="item_type"
       tal:attributes="value item_type" /> 
-    <table class="oc-dataTable" tal:attributes="id string:oc-${item_type}-table" cellpadding="0" cellspacing="0">
-      <thead>
-        <tr>
-          <th class="oc-dataTable-checkBoxColumn">
-            <input type="checkbox" class="oc-checkAll" />
-          </th>
-          <th scope="col">
-            <a class="oc-columnSortable oc-selected oc-actionLink" tal:attributes="href string:resort_contents?item_type=${item_type}&sort_by=title&task=oc-${item_type}-table_update">Title &darr;</a>
-          </th>
-          <th scope="col" tal:condition="python:item_type!='pages'">
-            <a class="oc-columnSortable" href="">Size</a>
-          </th>
-          <th scope="col">
-            <a class="oc-columnSortable" href="" tal:content="item_date_author_header" />
-          </th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tal:for repeat="item item_collection">
-          <tal:macro metal:use-macro="view/contents_row_snippet/macros/item_row" />
-        </tal:for>
-      </tbody>
+    <table class="oc-dataTable" cellpadding="0" cellspacing="0">
+      <tal:macro metal:use-macro="view/item_thead_snippet/macros/item_thead_snippet" />
+      <tal:macro metal:use-macro="view/item_tbody_snippet/macros/item_tbody_snippet" />
     </table>
 
     <ul class="oc-actions oc-dataTable-actions">
@@ -70,20 +50,8 @@
   </div>
 
   <table class="oc-dataTable" cellpadding="0" cellspacing="0">
-    <thead>
-      <tr>
-        <th scope="col"><a class="oc-columnSortable oc-selected" href="">Title &darr;</a></th>
-        <th scope="col" tal:condition="python:item_type!='pages'"><a class="oc-columnSortable" href="">Size</a></th>
-        <th scope="col"><a class="oc-columnSortable" href="">
-            <tal:dummy replace="item_date_author_header" />
-        </a></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tal:for repeat="item item_collection" define="uneditable string:True">
-      <tal:macro metal:use-macro="view/contents_row_snippet/macros/item_row" />
-      </tal:for>
-    </tbody>
+    <tal:macro metal:use-macro="view/item_thead_snippet/macros/item_thead_snippet" />
+    <tal:macro metal:use-macro="view/item_tbody_snippet/macros/item_tbody_snippet" />
   </table>
 
 </div> <!-- end .oc-widget-dataTable -->
