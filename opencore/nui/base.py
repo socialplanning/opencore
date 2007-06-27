@@ -229,8 +229,11 @@ class BaseView(BrowserView):
 
     @view.memoize_contextless
     def get_tool(self, name):
-        wrapped = self.__of__(aq_inner(self.portal))
-        return wrapped.getToolByName(name)
+        """
+        Returns the specified tool.  Uses the context of the view as
+        the context for the getToolByName call.
+        """
+        return getToolByName(self.context, name)
 
     def get_portal(self):
         return aq_iface(self.context, self.site_iface)
@@ -244,7 +247,7 @@ class BaseView(BrowserView):
 
     @property
     def piv(self):
-        return self.get_view('project_info').__of__(aq_inner(self.context))
+        return self.get_view('project_info')
 
     @property
     def miv(self):
