@@ -353,7 +353,7 @@ OC.LiveForm = function(extEl) {
 	  }
 	  
 	  if( effects == "delete" ) {
-	      target.remove();
+	      _removeItem(elId);
 	  } else {
 	      var newNode = Ext.DomHelper.insertHtml("beforeBegin", target.dom, html);
 	      target.remove();
