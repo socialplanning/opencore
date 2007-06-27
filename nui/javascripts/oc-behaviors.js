@@ -341,10 +341,22 @@ OC.LiveForm = function(extEl) {
         /* Response is an array.  [elementID : newHTML] */
         for (elId in response) {
           var target = Ext.get(elId);
-          var html = Ext.util.Format.trim(response[elId]);
+	  OC.debug(typeof response[elId]);
+
+	  var html, effects;
+	  if( typeof response[elId] == "string" ) {
+	      html = Ext.util.Format.trim(response[elId]);
+	      effects = "highlight";
+	  } else if( typeof response[elId] == "object" ) {
+	      html = Ext.util.Format.trim(response[elId].html);
+	      effects = response[elId].effects;
+	  }
+	  
           var newNode = Ext.DomHelper.insertHtml("beforeBegin", target.dom, html);
           target.remove();
-          Ext.get(newNode).highlight();
+	  if( effects == "highlight" ) {
+	      Ext.get(newNode).highlight();
+	  }
           OC.breatheLife(newNode);
         }
       break;
