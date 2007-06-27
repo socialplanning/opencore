@@ -1,12 +1,16 @@
 Formlite. 
 
+It's getting fatter.
+
    >>> from opencore.nui.formhandler import FormLite, action
    >>> def decorator(func):
    ...     def inner(self):
+   ...         print "in decorator"
    ...         return func(self)
    ...     return inner
    >>> def better(func):
    ...     def myinner(self):
+   ...         print "in better"
    ...         return func(self)
    ...     myinner.__name__ = func.__name__
    ...     return myinner
@@ -25,6 +29,10 @@ Formlite.
    ...     @decorator
    ...     def broken(self):
    ...         print "yes!!"
+   ...         
+   ...     @action('yes3', apply=(decorator, decorator))
+   ...     def notbroken(self):
+   ...         print "fine!"
    ...         
    ...     @action('yes2')
    ...     @better
@@ -67,9 +75,30 @@ returns is identical to that of the underlying method::
    >>> del view.request.form['yes1']
    >>> view.request.form['yes2']=True
    >>> view.handle_request()
+   in better
    okay!
 
-Methods still work as normal
+Alternatively you can pass a decorator or a tuple of decorators
+to the action decorator in the `apply' argument. These decorators
+will be applied to the method before it is called on dispatch,
+and the decorators do not have to worry about setting __name__.
+
+   >>> view.request.form['yes3']=True
+   >>> view.handle_request()
+   in decorator
+   in decorator
+   fine!
+
+This also means that your methods to be decorated *if and only if*
+they are called by dispatch; when called directly the methods will
+not be decorated::
+
+   >>> view.notbroken()
+   fine!
+
+And all methods still work as normal::
 
    >>> view.do_roklok()
    Rock!
+
+
