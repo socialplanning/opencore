@@ -191,7 +191,7 @@ class JoinView(FormLite, BaseView):
         else:
             return self.redirect(url)
 
-    @action('only_validate', apply=dict_to_json)
+    @action('only_validate')
     def validate(self):
         mdc = self.get_tool('portal_memberdata')
         mem = mdc._validation_member
@@ -202,6 +202,8 @@ class JoinView(FormLite, BaseView):
         erase = [error for error in errors if error not in self.request.form]
         for e in erase:
             del errors[e]
+        for e in errors:
+            errors[e] = str(errors[e])
         return errors
 
     @instance.memoizedproperty
