@@ -131,7 +131,6 @@ def dict_to_json(func):
         if not isinstance(val, dict):
             return val
         return "{%s}" % ', '.join(["%s:'%s'" % (k,v) for k,v in val.items()])
-    inner.__name__ = func.__name__
     return inner
 
 class FormLite(object):

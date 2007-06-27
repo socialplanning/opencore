@@ -134,23 +134,21 @@ Log out and fill in the form::
     ...             confirm_password='testy')
     >>> request.form.update(form)
 
-The view has a validate() method which returns an error dict
-which is dumbly transformed into a string for the moment to
-help javascript interpret it::
+The view has a validate() method which returns an error dict::
 
     >>> view.validate()
-    '{}'
+    {}
     >>> request.form['confirm_password'] = 'mesty'
     >>> request.form['email'] = 'fakeemail'
-    >>> view.validate()
-    u"{...}"
+    >>> sorted(view.validate().keys())
+    ['confirm_password', 'email', 'password']
 
 If you add 'only_validate=True' to the request before submitting
 the form the validate() method will be triggered::
 
     >>> request.form['only_validate'] = True
     >>> view.handle_request()
-    u"{...}"
+    u"{...confirm_password...}"
 
 Submit the form for real now; we need to add 'join' to the request::
 
