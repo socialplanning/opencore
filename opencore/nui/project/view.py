@@ -250,8 +250,9 @@ class ProjectContentsView(BaseView):
         item_type = self.request.form.get("item_type")
         sort_by = self.request.form.get("sort_by")
         items = self._resort(item_type, sort_by)
-        return self.item_table_snippet(item_collection=items,
-                                       item_date_author_header=(item_type=='pages' and "Last Modified" or "Created"))
+        return {'oc-%s-table' % item_type: self.item_table_snippet(
+                item_collection=items,
+                item_date_author_header=(item_type=='pages' and "Last Modified" or "Created"))}
         
     @formhandler.octopus
     def modify_contents(self, action, sources, fields=None):
