@@ -271,6 +271,7 @@ OC.LiveForm = function(extEl) {
       submit.value = "batch:roles_set-roles";
       submit.type = "hidden";
       liveForm.dom.appendChild(submit);
+      updater = _getUpdater(requestData);
       YAHOO.util.Connect.setForm(liveForm.dom);
       var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
         { success: _afterActionSelects,
@@ -287,7 +288,7 @@ OC.LiveForm = function(extEl) {
 
   // after successful actionSelects
   function _afterActionSelects(o) {
-    var response = "PSM HERE!!!";  //o.responseText;
+    var response = o.responseText;  //o.responseText;
     var psm = document.createElement('div');
     psm.className = "oc-statusMessage";
     var psm_text = document.createTextNode(response);
