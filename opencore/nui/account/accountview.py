@@ -140,6 +140,11 @@ class LoginView(AccountView):
             self.redirect(self.login_url)
             
 
+def ugly_hack(func):
+    def inner(self):
+        ret = func(self)
+        return self.render()
+    return inner
 
 class JoinView(FormLite, BaseView):
 
@@ -149,7 +154,7 @@ class JoinView(FormLite, BaseView):
     def render(self):
         return self.form_template()
 
-    @action('join')
+    @action('join', apply=ugly_hack)
     @post_only(raise_=False)
     def create_member(self):
         context = self.context
@@ -181,6 +186,7 @@ class JoinView(FormLite, BaseView):
             self._sendmail_to_pendinguser(id=mem_id,
                                         email=self.request.get('email'),
                                         url=url)
+            self.addPortalStatusMessage(u'An email has been sent to you, Lammy.')
             return mdc._getOb(mem_id)
         else:
             return self.redirect(url)
