@@ -86,3 +86,25 @@ Exercise the Member Preferences Class
     >>> project_dicts = view.get_projects_for_user()
     >>> [d['proj_id'] for d in project_dicts]
     ['p3', 'p4']
+
+    Now we'll try to set the listing as private:
+
+    First though, let's verify that he is currently listed as public
+    >>> [d['listed'] for d in project_dicts]
+    [True, True]
+
+    Now let's make him private for project 4
+    >>> view.change_visibility('p4')
+
+    When we get the projects again, we should not be listed for p4
+    >>> project_dicts = view.get_projects_for_user()
+    >>> [d['listed'] for d in project_dicts]
+    [True, False]
+
+    Now let's set it back to visible
+    >>> view.change_visibility('p4')
+
+    Now he should be listed again
+    >>> project_dicts = view.get_projects_for_user()
+    >>> [d['listed'] for d in project_dicts]
+    [True, True]
