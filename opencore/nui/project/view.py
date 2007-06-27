@@ -570,7 +570,8 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
 
     def _getAccountURLForMember(self, mem_id):
         homeurl = self.membertool.getHomeUrl(mem_id)
-        return "%s/preferences" % homeurl
+        if homeurl is not None:
+            return "%s/preferences" % homeurl
 
     def _sendEmail(self, mto, msg, subject=None):
         """
@@ -692,8 +693,10 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         mem_ids = self.request.form.get('member_ids')
         project_title = self.context.Title()
         for mem_id in mem_ids:
+            acct_url = self._getAccountURLForMember(mem_id)
+            # XXX if member hasn't logged in yet, acct_url will be whack
             msg_vars = {'project_title': project_title,
-                        'account_url': self._getAccountURLForMember(mem_id),
+                        'account_url': acct_url,
                         }
             msg = self._constructMailMessage('remind_invitee', **msg_vars)
             self._sendEmail(mem_id, msg)
@@ -790,9 +793,10 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
                 raise Redirect('%s/manage-team' % self.context.absolute_url())
             wftool.doActionFor(mship, 'reinvite')
 
-
+        acct_url = self._getAccountURLForMember(mem_id)
+        # XXX if member hasn't logged in yet, acct_url will be whack
         msg_subs = {'project_title': self.context.Title(),
-                    'account_url': self._getAccountURLForMember(mem_id),
+                    'account_url': acct_url,
                     }
         msg = self._constructMailMessage('invite_member', **msg_subs)
         self._sendEmail(mem_id, msg)
