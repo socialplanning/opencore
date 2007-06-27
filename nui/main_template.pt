@@ -38,9 +38,11 @@
         
         <div id="oc-content-container">
         
-          <tal:for tal:repeat="status_msg view/portal_status_message">
-            <div tal:content="structure status_msg" class="oc-statusMessage"/>
-          </tal:for>
+          <span id="oc-psm-container">
+            <tal:for tal:repeat="status_msg view/portal_status_message">
+              <div tal:content="structure status_msg" class="oc-statusMessage"/>
+            </tal:for>
+          </span>
         
           <!-- content is injected here -->
           <div metal:define-slot="content" />

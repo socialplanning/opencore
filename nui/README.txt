@@ -69,7 +69,7 @@ efficient(faster) as mixins
 Aliases to commonly used tools are provided and also memoized::
 
     >>> pview.get_tool('uid_catalog')
-    <UIDCatalog at /plone/uid_catalog>
+    <UIDCatalog at /plone/uid_catalog...>
     
     >>> pview.membranetool
     <MembraneTool at /plone/membrane_tool>
