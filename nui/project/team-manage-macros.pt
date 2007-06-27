@@ -5,8 +5,7 @@
 <!-- SHARED SNIPPETS -->
 
 <metal:memberlink define-macro="memberlink">
-  <div class="oc-liveItem-value"
-       tal:define="mem_id item/getId;
+  <div tal:define="mem_id item/getId;
                    mem_url python:view.getMemberURL(mem_id)">
     <a tal:attributes="href mem_url"
        tal:condition="mem_url"
@@ -20,7 +19,7 @@
 <!-- "PENDING" LISTS (MEMBERSHIP REQUESTS AND INVITATIONS) -->
 
 <metal:pendingrow define-macro="pendingrow">
-  <tr class="oc-liveItem" tal:attributes="id item/id">
+  <tr tal:attributes="id item/id">
 
     <td>
       <input type="checkbox" name="member_ids:list"
@@ -156,10 +155,8 @@
       <h3 tal:content="string:Your team members ($num_items)" />
     </div>
 
-    <!--form class="oc-liveForm" name="team-members" method="post"
-          tal:attributes="action view/request/ACTUAL_URL"-->
     <form name="team-members" method="POST"
-          action="manage-memberships">
+          action="manage-memberships" class="oc-liveForm">
       <table class="oc-dataTable" cellpadding="0" cellspacing="0">
 
         <thead>
@@ -176,7 +173,7 @@
 
           <tal:items repeat="item mships">
 
-            <tr class="oc-liveItem" tal:attributes="id item/id">
+            <tr tal:attributes="id item/id">
 
               <td>
                 <input type="checkbox" name="deletes:list"
@@ -188,10 +185,11 @@
               </td>
 
               <td tal:define="member_role item/role">
-                <div class="oc-liveItem-value">
+                <div>
                   <input type="hidden" name="roles:list"
                          tal:attributes="value item/id" />
-                  <select tal:attributes="name string:${item/id}_roles">
+                  <select tal:attributes="name string:${item/id}_roles"
+                          class="oc-actionSelect">
                     <tal:roleoptions repeat="roleitem view/rolemap/items">
                       <option tal:attributes="value python:roleitem[0];
                                               selected python:(roleitem[1] == member_role) or None"
@@ -202,15 +200,13 @@
               </td>
 
               <td>
-                <div class="oc-liveItem-value"
-                     tal:define="active_since item/active_since"
+                <div tal:define="active_since item/active_since"
                      tal:content="python:view.pretty_date(active_since)">
                 </div>
               </td>
 
               <td>
-                <div class="oc-liveItem-value"
-                     tal:content="item/listed">
+                <div tal:content="item/listed">
                 </div>
               </td>
 
