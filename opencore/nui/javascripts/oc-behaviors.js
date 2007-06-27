@@ -348,16 +348,20 @@ OC.LiveForm = function(extEl) {
 	      html = Ext.util.Format.trim(response[elId]);
 	      effects = "highlight";
 	  } else if( typeof response[elId] == "object" ) {
-	      html = Ext.util.Format.trim(response[elId].html);
 	      effects = response[elId].effects;
+	      html = Ext.util.Format.trim(response[elId].html);
 	  }
 	  
-          var newNode = Ext.DomHelper.insertHtml("beforeBegin", target.dom, html);
-          target.remove();
-	  if( effects == "highlight" ) {
-	      Ext.get(newNode).highlight();
+	  if( effects == "delete" ) {
+	      target.remove();
+	  } else {
+	      var newNode = Ext.DomHelper.insertHtml("beforeBegin", target.dom, html);
+	      target.remove();
+	      if( effects == "highlight" ) {
+		  Ext.get(newNode).highlight();
+	      }
+	      OC.breatheLife(newNode);
 	  }
-          OC.breatheLife(newNode);
         }
       break;
       
