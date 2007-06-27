@@ -135,10 +135,3 @@ def save_featurelets(obj, event=None, request=None):
         flet = registry.getFeaturelet(flet_id)
         supporter.removeFeaturelet(flet)
 
-
-def add_redirection_hooks(container, ignore=[]):
-    for obj in container.objectValues():
-        if IProject.providedBy(obj) and obj.getId() not in ignore:
-            redirect.activate(obj)
-            
-    

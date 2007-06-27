@@ -84,6 +84,15 @@ def setup_nui(portal, out):
     for fn in nui_functions.values():
         fn(portal, portal)
 
+def migrate_redirection(self, portal):
+    from opencore.redirect import migrate_redirected_objects
+    from opencore.interfaces import IProject
+    from opencore.siteui.interfaces import IMemberFolder
+    
+    migrate_redirected_objects(portal.projects, IProject)
+    migrate_redirected_objects(portal.people, IMemberFolder)
+    
+
 def fixProjectWFStates(self, portal):
     """
     make sure the projects are in the WF state that matches the
@@ -160,6 +169,7 @@ topp_functions = dict(
     NUI_setup=convertFunc(setup_nui),
     fixProjectWFStates=fixProjectWFStates,
     initializeTeamWorkflow=initializeTeamWorkflow,
+    migrate_redirection=migrate_redirection
     )
 
 class TOPPSetup(SetupWidget):
