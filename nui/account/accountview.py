@@ -194,6 +194,9 @@ class JoinView(FormLite, BaseView):
         errors = mem.validate(REQUEST=self.request,
                               errors=self.errors,
                               data=1, metadata=0)
+        erase = [error for error in errors if error not in self.request.form]
+        for e in erase:
+            del errors[e]
         return errors
 
     @instance.memoizedproperty
