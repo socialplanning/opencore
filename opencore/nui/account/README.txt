@@ -147,8 +147,8 @@ If you add 'only_validate=True' to the request before submitting
 the form the validate() method will be triggered::
 
     >>> request.form['only_validate'] = True
-    >>> view.handle_request()
-    u"{...confirm_password...}"
+    >>> sorted(view.validate().keys())
+    ['confirm_password', 'email', 'password']
 
 Submit the form for real now; we need to add 'join' to the request::
 

@@ -154,8 +154,7 @@ class JoinView(FormLite, BaseView):
     def render(self):
         return self.form_template()
 
-    @action('join', apply=ugly_hack)
-    @post_only(raise_=False)
+    @action('join', apply=(ugly_hack, post_only(raise_=False)))
     def create_member(self):
         context = self.context
         mdc = getToolByName(context, 'portal_memberdata')
