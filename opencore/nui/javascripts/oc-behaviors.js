@@ -286,14 +286,13 @@ OC.LiveForm = function(extEl) {
 
   // after successful actionSelects
   function _afterActionSelects(o) {
-    OC.debug(o);
     var response = "PSM HERE!!!";  //o.responseText;
     var psm = document.createElement('div');
-    psm.class = "oc-statusMessage";
+    psm.className = "oc-statusMessage";
     var psm_text = document.createTextNode(response);
     psm.appendChild(psm_text);
-    var container = document.getElementById('oc-content-container');
-    container.insertBefore(container.firstChild, psm);
+    var psm_container = document.getElementById('oc-psm-container');
+    psm_container.appendChild(psm);
   }
 
   // form submit
