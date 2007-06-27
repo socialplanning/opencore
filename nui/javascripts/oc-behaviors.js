@@ -36,11 +36,10 @@ OC.liveElementKey = {
 }
     
 /* 
-#
-# breathes life (aka js behaviors) into HTML elements.
-# call this on load w/ no argument to breathe life to entire document.
-# When adding new nodes to the dom, call breatheLife(newItem) to activate that element and it's children.
-#
+# breathes life (aka js behaviors) into HTML elements.  call this on
+# load w/ no argument to breathe life to entire document.  When adding
+# new nodes to the dom, call breatheLife(newItem) to activate that
+# element and it's children.
 */
 OC.breatheLife = function(newNode) {
 
@@ -127,6 +126,7 @@ OC.LiveForm = function(extEl) {
   // get references
   var liveForm = extEl;
   var actionLinks = Ext.select('.oc-actionLink');
+  var actionSelects = Ext.select(".oc-actionSelect");
   var checkAll = Ext.select(Ext.query('.oc-checkAll', liveForm.dom));
   var liveItems = Ext.query(".oc-liveItem", liveForm.dom);
   var liveValidatees = Ext.get(Ext.query('.oc-liveValidate', liveForm.dom));
@@ -257,6 +257,45 @@ OC.LiveForm = function(extEl) {
     actionLinks.on('click', _actionLinkClick, this);
   }
     
+  // process action select boxes
+  if (actionSelects) {
+    actionSelects.removeAllListeners();;
+    function _actionSelectChange(e, el, o) {
+      YAHOO.util.Event.stopEvent(e);
+
+      // get action from form element
+      var action = liveForm.dom.action;
+      var submit = document.createElement('input');
+      submit.name = "task";
+      submit.value = "batch:roles_set-roles";
+      submit.type = "hidden";
+      liveForm.dom.appendChild(submit);
+      YAHOO.util.Connect.setForm(liveForm.dom);
+      var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
+        { success: _afterActionSelects,
+          failure: _afterFailure,
+          scope: this
+        },
+        "mode=async"
+      );
+
+    }
+    actionSelects.on('change', _actionSelectChange, this);
+  }
+
+
+  // after successful actionSelects
+  function _afterActionSelects(o) {
+    OC.debug(o);
+    var response = "PSM HERE!!!";  //o.responseText;
+    var psm = document.createElement('div');
+    psm.class = "oc-statusMessage";
+    var psm_text = document.createTextNode(response);
+    psm.appendChild(psm_text);
+    var container = document.getElementById('oc-content-container');
+    container.insertBefore(container.firstChild, psm);
+  }
+
   // form submit
   function _formSubmit(e, el, o) {
     OC.debug("_formSubmit");
@@ -281,9 +320,9 @@ OC.LiveForm = function(extEl) {
     }
   }
   liveForm.on('submit', _formSubmit, this);
+
+
   // after success
-  
-  
   function _afterSuccess(o) {
   OC.debug(o);
   // TEMPORARY FAKE RESPONSE
