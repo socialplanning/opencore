@@ -155,19 +155,26 @@ class Actions(dict):
 
 class Action(object):
 
-    def __init__(self, name, **options):
+    def __init__(self, name, apply=None, **options):
         self.name = name
         self.options = options
+        self.apply = apply
 
     def __call__(self, view):
         method = getattr(view, self.name)
-        return method(**self.options)
-
+        if not self.apply:
+            return method(**self.options)
+        newmethod = method.im_func  # decorate an unbound method
+        for decorator in self.apply:
+            newmethod = decorator(newmethod)
+        newmethod.__name__ = method.__name__
+        return newmethod(view, **self.options)  # our method is now unbound
 
 class action(object):
     # modfied from zope.formlib (ZPL)
     def __init__(self, label, default=False, 
-                 actions=None, **options):
+                 actions=None, apply=None,
+                 **options):
         caller_locals = sys._getframe(1).f_locals
         if actions is None:
             actions = caller_locals.get('actions')
@@ -180,9 +187,17 @@ class action(object):
             if actions.default is not None:
                 raise Exception("Only one default action is permitted per action registry")
         self.default = default
-        
+        if isinstance(apply, tuple):
+            self.apply = apply
+        elif callable(apply):
+            self.apply = (apply,)
+        elif apply is None:
+            self.apply = None
+        else:
+            raise Exception("apply must be either a function or a tuple of functions")
+
     def __call__(self, func):
-        a = Action(func.__name__, **self.options)
+        a = Action(func.__name__, apply=self.apply, **self.options)
         self.actions[self.label] = a
         if self.default:
             self.actions.default = a
