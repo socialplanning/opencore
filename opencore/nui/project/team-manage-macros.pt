@@ -221,11 +221,11 @@
       <ul class="oc-actions oc-dataTable-actions">
         <li>
           <button type="submit" name="task"
-                  value="batch:deletes_remove-members" class="oc-button" >remove members</button>
-          <!--noscript-->
+                  value="batch:deletes_delete" class="oc-button" >remove members</button>
+          <noscript>
             <button type="submit" name="task"
                     value="batch:roles_set-roles" class="oc-button" >set roles</button>
-          <!--/noscript-->
+          </noscript>
         </li>
       </ul>
     </form>

@@ -726,11 +726,15 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         into an inactive workflow state.
         """
         nremoved = self.doMshipWFAction('deactivate', mem_ids)
+        ret = {}
         for mem_id in mem_ids:
             msg = self._constructMailMessage('membership_deactivated',
                                              project_title=self.context.Title())
+            ret[mem_id] = {'effects': 'delete'}
             self._sendEmail(mem_id, msg)
-        self.addPortalStatusMessage(u'%d members deactivated' % nremoved)
+        #ret['psm'] = u'%d members deactivated' % nremoved
+        #return ret
+        return mem_ids
 
     def _set_roles(self, roles_from_form):
         """
@@ -746,17 +750,21 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
                 mem_roles = DEFAULT_ROLES[:index + 1]
                 team.setTeamRolesForMember(mem_id, mem_roles)
                 nchanges += 1
-
-        self.addPortalStatusMessage(u'%d roles changed' % nchanges)
+                
+        return {'psm': u'%d roles changed' % nchanges}
 
     @formhandler.octopus
     def manage_memberships(self, action, targets, fields=None):
-        if action == "remove-members":
-            self._remove_members(targets)
+        if action == "delete":
+            ret = self._remove_members(targets)
         if action == "set-roles":
             roles = [f.get('roles') for f in fields]
             roles_from_form = dict(zip(targets, roles))
-            self._set_roles(roles_from_form)
+            ret = self._set_roles(roles_from_form)
+
+        mode = self.request.form.get('mode')
+        if mode == 'async':
+            return ret
 
 
     ##################
