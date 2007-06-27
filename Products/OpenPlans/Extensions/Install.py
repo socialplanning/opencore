@@ -684,5 +684,6 @@ def install(self, migrate_atdoc_to_openpage=True):
     createIndexes(portal, out)
     createMemIndexes(portal, out)
     installNewsFolder(portal, out)
+    createValidationMember(portal, out)
     print >> out, "Successfully installed %s." % config.PROJECTNAME
     return out.getvalue()
