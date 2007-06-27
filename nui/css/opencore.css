@@ -465,7 +465,7 @@ dl.oc-member-info dd {
 }
 ul.oc-tabs {
   display: block;
-  margin-top: -1.5em;
+  margin-top: 0;
   padding: 0;
   border-bottom: 2px solid #000;
   text-align: right;
@@ -704,6 +704,7 @@ a.oc-button:hover {
   margin: 0;
   display: inline;
   font-size: 12px;
+  float: left;
 }
 .oc-bcrumb li,
 .oc-bcrumb li h1,
