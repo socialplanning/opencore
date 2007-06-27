@@ -65,9 +65,20 @@ class MemberPreferences(BaseView):
         return mship
 
     def leave_project(self, proj_id):
+        """ remove membership by marking the membership object as inactive """
         mship = self._membership_for_proj(proj_id)
         wft = self.get_tool('portal_workflow')
         wft.doActionFor(mship, 'deactivate')
+
+    def change_visibility(self, proj_id):
+        """ change whether project members appear in listings """
+        mship = self._membership_for_proj(proj_id)
+        wft = self.get_tool('portal_workflow')
+        cur_state = wft.getInfoFor(mship, 'review_state')
+        if cur_state == 'public':
+            wft.doActionFor(mship, 'make_private')
+        else:
+            wft.doActionFor(mship, 'make_public')
 
     def __call__(self, action_leave=None, proj_id=None):
         if action_leave:
