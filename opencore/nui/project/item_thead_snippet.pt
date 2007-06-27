@@ -10,13 +10,17 @@
           <input type="checkbox" class="oc-checkAll" />
         </th>
         <th scope="col">
-          <a class="oc-columnSortable oc-selected oc-actionLink" tal:attributes="href string:resort_contents?item_type=${item_type}&sort_by=title&task=oc-${item_type}-tbody_update">Title &darr;</a>
+          <a class="oc-columnSortable oc-selected oc-actionLink"
+	     tal:attributes="href string:resort_contents?item_type=${item_type}&sort_by=title&task=oc-${item_type}-tbody_update">Title &darr;</a>
         </th>
         <th scope="col" tal:condition="python:item_type!='pages'">
-          <a class="oc-columnSortable" href="">Size</a>
+          <a class="oc-columnSortable oc-actionLink"
+	     tal:attributes="href string:resort_contents?item_type=${item_type}&sort_by=obj_size&task=oc-${item_type}-tbody_update">Size</a>
         </th>
         <th scope="col">
-          <a class="oc-columnSortable" href="" tal:content="item_date_author_header" />
+          <a class="oc-columnSortable oc-actionLink"
+	     tal:attributes="href string:resort_contents?item_type=${item_type}&sort_by=obj_author&task=oc-${item_type}-tbody_update" 
+	     tal:content="item_date_author_header" />
         </th>
         <th>Actions</th>
       </tr>
@@ -26,11 +30,22 @@
   <tal:if condition="not:view/editable">
     <thead tal:attributes="id string:oc-${item_type}-thead" >
       <tr>
-        <th scope="col"><a class="oc-columnSortable oc-selected" href="">Title &darr;</a></th>
-        <th scope="col" tal:condition="python:item_type!='pages'"><a class="oc-columnSortable" href="">Size</a></th>
-        <th scope="col"><a class="oc-columnSortable" href="">
+        <th scope="col">
+	  <a class="oc-columnSortable oc-selected oc-actionLink"
+	     tal:attributes="href string:resort_contents?item_type=${item_type}&sort_by=title&task=oc-${item_type}-tbody_update">
+	    Title &darr;</a>
+	</th>
+        <th scope="col" tal:condition="python:item_type!='pages'">
+	  <a class="oc-columnSortable oc-actionLink"
+	     tal:attributes="href string:resort_contents?item_type=${item_type}&sort_by=obj_size&task=oc-${item_type}-tbody_update">
+	    Size</a>
+	</th>
+        <th scope="col">
+	  <a class="oc-columnSortable oc-actionLink"
+	     tal:attributes="href string:resort_contents?item_type=${item_type}&sort_by=obj_author&task=oc-${item_type}-tbody_update">
             <tal:dummy replace="item_date_author_header" />
-        </a></th>
+          </a>
+	</th>
       </tr>
     </thead>
   </tal:if>

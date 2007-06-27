@@ -360,7 +360,9 @@ OC.LiveForm = function(extEl) {
 	      if( effects == "highlight" ) {
 		  Ext.get(newNode).highlight();
 	      }
-	      OC.breatheLife(newNode);
+	      OC.debug("about to breathe life into EVERYTHING. this is bad");
+	      OC.breatheLife();
+	      OC.debug("done breathing");
 	  }
         }
       break;
