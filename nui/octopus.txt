@@ -63,3 +63,27 @@ requests.
   rendering a full page for the browser.  it's up to the template to
   update itself based on the returned data, although i think there's
   already some JS infrastructure in place to help with this.
+
+- When your task action is "update", you should return a JSON object
+  that looks like the following.
+
+{'id1': 
+  {'html': '<div>thing</div>',
+   'effects': 'highlight'
+  },
+'id2': 
+  {'html': '<div>thing2</div>',
+   'effects': 'highlight'
+  }
+}
+
+  There is a (deprecated) short form of this; the example below is
+  precisely equivalent to the above:
+
+{'id1': '<div>thing</div>',
+ 'id2': '<div>thing2</div>'}
+
+ * 'id' is the id of a DOM element to be replaced.
+ * 'html' is a snippet of HTML to be inserted in place of 'id'.
+ * 'effects' is a list of flashy javascript effects to apply. Right
+    now it can be 'highlight' or nothing.
