@@ -67,6 +67,13 @@
      template="wiki-version-compare.pt"
      />
 
+  <browser:page
+     class=".historyview.WikiVersionRevert"
+     for="opencore.interfaces.IOpenPage"
+     name="revert"
+     permission="cmf.ModifyPortalContent"
+     />
+
   <!-- attachments -->
   <browser:page
      attribute="updateAtt"

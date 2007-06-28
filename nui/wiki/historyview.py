@@ -9,6 +9,9 @@ from topp.utils.pretty_date import prettyDate
 from plone.memoize import instance
 
 
+# XXX i18n 
+
+
 class WikiVersionView(BaseView): 
 
     def __init__(self, context, request):
@@ -31,11 +34,11 @@ class WikiVersionView(BaseView):
 
     def version_title(self, version_id): 
         if version_id == 0:
-            return "Initial"
+            return "Initial Version"
         elif version_id == self.current_id():
-            return "Current"
+            return "Current Version"
         else: 
-            return "Version %d" % version_id
+            return "Version %d" % (version_id + 1)
 
     def current_id(self): 
         return len(self.get_versions()) - 1
@@ -55,7 +58,7 @@ class WikiVersionView(BaseView):
     def pretty_mod_date(self, version):
         return prettyDate(DateTime(version.sys_metadata['timestamp']))
 
-    
+
 
 class WikiVersionCompare(WikiVersionView):
 
@@ -116,5 +119,36 @@ class WikiVersionCompare(WikiVersionView):
         return super(BaseView, self).__call__(*args, **kwargs)
 
 
-    
+class WikiVersionRevert(WikiVersionView):
 
+    def __call__(self, *args, **kwargs):
+
+        # error check parameters
+        req_error = None
+        view_url = self.context.absolute_url()
+        
+        try:
+            version_id = int(self.request.get('version_id'))
+            if version_id < 0 or version_id >= self.current_id():
+                req_error = 'Invalid version specified'
+        except:
+            req_error = 'Invalid version specified'
+
+        # bail out on error 
+        if req_error is not None:
+            self.addPortalStatusMessage(req_error)
+            raise Redirect(view_url)
+
+        # actually do the revert
+
+        self.pr.revert(self.context, version_id)
+
+        message = "Reverted to %s" % self.version_title(version_id)
+
+        if self.pr.supportsPolicy(self.context, 'version_on_revert'):
+            self.pr.save(obj=self.context, comment=message)
+
+
+        # send user to the view page 
+        self.addPortalStatusMessage(message)
+        self.request.RESPONSE.redirect(view_url)

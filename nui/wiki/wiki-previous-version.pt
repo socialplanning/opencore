@@ -56,7 +56,7 @@
                     </tal:if>
                     <li>
                       <!-- FIXME ? relative --> 
-                      <form method="post" id="revert_form" action="revertversion">
+                      <form method="post" id="revert_form" action="revert">
                         <input type="hidden" name="version_id" tal:attributes="value version_id" />
                         <input type="submit" name="revert" value="revert to this version" class="oc-smallText" />
                       </form> 

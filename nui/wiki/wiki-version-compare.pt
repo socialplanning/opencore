@@ -102,7 +102,7 @@
                      compared to the current version --> 
                 <tal:if condition="python: new_id == view.current_id()">
                   <!-- FIXME ? relative --> 
-                  <form method="post" id="revert_form" action="revertversion">
+                  <form method="post" id="revert_form" action="revert">
                     <input type="hidden" name="version_id" tal:attributes="value old_id" />
                     <input type="submit" class="oc-smallText" name="revert" value="revert to this version" />
                   </form> 
