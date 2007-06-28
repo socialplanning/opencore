@@ -15,13 +15,12 @@ def button(name=None):
 def post_only(raise_=True):
     def inner_post_only(func):
         """usually wrapped by a button"""
-        def new_method(self):
+        def new_method(self, *args, **kw):
             if self.request.environ['REQUEST_METHOD'] == 'GET':
                 if raise_:
                     raise Forbidden('GET is not allowed here')
                 return
-            return func(self)
-        new_method.__name__ = func.__name__
+            return func(self, *args, **kw)
         return new_method
     return inner_post_only
 
@@ -133,6 +132,57 @@ def dict_to_json(func):
         return "{%s}" % ', '.join(["%s:'%s'" % (k,v) for k,v in val.items()])
     return inner
 
+class OctopoLite(object):
+    
+    def __call__(self, *args, **kw):
+        raise_ = kw.pop('raise_', False)  #sorry
+        action, objects, fields = self.__preprocess()
+        ret = self.__delegate(action, objects, fields, raise_)
+        return self.__postprocess(ret)
+
+    def __preprocess(self):
+        """ yanked from octopus """
+        target, action = self.request.form.get("task").split("_")
+
+        if target.startswith('batch:'):
+            target_elem = target.split(':')[1]
+            target = self.request.form.get(target_elem)
+            if target is None:
+                target = []
+        if not isinstance(target, (tuple, list)):
+            target = [target]
+
+        # grab items' fields from request and fill dicts in an ordered list
+        fields = []
+        for item in target:
+            itemdict = {}
+            filterby = item + '_'
+            keys = [key for key in self.request.form if key.startswith(filterby)]
+            for key in keys:
+                itemdict[key.replace(filterby, '')] = self.request.form.get(key)
+            fields.append(itemdict)
+        
+        return (action, target, fields)
+
+    def __delegate(self, action, objects, fields, raise_=False):
+        """ yanked from FormLite """
+        if action in self.actions:
+            return self.actions[action](self, objects, fields)
+        elif raise_:
+            raise KeyError("No actions in request")
+        elif self.actions.default is not None:
+            return self.actions.default(self, objects, fields)
+        else:
+            return None
+
+    def __postprocess(self, val):
+        """ yanked from octopus """
+        mode = self.request.form.get("mode")
+        if mode == "async":
+            return ret
+
+        return self.redirect(self.request.environ['HTTP_REFERER'])
+    
 class FormLite(object):
     """formlike but definitely not formlib"""
 
@@ -159,15 +209,16 @@ class Action(object):
         self.options = options
         self.apply = apply
 
-    def __call__(self, view):
+    def __call__(self, view, *args, **kw):
         method = getattr(view, self.name)
+        options = dict(self.options, **kw)
         if not self.apply:
-            return method(**self.options)
+            return method(*args, **options)
         newmethod = method.im_func  # decorate an unbound method
         for decorator in self.apply:
             newmethod = decorator(newmethod)
         newmethod.__name__ = method.__name__
-        return newmethod(view, **self.options)  # our method is now unbound
+        return newmethod(view, **options)  # our method is now unbound
 
 class action(object):
     # modfied from zope.formlib (ZPL)
