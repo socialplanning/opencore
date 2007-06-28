@@ -13,7 +13,7 @@ from Products.CMFPlone import PloneMessageFactory as _
 
 portal = context.portal_url.getPortalObject()
 referer = context.REQUEST.environ.get('HTTP_REFERER', 
-                                      context.portal_url)
+                                      context.portal_url())
 came_from = context.REQUEST.get('came_from', '')
 
 #XXX This should all be refactored!
