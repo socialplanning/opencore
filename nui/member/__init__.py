@@ -1,4 +1,5 @@
 from opencore.nui.base import BaseView
+from opencore.nui.formhandler import octopus
 
 class MemberPreferences(BaseView):
 
@@ -79,6 +80,15 @@ class MemberPreferences(BaseView):
             wft.doActionFor(mship, 'make_private')
         else:
             wft.doActionFor(mship, 'make_public')
+
+    @octopus
+    def leave_handler(self, action, sources, fields=None):
+        if action == 'leave':
+            for proj_id in sources:
+                a=1
+                #self.leave_project(proj_id)
+            return dict((proj_id, dict(action='delete'))
+                        for proj_id in sources)
 
     def __call__(self):
         f = self.request.form

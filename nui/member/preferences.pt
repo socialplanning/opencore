@@ -77,6 +77,7 @@
       </h2>
     </div><!-- end .headingBlock -->
   
+    <form class="oc-liveForm" action="leave_view">
     <table id="" class="oc-dataTable" cellpadding="0" cellspacing="0">
       <thead>
         <tr>
@@ -88,31 +89,48 @@
         </tr>
       </thead>
       <tbody>
-        <tr tal:repeat="projinfo projinfos">
-          <td><input type="checkbox" /></td>
-          <td class="oc-dataTable-row-title">
-            <a href=""
-               tal:attributes="href string:${view/portal_url}/projects/${projinfo/proj_id}"
-               tal:content="projinfo/title">
-               Animal Campaign for a poor little sick kittie named Fatty
-            </a>
-          </td>
-          <td id="oc-liveEdit_8" class="oc-liveItem">
-            <span tal:replace="projinfo/since" />
-          </td>
-          <td id="" class="oc-liveItem">
-          <!--span id=""
-                class="oc-liveItem-value oc-liveItem-directEdit oc-liveItem-directSelect"
-                tal:content="python: projinfo['listed'] and 'yes' or 'no'" /-->
-            <span tal:define="listed python: projinfo['listed'] and 'yes' or 'no'"
-                  tal:replace="listed" />
-          </td>
-          <td>
-            <ul class="oc-actions oc-dataTable-row-actions">
-              <li><a tal:attributes="href string:${context/absolute_url}/${view/name}?action_leave=True&proj_id=${projinfo/proj_id}">Leave</a></li>
-            </ul>
-          </td>
+        <tal:for repeat="projinfo projinfos">
+          <tal:var define="proj_id projinfo/proj_id">
+          <tr class="oc-liveItem" tal:attributes="id proj_id">
+            <td><input type="checkbox" name="check:list" tal:attributes="value proj_id" /></td>
+            <td class="oc-dataTable-row-title">
+              <a href=""
+                 tal:attributes="href string:${view/portal_url}/projects/${proj_id}"
+                 tal:content="projinfo/title">
+                 Animal Campaign for a poor little sick kittie named Fatty
+              </a>
+            </td>
+            <td id="oc-liveEdit_8" class="oc-liveItem">
+              <span tal:replace="projinfo/since" />
+            </td>
+            <td id="" class="oc-liveItem">
+            <!--span id=""
+                  class="oc-liveItem-value oc-liveItem-directEdit oc-liveItem-directSelect"
+                  tal:content="python: projinfo['listed'] and 'yes' or 'no'" /-->
+              <!--span tal:define="listed python: projinfo['listed'] and 'yes' or 'no'"
+                    tal:replace="listed" /-->
+              <select tal:define="listed python: projinfo['listed']"
+                      tal:attributes="name proj_id"
+                      class="oc-actionSelect"
+                      >
+                <tal:listed condition="listed">
+                  <option value="public" selected="1">yes</option>
+                  <option value="private">no</option>
+                </tal:listed>
+                <tal:not_listed condition="not: listed">
+                  <option value="public">yes</option>
+                  <option value="private" selected="1">no</option>
+                </tal:not_listed>
+              </select>
+            </td>
+            <td>
+              <ul class="oc-actions oc-dataTable-row-actions">
+                <li><a tal:attributes="href string:${context/absolute_url}/${view/name}?action_leave=True&proj_id=${proj_id}">Leave</a></li>
+              </ul>
+            </td>
         </tr>
+        </tal:var>
+        </tal:for>
         <!-- keep in a sample member with static data -->
         <!--tr>
           <td><input type="checkbox" /></td>
@@ -151,7 +169,9 @@
       </tbody>
     </table>
     <ul class="oc-actions oc-dataTable-actions">
-      <li><input type="submit" value="Leave project" class="oc-button oc-chooseThis" /></li>
+      <li>
+        <button type="submit" name="task" value="batch:check_leave" class="oc-button oc-chooseThis">Leave projects</button>
+      </li>
       <li><input type="submit" value="Do something else" class="oc-button" /></li>
     </ul>
     <ul class="oc-paginator oc-dataTable-paginator">
@@ -161,6 +181,7 @@
     <li><a href="">3</a></li>
     <li><a href="">Next &rarr;</a></li>
   </ul>
+  </form>
   </div><!-- end .widget-table -->
 
 </div><!-- end #oc-content-main -->

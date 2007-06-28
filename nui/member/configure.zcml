@@ -41,4 +41,12 @@
      template="profile.pt"
      />
 
+  <browser:page
+     for="opencore.siteui.interfaces.IMemberFolder"
+     class="opencore.nui.member.MemberPreferences"
+     permission="zope2.View"
+     name="leave_members"
+     attribute="leave_handler"
+     />
+
 </configure>
