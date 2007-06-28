@@ -187,7 +187,7 @@ class OctopoLite(object):
         """ yanked from octopus """
         mode = self.request.form.get("mode")
         if mode == "async":
-            return ret
+            return val
 
         return self.redirect(self.request.environ['HTTP_REFERER'])
     
