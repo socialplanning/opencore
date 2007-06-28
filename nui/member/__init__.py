@@ -88,7 +88,7 @@ class MemberPreferences(BaseView, OctopoLite):
     def leave_handler(self, targets, fields=None):
         for proj_id in targets:
             a=1
-            #self.leave_project(proj_id)
+            self.leave_project(proj_id)
         return dict((proj_id, dict(action='delete'))
                     for proj_id in targets)
 
