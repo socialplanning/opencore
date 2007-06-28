@@ -331,12 +331,22 @@ OC.LiveForm = function(extEl) {
     OC.debug('updater.task: ' + updater.task);
     OC.debug('updater.target: ' + updater.target.id);
 
-    
-    switch (updater.task) {
+    var response, action;
+    try {
+	response = eval( "(" + o.responseText + ")" );
+	action = response.action;
+	OC.debug("Found action " + action);
+	OC.debug(response);
+    } catch( e ) {
+	OC.debug("Couldn't parse response " + o.responseText + " . Is it bad JSON?")
+    }
+    if( !action ) {
+	action = updater.task;  // for backcompability with existing code. consider deprecated.
+    }
+    switch( action ) {
       case "update" :
         OC.debug('_afterSuccess, task: replace');
         // replace element
-        var response = eval( "(" + o.responseText + ")" );
         
         /* FIXME: What if this is an error page? (404, need login, etc) */
         /* Response is an array.  [elementID : newHTML] */
@@ -353,7 +363,7 @@ OC.LiveForm = function(extEl) {
 	      html = Ext.util.Format.trim(response[elId].html);
 	  }
 	  
-	  if( effects == "delete" ) {
+	  if( effects == "delete" ) {  // for backcompability with existing code. consider deprecated.
 	      _removeItem(elId);
 	  } else {
 	      var newNode = Ext.DomHelper.insertHtml("beforeBegin", target.dom, html);
@@ -372,10 +382,9 @@ OC.LiveForm = function(extEl) {
         OC.debug('_afterSuccess, task: delete');
         // Don't use updater.target here.  Server will pass back IDs to delete.      
         /* Response is array of element IDs */
-        var IDs = eval(o.responseText);
-        
-        for (var i = 0; i<IDs.length; i++) {
-          _removeItem(IDs[i]);
+
+        for (var i = 0; i<response.length; i++) {
+          _removeItem(response[i]);
         }
 
       break;
@@ -384,7 +393,6 @@ OC.LiveForm = function(extEl) {
         OC.debug('_afterSuccess, task: uploadAndUpdate');
         OC.debug(o.responseText);
         // replace element
-        var response = eval( "(" + o.responseText + ")" );
         OC.debug(response);
         
         /* FIXME: What if this is an error page? (404, need login, etc) */
@@ -403,12 +411,10 @@ OC.LiveForm = function(extEl) {
       
       case "uploadAndAdd" :
         OC.debug('_afterSuccess, task: uploadAndAdd');
-        OC.debug(o.responseText);
       break;
       
       default: 
         OC.debug('_afterSuccess, task: default');
-        OC.debug(o.responseText);
       break;
       
     } 
