@@ -136,7 +136,10 @@ class OctopoLite(object):
     
     def __call__(self, *args, **kw):
         raise_ = kw.pop('raise_', False)  #sorry
-        action, objects, fields = self.__preprocess()
+        try:
+            action, objects, fields = self.__preprocess()
+        except:
+            action, objects, fields = (None, [], {})
         ret = self.__delegate(action, objects, fields, raise_)
         return self.__postprocess(ret)
 
