@@ -9,7 +9,8 @@
         <input type="file" name="portrait" size="14" /><br />
         <button type="submit" name="task"
           value="oc-profile-avatar_uploadAndUpdate">Update</button> or
-        <a href="#">remove image</a>
+        <button type="submit" name="task"
+          value="oc-profile-avatar_uploadAndUpdate">remove image</button>
       </div>
   </fieldset>
 </div>

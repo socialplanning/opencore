@@ -57,10 +57,11 @@ class ProfileEditView(ProfileView):
               
         # TODO resize portrait if necessary
 
-        # the only asynchronous form behavior is for change portrait
-        # XXX no it isn't: remove_image is ajaxy too. fix forthcoming.
         if mode == 'async':
-            usr.setPortrait(portrait)
+            if portrait:
+                usr.setPortrait(portrait)
+            else:
+                usr._delOb('portrait')
             usr.reindexObject()
             return { 'oc-profile-avatar' : self.portrait_snippet()}
 
@@ -74,9 +75,6 @@ class ProfileEditView(ProfileView):
     
             usr.reindexObject()
             return self.redirect('profile')
-
-
-    #TODO handle_remove_image
 
 
     def user_updated(self): # TODO
