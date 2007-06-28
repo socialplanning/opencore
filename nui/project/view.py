@@ -256,10 +256,11 @@ class ProjectContentsView(BaseView):
         thead_obj = {'html': self.item_thead_snippet(item_type=item_type,
                                                      item_date_author_header=(item_type=='pages' and "Last Modified" or "Created")
                                                      ),
-                     'effects': ''}
+                     'effects': ''
+                     }
         tbody_obj = {'html': self.item_tbody_snippet(item_collection=items),
-                     'effects': 'highlight',
-                     'psm': 'hi!'}
+                     'effects': 'highlight'
+                     }
         
         return {'oc-%s-tbody' % item_type: tbody_obj,
                 'oc-%s-thead' % item_type: thead_obj
