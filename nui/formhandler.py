@@ -136,7 +136,7 @@ class OctopoLite(object):
 
     no_postprocess = False
 
-    def do_request(self, *args, **kw):
+    def __call__(self, *args, **kw):
         raise_ = kw.pop('raise_', False)  #sorry
         try:
             action, objects, fields = self.__preprocess()
