@@ -77,11 +77,11 @@
       </h2>
     </div><!-- end .headingBlock -->
   
-    <form class="oc-liveForm" action="leave_view">
+    <form class="oc-liveForm" action="preferences">
     <table id="" class="oc-dataTable" cellpadding="0" cellspacing="0">
       <thead>
         <tr>
-          <th class="" style="width: 10px;" scope="col"><input type="checkbox" /></th>
+          <th class="" style="width: 10px;" scope="col"><input class="oc-checkAll" type="checkbox" /></th>
           <th class="oc-columnSortable" style="width: 200px;" scope="col">Project </th>
           <th class="oc-columnSortable" scope="col">Since</th>
           <th class="oc-columnSortable" scope="col">Listed</th>
@@ -125,7 +125,7 @@
             </td>
             <td>
               <ul class="oc-actions oc-dataTable-row-actions">
-                <li><a tal:attributes="href string:${context/absolute_url}/${view/name}?action_leave=True&proj_id=${proj_id}">Leave</a></li>
+                <li><a class="oc-actionLink" tal:attributes="href string:${context/absolute_url}/${view/name}?task=${proj_id}_leave">Leave</a></li>
               </ul>
             </td>
         </tr>

@@ -1,7 +1,10 @@
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.nui.base import BaseView
-from opencore.nui.formhandler import octopus
+from opencore.nui.formhandler import OctopoLite, action
 
-class MemberPreferences(BaseView):
+class MemberPreferences(BaseView, OctopoLite):
+
+    template = ZopeTwoPageTemplateFile('preferences.pt')
 
     def _mship_brains_for(self, mem):
         active_states = ['public', 'private']
@@ -81,23 +84,14 @@ class MemberPreferences(BaseView):
         else:
             wft.doActionFor(mship, 'make_public')
 
-    @octopus
-    def leave_handler(self, action, sources, fields=None):
-        if action == 'leave':
-            for proj_id in sources:
-                a=1
-                #self.leave_project(proj_id)
-            return dict((proj_id, dict(action='delete'))
-                        for proj_id in sources)
+    @action('leave')
+    def leave_handler(self, targets, fields=None):
+        for proj_id in targets:
+            a=1
+            #self.leave_project(proj_id)
+        return dict((proj_id, dict(action='delete'))
+                    for proj_id in targets)
 
-    def __call__(self):
-        f = self.request.form
-        action_leave = f.get('action_leave')
-        action_visibility = f.get('action_visibility')
-        proj_id = f.get('proj_id')
-
-        if action_leave and proj_id:
-            self.leave_project(proj_id)
-        elif action_visibility and proj_id:
-            self.change_visibility(proj_id)
-        return self.index()
+    @action('default_template', default=True)
+    def default_template(self, targets=None, fields=None):
+        return self.template()
