@@ -143,7 +143,7 @@ class OctopoLite(object):
         except:
             action, objects, fields = (None, [], {})
         ret = self.__delegate(action, objects, fields, raise_)
-        if not no_postprocess:
+        if not self.no_postprocess:
             return self.__postprocess(ret)
         return ret
 
