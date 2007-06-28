@@ -404,7 +404,21 @@ OC.LiveForm = function(extEl) {
 	    break;
 
 	case "copy": // fill me in: replace target's children with html
+
 	case "append": // fill me in
+	    var html = command.html;
+	    var effects = command.effects;
+	    
+	    html = Ext.util.Format.trim(html);
+	    var target = Ext.get(elId);
+	    
+	    var newNode = Ext.DomHelper.insertHtml("beforeend", target.dom, html);
+	    if( effects == "highlight" ) {
+		Ext.get(newNode).highlight();
+	    }
+	    OC.breatheLife();
+	    break;
+
 	case "prepend": // fill me in
 	default:
 	    OC.debug('_afterSuccess, task: default');
