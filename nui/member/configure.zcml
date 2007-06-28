@@ -11,7 +11,7 @@
      class="opencore.nui.member.MemberPreferences"
      permission="cmf.ModifyPortalContent"
      name="preferences"
-     template="preferences.pt"
+     attribute="do_request"
      />
 
 
@@ -39,14 +39,6 @@
      permission="zope2.View"
      name="profile"
      template="profile.pt"
-     />
-
-  <browser:page
-     for="opencore.siteui.interfaces.IMemberFolder"
-     class="opencore.nui.member.MemberPreferences"
-     permission="zope2.View"
-     name="leave_members"
-     attribute="leave_handler"
      />
 
 </configure>
