@@ -8,7 +8,7 @@
   -->
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
-     class="opencore.nui.member.MemberPreferences"
+     class=".view.MemberPreferences"
      permission="cmf.ModifyPortalContent"
      name="preferences"
      />
