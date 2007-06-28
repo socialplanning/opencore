@@ -325,10 +325,8 @@ OC.LiveForm = function(extEl) {
 
   // after success
   function _afterSuccess(o) {
-  OC.debug(o);
-  // TEMPORARY FAKE RESPONSE
-  
     OC.debug('_afterSuccess');
+    OC.debug('o: ' + o);
     OC.debug('updater.task: ' + updater.task);
     OC.debug('updater.target: ' + updater.target.id);
     
