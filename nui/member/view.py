@@ -34,9 +34,16 @@ class ProfileView(BaseView):
         return self.viewedmember() == self.loggedinmember
 
     def mangled_portrait_url(self):
-        """appends timestamp to portrait url to circumvent browser cache"""
-        return '%s?%s' % (self.viewed_member_info.get('portrait_url'),
-                          datetime.now().strftime('%s'))
+        """When a member changes her portrait, her portrait_url remains the same.
+        This method appends a timestamp to portrait_url to trick the browser into
+        fetching the new image instead of using the cached one which could be --
+        and always will be in the ajaxy-change-portrait case -- out of date.
+        P.S. This is an ugly hack."""
+        portrait_url = self.viewed_member_info.get('portrait_url')
+        if portrait_url == self.defaultPortraitURL:
+            return portrait_url
+        timestamp = datetime.now().isoformat()
+        return '%s?%s' % (portrait_url, timestamp)
 
 
 class ProfileEditView(ProfileView):
@@ -51,6 +58,7 @@ class ProfileEditView(ProfileView):
         # TODO resize portrait if necessary
 
         # the only asynchronous form behavior is for change portrait
+        # XXX no it isn't: remove_image is ajaxy too. fix forthcoming.
         if mode == 'async':
             usr.setPortrait(portrait)
             usr.reindexObject()
