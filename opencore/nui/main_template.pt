@@ -38,14 +38,14 @@
         
         <div id="oc-content-container">
         
-          <span id="oc-psm-container">
+          <div id="oc-statusMessage-container">
             <tal:for tal:repeat="status_msg view/portal_status_message">
               <div tal:content="structure status_msg" class="oc-statusMessage"/>
             </tal:for>
-          </span>
+          </div>
         
           <!-- content is injected here -->
-          <div metal:define-slot="content" />
+          <tal:everything metal:define-slot="content" />
           <hr class="oc-clearElement" />
         
         </div>
