@@ -331,92 +331,81 @@ OC.LiveForm = function(extEl) {
     OC.debug('updater.task: ' + updater.task);
     OC.debug('updater.target: ' + updater.target.id);
 
-    var response, action;
+    var response;
     try {
 	response = eval( "(" + o.responseText + ")" );
-	action = response.action;
-	OC.debug("Found action " + action);
 	OC.debug(response);
     } catch( e ) {
 	OC.debug("Couldn't parse response " + o.responseText + " . Is it bad JSON?")
     }
-    if( !action ) {
-	action = updater.task;  // for backcompability with existing code. consider deprecated.
+
+    if( response instanceof Array ) { 	// for backcompatibility with existing code. consider deprecated.
+	// we will translate the array into an object 
+	// with "delete" actions for each elId, since
+	// that's the only case where we used to expect an array.
+	var newResponse = {};
+	for( var iter = 0; iter < response.length; ++iter ) {
+	    newResponse[response[iter]] = {'action': 'delete'};
+	}
+	response = newResponse;
     }
-    switch( action ) {
-      case "update" :
-        OC.debug('_afterSuccess, task: replace');
-        // replace element
-        
-        /* FIXME: What if this is an error page? (404, need login, etc) */
-        /* Response is an array.  [elementID : newHTML] */
-        for (elId in response) {
-          var target = Ext.get(elId);
-	  OC.debug(typeof response[elId]);
 
-	  var html, effects;
-	  if( typeof response[elId] == "string" ) {
-	      html = Ext.util.Format.trim(response[elId]);
-	      effects = "highlight";
-	  } else if( typeof response[elId] == "object" ) {
-	      effects = response[elId].effects;
-	      html = Ext.util.Format.trim(response[elId].html);
-	  }
-	  
-	  if( effects == "delete" ) {  // for backcompability with existing code. consider deprecated.
-	      _removeItem(elId);
-	  } else {
-	      var newNode = Ext.DomHelper.insertHtml("beforeBegin", target.dom, html);
-	      target.remove();
-	      if( effects == "highlight" ) {
-		  Ext.get(newNode).highlight();
-	      }
-	      OC.debug("about to breathe life into EVERYTHING. this is bad");
-	      OC.breatheLife();
-	      OC.debug("done breathing");
-	  }
-        }
-      break;
-      
-      case "delete" :
-        OC.debug('_afterSuccess, task: delete');
-        // Don't use updater.target here.  Server will pass back IDs to delete.      
-        /* Response is array of element IDs */
+    for( elId in response ) {
+	var command = response[elId];
+	var action = command.action;
+	if( !action ) {   // for backcompability with existing code. consider deprecated.
+	    action = updater.task;
+	}
+	
+	switch( action ) {
+	case "delete":
+	    OC.debug("DELETE on " + elId);
+	    _removeItem(elId);
+	    break;
 
-        for (var i = 0; i<response.length; i++) {
-          _removeItem(response[i]);
-        }
+	case "update": // for backcompability with existing code. consider deprecated.
+	case "uploadAndUpdate": // for backcompability with existing code. consider deprecated.
+	case "replace":
+	    var html, effects;	    	    
+	    if( typeof command == "string" ) { // for backcompability with existing code. consider deprecated.		
+		html = command;
+		if( action == "update" )
+		    effects = "highlight";
+		else if( action == "uploadAndUpdate" )
+		    effects = "fadeIn";
+		
+	    } else if( typeof command == "object" ) {
+		effects = command.effects;
+		html = command.html;
+	    }
+	    OC.debug("REPLACE " + elId + " with " + html + " using effect " + effects);
 
-      break;
-      
-      case "uploadAndUpdate" :
-        OC.debug('_afterSuccess, task: uploadAndUpdate');
-        OC.debug(o.responseText);
-        // replace element
-        OC.debug(response);
-        
-        /* FIXME: What if this is an error page? (404, need login, etc) */
-        /* Response is an array.  [elementID : newHTML] */
-        for (elId in response) {
-          var target = Ext.get(elId);
-          var html = Ext.util.Format.trim(response[elId]);
-          OC.debug(html);
-          var newNode = Ext.DomHelper.insertHtml("beforeBegin", target.dom, html);
-          target.remove();
-          Ext.get(newNode).fadeIn();
-          OC.breatheLife(newNode);
-        }
+	    html = Ext.util.Format.trim(html);
+	    var target = Ext.get(elId);
+	    
+	    if( effects == "delete" ) {  // for backcompability with existing code. consider deprecated.
+		_removeItem(elId);
+	    } else {
+		var newNode = Ext.DomHelper.insertHtml("beforeBegin", target.dom, html);
+		target.remove();
 
-      break;
-      
-      case "uploadAndAdd" :
-        OC.debug('_afterSuccess, task: uploadAndAdd');
-      break;
-      
-      default: 
-        OC.debug('_afterSuccess, task: default');
-      break;
-      
+		if( effects == "highlight" ) {
+		    Ext.get(newNode).highlight();
+		}
+
+		OC.debug("about to breathe life into EVERYTHING. this is bad");
+		OC.breatheLife();
+		OC.debug("done breathing");
+	    }
+	    break;
+
+	case "uploadAndAdd": // for backcompability with existing code. consider deprecated.
+	    OC.debug('_afterSuccess, task: uploadAndAdd');
+	    break;
+	default:
+	    OC.debug('_afterSuccess, task: default');
+	    break;
+	}
     } 
   }
   
