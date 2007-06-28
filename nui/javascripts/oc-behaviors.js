@@ -307,6 +307,7 @@ OC.LiveForm = function(extEl) {
     if (isUpload) 
         YAHOO.util.Connect.setForm(liveForm.dom, true);
 
+    // XXX todo -- this is no good -- don't want the task to have to talk to JS at all really
     if (updater.task && updater.task != "noAjax") {
       YAHOO.util.Event.stopEvent(e);
       var action = liveForm.dom.action;
@@ -329,6 +330,7 @@ OC.LiveForm = function(extEl) {
     OC.debug('o: ' + o);
     OC.debug('updater.task: ' + updater.task);
     OC.debug('updater.target: ' + updater.target.id);
+
     
     switch (updater.task) {
       case "update" :
