@@ -80,7 +80,14 @@ class MemberPreferences(BaseView):
         else:
             wft.doActionFor(mship, 'make_public')
 
-    def __call__(self, action_leave=None, proj_id=None):
-        if action_leave:
+    def __call__(self):
+        f = self.request.form
+        action_leave = f.get('action_leave')
+        action_visibility = f.get('action_visibility')
+        proj_id = f.get('proj_id')
+
+        if action_leave and proj_id:
             self.leave_project(proj_id)
+        elif action_visibility and proj_id:
+            self.change_visibility(proj_id)
         return self.index()

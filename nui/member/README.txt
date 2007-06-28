@@ -108,3 +108,29 @@ Exercise the Member Preferences Class
     >>> project_dicts = view.get_projects_for_user()
     >>> [d['listed'] for d in project_dicts]
     [True, True]
+
+    Now let's call the view simulating the request:
+    We're faking index, because the test setup layers don't set up
+    the state right where we can traverse to views
+    >>> view.index = lambda:None
+
+    Now fake the request
+    >>> request = view.request
+    >>> request.form = dict(action_visibility=True,
+    ...                     proj_id='p4')
+    >>> response = view()
+
+    And we can check the listing status again
+    >>> project_dicts = view.get_projects_for_user()
+    >>> [d['listed'] for d in project_dicts]
+    [True, False]
+
+    Now let's try to leave the project
+    >>> request.form = dict(action_leave=True,
+    ...                     proj_id='p4')
+    >>> response = view()
+
+    And now the p4 membership should be missing
+    >>> project_dicts = view.get_projects_for_user()
+    >>> [d['proj_id'] for d in project_dicts]
+    ['p3']
