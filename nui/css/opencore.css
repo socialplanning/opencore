@@ -284,13 +284,12 @@ dl.oc-plainList dd {
 .oc-lineup-item,
 .oc-searchresults-item {
   margin: 0.25em 0;
-  padding-bottom: 0.25em;
+  padding: 0.25em 0;
   border-bottom: 1px dotted #eee;
 }
 .oc-lineup-item h3,
 .oc-searchresults-item h3 {
   display: inline;
-  font-size: 12px;
 }
 .oc-lineup-item h3 img,
 .oc-searchresults-item h3 img {
@@ -712,6 +711,7 @@ a.oc-button:hover {
 .oc-bcrumb li h3,
 .oc-bcrumb li h4 {
   display: inline;
+  line-height: inherit;
 }
 .oc-bcrumb .oc-bcrumb-current {
   font-size: 14px;
@@ -743,8 +743,6 @@ a.oc-button:hover {
 fieldset .oc-legend-heading,
 .oc-label-heading {
   display: block;
-  /* font-size: 18px; */
-  font-weight: bold;
   margin: 0;
   margin-bottom: 0.25em;
   padding: 0;
@@ -1095,7 +1093,7 @@ li.oc-invite .oc-invite-content {
 }
 .oc-widget-alphabet li a.oc-widget-alphabet-selectedLetter {
  border: 1px solid #4B92A4;
- color: #DE7C07;
+ color: #D84818;
 }
 
 /* Get Started */
@@ -1139,7 +1137,7 @@ a.oc-actionLink,
 a.oc-actionLink:visited {
   color: #999;
   text-decoration: none;
-  font-size: 9px;
+  font-size: 10px;
   text-transform: uppercase;
 }
 a.oc-liveItem_hoverShowForm,
@@ -1188,20 +1186,21 @@ This should be the only place where font information is specified
 
 body, textarea {
   font-size: 12px;
-  line-height: 1.5em;
-  font-family: "Lucida Grande", "Frutiger", "Univers", "Helvetica Neue", Arial, Helvetica, sans-serif;
+  line-height: 1.5em; /* 18px % 14px = 1.25em */
+  font-family: "Lucida Grande", Arial, sans-serif;
   /* These typographic rules will establish rhythm of 18px at base font size */
 }
 #oc-content-sidebar {
-  font-size: 10px;
+  font-size: 11px;
 }
 h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
+.h1, .h2, .h3, .h4, .h5, .h6,
+.oc-legend-heading,
+.oc-label-heading {
+	font-family: Arial, sans-serif;
   letter-spacing: 0;
-  margin: 0 0 1em;
-}   
-h4 {
-  margin: 0 0 .5em;
+  font-weight: normal;
+  margin: 0 0 14px;
 }
 h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 abbr {
   border: none;
@@ -1209,65 +1208,37 @@ h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 ab
 h1, .oc-biggestText, .oc-legend-heading.oc-biggestText {
   font-size: 24px;
   line-height: 0.75em;
-  /* margin-top: 1.5em; */
-  /* margin-bottom: 0.75em; */
+  letter-spacing: -0.0325em;
 }
 h2, .oc-biggerText, 
 .oc-legend-heading.oc-biggerText, 
 #oc-content-sidebar h1 {
   font-size: 18px;
   line-height: 1em;
-  /* margin: 1em 0; */
+  letter-spacing: -0.0325em;
 }
 h3, .oc-bigText,
 #oc-content-sidebar h2 {
   font-size: 14px;
-  /* line-height: 1.286em; */
-  /* margin-top: 1.929em; */
-  /* margin-bottom: 0.643em; */
 }
 #oc-content-sidebar h3 {
   font-size: 12px;
 }
 h4, .h4 {
   font-size: 14px;
-  font-style: italics;
+  font-style: italic;
 }
 #oc-content-sidebar h4 {
   font-size: 12px;
 }
+#oc-content-sidebar h1,
+#oc-content-sidebar h2,
+#oc-content-sidebar h3,
+#oc-content-sidebar h4 {
+	font-weight: bold;
+}
 p {
 	margin-top: 0;
-}
-select,
-input,
-button,
-textarea {
-  /* ToDo Style buttons nicely */
-  / * border: 1px solid #ccc; */
-  padding: 0.125em;
-  margin: 0;
-  font-size: 12px;
-  vertical-align: bottom;
-}
-#oc-content-sidebar select,
-#oc-content-sidebar input,
-#oc-content-sidebar textarea {
-  font-size: 10px;
-}
-textarea {
-  margin-bottom: 1em;
-}
-fieldset {
-  border: none;
-  padding: 0;
-  margin: 0;
-}
-label {
-  font-weight: bold;
-}
-address {
-  font-style: normal;
 }
 .oc-smallText,
 .oc-discreetText,
@@ -1281,7 +1252,6 @@ address {
     .formHelp /* FIXME */
   {
   font-size: 10px;
-  /* line-height: 1.9em; */
 }
 #oc-content-sidebar .smallText,
 #oc-content-sidebar .discreetText {
@@ -1318,6 +1288,44 @@ a:hover,
 a.oc-actionLink:hover,
 ul.oc-tabs li a.oc-actionLink:hover {
 }
+
+/* Form bits */
+
+select,
+input,
+button,
+textarea {
+  /* ToDo Style buttons nicely */
+  border: 1px solid #999;
+  margin: 0;
+  font-size: 12px;
+  vertical-align: bottom;
+}
+input,
+button,
+textarea {
+  padding: 0.25em;
+}
+#oc-content-sidebar select,
+#oc-content-sidebar input,
+#oc-content-sidebar textarea {
+  font-size: 10px;
+}
+textarea {
+  margin-bottom: 1em;
+}
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+label {
+  font-weight: bold;
+}
+address {
+  font-style: normal;
+}
+
 img {
    border: none;
 }

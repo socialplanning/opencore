@@ -5,7 +5,7 @@
  */
 body {
   color: #333;
-  background: #F1F7F8;
+  background: #F9F9F9;
   padding: 0;
 }
 #oc-page-container {}
@@ -22,15 +22,15 @@ body {
   width: 100%;
   padding: 0;
   color: #fff;
-  background: #AAC683;
-  border-top: 0.75em solid #2B7284;
-  border-bottom: 1px solid #2B7284;
+  background: #6B97A5;
+  border-top: 0.75em solid #225F72;
+  border-bottom: 1px solid #225F72;
 }
 #oc-topnav {
   padding: 0.5em 1em;
 }
 #oc-topnav h1 {
-  font-size: 30px;
+  font-size: 24px;
   padding: 0;
   margin: 0.125em 0 0.25em;
 }
@@ -44,7 +44,7 @@ body {
   top: 0;
   right: 1em;
   width: 31%;
-  background: #2B7284 ;
+  background: #225F72 ;
   padding: 0.25em 0.5em 0 .5em;
 }
 #oc-topnav-usermenu input.oc-input-typeText {
@@ -68,7 +68,7 @@ ul#oc-topnav-context li {
   padding: 0;
 }
 ul#oc-topnav-context li.oc-topnav-selected {
-  border-bottom:2px solid #DE7C07;
+  border-bottom:2px solid #D84818;
 }
 #oc-content-wrapper {
  padding: 1.5em 0 1em;
@@ -77,12 +77,12 @@ ul#oc-topnav-context li.oc-topnav-selected {
 #oc-content-main {
 }
 ul.oc-tabs {
-  border-color: #AAC683;
+  border-color: #6B97A5;
 }
 #oc-footer-wrapper {
   color: #999;
   background: transparent;
-  border-top: 1px solid #4B92A4;
+  border-top: 1px solid #225F72;
   margin: 0 0 2em;
   padding: 0.5em 0;
 }
@@ -101,87 +101,24 @@ ul.oc-tabs {
 This should be the only place where font information is specified
 -------------------------------------------- */
 
-body, textarea {
-  font-size: 12px; /* ~12px */
-  line-height: 1.5em; /* 18px % 12px = 1.5em */
-  font-family: "Lucida Grande", Arial, Helvetica, sans-serif;
-  /* These typographic rules will establish rhythm of 18px at base font size */
-}
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6,
-.oc-legend-heading,
-dt,
-.oc-actionLink {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6,
-.oc-legend-heading {
-  margin-bottom: 0.5em;
-}
-h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 abbr {
-  border: none;
-}
-h1, .oc-biggestText {
-  letter-spacing: -0.0325em;
-}
-h2, .oc-biggerText, #oc-topnav-title h1,
-#oc-content-sidebar h1 {
-  letter-spacing: -0.0325em;
-}
-h3, .oc-bigText,
-#oc-content-sidebar h2 {
-}
-#oc-content-sidebar h3 {
-}
-h4, .h4 {
-}
-#oc-content-sidebar h4 {
-} 
-.oc-smallText,
-.oc-discreetText,
-  /* Layout and Navigation */
-    .oc-documentByLine,
-    #oc-topnav .oc-dropdown,
-    #oc-topnav-openplans-search,
-    #oc-footer,
-      #oc-content-title-pagetitle,
-  
-  /*Feeds and Forms */
-    .oc-field input,
-    .oc-formHelp,
-    .oc-feed_data,
-    .oc-feed_desc,
-    ul.oc-contentViews,
-    ul.oc-oc-tabs,
-  
-  /* Error Messages */
-    .oc-portalMessage,
-    .oc-portalWarningMessage,
-    .oc-portalStopMessage,
-    .oc-system-message,
-    #oc-error-handling
-  
-  {
-}
-.oc-documentFirstHeading,
-.oc-simpleHeading { 
-}
-.oc-simpleHeading a {
-}
-.oc-simpleHeading a:hover { 
-}
 a {
-  color: #2B7284 ;
+  color: #225F72 ;
 }
 a:visited {
-  color: #2B7284 ;
+  color: #225F72 ;
 }
 a:hover,
 a.oc-actionLink:hover,
 ul.oc-tabs li a.oc-actionLink:hover {
-  color: #DE7C07;
+  color: #D84818;
   text-decoration: underline;
+}
+
+.oc-feed-item-title,
+.oc-searchresults-item h3,
+.oc-peopleresults-content h3,
+.oc-lineup-item h3 {
+  font-weight: bold;
 }
 
 /* @BOXES THAT NEED STYLE
@@ -190,8 +127,8 @@ ul.oc-tabs li a.oc-actionLink:hover {
 /* Boxy */
 
 .oc-boxy {
-  border: 1px solid #AAC683;
-  background-color: #F6FBF0;
+  border-top: 2px solid #E6DDCF;
+  background-color: #F9F9F9;
   padding: 1em;
 }
 #oc-content-sidebar .oc-boxy h1,
@@ -199,21 +136,21 @@ ul.oc-tabs li a.oc-actionLink:hover {
 .oc-getstarted h1,
 .oc-getstarted h2 {
   padding-bottom: 0.5em;
-  border-bottom: 1px dotted #AAC683;
+  border-bottom: 1px dotted #E6DDCF;
 }
 
 /* Get Started */
 
 .oc-getstarted {
-  border-color: #DE7C07;
+  border-color: #D84818;
   background-color: #FFFBF7;
 }
 .oc-getstarted h1,
 .oc-getstarted h2 {
-  border-color: #DE7C07;
+  border-color: #D84818;
 }
 .oc-getstarted-list a {
- color: #DE7C07;
+ color: #D84818;
 }
 
 /* Search Widgets */
@@ -221,14 +158,14 @@ ul.oc-tabs li a.oc-actionLink:hover {
 .oc-widget-search,
 #oc-content-sidebar .oc-widget-search,
 #oc-content-sidebar .oc-widget-search.oc-boxy {
-  border: 1px solid #4B92A4;
-  background: #F1F7F8;
+  border: 1px solid #225F72;
+  background: #CFE1E6;
   padding: 1em;
 }
 .oc-widget-alphabet,
 #oc-content-sidebar ul.oc-widget-alphabet.oc-boxy {
   border: none;
-  border-top: 1px dotted #4B92A4;
+  border-top: 1px dotted #225F72;
   background: none;
   padding: 0;
   padding-top: 0.5em;
@@ -253,15 +190,15 @@ ul.oc-tabs li a.oc-actionLink:hover {
 .oc-widget-feed {
 }
 .oc-widget-feed ul.oc-feed-list {
-  border-top: 1px solid #4B92A4;
+  border-top: 1px solid #225F72;
   margin-top: 0.5em;
 }
 .oc-widget-feed li.oc-feed-item {
-  border-bottom: 1px dotted #4B92A4;
+  border-bottom: 1px dotted #225F72;
   padding: 0 0 0.5em;
 }
 .oc-widget-feed.oc-boxy li.oc-feed-item {
-  border-top: 1px dotted #AAC683;
+  border-top: 1px dotted #6B97A5;
   padding: 0.5em 0;
 }
 .oc-widget-feed.oc-boxy ul.oc-feed-list {
@@ -283,10 +220,9 @@ ul.oc-tabs li a.oc-actionLink:hover {
 }
 
 /* Member badges */
-#oc-member-badge.vcard,
+#oc-member-badge,
 .oc-peopleresults-list li.vcard,
 .oc-roster li.vcard {
-  background-color: #F6FBF0;
-  border-color: #AAC683;
+  background-color: #F6F6F6;
 }
 
