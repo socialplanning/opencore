@@ -404,6 +404,7 @@ OC.LiveForm = function(extEl) {
 	    break;
 
 	case "copy": // fill me in: replace target's children with html
+	    break;
 
 	case "append": // fill me in
 	    var html = command.html;
