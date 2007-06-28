@@ -133,7 +133,9 @@ def dict_to_json(func):
     return inner
 
 class OctopoLite(object):
-    
+
+    no_postprocess = False
+
     def __call__(self, *args, **kw):
         raise_ = kw.pop('raise_', False)  #sorry
         try:
@@ -141,7 +143,9 @@ class OctopoLite(object):
         except:
             action, objects, fields = (None, [], {})
         ret = self.__delegate(action, objects, fields, raise_)
-        return self.__postprocess(ret)
+        if not no_postprocess:
+            return self.__postprocess(ret)
+        return ret
 
     def __preprocess(self):
         """ yanked from octopus """
@@ -174,6 +178,7 @@ class OctopoLite(object):
         elif raise_:
             raise KeyError("No actions in request")
         elif self.actions.default is not None:
+            self.no_postprocess = True
             return self.actions.default(self, objects, fields)
         else:
             return None
