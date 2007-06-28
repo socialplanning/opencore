@@ -402,6 +402,10 @@ OC.LiveForm = function(extEl) {
 	case "uploadAndAdd": // for backcompability with existing code. consider deprecated.
 	    OC.debug('_afterSuccess, task: uploadAndAdd');
 	    break;
+
+	case "copy": // fill me in: replace target's children with html
+	case "append": // fill me in
+	case "prepend": // fill me in
 	default:
 	    OC.debug('_afterSuccess, task: default');
 	    break;
