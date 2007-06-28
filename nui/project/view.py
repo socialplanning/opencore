@@ -280,7 +280,12 @@ class ProjectContentsView(BaseView):
         if action == 'delete':
             deletions, survivors = self._delete(brains)
             # for now we'll only return the deleted obj ids. later we may return the survivors too.
-            return deletions
+            commands = {}
+            for obj_id in deletions:
+                commands[obj_id] = {
+                    'action': 'delete'
+                    }
+            return commands
 
         elif action == 'update': # @@ move out to own method to optimize
             snippets = {}
@@ -289,10 +294,14 @@ class ProjectContentsView(BaseView):
                 page = objects[old]
                 page.setTitle(new['title'])
                 page.reindexObject(('Title',))
-                snippets[page.getId()] = self.contents_row_snippet(
-                    item=self._make_dict_and_translate(page,
-                                                       self.needed_values[item_type]),
-                    item_type=item_type)
+                snippets[page.getId()] = {
+                    'html': self.contents_row_snippet(
+                        item=self._make_dict_and_translate(
+                            page,
+                            self.needed_values[item_type]),
+                        item_type=item_type),
+                    'effects': 'highlight',
+                    }
             
             return snippets
 
