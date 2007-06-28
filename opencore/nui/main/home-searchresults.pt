@@ -61,24 +61,26 @@
               <tal:defines define="obj item/getObject; portal_type obj/portal_type; is_user python: portal_type == 'OpenMember'">
                 
                 <h3><img tal:attributes="src obj/getIcon" /> <a href="" tal:attributes="href obj/absolute_url" tal:content="item/getId">Title</a></h3>
-                <tal:is_user condition="is_user">
-                  member since
-                  <span tal:replace="python: view.pretty_date(item.CreationDate)" />
-                </tal:is_user>
-                <tal:not_user condition="not: is_user">
-                  <tal:is_page condition="python: portal_type == 'Document'">
-                    <tal:project_define define="proj python: obj.aq_parent">
-                      in
-                      <a href="" tal:attributes="href proj/absolute_url" tal:content="proj/Title" />
-                    </tal:project_define>
-                  </tal:is_page>
-                  <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
-                    by
-                    <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
-                  </tal:has_updated_author>
-                  last updated
-                  <span tal:replace="python: view.pretty_date(item.ModificationDate)" />
-                </tal:not_user>
+                <span class="oc-discreetText">
+                  <tal:is_user condition="is_user">
+                    member since
+                    <span tal:replace="python: view.pretty_date(item.CreationDate)" />
+                  </tal:is_user>
+                  <tal:not_user condition="not: is_user">
+                    <tal:is_page condition="python: portal_type == 'Document'">
+                      <tal:project_define define="proj python: obj.aq_parent">
+                        in
+                        <a href="" tal:attributes="href proj/absolute_url" tal:content="proj/Title" />,
+                      </tal:project_define>
+                    </tal:is_page>
+                    <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
+                      modified by
+                      <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
+                    </tal:has_updated_author>
+                    last updated
+                    <span tal:replace="python: view.pretty_date(item.ModificationDate)" />
+                  </tal:not_user>
+                </span>
               </tal:defines>
             </li>
           </ol>
