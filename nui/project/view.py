@@ -490,7 +490,10 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
     """
     View class for the team management screens.
     """
+    team_manage = ZopeTwoPageTemplateFile('team-manage.pt')
+    team_manage_blank = ZopeTwoPageTemplateFile('team-manage-blank.pt')
     team_manage_macros = ZopeTwoPageTemplateFile('team-manage-macros.pt')
+
     mship_type = OpenMembership.portal_type
     rolemap = {'ProjectAdmin': 'admin',
                'ProjectMember': 'member',
@@ -549,6 +552,17 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
             data['role'] = self.rolemap[role]
             mships.append(data)
         return mships
+
+    def choose_template(self):
+        """
+        Decide whether to render the team-manage or the
+        team-manage-blank page template.
+        """
+        mem_ids = self.team.getMemberIds()
+        if len(mem_ids) == 1:
+            # the one team member is most likely the project creator
+            return self.team_manage_blank()
+        return self.team_manage()
 
     def getMemberURL(self, mem_id):
         mtool = self.get_tool('portal_membership')

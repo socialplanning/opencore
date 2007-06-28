@@ -18,7 +18,7 @@
     </div>
     
     <div id="oc-content-main">
-      <div id="oc-security-settings" class="oc-security-settings">
+      <div id="oc-security-settings" class="oc-boxy">
         <h2>Your security settings</h2>
         <p>
           Currently only your project members can view the content
