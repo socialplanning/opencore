@@ -60,7 +60,10 @@ class ProfileEditView(ProfileView):
         if mode == 'async':
             if portrait:
                 usr.setPortrait(portrait)
-            else:
+            else: # TODO detect whether to delete more explicitly. currently the
+                  # remove portrait button is identical in name and value to the
+                  # change portrait button, so this relies on the user not having
+                  # clicked browse and selecting an image first. consult egj/nickyg
                 usr._delOb('portrait')
             usr.reindexObject()
             return { 'oc-profile-avatar' : self.portrait_snippet()}
