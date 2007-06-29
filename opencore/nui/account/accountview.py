@@ -146,34 +146,31 @@ def ugly_hack(func):
         return self.render()
     return inner
 
-class JoinView(FormLite, BaseView):
+class JoinView(BaseView, OctopoLite):
 
-    form_template = ZopeTwoPageTemplateFile('join.pt')
+    template = ZopeTwoPageTemplateFile('join.pt')
 
-    @action('render', default=True)
-    def render(self):
-        return self.form_template()
-
-    @action('join', apply=(ugly_hack, post_only(raise_=False)))
-    def create_member(self):
+    @action('join', apply=post_only(raise_=False))
+    def create_member(self, targets=None, fields=None):
         context = self.context
-        mdc = getToolByName(context, 'portal_memberdata')
-        adder = getAdderUtility(context)
-        type_name = adder.default_member_type
 
-        temp_mem_id = self.temp_mem_id
-        mem = mdc.portal_factory.restrictedTraverse("%s/%s" % (type_name, temp_mem_id))
-
-        self.errors = {}
-        self.errors = mem.validate(REQUEST=self.request,
-                                   errors=self.errors,
-                                   data=1, metadata=0)
-
+        self.errors = self.validate()
         if self.errors:
             return self.errors
 
-        mem_id = self.request.get('id')
-        mem = mdc.portal_factory.doCreate(mem, mem_id)
+        # create a member in portal factory
+        mdc = self.get_tool('portal_memberdata')
+        pf = mdc.portal_factory
+
+        #00 pythonscript call, move to fs code
+        id_ = self.context.generateUniqueId('OpenMember')
+
+        mem_folder = pf._getTempFolder('OpenMember')
+        mem = mem_folder.restrictedTraverse('%s' % id_)
+
+        # now we have mem, a temp member. create him for real.
+        mem_id = self.request.form.get('id')
+        mem = pf.doCreate(mem, mem_id)
         self.txn_note('Created %s with id %s in %s' % \
                       (mem.getTypeInfo().getId(),
                        mem_id,
@@ -183,15 +180,15 @@ class JoinView(FormLite, BaseView):
 
         if email_confirmation():
             self._sendmail_to_pendinguser(id=mem_id,
-                                        email=self.request.get('email'),
-                                        url=url)
+                                          email=self.request.get('email'),
+                                          url=url)
             self.addPortalStatusMessage(u'An email has been sent to you, Lammy.')
             return mdc._getOb(mem_id)
         else:
             return self.redirect(url)
 
-    @action('only_validate')
-    def validate(self):
+    @action('validate')
+    def validate(self, targets=None, fields=None):
         mdc = self.get_tool('portal_memberdata')
         mem = mdc._validation_member
         errors = {}
@@ -204,26 +201,6 @@ class JoinView(FormLite, BaseView):
         for e in errors:
             errors[e] = str(errors[e])
         return errors
-
-    @instance.memoizedproperty
-    def temp_mem_id(self):
-        ### XXX todo this isn't needed any more i think
-        # but i am afraid to touch it right now -egj
-
-        # only want to create one dummy
-        id_ = self.request.get('temp_mem_id')
-        if id_:
-            return id_
-
-        mdc = self.get_tool('portal_memberdata')
-        pf = mdc.portal_factory
-
-        #00 pythonscript call, move to fs code
-        id_ = self.context.generateUniqueId('OpenMember')
-
-        mem_folder = pf._getTempFolder('OpenMember')
-        mem = mem_folder.restrictedTraverse('%s' % id_)
-        return id_
 
     def _confirmation_url(self, mem):
         code = mem.getUserConfirmationCode()

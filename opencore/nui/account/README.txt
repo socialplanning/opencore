@@ -143,31 +143,34 @@ The view has a validate() method which returns an error dict::
     >>> sorted(view.validate().keys())
     ['confirm_password', 'email', 'password']
 
-If you add 'only_validate=True' to the request before submitting
+If you add 'task=validate' to the request before submitting
 the form the validate() method will be triggered::
 
-    >>> request.form['only_validate'] = True
-    >>> sorted(view.validate().keys())
+    >>> request.form['task'] = 'validate'
+    >>> view()
+    u'<!-- join form -->...'
+
+The template was rerendered with the error messages; to get the error
+dict directly, make the request asynchronous::
+
+    >>> request.form['mode'] = 'async'
+    >>> sorted(view().keys())
     ['confirm_password', 'email', 'password']
 
-Submit the form for real now; we need to add 'join' to the request::
+Submit the form for real now; we need to add 'task=join' to the request::
 
     >>> request.form['confirm_password'] = 'testy'
     >>> request.form['email'] = 'foobar@example.com'
-    >>> del request.form['only_validate']
-    >>> request.form['join'] = True
-    >>> view.handle_request()
+    >>> request.form['task'] = 'join'
+    >>> view = portal.restrictedTraverse("@@join") 
+    >>> view()
+    {}
 
 Oh, nothing happened; we need to make the request a POST::
 
     >>> request.environ["REQUEST_METHOD"] = "POST"
-    >>> view.handle_request()
-    u'...'
-
-# The above return value sucks; we'd prefer to get the thing below,
-# but that will require some thinkin' and probably merging of 
-# formlite and octopus.
-#    <OpenMember at /plone/portal_memberdata/foobar>
+    >>> view()
+    <OpenMember at /plone/portal_memberdata/foobar>
 
 
 Confirm
