@@ -765,7 +765,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             ret[mem_id] = {'action': 'delete'}
             self._sendEmail(mem_id, msg)
 
-        msg = "Members deactivated: %s" % ', '.join(mem_ids))
+        msg = "Members deactivated: %s" % ', '.join(mem_ids)
         self.addPortalStatusMessage(msg)
         
         return ret
