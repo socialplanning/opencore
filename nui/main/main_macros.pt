@@ -27,9 +27,9 @@
   <ul class="oc-widget-alphabet oc-clearAfter oc-boxy" tal>
               <li tal:repeat="letter modules/string/uppercase">
               
-                <a href="" tal:content="letter" tal:attributes="href string:${request/ACTUAL_URL}?letter_search=${letter}" tal:condition="python:letter!=request.form.get('letter_search')">A</a>
+                <a href="" tal:content="letter" tal:attributes="href string:${form_action_url}?letter_search=${letter}" tal:condition="python:letter!=request.form.get('letter_search')">A</a>
                 
-                <a href="" class="oc-widget-alphabet-selectedLetter" tal:content="letter" tal:attributes="href string:${request/ACTUAL_URL}?letter_search=${letter}" tal:condition="python:letter==request.form.get('letter_search')">A</a>
+                <a href="" class="oc-widget-alphabet-selectedLetter" tal:content="letter" tal:attributes="href string:${form_action_url}?letter_search=${letter}" tal:condition="python:letter==request.form.get('letter_search')">A</a>
               </li>
   </ul>
 </div><!-- end .oc-widget-multiSearch -->
