@@ -137,7 +137,7 @@ ul#oc-topnav-context li.oc-topnav-selected {
   background-color: transparent;
 }
 #oc-topnav-usermenu li.oc-dropdown-container.oc-selected {
-  background-color: #87B6C1;
+  background-color: #94BA65;
   border: 1px solid #2B7284;
   border-bottom: none;
 }
@@ -149,7 +149,7 @@ ul#oc-topnav-context li.oc-topnav-selected {
   padding: 0;
   width: 12em;
   display: none;
-  background: #87B6C1;
+  background: #94BA65;
   border: 1px solid #2B7284;
   border-top: none;
   z-index: 10;
@@ -475,6 +475,7 @@ ul.oc-tabs li {
 ul.oc-tabs li a.oc-actionLink,
 ul.oc-tabs li a.oc-actionLink:visited {
   padding: 0.5em;
+  background: none;
 }
 ul.oc-tabs li a.oc-actionLink:hover {
 }
@@ -486,6 +487,7 @@ ul.oc-tabs li a.oc-actionLink:hover {
 #oc-tabs-wiki-version #oc-tabs-wikihistory a {
   color: #000;
   font-weight: bold;
+  background: none;
 }
 .oc-tabs form {
   display: inline;
@@ -612,6 +614,9 @@ ul.oc-tabs li a.oc-actionLink:hover {
 .oc-version-note p {
 	display: inline;
 }
+.oc-version-note h3 {
+	font-weight: bold;
+}
 
 /* Listen */
 
@@ -725,8 +730,8 @@ a.oc-button:hover {
 }
 .oc-message,
 .oc-statusMessage {
-  background-color: #FFFBE6;
-  border: 1px solid #FFDB00;
+  background-color: #EBD2BC;
+  border: 1px solid #EB852B;
   color: #333333;
   font-weight: bold;
   margin: 0 0 1.5em;
@@ -893,6 +898,13 @@ height: 1em; */
 /* List table */
 .oc-widget-dataTable {
   clear: both;
+  margin-bottom: 4em;
+}
+.oc-dataTable-heading {
+	color: #fff;
+	background: #47413B;
+	padding: 0.25em;
+	margin: 0;
 }
 .oc-dataTable  {
    width: 100%;
@@ -1089,11 +1101,11 @@ li.oc-invite .oc-invite-content {
   border: 1px solid transparent;
 }
 .oc-widget-alphabet li a:hover {
-  border: 1px dotted #4B92A4;
+  border: 1px dotted #EB852B;
 }
 .oc-widget-alphabet li a.oc-widget-alphabet-selectedLetter {
- border: 1px solid #4B92A4;
- color: #D84818;
+ border: 1px solid #EB852B;
+ color: #EB852B;
 }
 
 /* Get Started */
@@ -1135,10 +1147,18 @@ a.oc-liveItem_showForm,
 a.oc-liveItem_showForm:visited,
 a.oc-actionLink,
 a.oc-actionLink:visited {
-  color: #999;
+  color: #444;
+  background-color: #DDD;
+  padding: 0.125em 0.25em;
   text-decoration: none;
-  font-size: 10px;
+  font-size: 9px;
   text-transform: uppercase;
+}
+a.oc-liveItem_showForm:hover,
+a.oc-actionLink:hover {
+	color: #fff;
+  background-color: #EB852B;
+  text-decoration: none;
 }
 a.oc-liveItem_hoverShowForm,
 a.oc-liveItem_hoverShowForm:visited {
@@ -1251,14 +1271,25 @@ p {
     #oc-error-handling,
     .formHelp /* FIXME */
   {
-  font-size: 10px;
+  font-size: 11px;
 }
 #oc-content-sidebar .smallText,
 #oc-content-sidebar .discreetText {
   font-size: 10px;
 }
 .oc-discreetText {
-  color: #999;
+  color: #665D55;
+}
+a {
+  color: #558021;
+}
+a:visited {
+  color: #6BA12A;
+}
+a:hover,
+ul.oc-tabs li a.oc-actionLink:hover {
+  color: #EB852B;
+  text-decoration: underline;
 }
 
 /* Heading Blocks */
@@ -1282,12 +1313,6 @@ p {
 .oc-headingSimple a:hover {
   text-decoration: underline;
 }
-a {
-}  
-a:hover,
-a.oc-actionLink:hover,
-ul.oc-tabs li a.oc-actionLink:hover {
-}
 
 /* Form bits */
 
@@ -1298,18 +1323,13 @@ textarea {
   /* ToDo Style buttons nicely */
   border: 1px solid #999;
   margin: 0;
-  font-size: 12px;
+  font-size: 10px;
   vertical-align: bottom;
 }
 input,
 button,
 textarea {
   padding: 0.25em;
-}
-#oc-content-sidebar select,
-#oc-content-sidebar input,
-#oc-content-sidebar textarea {
-  font-size: 10px;
 }
 textarea {
   margin-bottom: 1em;
