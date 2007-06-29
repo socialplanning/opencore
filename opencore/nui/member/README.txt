@@ -44,11 +44,6 @@ Exercise the Member Preferences Class
     >>> [d['listed'] for d in project_dicts]
     [True, True, True]
 
-    Check invitations for m1
-    >>> invitations = view.invitations()
-    >>> invitations
-    []
-
     Now, let's have a member leave a project::
 
     But first, if we're not logged in as the member,
@@ -92,6 +87,30 @@ Exercise the Member Preferences Class
     >>> project_dicts = view.get_projects_for_user()
     >>> [d['listed'] for d in project_dicts]
     [True, True]
+
+    Check invitations for m1
+    >>> view.invitations()
+    []
+
+    Let's simulate a project admin inviting a user
+    >>> pt = getToolByName(portal, 'portal_teams')
+    >>> team = pt._getOb('p4')
+    >>> self.logout()
+    >>> self.loginAsPortalOwner()
+    >>> team.addMember('m1')
+    <OpenMembership at /plone/portal_teams/p4/m1>
+    >>> self.logout()
+    >>> self.login('m1')
+
+    Now we should have an invitation for m1
+    >>> brains = view.invitations()
+    >>> len(brains)
+    1
+    >>> brain = brains[0]
+    >>> brain.getId
+    'm1'
+    >>> view._project_id_from(brain)
+    'p4'
 
     Now let's call the view simulating the request:
     XXX member areas need to be created first though for m1
