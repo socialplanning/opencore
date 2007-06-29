@@ -148,10 +148,10 @@ class MemberPreferences(BaseView, OctopoLite):
                      getId=mem_id,
                      review_state='pending')
         mship_brains = self.catalogtool(**query)
-        return mship_brains
+        return map(self._project_id_from, mship_brains)
 
     def invitations(self):
-        """ return all mship brains where the user needs to accept """
+        """ return all proj_ids for pending project invitations """
         mem_id = self.context.getId()
         return self._invitations_for(mem_id)
 
