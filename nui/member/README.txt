@@ -24,6 +24,10 @@ Exercise the Member Preferences Class
     >>> request = self.app.REQUEST
     >>> request.form = {}
     >>> member = portal.portal_memberdata.m1
+
+    # XXX right now these are member objects
+    # which work, but they should be people folder objects instead
+    # they just happen to have the same interface (getId)
     >>> view = MemberPreferences(member, request)
     >>> view
     <opencore.nui.member.view.MemberPreferences object at ...>
