@@ -9,22 +9,11 @@
       </div>
 
       <div id="oc-content-main">
-        <div class="oc-widget oc-widget-search oc-boxy">
-          <form name="people_search" action="." tal:attributes="action string:${context/portal_url}/people/searchresults">
-            <label><h2>Search for people</h2></label>
-            <span class="oc-form-fieldBlock">
-              <input class="oc-input-typeText" type="text" name="search_for" />
-              <input type="hidden" name="letter_search" />
-              <input type="submit" name="action_search_people" value="Search" />
-            </span>
-          </form>
-          <ul class="oc-widget-alphabet oc-clearAfter oc-boxy" tal>
-            <li tal:repeat="letter modules/string/uppercase">
-              <a href="" tal:content="letter" tal:attributes="href string:${context/portal_url}/people/searchresults?letter_search=${letter}">A</a>
-            </li>
-          </ul>
-        </div>
-      </div><!-- content-main -->
+        <tal:set_var define="current_search_page string:people;
+			     form_action_url string:${context/portal_url}/people/searchresults">
+        <div metal:use-macro="here/main_macros/search_widget" />
+        </tal:set_var>
+      </div>
 
 
       <!-- content-sidebar -->
