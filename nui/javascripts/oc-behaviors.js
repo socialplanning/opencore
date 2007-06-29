@@ -125,8 +125,10 @@ OC.LiveForm = function(extEl) {
 
   // get references
   var liveForm = extEl;
+  var noAjax = extEl.hasClass("oc-noAjax");
   var actionLinks = Ext.select('.oc-actionLink');
   var actionSelects = Ext.select(".oc-actionSelect");
+  var actionButtons = Ext.select(".oc-actionButton");
   var checkAll = Ext.select(Ext.query('.oc-checkAll', liveForm.dom));
   var liveItems = Ext.query(".oc-liveItem", liveForm.dom);
   var liveValidatees = Ext.get(Ext.query('.oc-liveValidate', liveForm.dom));
@@ -205,7 +207,7 @@ OC.LiveForm = function(extEl) {
           failure: _afterValidateFailure, 
           scope: this 
         },
-        request + "only_validate=True"
+        request + "task=validate&mode=async"
       );
 
     }
@@ -231,7 +233,31 @@ OC.LiveForm = function(extEl) {
     
   }
   
-  
+  // action submits
+  if (actionButtons) {
+      actionButtons.removeAllListeners();
+      function _actionButtonClick(e, el, o) {
+	  YAHOO.util.Event.stopEvent(e);
+
+	  OC.debug("_actionButtonClick");
+	  
+	  requestData = YAHOO.util.Connect.setForm(liveForm.dom);
+	  updater = _getUpdater(requestData);
+	  
+	  var action = liveForm.dom.action;
+	  var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
+						     { success: _afterSuccess,
+						       upload: _afterSuccess,
+						       failure: _afterFailure,
+						       scope: this
+						     },
+						     "mode=async"
+						     );
+      }
+      actionButtons.on('click', _actionButtonClick, this);
+
+  }
+
   // action links
   if (actionLinks) {
     actionLinks.removeAllListeners();;
@@ -297,34 +323,35 @@ OC.LiveForm = function(extEl) {
     var psm_container = document.getElementById('oc-statusMessage-container');
     psm_container.appendChild(psm);
   }
-
-  // form submit
-  function _formSubmit(e, el, o) {
-    OC.debug("_formSubmit");
-    
-    requestData = YAHOO.util.Connect.setForm(liveForm.dom);
-    updater = _getUpdater(requestData);
-
-    if (isUpload) 
-        YAHOO.util.Connect.setForm(liveForm.dom, true);
-
-    // XXX todo -- this is no good -- 
-    // don't want the task to have to talk to JS at all really
-    //if (updater.task && updater.task != "noAjax") {
-      YAHOO.util.Event.stopEvent(e);
-      var action = liveForm.dom.action;
-      var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
-        { success: _afterSuccess, 
-          upload: _afterSuccess,
-          failure: _afterFailure, 
-          scope: this 
-        },
-        "mode=async"
-      );
-    //}
+  
+  // for backcompability with existing code. consider deprecated, maybe.
+  if( !noAjax ) {
+      // form submit
+      function _formSubmit(e, el, o) {
+	  OC.debug("_formSubmit");
+	  
+	  requestData = YAHOO.util.Connect.setForm(liveForm.dom);
+	  updater = _getUpdater(requestData);
+	  
+	  if (isUpload) 
+	      YAHOO.util.Connect.setForm(liveForm.dom, true);
+	  
+	  // XXX todo -- this is no good -- 
+	  // don't want the task to have to talk to JS at all really
+	  //if (updater.task && updater.task != "noAjax") {
+	  YAHOO.util.Event.stopEvent(e);
+	  var action = liveForm.dom.action;
+	  var cObj = YAHOO.util.Connect.asyncRequest("POST", action, {
+		  success: _afterSuccess, 
+		  upload: _afterSuccess,
+		  failure: _afterFailure, 
+		  scope: this 
+	      },
+	      "mode=async"
+	      );
+      }
+      liveForm.on('submit', _formSubmit, this);
   }
-  liveForm.on('submit', _formSubmit, this);
-
 
   // after success
   function _afterSuccess(o) {
