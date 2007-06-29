@@ -13,35 +13,33 @@ MakeContentVisible = "OpenPlans: Make content visible"
 ManageWorkflowPolicy = "OpenPlans: Manage workflow policy"
 
 DEFAULT_PERMISSIONS_DATA = (
-    (['Manager', 'Owner', 'ProjectContentMgr', 'ProjectAdmin',
-      'ProjectMember', 'Reviewer'],
+    (['Manager', 'Owner', 'ProjectAdmin', 'ProjectMember', 'Reviewer'],
      ['Add portal content', 'Add portal folders',
       'Add Documents, Images, and Files',
       'ATContentTypes: Add Document', 'ATContentTypes: Add Event',
       'ATContentTypes: Add File', 'ATContentTypes: Add Folder',
       'ATContentTypes: Add Image', 'ATContentTypes: Add Link',
       'ATContentTypes: Add News Item', 'OpenPlans: Add OpenPage',
-      'Reply to item', 'Delete objects', CopyOrMove]),
+      'Reply to item', 'Delete objects', CopyOrMove, AddMailingList]),
 
-    (['Manager', 'Owner', 'ProjectContentMgr', 'ProjectAdmin',
-      'ProjectMember', 'Reviewer', 'Member'],
+    (['Manager', 'Owner', 'ProjectAdmin', 'ProjectMember', 'Reviewer',
+      'Member'],
      [QueryLibraries]),
 
-    (['Manager', 'Owner', 'ProjectContentMgr', 'ProjectAdmin',
-      'ProjectMember', 'Reviewer', 'Member', 'Anonymous'],
+    (['Manager', 'Owner', 'ProjectAdmin', 'ProjectMember', 'Reviewer',
+      'Member', 'Anonymous'],
      [SubscribeSelf]),
 
-    (['Manager', 'Owner', 'ProjectContentMgr', 'ProjectAdmin',
-      'Reviewer'],
+    (['Manager', 'Owner', 'ProjectAdmin', 'Reviewer'],
      ['List folder contents',
       'Quills: Add WeblogEntry', 'Quills: Add WeblogTopic',
       'Quills: Add WeblogArchive',]),
 
-    (['Manager', 'ProjectAdmin', 'Owner', 'ProjectMember'],
+    (['Manager', 'ProjectAdmin', 'Owner'],
      [ManageTeamMembership, 'TeamSpace: Manage team',
-      ManageWorkflowPolicy, AddMailingList, InviteSubscribers]),
+      ManageWorkflowPolicy, InviteSubscribers]),
 
-    (['Manager', 'ProjectAdmin', 'ProjectContentMgr',],
+    (['Manager', 'ProjectAdmin'],
      [MakeContentVisible,]),
 
     (['Manager',],

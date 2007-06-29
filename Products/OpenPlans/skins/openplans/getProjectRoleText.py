@@ -7,9 +7,8 @@
 ##parameters=proj
 ##title=Get text for the project role for current member
 ##
-ordered_roles = ('ProjectAdmin', 'ProjectContentMgr', 'ProjectMember')
+ordered_roles = ('ProjectAdmin', 'ProjectMember')
 roles_text_map = {'ProjectAdmin': 'an Administrator for',
-                  'ProjectContentMgr': 'a Content Manager for',
                   'ProjectMember': 'a Member of'}
 mem_roles = proj.getTeamRolesForAuthMember()
 if not mem_roles:
