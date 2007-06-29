@@ -20,7 +20,7 @@ from Install import installColumns, fixUpEditTab, hideActions, \
      migrateATDocToOpenPage, createIndexes, installZ3Types, registerJS, \
      setupProjectLayout, createMemIndexes, setCookieDomain, installCookieAuth, \
      setupPeopleFolder, setupProjectLayout, setupHomeLayout, \
-     installNewsFolder
+     installNewsFolder, setProjectFolderPermissions
 from migrate_teams_to_projects import migrate_teams_to_projects
 from migrate_membership_roles import migrate_membership_roles
 
@@ -154,6 +154,7 @@ topp_functions = dict(
     reinstallSubskins = reinstallSubskins,
     addFormControllerOverrides = convertFunc(addFormControllerOverrides),
     securityTweaks = convertFunc(securityTweaks),
+    setProjectFolderPermissions = convertFunc(setProjectFolderPermissions),
     uiTweaks = convertFunc(uiTweaks),
     migrateATDocToOpenPage = convertFunc(migrateATDocToOpenPage),
     createIndexes = convertFunc(createIndexes),

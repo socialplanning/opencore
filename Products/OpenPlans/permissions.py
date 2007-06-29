@@ -54,6 +54,10 @@ DEFAULT_PFOLDER_PERMISSIONS_DATA = (
      ['OpenPlans: Add OpenProject', 'OpenPlans: Add OpenPage',
        'ATContentTypes: Add Image', 'Add portal content',]
      ),
+    
+    (['Manager', 'Owner', 'ProjectAdmin', 'ProjectMember'],
+     ['OpenPlans: Add SubProject', ]
+     ),
     )
 
 PLACEFUL_PERMISSIONS_DATA = {

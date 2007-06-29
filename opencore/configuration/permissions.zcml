@@ -16,6 +16,11 @@
     />
 
   <permission
+    id="openplans.AddSubProject"
+    title="OpenPlans: Add SubProject"
+    />
+
+  <permission
     id="zope.DeleteObjects"
     title="Delete objects"
     />
