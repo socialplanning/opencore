@@ -61,26 +61,8 @@
       <h3>Search for members</h3>
       <p class="oc-discreet">Search and invite existing members</p>
 
-      <form name="search-members" id="search-members" method="POST"
-            tal:attributes="action view/request/ACTUAL_URL">
-        <input type="hidden" name="handle_request:boolean"
-               value="True" />
-        <input class="oc-input-typeText" type="text" name="search_for" />
-        <button type="submit" name="search-members" value="search-members"
-                class="oc-button">search</button>
-        <div tal:condition="view/results | nothing">
-          <div tal:repeat="member view/results">
-            <button type="submit" name="invite-member" class="oc-button"
-                    tal:attributes="value member/getId">invite</button>
-            <tal:mem_url define="mem_url python:view.membertool.getHomeUrl(member.getId)">
-              <a tal:condition="mem_url" tal:attributes="href mem_url"
-                 tal:content="string: ${member/getId}: ${member/getFullname}" />
-              <span tal:condition="not:mem_url"
-                    tal:replace="string: ${member/getId}: ${member/getFullname}" />
-            </tal:mem_url>
-          </div>
-        </div>
-      </form>
+      <metal:search-members use-macro="team_manage_macros/search-members" />
+
     </div><!-- end #oc-content-sidebar -->
     
     </div><!-- end content-fill-slot -->

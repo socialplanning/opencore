@@ -113,14 +113,12 @@
                       tal:attributes="name proj_id"
                       class="oc-actionSelect"
                       >
-                <tal:listed condition="listed">
-                  <option value="public" selected="1">yes</option>
-                  <option value="private">no</option>
-                </tal:listed>
-                <tal:not_listed condition="not: listed">
-                  <option value="public">yes</option>
-                  <option value="private" selected="1">no</option>
-                </tal:not_listed>
+
+                  <option value="public"
+                          tal:attributes="selected listed">yes</option>
+                  <option value="private"
+                          tal:attributes="selected not: listed">no</option>
+
               </select>
             </td>
             <td>

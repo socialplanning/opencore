@@ -175,7 +175,3 @@ class MemberPreferences(BaseView, OctopoLite):
             self.leave_project(proj_id)
         return dict((proj_id, dict(action='delete'))
                     for proj_id in targets)
-
-    @action('default_template', default=True)
-    def default_template(self, targets=None, fields=None):
-        return self.template()

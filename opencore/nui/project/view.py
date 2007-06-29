@@ -486,7 +486,7 @@ class ProjectTeamView(TeamRelatedView):
                     )
 
 
-class ManageTeamView(formhandler.FormLite, TeamRelatedView):
+class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     """
     View class for the team management screens.
     """
@@ -501,6 +501,17 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
     listedmap = {'public': 'yes',
                  'private': 'no',
                  }
+
+    @property
+    def template(self):
+        """
+        Different template for brand new teams, before any members are added.
+        """
+        mem_ids = self.team.getMemberIds()
+        if len(mem_ids) == 1:
+            # the one team member is most likely the project creator
+            return self.team_manage_blank
+        return self.team_manage
 
     @property
     def mailhost(self):
@@ -552,17 +563,6 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
             data['role'] = self.rolemap[role]
             mships.append(data)
         return mships
-
-    def choose_template(self):
-        """
-        Decide whether to render the team-manage or the
-        team-manage-blank page template.
-        """
-        mem_ids = self.team.getMemberIds()
-        if len(mem_ids) == 1:
-            # the one team member is most likely the project creator
-            return self.team_manage_blank()
-        return self.team_manage()
 
     def getMemberURL(self, mem_id):
         mtool = self.get_tool('portal_membership')
@@ -640,8 +640,8 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
     ##################
 
     @formhandler.action('approve-requests')
-    def approve_requests(self):
-        mem_ids = self.request.form.get('member_ids')
+    def approve_requests(self, targets, fields=None):
+        mem_ids = targets
         wftool = self.get_tool('portal_workflow')
         team = self.team
 
@@ -664,12 +664,12 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         self.addPortalStatusMessage(u'%d members approved' % napproved)
 
     @formhandler.action('discard-requests')
-    def discard_requests(self):
+    def discard_requests(self, targets, fields=None):
         """
         Actually deletes the membership objects, doesn't send a
         notifier.
         """
-        mem_ids = self.request.form.get('member_ids')
+        mem_ids = targets
         # have to get the number of removals now b/c manage_delObjects
         # empties the passed in list
         ndiscards = len(mem_ids)
@@ -677,12 +677,12 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
         self.addPortalStatusMessage(u'%d requests discarded' % ndiscards)
 
     @formhandler.action('reject-requests')
-    def reject_requests(self):
+    def reject_requests(self, targets, fields=None):
         """
         Notifiers should be handled by workflow transition script.
         """
         nrejected = self.doMshipWFAction('reject_by_admin')
-        mem_ids = self.request.form.get('member_ids')
+        mem_ids = targets
         msg = self._constructMailMessage('request_denied',
                                          project_title=self.context.Title())
         for mem_id in mem_ids:
@@ -695,17 +695,18 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
     ##################
 
     @formhandler.action('remove-invitations')
-    def remove_invitations(self):
+    def remove_invitations(self, targets, fields=None):
         """
         Deletes the membership objects.  Should send notifier.
         """
-        mem_ids = self.request.form.get('member_ids')
+        mem_ids = targets
         nremovals = len(mem_ids)
         wftool = self.get_tool('portal_workflow')
         wf_id = 'openplans_team_membership_workflow'
         deletes = []
         msg = self._constructMailMessage('invitation_retracted',
                                          project_title=self.context.Title())
+        ret = {}
         for mem_id in mem_ids:
             mship = self.team.getMembershipByMemberId(mem_id)
             status = wftool.getStatusOf(wf_id, mship)
@@ -715,20 +716,22 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
             else:
                 # delete
                 deletes.append(mem_id)
+            ret[mem_id] = {'action': 'delete'}
             self._sendEmail(mem_id, msg)
 
         if deletes:
             self.team.manage_delObjects(ids=deletes)
 
         self.addPortalStatusMessage(u'%d invitations removed' % nremovals)
+        return ret
 
     @formhandler.action('remind-invitations')
-    def remind_invitations(self):
+    def remind_invitations(self, targets, fields=None):
         """
         Sends an email reminder to the specified membership
         invitations.
         """
-        mem_ids = self.request.form.get('member_ids')
+        mem_ids = targets
         project_title = self.context.Title()
         for mem_id in mem_ids:
             acct_url = self._getAccountURLForMember(mem_id)
@@ -744,27 +747,32 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
     #### ACTIVE MEMBERSHIP BUTTON HANDLERS
     ##################
 
-    def _remove_members(self, mem_ids):
+    @formhandler.action('remove-members')
+    def remove_members(self, targets, fields=None):
         """
         Doesn't actually remove the membership objects, just puts them
         into an inactive workflow state.
         """
+        mem_ids = targets
         nremoved = self.doMshipWFAction('deactivate', mem_ids)
         ret = {}
         for mem_id in mem_ids:
             msg = self._constructMailMessage('membership_deactivated',
                                              project_title=self.context.Title())
-            ret[mem_id] = {'effects': 'delete'}
+            ret[mem_id] = {'action': 'delete'}
             self._sendEmail(mem_id, msg)
         #ret['psm'] = u'%d members deactivated' % nremoved
-        #return ret
-        return mem_ids
+        return ret
 
-    def _set_roles(self, roles_from_form):
+    @formhandler.action('set-roles')
+    def set_roles(self, targets, fields):
         """
         Brings the stored team roles into sync with the values stored
         in the request form.
         """
+        roles = [f.get('roles') for f in fields]
+        roles_from_form = dict(zip(targets, roles))
+
         nchanges = 0
         team = self.team
         for mem_id in roles_from_form:
@@ -774,21 +782,6 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
                 mem_roles = DEFAULT_ROLES[:index + 1]
                 team.setTeamRolesForMember(mem_id, mem_roles)
                 nchanges += 1
-                
-        return {'psm': u'%d roles changed' % nchanges}
-
-    @formhandler.octopus
-    def manage_memberships(self, action, targets, fields=None):
-        if action == "delete":
-            ret = self._remove_members(targets)
-        if action == "set-roles":
-            roles = [f.get('roles') for f in fields]
-            roles_from_form = dict(zip(targets, roles))
-            ret = self._set_roles(roles_from_form)
-
-        mode = self.request.form.get('mode')
-        if mode == 'async':
-            return ret
 
 
     ##################
@@ -796,7 +789,7 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
     ##################
 
     @formhandler.action('search-members')
-    def search_members(self):
+    def search_members(self, targets=None, fields=None):
         """
         Performs the catalog query and then puts the results in an
         attribute on the view object for use by the template.  Filters
@@ -818,14 +811,14 @@ class ManageTeamView(formhandler.FormLite, TeamRelatedView):
     #### MEMBER ADD BUTTON HANDLER
     ##################
     @formhandler.action('invite-member')
-    def invite_member(self):
+    def invite_member(self, targets, fields=None):
         """
         Sends an invitation notice, and creates a pending membership
         object (or puts the existing member object into the pending
         state).  The member id is specified in the request form, as
         the value for the 'invite-member' button.
         """
-        mem_id = self.request.form.get('invite-member')
+        mem_id = targets[0] # should only be one
         if not mem_id in self.team.getMemberIds():
             # create the membership
             self.team.addMember(mem_id)

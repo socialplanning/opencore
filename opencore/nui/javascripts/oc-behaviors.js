@@ -165,8 +165,6 @@ OC.LiveForm = function(extEl) {
     if (updater.task == "uploadAndUpdate" || updater.task == "uploadAndAdd") {
       isUpload = true;
     }
-      
-    return updater;
   }
   
   // check all box
@@ -266,12 +264,14 @@ OC.LiveForm = function(extEl) {
 
       // get action from form element
       var action = liveForm.dom.action;
+      OC.debug("form action: " + action);
       var submit = document.createElement('input');
       submit.name = "task";
-      submit.value = "batch:roles_set-roles";
+      submit.value = el.id;
+      OC.debug("task info: " + el.id);
       submit.type = "hidden";
       liveForm.dom.appendChild(submit);
-      updater = _getUpdater(requestData);
+
       YAHOO.util.Connect.setForm(liveForm.dom);
       var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
         { success: _afterActionSelects,
@@ -281,6 +281,7 @@ OC.LiveForm = function(extEl) {
         "mode=async"
       );
 
+      submit.parentNode.removeChild(submit);
     }
     actionSelects.on('change', _actionSelectChange, this);
   }
@@ -293,7 +294,7 @@ OC.LiveForm = function(extEl) {
     psm.className = "oc-statusMessage";
     var psm_text = document.createTextNode(response);
     psm.appendChild(psm_text);
-    var psm_container = document.getElementById('oc-psm-container');
+    var psm_container = document.getElementById('oc-statusMessage-container');
     psm_container.appendChild(psm);
   }
 
@@ -303,12 +304,13 @@ OC.LiveForm = function(extEl) {
     
     requestData = YAHOO.util.Connect.setForm(liveForm.dom);
     updater = _getUpdater(requestData);
-    
+
     if (isUpload) 
         YAHOO.util.Connect.setForm(liveForm.dom, true);
 
-    // XXX todo -- this is no good -- don't want the task to have to talk to JS at all really
-    if (updater.task && updater.task != "noAjax") {
+    // XXX todo -- this is no good -- 
+    // don't want the task to have to talk to JS at all really
+    //if (updater.task && updater.task != "noAjax") {
       YAHOO.util.Event.stopEvent(e);
       var action = liveForm.dom.action;
       var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
@@ -319,7 +321,7 @@ OC.LiveForm = function(extEl) {
         },
         "mode=async"
       );
-    }
+    //}
   }
   liveForm.on('submit', _formSubmit, this);
 
@@ -328,8 +330,6 @@ OC.LiveForm = function(extEl) {
   function _afterSuccess(o) {
     OC.debug('_afterSuccess');
     OC.debug('o: ' + o);
-    OC.debug('updater.task: ' + updater.task);
-    OC.debug('updater.target: ' + updater.target.id);
 
     var response;
     try {

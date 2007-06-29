@@ -22,7 +22,7 @@
   <tr tal:attributes="id item/id">
 
     <td>
-      <input type="checkbox" name="member_ids:list"
+      <input type="checkbox" name="checked:list"
              tal:attributes="value item/id" />
     </td>
 
@@ -67,15 +67,15 @@
    define-macro="requestbuttons">
 
   <li>
-    <button type="submit" name="approve-requests" value="approve-requests"
+    <button type="submit" name="task" value="batch:checked_approve-requests"
             class="oc-button" >approve</button>
   </li>
   <li>
-    <button type="submit" name="discard-requests" value="discard-requests"
+    <button type="submit" name="task" value="batch:checked_discard-requests"
             class="oc-button" >discard</button>
   </li>
   <li>
-    <button type="submit" name="reject-requests" value="reject-requests"
+    <button type="submit" name="task" value="batch:checked_reject-requests"
             class="oc-button" >reject</button>
   </li>
   <!--li>
@@ -90,11 +90,11 @@
    define-macro="invitationbuttons">
 
   <li>
-    <button type="submit" name="remove-invitations" value="remove-invitations"
+    <button type="submit" name="task" value="batch:checked_remove-invitations"
             class="oc-button" >remove</button>
   </li>
   <li>
-    <button type="submit" name="remind-invitations" value="remind-invitations"
+    <button type="submit" name="task" value="batch:checked_remind-invitations"
             class="oc-button" >send reminder</button>
   </li>
 
@@ -108,12 +108,10 @@
       <h3 tal:content="string:$item_heading ($num_items)" />
     </div>
 
-    <form method="POST"
-          tal:attributes="action view/request/ACTUAL_URL;
-                          name item_type;
-                          id item_type">
-      <input type="hidden" name="handle_request:boolean" id="handle_request"
-             value="True" />
+    <form method="POST" class="oc-liveForm"
+          tal:attributes="name item_type;
+                          id item_type;
+                          action view/request/ACTUAL_URL">
       <table class="oc-dataTable" cellpadding="0" cellspacing="0">
 
         <thead>
@@ -156,7 +154,7 @@
     </div>
 
     <form name="team-members" method="POST"
-          action="manage-memberships" class="oc-liveForm">
+          class="oc-liveForm" tal:attributes="action view/request/ACTUAL_URL">
       <table class="oc-dataTable" cellpadding="0" cellspacing="0">
 
         <thead>
@@ -176,7 +174,7 @@
             <tr tal:attributes="id item/id">
 
               <td>
-                <input type="checkbox" name="deletes:list"
+                <input type="checkbox" name="checked:list"
                        tal:attributes="value item/id" />
               </td>
 
@@ -186,13 +184,14 @@
 
               <td tal:define="member_role item/role">
                 <div>
-                  <input type="hidden" name="roles:list"
+                  <input type="hidden" name="all:list"
                          tal:attributes="value item/id" />
-                  <select tal:attributes="name string:${item/id}_roles"
+                  <select tal:attributes="name string:${item/id}_roles;
+                                          id string:${item/id}_set-roles;"
                           class="oc-actionSelect">
                     <tal:roleoptions repeat="roleitem view/rolemap/items">
                       <option tal:attributes="value python:roleitem[0];
-                                              selected python:(roleitem[1] == member_role) or None"
+                                              selected python:(roleitem[1] == member_role)"
                               tal:content="python:roleitem[1]" />
                     </tal:roleoptions>
                   </select>
@@ -221,13 +220,38 @@
       <ul class="oc-actions oc-dataTable-actions">
         <li>
           <button type="submit" name="task"
-                  value="batch:deletes_delete" class="oc-button" >remove members</button>
+                  value="batch:checked_remove-members" class="oc-button" >remove members</button>
           <noscript>
             <button type="submit" name="task"
-                    value="batch:roles_set-roles" class="oc-button" >set roles</button>
+                    value="batch:all_set-roles" class="oc-button" >set roles</button>
           </noscript>
         </li>
       </ul>
     </form>
   </div> <!-- end .oc-widget-dataTable -->
 </metal:mshiplist>
+
+
+<!-- MEMBER SEARCH FORM-->
+
+<metal:search-members define-macro="search-members">
+
+  <form name="search-members" id="search-members" method="POST">
+    <input class="oc-input-typeText" type="text" name="search_for" />
+    <button type="submit" name="task" value="none_search-members"
+            class="oc-button">search</button>
+    <div tal:condition="view/results | nothing">
+      <div tal:repeat="member view/results">
+        <button type="submit" name="task" class="oc-button"
+                tal:attributes="value string:${member/getId}_invite-member">invite</button>
+        <tal:mem_url define="mem_url python:view.membertool.getHomeUrl(member.getId)">
+          <a tal:condition="mem_url" tal:attributes="href mem_url"
+             tal:content="string: ${member/getId}: ${member/getFullname}" />
+          <span tal:condition="not:mem_url"
+                tal:replace="string: ${member/getId}: ${member/getFullname}" />
+        </tal:mem_url>
+      </div>
+    </div>
+  </form>
+
+</metal:search-members>
