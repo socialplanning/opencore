@@ -46,9 +46,8 @@ Exercise the Member Preferences Class
     [{'name': 'Big Animals'}, {'name': 'Small Animals'}]
 
     Check projects for user m2
-    reget the view for m2
-    >>> member = portal.portal_memberdata.m2
-    >>> view = MemberPreferences(member, request)
+    reget the view for m2 by traversing to it
+    >>> view = portal.people.m2.restrictedTraverse('preferences')
     >>> project_dicts = view.get_projects_for_user()
 
     Check the projects and active states
