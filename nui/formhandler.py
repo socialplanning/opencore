@@ -144,7 +144,7 @@ class OctopoLite(object):
         try:
             action, objects, fields = self.__preprocess()
         except:
-            action, objects, fields = (None, [], {})
+            action, objects, fields = (None, [], [])
         ret = self.__delegate(action, objects, fields, raise_)
         mode = self.request.form.get('mode')
         if mode == 'async':
@@ -156,7 +156,14 @@ class OctopoLite(object):
 
     def __preprocess(self):
         """ yanked from octopus """
-        target, action = self.request.form.get("task").split("_")
+        task = self.request.form.get("task")
+        if not task:
+            return (None, [], [])
+        
+        if '_' not in task:
+            return (task, [], [])
+
+        target, action = self.request.form.get("task").rsplit("_", 1)
 
         if target.startswith('batch:'):
             target_elem = target.split(':')[1]
@@ -264,7 +271,7 @@ from zope.testing import doctest
 flags = doctest.ELLIPSIS | doctest.REPORT_ONLY_FIRST_FAILURE
 
 def test_suite():
-    return doctest.DocFileSuite('formlite.txt', optionflags=flags)
+    return doctest.DocFileSuite('octopolite.txt', optionflags=flags)
 
 if __name__ == '__main__':
     unittest.TextTestRunner().run(test_suite())
