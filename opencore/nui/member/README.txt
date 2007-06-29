@@ -23,12 +23,13 @@ Exercise the Member Preferences Class
     >>> from opencore.nui.member import MemberPreferences
     >>> request = self.app.REQUEST
     >>> request.form = {}
-    >>> member = portal.portal_memberdata.m1
 
-    # XXX right now these are member objects
-    # which work, but they should be people folder objects instead
-    # they just happen to have the same interface (getId)
-    >>> view = MemberPreferences(member, request)
+    # this should not be the member ... but the member folder
+    # member works though, because the interface we need matches
+    # (getId)
+    >>> member_folder = portal.portal_memberdata.m1
+
+    >>> view = MemberPreferences(member_folder, request)
     >>> view
     <opencore.nui.member.view.MemberPreferences object at ...>
 
@@ -43,30 +44,10 @@ Exercise the Member Preferences Class
     >>> [d['listed'] for d in project_dicts]
     [True, True, True]
 
-    XXX invitations are currently stubbed out
     Check invitations for m1
-    >>> invitations = view.get_invitations_for_user()
+    >>> invitations = view.invitations()
     >>> invitations
-    [{'name': 'Big Animals'}, {'name': 'Small Animals'}]
-
-    Check projects for user m2
-    reget the view for m2 by traversing to it
-    >>> view = portal.people.m2.restrictedTraverse('preferences')
-    >>> project_dicts = view.get_projects_for_user()
-
-    Check the projects and active states
-    >>> [d['proj_id'] for d in project_dicts]
-    ['p2', 'p3', 'p4']
-    >>> [d['title'] for d in project_dicts]
-    ['Proj2', 'Proj3', 'Proj4']
-    >>> [d['listed'] for d in project_dicts]
-    [True, True, True]
-
-    XXX invitations are currently stubbed out
-    Check invitations for m2
-    >>> invitations = view.get_invitations_for_user()
-    >>> invitations
-    [{'name': 'Big Animals'}, {'name': 'Small Animals'}]
+    []
 
     Now, let's have a member leave a project::
 
@@ -77,18 +58,18 @@ Exercise the Member Preferences Class
     ...
     WorkflowException: No workflow provides the "deactivate" action.
 
-    We have to login as m2 to get the modify portal content permission,
+    We have to login as m1 to get the modify portal content permission,
     giving us access to the workflow transition
     >>> self.logout()
-    >>> self.login('m2')
+    >>> self.login('m1')
 
     Now we should be able to leave the project just fine
     >>> view.leave_project('p2')
 
-    And finally, m2 should no longer have active membership to project p2
+    And finally, m1 should no longer have active membership to project p2
     >>> project_dicts = view.get_projects_for_user()
     >>> [d['proj_id'] for d in project_dicts]
-    ['p3', 'p4']
+    ['p3', 'p1']
 
     Now we'll try to set the listing as private:
 
@@ -96,16 +77,16 @@ Exercise the Member Preferences Class
     >>> [d['listed'] for d in project_dicts]
     [True, True]
 
-    Now let's make him private for project 4
-    >>> view.change_visibility('p4')
+    Now let's make him private for project 3
+    >>> view.change_visibility('p3')
 
-    When we get the projects again, we should not be listed for p4
+    When we get the projects again, we should not be listed for p3
     >>> project_dicts = view.get_projects_for_user()
     >>> [d['listed'] for d in project_dicts]
-    [True, False]
+    [False, True]
 
     Now let's set it back to visible
-    >>> view.change_visibility('p4')
+    >>> view.change_visibility('p3')
 
     Now he should be listed again
     >>> project_dicts = view.get_projects_for_user()
@@ -113,24 +94,5 @@ Exercise the Member Preferences Class
     [True, True]
 
     Now let's call the view simulating the request:
-
-    Now fake the request
-    XXX No interface yet on view to toggle visibility (public/private)
-    #>>> request = view.request
-    #>>> request.form = dict(action_visibility=True,
-    #...                     proj_id='p4')
-    #>>> response = view()
-
-    #And we can check the listing status again
-    #>>> project_dicts = view.get_projects_for_user()
-    #>>> [d['listed'] for d in project_dicts]
-    #[True, False]
-
-    Now let's try to leave the project
-    >>> request.form = dict(task='p4_leave')
-    >>> response = view()
-
-    And now the p4 membership should be missing
-    >>> project_dicts = view.get_projects_for_user()
-    >>> [d['proj_id'] for d in project_dicts]
-    ['p3']
+    XXX member areas need to be created first though for m1
+    or we can't traverse to view (or get people folder)
