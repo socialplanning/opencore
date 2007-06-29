@@ -236,19 +236,6 @@ dl.oc-plainList dd {
 .oc-boxy textarea {
   margin: 0;
 }
-.oc-column-group {
-  width: 100%;
-}
-.oc-column-left {
-  float: left;
-  clear: none;
-  width: 49%;
-}
-.oc-column-right {
-  float: right;
-  clear: none;
-  width: 49%;
-}
 #oc-contact .fn {
   margin-left: 4em;
   margin-bottom: 0.5em;
@@ -322,6 +309,31 @@ dl.oc-plainList dd {
   float: right;
   clear: none;
   font-size: 10px;
+}
+
+/* Portal Home */
+#oc-home-content {
+	float: left;
+	width: 66%;
+}
+#oc-home-content .oc-headingBlock h1{
+	font-size: 36px;
+}
+#oc-home-getstarted {
+	float: right;
+	width: 33%;
+}
+.oc-home-columnGroup {
+  width: 102%;
+}
+.oc-home-column {
+  float: left;
+  margin-right: 1%;
+  clear: none;
+  width: 32%;
+}
+#oc-home-news h2 {
+	background: #6BA12A;
 }
 
 /* People search results (people-searchresults.pt) */
@@ -974,21 +986,25 @@ height: 1em; */
   margin-bottom: 1em;
   padding-bottom: 0.25em;
 }
-.oc-widget-feed.oc-column-left,
-.oc-widget-feed.oc-column-right {
-  /* width: 46%; */
-}
 .oc-widget-feed h2{
-  margin: 0;
+	color: #fff;
+	background: #47413B;
+	padding: 0.25em;
+	margin: 0;
 }
 .oc-feed-list {
   list-style: none;
   margin: 0;
   padding: 0;
+  border-bottom: 2px solid #47413B;
 }
 li.oc-feed-item {
-  margin: 0.5em 0;
-  padding: 0;
+  margin: 0.5em 0 0;
+  padding: 0 0 0.5em;
+  border-bottom: 1px dotted #47413B;
+}
+.oc-feed-list li.oc-feed-item:last-child {
+  border: none;
 }
 li.oc-feed-item .oc-avatar {
   width: 80px;
@@ -1280,10 +1296,7 @@ p {
 .oc-discreetText {
   color: #665D55;
 }
-a {
-  color: #558021;
-}
-a:visited {
+a, a:visited {
   color: #6BA12A;
 }
 a:hover,

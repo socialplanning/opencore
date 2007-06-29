@@ -116,9 +116,7 @@ ul.oc-tabs {
   padding: 1em;
 }
 #oc-content-sidebar .oc-boxy h1,
-#oc-content-sidebar .oc-boxy h2,
-.oc-getstarted h1,
-.oc-getstarted h2 {
+#oc-content-sidebar .oc-boxy h2 {
   padding-bottom: 0.5em;
   border-bottom: 1px dotted #E6D3C0;
 }
@@ -126,15 +124,28 @@ ul.oc-tabs {
 /* Get Started */
 
 .oc-getstarted {
-  border: none;
-  background-color: #EB852B;
+  border: 1px solid #EB852B;;
+  background-color: #F9F9F9;
+  padding: 0;
 }
 .oc-getstarted h1,
 .oc-getstarted h2 {
-  border-color: #EB852B;
+  background-color: #EB852B;
+  padding: 0.5em;
+  color: #fff;
+}
+.oc-getstarted p,
+.oc-getstarted-list {
+  padding: 1em;
+  padding-top: 0;
+}
+.oc-getstarted-list p {
+  padding: 0 0 0 1.25em;
+  margin-bottom: 0.5em;
 }
 .oc-getstarted a {
- color: #fff;
+ color: #EB852B;
+ font-weight: bold;
 }
 
 /* Search Widgets */
@@ -167,27 +178,6 @@ ul.oc-tabs {
 }
 .oc-widget-multiSearch .oc-form-fieldBlock {
   margin-top: 0.5em;
-}
-
-/* Feeds */
-
-.oc-widget-feed {
-}
-.oc-widget-feed ul.oc-feed-list {
-  border-top: 1px solid #47413B;
-  margin-top: 0.5em;
-}
-.oc-widget-feed li.oc-feed-item {
-  border-bottom: 1px dotted #47413B;
-  padding: 0 0 0.5em;
-}
-.oc-widget-feed.oc-boxy li.oc-feed-item {
-  border-top: 1px dotted #6B97A5;
-  padding: 0.5em 0;
-}
-.oc-widget-feed.oc-boxy ul.oc-feed-list {
-  border-top: none;
-  margin-top: 0;
 }
 
 /* Form Boxes */

@@ -1,7 +1,1 @@
-            <h2>Participate on OpenPlans</h2>
-            <ul>
-              <li>Customize your profile</li>
-              <li>Post a photo of yourself</li>
-              <li>Customize your homepage</li>
-              <li>Join a project (or start) a project</li>
-            </ul>
+  <div class="oc-getstarted">    <h2>Become a better member&hellip;</h2>    <ol class="oc-getstarted-list">        <li>          <h3><a href="profile-edit">1. Personalize your profile</a></h3>        </li>         <li>          <h3><a href="#">2. Post a photo of yourself</a></h3>        </li>        <li>          <h3><a href="#">3. Customize your homepage</a></h3>        </li>        <li>          <h3><a tal:attributes="href string:${context/portal_url}/projects">4. Join or start a project</a></h3>        </li>    </ol>  </div>
