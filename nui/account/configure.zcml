@@ -59,7 +59,6 @@
      class=".accountview.JoinView"
      permission="zope.Public"
      name="join"
-     attribute="handle_request"
      />
 
 </configure>

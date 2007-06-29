@@ -7,7 +7,7 @@
          
       <div id="oc-content-main">
         
-        <form id="oc-join-form" class="oc-liveForm" name="edit_form" method="post" 
+        <form id="oc-join-form" class="oc-noAjax oc-liveForm" name="edit_form" method="post" 
               tal:attributes="action string:${context/absolute_url}/join"
               >
           
@@ -139,18 +139,11 @@
                   </td>
                 </tr>
 
-                <tr>
-                  <td class="oc-form-value">
-                    <input type="hidden" name="temp_mem_id" 
-                           tal:attributes="value view/temp_mem_id" />
-                  </td>
-                </tr>
-
                 <tr class="oc-actions">
                   <th class="oc-form-label">
                   </th>
                   <td class="oc-form-value">
-                    <button type="submit" name="join:boolean" value="True">Join</button>
+                    <button type="submit" name="task" value="join">Join</button>
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
