@@ -291,6 +291,7 @@ OC.LiveForm = function(extEl) {
       // get action from form element
       var action = liveForm.dom.action;
       OC.debug("form action: " + action);
+      // insert a hidden 'task' input into the form
       var submit = document.createElement('input');
       submit.name = "task";
       submit.value = el.id;
@@ -300,7 +301,7 @@ OC.LiveForm = function(extEl) {
 
       YAHOO.util.Connect.setForm(liveForm.dom);
       var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
-        { success: _afterActionSelects,
+        { success: _afterSuccess,
           failure: _afterFailure,
           scope: this
         },
@@ -312,17 +313,6 @@ OC.LiveForm = function(extEl) {
     actionSelects.on('change', _actionSelectChange, this);
   }
 
-
-  // after successful actionSelects
-  function _afterActionSelects(o) {
-    var response = o.responseText;  //o.responseText;
-    var psm = document.createElement('div');
-    psm.className = "oc-statusMessage";
-    var psm_text = document.createTextNode(response);
-    psm.appendChild(psm_text);
-    var psm_container = document.getElementById('oc-statusMessage-container');
-    psm_container.appendChild(psm);
-  }
   
   // for backcompability with existing code. consider deprecated, maybe.
   if( !noAjax ) {
@@ -366,10 +356,11 @@ OC.LiveForm = function(extEl) {
 	OC.debug("Couldn't parse response " + o.responseText + " . Is it bad JSON?")
     }
 
-    if( response instanceof Array ) { 	// for backcompatibility with existing code. consider deprecated.
-	// we will translate the array into an object 
-	// with "delete" actions for each elId, since
-	// that's the only case where we used to expect an array.
+    if( response instanceof Array ) {
+        // for backcompatibility with existing code. consider
+	// deprecated.  we will translate the array into an object
+	// with "delete" actions for each elId, since that's the only
+	// case where we used to expect an array.
 	var newResponse = {};
 	for( var iter = 0; iter < response.length; ++iter ) {
 	    newResponse[response[iter]] = {'action': 'delete'};
@@ -448,9 +439,13 @@ OC.LiveForm = function(extEl) {
 	    break;
 
 	case "prepend": // fill me in
+
 	default:
 	    OC.debug('_afterSuccess, task: default');
 	    break;
+
+            
+
 	}
     } 
   }

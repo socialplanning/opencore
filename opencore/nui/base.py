@@ -3,28 +3,36 @@ some base class for opencore ui work
 """
 import datetime
 from time import strptime
+import urllib
 from Acquisition import aq_inner, aq_parent
+
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from Products.Five import BrowserView
+
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFPlone.utils import transaction_note
-from Products.Five import BrowserView
+from Products.remember.interfaces import IReMember
+
 from Products.OpenPlans.content.project import OpenProject
 from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
-from Products.remember.interfaces import IReMember
+
+from zope.component import getMultiAdapter, adapts, adapter
+
+from plone.memoize import instance
+from plone.memoize import view 
+
+from topp.featurelets.interfaces import IFeatureletSupporter
+from topp.utils.pretty_date import prettyDate
+from topp.utils.pretty_text import truncate
+
 from opencore import redirect 
 from opencore.content.member import OpenMember
 from opencore.content.page import OpenPage
 from opencore.interfaces import IProject 
 from opencore.nui.static import render_static
-from plone.memoize import instance
-from plone.memoize import view 
-from topp.featurelets.interfaces import IFeatureletSupporter
-from topp.utils.pretty_date import prettyDate
-from topp.utils.pretty_text import truncate
-from zope.component import getMultiAdapter, adapts, adapter
-import urllib
 
 # XXX these shouldn't be imported here -- they aren't used in this file
 # jeff, they are imported as a convenience api here 
@@ -45,6 +53,8 @@ class BaseView(BrowserView):
     site_iface = IPloneSiteRoot
     getToolByName=getToolByName
     
+    psm_snippet = ZopeTwoPageTemplateFile('psm_snippet.pt')
+
     def __init__(self, context, request):
         self.context      = context
         self.request      = request

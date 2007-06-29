@@ -135,21 +135,41 @@ def dict_to_json(func):
 class OctopoLite(object):
     """
     Merge of the octopus request form handling with the FormLite form
-    delegation code.  Meant to be used as a mix-in to your view class.
+    delegation code.  Meant to be used as a mix-in to any class that
+    also subclasses opencore.nui.base.BaseView.
     """
-    no_postprocess = False
 
     def __call__(self, *args, **kw):
+        """
+        drives the request process through the following steps:
+
+        - parsing the request form to determine the action, targets, and
+        (optionally) fields
+
+        - triggering delegation to the correct action
+
+        - doing the right thing w/ a portal status message
+
+        returns either a rendered template (if the request is
+        synchronous) or a dictionary of info to be passed back to the
+        browser (if AJAX request).
+        """
         raise_ = kw.pop('raise_', False)  #sorry
         try:
             action, objects, fields = self.__preprocess()
         except:
             action, objects, fields = (None, [], [])
         ret = self.__delegate(action, objects, fields, raise_)
+        if ret is None:
+            ret = dict()
+
         mode = self.request.form.get('mode')
         if mode == 'async':
-            if ret is None:
-                ret = dict()
+            # put the status message html into the return data
+            status_msg_html = self.psm_snippet()
+            ret['oc-statusMessage-container'] = {'action': 'replace',
+                                                 'html': status_msg_html,
+                                                 'effects': 'blink'}
             return ret
         else:
             return self.template()

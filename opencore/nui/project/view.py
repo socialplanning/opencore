@@ -742,6 +742,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             msg = self._constructMailMessage('remind_invitee', **msg_vars)
             self._sendEmail(mem_id, msg)
 
+        msg = "Reminders sent: %s" % ", ".join(mem_ids)
+        self.addPortalStatusMessage(msg)
+
 
     ##################
     #### ACTIVE MEMBERSHIP BUTTON HANDLERS
@@ -761,7 +764,10 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                                              project_title=self.context.Title())
             ret[mem_id] = {'action': 'delete'}
             self._sendEmail(mem_id, msg)
-        #ret['psm'] = u'%d members deactivated' % nremoved
+
+        msg = "Members deactivated: %s" % ', '.join(mem_ids))
+        self.addPortalStatusMessage(msg)
+        
         return ret
 
     @formhandler.action('set-roles')
@@ -773,7 +779,6 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         roles = [f.get('roles') for f in fields]
         roles_from_form = dict(zip(targets, roles))
 
-        nchanges = 0
         team = self.team
         for mem_id in roles_from_form:
             from_form = roles_from_form[mem_id]
@@ -781,7 +786,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                 index = DEFAULT_ROLES.index(from_form)
                 mem_roles = DEFAULT_ROLES[:index + 1]
                 team.setTeamRolesForMember(mem_id, mem_roles)
-                nchanges += 1
+
+        msg = 'Role changed for the following members: %s' % ', '.join(targets)
+        self.addPortalStatusMessage(msg)
 
 
     ##################
