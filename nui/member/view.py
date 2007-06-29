@@ -115,10 +115,14 @@ class MemberPreferences(BaseView, OctopoLite):
         project_info = cat.getMetadataForUID(path)
         return project_info
 
-    def _create_project_dict(self, brain):
+    def _project_id_from(self, brain):
         path = brain.getPath()
         elts = path.split('/')
         project_id = elts[-2]
+        return project_id
+
+    def _create_project_dict(self, brain):
+        project_id = self._project_id_from(brain)
         project_info = self._project_metadata_for(project_id)
         proj_title = project_info['Title']
         proj_id = project_info['getId']
