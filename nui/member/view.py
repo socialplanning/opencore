@@ -139,11 +139,17 @@ class MemberPreferences(BaseView, OctopoLite):
         project_dicts = map(self._create_project_dict, mships)
         return project_dicts
 
-    def get_invitations_for_user(self):
-        invites = []
-        invites.append({'name':'Big Animals'})
-        invites.append({'name':'Small Animals'})
-        return invites
+    def _invitations_for(self, mem_id):
+        query = dict(portal_type='OpenMembership',
+                     getId=mem_id,
+                     review_state='pending')
+        mship_brains = self.catalogtool(**query)
+        return mship_brains
+
+    def invitations(self):
+        """ return all mship brains where the user needs to accept """
+        mem_id = self.context.getId()
+        return self._invitations_for(mem_id)
 
     def _membership_for_proj(self, proj_id):
         tmtool = self.get_tool('portal_teams')
