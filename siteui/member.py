@@ -11,7 +11,7 @@ from interfaces import IMemberFolder, IMemberHomePage
 from interfaces import IMemberInfo, IFirstLoginEvent
 from memojito import memoizedproperty, memoize
 from opencore import redirect 
-from opencore.interfaces import IProject, IAddSubProject
+from opencore.interfaces import IProject, IConsumeNewMembers
 from topp.utils.pretty_date import prettyDate
 from zope.component import getMultiAdapter, adapts, adapter
 from zope.event import notify
@@ -157,6 +157,7 @@ class ProfileView(BrowserView):
 def notifyFirstLogin(member, request):
     notify(FirstLoginEvent(member, request))
 
+
 @adapter(IFirstLoginEvent)
 def create_home_directory(event):
     member = event.member
@@ -183,18 +184,32 @@ def create_home_directory(event):
     # make profile the default view on the homepage
     page.setLayout('profile.html')
 
+@adapter(IFirstLoginEvent)
+def auto_approve_member(event):
+    # if there is a parent project in the
+    # request which implements IConsumeNewMembers,
+    # automatically register the user as a member
+    # of the project.
+
+
+    request = event.request
+    parent = get_parent_project(request)
+
+    if parent is not None:
+        team = parent.getTeams()[0]
+        if team is not None: 
+            team.joinAndApprove()
 
 def get_parent_project(request):
     parents = request.get('PARENTS', tuple())
 
     for parent in parents:
         # check the request for a greedy project project,
-        # ie one that is redirected and marked with IAddSubProject
+        # ie one that is redirected and marked with IConsumeMembers
         if (redirect.IRedirected.providedBy(parent) and
-            IAddSubProject.providedBy(parent) and 
+            IConsumeNewMembers.providedBy(parent) and 
             IProject.providedBy(parent)):
             return parent
-        
 
 def apply_member_folder_redirection(folder, request):
     parent = get_parent_project(request) 

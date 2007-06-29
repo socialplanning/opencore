@@ -27,3 +27,6 @@ class IMemberFolder(Interface):
 
 class IOpenSiteRoot(Interface):
     """ Marker interface for virtual site roots """
+
+class IConsumeNewMembers(Interface):
+    """ Marker interface for special projects that consume new members """

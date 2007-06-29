@@ -20,6 +20,7 @@
      />
 
   <subscriber handler=".member.create_home_directory"/>
+  <subscriber handler=".member.auto_approve_member"/>
 
   <include package=".menu" />
   <include file="thirdparty.zcml"  />
