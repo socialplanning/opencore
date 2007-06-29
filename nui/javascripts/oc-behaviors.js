@@ -1088,47 +1088,6 @@ OC.Expander = function(extEl) {
 
 /*
 #
-# Register Form
-#
- */
-OC.JoinForm = function(extEl) {
-    // setup references
-    var form = Ext.get('oc-join-form');
-    var usernameField = Ext.get('__ac_name');
-    var usernameValidator = Ext.get('oc-username-validator');
-    // hacking this together for the moment.
-
-    //check references
-    if (!form || !usernameField || !usernameValidator)
-        return;
-
-    //username field   
-    function _usernameKeyPress(e, el, o) {
-        //setup request
-        var options = {
-           url: 'user-exists',
-           method:'post',
-           params:{username: usernameField.dom.value},
-           callback: function(options, bSuccess, response) {
-               if (bSuccess) {
-                   if( response.responseText )
-                       usernameValidator.update('no good');
-                   else
-                       usernameValidator.update('ok!');
-               }
-           },
-           scope: this
-        };
-        // make ajax call
-        new Ext.data.Connection().request(options);
-    }
-    usernameField.on('keypress', _usernameKeyPress, this);
-    
-    return this;
-}
-
-/*
-#
 # History List
 #
 */
