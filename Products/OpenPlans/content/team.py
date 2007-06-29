@@ -13,6 +13,8 @@ from zope.interface import implements
 from Products.OpenPlans.interfaces import IOpenTeam
 from Products.OpenPlans.config import DEFAULT_ROLES
 
+import datetime
+
 marker = object()
 
 openteam_schema = Team.schema.copy()
@@ -134,15 +136,54 @@ class OpenTeam(Team):
         member.  Can't delegate to addMember b/c we need to bypass the
         security checks when creating the membership object.
         """
+
+        # XXX requesty stuff should be pulled out into a view
+        
         putils = getToolByName(self, 'plone_utils')
+
+        try:
+            self._createMembership()
+        except Exception, msg:
+            putils.addPortalMessage(msg)
+            raise Redirect, self.absolute_url()
+        
+        msg = u'Membership created, pending approval.'
+        putils.addPortalMessage(msg)
+        # can't raise Redirect or we'll abort our changes
+
+        self.REQUEST.response.redirect(self.absolute_url())
+
+    security.declarePrivate('joinAndApprove')    
+    def joinAndApprove(self):
+        """
+        this makes the currently logged in user
+        a member of this team, forcefully
+        """
+        mship = self._createMembership()
+        wftool = getToolByName(self, 'portal_workflow')
+
+        # XXX hack around workflow transition
+        # pretend we execucted approve_public
+        wfid = 'openplans_team_membership_workflow'
+        status = wftool.getStatusOf(wfid, mship)
+        status['review_state'] = 'public'
+        status['action'] = 'approve_public'
+        wftool.setStatusOf(wfid, mship, status)
+
+        # follow up like OpenPlans.Extensions.workflow.mship_activated()
+        mship.made_active_date = datetime.datetime.now()
+        mship.reindexObject()
+        mship._p_changed = True
+
+        
+    def _createMembership(self):
         mtool = getToolByName(self, 'portal_membership')
         mem = mtool.getAuthenticatedMember()
         mem_id = mem.getId()
         if self.getMembershipByMemberId(mem_id) is not None:
             # already have a membership
             msg = u'You already have a membership on this project.'
-            putils.addPortalMessage(msg)
-            raise Redirect, self.absolute_url()
+            raise ValueError, msg
 
         mship_type = self.getDefaultMembershipType()
         mship = _createObjectByType(mship_type, self, mem_id)
@@ -160,9 +201,6 @@ class OpenTeam(Team):
         project = self.getProject()
         project._updateMember('add', mem, mship, self)
 
-        msg = u'Membership created, pending approval.'
-        putils.addPortalMessage(msg)
-        # can't raise Redirect or we'll abort our changes
-        self.REQUEST.response.redirect(self.absolute_url())
+        return mship
 
 registerType(OpenTeam)
