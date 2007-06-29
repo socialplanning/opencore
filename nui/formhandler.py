@@ -133,7 +133,10 @@ def dict_to_json(func):
     return inner
 
 class OctopoLite(object):
-
+    """
+    Merge of the octopus request form handling with the FormLite form
+    delegation code.  Meant to be used as a mix-in to your view class.
+    """
     no_postprocess = False
 
     def __call__(self, *args, **kw):
@@ -143,9 +146,13 @@ class OctopoLite(object):
         except:
             action, objects, fields = (None, [], {})
         ret = self.__delegate(action, objects, fields, raise_)
-        if not self.no_postprocess:
-            return self.__postprocess(ret)
-        return ret
+        mode = self.request.form.get('mode')
+        if mode == 'async':
+            if ret is None:
+                ret = dict()
+            return ret
+        else:
+            return self.template()
 
     def __preprocess(self):
         """ yanked from octopus """
@@ -172,24 +179,14 @@ class OctopoLite(object):
         return (action, target, fields)
 
     def __delegate(self, action, objects, fields, raise_=False):
-        """ yanked from FormLite """
+        """ delegate to the appropriate action method, if it exists."""
         if action in self.actions:
             return self.actions[action](self, objects, fields)
         elif raise_:
             raise KeyError("No actions in request")
         elif self.actions.default is not None:
-            self.no_postprocess = True
             return self.actions.default(self, objects, fields)
-        else:
-            return None
 
-    def __postprocess(self, val):
-        """ yanked from octopus """
-        mode = self.request.form.get("mode")
-        if mode == "async":
-            return val
-
-        return self.redirect(self.request.environ['HTTP_REFERER'])
     
 class FormLite(object):
     """formlike but definitely not formlib"""

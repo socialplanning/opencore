@@ -72,15 +72,6 @@
      class=".view.ManageTeamView"
      permission="teamspace.ManageTeamMemberships"
      name="manage-team"
-     attribute="choose_template"
-     />
-
-  <browser:page
-     for="opencore.interfaces.IProject"
-     class=".view.ManageTeamView"
-     permission="teamspace.ManageTeamMemberships"
-     name="manage-memberships"
-     attribute="manage_memberships"
      />
 
   <subscriber
