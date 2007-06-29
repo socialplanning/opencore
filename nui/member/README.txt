@@ -110,8 +110,6 @@ Exercise the Member Preferences Class
     [True, True]
 
     Now let's call the view simulating the request:
-    XXX Just fake the template for now
-    >>> view.template = lambda:None
 
     Now fake the request
     XXX No interface yet on view to toggle visibility (public/private)
