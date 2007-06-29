@@ -103,13 +103,10 @@ Exercise the Member Preferences Class
     >>> self.login('m1')
 
     Now we should have an invitation for m1
-    >>> brains = view.invitations()
-    >>> len(brains)
+    >>> proj_ids = view.invitations()
+    >>> len(proj_ids)
     1
-    >>> brain = brains[0]
-    >>> brain.getId
-    'm1'
-    >>> view._project_id_from(brain)
+    >>> proj_ids[0]
     'p4'
 
     Now let's call the view simulating the request:
