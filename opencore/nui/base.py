@@ -66,6 +66,20 @@ class BaseView(BrowserView):
         self._redirected = True
         return self.response.redirect(*args, **kwargs)
         
+
+    def render_macro(self, macro, extra_context={}):
+        """
+        Returns a rendered page template which contains nothing but a
+        provied macro.
+
+        o macro: the macro list representation which should be
+        rendered within the returned template object.
+        """
+        template = ZopeTwoPageTemplateFile('macro_snippet.pt').__of__(self)
+        template._cook_check()
+        extra_context['macro'] = macro
+        return template.pt_render(extra_context=extra_context)
+
     @property
     def portal_status_message(self):
         if hasattr(self, '_redirected'):

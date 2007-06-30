@@ -35,12 +35,12 @@
       </div>
 
       <div id="oc-content-wrapper">
-        
+
         <div id="oc-content-container">
-        
+
           <metal:status-messages
              use-macro="view/psm_snippet/macros/status-messages" />
-        
+
           <!-- content is injected here -->
           <tal:everything metal:define-slot="content" />
           <hr class="oc-clearElement" />
