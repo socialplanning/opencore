@@ -548,27 +548,35 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                      id=mem_ids)
         mships = []
         for brain in brains:
-            data = {'id': brain.id,
-                    'getId': brain.getId,
-                    }
-
-            data['listed'] = self.listedmap[brain.review_state]
-
-            made_active_date = brain.made_active_date
-            if not made_active_date:
-                made_active_date = brain.CreationDate
-            data['active_since'] = made_active_date
-
-            role = self.team.getHighestTeamRoleForMember(brain.id)
-            data['role'] = self.rolemap[role]
+            data = self.getMshipInfoFromBrain(brain)
             mships.append(data)
         return mships
+
+    def getMshipInfoFromBrain(self, brain):
+        """
+        Return a formatted dictionary of information from a membership
+        brain that is ready to be used by the templates.
+        """
+        data = {'id': brain.id,
+                'getId': brain.getId,
+                }
+
+        data['listed'] = self.listedmap[brain.review_state]
+
+        made_active_date = brain.made_active_date
+        if not made_active_date:
+            made_active_date = brain.CreationDate
+        data['active_since'] = made_active_date
+
+        role = self.team.getHighestTeamRoleForMember(brain.id)
+        data['role'] = self.rolemap[role]
+        return data
 
     def getMemberURL(self, mem_id):
         mtool = self.get_tool('portal_membership')
         return mtool.getHomeUrl(mem_id)
 
-    def doMshipWFAction(self, transition, mem_ids=None):
+    def doMshipWFAction(self, transition, mem_ids):
         """
         Fires the specified workflow transition for the memberships
         associated with the specified member ids.
@@ -580,8 +588,6 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         Returns the number of memberships for which the transition was
         successful.
         """
-        if mem_ids is None:
-            mem_ids = self.request.form.get('member_ids')
         wftool = self.get_tool('portal_workflow')
         team = self.team
         for mem_id in mem_ids:
@@ -646,6 +652,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         team = self.team
 
         napproved = 0
+        res = {}
         for mem_id in mem_ids:
             mship = team._getOb(mem_id)
             # approval transition has a different id for public and
@@ -660,8 +667,20 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             msg = self._constructMailMessage('request_approved',
                                              project_title=self.context.Title())
             self._sendEmail(mem_id, msg)
+            res[mem_id] = {'action': 'delete'}
+            # will only be one mem_id in AJAX requests
+            brain = self.catalog(path='/'.join(mship.getPhysicalPath()))[0]
+            extra_context={'item': self.getMshipInfoFromBrain(brain),
+                           'team_manage_macros': self.team_manage_macros.macros,
+                           }
+            html = self.render_macro(self.team_manage_macros.macros['mshiprow'],
+                                     extra_context=extra_context)
+            res['mship-rows'] = {'action': 'append',
+                                 'html': html,
+                                 'effects':  'fadeIn'}
 
         self.addPortalStatusMessage(u'%d members approved' % napproved)
+        return res
 
     @formhandler.action('discard-requests')
     def discard_requests(self, targets, fields=None):
@@ -669,26 +688,29 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         Actually deletes the membership objects, doesn't send a
         notifier.
         """
-        mem_ids = targets
-        # have to get the number of removals now b/c manage_delObjects
-        # empties the passed in list
-        ndiscards = len(mem_ids)
+        # copy targets list b/c manage_delObjects empties the list
+        mem_ids = targets[:]
         self.team.manage_delObjects(ids=mem_ids)
-        self.addPortalStatusMessage(u'%d requests discarded' % ndiscards)
+        msg = u"Requests discarded: %s" % ', '.join(targets)
+        
+        self.addPortalStatusMessage(msg)
+        return dict( ((mem_id, {'action': 'delete'}) for mem_id in targets) )
 
     @formhandler.action('reject-requests')
     def reject_requests(self, targets, fields=None):
         """
         Notifiers should be handled by workflow transition script.
         """
-        nrejected = self.doMshipWFAction('reject_by_admin')
         mem_ids = targets
+        self.doMshipWFAction('reject_by_admin', mem_ids)
         msg = self._constructMailMessage('request_denied',
                                          project_title=self.context.Title())
         for mem_id in mem_ids:
             self._sendEmail(mem_id, msg)
-        self.addPortalStatusMessage(u'%d requests rejected' % nrejected)
 
+        msg = u"Requests rejected: %s" % ', '.join(mem_ids)
+        self.addPortalStatusMessage(msg)
+        return dict( ((mem_id, {'action': 'delete'}) for mem_id in targets) )
 
     ##################
     #### MEMBERSHIP INVITATION BUTTON HANDLERS
@@ -697,10 +719,10 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     @formhandler.action('remove-invitations')
     def remove_invitations(self, targets, fields=None):
         """
-        Deletes the membership objects.  Should send notifier.
+        Deletes (or deactivates, if there's history to preserve) the
+        membership objects.  Should send notifiers.
         """
         mem_ids = targets
-        nremovals = len(mem_ids)
         wftool = self.get_tool('portal_workflow')
         wf_id = 'openplans_team_membership_workflow'
         deletes = []
@@ -722,7 +744,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         if deletes:
             self.team.manage_delObjects(ids=deletes)
 
-        self.addPortalStatusMessage(u'%d invitations removed' % nremovals)
+        msg = u'Invitations removed: %s' % ', '.join(mem_ids)
+        self.addPortalStatusMessage(msg)
         return ret
 
     @formhandler.action('remind-invitations')

@@ -1,6 +1,7 @@
 """Decorators for working with form submission"""
 import sys
 from zExceptions import Forbidden
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 def button(name=None):
     def curry(handle_request):
@@ -139,6 +140,8 @@ class OctopoLite(object):
     also subclasses opencore.nui.base.BaseView.
     """
 
+    psm_template = ZopeTwoPageTemplateFile('psm_snippet.pt')
+
     def __call__(self, *args, **kw):
         """
         drives the request process through the following steps:
@@ -166,7 +169,9 @@ class OctopoLite(object):
         mode = self.request.form.get('mode')
         if mode == 'async':
             # put the status message html into the return data
-            status_msg_html = self.psm_snippet()
+            #status_msg_html = self.psm_snippet()
+            psm_macro = self.psm_template.macros['status-messages']
+            status_msg_html = self.render_macro(psm_macro)
             ret['oc-statusMessage-container'] = {'action': 'replace',
                                                  'html': status_msg_html,
                                                  'effects': 'blink'}

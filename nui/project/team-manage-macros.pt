@@ -1,5 +1,5 @@
 <tal:vars
-   define="global team_manage_macros view/team_manage_macros/macros" />
+   define="global team_manage_macros template/macros" />
 
 
 <!-- SHARED SNIPPETS -->
@@ -79,8 +79,8 @@
             class="oc-button" >reject</button>
   </li>
   <!--li>
-    <button type="submit" name="task" value="reject_msg"
-            class="oc-button" >reject with message</button>
+      <button type="submit" name="task" value="reject_msg"
+              class="oc-button" >reject with message</button>
   </li-->
 
 </metal:requestbuttons>
@@ -144,6 +144,48 @@
 
 <!-- ACTIVE TEAM MEMBER LIST  -->
 
+<metal:mshiprow define-macro="mshiprow">
+  <tr tal:attributes="id item/id">
+
+    <td>
+      <input type="checkbox" name="checked:list"
+             tal:attributes="value item/id" />
+    </td>
+
+    <td>
+      <div metal:use-macro="team_manage_macros/memberlink" />
+    </td>
+
+    <td tal:define="member_role item/role">
+      <div>
+        <input type="hidden" name="all:list"
+               tal:attributes="value item/id" />
+        <select tal:attributes="name string:${item/id}_roles;
+                                id string:${item/id}_set-roles;"
+                class="oc-actionSelect">
+          <tal:roleoptions repeat="roleitem view/rolemap/items">
+            <option tal:attributes="value python:roleitem[0];
+                                    selected python:(roleitem[1] == member_role)"
+                    tal:content="python:roleitem[1]" />
+          </tal:roleoptions>
+        </select>
+      </div>
+    </td>
+
+    <td>
+      <div tal:define="active_since item/active_since"
+           tal:content="python:view.pretty_date(active_since)">
+      </div>
+    </td>
+
+    <td>
+      <div tal:content="item/listed">
+      </div>
+    </td>
+
+  </tr>
+</metal:mshiprow>
+
 <metal:mshiplist define-macro="mshiplist">
   <div class="oc-widget oc-widget-dataTable"
        tal:define="mships view/active_mships;
@@ -153,7 +195,7 @@
       <h3 tal:content="string:Your team members ($num_items)" />
     </div>
 
-    <form name="team-members" method="POST"
+    <form name="team-members" id="team-members" method="POST"
           class="oc-liveForm" tal:attributes="action view/request/ACTUAL_URL">
       <table class="oc-dataTable" cellpadding="0" cellspacing="0">
 
@@ -167,50 +209,10 @@
           </tr>
         </thead>
 
-	<tbody>
+	<tbody name="mship-rows" id="mship-rows">
 
           <tal:items repeat="item mships">
-
-            <tr tal:attributes="id item/id">
-
-              <td>
-                <input type="checkbox" name="checked:list"
-                       tal:attributes="value item/id" />
-              </td>
-
-              <td>
-                <div metal:use-macro="team_manage_macros/memberlink" />
-              </td>
-
-              <td tal:define="member_role item/role">
-                <div>
-                  <input type="hidden" name="all:list"
-                         tal:attributes="value item/id" />
-                  <select tal:attributes="name string:${item/id}_roles;
-                                          id string:${item/id}_set-roles;"
-                          class="oc-actionSelect">
-                    <tal:roleoptions repeat="roleitem view/rolemap/items">
-                      <option tal:attributes="value python:roleitem[0];
-                                              selected python:(roleitem[1] == member_role)"
-                              tal:content="python:roleitem[1]" />
-                    </tal:roleoptions>
-                  </select>
-                </div>
-              </td>
-
-              <td>
-                <div tal:define="active_since item/active_since"
-                     tal:content="python:view.pretty_date(active_since)">
-                </div>
-              </td>
-
-              <td>
-                <div tal:content="item/listed">
-                </div>
-              </td>
-
-            </tr>
-
+            <metal:mshiprow use-macro="team_manage_macros/mshiprow" />
           </tal:items>
 
 	</tbody>
