@@ -111,10 +111,10 @@ class BaseView(BrowserView):
     
     @view.memoizedproperty
     def area(self):
-        if self.piv.inProject:
-            return self.piv.project
-        elif self.inmember:
+        if self.inmember:
             return self.miv.member_folder
+        elif self.piv.inProject:
+            return self.piv.project
         else:
             return self.portal
 
@@ -356,6 +356,7 @@ class BaseView(BrowserView):
 
     # properties and methods associated with objects
 
+    @property
     def inproject(self): # TODO
         return self.piv.inProject
 
