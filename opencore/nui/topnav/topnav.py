@@ -2,23 +2,24 @@
 TopNav view classes.
 """
 from Products.CMFCore.permissions import ModifyPortalContent
-from opencore.nui.base import BaseView 
+from opencore.nui.base import BaseView
+from opencore.nui.contexthijack import HeaderHijackable
 from plone.memoize import view
 
 memoizedproperty = lambda func: property(view.memoize(func))
 
 
 
-class TopNavView(BaseView):
+class TopNavView(HeaderHijackable):
     """
     Provides req'd information for rendering top nav in any context.
     """
     @memoizedproperty
     def contextmenu(self):
-        if self.piv.inProject:
-            viewname = 'topnav-project-menu'
-        elif self.inmember:
+        if self.inmember:
             viewname = 'topnav-member-menu'
+        elif self.inproject:
+            viewname = 'topnav-project-menu'
         else:
             viewname = 'topnav-default-menu'
         return self.get_view(viewname)
