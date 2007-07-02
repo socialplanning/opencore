@@ -281,7 +281,7 @@ class OpenMember(TeamSecurity, FolderishMember):
             # we only validate if we're changing the id
             allowed = True
             mbtool = getToolByName(self, 'membrane_tool')
-            if len(mbtool(getUserName=id)) > 0 or \
+            if len(mbtool.unrestrictedSearchResults(getUserName=id)) > 0 or \
                    not ALLOWED_MEMBER_ID_PATTERN.match(id):
                 allowed = False
             for prefix in PROHIBITED_MEMBER_PREFIXES:
