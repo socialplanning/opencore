@@ -53,7 +53,7 @@ class BaseView(BrowserView):
     site_iface = IPloneSiteRoot
     getToolByName=getToolByName
     
-    psm_snippet = ZopeTwoPageTemplateFile('psm_snippet.pt')
+    main_macros = ZopeTwoPageTemplateFile('main_macros.pt')
 
     def __init__(self, context, request):
         self.context      = context
