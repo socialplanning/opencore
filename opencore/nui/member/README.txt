@@ -93,21 +93,33 @@ Exercise the Member Preferences Class
     []
 
     Let's simulate a project admin inviting a user
+    And also a user requesting membership to a project
     >>> pt = getToolByName(portal, 'portal_teams')
-    >>> team = pt._getOb('p4')
+    >>> team_request = pt._getOb('p2')
+    >>> team_invite = pt._getOb('p4')
+
+    First simulate a user requesting membership by pushing him through the
+    workflow transition
+    >>> m1_p2_mship = team_request._getOb('m1')
+    >>> wft = getToolByName(self.portal, 'portal_workflow')
+    >>> wft.doActionFor(m1_p2_mship, 'rerequest')
+
+    Now, simulate a project admin inviting a user
     >>> self.logout()
     >>> self.loginAsPortalOwner()
-    >>> team.addMember('m1')
+    >>> team_invite.addMember('m1')
     <OpenMembership at /plone/portal_teams/p4/m1>
     >>> self.logout()
     >>> self.login('m1')
 
-    Now we should have an invitation for m1
-    >>> proj_ids = view.invitations()
-    >>> len(proj_ids)
-    1
-    >>> proj_ids[0]
-    'p4'
+    Now we should one invitation for m1
+    These are what the member can act on
+    >>> view.invitations()
+    ['p4']
+
+    And one still pending, which project admins approve
+    >>> view.member_requests()
+    ['p2']
 
     Now let's call the view simulating the request:
     XXX member areas need to be created first though for m1

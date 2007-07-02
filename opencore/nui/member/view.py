@@ -143,17 +143,32 @@ class MemberPreferences(BaseView, OctopoLite):
         project_dicts = map(self._create_project_dict, mships)
         return project_dicts
 
-    def _invitations_for(self, mem_id):
+    def _pending_mships(self, mem_id):
         query = dict(portal_type='OpenMembership',
                      getId=mem_id,
                      review_state='pending')
         mship_brains = self.catalogtool(**query)
+        return mship_brains
         return map(self._project_id_from, mship_brains)
+
+    def _pending_mships_satisfying(self, mem_id, pred):
+        pending_brains = self._pending_mships(mem_id)
+        invitation_brains = (b for b in pending_brains
+                             if pred(b))
+        return [self._project_id_from(b)
+                for b in invitation_brains]
 
     def invitations(self):
         """ return all proj_ids for pending project invitations """
         mem_id = self.context.getId()
-        return self._invitations_for(mem_id)
+        pred = lambda b: b.lastWorkflowActor != mem_id
+        return self._pending_mships_satisfying(mem_id, pred)
+
+    def member_requests(self):
+        """ return all proj_ids for pending member requests """
+        mem_id = self.context.getId()
+        pred = lambda b: b.lastWorkflowActor == mem_id
+        return self._pending_mships_satisfying(mem_id, pred)
 
     def _membership_for_proj(self, proj_id):
         tmtool = self.get_tool('portal_teams')
