@@ -118,6 +118,10 @@ render a resorted contents table::
     ['new title', 'Project Home']
     >>> [o['id'] for o in view._resort('pages', 'id')]
     ['new1', 'project-home']
+    >>> [o['id'] for o in view._resort('pages', 'id', 'descending')]
+    ['project-home', 'new1']
+    >>> [o['id'] for o in view._resort('pages', 'id', 'ascending')]
+    ['new1', 'project-home']
 
 
 Multipart form handler
@@ -159,7 +163,7 @@ We can also issue the request asynchronously::
     ...         'mode': 'async'}
     >>> request.form = form
     >>> view.modify_contents()
-    {'new1': '...<tr ...>...'}
+    {'new1':...{'html': '...<tr ...>...'}...}
 
     >>> page.Title()
     'Hume'
@@ -273,6 +277,6 @@ Let's delete the mailing list too, to clean up::
     ...         'mode': 'async'}
     >>> request.form = form
     >>> view.modify_contents()
-    ['list1']
+    {'list1': {'action': 'delete'}}
     >>> len(view.lists)
     0
