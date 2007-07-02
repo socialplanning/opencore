@@ -181,6 +181,7 @@ class JoinView(BaseView, OctopoLite):
 
     @action('validate')
     def validate(self, targets=None, fields=None):
+        """ this is really dumb. """
         mdc = self.get_tool('portal_memberdata')
         mem = mdc._validation_member
         errors = {}
@@ -188,11 +189,15 @@ class JoinView(BaseView, OctopoLite):
                               errors=self.errors,
                               data=1, metadata=0)
         erase = [error for error in errors if error not in self.request.form]
-        for e in erase:
-            del errors[e]
+        also_erase = [field for field in self.request.form if field not in errors]
+        for e in erase + also_erase:
+            errors[e] = ''
+        ret = {}
         for e in errors:
-            errors[e] = str(errors[e])
-        return errors
+            ret['oc-%s-validator' % e] = {
+                'html': str(errors[e]),
+                'action': 'copy', 'effects': ''}
+        return ret
 
     def _confirmation_url(self, mem):
         code = mem.getUserConfirmationCode()
