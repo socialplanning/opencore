@@ -316,6 +316,7 @@ class ProjectContentsView(BaseView, OctopoLite):
                         self.needed_values[item_type]),
                     item_type=item_type),
                 'effects': 'highlight',
+                'action': 'replace'
                 }
         return snippets
 
