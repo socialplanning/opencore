@@ -18,6 +18,10 @@ Test the workflow updating function::
 Forgot Password
 ===============
 
+ensure you're logged out first::
+
+    >>> self.logout()
+
 the forgotten password view::
 
     >>> view = portal.restrictedTraverse("@@forgot")
