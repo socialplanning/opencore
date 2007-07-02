@@ -153,8 +153,8 @@ class JoinView(BaseView, OctopoLite):
         mem = mdc._validation_member
         self.errors = {}
         self.errors = mem.validate(REQUEST=self.request,
-                              errors=self.errors,
-                              data=1, metadata=0)
+                                   errors=self.errors,
+                                   data=1, metadata=0)
         if self.errors:
             return self.errors
 
