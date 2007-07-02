@@ -272,14 +272,16 @@ class InitialLogin(BaseView):
                                         'profile-edit'))
 
 
-class ForgotLoginView(BaseView):
+class ForgotLoginView(AccountView):
 
     @button('send')
     @post_only(raise_=False)
     def handle_request(self):
-        if self.userid:
+        userid = self.userid
+        if userid:
             if email_confirmation():
-                self._mailPassword(self.userid)
+                self._mailPassword(userid)
+                self.addPortalStatusMessage('An email has been sent to you %s' % userid)
             else:
                 self.redirect(self.reset_url)
             return True
