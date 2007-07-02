@@ -32,8 +32,9 @@
 
     <td metal:define-slot="status" />
 
-    <td tal:define="requesteddate item/lastWorkflowTransitionDate"
-        tal:content="python:view.pretty_date(requesteddate)" />
+    <!--td tal:define="requesteddate item/lastWorkflowTransitionDate"
+        tal:content="python:view.pretty_date(requesteddate)" /-->
+    <td>nothing to see here</td>
 
   </tr>
 </metal:pendingrow>
