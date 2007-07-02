@@ -149,7 +149,12 @@ class JoinView(BaseView, OctopoLite):
     def create_member(self, targets=None, fields=None):
         context = self.context
 
-        self.errors = self.validate()
+        mdc = self.get_tool('portal_memberdata')
+        mem = mdc._validation_member
+        self.errors = {}
+        self.errors = mem.validate(REQUEST=self.request,
+                              errors=self.errors,
+                              data=1, metadata=0)
         if self.errors:
             return self.errors
 
