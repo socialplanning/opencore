@@ -10,7 +10,7 @@ be tested directly.. etc -egj
     >>> proj = self.portal.projects.p2
     >>> view = proj.restrictedTraverse('contents')
     >>> view
-    <...SimpleViewClass ...contents.pt ...>
+    <...ProjectContentsView...>
 
 The view has properties to get info for all of the project's
 wiki pages, file attachments and mailing lists::
@@ -147,9 +147,8 @@ the project's contents listing to "Hobbes"::
     ...         'new1_title': 'Hobbes',
     ...         'item_type': 'pages'}
     >>> request.form = form
-    >>> request.environ['HTTP_REFERER'] = 'http://nohost/openplans/projects/p2/contents'
-    >>> view.modify_contents()
-    'http://nohost/openplans/projects/p2/contents'
+    >>> view()
+    '...'
 
     >>> page.Title()
     'Hobbes'
@@ -162,7 +161,7 @@ We can also issue the request asynchronously::
     ...         'item_type': 'pages',
     ...         'mode': 'async'}
     >>> request.form = form
-    >>> view.modify_contents()
+    >>> view()
     {'new1':...{'html': '...<tr ...>...'}...}
 
     >>> page.Title()
@@ -179,8 +178,8 @@ Deletes work the same way::
 
 The form handler should return the ids of all deleted objects, which
 includes both the deleted page and the file that was attached to it::
-    >>> sorted(view.modify_contents())
-    ['fa2', 'new1']
+    >>> sorted(view())
+    ['fa2', 'new1', 'oc-statusMessage-container']
 
 
 The deleted object no longer exists inside container::
@@ -236,8 +235,8 @@ the items listed in the batch will be acted upon::
     ...         'mode': 'async',
     ...         'files':['fa1', 'img1']}
     >>> request.form = form
-    >>> sorted(view.modify_contents().keys())
-    ['fa1', 'img1']
+    >>> sorted(view().keys())
+    ['fa1', 'img1', 'oc-statusMessage-container']
 
     >>> proj.img1.Title()
     'Polydeuces'
@@ -258,8 +257,8 @@ Batch deletes work the same way::
     ...         'mode': 'async',
     ...         'files':['fa1', 'img1']}
     >>> request.form = form
-    >>> sorted(view.modify_contents())
-    ['fa1', 'img1']
+    >>> sorted(view())
+    ['fa1', 'img1', 'oc-statusMessage-container']
 
     >>> proj.restrictedTraverse('img1')
     Traceback (most recent call last):
@@ -276,7 +275,7 @@ Let's delete the mailing list too, to clean up::
     ...         'item_type': 'lists',
     ...         'mode': 'async'}
     >>> request.form = form
-    >>> view.modify_contents()
-    {'list1': {'action': 'delete'}}
+    >>> view()
+    {'list1': {'action': 'delete'}, 'oc-statusMessage-container': {...}}
     >>> len(view.lists)
     0

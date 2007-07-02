@@ -13,7 +13,7 @@
                             item_collection view/pages;
                             item_date_author_header string:Last Modified;
 			    ">
-          <tal:macro metal:use-macro="here/item_table_snippet/macros/contents_table_wrapper" />
+          <tal:macro metal:use-macro="view/item_table_snippet/macros/contents_table_wrapper" />
         </tal:setvar>
 
         <tal:setvar define="item_header string:Images & Attachments;
@@ -21,7 +21,7 @@
                             item_collection view/files;
                             item_date_author_header string:Created;
 			    ">
-           <tal:macro metal:use-macro="here/item_table_snippet/macros/contents_table_wrapper" />
+           <tal:macro metal:use-macro="view/item_table_snippet/macros/contents_table_wrapper" />
         </tal:setvar> 
 
         <tal:setvar condition="view/has_mailing_lists" 
@@ -30,7 +30,7 @@
                     item_collection view/lists;
                     item_date_author_header string:Created;
 		    ">
-          <tal:macro metal:use-macro="here/item_table_snippet/macros/contents_table_wrapper" />
+          <tal:macro metal:use-macro="view/item_table_snippet/macros/contents_table_wrapper" />
         </tal:setvar> 
 
         <a rel="include" tal:condition="view/has_task_tracker"

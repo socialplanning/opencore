@@ -5,11 +5,11 @@
          item_date_author_header item_date_author_header | options/item_date_author_header;
          ">
   <tal:if condition="view/editable">
-    <tal:metal metal:use-macro="here/item_table_snippet/macros/contents_table" />
+    <tal:metal metal:use-macro="view/item_table_snippet/macros/contents_table" />
   </tal:if>
 
   <tal:if condition="not:view/editable">
-    <tal:metal metal:use-macro="here/item_table_snippet/macros/contents_table_uneditable" />
+    <tal:metal metal:use-macro="view/item_table_snippet/macros/contents_table_uneditable" />
   </tal:if> 
  </tal:setvar>
 </tal:macro>
@@ -20,7 +20,7 @@
 <div class="oc-widget oc-widget-dataTable">
   <h2 class="oc-dataTable-heading"><tal:dummy replace="item_header" /></h2>
 
-  <form class="oc-liveForm" action="modify-contents"
+  <form class="oc-liveForm" action="contents"
   tal:attributes="name form_name">
     <input type="hidden" name="item_type"
       tal:attributes="value item_type" /> 
