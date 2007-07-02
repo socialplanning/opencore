@@ -145,10 +145,11 @@ class ProjectContentsView(BaseView):
     def project_path(self):
         return '/'.join(self.context.getPhysicalPath())
 
-    def _sorted_items(self, item_type, sort_by=None):
+    def _sorted_items(self, item_type, sort_by=None, sort_order='descending'):
         brains = self.catalog(portal_type=self._portal_type[item_type],
                               path=self.project_path,
-                              sort_on=sort_by)
+                              sort_on=sort_by,
+                              sort_order=sort_order)
         needed_values = self.needed_values[item_type]
         ret = self.ContentsCollection(item_type)
         for brain in brains:
@@ -241,17 +242,18 @@ class ProjectContentsView(BaseView):
 
         return (deleted_objects, surviving_objects)
 
-    def _resort(self, item_type, sort_by):
-        if item_type not in self._portal_type:
-            return False
+    def _resort(self, item_type, sort_by=None, sort_order=None):
         sort_by = self.needed_values[item_type].sortable(sort_by)
-        if not sort_by: sort_by = None
-        return self._sorted_items(item_type, sort_by)
+        return self._sorted_items(item_type, sort_by, sort_order)
 
     def resort(self):
         item_type = self.request.form.get("item_type")
+        if item_type not in self._portal_type:
+            return False
+
         sort_by = self.request.form.get("sort_by")
-        items = self._resort(item_type, sort_by)
+        sort_order = self.request.form.get("sort_order")
+        items = self._resort(item_type, sort_by, sort_order)
 
         thead_obj = {'html': self.item_thead_snippet(item_type=item_type,
                                                      item_date_author_header=(item_type=='pages' and "Last Modified" or "Created")
