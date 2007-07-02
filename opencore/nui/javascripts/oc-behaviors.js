@@ -26,7 +26,6 @@ OC.liveElementKey = {
   ".oc-autoSelect" : "AutoSelect",
   ".oc-expander" : "Expander",
   "#version_compare_form" : "HistoryList",
-  "#oc-join-form" : "JoinForm",
   ".oc-liveForm" : "LiveForm",
   ".oc-liveItem" : "LiveItem",
   ".oc-widget-multiSearch" : "SearchLinks",
@@ -72,7 +71,8 @@ OC.breatheLife = function(newNode) {
         
         //get reference to the proper constructor
         var constructor = OC[this.liveElementKey[selector]];        
-        
+	OC.debug(selector);
+        OC.debug(constructor);
         // add a new liveElement to OC.liveElements
         OC.liveElements[extEl.dom.id] = new constructor(extEl);
         
@@ -203,7 +203,7 @@ OC.LiveForm = function(extEl) {
       var action = liveForm.dom.action;
       
       var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
-        { success: _afterValidateSuccess, 
+        { success: _afterSuccess, 
           failure: _afterValidateFailure, 
           scope: this 
         },
@@ -212,21 +212,7 @@ OC.LiveForm = function(extEl) {
 
     }
     liveValidatees.on('blur', _validateField, this);
-    
-    function _afterValidateSuccess(o) {
-        OC.debug('_afterValidateSuccess');
-    
-        var response = eval( "(" + o.responseText + ")" );
-        
-        /* FIXME: What if this is an error page? (404, need login, etc) */
-        /* Response is an array.  [elementID : newHTML] */
-        for (elId in response) {
-          var field = Ext.get(elId);
-          var validator = Ext.get("oc-" + elId + "-validator");
-          var message = Ext.util.Format.trim(response[elId]);
-          validator.update(message);
-        }
-    }
+
     function _afterValidateFailure(o) {
     
     }
@@ -422,6 +408,18 @@ OC.LiveForm = function(extEl) {
 	    break;
 
 	case "copy": // fill me in: replace target's children with html
+	    var html = command.html;
+	    var effects = command.effects;
+	    
+	    html = Ext.util.Format.trim(html);
+	    var target = Ext.get(elId);
+            if(! target ) break;
+	    Ext.DomHelper.overwrite(target.dom, html);
+            var newNode = target;
+	    if( effects == "highlight" ) {
+		Ext.get(newNode).highlight();
+	    }
+	//OC.breatheLife();
 	    break;
 
 	case "append": // fill me in
