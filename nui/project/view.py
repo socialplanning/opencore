@@ -260,8 +260,15 @@ class ProjectContentsView(BaseView, OctopoLite):
         sort_order = self.request.form.get("sort_order")
         items = self._resort(item_type, sort_by, sort_order)
 
+        if sort_order == 'ascending':
+            sort_order = 'descending'
+        else:
+            sort_order = 'ascending'
+
         thead_obj = {'html': self.item_thead_snippet(item_type=item_type,
-                                                     item_date_author_header=(item_type=='pages' and "Last Modified" or "Created")
+                                                     item_date_author_header=(item_type=='pages' and "Last Modified" or "Created"),
+                                                     sort_on=sort_by,
+                                                     sort_order=sort_order
                                                      ),
                      'effects': '',
                      'action': 'replace'

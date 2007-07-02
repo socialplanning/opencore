@@ -74,7 +74,7 @@ OC.breatheLife = function(newNode) {
 	OC.debug(selector);
         OC.debug(constructor);
         // add a new liveElement to OC.liveElements
-        if( typeof OC.liveElements[extEl.dom.id] == "undefined" )
+        if( true|| typeof OC.liveElements[extEl.dom.id] == "undefined" )
 	    OC.liveElements[extEl.dom.id] = new constructor(extEl);
       }
     }      
