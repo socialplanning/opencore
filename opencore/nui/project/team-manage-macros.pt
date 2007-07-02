@@ -117,9 +117,9 @@
         <thead>
           <tr>
             <th class="oc-dataTable-checkBoxColumn"><input type="checkbox" class="oc-checkAll" /></th>
-            <th scope="col"><a class="oc-columnSortable oc-selected" href="">Username &darr;</a></th>
-            <th scope="col"><a class="oc-columnSortable" href="">Status</a></th>
-            <th scope="col"><a class="oc-columnSortable" href="">Date requested</a></th>
+            <th scope="col"><!--a class="oc-columnSortable" href=""-->Username<!--/a--></th>
+            <th scope="col"><!--a class="oc-columnSortable" href=""-->Status<!--/a--></th>
+            <th scope="col"><!--a class="oc-columnSortable" href=""-->Date requested<!--/a--></th>
           </tr>
         </thead>
 
@@ -202,10 +202,10 @@
         <thead>
           <tr>
             <th class="oc-dataTable-checkBoxColumn"><input type="checkbox" class="oc-checkAll" /></th>
-            <th scope="col"><a class="oc-columnSortable oc-selected" href="">Username &darr;</a></th>
-            <th scope="col"><a class="oc-columnSortable" href="">Role</a></th>
-            <th scope="col"><a class="oc-columnSortable" href="">Effective since</a></th>
-            <th scope="col"><a class="oc-columnSortable" href="">Listed</a></th>
+            <th scope="col"><!--a class="oc-columnSortable" href=""-->Username<!--/a--></th>
+            <th scope="col"><!--a class="oc-columnSortable" href=""-->Role<!--/a--></th>
+            <th scope="col"><!--a class="oc-columnSortable" href=""-->Effective since<!--/a--></th>
+            <th scope="col"><!--a class="oc-columnSortable" href=""-->Listed<!--/a--></th>
           </tr>
         </thead>
 

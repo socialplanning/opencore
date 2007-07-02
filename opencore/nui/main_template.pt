@@ -39,7 +39,7 @@
         <div id="oc-content-container">
 
           <metal:status-messages
-             use-macro="view/psm_snippet/macros/status-messages" />
+             use-macro="view/main_macros/macros/status-messages" />
 
           <!-- content is injected here -->
           <tal:everything metal:define-slot="content" />
