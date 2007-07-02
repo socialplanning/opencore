@@ -26,7 +26,7 @@
         </div>
         <p class="oc-invite-content"
            tal:define="proj python:view.project_for(proj_id)">
-          <a href="" tal:attributes="href string:${view/portal_url}/projects/${invitation}" tal:content="proj/description">Animal Campaign</a> 
+          <a href="" tal:attributes="href string:${view/portal_url}/projects/${proj_id}" tal:content="proj/Title">Animal Campaign</a> 
       has invited you to become a member
         </p>
         <ul class="oc-actions oc-invite-actions oc-actionClose">
