@@ -101,6 +101,7 @@ class ProjectMenuView(BaseView):
         featurelets = self.piv.featurelets
         contents_url = "%s/contents" % self.areaURL
         prefs_url = "%s/preferences" % self.areaURL
+        manage_team_url = "%s/manage-team" % self.areaURL
 
         menudata = (
             {'content': 'Home',
@@ -132,6 +133,12 @@ class ProjectMenuView(BaseView):
                  },
                 )
 
+            menudata += (
+                {'content': 'Manage team',
+                 'href': manage_team_url,
+                 'selected': self.request.ACTUAL_URL == manage_team_url,
+                 },
+                )
         return menudata
 
 
