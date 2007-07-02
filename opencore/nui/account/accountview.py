@@ -57,7 +57,6 @@ class AccountView(BaseView):
 
 class LoginView(AccountView):
 
-    @anon_only(AccountView.home_page)
     @button('login')
     @post_only(raise_=False)
     def handle_login(self):
@@ -76,6 +75,10 @@ class LoginView(AccountView):
             return self.redirect(destination)
 
         self.addPortalStatusMessage('Login failed')
+
+    @anon_only(AccountView.home_page)
+    def handle_request(self):
+        pass
             
     @property
     def referer(self):

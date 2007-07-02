@@ -1,4 +1,5 @@
-<tal:vars define="global login view/handle_login" />
+<tal:vars define="global fdata view/handle_request;
+		  global login view/handle_login" />
 
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
