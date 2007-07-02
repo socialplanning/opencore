@@ -23,6 +23,8 @@ class AccountView(BaseView):
     """
 
     add_status_message = BaseView.addPortalStatusMessage
+    login_snippet = ZopeTwoPageTemplateFile('login_snippet.pt')
+    forgot_snippet = ZopeTwoPageTemplateFile('forgot_snippet.pt')
 
     @property
     def auth(self):
@@ -40,14 +42,22 @@ class AccountView(BaseView):
     def update_credentials(self, member_id):
         return self.auth.updateCredentials(self.request, self.response,
                                            member_id, None)
-
+    
     @property
     def login_url(self):
         return "%s/login" % self.context.absolute_url()
 
+    @property
+    def home_page(self):
+        """
+        returns the 'home page' of the user.
+        this is somewhat hacky.  maybe the urls will fix themselves
+        """
+        return '%s/profile' % self.home_url
 
 class LoginView(AccountView):
 
+    @anon_only(AccountView.home_page)
     @button('login')
     @post_only(raise_=False)
     def handle_login(self):
@@ -66,10 +76,6 @@ class LoginView(AccountView):
             return self.redirect(destination)
 
         self.addPortalStatusMessage('Login failed')
-
-    def handle_request(self):
-        if self.loggedin:
-            return self.redirect(self.home_page)
             
     @property
     def referer(self):
@@ -80,14 +86,6 @@ class LoginView(AccountView):
             return self.http_root_logout
         if self.loggedin:
             return True
-
-    @property
-    def home_page(self):
-        """
-        returns the 'home page' of the user.
-        this is somewhat hacky.  maybe the urls will fix themselves
-        """
-        return '%s/profile' % self.home_url
 
     @property
     def destination(self):
@@ -274,6 +272,7 @@ class InitialLogin(BaseView):
 
 class ForgotLoginView(AccountView):
 
+    @anon_only(AccountView.home_page)
     @button('send')
     @post_only(raise_=False)
     def handle_request(self):
