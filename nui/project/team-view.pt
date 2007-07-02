@@ -41,14 +41,13 @@
               <!-- FIXME This should not require a button to work. -->
                 <select name="sort_by" class="oc-autoSelect" tal:define="sorted_by request/sort_by | nothing">
                   <option value="username" tal:attributes="selected python: sorted_by == 'username'">user name</option>
-                  <option value="contributions" tal:attributes="selected python: sorted_by == 'contributions'">contributions</option>
                   <option value="membership_date" tal:attributes="selected python: sorted_by == 'membership_date'">membership start date</option>
                   <option value="location" tal:attributes="selected python: sorted_by == 'location'">location</option>
                 </select>
-		<button type="submit"
-			class="oc-button oc-chooseThis">
-		  sort
-		</button> 
+                <button type="submit"
+                  class="oc-button oc-chooseThis">
+                  sort
+                </button> 
               </form>
             </div>
 
@@ -72,9 +71,7 @@
                   <span class="oc-discreetText adr" tal:define="loc mem/getLocation" tal:condition="loc" tal:content="loc"> Big City, ST</span>
                   <div class="oc-discreetText"
                        tal:define="memship python: view.membership_info_for(mem)">
-                    <span tal:replace="memship/contributions">XXX</span> contributions since
-                    <span tal:replace="memship/activation">January 1, 2000</span>,
-                    most recent <span tal:replace="memship/modification">45 years ago</span>
+                    team member since <span tal:replace="memship/activation">January 1, 2000</span>
                   </div>
                   <div tal:define="projects python: view.projects_for_member(mem);
                                    nprojects python: len(projects);
