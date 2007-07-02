@@ -2,24 +2,21 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
-
       <div id="oc-content-main">
-        <div tal:condition="emailsent|devmode|nothing" 
-             tal:define="devmode emailsent/devmode|nothing" class="">
-          An email has been sent to you <span tal:content="view/userid">User</span>
-        </div>
-        <form
-           tal:condition="not:emailsent"
+
+	<form
            tal:attributes="action string: ${context/absolute_url}/${view/__name__}"
            method="post" id="oc-login-form">
-        
+          
           <fieldset class="oc-boxy">
             <legend class="oc-legend-heading oc-biggestText">Forgot username or password</legend>
-            <p class="oc-headingContext">Enter your username or email address to retrieve your login information.</p>
+            <p class="oc-headingContext">
+	      Enter your username or email address to retrieve your login information.
+	    </p>
             <table class="oc-form" cellpadding="0" cellspacing="0">
               <thead></thead>
               <tbody>
-                <tr>
+		<tr>
                   <th class="oc-form-label" scope="row">
                     <label for="__ac_name">Username or email address</label>
                   </th>
@@ -28,21 +25,20 @@
                     <span class="oc-form-context"></span>
                     <span id="oc-validator-username" class="oc-form-validator"></span>
                   </td>
-                </tr>
-                <tr class="oc-actions">
+		</tr>
+		<tr class="oc-actions">
                   <th></th>
                   <td>
-                    <button type="submit" 
-                            name="send:boolean" 
+                    <button type="submit"
+                            name="send:boolean"
                             value="True">Send</button>
-                  <td class="oc-form-help"></td>
-                </tr>                    
+                    <td class="oc-form-help"></td>
+		</tr>
               </tbody>
             </table>
           </fieldset>
-        </form>
-      </div><!-- end #content-main -->
-
+	</form>
+      </div><!-- end #content-main --> 
     </div><!-- end content slot -->
   </body>
 </html>
