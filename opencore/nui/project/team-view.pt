@@ -11,8 +11,6 @@
 
       <div id="oc-content-main">
 
-          <h1>Team members</h1>
-
           <!-- batch needs to have some variables set up to work properly.
           here is where they are defined -->
           <tal:got_results condition="view/memberships"
@@ -22,6 +20,10 @@
                                    end batch/end | nothing;
                                    sequence_length batch/sequence_length | nothing;
             ">
+            <div class="oc-headingBlock">
+              <h1>Team members</h1>
+              <p class="oc-headingContext"><span tal:replace="sequence_length">N</span> current members. <span tal:condition="python: view.membertool.checkPermission('TeamSpace: Manage team membership', context)">You can add or remove members in <a href="manage-team">team management</a>.</span></p>
+            </div>
 
             <!-- display the number of results that came back -->
             <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
@@ -36,8 +38,7 @@
               <!-- when sorting, we post the action to distinguish between searching
               this was necessary because the batch macro reposts the request data, and we see problems when trying to reset to page when the sorting changes -->
               <form name="people_sort" class="enableUnloadProtection" method="POST" tal:attributes="action string:${view/name}">
-           		<input type="hidden" name="sort:boolean" value="True" class="oc-button oc-chooseThis" />
-
+                <input type="hidden" name="sort:boolean" value="True" class="oc-button oc-chooseThis" />
               <!-- FIXME This should not require a button to work. -->
                 <select name="sort_by" class="oc-autoSelect" tal:define="sorted_by request/sort_by | nothing">
                   <option value="username" tal:attributes="selected python: sorted_by == 'username'">user name</option>
