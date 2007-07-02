@@ -59,8 +59,40 @@ Explicitly sort on relevancy::
 
 Searching for a letter that doesn't match any projects::
 
-   >>> view.search_for_project_by_letter('X')
+   >>> brains = view.search_for_project_by_letter('X')
+   >>> titles = [p.Title for p in brains]
+   >>> titles
    []
+
+Searching for all projects::
+
+   >>> brains = view.search_for_project_by_letter('all')
+   >>> titles = [p.Title for p in brains]
+   >>> titles
+   ['Proj2', 'Proj3', 'Proj1', 'Proj4']
+
+Searching for projects starting with a number::
+
+   >>> brains = view.search_for_project_by_letter('num')
+   >>> titles = [p.Title for p in brains]
+   >>> titles
+   []
+
+Create a project that starts with a number::
+    >>> form_vars = dict(title='5test', __initialize_project__=True,
+    ...                  full_name='5test',
+    ...                  workflow_policy='medium_policy',
+    ...                  add=True, featurelets = ['listen'], set_flets=1)
+    >>> proj_view = self.portal.projects.restrictedTraverse("create")
+    >>> proj_view.request.form.update(form_vars)
+    >>> out = proj_view.handle_request()
+
+Now search again::
+
+   >>> brains = view.search_for_project_by_letter('num')
+   >>> titles = [p.Title for p in brains]
+   >>> titles
+   ['5test']
 
 Search for a project by string::
 
@@ -120,6 +152,20 @@ Search for people starting with a letter::
    >>> names = [p.getId for p in people]
    >>> names
    ['m2', 'm3', 'm1', 'm4']
+
+Search for people starting with a number::
+
+   >>> people = view.search_for_person_by_letter('num')
+   >>> names = [p.getId for p in people]
+   >>> names
+   []
+
+Search for all people::
+
+   >>> people = view.search_for_person_by_letter('all')
+   >>> names = [p.getId for p in people]
+   >>> names
+   ['m4', 'm1', 'm3', 'm2']
 
 Search for members starting with a letter, only sort the results::
 
@@ -194,12 +240,21 @@ Sitewide Search
 
    >>> view = search.SitewideSearchView(self.portal.projects, request)
    >>> brains = view.search('Proj')
-   >>> [b.Title for b in brains]
-   ['Proj2', 'Project Home', 'Proj3', 'Project Home', 'Proj1', 'Project Home', 'Proj4', 'Project Home', 'Welcome to Plone', 'OpenPlans Home']
+   >>> len(brains)
+   9
    >>> brains = view.search_by_letter('p')
-   >>> [b.Title for b in brains]
-   ['Proj2', 'Project Home', 'Proj3', 'Project Home', 'Proj1', 'Project Home', 'Proj4', 'Project Home']
+   >>> len(brains)
+   9
    >>> brains = view.search_by_letter('m')
    >>> [b.getId for b in brains]
    ['m4', 'm1', 'm3', 'm2']
 
+Search for everything::
+   >>> brains = view.search_by_letter('all')
+   >>> len(brains)
+   16
+
+Search for things starting with a number::
+   >>> brains = view.search_by_letter('num')
+   >>> [b.getId for b in brains]
+   ['5test']
