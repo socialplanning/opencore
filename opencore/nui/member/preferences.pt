@@ -16,6 +16,28 @@
     <div class="oc-headingBlock">
       <h2>Latest updates (x)</h2>
     </div>
+    <!-- new stuff -->
+    <ul class="oc-invite-list">
+      <li class="oc-invite oc-boxy oc-clearAfter"
+          tal:repeat="proj_id view/invitations">
+        <div class="oc-avatar">
+          <!-- XXX is this the project avatar? proj admin avatar? -->
+          <img src="" />
+        </div>
+        <p class="oc-invite-content"
+           tal:define="proj python:view.project_for(proj_id)">
+          <a href="" tal:attributes="href string:${view/portal_url}/projects/${invitation}" tal:content="proj/description">Animal Campaign</a> 
+      has invited you to become a member
+        </p>
+        <ul class="oc-actions oc-invite-actions oc-actionClose">
+          <li><a href="" class="oc-actionLink oc-chooseAccept">Accept</a></li>
+          <li><a href="" class="oc-actionLink oc-chooseReject">Deny</a></li>
+          <li><a href="" class="oc-actionLink oc-chooseIgnore">Ignore</a></li>
+        </ul>
+      </li>
+    </ul>
+    new stuff above
+    <!-- new stuff -->
     <ul class="oc-invite-list">
       <li class="oc-invite oc-boxy oc-clearAfter">
           <div class="oc-avatar">

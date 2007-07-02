@@ -201,3 +201,6 @@ class MemberPreferences(BaseView, OctopoLite):
             self.leave_project(proj_id)
             json_ret[proj_id] = dict(action='delete')
         return json_ret
+
+    def project_for(self, proj_id):
+        return self.portal.projects._getOb(proj_id)
