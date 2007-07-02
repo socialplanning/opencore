@@ -29,7 +29,13 @@ def post_only(raise_=True):
 def anon_only(redirect_to=None):
     def inner_anon_only(func):
         def new_method(self, *args, **kw):
-            redirect_path = redirect_to
+            if isinstance(redirect_to, property):
+                redirect_path = redirect_to.fget
+            else:
+                redirect_path = redirect_to
+            if callable(redirect_path):
+                redirect_path = redirect_path(self)
+
             if not redirect_path:
                 redirect_path = self.came_from
             if self.loggedin:
