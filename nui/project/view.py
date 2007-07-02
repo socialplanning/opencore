@@ -26,6 +26,7 @@ from opencore.content.membership import OpenMembership
 
 from opencore.nui import formhandler
 from opencore.nui.base import BaseView
+from opencore.nui.formhandler import OctopoLite, action
 from opencore.nui.main import SearchView
 from opencore.nui.main.search import searchForPerson
 
@@ -38,6 +39,7 @@ class vdict(dict):
                      url=None,
                      obj_size=None,
                      obj_date=None,
+                     obj_author=None,
                      title='sortable_title')
 
     def __init__(self, header, **extra):
@@ -61,13 +63,15 @@ class vdict(dict):
         return key
 
 
-class ProjectContentsView(BaseView):
+class ProjectContentsView(BaseView, OctopoLite):
 
     class ContentsCollection(list):
         def __init__(self, item_type, *contents):
             self.item_type = item_type
             self.info = ProjectContentsView.needed_values[item_type]
             self.extend(contents)
+
+    template = ZopeTwoPageTemplateFile('contents.pt')
 
     contents_row_snippet = ZopeTwoPageTemplateFile('item_row.pt')
     item_table_snippet = ZopeTwoPageTemplateFile('item_table_snippet.pt')
@@ -246,7 +250,8 @@ class ProjectContentsView(BaseView):
         sort_by = self.needed_values[item_type].sortable(sort_by)
         return self._sorted_items(item_type, sort_by, sort_order)
 
-    def resort(self):
+    @action('resort')
+    def resort(self, sources, fields=None):
         item_type = self.request.form.get("item_type")
         if item_type not in self._portal_type:
             return False
@@ -258,20 +263,20 @@ class ProjectContentsView(BaseView):
         thead_obj = {'html': self.item_thead_snippet(item_type=item_type,
                                                      item_date_author_header=(item_type=='pages' and "Last Modified" or "Created")
                                                      ),
-                     'effects': ''
+                     'effects': '',
+                     'action': 'replace'
                      }
         tbody_obj = {'html': self.item_tbody_snippet(item_collection=items),
-                     'effects': 'highlight'
+                     'effects': 'highlight',
+                     'action': 'replace'
                      }
         
         return {'oc-%s-tbody' % item_type: tbody_obj,
                 'oc-%s-thead' % item_type: thead_obj
                 }
 
-                
-        
-    @formhandler.octopus
-    def modify_contents(self, action, sources, fields=None):
+    @action('delete')
+    def delete_items(self, sources, fields=None):
         item_type = self.request.form.get("item_type")
 
         if item_type == 'pages' and 'project-home' in sources:
@@ -279,33 +284,40 @@ class ProjectContentsView(BaseView):
 
         brains = self.catalog(id=sources, path=self.project_path)
 
-        if action == 'delete':
-            deletions, survivors = self._delete(brains)
-            # for now we'll only return the deleted obj ids. later we may return the survivors too.
-            commands = {}
-            for obj_id in deletions:
-                commands[obj_id] = {
-                    'action': 'delete'
-                    }
-            return commands
+        deletions, survivors = self._delete(brains)
+        # for now we'll only return the deleted obj ids. later we may return the survivors too.
+        commands = {}
+        for obj_id in deletions:
+            commands[obj_id] = {
+                'action': 'delete'
+                }
+        return commands
 
-        elif action == 'update': # @@ move out to own method to optimize
-            snippets = {}
-            objects = dict([(b.getId, b.getObject()) for b in brains])
-            for old, new in zip(sources, fields):
-                page = objects[old]
-                page.setTitle(new['title'])
-                page.reindexObject(('Title',))
-                snippets[page.getId()] = {
-                    'html': self.contents_row_snippet(
-                        item=self._make_dict_and_translate(
-                            page,
-                            self.needed_values[item_type]),
-                        item_type=item_type),
-                    'effects': 'highlight',
-                    }
-            
-            return snippets
+    @action('update')
+    def update_items(self, sources, fields=None):
+        item_type = self.request.form.get("item_type")
+
+        if item_type == 'pages' and 'project-home' in sources:
+            sources.remove("project-home")
+
+        brains = self.catalog(id=sources, path=self.project_path)
+
+        snippets = {}
+        objects = dict([(b.getId, b.getObject()) for b in brains])
+
+        for old, new in zip(sources, fields):
+            page = objects[old]
+            page.setTitle(new['title'])
+            page.reindexObject(('Title',))
+            snippets[page.getId()] = {
+                'html': self.contents_row_snippet(
+                    item=self._make_dict_and_translate(
+                        page,
+                        self.needed_values[item_type]),
+                    item_type=item_type),
+                'effects': 'highlight',
+                }
+        return snippets
 
 class ProjectPreferencesView(BaseView):
         

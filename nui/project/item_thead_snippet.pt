@@ -11,15 +11,15 @@
         </th>
         <th scope="col">
           <a class="oc-columnSortable oc-selected oc-actionLink"
-	     tal:attributes="href string:resort_contents?item_type=${item_type}&sort_by=title&task=oc-${item_type}-tbody_update">Title &darr;</a>
+	     tal:attributes="href string:contents?task=resort&item_type=${item_type}&sort_by=title">Title &darr;</a>
         </th>
         <th scope="col" tal:condition="python:item_type!='pages'">
           <a class="oc-columnSortable oc-actionLink"
-	     tal:attributes="href string:resort_contents?item_type=${item_type}&sort_by=obj_size&task=oc-${item_type}-tbody_update">Size</a>
+	     tal:attributes="href string:contents?task=resort&item_type=${item_type}&sort_by=obj_size">Size</a>
         </th>
         <th scope="col">
           <a class="oc-columnSortable oc-actionLink"
-	     tal:attributes="href string:resort_contents?item_type=${item_type}&sort_by=obj_author&task=oc-${item_type}-tbody_update" 
+	     tal:attributes="href string:contents?task=resort&item_type=${item_type}&sort_by=obj_author" 
 	     tal:content="item_date_author_header" />
         </th>
         <th>Actions</th>
@@ -32,17 +32,17 @@
       <tr>
         <th scope="col">
 	  <a class="oc-columnSortable oc-selected oc-actionLink"
-	     tal:attributes="href string:resort_contents?item_type=${item_type}&sort_by=title&task=oc-${item_type}-tbody_update">
+	     tal:attributes="href string:contents?task=resort&item_type=${item_type}&sort_by=title">
 	    Title &darr;</a>
 	</th>
         <th scope="col" tal:condition="python:item_type!='pages'">
 	  <a class="oc-columnSortable oc-actionLink"
-	     tal:attributes="href string:resort_contents?item_type=${item_type}&sort_by=obj_size&task=oc-${item_type}-tbody_update">
+	     tal:attributes="href string:contents?task=resort&item_type=${item_type}&sort_by=obj_size">
 	    Size</a>
 	</th>
         <th scope="col">
 	  <a class="oc-columnSortable oc-actionLink"
-	     tal:attributes="href string:resort_contents?item_type=${item_type}&sort_by=obj_author&task=oc-${item_type}-tbody_update">
+	     tal:attributes="href string:contents?task=resort&item_type=${item_type}&sort_by=obj_author">
             <tal:dummy replace="item_date_author_header" />
           </a>
 	</th>
