@@ -1,5 +1,6 @@
 from DateTime import DateTime as zopedatetime
 from zExceptions import Redirect 
+import re
 
 from Products.AdvancedQuery import Eq, RankByQueries_Sum
 from Products.CMFCore.utils import getToolByName
@@ -9,11 +10,16 @@ from topp.utils.pretty_date import prettyDate
 from opencore.nui.base import BaseView, static_txt
 from opencore import redirect
 
+num_regex = re.compile('((the|a|an)\s+)?[0-9]+')
+
 def first_letter_match(title, letter):
-    return title.startswith(letter) \
-           or title.startswith('the ' + letter) \
-           or title.startswith('a ' + letter) \
-           or title.startswith('an ' + letter)
+    if letter == 'num':
+        return num_regex.match(title)
+    else:
+        return title.startswith(letter) \
+               or title.startswith('the ' + letter) \
+               or title.startswith('a ' + letter) \
+               or title.startswith('an ' + letter)
 
 
 class SearchView(BaseView):
@@ -57,8 +63,17 @@ class ProjectsSearchView(SearchView):
         
     def search_for_project_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
-        query = dict(portal_type="OpenProject",
-                     Title=letter + '*')
+
+        if letter == 'num':
+            search_for = '1* OR 2* OR 3* OR 4* OR 5* OR 6* OR 7* OR 8* OR 9* OR 0*'
+            query = dict(portal_type="OpenProject", Title=search_for)
+        elif letter == 'all':
+            query = dict(portal_type="OpenProject")
+        else:
+            search_for = letter + '*'
+            query = dict(portal_type="OpenProject", Title=search_for)
+
+
 
         if sort_by != 'relevancy':
             query['sort_on'] = sort_by
@@ -66,6 +81,9 @@ class ProjectsSearchView(SearchView):
         self.apply_context_restrictions(query)
 
         project_brains = self.catalog(**query)
+
+        if letter == 'all':
+            return project_brains
 
         project_brains = [brain for brain in project_brains \
                           if self.match(brain.Title.lower(), letter)]
@@ -210,13 +228,27 @@ class PeopleSearchView(SearchView):
 
     def search_for_person_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
-        user_query = letter + '*'
-        query = dict(RosterSearchableText=user_query)
+
+        if letter == 'num':
+            search_for = '1* OR 2* OR 3* OR 4* OR 5* OR 6* OR 7* OR 8* OR 9* OR 0*'
+            query = dict(RosterSearchableText=search_for)
+        elif letter == 'all':
+            query = {}
+        else:
+            search_for = letter + '*'
+            query = dict(RosterSearchableText=search_for)
+
         if sort_by != 'relevancy':
             query['sort_on'] = sort_by
 
         people_brains = self.membranetool(**query)
-        people_brains = [brain for brain in people_brains if brain.getId.lower().startswith(letter)]
+
+        if letter == 'all':
+            return people_brains
+        elif letter == 'num':
+            people_brains = [brain for brain in people_brains if num_regex.match(brain.getId.lower())]
+        else:
+            people_brains = [brain for brain in people_brains if brain.getId.lower().startswith(letter)]
         return people_brains
 
     def search_for_person(self, person, sort_by=None):
@@ -300,9 +332,20 @@ class SitewideSearchView(SearchView):
 
     def search_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
-        query = (Eq('portal_type', 'OpenProject') & Eq('Title', letter + '*')) \
-                | (Eq('portal_type', 'Document') & Eq('Title', letter + '*')) \
-                | (Eq('portal_type', 'OpenMember') & Eq('Title', letter + '*'))
+        if letter == 'num':
+            search_for = '1* OR 2* OR 3* OR 4* OR 5* OR 6* OR 7* OR 8* OR 9* OR 0*'
+            query = (Eq('portal_type', 'OpenProject') & Eq('Title', search_for)) \
+                    | (Eq('portal_type', 'Document') & Eq('Title', search_for)) \
+                    | (Eq('portal_type', 'OpenMember') & Eq('Title', search_for))
+        elif letter == 'all':
+            query = Eq('portal_type', 'OpenProject') \
+                    | Eq('portal_type', 'Document') \
+                    | Eq('portal_type', 'OpenMember')
+        else:
+            search_for = letter + '*'
+            query = (Eq('portal_type', 'OpenProject') & Eq('Title', search_for)) \
+                    | (Eq('portal_type', 'Document') & Eq('Title', search_for)) \
+                    | (Eq('portal_type', 'OpenMember') & Eq('Title', search_for))
 
         if not sort_by or sort_by == 'relevancy':
             rs = ()
@@ -313,6 +356,10 @@ class SitewideSearchView(SearchView):
                 rs = ((sort_by, 'desc'),)
 
         brains = self.catalog.evalAdvancedQuery(query, rs)
+
+        if letter == 'all':
+            return brains
+        
         out_brains = []
 
         for brain in brains:
@@ -344,11 +391,12 @@ class SitewideSearchView(SearchView):
             else:
                 rs = ((sort_by, 'desc'),)
 
-        query = Eq('portal_type', 'OpenProject') \
+        query = (Eq('portal_type', 'OpenProject') \
                 | Eq('portal_type', 'Document') \
-                | Eq('portal_type', 'OpenMember') \
+                | Eq('portal_type', 'OpenMember')) \
                 & Eq('SearchableText', search_query)
         brains = self.catalog.evalAdvancedQuery(query, rs)
+
         return brains
     
 
