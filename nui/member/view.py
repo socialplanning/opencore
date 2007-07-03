@@ -1,14 +1,20 @@
+from datetime import datetime
+from zope import event
+
+from zExceptions import BadRequest
+from zExceptions import Redirect
+from Missing import MV
+
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import transaction_note
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+
+from topp.utils.pretty_date import prettyDate
+
 from opencore.nui.base import BaseView, button
 from opencore.nui.formhandler import OctopoLite, action
-from zExceptions import BadRequest
-from zExceptions import Redirect
-from zope import event
-from topp.utils.pretty_date import prettyDate
-from datetime import datetime
 from opencore.nui.formhandler import octopus
+
 
         
 class ProfileView(BaseView):
@@ -96,19 +102,20 @@ class ProfileEditView(ProfileView):
 class MemberPreferences(BaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('preferences.pt')
+    active_states = ['public', 'private']
 
-    def _mship_brains_for(self, mem):
-        active_states = ['public', 'private']
-        user_id = mem.getId()
+    def _mship_brains(self, review_state=None):
+        if review_state is None:
+            review_state = self.active_states
+
+        user_id = self.context.getId()
+
         query = dict(portal_type='OpenMembership',
-                     review_state=active_states,
+                     review_state=review_state,
                      getId=user_id,
                      )
-        mships = self.catalogtool(**query)
-        return mships
-
-    def _mship_brains(self):
-        return self._mship_brains_for(self.context)
+        mship_brains = self.catalogtool(**query)
+        return mship_brains
 
     def _project_metadata_for(self, project_id):
         portal = self.portal
@@ -133,8 +140,14 @@ class MemberPreferences(BaseView, OctopoLite):
         proj_title = project_info['Title']
         proj_id = project_info['getId']
 
-        mship_activated_on = self.pretty_date(brain.made_active_date)
+        made_active_date = brain.made_active_date
+        if made_active_date == MV:
+            mship_activated_on = 'unknown'
+        else:
+            mship_activated_on = self.pretty_date(brain.made_active_date)
 
+        # XXX need more than boolean
+        # a state needs to be there for public, private, memship pending
         review_state = brain.review_state
         listed = review_state == 'public'
 
@@ -145,36 +158,31 @@ class MemberPreferences(BaseView, OctopoLite):
                     )
 
     def get_projects_for_user(self):
-        mships = self._mship_brains()
-        project_dicts = map(self._create_project_dict, mships)
-        return project_dicts
+        """this should include all active mships as well as member requests"""
+        active_mships = self._mship_brains()
+        active_mship_dicts = map(self._create_project_dict, active_mships)
 
-    def _pending_mships(self, mem_id):
-        query = dict(portal_type='OpenMembership',
-                     getId=mem_id,
-                     review_state='pending')
-        mship_brains = self.catalogtool(**query)
-        return mship_brains
-        return map(self._project_id_from, mship_brains)
-
-    def _pending_mships_satisfying(self, mem_id, pred):
-        pending_brains = self._pending_mships(mem_id)
-        invitation_brains = (b for b in pending_brains
-                             if pred(b))
-        return [self._project_id_from(b)
-                for b in invitation_brains]
+        request_mships = self.member_requests()
+        
+        return active_mship_dicts + request_mships
 
     def invitations(self):
-        """ return all proj_ids for pending project invitations """
-        mem_id = self.context.getId()
-        pred = lambda b: b.lastWorkflowActor != mem_id
-        return self._pending_mships_satisfying(mem_id, pred)
+        """ return mship brains for pending project invitations """
+        pending_mships = self._mship_brains(review_state='pending')
+        mship_id = self.context.getId()
+        invitation_mship_brains = [b for b in pending_mships
+                                   if b.lastWorkflowActor != mship_id]
+        project_dicts = map(self._create_project_dict, invitation_mship_brains)
+        return project_dicts
 
     def member_requests(self):
         """ return all proj_ids for pending member requests """
-        mem_id = self.context.getId()
-        pred = lambda b: b.lastWorkflowActor == mem_id
-        return self._pending_mships_satisfying(mem_id, pred)
+        pending_mships = self._mship_brains(review_state='pending')
+        mship_id = self.context.getId()
+        request_mship_brains = [b for b in pending_mships
+                                if b.lastWorkflowActor == mship_id]
+        project_dicts = map(self._create_project_dict, request_mship_brains)
+        return project_dicts
 
     def _membership_for_proj(self, proj_id):
         tmtool = self.get_tool('portal_teams')
@@ -208,5 +216,5 @@ class MemberPreferences(BaseView, OctopoLite):
             json_ret[proj_id] = dict(action='delete')
         return json_ret
 
-    def project_for(self, proj_id):
-        return self.portal.projects._getOb(proj_id)
+    def infomsgs(self):
+        return []
