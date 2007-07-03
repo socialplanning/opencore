@@ -443,11 +443,14 @@ class TeamRelatedView(SearchView):
         self.sort_by = None
 
 
-class RequestMembershipView(TeamRelatedView):
+class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
     """
     View class to handle join project requests.
     """
-    def __call__(self):
+    template = ZopeTwoPageTemplateFile('request-membership.pt')
+    
+    @formhandler.action('request-membership')
+    def request_membership(self, targets=None, fields=None):
         """
         Delegates to the team object and handles destination.
         """
@@ -461,12 +464,9 @@ class RequestMembershipView(TeamRelatedView):
             msg = (u"You are already either a pending or active member of "
                    "the %s project." % self.context.Title())
         self.addPortalStatusMessage(msg)
-        
-        referer = self.request.environ.get('HTTP_REFERER')
-        if referer is None:
-            referer = self.context.absolute_url()
-        self.redirect(referer)
-
+        self.template = None # don't render the form before the redirect
+        self.redirect(self.context.absolute_url())
+    
 
 class ProjectTeamView(TeamRelatedView):
    

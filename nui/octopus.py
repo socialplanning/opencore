@@ -48,7 +48,7 @@ class Octopus(object):
 
         3. returning either a rendered template (if the request is
            synchronous) or a dictionary of info to be passed back to
-           the browser (if AJAX request).
+           the browser (if the request is async).
         """
         raise_ = kw.pop('raise_', False)  #sorry
         try:
@@ -64,7 +64,7 @@ class Octopus(object):
             self._octopus_async_postprocess(ret)
             return ret
         else:
-            return self.template()
+            return self._octopus_template()
 
     def __preprocess(self):
         """ yanked from octopus """
