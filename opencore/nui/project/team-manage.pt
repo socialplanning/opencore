@@ -1,10 +1,6 @@
 <tal:vars define="global proj view/project_info;
                   global team_manage_macros view/team_manage_macros/macros" />
 
-<tal:handle-request condition="request/handle_request | nothing">
-  <tal:callit define="bogus view/handle_request" />
-</tal:handle-request>
-
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
