@@ -178,7 +178,9 @@ def register_indexable_attrs():
                              IHighestRole,
                              'getValue')
     registerInterfaceIndexer('lastModifiedAuthor', ILastModifiedAuthorId)
-    registerInterfaceIndexer('mailing_list_threads', IMailingListThreadCount, 'getValue')
+    registerInterfaceIndexer('mailing_list_threads', IMailingListThreadCount,
+                             'getValue')
+
 
 
 class _extra:
