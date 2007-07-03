@@ -162,7 +162,7 @@ We can also issue the request asynchronously::
     ...         'mode': 'async'}
     >>> request.form = form
     >>> view()
-    {'new1':...{'html': '...<tr ...>...'}...}
+    {'new1':...{...'html': '...<tr ...>...'}...}
 
     >>> page.Title()
     'Hume'
