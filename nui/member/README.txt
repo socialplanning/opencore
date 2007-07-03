@@ -128,6 +128,10 @@ Exercise the Member Preferences Class
     >>> [d['proj_id'] for d in project_dicts]
     ['p3', 'p1', 'p2']
 
+    Check the info messages on the member:
+    >>> view.infomsgs()
+    []
+
     Now let's call the view simulating the request:
     XXX member areas need to be created first though for m1
     or we can't traverse to view (or get people folder)
