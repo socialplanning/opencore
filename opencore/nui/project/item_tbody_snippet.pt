@@ -13,7 +13,7 @@
   </tal:if>
 
   <tal:if condition="not:item_collection/editable">
-    <tbody>
+    <tbody tal:attributes="id string:oc-${item_type}-tbody" >
       <tal:for repeat="item item_collection">
 	<tal:macro metal:use-macro="view/item_row/macros/item_row" />
       </tal:for>
