@@ -84,20 +84,24 @@ class TestProjectMenu(OpenPlansTestCase):
 
     def test_menudata(self):
         menudata = self.phome_view.menudata
-        self.failUnless(len(menudata) == 2)
+        # 'home', 'contents', and 'join project'
+        self.failUnless(len(menudata) == 3)
         self.assertEqual(menudata[0]['href'], self.proj.absolute_url())
         self.failUnless(menudata[0]['selected'])
         self.failIf(menudata[1]['selected'])
 
         self.clearMemoCache()
+        self.clearInstanceCache(self.phome_view)
         self.login(self.proj_admin_id)
         menudata = self.phome_view.menudata
-        # should now have 'manage' menu option
-        self.failUnless(len(menudata) == 3)
+        # add 'preferences' and 'manage team', remove 'join'
+        self.failUnless(len(menudata) == 4)
         self.assertEqual(menudata[0]['href'], self.proj.absolute_url())
         self.failUnless(menudata[0]['selected'])
         self.failIf(menudata[1]['selected'])
         self.failIf(menudata[2]['selected'])
+        self.failIf(menudata[3]['selected'])
+        self.failUnless(menudata[3]['content'] == 'Manage team')
 
         orig_actual_url = self.request.ACTUAL_URL
 
@@ -107,21 +111,34 @@ class TestProjectMenu(OpenPlansTestCase):
         contents_url = "%s/contents" % self.proj.absolute_url()
         self.request.ACTUAL_URL = contents_url
         menudata = self.proj_view.menudata
-        self.failUnless(len(menudata) == 3)
+        self.failUnless(len(menudata) == 4)
         self.assertEqual(menudata[0]['href'], self.proj.absolute_url())
         self.failIf(menudata[0]['selected'])
         self.failUnless(menudata[1]['selected'])
         self.failIf(menudata[2]['selected'])
+        self.failIf(menudata[3]['selected'])
         
         self.clearMemoCache()
-        manage_url = "%s/preferences" % self.proj.absolute_url()
-        self.request.ACTUAL_URL = manage_url
+        prefs_url = "%s/preferences" % self.proj.absolute_url()
+        self.request.ACTUAL_URL = prefs_url
         menudata = self.proj_view.menudata
-        self.failUnless(len(menudata) == 3)
+        self.failUnless(len(menudata) == 4)
         self.assertEqual(menudata[0]['href'], self.proj.absolute_url())
         self.failIf(menudata[0]['selected'])
         self.failIf(menudata[1]['selected'])
         self.failUnless(menudata[2]['selected'])
+        self.failIf(menudata[3]['selected'])
+
+        self.clearMemoCache()
+        manage_url = "%s/manage-team" % self.proj.absolute_url()
+        self.request.ACTUAL_URL = manage_url
+        menudata = self.proj_view.menudata
+        self.failUnless(len(menudata) == 4)
+        self.assertEqual(menudata[0]['href'], self.proj.absolute_url())
+        self.failIf(menudata[0]['selected'])
+        self.failIf(menudata[1]['selected'])
+        self.failIf(menudata[2]['selected'])
+        self.failUnless(menudata[3]['selected'])
 
         self.request.ACTUAL_URL = orig_actual_url
 
