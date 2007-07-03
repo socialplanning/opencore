@@ -3,7 +3,7 @@
 		       item_type item_type | options/item_type;
 		       editable editable | not:item/uneditable | nothing ">
   <tr class="oc-liveItem" tal:attributes="id item/id">
-    <td tal:condition="item/collection/editable">
+    <td tal:condition="item/collection/editable | view/editable">
       <tal:if condition="not:editable">
 	<input type="checkbox" name="deletes:list"
                tal:attributes="value item/id" 
@@ -49,7 +49,7 @@
 	</a>
       </tal:setvar>
     </td>
-    <td tal:condition="item/collection/editable">
+    <td tal:condition="item/collection/editable | view/editable">
       <ul class="oc-actions oc-dataTable-row-actions">
         <li tal:condition="editable"><a href="#" class="oc-liveItem_showForm oc-actionLink">Rename</a></li>
         <li tal:condition="editable">
