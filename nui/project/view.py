@@ -1,5 +1,3 @@
-import re
-
 from zope import event
 from zope.component import getMultiAdapter
 from zExceptions import BadRequest, Redirect
@@ -9,7 +7,6 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import DeleteObjects
 from Products.CMFPlone.utils import transaction_note
-from Products.validation.validators.BaseValidators import EMAIL_RE
 from plone.memoize.instance import memoize, memoizedproperty
 from plone.memoize.view import memoize_contextless
 from plone.memoize.view import memoize as req_memoize
@@ -591,10 +588,6 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         return self.team_manage
 
     @property
-    def mailhost(self):
-        return self.get_tool('MailHost')
-
-    @property
     @req_memoize
     def pending_mships(self):
         cat = self.get_tool('portal_catalog')
@@ -628,6 +621,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             data = self.getMshipInfoFromBrain(brain)
             mships.append(data)
         return mships
+
+    @property
+    @req_memoize
+    def email_sender(self):
+        return EmailSender(self, mship_messages)
 
     def getMshipInfoFromBrain(self, brain):
         """
@@ -672,50 +670,10 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             wftool.doActionFor(mship, transition)
         return len(mem_ids)
 
-
-    def _constructMailMessage(self, msg_id, **kwargs):
-        """
-        Retrieves and returns the mail message text from the
-        mship_messages module that is in the same package as this
-        module.
-
-        o msg_id - the name of the message that is to be retrieved
-
-        o **kwargs - should be a set of key:value pairs that can be
-          substituted into the desired message.  extraneous kwargs
-          will be ignored; failing to include a kwarg required by the
-          specified message will raise a KeyError.
-        """
-        msg = getattr(mship_messages, msg_id)
-        return msg % kwargs
-
     def _getAccountURLForMember(self, mem_id):
         homeurl = self.membertool.getHomeUrl(mem_id)
         if homeurl is not None:
             return "%s/preferences" % homeurl
-
-    def _sendEmail(self, mto, msg, subject=None):
-        """
-        Sends an email.  It's assumed that the currently logged in
-        user is the sender.
-
-        o mto: the message recipient.  either an email address or a
-        member id.
-
-        o subject: message subject; if None it's assumed that the
-        subject header is already embedded in the message text.
-
-        o msg: message content
-        """
-        to_info = None
-        regex = re.compile(EMAIL_RE)
-        if regex.match(mto) is None:
-            to_mem = self.membertool.getMemberById(mto)
-            to_info = self.member_info_for_member(to_mem)
-            mto = to_info.get('email')
-
-        mfrom = self.member_info.get('email')
-        self.mailhost.send(msg, mto, mfrom, subject)
 
 
     ##################
@@ -741,9 +699,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             transition_id = transition[0]['id']
             wftool.doActionFor(mship, transition_id)
             napproved += 1
-            msg = self._constructMailMessage('request_approved',
-                                             project_title=self.context.Title())
-            self._sendEmail(mem_id, msg)
+            self.email_sender.sendEmail(mem_id, msg_id='request_approved',
+                                        project_title=self.context.Title())
             res[mem_id] = {'action': 'delete'}
             # will only be one mem_id in AJAX requests
             brain = self.catalog(path='/'.join(mship.getPhysicalPath()))[0]
@@ -780,10 +737,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         """
         mem_ids = targets
         self.doMshipWFAction('reject_by_admin', mem_ids)
-        msg = self._constructMailMessage('request_denied',
-                                         project_title=self.context.Title())
+        sender = self.email_sender
+        msg = sender.constructMailMessage('request_denied',
+                                          project_title=self.context.Title())
         for mem_id in mem_ids:
-            self._sendEmail(mem_id, msg)
+            sender.sendEmail(mem_id, msg=msg)
 
         msg = u"Requests rejected: %s" % ', '.join(mem_ids)
         self.addPortalStatusMessage(msg)
@@ -803,8 +761,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         wftool = self.get_tool('portal_workflow')
         wf_id = 'openplans_team_membership_workflow'
         deletes = []
-        msg = self._constructMailMessage('invitation_retracted',
-                                         project_title=self.context.Title())
+        sender = self.email_sender
+        msg = sender.constructMailMessage('invitation_retracted',
+                                          project_title=self.context.Title())
         ret = {}
         for mem_id in mem_ids:
             mship = self.team.getMembershipByMemberId(mem_id)
@@ -816,7 +775,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                 # delete
                 deletes.append(mem_id)
             ret[mem_id] = {'action': 'delete'}
-            self._sendEmail(mem_id, msg)
+            sender.sendEmail(mem_id, msg=msg)
 
         if deletes:
             self.team.manage_delObjects(ids=deletes)
@@ -833,14 +792,14 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         """
         mem_ids = targets
         project_title = self.context.Title()
+        sender = self.email_sender
         for mem_id in mem_ids:
             acct_url = self._getAccountURLForMember(mem_id)
             # XXX if member hasn't logged in yet, acct_url will be whack
             msg_vars = {'project_title': project_title,
                         'account_url': acct_url,
                         }
-            msg = self._constructMailMessage('remind_invitee', **msg_vars)
-            self._sendEmail(mem_id, msg)
+            sender.sendEmail(mem_id, msg_id='remind_invitee', **msg_vars)
 
         msg = "Reminders sent: %s" % ", ".join(mem_ids)
         self.addPortalStatusMessage(msg)
@@ -858,12 +817,12 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         """
         mem_ids = targets
         nremoved = self.doMshipWFAction('deactivate', mem_ids)
+        sender = self.email_sender
         ret = {}
         for mem_id in mem_ids:
-            msg = self._constructMailMessage('membership_deactivated',
-                                             project_title=self.context.Title())
+            sender.sendEmail(mem_id, msg_id='membership_deactivated',
+                             project_title=self.context.Title())
             ret[mem_id] = {'action': 'delete'}
-            self._sendEmail(mem_id, msg)
 
         msg = "Members deactivated: %s" % ', '.join(mem_ids)
         self.addPortalStatusMessage(msg)
@@ -944,6 +903,6 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         msg_subs = {'project_title': self.context.Title(),
                     'account_url': acct_url,
                     }
-        msg = self._constructMailMessage('invite_member', **msg_subs)
-        self._sendEmail(mem_id, msg)
+        self.email_sender.sendEmail(mem_id, msg_id='invite_member',
+                                    **msg_subs)
         self.addPortalStatusMessage(u'%s invited' % mem_id)
