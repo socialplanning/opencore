@@ -19,6 +19,12 @@
      factory="opencore.nui.indexing.LastWorkflowTransitionDate"
      />
 
+  <adapter
+     for="opencore.interfaces.IOpenMembership"
+     provides="opencore.interfaces.catalog.IHighestRole"
+     factory="opencore.nui.indexing.HighestRole"
+     />
+
   <adapter factory=".indexing.metadata_for_brain" />
 
   <adapter factory=".indexing.metadata_for_portal_content" />

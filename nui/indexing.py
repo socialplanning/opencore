@@ -8,7 +8,9 @@ from Products.ZCatalog.CatalogBrains import AbstractCatalogBrain
 from Products.listen.interfaces import ISearchableArchive
 from Products.listen.interfaces.mailinglist import IMailingList
 from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, \
-     IIndexingGhost, IMetadataDictionary, ILastWorkflowTransitionDate, IMailingListThreadCount
+     IIndexingGhost, IMetadataDictionary, ILastWorkflowTransitionDate, IMailingListThreadCount, \
+     IHighestRole
+from opencore.interfaces import IOpenMembership
 
 from zope.component import adapter, queryUtility, adapts
 from zope.interface import Interface
@@ -38,7 +40,8 @@ mem_idxs = (('FieldIndex', 'exact_getFullname',
              )
 
 metadata_cols = ('lastWorkflowActor', 'made_active_date', 'lastModifiedAuthor',
-                 'lastWorkflowTransitionDate', 'mailing_list_threads')
+                 'lastWorkflowTransitionDate', 'mailing_list_threads',
+                 'highestRole')
 
 
 class LastWorkflowActor(object):
@@ -72,6 +75,20 @@ class LastWorkflowTransitionDate(object):
         wf_id = wftool.getChainFor(self.context)[0]
         status = wftool.getStatusOf(wf_id, self.context)
         return status.get('time')
+
+class HighestRole(object):
+    """populates the highest role metadata column for IOpenMemberships"""
+    adapts(IOpenMembership)
+    implements(IHighestRole)
+
+    def __init__(self, context):
+        self.context = context
+
+    def getValue(self):
+        mship = self.context
+        team = mship.getTeam()
+        mem_id = mship.getId()
+        return team.getHighestTeamRoleForMember(mem_id)
 
 
 @implementer(ILastModifiedAuthorId)
@@ -157,8 +174,13 @@ def register_indexable_attrs():
     registerInterfaceIndexer('lastWorkflowTransitionDate',
                              ILastWorkflowTransitionDate,
                              'getValue')
+    registerInterfaceIndexer('highestRole',
+                             IHighestRole,
+                             'getValue')
     registerInterfaceIndexer('lastModifiedAuthor', ILastModifiedAuthorId)
     registerInterfaceIndexer('mailing_list_threads', IMailingListThreadCount, 'getValue')
+
+
 class _extra:
     """ lame holder class to support index 'extra' argument """
     pass
