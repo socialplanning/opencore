@@ -1,0 +1,42 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:i18n="http://namespaces.zope.org/i18n"
+           i18n_domain="opencore">
+
+  <!-- provide views for the archive itself -->
+  <browser:page
+     for="Products.listen.interfaces.IListArchive"
+     name="forum_view"
+     class="Products.listen.browser.mail_archive_views.ArchiveForumView"
+     permission="zope2.View"
+     template="archive_forum_view.pt"
+     />
+  <browser:page
+     for="Products.listen.interfaces.IListArchive"
+     name="date_view"
+     class="Products.listen.browser.mail_archive_views.ArchiveDateView"
+     permission="zope2.View"
+     template="archive_date_view.pt"
+     />
+  
+  <browser:page
+     for="Products.listen.interfaces.IListArchive"
+     name="new_topic"
+     class="Products.listen.browser.mail_archive_views.ArchiveNewTopicView"
+     permission="zope2.View"
+     />
+  
+  <browser:page
+     for="Products.listen.interfaces.IListArchive"
+     name="search_archive"
+     class="Products.listen.browser.mail_archive_views.ArchiveSearchView"
+     permission="zope2.View"
+     />
+  
+  <browser:defaultView
+     for="Products.listen.interfaces.IListArchive"
+     name="forum_view"
+     />
+
+</configure>
