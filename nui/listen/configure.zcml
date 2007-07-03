@@ -7,7 +7,7 @@
   <browser:page
      for="opencore.listen.interfaces.IOpenMailingList"
      name="mailinglist_view"
-     class=".view.OpenMailingListView"
+     class=".view.NuiMailingListView"
      permission="zope2.View"
      template="list.pt"
      />
@@ -27,7 +27,7 @@
      name="opencore.add_mailinglist"
      for="opencore.featurelets.interfaces.IListenContainer"
      permission="listen.AddMailingList"
-     class=".view.MailingListAddView"
+     class=".view.NuiMailingListAddView"
      template="../formlib.pt"
      />
 
@@ -35,7 +35,7 @@
      name="edit"
      for="opencore.listen.interfaces.IOpenMailingList"
      permission="listen.EditMailingList"
-     class=".view.MailingListEditView"
+     class=".view.NuiMailingListEditView"
      template="../formlib.pt"
      />
 
