@@ -16,7 +16,6 @@
     <div class="oc-headingBlock">
       <h2>Latest updates (x)</h2>
     </div>
-    <!-- new stuff -->
     <!-- currently create 2 separate list groups:
          status info messages,
          projects inviting user -->
@@ -56,9 +55,8 @@
         <a href="#" title="Close" class="oc-actionClose  oc-actionLink">Close</a>
       </li>
     </ul>
-    new stuff above
-    <!-- new stuff -->
-    <ul class="oc-invite-list">
+    <!-- static data -->
+    <!--ul class="oc-invite-list">
       <li class="oc-invite oc-boxy oc-clearAfter">
           <div class="oc-avatar">
             <img src="" />
@@ -105,7 +103,7 @@
           <li><a href="" class="oc-actionLink oc-chooseIgnore">Ignore</a></li>
         </ul>
       </li>
-    </ul>
+    </ul-->
   </div><!-- end .widget-invitations -->
   
 
@@ -125,6 +123,7 @@
         <tr>
           <th class="" style="width: 10px;" scope="col"><input class="oc-checkAll" type="checkbox" /></th>
           <th class="oc-columnSortable" style="width: 200px;" scope="col">Project </th>
+          <th class="oc-columnSortable" scope="col">Role</th>
           <th class="oc-columnSortable" scope="col">Since</th>
           <th class="oc-columnSortable" scope="col">Listed</th>
           <th class="oc-columnAction" scope="col">Actions</th>
@@ -142,6 +141,16 @@
                  Animal Campaign for a poor little sick kittie named Fatty
               </a>
             </td>
+            <tal:pending-role tal:condition="python: projinfo['role'] == 'pending'">
+                <td class="oc-dataTable-row-title"
+                    tal:content="string:waiting approval"
+                    />
+            </tal:pending-role>
+            <tal:active-role tal:condition="python: projinfo['role'] != 'pending'">
+                <td class="oc-dataTable-row-title"
+                    tal:content="projinfo/role"
+                    />
+            </tal:active-role>
             <td id="oc-liveEdit_8" class="oc-liveItem">
               <span tal:replace="projinfo/since" />
             </td>
