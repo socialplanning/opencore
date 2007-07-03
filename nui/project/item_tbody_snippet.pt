@@ -4,7 +4,7 @@
 		      item_type item_type | item_collection/item_type;
 		      ">
 
-  <tal:if condition="view/editable">
+  <tal:if condition="item_collection/editable">
     <tbody tal:attributes="id string:oc-${item_type}-tbody" >
       <tal:for repeat="item item_collection">
         <tal:macro metal:use-macro="view/item_row/macros/item_row" />
@@ -12,9 +12,9 @@
     </tbody>
   </tal:if>
 
-  <tal:if condition="not:view/editable">
+  <tal:if condition="not:item_collection/editable">
     <tbody>
-      <tal:for repeat="item item_collection" define="uneditable string:True">
+      <tal:for repeat="item item_collection">
 	<tal:macro metal:use-macro="view/item_row/macros/item_row" />
       </tal:for>
     </tbody>    

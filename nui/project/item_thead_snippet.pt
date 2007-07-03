@@ -3,8 +3,9 @@
 		      item_date_author_header item_date_author_header | options/item_date_author_header;
                       sort_on options/sort_on | string:title;
 		      sort_order options/sort_order | string:ascending;
+		      item_collection item_collection | options/item_collection;
 		      ">
-  <tal:if condition="view/editable">
+  <tal:if condition="item_collection/editable">
     <thead tal:attributes="id string:oc-${item_type}-thead" >
       <tr>
         <th class="oc-dataTable-checkBoxColumn">
@@ -31,7 +32,7 @@
     </thead>
   </tal:if>
 
-  <tal:if condition="not:view/editable">
+  <tal:if condition="not:item_collection/editable">
     <thead tal:attributes="id string:oc-${item_type}-thead" >
       <tr>
         <th scope="col"
