@@ -1,5 +1,5 @@
-from opencore.listen.mailinglist_views import \
-    MailingListView, MailingListAddForm, MailingListEditForm
+from opencore.listen.mailinglist_views import MailingListAddForm, MailingListEditForm
+from Products.listen.browser.mailinglist_views import MailingListView
 from opencore.nui.base import BaseView
 
 class OpenMailingListView(BaseView, MailingListView):
