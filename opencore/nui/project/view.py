@@ -42,8 +42,9 @@ class vdict(dict):
                      obj_author=None,
                      title='sortable_title')
 
-    def __init__(self, header, **extra):
+    def __init__(self, header, _editable, **extra):
         self.header = header
+        self.editable = _editable
         self['id'] = 'getId'
         self['title'] = 'Title'
         self['url'] = 'getURL'
@@ -66,10 +67,33 @@ class vdict(dict):
 class ProjectContentsView(BaseView, OctopoLite):
 
     class ContentsCollection(list):
-        def __init__(self, item_type, *contents):
+        """
+        each item in the list should have a .collection attribute
+        which references the Collection itself. doing this by overriding
+        methods on the Collection to stick the attribute in when
+        adding the item.
+        NOTE THAT I AM only overriding select methods so if any other
+        method is called the template rendering will break mysteriously!
+        """
+        def __init__(self, item_type, view, *contents):
             self.item_type = item_type
             self.info = ProjectContentsView.needed_values[item_type]
+            self.info.collection = self
+            self.editable = view.editable
             self.extend(contents)
+
+        def __setitem__(self, i, y):
+            list.__setitem__(self, i, y)
+            y.collection = self
+
+        def append(self, item):
+            list.append(self, item)
+            item.collection = self
+
+        def extend(self, items):
+            list.extend(self, items)
+            for item in items:
+                item.collection = self
 
     template = ZopeTwoPageTemplateFile('contents.pt')
 
@@ -83,14 +107,14 @@ class ProjectContentsView(BaseView, OctopoLite):
                     'files': ("FileAttachment", "Image")
                     }
 
-    needed_values = dict(pages=vdict("Wiki pages",
+    needed_values = dict(pages=vdict("Wiki pages", _editable=True,
                                      obj_date='ModificationDate',
                                      obj_author='lastModifiedAuthor'),
-                         files=vdict("Images & Attachments",
+                         files=vdict("Images & Attachments", _editable=True,
                                      obj_date='Date',
                                      obj_author='Creator',
                                      obj_size='getObjSize'),
-                         lists=vdict("Mailing lists",
+                         lists=vdict("Mailing lists", _editable=False,
                                      obj_date='Date',
                                      obj_author='Creator',
                                      obj_size='mailing_list_threads'),
@@ -106,7 +130,7 @@ class ProjectContentsView(BaseView, OctopoLite):
 
     def _make_dict_and_translate(self, obj, needed_values):
         # could probably fold this map a bit
-        obj_dict = {}
+        obj_dict = type('contents_item', (dict,), {'collection': None})()
         metadata = self.retrieve_metadata(obj)
         
         for field in needed_values: # loop through fields that we need
@@ -155,9 +179,11 @@ class ProjectContentsView(BaseView, OctopoLite):
                               sort_on=sort_by,
                               sort_order=sort_order)
         needed_values = self.needed_values[item_type]
-        ret = self.ContentsCollection(item_type)
+        ret = self.ContentsCollection(item_type, self)
         for brain in brains:
             ret.append(self._make_dict_and_translate(brain, needed_values))
+        if needed_values.editable is False:
+            ret.editable = False
         return ret
 
     @memoizedproperty
@@ -268,7 +294,8 @@ class ProjectContentsView(BaseView, OctopoLite):
         thead_obj = {'html': self.item_thead_snippet(item_type=item_type,
                                                      item_date_author_header=(item_type=='pages' and "Last Modified" or "Created"),
                                                      sort_on=sort_by,
-                                                     sort_order=sort_order
+                                                     sort_order=sort_order,
+                                                     item_collection=items
                                                      ),
                      'effects': '',
                      'action': 'replace'
