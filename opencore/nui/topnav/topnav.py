@@ -1,10 +1,14 @@
 """
 TopNav view classes.
 """
+from plone.memoize import view
+
 from Products.CMFCore.permissions import ModifyPortalContent
+from Products.TeamSpace.permissions import ManageTeamMembership
+
 from opencore.nui.base import BaseView
 from opencore.nui.contexthijack import HeaderHijackable
-from plone.memoize import view
+
 
 memoizedproperty = lambda func: property(view.memoize(func))
 
@@ -99,6 +103,7 @@ class ProjectMenuView(BaseView):
     @memoizedproperty
     def menudata(self):
         featurelets = self.piv.featurelets
+        proj = self.piv.project
         contents_url = "%s/contents" % self.areaURL
         prefs_url = "%s/preferences" % self.areaURL
         manage_team_url = "%s/manage-team" % self.areaURL
@@ -124,8 +129,7 @@ class ProjectMenuView(BaseView):
                  },
                 )
 
-        if self.membertool.checkPermission(ModifyPortalContent,
-                                           self.piv.project):
+        if self.membertool.checkPermission(ModifyPortalContent, proj):
             menudata += (
                 {'content': 'Preferences',
                  'href': prefs_url,
@@ -133,12 +137,25 @@ class ProjectMenuView(BaseView):
                  },
                 )
 
+        if self.membertool.checkPermission(ManageTeamMembership, proj):
             menudata += (
                 {'content': 'Manage team',
                  'href': manage_team_url,
                  'selected': self.request.ACTUAL_URL == manage_team_url,
                  },
                 )
+
+        team = proj.getTeams()[0]
+        filter_states = tuple(team.getActiveStates()) + ('pending',)
+        if self.loggedin and self.member_info.get('id') not in \
+               team.getMemberIdsByStates(filter_states):
+            menudata += (
+                {'content': 'Join project',
+                 'href': '%s/request-membership' % proj.absolute_url(),
+                 'selected': False,
+                 },
+                )
+
         return menudata
 
 

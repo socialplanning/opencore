@@ -2,6 +2,7 @@ from BTrees.OOBTree import OOBTree
 from zExceptions import Redirect
 from AccessControl import ClassSecurityInfo
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFPlone.utils import _createObjectByType
 from Products.Archetypes.public import registerType
 from Products.TeamSpace.team import Team, team_type_information
@@ -133,25 +134,36 @@ class OpenTeam(Team):
     def join(self):
         """
         Apply for project membership for the currently authenticated
-        member.  Can't delegate to addMember b/c we need to bypass the
-        security checks when creating the membership object.
+        member.  Will either create a new membership object or fire
+        the rerequest transition (if a membership already exists).
+
+        Can't delegate to addMember b/c we need to bypass the security
+        checks when creating the membership object.
+
+        Returns True if the action was successful, False if not.
         """
-
-        # XXX requesty stuff should be pulled out into a view
-        
+        ret = True
         putils = getToolByName(self, 'plone_utils')
+        mtool = getToolByName(self, 'portal_membership')
+        mem = mtool.getAuthenticatedMember()
+        mem_id = mem.getId()
 
-        try:
+        if mem_id not in self.getMemberIds():
             self._createMembership()
-        except Exception, msg:
-            putils.addPortalMessage(msg)
-            raise Redirect, self.absolute_url()
-        
-        msg = u'Membership created, pending approval.'
-        putils.addPortalMessage(msg)
-        # can't raise Redirect or we'll abort our changes
 
-        self.REQUEST.response.redirect(self.absolute_url())
+        elif mem_id not in self.getActiveMemberIds():
+            wftool = getToolByName(self, 'portal_workflow')
+            mship = self.getMembershipByMemberId(mem_id)
+            try:
+                wftool.doActionFor(mship, 'rerequest')
+            except WorkflowException:
+                # transition isn't available
+                ret = False
+
+        else: # mem_id in self.getActiveMemberIds(), nothing to do
+            ret = False
+
+        return ret
 
     security.declarePrivate('joinAndApprove')    
     def joinAndApprove(self):

@@ -413,6 +413,31 @@ class TeamRelatedView(SearchView):
         self.sort_by = None
 
 
+class RequestMembershipView(TeamRelatedView):
+    """
+    View class to handle join project requests.
+    """
+    def __call__(self):
+        """
+        Delegates to the team object and handles destination.
+        """
+        if self.loggedin:
+            joined = self.team.join()
+
+        if joined:
+            msg = (u'Your request to join the %s project has been sent to '
+                   'the project administrators.' % self.context.Title())
+        else:
+            msg = (u"You are already either a pending or active member of "
+                   "the %s project." % self.context.Title())
+        self.addPortalStatusMessage(msg)
+        
+        referer = self.request.environ.get('HTTP_REFERER')
+        if referer is None:
+            referer = self.context.absolute_url()
+        self.redirect(referer)
+
+
 class ProjectTeamView(TeamRelatedView):
    
     @formhandler.button('sort')
