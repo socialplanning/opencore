@@ -296,3 +296,11 @@ This is the old skin which redirects to the login page.
 
     >>> 'Hey!' in output
     True
+
+Remove test_user_1_
+===================
+
+Ensure test atomicity by removing the created user:
+
+    >>> portal.portal_memberdata.manage_delObjects('test_user_1_')
+    >>> portal.people.manage_delObjects('test_user_1_')
