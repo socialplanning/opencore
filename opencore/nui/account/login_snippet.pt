@@ -44,13 +44,15 @@
                     <!-- onclick="javascript:return setLoginVars('__ac_name','login_name','__ac_password','pwd_empty','js_enabled','cookies_enabled')" --></td>
                   <td class="oc-form-help"></td>
                 </tr>
+		<!-- 
                 <tr class="oc-options">
                   <th></th>
                   <td>
-                    <a class="oc-smallText" href="forgot">Forgot your username or password?</a>
+                    
                   </td>
                   <td class="oc-form-helpBlock"></td>
                 </tr>
+		-->
               </tbody>
             </table>
           </fieldset>
