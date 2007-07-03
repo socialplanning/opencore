@@ -3,6 +3,7 @@ from Testing.ZopeTestCase import PortalTestCase
 
 from zope.app.annotation.interfaces import IAnnotations
 from plone.memoize.view import ViewMemo
+from plone.memoize.instance import Memojito
 
 from Products.CMFCore.utils  import getToolByName
 from Products.Archetypes.tests.ArchetypesTestCase import ArcheSiteTestCase
@@ -41,3 +42,9 @@ class OpenPlansTestCase(ArcheSiteTestCase):
         if cache is not None:
             annotations[ViewMemo.key] = dict()
 
+    def clearInstanceCache(self, obj):
+        propname = Memojito.propname
+        try:
+            delattr(obj, propname)
+        except AttributeError:
+            pass
