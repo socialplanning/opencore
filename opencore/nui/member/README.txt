@@ -114,12 +114,19 @@ Exercise the Member Preferences Class
 
     Now we should one invitation for m1
     These are what the member can act on
-    >>> view.invitations()
+    >>> project_dicts = view.invitations()
+    >>> [p['proj_id'] for p in project_dicts]
     ['p4']
 
     And one still pending, which project admins approve
-    >>> view.member_requests()
+    >>> project_dicts = view.member_requests()
+    >>> [p['proj_id'] for p in project_dicts]
     ['p2']
+
+    When we get all projects, the member request should be in there
+    >>> project_dicts = view.get_projects_for_user()
+    >>> [d['proj_id'] for d in project_dicts]
+    ['p3', 'p1', 'p2']
 
     Now let's call the view simulating the request:
     XXX member areas need to be created first though for m1
