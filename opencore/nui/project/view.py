@@ -73,7 +73,7 @@ class ProjectContentsView(BaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('contents.pt')
 
-    contents_row_snippet = ZopeTwoPageTemplateFile('item_row.pt')
+    item_row = ZopeTwoPageTemplateFile('item_row.pt')
     item_table_snippet = ZopeTwoPageTemplateFile('item_table_snippet.pt')
     item_tbody_snippet = ZopeTwoPageTemplateFile('item_tbody_snippet.pt')
     item_thead_snippet = ZopeTwoPageTemplateFile('item_thead_snippet.pt')
@@ -317,7 +317,7 @@ class ProjectContentsView(BaseView, OctopoLite):
             page.setTitle(new['title'])
             page.reindexObject(('Title',))
             snippets[page.getId()] = {
-                'html': self.contents_row_snippet(
+                'html': self.item_row(
                     item=self._make_dict_and_translate(
                         page,
                         self.needed_values[item_type]),
