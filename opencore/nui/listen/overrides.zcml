@@ -8,7 +8,7 @@
   <browser:page
      for="Products.listen.interfaces.IListArchive"
      name="forum_view"
-     class="Products.listen.browser.mail_archive_views.ArchiveForumView"
+     class=".view.NuiArchiveForumView"
      permission="zope2.View"
      template="archive_forum_view.pt"
      />
