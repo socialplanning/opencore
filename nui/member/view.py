@@ -148,15 +148,17 @@ class MemberPreferences(BaseView, OctopoLite):
         else:
             mship_activated_on = self.pretty_date(brain.made_active_date)
 
-        # XXX need more than boolean
-        # a state needs to be there for public, private, memship pending
         review_state = brain.review_state
         listed = review_state == 'public'
+        is_pending = review_state == 'pending'
+
+        role = brain.highestRole
 
         return dict(title=proj_title,
                     proj_id=proj_id,
                     since=mship_activated_on,
                     listed=listed,
+                    role=role,
                     )
 
     def get_projects_for_user(self):
