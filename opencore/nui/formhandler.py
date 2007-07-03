@@ -144,7 +144,12 @@ class OctopoLite(opencore.nui.octopus.Octopus):
         return self.request.form
 
     def _octopus_template(self):
-        return self.template()
+        """
+        Returns either the rendered template attribute, or None if the
+        self.template is None.
+        """
+        if self.template is not None:
+            return self.template()
 
     def _octopus_async_postprocess(self, ret):
         try:
