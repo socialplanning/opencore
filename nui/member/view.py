@@ -8,6 +8,7 @@ from zExceptions import Redirect
 from zope import event
 from topp.utils.pretty_date import prettyDate
 from datetime import datetime
+from opencore.nui.formhandler import octopus
 
         
 class ProfileView(BaseView):
@@ -51,33 +52,38 @@ class ProfileEditView(ProfileView):
 
     portrait_snippet = ZopeTwoPageTemplateFile('portrait-snippet.pt')
 
-    def handle_form(self):
-        usr = self.viewedmember()
+    @octopus
+    def handle_form(self, action, targets, fields):
+        member = self.viewedmember()
         portrait = self.request.form.get('portrait')
         mode = self.request.form.get('mode')
               
         # TODO resize portrait if necessary
 
-        if mode == 'async':
+        if action == 'uploadAndUpdate':
             if portrait:
-                usr.setPortrait(portrait)
-            else: # TODO detect whether to delete more explicitly. currently the
-                  # remove portrait button is identical in name and value to the
-                  # change portrait button, so this relies on the user not having
-                  # clicked browse and selecting an image first. consult egj/nickyg
-                usr._delOb('portrait')
-            usr.reindexObject()
-            return { 'oc-profile-avatar' : self.portrait_snippet()}
+                member.setPortrait(portrait)
+            else:
+                member._delOb('portrait')
+            member.reindexObject()
+            return {
+                     'oc-profile-avatar' : 
+                       {
+                         'html': self.portrait_snippet(),
+                         'action': 'replace',
+                         'effects': 'highlight'
+                       }
+                    }
 
         else:
             for field, value in self.request.form.items():
                 mutator = 'set%s' % field.capitalize()
-                mutator = getattr(usr, mutator, None)
+                mutator = getattr(member, mutator, None)
                 if mutator is not None:
                     mutator(value)
                 self.user_updated()
     
-            usr.reindexObject()
+            member.reindexObject()
             return self.redirect('profile')
 
 
