@@ -15,7 +15,7 @@
   <browser:page
      for="Products.listen.interfaces.IListArchive"
      name="date_view"
-     class="Products.listen.browser.mail_archive_views.ArchiveDateView"
+     class=".view.NuiArchiveDateView"
      permission="zope2.View"
      template="archive_date_view.pt"
      />

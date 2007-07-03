@@ -1,68 +1,52 @@
-<metal:archive-view use-macro="here/@@forum_view/macros/archive">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      lang="en"
-      i18n:domain="plone">
-<body>
-<div metal:fill-slot="body">
-  <div metal:define-macro="body"
-       tal:define="dates view/getAvailableDates;
-                   template_id string:date_view;"
-       i18n:domain="listen">
+<html metal:use-macro="here/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">
+      <div id="oc-content-main">
+        <div tal:define="dates view/getAvailableDates; template_id string:date_view;" i18n:domain="listen">
+          <h1 i18n:translate="" tal:content="view/Title">
+            Title or Id
+          </h1>
 
-    <div metal:define-slot="extra_info" tal:replace="nothing">
-    </div>
+          <p id="listaddress"
+            tal:content="view/listAddress"
+            tal:condition="view/listAddress">
+            Description
+          </p>
 
-    <div class="row"
-         metal:define-slot="extra_top" tal:replace="nothing">
-        <div i18n:translate="" class="label">Extra top</div>
-    </div>
+          <p tal:content="view/listDescription"
+            tal:condition="view/listDescription">
+            Description
+          </p>
 
-    <h1 i18n:translate="" tal:content="view/Title" class="documentFirstHeading">
-        Title or Id
-    </h1>
+          <ul id="message-list-actions">
+            <li>
+              <a id="switch_view" href="forum_view"
+                i18n:translate="">Forum view</a>
+            </li>
+          </ul>
 
-    <p id="listaddress"
-        tal:content="view/listAddress"
-        tal:condition="view/listAddress">
-        Description
-    </p>
-
-    <p class="documentDescription"
-        tal:content="view/listDescription"
-        tal:condition="view/listDescription">
-        Description
-    </p>
-
-	<ul id="message-list-actions">
-	  <li>
-        <a id="switch_view" href="forum_view"
-           i18n:translate="">Forum view</a>
-      </li>
-    </ul>
-
-    <ul id="archive-folders">
-        <li tal:repeat="year dates">
-            <a href="."
-               tal:attributes="href year/url"
-               tal:content="year/title">2004</a>
-            <ul tal:condition="year/children">
+          <ul id="archive-folders">
+            <li tal:repeat="year dates">
+              <a href="."
+                tal:attributes="href year/url"
+                tal:content="year/title">2004</a>
+              <ul tal:condition="year/children">
                 <li tal:repeat="month year/children">
-                    <a href="."
-		       i18n:translate=""
-                       tal:attributes="href month/url"
-                       tal:content="month/title">November</a>
+                  <a href="."
+                    i18n:translate=""
+                    tal:attributes="href month/url"
+                    tal:content="month/title">November</a>
                 </li>
-            </ul>
-        </li>
-    </ul>
+              </ul>
+            </li>
+          </ul>
 
-    <p class="discreet"
-       tal:condition="not: dates"
-       i18n:translate="description_no_posts">
-        There are currently no posts in this archive.
-    </p>
-  </div>
-</div>
-</body>
+          <p tal:condition="not: dates"
+            i18n:translate="description_no_posts">
+            There are currently no posts in this archive.
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
-</metal:archive-view>
