@@ -1,5 +1,7 @@
 from datetime import datetime
+
 from zope import event
+from zope.app.annotation.interfaces import IAnnotations
 
 from zExceptions import BadRequest
 from zExceptions import Redirect
@@ -217,4 +219,12 @@ class MemberPreferences(BaseView, OctopoLite):
         return json_ret
 
     def infomsgs(self):
-        return []
+        """info messages re project admission/rejection"""
+        # annotation on the member object itself?
+        # or maybe should be annotated on the person folder?
+        # that's easier, because then it would just be the context
+        mem_data = self.get_tool('portal_memberdata')
+        mem_id = self.context.getId()
+        mem_obj = mem_data._getOb(mem_id)
+        annot = IAnnotations(mem_obj)
+        return annot.get('infomsgs', [])
