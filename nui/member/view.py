@@ -73,7 +73,7 @@ class ProfileEditView(ProfileView):
             for field, value in self.request.form.items():
                 mutator = 'set%s' % field.capitalize()
                 mutator = getattr(usr, mutator, None)
-                if mutator:
+                if mutator is not None:
                     mutator(value)
                 self.user_updated()
     

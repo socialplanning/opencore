@@ -41,12 +41,18 @@
      template="team-view.pt"
      />
 
-
   <browser:page
      for="opencore.interfaces.IProject"
      class=".view.ManageTeamView"
      permission="teamspace.ManageTeamMemberships"
      name="manage-team"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".view.RequestMembershipView"
+     permission="zope.Public"
+     name="request-membership"
      />
 
   <subscriber
