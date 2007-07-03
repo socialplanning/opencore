@@ -212,8 +212,9 @@ OC.LiveForm = function(extEl) {
       );
 
     }
+    /* FIXME: this hoses your whole browser on the join form
     liveValidatees.on('blur', _validateField, this);
-
+    */
     function _afterValidateFailure(o) {
     
     }
