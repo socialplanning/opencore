@@ -23,8 +23,9 @@
   <browser:page
      for="Products.listen.interfaces.IListArchive"
      name="new_topic"
-     class="Products.listen.browser.mail_archive_views.ArchiveNewTopicView"
+     class=".view.NuiArchiveNewTopicView"
      permission="zope2.View"
+     template="new_topic_view.pt"
      />
   
   <browser:page
