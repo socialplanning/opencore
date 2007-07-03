@@ -1,3 +1,5 @@
+hi i'm archive_forum_view.pt
+<!--
 <metal:archive-view define-macro="archive">
 <tal:comment condition="nothing">
 	We set the template_id to ensure correct highlighting, and we use the
@@ -158,3 +160,4 @@
 </body>
 </html>
 </metal:archive-view>
+-->
