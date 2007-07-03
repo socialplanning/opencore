@@ -1,5 +1,7 @@
 <metal:forgot define-macro="forgot_snippet">
-        <form
+  <div class="oc-expander">
+  <a class="oc-smallText oc-expander-link" href="forgot">Forgot your username or password?</a>
+        <form class="oc-expander-content"
            tal:attributes="action string: forgot"
            method="post" id="oc-login-form">
         
@@ -31,4 +33,5 @@
             </table>
           </fieldset>
         </form>
+  </div>
 </metal:forgot>
