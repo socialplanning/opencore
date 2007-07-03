@@ -35,6 +35,7 @@ the JSON object to be returned to the client.
    ...         return func(self, *a, **b)
    ...     return inner
    >>> class FormTest(OctopoLite):
+   ...     template = lambda self: 'my template'
    ...     request = type('request', (object,), dict(form={}, environ={'HTTP_REFERER': "http://nohost"}))
    ...     def redirect(self, to):
    ...         return to
@@ -61,10 +62,10 @@ in the form, encoded in an octopized format in the "task" field::
    >>> view.request.form['task'] = 'dummy_sod'
    >>> view()
    eggs of the devil!
-   'http://nohost'
+   'my template'
 
 Since that request was not issued asynchronously, Octopolite swallowed
-the method's return value and returned a redirect to HTTP_REFERER. We
+the method's return value and returned a rendered template. We
 can issue requests asynchronously to get back the return value directly::
 
    >>> view.request.form['mode'] = 'async'
@@ -77,6 +78,7 @@ A request with no actions will dispatch to the action specified as default::
    >>> del view.request.form['task']
    >>> view()
    Rock!
+   {}
 
 You will probably want to specify decorators, like post_only or
 jsonify, to be triggered only if the action is dispatched to, but
@@ -86,10 +88,10 @@ are not triggered if the action is called directly::
    >>> view()
    in decorator!
    fine!
+   {}
 
    >>> view.fine()
    fine!
-
 
 The JSON object to be returned from your action methods:
 
