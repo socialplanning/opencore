@@ -1,34 +1,21 @@
 from opencore.listen.mailinglist_views import MailingListAddForm, MailingListEditForm
 from Products.listen.browser.mailinglist_views import MailingListView
-from Products.listen.browser.mail_archive_views import ArchiveForumView, ArchiveDateView
+from Products.listen.browser.mail_archive_views import ArchiveForumView, ArchiveDateView, ArchiveNewTopicView
 from opencore.nui.base import BaseView
 
-class NuiMailingListView(BaseView, MailingListView):
-    def __init__(self, context, request):
-        BaseView.__init__(self, context, request)
-        MailingListView.__init__(self, context, request)
-        self.errors = ()
 
-class NuiMailingListAddView(BaseView, MailingListAddForm):
-    def __init__(self, context, request):
-        BaseView.__init__(self, context, request)
-        MailingListAddForm.__init__(self, context, request)
-        self.errors = ()
+def make_nui_listen_view_class(cls, set_errors=False):
+    class NuiListenView(BaseView, cls):
+        def __init__(self, context, request):
+            BaseView.__init__(self, context, request)
+            cls.__init__(self, context, request)
+            if set_errors:
+                self.errors = ()
+    return NuiListenView
 
-class NuiMailingListEditView(BaseView, MailingListEditForm):
-    def __init__(self, context, request):
-        BaseView.__init__(self, context, request)
-        MailingListEditForm.__init__(self, context, request)
-        self.errors = ()
-
-class NuiArchiveForumView(BaseView, ArchiveForumView):
-    def __init__(self, context, request):
-        BaseView.__init__(self, context, request)
-        ArchiveForumView.__init__(self, context, request)
-        self.errors = ()
-
-class NuiArchiveDateView(BaseView, ArchiveDateView):
-    def __init__(self, context, request):
-        BaseView.__init__(self, context, request)
-        ArchiveDateView.__init__(self, context, request)
-        self.errors = ()
+NuiMailingListView      = make_nui_listen_view_class(MailingListView)
+NuiMailingListAddView   = make_nui_listen_view_class(MailingListAddForm, set_errors=True)
+NuiMailingListEditView  = make_nui_listen_view_class(MailingListEditForm, set_errors=True)
+NuiArchiveForumView     = make_nui_listen_view_class(ArchiveForumView)
+NuiArchiveDateView      = make_nui_listen_view_class(ArchiveDateView)
+NuiArchiveNewTopicView  = make_nui_listen_view_class(ArchiveNewTopicView)
