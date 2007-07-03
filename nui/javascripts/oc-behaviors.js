@@ -31,7 +31,8 @@ OC.liveElementKey = {
   ".oc-widget-multiSearch" : "SearchLinks",
   '#oc-usermenu-list' : "TopNav",
   '#oc-project-create' : "ProjectCreateForm",
-  ".oc-autoFocus" : "AutoFocus"
+  ".oc-autoFocus" : "AutoFocus",
+  ".oc-warn-popup" : "WarnPopup"
 }
     
 /* 
@@ -996,6 +997,23 @@ OC.CloseButton = function(extEl) {
     return this;
 }
 
+/*
+#
+# Warn Popups
+#  -- THIS IS DUMB AND SHOULD BE LOOKED OVER BY NICK TO MAKE BETTER
+*/
+OC.WarnPopup = function(extEl) {
+    var msg = "Removing this feature may result in lost data for your project."
+    msg += " Are you sure you want to remove the feature?"
+    var item = Ext.get(extEl);
+    //behaviors
+    function _itemClick(e, el, o) {
+	if( !item.dom.checked )
+	    if( !confirm(msg) )
+		YAHOO.util.Event.stopEvent(e);
+    }
+    item.on('click', _itemClick, this);
+}
 /* 
 #
 # Select Box Auto Links
