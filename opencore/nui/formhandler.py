@@ -128,17 +128,6 @@ def deoctopize(func):
         return ret
     return inner
 
-def dict_to_json(func):
-    """
-    this is as dumb as it can possibly be
-    """
-    def inner(*args, **kw):
-        val = func(*args, **kw)
-        if not isinstance(val, dict):
-            return val
-        return "{%s}" % ', '.join(["%s:'%s'" % (k,v) for k,v in val.items()])
-    return inner
-
 class OctopoLite(object):
     """
     Merge of the octopus request form handling with the FormLite form
