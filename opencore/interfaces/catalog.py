@@ -28,11 +28,12 @@ class ILastWorkflowTransitionDate(Interface):
         workflow transition happened.
         """
 
-class IHighestRole(Interface):
+class IHighestTeamRole(Interface):
 
     def getValue():
         """
-        Returns the highest role from the team object that this membership is a part of
+        Returns the highest role from the team object that this
+        membership is a part of
         """
 
 class ILastModifiedAuthorId(Interface):

@@ -153,7 +153,7 @@ class MemberPreferences(BaseView, OctopoLite):
         listed = review_state == 'public'
         is_pending = review_state == 'pending'
 
-        role = brain.highestRole
+        role = brain.highestTeamRole
 
         return dict(title=proj_title,
                     proj_id=proj_id,

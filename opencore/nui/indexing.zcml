@@ -21,8 +21,8 @@
 
   <adapter
      for="opencore.interfaces.IOpenMembership"
-     provides="opencore.interfaces.catalog.IHighestRole"
-     factory="opencore.nui.indexing.HighestRole"
+     provides="opencore.interfaces.catalog.IHighestTeamRole"
+     factory="opencore.nui.indexing.HighestTeamRole"
      />
 
   <adapter factory=".indexing.metadata_for_brain" />
