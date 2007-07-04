@@ -11,7 +11,7 @@
         <form method="POST" id="request-membership"
               tal:attributes="action view/request/ACTUAL_URL">
           <label>Message:</label>
-          <textarea rows="10" cols="80"></textarea><br />
+          <textarea rows="10" cols="80" id="request-message"></textarea><br />
           <button type="submit" name="task" value="request-membership"
                   class="oc-button">send</button>
         </form>

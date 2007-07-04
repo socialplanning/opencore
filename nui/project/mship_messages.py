@@ -1,29 +1,43 @@
-invite_member = """Subject: OpenPlans project invitation
+from opencore.i18n import _
 
-You've been invited to join the %(project_title)s project on OpenPlans.org.  Please visit your account page (%(account_url)s) to accept or decline the invitation.
-"""
+invite_member = _(u"""Subject: OpenPlans project invitation
 
-remind_invitee = """Subject: OpenPlans project invitation reminder
+You've been invited to join the ${project_title} project on OpenPlans.org.  Please visit your account page (${account_url}) to accept or decline the invitation.
+""")
 
-This is a reminder that you've been invited to join the %(project_title)s project on OpenPlans.org.  Please visit your account page (%(account_url)s) to accept or decline the invitation.
-"""
+remind_invitee = _(u"""Subject: OpenPlans project invitation reminder
 
-request_approved = """Subject: OpenPlans project membership approval
+This is a reminder that you've been invited to join the ${project_title} project on OpenPlans.org.  Please visit your account page (${account_url}) to accept or decline the invitation.
+""")
 
-Your request for membership in the %(project_title)s project on OpenPlans.org has been approved.
-"""
+request_approved = _(u"""Subject: OpenPlans project membership approval
 
-request_denied = """Subject: OpenPlans project membership denied
+Your request for membership in the ${project_title} project on OpenPlans.org has been approved.
+""")
 
-Your request for membership in the %(project_title)s project on OpenPlans.org has been denied.
-"""
+request_denied = _(u"""Subject: OpenPlans project membership denied
 
-invitation_retracted = """Subject: OpenPlans project invitation retracted
+Your request for membership in the ${project_title} project on OpenPlans.org has been denied.
+""")
 
-The invitation extended to you to join the %(project_title)s project on OpenPlans.org has been retracted.
-"""
+invitation_retracted = _(u"""Subject: OpenPlans project invitation retracted
 
-membership_deactivated = """Subject: OpenPlans project membership deactivated
+The invitation extended to you to join the ${project_title} project on OpenPlans.org has been retracted.
+""")
 
-Your membership in the %(project_title)s project on OpenPlans.org has been deactivated.
-"""
+membership_deactivated = _(u"""Subject: OpenPlans project membership deactivated
+
+Your membership in the ${project_title} project on OpenPlans.org has been deactivated.
+""")
+
+membership_requested = _(u"""Subject: OpenPlans project membership request
+
+The ${member_id} member has requested membership in the ${project_title} project.  Please visit the project team management screen (${team_manage_url}) to approve or deny this request.
+""")
+
+mship_request_message = _(u"""
+
+${member_id} has included the following message:
+
+${member_message}
+""")
