@@ -108,7 +108,7 @@
   
 
   <div class="oc-widget oc-widget-dataTable oc-clearAfter"
-       tal:define="projinfos view/get_projects_for_user"
+       tal:define="projinfos view/projects_for_user"
        tal:condition="projinfos"
        >
     <div class="oc-headingBlock">
