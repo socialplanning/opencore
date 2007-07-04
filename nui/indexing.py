@@ -9,7 +9,7 @@ from Products.listen.interfaces import ISearchableArchive
 from Products.listen.interfaces.mailinglist import IMailingList
 from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, \
      IIndexingGhost, IMetadataDictionary, ILastWorkflowTransitionDate, IMailingListThreadCount, \
-     IHighestRole
+     IHighestTeamRole
 from opencore.interfaces import IOpenMembership
 
 from zope.component import adapter, queryUtility, adapts
@@ -41,7 +41,7 @@ mem_idxs = (('FieldIndex', 'exact_getFullname',
 
 metadata_cols = ('lastWorkflowActor', 'made_active_date', 'lastModifiedAuthor',
                  'lastWorkflowTransitionDate', 'mailing_list_threads',
-                 'highestRole')
+                 'highestTeamRole')
 
 
 class LastWorkflowActor(object):
@@ -76,10 +76,11 @@ class LastWorkflowTransitionDate(object):
         status = wftool.getStatusOf(wf_id, self.context)
         return status.get('time')
 
-class HighestRole(object):
-    """populates the highest role metadata column for IOpenMemberships"""
+class HighestTeamRole(object):
+    """populates the highest team role metadata column for
+    IOpenMemberships"""
     adapts(IOpenMembership)
-    implements(IHighestRole)
+    implements(IHighestTeamRole)
 
     def __init__(self, context):
         self.context = context
@@ -174,8 +175,8 @@ def register_indexable_attrs():
     registerInterfaceIndexer('lastWorkflowTransitionDate',
                              ILastWorkflowTransitionDate,
                              'getValue')
-    registerInterfaceIndexer('highestRole',
-                             IHighestRole,
+    registerInterfaceIndexer('highestTeamRole',
+                             IHighestTeamRole,
                              'getValue')
     registerInterfaceIndexer('lastModifiedAuthor', ILastModifiedAuthorId)
     registerInterfaceIndexer('mailing_list_threads', IMailingListThreadCount,
