@@ -1,5 +1,6 @@
 from zope import event
 from zope.component import getMultiAdapter
+from zope.i18nmessageid import Message
 from zExceptions import BadRequest, Redirect
 from Acquisition import aq_parent
 
@@ -22,6 +23,7 @@ from opencore.tasktracker import uri as tt_uri
 from opencore.content.membership import OpenMembership
 
 from opencore.nui import formhandler
+from opencore.nui.email_sender import EmailSender
 from opencore.nui.base import BaseView
 from opencore.nui.formhandler import OctopoLite, action
 from opencore.nui.main import SearchView
@@ -455,12 +457,31 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
             joined = self.team.join()
 
         if joined:
-            msg = (u'Your request to join the %s project has been sent to '
+            team_manage_url = "%s/manage-team" % self.context.absolute_url()
+            email_vars = {'member_id': self.member_info.get('id'),
+                          'project_title': self.context.Title(),
+                          'team_manage_url': team_manage_url,
+                          }
+            sender = EmailSender(self, mship_messages)
+            email_msg = sender.constructMailMessage('membership_requested',
+                                                    **email_vars)
+            request_message = self.request.form.get('request-message')
+            if request_message:
+                # adding the two Message objects together creates a unicode
+                # type, must instantiate a new Message
+                email_msg += sender.constructMailMessage('mship_request_message')
+                email_vars.update(request_message=request_message)
+                email_msg = Message(email_msg, mapping=email_vars)
+
+            mto = self.team.admin_ids
+            sender.sendEmail(mto, msg=email_msg, **email_vars)
+
+            psm = (u'Your request to join the %s project has been sent to '
                    'the project administrators.' % self.context.Title())
         else:
-            msg = (u"You are already either a pending or active member of "
+            psm = (u"You are already either a pending or active member of "
                    "the %s project." % self.context.Title())
-        self.addPortalStatusMessage(msg)
+        self.addPortalStatusMessage(psm)
         self.template = None # don't render the form before the redirect
         self.redirect(self.context.absolute_url())
     

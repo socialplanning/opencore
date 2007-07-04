@@ -1,4 +1,9 @@
 import re
+from types import StringTypes
+from zope.i18nmessageid import Message
+from zope.i18n import translate
+
+from plone.mail import construct_simple_encoded_message
 
 from Products.validation.validators.BaseValidators import EMAIL_RE
 
@@ -38,7 +43,8 @@ class EmailSender(object):
         specified message will raise a KeyError.
         """
         msg = getattr(self.messages, msg_id)
-        return msg % kwargs
+        msg = Message(msg, mapping=kwargs)
+        return msg
 
     def sendEmail(self, mto, msg=None, msg_id=None, subject=None,
                   **kwargs):
@@ -47,7 +53,7 @@ class EmailSender(object):
         user is the sender.a
 
         o mto: the message recipient.  either an email address or a
-        member id.
+        member id, or a sequence of the same.
 
         o msg: the message to send.  if None, then msg_id must be
         provided.
@@ -70,11 +76,15 @@ class EmailSender(object):
         if msg is None:
             msg = self.constructMailMessage(msg_id, **kwargs)
         regex = re.compile(EMAIL_RE)
-        if regex.match(mto) is None:
-            to_mem = view.membertool.getMemberById(mto)
-            to_info = view.member_info_for_member(to_mem)
-            mto = to_info.get('email')
+        if type(mto) in StringTypes:
+            mto = (mto,)
+        recips = []
+        for recip in mto:
+            if regex.match(recip) is None:
+                to_mem = view.membertool.getMemberById(recip)
+                to_info = view.member_info_for_member(to_mem)
+                recip = to_info.get('email')
+            recips.append(recip)
 
         mfrom = view.member_info.get('email')
-        self.mailhost.send(msg, mto, mfrom, subject)
-
+        self.mailhost.send(str(translate(msg)), recips, mfrom, subject)
