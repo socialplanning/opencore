@@ -130,6 +130,22 @@ class OpenTeam(Team):
                 highest_index = index
         return DEFAULT_ROLES[highest_index]
 
+    security.declarePrivate('admin_ids')
+    @property
+    def admin_ids(self):
+        """
+        Returns the user id for each team member with ProjectAdmin
+        role.
+        """
+        brains = self.getMembershipBrains()
+        res = []
+        active_states = self.getActiveStates()
+        for brain in brains:
+            if brain.review_state in active_states and \
+                   brain.highestTeamRole == 'ProjectAdmin':
+                res.append(brain.getId)
+        return res
+
     security.declarePublic('join')
     def join(self):
         """
