@@ -34,7 +34,7 @@ Exercise the Member Preferences Class
     <opencore.nui.member.view.MemberPreferences object at ...>
 
     Check projects for user m1
-    >>> project_dicts = view.get_projects_for_user()
+    >>> project_dicts = view.projects_for_user
 
     Check the projects and active states
     >>> [d['proj_id'] for d in project_dicts]
@@ -62,7 +62,8 @@ Exercise the Member Preferences Class
     >>> view.leave_project('p2')
 
     And finally, m1 should no longer have active membership to project p2
-    >>> project_dicts = view.get_projects_for_user()
+    >>> self.clearMemoCache()
+    >>> project_dicts = view.projects_for_user
     >>> [d['proj_id'] for d in project_dicts]
     ['p3', 'p1']
 
@@ -76,7 +77,8 @@ Exercise the Member Preferences Class
     >>> view.change_visibility('p3')
 
     When we get the projects again, we should not be listed for p3
-    >>> project_dicts = view.get_projects_for_user()
+    >>> self.clearMemoCache()
+    >>> project_dicts = view.projects_for_user
     >>> [d['listed'] for d in project_dicts]
     [False, True]
 
@@ -84,12 +86,13 @@ Exercise the Member Preferences Class
     >>> view.change_visibility('p3')
 
     Now he should be listed again
-    >>> project_dicts = view.get_projects_for_user()
+    >>> self.clearMemoCache()
+    >>> project_dicts = view.projects_for_user
     >>> [d['listed'] for d in project_dicts]
     [True, True]
 
     Check invitations for m1
-    >>> view.invitations()
+    >>> view.invitations
     []
 
     Let's simulate a project admin inviting a user
@@ -114,23 +117,30 @@ Exercise the Member Preferences Class
 
     Now we should one invitation for m1
     These are what the member can act on
-    >>> project_dicts = view.invitations()
+    >>> self.clearMemoCache()
+    >>> project_dicts = view.invitations
     >>> [p['proj_id'] for p in project_dicts]
     ['p4']
 
     And one still pending, which project admins approve
-    >>> project_dicts = view.member_requests()
+    >>> self.clearMemoCache()
+    >>> project_dicts = view.member_requests
     >>> [p['proj_id'] for p in project_dicts]
     ['p2']
 
     When we get all projects, the member request should be in there
-    >>> project_dicts = view.get_projects_for_user()
+    >>> self.clearMemoCache()
+    >>> project_dicts = view.projects_for_user
     >>> [d['proj_id'] for d in project_dicts]
-    ['p3', 'p1', 'p2']
+    ['p2', 'p3', 'p1']
 
     Check the info messages on the member:
-    >>> view.infomsgs()
+    >>> view.infomsgs
     []
+
+    And verify that taking the length of updates works
+    >>> view.n_updates
+    1
 
     Now let's call the view simulating the request:
     XXX member areas need to be created first though for m1

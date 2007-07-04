@@ -13,7 +13,7 @@ import warnings; warnings.filterwarnings("ignore")
 def test_suite():
     from Products.Five.utilities.marker import erase as noLongerProvides
     from Products.PloneTestCase import setup
-    from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
+    from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
     from Products.CMFCore.utils import getToolByName
     from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
     from pprint import pprint
@@ -28,7 +28,7 @@ def test_suite():
     readme = FunctionalDocFileSuite("README.txt",
                                     optionflags=optionflags,
                                     package='opencore.nui.member',
-                                    test_class=FunctionalTestCase,
+                                    test_class=OpenPlansTestCase,
                                     globs = globs,
                                     setUp=readme_setup
                                     )
