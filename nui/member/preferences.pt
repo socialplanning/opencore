@@ -141,12 +141,12 @@
                  Animal Campaign for a poor little sick kittie named Fatty
               </a>
             </td>
-            <tal:pending-role tal:condition="python: projinfo['role'] == 'pending'">
+            <tal:pending-role tal:condition="python: projinfo['is_pending']">
                 <td class="oc-dataTable-row-title"
                     tal:content="string:waiting approval"
                     />
             </tal:pending-role>
-            <tal:active-role tal:condition="python: projinfo['role'] != 'pending'">
+            <tal:active-role tal:condition="python: not projinfo['is_pending']">
                 <td class="oc-dataTable-row-title"
                     tal:content="projinfo/role"
                     />

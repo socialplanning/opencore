@@ -7,6 +7,8 @@ from zExceptions import BadRequest
 from zExceptions import Redirect
 from Missing import MV
 
+from plone.memoize.view import memoize as req_memoize
+
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import transaction_note
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
@@ -104,16 +106,14 @@ class ProfileEditView(ProfileView):
 class MemberPreferences(BaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('preferences.pt')
+
     active_states = ['public', 'private']
 
-    def _mship_brains(self, review_state=None):
-        if review_state is None:
-            review_state = self.active_states
-
+    @property
+    @req_memoize
+    def _mship_brains(self):
         user_id = self.context.getId()
-
         query = dict(portal_type='OpenMembership',
-                     review_state=review_state,
                      getId=user_id,
                      )
         mship_brains = self.catalogtool(**query)
@@ -136,6 +136,7 @@ class MemberPreferences(BaseView, OctopoLite):
         project_id = elts[-2]
         return project_id
 
+    @req_memoize
     def _create_project_dict(self, brain):
         project_id = self._project_id_from(brain)
         project_info = self._project_metadata_for(project_id)
@@ -159,34 +160,40 @@ class MemberPreferences(BaseView, OctopoLite):
                     since=mship_activated_on,
                     listed=listed,
                     role=role,
+                    is_pending=is_pending,
                     )
 
-    def get_projects_for_user(self):
+    def _projects_satisfying(self, pred):
+        brains = filter(pred, self._mship_brains)
+        return map(self._create_project_dict, brains)
+
+    @property
+    @req_memoize
+    def projects_for_user(self):
         """this should include all active mships as well as member requests"""
-        active_mships = self._mship_brains()
-        active_mship_dicts = map(self._create_project_dict, active_mships)
+        def is_user_project(brain):
+            if brain.review_state == 'pending':
+                return brain.lastWorkflowActor == self.context.getId()
+            return brain.review_state in self.active_states
+        return self._projects_satisfying(is_user_project)
 
-        request_mships = self.member_requests()
-        
-        return active_mship_dicts + request_mships
-
+    @property
+    @req_memoize
     def invitations(self):
         """ return mship brains for pending project invitations """
-        pending_mships = self._mship_brains(review_state='pending')
-        mship_id = self.context.getId()
-        invitation_mship_brains = [b for b in pending_mships
-                                   if b.lastWorkflowActor != mship_id]
-        project_dicts = map(self._create_project_dict, invitation_mship_brains)
-        return project_dicts
+        def is_invitation(brain):
+            return brain.review_state == 'pending' and \
+                   brain.lastWorkflowActor != self.context.getId()
+        return self._projects_satisfying(is_invitation)
 
+    @property
+    @req_memoize
     def member_requests(self):
         """ return all proj_ids for pending member requests """
-        pending_mships = self._mship_brains(review_state='pending')
-        mship_id = self.context.getId()
-        request_mship_brains = [b for b in pending_mships
-                                if b.lastWorkflowActor == mship_id]
-        project_dicts = map(self._create_project_dict, request_mship_brains)
-        return project_dicts
+        def is_member_request(brain):
+            return brain.review_state == 'pending' and \
+                   brain.lastWorkflowActor == self.context.getId()
+        return self._projects_satisfying(is_member_request)
 
     def _membership_for_proj(self, proj_id):
         tmtool = self.get_tool('portal_teams')
@@ -220,6 +227,8 @@ class MemberPreferences(BaseView, OctopoLite):
             json_ret[proj_id] = dict(action='delete')
         return json_ret
 
+    @property
+    @req_memoize
     def infomsgs(self):
         """info messages re project admission/rejection"""
         # annotation on the member object itself?
@@ -230,3 +239,7 @@ class MemberPreferences(BaseView, OctopoLite):
         mem_obj = mem_data._getOb(mem_id)
         annot = IAnnotations(mem_obj)
         return annot.get('infomsgs', [])
+
+    @property
+    def n_updates(self):
+        return len(self.infomsgs) + len(self.invitations)
