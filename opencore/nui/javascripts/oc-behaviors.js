@@ -302,7 +302,46 @@ OC.ActionLink = function(extEl) {
 #
 */
 OC.ActionSelect = function(extEl) {
+  // get refs
+  select = extEl;
+  form = select.up('form');
+  
+  //check refs
+  if (!select) {
+    OC.debug("ActionSelect: Couldn't get refs");
+    return;
+  } else {
+    OC.debug("ActionSelect: Got Refs");
+  }
+  
+  //settings
+  var action = form.dom.action;
+    OC.debug("form action: " + action);
 
+  function _doAction(e, el, o) {
+    YAHOO.util.Event.stopEvent(e);
+
+
+    // insert a hidden 'task' input into the form
+    var submit = document.createElement('input');
+    submit.name = "task";
+    submit.value = el.id;
+    OC.debug("task info: " + el.id);
+    submit.type = "hidden";
+    form.dom.appendChild(submit);
+
+    YAHOO.util.Connect.setForm(liveForm.dom);
+    var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
+      { success: OC.Callbacks.afterAjaxSuccess,
+        failure: OC.Callbacks.afterAjaxFailure,
+        scope: this
+      },
+      "mode=async"
+    );
+
+    submit.parentNode.removeChild(submit);
+  }
+  actionSelects.on('change', _doAction, this);
 }
 
 /* 
