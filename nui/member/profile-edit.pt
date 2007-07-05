@@ -46,6 +46,11 @@
                 <li>
                   <label for="location">Location</label><br />
                   <input type="text" id="location" name="location"
+                    class="oc-autoFocus"
+                    tal:condition="python: request.form.get('field') == 'location'"
+                    tal:attributes="value request/location | data/location" />
+                  <input type="text" id="location" name="location"
+                    tal:condition="python: request.form.get('field') != 'location'"
                     tal:attributes="value request/location | data/location" />
                 </li>
               </ul>
