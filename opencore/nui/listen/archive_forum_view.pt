@@ -6,32 +6,18 @@ raging plone-isms (e.g. 'oddrow' below) -->
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
-        <tal:threads define="threads view/getTopics;
-                             batch threads;">
+        <tal:threads define="threads view/getTopics; batch threads;">
 
-          <h1 i18n:translate="" tal:content="view/Title">
-            Title or Id
-          </h1>
-
-          <p id="listaddress"
-             tal:content="view/listAddress"
-             tal:condition="view/listAddress">
-            Description
-          </p>
-
-          <p tal:content="view/listDescription"
-             tal:condition="view/listDescription">
-            Description
-          </p>
-
+          <h1 i18n:translate="" tal:content="view/Title" />
+          <p id="listaddress" tal:content="view/listAddress" tal:condition="view/listAddress" />
+          <p tal:content="view/listDescription" tal:condition="view/listDescription" />
           <table cellpadding="20">
             <tr>
               <td>
                 <a i18n:translate="" href="date_view">Switch to date view</a>
               </td>
               <td>
-                <a href="#"
-                   tal:condition="view/canPost"
+                <a href="#" tal:condition="view/canPost"
                    tal:attributes="href string:${context/absolute_url}/new_topic;"
                    i18n:translate="label_forum_new_topic_button">
                   post new message
@@ -40,20 +26,13 @@ raging plone-isms (e.g. 'oddrow' below) -->
             </tr>
           </table>
 
-          <table id="forum-topics"
-                 tal:condition="threads"
-                 summary="Forum view"
-                 i18n:attributes="summary">
+          <table id="forum-topics" tal:condition="threads" summary="Forum view" i18n:attributes="summary">
             <thead>
               <tr>
-                <th>&nbsp;<tal:title i18n:translate="list_archive_thread_subject"
-                >Subject</tal:title>&nbsp;</th>
-                <th>&nbsp;<tal:title i18n:translate="list_archive_thread_originator"
-                >Opened By</tal:title>&nbsp;</th>
-                <th>&nbsp;<tal:title i18n:translate="list_archive_thread_replies"
-                >Replies</tal:title>&nbsp;</th>
-                <th>&nbsp;<tal:title i18n:translate="list_archive_thread_recent_post_date"
-                >Last Updated</tal:title>&nbsp;</th>
+                <th><tal:title i18n:translate="list_archive_thread_subject">Subject</tal:title></th>
+                <th><tal:title i18n:translate="list_archive_thread_originator">Opened By</tal:title></th>
+                <th><tal:title i18n:translate="list_archive_thread_replies">Replies</tal:title></th>
+                <th><tal:title i18n:translate="list_archive_thread_recent_post_date">Last Updated</tal:title></th>
               </tr>
             </thead>
 
@@ -75,17 +54,14 @@ raging plone-isms (e.g. 'oddrow' below) -->
                       <span tal:replace="item/mail_from">test@example.com</span>
                     </a>
                   </td>
-                  <td tal:content="item/responses"
-                      >10</td>
-                  <td tal:content="item/last_post" i18n:translate=""
-                      >12/1/2005 3:54 pm</td>
+                  <td tal:content="item/responses">10</td>
+                  <td tal:content="item/last_post" i18n:translate="">12/1/2005 3:54 pm</td>
                 </tr>
               </tal:items>
             </tbody>
           </table>
 
-          <p tal:condition="not: threads"
-             i18n:translate="description_no_posts">
+          <p tal:condition="not: threads" i18n:translate="description_no_posts">
             There are currently no posts in this archive.
           </p>
         </tal:threads>
