@@ -303,8 +303,8 @@ OC.ActionLink = function(extEl) {
 */
 OC.ActionSelect = function(extEl) {
   // get refs
-  select = extEl;
-  form = select.up('form');
+  var select = extEl;
+  var form = select.up('form');
   
   //check refs
   if (!select) {
@@ -341,7 +341,7 @@ OC.ActionSelect = function(extEl) {
 
     submit.parentNode.removeChild(submit);
   }
-  actionSelects.on('change', _doAction, this);
+  select.on('change', _doAction, this);
 }
 
 /* 
@@ -350,7 +350,45 @@ OC.ActionSelect = function(extEl) {
 #
 */
 OC.ActionButton = function(extEl) {
-
+  // get refs
+  var button = extEl;
+  var form = button.up('form');
+  
+  // check refs
+  if (!button || !form) {
+    OC.debug("ActionButton: Couldn't get refs");
+    return;
+  } else {
+    OC.debug("ActionButton: Got Refs");
+  }
+  
+  // settings
+  var action = form.dom.action;
+  var isUpload = false;
+  if (form.dom.enctype == "multipart/form-data") {
+    isUpload = true;
+  }
+  
+  function _actionButtonClick(e, el, o) {
+	  OC.debug("_actionButtonClick");
+	  
+    YAHOO.util.Event.stopEvent(e);
+	  if (isUpload) {
+      YAHOO.util.Connect.setForm(form.dom, true);
+    } else {
+      YAHOO.util.Connect.setForm(form.dom);
+    }
+	  
+	  var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
+       { success: _afterSuccess,
+         upload: _afterSuccess,
+         failure: _afterFailure,
+         scope: this
+       },
+       "mode=async"
+       );
+  }
+  button.on('click', _actionButtonClick, this);
 }
 
 /* 
