@@ -142,6 +142,23 @@ Exercise the Member Preferences Class
     >>> view.n_updates
     1
 
+    Let's try leaving a project pending from a member request
+    >>> view.leave_project('p2')
+    >>> self.clearMemoCache()
+    >>> project_dicts = view.projects_for_user
+    >>> [d['proj_id'] for d in project_dicts]
+    ['p3', 'p1']
+
+    And when we try to leave a pending mship that's an invitation
+    (should never happen, but with users messing with post)
+    We should not have left anyting
+    >>> self.clearMemoCache()
+    >>> view.debug = True
+    >>> view.leave_project('p4')
+    >>> project_dicts = view.invitations
+    >>> [d['proj_id'] for d in project_dicts]
+    ['p4']
+
     Now let's call the view simulating the request:
     XXX member areas need to be created first though for m1
     or we can't traverse to view (or get people folder)
