@@ -20,26 +20,27 @@ if (typeof OC == "undefined") {
 #
 */
 OC.liveElementKey = {
-  'input[type=text]' : 'FocusField',
-  'input[type=password]' : 'FocusField',
-  'input[type=file]' : 'FocusField',
-  ".oc-uploadForm" : "UploadForm",
-  ".oc-liveEdit" : "LiveEdit",
-  ".oc-close" : "CloseButton",
-  ".oc-autoSelect" : "AutoSelect",
-  ".oc-expander" : "Expander",
-  "#version_compare_form" : "HistoryList",
-  ".oc-liveItem" : "LiveItem",
-  ".oc-widget-multiSearch" : "SearchLinks",
-  '#oc-usermenu-list' : "TopNav",
-  '#oc-project-create' : "ProjectCreateForm",
-  ".oc-autoFocus" : "AutoFocus",
-  ".oc-warn-popup" : "WarnPopup",
-  'textarea' : 'FocusField',
-  '.oc-actionSelect' : "ActionSelect",
-  '.oc-actionButton' : "ActionButton",
-  '.oc-checkAll' : "CheckAll",
-  '.oc-liveItem' : "LiveItem"
+  'input[type=text]'        : 'FocusField',
+  'input[type=password]'    : 'FocusField',
+  'input[type=file]'        : 'FocusField',
+  ".oc-uploadForm"          : "UploadForm",
+  ".oc-liveEdit"            : "LiveEdit",
+  ".oc-close"               : "CloseButton",
+  ".oc-autoSelect"          : "AutoSelect",
+  ".oc-expander"            : "Expander",
+  "#version_compare_form"   : "HistoryList",
+  ".oc-liveItem"            : "LiveItem",
+  ".oc-widget-multiSearch"  : "SearchLinks",
+  '#oc-usermenu-list'       : "TopNav",
+  '#oc-project-create'      : "ProjectCreateForm",
+  ".oc-autoFocus"           : "AutoFocus",
+  ".oc-warn-popup"          : "WarnPopup",
+  'textarea'                : 'FocusField',
+  '.oc-actionSelect'        : "ActionSelect",
+  '.oc-actionButton'        : "ActionButton",
+  '.oc-checkAll'            : "CheckAll",
+  '.oc-liveItem'            : "LiveItem",
+  '.oc-actionLink'          : "ActionLink"
 }
     
 /* 
@@ -143,7 +144,7 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 
   var response;
   
-  var updater = new OC.Updater();
+  //var updater = new OC.Updater();
   
   try {
 	 response = eval( "(" + o.responseText + ")" );
@@ -287,8 +288,8 @@ OC.ActionLink = function(extEl) {
     
     // make connection
     var cObj = YAHOO.util.Connect.asyncRequest("GET", requestUri, 
-      { success: OC.Callbacks.AfterAjaxSuccess, 
-        failure: OC.Callbacks.AfterAjaxSuccess,
+      { success: OC.Callbacks.afterAjaxSuccess, 
+        failure: OC.Callbacks.afterAjaxFailure,
         scope: this 
       }
     );
