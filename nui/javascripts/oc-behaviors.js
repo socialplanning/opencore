@@ -20,7 +20,7 @@ if (typeof OC == "undefined") {
 #
 */
 OC.liveElementKey = {
-  ".oc-uploadForm" : "UploadForm",
+  ".oc-js-uploadForm" : "UploadForm",
   ".oc-liveEdit" : "LiveEdit",
   ".oc-close" : "CloseButton",
   ".oc-autoSelect" : "AutoSelect",
