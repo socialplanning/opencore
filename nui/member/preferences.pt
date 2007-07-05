@@ -12,49 +12,57 @@
   
 <div id="oc-content-main">
   
-  <div class="oc-widget oc-widget-invite">
-    <div class="oc-headingBlock">
-      <h2>Latest updates (x)</h2>
-    </div>
-    <!-- currently create 2 separate list groups:
-         status info messages,
-         projects inviting user -->
-    <!-- invitations -->
-    <ul tal:define="invitations view/invitations"
-        tal:condition="invitations"
-        class="oc-invite-list">
-      <li class="oc-invite oc-boxy oc-clearAfter"
-          tal:repeat="projinfo invitations">
-        <div class="oc-avatar">
-          <!-- XXX is this the project avatar? proj admin avatar? -->
-          <img src="" />
-        </div>
-        <p class="oc-invite-content">
-          <a href="" tal:attributes="href string:${view/portal_url}/projects/${projinfo/proj_id}" tal:content="projinfo/title">Animal Campaign</a> 
-      has invited you to become a member
-        </p>
-        <ul class="oc-actions oc-invite-actions oc-actionClose">
-          <li><a href="" class="oc-actionLink oc-chooseAccept">Accept</a></li>
-          <li><a href="" class="oc-actionLink oc-chooseReject">Deny</a></li>
-          <li><a href="" class="oc-actionLink oc-chooseIgnore">Ignore</a></li>
-        </ul>
-      </li>
-    </ul>
-    <!-- info messages -->
-    <ul tal:define="infomsgs view/infomsgs"
-        tal:condition="infomsgs"
-        class="oc-invite-list">
-      <li tal:repeat="infomsg infomsgs"
-          class="oc-invite oc-boxy oc-clearAfter">
-        <div class="oc-avatar">
-          <img src="" />
-        </div>
-        <p class="oc-invite-content">
-          You have been accepted to <a href="">Turkey Time</a> 
-        </p>
-        <a href="#" title="Close" class="oc-actionClose  oc-actionLink">Close</a>
-      </li>
-    </ul>
+  <div class="oc-widget oc-widget-invite"
+       tal:define="n_updates view/n_updates"
+       >
+    <tal:has_updates condition="n_updates">
+      <div class="oc-headingBlock">
+        <h2 tal:content="string:Latest updates (${n_updates})" />
+      </div>
+      <!-- currently create 2 separate list groups:
+           status info messages,
+           projects inviting user -->
+      <!-- invitations -->
+      <ul tal:define="invitations view/invitations"
+          tal:condition="invitations"
+          class="oc-invite-list">
+        <li class="oc-invite oc-boxy oc-clearAfter"
+            tal:repeat="projinfo invitations">
+          <div class="oc-avatar">
+            <!-- XXX is this the project avatar? proj admin avatar? -->
+            <img src="" />
+          </div>
+          <p class="oc-invite-content">
+            <a href="" tal:attributes="href string:${view/portal_url}/projects/${projinfo/proj_id}" tal:content="projinfo/title">Animal Campaign</a> 
+        has invited you to become a member
+          </p>
+          <ul class="oc-actions oc-invite-actions oc-actionClose">
+            <li><a href="" class="oc-actionLink oc-chooseAccept">Accept</a></li>
+            <li><a href="" class="oc-actionLink oc-chooseReject">Deny</a></li>
+            <li><a href="" class="oc-actionLink oc-chooseIgnore">Ignore</a></li>
+          </ul>
+        </li>
+      </ul>
+      <!-- info messages -->
+      <ul tal:define="infomsgs view/infomsgs"
+          tal:condition="infomsgs"
+          class="oc-invite-list">
+        <li tal:repeat="infomsg infomsgs"
+            class="oc-invite oc-boxy oc-clearAfter">
+          <div class="oc-avatar">
+            <img src="" />
+          </div>
+          <p class="oc-invite-content">
+            You have been accepted to <a href="">Turkey Time</a> 
+          </p>
+          <a href="#" title="Close" class="oc-actionClose  oc-actionLink">Close</a>
+        </li>
+      </ul>
+    </tal:has_updates>
+    <tal:no_updates condition="not: n_updates">
+      <!-- XXX -->
+      <h1>What to put here with no updates?</h1>
+    </tal:no_updates>
     <!-- static data -->
     <!--ul class="oc-invite-list">
       <li class="oc-invite oc-boxy oc-clearAfter">
@@ -107,8 +115,8 @@
   </div><!-- end .widget-invitations -->
   
 
+  <tal:projects_table define="projinfos view/projects_for_user">
   <div class="oc-widget oc-widget-dataTable oc-clearAfter"
-       tal:define="projinfos view/projects_for_user"
        tal:condition="projinfos"
        >
     <div class="oc-headingBlock">
@@ -232,6 +240,11 @@
   </ul>
   </form>
   </div><!-- end .widget-table -->
+
+  <!-- XXX -->
+    <h1 tal:condition="not: projinfos">Display anything with no projects? Maybe a link to join?</h1>
+
+  </tal:projects_table>
 
 </div><!-- end #oc-content-main -->
 
