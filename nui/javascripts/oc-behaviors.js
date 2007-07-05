@@ -23,7 +23,7 @@ OC.liveElementKey = {
   ".oc-js-uploadForm" : "UploadForm",
   ".oc-liveEdit" : "LiveEdit",
   ".oc-close" : "CloseButton",
-  ".oc-autoSelect" : "AutoSelect",
+  ".oc-js-autoSelect" : "AutoSelect",
   ".oc-expander" : "Expander",
   "#version_compare_form" : "HistoryList",
   ".oc-liveForm" : "LiveForm",
