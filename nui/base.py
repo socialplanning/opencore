@@ -197,7 +197,7 @@ class BaseView(BrowserView):
                 fullname    = member.getFullname(),
                 email       = member.getEmail(),
                 membersince = prettyDate(member.getRawCreation_date()),
-                lastlogin   = prettyDate(member.getLast_login_time()),
+                lastlogin   = prettyDate(member.getLogin_time()),
                 projects    = member.projectBrains(),
                 location    = member.getLocation(),
                 statement   = member.getStatement(),
