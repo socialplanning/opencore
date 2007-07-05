@@ -17,6 +17,7 @@ from topp.utils.pretty_date import prettyDate
 
 from opencore.nui.base import BaseView, button
 from opencore.nui.formhandler import OctopoLite, action
+from opencore.interfaces.catalog import ILastWorkflowActor
         
 class ProfileView(BaseView):
 
@@ -216,6 +217,8 @@ class MemberPreferences(BaseView, OctopoLite):
 
     def leave_project(self, proj_id):
         """ remove membership by marking the membership object as inactive """
+        if not self._can_leave(proj_id): return
+
         mship = self._membership_for_proj(proj_id)
         wft = self.get_tool('portal_workflow')
         wft.doActionFor(mship, 'deactivate')
@@ -229,6 +232,16 @@ class MemberPreferences(BaseView, OctopoLite):
             wft.doActionFor(mship, 'make_private')
         else:
             wft.doActionFor(mship, 'make_public')
+
+    def _can_leave(self, proj_id):
+        mship = self._membership_for_proj(proj_id)
+        last_actor = ILastWorkflowActor(mship).getValue()
+        wft = self.get_tool('portal_workflow')
+        mem_id = self.context.getId()
+
+        review_state = wft.getInfoFor(mship, 'review_state')
+        return review_state in self.active_states or \
+               (review_state == 'pending' and last_actor == mem_id)
 
     @action('leave')
     def leave_handler(self, targets, fields=None):
