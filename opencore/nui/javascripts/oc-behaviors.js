@@ -381,9 +381,9 @@ OC.ActionButton = function(extEl) {
     }
 	  
 	  var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
-       { success: _afterSuccess,
-         upload: _afterSuccess,
-         failure: _afterFailure,
+       { success: OC.Callbacks.afterAjaxSuccess,
+         upload: OC.Callbacks.afterAjaxSuccess,
+         failure: OC.Callbacks.afterAjaxFailure,
          scope: this
        },
        "mode=async"
