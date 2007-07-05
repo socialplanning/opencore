@@ -88,7 +88,7 @@ def create_test_content(self, p_map=None, m_map=None, nui=True):
             wf_tool.doActionFor(mem, 'register_public')
 
         # create the member area and mark it with the appropriate interface
-        ms_tool.createMemberArea(mem_id)
+        # ms_tool.createMemberArea(mem_id)
         # do_create_home_directory(mem, {}, 'worthless text')
 
         out.append('Member %s added' % mem_id)
