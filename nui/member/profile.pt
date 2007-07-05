@@ -20,11 +20,11 @@
             </div>
             <dl class="oc-member-info">
               <tal:fullname tal:condition="view/viewingself">
-                <dt>Full name <a class="oc-actionLink" href="profile-edit#fullname">Edit</a></dt>
+                <dt>Full name <a class="oc-actionLink" href="profile-edit?field=fullname">Edit</a></dt>
                 <dd class="n" tal:content="data/fullname"></dd>
               </tal:fullname>
               <tal:location tal:condition="data/location">
-                <dt>Location <a tal:condition="view/viewingself" class="oc-actionLink" href="profile-edit#location">Edit</a></dt>
+                <dt>Location <a tal:condition="view/viewingself" class="oc-actionLink" href="profile-edit?field=location">Edit</a></dt>
                 <dd class="adr" tal:content="data/location" />
               </tal:location>
               <dt>Projects</dt>
@@ -63,7 +63,7 @@
           <span tal:replace="structure python:
             view.field_snippet(title='Personal Statement',
                                value=data.get('statement'),
-                               anchor='personal-statement')" />
+                               anchor='statement')" />
           <span tal:replace="structure python:
             view.field_snippet(title='Background',
                                value=data.get('background'),
