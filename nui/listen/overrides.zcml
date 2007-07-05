@@ -48,4 +48,12 @@
     template="forum_message_view.pt"
     />
 
+ <browser:page
+   for="Products.listen.interfaces.IListArchiveSubFolder"
+   name="by_thread"
+   class="Products.listen.browser.mail_archive_views.SubFolderDateView"
+   permission="zope2.View"
+   template="archive_thread_messages.pt"
+   />
+
 </configure>
