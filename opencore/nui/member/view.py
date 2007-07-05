@@ -17,9 +17,6 @@ from topp.utils.pretty_date import prettyDate
 
 from opencore.nui.base import BaseView, button
 from opencore.nui.formhandler import OctopoLite, action
-from opencore.nui.formhandler import octopus
-
-
         
 class ProfileView(BaseView):
 
@@ -62,28 +59,42 @@ class ProfileEditView(ProfileView):
 
     portrait_snippet = ZopeTwoPageTemplateFile('portrait-snippet.pt')
 
-    @octopus
-    def handle_form(self, action, targets, fields):
+    def handle_form(self):
+        """ quick 'n' dirty for now. """ 
         member = self.viewedmember()
         portrait = self.request.form.get('portrait')
         mode = self.request.form.get('mode')
-              
+        task = self.request.form.get('task', '')
+      
         # TODO resize portrait if necessary
 
-        if action == 'uploadAndUpdate':
+        print "task is %s" % task
+        if 'uploadAndUpdate' in task:
             if portrait:
                 member.setPortrait(portrait)
-            else:
-                member._delOb('portrait')
+                member.reindexObject()
+ 
+            #don't do this yet!!!
+	    #return {
+            #       'oc-profile-avatar' : 
+            #         {
+            #         'html': self.portrait_snippet(),
+            #         'action': 'replace',
+            #         'effects': 'highlight'
+            #         }
+            #       }
+        elif 'remove' in task:
+            member.setPortrait(None)  ## XXX TODO ASAP fix this line to be correct
             member.reindexObject()
-            return {
-                     'oc-profile-avatar' : 
-                       {
-                         'html': self.portrait_snippet(),
-                         'action': 'replace',
-                         'effects': 'highlight'
-                       }
-                    }
+            #don't do this yet!!!
+	    #return {
+            #       'oc-profile-avatar' : 
+            #         {
+            #         'html': self.portrait_snippet(),
+            #         'action': 'replace',
+            #         'effects': 'highlight'
+            #         }
+            #       }
 
         else:
             for field, value in self.request.form.items():
@@ -94,7 +105,7 @@ class ProfileEditView(ProfileView):
                 self.user_updated()
     
             member.reindexObject()
-            return self.redirect('profile')
+        return self.redirect('profile')
 
 
     def user_updated(self): # TODO

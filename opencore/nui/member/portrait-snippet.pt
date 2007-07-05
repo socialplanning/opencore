@@ -7,10 +7,10 @@
       </legend>
       <div class="oc-expander-content">
         <input type="file" name="portrait" size="14" /><br />
-        <button type="submit" name="task" class="oc-actionButton"
+        <button type="submit" name="task" 
           value="oc-profile-avatar_uploadAndUpdate">Update</button> or
-        <button type="submit" name="task" class="oc-actionButton"
-          value="oc-profile-avatar_uploadAndUpdate">remove image</button>
+        <button type="submit" name="task" 
+          value="oc-profile-avatar_remove">remove image</button>
       </div>
   </fieldset>
 </div>
