@@ -75,7 +75,7 @@ class ProfileEditView(ProfileView):
                 member.reindexObject()
  
             #don't do this yet!!!
-	    #return {
+            #return {
             #       'oc-profile-avatar' : 
             #         {
             #         'html': self.portrait_snippet(),
@@ -84,10 +84,10 @@ class ProfileEditView(ProfileView):
             #         }
             #       }
         elif 'remove' in task:
-            member.setPortrait(None)  ## XXX TODO ASAP fix this line to be correct
+            member.setPortrait('DELETE_IMAGE')
             member.reindexObject()
             #don't do this yet!!!
-	    #return {
+            #return {
             #       'oc-profile-avatar' : 
             #         {
             #         'html': self.portrait_snippet(),
