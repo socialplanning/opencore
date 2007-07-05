@@ -20,19 +20,26 @@ if (typeof OC == "undefined") {
 #
 */
 OC.liveElementKey = {
-  ".oc-js-uploadForm" : "UploadForm",
+  'input[type=text]' : 'FocusField',
+  'input[type=password]' : 'FocusField',
+  'input[type=file]' : 'FocusField',
+  ".oc-uploadForm" : "UploadForm",
   ".oc-liveEdit" : "LiveEdit",
   ".oc-close" : "CloseButton",
-  ".oc-js-autoSelect" : "AutoSelect",
+  ".oc-autoSelect" : "AutoSelect",
   ".oc-expander" : "Expander",
   "#version_compare_form" : "HistoryList",
-  ".oc-liveForm" : "LiveForm",
   ".oc-liveItem" : "LiveItem",
   ".oc-widget-multiSearch" : "SearchLinks",
   '#oc-usermenu-list' : "TopNav",
   '#oc-project-create' : "ProjectCreateForm",
   ".oc-autoFocus" : "AutoFocus",
-  ".oc-warn-popup" : "WarnPopup"
+  ".oc-warn-popup" : "WarnPopup",
+  'textarea' : 'FocusField',
+  '.oc-actionSelect' : "ActionSelect",
+  '.oc-actionButton' : "ActionButton",
+  '.oc-checkAll' : "CheckAll",
+  '.oc-liveItem' : "LiveItem"
 }
     
 /* 
@@ -90,11 +97,24 @@ OC.breatheLife = function(newNode) {
 # Utilities
 #------------------------------------------------------------------------
 */
+OC.Util = {}
 
 // Debug Function.  Turn off for live code or IE
 OC.debug = function(string) {
-    if( typeof console != 'undefined' )
-	console.log(string);
+  if( typeof console != 'undefined' ) {
+    console.log(string);
+	}
+}
+
+OC.Util.removeItem = function(id) {
+  var extEl = Ext.get(id);
+  if (!extEl) {
+     OC.debug("Could not find an element #" + id);
+     return;
+  }
+  extEl.fadeOut({remove: true, useDisplay: true});
+  
+  // to do: send user message w/ undo link
 }
 
 /*
@@ -112,368 +132,232 @@ Ext.onReady(function() {
 
 /*
 #------------------------------------------------------------------------
+# Callbacks - Static object with ajax callbacks
+#------------------------------------------------------------------------
+*/
+OC.Callbacks = {}
+
+OC.Callbacks.afterAjaxSuccess = function(o) {
+  OC.debug('OC.Callbacks.afterAjaxSuccess');
+  OC.debug('o: ' + o);
+
+  var response;
+  
+  var updater = new OC.Updater();
+  
+  try {
+	 response = eval( "(" + o.responseText + ")" );
+	 OC.debug(response);
+  } catch( e ) {
+	 OC.debug("Couldn't parse response " + o.responseText + " . Is it bad JSON?")
+  }
+
+  if( response instanceof Array ) {
+  // for backcompatibility with existing code. consider
+	// deprecated.  we will translate the array into an object
+	// with "delete" actions for each elId, since that's the only
+	// case where we used to expect an array.
+    var newResponse = {};
+    for( var iter = 0; iter < response.length; ++iter ) {
+        newResponse[response[iter]] = {'action': 'delete'};
+    }
+    response = newResponse;
+  }
+
+  for( elId in response ) {
+    var command = response[elId];
+    var action = command.action;
+    
+    switch( action ) {
+      case "delete":
+          OC.debug("DELETE on " + elId);
+          _removeItem(elId);
+          break;
+    
+      case "replace":
+          var html, effects;	    	    
+          if( typeof command == "string" ) { // for backcompability with existing code. consider deprecated.		
+            html = command;
+            if( action == "update" )
+              effects = "highlight";
+            else if( action == "uploadAndUpdate" )
+              effects = "fadeIn";
+          } else if( typeof command == "object" ) {
+            effects = command.effects;
+            html = command.html;
+          }
+          OC.debug("REPLACE " + elId + " with " + html + " using effect " + effects);
+    
+          html = Ext.util.Format.trim(html);
+          var target = Ext.get(elId);
+          
+          if( effects == "delete" ) {  // for backcompability with existing code. consider deprecated.
+            _removeItem(elId);
+          } else {
+            var newNode = Ext.DomHelper.insertHtml("beforeBegin", target.dom, html);
+            target.remove();
+    
+            if( effects == "highlight" ) {
+                Ext.get(newNode).highlight();
+            }
+    
+            OC.debug("about to breathe life into EVERYTHING. this is bad");
+            OC.breatheLife();
+            OC.debug("done breathing");
+          }
+          break;
+    
+      case "uploadAndAdd": // for backcompability with existing code. consider deprecated.
+          OC.debug('_afterSuccess, task: uploadAndAdd');
+          break;
+    
+      case "copy": // fill me in: replace target's children with html
+          var html = command.html;
+          var effects = command.effects;
+          
+          html = Ext.util.Format.trim(html);
+          var target = Ext.get(elId);
+          if(! target ) break;
+          
+          Ext.DomHelper.overwrite(target.dom, html);
+          var newNode = target;
+          if( effects == "highlight" ) {
+             Ext.get(newNode).highlight();
+          }
+          //OC.breatheLife();
+          break;
+    
+      case "append": // fill me in
+          var html = command.html;
+          var effects = command.effects;
+          
+          html = Ext.util.Format.trim(html);
+          var target = Ext.get(elId);
+          
+          var newNode = Ext.DomHelper.insertHtml("beforeend", target.dom, html);
+          if( effects == "highlight" ) {
+            Ext.get(newNode).highlight();
+          }
+          OC.breatheLife();
+          break;
+    
+      case "prepend": // fill me in
+    
+      default:
+          OC.debug('_afterSuccess, task: default');
+          break;
+    } // end switch on actio
+  } // end for each element
+} // end OC.Callbacks.afterAjaxSuccess()
+
+OC.Callbacks.afterAjaxFailure = function(o) {
+  OC.debug('OC.Callbacks.afterAjaxFailure');
+}
+
+/*
+#------------------------------------------------------------------------
 # Classes - will become liveElement objects
 #------------------------------------------------------------------------
 */
 
-/*
+/* 
 #
-# Live Form
-# Takes a standard HTML Form and allows you to submit part or all of it via Ajax.
+# Action Links
 #
 */
-OC.LiveForm = function(extEl) {
-
-  // get references
-  var liveForm = extEl;
-  var noAjax = extEl.hasClass("oc-noAjax");
-  var actionLinks = Ext.select('.oc-actionLink');
-  var actionSelects = Ext.select(".oc-actionSelect");
-  var actionButtons = Ext.select(".oc-actionButton");
-  var checkAll = Ext.select(Ext.query('.oc-checkAll', liveForm.dom));
-  var liveItems = Ext.query(".oc-liveItem", liveForm.dom);
-  var liveValidatees = Ext.get(Ext.query('.oc-liveValidate', liveForm.dom));
-
-  OC.debug(liveValidatees);
-
-  // check required refs
-  if (!liveForm) {
-    OC.debug("LiveForm: couldn't get element references")
-    return;
-  }  else {
-    OC.debug('LiveForm: Got element references');
-  }
+OC.ActionLink = function(extEl) {
+  // get refs
+  link = extEl;
   
-  // properties & settings
-  var updater = {
-    task : null,
-    target : null
+  if (!link) {
+    OC.debug("ActionLink: Could not get refs");
+  } else {
+    OC.debug("ActionLink: Got refs")
   }
-  var requestData = null; /* request params, once an action happens */
-  var isUpload = false;
+
+  function _doAction(e, el, o) {
+    YAHOO.util.Event.stopEvent(e);
     
-  // helper function to get update target
-  function _getUpdater(requestData) {
-    OC.debug("_getUpdater");
-    var data = requestData.split("&");
-    for (var i = 0; i<data.length; i++) {
-      item = data[i].split('=');
-      
-      if (item[0] == "task") {
-        var target_task  = item[1].split('_');
-          updater.target = Ext.get(target_task[0]) || target_task[0];
-          updater.task = target_task[1];
+    // get action/href & split action from params
+    var action = el.href.split("?")[0];
+    var requestData = el.href.split("?")[1];
+    OC.debug("request data is " + requestData);
+    //updater = _getUpdater(requestData);
+    var requestUri = el.href + "&mode=async";
+    
+    // make connection
+    var cObj = YAHOO.util.Connect.asyncRequest("GET", requestUri, 
+      { success: OC.Callbacks.AfterAjaxSuccess, 
+        failure: OC.Callbacks.AfterAjaxSuccess,
+        scope: this 
       }
-    }
-    if (updater.task == "uploadAndUpdate" || updater.task == "uploadAndAdd") {
-      isUpload = true;
-    }
-  }
-  
-  // check all box
-  if (checkAll) { 
-    checkAll.removeAllListeners();
-    function _checkAllClick(e, el, o) {
-      OC.debug('_checkAllClick');
-      var boxes = Ext.select(Ext.query('input[type=checkbox]', liveForm.dom));
-      if (el.checked) {
-        boxes.set({checked: true}, false);
-      } else {
-        boxes.set({checked: false}, false);
-      }
-    }
-     
-     checkAll.on('click', _checkAllClick, this); 
-  }  
-  
-  // live validatees
-  if (liveValidatees) {    
-    function _validateField(e, el, o) {
-      YAHOO.util.Event.stopEvent(e);
-      
-      var request = "";
-      for (var i=0; i<liveForm.dom.elements.length; i++) {
-	  input = liveForm.dom.elements[i];
-	  if (input.value && input.type != 'submit') {
-	      OC.debug(liveForm.dom.elements[i]);
-	      request += liveForm.dom.elements[i].name + "=" + liveForm.dom.elements[i].value + "&";
-	  }
-      }      
-      
-      // send ajax request
-      var action = liveForm.dom.action;
-      
-      var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
-        { success: _afterSuccess, 
-          failure: _afterValidateFailure, 
-          scope: this 
-        },
-        request + "task=validate&mode=async"
-      );
-
-    }
-    /* FIXME: this hoses your whole browser on the join form
-    liveValidatees.on('blur', _validateField, this);
-    */
-    function _afterValidateFailure(o) {
-    
-    }
-    
-  }
-  
-  // action submits
-  if (actionButtons) {
-      actionButtons.removeAllListeners();
-      function _actionButtonClick(e, el, o) {
-	  YAHOO.util.Event.stopEvent(e);
-
-	  OC.debug("_actionButtonClick");
-	  
-	  requestData = YAHOO.util.Connect.setForm(liveForm.dom);
-	  updater = _getUpdater(requestData);
-	  
-	  var action = liveForm.dom.action;
-	  var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
-						     { success: _afterSuccess,
-						       upload: _afterSuccess,
-						       failure: _afterFailure,
-						       scope: this
-						     },
-						     "mode=async"
-						     );
-      }
-      actionButtons.on('click', _actionButtonClick, this);
-
-  }
-
-  // action links
-  if (actionLinks) {
-    actionLinks.removeAllListeners();;
-    function _actionLinkClick(e, el, o) {
-      YAHOO.util.Event.stopEvent(e);
-      
-      // get action/href & split action from params
-      var action = el.href.split("?")[0];
-      requestData = el.href.split("?")[1];
-      OC.debug("request data is " + requestData);
-      updater = _getUpdater(requestData);
-      var requestUri = el.href + "&mode=async";
-      
-      // make connection
-      var cObj = YAHOO.util.Connect.asyncRequest("GET", requestUri, 
-        { success: _afterSuccess, 
-          failure: _afterFailure, 
-          scope: this 
-        }
-      );
-    } 
-    actionLinks.on('click', _actionLinkClick, this);
-  }
-    
-  // process action select boxes
-  if (actionSelects) {
-    actionSelects.removeAllListeners();;
-    function _actionSelectChange(e, el, o) {
-      YAHOO.util.Event.stopEvent(e);
-
-      // get action from form element
-      var action = liveForm.dom.action;
-      OC.debug("form action: " + action);
-      // insert a hidden 'task' input into the form
-      var submit = document.createElement('input');
-      submit.name = "task";
-      submit.value = el.id;
-      OC.debug("task info: " + el.id);
-      submit.type = "hidden";
-      liveForm.dom.appendChild(submit);
-
-      YAHOO.util.Connect.setForm(liveForm.dom);
-      var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
-        { success: _afterSuccess,
-          failure: _afterFailure,
-          scope: this
-        },
-        "mode=async"
-      );
-
-      submit.parentNode.removeChild(submit);
-    }
-    actionSelects.on('change', _actionSelectChange, this);
-  }
-
-  
-  // for backcompability with existing code. consider deprecated, maybe.
-  if( !noAjax ) {
-      // form submit
-      function _formSubmit(e, el, o) {
-	  OC.debug("_formSubmit");
-	  
-	  requestData = YAHOO.util.Connect.setForm(liveForm.dom);
-	  updater = _getUpdater(requestData);
-	  
-	  if (isUpload) 
-	      YAHOO.util.Connect.setForm(liveForm.dom, true);
-	  
-	  // XXX todo -- this is no good -- 
-	  // don't want the task to have to talk to JS at all really
-	  //if (updater.task && updater.task != "noAjax") {
-	  YAHOO.util.Event.stopEvent(e);
-	  var action = liveForm.dom.action;
-	  var cObj = YAHOO.util.Connect.asyncRequest("POST", action, {
-		  success: _afterSuccess, 
-		  upload: _afterSuccess,
-		  failure: _afterFailure, 
-		  scope: this 
-	      },
-	      "mode=async"
-	      );
-      }
-      liveForm.on('submit', _formSubmit, this);
-  }
-
-  // after success
-  function _afterSuccess(o) {
-    OC.debug('_afterSuccess');
-    OC.debug('o: ' + o);
-
-    var response;
-    try {
-	response = eval( "(" + o.responseText + ")" );
-	OC.debug(response);
-    } catch( e ) {
-	OC.debug("Couldn't parse response " + o.responseText + " . Is it bad JSON?")
-    }
-
-    if( response instanceof Array ) {
-        // for backcompatibility with existing code. consider
-	// deprecated.  we will translate the array into an object
-	// with "delete" actions for each elId, since that's the only
-	// case where we used to expect an array.
-	var newResponse = {};
-	for( var iter = 0; iter < response.length; ++iter ) {
-	    newResponse[response[iter]] = {'action': 'delete'};
-	}
-	response = newResponse;
-    }
-
-    for( elId in response ) {
-	var command = response[elId];
-	var action = command.action;
-	if( !action ) {   // for backcompability with existing code. consider deprecated.
-	    action = updater.task;
-	}
-	
-	switch( action ) {
-	case "delete":
-	    OC.debug("DELETE on " + elId);
-	    _removeItem(elId);
-	    break;
-
-	case "update": // for backcompability with existing code. consider deprecated.
-	case "uploadAndUpdate": // for backcompability with existing code. consider deprecated.
-	case "replace":
-	    var html, effects;	    	    
-	    if( typeof command == "string" ) { // for backcompability with existing code. consider deprecated.		
-		html = command;
-		if( action == "update" )
-		    effects = "highlight";
-		else if( action == "uploadAndUpdate" )
-		    effects = "fadeIn";
-		
-	    } else if( typeof command == "object" ) {
-		effects = command.effects;
-		html = command.html;
-	    }
-	    OC.debug("REPLACE " + elId + " with " + html + " using effect " + effects);
-
-	    html = Ext.util.Format.trim(html);
-	    var target = Ext.get(elId);
-	    
-	    if( effects == "delete" ) {  // for backcompability with existing code. consider deprecated.
-		_removeItem(elId);
-	    } else {
-		var newNode = Ext.DomHelper.insertHtml("beforeBegin", target.dom, html);
-		target.remove();
-
-		if( effects == "highlight" ) {
-		    Ext.get(newNode).highlight();
-		}
-
-		OC.debug("about to breathe life into EVERYTHING. this is bad");
-		OC.breatheLife();
-		OC.debug("done breathing");
-	    }
-	    break;
-
-	case "uploadAndAdd": // for backcompability with existing code. consider deprecated.
-	    OC.debug('_afterSuccess, task: uploadAndAdd');
-	    break;
-
-	case "copy": // fill me in: replace target's children with html
-	    var html = command.html;
-	    var effects = command.effects;
-	    
-	    html = Ext.util.Format.trim(html);
-	    var target = Ext.get(elId);
-            if(! target ) break;
-	    Ext.DomHelper.overwrite(target.dom, html);
-            var newNode = target;
-	    if( effects == "highlight" ) {
-		Ext.get(newNode).highlight();
-	    }
-	//OC.breatheLife();
-	    break;
-
-	case "append": // fill me in
-	    var html = command.html;
-	    var effects = command.effects;
-	    
-	    html = Ext.util.Format.trim(html);
-	    var target = Ext.get(elId);
-	    
-	    var newNode = Ext.DomHelper.insertHtml("beforeend", target.dom, html);
-	    if( effects == "highlight" ) {
-		Ext.get(newNode).highlight();
-	    }
-	    OC.breatheLife();
-	    break;
-
-	case "prepend": // fill me in
-
-	default:
-	    OC.debug('_afterSuccess, task: default');
-	    break;
-
-            
-
-	}
-    } 
-  }
-  
-  // after failure
-  function _afterFailure(o) {
-    OC.debug('_afterFailure');
-  }
-  
-  // remove item
-  function _removeItem(id) {
-    var extEl = Ext.get(id);
-    if (!extEl) {
-	OC.debug("Could not find an element #" + id);
-	return;
-    }
-    extEl.fadeOut({remove: true, useDisplay: true});
-    
-    // to do: send user message w/ undo link
-  }
-  
-  return this;
+    );
+  } 
+  link.on('click', _doAction, this);
 }
 
 /* 
 #
+# Action Select
+#
+*/
+OC.ActionSelect = function(extEl) {
+
+}
+
+/* 
+#
+# Action Buttons
+#
+*/
+OC.ActionButton = function(extEl) {
+
+}
+
+/* 
+#
+# CheckAll
+#
+*/
+OC.CheckAll = function(extEl) {
+    // get refs
+    var checkAll = extEl;
+    var form = checkAll.up('form');  
+    var allBoxes = Ext.select(Ext.query('input[type=checkbox]', form.dom));
+    
+    OC.debug(allBoxes);
+    // check refs
+    if (!checkAll || !form || !allBoxes) {
+      OC.debug("CheckAll: Couldn't get refs");
+    } else {
+      OC.debug("CheckAll: Got refs");
+    }
+    
+    function _toggleCheckBoxes(e, el, o) {
+      OC.debug('_checkAllClick');
+      if (el.checked) {
+        allBoxes.set({checked: true}, false);
+      } else {
+        allBoxes.set({checked: false}, false);
+      }
+    }
+     
+    checkAll.on('click', _toggleCheckBoxes, this); 
+}
+
+/* 
+#
+# Live Edit
+# TODO: Change this to OC.LiveEdit once old LiveEdit is removed
+*/
+OC.LiveItem = function(extEl) {
+
+}
+
+
+/* 
+#
 # Auto Focus
-# 
 # 
 */
 OC.AutoFocus = function(extEl) {
@@ -481,6 +365,38 @@ OC.AutoFocus = function(extEl) {
   extEl.dom.focus();
 }
 
+/*
+#
+# Focus Field
+#
+*/
+OC.FocusField = function(extEl) {
+  // get refs
+  var field = extEl;
+  
+  // check refs
+  if (!field) {
+    OC.debug("FocusField: Could not get refs");
+    return;
+  }
+  
+  function _highlightField(e, el, o) {
+    var container = Ext.get(el).up('.oc-fieldBlock'); 
+    if (container) {
+      container.addClass('oc-fieldBlock-focused');
+    }
+    Ext.get(el).addClass('oc-fieldBlock-focused');
+  }
+  function _unHighlightField (e, el, o) {
+    var container = Ext.get(el).up('.oc-fieldBlock'); 
+      if (container) {
+        container.removeClass('oc-fieldBlock-focused');
+    }
+    Ext.get(el).removeClass('oc-fieldBlock-focused');
+  }
+  field.on('focus', _highlightField, this);
+  field.on('blur', _unHighlightField, this);
+}
 
 /* 
 #
@@ -774,7 +690,7 @@ OC.LiveItem = function(extEl) {
       
       // liveEdit value behaviors
       function _valueMouseover(e, el, o) {
-        value.addClass('oc-liveItem-hover');
+        //value.addClass('oc-liveItem-hover');
         if (hoverShowFormLink)
           hoverShowFormLink.show();
       }
@@ -1055,8 +971,7 @@ OC.AutoSelect = function(extEl) {
 OC.Expander = function(extEl) {
     // get references. 
     var container = extEl;
-    var expanderLink = Ext.get(Ext.query(".oc-expander-link", container.dom)[0]);
-    var title = expanderLink.dom.innerHTML;
+    var expanderLink = Ext.select(Ext.query(".oc-expander-link", container.dom));
     var content = Ext.get(Ext.query(".oc-expander-content",  container.dom)[0]);
 
     // check to make sure we have everything
@@ -1071,12 +986,14 @@ OC.Expander = function(extEl) {
     function _expand() {
       content.slideIn('t',{duration: .1});
       container.addClass('oc-expander-open');
-      expanderLink.dom.innerHTML = "[x] Close";
+      expanderLink.addClass('oc-expanderLink-open');
+      //expanderLink.dom.innerHTML = "[x] Close";
     }
     function _contract() {
       content.slideOut('t',{duration: .1});
       container.removeClass('oc-expander-open');
-      expanderLink.dom.innerHTML = title;
+      expanderLink.removeClass('oc-expanderLink-open');
+      //expanderLink.dom.innerHTML = title;
     }
     
     //link
