@@ -153,7 +153,6 @@ Exercise the Member Preferences Class
     (should never happen, but with users messing with post)
     We should not have left anyting
     >>> self.clearMemoCache()
-    >>> view.debug = True
     >>> view.leave_project('p4')
     >>> project_dicts = view.invitations
     >>> [d['proj_id'] for d in project_dicts]
