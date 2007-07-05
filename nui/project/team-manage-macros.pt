@@ -238,7 +238,8 @@
 
 <metal:search-members define-macro="search-members">
 
-  <form name="search-members" id="search-members" method="POST">
+  <form name="search-members" id="search-members" method="POST" 
+    tal:attributes="action view/request/ACTUAL_URL">
     <input class="oc-input-typeText" type="text" name="search_for" />
     <button type="submit" name="task" value="none_search-members"
             class="oc-button">search</button>
