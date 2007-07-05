@@ -40,7 +40,8 @@ OC.liveElementKey = {
   '.oc-actionButton'        : "ActionButton",
   '.oc-checkAll'            : "CheckAll",
   '.oc-liveItem'            : "LiveItem",
-  '.oc-actionLink'          : "ActionLink"
+  '.oc-js-actionLink'       : "ActionLink",
+  '.oc-js-actionButton'     : "ActionButton"
 }
     
 /* 
@@ -202,8 +203,7 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
                 Ext.get(newNode).highlight();
             }
     
-            OC.debug("about to breathe life into EVERYTHING. this is bad");
-            OC.breatheLife();
+            OC.breatheLife(newNode);
             OC.debug("done breathing");
           }
           break;
