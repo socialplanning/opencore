@@ -658,7 +658,7 @@ The IE hacks take advantage of several IE non-compliance issues to clearAfter th
   visibility: hidden;
 }
       
-/* GENERIC CLASSES & FORMS & WIDGETS & BEHAVIORS oh my - reusable thingys
+/* @GENERIC CLASSES & FORMS & WIDGETS & BEHAVIORS oh my - reusable thingys
 -------------------------------------------
 
 GENERIC: Buttons
@@ -754,7 +754,16 @@ a.oc-button:hover {
 }
 .oc-message-error {
   background: pink;
+  border: 1px solid red;
 }
+.oc-message-success {
+  background: lightgreen;
+  border: 1px solid green;
+}
+.oc-message-warn {
+  background: lightyellow;
+  border: 1px solid orange;
+} 
 
 /* @FORM Stuff */
 fieldset .oc-legend-heading,

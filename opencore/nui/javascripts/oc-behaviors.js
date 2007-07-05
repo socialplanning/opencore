@@ -23,6 +23,7 @@ OC.liveElementKey = {
   'input[type=text]'        : 'FocusField',
   'input[type=password]'    : 'FocusField',
   'input[type=file]'        : 'FocusField',
+  'textarea'                : 'FocusField',
   ".oc-uploadForm"          : "UploadForm",
   ".oc-liveEdit"            : "LiveEdit",
   ".oc-close"               : "CloseButton",
@@ -35,7 +36,6 @@ OC.liveElementKey = {
   '#oc-project-create'      : "ProjectCreateForm",
   ".oc-autoFocus"           : "AutoFocus",
   ".oc-warn-popup"          : "WarnPopup",
-  'textarea'                : 'FocusField',
   '.oc-actionSelect'        : "ActionSelect",
   '.oc-actionButton'        : "ActionButton",
   '.oc-checkAll'            : "CheckAll",
@@ -99,7 +99,10 @@ OC.breatheLife = function(newNode) {
 # Utilities
 #------------------------------------------------------------------------
 */
+/*
 OC.Util = {}
+// Do we want this level of namespacing?
+*/
 
 // Debug Function.  Turn off for live code or IE
 OC.debug = function(string) {
@@ -108,7 +111,31 @@ OC.debug = function(string) {
 	}
 }
 
-OC.Util.removeItem = function(id) {
+// Send a message to the user
+OC.psm = function(text, tone) {
+  
+  var container = Ext.get('oc-statusMessage-container');
+  var message = Ext.get(Ext.query('.oc-statusMessage')[0]);
+  
+  if (!message) {
+    message = document.createElement('div');
+    message.addClass('oc-message');
+    container.dom.appendChild(message);
+  }
+  
+  /* tone: oc-message-error, oc-message-success, oc-message-warn */
+  message.removeClass(new Array('oc-message-error', 'oc-message-success', 'oc-message-warn'));
+  
+  if (tone) {
+    message.addClass('oc-message-' + tone);
+  }
+  
+  message.update(text);
+  message.show();
+}
+
+// remove an item from the dom
+OC.removeItem = function(id) {
   var extEl = Ext.get(id);
   if (!extEl) {
      OC.debug("Could not find an element #" + id);
@@ -151,7 +178,8 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 	 response = eval( "(" + o.responseText + ")" );
 	 OC.debug(response);
   } catch( e ) {
-	 OC.debug("Couldn't parse response " + o.responseText + " . Is it bad JSON?")
+	 OC.debug("Couldn't parse response " + o.responseText + " . Is it bad JSON?");
+	 OC.psm('There was an error handling the Ajax response.  Ethan will fix it. ', 'bad')
   }
 
   if( response instanceof Array ) {
