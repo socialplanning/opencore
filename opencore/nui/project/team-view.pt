@@ -41,7 +41,7 @@
               <form name="people_sort" class="enableUnloadProtection" method="POST" tal:attributes="action string:${view/name}">
                 <input type="hidden" name="sort:boolean" value="True" class="oc-button oc-chooseThis" />
               <!-- FIXME This should not require a button to work. -->
-                <select name="sort_by" class="oc-autoSelect" tal:define="sorted_by request/sort_by | nothing">
+                <select name="sort_by" class="oc-js-autoSelect" tal:define="sorted_by request/sort_by | nothing">
                   <option value="username" tal:attributes="selected python: sorted_by == 'username'">user name</option>
                   <option value="membership_date" tal:attributes="selected python: sorted_by == 'membership_date'">membership start date</option>
                   <option value="location" tal:attributes="selected python: sorted_by == 'location'">location</option>
