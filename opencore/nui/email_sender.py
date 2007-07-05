@@ -84,7 +84,10 @@ class EmailSender(object):
                 to_mem = view.membertool.getMemberById(recip)
                 to_info = view.member_info_for_member(to_mem)
                 recip = to_info.get('email')
-            recips.append(recip)
+            # prevent None's from getting added (maybe only test environ case,
+            # but the admin users have no emails)
+            if recip:
+                recips.append(recip)
 
         mfrom = view.member_info.get('email')
         self.mailhost.send(str(translate(msg)), recips, mfrom, subject)

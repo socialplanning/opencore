@@ -131,8 +131,9 @@ class OpenTeam(Team):
         return DEFAULT_ROLES[highest_index]
 
     security.declarePrivate('admin_ids')
-    @property
-    def admin_ids(self):
+    # don't use property, because breaks acquisition wrapped when getMembershipBrains
+    # tries to get the portal_catalog
+    def get_admin_ids(self):
         """
         Returns the user id for each team member with ProjectAdmin
         role.

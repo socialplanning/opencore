@@ -8,6 +8,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import DeleteObjects
 from Products.CMFPlone.utils import transaction_note
+from Products.MailHost.MailHost import MailHostError
 from plone.memoize.instance import memoize, memoizedproperty
 from plone.memoize.view import memoize_contextless
 from plone.memoize.view import memoize as req_memoize
@@ -447,14 +448,30 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
     View class to handle join project requests.
     """
     template = ZopeTwoPageTemplateFile('request-membership.pt')
-    
+
     @formhandler.action('request-membership')
     def request_membership(self, targets=None, fields=None):
         """
         Delegates to the team object and handles destination.
         """
         if self.loggedin:
-            joined = self.team.join()
+            # check if membership is merely inactive
+            # in this case, we don't want to create a new one
+            # but transition to an active state
+            # XXX maybe this logic should just go into the team join method?
+
+            # XXX add a test for this code
+            teams = self.context.getTeams()
+            assert len(teams) == 1
+            team = teams[0]
+            user_id = self.loggedinmember.getId()
+            if user_id in team.objectIds():
+                mship = team._getOb(user_id)
+                wft = self.get_tool('portal_workflow')
+                wft.doActionFor(mship, 'rerequest')
+                joined = True
+            else:
+                joined = self.team.join()
 
         if joined:
             team_manage_url = "%s/manage-team" % self.context.absolute_url()
@@ -473,18 +490,26 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
                 email_vars.update(request_message=request_message)
                 email_msg = Message(email_msg, mapping=email_vars)
 
-            mto = self.team.admin_ids
-            sender.sendEmail(mto, msg=email_msg, **email_vars)
+            mto = self.team.get_admin_ids()
 
-            psm = (u'Your request to join the %s project has been sent to '
-                   'the project administrators.' % self.context.Title())
+            # XXX what do we do if there are no project admins?
+            # maybe we shouldn't allow the last project admin to leave a project?
+            # for now, let's just catch a mailhosterror, and set a psm
+            try:
+                sender.sendEmail(mto, msg=email_msg, **email_vars)
+                psm = (u'Your request to join the %s project has been sent to '
+                       'the project administrators.' % self.context.Title())
+            except MailHostError:
+                psm = (u'Error sending email to project administrators. Are '
+                       'there any?')
+
         else:
             psm = (u"You are already either a pending or active member of "
                    "the %s project." % self.context.Title())
         self.addPortalStatusMessage(psm)
         self.template = None # don't render the form before the redirect
         self.redirect(self.context.absolute_url())
-    
+
 
 class ProjectTeamView(TeamRelatedView):
    
