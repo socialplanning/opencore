@@ -1,4 +1,7 @@
-<!-- template for nuified zope.formlib forms -->
+<tal:comment condition="nothing">
+  template for nuified zope.formlib forms
+</tal:comment>
+
 <html metal:use-macro="context/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
