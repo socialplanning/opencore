@@ -160,13 +160,15 @@ def notifyFirstLogin(member, request):
 
 @adapter(IFirstLoginEvent)
 def create_home_directory(event):
-    member = event.member
+    do_create_home_directory(event.member, event.request)
+
+def do_create_home_directory(member, request, page_text=None):
     mtool = getToolByName(member, 'portal_membership')
     member_id = member.getId()
 
     folder = mtool.getHomeFolder(member_id)
     alsoProvides(folder, IMemberFolder)
-    apply_member_folder_redirection(folder, event.request)
+    apply_member_folder_redirection(folder, request)
 
     page_id = "%s-home" % member_id
     title = "%s Home" % member_id
@@ -175,7 +177,8 @@ def create_home_directory(event):
     
     page = getattr(folder, page_id)
     # XXX acquisition, ugh @@ huh?
-    page_text = member.member_index(member_id=member_id)
+    if page_text is None:
+        page_text = member.member_index(member_id=member_id)
     page.setText(page_text)
 
     # the page is the homepage

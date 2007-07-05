@@ -1,7 +1,8 @@
+import sys
 from Products.CMFCore.utils import getToolByName
 from opencore.project.handler import _initialize_project
+from opencore.siteui.member import do_create_home_directory
 from opencore.nui.setup import install_confirmation_workflow as icw
-import sys
 
 projects_map = {'p1':{'title':'Proj1',
                       'full_name':'Project One'},
@@ -57,6 +58,7 @@ def create_test_content(self, p_map=None, m_map=None, nui=True):
     mdc.unit_test_mode = True # suppress registration emails
     tm_tool = getToolByName(self, 'portal_teams')
     wf_tool = getToolByName(self, 'portal_workflow')
+    ms_tool = getToolByName(self, 'portal_membership')
 
     if p_map is None:
         p_map = projects_map
@@ -85,6 +87,11 @@ def create_test_content(self, p_map=None, m_map=None, nui=True):
         mem.fixOwnership()
         if nui:
             wf_tool.doActionFor(mem, 'register_public')
+
+        # create the member area and mark it with the appropriate interface
+        ms_tool.createMemberArea(mem_id)
+        do_create_home_directory(mem, {}, 'worthless text')
+
         out.append('Member %s added' % mem_id)
         for p_id, p_roles in mem_data['projects'].items():
             team = tm_tool.getTeamById(p_id)

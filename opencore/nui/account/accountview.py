@@ -37,7 +37,6 @@ class AccountView(BaseView):
         self.request.set('__ac_name', member_id)
         self.auth.login()
         self.membertool.setLoginTimes()
-        return
 
     def update_credentials(self, member_id):
         return self.auth.updateCredentials(self.request, self.response,
@@ -277,7 +276,6 @@ class InitialLogin(BaseView):
         member = self.membertool.getAuthenticatedMember()
         if not self.membertool.getHomeFolder():
             self.membertool.createMemberArea(member.getId())
-
         # Go to the user's Profile Page in Edit Mode
         return self.redirect("%s/%s" % (self.home_url_for_id(member.getId()),
                                         'profile-edit'))
