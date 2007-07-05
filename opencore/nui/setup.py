@@ -5,7 +5,8 @@ from topp.utils import config
 
 from Products.CMFCore.utils import getToolByName
 
-from Products.OpenPlans.Extensions.setup import convertFunc, reinstallTypes
+from Products.OpenPlans.Extensions.setup import convertFunc, reinstallTypes, \
+     reinstallWorkflows
 from Products.OpenPlans.Extensions.Install import install_workflow_map, \
      installNewsFolder, securityTweaks
 from Products.OpenPlans.Extensions.Install import setupPeopleFolder, \
@@ -102,6 +103,7 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      reinstallSubskins=reinstallSubskins,
                      migrate_wiki_attachments=convertFunc(migrate_wiki_attachments),
                      createValidationMember=convertFunc(createValidationMember),
+                     reinstallWorkflows=reinstallWorkflows,
                      )
 
 nui_functions['Update Method Aliases']=convertFunc(set_method_aliases)
