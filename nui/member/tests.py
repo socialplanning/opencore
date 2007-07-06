@@ -20,6 +20,7 @@ def test_suite():
     from zope.interface import alsoProvides
     from zope.component import getUtility
     from opencore.interfaces import IMemberFolder
+    from opencore.nui.member.interfaces import ITransientMessage
 
     setup.setupPloneSite()
     def readme_setup(tc):
