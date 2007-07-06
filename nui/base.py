@@ -65,7 +65,6 @@ class BaseView(BrowserView):
     def redirect(self, *args, **kwargs):
         self._redirected = True
         return self.response.redirect(*args, **kwargs)
-        
 
     def render_macro(self, macro, extra_context={}):
         """
@@ -244,7 +243,7 @@ class BaseView(BrowserView):
                              title=proj.Title(),
                              security=security,
                              url=proj.absolute_url(),
-                             mission=proj.Description(),
+                             description=proj.Description(),
                              featurelets=self.piv.featurelets,
                              obj=proj)
         return proj_info

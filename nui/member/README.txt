@@ -40,7 +40,7 @@ Exercise the Member Preferences Class
     >>> [d['proj_id'] for d in project_dicts]
     ['p2', 'p3', 'p1']
     >>> [d['title'] for d in project_dicts]
-    ['Proj2', 'Proj3', 'Proj1']
+    ['Project Two', 'Project Three', 'Project One']
     >>> [d['listed'] for d in project_dicts]
     [True, True, True]
 
