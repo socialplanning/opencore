@@ -1,55 +1,23 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
-      <div id="oc-content-main">
-        hi i'm archive_thread_messages.pt
-      </div>
-    </div>
-  </body>
-</html>
-<!--
-<metal:archive-view use-macro="here/@@forum_view/macros/archive">
-  <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-        lang="en"
-        i18n:domain="plone">
-    <body>
-      <div metal:fill-slot="body">
-        <div metal:define-macro="body"
-             tal:define="thread view/getThreadedMessageStructure;
-                         template_id string:by_date;"
-             i18n:domain="listen">
+      <div id="oc-content-main" i18n:domain="listen"
+           tal:define="thread view/getThreadedMessageStructure;
+                       template_id string:by_date;">
 
-          <div metal:define-slot="extra_info" tal:replace="nothing">
-          </div>
+        <h1 i18n:translate="" tal:content="view/Title" />
 
-          <div class="row" 
-               metal:define-slot="extra_top" tal:replace="nothing">
-            <div i18n:translate="" class="label">Extra top</div>
-          </div>
-
-          <h1 i18n:translate="" tal:content="view/Title" class="documentFirstHeading">
-            Title or Id
-          </h1>
-
-          <p id="listaddress"
-             tal:content="view/listAddress"
-             tal:condition="view/listAddress">
-            Description
-          </p>
-
+          <p id="listaddress" tal:content="view/listAddress"
+             tal:condition="view/listAddress" />
           <p class="documentDescription"
              tal:content="view/listDescription"
-             tal:condition="view/listDescription">
-            Description
-          </p>
-
-          <a id="new-topic"
-             href="#"
+             tal:condition="view/listDescription" />
+          <a id="new-topic" href="#"
              tal:condition="view/canPost"
-             tal:attributes="href string:${here_url}/new_topic;"
+             tal:attributes="href string:${view/context/absolute_url}/new_topic;"
              i18n:translate="label_forum_new_topic_button">
-            Post New Topic   	
-          </a>
+             Post New Topic
+           </a>
 
           <ul id="message-list-actions">
             <li>
@@ -71,7 +39,7 @@
                  ><strong tal:content="message/subject">Re: Subj</strong></a> &mdash;
               <a href="."
                  tal:omit-tag="not:message/from_id"
-                 tal:attributes="href string:${portal_url}/author/${message/from_id}"
+                 tal:attributes="href string:${here/portal_url}/author/${message/from_id}"
                  class="author-link">
                 <span tal:replace="message/mail_from">test@example.com</span>
               </a>
@@ -82,15 +50,12 @@
             </li>
           </ul>
 
-          <p class="discreet"
-             tal:condition="not: thread"
+          <p class="discreet" tal:condition="not: thread"
              i18n:translate="description_no_posts">
             There are currently no posts in this archive.
           </p>
-          
-        </div>
+
       </div>
-    </body>
-  </html>
-</metal:archive-view>
--->
+    </div>
+  </body>
+</html>
