@@ -5,6 +5,12 @@
     Explore
     <tal:exploremenu replace="structure context/topnav-explore-menu" />
   </li>
+  <li class="oc-dropdown-container">
+    Test
+    <ul style="display: none;">
+      <li><a href="#">Hi</a></li>
+    </ul>
+  </li>
 
   <li tal:repeat="menuitem view/menudata">
     <a tal:attributes="href menuitem/href"

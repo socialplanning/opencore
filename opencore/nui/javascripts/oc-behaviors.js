@@ -634,16 +634,14 @@ OC.UploadForm = function(extEl) {
 #
 */
 OC.TopNav = function(extEl) {
-  // get refs
+// get refs
   var container = extEl;
-  var triggerItem = Ext.get(extEl.dom.getElementsByTagName('li')[0]);
-  var triggerLink = Ext.get(triggerItem.dom.getElementsByTagName('a')[0]);
-  var menu = Ext.get(triggerItem.dom.getElementsByTagName('ul')[0]);
+  var triggerItems = Ext.select(Ext.query('li:first-child', container.dom));
+  var submenus = Ext.select(container.dom.getElementsByTagName('ul'));
   var unclickArea = Ext.get(document.body);
-  OC.debug(unclickArea);
   
   // check refs
-  if (!container || !triggerItem || !menu) {
+  if (!container || !triggerItems || !unclickArea) {
     OC.debug("TopNav: couldn't get refs");
     return;
   } else {
@@ -654,48 +652,54 @@ OC.TopNav = function(extEl) {
   var overrideHide = false;
     
   function _toggleMenu(e, el, o) {
-    //YAHOO.util.Event.stopEvent(e);
-    
-    if (menu.isVisible() && el.tagName != "A") {
-      _hideMenu(e);
-    } else {
-      _showMenu(e); 
+    var submenu = Ext.get(el.getElementsByTagName('ul')[0]);
+    _hideMenus();    
+    if (!submenu.isVisible()) {
+      _showMenu(e, el, o); 
     }
   }
   
   function _showMenu(e, el, o) {
-    //YAHOO.util.Event.stopEvent(e);
-    OC.debug('_showMenu: ');
+    _hideMenus();
+    var trigger = Ext.get(el);
+    var submenu = Ext.get(el.getElementsByTagName('ul')[0]);
+    submenu.show();
     overrideHide = true;
-    menu.show();
-    triggerItem.addClass('oc-selected');
+    trigger.addClass('oc-selected');
   }
   
-  function _hideMenu(e, el, o) {
-    if (menu.isVisible() && !overrideHide) {
-          menu.hide();
-          triggerItem.removeClass('oc-selected');
+  function _hideMenus(e, el, o) {
+    if (!overrideHide) {
+          submenus.hide();
+          triggerItems.removeClass('oc-selected');
     }
     overrideHide = false;
   }
-  //exploreMenu.on('mouseout', _hideExplore, this);
   
   function _toggleMenuPreview(e, el, o) {
-    if (triggerItem.hasClass('oc-hover')) {
-       triggerItem.removeClass('oc-hover');
+    var trigger = Ext.get(el);
+    if (trigger.hasClass('oc-hover')) {
+       trigger.removeClass('oc-hover');
     } else {
-      triggerItem.addClass('oc-hover');
+      trigger.addClass('oc-hover');
     }
    
   } 
-  triggerItem.on('mouseover', _toggleMenuPreview, this);
-  triggerItem.on('mouseout', _toggleMenuPreview, this);
   
-  unclickArea.on('click', _hideMenu, this );
-  triggerItem.removeListener('click', _hideMenu);
-  triggerItem.on('click', _toggleMenu, this, { stopPropogation: true});
-
-
+  triggerItems.each(function(el) {
+    Ext.get(el).on('mouseover', _toggleMenuPreview, this);
+  }, this);
+  
+  triggerItems.each(function(el) {
+    Ext.get(el).on('mouseout', _toggleMenuPreview, this);
+  }, this);
+  
+  triggerItems.each(function(el) {
+    Ext.get(el).on('click', _toggleMenu, this);
+  }, this);
+  
+  
+  unclickArea.on('click', _hideMenus, this );
 }
 
 
