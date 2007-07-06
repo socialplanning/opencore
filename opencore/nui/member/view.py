@@ -254,7 +254,7 @@ class MemberPreferences(BaseView, OctopoLite):
             new_visibility = field['listing']
             if self.change_visibility(proj_id, new_visibility):
                 ### XXX TODO how do i get projinfo for real?
-                projinfo = self._membership_for_proj(proj_id)
+                projinfo = [p for p in self.projects_for_user if p['proj_id'] == proj_id][0]
                 
                 ret[proj_id] = {'html': self.project_row(proj_id=proj_id,
                                                          projinfo=projinfo),
