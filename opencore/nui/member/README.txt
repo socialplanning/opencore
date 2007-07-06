@@ -177,7 +177,7 @@ Let's accept our gracious invitation
 
     Now we can trigger them, we get the json response
     >>> view.accept_handler(['p4'])
-    {'invitation_p4': {'action': 'delete'}}
+    {'p4_invitation': {'action': 'delete'}}
 
     And thus, we should no longer be invited
     >>> self.clearMemoCache()
@@ -201,7 +201,7 @@ And now if we were to receive an info message
 
     Let's go ahead and kill the first one, the message is not so nice
     >>> view.close_msg_handler('0')
-    {'close_0': {'action': 'delete'}}
+    {'0_close': {'action': 'delete'}}
 
     Poof, he's gone
     >>> self.clearMemoCache()
@@ -234,7 +234,7 @@ Let's also reject an invitation extended to us
 
     Now we shove it back in the admin's face
     >>> view.deny_handler(['p2'])
-    {'invitation_p2': {'action': 'delete'}}
+    {'p2_invitation': {'action': 'delete'}}
 
     And we're not a part of that project, and no longer invited
     >>> self.clearMemoCache()
