@@ -43,7 +43,7 @@
   <browser:page
     for="Products.listen.interfaces.IMailMessage"
     name="forum_view"
-    class="Products.listen.browser.mail_message_views.ForumMailMessageView"
+    class=".view.NuiForumMailMessageView"
     permission="zope2.View"
     template="forum_message_view.pt"
     />
