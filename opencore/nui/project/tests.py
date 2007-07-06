@@ -25,6 +25,7 @@ def test_suite():
     from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
     from pprint import pprint
     from zope.interface import alsoProvides
+    from zope.component import getUtility
     from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
     from opencore.testing import utils
     from opencore.nui.indexing import authenticated_memberid
@@ -51,6 +52,10 @@ def test_suite():
     def metadata_setup(tc):
         tc.project = tc.portal.projects.p1
         tc.page = getattr(tc.project, 'project-home')
+
+    def manage_team_setup(tc):
+        from zope.app.component.site import setSite
+        setSite(tc.portal)
 
     globs = locals()
     readme = FunctionalDocFileSuite("README.txt", 
@@ -82,6 +87,7 @@ def test_suite():
                                          package='opencore.nui.project',
                                          test_class=OpenPlansTestCase,
                                          globs = globs, 
+                                         setUp=manage_team_setup
                                          )
 
     suites = (contents, metadata, manage_team)
