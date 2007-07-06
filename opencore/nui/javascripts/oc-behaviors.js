@@ -392,26 +392,27 @@ OC.ActionButton = function(extEl) {
   var task = button.dom.value;
   var isUpload = false;
   if (form.dom.enctype == "multipart/form-data") {
+      OC.debug("is upload ...");
     isUpload = true;
   }
   
   function _actionButtonClick(e, el, o) {
-	  OC.debug("_actionButtonClick");
-	  
-    YAHOO.util.Event.stopEvent(e);
-	  if (isUpload) {
-      YAHOO.util.Connect.setForm(form.dom, true);
-    } else {
-      YAHOO.util.Connect.setForm(form.dom);
-    }
-	  
-	  var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
+      OC.debug("_actionButtonClick");
+      
+      YAHOO.util.Event.stopEvent(e);
+      if (isUpload) {
+	  YAHOO.util.Connect.setForm(form.dom, true);
+      } else {
+	  YAHOO.util.Connect.setForm(form.dom);
+      }
+      OC.debug("...........task is " + task);
+      var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
        { success: OC.Callbacks.afterAjaxSuccess,
          upload: OC.Callbacks.afterAjaxSuccess,
          failure: OC.Callbacks.afterAjaxFailure,
          scope: this
        },
-						     "mode=async&task=" + task
+						 "mode=async&task=" + task
        );
   }
   button.on('click', _actionButtonClick, this);

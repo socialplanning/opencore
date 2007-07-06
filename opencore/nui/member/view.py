@@ -57,10 +57,38 @@ class ProfileView(BaseView):
         return '%s?%s' % (portrait_url, timestamp)
 
 
-class ProfileEditView(ProfileView):
+class ProfileEditView(ProfileView, OctopoLite):
 
     portrait_snippet = ZopeTwoPageTemplateFile('portrait-snippet.pt')
+    template = ZopeTwoPageTemplateFile('profile-edit.pt')
 
+    @action("uploadAndUpdate")
+    def change_portrait(self, target=None, fields=None):
+        member = self.viewedmember()
+        portrait = self.request.form.get("portrait")
+        member.setPortrait(portrait)
+        member.reindexObject('portrait')
+        return {
+            'oc-profile-avatar' : {
+                'html': self.portrait_snippet(),
+                'action': 'replace',
+                'effects': 'highlight'
+                }
+            }
+
+    @action("remove")
+    def remove_portrait(self, target=None, fields=None):
+        member = self.viewedmember()
+        member.setPortrait("DELETE_IMAGE")  # AT API nonsense
+        member.reindexObject('portrait')
+        return {
+            'oc-profile-avatar' : {
+                'html': self.portrait_snippet(),
+                'action': 'replace',
+                'effects': 'highlight'
+                }
+            }
+        
     def handle_form(self):
         """ quick 'n' dirty for now. """ 
         member = self.viewedmember()
@@ -70,45 +98,15 @@ class ProfileEditView(ProfileView):
       
         # TODO resize portrait if necessary
 
-        print "task is %s" % task
-        if 'uploadAndUpdate' in task:
-            if portrait:
-                member.setPortrait(portrait)
-                member.reindexObject()
- 
-            #don't do this yet!!!
-            #return {
-            #       'oc-profile-avatar' : 
-            #         {
-            #         'html': self.portrait_snippet(),
-            #         'action': 'replace',
-            #         'effects': 'highlight'
-            #         }
-            #       }
-        elif 'remove' in task:
-            member.setPortrait('DELETE_IMAGE')
-            member.reindexObject()
-            #don't do this yet!!!
-            #return {
-            #       'oc-profile-avatar' : 
-            #         {
-            #         'html': self.portrait_snippet(),
-            #         'action': 'replace',
-            #         'effects': 'highlight'
-            #         }
-            #       }
-
-        else:
-            for field, value in self.request.form.items():
-                mutator = 'set%s' % field.capitalize()
-                mutator = getattr(member, mutator, None)
-                if mutator is not None:
-                    mutator(value)
-                self.user_updated()
+        for field, value in self.request.form.items():
+            mutator = 'set%s' % field.capitalize()
+            mutator = getattr(member, mutator, None)
+            if mutator is not None:
+                mutator(value)
+            self.user_updated()
     
-            member.reindexObject()
+        member.reindexObject()
         return self.redirect('profile')
-
 
     def user_updated(self): # TODO
         """callback to tell taggerstore a user updated (possibly) taggifiable
