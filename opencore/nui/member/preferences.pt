@@ -29,7 +29,7 @@
         <tal:for repeat="projinfo invitations">
           <li class="oc-invite oc-boxy oc-clearAfter"
               tal:define="proj_id projinfo/proj_id"
-              tal:attributes="id string:invitation_${proj_id}"
+              tal:attributes="id string:invitation_${proj_id}">
             <div class="oc-avatar">
               <!-- XXX is this the project avatar? proj admin avatar? -->
               <img src="" />
