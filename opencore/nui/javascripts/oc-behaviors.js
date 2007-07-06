@@ -134,8 +134,15 @@ OC.psm = function(text, tone) {
   message.show();
 }
 
+/*
+#
+# DOM Utilities
+#
+*/
+OC.Dom = {}
+
 // remove an item from the dom
-OC.removeItem = function(id) {
+OC.Dom.removeItem = function(id) {
   var extEl = Ext.get(id);
   if (!extEl) {
      OC.debug("Could not find an element #" + id);
@@ -201,7 +208,7 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
     switch( action ) {
       case "delete":
           OC.debug("DELETE on " + elId);
-          _removeItem(elId);
+          OC.Dom.removeItem(elId);
           break;
     
       case "replace":
@@ -222,7 +229,7 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
           var target = Ext.get(elId);
           
           if( effects == "delete" ) {  // for backcompability with existing code. consider deprecated.
-            _removeItem(elId);
+            OC.Dom.removeItem(elId);
           } else {
             var newNode = Ext.DomHelper.insertHtml("beforeBegin", target.dom, html);
             target.remove();
