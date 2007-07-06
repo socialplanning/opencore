@@ -16,6 +16,7 @@ from Products.OpenPlans.Extensions.Install import createMemIndexes, \
      install_local_transient_message_utility
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans import config as op_config
+from indexing import createIndexes
 
 HERE = os.path.dirname(__file__)
 ALIASES = os.path.join(HERE, 'aliases.cfg')
@@ -105,8 +106,8 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      migrate_wiki_attachments=convertFunc(migrate_wiki_attachments),
                      createValidationMember=convertFunc(createValidationMember),
                      reinstallWorkflows=reinstallWorkflows,
-                     setup_transient_message_utilitly=convertFunc(
-                        install_local_transient_message_utility),
+                     setup_transient_message_utilitly=convertFunc(install_local_transient_message_utility),
+                     createIndexes=convertFunc(createIndexes),
                      )
 
 nui_functions['Update Method Aliases']=convertFunc(set_method_aliases)
