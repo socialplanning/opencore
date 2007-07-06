@@ -17,6 +17,7 @@ def test_suite():
     from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
     from pprint import pprint
     from zope.interface import alsoProvides
+    from zope.component import getUtility
     from opencore.interfaces import IMemberFolder
 
     setup.setupPloneSite()
