@@ -45,6 +45,13 @@ Verify that the notifying email went out:
     >>> len(mailhost.messages)
     1
 
+Also verify that the transient messages were saved
+
+    >>> from opencore.nui.member.interfaces import ITransientMessage
+    >>> tm = getUtility(ITransientMessage)
+    >>> list(tm.get_msgs('m4', view.msg_category))
+    [(0, 'You have been accepted to <a href=http://nohost/plone/projects/p3">Proj3</a>')]
+
 Next we recreate the request and test discarding; no add'l email
 should be sent:
 
@@ -80,6 +87,11 @@ email notifier:
     >>> len(mailhost.messages)
     2
 
+And we should also have some rejection msgs for the user
+
+    >>> list(tm.get_msgs('m4', view.msg_category))
+    [(0, 'You have been accepted to <a href=http://nohost/plone/projects/p3">Proj3</a>'), (1, 'You have been denied membership to <a href=http://nohost/plone/projects/p3">Proj3</a>')]
+
 Verify that invitation reminders go out:
 
     >>> self.clearMemoCache()
@@ -106,6 +118,11 @@ should be sent:
     2
     >>> len(mailhost.messages)
     5
+
+Transient Message should be added as well
+
+    >>> list(tm.get_msgs('m2', view.msg_category))
+    [(0, 'You have been deactivated from <a href=http://nohost/plone/projects/p3">Proj3</a>')]
 
 Ensure that form submissions changing the team roles for members
 behave as expected.  At the beginning we re-add and approve m3 so we

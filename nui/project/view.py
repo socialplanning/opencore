@@ -1,5 +1,6 @@
 from zope import event
 from zope.component import getMultiAdapter
+from zope.component import getUtility
 from zope.i18nmessageid import Message
 from zExceptions import BadRequest, Redirect
 from Acquisition import aq_parent
@@ -29,6 +30,7 @@ from opencore.nui.base import BaseView
 from opencore.nui.formhandler import OctopoLite, action
 from opencore.nui.main import SearchView
 from opencore.nui.main.search import searchForPerson
+from opencore.nui.member.interfaces import ITransientMessage
 
 import mship_messages
 
@@ -603,6 +605,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                  'private': 'no',
                  }
 
+    msg_category = 'membership'
+
     @property
     def template(self):
         """
@@ -702,6 +706,27 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         if homeurl is not None:
             return "%s/preferences" % homeurl
 
+    @property
+    @req_memoize
+    def transient_msgs(self):
+        return getUtility(ITransientMessage)
+
+    def _add_transient_msg_for(self, mem_id, status):
+        # XXX not happy about generating the html for this here ... but it's a one liner
+        # can move to a macro
+        proj_url = self.context.absolute_url()
+        title = self.context.Title()
+        msg = 'You have been %(status)s <a href=%(proj_url)s">%(title)s</a>' % locals()
+        self.transient_msgs.store(mem_id, self.msg_category, msg)
+
+    def _add_approval_message_for(self, mem_id):
+        self._add_transient_msg_for(mem_id, 'accepted to')
+
+    def _add_deny_message_for(self, mem_id):
+        self._add_transient_msg_for(mem_id, 'denied membership to')
+
+    def _add_removal_message_for(self, mem_id):
+        self._add_transient_msg_for(mem_id, 'deactivated from')
 
     ##################
     #### MEMBERSHIP REQUEST BUTTON HANDLERS
@@ -728,6 +753,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             napproved += 1
             self.email_sender.sendEmail(mem_id, msg_id='request_approved',
                                         project_title=self.context.Title())
+            self._add_approval_message_for(mem_id)
             res[mem_id] = {'action': 'delete'}
             # will only be one mem_id in AJAX requests
             brain = self.catalog(path='/'.join(mship.getPhysicalPath()))[0]
@@ -769,6 +795,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                                           project_title=self.context.Title())
         for mem_id in mem_ids:
             sender.sendEmail(mem_id, msg=msg)
+            self._add_deny_message_for(mem_id)
 
         msg = u"Requests rejected: %s" % ', '.join(mem_ids)
         self.addPortalStatusMessage(msg)
@@ -849,6 +876,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         for mem_id in mem_ids:
             sender.sendEmail(mem_id, msg_id='membership_deactivated',
                              project_title=self.context.Title())
+            self._add_removal_message_for(mem_id)
             ret[mem_id] = {'action': 'delete'}
 
         msg = "Members deactivated: %s" % ', '.join(mem_ids)
