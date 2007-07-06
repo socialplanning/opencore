@@ -19,7 +19,7 @@
           <a href class="oc-actionClose oc-actionLink">close</a>
         </div>
         -->
-        <form name="profile_form" id="profile_form" method="post" class="oc-member-edit oc-liveForm oc-noAjax" action="profile-edit" enctype="multipart/form-data">
+        <form name="profile_form" id="profile_form" method="post" class="oc-member-edit" action="profile-edit" enctype="multipart/form-data">
           <div id="oc-member-badge" class="oc-boxy oc-clearAfter">
             <div class="oc-member-editimage">
               <div metal:use-macro="view/portrait_snippet/macros/portrait" />

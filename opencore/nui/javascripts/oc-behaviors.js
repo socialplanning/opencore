@@ -169,7 +169,10 @@ Ext.onReady(function() {
 */
 OC.Callbacks = {}
 
-OC.Callbacks.afterAjaxSuccess = function(o) {
+OC.Callbacks.afterAjaxSuccess = function(o) { 
+  Ext.select('form').each(function(el) {
+    el.dom.target = "";
+  });
   OC.debug('OC.Callbacks.afterAjaxSuccess');
   OC.debug('o: ' + o);
 
