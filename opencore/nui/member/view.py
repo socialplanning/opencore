@@ -88,16 +88,13 @@ class ProfileEditView(ProfileView, OctopoLite):
                 'effects': 'highlight'
                 }
             }
-        
-    def handle_form(self):
-        """ quick 'n' dirty for now. """ 
+
+    @action("update")
+    def handle_form(self, target=None, fields=None):
         member = self.viewedmember()
-        portrait = self.request.form.get('portrait')
-        mode = self.request.form.get('mode')
-        task = self.request.form.get('task', '')
       
         # TODO resize portrait if necessary
-
+        # TODO XXX this is dumb -- zope will do this for us.
         for field, value in self.request.form.items():
             mutator = 'set%s' % field.capitalize()
             mutator = getattr(member, mutator, None)
@@ -106,8 +103,9 @@ class ProfileEditView(ProfileView, OctopoLite):
             self.user_updated()
     
         member.reindexObject()
+        self.template = None
         return self.redirect('profile')
-
+        
     def user_updated(self): # TODO
         """callback to tell taggerstore a user updated (possibly) taggifiable
         fields. something like a POST to /taggerstore/."""

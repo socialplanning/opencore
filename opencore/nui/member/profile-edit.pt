@@ -108,9 +108,9 @@
           <ul class="oc-actions oc-wiki-actions">
             <li>
               <button type="submit"
-                name="task"
-                value="_noAjax"
-                class="oc-button oc-chooseThis">
+                      name="task"
+                      value="update"
+                      class="oc-button oc-chooseThis">
                 Update
               </button>
             </li>
