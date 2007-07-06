@@ -115,7 +115,7 @@ Exercise the Member Preferences Class
     >>> self.logout()
     >>> self.login('m1')
 
-    Now we should one invitation for m1
+    Now we should have one invitation for m1
     These are what the member can act on
     >>> self.clearMemoCache()
     >>> project_dicts = view.invitations
@@ -168,6 +168,83 @@ Exercise the Member Preferences Class
     Here are the actions that can be performed on each invitation request
     >>> view.invitation_actions
     ['Accept', 'Deny', 'Ignore']
+
+Let's accept our gracious invitation
+
+    First though, we have to set async mode on the request to test octopolite
+    methods
+    >>> view.request.form = dict(mode='async')
+
+    Now we can trigger them, we get the json response
+    >>> view.accept_handler(['p4'])
+    {'invitation_p4': {'action': 'delete'}}
+
+    And thus, we should no longer be invited
+    >>> self.clearMemoCache()
+    >>> view.invitations
+    []
+
+    But a part of the project
+    >>> sorted([d['proj_id'] for d in view.projects_for_user])
+    ['p1', 'p3', 'p4']
+
+And now if we were to receive an info message
+
+    Let's stick some phony messages in there first
+    >>> tm = getUtility(ITransientMessage)
+    >>> tm.store('m1', view.msg_category, 'All your base are belong to us')
+    >>> tm.store('m1', view.msg_category, 'You were just acceped to Move Zig')
+
+    And now we should be able to view those messages
+    >>> list(view.infomsgs)
+    [(0, 'All your base are belong to us'), (1, 'You were just acceped to Move Zig')]
+
+    Let's go ahead and kill the first one, the message is not so nice
+    >>> view.close_msg_handler('0')
+    {'close_0': {'action': 'delete'}}
+
+    Poof, he's gone
+    >>> self.clearMemoCache()
+    >>> list(view.infomsgs)
+    [(1, 'You were just acceped to Move Zig')]
+
+Let's also reject an invitation extended to us
+
+    First thing we have to do, is simulate an admin inviting us
+    Turns out that we still have a reference to a project we can get invited
+    to. Let's re-use that, and invite member one as an admin
+    >>> proj_team = team_request
+    >>> self.logout()
+    >>> self.loginAsPortalOwner()
+    >>> proj_team._delOb('m1')
+    >>> proj_team.addMember('m1')
+    <OpenMembership at /plone/portal_teams/p2/m1>
+    >>> self.logout()
+    >>> self.login('m1')
+
+    So we're invited
+    >>> self.clearMemoCache()
+    >>> [d['proj_id'] for d in view.invitations]
+    ['p2']
+
+    Now we shove it back in the admin's face
+    >>> view.deny_handler(['p2'])
+    {'invitation_p2': {'action': 'delete'}}
+
+    And we're not a part of that project, and no longer invited
+    >>> self.clearMemoCache()
+    >>> view.invitations
+    []
+    >>> sorted([d['proj_id'] for d in view.projects_for_user])
+    ['p1', 'p3', 'p4']
+
+    What happens if we try to perform an action on something that doesn't
+    exist? Right now we get a workflow exception ... maybe we should be more
+    graceful?
+    >>> view.deny_handler(['p2'])
+    Traceback (most recent call last):
+    ...
+    WorkflowException: No workflow provides the "reject_by_owner" action.
 
     Now let's call the view simulating the request:
     XXX member areas need to be created first though for m1

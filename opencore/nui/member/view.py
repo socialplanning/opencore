@@ -222,13 +222,16 @@ class MemberPreferences(BaseView, OctopoLite):
         mship = team._getMembershipByMemberId(mem_id)
         return mship
 
+    def _apply_transition_to(self, proj_id, transition):
+        mship = self._membership_for_proj(proj_id)
+        wft = self.get_tool('portal_workflow')
+        wft.doActionFor(mship, transition)
+
     def leave_project(self, proj_id):
         """ remove membership by marking the membership object as inactive """
         if not self._can_leave(proj_id): return
 
-        mship = self._membership_for_proj(proj_id)
-        wft = self.get_tool('portal_workflow')
-        wft.doActionFor(mship, 'deactivate')
+        self._apply_transition_to(proj_id, 'deactivate')
 
     def change_visibility(self, proj_id):
         """ change whether project members appear in listings """
@@ -255,8 +258,52 @@ class MemberPreferences(BaseView, OctopoLite):
         json_ret = {}
         for proj_id in targets:
             self.leave_project(proj_id)
-            json_ret[proj_id] = dict(action='delete')
+            elt_id = 'mship_%s' % proj_id
+            json_ret[elt_id] = dict(action='delete')
         return json_ret
+
+    @action('AcceptInvitation')
+    def accept_handler(self, targets, fields=None):
+        assert len(targets) == 1
+        proj_id = targets[0]
+        # XXX do we notify anybody (proj admins) when a mship has been accepted?
+        self._apply_transition_to(proj_id, 'approve_public')
+        elt_id = 'invitation_%s' % proj_id
+        return {elt_id: dict(action='delete')}
+
+    @action('DenyInvitation')
+    def deny_handler(self, targets, fields=None):
+        assert len(targets) == 1
+        proj_id = targets[0]
+        # XXX do we notify anybody (proj admins) when a mship has been denied?
+        self._apply_transition_to(proj_id, 'reject_by_owner')
+        elt_id = 'invitation_%s' % proj_id
+        return {elt_id: dict(action='delete')}
+
+    # XXX is there any difference between ignore and deny?
+    @action('IgnoreInvitation')
+    def ignore_handler(self, targets, fields=None):
+        assert len(targets) == 1
+        proj_id = targets[0]
+        # XXX do we notify anybody (proj admins) when a mship has been denied?
+        self._apply_transition_to(proj_id, 'reject_by_owner')
+        elt_id = 'invitation_%s' % proj_id
+        return {elt_id: dict(action='delete')}
+
+    @action('close')
+    def close_msg_handler(self, targets, fields=None):
+        assert len(targets) == 1
+        idx = targets[0]
+        idx = int(idx)
+        tm = getUtility(ITransientMessage)
+        mem_id = self.context.getId()
+        try:
+            tm.pop(mem_id, self.msg_category, idx)
+        except KeyError:
+            return {}
+        else:
+            elt_id = 'close_%s' % idx
+            return {elt_id: dict(action='delete')}
 
     @property
     @req_memoize
@@ -267,7 +314,8 @@ class MemberPreferences(BaseView, OctopoLite):
            so that they can be popped by the user"""
         tm = getUtility(ITransientMessage)
         mem_id = self.context.getId()
-        return tm.get_msgs(mem_id, self.msg_category)
+        msgs = tm.get_msgs(mem_id, self.msg_category)
+        return msgs
 
     @property
     def n_updates(self):
