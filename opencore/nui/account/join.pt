@@ -35,7 +35,7 @@
                     <label for="id">Username</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" name="id" id="id" class="oc-liveValidate oc-autoFocus"
+                    <input type="text" name="id" id="id" class="oc-js-liveValidate oc-autoFocus"
                            tal:attributes="value request/id | nothing" />
                   </td>
                   <td class="oc-form-help">
@@ -57,7 +57,7 @@
                     <label for="fullname">Full Name</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" name="fullname" id="fullname" class="oc-liveValidate"
+                    <input type="text" name="fullname" id="fullname" class=""
                            tal:attributes="value request/fullname | nothing" />
                   </td>
                   <td class="oc-form-help">
@@ -79,7 +79,7 @@
                     <label for="email">Email</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" name="email" id="email" class="oc-liveValidate"
+                    <input type="text" name="email" id="email" class="oc-js-liveValidate"
                            tal:attributes="value request/email | nothing" />
                   </td>
                   <td class="oc-form-help">
@@ -101,7 +101,7 @@
                     <label for="password">Password</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="password" name="password" id="password" class="oc-liveValidate"
+                    <input type="password" name="password" id="password" class="oc-js-liveValidate"
                            />
                   </td>
                   <td class="oc-form-help">
@@ -123,7 +123,7 @@
                     <label for="confirm_password">Confirm passsword</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="password" name="confirm_password" id="confirm_password" class="oc-liveValidate" />  
+                    <input type="password" name="confirm_password" id="confirm_password" class="oc-js-liveValidate" />  
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">

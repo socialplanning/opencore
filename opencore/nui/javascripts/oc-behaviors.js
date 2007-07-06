@@ -40,7 +40,8 @@ OC.liveElementKey = {
   '.oc-liveItem'            : "LiveItem",
   '.oc-js-actionLink'       : "ActionLink",
   '.oc-js-actionButton'     : "ActionButton",
-  '.oc-js-actionSelect'     : "ActionSelect"
+  '.oc-js-actionSelect'     : "ActionSelect",
+  '.oc-js-liveValidate'        : "liveValidatee"
 }
     
 /* 
@@ -449,6 +450,48 @@ OC.CheckAll = function(extEl) {
     }
      
     checkAll.on('click', _toggleCheckBoxes, this); 
+}
+
+/*
+#
+# Live Validatee
+#
+*/
+OC.liveValidatee = function(extEl) {
+  // get refs
+  var field = extEl;
+  var form = field.up('form');
+
+  function _validateField(e, el, o) {
+      
+      var request = "";
+      for (var i=0; i<form.dom.elements.length; i++) {
+        var input = form.dom.elements[i];
+        if (input.value && input.type != 'submit') {
+            OC.debug(form.dom.elements[i]);
+            request += form.dom.elements[i].name + "=" + form.dom.elements[i].value + "&";
+        }
+      }      
+      
+      // send ajax request
+      var action = form.dom.action;
+      
+      var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
+        { success: OC.Callbacks.afterAjaxSuccess, 
+          failure: OC.Callbacks.afterAjaxFailure, 
+          scope: this 
+        },
+        request + "task=validate&mode=async"
+      );
+
+    }
+    
+    field.on('blur', _validateField, this);
+    
+    function _afterValidateFailure(o) {
+    
+    }
+  
 }
 
 /* 
