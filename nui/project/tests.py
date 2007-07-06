@@ -88,7 +88,6 @@ def test_suite():
     for suite in suites:
         suite.layer = OpencoreContent
     readme.layer = MockHTTPwithContent
-    return unittest.TestSuite((contents,))
     return unittest.TestSuite(suites + (readme,))
 
 
