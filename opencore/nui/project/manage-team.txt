@@ -141,17 +141,17 @@ can use him for testing later:
     >>> team.getHighestTeamRoleForMember('m3')
     'ProjectMember'
     >>> view.request.form.update(
-    ...    {'task': 'batch:roles_set-roles',
-    ...     'roles': ['m1', 'portal_owner', 'm3'],
-    ...     'm1_roles': 'ProjectAdmin',
+    ...    {'task': 'batch:role_set-roles',
+    ...     'role': ['m1', 'portal_owner', 'm3'],
+    ...     'm1_role': 'ProjectAdmin',
     ...     'portal_owner_roles': 'ProjectMember',
-    ...     'm3_roles': 'ProjectAdmin'
+    ...     'm3_role': 'ProjectAdmin'
     ...     })
     >>> view.request.environ['HTTP_REFERER'] = 'referer'
     >>> res = view.set_roles(['m1', 'portal_owner', 'm3'],
-    ...                      [{'roles': 'ProjectAdmin'},
-    ...                       {'roles': 'ProjectMember'},
-    ...                       {'roles': 'ProjectAdmin'}])
+    ...                      [{'role': 'ProjectAdmin'},
+    ...                       {'role': 'ProjectMember'},
+    ...                       {'role': 'ProjectAdmin'}])
     >>> team.getHighestTeamRoleForMember('m1')
     'ProjectAdmin'
     >>> team.getHighestTeamRoleForMember('portal_owner')
