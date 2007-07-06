@@ -19,7 +19,6 @@
      allowed_interface=".interfaces.IMemberInfo"
      />
 
-  <subscriber handler=".member.create_home_directory"/>
   <subscriber handler=".member.auto_approve_member"/>
 
   <include package=".menu" />

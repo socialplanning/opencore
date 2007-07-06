@@ -1,25 +1,30 @@
 """
 views pertaining to accounts -- creation, login, password reset
 """
-from AccessControl.SecurityManagement import newSecurityManager
-from Products.CMFCore.utils import getToolByName
-from Products.Five import BrowserView
-from Products.remember.utils import getAdderUtility
-from opencore.nui.base import BaseView
-from opencore.nui.formhandler import *
-from opencore.siteui.member import notifyFirstLogin
-from plone.memoize import instance
-from smtplib import SMTPRecipientsRefused, SMTP
-from zExceptions import Forbidden, Redirect, Unauthorized
-from App import config
 import urllib
 import socket
+from smtplib import SMTPRecipientsRefused, SMTP
+
+from App import config
+from AccessControl.SecurityManagement import newSecurityManager
+from zExceptions import Forbidden, Redirect, Unauthorized
+
+from zope.event import notify
+from plone.memoize import instance
+
+from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from Products.CMFCore.utils import getToolByName
+from Products.remember.utils import getAdderUtility
+
+from opencore.siteui.member import FirstLoginEvent
+from opencore.nui.base import BaseView
+from opencore.nui.formhandler import *
 
 class AccountView(BaseView):
     """
     base class for views dealing with accounts
-    distinguised by its login functionality
+    distinguished by its login functionality
     """
 
     add_status_message = BaseView.addPortalStatusMessage
@@ -64,7 +69,17 @@ class LoginView(AccountView):
             id_ = self.request.get('__ac_name')
             self.update_credentials(id_)
             self.membertool.setLoginTimes()
+
+            # member area only created if it doesn't yet exist;
+            # createMemberArea method will trigger
+            # notifyMemberAreaCreated skin script, which will trigger
+            # opencore.siteui.member.initializeMemberArea
             self.membertool.createMemberArea()
+
+            member = self.loggedinmember
+            if member.getLast_login_time() == member.getLogin_time():
+                # first login
+                notify(FirstLoginEvent(member, self.request))
 
             destination = self.destination
             referer = self.request.form.get('referer')
