@@ -118,7 +118,8 @@ class LoginView(AccountView):
     
     @property
     def http_root_logout(self):
-        raise Redirect("%s/manage_zmi_logout" %self.context.getPhysicalRoot().absolute_url())
+        raise Redirect("%s/manage_zmi_logout" %
+                       self.context.getPhysicalRoot().absolute_url())
         
     def invalidate_session(self):
         # Invalidate existing sessions, but only if they exist.
