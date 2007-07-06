@@ -36,10 +36,15 @@
             <a href="" tal:attributes="href string:${view/portal_url}/projects/${projinfo/proj_id}" tal:content="projinfo/title">Animal Campaign</a> 
         has invited you to become a member
           </p>
-          <ul class="oc-actions oc-invite-actions oc-actionClose">
-            <li><a href="" class="oc-actionLink oc-chooseAccept">Accept</a></li>
-            <li><a href="" class="oc-actionLink oc-chooseReject">Deny</a></li>
-            <li><a href="" class="oc-actionLink oc-chooseIgnore">Ignore</a></li>
+          <ul class="oc-actions oc-invite-actions oc-actionClose"
+              tal:define="url request/ACTUAL_URL">
+            <li tal:repeat="action view/invitation_actions">
+              <a class="oc-actionLink oc-chooseAccept"
+                 tal:attributes="href string:${url}?task=invitation_${action};
+                                 class string:oc-actionLink oc-choose${action}"
+                 tal:content="action"
+                 />
+            </li>
           </ul>
         </li>
       </ul>
@@ -49,13 +54,17 @@
           class="oc-invite-list">
         <li tal:repeat="infomsg infomsgs"
             class="oc-invite oc-boxy oc-clearAfter">
-          <div class="oc-avatar">
-            <img src="" />
-          </div>
-          <p class="oc-invite-content">
-            You have been accepted to <a href="">Turkey Time</a> 
-          </p>
-          <a href="#" title="Close" class="oc-actionClose  oc-actionLink">Close</a>
+          <tal:info_msg define="idx python: infomsg[0];
+                                msg python: infomsg[1]">
+            <div class="oc-avatar">
+              <img src="" />
+            </div>
+            <p class="oc-invite-content"
+               tal:content="msg" />
+            <a href="#" title="Close" class="oc-actionClose oc-actionLink"
+               tal:attributes="href string:${request/ACTUAL_URL}?task=${idx}_close"
+               >Close</a>
+          </tal:info_msg>
         </li>
       </ul>
     </tal:has_updates>
