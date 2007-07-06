@@ -636,7 +636,7 @@ OC.UploadForm = function(extEl) {
 OC.TopNav = function(extEl) {
 // get refs
   var container = extEl;
-  var triggerItems = Ext.select(Ext.query('li:first-child', container.dom));
+  var triggerItems = Ext.select(Ext.query("#" + container.dom.id + " > li"));
   var submenus = Ext.select(container.dom.getElementsByTagName('ul'));
   var unclickArea = Ext.get(document.body);
   
@@ -654,8 +654,8 @@ OC.TopNav = function(extEl) {
   function _toggleMenu(e, el, o) {
     var submenu = Ext.get(el.getElementsByTagName('ul')[0]);
     _hideMenus();    
-    if (!submenu.isVisible()) {
-      _showMenu(e, el, o); 
+    if (submenu) {
+      if (!submenu.isVisible()) _showMenu(e, el, o); 
     }
   }
   
