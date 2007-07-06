@@ -117,16 +117,19 @@ class ProfileEditView(ProfileView):
 class MemberPreferences(BaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('preferences.pt')
+    project_row = ZopeTwoPageTemplateFile('preferences_project_row.pt')
 
     active_states = ['public', 'private']
 
     @property
     @req_memoize
-    def _mship_brains(self):
+    def _mship_brains(self, **extra):
         user_id = self.context.getId()
         query = dict(portal_type='OpenMembership',
                      getId=user_id,
                      )
+        if extra:
+            query.update(extra)
         mship_brains = self.catalogtool(**query)
         return mship_brains
 
@@ -220,16 +223,45 @@ class MemberPreferences(BaseView, OctopoLite):
         wft = self.get_tool('portal_workflow')
         wft.doActionFor(mship, 'deactivate')
 
-    def change_visibility(self, proj_id):
-        """ change whether project members appear in listings """
+    def change_visibility(self, proj_id, to=None):
+        """
+        change whether project members appear in listings
+        
+        if to is None: toggles project member visibility
+        if to is one of 'public', 'private': set visibility to that
+
+        return True iff visibility changed
+        """
         mship = self._membership_for_proj(proj_id)
         wft = self.get_tool('portal_workflow')
         cur_state = wft.getInfoFor(mship, 'review_state')
-        if cur_state == 'public':
-            wft.doActionFor(mship, 'make_private')
+        if to == None:
+            if cur_state == 'public':
+                wft.doActionFor(mship, 'make_private')
+            else:
+                wft.doActionFor(mship, 'make_public')
+            return True
+        elif to == cur_state or to not in ('public', 'private'):
+            return False
         else:
-            wft.doActionFor(mship, 'make_public')
+            wft.doActionFor(mship, 'make_%s' % to)
+            return True
 
+    @action('change-listing')
+    def change_visilibity_handler(self, targets, fields=None):
+        ret = {}
+        for proj_id, field in zip(targets, fields):
+            new_visibility = field['listing']
+            if self.change_visibility(proj_id, new_visibility):
+                ### XXX TODO how do i get projinfo for real?
+                projinfo = self._membership_for_proj(proj_id)
+                
+                ret[proj_id] = {'html': self.project_row(proj_id=proj_id,
+                                                         projinfo=projinfo),
+                                'action': 'replace',
+                                'effects': 'highlight'}
+        return ret
+        
     @action('leave')
     def leave_handler(self, targets, fields=None):
         json_ret = {}

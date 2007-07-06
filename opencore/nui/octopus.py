@@ -55,6 +55,7 @@ class Octopus(object):
             action, objects, fields = self.__preprocess()
         except:
             action, objects, fields = (None, [], [])
+        print "ACTION IS %s" % action
         ret = self.__delegate(action, objects, fields, raise_)
         if ret is None:
             ret = dict()

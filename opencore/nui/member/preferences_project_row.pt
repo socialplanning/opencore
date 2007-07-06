@@ -1,0 +1,55 @@
+<tal:macro metal:define-macro="project_row">
+  <tal:var define="proj_id proj_id | options/proj_id;
+		   projinfo projinfo | options/projinfo;
+		   ">
+            <tr class="oc-liveItem" tal:attributes="id proj_id">
+              <td><input type="checkbox" name="check:list" tal:attributes="value proj_id" /></td>
+              <td class="oc-dataTable-row-title">
+		<a href=""
+                   tal:attributes="href string:${view/portal_url}/projects/${proj_id}"
+                   tal:content="projinfo/title">
+                  Animal Campaign for a poor little sick kittie named Fatty
+		</a>
+              </td>
+              <tal:pending-role tal:condition="python: projinfo['is_pending']">
+                <td class="oc-dataTable-row-title"
+                    tal:content="string:waiting approval"
+                    />
+              </tal:pending-role>
+              <tal:active-role tal:condition="python: not projinfo['is_pending']">
+                <td class="oc-dataTable-row-title"
+                    tal:content="projinfo/role"
+                    />
+              </tal:active-role>
+              <td id="oc-liveEdit_8" class="oc-liveItem">
+		<span tal:replace="projinfo/since" />
+              </td>
+              <td id="" class="oc-liveItem">
+		<!--span id=""
+                    class="oc-liveItem-value oc-liveItem-directEdit oc-liveItem-directSelect"
+                    tal:content="python: projinfo['listed'] and 'yes' or 'no'" /-->
+		<!--span tal:define="listed python: projinfo['listed'] and 'yes' or 'no'"
+                    tal:replace="listed" /-->
+		<div class="oc-js-actionSelect">
+		  <select tal:define="listed python: projinfo['listed']"
+			  tal:attributes="name string:${proj_id}_listing"
+			  >
+                    <option value="public"
+                            tal:attributes="selected listed">yes</option>
+                    <option value="private"
+                            tal:attributes="selected not: listed">no</option>
+		    
+		  </select>
+		  <button name="task" tal:attributes="value string:${proj_id}_change-listing">Go</button>
+		</div>
+		
+                
+              </td>
+              <td>
+		<ul class="oc-actions oc-dataTable-row-actions">
+                  <li><a class="oc-actionLink" tal:attributes="href string:${context/absolute_url}/${view/name}?task=${proj_id}_leave">Leave</a></li>
+		</ul>
+              </td>
+            </tr>
+  </tal:var>
+</tal:macro>

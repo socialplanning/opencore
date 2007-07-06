@@ -75,6 +75,7 @@ Exercise the Member Preferences Class
 
     Now let's make him private for project 3
     >>> view.change_visibility('p3')
+    True
 
     When we get the projects again, we should not be listed for p3
     >>> self.clearMemoCache()
@@ -84,6 +85,7 @@ Exercise the Member Preferences Class
 
     Now let's set it back to visible
     >>> view.change_visibility('p3')
+    True
 
     Now he should be listed again
     >>> self.clearMemoCache()
