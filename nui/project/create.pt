@@ -23,7 +23,7 @@
                     <label for="full_name">Name</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" id="full_name" name="full_name" tal:attributes="value request/full_name | nothing" />
+                    <input type="text" id="full_name" class="oc-autoFocus" name="full_name" tal:attributes="value request/full_name | nothing" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
