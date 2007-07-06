@@ -24,18 +24,12 @@ NuiArchiveNewTopicView  = make_nui_listen_view_class(ArchiveNewTopicView)
 NuiSubFolderDateView    = make_nui_listen_view_class(SubFolderDateView)
 
 class NuiForumMailMessageView(BaseView, ForumMailMessageView):
+    # mask the property defined in the listen views
+    context = None
+
     def __init__(self, context, request):
-        BaseView.__init__(self, context, request)
+        # MUST set context before calling the listen base class
+        # constructors
+        self.context = context
         ForumMailMessageView.__init__(self, context, request)
-
-        # hack around alecm's "five acquisition nightmare" hack
-        # see listen/browser/mail_message_views.py line 70
-        self.kontext = None
-
-    def setKontext(self, value):
-        self.kontext = value
-
-    def getKontext(self):
-        return self.kontext
-
-    context = property(getKontext, setKontext)
+        BaseView.__init__(self, context, request)
