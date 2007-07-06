@@ -3,14 +3,10 @@ from Products.CMFCore.utils import getToolByName
 from opencore.project.handler import _initialize_project
 from opencore.nui.setup import install_confirmation_workflow as icw
 
-projects_map = {'p1':{'title':'Proj1',
-                      'full_name':'Project One'},
-                'p2':{'title':'Proj2',
-                      'full_name':'Project Two'},
-                'p3':{'title':'Proj3',
-                      'full_name':'Project Three'},
-                'p4':{'title':'Proj4',
-                      'full_name':'Project Four'},
+projects_map = {'p1':{'title':'Project One',},
+                'p2':{'title':'Project Two',},
+                'p3':{'title':'Project Three',},
+                'p4':{'title':'Project Four',},
                 }
 
 members_map = {'m1':{'fullname':'Member One',
@@ -104,4 +100,3 @@ def create_test_content(self, p_map=None, m_map=None, nui=True):
 
     mdc.unit_test_mode = False
     return "\n".join(out)
-

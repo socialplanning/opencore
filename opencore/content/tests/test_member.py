@@ -36,7 +36,8 @@ class TestOpenMember(OpenPlansTestCase):
         mem = mdtool._getOb('m1')
         projbrains = mem.projectBrains()
         titles = [i.Title for i in projbrains]
-        self.failIf(set(titles) != set(['Proj2', 'Proj3', 'Proj1']))
+        self.failIf(set(titles) != set(['Project Two', 'Project Three',
+                                        'Project One']))
         
 
 def test_suite():

@@ -32,17 +32,17 @@ import os.path
 
 ProjectSchema = TeamSpace.schema.copy() + \
       Schema((
-        StringField(
+        ComputedField(
           'full_name',
           index='ZCTextIndex,lexicon_id=plone_lexicon,index_type=Cosine Measure|TextIndex:brains',
           searchable=1,
           accessor='getFull_name',
-          mutator='setFull_name',
-          widget=StringWidget(
+          expression="context.Title() or context.getId()",
+          widget=ComputedWidget(
             label="Full Name",
             label_msgid="label_full_name",
             description_msgid="desc_full_name",
-            description="Full formal name of this project.",
+            description="Name of this project.",
             size=50,
             ),
           ),
@@ -57,9 +57,9 @@ ProjectSchema['id'].widget.description = \
       "Please choose carefully; it is difficult to " + \
       "change this later."
 
-ProjectSchema['title'].widget.label = 'Navigation Name'
+ProjectSchema['title'].widget.label = 'Name'
 ProjectSchema['title'].widget.description = \
-      "The 'navigation name' for your project will be " + \
+      "The name for your project will be " + \
       "used to refer to your project throughout the " + \
       "OpenPlans web site.  Because it is used in a " + \
       "navigation context throughout the OpenPlans site, " + \
@@ -255,16 +255,6 @@ class OpenProject(BrowserDefaultMixin, TeamSpace):
         capitalization.
         """
         if self._hasDuplicate('Title', value):
-            return "This project name is already taken.  Please choose " \
-                   "another."
-
-    def validate_full_name(self, value):
-        """
-        Don't allow duplicates.  We consider duplicates to be all of
-        the same words in the same order, regardless of whitespace or
-        capitalization.
-        """
-        if self._hasDuplicate('getFull_name', value):
             return "This project name is already taken.  Please choose " \
                    "another."
 

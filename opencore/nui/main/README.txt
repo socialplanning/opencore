@@ -26,7 +26,7 @@ Get the list of projects that were recently updated::
    >>> recent_titles = [p.Title() for p in recent_projects]
    >>> recent_titles.sort()
    >>> recent_titles
-   ['Proj1', 'Proj2', 'Proj3', 'Proj4']
+   ['Project Four', 'Project One', 'Project Three', 'Project Two']
 
 Test searching for projects that start with a letter::
 
@@ -36,8 +36,9 @@ Test searching for projects that start with a letter::
 
    >>> brains = view.search_for_project_by_letter('P')
    >>> titles = [p.Title for p in brains]
+   >>> titles.sort()
    >>> titles
-   ['Proj4', 'Proj1', 'Proj3', 'Proj2']
+   ['Project Four', 'Project One', 'Project Three', 'Project Two']
 
 
 @@ sorting is a little unclear. is this accurate/correct behavior?
@@ -47,14 +48,14 @@ Now try sorting the projects::
 
    >>> brains = view.search_for_project_by_letter('P', sort_by='modified')
    >>> [b.Title for b in brains]
-   ['Proj2', 'Proj3', 'Proj1', 'Proj4']
+   ['Project Two', 'Project Three', 'Project One', 'Project Four']
 
 Explicitly sort on relevancy::
 
    >>> brains = view.search_for_project_by_letter('P', sort_by='relevancy')
    >>> titles = [p.Title for p in brains]
    >>> titles
-   ['Proj4', 'Proj1', 'Proj3', 'Proj2']
+   ['Project Four', 'Project One', 'Project Three', 'Project Two']
 
 
 Searching for a letter that doesn't match any projects::
@@ -69,7 +70,7 @@ Searching for all projects::
    >>> brains = view.search_for_project_by_letter('all')
    >>> titles = [p.Title for p in brains]
    >>> titles
-   ['Proj2', 'Proj3', 'Proj1', 'Proj4']
+   ['Project Two', 'Project Three', 'Project One', 'Project Four']
 
 Searching for projects starting with a number::
 
@@ -79,8 +80,8 @@ Searching for projects starting with a number::
    []
 
 Create a project that starts with a number::
-    >>> form_vars = dict(title='5test', __initialize_project__=True,
-    ...                  full_name='5test',
+    >>> form_vars = dict(id='5test', __initialize_project__=True,
+    ...                  title='5test',
     ...                  workflow_policy='medium_policy',
     ...                  add=True, featurelets = ['listen'], set_flets=1)
     >>> proj_view = self.portal.projects.restrictedTraverse("create")
@@ -96,11 +97,11 @@ Now search again::
 
 Search for a project by string::
 
-   >>> brains = view.search_for_project('Proj3')
+   >>> brains = view.search_for_project('Three')
    >>> len(brains)
    1
    >>> brains[0].Title
-   'Proj3'
+   'Project Three'
 
 Try a substring search::
 
@@ -108,7 +109,7 @@ Try a substring search::
    >>> titles = [b.Title for b in brains]
    >>> titles.sort()
    >>> titles
-   ['Proj1', 'Proj2', 'Proj3', 'Proj4']
+   ['Project Four', 'Project One', 'Project Three', 'Project Two']
 
 And now sort them by creation time::
 
@@ -116,7 +117,7 @@ And now sort them by creation time::
 
    >>> brains = view.search_for_project('Proj', sort_by='created')
    >>> [b.Title for b in brains]
-   ['Proj4', 'Proj1', 'Proj3', 'Proj2']
+   ['Project Four', 'Project One', 'Project Three', 'Project Two']
 
    old: ['Proj2', 'Proj3', 'Proj1', 'Proj4']
 

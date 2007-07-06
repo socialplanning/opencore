@@ -376,15 +376,17 @@ class ProjectAddView(BaseView):
         self.request.set('__initialize_project__', True)
 
         self.errors = {}
-        if not self.request.get('full_name'):
-            self.errors['full_name'] = 'Project requires a full name.'
-
-        title = self.request.form.get('title')
+        title = self.request.get('title')
         if not title:
-            self.errors['title'] = 'Project requires a url.'
-        id_ = putils.normalizeString(title)
-        if self.context.has_key(id_):
-            self.errors = {'title' : 'The requested url is already taken.'}
+            self.errors['title'] = 'Project requires a name.'
+
+        id_ = self.request.form.get('id')
+        if not id_:
+            self.errors['id'] = 'Project requires a url.'
+        else:
+            id_ = putils.normalizeString(id_)
+            if self.context.has_key(id_):
+                self.errors['id'] = 'The requested url is already taken.'
 
         if self.errors:
             self.addPortalStatusMessage(u'Please correct the indicated errors.')

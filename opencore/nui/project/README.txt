@@ -11,8 +11,8 @@ Add view
 
     #<...ProjectAddView object at ...>
 
-    >>> form_vars = dict(title='test1', __initialize_project__=True,
-    ...                  full_name='test one',
+    >>> form_vars = dict(id='test1', __initialize_project__=True,
+    ...                  title='test one',
     ...                  workflow_policy='medium_policy',
     ...                  add=True, featurelets = ['listen'], set_flets=1)
     >>> view = projects.restrictedTraverse("create")
@@ -38,7 +38,7 @@ Preference View
     >>> view.project_info['featurelets']
     [{'url': u'lists', 'name': 'listen', 'title': u'Mailing Lists'}]
 
-    >>> form_vars = dict(full_name='new full name',
+    >>> form_vars = dict(title='new full name',
     ...                  workflow_policy='closed_policy',
     ...                  update=True,
     ...                  featurelets=[],
@@ -51,6 +51,8 @@ Preference View
     >>> view.handle_request()
     >>> view = proj.restrictedTraverse('preferences')
 
+    >>> proj.Title()
+    'new full name'
     >>> proj.getFull_name()
     'new full name'
 
@@ -62,7 +64,7 @@ Preference View
     []
 
 Make sure we can install a TaskTracker featurelet too::
-    >>> form_vars = dict(full_name='new full name',
+    >>> form_vars = dict(title='new full name',
     ...                  workflow_policy='closed_policy',
     ...                  update=True,
     ...                  featurelets=['tasks'],
