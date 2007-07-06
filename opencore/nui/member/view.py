@@ -57,59 +57,55 @@ class ProfileView(BaseView):
         return '%s?%s' % (portrait_url, timestamp)
 
 
-class ProfileEditView(ProfileView):
+class ProfileEditView(ProfileView, OctopoLite):
 
     portrait_snippet = ZopeTwoPageTemplateFile('portrait-snippet.pt')
+    template = ZopeTwoPageTemplateFile('profile-edit.pt')
 
-    def handle_form(self):
-        """ quick 'n' dirty for now. """ 
+    @action("uploadAndUpdate")
+    def change_portrait(self, target=None, fields=None):
         member = self.viewedmember()
-        portrait = self.request.form.get('portrait')
-        mode = self.request.form.get('mode')
-        task = self.request.form.get('task', '')
+        portrait = self.request.form.get("portrait")
+        member.setPortrait(portrait)
+        member.reindexObject('portrait')
+        return {
+            'oc-profile-avatar' : {
+                'html': self.portrait_snippet(),
+                'action': 'replace',
+                'effects': 'highlight'
+                }
+            }
+
+    @action("remove")
+    def remove_portrait(self, target=None, fields=None):
+        member = self.viewedmember()
+        member.setPortrait("DELETE_IMAGE")  # AT API nonsense
+        member.reindexObject('portrait')
+        return {
+            'oc-profile-avatar' : {
+                'html': self.portrait_snippet(),
+                'action': 'replace',
+                'effects': 'highlight'
+                }
+            }
+
+    @action("update")
+    def handle_form(self, target=None, fields=None):
+        member = self.viewedmember()
       
         # TODO resize portrait if necessary
-
-        print "task is %s" % task
-        if 'uploadAndUpdate' in task:
-            if portrait:
-                member.setPortrait(portrait)
-                member.reindexObject()
- 
-            #don't do this yet!!!
-            #return {
-            #       'oc-profile-avatar' : 
-            #         {
-            #         'html': self.portrait_snippet(),
-            #         'action': 'replace',
-            #         'effects': 'highlight'
-            #         }
-            #       }
-        elif 'remove' in task:
-            member.setPortrait('DELETE_IMAGE')
-            member.reindexObject()
-            #don't do this yet!!!
-            #return {
-            #       'oc-profile-avatar' : 
-            #         {
-            #         'html': self.portrait_snippet(),
-            #         'action': 'replace',
-            #         'effects': 'highlight'
-            #         }
-            #       }
-
-        else:
-            for field, value in self.request.form.items():
-                mutator = 'set%s' % field.capitalize()
-                mutator = getattr(member, mutator, None)
-                if mutator is not None:
-                    mutator(value)
-                self.user_updated()
+        # TODO XXX this is dumb -- zope will do this for us.
+        for field, value in self.request.form.items():
+            mutator = 'set%s' % field.capitalize()
+            mutator = getattr(member, mutator, None)
+            if mutator is not None:
+                mutator(value)
+            self.user_updated()
     
-            member.reindexObject()
+        member.reindexObject()
+        self.template = None
         return self.redirect('profile')
-
-
+        
     def user_updated(self): # TODO
         """callback to tell taggerstore a user updated (possibly) taggifiable
         fields. something like a POST to /taggerstore/."""
@@ -119,17 +115,20 @@ class ProfileEditView(ProfileView):
 class MemberPreferences(BaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('preferences.pt')
+    project_row = ZopeTwoPageTemplateFile('preferences_project_row.pt')
 
     active_states = ['public', 'private']
     msg_category = 'membership'
 
     @property
     @req_memoize
-    def _mship_brains(self):
+    def _mship_brains(self, **extra):
         user_id = self.context.getId()
         query = dict(portal_type='OpenMembership',
                      getId=user_id,
                      )
+        if extra:
+            query.update(extra)
         mship_brains = self.catalogtool(**query)
         return mship_brains
 
@@ -233,16 +232,46 @@ class MemberPreferences(BaseView, OctopoLite):
 
         self._apply_transition_to(proj_id, 'deactivate')
 
-    def change_visibility(self, proj_id):
-        """ change whether project members appear in listings """
+    def change_visibility(self, proj_id, to=None):
+        """
+        change whether project members appear in listings
+        
+        if to is None: toggles project member visibility
+        if to is one of 'public', 'private': set visibility to that
+
+        return True iff visibility changed
+        """
         mship = self._membership_for_proj(proj_id)
         wft = self.get_tool('portal_workflow')
         cur_state = wft.getInfoFor(mship, 'review_state')
-        if cur_state == 'public':
-            wft.doActionFor(mship, 'make_private')
+        if to == None:
+            if cur_state == 'public':
+                wft.doActionFor(mship, 'make_private')
+            else:
+                wft.doActionFor(mship, 'make_public')
+            return True
+        elif to == cur_state or to not in ('public', 'private'):
+            return False
         else:
-            wft.doActionFor(mship, 'make_public')
+            wft.doActionFor(mship, 'make_%s' % to)
+            return True
 
+    @action('change-listing')
+    def change_visilibity_handler(self, targets, fields=None):
+        ret = {}
+        for proj_id, field in zip(targets, fields):
+            new_visibility = field['listing']
+            if self.change_visibility(proj_id, new_visibility):
+                ### XXX TODO how do i get projinfo for real?
+                projinfo = [p for p in self.projects_for_user if p['proj_id'] == proj_id][0]
+                
+                ret['mship_%s' % proj_id] = {
+                    'html': self.project_row(proj_id=proj_id,
+                                             projinfo=projinfo),
+                    'action': 'replace',
+                    'effects': 'highlight'}
+        return ret
+        
     def _can_leave(self, proj_id):
         mship = self._membership_for_proj(proj_id)
         last_actor = ILastWorkflowActor(mship).getValue()

@@ -856,13 +856,13 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         
         return ret
 
-    @formhandler.action('set-roles')
+    @formhandler.action('set-role')
     def set_roles(self, targets, fields):
         """
         Brings the stored team roles into sync with the values stored
         in the request form.
         """
-        roles = [f.get('roles') for f in fields]
+        roles = [f.get('role') for f in fields]
         roles_from_form = dict(zip(targets, roles))
 
         team = self.team

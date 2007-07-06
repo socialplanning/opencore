@@ -19,7 +19,7 @@
           <a href class="oc-actionClose oc-actionLink">close</a>
         </div>
         -->
-        <form name="profile_form" id="profile_form" method="post" class="oc-member-edit oc-liveForm oc-noAjax" action="handle-form" enctype="multipart/form-data">
+        <form name="profile_form" id="profile_form" method="post" class="oc-member-edit" action="profile-edit" enctype="multipart/form-data">
           <div id="oc-member-badge" class="oc-boxy oc-clearAfter">
             <div class="oc-member-editimage">
               <div metal:use-macro="view/portrait_snippet/macros/portrait" />
@@ -108,9 +108,9 @@
           <ul class="oc-actions oc-wiki-actions">
             <li>
               <button type="submit"
-                name="task"
-                value="_noAjax"
-                class="oc-button oc-chooseThis">
+                      name="task"
+                      value="update"
+                      class="oc-button oc-chooseThis">
                 Update
               </button>
             </li>
