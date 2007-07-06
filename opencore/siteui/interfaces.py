@@ -46,22 +46,12 @@ class IMemberInfo(Interface):
                        "folder or object, if it exists; None if not")
 
 
-
-
-
 class IMemberHomePage(Interface):
     """ Marker interface for member homepages """
 
 
 class IFirstLoginEvent(Interface):
     """ Interface for FirstLoginEvent """
-
-    
-class FirstLoginEvent(object):
-    implements(IFirstLoginEvent)
-    def __init__(self, member, request):
-        self.member = member
-        self.request = request
 
 
 # this is deprecated for the plonents version
