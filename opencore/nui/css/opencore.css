@@ -123,25 +123,25 @@ ul#oc-topnav-context li.oc-topnav-selected {
   text-decoration: underline;
 }
 
-/* explore menu */
-#oc-topnav-usermenu li.oc-dropdown-container {
+/* topnav dropdown menus */
+#oc-usermenu-list .oc-dropdown-container {
   background-image: url("/++resource++img/dropdown-nub-87B6C1-2B7284.gif");
   background-repeat: no-repeat;
   background-position: 96% 8px;
   padding-right: 15px;
   cursor: pointer;
 }
-#oc-topnav-usermenu li.oc-dropdown-container.oc-hover {
+#oc-usermenu-list .oc-dropdown-container.oc-hover {
   border: 1px solid #87B6C1;
   border-bottom: none;
   background-color: transparent;
 }
-#oc-topnav-usermenu li.oc-dropdown-container.oc-selected {
+#oc-usermenu-list .oc-dropdown-container.oc-selected {
   background-color: #94BA65;
   border: 1px solid #2B7284;
   border-bottom: none;
 }
-#oc-usermenu-list li #oc-usermenu-explore {
+#oc-usermenu-list .oc-dropdown-container ul {
   position: absolute;
   list-style: none;
   margin: 1px 0;
@@ -154,17 +154,17 @@ ul#oc-topnav-context li.oc-topnav-selected {
   border-top: none;
   z-index: 10;
 }
-#oc-usermenu-list li #oc-usermenu-explore li {
+#oc-usermenu-list .oc-dropdown-container li {
   float: none;
   padding: 0;
   margin: 0;
 }
-#oc-usermenu-list li #oc-usermenu-explore li a {
+#oc-usermenu-list .oc-dropdown-container li a {
   display: block;
   margin: 0;
   padding: .25em;
 }
-#oc-usermenu-list li #oc-usermenu-explore li a:hover {
+#oc-usermenu-list .oc-dropdown-container ul li a:hover {
   display: block;
   background: #2B7284;
   margin: 0;
@@ -1154,6 +1154,18 @@ li.oc-invite .oc-invite-content {
 
 /* @BEHAVIORS
 --------------------------*/
+
+/* Highlight form fields */
+.oc-fieldBlock {
+  /* padding: .25em .5em; */
+}
+.oc-fieldBlock-focused textarea, 
+textarea.oc-fieldBlock-focused,
+input.oc-fieldBlock-focused {
+  border-color: orange;
+  background: #fffff9;
+}
+
 .oc-liveEdit-value,
 .oc-liveItem-value {
   /* border-bottom: 1px solid transparent;
