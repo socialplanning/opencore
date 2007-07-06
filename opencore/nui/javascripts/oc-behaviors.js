@@ -41,14 +41,14 @@ OC.liveElementKey = {
   '.oc-js-actionLink'       : "ActionLink",
   '.oc-js-actionButton'     : "ActionButton",
   '.oc-js-actionSelect'     : "ActionSelect",
-  '.oc-js-liveValidate'        : "liveValidatee"
+  '.oc-js-liveValidate'     : "liveValidatee"
 }
     
 /* 
 # breathes life (aka js behaviors) into HTML elements.  call this on
 # load w/ no argument to breathe life to entire document.  When adding
 # new nodes to the dom, call breatheLife(newItem) to activate that
-# element and it's children.
+# element and its children.
 */
 OC.breatheLife = function(newNode) {
 
@@ -98,10 +98,6 @@ OC.breatheLife = function(newNode) {
 #------------------------------------------------------------------------
 # Utilities
 #------------------------------------------------------------------------
-*/
-/*
-OC.Util = {}
-// Do we want this level of namespacing?
 */
 
 // Debug Function.  Turn off for live code or IE
@@ -318,7 +314,7 @@ OC.ActionLink = function(extEl) {
     var action = el.href.split("?")[0];
     var requestData = el.href.split("?")[1];
     OC.debug("request data is " + requestData);
-    //updater = _getUpdater(requestData);
+
     var requestUri = el.href + "&mode=async";
     
     // make connection
@@ -773,7 +769,7 @@ OC.ProjectCreateForm = function(extEl) {
   
   function _urlize(e, el, o) {
     if (!customUrl) {
-       suggestedUrl = Ext.util.Format.trim(el.value).toLowerCase().replace(/[^a-zA-Z0-9\s]/gi, "").replace(/  /g, " ").replace(/ /g, "-");
+       suggestedUrl = Ext.util.Format.trim(el.value).toLowerCase().replace(/[^a-zA-Z0-9-\s]/gi, "").replace(/  /g, " ").replace(/ /g, "-");
        OC.debug(suggestedUrl);
        urlField.dom.value = suggestedUrl;
     } else {
@@ -781,6 +777,7 @@ OC.ProjectCreateForm = function(extEl) {
     }
   }
   nameField.on('keyup', _urlize, this);
+  urlField.on('keyup', _urlize, this);
   
   function _checkForCustomUrl(e, el, o) {
     if (el.value != suggestedUrl) {
