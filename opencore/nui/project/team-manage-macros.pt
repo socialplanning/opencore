@@ -158,8 +158,6 @@
 
     <td tal:define="member_role item/role">
       <div class="oc-js-actionSelect">
-        <input type="hidden" name="all:list"
-               tal:attributes="value item/id" />
         <select tal:attributes="name string:${item/id}_role;
                                 id string:${item/id}_role;
                                 disabled python:item['id'] == view.loggedinmember.getId();">
@@ -226,7 +224,7 @@
                   value="batch:checked_remove-members" class="oc-button" >remove members</button>
           <noscript>
             <button type="submit" name="task"
-                    value="batch:all_set-roles" class="oc-button" >set roles</button>
+                    value="batch:checked_set-role" class="oc-button" >set roles</button>
           </noscript>
         </li>
       </ul>
