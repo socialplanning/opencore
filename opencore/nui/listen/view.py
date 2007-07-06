@@ -1,5 +1,4 @@
-from opencore.listen.mailinglist_views import MailingListAddForm, MailingListEditForm
-from Products.listen.browser.mailinglist_views import MailingListView
+from opencore.listen.mailinglist_views import MailingListAddForm, MailingListEditForm, MailingListView
 from Products.listen.browser.mail_archive_views import ArchiveForumView, ArchiveDateView, ArchiveNewTopicView
 from opencore.nui.base import BaseView
 

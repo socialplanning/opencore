@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from zope import event
-from zope.app.annotation.interfaces import IAnnotations
+from zope.component import getUtility
 
 from zExceptions import BadRequest
 from zExceptions import Redirect
@@ -17,6 +17,8 @@ from topp.utils.pretty_date import prettyDate
 
 from opencore.nui.base import BaseView, button
 from opencore.nui.formhandler import OctopoLite, action
+from opencore.interfaces.catalog import ILastWorkflowActor
+from opencore.nui.member.interfaces import ITransientMessage
         
 class ProfileView(BaseView):
 
@@ -75,7 +77,7 @@ class ProfileEditView(ProfileView):
                 member.reindexObject()
  
             #don't do this yet!!!
-	    #return {
+            #return {
             #       'oc-profile-avatar' : 
             #         {
             #         'html': self.portrait_snippet(),
@@ -84,10 +86,10 @@ class ProfileEditView(ProfileView):
             #         }
             #       }
         elif 'remove' in task:
-            member.setPortrait(None)  ## XXX TODO ASAP fix this line to be correct
+            member.setPortrait('DELETE_IMAGE')
             member.reindexObject()
             #don't do this yet!!!
-	    #return {
+            #return {
             #       'oc-profile-avatar' : 
             #         {
             #         'html': self.portrait_snippet(),
@@ -120,6 +122,7 @@ class MemberPreferences(BaseView, OctopoLite):
     project_row = ZopeTwoPageTemplateFile('preferences_project_row.pt')
 
     active_states = ['public', 'private']
+    msg_category = 'membership'
 
     @property
     @req_memoize
@@ -135,7 +138,7 @@ class MemberPreferences(BaseView, OctopoLite):
 
     def _project_metadata_for(self, project_id):
         portal = self.portal
-        portal_path = portal.absolute_url_path()
+        portal_path = '/'.join(portal.getPhysicalPath())
         projects_folder = 'projects'
         path = [portal_path, projects_folder, project_id]
         path = '/'.join(path)
@@ -164,8 +167,13 @@ class MemberPreferences(BaseView, OctopoLite):
             mship_activated_on = self.pretty_date(brain.made_active_date)
 
         review_state = brain.review_state
-        listed = review_state == 'public'
+
         is_pending = review_state == 'pending'
+
+        # pending members should also be listed as public
+        # we probably could get it from the history somewhere, but for now
+        # let's just assume public until someone says otherwise
+        listed = is_pending or review_state == 'public'
 
         role = brain.highestTeamRole
 
@@ -219,6 +227,8 @@ class MemberPreferences(BaseView, OctopoLite):
 
     def leave_project(self, proj_id):
         """ remove membership by marking the membership object as inactive """
+        if not self._can_leave(proj_id): return
+
         mship = self._membership_for_proj(proj_id)
         wft = self.get_tool('portal_workflow')
         wft.doActionFor(mship, 'deactivate')
@@ -262,6 +272,16 @@ class MemberPreferences(BaseView, OctopoLite):
                                 'effects': 'highlight'}
         return ret
         
+    def _can_leave(self, proj_id):
+        mship = self._membership_for_proj(proj_id)
+        last_actor = ILastWorkflowActor(mship).getValue()
+        wft = self.get_tool('portal_workflow')
+        mem_id = self.context.getId()
+
+        review_state = wft.getInfoFor(mship, 'review_state')
+        return review_state in self.active_states or \
+               (review_state == 'pending' and last_actor == mem_id)
+
     @action('leave')
     def leave_handler(self, targets, fields=None):
         json_ret = {}
@@ -273,16 +293,18 @@ class MemberPreferences(BaseView, OctopoLite):
     @property
     @req_memoize
     def infomsgs(self):
-        """info messages re project admission/rejection"""
-        # annotation on the member object itself?
-        # or maybe should be annotated on the person folder?
-        # that's easier, because then it would just be the context
-        mem_data = self.get_tool('portal_memberdata')
+        """info messages re project admission/rejection
+        
+           tuples are returned in the form of (idx, msg)
+           so that they can be popped by the user"""
+        tm = getUtility(ITransientMessage)
         mem_id = self.context.getId()
-        mem_obj = mem_data._getOb(mem_id)
-        annot = IAnnotations(mem_obj)
-        return annot.get('infomsgs', [])
+        return tm.get_msgs(mem_id, self.msg_category)
 
     @property
     def n_updates(self):
         return len(self.infomsgs) + len(self.invitations)
+
+    @property
+    def invitation_actions(self):
+        return ['Accept', 'Deny', 'Ignore']

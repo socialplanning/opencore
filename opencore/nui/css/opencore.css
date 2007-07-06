@@ -882,8 +882,8 @@ height: 1em; */
 .oc-actions a.oc-chooseAccept {
   color: #0c0;
 }
-.oc-actions .oc-chooseReject,
-.oc-actions a.oc-chooseReject {
+.oc-actions .oc-chooseDeny,
+.oc-actions a.oc-chooseDeny {
   color: #c00;
 }
 .oc-actions .oc-chooseSpam,

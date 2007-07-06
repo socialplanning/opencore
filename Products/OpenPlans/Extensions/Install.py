@@ -1,5 +1,6 @@
 import os
 from StringIO import StringIO
+from zope.component import queryUtility
 from Products.Archetypes.Extensions.utils import install_subskin
 from OFS.ObjectManager import BadRequestException
 from Products.CMFCore import permissions
@@ -649,6 +650,25 @@ def createValidationMember(portal, out):
     mem = OpenMember('validation_member')
     mdtool._validation_member = mem
 
+def install_local_transient_message_utility(portal, out):
+    from zope.app.component.site import setSite
+    from zope.app.component.hooks import setHooks
+    from Products.Five.site.localsite import enableLocalSiteHook
+    from opencore.nui.member.interfaces import ITransientMessage
+    from opencore.nui.member.transient_messages import TransientMessage
+
+    app = portal.aq_parent
+    enableLocalSiteHook(app)
+    setSite(app)
+    setHooks()
+
+    if queryUtility(ITransientMessage):
+        return
+
+    sm = app.getSiteManager()
+    sm.registerUtility(ITransientMessage, TransientMessage(app))
+
+
 def install(self, migrate_atdoc_to_openpage=True):
     out = StringIO()
     portal = getToolByName(self, 'portal_url').getPortalObject()
@@ -685,5 +705,6 @@ def install(self, migrate_atdoc_to_openpage=True):
     createMemIndexes(portal, out)
     installNewsFolder(portal, out)
     createValidationMember(portal, out)
+    install_local_transient_message_utility(portal, out)
     print >> out, "Successfully installed %s." % config.PROJECTNAME
     return out.getvalue()

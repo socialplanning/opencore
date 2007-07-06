@@ -161,7 +161,8 @@
         <input type="hidden" name="all:list"
                tal:attributes="value item/id" />
         <select tal:attributes="name string:${item/id}_roles;
-                                id string:${item/id}_set-roles;"
+                                id string:${item/id}_set-roles;
+                                disabled python:item['id'] == view.loggedinmember.getId();"
                 class="oc-actionSelect">
           <tal:roleoptions repeat="roleitem view/rolemap/items">
             <option tal:attributes="value python:roleitem[0];
@@ -238,7 +239,8 @@
 
 <metal:search-members define-macro="search-members">
 
-  <form name="search-members" id="search-members" method="POST">
+  <form name="search-members" id="search-members" method="POST" 
+    tal:attributes="action view/request/ACTUAL_URL">
     <input class="oc-input-typeText" type="text" name="search_for" />
     <button type="submit" name="task" value="none_search-members"
             class="oc-button">search</button>

@@ -2,20 +2,26 @@
 Profile View
 """
 from AccessControl import allow_module
-from Products.CMFCore.permissions import ModifyPortalContent
-from Products.CMFCore.utils import getToolByName
-from Products.Five import BrowserView
-from Products.remember.interfaces import IReMember
-from interfaces import FirstLoginEvent
-from interfaces import IMemberFolder, IMemberHomePage
-from interfaces import IMemberInfo, IFirstLoginEvent
-from memojito import memoizedproperty, memoize
-from opencore import redirect 
-from opencore.interfaces import IProject, IConsumeNewMembers
+
 from topp.utils.pretty_date import prettyDate
+
 from zope.component import getMultiAdapter, adapts, adapter
 from zope.event import notify
 from zope.interface import implements, alsoProvides
+
+from memojito import memoizedproperty, memoize
+
+from Products.Five import BrowserView
+from Products.CMFCore.permissions import ModifyPortalContent
+from Products.CMFCore.utils import getToolByName
+from Products.remember.interfaces import IReMember
+
+from opencore import redirect 
+from opencore.interfaces import IProject, IConsumeNewMembers
+
+from interfaces import IMemberFolder, IMemberHomePage
+from interfaces import IMemberInfo, IFirstLoginEvent
+
 
 allow_module('opencore.siteui.member')
 
@@ -154,25 +160,25 @@ class ProfileView(BrowserView):
         return results
         
 
-def notifyFirstLogin(member, request):
-    notify(FirstLoginEvent(member, request))
-
-
-@adapter(IFirstLoginEvent)
-def create_home_directory(event):
-    member = event.member
-    mtool = getToolByName(member, 'portal_membership')
+def initializeMemberArea(mtool, request):
+    """
+    This method is triggered by the 'notifyMemberAreaCreated' script
+    that is called at the end of the membership tool's
+    createMemberArea() method.  Will switch to an event as soon as the
+    membership tool starts firing one.
+    """
+    member = mtool.getAuthenticatedMember()
     member_id = member.getId()
 
     folder = mtool.getHomeFolder(member_id)
     alsoProvides(folder, IMemberFolder)
-    apply_member_folder_redirection(folder, event.request)
+    apply_member_folder_redirection(folder, request)
 
     page_id = "%s-home" % member_id
     title = "%s Home" % member_id
     folder.invokeFactory('Document', page_id, title=title)
     folder.setDefaultPage(page_id)
-    
+
     page = getattr(folder, page_id)
     # XXX acquisition, ugh @@ huh?
     page_text = member.member_index(member_id=member_id)
@@ -183,6 +189,13 @@ def create_home_directory(event):
 
     # make profile the default view on the homepage
     page.setLayout('profile.html')
+
+
+class FirstLoginEvent(object):
+    implements(IFirstLoginEvent)
+    def __init__(self, member, request):
+        self.member = member
+        self.request = request
 
 @adapter(IFirstLoginEvent)
 def auto_approve_member(event):

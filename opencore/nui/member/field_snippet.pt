@@ -1,9 +1,9 @@
 <tal:viewing_self condition="view/viewingself">
   <dt>
     <span tal:replace="options/title" />
-    <a class="oc-liveItem_showForm" tal:attributes="href string:profile-edit#${options/anchor}">Edit</a>
+    <a class="oc-liveItem_showForm" tal:attributes="href string:profile-edit?field=${options/anchor}">Edit</a>
   </dt>
-  <dd tal:condition="not: options/value" tal:content="string:Fill me in" />
+  <dd tal:condition="not: options/value" tal:content="string:none" />
   <tal:has_value define="value options/value" condition="value">
     <tal:value_list condition="python: isinstance(value, (tuple, list))">
       <dd>

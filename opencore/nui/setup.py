@@ -5,13 +5,15 @@ from topp.utils import config
 
 from Products.CMFCore.utils import getToolByName
 
-from Products.OpenPlans.Extensions.setup import convertFunc, reinstallTypes
+from Products.OpenPlans.Extensions.setup import convertFunc, reinstallTypes, \
+     reinstallWorkflows
 from Products.OpenPlans.Extensions.Install import install_workflow_map, \
      installNewsFolder, securityTweaks
 from Products.OpenPlans.Extensions.Install import setupPeopleFolder, \
      setupProjectLayout, setupHomeLayout
 from Products.OpenPlans.Extensions.Install import createMemIndexes, \
-     installColumns, createValidationMember
+     installColumns, createValidationMember, \
+     install_local_transient_message_utility
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans import config as op_config
 
@@ -102,6 +104,9 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      reinstallSubskins=reinstallSubskins,
                      migrate_wiki_attachments=convertFunc(migrate_wiki_attachments),
                      createValidationMember=convertFunc(createValidationMember),
+                     reinstallWorkflows=reinstallWorkflows,
+                     setup_transient_message_utilitly=convertFunc(
+                        install_local_transient_message_utility),
                      )
 
 nui_functions['Update Method Aliases']=convertFunc(set_method_aliases)

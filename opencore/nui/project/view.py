@@ -181,9 +181,6 @@ class ProjectContentsView(BaseView, OctopoLite):
         needed_values = self.needed_values[item_type]
         ret = self.ContentsCollection(item_type, self)
         for brain in brains:
-            if item_type == 'lists':  # hacking around broken indexes on new lists
-                if not brain.Title:
-                    brain.getObject().reindexObject('Title')
             ret.append(self._make_dict_and_translate(brain, needed_values))
         if needed_values.editable is False:
             ret.editable = False
@@ -455,23 +452,7 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
         Delegates to the team object and handles destination.
         """
         if self.loggedin:
-            # check if membership is merely inactive
-            # in this case, we don't want to create a new one
-            # but transition to an active state
-            # XXX maybe this logic should just go into the team join method?
-
-            # XXX add a test for this code
-            teams = self.context.getTeams()
-            assert len(teams) == 1
-            team = teams[0]
-            user_id = self.loggedinmember.getId()
-            if user_id in team.objectIds():
-                mship = team._getOb(user_id)
-                wft = self.get_tool('portal_workflow')
-                wft.doActionFor(mship, 'rerequest')
-                joined = True
-            else:
-                joined = self.team.join()
+            joined = self.team.join()
 
         if joined:
             team_manage_url = "%s/manage-team" % self.context.absolute_url()

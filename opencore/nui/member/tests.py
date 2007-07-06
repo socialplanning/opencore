@@ -1,9 +1,9 @@
 import os, sys, unittest
 from zope.testing import doctest
 from Testing import ZopeTestCase
-from Testing.ZopeTestCase import PortalTestCase 
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from opencore.testing.layer import OpencoreContent as test_layer
+from zope.app.component.site import setSite
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
@@ -18,11 +18,15 @@ def test_suite():
     from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
     from pprint import pprint
     from zope.interface import alsoProvides
+    from zope.component import getUtility
     from opencore.interfaces import IMemberFolder
 
     setup.setupPloneSite()
     def readme_setup(tc):
         tc._refreshSkinData()
+
+        # we also need to set the site for the local utility
+        setSite(tc.portal)
 
     globs = locals()
     readme = FunctionalDocFileSuite("README.txt",
@@ -35,7 +39,14 @@ def test_suite():
 
     readme.layer = test_layer
 
-    return unittest.TestSuite((readme,))
+    transient = FunctionalDocFileSuite('transient-message.txt',
+                                 optionflags=optionflags,
+                                 package='opencore.nui.member',
+                                 test_class=OpenPlansTestCase,
+                                 globs=globs,
+                                 )
+
+    return unittest.TestSuite((readme, transient))
 
 
 if __name__ == '__main__':

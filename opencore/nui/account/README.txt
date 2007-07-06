@@ -7,10 +7,10 @@ Workflow
 
 Test the workflow updating function:: 
 
-    >>> from opencore.nui.setup import install_confirmation_workflow as icw
+    >>> from opencore.nui.setup import install_confirmation_workflow
     >>> from StringIO import StringIO
     >>> out = StringIO()
-    >>> icw(portal, out)
+    >>> install_confirmation_workflow(portal, out)
     >>> portal.portal_workflow.getChainForPortalType('OpenMember')
     ('openplans_member_confirmation_workflow',)
 
@@ -142,11 +142,13 @@ The view has a validate() method which returns an error dict::
 
 (Making the tests very ugly and commenting most out temporarily
  because return values from validate are hideous)
-    >>> len([i for i in view.validate() if i['html']])
+    >>> validate_map = view.validate()
+    >>> len([i for i in validate_map.values() if i['html']])
     0
-#    >>> request.form['confirm_password'] = 'mesty'
-#    >>> request.form['email'] = 'fakeemail'
-#    >>> sorted([i for i in view.validate().keys() if i.split('-')[1] in request.form])
+    >>> # request.form['confirm_password'] = 'mesty'
+    >>> # request.form['email'] = 'fakeemail'
+    >>> # sorted([i for i in view.validate().keys() if i.split('-')[1] in request.form])
+
 #    ['confirm_password', 'email', 'password']
 
 If you add 'task=validate' to the request before submitting
@@ -168,15 +170,19 @@ Submit the form for real now; we need to add 'task=join' to the request::
     >>> request.form['confirm_password'] = 'testy'
     >>> request.form['email'] = 'foobar@example.com'
     >>> request.form['task'] = 'join'
-    >>> view = portal.restrictedTraverse("@@join") 
-    >>> len([i for i in view.validate() if i['html']])
+    >>> view = portal.restrictedTraverse("@@join")
+    >>> validate_map = view.validate()
+    >>> len([i for i in validate_map.values() if i['html']])
     0
-
-Oh, nothing happened; we need to make the request a POST::
+    
+We need to make the request a POST::
 
     >>> request.environ["REQUEST_METHOD"] = "POST"
+    >>> view.membertool.getMemberById('foobar')
     >>> view()
-    <OpenMember at /plone/portal_memberdata/foobar>
+    u'<!-- join form -->...'
+    >>> view.membertool.getMemberById('foobar')
+    <OpenMember at /plone/portal_memberdata/foobar...>
 
 
 Confirm
@@ -304,5 +310,10 @@ Remove test_user_1_
 
 Ensure test atomicity by removing the created user:
 
+    >>> self.logout()
     >>> portal.portal_memberdata.manage_delObjects('test_user_1_')
     >>> portal.people.manage_delObjects('test_user_1_')
+
+Is the member still in the catalog?
+
+

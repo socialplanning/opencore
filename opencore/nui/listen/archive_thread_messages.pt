@@ -1,0 +1,88 @@
+hi i'm archive_thread_messages.pt
+<!--
+<metal:archive-view use-macro="here/@@forum_view/macros/archive">
+  <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+        lang="en"
+        i18n:domain="plone">
+    <body>
+      <div metal:fill-slot="body">
+        <div metal:define-macro="body"
+             tal:define="thread view/getThreadedMessageStructure;
+                         template_id string:by_date;"
+             i18n:domain="listen">
+
+          <div metal:define-slot="extra_info" tal:replace="nothing">
+          </div>
+
+          <div class="row" 
+               metal:define-slot="extra_top" tal:replace="nothing">
+            <div i18n:translate="" class="label">Extra top</div>
+          </div>
+
+          <h1 i18n:translate="" tal:content="view/Title" class="documentFirstHeading">
+            Title or Id
+          </h1>
+
+          <p id="listaddress"
+             tal:content="view/listAddress"
+             tal:condition="view/listAddress">
+            Description
+          </p>
+
+          <p class="documentDescription"
+             tal:content="view/listDescription"
+             tal:condition="view/listDescription">
+            Description
+          </p>
+
+          <a id="new-topic"
+             href="#"
+             tal:condition="view/canPost"
+             tal:attributes="href string:${here_url}/new_topic;"
+             i18n:translate="label_forum_new_topic_button">
+            Post New Topic   	
+          </a>
+
+          <ul id="message-list-actions">
+            <li>
+              <a id="switch_view" href="by_date"
+                 i18n:translate="">Flat listing</a>
+            </li>
+            <li>
+              <a id="up-one-level" href="../forum_view"
+                 tal:define="ml view/getMailingList;"
+                 tal:attributes="href string:${ml/absolute_url}/archive/forum_view"
+                 i18n:translate="">Forum view</a>
+            </li>
+          </ul>
+
+          <ul id="message-list">
+            <li tal:repeat="message thread">
+              <a href="." i18n:translate=""
+                 tal:attributes="href message/url;"
+                 ><strong tal:content="message/subject">Re: Subj</strong></a> &mdash;
+              <a href="."
+                 tal:omit-tag="not:message/from_id"
+                 tal:attributes="href string:${portal_url}/author/${message/from_id}"
+                 class="author-link">
+                <span tal:replace="message/mail_from">test@example.com</span>
+              </a>
+              (<span tal:replace="message/date">Tue, 16 Nov 2005</span>)
+              <tal:subthread define="local_thread message/children">
+                <div metal:use-macro="here/message_macros/macros/thread" />
+              </tal:subthread>
+            </li>
+          </ul>
+
+          <p class="discreet"
+             tal:condition="not: thread"
+             i18n:translate="description_no_posts">
+            There are currently no posts in this archive.
+          </p>
+          
+        </div>
+      </div>
+    </body>
+  </html>
+</metal:archive-view>
+-->

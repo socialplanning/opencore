@@ -10,7 +10,6 @@ from Products.CMFCore.utils import getToolByName
 
 from opencore.testing.layer import OpencoreContent
 from opencore.siteui.interfaces import IMemberFolder
-from opencore.siteui.member import notifyFirstLogin
 
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 

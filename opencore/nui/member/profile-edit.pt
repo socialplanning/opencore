@@ -12,11 +12,13 @@
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
+        <!-- make this conditional on first login
         <div class="oc-getstarted oc-boxy" style="position: relative;">
           <h1>Welcome to OpenPlans!</h1>
-          <p class="oc-bigText">Please take a moment to fill out your profile<br /> or continue to <a href="">The Project that Invited You</a>.</p>
+          <p class="oc-bigText">Please take a moment to fill out your profile or continue to <a href="">The Project that Invited You</a>.</p>
           <a href class="oc-actionClose oc-actionLink">close</a>
         </div>
+        -->
         <form name="profile_form" id="profile_form" method="post" class="oc-member-edit oc-liveForm oc-noAjax" action="handle-form" enctype="multipart/form-data">
           <div id="oc-member-badge" class="oc-boxy oc-clearAfter">
             <div class="oc-member-editimage">
@@ -34,11 +36,21 @@
                 <li>
                   <label for="fullname">Full name</label><br />
                   <input type="text" id="fullname" name="fullname"
+                    class="oc-autoFocus"
+                    tal:condition="python: request.form.get('field') == 'fullname'"
+                    tal:attributes="value request/fullname | data/fullname" />
+                  <input type="text" id="fullname" name="fullname"
+                    tal:condition="python: request.form.get('field') != 'fullname'"
                     tal:attributes="value request/fullname | data/fullname" />
                 </li>
                 <li>
                   <label for="location">Location</label><br />
                   <input type="text" id="location" name="location"
+                    class="oc-autoFocus"
+                    tal:condition="python: request.form.get('field') == 'location'"
+                    tal:attributes="value request/location | data/location" />
+                  <input type="text" id="location" name="location"
+                    tal:condition="python: request.form.get('field') != 'location'"
                     tal:attributes="value request/location | data/location" />
                 </li>
               </ul>
@@ -48,22 +60,47 @@
 
             <label for="statement">Personal Statement</label><br />
             <textarea rows="3" cols="80" name="statement" id="statement"
+              class="oc-autoFocus"
+              tal:condition="python: request.form.get('field') == 'statement'"
+              tal:content="request/statement | data/statement"></textarea>
+            <textarea rows="3" cols="80" name="statement" id="statement"
+              tal:condition="python: request.form.get('field') != 'statement'"
               tal:content="request/statement | data/statement"></textarea>
 
             <label for="background">Background</label><br />
             <textarea rows="1" cols="80" name="background" id="background"
+              class="oc-autoFocus"
+              tal:condition="python: request.form.get('field') == 'background'"
+              tal:content="request/background | data/background"></textarea>
+            <textarea rows="1" cols="80" name="background" id="background"
+              tal:condition="python: request.form.get('field') != 'background'"
               tal:content="request/background | data/background"></textarea>
 
             <label for="skills">Skills/Interests</label><br />
             <textarea rows="1" cols="80" name="skills" id="skills"
+              class="oc-autoFocus"
+              tal:condition="python: request.form.get('field') == 'skills'"
+              tal:content="request/skills | data/skills"></textarea>
+            <textarea rows="1" cols="80" name="skills" id="skills"
+              tal:condition="python: request.form.get('field') != 'skills'"
               tal:content="request/skills | data/skills"></textarea>
 
             <label for="affiliations">Affiliations</label><br />
             <textarea rows="1" cols="80" name="affiliations" id="affiliations"
+              class="oc-autoFocus"
+              tal:condition="python: request.form.get('field') == 'affiliations'"
+              tal:content="request/affiliations | data/affiliations"></textarea>
+            <textarea rows="1" cols="80" name="affiliations" id="affiliations"
+              tal:condition="python: request.form.get('field') != 'affiliations'"
               tal:content="request/affiliations | data/affiliations"></textarea>
 
             <label for="favorites">Favorites</label><br />
             <textarea rows="1" cols="80" name="favorites" id="favorites"
+              class="oc-autoFocus"
+              tal:condition="python: request.form.get('field') == 'favorites'"
+              tal:content="request/favorites | data/favorites"></textarea>
+            <textarea rows="1" cols="80" name="favorites" id="favorites"
+              tal:condition="python: request.form.get('field') != 'favorites'"
               tal:content="request/favorites | data/favorites"></textarea>
 
           </fieldset>

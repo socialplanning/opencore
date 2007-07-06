@@ -121,10 +121,17 @@ Exercise the Member Preferences Class
     These are what the member can act on
     >>> self.clearMemoCache()
     >>> project_dicts = view.invitations
-    >>> [p['proj_id'] for p in project_dicts]
-    ['p4']
+    >>> len(project_dicts)
+    1
+    >>> proj = project_dicts[0]
+    >>> proj['proj_id']
+    'p4'
 
-    And one still pending, which project admins approve
+    Pending members should be listed as public
+    >>> proj['listed']
+    True
+
+    And one should still be pending, which project admins approve
     >>> self.clearMemoCache()
     >>> project_dicts = view.member_requests
     >>> [p['proj_id'] for p in project_dicts]
@@ -137,12 +144,32 @@ Exercise the Member Preferences Class
     ['p2', 'p3', 'p1']
 
     Check the info messages on the member:
-    >>> view.infomsgs
+    >>> list(view.infomsgs)
     []
 
     And verify that taking the length of updates works
     >>> view.n_updates
     1
+
+    Let's try leaving a project pending from a member request
+    >>> view.leave_project('p2')
+    >>> self.clearMemoCache()
+    >>> project_dicts = view.projects_for_user
+    >>> [d['proj_id'] for d in project_dicts]
+    ['p3', 'p1']
+
+    And when we try to leave a pending mship that's an invitation
+    (should never happen, but with users messing with post)
+    We should not have left anyting
+    >>> self.clearMemoCache()
+    >>> view.leave_project('p4')
+    >>> project_dicts = view.invitations
+    >>> [d['proj_id'] for d in project_dicts]
+    ['p4']
+
+    Here are the actions that can be performed on each invitation request
+    >>> view.invitation_actions
+    ['Accept', 'Deny', 'Ignore']
 
     Now let's call the view simulating the request:
     XXX member areas need to be created first though for m1
