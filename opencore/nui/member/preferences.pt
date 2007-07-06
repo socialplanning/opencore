@@ -125,7 +125,7 @@
       </h2>
     </div><!-- end .headingBlock -->
   
-    <form class="oc-liveForm" action="preferences">
+    <form class="" action="preferences">
     <table id="" class="oc-dataTable" cellpadding="0" cellspacing="0">
       <thead>
         <tr>
@@ -168,17 +168,20 @@
                   tal:content="python: projinfo['listed'] and 'yes' or 'no'" /-->
               <!--span tal:define="listed python: projinfo['listed'] and 'yes' or 'no'"
                     tal:replace="listed" /-->
+              <div class="oc-js-actionSelect">
               <select tal:define="listed python: projinfo['listed']"
-                      tal:attributes="name proj_id"
-                      class="oc-actionSelect"
+                      tal:attributes="name string:${proj_id}_listing"
                       >
-
-                  <option value="public"
+                 <option value="public"
                           tal:attributes="selected listed">yes</option>
                   <option value="private"
                           tal:attributes="selected not: listed">no</option>
 
               </select>
+              <button name="task" tal:attributes="value string:${proj_id}_change-listing">Go</button>
+              </div>
+
+                  
             </td>
             <td>
               <ul class="oc-actions oc-dataTable-row-actions">

@@ -36,12 +36,11 @@ OC.liveElementKey = {
   '#oc-project-create'      : "ProjectCreateForm",
   ".oc-autoFocus"           : "AutoFocus",
   ".oc-warn-popup"          : "WarnPopup",
-  '.oc-actionSelect'        : "ActionSelect",
-  '.oc-actionButton'        : "ActionButton",
   '.oc-checkAll'            : "CheckAll",
   '.oc-liveItem'            : "LiveItem",
   '.oc-js-actionLink'       : "ActionLink",
-  '.oc-js-actionButton'     : "ActionButton"
+  '.oc-js-actionButton'     : "ActionButton",
+  '.oc-js-actionSelect'     : "ActionSelect"
 }
     
 /* 
@@ -118,9 +117,9 @@ OC.psm = function(text, tone) {
   var message = Ext.get(Ext.query('.oc-statusMessage')[0]);
   
   if (!message) {
-    message = document.createElement('div');
+    message = Ext.get(document.createElement('div'));
     message.addClass('oc-message');
-    container.dom.appendChild(message);
+    container.dom.appendChild(message.dom);
   }
   
   /* tone: oc-message-error, oc-message-success, oc-message-warn */
@@ -339,7 +338,9 @@ OC.ActionLink = function(extEl) {
 */
 OC.ActionSelect = function(extEl) {
   // get refs
-  var select = extEl;
+  var container = extEl;
+  var select = Ext.get(Ext.query('select',container.dom)[0]);
+  var button = Ext.get(Ext.query('button',container.dom)[0]);
   var form = select.up('form');
   
   //check refs
@@ -356,28 +357,17 @@ OC.ActionSelect = function(extEl) {
 
   function _doAction(e, el, o) {
     YAHOO.util.Event.stopEvent(e);
-
-
-    // insert a hidden 'task' input into the form
-    var submit = document.createElement('input');
-    submit.name = "task";
-    submit.value = el.id;
-    OC.debug("task info: " + el.id);
-    submit.type = "hidden";
-    form.dom.appendChild(submit);
-
-    YAHOO.util.Connect.setForm(liveForm.dom);
+    YAHOO.util.Connect.setForm(form.dom);
     var cObj = YAHOO.util.Connect.asyncRequest("POST", action, 
       { success: OC.Callbacks.afterAjaxSuccess,
         failure: OC.Callbacks.afterAjaxFailure,
         scope: this
       },
-      "mode=async"
+      "mode=async&task=" + button.dom.value
     );
 
-    submit.parentNode.removeChild(submit);
   }
-  select.on('change', _doAction, this);
+  button.on('click', _doAction, this);
 }
 
 /* 
@@ -644,7 +634,7 @@ OC.UploadForm = function(extEl) {
 OC.TopNav = function(extEl) {
 // get refs
   var container = extEl;
-  var triggerItems = Ext.select(Ext.query("#" + container.dom.id + " > li"));
+  var triggerItems = Ext.select(Ext.query(".oc-dropdown-container", container.dom));
   var submenus = Ext.select(container.dom.getElementsByTagName('ul'));
   var unclickArea = Ext.get(document.body);
   
