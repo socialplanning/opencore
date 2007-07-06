@@ -119,10 +119,17 @@ Exercise the Member Preferences Class
     These are what the member can act on
     >>> self.clearMemoCache()
     >>> project_dicts = view.invitations
-    >>> [p['proj_id'] for p in project_dicts]
-    ['p4']
+    >>> len(project_dicts)
+    1
+    >>> proj = project_dicts[0]
+    >>> proj['proj_id']
+    'p4'
 
-    And one still pending, which project admins approve
+    Pending members should be listed as public
+    >>> proj['listed']
+    True
+
+    And one should still be pending, which project admins approve
     >>> self.clearMemoCache()
     >>> project_dicts = view.member_requests
     >>> [p['proj_id'] for p in project_dicts]

@@ -162,8 +162,13 @@ class MemberPreferences(BaseView, OctopoLite):
             mship_activated_on = self.pretty_date(brain.made_active_date)
 
         review_state = brain.review_state
-        listed = review_state == 'public'
+
         is_pending = review_state == 'pending'
+
+        # pending members should also be listed as public
+        # we probably could get it from the history somewhere, but for now
+        # let's just assume public until someone says otherwise
+        listed = is_pending or review_state == 'public'
 
         role = brain.highestTeamRole
 
