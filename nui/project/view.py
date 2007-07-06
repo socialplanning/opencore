@@ -181,9 +181,6 @@ class ProjectContentsView(BaseView, OctopoLite):
         needed_values = self.needed_values[item_type]
         ret = self.ContentsCollection(item_type, self)
         for brain in brains:
-            if item_type == 'lists':  # hacking around broken indexes on new lists
-                if not brain.Title:
-                    brain.getObject().reindexObject('Title')
             ret.append(self._make_dict_and_translate(brain, needed_values))
         if needed_values.editable is False:
             ret.editable = False
