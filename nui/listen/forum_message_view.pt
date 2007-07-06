@@ -1,5 +1,5 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" i18n:domain="plone"
-  metal:use-macro="here/@@standard_macros/master" tal:define="ml view/getMailingList">
+      metal:use-macro="here/@@standard_macros/master" tal:define="ml view/getMailingList">
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main" i18n:domain="listen" tal:define="messages view/getMessageBodies;">
