@@ -6,9 +6,10 @@ Check storing and retrieving transient messages
 
     Let's begin by instantiating our utility, always a good start
     >>> from opencore.nui.member.transient_messages import TransientMessage
-    >>> tm = TransientMessage(self.app)
+    >>> app = self.app
+    >>> tm = TransientMessage(app)
     >>> tm
-    <opencore.nui.member.transient_messages.TransientMessage object at ...>
+    <TransientMessage at >
 
     Now, we can start to store all kinds of messages
     >>> tm.store('m1', 'ghosts', 'there is only zul')
@@ -64,3 +65,9 @@ Check storing and retrieving transient messages
     >>> tm.store('m1', 'ghosts', 'gatekeeper and keymaster')
     >>> list(tm.get_msgs('m1', 'ghosts'))
     [(0, 'there is only zul'), (2, 'do not cross the streams'), (3, 'gatekeeper and keymaster')]
+
+    Now we just have to check that when we try to get the utility,
+    we actually get the right object back
+    >>> from opencore.nui.member.interfaces import ITransientMessage
+    >>> getUtility(ITransientMessage)
+    <TransientMessage at /utilities/>

@@ -4,9 +4,11 @@ from zope.app.annotation import IAnnotations
 from BTrees.OOBTree import OOBTree
 from BTrees.IOBTree import IOBTree
 
+from OFS.SimpleItem import SimpleItem
+
 from opencore.nui.member.interfaces import ITransientMessage
 
-class TransientMessage(object):
+class TransientMessage(SimpleItem):
     implements(ITransientMessage)
 
     key = 'transient-message'
