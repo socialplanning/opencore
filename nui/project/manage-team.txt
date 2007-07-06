@@ -9,6 +9,7 @@ request so we've got some more useful data.
     >>> team = proj.getTeams()[0]
     >>> self.login('m4') # <-- m4 not on team
     >>> team.join()
+    True
     >>> self.login('m1')
     >>> team.manage_delObjects(ids=['m3']) # <-- remove to re-add
     >>> team.addMember('m3')
@@ -59,6 +60,7 @@ should be sent:
     >>> team.manage_delObjects(ids=['m4'])
     >>> self.login('m4')
     >>> team.join()
+    True
     >>> self.login('m1')
     >>> res = view.discard_requests(['m4'])
     >>> len(view.pending_requests)
@@ -76,6 +78,7 @@ email notifier:
     >>> self.clearMemoCache()
     >>> self.login('m4')
     >>> team.join()
+    True
     >>> self.login('m1')
     >>> res = view.reject_requests(['m4'])
     >>> len(view.pending_requests)
