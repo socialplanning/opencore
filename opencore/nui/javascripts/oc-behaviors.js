@@ -400,6 +400,7 @@ OC.ActionButton = function(extEl) {
   
   // settings
   var action = form.dom.action;
+  var task = button.dom.value;
   var isUpload = false;
   if (form.dom.enctype == "multipart/form-data") {
     isUpload = true;
@@ -421,7 +422,7 @@ OC.ActionButton = function(extEl) {
          failure: OC.Callbacks.afterAjaxFailure,
          scope: this
        },
-       "mode=async"
+						     "mode=async&task=" + task
        );
   }
   button.on('click', _actionButtonClick, this);
