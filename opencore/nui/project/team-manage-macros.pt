@@ -157,19 +157,19 @@
     </td>
 
     <td tal:define="member_role item/role">
-      <div>
+      <div class="oc-js-actionSelect">
         <input type="hidden" name="all:list"
                tal:attributes="value item/id" />
-        <select tal:attributes="name string:${item/id}_roles;
-                                id string:${item/id}_set-roles;
-                                disabled python:item['id'] == view.loggedinmember.getId();"
-                class="oc-actionSelect">
+        <select tal:attributes="name string:${item/id}_role;
+                                id string:${item/id}_role;
+                                disabled python:item['id'] == view.loggedinmember.getId();">
           <tal:roleoptions repeat="roleitem view/rolemap/items">
             <option tal:attributes="value python:roleitem[0];
                                     selected python:(roleitem[1] == member_role)"
                     tal:content="python:roleitem[1]" />
           </tal:roleoptions>
         </select>
+	<button name="task" tal:attributes="value string:${item/id}_set-role">Go</button>
       </div>
     </td>
 
