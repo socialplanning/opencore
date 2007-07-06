@@ -133,7 +133,7 @@ class MemberPreferences(BaseView, OctopoLite):
 
     def _project_metadata_for(self, project_id):
         portal = self.portal
-        portal_path = portal.absolute_url_path()
+        portal_path = '/'.join(portal.getPhysicalPath())
         projects_folder = 'projects'
         path = [portal_path, projects_folder, project_id]
         path = '/'.join(path)
