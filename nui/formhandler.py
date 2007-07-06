@@ -160,7 +160,7 @@ class OctopoLite(opencore.nui.octopus.Octopus):
                                                  'effects': 'blink'}
         except AttributeError:
             pass
-    
+
 class FormLite(object):
     """formlike but definitely not formlib"""
 

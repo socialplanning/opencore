@@ -7,7 +7,7 @@ Test registration of member related views::
     >>> m1_folder = self.portal.people.test_user_1_
     >>> alsoProvides(m1_folder, IMemberFolder)
     >>> m1_folder.restrictedTraverse("profile-edit")
-    <...SimpleViewClass ...profile-edit.pt...>
+    <Products.Five.metaclass.ProfileEditView...>
 
     >>> m1_folder.restrictedTraverse("profile")
     <...SimpleViewClass ...profile.pt object...>
@@ -75,6 +75,7 @@ Exercise the Member Preferences Class
 
     Now let's make him private for project 3
     >>> view.change_visibility('p3')
+    True
 
     When we get the projects again, we should not be listed for p3
     >>> self.clearMemoCache()
@@ -84,6 +85,7 @@ Exercise the Member Preferences Class
 
     Now let's set it back to visible
     >>> view.change_visibility('p3')
+    True
 
     Now he should be listed again
     >>> self.clearMemoCache()

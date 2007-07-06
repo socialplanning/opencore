@@ -13,24 +13,12 @@
      name="preferences"
      />
 
-
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
      class=".view.ProfileEditView"
      permission="cmf.ModifyPortalContent"
      name="profile-edit"
-     template="profile-edit.pt"
      />
-
-
-  <browser:page
-     for="opencore.siteui.interfaces.IMemberFolder"
-     class=".view.ProfileEditView"
-     attribute="handle_form"
-     permission="cmf.ModifyPortalContent"
-     name="handle-form"
-     />
-
  
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
