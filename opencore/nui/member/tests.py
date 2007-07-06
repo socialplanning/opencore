@@ -3,6 +3,7 @@ from zope.testing import doctest
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from opencore.testing.layer import OpencoreContent as test_layer
+from zope.app.component.site import setSite
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
@@ -23,6 +24,9 @@ def test_suite():
     setup.setupPloneSite()
     def readme_setup(tc):
         tc._refreshSkinData()
+
+        # we also need to set the site for the local utility
+        setSite(tc.portal)
 
     globs = locals()
     readme = FunctionalDocFileSuite("README.txt",

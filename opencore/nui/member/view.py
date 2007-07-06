@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from zope import event
-from zope.app.annotation.interfaces import IAnnotations
+from zope.component import getUtility
 
 from zExceptions import BadRequest
 from zExceptions import Redirect
@@ -18,6 +18,7 @@ from topp.utils.pretty_date import prettyDate
 from opencore.nui.base import BaseView, button
 from opencore.nui.formhandler import OctopoLite, action
 from opencore.interfaces.catalog import ILastWorkflowActor
+from opencore.nui.member.interfaces import ITransientMessage
         
 class ProfileView(BaseView):
 
@@ -120,6 +121,7 @@ class MemberPreferences(BaseView, OctopoLite):
     template = ZopeTwoPageTemplateFile('preferences.pt')
 
     active_states = ['public', 'private']
+    msg_category = 'membership'
 
     @property
     @req_memoize
@@ -259,16 +261,18 @@ class MemberPreferences(BaseView, OctopoLite):
     @property
     @req_memoize
     def infomsgs(self):
-        """info messages re project admission/rejection"""
-        # annotation on the member object itself?
-        # or maybe should be annotated on the person folder?
-        # that's easier, because then it would just be the context
-        mem_data = self.get_tool('portal_memberdata')
+        """info messages re project admission/rejection
+        
+           tuples are returned in the form of (idx, msg)
+           so that they can be popped by the user"""
+        tm = getUtility(ITransientMessage)
         mem_id = self.context.getId()
-        mem_obj = mem_data._getOb(mem_id)
-        annot = IAnnotations(mem_obj)
-        return annot.get('infomsgs', [])
+        return tm.get_msgs(mem_id, self.msg_category)
 
     @property
     def n_updates(self):
         return len(self.infomsgs) + len(self.invitations)
+
+    @property
+    def invitation_actions(self):
+        return ['Accept', 'Deny', 'Ignore']

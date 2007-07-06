@@ -142,7 +142,7 @@ Exercise the Member Preferences Class
     ['p2', 'p3', 'p1']
 
     Check the info messages on the member:
-    >>> view.infomsgs
+    >>> list(view.infomsgs)
     []
 
     And verify that taking the length of updates works
@@ -164,6 +164,10 @@ Exercise the Member Preferences Class
     >>> project_dicts = view.invitations
     >>> [d['proj_id'] for d in project_dicts]
     ['p4']
+
+    Here are the actions that can be performed on each invitation request
+    >>> view.invitation_actions
+    ['Accept', 'Deny', 'Ignore']
 
     Now let's call the view simulating the request:
     XXX member areas need to be created first though for m1
