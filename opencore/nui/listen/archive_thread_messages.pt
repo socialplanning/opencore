@@ -1,4 +1,12 @@
-hi i'm archive_thread_messages.pt
+<html metal:use-macro="here/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">
+      <div id="oc-content-main">
+        hi i'm archive_thread_messages.pt
+      </div>
+    </div>
+  </body>
+</html>
 <!--
 <metal:archive-view use-macro="here/@@forum_view/macros/archive">
   <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
