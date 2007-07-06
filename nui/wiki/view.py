@@ -90,10 +90,30 @@ class AttachmentView(BaseView):
              imageId = newImageId
 
          object = self.context._getOb(imageId, None)
-         object.setTitle(attachmentTitle or imageId)
+         object.setTitle(self.findUniqueTitle(attachmentTitle or imageId))
          object.setFile(attachmentFile)
          object.reindexObject()
          return object
+
+    def findUniqueTitle(self, title):
+        titles = [self.context._getOb(i).Title() for i in self.context.objectIds()]
+ 
+        def getVersion(title, number):
+            """returns the version string of a title"""
+            delimiter = ' v'
+            try:
+                version = int(title.rsplit(delimiter, 1)[1])
+                title = title.rsplit(delimiter,1)[0]
+            except (IndexError, ValueError):
+                pass
+            return delimiter.join((title, str(number)))
+
+        idx = 0
+        while True:
+            if not title in titles:
+                return title
+            title = getVersion(title, idx)
+            idx += 1
 
     def findUniqueId(self, id):
         contextIds = self.context.objectIds()
