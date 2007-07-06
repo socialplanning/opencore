@@ -142,7 +142,8 @@ The view has a validate() method which returns an error dict::
 
 (Making the tests very ugly and commenting most out temporarily
  because return values from validate are hideous)
-    >>> len([i for i in view.validate() if i['html']])
+    >>> validate_map = view.validate()
+    >>> len([i for i in validate_map.values() if i['html']])
     0
     >>> # request.form['confirm_password'] = 'mesty'
     >>> # request.form['email'] = 'fakeemail'
@@ -170,14 +171,18 @@ Submit the form for real now; we need to add 'task=join' to the request::
     >>> request.form['email'] = 'foobar@example.com'
     >>> request.form['task'] = 'join'
     >>> view = portal.restrictedTraverse("@@join")
-    >>> len([i for i in view.validate() if i['html']])
+    >>> validate_map = view.validate()
+    >>> len([i for i in validate_map.values() if i['html']])
     0
-
-Oh, nothing happened; we need to make the request a POST::
+    
+We need to make the request a POST::
 
     >>> request.environ["REQUEST_METHOD"] = "POST"
+    >>> view.membertool.getMemberById('foobar')
     >>> view()
-    <OpenMember at /plone/portal_memberdata/foobar>
+    u'<!-- join form -->...'
+    >>> view.membertool.getMemberById('foobar')
+    <OpenMember at /plone/portal_memberdata/foobar...>
 
 
 Confirm
