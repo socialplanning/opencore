@@ -258,7 +258,7 @@ class MemberPreferences(BaseView, OctopoLite):
         json_ret = {}
         for proj_id in targets:
             self.leave_project(proj_id)
-            elt_id = 'mship_%s' % proj_id
+            elt_id = '%s_mship' % proj_id
             json_ret[elt_id] = dict(action='delete')
         return json_ret
 
@@ -268,7 +268,7 @@ class MemberPreferences(BaseView, OctopoLite):
         proj_id = targets[0]
         # XXX do we notify anybody (proj admins) when a mship has been accepted?
         self._apply_transition_to(proj_id, 'approve_public')
-        elt_id = 'invitation_%s' % proj_id
+        elt_id = '%s_invitation' % proj_id
         return {elt_id: dict(action='delete')}
 
     @action('DenyInvitation')
@@ -277,7 +277,7 @@ class MemberPreferences(BaseView, OctopoLite):
         proj_id = targets[0]
         # XXX do we notify anybody (proj admins) when a mship has been denied?
         self._apply_transition_to(proj_id, 'reject_by_owner')
-        elt_id = 'invitation_%s' % proj_id
+        elt_id = '%s_invitation' % proj_id
         return {elt_id: dict(action='delete')}
 
     # XXX is there any difference between ignore and deny?
@@ -287,7 +287,7 @@ class MemberPreferences(BaseView, OctopoLite):
         proj_id = targets[0]
         # XXX do we notify anybody (proj admins) when a mship has been denied?
         self._apply_transition_to(proj_id, 'reject_by_owner')
-        elt_id = 'invitation_%s' % proj_id
+        elt_id = '%s_invitation' % proj_id
         return {elt_id: dict(action='delete')}
 
     @action('close')
@@ -302,7 +302,7 @@ class MemberPreferences(BaseView, OctopoLite):
         except KeyError:
             return {}
         else:
-            elt_id = 'close_%s' % idx
+            elt_id = '%s_close' % idx
             return {elt_id: dict(action='delete')}
 
     @property
