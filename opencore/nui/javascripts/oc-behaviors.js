@@ -353,7 +353,9 @@ OC.ActionSelect = function(extEl) {
   
   //settings
   var action = form.dom.action;
-    OC.debug("form action: " + action);
+  button.hide();
+  var task = button.dom.value;
+  
 
   function _doAction(e, el, o) {
     YAHOO.util.Event.stopEvent(e);
@@ -363,11 +365,11 @@ OC.ActionSelect = function(extEl) {
         failure: OC.Callbacks.afterAjaxFailure,
         scope: this
       },
-      "mode=async&task=" + button.dom.value
+      "mode=async&task=" + task
     );
 
   }
-  button.on('click', _doAction, this);
+  select.on('change', _doAction, this);
 }
 
 /* 
