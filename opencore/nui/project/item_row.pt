@@ -27,7 +27,7 @@
                tal:attributes="name string:${item/id}_title;
 			       value item/title" 
                />
-        <button type="submit" class="oc-actionButton" name="task"
+        <button type="submit" class="oc-js-actionButton" name="task"
                 tal:attributes="value string:${item/id}_update">
           Save
         </button>
