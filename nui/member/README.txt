@@ -208,6 +208,11 @@ And now if we were to receive an info message
     >>> list(view.infomsgs)
     [(1, 'You were just acceped to Move Zig')]
 
+    And if we try to axe something that isn't there ...
+    We get zilch back
+    >>> view.close_msg_handler(['42'])
+    {}
+
 Let's also reject an invitation extended to us
 
     First thing we have to do, is simulate an admin inviting us
