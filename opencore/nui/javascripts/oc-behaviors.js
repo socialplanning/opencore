@@ -239,7 +239,7 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 	    
 	    break;
 	    
-	case "copy": // fill me in: replace target's children with html
+	case "copy":
 	    var html = command.html;
 	    var effects = command.effects;
 	    
