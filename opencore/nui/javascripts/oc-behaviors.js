@@ -232,6 +232,8 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 		
 	    if( effects == "highlight" ) {
 		Ext.get(newNode).highlight();
+	    } else if( effects == "fadein" ) {
+		Ext.get(newNode).fadeIn();
 	    }
 	    
 	    OC.breatheLife(newNode);
