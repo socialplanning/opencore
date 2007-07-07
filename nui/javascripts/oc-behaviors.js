@@ -223,23 +223,20 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 		html = command.html;
 	    }
 	    OC.debug("REPLACE " + elId + " with " + html + " using effect " + effects);
-    
+	    
 	    html = Ext.util.Format.trim(html);
 	    var target = Ext.get(elId);
-          
-	    if( effects == "delete" ) {  // for backcompability with existing code. consider deprecated.
-		OC.Dom.removeItem(elId);
-	    } else {
-		var newNode = Ext.DomHelper.insertHtml("beforeBegin", target.dom, html);
-		target.remove();
+	    
+	    var newNode = Ext.DomHelper.insertHtml("beforeBegin", target.dom, html);
+	    target.remove();
 		
-		if( effects == "highlight" ) {
-		    Ext.get(newNode).highlight();
-		}
-		
-		OC.breatheLife(newNode);
-		OC.debug("done breathing");
+	    if( effects == "highlight" ) {
+		Ext.get(newNode).highlight();
 	    }
+	    
+	    OC.breatheLife(newNode);
+	    OC.debug("done breathing");
+	    
 	    break;
     
 	case "uploadAndAdd": // for backcompability with existing code. consider deprecated.
