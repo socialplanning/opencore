@@ -420,7 +420,7 @@ OC.CheckAll = function(extEl) {
     // get refs
     var checkAll = extEl;
     var form = checkAll.up('form');  
-    var allBoxes = Ext.select(Ext.query('input[type=checkbox]', form.dom));
+    var allBoxes = Ext.select(Ext.query('input[type=checkbox]:not(.oc-js-checkAll-never)', form.dom));
     
     OC.debug(allBoxes);
     // check refs
@@ -1112,7 +1112,7 @@ OC.AutoSelect = function(extEl) {
    #
 */
 OC.Expander = function(extEl) {
-    // get references. 
+    // get references.
     var container = extEl;
     var expanderLink = Ext.select(Ext.query(".oc-expander-link", container.dom));
     var content = Ext.get(Ext.query(".oc-expander-content",  container.dom)[0]);
@@ -1122,7 +1122,7 @@ OC.Expander = function(extEl) {
 	OC.debug('OC.Expander: couldn\'t get element references');
         return;
     }
-    
+    OC.debug("OC expander is good " + extEl);
     // settings
     content.setVisibilityMode(Ext.Element.DISPLAY);
     

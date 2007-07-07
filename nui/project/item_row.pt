@@ -5,7 +5,7 @@
   <tr class="oc-liveItem" tal:attributes="id item/id">
     <td tal:condition="item/collection/editable | view/editable">
       <tal:if condition="not:editable">
-	<input type="checkbox" name="deletes:list"
+	<input type="checkbox" class="oc-js-checkAll-never" name="deletes:list"
                tal:attributes="value item/id" 
 	       disabled="True" />
       </tal:if>
