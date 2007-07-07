@@ -91,6 +91,7 @@ class BaseView(BrowserView):
             msgs = []
         req_psm = self.request.form.get("portal_status_message")
         if req_psm:
+            req_psm = req_psm.replace("<", "&lt;").replace(">", "&gt;")
             msgs.append(req_psm)
         return msgs
 
