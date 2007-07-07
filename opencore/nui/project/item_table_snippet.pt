@@ -20,7 +20,7 @@
 <div class="oc-widget oc-widget-dataTable">
   <h2 class="oc-dataTable-heading"><tal:dummy replace="item_header" /></h2>
 
-  <form class="oc-liveForm" action="contents"
+  <form action="contents"
   tal:attributes="name form_name">
     <input type="hidden" name="item_type"
       tal:attributes="value item_type" /> 
