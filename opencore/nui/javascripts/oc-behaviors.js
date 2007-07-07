@@ -238,10 +238,6 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 	    OC.debug("done breathing");
 	    
 	    break;
-    
-	case "uploadAndAdd": // for backcompability with existing code. consider deprecated.
-	    OC.debug('_afterSuccess, task: uploadAndAdd');
-	    break;
 	    
 	case "copy": // fill me in: replace target's children with html
 	    var html = command.html;
@@ -258,7 +254,7 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 	    }
 	    //OC.breatheLife();
 	    break;
-    
+	    
 	case "append": // fill me in
 	    var html = command.html;
 	    var effects = command.effects;
