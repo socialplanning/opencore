@@ -29,7 +29,7 @@
       <tal:macro metal:use-macro="view/item_tbody_snippet/macros/item_tbody_snippet" />
     </table>
 
-    <ul class="oc-actions oc-dataTable-actions">
+    <ul class="oc-actions oc-dataTable-actions" tal:condition="python: item_type != 'pages' or len(item_collection) > 1">
       <li>
         <button type="submit" name="task" value="batch:deletes_delete" class="oc-button" >Delete</button>
       </li>
