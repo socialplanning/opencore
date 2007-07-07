@@ -46,6 +46,10 @@ class MemberMenuView(BaseView):
         return '%s/profile' % self.areaURL
 
     @memoizedproperty
+    def profile_edit_url(self):
+        return '%s/profile-edit' % self.areaURL
+
+    @memoizedproperty
     def userprefs_url(self):
         return '%s/preferences' % self.areaURL
 
@@ -71,7 +75,7 @@ class MemberMenuView(BaseView):
 
             {'content': 'Profile',
              'href': self.profile_url,
-             'selected': self.request.ACTUAL_URL == self.profile_url,
+             'selected': self.request.ACTUAL_URL in (self.profile_url, self.profile_edit_url),
              },
 
             {'content': 'Account',
