@@ -26,7 +26,7 @@
       <ul tal:define="invitations view/invitations"
           tal:condition="invitations"
           class="oc-invite-list">
-        <form name="invitation-form" class="oc-liveForm" action="preferences">
+        <form name="invitation-form" action="preferences">
           <tal:for repeat="projinfo invitations">
             <li class="oc-invite oc-boxy oc-clearAfter"
                 tal:define="proj_id projinfo/proj_id"
@@ -57,7 +57,7 @@
       <ul tal:define="infomsgs view/infomsgs"
           tal:condition="infomsgs"
           class="oc-invite-list">
-        <form name="info-form" class="oc-liveForm" action="preferences">
+        <form name="info-form" action="preferences">
           <tal:for repeat="infomsg infomsgs">
             <li class="oc-invite oc-boxy oc-clearAfter"
                 tal:define="idx python: infomsg[0];
