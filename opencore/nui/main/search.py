@@ -36,6 +36,9 @@ class SearchView(BaseView):
                      quantumleap=0,
                      b_start_str='b_start')
 
+    def add_class_to_img(self, imgdata, clss):
+        tag = str(imgdata)
+        return tag.replace('<img', '<img class="%s"' % clss)
 
 class ProjectsSearchView(SearchView):
 
@@ -253,10 +256,6 @@ class PeopleSearchView(SearchView):
 
     def search_for_person(self, person, sort_by=None):
         return searchForPerson(self.membranetool, person, sort_by)
-
-    def add_class_to_img(self, imgdata, clss):
-        tag = str(imgdata)
-        return tag.replace('<img', '<img class="%s"' % clss)
 
     anonymous_txt = static_txt('main_people_anonymous.txt')
     notanonymous_txt = static_txt('main_people_notanonymous.txt')
