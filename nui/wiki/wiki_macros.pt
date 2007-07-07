@@ -4,7 +4,7 @@
   <!-- to do: pass mime type to CSS -->
   <div class="oc-liveEdit-value">
     <a href="" target="_blank" 
-       tal:attributes="href attachment/absolute_url" 
+       tal:attributes="href attachment/getURL" 
        tal:content="attachment/Title | attachment/getId">Id</a> -  
     <span tal:replace="attachment/getObjSize"></span>
     <a href="" class="oc-liveEdit-edit">Edit</a> | <a href="" class="oc-liveEdit-delete">Delete</a>
