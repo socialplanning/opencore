@@ -1,14 +1,16 @@
 from opencore.nui.base import BaseView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from opencore.nui.formhandler import button
 
 class WikiEdit(BaseView):
 
-    def __call__(self):
+    @button('save')
+    def handle_request(self):
         self.errors = {}
         self.context.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
             self.addPortalStatusMessage('Please correct the indicated errors.')
-            return super(WikiEdit, self).__call__(errors=self.errors)
+            return self.errors
         
         self.context.processForm(values=self.request)
         repo = self.context.portal.portal_repository
