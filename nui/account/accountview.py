@@ -150,12 +150,6 @@ class LoginView(AccountView):
             self.redirect(self.login_url)
             
 
-def ugly_hack(func):
-    def inner(self):
-        ret = func(self)
-        return self.render()
-    return inner
-
 class JoinView(BaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('join.pt')
