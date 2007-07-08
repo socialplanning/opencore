@@ -1,12 +1,13 @@
 <tal:vars tal:define="attachments python:here.getFolderContents(contentFilter = {'portal_type' : ['FileAttachment']});
                       Iterator python:modules['Products.CMFPlone'].IndexIterator;
                       lockable python:hasattr(here, 'wl_isLocked');
-                      errors python: options.get('errors', {});
+                      errors view/errors;
                       isLocked python:lockable and here.wl_isLocked();
                       member python:here.portal_membership.getAuthenticatedMember();
                       portal python:context.portal_url.getPortalObject();
                       portal_url here/portal_url;
                       tabindex python:Iterator(pos=7000);
+                      data view/handle_request
                       ">
 
 <html metal:use-macro="here/@@standard_macros/master">
@@ -43,7 +44,7 @@
             method="post"
             enctype="multipart/form-data"
             class="enableUnloadProtection"
-            tal:attributes="action string:${here/absolute_url}/@@update">
+            tal:attributes="action string:${here/absolute_url}/edit">
             
               <ul class="oc-headingBlock oc-wiki-headingBlock oc-bcrumb">
                 <li class="oc-liveItem">
@@ -74,7 +75,7 @@
               </div><!-- end expander -->
             
               <ul class="oc-actions oc-wiki-actions">
-                <li><input type="submit" value="Save" class="oc-button oc-chooseThis" /></li>
+                <li><input type="submit" name="save" value="Save" class="oc-button oc-chooseThis" /></li>
                 <li>or <a href="" tal:attributes="href context/absolute_url">cancel</a></li>
               </ul>  
               
