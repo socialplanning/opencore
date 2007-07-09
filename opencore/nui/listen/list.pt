@@ -69,9 +69,9 @@
                   You are currently <strong>not subscribed</strong> to this list.
                 </p>
                 <div class="oc-actions">
-                  <input type="submit" class="standalone" name="unsubscribe_member" value="Unsubscribe"
+                  <input type="submit" name="unsubscribe_member" value="Unsubscribe"
                     tal:condition="subscribed" i18n:attributes="value" />
-                  <input type="submit" class="standalone" name="subscribe_member" value="Subscribe"
+                  <input type="submit" name="subscribe_member" value="Subscribe"
                     tal:condition="not:subscribed" i18n:attributes="value" />
                 </div>
               </tal:member>
@@ -79,8 +79,8 @@
                 <p id="subscription-satus" i18n:translate="">
                   To subscribe to the list enter your email in the field below.
                 </p>
-                <div class="oc-fieldBlock" tal:define="error errors/email_address|nothing"
-                  tal:attributes="class python:'field' + (error and ' error' or '')">
+                <div tal:define="error errors/email_address|nothing"
+                  tal:attributes="class python:'oc-fieldBlock' + (error and ' error' or '')">
                   <label for="email_address" i18n:translate="label_email">Email Address</label>
                   <!-- <span title="Required"
                     i18n:domain="plone" i18n:translate="label_required"

@@ -47,17 +47,14 @@
                         action="confirm_delete_list"
                         tal:attributes="name string:${item_id}_form">
 
-                  <span tal:attributes="class item_type_class">
-                    <a href="#" 
-                       tal:attributes="href python:item_type in use_view_action and item_url+'/view' or item_url+'/';
-                                       class string:$item_wf_state_class visualIconPadding"
-                       tal:content="item_title_or_id">
+                  <span>
+                    <a href="#" tal:content="item_title_or_id"
+                      tal:attributes="href python:item_type in use_view_action and item_url+'/view' or item_url+'/';">
                       Item Title
                     </a>
                   </span>
 
-                  <span class="documentByLine"
-                        tal:condition="show_about">
+                  <span tal:condition="show_about">
 
                     <tal:name tal:condition="item_creator"
                               tal:define="author python:view.membertool.getMemberInfo(item_creator)">
@@ -110,7 +107,7 @@
           </tal:entry>
         </tal:listing>
 
-        <p class="discreet" tal:condition="not: folderContents" i18n:translate="description_no_items_in_folder">
+        <p tal:condition="not: folderContents" i18n:translate="description_no_items_in_folder">
           There are currently no items in this folder.
         </p>
 
