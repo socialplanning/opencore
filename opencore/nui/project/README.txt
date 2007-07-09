@@ -7,9 +7,7 @@ Add view
 
     >>> projects = self.portal.projects
     >>> projects.restrictedTraverse("create")
-    <...SimpleViewClass ...create.pt object ...>
-
-    #<...ProjectAddView object at ...>
+    <Products.Five.metaclass.ProjectAddView object at...>
 
     >>> form_vars = dict(id='test1', __initialize_project__=True,
     ...                  title='test one',

@@ -368,10 +368,32 @@ class ProjectPreferencesView(BaseView):
             self.redirect(self.context.absolute_url())
 
 
-class ProjectAddView(BaseView):
+class ProjectAddView(BaseView, OctopoLite):
 
-    @formhandler.button('add')
-    def handle_request(self):
+    template = ZopeTwoPageTemplateFile('create.pt')
+
+    @action('validate')
+    def validate(self, target=None, fields=None):
+        putils = getToolByName(self.context, 'plone_utils')
+        errors = {}
+        id_ = self.request.form.get('id')
+        id_ = putils.normalizeString(id_)
+        if self.context.has_key(id_):
+            errors['oc-id-validator'] = {
+                'html': 'The requested url is already taken.',
+                'action': 'copy',
+                'effects': ''
+                }
+        else:
+            errors['oc-id-validator'] = {
+                'html': '',
+                'action': 'copy',
+                'effects': ''
+                }
+        return errors
+        
+    @action('add')
+    def handle_request(self, target=None, fields=None):
         putils = getToolByName(self.context, 'plone_utils')
         self.request.set('__initialize_project__', True)
 
@@ -390,7 +412,7 @@ class ProjectAddView(BaseView):
 
         if self.errors:
             self.addPortalStatusMessage(u'Please correct the indicated errors.')
-            return 
+            return
 
         proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
         proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
@@ -403,6 +425,7 @@ class ProjectAddView(BaseView):
         proj = self.context._getOb(id_)
         self.notify(proj)
         transaction_note('Finished creation of project: %s' %title)
+        self.template = None
         self.redirect(proj.absolute_url())
 
     def notify(self, project):

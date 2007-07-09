@@ -1,9 +1,3 @@
-<tal:handle-request 
-   replace="nothing"
-   define="global fdata view/handle_request;">
-  This could be used to return a variety of template friendly info
-  regarding the processing of the form
-</tal:handle-request>
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
@@ -11,11 +5,12 @@
         <h1>Start a project</h1>
       </div>
       <div id="oc-content-main" class="oc-content-main-fullWidth">
-        <form name="create_form" id="oc-project-create" method="post" class="enableUnloadProtection"
-            tal:attributes="action view/name">
+        <form name="create_form" id="oc-project-create" method="post"
+	      class="enableUnloadProtection"
+              tal:attributes="action view/name">
           <input type="hidden" name="set_flets" value="1"/>
           <fieldset class="oc-boxy">
-            <legend  class="oc-legend-heading oc-biggerText">Step 1. Enter details</legend>
+            <legend  class="oc-legend-heading oc-biggerText">Step 1: Enter details</legend>
             <table class="oc-form">
               <tbody>
                 <tr class="oc-form-row">
@@ -23,7 +18,7 @@
                     <label for="title">Name</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" id="title" class = "oc-autoFocus" name="title"
+                    <input type="text" id="title" class="oc-autoFocus" name="title"
                            tal:attributes="value request/title | nothing" />
                   </td>
                   <td class="oc-form-help">
@@ -37,7 +32,10 @@
                     <label for="id">URL</label>
                   </th>
                   <td class="oc-form-value">
-                    <span tal:replace="context/absolute_url" />/<input type="text" name="id" id="id" tal:attributes="value request/id | nothing" />
+                    <span tal:replace="context/absolute_url" />/
+                    <input type="text" name="id" id="id"
+                           class="oc-js-liveValidate"
+                           tal:attributes="value request/id | nothing" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
@@ -110,9 +108,9 @@
           <ul class="oc-actions">
             <li>
               <button type="submit" 
-              name="add:boolean" 
-              value="True" 
-              class="oc-button oc-chooseThis">
+                      name="task" 
+                      value="add" 
+                      class="oc-button oc-chooseThis">
                 Create
               </button>
             </li>
