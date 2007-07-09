@@ -16,7 +16,7 @@
        tal:content="string:Account" />
   </li>
 
-  <tal:projects define="projects view/member_info/projects"
+  <tal:projects define="projects view/member_info/projects | nothing"
                 condition="projects">
     <hr />
 

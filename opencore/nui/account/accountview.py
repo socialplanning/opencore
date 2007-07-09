@@ -77,9 +77,13 @@ class LoginView(AccountView):
             self.membertool.createMemberArea()
 
             member = self.loggedinmember
-            if member.getLast_login_time() == member.getLogin_time():
-                # first login
-                notify(FirstLoginEvent(member, self.request))
+            try:
+                if member.getLast_login_time() == member.getLogin_time():
+                    # first login
+                    notify(FirstLoginEvent(member, self.request))
+            except AttributeError:
+                # we're not a remember-based user
+                pass
 
             destination = self.destination
             referer = self.request.form.get('referer')
