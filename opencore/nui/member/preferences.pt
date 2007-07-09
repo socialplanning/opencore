@@ -12,7 +12,8 @@
   
 <div id="oc-content-main">
   
-  <div class="oc-widget oc-widget-invite"
+  <div id="updates_widget"
+       class="oc-widget oc-widget-invite"
        tal:define="n_updates view/n_updates"
        >
     <tal:has_updates condition="n_updates">
@@ -83,142 +84,9 @@
       <!-- XXX -->
       <h1>What to put here with no updates?</h1>
     </tal:no_updates>
-    <!-- static data -->
-    <!--ul class="oc-invite-list">
-      <li class="oc-invite oc-boxy oc-clearAfter">
-          <div class="oc-avatar">
-            <img src="" />
-          </div>
-          <p class="oc-invite-content">
-            You have been accepted to <a href="">Turkey Time</a> 
-          </p>
-          <a href="#" title="Close" class="oc-actionClose  oc-actionLink">Close</a>
-        </li>
-      <li class="oc-invite oc-boxy oc-clearAfter">
-          <div class="oc-avatar">
-            <img src="" />
-          </div>
-          <p class="oc-invite-content">
-            You have been denied membership to <a href="">Chicken Adidas</a> 
-          </p>
-          <a href="#" title="Close" class="oc-actionClose  oc-actionLink">Close</a>
-        </li>
-      <li class="oc-invite oc-boxy oc-clearAfter">
-        <div class="oc-avatar">
-          <img src="" />
-        </div>
-        <p class="oc-invite-content">
-          <a href="">Animal Campaign</a> 
-      has invited you to become a member
-        </p>
-        <ul class="oc-actions oc-invite-actions oc-actionClose">
-          <li><a href="" class="oc-actionLink oc-chooseAccept">Accept</a></li>
-          <li><a href="" class="oc-actionLink oc-chooseReject">Deny</a></li>
-          <li><a href="" class="oc-actionLink oc-chooseIgnore">Ignore</a></li>
-        </ul>
-      </li>
-      <li class="oc-invite oc-boxy oc-clearAfter">
-        <div class="oc-avatar">
-          <img src="http://www.3dvalley.com/tutorials/modeling_basketball_clip_image037.gif" />
-        </div>
-        <p class="oc-invite-content">
-          <a href="">Animal Campaign for a really important animal named Charlie</a> 
-      has invited you to become a member
-        </p>
-        <ul class="oc-actions oc-invite-actions oc-actionClose">
-          <li><a href="" class="oc-actionLink oc-chooseAccept">Accept</a></li>
-          <li><a href="" class="oc-actionLink oc-chooseReject">Deny</a></li>
-          <li><a href="" class="oc-actionLink oc-chooseIgnore">Ignore</a></li>
-        </ul>
-      </li>
-    </ul-->
   </div><!-- end .widget-invitations -->
   
-
-  <tal:projects_table define="projinfos view/projects_for_user">
-  <div class="oc-widget oc-widget-dataTable oc-clearAfter"
-       tal:condition="projinfos"
-       >
-    <div class="oc-headingBlock">
-      <h2 class="oc-toggleFold">
-        Projects you belong to (<span id="num_projs" tal:content="python: len(projinfos)" />)
-      </h2>
-    </div><!-- end .headingBlock -->
-  
-    <form class="" action="preferences">
-    <table id="" class="oc-dataTable" cellpadding="0" cellspacing="0">
-      <thead>
-        <tr>
-          <th class="" style="width: 10px;" scope="col"><input class="oc-checkAll" type="checkbox" /></th>
-          <th class="oc-columnSortable" style="width: 200px;" scope="col">Project </th>
-          <th class="oc-columnSortable" scope="col">Role</th>
-          <th class="oc-columnSortable" scope="col">Since</th>
-          <th class="oc-columnSortable" scope="col">Listed</th>
-          <th class="oc-columnAction" scope="col">Actions</th>
-        </tr>
-      </thead>
-      <tbody id="projinfos_for_user">
-        <tal:for repeat="projinfo projinfos">
-          <tal:var define="proj_id projinfo/proj_id">
-	    <tal:macro metal:use-macro="view/project_row/macros/project_row" />
-          </tal:var>
-        </tal:for>
-        <!-- keep in a sample member with static data -->
-        <!--tr>
-          <td><input type="checkbox" /></td>
-          <td class="oc-dataTable-row-title"><a href="">Animal Campaign for a poor little sick kittie named Fatty</a></td>
-            <td id="oc-liveEdit_8" class="oc-liveItem">
-      <span id="oc-liveEdit_8_value" class="oc-liveItem-value oc-liveItem-directEdit oc-liveItem-directSelect">not set</span>
-      <div id="oc-liveEdit_8_form" class="oc-liveItem-editForm">
-        <select>
-          <option>-- not set --</option>
-          <option>Active</option>
-          <option>Banned</option>
-        </select>
-        <a href="#" class="oc-liveItem_cancel">Cancel</a>
-      </div>
-          </td>
-      <td>5:30am</td>
-          <td id="" class="oc-liveItem">
-      <span id="" class="oc-liveItem-value oc-liveItem-directEdit oc-liveItem-directSelect">not set</span>
-      <div id="" class="oc-liveItem-editForm">
-        <select>
-          <option>-- not set --</option>
-          <option>Member</option>
-          <option>Administrator</option>
-          <option>Administrator2</option>
-          <option>Administrator3</option>
-        </select>
-        <a href="#" class="oc-liveItem_cancel">Cancel</a>
-      </div>
-          </td>
-          <td>
-            <ul class="oc-actions oc-dataTable-row-actions">
-              <li><a href="#">Leave</a></li>
-            </ul>
-          </td>
-        </tr-->
-      </tbody>
-    </table>
-    <ul class="oc-actions oc-dataTable-actions">
-      <li>
-        <button type="submit" name="task" value="batch:check_leave"
-                class="oc-button oc-chooseThis oc-js-actionButton">Leave projects</button>
-      </li>
-      <noscript>
-       <li>
-         <button type="submit" name="task" value="batch:check_change-listing"
-                 class="oc-button">Change listing</button>
-       </li>
-      </noscript>
-    </ul>
-  </form>
-  </div><!-- end .widget-table -->
-
-  <!-- XXX -->
-    <h1 tal:condition="not: projinfos">Display anything with no projects? Maybe a link to join?</h1>
-
-  </tal:projects_table>
+  <metal:do use-macro="view/project_table/macros/project_table" />
 
 </div><!-- end #oc-content-main -->
 
