@@ -61,4 +61,12 @@
      name="join"
      />
 
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
+     class=".accountview.PendingView"
+     permission="zope.Public"
+     name="pending"
+     template="pending.pt"
+     />
+
 </configure>

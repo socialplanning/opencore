@@ -108,8 +108,9 @@ class LoginView(AccountView):
                     if member.verifyCredentials({'login': id_, 
                                               'password': password}):
 
-                        self.addPortalStatusMessage('Verification pending. An email was sent to %s' %
-                                                    member.getEmail())
+                        self.addPortalStatusMessage('An email has been sent to %s from %s but it seems like you have not yet activated your account.' % ( member.getEmail(),
+                                                                                                                                                          self.portal.getProperty('email_from_address')))
+                        self.redirect('pending')
                         return
 
         self.addPortalStatusMessage('Login failed')
@@ -436,6 +437,10 @@ class PasswordResetView(AccountView):
             raise Forbidden, "YOUR KEY HAS EXPIRED. Please try again"
         return key
 
+class PendingView(AccountView):
+
+    def handle_request(self):
+        self.addPortalStatusMessage('A new email has been sent, make sure you follow the link in the email to activate your account')
 
 def email_confirmation():
     """get email confirmation mode from zope.conf"""
