@@ -72,4 +72,18 @@
     template="archive_date_messages.pt"
     />
 
+  <browser:page
+    for="Products.listen.interfaces.IMailMessage"
+    name="message_macros"
+    permission="zope2.View"
+    template="message_macros.pt"
+    />
+
+  <browser:page
+    for="Products.listen.interfaces.IListArchiveSubFolder"
+    name="message_macros"
+    permission="zope2.View"
+    template="message_macros.pt"
+    />
+
 </configure>
