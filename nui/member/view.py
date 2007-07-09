@@ -116,6 +116,7 @@ class ProfileEditView(ProfileView, OctopoLite):
 class MemberPreferences(BaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('preferences.pt')
+    project_table = ZopeTwoPageTemplateFile('preferences_project_table.pt')
     project_row = ZopeTwoPageTemplateFile('preferences_project_row.pt')
 
     active_states = ['public', 'private']
@@ -289,7 +290,7 @@ class MemberPreferences(BaseView, OctopoLite):
         for proj_id, field in zip(targets, fields):
             new_visibility = field['listing']
             if self.change_visibility(proj_id, new_visibility):
-                projinfo = self_get_projinfo_for_id(proj_id)
+                projinfo = self._get_projinfo_for_id(proj_id)
                 
                 ret['mship_%s' % proj_id] = {
                     'html': self.project_row(proj_id=proj_id,
@@ -327,14 +328,24 @@ class MemberPreferences(BaseView, OctopoLite):
         if not self._apply_transition_to(proj_id, 'approve_public'):
             return {}
 
-        projinfo = self._get_projinfo_for_id(proj_id)
+        projinfos = self.projects_for_user
+        if len(projinfos) > 1:
+            projinfo = self._get_projinfo_for_id(proj_id)
+            new_proj_row = self.project_row(proj_id=proj_id, projinfo=projinfo)
+            command = {'projinfos_for_user': {'action': 'append',
+                                              'effects': 'highlight',
+                                              'html': new_proj_row
+                                              }}
+        else:
+            new_proj_table = self.project_table()
+            command = {'project_table': {'action': 'replace',
+                                         'html': new_proj_table
+                                         }}
+
         elt_id = '%s_invitation' % proj_id
-        new_proj_row = self.project_row(proj_id=proj_id, projinfo=projinfo)
-        return {elt_id: {'action':'delete'},
-                'projinfos_for_user': {'action': 'append',
-                                       'effects': 'highlight',
-                                       'html': new_proj_row},
-                }
+        
+        command.update({elt_id: {'action':'delete'}})
+        return command
 
     @action('DenyInvitation')
     def deny_handler(self, targets, fields=None):
