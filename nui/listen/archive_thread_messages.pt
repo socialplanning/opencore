@@ -7,13 +7,9 @@
 
         <h1 i18n:translate="" tal:content="view/Title" />
 
-          <p id="listaddress" tal:content="view/listAddress"
-             tal:condition="view/listAddress" />
-          <p class="documentDescription"
-             tal:content="view/listDescription"
-             tal:condition="view/listDescription" />
-          <a id="new-topic" href="#"
-             tal:condition="view/canPost"
+          <p id="listaddress" tal:content="view/listAddress" tal:condition="view/listAddress" />
+          <p tal:content="view/listDescription" tal:condition="view/listDescription" />
+          <a id="new-topic" href="#" tal:condition="view/canPost"
              tal:attributes="href string:${view/context/absolute_url}/new_topic;"
              i18n:translate="label_forum_new_topic_button">
              Post New Topic
@@ -39,8 +35,7 @@
                  ><strong tal:content="message/subject">Re: Subj</strong></a> &mdash;
               <a href="."
                  tal:omit-tag="not:message/from_id"
-                 tal:attributes="href string:${here/portal_url}/author/${message/from_id}"
-                 class="author-link">
+                 tal:attributes="href string:${here/portal_url}/author/${message/from_id}">
                 <span tal:replace="message/mail_from">test@example.com</span>
               </a>
               (<span tal:replace="message/date">Tue, 16 Nov 2005</span>)
@@ -50,8 +45,7 @@
             </li>
           </ul>
 
-          <p class="discreet" tal:condition="not: thread"
-             i18n:translate="description_no_posts">
+          <p tal:condition="not: thread" i18n:translate="description_no_posts">
             There are currently no posts in this archive.
           </p>
 

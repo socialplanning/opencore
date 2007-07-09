@@ -4,7 +4,7 @@
       <div id="oc-content-main" i18n:domain="listen"
         tal:define="messages view/getMessageList;
                     template_id string:by_date;">
-          <h1 tal:content="view/Title" class="documentFirstHeading" i18n:translate="">
+          <h1 tal:content="view/Title" i18n:translate="">
             Title or Id
           </h1>
 
@@ -48,8 +48,7 @@
             </li>
           </ul>
 
-          <p class="discreet"
-             tal:condition="not: messages"
+          <p tal:condition="not: messages"
              i18n:translate="description_no_posts">
             There are currently no posts in this archive.
           </p>

@@ -44,7 +44,7 @@
                 </div>
               </div>
               <div tal:define="error errors/body | nothing"
-                   tal:attributes="class python:'field' + (error and ' error' or '')">
+                   tal:attributes="class python:'oc-fieldBlock' + (error and ' error' or '')">
                 <label for="body"
                        i18n:translate="label_message_body">Message:</label>
                 <span title="Required"
