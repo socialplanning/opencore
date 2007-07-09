@@ -18,12 +18,12 @@ def make_nui_listen_view_class(ListenClass, set_errors=False):
     return NuiListenView
 
 
-NuiMailingListView         = make_nui_listen_view_class(MailingListView)
-NuiMailingListAddView      = make_nui_listen_view_class(MailingListAddForm, set_errors=True)
-NuiMailingListEditView     = make_nui_listen_view_class(MailingListEditForm, set_errors=True)
-NuiArchiveForumView        = make_nui_listen_view_class(ArchiveForumView)
-NuiArchiveDateView         = make_nui_listen_view_class(ArchiveDateView)
-NuiArchiveNewTopicView     = make_nui_listen_view_class(ArchiveNewTopicView)
-NuiSubFolderDateView       = make_nui_listen_view_class(SubFolderDateView)
+NuiMailingListView = make_nui_listen_view_class(MailingListView)
+NuiMailingListAddView = make_nui_listen_view_class(MailingListAddForm, set_errors=True)
+NuiMailingListEditView = make_nui_listen_view_class(MailingListEditForm, set_errors=True)
+NuiArchiveForumView = make_nui_listen_view_class(ArchiveForumView)
+NuiArchiveDateView = make_nui_listen_view_class(ArchiveDateView)
+NuiArchiveNewTopicView = make_nui_listen_view_class(ArchiveNewTopicView)
+NuiSubFolderDateView = make_nui_listen_view_class(SubFolderDateView)
 NuiThreadedMailMessageView = make_nui_listen_view_class(ThreadedMailMessageView)
-NuiForumMailMessageView    = make_nui_listen_view_class(ForumMailMessageView)
+NuiForumMailMessageView = make_nui_listen_view_class(ForumMailMessageView)
