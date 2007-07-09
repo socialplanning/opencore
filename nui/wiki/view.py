@@ -16,7 +16,7 @@ class WikiEdit(BaseView):
         repo = self.context.portal.portal_repository
         repo.save(self.context, comment = self.request.get('comment', ''))
         self.addPortalStatusMessage(u'Changes saved.')
-        self.request.response.redirect(self.context.absolute_url())
+        self.redirect(self.context.absolute_url())
 
 
 class AttachmentView(BaseView):
