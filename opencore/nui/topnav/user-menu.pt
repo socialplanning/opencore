@@ -6,7 +6,8 @@
     <tal:exploremenu replace="structure context/topnav-explore-menu" />
   </li>
 
-  <li class="oc-dropdown-container">
+  <li class="oc-dropdown-container"
+      tal:condition="view/loggedin">
     your stuff
     <tal:mystuffmenu replace="structure context/topnav-mystuff-menu" />
   </li>
