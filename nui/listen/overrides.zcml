@@ -86,4 +86,12 @@
     template="message_macros.pt"
     />
 
+  <browser:page
+    for="Products.listen.interfaces.IMailMessage"
+    name="message_reply"
+    class=".view.NuiMessageReplyView"
+    permission="zope2.View"
+    template="message_reply_view.pt"
+    />
+
 </configure>
