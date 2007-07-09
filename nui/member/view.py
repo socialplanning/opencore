@@ -289,6 +289,8 @@ class MemberPreferences(BaseView, OctopoLite):
             self.leave_project(proj_id)
             elt_id = '%s_mship' % proj_id
             json_ret[elt_id] = dict(action='delete')
+        json_ret['num_projs'] = {'html': len(self.projects_for_user),
+                                 'action': 'copy'}
         return json_ret
 
     @action('AcceptInvitation')

@@ -142,7 +142,7 @@
        >
     <div class="oc-headingBlock">
       <h2 class="oc-toggleFold">
-        Projects you belong to (<span tal:replace="python: len(projinfos)" />)
+        Projects you belong to (<span id="num_projs" tal:content="python: len(projinfos)" />)
       </h2>
     </div><!-- end .headingBlock -->
   
