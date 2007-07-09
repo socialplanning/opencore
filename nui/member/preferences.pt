@@ -207,13 +207,6 @@
       </li>
       <li><input type="submit" value="Do something else" class="oc-button" /></li>
     </ul>
-    <ul class="oc-paginator oc-dataTable-paginator">
-    <!--<li>&larr; Prev</li>-->
-    <li>Page 1</li>
-    <li><a href="">2</a></li>
-    <li><a href="">3</a></li>
-    <li><a href="">Next &rarr;</a></li>
-  </ul>
   </form>
   </div><!-- end .widget-table -->
 
