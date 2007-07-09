@@ -232,11 +232,9 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 	    
 	    html = Ext.util.Format.trim(html);
 	    var target = Ext.get(elId);
-	    
-	    var newNode = Ext.DomHelper.insertHtml("beforeBegin", target.dom, html);
-	    target.remove();
+	    var newNode = Ext.DomHelper.overwrite(target.dom, html, true);
 
-	    if( effects == "highlight" ) {
+	    if( effects == "highlight") {
 		Ext.get(newNode).highlight();
 	    } else if( effects == "fadein" ) {
 		Ext.get(newNode).fadeIn();
