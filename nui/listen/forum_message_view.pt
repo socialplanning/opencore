@@ -9,9 +9,7 @@
         <ul id="forum-thread"
           tal:define="message messages">
           <li id="initial-message">
-            <!-- TODO
             <metal:message use-macro="here/message_macros/macros/message"/>
-            -->
 
             <!-- A form for changing the thread layout, uses post and lets the view set a cookie -->
             <form id="forum-control-form" name="forum-controls" method="post" action=""
@@ -40,15 +38,11 @@
               use_id_anchors python:True">
               <dt i18n:translate="label_threaded_replies">Thread Outline:</dt>
               <dd> 
-                <!-- TODO
                 <div metal:use-macro="here/message_macros/macros/thread" />
-                -->
               </dd>
             </dl>
           </li>
-          <!-- TODO
           <metal:threadmacro use-macro="here/message_macros/macros/forum_thread"/>
-          -->
         </ul>
       </div>
     </div>

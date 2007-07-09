@@ -3,9 +3,7 @@
     <div metal:fill-slot="content">
       <div id="oc-content-main">
         <div id="message_view" tal:define="message nocall:view">
-          <!-- TODO
           <metal:message use-macro="here/message_macros/macros/message"/>
-          -->
         </div>
         <ul id="thread-navigation"
           tal:define="next_link view/getNextInThread;
@@ -75,9 +73,7 @@
                   Threaded Replies:
                 </dt>
                 <dd>
-                  <!-- TODO
                   <div metal:use-macro="here/message_macros/macros/thread" />
-                  -->
                 </dd>
               </dl>
             </li>
