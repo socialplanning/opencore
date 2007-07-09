@@ -1,0 +1,14 @@
+<tal:vars define="global fdata view/handle_request" />
+<html metal:use-macro="here/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">
+      <div id="oc-content-main">
+
+	<metal:login use-macro="view/login_snippet/macros/login_snippet" />
+
+      </div><!-- end #content-main -->
+
+    </div><!-- end content slot -->
+  </body>
+</html>
+

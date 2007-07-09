@@ -6,7 +6,7 @@
     <div metal:fill-slot="content">
       <div id="oc-content-main">
 
-	<metal:forgot use-macro="view/login_snippet/macros/login_snippet" />
+	<metal:login use-macro="view/login_snippet/macros/login_snippet" />
 	<metal:forgot use-macro="view/forgot_snippet/macros/forgot_snippet" />
 
       </div><!-- end #content-main -->
