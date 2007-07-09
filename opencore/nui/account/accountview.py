@@ -64,9 +64,9 @@ class LoginView(AccountView):
     @button('login')
     @post_only(raise_=False)
     def handle_login(self):
+        id_ = self.request.get('__ac_name')
         if self.loggedin:
             self.addPortalStatusMessage('You are logged in')
-            id_ = self.request.get('__ac_name')
             self.update_credentials(id_)
             self.membertool.setLoginTimes()
 
@@ -87,6 +87,30 @@ class LoginView(AccountView):
                 destination = '%s?referer=%s' % (destination, 
                                                  urllib.quote(referer))
             return self.redirect(destination)
+
+        # check to see if the member is pending
+        # XXX probably hack this off into its own function when refactoring
+        # (above should again be modularized)
+        password = self.request.form.get('__ac_password')
+        if id_ and password:
+            membrane_tool = self.get_tool('membrane_tool')
+            matches = membrane_tool.unrestrictedSearchResults(getId=id_)
+
+            # ensure there is one match
+            if len(matches) == 1:
+                member = matches[0].getObject()
+                
+                # ensure the member is in the pending state
+                portal_workflow = self.get_tool('portal_workflow')
+                if portal_workflow.getInfoFor(member, 'review_state') == 'pending':
+
+                    # verify the member's credentials
+                    if member.verifyCredentials({'login': id_, 
+                                              'password': password}):
+
+                        self.addPortalStatusMessage('Verification pending. An email was sent to %s' %
+                                                    member.getEmail())
+                        return
 
         self.addPortalStatusMessage('Login failed')
 
@@ -191,7 +215,7 @@ class JoinView(BaseView, OctopoLite):
             self._sendmail_to_pendinguser(id=mem_id,
                                           email=self.request.get('email'),
                                           url=url)
-            self.addPortalStatusMessage(u'An email has been sent to you, Lammy.')
+            self.addPortalStatusMessage(u'An email has been sent to you, %s.' % mem_id)
             return mdc._getOb(mem_id)
         else:
             return self.redirect(url)
