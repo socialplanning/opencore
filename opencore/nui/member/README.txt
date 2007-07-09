@@ -47,11 +47,10 @@ Exercise the Member Preferences Class
     Now, let's have a member leave a project::
 
     But first, if we're not logged in as the member,
-    we should get a workflow exception when trying to leave the project
+    we should get a portal status message back
     >>> view.leave_project('p2')
-    Traceback (most recent call last):
-    ...
-    WorkflowException: No workflow provides the "deactivate" action.
+    >>> view.portal_status_message
+    [u'Invalid workflow transition', u'Cannot leave project']
 
     We have to login as m1 to get the modify portal content permission,
     giving us access to the workflow transition
@@ -251,12 +250,11 @@ Let's also reject an invitation extended to us
     ['p1', 'p3', 'p4']
 
     What happens if we try to perform an action on something that doesn't
-    exist? Right now we get a workflow exception ... maybe we should be more
-    graceful?
+    exist? Right now we get a portal status message
     >>> view.deny_handler(['p2'])
-    Traceback (most recent call last):
-    ...
-    WorkflowException: No workflow provides the "reject_by_owner" action.
+    {}
+    >>> view.portal_status_message
+    [u'Invalid workflow transition']
 
     Now let's call the view simulating the request:
     XXX member areas need to be created first though for m1

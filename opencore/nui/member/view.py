@@ -9,6 +9,7 @@ from Missing import MV
 
 from plone.memoize.view import memoize as req_memoize
 
+from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import transaction_note
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
@@ -224,13 +225,19 @@ class MemberPreferences(BaseView, OctopoLite):
     def _apply_transition_to(self, proj_id, transition):
         mship = self._membership_for_proj(proj_id)
         wft = self.get_tool('portal_workflow')
-        wft.doActionFor(mship, transition)
+        try:
+            wft.doActionFor(mship, transition)
+            return True
+        except WorkflowException:
+            self.addPortalStatusMessage('Invalid workflow transition')
+            return False
 
     def leave_project(self, proj_id):
         """ remove membership by marking the membership object as inactive """
         if not self._can_leave(proj_id): return False
 
-        self._apply_transition_to(proj_id, 'deactivate')
+        if not self._apply_transition_to(proj_id, 'deactivate'):
+            self.addPortalStatusMessage('Cannot leave project')
         return True
 
     def change_visibility(self, proj_id, to=None):
@@ -299,7 +306,8 @@ class MemberPreferences(BaseView, OctopoLite):
         assert len(targets) == 1
         proj_id = targets[0]
         # XXX do we notify anybody (proj admins) when a mship has been accepted?
-        self._apply_transition_to(proj_id, 'approve_public')
+        if not self._apply_transition_to(proj_id, 'approve_public'):
+            return {}
         elt_id = '%s_invitation' % proj_id
         return {elt_id: dict(action='delete')}
 
@@ -308,7 +316,8 @@ class MemberPreferences(BaseView, OctopoLite):
         assert len(targets) == 1
         proj_id = targets[0]
         # XXX do we notify anybody (proj admins) when a mship has been denied?
-        self._apply_transition_to(proj_id, 'reject_by_owner')
+        if not self._apply_transition_to(proj_id, 'reject_by_owner'):
+            return {}
         elt_id = '%s_invitation' % proj_id
         return {elt_id: dict(action='delete')}
 
@@ -318,7 +327,8 @@ class MemberPreferences(BaseView, OctopoLite):
         assert len(targets) == 1
         proj_id = targets[0]
         # XXX do we notify anybody (proj admins) when a mship has been denied?
-        self._apply_transition_to(proj_id, 'reject_by_owner')
+        if not self._apply_transition_to(proj_id, 'reject_by_owner'):
+            return {}
         elt_id = '%s_invitation' % proj_id
         return {elt_id: dict(action='delete')}
 
