@@ -142,7 +142,7 @@
         </ul>
       </fieldset>
     </form>
-    <form class="oc-expander">
+    <form class="oc-expander" action="preferences">
       <fieldset>
         <legend class="oc-legend-label">
           <a href="#" class="oc-expander-link">Change password</a>
@@ -162,8 +162,8 @@
           </li>
           <li>
             <button type="submit" 
-              name="update:boolean" 
-              value="True" 
+              name="task" 
+              value="change-password" 
               class="oc-button oc-chooseThis">
               Change
             </button>
