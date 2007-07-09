@@ -16,7 +16,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 from topp.utils.pretty_date import prettyDate
 
-from opencore.nui.base import BaseView, button
+from opencore.nui.base import BaseView
 from opencore.nui.formhandler import OctopoLite, action
 from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.nui.member.interfaces import ITransientMessage
@@ -431,6 +431,11 @@ class MemberPreferences(BaseView, OctopoLite):
         mem_id = self.context.getId()
         msgs = tm.get_msgs(mem_id, self.msg_category)
         return msgs
+
+    @action("change-password")
+    def change_password(self, target=None, fields=None):
+        """ fill this in with help from k0s """
+        pass
 
     @property
     def n_updates(self):
