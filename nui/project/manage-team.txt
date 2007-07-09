@@ -51,7 +51,7 @@ Also verify that the transient messages were saved
     >>> from opencore.nui.member.interfaces import ITransientMessage
     >>> tm = getUtility(ITransientMessage)
     >>> list(tm.get_msgs('m4', view.msg_category))
-    [(0, 'You have been accepted to <a href=http://nohost/plone/projects/p3">Project Three</a>')]
+    [(0, 'You have been accepted to <a href="http://nohost/plone/projects/p3">Project Three</a>')]
 
 Next we recreate the request and test discarding; no add'l email
 should be sent:
@@ -92,8 +92,11 @@ email notifier:
 
 And we should also have some rejection msgs for the user
 
-    >>> list(tm.get_msgs('m4', view.msg_category))
-    [(0, 'You have been accepted to <a href=http://nohost/plone/projects/p3">Project Three</a>'), (1, 'You have been denied membership to <a href=http://nohost/plone/projects/p3">Project Three</a>')]
+    >>> msgs = list(tm.get_msgs('m4', view.msg_category))
+    >>> msgs[0]
+    (0, 'You have been accepted to <a href="http://nohost/plone/projects/p3">Project Three</a>')
+    >>> msgs[1]
+    (1, 'You have been denied membership to <a href="http://nohost/plone/projects/p3">Project Three</a>')
 
 Verify that invitation reminders go out:
 
@@ -125,7 +128,7 @@ should be sent:
 Transient Message should be added as well
 
     >>> list(tm.get_msgs('m2', view.msg_category))
-    [(0, 'You have been deactivated from <a href=http://nohost/plone/projects/p3">Project Three</a>')]
+    [(0, 'You have been deactivated from <a href="http://nohost/plone/projects/p3">Project Three</a>')]
 
 Ensure that form submissions changing the team roles for members
 behave as expected.  At the beginning we re-add and approve m3 so we

@@ -718,7 +718,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         # can move to a macro
         proj_url = self.context.absolute_url()
         title = self.context.Title()
-        msg = 'You have been %(status)s <a href=%(proj_url)s">%(title)s</a>' % locals()
+        msg = 'You have been %(status)s <a href="%(proj_url)s">%(title)s</a>' % locals()
         self.transient_msgs.store(mem_id, self.msg_category, msg)
 
     def _add_approval_message_for(self, mem_id):
