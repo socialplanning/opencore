@@ -30,6 +30,7 @@ Exercise the Member Preferences Class
     >>> member_folder = portal.portal_memberdata.m1
 
     >>> view = MemberPreferences(member_folder, request)
+    >>> view = view.__of__(member_folder)
     >>> view
     <opencore.nui.member.view.MemberPreferences object at ...>
 
@@ -183,8 +184,8 @@ Let's accept our gracious invitation
     >>> view.request.form = dict(mode='async')
 
     Now we can trigger them, we get the json response
-    >>> view.accept_handler(['p4'])
-    {'p4_invitation': {'action': 'delete'}}
+    >>> sorted(view.accept_handler(['p4']).keys())
+    ['p4_invitation', 'projinfos_for_user']
 
     And thus, we should no longer be invited
     >>> self.clearMemoCache()
