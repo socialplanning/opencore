@@ -1,8 +1,12 @@
 from opencore.listen.mailinglist_views import MailingListAddForm, MailingListEditForm, MailingListView
 from Products.listen.browser.mail_archive_views import ArchiveForumView, ArchiveDateView, \
-                                                       ArchiveNewTopicView, SubFolderDateView
+                                                       ArchiveNewTopicView, SubFolderDateView, \
+                                                       ArchiveSearchView
 from Products.listen.browser.mail_message_views import ForumMailMessageView, ThreadedMailMessageView, \
-                                                       MessageReplyView
+                                                       MessageReplyView, SearchDebugView
+from Products.listen.browser.manage_membership import ManageMembersView
+from Products.listen.utilities.list_lookup import ListLookupView
+from Products.listen.browser.moderation import ModerationView
 from opencore.nui.base import BaseView
 
 
@@ -29,3 +33,8 @@ NuiSubFolderDateView = make_nui_listen_view_class(SubFolderDateView)
 NuiThreadedMailMessageView = make_nui_listen_view_class(ThreadedMailMessageView)
 NuiForumMailMessageView = make_nui_listen_view_class(ForumMailMessageView)
 NuiMessageReplyView = make_nui_listen_view_class(MessageReplyView)
+NuiManageMembersView = make_nui_listen_view_class(ManageMembersView)
+NuiModerationView = make_nui_listen_view_class(ModerationView)
+NuiSearchDebugView = make_nui_listen_view_class(SearchDebugView)
+NuiArchiveSearchView  = make_nui_listen_view_class(ArchiveSearchView)
+NuiListLookupView = make_nui_listen_view_class(ListLookupView)
