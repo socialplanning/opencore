@@ -9,13 +9,13 @@ class WikiEdit(BaseView):
         self.errors = {}
         self.context.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
-            self.addPortalStatusMessage('Please correct the indicated errors.')
+            self.addPortalStatusMessage(u'Please correct the indicated errors.')
             return self.errors
         
         self.context.processForm(values=self.request)
         repo = self.context.portal.portal_repository
         repo.save(self.context, comment = self.request.get('comment', ''))
-        self.addPortalStatusMessage('Changes saved.')
+        self.addPortalStatusMessage(u'Changes saved.')
         self.request.response.redirect(self.context.absolute_url())
 
 
