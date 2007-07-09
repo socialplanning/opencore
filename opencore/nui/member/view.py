@@ -287,7 +287,7 @@ class MemberPreferences(BaseView, OctopoLite):
         json_ret = {}
         for proj_id in targets:
             self.leave_project(proj_id)
-            elt_id = '%s_mship' % proj_id
+            elt_id = 'mship_%s' % proj_id
             json_ret[elt_id] = dict(action='delete')
         json_ret['num_projs'] = {'html': len(self.projects_for_user),
                                  'action': 'copy'}
