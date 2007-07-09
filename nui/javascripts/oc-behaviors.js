@@ -11,7 +11,7 @@ if (typeof OC == "undefined") {
 }
 
 // where we'll store all our live elementshist
-OC.liveElements = new Array();
+OC.liveElements = {};
 
 /* 
    #
@@ -50,7 +50,10 @@ OC.liveElementKey = {
    # new nodes to the dom, call breatheLife(newItem) to activate that
    # element and its children.
 */
-OC.breatheLife = function(newNode) {
+OC.breatheLife = function(newNode, force) {
+  
+  // force re-up?
+  force = false;
     
     // set scope
     if (!newNode) {
@@ -74,23 +77,26 @@ OC.breatheLife = function(newNode) {
 	
 	if(elements.length > 0){
 	    
-	    for (var i = 0; i < elements.length; i++) {
+	 for (var i = 0; i < elements.length; i++) {
 		
-		//get an Ext Obj for your element
-		var extEl = Ext.get(elements[i]);
-		
-		//get reference to the proper constructor
-		var constructor = OC[this.liveElementKey[selector]];        
-		OC.debug(selector);
-		OC.debug(constructor);
-		// add a new liveElement to OC.liveElements
-		if( true|| typeof OC.liveElements[extEl.dom.id] == "undefined" )
-		    OC.liveElements[extEl.dom.id] = new constructor(extEl);
-	    }
-	}      
-    }
+      //get an Ext Obj for your element
+      var extEl = Ext.get(elements[i]);
+      
+      //get reference to the proper constructor
+      var constructor = OC[this.liveElementKey[selector]];        
+      OC.debug(selector);
+      OC.debug(constructor);
+      
+      // add a new liveElement to OC.liveElements.
+      // only make a new one if it doesn't exist, or if force has been specified
+      if( force || typeof OC.liveElements[extEl.dom.id] == "undefined" );
+          var myId = extEl.id;
+          OC.liveElements[myId] = new constructor(extEl);
+        }
+    }      
+  }
   
-    OC.debug(OC.liveElements);
+  OC.debug(OC.liveElements);
 
 }; // OC.breatheLife()
 
@@ -236,7 +242,7 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 		Ext.get(newNode).fadeIn();
 	    }
 	    
-	    OC.breatheLife(newNode);
+	    OC.breatheLife(newNode, true);
 	    OC.debug("done breathing");
 	    
 	    break;
@@ -282,6 +288,7 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 
 OC.Callbacks.afterAjaxFailure = function(o) {
     OC.debug('OC.Callbacks.afterAjaxFailure');
+    OC.debug(o.responseText);
 };
 
 /*
@@ -323,6 +330,9 @@ OC.ActionLink = function(extEl) {
 	    });
     } 
     link.on('click', _doAction, this);
+    
+    // pass back element to OC.LiveElements
+    return this;
 };
 
 /* 
@@ -362,6 +372,9 @@ OC.ActionSelect = function(extEl) {
 	
     }
     select.on('change', _doAction, this);
+    
+    // pass back element to OC.LiveElements
+    return this;
 };
 
 /* 
@@ -409,6 +422,9 @@ OC.ActionButton = function(extEl) {
 	    }, "mode=async&task=" + task);
     }
     button.on('click', _actionButtonClick, this);
+    
+    // pass back element to OC.LiveElements
+    return this;
 };
 
 /* 
@@ -440,6 +456,9 @@ OC.CheckAll = function(extEl) {
     }
     
     checkAll.on('click', _toggleCheckBoxes, this); 
+    
+    // pass back element to OC.LiveElements
+    return this;
 };
 
 /*
@@ -480,6 +499,9 @@ OC.liveValidatee = function(extEl) {
 	
     }
     
+    // pass back element to OC.LiveElements
+    return this;
+    
 };
 
 /* 
@@ -489,6 +511,8 @@ OC.liveValidatee = function(extEl) {
 */
 OC.LiveItem = function(extEl) {
     
+    // pass back element to OC.LiveElements
+    return this;
 };
 
 
@@ -500,6 +524,9 @@ OC.LiveItem = function(extEl) {
 OC.AutoFocus = function(extEl) {
     // get refs
     extEl.dom.focus();
+    
+    // pass back element to OC.LiveElements
+    return this;
 };
 
 /*
@@ -533,6 +560,9 @@ OC.FocusField = function(extEl) {
     }
     field.on('focus', _highlightField, this);
     field.on('blur', _unHighlightField, this);
+    
+    // pass back element to OC.LiveElements
+    return this;
 };
 
 /* 
@@ -731,6 +761,9 @@ OC.TopNav = function(extEl) {
     
     
     unclickArea.on('click', _hideMenus, this );
+    
+    // pass back element to OC.LiveElements
+    return this;
 };
 
 
@@ -785,6 +818,8 @@ OC.ProjectCreateForm = function(extEl) {
        #
     */  
     
+    // pass back element to OC.LiveElements
+    return this;
     
 }; // end OC.ProjectCreateForm()
 
@@ -1027,6 +1062,9 @@ OC.SearchLinks = function(extEl) {
 	
     }
     links.on('mouseover', _linksMouseover, this);
+    
+    // pass back element to OC.LiveElements
+    return this;
     
 }; // end OC.SearchLinks();
 
