@@ -6,6 +6,11 @@
     <tal:exploremenu replace="structure context/topnav-explore-menu" />
   </li>
 
+  <li class="oc-dropdown-container">
+    your stuff
+    <tal:mystuffmenu replace="structure context/topnav-mystuff-menu" />
+  </li>
+
   <li tal:repeat="menuitem view/menudata">
     <a tal:attributes="href menuitem/href"
        tal:content="menuitem/content" />

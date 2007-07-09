@@ -1,0 +1,29 @@
+
+<ul id="oc-usermenu-mystuff"
+    tal:define="home_url view/home_url">
+  <li>
+    <a tal:attributes="href string:${home_url}/profile"
+       tal:content="string:Profile" />
+  </li>
+
+  <li>
+    <a tal:attributes="href home_url"
+       tal:content="string:Home" />
+  </li>
+
+  <li>
+    <a tal:attributes="href string:${home_url}/preferences"
+       tal:content="string:Account" />
+  </li>
+
+  <tal:projects define="projects view/member_info/projects"
+                condition="projects">
+    <hr />
+
+    <li tal:repeat="project projects">
+      <a tal:attributes="href project/getURL"
+         tal:content="project/Title" />
+    </li>
+
+  </tal:projects>
+</ul>

@@ -65,6 +65,15 @@
      template="explore-menu.pt"
      />
 
+  <!-- topnav-explore-menu -->
+  <browser:page
+     for="*"
+     class="opencore.nui.base.BaseView"
+     permission="zope.Public"
+     name="topnav-mystuff-menu"
+     template="mystuff-menu.pt"
+     />
+
   <!-- topnav-accessibility -->
   <browser:page
      for="*"
