@@ -47,7 +47,7 @@
       </td>
       <td>
 	<ul class="oc-actions oc-dataTable-row-actions">
-          <li><a class="oc-actionLink" tal:attributes="href string:${context/absolute_url}/${view/name}?task=${proj_id}_leave">Leave</a></li>
+          <li><a class="oc-actionLink oc-js-actionLink" tal:attributes="href string:${context/absolute_url}/${view/name}?task=${proj_id}_leave">Leave</a></li>
 	</ul>
       </td>
     </tr>
