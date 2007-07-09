@@ -192,7 +192,7 @@ Let's accept our gracious invitation
 
     Now we can trigger them, we get the json response
     >>> sorted(view.accept_handler(['p4']).keys())
-    ['p4_invitation', 'projinfos_for_user']
+    ['num_updates', 'p4_invitation', 'projinfos_for_user']
 
     And thus, we should no longer be invited
     >>> self.clearMemoCache()
@@ -215,8 +215,8 @@ And now if we were to receive an info message
     [(0, 'All your base are belong to us'), (1, 'You were just acceped to Move Zig')]
 
     Let's go ahead and kill the first one, the message is not so nice
-    >>> view.close_msg_handler('0')
-    {'0_close': {'action': 'delete'}}
+    >>> sorted(view.close_msg_handler('0').keys())
+    ['0_close', 'num_updates']
 
     Poof, he's gone
     >>> self.clearMemoCache()
@@ -248,8 +248,8 @@ Let's also reject an invitation extended to us
     ['p2']
 
     Now we shove it back in the admin's face
-    >>> view.deny_handler(['p2'])
-    {'p2_invitation': {'action': 'delete'}}
+    >>> sorted(view.deny_handler(['p2']).keys())
+    ['num_updates', 'p2_invitation']
 
     And we're not a part of that project, and no longer invited
     >>> self.clearMemoCache()
