@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" i18n:domain="plone"
+  metal:use-macro="here/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">
+      <div id="oc-content-main" i18n:domain="listen">
+
+        <h1 i18n:translate="" tal:content="view/Title" class="documentFirstHeading">
+          Title or Id
+        </h1>
+
+        <form name="manage-form" id="manage-form"
+          tal:attributes="action request/ACTUAL_URL"
+          tal:define="errors view/errors|nothing">
+
+          <table>
+            <tr>
+              <th i18n:translate="">Remove</th>
+              <th i18n:translate="">Address / User ID</th>
+              <th i18n:translate="">Subscribed</th>
+            </tr>
+            <tr tal:repeat="user view/allowed_senders_data">
+              <td>
+                <input type="checkbox" tal:attributes="name python:'remove_'+user" />
+              </td>
+              <td tal:content="string:${user}" />
+              <td tal:define="subscribed python:view.is_subscribed(user) and 1 or 0">
+                <input type="checkbox" tal:attributes="name python:'subscribed_'+user; checked subscribed" />
+                <input type="hidden" tal:condition="subscribed" tal:attributes="name python:'wassubscribed_'+user" />
+              </td>
+              <td>
+                <span tal:replace="python: view.pending_status(user) " />
+              </td>
+            </tr>
+            <tr>
+              <td i18n:translate="">
+                Add:
+              </td>
+              <td>
+                <input type="text" name="add_email" value="" size="25" />
+              </td>
+              <td>
+                <input type="checkbox" name="add_subscribed" />
+              </td>
+              <td />
+            </tr>
+          </table>
+          <input type="submit" name="save" i18n:attributes="value" value="save changes" />
+          <!-- ???
+          <p tal:content="python: errors" />
+          -->
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

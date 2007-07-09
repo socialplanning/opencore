@@ -1,0 +1,76 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" i18n:domain="plone"
+  metal:use-macro="here/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">
+      <div id="oc-content-main" i18n:domain="listen"
+        tal:define="is_post_moderated view/is_post_moderated;
+                    is_membership_moderated view/is_membership_moderated;
+                    pending_list view/get_pending_lists">
+
+        <h1 i18n:translate="" tal:content="view/Title">
+          Title or Id
+        </h1>
+
+        <h3 i18n:translate="" >Posts awaiting moderation</h3>
+        <table width="100%"  tal:condition="pending_list">
+          <tr>
+            <th i18n:translate="" >From</th>
+            <th i18n:translate="" >Subject</th>
+            <th></th>
+          </tr>
+          <form name="moderate-post-form" id="moderate-post-form"
+            tal:attributes="action request/ACTUAL_URL"
+            tal:define="errors view/errors|nothing"
+            tal:repeat="post pending_list">
+            <tr>
+              <td tal:content="post/user_name" />
+              <td tal:content="post/subject" />
+              <td>
+                <input type="hidden" name="postid" tal:attributes="value python: str(post['postid'])" />
+                <input type="hidden" name="email" tal:attributes="value python: str(post['user'])" />      
+                <input type="submit" name="post_approve" i18n:attributes="value" value="approve" /> 
+                <input type="submit" name="post_discard" i18n:attributes="value" value="discard" /> 
+                <input tal:condition="python:is_post_moderated or is_membership_moderated" type="submit" name="post_reject" i18n:attributes="value" value="reject" /> 
+                <input tal:condition="python:is_post_moderated or is_membership_moderated" name="reject_reason" type="text" />
+              </td>
+            </tr>
+            <tr>
+              <td tal:content="python: post['body'][:50]" colspan="3" />
+            </tr>
+          </form>
+        </table>
+        <p tal:condition="python: not pending_list">No posts pending moderation</p>
+
+        <tal:members condition="is_membership_moderated"
+          tal:define="pending_members view/get_pending_members">
+          <h3 i18n:translate="">Users awaiting moderation</h3>
+          <table tal:condition="pending_members">
+            <tr>
+              <th i18n:translate="">User</th>
+              <th></th>
+            </tr>
+
+            <form name="moderate-member-form" id="moderate-member-form"
+              tal:attributes="action request/ACTUAL_URL"
+              tal:define="errors view/errors|nothing"
+              tal:repeat="pending_member pending_members">
+              <tr>
+                <td tal:content="pending_member/user_name" style="text-align:center" />
+                <td>
+                  <input type="hidden" name="email" tal:attributes="value pending_member/user" />
+                  <input i18n:attributes="value" type="submit" name="member_approve" value="approve" />
+                  <input i18n:attributes="value" type="submit" name="member_discard" value="discard" />
+                  <input i18n:attributes="value" type="submit" name="member_reject" value="reject" />
+                  <input type="text" name="reject_reason" />
+                </td>
+              </tr>
+            </form>
+          </table>
+          <p tal:condition="python: not pending_members ">No members pending moderation.</p>
+        </tal:members>
+
+        <p tal:content="view/errors|nothing" />
+      </div>
+    </div>
+  </body>
+</html>

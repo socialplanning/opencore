@@ -2,8 +2,8 @@
   <body>
     <div metal:fill-slot="content">
       <tal:vars define="can_subscribe view/canSubscribe;
-                    subscribed view/isSubscribed;
-                    isAnon not: view/loggedin">
+                        subscribed view/isSubscribed;
+                        isAnon not: view/loggedin">
         <div id="oc-content-main">
          <div class="oc-headingBlock">
             <h1 tal:content="context/Title" />
@@ -58,7 +58,8 @@
             </p>
       
             <form name="subscription-form" id="subscription-form"
-              tal:define="errors view/errors|nothing; isPending view/isPending"
+              tal:define="errors view/errors|nothing;
+                          isPending view/isPending"
               action="." tal:attributes="action request/ACTUAL_URL">
               <tal:member condition="python:can_subscribe and not isAnon and not isPending">
                 <h2>Subscription status</h2>

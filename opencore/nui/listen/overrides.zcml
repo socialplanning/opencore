@@ -28,13 +28,6 @@
      template="new_topic_view.pt"
      />
   
-  <browser:page
-     for="Products.listen.interfaces.IListArchive"
-     name="search_archive"
-     class="Products.listen.browser.mail_archive_views.ArchiveSearchView"
-     permission="zope2.View"
-     />
-  
   <browser:defaultView
      for="Products.listen.interfaces.IListArchive"
      name="forum_view"
@@ -92,6 +85,54 @@
     class=".view.NuiMessageReplyView"
     permission="zope2.View"
     template="message_reply_view.pt"
+    />
+
+  <browser:page
+    for="Products.listen.interfaces.IListLookup"
+    name="lookup_view"
+    class=".view.NuiListLookupView"
+    permission="zope2.View"
+    template="lookup_view.pt"
+    />
+
+  <browser:page
+    for="Products.listen.interfaces.IMailingList"
+    name="mailinglist_view"
+    class=".view.NuiMailingListView"
+    permission="zope2.View"
+    template="mailinglist_view.pt"
+    />
+
+  <browser:page
+    for="Products.listen.interfaces.IHaveSubscribers"
+    name="manage_membership"
+    class=".view.NuiManageMembersView"
+    permission="listen.EditMailingList"
+    template="manage_membership.pt"
+    />
+
+  <browser:page
+    name="moderation"
+    for="Products.listen.interfaces.IMailingList"
+    permission="listen.EditMailingList"
+    class=".view.NuiModerationView"
+    template="moderation.pt"
+    />
+
+  <browser:page
+    for="Products.listen.interfaces.IMailMessage"
+    class=".view.NuiSearchDebugView"
+    name="search_debug_view"
+    template="search_debug_view.pt"
+    permission="zope2.View"
+    />
+
+  <browser:page
+    for="Products.listen.interfaces.IListArchive"
+    name="search_archive"
+    class=".view.NuiArchiveSearchView"
+    permission="zope2.View"
+    template="search.pt"
     />
 
 </configure>
