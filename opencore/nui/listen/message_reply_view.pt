@@ -1,0 +1,118 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" i18n:domain="plone"
+      metal:use-macro="here/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">
+      <div id="oc-content-main" i18n:domain="listen">
+        hi i'm message_reply_view.pt
+      </div>
+    </div>
+  </body>
+</html>
+<!--
+<tal:ml define="ml view/getMailingList">
+  <metal:archive-view use-macro="ml/archive/@@forum_view/macros/archive">
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+          lang="en"
+          i18n:domain="plone">
+      <body>
+        
+        <metal:fillbase fill-slot="base">
+          <base href="" tal:attributes="href current_page_url" />
+        </metal:fillbase>
+
+        <div metal:fill-slot="body">
+          <div metal:define-macro="body"
+               tal:define="errors view/errors|nothing"
+               i18n:domain="listen">
+            
+            <h1 i18n:translate="message_reply" class="documentFirstHeading">
+              New reply to
+              <span tal:replace="view/subject" i18n:name="reply_subject" />
+              by
+              <span tal:replace="view/mail_from" i18n:name="reply_author" />
+            </h1>
+
+            <form id="message-reply"
+                  name="listen-reply-form"
+                  action="."
+                  method="post"
+                  tal:attributes="action request/ACTUAL_URL">
+
+              <input type="hidden"
+                     name="referring_url"
+                     value="."
+                     tal:attributes="value view/referring_url"/>
+
+              <div class="field">
+                <label for="mail_from"
+                       i18n:translate="label_from">From:</label>
+                <span tal:replace="view/member_address">test@example.com</span>
+              </div>
+              <div class="field"
+                   tal:define="error errors/subject|nothing"
+                   tal:attributes="class python:'field' + (error and ' error' or '')">
+                <label for="subject" class="message-subject"
+                       i18n:translate="label_subject">Subject:</label>
+                <span class="fieldRequired"
+                      title="Required"
+                      i18n:domain="plone"
+                      i18n:translate="label_required"
+                      i18n:attributes="title title_required;">
+                  (Required)
+                </span>
+                <div tal:condition="error" tal:content="error"
+                     i18n:translate="">
+                  The Error
+                </div>
+                <div>
+                  <input type="text"
+                         name="subject"
+                         value="."
+                         size="40"
+                         tal:attributes="value view/reply_subject" />
+                </div>
+              </div>
+              <div class="field"
+                   tal:define="error errors/body|nothing"
+                   tal:attributes="class python:'field' + (error and ' error' or '')">
+                <label for="body" class="message-subject"
+                       i18n:translate="label_reply_body">Reply:</label>
+                <span class="fieldRequired"
+                      title="Required"
+                      i18n:domain="plone"
+                      i18n:translate="label_required"
+                      i18n:attributes="title title_required;">
+                  (Required)
+                </span>
+                <div tal:condition="error" tal:content="error"
+                     i18n:translate="">
+                  The Error
+                </div>
+                <div>
+                  <textarea rows="25"
+                            cols="79"
+                            name="body"
+                            value="."
+                            tal:content="view/reply_body" />
+                </div>
+              </div>
+              <div class="formControls">
+                <input class="context"
+                       type="submit"
+                       name="submit"
+                       value="Send"
+                       i18n:attributes="value label_send" />
+                <input class="standalone"
+                       type="submit"
+                       name="cancel"
+                       value="Cancel"
+                       i18n:attributes="value label_cancel;"/>
+              </div>
+            </form>
+          </div>
+        </div>
+      </body>
+    </html>
+  </metal:archive-view>
+</tal:ml>
+-->
