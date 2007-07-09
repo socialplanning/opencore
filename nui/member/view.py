@@ -228,9 +228,10 @@ class MemberPreferences(BaseView, OctopoLite):
 
     def leave_project(self, proj_id):
         """ remove membership by marking the membership object as inactive """
-        if not self._can_leave(proj_id): return
+        if not self._can_leave(proj_id): return False
 
         self._apply_transition_to(proj_id, 'deactivate')
+        return True
 
     def change_visibility(self, proj_id, to=None):
         """
@@ -286,9 +287,9 @@ class MemberPreferences(BaseView, OctopoLite):
     def leave_handler(self, targets, fields=None):
         json_ret = {}
         for proj_id in targets:
-            self.leave_project(proj_id)
-            elt_id = 'mship_%s' % proj_id
-            json_ret[elt_id] = dict(action='delete')
+            if self.leave_project(proj_id):
+                elt_id = 'mship_%s' % proj_id
+                json_ret[elt_id] = dict(action='delete')
         json_ret['num_projs'] = {'html': len(self.projects_for_user),
                                  'action': 'copy'}
         return json_ret

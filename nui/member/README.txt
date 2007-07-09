@@ -60,6 +60,7 @@ Exercise the Member Preferences Class
 
     Now we should be able to leave the project just fine
     >>> view.leave_project('p2')
+    True
 
     And finally, m1 should no longer have active membership to project p2
     >>> self.clearMemoCache()
@@ -153,6 +154,8 @@ Exercise the Member Preferences Class
 
     Let's try leaving a project pending from a member request
     >>> view.leave_project('p2')
+    True
+
     >>> self.clearMemoCache()
     >>> project_dicts = view.projects_for_user
     >>> [d['proj_id'] for d in project_dicts]
@@ -163,6 +166,8 @@ Exercise the Member Preferences Class
     We should not have left anyting
     >>> self.clearMemoCache()
     >>> view.leave_project('p4')
+    False
+
     >>> project_dicts = view.invitations
     >>> [d['proj_id'] for d in project_dicts]
     ['p4']
