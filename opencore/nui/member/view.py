@@ -323,6 +323,7 @@ class MemberPreferences(BaseView, OctopoLite):
         project_admins = self.catalogtool(
             highestTeamRole='ProjectAdmin',
             portal_type='OpenMembership',
+            review_state=self.active_states,
             path=team_path,
             )
 
