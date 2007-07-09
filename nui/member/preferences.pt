@@ -205,7 +205,11 @@
       <li>
         <button type="submit" name="task" value="batch:check_leave" class="oc-button oc-chooseThis">Leave projects</button>
       </li>
-      <li><input type="submit" value="Do something else" class="oc-button" /></li>
+      <noscript>
+       <li>
+         <button type="submit" name="task" value="batch:check_change-listing" class="oc-button">Change listing</button>
+       </li>
+      </noscript>
     </ul>
   </form>
   </div><!-- end .widget-table -->
