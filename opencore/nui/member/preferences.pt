@@ -70,7 +70,7 @@
                   <img src="" />
                 </div>
                 <p class="oc-invite-content"
-                   tal:content="msg" />
+                   tal:content="structure msg" />
                 <a href="#" title="Close" class="oc-actionClose oc-actionLink"
                    tal:attributes="href string:${request/ACTUAL_URL}?task=${idx}_close"
                    >Close</a>
