@@ -236,9 +236,11 @@ class MemberPreferences(BaseView, OctopoLite):
         """ remove membership by marking the membership object as inactive """
         if not self._can_leave(proj_id): return False
 
-        if not self._apply_transition_to(proj_id, 'deactivate'):
+        if self._apply_transition_to(proj_id, 'deactivate'):
+            return True
+        else:
             self.addPortalStatusMessage('Cannot leave project')
-        return True
+            return False
 
     def change_visibility(self, proj_id, to=None):
         """

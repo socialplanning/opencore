@@ -47,8 +47,9 @@ Exercise the Member Preferences Class
     Now, let's have a member leave a project::
 
     But first, if we're not logged in as the member,
-    we should get a portal status message back
+    we should get a portal status message back and a False return
     >>> view.leave_project('p2')
+    False
     >>> view.portal_status_message
     [u'Invalid workflow transition', u'Cannot leave project']
 
