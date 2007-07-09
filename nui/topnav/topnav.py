@@ -199,10 +199,6 @@ class AuthMenuView(BaseView):
         
         menudata = (
 
-            {'content': "%s's Stuff" % mem_data.get('id'),
-             'href': mem_data.get('url'),
-             },
-
             {'content': 'Log Out',
              'href': '%s/logout' % self.siteURL,
              },
