@@ -4,6 +4,7 @@ some base class for opencore ui work
 import datetime
 from time import strptime
 import urllib
+import cgi
 from Acquisition import aq_inner, aq_parent
 
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
@@ -91,7 +92,7 @@ class BaseView(BrowserView):
             msgs = []
         req_psm = self.request.form.get("portal_status_message")
         if req_psm:
-            req_psm = req_psm.replace("<", "&lt;").replace(">", "&gt;")
+            req_psm = cgi.escape(req_psm)
             msgs.append(req_psm)
         return msgs
 
