@@ -163,11 +163,18 @@ Exercise the Member Preferences Class
     ['p3', 'p1']
 
     And when we try to leave a pending mship that's an invitation
-    (should never happen, but with users messing with post)
+    (should never happen, but with users messing with request)
     We should not have left anyting
     >>> self.clearMemoCache()
     >>> view.leave_project('p4')
     False
+
+    If we try to leave a project as the only admin, it should not
+    allow it, and return an appropriate portal status message
+    >>> view.leave_project('p1')
+    False
+    >>> view.portal_status_message
+    [u'You are the only admin. You cannot leave this project']
 
     >>> project_dicts = view.invitations
     >>> [d['proj_id'] for d in project_dicts]

@@ -230,12 +230,16 @@ class MemberPreferences(BaseView, OctopoLite):
             wft.doActionFor(mship, transition)
             return True
         except WorkflowException:
-            self.addPortalStatusMessage('Invalid workflow transition')
             return False
 
     def leave_project(self, proj_id):
         """ remove membership by marking the membership object as inactive """
         if not self._can_leave(proj_id): return False
+
+        if self._is_only_admin(proj_id):
+            only_admin_msg = 'You are the only admin. You cannot leave this project'
+            self.addPortalStatusMessage(only_admin_msg)
+            return False
 
         if self._apply_transition_to(proj_id, 'deactivate'):
             return True
@@ -306,8 +310,23 @@ class MemberPreferences(BaseView, OctopoLite):
         mem_id = self.context.getId()
 
         review_state = wft.getInfoFor(mship, 'review_state')
-        return review_state in self.active_states or \
-               (review_state == 'pending' and last_actor == mem_id)
+
+        is_active = review_state in self.active_states
+        is_pending_member_requested = review_state == 'pending' and \
+                                      last_actor == mem_id
+
+        return is_active or is_pending_member_requested
+
+    def _is_only_admin(self, proj_id):
+        portal_path = '/'.join(self.portal.getPhysicalPath())
+        team_path = '/'.join([portal_path, 'portal_teams', proj_id])
+        project_admins = self.catalogtool(
+            highestTeamRole='ProjectAdmin',
+            portal_type='OpenMembership',
+            path=team_path,
+            )
+
+        return len(project_admins) <= 1
 
     @action('leave')
     def leave_handler(self, targets, fields=None):

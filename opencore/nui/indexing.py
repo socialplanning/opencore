@@ -28,6 +28,7 @@ idxs = (('FieldIndex', PROJECT_POLICY, None),
         ('FieldIndex', 'lastModifiedAuthor', None),
         ('DateIndex', 'ModificationDate', None),
         ('FieldIndex', 'mailing_list_threads', None),
+        ('FieldIndex', 'highestTeamRole', None),
         )
 
 mem_idxs = (('FieldIndex', 'exact_getFullname',
