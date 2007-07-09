@@ -64,4 +64,12 @@
     template="threaded_message.pt"
     />
 
+  <browser:page
+    for="Products.listen.interfaces.IListArchiveSubFolder"
+    name="by_date"
+    class=".view.NuiSubFolderDateView"
+    permission="zope2.View"
+    template="archive_date_messages.pt"
+    />
+
 </configure>
