@@ -344,6 +344,7 @@ class MemberPreferences(BaseView, OctopoLite):
     def accept_handler(self, targets, fields=None):
         assert len(targets) == 1
         proj_id = targets[0]
+
         # XXX do we notify anybody (proj admins) when a mship has been accepted?
         if not self._apply_transition_to(proj_id, 'approve_public'):
             return {}
@@ -364,7 +365,12 @@ class MemberPreferences(BaseView, OctopoLite):
 
         elt_id = '%s_invitation' % proj_id
         
-        command.update({elt_id: {'action':'delete'}})
+        command.update({
+                elt_id: {'action':'delete'},
+                "num_updates": {'action': 'copy',
+                                'html': self.n_updates}
+                })
+
         return command
 
     @action('DenyInvitation')
@@ -375,7 +381,9 @@ class MemberPreferences(BaseView, OctopoLite):
         if not self._apply_transition_to(proj_id, 'reject_by_owner'):
             return {}
         elt_id = '%s_invitation' % proj_id
-        return {elt_id: dict(action='delete')}
+        return {elt_id: dict(action='delete'),
+                "num_updates": {'action': 'copy',
+                                'html': self.n_updates}}
 
     # XXX is there any difference between ignore and deny?
     @action('IgnoreInvitation')
@@ -386,7 +394,9 @@ class MemberPreferences(BaseView, OctopoLite):
         if not self._apply_transition_to(proj_id, 'reject_by_owner'):
             return {}
         elt_id = '%s_invitation' % proj_id
-        return {elt_id: dict(action='delete')}
+        return {elt_id: dict(action='delete'),
+                "num_updates": {'action': 'copy',
+                                'html': self.n_updates}}
 
     @action('close')
     def close_msg_handler(self, targets, fields=None):
@@ -401,7 +411,9 @@ class MemberPreferences(BaseView, OctopoLite):
             return {}
         else:
             elt_id = '%s_close' % idx
-            return {elt_id: dict(action='delete')}
+            return {elt_id: dict(action='delete'),
+                    "num_updates": {'action': 'copy',
+                                    'html': self.n_updates}}
 
     @property
     @req_memoize
