@@ -48,12 +48,20 @@
     template="forum_message_view.pt"
     />
 
- <browser:page
-   for="Products.listen.interfaces.IListArchiveSubFolder"
-   name="by_thread"
-   class=".view.NuiSubFolderDateView"
-   permission="zope2.View"
-   template="archive_thread_messages.pt"
-   />
+  <browser:page
+    for="Products.listen.interfaces.IListArchiveSubFolder"
+    name="by_thread"
+    class=".view.NuiSubFolderDateView"
+    permission="zope2.View"
+    template="archive_thread_messages.pt"
+    />
+
+  <browser:page
+    for="Products.listen.interfaces.IMailMessage"
+    name="threaded_view"
+    class=".view.NuiThreadedMailMessageView"
+    permission="zope2.View"
+    template="threaded_message.pt"
+    />
 
 </configure>
