@@ -266,14 +266,30 @@ class MemberPreferences(BaseView, OctopoLite):
             wft.doActionFor(mship, 'make_%s' % to)
             return True
 
+    def _get_projinfo_for_id(self, proj_id):
+        """ optimize later """
+        def is_user_project(brain):
+            if brain.review_state == 'pending':
+                return brain.lastWorkflowActor == self.context.getId()
+            return brain.review_state in self.active_states
+
+        user_id = self.context.getId()
+        query = dict(portal_type='OpenMembership',
+                     getId=user_id,
+                     )
+        mship_brains = self.catalogtool(**query)
+        mship_brains = map(self._create_project_dict,
+                           filter(is_user_project, mship_brains))
+        mship_brains = [i for i in mship_brains if i['proj_id'] == proj_id]
+        return mship_brains[0]
+
     @action('change-listing')
     def change_visilibity_handler(self, targets, fields=None):
         ret = {}
         for proj_id, field in zip(targets, fields):
             new_visibility = field['listing']
             if self.change_visibility(proj_id, new_visibility):
-                ### XXX TODO how do i get projinfo for real?
-                projinfo = [p for p in self.projects_for_user if p['proj_id'] == proj_id][0]
+                projinfo = self_get_projinfo_for_id(proj_id)
                 
                 ret['mship_%s' % proj_id] = {
                     'html': self.project_row(proj_id=proj_id,
@@ -310,8 +326,15 @@ class MemberPreferences(BaseView, OctopoLite):
         # XXX do we notify anybody (proj admins) when a mship has been accepted?
         if not self._apply_transition_to(proj_id, 'approve_public'):
             return {}
+
+        projinfo = self._get_projinfo_for_id(proj_id)
         elt_id = '%s_invitation' % proj_id
-        return {elt_id: dict(action='delete')}
+        new_proj_row = self.project_row(proj_id=proj_id, projinfo=projinfo)
+        return {elt_id: {'action':'delete'},
+                'projinfos_for_user': {'action': 'append',
+                                       'effects': 'highlight',
+                                       'html': new_proj_row},
+                }
 
     @action('DenyInvitation')
     def deny_handler(self, targets, fields=None):
