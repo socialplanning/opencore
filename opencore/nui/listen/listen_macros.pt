@@ -1,7 +1,7 @@
 <!-- BEGIN LISTEN TABS -->
 <ul class="oc-tabs" metal:define-macro="tabs"
   tal:define="permissions modules/Products/listen/permissions">
-  <li id="oc-tabs-view">
+  <li>
     <a tal:attributes="href view/list_url; class python:view.get_tab_class(u'mailinglist_view')">
     view</a>
   </li>
@@ -9,20 +9,20 @@
     <a tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.EditMailingList, context)" tal:attributes="href string:${view/list_url}/edit; class python:view.get_tab_class(u'edit')">
     edit</a>
   </li>
-  <li id="oc-tabs-view">
+  <li>
     <a tal:attributes="href string:${view/list_url}/archive/search_archive; class python:view.get_tab_class(u'search_archive')">
     search</a>
   </li>
-  <li id="oc-tabs-view">
+  <li>
     <a tal:attributes="href string:${view/list_url}/archive; class python:view.get_tab_class([u'forum_view', u'date_view', u'new_topic', u'by_thread', u'threaded_view', u'by_date'])">
     archive</a>
   </li>
-  <li id="oc-tabs-view">
+  <li>
     <a tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.EditMailingList, context)" 
       tal:attributes="href string:${view/list_url}/manage_membership; class python:view.get_tab_class(u'manage_membership')">
     membership</a>
   </li>
-  <li id="oc-tabs-view">
+  <li>
     <a tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.ModerateMessage, context)" 
       tal:attributes="href string:${view/list_url}/moderation; class python:view.get_tab_class(u'moderation')">
     moderation</a>
