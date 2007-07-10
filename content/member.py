@@ -301,7 +301,7 @@ class OpenMember(TeamSecurity, FolderishMember):
         form = self.REQUEST.form
         if form.has_key('email') and not form['email']:
             return self.translate('Input is required but no input given.',
-                                  default='You did not enter an email address.'),
+                                  default='You did not enter an email address.')
         elif email != self.getEmail():
             mbtool = getToolByName(self, 'membrane_tool')
             if len(mbtool(getEmail=email)) > 0:
