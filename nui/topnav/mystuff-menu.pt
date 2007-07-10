@@ -1,5 +1,5 @@
 
-<ul id="oc-usermenu-mystuff"
+<ul id="oc-usermenu-mystuff" style="display:none;"
     tal:define="home_url view/home_url">
   <li>
     <a tal:attributes="href string:${home_url}/profile"

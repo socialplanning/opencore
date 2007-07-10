@@ -159,7 +159,6 @@ ul#oc-topnav-context li.oc-topnav-selected {
   margin: 0;
   padding: 0;
   width: 12em;
-  display: none;
   background: #94BA65;
   border: 1px solid #2B7284;
   border-top: none;
