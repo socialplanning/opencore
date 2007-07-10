@@ -13,6 +13,7 @@
                tal:content="desc"
                />
           </div>
+          <div metal:use-macro="here/@@listen_macros/tabs"/>
           <dl class="oc-plainList">
             <dt i18n:translate="" id="listaddress">
               Address

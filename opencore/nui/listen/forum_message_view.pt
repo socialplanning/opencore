@@ -4,6 +4,7 @@
     <div metal:fill-slot="content">
       <div id="oc-content-main" i18n:domain="listen" tal:define="messages view/getMessageBodies;">
         <h1 i18n:translate="" tal:content="messages/subject"/>
+        <div metal:use-macro="here/@@listen_macros/tabs"/>
         <a id="to_threaded" href="." tal:attributes="href view/archiveURL"
           i18n:translate="">Back to topic listing</a>
         <ul id="forum-thread"

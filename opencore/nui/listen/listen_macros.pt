@@ -1,0 +1,23 @@
+<!-- BEGIN LISTEN TABS -->
+<ul class="oc-tabs" tal:attributes="id string:oc-tabs-wiki-${view/name}" metal:define-macro="tabs"
+  tal:define="permissions modules/Products/listen/permissions">
+  <li id="oc-tabs-wikiview">
+    <a class="oc-actionLink" tal:attributes="href context/absolute_url" rel="view">view</a>
+  </li>
+  <li id="oc-tabs-wikiedit">
+    <a class="oc-actionLink" tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.EditMailingList, context)" tal:attributes="href string:${context/absolute_url}/edit" rel="edit">edit</a>
+  </li>
+  <li id="oc-tabs-wikiview">
+    <a class="oc-actionLink" tal:attributes="href string:${context/absolute_url}/archive/search_archive" rel="search">search</a>
+  </li>
+  <li id="oc-tabs-wikiview">
+    <a class="oc-actionLink" tal:attributes="href string:${context/absolute_url}/archive" rel="archive">archive</a>
+  </li>
+  <li id="oc-tabs-wikiview">
+    <a class="oc-actionLink" tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.EditMailingList, context)" tal:attributes="href string:${context/absolute_url}/manage_membership" rel="membership">membership</a>
+  </li>
+  <li id="oc-tabs-wikiview">
+    <a class="oc-actionLink" tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.ModerateMessage, context)" tal:attributes="href string:${context/absolute_url}/moderation" rel="moderation">moderation</a>
+  </li>
+</ul>
+<!-- END LISTEN TABS -->

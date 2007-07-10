@@ -10,6 +10,7 @@
         <h1 i18n:translate="" tal:content="view/Title">
           Title or Id
         </h1>
+        <div metal:use-macro="here/@@listen_macros/tabs"/>
 
         <h3 i18n:translate="" >Posts awaiting moderation</h3>
         <table width="100%"  tal:condition="pending_list">

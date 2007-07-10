@@ -9,6 +9,7 @@ raging plone-isms (e.g. 'oddrow' below) -->
         <tal:threads define="threads view/getTopics; batch threads;">
 
           <h1 i18n:translate="" tal:content="view/Title" />
+          <div metal:use-macro="here/@@listen_macros/tabs"/>
           <p id="listaddress" tal:content="view/listAddress" tal:condition="view/listAddress" />
           <p tal:content="view/listDescription" tal:condition="view/listDescription" />
           <table cellpadding="20">

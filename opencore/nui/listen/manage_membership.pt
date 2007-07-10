@@ -8,6 +8,7 @@
           Title or Id
         </h1>
 
+        <div metal:use-macro="here/@@listen_macros/tabs"/>
         <form name="manage-form" id="manage-form"
           tal:attributes="action request/ACTUAL_URL"
           tal:define="errors view/errors|nothing">

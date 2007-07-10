@@ -9,6 +9,7 @@
           by
           <span tal:replace="view/mail_from" i18n:name="reply_author" />
         </h1>
+        <div metal:use-macro="here/@@listen_macros/tabs"/>
 
         <form id="message-reply" name="listen-reply-form" action="."
           method="post" tal:attributes="action request/ACTUAL_URL">
