@@ -1,23 +1,31 @@
 <!-- BEGIN LISTEN TABS -->
-<ul class="oc-tabs" tal:attributes="id string:oc-tabs-wiki-${view/name}" metal:define-macro="tabs"
+<ul class="oc-tabs" metal:define-macro="tabs"
   tal:define="permissions modules/Products/listen/permissions">
-  <li id="oc-tabs-wikiview">
-    <a class="oc-actionLink" tal:attributes="href context/absolute_url" rel="view">view</a>
+  <li id="oc-tabs-view">
+    <a tal:attributes="href view/list_url; class python:view.get_tab_class(u'mailinglist_view')">
+    view</a>
   </li>
-  <li id="oc-tabs-wikiedit">
-    <a class="oc-actionLink" tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.EditMailingList, context)" tal:attributes="href string:${context/absolute_url}/edit" rel="edit">edit</a>
+  <li id="oc-tabs-edit">
+    <a tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.EditMailingList, context)" tal:attributes="href string:${view/list_url}/edit; class python:view.get_tab_class(u'edit')">
+    edit</a>
   </li>
-  <li id="oc-tabs-wikiview">
-    <a class="oc-actionLink" tal:attributes="href string:${context/absolute_url}/archive/search_archive" rel="search">search</a>
+  <li id="oc-tabs-view">
+    <a tal:attributes="href string:${view/list_url}/archive/search_archive; class python:view.get_tab_class(u'search_archive')">
+    search</a>
   </li>
-  <li id="oc-tabs-wikiview">
-    <a class="oc-actionLink" tal:attributes="href string:${context/absolute_url}/archive" rel="archive">archive</a>
+  <li id="oc-tabs-view">
+    <a tal:attributes="href string:${view/list_url}/archive; class python:view.get_tab_class([u'forum_view', u'date_view', u'new_topic', u'by_thread', u'threaded_view', u'by_date'])">
+    archive</a>
   </li>
-  <li id="oc-tabs-wikiview">
-    <a class="oc-actionLink" tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.EditMailingList, context)" tal:attributes="href string:${context/absolute_url}/manage_membership" rel="membership">membership</a>
+  <li id="oc-tabs-view">
+    <a tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.EditMailingList, context)" 
+      tal:attributes="href string:${view/list_url}/manage_membership; class python:view.get_tab_class(u'manage_membership')">
+    membership</a>
   </li>
-  <li id="oc-tabs-wikiview">
-    <a class="oc-actionLink" tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.ModerateMessage, context)" tal:attributes="href string:${context/absolute_url}/moderation" rel="moderation">moderation</a>
+  <li id="oc-tabs-view">
+    <a tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.ModerateMessage, context)" 
+      tal:attributes="href string:${view/list_url}/moderation; class python:view.get_tab_class(u'moderation')">
+    moderation</a>
   </li>
 </ul>
 <!-- END LISTEN TABS -->
