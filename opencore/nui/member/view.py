@@ -27,7 +27,7 @@ class ProfileView(BaseView):
 
     field_snippet = ZopeTwoPageTemplateFile('field_snippet.pt')
 
-    def activity(self, max=5):
+    def activity(self, max=15):
         """Returns a list of dicts describing each of the `max` most recently
         modified wiki pages for the viewed user."""
         memberid = self.viewedmember().getId()
