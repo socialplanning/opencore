@@ -276,7 +276,12 @@ class ProjectContentsView(BaseView, OctopoLite):
 
     def _resort(self, item_type, sort_by=None, sort_order=None):
         sort_by = self.needed_values[item_type].sortable(sort_by)
-        return self._sorted_items(item_type, sort_by, sort_order)
+        new_objs = self._sorted_items(item_type, sort_by, sort_order)
+        if item_type == "pages":
+            for d in new_objs:
+                if d['id'] == 'project-home':
+                    d['uneditable'] = True
+        return new_objs
 
     @action('resort')
     def resort(self, sources, fields=None):
