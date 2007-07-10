@@ -271,6 +271,50 @@ Let's also reject an invitation extended to us
     >>> view.portal_status_message
     [u'Invalid workflow transition']
 
+Check that changing passwords works
+
+    We'll need to modify some request variables
+    >>> request = view.request.form = {}
+
+    Let's check without setting any fields
+    >>> view.change_password()
+    >>> view.portal_status_message
+    [u'XXX - Invalid old password']
+
+    Now we set the old password to what it should be,
+    so that we get different portal status messages
+    >>> request['passwd_curr'] = 'testy'
+    >>> view.change_password()
+    >>> view.portal_status_message
+    [u'You forgot to enter a new password']
+
+    Set a new password
+    >>> request['password'] = 'foo'
+    >>> view.change_password()
+    >>> view.portal_status_message
+    [u'You have to enter the new password twice']
+
+    Set all the required fields, but the old password is wrong,
+    and the passwords don't match
+    >>> request['password2'] = 'bar'
+    >>> view.change_password()
+    >>> view.portal_status_message
+    [u"Your passwords don't match"]
+
+    Now we set the same passwordz, only not enough characters
+    >>> request['password'] = 'abc'
+    >>> request['password2'] = 'abc'
+    >>> view.change_password()
+    >>> view.portal_status_message
+    [u'Passwords must contain at least 5 characters.']
+
+    And finally, the last hoorah!
+    >>> request['password'] = 'hoorah'
+    >>> request['password2'] = 'hoorah'
+    >>> view.change_password()
+    >>> view.portal_status_message
+    [u'Your password has been changed']
+
     Now let's call the view simulating the request:
     XXX member areas need to be created first though for m1
     or we can't traverse to view (or get people folder)
