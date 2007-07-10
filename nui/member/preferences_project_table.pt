@@ -32,13 +32,13 @@
 	</table>
 	<ul class="oc-actions oc-dataTable-actions">
 	  <li>
-            <button type="submit" name="task" value="batch:check_leave"
-                    class="oc-button oc-chooseThis oc-js-actionButton">Leave projects</button>
+            <input type="submit" name="task|batch_check|leave" value="Leave projects"
+                   class="oc-button oc-chooseThis oc-js-actionButton" />
 	  </li>
 	  <noscript>
 	    <li>
-              <button type="submit" name="task" value="batch:check_change-listing"
-                      class="oc-button">Change listing</button>
+              <input type="submit" name="task|batch_check|change-listing" value="Change listing"
+                     class="oc-button" />
 	    </li>
 	  </noscript>
 	</ul>

@@ -143,7 +143,7 @@ the project's contents listing to "Hobbes"::
     'new title'
 
     >>> request = self.portal.REQUEST
-    >>> form = {'task': 'new1_update',
+    >>> form = {'task|new1|update': 'Tinky Winky',
     ...         'new1_title': 'Hobbes',
     ...         'item_type': 'pages'}
     >>> request.form = form
@@ -156,7 +156,7 @@ the project's contents listing to "Hobbes"::
 We can also issue the request asynchronously::
 
     >>> request = self.portal.REQUEST
-    >>> form = {'task': 'new1_update',
+    >>> form = {'task|new1|update': 'Dipsy',
     ...         'new1_title': 'Hume',
     ...         'item_type': 'pages',
     ...         'mode': 'async'}
@@ -171,7 +171,7 @@ Deletes work the same way::
 
     >>> utils.clear_all_memos(view)
     >>> request = self.portal.REQUEST
-    >>> form = {'task': 'new1_delete',
+    >>> form = {'task|new1|delete': 'La-La',
     ...         'item_type': 'pages',
     ...         'mode': 'async'}
     >>> request.form = form
@@ -213,7 +213,7 @@ Let's clean up a bit::
     >>> view = proj.restrictedTraverse('contents')
 
 
-To perform a batch action, label the task as batch:FORMFIELDNAME,
+To perform a batch action, label the task as batch_FORMFIELDNAME,
 where FORMFIELDNAME is the name of the form field that provides the
 item ids.  Provide all the fields necessary for performing the action
 on all the items in the batch; extra fields will be ignored and only
@@ -227,7 +227,7 @@ the items listed in the batch will be acted upon::
     'new list'
 
     >>> request = self.portal.REQUEST
-    >>> form = {'task': 'batch:files_update',
+    >>> form = {'task|batch_files|update': "Po",
     ...         'item_type': 'files',
     ...         'fa1_title': 'Castor',
     ...         'img1_title': 'Polydeuces',
@@ -252,7 +252,7 @@ Batch deletes work the same way::
     <ATImage at ...>
 
     >>> request = self.portal.REQUEST
-    >>> form = {'task': 'batch:files_delete',
+    >>> form = {'task|batch_files|delete': "The Baby Sun",
     ...         'item_type': 'files',
     ...         'mode': 'async',
     ...         'files':['fa1', 'img1']}
@@ -271,7 +271,7 @@ Batch deletes work the same way::
 Let's delete the mailing list too, to clean up::
     >>> view = proj.restrictedTraverse('contents')
     >>> request = self.portal.REQUEST
-    >>> form = {'task': 'list1_delete',
+    >>> form = {'task|list1|delete': "Jerry Falwell",
     ...         'item_type': 'lists',
     ...         'mode': 'async'}
     >>> request.form = form

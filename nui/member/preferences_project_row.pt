@@ -40,14 +40,18 @@
                     tal:attributes="selected not: listed">no</option>
 	    
 	  </select>
-	  <button name="task" tal:attributes="value string:${proj_id}_change-listing">Go</button>
+	  <input type="submit" class="oc-js-actionButton" value="Go"
+                 tal:attributes="name string:task|${proj_id}|change-listing" />
 	</div>
 	
         
       </td>
       <td>
 	<ul class="oc-actions oc-dataTable-row-actions">
-          <li><a class="oc-actionLink oc-js-actionLink" tal:attributes="href string:${context/absolute_url}/${view/name}?task=${proj_id}_leave">Leave</a></li>
+          <li>
+            <a class="oc-actionLink oc-js-actionLink"
+               tal:attributes="href string:${context/absolute_url}/${view/name}?task|${proj_id}|leave=Leave">Leave</a>
+          </li>
 	</ul>
       </td>
     </tr>

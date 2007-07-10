@@ -356,8 +356,8 @@ OC.ActionSelect = function(extEl) {
     //settings
     var action = form.dom.action;
     button.hide();
-    var task = button.dom.value;
-    
+    var task = button.dom.name;
+    var taskValue = button.dom.value;
     
     function _doAction(e, el, o) {
 	YAHOO.util.Event.stopEvent(e);
@@ -366,7 +366,7 @@ OC.ActionSelect = function(extEl) {
 		success: OC.Callbacks.afterAjaxSuccess,
 		failure: OC.Callbacks.afterAjaxFailure,
 		scope: this
-	    }, "mode=async&task=" + task);
+	    }, "mode=async&" + task + "=" + taskValue);
 	
     }
     select.on('change', _doAction, this);
@@ -382,6 +382,7 @@ OC.ActionSelect = function(extEl) {
 */
 OC.ActionButton = function(extEl) {
     // get refs
+    OC.debug("FEMOAEFEF");
     var button = extEl;
     var form = button.up('form');
     
@@ -395,7 +396,8 @@ OC.ActionButton = function(extEl) {
     
     // settings
     var action = form.dom.action;
-    var task = button.dom.value;
+    var task = button.dom.name;
+    var taskValue = button.dom.value;
     var isUpload = false;
     if (form.dom.enctype == "multipart/form-data") {
 	OC.debug("is upload ...");
@@ -417,7 +419,7 @@ OC.ActionButton = function(extEl) {
 		upload: OC.Callbacks.afterAjaxSuccess,
 		failure: OC.Callbacks.afterAjaxFailure,
 		scope: this
-	    }, "mode=async&task=" + task);
+	    }, "mode=async&" + task + "=" + taskValue);
     }
     button.on('click', _actionButtonClick, this);
     
@@ -487,7 +489,7 @@ OC.liveValidatee = function(extEl) {
 		success: OC.Callbacks.afterAjaxSuccess, 
 		failure: OC.Callbacks.afterAjaxFailure, 
 		scope: this 
-	    }, request + "task=validate&mode=async");
+	    }, request + "task|validate=validate&mode=async");
 	
     }
     

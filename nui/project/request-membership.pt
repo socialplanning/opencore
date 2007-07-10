@@ -12,8 +12,8 @@
               tal:attributes="action view/request/ACTUAL_URL">
           <label for="request-message">Message:</label>
           <textarea rows="10" cols="80" id="request-message"></textarea><br />
-          <button type="submit" name="task" value="request-membership"
-                  class="oc-button">send</button>
+          <input type="submit" name="task|request-membership" value="send"
+                 class="oc-button" />
         </form>
       </div><!--end oc-content-main -->
     

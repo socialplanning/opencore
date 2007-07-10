@@ -67,18 +67,29 @@ class Octopus(object):
             return self._octopus_template()
 
     def __preprocess(self):
-        """ yanked from octopus """
-        task = self._octopus_get("task")
+        """
+        yanked from octopus
+        IE crap means we need to encode task in the key, not the value. so format will be
+        task:$TARGET:$ACTION
+        """
+        task = None
+        request = self._octopus_request()
+        for key in request.keys():
+            key = key.split("|")
+            if len(key) > 1 and key[0] == "task":
+                task = key[1:]
+                break
+
         if not task:
             return (None, [], [])
         
-        if '_' not in task:
-            return (task, [], [])
+        if len(task) == 1:
+            return (task[0], [], [])
 
-        target, action = self._octopus_get("task").rsplit("_", 1)
+        target, action = task[0], task[1]
 
-        if target.startswith('batch:'):
-            target_elem = target.split(':')[1]
+        if target.startswith('batch_'):
+            target_elem = target.split('_')[1]
             target = self._octopus_get(target_elem)
             if target is None:
                 target = []

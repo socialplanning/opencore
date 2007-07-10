@@ -151,10 +151,10 @@ The view has a validate() method which returns an error dict::
 
 #    ['confirm_password', 'email', 'password']
 
-If you add 'task=validate' to the request before submitting
+If you add 'task|validate' to the request before submitting
 the form the validate() method will be triggered::
 
-    >>> request.form['task'] = 'validate'
+    >>> request.form['task|validate'] = 'Foo'
     >>> view()
     u'<!-- join form -->...'
 
@@ -165,11 +165,13 @@ dict directly, make the request asynchronous::
 #    >>> sorted([i for i in view().keys() if i.split('-')[1] in request.form])
 #    ['confirm_password', 'email', 'password']
 
-Submit the form for real now; we need to add 'task=join' to the request::
+Submit the form for real now; we need to add 'task|join' to the request
+and delete the existing task::
 
+    >>> del request.form['task|validate']
     >>> request.form['confirm_password'] = 'testy'
     >>> request.form['email'] = 'foobar@example.com'
-    >>> request.form['task'] = 'join'
+    >>> request.form['task|join'] = 'Foo'
     >>> view = portal.restrictedTraverse("@@join")
     >>> validate_map = view.validate()
     >>> len([i for i in validate_map.values() if i['html']])

@@ -45,7 +45,7 @@
               <ul class="oc-actions oc-invite-actions oc-actionClose"
                   tal:define="url request/ACTUAL_URL">
                 <li tal:repeat="action view/invitation_actions">
-                  <a tal:attributes="href string:${url}?task=${proj_id}_${action}Invitation;
+                  <a tal:attributes="href string:${url}?task|${proj_id}|${action}Invitation=${action};
                                      class string:oc-actionLink oc-js-actionLink oc-choose${action}"
                      tal:content="action"
                      />
@@ -74,7 +74,7 @@
                 <p class="oc-invite-content"
                    tal:content="structure msg" />
                 <a href="#" title="Close" class="oc-actionClose oc-actionLink"
-                   tal:attributes="href string:${request/ACTUAL_URL}?task=${idx}_close"
+                   tal:attributes="href string:${request/ACTUAL_URL}?task|${idx}|close=Close"
                    >Close</a>
               </tal:info_msg>
             </li>
@@ -161,12 +161,9 @@
             <input type="password" id="passwd_new_confirm" />
           </li>
           <li>
-            <button type="submit" 
-              name="task" 
-              value="change-password" 
-              class="oc-button oc-chooseThis">
-              Change
-            </button>
+            <input type="submit" value="Change"
+                   name="task|change-password" 
+                   class="oc-button oc-chooseThis" />
           </li>
         </ul>
       </fieldset>
