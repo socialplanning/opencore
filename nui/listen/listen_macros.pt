@@ -1,30 +1,30 @@
 <!-- BEGIN LISTEN TABS -->
 <ul class="oc-tabs" metal:define-macro="tabs"
   tal:define="permissions modules/Products/listen/permissions">
-  <li>
-    <a tal:attributes="href view/list_url; class python:view.get_tab_class(u'mailinglist_view')">
+  <li tal:attributes="class python:view.get_tab_class(u'mailinglist_view')">
+    <a tal:attributes="href view/list_url" class="oc-actionLink">
     view</a>
   </li>
-  <li id="oc-tabs-edit">
-    <a tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.EditMailingList, context)" tal:attributes="href string:${view/list_url}/edit; class python:view.get_tab_class(u'edit')">
+  <li tal:attributes="class python:view.get_tab_class(u'edit')" id="oc-tabs-edit">
+    <a tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.EditMailingList, context)" tal:attributes="href string:${view/list_url}/edit" class="oc-actionLink">
     edit</a>
   </li>
-  <li>
-    <a tal:attributes="href string:${view/list_url}/archive/search_archive; class python:view.get_tab_class(u'search_archive')">
+  <li tal:attributes="class python:view.get_tab_class(u'search_archive')">
+    <a tal:attributes="href string:${view/list_url}/archive/search_archive" class="oc-actionLink">
     search</a>
   </li>
-  <li>
-    <a tal:attributes="href string:${view/list_url}/archive; class python:view.get_tab_class([u'forum_view', u'date_view', u'new_topic', u'by_thread', u'threaded_view', u'by_date'])">
+  <li tal:attributes= "class python:view.get_tab_class([u'forum_view', u'date_view', u'new_topic', u'by_thread', u'threaded_view', u'by_date'])">
+    <a tal:attributes="href string:${view/list_url}/archive" class="oc-actionLink">
     archive</a>
   </li>
-  <li>
+  <li tal:attributes="class python:view.get_tab_class(u'manage_membership')">
     <a tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.EditMailingList, context)" 
-      tal:attributes="href string:${view/list_url}/manage_membership; class python:view.get_tab_class(u'manage_membership')">
+      tal:attributes="href string:${view/list_url}/manage_membership" class="oc-actionLink">
     membership</a>
   </li>
-  <li>
+  <li tal:attributes="class python:view.get_tab_class(u'moderation')">
     <a tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.ModerateMessage, context)" 
-      tal:attributes="href string:${view/list_url}/moderation; class python:view.get_tab_class(u'moderation')">
+      tal:attributes="href string:${view/list_url}/moderation" class="oc-actionLink">
     moderation</a>
   </li>
 </ul>

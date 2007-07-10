@@ -33,9 +33,9 @@ def make_nui_listen_view_class(ListenClass, set_errors=False):
             if type(link) != type([]):
                 link = [link]
             if self.name in link:
-                return 'oc-actionLink oc-selected'
+                return 'oc-selected'
             else:
-                return 'oc-actionLink'
+                return ''
             
 
     return NuiListenView
