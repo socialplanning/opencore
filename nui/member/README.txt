@@ -171,10 +171,10 @@ Exercise the Member Preferences Class
 
     If we try to leave a project as the only admin, it should not
     allow it, and return an appropriate portal status message
-    #>>> view.leave_project('p1')
-    #False
-    #>>> view.portal_status_message
-    #[u'You are the only admin. You cannot leave this project']
+    >>> view.leave_project('p3')
+    False
+    >>> view.portal_status_message
+    [u'You are the only admin. You cannot leave this project']
 
     >>> project_dicts = view.invitations
     >>> [d['proj_id'] for d in project_dicts]

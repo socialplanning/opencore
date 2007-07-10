@@ -9,6 +9,11 @@ class IAfterSubProjectAddedEvent(IAfterProjectAddedEvent):
     """What happens after a subproject is added"""
     
 
+class IChangedTeamRolesEvent(Interface):
+    """What happens after a membership object changed roles"""
+    membership = Attribute(u'membership object')
+
+
 class AfterProjectAddedEvent(object):
     implements(IAfterProjectAddedEvent)
     def __init__(self, project, request):
@@ -22,3 +27,9 @@ class AfterSubProjectAddedEvent(AfterProjectAddedEvent):
     def __init__(self, project, parent, request): 
         AfterProjectAddedEvent.__init__(self, project, request)
         self.parent = parent 
+
+
+class ChangedTeamRolesEvent(object):
+    implements(IChangedTeamRolesEvent)
+    def __init__(self, membership):
+        self.membership = membership

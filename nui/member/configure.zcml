@@ -28,4 +28,9 @@
      template="profile.pt"
      />
 
+  <subscriber
+     for="opencore.interfaces.event.IChangedTeamRolesEvent"
+     handler=".event.membership_changed_reindex_catalog"
+     />
+
 </configure>
