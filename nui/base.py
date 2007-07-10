@@ -402,6 +402,15 @@ class BaseView(BrowserView):
             datetime_obj = date
         return prettyDate(datetime_obj)
 
+    def get_tab_class(self, link):
+        if not isinstance(link, list):
+            link = [link]
+        if self.name in link:
+            return 'oc-selected'
+        else:
+            return ''
+
+
 def aq_iface(obj, iface):
     obj = aq_inner(obj)
     while obj is not None and not iface.providedBy(obj):
