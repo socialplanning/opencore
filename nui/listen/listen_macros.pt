@@ -7,7 +7,7 @@
 <!-- END LISTEN BCRUMB -->
 
 <!-- BEGIN LISTEN TABS -->
-<ul class="oc-tabs" metal:define-macro="tabs"
+<ul class="oc-tabs" tal:condition="python: view.list_url()!=''" metal:define-macro="tabs"
   tal:define="permissions modules/Products/listen/permissions">
   <li tal:attributes="class python:view.get_tab_class(u'mailinglist_view')">
     <a tal:attributes="href view/list_url" class="oc-actionLink">

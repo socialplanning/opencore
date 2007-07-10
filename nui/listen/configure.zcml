@@ -20,7 +20,7 @@
      for="opencore.featurelets.interfaces.IListenContainer"
      permission="listen.AddMailingList"
      class=".view.NuiMailingListAddView"
-     template="../formlib.pt"
+     template="formlib.pt"
      />
 
   <browser:page
@@ -28,7 +28,7 @@
      for="opencore.listen.interfaces.IOpenMailingList"
      permission="listen.EditMailingList"
      class=".view.NuiMailingListEditView"
-     template="../formlib.pt"
+     template="formlib.pt"
      />
 
   <browser:page
