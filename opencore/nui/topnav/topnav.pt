@@ -8,10 +8,8 @@
   <tal:contextMenu replace="structure view/contextmenu" />
 
   <div id="oc-topnav-usermenu">
-
-    <form name="searchform"
+    <form name="searchform" id="oc-sitesearch-form"
           tal:attributes="action string:${view/portal/absolute_url}/sitesearch"
-          style="white-space:nowrap"
           onsubmit="return liveSearchSubmit()">
 
       <a tal:attributes="href view/siteURL">
@@ -26,9 +24,7 @@
 
       <!--div class="LSResult" id="LSResult" style=""><div class="LSShadow" id="LSShadow"></div></div-->
     </form>
-
     <tal:userMenu replace="structure view/usermenu" />
-
   </div>
 
 </div>

@@ -117,35 +117,46 @@ ul#oc-topnav-context li.oc-topnav-selected {
 #oc-usermenu-list li {
   float: left;
   margin: 0 0.25em;
-  border: 1px solid transparent;
+  padding: 0;
+  border: 1px solid;
+  border-bottom: none;
 }
 #oc-usermenu-list li a:hover {
   text-decoration: underline;
 }
+#oc-topnav-usermenu form {
+  margin: 0;
+  padding:0;
+  white-space: nowrap;
+}
 
 /* topnav dropdown menus */
-#oc-usermenu-list .oc-dropdown-container {
-  background-image: url("/++resource++img/dropdown-nub-87B6C1-2B7284.gif");
+#oc-usermenu-list li.oc-dropdown-container {
+  position: relative;
+  /* background image specified in theme */
   background-repeat: no-repeat;
   background-position: 96% 8px;
   padding-right: 15px;
   cursor: pointer;
 }
-#oc-usermenu-list .oc-dropdown-container.oc-hover {
-  border: 1px solid #87B6C1;
+#oc-usermenu-list li.oc-dropdown-container.oc-hover {
+  border-color: #87B6C1;
   border-bottom: none;
   background-color: transparent;
 }
-#oc-usermenu-list .oc-dropdown-container.oc-selected {
+#oc-usermenu-list ul li.oc-dropdown-container.oc-hover {
+  border: none;
+}
+#oc-usermenu-list li.oc-dropdown-container.oc-selected {
   background-color: #94BA65;
   border: 1px solid #2B7284;
   border-bottom: none;
 }
-#oc-usermenu-list .oc-dropdown-container ul {
+#oc-usermenu-list li.oc-dropdown-container ul {
   position: absolute;
-  list-style: none;
-  margin: 1px 0;
-  left: .25em;
+  top: 1.8em;
+  left: -1px;
+  margin: 0;
   padding: 0;
   width: 12em;
   display: none;
@@ -154,18 +165,21 @@ ul#oc-topnav-context li.oc-topnav-selected {
   border-top: none;
   z-index: 10;
 }
-#oc-usermenu-list .oc-dropdown-container li {
-  float: none;
+#oc-usermenu-list li.oc-dropdown-container li {
+  float: left;
+  list-style: none;
+  clear: left;
+  width: 100%;
   padding: 0;
   margin: 0;
+  border: none;
 }
-#oc-usermenu-list .oc-dropdown-container li a {
+#oc-usermenu-list li.oc-dropdown-container li a {
   display: block;
   margin: 0;
   padding: .25em;
 }
-#oc-usermenu-list .oc-dropdown-container ul li a:hover {
-  display: block;
+#oc-usermenu-list li.oc-dropdown-container li a:hover {
   background: #2B7284;
   margin: 0;
   padding: .25em;
@@ -1347,7 +1361,7 @@ input,
 button,
 textarea {
   /* ToDo Style buttons nicely */
-  border: 1px solid #999;
+  /*border: 1px solid #999; */
   margin: 0;
   font-size: 10px;
   vertical-align: bottom;
