@@ -8,9 +8,13 @@
       <div class="oc-expander-content">
         <input type="file" name="portrait" size="14" /><br />
         <button type="submit" name="task" class="oc-js-actionButton"
-		value="oc-profile-avatar_uploadAndUpdate">Update</button> or
-        <button type="submit" name="task" class="oc-js-actionButton" 
-		value="oc-profile-avatar_remove">remove image</button>
+          value="oc-profile-avatar_uploadAndUpdate">Update</button>
+        <tal:hasportrait condition="python:
+          view.viewed_member_info.get('portrait_url') !=
+          view.defaultPortraitURL">or
+          <button type="submit" name="task" class="oc-js-actionButton" 
+            value="oc-profile-avatar_remove">Remove</button>
+        </tal:hasportrait>
       </div>
   </fieldset>
 </div>

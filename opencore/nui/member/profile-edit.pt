@@ -12,7 +12,7 @@
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
-        <!-- make this conditional on first login
+        <!-- TODO make this conditional on first login
         <div class="oc-getstarted oc-boxy" style="position: relative;">
           <h1>Welcome to OpenPlans!</h1>
           <p class="oc-bigText">Please take a moment to fill out your profile or continue to <a href="">The Project that Invited You</a>.</p>
