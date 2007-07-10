@@ -31,4 +31,13 @@
      template="../formlib.pt"
      />
 
+  <browser:page
+     for="*"
+     class="opencore.nui.base.BaseView"
+     name="listen_macros"
+     permission="zope.Public"
+     template="listen_macros.pt"
+     />
+
+
 </configure>
