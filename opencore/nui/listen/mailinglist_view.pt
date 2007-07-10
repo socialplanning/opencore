@@ -6,13 +6,13 @@
                         isAnon not: view/loggedin">
         <div id="oc-content-main">
          <div class="oc-headingBlock">
-            <h1 tal:content="context/Title" />
             <p class="oc-headingContext"
                tal:define="desc context/Description"
                tal:condition="desc"
                tal:content="desc"
                />
           </div>
+          <div metal:use-macro="here/@@listen_macros/bcrumb"/>
           <div metal:use-macro="here/@@listen_macros/tabs"/>
           <dl class="oc-plainList">
             <dt i18n:translate="" id="listaddress">
