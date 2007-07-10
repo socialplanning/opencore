@@ -6,4 +6,4 @@ from opencore.interfaces.event import IChangedTeamRolesEvent, ChangedTeamRolesEv
 def membership_changed_reindex_catalog(event):
     """when a membership role changes, we should reindex the catalog"""
     mship = event.membership
-    mship.reindexObject()
+    mship.reindexObject(idxs=['highestTeamRole'])
