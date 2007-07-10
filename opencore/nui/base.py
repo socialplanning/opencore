@@ -193,12 +193,17 @@ class BaseView(BrowserView):
     def member_info_for_member(self, member):
         result = {}
         if IReMember.providedBy(member):
+            memfolder = self.portal.people._getOb(member.getId())
+            memberhome = '%s/%s' % (memfolder.absolute_url(),
+                                    memfolder.getDefaultPage())
             result.update(
                 id          = member.getId(),
                 fullname    = member.getFullname(),
                 email       = member.getEmail(),
                 membersince = prettyDate(member.getRawCreation_date()),
                 lastlogin   = prettyDate(member.getLogin_time()),
+                #isloggedin = ???, TODO
+                homepage    = memberhome,
                 projects    = member.projectBrains(),
                 location    = member.getLocation(),
                 statement   = member.getStatement(),
