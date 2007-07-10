@@ -73,15 +73,15 @@
 <!-- END WIKI BCRUMB -->
 
 <!-- BEGIN WIKI TABS -->
-<ul class="oc-tabs" tal:attributes="id string:oc-tabs-wiki-${view/name}" metal:define-macro="tabs">
-  <li id="oc-tabs-wikiview">
-    <a class="oc-actionLink" tal:attributes="href context/absolute_url" rel="view">view</a>
+<ul class="oc-tabs" metal:define-macro="tabs">
+  <li tal:attributes="class python:view.get_tab_class(u'view')">
+    <a class="oc-actionLink" tal:attributes="href context/absolute_url">view</a>
   </li>
-  <li id="oc-tabs-wikiedit">
-    <a class="oc-actionLink" tal:attributes="href string:${context/absolute_url}/edit" rel="edit">edit</a>
+  <li tal:attributes="class python:view.get_tab_class(u'edit')">
+    <a class="oc-actionLink" tal:attributes="href string:${context/absolute_url}/edit">edit</a>
   </li>
-  <li id="oc-tabs-wikihistory">
-    <a class="oc-actionLink" tal:attributes="href string:${context/absolute_url}/history" class="oc-selected" rel="history">history</a>
+  <li tal:attributes="class python:view.get_tab_class([u'history', u'version', u'version_compare'])">
+    <a class="oc-actionLink" tal:attributes="href string:${context/absolute_url}/history">history</a>
   </li>
   <!--
   <li>

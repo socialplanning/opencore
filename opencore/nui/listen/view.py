@@ -27,16 +27,7 @@ def make_nui_listen_view_class(ListenClass, set_errors=False):
             obj = self.context
             while not IMailingList.providedBy(obj):
                 obj = obj.aq_parent
-            return obj.absolute_url()
-
-        def get_tab_class(self, link):
-            if type(link) != type([]):
-                link = [link]
-            if self.name in link:
-                return 'oc-selected'
-            else:
-                return ''
-            
+            return obj.absolute_url()            
 
     return NuiListenView
 
