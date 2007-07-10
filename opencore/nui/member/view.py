@@ -15,12 +15,14 @@ from Products.CMFPlone.utils import transaction_note
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 from topp.utils.pretty_date import prettyDate
+from DateTime import DateTime
 
 from opencore.nui.base import BaseView
 from opencore.nui.formhandler import OctopoLite, action
 from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.nui.member.interfaces import ITransientMessage
-        
+from Products.AdvancedQuery import Eq
+
 class ProfileView(BaseView):
 
     field_snippet = ZopeTwoPageTemplateFile('field_snippet.pt')
@@ -28,17 +30,16 @@ class ProfileView(BaseView):
     def activity(self, max=5):
         """Returns a list of dicts describing each of the `max` most recently
         modified wiki pages for the viewed user."""
-        query = dict(Creator=self.viewedmember().getId(),
-                     portal_type='Document',
-                     sort_on='modified',
-                     sort_order='reverse',
-                     limit=max)
-        brains = self.catalog.searchResults(**query)
+        memberid = self.viewedmember().getId()
+        query = Eq('Creator', memberid) | Eq('lastModifiedAuthor', memberid)
+        query &= Eq('portal_type', 'Document') #| Eq('portal_type', 'OpenProject')
+        brains = self.catalog.evalAdvancedQuery(query, (('modified', 'desc'),)) # sort by most recent first ('desc' means descending)
+        brains = brains[:max]
 
         def dictify(brain):
             return {'title': brain.Title,
                     'url':   brain.getURL(),
-                    'date':  prettyDate(brain.getRawCreation_date())}
+                    'date':  prettyDate(DateTime(brain.ModificationDate))}
 
         return [dictify(brain) for brain in brains]
 
