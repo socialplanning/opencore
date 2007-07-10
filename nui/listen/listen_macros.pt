@@ -1,5 +1,6 @@
 <!-- BEGIN LISTEN BCRUMB -->
 <ul metal:define-macro="bcrumb" class="oc-headingBlock oc-wiki-headingBlock oc-bcrumb">
+  <!-- <li><a href="">All lists</a> &raquo;</li> -->
   <li>
     <h1 class="oc-bcrumb-current" tal:content="context/Title"></h1>
   </li>

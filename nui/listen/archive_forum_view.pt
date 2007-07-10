@@ -1,47 +1,24 @@
-<!-- XXX Rollie: this ugliness is ripped directly from
-the listen plone template. you will want to audit for
-raging plone-isms (e.g. 'oddrow' below) -->
-
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
+      <div metal:use-macro="here/@@listen_macros/bcrumb"/>
+      <div metal:use-macro="here/@@listen_macros/tabs"/>
       <div id="oc-content-main">
         <tal:threads define="threads view/getTopics; batch threads;">
-
-          <h1 i18n:translate="" tal:content="view/Title" />
-          <div metal:use-macro="here/@@listen_macros/tabs"/>
-          <p id="listaddress" tal:content="view/listAddress" tal:condition="view/listAddress" />
-          <p tal:content="view/listDescription" tal:condition="view/listDescription" />
-          <table cellpadding="20">
-            <tr>
-              <td>
-                <a i18n:translate="" href="date_view">Switch to date view</a>
-              </td>
-              <td>
-                <a href="#" tal:condition="view/canPost"
-                   tal:attributes="href string:${context/absolute_url}/new_topic;"
-                   i18n:translate="label_forum_new_topic_button">
-                  post new message
-                </a>
-              </td>
-            </tr>
-          </table>
-
-          <table id="forum-topics" tal:condition="threads" summary="Forum view" i18n:attributes="summary">
+          <div class="oc-smallText" style="text-align: right;">View by <strong>conversation</strong> or <a i18n:translate="" href="date_view">date</a></div>
+          <table id="forum-topics" class="oc-dataTable" tal:condition="threads" summary="Forum view" i18n:attributes="summary" cellspacing="0">
             <thead>
               <tr>
-                <th><tal:title i18n:translate="list_archive_thread_subject">Subject</tal:title></th>
+                <th scope="col"><tal:title i18n:translate="list_archive_thread_subject">Subject</tal:title></th>
                 <th><tal:title i18n:translate="list_archive_thread_originator">Opened By</tal:title></th>
-                <th><tal:title i18n:translate="list_archive_thread_replies">Replies</tal:title></th>
-                <th><tal:title i18n:translate="list_archive_thread_recent_post_date">Last Updated</tal:title></th>
+                <th scope="col"><tal:title i18n:translate="list_archive_thread_replies">Replies</tal:title></th>
+                <th scope="col"><tal:title i18n:translate="list_archive_thread_recent_post_date">Last Updated</tal:title></th>
               </tr>
             </thead>
 
             <tbody>
               <tal:items repeat="item threads">
-                <tr tal:define="oddrow repeat/item/odd;"
-                    tal:attributes="class python:oddrow and 'even' or 'odd'">
-
+                <tr>
                   <td>
                     <a href="#"
                        i18n:translate="" tal:content="item/brief_subject"
@@ -66,7 +43,23 @@ raging plone-isms (e.g. 'oddrow' below) -->
             There are currently no posts in this archive.
           </p>
         </tal:threads>
-      </div>
-    </div>
+      </div><!-- content-main -->
+      <div id="oc-content-sidebar">
+            <a class="oc-banana" href="#" tal:condition="view/canPost"
+             tal:attributes="href string:${context/absolute_url}/new_topic;"
+             i18n:translate="label_forum_new_topic_button">
+              Post new message
+            </a>
+        <div class="oc-boxy">
+          <h2>About &ldquo;<span tal:replace="context/Title" />&rdquo;</h2>
+          <dl class="oc-plainList">
+          <dt>Address</dt>
+          <dd id="listaddress" tal:content="view/listAddress" tal:condition="view/listAddress" />
+          <dt>Description</dt>
+          <dd tal:content="view/listDescription" tal:condition="view/listDescription" />
+          </dl>
+        </div>
+      </div><!-- content-sidebar -->
+    </div><!-- content-container -->
   </body>
 </html>

@@ -1,37 +1,19 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
+      <div metal:use-macro="here/@@listen_macros/bcrumb"/>
+      <div metal:use-macro="here/@@listen_macros/tabs"/>
       <div id="oc-content-main">
         <div tal:define="dates view/getAvailableDates; template_id string:date_view;" i18n:domain="listen">
-          <h1 i18n:translate="" tal:content="view/Title">
-            Title or Id
-          </h1>
+          <div class="oc-smallText" style="text-align: right;">View by <a i18n:translate="" href="forum_view">conversation</a> or <strong>date</strong></div>
 
-          <div metal:use-macro="here/@@listen_macros/tabs"/>
-          <p id="listaddress"
-            tal:content="view/listAddress"
-            tal:condition="view/listAddress">
-            Description
-          </p>
-
-          <p tal:content="view/listDescription"
-            tal:condition="view/listDescription">
-            Description
-          </p>
-
-          <ul id="message-list-actions">
-            <li>
-              <a id="switch_view" href="forum_view"
-                i18n:translate="">Forum view</a>
-            </li>
-          </ul>
-
-          <ul id="archive-folders">
-            <li tal:repeat="year dates">
-              <a href="."
-                tal:attributes="href year/url"
-                tal:content="year/title">2004</a>
-              <ul tal:condition="year/children">
+          <ul id="archive-folders" class="oc-listen-archive-dateview">
+            <li tal:repeat="year dates" >
+              <div class="oc-headingBlock">
+                <h2 tal:content="year/title" />
+                  <a href="." tal:attributes="href year/url">view all</a>
+              </div>
+              <ul tal:condition="year/children" class="oc-plainList">
                 <li tal:repeat="month year/children">
                   <a href="."
                     i18n:translate=""
@@ -47,7 +29,23 @@
             There are currently no posts in this archive.
           </p>
         </div>
-      </div>
-    </div>
+      </div><!-- content-main -->
+      <div id="oc-content-sidebar">
+        <a class="oc-banana" href="#" tal:condition="view/canPost"
+         tal:attributes="href string:${context/absolute_url}/new_topic;"
+         i18n:translate="label_forum_new_topic_button">
+          Post new message
+        </a>
+        <div class="oc-boxy">
+          <h2>About &ldquo;<span tal:replace="context/Title" />&rdquo;</h2>
+          <dl class="oc-plainList">
+          <dt>Address</dt>
+          <dd id="listaddress" tal:content="view/listAddress" tal:condition="view/listAddress" />
+          <dt>Description</dt>
+          <dd tal:content="view/listDescription" tal:condition="view/listDescription" />
+          </dl>
+        </div>
+      </div><!-- content-sidebar -->
+    </div><!-- content-container -->
   </body>
 </html>
