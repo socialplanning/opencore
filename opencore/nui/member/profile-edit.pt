@@ -107,12 +107,10 @@
 
           <ul class="oc-actions oc-wiki-actions">
             <li>
-              <button type="submit"
-                      name="task"
-                      value="update"
-                      class="oc-button oc-chooseThis">
-                Update
-              </button>
+              <input type="submit" 
+                     name="task|update"
+                     value="Update"
+                     class="oc-button oc-chooseThis" />
             </li>
           </ul> 
         </form>

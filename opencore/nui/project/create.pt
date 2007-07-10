@@ -107,12 +107,10 @@
           </fieldset>
           <ul class="oc-actions">
             <li>
-              <button type="submit" 
-                      name="task" 
-                      value="add" 
-                      class="oc-button oc-chooseThis">
-                Create
-              </button>
+              <input type="submit" 
+                     name="task|add" 
+                     value="Create" 
+                     class="oc-button oc-chooseThis" />
             </li>
             <li>or <a href="">cancel</a></li>
           </ul>

@@ -144,7 +144,7 @@ can use him for testing later:
     >>> team.getHighestTeamRoleForMember('m3')
     'ProjectMember'
     >>> view.request.form.update(
-    ...    {'task': 'batch:role_set-roles',
+    ...    {'task|batch_role|set-roles': 'Lalala',
     ...     'role': ['m1', 'portal_owner', 'm3'],
     ...     'm1_role': 'ProjectAdmin',
     ...     'portal_owner_roles': 'ProjectMember',

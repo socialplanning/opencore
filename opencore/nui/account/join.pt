@@ -143,7 +143,7 @@
                   <th class="oc-form-label">
                   </th>
                   <td class="oc-form-value">
-                    <button type="submit" name="task" value="join">Join</button>
+                    <input type="submit" name="task|join" value="Join" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">

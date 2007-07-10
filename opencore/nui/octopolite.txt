@@ -59,7 +59,7 @@ the JSON object to be returned to the client.
 The dispatcher is a rock. It dispatches based on the action it finds
 in the form, encoded in an octopized format in the "task" field::
 
-   >>> view.request.form['task'] = 'dummy_sod'
+   >>> view.request.form['task|dummy|sod'] = 'Foo'
    >>> view()
    eggs of the devil!
    'my template'
@@ -75,7 +75,7 @@ can issue requests asynchronously to get back the return value directly::
 
 A request with no actions will dispatch to the action specified as default::
 
-   >>> del view.request.form['task']
+   >>> del view.request.form['task|dummy|sod']
    >>> view()
    Rock!
    {}
@@ -84,7 +84,7 @@ You will probably want to specify decorators, like post_only or
 jsonify, to be triggered only if the action is dispatched to, but
 are not triggered if the action is called directly::
 
-   >>> view.request.form['task'] = 'dummy_fine'
+   >>> view.request.form['task|dummy|fine'] = 'Click here!'
    >>> view()
    in decorator!
    fine!

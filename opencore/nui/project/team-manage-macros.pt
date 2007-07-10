@@ -67,20 +67,21 @@
    define-macro="requestbuttons">
 
   <li>
-    <button type="submit" name="task" value="batch:checked_approve-requests"
-            class="oc-button" >approve</button>
+    <input type="submit" name="task|batch_checked|approve-requests"
+           value="approve"
+           class="oc-button" />
   </li>
   <li>
-    <button type="submit" name="task" value="batch:checked_discard-requests"
-            class="oc-button" >discard</button>
+    <input type="submit" name="task|batch_checked|discard-requests"
+           value="discard" class="oc-button" />
   </li>
   <li>
-    <button type="submit" name="task" value="batch:checked_reject-requests"
-            class="oc-button" >reject</button>
+    <input type="submit" name="task|batch_checked|reject-requests"
+           value="reject" class="oc-button" />
   </li>
   <!--li>
-      <button type="submit" name="task" value="reject_msg"
-              class="oc-button" >reject with message</button>
+      <input type="submit" name="task|reject_msg"
+             value="reject with message" class="oc-button" />
   </li-->
 
 </metal:requestbuttons>
@@ -90,12 +91,12 @@
    define-macro="invitationbuttons">
 
   <li>
-    <button type="submit" name="task" value="batch:checked_remove-invitations"
-            class="oc-button" >remove</button>
+    <input type="submit" name="task|batch_checked|remove-invitations"
+           value="remove" class="oc-button" />
   </li>
   <li>
-    <button type="submit" name="task" value="batch:checked_remind-invitations"
-            class="oc-button" >send reminder</button>
+    <input type="submit" name="task|batch_checked|remind-invitations"
+           value="send reminder" class="oc-button" />
   </li>
 
 </metal:invitationbuttons>
@@ -167,7 +168,7 @@
                     tal:content="python:roleitem[1]" />
           </tal:roleoptions>
         </select>
-	<button name="task" tal:attributes="value string:${item/id}_set-role">Go</button>
+	<input value="Go" tal:attributes="name string:task|${item/id}|set-role" />
       </div>
     </td>
 
@@ -220,11 +221,10 @@
 
       <ul class="oc-actions oc-dataTable-actions">
         <li>
-          <button type="submit" name="task"
-                  value="batch:checked_remove-members" class="oc-button" >remove members</button>
+          <input type="submit" name="task|batch_checked|remove-members"
+                 value="remove members" class="oc-button" />
           <noscript>
-            <button type="submit" name="task"
-                    value="batch:checked_set-role" class="oc-button" >set roles</button>
+            <input type="submit" name="task|batch_checked|set-role" class="oc-button" value="set roles" />
           </noscript>
         </li>
       </ul>
@@ -240,12 +240,12 @@
   <form name="search-members" id="search-members" method="POST" 
     tal:attributes="action view/request/ACTUAL_URL">
     <input class="oc-input-typeText" type="text" name="search_for" />
-    <button type="submit" name="task" value="none_search-members"
-            class="oc-button">search</button>
+    <input type="submit" name="task|none|search-members"
+           value="search" class="oc-button" />
     <div tal:condition="view/results | nothing">
       <div tal:repeat="member view/results">
-        <button type="submit" name="task" class="oc-button"
-                tal:attributes="value string:${member/getId}_invite-member">invite</button>
+        <input type="submit" value="invite" class="oc-button"
+               tal:attributes="value string:task|${member/getId}|invite-member" />
         <tal:mem_url define="mem_url python:view.membertool.getHomeUrl(member.getId)">
           <a tal:condition="mem_url" tal:attributes="href mem_url"
              tal:content="string: ${member/getId}: ${member/getFullname}" />
