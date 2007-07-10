@@ -169,8 +169,14 @@ Exercise the Member Preferences Class
     >>> view.leave_project('p4')
     False
 
-    If we try to leave a project as the only admin, it should not
-    allow it, and return an appropriate portal status message
+If we try to leave a project as the only admin, it should not
+allow it, and return an appropriate portal status message
+
+    First though, let's get rid of the portal_owner
+    >>> proj_team = pt.p3
+    >>> proj_team.removeMember('portal_owner')
+
+    Now we can leave the project
     >>> view.leave_project('p3')
     False
     >>> view.portal_status_message
@@ -236,7 +242,7 @@ Let's also reject an invitation extended to us
     >>> proj_team = team_request
     >>> self.logout()
     >>> self.loginAsPortalOwner()
-    >>> proj_team._delOb('m1')
+    >>> proj_team.removeMember('m1')
     >>> proj_team.addMember('m1')
     <OpenMembership at /plone/portal_teams/p2/m1>
     >>> self.logout()

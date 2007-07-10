@@ -332,9 +332,6 @@ class MemberPreferences(BaseView, OctopoLite):
             review_state=self.active_states,
             path=team_path,
             )
-        # XXX what's portal owner doing in there?
-        project_admins = [adm for adm in project_admins
-                          if adm.getId != 'portal_owner']
 
         return len(project_admins) <= 1
 
