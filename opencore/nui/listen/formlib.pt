@@ -8,7 +8,8 @@
       <div id="oc-content-main">
         <form class="edit-form" method="post"
           tal:attributes="action request/URL">
-          <h1 tal:content="view/label">Edit something</h1>
+          <div metal:use-macro="here/@@listen_macros/bcrumb"/>
+          <div metal:use-macro="here/@@listen_macros/tabs"/>
           <div class="summary" tal:condition="view/status"
             tal:content="view/status">Status</div>
 
