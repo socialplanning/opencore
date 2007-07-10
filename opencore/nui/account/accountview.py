@@ -16,6 +16,7 @@ from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 from Products.remember.utils import getAdderUtility
+from Products.validation.validators.BaseValidators import EMAIL_RE
 
 from opencore.siteui.member import FirstLoginEvent
 from opencore.nui.base import BaseView
@@ -59,6 +60,35 @@ class AccountView(BaseView):
         """
         return '%s/profile' % self.home_url
 
+    ### methods to deal with pending members
+
+    def is_pending(self, **query):
+        membrane_tool = self.get_tool('membrane_tool')
+        matches = membrane_tool.unrestrictedSearchResults(**query)
+        if len(matches) != 1:
+            return
+        member = matches[0].getObject()
+        portal_workflow = self.get_tool('portal_workflow')
+        if portal_workflow.getInfoFor(member, 'review_state') == 'pending':
+            return member
+
+    def _confirmation_url(self, mem):
+        code = mem.getUserConfirmationCode()
+        return "%s/confirm-account?key=%s" % (self.siteURL, code)
+
+    def _sendmail_to_pendinguser(self, id, email, url):
+        """ send a mail to a pending user """
+        ## XX todo only send mail if in the pending workflow state
+        mailhost_tool = getToolByName(self.context, "MailHost")
+
+        mfrom = self.portal.getProperty('email_from_address')
+        
+        mailhost_tool.send("how are you %s?\ngo here: %s" % (id, url),
+                           mto=email,
+                           mfrom=mfrom,
+                           subject='OpenPlans account registration')
+
+
 class LoginView(AccountView):
 
     @button('login')
@@ -97,25 +127,16 @@ class LoginView(AccountView):
         # (above should again be modularized)
         password = self.request.form.get('__ac_password')
         if id_ and password:
-            membrane_tool = self.get_tool('membrane_tool')
-            matches = membrane_tool.unrestrictedSearchResults(getId=id_)
+            member = self.is_pending(getId=id_)
 
             # ensure there is one match
-            if len(matches) == 1:
-                member = matches[0].getObject()
+            if member and member.verifyCredentials({'login': id_, 
+                                                    'password': password}):
                 
-                # ensure the member is in the pending state
-                portal_workflow = self.get_tool('portal_workflow')
-                if portal_workflow.getInfoFor(member, 'review_state') == 'pending':
-
-                    # verify the member's credentials
-                    if member.verifyCredentials({'login': id_, 
-                                              'password': password}):
-
-                        self.addPortalStatusMessage('An email has been sent to %s from %s but it seems like you have not yet activated your account.' % ( member.getEmail(),
-                                                                                                                                                          self.portal.getProperty('email_from_address')))
-                        self.redirect('pending')
-                        return
+                self.addPortalStatusMessage('An email has been sent to %s from %s but it seems like you have not yet activated your account.' % ( member.getEmail(),
+                                                                                                                                                  self.portal.getProperty('email_from_address')))
+                self.redirect('pending?key=%s' % member.UID())
+                return
 
         self.addPortalStatusMessage('Login failed')
 
@@ -179,7 +200,7 @@ class LoginView(AccountView):
             self.redirect(self.login_url)
             
 
-class JoinView(BaseView, OctopoLite):
+class JoinView(AccountView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('join.pt')
 
@@ -245,23 +266,7 @@ class JoinView(BaseView, OctopoLite):
                 'action': 'copy', 'effects': ''}
         return ret
 
-    def _confirmation_url(self, mem):
-        code = mem.getUserConfirmationCode()
-        return "%s/confirm-account?key=%s" % (self.siteURL, code)
     
-    def _sendmail_to_pendinguser(self, id, email, url):
-        """ send a mail to a pending user """
-        ## XX todo only send mail if in the pending workflow state
-        mailhost_tool = getToolByName(self.context, "MailHost")
-
-        mfrom = self.portal.getProperty('email_from_address')
-        
-        mailhost_tool.send("how are you %s?\ngo here: %s" % (id, url),
-                           mto=email,
-                           mfrom=mfrom,
-                           subject='OpenPlans account registration')
-
-
 class ConfirmAccountView(AccountView):
 
     @property
@@ -443,8 +448,45 @@ class PasswordResetView(AccountView):
 
 class PendingView(AccountView):
 
+    def _pending_member(self):
+        key = self.request.form.get('key')
+        unauthorized_destination = self.siteURL
+        if not key:
+            self.redirect(unauthorized_destination)
+        member = self.is_pending(UID=key)
+        if not member:
+            self.redirect(unauthorized_destination)        
+        return member
+
+    @post_only(raise_=False)    
+    def handle_post(self):
+        member = self._pending_member()
+        if not member:
+            return
+
+        email = ''
+        if self.request.form.get('resend_email'):
+            email = member.getEmail()
+
+        if self.request.form.get('new_email'):
+            email = self.request.form.get('email', '')
+            msg = member.validate_email(email)
+            if msg:
+                email = ''
+            else:
+                member.setEmail(email)
+        
+        if email:
+            self._sendmail_to_pendinguser(member.getId(),
+                                          email,
+                                          self._confirmation_url(member))
+            mfrom = self.portal.getProperty('email_from_address')
+            msg = 'A new email has been sent to %s from %s, make sure you follow the link in the email to activate your account' % (email, mfrom)
+
+        self.addPortalStatusMessage(msg)
+
     def handle_request(self):
-        self.addPortalStatusMessage('A new email has been sent, make sure you follow the link in the email to activate your account')
+        self._pending_member()
 
 def email_confirmation():
     """get email confirmation mode from zope.conf"""
