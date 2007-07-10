@@ -5,19 +5,11 @@
            i18n_domain="opencore">
 
   <browser:page
-     for="opencore.listen.interfaces.IOpenMailingList"
-     name="mailinglist_view"
-     class=".view.NuiMailingListView"
-     permission="zope2.View"
-     template="list.pt"
-     />
-
-  <browser:page
      for="opencore.featurelets.interfaces.IListenContainer"
      name="mailing_lists"
      class="opencore.nui.base.BaseView"
      permission="zope2.View"
-     template="lists.pt"
+     template="mailing_lists.pt"
      />
 
 
