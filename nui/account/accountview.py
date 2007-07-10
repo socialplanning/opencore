@@ -138,7 +138,7 @@ class LoginView(AccountView):
                 self.redirect('pending?key=%s' % member.UID())
                 return
 
-        self.addPortalStatusMessage('Login failed')
+        self.addPortalStatusMessage(u'Incorrect username or password. Please try again or <a href="forgot">retrieve your login information</a>.')
 
     @anon_only(AccountView.home_page)
     def handle_request(self):
