@@ -1,5 +1,5 @@
 
-<ul id="oc-usermenu-explore">
+<ul id="oc-usermenu-explore" style="display:none;">
   <li>
     <a tal:attributes="href view/siteURL"
        tal:content="string:Home" />

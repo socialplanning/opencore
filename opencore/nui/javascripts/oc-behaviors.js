@@ -726,11 +726,11 @@ OC.TopNav  = function(extEl) {
     var overrideHide = false;
     
     function _toggleMenu(e, el, o) {
-	var submenu = Ext.get(el.getElementsByTagName('ul')[0]);
-	_hideMenus();    
-	if (submenu) {
-	    if (!submenu.isVisible()) _showMenu(e, el, o); 
-	}
+      var submenu = Ext.get(el.getElementsByTagName('ul')[0]);
+      _hideMenus();    
+      if (submenu) {
+          if (!submenu.isVisible()) _showMenu(e, el, o); 
+      }
     }
     
     function _showMenu(e, el, o) {
