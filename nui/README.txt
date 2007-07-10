@@ -125,6 +125,7 @@ Member info
      'email': '',
      'favorites': '',
      'fullname': '',
+     'homepage': 'http://nohost/plone/people/test_user_1_/None',
      'id': 'test_user_1_',
      'lastlogin': 'January 1, 2000',
      'location': '',

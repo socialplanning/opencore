@@ -1,4 +1,4 @@
-<tal:vars define="data view/viewed_member_info">
+<tal:vars define="memberdata view/viewed_member_info">
 
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
@@ -11,14 +11,15 @@
           </div>
           <div class="oc-member-details">
             <div class="oc-headingBlock">
-              <h1 class="fn" tal:content="data/id" />
+              <h1 class="fn" tal:content="memberdata/id" />
               <p class="oc-headingContext oc-discreetText">
-                member since <span tal:replace="data/membersince" />,
-                last login <span tal:replace="data/lastlogin" />
+                member since <span tal:replace="memberdata/membersince" />,
+                last login <span tal:replace="memberdata/lastlogin" />
+                <!-- TODO if member is currently online, say that instead of last login -->
               </p>
             </div>
             <dl class="oc-member-info">
-              <tal:fullname tal:define="fn data/fullname" tal:condition="python:fn or view.viewingself()">
+              <tal:fullname tal:define="fn memberdata/fullname" tal:condition="python:fn or view.viewingself()">
                 <dt>Full name
                   <a tal:condition="view/viewingself" class="oc-actionLink"
                       href="profile-edit?field=fullname">Edit</a>
@@ -26,7 +27,7 @@
                 <dd class="n" tal:condition="fn" tal:content="fn" />
                 <dd class="n" tal:condition="not:fn" tal:content="string:none" />
               </tal:fullname>
-              <tal:location tal:define="loc data/location" tal:condition="python:loc or view.viewingself()">
+              <tal:location tal:define="loc memberdata/location" tal:condition="python:loc or view.viewingself()">
                 <dt>Location
                   <a tal:condition="view/viewingself" class="oc-actionLink"
                     href="profile-edit?field=location">Edit</a>
@@ -39,41 +40,44 @@
                    tal:attributes="href string:${view/siteURL}/projects">Browse</a>
               </dt>
               <dd>
-                <tal:projects condition="data/projects">
+                <tal:projects condition="memberdata/projects">
                   <ul class="oc-inlineList">
-                    <li tal:repeat="proj data/projects"><a
+                    <li tal:repeat="proj memberdata/projects"><a
                         tal:attributes="href proj/getURL"
                         tal:content="proj/Title" /><tal:private
                         condition="python: proj.review_state == 'closed'">
                         (private)</tal:private></li>
                   </ul>
                 </tal:projects>
-                <tal:noprojects condition="not:data/projects">
+                <tal:noprojects condition="not:memberdata/projects">
                   none
                 </tal:noprojects>
               </dd>
-              <dt>Member home</dt>
+              <dt>
+                Member home
+                  <a tal:condition="view/viewingself" class="oc-actionLink"
+                     tal:attributes="href string:${memberdata/homepage}/edit">Edit</a>
+              </dt>
               <dd>
-                <a class="url" tal:attributes="href string:${context/portal_url}/people/${data/id}">
-                  <span tal:replace="context/portal_url" />/people/<span tal:replace="data/id" />
-                </a>
-              </dd>
+                <a class="url" tal:attributes="href memberdata/homepage"
+                   tal:content="string:${here/portal_url}/people/${memberdata/id}" />
+                </dd>
             </dl>
           </div>
         </div>
 
         <dl class="oc-member-info"
-          tal:define="skills python: data['skills']      #instead use the following when tagger is ready: view.viewed_member_profile_tags('skills');
-                      affils python: data['affiliations']#instead use the following when tagger is ready: view.viewed_member_profile_tags('affiliations');
-                      favs   python: data['favorites']   #instead use the following when tagger is ready: view.viewed_member_profile_tags('favorites');">
+          tal:define="skills python: memberdata['skills']      #instead use the following when tagger is ready: view.viewed_member_profile_tags('skills');
+                      affils python: memberdata['affiliations']#instead use the following when tagger is ready: view.viewed_member_profile_tags('affiliations');
+                      favs   python: memberdata['favorites']   #instead use the following when tagger is ready: view.viewed_member_profile_tags('favorites');">
 
           <span tal:replace="structure python:
             view.field_snippet(title='Personal Statement',
-                               value=data.get('statement'),
+                               value=memberdata.get('statement'),
                                anchor='statement')" />
           <span tal:replace="structure python:
             view.field_snippet(title='Background',
-                               value=data.get('background'),
+                               value=memberdata.get('background'),
                                anchor='background')" />
           <span tal:replace="structure python:
             view.field_snippet(title='Skills/Interests',
