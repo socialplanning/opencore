@@ -4,17 +4,19 @@
       <tal:vars define="can_subscribe view/canSubscribe;
                         subscribed view/isSubscribed;
                         isAnon not: view/loggedin">
+        <div metal:use-macro="here/@@listen_macros/bcrumb"/>
+        <div metal:use-macro="here/@@listen_macros/tabs"/>
         <div id="oc-content-main">
-         <div class="oc-headingBlock">
-            <p class="oc-headingContext"
+          <dl class="oc-plainList">
+            <dt>Title</dt>
+            <dd tal:content="context/Title" />
+            <dt>Description</dt>
+            <dd class="oc-headingContext"
+
                tal:define="desc context/Description"
                tal:condition="desc"
                tal:content="desc"
-               />
-          </div>
-          <div metal:use-macro="here/@@listen_macros/bcrumb"/>
-          <div metal:use-macro="here/@@listen_macros/tabs"/>
-          <dl class="oc-plainList">
+             />
             <dt i18n:translate="" id="listaddress">
               Address
             </dt>
