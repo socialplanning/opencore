@@ -41,7 +41,7 @@ OC.liveElementKey = {
     '.oc-js-actionLink'       : "ActionLink",
     '.oc-js-actionButton'     : "ActionButton",
     '.oc-js-actionSelect'     : "ActionSelect",
-    '.oc-js-liveValidate'     : "liveValidatee"
+    '.oc-js-liveValidate'     : "LiveValidatee"
 };
     
 /* 
@@ -51,52 +51,61 @@ OC.liveElementKey = {
    # element and its children.
 */
 OC.breatheLife = function(newNode, force) {
+  OC.debug("START BreatheLife");
   
   // force re-up?
-  force = false;
-    
+  if (typeof force == "undefined") { force = false }
+  
     // set scope
     if (!newNode) {
-	targetNode = document;
+	   targetNode = document;
     } else {
-	// accept HTML element or Ext Element
-	if (newNode.dom)
-	    targetNode = newNode.dom;
-	else 
-	    targetNode = newNode; 
+      // accept HTML element or Ext Element
+      if (newNode.dom)
+          targetNode = newNode.dom;
+      else 
+          targetNode = newNode; 
     }
     
     // loop through selectors specified above
     for (var selector in OC.liveElementKey) {
 	
-	// Get array of elements to apply behaviors to.  Include newNode itself in query.      
-	var elements = Ext.query(selector, targetNode);
-	if (Ext.DomQuery.is(targetNode, selector)) {
-	    elements.push(Ext.get(targetNode));
-	}
+      // Get array of elements to apply behaviors to.  Include newNode itself in query.      
+      var elements = Ext.query(selector, targetNode);
+      if (Ext.DomQuery.is(targetNode, selector)) {
+          elements.push(Ext.get(targetNode));
+      }
 	
-	if(elements.length > 0){
-	    
-	 for (var i = 0; i < elements.length; i++) {
-		
-      //get an Ext Obj for your element
-      var extEl = Ext.get(elements[i]);
-      
-      //get reference to the proper constructor
-      var constructor = OC[this.liveElementKey[selector]];        
-      OC.debug(selector);
-      OC.debug(constructor);
-      
-      // add a new liveElement to OC.liveElements.
-      // only make a new one if it doesn't exist, or if force has been specified
-      if( force || typeof OC.liveElements[extEl.dom.id] == "undefined" );
-          var myId = extEl.id;
-          OC.liveElements[myId] = new constructor(extEl);
-        }
-    }      
-  }
-  
+      if(elements.length > 0){
+          
+       for (var i = 0; i < elements.length; i++) {
+        
+          //get an Ext Obj for your element
+          var extEl = Ext.get(elements[i]);
+          
+          //get reference to the proper constructor
+          var constructor = OC[this.liveElementKey[selector]]; 
+          var constructorName = this.liveElementKey[selector]; 
+          
+          // make a new liveElements array for this ID
+          if (typeof OC.liveElements[extEl.id] == "undefined" ) {
+            OC.liveElements[extEl.id] = {};      
+          }
+                
+          // add a new liveElement to OC.liveElements.
+          // only make a new one if it doesn't exist, or if force has been specified
+          OC.debug("BreatheLife: Considering making " + " Constructor: " + this.liveElementKey[selector] + " ID: " + extEl.id)
+          
+          if (force || typeof OC.liveElements[extEl.id][constructorName] == "undefined" ) {
+             OC.debug("BreatheLife: Starting new element. " + " Constructor: " + this.liveElementKey[selector] + " ID: " + extEl.id);
+              var myId = extEl.id;
+              OC.liveElements[myId][constructorName] = new constructor(extEl);
+          }
+        } // end for each element
+      } // end if there are elements
+    } // end for each selector
   OC.debug(OC.liveElements);
+  OC.debug("END BreatheLife");
 
 }; // OC.breatheLife()
 
@@ -232,7 +241,8 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 	    
 	    html = Ext.util.Format.trim(html);
 	    var target = Ext.get(elId);
-	    var newNode = Ext.DomHelper.overwrite(target.dom, html, true);
+	    var newNode = Ext.DomHelper.insertHtml('beforeBegin', target.dom, html);
+	    target.remove();
 
 	    if( effects == "highlight") {
 		Ext.get(newNode).highlight();
@@ -287,6 +297,7 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 OC.Callbacks.afterAjaxFailure = function(o) {
     OC.debug('OC.Callbacks.afterAjaxFailure');
     OC.debug(o.responseText);
+    OC.psm('There was a problem with the AJAX Request.  Octopus!', 'error');
 };
 
 /*
@@ -436,6 +447,8 @@ OC.CheckAll = function(extEl) {
     // get refs
     var checkAll = extEl;
     var form = checkAll.up('form');  
+    OC.debug(checkAll);
+    OC.debug(form);
     var allBoxes = Ext.select(Ext.query('input[type=checkbox]:not(.oc-js-checkAll-never)', form.dom));
     
     OC.debug(allBoxes);
@@ -466,7 +479,7 @@ OC.CheckAll = function(extEl) {
   # Live Validatee
   #
 */
-OC.liveValidatee = function(extEl) {
+OC.LiveValidatee = function(extEl) {
     // get refs
     var field = extEl;
     var form = field.up('form');
@@ -694,7 +707,7 @@ OC.UploadForm = function(extEl) {
   # Top Nav
   #
 */
-OC.TopNav = function(extEl) {
+OC.TopNav  = function(extEl) {
     // get refs
     var container = extEl;
     var triggerItems = Ext.select(Ext.query(".oc-dropdown-container", container.dom));
