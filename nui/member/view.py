@@ -438,7 +438,36 @@ class MemberPreferences(BaseView, OctopoLite):
     @action("change-password")
     def change_password(self, target=None, fields=None):
         """ fill this in with help from k0s """
-        pass
+        passwd_curr = self.request.form.get('passwd_curr')
+        password = self.request.form.get('password')
+        password2 = self.request.form.get('password2')
+        member = self.loggedinmember
+
+        mem_id = member.getId()
+        if not member.verifyCredentials({'login': mem_id,
+                                        'password': passwd_curr}):
+            self.addPortalStatusMessage('XXX - Invalid old password')
+            return
+
+        if not password:
+            self.addPortalStatusMessage('You forgot to enter a new password')
+            return
+        if not password2:
+            self.addPortalStatusMessage('You have to enter the new password twice')
+            return
+        if password != password2:
+            self.addPortalStatusMessage("Your passwords don't match")
+            return
+
+        pw_tool = self.get_tool("portal_password_reset")
+
+        msg = self.loggedinmember.validate_password(password)
+        if msg:
+            self.addPortalStatusMessage(msg)
+            return
+
+        self.loggedinmember._setPassword(password)
+        self.addPortalStatusMessage('Your password has been changed')
 
     @property
     def n_updates(self):

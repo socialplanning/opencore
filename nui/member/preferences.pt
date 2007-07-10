@@ -150,15 +150,15 @@
         <ul class="oc-expander-content oc-plainList">
           <li>
             <label for="passwd_curr">Current password</label><br />
-            <input type="password" id="passwd_curr" />
+            <input type="password" id="passwd_curr" name="passwd_curr" />
           </li>
           <li>
             <label for="passwd_new">New password</label><br />
-            <input type="password" id="passwd_new" />
+            <input type="password" id="password" name="password" />
           </li>
           <li>
             <label for="passwd_new_confirm">Confirm new password</label><br />
-            <input type="password" id="passwd_new_confirm" />
+            <input type="password" id="password2" name="password2" />
           </li>
           <li>
             <input type="submit" value="Change"
