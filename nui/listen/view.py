@@ -8,7 +8,8 @@ from Products.listen.browser.manage_membership import ManageMembersView
 from Products.listen.utilities.list_lookup import ListLookupView
 from Products.listen.browser.moderation import ModerationView
 from opencore.nui.base import BaseView
-
+from Products.listen.interfaces import IMailingList
+from plone.memoize.view import memoize as req_memoize
 
 def make_nui_listen_view_class(ListenClass, set_errors=False):
     class NuiListenView(BaseView, ListenClass):
@@ -20,6 +21,23 @@ def make_nui_listen_view_class(ListenClass, set_errors=False):
             BaseView.__init__(self, context, request)
             if set_errors:
                 self.errors = ()
+
+        @req_memoize
+        def list_url(self):
+            obj = self.context
+            while not IMailingList.providedBy(obj):
+                obj = obj.aq_parent
+            return obj.absolute_url()
+
+        def get_tab_class(self, link):
+            if type(link) != type([]):
+                link = [link]
+            if self.name in link:
+                return 'oc-actionLink oc-selected'
+            else:
+                return 'oc-actionLink'
+            
+
     return NuiListenView
 
 
