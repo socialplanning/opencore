@@ -10,9 +10,12 @@ from Products.TeamSpace.permissions import ManageTeam, ViewTeam
 from Products.TeamSpace.exceptions import MemberRoleNotAllowed
 
 from zope.interface import implements
+from zope.event import notify
 
 from Products.OpenPlans.interfaces import IOpenTeam
 from Products.OpenPlans.config import DEFAULT_ROLES
+
+from opencore.interfaces.event import ChangedTeamRolesEvent
 
 import datetime
 
@@ -103,6 +106,9 @@ class OpenTeam(Team):
                   % str(list(invalid_roles))
 
         roles_map[mem_id] = list(roles)
+
+        mship_object = self.getMembershipByMemberId(mem_id)
+        notify(ChangedTeamRolesEvent(mship_object))
 
     security.declarePrivate('getTeamRolesForMember')
     def getTeamRolesForMember(self, mem_id):

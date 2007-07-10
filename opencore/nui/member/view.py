@@ -215,6 +215,7 @@ class MemberPreferences(BaseView, OctopoLite):
                    brain.lastWorkflowActor == self.context.getId()
         return self._projects_satisfying(is_member_request)
 
+    @req_memoize
     def _membership_for_proj(self, proj_id):
         tmtool = self.get_tool('portal_teams')
         team = tmtool.getTeamById(proj_id)
@@ -302,7 +303,7 @@ class MemberPreferences(BaseView, OctopoLite):
                     'action': 'replace',
                     'effects': 'highlight'}
         return ret
-        
+
     def _can_leave(self, proj_id):
         mship = self._membership_for_proj(proj_id)
         last_actor = ILastWorkflowActor(mship).getValue()
@@ -318,8 +319,10 @@ class MemberPreferences(BaseView, OctopoLite):
         return is_active or is_pending_member_requested
 
     def _is_only_admin(self, proj_id):
-        # stub this out to get the tests to pass
-        return False
+        team = self.get_tool('portal_teams')._getOb(proj_id)
+        mem_id = self.context.getId()
+        role = team.getHighestTeamRoleForMember(mem_id)
+        if role != 'ProjectAdmin': return False
 
         portal_path = '/'.join(self.portal.getPhysicalPath())
         team_path = '/'.join([portal_path, 'portal_teams', proj_id])
@@ -329,6 +332,9 @@ class MemberPreferences(BaseView, OctopoLite):
             review_state=self.active_states,
             path=team_path,
             )
+        # XXX what's portal owner doing in there?
+        project_admins = [adm for adm in project_admins
+                          if adm.getId != 'portal_owner']
 
         return len(project_admins) <= 1
 
