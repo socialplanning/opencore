@@ -443,7 +443,6 @@ class MemberPreferences(BaseView, OctopoLite):
         passwd_curr = self.request.form.get('passwd_curr')
         password = self.request.form.get('password')
         password2 = self.request.form.get('password2')
-        anon = self.request.form.get('email_hide')
 
         member = self.loggedinmember
         mem_id = member.getId()

@@ -128,8 +128,8 @@
             <input type="text" id="email" name="email" tal:attributes="value data/email"/>
           </li>
           <li class="oc-form-fieldBlock oc-smallText">
-            <input type="checkbox" class="oc-input-typeCheck" id="email_hide" name="email_hide" value="1" />
-            <label for="email_hide">Hide email address by default?</label>
+            <input type="checkbox" class="oc-input-typeCheck" id="hide_email" name="hide_email" value="1" />
+            <label for="hide_email">Hide email address by default?</label>
           </li>
           <li>
             <input type="submit" value="Change"
