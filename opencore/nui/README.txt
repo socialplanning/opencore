@@ -121,6 +121,7 @@ Member info
 
     >>> pprint(pview.member_info)
     {'affiliations': '',
+     'anon_email': True,
      'background': '',
      'email': '',
      'favorites': '',
