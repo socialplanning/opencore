@@ -96,30 +96,7 @@
       </div><!-- end #oc-content-main -->
 
       <div id="oc-content-sidebar">
-        <div class="oc-boxy">
-          <h2>Recent activity</h2>
-          <div class="oc-widget oc-widget-lastModified">
-            <!-- TODO don't lie
-            <div class="oc-headingBlock">
-              <h3>Pages last modified</h3>
-            </div --><!-- end .oc-headingBlock -->
-
-            <table class="oc-dataTable" cellpadding="0" cellspacing="0">
-              <thead>
-                <tr>
-                  <th scope="col">Date</th>
-                  <th scope="col">Page</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr tal:repeat="item view/activity">
-                  <td tal:content="item/date" class="oc-lastModified-date" />
-                  <td class="oc-lastModified-title"><a tal:attributes="href item/url" tal:content="item/title" /></td>
-                </tr>
-              </tbody>
-            </table>
-          </div><!-- end .oc-widget-lastModified -->
-        </div><!-- end .oc-boxy -->
+        <metal:status-messages use-macro="view/member_macros/macros/recent-activity" />
       </div><!-- end .oc-content-sidebar -->
     </div><!-- content-fill-slot -->
   </body>
