@@ -332,7 +332,7 @@ OC.ActionLink = function(extEl) {
 	var requestUri = el.href + "&mode=async";
 	
 	// make connection
-	var cObj = YAHOO.util.Connect.asyncRequest("POST", requestUri, {
+	var cObj = YAHOO.util.Connect.asyncRequest("GET", requestUri, {
 		success: OC.Callbacks.afterAjaxSuccess, 
 		failure: OC.Callbacks.afterAjaxFailure,
 		scope: this 
@@ -664,7 +664,7 @@ OC.UploadForm = function(extEl) {
 	OC.debug('_afterUploadSuccess');
 	
 	//2nd ajax request
-	var cObj = YAHOO.util.Connect.asyncRequest("POST", response.updateURL, { 
+	var cObj = YAHOO.util.Connect.asyncRequest("GET", response.updateURL, { 
 		success: function(o) {
 		    
 		    // insert new - DomHelper.insertHtml converts string to DOM nodes
