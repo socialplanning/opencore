@@ -328,7 +328,7 @@ class BaseView(BrowserView):
             return self.membertool.getAuthenticatedMember()
 
     def home_url_for_id(self, id_=None):
-        if id_ == None:
+        if id_ is None:
             return self.home_url
         folder = self.membertool.getHomeFolder(id_)
         if folder is not None:
@@ -336,7 +336,7 @@ class BaseView(BrowserView):
 
     @view.mcproperty
     def home_url(self):
-        """url of the member's homepage"""
+        """url of the logged-in member's homepage"""
         if not self.loggedin:
             return None
         id_ = self.loggedinmember.getId()
