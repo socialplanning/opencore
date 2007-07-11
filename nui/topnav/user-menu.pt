@@ -8,8 +8,8 @@
 
   <li class="oc-dropdown-container"
       tal:define="auth view/loggedin;
-                  home_url view/home_url"
-      tal:condition="python: auth and home_url">
+                  memfolder_url view/memfolder_url"
+      tal:condition="python: auth and memfolder_url">
     your stuff
     <tal:mystuffmenu replace="structure context/topnav-mystuff-menu" />
   </li>

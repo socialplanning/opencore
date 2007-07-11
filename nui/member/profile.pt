@@ -49,11 +49,11 @@
               <dt>
                 Member home
                   <a tal:condition="view/viewingself" class="oc-actionLink"
-                     tal:attributes="href string:${memberdata/homepage}/edit">Edit</a>
+                     tal:attributes="href string:${memberdata/home_url}/edit">Edit</a>
               </dt>
               <dd>
-                <a class="url" tal:attributes="href memberdata/homepage"
-                   tal:content="string:${here/portal_url}/people/${memberdata/id}" />
+                <a class="url" tal:attributes="href memberdata/home_url"
+                   tal:content="string:${memberdata/folder_url}" />
                 </dd>
             </dl>
           </div>

@@ -1,18 +1,18 @@
 
 <ul id="oc-usermenu-mystuff" style="display:none;"
-    tal:define="home_url view/home_url">
+    tal:define="memfolder_url view/memfolder_url">
   <li>
-    <a tal:attributes="href string:${home_url}/profile"
+    <a tal:attributes="href string:${memfolder_url}/profile"
        tal:content="string:Profile" />
   </li>
 
   <li>
-    <a tal:attributes="href home_url"
+    <a tal:attributes="href memfolder_url"
        tal:content="string:Home" />
   </li>
 
   <li>
-    <a tal:attributes="href string:${home_url}/preferences"
+    <a tal:attributes="href string:${memfolder_url}/preferences"
        tal:content="string:Account" />
   </li>
 
