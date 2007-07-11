@@ -443,9 +443,11 @@ class MemberPreferences(BaseView, OctopoLite):
         passwd_curr = self.request.form.get('passwd_curr')
         password = self.request.form.get('password')
         password2 = self.request.form.get('password2')
-        member = self.loggedinmember
+        anon = self.request.form.get('email_hide')
 
+        member = self.loggedinmember
         mem_id = member.getId()
+
         if not member.verifyCredentials({'login': mem_id,
                                         'password': passwd_curr}):
             self.addPortalStatusMessage('XXX - Invalid old password')
@@ -483,6 +485,8 @@ class MemberPreferences(BaseView, OctopoLite):
     def change_email(self, target=None, fields=None):
         """allows members to change their email address"""
         email = self.request.form.get('email')
+        hide_email = bool(self.request.form.get('hide_email'))
+
         if not email:
             self.addPortalStatusMessage('Please enter your new email address in the text field')
             return
@@ -492,6 +496,12 @@ class MemberPreferences(BaseView, OctopoLite):
         if msg:
             self.addPortalStatusMessage(msg)
             return
+
+        mem_hide_email = mem.useAnonByDefault
+        if mem_hide_email != hide_email:
+            mem.useAnonByDefault = hide_email
+            setting = hide_email and 'anonymous' or 'not anonymous'
+            self.addPortalStatusMessage('Default email is %s' % setting)
 
         if mem.getEmail() == email:
             return

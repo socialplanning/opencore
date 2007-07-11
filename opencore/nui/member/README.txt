@@ -349,6 +349,10 @@ It's talented, isn't it?
 
     If we try to change to the same email address, nothing happens
     And we don't get a portal status message
+    But we have to set the anonymous email setting first
+    >>> mem.useAnonByDefault
+    True
+    >>> request['hide_email'] = '1'
     >>> request['email'] = 'notreal1@example.com'
     >>> view.change_email()
     >>> view.portal_status_message
@@ -374,6 +378,32 @@ It's talented, isn't it?
     And let's check the member's email, which should be changed to the new one
     >>> mem.getEmail()
     'foobarbazquux@example.com'
+
+    And if we change the anonymous setting, it should change the
+    visibility on the member object
+    >>> del request['hide_email']
+    >>> view.change_email()
+    >>> view.portal_status_message
+    [u'Default email is not anonymous']
+    
+    Now if we change both at the same time,
+    we should get 2 portal status messages
+    >>> request['hide_email'] = '1'
+    >>> request['email'] = 'zul@example.com'
+    >>> view.change_email()
+    >>> psms = view.portal_status_message
+    >>> len(psms)
+    2
+    >>> psms[0]
+    u'Default email is anonymous'
+    >>> psms[1]
+    u'Email successfully changed'
+
+    And the member object should have changed
+    >>> mem.getEmail()
+    'zul@example.com'
+    >>> mem.useAnonByDefault
+    True
 
     Now let's call the view simulating the request:
     XXX member areas need to be created first though for m1
