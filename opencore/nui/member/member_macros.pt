@@ -1,3 +1,22 @@
+<metal:login-info define-macro="login-info">
+  <div class="oc-headingBlock">
+    <h1 class="fn" tal:content="memberdata/id" />
+    <p class="oc-headingContext oc-discreetText">
+      member since
+      <span tal:replace="memberdata/membersince" />
+
+      <!-- TODO
+      if member is currently online, display "online now"
+      else display last login time
+
+      <span tal:condition="python: not request.get('first_login')"
+            tal:replace="string:last login ${memberdata/lastlogin}" />
+      -->
+    </p>
+  </div>
+</metal:login-info>
+
+
 <metal:recent-activity define-macro="recent-activity">
   <div class="oc-boxy">
     <h2>Recent activity</h2>
