@@ -438,7 +438,7 @@ class MemberPreferences(BaseView, OctopoLite):
 
     @action("change-password")
     def change_password(self, target=None, fields=None):
-        """ fill this in with help from k0s """
+        """allows members to change their password"""
         passwd_curr = self.request.form.get('passwd_curr')
         password = self.request.form.get('password')
         password2 = self.request.form.get('password2')
