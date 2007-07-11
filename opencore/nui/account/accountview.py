@@ -322,7 +322,7 @@ class InitialLogin(BaseView):
             self.membertool.createMemberArea(member.getId())
         # Go to the user's Profile Page in Edit Mode
         return self.redirect("%s/%s" % (self.home_url_for_id(member.getId()),
-                                        'profile-edit'))
+                                        'profile-edit?first_login=1'))
 
 
 class ForgotLoginView(AccountView):
