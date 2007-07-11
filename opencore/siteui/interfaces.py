@@ -133,9 +133,9 @@ class IAddOpenPlans(Interface):
         required=False
         )
 
-    setup_nui = Bool(
-        title=_(u"Setup NUI"),
-        description=_(u"Set up the new UI and associated functionality"),
-        default=False,
-        required=False
-        )
+#     setup_nui = Bool(
+#         title=_(u"Setup NUI"),
+#         description=_(u"Set up the new UI and associated functionality"),
+#         default=False,
+#         required=False
+#         )

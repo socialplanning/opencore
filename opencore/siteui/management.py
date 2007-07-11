@@ -34,7 +34,7 @@ class AddOpenPlansForm(formbase.AddForm):
         portal = getattr(self.context, data['id'])
         qi = getToolByName(portal, 'portal_quickinstaller')
         qi.installProduct('OpenPlans')
-        if data.get('setup_nui'):
+        if 1:                    # XXX data.get('setup_nui'):
             out = StringIO()            
             setup_nui(portal, out) 
             self.status += out.getvalue()

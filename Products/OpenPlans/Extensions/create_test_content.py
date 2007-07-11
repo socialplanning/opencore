@@ -1,7 +1,6 @@
 import sys
 from Products.CMFCore.utils import getToolByName
 from opencore.project.handler import _initialize_project
-from opencore.nui.setup import install_confirmation_workflow as icw
 
 projects_map = {'p1':{'title':'Project One',},
                 'p2':{'title':'Project Two',},
@@ -45,7 +44,7 @@ members_map = {'m1':{'fullname':'Member One',
 
 
 
-def create_test_content(self, p_map=None, m_map=None, nui=True):
+def create_test_content(self, p_map=None, m_map=None):
     """ populates an openplans site w/ dummy test content """
     portal = getToolByName(self, 'portal_url').getPortalObject()
     portal.manage_changeProperties(email_from_address='info@localhost')
@@ -65,8 +64,6 @@ def create_test_content(self, p_map=None, m_map=None, nui=True):
         return "ERROR: no 'projects' folder"
 
     out = []
-    if nui:
-        icw(self, sys.stdout)
     
     for p_id, p_data in p_map.items():
         pcontainer.invokeFactory('OpenProject', p_id, **p_data)
@@ -80,8 +77,10 @@ def create_test_content(self, p_map=None, m_map=None, nui=True):
         mem = mdc._getOb(mem_id)
         mem._setPassword(mem_data['password'])
         mem.fixOwnership()
-        if nui:
-            wf_tool.doActionFor(mem, 'register_public')
+
+        mem.isConfirmable = True
+        wf_tool.doActionFor(mem, 'register_public')
+        del mem.isConfirmable
 
         # create the member area and mark it with the appropriate interface
         # ms_tool.createMemberArea(mem_id)
