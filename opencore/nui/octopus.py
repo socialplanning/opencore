@@ -36,6 +36,9 @@ class Octopus(object):
         """
         pass
 
+    def _octopus_allows(self):
+        return True
+
     def __call__(self, *args, **kw):
         """
         drives the request process through the following steps:
@@ -55,6 +58,10 @@ class Octopus(object):
             action, objects, fields = self.__preprocess()
         except:
             action, objects, fields = (None, [], [])
+
+        if not self._octopus_allows():
+            return "Not allowed"
+        
         ret = self.__delegate(action, objects, fields, raise_)
         if ret is None:
             ret = dict()

@@ -161,6 +161,20 @@ class OctopoLite(opencore.nui.octopus.Octopus):
         except AttributeError:
             pass
 
+    def _octopus_allows(self):
+        print self._octopus_request()
+        print self.request.form
+        
+        #import pdb;pdb.set_trace()
+        #oreq = self._octopus_request()
+        #if oreq.has_key('-C'):
+        #    return True #we allow all non-editing requests
+        
+        #self.membertool.getAuthenticatedMember()
+        #return self._octopus_get('authenticator') == self._octopus_request().something
+        return True
+        
+
 class FormLite(object):
     """formlike but definitely not formlib"""
 
