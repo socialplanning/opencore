@@ -321,7 +321,7 @@ class InitialLogin(BaseView):
         if not self.membertool.getHomeFolder():
             self.membertool.createMemberArea(member.getId())
         # Go to the user's Profile Page in Edit Mode
-        return self.redirect("%s/%s" % (self.home_url_for_id(member.getId()),
+        return self.redirect("%s/%s" % (self.memfolder_url_for_id(member.getId()),
                                         'profile-edit?first_login=1'))
 
 
@@ -431,7 +431,7 @@ class PasswordResetView(AccountView):
         self.login(userid)
         
         self.addPortalStatusMessage(u'Your password has been reset and you are now logged in.')
-        self.redirect('%s/preferences' % self.home_url_for_id(userid))
+        self.redirect('%s/preferences' % self.memfolder_url_for_id(userid))
         return True
 
     @property
