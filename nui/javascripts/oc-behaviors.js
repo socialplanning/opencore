@@ -353,7 +353,7 @@ OC.ActionSelect = function(extEl) {
     // get refs
     var container = extEl;
     var select = Ext.get(Ext.query('select',container.dom)[0]);
-    var button = Ext.get(Ext.query('button',container.dom)[0]);
+    var button = Ext.get(Ext.query('input[type=submit]',container.dom)[0]);
     var form = select.up('form');
     
     //check refs

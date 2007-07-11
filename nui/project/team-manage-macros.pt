@@ -168,7 +168,7 @@
                     tal:content="python:roleitem[1]" />
           </tal:roleoptions>
         </select>
-	<input value="Go" tal:attributes="name string:task|${item/id}|set-role" />
+	<input type="submit" value="Go" tal:attributes="name string:task|${item/id}|set-role" />
       </div>
     </td>
 
@@ -245,7 +245,7 @@
     <div tal:condition="view/results | nothing">
       <div tal:repeat="member view/results">
         <input type="submit" value="invite" class="oc-button"
-               tal:attributes="value string:task|${member/getId}|invite-member" />
+               tal:attributes="name string:task|${member/getId}|invite-member" />
         <tal:mem_url define="mem_url python:view.membertool.getHomeUrl(member.getId)">
           <a tal:condition="mem_url" tal:attributes="href mem_url"
              tal:content="string: ${member/getId}: ${member/getFullname}" />
