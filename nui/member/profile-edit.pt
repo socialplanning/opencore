@@ -12,7 +12,7 @@
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
-        <tal:first-login condition="request/first_login">
+        <tal:first-login condition="request/first_login | nothing">
           <div class="oc-getstarted oc-boxy" style="position: relative;">
             <h1>Welcome to OpenPlans!</h1>
             <div class="oc-bigText">
@@ -31,13 +31,7 @@
               <div metal:use-macro="view/portrait_snippet/macros/portrait" />
             </div>
             <fieldset>
-              <div class="oc-headingBlock">
-                <h1 class="fn" tal:content="memberdata/id" />
-                <p class="oc-headingContext oc-discreetText">
-                  member since <span tal:replace="memberdata/membersince" />,
-                  last online <span tal:replace="memberdata/lastlogin" />
-                </p>
-              </div>
+              <metal:login-info use-macro="view/member_macros/macros/login-info" />
               <ul class="oc-plainList">
                 <li>
                   <label for="fullname">Full name</label><br />
