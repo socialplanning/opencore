@@ -26,6 +26,7 @@ from Products.AdvancedQuery import Eq
 class ProfileView(BaseView):
 
     field_snippet = ZopeTwoPageTemplateFile('field_snippet.pt')
+    member_macros = ZopeTwoPageTemplateFile('member_macros.pt') 
 
     def activity(self, max=15):
         """Returns a list of dicts describing each of the `max` most recently
