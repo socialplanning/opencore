@@ -294,7 +294,7 @@ Check that changing passwords works
     >>> view.portal_status_message
     [u'You have to enter the new password twice']
 
-    Set all the required fields, but the old password is wrong,
+    Set all the required fields
     and the passwords don't match
     >>> request['password2'] = 'bar'
     >>> view.change_password()
@@ -314,6 +314,57 @@ Check that changing passwords works
     >>> view.change_password()
     >>> view.portal_status_message
     [u'Your password has been changed']
+
+Members can also change their email address with this view
+It's talented, isn't it?
+
+    Reset the request, so there's no funny business
+    >>> view.request.form = request = {}
+
+    With no email set, we should get an error portal status message
+    >>> view.change_email()
+    >>> view.portal_status_message
+    [u'Please enter your new email address in the text field']
+
+    Upon setting an invalid email, we get an appropriate message
+    >>> request['email'] = 'foobarbazquux'
+    >>> view.change_email()
+    >>> view.portal_status_message
+    [u'That email address is invalid.']
+
+    If we set a legitimate one, then all should be well
+    First though, let's check to make we are set with the old one
+    >>> mem = self.portal.portal_memberdata.m1
+    >>> mem.getEmail()
+    'notreal1@example.com'
+
+    If we try to change to the same email address, nothing happens
+    And we don't get a portal status message
+    >>> request['email'] = 'notreal1@example.com'
+    >>> view.change_email()
+    >>> view.portal_status_message
+    []
+    >>> mem.getEmail()
+    'notreal1@example.com'
+
+    And if we use an email address that's already taken
+    >>> request['email'] = 'notreal2@example.com'
+    >>> view.change_email()
+    >>> view.portal_status_message
+    [u'That email address is already in use.  Please choose another.']
+
+    # and check if you try to set it to the same email address
+    # should have different messages for both
+
+    And now actually change the email address
+    >>> request['email'] = 'foobarbazquux@example.com'
+    >>> view.change_email()
+    >>> view.portal_status_message
+    [u'Email successfully changed']
+
+    And let's check the member's email, which should be changed to the new one
+    >>> mem.getEmail()
+    'foobarbazquux@example.com'
 
     Now let's call the view simulating the request:
     XXX member areas need to be created first though for m1

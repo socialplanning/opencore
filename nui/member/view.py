@@ -477,3 +477,23 @@ class MemberPreferences(BaseView, OctopoLite):
     @property
     def invitation_actions(self):
         return ['Accept', 'Deny', 'Ignore']
+
+    @action("change-email")
+    def change_email(self, target=None, fields=None):
+        """allows members to change their email address"""
+        email = self.request.form.get('email')
+        if not email:
+            self.addPortalStatusMessage('Please enter your new email address in the text field')
+            return
+
+        mem = self.loggedinmember
+        msg = mem.validate_email(email)
+        if msg:
+            self.addPortalStatusMessage(msg)
+            return
+
+        if mem.getEmail() == email:
+            return
+
+        mem.setEmail(email)
+        self.addPortalStatusMessage('Email successfully changed')
