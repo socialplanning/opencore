@@ -350,7 +350,7 @@ It's talented, isn't it?
     If we try to change to the same email address, nothing happens
     And we don't get a portal status message
     But we have to set the anonymous email setting first
-    >>> mem.useAnonByDefault
+    >>> mem.getUseAnonByDefault()
     True
     >>> request['hide_email'] = '1'
     >>> request['email'] = 'notreal1@example.com'
@@ -402,7 +402,7 @@ It's talented, isn't it?
     And the member object should have changed
     >>> mem.getEmail()
     'zul@example.com'
-    >>> mem.useAnonByDefault
+    >>> mem.getUseAnonByDefault()
     True
 
     Now let's call the view simulating the request:

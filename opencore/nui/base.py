@@ -209,7 +209,7 @@ class BaseView(BrowserView):
                 skills      = member.getSkills(),
                 affiliations= member.getAffiliations(),
                 favorites   = member.getFavorites(),
-                anon_email  = member.useAnonByDefault,
+                anon_email  = member.getUseAnonByDefault(),
                 )
         else:
             # XXX TODO 
