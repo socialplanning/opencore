@@ -409,6 +409,11 @@ class BaseView(BrowserView):
         else:
             return ''
 
+    def authenticator(self):
+        return self.get_tool('browser_id_manager').getBrowserId(create=True)
+
+    def authenticator_input(self):
+        return '<input type="hidden" name="authenticator" value="%s" />' % self.authenticator()
 
 def aq_iface(obj, iface):
     obj = aq_inner(obj)
