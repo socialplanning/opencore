@@ -118,8 +118,8 @@ Should get the member folder url for a confirmed member::
 
 Get homepage url (coming soon)::
 
-#>>> pview.memhome_url()
-#'http://nohost/plone/people/test_user_1_/something'
+    >>> pview.memhome_url()
+    'http://nohost/plone/people/test_user_1_/None'
 
 
 
@@ -133,8 +133,9 @@ Member info
      'background': '',
      'email': '',
      'favorites': '',
+     'folder_url': 'http://nohost/plone/people/test_user_1_',
      'fullname': '',
-     'homepage': 'http://nohost/plone/people/test_user_1_',
+     'home_url': 'http://nohost/plone/people/test_user_1_/None',
      'id': 'test_user_1_',
      'lastlogin': 'January 1, 2000',
      'location': '',

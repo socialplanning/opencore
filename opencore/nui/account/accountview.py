@@ -53,12 +53,11 @@ class AccountView(BaseView):
         return "%s/login" % self.context.absolute_url()
 
     @property
-    def home_page(self):
+    def profile_url(self):
         """
-        returns the 'home page' of the user.
-        this is somewhat hacky.  maybe the urls will fix themselves
+        returns the url of the authenticated user's profile.
         """
-        return '%s/profile' % self.home_url
+        return '%s/profile' % self.memfolder_url()
 
     ### methods to deal with pending members
 
@@ -140,7 +139,7 @@ class LoginView(AccountView):
 
         self.addPortalStatusMessage(u'Incorrect username or password. Please try again or <a href="forgot">retrieve your login information</a>.')
 
-    @anon_only(AccountView.home_page)
+    @anon_only(AccountView.profile_url)
     def handle_request(self):
         pass
             
@@ -157,13 +156,7 @@ class LoginView(AccountView):
     @property
     def destination(self):
         """where you go after you're logged in"""
-        retval = self.referer
-        if not retval:
-            if self.home_url:
-                retval = self.home_page
-            else:
-                retval = self.siteURL
-        return retval
+        return self.referer and self.siteURL or self.profile_url
 
     def logout(self, redirect=None):
         logout = self.cookie_logout
@@ -327,7 +320,7 @@ class InitialLogin(BaseView):
 
 class ForgotLoginView(AccountView):
 
-    @anon_only(AccountView.home_page)
+    @anon_only(AccountView.profile_url)
     @button('send')
     @post_only(raise_=False)
     def handle_request(self):
