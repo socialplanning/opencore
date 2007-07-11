@@ -9,7 +9,8 @@ class WikiEdit(BaseView):
         self.errors = {}
         self.context.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
-            self.addPortalStatusMessage(u'Please correct the indicated errors.')
+            for msg in self.errors.values():
+                self.addPortalStatusMessage(msg)
             return self.errors
         
         self.context.processForm(values=self.request)
