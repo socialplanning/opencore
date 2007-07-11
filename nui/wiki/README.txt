@@ -120,17 +120,18 @@ Test actually creating, editing, deleting an attachment::
      >>> from opencore.nui.wiki import view as v
      >>> request = self.portal.REQUEST
      >>> view = v.AttachmentView(page, request)
+     >>> request = view.request.form = {}
      >>> view = view.__of__(page)
      >>> view.createAtt()
      "{'status' : 'failed' }\n"
-     >>> view.request['attachmentTitle'] = 'secret'
+     >>> request['attachmentTitle'] = 'secret'
      >>> class tempfile(file):
      ...     def __init__(self, filename):
      ...         self.filename = filename 
      ...         file.__init__(self, filename)
      >>> tfile = tempfile(secret_file_name)
-     >>> view.request['attachmentFile'] = tfile
-     >>> view.request['attachment_id'] = 'secret.txt'
+     >>> request['attachmentFile'] = tfile
+     >>> request['attachment_id'] = 'secret.txt'
      >>> view.createAtt()
      "{status: 'success',...
      >>> newatt = view.context._getOb('secret.txt')
@@ -142,9 +143,9 @@ Test actually creating, editing, deleting an attachment::
 
 Now let's try to delete.  Try the error case::
 
-     >>> request.set('attachment_id', '')
-     >>> request.set('attachmentTitle', '')
-     >>> request.set('attachmnetFile', '')
+     >>> request['attachment_id'] = ''
+     >>> request['attachmentTitle'] = ''
+     >>> request['attachmnetFile'] = ''
 
      Again, raising an AttributeError
      Maybe we should return an error message instead
@@ -154,16 +155,16 @@ Now let's try to delete.  Try the error case::
      AttributeError
 
      Set valid attachment request variables, and it should work
-     >>> request.set('attachment_id', 'secret.txt')
-     >>> request.set('attachmentFile', tfile)
-     >>> request.set('attachmnetTitle', 'new title')
+     >>> request['attachment_id'] = 'secret.txt'
+     >>> request['attachmentFile'] = tfile
+     >>> request['attachmnetTitle'] = 'new title'
      >>> view.deleteAtt()
      '<!-- deleted -->\n'
 
 
 If we create an attachment with no title, the title should be the id::
      >>> tfile = tempfile(secret_file_name)
-     >>> view.request['attachmentFile'] = tfile
+     >>> request['attachmentFile'] = tfile
      >>> response = view.createAtt()
      >>> "status: 'success'" in response
      True
@@ -179,9 +180,9 @@ Test update attachment::
      '...secret.txt...
 
      Reset attachment request variables
-     >>> request.set('attachment_id', '')
-     >>> request.set('attachmentTitle', '')
-     >>> request.set('attachmnetFile', '')
+     >>> request['attachment_id'] = ''
+     >>> request['attachmentTitle'] = ''
+     >>> request['attachmnetFile'] = ''
 
 Check error case (should it raise an error? error message instead?)::
      >>> view.updateAtt()
@@ -190,9 +191,9 @@ Check error case (should it raise an error? error message instead?)::
      AttributeError
 
      Set valid attachment request variables
-     >>> request.set('attachment_id', 'secret.txt')
-     >>> request.set('attachmentFile', tfile)
-     >>> request.set('attachmnetTitle', 'new title')
+     >>> request['attachment_id'] = 'secret.txt'
+     >>> request['attachmentFile'] = tfile
+     >>> request['attachmnetTitle'] = 'new title'
 
 Try again, should work great now::
      (uhh, what do we expect to get back? looks like a form?)
@@ -221,8 +222,11 @@ Call it with no arguments
      >>> 'You did not check any versions in the version compare form' in view.portal_status_message
      True
 
+Reset the request
+     >>> request = view.request.form = {}
+
 Try it with just one argument
-     >>> view.request.set('version_id', '0')
+     >>> request['version_id'] = '0'
      >>> response = view()
      Traceback (most recent call last):
      ...
@@ -231,7 +235,7 @@ Try it with just one argument
      True
 
 Try with 2 arguments, but the versions don't exist
-     >>> view.request.set('version_id', ['0', '1'])
+     >>> request['version_id'] = ['0', '1']
      >>> response = view()
      Traceback (most recent call last):
      ...
@@ -240,7 +244,7 @@ Try with 2 arguments, but the versions don't exist
      True
 
 Try with more than 2 versions
-     >>> view.request.set('version_id', ['0', '1', '2'])
+     >>> request['version_id'] = ['0', '1', '2']
      >>> response = view()
      Traceback (most recent call last):
      ...
@@ -249,7 +253,7 @@ Try with more than 2 versions
      True
 
 Now edit 2 pages, so we can try a valid compare later
-     >>> view.request.set('version_id', ['0', '1'])
+     >>> request['version_id'] = ['0', '1']
      >>> repo = view.get_tool('portal_repository')
      >>> page.processForm(values=dict(text='some new text'))
      >>> repo.save(page, comment='new comment')

@@ -64,7 +64,7 @@ class WikiVersionCompare(WikiVersionView):
 
     @instance.memoizedproperty
     def versions(self):
-        versions = self.request.get('version_id')
+        versions = self.request.form.get('version_id')
         req_error = None
         if not versions:
             req_error = 'You did not check any versions in the version compare form'
@@ -128,7 +128,7 @@ class WikiVersionRevert(WikiVersionView):
         view_url = self.context.absolute_url()
         
         try:
-            version_id = int(self.request.get('version_id'))
+            version_id = int(self.request.form.get('version_id'))
             if version_id < 0 or version_id >= self.current_id():
                 req_error = 'Invalid version specified'
         except:
