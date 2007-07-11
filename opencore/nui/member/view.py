@@ -462,12 +462,12 @@ class MemberPreferences(BaseView, OctopoLite):
 
         pw_tool = self.get_tool("portal_password_reset")
 
-        msg = self.loggedinmember.validate_password(password)
+        msg = member.validate_password(password)
         if msg:
             self.addPortalStatusMessage(msg)
             return
 
-        self.loggedinmember._setPassword(password)
+        member._setPassword(password)
         self.addPortalStatusMessage('Your password has been changed')
 
     @property
