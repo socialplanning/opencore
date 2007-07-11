@@ -15,7 +15,7 @@ class WikiEdit(BaseView):
         
         self.context.processForm(values=self.request)
         repo = self.context.portal.portal_repository
-        repo.save(self.context, comment = self.request.get('comment', ''))
+        repo.save(self.context, comment = self.request.form.get('comment', ''))
         self.addPortalStatusMessage(u'Changes saved.')
         self.redirect(self.context.absolute_url())
 
@@ -30,14 +30,14 @@ class AttachmentView(BaseView):
         return "%s/@@attachmentSnippet?attachment_id=%s" % (self.context.absolute_url(), self.new_attachment().id)
 
     def attachmentSnippet(self):
-        attachment = self.context._getOb(self.request.get('attachment_id'))
+        attachment = self.context._getOb(self.request.form.get('attachment_id'))
         self.new_attachment = lambda: attachment
         return self.attachment_snippet()
     
     def handle_updateAtt(self):
-        attach_id = self.request.get('attachment_id')
+        attach_id = self.request.form.get('attachment_id')
         attachment = self.context._getOb(attach_id)
-        title = self.request.get('attachment_title') or attach_id
+        title = self.request.form.get('attachment_title') or attach_id
         attachment.setTitle(title)
         attachment.reindexObject()
         return attachment
@@ -60,7 +60,7 @@ class AttachmentView(BaseView):
         return self.create_snippet()
     
     def deleteAtt(self):
-        self.context.manage_delObjects([self.request.get('attachment_id')])
+        self.context.manage_delObjects([self.request.form.get('attachment_id')])
         return self.delete_snippet()
 
     def handle_createAtt(self):
