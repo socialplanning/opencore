@@ -201,7 +201,7 @@ class BaseView(BrowserView):
                 membersince = prettyDate(member.getRawCreation_date()),
                 lastlogin   = prettyDate(member.getLogin_time()),
                 # TODO isloggedin = ???, # for e.g. 'online now' info in profile view
-                homepage    = self.memfolder_url_for_id(id),
+                homepage    = self.memfolder_url(id_=id),
                 projects    = member.projectBrains(),
                 location    = member.getLocation(),
                 statement   = member.getStatement(),
@@ -327,20 +327,19 @@ class BaseView(BrowserView):
         if self.loggedin:
             return self.membertool.getAuthenticatedMember()
 
-    def memfolder_url_for_id(self, id_=None):
+    def memfolder_url(self, id_=None):
         if id_ is None:
-            return self.home_url
+            if not self.loggedin:
+                return None
+            id_ = self.member_info['id']
+
         folder = self.membertool.getHomeFolder(id_)
         if folder is not None:
             return folder.absolute_url()
 
-    @view.mcproperty
-    def home_url(self):
-        """url of the logged-in member's homepage"""
-        if not self.loggedin:
-            return None
-        id_ = self.loggedinmember.getId()
-        return self.memfolder_url_for_id(id_)
+    #@view.mcproperty
+    #def home_url(self):
+    #    """url of the logged-in member's homepage"""
 
     def userobj(self):
         # XXX eliminate
