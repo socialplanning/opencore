@@ -100,21 +100,28 @@ User/Account methods
     <OpenMember at /plone/portal_memberdata/test_user_1_>
 
 
-Home url
+Member folder/homepage url
 --------
 
 Nothing means member isn't confirmed::
     
-    >>> pview.memfolder_url_for_id('m1') is None
+    >>> pview.memfolder_url(id_='m1') is None
     True
 
 Should get the member folder url for a confirmed member::
 
-    >>> pview.memfolder_url_for_id('test_user_1_')
+    >>> pview.memfolder_url(id_='test_user_1_')
     'http://nohost/plone/people/test_user_1_'
 
-    >>> pview.home_url
+    >>> pview.memfolder_url()
     'http://nohost/plone/people/test_user_1_'
+
+Get homepage url (coming soon)::
+
+#>>> pview.memhome_url()
+#'http://nohost/plone/people/test_user_1_/something'
+
+
 
 
 Member info
