@@ -103,13 +103,14 @@ User/Account methods
 Home url
 --------
 
-Nothing is member isn't confirmed::
+Nothing means member isn't confirmed::
     
-    >>> pview.home_url_for_id('m1')
+    >>> pview.memfolder_url_for_id('m1') is None
+    True
 
 Should get the member folder url for a confirmed member::
 
-    >>> pview.home_url_for_id('test_user_1_')
+    >>> pview.memfolder_url_for_id('test_user_1_')
     'http://nohost/plone/people/test_user_1_'
 
     >>> pview.home_url

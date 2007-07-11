@@ -327,7 +327,7 @@ class BaseView(BrowserView):
         if self.loggedin:
             return self.membertool.getAuthenticatedMember()
 
-    def home_url_for_id(self, id_=None):
+    def memfolder_url_for_id(self, id_=None):
         if id_ is None:
             return self.home_url
         folder = self.membertool.getHomeFolder(id_)
@@ -340,7 +340,7 @@ class BaseView(BrowserView):
         if not self.loggedin:
             return None
         id_ = self.loggedinmember.getId()
-        return self.home_url_for_id(id_)
+        return self.memfolder_url_for_id(id_)
 
     def userobj(self):
         # XXX eliminate
