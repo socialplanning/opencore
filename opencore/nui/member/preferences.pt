@@ -117,7 +117,7 @@
   <div class="oc-boxy">
     <h2>Account settings</h2>
     <a href="profile-edit">Edit profile</a>
-    <form class="oc-expander">
+    <form class="oc-expander" action="preferences">
       <fieldset>
         <legend class="oc-legend-label">
           <a href="#" class="oc-expander-link">Change email</a>
@@ -125,19 +125,16 @@
         <ul class="oc-expander-content oc-plainList">
           <li>
             <label for="email">Email</label><br />
-            <input type="text" id="email" tal:attributes="value data/email"/>
+            <input type="text" id="email" name="email" tal:attributes="value data/email"/>
           </li>
           <li class="oc-form-fieldBlock oc-smallText">
             <input type="checkbox" class="oc-input-typeCheck" id="email_hide" />
             <label for="email_hide">Hide email address by default?</label>
           </li>
           <li>
-            <button type="submit" 
-              name="update:boolean" 
-              value="True" 
-              class="oc-button oc-chooseThis">
-              Change
-            </button>
+            <input type="submit" value="Change"
+                   name="task|change-email" 
+                   class="oc-button oc-chooseThis" />
           </li>
         </ul>
       </fieldset>
