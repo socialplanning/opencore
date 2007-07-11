@@ -63,39 +63,39 @@ class AttachmentView(BaseView):
         return self.delete_snippet()
 
     def handle_createAtt(self):
-         attachmentTitle = self.request.get('attachmentTitle', None)
-         attachmentFile = self.request.get('attachmentFile', None)
-
-         if not attachmentFile:
-             self.errors = {'attachmentFile' : 'you forgot to upload something'}
-             return None 
-
+        attachmentTitle = self.request.form.get('attachmentTitle', None)
+        attachmentFile = self.request.form.get('attachmentFile', None)
+        
+        if not attachmentFile:
+            self.errors = {'attachmentFile' : 'you forgot to upload something'}
+            return None 
+        
 #         # Make sure we have a unique file name
-         fileName = attachmentFile.filename
+        fileName = attachmentFile.filename
+        
+        imageId = ''
 
-         imageId = ''
-
-         if fileName:
-             fileName = fileName.split('/')[-1]
-             fileName = fileName.split('\\')[-1]
-             fileName = fileName.split(':')[-1]
-             plone_utils = self.get_tool('plone_utils')
-             imageId = plone_utils.normalizeString(fileName)
-
-         if not imageId:
-             imageId = plone_utils.normalizeString(attachmentTitle)
-
-         imageId = self.findUniqueId(imageId)
-
-         newImageId = self.context.invokeFactory(id = imageId, type_name = 'FileAttachment')
-         if newImageId is not None and newImageId != '':
-             imageId = newImageId
-
-         object = self.context._getOb(imageId, None)
-         object.setTitle(self.findUniqueTitle(attachmentTitle or imageId))
-         object.setFile(attachmentFile)
-         object.reindexObject()
-         return object
+        if fileName:
+            fileName = fileName.split('/')[-1]
+            fileName = fileName.split('\\')[-1]
+            fileName = fileName.split(':')[-1]
+            plone_utils = self.get_tool('plone_utils')
+            imageId = plone_utils.normalizeString(fileName)
+            
+        if not imageId:
+            imageId = plone_utils.normalizeString(attachmentTitle)
+            
+        imageId = self.findUniqueId(imageId)
+        
+        newImageId = self.context.invokeFactory(id = imageId, type_name = 'FileAttachment')
+        if newImageId is not None and newImageId != '':
+            imageId = newImageId
+            
+        object = self.context._getOb(imageId, None)
+        object.setTitle(self.findUniqueTitle(attachmentTitle or imageId))
+        object.setFile(attachmentFile)
+        object.reindexObject()
+        return object
 
     def findUniqueTitle(self, title):
         titles = [self.context._getOb(i).Title() for i in self.context.objectIds()]
