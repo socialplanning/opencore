@@ -902,6 +902,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         for mem_id in mem_ids:
             acct_url = self._getAccountURLForMember(mem_id)
             # XXX if member hasn't logged in yet, acct_url will be whack
+            #     probably okay b/c account creation auto-logs you in
             msg_vars = {'project_title': project_title,
                         'account_url': acct_url,
                         }
