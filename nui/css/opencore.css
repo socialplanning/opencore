@@ -973,7 +973,7 @@ height: 1em; */
 }
 .oc-dataTable  {
    width: 100%;
-   white-space: nowrap;
+   /* white-space: nowrap; */
    font-size: 10px;
    border-bottom: 2px solid #ccc;
 }
