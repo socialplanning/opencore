@@ -27,12 +27,7 @@
             </thead>
             <tbody>
               <tr>
-                <td> <!-- tal:content="post/user_name" /> -->
-                  <a href="."
-                     tal:omit-tag="not:item/from_id"
-                     tal:attributes="href string:${here/portal_url}/people/${item/from_id}">
-                    <span tal:replace="item/mail_from">test@example.com</span>
-                  </a>
+                <td tal:content="post/user_name" /> 
                 <td>
                   <h4 tal:content="post/subject" />
                   <p tal:content="python: post['body'][:50]" colspan="3" />
