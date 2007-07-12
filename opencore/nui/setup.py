@@ -13,7 +13,7 @@ from Products.OpenPlans.Extensions.Install import setupPeopleFolder, \
      setupProjectLayout, setupHomeLayout
 from Products.OpenPlans.Extensions.Install import createMemIndexes, \
      installColumns, createValidationMember, \
-     install_local_transient_message_utility
+     install_local_transient_message_utility, install_email_invites_utility
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans import config as op_config
 from indexing import createIndexes
@@ -106,7 +106,8 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      migrate_wiki_attachments=convertFunc(migrate_wiki_attachments),
                      createValidationMember=convertFunc(createValidationMember),
                      reinstallWorkflows=reinstallWorkflows,
-                     setup_transient_message_utilitly=convertFunc(install_local_transient_message_utility),
+                     setup_transient_message_utility=convertFunc(install_local_transient_message_utility),
+                     install_email_invites_utility=convertFunc(install_email_invites_utility),
                      createIndexes=convertFunc(createIndexes),
                      )
 

@@ -1,12 +1,18 @@
 import os
 from StringIO import StringIO
-from zope.component import queryUtility
-from Products.Archetypes.Extensions.utils import install_subskin
+
 from OFS.ObjectManager import BadRequestException
-from Products.CMFCore import permissions
+
+from zope.component import queryUtility
+from zope.interface import alsoProvides
+
 from Products.ZCatalog.ZCatalog import manage_addZCatalog
+from Products.Five.site.localsite import enableLocalSiteHook
+from Products.CMFCore import permissions
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.TypesTool import FactoryTypeInformation
+from Products.CMFCore.Expression import Expression
+from Products.Archetypes.Extensions.utils import install_subskin
 from Products.Archetypes.public import listTypes
 from Products.Archetypes.config import REFERENCE_CATALOG
 from Products.Archetypes.Extensions.utils import installTypes#, install_subskin
@@ -18,6 +24,7 @@ from Products.CMFEditions.Permissions import RevertToPreviousVersions
 from Products.RichDocument.Extensions.utils import \
      registerAttachmentsFormControllerActions
 from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
+
 from Products.OpenPlans import config
 from Products.OpenPlans import content
 from Products.OpenPlans.permissions import DEFAULT_PERMISSIONS_DATA
@@ -36,20 +43,22 @@ from Products.OpenPlans.workflows import member
 from Products.OpenPlans.workflows import team
 from Products.OpenPlans.workflows import WORKFLOW_MAP
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
-from opencore.content.membership import OpenMembership
-from opencore.content.member import OpenMember
+from Products.OpenPlans.Extensions.utils import setupKupu
+
 from opencore.interfaces import IAddProject
 from opencore.interfaces import IAmAPeopleFolder
 from opencore.interfaces import IAmANewsFolder
+from opencore.content.membership import OpenMembership
+from opencore.content.member import OpenMember
+from opencore.auth.SignedCookieAuthHelper import SignedCookieAuthHelper
 
-from zope.interface import directlyProvides, directlyProvidedBy, alsoProvides
-from Products.OpenPlans.Extensions.utils import setupKupu
+from opencore.nui.member.interfaces import ITransientMessage
+from opencore.nui.member.transient_messages import TransientMessage
 from opencore.nui.indexing import metadata_cols, install_columns as installColumns
 from opencore.nui.indexing import createIndexes
 from opencore.nui.indexing import createMemIndexes
-from Products.CMFCore.Expression import Expression
-
-from opencore.auth.SignedCookieAuthHelper import SignedCookieAuthHelper
+from opencore.nui.project.interfaces import IEmailInvites
+from opencore.nui.project.email_invites import EmailInvites
 
 def fixUpEditTab(portal, out):
     pt=getToolByName(portal, 'portal_types')
@@ -424,7 +433,7 @@ def addProjectsFolder(portal, out):
         wftool = getToolByName(portal, 'portal_workflow')
 
     pfolder = portal._getOb('projects')
-    directlyProvides(pfolder, IAddProject, directlyProvidedBy(pfolder))
+    alsoProvides(pfolder, IAddProject)
 
     # Add type restrictions
     print >> out, 'Restricting addable types in Projects Folder'
@@ -651,23 +660,20 @@ def createValidationMember(portal, out):
     mdtool._validation_member = mem
 
 def install_local_transient_message_utility(portal, out):
-    from zope.app.component.site import setSite
-    from zope.app.component.hooks import setHooks
-    from Products.Five.site.localsite import enableLocalSiteHook
-    from opencore.nui.member.interfaces import ITransientMessage
-    from opencore.nui.member.transient_messages import TransientMessage
-
-    app = portal.aq_parent
-    enableLocalSiteHook(app)
-    setSite(app)
-    setHooks()
-
-    if queryUtility(ITransientMessage):
+    if queryUtility(ITransientMessage) is not None:
         return
 
-    sm = app.getSiteManager()
-    sm.registerUtility(ITransientMessage, TransientMessage(app))
+    sm = portal.getSiteManager()
+    sm.registerUtility(ITransientMessage, TransientMessage(portal))
+    print >> out, ('Transient message utility installed')
 
+def install_email_invites_utility(portal, out):
+    if queryUtility(IEmailInvites) is not None:
+        return
+
+    sm = portal.getSiteManager()
+    sm.registerUtility(IEmailInvites, EmailInvites())
+    print >> out, ('Email invites utility installed')
 
 def install(self, migrate_atdoc_to_openpage=True):
     out = StringIO()
@@ -706,5 +712,6 @@ def install(self, migrate_atdoc_to_openpage=True):
     installNewsFolder(portal, out)
     createValidationMember(portal, out)
     install_local_transient_message_utility(portal, out)
+    install_email_invites_utility(portal, out)
     print >> out, "Successfully installed %s." % config.PROJECTNAME
     return out.getvalue()

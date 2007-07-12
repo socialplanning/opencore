@@ -353,7 +353,8 @@ OC.ActionSelect = function(extEl) {
     // get refs
     var container = extEl;
     var select = Ext.get(Ext.query('select',container.dom)[0]);
-    var button = Ext.get(Ext.query('input[type=submit]',container.dom)[0]);
+    var submit = Ext.get(Ext.query('input[class=oc-js-actionSelectTask]',container.dom)[0]);
+    submit.hide();
     var form = select.up('form');
     
     //check refs
@@ -366,11 +367,18 @@ OC.ActionSelect = function(extEl) {
     
     //settings
     var action = form.dom.action;
-    button.hide();
-    var task = button.dom.name;
-    var taskValue = button.dom.value;
+    var orig_task = submit.dom.name;
+    var task = submit.dom.name;
+
+    if (task.slice(0,5) != 'task|') {
+        task = 'task|' + task;
+    }
+    var taskValue = submit.dom.value;
     
     function _doAction(e, el, o) {
+        // if the actionSelectTask element doesn't begin w/ 'task|', we add it
+        submit.dom.name = task;
+        OC.debug("ActionSelect: submit.dom.name: " + submit.dom.name);
 	YAHOO.util.Event.stopEvent(e);
 	YAHOO.util.Connect.setForm(form.dom);
 	var cObj = YAHOO.util.Connect.asyncRequest("POST", action, {
@@ -378,7 +386,8 @@ OC.ActionSelect = function(extEl) {
 		failure: OC.Callbacks.afterAjaxFailure,
 		scope: this
 	    }, "mode=async&" + task + "=" + taskValue);
-	
+        // restore original task element name
+        submit.dom.name = orig_task;
     }
     select.on('change', _doAction, this);
     

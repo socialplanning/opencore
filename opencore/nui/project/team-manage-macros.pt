@@ -63,6 +63,24 @@
 </metal:pendinginvitation>
 
 
+<metal:pendingemail-invite
+   define-macro="pendingemail-invite">
+  <tr tal:attributes="id item/id">
+
+    <td>
+      <input type="checkbox" name="checked:list"
+             tal:attributes="value item/id" />
+    </td>
+
+    <td tal:content="string:<${item/address}>" />
+
+    <td tal:define="requesteddate item/timestamp"
+        tal:content="python:view.pretty_date(requesteddate)" />
+
+  </tr>
+</metal:pendingemail-invite>
+
+
 <metal:requestbuttons
    define-macro="requestbuttons">
 
@@ -100,6 +118,20 @@
   </li>
 
 </metal:invitationbuttons>
+
+<metal:email-invitebuttons
+   define-macro="email-invitebuttons">
+
+  <li>
+    <input type="submit" name="task|batch_checked|remove-email-invites"
+           value="remove" class="oc-button" />
+  </li>
+  <li>
+    <input type="submit" name="task|batch_checked|remind-email-invites"
+           value="send reminder" class="oc-button" />
+  </li>
+
+</metal:email-invitebuttons>
 
 
 <metal:pendinglist define-macro="pendinglist">
@@ -151,6 +183,8 @@
     <td>
       <input type="checkbox" name="checked:list"
              tal:attributes="value item/id" />
+      <input type="hidden" name="all:list"
+             tal:attributes="value item/id"/>
     </td>
 
     <td>
@@ -158,17 +192,26 @@
     </td>
 
     <td tal:define="member_role item/role">
-      <div class="oc-js-actionSelect">
+      <div class="oc-js-actionSelect"
+           tal:condition="python:item['id'] != view.loggedinmember.getId()">
         <select tal:attributes="name string:${item/id}_role;
-                                id string:${item/id}_role;
-                                disabled python:item['id'] == view.loggedinmember.getId();">
+                                id string:${item/id}_role;">
           <tal:roleoptions repeat="roleitem view/rolemap/items">
             <option tal:attributes="value python:roleitem[0];
-                                    selected python:(roleitem[1] == member_role)"
+                                    selected python:(roleitem[1] == member_role);"
                     tal:content="python:roleitem[1]" />
           </tal:roleoptions>
         </select>
-	<input type="submit" value="Go" tal:attributes="name string:task|${item/id}|set-role" />
+
+	<input type="hidden" value="task" class="oc-js-actionSelectTask"
+               tal:attributes="name string:${item/id}|set-roles" />
+      </div> <!-- end .oc-js-actionSelect -->
+
+      <div tal:condition="python:item['id'] == view.loggedinmember.getId()">
+        <span tal:replace="member_role" />
+        <input type="hidden"
+               tal:attributes="name string:${item/id}_role;
+                               value item/role_value" />
       </div>
     </td>
 
@@ -224,7 +267,8 @@
           <input type="submit" name="task|batch_checked|remove-members"
                  value="remove members" class="oc-button" />
           <noscript>
-            <input type="submit" name="task|batch_checked|set-role" class="oc-button" value="set roles" />
+            <input type="submit" name="task|batch_all|set-roles"
+                   class="oc-button" value="set roles" />
           </noscript>
         </li>
       </ul>

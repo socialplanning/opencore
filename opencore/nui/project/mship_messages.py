@@ -41,3 +41,8 @@ ${member_id} has included the following message:
 
 ${member_message}
 """)
+
+invite_email = _(u"""Subject: OpenPlans membership invitation
+
+You've been invited to join the ${project_title} project on OpenPlans.org.  To accept this invitation, please visit ${join_url} and create an account.
+""")
