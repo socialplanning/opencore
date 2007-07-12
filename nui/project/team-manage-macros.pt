@@ -74,6 +74,8 @@
 
     <td tal:content="string:<${item/address}>" />
 
+    <td tal:content="string:awaiting registration" />
+
     <td tal:define="requesteddate item/timestamp"
         tal:content="python:view.pretty_date(requesteddate)" />
 
