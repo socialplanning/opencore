@@ -39,7 +39,6 @@
     for="opencore.interfaces.IOpenPage"
     name="edit"
     permission="cmf.ModifyPortalContent"
-    template="wiki-edit.pt"
     />
 
   <!-- FIXME what are the permissions on history exactly? -->   
