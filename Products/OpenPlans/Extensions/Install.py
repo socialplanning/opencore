@@ -3,8 +3,9 @@ from StringIO import StringIO
 
 from OFS.ObjectManager import BadRequestException
 
-from zope.component import queryUtility
 from zope.interface import alsoProvides
+from zope.component import queryUtility
+from zope.app.component.hooks import setSite
 
 from Products.ZCatalog.ZCatalog import manage_addZCatalog
 from Products.Five.site.localsite import enableLocalSiteHook
@@ -660,6 +661,7 @@ def createValidationMember(portal, out):
     mdtool._validation_member = mem
 
 def install_local_transient_message_utility(portal, out):
+    setSite(portal) # specify the portal as the local utility context
     if queryUtility(ITransientMessage) is not None:
         return
 
@@ -668,6 +670,7 @@ def install_local_transient_message_utility(portal, out):
     print >> out, ('Transient message utility installed')
 
 def install_email_invites_utility(portal, out):
+    setSite(portal) # specify the portal as the local utility context
     if queryUtility(IEmailInvites) is not None:
         return
 
