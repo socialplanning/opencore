@@ -32,6 +32,17 @@ def make_nui_listen_view_class(ListenClass, set_errors=False):
                     return ''
             return obj.absolute_url()            
 
+        @req_memoize
+        def list_title(self):
+            obj = self.context
+            while not IMailingList.providedBy(obj):
+                try:
+                    obj = obj.aq_parent
+                except AttributeError:
+                    return ''
+            return obj.Title()            
+        
+
     return NuiListenView
 
 
