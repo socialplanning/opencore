@@ -45,6 +45,16 @@
              use-macro="team_manage_macros/pendinglist" />
         </tal:pendinginvitations>
 
+        <tal:pendingemailinvites
+           define="item_heading string:Pending email invitations;
+                   item_type string:email-invite;
+                   item_collection view/pending_email_invites;
+                   num_items python:len(item_collection);"
+           condition="item_collection">
+          <metal:emailinvites
+             use-macro="team_manage_macros/pendinglist" />
+        </tal:pendingemailinvites>
+
         <tal:memberships>
           <metal:mshiplist use-macro="team_manage_macros/mshiplist" />
         </tal:memberships>
@@ -54,11 +64,26 @@
       <div class="oc-headingBlock">
         <h2>Invite new members</h2>
       </div>
+      <hr />
       <h3>Search for members</h3>
-      <p class="oc-discreet">Search and invite existing members</p>
+
+      <p class="oc-discreetText">Search and invite existing members</p>
 
       <metal:search-members use-macro="team_manage_macros/search-members" />
+      <hr />
 
+      <h3>or</h3>
+      <h3>Invite by email address</h3>
+      <p class="oc-discreetText">Send an email to invite people to join</p>
+      <form id="oc-inviteByEmail" name="oc-inviteByEmail"
+            tal:attributes="action view/request/ACTUAL_URL"
+            method="POST">
+        <textarea id="email-invites" name="email-invites"
+                  tal:content="view/request/form/email-invites | nothing" />
+        <p class="oc-discreetText">Comma separated</p>
+        <input type="submit" name="task|email-invites" value="Send"
+                class="oc-button" />
+      </form>
     </div><!-- end #oc-content-sidebar -->
     
     </div><!-- end content-fill-slot -->

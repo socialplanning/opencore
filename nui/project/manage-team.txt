@@ -194,8 +194,8 @@ Now we add m3 as a pending member, should disappear from the results:
     False
     >>> team.removeMember('m3')
 
-Finally, we test the 'invite' button for member invitation.  First we
-try with a member that is not on the team.  Notifier should go out:
+Next test the 'invite' button for member invitation.  First we try
+with a member that is not on the team.  Notifier should go out:
 
     >>> self.clearMemoCache()
     >>> res = view.invite_member(['m3'])

@@ -50,7 +50,7 @@ class EmailSender(object):
                   **kwargs):
         """
         Sends an email.  It's assumed that the currently logged in
-        user is the sender.a
+        user is the sender.
 
         o mto: the message recipient.  either an email address or a
         member id, or a sequence of the same.
