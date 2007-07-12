@@ -2,15 +2,20 @@
       metal:use-macro="here/@@standard_macros/master" tal:define="ml view/getMailingList">
   <body>
     <div metal:fill-slot="content">
+      <div metal:use-macro="here/@@listen_macros/bcrumb"/>
+      <div metal:use-macro="here/@@listen_macros/tabs"/>
       <div id="oc-content-main" i18n:domain="listen">
-        <h1 i18n:translate="message_reply">
-          New reply to
-          <span tal:replace="view/subject" i18n:name="reply_subject" />
-          by
-          <span tal:replace="view/mail_from" i18n:name="reply_author" />
-        </h1>
-        <div metal:use-macro="here/@@listen_macros/tabs"/>
-
+    <div class="oc-headingBlock">
+      <h2 i18n:translate="message_reply">
+        New reply to
+        <span>
+          <a href="#" i18n:translate=""
+             tal:attributes="href view/url">
+            <span tal:replace="view/subject" />
+          </a>
+        </span>
+      </h2>
+    </div>
         <form id="message-reply" name="listen-reply-form" action="."
           method="post" tal:attributes="action request/ACTUAL_URL">
           <input type="hidden" name="referring_url" value="."
@@ -23,25 +28,23 @@
                tal:attributes="class python:(error and 'error' or '')">
             <label for="subject"
               i18n:translate="label_subject">Subject:</label>
-            <span title="Required" i18n:domain="plone"
+              <input type="text" name="subject" value="." size="40" tal:attributes="value view/reply_subject" />
+            <span title="Required" class="oc-discreetText" i18n:domain="plone"
               i18n:translate="label_required" i18n:attributes="title title_required;">
               (Required)
             </span>
             <div tal:condition="error" tal:content="error" i18n:translate="">The Error</div>
-            <div>
-              <input type="text" name="subject" value="." size="40" tal:attributes="value view/reply_subject" />
-            </div>
           </div>
           <div tal:define="error errors/body|nothing"
                tal:attributes="class python:'oc-fieldBock' + (error and 'error' or '')">
-            <label for="body" i18n:translate="label_reply_body">Reply:</label>
-            <span title="Required" i18n:domain="plone"
+            <label for="body" i18n:translate="label_reply_body">Reply</label>
+            <span title="Required"  class="oc-discreetText" i18n:domain="plone"
               i18n:translate="label_required" i18n:attributes="title title_required;">
               (Required)
             </span>
             <div tal:condition="error" tal:content="error" i18n:translate="">The Error</div>
             <div>
-              <textarea rows="25" cols="79" name="body" value="." tal:content="view/reply_body" />
+              <textarea rows="25" cols="80" name="body" value="." tal:content="view/reply_body" />
             </div>
           </div>
           <div>

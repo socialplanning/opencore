@@ -57,10 +57,8 @@ body {
   line-height: 1.35;
 }
 #oc-project-tabs {
-
 }
 #oc-project-content {
-
 }
 #oc-footer {
   clear: both;
@@ -505,14 +503,9 @@ ul.oc-tabs li a.oc-actionLink:visited {
 ul.oc-tabs li a.oc-actionLink:hover {
 }
 /* Selected tab */
-#oc-tabs-wiki-view #oc-tabs-wikiview a,
-#oc-tabs-wiki-edit #oc-tabs-wikiedit a,
-#oc-tabs-wiki-history #oc-tabs-wikihistory a,
-#oc-tabs-wiki-version_compare #oc-tabs-wikihistory a,
-#oc-tabs-wiki-version #oc-tabs-wikihistory a {
+.oc-tabs .oc-selected a {
   color: #000;
   font-weight: bold;
-  background: none;
 }
 .oc-tabs form {
   display: inline;
@@ -653,6 +646,33 @@ ul.oc-tabs li a.oc-actionLink:hover {
 }
 .oc-listen-details-subscribe .oc-actions {
 }
+.oc-listen-archive-dateview {
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+	font-size: 10px;
+}
+.oc-listen-archive-dateview .oc-headingBlock {
+	display: block;
+	margin: 0;
+	background: #eee;
+	padding: 0.25em 0.25em 0.125em;
+	border-bottom: 2px solid #ccc;
+}
+.oc-listen-archive-dateview .oc-headingBlock h2 {
+	display: inline;
+	font-weight: bold;
+}
+.oc-listen-archive-dateview ul li {
+	padding: 0.25em 0.5em;
+	border-bottom: 1px solid #ccc;
+}
+.oc-listen-message .oc-headingBlock h2 {
+  display: inline;
+}
+.oc-listen-message .oc-headingBlock .oc-headingContext {
+  display: block;
+}
 
 /* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
 -------------------------------------------- */
@@ -717,6 +737,22 @@ a.oc-button:hover {
   background: #ddd;
   color: #000;
 }
+a.oc-banana {
+	display: block;
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+	background-color: #EB852B;
+	border: 1px solid #B36521;
+	border-right: 2px solid #B36521;
+	border-bottom: 2px solid #B36521;
+	color: #fff !important;
+	text-decoration: none;
+	padding: 0.25em;
+	margin: 2em;
+	margin-bottom: 0.75em;
+	margin-top: 0;
+}
 
 /* GENERIC: Elements */
 .oc-paginator {
@@ -734,6 +770,7 @@ a.oc-button:hover {
   display: inline;
   font-size: 12px;
   float: left;
+  line-height: normal;
 }
 .oc-bcrumb li,
 .oc-bcrumb li h1,
@@ -1290,6 +1327,10 @@ h4, .h4 {
   font-size: 14px;
   font-style: italic;
 }
+h5, .h5, h6, .h6 {
+  font-size: 12px;
+  font-weight: bold;
+}
 #oc-content-sidebar h4 {
   font-size: 12px;
 }
@@ -1314,6 +1355,9 @@ p {
     .formHelp /* FIXME */
   {
   font-size: 11px;
+}
+.formHelp /*FIXME */ {
+  font-weight: normal;
 }
 #oc-content-sidebar .smallText,
 #oc-content-sidebar .discreetText {

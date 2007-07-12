@@ -2,28 +2,37 @@
   metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
+      <div metal:use-macro="here/@@listen_macros/bcrumb"/>
+      <div metal:use-macro="here/@@listen_macros/tabs"/>
       <div id="oc-content-main" i18n:domain="listen">
+        <div class="oc-headingBlock">
+          <h2 i18n:translate="" tal:content="view/Title" />
+        </div>
 
-        <h1 i18n:translate="" tal:content="view/Title" class="documentFirstHeading">
-          Title or Id
-        </h1>
-
-        <div metal:use-macro="here/@@listen_macros/tabs"/>
         <form name="manage-form" id="manage-form"
           tal:attributes="action request/ACTUAL_URL"
           tal:define="errors view/errors|nothing">
-
-          <table>
+          <table class="oc-dataTable" cellspacing="0">
+            <thead>
             <tr>
-              <th i18n:translate="">Remove</th>
-              <th i18n:translate="">Address / User ID</th>
-              <th i18n:translate="">Subscribed</th>
+              <th scope="col" i18n:translate="">Remove</th>
+              <th scope="col" i18n:translate="">Address / User ID</th>
+              <th scope="col" i18n:translate="">Subscribed</th>
+              <th scope="col"></th>
             </tr>
+            </thead>
+            <tbody>
             <tr tal:repeat="user view/allowed_senders_data">
               <td>
                 <input type="checkbox" tal:attributes="name python:'remove_'+user" />
               </td>
-              <td tal:content="string:${user}" />
+              <td> <!-- tal:content="string:${user}" />-->
+                <a href="."
+                   tal:omit-tag="not:string:${user}"
+                   tal:attributes="href string:${here/portal_url}/people/${user}">
+                  <span tal:replace="string:${user}">test@example.com</span>
+                </a>
+              </td>
               <td tal:define="subscribed python:view.is_subscribed(user) and 1 or 0">
                 <input type="checkbox" tal:attributes="name python:'subscribed_'+user; checked subscribed" />
                 <input type="hidden" tal:condition="subscribed" tal:attributes="name python:'wassubscribed_'+user" />
@@ -32,20 +41,25 @@
                 <span tal:replace="python: view.pending_status(user) " />
               </td>
             </tr>
+            </tbody>
+            <tfoot style="background-color: #eee; padding: 0.25em 0; line-height: normal;">
             <tr>
-              <td i18n:translate="">
-                Add:
-              </td>
+              <td></td>
               <td>
-                <input type="text" name="add_email" value="" size="25" />
+                <label for="add_email">Add:</label>
+                <input type="text" id="add_email" name="add_email" value="" size="25" />
               </td>
-              <td>
-                <input type="checkbox" name="add_subscribed" />
+              <td class="oc-form-fieldBlock">
+                <input type="checkbox" id="add_subscribed" name="add_subscribed" />
+                <label for="add_subscribed">Subscribe?</label>
               </td>
               <td />
             </tr>
+            </tfoot>
           </table>
-          <input type="submit" name="save" i18n:attributes="value" value="save changes" />
+          <div class="oc-actions">
+            <input type="submit" name="save" i18n:attributes="value" value="Save changes" />
+          </div>
           <!-- ???
           <p tal:content="python: errors" />
           -->
