@@ -12,7 +12,7 @@
           <h2 i18n:translate="" tal:content="view/Title" />
         </div>
 
-        <h3 i18n:translate="">Posts awaiting moderation</h3>
+        <h3 class="oc-dataTable-heading" i18n:translate="">Posts awaiting moderation</h3>
         <form name="moderate-post-form" id="moderate-post-form"
             tal:attributes="action request/ACTUAL_URL"
             tal:define="errors view/errors|nothing">
@@ -62,11 +62,11 @@
 
         <tal:members condition="is_membership_moderated"
           tal:define="pending_members view/get_pending_members">
-          <h3 i18n:translate="">Users awaiting moderation</h3>
+          <h3 class="oc-dataTable-heading" i18n:translate="">Users awaiting moderation</h3>
           <form name="moderate-member-form" id="moderate-member-form"
               tal:attributes="action request/ACTUAL_URL"
               tal:define="errors view/errors|nothing">
-            <table tal:condition="pending_members" class="oc-dataTable">
+            <table tal:condition="pending_members" class="oc-dataTable" cellspacing="0">
               <thead>
                 <tr>
                   <th scope="col" i18n:translate="">User</th>
@@ -80,14 +80,14 @@
                   <ul class="oc-actions oc-dataTable-row-actions oc-smallText">
                     <li>
                       <input type="hidden" name="email" tal:attributes="value pending_member/user" />
-                      <input i18n:attributes="value" type="submit" name="member_approve" value="approve" />
+                      <input i18n:attributes="value" type="submit" name="member_approve" value="Approve" />
                     </li>
                     <li>
-                      <input i18n:attributes="value" type="submit" name="member_discard" value="discard" />
+                      <input i18n:attributes="value" type="submit" name="member_discard" value="Discard" />
                     </li>
                     <li oc-form-fieldBlock>
                       <label for="user_reject_reason">
-                        <input i18n:attributes="value" type="submit" name="member_reject" value="reject" />
+                        <input i18n:attributes="value" type="submit" name="member_reject" value="Reject" />
                       </label>
                       <input type="text" id="user_reject_reason" name="reject_reason" />
                     </li>
