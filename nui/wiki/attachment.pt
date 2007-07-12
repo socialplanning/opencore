@@ -5,8 +5,12 @@
 	<a target="_blank" 
 	   tal:attributes="href attachment/getURL | attachment/absolute_url"
 	   tal:content="attachment/Title | attachment/getId">Id</a> -  
-	<span tal:replace="attachment/getObjSize"></span>
-	<a href="" class="oc-js-liveEdit_showForm oc-actionLink">Edit</a> | <a href="" class="oc-js-actionLink oc-actionLink">Delete -- Fix ME!</a>
+        <span tal:replace="attachment/getObjSize"></span>
+	<a href="" class="oc-js-liveEdit_showForm oc-actionLink">Edit</a> |
+        <a class="oc-js-actionLink oc-actionLink"
+	   tal:attributes="href string:edit?task|${attachment/getId}|delete-attachment" >
+	  Delete
+	</a>
       </div><!-- end .liveEdit-value -->  
       <div class="oc-js-liveEdit-editForm">
       <label for="attachment_title">Title:</label>
