@@ -8,7 +8,7 @@
         <tal:threads define="results view/searchArchive;
                              batch results;">
 
-          <div class="oc-widget-search" style="margin-bottom: 1em;">
+          <div class="oc-widget-search oc-boxy">
             <form action="./search_archive" method="post">
                 <label class="oc-label-heading oc-biggerText" for="text" i18n:translate="label_search_text" tal:content="view/Title">
                   Search:
