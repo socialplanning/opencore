@@ -12,55 +12,56 @@
           <h2 i18n:translate="" tal:content="view/Title" />
         </div>
 
-        <h3 class="oc-dataTable-heading" i18n:translate="">Posts awaiting moderation</h3>
-        <form name="moderate-post-form" id="moderate-post-form"
-            tal:attributes="action request/ACTUAL_URL"
-            tal:define="errors view/errors|nothing">
-          <table class="oc-dataTable" cellspacing="0" tal:condition="pending_list">
-            <thead>
-            <tr>
-              <th scope="col" i18n:translate="" >From</th>
-              <th scope="col" i18n:translate="" >Message</th>
-              <th scope="col">Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-              <tr tal:repeat="post pending_list">
-                <td tal:content="post/user_name" /> 
-                <td>
-                  <dl class="oc-plainList">
-                    <dt tal:content="post/subject" />
-                    <dd tal:content="python: post['body'][:50]" colspan="3" />
-                  </dl>
-                </td>
-                <td>
-                  <ul class="oc-actions oc-dataTable-row-actions oc-smallText">
-                    <li>
-                      <input type="hidden" name="postid" tal:attributes="value python: str(post['postid'])" />
-                      <input type="hidden" name="email" tal:attributes="value python: str(post['user'])" />
-                    </li>
-                    <li>
-                      <input type="submit" name="post_approve" i18n:attributes="value" value="Approve" /> 
-                    </li>
-                    <li>
-                      <input type="submit" name="post_discard" i18n:attributes="value" value="Discard" />
-                    </li>
-                    <li oc-form-fieldBlock>
-                      <label for="message_reject_reason">
-                        <input tal:condition="python:is_post_moderated or is_membership_moderated" type="submit" name="post_reject" i18n:attributes="value" value="Reject" />
-                      </label>
-                      <input tal:condition="python:is_post_moderated or is_membership_moderated" id="message_reject_reason" name="reject_reason" type="text" />
-                    </li>
-                  </ul>
-                </td>
+        <div class="oc-widget oc-widget-dataTable">
+          <h3 class="oc-dataTable-heading" i18n:translate="">Posts awaiting moderation</h3>
+          <form name="moderate-post-form" id="moderate-post-form"
+              tal:attributes="action request/ACTUAL_URL"
+              tal:define="errors view/errors|nothing">
+            <table class="oc-dataTable" cellspacing="0" tal:condition="pending_list">
+              <thead>
+              <tr>
+                <th scope="col" i18n:translate="">From</th>
+                <th scope="col" i18n:translate="">Message</th>
+                <th scope="col">Actions</th>
               </tr>
-            </tbody>
-          </table>
-        </form>
+              </thead>
+              <tbody>
+                <tr tal:repeat="post pending_list">
+                  <td tal:content="post/user_name" /> 
+                  <td>
+                    <dl class="oc-plainList">
+                      <dt tal:content="post/subject" />
+                      <dd tal:content="python: post['body'][:50]" colspan="3" />
+                    </dl>
+                  </td>
+                  <td>
+                    <ul class="oc-actions oc-dataTable-row-actions oc-smallText">
+                      <li>
+                        <input type="hidden" name="postid" tal:attributes="value python: str(post['postid'])" />
+                        <input type="hidden" name="email" tal:attributes="value python: str(post['user'])" />
+                      </li>
+                      <li>
+                        <input type="submit" name="post_approve" i18n:attributes="value" value="Approve" /> 
+                      </li>
+                      <li>
+                        <input type="submit" name="post_discard" i18n:attributes="value" value="Discard" />
+                      </li>
+                      <li oc-form-fieldBlock>
+                        <label for="message_reject_reason">
+                          <input tal:condition="python:is_post_moderated or is_membership_moderated" type="submit" name="post_reject" i18n:attributes="value" value="Reject" />
+                        </label>
+                        <input tal:condition="python:is_post_moderated or is_membership_moderated" id="message_reject_reason" name="reject_reason" type="text" />
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+          <p tal:condition="python: not pending_list">No posts pending moderation</p>
+        </div>
 
-        <p tal:condition="python: not pending_list">No posts pending moderation</p>
-
-        <tal:members condition="is_membership_moderated"
+        <div class="oc-widget oc-widget-dataTable" condition="is_membership_moderated"
           tal:define="pending_members view/get_pending_members">
           <h3 class="oc-dataTable-heading" i18n:translate="">Users awaiting moderation</h3>
           <form name="moderate-member-form" id="moderate-member-form"
@@ -70,12 +71,12 @@
               <thead>
                 <tr>
                   <th scope="col" i18n:translate="">User</th>
-                  <th scope="col"Actions></th>
+                  <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 <tr tal:repeat="pending_member pending_members">
-                  <td tal:content="pending_member/user_name" style="text-align:center" />
+                  <td tal:content="pending_member/user_name" />
                   <td>
                   <ul class="oc-actions oc-dataTable-row-actions oc-smallText">
                     <li>
@@ -98,9 +99,7 @@
             </table>
           </form>
           <p tal:condition="python: not pending_members ">No members pending moderation.</p>
-        </tal:members>
-
-        <p tal:content="view/errors|nothing" />
+        </div>
       </div><!-- content-main -->
     </div><!-- content-container -->
   </body>
