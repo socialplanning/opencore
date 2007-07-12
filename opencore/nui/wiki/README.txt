@@ -69,7 +69,7 @@ Test wiki page registrations (logged in)::
     <...SimpleViewClass ...wiki/wiki_macros.pt object at ...>
     
     >>> page.restrictedTraverse('@@edit')
-    <...SimpleViewClass ...wiki/wiki-edit.pt object at ...>
+    <Products.Five.metaclass.WikiEdit object at ...>
 
 Test wiki history registrations (logged in)::
 
@@ -119,21 +119,20 @@ Test actually creating, editing, deleting an attachment::
      Create attachment
      >>> from opencore.nui.wiki import view as v
      >>> request = self.portal.REQUEST
-     >>> view = v.AttachmentView(page, request)
-     >>> request = view.request.form = {}
-     >>> view = view.__of__(page)
-     >>> view.createAtt()
-     "{'status' : 'failed' }\n"
-     >>> request['attachmentTitle'] = 'secret'
+     >>> view = page.restrictedTraverse('@@edit')
+     >>> view.create_attachment()
+     {'An error': ''}
+     >>> form = {}
      >>> class tempfile(file):
      ...     def __init__(self, filename):
      ...         self.filename = filename 
      ...         file.__init__(self, filename)
      >>> tfile = tempfile(secret_file_name)
-     >>> request['attachmentFile'] = tfile
-     >>> request['attachment_id'] = 'secret.txt'
-     >>> view.createAtt()
-     "{status: 'success',...
+     >>> form['attachmentTitle'] = 'secret'
+     >>> form['attachmentFile'] = tfile
+     >>> request.form = form
+     >>> view.create_attachment()
+     {...'oc-wiki-attachments'...}
      >>> newatt = view.context._getOb('secret.txt')
      >>> newatt
      <FileAttachment at /plone/projects/p1/project-home/secret.txt>
@@ -143,31 +142,30 @@ Test actually creating, editing, deleting an attachment::
 
 Now let's try to delete.  Try the error case::
 
-     >>> request['attachment_id'] = ''
-     >>> request['attachmentTitle'] = ''
-     >>> request['attachmnetFile'] = ''
+     >>> request.form = {}
 
-     Again, raising an AttributeError
-     Maybe we should return an error message instead
-     >>> view.deleteAtt()
+Again, raising an AttributeError
+Maybe we should return an error message instead
+     >>> view.delete_attachment()
      Traceback (most recent call last):
      ...
-     AttributeError
+     TypeError...
 
-     Set valid attachment request variables, and it should work
-     >>> request['attachment_id'] = 'secret.txt'
-     >>> request['attachmentFile'] = tfile
-     >>> request['attachmnetTitle'] = 'new title'
-     >>> view.deleteAtt()
-     '<!-- deleted -->\n'
-
+Set valid attachment request variables, and it should work
+     >>> form = {}
+     >>> form['attachment_id'] = 'secret.txt'
+     >>> form['attachmentFile'] = tfile
+     >>> form['attachmnetTitle'] = 'new title'
+     >>> request.form = form
+     >>> view.delete_attachment()
+     {'stubbing': 'self.delete_snippet()'}
 
 If we create an attachment with no title, the title should be the id::
      >>> tfile = tempfile(secret_file_name)
-     >>> request['attachmentFile'] = tfile
-     >>> response = view.createAtt()
-     >>> "status: 'success'" in response
-     True
+     >>> form = {'attachmentFile': tfile}
+     >>> request.form = form
+     >>> view.create_attachment()
+     {...'oc-wiki-attachments'...}
      >>> newatt = view.context._getOb('secret.txt')
      >>> newatt
      <FileAttachment at /plone/projects/p1/project-home/secret.txt>
@@ -176,34 +174,22 @@ If we create an attachment with no title, the title should be the id::
 
 
 Test update attachment::
-     >>> view.attachmentSnippet()
-     '...secret.txt...
-
-     Reset attachment request variables
-     >>> request['attachment_id'] = ''
-     >>> request['attachmentTitle'] = ''
-     >>> request['attachmnetFile'] = ''
-
-Check error case (should it raise an error? error message instead?)::
-     >>> view.updateAtt()
-     Traceback (most recent call last):
-     ...
-     AttributeError
-
-     Set valid attachment request variables
-     >>> request['attachment_id'] = 'secret.txt'
-     >>> request['attachmentFile'] = tfile
-     >>> request['attachmnetTitle'] = 'new title'
-
-Try again, should work great now::
-     (uhh, what do we expect to get back? looks like a form?)
-     >>> response = view.updateAtt()
-     >>> '<form method="post"' in response
-     True
-     >>> 'secret.txt' in response
-     True
+nah     >>> view.attachment_snippet(attachment=newatt)
+nah     '...secret.txt...'
 
 
+Check error case::
+     >>> request.form = {}
+     >>> view.update_attachment()
+     {}
+
+Try again with real values, should work great now::
+     >>> view.update_attachment(['secret.txt'], [{'title': "Alcibiades"}])
+     {'secret.txt_list-item':...Alcibiades...}
+
+
+VERSION COMPARE
+===============
 
 Now let's exercise some version compare stuff
 
