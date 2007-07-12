@@ -77,7 +77,9 @@ def create_test_content(self, p_map=None, m_map=None):
         mem = mdc._getOb(mem_id)
         mem._setPassword(mem_data['password'])
         mem.fixOwnership()
+        mem.isConfirmable = True
         wf_tool.doActionFor(mem, 'register_public')
+        del mem.isConfirmable
 
         # create the member area and mark it with the appropriate interface
         # ms_tool.createMemberArea(mem_id)
