@@ -385,6 +385,10 @@ class BaseView(BrowserView):
     @property
     def membertool(self):
         return self.get_tool('portal_membership')
+    
+    @property
+    def memberdatatool(self):
+        return self.get_tool('portal_memberdata')
 
     @property
     def catalog(self):
@@ -415,6 +419,9 @@ class BaseView(BrowserView):
             return 'oc-selected'
         else:
             return ''
+
+    def is_member(self, id):
+        return self.memberdatatool.get(id) is not None
 
     def authenticator(self):
         return self.get_tool('browser_id_manager').getBrowserId(create=True)
