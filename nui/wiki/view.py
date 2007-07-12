@@ -126,6 +126,7 @@ class WikiEdit(BaseView, OctopoLite):
         # do not assign directly because this will implicitly
         # wrap the attachment in the view.
         commands = {}
+        if not target or not fields: return commands
         for obj_id, data in zip(target, fields):
             new_attachment = self._handle_updateAtt(obj_id, data.get('title', obj_id))
             my_attachment = lambda: new_attachment
@@ -134,6 +135,11 @@ class WikiEdit(BaseView, OctopoLite):
                                                  'effects': 'highlight',
                                                  'html': snippet}
         return commands
+
+    @action('delete-attachment')
+    def delete_attachment(self, target=None, fields=None):
+        self.context.manage_delObjects([self.request.form.get('attachment_id')])
+        return {'stubbing': 'self.delete_snippet()'}
 
 
 class AttachmentView(BaseView):
