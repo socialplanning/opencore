@@ -1251,14 +1251,14 @@ a.oc-liveItem_hoverShowForm:visited {
  text-transform: uppercase;
  font-size: .9em
 }
-a.oc-liveItem_cancel {
+a.oc-js-liveEdit_hideForm {
  color: red;
 }
 .oc-liveEdit-value .oc-liveEdit-hover,
-.oc-liveItem-hover {
+.oc-liveEdit-hover {
  background: #ffffcc;
 }
-.oc-liveItem-directSelect {
+.oc-liveEdit-directSelect {
   background-image: url("/++resource++img/dropdown-nub-87B6C1-ffffff.gif");
   background-position: right center;
   background-repeat: no-repeat;
@@ -1281,6 +1281,14 @@ a.oc-liveItem_cancel {
   background-color: #cbeb9b;
   padding: 3px;
 }
+
+/* Action Select */
+.oc-actionSelect { /* style for value wrapper of action select.  little triangle */
+  background-image: url("/++resource++img/dropdown-nub-87B6C1-ffffff.gif");
+  background-position: right center;
+  background-repeat: no-repeat;
+  padding-right: 15px;
+  cursor: pointer;}
 
 /* @HTML ELEMENTS GENERAL @TYPOGRAPHY
 This should be the only place where font information is specified
