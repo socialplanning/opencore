@@ -67,11 +67,9 @@ Check storing and retrieving transient messages
     [(0, 'there is only zul'), (2, 'do not cross the streams'), (3, 'gatekeeper and keymaster')]
 
     Now we just have to check that when we try to get the utility,
-    we actually get the right object back.  First we have to trigger
-    the setSite hook on the portal object, which normally happens
-    during traversal.
-    >>> from zope.app.component.hooks import setSite
-    >>> setSite(self.portal)
+    we actually get the right object back.  We pass in the portal
+    as the explicit context for the utility lookup, since setSite doesn't
+    seem to work for us here in test-land.
     >>> from opencore.nui.member.interfaces import ITransientMessage
-    >>> getUtility(ITransientMessage)
-    <TransientMessage at /utilities/>
+    >>> getUtility(ITransientMessage, context=self.portal)
+    <TransientMessage at /plone/utilities/>
