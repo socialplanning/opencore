@@ -151,14 +151,10 @@ Maybe we should return an error message instead
      ...
      TypeError...
 
-Set valid attachment request variables, and it should work
+Send in valid attachment id and it should work
      >>> form = {}
-     >>> form['attachment_id'] = 'secret.txt'
-     >>> form['attachmentFile'] = tfile
-     >>> form['attachmnetTitle'] = 'new title'
-     >>> request.form = form
-     >>> view.delete_attachment()
-     {'stubbing': 'self.delete_snippet()'}
+     >>> view.delete_attachment(['secret.txt'])
+     {'secret.txt_list-item':...'delete'...}
 
 If we create an attachment with no title, the title should be the id::
      >>> tfile = tempfile(secret_file_name)
@@ -173,12 +169,7 @@ If we create an attachment with no title, the title should be the id::
      'secret.txt'
 
 
-Test update attachment::
-nah     >>> view.attachment_snippet(attachment=newatt)
-nah     '...secret.txt...'
-
-
-Check error case::
+Test update attachment... first check error case::
      >>> request.form = {}
      >>> view.update_attachment()
      {}

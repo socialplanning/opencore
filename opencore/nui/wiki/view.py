@@ -138,8 +138,14 @@ class WikiEdit(BaseView, OctopoLite):
 
     @action('delete-attachment')
     def delete_attachment(self, target=None, fields=None):
-        self.context.manage_delObjects([self.request.form.get('attachment_id')])
-        return {'stubbing': 'self.delete_snippet()'}
+        survivors = list(target)
+        self.context.manage_delObjects(survivors)
+        commands = {}
+        for obj_id in target:
+            if obj_id not in survivors:
+                commands['%s_list-item' % obj_id] = {'action': 'delete',
+                                                     'effects': 'fadeout'}
+        return commands
 
 
 class AttachmentView(BaseView):
