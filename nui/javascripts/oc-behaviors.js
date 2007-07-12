@@ -32,7 +32,7 @@ OC.liveElementKey = {
     "#version_compare_form"   : "HistoryList",
     ".oc-liveItem"            : "LiveItem",
     ".oc-widget-multiSearch"  : "SearchLinks",
-    '#oc-usermenu-list'       : "TopNav",
+    '.oc-dropdown-container'  : "DropDown",
     '#oc-project-create'      : "ProjectCreateForm",
     ".oc-autoFocus"           : "AutoFocus",
     ".oc-warn-popup"          : "WarnPopup",
@@ -713,76 +713,71 @@ OC.UploadForm = function(extEl) {
 
 /*
   #
-  # Top Nav
+  # DropDown
   #
 */
-OC.TopNav  = function(extEl) {
+OC.DropDown  = function(extEl) {
     // get refs
     var container = extEl;
-    var triggerItems = Ext.select(Ext.query(".oc-dropdown-container", container.dom));
-    var submenus = Ext.select(container.dom.getElementsByTagName('ul'));
+    var topLink = Ext.get(Ext.query("#" + container.id + " > a")[0]);
+    var submenu = Ext.get(Ext.query('ul', container.dom)[0]);
     var unclickArea = Ext.get(document.body);
     
     // check refs
-    if (!container || !triggerItems || !unclickArea) {
-	OC.debug("TopNav: couldn't get refs");
-	return;
-    } else {
-	OC.debug("TopNav: got refs");
+    if (!container || !submenu || !unclickArea) {
+      OC.debug("TopNav: couldn't get refs");
+      return;
+        } else {
+      OC.debug("TopNav: got refs");
     }
     
     // settings
     var overrideHide = false;
     
-    function _toggleMenu(e, el, o) {
-      var submenu = Ext.get(el.getElementsByTagName('ul')[0]);
-      _hideMenus();    
-      if (submenu) {
-          if (!submenu.isVisible()) _showMenu(e, el, o); 
+    function _toggleMenu(e) {
+      if (submenu.isVisible()) {
+        _hideMenu();          
+      } else {
+        _showMenu();
       }
     }
     
-    function _showMenu(e, el, o) {
-	_hideMenus();
-	var trigger = Ext.get(el);
-	var submenu = Ext.get(el.getElementsByTagName('ul')[0]);
-	submenu.show();
-	overrideHide = true;
-	trigger.addClass('oc-selected');
+    function _showMenu() {
+      _hideMenu();
+      submenu.show();
+      overrideHide = true;
+      container.addClass('oc-selected');
+      OC.debug(overrideHide);
     }
     
-    function _hideMenus(e, el, o) {
-	if (!overrideHide) {
-	    submenus.hide();
-	    triggerItems.removeClass('oc-selected');
-	}
-	overrideHide = false;
+    function _hideMenu() {
+      OC.debug("hidemenu: " + overrideHide);
+      if (!overrideHide) {
+          submenu.hide();
+          container.removeClass('oc-selected');
+      }
+      overrideHide = false;
     }
     
-    function _toggleMenuPreview(e, el, o) {
-	var trigger = Ext.get(el);
-	if (trigger.hasClass('oc-hover')) {
-	    trigger.removeClass('oc-hover');
-	} else {
-	    trigger.addClass('oc-hover');
-	}
-	
+    function _toggleMenuPreview() {
+      if (container.hasClass('oc-hover')) {
+          container.removeClass('oc-hover');
+      } else {
+          container.addClass('oc-hover');
+      }
     } 
+  
+    container.on('mouseover', _toggleMenuPreview, this);
+    container.on('mouseout', _toggleMenuPreview, this);
+    container.on('click', _toggleMenu, this);
     
-    triggerItems.each(function(el) {
-	    Ext.get(el).on('mouseover', _toggleMenuPreview, this);
-	}, this);
+    if (topLink) {
+      topLink.on('click', function(e, el) {
+        YAHOO.util.Event.preventDefault(e);
+      });
+    }
     
-    triggerItems.each(function(el) {
-	    Ext.get(el).on('mouseout', _toggleMenuPreview, this);
-	}, this);
-    
-    triggerItems.each(function(el) {
-	    Ext.get(el).on('click', _toggleMenu, this);
-	}, this);
-    
-    
-    unclickArea.on('click', _hideMenus, this );
+    unclickArea.on('click', _hideMenu, this );
     
     // pass back element to OC.LiveElements
     return this;
@@ -802,9 +797,9 @@ OC.ProjectCreateForm = function(extEl) {
     
     // check refs
     if (!form || !nameField || !urlField) {
-	OC.debug("ProjectCreateForm: couldn't get refs");
+	     OC.debug("ProjectCreateForm: couldn't get refs");
     } else {
-	OC.debug("ProjectCreateForm: got refs");
+	     OC.debug("ProjectCreateForm: got refs");
     }
     
     // settings & properties
@@ -815,22 +810,23 @@ OC.ProjectCreateForm = function(extEl) {
     var suggestedUrl = "";
     
     function _urlize(e, el, o) {
-	if (!customUrl) {
-	    suggestedUrl = Ext.util.Format.trim(el.value).toLowerCase().replace(/[^a-zA-Z0-9-\s]/gi, "").replace(/  /g, " ").replace(/ /g, "-");
-	    OC.debug(suggestedUrl);
-	    urlField.dom.value = suggestedUrl;
-	} else {
-	    OC.debug('custom URL: will not suggest'); 
-	}
+      if (!customUrl) {
+          suggestedUrl = Ext.util.Format.trim(el.value).toLowerCase().replace(/[^a-zA-Z0-9-\s]/gi, "").replace(/  /g, " ").replace(/ /g, "-");
+          OC.debug(suggestedUrl);
+          urlField.dom.value = suggestedUrl;
+      } else {
+          OC.debug('custom URL: will not suggest'); 
+      }
     }
     nameField.on('keyup', _urlize, this);
     urlField.on('keyup', _urlize, this);
     
     function _checkForCustomUrl(e, el, o) {
-	if (el.value != suggestedUrl) {
-	    customUrl = true;
-	    OC.debug('custom url')
-		}
+      if (el.value != suggestedUrl) {
+          customUrl = true;
+          OC.debug('custom url')
+        }
+      OC.debug('customUrl: ' + customUrl)
     }
     urlField.on('keyup', _checkForCustomUrl, this);
     

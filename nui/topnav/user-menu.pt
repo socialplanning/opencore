@@ -2,7 +2,7 @@
 <ul id="oc-usermenu-list">
 
   <li class="oc-dropdown-container">
-    Explore
+    <a tal:attributes="href here/portal_url">Explore</a>
     <tal:exploremenu replace="structure context/topnav-explore-menu" />
   </li>
 
