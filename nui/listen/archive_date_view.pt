@@ -4,9 +4,11 @@
       <div metal:use-macro="here/@@listen_macros/bcrumb"/>
       <div metal:use-macro="here/@@listen_macros/tabs"/>
       <div id="oc-content-main">
+        <div class="oc-headingBlock">
+          <h2 i18n:translate="" tal:content="view/Title" />
+          <div class="oc-headingContext oc-smallText">View by <a i18n:translate="" href="forum_view">conversation</a> or <strong>date</strong></div>
+        </div>
         <div tal:define="dates view/getAvailableDates; template_id string:date_view;" i18n:domain="listen">
-          <div class="oc-smallText" style="text-align: right;">View by <a i18n:translate="" href="forum_view">conversation</a> or <strong>date</strong></div>
-
           <ul id="archive-folders" class="oc-listen-archive-dateview">
             <li tal:repeat="year dates" >
               <div class="oc-headingBlock">

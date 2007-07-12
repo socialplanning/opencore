@@ -5,27 +5,25 @@
 <html metal:use-macro="context/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
-      <div id="oc-content-main">
+			<div metal:use-macro="here/@@listen_macros/bcrumb"/>
+			<div metal:use-macro="here/@@listen_macros/tabs"/>
+      <div id="oc-content-main" style="clear: both;">
         <form class="edit-form" method="post"
           tal:attributes="action request/URL">
-          <div metal:use-macro="here/@@listen_macros/bcrumb"/>
-          <div metal:use-macro="here/@@listen_macros/tabs"/>
           <div class="summary" tal:condition="view/status"
             tal:content="view/status">Status</div>
 
-          <div class="row" tal:repeat="widget view/widgets">
-            <div class="label">
-              <label for="field.name" title="The widget's hint"
-                tal:attributes="for widget/name; title widget/hint"
-                tal:content="widget/label">Label</label>
-            </div>
+          <fieldset class="oc-boxy" tal:repeat="widget view/widgets">
+            <label for="field.name" title="The widget's hint"
+              tal:attributes="for widget/name; title widget/hint"
+              tal:content="widget/label">Label</label>
             <div tal:condition="widget/error"
               tal:content="structure widget/error">Error</div>
             <div class="field">
               <input tal:replace="structure widget" />
             </div>
-          </div>
-          <span class="actionButtons"
+          </fieldset>
+          <span class="oc-actions"
             tal:condition="view/availableActions">
             <input tal:repeat="action view/actions"
               tal:replace="structure action/render"

@@ -2,52 +2,36 @@
   metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
+      <div metal:use-macro="here/@@listen_macros/bcrumb"/>
+      <div metal:use-macro="here/@@listen_macros/tabs"/>
       <div id="oc-content-main">
         <tal:threads define="results view/searchArchive;
                              batch results;">
 
-          <h1 tal:content="view/Title" class="documentFirstHeading" i18n:translate="">
-            Title or Id
-          </h1>
-
-          <div metal:use-macro="here/@@listen_macros/tabs"/>
-          <p id="listaddress" tal:content="view/listAddress" tal:condition="view/listAddress">
-            Description
-          </p>
-
-          <p class="documentDescription" tal:content="view/listDescription"
-             tal:condition="view/listDescription">
-            Description
-          </p>
-
-          <div metal:use-macro="here/batch_macros/macros/navigation" />
-
-          <div>
+          <div class="oc-widget-search" style="margin-bottom: 1em;">
             <form action="./search_archive" method="post">
-              <div class="field">
-                <label for="text" i18n:translate="label_search_text">
-                  Search text:
+                <label class="oc-label-heading oc-biggerText" for="text" i18n:translate="label_search_text" tal:content="view/Title">
+                  Search:
                 </label>
 
                 <input name="search_text" type="text"
                        tal:attributes="value request/search_text|nothing" />
-              </div>
 
-              <div class="formControls">
-                <input class="context" type="submit" name="submit" />
-              </div>
+              <span class="oc-actions">
+                <input class="context" type="submit" name="submit" value="Search" />
+              </span>
               
             </form>
           </div>
 
-          <table class="listing" id="forum-topics" tal:condition="results"
-                 summary="Search results" i18n:attributes="summary">
+          <table class="oc-dataTable" id="forum-topics" tal:condition="results"
+                 summary="Search results" i18n:attributes="summary" cellspacing="0">
             <thead>
               <tr>
-                <th class="nosort">&nbsp;<tal:title i18n:translate="list_archive_thread_subject"
+                <th  scope="col">&nbsp;<tal:title i18n:translate="list_archive_thread_subject"
                 >Subject</tal:title>&nbsp;</th>
-                <th class="nosort">&nbsp;<tal:title i18n:translate="list_archive_thread_originator"
-                >Opened By</tal:title>&nbsp;</th>
+                <th  scope="col">&nbsp;<tal:title i18n:translate="list_archive_thread_originator"
+                >Started by</tal:title>&nbsp;</th>
               </tr>
             </thead>
 
@@ -80,7 +64,18 @@
             Your search did not yield any results.
           </p>
         </tal:threads>
-      </div>
-    </div>
+      </div><!-- content-main -->
+      <div id="oc-content-sidebar">
+        <div class="oc-boxy">
+          <h2>About &ldquo;<span tal:replace="context/Title" />&rdquo;</h2>
+          <dl class="oc-plainList">
+          <dt>Address</dt>
+          <dd id="listaddress" tal:content="view/listAddress" tal:condition="view/listAddress" />
+          <dt>Description</dt>
+          <dd tal:content="view/listDescription" tal:condition="view/listDescription" />
+          </dl>
+        </div>
+      </div><!-- content-sidebar -->
+    </div><!-- content-container -->
   </body>
 </html>

@@ -4,15 +4,18 @@
       <div metal:use-macro="here/@@listen_macros/bcrumb"/>
       <div metal:use-macro="here/@@listen_macros/tabs"/>
       <div id="oc-content-main">
+        <div class="oc-headingBlock">
+          <h2 i18n:translate="" tal:content="view/Title" />
+          <div class="oc-headingContext oc-smallText">View by <strong>conversation</strong> or <a i18n:translate="" href="date_view">date</a></div>
+        </div>
         <tal:threads define="threads view/getTopics; batch threads;">
-          <div class="oc-smallText" style="text-align: right;">View by <strong>conversation</strong> or <a i18n:translate="" href="date_view">date</a></div>
           <table id="forum-topics" class="oc-dataTable" tal:condition="threads" summary="Forum view" i18n:attributes="summary" cellspacing="0">
             <thead>
               <tr>
                 <th scope="col"><tal:title i18n:translate="list_archive_thread_subject">Subject</tal:title></th>
-                <th><tal:title i18n:translate="list_archive_thread_originator">Opened By</tal:title></th>
+                <th><tal:title i18n:translate="list_archive_thread_originator">Started by</tal:title></th>
                 <th scope="col"><tal:title i18n:translate="list_archive_thread_replies">Replies</tal:title></th>
-                <th scope="col"><tal:title i18n:translate="list_archive_thread_recent_post_date">Last Updated</tal:title></th>
+                <th scope="col"><tal:title i18n:translate="list_archive_thread_recent_post_date">Last activity</tal:title></th>
               </tr>
             </thead>
 
