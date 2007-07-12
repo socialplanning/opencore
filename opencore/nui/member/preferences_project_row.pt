@@ -2,7 +2,7 @@
   <tal:var define="proj_id proj_id | options/proj_id;
 		   projinfo projinfo | options/projinfo;
 		   ">
-    <tr class="oc-liveItem" tal:attributes="id string:mship_${proj_id}">
+    <tr class="oc-js-liveEdit" tal:attributes="id string:mship_${proj_id}">
       <td><input type="checkbox" name="check:list" tal:attributes="value proj_id" /></td>
       <td class="oc-dataTable-row-title">
 	<a href=""
@@ -21,12 +21,12 @@
             tal:content="projinfo/role"
             />
       </tal:active-role>
-      <td id="oc-liveEdit_8" class="oc-liveItem">
+      <td id="" class="oc-js-liveEdit">
 	<span tal:replace="projinfo/since" />
       </td>
-      <td id="" class="oc-liveItem">
+      <td id="" class="oc-js-liveEdit">
 	<!--span id=""
-            class="oc-liveItem-value oc-liveItem-directEdit oc-liveItem-directSelect"
+            class="oc-liveEdit-value oc-liveEdit-directEdit oc-liveEdit-directSelect"
             tal:content="python: projinfo['listed'] and 'yes' or 'no'" /-->
 	<!--span tal:define="listed python: projinfo['listed'] and 'yes' or 'no'"
             tal:replace="listed" /-->

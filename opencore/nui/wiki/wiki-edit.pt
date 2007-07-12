@@ -46,13 +46,13 @@
             tal:attributes="action string:${here/absolute_url}/edit">
             
               <ul class="oc-headingBlock oc-wiki-headingBlock oc-bcrumb">
-                <li class="oc-liveItem">
-                  <div class="oc-liveItem-value">
+                <li class="oc-js-liveEdit">
+                  <div class="oc-js-liveEdit-value">
                     <h1 class="oc-bcrumb-current" tal:content="context/Title" />
-                    <a href="#" class="oc-liveItem_showForm">RENAME</a>
+                    <a href="#" class="oc-js-liveEdit_showForm">RENAME</a>
                   </div>
-                  <div class="oc-liveItem-editForm">
-                    <input name="title" type="text" tal:attributes="value string:${context/Title}" /> <a href="#" class="oc-liveItem_cancel">Cancel</a>
+                  <div class="oc-js-liveEdit-editForm">
+                    <input name="title" type="text" tal:attributes="value string:${context/Title}" /> <a href="#" class="oc-js-liveEdit_hideForm">Cancel</a>
                   </div>
                 </li>
               </ul>
@@ -137,7 +137,7 @@
                         <th class="oc-form-label"></th>
                         <td class="oc-form-value">  
                           <span class="oc-indicator"><img src="++resource++img/indicator-bounce-eee.gif" alt="Loading..." /></span>
-                          <input type="submit" name="task|upload-attachment" value="Upload" /> or cancel</td>
+                          <input type="submit" name="task|upload-attachment" class="oc-js-actionButton" value="Upload" /> or cancel</td>
                         <td class="oc-form-help"></td>
                       </tr>
                     </tbody>

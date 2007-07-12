@@ -2,7 +2,7 @@
 	   tal:define="item item | options/item;
 		       item_type item_type | options/item_type;
 		       editable editable | not:item/uneditable | nothing ">
-  <tr class="oc-liveItem" tal:attributes="id item/id">
+  <tr class="oc-js-liveEdit" tal:attributes="id item/id">
     <td tal:condition="item/collection/editable | view/editable">
       <tal:if condition="not:editable">
 	<input type="checkbox" class="oc-js-checkAll-never" name="deletes:list"
@@ -15,14 +15,14 @@
       </tal:if>
     </td>
     <td>
-      <div class="oc-liveItem-value">
+      <div class="oc-js-liveEdit-value">
         <a tal:attributes="href item/url">
           <tal:dummy replace="item/title" />
 	</a>
       </div>
       
       <div tal:condition="editable"
-	   class="oc-liveItem-editForm">
+	   class="oc-js-liveEdit-editForm">
         <input type="text" 
                tal:attributes="name string:${item/id}_title;
 			       value item/title" 
@@ -30,7 +30,7 @@
         <input type="submit" class="oc-js-actionButton" value="Save"
                tal:attributes="name string:task|${item/id}|update" />
         or
-        <a href="#" class="oc-liveItem_cancel">
+        <a href="#" class="oc-js-liveEdit_hideForm">
           Cancel
         </a>
       </div>
@@ -49,7 +49,8 @@
     </td>
     <td tal:condition="item/collection/editable | view/editable">
       <ul class="oc-actions oc-dataTable-row-actions">
-        <li tal:condition="editable"><a href="#" class="oc-liveItem_showForm oc-actionLink">Rename</a></li>
+        <li tal:condition="editable">
+        <a href="#" class="oc-js-liveEdit_showForm oc-actionLink">Rename</a></li>
         <li tal:condition="editable">
           <a class="oc-js-actionLink oc-actionLink"
              tal:attributes="href string:contents?task|${item/id}|delete=Delete&item_type=${item_type}&authenticator=${view/authenticator}">
