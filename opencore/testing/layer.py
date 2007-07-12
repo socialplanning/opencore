@@ -1,3 +1,5 @@
+import random
+
 import transaction as txn
 
 from Testing import ZopeTestCase
@@ -28,6 +30,21 @@ class MailHostMock(object):
         self.messages.append(msg)
     def validateSingleEmailAddress(self, email):
         return True
+
+
+class BrowserIdManagerMock(object):
+    """
+    mock a browser_id_manager at the Zope root.
+    """
+    def __init__(self):
+        self.same = True
+        self._same_id = '111111111111'
+
+    def getBrowserId(self, create=False):
+        if self.same:
+            return self._same_id
+        else:
+            return str(random.random())
 
 
 class SiteSetupLayer(PloneSite):
@@ -63,6 +80,8 @@ class OpenPlansLayer(SiteSetupLayer):
 
         portal.oldMailHost = portal.MailHost
         portal.MailHost = MailHostMock()
+
+        portal.browser_id_manager = BrowserIdManagerMock()
         txn.commit()
 
     @classmethod
@@ -71,6 +90,7 @@ class OpenPlansLayer(SiteSetupLayer):
         del portal.MailHost
         portal.MailHost = portal.oldMailHost
         del portal.oldMailHost
+        del portal.browser_id_manager
 
 
 class OpencoreContent(OpenPlansLayer):
