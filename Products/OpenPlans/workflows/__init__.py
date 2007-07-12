@@ -8,10 +8,6 @@ import team
 import policy_open
 import policy_medium
 import policy_closed
-import member_confirmation
-
-member_confirmation_data = dict(openplans_member_confirmation_workflow=('OpenPlans Member Confirmation Workflow',
-                                                            ('Member', 'OpenMember',)))
 
 WORKFLOW_MAP = {'plone_openplans_workflow': ('Default OpenPlans Workflow [Plone]',
                                              tuple() ),
