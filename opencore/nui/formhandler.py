@@ -1,9 +1,15 @@
 """Decorators for working with form submission"""
 import sys
+import logging
 from zExceptions import Forbidden
+
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from Products.OpenPlans.config import PROJECTNAME
+
 import opencore.nui.octopus
 from opencore.nui.octopus import action
+
+log = logging.getLogger(PROJECTNAME)
 
 def button(name=None):
     def curry(handle_request):
@@ -167,7 +173,8 @@ class OctopoLite(opencore.nui.octopus.Octopus):
             return True #we allow all non-editing requests
 
         auth = self.get_tool('browser_id_manager').getBrowserId()
-        print "authenticators:", self._octopus_get('authenticator'), auth
+        log.debug("authenticators:", self._octopus_get('authenticator'),
+                  auth)
         #return self._octopus_get('authenticator') == auth
         return True
         
