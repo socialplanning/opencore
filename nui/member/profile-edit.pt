@@ -13,7 +13,7 @@
     <div metal:fill-slot="content">
       <div id="oc-content-main">
         <tal:first-login condition="request/first_login | nothing">
-          <div class="oc-getstarted oc-boxy" style="position: relative;">
+          <div class="oc-getstarted oc-boxy oc-js-closeable" style="position: relative;">
             <h1>Welcome to OpenPlans!</h1>
             <div class="oc-bigText">
               Please take a moment to fill out your profile.

@@ -24,7 +24,6 @@ OC.liveElementKey = {
     'input[type=password]'    : 'FocusField',
     'input[type=file]'        : 'FocusField',
     'textarea'                : 'FocusField',
-    ".oc-close"               : "CloseButton",
     ".oc-autoSelect"          : "AutoSelect",
     ".oc-expander"            : "Expander",
     "#version_compare_form"   : "HistoryList",
@@ -38,7 +37,8 @@ OC.liveElementKey = {
     '.oc-js-actionLink'       : "ActionLink",
     '.oc-js-actionButton'     : "ActionButton",
     '.oc-js-actionSelect'     : "ActionSelect",
-    '.oc-js-liveValidate'     : "LiveValidatee"
+    '.oc-js-liveValidate'     : "LiveValidatee",
+    ".oc-js-closeable"        : "CloseButton",
 };
     
 /* 
@@ -958,21 +958,20 @@ OC.SearchLinks = function(extEl) {
 */
 OC.CloseButton = function(extEl) {
     // get references.  No ID naming scheme.  just use parent node.
-    var closeButton = extEl;
-    var container = Ext.get(closeButton.dom.parentNode);
+    var container = extEl;
+    var close_button = Ext.get(document.createElement('a'));
+    close_button.dom.innerHTML = '&times;';
+    close_button.dom.href = '#';
+    close_button.addClass('oc-closeButton');
+    container.dom.appendChild(close_button.dom);
     container.setVisibilityMode(Ext.Element.DISPLAY);
     
     //behaviors
     function _closeButtonClick(e, el, o) {
-        if (confirm('are you sure?')) {
-            //ajax call
-	    
-            //fade out
-            container.fadeOut({});
-        }
+        container.fadeOut({});
         YAHOO.util.Event.stopEvent(e);
     }
-    closeButton.on('click', _closeButtonClick, this);
+    close_button.on('click', _closeButtonClick, this);
     
     return this;
 };
