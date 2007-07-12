@@ -413,7 +413,9 @@ class MemberPreferences(BaseView, OctopoLite):
         assert len(targets) == 1
         idx = targets[0]
         idx = int(idx)
-        tm = getUtility(ITransientMessage)
+        # XXX explicit context shouldn't be req'd, but lookup fails
+        # in the tests w/o it  :(
+        tm = getUtility(ITransientMessage, context=self.portal)
         mem_id = self.context.getId()
         try:
             tm.pop(mem_id, self.msg_category, idx)
@@ -432,7 +434,9 @@ class MemberPreferences(BaseView, OctopoLite):
         
            tuples are returned in the form of (idx, msg)
            so that they can be popped by the user"""
-        tm = getUtility(ITransientMessage)
+        # XXX explicit context shouldn't be req'd, but lookup fails
+        # in the tests w/o it  :(
+        tm = getUtility(ITransientMessage, context=self.portal)
         mem_id = self.context.getId()
         msgs = tm.get_msgs(mem_id, self.msg_category)
         return msgs
