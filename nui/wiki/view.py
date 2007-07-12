@@ -125,10 +125,15 @@ class WikiEdit(BaseView, OctopoLite):
         ### 
         # do not assign directly because this will implicitly
         # wrap the attachment in the view.
+        commands = {}
         for obj_id, data in zip(target, fields):
             new_attachment = self._handle_updateAtt(obj_id, data.get('title', obj_id))
-        self.new_attachment = lambda: new_attachment
-        return "attachment snippet"
+            my_attachment = lambda: new_attachment
+            snippet = self.attachment_snippet(attachment=my_attachment)
+            commands['%s_list-item' % obj_id] = {'action': 'replace',
+                                                 'effects': 'highlight',
+                                                 'html': snippet}
+        return commands
 
 
 class AttachmentView(BaseView):
