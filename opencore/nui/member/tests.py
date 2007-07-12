@@ -45,6 +45,7 @@ def test_suite():
                                  package='opencore.nui.member',
                                  test_class=OpenPlansTestCase,
                                  globs=globs,
+                                 setUp=readme_setup
                                  )
 
     return unittest.TestSuite((readme, transient))
