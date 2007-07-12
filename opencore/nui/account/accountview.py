@@ -416,15 +416,18 @@ class PasswordResetView(AccountView):
             return self.redirect(self.siteURL)
         except 'ExpiredRequestError':
             msg = u'Your password reset request has expired.'
-            msg += u'You can <a href="login">log in</a> again using your old username and password or <a href="forgot">request a new password</a> again'
+            msg += (u'You can <a href="login">log in</a> again using'
+                    'your old username and password or '
+                    '<a href="forgot">request a new password</a> again')
             self.addPortalStatusMessage(msg)
             return self.redirect("%s/login" % self.siteURL)
 
         # Automatically log the user in
         self.login(userid)
         
-        self.addPortalStatusMessage(u'Your password has been reset and you are now logged in.')
-        self.redirect('%s/preferences' % self.memfolder_url(id_userid))
+        self.addPortalStatusMessage(u'Your password has been reset and you '
+                                    'are now logged in.')
+        self.redirect('%s/preferences' % self.memfolder_url(userid))
         return True
 
     @property
