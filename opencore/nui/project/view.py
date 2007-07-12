@@ -814,7 +814,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                                  'html': html,
                                  'effects':  'fadeIn'}
 
-        self.addPortalStatusMessage(u'%d members approved' % napproved)
+        plural = napproved != 1
+        self.addPortalStatusMessage(u'%d member%s approved' %
+                                    (napproved, plural and 's' or ''))
         return res
 
     @formhandler.action('discard-requests')
