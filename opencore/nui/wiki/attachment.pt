@@ -1,7 +1,7 @@
 <tal:macro metal:define-macro="attachment">
   <tal:setvar define="attachment attachment | options/attachment">
-    <li class="oc-js-liveEdit">
-      <div class="oc-js-liveEdit-value">
+    <li tal:attributes="id string:${attachment/getId}_list-item">
+      <div class="oc-liveEdit-value">
 	<a target="_blank" 
 	   tal:attributes="href attachment/getURL | attachment/absolute_url"
 	   tal:content="attachment/Title | attachment/getId">Id</a> -  
@@ -13,7 +13,7 @@
       <input type="text" size="30"
              tal:attributes="value attachment/Title;
 			     name string:${attachment/getId}_title"/>
-      <input type="submit" value="Edit" 
+      <input type="submit" value="Edit" class="oc-js-actionButton"
              tal:attributes="name string:task|${attachment/getId}|update-attachment" />
       or <a class="oc-js-liveEdit_hideForm" href="">Cancel</a>
       </div><!-- end .oc-js-liveEdit-editForm -->
