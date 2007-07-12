@@ -142,6 +142,9 @@ ul#oc-topnav-context li.oc-topnav-selected {
   border-bottom: none;
   background-color: transparent;
 }
+#oc-usermenu-list li.oc-dropdown-container.oc-hover a {
+  background: transparent;
+}
 #oc-usermenu-list ul li.oc-dropdown-container.oc-hover {
   border: none;
 }
