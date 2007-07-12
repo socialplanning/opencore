@@ -121,7 +121,7 @@
                       <tr class="oc-options">
                         <th class="oc-form-label"></th>
                         <td class="oc-form-value">  
-                          <span class="oc-indicator"><img src="++resource++img/indicator-bounce-eee.gif" alt="Loading..." /></span>
+                          <span class="oc-indicator" id="indicator|upload-attachment"><img src="++resource++img/indicator-bounce-eee.gif" alt="Loading..." /></span> 
                           <input type="submit" name="task|upload-attachment" class="oc-js-actionButton" value="Upload" /> or cancel</td>
                         <td class="oc-form-help"></td>
                       </tr>
