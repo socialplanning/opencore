@@ -182,6 +182,9 @@ Ext.onReady(function() {
 OC.Callbacks = {};
 
 OC.Callbacks.afterAjaxSuccess = function(o) { 
+
+    if (indicator) indicator.hide(); 
+    
     Ext.select('form').each(function(el) {
 	    el.dom.target = "";
 	});
@@ -401,13 +404,15 @@ OC.ActionButton = function(extEl) {
     // get refs
     var button = extEl;
     var form = button.up('form');
-    
+    var name = button.dom.name.replace('task|', "");
+    indicator = Ext.get('indicator|' + name);
+        
     // check refs
     if (!button || !form) {
-	OC.debug("ActionButton: Couldn't get refs");
-	return;
-    } else {
-	OC.debug("ActionButton: Got Refs");
+      OC.debug("ActionButton: Couldn't get refs");
+      return;
+        } else {
+      OC.debug("ActionButton: Got Refs");
     }
     
     // settings
@@ -415,12 +420,18 @@ OC.ActionButton = function(extEl) {
     var task = button.dom.name;
     var taskValue = button.dom.value;
     var isUpload = false;
+    if (indicator) {
+      indicator.setVisibilityMode(Ext.Element.DISPLAY);
+      indicator.hide();
+    }
+    
     if (form.dom.enctype == "multipart/form-data") {
 	OC.debug("is upload ...");
 	isUpload = true;
     }
   
     function _actionButtonClick(e, el, o) {
+     if (indicator)  indicator.show();
 	OC.debug("_actionButtonClick");
 	
 	YAHOO.util.Event.stopEvent(e);
