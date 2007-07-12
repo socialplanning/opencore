@@ -6,6 +6,8 @@ class WikiEdit(BaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile("wiki-edit.pt")
 
+    attachment_snippet = ZopeTwoPageTemplateFile('attachment.pt')
+
     @action('save')
     def handle_save(self, target=None, fields=None):
         """ todo: make this check for attachments too """
@@ -101,10 +103,16 @@ class WikiEdit(BaseView, OctopoLite):
         new_attachment = self._handle_createAtt()
 
         if new_attachment is None:
-            return "Failed snippet"
-        self.new_attachment = lambda: new_attachment
+            return {"An error": ""}
 
-        return "Foo"
+        my_attachment = lambda: new_attachment
+        snippet = self.attachment_snippet(attachment=my_attachment)
+        return {"oc-wiki-attachments":
+                    {'action': 'append',
+                     'effects': 'highlight',
+                     'html': snippet
+                     }
+                }
     
     def _handle_updateAtt(self, attach_id, title):
         attachment = self.context._getOb(attach_id)
