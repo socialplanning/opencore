@@ -2,19 +2,6 @@
  account management
 ====================
 
-Workflow
-========
-
-Test the workflow updating function:: 
-
-    >>> from opencore.nui.setup import install_confirmation_workflow
-    >>> from StringIO import StringIO
-    >>> out = StringIO()
-    >>> install_confirmation_workflow(portal, out)
-    >>> portal.portal_workflow.getChainForPortalType('OpenMember')
-    ('openplans_member_confirmation_workflow',)
-
-
 Forgot Password
 ===============
 

@@ -40,11 +40,6 @@ def reindex_membrane_tool(portal, out):
     mbtool.reindexIndex('getLocation', portal.REQUEST)
     print >> out, "getLocation reindexed" 
 
-def install_confirmation_workflow(portal, out):
-    from Products.OpenPlans.workflows import member_confirmation_data
-    print >> out, "E-mail confirmation workflow for members installed"
-    return install_workflow_map(portal, out, member_confirmation_data)
-
 def move_interface_marking_on_projects_folder(portal, out):
     #XX needed? test?
     from Products.Five.utilities.marker import erase
@@ -97,7 +92,6 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      reindex_membrane_tool=convertFunc(reindex_membrane_tool),
                      save_all_projects=convertFunc(save_all_projects),
                      setupHomeLayout=convertFunc(setupHomeLayout),
-                     install_confirmation_workflow=convertFunc(install_confirmation_workflow),
                      setupPeopleFolder=convertFunc(setupPeopleFolder),
                      setupProjectLayout=convertFunc(setupProjectLayout),
                      securityTweaks=convertFunc(securityTweaks),
