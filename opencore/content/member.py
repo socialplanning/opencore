@@ -55,6 +55,8 @@ content_schema['mail_me'].regfield = 0
 
 content_schema['make_private'].widget.visible = {'edit': 'invisible'}
 
+content_schema['portrait'].sizes=dict(thumb=(80,80),
+                                      icon=(32,32))
 
 # new fields for nui profile
 nuischema = Schema((
@@ -312,5 +314,25 @@ class OpenMember(TeamSecurity, FolderishMember):
         if regex.match(email) is None:
             msg = "That email address is invalid."
             return self.translate(msg, default=msg)
+
+    def __bobo_traverse__(self, REQUEST, name):
+        """Transparent access to image scales
+           **adapted from ATCT**
+        """
+        if name.startswith('portrait'):
+            field = self.getField('portrait')
+            image = None
+            if name == 'portrait':
+                image = field.getScale(self)
+            else:
+                scalename = name[len('portrait_'):]
+                if scalename in field.getAvailableSizes(self):
+                    image = field.getScale(self, scale=scalename)
+            if image is not None and not isinstance(image, basestring):
+                # image might be None or '' for empty images
+                return image
+
+        return FolderishMember.__bobo_traverse__(self, REQUEST, name)
+
 
 atapi.registerType(OpenMember, package=PROJECTNAME)
