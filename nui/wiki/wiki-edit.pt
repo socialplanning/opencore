@@ -49,7 +49,7 @@
                 <li class="oc-js-liveEdit">
                   <div class="oc-js-liveEdit-value">
                     <h1 class="oc-bcrumb-current" tal:content="context/Title" />
-                    <a href="#" class="oc-js-liveEdit_showForm">RENAME</a>
+                    <a href="#" class="oc-js-liveEdit_showForm oc-actionLink">RENAME</a>
                   </div>
                   <div class="oc-js-liveEdit-editForm">
                     <input name="title" type="text" tal:attributes="value string:${context/Title}" /> <a href="#" class="oc-js-liveEdit_hideForm">Cancel</a>
