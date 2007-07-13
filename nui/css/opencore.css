@@ -682,6 +682,7 @@ ul.oc-tabs li a.oc-actionLink:hover {
 .oc-listen-message-child {
   border-top: 1px solid #ccc;
   padding-top: 1em;
+  list-style-type: none;
 }
 
 /* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
