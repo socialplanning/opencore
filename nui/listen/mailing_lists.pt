@@ -14,7 +14,7 @@
         <div class="oc-headingBlock">
           <h1>Mailing lists</h1>
           <p class="oc-headingContent">
-            View or manage an exisiting mailing list or <a href="opencore.add_mailinglist" tal:condition="can_add_lists">add a new mailing list.</a>
+            View<span tal:condition="can_add_lists"> or manage exisiting</span> mailing lists<span tal:condition="can_add_lists"> or <a href="opencore.add_mailinglist">add a new mailing list</a></span>.
           </p>
         </div>
   
@@ -32,7 +32,8 @@
             
               <thead>
                 <tr>
-                  <th scope="col">List name</th>
+                  <th scope="col">Mailing list</th>
+                  <th>Last activity</th>
                   <th scope="col">Actions</th>
                 </tr>
               </thead>
@@ -62,6 +63,7 @@
                               Item Title
                             </a>
                           </dt>
+                          <dd tal:condition="view/loggedin">listaddress@lists.openplans.org</dd>
                           <!-- <dd class="oc-discreetText" tal:condition="item_creator"
                                     tal:define="author python:view.membertool.getMemberInfo(item_creator)">
                             <span i18n:translate="label_by_author">
@@ -78,6 +80,7 @@
                           <dd tal:condition="item_description" tal:content="item_description"/>
                         </dl>
                       </td>
+                      <td tal:content="item_modified" />
                       <td>
                         <form name="LIST_ID_form"
                             action="confirm_delete_list"
