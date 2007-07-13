@@ -2,6 +2,7 @@
 some base class for opencore ui work
 """
 import datetime
+import DateTime
 from time import strptime
 import urllib
 import cgi
@@ -194,13 +195,18 @@ class BaseView(BrowserView):
         result = {}
         if IReMember.providedBy(member):
             id = member.getId()
+
+            logintime = member.getLogin_time()
+            if logintime == DateTime.DateTime('2000/01/01'): # XXX hack around zope
+                logintime = DateTime.DateTime()
+            logintime = logintime and prettyDate(logintime) or 'foo'
+            
             result.update(
                 id          = id,
                 fullname    = member.getFullname(),
                 email       = member.getEmail(),
                 membersince = prettyDate(member.getRawCreation_date()),
-                lastlogin   = prettyDate(member.getLogin_time()),
-                # TODO isloggedin = ???, # for e.g. 'online now' info in profile view
+                lastlogin   = logintime,
                 folder_url  = self.memfolder_url(id_=id),
                 home_url    = self.memhome_url(id_=id),
                 projects    = member.projectBrains(),
