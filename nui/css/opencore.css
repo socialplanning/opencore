@@ -984,6 +984,7 @@ height: 1em; */
    /* white-space: nowrap; */
    font-size: 10px;
    border-bottom: 2px solid #ccc;
+   border-collapse:	collapse;
 }
 .oc-dataTable thead {
    background: #eee;
