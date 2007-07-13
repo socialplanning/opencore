@@ -115,10 +115,6 @@ class LoginView(AccountView):
                 pass
 
             destination = self.destination
-            referer = self.request.form.get('referer')
-            if referer is not None:
-                destination = '%s?referer=%s' % (destination, 
-                                                 urllib.quote(referer))
             return self.redirect(destination)
 
         # check to see if the member is pending
@@ -144,7 +140,7 @@ class LoginView(AccountView):
         pass
             
     @property
-    def referer(self):
+    def came_from(self):
         return self.request.get('came_from', '')
 
     def already_loggedin(self):
@@ -156,7 +152,18 @@ class LoginView(AccountView):
     @property
     def destination(self):
         """where you go after you're logged in"""
-        return self.referer and self.siteURL or self.profile_url
+        if self.came_from:
+            destination = self.came_from 
+
+            # append referer to destination as query string 
+            # in order for insufficient_privileges to redirect correctly
+            referer = self.request.form.get('referer')
+            if referer is not None:
+                destination = '%s?referer=%s' % (destination, 
+                                                 urllib.quote(referer))
+            return destination
+
+        return '%s/preferences' % self.memfolder_url()
 
     def logout(self, redirect=None):
         logout = self.cookie_logout

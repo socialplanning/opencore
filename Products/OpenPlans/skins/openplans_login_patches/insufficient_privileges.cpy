@@ -12,7 +12,10 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 
 portal = context.portal_url.getPortalObject()
-dummy_referer = context.portal_url()
+portal_membership = getToolByName(portal, 'portal_membership')
+member = portal_membership.getAuthenticatedMember()
+member_folder = portal_membership.getHomeFolder(member.getId())
+dummy_referer = '%s/preferences' % member_folder.absolute_url()
 referer = context.REQUEST.environ.get('HTTP_REFERER', 
                                       dummy_referer)
 came_from = context.REQUEST.form.get('came_from', '')
@@ -20,9 +23,10 @@ came_from = context.REQUEST.form.get('came_from', '')
 #XXX This should all be refactored!
 #XXX maybe put this in a view somewhere
 
+# XXX you can't import things in skins :(
 def query_dict(string):
 
-    # XXX revinent urllib.splitquery
+    # XXX reinvent urllib.splitquery
     query = string.split('?')
     if len(query) != 2:
         return None
