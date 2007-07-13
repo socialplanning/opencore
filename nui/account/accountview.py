@@ -95,6 +95,22 @@ class LoginView(AccountView):
     def handle_login(self):
         id_ = self.request.get('__ac_name')
         if self.loggedin:
+            # check to see if the member is pending
+            # XXX probably hack this off into its own function when refactoring
+            # (above should again be modularized)
+            password = self.request.form.get('__ac_password')
+            if id_ and password:
+                member = self.is_pending(getId=id_)
+
+            # ensure there is one match
+            if member and member.verifyCredentials({'login': id_, 
+                                                    'password': password}):
+                
+                self.addPortalStatusMessage('An email has been sent to %s from %s but it seems like you have not yet activated your account.' % ( member.getEmail(),
+                                                                                                                                                  self.portal.getProperty('email_from_address')))
+                self.redirect('pending?key=%s' % member.UID())
+                return
+
             self.addPortalStatusMessage('You are logged in')
             self.update_credentials(id_)
             self.membertool.setLoginTimes()
@@ -116,22 +132,6 @@ class LoginView(AccountView):
 
             destination = self.destination
             return self.redirect(destination)
-
-        # check to see if the member is pending
-        # XXX probably hack this off into its own function when refactoring
-        # (above should again be modularized)
-        password = self.request.form.get('__ac_password')
-        if id_ and password:
-            member = self.is_pending(getId=id_)
-
-            # ensure there is one match
-            if member and member.verifyCredentials({'login': id_, 
-                                                    'password': password}):
-                
-                self.addPortalStatusMessage('An email has been sent to %s from %s but it seems like you have not yet activated your account.' % ( member.getEmail(),
-                                                                                                                                                  self.portal.getProperty('email_from_address')))
-                self.redirect('pending?key=%s' % member.UID())
-                return
 
         self.addPortalStatusMessage(u'Incorrect username or password. Please try again or <a href="forgot">retrieve your login information</a>.')
 
