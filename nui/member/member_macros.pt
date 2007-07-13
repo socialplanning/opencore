@@ -3,15 +3,10 @@
     <h1 class="fn" tal:content="memberdata/id" />
     <p class="oc-headingContext oc-discreetText">
       member since
-      <span tal:replace="memberdata/membersince" />
+      <span tal:replace="memberdata/membersince" />,
 
-      <!-- TODO
-      if member is currently online, display "online now"
-      else display last login time
-
-      <span tal:condition="python: not request.get('first_login')"
-            tal:replace="string:last login ${memberdata/lastlogin}" />
-      -->
+      last login
+      <span tal:replace="string:last login ${memberdata/lastlogin}" />
     </p>
   </div>
 </metal:login-info>
