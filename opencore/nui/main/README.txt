@@ -166,7 +166,7 @@ Search for all people::
    >>> people = view.search_for_person_by_letter('all')
    >>> names = [p.getId for p in people]
    >>> names
-   ['m4', 'm1', 'm3', 'm2']
+   [...'m4', 'm1', 'm3', 'm2']
 
 Search for members starting with a letter, only sort the results::
 
@@ -253,7 +253,7 @@ Sitewide Search
 Search for everything::
    >>> brains = view.search_by_letter('all')
    >>> len(brains)
-   16
+   17
 
 Search for things starting with a number::
    >>> brains = view.search_by_letter('num')
