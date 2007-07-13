@@ -10,25 +10,26 @@
           <dl class="oc-plainList">
             <dt>Title</dt>
             <dd tal:content="context/Title" />
-            <dt>Description</dt>
-            <dd class="oc-headingContext"
-
-               tal:define="desc context/Description"
-               tal:condition="desc"
-               tal:content="desc"
-             />
-            <dt i18n:translate="" id="listaddress">
-              Address
-            </dt>
-            <dd i18n:translate="" tal:content="view/address">
-              address@example.com
-            </dd>
-            <dt i18n:translate="" id="listmanagers">
-              Managers
-            </dt>
-            <dd tal:repeat="manager view/list_managers">
-              <span tal:content="manager" />
-            </dd>
+            <tal:description tal:define="desc context/Description" tal:condition="desc">
+              <dt>Description</dt>
+              <dd class="oc-headingContext" tal:content="desc" />
+            </tal:description>
+            <tal:email tal:condition="view/loggedin">
+              <dt i18n:translate="" id="listaddress">
+                Address
+              </dt>
+              <dd i18n:translate="" tal:content="view/address">
+                address@example.com
+              </dd>
+            </tal:email>
+            <tal:managers tal:condition="view/list_managers">
+              <dt i18n:translate="" id="listmanagers">
+                Managers
+              </dt>
+              <dd tal:repeat="manager view/list_managers">
+                <span tal:content="manager" />
+              </dd>
+            </tal:managers>
             <dt i18n:translate="" id="list-type">
               Type
             </dt>
