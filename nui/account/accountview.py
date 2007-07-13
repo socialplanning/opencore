@@ -53,11 +53,12 @@ class AccountView(BaseView):
         return "%s/login" % self.context.absolute_url()
 
     @property
-    def profile_url(self):
+    def loggedin_fallback_url(self):
         """
-        returns the url of the authenticated user's profile.
+        When a logged in user goes to the 'login' or 'forgot' page,
+        go here instead. Used in conjunction with anon_only decorator.
         """
-        return '%s/profile' % self.memfolder_url()
+        return '%s/preferences' % self.memfolder_url()
 
     ### methods to deal with pending members
 
@@ -135,7 +136,7 @@ class LoginView(AccountView):
 
         self.addPortalStatusMessage(u'Incorrect username or password. Please try again or <a href="forgot">retrieve your login information</a>.')
 
-    @anon_only(AccountView.profile_url)
+    @anon_only(AccountView.loggedin_fallback_url)
     def handle_request(self):
         pass
             
@@ -327,7 +328,7 @@ class InitialLogin(BaseView):
 
 class ForgotLoginView(AccountView):
 
-    @anon_only(AccountView.profile_url)
+    @anon_only(AccountView.loggedin_fallback_url)
     @button('send')
     @post_only(raise_=False)
     def handle_request(self):
