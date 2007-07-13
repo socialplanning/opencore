@@ -86,6 +86,13 @@ def set_method_aliases(portal, out):
         fti.setMethodAliases(aliases)
         out.write('%s' %pprint(aliases, out))
 
+def migrate_portraits(portal, out):
+    for member in portal.portal_memberdata.objectValues():
+        if hasattr(member, 'portrait_thumb'):continue
+        old_portrait = member.getPortrait()
+        if old_portrait:
+            member.setPortrait(old_portrait)
+
 nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      installNewsFolder=convertFunc(installNewsFolder),
                      move_interface_marking_on_projects_folder=convertFunc(move_interface_marking_on_projects_folder),
@@ -106,6 +113,7 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      )
 
 nui_functions['Update Method Aliases']=convertFunc(set_method_aliases)
+nui_functions['Migrate portraits (add new sizes)']=convertFunc(migrate_portraits)
 
 def run_nui_setup(portal):
     pm = portal.portal_migration
