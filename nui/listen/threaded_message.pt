@@ -24,7 +24,7 @@
                       prev_date view/getPreviousByDate;
                       replies view/getReplies;">
           <li tal:condition="replies">
-            <dl id="thread-replies">
+            <dl id="thread-replies" class="oc-plainList">
               <dt i18n:translate="label_threadreplies">
                 Replies:
               </dt>
@@ -64,7 +64,7 @@
               <span tal:replace="next_link/mail_from">Author</span>
             </span>
           </li>
-          <li tal:condition="next_date">
+          <!-- <li tal:condition="next_date">
             <strong id="date-next" i18n:translate="label_date_next">
               Next by date:
             </strong>
@@ -86,7 +86,7 @@
               <span i18n:translate="label_author" tal:omit-tag="">by</span>
               <span tal:replace="prev_date/mail_from">Author</span>
             </span>
-          </li>
+          </li> -->
           <tal:remove replace="nothing">
             <!-- We probably don't need the whole thread here but this is how you would do it
             <li id="full-thread" tal:condition="local_thread"

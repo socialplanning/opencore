@@ -15,7 +15,7 @@
           <span class="oc-discreetText">
               by <a href="."
                   tal:omit-tag="not:item/from_id"
-                  tal:attributes="href string:${here/portal_url}/author/${item/from_id}">
+                  tal:attributes="href string:${here/portal_url}/people/${item/from_id}">
                   <span tal:replace="item/mail_from">test@example.com</span>
                 </a>
           </span>
@@ -55,7 +55,7 @@
       </span>
     </div>
 
-      <pre i18n:translate="" tal:content="structure message/body">
+      <pre i18n:translate="" tal:content="structure message/body" class="oc-listen-message-body">
         A mail message
       </pre>
   
@@ -75,7 +75,7 @@
   </metal:messagemacro>
 
   <metal:threadmacro define-macro="forum_thread">
-    <li tal:repeat="child message/children">
+    <li tal:repeat="child message/children" class="oc-listen-message-child">
       <tal:message define="message child">
         <metal:message use-macro="here/message_macros/macros/message"/>
         <ul tal:condition="message/children">

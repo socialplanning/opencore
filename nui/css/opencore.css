@@ -676,6 +676,13 @@ ul.oc-tabs li a.oc-actionLink:hover {
 .oc-listen-message .oc-headingBlock .oc-headingContext {
   display: block;
 }
+.oc-listen-message pre.oc-listen-message-body {
+  white-space: normal;
+}
+.oc-listen-message-child {
+  border-top: 1px solid #ccc;
+  padding-top: 1em;
+}
 
 /* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
 -------------------------------------------- */
