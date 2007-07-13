@@ -15,6 +15,22 @@ Test registration of member related views::
     >>> m1_folder.restrictedTraverse("preferences")
     <Products.Five.metaclass.MemberPreferences object at ...>
 
+Test member portrait traversal
+==============================
+
+    >>> member = portal.portal_memberdata.m1
+    >>> member.setPortrait(portrait)
+    >>> member.restrictedTraverse("portrait_thumb")
+    <Image at /plone/portal_memberdata/m1/portrait_thumb>
+
+    >>> member.restrictedTraverse("portrait_icon")
+    <Image at /plone/portal_memberdata/m1/portrait_icon>
+
+    >>> member.restrictedTraverse("portrait_thumb").width
+    63
+
+    >>> member.restrictedTraverse("portrait_thumb").height
+    80
 
 Exercise the Member Preferences Class
 =====================================
@@ -27,10 +43,10 @@ Exercise the Member Preferences Class
     # this should not be the member ... but the member folder
     # member works though, because the interface we need matches
     # (getId)
-    >>> member_folder = portal.portal_memberdata.m1
 
-    >>> view = MemberPreferences(member_folder, request)
-    >>> view = view.__of__(member_folder)
+
+    >>> view = MemberPreferences(member, request)
+    >>> view = view.__of__(member)
     >>> view
     <opencore.nui.member.view.MemberPreferences object at ...>
 
@@ -163,14 +179,15 @@ Exercise the Member Preferences Class
     ['p3', 'p1']
 
     And when we try to leave a pending mship that's an invitation
-    (should never happen, but with users messing with request)
-    We should not have left anyting
+    (should never happen, but with users messing with request) We
+    should not have left anyting
+
     >>> self.clearMemoCache()
     >>> view.leave_project('p4')
     False
 
-If we try to leave a project as the only admin, it should not
-allow it, and return an appropriate portal status message
+If we try to leave a project as the only admin, it should not allow
+it, and return an appropriate portal status message
 
     First though, let's get rid of the portal_owner
     >>> proj_team = pt.p3
@@ -186,14 +203,17 @@ allow it, and return an appropriate portal status message
     >>> [d['proj_id'] for d in project_dicts]
     ['p4']
 
-    Here are the actions that can be performed on each invitation request
+    Here are the actions that can be performed on each invitation
+    request
+
     >>> view.invitation_actions
     ['Accept', 'Deny', 'Ignore']
 
 Let's accept our gracious invitation
 
-    First though, we have to set async mode on the request to test octopolite
-    methods
+    First though, we have to set async mode on the request to test
+    octopolite methods
+
     >>> view.request.form = dict(mode='async')
 
     Now we can trigger them, we get the json response
@@ -209,7 +229,7 @@ Let's accept our gracious invitation
     >>> sorted([d['proj_id'] for d in view.projects_for_user])
     ['p1', 'p3', 'p4']
 
-And now if we were to receive an info message
+And now if we were to receive an info message::
 
     Let's stick some phony messages in there first
     >>> tm = getUtility(ITransientMessage, context=self.portal)
@@ -234,7 +254,7 @@ And now if we were to receive an info message
     >>> view.close_msg_handler(['42'])
     {}
 
-Let's also reject an invitation extended to us
+Let's also reject an invitation extended to us::
 
     First thing we have to do, is simulate an admin inviting us
     Turns out that we still have a reference to a project we can get invited
