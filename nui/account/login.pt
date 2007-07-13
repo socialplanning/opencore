@@ -15,7 +15,7 @@
         <div class="oc-boxy oc-getstarted">
           <h2>First time here?</h2>
           <p>There are many benefits to joining OpenPlans, we should probably explain a few of them here.</p>
-          <p><a href="join">Create an account</a></p>
+          <a href="join" class="oc-banana">Create an account</a>
         </div>
       </div><!-- end #content-sidebar -->
 
