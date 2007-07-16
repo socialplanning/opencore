@@ -433,18 +433,16 @@ dl.oc-plainList dd {
 #oc-member-badge {
 }
 #oc-member-badge .oc-avatar {
-  width: 200px;
   overflow: hidden;
   float: left; 
   clear: none; 
+  text-align: center;
 }
 #oc-member-badge .oc-avatar img {
-  width: 200px;
-  text-align: center;
   margin: 0 auto;
 }
 #oc-member-badge .oc-member-details {
-  margin-left: 200px;
+  margin-left: 200px; /* Overrideen by style attribute with actual image width value */
   padding-left: 1em;
 }
 #oc-member-badge .oc-member-details .oc-headingBlock p {
@@ -915,7 +913,7 @@ height: 1em; */
 
 /* Expanders */
 .oc-expander {
-
+  margin: .25em 0;
 }
 .oc-expander-open {
   background: #eee;
@@ -1230,14 +1228,14 @@ input.oc-fieldBlock-focused {
   background: #fffff9;
 }
 
-.oc-directEdit {
+.oc-liveEdit-value {
   border-bottom: 1px dotted #256E81;
 }
 .oc-liveEdit-editForm {
   border-bottom: 1px dotted red;
 }
-
-.oc-directEdit.oc-liveEdit-hover {
+.oc-liveEdit-value .oc-liveEdit-hover,
+.oc-liveEdit-hover {
  background: #ffffcc;
  cursor: pointer;
 }
