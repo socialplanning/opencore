@@ -354,7 +354,7 @@ OC.ActionSelect = function(extEl) {
     // get refs
     var container = extEl;
     var select = Ext.get(Ext.query('select',container.dom)[0]);
-    var submit = Ext.get(Ext.query('input.oc-js-actionSelectTask', container.dom)[0]);
+    var submit = Ext.get(Ext.query('input[type=submit]', container.dom)[0]);
     submit.hide();
     var form = select.up('form');
     
@@ -876,7 +876,8 @@ OC.LiveEdit = function(extEl) {
       
     var showFormLink = Ext.select(Ext.query('.oc-js-liveEdit_showForm', container.dom));
     var hoverShowFormLink = Ext.select(Ext.query('.oc-js-liveEdit_hoverShowForm', container.dom));
-    var hideFormLink = Ext.select(Ext.query('.oc-js-liveEdit_hideForm', container.dom));
+    //var hideFormLink = Ext.select(Ext.query('.oc-js-liveEdit_hideForm', container.dom));
+    var hideFormLink = Ext.get(document.body);
         
     if (!value || !editForm) {
         OC.debug("liveEdit: Couldn't get element refs");
@@ -890,17 +891,42 @@ OC.LiveEdit = function(extEl) {
     editForm.setVisibilityMode(Ext.Element.DISPLAY);
     editForm.hide();
     
-    
-    function _toggleForm(e) {
-      YAHOO.util.Event.preventDefault(e);
-        OC.debug('_toggleForm');
-        value.toggle();
-        editForm.toggle();
+    // make sure a click on the container doesn't close the form.  stop the event bubbling.
+    container.on('click', _stopEvent, this)
+    function _stopEvent(e) {
+      OC.debug("stopEvent");
+      e.stopPropagation();
     }
+
+    function _toggleForm(e) {
+        if (editForm.isVisible()) {
+          _hideForm(e);
+        } else {
+          _showForm(e);
+        }
+    }
+    
+    function _hideForm(e) {
+        OC.debug('_hideForm');
+        OC.debug(e);
+        value.show();
+        editForm.hide();
+    }
+    function _showForm(e) {
+        e.stopEvent();
+        OC.debug('_showForm');
+        OC.debug(e);
+        value.hide();
+        editForm.show();
+        
+        var form = Ext.get(Ext.query('input[type=text]', editForm.dom)[0]) || Ext.get(Ext.query('select', editForm.dom)[0]);
+        if (form) { form.focus(); }
+    }
+    
     
     // liveEdit value behaviors
     function _valueMouseover(e, el, o) {
-        value.removeClass('oc-liveEdit-hover');
+        value.addClass('oc-liveEdit-hover');
         if (hoverShowFormLink) hoverShowFormLink.hide();
     }
     value.on('mouseover', _valueMouseover, this);
@@ -913,13 +939,13 @@ OC.LiveEdit = function(extEl) {
     
     
     if (showFormLink) {
-      showFormLink.on('click', _toggleForm, this);
+      showFormLink.on('click', _showForm, this, {stopPropagation: true});
     }
     if (hoverShowFormLink) { 
       hoverShowFormLink.on('click', _toggleForm, this);
     }
     if (hideFormLink) {
-      hideFormLink.on('click', _toggleForm, this);
+        hideFormLink.on('click', _hideForm, this );
     }
     
     return this;
