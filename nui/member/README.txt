@@ -473,7 +473,7 @@ Verify invitations view works appropriately
 
     After joining the project, the invitation should be removed
     >>> view.handle_join(['p2'])
-    {'p2': {'action': 'delete'}}
+    {'proj_p2': {'action': 'delete'}}
 
     And the membership object should be there, and it should be active
     >>> mship = proj_team.m1
