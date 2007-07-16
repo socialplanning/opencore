@@ -23,6 +23,9 @@ def test_suite():
     from opencore.nui.member.interfaces import ITransientMessage
     from opencore.nui.project.interfaces import IEmailInvites
 
+    img = os.path.join(os.path.dirname(__file__), 'default-portrait.jpg')
+    portrait = open(img)
+
     setup.setupPloneSite()
     def readme_setup(tc):
         tc._refreshSkinData()
