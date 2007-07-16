@@ -1,5 +1,5 @@
 """
-some base class for opencore ui work
+some base class for opencore ui work!
 """
 import datetime
 import DateTime
