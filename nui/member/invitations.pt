@@ -48,6 +48,14 @@
             <input type="submit" name="task|batch_check|join" value="Join projects"
                    class="oc-button oc-chooseThis oc-js-actionButton" />
           </li>
+          <noscript>
+            <li>
+              <input type="submit"
+                     name="task|batch_check|join"
+                     value="Change listing"
+                     class="oc-button" />
+            </li>
+          </noscript>
         </ul>
 
       </form>
