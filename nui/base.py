@@ -240,7 +240,9 @@ class BaseView(BrowserView):
         result['portrait_url'] = self.defaultPortraitURL
         portrait = member.getProperty('portrait', None)
         if portrait:
-            result['portrait_url'] = "%s_thumb" %portrait.absolute_url()
+            result['portrait_url'] = portrait.absolute_url()
+            result['portrait_thumb_url'] = "%s_thumb" %portrait.absolute_url()
+            result['portrait_width'] = str(portrait.width)
 
         return result
 
