@@ -63,7 +63,7 @@
                               Item Title
                             </a>
                           </dt>
-                          <dd tal:condition="view/loggedin">listaddress@lists.openplans.org</dd>
+                          <dd tal:condition="view/loggedin" tal:content="python:item.getObject().mailto">listaddress@lists.openplans.org</dd>
                           <!-- <dd class="oc-discreetText" tal:condition="item_creator"
                                     tal:define="author python:view.membertool.getMemberInfo(item_creator)">
                             <span i18n:translate="label_by_author">
