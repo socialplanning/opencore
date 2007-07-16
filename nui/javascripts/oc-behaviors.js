@@ -39,6 +39,7 @@ OC.liveElementKey = {
     '.oc-js-actionSelect'     : "ActionSelect",
     '.oc-js-liveValidate'     : "LiveValidatee",
     ".oc-js-closeable"        : "CloseButton",
+    '#oc-content-wrapper'     : "AutoHeightContent"
 };
     
 /* 
@@ -777,6 +778,31 @@ OC.DropDown  = function(extEl) {
     return this;
 };
 
+/* 
+  #
+  # Auto Height Content
+  #
+*/
+OC.AutoHeightContent = function(extEl) {
+  // get refs
+  var content = extEl;
+  
+  // check refs
+  if (!content) {
+    OC.debug("AutoHeightContent: couldn't get refs");
+  } else {
+    OC.debug("AutoHeightContent:  got refs");
+  }
+  
+  // settings
+  var currentHeight = content.dom.offsetHeight;
+  
+  if (currentHeight < 430) {
+    content.dom.style.height = "430px";
+  }  
+  
+  return this;
+}
 
 /* 
    #
