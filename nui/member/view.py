@@ -96,9 +96,7 @@ class ProfileEditView(ProfileView, OctopoLite):
     @action("update")
     def handle_form(self, target=None, fields=None):
         member = self.viewedmember()
-      
-        # TODO resize portrait if necessary
-        # TODO XXX this is dumb -- zope will do this for us.
+
         for field, value in self.request.form.items():
             mutator = 'set%s' % field.capitalize()
             mutator = getattr(member, mutator, None)
