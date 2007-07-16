@@ -19,7 +19,10 @@
                 tal:repeat="projinfo view/projinfos"
                 tal:attributes="id string:proj_${projinfo/proj_id}">
               <td>
-                <input type="checkbox" name="check:list" tal:attributes="value projinfo/proj_id" />
+                <input type="checkbox"
+                       name="check:list"
+                       checked="1"
+                       tal:attributes="value projinfo/proj_id" />
               </td>
               <td class="oc-dataTable-row-title">
                 <a tal:attributes="href projinfo/url"
