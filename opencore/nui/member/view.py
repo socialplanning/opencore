@@ -513,8 +513,10 @@ class MemberPreferences(BaseView, OctopoLite):
         mem.setEmail(email)
         self.addPortalStatusMessage('Email successfully changed')
 
-class InvitationView(BaseView):
+class InvitationView(BaseView, OctopoLite):
     """view to manage first time login project invitations"""
+
+    template = ZopeTwoPageTemplateFile('invitations.pt')
 
     def _create_proj_info(self, proj_id, since):
         proj_path = '/'.join(['/'.join(self.portal.getPhysicalPath()),
@@ -535,3 +537,18 @@ class InvitationView(BaseView):
         btree = email_inviter.getInvitesByEmailAddress(address)
         return [self._create_proj_info(proj_id, since)
                 for proj_id, since in btree.items()]
+
+    def _join_project(self, proj_id):
+        pt = self.get_tool('portal_teams')
+        team = pt._getOb(proj_id)
+        team.joinAndApprove()
+
+    @action('join')
+    def handle_join(self, targets=None, fields=None):
+        projects_to_join = targets
+        results = {}
+        for proj_id in projects_to_join:
+            self._join_project(proj_id)
+            results[proj_id] = dict(action='delete')
+        # redirect somewhere else?
+        return results

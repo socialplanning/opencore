@@ -25,7 +25,6 @@
      class=".view.InvitationView"
      permission="cmf.ModifyPortalContent"
      name="invitations"
-     template="invitations.pt"
      />
  
   <browser:page

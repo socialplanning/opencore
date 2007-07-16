@@ -450,6 +450,10 @@ Verify invitations view works appropriately
     >>> loginview._has_invitations(member)
     False
 
+    Let's remove the member object that's currently there
+    >>> proj_team = pt.p2
+    >>> proj_team.manage_delObjects(['m1'])
+
     And now let's add an invitation
     >>> email_inviter.addInvitation(email, 'p2')
 
@@ -466,6 +470,15 @@ Verify invitations view works appropriately
      'since': 'today',
      'title': 'Project Two',
      'url': 'http://nohost/plone/projects/p2'}
+
+    After joining the project, the invitation should be removed
+    >>> view.handle_join(['p2'])
+    {'p2': {'action': 'delete'}}
+
+    And the membership object should be there, and it should be active
+    >>> mship = proj_team.m1
+    >>> wft.getInfoFor(mship, 'review_state')
+    'public'
 
     Now let's call the view simulating the request:
     XXX member areas need to be created first though for m1
