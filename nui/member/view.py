@@ -323,7 +323,16 @@ class MemberPreferences(BaseView, OctopoLite):
 
     def _is_only_admin(self, proj_id):
         team = self.get_tool('portal_teams')._getOb(proj_id)
+
+        # for some reason checking the role is not enough
+        # I've gotten ProjectAdmin roles back for a member
+        # in the pending state
         mem_id = self.context.getId()
+        mship = team._getOb(mem_id)
+        wft = self.get_tool('portal_workflow')
+        review_state = wft.getInfoFor(mship, 'review_state')
+        if review_state != 'public': return False
+
         role = team.getHighestTeamRoleForMember(mem_id)
         if role != 'ProjectAdmin': return False
 
