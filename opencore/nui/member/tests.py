@@ -21,6 +21,7 @@ def test_suite():
     from zope.component import getUtility
     from opencore.interfaces import IMemberFolder
     from opencore.nui.member.interfaces import ITransientMessage
+    from opencore.nui.project.interfaces import IEmailInvites
 
     setup.setupPloneSite()
     def readme_setup(tc):

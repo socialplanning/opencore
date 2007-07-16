@@ -10,6 +10,7 @@ from AccessControl.SecurityManagement import newSecurityManager
 from zExceptions import Forbidden, Redirect, Unauthorized
 
 from zope.event import notify
+from zope.component import getUtility
 from plone.memoize import instance
 
 from Products.Five import BrowserView
@@ -21,6 +22,7 @@ from Products.validation.validators.BaseValidators import EMAIL_RE
 from opencore.siteui.member import FirstLoginEvent
 from opencore.nui.base import BaseView
 from opencore.nui.formhandler import *
+from opencore.nui.project.interfaces import IEmailInvites
 
 class AccountView(BaseView):
     """
@@ -316,14 +318,27 @@ class ConfirmAccountView(AccountView):
 
 
 class InitialLogin(BaseView):
-    
+
+    def _has_invitations(self, member):
+        """check whether the new member has any pending project invitations to manage"""
+        address = member.getEmail()
+        email_invites = getUtility(IEmailInvites, context=self.portal)
+        invites = email_invites.getInvitesByEmailAddress(address)
+        return bool(invites)
+
     def first_login(self):
         member = self.membertool.getAuthenticatedMember()
         if not self.membertool.getHomeFolder():
             self.membertool.createMemberArea(member.getId())
-        # Go to the user's Profile Page in Edit Mode
-        return self.redirect("%s/%s" % (self.memfolder_url(),
-                                        'profile-edit?first_login=1'))
+        # What we need to do is check if there are any pending invitations for this member
+        # and if there are, we need to redirect to that page instead of the profile edit
+        baseurl = self.memfolder_url()
+        if self._has_invitations(member):
+            return self.redirect('%s/%s' % (baseurl, 'invitations'))
+        else:
+            # Go to the user's Profile Page in Edit Mode
+            return self.redirect("%s/%s" % (self.memfolder_url(),
+                                            'profile-edit?first_login=1'))
 
 
 class ForgotLoginView(AccountView):
