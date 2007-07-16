@@ -47,7 +47,7 @@ view.mcproperty = lambda func: property(view.memoize_contextless(func))
 class BaseView(BrowserView):
     """Base view for general use for nui templates and as an abstract base"""
     logoURL = '++resource++img/logo.gif'
-    defaultPortraitURL = '++resource++img/default-portrait.jpg'
+    defaultPortraitURL = '++resource++img/default-portrait.png'
     windowTitleSeparator = ' :: '
     render_static = staticmethod(render_static)
     truncate = staticmethod(truncate)
