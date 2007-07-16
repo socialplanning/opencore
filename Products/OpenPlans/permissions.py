@@ -11,6 +11,7 @@ CopyOrMove = "Copy or Move"
 
 MakeContentVisible = "OpenPlans: Make content visible"
 ManageWorkflowPolicy = "OpenPlans: Manage workflow policy"
+ViewEmails = 'OpenPlans: View emails'
 
 DEFAULT_PERMISSIONS_DATA = (
     (['Manager', 'Owner', 'ProjectAdmin', 'ProjectMember', 'Reviewer'],
@@ -20,7 +21,8 @@ DEFAULT_PERMISSIONS_DATA = (
       'ATContentTypes: Add File', 'ATContentTypes: Add Folder',
       'ATContentTypes: Add Image', 'ATContentTypes: Add Link',
       'ATContentTypes: Add News Item', 'OpenPlans: Add OpenPage',
-      'Reply to item', 'Delete objects', CopyOrMove, AddMailingList]),
+      'Reply to item', 'Delete objects', CopyOrMove, AddMailingList,
+      ViewEmails]),
 
     (['Manager', 'Owner', 'ProjectAdmin', 'ProjectMember', 'Reviewer',
       'Member'],
