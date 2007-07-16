@@ -26,8 +26,12 @@
               <dt i18n:translate="" id="listmanagers">
                 Managers
               </dt>
-              <dd tal:repeat="manager view/list_managers">
-                <span tal:content="manager" />
+              <dd>
+                <ul class="oc-plainList">
+                  <li tal:repeat="manager view/list_managers">
+                    <span tal:content="manager" />
+                  </li>
+                </ul>
               </dd>
             </tal:managers>
             <dt i18n:translate="" id="list-type">
