@@ -6,7 +6,7 @@
       <span tal:replace="memberdata/membersince" />,
 
       last login
-      <span tal:replace="string:last login ${memberdata/lastlogin}" />
+      <span tal:replace="memberdata/lastlogin" />
     </p>
   </div>
 </metal:login-info>
