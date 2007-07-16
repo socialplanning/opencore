@@ -47,8 +47,10 @@
             
               <ul class="oc-headingBlock oc-wiki-headingBlock oc-bcrumb">
                 <li class="oc-js-liveEdit">
-                  <div class="oc-js-liveEdit-value">
-                    <h1 class="oc-bcrumb-current" tal:content="context/Title" />
+                  <div class="oc-js-liveEdit-value"
+		       tal:define="title context/Title">
+                    <h1 tal:condition="title" class="oc-bcrumb-current" tal:content="title" />
+                    <h1 tal:condition="not: title" class="oc-bcrumb-current" tal:content="context/id" />
                     <a href="#" class="oc-js-liveEdit_showForm oc-actionLink">RENAME</a>
                   </div>
                   <div class="oc-js-liveEdit-editForm">
