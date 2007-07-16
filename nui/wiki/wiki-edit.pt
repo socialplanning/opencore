@@ -12,24 +12,24 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
     <metal:do metal:fill-slot="link" >
-      <link rel="stylesheet" href="/++resource++kupu/kupustyles.css" media="all"/>
-      <link rel="stylesheet" href="/++resource++kupu/kupuplone.css" media="all"/>
-      <link rel="stylesheet" href="/++resource++kupu/kupudrawerstyles.css" media="all"/>
+      <link rel="stylesheet" href="/++resource++kupu/css/kupustyles.css" media="all"/>
+      <link rel="stylesheet" href="/++resource++kupu/css/kupuplone.css" media="all"/>
+      <link rel="stylesheet" href="/++resource++kupu/css/kupudrawerstyles.css" media="all"/>
     </metal:do>
     <metal:do metal:fill-slot="script" >
-      <script src="/++resource++kupu/sarissa.js"></script>
-      <script src="/++resource++kupu/sarissa_ieemu_xpath.js"></script>
-      <script src="/++resource++kupu/kupunoi18n.js"></script>
-      <script src="/++resource++kupu/kupuhelpers.js"></script>
-      <script src="/++resource++kupu/kupueditor.js"></script>
-      <script src="/++resource++kupu/kupubasetools.js"></script>
-      <script src="/++resource++kupu/kupuloggers.js"></script>
-      <script src="/++resource++kupu/kupucontentfilters.js"></script>
-      <script src="/++resource++kupu/kupucontextmenu.js"></script>
-      <script src="/++resource++kupu/kupuploneeditor.js"></script>
-      <script src="/++resource++kupu/kupuploneinit.js"></script>
-      <script src="/++resource++kupu/kupusourceedit.js"></script>
-      <script src="/++resource++kupu/kupudrawers.js"></script>
+      <script src="/++resource++kupu/javascript/sarissa.js"></script>
+      <script src="/++resource++kupu/javascript/sarissa_ieemu_xpath.js"></script>
+      <script src="/++resource++kupu/javascript/kupunoi18n.js"></script>
+      <script src="/++resource++kupu/javascript/kupuhelpers.js"></script>
+      <script src="/++resource++kupu/javascript/kupueditor.js"></script>
+      <script src="/++resource++kupu/javascript/kupubasetools.js"></script>
+      <script src="/++resource++kupu/javascript/kupuloggers.js"></script>
+      <script src="/++resource++kupu/javascript/kupucontentfilters.js"></script>
+      <script src="/++resource++kupu/javascript/kupucontextmenu.js"></script>
+      <script src="/++resource++kupu/javascript/kupuploneeditor.js"></script>
+      <script src="/++resource++kupu/javascript/kupuploneinit.js"></script>
+      <script src="/++resource++kupu/javascript/kupusourceedit.js"></script>
+      <script src="/++resource++kupu/javascript/kupudrawers.js"></script>
     </metal:do>
   </head>
   <body>
