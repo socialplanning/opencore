@@ -57,6 +57,11 @@ class BaseView(BrowserView):
     
     main_macros = ZopeTwoPageTemplateFile('main_macros.pt')
 
+    _url_for = dict(projects="projects")
+
+    def url_for(self, screen):
+        return '%s/%s' % (self.siteURL, self._url_for[screen])
+
     def __init__(self, context, request):
         self.context      = context
         self.request      = request
