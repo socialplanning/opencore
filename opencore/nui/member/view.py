@@ -555,9 +555,14 @@ class InvitationView(BaseView, OctopoLite):
     @action('join')
     def handle_join(self, targets=None, fields=None):
         projects_to_join = targets
+        # we need to get rid of the invitations we joined
+        email_invites = getUtility(IEmailInvites, context=self.portal)
+        address = self.loggedinmember.getEmail()
         results = {}
         for proj_id in projects_to_join:
             self._join_project(proj_id)
             results[proj_id] = dict(action='delete')
-        # redirect somewhere else?
+            email_invites.removeInvitation(address, proj_id)
+
+        # XXX redirect somewhere else?
         return results

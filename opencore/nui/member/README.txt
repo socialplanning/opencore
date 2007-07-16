@@ -480,6 +480,13 @@ Verify invitations view works appropriately
     >>> wft.getInfoFor(mship, 'review_state')
     'public'
 
+    And finally, the invitation should no longer exist
+    >>> loginview._has_invitations(member)
+    False
+    >>> bt = email_inviter.getInvitesByEmailAddress(mem.getEmail())
+    >>> list(bt)
+    []
+
     Now let's call the view simulating the request:
     XXX member areas need to be created first though for m1
     or we can't traverse to view (or get people folder)
