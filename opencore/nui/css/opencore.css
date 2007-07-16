@@ -1228,12 +1228,18 @@ input.oc-fieldBlock-focused {
   background: #fffff9;
 }
 
-.oc-liveEdit-value,
-.oc-liveItem-value {
-  /* border-bottom: 1px solid transparent;
-  border-bottom: 1px dotted #256E81; */
-  position: relative;
+.oc-liveEdit-value {
+  border-bottom: 1px dotted #256E81;
 }
+.oc-liveEdit-editForm {
+  border-bottom: 1px dotted red;
+}
+.oc-liveEdit-value .oc-liveEdit-hover,
+.oc-liveEdit-hover {
+ background: #ffffcc;
+ cursor: pointer;
+}
+
 a.oc-liveItem_showForm,
 a.oc-liveItem_showForm:visited,
 a.oc-actionLink,
@@ -1263,27 +1269,12 @@ a.oc-liveItem_hoverShowForm:visited {
 a.oc-js-liveEdit_hideForm {
  color: red;
 }
-.oc-liveEdit-value .oc-liveEdit-hover,
-.oc-liveEdit-hover {
- background: #ffffcc;
-}
-.oc-liveEdit-directSelect {
-  background-image: url("/++resource++img/dropdown-nub-87B6C1-ffffff.gif");
-  background-position: right center;
-  background-repeat: no-repeat;
-  padding-right: 15px;
-  cursor: pointer;
-}
 
 .oc-liveEdit-form,
 .oc-liveEdit-selected,
 .oc-liveItem-editForm {
   /* background: #ffe5c1;
   padding: .25em; */
-}
-.oc-liveEdit-hover {
-  background: #ffffcc;
-  cursor: pointer;
 }
 .oc-liveEdit-editing,
 .oc-table td.oc-liveEdit-editing {
