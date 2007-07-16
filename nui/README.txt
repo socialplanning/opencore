@@ -137,7 +137,7 @@ Member info
      'fullname': '',
      'home_url': 'http://nohost/plone/people/test_user_1_/None',
      'id': 'test_user_1_',
-     'lastlogin': 'January 1, 2000',
+     'lastlogin': 'today',
      'location': '',
      'membersince': 'today',
      'portrait_url': '++resource++img/default-portrait.png',
