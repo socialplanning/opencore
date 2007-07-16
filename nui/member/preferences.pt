@@ -116,12 +116,12 @@
   <div class="oc-boxy">
     <h2>Account settings</h2>
     <a href="profile-edit">Edit profile</a>
-    <form class="oc-expander" action="preferences">
+    <form class="oc-js-expander" action="preferences">
       <fieldset>
         <legend class="oc-legend-label">
-          <a href="#" class="oc-expander-link">Change email</a>
+          <a href="#" class="oc-js-expander_open">Change email</a>
         </legend>
-        <ul class="oc-expander-content oc-plainList">
+        <ul class="oc-js-expander-content oc-expander-content oc-plainList">
           <li>
             <label for="email">Email</label><br />
             <input type="text" id="email" name="email" tal:attributes="value data/email"/>
@@ -139,17 +139,17 @@
           <li>
             <input type="submit" value="Change"
                    name="task|change-email" 
-                   class="oc-button oc-chooseThis" />
+                   class="oc-button oc-chooseThis" />  or <a href="#" class="oc-js-expander_close">Cancel</a>
           </li>
         </ul>
       </fieldset>
     </form>
-    <form class="oc-expander" action="preferences">
+    <form class="oc-js-expander oc-expander" action="preferences">
       <fieldset>
         <legend class="oc-legend-label">
-          <a href="#" class="oc-expander-link">Change password</a>
+          <a href="#" class="oc-js-expander_open">Change password</a>
         </legend>
-        <ul class="oc-expander-content oc-plainList">
+        <ul class="oc-js-expander-content oc-expander-content oc-plainList">
           <li>
             <label for="passwd_curr">Current password</label><br />
             <input type="password" id="passwd_curr" name="passwd_curr" />
@@ -165,7 +165,7 @@
           <li>
             <input type="submit" value="Change"
                    name="task|change-password" 
-                   class="oc-button oc-chooseThis" />
+                   class="oc-button oc-chooseThis" /> or <a href="#" class="oc-js-expander_close">Cancel</a>
           </li>
         </ul>
       </fieldset>
