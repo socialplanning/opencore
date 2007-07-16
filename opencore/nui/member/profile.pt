@@ -9,7 +9,7 @@
             <img class="photo" tal:attributes="src view/mangled_portrait_url" />
             <a tal:condition="view/viewingself" class="oc-actionLink" href="profile-edit?field=portrait">Edit</a>
           </div>
-          <div class="oc-member-details">
+          <div class="oc-member-details" tal:attributes="style python:'margin-left: %spx' % memberdata['portrait_width']">
             <metal:login-info use-macro="view/member_macros/macros/login-info" />
             <dl class="oc-member-info">
               <tal:fullname tal:define="fn memberdata/fullname" tal:condition="python:fn or view.viewingself()">
