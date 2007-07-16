@@ -46,7 +46,13 @@
     </div><!-- end .widget-table -->
     
     <!-- XXX -->
-    <h1 id="project_table" tal:condition="not: projinfos">Display anything with no projects? Maybe a link to join?</h1>
+    <tal:no_updates condition="not: projinfos">
+      <h1 id="project_table">
+	You don't belong to any projects.
+	Why don't you <a tal:attributes="href python:view.url_for('projects')">look for one to join</a>?
+      </h1>
+    </tal:no_updates>
+    
     
   </tal:projects_table>
 </tal:macro>
