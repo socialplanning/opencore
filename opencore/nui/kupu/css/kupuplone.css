@@ -143,10 +143,10 @@ span.kupu-tb-buttons .kupu-underline-pressed {
 
 
 .kupu-bold,
-.kupu-bold-pressed {background-image: url("http://theman:8080/openplans/plonekupuimages/bold.gif");}
+.kupu-bold-pressed {background-image: url("/++resource++kupu/img/bold.gif");}
 
-.kupu-forecolor {background-image: url("http://theman:8080/openplans/plonekupuimages/text-color.gif");}
-.kupu-inthyperlink {background-image: url("http://theman:8080/openplans/plonekupuimages/hyperlink.gif");}
+.kupu-forecolor {background-image: url("/++resource++kupu/img/text-color.gif");}
+.kupu-inthyperlink {background-image: url("/++resource++kupu/img/hyperlink.gif");}
 .kupu-inthyperlink-pressed {
   border-color: Black Black Black Black;
 }
@@ -155,53 +155,53 @@ span.kupu-tb-buttons .kupu-underline-pressed {
   border-color: Black Black Black Black;
 }
 
-.kupu-image {background-image: url("http://theman:8080/openplans/plonekupuimages/image.gif");}
+.kupu-image {background-image: url("/++resource++kupu/img/image.gif");}
 
-.kupu-indent {background-image: url("http://theman:8080/openplans/plonekupuimages/indent.gif");}
-.kupu-inserthorizontalrule {background-image: url("http://theman:8080/openplans/plonekupuimages/hr.gif");}
+.kupu-indent {background-image: url("/++resource++kupu/img/indent.gif");}
+.kupu-inserthorizontalrule {background-image: url("/++resource++kupu/img/hr.gif");}
 
 .kupu-insertorderedlist,
-.kupu-insertorderedlist-pressed {background-image: url("http://theman:8080/openplans/plonekupuimages/numbered_list.gif");}
+.kupu-insertorderedlist-pressed {background-image: url("/++resource++kupu/img/numbered_list.gif");}
 
 .kupu-insertunorderedlist,
-.kupu-insertunorderedlist-pressed {background-image: url("http://theman:8080/openplans/plonekupuimages/list.gif");}
+.kupu-insertunorderedlist-pressed {background-image: url("/++resource++kupu/img/list.gif");}
 
-.kupu-insertdefinitionlist {background-image: url("http://theman:8080/openplans/plonekupuimages/definitionlist.gif");}
+.kupu-insertdefinitionlist {background-image: url("/++resource++kupu/img/definitionlist.gif");}
 
 .kupu-italic, 
-.kupu-italic-pressed {background-image: url("http://theman:8080/openplans/plonekupuimages/italic.gif");}
+.kupu-italic-pressed {background-image: url("/++resource++kupu/img/italic.gif");}
 
 .kupu-justifycenter,
-.kupu-justifycenter-pressed {background-image: url("http://theman:8080/openplans/plonekupuimages/center.gif");}
+.kupu-justifycenter-pressed {background-image: url("/++resource++kupu/img/center.gif");}
 
 .kupu-justifyleft,
-.kupu-justifyleft-pressed {background-image: url("http://theman:8080/openplans/plonekupuimages/left_just.gif");}
+.kupu-justifyleft-pressed {background-image: url("/++resource++kupu/img/left_just.gif");}
 
 .kupu-justifyright,
-.kupu-justifyright-pressed {background-image: url("http://theman:8080/openplans/plonekupuimages/right_just.gif");}
+.kupu-justifyright-pressed {background-image: url("/++resource++kupu/img/right_just.gif");}
 
 button.kupu-logo {background-image: url("http://theman:8080/openplans/kupuimages/kupu_icon.gif");}
-.kupu-outdent {background-image: url("http://theman:8080/openplans/plonekupuimages/outdent.gif");}
-.kupu-redo {background-image: url("http://theman:8080/openplans/plonekupuimages/redo.gif");}
-.kupu-save {background-image: url("http://theman:8080/openplans/plonekupuimages/save.png");}
+.kupu-outdent {background-image: url("/++resource++kupu/img/outdent.gif");}
+.kupu-redo {background-image: url("/++resource++kupu/img/redo.gif");}
+.kupu-save {background-image: url("/++resource++kupu/img/save.png");}
 .kupu-save-and-exit {background-image: url("http://theman:8080/openplans/kupuimages/exit.gif");}
-.kupu-space {background-image: url("http://theman:8080/openplans/plonekupuimages/space.gif");}
-.kupu-source {background-image: url("http://theman:8080/openplans/plonekupuimages/view-source.gif");}
+.kupu-space {background-image: url("/++resource++kupu/img/space.gif");}
+.kupu-source {background-image: url("/++resource++kupu/img/view-source.gif");}
 .kupu-subscript,
-.kupu-subscript-pressed  {background-image: url("http://theman:8080/openplans/plonekupuimages/subscript.gif");}
+.kupu-subscript-pressed  {background-image: url("/++resource++kupu/img/subscript.gif");}
 .kupu-superscript,
-.kupu-superscript-pressed {background-image: url("http://theman:8080/openplans/plonekupuimages/superscript.gif");}
+.kupu-superscript-pressed {background-image: url("/++resource++kupu/img/superscript.gif");}
 
-.kupu-table {background-image: url("http://theman:8080/openplans/plonekupuimages/table.gif");}
+.kupu-table {background-image: url("/++resource++kupu/img/table.gif");}
 .kupu-underline, 
-.kupu-underline-pressed {background-image: url("http://theman:8080/openplans/plonekupuimages/underline.gif");}
+.kupu-underline-pressed {background-image: url("/++resource++kupu/img/underline.gif");}
 
-.kupu-undo {background-image: url("http://theman:8080/openplans/plonekupuimages/undo.gif");}
-.kupu-removelink {background-image: url("http://theman:8080/openplans/plonekupuimages/delete_icon.gif");}
-.kupu-removeimage {background-image: url("http://theman:8080/openplans/plonekupuimages/delete_icon.gif");}
+.kupu-undo {background-image: url("/++resource++kupu/img/undo.gif");}
+.kupu-removelink {background-image: url("/++resource++kupu/img/delete_icon.gif");}
+.kupu-removeimage {background-image: url("/++resource++kupu/img/delete_icon.gif");}
 
-.kupu-zoom {background-image: url("http://theman:8080/openplans/plonekupuimages/fullscreenexpand_icon.gif");}
-.kupu-zoom-pressed {background-image: url("http://theman:8080/openplans/plonekupuimages/fullscreencollapse_icon.gif");}
+.kupu-zoom {background-image: url("/++resource++kupu/img/fullscreenexpand_icon.gif");}
+.kupu-zoom-pressed {background-image: url("/++resource++kupu/img/fullscreencollapse_icon.gif");}
 
 
 div.kupu-drawer {
