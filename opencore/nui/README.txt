@@ -140,7 +140,7 @@ Member info
      'lastlogin': 'January 1, 2000',
      'location': '',
      'membersince': 'today',
-     'portrait_url': '++resource++img/default-portrait.jpg',
+     'portrait_url': '++resource++img/default-portrait.png',
      'projects': [],
      'skills': '',
      'statement': '',
