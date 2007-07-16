@@ -31,7 +31,6 @@ from Products.OpenPlans import content
 from Products.OpenPlans.permissions import DEFAULT_PERMISSIONS_DATA
 from Products.OpenPlans.permissions import DEFAULT_PFOLDER_PERMISSIONS_DATA
 from Products.OpenPlans.permissions import PLACEFUL_PERMISSIONS_DATA
-from Products.OpenPlans.permissions import ManageWorkflowPolicy
 from Products.OpenPlans.content.team import OpenTeam
 from Products.OpenPlans.utils import installDepends
 from Products.OpenPlans.utils import add_form_controller_overrides
