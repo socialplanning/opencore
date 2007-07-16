@@ -25,8 +25,10 @@ def updateThreadCount(obj, event):
         # we'd like to just reindexObject on the list
         # but the new msg obj isn't really created yet
         # so we have to do a lot of nonsense instead
-        msg_path = msg.absolute_url_path()
-        list_path = msg_path.rsplit('/', 4)[0]
+        ml_obj = msg
+        while not IMailingList.providedBy(ml_obj):
+            ml_obj = ml_obj.aq_parent
+        list_path = '/'.join(ml_obj.getPhysicalPath())
         cat = getToolByName(msg, 'portal_catalog')
         md = cat.getMetadataForUID(list_path)
         md['mailing_list_threads'] += 1
