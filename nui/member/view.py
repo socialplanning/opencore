@@ -13,6 +13,7 @@ from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import transaction_note
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from Products.AdvancedQuery import Eq
 
 from topp.utils.pretty_date import prettyDate
 from DateTime import DateTime
@@ -21,7 +22,7 @@ from opencore.nui.base import BaseView
 from opencore.nui.formhandler import OctopoLite, action
 from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.nui.member.interfaces import ITransientMessage
-from Products.AdvancedQuery import Eq
+from opencore.nui.project.interfaces import IEmailInvites
 
 class ProfileView(BaseView):
 
@@ -511,3 +512,26 @@ class MemberPreferences(BaseView, OctopoLite):
 
         mem.setEmail(email)
         self.addPortalStatusMessage('Email successfully changed')
+
+class InvitationView(BaseView):
+    """view to manage first time login project invitations"""
+
+    def _create_proj_info(self, proj_id, since):
+        proj_path = '/'.join(['/'.join(self.portal.getPhysicalPath()),
+                              'projects',
+                              proj_id,
+                              ])
+        project_info = self.catalogtool.getMetadataForUID(proj_path)
+        title = project_info['Title']
+        url = '%s/projects/%s' % (self.siteURL, proj_id)
+        since = prettyDate(since)
+        return dict(url=url, since=since, proj_id=proj_id, title=title)
+
+    @req_memoize
+    def projinfos(self):
+        address = self.loggedinmember.getEmail()
+        email_inviter = getUtility(IEmailInvites, context=self.portal)
+
+        btree = email_inviter.getInvitesByEmailAddress(address)
+        return [self._create_proj_info(proj_id, since)
+                for proj_id, since in btree.items()]

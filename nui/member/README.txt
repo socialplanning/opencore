@@ -425,6 +425,48 @@ It's talented, isn't it?
     >>> mem.getUseAnonByDefault()
     True
 
+Verify invitations view works appropriately
+
+    Instantiate the view
+    >>> from opencore.nui.member.view import InvitationView
+    >>> view = InvitationView(member, view.request)
+    >>> view.request.form = request = {}
+    
+    And the utility where we manage email invites
+    >>> email_inviter = getUtility(IEmailInvites, context=self.portal)
+    >>> email_inviter
+    <EmailInvites at /plone/utilities/>
+
+    Shouldn't have any messages currently
+    >>> email = mem.getEmail()
+    >>> list(email_inviter.getInvitesByEmailAddress(email))
+    []
+    >>> dict(email_inviter.getInvitesByEmailAddress(email))
+    {}
+
+    Let's confirm that the view agrees with us
+    >>> from opencore.nui.account.accountview import InitialLogin
+    >>> loginview = InitialLogin(member, view.request)
+    >>> loginview._has_invitations(member)
+    False
+
+    And now let's add an invitation
+    >>> email_inviter.addInvitation(email, 'p2')
+
+    Now the login view should say we have invitations
+    >>> loginview._has_invitations(member)
+    True
+
+    And ask the view for the invitation structures
+    >>> projinfos = view.projinfos()
+    >>> len(projinfos)
+    1
+    >>> pprint(dict(projinfos[0]))
+    {'proj_id': 'p2',
+     'since': 'today',
+     'title': 'Project Two',
+     'url': 'http://nohost/plone/projects/p2'}
+
     Now let's call the view simulating the request:
     XXX member areas need to be created first though for m1
     or we can't traverse to view (or get people folder)
