@@ -83,8 +83,6 @@
       </ul>
     </tal:has_updates>
     <tal:no_updates condition="not: n_updates">
-      <!-- XXX -->
-      <h1>What to put here with no updates?</h1>
     </tal:no_updates>
   </div><!-- end .widget-invitations -->
   
