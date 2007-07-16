@@ -95,17 +95,18 @@
 <div id="oc-content-sidebar">
   <div class="oc-getstarted">
     <h2>Next steps&hellip;</h2>
-    <ol class="oc-getstarted-list">
+    <ol class="oc-getstarted-list"
+	tal:define="memfolder_url view/memfolder_url">
         <li>
-          <h3><a href="profile-edit">1. Personalize your profile</a></h3>
+          <h3><a tal:attributes="href string: ${memfolder_url}/profile-edit">1. Personalize your profile</a></h3>
           <p class="oc-discreetText">Tell everyone a little about yourself.</p>
         </li> 
         <li>
-          <h3><a href="#">2. Post a photo of yourself</a></h3>
+          <h3><a tal:attributes="href string: ${memfolder_url}/profile-edit">2. Post a photo of yourself</a></h3>
           <p class="oc-discreetText">Tell everyone a little about yourself.</p>
         </li>
         <li>
-          <h3><a href="#">3. Customize your homepage</a></h3>
+          <h3><a tal:attributes="href string: ${memfolder_url}">3. Customize your homepage</a></h3>
           <p class="oc-discreetText">Tell everyone a little about yourself.</p>
         </li>
         <li>
