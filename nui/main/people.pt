@@ -20,7 +20,24 @@
 
       <div id="oc-content-sidebar">
         <div tal:condition="not: view/loggedin" tal:content="structure view/anonymous_txt" />
-        <div tal:condition="view/loggedin" tal:content="structure view/notanonymous_txt" />
+	<div tal:condition="view/loggedin" class="oc-getstarted">
+	  <h2>Become a better member&hellip;</h2>
+	  <ol class="oc-getstarted-list"
+	      tal:define="memfolder_url view/memfolder_url">
+            <li>
+              <h3><a tal:attributes="href string: ${memfolder_url}/profile-edit">1. Personalize your profile</a></h3>
+            </li> 
+            <li>
+              <h3><a tal:attributes="href string: ${memfolder_url}/profile-edit">2. Post a photo of yourself</a></h3>
+            </li>
+            <li>
+              <h3><a tal:attributes="href string: ${memfolder_url}">3. Customize your homepage</a></h3>
+            </li>
+            <li>
+              <h3><a tal:attributes="href string:${context/portal_url}/projects">4. Join or start a project</a></h3>
+            </li>
+	  </ol>
+	</div>
       </div><!-- content-sidebar -->
 
     </div><!-- content-fill-slot -->
