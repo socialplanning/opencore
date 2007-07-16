@@ -108,13 +108,15 @@ class ProjectMenuView(BaseView):
     def menudata(self):
         featurelets = self.piv.featurelets
         proj = self.piv.project
-        contents_url = "%s/contents" % self.areaURL
-        prefs_url = "%s/preferences" % self.areaURL
-        manage_team_url = "%s/manage-team" % self.areaURL
+        proj_url = self.areaURL
+        contents_url = "%s/contents" % proj_url
+        team_url = "%s/team" % proj_url
+        prefs_url = "%s/preferences" % proj_url
+        manage_team_url = "%s/manage-team" % proj_url
 
         menudata = (
             {'content': 'Home',
-             'href': self.areaURL,
+             'href': proj_url,
              'selected': self.atProjectHome,
              },
 
@@ -122,12 +124,17 @@ class ProjectMenuView(BaseView):
              'href': contents_url,
              'selected': self.request.ACTUAL_URL == contents_url,
              },
+
+            {'content': 'Team',
+             'href': team_url,
+             'selected': self.request.ACTUAL_URL == team_url,
+             },
             )
 
         for flet in featurelets:
             menudata += (
                 {'content': flet.get('title'),
-                 'href': '%s/%s' % (self.areaURL,
+                 'href': '%s/%s' % (proj_url,
                                     flet.get('url')),
                  'selected': False, # XXX <-- need to calculate
                  },
