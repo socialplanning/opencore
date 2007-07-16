@@ -40,6 +40,7 @@
                         tal:attributes="selected not: listed">No</option>
           
         </select>
+        <a href="#" class="oc-js-liveEdit_hideForm">Cancel</a>
         <input type="submit" class="" value="Go"
                      tal:attributes="name string:task|${proj_id}|change-listing" />
     </div><!-- end .oc-js-liveEdit-editForm -->

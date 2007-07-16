@@ -877,8 +877,8 @@ OC.LiveEdit = function(extEl) {
       
     var showFormLink = Ext.select(Ext.query('.oc-js-liveEdit_showForm', container.dom));
     var hoverShowFormLink = Ext.select(Ext.query('.oc-js-liveEdit_hoverShowForm', container.dom));
-    //var hideFormLink = Ext.select(Ext.query('.oc-js-liveEdit_hideForm', container.dom));
-    var hideFormLink = Ext.get(document.body);
+    var hideFormLink = Ext.select(Ext.query('.oc-js-liveEdit_hideForm', container.dom)) || Ext.get(document.body);
+    //var hideFormLink = Ext.get(document.body);
         
     if (!value || !editForm) {
         OC.debug("liveEdit: Couldn't get element refs");
@@ -946,7 +946,7 @@ OC.LiveEdit = function(extEl) {
       hoverShowFormLink.on('click', _toggleForm, this);
     }
     if (hideFormLink) {
-        hideFormLink.on('click', _hideForm, this );
+        hideFormLink.on('click', _hideForm, this, {preventDefault: true} );
     }
     
     return this;
