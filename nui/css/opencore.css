@@ -415,15 +415,17 @@ dl.oc-plainList dd {
 .oc-roster-content h3 /* OpenPlans username */{
   display: inline;
   margin: 0;
-}
-.oc-roster .adr /* location */ {
   font-weight: bold;
 }
-.oc-roster .oc-roster-projects {
+.oc-roster dl.oc-plainList dt {
   font-weight: bold;
   float: left;
   padding-right: 0.5em;
 }
+.oc-roster dl.oc-plainList dd {
+  margin-bottom: 0;
+}
+
 
 
 /* Member profile */
