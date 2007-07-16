@@ -561,7 +561,8 @@ class InvitationView(BaseView, OctopoLite):
         results = {}
         for proj_id in projects_to_join:
             self._join_project(proj_id)
-            results[proj_id] = dict(action='delete')
+            row_id = 'proj_%s' % proj_id
+            results[row_id] = dict(action='delete')
             email_invites.removeInvitation(address, proj_id)
 
         # XXX redirect somewhere else?
