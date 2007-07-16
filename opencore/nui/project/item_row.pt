@@ -22,7 +22,7 @@
       </div>
       
       <div tal:condition="editable"
-	   class="oc-js-liveEdit-editForm">
+	   class="oc-js-liveEdit-editForm  oc-liveEdit-editForm">
         <input type="text" 
                tal:attributes="name string:${item/id}_title;
 			       value item/title" 
@@ -30,7 +30,7 @@
         <input type="submit" class="oc-js-actionButton" value="Save"
                tal:attributes="name string:task|${item/id}|update" />
         or
-        <a href="#" class="oc-js-liveEdit_hideForm">
+        <a href="" class="oc-js-liveEdit_hideForm">
           Cancel
         </a>
       </div>

@@ -913,7 +913,7 @@ height: 1em; */
 
 /* Expanders */
 .oc-expander {
-  margin: .25em 0;
+
 }
 .oc-expander-open {
   background: #eee;
@@ -1228,14 +1228,14 @@ input.oc-fieldBlock-focused {
   background: #fffff9;
 }
 
-.oc-liveEdit-value {
+.oc-directEdit {
   border-bottom: 1px dotted #256E81;
 }
 .oc-liveEdit-editForm {
   border-bottom: 1px dotted red;
 }
-.oc-liveEdit-value .oc-liveEdit-hover,
-.oc-liveEdit-hover {
+
+.oc-directEdit.oc-liveEdit-hover {
  background: #ffffcc;
  cursor: pointer;
 }

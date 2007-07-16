@@ -28,7 +28,7 @@
 	<div class="oc-js-liveEdit"
 	     tal:define="listed python: projinfo['listed']"
 	     >
-	 <div class="oc-js-liveEdit-value oc-liveEdit-value oc-liveEdit-directSelect oc-js-liveEdit_showForm"
+	 <div class="oc-js-liveEdit-value oc-js-liveEdit_showForm oc-liveEdit-value oc-directEdit"
 	      tal:content="python: listed and 'Yes' or 'No'"
 	      >
 	 </div><!-- end .oc-js-liveEdit -->
@@ -40,7 +40,6 @@
                         tal:attributes="selected not: listed">No</option>
           
         </select>
-        <a href="#" class="oc-js-liveEdit_hideForm">Cancel</a>
         <input type="submit" class="" value="Go"
                      tal:attributes="name string:task|${proj_id}|change-listing" />
     </div><!-- end .oc-js-liveEdit-editForm -->

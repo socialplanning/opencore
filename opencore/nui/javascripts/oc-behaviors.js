@@ -24,8 +24,8 @@ OC.liveElementKey = {
     'input[type=password]'    : 'FocusField',
     'input[type=file]'        : 'FocusField',
     'textarea'                : 'FocusField',
-    ".oc-js-autoSelect"          : "AutoSelect",
-    ".oc-expander"            : "Expander",
+    ".oc-js-autoSelect"       : "AutoSelect",
+    ".oc-js-expander"         : "Expander",
     "#version_compare_form"   : "HistoryList",
     ".oc-widget-multiSearch"  : "SearchLinks",
     '.oc-dropdown-container'  : "DropDown",
@@ -185,7 +185,7 @@ OC.Callbacks = {};
 OC.Callbacks.afterAjaxSuccess = function(o) { 
     
     
-    if (typeof indicator == "object") indicator.hide(); 
+    try {  this.indicator.hide();  } catch(err) { OC.debug(err); }
     
     Ext.select('form').each(function(el) {
 	    el.dom.target = "";
@@ -407,7 +407,7 @@ OC.ActionButton = function(extEl) {
     var button = extEl;
     var form = button.up('form');
     var name = button.dom.name.replace('task|', "");
-    indicator = Ext.get('indicator|' + name);
+    this.indicator = Ext.get('indicator|' + name);
         
     // check refs
     if (!button || !form) {
@@ -422,19 +422,20 @@ OC.ActionButton = function(extEl) {
     var task = button.dom.name;
     var taskValue = button.dom.value;
     var isUpload = false;
-    if (indicator) {
-      indicator.setVisibilityMode(Ext.Element.DISPLAY);
-      indicator.hide();
+    if (this.indicator) {
+      this.indicator.setVisibilityMode(Ext.Element.DISPLAY);
+      this.indicator.hide();
     }
     
     if (form.dom.enctype == "multipart/form-data") {
-	OC.debug("is upload ...");
-	isUpload = true;
+      OC.debug("is upload ...");
+      isUpload = true;
     }
   
     function _actionButtonClick(e, el, o) {
-     if (indicator)  indicator.show();
-	OC.debug("_actionButtonClick");
+    
+     try { this.indicator.show(); } catch(err) { OC.debug(err); }
+	   OC.debug("_actionButtonClick");
 	
 	YAHOO.util.Event.stopEvent(e);
 	if (isUpload) {
@@ -877,8 +878,8 @@ OC.LiveEdit = function(extEl) {
       
     var showFormLink = Ext.select(Ext.query('.oc-js-liveEdit_showForm', container.dom));
     var hoverShowFormLink = Ext.select(Ext.query('.oc-js-liveEdit_hoverShowForm', container.dom));
-    var hideFormLink = Ext.select(Ext.query('.oc-js-liveEdit_hideForm', container.dom)) || Ext.get(document.body);
-    //var hideFormLink = Ext.get(document.body);
+    var hideFormLink = Ext.select(Ext.query('.oc-js-liveEdit_hideForm', container.dom));
+    if (hideFormLink.elements.length == 0) hideFormLink = Ext.get(document.body);
         
     if (!value || !editForm) {
         OC.debug("liveEdit: Couldn't get element refs");
@@ -891,6 +892,7 @@ OC.LiveEdit = function(extEl) {
     value.setVisibilityMode(Ext.Element.DISPLAY);
     editForm.setVisibilityMode(Ext.Element.DISPLAY);
     editForm.hide();
+    var hideThisForm = false;
     
     // make sure a click on the container doesn't close the form.  stop the event bubbling.
     container.on('click', _stopEvent, this)
@@ -907,19 +909,23 @@ OC.LiveEdit = function(extEl) {
         }
     }
     
-    function _hideForm(e) {
-        OC.debug('_hideForm');
-        OC.debug(e);
-        value.show();
-        editForm.hide();
+    function _hideForm(e, el) {
+        if (hideThisForm) {
+          if (Ext.get(el).hasClass('oc-js-liveEdit_hideForm')) {
+            e.preventDefault();
+          }
+          OC.debug('_hideForm');
+          value.show();
+          editForm.hide();
+        }
+        hideThisForm = false;
     }
     function _showForm(e) {
         e.stopEvent();
         OC.debug('_showForm');
-        OC.debug(e);
         value.hide();
         editForm.show();
-        
+        hideThisForm = true;
         var form = Ext.get(Ext.query('input[type=text]', editForm.dom)[0]) || Ext.get(Ext.query('select', editForm.dom)[0]);
         if (form) { form.focus(); }
     }
@@ -946,7 +952,7 @@ OC.LiveEdit = function(extEl) {
       hoverShowFormLink.on('click', _toggleForm, this);
     }
     if (hideFormLink) {
-        hideFormLink.on('click', _hideForm, this, {preventDefault: true} );
+        hideFormLink.on('click', _hideForm, this);
     }
     
     return this;
@@ -1087,29 +1093,31 @@ OC.AutoSelect = function(extEl) {
 OC.Expander = function(extEl) {
     // get references.
     var container = extEl;
-    var expanderLink = Ext.select(Ext.query(".oc-expander-link", container.dom));
-    var content = Ext.get(Ext.query(".oc-expander-content",  container.dom)[0]);
+    var expanderLink = Ext.select(Ext.query(".oc-js-expander_open", container.dom));
+    var content = Ext.get(Ext.query(".oc-js-expander-content",  container.dom)[0]);
+    var closeLink = Ext.select(Ext.query(".oc-js-expander_close", container.dom));
     
     // check to make sure we have everything
     if(!container || !expanderLink || !content) {
-	OC.debug('OC.Expander: couldn\'t get element references');
+	     OC.debug('OC.Expander: couldn\'t get element references');
         return;
     }
     OC.debug("OC expander is good " + extEl);
+    
     // settings
-    content.setVisibilityMode(Ext.Element.DISPLAY);
+    content.setVisibilityMode(Ext.Element.DISPLAY);	
     
     function _expand() {
-	content.slideIn('t',{duration: .1});
-	container.addClass('oc-expander-open');
-	expanderLink.addClass('oc-expanderLink-open');
-	//expanderLink.dom.innerHTML = "[x] Close";
+	   content.slideIn('t',{duration: .1});
+	   container.addClass('oc-expander-open');
+	   expanderLink.addClass('oc-expanderLink-open');
+	   if (closeLink) closeLink.show();
     }
     function _contract() {
-	content.slideOut('t',{duration: .1});
-	container.removeClass('oc-expander-open');
-	expanderLink.removeClass('oc-expanderLink-open');
-	//expanderLink.dom.innerHTML = title;
+    content.slideOut('t',{duration: .1});
+    container.removeClass('oc-expander-open');
+    expanderLink.removeClass('oc-expanderLink-open');
+    if (closeLink) closeLink.hide();
     }
     
     //link
@@ -1122,10 +1130,11 @@ OC.Expander = function(extEl) {
         YAHOO.util.Event.stopEvent(e);
     }
     expanderLink.on('click', _linkClick, this);
-    
+    if (closeLink) closeLink.on('click', _linkClick, this);
+        
     // init (when breatheLife is called)
     if (!container.hasClass('oc-expander-open')) {
-	_contract();
+	     _contract();
     }
     
     return this;
