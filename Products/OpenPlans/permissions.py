@@ -89,7 +89,8 @@ def initialize():
                 setDefaultRoles(permission, ADD_DEFAULT_ROLES[typename])
             else:
                 setDefaultRoles(permission, ('Manager',))
-    permission = MakeContentVisible
-    setDefaultRoles(permission, ('Manager',))
+    perms_to_set = [MakeContentVisible, ViewEmails]
+    for permission in perms_to_set:
+        setDefaultRoles(permission, ('Manager',))
 
     return permissions
