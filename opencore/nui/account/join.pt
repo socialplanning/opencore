@@ -101,7 +101,7 @@
                     <label for="password">Password</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="password" name="password" id="password" class="oc-js-liveValidate"
+                    <input type="password" name="password" id="password" class=""
                            />
                   </td>
                   <td class="oc-form-help">

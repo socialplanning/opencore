@@ -183,8 +183,9 @@ Ext.onReady(function() {
 OC.Callbacks = {};
 
 OC.Callbacks.afterAjaxSuccess = function(o) { 
-
-    if (indicator) indicator.hide(); 
+    
+    
+    if (typeof indicator == "object") indicator.hide(); 
     
     Ext.select('form').each(function(el) {
 	    el.dom.target = "";
