@@ -44,7 +44,6 @@ Exercise the Member Preferences Class
     # member works though, because the interface we need matches
     # (getId)
 
-
     >>> view = MemberPreferences(member, request)
     >>> view = view.__of__(member)
     >>> view
