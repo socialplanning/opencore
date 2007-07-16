@@ -315,7 +315,7 @@ dl.oc-plainList dd {
 }
 .oc-lineup-item-sorter input,
 .oc-searchresults-nresults form input {
-  display: none;
+  /* display: none; */
 }
 .oc-lineup .oc-paginator,
 .oc-searchresults .oc-paginator,

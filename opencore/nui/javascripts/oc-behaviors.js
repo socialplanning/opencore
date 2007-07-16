@@ -24,7 +24,7 @@ OC.liveElementKey = {
     'input[type=password]'    : 'FocusField',
     'input[type=file]'        : 'FocusField',
     'textarea'                : 'FocusField',
-    ".oc-autoSelect"          : "AutoSelect",
+    ".oc-js-autoSelect"          : "AutoSelect",
     ".oc-expander"            : "Expander",
     "#version_compare_form"   : "HistoryList",
     ".oc-widget-multiSearch"  : "SearchLinks",

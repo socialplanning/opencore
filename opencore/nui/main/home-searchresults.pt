@@ -50,7 +50,7 @@
                       tal:attributes="value request/search_for" />
                   <input tal:condition="request/b_start | nothing" type="hidden" name="b_start:int"
                       tal:attributes="value request/b_start" />
-                  <input type="submit" name="action_sort" value="sort" />
+                      <input type="submit" name="action_sort" value="sort" />
               </form>
             </div>
 
