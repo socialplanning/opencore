@@ -109,8 +109,9 @@ class LoginView(AccountView):
             if member and member.verifyCredentials({'login': id_, 
                                                     'password': password}):
                 
-                self.addPortalStatusMessage('An email has been sent to %s from %s but it seems like you have not yet activated your account.' % ( member.getEmail(),
-                                                                                                                                                  self.portal.getProperty('email_from_address')))
+                self.addPortalStatusMessage('An email has been sent to %s from %s " \
+                    "but it seems like you have not yet activated your account.' %
+                    (member.getEmail(), self.portal.getProperty('email_from_address')))
                 self.redirect('pending?key=%s' % member.UID())
                 return
 
@@ -136,7 +137,8 @@ class LoginView(AccountView):
             destination = self.destination
             return self.redirect(destination)
 
-        self.addPortalStatusMessage(u'Incorrect username or password. Please try again or <a href="forgot">retrieve your login information</a>.')
+        self.addPortalStatusMessage(u'Incorrect username or password. Please try again " \
+            "or <a href="forgot">retrieve your login information</a>.')
 
     @anon_only(AccountView.loggedin_fallback_url)
     def handle_request(self):
@@ -409,7 +411,9 @@ class ForgotLoginView(AccountView):
             brains = self.membranetool(getId=user_lookup)
 
         if not brains:
-            self.addPortalStatusMessage(u"We can't find your account. This could be because you have not yet completed your email confirmation, or perhaps you just mistyped.")
+            self.addPortalStatusMessage(u"We can't find your account. This could be " \
+                                         "because you have not yet completed your email " \
+                                         "confirmation, or perhaps you just mistyped.")
             return
         return brains[0].getId
 
