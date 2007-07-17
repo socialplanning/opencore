@@ -26,19 +26,22 @@ body {
   padding: 0 8px;
   color: #333333;
 }
+#oc-topnav,
+#oc-content-container,
+#oc-footer {
+ max-width: 78em; /* As a rule, measure should be between two and three alphabets long. In other words, between 52 and 78 characters, including spaces. Since characters average out to about one-half EM in width this translates to a minimum width of 26em and a maximum of 39em, or two to three alphabets.   IN OTHER WORDS: avoid changing the width. */
+ min-width: 52em;
+ margin: 0 auto;
+}
 #oc-page-container {
-  /* max-width: 70em; */ 
-  /* As a rule, measure should be between two and three alphabets long. In other words, between 52 and 78 characters, including spaces. Since characters average out to about one-half EM in width this translates to a minimum width of 26em and a maximum of 39em, or two to three alphabets.   IN OTHER WORDS: avoid changing the width. */
-  /* min-width: 52em; */
-  margin: 0 auto;
-  padding: 0;
+
 }
 #oc-topnav {
-  margin: 0;
   padding: 0;
+  padding: 0.5em 1em;
+
 }
 #oc-content-container {
-  margin: 0;
   padding: 1em;
 }
 #oc-content-main {
@@ -93,9 +96,11 @@ ul#oc-topnav-context li.oc-topnav-selected {
 }
 #oc-topnav-usermenu {
   position: absolute;
-  top: 0em;
-  right: 0em;
-  padding: 0.25em .25em 0 .25em;
+  top: 0;
+  right: 1em;
+  width: 31%;
+  padding: 0.25em 0.5em 0 .5em;
+
 }
 #oc-topnav-usermenu input.oc-input-typeText {
   padding-left: 0.25em;
@@ -328,23 +333,21 @@ dl.oc-plainList dd {
 /* Portal Home */
 #oc-home-content {
 	float: left;
-	width: 66%;
 }
 #oc-home-content .oc-headingBlock h1{
 	font-size: 36px;
 }
 #oc-home-getstarted {
-	float: right;
-	width: 33%;
+
 }
 .oc-home-columnGroup {
-  width: 102%;
+  width: 100%;
 }
 .oc-home-column {
   float: left;
-  margin-right: 1%;
+  margin-right: 2%;
   clear: none;
-  width: 32%;
+  width: 48%;
 }
 #oc-home-news h2 {
 	background: #6BA12A;
@@ -1352,7 +1355,7 @@ h5, .h5, h6, .h6 {
 	font-weight: bold;
 }
 p {
-	margin-top: 0;
+	margin: 0 0 .65em;
 }
 .oc-smallText,
 .oc-discreetText,
