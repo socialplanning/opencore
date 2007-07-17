@@ -141,6 +141,7 @@ Member info
      'location': '',
      'membersince': 'today',
      'portrait_url': '++resource++img/default-portrait.png',
+     'portrait_width': '200',
      'projects': [],
      'skills': '',
      'statement': '',
