@@ -23,9 +23,8 @@ Test wiki page registrations::
 Test wiki history registrations::
 
     >>> page.restrictedTraverse('history')
-    Traceback (most recent call last):
-    ...
-    Unauthorized: You are not allowed to access 'history' in this context
+    <...SimpleViewClass ...wiki/wiki-version-compare.pt object at ...>
+
 
     >>> page.restrictedTraverse('version')
     Traceback (most recent call last):

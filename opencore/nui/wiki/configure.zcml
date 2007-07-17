@@ -41,12 +41,11 @@
     permission="cmf.ModifyPortalContent"
     />
 
-  <!-- FIXME what are the permissions on history exactly? -->   
   <browser:page
      class=".historyview.WikiVersionView"
      for="opencore.interfaces.IOpenPage"
      name="history"
-     permission="cmf.ModifyPortalContent"
+     permission="zope.Public"
      template="wiki-history.pt"
      />
 
@@ -54,7 +53,7 @@
      class=".historyview.WikiVersionView"
      for="opencore.interfaces.IOpenPage"
      name="version"
-     permission="cmf.ModifyPortalContent"
+     permission="zope.Public"
      template="wiki-previous-version.pt"
      />
 
@@ -62,7 +61,7 @@
      class=".historyview.WikiVersionCompare"
      for="opencore.interfaces.IOpenPage"
      name="version_compare"
-     permission="cmf.ModifyPortalContent"
+     permission="zope.Public"
      template="wiki-version-compare.pt"
      />
 
