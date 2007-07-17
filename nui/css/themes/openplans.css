@@ -119,7 +119,6 @@ ul.oc-tabs {
 .oc-getstarted {
   border: 1px solid #EB852B;;
   background-color: #F9F9F9;
-  padding: 0;
 }
 .oc-getstarted h1,
 .oc-getstarted h2 {
@@ -127,6 +126,10 @@ ul.oc-tabs {
   padding: 0.25em;
   color: #fff;
 }
+.oc-getstarted p {
+  margin: 0;
+}
+
 .oc-getstarted p,
 .oc-getstarted-list {
   padding: 1em;

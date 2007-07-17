@@ -1447,9 +1447,11 @@ address {
 img {
    border: none;
 }
-/* hr {
-  clear: both;
-} */
+hr {
+  border: 1px solid #ccc;
+  padding: 0;
+  margin: 1em 0;
+}
 .oc-clearElement {
   visibility: hidden;
   clear: both;
