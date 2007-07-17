@@ -409,8 +409,9 @@ class ForgotLoginView(AccountView):
             brains = self.membranetool(getId=user_lookup)
 
         if not brains:
-            self.addPortalStatusMessage(u"User id or email not found")
-            return None
+            self.addPortalStatusMessage(u"We can't find your account. This could be because you have not yet
+             completed your email confirmation, or perhaps you just mistyped.")
+            return
         return brains[0].getId
 
 
