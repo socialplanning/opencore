@@ -5,14 +5,6 @@ body {
 }
 #oc-page-container {}
 
-#oc-topnav,
-#oc-content-container,
-#oc-footer {
- max-width: 78em; /* As a rule, measure should be between two and three alphabets long. In other words, between 52 and 78 characters, including spaces. Since characters average out to about one-half EM in width this translates to a minimum width of 26em and a maximum of 39em, or two to three alphabets.   IN OTHER WORDS: avoid changing the width. */
- min-width: 52em;
- margin: 0 auto;
- padding: 0 1em;
-}
 #oc-topnav-wrapper {
   width: 100%;
   padding: 0;
@@ -22,7 +14,7 @@ body {
   border-bottom: 1px solid #93877B;
 }
 #oc-topnav {
-  padding: 0.5em 1em;
+
 }
 #oc-topnav h1 {
   font-size: 32px;
@@ -36,12 +28,8 @@ body {
 }
 #oc-topnav a:hover {
 }
-#oc-topnav-usermenu {
-  top: 0;
-  right: 1em;
-  width: 31%;
+#oc-topnav-usermenu {  
   background: #93877B;
-  padding: 0.25em 0.5em 0 .5em;
 }
 #oc-topnav-usermenu input.oc-input-typeText {
   background-color: #fff;
