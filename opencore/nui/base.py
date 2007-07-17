@@ -444,6 +444,28 @@ class BaseView(BrowserView):
     def authenticator_input(self):
         return '<input type="hidden" name="authenticator" value="%s" />' % self.authenticator()
 
+    def validate_password_form(self, password, password2, member):
+        if isinstance(member, basestring):
+            # get the member object
+            member = self.get_tool("membrane_tool")(getId=member)
+            if not member:
+                self.addPortalStatusMessage("member '%s' does not exist" % userid)
+                return False
+            member = member[0].getObject()
+
+        if not password or not password2:
+            self.addPortalStatusMessage("you must enter a password.")
+            return False
+        if password != password2:
+            self.addPortalStatusMessage("passwords don't match")
+            return False
+        msg = member.validate_password(password)
+        if msg:
+            self.addPortalStatusMessage(msg)
+            return False
+        return True
+
+
 def aq_iface(obj, iface):
     obj = aq_inner(obj)
     while obj is not None and not iface.providedBy(obj):

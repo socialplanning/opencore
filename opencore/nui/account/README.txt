@@ -70,7 +70,27 @@ To do the reset, we'll need to submit the form::
     >>> view.request.form["password2"]='word'
     >>> view.request.form["userid"]='test_user_1_'
     >>> view.handle_reset()
-    True
+    False
+
+Why is this?
+
+    >>> view.portal_status_message[-1]
+    u'Passwords must contain at least 5 characters.'
+
+Ensure that validate_password_form has the same functionality:
+
+    >>> view.validate_password_form('word', 'word', 'test_user_1_')
+    False
+    >>> view.portal_status_message
+    [u'Passwords must contain at least 5 characters.']
+
+Now try non-matching passwords:
+
+    >>> view.validate_password_form('wordy', 'werdy', 'test_user_1_')
+    False
+    >>> view.portal_status_message
+    [u"passwords don't match"]
+
 
 ## test do reset
 
@@ -143,7 +163,7 @@ the form the validate() method will be triggered::
 
     >>> request.form['task|validate'] = 'Foo'
     >>> view()
-    u'<!-- join form -->...'
+    '<!-- join form -->...'
 
 The template was rerendered with the error messages; to get the error
 dict directly, make the request asynchronous::

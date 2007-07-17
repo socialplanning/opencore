@@ -464,25 +464,10 @@ class MemberPreferences(BaseView, OctopoLite):
             self.addPortalStatusMessage('XXX - Invalid old password')
             return
 
-        if not password:
-            self.addPortalStatusMessage('You forgot to enter a new password')
-            return
-        if not password2:
-            self.addPortalStatusMessage('You have to enter the new password twice')
-            return
-        if password != password2:
-            self.addPortalStatusMessage("Your passwords don't match")
-            return
+        if self.validate_password_form(password, password2, member):
 
-        pw_tool = self.get_tool("portal_password_reset")
-
-        msg = member.validate_password(password)
-        if msg:
-            self.addPortalStatusMessage(msg)
-            return
-
-        member._setPassword(password)
-        self.addPortalStatusMessage('Your password has been changed')
+            member._setPassword(password)
+            self.addPortalStatusMessage('Your password has been changed')
 
     @property
     def n_updates(self):

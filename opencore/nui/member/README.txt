@@ -305,20 +305,20 @@ Check that changing passwords works
     >>> request['passwd_curr'] = 'testy'
     >>> view.change_password()
     >>> view.portal_status_message
-    [u'You forgot to enter a new password']
+    [u'you must enter a password.']
 
     Set a new password
     >>> request['password'] = 'foo'
     >>> view.change_password()
     >>> view.portal_status_message
-    [u'You have to enter the new password twice']
+    [u'you must enter a password.']
 
     Set all the required fields
     and the passwords don't match
     >>> request['password2'] = 'bar'
     >>> view.change_password()
     >>> view.portal_status_message
-    [u"Your passwords don't match"]
+    [u"passwords don't match"]
 
     Now we set the same passwordz, only not enough characters
     >>> request['password'] = 'abc'
