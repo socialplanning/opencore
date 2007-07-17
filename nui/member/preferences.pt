@@ -19,8 +19,8 @@
     <tal:has_updates condition="n_updates">
       <div class="oc-headingBlock">
         <h2>
-	  Latest updates (<span id="num_updates" tal:content="n_updates" />)
-	</h2>
+          Latest updates (<span id="num_updates" tal:content="n_updates" />)
+        </h2>
       </div>
       <!-- currently create 2 separate list groups:
            status info messages,
@@ -94,7 +94,7 @@
   <div class="oc-getstarted">
     <h2>Next steps&hellip;</h2>
     <ol class="oc-getstarted-list"
-	tal:define="memfolder_url view/memfolder_url">
+        tal:define="memfolder_url view/memfolder_url">
         <li>
           <h3><a tal:attributes="href string: ${memfolder_url}/profile-edit">1. Personalize your profile</a></h3>
           <p class="oc-discreetText">Tell everyone a little about yourself.</p>
