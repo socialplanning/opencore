@@ -23,19 +23,13 @@ Test wiki page registrations::
 Test wiki history registrations::
 
     >>> page.restrictedTraverse('history')
-    <...SimpleViewClass ...wiki/wiki-version-compare.pt object at ...>
-
+    <...SimpleViewClass ...wiki-history.pt object at ...>
 
     >>> page.restrictedTraverse('version')
-    Traceback (most recent call last):
-    ...
-    Unauthorized: You are not allowed to access 'version' in this context
-    
+    <...SimpleViewClass ...wiki/wiki-previous-version.pt object at ...>
 
     >>> page.restrictedTraverse('version_compare')
-    Traceback (most recent call last):
-    ...
-    Unauthorized: You are not allowed to access 'version_compare' in this context
+    <...SimpleViewClass ...wiki/wiki-version-compare.pt object at ...>
 
 
 Test wiki attachment registrations::
@@ -238,3 +232,14 @@ Now edit 2 pages, so we can try a valid compare later
 
 Now we should get a valid response
      >>> response = view()
+
+Test that we can create a page via wicked
+     >>> view = page.restrictedTraverse('@@wickedadd')
+     >>> view
+     <Products.Five.metaclass.WickedAdd object at ...>
+
+     >>> request = self.portal.REQUEST 
+     >>> request.form = {'Title' : 'newpage', 'section' : 'text'}
+     >>> view()
+     'http://...projects/p1/newpage/edit...'
+
