@@ -198,11 +198,13 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
     //var updater = new OC.Updater();
     
     try {
-	response = eval( "(" + o.responseText + ")" );
-	OC.debug(response);
+      var responseText = o.responseText.replace(/[\r\n]/g, "");
+      OC.debug(responseText);
+      response = eval( "(" + responseText + ")" );
     } catch( e ) {
-	OC.debug("Couldn't parse response " + o.responseText + " . Is it bad JSON?");
-	OC.psm('There was an error handling the Ajax response.  Ethan will fix it. ', 'bad')
+      OC.debug("Couldn't parse the response.  Bad JSON? (below): ");
+	    OC.debug(o.responseText);
+	    OC.psm('There was an error handling the Ajax response.  Ethan will fix it. ', 'bad')
     }
     
     if( response instanceof Array ) {
@@ -217,7 +219,7 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 	response = newResponse;
     }
     
-    for( elId in response ) {
+  for( elId in response ) {
 	var command = response[elId];
 	var action = command.action;
 	
@@ -233,11 +235,11 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 		html = command;
 		if( action == "update" )
 		    effects = "highlight";
-		else if( action == "uploadAndUpdate" )
+      else if( action == "uploadAndUpdate" )
 		    effects = "fadeIn";
 	    } else if( typeof command == "object" ) {
-		effects = command.effects;
-		html = command.html;
+        effects = command.effects;
+        html = command.html;
 	    }
 	    OC.debug("REPLACE " + elId + " with " + html + " using effect " + effects);
 	    
@@ -247,9 +249,9 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 	    target.remove();
 
 	    if( effects == "highlight") {
-		Ext.get(newNode).highlight();
+        Ext.get(newNode).highlight();
 	    } else if( effects == "fadein" ) {
-		Ext.get(newNode).fadeIn();
+        Ext.get(newNode).fadeIn();
 	    }
 	    
 	    OC.breatheLife(newNode, true);
