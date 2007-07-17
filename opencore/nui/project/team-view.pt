@@ -67,10 +67,11 @@
                   <h3 class="fn">
                     <a href=""
                        tal:attributes="href string:${context/portal_url}/people/${mem/getId}"
-                       tal:content="mem/getFullname"
-                       />
-                    <span class="oc-admin-indicator" tal:condition="python: view.is_admin(mem.getId())">
-                      Admin
+                       >
+                       <span tal:replace="mem/getId"
+                     /></a>
+                    <span class="oc-discreetText" tal:condition="python: view.is_admin(mem.getId())">
+                      (Administrator)
                     </span>
                   </h3>
                   <p class="oc-headingContext oc-discreetText"
@@ -79,9 +80,13 @@
                   </p>
                   </div>
                   <dl class="oc-plainList">
+                    <tal:fullname tal:condition="mem/getFullname">
+                      <dt>Full name:</dt>
+                      <dd class="n" tal:content="mem/getFullname" />
+                    </tal:fullname>
                     <tal:email tal:condition="python: view.get_tool('portal_membership').checkPermission('OpenPlans: View emails', context)">
                       <dt>Email:</dt>
-                      <dd tal:content="mem/getEmail" />
+                      <dd class="email" tal:content="mem/getEmail" />
                     </tal:email>
                     <tal:location tal:define="loc mem/getLocation" tal:condition="loc">
                       <dt>Location:</dt>
