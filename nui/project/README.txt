@@ -180,6 +180,12 @@ Sort base on contributions, should get no results::
     >>> len(brains)
     0
 
+And check that getting membership roles works
+    >>> view.is_admin('m1')
+    False
+    >>> view.is_admin('m3')
+    True
+
 Clear the memoize from the request::
     >>> utils.clear_all_memos(view)
 
