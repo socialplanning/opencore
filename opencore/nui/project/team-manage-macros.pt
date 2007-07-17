@@ -88,20 +88,20 @@
 
   <li>
     <input type="submit" name="task|batch_checked|approve-requests"
-           value="approve"
+           value="Approve"
            class="oc-button" />
   </li>
   <li>
     <input type="submit" name="task|batch_checked|discard-requests"
-           value="discard" class="oc-button" />
+           value="Discard" class="oc-button" />
   </li>
   <li>
     <input type="submit" name="task|batch_checked|reject-requests"
-           value="reject" class="oc-button" />
+           value="Deny" class="oc-button" />
   </li>
   <!--li>
       <input type="submit" name="task|reject_msg"
-             value="reject with message" class="oc-button" />
+             value="Deny with message" class="oc-button" />
   </li-->
 
 </metal:requestbuttons>
@@ -112,11 +112,11 @@
 
   <li>
     <input type="submit" name="task|batch_checked|remove-invitations"
-           value="remove" class="oc-button" />
+           value="Remove" class="oc-button" />
   </li>
   <li>
     <input type="submit" name="task|batch_checked|remind-invitations"
-           value="send reminder" class="oc-button" />
+           value="Remind" class="oc-button" />
   </li>
 
 </metal:invitationbuttons>
@@ -126,11 +126,11 @@
 
   <li>
     <input type="submit" name="task|batch_checked|remove-email-invites"
-           value="remove" class="oc-button" />
+           value="Remove" class="oc-button" />
   </li>
   <li>
     <input type="submit" name="task|batch_checked|remind-email-invites"
-           value="send reminder" class="oc-button" />
+           value="Remind" class="oc-button" />
   </li>
 
 </metal:email-invitebuttons>
@@ -139,9 +139,7 @@
 <metal:pendinglist define-macro="pendinglist">
   <div class="oc-widget oc-widget-dataTable">
 
-    <div class="oc-heading">
-      <h3 tal:content="string:$item_heading ($num_items)" />
-    </div>
+    <h2 class="oc-dataTable-heading" tal:content="string:$item_heading ($num_items)" />
 
     <form method="POST"
           tal:attributes="name item_type;
@@ -158,13 +156,13 @@
           </tr>
         </thead>
 
-	<tbody>
+        <tbody>
 
           <tal:items repeat="item item_collection">
             <tr metal:use-macro="python:team_manage_macros.get('pending%s' % item_type)" />
           </tal:items>
 
-	</tbody>
+        </tbody>
 
       </table>
 
@@ -205,7 +203,7 @@
           </tal:roleoptions>
         </select>
 
-	<input type="hidden" value="task" class="oc-js-actionSelectTask"
+        <input type="hidden" value="task" class="oc-js-actionSelectTask"
                tal:attributes="name string:${item/id}|set-roles" />
       </div> <!-- end .oc-js-actionSelect -->
 
@@ -236,9 +234,7 @@
        tal:define="mships view/active_mships;
                    num_items python:len(mships)">
 
-    <div class="oc-heading">
-      <h3 tal:content="string:Your team members ($num_items)" />
-    </div>
+    <h2 class="oc-dataTable-heading" tal:content="string:Your team members ($num_items)" />
 
     <form name="team-members" id="team-members" method="POST"
           tal:attributes="action view/request/ACTUAL_URL">
@@ -254,23 +250,23 @@
           </tr>
         </thead>
 
-	<tbody name="mship-rows" id="mship-rows">
+        <tbody name="mship-rows" id="mship-rows">
 
           <tal:items repeat="item mships">
             <metal:mshiprow use-macro="team_manage_macros/mshiprow" />
           </tal:items>
 
-	</tbody>
+        </tbody>
 
       </table>
 
       <ul class="oc-actions oc-dataTable-actions">
         <li>
           <input type="submit" name="task|batch_checked|remove-members"
-                 value="remove members" class="oc-button" />
+                 value="Remove" class="oc-button" />
           <noscript>
             <input type="submit" name="task|batch_all|set-roles"
-                   class="oc-button" value="set roles" />
+                   class="oc-button" value="Change roles" />
           </noscript>
         </li>
       </ul>
@@ -281,25 +277,32 @@
 
 <!-- MEMBER SEARCH FORM-->
 
-<metal:search-members define-macro="search-members">
+<metal:search-members define-macro="search-members-results">
 
-  <form name="search-members" id="search-members" method="POST" 
-    tal:attributes="action view/request/ACTUAL_URL">
-    <input class="oc-input-typeText" type="text" name="search_for" />
-    <input type="submit" name="task|none|search-members"
-           value="search" class="oc-button" />
-    <div tal:condition="view/results | nothing">
-      <div tal:repeat="member view/results">
-        <input type="submit" value="invite" class="oc-button"
-               tal:attributes="name string:task|${member/getId}|invite-member" />
-        <tal:mem_url define="mem_url python:view.membertool.getHomeUrl(member.getId)">
-          <a tal:condition="mem_url" tal:attributes="href mem_url"
-             tal:content="string: ${member/getId}: ${member/getFullname}" />
-          <span tal:condition="not:mem_url"
-                tal:replace="string: ${member/getId}: ${member/getFullname}" />
-        </tal:mem_url>
-      </div>
-    </div>
-  </form>
+    <table class="oc-dataTable" tal:condition="view/results | nothing">
+      <thead>
+        <tr>
+          <th scope="col">Username</th>
+          <th scope="col">Full name</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr tal:repeat="member view/results">
+          <tal:mem_url define="mem_url python:view.membertool.getHomeUrl(member.getId)">
+            <td>
+                <a tal:omit-tag="not:mem_url" tal:attributes="href mem_url">
+                   <strong tal:content="string: ${member/getId}" 
+                /></a>
+            </td>
+            <td tal:content="string: ${member/getFullname}" />
+          </tal:mem_url>
+          <td>
+            <input type="submit" value="Invite" class="oc-button"
+                   tal:attributes="name string:task|${member/getId}|invite-member" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
 </metal:search-members>
