@@ -238,6 +238,27 @@ Check our static content::
    >>> view.sidebar()
    '...'
 
+We shouldn't have an add link because we're not the admin
+   >>> result = view()
+   >>> 'Add news item...' in result
+   False
+
+When we login as admin, we should have the link
+   >>> self.logout()
+   >>> self.loginAsPortalOwner()
+   >>> result = view()
+   >>> 'Add news item...' in result
+   True
+
+Now that we have permission to add a new news item, let's do so
+   >>> view.add_new_news_item()
+   >>> view.request.response.getHeader('location')
+   'http://nohost/plone/news/.../edit'
+
+And we have a news item now
+   >>> len(view.news_items())
+   1
+
 
 Sitewide Search
 ===============
@@ -256,9 +277,12 @@ Sitewide Search
 Search for everything::
    >>> brains = view.search_by_letter('all')
    >>> len(brains)
-   17
+   18
 
 Search for things starting with a number::
    >>> brains = view.search_by_letter('num')
-   >>> [b.getId for b in brains]
-   ['5test']
+   >>> ids = [b.getId for b in brains]
+   >>> len(ids)
+   2
+   >>> '5test' in ids
+   True
