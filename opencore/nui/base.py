@@ -244,7 +244,7 @@ class BaseView(BrowserView):
             result['portrait_thumb_url'] = "%s_thumb" %portrait.absolute_url()
             result['portrait_width'] = str(portrait.width)
         else:
-            result['portrait_width'] = '150' # XXX don't hard code width of default portrait
+            result['portrait_width'] = '200' # XXX don't hard code width of default portrait
 
         return result
 
