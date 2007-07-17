@@ -530,6 +530,8 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
 
 
 class ProjectTeamView(TeamRelatedView):
+
+    admin_role = DEFAULT_ROLES[-1]
    
     @formhandler.button('sort')
     def handle_request(self):
@@ -622,6 +624,9 @@ class ProjectTeamView(TeamRelatedView):
                     activation=activation,
                     modification=modification,
                     )
+
+    def is_admin(self, mem_id):
+        return self.team.getHighestTeamRoleForMember(mem_id) == self.admin_role
 
 
 class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
