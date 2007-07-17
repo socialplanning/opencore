@@ -83,13 +83,22 @@
      template="home-searchresults.pt"
      />
 
-  <!-- home-searchresults -->
+  <!-- news -->
   <browser:page
      for="opencore.interfaces.IAmANewsFolder"
      class=".search.NewsView"
      permission="zope.Public"
      name="view"
      template="news.pt"
+     />
+
+  <!-- news -->
+  <browser:page
+     for="opencore.interfaces.IAmANewsFolder"
+     class=".search.NewsView"
+     permission="cmf.ManagePortal"
+     name="add-news-item"
+     attribute="add_new_news_item"
      />
 
 </configure>
