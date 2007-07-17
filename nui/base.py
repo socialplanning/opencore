@@ -447,9 +447,10 @@ class BaseView(BrowserView):
     def validate_password_form(self, password, password2, member):
         if isinstance(member, basestring):
             # get the member object
-            member = self.get_tool("membrane_tool")(getId=member)
+            id = member
+            member = self.get_tool("membrane_tool")(getId=id)
             if not member:
-                self.addPortalStatusMessage("member '%s' does not exist" % userid)
+                self.addPortalStatusMessage("member '%s' does not exist" % id)
                 return False
             member = member[0].getObject()
 
