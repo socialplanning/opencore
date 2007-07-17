@@ -409,8 +409,7 @@ class ForgotLoginView(AccountView):
             brains = self.membranetool(getId=user_lookup)
 
         if not brains:
-            self.addPortalStatusMessage(u"We can't find your account. This could be because you have not yet
-             completed your email confirmation, or perhaps you just mistyped.")
+            self.addPortalStatusMessage(u"We can't find your account. This could be because you have not yet completed your email confirmation, or perhaps you just mistyped.")
             return
         return brains[0].getId
 
@@ -422,15 +421,12 @@ class PasswordResetView(AccountView):
     def handle_reset(self):
         password = self.request.get("password")
         password2 = self.request.get("password2")
-        if not password or not password2:
-            self.addPortalStatusMessage("you must enter a password.")
-            return False
-        if password != password2:
-            self.addPortalStatusMessage("passwords don't match")
-            return False
-
         userid = self.request.get("userid")
         randomstring = self.request.get("key")
+
+        # validate the password input
+        if not self.validate_password_form(password, password2, userid):
+            return False
 
         pw_tool = self.get_tool("portal_password_reset")
         try:
