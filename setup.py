@@ -26,11 +26,13 @@ setup(name='opencore',
       install_requires=[
           # -*- Extra requirements: -*-
           'topp.featurelets',
+          'topp.utils',
           'memojito',
           'OpencoreRedirect',
           'httplib2',
           'simplejson',
-          'plone.memoize'
+          'plone.memoize',
+          'cabochonclient'
       ]
       )
 
