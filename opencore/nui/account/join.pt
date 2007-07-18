@@ -4,7 +4,7 @@
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
-        
+        <!-- join form -->
         <form id="oc-join-form" name="edit_form" method="post" 
               tal:attributes="action string:${context/absolute_url}/join"
               >

@@ -163,7 +163,7 @@ the form the validate() method will be triggered::
 
     >>> request.form['task|validate'] = 'Foo'
     >>> view()
-    '<!-- join form -->...'
+    '...<!-- join form -->...'
 
 The template was rerendered with the error messages; to get the error
 dict directly, make the request asynchronous::
@@ -189,7 +189,7 @@ We need to make the request a POST::
     >>> request.environ["REQUEST_METHOD"] = "POST"
     >>> view.membertool.getMemberById('foobar')
     >>> view()
-    u'<!-- join form -->...'
+    u'...<!-- join form -->...'
     >>> view.membertool.getMemberById('foobar')
     <OpenMember at /plone/portal_memberdata/foobar...>
 
