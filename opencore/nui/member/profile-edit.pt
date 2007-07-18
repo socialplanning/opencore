@@ -11,11 +11,12 @@
             <div class="oc-bigText">
               Please take a moment to fill out your profile.
             </div>
-            <!-- TODO hook this up once rob miller finishes the backend work
-            <div class="oc-bigText">
-              Or, continue to <a href="">The Project that Invited You</a>.
+            <div tal:condition="view/has_invitations" class="oc-bigText">
+                Or, continue to
+                <a tal:attributes="href string:${context/absolute_url}/invitations">
+                  The Projects that Invited You
+                </a>.
             </div>
-            -->
           </div>
         </tal:first-login>
         <form name="profile_form" id="profile_form" method="post" class="oc-member-edit" action="profile-edit" enctype="multipart/form-data">

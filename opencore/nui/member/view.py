@@ -66,6 +66,14 @@ class ProfileEditView(ProfileView, OctopoLite):
     portrait_snippet = ZopeTwoPageTemplateFile('portrait-snippet.pt')
     template = ZopeTwoPageTemplateFile('profile-edit.pt')
 
+    def has_invitations(self):
+        """check whether the new member has any pending project invitations to manage"""
+        member = self.loggedinmember
+        address = member.getEmail()
+        email_invites = getUtility(IEmailInvites, context=self.portal)
+        invites = email_invites.getInvitesByEmailAddress(address)
+        return bool(invites)
+
     @action("uploadAndUpdate")
     def change_portrait(self, target=None, fields=None):
         member = self.viewedmember()
