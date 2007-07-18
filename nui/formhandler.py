@@ -97,7 +97,9 @@ def octopus(func):
 
         ret = func(self, action, target, fields)
         mode = self.request.form.get("mode")
+
         if mode == "async":
+            self.response.setHeader('Content-Type', "application/x-json;charset=utf-8")
             return ret
         return self.redirect(self.request.environ['HTTP_REFERER'])
 
@@ -158,6 +160,7 @@ class OctopoLite(opencore.nui.octopus.Octopus):
             return self.template()
 
     def _octopus_async_postprocess(self, ret):
+        self.response.setHeader('Content-Type', "application/x-json;charset=utf-8")
         try:
             psm_macro = self.main_macros.macros['status-messages']
             status_msg_html = self.render_macro(psm_macro)
