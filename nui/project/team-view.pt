@@ -67,9 +67,8 @@
                   <h3 class="fn">
                     <a href=""
                        tal:attributes="href string:${context/portal_url}/people/${mem/getId}"
-                       >
-                       <span tal:replace="mem/getId"
-                     /></a>
+                       tal:content="mem/getId"
+                       />
                     <span class="oc-discreetText" tal:condition="python: view.is_admin(mem.getId())">
                       (Administrator)
                     </span>
