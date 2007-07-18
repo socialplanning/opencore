@@ -19,6 +19,7 @@ def test_suite():
     from pprint import pprint
     from zope.interface import alsoProvides
     from pprint import pprint
+    from opencore.nui.formhandler import test_suite as octotest
     
     setup.setupPloneSite()
     def readme_setup(tc):
@@ -38,7 +39,7 @@ def test_suite():
 
     readme.layer = test_layer
 
-    return unittest.TestSuite((readme,))
+    return unittest.TestSuite((readme, octotest()))
 
 
 if __name__ == '__main__':
