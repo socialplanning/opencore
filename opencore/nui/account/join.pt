@@ -1,10 +1,6 @@
-<!-- join form -->
-
-<html 
-   metal:use-macro="here/@@standard_macros/master">
+<html metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
-         
       <div id="oc-content-main">
         
         <form id="oc-join-form" name="edit_form" method="post" 
