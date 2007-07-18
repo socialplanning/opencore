@@ -6,11 +6,11 @@
     <div metal:fill-slot="content">
       <div id="oc-content-main">
         <tal:first-login condition="request/first_login | nothing">
-          <div class="oc-getstarted oc-boxy oc-js-closeable" style="position: relative;">
+          <div class="oc-getstarted oc-js-closeable">
             <h1>Welcome to OpenPlans!</h1>
-            <div class="oc-bigText">
-              Please take a moment to fill out your profile.
-            </div>
+            <p class="oc-bigText">
+              Please take a moment to fill out your profile then proceed to your <a href="preferences">account</a> page.
+            </p>
             <div tal:condition="view/has_invitations" class="oc-bigText">
                 Or, continue to
                 <a tal:attributes="href string:${context/absolute_url}/invitations">
@@ -52,7 +52,7 @@
           </div>
           <fieldset>
 
-            <label for="statement">Personal Statement</label><br />
+            <label for="statement">Personal Statement</label>
             <textarea rows="3" cols="80" name="statement" id="statement"
               class="oc-autoFocus"
               tal:condition="python: request.form.get('field') == 'statement'"
@@ -61,7 +61,7 @@
               tal:condition="python: request.form.get('field') != 'statement'"
               tal:content="request/statement | memberdata/statement"></textarea>
 
-            <label for="background">Background</label><br />
+            <label for="background">Background</label>
             <textarea rows="1" cols="80" name="background" id="background"
               class="oc-autoFocus"
               tal:condition="python: request.form.get('field') == 'background'"
@@ -70,7 +70,7 @@
               tal:condition="python: request.form.get('field') != 'background'"
               tal:content="request/background | memberdata/background"></textarea>
 
-            <label for="skills">Skills/Interests</label><br />
+            <label for="skills">Skills/Interests</label>
             <textarea rows="1" cols="80" name="skills" id="skills"
               class="oc-autoFocus"
               tal:condition="python: request.form.get('field') == 'skills'"
@@ -79,7 +79,7 @@
               tal:condition="python: request.form.get('field') != 'skills'"
               tal:content="request/skills | memberdata/skills"></textarea>
 
-            <label for="affiliations">Affiliations</label><br />
+            <label for="affiliations">Affiliations</label>
             <textarea rows="1" cols="80" name="affiliations" id="affiliations"
               class="oc-autoFocus"
               tal:condition="python: request.form.get('field') == 'affiliations'"
@@ -88,7 +88,7 @@
               tal:condition="python: request.form.get('field') != 'affiliations'"
               tal:content="request/affiliations | memberdata/affiliations"></textarea>
 
-            <label for="favorites">Favorites</label><br />
+            <label for="favorites">Favorites</label>
             <textarea rows="1" cols="80" name="favorites" id="favorites"
               class="oc-autoFocus"
               tal:condition="python: request.form.get('field') == 'favorites'"
