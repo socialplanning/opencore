@@ -40,7 +40,7 @@
               </div>
               <p class="oc-invite-content">
                 <a href="" tal:attributes="href string:${view/portal_url}/projects/${proj_id}" tal:content="projinfo/title">Animal Campaign</a> 
-            has invited you to become a member
+                has invited you to become a member
               </p>
               <ul class="oc-actions oc-invite-actions oc-actionClose"
                   tal:define="url request/ACTUAL_URL">
@@ -139,7 +139,7 @@
           <li>
             <input type="submit" value="Change"
                    name="task|change-email" 
-                   class="oc-button oc-chooseThis" />  or <a href="#" class="oc-js-expander_close">Cancel</a>
+                   class="oc-button oc-chooseThis" />  or <a href="#" class="oc-js-expander_close">cancel</a>
           </li>
         </ul>
       </fieldset>
@@ -165,7 +165,7 @@
           <li>
             <input type="submit" value="Change"
                    name="task|change-password" 
-                   class="oc-button oc-chooseThis" /> or <a href="#" class="oc-js-expander_close">Cancel</a>
+                   class="oc-button oc-chooseThis" /> or <a href="#" class="oc-js-expander_close">cancel</a>
           </li>
         </ul>
       </fieldset>
