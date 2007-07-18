@@ -99,6 +99,7 @@ class LoginView(AccountView):
             # check to see if the member is pending
             # XXX probably hack this off into its own function when refactoring
             # (above should again be modularized)
+            member = None
             password = self.request.form.get('__ac_password')
             if id_ and password:
                 member = self.is_pending(getId=id_)
