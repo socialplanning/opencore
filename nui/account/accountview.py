@@ -135,8 +135,8 @@ class LoginView(AccountView):
             destination = self.destination
             return self.redirect(destination)
 
-        self.addPortalStatusMessage(u'Incorrect username or password. Please try again " \
-            "or <a href="forgot">retrieve your login information</a>.')
+        self.addPortalStatusMessage(u'Incorrect username or password. Please try again ' \
+            'or <a href="forgot">retrieve your login information</a>.')
 
     @anon_only(AccountView.loggedin_fallback_url)
     def handle_request(self):
