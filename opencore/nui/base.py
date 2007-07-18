@@ -428,12 +428,19 @@ class BaseView(BrowserView):
         return prettyDate(datetime_obj)
 
     def get_tab_class(self, link):
+        css_class = ''
         if not isinstance(link, list):
             link = [link]
+
         if self.name in link:
-            return 'oc-selected'
-        else:
-            return ''
+            css_class = 'oc-selected'
+
+        if u'edit' in link:
+            if not self.get_tool("portal_membership").checkPermission("Modify portal content", self.context):
+                css_class = 'oc-notallowed'
+
+        return css_class
+    
 
     def is_member(self, id):
         return self.memberdatatool.get(id) is not None
