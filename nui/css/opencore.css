@@ -516,9 +516,9 @@ ul.oc-tabs li a.oc-actionLink:hover {
 }
 /* Selected tab */
 ul.oc-tabs li.oc-selected a {
-  color: #000;
+  color: #fff;
   font-weight: bold;
-  background: none;
+  background: #666;
 }
 .oc-tabs form {
   display: inline;
@@ -536,6 +536,10 @@ ul.oc-tabs li.oc-selected a {
 .oc-actions.oc-wiki-actions {
   border-top: 2px solid #ccc;
   padding-top: .5em;
+}
+a.oc-wiki-wickedadd,
+a.wickedadd {
+  color: red;
 }
 
 /* History */
