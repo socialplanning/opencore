@@ -168,7 +168,7 @@ ul#oc-topnav-context li.oc-topnav-selected {
   background: #94BA65;
   border: 1px solid #2B7284;
   border-top: none;
-  z-index: 10;
+  z-index: 1000;
 }
 #oc-usermenu-list li.oc-dropdown-container li {
   float: left;
@@ -501,17 +501,24 @@ ul.oc-tabs {
 ul.oc-tabs li {
   display: inline;
 }
-ul.oc-tabs li a.oc-actionLink,
-ul.oc-tabs li a.oc-actionLink:visited {
+ul.oc-tabs li a,
+ul.oc-tabs li a:visited {
   padding: 0.5em;
   background: none;
+  color: #444;
+  padding: 0.125em 0.25em;
+  text-decoration: none;
+  font-size: 9px;
+  text-transform: uppercase;
 }
 ul.oc-tabs li a.oc-actionLink:hover {
+
 }
 /* Selected tab */
-.oc-tabs .oc-selected a {
+ul.oc-tabs li.oc-selected a {
   color: #000;
   font-weight: bold;
+  background: none;
 }
 .oc-tabs form {
   display: inline;
@@ -926,6 +933,13 @@ height: 1em; */
 .oc-expander-content {
   margin: .25em 0;
   padding: .5em;
+}
+.oc-expanderLink {
+  background: url("/++resource++img/expander-nub-closed.gif") 0 3px no-repeat;
+  padding-left: 12px;
+}
+.oc-expanderLink.oc-expanderLink-open {
+  background: url("/++resource++img/expander-nub-open.gif") 0 3px no-repeat;
 }
 
 /* Actions */

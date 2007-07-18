@@ -119,7 +119,7 @@
     <form class="oc-js-expander" action="preferences">
       <fieldset>
         <legend class="oc-legend-label">
-          <a href="#" class="oc-js-expander_open">Change email</a>
+          <a href="#" class="oc-js-expander_open oc-expanderLink">Change email</a>
         </legend>
         <ul class="oc-js-expander-content oc-expander-content oc-plainList">
           <li>
@@ -147,7 +147,7 @@
     <form class="oc-js-expander oc-expander" action="preferences">
       <fieldset>
         <legend class="oc-legend-label">
-          <a href="#" class="oc-js-expander_open">Change password</a>
+          <a href="#" class="oc-js-expander_open oc-expanderLink">Change password</a>
         </legend>
         <ul class="oc-js-expander-content oc-expander-content oc-plainList">
           <li>

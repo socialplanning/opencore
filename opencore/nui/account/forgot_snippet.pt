@@ -1,6 +1,6 @@
 <metal:forgot define-macro="forgot_snippet">
   <div class="oc-js-expander oc-expander">
-  <a class="oc-smallText oc-js-expander_open" href="forgot">Forgot your username or password?</a>
+  <a class="oc-smallText oc-js-expander_open oc-expanderLink" href="forgot">Forgot your username or password?</a>
         <form class="oc-js-expander-content oc-expander-content"
            tal:attributes="action string: forgot"
            method="post" id="oc-login-form">
