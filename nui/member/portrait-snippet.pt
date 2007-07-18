@@ -3,7 +3,7 @@
   <img tal:attributes="src view/mangled_portrait_url" />
     <fieldset class="oc-js-expander oc-expander" style="clear: left;">
       <legend class="oc-legend-label">
-        <a href="#" class="oc-js-expander_open">Change image</a>
+        <a href="#" class="oc-js-expander_open oc-expanderLink">Change image</a>
       </legend>
       <div class="oc-js-expander-content oc-expander-content">
         <input type="file" name="portrait" size="14" /><br />
@@ -15,6 +15,7 @@
           <input type="submit" name="task|oc-profile-avatar|remove"
                  class="oc-js-actionButton" value="Remove" />
         </tal:hasportrait>
+        or <a href="#" class="oc-js-expander_close">cancel</a>
       </div>
   </fieldset>
 </div>

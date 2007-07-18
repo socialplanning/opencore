@@ -30,3 +30,9 @@ fieldset.oc-boxy legend {
   top: 0px;
   right: 1px;
 }
+
+/* weird that IE is getting this selector wrong... */
+.oc-tabs .oc-wiki-history-item.oc-selected {
+  background: none;
+  border: none;
+}
