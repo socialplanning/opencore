@@ -14,17 +14,9 @@
     <a tal:attributes="href view/list_url" class="oc-actionLink">
     Summary</a>
   </li>
-  <li tal:attributes="class python:view.get_tab_class(u'search_archive')">
-    <a tal:attributes="href string:${view/list_url}/archive/search_archive" class="oc-actionLink">
-    Search</a>
-  </li>
   <li tal:attributes= "class python:view.get_tab_class([u'forum_view', u'date_view', u'new_topic', u'by_thread', u'threaded_view', u'by_date'])">
     <a tal:attributes="href string:${view/list_url}/archive" class="oc-actionLink">
-    Archive</a>
-  </li>
-  <li tal:attributes="class python:view.get_tab_class(u'edit')" id="oc-tabs-edit">
-    <a tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.EditMailingList, context)" tal:attributes="href string:${view/list_url}/edit" class="oc-actionLink">
-    Preferences</a>
+    Messages</a>
   </li>
   <li tal:attributes="class python:view.get_tab_class(u'manage_membership')">
     <a tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.EditMailingList, context)" 
@@ -35,6 +27,14 @@
     <a tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.ModerateMessage, context)" 
       tal:attributes="href string:${view/list_url}/moderation" class="oc-actionLink">
     Moderation</a>
+  </li>
+  <li tal:attributes="class python:view.get_tab_class(u'search_archive')">
+    <a tal:attributes="href string:${view/list_url}/archive/search_archive" class="oc-actionLink">
+    Search</a>
+  </li>
+  <li tal:attributes="class python:view.get_tab_class(u'edit')" id="oc-tabs-edit">
+    <a tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.EditMailingList, context)" tal:attributes="href string:${view/list_url}/edit" class="oc-actionLink">
+    Preferences</a>
   </li>
 </ul>
 <!-- END LISTEN TABS -->
