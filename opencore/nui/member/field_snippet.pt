@@ -1,7 +1,7 @@
 <tal:viewing_self condition="view/viewingself">
   <dt>
     <span tal:replace="options/title" />
-    <a class="oc-js-liveEdit_showForm" tal:attributes="href string:profile-edit?field=${options/anchor}">Edit</a>
+    <a class="oc-actionLink oc-js-liveEdit_showForm" tal:attributes="href string:profile-edit?field=${options/anchor}">Edit</a>
   </dt>
   <dd tal:condition="not: options/value" tal:content="string:none" />
   <tal:has_value define="value options/value" condition="value">

@@ -512,7 +512,6 @@ ul.oc-tabs li a:visited {
   text-transform: uppercase;
 }
 ul.oc-tabs li a.oc-actionLink:hover {
-
 }
 /* Selected tab */
 ul.oc-tabs li.oc-selected a {
@@ -1007,6 +1006,9 @@ height: 1em; */
    border-bottom: 2px solid #ccc;
    border-collapse:	collapse;
 }
+#oc-content-sidebar .oc-dataTable {
+   border-bottom: none;
+}
 .oc-dataTable thead {
    background: #eee;
 }
@@ -1489,21 +1491,24 @@ hr {
 .vcard .adr {} Address: this is optional and describes location; we use it for location
 */
 
+/* OTHER stuff that needs to be sorted out 
+-------------------------------------------- */
+
 .oc-closeButton, oc-closeButton:hover {
-  font-weight: bold;
   position: absolute;
-  top: 3px;
-  right: 3px;
-  text-decoration: none !important;
+  top: 0.0625em;
+  right: 0.25em;
   display: block;
-  padding: 0 .25em 0 .25em;
+  text-decoration: none !important;
+  font-size: 14px;
+  font-weight: bold;
   line-height: normal;
-  color: #EB852C !important;
-  background-color: #EBD2BC;
-  border: thin solid #EB852C;
+  color: #333 !important;
 }
 .oc-closeButton:hover {
-  color: #EBD2BC !important;
-  background-color: #EB852C;
-  border: thin solid #EBD2BC;
+  color: #FFF !important;
+  background-color: none;
+}
+.oc-js-closeable {
+	position: relative;
 }
