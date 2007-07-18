@@ -1037,6 +1037,7 @@ OC.CloseButton = function(extEl) {
     var close_button = Ext.get(document.createElement('a'));
     close_button.dom.innerHTML = '&times;';
     close_button.dom.href = '#';
+    close_button.dom.title = 'close';
     close_button.addClass('oc-closeButton');
     container.dom.appendChild(close_button.dom);
     container.setVisibilityMode(Ext.Element.DISPLAY);
