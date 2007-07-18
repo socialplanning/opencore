@@ -534,7 +534,7 @@ ul.oc-tabs li.oc-selected a {
 
 }
 .oc-actions.oc-wiki-actions {
-  border-top: 2px solid;
+  border-top: 2px solid #ccc;
   padding-top: .5em;
 }
 
