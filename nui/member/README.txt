@@ -444,9 +444,9 @@ Verify invitations view works appropriately
     {}
 
     Let's confirm that the view agrees with us
-    >>> from opencore.nui.account.accountview import InitialLogin
-    >>> loginview = InitialLogin(member, view.request)
-    >>> loginview._has_invitations(member)
+    >>> from opencore.nui.member.view import ProfileEditView
+    >>> profileeditview = ProfileEditView(member, view.request)
+    >>> profileeditview.has_invitations()
     False
 
     Let's remove the member object that's currently there
@@ -457,7 +457,7 @@ Verify invitations view works appropriately
     >>> email_inviter.addInvitation(email, 'p2')
 
     Now the login view should say we have invitations
-    >>> loginview._has_invitations(member)
+    >>> profileeditview.has_invitations()
     True
 
     And ask the view for the invitation structures
@@ -480,11 +480,13 @@ Verify invitations view works appropriately
     'public'
 
     And finally, the invitation should no longer exist
-    >>> loginview._has_invitations(member)
+    >>> profileeditview.has_invitations()
     False
     >>> bt = email_inviter.getInvitesByEmailAddress(mem.getEmail())
     >>> list(bt)
     []
+
+
 
     Now let's call the view simulating the request:
     XXX member areas need to be created first though for m1
