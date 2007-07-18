@@ -154,10 +154,13 @@ OC.Dom = {};
 OC.Dom.removeItem = function(id) {
     var extEl = Ext.get(id);
     if (!extEl) {
-	OC.debug("Could not find an element #" + id);
-	return;
+      OC.debug("Could not find an element #" + id);
+      return;
     }
     extEl.fadeOut({remove: true, useDisplay: true});
+    OC.debug(OC.liveElements[extEl.id]);
+    OC.liveElements[extEl.id] = {};
+    OC.debug(OC.liveElements[extEl.id]);
     
     // to do: send user message w/ undo link
 };
@@ -186,6 +189,7 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
     
     
     try {  this.indicator.hide();  } catch(err) { OC.debug(err); }
+    try {  this.button.dom.value = this.origButtonValue; this.button.dom.disabled = false;  } catch(err) { OC.debug(err); }
     
     Ext.select('form').each(function(el) {
 	    el.dom.target = "";
@@ -194,16 +198,18 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
     OC.debug('o: ' + o);
     
     var response;
-    
+    // trim response text to avoid errors in IE
+    var responseText = o.responseText.replace(/[\r\n]/g, "");
+    OC.debug(responseText);
+
     //var updater = new OC.Updater();
     
     try {
-      var responseText = o.responseText.replace(/[\r\n]/g, "");
-      OC.debug(responseText);
       response = eval( "(" + responseText + ")" );
     } catch( e ) {
+      OC.debug(e);
       OC.debug("Couldn't parse the response.  Bad JSON? (below): ");
-	    OC.debug(o.responseText);
+	    OC.debug(responseText);
 	    OC.psm('There was an error handling the Ajax response.  Ethan will fix it. ', 'bad')
     }
     
@@ -318,11 +324,13 @@ OC.Callbacks.afterAjaxFailure = function(o) {
 OC.ActionLink = function(extEl) {
     // get refs
     link = extEl;
+    this.button = link; /* for ajax callback */
+    this.origButtonValue = this.button.dom.innerHTML; /* for ajax callback */
     
     if (!link) {
-	OC.debug("ActionLink: Could not get refs");
+	     OC.debug("ActionLink: Could not get refs");
     } else {
-	OC.debug("ActionLink: Got refs")
+	     OC.debug("ActionLink: Got refs")
     }
     
     function _doAction(e, el, o) {
@@ -334,6 +342,8 @@ OC.ActionLink = function(extEl) {
 	OC.debug("request data is " + requestData);
 	
 	var requestUri = el.href + "&mode=async";
+	
+	this.button.dom.innerHTML = "Please wait..."; 
 	
 	// make connection
 	var cObj = YAHOO.util.Connect.asyncRequest("GET", requestUri, {
@@ -406,13 +416,13 @@ OC.ActionSelect = function(extEl) {
 */
 OC.ActionButton = function(extEl) {
     // get refs
-    var button = extEl;
-    var form = button.up('form');
-    var name = button.dom.name.replace('task|', "");
+    this.button = extEl;
+    var form = this.button.up('form');
+    var name = this.button.dom.name.replace('task|', "");
     this.indicator = Ext.get('indicator|' + name);
         
     // check refs
-    if (!button || !form) {
+    if (!this.button || !form) {
       OC.debug("ActionButton: Couldn't get refs");
       return;
         } else {
@@ -421,9 +431,10 @@ OC.ActionButton = function(extEl) {
     
     // settings
     var action = form.dom.action;
-    var task = button.dom.name;
-    var taskValue = button.dom.value;
+    var task = this.button.dom.name;
+    var taskValue = this.button.dom.value;
     var isUpload = false;
+    this.origButtonValue = this.button.dom.value;
     if (this.indicator) {
       this.indicator.setVisibilityMode(Ext.Element.DISPLAY);
       this.indicator.hide();
@@ -437,23 +448,26 @@ OC.ActionButton = function(extEl) {
     function _actionButtonClick(e, el, o) {
     
      try { this.indicator.show(); } catch(err) { OC.debug(err); }
+     
+     try { this.button.dom.value = "Please wait..."; this.button.dom.disabled = true; } catch(err) { OC.debug(err); }
+	   
 	   OC.debug("_actionButtonClick");
-	
-	YAHOO.util.Event.stopEvent(e);
-	if (isUpload) {
-	    YAHOO.util.Connect.setForm(form.dom, true);
-	} else {
-	    YAHOO.util.Connect.setForm(form.dom);
-	}
-	OC.debug("...........task is " + task);
-	var cObj = YAHOO.util.Connect.asyncRequest("POST", action, {
-		success: OC.Callbacks.afterAjaxSuccess,
-		upload: OC.Callbacks.afterAjaxSuccess,
-		failure: OC.Callbacks.afterAjaxFailure,
-		scope: this
-	    }, "mode=async&" + task + "=" + taskValue);
+    
+     YAHOO.util.Event.stopEvent(e);
+      if (isUpload) {
+          YAHOO.util.Connect.setForm(form.dom, true);
+      } else {
+          YAHOO.util.Connect.setForm(form.dom);
+      }
+      OC.debug("...........task is " + task);
+      var cObj = YAHOO.util.Connect.asyncRequest("POST", action, {
+        success: OC.Callbacks.afterAjaxSuccess,
+        upload: OC.Callbacks.afterAjaxSuccess,
+        failure: OC.Callbacks.afterAjaxFailure,
+        scope: this
+          }, "mode=async&" + task + "=" + taskValue);
     }
-    button.on('click', _actionButtonClick, this);
+    this.button.on('click', _actionButtonClick, this);
     
     // pass back element to OC.LiveElements
     return this;
