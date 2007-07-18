@@ -56,7 +56,9 @@ content_schema['mail_me'].regfield = 0
 content_schema['make_private'].widget.visible = {'edit': 'invisible'}
 
 content_schema['portrait'].sizes=dict(thumb=(80,80),
-                                      icon=(32,32))
+                                      icon=(32,32)
+                                      )
+content_schema['portrait'].max_size=(200,200)
 
 # new fields for nui profile
 nuischema = Schema((
