@@ -36,3 +36,8 @@ fieldset.oc-boxy legend {
   background: none;
   border: none;
 }
+
+h2.oc-dataTable-heading {
+	margin: 0;
+	/* SEE IE6.css for additional hacks */
+}
