@@ -20,6 +20,12 @@ Test wiki page registrations::
     ...
     Unauthorized: You are not allowed to access '@@edit' in this context
 
+Make sure notallowed css class is applied to edit tab
+since we don't have permissions to edit::
+    >>> html = page.restrictedTraverse('@@view')()
+    >>> 'oc-notallowed' in html
+    True
+
 Test wiki history registrations::
 
     >>> page.restrictedTraverse('history')
@@ -63,6 +69,12 @@ Test wiki page registrations (logged in)::
     
     >>> page.restrictedTraverse('@@edit')
     <Products.Five.metaclass.WikiEdit object at ...>
+
+Make sure notallowed css class is not applied to edit tab
+since we do have permissions to edit::
+    >>> html = page.restrictedTraverse('@@view')()
+    >>> 'oc-notallowed' in html
+    False
 
 Test wiki history registrations (logged in)::
 
