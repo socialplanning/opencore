@@ -38,7 +38,7 @@
                     <li tal:repeat="proj memberdata/projects"><a
                         tal:attributes="href proj/getURL"
                         tal:content="proj/Title" /><span class="oc-discreetText"
-                        condition="python: proj.review_state == 'closed'">
+                        tal:condition="python: proj.review_state == 'closed'">
                         (private)</span></li>
                   </ul>
                 </tal:projects>
