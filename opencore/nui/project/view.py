@@ -436,6 +436,7 @@ class ProjectAddView(BaseView, OctopoLite):
         self.notify(proj)
         transaction_note('Finished creation of project: %s' %title)
         self.template = None
+        self.addPortalStatusMessage(u'Congratulations on your new project!')
         self.redirect('%s/manage-team' % proj.absolute_url())
 
     def notify(self, project):
@@ -651,13 +652,17 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     def template(self):
         """
         Different template for brand new teams, before any members are added.
+
+        XXX Deferred until immediately after the initial NUI launch.
         """
-        mem_ids = self.team.getMemberIds()
-        if getattr(self, '_norender', None):
-            return
-        if len(mem_ids) == 1:
-            # the one team member is most likely the project creator
-            return self.team_manage_blank
+        #mem_ids = self.team.getMemberIds()
+        #if getattr(self, '_norender', None):
+        #    return
+        #if len(mem_ids) == 1:
+        #    # the one team member is most likely the project creator
+        #    return self.team_manage_blank
+        #return self.team_manage
+
         return self.team_manage
 
     @property
