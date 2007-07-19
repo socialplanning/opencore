@@ -1,2 +1,2 @@
 # make this a package
-from view import MemberPreferences
+from view import MemberAccountView

@@ -122,11 +122,11 @@ class ProfileEditView(ProfileView, OctopoLite):
         pass
 
 
-class MemberPreferences(BaseView, OctopoLite):
+class MemberAccountView(BaseView, OctopoLite):
 
-    template = ZopeTwoPageTemplateFile('preferences.pt')
-    project_table = ZopeTwoPageTemplateFile('preferences_project_table.pt')
-    project_row = ZopeTwoPageTemplateFile('preferences_project_row.pt')
+    template = ZopeTwoPageTemplateFile('account.pt')
+    project_table = ZopeTwoPageTemplateFile('account_project_table.pt')
+    project_row = ZopeTwoPageTemplateFile('account_project_row.pt')
 
     active_states = ['public', 'private']
     msg_category = 'membership'
