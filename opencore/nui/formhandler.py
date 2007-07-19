@@ -181,7 +181,7 @@ class OctopoLite(opencore.nui.octopus.Octopus):
 #        #return self._octopus_get('authenticator') == auth
 #        return True
         
-
+# XXX remove as unused
 class FormLite(object):
     """formlike but definitely not formlib"""
 
