@@ -7,6 +7,7 @@ from plone.mail import construct_simple_encoded_message
 
 from Products.validation.validators.BaseValidators import EMAIL_RE
 
+
 class EmailSender(object):
     """
     Encapsulates the email message sending logic for the OpenPlans NUI
