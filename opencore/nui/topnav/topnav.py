@@ -111,7 +111,7 @@ class ProjectMenuView(BaseView):
         proj_url = self.areaURL
         contents_url = "%s/contents" % proj_url
         team_url = "%s/team" % proj_url
-        prefs_url = "%s/account" % proj_url
+        prefs_url = "%s/preferences" % proj_url
         manage_team_url = "%s/manage-team" % proj_url
 
         menudata = (
@@ -142,7 +142,7 @@ class ProjectMenuView(BaseView):
 
         if self.membertool.checkPermission(ModifyPortalContent, proj):
             menudata += (
-                {'content': 'account',
+                {'content': 'Preferences',
                  'href': prefs_url,
                  'selected': self.request.ACTUAL_URL == prefs_url,
                  },
