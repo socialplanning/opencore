@@ -57,8 +57,8 @@ class BaseView(BrowserView):
     
     main_macros = ZopeTwoPageTemplateFile('main_macros.pt')
 
+    # XXX only used once, move into member/view
     _url_for = dict(projects="projects", project_create="projects/create")
-
     def url_for(self, screen):
         return '%s/%s' % (self.siteURL, self._url_for[screen])
 
@@ -73,6 +73,7 @@ class BaseView(BrowserView):
         self._redirected = True
         return self.response.redirect(*args, **kwargs)
 
+    #XXX only used once, move into project.view
     def render_macro(self, macro, extra_context={}):
         """
         Returns a rendered page template which contains nothing but a
@@ -102,16 +103,18 @@ class BaseView(BrowserView):
             msgs.append(req_psm)
         return msgs
 
+    # XXX standardize
     def addPortalStatusMessage(self, msg):
         plone_utils = self.get_tool('plone_utils')
         plone_utils.addPortalMessage(_(msg))
 
-    # memoize
+    # XXX not used
     def include(self, viewname):
         if self.transcluded:
             return self.renderTranscluderLink(viewname)
         return self.get_view(viewname)()
 
+    # XXX only used in wiki_macro.pt (move to wiki view)
     @property
     def pagetitle(self):
         return self.context.Title()
@@ -125,6 +128,7 @@ class BaseView(BrowserView):
         else:
             return self.portal
 
+    # XXX only used in topnav
     @view.memoizedproperty
     def areatitle(self):
         # these require aq walks. might make more sense to have a
@@ -138,22 +142,26 @@ class BaseView(BrowserView):
         titles = [pagetitle, areatitle, self.sitetitle]
         return self.windowTitleSeparator.join([i for i in titles if i])
 
+    # XXX only used in topnav
     @instance.memoizedproperty
     def areaURL(self):
         return self.area.absolute_url()
 
+    # XXX cache more rigorously
     @view.memoize_contextless
     def nusers(self): 
         """Returns the number of users of the site."""
         users = self.membranetool(getId='')
         return len(users)
 
+    # XXX cache more rigorously
     @view.memoize_contextless
-    def nprojects(self): # TODO cache
+    def nprojects(self): 
         """Returns the number of projects hosted by the site."""
         projects = self.catalogtool(portal_type='OpenProject')
         return len(projects)
 
+    # XXX not used??
     @view.memoizedproperty
     def canedit(self):
         canedit = self.membertool.checkPermission(ModifyPortalContent,
@@ -170,6 +178,7 @@ class BaseView(BrowserView):
         """
         return self.member_info_for_member(self.loggedinmember)
 
+    # XXX move to member.view
     @instance.memoizedproperty
     def viewed_member_info(self):
         """
@@ -178,9 +187,11 @@ class BaseView(BrowserView):
         """
         return self.member_info_for_member(self.viewedmember())
 
+    # XXX move to member.view
     def viewed_member_profile_tags(self, field):
         return self.member_profile_tags(self.viewedmember(), field)
 
+    # XXX move to member.view
     def member_profile_tags(self, member, field):
         """
         Returns a list of dicts mapping each tag in the given field of the
@@ -195,7 +206,7 @@ class BaseView(BrowserView):
             return [{'tag': tag, 'url': url} for tag, url in zip(tags, urls)]
         return []
 
-
+    # XXX on used in email_sender
     def member_info_for_member(self, member):
         result = {}
         if IReMember.providedBy(member):
@@ -280,11 +291,13 @@ class BaseView(BrowserView):
         """
         return getToolByName(self.context, name)
 
+    # XXX move to project view
     def get_portal(self):
         return aq_iface(self.context, self.site_iface)
 
     portal = property(view.memoize_contextless(get_portal))
 
+    # XXX move to topnav
     @view.memoize
     def get_view(self, name):
         view = getMultiAdapter((self.context, self.request), name=name)
@@ -298,12 +311,12 @@ class BaseView(BrowserView):
     def miv(self):
         return self.get_view('member_info')
 
-    # properties (formerly in __init__.py)
-
+    # XXX move to main.search
     @property
     def dob_datetime(self):
         return self.portal.created()
 
+    # XXX move to main.search
     @property
     def dob(self):
         return prettyDate(self.dob_datetime)
@@ -324,15 +337,16 @@ class BaseView(BrowserView):
     def name(self):
         return self.__name__
 
+    # remove (should be part of a form base class)
     def handle_request(self):
         raise NotImplementedError
 
-    # formerly functions in nui
-
+    # XXX remove unused
     @staticmethod
     def renderTranscluderLink(viewname):
         return '<a href="@@%s" rel="include">%s</a>\n' % (viewname, viewname)
 
+    # XXX remove, unused
     def projectobj(self): # TODO
         return self.piv.project
 
@@ -343,6 +357,7 @@ class BaseView(BrowserView):
         if self.loggedin:
             return self.membertool.getAuthenticatedMember()
 
+    # XXX move to topnav
     @view.memoize
     def memfolder(self, id_=None):
         if id_ is None:
@@ -358,20 +373,17 @@ class BaseView(BrowserView):
         if folder is not None:
             return folder.absolute_url()
 
+    # XXX remove unused
     def memhome_url(self, id_=None):
         folder = self.memfolder(id_)
         if folder is not None:
             return '%s/%s' % (folder.absolute_url(),
                               folder.getDefaultPage())
-
-    def userobj(self):
-        # XXX eliminate
-        return self.membertool.getAuthenticatedMember()
-
     @property
     def loggedin(self):
         return not self.membertool.isAnonymousUser()
 
+    # XXX move to member.view
     @view.memoize
     def viewedmember(self):
         """Returns the user found in the context's acquisition chain, if any."""
@@ -383,10 +395,12 @@ class BaseView(BrowserView):
 
     # properties and methods associated with objects
 
+    # XXX move to topnav
     @property
     def inproject(self): # TODO
         return self.piv.inProject
 
+    # unused??
     def projectFeaturelets(self):
         fletsupporter = IFeatureletSupporter(self.context)
         featurelet_ids = fletsupporter.getInstalledFeatureletIds()
@@ -445,12 +459,15 @@ class BaseView(BrowserView):
     def is_member(self, id):
         return self.memberdatatool.get(id) is not None
 
+    # XXX move to a form base class
     def authenticator(self):
         return self.get_tool('browser_id_manager').getBrowserId(create=True)
 
+    # XXX move to a form base class
     def authenticator_input(self):
         return '<input type="hidden" name="authenticator" value="%s" />' % self.authenticator()
 
+    # XXX move to a form base class
     def validate_password_form(self, password, password2, member):
         if isinstance(member, basestring):
             # get the member object
