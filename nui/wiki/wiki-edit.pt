@@ -53,7 +53,7 @@
                     <h1 tal:condition="not: title" class="oc-bcrumb-current" tal:content="context/id" />
                     &nbsp;<a href="#" class="oc-js-liveEdit_showForm oc-actionLink">RENAME</a>
                   </div>
-                  <div class="oc-js-liveEdit-editForm oc-liveEdit-editForm" style="display: none;">
+                  <div class="oc-js-liveEdit-editForm oc-liveEdit-editForm">
                     <input name="title" type="text" tal:attributes="value string:${context/Title}" /> <a href="#" class="oc-js-liveEdit_hideForm">Cancel</a>
                   </div>
                 </li>
@@ -71,7 +71,7 @@
               <div class="oc-js-expander oc-expander">
                 <h2 class="oc-bigText"><a href="#oc-wiki-comment" class="oc-js-expander_open oc-expanderLink">Revision note</a></h2>
                 <!--<a href="#" class="oc-js-expander_close oc-expander-close" style="display:none;">X</a>-->
-                <div class="oc-js-expander-content" style="display: none;">
+                <div class="oc-js-expander-content">
                   <textarea name="comment" id="comment" rows="3" cols="60"></textarea>
                 </div><!-- end expander-content -->
               </div><!-- end expander -->
@@ -80,7 +80,7 @@
               <h2 class="oc-bigText"><a href="#oc-wiki-manageAttachments" class="oc-js-expander_open oc-expanderLink">Manage attachments</a></h2>
               <!--<a href="#" class="oc-js-expander_close oc-expander-close" style="display:none;">X</a>-->
 
-              <div class="oc-js-expander-content" style="display: none;">
+              <div class="oc-js-expander-content">
                 
                   <h3>Current attachments:</h3>
                   <ol class="oc-attachments" id="oc-wiki-attachments">
