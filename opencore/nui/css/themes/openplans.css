@@ -9,9 +9,9 @@ body {
   width: 100%;
   padding: 0;
   color: #fff;
-  background: #47413B;
-  border-top: 0.75em solid #93877B;
-  border-bottom: 1px solid #93877B;
+  background: #332F2A; /* 332F2A; */
+  border-top: 0.75em solid #4D4945; /* #4D4945; */
+  border-bottom: 1px solid #4D4945; /* #4D4945; */
 }
 #oc-topnav {
 
@@ -29,7 +29,7 @@ body {
 #oc-topnav a:hover {
 }
 #oc-topnav-usermenu {  
-  background: #93877B;
+  background: #4D4945; /* #4D4945; */
 }
 #oc-topnav-usermenu input.oc-input-typeText {
   background-color: #fff;
@@ -42,7 +42,7 @@ body {
 #oc-topnav-usermenu ul li {
   padding: 0.125em 0.25em;
   font-weight: bold;
-  border-color: #93877B; /* match topnav-usermenu background */
+  border-color: #4D4945; /* match topnav-usermenu background */
 }
 #oc-usermenu-list li.oc-dropdown-container {
   background-image: url("/++resource++img/dropdown-nub-87B6C1-2B7284.gif");
@@ -73,7 +73,7 @@ ul.oc-tabs {
 #oc-footer-wrapper {
   color: #999;
   background: transparent;
-  border-top: 1px solid #47413B;
+  border-top: 1px solid #332F2A;
   margin: 0 0 2em;
   padding: 0.5em 0;
 }
@@ -150,13 +150,13 @@ ul.oc-tabs {
 #oc-content-sidebar .oc-widget-search,
 #oc-content-sidebar .oc-widget-search.oc-boxy {
   border: 1px solid #E6D3C0;
-  border-top: 2px solid #93877B;
+  border-top: 2px solid #4D4945;
   padding: 1em;
 }
 .oc-widget-alphabet,
 #oc-content-sidebar ul.oc-widget-alphabet.oc-boxy {
   border: none;
-  border-top: 1px dotted #47413B;
+  border-top: 1px dotted #332F2A;
   background: none;
   padding: 0;
   padding-top: 0.5em;
