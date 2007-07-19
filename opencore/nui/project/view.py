@@ -827,6 +827,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         plural = napproved != 1
         self.addPortalStatusMessage(u'%d member%s approved' %
                                     (napproved, plural and 's' or ''))
+        if napproved:
+            self.team.reindexTeamSpaceSecurity()
         return res
 
     @formhandler.action('discard-requests')
@@ -994,7 +996,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
         msg = "Members deactivated: %s" % ', '.join(mem_ids)
         self.addPortalStatusMessage(msg)
-        
+
+        self.team.reindexTeamSpaceSecurity()
         return ret
 
     @formhandler.action('set-roles')
