@@ -52,7 +52,7 @@ class TestMemberMenu(OpenPlansTestCase):
         self.failIf(menudata[2]['selected'])
 
         self.clearMemoCache()
-        userprefs_url = "%s/preferences" % self.mf.absolute_url()
+        userprefs_url = "%s/account" % self.mf.absolute_url()
         self.request.ACTUAL_URL = userprefs_url
         menudata = self.view.menudata
         self.failUnless(len(menudata) == 3)
@@ -95,7 +95,7 @@ class TestProjectMenu(OpenPlansTestCase):
         self.clearInstanceCache(self.phome_view)
         self.login(self.proj_admin_id)
         menudata = self.phome_view.menudata
-        # add 'preferences' and 'manage team', remove 'join'
+        # add 'account' and 'manage team', remove 'join'
         self.failUnless(len(menudata) == 5)
         self.assertEqual(menudata[0]['href'], self.proj.absolute_url())
         self.failUnless(menudata[0]['selected'])
@@ -107,7 +107,7 @@ class TestProjectMenu(OpenPlansTestCase):
 
         orig_actual_url = self.request.ACTUAL_URL
 
-        # the 'contents' and 'preferences' views are on the project
+        # the 'contents' and 'account' views are on the project
         # object itself, not the project home page
         self.clearMemoCache()
         contents_url = "%s/contents" % self.proj.absolute_url()
@@ -134,7 +134,7 @@ class TestProjectMenu(OpenPlansTestCase):
         self.failIf(menudata[4]['selected'])
 
         self.clearMemoCache()
-        prefs_url = "%s/preferences" % self.proj.absolute_url()
+        prefs_url = "%s/account" % self.proj.absolute_url()
         self.request.ACTUAL_URL = prefs_url
         menudata = self.proj_view.menudata
         self.failUnless(len(menudata) == 5)

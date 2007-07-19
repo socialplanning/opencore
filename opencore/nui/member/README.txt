@@ -12,7 +12,7 @@ Test registration of member related views::
     >>> m1_folder.restrictedTraverse("profile")
     <...SimpleViewClass ...profile.pt object...>
     
-    >>> m1_folder.restrictedTraverse("preferences")
+    >>> m1_folder.restrictedTraverse("account")
     <Products.Five.metaclass.MemberPreferences object at ...>
 
 Test member portrait traversal

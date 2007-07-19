@@ -58,7 +58,7 @@ class AccountView(BaseView):
         When a logged in user goes to the 'login' or 'forgot' page,
         go here instead. Used in conjunction with anon_only decorator.
         """
-        return '%s/preferences' % self.memfolder_url()
+        return '%s/account' % self.memfolder_url()
 
     ### methods to deal with pending members
 
@@ -167,7 +167,7 @@ class LoginView(AccountView):
                                                  urllib.quote(referer))
             return destination
 
-        return '%s/preferences' % self.memfolder_url()
+        return '%s/account' % self.memfolder_url()
 
     def logout(self, redirect=None):
         logout = self.cookie_logout
@@ -438,7 +438,7 @@ class PasswordResetView(AccountView):
         
         self.addPortalStatusMessage(u'Your password has been reset and you '
                                     'are now logged in.')
-        self.redirect('%s/preferences' % self.memfolder_url(userid))
+        self.redirect('%s/account' % self.memfolder_url(userid))
         return True
 
     @property

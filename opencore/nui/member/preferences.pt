@@ -29,7 +29,7 @@
       <ul tal:define="invitations view/invitations"
           tal:condition="invitations"
           class="oc-invite-list">
-        <form name="invitation-form" action="preferences">
+        <form name="invitation-form" action="account">
           <tal:for repeat="projinfo invitations">
             <li class="oc-invite oc-boxy oc-clearAfter"
                 tal:define="proj_id projinfo/proj_id"
@@ -59,7 +59,7 @@
       <ul tal:define="infomsgs view/infomsgs"
           tal:condition="infomsgs"
           class="oc-invite-list">
-        <form name="info-form" action="preferences">
+        <form name="info-form" action="account">
           <tal:for repeat="infomsg infomsgs">
             <li class="oc-invite oc-boxy oc-clearAfter"
                 tal:define="idx python: infomsg[0];
@@ -116,7 +116,7 @@
   <div class="oc-boxy">
     <h2>Account settings</h2>
     <a href="profile-edit">Edit profile</a>
-    <form class="oc-js-expander" action="preferences">
+    <form class="oc-js-expander" action="account">
       <fieldset>
         <legend class="oc-legend-label">
           <a href="#" class="oc-js-expander_open oc-expanderLink">Change email</a>
@@ -144,7 +144,7 @@
         </ul>
       </fieldset>
     </form>
-    <form class="oc-js-expander oc-expander" action="preferences">
+    <form class="oc-js-expander oc-expander" action="account">
       <fieldset>
         <legend class="oc-legend-label">
           <a href="#" class="oc-js-expander_open oc-expanderLink">Change password</a>

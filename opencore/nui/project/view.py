@@ -761,7 +761,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     def _getAccountURLForMember(self, mem_id):
         homeurl = self.membertool.getHomeUrl(mem_id)
         if homeurl is not None:
-            return "%s/preferences" % homeurl
+            return "%s/account" % homeurl
 
     @property
     @req_memoize
