@@ -1079,16 +1079,17 @@ height: 1em; */
   margin-bottom: 1em;
   padding-bottom: 0.25em;
 }
-.oc-widget-feed h2{
+.oc-feed-title {
 	color: #fff;
 	background: #47413B;
 	padding: 0.25em;
-	margin: 0;
+  margin: 0;
 }
 .oc-feed-list {
   list-style: none;
   margin: 0;
   padding: 0;
+  border-top: 2px solid #47413B;
   border-bottom: 2px solid #47413B;
 }
 li.oc-feed-item {
@@ -1121,6 +1122,9 @@ li.oc-feed-item .oc-feed-item-data,
 li.oc-feed-item .oc-feed-item-description {
   margin: 0;
   line-height: normal;
+}
+li.oc-feed-item .oc-feed-item-data.oc-actions {
+  text-align: right;
 }
 .oc-widget-feed .oc-paginator {
   display: block;
