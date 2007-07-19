@@ -134,7 +134,7 @@ class TestProjectMenu(OpenPlansTestCase):
         self.failIf(menudata[4]['selected'])
 
         self.clearMemoCache()
-        prefs_url = "%s/account" % self.proj.absolute_url()
+        prefs_url = "%s/preferences" % self.proj.absolute_url()
         self.request.ACTUAL_URL = prefs_url
         menudata = self.proj_view.menudata
         self.failUnless(len(menudata) == 5)
