@@ -25,6 +25,12 @@
      factory="opencore.nui.indexing.HighestTeamRole"
      />
 
+  <adapter
+     for="opencore.interfaces.IOpenPage"
+     provides="opencore.interfaces.catalog.ILastModifiedComment"
+     factory="opencore.nui.indexing.LastModifiedComment"
+     />
+
   <adapter factory=".indexing.metadata_for_brain" />
 
   <adapter factory=".indexing.metadata_for_portal_content" />

@@ -36,6 +36,13 @@ class IHighestTeamRole(Interface):
         membership is a part of
         """
 
+class ILastModifiedComment(Interface):
+
+    def getValue():
+      """
+      Returns the last modified comment on the wiki page
+      """
+
 class ILastModifiedAuthorId(Interface):
     """string id for last author to modify a piece of content"""
 

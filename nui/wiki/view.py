@@ -21,6 +21,7 @@ class WikiEdit(BaseView, OctopoLite):
         self.context.processForm(values=self.request)
         repo = self.context.portal.portal_repository
         repo.save(self.context, comment = self.request.form.get('comment', ''))
+        self.context.reindexObject()
         self.addPortalStatusMessage(u'Changes saved.')
 
         self.template = None

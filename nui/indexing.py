@@ -3,14 +3,15 @@ from Products.CMFCore.interfaces._content import IDynamicType
 from Products.CMFCore.interfaces._tools import ICatalogTool
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.CatalogTool import registerIndexableAttribute
+from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
 from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
 from Products.ZCatalog.CatalogBrains import AbstractCatalogBrain
 from Products.listen.interfaces import ISearchableArchive
 from Products.listen.interfaces.mailinglist import IMailingList
 from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, \
      IIndexingGhost, IMetadataDictionary, ILastWorkflowTransitionDate, IMailingListThreadCount, \
-     IHighestTeamRole
-from opencore.interfaces import IOpenMembership
+     IHighestTeamRole, ILastModifiedComment
+from opencore.interfaces import IOpenMembership, IOpenPage
 
 from zope.component import adapter, queryUtility, adapts
 from zope.interface import Interface
@@ -42,7 +43,7 @@ mem_idxs = (('FieldIndex', 'exact_getFullname',
 
 metadata_cols = ('lastWorkflowActor', 'made_active_date', 'lastModifiedAuthor',
                  'lastWorkflowTransitionDate', 'mailing_list_threads',
-                 'highestTeamRole')
+                 'highestTeamRole', 'lastModifiedComment')
 
 
 class LastWorkflowActor(object):
@@ -92,6 +93,24 @@ class HighestTeamRole(object):
         mem_id = mship.getId()
         return team.getHighestTeamRoleForMember(mem_id)
 
+class LastModifiedComment(object):
+    """populates the last modified comment on an IOpenPage"""
+    adapts(IOpenPage)
+    implements(ILastModifiedComment)
+
+    def __init__(self, context):
+        self.context = context
+        self.pr = getToolByName(self.context, 'portal_repository')
+
+    def getValue(self):
+        try:
+            histories = self.pr.getHistory(self.context, countPurged=False)
+            # most recent history versions are at the front of the list
+            last_history = histories[0]
+            revision_note = last_history.comment
+            return revision_note
+        except IndexError, ArchivistRetrieveError:
+            return ''
 
 @implementer(ILastModifiedAuthorId)
 def authenticated_memberid(context):
@@ -178,6 +197,9 @@ def register_indexable_attrs():
                              'getValue')
     registerInterfaceIndexer('highestTeamRole',
                              IHighestTeamRole,
+                             'getValue')
+    registerInterfaceIndexer('lastModifiedComment',
+                             ILastModifiedComment,
                              'getValue')
     registerInterfaceIndexer('lastModifiedAuthor', ILastModifiedAuthorId)
     registerInterfaceIndexer('mailing_list_threads', IMailingListThreadCount,
