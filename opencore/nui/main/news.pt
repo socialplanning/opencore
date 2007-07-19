@@ -15,8 +15,12 @@
         <ul class="oc-widget oc-widget-feed oc-feed-list">
           <li class="oc-feed-item" tal:repeat="item view/news_items">
             <h2 class="oc-feed-item-title">
-              <a href="" tal:content="item/Title" 
-                tal:attributes="href string:${context/portal_url}/news/${item/getId}">News Item Title
+              <a href=""
+                 tal:content="item/Title" 
+                 tal:attributes="href string:${context/portal_url}/news/${item/getId};
+                                 name item/getId"
+                 >
+                 News Item Title
               </a>
             </h2>
             <p class="oc-feed-item-data oc-discreetText">by 
