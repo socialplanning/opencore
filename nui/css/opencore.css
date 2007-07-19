@@ -439,7 +439,6 @@ dl.oc-plainList dd {
   overflow: hidden;
   float: left; 
   clear: none; 
-  text-align: center;
 }
 #oc-member-badge .oc-avatar img {
   margin: 0 auto;
@@ -451,9 +450,6 @@ dl.oc-plainList dd {
 #oc-member-badge .oc-member-details .oc-headingBlock p {
   margin: 0;
   line-height: normal;
-}
-#oc-member-badge .oc-member-details a.oc-actionLink {
-	font-weight: bold;
 }
 dl.oc-member-info {
   line-height: normal;
@@ -477,7 +473,7 @@ dl.oc-member-info dd {
   margin-bottom: 0.5em;
 }
 .oc-member-edit #oc-member-badge .oc-plainList input {
-  width: 75%;
+  width: 60%;
 }
 .oc-member-edit textarea {
   width: 99%;
@@ -512,15 +508,17 @@ ul.oc-tabs li a:visited {
   text-transform: uppercase;
 }
 ul.oc-tabs li a.oc-actionLink:hover {
+  background-color: transparent;
 }
 /* Selected tab */
 ul.oc-tabs li.oc-selected a {
   color: #fff;
   font-weight: bold;
-  background: #333;
+  background: #332F2A;
 }
 ul.oc-tabs li.oc-notallowed a {
   color: #999;
+  background-color: #eee;
 }
 .oc-tabs form {
   display: inline;
@@ -929,7 +927,7 @@ height: 1em; */
 
 /* Expanders */
 .oc-expander {
-  margin: .25em 0;
+  margin: 0;
 }
 .oc-expander h2,
 .oc-expander h3 {
@@ -939,6 +937,7 @@ height: 1em; */
   background: #F9F9F9;
   border: 1px solid #E6D3C0;
   padding: .5em;
+  margin: 0.25em 0 0.5em;
 }
 .oc-expander-content {
   margin: .25em 0;
@@ -1002,7 +1001,7 @@ height: 1em; */
 }
 .oc-dataTable-heading {
 	color: #fff;
-	background: #47413B;
+	background: #332F2A;
 	padding: 0.25em;
 	margin: 0;
 }
@@ -1081,7 +1080,7 @@ height: 1em; */
 }
 .oc-feed-title {
 	color: #fff;
-	background: #47413B;
+	background: #332F2A;
 	padding: 0.25em;
   margin: 0;
 }
@@ -1089,13 +1088,13 @@ height: 1em; */
   list-style: none;
   margin: 0;
   padding: 0;
-  border-top: 2px solid #47413B;
-  border-bottom: 2px solid #47413B;
+  border-top: 2px solid #332F2A;
+  border-bottom: 2px solid #332F2A;
 }
 li.oc-feed-item {
   margin: 0.5em 0 0;
   padding: 0 0 0.5em;
-  border-bottom: 1px dotted #47413B;
+  border-bottom: 1px dotted #332F2A;
 }
 .oc-feed-list li.oc-feed-item:last-child {
   border: none;
@@ -1284,6 +1283,7 @@ a.oc-actionLink:visited {
   text-decoration: none;
   font-size: 9px;
   text-transform: uppercase;
+  font-weight: bold;
 }
 a.oc-liveItem_showForm:hover,
 a.oc-actionLink:hover {
@@ -1522,4 +1522,40 @@ hr {
 }
 .oc-js-closeable {
 	position: relative;
+}
+
+/* LEGACY support for pages generated with Kupu 
+-------------------------------------------- */
+
+.oc-wiki-content h1, h2, h3, h4, h5 {
+  font-weight: bold;
+}
+
+.oc-wiki-content .pullquote {
+  width: 35%;
+  float: right;
+  clear: right;
+  border-left: 4px solid #ccc;
+  padding-left: 1em;
+  margin-left: 1em;
+}
+
+.oc-wiki-content .pullquote ul {
+  padding-left: 1em;
+}
+
+.oc-wiki-content table.listing {
+	border-collapse: collapse;
+  border: 1px solid #eee;
+  margin-bottom: 1em;
+  font-size: 95%;
+}
+.oc-wiki-content table.listing th {
+  background-color: #eee;
+  text-align: left;
+}
+.oc-wiki-content table.listing th,
+.oc-wiki-content table.listing td {
+  border: 1px solid #eee;
+  padding: 0.125em 0.25em;
 }

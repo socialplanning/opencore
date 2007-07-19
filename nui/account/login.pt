@@ -12,7 +12,7 @@
       </div><!-- end #content-main -->
 
       <div id="oc-content-sidebar">
-        <div class="oc-boxy oc-getstarted">
+        <div class="oc-getstarted">
           <h2>First time here?</h2>
           <p>There are many benefits to joining OpenPlans, we should probably explain a few of them here.</p>
           <a href="join" class="oc-banana">Create an account</a>

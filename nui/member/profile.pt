@@ -6,7 +6,7 @@
       <div id="oc-content-main">
         <div id="oc-member-badge" class="oc-boxy oc-clearAfter vcard">
           <div class="oc-avatar">
-            <img class="photo" tal:attributes="src view/mangled_portrait_url" />
+            <img class="photo" tal:attributes="src view/mangled_portrait_url" /><br />
             <a tal:condition="view/viewingself" class="oc-actionLink" href="profile-edit?field=portrait">Edit</a>
           </div>
           <div class="oc-member-details" tal:attributes="style python:'margin-left: %spx' % memberdata['portrait_width']">
