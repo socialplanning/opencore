@@ -109,7 +109,7 @@ class LastModifiedComment(object):
             last_history = histories[0]
             revision_note = last_history.comment
             return revision_note
-        except IndexError, ArchivistRetrieveError:
+        except (IndexError, ArchivistRetrieveError):
             return ''
 
 @implementer(ILastModifiedAuthorId)
