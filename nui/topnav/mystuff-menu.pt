@@ -12,7 +12,7 @@
   </li>
 
   <li>
-    <a tal:attributes="href string:${memfolder_url}/preferences"
+    <a tal:attributes="href string:${memfolder_url}/account"
        tal:content="string:Account" />
   </li>
 

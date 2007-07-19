@@ -10,7 +10,7 @@
      for="opencore.siteui.interfaces.IMemberFolder"
      class=".view.MemberPreferences"
      permission="cmf.ModifyPortalContent"
-     name="preferences"
+     name="account"
      />
 
   <browser:page
