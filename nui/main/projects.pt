@@ -12,7 +12,7 @@
         
         <tal:set_var define="current_search_page string:projects;
 			     form_action_url string:${context/portal_url}/projects/searchresults">
-        <div metal:use-macro="here/main_macros/search_widget" />
+          <div metal:use-macro="here/main_macros/search_widget" />
         </tal:set_var>
 
         <!-- list of recently updated projects. XXX maybe create a macro out of this? Generic for recent content? -->
@@ -32,7 +32,7 @@
                 <span tal:replace="nmembers">YY</span> member<span tal:condition="python: nmembers > 1" tal:replace="string:s" />, active since <span tal:replace="python: view.pretty_date(project.CreationDate())">Jan 1937</span>
               </p>
               <p class="oc-feed-item-description" tal:define="desc project/Description">
-                  <span tal:condition="desc" tal:replace="desc" />
+                <span tal:condition="desc" tal:replace="desc" />
               </p>
             </li>
           </ul>
@@ -46,10 +46,10 @@
       <!-- content-sidebar -->
       <div id="oc-content-sidebar">
       	<div class="oc-getstarted oc-boxy">
-      		<h2>Start a project</h2>
-      		<p class="oc-boxy-content">Can&rsquo;t find a project you are interested in? See a need that is not being met? Why not 
-		  <a tal:attributes="href string:${view/siteURL}/projects/create">start a new project</a>?
-		</p>
+      	  <h2>Start a project</h2>
+      	  <p class="oc-boxy-content">Can&rsquo;t find a project you are interested in? See a need that is not being met? Why not 
+	    <a tal:attributes="href string:${view/siteURL}/projects/create">start a new project</a>?
+	  </p>
       	</div>
       	<div class="oc-boxy" tal:content="structure python: view.render_static('main_projects_featured_projects.txt')" />
       </div>
