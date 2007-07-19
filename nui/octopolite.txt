@@ -69,8 +69,13 @@ the method's return value and returned a rendered template. We
 can issue requests asynchronously to get back the return value directly::
 
    >>> view.request.form['mode'] = 'async'
+
 Stub out response (will be set in BaseView when live)
-   >>> view.response = type('StubObject', (object,), dict(setHeader=lambda *a:None))
+   >>> class ResponseStub(object):
+   ...     def setHeader(self, *a):
+   ...         return None
+   >>> view.response = ResponseStub()
+
    >>> view()
    eggs of the devil!
    ['dummy']
