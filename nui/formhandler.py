@@ -170,16 +170,16 @@ class OctopoLite(opencore.nui.octopus.Octopus):
         except AttributeError:
             pass
 
-    def _octopus_allows(self):
-        oreq = self._octopus_request()
-        if oreq.has_key('-C'):
-            return True #we allow all non-editing requests
-
-        auth = self.get_tool('browser_id_manager').getBrowserId()
-        log.debug("authenticators:", self._octopus_get('authenticator'),
-                  auth)
-        #return self._octopus_get('authenticator') == auth
-        return True
+#    def _octopus_allows(self):
+#        oreq = self._octopus_request()
+#        if oreq.has_key('-C'):
+#            return True #we allow all non-editing requests
+#
+#        auth = self.get_tool('browser_id_manager').getBrowserId()
+#        log.debug("authenticators:", self._octopus_get('authenticator'),
+#                  auth)
+#        #return self._octopus_get('authenticator') == auth
+#        return True
         
 
 class FormLite(object):
