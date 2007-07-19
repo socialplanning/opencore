@@ -13,7 +13,7 @@ Test registration of member related views::
     <...SimpleViewClass ...profile.pt object...>
     
     >>> m1_folder.restrictedTraverse("account")
-    <Products.Five.metaclass.MemberPreferences object at ...>
+    <Products.Five.metaclass.MemberAccountView object at ...>
 
 Test member portrait traversal
 ==============================
@@ -32,11 +32,11 @@ Test member portrait traversal
     >>> member.restrictedTraverse("portrait_thumb").height
     80
 
-Exercise the Member Preferences Class
+Exercise the Member Account Class
 =====================================
 
     Instantiate the view
-    >>> from opencore.nui.member import MemberPreferences
+    >>> from opencore.nui.member import MemberAccountView
     >>> request = self.app.REQUEST
     >>> request.form = {}
 
@@ -44,10 +44,10 @@ Exercise the Member Preferences Class
     # member works though, because the interface we need matches
     # (getId)
 
-    >>> view = MemberPreferences(member, request)
+    >>> view = MemberAccountView(member, request)
     >>> view = view.__of__(member)
     >>> view
-    <opencore.nui.member.view.MemberPreferences object at ...>
+    <opencore.nui.member.view.MemberAccountView object at ...>
 
     Check projects for user m1
     >>> project_dicts = view.projects_for_user
