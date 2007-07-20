@@ -1151,7 +1151,7 @@ OC.Expander = function(extEl) {
         
     // init (when breatheLife is called)
     if (!container.hasClass('oc-expander-open')) {
-	     _contract();
+	_contract();
     }
     
     return this;
