@@ -158,12 +158,31 @@ The view has a validate() method which returns an error dict::
 
 #    ['confirm_password', 'email', 'password']
 
+Test what happens when both passwords are blank
+
+    >>> request.form = dict(id='foouser',
+    ...                     fullname='foo user',
+    ...                     email='foo@example.com',
+    ...                     )
+    >>> view.create_member()
+    {'password': 'Please enter a password'}
+    >>> view.errors
+    {'password': 'Please enter a password'}
+    >>> request.form.update(password='freddy',
+    ...                     confirm_password='freddy',
+    ...                     )
+    >>> view.create_member()
+    <OpenMember at /plone/portal_memberdata/foouser>
+    >>> pprint(view.errors)
+    {}
+    >>> request.form = form
+
 If you add 'task|validate' to the request before submitting
 the form the validate() method will be triggered::
 
     >>> request.form['task|validate'] = 'Foo'
-    >>> view()
-    '...<!-- join form -->...'
+    >>> str(view())
+    '<!-- join form -->...'
 
 The template was rerendered with the error messages; to get the error
 dict directly, make the request asynchronous::
