@@ -36,10 +36,9 @@ from utils import setupKupu, reinstallSubskins
 out = StringIO()
 def convertFunc(func):
     """
-    turns a standard install function into a
-    setup widget function
+    turns a standard install function into a setup widget function
     """
-    def new_func(self, portal):
+    def new_func(portal):
         out=StringIO()
         func(portal, out)
         return out.getvalue()
