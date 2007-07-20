@@ -1,7 +1,11 @@
 import os
+from logging import getLogger, INFO
 from pprint import pprint
 
+from zope.component import getUtility
+
 from topp.utils import config
+from topp.featurelets.interfaces import IFeatureletSupporter, IFeatureletRegistry
 
 from Products.CMFCore.utils import getToolByName
 
@@ -18,10 +22,12 @@ from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans import config as op_config
 from indexing import createIndexes
 
+logger = getLogger(op_config.PROJECTNAME)
+
 HERE = os.path.dirname(__file__)
 ALIASES = os.path.join(HERE, 'aliases.cfg')
 
-def save_all_projects(portal, out):
+def save_all_projects(portal):
     # separate widget for fixes?
     catalog = getToolByName(portal, 'portal_catalog')
     brains = catalog(portal_type='OpenProject')
@@ -30,17 +36,31 @@ def save_all_projects(portal, out):
         title = project.Title()
         values = dict(title=title)
         project.processForm(values=values)
-        out.write('processed project: %s\n' % title)
-    return out.getvalue()
+        logger.log(INFO, 'processed project: %s\n' % title)
 
-def reindex_membrane_tool(portal, out):
+def reindex_membrane_tool(portal):
     # requires the types to be reinstalled first
     reinstallTypes(portal, portal)
     mbtool = getToolByName(portal, 'membrane_tool')
     mbtool.reindexIndex('getLocation', portal.REQUEST)
-    print >> out, "getLocation reindexed" 
+    logger.log(INFO, "getLocation reindexed")
 
-def move_interface_marking_on_projects_folder(portal, out):
+def remove_roster_objects(portal):
+    cat = getToolByName(portal, 'portal_catalog')
+    roster_brains = cat(portal_type='OpenRoster')
+    if not roster_brains:
+        return
+    flet_reg = getUtility(IFeatureletRegistry)
+    flet = flet_reg.getFeaturelet('openroster')
+    logger.log(INFO, 'Removing project rosters:')
+    for brain in roster_brains:
+        roster = brain.getObject()
+        project = roster.aq_parent
+        supporter = IFeatureletSupporter(project)
+        supporter.removeFeaturelet(flet)
+    logger.log(INFO, '%d rosters removed' % len(roster_brains))
+
+def move_interface_marking_on_projects_folder(portal):
     #XX needed? test?
     from Products.Five.utilities.marker import erase
     from zope.interface import alsoProvides
@@ -51,28 +71,27 @@ def move_interface_marking_on_projects_folder(portal, out):
     pf = portal.projects
     erase(pf, IAddProject)
     alsoProvides(pf, IAddProject)
-    print >> out, "Fixed up interfaces"
+    logger.log(INFO, "Fixed up interfaces")
 
-def migrate_wiki_attachments(portal, out):
+def migrate_wiki_attachments(portal):
     catalog = getToolByName(portal, 'portal_catalog')
     query = dict(portal_type='FileAttachment')
     brains = catalog(**query)
     objs = (b.getObject() for b in brains)
-    out.write('beginning attachment title migration\n')
+    logger.log(INFO, 'beginning attachment title migration')
     for attach in objs:
         if not attach.Title():
             attach_id = attach.getId()
-            out.write('Adding title to %s\n' % attach_id)
+            logger.log(INFO, 'Adding title to %s' % attach_id)
             attach.setTitle(attach_id)
-    out.write('attachment title migration complete\n')
-    return out.getvalue()
+    logger.log(INFO, 'attachment title migration complete')
 
-def set_method_aliases(portal, out):
+def set_method_aliases(portal):
     pt = getToolByName(portal, 'portal_types')
     amap = config.ConfigMap.load(ALIASES)
-    out.write('Setting method aliases::')
+    logger.log(INFO, 'Setting method aliases::')
     for type_name in amap:
-        out.write('<< %s >>\n' %type_name)
+        logger.log(INFO, '<< %s >>' %type_name)
         fti = getattr(pt, type_name)
         aliases = fti.getMethodAliases()
         new = amap[type_name]
@@ -84,9 +103,9 @@ def set_method_aliases(portal, out):
             
         aliases.update(new)
         fti.setMethodAliases(aliases)
-        out.write('%s' %pprint(aliases, out))
+        logger.log('%s' % str(aliases))
 
-def migrate_portraits(portal, out):
+def migrate_portraits(portal):
     for member in portal.portal_memberdata.objectValues():
         if hasattr(member, 'portrait_thumb'):continue
         old_portrait = member.getPortrait()
@@ -95,16 +114,16 @@ def migrate_portraits(portal, out):
 
 nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      installNewsFolder=convertFunc(installNewsFolder),
-                     move_interface_marking_on_projects_folder=convertFunc(move_interface_marking_on_projects_folder),
-                     reindex_membrane_tool=convertFunc(reindex_membrane_tool),
-                     save_all_projects=convertFunc(save_all_projects),
+                     move_interface_marking_on_projects_folder=move_interface_marking_on_projects_folder,
+                     reindex_membrane_tool=reindex_membrane_tool,
+                     save_all_projects=save_all_projects,
                      setupHomeLayout=convertFunc(setupHomeLayout),
                      setupPeopleFolder=convertFunc(setupPeopleFolder),
                      setupProjectLayout=convertFunc(setupProjectLayout),
                      securityTweaks=convertFunc(securityTweaks),
                      installMetadataColumns=convertFunc(installColumns),
                      reinstallSubskins=reinstallSubskins,
-                     migrate_wiki_attachments=convertFunc(migrate_wiki_attachments),
+                     migrate_wiki_attachments=migrate_wiki_attachments,
                      createValidationMember=convertFunc(createValidationMember),
                      reinstallWorkflows=reinstallWorkflows,
                      setup_transient_message_utility=convertFunc(install_local_transient_message_utility),
@@ -112,8 +131,9 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      createIndexes=convertFunc(createIndexes),
                      )
 
-nui_functions['Update Method Aliases']=convertFunc(set_method_aliases)
-nui_functions['Migrate portraits (add new sizes)']=convertFunc(migrate_portraits)
+nui_functions['Update Method Aliases'] = set_method_aliases
+nui_functions['Migrate portraits (add new sizes)'] = migrate_portraits
+nui_functions['Remove project roster objects'] = remove_roster_objects
 
 def run_nui_setup(portal):
     pm = portal.portal_migration

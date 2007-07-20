@@ -192,7 +192,7 @@ class TOPPSetup(SetupWidget):
     def addItems(self, fns):
         out = []
         for fn in fns:
-            out.append((self.functions[fn](self, self.portal),INFO))
+            out.append((self.functions[fn](self.portal),INFO))
             out.append(('Function %s has been applied' % fn, INFO))
         return out
 

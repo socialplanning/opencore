@@ -81,9 +81,11 @@ def initialize(context):
             ).initialize(context)
 
     flet_registry = getUtility(IFeatureletRegistry)
-    flet_registry.registerFeaturelet(RosterFeaturelet())
     flet_registry.registerFeaturelet(ListenFeaturelet())
     flet_registry.registerFeaturelet(TaskTrackerFeaturelet())
+    # BBB the roster featurelet can go away once we've removed all
+    #     the installed rosters
+    flet_registry.registerFeaturelet(RosterFeaturelet())
     
     from opencore.auth import SignedCookieAuthHelper
     from AccessControl.Permissions import add_user_folders
