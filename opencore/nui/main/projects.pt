@@ -20,16 +20,17 @@
           <h2>Recently updated projects</h2>
           <ul class="oc-feed-list">
             <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recently_updated_projects">
-              <div class="oc-project-logo" tal:condition="project/logo | nothing"> <!-- NOTE once images do exist this div will NOT be conditional but its contents will -->
-                <a tal:attributes="href project/absolute_url" tal:condition="project/logo | nothing">
+              <!-- XXX project logo with brains? --> <!-- NOTE once images do exist this div will NOT be conditional but its contents will -->
+              <!--div class="oc-project-logo" tal:condition="project/logo | nothing">
+                <a tal:attributes="href python:view.project_url(project/absolute_url" tal:condition="project/logo | nothing">
                   <img src="" tal:attributes="src project/image_src | nothing; alt project/Title; title project/Title" tal:condition="project/logo | nothing" />
                 </a>
-              </div>
+              </div-->
               <h3 class="oc-feed-item-title">
-                <a href="" tal:attributes="href project/absolute_url" tal:content="nocall: project/title">Project Title</a>
+                <a href="" tal:attributes="href python:view.project_url(project)" tal:content="project/Title">Project Title</a>
               </h3>
-              <p class="oc-feed-item-data oc-discreetText" tal:define="nmembers python: len(project.projectMemberIds())">
-                <span tal:replace="nmembers">YY</span> member<span tal:condition="python: nmembers > 1" tal:replace="string:s" />, active since <span tal:replace="python: view.pretty_date(project.CreationDate())">Jan 1937</span>
+              <p class="oc-feed-item-data oc-discreetText" tal:define="nmembers python:view.n_project_members(project)">
+                <span tal:replace="nmembers">YY</span> member<span tal:condition="python: nmembers != 1" tal:replace="string:s" />, active since <span tal:replace="python: view.pretty_date(project.CreationDate)">Jan 1937</span>
               </p>
               <p class="oc-feed-item-description" tal:define="desc project/Description">
                 <span tal:condition="desc" tal:replace="desc" />

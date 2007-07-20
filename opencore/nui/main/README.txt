@@ -23,7 +23,7 @@ Test for aq issues::
 Get the list of projects that were recently updated::
 
    >>> recent_projects = view.recently_updated_projects()
-   >>> recent_titles = [p.Title() for p in recent_projects]
+   >>> recent_titles = [p.Title for p in recent_projects]
    >>> recent_titles.sort()
    >>> recent_titles
    ['Project Four', 'Project One', 'Project Three', 'Project Two']
@@ -296,6 +296,8 @@ Homepage View
    >>> brains = sorted(brains, key=lambda b:b.getId)
    >>> [b.getId for b in brains]
    ['5test', 'p1', 'p2', 'p3', 'p4']
-   >>> brain = brains[0]
+   >>> brain = brains[2]
    >>> view.project_url(brain)
-   'http://nohost/plone/projects/5test'
+   'http://nohost/plone/projects/p2'
+   >>> view.n_project_members(brain)
+   4
