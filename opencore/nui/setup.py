@@ -112,9 +112,9 @@ def migrate_portraits(portal):
         if old_portrait:
             member.setPortrait(old_portrait)
 
-def migrate_mships(portal):
+def migrate_mship_workflow_states(portal):
     wft = getToolByName(portal, 'portal_workflow')
-    if hasattr(wft, '_mships_migrated'): return
+    if hasattr(wft, '_opencore_mship_workflow_migrated'): return
 
     catalog = getToolByName(portal, 'portal_catalog')
     mships = catalog(portal_type='OpenMembership', review_state='committed')
@@ -124,7 +124,7 @@ def migrate_mships(portal):
         status = wft.getStatusOf(wfid, mship)
         status['review_state'] = 'public'
         wft.setStatusOf(wfid, mship, status)
-    wft._mships_migrated = True
+    wft._opencore_mship_workflow_migrated = True
     wft._p_changed = True
 
 nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
