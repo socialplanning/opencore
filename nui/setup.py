@@ -112,6 +112,21 @@ def migrate_portraits(portal):
         if old_portrait:
             member.setPortrait(old_portrait)
 
+def migrate_mships(portal):
+    wft = getToolByName(portal, 'portal_workflow')
+    if hasattr(wft, '_mships_migrated'): return
+
+    catalog = getToolByName(portal, 'portal_catalog')
+    mships = catalog(portal_type='OpenMembership', review_state='committed')
+    wfid = 'openplans_team_membership_workflow'
+    for mship in mships:
+        mship = mship.getObject()
+        status = wft.getStatusOf(wfid, mship)
+        status['review_state'] = 'public'
+        wft.setStatusOf(wfid, mship, status)
+    wft._mships_migrated = True
+    wft._p_changed = True
+
 nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      installNewsFolder=convertFunc(installNewsFolder),
                      move_interface_marking_on_projects_folder=move_interface_marking_on_projects_folder,
@@ -129,6 +144,7 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      setup_transient_message_utility=convertFunc(install_local_transient_message_utility),
                      install_email_invites_utility=convertFunc(install_email_invites_utility),
                      createIndexes=convertFunc(createIndexes),
+                     migrate_mships=migrate_mships,
                      )
 
 nui_functions['Update Method Aliases'] = set_method_aliases
