@@ -25,6 +25,10 @@ def first_letter_match(title, letter):
 class SearchView(BaseView):
     match = staticmethod(first_letter_match)
 
+    def project_url(self, project_brain):
+        return '%s/projects/%s' % (self.context.absolute_url(),
+                                   project_brain.getId)
+
     def _get_batch(self, brains, start=0):
         return Batch(brains,
                      size=10,
@@ -41,6 +45,8 @@ class SearchView(BaseView):
         return tag.replace('<img', '<img class="%s"' % clss)
 
 class ProjectsSearchView(SearchView):
+
+    active_states = ['public', 'private']
 
     def __call__(self):
         search_for = self.request.get('search_for', None)
@@ -127,10 +133,18 @@ class ProjectsSearchView(SearchView):
         self.apply_context_restrictions(query)
 
         project_brains = self.catalog(**query) 
-        # XXX expensive $$$
-        # we get object for number of project members
-        projects = (x.getObject() for x in project_brains)
-        return projects
+        return project_brains
+
+    def n_project_members(self, proj_brain):
+        proj_id = proj_brain.getId
+        tmtool = self.get_tool('portal_teams')
+        team_path = '/'.join(tmtool.getPhysicalPath())
+        team_path = '%s/%s' % (team_path, proj_id)
+        brains = self.catalog(portal_type='OpenMembership',
+                              path=team_path,
+                              review_state=self.active_states,
+                              )
+        return len(brains)
 
     def apply_context_restrictions(self, query):
         """
@@ -275,6 +289,9 @@ class HomeView(SearchView):
     def recently_updated_projects(self):
         return self.projects_search.recently_updated_projects()
 
+    def n_project_members(self, proj_brain):
+        return self.projects_search.n_project_members(proj_brain)
+
     def recently_created_projects(self):
         query = dict(portal_type='OpenProject',
                      sort_on='Creator',
@@ -284,10 +301,6 @@ class HomeView(SearchView):
 
         project_brains = self.catalog(**query) 
         return project_brains
-
-    def project_url(self, project_brain):
-        return '%s/projects/%s' % (self.context.absolute_url(),
-                                   project_brain.getId)
 
     def news(self):
         news_path = '/'.join(self.context.portal.getPhysicalPath()) + '/news'
