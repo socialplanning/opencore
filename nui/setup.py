@@ -21,6 +21,7 @@ from Products.OpenPlans.Extensions.Install import createMemIndexes, \
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans import config as op_config
 from indexing import createIndexes
+from DateTime import  DateTime
 
 logger = getLogger(op_config.PROJECTNAME)
 
@@ -114,18 +115,19 @@ def migrate_portraits(portal):
 
 def migrate_mship_workflow_states(portal):
     wft = getToolByName(portal, 'portal_workflow')
-    if hasattr(wft, '_opencore_mship_workflow_migrated'): return
-
     catalog = getToolByName(portal, 'portal_catalog')
     mships = catalog(portal_type='OpenMembership', review_state='committed')
     wfid = 'openplans_team_membership_workflow'
+    mstool = getToolByName(portal, 'portal_membership')
+    actor = mstool.getAuthenticatedMember()
     for mship in mships:
         mship = mship.getObject()
         status = wft.getStatusOf(wfid, mship)
         status['review_state'] = 'public'
+        status['time'] = DateTime()
+        status['actor'] = actor
         wft.setStatusOf(wfid, mship, status)
-    wft._opencore_mship_workflow_migrated = True
-    wft._p_changed = True
+        mship.reindexObject(idxs=['review_state'])
 
 nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      installNewsFolder=convertFunc(installNewsFolder),
