@@ -210,8 +210,6 @@ class JoinView(AccountView, OctopoLite):
 
     @action('join', apply=post_only(raise_=False))
     def create_member(self, targets=None, fields=None):
-        context = self.context
-
         mdc = self.get_tool('portal_memberdata')
         mem = mdc._validation_member
 
