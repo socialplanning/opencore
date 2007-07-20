@@ -214,10 +214,17 @@ class JoinView(AccountView, OctopoLite):
 
         mdc = self.get_tool('portal_memberdata')
         mem = mdc._validation_member
+
         self.errors = {}
+        
         self.errors = mem.validate(REQUEST=self.request,
                                    errors=self.errors,
                                    data=1, metadata=0)
+        password = self.request.form.get('password')
+        password2 = self.request.form.get('confirm_password')
+        if not password and not password2:
+            self.errors.update({'password': 'Please enter a password' })
+
         if self.errors:
             return self.errors
 
