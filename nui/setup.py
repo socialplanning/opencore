@@ -144,12 +144,12 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      setup_transient_message_utility=convertFunc(install_local_transient_message_utility),
                      install_email_invites_utility=convertFunc(install_email_invites_utility),
                      createIndexes=convertFunc(createIndexes),
-                     migrate_mships=migrate_mships,
                      )
 
 nui_functions['Update Method Aliases'] = set_method_aliases
 nui_functions['Migrate portraits (add new sizes)'] = migrate_portraits
 nui_functions['Remove project roster objects'] = remove_roster_objects
+nui_functions['Migrate memberships to new workflow'] = migrate_mship_workflow_states
 
 def run_nui_setup(portal):
     pm = portal.portal_migration
