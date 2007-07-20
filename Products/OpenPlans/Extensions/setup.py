@@ -82,7 +82,7 @@ def setup_nui(portal, out):
     """ this will call all the  nui setup functions """
     from opencore.nui.setup import nui_functions
     for fn in nui_functions.values():
-        fn(portal, portal)
+        fn(portal)
 
 def migrate_redirection(self, portal):
     from opencore.redirect import migrate_redirected_objects
