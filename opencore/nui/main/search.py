@@ -283,10 +283,11 @@ class HomeView(SearchView):
                      )
 
         project_brains = self.catalog(**query) 
-        # XXX expensive $$$
-        # we get object for number of project members
-        projects = (x.getObject() for x in project_brains)
-        return projects
+        return project_brains
+
+    def project_url(self, project_brain):
+        return '%s/projects/%s' % (self.context.absolute_url(),
+                                   project_brain.getId)
 
     def news(self):
         news_path = '/'.join(self.context.portal.getPhysicalPath()) + '/news'

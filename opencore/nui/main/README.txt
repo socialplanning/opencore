@@ -286,3 +286,16 @@ Search for things starting with a number::
    2
    >>> '5test' in ids
    True
+
+
+Homepage View
+=============
+
+   >>> view = search.HomeView(self.portal, request)
+   >>> brains = view.recently_created_projects()
+   >>> brains = sorted(brains, key=lambda b:b.getId)
+   >>> [b.getId for b in brains]
+   ['5test', 'p1', 'p2', 'p3', 'p4']
+   >>> brain = brains[0]
+   >>> view.project_url(brain)
+   'http://nohost/plone/projects/5test'
