@@ -33,8 +33,12 @@
         </ul>
       </div><!-- content-main -->
 
-      <div id="oc-content-sidebar" 
-           tal:content="structure view/sidebar" /> 
+      <div id="oc-content-sidebar">
+        <div id="oc-contact" class="oc-boxy">
+          <h2>About us</h2>
+          <p>We would love to hear from you. Learn more <a tal:attributes="href string:${here/portal_url}/about">about us and our software</a> or <a tal:attributes="href string:${here/portal_url}/contact">contact us</a> for more information.</p>
+        </div>
+      </div>
 
     </div><!-- content-fill-slot -->
   </body>
