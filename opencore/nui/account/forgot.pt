@@ -2,7 +2,7 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">   
-      <div id="oc-content-main">
+      <div tal:define="expander_hack_from_parent_template string:oc-js-expander oc-expander-open oc-expander" id="oc-content-main">
 	<metal:login use-macro="view/login_snippet/macros/login_snippet" />
 	<metal:forgot use-macro="view/forgot_snippet/macros/forgot_snippet" />
 
