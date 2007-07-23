@@ -108,7 +108,7 @@ def migrate_mship_workflow_states(portal):
     mships = catalog(portal_type='OpenMembership', review_state='committed')
     wfid = 'openplans_team_membership_workflow'
     mstool = getToolByName(portal, 'portal_membership')
-    actor = mstool.getAuthenticatedMember()
+    actor = mstool.getAuthenticatedMember().getId()
     for mship in mships:
         mship = mship.getObject()
         status = wft.getStatusOf(wfid, mship)
