@@ -3,7 +3,7 @@
           <p>OpenPlans aims to transform social activism by providing tools that connect people and enable them to share ideas, stay organized, and act collectively to effect change.</p>
           <h2>About us</h2>
           <img class="oc-image-bright" src="http://www.openplans.org/site-home/orange_logo.gif" alt="The Open Planning Project" />
-          <p>OpenPlans is a production of <a href="http://topp.openplans.org/">The Open Planning Project</a>, a New York City based non-profit organization dedicated to using technology to enhance community participation. In addition to OpenPlans, we also sponsor <a href="http://www.geoserver.org/">GeoServer</a>, an open source platform for sharing geographic information, and the <a ref="http://www.nycsr.org/">New York City Streets Renaissance Campaign</a>, which advocates for lively public space in New York City.</p>
+          <p>OpenPlans is a production of <a href="http://topp.openplans.org/">The Open Planning Project</a>, a New York City based non-profit organization dedicated to using technology to enhance community participation. In addition to OpenPlans, we also sponsor <a href="http://www.geoserver.org/">GeoServer</a>, an open source platform for sharing geographic information, and the <a href="http://www.nycsr.org/">New York City Streets Renaissance Campaign</a>, which advocates for lively public space in New York City.</p>
 	</div>
 	<div id="oc-contact">
           <h2>Contact us</h2>
