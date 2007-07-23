@@ -17,7 +17,7 @@
 
         <!-- list of recently updated projects. XXX maybe create a macro out of this? Generic for recent content? -->
         <div class="oc-widget oc-widget-feed">
-          <h2>Recently updated projects</h2>
+          <h2 class="oc-feed-title">Recently updated projects</h2>
           <ul class="oc-feed-list">
             <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recently_updated_projects">
               <!-- XXX project logo with brains? --> <!-- NOTE once images do exist this div will NOT be conditional but its contents will -->
