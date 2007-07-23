@@ -13,6 +13,8 @@
       <link rel="stylesheet" href="++resource++css/ie6.css" type="text/css" media="all" />
     <![endif]-->
     
+    <link rel="shortcut icon" type="image/x-icon" href="/++resource++img/favicon.ico" />
+
     <!-- theme CSS -->
     <link rel="stylesheet" href="/++resource++css/themes/openplans.css" type="text/css" media="all" />
     <!-- TODO print style sheet -->
