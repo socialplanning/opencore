@@ -96,7 +96,7 @@
      for="*"
      permission="zope.Public"
      name="contact"
-     template="contact.pt"
+     template="about.pt"
      />
   
   <!-- news -->
