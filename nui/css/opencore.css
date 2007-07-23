@@ -142,7 +142,6 @@ ul#oc-topnav-context li.oc-topnav-selected {
   cursor: pointer;
 }
 #oc-usermenu-list li.oc-dropdown-container.oc-hover {
-  border-color: #87B6C1;
   border-bottom: none;
   background-color: transparent;
 }
@@ -153,20 +152,17 @@ ul#oc-topnav-context li.oc-topnav-selected {
   border: none;
 }
 #oc-usermenu-list li.oc-dropdown-container.oc-selected {
-  background-color: #94BA65;
-  border: 1px solid #2B7284;
+  background-color: #332F2A;
   border-bottom: none;
 }
 #oc-usermenu-list li.oc-dropdown-container ul {
   position: absolute;
   top: 1.8em;
-  left: -1px;
+  left: 0;
   margin: 0;
   padding: 0;
   width: 12em;
-  background: #94BA65;
-  border: 1px solid #2B7284;
-  border-top: none;
+  background: #665D55;
   z-index: 1000;
 }
 #oc-usermenu-list li.oc-dropdown-container li {
@@ -181,12 +177,10 @@ ul#oc-topnav-context li.oc-topnav-selected {
 #oc-usermenu-list li.oc-dropdown-container li a {
   display: block;
   margin: 0;
-  padding: .25em;
+  padding: 0.125em .25em;
 }
 #oc-usermenu-list li.oc-dropdown-container li a:hover {
-  background: #2B7284;
-  margin: 0;
-  padding: .25em;
+  background: #6BA12A;
 }
 
 /* @FOOTER - Global footer
