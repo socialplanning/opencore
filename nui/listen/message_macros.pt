@@ -49,8 +49,7 @@
           <a href="."
             tal:omit-tag="not:message/from_id"
             tal:attributes="href string:${here/portal_url}/people/${message/from_id}">
-            <span tal:replace="message/mail_from">test@example.com</span>
-          </a>
+            <span tal:replace="message/mail_from">test@example.com</span></a>
         on <span tal:replace="message/date">Mon, 12 Nov 2005 14:58</span>
       </span>
     </div>
