@@ -178,11 +178,7 @@ class SubProjectsSearchView(ProjectsSearchView):
         self.apply_context_restrictions(query)
 
         project_brains = self.catalog(**query)
-
-        # XXX costly
-        projects = (x.getObject() for x in project_brains)
-        return projects
-
+        return project_brains
         
     def apply_context_restrictions(self, query):
         query['path'] = self.subproject_paths()
