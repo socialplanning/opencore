@@ -48,8 +48,10 @@ OC.liveElementKey = {
    # new nodes to the dom, call breatheLife(newItem) to activate that
    # element and its children.
 */
+
 OC.breatheLife = function(newNode, force) {
   OC.debug("START BreatheLife");
+  console.time("breatheLife");
   
   // force re-up?
   if (typeof force == "undefined") { force = false }
@@ -80,7 +82,7 @@ OC.breatheLife = function(newNode, force) {
         
           //get an Ext Obj for your element
           var extEl = Ext.get(elements[i]);
-          
+                    
           //get reference to the proper constructor
           var constructor = OC[this.liveElementKey[selector]]; 
           var constructorName = this.liveElementKey[selector]; 
@@ -104,6 +106,7 @@ OC.breatheLife = function(newNode, force) {
     } // end for each selector
   OC.debug(OC.liveElements);
   OC.debug("END BreatheLife");
+  console.timeEnd("breatheLife");
 
 }; // OC.breatheLife()
 
@@ -116,7 +119,7 @@ OC.breatheLife = function(newNode, force) {
 // Debug Function.  Turn off for live code or IE
 OC.debug = function(string) {
     if( typeof console != 'undefined' ) {
-	console.log(string);
+	     console.log(string);
     }
 };
 
@@ -176,7 +179,9 @@ Ext.onReady(function() {
   /* Short and Sweet */
   OC.breatheLife();
 
-    });
+});
+
+OC.breatheLife();
 
 /*
   #------------------------------------------------------------------------
@@ -186,30 +191,48 @@ Ext.onReady(function() {
 OC.Callbacks = {};
 
 OC.Callbacks.afterAjaxSuccess = function(o) { 
+    OC.debug('OC.Callbacks.afterAjaxSuccess');
+
     
-    
-    try {  this.indicator.hide();  } catch(err) { OC.debug(err); }
-    try {  this.button.dom.value = this.origButtonValue; this.button.dom.disabled = false;  } catch(err) { OC.debug(err); }
+    try {  
+      this.indicator.hide();  
+    } catch(err) { 
+      OC.debug(err); 
+    }
+    try {  
+      if (this.button.dom.innerHTML = "Please wait...") {
+          this.button.dom.innerHTML = this.origButtonValue;
+      }
+      if (this.button.dom.value = "Please wait...") {
+        this.button.dom.value = this.origButtonValue;
+      }
+      if (this.button.dom.disabled) {
+        this.button.dom.disabled = false;  
+      }
+    } catch(err) {
+      OC.debug("couldn't restore button value");
+       OC.debug(err); 
+    }
     
     Ext.select('form').each(function(el) {
 	    el.dom.target = "";
-	});
-    OC.debug('OC.Callbacks.afterAjaxSuccess');
+	   });
     OC.debug('o: ' + o);
     
     var response;
     // trim response text to avoid errors in IE
-    var responseText = o.responseText.replace(/[\r\n]/g, "");
-    OC.debug(responseText);
+    OC.debug(o.responseText);
+    var cleanedResponseText = o.responseText.replace(/[\r\n]/g, "");
+    OC.debug(cleanedResponseText);
 
     //var updater = new OC.Updater();
     
     try {
-      response = eval( "(" + responseText + ")" );
+      response = eval( "(" + cleanedResponseText + ")" );
     } catch( e ) {
       OC.debug(e);
       OC.debug("Couldn't parse the response.  Bad JSON? (below): ");
-	    OC.debug(responseText);
+	    OC.debug(cleanedResponseText);
 	    OC.psm('There was an error handling the Ajax response.  Ethan will fix it. ', 'bad')
     }
     

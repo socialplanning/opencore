@@ -41,3 +41,7 @@ h2.oc-dataTable-heading {
 	margin: 0;
 	/* SEE IE6.css for additional hacks */
 }
+
+.oc-tabs {
+  margin-left: 0;
+}
