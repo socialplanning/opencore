@@ -65,7 +65,6 @@ body {
 }
 #oc-footer {
   clear: both;
-  margin: 3em 0 0 0;
   padding: .5em 1em;
 }
 
@@ -1344,7 +1343,7 @@ h1, h2, h3, h4, h5, h6,
 	font-family: Arial, sans-serif;
   letter-spacing: 0;
   font-weight: normal;
-  margin: 0 0 14px;
+  margin: 0 0 1em;
 }
 h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 abbr {
   border: none;
@@ -1490,17 +1489,6 @@ hr {
   padding: 0;
   margin: 0;
 }
-
-/* MICROFORMATS
--------------------------------------------- */
-
-/* @hCard
------------
-.vcard {} Identifies the hCard
-.vcard .fn {} Formatted name: this is necessary and can only be used once; we use it for usernames
-.vcard .n {} Name: this is optional and can be inferred from .fn; we use it for real names
-.vcard .adr {} Address: this is optional and describes location; we use it for location
-*/
 
 /* OTHER stuff that needs to be sorted out 
 -------------------------------------------- */

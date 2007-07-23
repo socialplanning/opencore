@@ -39,7 +39,7 @@ OC.liveElementKey = {
     '.oc-js-actionSelect'     : "ActionSelect",
     '.oc-js-liveValidate'     : "LiveValidatee",
     ".oc-js-closeable"        : "CloseButton",
-    '#oc-content-wrapper'     : "AutoHeightContent"
+    '#oc-content-container'   : "AutoHeightContent"
 };
     
 /* 
@@ -56,7 +56,7 @@ OC.breatheLife = function(newNode, force) {
   
     // set scope
     if (!newNode) {
-	   targetNode = document;
+     targetNode = document;
     } else {
       // accept HTML element or Ext Element
       if (newNode.dom)
@@ -67,13 +67,13 @@ OC.breatheLife = function(newNode, force) {
     
     // loop through selectors specified above
     for (var selector in OC.liveElementKey) {
-	
+
       // Get array of elements to apply behaviors to.  Include newNode itself in query.      
       var elements = Ext.query(selector, targetNode);
       if (Ext.DomQuery.is(targetNode, selector)) {
           elements.push(Ext.get(targetNode));
       }
-	
+
       if(elements.length > 0){
           
        for (var i = 0; i < elements.length; i++) {
@@ -127,16 +127,16 @@ OC.psm = function(text, tone) {
     var message = Ext.get(Ext.query('.oc-statusMessage')[0]);
     
     if (!message) {
-	message = Ext.get(document.createElement('div'));
-	message.addClass('oc-message');
-	container.dom.appendChild(message.dom);
+        message = Ext.get(document.createElement('div'));
+        message.addClass('oc-message');
+        container.dom.appendChild(message.dom);
     }
     
     /* tone: oc-message-error, oc-message-success, oc-message-warn */
     message.removeClass(new Array('oc-message-error', 'oc-message-success', 'oc-message-warn'));
     
     if (tone) {
-	message.addClass('oc-message-' + tone);
+        message.addClass('oc-message-' + tone);
     }
     
     message.update(text);
@@ -172,10 +172,10 @@ OC.Dom.removeItem = function(id) {
 */
 
 Ext.onReady(function() {
-	
-	/* Short and Sweet */
-	OC.breatheLife();
-	
+
+  /* Short and Sweet */
+  OC.breatheLife();
+
     });
 
 /*
