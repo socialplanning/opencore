@@ -28,17 +28,6 @@ logger = getLogger(op_config.PROJECTNAME)
 HERE = os.path.dirname(__file__)
 ALIASES = os.path.join(HERE, 'aliases.cfg')
 
-def save_all_projects(portal):
-    # separate widget for fixes?
-    catalog = getToolByName(portal, 'portal_catalog')
-    brains = catalog(portal_type='OpenProject')
-    projects = (b.getObject() for b in brains)
-    for project in projects:
-        title = project.Title()
-        values = dict(title=title)
-        project.processForm(values=values)
-        logger.log(INFO, 'processed project: %s\n' % title)
-
 def reindex_membrane_tool(portal):
     # requires the types to be reinstalled first
     reinstallTypes(portal)
@@ -133,7 +122,6 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      installNewsFolder=convertFunc(installNewsFolder),
                      move_interface_marking_on_projects_folder=move_interface_marking_on_projects_folder,
                      reindex_membrane_tool=reindex_membrane_tool,
-                     save_all_projects=save_all_projects,
                      setupHomeLayout=convertFunc(setupHomeLayout),
                      setupPeopleFolder=convertFunc(setupPeopleFolder),
                      setupProjectLayout=convertFunc(setupProjectLayout),
