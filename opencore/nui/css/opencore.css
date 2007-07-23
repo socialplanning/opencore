@@ -243,6 +243,13 @@ dl.oc-plainList dd {
 .oc-boxy {
   margin-bottom: 1em;
 }
+.oc-boxy h1,
+.oc-boxy h2,
+.oc-boxy h3,
+.oc-boxy h4,
+.oc-boxy h5 {
+  margin: 0 0 0.5em;
+}
 .oc-boxy-content {
   margin: 0;
   padding: 0;
@@ -254,24 +261,7 @@ dl.oc-plainList dd {
 .oc-boxy textarea {
   margin: 0;
 }
-#oc-contact .fn {
-  margin-left: 4em;
-  margin-bottom: 0.5em;
-  font-weight: bold;
-}
-#oc-contact dl {
-  margin: 0;
-}
-#oc-contact dt {
-  float: left;
-  width: 3.5em;
-  margin-right: 0.5em;
-  text-align: right;
-  font-weight: bold;
-}
-#oc-contact dd {
-  margin-bottom: 0.5em;
-}
+
 /* GENERIC search results & lineups */
 
 .oc-lineup, /* series of similar items */
@@ -1348,7 +1338,7 @@ h1, h2, h3, h4, h5, h6,
 	font-family: Arial, sans-serif;
   letter-spacing: 0;
   font-weight: normal;
-  margin: 0 0 1em;
+  margin: 1em 0 0.5em;
 }
 h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 abbr {
   border: none;
@@ -1528,7 +1518,10 @@ hr {
   font-weight: bold;
   margin: 1em 0 0.5em;
 }
-
+.oc-wiki-content .discreet {
+  color: #665D55;
+  font-size: 11px;
+}
 .oc-wiki-content .pullquote {
   width: 35%;
   float: right;
@@ -1537,7 +1530,6 @@ hr {
   padding-left: 1em;
   margin-left: 1em;
 }
-
 .oc-wiki-content .pullquote ul {
   padding-left: 1em;
 }
