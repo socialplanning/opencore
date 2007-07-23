@@ -108,8 +108,8 @@ class LoginView(AccountView):
             if member and member.verifyCredentials({'login': id_, 
                                                     'password': password}):
                 
-                self.addPortalStatusMessage('An email has been sent to %s from %s " \
-                    "but it seems like you have not yet activated your account.' %
+                self.addPortalStatusMessage("""An email has been sent to %s from %s
+                    but it seems like you have not yet activated your account.""" %
                     (member.getEmail(), self.portal.getProperty('email_from_address')))
                 self.redirect('pending?key=%s' % member.UID())
                 return
