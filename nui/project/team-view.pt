@@ -104,9 +104,7 @@
                             <!-- isprivate setting -->
                             <a href="" tal:attributes="href project/absolute_url" tal:define="isprivate nothing">
                               <span tal:content="project/Title" 
-                              /><span tal:condition="isprivate" class="oc-discreetText"> (private)</span
-                            ></a>
-                          </li>
+                              /><span tal:condition="isprivate" class="oc-discreetText"> (private)</span></a></li>
                           <li tal:condition="view_all">
                             <a href=""
                                tal:attributes="href string:${view/get_portal/absolute_url}/people/${mem/getId}"
