@@ -104,7 +104,7 @@ def set_method_aliases(portal):
             
         aliases.update(new)
         fti.setMethodAliases(aliases)
-        logger.log('%s' % str(aliases))
+        logger.log(INFO, '%s' % str(aliases))
 
 def migrate_portraits(portal):
     for member in portal.portal_memberdata.objectValues():
