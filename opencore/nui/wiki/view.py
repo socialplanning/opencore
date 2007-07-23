@@ -10,7 +10,9 @@ class WikiEdit(BaseView, OctopoLite):
 
     @action('save')
     def handle_save(self, target=None, fields=None):
-        """ todo: make this check for attachments too """
+
+        self.create_attachment()
+
         self.errors = {}
         self.context.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
