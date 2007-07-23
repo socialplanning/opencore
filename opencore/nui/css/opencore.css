@@ -680,7 +680,7 @@ a.wickedadd {
   display: block;
 }
 .oc-listen-message pre.oc-listen-message-body {
-  white-space: normal;
+  /* white-space: normal; */
 }
 .oc-listen-message-child {
   border-top: 1px solid #ccc;

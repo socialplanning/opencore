@@ -54,7 +54,7 @@
       </span>
     </div>
 
-      <pre i18n:translate="" tal:content="structure message/body" class="oc-listen-message-body">
+      <pre width="80" i18n:translate="" tal:content="structure message/body" class="oc-listen-message-body">
         A mail message
       </pre>
   
@@ -68,6 +68,7 @@
             </span>
           </a>
         </div>
+        <br />
       </div>
 
     </div>
