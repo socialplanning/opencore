@@ -38,7 +38,7 @@ Test wiki history registrations::
     <...SimpleViewClass ...wiki/wiki-version-compare.pt object at ...>
 
 
-Test wiki attachment registrations::
+Test wiki attachment registrations which are not used any more::
 
     >>> page.restrictedTraverse('@@updateAtt')
     Traceback (most recent call last):
@@ -87,7 +87,7 @@ Test wiki history registrations (logged in)::
     >>> page.restrictedTraverse('version_compare')
     <Products.Five.metaclass.SimpleViewClass from ...wiki-version-compare.pt object at ...>
 
-    
+   
 Test wiki attachment registrations (logged in)::
 
     >>> page.restrictedTraverse('@@updateAtt')
@@ -99,13 +99,13 @@ Test wiki attachment registrations (logged in)::
     >>> page.restrictedTraverse('@@deleteAtt')    
     <Products.Five.metaclass.AttachmentView object at ...>
 
+
+Attachments
+===========
+
 Test actually creating, editing, deleting an attachment::
 
-     >>> import os
-     >>> import hmac
-     >>> import sha
-     >>> import base64
-     >>> import re
+     >>> import os, hmac, sha, base64, re
      >>> from urllib import quote
      >>> secret_file_name = os.environ.get('TOPP_SECRET_FILENAME', '')
      >>> if not secret_file_name:
@@ -121,18 +121,22 @@ Test actually creating, editing, deleting an attachment::
      >>> len(secret) > 0
      True
 
-     Create attachment
-     >>> from opencore.nui.wiki import view as v
+Error case for creating an attachment with no attachment there::
+
      >>> request = self.portal.REQUEST
      >>> view = page.restrictedTraverse('@@edit')
      >>> view.create_attachment()
      {'An error': ''}
-     >>> form = {}
+
+Create an attachment to upload::
+
      >>> class tempfile(file):
      ...     def __init__(self, filename):
      ...         self.filename = filename 
      ...         file.__init__(self, filename)
      >>> tfile = tempfile(secret_file_name)
+
+     >>> form = {}
      >>> form['attachmentTitle'] = 'secret'
      >>> form['attachmentFile'] = tfile
      >>> request.form = form
@@ -144,24 +148,25 @@ Test actually creating, editing, deleting an attachment::
      >>> newatt.Title()
      'secret'
 
-
 Now let's try to delete.  Try the error case::
 
      >>> request.form = {}
 
-Again, raising an AttributeError
-Maybe we should return an error message instead
+It raises a TypeError for now, but should eventually return an error message instead::
+
      >>> view.delete_attachment()
      Traceback (most recent call last):
      ...
      TypeError...
 
-Send in valid attachment id and it should work
+Send in valid attachment id and it should work::
+
      >>> form = {}
      >>> view.delete_attachment(['secret.txt'])
      {'secret.txt_list-item':...'delete'...}
 
 If we create an attachment with no title, the title should be the id::
+
      >>> tfile = tempfile(secret_file_name)
      >>> form = {'attachmentFile': tfile}
      >>> request.form = form
@@ -173,13 +178,14 @@ If we create an attachment with no title, the title should be the id::
      >>> newatt.Title()
      'secret.txt'
 
-
 Test update attachment... first check error case::
+
      >>> request.form = {}
      >>> view.update_attachment()
      {}
 
 Try again with real values, should work great now::
+
      >>> view.update_attachment(['secret.txt'], [{'title': "Alcibiades"}])
      {'secret.txt_list-item':...Alcibiades...}
 
