@@ -293,10 +293,18 @@ Homepage View
 
    >>> view = search.HomeView(self.portal, request)
    >>> brains = view.recently_created_projects()
-   >>> brains = sorted(brains, key=lambda b:b.getId)
    >>> [b.getId for b in brains]
-   ['5test', 'p1', 'p2', 'p3', 'p4']
-   >>> brain = brains[2]
+   ['5test', 'p4', 'p1', 'p3', 'p2']
+   >>> for i in range(len(brains)-1):
+   ...
+   ...     brains[i].CreationDate > brains[i+1].CreationDate
+   True
+   True
+   True
+   True
+
+Check that the project url method works
+   >>> brain = brains[-1]
    >>> view.project_url(brain)
    'http://nohost/plone/projects/p2'
    >>> view.n_project_members(brain)
