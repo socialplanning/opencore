@@ -290,7 +290,7 @@ class HomeView(SearchView):
 
     def recently_created_projects(self):
         query = dict(portal_type='OpenProject',
-                     sort_on='Creator',
+                     sort_on='created',
                      sort_order='descending',
                      sort_limit=5,
                      )
