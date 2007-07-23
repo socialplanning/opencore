@@ -5,8 +5,7 @@
       <div metal:use-macro="here/@@listen_macros/bcrumb"/>
       <div metal:use-macro="here/@@listen_macros/tabs"/>
       <div id="oc-content-main" i18n:domain="listen" tal:define="messages view/getMessageBodies;">
-        <ul id="forum-thread" class="oc-plainList"
-          tal:define="message messages">
+        <ul id="forum-thread" class="oc-plainList" tal:define="message messages">
           <li id="initial-message">
             <metal:message use-macro="here/message_macros/macros/message"/>
 
