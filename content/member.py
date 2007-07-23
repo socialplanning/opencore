@@ -308,7 +308,7 @@ class OpenMember(TeamSecurity, FolderishMember):
                                   default='You did not enter an email address.')
         elif email != self.getEmail():
             mbtool = getToolByName(self, 'membrane_tool')
-            if len(mbtool(getEmail=email)) > 0:
+            if len(mbtool.unrestrictedSearchResults(getEmail=email)) > 0:
                 msg = ("That email address is already in use.  "
                        "Please choose another.")
                 return self.translate(msg, default=msg)
