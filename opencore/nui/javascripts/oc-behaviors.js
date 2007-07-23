@@ -108,7 +108,7 @@ OC.breatheLife = function(newNode, force) {
   OC.debug("END BreatheLife");
   console.timeEnd("breatheLife");
 
-}; // OC.breatheLife()
+}; // breatheLife()
 
 /*
   #------------------------------------------------------------------------
@@ -180,8 +180,6 @@ Ext.onReady(function() {
   OC.breatheLife();
 
 });
-
-OC.breatheLife();
 
 /*
   #------------------------------------------------------------------------
