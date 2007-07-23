@@ -41,7 +41,7 @@ def save_all_projects(portal):
 
 def reindex_membrane_tool(portal):
     # requires the types to be reinstalled first
-    reinstallTypes(portal, portal)
+    reinstallTypes(portal)
     mbtool = getToolByName(portal, 'membrane_tool')
     mbtool.reindexIndex('getLocation', portal.REQUEST)
     logger.log(INFO, "getLocation reindexed")
