@@ -83,7 +83,7 @@
      template="home-searchresults.pt"
      />
 
-  <!-- about & contact -->
+  <!-- footer links -->
   <browser:page
      class="opencore.nui.base.BaseView"
      for="*"
@@ -97,6 +97,20 @@
      permission="zope.Public"
      name="contact"
      template="about.pt"
+     />
+  <browser:page
+     class="opencore.nui.base.BaseView"
+     for="*"
+     permission="zope.Public"
+     name="legal"
+     template="legal.pt"
+     />
+  <browser:page
+     class="opencore.nui.base.BaseView"
+     for="*"
+     permission="zope.Public"
+     name="privacy"
+     template="privacy.pt"
      />
   
   <!-- news -->
