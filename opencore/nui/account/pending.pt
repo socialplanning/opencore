@@ -4,14 +4,21 @@
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
-	<form name="resend_email_form" method="post">
-          <input type="hidden" name="key" id="key" 
-                 tal:condition="view/request/key | nothing" 
-                 tal:attributes="value view/request/key" />
-	  
-	  <input class="context" type="submit" name="resend_email:boolean"
-		 value="Send me another activation email" />
-	</form>
+	<p>
+	  <form name="resend_email_form" method="post">
+            <input type="hidden" name="key" id="key" 
+                   tal:condition="view/request/key | nothing" 
+                   tal:attributes="value view/request/key" />
+	    
+	    <input class="context" type="submit" name="resend_email:boolean"
+		   value="Send me another activation email" />
+	  </form>
+	</p>
+	
+	<p>
+	  Or enter a new email address where you would like to
+	  receive the activation email for this account again
+	</p>
 
 	<form name="new_email_form" method="post" id="oc-new-email-form"
 	      action="pending">
@@ -46,6 +53,10 @@
 	    </table>
 	  </fieldset>
 	</form>
+
+	<p>
+	  If you think this is a mistake, you can try to login again
+	</p>
 
 	<metal:login use-macro="view/login_snippet/macros/login_snippet" />
 	<metal:forgot use-macro="view/forgot_snippet/macros/forgot_snippet" />
