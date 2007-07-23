@@ -83,6 +83,22 @@
      template="home-searchresults.pt"
      />
 
+  <!-- about & contact -->
+  <browser:page
+     class="opencore.nui.base.BaseView"
+     for="*"
+     permission="zope.Public"
+     name="about"
+     template="about.pt"
+     />
+  <browser:page
+     class="opencore.nui.base.BaseView"
+     for="*"
+     permission="zope.Public"
+     name="contact"
+     template="contact.pt"
+     />
+  
   <!-- news -->
   <browser:page
      for="opencore.interfaces.IAmANewsFolder"
