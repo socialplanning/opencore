@@ -1527,7 +1527,11 @@ hr {
 /* LEGACY support for pages generated with Kupu 
 -------------------------------------------- */
 
-.oc-wiki-content h1, h2, h3, h4, h5 {
+.oc-wiki-content h1, 
+.oc-wiki-content h2, 
+.oc-wiki-content h3, 
+.oc-wiki-content h4, 
+.oc-wiki-content h5 {
   font-weight: bold;
   margin: 1em 0 0.5em;
 }
