@@ -44,7 +44,7 @@ def convertFunc(func):
         return out.getvalue()
     return new_func
 
-def reinstallWorkflows(self, portal):
+def reinstallWorkflows(portal):
     wftool = getToolByName(portal, 'portal_workflow')
     qi = getToolByName(portal, 'portal_quickinstaller')
     product = getattr(qi, PROJECTNAME)
@@ -54,7 +54,7 @@ def reinstallWorkflows(self, portal):
     installWorkflows(portal, out)
     return out.getvalue()
 
-def reinstallWorkflowPolicies(self, portal):
+def reinstallWorkflowPolicies(portal):
     pwftool = getToolByName(portal, 'portal_placeful_workflow')
     policies = set(pwftool.objectIds())
     deletes = policies.intersection(set(PLACEFUL_POLICIES.keys()))
@@ -62,13 +62,13 @@ def reinstallWorkflowPolicies(self, portal):
     out = StringIO()
     installWorkflowPolicies(portal, out)
 
-def reinstallTypes(self, portal):
+def reinstallTypes(portal):
     out = StringIO()
     installTypes(portal, out, listTypes(config.PROJECTNAME),
                  config.PROJECTNAME)
     hideActionTabs(portal, out)
 
-def migrate_listen_member_lookup(self, portal):
+def migrate_listen_member_lookup(portal):
     from Products.listen.interfaces import IMemberLookup
     from zope.component import getUtility
     from opencore.listen.utility_overrides import OpencoreMemberLookup
@@ -83,7 +83,7 @@ def setup_nui(portal, out):
     for fn in nui_functions.values():
         fn(portal)
 
-def migrate_redirection(self, portal):
+def migrate_redirection(portal):
     from opencore.redirect import migrate_redirected_objects
     from opencore.interfaces import IProject
     from opencore.siteui.interfaces import IMemberFolder
@@ -92,7 +92,7 @@ def migrate_redirection(self, portal):
     migrate_redirected_objects(portal.people, IMemberFolder)
     
 
-def fixProjectWFStates(self, portal):
+def fixProjectWFStates(portal):
     """
     make sure the projects are in the WF state that matches the
     chosen security policy
@@ -109,7 +109,7 @@ def fixProjectWFStates(self, portal):
         policy_writer.setPolicy(policy_id)
         logger.log(INFO, 'set policy for %s project' % project.getId())
 
-def initializeTeamWorkflow(self, portal):
+def initializeTeamWorkflow(portal):
     """
     initialize the teams with the new team workflow
     """

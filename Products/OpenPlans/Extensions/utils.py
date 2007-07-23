@@ -137,7 +137,7 @@ def setupKupu(portal, out):
     if out:
         print >> out, "Kupu setup completed"
 
-def reinstallSubskins(self, portal):
+def reinstallSubskins(portal):
     out = StringIO()
     stool = getToolByName(portal, 'portal_skins')
     dels = [id for id in stool.objectIds() if id.startswith('openplans')]
