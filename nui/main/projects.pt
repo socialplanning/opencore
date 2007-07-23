@@ -47,9 +47,10 @@
       <!-- content-sidebar -->
       <div id="oc-content-sidebar">
         <div class="oc-getstarted">
-          <h2>Start a project</h2>
-          <p>Can&rsquo;t find a project you are interested in? See a need that is not being met? Why not <a tal:attributes="href string:${view/siteURL}/projects/create">start a new project</a>?
+          <h2>Get started&hellip;</h2>
+          <p>Can&rsquo;t find a project you are interested in? See a need that is not being met?
           </p>
+           <a tal:attributes="href string:${view/siteURL}/projects/create" class="oc-banana">Start a new project</a>
         </div>
         <div class="oc-boxy" tal:content="structure python: view.render_static('main_projects_featured_projects.txt')" />
       </div>
