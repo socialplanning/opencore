@@ -117,6 +117,8 @@ def migrate_mship_workflow_states(portal):
         status['actor'] = actor
         wft.setStatusOf(wfid, mship, status)
         mship.reindexObject(idxs=['review_state'])
+    tmt = getToolByName(portal, 'portal_teams')
+    tmt.setDefaultActiveStates(['public', 'private'])
 
 nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      installNewsFolder=convertFunc(installNewsFolder),
