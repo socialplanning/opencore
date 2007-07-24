@@ -5,7 +5,6 @@ from zope.component import getUtility
 
 from zExceptions import BadRequest
 from zExceptions import Redirect
-from Missing import MV
 
 from plone.memoize.view import memoize as req_memoize
 
@@ -172,14 +171,9 @@ class MemberAccountView(BaseView, OctopoLite):
         proj_title = project_info['Title']
         proj_id = project_info['getId']
 
-        made_active_date = brain.made_active_date
-        if made_active_date == MV:
-            mship_activated_on = 'unknown'
-        else:
-            mship_activated_on = self.pretty_date(brain.made_active_date)
+        mship_activated_on = self.pretty_date(brain.made_active_date)
 
         review_state = brain.review_state
-
         is_pending = review_state == 'pending'
 
         # pending members should also be listed as public
