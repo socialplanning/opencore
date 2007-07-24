@@ -118,13 +118,16 @@ def migrate_mship_workflow_states(portal):
         status['time'] = timestamp
         wft.setStatusOf(wfid, mship, status)
         mship.reindexObject(idxs=['review_state'])
-    tmt = getToolByName(portal, 'portal_teams')
-    tmt.setDefaultActiveStates(['public', 'private'])
 
 def update_team_active_states(portal):
     logger.log(INFO, 'Updating team active states:')
     new_active_states = ('public', 'private')
     new_active_states_set = set(new_active_states)
+
+    tmt = getToolByName(portal, 'portal_teams')
+    if set(tmt.getDefaultActiveStates()) != new_active_states_set:
+        tmt.setDefaultActiveStates(new_active_states)
+
     cat = getToolByName(portal, 'portal_catalog')
     brains = cat(portal_type='OpenTeam')
     for brain in brains:
