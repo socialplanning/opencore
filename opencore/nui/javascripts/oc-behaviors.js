@@ -19,7 +19,7 @@ OC.liveElements = {};
    # css or xpath selector : OC Object name (without OC.)
    #
 */
-OC.liveElementKey = {
+/*OC.liveElementKey = {
     'input[type=text]'        : 'FocusField',
     'input[type=password]'    : 'FocusField',
     'input[type=file]'        : 'FocusField',
@@ -40,7 +40,34 @@ OC.liveElementKey = {
     '.oc-js-liveValidate'     : "LiveValidatee",
     ".oc-js-closeable"        : "CloseButton",
     '#oc-content-container'   : "AutoHeightContent"
-};
+};*/
+OC.liveElementKey = {};
+
+OC.liveElementKey.Element = {
+    'TEXTAREA'               : 'FocusField', 
+    'INPUT_text'             : 'FocusField',
+    'INPUT_password'         : 'FocusField',
+    'INPUT_file'             : 'FocusField'
+}
+OC.liveElementKey.Class = {
+    "oc-js-autoSelect"       : "AutoSelect",
+    "oc-js-expander"         : "Expander",
+    "oc-widget-multiSearch"  : "SearchLinks",
+    'oc-dropdown-container'  : "DropDown",
+    "oc-autoFocus"           : "AutoFocus",
+    "oc-warn-popup"          : "WarnPopup",
+    'oc-checkAll'            : "CheckAll",
+    'oc-js-liveEdit'         : "LiveEdit",
+    'oc-js-actionLink'       : "ActionLink",
+    'oc-js-actionButton'     : "ActionButton",
+    'oc-js-actionSelect'     : "ActionSelect",
+    'oc-js-liveValidate'     : "LiveValidatee",
+    "oc-js-closeable"        : "CloseButton"
+}
+OC.liveElementKey.Id = {
+    "version_compare_form"   : "HistoryList",
+    'oc-project-create'      : "ProjectCreateForm"
+}
     
 /* 
    # breathes life (aka js behaviors) into HTML elements.  call this on
@@ -50,15 +77,15 @@ OC.liveElementKey = {
 */
 
 OC.breatheLife = function(newNode, force) {
-  OC.debug("START BreatheLife");
-  console.time("breatheLife");
-  
-  // force re-up?
-  if (typeof force == "undefined") { force = false }
+
+    OC.time('breatheLife');
+      
+    // force re-up?
+    if (typeof force == "undefined") { force = false }
   
     // set scope
     if (!newNode) {
-     targetNode = document;
+      targetNode = document;
     } else {
       // accept HTML element or Ext Element
       if (newNode.dom)
@@ -67,47 +94,58 @@ OC.breatheLife = function(newNode, force) {
           targetNode = newNode; 
     }
     
-    // loop through selectors specified above
-    for (var selector in OC.liveElementKey) {
-
-      // Get array of elements to apply behaviors to.  Include newNode itself in query.      
-      var elements = Ext.query(selector, targetNode);
-      if (Ext.DomQuery.is(targetNode, selector)) {
-          elements.push(Ext.get(targetNode));
+    // get an array of elements
+    var elements = Ext.query('*', targetNode);
+    
+    // loop through elements and match up against selectors
+    for (var i = 0; i<elements.length; i++) {
+      
+      var element = elements[i];
+    
+      // which constructors will we add to this element?
+      var constructorNames = new Array();
+    
+      // check if element matches anything in the Elements list
+      if (this.liveElementKey.Element[element.tagName] != undefined) {
+        constructorNames.push(this.liveElementKey.Element[element.tagName]);
       }
-
-      if(elements.length > 0){
-          
-       for (var i = 0; i < elements.length; i++) {
+      
+      var matcher = element.tagName + "_" + element.type;
+            
+      if (OC.liveElementKey.Element[matcher] != undefined ) {
+        constructorNames.push(this.liveElementKey.Element[matcher]);
+      }
+      
+      // check if class matches anything in the Classes list
+      var classNames = element.className.split(' ');
+      for (var j=0; j<classNames.length; j++) {
+        if (this.liveElementKey.Class[classNames[j]] != undefined) {
+          constructorNames.push(this.liveElementKey.Class[classNames[j]]); 
+        }
+      }      
+      
+      // check if ID matches anything in the IDs list
+      if (this.liveElementKey.Id[element.id] != undefined) {
+        constructorNames.push(this.liveElementKey.Id[element.id]);
+      }
+      
+      // foreach match, check to see if it exists
+      for (var j=0; j<constructorNames.length; j++) {
+        var constructorName = constructorNames[j];
+        var extEl = Ext.get(element);
+        OC.liveElements[extEl.id] = {};
+        var constructor = OC[constructorName];
+        OC.debug(constructorName);
         
-          //get an Ext Obj for your element
-          var extEl = Ext.get(elements[i]);
-                    
-          //get reference to the proper constructor
-          var constructor = OC[this.liveElementKey[selector]]; 
-          var constructorName = this.liveElementKey[selector]; 
-          
-          // make a new liveElements array for this ID
-          if (typeof OC.liveElements[extEl.id] == "undefined" ) {
-            OC.liveElements[extEl.id] = {};      
-          }
-                
-          // add a new liveElement to OC.liveElements.
-          // only make a new one if it doesn't exist, or if force has been specified
-          OC.debug("BreatheLife: Considering making " + " Constructor: " + this.liveElementKey[selector] + " ID: " + extEl.id)
-          
-          if (force || typeof OC.liveElements[extEl.id][constructorName] == "undefined" ) {
-             OC.debug("BreatheLife: Starting new element. " + " Constructor: " + this.liveElementKey[selector] + " ID: " + extEl.id);
-              var myId = extEl.id;
-              OC.liveElements[myId][constructorName] = new constructor(extEl);
-          }
-        } // end for each element
-      } // end if there are elements
-    } // end for each selector
-  OC.debug(OC.liveElements);
-  OC.debug("END BreatheLife");
-  console.timeEnd("breatheLife");
-
+        if (force || typeof OC.liveElements[extEl.id][constructor] == "undefined" ) {
+          OC.liveElements[extEl.id][constructorName] = new constructor(extEl);
+        }
+      }
+      
+    } // end for each element
+    
+    OC.timeEnd('breatheLife');
+    
 }; // breatheLife()
 
 /*
@@ -122,6 +160,18 @@ OC.debug = function(string) {
 	     console.log(string);
     }
 };
+
+// Timer
+OC.time = function(name) {
+  if (typeof console != 'undefined') {
+    console.time(name);
+  }
+}
+OC.timeEnd = function(name) {
+  if (typeof console != 'undefined') {
+    console.timeEnd(name);
+  }
+}
 
 // Send a message to the user
 OC.psm = function(text, tone) {
