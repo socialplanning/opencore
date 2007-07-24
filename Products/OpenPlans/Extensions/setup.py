@@ -36,7 +36,8 @@ from utils import setupKupu, reinstallSubskins
 out = StringIO()
 def convertFunc(func):
     """
-    turns a standard install function into a setup widget function
+    turns a standard install function, which requires two arguments,
+    into a setup widget function, which only requires one.
     """
     def new_func(portal):
         out=StringIO()
@@ -77,7 +78,7 @@ def migrate_listen_member_lookup(portal):
     sm = portal.getSiteManager()
     sm.registerUtility(IMemberLookup, opencore_memberlookup)
 
-def setup_nui(portal, out):
+def setup_nui(portal):
     """ this will call all the  nui setup functions """
     from opencore.nui.setup import nui_functions
     for fn in nui_functions.values():
@@ -166,7 +167,7 @@ topp_functions = dict(
     setupPeopleFolder=convertFunc(setupPeopleFolder),
     migrate_teams_to_projects=migrate_teams_to_projects,
     migrate_membership_roles=migrate_membership_roles,
-    NUI_setup=convertFunc(setup_nui),
+    NUI_setup=setup_nui,
     fixProjectWFStates=fixProjectWFStates,
     initializeTeamWorkflow=initializeTeamWorkflow,
     migrate_redirection=migrate_redirection
