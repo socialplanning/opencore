@@ -67,6 +67,9 @@ class ProjectsSearchView(SearchView):
         elif search_for:
             self.search_results = self._get_batch(self.search_for_project(search_for, sort_by), start)
             self.search_query = 'for &ldquo;%s&rdquo;' % search_for
+        else:
+            self.search_results = self._get_batch(self.search_for_project_by_letter('all', sort_by), start)
+            self.search_query = 'for all projects'
             
         return self.index()
         
@@ -237,6 +240,10 @@ class PeopleSearchView(SearchView):
         elif search_for:
             self.search_results = self._get_batch(self.search_for_person(search_for, sort_by), start)
             self.search_query = 'for &ldquo;%s&rdquo;' % search_for
+        else:
+            self.search_results = self._get_batch(self.search_for_person_by_letter('all', sort_by), start)
+            self.search_query = 'for all members'
+            
         return self.index()
 
     def search_for_person_by_letter(self, letter, sort_by=None):
@@ -330,10 +337,12 @@ class SitewideSearchView(SearchView):
         if letter_search:
             self.search_results = self._get_batch(self.search_by_letter(letter_search, sort_by), start)
             self.search_query = 'for content starting with &ldquo;%s&rdquo;' % letter_search
-        if search_for:
+        elif search_for:
             self.search_results = self._get_batch(self.search(search_for, sort_by), start)
             self.search_query = 'for &ldquo;%s&rdquo;' % search_for
-
+        else:
+            self.search_results = self._get_batch(self.search_by_letter('all', sort_by), start)
+            self.search_query = 'for all content'
             
         return self.index()
     
