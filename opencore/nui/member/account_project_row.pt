@@ -47,7 +47,9 @@
         </div><!-- end .oc-js-liveEdit .oc-js-actionSelect -->
       </td>
       <td>
-        <ul class="oc-actions oc-dataTable-row-actions">
+        <ul class="oc-actions oc-dataTable-row-actions"
+            tal:condition="python:not view._is_only_admin(proj_id)"
+            >
           <li>
             <a class="oc-actionLink oc-js-actionLink"
                tal:attributes="href string:${context/absolute_url}/${view/name}?task|${proj_id}|leave=Leave">Leave</a>
