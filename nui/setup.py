@@ -103,6 +103,7 @@ def migrate_portraits(portal):
             member.setPortrait(old_portrait)
 
 def migrate_mship_workflow_states(portal):
+    logger.log(INFO, "Updating memberships' workflow states:")
     catalog = getToolByName(portal, 'portal_catalog')
     mships = catalog(portal_type='OpenMembership', review_state='committed')
     wft = getToolByName(portal, 'portal_workflow')
@@ -118,6 +119,21 @@ def migrate_mship_workflow_states(portal):
         status['time'] = timestamp
         wft.setStatusOf(wfid, mship, status)
         mship.reindexObject(idxs=['review_state'])
+        logger.log(INFO, '--> updated workflow state for %s' % mship.getId())
+    logger.log(INFO, "Done updating memberships' workflow states.")
+
+def migrate_mships_made_active_date(portal):
+    logger.log(INFO, "Updating memberships' made_active_date attribute:")
+    catalog = getToolByName(portal, 'portal_catalog')
+    mships = catalog(portal_type='OpenMembership')
+    for mship in mships:
+        mship = mship.getObject()
+        if not hasattr(mship, 'made_active_date'):
+            setattr(mship, 'made_active_date', mship.creation_date)
+            logger.log(INFO, '--> updated made_active_date for %s' % mship.getId())
+        mship.reindexObject(idxs=['made_active_date'])
+    logger.log(INFO, "Done updating memberships' made_active_date attribute.")
+
 
 def update_team_active_states(portal):
     logger.log(INFO, 'Updating team active states:')
@@ -159,6 +175,7 @@ nui_functions['Migrate portraits (add new sizes)'] = migrate_portraits
 nui_functions['Remove project roster objects'] = remove_roster_objects
 nui_functions['Migrate memberships to new workflow'] = migrate_mship_workflow_states
 nui_functions['Update team active states'] = update_team_active_states
+nui_functions['Add made_active_date attribute to memberships'] = migrate_mships_made_active_date
 
 def run_nui_setup(portal):
     pm = portal.portal_migration
