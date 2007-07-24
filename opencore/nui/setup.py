@@ -21,7 +21,7 @@ from Products.OpenPlans.Extensions.Install import createMemIndexes, \
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans import config as op_config
 from indexing import createIndexes
-from DateTime import  DateTime
+from DateTime import DateTime
 
 logger = getLogger(op_config.PROJECTNAME)
 
@@ -103,18 +103,19 @@ def migrate_portraits(portal):
             member.setPortrait(old_portrait)
 
 def migrate_mship_workflow_states(portal):
-    wft = getToolByName(portal, 'portal_workflow')
     catalog = getToolByName(portal, 'portal_catalog')
     mships = catalog(portal_type='OpenMembership', review_state='committed')
+    wft = getToolByName(portal, 'portal_workflow')
     wfid = 'openplans_team_membership_workflow'
     mstool = getToolByName(portal, 'portal_membership')
     actor = mstool.getAuthenticatedMember().getId()
+    timestamp = str(DateTime())
     for mship in mships:
         mship = mship.getObject()
         status = wft.getStatusOf(wfid, mship)
-        status['review_state'] = 'public'
-        status['time'] = DateTime()
+        status['review_state'] = 'public' # this is the important part
         status['actor'] = actor
+        status['time'] = timestamp
         wft.setStatusOf(wfid, mship, status)
         mship.reindexObject(idxs=['review_state'])
     tmt = getToolByName(portal, 'portal_teams')
