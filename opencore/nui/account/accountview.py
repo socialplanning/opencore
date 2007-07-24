@@ -91,29 +91,32 @@ class AccountView(BaseView):
 
 class LoginView(AccountView):
 
+    def login_pending_member(self):
+        # check to see if the member is pending
+        member = None
+        id_ = self.request.get('__ac_name')
+        password = self.request.form.get('__ac_password')
+        if id_ and password:
+            member = self.is_pending(getId=id_)
+
+        # ensure there is one match and the password is right
+        if member and member.verifyCredentials({'login': id_, 
+                                                'password': password}):
+            self.addPortalStatusMessage("""An email has been sent to %s from %s
+                but it seems like you have not yet activated your account.""" %
+                (member.getEmail(),
+                 self.portal.getProperty('email_from_address')))
+            self.redirect('pending?key=%s' % member.UID())
+            return True
+        return False
+
     @button('login')
     @post_only(raise_=False)
     def handle_login(self):
+        if self.login_pending_member(): return
+
         id_ = self.request.get('__ac_name')
         if self.loggedin:
-            # check to see if the member is pending
-            # XXX probably hack this off into its own function when refactoring
-            # (above should again be modularized)
-            member = None
-            password = self.request.form.get('__ac_password')
-            if id_ and password:
-                member = self.is_pending(getId=id_)
-
-            # ensure there is one match
-            if member and member.verifyCredentials({'login': id_, 
-                                                    'password': password}):
-                
-                self.addPortalStatusMessage("""An email has been sent to %s from %s
-                    but it seems like you have not yet activated your account.""" %
-                    (member.getEmail(), self.portal.getProperty('email_from_address')))
-                self.redirect('pending?key=%s' % member.UID())
-                return
-
             self.addPortalStatusMessage('You are logged in')
             self.update_credentials(id_)
             self.membertool.setLoginTimes()
