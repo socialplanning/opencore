@@ -5,6 +5,7 @@ from Testing.ZopeTestCase import PortalTestCase
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 #from opencore.testing.layer import OpenPlansLayer as test_layer
 from opencore.testing.layer import OpencoreContent as test_layer
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
@@ -32,7 +33,7 @@ def test_suite():
     readme = FunctionalDocFileSuite("README.txt",
                                     optionflags=optionflags,
                                     package='opencore.nui',
-                                    test_class=FunctionalTestCase,
+                                    test_class=OpenPlansTestCase,
                                     globs = globs,
                                     setUp=readme_setup
                                     )
