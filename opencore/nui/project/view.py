@@ -392,7 +392,7 @@ class ProjectAddView(BaseView, OctopoLite):
             errors['oc-id-validator'] = {
                 'html': 'The requested url is already taken.',
                 'action': 'copy',
-                'effects': ''
+                'effects': 'highlight'
                 }
         else:
             errors['oc-id-validator'] = {
