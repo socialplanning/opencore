@@ -507,6 +507,7 @@ ul.oc-tabs li.oc-notallowed a {
   display: inline;
 }
 .oc-wiki-content {
+  margin-bottom: 1.5em;
 }
 .oc-wiki-content ol,
 .oc-wiki-content ul,
