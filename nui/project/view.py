@@ -724,11 +724,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                 }
 
         data['listed'] = self.listedmap[brain.review_state]
-
-        made_active_date = brain.made_active_date
-        if not made_active_date:
-            made_active_date = brain.CreationDate
-        data['active_since'] = made_active_date
+        data['active_since'] = brain.made_active_date
 
         role = self.team.getHighestTeamRoleForMember(brain.id)
         data['role'] = self.rolemap[role]
