@@ -989,8 +989,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         sender = self.email_sender
         ret = {}
         for mem_id in mem_ids:
-            sender.sendEmail(mem_id, msg_id='membership_deactivated',
-                             project_title=self.context.Title())
+            try:
+                sender.sendEmail(mem_id, msg_id='membership_deactivated',
+                                 project_title=self.context.Title())
+            except MailHostError:
+                self.addPortalStatusMessage('Error sending mail to: %s' % mem_id)
             self._add_removal_message_for(mem_id)
             ret[mem_id] = {'action': 'delete'}
 
