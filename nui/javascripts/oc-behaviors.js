@@ -229,10 +229,14 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
       OC.debug(err); 
     }
     try {  
-      if (this.button.dom.innerHTML = "Please wait...") {
+      if (this.button.dom.innerHTML == "Please wait...") {
+          OC.debug("link innerhtml: " + this.button.dom.innerHTML);
+          OC.debug("link origValue: " + this.origButtonValue);
           this.button.dom.innerHTML = this.origButtonValue;
       }
-      if (this.button.dom.value = "Please wait...") {
+      if (this.button.dom.value == "Please wait...") {
+          OC.debug("button value:" + this.button.dom.value);
+          OC.debug("button origvalue: " + this.origButtonValue);
         this.button.dom.value = this.origButtonValue;
       }
       if (this.button.dom.disabled) {
