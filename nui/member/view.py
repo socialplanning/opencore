@@ -24,6 +24,9 @@ from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.nui.member.interfaces import ITransientMessage
 from opencore.nui.project.interfaces import IEmailInvites
 
+from zope.event import notify
+from zope.app.event.objectevent import ObjectModifiedEvent
+
 class ProfileView(BaseView):
 
     field_snippet = ZopeTwoPageTemplateFile('field_snippet.pt')
@@ -111,6 +114,8 @@ class ProfileEditView(ProfileView, OctopoLite):
             if mutator is not None:
                 mutator(value)
             self.user_updated()
+
+        notify(ObjectModifiedEvent(member))
     
         member.reindexObject()
         self.template = None
