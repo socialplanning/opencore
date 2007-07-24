@@ -337,7 +337,7 @@ class MemberAccountView(BaseView, OctopoLite):
         mship = team._getOb(mem_id)
         wft = self.get_tool('portal_workflow')
         review_state = wft.getInfoFor(mship, 'review_state')
-        if review_state != 'public': return False
+        if review_state not in self.active_states: return False
 
         role = team.getHighestTeamRoleForMember(mem_id)
         if role != 'ProjectAdmin': return False

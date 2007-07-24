@@ -100,6 +100,10 @@ Exercise the Member Account Class
     >>> [d['listed'] for d in project_dicts]
     [False, True]
 
+    And he should still be able to leave a project when private
+    >>> view._can_leave('p3')
+    True
+
     Now let's set it back to visible
     >>> view.change_visibility('p3')
     True
@@ -192,7 +196,15 @@ it, and return an appropriate portal status message
     >>> proj_team = pt.p3
     >>> proj_team.removeMember('portal_owner')
 
-    Now we can leave the project
+    Now we can try to leave the project
+    >>> view.leave_project('p3')
+    False
+    >>> view.portal_status_message
+    [u'You are the only admin. You cannot leave this project']
+
+    Even if we are in the private state
+    >>> view.change_visibility('p3')
+    True
     >>> view.leave_project('p3')
     False
     >>> view.portal_status_message
