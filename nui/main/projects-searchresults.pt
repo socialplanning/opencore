@@ -39,7 +39,7 @@
                   <option value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
                   <option value="modified" tal:attributes="selected python: sorted_by == 'modified'">date updated</option>
                   <option value="created" tal:attributes="selected python: sorted_by == 'created'">date created</option>
-                  <option value="Title" tal:attributes="selected python: sorted_by == 'Title'">project name</option>
+                  <option value="sortable_title" tal:attributes="selected python: sorted_by == 'sortable_title'">project name</option>
                   <option value="Creator" tal:attributes="selected python: sorted_by == 'Creator'">member name</option>
                 </select>
 
