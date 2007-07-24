@@ -19,28 +19,7 @@ OC.liveElements = {};
    # css or xpath selector : OC Object name (without OC.)
    #
 */
-/*OC.liveElementKey = {
-    'input[type=text]'        : 'FocusField',
-    'input[type=password]'    : 'FocusField',
-    'input[type=file]'        : 'FocusField',
-    'textarea'                : 'FocusField',
-    ".oc-js-autoSelect"       : "AutoSelect",
-    ".oc-js-expander"         : "Expander",
-    "#version_compare_form"   : "HistoryList",
-    ".oc-widget-multiSearch"  : "SearchLinks",
-    '.oc-dropdown-container'  : "DropDown",
-    '#oc-project-create'      : "ProjectCreateForm",
-    ".oc-autoFocus"           : "AutoFocus",
-    ".oc-warn-popup"          : "WarnPopup",
-    '.oc-checkAll'            : "CheckAll",
-    '.oc-js-liveEdit'         : "LiveEdit",
-    '.oc-js-actionLink'       : "ActionLink",
-    '.oc-js-actionButton'     : "ActionButton",
-    '.oc-js-actionSelect'     : "ActionSelect",
-    '.oc-js-liveValidate'     : "LiveValidatee",
-    ".oc-js-closeable"        : "CloseButton",
-    '#oc-content-container'   : "AutoHeightContent"
-};*/
+
 OC.liveElementKey = {};
 
 OC.liveElementKey.Element = {
@@ -63,10 +42,11 @@ OC.liveElementKey.Class = {
     'oc-js-actionSelect'     : "ActionSelect",
     'oc-js-liveValidate'     : "LiveValidatee",
     "oc-js-closeable"        : "CloseButton"
+
 }
 OC.liveElementKey.Id = {
     "version_compare_form"   : "HistoryList",
-    'oc-project-create'      : "ProjectCreateForm"
+        'oc-project-create'      : "ProjectCreateForm"
 }
     
 /* 
@@ -125,15 +105,15 @@ OC.breatheLife = function(newNode, force) {
       }      
       
       // check if ID matches anything in the IDs list
-      if (this.liveElementKey.Id[element.id] != undefined) {
-        constructorNames.push(this.liveElementKey.Id[element.id]);
+      if (this.liveElementKey.Id[element.getAttribute('id')] != undefined) {
+        constructorNames.push(this.liveElementKey.Id[element.getAttribute('id')]);
       }
       
       // foreach match, check to see if it exists
       for (var j=0; j<constructorNames.length; j++) {
         var constructorName = constructorNames[j];
         var extEl = Ext.get(element);
-        OC.liveElements[extEl.id] = {};
+        if (typeof OC.liveElements[extEl.id] == "undefined") { OC.liveElements[extEl.id] = {} };
         var constructor = OC[constructorName];
         OC.debug(constructorName);
         
@@ -144,6 +124,7 @@ OC.breatheLife = function(newNode, force) {
       
     } // end for each element
     
+    OC.debug(OC.liveElements);
     OC.timeEnd('breatheLife');
     
 }; // breatheLife()
@@ -400,9 +381,7 @@ OC.ActionLink = function(extEl) {
     
     if (!link) {
 	     OC.debug("ActionLink: Could not get refs");
-    } else {
-	     OC.debug("ActionLink: Got refs")
-    }
+    } 
     
     function _doAction(e, el, o) {
 	YAHOO.util.Event.stopEvent(e);
@@ -446,9 +425,7 @@ OC.ActionSelect = function(extEl) {
     if (!select) {
 	OC.debug("ActionSelect: Couldn't get refs");
 	return;
-    } else {
-	OC.debug("ActionSelect: Got Refs");
-    }
+    } 
     
     //settings
     var action = form.dom.action;
@@ -496,9 +473,7 @@ OC.ActionButton = function(extEl) {
     if (!this.button || !form) {
       OC.debug("ActionButton: Couldn't get refs");
       return;
-        } else {
-      OC.debug("ActionButton: Got Refs");
-    }
+        } 
     
     // settings
     var action = form.dom.action;
@@ -561,9 +536,7 @@ OC.CheckAll = function(extEl) {
     // check refs
     if (!checkAll || !form || !allBoxes) {
 	OC.debug("CheckAll: Couldn't get refs");
-    } else {
-	OC.debug("CheckAll: Got refs");
-    }
+    } 
     
     function _toggleCheckBoxes(e, el, o) {
 	OC.debug('_checkAllClick');
@@ -812,9 +785,7 @@ OC.DropDown  = function(extEl) {
     if (!container || !submenu || !unclickArea) {
       OC.debug("TopNav: couldn't get refs");
       return;
-        } else {
-      OC.debug("TopNav: got refs");
-    }
+        } 
     
     // settings
     var overrideHide = false;
@@ -879,8 +850,6 @@ OC.AutoHeightContent = function(extEl) {
   // check refs
   if (!content) {
     OC.debug("AutoHeightContent: couldn't get refs");
-  } else {
-    OC.debug("AutoHeightContent:  got refs");
   }
   
   // settings
@@ -907,8 +876,6 @@ OC.ProjectCreateForm = function(extEl) {
     // check refs
     if (!form || !nameField || !urlField) {
 	     OC.debug("ProjectCreateForm: couldn't get refs");
-    } else {
-	     OC.debug("ProjectCreateForm: got refs");
     }
     
     // settings & properties
@@ -921,7 +888,6 @@ OC.ProjectCreateForm = function(extEl) {
     function _urlize(e, el, o) {
       if (!customUrl) {
           suggestedUrl = Ext.util.Format.trim(el.value).toLowerCase().replace(/[^a-zA-Z0-9-\s]/gi, "").replace(/  /g, " ").replace(/ /g, "-");
-          OC.debug(suggestedUrl);
           urlField.dom.value = suggestedUrl;
       } else {
           OC.debug('custom URL: will not suggest'); 
