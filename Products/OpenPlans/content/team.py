@@ -17,7 +17,7 @@ from Products.OpenPlans.config import DEFAULT_ROLES
 
 from opencore.interfaces.event import ChangedTeamRolesEvent
 
-import datetime
+from DateTime import DateTime
 
 marker = object()
 
@@ -206,7 +206,7 @@ class OpenTeam(Team):
         wftool.setStatusOf(wfid, mship, status)
 
         # follow up like OpenPlans.Extensions.workflow.mship_activated()
-        mship.made_active_date = datetime.datetime.now()
+        mship.made_active_date = DateTime()
         mship.reindexObject()
         mship._p_changed = True
 
