@@ -121,6 +121,18 @@ def migrate_mship_workflow_states(portal):
     tmt = getToolByName(portal, 'portal_teams')
     tmt.setDefaultActiveStates(['public', 'private'])
 
+def update_team_active_states(portal):
+    logger.log(INFO, 'Updating team active states:')
+    new_active_states = ('public', 'private')
+    new_active_states_set = set(new_active_states)
+    cat = getToolByName(portal, 'portal_catalog')
+    brains = cat(portal_type='OpenTeam')
+    for brain in brains:
+        team = brain.getObject()
+        if set(team.getActiveStates()) != new_active_states_set:
+            logger.log(INFO, '--> updated active states for %s' % team.getId())
+            team.setActiveStates(new_active_states)
+
 nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      installNewsFolder=convertFunc(installNewsFolder),
                      move_interface_marking_on_projects_folder=move_interface_marking_on_projects_folder,
@@ -143,6 +155,7 @@ nui_functions['Update Method Aliases'] = set_method_aliases
 nui_functions['Migrate portraits (add new sizes)'] = migrate_portraits
 nui_functions['Remove project roster objects'] = remove_roster_objects
 nui_functions['Migrate memberships to new workflow'] = migrate_mship_workflow_states
+nui_functions['Update team active states'] = update_team_active_states
 
 def run_nui_setup(portal):
     pm = portal.portal_migration
