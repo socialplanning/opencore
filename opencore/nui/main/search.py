@@ -266,9 +266,11 @@ class PeopleSearchView(SearchView):
         if letter == 'all':
             return people_brains
         elif letter == 'num':
-            people_brains = [brain for brain in people_brains if num_regex.match(brain.getId.lower())]
+            people_brains = [brain for brain in people_brains
+                             if num_regex.match(brain.getId.lower())]
         else:
-            people_brains = [brain for brain in people_brains if brain.getId.lower().startswith(letter)]
+            people_brains = [brain for brain in people_brains
+                             if brain.getId.lower().startswith(letter)]
         return people_brains
 
     def search_for_person(self, person, sort_by=None):
