@@ -182,7 +182,7 @@ the form the validate() method will be triggered::
 
     >>> request.form['task|validate'] = 'Foo'
     >>> str(view())
-    '<!-- join form -->...'
+    '...Join OpenPlans...'
 
 The template was rerendered with the error messages; to get the error
 dict directly, make the request asynchronous::
