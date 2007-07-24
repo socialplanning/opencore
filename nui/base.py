@@ -221,7 +221,7 @@ class BaseView(BrowserView):
                 id          = id,
                 fullname    = member.getFullname(),
                 email       = member.getEmail(),
-                membersince = prettyDate(member.getRawCreation_date()),
+                membersince = prettyDate(member.creation_date),
                 lastlogin   = logintime,
                 folder_url  = self.memfolder_url(id_=id),
                 home_url    = self.memhome_url(id_=id),
