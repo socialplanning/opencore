@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from zope import event
 from zope.component import getUtility
 
@@ -59,7 +57,7 @@ class ProfileView(BaseView):
         portrait_url = self.viewed_member_info.get('portrait_url')
         if portrait_url == self.defaultPortraitURL:
             return portrait_url
-        timestamp = datetime.now().isoformat()
+        timestamp = str(DateTime()).replace(' ', '_')
         return '%s?%s' % (portrait_url, timestamp)
 
 
@@ -171,7 +169,9 @@ class MemberAccountView(BaseView, OctopoLite):
         proj_title = project_info['Title']
         proj_id = project_info['getId']
 
-        mship_activated_on = brain.made_active_date or brain.creation_date
+        mship_activated_on = brain.made_active_date
+        if not isinstance(mship_activated_on, DateTime):
+            mship_activated_on = brain.creation_date
         mship_activated_on = self.pretty_date(mship_activated_on)
 
         review_state = brain.review_state
