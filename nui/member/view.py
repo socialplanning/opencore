@@ -171,7 +171,8 @@ class MemberAccountView(BaseView, OctopoLite):
         proj_title = project_info['Title']
         proj_id = project_info['getId']
 
-        mship_activated_on = self.pretty_date(brain.made_active_date)
+        mship_activated_on = brain.made_active_date or brain.creation_date
+        mship_activated_on = self.pretty_date(mship_activated_on)
 
         review_state = brain.review_state
         is_pending = review_state == 'pending'
