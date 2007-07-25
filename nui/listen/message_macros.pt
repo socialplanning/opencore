@@ -10,7 +10,7 @@
         <a href="#"
           tal:content="item/subject"
           tal:condition="exists:use_id_anchors"
-          tal:attributes="href string:#${item/id};
+          tal:attributes="href string:forum_view#${item/id};
           title item/date">Subject</a>
           <span class="oc-discreetText">
               by <a href="."
