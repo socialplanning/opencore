@@ -16,10 +16,17 @@
     <div id="oc-content-main">
       <div id="oc-security-settings" class="oc-boxy">
         <h2>Your security settings</h2>
-        <p>
+        <p tal:condition="python:proj['security']=='open_policy'">
+          Currently anyone can view the content of your project and 
+	  contribute to it.
+        </p>
+        <p tal:condition="python:proj['security']=='medium_policy'">
+          Currently anyone can view the content of your project.  Only project
+	  members can contribute content.
+        </p>
+        <p tal:condition="python:proj['security']=='closed_policy'">
           Currently only your project members can view the content
-          of your project.  Only administrators can add new features
-          to the site.
+          of your project and contribute to it.
         </p>
         <p><a href="preferences">Change security settings</a></p>
       </div>
