@@ -1,8 +1,6 @@
-<div metal:define-macro="search_widget" class="oc-widget oc-widget-search oc-widget-multiSearch oc-boxy">    
-  <!--<h1 class="oc-biggerText">Search</h1>-->
+<div metal:define-macro="search_widget" class="oc-boxy oc-widget oc-widget-search oc-widget-multiSearch">    
   <form name="search_form" action="." tal:attributes="action form_action_url"
   tal:define="letter_search request/letter_search | string:; search_for request/search_for | string:">
-    
      <label class="oc-label-heading oc-biggerText">Search</label>
         <a tal:condition="python:current_search_page!='people'" class="oc-search-people" tal:attributes="href string:${context/portal_url}/people/searchresults?letter_search=${letter_search}&search_for=${search_for}">People</a>
         

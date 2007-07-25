@@ -1199,14 +1199,13 @@ li.oc-invite .oc-invite-content {
   display: block;
   float: left;
   padding: 0.065em 0.25em;
-  border: 1px solid transparent;
 }
 .oc-widget-alphabet li a:hover {
-  border: 1px dotted #EB852B;
+  background: #ddd;
+  text-decoration: none;
 }
 .oc-widget-alphabet li a.oc-widget-alphabet-selectedLetter {
  border: 1px solid #EB852B;
- color: #EB852B;
 }
 
 /* Get Started */

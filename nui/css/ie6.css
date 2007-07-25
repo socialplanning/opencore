@@ -26,3 +26,12 @@ h2.oc-dataTable-heading {
 .oc-feed-list {
   padding-top: .5em;
 }
+
+.oc-widget-search form {
+  margin: 0;
+}
+
+.oc-widget-alphabet {
+  padding: 0;
+  margin: 0;
+}
