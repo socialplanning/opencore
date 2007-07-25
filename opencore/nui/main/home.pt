@@ -18,6 +18,7 @@
           <div class="oc-widget oc-widget-feed oc-home-column">
             <h2 class="oc-feed-title">Newest projects</h2>
             <ul class="oc-feed-list">
+              <!-- weirdly, IE likes this here.  Should be fixed at some point -->
               <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recently_created_projects">
                 <!--<img class="oc-avatar" src="" tal:attributes="src project/image_src | nothing" />-->
                 <h3 class="oc-feed-item-title">
@@ -38,8 +39,7 @@
             <h2 class="oc-feed-title">Updated projects</h2>
             <ul class="oc-feed-list">
         <!-- FIXME optimization potential -->
-              <li class="oc-feed-item oc-clearAfter" 
-      tal:repeat="project view/recently_updated_projects">
+              <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recently_updated_projects">
                 <!--<img class="oc-avatar" src="" tal:attributes="src project/image_src | nothing" /> -->
                 <h3 class="oc-feed-item-title">
                   <a href="" tal:attributes="href python:view.project_url(project)" tal:content="project/Title">Project title</a>
