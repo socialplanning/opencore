@@ -66,7 +66,7 @@ OC.breatheLife = function(newNode, force) {
   
     // set scope
     if (!newNode) {
-      targetNode = document;
+      targetNode = document.body;
     } else {
       // accept HTML element or Ext Element
       if (newNode.dom)
@@ -77,6 +77,7 @@ OC.breatheLife = function(newNode, force) {
     
     // get an array of elements
     var elements = Ext.query('*', targetNode);
+    elements.push(targetNode);
     
     // loop through elements and match up against selectors
     for (var i = 0; i<elements.length; i++) {
