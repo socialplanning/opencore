@@ -37,6 +37,14 @@ Test wiki history registrations::
     >>> page.restrictedTraverse('version_compare')
     <...SimpleViewClass ...wiki/wiki-version-compare.pt object at ...>
 
+... and permission
+
+    >>> from AccessControl.SecurityManagement import newSecurityManager
+    >>> from AccessControl.User import nobody
+    >>> newSecurityManager(None, nobody)
+    >>> history = page.restrictedTraverse('history')
+    >>> history()
+    '... There are no previous versions...
 
 Test wiki attachment registrations which are not used any more::
 
