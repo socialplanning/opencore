@@ -126,11 +126,11 @@ class ProjectsSearchView(SearchView):
         project_brains = self.catalog.evalAdvancedQuery(query, rs)
         return project_brains
     
-    def recently_updated_projects(self):
+    def recently_updated_projects(self, sort_limit=10):
         query = dict(portal_type='OpenProject',
                      sort_on='modified',
                      sort_order='descending',
-                     sort_limit=5,
+                     sort_limit=sort_limit,
                      )
 
         self.apply_context_restrictions(query)
@@ -292,7 +292,7 @@ class HomeView(SearchView):
     intro = static_txt('main_home_intro.txt')
 
     def recently_updated_projects(self):
-        return self.projects_search.recently_updated_projects()
+        return self.projects_search.recently_updated_projects(sort_limit=5)
 
     def n_project_members(self, proj_brain):
         return self.projects_search.n_project_members(proj_brain)
