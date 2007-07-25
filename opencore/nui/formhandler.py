@@ -160,7 +160,7 @@ class OctopoLite(opencore.nui.octopus.Octopus):
             return self.template()
 
     def _octopus_async_postprocess(self, ret):
-        self.response.setHeader('Content-Type', "application/javascript;charset=utf-8")
+        #self.response.setHeader('Content-Type', "application/javascript;charset=utf-8")
         try:
             psm_macro = self.main_macros.macros['status-messages']
             status_msg_html = self.render_macro(psm_macro)
