@@ -115,7 +115,7 @@ Exercise the Member Account Class
     [True, True]
 
     Check invitations for m1
-    >>> view.invitations
+    >>> view.invitations()
     []
 
     Let's simulate a project admin inviting a user
@@ -141,7 +141,7 @@ Exercise the Member Account Class
     Now we should have one invitation for m1
     These are what the member can act on
     >>> self.clearMemoCache()
-    >>> project_dicts = view.invitations
+    >>> project_dicts = view.invitations()
     >>> len(project_dicts)
     1
     >>> proj = project_dicts[0]
@@ -169,7 +169,7 @@ Exercise the Member Account Class
     []
 
     And verify that taking the length of updates works
-    >>> view.n_updates
+    >>> view.nupdates()
     1
 
     Let's try leaving a project pending from a member request
@@ -210,7 +210,7 @@ it, and return an appropriate portal status message
     >>> view.portal_status_message
     [u'You are the only admin. You cannot leave this project']
 
-    >>> project_dicts = view.invitations
+    >>> project_dicts = view.invitations()
     >>> [d['proj_id'] for d in project_dicts]
     ['p4']
 
@@ -233,7 +233,7 @@ Let's accept our gracious invitation
 
     And thus, we should no longer be invited
     >>> self.clearMemoCache()
-    >>> view.invitations
+    >>> view.invitations()
     []
 
     But a part of the project
@@ -281,7 +281,7 @@ Let's also reject an invitation extended to us::
 
     So we're invited
     >>> self.clearMemoCache()
-    >>> [d['proj_id'] for d in view.invitations]
+    >>> [d['proj_id'] for d in view.invitations()]
     ['p2']
 
     Now we shove it back in the admin's face
@@ -290,7 +290,7 @@ Let's also reject an invitation extended to us::
 
     And we're not a part of that project, and no longer invited
     >>> self.clearMemoCache()
-    >>> view.invitations
+    >>> view.invitations()
     []
     >>> sorted([d['proj_id'] for d in view.projects_for_user])
     ['p1', 'p3', 'p4']

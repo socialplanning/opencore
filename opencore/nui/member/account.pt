@@ -14,12 +14,12 @@
   
   <div id="updates_widget"
        class="oc-widget oc-widget-invite"
-       tal:define="n_updates view/n_updates"
+       tal:define="nupdates view/nupdates"
        >
-    <tal:has_updates condition="n_updates">
+    <tal:has_updates condition="nupdates">
       <div class="oc-headingBlock">
         <h2>
-          Latest updates (<span id="num_updates" tal:content="n_updates" />)
+          Latest updates (<span id="num_updates" tal:content="nupdates" />)
         </h2>
       </div>
       <!-- currently create 2 separate list groups:
@@ -82,7 +82,7 @@
         </form>
       </ul>
     </tal:has_updates>
-    <tal:no_updates condition="not: n_updates">
+    <tal:no_updates condition="not: nupdates">
     </tal:no_updates>
   </div><!-- end .widget-invitations -->
   

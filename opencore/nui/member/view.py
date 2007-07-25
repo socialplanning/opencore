@@ -206,7 +206,6 @@ class MemberAccountView(BaseView, OctopoLite):
             return brain.review_state in self.active_states
         return self._projects_satisfying(is_user_project)
 
-    @property
     @req_memoize
     def invitations(self):
         """ return mship brains for pending project invitations """
@@ -392,7 +391,7 @@ class MemberAccountView(BaseView, OctopoLite):
         command.update({
                 elt_id: {'action':'delete'},
                 "num_updates": {'action': 'copy',
-                                'html': self.n_updates}
+                                'html': self.nupdates()}
                 })
 
         return command
@@ -408,7 +407,7 @@ class MemberAccountView(BaseView, OctopoLite):
         elt_id = '%s_invitation' % proj_id
         return {elt_id: dict(action='delete'),
                 "num_updates": {'action': 'copy',
-                                'html': self.n_updates}}
+                                'html': self.nupdates()}}
 
     # XXX is there any difference between ignore and deny?
     @action('IgnoreInvitation')
@@ -422,7 +421,7 @@ class MemberAccountView(BaseView, OctopoLite):
         elt_id = '%s_invitation' % proj_id
         return {elt_id: dict(action='delete'),
                 "num_updates": {'action': 'copy',
-                                'html': self.n_updates}}
+                                'html': self.nupdates()}}
 
     @action('close')
     def close_msg_handler(self, targets, fields=None):
@@ -441,7 +440,7 @@ class MemberAccountView(BaseView, OctopoLite):
             elt_id = '%s_close' % idx
             return {elt_id: dict(action='delete'),
                     "num_updates": {'action': 'copy',
-                                    'html': self.n_updates}}
+                                    'html': self.nupdates()}}
 
     @property
     @req_memoize
@@ -477,9 +476,8 @@ class MemberAccountView(BaseView, OctopoLite):
             member._setPassword(password)
             self.addPortalStatusMessage('Your password has been changed')
 
-    @property
-    def n_updates(self):
-        return len(self.infomsgs) + len(self.invitations)
+    def nupdates(self):
+        return len(self.infomsgs) + len(self.invitations())
 
     @property
     def invitation_actions(self):
