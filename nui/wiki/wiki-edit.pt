@@ -54,7 +54,8 @@
                     &nbsp;<a href="#" class="oc-js-liveEdit_showForm oc-actionLink">RENAME</a>
                   </div>
                   <div class="oc-js-liveEdit-editForm oc-liveEdit-editForm">
-                    <input name="title" type="text" tal:attributes="value string:${context/Title}" /> <a href="#" class="oc-js-liveEdit_hideForm">Cancel</a>
+                    <input name="title" type="text" tal:attributes="value string:${context/Title}" /> 
+                    <!--<a href="#" class="oc-js-liveEdit_hideForm">Cancel</a>-->
                   </div>
                 </li>
               </ul>
