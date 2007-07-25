@@ -46,7 +46,8 @@ OC.liveElementKey.Class = {
 }
 OC.liveElementKey.Id = {
     "version_compare_form"   : "HistoryList",
-        'oc-project-create'      : "ProjectCreateForm"
+    'oc-project-create'      : "ProjectCreateForm",
+    'oc-content-container'   : "AutoHeightContent"
 }
     
 /* 
