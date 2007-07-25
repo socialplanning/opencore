@@ -65,14 +65,14 @@
                 <legend class="oc-legend-label">Visitors to the site can:</legend>
                 <ul class="oc-form-radiolist">
                   <li>
-                    <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
-                    value="open_policy" tal:attributes="checked python:proj['security']=='open_policy' and 'checked' or ''"/>
-                    <label for="workflow_policy_open">View your content</label>
-                  </li>
-                  <li>
                     <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
                     value="medium_policy" tal:attributes="checked python:proj['security']=='medium_policy' and 'checked' or ''"/>
-                    <label for="workflow_policy_medium">and contribute to it</label><br>
+                    <label for="workflow_policy_medium">View your content</label>
+                  </li>
+                  <li>
+                    <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
+                    value="open_policy" tal:attributes="checked python:proj['security']=='open_policy' and 'checked' or ''"/>
+                    <label for="workflow_policy_open">and contribute to it</label><br>
                     OR
                   </li>
                   <li>
