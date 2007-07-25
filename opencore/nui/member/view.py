@@ -140,8 +140,7 @@ class MemberAccountView(BaseView, OctopoLite):
         query = dict(portal_type='OpenMembership',
                      getId=user_id,
                      )
-        if extra:
-            query.update(extra)
+        query.update(extra)
         mship_brains = self.catalogtool(**query)
         return mship_brains
 
