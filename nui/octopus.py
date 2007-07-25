@@ -1,5 +1,11 @@
 import sys
 
+def htmlify(js):
+    js = "%s" % js
+    js = js.replace("<", "&lt;")
+    js = js.replace(">", "&gt;")
+    return "<html><body> %s </body></html>" % js
+
 class Octopus(object):
     """
     Merge of the octopus request form handling with the FormLite form
@@ -69,7 +75,7 @@ class Octopus(object):
         mode = self._octopus_get('mode')
         if mode == 'async':
             self._octopus_async_postprocess(ret)
-            return ret
+            return htmlify(ret)
         else:
             return self._octopus_template()
 
