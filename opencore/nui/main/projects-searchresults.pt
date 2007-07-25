@@ -59,12 +59,12 @@
             <!-- the results are displayed here -->
             <ol class="oc-searchresults-list">
               <li class="oc-searchresults-item" tal:repeat="item view/search_results">
-                <h3><a href="" tal:attributes="href string:${context/portal_url}/projects/${item/getId}" tal:content="item/Title">Project Title</a></h3>
+                <h3><a href="" tal:attributes="href string:${context/portal_url}/projects/${item/getId}" tal:content="item/Title">Project Title</a> </h3> 
 
                 <span class="oc-discreetText" tal:define="sorting_by request/sort_by | nothing">
 
                   <tal:not-modified-block condition="python: sorting_by != 'modified'">
-                    created by
+                   created by
                     <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
                     <span tal:content="python: view.pretty_date(item.CreationDate)" />
                   </tal:not-modified-block>
