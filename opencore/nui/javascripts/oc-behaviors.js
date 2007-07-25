@@ -115,7 +115,7 @@ OC.breatheLife = function(newNode, force) {
         var extEl = Ext.get(element);
         if (typeof OC.liveElements[extEl.id] == "undefined") { OC.liveElements[extEl.id] = {} };
         var constructor = OC[constructorName];
-        OC.debug(constructorName);
+        OC.debug(extEl.id + ": " + constructorName);
         
         if (force || typeof OC.liveElements[extEl.id][constructor] == "undefined" ) {
           OC.liveElements[extEl.id][constructorName] = new constructor(extEl);
@@ -257,8 +257,6 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
     OC.debug(o.responseText);
     var cleanedResponseText = o.responseText.replace(/[\r\n]/g, "");
     OC.debug(cleanedResponseText);
-
-    //var updater = new OC.Updater();
     
     try {
       response = eval( "(" + cleanedResponseText + ")" );
@@ -266,7 +264,7 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
       OC.debug(e);
       OC.debug("Couldn't parse the response.  Bad JSON? (below): ");
 	    OC.debug(cleanedResponseText);
-	    OC.psm('There was an error handling the Ajax response.  Ethan will fix it. ', 'bad')
+	    //OC.psm('Sorry!  There was an error -- please contact support@openplans.org if this continues to happen.', 'bad')
     }
     
     if( response instanceof Array ) {
@@ -363,7 +361,7 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 OC.Callbacks.afterAjaxFailure = function(o) {
     OC.debug('OC.Callbacks.afterAjaxFailure');
     OC.debug(o.responseText);
-    OC.psm('There was a problem with the AJAX Request.  Octopus!', 'error');
+    //OC.psm('There was a problem with the AJAX Request.  Octopus!', 'error');
 };
 
 /*
@@ -941,8 +939,6 @@ OC.LiveEdit = function(extEl) {
     if (!value || !editForm) {
         OC.debug("liveEdit: Couldn't get element refs");
         return;
-    } else {
-      OC.debug('LiveEdit: got element refs');
     }
     
     // settings
@@ -1029,9 +1025,7 @@ OC.SearchLinks = function(extEl) {
     // check refs
     if (!form || !links || !text) {
 	OC.debug("SearchLinks: could not get element refs");
-    } else {
-	OC.debug("SearchLinks: got element refs");
-    }
+    } 
     
     // find current value
     var url = window.location.toString();
