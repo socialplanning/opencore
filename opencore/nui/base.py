@@ -434,12 +434,7 @@ class BaseView(BrowserView):
         pass
 
     def pretty_date(self, date):
-        try:
-            time_obj = strptime(date, '%Y-%m-%d %H:%M:%S')
-            datetime_obj = datetime.datetime(*time_obj[0:6])
-        except TypeError:
-            datetime_obj = date
-        return prettyDate(datetime_obj)
+        return prettyDate(date)
 
     def get_tab_class(self, link):
         css_class = ''
