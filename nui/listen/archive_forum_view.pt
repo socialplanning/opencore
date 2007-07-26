@@ -8,7 +8,10 @@
           <h2 i18n:translate="" tal:content="view/Title" />
           <div class="oc-headingContext oc-smallText">View by <strong>conversation</strong> or <a i18n:translate="" href="date_view">date</a></div>
         </div>
-        <tal:threads define="threads view/getTopics; batch threads;">
+        <tal:threads define="threads view/getTopics; 
+			     batch threads; 
+			     batch_base_url string:${here/absolute_url}">
+          <div metal:use-macro="here/batch_macros/macros/navigation" />
           <table id="forum-topics" class="oc-dataTable" tal:condition="threads" summary="Forum view" i18n:attributes="summary" cellspacing="0">
             <thead>
               <tr>
