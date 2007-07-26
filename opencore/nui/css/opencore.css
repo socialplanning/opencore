@@ -682,6 +682,16 @@ a.wickedadd {
   padding-top: 1em;
   list-style-type: none;
 }
+.oc-listen-paginator {
+  display: block;
+  text-align: right;
+  clear: none;
+  font-size: 10px;
+}
+.oc-listen-paginator .next,
+.oc-listen-paginator .prev {
+  padding: 0 0.5em 0 0;
+}
 
 /* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
 -------------------------------------------- */
