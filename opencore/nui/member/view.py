@@ -45,7 +45,7 @@ class ProfileView(BaseView):
             else:
                 self.public_projects.append(proj)
 
-            sortfunc = lambda x: x.getId.lower()
+            sortfunc = lambda x: x.Title.lower()
             self.private_projects.sort(key=sortfunc)
             self.public_projects.sort(key=sortfunc)
 
