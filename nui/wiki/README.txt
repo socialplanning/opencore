@@ -66,6 +66,9 @@ Test wiki attachment registrations which are not used any more::
 Test logged in user::
 
     >>> self.loginAsPortalOwner()
+    >>> from opencore.nui.base import BaseView
+    >>> view = BaseView(self.portal, self.portal.REQUEST)
+    >>> view.loggedinmember.getId = lambda *a:'whatever'
 
 Test wiki page registrations (logged in)::
 
@@ -257,6 +260,7 @@ Now edit 2 pages, so we can try a valid compare later
      >>> repo.save(page, comment='newest comment')
 
 Now we should get a valid response
+     >>> view.loggedinmember.getId = lambda *a:'whatever'
      >>> response = view()
 
 Test that we can create a page via wicked

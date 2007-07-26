@@ -246,6 +246,7 @@ We shouldn't have an add link because we're not the admin
 When we login as admin, we should have the link
    >>> self.logout()
    >>> self.loginAsPortalOwner()
+   >>> view.loggedinmember.getId = lambda *a:'whatever'
    >>> result = view()
    >>> 'Add news item...' in result
    True
