@@ -32,19 +32,31 @@
                 <a tal:condition="view/viewingself" class="oc-actionLink" 
                    tal:attributes="href string:${view/siteURL}/projects">Browse</a>
               </dt>
-              <dd>
-                <tal:projects condition="memberdata/projects">
+              <dd tal:define="not_used view/populate_project_lists;
+                              pub_projs nocall:view/public_projects;
+                              priv_projs nocall:view/private_projects" >
+                <div class="oc-discreetText">visible to all:</div>
+                <tal:pub_projects condition="pub_projs">
                   <ul class="oc-inlineList">
-                    <li tal:repeat="proj memberdata/projects"><a
+                    <li tal:repeat="proj pub_projs"><a
                         tal:attributes="href proj/getURL"
-                        tal:content="proj/Title" /><span class="oc-discreetText"
-                        tal:condition="python: proj.review_state == 'closed'">
-                        (closed)</span></li>
+                        tal:content="proj/Title" /></li>
                   </ul>
-                </tal:projects>
-                <tal:noprojects condition="not:memberdata/projects">
+                </tal:pub_projects>
+                <tal:no_pub_projects condition="not:pub_projs">
                   none
-                </tal:noprojects>
+                </tal:no_pub_projects>
+                <div class="oc-discreetText">visible only to team members:</div>
+                <tal:priv_projects condition="priv_projs">
+                  <ul class="oc-inlineList">
+                    <li tal:repeat="proj priv_projs"><a
+                        tal:attributes="href proj/getURL"
+                        tal:content="proj/Title" /></li>
+                  </ul>
+                </tal:priv_projects>
+                <tal:no_priv_projects condition="not:priv_projs">
+                  none
+                </tal:no_priv_projects>
               </dd>
               <dt>
                 Member home

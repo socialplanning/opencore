@@ -213,6 +213,7 @@ class OpenMember(TeamSecurity, FolderishMember):
                     projects[space] = None
         return projects.keys()            
 
+    # XXX is this used?
     security.declareProtected(View, 'projectBrains')
     def projectBrains(self):
         catalog = getToolByName(self, 'portal_catalog')
