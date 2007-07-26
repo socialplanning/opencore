@@ -134,6 +134,15 @@ def migrate_mships_made_active_date(portal):
         mship.reindexObject(idxs=['made_active_date'])
     logger.log(INFO, "Done updating memberships' made_active_date attribute.")
 
+def migrate_mission_statement(portal):
+    catalog = getToolByName(portal, 'portal_catalog')
+    proj_brains = catalog(portal_type='OpenProject')
+    for proj in (b.getObject() for b in proj_brains):
+        home_page = proj.getDefaultPage()
+        page = proj.unrestrictedTraverse(home_page)
+        description = page.Description()
+        if description:
+            proj.setDescription(description)
 
 def update_team_active_states(portal):
     logger.log(INFO, 'Updating team active states:')
@@ -167,6 +176,7 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      reinstallWorkflows=reinstallWorkflows,
                      setup_transient_message_utility=convertFunc(install_local_transient_message_utility),
                      install_email_invites_utility=convertFunc(install_email_invites_utility),
+                     migrate_mission_statement=migrate_mission_statement,
                      createIndexes=convertFunc(createIndexes),
                      )
 
