@@ -2,6 +2,14 @@
 octopus should be in octopus.txt, deletion and update methods should
 be tested directly.. etc -egj
 
+   >>> def dehtml(html):
+   ... 	   html = html.replace("<html><body>", "")
+   ... 	   html = html.replace("</body></html>", "")
+   ... 	   html = html.replace("&lt;", "<")
+   ... 	   html = html.replace("&gt;", ">")
+   ... 	   return eval(html)   
+
+
 =======================
  Project Contents View
 =======================
@@ -161,7 +169,7 @@ We can also issue the request asynchronously::
     ...         'item_type': 'pages',
     ...         'mode': 'async'}
     >>> request.form = form
-    >>> view()
+    >>> dehtml(view())
     {'new1':...{...'html': '...<tr ...>...'}...}
 
     >>> page.Title()
@@ -178,7 +186,7 @@ Deletes work the same way::
 
 The form handler should return the ids of all deleted objects, which
 includes both the deleted page and the file that was attached to it::
-    >>> sorted(view())
+    >>> sorted(dehtml(view()))
     ['fa2', 'new1', 'oc-statusMessage-container']
 
 
@@ -235,7 +243,7 @@ the items listed in the batch will be acted upon::
     ...         'mode': 'async',
     ...         'files':['fa1', 'img1']}
     >>> request.form = form
-    >>> sorted(view().keys())
+    >>> sorted(dehtml(view()).keys())
     ['fa1', 'img1', 'oc-statusMessage-container']
 
     >>> proj.img1.Title()
@@ -257,7 +265,7 @@ Batch deletes work the same way::
     ...         'mode': 'async',
     ...         'files':['fa1', 'img1']}
     >>> request.form = form
-    >>> sorted(view())
+    >>> sorted(dehtml(view()))
     ['fa1', 'img1', 'oc-statusMessage-container']
 
     >>> proj.restrictedTraverse('img1')
@@ -275,7 +283,7 @@ Let's delete the mailing list too, to clean up::
     ...         'item_type': 'lists',
     ...         'mode': 'async'}
     >>> request.form = form
-    >>> view()
+    >>> dehtml(view())
     {'list1': {'action': 'delete'}, 'oc-statusMessage-container': {...}}
     >>> len(view.lists)
     0
