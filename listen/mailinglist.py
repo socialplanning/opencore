@@ -90,3 +90,8 @@ class OpenMailingList(MailingList):
     meta_type = "OpenMailingList"
 
     mailto = ListNameFieldProperty(IOpenMailingList['mailto'])
+
+    # this overrides MailBoxer's limit of 10 emails in 10 minutes
+    # so now, up to 100 emails are allowed in 10 minutes before the
+    # sender is disabled
+    senderlimit = 100
