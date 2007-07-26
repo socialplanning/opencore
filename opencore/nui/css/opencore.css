@@ -514,6 +514,9 @@ ul.oc-tabs li.oc-notallowed a {
 .oc-wiki-content dl {
   line-height: 1.25;
 }
+.oc-wiki-edit {
+  clear: both;
+}
 .oc-wiki-edit-content {
 
 }
