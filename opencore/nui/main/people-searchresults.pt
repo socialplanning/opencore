@@ -39,7 +39,7 @@
                 <select class="oc-js-autoSelect" name="sort_by" tal:define="sorted_by python: request.get('sort_by')">
                   <option value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
                   <option value="getId" tal:attributes="selected python: sorted_by == 'getId'">username</option>
-                  <option value="exact_getFullname" tal:attributes="selected python: sorted_by == 'exact_getFullname'">real name</option>
+                  <option value="exact_getFullname" tal:attributes="selected python: sorted_by == 'exact_getFullname'">full name</option>
                 </select>
 
                 <!-- resend the current data when sorting -->
