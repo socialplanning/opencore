@@ -165,13 +165,6 @@ class BaseView(BrowserView):
         #        projects = self.catalogtool.unrestrictedSearchResults(portal_type='OpenProject')
         return len(projects)
 
-    # XXX not used??
-    @view.memoizedproperty
-    def canedit(self):
-        canedit = self.membertool.checkPermission(ModifyPortalContent,
-                                                  self.context)
-        return bool(canedit)
-
     @instance.memoizedproperty
     def member_info(self):
         """
@@ -210,7 +203,38 @@ class BaseView(BrowserView):
             return [{'tag': tag, 'url': url} for tag, url in zip(tags, urls)]
         return []
 
-    # XXX on used in email_sender
+
+    def mship_brains_for(self, member):
+        teamtool = getToolByName(self.context, 'portal_teams')
+        default_states = teamtool.getDefaultActiveStates()
+        return self.catalog(id=member.getId(),
+                            portal_type='OpenMembership',
+                            review_state=default_states)
+
+
+    def project_brains_for(self, member):
+        mships = self.mship_brains_for(member)
+        teams = [i.getPath().split('/')[-2] for i in mships]
+        projects = self.catalog(portal_type='OpenProject', id=teams)
+        return projects
+
+
+    def mship_proj_map(self):
+        """map from team/project id's to {'mship': mship brain, 'proj': project brain}
+        maps. relies on the 1-to-1 mapping of team ids and project ids."""
+        mships = self.mship_brains_for(self.viewedmember())
+        ret = {}
+        for mship in mships:
+            team = mship.getPath().split('/')[-2]
+            ret[team] = dict(mship=mship)
+
+        projects = self.project_brains_for(self.viewedmember())
+        for proj in projects:
+            ret[proj.getId]['proj'] = proj
+
+        return ret
+
+
     def member_info_for_member(self, member):
         result = {}
         if IReMember.providedBy(member):
@@ -219,7 +243,7 @@ class BaseView(BrowserView):
             logintime = member.getLogin_time()
             if logintime == DateTime.DateTime('2000/01/01'): # XXX hack around zope
                 logintime = DateTime.DateTime()
-            logintime = logintime and prettyDate(logintime) or 'foo'
+            logintime = logintime and prettyDate(logintime) or 'member.getLogin_time() is None?'
             
             result.update(
                 id          = id,
@@ -229,7 +253,7 @@ class BaseView(BrowserView):
                 lastlogin   = logintime,
                 folder_url  = self.memfolder_url(id_=id),
                 home_url    = self.memhome_url(id_=id),
-                projects    = member.projectBrains(),
+                projects    = self.project_brains_for(member),
                 location    = member.getLocation(),
                 statement   = member.getStatement(),
                 background  = member.getBackground(),

@@ -29,6 +29,23 @@ class ProfileView(BaseView):
     field_snippet = ZopeTwoPageTemplateFile('field_snippet.pt')
     member_macros = ZopeTwoPageTemplateFile('member_macros.pt') 
 
+
+    def __init__(self, context, request):
+        BaseView.__init__(self, context, request)
+        self.public_projects = []
+        self.private_projects = []
+
+    def populate_project_lists(self):
+        mship_proj_map = self.mship_proj_map()
+        for (_, m) in mship_proj_map.items():
+            mship = m['mship']
+            proj = m['proj']
+            if mship.review_state == 'private' or proj.review_state == 'closed':
+                self.private_projects.append(proj)
+            else:
+                self.public_projects.append(proj)
+
+
     def activity(self, max=15):
         """Returns a list of dicts describing each of the `max` most recently
         modified wiki pages for the viewed user."""
