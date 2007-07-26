@@ -1,4 +1,4 @@
-<html class="kupu-html oc-wiki-content">
+<html class="kupu-html">
   <head>
     <title>Kupu Content</title>
     
@@ -18,7 +18,7 @@
         tal:define="folderish here/isPrincipiaFolderish; tail python:test(folderish, '/', '');"
         tal:attributes="href string:${request/URL1}${tail}" />
   </head>
-  <body class="kupu documentContent">
+  <body class="kupu oc-wiki-content">
    
    <tal:comment replace="nothing">    
       This template is an empty placeholder, used for loading contents
