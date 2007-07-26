@@ -920,7 +920,7 @@ height: 1em; */
 }
 .oc-expander h2,
 .oc-expander h3 {
-  margin-bottom: 0.125em;
+  margin: 0.25em 0;
 }
 .oc-expander-open {
   background: #F9F9F9;
@@ -1515,9 +1515,11 @@ hr {
   font-weight: bold;
   margin: 0.5em 0 0.25em;
 }
+.oc-wiki-content p,
+.oc-wiki-content pre,
 .oc-wiki-content ul,
 .oc-wiki-content ol {
-  margin: 0 0 0.25em;
+  margin: 0 0 0.5em;
 }
 /* Kupu: Literal */
 .oc-wiki-content pre {

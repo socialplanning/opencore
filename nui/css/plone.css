@@ -4,14 +4,14 @@
 /* THIS SHOULD ALL BE DEPRECATED AWAY. */
           
 /* PLONE -- documentActions
-This class deals with the "Print" and "Email" buttons */
+This class deals with the "Print" and "Email" buttons
     
 .documentActions {
   display: none;
-}
+} */
 
 /* PLONE -- portalMessage
-These classes apply to the portal messages (such as "Changes Saved") */
+These classes apply to the portal messages (such as "Changes Saved")
 
   .portalMessage,
   .portalWarningMessage,
@@ -39,4 +39,4 @@ These classes apply to the portal messages (such as "Changes Saved") */
       right: -1.5em;
       top: 0;
       font-size: 100%;
-    }
+    } */

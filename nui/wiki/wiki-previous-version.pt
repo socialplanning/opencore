@@ -70,7 +70,7 @@
               <p tal:content="version/comment" />
               </div>
                
-              <span tal:replace="structure python: view.get_page(version_id).EditableBody()" />
+              <div class="oc-wiki-content" tal:content="structure python: view.get_page(version_id).EditableBody()" />
       
           </tal:let>
         </div> <!-- end .oc-wiki --> 
