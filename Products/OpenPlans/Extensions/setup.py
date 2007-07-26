@@ -167,11 +167,12 @@ topp_functions = dict(
     setupPeopleFolder=convertFunc(setupPeopleFolder),
     migrate_teams_to_projects=migrate_teams_to_projects,
     migrate_membership_roles=migrate_membership_roles,
-    NUI_setup=setup_nui,
     fixProjectWFStates=fixProjectWFStates,
     initializeTeamWorkflow=initializeTeamWorkflow,
     migrate_redirection=migrate_redirection
     )
+
+topp_functions["NUI Setup"]=setup_nui
 
 class TOPPSetup(SetupWidget):
     """ OpenPlans Setup Bucket Brigade  """
