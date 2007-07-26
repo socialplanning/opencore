@@ -30,7 +30,7 @@
               </tal:location>
               <dt>Projects
                 <a tal:condition="view/viewingself" class="oc-actionLink" 
-                   tal:attributes="href string:${view/siteURL}/projects">Browse</a>
+                   href="account">Edit</a>
               </dt>
               <dd tal:define="not_used view/populate_project_lists;
                               pub_projs nocall:view/public_projects;
