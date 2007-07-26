@@ -148,27 +148,30 @@ Member info
      'url': 'http://nohost/plone/people/test_user_1_'}
 
 
-test nusers and nprojects
+test nusers and projects_served_count
 -------------------------
     >>> pview.nusers()
     5
-    >>> pview.nprojects()
+    >>> pview.projects_served_count()
     4
     >>> members_map = {'new_user':{'fullname':'new user',
     ...                            'password':'testy',
     ...                            'email':'new_user@example.com',
     ...                            'projects':{}}}
-    >>> projects_map = {'new_project':{'title':'New Project'}}
+    >>> projects_map = {'new_project':{'title':'New Project', 'workflow_policy':'closed_policy'}}
     >>> from Products.OpenPlans.Extensions import create_test_content
     >>> create_test_content.create_test_content(self.portal, p_map=projects_map, m_map=members_map)
     'Project new_project added\nMember new_user added'
     >>> self.clearMemoCache()
     >>> pview.nusers()
     6
-    >>> pview.nprojects()
+    >>> pview.projects_served_count()
     5
-                                    
-
+    >>> self.logout()
+    >>> pview.loggedin
+    False
+    >>> pview.projects_served_count()
+    5
 
 portal_status_message
 =====================

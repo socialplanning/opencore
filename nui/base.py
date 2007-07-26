@@ -156,9 +156,13 @@ class BaseView(BrowserView):
 
     # XXX cache more rigorously
     @view.memoize_contextless
-    def nprojects(self): 
-        """Returns the number of projects hosted by the site."""
+    def projects_served_count(self): 
+        """
+        Returns the total number of projects hosted by the site,
+        including those not visible to the current user.
+        """
         projects = self.catalogtool(portal_type='OpenProject')
+        #        projects = self.catalogtool.unrestrictedSearchResults(portal_type='OpenProject')
         return len(projects)
 
     # XXX not used??

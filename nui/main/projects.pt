@@ -5,7 +5,7 @@
 
       <div class="oc-headingBlock">
         <h1>Projects on OpenPlans</h1>
-        <p class="oc-headingContext">Currently serving <span tal:replace="view/nprojects"/> projects</p>
+        <p class="oc-headingContext">Currently serving <span tal:replace="view/projects_served_count"/> projects</p>
       </div>
       
       <div id="oc-content-main">

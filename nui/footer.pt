@@ -10,7 +10,7 @@
   <div id="oc-footer-about" class="oc-smallText">
     OpenPlans is
     <a tal:attributes="href string:${here/portal_url}/people" tal:content="string: ${view/nusers} people" /> and
-    <a tal:attributes="href string:${here/portal_url}/projects" tal:content="string: ${view/nprojects} projects" /> since
+    <a tal:attributes="href string:${here/portal_url}/projects" tal:content="string: ${view/projects_served_count} projects" /> since
     <span tal:replace="string:${view/dob}" />.<br />
     &copy; 2007 <a href="http://topp.openplans.org/">The Open Planning Project</a>
   </div>
