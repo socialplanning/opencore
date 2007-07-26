@@ -73,7 +73,7 @@
                       </span>
                     </tal:is_user>
                     <tal:not_user condition="not: is_user">
-                      <h3><img tal:attributes="src obj/getIcon" /> <a href="" tal:attributes="href obj/absolute_url" tal:content="item/getId">Title</a></h3>
+                      <h3><img tal:attributes="src obj/getIcon" /> <a href="" tal:attributes="href obj/absolute_url" tal:content="item/Title">Title</a></h3>
                       <span class="oc-discreetText">
                       <tal:is_page condition="python: portal_type == 'Document'">
 			<tal:project_define define="proj python: obj.aq_parent">
