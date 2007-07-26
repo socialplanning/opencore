@@ -25,7 +25,7 @@
                     </th>
                     <td class="oc-form-value">
                       <input type="text" id="title" name="title"
-			     tal:attributes="value request/title | proj/title "/>
+                             tal:attributes="value request/title | proj/title "/>
                     </td>
                     <td class="oc-form-help">
                       <span class="oc-form-context"></span>
@@ -62,28 +62,23 @@
             <fieldset class="oc-boxy">
               <legend class="oc-legend-heading oc-biggerText">General security level</legend>
               <fieldset>
-                <legend class="oc-legend-label">Visitors to the site can:</legend>
-                <ul class="oc-form-radiolist">
+                <legend class="oc-legend-label"><strong>Visitors to the site can:</strong></legend>
+                <ul class="oc-form-radiolist oc-form-fieldBlock">
                   <li>
                     <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
                     value="medium_policy" tal:attributes="checked python:proj['security']=='medium_policy' and 'checked' or ''"/>
-                    <label for="workflow_policy_medium">View your content</label>
+                    <label for="workflow_policy_medium">View the content</label>
                   </li>
                   <li>
                     <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
                     value="open_policy" tal:attributes="checked python:proj['security']=='open_policy' and 'checked' or ''"/>
-                    <label for="workflow_policy_open">and contribute to it</label><br>
-                    OR
+                    <label for="workflow_policy_open">and contribute to it</label><br />
+                    <strong class="oc-smallText">OR</strong>
                   </li>
                   <li>
                     <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
                     value="closed_policy" tal:attributes="checked python:proj['security']=='closed_policy' and 'checked' or ''"/>
-                    <label for="workflow_policy_closed">Non-members cannot see your project</label>
-                    <ul class="oc-discreetText">
-                      <li class="oc-smallText">
-                      Your project will not be shown in search results.
-                      </li>
-                    </ul>
+                    <label for="workflow_policy_closed">Only team members can view or search for this project</label>
                   </li>
                 </ul>
               </fieldset>
