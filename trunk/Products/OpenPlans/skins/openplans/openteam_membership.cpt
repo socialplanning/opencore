@@ -1,0 +1,215 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      i18n:domain="plone"
+      metal:use-macro="here/main_template/macros/master">
+
+  <head>
+      <metal:block fill-slot="top_slot">
+        <span tal:replace="nothing"
+              tal:define="dummy python:request.set('enable_border', 1)" />
+      </metal:block>
+  </head>
+
+  <body>
+
+   <div metal:fill-slot="main"
+        tal:define="standalone python:1;
+	            Batch python:modules['Products.CMFPlone'].Batch;
+                    b_size python:12;b_start python:0;b_start request/b_start | b_start;
+                    search_submitted request/role_submit|nothing;
+                    search_query python:test(search_submitted,
+                                             {request.get('search_param',''): request.get('search_term', '')},
+                                             {});
+                    search_results python:here.member_search(search_query);">
+
+
+        <div metal:use-macro="here/document_actions/macros/document_actions">
+          Team actions (print, sendto etc)
+        </div>
+
+    <div tal:define="canmanage python:mtool.checkPermission('TeamSpace: Manage team memberships', here);
+                     onteam python:bool(here.has_key(member.getId()))"
+       tal:condition="python: not isAnon and not canmanage and not onteam">
+      <a tal:attributes="href python:'%s/join' % here.absolute_url()">Join this project</a>
+    </div>
+
+    <metal:block tal:condition="python:test(search_submitted and not search_results, 1, 0)">
+      <h2 i18n:translate="heading_search_results">Search results</h2>
+      <p i18n:translate="no_members_found">
+        No members were found using your <strong>Search Criteria</strong>
+      </p>
+      <hr />
+    </metal:block>
+
+    <!--span tal:condition="python:test(search_submitted and search_results, 1, 0)"
+          tal:content="search_results" /-->
+
+    <metal:block tal:condition="python:test(search_submitted and search_results, 1, 0)">
+    <!--metal:block tal:condition="python:False"-->
+      <h2 i18n:translate="heading_search_results">Search results</h2>
+      <p i18n:translate="description_member_join_team">
+        Select one or more people to join the team.
+      </p>
+
+      <metal:block tal:define="batch python:Batch(search_results, b_size, int(b_start), orphan=3);
+                               nResults python:len(search_results);">
+        <form method="post"
+              name="change_type"
+              action="ts_team_add_memberships">
+
+          <input type="hidden" name="redirect_to" value=""
+                 tal:attributes="value string:${here/absolute_url}/${template/id}" />
+
+          <fieldset>
+            <legend i18n:translate="legend_available_members">Available Members</legend>
+            <input type="hidden" name="change_type" value="add" />
+
+            <!-- batch navigation -->
+            <div metal:use-macro="here/batch_macros/macros/navigation" />
+
+            <table class="listing" summary="Search results">
+              <thead>
+                <tr>
+                  <th>
+                    <input type="checkbox"
+                           onclick="javascript:toggleSelect(this, 'member_infos:list', false, 'change_type');"
+                           name="alr_toggle"
+                           value="#"
+                           id="alr_toggle"
+                           class="noborder"
+                           tabindex=""
+                           tal:attributes="tabindex tabindex;"/>
+                  </th>
+                  <th i18n:translate="label_user_name">User Name</th>
+                  <th i18n:translate="label_full_name">Full Name</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr tal:repeat="member batch">
+                  <td class="field"
+                      tal:define="global member_username member/getUserName">
+                    <label class="hiddenLabel" for="member_infos:list"
+                           i18n:translate="label_select_user">
+                      select user <span tal:content="member_username" i18n:name="user" />
+                    </label>
+                    <input class="formSelection"
+                           type="checkbox"
+                           name="member_infos:list"
+                           id="#"
+                           value=""
+                           tabindex=""
+                           tal:attributes="value member_username;
+                                           checked python:nResults==1;
+                                           tabindex tabindex/next;"
+                           />
+                  </td>
+
+                  <td tal:content="member_username">username</td>
+                  <td tal:content="member/getFullname">username</td>
+
+                </tr>
+              </tbody>
+
+            </table>
+            <!-- batch navigation -->
+            <div metal:use-macro="here/batch_macros/macros/navigation" />
+
+            <div class="submit">
+              <input class="context"
+                     type="submit"
+                     value="Add member(s) to Team"
+                     name="form.button.add_members"
+                     i18n:attributes="value"
+                     tabindex=""
+                     tal:attributes="tabindex tabindex/next;"
+                     />
+            </div>
+
+            <br />
+            <p>
+              <a i18n:translate="search_again"
+                 href="."
+                 tal:attributes="href string:$here_url/${template/getId}">Search again</a>
+            </p>
+
+          </fieldset>
+        </form>
+      </metal:block>
+    </metal:block>
+
+    <div metal:use-macro="here/ts_team_mems_form_plone2_1/macros/team_mems_form" />
+
+    <div>
+    
+      <tal:block condition="python: (not search_submitted or
+                            (search_submitted and not search_results))">
+
+        <h2 i18n:translate="heading_add_members tos">
+          Add Members to
+          <tal:block tal:content="here/title_or_id" i18n:name="item">title</tal:block>
+        </h2>
+
+        <p i18n:translate="description_add_members_to">
+          Members can be added to the team here.
+        </p>
+
+        <form method="post"
+              name="localrole"
+              action="."
+              tal:attributes="action string:$here_url/${template/getId}" >
+          <fieldset>
+            <legend i18n:translate="legend_search_terms">Search Terms</legend>
+
+                <input type="hidden" name="role_submit" value="role_submit" />
+
+                <div class="field">
+                  <label for="search_param" i18n:translate="label_search_by">
+                    Search by &nbsp;
+                  </label>
+
+                  <select name="search_param"
+                          id="search_param"
+                          tabindex=""
+                          tal:attributes="tabindex tabindex/next;">
+                    <option value="getFullname" i18n:translate="label_fullname">
+                      Full Name
+                    </option>
+                    <option value="getUserName" i18n:translate="label_user_name">
+                      Login Name
+                    </option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="search_term" i18n:translate="label_search_term">
+                    Search Term
+                  </label>
+                  <input type="text"
+                         id="search_term"
+                         name="search_term"
+                         size="30"
+                         tabindex=""
+                         tal:attributes="tabindex tabindex/next;"
+                         />
+                </div>
+
+                <div class="submit">
+                  <input class="context"
+                         type="submit"
+                         value="Perform Search"
+                         i18n:attributes="value"
+                         tabindex=""
+                         tal:attributes="tabindex tabindex/next;"
+                         />
+                </div>
+
+          </fieldset>
+
+        </form>
+      </tal:block>
+    </div>
+
+   </div>
+  </body>
+</html>

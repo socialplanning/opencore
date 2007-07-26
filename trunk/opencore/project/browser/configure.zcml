@@ -1,0 +1,110 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+	   xmlns:five="http://namespaces.zope.org/five"
+	   xmlns:fate="http://namespaces.plone.org/fate">
+
+  <!-- @@ move to go in opencore.content.project? -->
+  <include package="Products.Fate" file="meta.zcml" />
+
+  <browser:resource
+     file="projpage.js"
+     name="projpage.js"
+     />
+
+  <browser:page
+     for="Products.OpenPlans.interfaces.IProject"
+     class=".wf_policy_view.WorkflowPolicyView"
+     permission="zope2.View"
+     name="policy_support"
+     allowed_interface="Products.OpenPlans.interfaces.IReadWorkflowPolicySupport"
+     />
+
+  <browser:page
+     for="Products.OpenPlans.interfaces.IProject"
+     class=".wf_policy_view.WorkflowPolicyWriterView"
+     permission="openplans.ManageWorkflowPolicy"
+     name="policy_writer"
+     allowed_interface="Products.OpenPlans.interfaces.IWriteWorkflowPolicySupport"
+     />
+
+  <browser:page
+     for="Products.OpenPlans.interfaces.IProject"
+     class=".featurelet.FeatureletSupporterView"
+     permission="zope2.View"
+     name="featurelet_support"
+     allowed_interface="topp.featurelets.interfaces.IFeatureletSupporter"
+     allowed_attributes="getSupportableFeaturelets"
+     />
+
+  <browser:page
+     for="Products.OpenPlans.interfaces.IProject"
+     class=".featurelet.FeatureletMenuView"
+     permission="zope2.View"
+     name="featurelet_menu"
+     allowed_attributes="menu_items"
+     />
+
+  <browser:page
+     name="project_listing"
+     for="Products.ATContentTypes.z3.interfaces.IATBTreeFolder"
+     allowed_interface=".interfaces.IProjectListingAllow"
+     class=".projectlisting.ProjectListingView"
+     permission="zope2.View"
+     template = "project_listing.pt"
+     />
+
+  <browser:page
+     for="OFS.interfaces.IItem"
+     class=".projectinfo.ProjectInfoView"
+     permission="zope.Public"
+     name="project_info"
+     allowed_interface=".interfaces.IProjectInfo"
+     />
+
+  <browser:page
+     name="add_project"
+     for="opencore.interfaces.IAddProject"
+     permission="zope2.View"
+     class="..browser.ProjectAddView"
+     attribute="redirect"
+     />
+
+  <fate:addform
+     name="do_add_project"
+     for="opencore.interfaces.IAddProject"
+     permission="zope2.View"
+     product="OpenPlans"
+     meta_type="OpenProject"
+     class="..browser.ProjectAddView"
+     />
+
+  <!-- 
+
+  <fate:addform
+     name="add_project"
+     for="opencore.interfaces.IAddSubProject"
+     permission="zope2.View"
+     product="OpenPlans"
+     meta_type="OpenProject"
+     class="..browser.SubProjectAddView"
+     /> 
+
+  <browser:page 
+     name="projects"
+     for="opencore.interfaces.IAddSubProject"
+     class="..browser.SubProjectListingView"
+     permission="zope2.View"
+     template="subproject_listing.pt" 
+     /> 
+  
+  --> 
+
+  <fate:editform
+     name="edit_project"
+     for="opencore.interfaces.IEditProject"
+     permission="zope2.View"
+     />
+
+
+
+</configure>

@@ -1,0 +1,21 @@
+<tal:handle define="global emailsent view/handle_request" replace="nothing"/>
+<html metal:use-macro="here/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">   
+      <div tal:define="expander_hack_from_parent_template string:oc-js-expander oc-expander-open oc-expander" id="oc-content-main">
+	<metal:login use-macro="view/login_snippet/macros/login_snippet" />
+	<metal:forgot use-macro="view/forgot_snippet/macros/forgot_snippet" />
+
+      </div><!-- end #content-main --> 
+
+      <div id="oc-content-sidebar">
+        <div class="oc-boxy oc-getstarted">
+          <h2>First time here?</h2>
+          <p>There are many benefits to joining OpenPlans, we should probably explain a few of them here.</p>
+          <p><a href="join">Create an account</a></p>
+        </div>
+      </div><!-- end #content-sidebar -->
+
+    </div><!-- end content slot -->
+  </body>
+</html>

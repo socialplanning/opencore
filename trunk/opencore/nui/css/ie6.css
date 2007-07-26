@@ -1,0 +1,37 @@
+/* IE 6 hacks go here */
+
+#oc-content-sidebar {
+  width: 32%;
+}
+
+legend { color: #000; padding: 0; margin: 0 -5px;}
+
+.oc-statusMessage {
+  border-top: 3px solid; /* for some reason the top border is getting chopped off */
+}
+.oc-statusMessage .oc-closeButton {
+  width: 7px;
+  top: 2px;
+  right: 14px;
+}
+
+.oc-actions.oc-wiki-actions {
+  padding-top: 1em;
+}
+
+h2.oc-dataTable-heading {
+	margin-bottom: -18px;
+}
+
+.oc-feed-list {
+  padding-top: .5em;
+}
+
+.oc-widget-search form {
+  margin: 0;
+}
+
+.oc-widget-alphabet {
+  padding: 0;
+  margin: 0;
+}

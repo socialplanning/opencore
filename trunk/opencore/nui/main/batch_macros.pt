@@ -1,0 +1,109 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  i18n:domain="plone">
+  <body>
+    <!-- Navigation -->
+    <div
+      metal:define-macro="pagination"
+      tal:define="request request|here/request|container/request|nothing;
+      batch batch|nothing;
+      template_id template_id|template/getId;
+      mq python:modules['ZTUtils'].make_query;
+      url batch_base_url | string:${here/absolute_url}/${template_id};
+      currentpage batch/pagenumber;"
+      tal:condition="python: batch.next or  batch.previous">
+
+      <ul class="oc-paginator">
+        <li tal:define="p batch/previous | nothing"
+          tal:condition="p">
+          <a href="" tal:attributes="href python: '%s?%s' % (url , mq( request.form, {batch.b_start_str:p.first} ));">
+            &larr;
+            <span i18n:translate="batch_previous_x_items" tal:omit-tag="">Prev</span>
+          </a>
+        </li>
+
+
+        <li>Page</li>
+        <!-- Link to first -->
+        <li tal:condition="python: 1 not in batch.navlist">
+          <a href=""
+            tal:attributes="href python: '%s?%s' % (url, batch.pageurl(request.form,1));">1</a>
+          <span tal:condition="python: 2 not in (batch.prevlist or batch.leapback)"
+            tal:omit-tag="">
+            ...
+          </span>
+        </li>
+
+        <!-- Pagelist with quantum leap links to previous pages for quick navigation -->
+        <li tal:repeat="linklist python:batch.navurls(request.form, batch.leapback)"
+          tal:condition="batch/leapback">
+          <a href=""
+            tal:define="page python:linklist[0];
+            query python:linklist[1];"
+            tal:content="page"
+            tal:attributes="href python: '%s?%s' % (url,query)" >
+          </a>
+          ...
+        </li>
+
+        <!-- Pagelist with links to previous pages for quick navigation -->
+        <li tal:repeat="linklist python:batch.prevurls(request.form)"
+          tal:condition="batch/prevlist">
+          <a href=""
+            tal:define="page python:linklist[0];
+            query python:linklist[1];"
+            tal:content="page"
+            tal:attributes="href python: '%s?%s' % (url,query)" >
+          </a>
+        </li>
+
+        <!-- Current page -->
+        <li tal:condition="batch/navlist">
+          <span tal:replace="batch/pagenumber">Current page number</span>
+        </li>
+
+        <!-- Pagelist with links to next pages for quick navigation -->
+        <li tal:repeat="linklist python:batch.nexturls(request.form)"
+          tal:condition="batch/nextlist">
+          <a href=""
+            tal:define="page python:linklist[0];
+            query python:linklist[1];"
+            tal:content="page"
+            tal:attributes="href python: '%s?%s' % (url,query)" >
+          </a>
+        </li>
+
+        <!-- Pagelist with quantum leap links to next pages for quick navigation -->
+        <li tal:repeat="linklist python:batch.navurls(request.form, batch.leapforward)"
+          tal:condition="batch/leapforward" >
+          ...
+          <a href=""
+            tal:define="page python:linklist[0];
+            query python:linklist[1];"
+            tal:content="page"
+            tal:attributes="href python: '%s?%s' % (url,query)" >
+          </a>
+        </li>
+
+        <!-- Link to last -->
+        <li tal:condition="python:batch.numpages not in batch.navlist">
+          <span tal:condition="python: batch.numpages - 1 not in (batch.nextlist or batch.leapforward)"
+            >
+            ...
+          </span>
+          <a href=""
+            tal:attributes="href python: '%s?%s' % (url,batch.pageurl(request.form,batch.numpages));"
+            tal:content="batch/numpages">3457</a>
+        </li>
+
+        <li tal:define="n batch/next | nothing"
+          tal:condition="n">
+          <a href="" tal:attributes="href python: '%s?%s' % (url , mq( request.form, {batch.b_start_str:n.first} ))">
+            <span i18n:translate="batch_next_x_items" tal:omit-tag="">Next</span>
+            &rarr;
+          </a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

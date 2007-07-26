@@ -1,0 +1,32 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:browser="http://namespaces.zope.org/browser">
+
+  <five:traversable
+     class="Products.CMFCore.DynamicType.DynamicType" />
+
+  <adapter
+     for="Products.CMFCore.interfaces.IDynamicType"
+     provides=".interfaces.ITranslate"
+     factory=".translate.TranslationAdapter"
+     permission="zope2.View"
+     />
+
+  <browser:page
+     for="Products.CMFCore.interfaces.IDynamicType"
+     class=".translate.TranslationView"
+     allowed_interface=".interfaces.ITranslate"
+     name="translate"
+     permission="zope2.View"
+     />
+
+  <browser:page
+     for="Products.CMFCore.interfaces.IDynamicType"
+     class=".livesearch.LiveSearch"
+     permission="zope2.View"
+     template="livesearch.pt"
+     name="livesearch_reply"
+     allowed_interface=".interfaces.ILiveSearch"
+     />
+
+</configure>

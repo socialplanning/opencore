@@ -1,0 +1,6 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+  <include package="zope.app.annotation" />
+  <include package="opencore.configuration" file="permissions.zcml" />
+  <include package="Products.listen" file="permissions.zcml" />
+  <include package="opencore.configuration" />
+</configure>
