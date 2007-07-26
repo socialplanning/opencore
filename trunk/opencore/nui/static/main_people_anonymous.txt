@@ -1,4 +1,0 @@
-<div class="oc-getstarted">
-<h2>Become a member</h2>
-<p>There are many advantages to being a part of OpenPlans. It takes just seconds to <a style="" href="http://www.openplans.org/join">register</a> and, once you <a style="" href="http://www.openplans.org/login">log in</a>, you can <a style="" href="http://www.openplans.org/projects/openplans-help/create-a-new-project">start your own project</a> or <a style="" href="http://www.openplans.org/projects/openplans-help/contribute-to-an-existing-project">contribute to an existing one</a>.</p>
-</div>

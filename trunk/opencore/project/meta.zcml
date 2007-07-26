@@ -1,9 +1,0 @@
-<configure xmlns="http://namespaces.zope.org/meta">
-  <directives namespace="http://namespaces.openplans.org/opencore">
-    <directive
-       name="vhoster"
-       schema=".deliver.IVHosterInfo"
-       handler=".deliver.configure_vhoster_info"
-     />
-  </directives>
-</configure>

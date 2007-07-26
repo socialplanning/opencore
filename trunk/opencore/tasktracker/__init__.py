@@ -1,3 +1,0 @@
-#
-LOG = "opencore.tasktracker"
-
