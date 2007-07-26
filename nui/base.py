@@ -218,6 +218,9 @@ class BaseView(BrowserView):
         projects = self.catalog(portal_type='OpenProject', id=teams)
         return projects
 
+    def project_brains(self):
+        return self.project_brains_for(self.loggedinmember)
+
 
     def mship_proj_map(self):
         """map from team/project id's to {'mship': mship brain, 'proj': project brain}
