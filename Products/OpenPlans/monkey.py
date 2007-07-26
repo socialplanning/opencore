@@ -120,9 +120,9 @@ def patch_pt_render():
     from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile \
          as Z2PTF
     from Products.Five.browser.TrustedExpression import getEngine
-    from Products.CacheSetup.patch_cmf import PT_pt_render
+    import Products.CacheSetup.patch_cmf as patch_cmf
 
-    new_pt_render = rebindFunction(PT_pt_render, getEngine=getEngine)
+    new_pt_render = rebindFunction(patch_cmf.PT_pt_render, getEngine=getEngine)
     patch_class(Z2PTF, 'pt_render', new_pt_render)
     # CacheFu expects to find the original method on the class as
     # __CacheSetup_PageTemplate_<METHOD_NAME>
@@ -130,15 +130,3 @@ def patch_pt_render():
                                                           PREFIX + 'pt_render')
 
 patch_pt_render()
-
-def patch_cachefu():
-    """
-    CacheFu only supports Z3 view caching w/ Plone 3 / Z2.10.  We need to
-    monkey-patch in the Z2.9 location of IBrowserView to get it to work
-    correctly w/ Plone 2.5.
-    """
-    import Products.CacheSetup.patch_cmf as patch_cmf
-    from zope.app.publisher.interfaces.browser import IBrowserView
-    patch_cmf.IBrowserView = IBrowserView
-
-patch_cachefu()
