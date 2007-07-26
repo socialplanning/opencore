@@ -72,21 +72,18 @@
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
                   value="open_policy" checked="checked"/>
-                  <label for="workflow_policy_open">View your content</label>
+                  <label for="workflow_policy_open">View the content</label>
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
                   value="medium_policy" />
                   <label for="workflow_policy_medium">and contribute to it</label><br>
-                  OR
+                  <strong class="oc-smallText">OR</strong>
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
                   value="closed_policy" />
-                  <label for="workflow_policy_closed">Non-members cannot see your project</label>
-                  <ul class="oc-discreetText">
-                    <li>Your project will not be shown in search results.</li>
-                  </ul>
+                  <label for="workflow_policy_closed">Only team members can view or search for your project</label>
                 </li>
               </ul>
             </fieldset>
