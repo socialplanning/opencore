@@ -216,6 +216,10 @@ class BaseView(BrowserView):
         mships = self.mship_brains_for(member)
         teams = [i.getPath().split('/')[-2] for i in mships]
         projects = self.catalog(portal_type='OpenProject', id=teams)
+        # decorate, sort, undecorate
+        projects = [(p.getId.lower(), p) for p in projects]
+        projects = sorted(projects)
+        projects = [p[1] for p in projects]
         return projects
 
     def project_brains(self):

@@ -45,6 +45,10 @@ class ProfileView(BaseView):
             else:
                 self.public_projects.append(proj)
 
+            sortfunc = lambda x: x.getId.lower()
+            self.private_projects.sort(key=sortfunc)
+            self.public_projects.sort(key=sortfunc)
+
 
     def activity(self, max=15):
         """Returns a list of dicts describing each of the `max` most recently
