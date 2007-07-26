@@ -119,9 +119,9 @@
             </ul>
           </div><!-- end .oc-history-compare-legend -->
           </div><!-- end .oc-widget-history-compare -->
-                  
-                  <span tal:replace="structure view/html_diff" />
-                  
+
+            <div class="oc-wiki-content" tal:content="structure view/html_diff" />
+
           </tal:let>
         </div> <!-- end .oc-wiki --> 
       </div> <!-- end #oc-content-main --> 
