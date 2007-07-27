@@ -117,10 +117,12 @@ OC.breatheLife = function(newNode, force) {
         var extEl = Ext.get(element);
         if (typeof OC.liveElements[extEl.id] == "undefined") { OC.liveElements[extEl.id] = {} };
         var constructor = OC[constructorName];
-        OC.debug(extEl.id + ": " + constructorName);
         
-        if (force || typeof OC.liveElements[extEl.id][constructor] == "undefined" ) {
+        /* todo add force option */
+        if (typeof OC.liveElements[extEl.id][constructorName] == "undefined" ) {
           OC.liveElements[extEl.id][constructorName] = new constructor(extEl);
+          OC.debug(extEl.id + ": new  " + constructorName);
+          //alert("id: " + extEl.id + " | c: " + constructorName + " | oc: " + OC.liveElements[extEl.id][constructor])
         }
       }
       
@@ -223,7 +225,6 @@ OC.Callbacks = {};
 
 OC.Callbacks.afterAjaxSuccess = function(o) { 
     OC.debug('OC.Callbacks.afterAjaxSuccess');
-
     
     try {  
       this.indicator.hide();  
