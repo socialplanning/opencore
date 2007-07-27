@@ -8,6 +8,7 @@ from topp.utils import config
 from topp.featurelets.interfaces import IFeatureletSupporter, IFeatureletRegistry
 
 from Products.CMFCore.utils import getToolByName
+from Products.PortalTransforms.libtransforms.utils import MissingBinary
 
 from Products.OpenPlans.Extensions.setup import convertFunc, reinstallTypes, \
      reinstallWorkflows
@@ -144,6 +145,24 @@ def migrate_mission_statement(portal):
         if description:
             proj.setDescription(description)
 
+def migrate_page_descriptions(portal):
+    catalog = getToolByName(portal, 'portal_catalog')
+    page_brains = catalog(portal_type='Document')
+    for brain in page_brains:
+        description = brain.Description
+        if not description: continue
+        page = brain.getObject()
+        try:
+            body = page.getText()
+        except MissingBinary:
+            continue
+        new_body = '<p><b>%s</b></p>\n%s' % (description, body)
+        page.setText(new_body)
+        # override the description, so running this migration
+        # multiple times is safe
+        page.setDescription('')
+        page.reindexObject(idxs=['Description', 'SearchableText'])
+
 def update_team_active_states(portal):
     logger.log(INFO, 'Updating team active states:')
     new_active_states = ('public', 'private')
@@ -178,6 +197,7 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      install_email_invites_utility=convertFunc(install_email_invites_utility),
                      migrate_mission_statement=migrate_mission_statement,
                      createIndexes=convertFunc(createIndexes),
+                     migrate_page_descriptions=migrate_page_descriptions,
                      )
 
 nui_functions['Update Method Aliases'] = set_method_aliases
