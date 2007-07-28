@@ -282,7 +282,7 @@ class OpenMember(TeamSecurity, FolderishMember):
         form = self.REQUEST.form
         if form.has_key('id') and not form['id']:
             return self.translate('Input is required but no input given.',
-                                  default='You did not enter a login name.'),
+                                  default='You did not enter a login name.')
         elif self.getId() and id != self.getId():
             # we only validate if we're changing the id
             allowed = True
