@@ -1043,6 +1043,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         existing_ids = dict.fromkeys(existing_ids)
 
         search_for = self.request.form.get('search_for')
+        if not search_for:
+            self.addPortalStatusMessage(u'Please enter search text')
+            return
         results = searchForPerson(self.membranetool, search_for)
         results = [r for r in results if r.getId not in existing_ids]
         self.results = results
