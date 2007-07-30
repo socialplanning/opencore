@@ -10,20 +10,23 @@
         </div><!-- end .oc-wiki -->
 
         <!-- view attachments -->
-        <div class="oc-js-expander">
-          <h2 class="oc-bigText"><a href="#" class="oc-js-expander_open oc-expanderLink">View attachments</a></h2>
+        <tal:attachments
+          define="attachments python:here.getFolderContents(contentFilter = {'portal_type' : ['FileAttachment']});"
+          condition="attachments">
+          <div class="oc-js-expander">
+            <h2 class="oc-bigText"><a href="#" class="oc-js-expander_open oc-expanderLink">View attachments</a></h2>
 
-          <div class="oc-js-expander-content"
-            tal:define="attachments python:here.getFolderContents(contentFilter = {'portal_type' : ['FileAttachment']});">
+            <div class="oc-js-expander-content">
 
-            <ol class="oc-attachments" id="oc-wiki-attachments">
-              <tal:repeat repeat="attachment attachments">
-                <tal:macro metal:use-macro="view/view_attachments_snippet/macros/attachment" />
-              </tal:repeat>
-            </ol>
+              <ol class="oc-attachments" id="oc-wiki-attachments">
+                <tal:repeat repeat="attachment attachments">
+                  <tal:macro metal:use-macro="view/view_attachments_snippet/macros/attachment" />
+                </tal:repeat>
+              </ol>
 
+            </div>
           </div>
-        </div><!-- end view attachments -->
+        </tal:attachments>
 
       </div><!-- end #oc-content-main -->
     </div><!-- end content slot -->
