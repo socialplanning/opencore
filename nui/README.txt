@@ -192,4 +192,53 @@ include
 
 
 
+Search restriction
+==================
 
+Add a closed project, and the number of total projects should update (footer)
+
+   The view is the homepage, so let's reuse that. Initially, we should have 4 projects
+   >>> self.clearMemoCache()
+   >>> view.projects_served_count()
+   5
+
+   Let's add a new closed project
+   First, let's login as m1
+   >>> self.logout()
+   >>> self.login('m1')
+
+   Now, let's create a project
+   >>> proj_folder = self.portal.projects
+   >>> from opencore.interfaces import IAddProject
+   >>> IAddProject.providedBy(proj_folder)
+   True
+   >>> id_ = 'new_closed_project'
+   >>> proj = proj_folder.restrictedTraverse(
+   ...   'portal_factory/OpenProject/%s' % id_)
+   >>> proj_folder.portal_factory.doCreate(proj, id_)
+   <OpenProject at /plone/projects/new_closed_project>
+   >>> closed_proj = proj_folder._getOb(id_)
+   >>> closed_proj
+   <OpenProject at /plone/projects/new_closed_project>
+
+   Now we make it closed
+   >>> wft = view.get_tool('portal_workflow')
+   >>> wfid = 'openplans_teamspace_workflow'
+   >>> status = wft.getStatusOf(wfid, closed_proj)
+   >>> status['review_state'] = 'closed'
+   >>> wft.setStatusOf(wfid, closed_proj, status)
+
+   And index it in the catalog
+   >>> closed_proj.reindexObject()
+
+   When querying for number of total projects, we should get
+   another result
+   >>> self.clearMemoCache()
+   >>> view.projects_served_count()
+   6
+
+   Now we logout, and we should still get the new project
+   >>> self.clearMemoCache()
+   >>> self.logout()
+   >>> view.projects_served_count()
+   6
