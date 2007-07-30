@@ -57,7 +57,7 @@
             <li class="oc-clearAfter oc-boxy vcard" tal:repeat="membrain view/memberships">
               <tal:member-result define="mem membrain/getObject">
                 <div class="oc-avatar" tal:define="imgdata mem/getPortrait">
-                  <a href="" tal:attributes="href string:${context/portal_url}/people/${mem/getId}">
+                  <a href="" tal:attributes="href string:${context/portal_url}/people/${mem/getId}/profile">
                     <img tal:condition="imgdata" tal:replace="structure python: view.add_class_to_img(imgdata, 'photo')" />
                     <img tal:condition="not: imgdata" class="photo" tal:attributes="src string:defaultUser.gif" />
                   </a>
@@ -66,7 +66,7 @@
                   <div class="oc-headingBlock">
                   <h3 class="fn">
                     <a href=""
-                       tal:attributes="href string:${context/portal_url}/people/${mem/getId}"
+                       tal:attributes="href string:${context/portal_url}/people/${mem/getId}/profile"
                        tal:content="mem/getId"
                        />
                     <span class="oc-discreetText" tal:condition="python: view.is_admin(mem.getId())">
