@@ -92,8 +92,7 @@
                       <dd class="adr" tal:content="loc">Big City, ST</dd>
                     </tal:location>
                     <tal:projects tal:define="projects python: view.projects_for_member(mem);
-                                     nprojects python: len(projects);
-                                     view_all python: view.more_than_ten_projects(mem)"
+                                     nprojects python: view.num_projects_for_member(mem)"
                                      >
                       <dt class="oc-roster-projects">
                         Projects (<span tal:replace="nprojects">N</span>):
@@ -105,10 +104,10 @@
                             <a href="" tal:attributes="href project/absolute_url" tal:define="isprivate nothing">
                               <span tal:content="project/Title" 
                               /><span tal:condition="isprivate" class="oc-discreetText"> (private)</span></a></li>
-                          <li tal:condition="view_all">
-                            <a tal:attributes="href string:${here/portal_url}/people/${mem/getId}"
-                               tal:content="string:(view all&hellip;)"
-                               />
+                          <li tal:condition="python: nprojects > 10">
+                            <a tal:attributes="href string:${here/portal_url}/people/${mem/getId}/profile">
+                               (view all&hellip;)</a>
+                               
                           </li>
                         </ul>
                       </dd>
