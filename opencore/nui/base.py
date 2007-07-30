@@ -162,7 +162,7 @@ class BaseView(BrowserView):
         including those not visible to the current user.
         """
         projects = self.catalogtool(portal_type='OpenProject')
-        #        projects = self.catalogtool.unrestrictedSearchResults(portal_type='OpenProject')
+        #projects = self.catalogtool.unrestrictedSearchResults(portal_type='OpenProject')
         return len(projects)
 
     @instance.memoizedproperty
