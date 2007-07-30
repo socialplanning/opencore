@@ -696,8 +696,8 @@ a.wickedadd {
   padding: 0 0.5em 0 0;
 }
 .oc-listen-moderate-form input.oc-actionLink {
-  color: #FFF;
-  background: #EB852B;
+  color: #444;
+  background: #DDD;
   border: none;
   padding: 0.125em 0.25em;
   text-decoration: none;
@@ -707,7 +707,7 @@ a.wickedadd {
 }
 .oc-listen-moderate-form input.oc-actionLink.oc-chooseThis {
   color: #FFF;
-  background: #444;
+  background: #EB852B;
 }
 .oc-listen-moderate-form .oc-form-fieldBlock {
   white-space: nowrap;

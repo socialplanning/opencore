@@ -38,7 +38,7 @@
                       <input type="hidden" name="email" tal:attributes="value python: str(post['user'])" />
                       <ul class="oc-actions oc-dataTable-row-actions">
                         <li>
-                          <input class="oc-actionLink" type="submit" name="post_approve" i18n:attributes="value" value="Approve" title="Allow this message to be posted" />
+                          <input class="oc-actionLink oc-chooseThis" type="submit" name="post_approve" i18n:attributes="value" value="Approve" title="Allow this message to be posted" />
                         </li>
                         <li>
                           <input class="oc-actionLink" type="submit" name="post_discard" i18n:attributes="value" value="Discard" title="Deny this message without notifying the sender" />
@@ -52,7 +52,7 @@
                           </label>
                           <span class="oc-js-liveEdit">
                             <a class="oc-js-liveEdit-value oc-js-liveEdit_showForm" href="#">with message</a>
-                            <span class="oc-js-liveEdit-editForm oc-liveEdit-editForm">
+                            <span class="oc-js-liveEdit-editForm oc-liveEdit-editForm" style="display: none;">
                               <input id="message_reject_reason" name="reject_reason" type="text" />
                             </span>
                           </span>
