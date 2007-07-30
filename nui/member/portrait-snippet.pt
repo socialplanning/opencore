@@ -13,8 +13,13 @@
                       a_classes_opened python:a_classes_closed + ' oc-expanderLink-open'"
           tal:attributes="class python:expand and a_classes_opened or a_classes_closed">Change image</a>
       </legend>
-      <div class="oc-js-expander-content oc-expander-content">
-        <input type="file" name="portrait" size="14" /><br />
+      <div class="oc-js-expander-content oc-expander-content" style="border: 1px solid orange; background: #fffff9;">
+        <input type="file" 
+          tal:define="focus python:request.get('field') == 'portrait';
+                input_class python:'oc-autoFocus';
+                default_class python:''" 
+                tal:attributes="class python:focus and input_class or default_class"
+        name="portrait" size="14" /><br />
         <input type="submit" name="task|oc-profile-avatar|uploadAndUpdate"
                class="oc-js-actionButton" value="Update" />
         <tal:hasportrait condition="python:
