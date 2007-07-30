@@ -21,6 +21,7 @@ from Products.validation.validators.BaseValidators import EMAIL_RE
 from opencore.siteui.member import FirstLoginEvent
 from opencore.nui.base import BaseView
 from opencore.nui.formhandler import *
+from DateTime import DateTime
 
 class AccountView(BaseView):
     """
@@ -332,6 +333,10 @@ class InitialLogin(BaseView):
         member = self.membertool.getAuthenticatedMember()
         if not self.membertool.getHomeFolder():
             self.membertool.createMemberArea(member.getId())
+
+        # set login time since for some reason zope doesn't do it
+        member.setLogin_time(DateTime())
+
         baseurl = self.memfolder_url()
         # Go to the user's Profile Page in Edit Mode
         return self.redirect("%s/%s" % (self.memfolder_url(),
