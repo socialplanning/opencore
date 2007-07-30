@@ -639,7 +639,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     team_manage_macros = ZopeTwoPageTemplateFile('team-manage-macros.pt')
 
     mship_type = OpenMembership.portal_type
-    rolemap = {'ProjectAdmin': 'admin',
+
+    # XXX REFACTOR: role_map is repeated in nui.member.view.MemberAccountView
+    rolemap = {'ProjectAdmin': 'administrator',
                'ProjectMember': 'member',
                }
     listedmap = {'public': 'yes',
