@@ -55,6 +55,9 @@
       </tal:email>
       <dt>Description</dt>
       <dd tal:content="view/listDescription" tal:condition="view/listDescription" />
+      <dd tal:condition="not:view/listDescription">
+        none
+      </dd>
     </dl>
   </div>
 </metal:aboutmacro>

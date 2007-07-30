@@ -11,7 +11,7 @@
         <div class="oc-headingBlock">
           <h2 i18n:translate="" tal:content="view/Title" />
         </div>
-	<div class="oc-message" tal:condition="view/errors|nothing" tal:content="view/errors|nothing"/>
+        <div class="oc-message" tal:condition="view/errors|nothing" tal:content="view/errors|nothing"/>
         <div class="oc-widget oc-widget-dataTable">
           <h3 class="oc-dataTable-heading" i18n:translate="">Posts awaiting moderation</h3>
             <table class="oc-dataTable" cellspacing="0" tal:condition="pending_list">
@@ -32,25 +32,31 @@
                     </dl>
                   </td>
                   <td>
-		    <form name="moderate-post-form" id="moderate-post-form"
-			  tal:attributes="action request/ACTUAL_URL">
+                    <form name="moderate-post-form" id="moderate-post-form" class="oc-listen-moderate-form"
+                          tal:attributes="action request/ACTUAL_URL">
                       <input type="hidden" name="postid" tal:attributes="value python: str(post['postid'])" />
                       <input type="hidden" name="email" tal:attributes="value python: str(post['user'])" />
                       <ul class="oc-actions oc-dataTable-row-actions">
-			<li>
+                        <li>
                           <input type="submit" name="post_approve" i18n:attributes="value" value="Approve" /> 
-			</li>
-			<li>
-                          <input type="submit" name="post_discard" i18n:attributes="value" value="Discard" />
-			</li>
-			<li oc-form-fieldBlock>
+                        </li>
+                        <li>
+                          <input type="submit" name="post_discard" i18n:attributes="value" value="Discard" title="Deny this message without notifying the sender" />
+                        </li>
+                        <li>
+                          <input type="submit" name="post_discard" i18n:attributes="value" value="Spam" title="Deny this message" />
+                        </li>
+                        <li class="oc-form-fieldBlock">
                           <label for="message_reject_reason">
-                            <input tal:condition="python:is_post_moderated or is_membership_moderated" type="submit" name="post_reject" i18n:attributes="value" value="Reject" />
+                            <input tal:condition="python:is_post_moderated or is_membership_moderated" type="submit" name="post_reject" i18n:attributes="value" value="Reject" title="Deny this message and notify the sender, message optional"/>
                           </label>
-                          <input tal:condition="python:is_post_moderated or is_membership_moderated" id="message_reject_reason" name="reject_reason" type="text" />
-			</li>
+                          <div class="oc-js-liveEdit">
+                            <a class="oc-js-liveEdit-value oc-js-liveEdit_showForm" href="#">with message</a>
+                            <input class="oc-js-liveEdit-editForm oc-liveEdit-editForm" style="display: none;" tal:condition="python:is_post_moderated or is_membership_moderated" id="message_reject_reason" name="reject_reason" type="text" />
+                          </div>
+                        </li>
                       </ul>
-		    </form>
+                    </form>
                   </td>
                 </tr>
               </tbody>
@@ -72,24 +78,24 @@
                 <tr tal:repeat="pending_member pending_members">
                   <td tal:content="pending_member/user_name" />
                   <td>
-		    <form name="moderate-member-form" id="moderate-member-form"
-			  tal:attributes="action request/ACTUAL_URL">
-		      <input type="hidden" name="email" tal:attributes="value pending_member/user" />
+                    <form name="moderate-member-form" id="moderate-member-form"
+                          tal:attributes="action request/ACTUAL_URL">
+                      <input type="hidden" name="email" tal:attributes="value pending_member/user" />
                       <ul class="oc-actions oc-dataTable-row-actions">
-			<li>
-			  <input i18n:attributes="value" type="submit" name="member_approve" value="Approve" />
-			</li>
-			<li>
-			  <input i18n:attributes="value" type="submit" name="member_discard" value="Discard" />
-			</li>
-			<li oc-form-fieldBlock>
-			  <label for="user_reject_reason">
+                        <li>
+                          <input i18n:attributes="value" type="submit" name="member_approve" value="Approve" />
+                        </li>
+                        <li>
+                          <input i18n:attributes="value" type="submit" name="member_discard" value="Discard" />
+                        </li>
+                        <li oc-form-fieldBlock>
+                          <label for="user_reject_reason">
                             <input i18n:attributes="value" type="submit" name="member_reject" value="Reject" />
-			  </label>
-			  <input type="text" id="user_reject_reason" name="reject_reason" />
-			</li>
+                          </label>
+                          <input type="text" id="user_reject_reason" name="reject_reason" />
+                        </li>
                       </ul>
-		    </form>
+                    </form>
                   </td>
                 </tr>
               </tbody>

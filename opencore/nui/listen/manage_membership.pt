@@ -28,7 +28,7 @@
               </td>
               <td> <!-- tal:content="string:${user}" />-->
                 <a tal:omit-tag="python:not view.is_member(user)"
-                   tal:attributes="href string:${here/portal_url}/people/${user}">
+                   tal:attributes="href string:${here/portal_url}/people/${user}/profile">
                   <span tal:replace="user">test@example.com</span>
                 </a>
               </td>

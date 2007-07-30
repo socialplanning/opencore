@@ -692,8 +692,11 @@ a.wickedadd {
   font-size: 10px;
 }
 .oc-listen-paginator .next,
-.oc-listen-paginator .prev {
+.oc-listen-paginator .previous {
   padding: 0 0.5em 0 0;
+}
+.oc-listen-moderate-form .oc-form-fieldBlock {
+  white-space: nowrap;
 }
 
 /* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
@@ -1177,7 +1180,8 @@ li.oc-invite .oc-invite-content {
 #oc-content-sidebar .oc-widget-search form .oc-input-typeText {
   width: 65%;
 }
-.oc-widget-search h2 {
+.oc-widget-search h2,
+.oc-widget-search .oc-label-heading {
   margin: 0 0 0.5em;
 }
 .oc-widget-multiSearch {
@@ -1512,6 +1516,14 @@ hr {
 }
 .oc-js-closeable {
 	position: relative;
+}
+.oc-tasktracker h1,
+.oc-tasktracker h2,
+.oc-tasktracker h3,
+.oc-tasktracker h4,
+.oc-tasktracker h5,
+.oc-tasktracker h6 {
+  margin-top: 0;
 }
 
 /* WIKI CONTENT + LEGACY support for pages generated with Kupu 
