@@ -20,7 +20,7 @@
     />
      
   <browser:page
-    class="opencore.nui.base.BaseView"
+    class=".view.WikiView"
     for="opencore.interfaces.IOpenPage"
     name="view"
     permission="zope.Public"

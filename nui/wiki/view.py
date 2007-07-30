@@ -2,6 +2,9 @@ from opencore.nui.base import BaseView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.nui.formhandler import button, OctopoLite, action
 
+class WikiView(BaseView):
+    view_attachments_snippet = ZopeTwoPageTemplateFile('attachment-view.pt')
+
 class WikiEdit(BaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile("wiki-edit.pt")

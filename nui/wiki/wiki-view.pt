@@ -8,39 +8,23 @@
           <div metal:use-macro="here/@@wiki_macros/tabs" />
           <div id="oc-wiki-content" class="oc-wiki-content" tal:content="structure here/getText"/>
         </div><!-- end .oc-wiki -->
-        <!-- <div class="oc-boxy">
-          <h2>Attachments</h2>
-          <ul class="oc-plainList">
-            <li>
-              <strong><a href="#">My attachment</a></strong>
-              <span class="oc-discreetText">
-                uploaded by <a href="user/profile">username</a> 
-                on <span>prettyDate</span>
-              </span>
-            </li>
-            <li>
-              <strong><a href="#">Another attachment</a></strong>
-              <span class="oc-discreetText">
-                uploaded by <a href="user/profile">username</a> 
-                on <span>prettyDate</span>
-              </span>
-            </li>
-            <li>
-              <strong><a href="#">A third attachment</a></strong>
-              <span class="oc-discreetText">
-                uploaded by <a href="user/profile">username</a> 
-                on <span>prettyDate</span>
-              </span>
-            </li>
-            <li>
-              <strong><a href="#">The last attachment</a></strong>
-              <span class="oc-discreetText">
-                uploaded by <a href="user/profile">username</a> 
-                on <span>prettyDate</span>
-              </span>
-            </li>
-          </ul>
-        </div>--> <!-- end oc-boxy for attachments -->
+
+        <!-- view attachments -->
+        <div class="oc-js-expander">
+          <h2 class="oc-bigText"><a href="#" class="oc-js-expander_open oc-expanderLink">View attachments</a></h2>
+
+          <div class="oc-js-expander-content"
+            tal:define="attachments python:here.getFolderContents(contentFilter = {'portal_type' : ['FileAttachment']});">
+
+            <ol class="oc-attachments" id="oc-wiki-attachments">
+              <tal:repeat repeat="attachment attachments">
+                <tal:macro metal:use-macro="view/view_attachments_snippet/macros/attachment" />
+              </tal:repeat>
+            </ol>
+
+          </div>
+        </div><!-- end view attachments -->
+
       </div><!-- end #oc-content-main -->
     </div><!-- end content slot -->
   </body>
