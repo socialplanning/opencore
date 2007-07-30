@@ -77,9 +77,8 @@
                 </div><!-- end expander-content -->
               </div><!-- end expander -->
               
-            <div tal:attributes="class python:attachments and 'oc-js-expander' or 'oc-js-expander'">
+            <div class="oc-js-expander">
               <h2 class="oc-bigText"><a href="#oc-wiki-manageAttachments" class="oc-js-expander_open oc-expanderLink">Manage attachments</a></h2>
-              <!--<a href="#" class="oc-js-expander_close oc-expander-close" style="display:none;">X</a>-->
 
               <div class="oc-js-expander-content">
                 
