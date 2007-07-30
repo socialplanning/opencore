@@ -161,8 +161,7 @@ class BaseView(BrowserView):
         Returns the total number of projects hosted by the site,
         including those not visible to the current user.
         """
-        projects = self.catalogtool(portal_type='OpenProject')
-        #projects = self.catalogtool.unrestrictedSearchResults(portal_type='OpenProject')
+        projects = self.catalogtool.unrestrictedSearchResults(portal_type='OpenProject')
         return len(projects)
 
     @instance.memoizedproperty
