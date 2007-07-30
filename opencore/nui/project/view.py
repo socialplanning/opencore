@@ -603,9 +603,9 @@ class ProjectTeamView(TeamRelatedView):
         # only return max 10 results
         return projects[:10]
 
-    def more_than_ten_projects(self, member):
+    def num_projects_for_member(self, member):
         projects = self._projects_for_member(member)
-        return len(projects) > 10
+        return len(projects)
 
     @memoize_contextless
     def _projects_for_member(self, member):

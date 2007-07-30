@@ -150,6 +150,13 @@ Now try sorting by location::
     >>> [b.getId for b in brains]
     ['m4', 'm1', 'm3']
 
+Test the projects for members work::
+    >>> mem_projects = view.projects_for_member(brains[0].getObject())
+    >>> [mem_project.getId() for mem_project in mem_projects]
+    ['p2', 'p1', 'p4']
+    >>> view.num_projects_for_member(brains[0].getObject())
+    3
+
 Clear the memoize from the request::
 
     >>> utils.clear_all_memos(view)
