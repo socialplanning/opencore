@@ -707,6 +707,9 @@ a.wickedadd {
   font-weight: bold;
   vertical-align: middle;
 }
+.oc-listen-moderate-form a.oc-actionLink {
+  padding: 0.25em 0.5em;
+}
 .oc-listen-moderate-form input.oc-actionLink.oc-chooseThis {
   color: #FFF;
   background: #444;
