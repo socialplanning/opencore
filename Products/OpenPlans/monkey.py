@@ -107,26 +107,3 @@ def patch_fileattachment():
     patch_class(FileAttachment, 'inlineMimetypes', new_val)
 
 patch_fileattachment()
-
-def patch_pt_render():
-    """
-    It's necessary to patch Five's pt_render method b/c CacheFu's CMF patches
-    don't work on browser views otherwise.
-
-    BBB: This shouldn't be necessary when we switch to Plone3 / Zope2.10,
-         since that uses Z3's page template engine works with CacheFu
-    """
-    from Products.Five.browser.ReuseUtils import rebindFunction
-    from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile \
-         as Z2PTF
-    from Products.Five.browser.TrustedExpression import getEngine
-    import Products.CacheSetup.patch_cmf as patch_cmf
-
-    new_pt_render = rebindFunction(patch_cmf.PT_pt_render, getEngine=getEngine)
-    patch_class(Z2PTF, 'pt_render', new_pt_render)
-    # CacheFu expects to find the original method on the class as
-    # __CacheSetup_PageTemplate_<METHOD_NAME>
-    Z2PTF.__CacheSetup_PageTemplate_pt_render__ = getattr(Z2PTF,
-                                                          PREFIX + 'pt_render')
-
-patch_pt_render()
