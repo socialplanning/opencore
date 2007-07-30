@@ -105,6 +105,7 @@
                      name="task|update"
                      value="Update"
                      class="oc-button oc-chooseThis" />
+              or <a href="profile">cancel</a>
             </li>
           </ul> 
         </form>
