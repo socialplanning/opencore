@@ -260,8 +260,9 @@ class BaseView(BrowserView):
 
             logintime = member.getLogin_time()
             if logintime == DateTime.DateTime('2000/01/01'): # XXX hack around zope
-                logintime = DateTime.DateTime()
-            logintime = logintime and prettyDate(logintime) or 'member.getLogin_time() is None?'
+                logintime = 'never'
+            else:
+                logintime = logintime and prettyDate(logintime) or 'member.getLogin_time() is None?'
             
             result.update(
                 id          = id,
