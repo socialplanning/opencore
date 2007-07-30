@@ -531,6 +531,14 @@ class MemberAccountView(BaseView, OctopoLite):
         mem.setEmail(email)
         self.addPortalStatusMessage('Email successfully changed')
 
+
+    role_map = {'ProjectAdmin':  'administrator',
+                'ProjectMember': 'member'}
+    def pretty_role(self, role):
+        role = self.role_map.get(role, role)
+        return role
+
+
 class InvitationView(BaseView, OctopoLite):
     """view to manage first time login project invitations"""
 
