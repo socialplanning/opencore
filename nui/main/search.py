@@ -349,6 +349,11 @@ class SitewideSearchView(SearchView):
         return self.index()
     
 
+    def _sort_by_id(self, brains):
+        return sorted(brains, key=lambda x: x.portal_type == 'OpenMember' \
+                      and x.getId.lower() or x.Title.lower())
+    
+
     def search_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
         if letter == 'num':
@@ -370,17 +375,20 @@ class SitewideSearchView(SearchView):
             rs = ()
         else:
             if sort_by == 'getId':
-                rs = ((sort_by, 'asc'),)
+                rs = ()
             else:
                 rs = ((sort_by, 'desc'),)
 
         brains = self.catalog.evalAdvancedQuery(query, rs)
 
+        if sort_by == 'getId':
+            brains = self._sort_by_id(brains)
+
         if letter == 'all':
             return brains
         
         out_brains = []
-
+        
         for brain in brains:
             if brain.portal_type in ('OpenProject', 'Document') and \
                    self.match(brain.Title.lower(), letter):
@@ -406,7 +414,7 @@ class SitewideSearchView(SearchView):
             rs = (RankByQueries_Sum((Eq('getId', search_query),32), (Eq('getFull_name', search_query),16)),)
         else:
             if sort_by == 'getId':
-                rs = ((sort_by, 'asc'),)
+                rs = ()
             else:
                 rs = ((sort_by, 'desc'),)
 
@@ -415,6 +423,9 @@ class SitewideSearchView(SearchView):
                 | Eq('portal_type', 'OpenMember')) \
                 & Eq('SearchableText', search_query)
         brains = self.catalog.evalAdvancedQuery(query, rs)
+
+        if sort_by == 'getId':
+            brains = self._sort_by_id(brains)
 
         return brains
     
