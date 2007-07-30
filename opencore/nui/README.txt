@@ -140,6 +140,7 @@ Member info
      'lastlogin': 'never',
      'location': '',
      'membersince': 'today',
+     'portrait_thumb_url': '++resource++img/default-portrait-thumb.png',
      'portrait_url': '++resource++img/default-portrait.png',
      'portrait_width': '200',
      'projects': [],

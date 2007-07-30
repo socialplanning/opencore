@@ -48,6 +48,7 @@ class BaseView(BrowserView):
     """Base view for general use for nui templates and as an abstract base"""
     logoURL = '++resource++img/logo.gif'
     defaultPortraitURL = '++resource++img/default-portrait.png'
+    defaultPortraitThumbURL = '++resource++img/default-portrait-thumb.png'
     windowTitleSeparator = ' :: '
     render_static = staticmethod(render_static)
     truncate = staticmethod(truncate)
@@ -302,6 +303,7 @@ class BaseView(BrowserView):
             result['portrait_thumb_url'] = "%s_thumb" %portrait.absolute_url()
             result['portrait_width'] = str(portrait.width)
         else:
+            result['portrait_thumb_url'] = self.defaultPortraitThumbURL
             result['portrait_width'] = '200' # XXX don't hard code width of default portrait
 
         return result
