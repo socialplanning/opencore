@@ -28,17 +28,17 @@
                   <td style="width: 49%;">
                     <dl class="oc-plainList">
                       <dt tal:content="post/subject" />
-                      <dd tal:content="python: post['body'][:50]" colspan="3" />
+                      <dd tal:content="python: post['body'][:50]" />
                     </dl>
                   </td>
-                  <td style="width: 25%;">
-                    <form name="moderate-post-form" id="moderate-post-form" class="oc-listen-moderate-form"
+                  <td style="width: 25%; text-align: right;">
+                    <form name="moderate-post-form" class="oc-listen-moderate-form oc-js-liveEdit"
                           tal:attributes="action request/ACTUAL_URL">
                       <input type="hidden" name="postid" tal:attributes="value python: str(post['postid'])" />
                       <input type="hidden" name="email" tal:attributes="value python: str(post['user'])" />
-                      <ul class="oc-actions oc-dataTable-row-actions">
+                      <ul class="oc-actions oc-dataTable-row-actions oc-js-liveEdit-value">
                         <li>
-                          <input class="oc-actionLink oc-chooseThis" type="submit" name="post_approve" i18n:attributes="value" value="Approve" title="Allow this message to be posted" />
+                          <input class="oc-actionLink" type="submit" name="post_approve" i18n:attributes="value" value="Approve" title="Allow this message to be posted" />
                         </li>
                         <li>
                           <input class="oc-actionLink" type="submit" name="post_discard" i18n:attributes="value" value="Discard" title="Deny this message without notifying the sender" />
@@ -46,18 +46,18 @@
                         <li>
                           <input class="oc-actionLink" type="submit" name="post_discard" i18n:attributes="value" value="Spam" title="Deny this message" />
                         </li>
-                        <li class="oc-form-fieldBlock" tal:condition="python:is_post_moderated or is_membership_moderated">
-                          <label for="message_reject_reason">
-                            <input class="oc-actionLink" type="submit" name="post_reject" i18n:attributes="value" value="Reject" title="Deny this message and notify the sender, message optional"/>
-                          </label>
-                          <span class="oc-js-liveEdit">
-                            <a class="oc-js-liveEdit-value oc-js-liveEdit_showForm" href="#">with message</a>
-                            <span class="oc-js-liveEdit-editForm oc-liveEdit-editForm" style="display: none;">
-                              <input id="message_reject_reason" name="reject_reason" type="text" />
-                            </span>
-                          </span>
+                        <li class="oc-js-liveEdit_showForm">
+                          <a class="oc-actionLink" href="#" title="Deny this message and notify the sender, message optional">Reject</a>
                         </li>
                       </ul>
+                      <div class="oc-js-liveEdit-editForm oc-liveEdit-editForm oc-form-fieldBlock" style="display: none;" tal:condition="python:is_post_moderated or is_membership_moderated">
+                          <label class="oc-smallText" for="message_reject_reason">
+                            <strong>Message</strong> <span class="oc-discreetText">(optional)</span>
+                          </label>
+                          <input id="message_reject_reason" name="reject_reason" type="text" />
+                          <input class="oc-actionLink" type="submit" name="post_reject" i18n:attributes="value" value="Reject" title="Deny this message and notify the sender, message optional"/> or <a href="#" class="oc-js-liveEdit_hideForm">Cancel</a>
+
+                      </div>
                     </form>
                   </td>
                 </tr>
