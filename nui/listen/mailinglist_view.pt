@@ -29,7 +29,7 @@
               <dd>
                 <ul class="oc-plainList">
                   <li tal:repeat="manager view/list_managers">
-                    <span tal:content="manager" />
+                    <span tal:replace="manager" />
                   </li>
                 </ul>
               </dd>
