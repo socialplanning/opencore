@@ -18,7 +18,7 @@
       </tal:pending-role>
       <tal:active-role tal:condition="python: not projinfo['is_pending']">
         <td class="oc-dataTable-row-title"
-            tal:content="projinfo/role"
+            tal:content="python:view.pretty_role(projinfo['role'])"
             />
       </tal:active-role>
       <td id="" class="">
