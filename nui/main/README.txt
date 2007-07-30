@@ -271,12 +271,12 @@ Sitewide Search
    >>> brains = view.search_by_letter('p')
    >>> len(brains)
    9
-   >>> brains = view.search_by_letter('m')
+   >>> brains = view.search_by_letter('m', sort_by='getId')
    >>> [b.getId for b in brains]
-   ['m4', 'm1', 'm3', 'm2']
+   ['m1', 'm2', 'm3', 'm4']
 
 Search for everything::
-   >>> brains = view.search_by_letter('all')
+   >>> brains = view.search_by_letter('all', sort_by='getId')
    >>> len(brains)
    18
 
