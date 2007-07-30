@@ -70,14 +70,14 @@
               </legend>
               <ul class="oc-form-radiolist oc-form-fieldBlock">
                 <li>
-                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
-                  value="open_policy" checked="checked"/>
-                  <label for="workflow_policy_open">View the content</label>
+                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
+                  value="medium_policy" checked="checked"/>
+                  <label for="workflow_policy_medium">View the content</label>
                 </li>
                 <li>
-                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
-                  value="medium_policy" />
-                  <label for="workflow_policy_medium">and contribute to it</label><br>
+                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
+                  value="open_policy" />
+                  <label for="workflow_policy_open">and contribute to it</label><br>
                   <strong class="oc-smallText">OR</strong>
                 </li>
                 <li>
