@@ -86,17 +86,12 @@
               </tal:member>
               <tal:anon tal:define="error errors/email_address|nothing"
                         condition="python:isAnon and can_subscribe">
-                <p id="subscription-satus" i18n:translate="">
+                <p id="subscription-status" i18n:translate="">
                   To subscribe to the list enter your email in the field below.
                 </p>
-                <div 
+                <fieldset 
                   tal:attributes="class python:'oc-form-fieldBlock' + (error and ' error' or '')">
-                  <label for="email_address" i18n:translate="label_email">Email address:</label>
-                  <!-- <span title="Required"
-                    i18n:domain="plone" i18n:translate="label_required"
-                    i18n:attributes="title title_required;">
-                    (Required)
-                  </span> -->
+                  <label for="email_address" i18n:translate="label_email"><strong>Email address:</strong></label>
                   <input type="text" value="" name="email_address"
                   tal:attributes="value request/email_address|nothing" />
                   <span class="oc-actions">
@@ -106,8 +101,8 @@
                     value="Subscribe Address"
                     i18n:attributes="value" />
                   </span>
-                  <span class="oc-discreetText" tal:condition="error" tal:content="error" i18n:translate="" />
-                </div>
+                  <span class="oc-discreetText" style="white-space: nowrap;" tal:condition="error" tal:content="error" i18n:translate="" />
+                </fieldset>
               </tal:anon>
               <tal:pending tal:condition="python: isPending">
               <h2>Subscription pending</h2>
