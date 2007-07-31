@@ -28,7 +28,7 @@
           <input type="submit" name="task|oc-profile-avatar|remove"
                  class="oc-js-actionButton" value="Remove" />
         </tal:hasportrait>
-        or <a href="#" class="oc-js-expander_close">cancel</a>
+        or <a href="#" class="oc-js-expander_close">Cancel</a>
       </div>
   </fieldset>
 </div>

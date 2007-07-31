@@ -38,7 +38,7 @@
         <th class="oc-form-label"></th>
         <td class="oc-form-value">  
           <span class="oc-indicator"><img src="++resource++img/indicator-bounce-eee.gif" alt="Loading..." /></span>
-          <input type="submit" value="Upload" /> or cancel</td>
+          <input type="submit" value="Upload" /> or Cancel</td>
         <td class="oc-form-help"></td>
       </tr>
     </tbody>
