@@ -50,19 +50,38 @@ class ProfileView(BaseView):
             self.public_projects.sort(key=sortfunc)
 
 
-    def activity(self, max=15):
+    def activity(self, max=10):
         """Returns a list of dicts describing each of the `max` most recently
         modified wiki pages for the viewed user."""
         memberid = self.viewedmember().getId()
         query = Eq('Creator', memberid) | Eq('lastModifiedAuthor', memberid)
         query &= Eq('portal_type', 'Document') #| Eq('portal_type', 'OpenProject')
         brains = self.catalog.evalAdvancedQuery(query, (('modified', 'desc'),)) # sort by most recent first ('desc' means descending)
-        brains = brains[:max]
+        brains = brains[:max] # there appears to be no way to specify the max in the query
 
         def dictify(brain):
-            return {'title': brain.Title,
-                    'url':   brain.getURL(),
-                    'date':  prettyDate(DateTime(brain.ModificationDate))}
+            d = dict(title = brain.Title,
+                     url   = brain.getURL(),
+                     date  = prettyDate(DateTime(brain.ModificationDate)))
+
+            try:
+                path = brain.getPath().split('/')
+                # get index of the projects folder
+                pfindex = path.index('projects') # TODO don't hard code projects folder
+                projid = path[pfindex + 1]
+                projpath = '/'.join(path[:pfindex+2])
+                projmeta = self.catalog.getMetadataForUID(projpath)
+                d['project'] = projmeta['Title']
+
+                # get index of the right-most '/'
+                rslashindex = d['url'].rindex('/')
+                d['projurl'] = d['url'][:rslashindex]
+
+            except ValueError:
+                # this page brain must not be inside a project
+                d.update(project=None, projurl=None)
+
+            return d
 
         return [dictify(brain) for brain in brains]
 
