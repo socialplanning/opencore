@@ -41,10 +41,7 @@
                           <input class="oc-actionLink" type="submit" name="post_approve" i18n:attributes="value" value="Approve" title="Allow this message to be posted" />
                         </li>
                         <li>
-                          <input class="oc-actionLink" type="submit" name="post_discard" i18n:attributes="value" value="Discard" title="Deny this message without notifying the sender" />
-                        </li>
-                        <li>
-                          <input class="oc-actionLink" type="submit" name="post_discard" i18n:attributes="value" value="Spam" title="Deny this message" />
+                          <input class="oc-actionLink" type="submit" name="post_discard" i18n:attributes="value" value="Discard (Spam)" title="Deny this message without notifying the sender" />
                         </li>
                         <li class="oc-js-liveEdit_showForm">
                           <a class="oc-actionLink" href="#" title="Deny this message and notify the sender, message optional">Reject</a>
@@ -52,7 +49,7 @@
                       </ul>
                       <div class="oc-js-liveEdit-editForm oc-liveEdit-editForm oc-form-fieldBlock" style="display: none;" tal:condition="python:is_post_moderated or is_membership_moderated">
                           <label class="oc-smallText" for="message_reject_reason">
-                            <strong>Message</strong> <span class="oc-discreetText">(optional)</span>
+                            <strong>Reason:</strong> <span class="oc-discreetText">(optional)</span>
                           </label>
                           <input id="message_reject_reason" name="reject_reason" type="text" />
                           <input class="oc-actionLink" type="submit" name="post_reject" i18n:attributes="value" value="Reject" title="Deny this message and notify the sender, message optional"/> or <a href="#" class="oc-js-liveEdit_hideForm">Cancel</a>

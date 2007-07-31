@@ -704,15 +704,10 @@ a.wickedadd {
   text-decoration: none;
   font-size: 9px;
   text-transform: uppercase;
-  font-weight: bold;
   vertical-align: middle;
 }
 .oc-listen-moderate-form a.oc-actionLink {
   padding: 0.25em 0.5em;
-}
-.oc-listen-moderate-form input.oc-actionLink.oc-chooseThis {
-  color: #FFF;
-  background: #444;
 }
 .oc-listen-moderate-form .oc-form-fieldBlock {
   white-space: nowrap;
