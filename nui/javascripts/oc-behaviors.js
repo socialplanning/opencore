@@ -41,7 +41,8 @@ OC.liveElementKey.Class = {
     'oc-js-actionButton'     : "ActionButton",
     'oc-js-actionSelect'     : "ActionSelect",
     'oc-js-liveValidate'     : "LiveValidatee",
-    "oc-js-closeable"        : "CloseButton"
+    "oc-js-closeable"        : "CloseButton",
+    "oc-directEdit"          : "DirectEdit"
 
 }
 OC.liveElementKey.Id = {
@@ -811,7 +812,6 @@ OC.DropDown  = function(extEl) {
       submenu.show();
       overrideHide = true;
       container.addClass('oc-selected');
-      OC.debug(overrideHide);
     }
     
     function _hideMenu() {
@@ -952,6 +952,10 @@ OC.LiveEdit = function(extEl) {
     editForm.setVisibilityMode(Ext.Element.DISPLAY);
     editForm.hide();
     var hideThisForm = false;
+    var directEdit = false;
+    if (value.hasClass('oc-directEdit')) {
+      directEdit = true;
+    }
     
     // make sure a click on the container doesn't close the form.  stop the event bubbling.
     container.on('click', _stopEvent, this)
@@ -973,7 +977,6 @@ OC.LiveEdit = function(extEl) {
           if (Ext.get(el).hasClass('oc-js-liveEdit_hideForm')) {
             e.preventDefault();
           }
-          OC.debug('_hideForm');
           value.show();
           editForm.hide();
         }
@@ -981,28 +984,12 @@ OC.LiveEdit = function(extEl) {
     }
     function _showForm(e) {
         e.stopEvent();
-        OC.debug('_showForm');
         value.hide();
         editForm.show();
         hideThisForm = true;
         var form = Ext.get(Ext.query('input[type=text]', editForm.dom)[0]) || Ext.get(Ext.query('select', editForm.dom)[0]);
         if (form) { form.focus(); }
     }
-    
-    
-    // liveEdit value behaviors
-    function _valueMouseover(e, el, o) {
-        value.addClass('oc-liveEdit-hover');
-        if (hoverShowFormLink) hoverShowFormLink.hide();
-    }
-    value.on('mouseover', _valueMouseover, this);
-    
-    function _valueMouseout(e, el, o) {
-        value.removeClass('oc-liveEdit-hover');
-        if (hoverShowFormLink) hoverShowFormLink.hide();
-    }
-    value.on('mouseout', _valueMouseout, this);
-    
     
     if (showFormLink) {
       showFormLink.on('click', _showForm, this, {stopPropagation: true});
@@ -1014,8 +1001,26 @@ OC.LiveEdit = function(extEl) {
         hideFormLink.on('click', _hideForm, this);
     }
     
+    if (directEdit) {
+      // liveEdit value behaviors
+      function _valueMouseover(e, el, o) {
+          value.addClass('oc-directEdit-hover');
+      }
+      value.on('mouseover', _valueMouseover, this);
+      
+      function _valueMouseout(e, el, o) {
+          value.removeClass('oc-directEdit-hover');
+      }
+      value.on('mouseout', _valueMouseout, this);
+    }
+    
     return this;
 };
+
+OC.DirectEdit = function(extEl) {
+    
+
+}
 
 /* 
    #
