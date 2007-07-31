@@ -2,17 +2,20 @@
 some base class for opencore ui work!
 """
 import datetime
-import DateTime
 from time import strptime
 import urllib
 import cgi
+
 from Acquisition import aq_inner, aq_parent
+from AccessControl import Unauthorized
+import DateTime
 
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.Five import BrowserView
 
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.utils import _checkPermission
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFPlone.utils import transaction_note
