@@ -1549,7 +1549,7 @@ hr {
 -------------------------------------------- */
 
 .oc-wiki-content br {
-  display: block;
+  line-height: 1em;
 }
 .oc-wiki-content h1, 
 .oc-wiki-content h2, /* Kupu: Heading */
