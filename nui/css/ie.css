@@ -23,7 +23,10 @@ fieldset.oc-boxy legend {
 	  float: left; /* makes it so border shows up around legend */
 }
 .oc-statusMessage {
-  border-top: 3px solid; /* for some reason the top border is getting chopped off */
+  position: static; /* avoids overlapping the topnav menu */
+}
+.oc-statusMessage .oc-close {
+  display: none;
 }
 .oc-statusMessage .oc-closeButton { /* overridden in IE6.css */
   width: 7px;
