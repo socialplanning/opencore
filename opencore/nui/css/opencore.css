@@ -1345,6 +1345,9 @@ a.oc-js-liveEdit_hideForm {
   padding-right: 15px;
   cursor: pointer;}
 
+.oc-js-actionSelect select {
+  width: 100%;
+}
 /* @HTML ELEMENTS GENERAL @TYPOGRAPHY
 This should be the only place where font information is specified
 -------------------------------------------- */

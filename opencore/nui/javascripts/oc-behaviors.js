@@ -427,19 +427,26 @@ OC.ActionSelect = function(extEl) {
     var container = extEl;
     var select = Ext.get(Ext.query('select',container.dom)[0]);
     var submit = Ext.get(Ext.query('input[type=submit]', container.dom)[0]);
-    submit.hide();
+    var hideFormLink = Ext.get(document.body);
     var form = select.up('form');
+    var liveEdit_id = select.up('.oc-js-liveEdit').id;
+    
+    // get a reference to the liveElement that this is part of.
+    var liveEdit = OC.liveElements[liveEdit_id]['LiveEdit'];
+    
     
     //check refs
     if (!select) {
-	OC.debug("ActionSelect: Couldn't get refs");
-	return;
+      OC.debug("ActionSelect: Couldn't get refs");
+    return;
     } 
     
     //settings
     var action = form.dom.action;
     var orig_task = submit.dom.name;
     var task = submit.dom.name;
+    submit.setVisibilityMode(Ext.Element.DISPLAY);
+    submit.hide();
 
     if (task.slice(0,5) != 'task|') {
         task = 'task|' + task;
@@ -450,17 +457,27 @@ OC.ActionSelect = function(extEl) {
         // if the actionSelectTask element doesn't begin w/ 'task|', we add it
         submit.dom.name = task;
         OC.debug("ActionSelect: submit.dom.name: " + submit.dom.name);
-	YAHOO.util.Event.stopEvent(e);
-	YAHOO.util.Connect.setForm(form.dom);
-	var cObj = YAHOO.util.Connect.asyncRequest("POST", action, {
-		success: OC.Callbacks.afterAjaxSuccess,
-		failure: OC.Callbacks.afterAjaxFailure,
-		scope: this
+        YAHOO.util.Event.stopEvent(e);
+        YAHOO.util.Connect.setForm(form.dom);
+        var cObj = YAHOO.util.Connect.asyncRequest("POST", action, {
+          success: OC.Callbacks.afterAjaxSuccess,
+          failure: OC.Callbacks.afterAjaxFailure,
+          scope: this
 	    }, "mode=async&" + task + "=" + taskValue);
         // restore original task element name
         submit.dom.name = orig_task;
     }
     select.on('change', _doAction, this);
+    
+    function _hideParentForm(e, el) {
+      if (liveEdit.isOpen()) {
+        liveEdit.hideForm(e, el);
+      }
+    }
+    if (hideFormLink) {
+      hideFormLink.on('click', _hideParentForm, this);
+    }
+    
     
     // pass back element to OC.LiveElements
     return this;
@@ -974,14 +991,17 @@ OC.LiveEdit = function(extEl) {
     
     function _hideForm(e, el) {
         if (hideThisForm) {
-          if (Ext.get(el).hasClass('oc-js-liveEdit_hideForm')) {
-            e.preventDefault();
+          if (Ext.get(el)) {
+            if (Ext.get(el).hasClass('oc-js-liveEdit_hideForm')) {
+              e.preventDefault();
+            }
           }
           value.show();
           editForm.hide();
         }
         hideThisForm = false;
     }
+
     function _showForm(e) {
         e.stopEvent();
         value.hide();
@@ -1012,6 +1032,22 @@ OC.LiveEdit = function(extEl) {
           value.removeClass('oc-directEdit-hover');
       }
       value.on('mouseout', _valueMouseout, this);
+    }
+    
+    
+    // Public properties & methods
+    this.toggleForm = function(e) {
+      _toggleForm(e);
+    }
+    this.hideForm = function(e) {
+      _hideForm(e);
+    }
+    this.isOpen = function() {
+      if (!value.isVisible() && editForm.isVisible()) {
+        return true;
+      } else {
+        return false;
+      }
     }
     
     return this;
