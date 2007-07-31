@@ -1288,8 +1288,8 @@ input.oc-fieldBlock-focused {
 .oc-liveEdit-editForm {
   border-bottom: 1px dotted red;
 }
-.oc-liveEdit-value .oc-liveEdit-hover,
-.oc-liveEdit-hover {
+.oc-liveEdit-value .oc-directEdit-hover,
+.oc-directEdit-hover {
  background: #ffffcc;
  cursor: pointer;
 }
