@@ -49,7 +49,7 @@
   <browser:page
      for="opencore.interfaces.IProject"
      class=".view.RequestMembershipView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="request-membership"
      />
 
