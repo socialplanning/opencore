@@ -23,7 +23,7 @@
     class=".view.WikiView"
     for="opencore.interfaces.IOpenPage"
     name="view"
-    permission="zope.Public"
+    permission="zope2.View"
     template="wiki-view.pt"
     />
 
