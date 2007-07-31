@@ -84,11 +84,12 @@
                     tal:condition="not:subscribed" i18n:attributes="value" />
                 </div>
               </tal:member>
-              <tal:anon condition="python:isAnon and can_subscribe">
+              <tal:anon tal:define="error errors/email_address|nothing"
+			condition="python:isAnon and can_subscribe">
                 <p id="subscription-satus" i18n:translate="">
                   To subscribe to the list enter your email in the field below.
                 </p>
-                <div tal:define="error errors/email_address|nothing"
+                <div 
                   tal:attributes="class python:'oc-fieldBlock' + (error and ' error' or '')">
                   <label for="email_address" i18n:translate="label_email">Email address:</label>
                   <!-- <span title="Required"
