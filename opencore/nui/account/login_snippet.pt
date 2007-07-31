@@ -1,5 +1,5 @@
 <metal:login define-macro="login_snippet">
-  <form name="login_form" method="post" id="oc-login-form"
+  <form  class="oc-boxy" name="login_form" method="post" id="oc-login-form"
     tal:attributes="action string:login">
     <input type="hidden" name="came_from" id="came_from" 
       tal:condition="view/request/came_from | nothing" 
@@ -9,8 +9,8 @@
       tal:condition="view/request/referer | nothing"
       tal:attributes="value view/request/referer" />
 
-    <fieldset class="oc-boxy">
-      <legend class="oc-legend-heading oc-biggestText">Login</legend> 
+    <fieldset>
+      <h1>Login</h1> 
       <table class="oc-form">
         <thead></thead>
         <tbody>
