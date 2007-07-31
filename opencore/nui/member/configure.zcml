@@ -3,9 +3,6 @@
 	   xmlns:five="http://namespaces.zope.org/five">
 
 
-  <!-- TODO write and run a migration and then use
-     for="opencore.interfaces.IMemberFolder"
-  -->
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
      class=".view.MemberAccountView"
