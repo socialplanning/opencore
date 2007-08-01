@@ -1140,6 +1140,30 @@ OC.CloseButton = function(extEl) {
   #  -- THIS IS DUMB AND SHOULD BE LOOKED OVER BY NICK TO MAKE BETTER
 */
 OC.WarnPopup = function(extEl) {
+
+  //get refs
+  var checkbox = extEl;
+  
+  //check refs
+  if (!checkbox) {
+    return;
+  }
+  
+  extEl.on('click', function(e, el) { 
+    if (!el.checked) {
+      YAHOO.util.Event.preventDefault(e);
+      var msg = "Removing this feature may result in lost data for your project. <br /><br /> Are you sure you want to remove the feature?<br />";
+      Ext.MessageBox.confirm('Confirm', msg, _callback);
+    }
+  });
+  
+  function _callback(button_id) {
+    if (button_id == "yes") {
+      checkbox.dom.checked = false;
+      
+    }
+  }
+/* 
     var msg = "Removing this feature may result in lost data for your project."
     msg += " Are you sure you want to remove the feature?"
     var item = Ext.get(extEl);
@@ -1150,6 +1174,7 @@ OC.WarnPopup = function(extEl) {
 		YAHOO.util.Event.stopEvent(e);
     }
     item.on('click', _itemClick, this);
+*/
 };
 
 /* 
