@@ -77,6 +77,16 @@ class BaseView(BrowserView):
         self._redirected = True
         return self.response.redirect(*args, **kwargs)
 
+    def spamProtect(self, mailaddress, mailname=None):
+        """
+        Returns a spam protected mail address tag.  Lifted from the
+        Plone skin script of the same name.
+        """
+        email = mailaddress.replace('@', '&#0064;').replace(':', '&#0058;')
+        if mailname is None:
+            mailname = email
+        return '<a href="&#0109;ailto&#0058;' + email + '">' + mailname + '</a>'
+
     #XXX only used once, move into project.view
     def render_macro(self, macro, extra_context={}):
         """
@@ -206,14 +216,12 @@ class BaseView(BrowserView):
             return [{'tag': tag, 'url': url} for tag, url in zip(tags, urls)]
         return []
 
-
     def mship_brains_for(self, member):
         teamtool = getToolByName(self.context, 'portal_teams')
         default_states = teamtool.getDefaultActiveStates()
         return self.catalog(id=member.getId(),
                             portal_type='OpenMembership',
                             review_state=default_states)
-
 
     def project_brains_for(self, member):
         mships = self.mship_brains_for(member)
@@ -227,7 +235,6 @@ class BaseView(BrowserView):
 
     def project_brains(self):
         return self.project_brains_for(self.loggedinmember)
-
 
     def mship_proj_map(self):
         """map from team/project id's to {'mship': mship brain, 'proj': project brain}

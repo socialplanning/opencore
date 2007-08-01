@@ -31,23 +31,23 @@
                 <dt>Fax</dt>
                 <dd class="tel">646.390.2624</dd>
                 <dt>Email (General Inquiries)</dt>
-                <dd class="email">
-                  info<span 
-                  style="display: none;">NOSPAM</span
-                  >@openplans.org
-                </dd>
+                <dd class="email"
+                    tal:content="structure python:view.spamProtect('info@openplans.org')" />
                 <dt>Email (Help)</dt>
-                <dd class="email">
-                  help<span
-                  style="display: none;">NOSPAM</span
-                  >@openplans.org
-                </dd>
+                <dd class="email"
+                    tal:content="structure python:view.spamProtect('help@openplans.org')" />
               </dl>
             </address>
         </div>
         <div class="oc-boxy">
           <h2>Help!</h2>
-          <p>We are here for you. If you could use some help, don't hesitate to email <a href="mailto:help@openplans.org">help@openplans.org</a> or visit the <a style="" href="http://www.openplans.org/projects/openplans-help/">OpenPlans Help and Documentation</a> project. If you have technical knowledge and want to get involved, visit the <a style="" href="http://www.openplans.org/projects/opencore/">OpenCore Software</a> project for more information.</p>
+          <p>
+            We are here for you. If you could use some help, don't hesitate
+            to email <span tal:replace="python:view.spamProtect('help@openplans.org')" />
+            or visit the <a style="" href="http://www.openplans.org/projects/openplans-help/">OpenPlans Help and Documentation</a> project.
+            If you have technical knowledge and want to get involved, 
+            visit the <a style="" href="http://www.openplans.org/projects/opencore/">OpenCore Software</a> project for more information.
+          </p>
         </div>
       </div>
     </div><!-- content-fill-slot -->
