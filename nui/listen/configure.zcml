@@ -35,7 +35,7 @@
      for="*"
      class="opencore.nui.base.BaseView"
      name="listen_macros"
-     permission="zope.Public"
+     permission="zope2.View"
      template="listen_macros.pt"
      />
 
