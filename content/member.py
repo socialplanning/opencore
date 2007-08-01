@@ -1,30 +1,31 @@
+import re
+from types import TupleType, ListType, UnicodeType
+
 from AccessControl import ClassSecurityInfo
+
+from zope.component import getAdapter
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.CMFCorePermissions import *
-
 import Products.Archetypes.public as atapi
 from Products.Archetypes.ExtensibleMetadata import ExtensibleMetadata
 from Products.Archetypes.ArchetypeTool import base_factory_type_information as bfti
-
-from types import TupleType, ListType, UnicodeType
 from Products.Archetypes.Field import STRING_TYPES
+from Products.Archetypes.public import Schema, StringField, StringWidget
 from Products.validation.validators.BaseValidators import EMAIL_RE
 
+from Products.membrane.config import TOOLNAME as MBTOOLNAME
 from Products.remember.content.member_schema \
      import id_schema, contact_schema, plone_schema, \
      security_schema, login_info_schema
 from Products.remember.content.member import FolderishMember
+from Products.remember.interfaces import IHashPW
 from Products.remember.config import ALLOWED_MEMBER_ID_PATTERN
 
 from Products.TeamSpace.security import TeamSecurity
 
 from Products.OpenPlans.config import PROJECTNAME
 from Products.OpenPlans.config import PROHIBITED_MEMBER_PREFIXES
-
-from Products.Archetypes.public import Schema, StringField, StringWidget
-import re
-
 
 member_schema = id_schema + contact_schema + plone_schema + \
                 security_schema + login_info_schema
@@ -183,7 +184,8 @@ class OpenMember(TeamSecurity, FolderishMember):
     security.declareProtected(ManagePortal, 'getUserConfirmationCode')
     def getUserConfirmationCode(self):
         """
-        Return the user's unique confirmation code to complete registration manually
+        Return the user's unique confirmation code to complete
+        registration manually
         """
         return self.UID()
 
@@ -337,5 +339,29 @@ class OpenMember(TeamSecurity, FolderishMember):
 
         return FolderishMember.__bobo_traverse__(self, REQUEST, name)
 
+    def verifyCredentials(self, credentials):
+        """
+        We override the base member's verifyCredentials method to be
+        able to support case insensitive login.
+        """
+        mbtool = getToolByName(self, MBTOOLNAME)
+        login = credentials.get('login')
+        if not mbtool.case_sensitive_auth:
+            login = login.lower()
+        password = credentials.get('password')
+        try:
+            hash_type, hashed = self.getPassword().split(':', 1)
+        except ValueError:
+            raise ValueError('Error parsing hash type. '
+                             'Please run migration')
+        hasher = getAdapter(self, IHashPW, hash_type)
+        username = self.getUserName()
+        if not mbtool.case_sensitive_auth:
+            username = username.lower()
+        if login == username and hasher.validate(hashed, password):
+            return True
+        else:
+            return False
+        
 
 atapi.registerType(OpenMember, package=PROJECTNAME)
