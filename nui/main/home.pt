@@ -62,7 +62,7 @@
             <ul class="oc-getstarted-list">
                 <li tal:condition="not: view/loggedin">
                   <h3><a tal:attributes="href string:${context/portal_url}/join">Become a member</a></h3>
-                  <p class="oc-discreetText">or <a tal:attributes="href string:${context/portal_url}/login">login</a>.</p>
+                  <p class="oc-discreetText">or <a tal:attributes="href string:${context/portal_url}/login">log in</a>.</p>
                 </li>
                 <li>
                   <h3><a tal:attributes="href string:${context/portal_url}/projects">Find projects</a></h3>
