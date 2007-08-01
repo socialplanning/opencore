@@ -9,12 +9,11 @@ body {
   width: 100%;
   padding: 0;
   color: #fff;
-  background: #332F2A; /* 332F2A; */
-  border-top: 0.75em solid #4D4945; /* #4D4945; */
-  border-bottom: 1px solid #4D4945; /* #4D4945; */
+  background: #332F2A;
+  border-top: 0.75em solid #4D4945;
+  border-bottom: 1px solid #4D4945;
 }
 #oc-topnav {
-
 }
 #oc-topnav h1 {
   font-size: 32px;
@@ -28,28 +27,9 @@ body {
 }
 #oc-topnav a:hover {
 }
-#oc-topnav-usermenu {  
-  background: #4D4945; /* #4D4945; */
-}
-#oc-topnav-usermenu input.oc-input-typeText {
-  background-color: #fff;
-  border: 1px solid #999;
-  width: 60%;
-}
-#oc-topnav-usermenu ul {
-  margin: 0.25em 0;
-}
-#oc-topnav-usermenu ul li {
-  padding: 0.125em 0.25em;
-  font-weight: bold;
-  border-color: #4D4945; /* match topnav-usermenu background */
-}
-#oc-usermenu-list li.oc-dropdown-container {
-  background-image: url("/++resource++img/dropdown-nub-87B6C1-2B7284.gif");
-}
-
 ul#oc-topnav-context {
   font-weight: bold;
+  font-size: 10px;
   margin: 0;
 }
 ul#oc-topnav-context li {

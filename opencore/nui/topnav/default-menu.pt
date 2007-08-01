@@ -3,15 +3,15 @@
 <!-- navigation links -->
 <ul id="oc-topnav-context" class="oc-clearAfter">
   <li>
-    <a tal:attributes="href string:${site_url}/people"
-       tal:content="string:People" />
+    <a tal:attributes="href string:${site_url}/people">People</a>
   </li>
   <li>
-    <a tal:attributes="href string:${site_url}/projects"
-       tal:content="string:Projects" />
+    <a tal:attributes="href string:${site_url}/projects">Projects</a>
   </li>
   <li>
-    <a tal:attributes="href string:${site_url}/projects/create"
-       tal:content="string:Start a Project" />
+    <a tal:attributes="href string:${site_url}/projects/create">Start a project</a>
+  </li>
+  <li>
+    <a tal:attributes="href string:${site_url}/help">Help</a>
   </li>
 </ul>

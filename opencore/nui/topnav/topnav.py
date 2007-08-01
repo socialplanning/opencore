@@ -187,10 +187,6 @@ class AnonMenuView(BaseView):
              'href': '%s/join' % self.siteURL,
              },
 
-            {'content': 'Help',
-             'href': '%s/help' % self.siteURL,
-             },
-
             )
 
         return menudata
@@ -208,10 +204,6 @@ class AuthMenuView(BaseView):
 
             {'content': 'Log Out',
              'href': '%s/logout' % self.siteURL,
-             },
-
-            {'content': 'Help',
-             'href': '%s/help' % self.siteURL,
              },
 
             )
