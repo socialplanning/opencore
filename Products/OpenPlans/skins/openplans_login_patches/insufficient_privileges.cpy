@@ -43,7 +43,7 @@ def urlunquote(string):
 #XXX revinent urllib.splitquery
 query = query_dict(came_from)
 if query:
-    referer = query.get('referer', dummy_referer)
+    referer = query.get('referer', referer)
     if referer:
         referer = urlunquote(referer)
 
