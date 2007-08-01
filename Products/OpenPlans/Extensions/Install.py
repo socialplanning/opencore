@@ -17,6 +17,7 @@ from Products.Archetypes.Extensions.utils import install_subskin
 from Products.Archetypes.public import listTypes
 from Products.Archetypes.config import REFERENCE_CATALOG
 from Products.Archetypes.Extensions.utils import installTypes#, install_subskin
+from Products.membrane.config import TOOLNAME as MBTOOLNAME
 from Products.remember.Extensions.workflow import addWorkflowScripts
 from Products.remember.utils import getAdderUtility
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
@@ -371,7 +372,7 @@ def setMemberType(portal, out):
     if mtype not in allowed:
         allowed += (mtype,)
         mdc_fti.allowed_content_types = allowed
-    mbtool = getToolByName(portal, 'membrane_tool')
+    mbtool = getToolByName(portal, MBTOOLNAME)
     mbtool.registerMembraneType(mtype)
 
     print >> out, '-> specifying %s as default member type' % mtype
@@ -388,6 +389,10 @@ def setMemberType(portal, out):
     
     print >> out, '-> allow users to choose their own password'
     portal.manage_changeProperties(validate_email=0)
+
+def setCaseInsensitiveLogins(portal, out):
+    mbtool = getToolByName(portal, MBTOOLNAME)
+    mbtool.case_sensitive_auth = False
 
 def setTeamType(portal, out):
     tmtool = getToolByName(portal, 'portal_teams')
@@ -692,6 +697,7 @@ def install(self, migrate_atdoc_to_openpage=True):
     securityTweaks(portal, out)
     uiTweaks(portal, out)
     setMemberType(portal, out)
+    setCaseInsensitiveLogins(portal, out)
     setTeamType(portal, out)
     addProjectsFolder(portal, out)
     setProjectFolderPermissions(portal, out)
