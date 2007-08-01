@@ -150,14 +150,14 @@ text-align: left;
   text-decoration: underline;
 }
 .oc-dropdown-list li.oc-dropdown-container {
-  background-image: url("/++resource++img/dropdown-nub-87B6C1-2B7284.gif");
+  background: url("/++resource++img/dropdown-nub-87B6C1-2B7284.gif");
 }
 /* topnav dropdown menus */
 .oc-dropdown-list li.oc-dropdown-container {
   position: relative;
   /* background image specified in theme */
   background-repeat: no-repeat;
-  background-position: 96% 8px;
+  background-position: 98% 7px;
   padding-right: 15px;
   cursor: pointer;
 }
