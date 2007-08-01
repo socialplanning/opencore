@@ -589,6 +589,10 @@ def setSiteIndexPage(portal, out):
         page.setText(page_file.read())
         portal.setDefaultPage(index_id)
 
+def setSiteEmailAddresses(portal, out):
+    print >> out, "Setting site from address"
+    portal.manage_changeProperties(email_from_address=config.SITE_FROM_ADDRESS)
+
 def setCookieDomain(portal, out):
     app = portal.getPhysicalRoot()
     bid_mgr = app._getOb('browser_id_manager', None)
@@ -712,6 +716,7 @@ def install(self, migrate_atdoc_to_openpage=True):
         migrateATDocToOpenPage(portal, out)
     addFormControllerOverrides(portal, out)
     setSiteIndexPage(portal, out)
+    setSiteEmailAddresses(portal, out)
     setupVersioning(portal, out)
     fixUpEditTab(portal, out)
     createGreyEditTab(portal, out)
