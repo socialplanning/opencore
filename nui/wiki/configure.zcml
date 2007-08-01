@@ -45,7 +45,7 @@
      class=".historyview.WikiVersionView"
      for="opencore.interfaces.IOpenPage"
      name="history"
-     permission="zope.Public"
+     permission="zope2.View"
      template="wiki-history.pt"
      />
 
@@ -53,7 +53,7 @@
      class=".historyview.WikiVersionView"
      for="opencore.interfaces.IOpenPage"
      name="version"
-     permission="zope.Public"
+     permission="zope2.View"
      template="wiki-previous-version.pt"
      />
 
@@ -61,7 +61,7 @@
      class=".historyview.WikiVersionCompare"
      for="opencore.interfaces.IOpenPage"
      name="version_compare"
-     permission="zope.Public"
+     permission="zope2.View"
      template="wiki-version-compare.pt"
      />
 
