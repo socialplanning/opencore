@@ -23,6 +23,9 @@
     <script type="text/javascript" src="/++resource++javascripts/yui-ext/connection-min.js"></script>
     <script type="text/javascript" src="/++resource++javascripts/yui-ext/animation-min.js"></script>
     <script type="text/javascript" src="/++resource++javascripts/yui-ext/ext.js"></script>
+    <link rel="stylesheet" type="text/css" href="/++resource++javascripts/yui-ext/resources/css/xtheme-opencore.css" />
+    
+    
     <script type="text/javascript" src="/++resource++javascripts/oc-behaviors.js" ></script>
     <script type="text/javascript" src="/++resource++javascripts/firebug/firebug.js" ></script>
 
