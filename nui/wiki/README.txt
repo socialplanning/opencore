@@ -153,7 +153,10 @@ Create an attachment to upload::
      >>> request.form = form
      >>> view.create_attachment()
      {...'oc-wiki-attachments'...}
-     >>> newatt = view.context._getOb('secret.txt')
+     >>> attachs = view.fileAttachments()
+     >>> len(attachs)
+     1
+     >>> newatt = attachs[0].getObject()
      >>> newatt
      <FileAttachment at /plone/projects/p1/project-home/secret.txt>
      >>> newatt.Title()
@@ -199,6 +202,14 @@ Try again with real values, should work great now::
 
      >>> view.update_attachment(['secret.txt'], [{'title': "Alcibiades"}])
      {'secret.txt_list-item':...Alcibiades...}
+
+Try listing the attachments
+     >>> brains = view.fileAttachments()
+     >>> [b.getId for b in brains]
+     ['secret.txt']
+     >>> brain = brains[0]
+     >>> brain.Title
+     'Alcibiades'
 
 
 VERSION COMPARE

@@ -2,10 +2,20 @@ from opencore.nui.base import BaseView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.nui.formhandler import button, OctopoLite, action
 
-class WikiView(BaseView):
+class WikiBase(BaseView):
+
+    def fileAttachments(self):
+        path = '/'.join(self.context.getPhysicalPath())
+        brains = self.catalog(portal_type='FileAttachment',
+                              path=path,
+                              )
+        return brains
+
+
+class WikiView(WikiBase):
     view_attachments_snippet = ZopeTwoPageTemplateFile('attachment-view.pt')
 
-class WikiEdit(BaseView, OctopoLite):
+class WikiEdit(WikiBase, OctopoLite):
 
     template = ZopeTwoPageTemplateFile("wiki-edit.pt")
 

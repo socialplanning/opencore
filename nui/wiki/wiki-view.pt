@@ -11,7 +11,7 @@
 
         <!-- view attachments -->
         <tal:attachments
-          define="attachments python:here.getFolderContents(contentFilter = {'portal_type' : ['FileAttachment']});"
+          define="attachments view/fileAttachments"
           condition="attachments">
           <div class="oc-js-expander">
             <h2 class="oc-bigText"><a href="#" class="oc-js-expander_open oc-expanderLink">View attachments</a></h2>

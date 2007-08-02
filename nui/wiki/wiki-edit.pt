@@ -1,4 +1,4 @@
-<tal:vars tal:define="attachments python:here.getFolderContents(contentFilter = {'portal_type' : ['FileAttachment']});
+<tal:vars tal:define="attachments view/fileAttachments;
                       Iterator python:modules['Products.CMFPlone'].IndexIterator;
                       lockable python:hasattr(here, 'wl_isLocked');
                       errors view/errors;
