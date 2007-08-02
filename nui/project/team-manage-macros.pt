@@ -192,20 +192,24 @@
     </td>
 
     <td tal:define="member_role item/role">
-      <div class="oc-js-actionSelect"
-           tal:condition="python:item['id'] != view.loggedinmember.getId()">
-        <select tal:attributes="name string:${item/id}_role;
+      <div class="oc-js-liveEdit">
+        <div class="oc-js-liveEdit-value oc-js-liveEdit_showForm oc-liveEdit-value oc-directEdit">
+          My Value
+        </div><!-- end .liveEdit-value -->
+        <div class="oc-js-liveEdit-editForm oc-js-actionSelect oc-liveEdit-editForm" tal:condition="python:item['id'] != view.loggedinmember.getId()">
+          <select tal:attributes="name string:${item/id}_role;
                                 id string:${item/id}_role;">
-          <tal:roleoptions repeat="roleitem view/rolemap/items">
-            <option tal:attributes="value python:roleitem[0];
-                                    selected python:(roleitem[1] == member_role);"
-                    tal:content="python:roleitem[1]" />
-          </tal:roleoptions>
-        </select>
+            <tal:roleoptions repeat="roleitem view/rolemap/items">
+              <option tal:attributes="value python:roleitem[0];
+                                      selected python:(roleitem[1] == member_role);"
+                      tal:content="python:roleitem[1]" />
+            </tal:roleoptions>
+          </select>
 
-        <input type="hidden" value="task" class="oc-js-actionSelectTask"
-               tal:attributes="name string:${item/id}|set-roles" />
-      </div> <!-- end .oc-js-actionSelect -->
+          <input type="submit" value="go" tal:attributes="name string:task|${item/id}|set-roles" />
+               
+        </div><!-- end .liveEdit-editForm -->
+      </div><!-- end .liveEdit -->
 
       <div tal:condition="python:item['id'] == view.loggedinmember.getId()">
         <span tal:replace="member_role" />
