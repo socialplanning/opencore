@@ -49,7 +49,7 @@
 <!-- BEGIN WIKI BCRUMB -->
 <ul metal:define-macro="bcrumb" class="oc-headingBlock oc-wiki-headingBlock oc-bcrumb">
   <li>
-    <h1 class="oc-bcrumb-current" tal:content="view/pagetitle"></h1>
+    <h1 class="oc-bcrumb-current" tal:content="view/context/Title" />
   </li>
 </ul>
 <!-- END WIKI BCRUMB -->
