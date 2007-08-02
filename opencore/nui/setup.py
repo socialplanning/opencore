@@ -25,6 +25,7 @@ from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans import config as op_config
 from indexing import createIndexes
 from DateTime import DateTime
+from topp.featurelets.interfaces import IFeatureletSupporter
 
 logger = getLogger(op_config.PROJECTNAME)
 
@@ -182,6 +183,23 @@ def update_team_active_states(portal):
             logger.log(INFO, '--> updated active states for %s' % team.getId())
             team.setActiveStates(new_active_states)
 
+def fix_case_on_featurelets(portal):
+    cat = getToolByName(portal, 'portal_catalog')
+    brains = cat(portal_type='OpenProject')
+    for brain in brains:
+        project = brain.getObject()
+        flet_supporter = IFeatureletSupporter(project)
+        listen_storage = flet_supporter.storage.get('listen', None)
+        if listen_storage:
+            listen_storage['content'][0]['title'] = 'Mailing lists'
+            listen_storage['menu_items'][0]['title'] = u'Mailing lists'
+            listen_storage['menu_items'][0]['description'] = u'Mailing lists'
+        tt_storage = flet_supporter.storage.get('tasks', None)
+        if tt_storage:
+            tt_storage['menu_items'][0]['title'] = u'Tasks'
+            tt_storage['menu_items'][0]['description'] = u'Task tracker'    
+
+
 nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      installNewsFolder=convertFunc(installNewsFolder),
                      move_interface_marking_on_projects_folder=move_interface_marking_on_projects_folder,
@@ -200,6 +218,7 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      migrate_mission_statement=migrate_mission_statement,
                      createIndexes=convertFunc(createIndexes),
                      migrate_page_descriptions=migrate_page_descriptions,
+                     fix_case_on_featurelets=fix_case_on_featurelets,
                      )
 
 nui_functions['Update Method Aliases'] = set_method_aliases
