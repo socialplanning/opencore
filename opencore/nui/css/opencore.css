@@ -960,6 +960,18 @@ fieldset .oc-heading-context {
 .oc-form-fieldBlock input.oc-input-typeRadio {
   margin-left: 0;
 }
+.oc-fieldBlock-focused textarea, 
+textarea.oc-fieldBlock-focused,
+input.oc-fieldBlock-focused {
+  border-color: orange;
+  background: #fffff9;
+}
+.oc-fieldBlock-error textarea, 
+textarea.oc-fieldBlock-error,
+input.oc-fieldBlock-error {
+  border-color: red;
+  background: #ffdddd;
+}
 .oc-input-typeText { /* Since browser support for selecting by type is... limited */
 }
 .oc-input-typeRadio,
@@ -1295,16 +1307,6 @@ li.oc-invite .oc-invite-content {
 --------------------------*/
 
 /* Highlight form fields */
-.oc-fieldBlock {
-  /* padding: .25em .5em; */
-}
-.oc-fieldBlock-focused textarea, 
-textarea.oc-fieldBlock-focused,
-input.oc-fieldBlock-focused {
-  border-color: orange;
-  background: #fffff9;
-}
-
 .oc-liveEdit-value {
   border-bottom: 1px dotted #256E81;
 }
