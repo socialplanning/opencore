@@ -429,10 +429,12 @@ OC.ActionSelect = function(extEl) {
     var submit = Ext.get(Ext.query('input[type=submit]', container.dom)[0]);
     var hideFormLink = Ext.get(document.body);
     var form = select.up('form');
-    var liveEdit_id = select.up('.oc-js-liveEdit').id;
+    var liveEdit = select.up('.oc-js-liveEdit');
     
     // get a reference to the liveElement that this is part of.
-    var liveEdit = OC.liveElements[liveEdit_id]['LiveEdit'];
+    if (liveEdit) { 
+      var liveEdit = OC.liveElements[liveEdit.id]['LiveEdit'];
+    }
     
     
     //check refs
