@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.9a3'
+version = '0.9a4'
 
 f = open('README.txt')
 readme = "".join(f.readlines())
@@ -9,7 +9,7 @@ f.close()
 
 setup(name='opencore',
       version=version,
-      description="openplans.org software",
+      description="Software that drives http://openplans.org",
       long_description=readme,
       classifiers=[], # Get strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       keywords='openplans openplans.org topp',
