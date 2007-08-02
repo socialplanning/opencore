@@ -53,7 +53,7 @@ class ProfileView(BaseView):
     def activity(self, max=10):
         """Returns a list of dicts describing each of the `max` most recently
         modified wiki pages for the viewed user."""
-        memberid = self.viewedmember().getId()
+        memberid = self.viewed_member_info['id']
         query = Eq('Creator', memberid) | Eq('lastModifiedAuthor', memberid)
         query &= Eq('portal_type', 'Document') #| Eq('portal_type', 'OpenProject')
         brains = self.catalog.evalAdvancedQuery(query, (('modified', 'desc'),)) # sort by most recent first ('desc' means descending)
@@ -176,7 +176,7 @@ class MemberAccountView(BaseView, OctopoLite):
     @property
     @req_memoize
     def _mship_brains(self, **extra):
-        user_id = self.context.getId()
+        user_id = self.viewed_member_info['id']
         query = dict(portal_type='OpenMembership',
                      getId=user_id,
                      )
@@ -241,7 +241,7 @@ class MemberAccountView(BaseView, OctopoLite):
         """this should include all active mships as well as member requests"""
         def is_user_project(brain):
             if brain.review_state == 'pending':
-                return brain.lastWorkflowActor == self.context.getId()
+                return brain.lastWorkflowActor == self.viewed_member_info['id']
             return brain.review_state in self.active_states
         return self._projects_satisfying(is_user_project)
 
@@ -250,7 +250,7 @@ class MemberAccountView(BaseView, OctopoLite):
         """ return mship brains for pending project invitations """
         def is_invitation(brain):
             return brain.review_state == 'pending' and \
-                   brain.lastWorkflowActor != self.context.getId()
+                   brain.lastWorkflowActor != self.viewed_member_info['id']
         return self._projects_satisfying(is_invitation)
 
     @property
@@ -259,15 +259,14 @@ class MemberAccountView(BaseView, OctopoLite):
         """ return all proj_ids for pending member requests """
         def is_member_request(brain):
             return brain.review_state == 'pending' and \
-                   brain.lastWorkflowActor == self.context.getId()
+                   brain.lastWorkflowActor == self.viewed_member_info['id']
         return self._projects_satisfying(is_member_request)
 
     @req_memoize
     def _membership_for_proj(self, proj_id):
         tmtool = self.get_tool('portal_teams')
         team = tmtool.getTeamById(proj_id)
-        mem = self.context
-        mem_id = mem.getId()
+        mem_id = self.viewed_member_info['id']
         mship = team._getMembershipByMemberId(mem_id)
         return mship
 
@@ -323,10 +322,10 @@ class MemberAccountView(BaseView, OctopoLite):
         """ optimize later """
         def is_user_project(brain):
             if brain.review_state == 'pending':
-                return brain.lastWorkflowActor == self.context.getId()
+                return brain.lastWorkflowActor == self.viewed_member_info['id']
             return brain.review_state in self.active_states
 
-        user_id = self.context.getId()
+        user_id = self.viewed_member_info['id']
         query = dict(portal_type='OpenMembership',
                      getId=user_id,
                      )
@@ -355,7 +354,7 @@ class MemberAccountView(BaseView, OctopoLite):
         mship = self._membership_for_proj(proj_id)
         last_actor = ILastWorkflowActor(mship).getValue()
         wft = self.get_tool('portal_workflow')
-        mem_id = self.context.getId()
+        mem_id = self.viewed_member_info['id']
 
         review_state = wft.getInfoFor(mship, 'review_state')
 
@@ -371,7 +370,7 @@ class MemberAccountView(BaseView, OctopoLite):
         # for some reason checking the role is not enough
         # I've gotten ProjectAdmin roles back for a member
         # in the pending state
-        mem_id = self.context.getId()
+        mem_id = self.viewed_member_info['id']
         mship = team._getOb(mem_id)
         wft = self.get_tool('portal_workflow')
         review_state = wft.getInfoFor(mship, 'review_state')
@@ -470,7 +469,7 @@ class MemberAccountView(BaseView, OctopoLite):
         # XXX explicit context shouldn't be req'd, but lookup fails
         # in the tests w/o it  :(
         tm = getUtility(ITransientMessage, context=self.portal)
-        mem_id = self.context.getId()
+        mem_id = self.viewed_member_info['id']
         try:
             tm.pop(mem_id, self.msg_category, idx)
         except KeyError:
@@ -491,7 +490,7 @@ class MemberAccountView(BaseView, OctopoLite):
         # XXX explicit context shouldn't be req'd, but lookup fails
         # in the tests w/o it  :(
         tm = getUtility(ITransientMessage, context=self.portal)
-        mem_id = self.context.getId()
+        mem_id = self.viewed_member_info['id']
         msgs = tm.get_msgs(mem_id, self.msg_category)
         return msgs
 
@@ -502,8 +501,8 @@ class MemberAccountView(BaseView, OctopoLite):
         password = self.request.form.get('password')
         password2 = self.request.form.get('password2')
 
-        member = self.loggedinmember
-        mem_id = member.getId()
+        member = self.viewedmember()
+        mem_id = self.viewed_member_info['id']
 
         if not member.verifyCredentials({'login': mem_id,
                                         'password': passwd_curr}):
