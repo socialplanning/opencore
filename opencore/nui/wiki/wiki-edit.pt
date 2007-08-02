@@ -30,6 +30,7 @@
       <script src="/++resource++kupu/javascript/kupuploneinit.js"></script>
       <script src="/++resource++kupu/javascript/kupusourceedit.js"></script>
       <script src="/++resource++kupu/javascript/kupudrawers.js"></script>
+      <script src="/++resource++kupu/javascript/toggle_editor.js"></script>
     </metal:do>
   </head>
   <body>
