@@ -59,10 +59,9 @@
           <ol class="oc-roster oc-clearAfter">
             <li class="oc-clearAfter oc-boxy vcard" tal:repeat="membrain view/memberships">
               <tal:member-result define="mem membrain/getObject">
-                <div class="oc-avatar" tal:define="imgdata mem/getPortrait">
-                  <a href="" tal:attributes="href string:${context/portal_url}/people/${mem/getId}/profile">
-                    <img tal:condition="imgdata" tal:replace="structure python: view.add_class_to_img(imgdata, 'photo')" />
-                    <img tal:condition="not: imgdata" class="photo" tal:attributes="src string:defaultUser.gif" />
+                <div class="oc-avatar" tal:define="memdata python:view.member_info_for_member(mem)">
+                  <a href="" tal:attributes="href string:${context/portal_url}/people/${memdata/id}/profile">
+                    <img class="photo" tal:attributes="src memdata/portrait_thumb_url" />
                   </a>
                 </div>
                 <div class="oc-roster-content">
