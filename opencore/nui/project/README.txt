@@ -34,7 +34,7 @@ Preference View
     'medium_policy'
 
     >>> view.project_info['featurelets']
-    [{'url': u'lists', 'name': 'listen', 'title': u'Mailing Lists'}]
+    [{'url': u'lists', 'name': 'listen', 'title': u'Mailing lists'}]
 
     >>> form_vars = dict(title='new full name',
     ...                  workflow_policy='closed_policy',
@@ -73,7 +73,7 @@ Make sure we can install a TaskTracker featurelet too::
     >>> view.handle_request()
     Called ...
     >>> get_featurelets(proj)
-    [{'url': 'tasks', 'name': 'tasks', 'title': u'tasks'}]
+    [{'url': 'tasks', 'name': 'tasks', 'title': u'Tasks'}]
 
     Verify who we are logged in as
     >>> getToolByName(self.portal, 'portal_membership').getAuthenticatedMember().getId()
