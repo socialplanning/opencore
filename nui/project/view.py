@@ -1063,12 +1063,28 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                 changes.append(mem_id)
 
         if changes:
+            commands = {}
+            active_mships = self.active_mships
+            active_mships = dict([(m['getId'], m) for m in active_mships])
+            for mem_id in changes:
+                item = active_mships.get(mem_id)
+                if item:
+                    extra_context={'item': item,
+                                   'team_manage_macros': self.team_manage_macros}
+                    html = self.render_macro(self.team_manage_macros.macros['mshiprow'],
+                                             extra_context=extra_context)
+                    commands[mem_id] = {'action': 'replace',
+                                        'html': html,
+                                        'effects': 'highlight'}
+
             msg = u'Role changed for the following members: %s' \
                   % ', '.join(changes)
+            self.addPortalStatusMessage(msg)
+            return commands
         else:
             msg = u"No roles changed"
-        self.addPortalStatusMessage(msg)
-
+            self.addPortalStatusMessage(msg)
+        
 
     ##################
     #### MEMBER SEARCH BUTTON HANDLER
