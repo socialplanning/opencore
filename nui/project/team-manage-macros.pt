@@ -200,11 +200,13 @@
     </td>
 
     <td tal:define="member_role item/role">
-      <div class="oc-js-liveEdit">
-        <div class="oc-js-liveEdit-value oc-js-liveEdit_showForm oc-liveEdit-value oc-directEdit">
-          My Value
+      
+    
+      <div class="oc-js-liveEdit" tal:condition="python:item['id'] != view.loggedinmember.getId()">
+        <div class="oc-js-liveEdit-value oc-js-liveEdit_showForm oc-liveEdit-value oc-directEdit" tal:content="member_role">
+          
         </div><!-- end .liveEdit-value -->
-        <div class="oc-js-liveEdit-editForm oc-js-actionSelect oc-liveEdit-editForm" tal:condition="python:item['id'] != view.loggedinmember.getId()">
+        <div class="oc-js-liveEdit-editForm oc-js-actionSelect oc-liveEdit-editForm">
           <select tal:attributes="name string:${item/id}_role;
                                 id string:${item/id}_role;">
             <tal:roleoptions repeat="roleitem view/rolemap/items">
@@ -218,6 +220,7 @@
                
         </div><!-- end .liveEdit-editForm -->
       </div><!-- end .liveEdit -->
+      
 
       <div tal:condition="python:item['id'] == view.loggedinmember.getId()">
         <span tal:replace="member_role" />
