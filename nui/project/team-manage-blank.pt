@@ -6,6 +6,9 @@
 </tal:handle-request>
 
 <html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:Manage Team - ${view/area/Title}" />
+  </head>
   <body>
     <div metal:fill-slot="content">
     

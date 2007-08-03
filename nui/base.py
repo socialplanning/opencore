@@ -127,11 +127,6 @@ class BaseView(BrowserView):
         if self.transcluded:
             return self.renderTranscluderLink(viewname)
         return self.get_view(viewname)()
-
-    # XXX only used in wiki_macro.pt (move to wiki view)
-    @property
-    def pagetitle(self):
-        return self.context.Title()
     
     @view.memoizedproperty
     def area(self):
@@ -141,20 +136,6 @@ class BaseView(BrowserView):
             return self.piv.project
         else:
             return self.portal
-
-    # XXX only used in topnav
-    @view.memoizedproperty
-    def areatitle(self):
-        # these require aq walks. might make more sense to have a
-        # traversal hook stash the info on/in the request.
-        return self.area.Title()
-
-    #@instance.memoize
-    def windowtitle(self):
-        pagetitle = self.truncate(self.pagetitle, max=24)
-        areatitle = self.truncate(self.areatitle, max=16)
-        titles = [pagetitle, areatitle, self.sitetitle]
-        return self.windowTitleSeparator.join([i for i in titles if i])
 
     # XXX only used in topnav
     @instance.memoizedproperty
@@ -432,7 +413,6 @@ class BaseView(BrowserView):
         if folder is not None:
             return folder.absolute_url()
 
-    # XXX remove unused
     def memhome_url(self, id_=None):
         folder = self.memfolder(id_)
         if folder is not None:

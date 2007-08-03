@@ -2,7 +2,7 @@
 
   <h1>
     <a tal:attributes="href string:${view/areaURL}"
-       tal:content="view/areatitle" />
+       tal:content="view/area/Title" />
   </h1>
 
   <tal:contextMenu replace="structure view/contextmenu" />

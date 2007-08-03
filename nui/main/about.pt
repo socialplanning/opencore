@@ -1,5 +1,10 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
+    <head>
+      <title metal:fill-slot="title">
+        About - OpenPlans
+      </title>
+    </head>
 
     <div metal:fill-slot="content">
 

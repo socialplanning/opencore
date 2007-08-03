@@ -1,8 +1,9 @@
 <html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title">News - Openplans</title>
+  </head>
   <body>
-
     <div metal:fill-slot="content">              
-
       <div class="oc-headingBlock">
         <h1>OpenPlans News</h1>
         <p class="oc-headingContext" tal:define="days_free view/subpoena_free; plural python: days_free != 1">
