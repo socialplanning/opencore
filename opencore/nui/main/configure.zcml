@@ -131,4 +131,12 @@
      attribute="add_new_news_item"
      />
 
+  <!-- contact site admin form -->
+  <browser:page
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     class=".contact.ContactView"
+     permission="zope2.View"
+     name="contact-site-admin"
+     />
+
 </configure>
