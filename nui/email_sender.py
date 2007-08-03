@@ -6,6 +6,7 @@ from zope.i18n import translate
 from plone.mail import construct_simple_encoded_message
 
 from Products.validation.validators.BaseValidators import EMAIL_RE
+regex = re.compile(EMAIL_RE)
 
 
 class EmailSender(object):
@@ -14,14 +15,14 @@ class EmailSender(object):
     user interface.  Needs to be passed an instance of a BaseView
     subclass at creation time.
     """
-    def __init__(self, view, messages):
+    def __init__(self, view, messages=None):
         """
         o view: an instance of a BaseView subclass that provides a
         mechanism for the EmailSender to access tools and the Zope
         object tree
 
         o messages: an object (usually a python module) that contains
-        attributes corresponding to the email messages to go out
+        attributes corresponding to the email messages to go out.
         """
         self.view = view
         self.messages = messages
@@ -29,6 +30,25 @@ class EmailSender(object):
     @property
     def mailhost(self):
         return self.view.get_tool('MailHost')
+
+    def toEmailAddress(self, addr_token):
+        """
+        Returns the appropriate email address for a given token.
+
+        o token: must be either an email address or a member id; if
+        an address is provided, it will be returned unchanged.  if
+        not, then it will be assumed to be a member id and the member's
+        address will be returned.
+        """
+        view = self.view
+        if regex.match(addr_token) is None:
+            # not an address, it should be a member id
+            member = view.membertool.getMemberById(addr_token)
+            member_info = view.member_info_for_member(member)
+            return member_info.get('email')
+        else:
+            # it's already an email address
+            return addr_token
 
     def constructMailMessage(self, msg_id, **kwargs):
         """
@@ -48,10 +68,9 @@ class EmailSender(object):
         return msg
 
     def sendEmail(self, mto, msg=None, msg_id=None, subject=None,
-                  **kwargs):
+                  mfrom=None, **kwargs):
         """
-        Sends an email.  It's assumed that the currently logged in
-        user is the sender.
+        Sends an email.
 
         o mto: the message recipient.  either an email address or a
         member id, or a sequence of the same.
@@ -67,6 +86,10 @@ class EmailSender(object):
         o subject: message subject; if None it's assumed that the
         subject header will be embedded in the message text.
 
+        o mfrom: the message sender.  either an email address or a
+        member id.  if None, then the currently authenticated user
+        will be used as the sender.
+
         o **kwargs: a set of key:value pairs that can be substituted
         into the desired message.  extraneous kwargs will be ignored,
         failing to include a kwarg required by the specified message
@@ -76,19 +99,18 @@ class EmailSender(object):
         to_info = None
         if msg is None:
             msg = self.constructMailMessage(msg_id, **kwargs)
-        regex = re.compile(EMAIL_RE)
         if type(mto) in StringTypes:
             mto = (mto,)
         recips = []
         for recip in mto:
-            if regex.match(recip) is None:
-                to_mem = view.membertool.getMemberById(recip)
-                to_info = view.member_info_for_member(to_mem)
-                recip = to_info.get('email')
-            # prevent None's from getting added (maybe only test environ case,
-            # but the admin users have no emails)
+            recip = self.toEmailAddress(recip)
+            # prevent None's from getting added (maybe only test
+            # environ case, but the admin users have no emails)
             if recip:
                 recips.append(recip)
 
-        mfrom = view.member_info.get('email')
+        if mfrom is None:
+            mfrom = view.member_info.get('email')
+        else:
+            mfrom = self.toEmailAddress(mfrom)
         self.mailhost.send(str(translate(msg)), recips, mfrom, subject)

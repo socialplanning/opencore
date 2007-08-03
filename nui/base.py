@@ -418,6 +418,7 @@ class BaseView(BrowserView):
         if folder is not None:
             return '%s/%s' % (folder.absolute_url(),
                               folder.getDefaultPage())
+
     @property
     def loggedin(self):
         return not self.membertool.isAnonymousUser()
