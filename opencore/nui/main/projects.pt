@@ -1,13 +1,13 @@
 <html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title">Projects - OpenPlans</title>
+  </head>
   <body>
-
     <div metal:fill-slot="content">              
-
       <div class="oc-headingBlock">
         <h1>Projects on OpenPlans</h1>
         <p class="oc-headingContext">Currently serving <span tal:replace="view/projects_served_count"/> projects</p>
       </div>
-      
       <div id="oc-content-main">
         
         <tal:set_var define="current_search_page string:projects;

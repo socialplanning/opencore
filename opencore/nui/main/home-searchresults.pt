@@ -1,8 +1,9 @@
 <html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title">Search - OpenPlans</title>
+  </head>
   <body>
-
     <div metal:fill-slot="content">              
-
       <div id="oc-content-main">
         
         <tal:set_var define="current_search_page string:sitesearch;

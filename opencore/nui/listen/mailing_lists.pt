@@ -3,6 +3,9 @@
                   isAnon not: view/loggedin">
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
+    <title metal:fill-slot="title" tal:content="string:Mailing Lists - ${view/area/Title}" />
+  </head>
+  <head>
     <metal:do metal:fill-slot="script">
       <script src="++resource++javascripts/delete_list.js"></script>
     </metal:do>

@@ -7,12 +7,13 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from DateTime import DateTime
 from topp.utils.pretty_date import prettyDate
 from plone.memoize import instance
+from view import WikiBase
 
 
 # XXX i18n 
 
 
-class WikiVersionView(BaseView): 
+class WikiVersionView(WikiBase): 
 
     def __init__(self, context, request):
         BaseView.__init__(self, context, request)

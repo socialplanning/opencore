@@ -1,6 +1,9 @@
 <tal:vars define="data view/viewed_member_info">
 
 <html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:Account - ${view/area/Title} on OpenPlans" />
+  </head>
   <body>
 
     <div metal:fill-slot="content">

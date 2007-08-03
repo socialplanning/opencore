@@ -11,12 +11,13 @@
 
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
-    <metal:do metal:fill-slot="link" >
+    <title metal:fill-slot="title" tal:content="python:view.wiki_window_title(mode='edit')" />
+    <metal:link-slot metal:fill-slot="link">
       <link rel="stylesheet" href="/++resource++kupu/css/kupustyles.css" media="all"/>
       <link rel="stylesheet" href="/++resource++kupu/css/kupuplone.css" media="all"/>
       <link rel="stylesheet" href="/++resource++kupu/css/kupudrawerstyles.css" media="all"/>
-    </metal:do>
-    <metal:do metal:fill-slot="script" >
+    </metal:link-slot>
+    <metal:script-slot metal:fill-slot="script">
       <script src="/++resource++kupu/javascript/sarissa.js"></script>
       <script src="/++resource++kupu/javascript/sarissa_ieemu_xpath.js"></script>
       <script src="/++resource++kupu/javascript/kupunoi18n.js"></script>
@@ -31,7 +32,7 @@
       <script src="/++resource++kupu/javascript/kupusourceedit.js"></script>
       <script src="/++resource++kupu/javascript/kupudrawers.js"></script>
       <script src="/++resource++kupu/javascript/toggle_editor.js"></script>
-    </metal:do>
+    </metal:script-slot>
   </head>
   <body>
     <div metal:fill-slot="content">

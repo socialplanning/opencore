@@ -11,15 +11,43 @@ class WikiBase(BaseView):
                               )
         return brains
 
+    def wiki_window_title(self, mode='view'):
+        """see http://trac.openplans.org/openplans/ticket/588.
+        mode should be one of: 'view', 'edit', or 'history'."""
+        if mode == 'view':
+            mode = ''
+        else:
+            mode = '(%s) ' % mode
+
+        context = self.context
+
+        if self.inmember:
+            vmi = self.viewed_member_info
+
+            # if viewing member homepage
+            if mode:
+                return '%s %s' % (context.Title(), mode)
+
+            if vmi['home_url'] == context.absolute_url():
+                return '%s on OpenPlans' % vmi['id']
+            else:
+                return '%s - %s on OpenPlans' % (context.Title(), vmi['id'])
+
+        else:
+            return '%s %s- %s' % (context.Title(), mode, self.area.Title())
+
+
 
 class WikiView(WikiBase):
     view_attachments_snippet = ZopeTwoPageTemplateFile('attachment-view.pt')
+
 
 class WikiEdit(WikiBase, OctopoLite):
 
     template = ZopeTwoPageTemplateFile("wiki-edit.pt")
 
     attachment_snippet = ZopeTwoPageTemplateFile('attachment.pt')
+
 
     @action('save')
     def handle_save(self, target=None, fields=None):
@@ -216,7 +244,7 @@ class AttachmentView(BaseView):
             self.errors = {'attachmentFile' : 'you forgot to upload something'}
             return None 
         
-#         # Make sure we have a unique file name
+        # Make sure we have a unique file name
         fileName = attachmentFile.filename
         
         imageId = ''

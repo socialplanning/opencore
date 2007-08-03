@@ -1,19 +1,14 @@
 <html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title">Subprojects - OpenPlans</title>
+  </head>
   <body>
-
     <div metal:fill-slot="content">              
-
       <div class="oc-headingBlock">
         <h1><span tal:replace="context/Title" /> related projects</h1>
       </div>
-      
       <div id="oc-content-main">
-
-
-
         <div class="oc-column-group">
-
-
         <div class="oc-widget oc-widget-feed oc-column-left">
           <h2>All subprojects</h2>
           <ul class="oc-feed-list">

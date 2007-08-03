@@ -1,10 +1,11 @@
 <html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title">Legal - OpenPlans</title>
+  </head>
   <body>
-
     <div metal:fill-slot="content">
 
       <div id="oc-content-main">
-
         <div class="oc-headingBlock">
           <h1>About OpenPlans</h1>
         </div>
