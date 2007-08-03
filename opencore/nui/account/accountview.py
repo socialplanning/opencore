@@ -423,10 +423,10 @@ class PasswordResetView(AccountView):
     @button('set')
     @post_only(raise_=False)
     def handle_reset(self):
-        password = self.request.get("password")
-        password2 = self.request.get("password2")
-        userid = self.request.get("userid")
-        randomstring = self.request.get("key")
+        password = self.request.form.get("password")
+        password2 = self.request.form.get("password2")
+        userid = self.request.form.get("userid")
+        randomstring = self.request.form.get("key")
 
         # validate the password input
         if not self.validate_password_form(password, password2, userid):
