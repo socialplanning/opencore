@@ -17,6 +17,6 @@
 
   <li>
     <a tal:attributes="href string:${view/siteURL}/projects/create"
-       tal:content="string:Start a Project" />
+       tal:content="string:Start a project" />
   </li>
 </ul>
