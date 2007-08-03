@@ -364,13 +364,14 @@ class MemberAccountView(BaseView, OctopoLite):
 
         return is_active or is_pending_member_requested
 
-    def _is_only_admin(self, proj_id):
+    def _is_only_admin(self, proj_id, mem_id=None):
         team = self.get_tool('portal_teams')._getOb(proj_id)
 
         # for some reason checking the role is not enough
         # I've gotten ProjectAdmin roles back for a member
         # in the pending state
-        mem_id = self.viewed_member_info['id']
+        if mem_id is None:
+            mem_id = self.viewed_member_info['id']
         mship = team._getOb(mem_id)
         wft = self.get_tool('portal_workflow')
         review_state = wft.getInfoFor(mship, 'review_state')

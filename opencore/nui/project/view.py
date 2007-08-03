@@ -629,7 +629,6 @@ class ProjectTeamView(TeamRelatedView):
     def is_admin(self, mem_id):
         return self.team.getHighestTeamRoleForMember(mem_id) == self.admin_role
 
-
 class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     """
     View class for the team management screens.
@@ -737,7 +736,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         mtool = self.get_tool('portal_membership')
         return mtool.getHomeUrl(mem_id)
 
-    def doMshipWFAction(self, transition, mem_ids):
+    def doMshipWFAction(self, transition, mem_ids, pred=lambda mship:True):
         """
         Fires the specified workflow transition for the memberships
         associated with the specified member ids.
@@ -751,10 +750,13 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         """
         wftool = self.get_tool('portal_workflow')
         team = self.team
+        ids_acted_on = []
         for mem_id in mem_ids:
             mship = team._getOb(mem_id)
-            wftool.doActionFor(mship, transition)
-        return len(mem_ids)
+            if pred(mship):
+                wftool.doActionFor(mship, transition)
+                ids_acted_on.append(mship.getId())
+        return ids_acted_on
 
     def _getAccountURLForMember(self, mem_id):
         homeurl = self.membertool.getHomeUrl(mem_id)
@@ -764,7 +766,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     @property
     @req_memoize
     def transient_msgs(self):
-        return getUtility(ITransientMessage)
+        return getUtility(ITransientMessage, context=self.portal)
 
     def _add_transient_msg_for(self, mem_id, status):
         # XXX not happy about generating the html for this here ... but it's a one liner
@@ -971,6 +973,41 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         msg = "Reminders sent: %s" % ", ".join(addresses)
         self.addPortalStatusMessage(msg)
 
+    def mship_only_admin(self, mship):
+        mem_id = mship.getId()
+        path = mship.getPhysicalPath()
+        proj_id = path[-2]
+        return not self._is_only_admin(proj_id, mem_id)
+
+    #XXX lifted directly from nui.member.MemberAccountView
+    # should pull into common place
+    def _is_only_admin(self, proj_id, mem_id=None):
+        team = self.get_tool('portal_teams')._getOb(proj_id)
+
+        # for some reason checking the role is not enough
+        # I've gotten ProjectAdmin roles back for a member
+        # in the pending state
+        if mem_id is None:
+            mem_id = self.viewed_member_info['id']
+        mship = team._getOb(mem_id)
+        wft = self.get_tool('portal_workflow')
+        review_state = wft.getInfoFor(mship, 'review_state')
+        if review_state not in self.active_states: return False
+
+        role = team.getHighestTeamRoleForMember(mem_id)
+        if role != 'ProjectAdmin': return False
+
+        portal_path = '/'.join(self.portal.getPhysicalPath())
+        team_path = '/'.join([portal_path, 'portal_teams', proj_id])
+        project_admins = self.catalogtool(
+            highestTeamRole='ProjectAdmin',
+            portal_type='OpenMembership',
+            review_state=self.active_states,
+            path=team_path,
+            )
+
+        return len(project_admins) <= 1
+
 
     ##################
     #### ACTIVE MEMBERSHIP BUTTON HANDLERS
@@ -983,10 +1020,10 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         into an inactive workflow state.
         """
         mem_ids = targets
-        nremoved = self.doMshipWFAction('deactivate', mem_ids)
+        mems_removed = self.doMshipWFAction('deactivate', mem_ids, self.mship_only_admin)
         sender = self.email_sender
         ret = {}
-        for mem_id in mem_ids:
+        for mem_id in mems_removed:
             try:
                 sender.sendEmail(mem_id, msg_id='membership_deactivated',
                                  project_title=self.context.Title())
@@ -995,7 +1032,12 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             self._add_removal_message_for(mem_id)
             ret[mem_id] = {'action': 'delete'}
 
-        msg = "Members deactivated: %s" % ', '.join(mem_ids)
+        if mems_removed:
+            msg = "Members deactivated: %s" % ', '.join(mems_removed)
+        elif mem_ids:
+            msg = 'Cannot remove last admin: %s' % mem_ids[0]
+        else:
+            msg = 'Please select a member to remove'
         self.addPortalStatusMessage(msg)
 
         self.team.reindexTeamSpaceSecurity()

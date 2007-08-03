@@ -49,7 +49,7 @@ Verify that the notifying email went out:
 Also verify that the transient messages were saved
 
     >>> from opencore.nui.member.interfaces import ITransientMessage
-    >>> tm = getUtility(ITransientMessage)
+    >>> tm = getUtility(ITransientMessage, context=self.portal)
     >>> list(tm.get_msgs('m4', view.msg_category))
     [(0, 'You have been accepted to <a href="http://nohost/plone/projects/p3">Project Three</a>')]
 
@@ -124,6 +124,29 @@ should be sent:
     2
     >>> len(mailhost.messages)
     5
+
+And if we try to remove ourselves, it should not be allowed
+
+But we have to remove the portal owner first
+    >>> view.remove_members(['portal_owner'])
+    {'portal_owner': {'action': 'delete'}}
+
+Clear out all the portal status messages
+    >>> view.portal_status_message
+    [...]
+
+Now we can try to remove the last admin
+    >>> view.remove_members(['m1'])
+    {}
+    >>> view.portal_status_message
+    [u'Cannot remove last admin: m1']
+
+And if we try nobody
+
+    >>> view.remove_members([])
+    {}
+    >>> view.portal_status_message
+    [u'Please select a member to remove']
 
 Transient Message should be added as well
 
@@ -202,7 +225,7 @@ with a member that is not on the team.  Notifier should go out:
     >>> len(view.pending_invitations)
     1
     >>> len(mailhost.messages)
-    6
+    7
 
 Now try to reinvite an inactive member:
 
@@ -211,7 +234,7 @@ Now try to reinvite an inactive member:
     >>> len(view.pending_invitations)
     2
     >>> len(mailhost.messages)
-    7
+    8
 
 And last we reinvite m4, who was rejected_by_admin:
 
@@ -220,7 +243,7 @@ And last we reinvite m4, who was rejected_by_admin:
     >>> len(view.pending_invitations)
     3
     >>> len(mailhost.messages)
-    8
+    9
 
 Okay, now to deal with inviting people by email address.  First we try
 a couple of addresses that don't belong to any site members:
@@ -236,7 +259,7 @@ a couple of addresses that don't belong to any site members:
     >>> len(view.pending_email_invites)
     2
     >>> len(mailhost.messages)
-    10
+    11
 
 Then we try to invite someone using an email address that is already
 in use by a site member who's not a project member:
@@ -256,7 +279,7 @@ in use by a site member who's not a project member:
     >>> len(view.pending_email_invites) # <- doesn't change
     2
     >>> len(mailhost.messages) # <- increase by one
-    11
+    12
 
 Try the same one again, should have no result:
 
@@ -267,7 +290,7 @@ Try the same one again, should have no result:
     >>> len(view.pending_email_invites)
     2
     >>> len(mailhost.messages)
-    11
+    12
 
 Verify we can send reminders to the email invitees:
 
@@ -275,7 +298,7 @@ Verify we can send reminders to the email invitees:
     >>> addys = [addy.strip() for addy in invites.split(',')]
     >>> view.remind_email_invites(addys)
     >>> len(mailhost.messages) # <- increase by two
-    13
+    14
 
 And that they can be removed:
 
@@ -285,4 +308,4 @@ And that they can be removed:
     >>> len(view.pending_email_invites)
     0
     >>> len(mailhost.messages) # <- increase by two
-    15
+    16
