@@ -61,11 +61,9 @@
             <ol class="oc-peopleresults-list oc-clearAfter">
               <li class="oc-clearAfter vcard" tal:repeat="item view/search_results">
                 <div class="oc-avatar"
-                  tal:define="mem item/getObject;
-                              memdata python:view.member_info_for_member(mem);
-                              portrait memdata/portrait_thumb_url | nothing">
-                  <a href="" tal:attributes="href string:${context/portal_url}/people/${item/getId}/profile">
-                    <img class="photo" tal:attributes="src portrait" />
+                  tal:define="mem item/getObject; memdata python:view.member_info_for_member(mem)">
+                  <a tal:attributes="href string:${context/portal_url}/people/${memdata/id}/profile">
+                    <img class="photo" tal:attributes="src memdata/portrait_thumb_url" />
                   </a>
 		</div>
 		<div class="oc-peopleresults-content">
