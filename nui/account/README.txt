@@ -91,9 +91,27 @@ Now try non-matching passwords:
     >>> view.portal_status_message
     [u"passwords don't match"]
 
+Test doing the reset:
 
-## test do reset
+First, ensure there is no portal status message:
+    >>> view.portal_status_message
+    []
 
+Next, ensure that we're using a valid password:
+    >>> view.validate_password_form('wordy', 'wordy', 'test_user_1_')
+    True
+
+Finally, handle the reset:
+
+    >>> view.request.form["password"] = 'wordy'
+    >>> view.request.form["password2"] = 'wordy'
+    >>> view.handle_reset()
+    True
+    >>> expected = '/'.join((view.siteURL, 'people', 'test_user_1_', 'account'))
+    >>> expected == view.request.response.getHeader('location')
+    True
+
+# XXX TODO:  login with the new password [maybe in the login section]
 
 Get Account Confirmation Code
 =============================
