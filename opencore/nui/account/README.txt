@@ -187,6 +187,8 @@ the form the validate() method will be triggered::
 The template was rerendered with the error messages; to get the error
 dict directly, make the request asynchronous::
 
+# XXX this should be fixed+uncommented or removed
+
 #    >>> request.form['mode'] = 'async'
 #    >>> sorted([i for i in view().keys() if i.split('-')[1] in request.form])
 #    ['confirm_password', 'email', 'password']
