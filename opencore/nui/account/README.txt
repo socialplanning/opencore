@@ -232,6 +232,11 @@ We need to make the request a POST::
     >>> view.membertool.getMemberById('foobar')
     <OpenMember at /plone/portal_memberdata/foobar...>
 
+Ensure that you can't join the site with another foobar::
+XXX finish this!
+
+    >>> view.portal_status_message  # clear PSMs
+    [...]
 
 Confirm
 =======
