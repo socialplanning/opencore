@@ -188,7 +188,15 @@
     </td>
 
     <td>
-      <div metal:use-macro="team_manage_macros/memberlink" />
+      <div tal:define="mem_id item/getId;
+                       mem_url python:view.getMemberURL(mem_id)">
+	<a tal:attributes="href mem_url"
+	   tal:condition="mem_url"
+	   tal:content="mem_id" />
+	
+	<tal:memid condition="not: mem_url"
+		   replace="mem_id" />
+      </div>
     </td>
 
     <td tal:define="member_role item/role">
