@@ -433,8 +433,10 @@ class PasswordResetView(AccountView):
         randomstring = self.request.form.get("key")
 
         # validate the password input
-        if not self.validate_password_form(password, password2, userid):
+        member = self.validate_password_form(password, password2, userid)
+        if not member:
             return False
+        userid = member.getId()
 
         pw_tool = self.get_tool("portal_password_reset")
         try:

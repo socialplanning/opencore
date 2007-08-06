@@ -507,7 +507,7 @@ class BaseView(BrowserView):
         if isinstance(member, basestring):
             # get the member object
             id = member
-            member = self.get_tool("membrane_tool")(getId=id)
+            member = self.get_tool("membrane_tool")(getUserName=id)
             if not member:
                 self.addPortalStatusMessage("member '%s' does not exist" % id)
                 return False
@@ -523,7 +523,7 @@ class BaseView(BrowserView):
         if msg:
             self.addPortalStatusMessage(msg)
             return False
-        return True
+        return member
 
 
 def aq_iface(obj, iface):

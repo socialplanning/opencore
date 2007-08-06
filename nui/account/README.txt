@@ -99,7 +99,7 @@ First, ensure there is no portal status message:
 
 Next, ensure that we're using a valid password:
     >>> view.validate_password_form('wordy', 'wordy', 'test_user_1_')
-    True
+    <OpenMember at ...>
 
 Finally, handle the reset:
 
