@@ -914,7 +914,7 @@ OC.ProjectCreateForm = function(extEl) {
     
     function _urlize(e, el, o) {
       if (!customUrl) {
-          suggestedUrl = Ext.util.Format.trim(el.value).toLowerCase().replace(/[^a-zA-Z0-9-\s]/gi, "").replace(/  /g, " ").replace(/ /g, "-");
+          suggestedUrl = Ext.util.Format.trim(el.value).toLowerCase().replace(/[^a-zA-Z0-9\s_-]/gi, "").replace(/\s+/g, "-");
           urlField.dom.value = suggestedUrl;
       } else {
           OC.debug('custom URL: will not suggest'); 
