@@ -1,5 +1,6 @@
 import re
 import urllib
+import string
 
 from zope import event
 from zope.component import getMultiAdapter
@@ -386,6 +387,16 @@ def valid_project_title(title):
             return True
     return False
 
+def valid_project_id(id):
+    # projects ids are more strict than titles
+    if not valid_project_title(id): return False
+
+    valid_chars = string.letters + string.digits + '-_'
+    for c in id:
+        if c not in valid_chars:
+            return False
+    return True
+
 class ProjectAddView(BaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('create.pt')
@@ -422,8 +433,8 @@ class ProjectAddView(BaseView, OctopoLite):
               'at least 2 characters with at least 1 letter or number.'
 
         id_ = self.request.form.get('id')
-        if not id_:
-            self.errors['id'] = 'Project requires a url.'
+        if not valid_project_id(id_):
+            self.errors['id'] = 'Project url may only contain letters, numbers, hyphens, or underscores, with at least 1 letter or number'
         else:
             id_ = putils.normalizeString(id_)
             if self.context.has_key(id_):

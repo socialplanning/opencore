@@ -34,8 +34,24 @@ Try setting some invalid titles::
     {'title': 'Project name must contain at least 2 characters with at least 1 letter or number.'}
     >>> view.errors = {}
 
-Now, a valid title::
+How about an invalid id?::
+    >>> view.request.form['title'] = "valid title"
+    >>> view.request.form['id'] = ''
+    >>> out = view.handle_request()
+    >>> view.errors
+    {'id': 'Project url may only contain letters, numbers, hyphens, or underscores, with at least 1 letter or number'}
+    >>> view.errors = {}
+
+And, another invalid id::
+    >>> view.request.form['id'] = 'abcd1-_+'
+    >>> out = view.handle_request()
+    >>> view.errors
+    {'id': 'Project url may only contain letters, numbers, hyphens, or underscores, with at least 1 letter or number'}
+    >>> view.errors = {}
+
+Now, a valid title and id::
     >>> view.request.form['title'] = 'now a valid title!'
+    >>> view.request.form['id'] = 'test1'
     >>> out = view.handle_request()
     >>> view.errors
     {}
