@@ -37,19 +37,17 @@
                        name="subject"
                        value="."
                        size="40"
-                       tal:attributes="value request/subject|nothing" />
+                       tal:attributes="value request/subject|nothing;
+                                       class python:error and ' oc-fieldBlock-error' or ''" />
               <span title="Required" class="oc-discreetText" i18n:domain="plone"
                     i18n:translate="label_required"
                     i18n:attributes="title title_required;">
                 (Required)
               </span>
               <div tal:condition="error" tal:content="error"
-                   i18n:translate="">
-                The Error
-              </div>
+                   i18n:translate="" class="oc-form-error" />
             </div>
-            <div tal:define="error errors/body | nothing"
-                 tal:attributes="class python:'oc-fieldBlock' + (error and ' error' or '')">
+            <div tal:define="error errors/body | nothing">
               <label for="body"
                      i18n:translate="label_message_body">Message:</label>
               <span title="Required" class="oc-discreetText"
@@ -59,15 +57,14 @@
                 (Required)
               </span>
               <div tal:condition="error" tal:content="error"
-                   i18n:translate="">
-                The Error
-              </div>
+                   i18n:translate="" class="oc-form-error" />
               <div>
                 <textarea rows="25"
                           cols="80"
                           name="body"
                           value="."
-                          tal:content="request/body|nothing" />
+                          tal:content="request/body|nothing"
+                          tal:attributes="class python:error and ' oc-fieldBlock-error' or ''" />
               </div>
             </div>
             <div>
