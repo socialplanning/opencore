@@ -1,0 +1,38 @@
+==========
+ wiki add
+==========
+
+When pages are added, we need to make sure we don't make views
+inaccessible
+
+Identifying view names
+======================
+
+`get_view_names` provides some basic introspection of the views
+available for an object (later, we'll probably include this into a
+sort of name chooser ala z3)::
+
+    >>> from opencore.nui.wiki import add
+    >>> projects = self.portal.projects
+    >>> names = list(add.get_view_names(projects.p1))
+    >>> 'team' in names
+    True
+
+    >>> 'manage-team' in names
+    True
+
+
+Id choosing
+===========
+
+Currently, except for the managerial new interfaces, all adding is
+down via wicked links.  To gain control over the naming, we will
+override the wicked adder. Eventually, this should be replaced with a
+proper add form::
+
+    >>> view = projects.p1.restrictedTraverse('add-page')
+    >>> view.sanitize('team')
+    'team-page'
+    
+    >>> view.add_content(title='Manage Team!', section='one')
+    >>> getattr(view.aq_parent, 'manage-team-page')
