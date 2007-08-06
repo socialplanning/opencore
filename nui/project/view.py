@@ -181,10 +181,11 @@ class ProjectContentsView(BaseView, OctopoLite):
         return '/'.join(self.context.getPhysicalPath())
 
     def _sorted_items(self, item_type, sort_by=None, sort_order='descending'):
-        brains = self.catalog(portal_type=self._portal_type[item_type],
-                              path=self.project_path,
-                              sort_on=sort_by,
-                              sort_order=sort_order)
+        query = dict(portal_type=self._portal_type[item_type],
+                     path=self.project_path,
+                     sort_on=sort_by,
+                     sort_order=sort_order)
+        brains = self.catalog(**query)
         needed_values = self.needed_values[item_type]
         ret = self.ContentsCollection(item_type, self)
         for brain in brains:

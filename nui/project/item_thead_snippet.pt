@@ -24,7 +24,7 @@
         </th>
         <th scope="col" 
 	    tal:define="myname item_date_author_header;
-			myvalue string:obj_author">
+			myvalue string:obj_date">
 	  <metal:do use-macro="view/item_thead_snippet/macros/sortable_header" />
         </th>
         <th>Actions</th>
@@ -48,7 +48,7 @@
         </th>
         <th scope="col" 
 	    tal:define="myname item_date_author_header;
-			myvalue string:obj_author">
+			myvalue string:obj_date">
 	  <metal:do use-macro="view/item_thead_snippet/macros/sortable_header" />
         </th>
       </tr>
