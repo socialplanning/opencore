@@ -373,6 +373,8 @@ class ProjectPreferencesView(BaseView):
     @formhandler.button('update')
     def handle_request(self):
         title = self.request.form.get('title')
+        title = strip_extra_whitespace(title)
+        self.request.form['title'] = title
         if not valid_project_title(title):
             self.errors['title'] = 'Project name must contain ' \
               'at least 2 characters with at least 1 letter or number.'
@@ -402,6 +404,11 @@ def valid_project_id(id):
         if c not in valid_chars:
             return False
     return True
+
+whitespace_pattern = re.compile('\s+')
+def strip_extra_whitespace(title):
+    title = whitespace_pattern.sub(' ', title).strip()
+    return title.strip()
 
 class ProjectAddView(BaseView, OctopoLite):
 
@@ -434,6 +441,8 @@ class ProjectAddView(BaseView, OctopoLite):
 
         self.errors = {}
         title = self.request.form.get('title')
+        title = strip_extra_whitespace(title)
+        self.request.form['title'] = title
         if not valid_project_title(title):
             self.errors['title'] = 'Project name must contain ' \
               'at least 2 characters with at least 1 letter or number.'
