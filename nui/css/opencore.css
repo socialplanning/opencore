@@ -111,7 +111,7 @@ ul#oc-topnav-context li.oc-topnav-selected {
   font-size: 10px;
   border: 1px solid #999;
   width: 40%;
-  background: #fff url(/++resource++img/magglass.png) no-repeat 3px center;
+  background: #fff url("/++resource++img/magglass.gif") no-repeat 3px center;
   padding-left: 16px;
 }
 #oc-topnav-globalmenu-container {
