@@ -408,7 +408,7 @@ class ForgotLoginView(AccountView):
         if '@' in user_lookup:
             brains = self.membranetool(getEmail=user_lookup)
         else:
-            brains = self.membranetool(getId=user_lookup)
+            brains = self.membranetool(getUserName=user_lookup)
 
         if not brains:
             self.addPortalStatusMessage(u"We can't find your account. This could be " \
