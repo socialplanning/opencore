@@ -114,11 +114,22 @@ class ProfileEditView(ProfileView, OctopoLite):
         invites = email_invites.getInvitesByEmailAddress(address)
         return bool(invites)
 
+    def check_portrait(self, member, portrait):
+        try:
+            member.setPortrait(portrait)
+        except ValueError: # must have tried to upload an unsupported filetype
+            self.addPortalStatusMessage('Please choose an image in gif, jpeg, png, or bmp format.')
+            return False
+        return True
+
     @action("uploadAndUpdate")
     def change_portrait(self, target=None, fields=None):
         member = self.viewedmember()
         portrait = self.request.form.get("portrait")
-        member.setPortrait(portrait)
+
+        if not self.check_portrait(member, portrait):
+            return
+
         member.reindexObject('portrait')
         return {
             'oc-profile-avatar' : {
@@ -145,6 +156,13 @@ class ProfileEditView(ProfileView, OctopoLite):
     def handle_form(self, target=None, fields=None):
         member = self.viewedmember()
 
+        # deal with portrait first
+        portrait = self.request.form.get('portrait')
+        if not self.check_portrait(member, portrait):
+            return
+        del self.request.form['portrait']
+
+        # now deal with the rest of the fields
         for field, value in self.request.form.items():
             mutator = 'set%s' % field.capitalize()
             mutator = getattr(member, mutator, None)
