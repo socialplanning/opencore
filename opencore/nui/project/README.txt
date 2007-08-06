@@ -74,17 +74,32 @@ Preference View
     >>> view.project_info['featurelets']
     [{'url': u'lists', 'name': 'listen', 'title': u'Mailing lists'}]
 
-    >>> form_vars = dict(title='new full name',
-    ...                  workflow_policy='closed_policy',
+    >>> form_vars = dict(workflow_policy='closed_policy',
     ...                  update=True,
     ...                  featurelets=[],
     ...                  set_flets=1,
-    ...                  __initialize_project__=False)
+    ...                  __initialize_project__=False,
+    ...                  )
 
-    >>> view.request.set('flet_recurse_flag', None)
     >>> view.request.form.update(form_vars)
 
+    For some reason, we need this in here
+    And it doesn't like it if we set it on request.form
+    >>> view.request.set('flet_recurse_flag', None)
+
+Try setting a bogus title::
+    >>> view.request.form['title'] = '?'
+    >>> out = view.handle_request()
+    >>> view.errors
+    {'title': 'Project name must contain at least 2 characters with at least 1 letter or number.'}
+    >>> view.errors = {}
+
+Now set a valid title::
+    >>> view.request.form['title'] = 'new full name'
+
     >>> view.handle_request()
+    >>> view.errors
+    {}
     >>> view = proj.restrictedTraverse('preferences')
 
     >>> proj.Title()
