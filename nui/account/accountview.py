@@ -145,7 +145,7 @@ class LoginView(AccountView):
 
     @anon_only(AccountView.loggedin_fallback_url)
     def handle_request(self):
-        pass
+        """ redirect logged in users """
             
     @property
     def came_from(self):
@@ -211,6 +211,10 @@ class LoginView(AccountView):
 class JoinView(AccountView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('join.pt')
+
+    @anon_only(AccountView.loggedin_fallback_url)
+    def handle_request(self):
+        """ redirect logged in users """
 
     @action('join', apply=post_only(raise_=False))
     def create_member(self, targets=None, fields=None):

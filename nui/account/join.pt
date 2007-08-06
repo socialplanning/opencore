@@ -1,3 +1,5 @@
+<tal:vars define="global fdata view/handle_request;" />
+
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
