@@ -11,14 +11,16 @@
        tal:content="string:Home" />
   </li>
 
-  <li class="oc-usermenu-divider">
+  <li>
     <a tal:attributes="href string:${memfolder_url}/account"
        tal:content="string:Account" />
   </li>
 
   <tal:projects define="projects view/project_brains | nothing"
                 condition="projects">
-
+    
+    <li><hr class="oc-usermenu-divider" /></li>
+    
     <li tal:repeat="project projects">
       <a tal:attributes="href project/getURL"
          tal:content="project/Title" />
