@@ -233,10 +233,44 @@ We need to make the request a POST::
     <OpenMember at /plone/portal_memberdata/foobar...>
 
 Ensure that you can't join the site with another foobar::
-XXX finish this!
 
     >>> view.portal_status_message  # clear PSMs
     [...]
+    >>> view()
+    u'...The login name you selected is already in use or is not valid. Please choose another...'
+    
+You also shouldn't be able to join with case-variants::
+
+    >>> view.portal_status_message  # clear PSMs
+    [...]
+    >>> form = dict(id='FooBar',
+    ...             email='foobartwo@example.com',
+    ...             password='testy',
+    ...             confirm_password='testy')
+    >>> view.request.form.update(form)
+    >>> view()
+    u'...The login name you selected is already in use or is not valid. Please choose another...'
+
+Email address are also unique::
+
+    >>> form = dict(id='sevenofnine',
+    ...             email='foobar@example.com',
+    ...             password='testy',
+    ...             confirm_password='testy')
+    >>> view.request.form.update(form)
+    >>> view()
+    u'...That email address is already in use.  Please choose another...'
+
+But we do allow appending to existing logins::
+    >>> form = dict(id='foobar3',
+    ...             email='foobarthree@example.com',
+    ...             password='testy',
+    ...             confirm_password='testy')
+    >>> view.request.form.update(form)
+    >>> 'Please choose another' not in view()
+    True
+    >>> view.membertool.getMemberById('foobar3')
+    <OpenMember at /plone/portal_memberdata/foobar3...>
 
 Confirm
 =======
