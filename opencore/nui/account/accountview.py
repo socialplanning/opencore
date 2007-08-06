@@ -274,7 +274,7 @@ class JoinView(AccountView, OctopoLite):
             errors[e] = ''
         ret = {}
         for e in errors:
-            ret['oc-%s-validator' % e] = {
+            ret['oc-%s-error' % e] = {
                 'html': str(errors[e]),
                 'action': 'copy', 'effects': 'highlight'}
         return ret
