@@ -77,12 +77,19 @@ class MemberMenuView(BaseView):
              'href': self.profile_url,
              'selected': self.request.ACTUAL_URL in (self.profile_url, self.profile_edit_url),
              },
-
-            {'content': 'Account',
-             'href': self.userprefs_url,
-             'selected': self.request.ACTUAL_URL == self.userprefs_url,
-             },
             )
+
+        # only show "account" button if you're viewing yourself
+        memfolder = self.miv.member_folder
+        loggedinmember = self.loggedinmember
+        if memfolder is not None and loggedinmember is not None:
+            if self.miv.member_folder.getId() == self.loggedinmember.getId():
+                menudata += (
+                    {'content': 'Account',
+                     'href': self.userprefs_url,
+                     'selected': self.request.ACTUAL_URL == self.userprefs_url,
+                     },
+                    )
 
         return menudata
 
