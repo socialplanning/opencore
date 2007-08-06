@@ -26,8 +26,9 @@
               tal:attributes="for widget/name; title widget/hint"
               tal:content="widget/label">Label</label>
             <div tal:condition="widget/error"
-              tal:content="structure widget/error">Error</div>
-            <div class="field">
+              tal:content="structure widget/error"
+              class="oc-form-error" />
+            <div class="oc-form-fieldBlock">
               <input tal:replace="structure widget" />
             </div>
           </fieldset>
