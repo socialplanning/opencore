@@ -421,13 +421,13 @@ class ProjectAddView(BaseView, OctopoLite):
         id_ = self.request.form.get('id')
         id_ = putils.normalizeString(id_)
         if self.context.has_key(id_):
-            errors['oc-id-validator'] = {
+            errors['oc-id-error'] = {
                 'html': 'The requested url is already taken.',
                 'action': 'copy',
                 'effects': 'highlight'
                 }
         else:
-            errors['oc-id-validator'] = {
+            errors['oc-id-error'] = {
                 'html': '',
                 'action': 'copy',
                 'effects': ''
