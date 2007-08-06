@@ -6,21 +6,43 @@ Add view
 ========
 
     >>> projects = self.portal.projects
-    >>> projects.restrictedTraverse("create")
+    >>> view = projects.restrictedTraverse("create")
+    >>> view
     <Products.Five.metaclass.ProjectAddView object at...>
 
     >>> form_vars = dict(id='test1', __initialize_project__=True,
-    ...                  title='test one',
     ...                  workflow_policy='medium_policy',
     ...                  add=True, featurelets = ['listen'], set_flets=1)
-    >>> view = projects.restrictedTraverse("create")
     >>> view.request.form.update(form_vars)
 
+Try setting some invalid titles::
+    >>> view.request.form['title'] = ""
     >>> out = view.handle_request()
+    >>> view.errors
+    {'title': 'Project name must contain at least 2 characters with at least 1 letter or number.'}
+    >>> view.errors = {}
 
+    >>> view.request.form['title'] = "1"
+    >>> out = view.handle_request()
+    >>> view.errors
+    {'title': 'Project name must contain at least 2 characters with at least 1 letter or number.'}
+    >>> view.errors = {}
+
+    >>> view.request.form['title'] = "!@#$%"
+    >>> out = view.handle_request()
+    >>> view.errors
+    {'title': 'Project name must contain at least 2 characters with at least 1 letter or number.'}
+    >>> view.errors = {}
+
+Now, a valid title::
+    >>> view.request.form['title'] = 'now a valid title!'
+    >>> out = view.handle_request()
+    >>> view.errors
+    {}
     >>> proj = projects.test1
     >>> proj
     <OpenProject at /plone/projects/test1>
+
 
 
 Preference View

@@ -379,6 +379,13 @@ class ProjectPreferencesView(BaseView):
             self.redirect(self.context.absolute_url())
 
 
+def valid_project_title(title):
+    if len(title) < 2: return False
+    for c in title:
+        if c.isalnum():
+            return True
+    return False
+
 class ProjectAddView(BaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('create.pt')
@@ -402,16 +409,17 @@ class ProjectAddView(BaseView, OctopoLite):
                 'effects': ''
                 }
         return errors
-        
+
     @action('add')
     def handle_request(self, target=None, fields=None):
         putils = getToolByName(self.context, 'plone_utils')
         self.request.set('__initialize_project__', True)
 
         self.errors = {}
-        title = self.request.get('title')
-        if not title:
-            self.errors['title'] = 'Project requires a name.'
+        title = self.request.form.get('title')
+        if not valid_project_title(title):
+            self.errors['title'] = 'Project name must contain ' \
+              'at least 2 characters with at least 1 letter or number.'
 
         id_ = self.request.form.get('id')
         if not id_:
@@ -426,7 +434,8 @@ class ProjectAddView(BaseView, OctopoLite):
             return
 
         proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
-        proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
+        # not calling validate because it explodes on "'" for project titles
+        #proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
             transaction_note('Started creation of project: %s' %title)
             self.addPortalStatusMessage(u'Please correct the indicated errors.')
@@ -537,7 +546,7 @@ class ProjectTeamView(TeamRelatedView):
    
     @formhandler.button('sort')
     def handle_request(self):
-        self.sort_by = self.request.get('sort_by', None)
+        self.sort_by = self.request.form.get('sort_by', None)
 
     def handle_sort_membership_date(self):
         query = dict(portal_type='OpenMembership',
