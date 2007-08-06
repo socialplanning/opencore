@@ -22,6 +22,17 @@ class TestMemberMenu(OpenPlansTestCase):
         OpenPlansTestCase.afterSetUp(self)
         self.request = self.portal.REQUEST
         mtool = getToolByName(self.portal, 'portal_membership')
+
+        other_mem_id = self.mem_id = 'm2'
+        self.login(other_mem_id)
+        other_mem = mtool.getMemberById(other_mem_id)
+        mtool.createMemberArea(other_mem_id)
+        self.other_mf = mtool.getHomeFolder(other_mem_id)
+        self.other_mhome = self.other_mf._getOb(self.other_mf.getDefaultPage())
+        self.other_view = getMultiAdapter((self.other_mhome, self.request),
+                                          name='topnav-member-menu')
+        self.logout()
+
         mem_id = self.mem_id = 'm1'
         self.login(mem_id)
         mem = mtool.getMemberById(mem_id)
@@ -30,6 +41,7 @@ class TestMemberMenu(OpenPlansTestCase):
         self.mhome = self.mf._getOb(self.mf.getDefaultPage())
         self.view = getMultiAdapter((self.mhome, self.request),
                                     name='topnav-member-menu')
+
         
     def test_menudata(self):
         menudata = self.view.menudata
@@ -60,6 +72,15 @@ class TestMemberMenu(OpenPlansTestCase):
         self.failIf(menudata[0]['selected'])
         self.failIf(menudata[1]['selected'])
         self.failUnless(menudata[2]['selected'])
+
+        self.clearMemoCache()
+        other_profile_url = "%s/profile" % self.other_mf.absolute_url()
+        self.request.ACTUAL_URL = other_profile_url
+        menudata = self.other_view.menudata
+        self.failUnless(len(menudata) == 2)
+        self.assertEqual(self.other_mf.absolute_url(), menudata[0]['href'])
+        self.failIf(menudata[0]['selected'])
+        self.failUnless(menudata[1]['selected'])
 
         # XXX this may not be necessary, but it's safer just in case
         self.request.ACTUAL_URL = orig_actual_url
