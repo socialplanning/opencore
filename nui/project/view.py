@@ -372,12 +372,18 @@ class ProjectPreferencesView(BaseView):
         
     @formhandler.button('update')
     def handle_request(self):
-        self.context.validate(REQUEST=self.request,
-                              errors=self.errors, data=1, metadata=0)
-        if not self.errors:
-            self.context.processForm(REQUEST=self.request)
-            self.addPortalStatusMessage('Changes saved.')
-            self.redirect(self.context.absolute_url())
+        title = self.request.form.get('title')
+        if not valid_project_title(title):
+            self.errors['title'] = 'Project name must contain ' \
+              'at least 2 characters with at least 1 letter or number.'
+
+        if self.errors:
+            self.addPortalStatusMessage(u'Please correct the indicated errors.')
+            return
+
+        self.context.processForm(REQUEST=self.request)
+        self.addPortalStatusMessage('Changes saved.')
+        self.redirect(self.context.absolute_url())
 
 
 def valid_project_title(title):
