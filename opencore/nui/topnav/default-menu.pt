@@ -2,13 +2,7 @@
 
 <!-- navigation links -->
 <ul id="oc-topnav-context" class="oc-clearAfter">
-  <li>
-    <a tal:attributes="href string:${site_url}/people">People</a>
-  </li>
-  <li>
-    <a tal:attributes="href string:${site_url}/projects">Projects</a>
-  </li>
-  <li>
-    <a tal:attributes="href string:${site_url}/projects/create">Start a project</a>
-  </li>
+  <span tal:replace="structure python:view.siteroot_link('people', 'People')" />
+  <span tal:replace="structure python:view.siteroot_link('projects', 'Projects')" />
+  <span tal:replace="structure python:view.siteroot_link('projects/create', 'Start a project')" />
 </ul>
