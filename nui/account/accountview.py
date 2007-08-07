@@ -311,13 +311,13 @@ class ConfirmAccountView(AccountView):
         pf = self.get_tool("portal_workflow")
         if pf.getInfoFor(member, 'review_state') != 'pending':
             self.addPortalStatusMessage(u'Denied -- no confirmation pending')
-
-            # use string interpolation pls
-            return self.redirect("%s/login" %self.siteURL)
+            return False
         
+        # need to set/delete the attribute for the workflow guards
         setattr(member, 'isConfirmable', True)
         pf.doActionFor(member, 'register_public')
         delattr(member, 'isConfirmable')
+        return True
         
     def handle_confirmation(self, *args, **kw):
         member = self.member
@@ -325,7 +325,9 @@ class ConfirmAccountView(AccountView):
             self.addPortalStatusMessage(u'Denied -- bad key')
             return self.redirect("%s/%s" %(self.siteURL, 'login'))
         
-        self.confirm(member)
+        # redirect to login page if confirmation isn't pending
+        if not self.confirm(member):
+            return self.redirect("%s/login" %self.siteURL)
         
         self.login(member.getId())
         return self.redirect("%s/init-login" %self.siteURL)
