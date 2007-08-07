@@ -158,9 +158,10 @@ class ProfileEditView(ProfileView, OctopoLite):
 
         # deal with portrait first
         portrait = self.request.form.get('portrait')
-        if not self.check_portrait(member, portrait):
-            return
-        del self.request.form['portrait']
+        if portrait:
+            if not self.check_portrait(member, portrait):
+                return
+            del self.request.form['portrait']
 
         # now deal with the rest of the fields
         for field, value in self.request.form.items():
