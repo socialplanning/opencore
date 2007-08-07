@@ -138,12 +138,11 @@ class ProjectMenuView(BaseView):
              },
             )
 
-        for flet in featurelets:
+        if self.membertool.checkPermission(ManageTeamMembership, proj):
             menudata += (
-                {'content': flet.get('title'),
-                 'href': '%s/%s' % (proj_url,
-                                    flet.get('url')),
-                 'selected': False, # XXX <-- need to calculate
+                {'content': 'Manage team',
+                 'href': manage_team_url,
+                 'selected': self.request.ACTUAL_URL == manage_team_url,
                  },
                 )
 
@@ -155,11 +154,12 @@ class ProjectMenuView(BaseView):
                  },
                 )
 
-        if self.membertool.checkPermission(ManageTeamMembership, proj):
+        for flet in featurelets:
             menudata += (
-                {'content': 'Manage team',
-                 'href': manage_team_url,
-                 'selected': self.request.ACTUAL_URL == manage_team_url,
+                {'content': flet.get('title'),
+                 'href': '%s/%s' % (proj_url,
+                                    flet.get('url')),
+                 'selected': False, # XXX <-- need to calculate
                  },
                 )
 
