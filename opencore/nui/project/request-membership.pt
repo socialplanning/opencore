@@ -16,7 +16,8 @@
           <dl class="oc-plainList">
           <dt><label for="request-message">Message:</label></dt>
           <dd>
-            <textarea rows="10" cols="80" id="request-message"></textarea>
+            <textarea rows="10" cols="80" 
+		      name="request-message" id="request-message"></textarea>
             <input type="submit" name="task|request-membership" value="Send"
                    class="oc-button" />
           </dd>
