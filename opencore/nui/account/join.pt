@@ -5,13 +5,13 @@
     <div metal:fill-slot="content">
       <div id="oc-content-main">
         <!-- join form -->
-        <form id="oc-join-form" name="edit_form" method="post" 
+        <form id="oc-join-form" name="edit_form" class="oc-boxy" method="post" 
               tal:attributes="action string:${context/absolute_url}/join"
               >
           
-          <fieldset class="oc-boxy">
+          <fieldset>
 
-            <legend class="oc-legend-heading oc-biggestText">Join OpenPlans</legend>
+            <h1>Join OpenPlans</h1>
 
             <p tal:condition="not:fdata/getUser | nothing">
               Registration is free and your email will not be
