@@ -250,7 +250,7 @@ a couple of addresses that don't belong to any site members:
 
     >>> self.clearMemoCache()
     >>> view.request.form.clear()
-    >>> invites = 'doesnot@exist.org, isnot@there.com'
+    >>> invites = 'doesnotexist@example.com, isnotthere@example.com'
     >>> view.request.form.update({'task|email-invites': 'Send',
     ...                           'email-invites': invites})
     >>> view.add_email_invites()
@@ -304,7 +304,7 @@ And that they can be removed:
 
     >>> self.clearMemoCache()
     >>> view.remove_email_invites(addys)
-    {...doesnot@exist.org...isnot@there.com...}
+    {...doesnotexist@example.com...isnotthere@example.com...}
     >>> len(view.pending_email_invites)
     0
     >>> len(mailhost.messages) # <- increase by two
