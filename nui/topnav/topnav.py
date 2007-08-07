@@ -8,6 +8,7 @@ from Products.TeamSpace.permissions import ManageTeamMembership
 
 from opencore.nui.base import BaseView
 from opencore.nui.contexthijack import HeaderHijackable
+from opencore.project.content import IProject
 
 
 memoizedproperty = lambda func: property(view.memoize(func))
@@ -166,7 +167,7 @@ class ProjectMenuView(BaseView):
                 {'content': flet.get('title'),
                  'href': '%s/%s' % (proj_url,
                                     flet.get('url')),
-                 'selected': False, # XXX <-- need to calculate
+                 'selected': self.is_flet_selected(flet)
                  },
                 )
 
@@ -184,6 +185,16 @@ class ProjectMenuView(BaseView):
 
         return menudata
 
+
+    def is_flet_selected(self, flet):
+        flet = flet.get('title').lower()
+        if flet == 'mailing lists':
+            lists_url = '/'.join((self.areaURL, 'lists'))
+            return self.request.ACTUAL_URL.startswith(lists_url)
+        elif flet == 'tasks':
+            header = self.request.get_header('X-Openplans-Application')
+            return header == 'tasktracker'
+        return False
 
 class AnonMenuView(BaseView):
     """
