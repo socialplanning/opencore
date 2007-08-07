@@ -12,10 +12,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 
 portal = context.portal_url.getPortalObject()
-portal_membership = getToolByName(portal, 'portal_membership')
-member = portal_membership.getAuthenticatedMember()
-member_folder = portal_membership.getHomeFolder(member.getId())
-dummy_referer = '%s/account' % member_folder.absolute_url()
+dummy_referer = context.portal_url()
 referer = context.REQUEST.environ.get('HTTP_REFERER', 
                                       dummy_referer)
 came_from = context.REQUEST.form.get('came_from', '')
