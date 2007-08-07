@@ -102,81 +102,96 @@ class TestProjectMenu(OpenPlansTestCase):
         self.phome_view = getMultiAdapter((self.proj_home, self.request),
                                           name='topnav-project-menu')
 
+    def make_menudata_map(self, menudata):
+        mdmap = dict()
+        for i in menudata:
+            key = i['content'].lower()
+            mdmap[key] = i
+        return mdmap
+
     def test_menudata(self):
         menudata = self.phome_view.menudata
+        mdmap = self.make_menudata_map(menudata)
         # 'home', 'contents', 'team', and 'join project'
+
         self.failUnless(len(menudata) == 4)
-        self.assertEqual(menudata[0]['href'], self.proj.absolute_url())
-        self.failUnless(menudata[0]['selected'])
-        self.failIf(menudata[1]['selected'])
-        self.failIf(menudata[2]['selected'])
-        self.failIf(menudata[3]['selected'])
+        self.assertEqual(mdmap['home']['href'], self.proj.absolute_url())
+        self.failUnless(mdmap['home']['selected'])
+        self.failIf(mdmap['contents']['selected'])
+        self.failIf(mdmap['team']['selected'])
+        self.failIf(mdmap['join project']['selected'])
 
         self.clearMemoCache()
         self.clearInstanceCache(self.phome_view)
         self.login(self.proj_admin_id)
         menudata = self.phome_view.menudata
-        # add 'account' and 'manage team', remove 'join'
+        mdmap = self.make_menudata_map(menudata)
+        # add 'preferences' and 'manage team', remove 'join'
+
         self.failUnless(len(menudata) == 5)
-        self.assertEqual(menudata[0]['href'], self.proj.absolute_url())
-        self.failUnless(menudata[0]['selected'])
-        self.failIf(menudata[1]['selected'])
-        self.failIf(menudata[2]['selected'])
-        self.failIf(menudata[3]['selected'])
-        self.failIf(menudata[4]['selected'])
-        self.failUnless(menudata[4]['content'] == 'Manage team')
+        self.assertEqual(mdmap['home']['href'], self.proj.absolute_url())
+        self.failUnless(mdmap['home']['selected'])
+        self.failIf(mdmap['contents']['selected'])
+        self.failIf(mdmap['team']['selected'])
+        self.failIf(mdmap['manage team']['selected'])
+        self.failIf(mdmap['preferences']['selected'])
+        self.failUnless(mdmap.has_key('manage team'))
 
         orig_actual_url = self.request.ACTUAL_URL
 
-        # the 'contents' and 'account' views are on the project
+        # the 'contents' and 'preferences' views are on the project
         # object itself, not the project home page
         self.clearMemoCache()
         contents_url = "%s/contents" % self.proj.absolute_url()
         self.request.ACTUAL_URL = contents_url
         menudata = self.proj_view.menudata
+        mdmap = self.make_menudata_map(menudata)
         self.failUnless(len(menudata) == 5)
-        self.assertEqual(menudata[0]['href'], self.proj.absolute_url())
-        self.failIf(menudata[0]['selected'])
-        self.failUnless(menudata[1]['selected'])
-        self.failIf(menudata[2]['selected'])
-        self.failIf(menudata[3]['selected'])
-        self.failIf(menudata[4]['selected'])
+        self.assertEqual(mdmap['home']['href'], self.proj.absolute_url())
+        self.failIf(mdmap['home']['selected'])
+        self.failUnless(mdmap['contents']['selected'])
+        self.failIf(mdmap['team']['selected'])
+        self.failIf(mdmap['manage team']['selected'])
+        self.failIf(mdmap['preferences']['selected'])
         
         self.clearMemoCache()
         team_url = "%s/team" % self.proj.absolute_url()
         self.request.ACTUAL_URL = team_url
         menudata = self.proj_view.menudata
+        mdmap = self.make_menudata_map(menudata)
         self.failUnless(len(menudata) == 5)
         self.assertEqual(menudata[0]['href'], self.proj.absolute_url())
-        self.failIf(menudata[0]['selected'])
-        self.failIf(menudata[1]['selected'])
-        self.failUnless(menudata[2]['selected'])
-        self.failIf(menudata[3]['selected'])
-        self.failIf(menudata[4]['selected'])
-
-        self.clearMemoCache()
-        prefs_url = "%s/preferences" % self.proj.absolute_url()
-        self.request.ACTUAL_URL = prefs_url
-        menudata = self.proj_view.menudata
-        self.failUnless(len(menudata) == 5)
-        self.assertEqual(menudata[0]['href'], self.proj.absolute_url())
-        self.failIf(menudata[0]['selected'])
-        self.failIf(menudata[1]['selected'])
-        self.failIf(menudata[2]['selected'])
-        self.failUnless(menudata[3]['selected'])
-        self.failIf(menudata[4]['selected'])
+        self.failIf(mdmap['home']['selected'])
+        self.failIf(mdmap['contents']['selected'])
+        self.failUnless(mdmap['team']['selected'])
+        self.failIf(mdmap['manage team']['selected'])
+        self.failIf(mdmap['preferences']['selected'])
 
         self.clearMemoCache()
         manage_url = "%s/manage-team" % self.proj.absolute_url()
         self.request.ACTUAL_URL = manage_url
         menudata = self.proj_view.menudata
+        mdmap = self.make_menudata_map(menudata)
         self.failUnless(len(menudata) == 5)
         self.assertEqual(menudata[0]['href'], self.proj.absolute_url())
-        self.failIf(menudata[0]['selected'])
-        self.failIf(menudata[1]['selected'])
-        self.failIf(menudata[2]['selected'])
-        self.failIf(menudata[3]['selected'])
-        self.failUnless(menudata[4]['selected'])
+        self.failIf(mdmap['home']['selected'])
+        self.failIf(mdmap['contents']['selected'])
+        self.failIf(mdmap['team']['selected'])
+        self.failUnless(mdmap['manage team']['selected'])
+        self.failIf(mdmap['preferences']['selected'])
+
+        self.clearMemoCache()
+        prefs_url = "%s/preferences" % self.proj.absolute_url()
+        self.request.ACTUAL_URL = prefs_url
+        menudata = self.proj_view.menudata
+        mdmap = self.make_menudata_map(menudata)
+        self.failUnless(len(menudata) == 5)
+        self.assertEqual(mdmap['home']['href'], self.proj.absolute_url())
+        self.failIf(mdmap['home']['selected'])
+        self.failIf(mdmap['contents']['selected'])
+        self.failIf(mdmap['team']['selected'])
+        self.failIf(mdmap['manage team']['selected'])
+        self.failUnless(mdmap['preferences']['selected'])
 
         self.request.ACTUAL_URL = orig_actual_url
 
