@@ -6,9 +6,9 @@
     <div metal:fill-slot="content">              
 
       <div id="oc-content-main">
-	
+        
         <tal:set_var define="current_search_page string:people;
-			     form_action_url string:${context/portal_url}/people/searchresults">
+                             form_action_url string:${context/portal_url}/people/searchresults">
           <div metal:use-macro="here/main_macros/search_widget" />
         </tal:set_var>
         
@@ -22,7 +22,7 @@
                                    start batch/start | nothing;
                                    end batch/end | nothing;
                                    sequence_length batch/sequence_length | nothing;
-				   ">
+                                   ">
 
             <!-- display the number of results that came back -->
             <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
@@ -35,13 +35,13 @@
               of <span tal:replace="sequence_length">376</span> sorted by
 
               <!-- when sorting, we post the action to distinguish between searching
-		   this was necessary because the batch macro reposts the request data, and we see problems when trying to reset to page when the sorting changes -->
+                   this was necessary because the batch macro reposts the request data, and we see problems when trying to reset to page when the sorting changes -->
               <form name="people_sort" method="POST" action="." tal:attributes="action string:${context/portal_url}/people/searchresults">
-		<!-- FIXME This should not require a button to work. -->
+                <!-- FIXME This should not require a button to work. -->
                 <select class="oc-js-autoSelect" name="sort_by" tal:define="sorted_by python: request.get('sort_by')">
                   <option value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
                   <option value="getId" tal:attributes="selected python: sorted_by == 'getId'">username</option>
-                  <option value="exact_getFullname" tal:attributes="selected python: sorted_by == 'exact_getFullname'">full name</option>
+                  <option value="exact_getFullname" tal:attributes="selected python: sorted_by == 'exact_getFullname'">name</option>
                 </select>
 
                 <!-- resend the current data when sorting -->
@@ -65,14 +65,14 @@
                   <a tal:attributes="href string:${context/portal_url}/people/${memdata/id}/profile">
                     <img class="photo" tal:attributes="src memdata/portrait_thumb_url" />
                   </a>
-		</div>
-		<div class="oc-peopleresults-content">
+                </div>
+                <div class="oc-peopleresults-content">
                   <h3 class="fn">
                     <a href="" tal:attributes="href string:${context/portal_url}/people/${item/getId}/profile" tal:content="item/getId">Username</a>
                   </h3>
-                  <div class="n" tal:content="item/getFullname">real name</div>
+                  <div class="n" tal:content="item/getFullname">name</div>
                   <div class="oc-discreetText adr" tal:define="loc item/getLocation" tal:condition="loc" tal:content="loc">location</div>
-		</div>
+                </div>
               </li>
             </ol>
             <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
@@ -89,7 +89,7 @@
           <!-- if we get no results, this is what is displayed -->
           <div tal:condition="not: view/search_results">No results found.</div>
 
-	</div> <!-- oc-searchresults -->
+        </div> <!-- oc-searchresults -->
       </div> <!-- content-main -->
 
     </div><!-- content-fill-slot -->

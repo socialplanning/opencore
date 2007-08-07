@@ -48,7 +48,7 @@
            wiki page snippet pulled from a particular location? -->
       <!-- content-sidebar -->
       <div id="oc-content-sidebar">
-        <div class="oc-getstarted">
+        <div class="oc-getstarted" tal:condition="view/loggedin">
           <h2>Get started&hellip;</h2>
           <p>Can&rsquo;t find a project you are interested in? See a need that is not being met?
           </p>

@@ -31,7 +31,7 @@
               <metal:login-info use-macro="view/member_macros/macros/login-info" />
               <ul class="oc-plainList">
                 <li>
-                  <label for="fullname">Full name</label><br />
+                  <label for="fullname">Name</label><br />
                   <input type="text" id="fullname" name="fullname"
                     class="oc-autoFocus"
                     tal:condition="python: request.form.get('field') == 'fullname'"
@@ -55,7 +55,7 @@
           </div>
           <fieldset>
 
-            <label for="statement">Personal Statement</label>
+            <label for="statement">About</label>
             <textarea rows="3" cols="80" name="statement" id="statement"
               class="oc-autoFocus"
               tal:condition="python: request.form.get('field') == 'statement'"

@@ -10,7 +10,7 @@
 
 <div class="oc-headingBlock">
   <h1>Your account</h1>
-  <p class="oc-headingContext">View and manage your project memberships and account settings</p>
+  <p class="oc-headingContext">View and manage your project memberships and account settings.</p>
 </div>
   
 <div id="oc-content-main">
@@ -94,28 +94,6 @@
 </div><!-- end #oc-content-main -->
 
 <div id="oc-content-sidebar">
-  <div class="oc-getstarted">
-    <h2>Next steps&hellip;</h2>
-    <ol class="oc-getstarted-list"
-        tal:define="memfolder_url view/memfolder_url">
-        <li>
-          <h3><a tal:attributes="href string: ${memfolder_url}/profile-edit">1. Personalize your profile</a></h3>
-          <p class="oc-discreetText">Tell everyone a little about yourself.</p>
-        </li> 
-        <li>
-          <h3><a tal:attributes="href string: ${memfolder_url}/profile-edit">2. Post a photo of yourself</a></h3>
-          <p class="oc-discreetText">Tell everyone a little about yourself.</p>
-        </li>
-        <li>
-          <h3><a tal:attributes="href string: ${memfolder_url}">3. Customize your homepage</a></h3>
-          <p class="oc-discreetText">Tell everyone a little about yourself.</p>
-        </li>
-        <li>
-          <h3><a tal:attributes="href string:${context/portal_url}/projects">4. Join or start a project</a></h3>
-          <p class="oc-discreetText">Tell everyone a little about yourself.</p>
-        </li>
-    </ol>
-  </div>
   <div class="oc-boxy">
     <h2>Account settings</h2>
     <a href="profile-edit">Edit profile</a>
