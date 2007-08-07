@@ -24,6 +24,12 @@ With '__ac_name' set, it should find and confirm a userid::
     >>> view.userid
     'test_user_1_'
 
+This should be the case even if the user forgets correct capitalization::
+
+    >>> view.request.form['__ac_name'] = 'Test_User_1_'
+    >>> view.userid
+    'test_user_1_'
+
 # test email lookup
 
 Running handle request does all this, and sends the email::
@@ -99,6 +105,10 @@ First, ensure there is no portal status message:
 
 Next, ensure that we're using a valid password:
     >>> view.validate_password_form('wordy', 'wordy', 'test_user_1_')
+    <OpenMember at ...>
+
+This should work even with wrong capitalization and leading space:
+    >>> view.validate_password_form('wordy', 'wordy', ' tESt_uSEr_1_')
     <OpenMember at ...>
 
 Finally, handle the reset:
