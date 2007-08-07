@@ -143,7 +143,6 @@ text-align: left;
   clear: none;
   margin: 0 0.25em;
   padding: 0 0.25em;
-  border: 1px solid #4D4945; /* match topnav-usermenu background */
   font-weight: bold;
 }
 .oc-dropdown-list li a:hover {
@@ -337,7 +336,6 @@ dl.oc-plainList dd {
 
 /* Portal Home */
 #oc-home-content {
-	float: left;
 }
 #oc-home-content .oc-headingBlock h1{
 	font-size: 36px;
@@ -350,7 +348,7 @@ dl.oc-plainList dd {
 }
 .oc-home-column {
   float: left;
-  margin-right: 2%;
+  margin: 0 1%;
   clear: none;
   width: 48%;
 }
