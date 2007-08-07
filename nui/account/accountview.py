@@ -98,7 +98,7 @@ class LoginView(AccountView):
         id_ = self.request.get('__ac_name')
         password = self.request.form.get('__ac_password')
         if id_ and password:
-            member = self.is_pending(getId=id_)
+            member = self.is_pending(getUserName=id_)
 
         # ensure there is one match and the password is right
         if member and member.verifyCredentials({'login': id_, 
