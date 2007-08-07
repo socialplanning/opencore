@@ -29,7 +29,10 @@ def query_dict(string):
         return None
 
     # XXX reinvent dict(cgi.parse_qsl)
-    return dict([i.split('=') for i in query[1].split('&')])
+    queries = [ i for i in query[1].split('&')]
+    query_dict = dict([i.split('=',1) for i in queries if '=' in i])
+    query_dict.update(dict([(i,'') for i in queries if '=' not in i]))
+    return query_dict
 
 # XXX reinvent urlunquote
 def urlunquote(string):
