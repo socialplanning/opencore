@@ -2,7 +2,7 @@
   <body>
     <head>
       <title metal:fill-slot="title">
-        About&mdash;OpenPlans
+        About - OpenPlans
       </title>
     </head>
 
