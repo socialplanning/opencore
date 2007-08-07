@@ -39,28 +39,25 @@
                 <dd tal:define="not_used view/populate_project_lists;
                   pub_projs nocall:view/public_projects;
                   priv_projs nocall:view/private_projects" >
-                  <span class="oc-discreetText">visible to all:</span>
                   <tal:pub_projects condition="pub_projs">
+                    <span class="oc-discreetText">visible to all:</span>
                     <ul class="oc-inlineList">
                       <li tal:repeat="proj pub_projs"><a
                           tal:attributes="href proj/getURL"
                           tal:content="proj/Title" /></li>
                     </ul>
                   </tal:pub_projects>
-                  <tal:no_pub_projects condition="not:pub_projs">
-                    none
-                  </tal:no_pub_projects>
-                  <span class="oc-discreetText">visible only to team members:</span>
                   <tal:priv_projects condition="priv_projs">
+                  <span class="oc-discreetText">visible only to team members:</span>
                     <ul class="oc-inlineList">
                       <li tal:repeat="proj priv_projs"><a
                           tal:attributes="href proj/getURL"
                           tal:content="proj/Title" /></li>
                     </ul>
                   </tal:priv_projects>
-                  <tal:no_priv_projects condition="not:priv_projs">
+                  <tal:no_projects condition="python: not (pub_projs or priv_projs)">
                     none
-                  </tal:no_priv_projects>
+                  </tal:no_projects>
                 </dd>
               </tal:viewingself>
               <tal:notviewingself condition="not:view/viewingself">
