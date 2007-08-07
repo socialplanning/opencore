@@ -36,6 +36,13 @@ class TopNavView(HeaderHijackable):
             viewname = 'topnav-anon-user-menu'
         return self.get_view(viewname)
 
+    def siteroot_link(self, urn, name):
+        here = self.request.ACTUAL_URL.split('/')[-1]
+        selected = urn.split('/')[-1] == here
+        css = selected and ' class="oc-topnav-selected"' or ''
+        urn = '/'.join((self.siteURL, urn))
+        return '<li%s><a href="%s">%s</a></li>' % (css, urn, name)
+
 
 class MemberMenuView(BaseView):
     """
