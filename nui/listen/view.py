@@ -11,7 +11,7 @@ from opencore.nui.base import BaseView
 from Products.listen.interfaces import IMailingList
 from plone.memoize.view import memoize as req_memoize
 
-def make_nui_listen_view_class(ListenClass, set_errors=False):
+def make_nui_listen_view_class(ListenClass, set_errors=False, add_update=False):
     class NuiListenView(BaseView, ListenClass):
         # mask the property defined in any listen views
         context = None
@@ -42,13 +42,19 @@ def make_nui_listen_view_class(ListenClass, set_errors=False):
                     return ''
             return obj.Title()            
         
+        if add_update:
+            def update(self):
+                result = super(NuiListenView, self).update()
+                if self.status:
+                    self.addPortalStatusMessage(self.status)
+                return result
 
     return NuiListenView
 
 
 NuiMailingListView = make_nui_listen_view_class(MailingListView)
-NuiMailingListAddView = make_nui_listen_view_class(MailingListAddForm, set_errors=True)
-NuiMailingListEditView = make_nui_listen_view_class(MailingListEditForm, set_errors=True)
+NuiMailingListAddView = make_nui_listen_view_class(MailingListAddForm, set_errors=True, add_update=True)
+NuiMailingListEditView = make_nui_listen_view_class(MailingListEditForm, set_errors=True, add_update=True)
 NuiArchiveForumView = make_nui_listen_view_class(ArchiveForumView)
 NuiArchiveDateView = make_nui_listen_view_class(ArchiveDateView)
 NuiArchiveNewTopicView = make_nui_listen_view_class(ArchiveNewTopicView)

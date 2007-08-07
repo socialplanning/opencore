@@ -18,9 +18,6 @@
       <div id="oc-content-main" style="clear: both;">
         <form class="edit-form" method="post"
           tal:attributes="action request/URL">
-          <div class="summary" tal:condition="view/status"
-            tal:content="view/status">Status</div>
-
           <fieldset class="oc-boxy" tal:repeat="widget view/widgets">
             <label for="field.name" title="The widget's hint"
               tal:attributes="for widget/name; title widget/hint"
