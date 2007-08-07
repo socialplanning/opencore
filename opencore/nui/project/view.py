@@ -542,13 +542,12 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
                 # adding the two Message objects together creates a unicode
                 # type, must instantiate a new Message
                 email_msg += sender.constructMailMessage('mship_request_message')
-                email_vars.update(request_message=request_message)
+                email_vars.update(member_message=request_message)
                 email_msg = Message(email_msg, mapping=email_vars)
 
             mto = self.team.get_admin_ids()
 
             # XXX what do we do if there are no project admins?
-            # maybe we shouldn't allow the last project admin to leave a project?
             # for now, let's just catch a mailhosterror, and set a psm
             try:
                 sender.sendEmail(mto, msg=email_msg, **email_vars)
