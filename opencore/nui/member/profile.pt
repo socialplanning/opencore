@@ -16,7 +16,7 @@
             <metal:login-info use-macro="view/member_macros/macros/login-info" />
             <dl class="oc-member-info">
               <tal:fullname tal:define="fn memberdata/fullname" tal:condition="python:fn or view.viewingself()">
-                <dt>Full name
+                <dt>Name
                   <a tal:condition="view/viewingself" class="oc-actionLink"
                       href="profile-edit?field=fullname">Edit</a>
                 </dt>
@@ -98,7 +98,7 @@
                       favs   python: memberdata['favorites']   #instead use the following when tagger is ready: view.viewed_member_profile_tags('favorites');">
 
           <span tal:replace="structure python:
-            view.field_snippet(title='Personal Statement',
+            view.field_snippet(title='About',
                                value=memberdata.get('statement'),
                                anchor='statement')" />
           <span tal:replace="structure python:

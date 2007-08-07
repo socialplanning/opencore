@@ -161,13 +161,9 @@
       </div><!-- end #oc-content-main -->
       
       <div id="oc-content-sidebar">
-        <div class="oc-getstarted">
-          <h2>Why join?</h2>
-          <p>Here's why...<a href="">Learn more</a></p>
-        </div>
         <div class="oc-boxy">
-          <h2>Question</h2>
-          <p>Answer <br /><a href="">Learn more</a></p>
+          <h2>Already a member?</h2>
+          <a href="login">Log in</a>
         </div>
       </div><!-- end #oc-content-sidebar -->
 

@@ -82,7 +82,7 @@
                   </div>
                   <dl class="oc-plainList">
                     <tal:fullname tal:condition="mem/getFullname">
-                      <dt>Full name:</dt>
+                      <dt>Name:</dt>
                       <dd class="n" tal:content="mem/getFullname" />
                     </tal:fullname>
                     <tal:email tal:condition="python: view.get_tool('portal_membership').checkPermission('OpenPlans: View emails', context)">

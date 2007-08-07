@@ -11,7 +11,7 @@
             </div>
             <ul class="oc-plainList" style="width: 50%; float: right;">
                   <li tal:condition="not: view/loggedin">
-                    <a class="oc-banana" tal:attributes="href string:${context/portal_url}/join">Get started</a>
+                    <a class="oc-banana" tal:attributes="href string:${context/portal_url}/join">Join OpenPlans</a>
                   </li>
                   <li tal:condition="not: view/loggedin">
                     <a class="oc-banana" tal:attributes="href string:${context/portal_url}/about">Learn more</a>
