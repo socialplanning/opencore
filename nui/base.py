@@ -118,9 +118,11 @@ class BaseView(BrowserView):
         return msgs
 
     # XXX standardize
-    def addPortalStatusMessage(self, msg):
+    def add_status_message(self, msg):
         plone_utils = self.get_tool('plone_utils')
         plone_utils.addPortalMessage(_(msg))
+
+    addPortalStatusMessage = add_status_message
 
     # XXX not used
     def include(self, viewname):
