@@ -28,7 +28,7 @@ def handle_postcreation(event):
     request.set('__initialize_project__', None)
 
     # Fetch the values from request and store them.
-    instance.processForm()
+    instance.processForm(metadata=1)
 
     # We don't need this here. do we? DWM
     _initialize_project(instance, event.request)
