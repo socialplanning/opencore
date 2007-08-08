@@ -204,7 +204,7 @@ class AnonMenuView(BaseView):
     def menudata(self):
         menudata = (
 
-            {'content': 'Log In',
+            {'content': 'Sign in',
              'href': '%s/login' % self.siteURL,
              },
 
@@ -227,7 +227,7 @@ class AuthMenuView(BaseView):
         
         menudata = (
 
-            {'content': 'Log Out',
+            {'content': 'Sign out',
              'href': '%s/logout' % self.siteURL,
              },
 
