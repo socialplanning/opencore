@@ -407,7 +407,6 @@ dl.oc-plainList dd {
   width: 80px;
   height: 80px;
   overflow: hidden;
-  background: #eee;
   float: left;
   clear: none;
   margin-right: 1em;
@@ -809,7 +808,7 @@ a.oc-banana {
 	color: #fff !important;
 	text-decoration: none;
 	padding: 0.25em;
-	margin: 2em;
+	margin: 4em;
 	margin-bottom: 0.75em;
 	margin-top: 0;
 }
