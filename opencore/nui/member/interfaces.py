@@ -1,3 +1,4 @@
+# move to opencore.interfaces
 from zope.interface import Interface
 
 class ITransientMessage(Interface):
