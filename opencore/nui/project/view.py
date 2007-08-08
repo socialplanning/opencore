@@ -376,15 +376,14 @@ class ProjectPreferencesView(BaseView):
         title = strip_extra_whitespace(title)
         self.request.form['title'] = title
         if not valid_project_title(title):
-            self.errors['title'] = 'Project name must contain ' \
-              'at least 2 characters with at least 1 letter or number.'
+            self.errors['title'] = 'The project name must contain at least 2 characters with at least 1 letter or number.'
 
         if self.errors:
-            self.addPortalStatusMessage(u'Please correct the indicated errors.')
+            self.addPortalStatusMessage(u'Please correct the errors indicated below.')
             return
 
         self.context.processForm(REQUEST=self.request, metadata=1)
-        self.addPortalStatusMessage('Changes saved.')
+        self.addPortalStatusMessage('Your changes have been saved.')
         self.redirect(self.context.absolute_url())
 
 
@@ -444,19 +443,19 @@ class ProjectAddView(BaseView, OctopoLite):
         title = strip_extra_whitespace(title)
         self.request.form['title'] = title
         if not valid_project_title(title):
-            self.errors['title'] = 'Project name must contain ' \
+            self.errors['title'] = 'The project name must contain ' \
               'at least 2 characters with at least 1 letter or number.'
 
         id_ = self.request.form.get('id')
         if not valid_project_id(id_):
-            self.errors['id'] = 'Project url may only contain letters, numbers, hyphens, or underscores, with at least 1 letter or number'
+            self.errors['id'] = 'The project url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'
         else:
             id_ = putils.normalizeString(id_)
             if self.context.has_key(id_):
                 self.errors['id'] = 'The requested url is already taken.'
 
         if self.errors:
-            self.addPortalStatusMessage(u'Please correct the indicated errors.')
+            self.addPortalStatusMessage(u'Please correct the errors indicated below.')
             return
 
         proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
@@ -464,7 +463,7 @@ class ProjectAddView(BaseView, OctopoLite):
         #proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
             transaction_note('Started creation of project: %s' %title)
-            self.addPortalStatusMessage(u'Please correct the indicated errors.')
+            self.addPortalStatusMessage(u'Please correct the errors indicated below.')
             return 
 
         self.context.portal_factory.doCreate(proj, id_)
@@ -553,14 +552,11 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
             try:
                 for recipient in mto:
                     sender.sendEmail(recipient, msg=email_msg, **email_vars)
-                psm = (u'Your request to join the %s project has been sent to '
-                       'the project administrators.' % self.context.Title())
+                psm = (u'Your request to join "%s" has been sent to the project administrators.' % self.context.Title())
             except MailHostError:
-                psm = (u'Error sending email to project administrators.')
-
+                psm = (u'An error has occurred. Your message has not been sent to the project administrators.')
         else:
-            psm = (u"You are already either a pending or active member of "
-                   "the %s project." % self.context.Title())
+            psm = (u"You are already a pending or active member of %s." % self.context.Title())
         self.addPortalStatusMessage(psm)
         self.template = None # don't render the form before the redirect
         self.redirect(self.context.absolute_url())
@@ -861,7 +857,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                                  'effects':  'fadeIn'}
 
         plural = napproved != 1
-        self.addPortalStatusMessage(u'%d member%s approved' %
+        self.addPortalStatusMessage(u'You have added %d member%s.' %
                                     (napproved, plural and 's' or ''))
         if napproved:
             self.team.reindexTeamSpaceSecurity()
@@ -895,7 +891,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             sender.sendEmail(mem_id, msg=msg)
             self._add_deny_message_for(mem_id)
 
-        msg = u"Requests rejected: %s" % ', '.join(mem_ids)
+        msg = u"Requests denied: %s" % ', '.join(mem_ids)
         self.addPortalStatusMessage(msg)
         return dict( ((mem_id, {'action': 'delete'}) for mem_id in targets) )
 
@@ -910,7 +906,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         Deletes (or deactivates, if there's history to preserve) the
         membership objects.  Should send notifiers.
         """
-        mem_ids = targets
+        mem_ids = targetscoul
         wftool = self.get_tool('portal_workflow')
         wf_id = 'openplans_team_membership_workflow'
         deletes = []
@@ -1140,12 +1136,12 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
         search_for = self.request.form.get('search_for')
         if not search_for:
-            self.addPortalStatusMessage(u'Please enter search text')
+            self.addPortalStatusMessage(u'Please enter search text.')
             return
         results = searchForPerson(self.membranetool, search_for)
         results = [r for r in results if r.getId not in existing_ids]
         self.results = results
-        self.addPortalStatusMessage(u'%d members found' % len(results))
+        self.addPortalStatusMessage(u'%d members found.' % len(results))
 
 
     ##################
@@ -1180,7 +1176,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         """
         mem_id = targets[0] # should only be one
         if not self._doInviteMember(mem_id):
-            self.addPortalStatusMessage(u'%s cannot be invited' % mem_id)
+            self.addPortalStatusMessage(u'You cannot reinvite %s to join this project yet.' % mem_id)
             raise Redirect('%s/manage-team' % self.context.absolute_url())
 
         acct_url = self._getAccountURLForMember(mem_id)
@@ -1190,7 +1186,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                     }
         self.email_sender.sendEmail(mem_id, msg_id='invite_member',
                                     **msg_subs)
-        self.addPortalStatusMessage(u'%s invited' % mem_id)
+        self.addPortalStatusMessage(u'You invited %s to join this project.' % mem_id)
 
 
     ##################

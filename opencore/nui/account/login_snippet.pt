@@ -10,9 +10,8 @@
       tal:attributes="value view/request/referer" />
 
     <fieldset>
-      <h1>Login</h1> 
+      <h1>Sign in</h1> 
       <table class="oc-form">
-        <thead></thead>
         <tbody>
           <tr>
             <th class="oc-form-label" scope="row"><label for="__ac_name">Username </label></th>
