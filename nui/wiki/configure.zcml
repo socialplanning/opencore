@@ -38,9 +38,50 @@
     class="opencore.nui.wiki.view.WikiEdit"
     for="opencore.interfaces.IOpenPage"
     name="edit"
+    template="wiki-edit.pt"
     permission="cmf.ModifyPortalContent"
     />
 
+  <browser:page
+     class="opencore.nui.wiki.add.NuiContainerAdd"
+     for="opencore.interfaces.IProject"
+     permission="cmf.AddPortalContent"
+     name="add-page"
+     attribute="add_content"
+     />
+
+  <browser:page
+     class="opencore.nui.wiki.add.NuiPageAdd"
+     for="opencore.interfaces.IOpenPage"
+     permission="cmf.AddPortalContent"
+     name="add-page"
+     attribute="add_content"
+     />
+
+  <!-- placeholder view for lists -->
+  <browser:page
+     class="opencore.nui.wiki.add.ListsDummy"
+     for="opencore.interfaces.IProject"
+     permission="zope2.View"
+     name="lists"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IOpenPage"
+     name="link_renderer"
+     permission="zope2.View"
+     template="wicked_link.pt"
+     allowed_attributes="howmany
+			 multiple
+			 chunk
+			 singlelink
+			 links
+			 count"
+     class="Products.wicked.browser.link.BasicFiveLink"
+     />
+
+
+  <!-- versioning -->
   <browser:page
      class=".historyview.WikiVersionView"
      for="opencore.interfaces.IOpenPage"

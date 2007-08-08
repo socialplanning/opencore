@@ -79,10 +79,11 @@ Test wiki page registrations (logged in)::
     <...SimpleViewClass ...wiki/wiki_macros.pt object at ...>
     
     >>> page.restrictedTraverse('@@edit')
-    <Products.Five.metaclass.WikiEdit object at ...>
+    <...SimpleViewClass ...wiki-edit.pt object at ...>
 
 Make sure notallowed css class is not applied to edit tab
 since we do have permissions to edit::
+
     >>> html = page.restrictedTraverse('@@view')()
     >>> 'oc-notallowed' in html
     False
@@ -275,9 +276,9 @@ Now we should get a valid response
      >>> response = view()
 
 Test that we can create a page via wicked
-     >>> view = page.restrictedTraverse('@@wickedadd')
+     >>> view = page.restrictedTraverse('@@add-page')
      >>> view
-     <Products.Five.metaclass.WickedAdd object at ...>
+     <Products.Five.metaclass.NuiPageAdd object at ...>
 
      >>> request = self.portal.REQUEST 
      >>> request.form = {'Title' : 'newpage', 'section' : 'text'}
