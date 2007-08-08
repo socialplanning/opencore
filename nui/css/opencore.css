@@ -375,17 +375,16 @@ dl.oc-plainList dd {
   white-space: nowrap;
   overflow: hidden;
   border: 1px solid #ccc;
+  height: 80px;
+  overflow: hidden;
 }
 .oc-peopleresults-list .oc-avatar {
   width: 80px;
   height: 80px;
   overflow: hidden;
   float: left;
-  clear: none;
 }
 .oc-peopleresults-content {
-  float: left;
-  clear: none;
   white-space: normal;
   padding: 0.5em;
 }
