@@ -79,12 +79,15 @@ class AccountView(BaseView):
 
     def _sendmail_to_pendinguser(self, id, email, url):
         """ send a mail to a pending user """
-        ## XX todo only send mail if in the pending workflow state
+        # TODO only send mail if in the pending workflow state
         mailhost_tool = getToolByName(self.context, "MailHost")
 
         mfrom = self.portal.getProperty('email_from_address')
+
+        # TODO move this to a template for easier editting
+        message = """how are you %s?\ngo here: %s""" % (id, url)
         
-        mailhost_tool.send("how are you %s?\ngo here: %s" % (id, url),
+        mailhost_tool.send(message,
                            mto=email,
                            mfrom=mfrom,
                            subject='OpenPlans account registration')
