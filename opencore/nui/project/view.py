@@ -383,7 +383,7 @@ class ProjectPreferencesView(BaseView):
             self.addPortalStatusMessage(u'Please correct the indicated errors.')
             return
 
-        self.context.processForm(REQUEST=self.request)
+        self.context.processForm(REQUEST=self.request, metadata=1)
         self.addPortalStatusMessage('Changes saved.')
         self.redirect(self.context.absolute_url())
 
