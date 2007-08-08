@@ -1,0 +1,60 @@
+================================
+ Project Request Membership View
+================================
+
+First we set a project up w/ a membership invitation and a membership
+request so we've got some more useful data.
+
+    >>> proj = self.portal.projects.p3 # <-- m1 is ProjectAdmin
+    >>> team = proj.getTeams()[0]
+    >>> self.logout()
+    >>> self.login('m4') # <-- m4 not on team
+    >>> request = self.portal.REQUEST
+    >>> from opencore.nui.project.view import RequestMembershipView
+    >>> view = RequestMembershipView(proj, request)
+
+Set up the form data, and request membership
+    >>> view.request.form = {'request-message': 'i like your project'}
+    >>> view.request_membership()
+    >>> del view._redirected # necessary to display portal status message
+    >>> view.portal_status_message
+    [u'Your request to join the Project Three project has been sent to the project administrators.']
+
+Verify membership object is in the pending state now
+    >>> wft = view.get_tool('portal_workflow')
+    >>> mship = team._getOb('m4')
+    >>> wft.getInfoFor(mship, 'review_state')
+    'pending'
+
+Now, we simulate an admin rejecting
+    >>> self.logout()
+    >>> self.loginAsPortalOwner()
+    >>> wft.doActionFor(mship, 'reject_by_admin')
+    >>> wft.getInfoFor(mship, 'review_state')
+    'rejected_by_admin'
+
+Now that he's deactivated, he should be able to reinvite himself
+    >>> self.logout()
+    >>> self.login('m4')
+    >>> view.request_membership()
+    >>> del view._redirected # necessary to display portal status message
+    >>> view.portal_status_message
+    [u'Your request to join the Project Three project has been sent to the project administrators.']
+    >>> wft.getInfoFor(mship, 'review_state')
+    'pending'
+
+Simulate the user rejecting it
+    >>> wfid = 'openplans_team_membership_workflow'
+    >>> status = wft.getStatusOf(wfid, mship)
+    >>> status['review_state'] = 'rejected_by_owner'
+    >>> wft.setStatusOf(wfid, mship, status)
+    >>> wft.getInfoFor(mship, 'review_state')
+    'rejected_by_owner'
+
+And try to request a membership, one more time, from the owner rejected state
+    >>> view.request_membership()
+    >>> del view._redirected # necessary to display portal status message
+    >>> view.portal_status_message
+    [u'Your request to join the Project Three project has been sent to the project administrators.']
+    >>> wft.getInfoFor(mship, 'review_state')
+    'pending'
