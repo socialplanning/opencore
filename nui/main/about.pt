@@ -35,6 +35,10 @@
         <p>TOPP was born in 1999.</p>
       </div><!-- content-main -->
       <div id="oc-content-sidebar">
+        <div class="oc-getstarted">
+          <h2>Help!</h2>
+          <p>We're here to help you. If you have a question, <a tal:attributes="href string:${context/portal_url}/contact-site-admin">let us know</a>.</p>
+        </div>
         <div id="oc-contact" class="oc-boxy">
           <h2>Get in touch</h2>
             <address class="vcard">
@@ -70,10 +74,6 @@
                 <dd class="tel">646.390.2624</dd>
               </dl>
             </address>
-        </div>
-        <div class="oc-boxy">
-          <h2>Help!</h2>
-          <p>We're here to help you. If you have a question, <a tal:attributes="href string:${context/portal_url}/contact-site-admin">let us know</a>.</p>
         </div>
       </div>
     </div><!-- content-fill-slot -->
