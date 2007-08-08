@@ -65,7 +65,7 @@ class WikiEdit(WikiBase, OctopoLite):
         repo = self.context.portal.portal_repository
         repo.save(self.context, comment = self.request.form.get('comment', ''))
         self.context.reindexObject()
-        self.addPortalStatusMessage(u'Changes saved.')
+        self.addPortalStatusMessage(u'Your changes have been saved.')
 
         self.template = None
         self.redirect(self.context.absolute_url())
@@ -75,7 +75,7 @@ class WikiEdit(WikiBase, OctopoLite):
         attachmentFile = self.request.form.get('attachmentFile')
         
         if not attachmentFile:
-            self.errors = {'attachmentFile' : 'you forgot to upload something'}
+            self.errors = {'attachmentFile' : 'You forgot to upload something.'}
             return None 
         
         # Make sure we have a unique file name
@@ -241,7 +241,7 @@ class AttachmentView(BaseView):
         attachmentFile = self.request.form.get('attachmentFile', None)
         
         if not attachmentFile:
-            self.errors = {'attachmentFile' : 'you forgot to upload something'}
+            self.errors = {'attachmentFile' : 'You forgot to upload something.'}
             return None 
         
         # Make sure we have a unique file name

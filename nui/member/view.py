@@ -303,14 +303,14 @@ class MemberAccountView(BaseView, OctopoLite):
         if not self._can_leave(proj_id): return False
 
         if self._is_only_admin(proj_id):
-            only_admin_msg = 'You are the only admin. You cannot leave this project'
+            only_admin_msg = "You are the only remaining administrator. You can't leave this project without appointing another."
             self.addPortalStatusMessage(only_admin_msg)
             return False
 
         if self._apply_transition_to(proj_id, 'deactivate'):
             return True
         else:
-            self.addPortalStatusMessage('Cannot leave project')
+            self.addPortalStatusMessage('You cannot leave this project.')
             return False
 
     def change_visibility(self, proj_id, to=None):
@@ -460,7 +460,6 @@ class MemberAccountView(BaseView, OctopoLite):
         proj_id = targets[0]
         # XXX do we notify anybody (proj admins) when a mship has been denied?
         if not self._apply_transition_to(proj_id, 'reject_by_owner'):
-            self.addPortalStatusMessage('Invalid workflow transition')
             return {}
         elt_id = '%s_invitation' % proj_id
         return {elt_id: dict(action='delete'),
@@ -474,7 +473,6 @@ class MemberAccountView(BaseView, OctopoLite):
         proj_id = targets[0]
         # XXX do we notify anybody (proj admins) when a mship has been denied?
         if not self._apply_transition_to(proj_id, 'reject_by_owner'):
-            self.addPortalStatusMessage('Invalid workflow transition')
             return {}
         elt_id = '%s_invitation' % proj_id
         return {elt_id: dict(action='delete'),
@@ -526,20 +524,20 @@ class MemberAccountView(BaseView, OctopoLite):
 
         if not member.verifyCredentials({'login': mem_id,
                                         'password': passwd_curr}):
-            self.addPortalStatusMessage('XXX - Invalid old password')
+            self.addPortalStatusMessage('Please check the old password you entered.')
             return
 
         if self.validate_password_form(password, password2, member):
 
             member._setPassword(password)
-            self.addPortalStatusMessage('Your password has been changed')
+            self.addPortalStatusMessage('Your password has been changed.')
 
     def nupdates(self):
         return len(self.infomsgs) + len(self.invitations())
 
     @property
     def invitation_actions(self):
-        return ['Accept', 'Deny', 'Ignore']
+        return ['Accept', 'Deny']
 
     @action("change-email")
     def change_email(self, target=None, fields=None):
@@ -548,7 +546,7 @@ class MemberAccountView(BaseView, OctopoLite):
         hide_email = bool(self.request.form.get('hide_email'))
 
         if not email:
-            self.addPortalStatusMessage('Please enter your new email address in the text field')
+            self.addPortalStatusMessage('Please enter your new email address.')
             return
 
         mem = self.loggedinmember
@@ -567,7 +565,7 @@ class MemberAccountView(BaseView, OctopoLite):
             return
 
         mem.setEmail(email)
-        self.addPortalStatusMessage('Email successfully changed')
+        self.addPortalStatusMessage('Your email address has been changed.')
 
 
     role_map = {'ProjectAdmin':  'administrator',
