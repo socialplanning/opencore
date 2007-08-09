@@ -19,19 +19,19 @@ Try setting some invalid titles::
     >>> view.request.form['title'] = ""
     >>> out = view.handle_request()
     >>> view.errors
-    {'title': 'Project name must contain at least 2 characters with at least 1 letter or number.'}
+    {'title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
     >>> view.errors = {}
 
     >>> view.request.form['title'] = "1"
     >>> out = view.handle_request()
     >>> view.errors
-    {'title': 'Project name must contain at least 2 characters with at least 1 letter or number.'}
+    {'title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
     >>> view.errors = {}
 
     >>> view.request.form['title'] = "!@#$%"
     >>> out = view.handle_request()
     >>> view.errors
-    {'title': 'Project name must contain at least 2 characters with at least 1 letter or number.'}
+    {'title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
     >>> view.errors = {}
 
 How about an invalid id?::
@@ -39,14 +39,14 @@ How about an invalid id?::
     >>> view.request.form['id'] = ''
     >>> out = view.handle_request()
     >>> view.errors
-    {'id': 'Project url may only contain letters, numbers, hyphens, or underscores, with at least 1 letter or number'}
+    {'id': 'The project url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'}
     >>> view.errors = {}
 
 And, another invalid id::
     >>> view.request.form['id'] = 'abcd1-_+'
     >>> out = view.handle_request()
     >>> view.errors
-    {'id': 'Project url may only contain letters, numbers, hyphens, or underscores, with at least 1 letter or number'}
+    {'id': 'The project url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'}
     >>> view.errors = {}
 
 Now, a valid title and id::
@@ -91,7 +91,7 @@ Try setting a bogus title::
     >>> view.request.form['title'] = '?'
     >>> out = view.handle_request()
     >>> view.errors
-    {'title': 'Project name must contain at least 2 characters with at least 1 letter or number.'}
+    {'title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
     >>> view.errors = {}
 
 Now set a valid title::

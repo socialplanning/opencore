@@ -230,8 +230,8 @@ Call it with no arguments
      Traceback (most recent call last):
      ...
      Redirect: http://nohost/plone/projects/p1/project-home/history
-     >>> 'You did not check any versions in the version compare form' in view.portal_status_message
-     True
+     >>> view.portal_status_message
+     [u'Please choose the two versions you would like to compare.']
 
 Reset the request
      >>> request = view.request.form = {}
@@ -242,8 +242,8 @@ Try it with just one argument
      Traceback (most recent call last):
      ...
      Redirect: http://nohost/plone/projects/p1/project-home/history
-     >>> 'You did not check enough versions in the version compare form' in view.portal_status_message
-     True
+     >>> view.portal_status_message
+     [u'Please choose the two versions you would like to compare.']
 
 Try with 2 arguments, but the versions don't exist
      >>> request['version_id'] = ['0', '1']
@@ -251,8 +251,8 @@ Try with 2 arguments, but the versions don't exist
      Traceback (most recent call last):
      ...
      Redirect: http://nohost/plone/projects/p1/project-home/history
-     >>> 'Invalid version specified' in view.portal_status_message
-     True
+     >>> view.portal_status_message
+     [u'Please choose a valid version.']
 
 Try with more than 2 versions
      >>> request['version_id'] = ['0', '1', '2']
@@ -260,8 +260,8 @@ Try with more than 2 versions
      Traceback (most recent call last):
      ...
      Redirect: http://nohost/plone/projects/p1/project-home/history
-     >>> 'You may only check two versions in the version compare form' in view.portal_status_message
-     True
+     >>> view.portal_status_message
+     [u'Please choose only two versions to compare.']
 
 Now edit 2 pages, so we can try a valid compare later
      >>> request['version_id'] = ['0', '1']

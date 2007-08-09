@@ -67,7 +67,7 @@ Exercise the Member Account Class
     >>> view.leave_project('p2')
     False
     >>> view.portal_status_message
-    [u'Cannot leave project']
+    [u'You cannot leave this project.']
 
     We have to login as m1 to get the modify portal content permission,
     giving us access to the workflow transition
@@ -200,7 +200,7 @@ it, and return an appropriate portal status message
     >>> view.leave_project('p3')
     False
     >>> view.portal_status_message
-    [u'You are the only admin. You cannot leave this project']
+    [u"You are the only remaining administrator. You can't leave this project without appointing another."]
 
     Even if we are in the private state
     >>> view.change_visibility('p3')
@@ -208,7 +208,7 @@ it, and return an appropriate portal status message
     >>> view.leave_project('p3')
     False
     >>> view.portal_status_message
-    [u'You are the only admin. You cannot leave this project']
+    [u"You are the only remaining administrator. You can't leave this project without appointing another."]
 
     >>> project_dicts = view.invitations()
     >>> [d['proj_id'] for d in project_dicts]
@@ -218,7 +218,7 @@ it, and return an appropriate portal status message
     request
 
     >>> view.invitation_actions
-    ['Accept', 'Deny', 'Ignore']
+    ['Accept', 'Deny']
 
 Let's accept our gracious invitation
 
@@ -300,7 +300,7 @@ Let's also reject an invitation extended to us::
     >>> view.deny_handler(['p2'])
     {}
     >>> view.portal_status_message
-    [u'Invalid workflow transition']
+    []
 
 Check that changing passwords works
 
@@ -310,7 +310,7 @@ Check that changing passwords works
     Let's check without setting any fields
     >>> view.change_password()
     >>> view.portal_status_message
-    [u'XXX - Invalid old password']
+    [u'Please check the old password you entered.']
 
     Now we set the old password to what it should be,
     so that we get different portal status messages
@@ -346,14 +346,14 @@ Check that changing passwords works
     >>> request['password2'] = 'testy'
     >>> view.change_password()
     >>> view.portal_status_message
-    [u'Your password has been changed']
+    [u'Your password has been changed.']
 
     And finally, the last hoorah!
     >>> request['password'] = 'hoorah'
     >>> request['password2'] = 'hoorah'
     >>> view.change_password()
     >>> view.portal_status_message
-    [u'Your password has been changed']
+    [u'Your password has been changed.']
 
 Members can also change their email address with this view
 It's talented, isn't it?
@@ -364,7 +364,7 @@ It's talented, isn't it?
     With no email set, we should get an error portal status message
     >>> view.change_email()
     >>> view.portal_status_message
-    [u'Please enter your new email address in the text field']
+    [u'Please enter your new email address.']
 
     Upon setting an invalid email, we get an appropriate message
     >>> request['email'] = 'foobarbazquux'
@@ -404,7 +404,7 @@ It's talented, isn't it?
     >>> request['email'] = 'foobarbazquux@example.com'
     >>> view.change_email()
     >>> view.portal_status_message
-    [u'Email successfully changed']
+    [u'Your email address has been changed.']
 
     And let's check the member's email, which should be changed to the new one
     >>> mem.getEmail()
@@ -428,7 +428,7 @@ It's talented, isn't it?
     >>> psms[0]
     u'Default email is anonymous'
     >>> psms[1]
-    u'Email successfully changed'
+    u'Your email address has been changed.'
 
     And the member object should have changed
     >>> mem.getEmail()

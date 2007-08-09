@@ -906,7 +906,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         Deletes (or deactivates, if there's history to preserve) the
         membership objects.  Should send notifiers.
         """
-        mem_ids = targetscoul
+        mem_ids = targets
         wftool = self.get_tool('portal_workflow')
         wf_id = 'openplans_team_membership_workflow'
         deletes = []
