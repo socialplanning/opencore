@@ -110,7 +110,7 @@ class EmailSender(object):
                 recips.append(recip)
 
         if mfrom is None:
-            mfrom = view.member_info.get('email')
+            mfrom = view.portal.getProperty('email_from_address')
         else:
             mfrom = self.toEmailAddress(mfrom)
         self.mailhost.send(str(translate(msg)), recips, mfrom, subject)
