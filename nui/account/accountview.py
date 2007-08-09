@@ -204,7 +204,7 @@ class LoginView(AccountView):
             session.invalidate()
 
     def privs_redirect(self):
-        self.add_status_message("Insufficient Privileges")
+        self.add_status_message("You don't have permission to do that.")
         if not self.loggedin:
             self.redirect(self.login_url)
             
