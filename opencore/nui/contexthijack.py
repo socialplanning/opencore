@@ -21,13 +21,15 @@ class HeaderHijackable(BaseView):
         self.request = request
         self.original_context = context
         
-        if self.context_from_headers:
-            BaseView.__init__(self, self.context_from_headers,
-                              request)
-        else:
-            BaseView.__init__(self, context, request)
+        BaseView.__init__(self, context, request)
 
-    @view.mcproperty
+    def _get_context(self):
+        return self.context_from_headers or self.original_context
+    def _set_context(self, ctx):
+        self.original_context = ctx
+    context = property(_get_context, _set_context)
+
+    @property
     def context_from_headers(self):
         if self.person_folder_from_headers:
             return self.person_folder_from_headers
@@ -36,7 +38,7 @@ class HeaderHijackable(BaseView):
         else:
             return None
 
-    @view.mcproperty
+    @property
     def project_from_headers(self):
         name = self.request.get_header(OP_PROJECT_HEADER)
         if not name:
@@ -51,7 +53,7 @@ class HeaderHijackable(BaseView):
 
         return None
 
-    @view.mcproperty
+    @property
     def person_folder_from_headers(self):
         name = self.request.get_header(OP_PERSON_HEADER)
 
