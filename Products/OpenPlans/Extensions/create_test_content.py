@@ -47,7 +47,12 @@ members_map = {'m1':{'fullname':'Member One',
 def create_test_content(self, p_map=None, m_map=None):
     """ populates an openplans site w/ dummy test content """
     portal = getToolByName(self, 'portal_url').getPortalObject()
-    portal.manage_changeProperties(email_from_address='info@localhost')
+
+    # XXX this shouldn't be necessary, as its already set in install
+    # XXX this should probably be removed
+    # from Products.OpenPlans import config
+    # portal.manage_changeProperties(email_from_address=config.SITE_FROM_ADDRESS)
+
     mdc = getToolByName(self, 'portal_memberdata')
     mdc.unit_test_mode = True # suppress registration emails
     tm_tool = getToolByName(self, 'portal_teams')
