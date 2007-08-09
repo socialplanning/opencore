@@ -9,10 +9,10 @@
       </div><!-- end #content-main --> 
 
       <div id="oc-content-sidebar">
-        <div class="oc-boxy oc-getstarted">
-          <h2>First time here?</h2>
-          <p>There are many benefits to joining OpenPlans, we should probably explain a few of them here.</p>
-          <p><a href="join">Create an account</a></p>
+        <div class="oc-getstarted">
+          <h2>New users</h2>
+          <p>Whether your group is mobilizing voters, planning a protest, or growing a garden, OpenPlans can help you become more effective.</p>
+          <a href="join" class="oc-banana">Join OpenPlans</a>
         </div>
       </div><!-- end #content-sidebar -->
 
