@@ -157,14 +157,14 @@ def installWorkflowPolicies(portal, out):
             new_pol = getattr(pwf_tool, pol_id)
             new_pol.setTitle(pol['title'])
             new_pol.setDescription(pol['description'])
-            new_pol.setDescription(pol['description'])
             new_pol.setDefaultChain(pol['default'])
+            # first we explicitly copy the default chains
+            for chain in default_chains:
+                new_pol.setChain(chain['id'],chain['chain'])
+            # then we override them w/ any custom settings we want
             for p_type, chain in pol['types'].items():
                 new_pol.setChain(p_type, chain)
-            # Set policy based on portal defaults
-            if not pol['types']:
-                for chain in default_chains:
-                    new_pol.setChain(chain['id'],chain['chain'])
+
 
 def getDefaultChains(portal):
     pwf = getToolByName(portal, 'portal_workflow')
