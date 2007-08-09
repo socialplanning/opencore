@@ -507,15 +507,15 @@ class BaseView(BrowserView):
             id = member
             member = self.get_tool("membrane_tool")(getUserName=id)
             if not member:
-                self.addPortalStatusMessage("member '%s' does not exist" % id)
+                self.addPortalStatusMessage('There is no member named "%s".' % id)
                 return False
             member = member[0].getObject()
 
         if not password or not password2:
-            self.addPortalStatusMessage("you must enter a password.")
+            self.addPortalStatusMessage("You must enter a password.")
             return False
         if password != password2:
-            self.addPortalStatusMessage("passwords don't match")
+            self.addPortalStatusMessage("Please make sure that both password fields are the same.")
             return False
         msg = member.validate_password(password)
         if msg:
