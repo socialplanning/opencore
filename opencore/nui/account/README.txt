@@ -95,7 +95,7 @@ Now try non-matching passwords:
     >>> view.validate_password_form('wordy', 'werdy', 'test_user_1_')
     False
     >>> view.portal_status_message
-    [u"passwords don't match"]
+    [u'Please make sure that both password fields are the same.']
 
 Test doing the reset:
 
