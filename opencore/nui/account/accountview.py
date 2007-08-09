@@ -120,7 +120,7 @@ class LoginView(AccountView):
 
         id_ = self.request.get('__ac_name')
         if self.loggedin:
-            self.addPortalStatusMessage('Welcome! You have signed in')
+            self.addPortalStatusMessage('Welcome! You have signed in.')
             self.update_credentials(id_)
             self.membertool.setLoginTimes()
 
