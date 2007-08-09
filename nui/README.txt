@@ -222,3 +222,30 @@ Add a closed project, and the number of total projects should update (footer)
    >>> self.logout()
    >>> view.projects_served_count()
    6
+
+
+
+Title or id for items metadata
+------------------------------
+
+Old attachment have no titles thereby do not work in the contents
+view::
+
+   >>> self.loginAsPortalOwner()
+   >>> from opencore.nui.indexing import metadata_for_portal_content
+   >>> from opencore.nui.indexing import metadata_for_brain
+   >>> id_ = self.homepage.invokeFactory('FileAttachment', id='someid')
+   >>> self.homepage.someid.Title()
+   ''
+
+The title is accessed 2 ways, via direct access of the object and
+catalog brain::
+
+   >>> catalog = self.portal.portal_catalog
+   >>> metadata_for_portal_content(self.homepage.someid, catalog)['Title']
+   'someid'
+
+   >>> brain = catalog(getId=id_)[0]
+   >>> metadata_for_brain(brain)['Title']
+   'someid'
+   
