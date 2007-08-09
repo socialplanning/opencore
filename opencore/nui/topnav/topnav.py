@@ -139,7 +139,18 @@ class ProjectMenuView(BaseView):
              'href': contents_url,
              'selected': self.request.ACTUAL_URL == contents_url,
              },
+            )
 
+        for flet in featurelets:
+            menudata += (
+                {'content': flet.get('title'),
+                 'href': '%s/%s' % (proj_url,
+                                    flet.get('url')),
+                 'selected': self.is_flet_selected(flet)
+                 },
+                )
+
+        menudata += (
             {'content': 'Team',
              'href': team_url,
              'selected': self.request.ACTUAL_URL == team_url,
@@ -152,22 +163,10 @@ class ProjectMenuView(BaseView):
                  'href': manage_team_url,
                  'selected': self.request.ACTUAL_URL == manage_team_url,
                  },
-                )
 
-        if self.membertool.checkPermission(ModifyPortalContent, proj):
-            menudata += (
                 {'content': 'Preferences',
                  'href': prefs_url,
                  'selected': self.request.ACTUAL_URL == prefs_url,
-                 },
-                )
-
-        for flet in featurelets:
-            menudata += (
-                {'content': flet.get('title'),
-                 'href': '%s/%s' % (proj_url,
-                                    flet.get('url')),
-                 'selected': self.is_flet_selected(flet)
                  },
                 )
 
