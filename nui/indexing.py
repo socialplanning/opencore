@@ -1,3 +1,4 @@
+from Missing import Value as MissingValue
 from Acquisition import aq_parent
 from Products.CMFCore.interfaces._content import IDynamicType
 from Products.CMFCore.interfaces._tools import ICatalogTool
@@ -125,6 +126,8 @@ def metadata_for_brain(brain):
     catalog = aq_parent(brain)
     metadata = catalog.getMetadataForRID(rid)
     metadata['getURL']=brain.getURL()
+    if not metadata['Title']:
+        metadata['Title']=metadata['getId']
     return metadata
 
 @adapter(IDynamicType, ICatalogTool)
@@ -133,6 +136,8 @@ def metadata_for_portal_content(context, catalog):
     uid = '/'.join(context.getPhysicalPath())
     metadata = catalog.getMetadataForUID(uid)
     metadata['getURL']=context.absolute_url()
+    if hasattr(context, 'title_or_id'):
+        metadata['Title'] = context.title_or_id()
     return metadata
 
 class MailingListThreadCount(object):
