@@ -60,7 +60,7 @@ If no key is set, we taunt you craxorz::
     >>> view.key
     Traceback (innermost last):
     ...
-    Forbidden: You fool! The Internet Police have already been notified of this incident. Your IP has been confiscated.
+    Forbidden: Your password reset key is invalid. Please verify that it is identical to the email and try again.
 
 But if a key is set, we can use it::
 
@@ -399,7 +399,7 @@ This is not the view
 
 This is the old skin which redirects to the login page.
 
-    >>> 'Hey!' in output
+    >>> 'Please sign in to continue.' in output
     True
 
 Remove test_user_1_
