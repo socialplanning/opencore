@@ -229,6 +229,19 @@ class ProjectContentsView(BaseView, OctopoLite):
         """
         delete the objects referenced by the list of brains passed in.
         returns ([deleted_ids], [failed_nondeleted_ids])
+
+        nowhere does this view code explicitly check that the requesting
+        user has delete privileges on the objects that are to be deleted;
+        instead it relies on the assumption that the manage_delObjects
+        method will perform those security checks. this is true for the
+        content types we have, but is not guaranteed to be the case, and
+        the view code is trusted, so it would be more conservative to check
+        for proper delete permissions right here in the view code. on the
+        other hand, this would then mean that the same security check is
+        performed twice for all objects that happen to do the check in the
+        manage_delObjects code, which is currently all of our objects.
+
+        so, most likely, i imagine that awareness of the issue is sufficient.
         """
         parents = {}
         collateral_damage = {}
