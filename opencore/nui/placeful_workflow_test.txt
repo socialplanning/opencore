@@ -1,0 +1,27 @@
+Make a new project::
+    >>> self.logout()
+    >>> self.login('m1')
+    >>> view = self.portal.projects.restrictedTraverse('create')
+    >>> view
+    <Products.Five.metaclass.ProjectAddView object at ...>
+    >>> request = view.request.form
+    >>> request.update(
+    ...   id='newproject',
+    ...   title='new project',
+    ...   workflow_policy='closed_policy',
+    ...   )
+    >>> view.handle_request()
+    >>> self.portal.projects.newproject
+    <OpenProject at /plone/projects/newproject>
+
+Log out and query for the project as anonymous user (shouldn't show up)::
+    >>> self.logout()
+    >>> proj_query_results = view.catalog(portal_type='OpenProject', id='newproject')
+    >>> [b.getId for b in proj_query_results]
+    []
+
+Now query for the mship as anonymous user... also shouldn't show up::
+    >>> path = '/plone/portal_teams/newproject'
+    >>> mship_query_results = view.catalog(portal_type='OpenMembership', id='m1', path=path)
+    >>> [b.getId for b in mship_query_results]
+    []
