@@ -40,7 +40,17 @@ def test_suite():
 
     readme.layer = test_layer
 
+    placeful_workflow = FunctionalDocFileSuite("placeful_workflow_test.txt",
+                                               optionflags=optionflags,
+                                               package='opencore.nui',
+                                               test_class=OpenPlansTestCase,
+                                               globs = globs,
+                                               setUp=readme_setup
+                                               )
+
+    placeful_workflow.layer = test_layer
     return unittest.TestSuite((readme, octotest()))
+    #return unittest.TestSuite((readme, octotest(), placeful_workflow))
 
 
 if __name__ == '__main__':
