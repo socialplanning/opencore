@@ -125,7 +125,7 @@
         </ul>
       </fieldset>
     </form>
-    <form class="oc-js-expander oc-expander" action="account">
+    <form class="oc-js-expander oc-expander" action="account" method="post">
       <fieldset>
         <legend class="oc-legend-label">
           <a href="#" class="oc-js-expander_open oc-expanderLink">Change password</a>
