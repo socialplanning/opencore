@@ -159,7 +159,7 @@ def installWorkflowPolicies(portal, out):
             new_pol.setDescription(pol['description'])
             new_pol.setDescription(pol['description'])
             new_pol.setDefaultChain(pol['default'])
-            for p_type, chain in pol['types']:
+            for p_type, chain in pol['types'].items():
                 new_pol.setChain(p_type, chain)
             # Set policy based on portal defaults
             if not pol['types']:
