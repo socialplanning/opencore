@@ -1,48 +1,60 @@
 from opencore.i18n import _
 
-invite_member = _(u"""Subject: OpenPlans project invitation
+invite_member = _(u"""Subject: OpenPlans - Invitation to join ${project_title}
 
-You've been invited to join the ${project_title} project on OpenPlans.org.  Please visit your account page (${account_url}) to accept or decline the invitation.
+You have been invited to join "${project_title}".  Please visit your account page to accept or decline the invitation: ${account_url}
 """)
 
-remind_invitee = _(u"""Subject: OpenPlans project invitation reminder
+remind_invitee = _(u"""Subject: OpenPlans - Invitation to join ${project_title}
 
-This is a reminder that you've been invited to join the ${project_title} project on OpenPlans.org.  Please visit your account page (${account_url}) to accept or decline the invitation.
+This is a reminder that you've been invited to join "${project_title}" on OpenPlans.  Please visit your account page to accept or decline the invitation: ${account_url}
 """)
 
-request_approved = _(u"""Subject: OpenPlans project membership approval
+request_approved = _(u"""Subject: OpenPlans - Welcome to ${project_title}
 
-Your request for membership in the ${project_title} project on OpenPlans.org has been approved.
+Your request to join "${project_title}" on OpenPlans has been approved.
 """)
 
-request_denied = _(u"""Subject: OpenPlans project membership denied
+request_denied = _(u"""Subject: OpenPlans - Your request to join ${project_title}
 
-Your request for membership in the ${project_title} project on OpenPlans.org has been denied.
+Your request to join "${project_title}" on OpenPlans has been denied.
 """)
 
-invitation_retracted = _(u"""Subject: OpenPlans project invitation retracted
+invitation_retracted = _(u"""Subject: OpenPlans - Invitation to join  ${project_title}
 
-The invitation extended to you to join the ${project_title} project on OpenPlans.org has been retracted.
+The invitation extended to you to join "${project_title}" on OpenPlans has been revoked.
 """)
 
-membership_deactivated = _(u"""Subject: OpenPlans project membership deactivated
+membership_deactivated = _(u"""Subject: OpenPlans - Membership deactivated for ${project_title}
 
-Your membership in the ${project_title} project on OpenPlans.org has been deactivated.
+You are no longer a member of "${project_title}" on OpenPlans.
 """)
 
-membership_requested = _(u"""Subject: OpenPlans project membership request
+membership_requested = _(u"""Subject: OpenPlans - Request to join ${project_title}
 
-The ${member_id} member has requested membership in the ${project_title} project.  Please visit the project team management screen (${team_manage_url}) to approve or deny this request.
+${member_id} would like to get involved with "${project_title}".
+
+To approve or deny this request please visit the project's team management screen: ${team_manage_url}
 """)
 
 mship_request_message = _(u"""
 
-${member_id} has included the following message:
+${member_id} included the following message:
 
-${member_message}
+"${member_message}"
 """)
 
-invite_email = _(u"""Subject: OpenPlans membership invitation
+invite_email = _(u"""Subject: OpenPlans - Invitation to join ${project_title}
 
-You've been invited to join the ${project_title} project on OpenPlans.org.  To accept this invitation, please visit ${join_url} and create an account.
+You have been invited to join "${project_title}" on OpenPlans.
+
+If you would like to get involved, set up an OpenPlans account: ${join_url}
+
+OpenPlans is a free toolset for social change. With OpenPlans, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks.
+
+We hope you'll take OpenPlans for a spin.
+
+Cheers,
+The OpenPlans Team
+www.openplans.org
 """)

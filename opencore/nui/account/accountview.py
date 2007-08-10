@@ -85,12 +85,22 @@ class AccountView(BaseView):
         mfrom = self.portal.getProperty('email_from_address')
 
         # TODO move this to a template for easier editting
-        message = """how are you %s?\ngo here: %s""" % (id, url)
+        message = """You recently signed up to use OpenPlans.org. 
+
+Please confirm your email address at the following site: %s
+
+If you cannot click on the link, you can cut and paste it into your browser's address bar.
+
+Once you have confirmed, you can start using OpenPlans. 
+
+Cheers,
+The OpenPlans Team
+www.openplans.org""" % (id, url)
         
         mailhost_tool.send(message,
                            mto=email,
                            mfrom=mfrom,
-                           subject='OpenPlans account registration')
+                           subject='Welcome to OpenPlans! Ð Confirm your email')
 
 
 class LoginView(AccountView):
@@ -259,7 +269,7 @@ class JoinView(AccountView, OctopoLite):
             self._sendmail_to_pendinguser(id=mem_id,
                                           email=self.request.get('email'),
                                           url=url)
-            self.addPortalStatusMessage(u'Thanks for joining OpenPlans, %s! A confirmation email has been sent to you. Please follow the enclosed link to activate your account.' % mem_id)
+            self.addPortalStatusMessage(u'Thanks for joining OpenPlans, %s!\nA confirmation email has been sent to you with instructions on activating your account.' % mem_id)
             self.redirect(self.portal_url())
             return mdc._getOb(mem_id)
         else:
@@ -399,7 +409,7 @@ class ForgotLoginView(AccountView):
             host = self.get_tool('MailHost')
             host.send(mail_text,
                       mfrom=mfrom,
-                      subject='OpenPlans password reset',
+                      subject='OpenPlans - Password reminder',
                       mto=[email]
                       )
         except SMTPRecipientsRefused:
