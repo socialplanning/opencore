@@ -95,7 +95,7 @@ Once you have confirmed, you can start using OpenPlans.
 
 Cheers,
 The OpenPlans Team
-www.openplans.org""" % (id, url)
+www.openplans.org""" % url
         
         mailhost_tool.send(message,
                            mto=email,
