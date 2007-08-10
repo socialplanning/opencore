@@ -2,6 +2,8 @@ import re
 import urllib
 import string
 
+from topp.utils.detag import detag
+
 from zope import event
 from zope.component import getMultiAdapter
 from zope.component import getUtility
@@ -557,7 +559,7 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
                 # adding the two Message objects together creates a unicode
                 # type, must instantiate a new Message
                 email_msg += sender.constructMailMessage('mship_request_message')
-                email_vars.update(member_message=request_message)
+                email_vars.update(member_message=detag(request_message))
                 email_msg = Message(email_msg, mapping=email_vars)
 
             mto = self.team.get_admin_ids()
