@@ -546,7 +546,9 @@ a.oc-wiki-wickedadd,
 a.wickedadd {
   color: red;
 }
-
+#oc-wiki-viewAttachments {
+  clear: both;
+}
 /* History */
 
 .oc-wiki-history-item {
