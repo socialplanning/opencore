@@ -237,7 +237,7 @@ We need to make the request a POST::
 
     >>> request.environ["REQUEST_METHOD"] = "POST"
     >>> view.membertool.getMemberById('foobar')
-    >>> view()
+    >>> unicode(view())
     u'...<!-- join form -->...'
     >>> view.membertool.getMemberById('foobar')
     <OpenMember at /plone/portal_memberdata/foobar...>
