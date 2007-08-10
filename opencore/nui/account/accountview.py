@@ -260,6 +260,7 @@ class JoinView(AccountView, OctopoLite):
                                           email=self.request.get('email'),
                                           url=url)
             self.addPortalStatusMessage(u'Thanks for joining OpenPlans, %s! A confirmation email has been sent to you. Please follow the enclosed link to activate your account.' % mem_id)
+            self.redirect(self.portal_url())
             return mdc._getOb(mem_id)
         else:
             return self.redirect(url)
