@@ -79,7 +79,7 @@
                 </div><!-- end expander-content -->
               </div><!-- end expander -->
               
-            <div class="oc-js-expander">
+            <div class="oc-js-expander oc-expander">
               <h2 class="oc-bigText"><a href="#oc-wiki-manageAttachments" class="oc-js-expander_open oc-expanderLink">Manage attachments</a></h2>
 
               <div class="oc-js-expander-content">
