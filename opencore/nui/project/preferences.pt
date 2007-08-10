@@ -90,16 +90,16 @@
 
             <fieldset class="oc-boxy">
               <legend class="oc-legend-heading oc-biggerText">Tools</legend>
-              <ul class="oc-form-radiolist" tal:define="featurelets python:[f['name'] for f in proj['featurelets']]">
+              <ul class="oc-form-radiolist">
                 <li>
                   <input type="checkbox" class="oc-input-typeCheck oc-warn-popup" id="tasktracker" name="featurelets:list" value="tasks"
-                    tal:attributes="checked python: 'tasktracker' in featurelets and 'checked' or ''" />
+                    tal:attributes="checked python:view.has_task_tracker" />
                   <label for="tasktracker">Task Tracker</label>
                   <!-- <p class="oc-form-context">An extensive to-do list manager that makes it easy to share tasks and get things done.</p> -->
                 </li>
                 <li>
                   <input type="checkbox" class="oc-input-typeCheck oc-warn-popup" id="listen" name="featurelets:list" value="listen"
-                    tal:attributes="checked python: 'listen' in featurelets and 'checked' or ''" />
+                    tal:attributes="checked python:view.has_mailing_lists" />
                   <label for="listen">Mailing lists</label>
                   <!-- <p class="oc-form-context">Email and forum-based discussion spaces.</p> -->
                 </li>

@@ -72,7 +72,25 @@ class vdict(dict):
         return key
 
 
-class ProjectContentsView(BaseView, OctopoLite):
+class ProjectBaseView(BaseView):
+
+    @memoizedproperty
+    def has_mailing_lists(self):
+        return self._has_featurelet('listen')
+
+    @memoizedproperty
+    def has_task_tracker(self):
+        return self._has_featurelet('tasks')
+
+    def _has_featurelet(self, flet_id):
+        flets = get_featurelets(self.context)
+        for flet in flets:
+            if flet['name'] == flet_id:
+                return True
+        return False
+
+
+class ProjectContentsView(ProjectBaseView, OctopoLite):
 
     class ContentsCollection(list):
         """
@@ -153,14 +171,6 @@ class ProjectContentsView(BaseView, OctopoLite):
         return obj_dict
 
     @memoizedproperty
-    def has_mailing_lists(self):
-        return self._has_featurelet('listen')
-
-    @memoizedproperty
-    def has_task_tracker(self):
-        return self._has_featurelet('tasks')
-
-    @memoizedproperty
     def tasktracker_url(self): 
         # XXX todo all this logic prob ought be in opencore.tasktracker.
 
@@ -170,13 +180,6 @@ class ProjectContentsView(BaseView, OctopoLite):
             return loc
         return "%s/%s" % (self.context.absolute_url(), loc)
         
-    def _has_featurelet(self, flet_id):
-        flets = get_featurelets(self.context)
-        for flet in flets:
-            if flet['name'] == flet_id:
-                return True
-        return False
-
     @memoizedproperty
     def project_path(self):
         return '/'.join(self.context.getPhysicalPath())
@@ -381,7 +384,7 @@ class ProjectContentsView(BaseView, OctopoLite):
                 }
         return snippets
 
-class ProjectPreferencesView(BaseView):
+class ProjectPreferencesView(ProjectBaseView):
         
     @formhandler.button('update')
     def handle_request(self):
