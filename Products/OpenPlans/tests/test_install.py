@@ -40,7 +40,10 @@ class TestOpenPlansInstall(OpenPlansTestCase):
         self.assertEqual(ppidx in catalog.indexes(), True)
         self.portal.projects.invokeFactory(OpenProject.portal_type, id='testp')
         project = getattr(self.portal.projects, 'testp')
-        IWriteWorkflowPolicySupport(project).setPolicy('closed_policy')
+        #IWriteWorkflowPolicySupport(project).setPolicy('closed_policy')
+        policy_support = IWriteWorkflowPolicySupport(project)
+        policy_support._unittest_no_update_team_state = True
+        policy_support.setPolicy('closed_policy')
         project.reindexObject()
         brains = catalog(**{ppidx:'closed_policy'})
         self.assertEqual(len(brains), 1)

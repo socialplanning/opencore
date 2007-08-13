@@ -49,8 +49,7 @@ def test_suite():
                                                )
 
     placeful_workflow.layer = test_layer
-    return unittest.TestSuite((readme, octotest()))
-    #return unittest.TestSuite((readme, octotest(), placeful_workflow))
+    return unittest.TestSuite((readme, octotest(), placeful_workflow))
 
 
 if __name__ == '__main__':

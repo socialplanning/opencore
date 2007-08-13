@@ -9,8 +9,6 @@ from Products.TeamSpace.permissions import ManageTeamMembership
 from Products.OpenPlans.config import PROJECTNAME
 from Products.OpenPlans.interfaces import IOpenMembership
 
-WF_ID = 'openplans_team_membership_workflow'
-
 class OpenMembership(TeamMembership):
     """
     OpenPlans team membership object.
@@ -54,7 +52,13 @@ class OpenMembership(TeamMembership):
         mtool = getToolByName(self, 'portal_membership')
         wftool = getToolByName(self, 'portal_workflow')
 
-        wf_hist = wftool.getHistoryOf(WF_ID, self)
+        pwft = getToolByName(self, 'portal_placeful_workflow')
+        config = pwft.getWorkflowPolicyConfig(self)
+        if config is not None:
+            wfid = config.getPlacefulChainFor('OpenMembership')
+        else:
+            wfid = 'openplans_team_membership_workflow'
+        wf_hist = wftool.getHistoryOf(wfid, self)
         last_transition = wf_hist[-1]
 
         review_state = last_transition.get('review_state')
