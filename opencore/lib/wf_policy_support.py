@@ -3,7 +3,6 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
 from Products.OpenPlans.interfaces import IWriteWorkflowPolicySupport
 from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
-from Products.OpenPlans.interfaces import IProject
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 
 from zope.interface import implements
