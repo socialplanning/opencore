@@ -87,11 +87,13 @@ class AccountView(BaseView):
         # TODO move this to a template for easier editting
         message = """You recently signed up to use OpenPlans.org. 
 
-Please confirm your email address at the following site: %s
+Please confirm your email address at the following address: %s
 
 If you cannot click on the link, you can cut and paste it into your browser's address bar.
 
-Once you have confirmed, you can start using OpenPlans. 
+Once you have confirmed, you can start using OpenPlans.
+
+If you did not initiate this request or believe it was sent in error you can safely ignore this message.
 
 Cheers,
 The OpenPlans Team
