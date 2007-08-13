@@ -11,7 +11,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.PortalTransforms.libtransforms.utils import MissingBinary
 
 from Products.OpenPlans.Extensions.setup import convertFunc, reinstallTypes, \
-     reinstallWorkflows
+     reinstallWorkflows, reinstallWorkflowPolicies
 from Products.OpenPlans.Extensions.Install import install_workflow_map, \
      installNewsFolder, securityTweaks
 from Products.OpenPlans.Extensions.Install import setupPeopleFolder, \
@@ -213,6 +213,7 @@ nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
                      migrate_wiki_attachments=migrate_wiki_attachments,
                      createValidationMember=convertFunc(createValidationMember),
                      reinstallWorkflows=reinstallWorkflows,
+                     reinstallWorkflowPolicies=reinstallWorkflowPolicies,
                      setup_transient_message_utility=convertFunc(install_local_transient_message_utility),
                      install_email_invites_utility=convertFunc(install_email_invites_utility),
                      migrate_mission_statement=migrate_mission_statement,
