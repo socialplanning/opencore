@@ -59,6 +59,20 @@ Now, a valid title and id::
     >>> proj
     <OpenProject at /plone/projects/test1>
 
+Let's verify that the last modified author was properly set
+    >>> from opencore.interfaces.catalog import ILastModifiedAuthorId
+    >>> ILastModifiedAuthorId(proj)
+    'test_user_1_'
+
+And if we login as a different user, it should stil be the same
+    >>> self.logout()
+    >>> self.login('m1')
+    >>> ILastModifiedAuthorId(proj)
+    'test_user_1_'
+
+Log back in as the test user
+    >>> self.logout()
+    >>> self.login('test_user_1_')
 
 
 Preference View

@@ -3,11 +3,14 @@ selective catalog metadata handling
 """
 from zope.app.event import objectevent
 from zope.interface import implements
+from zope.app.annotation.interfaces import IAnnotations
 import zope.event
+from BTrees.OOBTree import OOBTree
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.CatalogTool import registerIndexableAttribute
 from Products.CMFEditions.interfaces.IArchivist import ArchivistUnregisteredError
 from opencore.interfaces import IProject
+from opencore.interfaces import IOpenPage
 from opencore.interfaces.catalog import ILastModifiedAuthorId
 from opencore.interfaces.catalog import IIndexingGhost
 from Missing import MV
@@ -16,6 +19,9 @@ from Products.listen.interfaces import ISearchableMessage, ISearchableArchive, I
 from zope.app.event.interfaces import IObjectModifiedEvent, IObjectCreatedEvent
 from zope.component import adapter
 from zope.interface import alsoProvides
+
+# where the last modified author is stored
+ANNOT_KEY = 'opencore.nui.project.metadata'
 
 ### XXX todo write a test for this here -egj
 @adapter(IMailMessage, IObjectModifiedEvent)
@@ -89,6 +95,38 @@ def registerMetadataGhost(name):
         return ghost.getValue(name)
     registerIndexableAttribute(name, ghoster)
     return ghoster
+
+@adapter(IOpenPage, IObjectModifiedEvent)
+def update_last_modified_author(page, event):
+    """ run when a wiki page is modified to set the last modified author """
+    # find last logged in user
+    mtool = getToolByName(page, 'portal_membership')
+    logged_in_user = mtool.getAuthenticatedMember()
+    if logged_in_user is not None:
+        user_id = logged_in_user.getId()
+    else:
+        user_id = 'anonymous'
+
+    # annotate page object with it
+    page_annot = IAnnotations(page)
+    annot = page_annot.setdefault(ANNOT_KEY, OOBTree())
+    annot['lastModifiedAuthor'] = user_id
+
+    # if part of a project, annotate the project with the user id as well
+    obj = page.aq_inner
+    while obj is not None:
+        if IProject.providedBy(obj): break
+        obj = getattr(obj, 'aq_parent', None)
+    else:
+        # no project found in tree
+        return
+
+    # set the project if we're in a project
+    proj = obj
+    proj_annot = IAnnotations(proj)
+    annot = proj_annot.setdefault(ANNOT_KEY, OOBTree())
+    annot['lastModifiedAuthor'] = user_id
+    
 
 def proxy(attrs):
     obj = type('metadata proxy', (object,), attrs)()
