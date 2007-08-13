@@ -100,7 +100,7 @@ www.openplans.org""" % url
         mailhost_tool.send(message,
                            mto=email,
                            mfrom=mfrom,
-                           subject='Welcome to OpenPlans! Ð Confirm your email')
+                           subject='Welcome to OpenPlans! - Confirm your email')
 
 
 class LoginView(AccountView):
