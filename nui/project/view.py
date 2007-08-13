@@ -551,6 +551,9 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
         """
         if self.loggedin:
             joined = self.team.join()
+        else:
+            # XXX something should be done to avoid referencing 'joined'
+            pass
 
         if joined:
             team_manage_url = "%s/manage-team" % self.context.absolute_url()
