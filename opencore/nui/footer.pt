@@ -3,8 +3,8 @@
     <li><a tal:attributes="href string:${here/portal_url}/about">about</a></li>
     <li><a tal:attributes="href string:${here/portal_url}/contact">contact</a></li>
     <li><a tal:attributes="href string:${here/portal_url}/news">news</a></li>
-    <li><a tal:attributes="href string:${here/portal_url}/legal">legal</a></li>
-    <li><a tal:attributes="href string:${here/portal_url}/privacy">privacy</a></li>
+    <!-- <li><a tal:attributes="href string:${here/portal_url}/legal">legal</a></li> -->
+    <!-- <li><a tal:attributes="href string:${here/portal_url}/privacy">privacy</a></li> -->
   </ul>
 
   <div id="oc-footer-about" class="oc-smallText">
