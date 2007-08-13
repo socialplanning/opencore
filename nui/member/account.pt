@@ -153,6 +153,13 @@
     </form>
   </div>
   
+  <div class="oc-plainList oc-boxy">
+    <p><strong>What does it mean to be &ldquo;listed&rdquo; on a project?</strong></p>
+    <p>For your privacy, you can choose whether or not to be publicly listed as a member of a project.</p>
+    <p>If you choose not to be listed then only fellow team members can see your affiliation. Those who are not members of the project will not see you listed in the team roster, nor will they see the project listed anywhere on your profile.</p>
+    <p>However, any updates you make on a publicly viewable project could still display your username and a link to your profile.</p>
+  </div>
+  
 </div><!-- end #oc-content-sidebar -->
 
 
