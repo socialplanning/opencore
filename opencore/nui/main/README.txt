@@ -298,7 +298,7 @@ Homepage View
    ['5test', 'p4', 'p1', 'p3', 'p2']
    >>> for i in range(len(brains)-1):
    ...
-   ...     brains[i].CreationDate > brains[i+1].CreationDate
+   ...     brains[i].CreationDate >= brains[i+1].CreationDate
    True
    True
    True
