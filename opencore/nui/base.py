@@ -235,15 +235,10 @@ class BaseView(BrowserView):
         # workflow on the teams). the following will filter out items in the map
         # for which the logged in member cannot view both the mship and the corresponding
         # project of the viewed member.
-#        class dummy:
-#            review_state = 'closed'
-#            Title = "You shouldn't be able to see me!"
-#            getURL = 'foo'
-#
-#        mp_copy = dict(mp_map)
-#        for (k, v) in mp_copy.items():
-#            if not v.has_key('proj'):
-#                mp_map[k]['proj'] = dummy()#del mp_map[k]
+        mp_copy = dict(mp_map)
+        for (k, v) in mp_copy.items():
+            if not v.has_key('proj'):
+                del mp_map[k]
 
         return mp_map
 
