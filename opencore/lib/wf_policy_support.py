@@ -26,7 +26,6 @@ class WorkflowPolicyReadAdapter(object):
 
     def __init__(self, context):
         self.context = context
-        self._unittest_no_update_team_state = False
 
     def getCurrentPolicyId(self, ob=None):
         if ob is None:
@@ -69,7 +68,7 @@ class WorkflowPolicyWriteAdapter(WorkflowPolicyReadAdapter):
         teams_tool = getToolByName(project, 'portal_teams')
         proj_id = project.getId()
         
-        team_ob = getattr(teams_tool, proj_id)
+        team_ob = teams_tool._getOb(proj_id)
 
         # check if a transition doesn't have to be made
         old_policy = self.getCurrentPolicyId(team_ob)
@@ -87,8 +86,6 @@ class WorkflowPolicyWriteAdapter(WorkflowPolicyReadAdapter):
         # we need to call the manage_makeChanges method for the placeful
         # workflow team tests, but this fails for the openplans project tests
         config.manage_makeChanges(new_policy, new_policy)
-
-        if IProject.providedBy(team_ob): return
 
         self._migrate_histories_on(team_ob, old_policy, new_policy)
 
@@ -129,8 +126,10 @@ class WorkflowPolicyWriteAdapter(WorkflowPolicyReadAdapter):
             # we need to also update the team state
             # XXX we have an ugly hack here to make the tests
             # pass however
-            if not getattr(self, '_unittest_no_update_team_state', False):
-                self._update_team_state(policy_in)
+            update_role_mappings = True
+
+        if context.getTeams():
+            self._update_team_state(policy_in)
             update_role_mappings = True
 
         # we may have to change state of project/team objects

@@ -23,7 +23,6 @@ class TestWorkflowPolicy(OpenPlansTestCase):
     def test_policyWriteRead(self):
         policy = 'open_policy'
         policy_writer = IWriteWorkflowPolicySupport(self.proj)
-        policy_writer._unittest_no_update_team_state = True
         policy_writer.setPolicy(policy)
 
         policy_reader = IReadWorkflowPolicySupport(self.proj)
@@ -34,7 +33,6 @@ class TestWorkflowPolicy(OpenPlansTestCase):
         wftool = getToolByName(self.portal, 'portal_workflow')
 
         policy_writer = IWriteWorkflowPolicySupport(self.proj)
-        policy_writer._unittest_no_update_team_state = True
         policy_writer.setPolicy('closed_policy')
         proj_state = wftool.getInfoFor(self.proj, 'review_state')
         self.failUnless(proj_state == 'closed')
@@ -53,10 +51,7 @@ class TestWorkflowPolicy(OpenPlansTestCase):
 
         policy_reader = IReadWorkflowPolicySupport(self.proj)
         returned_policy = policy_reader.getCurrentPolicyId()
-        # XXX this fails because the _unittest_no_update_team_state variable
-        # is not getting set
-        # see opencore.lib.wf_policy_support for details
-        #self.failUnless(policy == returned_policy)
+        self.failUnless(policy == returned_policy)
 
     def test_initialProjectStateIsRight(self):
         form = {'id': 'closed',
