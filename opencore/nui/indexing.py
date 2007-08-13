@@ -1,5 +1,7 @@
 from Missing import Value as MissingValue
 from Acquisition import aq_parent
+from BTrees.OOBTree import OOBTree
+from zope.app.annotation.interfaces import IAnnotations
 from Products.CMFCore.interfaces._content import IDynamicType
 from Products.CMFCore.interfaces._tools import ICatalogTool
 from Products.CMFCore.utils import getToolByName
@@ -115,9 +117,12 @@ class LastModifiedComment(object):
 
 @implementer(ILastModifiedAuthorId)
 def authenticated_memberid(context):
-    mtool = getToolByName(context, 'portal_membership')
-    mem = mtool.getAuthenticatedMember()
-    return mem.getId()
+    """ the last modified author is set on an annotation """
+    from opencore.nui.project.metadata import ANNOT_KEY
+    from Missing import Value as MissingValue
+    annot = IAnnotations(context)
+    annot = annot.get(ANNOT_KEY, OOBTree())
+    return annot.get('lastModifiedAuthor', MissingValue)
 
 @adapter(AbstractCatalogBrain)
 @implementer(IMetadataDictionary)

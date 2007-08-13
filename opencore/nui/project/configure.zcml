@@ -63,4 +63,10 @@
      handler=".metadata.updateThreadCount"
      />
 
+  <subscriber
+     for="opencore.interfaces.IOpenPage
+         zope.app.event.interfaces.IObjectModifiedEvent"
+     handler=".metadata.update_last_modified_author"
+     />
+
 </configure>

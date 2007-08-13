@@ -285,3 +285,41 @@ Test that we can create a page via wicked
      >>> view()
      'http://...projects/p1/newpage/edit...'
 
+Login as different users, each time checking the last modified author
+     >>> self.logout()
+     >>> self.login('m1')
+     >>> view = page.restrictedTraverse('@@edit')
+     >>> view
+     <Products.Five.metaclass.SimpleViewClass from ...wiki-edit.pt object at ...>
+
+Now start changing the page
+     >>> request = view.request.form
+     >>> request['text'] = 'foo'
+     >>> view.handle_save()
+     {...}
+
+Verify the last modified author changes took place
+     >>> proj = self.portal.projects.p1
+     >>> from opencore.interfaces.catalog import ILastModifiedAuthorId
+     >>> ILastModifiedAuthorId(page)
+     'm1'
+     >>> ILastModifiedAuthorId(proj)
+     'm1'
+
+     >>> self.logout()
+     >>> self.login('m3')
+     >>> view = page.restrictedTraverse('@@edit')
+     >>> request = view.request.form
+     >>> request['text'] = 'bar'
+     >>> view.handle_save()
+     {...}
+     >>> ILastModifiedAuthorId(page)
+     'm3'
+     >>> ILastModifiedAuthorId(proj)
+     'm3'
+
+Check that when logging back in as m1, m3 is still the last modified author
+     >>> ILastModifiedAuthorId(page)
+     'm3'
+     >>> ILastModifiedAuthorId(proj)
+     'm3'

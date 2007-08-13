@@ -82,11 +82,10 @@ happen automatically in the archetypes BaseObject processForm::
     'test_user_1_'
 
 
-Let's make sure that we can get the id of the currently
-authenticated member::
+If the event hasn't been fired, then we should get a missing value back::
 
     >>> authenticated_memberid(self.portal)
-    'test_user_1_'
+    Missing.Value
 
 Now create a new document::
 
