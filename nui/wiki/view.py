@@ -60,6 +60,13 @@ class WikiEdit(WikiBase, OctopoLite):
             for msg in self.errors.values():
                 self.addPortalStatusMessage(msg)
             return self.errors
+
+        print self.request.form
+        allowed_params = set(['comment', 'oc-target', 'text_file', 'title', 'text', 'attachmentFile', 'submitted', 'text_text_format', 'attachmentTitle', 'task|save'])
+        new_form = {}
+        for k in self.request.form:
+            if k in allowed_params:
+                new_form[k] = self.request.form[k]
         
         self.context.processForm(values=self.request)
         repo = self.context.portal.portal_repository

@@ -400,6 +400,13 @@ class ProjectPreferencesView(ProjectBaseView):
             self.addPortalStatusMessage(u'Please correct the errors indicated below.')
             return
 
+        allowed_params = set(['__initialize_project__', 'update', 'set_flets', 'title', 'description', 'workflow_policy', 'featurelets'])
+        new_form = {}
+        for k in self.request.form:
+            if k in allowed_params:
+                new_form[k] = self.request.form[k]
+        
+        self.request.form = new_form
         self.context.processForm(REQUEST=self.request, metadata=1)
         self.addPortalStatusMessage('Your changes have been saved.')
         self.redirect(self.context.absolute_url())
