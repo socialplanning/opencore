@@ -199,28 +199,30 @@ def fix_case_on_featurelets(portal):
             tt_storage['menu_items'][0]['title'] = u'Tasks'
             tt_storage['menu_items'][0]['description'] = u'Task tracker'    
 
+from Products.Archetypes.utils import OrderedDict
 
-nui_functions = dict(createMemIndexes=convertFunc(createMemIndexes),
-                     installNewsFolder=convertFunc(installNewsFolder),
-                     move_interface_marking_on_projects_folder=move_interface_marking_on_projects_folder,
-                     reindex_membrane_tool=reindex_membrane_tool,
-                     setupHomeLayout=convertFunc(setupHomeLayout),
-                     setupPeopleFolder=convertFunc(setupPeopleFolder),
-                     setupProjectLayout=convertFunc(setupProjectLayout),
-                     securityTweaks=convertFunc(securityTweaks),
-                     installMetadataColumns=convertFunc(installColumns),
-                     reinstallSubskins=reinstallSubskins,
-                     migrate_wiki_attachments=migrate_wiki_attachments,
-                     createValidationMember=convertFunc(createValidationMember),
-                     reinstallWorkflows=reinstallWorkflows,
-                     reinstallWorkflowPolicies=reinstallWorkflowPolicies,
-                     setup_transient_message_utility=convertFunc(install_local_transient_message_utility),
-                     install_email_invites_utility=convertFunc(install_email_invites_utility),
-                     migrate_mission_statement=migrate_mission_statement,
-                     createIndexes=convertFunc(createIndexes),
-                     migrate_page_descriptions=migrate_page_descriptions,
-                     fix_case_on_featurelets=fix_case_on_featurelets,
-                     )
+nui_functions = OrderedDict()
+nui_functions['createMemIndexes'] = convertFunc(createMemIndexes)
+nui_functions['installNewsFolder'] = convertFunc(installNewsFolder)
+nui_functions['move_interface_marking_on_projects_folder'] = move_interface_marking_on_projects_folder
+nui_functions['reindex_membrane_tool'] = reindex_membrane_tool
+nui_functions['setupHomeLayout'] = convertFunc(setupHomeLayout)
+nui_functions['setupPeopleFolder'] = convertFunc(setupPeopleFolder)
+nui_functions['setupProjectLayout'] = convertFunc(setupProjectLayout)
+nui_functions['securityTweaks'] = convertFunc(securityTweaks)
+nui_functions['installMetadataColumns'] = convertFunc(installColumns)
+nui_functions['reinstallSubskins'] = reinstallSubskins
+nui_functions['migrate_wiki_attachments'] = migrate_wiki_attachments
+nui_functions['createValidationMember'] = convertFunc(createValidationMember)
+nui_functions['reinstallWorkflowPolicies'] = reinstallWorkflowPolicies
+nui_functions['reinstallWorkflows'] = reinstallWorkflows
+nui_functions['setup_transient_message_utility'] = convertFunc(install_local_transient_message_utility)
+nui_functions['install_email_invites_utility'] = convertFunc(install_email_invites_utility)
+nui_functions['migrate_mission_statement'] = migrate_mission_statement
+nui_functions['createIndexes'] = convertFunc(createIndexes)
+nui_functions['migrate_page_descriptions'] = migrate_page_descriptions
+nui_functions['fix_case_on_featurelets'] = fix_case_on_featurelets
+
 
 nui_functions['Update Method Aliases'] = set_method_aliases
 nui_functions['Migrate portraits (add new sizes)'] = migrate_portraits
