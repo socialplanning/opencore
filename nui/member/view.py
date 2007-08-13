@@ -227,11 +227,6 @@ class MemberAccountView(BaseView, OctopoLite):
         proj_title = project_info['Title']
         proj_id = project_info['getId']
 
-        mship_activated_on = brain.made_active_date
-        if not isinstance(mship_activated_on, DateTime):
-            mship_activated_on = brain.creation_date
-        mship_activated_on = self.pretty_date(mship_activated_on)
-
         review_state = brain.review_state
         is_pending = review_state == 'pending'
 
@@ -240,11 +235,18 @@ class MemberAccountView(BaseView, OctopoLite):
         # let's just assume public until someone says otherwise
         listed = is_pending or review_state == 'public'
 
+        since = None
+        if is_pending:
+            since = brain.lastWorkflowTransitionDate
+        else:
+            since = brain.made_active_date
+        since = self.pretty_date(since)
+
         role = brain.highestTeamRole
 
         return dict(title=proj_title,
                     proj_id=proj_id,
-                    since=mship_activated_on,
+                    since=since,
                     listed=listed,
                     role=role,
                     is_pending=is_pending,
