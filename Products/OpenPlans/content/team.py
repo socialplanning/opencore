@@ -179,7 +179,6 @@ class OpenTeam(Team):
             mship = self.getMembershipByMemberId(mem_id)
             try:
                 wftool.doActionFor(mship, 'rerequest')
-                mship.made_active_date = DateTime()
             except WorkflowException:
                 # transition isn't available
                 ret = False
@@ -207,6 +206,7 @@ class OpenTeam(Team):
         wftool.setStatusOf(wfid, mship, status)
 
         # follow up like OpenPlans.Extensions.workflow.mship_activated()
+        mship.made_active_date = DateTime()
         mship.reindexObject()
         mship._p_changed = True
 
@@ -236,7 +236,6 @@ class OpenTeam(Team):
         project = self.getProject()
         project._updateMember('add', mem, mship, self)
 
-        mship.made_active_date = DateTime()
         return mship
 
 registerType(OpenTeam)
