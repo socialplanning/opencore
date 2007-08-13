@@ -583,6 +583,7 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
 class ProjectTeamView(TeamRelatedView):
 
     admin_role = DEFAULT_ROLES[-1]
+
    
     @formhandler.button('sort')
     def handle_request(self):
@@ -605,8 +606,8 @@ class ProjectTeamView(TeamRelatedView):
         
         member_brains = self.membranetool(**query)
         lookup_dict = dict((b.getId, b) for b in member_brains if b.getId)
-
-        return self._get_batch(lookup_dict.get(b.getId) for b in membership_brains)
+        batch_dict = (lookup_dict.get(b.getId) for b in membership_brains)
+        return self._get_batch(batch_dict, self.request.get('b_start', 0))
 
     def handle_sort_location(self):
         query = dict(portal_type='OpenMembership',
@@ -619,10 +620,10 @@ class ProjectTeamView(TeamRelatedView):
                      getId=mem_ids,
                      )
         results = self.membranetool(**query)
-        return self._get_batch(results)
+        return self._get_batch(results, self.request.get('b_start', 0))
 
     def handle_sort_contributions(self):
-        return self._get_batch([])
+        return self._get_batch([], self.request.get('b_start', 0))
 
     def handle_sort_default(self):
         query = dict(portal_type='OpenMembership',
@@ -637,7 +638,7 @@ class ProjectTeamView(TeamRelatedView):
                      sort_on='getId',
                      )
         results = self.membranetool(**query)
-        return self._get_batch(results)
+        return self._get_batch(results, self.request.get('b_start', 0))
 
     @memoizedproperty
     def memberships(self):
