@@ -9,6 +9,7 @@ from topp.featurelets.interfaces import IFeatureletSupporter, IFeatureletRegistr
 
 from Products.CMFCore.utils import getToolByName
 from Products.PortalTransforms.libtransforms.utils import MissingBinary
+from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
 
 from Products.OpenPlans.Extensions.setup import convertFunc, reinstallTypes, \
      reinstallWorkflows, reinstallWorkflowPolicies
@@ -26,6 +27,8 @@ from Products.OpenPlans import config as op_config
 from indexing import createIndexes
 from DateTime import DateTime
 from topp.featurelets.interfaces import IFeatureletSupporter
+from opencore.interfaces import IOpenPage
+from opencore.nui.project.metadata import _update_last_modified_author
 
 logger = getLogger(op_config.PROJECTNAME)
 
@@ -199,6 +202,33 @@ def fix_case_on_featurelets(portal):
             tt_storage['menu_items'][0]['title'] = u'Tasks'
             tt_storage['menu_items'][0]['description'] = u'Task tracker'    
 
+def annotate_last_modified_author(portal):
+    from opencore.nui.project.metadata import ANNOT_KEY
+    pr = getToolByName(portal, 'portal_repository')
+    cat = getToolByName(portal, 'portal_catalog')
+
+    # sort all pages in ascending order so project updates
+    # will make sense
+    all_documents = cat(portal_type='Document')
+    all_documents = sorted(all_documents, key=lambda b:b.ModificationDate)
+
+    for page in (b.getObject() for b in all_documents):
+
+        if not IOpenPage.providedBy(page): continue
+
+        try:
+            histories = pr.getHistory(page, countPurged=False)
+            last_history = histories[0]
+            last_author = last_history.sys_metadata.get('principal', None)
+            if last_author is None: continue
+
+            _update_last_modified_author(page, user_id=last_author)
+
+        except ArchivistRetrieveError:
+            # we get an error if there is no history
+            # (like for our test content)
+            pass
+
 from Products.Archetypes.utils import OrderedDict
 
 nui_functions = OrderedDict()
@@ -232,6 +262,7 @@ nui_functions['Update team active states'] = update_team_active_states
 nui_functions['Add made_active_date attribute to memberships'] = migrate_mships_made_active_date
 nui_functions['Set case insensitive logins'] = convertFunc(setCaseInsensitiveLogins)
 nui_functions['Set site email addresses'] = convertFunc(setSiteEmailAddresses)
+nui_functions['annotate last modified author'] = annotate_last_modified_author
 
 def run_nui_setup(portal):
     pm = portal.portal_migration

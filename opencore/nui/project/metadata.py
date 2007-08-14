@@ -99,13 +99,20 @@ def registerMetadataGhost(name):
 @adapter(IOpenPage, IObjectModifiedEvent)
 def update_last_modified_author(page, event):
     """ run when a wiki page is modified to set the last modified author """
-    # find last logged in user
-    mtool = getToolByName(page, 'portal_membership')
-    logged_in_user = mtool.getAuthenticatedMember()
-    if logged_in_user is not None:
-        user_id = logged_in_user.getId()
-    else:
-        user_id = 'anonymous'
+
+    # delegate to other method to allow setup widget to also call
+    _update_last_modified_author(page)
+
+def _update_last_modified_author(page, user_id=None):
+    # check if user_id needs to be set
+    if user_id is None:
+        # find last logged in user
+        mtool = getToolByName(page, 'portal_membership')
+        logged_in_user = mtool.getAuthenticatedMember()
+        if logged_in_user is not None:
+            user_id = logged_in_user.getId()
+        else:
+            user_id = 'anonymous'
 
     # annotate page object with it
     page_annot = IAnnotations(page)
