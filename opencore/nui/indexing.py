@@ -1,4 +1,6 @@
 from Missing import Value as MissingValue
+from ZODB.POSException import ConflictError
+from ZODB.POSException import TransactionFailedError
 from Acquisition import aq_parent
 from BTrees.OOBTree import OOBTree
 from zope.app.annotation.interfaces import IAnnotations
@@ -112,7 +114,8 @@ class LastModifiedComment(object):
             last_history = histories[0]
             revision_note = last_history.comment
             return revision_note
-        except (IndexError, ArchivistRetrieveError):
+        except (IndexError, ArchivistRetrieveError, ConflictError,
+                TransactionFailedError):
             return ''
 
 @implementer(ILastModifiedAuthorId)
