@@ -235,7 +235,6 @@ nui_functions = OrderedDict()
 nui_functions['createMemIndexes'] = convertFunc(createMemIndexes)
 nui_functions['installNewsFolder'] = convertFunc(installNewsFolder)
 nui_functions['move_interface_marking_on_projects_folder'] = move_interface_marking_on_projects_folder
-nui_functions['reindex_membrane_tool'] = reindex_membrane_tool
 nui_functions['setupHomeLayout'] = convertFunc(setupHomeLayout)
 nui_functions['setupPeopleFolder'] = convertFunc(setupPeopleFolder)
 nui_functions['setupProjectLayout'] = convertFunc(setupProjectLayout)
@@ -244,8 +243,8 @@ nui_functions['installMetadataColumns'] = convertFunc(installColumns)
 nui_functions['reinstallSubskins'] = reinstallSubskins
 nui_functions['migrate_wiki_attachments'] = migrate_wiki_attachments
 nui_functions['createValidationMember'] = convertFunc(createValidationMember)
-nui_functions['reinstallWorkflowPolicies'] = reinstallWorkflowPolicies
 nui_functions['reinstallWorkflows'] = reinstallWorkflows
+nui_functions['reinstallWorkflowPolicies'] = reinstallWorkflowPolicies
 nui_functions['setup_transient_message_utility'] = convertFunc(install_local_transient_message_utility)
 nui_functions['install_email_invites_utility'] = convertFunc(install_email_invites_utility)
 nui_functions['migrate_mission_statement'] = migrate_mission_statement
@@ -263,6 +262,7 @@ nui_functions['Add made_active_date attribute to memberships'] = migrate_mships_
 nui_functions['Set case insensitive logins'] = convertFunc(setCaseInsensitiveLogins)
 nui_functions['Set site email addresses'] = convertFunc(setSiteEmailAddresses)
 nui_functions['annotate last modified author'] = annotate_last_modified_author
+nui_functions['reindex_membrane_tool'] = reindex_membrane_tool
 
 def run_nui_setup(portal):
     pm = portal.portal_migration
