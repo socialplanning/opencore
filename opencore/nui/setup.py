@@ -251,7 +251,7 @@ nui_functions['migrate_mission_statement'] = migrate_mission_statement
 nui_functions['createIndexes'] = convertFunc(createIndexes)
 nui_functions['migrate_page_descriptions'] = migrate_page_descriptions
 nui_functions['fix_case_on_featurelets'] = fix_case_on_featurelets
-
+nui_functions['reindex_membrane_tool'] = reindex_membrane_tool
 
 nui_functions['Update Method Aliases'] = set_method_aliases
 nui_functions['Migrate portraits (add new sizes)'] = migrate_portraits
@@ -262,7 +262,7 @@ nui_functions['Add made_active_date attribute to memberships'] = migrate_mships_
 nui_functions['Set case insensitive logins'] = convertFunc(setCaseInsensitiveLogins)
 nui_functions['Set site email addresses'] = convertFunc(setSiteEmailAddresses)
 nui_functions['annotate last modified author'] = annotate_last_modified_author
-nui_functions['reindex_membrane_tool'] = reindex_membrane_tool
+
 
 def run_nui_setup(portal):
     pm = portal.portal_migration
