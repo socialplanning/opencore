@@ -108,6 +108,10 @@ class LastModifiedComment(object):
         self.pr = getToolByName(self.context, 'portal_repository')
 
     def getValue(self):
+        # XXX nulling out this method b/c the last_history lookup is causing
+        #     ConflictErrors and TransactionFailedErrors EVEN THOUGH WE'RE
+        #     EXPLICITLY CATCHING THEM!  :-(
+        return ''
         try:
             histories = self.pr.getHistory(self.context, countPurged=False)
             # most recent history versions are at the front of the list
