@@ -159,7 +159,7 @@ def migrate_page_descriptions(portal):
         if not description: continue
         page = brain.getObject()
         try:
-            body = page.getText()
+            body = page.getRawText()
         except (MissingBinary, IOError):
             continue
         new_body = '<p><b>%s</b></p>\n%s' % (description, body)
