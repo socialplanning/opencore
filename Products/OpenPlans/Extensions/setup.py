@@ -20,7 +20,7 @@ from Install import installColumns, fixUpEditTab, hideActions, \
      migrateATDocToOpenPage, createIndexes, installZ3Types, registerJS, \
      setupProjectLayout, createMemIndexes, setCookieDomain, installCookieAuth, \
      setupPeopleFolder, setupProjectLayout, setupHomeLayout, \
-     installNewsFolder, setProjectFolderPermissions
+     installNewsFolder, setProjectFolderPermissions, updateWorkflowRoleMappings
 from migrate_teams_to_projects import migrate_teams_to_projects
 from migrate_membership_roles import migrate_membership_roles
 
@@ -169,10 +169,12 @@ topp_functions = dict(
     migrate_membership_roles=migrate_membership_roles,
     fixProjectWFStates=fixProjectWFStates,
     initializeTeamWorkflow=initializeTeamWorkflow,
-    migrate_redirection=migrate_redirection
+    migrate_redirection=migrate_redirection,
     )
 
 topp_functions["NUI Setup"]=setup_nui
+topp_functions["Propagate workflow security settings"] = \
+                          convertFunc(updateWorkflowRoleMappings)
 
 class TOPPSetup(SetupWidget):
     """ OpenPlans Setup Bucket Brigade  """

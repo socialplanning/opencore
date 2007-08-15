@@ -21,7 +21,7 @@ from Products.OpenPlans.Extensions.Install import createMemIndexes, \
      installColumns, createValidationMember, \
      install_local_transient_message_utility, install_email_invites_utility
 from Products.OpenPlans.Extensions.Install import setCaseInsensitiveLogins, \
-     setSiteEmailAddresses
+     setSiteEmailAddresses, updateWorkflowRoleMappings
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans import config as op_config
 from indexing import createIndexes
@@ -262,6 +262,8 @@ nui_functions['Add made_active_date attribute to memberships'] = migrate_mships_
 nui_functions['Set case insensitive logins'] = convertFunc(setCaseInsensitiveLogins)
 nui_functions['Set site email addresses'] = convertFunc(setSiteEmailAddresses)
 nui_functions['annotate last modified author'] = annotate_last_modified_author
+nui_functions["Propagate workflow security settings"] = \
+                         convertFunc(updateWorkflowRoleMappings)
 
 
 def run_nui_setup(portal):

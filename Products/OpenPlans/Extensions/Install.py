@@ -94,7 +94,6 @@ def createGreyEditTab(portal, out):
                               'View',
                               'object')
 
-
 def installRoles(portal, out):
     """ Installs custom roles """
     vr = portal.validRoles()
@@ -138,12 +137,10 @@ def install_workflow_map(portal, out, wfs=WORKFLOW_MAP):
         if wf == 'openplans_member_workflow':
            addWorkflowScripts(wf_tool.getWorkflowById(wf))
     wf_tool.setDefaultChain('plone_openplans_workflow')
-    wf_tool.updateRoleMappings()
 
 def installWorkflows(portal, out):
     """ Installs workflows """
     return install_workflow_map(portal, out)
-
 
 def installWorkflowPolicies(portal, out):
     pwf_tool = getToolByName(portal, 'portal_placeful_workflow')
@@ -165,7 +162,6 @@ def installWorkflowPolicies(portal, out):
             for p_type, chain in pol['types'].items():
                 new_pol.setChain(p_type, chain)
 
-
 def getDefaultChains(portal):
     pwf = getToolByName(portal, 'portal_workflow')
     cbt = pwf._chains_by_type
@@ -184,6 +180,10 @@ def getDefaultChains(portal):
                             'title': title,
                             'chain': chain})
     return types_info
+
+def updateWorkflowRoleMappings(portal, out):
+    wf_tool = getToolByName(portal, 'portal_workflow')
+    wf_tool.updateRoleMappings()
 
 def setPermissions(obj, perm_data, out):
     """ apply the specified permission settings to obj """
@@ -456,7 +456,6 @@ def addProjectsFolder(portal, out):
         wf_config = pwf_tool.getWorkflowPolicyConfig(pfolder)
         wf_config.setPolicyBelow(policy='open_policy')
         wf_tool = getToolByName(pfolder, 'portal_workflow')
-        wf_tool.updateRoleMappings()
 
 def setProjectFolderPermissions(portal, out):
     print >> out, 'Setting extra permissions in projects folder'
@@ -726,5 +725,6 @@ def install(self, migrate_atdoc_to_openpage=True):
     createValidationMember(portal, out)
     install_local_transient_message_utility(portal, out)
     install_email_invites_utility(portal, out)
+    updateWorkflowRoleMappings(portal, out)
     print >> out, "Successfully installed %s." % config.PROJECTNAME
     return out.getvalue()
