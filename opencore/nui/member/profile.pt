@@ -39,7 +39,7 @@
                               pub_projs nocall:view/public_projects;
                               priv_projs nocall:view/private_projects" >
                 <tal:pub_projects condition="pub_projs">
-                  <div class="oc-discreetText">visible to all:</div>
+                  <div class="oc-discreetText">visible to all (<span tal:replace="python:len(pub_projs)"/>):</div>
                   <ul class="oc-inlineList">
                     <li tal:repeat="proj pub_projs"><a
                         tal:attributes="href proj/getURL"
@@ -47,7 +47,7 @@
                   </ul>
                 </tal:pub_projects>
                 <tal:priv_projects condition="priv_projs">
-                  <div class="oc-discreetText">visible only to team members:</div>
+                  <div class="oc-discreetText">visible only to team members (<span tal:replace="python:len(priv_projs)"/>):</div>
                   <ul class="oc-inlineList">
                     <li tal:repeat="proj priv_projs"><a
                         tal:attributes="href proj/getURL"
