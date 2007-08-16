@@ -158,10 +158,9 @@ def migrate_page_descriptions(portal):
         description = brain.Description
         if not description: continue
         page = brain.getObject()
-        try:
-            body = page.getRawText()
-        except (MissingBinary, IOError):
-            continue
+        textunit = page.getField('text').get(page, raw=True)
+        if textunit.isBinary(): continue
+        body = page.getRawText()
         new_body = '<p><b>%s</b></p>\n%s' % (description, body)
         page.setText(new_body)
         # override the description, so running this migration
