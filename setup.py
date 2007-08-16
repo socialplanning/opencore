@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.9rc-1'
+version = '0.9'
 
 f = open('README.txt')
 readme = "".join(f.readlines())
