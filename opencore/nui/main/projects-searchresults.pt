@@ -2,7 +2,7 @@
   <head>
     <title metal:fill-slot="title">Search Projects - OpenPlans</title>
   </head>  
-  <body>
+  <body> 
 
     <div metal:fill-slot="content">              
       
