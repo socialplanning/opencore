@@ -34,6 +34,8 @@ import os
 
 from zope.interface import implements
 
+from App import config
+
 from Acquisition import aq_base
 
 from AccessControl.SecurityInfo import ClassSecurityInfo
@@ -75,7 +77,11 @@ from Globals import DTMLFile
 manage_addSignedCookieAuthHelperForm = DTMLFile("../zmi/SignedCookieAuthHelperForm", globals())
 
 def get_secret():
-    secret_file_name = os.environ.get('TOPP_SECRET_FILENAME', '')
+    secret_file_name = ''
+    cfg = config.getConfiguration().product_config.get('opencore.auth')
+    if cfg:
+        val = cfg.get('TOPP_SECRET_FILENAME', '')
+
     if not secret_file_name:
         secret_file_name = os.path.join(os.environ.get('INSTANCE_HOME'), 'secret.txt')
 
