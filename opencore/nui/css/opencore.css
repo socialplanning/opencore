@@ -1360,16 +1360,11 @@ a.oc-js-liveEdit_hideForm {
 }
 
 /* Action Select */
-.oc-actionSelect { /* style for value wrapper of action select.  little triangle */
-  background-image: url("/++resource++img/dropdown-nub-87B6C1-ffffff.gif");
-  background-position: right center;
-  background-repeat: no-repeat;
-  padding-right: 15px;
-  cursor: pointer;}
 
 .oc-js-actionSelect select {
   width: 100%;
 }
+
 /* @HTML ELEMENTS GENERAL @TYPOGRAPHY
 This should be the only place where font information is specified
 -------------------------------------------- */
