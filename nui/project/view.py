@@ -544,6 +544,21 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
     """
     template = ZopeTwoPageTemplateFile('request-membership.pt')
 
+    def __call__(self):
+        """ if already logged in / member of project, redirect appropriately """
+        if hasattr(self, 'debug'):
+            import pdb; pdb.set_trace()
+        # if not logged in, redirect to the login form
+        if not self.loggedin:
+            self.addPortalStatusMessage('Please sign in to continue.')
+            self.redirect('%s/login?came_from=%s' % (self.siteURL, self.request.ACTUAL_URL))
+            return
+        # if already a part of the team, redirect to project home page
+        if self.member_info['id'] in self.team.getActiveMemberIds():
+            self.addPortalStatusMessage('You are already a member of this project.')
+            self.redirect('%s?came_from=%s' % (self.context.absolute_url(), self.request.ACTUAL_URL))
+        return super(RequestMembershipView, self).__call__()
+
     @formhandler.action('request-membership')
     def request_membership(self, targets=None, fields=None):
         """
@@ -552,8 +567,9 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
         if self.loggedin:
             joined = self.team.join()
         else:
-            # XXX something should be done to avoid referencing 'joined'
-            pass
+            self.addPortalStatusMessage('Please sign in to continue.')
+            self.redirect('%s/login?came_from=%s' % (self.siteURL, self.request.ACTUAL_URL))
+            return
 
         if joined:
             team_manage_url = "%s/manage-team" % self.context.absolute_url()
