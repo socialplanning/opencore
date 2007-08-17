@@ -7,7 +7,11 @@
 
       <div class="oc-headingBlock">
         <h1>People on OpenPlans</h1>
-        <p class="oc-headingContext">Currently bringing together <span tal:replace="view/nusers">XXX</span> members</p>
+        <p class="oc-headingContext">
+          <span tal:replace="view/nusers">XXX</span> members,
+          <span tal:condition="view/loggedin">and growing</span>
+          <span tal:condition="not: view/loggedin">and <a tal:attributes="href string:${context/portal_url}/join">you</a></span>
+        </p>
       </div>
 
       <div id="oc-content-main">
