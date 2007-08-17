@@ -502,26 +502,41 @@ class BaseView(BrowserView):
 
     # XXX move to a form base class
     def validate_password_form(self, password, password2, member):
+
+        messages = []
+        def exit_function():
+            """bridge code to going forward. use this instead of return"""
+            # XXX ultimately validate_password_form should play more nicely with messages
+            if messages:
+                for msg in messages:
+                    self.addPortalStatusMessage(msg)
+                return False
+            return member
+
         if isinstance(member, basestring):
             # get the member object
             id = member
+            if not id:
+                messages.append('You need to enter your username.')
+                return exit_function()
+                
             member = self.get_tool("membrane_tool")(getUserName=id)
             if not member:
-                self.addPortalStatusMessage('There is no member named "%s".' % id)
-                return False
+                messages.append('There is no member named "%s".' % id)
+                return exit_function()
             member = member[0].getObject()
 
         if not password or not password2:
-            self.addPortalStatusMessage("You must enter a password.")
-            return False
+            messages.append("You must enter a password.")
+            return exit_function()
         if password != password2:
-            self.addPortalStatusMessage("Please make sure that both password fields are the same.")
-            return False
+            messages.append("Please make sure that both password fields are the same.")
+            return exit
         msg = member.validate_password(password)
         if msg:
-            self.addPortalStatusMessage(msg)
-            return False
-        return member
+            messages.append(msg)
+            return exit_function()
+        return exit_function() # XXX redundant, leaving for now
 
 
 def aq_iface(obj, iface):
