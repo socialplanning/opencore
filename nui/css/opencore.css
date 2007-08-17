@@ -398,6 +398,7 @@ dl.oc-plainList dd {
   height: 80px;
   overflow: hidden;
   float: left;
+  margin-right: 1em;
 }
 .oc-peopleresults-content {
   white-space: normal;
