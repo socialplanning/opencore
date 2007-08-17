@@ -496,7 +496,7 @@ class ProjectAddView(BaseView, OctopoLite):
         self.notify(proj)
         transaction_note('Finished creation of project: %s' %title)
         self.template = None
-        self.addPortalStatusMessage(u'Congratulations on your new project!')
+        self.addPortalStatusMessage(u'%s has been created.' %title)
         self.redirect('%s/manage-team' % proj.absolute_url())
 
     def notify(self, project):
