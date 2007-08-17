@@ -44,6 +44,7 @@ class SearchView(BaseView):
         tag = str(imgdata)
         return tag.replace('<img', '<img class="%s"' % clss)
 
+
 class ProjectsSearchView(SearchView):
 
     active_states = ['public', 'private']
@@ -190,6 +191,14 @@ class SubProjectsSearchView(ProjectsSearchView):
         return query & In('path', self.subproject_paths())
 
 
+def _sort_by_id(brains):
+    """
+    This is a function, not a method, so it can be called from
+    assorted view classes.
+    """
+    return sorted(brains, key=lambda x: x.portal_type == 'OpenMember' \
+                  and x.getId.lower() or x.Title.lower())
+    
 def searchForPerson(mcat, search_for, sort_by=None):
     """
     This is a function, not a method, so it can be called from
@@ -207,12 +216,15 @@ def searchForPerson(mcat, search_for, sort_by=None):
         rs = (RankByQueries_Sum((Eq('Title', person_query),32),
                                 (Eq('getId', person_query),16)),)
     else:
-        rs = ((sort_by, 'desc'),)
+        rs = ((sort_by, 'asc'),)
 
     people_brains = mcat.evalAdvancedQuery(
         Eq('RosterSearchableText', person_query),
         rs,
         )
+
+    if sort_by == 'getId':
+        people_brains = _sort_by_id(people_brains)
     return people_brains
     
 
@@ -271,6 +283,9 @@ class PeopleSearchView(SearchView):
         else:
             people_brains = [brain for brain in people_brains
                              if brain.getId.lower().startswith(letter)]
+        if sort_by == 'getId':
+            people_brains = _sort_by_id(people_brains)
+
         return people_brains
 
     def search_for_person(self, person, sort_by=None):
@@ -349,10 +364,6 @@ class SitewideSearchView(SearchView):
         return self.index()
     
 
-    def _sort_by_id(self, brains):
-        return sorted(brains, key=lambda x: x.portal_type == 'OpenMember' \
-                      and x.getId.lower() or x.Title.lower())
-    
 
     def search_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
@@ -382,7 +393,7 @@ class SitewideSearchView(SearchView):
         brains = self.catalog.evalAdvancedQuery(query, rs)
 
         if sort_by == 'getId':
-            brains = self._sort_by_id(brains)
+            brains = _sort_by_id(brains)
 
         if letter == 'all':
             return brains
@@ -425,7 +436,7 @@ class SitewideSearchView(SearchView):
         brains = self.catalog.evalAdvancedQuery(query, rs)
 
         if sort_by == 'getId':
-            brains = self._sort_by_id(brains)
+            brains = _sort_by_id(brains)
 
         return brains
     
