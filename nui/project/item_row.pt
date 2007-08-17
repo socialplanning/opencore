@@ -1,16 +1,16 @@
 <tal:macro metal:define-macro="item_row"
-	   tal:define="item item | options/item;
-		       item_type item_type | options/item_type;
-		       editable editable | not:item/uneditable | nothing ">
+           tal:define="item item | options/item;
+                       item_type item_type | options/item_type;
+                       editable editable | not:item/uneditable | nothing ">
   <tr class="oc-js-liveEdit" tal:attributes="id item/id">
     <td tal:condition="item/collection/editable | view/editable">
       <tal:if condition="not:editable">
-	<input type="checkbox" class="oc-js-checkAll-never" name="deletes:list"
+        <input type="checkbox" class="oc-js-checkAll-never" name="deletes:list"
                tal:attributes="value item/id" 
-	       disabled="True" />
+               disabled="True" />
       </tal:if>
       <tal:if condition="editable">
-	<input type="checkbox" name="deletes:list"
+        <input type="checkbox" name="deletes:list"
                tal:attributes="value item/id" />
       </tal:if>
     </td>
@@ -18,14 +18,14 @@
       <div class="oc-js-liveEdit-value">
         <a tal:attributes="href item/url">
           <tal:dummy replace="item/title" />
-	</a>
+        </a>
       </div>
       
       <div tal:condition="editable"
-	   class="oc-js-liveEdit-editForm  oc-liveEdit-editForm">
+           class="oc-js-liveEdit-editForm  oc-liveEdit-editForm">
         <input type="text" 
                tal:attributes="name string:${item/id}_title;
-			       value item/title" 
+                               value item/title" 
                />
         <input type="submit" class="oc-js-actionButton" value="Save"
                tal:attributes="name string:task|${item/id}|update" />
@@ -41,10 +41,10 @@
     <td>
       <tal:dummy replace="item/obj_date" />
       <tal:setvar define="author item/obj_author" condition="author">
-	by
-	<a tal:attributes="href string:${view/siteURL}/people/${author}">
+        by
+        <a tal:attributes="href string:${view/siteURL}/people/${author}/profile">
           <tal:dummy replace="author" />
-	</a>
+        </a>
       </tal:setvar>
     </td>
     <td tal:condition="item/collection/editable | view/editable">
