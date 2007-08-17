@@ -38,7 +38,7 @@
         </tal:setvar> 
 
         <a rel="include" tal:condition="view/has_task_tracker"
-          tal:attributes="href string:${view/tasktracker_url}/manage#tasklists_table">View tasklists</a> 
+          tal:attributes="href string:${view/tasktracker_url}">View tasklists</a> 
       </div><!-- end .oc-content-main -->
     </div><!-- end content-fill-slot -->
   </body>
