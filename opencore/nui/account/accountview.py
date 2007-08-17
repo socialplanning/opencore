@@ -164,12 +164,6 @@ class LoginView(AccountView):
     def came_from(self):
         return self.request.get('came_from', '')
 
-    def already_loggedin(self):
-        if self.loggedin and self.request.get('loggedout'):
-            return self.http_root_logout
-        if self.loggedin:
-            return True
-
     @property
     def destination(self):
         """where you go after you're logged in"""
@@ -196,7 +190,7 @@ class LoginView(AccountView):
         if redirect is None:
             redirect = self.login_url
             
-        self.redirect("%s?loggedout=yes" %redirect)
+        self.redirect("%s" %redirect)
 
     @property
     def cookie_logout(self):
