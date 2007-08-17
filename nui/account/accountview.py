@@ -99,10 +99,10 @@ Cheers,
 The OpenPlans Team
 www.openplans.org""" % url
         
-        mailhost_tool.secureSend(message,
-                                 mto=email,
-                                 mfrom=mfrom,
-                                 subject='Welcome to OpenPlans! - Confirm your email')
+        mailhost_tool.send(message,
+                           mto=email,
+                           mfrom=mfrom,
+                           subject='Welcome to OpenPlans! - Confirm your email')
 
 
 class LoginView(AccountView):
@@ -402,11 +402,11 @@ class ForgotLoginView(AccountView):
             mail_text += self.reset_url
             mfrom = self.portal.getProperty('email_from_address')            
             host = self.get_tool('MailHost')
-            host.secureSend(mail_text,
-                            mfrom=mfrom,
-                            subject='OpenPlans - Password reminder',
-                            mto=email
-                            )
+            host.send(mail_text,
+                      mfrom=mfrom,
+                      subject='OpenPlans - Password reminder',
+                      mto=email
+                      )
         except SMTPRecipientsRefused:
             # Don't disclose email address on failure
             raise SMTPRecipientsRefused('Recipient address rejected by server')
