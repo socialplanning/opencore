@@ -531,7 +531,7 @@ class BaseView(BrowserView):
             return exit_function()
         if password != password2:
             messages.append("Please make sure that both password fields are the same.")
-            return exit
+            return exit_function()
         msg = member.validate_password(password)
         if msg:
             messages.append(msg)
