@@ -161,7 +161,7 @@ class BaseView(BrowserView):
         projects = self.catalogtool.unrestrictedSearchResults(portal_type='OpenProject')
         return len(projects)
 
-    @instance.memoizedproperty
+    @property
     def member_info(self):
         """
         Returns a dict containing information about the currently
