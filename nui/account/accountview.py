@@ -451,6 +451,8 @@ class PasswordResetView(AccountView):
             pw_tool.resetPassword(userid, randomstring, password)
         except 'InvalidRequestError':
             # XXX TODO redirect to 404 instead
+            msg = u'Password reset attempt failed. Did you mistype your username or password?'
+            self.addPortalStatusMessage(msg)
             return self.redirect(self.siteURL)
         except 'ExpiredRequestError':
             msg = u'Your password reset request has expired.'
