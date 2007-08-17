@@ -3,9 +3,11 @@
 
   <li class="oc-dropdown-container"
       tal:define="auth view/loggedin;
-                  memfolder_url view/memfolder_url"
+                  memid view/member_info/id; 
+                  memfolder_url view/memfolder_url;
+                  memprofile_url string:${memfolder_url}/profile"
       tal:condition="python: auth and memfolder_url">
-      <span tal:replace="python:view.member_info['id']" />
+      <a tal:attributes="href memprofile_url" tal:content="memid" />
     <tal:mystuffmenu replace="structure context/topnav-mystuff-menu" />
   </li>
 
