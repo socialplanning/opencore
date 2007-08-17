@@ -80,7 +80,7 @@ class AccountView(BaseView):
     def _sendmail_to_pendinguser(self, id, email, url):
         """ send a mail to a pending user """
         # TODO only send mail if in the pending workflow state
-        mailhost_tool = getToolByName(self.context, "MailHost")
+        mailhost_tool = self.get_tool("MailHost")
 
         mfrom = self.portal.getProperty('email_from_address')
 
