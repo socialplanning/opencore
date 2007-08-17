@@ -795,7 +795,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
     def getMemberURL(self, mem_id):
         mtool = self.get_tool('portal_membership')
-        return mtool.getHomeUrl(mem_id)
+        return '%s/profile' % mtool.getHomeUrl(mem_id)
 
     def doMshipWFAction(self, transition, mem_ids, pred=lambda mship:True):
         """
@@ -871,7 +871,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             wftool.doActionFor(mship, transition_id)
             napproved += 1
             self.email_sender.sendEmail(mem_id, msg_id='request_approved',
-                                        project_title=self.context.Title())
+                                        project_title=self.context.Title(),
+                                        project_url=self.context.absolute_url())
             self._add_approval_message_for(mem_id)
             res[mem_id] = {'action': 'delete'}
             # will only be one mem_id in AJAX requests
