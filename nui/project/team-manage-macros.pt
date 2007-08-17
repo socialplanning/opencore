@@ -7,7 +7,7 @@
 <metal:memberlink define-macro="memberlink">
   <div tal:define="mem_id item/getId;
                    mem_url python:view.getMemberURL(mem_id)">
-    <a tal:attributes="href string:${mem_url}/profile"
+    <a tal:attributes="href mem_url"
        tal:condition="mem_url"
        tal:content="mem_id" />
 
@@ -190,7 +190,7 @@
     <td>
       <div tal:define="mem_id item/getId;
                        mem_url python:view.getMemberURL(mem_id)">
-	<a tal:attributes="href string:${mem_url}/profile"
+	<a tal:attributes="href mem_url"
 	   tal:condition="mem_url"
 	   tal:content="mem_id" />
 	
@@ -306,7 +306,7 @@
         <tr tal:repeat="member view/results">
           <tal:mem_url define="mem_url python:view.membertool.getHomeUrl(member.getId)">
             <td>
-                <a tal:omit-tag="not:mem_url" tal:attributes="href string:${mem_url}/profile">
+                <a tal:omit-tag="not:mem_url" tal:attributes="href mem_url">
                    <strong tal:content="string: ${member/getId}" 
                 /></a>
             </td>
