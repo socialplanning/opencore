@@ -80,8 +80,7 @@ def get_secret():
     secret_file_name = ''
     cfg = config.getConfiguration().product_config.get('opencore.auth')
     if cfg:
-        secret_file_name = cfg.get('TOPP_SECRET_FILENAME', '')
-
+        secret_file_name = cfg.get('topp_secret_filename', '')
     if not secret_file_name:
         secret_file_name = os.path.join(os.environ.get('INSTANCE_HOME'), 'secret.txt')
 
