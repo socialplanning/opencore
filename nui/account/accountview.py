@@ -406,7 +406,7 @@ class ForgotLoginView(AccountView):
             host.send(mail_text,
                       mfrom=mfrom,
                       subject='OpenPlans - Password reminder',
-                      mto=[email]
+                      mto=email
                       )
         except SMTPRecipientsRefused:
             # Don't disclose email address on failure
