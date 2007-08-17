@@ -12,7 +12,7 @@ This is a reminder that you've been invited to join "${project_title}" on OpenPl
 
 request_approved = _(u"""Subject: OpenPlans - Welcome to ${project_title}
 
-Your request to join "${project_title}" on OpenPlans has been approved.
+Your request to join "${project_title}" on OpenPlans has been approved.  The project is accessible at the following address: ${project_url}
 """)
 
 request_denied = _(u"""Subject: OpenPlans - Your request to join ${project_title}
