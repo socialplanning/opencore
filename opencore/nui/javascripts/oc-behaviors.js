@@ -60,6 +60,9 @@ OC.liveElementKey.Id = {
 
 OC.breatheLife = function(newNode, force) {
 
+    OC.debug("newnode: ");
+    OC.debug(newNode);
+
     OC.time('breatheLife');
       
     // force re-up?
@@ -308,9 +311,13 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
         effects = command.effects;
         html = command.html;
 	    }
-	    OC.debug("REPLACE " + elId + " with " + html + " using effect " + effects);
+	    //OC.debug("REPLACE " + elId + " with " + html + " using effect " + effects);
 	    
 	    html = Ext.util.Format.trim(html);
+	    
+	    OC.debug(html);
+	    OC.debug(elId);
+
 	    var target = Ext.get(elId);
 	    var newNode = Ext.DomHelper.insertHtml('beforeBegin', target.dom, html);
 	    target.remove();
@@ -321,6 +328,8 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
         Ext.get(newNode).fadeIn();
 	    }
 	    
+	    OC.debug("newnode: ")
+	    OC.debug(newNode);
 	    OC.breatheLife(newNode, true);
 	    OC.debug("done breathing");
 	    
@@ -345,13 +354,15 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 	case "append": // fill me in
 	    var html = command.html;
 	    var effects = command.effects;
-	    
+	    	    
 	    html = Ext.util.Format.trim(html);
 	    var target = Ext.get(elId);
 	    
+	    OC.debug(html);
+	    
 	    var newNode = Ext.DomHelper.insertHtml("beforeend", target.dom, html);
 	    if( effects == "highlight" ) {
-		Ext.get(newNode).highlight();
+		    Ext.get(newNode).highlight();
 	    }
 	    OC.breatheLife();
 	    break;
