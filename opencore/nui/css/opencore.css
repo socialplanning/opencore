@@ -1596,7 +1596,10 @@ hr {
 .oc-wiki-content pre,
 .oc-wiki-content ul,
 .oc-wiki-content ol {
-  margin: 0 0 0.5em;
+  margin: 0 0 1em;
+}
+.oc-wiki-content li {
+  margin: 0 0 0.75em;
 }
 /* Kupu: Literal */
 .oc-wiki-content pre {
