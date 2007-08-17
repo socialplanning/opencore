@@ -91,6 +91,21 @@ ul#oc-topnav-context li {
   padding: 0.25em 0.5em;
   margin: 0 0.25em;
 }
+ul#oc-topnav-context li a {
+  padding: .25em .5em;
+}
+#oc-topnav a:hover {
+}
+ul#oc-topnav-context {
+  font-weight: bold;
+  font-size: 10px;
+  margin: 0;
+}
+ul#oc-topnav-context li {
+  margin: 0 0.25em;
+  padding: 0;
+  background: #665D55;
+}
 ul#oc-topnav-context li.oc-topnav-selected {
 }
 #oc-topnav-tab {
