@@ -35,7 +35,7 @@
                   <th class="oc-form-label" scope="row">
                     <label for="id">URL</label>
                   </th>
-                  <td class="oc-form-value">
+                  <td class="oc-form-value oc-form-fieldBlock">
                     <span tal:replace="context/absolute_url" />/
                     <input type="text" name="id" id="id"
                            class="oc-js-liveValidate"
