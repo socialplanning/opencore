@@ -959,7 +959,6 @@ fieldset .oc-heading-context {
   font-style: italic;
 }
 .oc-form-validator {
-
 }
 .oc-form-error {
   color: #F00;
@@ -1596,7 +1595,11 @@ hr {
 .oc-wiki-content pre,
 .oc-wiki-content ul,
 .oc-wiki-content ol {
-  margin: 0 0 1em;
+  margin: 0.75em 0;
+}
+.oc-wiki-content ul,
+.oc-wiki-content ol {
+  padding-left: 1.5em;
 }
 .oc-wiki-content li {
   margin: 0 0 0.75em;
