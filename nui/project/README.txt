@@ -59,6 +59,12 @@ Now, a valid title and id::
     >>> proj
     <OpenProject at /plone/projects/test1>
 
+And let's check that the project title and id are properly set
+    >>> proj.title
+    u'now a valid title!'
+    >>> proj.id
+    'test1'
+
 Let's verify that the last modified author was properly set
     >>> from opencore.interfaces.catalog import ILastModifiedAuthorId
     >>> ILastModifiedAuthorId(proj)
@@ -118,6 +124,8 @@ Now set a valid title::
 
     >>> proj.Title()
     'new full name'
+    >>> proj.title
+    u'new full name'
     >>> proj.getFull_name()
     'new full name'
 

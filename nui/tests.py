@@ -40,6 +40,16 @@ def test_suite():
 
     readme.layer = test_layer
 
+    email_sender = FunctionalDocFileSuite("email-sender.txt",
+                                    optionflags=optionflags,
+                                    package='opencore.nui',
+                                    test_class=OpenPlansTestCase,
+                                    globs = globs,
+                                    setUp=readme_setup
+                                    )
+
+    email_sender.layer = test_layer
+
     placeful_workflow = FunctionalDocFileSuite("placeful_workflow_test.txt",
                                                optionflags=optionflags,
                                                package='opencore.nui',
@@ -49,7 +59,7 @@ def test_suite():
                                                )
 
     placeful_workflow.layer = test_layer
-    return unittest.TestSuite((readme, octotest()))
+    return unittest.TestSuite((readme, octotest(), email_sender))
     #return unittest.TestSuite((readme, octotest(), placeful_workflow))
 
 
