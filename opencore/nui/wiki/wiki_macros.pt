@@ -51,9 +51,6 @@
   <li>
     <h1 class="oc-bcrumb-current" tal:content="view/context/Title" />
   </li>
-  <li>
-    (Last modified <tal:nothing replace="python:view.pretty_date(view.context.ModificationDate())" />)
-  </li>
 </ul>
 <!-- END WIKI BCRUMB -->
 
