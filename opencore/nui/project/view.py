@@ -473,6 +473,8 @@ class ProjectAddView(BaseView, OctopoLite):
         self.errors = {}
         title = self.request.form.get('title')
         title = strip_extra_whitespace(title)
+        if not isinstance(title, unicode):
+            title = unicode(title, 'utf-8')
         self.request.form['title'] = title
         if not valid_project_title(title):
             self.errors['title'] = 'The project name must contain ' \
@@ -494,14 +496,12 @@ class ProjectAddView(BaseView, OctopoLite):
         # not calling validate because it explodes on "'" for project titles
         #proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
-            transaction_note('Started creation of project: %s' %title)
             self.addPortalStatusMessage(u'Please correct the errors indicated below.')
             return 
 
         self.context.portal_factory.doCreate(proj, id_)
         proj = self.context._getOb(id_)
         self.notify(proj)
-        transaction_note('Finished creation of project: %s' %title)
         self.template = None
         self.addPortalStatusMessage(u'%s has been created.' %title)
         self.redirect('%s/manage-team' % proj.absolute_url())
