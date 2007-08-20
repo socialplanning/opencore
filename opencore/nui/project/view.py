@@ -503,7 +503,9 @@ class ProjectAddView(BaseView, OctopoLite):
         proj = self.context._getOb(id_)
         self.notify(proj)
         self.template = None
-        self.addPortalStatusMessage(u'%s has been created.' %title)
+        proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)
+
+        self.addPortalStatusMessage(u'"%s" has been created. Create a team by searching for other members to invite to your project, then <a href="%s">edit your project home page</a>.' % (title, proj_edit_url))
         self.redirect('%s/manage-team' % proj.absolute_url())
 
     def notify(self, project):
