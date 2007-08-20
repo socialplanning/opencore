@@ -24,16 +24,18 @@
       
       <div tal:condition="item/collection/editable | view/editable"
            class="oc-js-liveEdit-editForm  oc-liveEdit-editForm">
-        <input type="text" 
-               tal:attributes="name string:${item/id}_title;
-                               value item/title" 
-               />
-        <input type="submit" class="oc-js-actionButton" value="Save"
-               tal:attributes="name string:task|${item/id}|update" />
-        or
-        <a href="" class="oc-js-liveEdit_hideForm">
-          Cancel
-        </a>
+	<tal:if condition="editable" >  <!-- this is a hack. oh, this whole file is a hack. -->
+          <input type="text" 
+		 tal:attributes="name string:${item/id}_title;
+				 value item/title" 
+		 />
+          <input type="submit" class="oc-js-actionButton" value="Save"
+		 tal:attributes="name string:task|${item/id}|update" />
+          or
+          <a href="" class="oc-js-liveEdit_hideForm">
+            Cancel
+          </a>
+	</tal:if>
       </div>
     </td>
     <td tal:condition="python:item_type!='pages'">
