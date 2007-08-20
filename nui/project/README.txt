@@ -236,9 +236,8 @@ Let's sort based on the membership date::
     >>> len(brains)
     3
     >>> ids = [b.getId for b in brains]
-    >>> ids.sort()
     >>> ids
-    ['m1', 'm3', 'm4']
+    ['m4', 'm1', 'm3']
 
 
 Clear the memoize from the request::
