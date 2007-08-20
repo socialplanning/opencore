@@ -54,14 +54,6 @@ class AccountView(BaseView):
     def login_url(self):
         return "%s/login" % self.context.absolute_url()
 
-    @property
-    def loggedin_fallback_url(self):
-        """
-        When a logged in user goes to the 'login' or 'forgot' page,
-        go here instead. Used in conjunction with anon_only decorator.
-        """
-        return '%s/account' % self.memfolder_url()
-
     ### methods to deal with pending members
 
     def is_pending(self, **query):
@@ -155,7 +147,7 @@ class LoginView(AccountView):
 
         self.addPortalStatusMessage(u'Please check your username and password. If you still have trouble, you can <a href="forgot">retrieve your sign in information</a>.')
 
-    @anon_only(AccountView.loggedin_fallback_url)
+    @anon_only(BaseView.siteURL)
     def handle_request(self):
         """ redirect logged in users """
             
@@ -218,7 +210,7 @@ class JoinView(AccountView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('join.pt')
 
-    @anon_only(AccountView.loggedin_fallback_url)
+    @anon_only(BaseView.siteURL)
     def handle_request(self):
         """ redirect logged in users """
 
@@ -358,7 +350,7 @@ class InitialLogin(BaseView):
 
 class ForgotLoginView(AccountView):
 
-    @anon_only(AccountView.loggedin_fallback_url)
+    @anon_only(BaseView.siteURL)
     @button('send')
     @post_only(raise_=False)
     def handle_request(self):
