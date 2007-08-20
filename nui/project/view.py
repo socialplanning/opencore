@@ -553,8 +553,6 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
 
     def __call__(self):
         """ if already logged in / member of project, redirect appropriately """
-        if hasattr(self, 'debug'):
-            import pdb; pdb.set_trace()
         # if not logged in, redirect to the login form
         if not self.loggedin:
             self.addPortalStatusMessage('Please sign in to continue.')
