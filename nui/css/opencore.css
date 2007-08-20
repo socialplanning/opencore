@@ -947,6 +947,9 @@ fieldset .oc-heading-context {
 .oc-form-value {
   width: auto;
 }
+.oc-form-value.oc-form-fieldBlock {
+  white-space: nowrap;
+}
 .oc-form-help {
   display: block;
   line-height: normal;
@@ -962,9 +965,6 @@ fieldset .oc-heading-context {
   color: #F00;
   font-weight: bold;
   font-size: 11px;
-}
-.oc-form-fieldBlock {
-  /* white-space: nowrap; */
 }
 .oc-form-fieldBlock label {
   font-weight: normal;
