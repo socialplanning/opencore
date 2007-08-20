@@ -1194,7 +1194,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         results = searchForPerson(self.membranetool, search_for)
         results = [r for r in results if r.getId not in existing_ids]
         self.results = results
-        self.addPortalStatusMessage(u'%d members found.' % len(results))
+        if not len(results):
+            self.addPortalStatusMessage(u'No members were found.' % len(results))
 
 
     ##################
