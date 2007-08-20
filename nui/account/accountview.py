@@ -20,6 +20,7 @@ from Products.validation.validators.BaseValidators import EMAIL_RE
 
 from opencore.siteui.member import FirstLoginEvent
 from opencore.nui.base import BaseView
+from opencore.nui.email_sender import EmailSender
 from opencore.nui.formhandler import *
 from DateTime import DateTime
 
@@ -82,8 +83,6 @@ class AccountView(BaseView):
         # TODO only send mail if in the pending workflow state
         mailhost_tool = self.get_tool("MailHost")
 
-        mfrom = self.portal.getProperty('email_from_address')
-
         # TODO move this to a template for easier editting
         message = """You recently signed up to use OpenPlans.org. 
 
@@ -99,10 +98,10 @@ Cheers,
 The OpenPlans Team
 www.openplans.org""" % url
         
-        mailhost_tool.send(message,
-                           mto=email,
-                           mfrom=mfrom,
-                           subject='Welcome to OpenPlans! - Confirm your email')
+        sender = EmailSender(self)
+        sender.sendEmail(mto=email,
+                         msg=message,
+                         subject='Welcome to OpenPlans! - Confirm your email')
 
 
 class LoginView(AccountView):
@@ -400,15 +399,13 @@ class ForgotLoginView(AccountView):
             pwt = self.get_tool("portal_password_reset")
             mail_text = self.render_static("account_forgot_password_email.txt")
             mail_text += self.reset_url
-            mfrom = self.portal.getProperty('email_from_address')            
-            host = self.get_tool('MailHost')
-            host.send(mail_text,
-                      mfrom=mfrom,
-                      subject='OpenPlans - Password reminder',
-                      mto=email
-                      )
+            sender = EmailSender(self)
+            sender.sendEmail(mto=email, 
+                        msg=mail_text,
+                        subject='OpenPlans - Password reminder')
         except SMTPRecipientsRefused:
             # Don't disclose email address on failure
+            # XXX is this needed?
             raise SMTPRecipientsRefused('Recipient address rejected by server')
 
     @property
