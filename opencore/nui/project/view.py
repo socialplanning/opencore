@@ -634,10 +634,10 @@ class ProjectTeamView(TeamRelatedView):
         query = dict(portal_type='OpenMember',
                      getId=mem_ids,
                      )
-        
         member_brains = self.membranetool(**query)
         lookup_dict = dict((b.getId, b) for b in member_brains if b.getId)
-        batch_dict = (lookup_dict.get(b.getId) for b in membership_brains)
+        batch_dict = [lookup_dict.get(b.getId) for b in membership_brains]
+        batch_dict = filter(None, batch_dict)
         return self._get_batch(batch_dict, self.request.get('b_start', 0))
 
     def handle_sort_location(self):
