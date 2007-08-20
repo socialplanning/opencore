@@ -919,6 +919,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         """
         Actually deletes the membership objects, doesn't send a
         notifier.
+
+        Currently hidden in UI because it's confusing to have two
+        options with no explanation.
         """
         # copy targets list b/c manage_delObjects empties the list
         mem_ids = targets[:]
