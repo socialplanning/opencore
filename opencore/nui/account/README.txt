@@ -30,7 +30,12 @@ This should be the case even if the user forgets correct capitalization::
     >>> view.userid
     'test_user_1_'
 
-# test email lookup
+The member needs to have a 'legitimate' email address::
+
+    >>> member = portal.membrane_tool(getUserName='test_user_1_')[0].getObject()
+    >>> member
+    <OpenMember at /plone/portal_memberdata/test_user_1_>
+    >>> member.setEmail('test_emailer_1_@example.com')
 
 Running handle request does all this, and sends the email::
 
