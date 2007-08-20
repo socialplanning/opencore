@@ -299,6 +299,13 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
 
         return (deleted_objects, surviving_objects)
 
+    def show_deletes(self):
+        # XXX this is a speed hack for #1158,
+        # delete button is only shown for
+        # project members, it is not
+        # fine grained. 
+        return 'ProjectMember' in self.context.getTeamRolesForAuthMember()
+
     def _resort(self, item_type, sort_by=None, sort_order=None):
         sort_by = self.needed_values[item_type].sortable(sort_by)
         new_objs = self._sorted_items(item_type, sort_by, sort_order)

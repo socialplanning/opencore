@@ -31,9 +31,11 @@
     </table>
 
     <ul class="oc-actions oc-dataTable-actions" tal:condition="python: item_type != 'pages' or len(item_collection) > 1">
-      <li>
-        <input type="submit" name="task|batch_deletes|delete" value="Delete" class="oc-button" />
-      </li>
+      <tal:if condition="show_deletes">
+        <li>
+          <input type="submit" name="task|batch_deletes|delete" value="Delete" class="oc-button" />
+        </li>
+      </tal:if>
     </ul>
   </form>
 </div> <!-- end .oc-widget-dataTable -->
