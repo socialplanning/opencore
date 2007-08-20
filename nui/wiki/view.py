@@ -174,7 +174,7 @@ class WikiEdit(WikiBase, OctopoLite):
     @action('update-attachment')
     def update_attachment(self, target=None, fields=None):
         ### 
-        # do not assign directly because this will implicitly
+        # do not assign directly because thism will implicitly
         # wrap the attachment in the view.
         commands = {}
         if not target or not fields: return commands
@@ -186,6 +186,16 @@ class WikiEdit(WikiBase, OctopoLite):
                                                  'effects': 'highlight',
                                                  'html': snippet}
         return commands
+
+    def display_delete_for(self, attachment):
+        """
+        decides whether to show the delete button
+        next to an attachment. 
+        """
+
+        # XXX faster way? we know the id...
+        att = self.context._getOb(attachment.id)
+        return self.get_tool('portal_membership').checkPermission('Delete objects', att)
 
     @action('delete-attachment')
     def delete_attachment(self, target=None, fields=None):

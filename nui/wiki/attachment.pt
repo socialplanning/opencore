@@ -7,10 +7,12 @@
            tal:content="attachment/Title | attachment/getId">Id</a>  
         <span class="oc-discreetText" tal:content="attachment/getObjSize"></span>
         <a href="" class="oc-js-liveEdit_showForm oc-actionLink">Edit</a>
-        <a class="oc-js-actionLink oc-actionLink"
-           tal:attributes="href string:edit?task|${attachment/getId}|delete-attachment" >
-          Delete
-        </a>
+	<tal:if condition="python: view.display_delete_for(attachment)">
+          <a class="oc-js-actionLink oc-actionLink"
+             tal:attributes="href string:edit?task|${attachment/getId}|delete-attachment" >
+            Delete
+          </a>
+        </tal:if>
       </div><!-- end .liveEdit-value -->  
       <div class="oc-js-liveEdit-editForm">
       <label for="attachment_title">Title:</label>
