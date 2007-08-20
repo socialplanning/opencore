@@ -91,10 +91,10 @@
            value="Approve"
            class="oc-button" />
   </li>
-  <li>
+  <!--li>
     <input type="submit" name="task|batch_checked|discard-requests"
            value="Discard" class="oc-button" />
-  </li>
+  </li-->
   <li>
     <input type="submit" name="task|batch_checked|reject-requests"
            value="Deny" class="oc-button" />
