@@ -61,7 +61,7 @@ OC.liveElementKey.Id = {
 OC.breatheLife = function(newNode, force) {
 
     OC.time('breatheLife');
-      
+
     // force re-up?
     if (typeof force == "undefined") { force = false }
   
@@ -79,10 +79,8 @@ OC.breatheLife = function(newNode, force) {
     // get an array of elements
     var elements = Ext.query('*', targetNode);
     elements.push(targetNode);
-    
     // loop through elements and match up against selectors
     for (var i = 0; i<elements.length; i++) {
-      
       var element = elements[i];
     
       // which constructors will we add to this element?
@@ -534,12 +532,19 @@ OC.ActionButton = function(extEl) {
           YAHOO.util.Connect.setForm(form.dom);
       }
       OC.debug("...........task is " + task);
-      var cObj = YAHOO.util.Connect.asyncRequest("POST", action, {
-        success: OC.Callbacks.afterAjaxSuccess,
-        upload: OC.Callbacks.afterAjaxSuccess,
-        failure: OC.Callbacks.afterAjaxFailure,
-        scope: this
-          }, "mode=async&" + task + "=" + taskValue);
+     var cObj = YAHOO.util.Connect.asyncRequest("POST", action, {
+	     success: OC.Callbacks.afterAjaxSuccess,
+	     upload: OC.Callbacks.afterAjaxSuccess,
+	     failure: OC.Callbacks.afterAjaxFailure,
+	     scope: this
+	 }, "mode=async&" + task + "=" + taskValue);
+
+     // XXX THIS IS BRITTLE AND STUPID. NICKYG SHOULD REVISIT THIS AND DO IT CORRECTLY; I JUST WANT TO GET SOMETHING WORKING FOR NOW.
+     if( task == "task|upload-attachment" ) {
+	 Ext.get("attachmentTitle").dom.value = "";
+	 Ext.get("attachmentFile").dom.value = "";
+     }
+
     }
     this.button.on('click', _actionButtonClick, this);
     
