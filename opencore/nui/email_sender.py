@@ -60,6 +60,17 @@ class EmailSender(object):
             # it's already an email address
             return addr_token
 
+    def _unicode_values(self, d):
+        result = {}
+        for k, v in d.items():
+            if v is None:
+                v = u''
+            if isinstance(v, unicode):
+                result[k] = v
+            else:
+                result[k] = unicode(v, 'utf-8')
+        return result
+
     def constructMailMessage(self, msg_id, **kwargs):
         """
         Retrieves and returns the mail message text from the
@@ -74,7 +85,8 @@ class EmailSender(object):
         specified message will raise a KeyError.
         """
         msg = getattr(self.messages, msg_id)
-        msg = Message(msg, mapping=kwargs)
+        unicode_kwargs = self._unicode_values(kwargs)
+        msg = Message(msg, mapping=unicode_kwargs)
         return msg
 
     def sendEmail(self, mto, msg=None, msg_id=None, subject=None,
@@ -123,5 +135,8 @@ class EmailSender(object):
             mfrom = view.portal.getProperty('email_from_address')
         else:
             mfrom = self.toEmailAddress(mfrom)
-        self.send(str(translate(msg)), recips, mfrom, subject)
-#        self.mailhost.send(str(translate(msg)), recips, mfrom, subject)
+
+        translated_message = translate(msg)
+        if isinstance(translated_message, unicode):
+            translated_message = translated_message.encode('utf-8')
+        self.send(translated_message, recips, mfrom, subject)

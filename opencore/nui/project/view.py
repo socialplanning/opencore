@@ -579,7 +579,7 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
         if joined:
             team_manage_url = "%s/manage-team" % self.context.absolute_url()
             email_vars = {'member_id': self.member_info.get('id'),
-                          'project_title': self.context.Title(),
+                          'project_title': self.context.title,
                           'team_manage_url': team_manage_url,
                           }
             sender = EmailSender(self, mship_messages)
@@ -601,11 +601,11 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
             try:
                 for recipient in mto:
                     sender.sendEmail(recipient, msg=email_msg, **email_vars)
-                psm = (u'Your request to join "%s" has been sent to the project administrators.' % self.context.Title())
+                psm = (u'Your request to join "%s" has been sent to the project administrators.' % self.context.title)
             except MailHostError:
                 psm = (u'An error has occurred. Your message has not been sent to the project administrators.')
         else:
-            psm = (u"You are already a pending or active member of %s." % self.context.Title())
+            psm = (u"You are already a pending or active member of %s." % self.context.title)
         self.addPortalStatusMessage(psm)
         self.template = None # don't render the form before the redirect
         self.redirect(self.context.absolute_url())
@@ -854,7 +854,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         # XXX not happy about generating the html for this here ... but it's a one liner
         # can move to a macro
         proj_url = self.context.absolute_url()
-        title = self.context.Title()
+        title = self.context.title
         msg = 'You have been %(status)s <a href="%(proj_url)s">%(title)s</a>' % locals()
         self.transient_msgs.store(mem_id, self.msg_category, msg)
 
@@ -892,7 +892,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             wftool.doActionFor(mship, transition_id)
             napproved += 1
             self.email_sender.sendEmail(mem_id, msg_id='request_approved',
-                                        project_title=self.context.Title(),
+                                        project_title=self.context.title,
                                         project_url=self.context.absolute_url())
             self._add_approval_message_for(mem_id)
             res[mem_id] = {'action': 'delete'}
@@ -937,7 +937,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         self.doMshipWFAction('reject_by_admin', mem_ids)
         sender = self.email_sender
         msg = sender.constructMailMessage('request_denied',
-                                          project_title=self.context.Title())
+                                          project_title=self.context.title)
         for mem_id in mem_ids:
             sender.sendEmail(mem_id, msg=msg)
             self._add_deny_message_for(mem_id)
@@ -963,7 +963,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         deletes = []
         sender = self.email_sender
         msg = sender.constructMailMessage('invitation_retracted',
-                                          project_title=self.context.Title())
+                                          project_title=self.context.title)
         ret = {}
         for mem_id in mem_ids:
             mship = self.team.getMembershipByMemberId(mem_id)
@@ -992,7 +992,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         invitations.
         """
         mem_ids = targets
-        project_title = self.context.Title()
+        project_title = self.context.title
         sender = self.email_sender
         for mem_id in mem_ids:
             acct_url = self._getAccountURLForMember(mem_id)
@@ -1021,7 +1021,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
         sender = self.email_sender
         msg = sender.constructMailMessage('invitation_retracted',
-                                          project_title=self.context.Title())
+                                          project_title=self.context.title)
 
         invite_util = getUtility(IEmailInvites)
         proj_id = self.context.getId()
@@ -1042,7 +1042,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         """
         addresses = [urllib.unquote(t) for t in targets]
         sender = self.email_sender
-        project_title = self.context.Title()
+        project_title = self.context.title
         for address in addresses:
             # XXX if member hasn't logged in yet, acct_url will be whack
             query_str = urllib.urlencode({'email': address})
@@ -1109,7 +1109,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         for mem_id in mems_removed:
             try:
                 sender.sendEmail(mem_id, msg_id='membership_deactivated',
-                                 project_title=self.context.Title())
+                                 project_title=self.context.title)
             except MailHostError:
                 self.addPortalStatusMessage('Error sending mail to: %s' % mem_id)
             self._add_removal_message_for(mem_id)
@@ -1233,7 +1233,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
         acct_url = self._getAccountURLForMember(mem_id)
         # XXX if member hasn't logged in yet, acct_url will be whack
-        msg_subs = {'project_title': self.context.Title(),
+        msg_subs = {'project_title': self.context.title,
                     'account_url': acct_url,
                     }
         self.email_sender.sendEmail(mem_id, msg_id='invite_member',
@@ -1274,7 +1274,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
         utility = getUtility(IEmailInvites)
         proj_id = self.context.getId()
-        proj_title = self.context.Title()
+        proj_title = self.context.title
         mbtool = self.membranetool
         uSR = mbtool.unrestrictedSearchResults
         mem_invites = []
@@ -1311,7 +1311,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                     query_str = urllib.urlencode({'email': addy})
                     join_url = "%s/join?%s" % (self.portal.absolute_url(),
                                                query_str)
-                    msg_subs = {'project_title': self.context.Title(),
+                    msg_subs = {'project_title': self.context.title,
                                 'join_url': join_url,
                                 }
                     self.email_sender.sendEmail(addy, msg_id='invite_email',
