@@ -21,7 +21,7 @@
         </a>
       </div>
       
-      <div tal:condition="editable"
+      <div tal:condition="item/collection/editable | view/editable"
            class="oc-js-liveEdit-editForm  oc-liveEdit-editForm">
         <input type="text" 
                tal:attributes="name string:${item/id}_title;
