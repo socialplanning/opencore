@@ -358,7 +358,7 @@ class ForgotLoginView(AccountView):
         if userid:
             if email_confirmation():
                 self._mailPassword(userid)
-                self.addPortalStatusMessage('Please check your email for further instructions.')
+                self.addPortalStatusMessage('Your username is %s.  If you would like to reset your password, please check your email account for further instructions.' % userid)
             else:
                 self.redirect(self.reset_url)
             return True
