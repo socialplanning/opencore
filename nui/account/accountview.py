@@ -98,7 +98,7 @@ Cheers,
 The OpenPlans Team
 www.openplans.org""" % url
         
-        sender = EmailSender(self)
+        sender = EmailSender(self, secureSend=True)
         sender.sendEmail(mto=email,
                          msg=message,
                          subject='Welcome to OpenPlans! - Confirm your email')
@@ -399,7 +399,7 @@ class ForgotLoginView(AccountView):
             pwt = self.get_tool("portal_password_reset")
             mail_text = self.render_static("account_forgot_password_email.txt")
             mail_text += self.reset_url
-            sender = EmailSender(self)
+            sender = EmailSender(self, secureSend=True)
             sender.sendEmail(mto=email, 
                         msg=mail_text,
                         subject='OpenPlans - Password reminder')

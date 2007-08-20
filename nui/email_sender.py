@@ -15,7 +15,7 @@ class EmailSender(object):
     user interface.  Needs to be passed an instance of a BaseView
     subclass at creation time.
     """
-    def __init__(self, view, messages=None):
+    def __init__(self, view, messages=None, secureSend=False):
         """
         o view: an instance of a BaseView subclass that provides a
         mechanism for the EmailSender to access tools and the Zope
@@ -23,13 +23,23 @@ class EmailSender(object):
 
         o messages: an object (usually a python module) that contains
         attributes corresponding to the email messages to go out.
+
+        o secureSend: whether we should attempt to use the secureSend
+        vs. the send function
         """
         self.view = view
         self.messages = messages
+        self.secureSend = secureSend
 
     @property
     def mailhost(self):
         return self.view.get_tool('MailHost')
+
+    @property
+    def send(self):
+        if self.secureSend and hasattr(self.mailhost, 'secureSend'):
+            return self.mailhost.secureSend
+        return self.mailhost.send
 
     def toEmailAddress(self, addr_token):
         """
@@ -113,4 +123,5 @@ class EmailSender(object):
             mfrom = view.portal.getProperty('email_from_address')
         else:
             mfrom = self.toEmailAddress(mfrom)
-        self.mailhost.send(str(translate(msg)), recips, mfrom, subject)
+        self.send(str(translate(msg)), recips, mfrom, subject)
+#        self.mailhost.send(str(translate(msg)), recips, mfrom, subject)
