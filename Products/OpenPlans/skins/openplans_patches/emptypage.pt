@@ -12,8 +12,6 @@
     <link rel="stylesheet" type="text/css" href="#" tal:attributes="href string:${here/portal_url}/++resource++css/ie6.css" />
     <![endif]-->
     
-    <link rel="stylesheet" type="text/css" href="#" tal:attributes="href string:${here/portal_url}/++resource++css/openplans.css" />
-    
     <base href="emptypage"
         tal:define="folderish here/isPrincipiaFolderish; tail python:test(folderish, '/', '');"
         tal:attributes="href string:${request/URL1}${tail}" />
