@@ -715,7 +715,7 @@ a.wickedadd {
   display: block;
 }
 .oc-listen-message pre.oc-listen-message-body {
-  /* white-space: normal; */
+  width: 100%;
 }
 .oc-listen-message-child {
   border-top: 1px solid #ccc;
