@@ -305,7 +305,9 @@ class MemberAccountView(BaseView, OctopoLite):
         if not self._can_leave(proj_id): return False
 
         if self._is_only_admin(proj_id):
-            only_admin_msg = "You are the only remaining administrator. You can't leave this project without appointing another."
+            proj_metadata = self.catalogtool.getMetadataForUID('/openplans/projects/%s' % proj_id)
+            proj_title = proj_metadata.get("Title")
+            only_admin_msg = "You are the only remaining administrator of \"%s\". You can't leave this project without appointing another." % proj_title
             self.addPortalStatusMessage(only_admin_msg)
             return False
 
