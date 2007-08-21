@@ -200,7 +200,7 @@ it, and return an appropriate portal status message
     >>> view.leave_project('p3')
     False
     >>> view.portal_status_message
-    [u"You are the only remaining administrator. You can't leave this project without appointing another."]
+    [u'You are the only remaining administrator ... leave this project without appointing another.']
 
     Even if we are in the private state
     >>> view.change_visibility('p3')
@@ -208,7 +208,7 @@ it, and return an appropriate portal status message
     >>> view.leave_project('p3')
     False
     >>> view.portal_status_message
-    [u"You are the only remaining administrator. You can't leave this project without appointing another."]
+    [u'You are the only remaining administrator ... leave this project without appointing another.']
 
     >>> project_dicts = view.invitations()
     >>> [d['proj_id'] for d in project_dicts]
