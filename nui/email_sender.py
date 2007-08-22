@@ -37,9 +37,9 @@ class EmailSender(object):
 
     @property
     def send(self):
-        if self.secureSend and hasattr(self.mailhost, 'secureSend'):
-            return self.mailhost.secureSend
-        return self.mailhost.send
+        return (self.secureSend
+                 and self.mailhost.secureSend
+                 or self.mailhost.send)
 
     def toEmailAddress(self, addr_token):
         """
