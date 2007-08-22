@@ -40,9 +40,9 @@
           </noscript>
         </ul>
       </form>
-    </div><!-- end .widget-table -->
     
-    <!-- XXX -->
+    <!-- end .widget-table --></div>
+
     <tal:no_updates condition="not: projinfos">
       <div id="project_table">
         <h2>You don't belong to any projects.</h2>
