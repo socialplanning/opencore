@@ -4,6 +4,7 @@ from Products.CMFCore.CatalogTool import _getAuthenticatedUser, \
      _checkPermission, AccessInactivePortalContent
 from Products.AdvancedQuery import In, Eq, Le, Ge
 from Products.AdvancedQuery.eval import eval as _eval
+from Products.PasswordResetTool.tests.utils.mailhost import MockMailHost
 
 ##################################################
 # make MaildropHost work like SecureMailHost
@@ -65,6 +66,11 @@ def unapply_mailhost_patches():
 
 if MaildropHost is not None:
     apply_mailhost_patches()
+
+def apply_mock_mailhost_patch():
+    patch_class(MockMailHost, 'secureSend', MockMailHost.send.im_func)
+
+apply_mock_mailhost_patch()
 
 def new_evalAdvancedQuery(self,query,sortSpecs=()):
     '''evaluate *query* for 'CatalogTool' and sort results according to *sortSpec*.'''

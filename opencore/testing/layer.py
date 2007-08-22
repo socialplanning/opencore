@@ -28,6 +28,7 @@ class MailHostMock(object):
                'subject': subject,
                }
         self.messages.append(msg)
+    secureSend = send
     def validateSingleEmailAddress(self, email):
         return True
 
