@@ -1,0 +1,95 @@
+from Products.wicked.browser.add import WickedAdd
+from Acquisition import aq_inner, aq_parent
+from Products.wicked.lib.normalize import titleToNormalizedId as normalize
+from zope.interface import providedBy
+from zope.app.apidoc.component import getRequiredAdapters as get_required
+from zope.publisher.interfaces import IRequest
+from opencore.nui.base import BaseView
+from Products.wicked.utils import getFilter
+from zope.component import ComponentLookupError
+from zExceptions import Redirect
+import itertools
+
+
+class NuiBaseAdd(WickedAdd, BaseView):
+    type_name = 'Document'
+    _viewnames = None
+    extender = 'page'
+
+    def __init__(self, context, request):
+        super(NuiBaseAdd, self).__init__(context, request)
+        self.errors = {}
+        self.response = self.request.RESPONSE
+    
+    def get_container(self):
+        raise NotImplementedError
+
+    def sanitize(self, id_):
+        new_id = normalize(id_)
+        if new_id in self.names_for_context:
+            new_id = "%s-%s" %(new_id, self.extender)
+        return new_id
+    
+    def do_wicked(self, newcontent, title, section):
+        try:
+            wicked = getFilter(self.context)
+            wicked.section=section 
+            wicked.manageLink(newcontent, normalize(title))
+        except ComponentLookupError:
+            pass
+        
+    def add_content(self, title=None, section=None):
+        # this is 2.5 specific and will need to be updated for new
+        # wicked implementation (which is more modular)
+        title = self.request.get('Title', title)
+        section = self.request.get('section', section)
+        assert title, 'Must have a title to create content' 
+        newcontentid=self.sanitize(title)
+        container = self.get_container()
+        container.invokeFactory(self.type_name, id=newcontentid,
+                             title=title)
+        newcontent = getattr(self.context, newcontentid)
+        self.do_wicked(newcontent, title, section)
+        portal_status_message='"%s" has been created' % title
+        BaseView.add_status_message(self, portal_status_message)
+        url = newcontent.absolute_url()
+        restr = "%s/edit" %url
+        return BaseView.redirect(self, restr)
+
+    @property
+    def names_for_context(self):
+        return get_view_names(self.get_container()) 
+
+
+class NuiContainerAdd(NuiBaseAdd):
+    """add mechanism for a container"""
+
+    def get_container(self):
+        return aq_inner(self.context)
+
+
+class NuiPageAdd(NuiBaseAdd):
+
+    def get_container(self):
+        return aq_parent(aq_inner(self.context))
+
+
+def get_view_names(obj):
+    ifaces = providedBy(obj)
+    regs = itertools.chain(*(get_required(iface, withViews=True) \
+                             for iface in ifaces))
+    return set(reg.name for reg in regs\
+               if reg.required[-1].isOrExtends(IRequest))
+
+class ListsDummy(BaseView):
+    def __init__(self, context, request):
+        super(ListsDummy, self).__init__(context, request)
+        raise Redirect, "%s/%s" %(self.area.absolute_url(), "preferences")
+        
+    
+
+    
+
+    
+    
+

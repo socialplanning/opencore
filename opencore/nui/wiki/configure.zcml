@@ -7,7 +7,7 @@
      class="opencore.nui.base.BaseView"
      for="opencore.interfaces.IOpenPage"
      name="wiki_macros"
-     permission="zope.Public"
+     permission="zope2.View"
      template="wiki_macros.pt"
      />
 
@@ -16,14 +16,14 @@
     class=".macros.WikiMacros"
     for="*"
     name="wiki_macros"
-    permission="zope.Public"
+    permission="zope2.View"
     />
      
   <browser:page
-    class="opencore.nui.base.BaseView"
+    class=".view.WikiView"
     for="opencore.interfaces.IOpenPage"
     name="view"
-    permission="zope.Public"
+    permission="zope2.View"
     template="wiki-view.pt"
     />
 
@@ -35,19 +35,58 @@
     />
 
   <browser:page
-    class="opencore.nui.base.BaseView"
+    class="opencore.nui.wiki.view.WikiEdit"
     for="opencore.interfaces.IOpenPage"
     name="edit"
-    permission="cmf.ModifyPortalContent"
     template="wiki-edit.pt"
+    permission="cmf.ModifyPortalContent"
     />
 
-  <!-- FIXME what are the permissions on history exactly? -->   
+  <browser:page
+     class="opencore.nui.wiki.add.NuiContainerAdd"
+     for="opencore.interfaces.IProject"
+     permission="cmf.AddPortalContent"
+     name="add-page"
+     attribute="add_content"
+     />
+
+  <browser:page
+     class="opencore.nui.wiki.add.NuiPageAdd"
+     for="opencore.interfaces.IOpenPage"
+     permission="cmf.AddPortalContent"
+     name="add-page"
+     attribute="add_content"
+     />
+
+  <!-- placeholder view for lists -->
+  <browser:page
+     class="opencore.nui.wiki.add.ListsDummy"
+     for="opencore.interfaces.IProject"
+     permission="zope2.View"
+     name="lists"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IOpenPage"
+     name="link_renderer"
+     permission="zope2.View"
+     template="wicked_link.pt"
+     allowed_attributes="howmany
+			 multiple
+			 chunk
+			 singlelink
+			 links
+			 count"
+     class="Products.wicked.browser.link.BasicFiveLink"
+     />
+
+
+  <!-- versioning -->
   <browser:page
      class=".historyview.WikiVersionView"
      for="opencore.interfaces.IOpenPage"
      name="history"
-     permission="cmf.ModifyPortalContent"
+     permission="zope2.View"
      template="wiki-history.pt"
      />
 
@@ -55,7 +94,7 @@
      class=".historyview.WikiVersionView"
      for="opencore.interfaces.IOpenPage"
      name="version"
-     permission="cmf.ModifyPortalContent"
+     permission="zope2.View"
      template="wiki-previous-version.pt"
      />
 
@@ -63,8 +102,15 @@
      class=".historyview.WikiVersionCompare"
      for="opencore.interfaces.IOpenPage"
      name="version_compare"
-     permission="cmf.ModifyPortalContent"
+     permission="zope2.View"
      template="wiki-version-compare.pt"
+     />
+
+  <browser:page
+     class=".historyview.WikiVersionRevert"
+     for="opencore.interfaces.IOpenPage"
+     name="revert"
+     permission="cmf.ModifyPortalContent"
      />
 
   <!-- attachments -->

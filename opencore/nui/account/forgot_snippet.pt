@@ -1,0 +1,34 @@
+<metal:forgot define-macro="forgot_snippet"
+     tal:define="klass_ expander_hack_from_parent_template | string:oc-js-expander oc-expander">
+  <div tal:attributes="class klass_">
+  <h2 class="oc-bigText"><a class="oc-js-expander_open oc-expanderLink-open oc-expanderLink" href="forgot">Forgot your username or password?</a></h2>
+        <form class="oc-js-expander-content oc-expander-content"
+           tal:attributes="action string: forgot"
+           method="post" id="oc-login-form">
+          <p class="oc-headingContext">Enter your username or email address to retrieve your login information.</p>
+          <table class="oc-form" cellpadding="0" cellspacing="0">
+            <thead></thead>
+            <tbody>
+              <tr>
+                <th class="oc-form-label" scope="row">
+                  <label for="__ac_name">Username or email address</label>
+                </th>
+                <td class="oc-form-value"><input type="text" size="15" tabindex="0" name="__ac_name" value="" id="__ac_name" class="oc-firstFocus" /></td>
+                <td class="oc-form-help">
+                  <span class="oc-form-context"></span>
+                  <span id="oc-validator-username" class="oc-form-validator"></span>
+                </td>
+              </tr>
+              <tr class="oc-actions">
+               <th></th>
+                <td>
+                  <button type="submit" 
+                          name="send:boolean" 
+                          value="True">Send</button>
+                <td class="oc-form-help"></td>
+              </tr>                    
+            </tbody>
+          </table>
+        </form>
+  </div>
+</metal:forgot>

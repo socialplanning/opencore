@@ -16,6 +16,8 @@
   <include package=".member" />
   <include package=".topnav" />
   <include package=".error" />
+  <include package=".listen" />
+  <include file="indexing.zcml" />
 
   <!-- resource directories for css, images, etc -->
   <browser:resourceDirectory
@@ -26,6 +28,10 @@
   <browser:resourceDirectory
     name="img"
     directory="img"
+    />
+  <browser:resourceDirectory
+    name="kupu"
+    directory="kupu"
     />
 
   <browser:resourceDirectory

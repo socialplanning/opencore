@@ -1,14 +1,12 @@
-<h3 class="Subheading" tal:content="string:${options/member_id} Home Page">MEMBER Home Page</h3>
-
 <p>
-This is your personal OpenPlans home page.  You may edit this text
-by using the 'edit' tab that you see at the top of the page.
+<b>Edit this page:</b>
+This is the home page for your project.  You may replace or edit this text
+by using the <a class="oc-actionLink" href="edit">edit</a> link on the green line above.
 </p>
 
 <p>
-You can add a ((new page)) by enclosing the title of the page
-in double parentheses.  This will cause a link to show up immediately
-after the text; clicking on this link will create the new page for
-you.  If a page with that name already exists, the text will simply
+<b>Create a new page:</b>
+Add a new page by enclosing the title of the page name
+in &#40;&#8288;&#40;double parentheses&#41;&#8288;&#41;.  This will convert the text into a link; clicking on this link will create the new page.  If a page with that name already exists, the text will instead
 link to that page.
 </p>

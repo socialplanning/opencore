@@ -1,117 +1,121 @@
-<tal:handle-request 
-  replace="nothing"
-  define="global fdata view/handle_request;">
-  This could be used to return a variety of template friendly info
-  regarding the processing of the form
-</tal:handle-request>
-
 <tal:vars define="usr view/viewedmember;
-                  data view/viewed_member_info">
+                  memberdata view/viewed_member_info">
 
 <html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:${view/area/Title} on OpenPlans" />
+  </head>
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
-        <form name="profile_form" id="profile_form" method="post" class="oc-member-edit oc-liveForm" action="handle-form">
+        <tal:first-login condition="request/first_login | nothing">
+          <div class="oc-getstarted oc-js-closeable">
+            <h1>Welcome to OpenPlans!</h1>
+            <p class="oc-bigText">
+              Please take a moment to fill out your profile then proceed to your <a href="account">account</a> page.
+            </p>
+            <div tal:condition="view/has_invitations" class="oc-bigText">
+                Or, continue to
+                <a tal:attributes="href string:${context/absolute_url}/invitations">
+                  The Projects that Invited You
+                </a>.
+            </div>
+          </div>
+        </tal:first-login>
+        <form name="profile_form" id="profile_form" method="post" class="oc-member-edit" action="profile-edit" enctype="multipart/form-data">
           <div id="oc-member-badge" class="oc-boxy oc-clearAfter">
             <div class="oc-member-editimage">
-              <div class="oc-avatar" id="oc-profile-avatar">
-                <img tal:attributes="src data/portrait_url" />
-                <fieldset class="oc-expander" style="clear: left;">
-                  <legend class="oc-legend-label">
-                    <a href="#" class="oc-expander-link">Change image</a>
-                  </legend>
-                  <div class="oc-expander-content">
-                    <input type="file" size="14" name="portrait" /><br />
-                    <button type="submit" name="task"
-                        value="oc-profile-avatar_uploadAndUpdate">Update</button>
-                    or <a href="#">remove image</a>
-                  </div>
-                </fieldset>
-              </div>
+              <div metal:use-macro="view/portrait_snippet/macros/portrait" />
             </div>
             <fieldset>
-              <div class="oc-headingBlock">
-                <h1 class="fn" tal:content="data/id" />
-                <p class="oc-headingContext oc-discreetText">
-                  member since <span tal:replace="data/membersince" />,
-                  last online <span tal:replace="data/lastlogin" />
-                </p>
-              </div>
+              <metal:login-info use-macro="view/member_macros/macros/login-info" />
               <ul class="oc-plainList">
                 <li>
-                  <label for="fullname">Full name</label><br />
+                  <label for="fullname">Name</label><br />
                   <input type="text" id="fullname" name="fullname"
-                    tal:attributes="value request/fullname | data/fullname" />
+                    class="oc-autoFocus"
+                    tal:condition="python: request.form.get('field') == 'fullname'"
+                    tal:attributes="value request/fullname | memberdata/fullname" />
+                  <input type="text" id="fullname" name="fullname"
+                    tal:condition="python: request.form.get('field') != 'fullname'"
+                    tal:attributes="value request/fullname | memberdata/fullname" />
                 </li>
                 <li>
                   <label for="location">Location</label><br />
                   <input type="text" id="location" name="location"
-                    tal:attributes="value request/location | data/location" />
+                    class="oc-autoFocus"
+                    tal:condition="python: request.form.get('field') == 'location'"
+                    tal:attributes="value request/location | memberdata/location" />
+                  <input type="text" id="location" name="location"
+                    tal:condition="python: request.form.get('field') != 'location'"
+                    tal:attributes="value request/location | memberdata/location" />
                 </li>
               </ul>
             </fieldset>
           </div>
           <fieldset>
 
-            <label for="statement">Personal Statement</label><br />
+            <label for="statement">About</label>
             <textarea rows="3" cols="80" name="statement" id="statement"
-              tal:content="request/statement | data/statement"></textarea>
+              class="oc-autoFocus"
+              tal:condition="python: request.form.get('field') == 'statement'"
+              tal:content="request/statement | memberdata/statement"></textarea>
+            <textarea rows="3" cols="80" name="statement" id="statement"
+              tal:condition="python: request.form.get('field') != 'statement'"
+              tal:content="request/statement | memberdata/statement"></textarea>
 
-            <label for="background">Background</label><br />
+            <label for="background">Background</label>
             <textarea rows="1" cols="80" name="background" id="background"
-              tal:content="request/background | data/background"></textarea>
+              class="oc-autoFocus"
+              tal:condition="python: request.form.get('field') == 'background'"
+              tal:content="request/background | memberdata/background"></textarea>
+            <textarea rows="1" cols="80" name="background" id="background"
+              tal:condition="python: request.form.get('field') != 'background'"
+              tal:content="request/background | memberdata/background"></textarea>
 
-            <label for="skills">Skills/Interests</label><br />
+            <label for="skills">Skills/Interests</label>
             <textarea rows="1" cols="80" name="skills" id="skills"
-              tal:content="request/skills | data/skills"></textarea>
+              class="oc-autoFocus"
+              tal:condition="python: request.form.get('field') == 'skills'"
+              tal:content="request/skills | memberdata/skills"></textarea>
+            <textarea rows="1" cols="80" name="skills" id="skills"
+              tal:condition="python: request.form.get('field') != 'skills'"
+              tal:content="request/skills | memberdata/skills"></textarea>
 
-            <label for="affiliations">Affiliations</label><br />
+            <label for="affiliations">Affiliations</label>
             <textarea rows="1" cols="80" name="affiliations" id="affiliations"
-              tal:content="request/affiliations | data/affiliations"></textarea>
+              class="oc-autoFocus"
+              tal:condition="python: request.form.get('field') == 'affiliations'"
+              tal:content="request/affiliations | memberdata/affiliations"></textarea>
+            <textarea rows="1" cols="80" name="affiliations" id="affiliations"
+              tal:condition="python: request.form.get('field') != 'affiliations'"
+              tal:content="request/affiliations | memberdata/affiliations"></textarea>
 
-            <label for="favorites">Favorites</label><br />
+            <label for="favorites">Favorites</label>
             <textarea rows="1" cols="80" name="favorites" id="favorites"
-              tal:content="request/favorites | data/favorites"></textarea>
+              class="oc-autoFocus"
+              tal:condition="python: request.form.get('field') == 'favorites'"
+              tal:content="request/favorites | memberdata/favorites"></textarea>
+            <textarea rows="1" cols="80" name="favorites" id="favorites"
+              tal:condition="python: request.form.get('field') != 'favorites'"
+              tal:content="request/favorites | memberdata/favorites"></textarea>
 
           </fieldset>
 
           <ul class="oc-actions oc-wiki-actions">
             <li>
-              <button type="submit"
-                name="task"
-                value="update"
-                class="oc-button oc-chooseThis">
-                Update
-              </button>
+              <input type="submit" 
+                     name="task|update"
+                     value="Update"
+                     class="oc-button oc-chooseThis" />
+              or <a href="profile">Cancel</a>
             </li>
           </ul> 
         </form>
       </div><!-- end #oc-content-main -->
 
       <div id="oc-content-sidebar">
-        <div class="oc-boxy">
-          <h2>Recent activity</h2>
-          <div class="oc-widget oc-widget-lastModified">
-            <div class="oc-headingBlock">
-              <h3>Pages last modified</h3>
-            </div><!-- end .oc-headingBlock -->
-            <table class="oc-dataTable" cellpadding="0" cellspacing="0">
-              <thead>
-                <tr>
-                  <th scope="col">Date</th>
-                  <th scope="col">Page</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr tal:repeat="item view/activity">
-                  <td tal:content="item/date" />
-                  <td><a tal:attributes="href item/url" tal:content="item/title" /></td>
-                </tr>
-              </tbody>
-            </table>
-          </div><!-- end .oc-widget-lastModified -->
-        </div><!-- end .oc-boxy -->
+        <metal:status-messages use-macro="view/member_macros/macros/recent-activity" />
       </div><!-- end .oc-content-sidebar -->
     </div><!-- content-fill-slot -->
   </body>

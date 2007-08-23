@@ -30,11 +30,19 @@ def test_suite():
                                     globs = globs,
                                     setUp=readme_setup
                                     )
+    
+    wikiadd = FunctionalDocFileSuite("add.txt",
+                                    optionflags=optionflags,
+                                    package='opencore.nui.wiki',
+                                    test_class=FunctionalTestCase,
+                                    globs = globs
+                                    )
 
     htmldiff2 = doctest.DocFileSuite('test_htmldiff2.txt')
     readme.layer = OpencoreContent
+    wikiadd.layer = OpencoreContent
 
-    return unittest.TestSuite((readme, htmldiff2))
+    return unittest.TestSuite((wikiadd, readme, htmldiff2))
 
 
 if __name__ == '__main__':

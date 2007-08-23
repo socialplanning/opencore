@@ -15,7 +15,7 @@ opencore.nui.base
     DateTime('...')
 
     >>> view.dob
-    'Today'
+    'today'
     
     >>> view.siteURL
     'http://nohost/plone'
@@ -69,7 +69,7 @@ efficient(faster) as mixins
 Aliases to commonly used tools are provided and also memoized::
 
     >>> pview.get_tool('uid_catalog')
-    <UIDCatalog at /plone/uid_catalog>
+    <UIDCatalog at /plone/uid_catalog...>
     
     >>> pview.membranetool
     <MembraneTool at /plone/membrane_tool>
@@ -100,20 +100,28 @@ User/Account methods
     <OpenMember at /plone/portal_memberdata/test_user_1_>
 
 
-Home url
+Member folder/homepage url
 --------
 
-Nothing is member isn't confirmed::
+Nothing means member isn't confirmed::
     
-    >>> pview.home_url_for_id('m1')
+    >>> pview.memfolder_url(id_='m1') is None
+    True
 
 Should get the member folder url for a confirmed member::
 
-    >>> pview.home_url_for_id('test_user_1_')
+    >>> pview.memfolder_url(id_='test_user_1_')
     'http://nohost/plone/people/test_user_1_'
 
-    >>> pview.home_url
+    >>> pview.memfolder_url()
     'http://nohost/plone/people/test_user_1_'
+
+Get homepage url (coming soon)::
+
+    >>> pview.memhome_url()
+    'http://nohost/plone/people/test_user_1_/None'
+
+
 
 
 Member info
@@ -121,18 +129,62 @@ Member info
 
     >>> pprint(pview.member_info)
     {'affiliations': '',
+     'anon_email': True,
      'background': '',
+     'email': '',
      'favorites': '',
+     'folder_url': 'http://nohost/plone/people/test_user_1_',
      'fullname': '',
+     'home_url': 'http://nohost/plone/people/test_user_1_/None',
      'id': 'test_user_1_',
-     'lastlogin': 'January 1, 2000',
+     'lastlogin': 'never',
      'location': '',
-     'membersince': 'Today',
-     'portrait_url': '++resource++img/default-portrait.jpg',
+     'membersince': 'today',
+     'portrait_thumb_url': '++resource++img/default-portrait-thumb.gif',
+     'portrait_url': '++resource++img/default-portrait.gif',
+     'portrait_width': '200',
+     'projects': [],
      'skills': '',
      'statement': '',
      'url': 'http://nohost/plone/people/test_user_1_'}
 
+
+test nusers and projects_served_count
+-------------------------
+    >>> pview.nusers()
+    5
+    >>> pview.projects_served_count()
+    4
+    >>> members_map = {'new_user':{'fullname':'new user',
+    ...                            'password':'testy',
+    ...                            'email':'new_user@example.com',
+    ...                            'projects':{}}}
+    >>> projects_map = {'new_project':{'title':'New Project', 'workflow_policy':'closed_policy'}}
+    >>> from Products.OpenPlans.Extensions import create_test_content
+    >>> create_test_content.create_test_content(self.portal, p_map=projects_map, m_map=members_map)
+    'Project new_project added\nMember new_user added'
+    >>> self.clearMemoCache()
+    >>> pview.nusers()
+    6
+    >>> pview.projects_served_count()
+    5
+    >>> self.logout()
+    >>> pview.loggedin
+    False
+    >>> pview.projects_served_count()
+    5
+
+portal_status_message
+=====================
+
+The BaseView class has a property portal_status_message which returns
+a list of all portal_status_messages: both those saved in the
+plone_utils tool and those passed into the request.
+
+    >>> self.request.form['portal_status_message'] = "I am a banana!"
+    >>> view = BaseView(self.homepage, self.request)
+    >>> view.portal_status_message
+    ['I am a banana!']
 
 include
 -------
@@ -141,4 +193,59 @@ include
 
 
 
+Search restriction
+==================
 
+Add a closed project, and the number of total projects should update (footer)
+
+   The view is the homepage, so let's reuse that. Initially, we should have 4 projects
+   >>> self.clearMemoCache()
+   >>> view.projects_served_count()
+   5
+
+   Let's add a new closed project
+   First, let's login as m1
+   >>> self.logout()
+   >>> self.login('m1')
+
+   >>> self.createClosedProject('new_closed_project')
+   <OpenProject at /plone/projects/new_closed_project>
+
+   When querying for number of total projects, we should get
+   another result
+   >>> self.clearMemoCache()
+   >>> view.projects_served_count()
+   6
+
+   Now we logout, and we should still get the new project
+   >>> self.clearMemoCache()
+   >>> self.logout()
+   >>> view.projects_served_count()
+   6
+
+
+
+Title or id for items metadata
+------------------------------
+
+Old attachment have no titles thereby do not work in the contents
+view::
+
+   >>> self.loginAsPortalOwner()
+   >>> from opencore.nui.indexing import metadata_for_portal_content
+   >>> from opencore.nui.indexing import metadata_for_brain
+   >>> id_ = self.homepage.invokeFactory('FileAttachment', id='someid')
+   >>> self.homepage.someid.Title()
+   ''
+
+The title is accessed 2 ways, via direct access of the object and
+catalog brain::
+
+   >>> catalog = self.portal.portal_catalog
+   >>> metadata_for_portal_content(self.homepage.someid, catalog)['Title']
+   'someid'
+
+   >>> brain = catalog(getId=id_)[0]
+   >>> metadata_for_brain(brain)['Title']
+   'someid'
+   

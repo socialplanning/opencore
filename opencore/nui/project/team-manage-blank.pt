@@ -1,0 +1,87 @@
+<tal:vars define="global proj view/project_info;
+                  global team_manage_macros view/team_manage_macros/macros" />
+
+<tal:handle-request condition="request/handle_request | nothing">
+  <tal:callit define="bogus view/handle_request" />
+</tal:handle-request>
+
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:Manage Team - ${view/area/Title}" />
+  </head>
+  <body>
+    <div metal:fill-slot="content">
+    
+    <div class="oc-headingBlock">
+      <h1>Team management</h1>
+      <p class="oc-headingContext"
+         tal:define="nmembers python:len(view.active_mships);
+                     npending python:len(view.pending_mships)"
+         tal:content="string:$nmembers members, $npending pending memberships" />
+    </div>
+    
+    <div id="oc-content-main">
+
+      <div id="oc-congrats" class="oc-getstarted">
+        <h2>Congratulations on your new project!</h2>
+        <p>
+          You should now create a team for your project by adding existing
+          OpenPlans members.
+        </p>
+        <p>
+          You will always be able to add new members and manage your team
+          later from this page.
+        </p>
+      </div><!-- end #oc-congrats -->
+
+      <form name="search-members" id="search-members" method="POST" 
+        tal:attributes="action view/request/ACTUAL_URL">
+        
+        <div id="oc-search-members" class="oc-widget oc-widget-search oc-boxy">
+          <h2>Search for members</h2>
+          <p class="oc-headingContext">
+            Search the OpenPlans directory to find users you know and
+            invite them to join your project.
+          </p>
+          <fieldset class="oc-form-fieldBlock" style="margin-bottom: 1em;">
+            <input class="oc-input-typeText" type="text" name="search_for" />
+            <input type="submit" name="task|none|search-members"
+             value="Search" class="oc-button" />
+           </fieldset>
+        </div><!-- end #oc-search-members -->
+        
+        <metal:search-members use-macro="team_manage_macros/search-members-results" />
+        
+      </form><!-- end #search-members -->
+
+    </div><!-- end #oc-content-main -->
+    
+    <div id="oc-content-sidebar">
+      <div class="oc-boxy">
+        <h2>What's a team?</h2>
+  
+        <h3>About Teams</h3>
+        <p>
+          An OpenPlans team is a group of registered members that are
+          active participants in your project.
+        </p>
+        <p>
+          If your project is open, anyone else can edit your content, but
+          they will not show up on the list of project team members, and
+          the project will not show up on the members' project lists.
+        </p>
+  
+        <h3>About Roles</h3>
+        <dl class="oc-plainList">
+          <dt>Member</dt>
+          <dd>Definition of member</dd>
+          
+          <dt>Administrator</dt>
+          <dd>Definition of admin</dd>
+        </dl>
+      </div>
+    </div><!-- end #oc-content-sidebar -->
+    
+    </div><!-- end content-fill-slot -->
+  </body>
+</html>

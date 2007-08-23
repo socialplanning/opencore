@@ -6,7 +6,7 @@
   <browser:page
      for="*"
      class=".topnav.TopNavView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="oc-topnav"
      template="topnav.pt"
      />
@@ -15,7 +15,7 @@
   <browser:page
      for="*"
      class=".topnav.ProjectMenuView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="topnav-project-menu"
      template="context-menu.pt"
      />
@@ -24,7 +24,7 @@
   <browser:page
      for="*"
      class=".topnav.MemberMenuView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="topnav-member-menu"
      template="context-menu.pt"
      />
@@ -33,7 +33,7 @@
   <browser:page
      for="*"
      class=".topnav.TopNavView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="topnav-default-menu"
      template="default-menu.pt"
      />
@@ -42,7 +42,7 @@
   <browser:page
      for="*"
      class=".topnav.AuthMenuView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="topnav-auth-user-menu"
      template="user-menu.pt"
      />
@@ -51,7 +51,7 @@
   <browser:page
      for="*"
      class=".topnav.AnonMenuView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="topnav-anon-user-menu"
      template="user-menu.pt"
      />
@@ -60,16 +60,25 @@
   <browser:page
      for="*"
      class="opencore.nui.base.BaseView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="topnav-explore-menu"
      template="explore-menu.pt"
+     />
+
+  <!-- topnav-explore-menu -->
+  <browser:page
+     for="*"
+     class="opencore.nui.base.BaseView"
+     permission="zope2.View"
+     name="topnav-mystuff-menu"
+     template="mystuff-menu.pt"
      />
 
   <!-- topnav-accessibility -->
   <browser:page
      for="*"
      class=".topnav.TopNavView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="oc-topnav-accessibility"
      template="historical/topnav-accessibility.pt"
      />

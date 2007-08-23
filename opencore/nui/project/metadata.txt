@@ -1,0 +1,108 @@
+=======================
+ metadata manipulation
+=======================
+
+The basic usecase here is that objects need to notify and update
+catalog metadata related to their container in order to facilitate
+displaying the last object modified's time and modifier.
+
+Let's get set up::
+
+    >>> from opencore.nui.project import metadata as md
+    >>> from StringIO import StringIO
+    >>> from sets import Set
+
+    >>> catalog = getToolByName(self.portal, 'portal_catalog')
+    >>> request = self.app.REQUEST
+
+Now let's test the selective updating of metadata. This should only
+change metadata that is specified by the proxy::
+
+    >>> uid = '/'.join(self.project.getPhysicalPath())
+
+An empty proxy should do nothing::
+
+    >>> md.selectiveMetadataUpdate(catalog._catalog, uid, md.proxy(dict()))
+    >>> brain = catalog(path={'query' : '/'.join(self.project.getPhysicalPath()), 'depth' : 0})[0]
+    >>> brain.getId == self.project.getId()
+    True
+
+    >>> brain.Title == self.project.Title()
+    True
+
+Now, lets set the title::
+
+    >>> title = 'New Title'
+    >>> proxy = md.proxy(dict(Title=title))
+    >>> md.selectiveMetadataUpdate(catalog._catalog, uid, proxy)
+    >>> brain = catalog(path={'query' : '/'.join(self.project.getPhysicalPath()), 'depth' : 0})[0]
+    >>> brain.getId == self.project.getId()
+    True
+
+    >>> brain.Title != self.project.Title()
+    True
+
+    >>> brain.Title == title
+    True
+
+First, we'll hand feed the subscriber::
+
+    >>> event = md.objectevent.ObjectModifiedEvent(self.page)
+    >>> md.updateContainerMetadata(self.page, event)
+    >>> brain = catalog(path={'query' : '/'.join(self.project.getPhysicalPath()), 'depth' : 0})[0]
+
+#    >>> brain.lastModifiedTitle == self.page.Title()
+#    True
+
+    >>> brain.ModificationDate >= self.project.modified()
+    True
+
+Now lets update the version info and hand feed the notification::
+
+    >>> md.notifyObjectModified(self.page)
+    >>> brain = catalog(path={'query' : '/'.join(self.project.getPhysicalPath()), 'depth' : 0})[0]
+
+#    >>> brain.lastModifiedTitle == self.page.Title()
+#    True
+
+    >>> brain.ModificationDate >= self.page.modified()
+    True
+
+Fire the object modified event manually in the test here This will
+happen automatically in the archetypes BaseObject processForm::
+
+    >>> import zope.event
+    >>> zope.event.notify(event)
+
+    >>> brain = catalog(path={'query' : '/'.join(self.project.getPhysicalPath()), 'depth' : 0})[0]
+    >>> brain.ModificationDate >= self.page.modified()
+    True
+    
+    >>> brain.lastModifiedAuthor
+    'test_user_1_'
+
+
+If the event hasn't been fired, then we should get a missing value back::
+
+    >>> authenticated_memberid(self.portal)
+    Missing.Value
+
+Now create a new document::
+
+    >>> self.loginAsPortalOwner()
+    >>> fid = self.portal.invokeFactory('Document', id='test_auth', title='TEST')
+    >>> doc = getattr(self.portal, fid)
+
+Simulate the event being triggered::
+
+    >>> event = md.objectevent.ObjectModifiedEvent(doc)
+    >>> md.updateContainerMetadata(doc, event)
+
+And check that the lastModifiedAuthor still gets set
+Even though the container is not an IProject::
+
+    >>> brain = catalog(getId='test_auth')[0]
+    >>> brain.lastModifiedAuthor
+    'portal_owner'
+
+

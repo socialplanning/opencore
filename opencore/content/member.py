@@ -1,29 +1,31 @@
+import re
+from types import TupleType, ListType, UnicodeType
+
 from AccessControl import ClassSecurityInfo
+
+from zope.component import getAdapter
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.CMFCorePermissions import *
-
 import Products.Archetypes.public as atapi
 from Products.Archetypes.ExtensibleMetadata import ExtensibleMetadata
 from Products.Archetypes.ArchetypeTool import base_factory_type_information as bfti
-
-from types import TupleType, ListType, UnicodeType
 from Products.Archetypes.Field import STRING_TYPES
+from Products.Archetypes.public import Schema, StringField, StringWidget
+from Products.validation.validators.BaseValidators import EMAIL_RE
 
+from Products.membrane.config import TOOLNAME as MBTOOLNAME
 from Products.remember.content.member_schema \
      import id_schema, contact_schema, plone_schema, \
      security_schema, login_info_schema
 from Products.remember.content.member import FolderishMember
+from Products.remember.interfaces import IHashPW
 from Products.remember.config import ALLOWED_MEMBER_ID_PATTERN
 
 from Products.TeamSpace.security import TeamSecurity
 
 from Products.OpenPlans.config import PROJECTNAME
 from Products.OpenPlans.config import PROHIBITED_MEMBER_PREFIXES
-
-from Products.Archetypes.public import Schema, StringField, StringWidget
-
-
 
 member_schema = id_schema + contact_schema + plone_schema + \
                 security_schema + login_info_schema
@@ -54,6 +56,10 @@ content_schema['mail_me'].regfield = 0
 
 content_schema['make_private'].widget.visible = {'edit': 'invisible'}
 
+content_schema['portrait'].sizes=dict(thumb=(80,80),
+                                      icon=(32,32)
+                                      )
+content_schema['portrait'].max_size=(200,200)
 
 # new fields for nui profile
 nuischema = Schema((
@@ -178,7 +184,8 @@ class OpenMember(TeamSecurity, FolderishMember):
     security.declareProtected(ManagePortal, 'getUserConfirmationCode')
     def getUserConfirmationCode(self):
         """
-        Return the user's unique confirmation code to complete registration manually
+        Return the user's unique confirmation code to complete
+        registration manually
         """
         return self.UID()
 
@@ -208,11 +215,13 @@ class OpenMember(TeamSecurity, FolderishMember):
                     projects[space] = None
         return projects.keys()            
 
+    # XXX is this used?
     security.declareProtected(View, 'projectBrains')
     def projectBrains(self):
         catalog = getToolByName(self, 'portal_catalog')
         teamtool = getToolByName(self, 'portal_teams')
-        mships = catalog(id=self.getId(), portal_type='OpenMembership', review_state=teamtool.getDefaultActiveStates())
+        mships = catalog(id=self.getId(), portal_type='OpenMembership',
+                         review_state=teamtool.getDefaultActiveStates())
         teams = [i.getPath().split('/')[-2] for i in mships]
         projects = catalog(portal_type='OpenProject', id=teams)
         return projects
@@ -275,12 +284,12 @@ class OpenMember(TeamSecurity, FolderishMember):
         form = self.REQUEST.form
         if form.has_key('id') and not form['id']:
             return self.translate('Input is required but no input given.',
-                                  default='You did not enter a login name.'),
+                                  default='You did not enter a login name.')
         elif self.getId() and id != self.getId():
             # we only validate if we're changing the id
             allowed = True
             mbtool = getToolByName(self, 'membrane_tool')
-            if len(mbtool(getUserName=id)) > 0 or \
+            if len(mbtool.unrestrictedSearchResults(getUserName=id)) > 0 or \
                    not ALLOWED_MEMBER_ID_PATTERN.match(id):
                 allowed = False
             for prefix in PROHIBITED_MEMBER_PREFIXES:
@@ -299,13 +308,60 @@ class OpenMember(TeamSecurity, FolderishMember):
         form = self.REQUEST.form
         if form.has_key('email') and not form['email']:
             return self.translate('Input is required but no input given.',
-                                  default='You did not enter an email address.'),
+                                  default='You did not enter an email address.')
         elif email != self.getEmail():
             mbtool = getToolByName(self, 'membrane_tool')
-            if len(mbtool(getEmail=email)) > 0:
+            if len(mbtool.unrestrictedSearchResults(getEmail=email)) > 0:
                 msg = ("That email address is already in use.  "
                        "Please choose another.")
                 return self.translate(msg, default=msg)
-            
+        regex = re.compile(EMAIL_RE)
+        if regex.match(email) is None:
+            msg = "That email address is invalid."
+            return self.translate(msg, default=msg)
+
+    def __bobo_traverse__(self, REQUEST, name):
+        """Transparent access to image scales
+           **adapted from ATCT**
+        """
+        if name.startswith('portrait'):
+            field = self.getField('portrait')
+            image = None
+            if name == 'portrait':
+                image = field.getScale(self)
+            else:
+                scalename = name[len('portrait_'):]
+                if scalename in field.getAvailableSizes(self):
+                    image = field.getScale(self, scale=scalename)
+            if image is not None and not isinstance(image, basestring):
+                # image might be None or '' for empty images
+                return image
+
+        return FolderishMember.__bobo_traverse__(self, REQUEST, name)
+
+    def verifyCredentials(self, credentials):
+        """
+        We override the base member's verifyCredentials method to be
+        able to support case insensitive login.
+        """
+        mbtool = getToolByName(self, MBTOOLNAME)
+        login = credentials.get('login')
+        if not mbtool.case_sensitive_auth:
+            login = login.lower()
+        password = credentials.get('password')
+        try:
+            hash_type, hashed = self.getPassword().split(':', 1)
+        except ValueError:
+            raise ValueError('Error parsing hash type. '
+                             'Please run migration')
+        hasher = getAdapter(self, IHashPW, hash_type)
+        username = self.getUserName()
+        if not mbtool.case_sensitive_auth:
+            username = username.lower()
+        if login == username and hasher.validate(hashed, password):
+            return True
+        else:
+            return False
+        
 
 atapi.registerType(OpenMember, package=PROJECTNAME)

@@ -46,22 +46,12 @@ class IMemberInfo(Interface):
                        "folder or object, if it exists; None if not")
 
 
-
-
-
 class IMemberHomePage(Interface):
     """ Marker interface for member homepages """
 
 
 class IFirstLoginEvent(Interface):
     """ Interface for FirstLoginEvent """
-
-    
-class FirstLoginEvent(object):
-    implements(IFirstLoginEvent)
-    def __init__(self, member, request):
-        self.member = member
-        self.request = request
 
 
 # this is deprecated for the plonents version
@@ -139,13 +129,6 @@ class IAddOpenPlans(Interface):
     testcontent = Bool(
         title=_("Create test content"),
         description=_(u"Please create example projects and members"),
-        default=False,
-        required=False
-        )
-
-    setup_nui = Bool(
-        title=_(u"Setup NUI"),
-        description=_(u"Set up the new UI and associated functionality"),
         default=False,
         required=False
         )

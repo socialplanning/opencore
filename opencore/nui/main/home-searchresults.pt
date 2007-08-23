@@ -1,36 +1,27 @@
 <html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title">Search - OpenPlans</title>
+  </head>
   <body>
-
     <div metal:fill-slot="content">              
-
       <div id="oc-content-main">
-      
-        <div class="oc-widget oc-widget-search oc-widget-multiSearch oc-boxy">    
-          <form name="search_form" action="." tal:attributes="action string:${context/portal_url}/sitesearch">
-            <label class="oc-label-heading oc-biggestText">Search</label>
-            <ul class="oc-inlineList">
-              <li><a class="oc-search-people" href="/openplans/people/searchresults?search_for=test&letter_search=&action_search_people=Search">People</li>
-              <li><a class="oc-search-projects" href="/openplans/projects/searchresults?search_for=test&letter_search=&action_search_projects=Search">Projects</a></li>
-              <li><a class="oc-search-everything" href="/openplans/sitesearch?search_for=test">Everything</a></li>      
-            </ul>
-              <div class="oc-form-fieldBlock">
-              <input class="oc-input-typeText" type="text" name="search_string" tal:attributes="value request/search_string | nothing" />
-              <button type="submit">Search</button>
-            </div>
-          </form>
-        </div><!-- end .oc-widget-multiSearch -->
-
+        
+        <tal:set_var define="current_search_page string:sitesearch;
+			     form_action_url string:${context/portal_url}/sitesearch">
+          <div metal:use-macro="here/main_macros/search_widget" />
+        </tal:set_var>
+        
         <div class="oc-searchresults">
 
           <!-- batch needs to have some variables set up to work properly.
-          here is where they are defined -->
+               here is where they are defined -->
           <tal:got_results condition="view/search_results"
                            define="batch view/search_results;
                                    batch_base_url request/ACTUAL_URL;
                                    start batch/start | nothing;
                                    end batch/end | nothing;
                                    sequence_length batch/sequence_length | nothing;
-            ">
+				   ">
 
             <!-- display the number of results that came back -->
             <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
@@ -43,72 +34,82 @@
               of <span tal:replace="sequence_length">376</span> sorted by
 
               <!-- when sorting, we post the action to distinguish between searching
-              this was necessary because the batch macro reposts the request data, and we see problems
-              when trying to reset to page when the sorting changes -->
+		   this was necessary because the batch macro reposts the request data, and we see problems
+		   when trying to reset to page when the sorting changes -->
               <form name="people_sort" method="POST" action="." tal:attributes="action string:${context/portal_url}/sitesearch">
-              <!-- FIXME This should not require a button to work. -->
-                <select name="sort_by" tal:define="sorted_by python: request.get('sort_by')">
+
+                <select name="sort_by" class="oc-js-autoSelect" tal:define="sorted_by python: request.get('sort_by')">
                   <option value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
                   <option value="getId" tal:attributes="selected python: sorted_by == 'getId'">alphabetical</option>
                   <option value="modified" tal:attributes="selected python: sorted_by == 'modified'">date updated</option>
                   <option value="portal_type" tal:attributes="selected python: sorted_by == 'portal_type'">content type</option>
+                  
                 </select>
 
-          <!-- resend the current data when sorting -->
-                  <input tal:condition="request/search_for | nothing" type="hidden" name="search_for"
-                      tal:attributes="value request/search_for" />
-                  <input tal:condition="request/b_start | nothing" type="hidden" name="b_start:int"
-                      tal:attributes="value request/b_start" />
-                  <input type="submit" name="action_sort" value="sort" />
+		<!-- resend the current data when sorting -->
+                <input tal:condition="request/search_for | nothing" type="hidden" name="search_for"
+                       tal:attributes="value request/search_for" />
+                <input tal:condition="request/b_start | nothing" type="hidden" name="b_start:int"
+                       tal:attributes="value request/b_start" />
+                <input tal:condition="request/letter_search | nothing" type="hidden" name="letter_search"
+                       tal:attributes="value request/letter_search" />
+                <input type="submit" name="action_sort" value="sort" />
               </form>
             </div>
 
 
-          <!-- the results are displayed here -->
-          <ol class="oc-searchresults-list">
-            <li class="oc-searchresults-item" tal:repeat="item view/search_results">
-              <tal:defines define="obj item/getObject; portal_type obj/portal_type; is_user python: portal_type == 'OpenMember'">
-                <img tal:attributes="src obj/getIcon" />
-                <h3><a href="" tal:attributes="href obj/absolute_url" tal:content="item/getId">Title</a></h3>
-                <tal:is_user condition="is_user">
-                  member since
-                  <span tal:replace="python: view.pretty_date(item.CreationDate)" />
-                </tal:is_user>
-                <tal:not_user condition="not: is_user">
-                  <tal:is_page condition="python: portal_type == 'Document'">
-                    <tal:project_define define="proj python: obj.aq_parent">
-                      in
-                      <a href="" tal:attributes="href proj/absolute_url" tal:content="proj/Title" />
-                    </tal:project_define>
-                  </tal:is_page>
-                  <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
-                    by
-                    <a tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
-                  </tal:has_updated_author>
-                  last updated
-                  <span tal:replace="python: view.pretty_date(item.ModificationDate)" />
-                </tal:not_user>
-              </tal:defines>
-            </li>
-          </ol>
-          <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
-          
-            <!-- we put pagination on the bottom of the page too -->
-            <div metal:use-macro="here/@@nui_batch_macros/pagination"/>
-          
-            Result<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
-            <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
-            of <span tal:replace="sequence_length">376</span> 
+            <!-- the results are displayed here -->
+            <ol class="oc-searchresults-list">
+              <li class="oc-searchresults-item" tal:repeat="item view/search_results">
+		<tal:defines define="obj item/getObject; portal_type obj/portal_type; is_user python: portal_type == 'OpenMember'">
+                  
+                  <tal:comment replace="nothing">
+                    XXX This can be factored out somehow to deal with the differences
+                  </tal:comment>
+                    <tal:is_user condition="is_user">
+                      <h3><img tal:attributes="src obj/getIcon" /> <a href="" tal:attributes="href string:${view/portal_url}/people/${item/getId}/profile" tal:content="item/getId">Title</a></h3>
+                      <span class="oc-discreetText">
+                      member since
+                      <span tal:replace="python: view.pretty_date(item.CreationDate)" />
+                      </span>
+                    </tal:is_user>
+                    <tal:not_user condition="not: is_user">
+                      <h3><img tal:attributes="src obj/getIcon" /> <a href="" tal:attributes="href obj/absolute_url" tal:content="item/Title">Title</a></h3>
+                      <span class="oc-discreetText">
+                      <tal:is_page condition="python: portal_type == 'Document'">
+			<tal:project_define define="proj python: obj.aq_parent">
+                          in
+                          <a href="" tal:attributes="href proj/absolute_url" tal:content="proj/Title" />,
+			</tal:project_define>
+                      </tal:is_page>
+                      <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
+			modified by
+			<a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
+                      </tal:has_updated_author>
+                      last updated
+                      <span tal:replace="python: view.pretty_date(item.ModificationDate)" />
+                    </tal:not_user>
+		</tal:defines>
+              </li>
+            </ol>
+            <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
+              
+              <!-- we put pagination on the bottom of the page too -->
+              <div metal:use-macro="here/@@nui_batch_macros/pagination"/>
+              
+              Result<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
+              <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
+              of <span tal:replace="sequence_length">376</span> 
 
-    </div>
-        </tal:got_results>
+	    </div>
+          </tal:got_results>
 
-        <!-- if we get no results, this is what is displayed -->
-        <div tal:condition="not: view/search_results">No results found.</div>
+          <!-- if we get no results, this is what is displayed -->
+          <div tal:condition="not: view/search_results">No results found.</div>
 
-      </div> <!-- oc-searchresults -->
-    </div> <!-- content-main -->
+	</div> <!-- oc-searchresults -->
+      </div> <!-- content-main -->
 
-  </div><!-- content-fill-slot -->
-</body>
+    </div><!-- content-fill-slot -->
+  </body>
 </html>

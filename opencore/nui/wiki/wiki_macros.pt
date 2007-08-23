@@ -1,26 +1,8 @@
 <!-- put macros here -->
-<li metal:define-macro="attachment" class="oc-file oc-liveEdit">
 
-  <!-- to do: pass mime type to CSS -->
-  <div class="oc-liveEdit-value">
-    <a href="" target="_blank" 
-       tal:attributes="href attachment/absolute_url" 
-       tal:content="attachment/Title | attachment/getId">Id</a> -  
-    <span tal:replace="attachment/getObjSize"></span>
-    <a href="" class="oc-liveEdit-edit">Edit</a> | <a href="" class="oc-liveEdit-delete">Delete</a>
-  </div><!-- end .liveEdit-value -->  
-  <form method="post" class="oc-liveEdit-form" action="@@updateAtt">
-    <label for="attachment_title">Title:</label>
-    <input type="hidden" name="attachment_id" tal:attributes="value attachment/getId" />
-    <input type="text" name="attachment_title"  size="30" id="#" value="#" tal:attributes="value attachment/Title;"/>
-    <input type="submit" value="Edit" />
-    or <a class="oc-liveEdit-cancel" href="">Cancel</a>
-  </form><!-- end .liveEdit-form -->
-
-</li><!-- end metal -->
 
 <!-- BEGIN FILE UPLOAD FORM -->
-<form metal:define-macro="upload" class="oc-uploadForm" action="@@createAtt" enctype="multipart/form-data">
+<form metal:define-macro="upload" class="oc-js-uploadForm" action="@@createAtt" enctype="multipart/form-data" method="post">
   <input type="hidden" name="oc-target" value="oc-wiki-attachments" />
   
   <table class="oc-form">
@@ -28,7 +10,7 @@
     <tbody>
       <tr class="oc-form-row">
         <th class="oc-form-label"><label for="attachmentFile">Locate file</label></th>
-        <td class="oc-form-value"><input type="file"	       
+        <td class="oc-form-value"><input type="file"           
             id="attachmentFile"
             name="attachmentFile"
             size="30" 
@@ -56,7 +38,7 @@
         <th class="oc-form-label"></th>
         <td class="oc-form-value">  
           <span class="oc-indicator"><img src="++resource++img/indicator-bounce-eee.gif" alt="Loading..." /></span>
-          <input type="submit" value="Upload" /> or cancel</td>
+          <input type="submit" value="Upload" /> or Cancel</td>
         <td class="oc-form-help"></td>
       </tr>
     </tbody>
@@ -64,29 +46,35 @@
 </form>
 <!-- END FILE UPLOAD FORM -->
 
+<!-- BEGIN WIKI BCRUMB -->
+<ul metal:define-macro="bcrumb" class="oc-headingBlock oc-wiki-headingBlock oc-bcrumb">
+  <li>
+    <h1 class="oc-bcrumb-current" tal:content="view/context/Title" />
+  </li>
+</ul>
+<!-- END WIKI BCRUMB -->
+
 <!-- BEGIN WIKI TABS -->
-<div tal:attributes="id string:oc-wiki-tabs-${view/name}" metal:define-macro="tabs">
-       <ul class="oc-tabs">
-         <li class="oc-wiki-tabs-view">
-	   <a tal:attributes="href context/absolute_url" rel="view">view</a>
-         </li>
-         <li class="oc-wiki-tabs-edit">
-	   <a tal:attributes="href string:${context/absolute_url}/edit" rel="edit">edit</a>
-         </li>
-         <li class="oc-wiki-tabs-history">
-	   <a tal:attributes="href string:${context/absolute_url}/history" class="oc-selected" rel="history">history</a>
-         </li>
-         <!--
-         <li>
-	   <form class="" >
-             <select class="oc-selectBoxAutoLinks">
-               <option value="">More...</option>
-               <option value="http://www.google.com">I'm feeling lucky</option>
-             </select>
-             <input type="submit" value="Go" style=""/>
-	   </form>
-         </li>
-         -->
-       </ul>
-</div>
+<ul class="oc-tabs" metal:define-macro="tabs">
+  <li tal:attributes="class python:view.get_tab_class(u'view')">
+    <a tal:attributes="href context/absolute_url">view</a>
+  </li>
+  <li tal:attributes="class python:view.get_tab_class(u'edit')">
+    <a tal:attributes="href string:${context/absolute_url}/edit">edit</a>
+  </li>
+  <li tal:attributes="class python:view.get_tab_class([u'history', u'version', u'version_compare'])">
+    <a tal:attributes="href string:${context/absolute_url}/history">history</a>
+  </li>
+  <!--
+  <li>
+   <form class="" >
+     <select class="oc-selectBoxAutoLinks">
+       <option value="">More...</option>
+       <option value="http://www.google.com">I'm feeling lucky</option>
+     </select>
+     <input type="submit" value="Go" style=""/>
+   </form>
+  </li>
+  -->
+</ul>
 <!-- END WIKI TABS -->

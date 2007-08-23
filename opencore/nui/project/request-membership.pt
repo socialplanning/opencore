@@ -1,0 +1,30 @@
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:Join - ${view/area/Title}" />
+  </head>
+  <body>
+    <div metal:fill-slot="content">
+    
+      <div class="oc-headingBlock">
+        <h1>Request project membership</h1>
+        <p class="oc-headingContext">Send a message to the project&rsquo;s administrator(s).</p>
+      </div>
+    
+      <div id="oc-content-main">
+        <form method="POST" id="request-membership"
+              tal:attributes="action view/request/ACTUAL_URL">
+          <dl class="oc-plainList">
+          <dt><label for="request-message">Message:</label></dt>
+          <dd>
+            <textarea rows="10" cols="80" 
+		      name="request-message" id="request-message"></textarea>
+            <input type="submit" name="task|request-membership" value="Send"
+                   class="oc-button" />
+          </dd>
+          </dl>
+        </form>
+      </div><!--end oc-content-main -->
+    
+    </div><!-- end content-fill-slot -->
+  </body>
+</html>

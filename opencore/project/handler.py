@@ -28,7 +28,7 @@ def handle_postcreation(event):
     request.set('__initialize_project__', None)
 
     # Fetch the values from request and store them.
-    instance.processForm()
+    instance.processForm(metadata=1)
 
     # We don't need this here. do we? DWM
     _initialize_project(instance, event.request)
@@ -135,10 +135,7 @@ def save_featurelets(obj, event=None, request=None):
         flet = registry.getFeaturelet(flet_id)
         supporter.removeFeaturelet(flet)
 
-
 def add_redirection_hooks(container, ignore=[]):
     for obj in container.objectValues():
         if IProject.providedBy(obj) and obj.getId() not in ignore:
             redirect.activate(obj)
-            
-    

@@ -17,7 +17,11 @@ view.memoizedproperty = lambda func: property(view.memoize(func))
 
 # assumption here is that all instances of a piv in a request will be
 # for the same project. if this changes, we will memoize differently
-view.mcproperty = lambda func: property(view.memoize_contextless(func))
+# view.mcproperty = lambda func: property(view.memoize_contextless(func))
+#
+# this doesn't work when the main request is not for a project
+# but there is a need for a project info view of some project 
+# eg when the topnav is contextualized by http headers.
 
 class ProjectInfoView(BrowserView):
     implements(IProjectInfo)
@@ -27,7 +31,7 @@ class ProjectInfoView(BrowserView):
         self._context = (context,)
         self.request = request
 
-    @view.mcproperty
+    @view.memoizedproperty
     def project(self):
         if IOpenTeam.providedBy(self.context):
             # get the related project
@@ -45,7 +49,7 @@ class ProjectInfoView(BrowserView):
         self.request.set('inProject', inside)
         return inside
 
-    @view.mcproperty
+    @view.memoizedproperty
     def projectMembership(self):
         pm = getToolByName(self.context, 'portal_membership')
         if pm.isAnonymousUser():
@@ -60,7 +64,7 @@ class ProjectInfoView(BrowserView):
             
         return False
 
-    @view.mcproperty
+    @view.memoizedproperty
     def featurelets(self):
         flets = []
         if self.project is not None:

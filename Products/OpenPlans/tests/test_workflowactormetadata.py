@@ -1,3 +1,6 @@
+"""
+Working pieces now live in opencore.nui.indexing
+"""
 import os, sys
 import unittest
 

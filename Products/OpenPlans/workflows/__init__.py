@@ -8,14 +8,19 @@ import team
 import policy_open
 import policy_medium
 import policy_closed
-import member_confirmation
-
-member_confirmation_data = dict(openplans_member_confirmation_workflow=('OpenPlans Member Confirmation Workflow',
-                                                            ('Member', 'OpenMember',)))
+import open_folder_openplans_workflow
+import medium_folder_openplans_workflow
+import closed_folder_openplans_workflow
 
 WORKFLOW_MAP = {'plone_openplans_workflow': ('Default OpenPlans Workflow [Plone]',
                                              tuple() ),
                 '(Default)': ('', ('OpenRoster',)),
+                'open_folder_openplans_workflow': ('Open OpenPlans Folder Workflow [Plone]',
+                                              () ),
+                'medium_folder_openplans_workflow': ('Medium OpenPlans Folder Workflow [Plone]',
+                                              () ),
+                'closed_folder_openplans_workflow': ('Closed OpenPlans Folder Workflow [Plone]',
+                                              () ),
                 'folder_openplans_workflow': ('OpenPlans Folder Workflow [Plone]',
                                               ('Folder', 'Large Plone Folder',) ),
                 'openplans_teamspace_workflow': ('OpenPlans Project Workflow',
@@ -51,21 +56,24 @@ PLACEFUL_POLICIES = {'open_policy': { 'title':       'Open',
                                       'description': "Anyone can view " \
         "content, and any logged in users can edit, add, or delete content.",
                                       'default':     ['open_policy_workflow'],
-                                      'types':       {},
+                                      'types':       {'Folder':['open_folder_openplans_workflow'],
+                                                      'Large Plone Folder':['open_folder_openplans_workflow']},
                                       'proj_trans':  'open'
                                     },
                      'medium_policy': { 'title':     'Medium',
                                       'description': "Anyone can view " \
           "content, but only team members can edit, add, or delete content.",
                                       'default':     ['medium_policy_workflow'],
-                                      'types':       {},
+                                      'types':       {'Folder':['medium_folder_openplans_workflow'],
+                                                      'Large Plone Folder':['medium_folder_openplans_workflow']},
                                       'proj_trans':  'medium',
                                     },
                      'closed_policy': { 'title':     'Closed',
                                       'description': "Only team members " \
           "can view, edit, add, or delete content.",
                                       'default':     ['closed_policy_workflow'],
-                                      'types':       {},
+                                      'types':       {'Folder':['closed_folder_openplans_workflow'],
+                                                      'Large Plone Folder':['closed_folder_openplans_workflow']},
                                       'proj_trans':  'close',
                                     },
                     }

@@ -3,6 +3,7 @@ from Testing.ZopeTestCase import PortalTestCase
 
 from zope.app.annotation.interfaces import IAnnotations
 from plone.memoize.view import ViewMemo
+from plone.memoize.instance import Memojito
 
 from Products.CMFCore.utils  import getToolByName
 from Products.Archetypes.tests.ArchetypesTestCase import ArcheSiteTestCase
@@ -41,3 +42,31 @@ class OpenPlansTestCase(ArcheSiteTestCase):
         if cache is not None:
             annotations[ViewMemo.key] = dict()
 
+    def clearInstanceCache(self, obj):
+        propname = Memojito.propname
+        try:
+            delattr(obj, propname)
+        except AttributeError:
+            pass
+
+    def createClosedProject(self, proj_id):
+        proj_folder = self.portal.projects
+        from opencore.interfaces import IAddProject
+        IAddProject.providedBy(proj_folder)
+
+        proj = proj_folder.restrictedTraverse(
+          'portal_factory/OpenProject/%s' % proj_id)
+        proj_folder.portal_factory.doCreate(proj, proj_id)
+        closed_proj = proj_folder._getOb(proj_id)
+
+        # now make it closed
+        wft = getToolByName(self.portal, 'portal_workflow')
+        wfid = 'openplans_teamspace_workflow'
+        status = wft.getStatusOf(wfid, closed_proj)
+        status['review_state'] = 'closed'
+        wft.setStatusOf(wfid, closed_proj, status)
+
+        # and reindex for good measure
+        closed_proj.reindexObject()
+
+        return closed_proj

@@ -5,7 +5,7 @@ for all of our workflow scripts for ease of deployment and to avoid
 the security headaches associated w/ TTW python scripts.
 """
 
-import datetime
+from DateTime import DateTime
 
 def mship_visibility_changed(self, state_change):
     """
@@ -22,6 +22,6 @@ def mship_activated(self, state_change):
     obj = state_change.object
     if getattr(obj, 'made_active_date', None):
         return
-    obj.made_active_date = datetime.datetime.now()
+    obj.made_active_date = DateTime()
     obj.reindexObject()
     obj._p_changed = True

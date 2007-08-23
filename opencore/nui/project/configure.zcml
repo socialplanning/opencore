@@ -6,7 +6,6 @@
      for="opencore.interfaces.IAddProject"
      name="create"
      class=".view.ProjectAddView"
-     template="create.pt"
      permission="openplans.AddOpenProject"
      />
 
@@ -14,8 +13,7 @@
      for="opencore.interfaces.IAddSubProject"
      name="create_project"
      class=".view.SubProjectAddView"
-     template="create.pt"
-     permission="openplans.AddOpenProject"
+     permission="openplans.AddSubProject"
      />
 
    <browser:page
@@ -23,15 +21,6 @@
       class=".view.ProjectContentsView"
       permission="zope2.View"
       name="contents"
-      template="contents.pt"
-      />
-
-   <browser:page
-      for="opencore.interfaces.IProject"
-      class=".view.ProjectContentsView"
-      permission="zope.DeleteObjects"
-      name="modify-contents"
-      attribute="modify_contents"
       />
 
   <browser:page
@@ -50,13 +39,34 @@
      template="team-view.pt"
      />
 
-
   <browser:page
      for="opencore.interfaces.IProject"
      class=".view.ManageTeamView"
      permission="teamspace.ManageTeamMemberships"
      name="manage-team"
-     template="team-manage.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".view.RequestMembershipView"
+     permission="zope2.View"
+     name="request-membership"
+     />
+
+  <subscriber
+     for="opencore.interfaces.IOpenPage
+          zope.app.event.interfaces.IObjectModifiedEvent"
+     handler=".metadata.updateContainerMetadata"
+     />
+
+  <subscriber
+     handler=".metadata.updateThreadCount"
+     />
+
+  <subscriber
+     for="opencore.interfaces.IOpenPage
+         zope.app.event.interfaces.IObjectModifiedEvent"
+     handler=".metadata.update_last_modified_author"
      />
 
 </configure>

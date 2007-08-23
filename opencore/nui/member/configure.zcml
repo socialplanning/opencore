@@ -3,44 +3,38 @@
 	   xmlns:five="http://namespaces.zope.org/five">
 
 
-  <!-- TODO write and run a migration and then use
-     for="opencore.interfaces.IMemberFolder"
-  -->
-  <!-- TODO fix permissions -->
-
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
-     class="opencore.nui.member.MemberPreferences"
-     permission="zope.Public"
-     name="preferences"
-     template="preferences.pt"
+     class=".view.MemberAccountView"
+     permission="cmf.ModifyPortalContent"
+     name="account"
      />
-
 
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
      class=".view.ProfileEditView"
-     permission="zope.Public"
+     permission="cmf.ModifyPortalContent"
      name="profile-edit"
-     template="profile-edit.pt"
      />
-
-
+ 
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
-     attribute="handle_form"
-     class=".view.ProfileEditView"
-     permission="zope.Public"
-     name="handle-form"
+     class=".view.InvitationView"
+     permission="cmf.ModifyPortalContent"
+     name="invitations"
      />
-
  
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
      class=".view.ProfileView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="profile"
      template="profile.pt"
+     />
+
+  <subscriber
+     for="opencore.interfaces.event.IChangedTeamRolesEvent"
+     handler=".event.membership_changed_reindex_catalog"
      />
 
 </configure>

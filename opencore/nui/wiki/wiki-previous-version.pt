@@ -1,41 +1,42 @@
 <html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="python:view.wiki_window_title(mode='history')" />
+  </head>
   <body>
 
     <!-- FIXME something needs to indicate tag / breadcrumbs ? --> 
 
     <div metal:fill-slot="content">
       <div id="oc-content-main" class="oc-content-main-fullWidth">
-	<div class="oc-wiki">
-	  <tal:let define="people_url python:here.portal_membership.getMembersFolder().absolute_url();
-			   version_id python:int(request['version_id']); 
-			   version python:view.get_version(version_id);
-			   cur_id python: view.current_id();
-			   previous_id python: view.previous_id(version_id); 
-			   next_id python: view.next_id(version_id);" >
-
-	    <div class="oc-headingBlock oc-wiki-headingBlock">
-              <h2 tal:content="view/pagetitle"></h2>
-            </div>
-            <div metal:use-macro="here/@@wiki_macros/tabs"/>
-
-              <div class="oc-widget oc-widget-version-compare">
+        <div class="oc-wiki">
+          <tal:let define="people_url python:here.portal_membership.getMembersFolder().absolute_url();
+               version_id python:int(request['version_id']); 
+               version python:view.get_version(version_id);
+               cur_id python: view.current_id();
+               previous_id python: view.previous_id(version_id); 
+               next_id python: view.next_id(version_id);" >
+      
+      <div metal:use-macro="here/@@wiki_macros/bcrumb" />      
+      <div metal:use-macro="here/@@wiki_macros/tabs" />
+      
+              <div class="oc-widget oc-widget-version-compare oc-boxy oc-clearAfter">
                 <table cellpadding="0" cellspacing="0" border="0"> 
                   <tr>
                     <td>
                       <tal:if condition="python: previous_id is not None">
-                      <a class="oc-button oc-smallText" tal:attributes="href string:version?version_id=${previous_id}">&lt;</a>
+                      <a class="oc-button oc-smallText" tal:attributes="href string:version?version_id=${previous_id}" title="older">&larr;</a>
                       </tal:if>
-                
+
                       <tal:if condition="python: previous_id is None">
-                     
+
                       </tal:if>
                     </td>
-                    <td>
-                      <span tal:replace="python: view.version_title(version_id);" />
-                    </td>
+                    <th scope="row">
+                      <h2 tal:content="python: view.version_title(version_id);" />
+                    </th>
                     <td>
                       <tal:if condition="python: next_id is not None">
-                      <a class="oc-button oc-smallText" tal:attributes="href string:version?version_id=${next_id}">&gt;</a>
+                      <a class="oc-button oc-smallText" tal:attributes="href string:version?version_id=${next_id}" title="newer">&rarr;</a>
                       </tal:if>
                       <tal:if condition="python: next_id is None">
                       
@@ -43,45 +44,41 @@
                     </td>
                       <td>
                         by <a tal:define="author version/sys_metadata/principal" 
-                                tal:attributes="href string:${people_url}/${author}"
-                                tal:content="author">author</a>, 
+                                tal:attributes="href string:${people_url}/${author}/profile"
+                                tal:content="author">author</a>, modified 
                         <span tal:replace="python:view.pretty_mod_date(version)" />
                       </td>
                   </tr>
-                  <tal:if condition="python: version_id != view.current_id()">
-                  <tr>
-                    <td colspan="4">
-                      <a tal:attributes = "href string:version_compare?version_id=${version_id}&version_id=${cur_id}">compare with current version</a>
-                    </td>
-                  </tr>
-                  </tal:if>
                 </table>
                  <tal:if condition="python: version_id != view.current_id()">
                   <ul class="oc-actions">
+                    <tal:if condition="python: version_id != view.current_id()">
+                      <li>
+                        <a tal:attributes = "href string:version_compare?version_id=${version_id}&version_id=${cur_id}">compare with current version</a>
+                      </li>
+                    </tal:if>
                     <li>
                       <!-- FIXME ? relative --> 
-                      <form method="post" id="revert_form" action="revertversion">
-                      <input type="hidden" name="version_id" tal:attributes="value version_id" />
-                                  <input type="submit" name="revert" value="revert to this version" />
+                      <form method="post" id="revert_form" action="revert">
+                        <input type="hidden" name="version_id" tal:attributes="value version_id" />
+                        <input type="submit" name="revert" value="revert to this version" class="oc-smallText" />
                       </form> 
                     </li>
                   </ul>
                   </tal:if>
-                <hr class="oc-clearElement" />
               </div><!-- .oc-widget-version-compare -->
               
-          
-             
-              
-              <span tal:replace="version/comment" />
-              
-            
-	    <span tal:replace="structure python: view.get_page(version_id).EditableBody()" />
-
-	  </tal:let>	    
-	</div> <!-- end .oc-wiki --> 
+              <div tal:condition="version/comment" class="oc-boxy oc-version-note">
+              <h3>Revision note:</h3>
+              <p tal:content="version/comment" />
+              </div>
+               
+              <div class="oc-wiki-content" tal:content="structure python: view.get_page(version_id).EditableBody()" />
+      
+          </tal:let>
+        </div> <!-- end .oc-wiki --> 
       </div> <!-- end #oc-content-main -->
     </div><!-- end content slot -->
   </body>
 </html>
-	
+  

@@ -1,5 +1,6 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
+    <title metal:fill-slot="title" tal:content="python:view.wiki_window_title(mode='history')" />
     <script metal:fill-slot="script" src="++resource++javascripts/checkbox-limit-select.js"></script>
   </head>
   <body>
@@ -7,102 +8,86 @@
          tal:define="pr nocall:here/portal_repository;">
       
       <div id="oc-content-main" class="oc-content-main-fullWidth">
-	
-	<!-- FIXME this should not be repeated everywhere --> 
-	<div class="oc-wiki">
-	  
-	  <tal:block 
+  
+  <!-- FIXME this should not be repeated everywhere --> 
+  <div class="oc-wiki">
+    
+    <tal:block 
              tal:define="version_id python:request.get('version_id', None);
-			 history view/get_versions;
-			 people_url python:here.portal_membership.getMembersFolder().absolute_url();"
+       history view/get_versions;
+       people_url python:here.portal_membership.getMembersFolder().absolute_url();"
              tal:condition="python: pr.isVersionable(context)">
-	    
-	    <div class="oc-headingBlock oc-wiki-headingBlock">
-	       <ul class="oc-bcrumb">
-            <!-- <li><a href="#">My Great Project</a> /</li> -->
-            <li>
-              <span class="oc-bcrumb-current" tal:content="view/pagetitle"></span>
-            </li>
-          </ul>
-      </div>
       
+      <div metal:use-macro="here/@@wiki_macros/bcrumb" />      
       <div metal:use-macro="here/@@wiki_macros/tabs" />
-	    
-	   <tal:if condition="python:len(history) > 0"> 
-	   
-    <div class="oc-headingBlock" tal:define="lastChange python:history[0]"> 
-		<h2>All versions of <span tal:replace="here/title_or_id">page</span></h2>
-		<p class="oc-headingContext oc-discreetText">
-		  Last edit performed by 
-		  <a tal:define="author lastChange/sys_metadata/principal" 
+      
+     <tal:if condition="python:len(history) > 0"> 
+     
+    <div class="oc-headingBlock oc-boxy" tal:define="lastChange python:history[0]"> 
+    <h2>All versions of &ldquo;<span tal:replace="here/title_or_id">page</span>&rdquo;</h2>
+    <span class="oc-headingContext oc-discreetText">
+     <span tal:replace="python:len(history)"/> versions total. Last edit performed by 
+      <a tal:define="author lastChange/sys_metadata/principal" 
                      tal:attributes="href string:${people_url}/${author}" 
                      tal:content="author">author</a>, 
-		  
-		  <span tal:replace="python: view.pretty_mod_date(lastChange)" /> 
-		  <br />
-		  <span tal:replace="python:len(history)"/> versions total.
-		</p>
+      <span tal:replace="python: view.pretty_mod_date(lastChange)" />. 
+    </span>
     </div> <!-- end .oc-headingBlock --> 
-	      
-  <!-- FIXME: this language makes it seem like you can check a single
-       version to see a preview of that version, but you actually have
-       to click the link/name of the version -->
-       
-  <tal:if condition="python:len(history) > 1">
-  <p>Select 2 versions to compare them OR click a version number to see it.</p>
-  </tal:if>
-	      
-    <div class="oc-lineup"> 		
-		<form action="version_compare" id="version_compare_form" method="get">
+        
+    <div class="oc-lineup">     
+    <form action="version_compare" id="version_compare_form" method="get">
       
       <tal:if condition="python:len(history) > 1">            
-		  <div class="oc-actions">
+      <div class="oc-actions">
           <input type="submit" value="Compare" />
-		  </div> <!-- end .oc-actions --> 
-		  </tal:if>
-		  
-		  <div class="oc-message">
-		  
-		  </div>
-		  
+          <tal:if condition="python:len(history) > 1">
+            <span class="oc-discreetText">Select two versions to compare them or click a version number to view it.</span>
+          </tal:if>
+      </div> <!-- end .oc-actions --> 
+      </tal:if>
+      
+      <div class="oc-message">
+      
+      </div>
+      
         <ul class="oc-lineup-list">
           <tal:block repeat="version python: history">
-		      <li class="oc-wiki-history-item oc-lineup-item"
-			  tal:define="version_id version/version_id;
+          <li class="oc-wiki-history-item oc-lineup-item"
+        tal:define="version_id version/version_id;
                                       version_title python:view.version_title(version_id)">
            <tal:if condition="python:len(history) > 1">
-			     <input type="checkbox" name="version_id"
+           <input type="checkbox" name="version_id"
                                tal:attributes="value version_id;
                                                id string:version-${version_id};
                                                title version_title" 
-			       limit-select="2"/>
-			     </tal:if>
-			<!-- do not make this a label! it will make the checkbox
-			     check when you follow the link. use a title on the 
-			     checkbox instead. --> 
-			<h3>
+             limit-select="2"/>
+           </tal:if>
+      <!-- do not make this a label! it will make the checkbox
+           check when you follow the link. use a title on the 
+           checkbox instead. --> 
+      <h3>
       <!-- FIXME should this be absolute ?? --> 
       <a tal:attributes="href string:version?version_id=${version_id}"><tal:span replace="version_title" /></a>
-			</h3>
-			by 
-			<a tal:define="author version/sys_metadata/principal" 
-                           tal:attributes="href string:${people_url}/${author}" 
+      </h3>
+      by 
+      <a tal:define="author version/sys_metadata/principal" 
+                           tal:attributes="href string:${people_url}/${author}/profile" 
                            tal:content="author">author</a>, 
-			<span tal:replace="python: view.pretty_mod_date(version)" />
-			<p class="oc-wiki-history-item-context oc-discreetText">
-			  <span tal:replace="version/comment">comment</span>
-			</p>
+      <span tal:replace="python: view.pretty_mod_date(version)" />
+      <p class="oc-wiki-history-item-context oc-discreetText">
+        <span tal:replace="version/comment">comment</span>
+      </p>
                       </li> 
-		    </tal:block> <!-- end repeat version history --> 
-		  </ul>   
-		  
-		  <tal:if condition="python:len(history) > 1">		  
-		  <div class="oc-actions">
-		    <input type="submit" value="compare" />
-		  </div> <!-- end .oc-actions --> 
-		  </tal:if>
-		  
-		</form> <!-- end #version_compare_form --> 
+        </tal:block> <!-- end repeat version history --> 
+      </ul>   
+      
+      <tal:if condition="python:len(history) > 1">      
+      <div class="oc-actions">
+        <input type="submit" value="Compare" />
+      </div> <!-- end .oc-actions --> 
+      </tal:if>
+      
+    </form> <!-- end #version_compare_form --> 
     </div> <!-- end #oc-lineup div -->
     </tal:if><!-- end if gt 0 versions -->
     
@@ -110,14 +95,14 @@
       There are no previous versions of this page
     </tal:if>
     
-	  </tal:block><!-- end of content for versionable objects -->       
-	  <tal:block tal:condition="python: not pr.isVersionable(context)">
-            <div id="oc-content-main"> 
-              This content does not have versioning information.
-            </div>
-	  </tal:block> 
+    </tal:block><!-- end of content for versionable objects -->       
+    <tal:block tal:condition="python: not pr.isVersionable(context)">
+      <div id="oc-content-main"> 
+        This content does not have versioning information.
+      </div>
+    </tal:block> 
 
-	</div> <!-- end .oc-wiki -->
+  </div> <!-- end .oc-wiki -->
       </div> <!-- end #oc-content-main -->
     </div><!-- end fill-slot=content -->
   </body>

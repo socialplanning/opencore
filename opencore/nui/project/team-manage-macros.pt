@@ -1,0 +1,323 @@
+<tal:vars
+   define="global team_manage_macros template/macros" />
+
+
+<!-- SHARED SNIPPETS -->
+
+<metal:memberlink define-macro="memberlink">
+  <div tal:define="mem_id item/getId;
+                   mem_url python:view.getMemberURL(mem_id)">
+    <a tal:attributes="href mem_url"
+       tal:condition="mem_url"
+       tal:content="mem_id" />
+
+    <tal:memid condition="not: mem_url"
+               replace="mem_id" />
+  </div>
+</metal:memberlink>
+
+<!-- "PENDING" LISTS (MEMBERSHIP REQUESTS AND INVITATIONS) -->
+
+<metal:pendingrow define-macro="pendingrow">
+  <tr tal:attributes="id item/id">
+
+    <td>
+      <input type="checkbox" name="checked:list"
+             tal:attributes="value item/id" />
+    </td>
+
+    <td>
+      <div metal:use-macro="team_manage_macros/memberlink" />
+    </td>
+
+    <td metal:define-slot="status" />
+
+    <td tal:define="requesteddate item/lastWorkflowTransitionDate"
+        tal:content="python:view.pretty_date(requesteddate)" />
+
+  </tr>
+</metal:pendingrow>
+
+
+<metal:pendingrequest
+   define-macro="pendingrequest">
+  <tr metal:use-macro="team_manage_macros/pendingrow">
+
+    <td metal:fill-slot="status"
+        tal:content="string:needs approval" />
+
+  </tr> <!-- end pendingrow -->
+
+</metal:pendingrequest>
+
+
+<metal:pendinginvitation
+   define-macro="pendinginvitation">
+  <tr metal:use-macro="team_manage_macros/pendingrow">
+
+    <td metal:fill-slot="status"
+        tal:content="string:needs approval" />
+
+  </tr> <!-- end pendingrow -->
+
+</metal:pendinginvitation>
+
+
+<metal:pendingemail-invite
+   define-macro="pendingemail-invite">
+  <tr tal:attributes="id item/id">
+
+    <td>
+      <input type="checkbox" name="checked:list"
+             tal:attributes="value item/id" />
+    </td>
+
+    <td tal:content="string:<${item/address}>" />
+
+    <td tal:content="string:awaiting registration" />
+
+    <td tal:define="requesteddate item/timestamp"
+        tal:content="python:view.pretty_date(requesteddate)" />
+
+  </tr>
+</metal:pendingemail-invite>
+
+
+<metal:requestbuttons
+   define-macro="requestbuttons">
+
+  <li>
+    <input type="submit" name="task|batch_checked|approve-requests"
+           value="Approve"
+           class="oc-button" />
+  </li>
+  <!--li>
+    <input type="submit" name="task|batch_checked|discard-requests"
+           value="Discard" class="oc-button" />
+  </li-->
+  <li>
+    <input type="submit" name="task|batch_checked|reject-requests"
+           value="Deny" class="oc-button" />
+  </li>
+  <!--li>
+      <input type="submit" name="task|reject_msg"
+             value="Deny with message" class="oc-button" />
+  </li-->
+
+</metal:requestbuttons>
+
+
+<metal:invitationbuttons
+   define-macro="invitationbuttons">
+
+  <li>
+    <input type="submit" name="task|batch_checked|remove-invitations"
+           value="Remove" class="oc-button" />
+  </li>
+  <li>
+    <input type="submit" name="task|batch_checked|remind-invitations"
+           value="Remind" class="oc-button" />
+  </li>
+
+</metal:invitationbuttons>
+
+<metal:email-invitebuttons
+   define-macro="email-invitebuttons">
+
+  <li>
+    <input type="submit" name="task|batch_checked|remove-email-invites"
+           value="Remove" class="oc-button" />
+  </li>
+  <li>
+    <input type="submit" name="task|batch_checked|remind-email-invites"
+           value="Remind" class="oc-button" />
+  </li>
+
+</metal:email-invitebuttons>
+
+
+<metal:pendinglist define-macro="pendinglist">
+  <div class="oc-widget oc-widget-dataTable">
+
+    <h2 class="oc-dataTable-heading" tal:content="string:$item_heading ($num_items)" />
+
+    <form method="POST"
+          tal:attributes="name item_type;
+                          id item_type;
+                          action view/request/ACTUAL_URL">
+      <table class="oc-dataTable" cellpadding="0" cellspacing="0">
+
+        <thead>
+          <tr>
+            <th class="oc-dataTable-checkBoxColumn"><input type="checkbox" class="oc-checkAll" /></th>
+            <th scope="col"><!--a class="oc-columnSortable" href=""-->Username<!--/a--></th>
+            <th scope="col"><!--a class="oc-columnSortable" href=""-->Status<!--/a--></th>
+            <th scope="col"><!--a class="oc-columnSortable" href=""-->Date requested<!--/a--></th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tal:items repeat="item item_collection">
+            <tr metal:use-macro="python:team_manage_macros.get('pending%s' % item_type)" />
+          </tal:items>
+
+        </tbody>
+
+      </table>
+
+      <ul class="oc-actions oc-dataTable-actions">
+        <metal:buttons use-macro="python:team_manage_macros.get('%sbuttons' % item_type)" />
+      </ul>
+    </form>
+  </div> <!-- end .oc-widget-dataTable -->
+</metal:pendinglist>
+
+
+
+<!-- ACTIVE TEAM MEMBER LIST  -->
+
+<metal:mshiprow define-macro="mshiprow">
+  <tr tal:attributes="id item/id">
+
+    <td>
+      <input type="checkbox" name="checked:list"
+             tal:attributes="value item/id" />
+      <input type="hidden" name="all:list"
+             tal:attributes="value item/id"/>
+    </td>
+
+    <td>
+      <div tal:define="mem_id item/getId;
+                       mem_url python:view.getMemberURL(mem_id)">
+	<a tal:attributes="href mem_url"
+	   tal:condition="mem_url"
+	   tal:content="mem_id" />
+	
+	<tal:memid condition="not: mem_url"
+		   replace="mem_id" />
+      </div>
+    </td>
+
+    <td tal:define="member_role item/role">
+      
+    
+      <div class="oc-js-liveEdit" tal:condition="python:item['id'] != view.loggedinmember.getId()">
+        <div class="oc-js-liveEdit-value oc-js-liveEdit_showForm oc-liveEdit-value oc-directEdit" tal:content="member_role">
+          
+        </div><!-- end .liveEdit-value -->
+        <div class="oc-js-liveEdit-editForm oc-js-actionSelect oc-liveEdit-editForm">
+          <select tal:attributes="name string:${item/id}_role;
+                                id string:${item/id}_role;">
+            <tal:roleoptions repeat="roleitem view/rolemap/items">
+              <option tal:attributes="value python:roleitem[0];
+                                      selected python:(roleitem[1] == member_role);"
+                      tal:content="python:roleitem[1]" />
+            </tal:roleoptions>
+          </select>
+
+          <input type="submit" value="go" tal:attributes="name string:task|${item/id}|set-roles" />
+               
+        </div><!-- end .liveEdit-editForm -->
+      </div><!-- end .liveEdit -->
+      
+
+      <div tal:condition="python:item['id'] == view.loggedinmember.getId()">
+        <span tal:replace="member_role" />
+        <input type="hidden"
+               tal:attributes="name string:${item/id}_role;
+                               value item/role_value" />
+      </div>
+    </td>
+
+    <td>
+      <div tal:define="active_since item/active_since"
+           tal:content="python:view.pretty_date(active_since)">
+      </div>
+    </td>
+
+    <td>
+      <div tal:content="item/listed">
+      </div>
+    </td>
+
+  </tr>
+</metal:mshiprow>
+
+<metal:mshiplist define-macro="mshiplist">
+  <div class="oc-widget oc-widget-dataTable"
+       tal:define="mships view/active_mships;
+                   num_items python:len(mships)">
+
+    <h2 class="oc-dataTable-heading" tal:content="string:Your team members ($num_items)" />
+
+    <form name="team-members" id="team-members" method="POST"
+          tal:attributes="action view/request/ACTUAL_URL">
+      <table class="oc-dataTable" cellpadding="0" cellspacing="0">
+
+        <thead>
+          <tr>
+            <th class="oc-dataTable-checkBoxColumn"><input type="checkbox" class="oc-checkAll" /></th>
+            <th scope="col"><!--a class="oc-columnSortable" href=""-->Username<!--/a--></th>
+            <th scope="col"><!--a class="oc-columnSortable" href=""-->Role<!--/a--></th>
+            <th scope="col"><!--a class="oc-columnSortable" href=""-->Effective since<!--/a--></th>
+            <th scope="col"><!--a class="oc-columnSortable" href=""-->Listed<!--/a--></th>
+          </tr>
+        </thead>
+
+        <tbody name="mship-rows" id="mship-rows">
+
+          <tal:items repeat="item mships">
+            <metal:mshiprow use-macro="team_manage_macros/mshiprow" />
+          </tal:items>
+
+        </tbody>
+
+      </table>
+
+      <ul class="oc-actions oc-dataTable-actions">
+        <li>
+          <input type="submit" name="task|batch_checked|remove-members"
+                 value="Remove" class="oc-button" />
+          <noscript>
+            <input type="submit" name="task|batch_all|set-roles"
+                   class="oc-button" value="Change roles" />
+          </noscript>
+        </li>
+      </ul>
+    </form>
+  </div> <!-- end .oc-widget-dataTable -->
+</metal:mshiplist>
+
+
+<!-- MEMBER SEARCH FORM-->
+
+<metal:search-members define-macro="search-members-results">
+
+    <table class="oc-dataTable" tal:condition="view/results | nothing">
+      <thead>
+        <tr>
+          <th scope="col">Username</th>
+          <th scope="col">Full name</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr tal:repeat="member view/results">
+          <tal:mem_url define="mem_url python:view.membertool.getHomeUrl(member.getId)">
+            <td>
+                <a tal:omit-tag="not:mem_url" tal:attributes="href mem_url">
+                   <strong tal:content="string: ${member/getId}" 
+                /></a>
+            </td>
+            <td tal:content="string: ${member/getFullname}" />
+          </tal:mem_url>
+          <td>
+            <input type="submit" value="Invite" class="oc-button"
+                   tal:attributes="name string:task|${member/getId}|invite-member" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+</metal:search-members>

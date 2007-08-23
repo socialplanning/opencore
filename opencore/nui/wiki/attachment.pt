@@ -1,3 +1,28 @@
-<tal:return define="attachment view/new_attachment">
-  <tal:block condition="not:view/errors" metal:use-macro="here/@@wiki_macros/attachment" />
-</tal:return>
+<tal:macro metal:define-macro="attachment">
+  <tal:setvar define="attachment attachment | options/attachment">
+    <li tal:attributes="id string:${attachment/getId}_list-item" class="oc-js-liveEdit">
+      <div class="oc-js-liveEdit-value">
+        <a target="_blank" 
+           tal:attributes="href attachment/getURL | attachment/absolute_url"
+           tal:content="attachment/Title | attachment/getId">Id</a>  
+        <span class="oc-discreetText" tal:content="attachment/getObjSize"></span>
+        <a href="" class="oc-js-liveEdit_showForm oc-actionLink">Edit</a>
+	<tal:if condition="python: view.display_delete_for(attachment)">
+          <a class="oc-js-actionLink oc-actionLink"
+             tal:attributes="href string:edit?task|${attachment/getId}|delete-attachment" >
+            Delete
+          </a>
+        </tal:if>
+      </div><!-- end .liveEdit-value -->  
+      <div class="oc-js-liveEdit-editForm">
+      <label for="attachment_title">Title:</label>
+      <input type="text" size="30"
+             tal:attributes="value attachment/Title;
+                             name string:${attachment/getId}_title"/>
+      <input type="submit" value="Edit" class="oc-js-actionButton"
+             tal:attributes="name string:task|${attachment/getId}|update-attachment" />
+      or <a class="oc-js-liveEdit_hideForm" href="">Cancel</a>
+      </div><!-- end .oc-js-liveEdit-editForm -->
+    </li>
+  </tal:setvar>
+</tal:macro>

@@ -1,3 +1,5 @@
+import random
+
 import transaction as txn
 
 from Testing import ZopeTestCase
@@ -5,12 +7,46 @@ from Testing import ZopeTestCase
 from Products.CMFCore.utils  import getToolByName
 from Products.PloneTestCase.layer import PloneSite, ZCML
 from Products.PloneTestCase.setup import setupPloneSite
-from Products.remember.tests.base import MailHostMock
 
 from Products.OpenPlans.tests.utils import installConfiguredProducts
 from opencore.testing.utility import setup_mock_http
 from opencore.project.handler import add_redirection_hooks 
 from utils import get_portal, get_portal_as_owner, create_test_content
+
+
+class MailHostMock(object):
+    """
+    mock up the send method so that emails do not actually get sent
+    during automated tests
+    """
+    def __init__(self):
+        self.messages = []
+    def send(self, msg, mto=None, mfrom=None, subject=None):
+        msg = {'msg': msg,
+               'mto': mto,
+               'mfrom': mfrom,
+               'subject': subject,
+               }
+        self.messages.append(msg)
+    secureSend = send
+    def validateSingleEmailAddress(self, email):
+        return True
+
+
+class BrowserIdManagerMock(object):
+    """
+    mock a browser_id_manager at the Zope root.
+    """
+    def __init__(self):
+        self.same = True
+        self._same_id = '111111111111'
+
+    def getBrowserId(self, create=False):
+        if self.same:
+            return self._same_id
+        else:
+            return str(random.random())
+
 
 class SiteSetupLayer(PloneSite):
     setupPloneSite()
@@ -45,6 +81,8 @@ class OpenPlansLayer(SiteSetupLayer):
 
         portal.oldMailHost = portal.MailHost
         portal.MailHost = MailHostMock()
+
+        portal.browser_id_manager = BrowserIdManagerMock()
         txn.commit()
 
     @classmethod
@@ -53,6 +91,7 @@ class OpenPlansLayer(SiteSetupLayer):
         del portal.MailHost
         portal.MailHost = portal.oldMailHost
         del portal.oldMailHost
+        del portal.browser_id_manager
 
 
 class OpencoreContent(OpenPlansLayer):

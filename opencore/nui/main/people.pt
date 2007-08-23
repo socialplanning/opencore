@@ -1,38 +1,25 @@
 <html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title">People - OpenPlans</title>
+  </head>
   <body>
-
     <div metal:fill-slot="content">
 
       <div class="oc-headingBlock">
         <h1>People on OpenPlans</h1>
-        <p class="oc-headingContext">Currently bringing together <span tal:replace="view/nusers">XXX</span> members</p>
+        <p class="oc-headingContext">
+          <span tal:replace="view/nusers">XXX</span> members,
+          <span tal:condition="view/loggedin">and growing</span>
+          <span tal:condition="not: view/loggedin">and <a tal:attributes="href string:${context/portal_url}/join">you</a></span>
+        </p>
       </div>
 
       <div id="oc-content-main">
-        <div class="oc-widget oc-widget-search oc-boxy">
-          <form name="people_search" action="." tal:attributes="action string:${context/portal_url}/people/searchresults">
-            <label><h2>Search for people</h2></label>
-            <span class="oc-form-fieldBlock">
-              <input class="oc-input-typeText" type="text" name="search_for" />
-              <input type="hidden" name="letter_search" />
-              <input type="submit" name="action_search_people" value="Search" />
-            </span>
-          </form>
-          <ul class="oc-widget-alphabet oc-clearAfter oc-boxy" tal>
-            <li tal:repeat="letter modules/string/uppercase">
-              <a href="" tal:content="letter" tal:attributes="href string:${context/portal_url}/people/searchresults?letter_search=${letter}">A</a>
-            </li>
-          </ul>
-        </div>
-      </div><!-- content-main -->
-
-
-      <!-- content-sidebar -->
-
-      <div id="oc-content-sidebar">
-        <div tal:condition="not: view/loggedin" tal:content="structure view/anonymous_txt" />
-        <div tal:condition="view/loggedin" tal:content="structure view/notanonymous_txt" />
-      </div><!-- content-sidebar -->
+        <tal:set_var define="current_search_page string:people;
+                     form_action_url string:${context/portal_url}/people/searchresults">
+        <div metal:use-macro="here/main_macros/search_widget" />
+        </tal:set_var>
+      </div>
 
     </div><!-- content-fill-slot -->
 

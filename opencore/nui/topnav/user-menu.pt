@@ -1,9 +1,14 @@
 
-<ul id="oc-usermenu-list">
+<ul id="oc-topnav-usermenu" class="oc-dropdown-list">
 
-  <li>
-    Explore
-    <tal:exploremenu replace="structure context/topnav-explore-menu" />
+  <li class="oc-dropdown-container"
+      tal:define="auth view/loggedin;
+                  memfolder_url view/memfolder_url;
+                  memprofile_url string:${memfolder_url}/profile"
+      tal:condition="python: auth and memfolder_url">
+      <a tal:attributes="href memprofile_url"><span
+          tal:replace="view/member_info/id"/></a>
+    <tal:mystuffmenu replace="structure context/topnav-mystuff-menu" />
   </li>
 
   <li tal:repeat="menuitem view/menudata">

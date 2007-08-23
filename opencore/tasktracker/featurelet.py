@@ -14,8 +14,8 @@ class TaskTrackerFeaturelet(SatelliteFeaturelet):
     title = "Task Tracker"
     installed_marker = ITaskTrackerFeatureletInstalled
 
-    _info = {'menu_items': ({'title': u'tasks',
-                             'description': u'Task Tracker',
+    _info = {'menu_items': ({'title': u'Tasks',
+                             'description': u'Task tracker',
                              'action': 'tasks'
                              },
                             ),

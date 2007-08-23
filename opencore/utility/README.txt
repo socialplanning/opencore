@@ -2,9 +2,6 @@
  utility
 =========
 
-    >>> import pdb; st = pdb.set_trace
-
-
 This package is dedicated to the most general of utilities.
 
     >>> from opencore.utility.interfaces import IHTTPClient

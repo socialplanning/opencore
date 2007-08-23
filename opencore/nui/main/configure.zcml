@@ -6,9 +6,18 @@
   <browser:page
      for="*"
      class="..base.BaseView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="nui_batch_macros"
      template="batch_macros.pt"
+     />
+  
+  <!-- macros -->
+  <browser:page
+     class="opencore.nui.base.BaseView"
+     for="*"
+     name="main_macros"
+     permission="zope2.View"
+     template="main_macros.pt"
      />
     
   <!-- projects portal -->
@@ -16,7 +25,7 @@
   <browser:page
      for="opencore.interfaces.adding.IAddProject"
      class=".search.ProjectsSearchView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="view"
      template="projects.pt"
      />
@@ -25,16 +34,24 @@
   <browser:page
      for="opencore.interfaces.adding.IAddProject"
      class=".search.ProjectsSearchView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="searchresults"
      template="projects-searchresults.pt"
      />
-  
+
+  <browser:page
+     for="opencore.interfaces.IAddSubProject"
+     class=".search.SubProjectsSearchView"
+     permission="zope2.View"
+     name="projects"
+     template="subprojects.pt"
+     />
+
   <!-- people portal -->
   <browser:page
      for="opencore.interfaces.IAmAPeopleFolder"
      class=".search.PeopleSearchView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="view"
      template="people.pt"
      />
@@ -43,7 +60,7 @@
   <browser:page
      for="opencore.interfaces.IAmAPeopleFolder"
      class=".search.PeopleSearchView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="searchresults"
      template="people-searchresults.pt"
      />
@@ -52,7 +69,7 @@
   <browser:page
      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      class=".search.HomeView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="view"
      template="home.pt"
      />
@@ -61,18 +78,65 @@
   <browser:page
      for="*"
      class=".search.SitewideSearchView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="sitesearch"
      template="home-searchresults.pt"
      />
 
-  <!-- home-searchresults -->
+  <!-- footer links -->
+  <browser:page
+     class="opencore.nui.base.BaseView"
+     for="*"
+     permission="zope2.View"
+     name="about"
+     template="about.pt"
+     />
+  <browser:page
+     class="opencore.nui.base.BaseView"
+     for="*"
+     permission="zope2.View"
+     name="contact"
+     template="about.pt"
+     />
+  <browser:page
+     class="opencore.nui.base.BaseView"
+     for="*"
+     permission="zope2.View"
+     name="legal"
+     template="legal.pt"
+     />
+  <browser:page
+     class="opencore.nui.base.BaseView"
+     for="*"
+     permission="zope2.View"
+     name="privacy"
+     template="privacy.pt"
+     />
+  
+  <!-- news -->
   <browser:page
      for="opencore.interfaces.IAmANewsFolder"
      class=".search.NewsView"
-     permission="zope.Public"
+     permission="zope2.View"
      name="view"
      template="news.pt"
+     />
+
+  <!-- news -->
+  <browser:page
+     for="opencore.interfaces.IAmANewsFolder"
+     class=".search.NewsView"
+     permission="cmf.ManagePortal"
+     name="add-news-item"
+     attribute="add_new_news_item"
+     />
+
+  <!-- contact site admin form -->
+  <browser:page
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     class=".contact.ContactView"
+     permission="zope2.View"
+     name="contact-site-admin"
      />
 
 </configure>

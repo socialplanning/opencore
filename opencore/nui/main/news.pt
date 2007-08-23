@@ -1,35 +1,45 @@
 <html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title">News - Openplans</title>
+  </head>
   <body>
-
     <div metal:fill-slot="content">              
-
       <div class="oc-headingBlock">
-  <h1>OpenPlans News</h1>
-  <p class="oc-headingContext" tal:define="days_free view/subpoena_free; plural python: days_free != 1">
-    Subpeona free for <span tal:replace="view/subpoena_free">456</span> day<span tal:condition="plural" tal:content="string:s"/>
-  </p>
+        <h1>OpenPlans News</h1>
+        <p class="oc-headingContext" tal:define="days_free view/subpoena_free; plural python: days_free != 1">
+          Subpeona free for <span tal:replace="view/subpoena_free">456</span> day<span tal:condition="plural" tal:content="string:s"/>
+        </p>
       </div>
 
       <div id="oc-content-main">
-  <a tal:condition="view/can_add_news" tal:attributes="href string:${context/portal_url}/news/createObject?type_name=Document">Add news item...</a>
-  <ul class="oc-widget oc-widget-feed oc-feed-list">
+        <a tal:condition="view/can_add_news" tal:attributes="href string:${context/portal_url}/news/add-news-item">Add news item...</a>
+        <ul class="oc-widget oc-widget-feed oc-feed-list">
           <li class="oc-feed-item" tal:repeat="item view/news_items">
             <h2 class="oc-feed-item-title">
-        <a href="" tal:content="item/Title" 
-     tal:attributes="href string:${context/portal_url}/news/${item/getId}">News Item Title
-        </a>
-      </h2>
+              <a href=""
+                 tal:content="item/Title" 
+                 tal:attributes="href string:${context/portal_url}/news/${item/getId};
+                                 name item/getId"
+                 >
+                 News Item Title
+              </a>
+            </h2>
             <p class="oc-feed-item-data oc-discreetText">by 
-        <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid">rpenate</a>,
-        <span tal:content="python: view.pretty_date(item.CreationDate)">today</span></p>
-            <p class="oc-feed-item-description" tal:content="item/Description">This should be the text from the description field, however long it is.</p>
-            <a href="" tal:attributes="href string:${context/portal_url}/news/${item/getId}">Read more&hellip;</a>
+              <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid">rpenate</a>,
+              <span tal:content="python: view.pretty_date(item.CreationDate)">today</span>
+            </p>
+            <p class="oc-feed-item-description" tal:content="item/lastModifiedComment">This should be the text from the revision note, however long it is.</p>
+            <p class="oc-feed-item-data oc-actions oc-smallText"><a href="" tal:attributes="href string:${context/portal_url}/news/${item/getId}">Read more&hellip;</a></p>
           </li>
-  </ul>
+        </ul>
       </div><!-- content-main -->
 
-      <div id="oc-content-sidebar" 
-	   tal:content="structure view/sidebar" /> 
+      <div id="oc-content-sidebar">
+        <div id="oc-contact" class="oc-boxy">
+          <h2>About us</h2>
+          <p>We would love to hear from you. Learn more <a tal:attributes="href string:${here/portal_url}/about">about us and our software</a> or <a tal:attributes="href string:${here/portal_url}/contact">contact us</a> for more information.</p>
+        </div>
+      </div>
 
     </div><!-- content-fill-slot -->
   </body>

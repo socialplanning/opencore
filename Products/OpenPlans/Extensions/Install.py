@@ -1,14 +1,23 @@
 import os
 from StringIO import StringIO
-from Products.Archetypes.Extensions.utils import install_subskin
+
 from OFS.ObjectManager import BadRequestException
-from Products.CMFCore import permissions
+
+from zope.interface import alsoProvides
+from zope.component import queryUtility
+from zope.app.component.hooks import setSite
+
 from Products.ZCatalog.ZCatalog import manage_addZCatalog
+from Products.Five.site.localsite import enableLocalSiteHook
+from Products.CMFCore import permissions
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.TypesTool import FactoryTypeInformation
+from Products.CMFCore.Expression import Expression
+from Products.Archetypes.Extensions.utils import install_subskin
 from Products.Archetypes.public import listTypes
 from Products.Archetypes.config import REFERENCE_CATALOG
 from Products.Archetypes.Extensions.utils import installTypes#, install_subskin
+from Products.membrane.config import TOOLNAME as MBTOOLNAME
 from Products.remember.Extensions.workflow import addWorkflowScripts
 from Products.remember.utils import getAdderUtility
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
@@ -17,12 +26,12 @@ from Products.CMFEditions.Permissions import RevertToPreviousVersions
 from Products.RichDocument.Extensions.utils import \
      registerAttachmentsFormControllerActions
 from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
+
 from Products.OpenPlans import config
 from Products.OpenPlans import content
 from Products.OpenPlans.permissions import DEFAULT_PERMISSIONS_DATA
 from Products.OpenPlans.permissions import DEFAULT_PFOLDER_PERMISSIONS_DATA
 from Products.OpenPlans.permissions import PLACEFUL_PERMISSIONS_DATA
-from Products.OpenPlans.permissions import ManageWorkflowPolicy
 from Products.OpenPlans.content.team import OpenTeam
 from Products.OpenPlans.utils import installDepends
 from Products.OpenPlans.utils import add_form_controller_overrides
@@ -35,19 +44,22 @@ from Products.OpenPlans.workflows import member
 from Products.OpenPlans.workflows import team
 from Products.OpenPlans.workflows import WORKFLOW_MAP
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
-from opencore.content.membership import OpenMembership
+from Products.OpenPlans.Extensions.utils import setupKupu
+
 from opencore.interfaces import IAddProject
 from opencore.interfaces import IAmAPeopleFolder
 from opencore.interfaces import IAmANewsFolder
-
-from zope.interface import directlyProvides, directlyProvidedBy, alsoProvides
-from Products.OpenPlans.Extensions.utils import setupKupu
-from Products.OpenPlans.metadata import cols
-from Products.OpenPlans.indexing import createIndexes
-from Products.OpenPlans.indexing import createMemIndexes
-from Products.CMFCore.Expression import Expression
-
+from opencore.content.membership import OpenMembership
+from opencore.content.member import OpenMember
 from opencore.auth.SignedCookieAuthHelper import SignedCookieAuthHelper
+
+from opencore.nui.member.interfaces import ITransientMessage
+from opencore.nui.member.transient_messages import TransientMessage
+from opencore.nui.indexing import metadata_cols, install_columns as installColumns
+from opencore.nui.indexing import createIndexes
+from opencore.nui.indexing import createMemIndexes
+from opencore.nui.project.interfaces import IEmailInvites
+from opencore.nui.project.email_invites import EmailInvites
 
 def fixUpEditTab(portal, out):
     pt=getToolByName(portal, 'portal_types')
@@ -81,15 +93,6 @@ def createGreyEditTab(portal, out):
                               expr_text,
                               'View',
                               'object')
-
-def installColumns(portal, out):
-    catalog = getToolByName(portal, 'portal_catalog')
-    switch=dict([(x, True) for x in catalog.schema()])
-    add = catalog.addColumn
-    [add(col) for col in cols\
-     if not switch.has_key(col) ]
-
-    print >> out, 'metadata columns %s installed' %str(cols)
 
 def installRoles(portal, out):
     """ Installs custom roles """
@@ -134,12 +137,10 @@ def install_workflow_map(portal, out, wfs=WORKFLOW_MAP):
         if wf == 'openplans_member_workflow':
            addWorkflowScripts(wf_tool.getWorkflowById(wf))
     wf_tool.setDefaultChain('plone_openplans_workflow')
-    wf_tool.updateRoleMappings()
 
 def installWorkflows(portal, out):
     """ Installs workflows """
     return install_workflow_map(portal, out)
-
 
 def installWorkflowPolicies(portal, out):
     pwf_tool = getToolByName(portal, 'portal_placeful_workflow')
@@ -153,14 +154,13 @@ def installWorkflowPolicies(portal, out):
             new_pol = getattr(pwf_tool, pol_id)
             new_pol.setTitle(pol['title'])
             new_pol.setDescription(pol['description'])
-            new_pol.setDescription(pol['description'])
             new_pol.setDefaultChain(pol['default'])
-            for p_type, chain in pol['types']:
+            # first we explicitly copy the default chains
+            for chain in default_chains:
+                new_pol.setChain(chain['id'],chain['chain'])
+            # then we override them w/ any custom settings we want
+            for p_type, chain in pol['types'].items():
                 new_pol.setChain(p_type, chain)
-            # Set policy based on portal defaults
-            if not pol['types']:
-                for chain in default_chains:
-                    new_pol.setChain(chain['id'],chain['chain'])
 
 def getDefaultChains(portal):
     pwf = getToolByName(portal, 'portal_workflow')
@@ -180,6 +180,10 @@ def getDefaultChains(portal):
                             'title': title,
                             'chain': chain})
     return types_info
+
+def updateWorkflowRoleMappings(portal, out):
+    wf_tool = getToolByName(portal, 'portal_workflow')
+    wf_tool.updateRoleMappings()
 
 def setPermissions(obj, perm_data, out):
     """ apply the specified permission settings to obj """
@@ -368,7 +372,7 @@ def setMemberType(portal, out):
     if mtype not in allowed:
         allowed += (mtype,)
         mdc_fti.allowed_content_types = allowed
-    mbtool = getToolByName(portal, 'membrane_tool')
+    mbtool = getToolByName(portal, MBTOOLNAME)
     mbtool.registerMembraneType(mtype)
 
     print >> out, '-> specifying %s as default member type' % mtype
@@ -385,6 +389,10 @@ def setMemberType(portal, out):
     
     print >> out, '-> allow users to choose their own password'
     portal.manage_changeProperties(validate_email=0)
+
+def setCaseInsensitiveLogins(portal, out):
+    mbtool = getToolByName(portal, MBTOOLNAME)
+    mbtool.case_sensitive_auth = False
 
 def setTeamType(portal, out):
     tmtool = getToolByName(portal, 'portal_teams')
@@ -430,7 +438,7 @@ def addProjectsFolder(portal, out):
         wftool = getToolByName(portal, 'portal_workflow')
 
     pfolder = portal._getOb('projects')
-    directlyProvides(pfolder, IAddProject, directlyProvidedBy(pfolder))
+    alsoProvides(pfolder, IAddProject)
 
     # Add type restrictions
     print >> out, 'Restricting addable types in Projects Folder'
@@ -448,7 +456,6 @@ def addProjectsFolder(portal, out):
         wf_config = pwf_tool.getWorkflowPolicyConfig(pfolder)
         wf_config.setPolicyBelow(policy='open_policy')
         wf_tool = getToolByName(pfolder, 'portal_workflow')
-        wf_tool.updateRoleMappings()
 
 def setProjectFolderPermissions(portal, out):
     print >> out, 'Setting extra permissions in projects folder'
@@ -581,6 +588,10 @@ def setSiteIndexPage(portal, out):
         page.setText(page_file.read())
         portal.setDefaultPage(index_id)
 
+def setSiteEmailAddresses(portal, out):
+    print >> out, "Setting site from address"
+    portal.manage_changeProperties(email_from_address=config.SITE_FROM_ADDRESS)
+
 def setCookieDomain(portal, out):
     app = portal.getPhysicalRoot()
     bid_mgr = app._getOb('browser_id_manager', None)
@@ -651,6 +662,29 @@ def installNewsFolder(portal, out):
     pf.setLayout('@@view')
 
 
+def createValidationMember(portal, out):
+    mdtool = getToolByName(portal, 'portal_memberdata')
+    mem = OpenMember('validation_member')
+    mdtool._validation_member = mem
+
+def install_local_transient_message_utility(portal, out):
+    setSite(portal) # specify the portal as the local utility context
+    if queryUtility(ITransientMessage) is not None:
+        return
+
+    sm = portal.getSiteManager()
+    sm.registerUtility(ITransientMessage, TransientMessage(portal))
+    print >> out, ('Transient message utility installed')
+
+def install_email_invites_utility(portal, out):
+    setSite(portal) # specify the portal as the local utility context
+    if queryUtility(IEmailInvites) is not None:
+        return
+
+    sm = portal.getSiteManager()
+    sm.registerUtility(IEmailInvites, EmailInvites())
+    print >> out, ('Email invites utility installed')
+
 def install(self, migrate_atdoc_to_openpage=True):
     out = StringIO()
     portal = getToolByName(self, 'portal_url').getPortalObject()
@@ -666,6 +700,7 @@ def install(self, migrate_atdoc_to_openpage=True):
     securityTweaks(portal, out)
     uiTweaks(portal, out)
     setMemberType(portal, out)
+    setCaseInsensitiveLogins(portal, out)
     setTeamType(portal, out)
     addProjectsFolder(portal, out)
     setProjectFolderPermissions(portal, out)
@@ -680,11 +715,16 @@ def install(self, migrate_atdoc_to_openpage=True):
         migrateATDocToOpenPage(portal, out)
     addFormControllerOverrides(portal, out)
     setSiteIndexPage(portal, out)
+    setSiteEmailAddresses(portal, out)
     setupVersioning(portal, out)
     fixUpEditTab(portal, out)
     createGreyEditTab(portal, out)
     createIndexes(portal, out)
     createMemIndexes(portal, out)
     installNewsFolder(portal, out)
+    createValidationMember(portal, out)
+    install_local_transient_message_utility(portal, out)
+    install_email_invites_utility(portal, out)
+    updateWorkflowRoleMappings(portal, out)
     print >> out, "Successfully installed %s." % config.PROJECTNAME
     return out.getvalue()

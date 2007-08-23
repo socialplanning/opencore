@@ -1,31 +1,19 @@
 <html metal:use-macro="here/@@standard_macros/master">
-  <body>
+  <head>
+    <title metal:fill-slot="title">Search Projects - OpenPlans</title>
+  </head>  
+  <body> 
 
     <div metal:fill-slot="content">              
       
       <div id="oc-content-main">
-          
-          <div class="oc-widget oc-widget-search oc-widget-multiSearch oc-boxy">
-            <form action="/openplans/projects/" method="get">
-              <label class="oc-label-heading oc-biggestText">Search</label>
-              <ul class="oc-inlineList">
-                <li><a class="oc-search-people" href="/openplans/people/searchresults?search_for=test&letter_search=&action_search_people=Search">People</li>
-                <li><a class="oc-search-projects" href="/openplans/projects/searchresults?search_for=test&letter_search=&action_search_projects=Search">Projects</a></li>
-                <li><a class="oc-search-everything" href="/openplans/sitesearch?search_for=test">Everything</a></li>      
-              </ul>
-              <div class="oc-form-fieldBlock">
-                <input class="oc-input-typeText" type="text" name="search_for" value="mysearch" size="25" />
-                <button type="submit">Search</button>
-              </div>
-            </form>
-            <ul class="oc-widget-alphabet oc-clearAfter oc-boxy" tal>
-              <li tal:repeat="letter modules/string/uppercase">
-                <a href="" tal:content="letter" tal:attributes="href string:${request/ACTUAL_URL}?letter_search=${letter}">A</a>
-              </li>
-            </ul>
-          </div><!-- end .oc-widget-multiSearch -->
-          
-          <div class="oc-searchresults">
+        
+        <tal:set_var define="current_search_page string:projects;
+			     form_action_url string:${context/portal_url}/projects/searchresults">
+          <div metal:use-macro="here/main_macros/search_widget" />
+        </tal:set_var>
+        
+        <div class="oc-searchresults">
 
           <!-- batch needs to have some variables set up to work properly.
                here is where they are defined -->
@@ -49,16 +37,16 @@
                    this was necessary because the batch macro reposts the request data, and we see problems
                    when trying to reset to page when the sorting changes -->
               <form name="projects_sort" method="POST" action="." tal:attributes="action string:${context/portal_url}/projects/searchresults">
-              <!-- FIXME This should not require a button to work. -->
-                <select name="sort_by" tal:define="sorted_by request/sort_by | nothing">
+		<!-- FIXME This should not require a button to work. -->
+                <select name="sort_by" class="oc-js-autoSelect" tal:define="sorted_by request/sort_by | nothing">
                   <option value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
                   <option value="modified" tal:attributes="selected python: sorted_by == 'modified'">date updated</option>
                   <option value="created" tal:attributes="selected python: sorted_by == 'created'">date created</option>
-                  <option value="Title" tal:attributes="selected python: sorted_by == 'Title'">project name</option>
-                  <option value="Creator" tal:attributes="selected python: sorted_by == 'Creator'">member name</option>
+                  <option value="sortable_title" tal:attributes="selected python: sorted_by == 'sortable_title'">project name</option>
+                  <option value="Creator" tal:attributes="selected python: sorted_by == 'Creator'">project creator</option>
                 </select>
 
-              <!-- resend the current data when sorting -->
+		<!-- resend the current data when sorting -->
                 <input tal:condition="request/search_for | nothing" type="hidden" name="search_for"
                        tal:attributes="value request/search_for" />
 
@@ -74,23 +62,23 @@
             <!-- the results are displayed here -->
             <ol class="oc-searchresults-list">
               <li class="oc-searchresults-item" tal:repeat="item view/search_results">
-                <h3><a href="" tal:attributes="href string:${context/portal_url}/projects/${item/getId}" tal:content="item/Title">Project Title</a></h3>
+                <h3><a href="" tal:attributes="href string:${context/portal_url}/projects/${item/getId}" tal:content="item/Title">Project Title</a> </h3> 
 
                 <span class="oc-discreetText" tal:define="sorting_by request/sort_by | nothing">
 
                   <tal:not-modified-block condition="python: sorting_by != 'modified'">
-                    created by
-                    <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
+                   created by
+                    <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
                     <span tal:content="python: view.pretty_date(item.CreationDate)" />
                   </tal:not-modified-block>
 
                   <tal:modified-block tal:condition="python: sorting_by == 'modified'">
-                      last updated
+                    last updated
                     <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
                       by
-                      <a tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
+                      <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
                     </tal:has_updated_author>
-                      <span tal:content="python: view.pretty_date(item.ModificationDate)" />
+                    <span tal:content="python: view.pretty_date(item.ModificationDate)" />
                   </tal:modified-block>
 
                 </span>

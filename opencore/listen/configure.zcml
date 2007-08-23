@@ -4,28 +4,11 @@
            xmlns:i18n="http://namespaces.zope.org/i18n"
            i18n_domain="opencore">
 
-  <include package="plone.app.form" />
-
-  <browser:page
-     name="opencore.add_mailinglist"
-     for="opencore.featurelets.interfaces.IListenContainer"
-     permission="listen.AddMailingList"
-     class=".mailinglist_views.MailingListAddForm"
-     />
-
-  <browser:page
-     name="edit"
-     for="opencore.listen.interfaces.IOpenMailingList"
-     permission="listen.EditMailingList"
-     class=".mailinglist_views.MailingListEditForm"
-     />
-
   <browser:page
      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      name="send_listen_mail"
      class="Products.listen.utilities.list_lookup.MailDeliveryView"
      permission="zope2.Public"
      />
-
 
 </configure>

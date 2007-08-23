@@ -8,7 +8,7 @@ from Testing import ZopeTestCase as ztc
 from Products.Five import zcml
 from zope.interface import alsoProvides
 from zope.testing.cleanup import cleanUp
-from opencore.testing.layer import MockHTTP, OpencoreContent
+from opencore.testing.layer import OpencoreContent, MockHTTP
 
 def clean_CA(tc):
     return cleanUp()

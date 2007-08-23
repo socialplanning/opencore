@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" i18n:domain="plone"
+      metal:use-macro="here/@@standard_macros/master" tal:define="ml view/getMailingList">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:${view/context/Title} - ${view/area/Title}" />
+  </head>
+  <body>
+    <div metal:fill-slot="content">
+      <div metal:use-macro="here/@@listen_macros/bcrumb"/>
+      <div metal:use-macro="here/@@listen_macros/tabs"/>
+      <div id="oc-content-main" i18n:domain="listen" tal:define="messages view/getMessageBodies;">
+        <ul id="forum-thread" class="oc-plainList" tal:define="message messages">
+          <li id="initial-message">
+            <metal:message use-macro="here/message_macros/macros/message"/>
+
+            <dl id="reply-structure" class="oc-plainList"
+              tal:condition="local_thread"
+              tal:define="thread view/getReplyStructure;
+              local_thread thread/children;
+              use_id_anchors python:True">
+              <dt i18n:translate="label_threaded_replies">Thread Outline:</dt>
+              <dd> 
+                <div metal:use-macro="here/message_macros/macros/thread" />
+              </dd>
+            </dl>
+          </li>
+          <metal:threadmacro use-macro="here/message_macros/macros/forum_thread"/>
+        </ul>
+      </div><!-- content-main -->
+      <div id="oc-content-sidebar">
+        <div class="oc-boxy">
+        <a id="to_threaded" href="." tal:attributes="href view/archiveURL"
+          i18n:translate="">Return to conversation view</a>
+        </div>
+        <!-- A form for changing the thread layout, uses post and lets the view set a cookie -->
+        <form id="forum-control-form" class="oc-boxy" name="forum-controls" method="post" action=""
+          tal:attributes="action request/ACTUAL_URL">
+          <label for="flat_view" i18n:translate="">Thread view:</label>
+          <select id="threading" name="flat_view:int" tal:define="value view/flat|nothing">
+            <option value="0" tal:attributes="selected not:value"
+              i18n:translate="option_forum_threaded">Threaded</option>
+            <option value="1" tal:attributes="selected value"
+              i18n:translate="option_forum_flat">Flat</option>
+          </select>
+          <br />
+          <label for="newest_first" i18n:translate="">Thread order:</label>
+          <select id="order" name="newest_first:int" tal:define="value view/newest_first|nothing">
+            <option value="0" tal:attributes="selected not:value"
+              i18n:translate="option_forum_oldest_first">Oldest first</option>
+            <option value="1" tal:attributes="selected value"
+              i18n:translate="option_forum_recent_first">Recent First</option>
+          </select>
+          <br />
+          <input name="forum-update" i18n:attributes="value" value="Update"
+            type="submit"/>
+        </form>
+      </div><!-- content-sidebar -->
+    </div><!-- content-container -->
+  </body>
+</html>

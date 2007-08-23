@@ -1,114 +1,107 @@
-<tal:vars define="usr view/viewedmember;
-                  data view/viewed_member_info">
+<tal:vars define="memberdata view/viewed_member_info">
 
 <html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:${view/area/Title} on OpenPlans" />
+  </head>
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
         <div id="oc-member-badge" class="oc-boxy oc-clearAfter vcard">
           <div class="oc-avatar">
-            <img class="photo" tal:attributes="src data/portrait_url" />
+            <img class="photo" tal:attributes="src view/mangled_portrait_url" /><br />
+            <a tal:condition="view/viewingself" class="oc-actionLink" href="profile-edit?field=portrait">Edit</a>
           </div>
-          <div class="oc-member-details">
-            <div class="oc-headingBlock">
-              <h1 class="fn">
-                <span tal:content="data/id" />
-                <a tal:condition="view/viewingself" href="./profile-edit" class="oc-liveItem_showForm">Edit</a>
-              </h1>
-              <p class="oc-member-fullname n" tal:content="data/fullname" />
-              <p class="oc-headingContext oc-discreetText">
-                member since <span tal:replace="data/membersince" />,
-                last login <span tal:replace="data/lastlogin" />
-              </p>
-            </div>
+          <div class="oc-member-details" tal:attributes="style python:'margin-left: %spx' % memberdata['portrait_width']">
+            <metal:login-info use-macro="view/member_macros/macros/login-info" />
             <dl class="oc-member-info">
-              <tal:location tal:condition="data/location">
-                <dt>Location</dt>
-                <dd class="adr" tal:content="data/location" />
+              <tal:fullname tal:define="fn memberdata/fullname" tal:condition="python:fn or view.viewingself()">
+                <dt>Name
+                  <a tal:condition="view/viewingself" class="oc-actionLink"
+                      href="profile-edit?field=fullname">Edit</a>
+                </dt>
+                <dd class="n" tal:condition="fn" tal:content="fn" />
+                <dd class="n" tal:condition="not:fn" tal:content="string:none" />
+              </tal:fullname>
+              <tal:location tal:define="loc memberdata/location" tal:condition="python:loc or view.viewingself()">
+                <dt>Location
+                  <a tal:condition="view/viewingself" class="oc-actionLink"
+                    href="profile-edit?field=location">Edit</a>
+                </dt>
+                <dd class="adr" tal:condition="loc" tal:content="loc" />
+                <dd class="adr" tal:condition="not:loc" tal:content="string:none" />
               </tal:location>
-              <dt>Projects</dt>
-              <dd>
-                <tal:projects condition="usr/projectBrains">
+              <dt>Projects
+                <a tal:condition="view/viewingself" class="oc-actionLink" 
+                   href="account">Edit</a>
+              </dt>
+              <dd tal:define="not_used view/populate_project_lists;
+                              pub_projs nocall:view/public_projects;
+                              priv_projs nocall:view/private_projects" >
+                <tal:pub_projects condition="pub_projs">
+                  <div class="oc-discreetText">visible to all:</div>
                   <ul class="oc-inlineList">
-                    <li tal:repeat="proj usr/projectBrains"><a
+                    <li tal:repeat="proj pub_projs"><a
                         tal:attributes="href proj/getURL"
-                        tal:content="proj/Title" /><tal:private
-                        condition="python: proj.review_state == 'closed'">
-                        (private)</tal:private></li>
+                        tal:content="proj/Title" /></li>
                   </ul>
-                </tal:projects>
-                <tal:noprojects condition="not: usr/projectBrains">
+                </tal:pub_projects>
+                <tal:priv_projects condition="priv_projs">
+                  <div class="oc-discreetText">visible only to team members:</div>
+                  <ul class="oc-inlineList">
+                    <li tal:repeat="proj priv_projs"><a
+                        tal:attributes="href proj/getURL"
+                        tal:content="proj/Title" /></li>
+                  </ul>
+                </tal:priv_projects>
+		<tal:no_projects condition="python: not (pub_projs or priv_projs)"> 
                   none
-                  <span tal:condition="view/viewingself">
-                    <a tal:attributes="href string:${view/siteURL}/projects">get involved</a>
-                  </span>
-                </tal:noprojects>
+                </tal:no_projects>
               </dd>
+              <dt>
+                Member home
+                  <a tal:condition="view/viewingself" class="oc-actionLink"
+                     tal:attributes="href string:${memberdata/home_url}/edit">Edit</a>
+              </dt>
+              <dd>
+                <a class="url" tal:attributes="href memberdata/home_url"
+                   tal:content="string:${memberdata/folder_url}" />
+                </dd>
             </dl>
           </div>
         </div>
+
         <dl class="oc-member-info"
-          tal:define="skills python:view.viewed_member_profile_tags('skills');
-                      affils python:view.viewed_member_profile_tags('affiliations');
-                      favs   python:view.viewed_member_profile_tags('favorites');">
-          <tal:block condition="data/statement">
-            <dt>Personal Statement</dt>
-            <dd tal:content="data/statement" />
-          </tal:block>
-          <tal:block condition="data/background">
-            <dt>Background</dt>
-            <dd tal:content="data/background" />
-          </tal:block>
-          <tal:block condition="skills">
-            <dt>Skills/Interests</dt>
-            <dd>
-              <ul class="oc-inlineList">
-                <li tal:repeat="skill skills"><a tal:attributes="href skill/url" tal:content="skill/tag" /></li>
-              </ul>
-            </dd>
-          </tal:block>
-          <tal:block condition="affils">
-            <dt>Affiliations</dt>
-            <dd>
-              <ul class="oc-inlineList">
-                <li tal:repeat="affil affils"><a tal:attributes="href affil/url" tal:content="affil/tag" /></li>
-              </ul>
-            </dd>
-          </tal:block>
-          <tal:block condition="favs">
-            <dt>Favorites</dt>
-            <dd>
-              <ul class="oc-inlineList">
-                <li tal:repeat="fav favs"><a tal:attributes="href fav/url" tal:content="fav/tag" /></li>
-              </ul>
-            </dd>
-          </tal:block>
+          tal:define="skills python: memberdata['skills']      #instead use the following when tagger is ready: view.viewed_member_profile_tags('skills');
+                      affils python: memberdata['affiliations']#instead use the following when tagger is ready: view.viewed_member_profile_tags('affiliations');
+                      favs   python: memberdata['favorites']   #instead use the following when tagger is ready: view.viewed_member_profile_tags('favorites');">
+
+          <span tal:replace="structure python:
+            view.field_snippet(title='Personal Statement',
+                               value=memberdata.get('statement'),
+                               anchor='statement')" />
+          <span tal:replace="structure python:
+            view.field_snippet(title='Background',
+                               value=memberdata.get('background'),
+                               anchor='background')" />
+          <span tal:replace="structure python:
+            view.field_snippet(title='Skills/Interests',
+                               value=skills,
+                               anchor='skills')" />
+          <span tal:replace="structure python:
+            view.field_snippet(title='Affiliations',
+                               value=affils,
+                               anchor='affiliations')" />
+          <span tal:replace="structure python:
+            view.field_snippet(title='Favorites',
+                               value=favs,
+                               anchor='favorites')" />
+
         </dl>
       </div><!-- end #oc-content-main -->
 
       <div id="oc-content-sidebar">
-        <div class="oc-boxy">
-          <h2>Recent activity</h2>
-          <div class="oc-widget oc-widget-lastModified">
-            <div class="oc-headingBlock">
-              <h3>Pages last modified</h3>
-            </div><!-- end .oc-headingBlock -->
-            <table class="oc-dataTable" cellpadding="0" cellspacing="0">
-              <thead>
-                <tr>
-                  <th scope="col">Date</th>
-                  <th scope="col">Page</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr tal:repeat="item view/activity">
-                  <td tal:content="item/date" />
-                  <td><a tal:attributes="href item/url" tal:content="item/title" /></td>
-                </tr>
-              </tbody>
-            </table>
-          </div><!-- end .oc-widget-lastModified -->
-        </div><!-- end .oc-boxy -->
+        <metal:status-messages use-macro="view/member_macros/macros/recent-activity" />
       </div><!-- end .oc-content-sidebar -->
     </div><!-- content-fill-slot -->
   </body>

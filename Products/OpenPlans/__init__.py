@@ -28,6 +28,7 @@ from permissions import initialize as initialize_permissions
 
 import monkey
 import Extensions.setup
+from opencore.nui import indexing
 
 # Register Global Tools/Services/Config
 # (Skins)
@@ -80,9 +81,11 @@ def initialize(context):
             ).initialize(context)
 
     flet_registry = getUtility(IFeatureletRegistry)
-    flet_registry.registerFeaturelet(RosterFeaturelet())
     flet_registry.registerFeaturelet(ListenFeaturelet())
     flet_registry.registerFeaturelet(TaskTrackerFeaturelet())
+    # BBB the roster featurelet can go away once we've removed all
+    #     the installed rosters
+    flet_registry.registerFeaturelet(RosterFeaturelet())
     
     from opencore.auth import SignedCookieAuthHelper
     from AccessControl.Permissions import add_user_folders
@@ -92,3 +95,7 @@ def initialize(context):
                                             SignedCookieAuthHelper.manage_addSignedCookieAuthHelper ),
                            visibility = None
                            )
+    
+    # do all at import cataloging setup
+    indexing.register_indexable_attrs()
+    

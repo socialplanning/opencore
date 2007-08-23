@@ -21,14 +21,14 @@ class ListenFeaturelet(BaseFeaturelet):
     implements(IFeaturelet)
 
     id = "listen"
-    title = "Mailing Lists"
+    title = "Mailing lists"
     #config_view = "listen_config"
     installed_marker = IListenFeatureletInstalled
     
-    _info = {'content': ({'id': 'lists', 'title': 'Mailing Lists',
+    _info = {'content': ({'id': 'lists', 'title': 'Mailing lists',
                           'portal_type': 'Folder'},),
-             'menu_items': ({'title': u'Mailing Lists',
-                             'description': u'Mailing Lists',
+             'menu_items': ({'title': u'Mailing lists',
+                             'description': u'Mailing lists',
                              'action': u'lists',
                              'order': 0,
                              },

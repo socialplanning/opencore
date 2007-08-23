@@ -11,37 +11,37 @@ CopyOrMove = "Copy or Move"
 
 MakeContentVisible = "OpenPlans: Make content visible"
 ManageWorkflowPolicy = "OpenPlans: Manage workflow policy"
+ViewEmails = 'OpenPlans: View emails'
 
 DEFAULT_PERMISSIONS_DATA = (
-    (['Manager', 'Owner', 'ProjectContentMgr', 'ProjectAdmin',
-      'ProjectMember', 'Reviewer'],
+    (['Manager', 'Owner', 'ProjectAdmin', 'ProjectMember', 'Reviewer'],
      ['Add portal content', 'Add portal folders',
       'Add Documents, Images, and Files',
       'ATContentTypes: Add Document', 'ATContentTypes: Add Event',
       'ATContentTypes: Add File', 'ATContentTypes: Add Folder',
       'ATContentTypes: Add Image', 'ATContentTypes: Add Link',
       'ATContentTypes: Add News Item', 'OpenPlans: Add OpenPage',
-      'Reply to item', 'Delete objects', CopyOrMove]),
+      'Reply to item', 'Delete objects', CopyOrMove, AddMailingList,
+      ViewEmails]),
 
-    (['Manager', 'Owner', 'ProjectContentMgr', 'ProjectAdmin',
-      'ProjectMember', 'Reviewer', 'Member'],
+    (['Manager', 'Owner', 'ProjectAdmin', 'ProjectMember', 'Reviewer',
+      'Member'],
      [QueryLibraries]),
 
-    (['Manager', 'Owner', 'ProjectContentMgr', 'ProjectAdmin',
-      'ProjectMember', 'Reviewer', 'Member', 'Anonymous'],
+    (['Manager', 'Owner', 'ProjectAdmin', 'ProjectMember', 'Reviewer',
+      'Member', 'Anonymous'],
      [SubscribeSelf]),
 
-    (['Manager', 'Owner', 'ProjectContentMgr', 'ProjectAdmin',
-      'Reviewer'],
+    (['Manager', 'Owner', 'ProjectAdmin', 'Reviewer'],
      ['List folder contents',
       'Quills: Add WeblogEntry', 'Quills: Add WeblogTopic',
       'Quills: Add WeblogArchive',]),
 
-    (['Manager', 'ProjectAdmin', 'Owner', 'ProjectMember'],
+    (['Manager', 'ProjectAdmin', 'Owner'],
      [ManageTeamMembership, 'TeamSpace: Manage team',
-      ManageWorkflowPolicy, AddMailingList, InviteSubscribers]),
+      ManageWorkflowPolicy, InviteSubscribers]),
 
-    (['Manager', 'ProjectAdmin', 'ProjectContentMgr',],
+    (['Manager', 'ProjectAdmin'],
      [MakeContentVisible,]),
 
     (['Manager',],
@@ -55,6 +55,10 @@ DEFAULT_PFOLDER_PERMISSIONS_DATA = (
     (['Manager', 'Member'],
      ['OpenPlans: Add OpenProject', 'OpenPlans: Add OpenPage',
        'ATContentTypes: Add Image', 'Add portal content',]
+     ),
+    
+    (['Manager', 'Owner', 'ProjectAdmin', 'ProjectMember'],
+     ['OpenPlans: Add SubProject', ]
      ),
     )
 
@@ -85,7 +89,8 @@ def initialize():
                 setDefaultRoles(permission, ADD_DEFAULT_ROLES[typename])
             else:
                 setDefaultRoles(permission, ('Manager',))
-    permission = MakeContentVisible
-    setDefaultRoles(permission, ('Manager',))
+    perms_to_set = [MakeContentVisible, ViewEmails]
+    for permission in perms_to_set:
+        setDefaultRoles(permission, ('Manager',))
 
     return permissions

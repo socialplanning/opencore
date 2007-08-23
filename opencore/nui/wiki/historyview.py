@@ -7,9 +7,13 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from DateTime import DateTime
 from topp.utils.pretty_date import prettyDate
 from plone.memoize import instance
+from view import WikiBase
 
 
-class WikiVersionView(BaseView): 
+# XXX i18n 
+
+
+class WikiVersionView(WikiBase): 
 
     def __init__(self, context, request):
         BaseView.__init__(self, context, request)
@@ -31,11 +35,11 @@ class WikiVersionView(BaseView):
 
     def version_title(self, version_id): 
         if version_id == 0:
-            return "Initial"
+            return "Initial Version"
         elif version_id == self.current_id():
-            return "Current"
+            return "Current Version"
         else: 
-            return "Version %d" % version_id
+            return "Version %d" % (version_id + 1)
 
     def current_id(self): 
         return len(self.get_versions()) - 1
@@ -55,20 +59,20 @@ class WikiVersionView(BaseView):
     def pretty_mod_date(self, version):
         return prettyDate(DateTime(version.sys_metadata['timestamp']))
 
-    
+
 
 class WikiVersionCompare(WikiVersionView):
 
     @instance.memoizedproperty
     def versions(self):
-        versions = self.request.get('version_id')
+        versions = self.request.form.get('version_id')
         req_error = None
         if not versions:
-            req_error = 'You did not check any versions in the version compare form'
+            req_error = 'Please choose the two versions you would like to compare.'
         elif not isinstance(versions, list) or len(versions) < 2:
-            req_error = 'You did not check enough versions in the version compare form'
+            req_error = 'Please choose the two versions you would like to compare.'
         elif len(versions) > 2:
-            req_error = 'You may only check two versions in the version compare form'
+            req_error = 'Please choose only two versions to compare.'
         if not req_error:
             versions.sort()
             old_version_id, new_version_id = self.sort_versions(*versions)
@@ -76,7 +80,7 @@ class WikiVersionCompare(WikiVersionView):
                 old_version = self.get_version(old_version_id)
                 new_version = self.get_version(new_version_id)
             except ArchivistRetrieveError:
-                req_error = 'Invalid version specified'
+                req_error = 'Please choose a valid version.'
             
         if req_error:
             # redirect to input page on error
@@ -116,5 +120,36 @@ class WikiVersionCompare(WikiVersionView):
         return super(BaseView, self).__call__(*args, **kwargs)
 
 
-    
+class WikiVersionRevert(WikiVersionView):
 
+    def __call__(self, *args, **kwargs):
+
+        # error check parameters
+        req_error = None
+        view_url = self.context.absolute_url()
+        
+        try:
+            version_id = int(self.request.form.get('version_id'))
+            if version_id < 0 or version_id >= self.current_id():
+                req_error = 'Please choose a valid version.'
+        except:
+            req_error = 'Please choose a valid version.'
+
+        # bail out on error 
+        if req_error is not None:
+            self.addPortalStatusMessage(req_error)
+            raise Redirect(view_url)
+
+        # actually do the revert
+
+        self.pr.revert(self.context, version_id)
+
+        message = "Rolled back to %s" % self.version_title(version_id)
+
+        if self.pr.supportsPolicy(self.context, 'version_on_revert'):
+            self.pr.save(obj=self.context, comment=message)
+
+
+        # send user to the view page 
+        self.addPortalStatusMessage(message)
+        self.request.RESPONSE.redirect(view_url)

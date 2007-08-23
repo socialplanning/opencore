@@ -23,10 +23,10 @@ Test for aq issues::
 Get the list of projects that were recently updated::
 
    >>> recent_projects = view.recently_updated_projects()
-   >>> recent_titles = [p.Title() for p in recent_projects]
+   >>> recent_titles = [p.Title for p in recent_projects]
    >>> recent_titles.sort()
    >>> recent_titles
-   ['Proj1', 'Proj2', 'Proj3', 'Proj4']
+   ['Project Four', 'Project One', 'Project Three', 'Project Two']
 
 Test searching for projects that start with a letter::
 
@@ -36,8 +36,9 @@ Test searching for projects that start with a letter::
 
    >>> brains = view.search_for_project_by_letter('P')
    >>> titles = [p.Title for p in brains]
+   >>> titles.sort()
    >>> titles
-   ['Proj4', 'Proj1', 'Proj3', 'Proj2']
+   ['Project Four', 'Project One', 'Project Three', 'Project Two']
 
 
 @@ sorting is a little unclear. is this accurate/correct behavior?
@@ -47,28 +48,60 @@ Now try sorting the projects::
 
    >>> brains = view.search_for_project_by_letter('P', sort_by='modified')
    >>> [b.Title for b in brains]
-   ['Proj2', 'Proj3', 'Proj1', 'Proj4']
+   ['Project Two', 'Project Three', 'Project One', 'Project Four']
 
 Explicitly sort on relevancy::
 
    >>> brains = view.search_for_project_by_letter('P', sort_by='relevancy')
    >>> titles = [p.Title for p in brains]
    >>> titles
-   ['Proj4', 'Proj1', 'Proj3', 'Proj2']
+   ['Project Four', 'Project One', 'Project Three', 'Project Two']
 
 
 Searching for a letter that doesn't match any projects::
 
-   >>> view.search_for_project_by_letter('X')
+   >>> brains = view.search_for_project_by_letter('X')
+   >>> titles = [p.Title for p in brains]
+   >>> titles
    []
+
+Searching for all projects::
+
+   >>> brains = view.search_for_project_by_letter('all')
+   >>> titles = [p.Title for p in brains]
+   >>> titles
+   ['Project Two', 'Project Three', 'Project One', 'Project Four']
+
+Searching for projects starting with a number::
+
+   >>> brains = view.search_for_project_by_letter('num')
+   >>> titles = [p.Title for p in brains]
+   >>> titles
+   []
+
+Create a project that starts with a number::
+    >>> form_vars = dict(id='5test', __initialize_project__=True,
+    ...                  title='5test',
+    ...                  workflow_policy='medium_policy',
+    ...                  add=True, featurelets = ['listen'], set_flets=1)
+    >>> proj_view = self.portal.projects.restrictedTraverse("create")
+    >>> proj_view.request.form.update(form_vars)
+    >>> out = proj_view.handle_request()
+
+Now search again::
+
+   >>> brains = view.search_for_project_by_letter('num')
+   >>> titles = [p.Title for p in brains]
+   >>> titles
+   ['5test']
 
 Search for a project by string::
 
-   >>> brains = view.search_for_project('Proj3')
+   >>> brains = view.search_for_project('Three')
    >>> len(brains)
    1
    >>> brains[0].Title
-   'Proj3'
+   'Project Three'
 
 Try a substring search::
 
@@ -76,7 +109,7 @@ Try a substring search::
    >>> titles = [b.Title for b in brains]
    >>> titles.sort()
    >>> titles
-   ['Proj1', 'Proj2', 'Proj3', 'Proj4']
+   ['Project Four', 'Project One', 'Project Three', 'Project Two']
 
 And now sort them by creation time::
 
@@ -84,7 +117,7 @@ And now sort them by creation time::
 
    >>> brains = view.search_for_project('Proj', sort_by='created')
    >>> [b.Title for b in brains]
-   ['Proj4', 'Proj1', 'Proj3', 'Proj2']
+   ['Project Four', 'Project One', 'Project Three', 'Project Two']
 
    old: ['Proj2', 'Proj3', 'Proj1', 'Proj4']
 
@@ -120,6 +153,23 @@ Search for people starting with a letter::
    >>> names = [p.getId for p in people]
    >>> names
    ['m2', 'm3', 'm1', 'm4']
+
+Search for people starting with a number::
+
+   >>> people = view.search_for_person_by_letter('num')
+   >>> names = [p.getId for p in people]
+   >>> names
+   []
+
+Search for all people::
+
+   >>> people = view.search_for_person_by_letter('all')
+   >>> names = [p.getId for p in people]
+
+test_user_1 shows up here, and I don't know if anyone's entirely sure
+whether that's a good or a bad thing, but let's let the test pass::
+   >>> sorted(names)
+   ['m1', 'm2', 'm3', 'm4', 'test_user_1_']
 
 Search for members starting with a letter, only sort the results::
 
@@ -187,3 +237,76 @@ Check our static content::
 
    >>> view.sidebar()
    '...'
+
+We shouldn't have an add link because we're not the admin
+   >>> result = view()
+   >>> 'Add news item...' in result
+   False
+
+When we login as admin, we should have the link
+   >>> self.logout()
+   >>> self.loginAsPortalOwner()
+   >>> view.loggedinmember.getId = lambda *a:'whatever'
+   >>> result = view()
+   >>> 'Add news item...' in result
+   True
+
+Now that we have permission to add a new news item, let's do so
+   >>> view.add_new_news_item()
+   >>> view.request.response.getHeader('location')
+   'http://nohost/plone/news/.../edit'
+
+And we have a news item now
+   >>> len(view.news_items())
+   1
+
+
+Sitewide Search
+===============
+
+   >>> view = search.SitewideSearchView(self.portal.projects, request)
+   >>> brains = view.search('Proj')
+   >>> len(brains)
+   9
+   >>> brains = view.search_by_letter('p')
+   >>> len(brains)
+   9
+   >>> brains = view.search_by_letter('m', sort_by='getId')
+   >>> [b.getId for b in brains]
+   ['m1', 'm2', 'm3', 'm4']
+
+Search for everything::
+   >>> brains = view.search_by_letter('all', sort_by='getId')
+   >>> len(brains)
+   18
+
+Search for things starting with a number::
+   >>> brains = view.search_by_letter('num')
+   >>> ids = [b.getId for b in brains]
+   >>> len(ids)
+   2
+   >>> '5test' in ids
+   True
+
+
+Homepage View
+=============
+
+   >>> view = search.HomeView(self.portal, request)
+   >>> brains = view.recently_created_projects()
+   >>> [b.getId for b in brains]
+   ['5test', 'p4', 'p1', 'p3', 'p2']
+   >>> for i in range(len(brains)-1):
+   ...
+   ...     brains[i].CreationDate >= brains[i+1].CreationDate
+   True
+   True
+   True
+   True
+
+Check that the project url method works
+   >>> brain = brains[-1]
+   >>> view.project_url(brain)
+   'http://nohost/plone/projects/p2'
+   >>> view.n_project_members(brain)
+   4

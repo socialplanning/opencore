@@ -5,6 +5,7 @@ from Testing.ZopeTestCase import PortalTestCase
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 #from opencore.testing.layer import OpenPlansLayer as test_layer
 from opencore.testing.layer import OpencoreContent as test_layer
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
@@ -19,6 +20,7 @@ def test_suite():
     from pprint import pprint
     from zope.interface import alsoProvides
     from pprint import pprint
+    from opencore.nui.formhandler import test_suite as octotest
     
     setup.setupPloneSite()
     def readme_setup(tc):
@@ -31,14 +33,34 @@ def test_suite():
     readme = FunctionalDocFileSuite("README.txt",
                                     optionflags=optionflags,
                                     package='opencore.nui',
-                                    test_class=FunctionalTestCase,
+                                    test_class=OpenPlansTestCase,
                                     globs = globs,
                                     setUp=readme_setup
                                     )
 
     readme.layer = test_layer
 
-    return unittest.TestSuite((readme,))
+    email_sender = FunctionalDocFileSuite("email-sender.txt",
+                                    optionflags=optionflags,
+                                    package='opencore.nui',
+                                    test_class=OpenPlansTestCase,
+                                    globs = globs,
+                                    setUp=readme_setup
+                                    )
+
+    email_sender.layer = test_layer
+
+    placeful_workflow = FunctionalDocFileSuite("placeful_workflow_test.txt",
+                                               optionflags=optionflags,
+                                               package='opencore.nui',
+                                               test_class=OpenPlansTestCase,
+                                               globs = globs,
+                                               setUp=readme_setup
+                                               )
+
+    placeful_workflow.layer = test_layer
+    return unittest.TestSuite((readme, octotest(), email_sender))
+    #return unittest.TestSuite((readme, octotest(), placeful_workflow))
 
 
 if __name__ == '__main__':

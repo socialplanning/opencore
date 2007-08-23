@@ -19,7 +19,8 @@ SKINS_DIR              = 'skins'
 COPY_DIR               = 'copy'
 COPY_PATH              = os.path.join(PKG_HOME, COPY_DIR)
 
-DEFAULT_ROLES          = ('ProjectMember', 'ProjectAdmin')
+# DEFAULT_ROLES should be in order from lowest to highest privilege
+DEFAULT_ROLES          = ['ProjectMember', 'ProjectAdmin']
 DEFAULT_ACTIVE_MSHIP_STATES=['public', 'private']
 
 NOT_ADDABLE_TYPES = ['Smartlink', 'IronicWiki', 'TeamSpace']
@@ -37,6 +38,8 @@ NAVTREE_TYPES = ['Collector', 'HelpCenterErrorReferencefolder',
 SITE_INDEX_TEMPLATE = 'site_index_html'
 
 COOKIE_DOMAIN = '.openplans.org'
+
+SITE_FROM_ADDRESS = 'greetings@openplans.org'
 
 PROHIBITED_MEMBER_PREFIXES = ['openplans', 'topp', 'anon', 'admin',
                               'manager', 'webmaster', 'help', 'support']

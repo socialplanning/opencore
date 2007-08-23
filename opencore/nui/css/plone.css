@@ -1,207 +1,42 @@
 /* PLONE
 -------------------------------------------- */
 
-	/* PLONE -- contentViews
-		These classes define the look of the tabs on wiki pages and elsewhere. */
-
-ul.oc-tabs,
-ul.contentViews {
-	background-color: transparent;
-	padding-right: 1em;
-	margin: 1em 0;
-	border-bottom: 1px solid #333333;
-	line-height: normal;
-	list-style-image: none;
-	list-style-position: outside;
-	list-style-type: none;
-	text-align: right;
-	text-transform: lowercase;
-}
-
-	.oc-tabs li,
-	.contentViews li {
-		display: inline;
-		padding: 0.5em 0;
-		cursor: pointer;
-	}
-
-		.oc-tabs li a,
-		.contentViews li a {
-			z-index: 1;
-			border: 1px solid #333333;
-			border-bottom: none;
-			margin-right: 0.1em;
-			padding: .4em 1em;
-			text-decoration: none;
-			line-height: normal;
-			color: #333333;
-		}
-
-			.oc-tabs li a:hover,
-			.contentViews li a:hover {
-				background-color: #bbb;
-				color: white;
-				border-bottom: 1px #bbb solid;
-			}
-
-	.oc-tabs .selected a,
-	.contentViews .selected a {
-		background-color: transparent;
-		border-bottom: white 2px solid; /* Must be same color as the background of the body (or container) */
-		color: #333333;
-	}
-
-    .oc-tabs .disabled a,
-	#contentview-grey_edit a,
-    .contentview-grey_edit a {
-		background-color: #eee;
-		border-color: gray;
-		border-bottom-color: transparent;
-		color: gray;
-	}
-
-    .oc-tabs .disabled a:hover,
-	#contentview-grey_edit a:hover,
-    .contentview-grey_edit a:hover {
-		background-color: #bbb;
-	}
-
-	#contentview-moremenu {
-			cursor: pointer;
-	}
-		
-		#contentview-moremenu ul {
-			display: none;
-			position: absolute;
-			right: -1em;
-			margin: 0;
-			padding: 0;
-			text-transform: lowercase;
-			border: 1px solid #333333;
-			background-color: white;
-			text-align: left;
-		}
-
-				#contentview-moremenu li {
-					display: block;
-					margin: 0;
-					padding: 0.25em;
-					width: 5em;					
-				}
-
-
-			li#contentview-moremenu:hover,
-			li#contentview-moremenu .sfhover {
-				color: #bbb;
-			}
-			
-				li#contentview-moremenu:hover ul,
-				li#contentview-moremenu .sfhover ul {
-					display: inline;
-					color: #333333;
-				}
-
-					li#contentview-moremenu:hover ul li:hover,
-					li#contentview-moremenu .sfhover ul li.sfhover {
-						background-color: #bbb;
-					}
-					
-	/* PLONE -- documentActions
-		This class deals with the "Print" and "Email" buttons */
-		
+/* THIS SHOULD ALL BE DEPRECATED AWAY. */
+          
+/* PLONE -- documentActions
+This class deals with the "Print" and "Email" buttons
+    
 .documentActions {
-	display: none;
-}
+  display: none;
+} */
 
-	/* PLONE -- contentActions
-		These classes apply only to the Manager mode, we probably don't want to deal with them? */
-	
-.contentActions {
-	margin-bottom: 1em;
-	background-color: transparent;
-	border: none;
-	color: #333333;
-	text-align: right;
-	text-transform: lowercase;
-	padding: 0 0 0 1em;
-	z-index: 2;
-	position:relative;
-	font-size: 0.8333em;
-	display: none;
-}
-	
-	.contentActions ul,
-	.contentActions li {
-		margin: 0;
-		list-style: none;
-		list-style-image: none;
-		display: inline;
-		color: white;
-		text-align: left;
-	}
-	
-	.contentActions ul {
-		line-height: normal;
-		padding: 0;
-		margin: 0;
-	}
-		
-		.contentActions li {
-			float: right;
-			z-index: 4;
-			border: none;
-		}
-		
-	.contentActions a {
-		text-decoration: none;
-		color: #333333;
-		padding: 0 0.5em;
-	}
+/* PLONE -- portalMessage
+These classes apply to the portal messages (such as "Changes Saved")
 
-	/* PLONE -- portalMessage
-		These classes apply to the portal messages (such as "Changes Saved") */
-
-	.portalMessage,
-	.portalWarningMessage,
-	.portalStopMessage,
-	.system-message,
-	#error-handling {
-		background-color: #FFF6BF;
-		border: 1px solid gray;
-		border-right: 1.5em solid gray;
-		color: #333333;
-		font-weight: bold;
-		margin: 0.25em 0em;
-		padding: 0.125em 0.25em;
-		padding-right: 0.25em;
-		position: relative;
-		vertical-align: middle;
-	}
-	
-		.portalMessage div#portalMessageX {
-			color: #ddd;
-			cursor: pointer;
-			font-weight: bold;
-			padding: 0.125em 0.5em;
-			position: absolute;
-			right: -1.5em;
-			top: 0;
-			font-size: 100%;
-		}
-
-		/* PLONE -- .context
-			This class determines what (some) buttons look like
-	
-	.context, .documentEditable * .context {
-		background: #333333;
-		color: white;
-		border: none;
-		cursor: pointer;
-		font-size: inherit;
-		overflow: visible;
-		padding: 0.125em;
-		margin: 0.125em;
-		margin-left: 0;
-		margin-top: 0.5em;
-		text-transform: lowercase;
-	} */
+  .portalMessage,
+  .portalWarningMessage,
+  .portalStopMessage,
+  .system-message,
+  #error-handling {
+    background-color: #FFF6BF;
+    border: 1px solid gray;
+    border-right: 1.5em solid gray;
+    color: #333333;
+    font-weight: bold;
+    margin: 0.25em 0em;
+    padding: 0.125em 0.25em;
+    padding-right: 0.25em;
+    position: relative;
+    vertical-align: middle;
+  }
+  
+    .portalMessage div#portalMessageX {
+      color: #ddd;
+      cursor: pointer;
+      font-weight: bold;
+      padding: 0.125em 0.5em;
+      position: absolute;
+      right: -1.5em;
+      top: 0;
+      font-size: 100%;
+    } */

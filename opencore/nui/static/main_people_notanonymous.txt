@@ -1,7 +1,0 @@
-            <h2>Participate on OpenPlans</h2>
-            <ul>
-              <li>Customize your profile</li>
-              <li>Post a photo of yourself</li>
-              <li>Customize your homepage</li>
-              <li>Join a project (or start) a project</li>
-            </ul>

@@ -1,36 +1,23 @@
-/* 
- OpenPlans Default Theme
- One of many to come?
-
- */
 body {
   color: #333;
-  background: #F1F7F8;
+  background: #FFF;
   padding: 0;
 }
 #oc-page-container {}
 
-#oc-topnav,
-#oc-content-container,
-#oc-footer {
- max-width: 78em; /* As a rule, measure should be between two and three alphabets long. In other words, between 52 and 78 characters, including spaces. Since characters average out to about one-half EM in width this translates to a minimum width of 26em and a maximum of 39em, or two to three alphabets.   IN OTHER WORDS: avoid changing the width. */
- min-width: 52em;
- margin: 0 auto;
- padding: 0 1em;
-}
 #oc-topnav-wrapper {
   width: 100%;
   padding: 0;
   color: #fff;
-  background: #4B92A4;
-  border-top: 0.75em solid #2B7284;
-  border-bottom: 1px solid #2B7284;
+  background: #332F2A;
+  border-top: 0.75em solid #4D4945;
+  border-bottom: 1px solid #4D4945;
 }
 #oc-topnav {
-  padding: 0.5em 1em;
 }
 #oc-topnav h1 {
-  font-size: 30px;
+  font-size: 32px;
+  font-weight: normal;
   padding: 0;
   margin: 0.125em 0 0.25em;
 }
@@ -40,46 +27,28 @@ body {
 }
 #oc-topnav a:hover {
 }
-#oc-topnav-usermenu {
-  top: 0;
-  right: 1em;
-  width: 31%;
-  background: #2B7284 ;
-  padding: 0.25em 0.5em;
-}
-#oc-topnav-usermenu input.oc-input-typeText {
-  background-color: #fff;
-  border: 1px solid #999;
-  width: 60%;
-}
-#oc-topnav-usermenu ul {
-  margin: 0.25em 0;
-}
-#oc-topnav-usermenu ul li {
-  padding: 0.125em 0.25em;
-  font-weight: bold;
-}
 ul#oc-topnav-context {
-  font-weight: bold;
-  margin: 0;
 }
 ul#oc-topnav-context li {
-  margin: 0  1em 0 0;
-  padding: 0;
+  background: #665D55;
 }
-ul#oc-topnav-context li.oc-topnav-selected {
-  border-bottom:2px solid #DE7C07;
+ul#oc-topnav-context li a:hover,
+ul#oc-topnav-context li.oc-topnav-selected a {
+  background: #EB852B;
 }
 #oc-content-wrapper {
- padding: 1.5em 0 1em;
- background-color: #fff;
+ /* padding: 1.5em 0 1em; */
+ /* background-color: #fff; */
 }
 #oc-content-main {
+}
+ul.oc-tabs {
+  border-color: #6BA12A;
 }
 #oc-footer-wrapper {
   color: #999;
   background: transparent;
-  border-top: 1px solid #4B92A4;
+  border-top: 1px solid #332F2A;
   margin: 0 0 2em;
   padding: 0.5em 0;
 }
@@ -95,81 +64,13 @@ ul#oc-topnav-context li.oc-topnav-selected {
 }
 
 /* @HTML ELEMENTS GENERAL @TYPOGRAPHY
-This should be the only place where font information is specified
 -------------------------------------------- */
 
-body, textarea {
-  font-size: 12px; /* ~12px */
-  line-height: 1.5em; /* 18px % 12px = 1.5em */
-  font-family: "Lucida Grande", Arial, Helvetica, sans-serif;
-  /* These typographic rules will establish rhythm of 18px at base font size */
-}
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6,
-.oc-legend-heading {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  margin-bottom: 0.5em;
-}
-h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 abbr {
-  border: none;
-}
-h1, .oc-biggestText {
-  letter-spacing: -0.0325em;
-}
-h2, .oc-biggerText, #oc-topnav-title h1,
-#oc-content-sidebar h1 {
-  letter-spacing: -0.0325em;
-}
-h3, .oc-bigText,
-#oc-content-sidebar h2 {
-}
-#oc-content-sidebar h3 {
-}
-h4, .h4 {
-}
-#oc-content-sidebar h4 {
-} 
-.oc-smallText,
-.oc-discreetText,
-  /* Layout and Navigation */
-    .oc-documentByLine,
-    #oc-topnav .oc-dropdown,
-    #oc-topnav-openplans-search,
-    #oc-footer,
-      #oc-content-title-pagetitle,
-  
-  /*Feeds and Forms */
-    .oc-field input,
-    .oc-formHelp,
-    .oc-feed_data,
-    .oc-feed_desc,
-    ul.oc-contentViews,
-    ul.oc-oc-tabs,
-  
-  /* Error Messages */
-    .oc-portalMessage,
-    .oc-portalWarningMessage,
-    .oc-portalStopMessage,
-    .oc-system-message,
-    #oc-error-handling
-  
-  {
-}
-.oc-documentFirstHeading,
-.oc-simpleHeading { 
-}
-.oc-simpleHeading a {
-}
-.oc-simpleHeading a:hover { 
-}
-a {
-  color: #2B7284 ;
-}
-a:visited {
-  color: #2B7284 ;
-}
-a:hover {
-  color: #DE7C07;
+.oc-feed-item-title,
+.oc-searchresults-item h3,
+.oc-peopleresults-content h3,
+.oc-lineup-item h3 {
+  font-weight: bold;
 }
 
 /* @BOXES THAT NEED STYLE
@@ -178,29 +79,45 @@ a:hover {
 /* Boxy */
 
 .oc-boxy {
-  border: 1px solid #AAC683;
-  background-color: #F6FBF0;
+  border-top: 2px solid #E6D3C0;
+  background-color: #F9F9F9;
   padding: 1em;
 }
 #oc-content-sidebar .oc-boxy h1,
 #oc-content-sidebar .oc-boxy h2 {
   padding-bottom: 0.5em;
-  border-bottom: 1px dotted #AAC683;
+  border-bottom: 1px dotted #E6D3C0;
 }
 
 /* Get Started */
 
-#oc-content-sidebar .oc-getstarted {
-  border-color: #DE7C07;
-  background-color: #FFFBF7;
+.oc-getstarted {
+  border: 1px solid #EB852B;;
+  background-color: #F9F9F9;
+}
+.oc-getstarted h1,
+.oc-getstarted h2 {
+  background-color: #EB852B;
+  padding: 0.25em;
+  color: #fff;
+  margin: 0 0 0.5em;
+}
+.oc-getstarted p {
+  margin: 0;
+}
 
+.oc-getstarted p,
+.oc-getstarted-list {
+  padding: 1em;
+  padding-top: 0;
 }
-#oc-content-sidebar .oc-getstarted h1,
-#oc-content-sidebar .oc-getstarted h2 {
-  border-color: #DE7C07;
+.oc-getstarted-list p {
+  padding: 0 0 0 1.25em;
+  margin-bottom: 0.5em;
 }
-#oc-content-sidebar .oc-getstarted-list a {
- color: #DE7C07;
+.oc-getstarted a {
+ color: #EB852B;
+ font-weight: bold;
 }
 
 /* Search Widgets */
@@ -208,14 +125,14 @@ a:hover {
 .oc-widget-search,
 #oc-content-sidebar .oc-widget-search,
 #oc-content-sidebar .oc-widget-search.oc-boxy {
-  border: 1px solid #4B92A4;
-  background: #F1F7F8;
+  border: 1px solid #E6D3C0;
+  border-top: 2px solid #4D4945;
   padding: 1em;
 }
 .oc-widget-alphabet,
 #oc-content-sidebar ul.oc-widget-alphabet.oc-boxy {
   border: none;
-  border-top: 1px dotted #4B92A4;
+  border-top: 1px dotted #332F2A;
   background: none;
   padding: 0;
   padding-top: 0.5em;
@@ -225,6 +142,7 @@ a:hover {
 }
 .oc-widget-multiSearch .oc-label-heading {
  display: inline;
+ padding-right: 0.5em;
 }
 .oc-widget-multiSearch ul.oc-inlineList {
   margin: 0.5em;
@@ -233,29 +151,24 @@ a:hover {
 .oc-widget-multiSearch .oc-form-fieldBlock {
   margin-top: 0.5em;
 }
-/* Feeds */
 
-.oc-widget-feed {
-  border-bottom: 1px dotted #4B92A4;
-}
-.oc-widget-feed li.oc-feed-item {
-  border-top: 1px dotted #4B92A4;
-  padding: 0.5em 0;
-}
-.oc-widget-feed.oc-boxy {
-  border-bottom: 1px solid #AAC683;
-}
-.oc-widget-feed.oc-boxy li.oc-feed-item {
-  border-top: 1px dotted #AAC683;
-  padding: 0.5em 0;
-}
 /* Form Boxes */
 
 .oc-boxy legend.oc-legend-heading{
   margin: 0;
 }
-
 #oc-join-form fieldset.oc-boxy,
 #oc-login-form fieldset.oc-boxy {
   margin-top: -0.75em;
 }
+#oc-join-form .oc-form-label{
+  width: 11em;
+}
+
+/* Member badges */
+#oc-member-badge,
+.oc-peopleresults-list li.vcard,
+.oc-roster li.vcard {
+  background-color: #F6F6F6;
+}
+

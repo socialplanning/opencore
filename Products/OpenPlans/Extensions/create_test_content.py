@@ -1,16 +1,11 @@
+import sys
 from Products.CMFCore.utils import getToolByName
 from opencore.project.handler import _initialize_project
-from opencore.nui.setup import install_confirmation_workflow as icw
-import sys
 
-projects_map = {'p1':{'title':'Proj1',
-                      'full_name':'Project One'},
-                'p2':{'title':'Proj2',
-                      'full_name':'Project Two'},
-                'p3':{'title':'Proj3',
-                      'full_name':'Project Three'},
-                'p4':{'title':'Proj4',
-                      'full_name':'Project Four'},
+projects_map = {'p1':{'title':'Project One',},
+                'p2':{'title':'Project Two',},
+                'p3':{'title':'Project Three',},
+                'p4':{'title':'Project Four',},
                 }
 
 members_map = {'m1':{'fullname':'Member One',
@@ -49,14 +44,20 @@ members_map = {'m1':{'fullname':'Member One',
 
 
 
-def create_test_content(self, p_map=None, m_map=None, nui=True):
+def create_test_content(self, p_map=None, m_map=None):
     """ populates an openplans site w/ dummy test content """
     portal = getToolByName(self, 'portal_url').getPortalObject()
-    portal.manage_changeProperties(email_from_address='info@localhost')
+
+    # XXX this shouldn't be necessary, as its already set in install
+    # XXX this should probably be removed
+    # from Products.OpenPlans import config
+    # portal.manage_changeProperties(email_from_address=config.SITE_FROM_ADDRESS)
+
     mdc = getToolByName(self, 'portal_memberdata')
     mdc.unit_test_mode = True # suppress registration emails
     tm_tool = getToolByName(self, 'portal_teams')
     wf_tool = getToolByName(self, 'portal_workflow')
+    ms_tool = getToolByName(self, 'portal_membership')
 
     if p_map is None:
         p_map = projects_map
@@ -68,9 +69,7 @@ def create_test_content(self, p_map=None, m_map=None, nui=True):
         return "ERROR: no 'projects' folder"
 
     out = []
-    if nui:
-        icw(self, sys.stdout)
-    
+
     for p_id, p_data in p_map.items():
         pcontainer.invokeFactory('OpenProject', p_id, **p_data)
         request = self.REQUEST
@@ -83,8 +82,14 @@ def create_test_content(self, p_map=None, m_map=None, nui=True):
         mem = mdc._getOb(mem_id)
         mem._setPassword(mem_data['password'])
         mem.fixOwnership()
-        if nui:
-            wf_tool.doActionFor(mem, 'register_public')
+        mem.isConfirmable = True
+        wf_tool.doActionFor(mem, 'register_public')
+        del mem.isConfirmable
+
+        # create the member area and mark it with the appropriate interface
+        # ms_tool.createMemberArea(mem_id)
+        # do_create_home_directory(mem, {}, 'worthless text')
+
         out.append('Member %s added' % mem_id)
         for p_id, p_roles in mem_data['projects'].items():
             team = tm_tool.getTeamById(p_id)
@@ -98,4 +103,3 @@ def create_test_content(self, p_map=None, m_map=None, nui=True):
 
     mdc.unit_test_mode = False
     return "\n".join(out)
-

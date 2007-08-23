@@ -1,72 +1,21 @@
-<tal:vars 
-   define="global auth nocall:here/acl_users/credentials_cookie_auth|here/cookie_authentication|nothing;
-           global login view/handle_login" 
-   />
+<tal:vars define="global fdata view/handle_request;
+                  global login view/handle_login" />
+
 <html metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
-      
       <div id="oc-content-main">
-        <form name="login_form" method="post" id="oc-login-form"
-              tal:attributes="action string:${context/absolute_url}/${view/name}">
-          
-          <input type="hidden" name="came_from" id="came_from" 
-                 tal:condition="view/request/came_from | nothing" 
-                 tal:attributes="value view/request/came_from" />
 
-          <fieldset class="oc-boxy">
-            <legend class="oc-legend-heading oc-biggestText">Login</legend> 
-            <table class="oc-form">
-              <thead></thead>
-              <tbody>
-                <tr>
-                  <th class="oc-form-label" scope="row"><label for="__ac_name">Username </label></th>
-                  <td class="oc-form-value"><input type="text" size="15" tabindex="0" name="__ac_name" value="" id="__ac_name" class="oc-firstFocus" /></td>
-                  <td class="oc-form-help">
-                    <span class="oc-form-context"></span>
-                    <span id="oc-validator-username" class="oc-form-validator"></span>
-                  </td>
-                </tr>
-                <tr>
-                  <th class="oc-form-label" scope="row"><label for="__ac_password">Password </label>
-                  </th>
-                  <td class="oc-form-value"><input type="password" size="15" name="__ac_password" id="__ac_password" /></td>
-                  <td class="oc-form-help"> </td>
-                </tr>
-                <tr class="oc-options">
-                  <th></th>
-                  <td class="oc-form-value">
-                    <input type="checkbox" name="no_expire_cookie" id="no_expire_cookie" /> 
-                    <label for="no_expire_cookie">Keep me logged in</label>
-                  </td>
-                  <td class="oc-form-help">
-                  </td>
-                </tr>
-                <tr class="oc-actions">
-                  <th></th>
-                  <td class="oc-form-value">
-                    <button class="context" type="submit" name="login:boolean" value="True">Log in</button>
-                    <!-- onclick="javascript:return setLoginVars('__ac_name','login_name','__ac_password','pwd_empty','js_enabled','cookies_enabled')" --></td>
-                  <td class="oc-form-help"></td>
-                </tr>
-                <tr class="oc-options">
-                  <th></th>
-                  <td>
-                    <a class="oc-smallText" href="forgot">Forgot your username or password?</a>
-                  </td>
-                  <td class="oc-form-helpBlock"></td>
-                </tr>
-              </tbody>
-            </table>
-          </fieldset>
-        </form>
+        <metal:login use-macro="view/login_snippet/macros/login_snippet" />
+        <metal:forgot use-macro="view/forgot_snippet/macros/forgot_snippet" />
+
       </div><!-- end #content-main -->
 
       <div id="oc-content-sidebar">
-        <div class="oc-boxy oc-getstarted">
-          <h2>First time here?</h2>
-          <p>There are many benefits to joining OpenPlans, we should probably explain a few of them here.</p>
-          <p><a href="join">Create an account</a></p>
+        <div class="oc-getstarted">
+          <h2>New users</h2>
+          <p>Whether your group is mobilizing voters, planning a protest, or growing a garden, OpenPlans can help you become more effective.</p>
+          <a href="join" class="oc-banana">Join OpenPlans</a>
         </div>
       </div><!-- end #content-sidebar -->
 

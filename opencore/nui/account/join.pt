@@ -1,19 +1,17 @@
-<!-- join form -->
-<tal:handle define="global fdata view/handle_request" replace="nothing"/>
-<html 
-   metal:use-macro="here/@@standard_macros/master">
+<tal:vars define="global fdata view/handle_request;" />
+
+<html metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
-         
       <div id="oc-content-main">
-        
-        <form id="oc-join-form" name="edit_form" method="post" 
-              tal:attributes="action string:${context/absolute_url}/${view/name}"
+        <!-- join form -->
+        <form id="oc-join-form" name="edit_form" class="oc-boxy" method="post" 
+              tal:attributes="action string:${context/absolute_url}/join"
               >
           
-          <fieldset class="oc-boxy">
+          <fieldset>
 
-            <legend class="oc-legend-heading oc-biggestText">Join OpenPlans</legend>
+            <h1>Join OpenPlans</h1>
 
             <p tal:condition="not:fdata/getUser | nothing">
               Registration is free and your email will not be
@@ -35,7 +33,7 @@
                     <label for="id">Username</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" name="id" id="id"
+                    <input type="text" name="id" id="id" class="oc-autoFocus oc-js-liveValidate"
                            tal:attributes="value request/id | nothing" />
                   </td>
                   <td class="oc-form-help">
@@ -57,14 +55,14 @@
                     <label for="fullname">Full Name</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" name="fullname" id="fullname"
+                    <input type="text" name="fullname" id="fullname" class=""
                            tal:attributes="value request/fullname | nothing" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
                       (optional)
                     </span>
-                    <span class="oc-form-validator">
+                    <span id="oc-fullname-validator" class="oc-form-validator">
                       
                     </span>
                     <span id="oc-fullname-error" class="oc-form-error"
@@ -86,7 +84,7 @@
                     <span class="oc-form-context">
                       
                     </span>
-                    <span class="oc-form-validator">
+                    <span id="oc-email-validator" class="oc-form-validator">
                       
                     </span>
                     <span id="oc-email-error" class="oc-form-error"
@@ -101,14 +99,14 @@
                     <label for="password">Password</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="password" name="password" id="password" 
+                    <input type="password" name="password" id="password" class=""
                            />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
                       
                     </span>
-                    <span class="oc-form-validator">
+                    <span id="oc-password-validator" class="oc-form-validator">
                       
                     </span>
                     <span id="oc-password-error" class="oc-form-error"
@@ -129,7 +127,7 @@
                     <span class="oc-form-context">
                       
                     </span>
-                    <span class="oc-form-validator">
+                    <span id="oc-confirm_password-validator" class="oc-form-validator">
                       
                     </span>
                     <span id="oc-confirm_password-error" class="oc-form-error"
@@ -139,26 +137,11 @@
                   </td>
                 </tr>
 
-                <tr>
-                  <td class="oc-form-value">
-                    <input type="hidden" name="temp_mem_id" 
-                           tal:attributes="value view/temp_mem_id" />
-                  </td>
-                  <td class="oc-form-help">
-                    <span class="oc-form-context">
-                      
-                    </span>
-                    <span class="oc-form-validator">
-                      
-                    </span>
-                  </td>
-                </tr>
-
                 <tr class="oc-actions">
                   <th class="oc-form-label">
                   </th>
                   <td class="oc-form-value">
-                    <button type="submit" name="join:boolean" value="True">Join</button>
+                    <input type="submit" name="task|join" value="Join" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
@@ -178,13 +161,9 @@
       </div><!-- end #oc-content-main -->
       
       <div id="oc-content-sidebar">
-        <div class="oc-boxy oc-getstarted">
-          <h2>Why join?</h2>
-          <p>Here's why...<a href="">Learn more</a></p>
-        </div>
         <div class="oc-boxy">
-          <h2>What's with the full name?</h2>
-          <p>That way, we can sell your identity. <br /><a href="">Learn more</a></p>
+          <h2>Already a member?</h2>
+          <a href="login">Sign in</a>
         </div>
       </div><!-- end #oc-content-sidebar -->
 

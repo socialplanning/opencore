@@ -20,7 +20,7 @@ from Install import installColumns, fixUpEditTab, hideActions, \
      migrateATDocToOpenPage, createIndexes, installZ3Types, registerJS, \
      setupProjectLayout, createMemIndexes, setCookieDomain, installCookieAuth, \
      setupPeopleFolder, setupProjectLayout, setupHomeLayout, \
-     installNewsFolder
+     installNewsFolder, setProjectFolderPermissions, updateWorkflowRoleMappings
 from migrate_teams_to_projects import migrate_teams_to_projects
 from migrate_membership_roles import migrate_membership_roles
 
@@ -36,16 +36,16 @@ from utils import setupKupu, reinstallSubskins
 out = StringIO()
 def convertFunc(func):
     """
-    turns a standard install function into a
-    setup widget function
+    turns a standard install function, which requires two arguments,
+    into a setup widget function, which only requires one.
     """
-    def new_func(self, portal):
+    def new_func(portal):
         out=StringIO()
         func(portal, out)
         return out.getvalue()
     return new_func
 
-def reinstallWorkflows(self, portal):
+def reinstallWorkflows(portal):
     wftool = getToolByName(portal, 'portal_workflow')
     qi = getToolByName(portal, 'portal_quickinstaller')
     product = getattr(qi, PROJECTNAME)
@@ -55,7 +55,7 @@ def reinstallWorkflows(self, portal):
     installWorkflows(portal, out)
     return out.getvalue()
 
-def reinstallWorkflowPolicies(self, portal):
+def reinstallWorkflowPolicies(portal):
     pwftool = getToolByName(portal, 'portal_placeful_workflow')
     policies = set(pwftool.objectIds())
     deletes = policies.intersection(set(PLACEFUL_POLICIES.keys()))
@@ -63,13 +63,13 @@ def reinstallWorkflowPolicies(self, portal):
     out = StringIO()
     installWorkflowPolicies(portal, out)
 
-def reinstallTypes(self, portal):
+def reinstallTypes(portal):
     out = StringIO()
     installTypes(portal, out, listTypes(config.PROJECTNAME),
                  config.PROJECTNAME)
     hideActionTabs(portal, out)
 
-def migrate_listen_member_lookup(self, portal):
+def migrate_listen_member_lookup(portal):
     from Products.listen.interfaces import IMemberLookup
     from zope.component import getUtility
     from opencore.listen.utility_overrides import OpencoreMemberLookup
@@ -78,13 +78,22 @@ def migrate_listen_member_lookup(self, portal):
     sm = portal.getSiteManager()
     sm.registerUtility(IMemberLookup, opencore_memberlookup)
 
-def setup_nui(portal, out):
+def setup_nui(portal):
     """ this will call all the  nui setup functions """
     from opencore.nui.setup import nui_functions
     for fn in nui_functions.values():
-        fn(portal, portal)
+        fn(portal)
 
-def fixProjectWFStates(self, portal):
+def migrate_redirection(portal):
+    from opencore.redirect import migrate_redirected_objects
+    from opencore.interfaces import IProject
+    from opencore.siteui.interfaces import IMemberFolder
+    
+    migrate_redirected_objects(portal.projects, IProject)
+    migrate_redirected_objects(portal.people, IMemberFolder)
+    
+
+def fixProjectWFStates(portal):
     """
     make sure the projects are in the WF state that matches the
     chosen security policy
@@ -101,7 +110,7 @@ def fixProjectWFStates(self, portal):
         policy_writer.setPolicy(policy_id)
         logger.log(INFO, 'set policy for %s project' % project.getId())
 
-def initializeTeamWorkflow(self, portal):
+def initializeTeamWorkflow(portal):
     """
     initialize the teams with the new team workflow
     """
@@ -145,6 +154,7 @@ topp_functions = dict(
     reinstallSubskins = reinstallSubskins,
     addFormControllerOverrides = convertFunc(addFormControllerOverrides),
     securityTweaks = convertFunc(securityTweaks),
+    setProjectFolderPermissions = convertFunc(setProjectFolderPermissions),
     uiTweaks = convertFunc(uiTweaks),
     migrateATDocToOpenPage = convertFunc(migrateATDocToOpenPage),
     createIndexes = convertFunc(createIndexes),
@@ -157,10 +167,14 @@ topp_functions = dict(
     setupPeopleFolder=convertFunc(setupPeopleFolder),
     migrate_teams_to_projects=migrate_teams_to_projects,
     migrate_membership_roles=migrate_membership_roles,
-    NUI_setup=convertFunc(setup_nui),
     fixProjectWFStates=fixProjectWFStates,
     initializeTeamWorkflow=initializeTeamWorkflow,
+    migrate_redirection=migrate_redirection,
     )
+
+topp_functions["NUI Setup"]=setup_nui
+topp_functions["Propagate workflow security settings"] = \
+                          convertFunc(updateWorkflowRoleMappings)
 
 class TOPPSetup(SetupWidget):
     """ OpenPlans Setup Bucket Brigade  """
@@ -181,7 +195,7 @@ class TOPPSetup(SetupWidget):
     def addItems(self, fns):
         out = []
         for fn in fns:
-            out.append((self.functions[fn](self, self.portal),INFO))
+            out.append((self.functions[fn](self.portal),INFO))
             out.append(('Function %s has been applied' % fn, INFO))
         return out
 

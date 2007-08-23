@@ -2,7 +2,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.TeamSpace.relations import TeamSpaceTeamRelation
 
 
-def migrate_teams_to_projects(self, portal):
+def migrate_teams_to_projects(portal):
     pfolder = portal.projects
     tmtool = getToolByName(portal, 'portal_teams')
     tm_roles = ('ProjectAdmin', 'ProjectMember')

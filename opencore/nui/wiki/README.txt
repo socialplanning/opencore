@@ -20,26 +20,33 @@ Test wiki page registrations::
     ...
     Unauthorized: You are not allowed to access '@@edit' in this context
 
+Make sure notallowed css class is applied to edit tab
+since we don't have permissions to edit::
+    >>> html = page.restrictedTraverse('@@view')()
+    >>> 'oc-notallowed' in html
+    True
+
 Test wiki history registrations::
 
     >>> page.restrictedTraverse('history')
-    Traceback (most recent call last):
-    ...
-    Unauthorized: You are not allowed to access 'history' in this context
+    <...SimpleViewClass ...wiki-history.pt object at ...>
 
     >>> page.restrictedTraverse('version')
-    Traceback (most recent call last):
-    ...
-    Unauthorized: You are not allowed to access 'version' in this context
-    
+    <...SimpleViewClass ...wiki/wiki-previous-version.pt object at ...>
 
     >>> page.restrictedTraverse('version_compare')
-    Traceback (most recent call last):
-    ...
-    Unauthorized: You are not allowed to access 'version_compare' in this context
+    <...SimpleViewClass ...wiki/wiki-version-compare.pt object at ...>
 
+... and permission
 
-Test wiki attachment registrations::
+    >>> from AccessControl.SecurityManagement import newSecurityManager
+    >>> from AccessControl.User import nobody
+    >>> newSecurityManager(None, nobody)
+    >>> history = page.restrictedTraverse('history')
+    >>> history()
+    '... There are no previous versions...
+
+Test wiki attachment registrations which are not used any more::
 
     >>> page.restrictedTraverse('@@updateAtt')
     Traceback (most recent call last):
@@ -59,6 +66,9 @@ Test wiki attachment registrations::
 Test logged in user::
 
     >>> self.loginAsPortalOwner()
+    >>> from opencore.nui.base import BaseView
+    >>> view = BaseView(self.portal, self.portal.REQUEST)
+    >>> view.loggedinmember.getId = lambda *a:'whatever'
 
 Test wiki page registrations (logged in)::
 
@@ -69,7 +79,14 @@ Test wiki page registrations (logged in)::
     <...SimpleViewClass ...wiki/wiki_macros.pt object at ...>
     
     >>> page.restrictedTraverse('@@edit')
-    <...SimpleViewClass ...wiki/wiki-edit.pt object at ...>
+    <...SimpleViewClass ...wiki-edit.pt object at ...>
+
+Make sure notallowed css class is not applied to edit tab
+since we do have permissions to edit::
+
+    >>> html = page.restrictedTraverse('@@view')()
+    >>> 'oc-notallowed' in html
+    False
 
 Test wiki history registrations (logged in)::
 
@@ -82,7 +99,7 @@ Test wiki history registrations (logged in)::
     >>> page.restrictedTraverse('version_compare')
     <Products.Five.metaclass.SimpleViewClass from ...wiki-version-compare.pt object at ...>
 
-    
+   
 Test wiki attachment registrations (logged in)::
 
     >>> page.restrictedTraverse('@@updateAtt')
@@ -94,13 +111,13 @@ Test wiki attachment registrations (logged in)::
     >>> page.restrictedTraverse('@@deleteAtt')    
     <Products.Five.metaclass.AttachmentView object at ...>
 
+
+Attachments
+===========
+
 Test actually creating, editing, deleting an attachment::
 
-     >>> import os
-     >>> import hmac
-     >>> import sha
-     >>> import base64
-     >>> import re
+     >>> import os, hmac, sha, base64, re
      >>> from urllib import quote
      >>> secret_file_name = os.environ.get('TOPP_SECRET_FILENAME', '')
      >>> if not secret_file_name:
@@ -116,77 +133,88 @@ Test actually creating, editing, deleting an attachment::
      >>> len(secret) > 0
      True
 
-     Create attachment
-     >>> from opencore.nui.wiki import view as v
+Error case for creating an attachment with no attachment there::
+
      >>> request = self.portal.REQUEST
-     >>> view = v.AttachmentView(page, request)
-     >>> view = view.__of__(page)
-     >>> view.createAtt()
-     "{'status' : 'failed' }\n"
-     >>> view.request['attachmentTitle'] = 'secret'
+     >>> view = page.restrictedTraverse('@@edit')
+     >>> view.create_attachment()
+     {'An error': ''}
+
+Create an attachment to upload::
+
      >>> class tempfile(file):
      ...     def __init__(self, filename):
      ...         self.filename = filename 
      ...         file.__init__(self, filename)
      >>> tfile = tempfile(secret_file_name)
-     >>> view.request['attachmentFile'] = tfile
-     >>> view.request['attachment_id'] = 'secret.txt'
-     >>> view.createAtt()
-     "{status: 'success',...
-     >>> view.attachment_url()
-     'http://nohost/plone/projects/p1/project-home/@@attachmentSnippet?attachment_id=secret.txt'
-     >>> page.restrictedTraverse(view.request['attachment_id'])
+
+     >>> form = {}
+     >>> form['attachmentTitle'] = 'secret'
+     >>> form['attachmentFile'] = tfile
+     >>> request.form = form
+     >>> view.create_attachment()
+     {...'oc-wiki-attachments'...}
+     >>> attachs = view.fileAttachments()
+     >>> len(attachs)
+     1
+     >>> newatt = attachs[0].getObject()
+     >>> newatt
      <FileAttachment at /plone/projects/p1/project-home/secret.txt>
+     >>> newatt.Title()
+     'secret'
 
-     Update attachment
-     >>> view.attachmentSnippet()
-     '...secret.txt...
+Now let's try to delete.  Try the error case::
 
-     Reset attachment request variables
-     >>> request.set('attachment_id', '')
-     >>> request.set('attachmentTitle', '')
-     >>> request.set('attachmnetFile', '')
+     >>> request.form = {}
 
-     Check error case (should it raise an error? error message instead?)
-     >>> view.updateAtt()
+It raises a TypeError for now, but should eventually return an error message instead::
+
+     >>> view.delete_attachment()
      Traceback (most recent call last):
      ...
-     AttributeError
+     TypeError...
 
-     Set valid attachment request variables
-     >>> request.set('attachment_id', 'secret.txt')
-     >>> request.set('attachmentFile', tfile)
-     >>> request.set('attachmnetTitle', 'new title')
+Send in valid attachment id and it should work::
 
-     Try again, should work great now
-     (uhh, what do we expect to get back? looks like a form?)
-     >>> response = view.updateAtt()
-     >>> '<form method="post"' in response
-     True
-     >>> 'secret.txt' in response
-     True
+     >>> form = {}
+     >>> view.delete_attachment(['secret.txt'])
+     {'secret.txt_list-item':...'delete'...}
 
-     Now let's try to delete
+If we create an attachment with no title, the title should be the id::
 
-     Try the error case
-     >>> request.set('attachment_id', '')
-     >>> request.set('attachmentTitle', '')
-     >>> request.set('attachmnetFile', '')
+     >>> tfile = tempfile(secret_file_name)
+     >>> form = {'attachmentFile': tfile}
+     >>> request.form = form
+     >>> view.create_attachment()
+     {...'oc-wiki-attachments'...}
+     >>> newatt = view.context._getOb('secret.txt')
+     >>> newatt
+     <FileAttachment at /plone/projects/p1/project-home/secret.txt>
+     >>> newatt.Title()
+     'secret.txt'
 
-     Again, raising an AttributeError
-     Maybe we should return an error message instead
-     >>> view.deleteAtt()
-     Traceback (most recent call last):
-     ...
-     AttributeError
+Test update attachment... first check error case::
 
-     Set valid attachment request variables, and it should work
-     >>> request.set('attachment_id', 'secret.txt')
-     >>> request.set('attachmentFile', tfile)
-     >>> request.set('attachmnetTitle', 'new title')
-     >>> view.deleteAtt()
-     '<!-- deleted -->\n'
+     >>> request.form = {}
+     >>> view.update_attachment()
+     {}
 
+Try again with real values, should work great now::
+
+     >>> view.update_attachment(['secret.txt'], [{'title': "Alcibiades"}])
+     {'secret.txt_list-item':...Alcibiades...}
+
+Try listing the attachments
+     >>> brains = view.fileAttachments()
+     >>> [b.getId for b in brains]
+     ['secret.txt']
+     >>> brain = brains[0]
+     >>> brain.Title
+     'Alcibiades'
+
+
+VERSION COMPARE
+===============
 
 Now let's exercise some version compare stuff
 
@@ -202,38 +230,41 @@ Call it with no arguments
      Traceback (most recent call last):
      ...
      Redirect: http://nohost/plone/projects/p1/project-home/history
-     >>> 'You did not check any versions in the version compare form' in view.portal_status_message
-     True
+     >>> view.portal_status_message
+     [u'Please choose the two versions you would like to compare.']
+
+Reset the request
+     >>> request = view.request.form = {}
 
 Try it with just one argument
-     >>> view.request.set('version_id', '0')
+     >>> request['version_id'] = '0'
      >>> response = view()
      Traceback (most recent call last):
      ...
      Redirect: http://nohost/plone/projects/p1/project-home/history
-     >>> 'You did not check enough versions in the version compare form' in view.portal_status_message
-     True
+     >>> view.portal_status_message
+     [u'Please choose the two versions you would like to compare.']
 
 Try with 2 arguments, but the versions don't exist
-     >>> view.request.set('version_id', ['0', '1'])
+     >>> request['version_id'] = ['0', '1']
      >>> response = view()
      Traceback (most recent call last):
      ...
      Redirect: http://nohost/plone/projects/p1/project-home/history
-     >>> 'Invalid version specified' in view.portal_status_message
-     True
+     >>> view.portal_status_message
+     [u'Please choose a valid version.']
 
 Try with more than 2 versions
-     >>> view.request.set('version_id', ['0', '1', '2'])
+     >>> request['version_id'] = ['0', '1', '2']
      >>> response = view()
      Traceback (most recent call last):
      ...
      Redirect: http://nohost/plone/projects/p1/project-home/history
-     >>> 'You may only check two versions in the version compare form' in view.portal_status_message
-     True
+     >>> view.portal_status_message
+     [u'Please choose only two versions to compare.']
 
 Now edit 2 pages, so we can try a valid compare later
-     >>> view.request.set('version_id', ['0', '1'])
+     >>> request['version_id'] = ['0', '1']
      >>> repo = view.get_tool('portal_repository')
      >>> page.processForm(values=dict(text='some new text'))
      >>> repo.save(page, comment='new comment')
@@ -241,4 +272,54 @@ Now edit 2 pages, so we can try a valid compare later
      >>> repo.save(page, comment='newest comment')
 
 Now we should get a valid response
+     >>> view.loggedinmember.getId = lambda *a:'whatever'
      >>> response = view()
+
+Test that we can create a page via wicked
+     >>> view = page.restrictedTraverse('@@add-page')
+     >>> view
+     <Products.Five.metaclass.NuiPageAdd object at ...>
+
+     >>> request = self.portal.REQUEST 
+     >>> request.form = {'Title' : 'newpage', 'section' : 'text'}
+     >>> view()
+     'http://...projects/p1/newpage/edit...'
+
+Login as different users, each time checking the last modified author
+     >>> self.logout()
+     >>> self.login('m1')
+     >>> view = page.restrictedTraverse('@@edit')
+     >>> view
+     <Products.Five.metaclass.SimpleViewClass from ...wiki-edit.pt object at ...>
+
+Now start changing the page
+     >>> request = view.request.form
+     >>> request['text'] = 'foo'
+     >>> view.handle_save()
+     {...}
+
+Verify the last modified author changes took place
+     >>> proj = self.portal.projects.p1
+     >>> from opencore.interfaces.catalog import ILastModifiedAuthorId
+     >>> ILastModifiedAuthorId(page)
+     'm1'
+     >>> ILastModifiedAuthorId(proj)
+     'm1'
+
+     >>> self.logout()
+     >>> self.login('m3')
+     >>> view = page.restrictedTraverse('@@edit')
+     >>> request = view.request.form
+     >>> request['text'] = 'bar'
+     >>> view.handle_save()
+     {...}
+     >>> ILastModifiedAuthorId(page)
+     'm3'
+     >>> ILastModifiedAuthorId(proj)
+     'm3'
+
+Check that when logging back in as m1, m3 is still the last modified author
+     >>> ILastModifiedAuthorId(page)
+     'm3'
+     >>> ILastModifiedAuthorId(proj)
+     'm3'

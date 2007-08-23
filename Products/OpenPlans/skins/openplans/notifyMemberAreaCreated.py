@@ -6,11 +6,9 @@
 ##bind subpath=traverse_subpath
 ##parameters=
 ##title=Create the member home page
-
 from Products.CMFCore.utils import getToolByName
 mtool = getToolByName(context, 'portal_membership')
+request = context.REQUEST
 
-member = mtool.getAuthenticatedMember()
-
-from opencore.siteui.member import notifyFirstLogin
-notifyFirstLogin(member, container.REQUEST)
+from opencore.siteui.member import initializeMemberArea
+initializeMemberArea(mtool, request)
