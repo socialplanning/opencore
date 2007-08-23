@@ -114,12 +114,14 @@ def migrate_mship_workflow_states(portal):
     catalog = getToolByName(portal, 'portal_catalog')
     mships = catalog(portal_type='OpenMembership', review_state='committed')
     wft = getToolByName(portal, 'portal_workflow')
-    wfid = 'openplans_team_membership_workflow'
+    pwft = getToolByName(portal, 'portal_placeful_workflow')
     mstool = getToolByName(portal, 'portal_membership')
     actor = mstool.getAuthenticatedMember().getId()
     timestamp = str(DateTime())
     for mship in mships:
         mship = mship.getObject()
+        config = pwft.getWorkflowPolicyConfig(mship)
+        wfid = config.getPlacefulChainFor('OpenMembership')
         status = wft.getStatusOf(wfid, mship)
         status['review_state'] = 'public' # this is the important part
         status['actor'] = actor

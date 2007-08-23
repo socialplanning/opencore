@@ -964,7 +964,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         """
         mem_ids = targets
         wftool = self.get_tool('portal_workflow')
-        wf_id = 'openplans_team_membership_workflow'
+        pwft = getToolByName(self, 'portal_placeful_workflow')
         deletes = []
         sender = self.email_sender
         msg = sender.constructMailMessage('invitation_retracted',
@@ -972,6 +972,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         ret = {}
         for mem_id in mem_ids:
             mship = self.team.getMembershipByMemberId(mem_id)
+            config = pwft.getWorkflowPolicyConfig(mship)
+            if config is not None:
+                wf_id = config.getPlacefulChainFor('OpenMembership')
+            else:
+                wf_id = 'openplans_team_membership_workflow'
             status = wftool.getStatusOf(wf_id, mship)
             if status.get('action') == 'reinvite':
                 # deactivate

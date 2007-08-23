@@ -199,7 +199,12 @@ class OpenTeam(Team):
 
         # XXX hack around workflow transition
         # pretend we execucted approve_public
-        wfid = 'openplans_team_membership_workflow'
+        pwft = getToolByName(self, 'portal_placeful_workflow')
+        config = pwft.getWorkflowPolicyConfig(self)
+        if config is not None:
+            wfid = config.getPlacefulChainFor('OpenMembership')
+        else:
+            wfid = 'openplans_team_membership_workflow'
         status = wftool.getStatusOf(wfid, mship)
         status['review_state'] = 'public'
         status['action'] = 'approve_public'
