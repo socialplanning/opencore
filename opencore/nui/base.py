@@ -1,6 +1,7 @@
 """
-some base class for opencore ui work!
+some base class for opencore ui work
 """
+
 import datetime
 from time import strptime
 import urllib
@@ -41,6 +42,8 @@ from opencore.nui.static import render_static
 
 # XXX these shouldn't be imported here -- they aren't used in this file
 # jeff, they are imported as a convenience api here 
+# whit, is writing from opencore.nui.base import ... any harder than 
+# from opencore.nui.formhandler import ... ?
 from opencore.nui.formhandler import button, post_only, anon_only, octopus
 
 view.memoizedproperty = lambda func: property(view.memoize(func))
@@ -117,12 +120,14 @@ class BaseView(BrowserView):
             msgs.append(req_psm)
         return msgs
 
-    # XXX standardize
-    def add_status_message(self, msg):
+    def add_status_message(self, msg, **kwargs):
+        from topp.messages.psm import psm
+        msg = psm.get(msg, msg)
+#        from zope.i18nmessageid import Message
+        from string import Template
+        msg = Template(msg).substitute(kwargs)
         plone_utils = self.get_tool('plone_utils')
         plone_utils.addPortalMessage(_(msg))
-
-    addPortalStatusMessage = add_status_message
 
     # XXX not used
     def include(self, viewname):
