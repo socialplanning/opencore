@@ -34,6 +34,7 @@
               <label for="subject"
                      i18n:translate="label_subject">Subject:</label>
               <input type="text"
+                       class="oc-autoFocus"
                        name="subject"
                        value="."
                        size="40"
