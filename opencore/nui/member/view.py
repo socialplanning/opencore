@@ -118,7 +118,7 @@ class ProfileEditView(ProfileView, OctopoLite):
         try:
             member.setPortrait(portrait)
         except ValueError: # must have tried to upload an unsupported filetype
-            self.addPortalStatusMessage('Please choose an image in gif, jpeg, png, or bmp format.')
+            self.add_status_message('unsupported image')
             return False
         return True
 

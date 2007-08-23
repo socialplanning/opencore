@@ -68,11 +68,11 @@ class WikiVersionCompare(WikiVersionView):
         versions = self.request.form.get('version_id')
         req_error = None
         if not versions:
-            req_error = 'Please choose the two versions you would like to compare.'
+            req_error = 'choose two versions'
         elif not isinstance(versions, list) or len(versions) < 2:
-            req_error = 'Please choose the two versions you would like to compare.'
+            req_error = 'choose two versions'
         elif len(versions) > 2:
-            req_error = 'Please choose only two versions to compare.'
+            req_error = 'choose only two versions'
         if not req_error:
             versions.sort()
             old_version_id, new_version_id = self.sort_versions(*versions)
@@ -80,11 +80,11 @@ class WikiVersionCompare(WikiVersionView):
                 old_version = self.get_version(old_version_id)
                 new_version = self.get_version(new_version_id)
             except ArchivistRetrieveError:
-                req_error = 'Please choose a valid version.'
+                req_error = 'invalid version'
             
         if req_error:
             # redirect to input page on error
-            self.addPortalStatusMessage(req_error)
+            self.add_status_message(req_error)
             raise Redirect('%s/history' % self.context.absolute_url())
         
         return dict(old=(old_version_id, old_version),
@@ -131,19 +131,20 @@ class WikiVersionRevert(WikiVersionView):
         try:
             version_id = int(self.request.form.get('version_id'))
             if version_id < 0 or version_id >= self.current_id():
-                req_error = 'Please choose a valid version.'
+                req_error = 'invalid version'
         except:
-            req_error = 'Please choose a valid version.'
+            req_error = 'invalid version'
 
         # bail out on error 
         if req_error is not None:
-            self.addPortalStatusMessage(req_error)
+            self.add_status_message(req_error)
             raise Redirect(view_url)
 
         # actually do the revert
 
         self.pr.revert(self.context, version_id)
 
+        # XXX this should use topp.messages.psm['rolled back']        
         message = "Rolled back to %s" % self.version_title(version_id)
 
         if self.pr.supportsPolicy(self.context, 'version_on_revert'):
@@ -151,5 +152,5 @@ class WikiVersionRevert(WikiVersionView):
 
 
         # send user to the view page 
-        self.addPortalStatusMessage(message)
+        self.add_status_message(message)
         self.request.RESPONSE.redirect(view_url)

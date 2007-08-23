@@ -514,7 +514,7 @@ class BaseView(BrowserView):
             # XXX ultimately validate_password_form should play more nicely with messages
             if messages:
                 for msg in messages:
-                    self.addPortalStatusMessage(msg)
+                    self.add_status_message(msg)
                 return False
             return member
 
@@ -522,20 +522,22 @@ class BaseView(BrowserView):
             # get the member object
             id = member
             if not id:
-                messages.append('You need to enter your username.')
+                messages.append('missing username')
                 return exit_function()
                 
             member = self.get_tool("membrane_tool")(getUserName=id)
             if not member:
+                # XXX do this better!
+                # use topp.messages.psm['no such user']
                 messages.append('There is no member named "%s".' % id)
                 return exit_function()
             member = member[0].getObject()
 
-        if not password or not password2:
-            messages.append("You must enter a password.")
+        if not password or not password2:            
+            messages.append('missing password')
             return exit_function()
         if password != password2:
-            messages.append("Please make sure that both password fields are the same.")
+            messages.append('nonmatching passwords')
             return exit_function()
         msg = member.validate_password(password)
         if msg:
@@ -556,4 +558,3 @@ def static_txt(fname):
     def new_func(self):
         return self.render_static(fname)
     return new_func
-
