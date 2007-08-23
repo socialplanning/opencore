@@ -306,7 +306,7 @@
         <tr tal:repeat="member view/results">
           <tal:mem_url define="mem_url python:view.membertool.getHomeUrl(member.getId)">
             <td>
-                <a tal:omit-tag="not:mem_url" tal:attributes="href mem_url">
+                <a tal:omit-tag="not:mem_url" tal:attributes="href string: ${mem_url}/profile">
                    <strong tal:content="string: ${member/getId}" 
                 /></a>
             </td>
