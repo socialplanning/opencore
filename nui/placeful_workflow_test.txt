@@ -25,3 +25,19 @@ Now query for the mship as anonymous user... also shouldn't show up::
     >>> mship_query_results = view.catalog(portal_type='OpenMembership', id='m1', path=path)
     >>> [b.getId for b in mship_query_results]
     []
+
+Verify that the correct workflow chain is associated with the mship object
+    >>> teams = self.portal.portal_teams
+    >>> team = teams.newproject
+    >>> pwft = self.portal.portal_placeful_workflow
+    >>> config = pwft.getWorkflowPolicyConfig(team)
+    >>> config is not None
+    True
+    >>> config.getPlacefulChainFor('OpenMembership')
+    ('closed_openplans_team_membership_workflow',)
+
+And the object should be in the proper state
+    >>> mship = teams.newproject.m1
+    >>> wft = self.portal.portal_workflow
+    >>> wft.getInfoFor(mship, 'review_state')
+    'public'
