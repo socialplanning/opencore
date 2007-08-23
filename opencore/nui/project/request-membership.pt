@@ -6,22 +6,19 @@
     <div metal:fill-slot="content">
     
       <div class="oc-headingBlock">
-        <h1>Request project membership</h1>
-        <p class="oc-headingContext">Send a message to the project&rsquo;s administrator(s).</p>
+        <h1>Join <span tal:replace="view/area/Title" /></h1>
+        <p class="oc-headingContext">Request membership to this project.</p>
       </div>
     
       <div id="oc-content-main">
         <form method="POST" id="request-membership"
               tal:attributes="action view/request/ACTUAL_URL">
-          <dl class="oc-plainList">
-          <dt><label for="request-message">Message:</label></dt>
-          <dd>
+            <label for="request-message">Message</label>
+            <span class="oc-discreetText">(optional)</span>
             <textarea rows="10" cols="80" 
-		      name="request-message" id="request-message"></textarea>
+                      name="request-message" id="request-message"></textarea>
             <input type="submit" name="task|request-membership" value="Send"
                    class="oc-button" />
-          </dd>
-          </dl>
         </form>
       </div><!--end oc-content-main -->
     
