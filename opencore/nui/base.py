@@ -129,6 +129,10 @@ class BaseView(BrowserView):
         plone_utils = self.get_tool('plone_utils')
         plone_utils.addPortalMessage(_(msg))
 
+    def add_status_message_list(self, msg, **kwargs):        
+        self.add_status.message(msg, **dict([(i, ', '.join(j)) 
+                                             for i, j in kwargs.items()])
+
     # XXX not used
     def include(self, viewname):
         if self.transcluded:

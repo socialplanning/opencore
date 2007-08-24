@@ -311,14 +311,13 @@ class MemberAccountView(BaseView, OctopoLite):
             except KeyError:
                 proj_title = proj_id
 
-            only_admin_msg = u"You are the only remaining administrator of \"%s\". You can't leave this project without appointing another." % proj_title
-            self.addPortalStatusMessage(only_admin_msg)
+            self.add_status_message('only admin', project=proj_title)
             return False
 
         if self._apply_transition_to(proj_id, 'deactivate'):
             return True
         else:
-            self.addPortalStatusMessage('You cannot leave this project.')
+            self.add_status_message('cannot leave')
             return False
 
     def change_visibility(self, proj_id, to=None):
@@ -532,13 +531,12 @@ class MemberAccountView(BaseView, OctopoLite):
 
         if not member.verifyCredentials({'login': mem_id,
                                         'password': passwd_curr}):
-            self.addPortalStatusMessage('Please check the old password you entered.')
+            self.add_status_message('wrong password')
             return
 
         if self.validate_password_form(password, password2, member):
-
             member._setPassword(password)
-            self.addPortalStatusMessage('Your password has been changed.')
+            self.add_status_message('password changed')
 
     def nupdates(self):
         return len(self.infomsgs) + len(self.invitations())
@@ -554,26 +552,28 @@ class MemberAccountView(BaseView, OctopoLite):
         hide_email = bool(self.request.form.get('hide_email'))
 
         if not email:
-            self.addPortalStatusMessage('Please enter your new email address.')
+            self.add_status_message('need email')
             return
 
-        mem = self.loggedinmember
+        mem = self.loggedinmember        
         msg = mem.validate_email(email)
         if msg:
-            self.addPortalStatusMessage(msg)
+            # XXX should work with topp.messages.psm
+            self.add_status_message(msg)
             return
 
         mem_hide_email = mem.getUseAnonByDefault()
         if mem_hide_email != hide_email:
             mem.setUseAnonByDefault(hide_email)
             setting = hide_email and 'anonymous' or 'not anonymous'
-            self.addPortalStatusMessage('Default email is %s' % setting)
+            self.add_status_message('email anonymity', anonymous=setting)
 
         if mem.getEmail() == email:
             return
 
         mem.setEmail(email)
-        self.addPortalStatusMessage('Your email address has been changed.')
+        self.add_status_message('email changed')
+
 
 
     role_map = {'ProjectAdmin':  'administrator',
