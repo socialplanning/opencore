@@ -948,8 +948,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             sender.sendEmail(mem_id, msg=msg)
             self._add_deny_message_for(mem_id)
 
-        self.add_status_message_lists('requests denied', 
-                                      requests=mem_ids)
+        self.add_status_message_list('requests denied', 
+                                     requests=mem_ids)
         return dict( ((mem_id, {'action': 'delete'}) for mem_id in targets) )
 
 
@@ -1060,8 +1060,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                         }
             sender.sendEmail(address, msg_id='invite_email', **msg_vars)
 
-        self.add_status_messages_list('reminders sent', 
-                                      reminders=addresses)
+        self.add_status_message_list('reminders sent', 
+                                     reminders=addresses)
 
     def mship_only_admin(self, mship):
         mem_id = mship.getId()
@@ -1114,7 +1114,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                                             mem_ids, self.mship_only_admin)
         sender = self.email_sender
         ret = {}
-        failed_recpients = []
+        failed_recipients = []
         for mem_id in mems_removed:
             try:
                 sender.sendEmail(mem_id, msg_id='membership_deactivated',

@@ -130,7 +130,7 @@ class BaseView(BrowserView):
         plone_utils.addPortalMessage(_(msg))
 
     def add_status_message_list(self, msg, **kwargs):        
-        self.add_status.message(msg, **dict([(i, ', '.join(j)) 
+        self.add_status_message(msg, **dict([(i, ', '.join(j)) 
                                              for i, j in kwargs.items()]))
 
     # XXX not used
