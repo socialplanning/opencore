@@ -131,7 +131,7 @@ class BaseView(BrowserView):
 
     def add_status_message_list(self, msg, **kwargs):        
         self.add_status.message(msg, **dict([(i, ', '.join(j)) 
-                                             for i, j in kwargs.items()])
+                                             for i, j in kwargs.items()]))
 
     # XXX not used
     def include(self, viewname):
