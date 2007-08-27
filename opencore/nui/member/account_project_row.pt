@@ -2,7 +2,8 @@
   <tal:var define="proj_id proj_id | options/proj_id;
                    projinfo projinfo | options/projinfo;
                    ">
-    <tr class="" tal:attributes="id string:mship_${proj_id}">
+    <tr class="" tal:attributes="id string:mship_${proj_id}"
+        tal:define="pending projinfo/is_pending">
       <td><input type="checkbox" name="check:list" tal:attributes="value proj_id" /></td>
       <td class="oc-dataTable-row-title">
         <a href=""
@@ -11,12 +12,12 @@
           Animal Campaign for a poor little sick kittie named Fatty
         </a>
       </td>
-      <tal:pending-role tal:condition="python: projinfo['is_pending']">
+      <tal:pending-role tal:condition="pending">
         <td class="oc-dataTable-row-title"
             tal:content="string:waiting approval"
             />
       </tal:pending-role>
-      <tal:active-role tal:condition="python: not projinfo['is_pending']">
+      <tal:active-role tal:condition="not: pending">
         <td class="oc-dataTable-row-title"
             tal:content="python:view.pretty_role(projinfo['role'])"
             />
@@ -24,28 +25,33 @@
       <td id="" class="">
         <span tal:replace="projinfo/since" />
       </td>
-      <td id="" class="">
-        <div class="oc-js-liveEdit"
-               tal:define="listed python: projinfo['listed']"
-               >
-          <div class="oc-js-liveEdit-value oc-js-liveEdit_showForm oc-liveEdit-value oc-directEdit"
-               tal:content="python: listed and 'Yes' or 'No'"
->
-          </div><!-- end .oc-js-liveEdit -->
-          <div class="oc-js-liveEdit-editForm oc-liveEdit-editForm oc-js-actionSelect">
-            <select tal:attributes="name string:${proj_id}_listing">
-                      <option value="public"
-                              tal:attributes="selected listed">Yes</option>
-                      <option value="private"
-                              tal:attributes="selected not: listed">No</option>
-                
-              </select>
-              <input type="submit" class="" value="Go"
-                           tal:attributes="name string:task|${proj_id}|change-listing" />
-          </div><!-- end .oc-js-liveEdit-editForm -->
+      <tal:pending_role tal:condition="pending">
+        <td />
+      </tal:pending_role>
+      <tal:active_role tal:condition="not: pending">
+        <td id="" class="">
+          <div class="oc-js-liveEdit"
+                 tal:define="listed python: projinfo['listed']"
+                 >
+            <div class="oc-js-liveEdit-value oc-js-liveEdit_showForm oc-liveEdit-value oc-directEdit"
+                 tal:content="python: listed and 'Yes' or 'No'"
+  >
+            </div><!-- end .oc-js-liveEdit -->
+            <div class="oc-js-liveEdit-editForm oc-liveEdit-editForm oc-js-actionSelect">
+              <select tal:attributes="name string:${proj_id}_listing">
+                        <option value="public"
+                                tal:attributes="selected listed">Yes</option>
+                        <option value="private"
+                                tal:attributes="selected not: listed">No</option>
+                  
+                </select>
+                <input type="submit" class="" value="Go"
+                             tal:attributes="name string:task|${proj_id}|change-listing" />
+            </div><!-- end .oc-js-liveEdit-editForm -->
 
-        </div><!-- end .oc-js-liveEdit .oc-js-actionSelect -->
-      </td>
+          </div><!-- end .oc-js-liveEdit .oc-js-actionSelect -->
+        </td>
+      </tal:active_role>
       <td>
         <ul class="oc-actions oc-dataTable-row-actions"
             tal:condition="python:not view._is_only_admin(proj_id)"
