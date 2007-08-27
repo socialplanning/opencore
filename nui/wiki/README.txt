@@ -296,7 +296,6 @@ Now start changing the page
      >>> request = view.request.form
      >>> request['text'] = 'foo'
      >>> view.handle_save()
-     {...}
 
 Verify the last modified author changes took place
      >>> proj = self.portal.projects.p1
@@ -312,7 +311,6 @@ Verify the last modified author changes took place
      >>> request = view.request.form
      >>> request['text'] = 'bar'
      >>> view.handle_save()
-     {...}
      >>> ILastModifiedAuthorId(page)
      'm3'
      >>> ILastModifiedAuthorId(proj)
