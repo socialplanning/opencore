@@ -87,9 +87,7 @@ class ProjectsSearchView(SearchView):
             query = dict(portal_type="OpenProject", Title=search_for)
 
 
-
-        if sort_by != 'relevancy':
-            query['sort_on'] = sort_by
+        query['sort_on'] = sort_by
 
         self.apply_context_restrictions(query)
 
@@ -270,8 +268,7 @@ class PeopleSearchView(SearchView):
             search_for = letter + '*'
             query = dict(RosterSearchableText=search_for)
 
-        if sort_by != 'relevancy':
-            query['sort_on'] = sort_by
+        query['sort_on'] = sort_by
 
         people_brains = self.membranetool(**query)
 
@@ -283,7 +280,8 @@ class PeopleSearchView(SearchView):
         else:
             people_brains = [brain for brain in people_brains
                              if brain.getId.lower().startswith(letter)]
-        if sort_by == 'getId':
+
+        if not sort_by or sort_by == 'getId':
             people_brains = _sort_by_id(people_brains)
 
         return people_brains
@@ -382,13 +380,13 @@ class SitewideSearchView(SearchView):
                     | (Eq('portal_type', 'Document') & Eq('Title', search_for)) \
                     | (Eq('portal_type', 'OpenMember') & Eq('Title', search_for))
 
-        if not sort_by or sort_by == 'relevancy':
+        if not sort_by:
+            sort_by = 'getId'
+
+        if sort_by == 'getId':
             rs = ()
         else:
-            if sort_by == 'getId':
-                rs = ()
-            else:
-                rs = ((sort_by, 'desc'),)
+            rs = ((sort_by, 'desc'),)
 
         brains = self.catalog.evalAdvancedQuery(query, rs)
 
