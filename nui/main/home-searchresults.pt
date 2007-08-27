@@ -39,7 +39,7 @@
               <form name="people_sort" method="POST" action="." tal:attributes="action string:${context/portal_url}/sitesearch">
 
                 <select name="sort_by" class="oc-js-autoSelect" tal:define="sorted_by python: request.get('sort_by')">
-                  <option value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
+                  <option tal:condition="not: request/letter_search | nothing" value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
                   <option value="getId" tal:attributes="selected python: sorted_by == 'getId'">alphabetical</option>
                   <option value="modified" tal:attributes="selected python: sorted_by == 'modified'">date updated</option>
                   <option value="portal_type" tal:attributes="selected python: sorted_by == 'portal_type'">content type</option>

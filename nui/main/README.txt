@@ -50,9 +50,9 @@ Now try sorting the projects::
    >>> [b.Title for b in brains]
    ['Project Two', 'Project Three', 'Project One', 'Project Four']
 
-Explicitly sort on relevancy::
+Explicitly sort on name::
 
-   >>> brains = view.search_for_project_by_letter('P', sort_by='relevancy')
+   >>> brains = view.search_for_project_by_letter('P', sort_by='sortable_title')
    >>> titles = [p.Title for p in brains]
    >>> titles
    ['Project Four', 'Project One', 'Project Three', 'Project Two']
@@ -152,7 +152,7 @@ Search for people starting with a letter::
    >>> people = view.search_for_person_by_letter('M')
    >>> names = [p.getId for p in people]
    >>> names
-   ['m2', 'm3', 'm1', 'm4']
+   ['m1', 'm2', 'm3', 'm4']
 
 Search for people starting with a number::
 
@@ -177,13 +177,6 @@ Search for members starting with a letter, only sort the results::
    >>> names = [p.getId for p in people]
    >>> names
    ['m1', 'm2', 'm3', 'm4']
-
-Search, explicitly specifying relevancy sort::
-
-   >>> people = view.search_for_person_by_letter('M', sort_by='relevancy')
-   >>> names = [p.getId for p in people]
-   >>> names
-   ['m2', 'm3', 'm1', 'm4']
 
 Search for members, explicitly specifying full name sort::
 
