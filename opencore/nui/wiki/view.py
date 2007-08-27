@@ -61,7 +61,6 @@ class WikiEdit(WikiBase, OctopoLite):
                 self.addPortalStatusMessage(msg)
             return self.errors
 
-        print self.request.form
         allowed_params = set(['comment', 'oc-target', 'text_file', 'title', 'text', 'attachmentFile', 'submitted', 'text_text_format', 'attachmentTitle', 'task|save'])
         new_form = {}
         for k in self.request.form:
