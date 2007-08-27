@@ -52,11 +52,11 @@ Exercise the Member Account Class
     Check projects for user m1
     >>> project_dicts = view.projects_for_user
 
-    Check the projects and active states
+    Check the projects and active states (these are sorted on project title)
     >>> [d['proj_id'] for d in project_dicts]
-    ['p2', 'p3', 'p1']
+    ['p1', 'p3', 'p2']
     >>> [d['title'] for d in project_dicts]
-    ['Project Two', 'Project Three', 'Project One']
+    ['Project One', 'Project Three', 'Project Two']
     >>> [d['listed'] for d in project_dicts]
     [True, True, True]
 
@@ -82,7 +82,7 @@ Exercise the Member Account Class
     >>> self.clearMemoCache()
     >>> project_dicts = view.projects_for_user
     >>> [d['proj_id'] for d in project_dicts]
-    ['p3', 'p1']
+    ['p1', 'p3']
 
     Now we'll try to set the listing as private:
 
@@ -98,7 +98,7 @@ Exercise the Member Account Class
     >>> self.clearMemoCache()
     >>> project_dicts = view.projects_for_user
     >>> [d['listed'] for d in project_dicts]
-    [False, True]
+    [True, False]
 
     And he should still be able to leave a project when private
     >>> view._can_leave('p3')
@@ -162,7 +162,7 @@ Exercise the Member Account Class
     >>> self.clearMemoCache()
     >>> project_dicts = view.projects_for_user
     >>> [d['proj_id'] for d in project_dicts]
-    ['p2', 'p3', 'p1']
+    ['p1', 'p3', 'p2']
 
     Check the info messages on the member:
     >>> list(view.infomsgs)
@@ -179,7 +179,7 @@ Exercise the Member Account Class
     >>> self.clearMemoCache()
     >>> project_dicts = view.projects_for_user
     >>> [d['proj_id'] for d in project_dicts]
-    ['p3', 'p1']
+    ['p1', 'p3']
 
     And when we try to leave a pending mship that's an invitation
     (should never happen, but with users messing with request) We
