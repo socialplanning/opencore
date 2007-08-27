@@ -243,9 +243,9 @@ Let's sort based on the membership date::
     >>> brains = list(results)
     >>> len(brains)
     3
-    >>> ids = [b.getId for b in brains]
-    >>> ids
-    ['m4', 'm1', 'm3']
+    >>> mod_times = [b.modified for b in brains]
+    >>> mod_times[0] <= mod_times[1] <= mod_times[2]
+    True
 
 
 Clear the memoize from the request::
