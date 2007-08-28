@@ -20,6 +20,18 @@ Set up the form data, and request membership
     >>> view.portal_status_message
     [u'Your request to join "Project Three" has been sent to the project administrators.']
 
+Check the mail host for messages
+    >>> mailhost = view.get_tool('MailHost')
+    >>> len(mailhost.messages)
+    2
+
+So there's two of them, because of that portal owner
+We're just interested in the 2nd one
+
+The project, member id, and member full name should be in the email
+    >>> mailhost.messages[1]['msg']
+    '...Project Three...m4...Member Four...'
+
 Verify membership object is in the pending state now
     >>> wft = view.get_tool('portal_workflow')
     >>> mship = team._getOb('m4')
