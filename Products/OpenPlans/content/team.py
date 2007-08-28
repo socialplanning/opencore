@@ -202,7 +202,8 @@ class OpenTeam(Team):
         pwft = getToolByName(self, 'portal_placeful_workflow')
         config = pwft.getWorkflowPolicyConfig(self)
         if config is not None:
-            wfid = config.getPlacefulChainFor('OpenMembership')
+            wfids = config.getPlacefulChainFor('OpenMembership')
+            wfid = wfids[0]
         else:
             wfid = 'openplans_team_membership_workflow'
         status = wftool.getStatusOf(wfid, mship)
