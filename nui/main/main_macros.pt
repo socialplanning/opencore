@@ -17,7 +17,7 @@
         <strong tal:condition="python:current_search_page=='sitesearch'">Everything</strong>
      
       <div class="oc-form-fieldBlock">
-      <input class="oc-input-typeText" type="text" name="search_for" tal:attributes="value string:${search_for}" />
+      <input class="oc-input-typeText oc-autoFocus" type="text" name="search_for" tal:attributes="value string:${search_for}" />
       <button type="submit">Search</button>
     </div>
   </form>
