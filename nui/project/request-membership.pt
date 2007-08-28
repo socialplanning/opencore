@@ -21,6 +21,10 @@
                       class="oc-autoFocus"></textarea>
             <input type="submit" name="task|request-membership" value="Send"
                    class="oc-button" />
+               or
+               <a tal:attributes="href context/absolute_url">
+                 Cancel
+               </a>
         </form>
       </div><!--end oc-content-main -->
     
