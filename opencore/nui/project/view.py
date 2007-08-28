@@ -1,6 +1,7 @@
 import re
 import urllib
 import string
+from operator import attrgetter
 
 from topp.utils.detag import detag
 
@@ -620,6 +621,8 @@ class ProjectTeamView(TeamRelatedView):
    
     @formhandler.button('sort')
     def handle_request(self):
+        # this is what controls which sort method gets dispatched to
+        # in the memberships property
         self.sort_by = self.request.form.get('sort_by', None)
 
     def handle_sort_membership_date(self):
@@ -629,8 +632,16 @@ class ProjectTeamView(TeamRelatedView):
                  sort_on='made_active_date',
                  sort_order='descending',
                  )
-        
+
         membership_brains = self.catalog(**query)
+        # XXX for some reason, the descending sort is not working properly
+        # seems to only want to be ascending
+        # so let's just use python sort to sort the results ourselves
+        membership_brains = sorted(
+            membership_brains,
+            key=attrgetter('made_active_date'),
+            reverse=True)
+
         mem_ids = [b.getId for b in membership_brains]
         
         query = dict(portal_type='OpenMember',
