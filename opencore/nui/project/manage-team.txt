@@ -30,6 +30,23 @@ pending membership invitations and requests::
     >>> len(view.pending_mships)
     2
 
+Verify that we get the appropriate error messages when actions
+are attempted without anything checked::
+
+    >>> self.clearMemoCache()
+    >>> view.approve_requests([])
+    {}
+    >>> view.portal_status_message
+    [u'Please select members to approve.']
+    >>> view.discard_requests([])
+    {}
+    >>> view.portal_status_message
+    [u'Please select members to discard.']
+    >>> view.reject_requests([])
+    {}
+    >>> view.portal_status_message
+    [u'Please select members to deny.']
+
 Now let's make sure the project admin can approve membership requests.
 First we need to clear out the memoized cache:
 
@@ -146,7 +163,7 @@ And if we try nobody
     >>> view.remove_members([])
     {}
     >>> view.portal_status_message
-    [u'Please select a member to remove']
+    [u'Please select members to remove.']
 
 Transient Message should be added as well
 
