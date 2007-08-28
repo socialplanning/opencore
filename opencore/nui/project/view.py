@@ -605,9 +605,9 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
             try:
                 for recipient in mto:
                     sender.sendEmail(recipient, msg=email_msg, **email_vars)
-                psm = (u'Your request to join "%s" has been sent to the project administrators.' % self.context.title)
+                psm = (u'Your request to join "%s" has been sent to the project administrator(s).' % self.context.title)
             except MailHostError:
-                psm = (u'An error has occurred. Your message has not been sent to the project administrators.')
+                psm = (u'An error has occurred. Your message has not been sent to the project administrator(s).')
         else:
             psm = (u"You are already a pending or active member of %s." % self.context.title)
         self.addPortalStatusMessage(psm)
