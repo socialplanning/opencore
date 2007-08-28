@@ -53,9 +53,11 @@ class OpenMembership(TeamMembership):
         wftool = getToolByName(self, 'portal_workflow')
 
         pwft = getToolByName(self, 'portal_placeful_workflow')
-        config = pwft.getWorkflowPolicyConfig(self)
+        config = pwft.getWorkflowPolicyConfig(self.getTeam())
         if config is not None:
-            wfid = config.getPlacefulChainFor('OpenMembership')
+            wfids = config.getPlacefulChainFor('OpenMembership')
+            # only one in chain
+            wfid = wfids[0]
         else:
             wfid = 'openplans_team_membership_workflow'
         wf_hist = wftool.getHistoryOf(wfid, self)

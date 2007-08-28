@@ -974,7 +974,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             mship = self.team.getMembershipByMemberId(mem_id)
             config = pwft.getWorkflowPolicyConfig(mship)
             if config is not None:
-                wf_id = config.getPlacefulChainFor('OpenMembership')
+                wf_ids = config.getPlacefulChainFor('OpenMembership')
+                wf_id = wf_ids[0]
             else:
                 wf_id = 'openplans_team_membership_workflow'
             status = wftool.getStatusOf(wf_id, mship)
