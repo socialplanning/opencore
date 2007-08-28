@@ -876,6 +876,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
     @formhandler.action('approve-requests')
     def approve_requests(self, targets, fields=None):
+
+        if not targets:
+            self.addPortalStatusMessage(u'Please select members to approve.')
+            return {}
+
         mem_ids = targets
         wftool = self.get_tool('portal_workflow')
         team = self.team
@@ -914,6 +919,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                                     (napproved, plural and 's' or ''))
         if napproved:
             self.team.reindexTeamSpaceSecurity()
+
         return res
 
     @formhandler.action('discard-requests')
@@ -925,20 +931,29 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         Currently hidden in UI because it's confusing to have two
         options with no explanation.
         """
+        if not targets:
+            self.addPortalStatusMessage(u'Please select members to discard.')
+            return {}
+
         # copy targets list b/c manage_delObjects empties the list
         mem_ids = targets[:]
         self.team.manage_delObjects(ids=mem_ids)
-        msg = u"Requests discarded: %s" % ', '.join(targets)
+        msg = u"Requests discarded: %s" % ', '.join(mem_ids)
         
         self.addPortalStatusMessage(msg)
-        return dict( ((mem_id, {'action': 'delete'}) for mem_id in targets) )
+        return dict( ((mem_id, {'action': 'delete'}) for mem_id in mem_ids) )
 
     @formhandler.action('reject-requests')
     def reject_requests(self, targets, fields=None):
         """
         Notifiers should be handled by workflow transition script.
         """
-        mem_ids = targets
+        if not targets:
+            self.addPortalStatusMessage(u'Please select members to deny.')
+            return {}
+
+        # copy targets list b/c manage_delObjects empties the list
+        mem_ids = targets[:]
         self.doMshipWFAction('reject_by_admin', mem_ids)
         sender = self.email_sender
         msg = sender.constructMailMessage('request_denied',
@@ -949,7 +964,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
         msg = u"Requests denied: %s" % ', '.join(mem_ids)
         self.addPortalStatusMessage(msg)
-        return dict( ((mem_id, {'action': 'delete'}) for mem_id in targets) )
+        return dict( ((mem_id, {'action': 'delete'}) for mem_id in mem_ids) )
 
 
     ##################
@@ -1131,7 +1146,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         elif mem_ids:
             msg = 'Cannot remove last admin: %s' % mem_ids[0]
         else:
-            msg = 'Please select a member to remove'
+            msg = 'Please select members to remove.'
         self.addPortalStatusMessage(msg)
 
         self.team.reindexTeamSpaceSecurity()
