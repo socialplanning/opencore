@@ -121,7 +121,8 @@ def migrate_mship_workflow_states(portal):
     for mship in mships:
         mship = mship.getObject()
         config = pwft.getWorkflowPolicyConfig(mship)
-        wfid = config.getPlacefulChainFor('OpenMembership')
+        wfids = config.getPlacefulChainFor('OpenMembership')
+        wfid = wfids[0]
         status = wft.getStatusOf(wfid, mship)
         status['review_state'] = 'public' # this is the important part
         status['actor'] = actor

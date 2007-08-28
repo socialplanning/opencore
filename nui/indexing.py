@@ -48,7 +48,7 @@ mem_idxs = (('FieldIndex', 'exact_getFullname',
 
 metadata_cols = ('lastWorkflowActor', 'made_active_date', 'lastModifiedAuthor',
                  'lastWorkflowTransitionDate', 'mailing_list_threads',
-                 'highestTeamRole', 'lastModifiedComment')
+                 'highestTeamRole', 'lastModifiedComment', PROJECT_POLICY)
 
 
 class LastWorkflowActor(object):
