@@ -148,9 +148,14 @@ Exercise the Member Account Class
     >>> proj['proj_id']
     'p4'
 
-    Pending members should be listed as public
-    >>> proj['listed']
+    Member is pending
+    >>> proj['is_pending']
     True
+
+    Pending members will have a false listing
+    But it really doesn't matter because they don't get a listed column
+    >>> proj['listed']
+    False
 
     And one should still be pending, which project admins approve
     >>> self.clearMemoCache()
