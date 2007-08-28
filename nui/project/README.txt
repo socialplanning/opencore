@@ -240,13 +240,38 @@ Let's sort based on the membership date::
 
     >>> view.sort_by = 'membership_date'
     >>> results = view.memberships
-    >>> brains = list(results)
-    >>> len(brains)
+    >>> mem_brains = list(results)
+    >>> len(mem_brains)
     3
-    >>> mod_times = [b.modified for b in brains]
-    >>> mod_times[0] <= mod_times[1] <= mod_times[2]
-    True
 
+We need to get the corresponding membership brains to verify if they are in
+the correct order::
+
+    >>> mship_brains = view.catalog(path='/plone/portal_teams/p1',
+    ...                             portal_type='OpenMembership',
+    ...                             getId=[b.getId for b in mem_brains],
+    ...                             sort_on='made_active_date',
+    ...                             sort_order='descending',
+    ...                             )
+    >>> len(mship_brains)
+    3
+
+Zope doesn't want to sort the mship in descending order,
+So we do it ourselves here
+    >>> from operator import attrgetter
+    >>> mship_brains = sorted(mship_brains,
+    ...     key=attrgetter('made_active_date'),
+    ...     reverse=True)
+
+And now we can simply test that the ids are in the same order
+    >>> [a.getId == b.getId for a, b in zip(mem_brains, mship_brains)]
+    [True, True, True]
+
+And for good measure, verify that the made active dates are really in
+descending order
+    >>> active_dates = [b.made_active_date for b in mship_brains]
+    >>> active_dates[0] >= active_dates[1] >= active_dates[2]
+    True
 
 Clear the memoize from the request::
 
