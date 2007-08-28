@@ -226,6 +226,7 @@ class MemberAccountView(BaseView, OctopoLite):
         project_info = self._project_metadata_for(project_id)
         proj_title = project_info['Title']
         proj_id = project_info['getId']
+        proj_policy = project_info['project_policy']
 
         review_state = brain.review_state
         is_pending = review_state == 'pending'
@@ -248,6 +249,7 @@ class MemberAccountView(BaseView, OctopoLite):
                     listed=listed,
                     role=role,
                     is_pending=is_pending,
+                    proj_policy=proj_policy,
                     )
 
     def _projects_satisfying(self, pred):
