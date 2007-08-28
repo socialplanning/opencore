@@ -18,7 +18,7 @@ Set up the form data, and request membership
     >>> view.request_membership()
     >>> del view._redirected # necessary to display portal status message
     >>> view.portal_status_message
-    [u'Your request to join "Project Three" has been sent to the project administrators.']
+    [u'Your request to join "Project Three" has been sent to the project administrator(s).']
 
 Check the mail host for messages
     >>> mailhost = view.get_tool('MailHost')
@@ -51,7 +51,7 @@ Now that he's deactivated, he should be able to reinvite himself
     >>> view.request_membership()
     >>> del view._redirected # necessary to display portal status message
     >>> view.portal_status_message
-    [u'Your request to join "Project Three" has been sent to the project administrators.']
+    [u'Your request to join "Project Three" has been sent to the project administrator(s).']
     >>> wft.getInfoFor(mship, 'review_state')
     'pending'
 
@@ -67,7 +67,7 @@ And try to request a membership, one more time, from the owner rejected state
     >>> view.request_membership()
     >>> del view._redirected # necessary to display portal status message
     >>> view.portal_status_message
-    [u'Your request to join "Project Three" has been sent to the project administrators.']
+    [u'Your request to join "Project Three" has been sent to the project administrator(s).']
     >>> wft.getInfoFor(mship, 'review_state')
     'pending'
 
