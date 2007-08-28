@@ -16,7 +16,9 @@
             <label for="request-message">Message</label>
             <span class="oc-discreetText">(optional)</span>
             <textarea rows="10" cols="80" 
-                      name="request-message" id="request-message"></textarea>
+                      name="request-message"
+                      id="request-message"
+                      class="oc-autoFocus"></textarea>
             <input type="submit" name="task|request-membership" value="Send"
                    class="oc-button" />
         </form>
