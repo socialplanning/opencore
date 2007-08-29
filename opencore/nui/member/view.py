@@ -264,7 +264,7 @@ class MemberAccountView(BaseView, OctopoLite):
             if brain.review_state == 'pending':
                 return brain.lastWorkflowActor == self.viewed_member_info['id']
             return brain.review_state in self.active_states
-        return sorted(self._projects_satisfying(is_user_project), key=lambda x:x['title'])
+        return sorted(self._projects_satisfying(is_user_project), key=lambda x:x['title'].lower())
 
     @req_memoize
     def invitations(self):
