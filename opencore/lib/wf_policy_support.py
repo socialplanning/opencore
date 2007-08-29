@@ -153,7 +153,7 @@ class WorkflowPolicyWriteAdapter(WorkflowPolicyReadAdapter):
                 wf = wftool.getWorkflowById(wf_id)
                 wfs[wf_id] = wf
             # XXX: Bad Touching to avoid waking up the entire portal
-            #count = wftool._recursiveUpdateRoleMappings(self.context, wfs)
-            # XXX the below call is needed to catch the team placeful workflow change
-            count = wftool.updateRoleMappings()
+            count = wftool._recursiveUpdateRoleMappings(self.context, wfs)
+            if teams:
+                count += wftool._recursiveUpdateRoleMappings(team, wfs)
             return count
