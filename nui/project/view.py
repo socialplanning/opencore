@@ -662,7 +662,18 @@ class ProjectTeamView(TeamRelatedView):
         query = dict(sort_on='sortableLocation',
                      getId=mem_ids,
                      )
+        # XXX these are member brains, not membership brains
         results = self.membranetool(**query)
+        # XXX sort manually here, because it doesn't look like the catalog
+        # has the ability to sort on multiple fields
+        def sort_location_then_name(x, y):
+            xloc, yloc = x.getLocation.lower(), y.getLocation.lower()
+            if xloc < yloc: return -1
+            if yloc < xloc: return 1
+            return cmp(x.getId.lower(), y.getId.lower())
+
+        results = sorted(results, cmp=sort_location_then_name)
+        
         return self._get_batch(results, self.request.get('b_start', 0))
 
     def handle_sort_contributions(self):

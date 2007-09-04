@@ -216,17 +216,27 @@ Clear the memoize from the request::
     >>> utils.clear_all_memos(view)
 
 Now try sorting by location::
-
+First however, we have to give some members locations
+    >>> for mem_id, location in zip(['m1', 'm4', 'm3'], ['ny', 'ny', 'FL']):
+    ...     mem = getattr(self.portal.portal_memberdata, mem_id)
+    ...     mem.location = location
+    ...     mem.reindexObject(idxs=['getLocation'])
     >>> view.sort_by = 'location'
     >>> results = view.memberships
     >>> brains = list(results)
     >>> len(brains)
     3
+
+Verify that the locations were set
+    >>> for b in brains: assert b.getLocation
+
+They should be sorted according to id, by location
     >>> [b.getId for b in brains]
-    ['m4', 'm1', 'm3']
+    ['m3', 'm1', 'm4']
 
 Test the projects for members work::
-    >>> mem_projects = view.projects_for_member(brains[0].getObject())
+    >>> mem = self.portal.portal_memberdata.m4
+    >>> mem_projects = view.projects_for_member(mem)
     >>> [mem_project.getId() for mem_project in mem_projects]
     ['p2', 'p1', 'p4']
     >>> view.num_projects_for_member(brains[0].getObject())
