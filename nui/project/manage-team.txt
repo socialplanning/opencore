@@ -174,9 +174,23 @@ Ensure that form submissions changing the team roles for members
 behave as expected.  At the beginning we re-add and approve m3 so we
 can use him for testing later:
 
-    >>> team.addMember('m3')
+    >>> self.clearMemoCache()
+    >>> mship = team.addMember('m3')
+    >>> mship
     <OpenMembership at ...>
+    >>> wft = view.get_tool('portal_workflow')
+    >>> status = wft.getStatusOf('openplans_team_membership_workflow', mship)
+    >>> status['actor']
+    'm1'
+    >>> status['actor'] = 'm3'
+    >>> wft.setStatusOf('openplans_team_membership_workflow', mship, status)
     >>> res = view.approve_requests(['m3'])
+    >>> list(tm.get_msgs('m3', view.msg_category))
+    [(0, u'You have been accepted to <a href="http://nohost/plone/projects/p3">Project Three</a>')]
+    >>> 'm3' in mship.getActiveMemberIds()
+    True
+
+Verify roles
     >>> team.getHighestTeamRoleForMember('m1')
     'ProjectAdmin'
     >>> team.getHighestTeamRoleForMember('portal_owner')
@@ -191,7 +205,7 @@ can use him for testing later:
     ...     'm3_role': 'ProjectAdmin'
     ...     })
     >>> view.request.environ['HTTP_REFERER'] = 'referer'
-    >>> res = view.set_roles(['m1', 'portal_owner', 'm3'],
+    >>> html = view.set_roles(['m1', 'portal_owner', 'm3'],
     ...                      [{'role': 'ProjectAdmin'},
     ...                       {'role': 'ProjectMember'},
     ...                       {'role': 'ProjectAdmin'}])
@@ -201,7 +215,21 @@ can use him for testing later:
     'ProjectMember'
     >>> team.getHighestTeamRoleForMember('m3')
     'ProjectAdmin'
-    >>> team.removeMember('m3')
+
+The user should also get a transient message saying that he was made
+into an admin
+    >>> list(tm.get_msgs('m3', view.msg_category))[-1]
+    (1, u'You are now an admin at <a href="http://nohost/plone/projects/p3">Project Three</a>')
+
+Demotions should also yield transient messages
+    >>> view.request.form.update(
+    ...    {'task|batch_role|set-roles': 'Lalala',
+    ...     'role': ['m3'],
+    ...     'm3_role': 'ProjectMember',
+    ...     })
+    >>> html = view.set_roles(['m3'], [dict(role='ProjectMember')])
+    >>> list(tm.get_msgs('m3', view.msg_category))[-1]
+    (2, u'You are no longer an admin at <a href="http://nohost/plone/projects/p3">Project Three</a>')
 
 Now test member search.  We should be getting results on members w/o
 team memberships, and inactive team memberships, but not on those that
@@ -211,6 +239,7 @@ For the first search, m1 is active, m2 is inactive, m3 has no
 membership, and m4 is rejected_by_admin.  m1 is the only one shouldn't
 be returned by the search:
 
+    >>> team.removeMember('m3')
     >>> view.request.form.clear()
     >>> view.request.form['search_for'] = 'mem'
     >>> view.search_members()
@@ -242,7 +271,7 @@ with a member that is not on the team.  Notifier should go out:
     >>> len(view.pending_invitations)
     1
     >>> len(mailhost.messages)
-    7
+    8
 
 Now try to reinvite an inactive member:
 
@@ -251,7 +280,7 @@ Now try to reinvite an inactive member:
     >>> len(view.pending_invitations)
     2
     >>> len(mailhost.messages)
-    8
+    9
 
 And last we reinvite m4, who was rejected_by_admin:
 
@@ -260,7 +289,7 @@ And last we reinvite m4, who was rejected_by_admin:
     >>> len(view.pending_invitations)
     3
     >>> len(mailhost.messages)
-    9
+    10
 
 Okay, now to deal with inviting people by email address.  First we try
 a couple of addresses that don't belong to any site members:
@@ -276,7 +305,7 @@ a couple of addresses that don't belong to any site members:
     >>> len(view.pending_email_invites)
     2
     >>> len(mailhost.messages)
-    11
+    12
 
 Then we try to invite someone using an email address that is already
 in use by a site member who's not a project member:
@@ -296,7 +325,7 @@ in use by a site member who's not a project member:
     >>> len(view.pending_email_invites) # <- doesn't change
     2
     >>> len(mailhost.messages) # <- increase by one
-    12
+    13
 
 Try the same one again, should have no result:
 
@@ -307,7 +336,7 @@ Try the same one again, should have no result:
     >>> len(view.pending_email_invites)
     2
     >>> len(mailhost.messages)
-    12
+    13
 
 Verify we can send reminders to the email invitees:
 
@@ -315,7 +344,7 @@ Verify we can send reminders to the email invitees:
     >>> addys = [addy.strip() for addy in invites.split(',')]
     >>> view.remind_email_invites(addys)
     >>> len(mailhost.messages) # <- increase by two
-    14
+    15
 
 And that they can be removed:
 
@@ -325,4 +354,4 @@ And that they can be removed:
     >>> len(view.pending_email_invites)
     0
     >>> len(mailhost.messages) # <- increase by two
-    16
+    17
