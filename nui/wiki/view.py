@@ -324,10 +324,11 @@ class AttachmentView(BaseView):
 
         return ('%s.%s.%s' % (name, str(idx), ext))
 
-class NewsEditView(WikiEdit):
+
+class WikiNewsEditView(WikiEdit):
     """Should look exactly like wiki edit, but also contain description field"""
 
     def handle_save(self, target=None, fields=None):
         description = self.request.form.get('description', '').strip()
         self.context.setDescription(description)
-        return super(NewsEditView, self).handle_save(target, fields)
+        return super(WikiNewsEditView, self).handle_save(target, fields)
