@@ -864,22 +864,13 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     def transient_msgs(self):
         return getUtility(ITransientMessage, context=self.portal)
 
-    def _add_transient_msg_for(self, mem_id, status):
+    def _add_transient_msg_for(self, mem_id, msg):
         # XXX not happy about generating the html for this here ... but it's a one liner
         # can move to a macro
         proj_url = self.context.absolute_url()
         title = self.context.title
-        msg = 'You have been %(status)s <a href="%(proj_url)s">%(title)s</a>' % locals()
+        msg = '%(msg)s <a href="%(proj_url)s">%(title)s</a>' % locals()
         self.transient_msgs.store(mem_id, self.msg_category, msg)
-
-    def _add_approval_message_for(self, mem_id):
-        self._add_transient_msg_for(mem_id, 'accepted to')
-
-    def _add_deny_message_for(self, mem_id):
-        self._add_transient_msg_for(mem_id, 'denied membership to')
-
-    def _add_removal_message_for(self, mem_id):
-        self._add_transient_msg_for(mem_id, 'deactivated from')
 
 
     ##################
@@ -913,7 +904,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             self.email_sender.sendEmail(mem_id, msg_id='request_approved',
                                         project_title=self.context.title,
                                         project_url=self.context.absolute_url())
-            self._add_approval_message_for(mem_id)
+            self._add_transient_msg_for(mem_id, 'You have been accepted to')
             res[mem_id] = {'action': 'delete'}
             # will only be one mem_id in AJAX requests
             brain = self.catalog(path='/'.join(mship.getPhysicalPath()))[0]
@@ -972,7 +963,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                                           project_title=self.context.title)
         for mem_id in mem_ids:
             sender.sendEmail(mem_id, msg=msg)
-            self._add_deny_message_for(mem_id)
+            self._add_transient_msg_for(mem_id, 'You have been denied membership to')
 
         msg = u"Requests denied: %s" % ', '.join(mem_ids)
         self.addPortalStatusMessage(msg)
@@ -1150,7 +1141,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                                  project_title=self.context.title)
             except MailHostError:
                 self.addPortalStatusMessage('Error sending mail to: %s' % mem_id)
-            self._add_removal_message_for(mem_id)
+            self._add_transient_msg_for(mem_id, 'You have been deactivated from')
             ret[mem_id] = {'action': 'delete'}
 
         if mems_removed:
@@ -1197,6 +1188,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                     commands[mem_id] = {'action': 'replace',
                                         'html': html,
                                         'effects': 'highlight'}
+                    transient_msg = (team.getHighestTeamRoleForMember(mem_id) == 'ProjectAdmin'
+                                     and 'You are now an admin at'
+                                     or 'You are no longer an admin at')
+                    self._add_transient_msg_for(mem_id, transient_msg)
+                        
 
             msg = u'Role changed for the following members: %s' \
                   % ', '.join(changes)
