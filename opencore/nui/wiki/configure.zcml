@@ -19,6 +19,7 @@
     permission="zope2.View"
     />
      
+  <!-- Wiki views  -->
   <browser:page
     class=".view.WikiView"
     for="opencore.interfaces.IOpenPage"
@@ -42,13 +43,6 @@
     />
 
   <browser:page
-    class="opencore.nui.wiki.view.NewsEditView"
-    for="opencore.interfaces.INewsItem"
-    name="edit"
-    permission="cmf.ManagePortal"
-    />
-
-  <browser:page
      class="opencore.nui.wiki.add.NuiContainerAdd"
      for="opencore.interfaces.IProject"
      permission="cmf.AddPortalContent"
@@ -63,6 +57,22 @@
      name="add-page"
      attribute="add_content"
      />
+
+  <!-- News view -->
+  <browser:page
+    class=".view.WikiView"
+    for="opencore.interfaces.INewsItem"
+    name="view"
+    permission="zope2.View"
+    template="wiki-view.pt"
+    />
+
+  <browser:page
+    class="opencore.nui.wiki.view.WikiNewsEditView"
+    for="opencore.interfaces.INewsItem"
+    name="edit"
+    permission="cmf.ManagePortal"
+    />
 
   <!-- placeholder view for lists -->
   <browser:page

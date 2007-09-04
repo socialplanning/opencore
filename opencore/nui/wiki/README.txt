@@ -337,8 +337,8 @@ Create a new news item
      >>> ni = getattr(self.portal.news, news_items[0])
 
 Now that we have a new news item, let's simulate an edit
-     >>> from opencore.nui.wiki.view import NewsEditView
-     >>> view = NewsEditView(ni, self.portal.REQUEST)
+     >>> from opencore.nui.wiki.view import WikiNewsEditView
+     >>> view = WikiNewsEditView(ni, self.portal.REQUEST)
      >>> request = view.request.form
      >>> request.update(dict(
      ...   title='news title',
