@@ -99,7 +99,7 @@
                   <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}" tal:content="userid" />,
                   <span tal:replace="python: view.pretty_date(item.CreationDate)">Jan 1937</span>
                 </div>
-                <p class="oc-feed-item-description" tal:content="item/lastModifiedComment">This should be the text from the revision note, however long it is.</p>
+                <p class="oc-feed-item-description" tal:content="item/Description">The description is the comment for the news item, however long it is</p>
               </li>
               <li>
                 <a class="oc-paginator" tal:attributes="href string:${context/portal_url}/news">more news&hellip;</a>

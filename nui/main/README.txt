@@ -250,8 +250,14 @@ Now that we have permission to add a new news item, let's do so
    'http://nohost/plone/news/.../edit'
 
 And we have a news item now
-   >>> len(view.news_items())
-   1
+   >>> news_items = view.news_items()
+   >>> assert len(news_items) == 1
+
+It should implement the INewsItem interface
+   >>> ni = news_items[0].getObject()
+   >>> from opencore.interfaces import INewsItem
+   >>> INewsItem.providedBy(ni)
+   True
 
 
 Sitewide Search
