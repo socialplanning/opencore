@@ -1,14 +1,18 @@
+import re
+
 from DateTime import DateTime as zopedatetime
 from zExceptions import Redirect 
-import re
+
+from zope.interface import alsoProvides
 
 from Products.AdvancedQuery import Eq, RankByQueries_Sum
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.PloneBatch import Batch
 
 from topp.utils.pretty_date import prettyDate
-from opencore.nui.base import BaseView, static_txt
 from opencore import redirect
+from opencore.interfaces import INewsItem
+from opencore.nui.base import BaseView, static_txt
 
 num_regex = re.compile('((the|a|an)\s+)?[0-9]+')
 
@@ -469,6 +473,7 @@ class NewsView(SearchView):
         new_id = self._get_new_id()
         self.context.invokeFactory('Document', id=new_id, title=new_id)
         item = getattr(self.context, new_id)
+        alsoProvides(item, INewsItem)
         edit_url = '%s/edit' % item.absolute_url()
         self.request.response.redirect(edit_url)
 

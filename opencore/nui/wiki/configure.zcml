@@ -43,6 +43,14 @@
     />
 
   <browser:page
+    class="opencore.nui.wiki.view.NewsEditView"
+    for="opencore.interfaces.INewsItem"
+    name="edit"
+    template="wiki-news.pt"
+    permission="cmf.ManagePortal"
+    />
+
+  <browser:page
      class="opencore.nui.wiki.add.NuiContainerAdd"
      for="opencore.interfaces.IProject"
      permission="cmf.AddPortalContent"
