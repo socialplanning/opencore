@@ -102,3 +102,30 @@ We should get the same results with a project admin too
     'http://nohost/plone/projects/p3?came_from=http://nohost'
     >>> view.portal_status_message
     [u'You are already a member of this project.']
+
+If there is an error sending the email, we should try to send to some admins
+Setup m4 to be requested again
+    >>> team.removeMember('m4')
+    >>> self.login('m4')
+    >>> len(mailhost.messages)
+    6
+
+Stub out the send email method to raise a MailHostError
+    >>> from opencore.nui.email_sender import EmailSender
+    >>> from Products.MailHost.MailHost import MailHostError
+    >>> def stubSendEmail(self, recipient, msg='', **kw):
+    ...     if recipient == 'm1': raise MailHostError('some error!')
+    ...     else: return self.oldSendEmail(recipient, msg, **kw)
+    >>> EmailSender.oldSendEmail = EmailSender.sendEmail
+    >>> EmailSender.sendEmail = stubSendEmail
+    >>> view.request_membership()
+    >>> delattr(view, '_redirected')
+    >>> view.portal_status_message
+    [u'Your request to join "Project Three" has been sent to the project administrator(s).']
+
+And a message should still get sent out for whatever admins it can
+    >>> len(mailhost.messages)
+    7
+
+Remember to restore the EmailSender method
+    >>> EmailSender.sendEmail = EmailSender.oldSendEmail
