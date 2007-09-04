@@ -79,7 +79,7 @@ Test wiki page registrations (logged in)::
     <...SimpleViewClass ...wiki/wiki_macros.pt object at ...>
     
     >>> page.restrictedTraverse('@@edit')
-    <...SimpleViewClass ...wiki-edit.pt object at ...>
+    <Products.Five.metaclass.WikiEdit object at ...>
 
 Make sure notallowed css class is not applied to edit tab
 since we do have permissions to edit::
@@ -290,7 +290,7 @@ Login as different users, each time checking the last modified author
      >>> self.login('m1')
      >>> view = page.restrictedTraverse('@@edit')
      >>> view
-     <Products.Five.metaclass.SimpleViewClass from ...wiki-edit.pt object at ...>
+     <Products.Five.metaclass.WikiEdit object at ...>
 
 Now start changing the page
      >>> request = view.request.form

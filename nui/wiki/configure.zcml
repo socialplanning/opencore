@@ -38,7 +38,6 @@
     class="opencore.nui.wiki.view.WikiEdit"
     for="opencore.interfaces.IOpenPage"
     name="edit"
-    template="wiki-edit.pt"
     permission="cmf.ModifyPortalContent"
     />
 
@@ -46,7 +45,6 @@
     class="opencore.nui.wiki.view.NewsEditView"
     for="opencore.interfaces.INewsItem"
     name="edit"
-    template="wiki-news.pt"
     permission="cmf.ManagePortal"
     />
 

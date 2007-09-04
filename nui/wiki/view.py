@@ -326,7 +326,6 @@ class AttachmentView(BaseView):
 
 class NewsEditView(WikiEdit):
     """Should look exactly like wiki edit, but also contain description field"""
-    template = ZopeTwoPageTemplateFile('wiki-news.pt')
 
     def handle_save(self, target=None, fields=None):
         description = self.request.form.get('description', '').strip()

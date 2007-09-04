@@ -68,6 +68,17 @@
 
               <div class="oc-wiki-edit-content">
                 <input type="hidden" name="submitted" value="1"/>
+
+                <tal:comment replace="nothing">
+                  News items get an extra description field
+                </tal:comment>
+                <tal:description
+                  define="news_interface python:modules['opencore.interfaces'].INewsItem"
+                  condition="python:news_interface.providedBy(context)">
+                  <label for="description">Description</label>
+                  <textarea id="description" name="description"></textarea>
+                </tal:description>
+
                 <metal:fieldMacro use-macro="python:here.widget('text', mode='edit')"/>
               </div><!-- end .oc-wiki-edit-content" --> 
  
