@@ -599,17 +599,15 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
 
             mto = self.team.get_admin_ids()
 
-            # XXX what do we do if there are no project admins?
-            # for now, let's just catch a mailhosterror, and set a psm
-            # XXX is this needed any longer?
-            try:
-                for recipient in mto:
+            for recipient in mto:
+                try:
                     sender.sendEmail(recipient, msg=email_msg, **email_vars)
-                psm = (u'Your request to join "%s" has been sent to the project administrator(s).' % self.context.title)
-            except MailHostError:
-                psm = (u'An error has occurred. Your message has not been sent to the project administrator(s).')
+                except MailHostError:
+                    pass
+            psm = (u'Your request to join "%s" has been sent to the project administrator(s).' % self.context.title)
         else:
             psm = (u"You are already a pending or active member of %s." % self.context.title)
+
         self.addPortalStatusMessage(psm)
         self.template = None # don't render the form before the redirect
         self.redirect(self.context.absolute_url())
