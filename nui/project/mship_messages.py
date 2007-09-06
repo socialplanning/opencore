@@ -32,14 +32,14 @@ You are no longer a member of "${project_title}" on OpenPlans.
 
 membership_requested = _(u"""Subject: OpenPlans - Request to join ${project_title}
 
-${member_id}, ${member_fullname}, would like to get involved with "${project_title}".
+${member_id} would like to get involved with "${project_title}".
 
 To approve or deny this request please visit the project's team management screen: ${team_manage_url}
 """)
 
 mship_request_message = _(u"""
 
-${member_id}, ${member_fullname}, included the following message:
+${member_id} included the following message:
 
 "${member_message}"
 """)

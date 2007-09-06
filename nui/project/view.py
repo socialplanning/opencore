@@ -582,7 +582,6 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
         if joined:
             team_manage_url = "%s/manage-team" % self.context.absolute_url()
             email_vars = {'member_id': self.member_info.get('id'),
-                          'member_fullname': self.member_info.get('fullname'),
                           'project_title': self.context.title,
                           'team_manage_url': team_manage_url,
                           }
