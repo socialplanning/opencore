@@ -28,9 +28,9 @@ Check the mail host for messages
 So there's two of them, because of that portal owner
 We're just interested in the 2nd one
 
-The project, member id, and member full name should be in the email
+The project title and member id should be in the email
     >>> mailhost.messages[1]['msg']
-    '...Project Three...m4...Member Four...'
+    '...Project Three...m4...'
 
 Verify membership object is in the pending state now
     >>> wft = view.get_tool('portal_workflow')
