@@ -20,6 +20,12 @@
      />
 
   <adapter
+     for="Products.remember.interfaces.IReMember"
+     provides="opencore.interfaces.catalog.IGetUserIds"
+     factory="opencore.nui.indexing.UserIdGetter"
+     />
+
+  <adapter
      for="opencore.interfaces.IOpenMembership"
      provides="opencore.interfaces.catalog.IHighestTeamRole"
      factory="opencore.nui.indexing.HighestTeamRole"

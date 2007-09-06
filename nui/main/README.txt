@@ -287,6 +287,20 @@ Search for things starting with a number::
    >>> '5test' in ids
    True
 
+Check that searching by letter matches on the id as well
+   >>> m4 = self.portal.portal_memberdata.m4
+   >>> m4.setFullname('foo fighter')
+   >>> m4.reindexObject()
+
+Check globbing for members (advanced query globbing has index issue)::
+   >>> brains = view.search_by_letter('M')
+   >>> [b.getId for b in brains]
+   ['m1', 'm2', 'm3', 'm4']
+
+   >>> brains = view.search_by_letter('F')
+   >>> [b.getId for b in brains]
+   ['m4']
+
 
 Homepage View
 =============
