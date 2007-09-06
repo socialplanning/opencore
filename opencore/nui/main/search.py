@@ -380,9 +380,9 @@ class SitewideSearchView(SearchView):
                     | Eq('portal_type', 'OpenMember')
         else:
             search_for = letter + '*'
-            query = (Eq('portal_type', 'OpenProject') & Eq('Title', search_for)) \
-                    | (Eq('portal_type', 'Document') & Eq('Title', search_for)) \
-                    | (Eq('portal_type', 'OpenMember') & Eq('Title', search_for))
+            query = ((Eq('portal_type', 'OpenProject') & (Eq('Title', search_for) | Eq('getUserId', search_for))) \
+                    | (Eq('portal_type', 'Document') & (Eq('Title', search_for) | Eq('getUserId', search_for))) \
+                    | (Eq('portal_type', 'OpenMember') & (Eq('Title', search_for) | Eq('getUserId', search_for))))
 
         if not sort_by:
             sort_by = 'getId'

@@ -36,6 +36,13 @@ class IHighestTeamRole(Interface):
         membership is a part of
         """
 
+class IGetUserIds(Interface):
+
+    def getValue():
+        """
+        Returns the id for the member
+        """
+
 class ILastModifiedComment(Interface):
 
     def getValue():
