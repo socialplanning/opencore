@@ -34,16 +34,16 @@ def test_suite():
         for idx in 'created', 'modified':
             replace_datetimeidx(idx, catalog)
         
-    readme = FunctionalDocFileSuite("README.txt",
+    search = FunctionalDocFileSuite("search.txt",
                                     optionflags=optionflags,
                                     package='opencore.nui.main',
                                     test_class=FunctionalTestCase,
                                     setUp=setup,
                                     globs = globs,
                                     )
-    readme.layer = OpencoreContent
+    search.layer = OpencoreContent
 
-    return unittest.TestSuite((readme,))
+    return unittest.TestSuite((search,))
 
 
 if __name__ == '__main__':
