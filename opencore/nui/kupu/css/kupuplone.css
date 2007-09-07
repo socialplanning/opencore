@@ -150,7 +150,7 @@ span.kupu-tb-buttons .kupu-underline-pressed {
 .kupu-inthyperlink-pressed {
   border-color: Black Black Black Black;
 }
-.kupu-exthyperlink {background-image: url("http://theman:8080/openplans/link_icon.gif");}
+.kupu-exthyperlink {background-image: url("/openplans/link_icon.gif");}
 .kupu-exthyperlink-pressed {
   border-color: Black Black Black Black;
 }
@@ -180,7 +180,7 @@ span.kupu-tb-buttons .kupu-underline-pressed {
 .kupu-justifyright,
 .kupu-justifyright-pressed {background-image: url("/++resource++kupu/img/right_just.gif");}
 
-button.kupu-logo {background-image: url("http://theman:8080/openplans/kupuimages/kupu_icon.gif");}
+button.kupu-logo {background-image: url("/openplans/kupuimages/kupu_icon.gif");}
 .kupu-outdent {background-image: url("/++resource++kupu/img/outdent.gif");}
 .kupu-redo {background-image: url("/++resource++kupu/img/redo.gif");}
 .kupu-save {background-image: url("/++resource++kupu/img/save.png");}
