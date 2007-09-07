@@ -39,11 +39,6 @@
     directory="javascripts"
     />
 
-  <browser:resourceDirectory
-    name="xinha"
-    directory="xinha"
-    />
-
   <browser:page
     for="*"
     class="opencore.nui.base.BaseView"
