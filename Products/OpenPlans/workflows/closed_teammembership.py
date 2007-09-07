@@ -331,7 +331,7 @@ def setup_closed_openplans_team_membership_workflow(wf):
                        trigger_type=1,
                        script_name='',
                        after_script_name='',
-                       actbox_name='',
+                       actbox_name='Trigger',
                        actbox_url='',
                        actbox_category='workflow',
                        props=None,
