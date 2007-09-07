@@ -13,25 +13,122 @@
   <head>
     <title metal:fill-slot="title" tal:content="python:view.wiki_window_title(mode='edit')" />
     <metal:link-slot metal:fill-slot="link">
-      <link rel="stylesheet" href="/++resource++kupu/css/kupustyles.css" media="all"/>
-      <link rel="stylesheet" href="/++resource++kupu/css/kupuplone.css" media="all"/>
-      <link rel="stylesheet" href="/++resource++kupu/css/kupudrawerstyles.css" media="all"/>
+<link type="text/css" rel="stylesheet" title="blue-look" href="/++resource++xinha/skins/blue-look/skin.css"/>
+<link type="text/css" rel="alternate stylesheet" title="green-look" href="/++resource++xinha/skins/green-look/skin.css"/>
+<link type="text/css" rel="alternate stylesheet" title="xp-blue" href="/++resource++xinha/skins/xp-blue/skin.css"/>
+<link type="text/css" rel="alternate stylesheet" title="xp-green" href="/++resource++xinha/skins/xp-green/skin.css"/>
+<link type="text/css" rel="alternate stylesheet" title="inditreuse" href="/++resource++xinha/skins/inditreuse/skin.css"/>
+<link type="text/css" rel="alternate stylesheet" title="blue-metallic" href="/++resource++xinha/skins/blue-metallic/skin.css"/>
     </metal:link-slot>
     <metal:script-slot metal:fill-slot="script">
-      <script src="/++resource++kupu/javascript/sarissa.js"></script>
-      <script src="/++resource++kupu/javascript/sarissa_ieemu_xpath.js"></script>
-      <script src="/++resource++kupu/javascript/kupunoi18n.js"></script>
-      <script src="/++resource++kupu/javascript/kupuhelpers.js"></script>
-      <script src="/++resource++kupu/javascript/kupueditor.js"></script>
-      <script src="/++resource++kupu/javascript/kupubasetools.js"></script>
-      <script src="/++resource++kupu/javascript/kupuloggers.js"></script>
-      <script src="/++resource++kupu/javascript/kupucontentfilters.js"></script>
-      <script src="/++resource++kupu/javascript/kupucontextmenu.js"></script>
-      <script src="/++resource++kupu/javascript/kupuploneeditor.js"></script>
-      <script src="/++resource++kupu/javascript/kupuploneinit.js"></script>
-      <script src="/++resource++kupu/javascript/kupusourceedit.js"></script>
-      <script src="/++resource++kupu/javascript/kupudrawers.js"></script>
-      <script src="/++resource++kupu/javascript/toggle_editor.js"></script>
+<!-- xinha code below  -->
+<script type="text/javascript">
+/************************************************************************
+ * Please refer to http://xinha.python-hosting.com/wiki/NewbieGuide
+ ************************************************************************
+ * You must set _editor_url to the URL (including trailing slash) where
+ * where xinha is installed, it's highly recommended to use an absolute URL
+ *  eg: _editor_url = "/path/to/xinha/";
+ * You may try a relative URL if you wish]
+ *  eg: _editor_url = "../";  
+ * in this example we do a little regular expression to find the absolute path.
+ ************************************************************************/
+var _editor_url = '/++resource++xinha/'; //document.location.href.replace(/examples\/simple_example\.html.*/, '')
+// And the language we need to use in the editor.
+var _editor_lang = "en";
+</script>
+<!-- Load up the actual editor core -->
+<script type="text/javascript" src="/++resource++xinha/XinhaCore.js"></script>
+<script type="text/javascript">
+/************************************************************************
+ * Plugins you will be using in the editors on this page.
+ * List all the plugins you will need, even if not all the editors will
+ * use all the plugins.
+ ************************************************************************
+ * Please refer to http://xinha.python-hosting.com/wiki/Plugins for the
+ * list of availables plugins
+ ************************************************************************/
+var xinha_plugins =
+[
+/*
+ 'CharacterMap',
+ 'ContextMenu',
+ 'FullScreen',
+ 'ListType',
+ 'SpellChecker',
+ 'Stylist',
+ 'SuperClean',
+ 'TableOperations'
+*/
+];
+/************************************************************************
+ * Names of the textareas you will be turning into editors
+ ************************************************************************/
+var xinha_editors =
+[
+  'text'
+];
+/************************************************************************
+ * Initialisation function
+ ************************************************************************/
+function xinha_init()
+{
+  // THIS BIT OF JAVASCRIPT LOADS THE PLUGINS, NO TOUCHING  :)
+  //if(!Xinha.loadPlugins(xinha_plugins, xinha_init)) return;
+  if(xinha_plugins.length) {
+    if(Xinha.loadPlugins(xinha_plugins, xinha_init))
+      alert('successfully loaded plugins');
+    else {
+      alert('failed to load plugins');
+      return;
+    }
+  }
+  /*************************************************************************
+   * We create a default configuration to be used by all the editors.
+   * If you wish to configure some of the editors differently this will be
+   * done later after editors are initiated.
+   ************************************************************************
+   * Please refer to http://xinha.python-hosting.com/wiki/Documentation/Customise
+   * for the configuration parameters
+   ************************************************************************/
+  var xinha_config = new Xinha.Config();
+  /************************************************************************
+   * We first create editors for the textareas.
+   * You can do this in two ways, either
+   *
+   *   xinha_editors   = Xinha.makeEditors(xinha_editors, xinha_config, xinha_plugins);
+   *
+   * if you want all the editor objects to use the same set of plugins, OR;
+   *
+   *   xinha_editors = Xinha.makeEditors(xinha_editors, xinha_config);
+   *   xinha_editors['myTextArea'].registerPlugins(['Stylist','FullScreen']);
+   *   xinha_editors['anotherOne'].registerPlugins(['CSS','SuperClean']);
+   *
+   * if you want to use a different set of plugins for one or more of the
+   * editors.
+   ************************************************************************/
+  xinha_editors = Xinha.makeEditors(xinha_editors, xinha_config, xinha_plugins);
+  /************************************************************************
+   * If you want to change the configuration variables of any of the
+   * editors,  this is the place to do that, for example you might want to
+   * change the width and height of one of the editors, like this...
+   ************************************************************************/
+  xinha_editors.text.config.width = '640px';
+  xinha_editors.text.config.height = '480px';
+  /************************************************************************
+   * Or remove the statusbar on the other one, like this...
+   * For every possible configuration, please refer to
+   * http://xinha.python-hosting.com/wiki/Documentation/ConfigVariablesList
+   ************************************************************************/
+  //xinha_editors.anotherOne.config.statusBar = false;
+  /************************************************************************
+   * Finally we "start" the editors, this turns the textareas into
+   * Xinha editors.
+   ************************************************************************/
+  Xinha.startEditors(xinha_editors);
+}
+window.onload = xinha_init;
+</script>
     </metal:script-slot>
   </head>
   <body>
@@ -79,7 +176,7 @@
                   <textarea id="description" name="description"></textarea>
                 </tal:description>
 
-                <metal:fieldMacro use-macro="python:here.widget('text', mode='edit')"/>
+                <textarea id="text" name="text" tal:content="context/getText"></textarea>
               </div><!-- end .oc-wiki-edit-content" --> 
  
               <div class="oc-js-expander oc-expander">
