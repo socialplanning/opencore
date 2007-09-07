@@ -41,3 +41,26 @@ And the object should be in the proper state
     >>> wft = self.portal.portal_workflow
     >>> wft.getInfoFor(mship, 'review_state')
     'public'
+
+If we create a closed project, we should verify that the member is in the
+public state
+    >>> self.login('m1')
+    >>> from opencore.nui.project.view import ProjectAddView
+    >>> request = self.portal.REQUEST
+    >>> view = ProjectAddView(self.portal.projects, request)
+    >>> request.form.update(dict(
+    ...   workflow_policy='closed_policy',
+    ...   update=True,
+    ...   featurelets=[],
+    ...   set_flets=1,
+    ...   __initialize_project__=False,
+    ...   id='new_closed_project',
+    ...   title='new_closed_project',
+    ...   ))
+    >>> request.set('flet_recurse_flag', None)
+    >>> html = view.handle_request()
+    >>> project = self.portal.projects.new_closed_project
+    >>> team = self.portal.portal_teams.new_closed_project
+    >>> mship = team.m1
+    >>> wft.getInfoFor(mship, 'review_state')
+    'public'
