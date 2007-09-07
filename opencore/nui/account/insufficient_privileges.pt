@@ -1,0 +1,19 @@
+<tal:redirect define="dummy view/privs_redirect" />
+<html metal:use-macro="here/@@standard_macros/master">
+
+<body>
+
+<div metal:fill-slot="content">
+   <div>
+      <h1 i18n:translate="heading_no_privileges">Insufficient Privileges</h1>
+
+      <p i18n:translate="description_no_privileges">
+      You do not have sufficient privileges to view this page.
+      </p>
+
+
+   </div>
+</div>
+
+</body>
+</html>

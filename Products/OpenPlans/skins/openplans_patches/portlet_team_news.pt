@@ -1,0 +1,68 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="plone">
+
+<body>
+
+<!-- teamspace-aware news portlet -->
+
+<div metal:define-macro="portlet"
+     tal:define="space here/ts_get_containing_space">
+
+  <span tal:condition="python:space is None"
+        tal:omit-tag="python:True">
+    <metal:block use-macro="here/portlet_news/macros/portlet" />
+  </span>
+
+  <span tal:condition="python:space is not None">
+
+    <tal:results define="path python:'/'.join(space.getPhysicalPath());
+                         results python:here.portal_catalog(portal_type='News Item',
+                                                            path=path,
+                                                            sort_on='Date',
+                                                            sort_order='reverse',
+                                                            sort_limit=5)[:5]"
+                 condition="results">
+
+      <dl class="portlet" id="portlet-team-news">
+
+        <dt class="portletHeader"
+            i18n:translate="portlet_team_news">
+          <!-- CHANGED HERE
+	  <span tal:content="space/title_or_id"
+                i18n:translate="" tal:omit-tag="">Team</span> News-->
+          <span i18n:translate="box_news">News</span>
+        </dt>
+
+        <tal:newsitems tal:repeat="obj results">
+          <dd tal:define="oddrow repeat/obj/odd"
+              tal:attributes="class python:test(oddrow, 'portletItem even', 'portletItem odd')">
+
+            <a href=""
+               tal:attributes="href obj/getURL;
+                               title obj/Description">
+              <tal:block replace="structure here/newsitem_icon.gif"/>
+              <span tal:replace="obj/pretty_title_or_id"> Extended Calendar Product</span>
+              <span class="portletItemDetails"
+                    tal:content="python:here.toLocalizedTime(obj.Date)">July 7, 08:11</span>
+            </a>
+          </dd>
+        </tal:newsitems>
+
+        <dd class="portletFooter">
+          <a href=""
+             tal:attributes="href python:here.absolute_url()+'/search?path=%s&amp;Type=News Item&amp;sort_on=Date&amp;sort_order=reverse&amp;sort_limit=10' % path"
+             i18n:translate="box_morelink"
+             >
+            More...
+          </a>
+
+        </dd>
+      </dl>
+    </tal:results>
+  </span>
+</div>
+
+</body>
+
+</html>

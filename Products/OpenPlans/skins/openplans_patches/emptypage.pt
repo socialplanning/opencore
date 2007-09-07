@@ -1,0 +1,27 @@
+<html class="kupu-html">
+  <head>
+    <title>Kupu Content</title>
+    
+    <link rel="stylesheet" type="text/css" href="#" tal:attributes="href string:${here/portal_url}/++resource++css/opencore.css" />
+    
+    <!--[if IE]>
+    <link rel="stylesheet" type="text/css" href="#" tal:attributes="href string:${here/portal_url}/++resource++css/ie.css" />
+    <![endif]-->
+    
+    <!--[if IE 6]>
+    <link rel="stylesheet" type="text/css" href="#" tal:attributes="href string:${here/portal_url}/++resource++css/ie6.css" />
+    <![endif]-->
+    
+    <base href="emptypage"
+        tal:define="folderish here/isPrincipiaFolderish; tail python:test(folderish, '/', '');"
+        tal:attributes="href string:${request/URL1}${tail}" />
+  </head>
+  <body class="kupu oc-wiki-content">
+   
+   <tal:comment replace="nothing">    
+      This template is an empty placeholder, used for loading contents
+      into the Kupu editor-iframe.
+   </tal:comment>
+   
+  </body>
+</html>

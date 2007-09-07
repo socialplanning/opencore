@@ -1,0 +1,71 @@
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:Invitations - ${view/area/Title} on OpenPlans" />
+  </head>
+  <body>
+
+    <div metal:fill-slot="content">
+
+      <form tal:attributes="action request/ACTUAL_URL">
+
+        <table class="oc-dataTable" cellpadding="0" cellspacing="0">
+          <thead>
+            <tr>
+              <th class="" style="width: 10px;" scope="col"><input class="oc-checkAll" type="checkbox" /></th>
+              <th class="oc-columnSortable" style="width: 200px;" scope="col">Project</th>
+              <th class="oc-columnSortable" scope="col">Since</th>
+              <th class="oc-columnSortable" scope="col">Join</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="oc-js-liveEdit"
+                tal:repeat="projinfo view/projinfos"
+                tal:attributes="id string:proj_${projinfo/proj_id}">
+              <td>
+                <input type="checkbox"
+                       name="check:list"
+                       checked="1"
+                       tal:attributes="value projinfo/proj_id" />
+              </td>
+              <td class="oc-dataTable-row-title">
+                <a tal:attributes="href projinfo/url"
+                   tal:content="projinfo/title"
+                   />
+              </td>
+              <td class="oc-dataTable-row-title"
+                  tal:content="projinfo/since"
+                  />
+              <td>
+                <ul class="oc-actions oc-dataTable-row-actions">
+                  <li>
+                    <a class="oc-actionLink oc-js-actionLink"
+                       tal:attributes="href string:${request/ACTUAL_URL}?task|${projinfo/proj_id}|join=Join"
+                       tal:content="string:Join"
+                       />
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <ul class="oc-actions oc-dataTable-actions">
+          <li>
+            <input type="submit" name="task|batch_check|join" value="Join projects"
+                   class="oc-button oc-chooseThis oc-js-actionButton" />
+          </li>
+          <noscript>
+            <li>
+              <input type="submit"
+                     name="task|batch_check|join"
+                     value="Change listing"
+                     class="oc-button" />
+            </li>
+          </noscript>
+        </ul>
+
+      </form>
+
+    </div><!-- content-fill-slot -->
+</body>
+</html>

@@ -1,0 +1,121 @@
+OctopoLite.
+
+What is it??
+
+It is a fusion of Octopus and FormLite!  It is a wonderful thing!
+
+See octopus.txt and formlite.txt for details of each.
+
+To use OctopoLite in a NUI view::
+
+ * bind a single view in ZCML with no attribute or template
+ * extend BaseView and OctopoLite, eg
+      class MyView(BaseView, OctopoLite):
+ * specify a default dispatchable method for rendering the form, eg
+          @action('render_form', default=True)
+          def render_form(self, target=None, fields=None):
+              return ZopeTwoPageTemplateFile('myform.pt')()
+ * specify dispatchable methods for all of your form actions, eg
+          @action('delete', apply=post_only)
+          def render_form(self, target=None, fields=None):
+              cmds = {}
+              for oid in target:
+                  del self.obj[oid]
+                  cmds[oid] = {'action': 'delete'}
+              return cmds
+
+And that's about it! Note the required target, fields signature for
+your action methods. See bottom of this file for the syntax of
+the JSON object to be returned to the client.
+
+   >>> from opencore.nui.formhandler import OctopoLite, action
+   >>> def decorator(func):
+   ...     def inner(self, *a, **b):
+   ...         print "in decorator!"
+   ...         return func(self, *a, **b)
+   ...     return inner
+   >>> class FormTest(OctopoLite):
+   ...     template = lambda self: 'my template'
+   ...     request = type('request', (object,), dict(form={}, environ={'HTTP_REFERER': "http://nohost"}))
+   ...     def redirect(self, to):
+   ...         return to
+   ...     
+   ...     @action('roklok', default=True)
+   ...     def do_roklok(self, target=None, fields=None):
+   ...         print "Rock!"
+   ...         
+   ...     @action('sod')
+   ...     def do_sign_of_devil(self, target, fields=None):
+   ...         print "eggs of the devil!"
+   ...         return [i for i in target]
+   ...     
+   ...     @action('fine', apply=decorator)
+   ...     def fine(self, target=None, fields=None):
+   ...         print "fine!"
+   ...         
+
+   >>> view = FormTest()
+
+The dispatcher is a rock. It dispatches based on the action it finds
+in the form, encoded in an octopized format in the "task" field::
+
+   >>> view.request.form['task|dummy|sod'] = 'Foo'
+   >>> view()
+   eggs of the devil!
+   'my template'
+
+Since that request was not issued asynchronously, Octopolite swallowed
+the method's return value and returned a rendered template. We
+can issue requests asynchronously to get back the return value directly::
+
+   >>> view.request.form['mode'] = 'async'
+
+Stub out response (will be set in BaseView when live)
+   >>> class ResponseStub(object):
+   ...     def setHeader(self, *a):
+   ...         return None
+   >>> view.response = ResponseStub()
+
+   >>> view()
+   eggs of the devil!
+   "<html><body> ['dummy'] </body></html>"
+
+A request with no actions will dispatch to the action specified as default::
+
+   >>> del view.request.form['task|dummy|sod']
+   >>> view()
+   Rock!
+   '<html><body> {} </body></html>'
+
+You will probably want to specify decorators, like post_only or
+jsonify, to be triggered only if the action is dispatched to, but
+are not triggered if the action is called directly::
+
+   >>> view.request.form['task|dummy|fine'] = 'Click here!'
+   >>> view()
+   in decorator!
+   fine!
+   '<html><body> {} </body></html>'
+
+   >>> view.fine()
+   fine!
+
+The JSON object to be returned from your action methods:
+
+Return a dictionary whose KEYS are ids of existing DOM elements on the
+page, and whose VALUES are a JSON object (with all fields optional):
+
+class ActionInfo {
+  string html;   # a string which can be evaluated as HTML and rendered 
+                 # into DOM elements (quoted HTML or plain text)
+  string effect; # a comma-separated string of JavaScript effects to apply
+                 # to the element referred to in the id key, like fadeOut,
+                 # highlight, or blink (we need to define a fixed set)
+  string action; # a string indicating what action to take on the DOM element
+                 # specified in the id key: replace, drop, append, prepend, copy
+}
+
+So a sample response might look like
+
+{'msg_el': {'html': "Changes saved!", 'action': "copy", 'effect':"blink"},
+ 'obj_id': {'action': "delete"} }

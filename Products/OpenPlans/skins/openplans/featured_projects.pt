@@ -1,0 +1,12 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US"
+      lang="en-US"
+      i18n:domain="plone">
+
+<body>
+
+  <div metal:define-macro="featured_projects">
+    <h2>Featured Projects</h2>
+  </div>
+
+</body>
+</html>

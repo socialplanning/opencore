@@ -1,0 +1,43 @@
+<schema>
+    <description format="rest">
+This is the schema for plugins as defined and consumed by the
+openproject class. Each plugin contains information to install, and
+remove itself from a given project.
+    </description>
+
+    <sectiontype name="plugin">
+       <key name="id" required="yes"/>
+       <key name="title"/>
+       <key name="packagename"/>
+       <key name="instance_type">
+         <description>
+           instance_type is the optional meta type of an element of
+           packagename that should be installed.
+         </description>
+       </key>
+       <key name="installer" required="yes"/>
+       <key name="simple_uninstall" datatype="integer" default="0"/>
+       <key name="default" datatype="integer">
+         <description>
+           Is the plugin installed into new projects by default
+         </description>
+       </key>
+       <key name="swallow_errors">
+         <description>
+           if true, then exceptions raised during plugin initialization
+           will be caught and ignored
+         </description>
+       </key>
+
+      <!-- presentation information -->
+      <key name="listed" datatype="integer" default="1"/>
+      <key name="icon" default="pf_tool.png"/>
+      <!--      for the slots this would be the traversable path -->
+      <!--      to the portlet                                   -->
+      <multikey name="left_slot"/>
+      <multikey name="right_slot"/>
+      <key name="summary_macro"/>
+    </sectiontype>
+
+    <multisection type="plugin" name="*" attribute="plugins"/>
+</schema>

@@ -1,0 +1,127 @@
+<tal:vars define="can_add_lists python:view.membertool.checkPermission('Listen: Add list', here);
+                  site_properties here/portal_properties/site_properties;
+                  isAnon not: view/loggedin">
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:Mailing Lists - ${view/area/Title}" />
+  </head>
+  <head>
+    <metal:do metal:fill-slot="script">
+      <script src="++resource++javascripts/delete_list.js"></script>
+    </metal:do>
+  </head>
+  <body>
+    <div metal:fill-slot="content">
+      <div id="oc-content-main">
+
+        <div class="oc-headingBlock">
+          <h1>Mailing lists</h1>
+          <p class="oc-headingContent">
+            View<span tal:condition="can_add_lists"> or manage exisiting</span> mailing lists<span tal:condition="can_add_lists"> or <a href="opencore.add_mailinglist">add a new mailing list</a></span>.
+          </p>
+        </div>
+  
+        <tal:foldercontents define="contentFilter contentFilter|request/contentFilter|nothing;
+                                    limit_display limit_display|request/limit_display|nothing;
+                                    more_url more_url|request/more_url|string:folder_contents;
+                                    contentsMethod python:here.portal_type=='Topic' and here.queryCatalog or here.getFolderContents;
+                                    folderContents folderContents|python:contentsMethod(contentFilter);
+                                    use_view_action site_properties/typesUseViewActionInListings|python:();
+                                    over_limit python: limit_display and len(folderContents) > limit_display;
+                                    folderContents python: (over_limit and folderContents[:limit_display]) or folderContents;
+                                    show_about python:not isAnon or site_properties.allowAnonymousViewAbout">
+          <tal:listing condition="folderContents" define="toLocalizedTime nocall:here/toLocalizedTime;">
+            <table class="oc-dataTable" cellspacing="0">
+            
+              <thead>
+                <tr>
+                  <th scope="col">Mailing list</th>
+                  <th>Last activity</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr tal:repeat="item folderContents">
+                  <tal:block tal:define="item_url item/getURL|item/absolute_url;
+                      item_id item/getId|item/id;
+                      item_title_or_id item/pretty_title_or_id;
+                      item_description item/Description;
+                      item_type item/portal_type;
+                      item_type_title item/Type;
+                      item_modified item/ModificationDate;
+                      item_created item/CreationDate;
+                      item_type_class python: 'contenttype-' + view.context.plone_utils.normalizeString(item_type);
+                      item_wf_state        item/review_state|python: wtool.getInfoFor(item, 'review_state', '');
+                      item_wf_state_class python:'state-' + view.context.plone_utils.normalizeString(item_wf_state);
+                      item_creator item/Creator;
+                      item_start item/start/ISO|item/StartDate|nothing;
+                      item_end item/end/ISO|item/EndDate|nothing;
+                      ">
+                      <td>
+                        <dl class="oc-plainList">
+                          <dt class="oc-bigText">
+                            <a href="#" tal:content="item_title_or_id"
+                              tal:attributes="href python:item_type in use_view_action and item_url+'/view' or item_url+'/';">
+                              Item Title
+                            </a>
+                          </dt>
+                          <dd tal:condition="view/loggedin" tal:content="python:item.getObject().mailto">listaddress@lists.openplans.org</dd>
+                          <!-- <dd class="oc-discreetText" tal:condition="item_creator"
+                                    tal:define="author python:view.membertool.getMemberInfo(item_creator)">
+                            <span i18n:translate="label_by_author">
+                              by
+                              <a href="#"
+                                 tal:attributes="href string:${view/siteURL}/people/${item_creator}"
+                                 tal:content="python:author and author['fullname'] or item_creator"
+                                 tal:omit-tag="not:author"
+                                 i18n:name="author">
+                                Bob Dobalina
+                              </a>
+                            </span>
+                          </dd> -->
+                          <dd tal:condition="item_description" tal:content="item_description"/>
+                        </dl>
+                      </td>
+                      <td tal:content="item_modified" />
+                      <td>
+                        <form name="LIST_ID_form"
+                            action="confirm_delete_list"
+                            tal:attributes="name string:${item_id}_form">
+                          <tal:delete
+                             condition="can_add_lists">
+                            <input type="hidden"
+                                  name="list_id"
+                                  value="LIST_ID"
+                                  tal:attributes="value item_id" />
+                            <input type="hidden"
+                                  name="LIST_ID_confirm_delete"
+                                  id="LIST_ID_confirm_delete"
+                                  value="false"
+                                  tal:define="name string:${item_id}_confirm_delete"
+                                  tal:attributes="name name;id name" />
+                            <input type="submit"
+                                  name="LIST_ID_submit_delete"
+                                  value="Delete"
+                                  onclick="DELETELIST_CONFIRM"
+                                  tal:attributes="name string:${item_id}_submit_delete;
+                                      onclick string:javascript:deletelist_openConfirmation('${here/absolute_url}', '$item_id')" />
+                          </tal:delete>
+                        </form>
+                      </td>
+                    </tal:block>
+                </tr>
+              </tbody>
+            </table>
+          </tal:listing>
+  
+          <p tal:condition="not: folderContents" i18n:translate="description_no_items_in_folder">
+            There are currently no mailing lists for this project.
+          </p>
+  
+        </tal:foldercontents>
+      </div>
+    </div>
+  </body>
+</html>
+</tal:vars>

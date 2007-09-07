@@ -1,0 +1,73 @@
+<metal:template define-macro="master">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head profile="http://gmpg.org/xfn/11">
+    <base tal:attributes="href string:${context/absolute_url}/" />
+
+    <!--
+    <title tal:content="view/windowtitle" />
+    -->
+
+    <metal:title-slot define-slot="title" />
+
+    <link rel="stylesheet" href="/++resource++css/plone.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="/++resource++css/opencore.css" type="text/css" media="all" />
+    <!--[if IE]>
+      <link rel="stylesheet" href="++resource++css/ie.css" type="text/css" media="all" />
+    <![endif]-->
+    <!--[if IE 6]>
+      <link rel="stylesheet" href="++resource++css/ie6.css" type="text/css" media="all" />
+    <![endif]-->
+    
+    <link rel="shortcut icon" type="image/x-icon" href="/++resource++img/favicon.ico" />
+
+    <!-- theme CSS -->
+    <link rel="stylesheet" href="/++resource++css/themes/openplans.css" type="text/css" media="all" />
+    <!-- TODO print style sheet -->
+
+    <script type="text/javascript" src="/++resource++javascripts/yui-ext/yahoo-dom-event.js"></script>
+    <script type="text/javascript" src="/++resource++javascripts/yui-ext/connection-min.js"></script>
+    <script type="text/javascript" src="/++resource++javascripts/yui-ext/animation-min.js"></script>
+    <script type="text/javascript" src="/++resource++javascripts/yui-ext/ext.js"></script>
+    <link rel="stylesheet" type="text/css" href="/++resource++javascripts/yui-ext/resources/css/xtheme-opencore.css" />
+    
+    
+    <script type="text/javascript" src="/++resource++javascripts/oc-behaviors.js" ></script>
+    <script type="text/javascript" src="/++resource++javascripts/firebug/firebug.js" ></script>
+
+    <!-- allows for the insertion of css and other linked features -->
+    <metal:link-slot define-slot="link"/>   
+
+    <!-- allows for the insertion of javascript -->
+    <metal:script-slot define-slot="script"/>
+  </head>  
+  <body>
+    <div id="oc-page-container">
+      
+      
+      <div id="oc-topnav-wrapper">
+        <div tal:replace="structure here/@@oc-topnav" />
+      </div>
+
+      <div id="oc-content-wrapper">
+
+        <div id="oc-content-container">
+
+          <metal:status-messages
+             use-macro="view/main_macros/macros/status-messages" />
+
+          <!-- content is injected here -->
+          <tal:everything metal:define-slot="content" />
+          <hr class="oc-clearElement" />
+        
+        </div>
+      </div>
+      <div id="oc-footer-wrapper">
+        <div tal:replace="structure here/@@oc-footer" />
+      </div>
+    </div>
+
+  </body>
+</html>
+</metal:template>
+
