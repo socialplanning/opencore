@@ -61,7 +61,6 @@ class WikiEdit(WikiBase, OctopoLite):
                 self.addPortalStatusMessage(msg)
             return self.errors
 
-        print self.request.form
         allowed_params = set(['comment', 'oc-target', 'text_file', 'title', 'text', 'attachmentFile', 'submitted', 'text_text_format', 'attachmentTitle', 'task|save'])
         new_form = {}
         for k in self.request.form:
@@ -324,3 +323,12 @@ class AttachmentView(BaseView):
             idx += 1
 
         return ('%s.%s.%s' % (name, str(idx), ext))
+
+
+class WikiNewsEditView(WikiEdit):
+    """Should look exactly like wiki edit, but also contain description field"""
+
+    def handle_save(self, target=None, fields=None):
+        description = self.request.form.get('description', '').strip()
+        self.context.setDescription(description)
+        return super(WikiNewsEditView, self).handle_save(target, fields)

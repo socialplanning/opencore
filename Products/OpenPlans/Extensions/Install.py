@@ -44,6 +44,7 @@ from Products.OpenPlans.workflows import member
 from Products.OpenPlans.workflows import team
 from Products.OpenPlans.workflows import WORKFLOW_MAP
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
+from Products.OpenPlans.workflows import MEMBERSHIP_PLACEFUL_POLICIES
 from Products.OpenPlans.Extensions.utils import setupKupu
 
 from opencore.interfaces import IAddProject
@@ -107,6 +108,22 @@ def installRoles(portal, out):
     tmtool.setDefaultRoles(config.DEFAULT_ROLES[:1])
     tmtool.setDefaultActiveStates(config.DEFAULT_ACTIVE_MSHIP_STATES)
 
+def install_team_placeful_workflow_policies(portal, out):
+    print >> out, 'Installing team placeful workflow policies'
+
+    # Install default policy
+    pwf_tool = getToolByName(portal, 'portal_placeful_workflow')
+    teams = getToolByName(portal, 'portal_teams')
+    wf_config = pwf_tool.getWorkflowPolicyConfig(teams)
+    if wf_config is None:
+        print >> out, 'Setting default team security policy to Open'
+        teams.manage_addProduct['CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
+        wf_config = pwf_tool.getWorkflowPolicyConfig(teams)
+        wf_config.setPolicyBelow(policy='mship_open_policy')
+        wf_tool = getToolByName(teams, 'portal_workflow')
+        wf_tool.updateRoleMappings()
+
+
 def installZ3Types(portal, out):
     """ Installs types defined by z3 schemas """
     ttool = getToolByName(portal, 'portal_types')
@@ -128,7 +145,8 @@ def install_workflow_map(portal, out, wfs=WORKFLOW_MAP):
             # XXX DCWorkflowDump doesn't yet support the 'manager_bypass'
             #     option.  when it does, the next 3 lines can be removed.
             if wf not in ('openplans_member_workflow',
-                          'openplans_team_membership_workflow'):
+                          'openplans_team_membership_workflow',
+                          'closed_openplans_team_membership_workflow'):
                 wfobj = wf_tool.getWorkflowById(wf)
                 wfobj.manager_bypass = 1
 
@@ -145,6 +163,8 @@ def installWorkflows(portal, out):
 def installWorkflowPolicies(portal, out):
     pwf_tool = getToolByName(portal, 'portal_placeful_workflow')
     pols = PLACEFUL_POLICIES
+    # also initialize the membership placeful policies
+    pols.update(MEMBERSHIP_PLACEFUL_POLICIES)
     existing_pols = pwf_tool.objectIds()
     default_chains = getDefaultChains(portal)
     for pol_id, pol in pols.items():
@@ -726,5 +746,6 @@ def install(self, migrate_atdoc_to_openpage=True):
     install_local_transient_message_utility(portal, out)
     install_email_invites_utility(portal, out)
     updateWorkflowRoleMappings(portal, out)
+    install_team_placeful_workflow_policies(portal, out)
     print >> out, "Successfully installed %s." % config.PROJECTNAME
     return out.getvalue()

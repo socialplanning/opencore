@@ -3,6 +3,7 @@ from logging import getLogger, INFO
 from pprint import pprint
 
 from zope.component import getUtility
+from zope.interface import alsoProvides
 
 from topp.utils import config
 from topp.featurelets.interfaces import IFeatureletSupporter, IFeatureletRegistry
@@ -27,7 +28,7 @@ from Products.OpenPlans import config as op_config
 from indexing import createIndexes
 from DateTime import DateTime
 from topp.featurelets.interfaces import IFeatureletSupporter
-from opencore.interfaces import IOpenPage
+from opencore.interfaces import IOpenPage, INewsItem
 from opencore.nui.project.metadata import _update_last_modified_author
 
 logger = getLogger(op_config.PROJECTNAME)
@@ -114,12 +115,15 @@ def migrate_mship_workflow_states(portal):
     catalog = getToolByName(portal, 'portal_catalog')
     mships = catalog(portal_type='OpenMembership', review_state='committed')
     wft = getToolByName(portal, 'portal_workflow')
-    wfid = 'openplans_team_membership_workflow'
+    pwft = getToolByName(portal, 'portal_placeful_workflow')
     mstool = getToolByName(portal, 'portal_membership')
     actor = mstool.getAuthenticatedMember().getId()
     timestamp = str(DateTime())
     for mship in mships:
         mship = mship.getObject()
+        config = pwft.getWorkflowPolicyConfig(mship)
+        wfids = config.getPlacefulChainFor('OpenMembership')
+        wfid = wfids[0]
         status = wft.getStatusOf(wfid, mship)
         status['review_state'] = 'public' # this is the important part
         status['actor'] = actor
@@ -228,6 +232,15 @@ def annotate_last_modified_author(portal):
             # (like for our test content)
             pass
 
+def markNewsItems(portal):
+    cat = getToolByName(portal, 'portal_catalog')
+    path = '/'.join([portal.absolute_url_path(), 'news'])
+    brains = cat(path=path, portal_type='Document')
+    for brain in brains:
+        ni = brain.getObject()
+        if not INewsItem.providedBy(ni):
+            alsoProvides(ni, INewsItem)
+
 from Products.Archetypes.utils import OrderedDict
 
 nui_functions = OrderedDict()
@@ -263,6 +276,7 @@ nui_functions['Set site email addresses'] = convertFunc(setSiteEmailAddresses)
 nui_functions['annotate last modified author'] = annotate_last_modified_author
 nui_functions["Propagate workflow security settings"] = \
                          convertFunc(updateWorkflowRoleMappings)
+nui_functions['markNewsItems'] = markNewsItems
 
 
 def run_nui_setup(portal):

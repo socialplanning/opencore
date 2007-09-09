@@ -49,21 +49,44 @@ Exercise the Member Account Class
     >>> view
     <opencore.nui.member.view.MemberAccountView object at ...>
 
+    Login as the m1 user
+    >>> self.login('m1')
+
+    Create a project starting with a capital letter to test case insensitive
+    sort
+    >>> from opencore.nui.project.view import ProjectAddView
+    >>> proj_add_view = ProjectAddView(self.portal.projects,
+    ...                                self.portal.REQUEST)
+    >>> request = proj_add_view.request.form
+    >>> request['id'] = 'apples'
+    >>> request['title'] = 'apples are good'
+    >>> request['workflow_policy'] = 'medium_policy'
+    >>> request['__initialize_project__'] = True
+    >>> html = proj_add_view.handle_request()
+    >>> apple_project = self.portal.projects.apples
+    >>> apple_project
+    <OpenProject at /plone/projects/apples>
+    >>> delattr(proj_add_view, '_redirected')
+    >>> proj_add_view.portal_status_message
+    [u'"apples are good" has been created...]
+
     Check projects for user m1
     >>> project_dicts = view.projects_for_user
 
-    Check the projects and active states
+    Check the projects and active states (these are sorted on project title)
     >>> [d['proj_id'] for d in project_dicts]
-    ['p2', 'p3', 'p1']
+    ['apples', 'p1', 'p3', 'p2']
     >>> [d['title'] for d in project_dicts]
-    ['Project Two', 'Project Three', 'Project One']
+    ['apples are good', 'Project One', 'Project Three', 'Project Two']
     >>> [d['listed'] for d in project_dicts]
-    [True, True, True]
+    [True, True, True, True]
 
     Now, let's have a member leave a project::
 
     But first, if we're not logged in as the member,
     we should get a portal status message back and a False return
+    >>> self.logout()
+    >>> self.login('test_user_1_')
     >>> view.leave_project('p2')
     False
     >>> view.portal_status_message
@@ -82,13 +105,13 @@ Exercise the Member Account Class
     >>> self.clearMemoCache()
     >>> project_dicts = view.projects_for_user
     >>> [d['proj_id'] for d in project_dicts]
-    ['p3', 'p1']
+    ['apples', 'p1', 'p3']
 
     Now we'll try to set the listing as private:
 
     First though, let's verify that he is currently listed as public
     >>> [d['listed'] for d in project_dicts]
-    [True, True]
+    [True, True, True]
 
     Now let's make him private for project 3
     >>> view.change_visibility('p3')
@@ -98,7 +121,7 @@ Exercise the Member Account Class
     >>> self.clearMemoCache()
     >>> project_dicts = view.projects_for_user
     >>> [d['listed'] for d in project_dicts]
-    [False, True]
+    [True, True, False]
 
     And he should still be able to leave a project when private
     >>> view._can_leave('p3')
@@ -112,7 +135,7 @@ Exercise the Member Account Class
     >>> self.clearMemoCache()
     >>> project_dicts = view.projects_for_user
     >>> [d['listed'] for d in project_dicts]
-    [True, True]
+    [True, True, True]
 
     Check invitations for m1
     >>> view.invitations()
@@ -148,9 +171,14 @@ Exercise the Member Account Class
     >>> proj['proj_id']
     'p4'
 
-    Pending members should be listed as public
-    >>> proj['listed']
+    Member is pending
+    >>> proj['is_pending']
     True
+
+    Pending members will have a false listing
+    But it really doesn't matter because they don't get a listed column
+    >>> proj['listed']
+    False
 
     And one should still be pending, which project admins approve
     >>> self.clearMemoCache()
@@ -162,7 +190,7 @@ Exercise the Member Account Class
     >>> self.clearMemoCache()
     >>> project_dicts = view.projects_for_user
     >>> [d['proj_id'] for d in project_dicts]
-    ['p2', 'p3', 'p1']
+    ['apples', 'p1', 'p3', 'p2']
 
     Check the info messages on the member:
     >>> list(view.infomsgs)
@@ -179,7 +207,7 @@ Exercise the Member Account Class
     >>> self.clearMemoCache()
     >>> project_dicts = view.projects_for_user
     >>> [d['proj_id'] for d in project_dicts]
-    ['p3', 'p1']
+    ['apples', 'p1', 'p3']
 
     And when we try to leave a pending mship that's an invitation
     (should never happen, but with users messing with request) We
@@ -238,7 +266,7 @@ Let's accept our gracious invitation
 
     But a part of the project
     >>> sorted([d['proj_id'] for d in view.projects_for_user])
-    ['p1', 'p3', 'p4']
+    ['apples', 'p1', 'p3', 'p4']
 
 And now if we were to receive an info message::
 
@@ -293,7 +321,7 @@ Let's also reject an invitation extended to us::
     >>> view.invitations()
     []
     >>> sorted([d['proj_id'] for d in view.projects_for_user])
-    ['p1', 'p3', 'p4']
+    ['apples', 'p1', 'p3', 'p4']
 
     What happens if we try to perform an action on something that doesn't
     exist? Right now we get a portal status message

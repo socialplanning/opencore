@@ -1,6 +1,7 @@
 import re
 import urllib
 import string
+from operator import attrgetter
 
 from topp.utils.detag import detag
 
@@ -597,17 +598,15 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
 
             mto = self.team.get_admin_ids()
 
-            # XXX what do we do if there are no project admins?
-            # for now, let's just catch a mailhosterror, and set a psm
-            # XXX is this needed any longer?
-            try:
-                for recipient in mto:
+            for recipient in mto:
+                try:
                     sender.sendEmail(recipient, msg=email_msg, **email_vars)
-                psm = (u'Your request to join "%s" has been sent to the project administrators.' % self.context.title)
-            except MailHostError:
-                psm = (u'An error has occurred. Your message has not been sent to the project administrators.')
+                except MailHostError:
+                    pass
+            psm = (u'Your request to join "%s" has been sent to the project administrator(s).' % self.context.title)
         else:
             psm = (u"You are already a pending or active member of %s." % self.context.title)
+
         self.addPortalStatusMessage(psm)
         self.template = None # don't render the form before the redirect
         self.redirect(self.context.absolute_url())
@@ -620,6 +619,8 @@ class ProjectTeamView(TeamRelatedView):
    
     @formhandler.button('sort')
     def handle_request(self):
+        # this is what controls which sort method gets dispatched to
+        # in the memberships property
         self.sort_by = self.request.form.get('sort_by', None)
 
     def handle_sort_membership_date(self):
@@ -629,8 +630,16 @@ class ProjectTeamView(TeamRelatedView):
                  sort_on='made_active_date',
                  sort_order='descending',
                  )
-        
+
         membership_brains = self.catalog(**query)
+        # XXX for some reason, the descending sort is not working properly
+        # seems to only want to be ascending
+        # so let's just use python sort to sort the results ourselves
+        membership_brains = sorted(
+            membership_brains,
+            key=attrgetter('made_active_date'),
+            reverse=True)
+
         mem_ids = [b.getId for b in membership_brains]
         
         query = dict(portal_type='OpenMember',
@@ -652,7 +661,18 @@ class ProjectTeamView(TeamRelatedView):
         query = dict(sort_on='sortableLocation',
                      getId=mem_ids,
                      )
+        # XXX these are member brains, not membership brains
         results = self.membranetool(**query)
+        # XXX sort manually here, because it doesn't look like the catalog
+        # has the ability to sort on multiple fields
+        def sort_location_then_name(x, y):
+            xloc, yloc = x.getLocation.lower(), y.getLocation.lower()
+            if xloc < yloc: return -1
+            if yloc < xloc: return 1
+            return cmp(x.getId.lower(), y.getId.lower())
+
+        results = sorted(results, cmp=sort_location_then_name)
+        
         return self._get_batch(results, self.request.get('b_start', 0))
 
     def handle_sort_contributions(self):
@@ -852,22 +872,13 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     def transient_msgs(self):
         return getUtility(ITransientMessage, context=self.portal)
 
-    def _add_transient_msg_for(self, mem_id, status):
+    def _add_transient_msg_for(self, mem_id, msg):
         # XXX not happy about generating the html for this here ... but it's a one liner
         # can move to a macro
         proj_url = self.context.absolute_url()
         title = self.context.title
-        msg = 'You have been %(status)s <a href="%(proj_url)s">%(title)s</a>' % locals()
+        msg = '%(msg)s <a href="%(proj_url)s">%(title)s</a>' % locals()
         self.transient_msgs.store(mem_id, self.msg_category, msg)
-
-    def _add_approval_message_for(self, mem_id):
-        self._add_transient_msg_for(mem_id, 'accepted to')
-
-    def _add_deny_message_for(self, mem_id):
-        self._add_transient_msg_for(mem_id, 'denied membership to')
-
-    def _add_removal_message_for(self, mem_id):
-        self._add_transient_msg_for(mem_id, 'deactivated from')
 
 
     ##################
@@ -876,6 +887,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
     @formhandler.action('approve-requests')
     def approve_requests(self, targets, fields=None):
+
+        if not targets:
+            self.addPortalStatusMessage(u'Please select members to approve.')
+            return {}
+
         mem_ids = targets
         wftool = self.get_tool('portal_workflow')
         team = self.team
@@ -896,7 +912,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             self.email_sender.sendEmail(mem_id, msg_id='request_approved',
                                         project_title=self.context.title,
                                         project_url=self.context.absolute_url())
-            self._add_approval_message_for(mem_id)
+            self._add_transient_msg_for(mem_id, 'You have been accepted to')
             res[mem_id] = {'action': 'delete'}
             # will only be one mem_id in AJAX requests
             brain = self.catalog(path='/'.join(mship.getPhysicalPath()))[0]
@@ -914,6 +930,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                                     (napproved, plural and 's' or ''))
         if napproved:
             self.team.reindexTeamSpaceSecurity()
+
         return res
 
     @formhandler.action('discard-requests')
@@ -925,31 +942,40 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         Currently hidden in UI because it's confusing to have two
         options with no explanation.
         """
+        if not targets:
+            self.addPortalStatusMessage(u'Please select members to discard.')
+            return {}
+
         # copy targets list b/c manage_delObjects empties the list
         mem_ids = targets[:]
         self.team.manage_delObjects(ids=mem_ids)
-        msg = u"Requests discarded: %s" % ', '.join(targets)
+        msg = u"Requests discarded: %s" % ', '.join(mem_ids)
         
         self.addPortalStatusMessage(msg)
-        return dict( ((mem_id, {'action': 'delete'}) for mem_id in targets) )
+        return dict( ((mem_id, {'action': 'delete'}) for mem_id in mem_ids) )
 
     @formhandler.action('reject-requests')
     def reject_requests(self, targets, fields=None):
         """
         Notifiers should be handled by workflow transition script.
         """
-        mem_ids = targets
+        if not targets:
+            self.addPortalStatusMessage(u'Please select members to deny.')
+            return {}
+
+        # copy targets list b/c manage_delObjects empties the list
+        mem_ids = targets[:]
         self.doMshipWFAction('reject_by_admin', mem_ids)
         sender = self.email_sender
         msg = sender.constructMailMessage('request_denied',
                                           project_title=self.context.title)
         for mem_id in mem_ids:
             sender.sendEmail(mem_id, msg=msg)
-            self._add_deny_message_for(mem_id)
+            self._add_transient_msg_for(mem_id, 'You have been denied membership to')
 
         msg = u"Requests denied: %s" % ', '.join(mem_ids)
         self.addPortalStatusMessage(msg)
-        return dict( ((mem_id, {'action': 'delete'}) for mem_id in targets) )
+        return dict( ((mem_id, {'action': 'delete'}) for mem_id in mem_ids) )
 
 
     ##################
@@ -964,7 +990,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         """
         mem_ids = targets
         wftool = self.get_tool('portal_workflow')
-        wf_id = 'openplans_team_membership_workflow'
+        pwft = getToolByName(self, 'portal_placeful_workflow')
         deletes = []
         sender = self.email_sender
         msg = sender.constructMailMessage('invitation_retracted',
@@ -972,6 +998,12 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         ret = {}
         for mem_id in mem_ids:
             mship = self.team.getMembershipByMemberId(mem_id)
+            config = pwft.getWorkflowPolicyConfig(mship)
+            if config is not None:
+                wf_ids = config.getPlacefulChainFor('OpenMembership')
+                wf_id = wf_ids[0]
+            else:
+                wf_id = 'openplans_team_membership_workflow'
             status = wftool.getStatusOf(wf_id, mship)
             if status.get('action') == 'reinvite':
                 # deactivate
@@ -1117,7 +1149,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                                  project_title=self.context.title)
             except MailHostError:
                 self.addPortalStatusMessage('Error sending mail to: %s' % mem_id)
-            self._add_removal_message_for(mem_id)
+            self._add_transient_msg_for(mem_id, 'You have been deactivated from')
             ret[mem_id] = {'action': 'delete'}
 
         if mems_removed:
@@ -1125,7 +1157,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         elif mem_ids:
             msg = 'Cannot remove last admin: %s' % mem_ids[0]
         else:
-            msg = 'Please select a member to remove'
+            msg = 'Please select members to remove.'
         self.addPortalStatusMessage(msg)
 
         self.team.reindexTeamSpaceSecurity()
@@ -1164,6 +1196,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                     commands[mem_id] = {'action': 'replace',
                                         'html': html,
                                         'effects': 'highlight'}
+                    transient_msg = (team.getHighestTeamRoleForMember(mem_id) == 'ProjectAdmin'
+                                     and 'You are now an admin at'
+                                     or 'You are no longer an admin at')
+                    self._add_transient_msg_for(mem_id, transient_msg)
+                        
 
             msg = u'Role changed for the following members: %s' \
                   % ', '.join(changes)

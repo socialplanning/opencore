@@ -15,7 +15,14 @@
         <tbody>
           <tr>
             <th class="oc-form-label" scope="row"><label for="__ac_name">Username </label></th>
-            <td class="oc-form-value"><input type="text" size="15" tabindex="0" name="__ac_name" value="" id="__ac_name" class="oc-autoFocus" /></td>
+            <td class="oc-form-value" tal:define="url request/ACTUAL_URL">
+              <tal:focused_username condition="python: url.endswith('/login')">
+                <input type="text" size="15" tabindex="0" name="__ac_name" value="" id="__ac_name" class="oc-autoFocus" />
+              </tal:focused_username>
+              <tal:unfocused_username condition="python: not url.endswith('/login')">
+                <input type="text" size="15" tabindex="0" name="__ac_name" value="" id="__ac_name" />
+              </tal:unfocused_username>
+            </td>
             <td class="oc-form-help">
               <span class="oc-form-context"></span>
               <span id="oc-validator-username" class="oc-form-validator"></span>

@@ -50,9 +50,9 @@ Now try sorting the projects::
    >>> [b.Title for b in brains]
    ['Project Two', 'Project Three', 'Project One', 'Project Four']
 
-Explicitly sort on relevancy::
+Explicitly sort on name::
 
-   >>> brains = view.search_for_project_by_letter('P', sort_by='relevancy')
+   >>> brains = view.search_for_project_by_letter('P', sort_by='sortable_title')
    >>> titles = [p.Title for p in brains]
    >>> titles
    ['Project Four', 'Project One', 'Project Three', 'Project Two']
@@ -152,7 +152,7 @@ Search for people starting with a letter::
    >>> people = view.search_for_person_by_letter('M')
    >>> names = [p.getId for p in people]
    >>> names
-   ['m2', 'm3', 'm1', 'm4']
+   ['m1', 'm2', 'm3', 'm4']
 
 Search for people starting with a number::
 
@@ -177,13 +177,6 @@ Search for members starting with a letter, only sort the results::
    >>> names = [p.getId for p in people]
    >>> names
    ['m1', 'm2', 'm3', 'm4']
-
-Search, explicitly specifying relevancy sort::
-
-   >>> people = view.search_for_person_by_letter('M', sort_by='relevancy')
-   >>> names = [p.getId for p in people]
-   >>> names
-   ['m2', 'm3', 'm1', 'm4']
 
 Search for members, explicitly specifying full name sort::
 
@@ -257,8 +250,14 @@ Now that we have permission to add a new news item, let's do so
    'http://nohost/plone/news/.../edit'
 
 And we have a news item now
-   >>> len(view.news_items())
-   1
+   >>> news_items = view.news_items()
+   >>> assert len(news_items) == 1
+
+It should implement the INewsItem interface
+   >>> ni = news_items[0].getObject()
+   >>> from opencore.interfaces import INewsItem
+   >>> INewsItem.providedBy(ni)
+   True
 
 
 Sitewide Search
@@ -287,6 +286,20 @@ Search for things starting with a number::
    2
    >>> '5test' in ids
    True
+
+Check that searching by letter matches on the id as well
+   >>> m4 = self.portal.portal_memberdata.m4
+   >>> m4.setFullname('foo fighter')
+   >>> m4.reindexObject()
+
+Check globbing for members (advanced query globbing has index issue)::
+   >>> brains = view.search_by_letter('M')
+   >>> [b.getId for b in brains]
+   ['m1', 'm2', 'm3', 'm4']
+
+   >>> brains = view.search_by_letter('F')
+   >>> [b.getId for b in brains]
+   ['m4']
 
 
 Homepage View

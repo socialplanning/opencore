@@ -1,14 +1,18 @@
+import re
+
 from DateTime import DateTime as zopedatetime
 from zExceptions import Redirect 
-import re
+
+from zope.interface import alsoProvides
 
 from Products.AdvancedQuery import Eq, RankByQueries_Sum
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.PloneBatch import Batch
 
 from topp.utils.pretty_date import prettyDate
-from opencore.nui.base import BaseView, static_txt
 from opencore import redirect
+from opencore.interfaces import INewsItem
+from opencore.nui.base import BaseView, static_txt
 
 num_regex = re.compile('((the|a|an)\s+)?[0-9]+')
 
@@ -87,9 +91,7 @@ class ProjectsSearchView(SearchView):
             query = dict(portal_type="OpenProject", Title=search_for)
 
 
-
-        if sort_by != 'relevancy':
-            query['sort_on'] = sort_by
+        query['sort_on'] = sort_by
 
         self.apply_context_restrictions(query)
 
@@ -270,8 +272,7 @@ class PeopleSearchView(SearchView):
             search_for = letter + '*'
             query = dict(RosterSearchableText=search_for)
 
-        if sort_by != 'relevancy':
-            query['sort_on'] = sort_by
+        query['sort_on'] = sort_by
 
         people_brains = self.membranetool(**query)
 
@@ -283,7 +284,8 @@ class PeopleSearchView(SearchView):
         else:
             people_brains = [brain for brain in people_brains
                              if brain.getId.lower().startswith(letter)]
-        if sort_by == 'getId':
+
+        if not sort_by or sort_by == 'getId':
             people_brains = _sort_by_id(people_brains)
 
         return people_brains
@@ -378,17 +380,17 @@ class SitewideSearchView(SearchView):
                     | Eq('portal_type', 'OpenMember')
         else:
             search_for = letter + '*'
-            query = (Eq('portal_type', 'OpenProject') & Eq('Title', search_for)) \
-                    | (Eq('portal_type', 'Document') & Eq('Title', search_for)) \
-                    | (Eq('portal_type', 'OpenMember') & Eq('Title', search_for))
+            query = ((Eq('portal_type', 'OpenProject') & (Eq('Title', search_for) | Eq('getUserId', search_for))) \
+                    | (Eq('portal_type', 'Document') & (Eq('Title', search_for) | Eq('getUserId', search_for))) \
+                    | (Eq('portal_type', 'OpenMember') & (Eq('Title', search_for) | Eq('getUserId', search_for))))
 
-        if not sort_by or sort_by == 'relevancy':
+        if not sort_by:
+            sort_by = 'getId'
+
+        if sort_by == 'getId':
             rs = ()
         else:
-            if sort_by == 'getId':
-                rs = ()
-            else:
-                rs = ((sort_by, 'desc'),)
+            rs = ((sort_by, 'desc'),)
 
         brains = self.catalog.evalAdvancedQuery(query, rs)
 
@@ -471,6 +473,7 @@ class NewsView(SearchView):
         new_id = self._get_new_id()
         self.context.invokeFactory('Document', id=new_id, title=new_id)
         item = getattr(self.context, new_id)
+        alsoProvides(item, INewsItem)
         edit_url = '%s/edit' % item.absolute_url()
         self.request.response.redirect(edit_url)
 

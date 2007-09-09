@@ -226,14 +226,13 @@ class MemberAccountView(BaseView, OctopoLite):
         project_info = self._project_metadata_for(project_id)
         proj_title = project_info['Title']
         proj_id = project_info['getId']
+        proj_policy = project_info['project_policy']
 
         review_state = brain.review_state
         is_pending = review_state == 'pending'
 
-        # pending members should also be listed as public
-        # we probably could get it from the history somewhere, but for now
-        # let's just assume public until someone says otherwise
-        listed = is_pending or review_state == 'public'
+        # note that pending members will not be listed in the template
+        listed = review_state == 'public'
 
         since = None
         if is_pending:
@@ -250,6 +249,7 @@ class MemberAccountView(BaseView, OctopoLite):
                     listed=listed,
                     role=role,
                     is_pending=is_pending,
+                    proj_policy=proj_policy,
                     )
 
     def _projects_satisfying(self, pred):
@@ -264,7 +264,7 @@ class MemberAccountView(BaseView, OctopoLite):
             if brain.review_state == 'pending':
                 return brain.lastWorkflowActor == self.viewed_member_info['id']
             return brain.review_state in self.active_states
-        return self._projects_satisfying(is_user_project)
+        return sorted(self._projects_satisfying(is_user_project), key=lambda x:x['title'].lower())
 
     @req_memoize
     def invitations(self):

@@ -11,6 +11,7 @@ from Products.Archetypes.utils import shasattr
 from Products.CMFCore.permissions import ManagePortal, View
 from Products.CMFCore.permissions import ModifyPortalContent, DeleteObjects
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.CMFPlone.utils import _createObjectByType
 
@@ -188,6 +189,11 @@ class OpenProject(BrowserDefaultMixin, TeamSpace):
             # Give owner team mgmt privs
             membership.editTeamRoles(['ProjectMember',
                                       'ProjectAdmin'])
+            wft = getToolByName(self, 'portal_workflow')
+            try:
+                wft.doActionFor(membership, 'trigger')
+            except WorkflowException:
+                pass
 
     def _createIndexPage(self):
         """

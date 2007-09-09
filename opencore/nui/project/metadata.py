@@ -42,30 +42,24 @@ def updateThreadCount(obj, event):
         cat._catalog.catalogObject(proxy, list_path, idxs=['mailing_list_threads'])
 
 def updateContainerMetadata(obj, event):
-    parent = getattr(obj, 'aq_parent', None)
+    try:
+        parent = obj.aq_inner.aq_parent
+    except AttributeError:
+        parent = None
+
     if not (parent and IProject.providedBy(parent)):
         return
 
-    lastmodifiedauthor = ILastModifiedAuthorId(obj)
+    parent.setModificationDate()
+    parent.reindexObject(idxs=['modified'])
 
-    parentuid = '/'.join(parent.getPhysicalPath())
-
-    catalog = getToolByName(parent, 'portal_catalog')
-
-    # make comment conditional to team security policy...
-    prox = proxy(dict(lastModifiedTitle=obj.title_or_id(),
-                      ModificationDate=obj.modified(),
-                      lastModifiedAuthor=lastmodifiedauthor,
-                      ))
-
-    selectiveMetadataUpdate(catalog._catalog, parentuid, prox)
-    catalog._catalog.catalogObject(prox, parentuid, idxs=['modified'], update_metadata=0)
     
 def notifyObjectModified(obj):
     zope.event.notify(objectevent.ObjectModifiedEvent(obj))
 
 _marker = object()
 
+# XXX this doesn't look like it's used any more
 def selectiveMetadataUpdate(catalog, uid, proxy):
     index = catalog.uids.get(uid, _marker)
     if index is _marker:
@@ -119,6 +113,8 @@ def _update_last_modified_author(page, user_id=None):
     annot = page_annot.setdefault(ANNOT_KEY, OOBTree())
     annot['lastModifiedAuthor'] = user_id
 
+    page.reindexObject(idxs=['lastModifiedAuthor'])
+
     # if part of a project, annotate the project with the user id as well
     obj = page.aq_inner
     while obj is not None:
@@ -133,6 +129,8 @@ def _update_last_modified_author(page, user_id=None):
     proj_annot = IAnnotations(proj)
     annot = proj_annot.setdefault(ANNOT_KEY, OOBTree())
     annot['lastModifiedAuthor'] = user_id
+
+    proj.reindexObject(idxs=['lastModifiedAuthor'])
     
 
 def proxy(attrs):

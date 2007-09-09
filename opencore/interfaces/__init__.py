@@ -30,3 +30,6 @@ class IOpenSiteRoot(Interface):
 
 class IConsumeNewMembers(Interface):
     """ Marker interface for special projects that consume new members """
+
+class INewsItem(IOpenPage):
+    """Marker interface representing a news item"""

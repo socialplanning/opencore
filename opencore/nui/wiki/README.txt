@@ -79,7 +79,7 @@ Test wiki page registrations (logged in)::
     <...SimpleViewClass ...wiki/wiki_macros.pt object at ...>
     
     >>> page.restrictedTraverse('@@edit')
-    <...SimpleViewClass ...wiki-edit.pt object at ...>
+    <Products.Five.metaclass.WikiEdit object at ...>
 
 Make sure notallowed css class is not applied to edit tab
 since we do have permissions to edit::
@@ -290,13 +290,12 @@ Login as different users, each time checking the last modified author
      >>> self.login('m1')
      >>> view = page.restrictedTraverse('@@edit')
      >>> view
-     <Products.Five.metaclass.SimpleViewClass from ...wiki-edit.pt object at ...>
+     <Products.Five.metaclass.WikiEdit object at ...>
 
 Now start changing the page
      >>> request = view.request.form
      >>> request['text'] = 'foo'
      >>> view.handle_save()
-     {...}
 
 Verify the last modified author changes took place
      >>> proj = self.portal.projects.p1
@@ -312,7 +311,6 @@ Verify the last modified author changes took place
      >>> request = view.request.form
      >>> request['text'] = 'bar'
      >>> view.handle_save()
-     {...}
      >>> ILastModifiedAuthorId(page)
      'm3'
      >>> ILastModifiedAuthorId(proj)
@@ -323,3 +321,37 @@ Check that when logging back in as m1, m3 is still the last modified author
      'm3'
      >>> ILastModifiedAuthorId(proj)
      'm3'
+
+
+News Edit View
+==============
+
+Create a new news item
+     >>> self.loginAsPortalOwner()
+     >>> from opencore.nui.main.search import NewsView
+     >>> add_news_view = NewsView(self.portal.news,
+     ...                          self.portal.REQUEST)
+     >>> add_news_view.add_new_news_item()
+     >>> news_items = self.portal.news.objectIds()
+     >>> assert len(news_items) == 1
+     >>> ni = getattr(self.portal.news, news_items[0])
+
+Now that we have a new news item, let's simulate an edit
+     >>> from opencore.nui.wiki.view import WikiNewsEditView
+     >>> view = WikiNewsEditView(ni, self.portal.REQUEST)
+     >>> request = view.request.form
+     >>> request.update(dict(
+     ...   title='news title',
+     ...   description='news description',
+     ...   ))
+     >>> view.handle_save()
+     >>> view.request.response.getHeader('location')
+     'http://nohost/plone/news/...'
+     >>> ni.Title()
+     'news title'
+     >>> ni.Description()
+     'news description'
+
+And when asking for news items, the description brain is set
+     >>> [b.Description for b in add_news_view.news_items()]
+     ['news description']

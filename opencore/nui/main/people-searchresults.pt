@@ -39,7 +39,7 @@
               <form name="people_sort" method="POST" action="." tal:attributes="action string:${context/portal_url}/people/searchresults">
                 <!-- FIXME This should not require a button to work. -->
                 <select class="oc-js-autoSelect" name="sort_by" tal:define="sorted_by python: request.get('sort_by')">
-                  <option value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
+                  <option tal:condition="not: request/letter_search | nothing" value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
                   <option value="getId" tal:attributes="selected python: sorted_by == 'getId'">username</option>
                   <option value="exact_getFullname" tal:attributes="selected python: sorted_by == 'exact_getFullname'">name</option>
                 </select>

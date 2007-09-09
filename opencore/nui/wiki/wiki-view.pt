@@ -9,6 +9,18 @@
         <div class="oc-wiki">
           <div metal:use-macro="here/@@wiki_macros/bcrumb" />      
           <div metal:use-macro="here/@@wiki_macros/tabs" />
+
+          <tal:comment replace="nothing">
+            News items get an extra description field
+          </tal:comment>
+          <tal:description
+            define="news_interface python:modules['opencore.interfaces'].INewsItem"
+            condition="python:news_interface.providedBy(context)">
+            <p tal:content="context/Description">
+              News item description goes here
+            </p>
+          </tal:description>
+
           <div id="oc-wiki-content" class="oc-wiki-content" tal:content="structure here/getText"/>
         </div><!-- end .oc-wiki -->
 

@@ -12,8 +12,27 @@
       <h1>Team management</h1>
       <p class="oc-headingContext"
          tal:define="nmembers python:len(view.active_mships);
-                     npending python:len(view.pending_mships)"
-         tal:content="string:$nmembers members, $npending pending memberships" />
+                     npending python:len(view.pending_mships);
+                     many_members python:nmembers != 1;
+                     many_memberships python:npending !=1;"
+                     >
+        <tal:many_members
+          condition="many_members"
+          replace="string:${nmembers} members,"
+          />
+        <tal:one_member
+          condition="not: many_members"
+          replace="string:1 member,"
+          />
+        <tal:many_memberships
+          condition="many_memberships"
+          replace="string:${npending} pending memberships"
+          />
+        <tal:one_membership
+          condition="not: many_memberships"
+          replace="string:1 pending membership"
+          />
+      </p>
     </div>
     
     <div id="oc-content-main">
