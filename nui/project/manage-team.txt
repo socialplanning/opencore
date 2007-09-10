@@ -229,7 +229,7 @@ Demotions should also yield transient messages
     ...     })
     >>> html = view.set_roles(['m3'], [dict(role='ProjectMember')])
     >>> list(tm.get_msgs('m3', view.msg_category))[-1]
-    (2, u'You are no longer an admin at <a href="http://nohost/plone/projects/p3">Project Three</a>')
+    (2, u'You are no longer an admin of <a href="http://nohost/plone/projects/p3">Project Three</a>')
 
 Now test member search.  We should be getting results on members w/o
 team memberships, and inactive team memberships, but not on those that
