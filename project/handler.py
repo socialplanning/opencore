@@ -61,6 +61,9 @@ def _initialize_project(instance, request):
     # @@ move to subscriber
     instance._createIndexPage()
 
+    # XXX for some reason, if this happens any earlier in the method,
+    # then the initial membership object will not end up in the right
+    # workflow state (see #1335)
     instance._createTeam()
 
 
