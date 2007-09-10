@@ -169,14 +169,14 @@ window.onload = xinha_init;
                   <textarea id="description" name="description"></textarea>
                 </tal:description>
 
-                <textarea id="text" name="text" tal:content="context/getText"></textarea>
+                <textarea id="text" name="text" rows="25" cols="80" tal:content="context/getText"></textarea>
               </div><!-- end .oc-wiki-edit-content" --> 
  
               <div class="oc-js-expander oc-expander">
                 <h2 class="oc-bigText"><a href="#oc-wiki-comment" class="oc-js-expander_open oc-expanderLink">Revision note</a></h2>
                 <!--<a href="#" class="oc-js-expander_close oc-expander-close" style="display:none;">X</a>-->
                 <div class="oc-js-expander-content">
-                  <textarea name="comment" id="comment" rows="3" cols="60"></textarea>
+                  <textarea name="comment" id="comment" rows="5" cols="80"></textarea>
                 </div><!-- end expander-content -->
               </div><!-- end expander -->
               
