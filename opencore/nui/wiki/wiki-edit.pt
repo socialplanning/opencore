@@ -50,16 +50,14 @@ var _editor_lang = "en";
  ************************************************************************/
 var xinha_plugins =
 [
-/*
  'CharacterMap',
  'ContextMenu',
- 'FullScreen',
+ 'FullPage',
  'ListType',
  'SpellChecker',
  'Stylist',
  'SuperClean',
  'TableOperations'
-*/
 ];
 /************************************************************************
  * Names of the textareas you will be turning into editors
@@ -71,18 +69,12 @@ var xinha_editors =
 /************************************************************************
  * Initialisation function
  ************************************************************************/
+
 function xinha_init()
 {
   // THIS BIT OF JAVASCRIPT LOADS THE PLUGINS, NO TOUCHING  :)
-  //if(!Xinha.loadPlugins(xinha_plugins, xinha_init)) return;
-  if(xinha_plugins.length) {
-    if(Xinha.loadPlugins(xinha_plugins, xinha_init))
-      alert('successfully loaded plugins');
-    else {
-      alert('failed to load plugins');
-      return;
-    }
-  }
+  if(!Xinha.loadPlugins(xinha_plugins, xinha_init)) return;
+
   /*************************************************************************
    * We create a default configuration to be used by all the editors.
    * If you wish to configure some of the editors differently this will be
@@ -107,14 +99,15 @@ function xinha_init()
    * if you want to use a different set of plugins for one or more of the
    * editors.
    ************************************************************************/
+
   xinha_editors = Xinha.makeEditors(xinha_editors, xinha_config, xinha_plugins);
   /************************************************************************
    * If you want to change the configuration variables of any of the
    * editors,  this is the place to do that, for example you might want to
    * change the width and height of one of the editors, like this...
    ************************************************************************/
-  xinha_editors.text.config.width = '640px';
-  xinha_editors.text.config.height = '480px';
+  xinha_editors.text.config.width = '800px';
+  xinha_editors.text.config.height = '600px';
   /************************************************************************
    * Or remove the statusbar on the other one, like this...
    * For every possible configuration, please refer to
