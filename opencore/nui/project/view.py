@@ -1197,8 +1197,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                                         'html': html,
                                         'effects': 'highlight'}
                     transient_msg = (team.getHighestTeamRoleForMember(mem_id) == 'ProjectAdmin'
-                                     and 'You are now an admin at'
-                                     or 'You are no longer an admin at')
+                                     and 'You are now an admin of'
+                                     or 'You are no longer an admin of')
                     self._add_transient_msg_for(mem_id, transient_msg)
                         
 
