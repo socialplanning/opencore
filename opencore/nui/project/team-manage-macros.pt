@@ -181,9 +181,15 @@
   <tr tal:attributes="id item/id">
 
     <td>
-      <input type="checkbox" name="checked:list"
+      <input tal:condition="python: item['id'] != view.loggedinmember()"
+             type="checkbox" name="checked:list"
              tal:attributes="value item/id" />
-      <input type="hidden" name="all:list"
+      <input tal:condition="python: item['id'] == view.loggedinmember()"
+             type="checkbox" name="checked:list" disabled="true"
+             tal:attributes="value item/id" />
+
+      <input tal:condition="python: item['id'] != view.loggedinmember()"
+             type="hidden" name="all:list"
              tal:attributes="value item/id"/>
     </td>
 
