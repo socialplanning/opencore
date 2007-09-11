@@ -83,18 +83,21 @@ def get_view_names(obj, ignore_dummy=False):
                              for iface in ifaces))
     if ignore_dummy:
         return set(reg.name for reg in regs\
-               if reg.required[-1].isOrExtends(IRequest) and not issubclass(reg.value, Dummy))
+               if reg.required[-1].isOrExtends(IRequest) and not issubclass(reg.value, IgnorableDummy))
     return set(reg.name for reg in regs\
                if reg.required[-1].isOrExtends(IRequest))
 
 class Dummy(BaseView):
     """Creates dummy for blocking the overcreation of deliverance
-    paths or special persistent object names"""
+    paths"""
     def __init__(self, context, request):
-        super(ListsDummy, self).__init__(context, request)
+        super(Dummy, self).__init__(context, request)
+        
+    def __call__(self, *args, **kw):
         raise Redirect, "%s/%s" %(self.area.absolute_url(), "preferences")
 
-
+class IgnorableDummy(Dummy):
+    """a dummy that get_view_names will ignore (for special persistent objects)"""
     
 
     
