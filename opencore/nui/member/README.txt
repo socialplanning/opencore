@@ -38,9 +38,10 @@ Check scaling on thumbnail::
     80
 
 Exercise the Member Account Class
-=====================================
+=================================
 
-    Instantiate the view
+    Instantiate the view::
+
     >>> from opencore.nui.member.view import MemberAccountView
     >>> request = self.app.REQUEST
     >>> request.form = {}
@@ -54,11 +55,13 @@ Exercise the Member Account Class
     >>> view
     <opencore.nui.member.view.MemberAccountView object at ...>
 
-    Login as the m1 user
+    Login as the m1 user::
+
     >>> self.login('m1')
 
     Create a project starting with a capital letter to test case insensitive
-    sort
+    sort::
+
     >>> from opencore.nui.project.view import ProjectAddView
     >>> proj_add_view = ProjectAddView(self.portal.projects,
     ...                                self.portal.REQUEST)
