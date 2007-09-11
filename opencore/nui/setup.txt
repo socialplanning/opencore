@@ -1,0 +1,43 @@
+=========================
+ Tests for setup widgets
+=========================
+
+This doctest is for the testing and description of nui's setup
+widgets. 
+
+    >>> from opencore.nui import setup
+
+Move Blocking Content
+=====================
+
+Due to the sequence of operations in acquistion, persistent object may
+ghost views, thereby overriding them.
+
+We want to be able to migrate any namespace collisions if a new view
+is added.  Currently our only adding is done by wicked and we use
+dummy views to block names either used by deliverance or special
+persistent objects.
+
+First we will create some objects: one to represent a view, one to
+represent a dummy (persistent object or deliverated url)::
+
+    >>> self.loginAsPortalOwner()
+    >>> proj = self.projects.p1
+    >>> import transaction as txn
+    >>> id_ = proj.invokeFactory('Document', 'manage-team', title='Bad item')
+    >>> id2 = proj.invokeFactory('Document', 'lists', title='Bad item')
+    >>> sp = txn.savepoint(optimistic=True)
+
+Let's make sure our content got renamed::
+
+    >>> setup.move_blocking_content(self.portal)
+    >>> '%s-page' %id_ in proj.objectIds()
+    True
+
+But our persistent object did not::
+
+    >>> setup.move_blocking_content(self.portal)
+    >>> not '%s-page' %id2 in proj.objectIds()
+    True
+
+
