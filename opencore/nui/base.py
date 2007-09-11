@@ -1,47 +1,28 @@
 """
 some base class for opencore ui work!
 """
-import datetime
-from time import strptime
-import urllib
-import cgi
-
 from Acquisition import aq_inner, aq_parent
-from AccessControl import Unauthorized
-import DateTime
-
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from Products.Five import BrowserView
-
-from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
-from Products.CMFCore.utils import _checkPermission
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFPlone.utils import transaction_note
+from Products.Five import BrowserView
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
-
-from Products.OpenPlans.content.project import OpenProject
-from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
-
-from zope.component import getMultiAdapter, adapts, adapter
-
+from opencore.interfaces import IProject 
+from opencore.nui.static import render_static
 from plone.memoize import instance
 from plone.memoize import view 
-
+from time import strptime
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.utils.pretty_date import prettyDate
 from topp.utils.pretty_text import truncate
+from zope.component import getMultiAdapter, adapts, adapter
 
-from opencore import redirect 
-from opencore.content.member import OpenMember
-from opencore.content.page import OpenPage
-from opencore.interfaces import IProject 
-from opencore.nui.static import render_static
-
-# XXX these shouldn't be imported here -- they aren't used in this file
-# jeff, they are imported as a convenience api here 
-from opencore.nui.formhandler import button, post_only, anon_only, octopus
+import DateTime
+import cgi
+import datetime
+import urllib
 
 view.memoizedproperty = lambda func: property(view.memoize(func))
 view.mcproperty = lambda func: property(view.memoize_contextless(func))
@@ -58,7 +39,8 @@ class BaseView(BrowserView):
     txn_note = staticmethod(transaction_note)
     site_iface = IPloneSiteRoot
     getToolByName=getToolByName
-    
+
+    # XXX only used by formlite in this fashion
     main_macros = ZopeTwoPageTemplateFile('main_macros.pt')
 
     # XXX only used once, move into member/view
@@ -305,6 +287,7 @@ class BaseView(BrowserView):
 
         calculated once
         """
+        from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
         proj_info = {}
         if self.piv.inProject:
             proj = aq_inner(self.piv.project)
@@ -537,7 +520,6 @@ class BaseView(BrowserView):
             messages.append(msg)
             return exit_function()
         return exit_function() # XXX redundant, leaving for now
-
 
 def aq_iface(obj, iface):
     obj = aq_inner(obj)
