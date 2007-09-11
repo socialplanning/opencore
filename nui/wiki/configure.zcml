@@ -76,7 +76,7 @@
 
   <!-- placeholder views for lists & tasks -->
   <browser:page
-     class="opencore.nui.wiki.add.Dummy"
+     class="opencore.nui.wiki.add.IgnorableDummy"
      for="opencore.interfaces.IProject"
      permission="zope2.View"
      name="lists"
