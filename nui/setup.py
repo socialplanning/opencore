@@ -22,7 +22,8 @@ from Products.OpenPlans.Extensions.Install import createMemIndexes, \
      installColumns, createValidationMember, \
      install_local_transient_message_utility, install_email_invites_utility
 from Products.OpenPlans.Extensions.Install import setCaseInsensitiveLogins, \
-     setSiteEmailAddresses, updateWorkflowRoleMappings
+     setSiteEmailAddresses, updateWorkflowRoleMappings, \
+     install_team_placeful_workflow_policies
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans import config as op_config
 from indexing import createIndexes
@@ -268,6 +269,7 @@ nui_functions['reindex_membrane_tool'] = reindex_membrane_tool
 nui_functions['Update Method Aliases'] = set_method_aliases
 nui_functions['Migrate portraits (add new sizes)'] = migrate_portraits
 nui_functions['Remove project roster objects'] = remove_roster_objects
+nui_functions['Install default team workflow policy'] = convertFunc(install_team_placeful_workflow_policies)
 nui_functions['Migrate memberships to new workflow'] = migrate_mship_workflow_states
 nui_functions['Update team active states'] = update_team_active_states
 nui_functions['Add made_active_date attribute to memberships'] = migrate_mships_made_active_date
