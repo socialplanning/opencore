@@ -20,11 +20,16 @@ Test member portrait traversal
 
     >>> member = portal.portal_memberdata.m1
     >>> member.setPortrait(portrait)
+
+Check we can traverse to new portrait in various sizes::
+
     >>> member.restrictedTraverse("portrait_thumb")
     <Image at /plone/portal_memberdata/m1/portrait_thumb>
 
     >>> member.restrictedTraverse("portrait_icon")
     <Image at /plone/portal_memberdata/m1/portrait_icon>
+
+Check scaling on thumbnail::
 
     >>> member.restrictedTraverse("portrait_thumb").width
     63
@@ -36,7 +41,7 @@ Exercise the Member Account Class
 =====================================
 
     Instantiate the view
-    >>> from opencore.nui.member import MemberAccountView
+    >>> from opencore.nui.member.view import MemberAccountView
     >>> request = self.app.REQUEST
     >>> request.form = {}
 
