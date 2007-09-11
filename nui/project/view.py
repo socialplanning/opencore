@@ -495,6 +495,7 @@ class ProjectAddView(BaseView, OctopoLite):
 
         proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
         # not calling validate because it explodes on "'" for project titles
+        # XXX is no validation better than an occasional ugly error?
         #proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
             self.addPortalStatusMessage(u'Please correct the errors indicated below.')
