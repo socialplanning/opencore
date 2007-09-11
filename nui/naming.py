@@ -1,5 +1,7 @@
 """
 tools for working with naming
+
+see: setup.txt and wiki/add.txt for usage
 """
 from zope.interface import providedBy
 from zope.app.apidoc.component import getRequiredAdapters as get_required
@@ -9,9 +11,13 @@ from zExceptions import Redirect
 from opencore.nui.base import BaseView
 import itertools
 
+
 class Dummy(BaseView):
-    """Creates dummy for blocking the overcreation of deliverance
-    paths"""
+    """Creates dummy for blocking the overcreation of a path (as
+    determined by the zcml registration name).  Any view registered
+    with this class will show up in `get_view_names`
+
+    Redirects to the preferences view and is intend for use with projects."""
     def __init__(self, context, request):
         super(Dummy, self).__init__(context, request)
         
@@ -19,7 +25,10 @@ class Dummy(BaseView):
         raise Redirect, "%s/%s" %(self.area.absolute_url(), "preferences")
 
 class IgnorableDummy(Dummy):
-    """a dummy that get_view_names will ignore (for special persistent objects)"""
+    """same as `Dummy` but the `ignorable` flag will filter these from
+    a return by `get_view_names`.  Useful for preserving names for
+    special persistent objects"""
+
 
 def get_view_names(obj, ignore_dummy=False):
     """Gets all view names for a particular object"""
