@@ -539,10 +539,20 @@ OC.ActionButton = function(extEl) {
 	     scope: this
 	 }, "mode=async&" + task + "=" + taskValue);
 
-     // XXX THIS IS BRITTLE AND STUPID. NICKYG SHOULD REVISIT THIS AND DO IT CORRECTLY; I JUST WANT TO GET SOMETHING WORKING FOR NOW.
      if( task == "task|upload-attachment" ) {
-	 Ext.get("attachmentTitle").dom.value = "";
-	 Ext.get("attachmentFile").dom.value = "";
+     
+       // can't cross-browser clear a file input.  Recreate it and delete the original
+       var oldInput = Ext.get("attachmentFile");
+       var inputHTML = oldInput.dom.parentNode.innerHTML;       
+       var newInput = Ext.DomHelper.insertHtml('beforeBegin', oldInput.dom, inputHTML);
+       newInput.setAttribute('id', 'foo');
+       oldInput.remove();
+       newInput.setAttribute('id', 'attachmentFile');
+       newInput.setAttribute('name', 'attachmentFile');
+       
+       // clear title field
+       Ext.get("attachmentTitle").dom.value = "";
+
      }
 
     }
