@@ -57,7 +57,7 @@ WORKFLOW_MAP = {'plone_openplans_workflow': ('Default OpenPlans Workflow [Plone]
           'default': [default workflow chain],
           'types': {type1: [list of wfs,
                     type2: [list of wfs]},
-          'proj_trans': wf transition that should be applied to project,
+          'context_trans': wf transition that should be applied to context object,
         ),
   ...
 }"""
@@ -67,7 +67,8 @@ PLACEFUL_POLICIES = {'open_policy': { 'title':       'Open',
                                       'default':     ['open_policy_workflow'],
                                       'types':       {'Folder':['open_folder_openplans_workflow'],
                                                       'Large Plone Folder':['open_folder_openplans_workflow']},
-                                      'proj_trans':  'open'
+                                      'context_trans':  'open',
+                                      'team_policy':    'mship_open_policy',
                                     },
                      'medium_policy': { 'title':     'Medium',
                                       'description': "Anyone can view " \
@@ -75,7 +76,8 @@ PLACEFUL_POLICIES = {'open_policy': { 'title':       'Open',
                                       'default':     ['medium_policy_workflow'],
                                       'types':       {'Folder':['medium_folder_openplans_workflow'],
                                                       'Large Plone Folder':['medium_folder_openplans_workflow']},
-                                      'proj_trans':  'medium',
+                                      'context_trans':  'medium',
+                                      'team_policy':    'mship_open_policy',
                                     },
                      'closed_policy': { 'title':     'Closed',
                                       'description': "Only team members " \
@@ -83,7 +85,8 @@ PLACEFUL_POLICIES = {'open_policy': { 'title':       'Open',
                                       'default':     ['closed_policy_workflow'],
                                       'types':       {'Folder':['closed_folder_openplans_workflow'],
                                                       'Large Plone Folder':['closed_folder_openplans_workflow']},
-                                      'proj_trans':  'close',
+                                      'context_trans':  'close',
+                                      'team_policy':    'mship_closed_policy',
                                     },
                     }
 
@@ -93,7 +96,7 @@ mship_open_policy = dict(
     description='Anyone can view',
     default=['openplans_team_membership_workflow'],
     types={'OpenMembership': 'openplans_team_membership_workflow'},
-    proj_trans='open',
+    context_trans='open',
     )
 
 mship_closed_policy = dict(
@@ -101,7 +104,7 @@ mship_closed_policy = dict(
     description='Only team members',
     default=['closed_openplans_team_membership_workflow'],
     types={'OpenMembership': 'closed_openplans_team_membership_workflow'},
-    proj_trans='close',
+    context_trans='close',
     )
 
 MEMBERSHIP_PLACEFUL_POLICIES = dict(
