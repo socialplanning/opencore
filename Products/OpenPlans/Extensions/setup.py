@@ -143,14 +143,14 @@ def fixMembershipOwnership(portal):
     uf = getToolByName(portal, 'acl_users')
     brains = cat(portal_type="OpenMembership")
     for brain in brains:
-        if brain.Creator != brain.getId:
-            mship = brain.getObject()
-            if brain.getId not in mship.users_with_local_role('Owner'):
-                mship.manage_delLocalRoles([brain.Creator])
-                user = uf.getUserById(brain.getId)
-                if user is not None:
-                    mship.changeOwnership(user)
-                    mship.manage_setLocalRoles(brain.getId, ('Owner',))
+        mship = brain.getObject()
+        owners = mship.users_with_local_role('Owner')
+        if brain.getId not in mship.users_with_local_role('Owner'):
+            mship.manage_delLocalRoles(owners)
+            user = uf.getUserById(brain.getId)
+            if user is not None:
+                mship.changeOwnership(user)
+                mship.manage_setLocalRoles(brain.getId, ('Owner',))
 
 
 topp_functions = dict(
