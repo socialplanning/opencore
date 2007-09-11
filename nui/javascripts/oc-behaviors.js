@@ -545,10 +545,7 @@ OC.ActionButton = function(extEl) {
        var oldInput = Ext.get("attachmentFile");
        var inputHTML = oldInput.dom.parentNode.innerHTML;       
        var newInput = Ext.DomHelper.insertHtml('beforeBegin', oldInput.dom, inputHTML);
-       newInput.setAttribute('id', 'foo');
        oldInput.remove();
-       newInput.setAttribute('id', 'attachmentFile');
-       newInput.setAttribute('name', 'attachmentFile');
        
        // clear title field
        Ext.get("attachmentTitle").dom.value = "";
