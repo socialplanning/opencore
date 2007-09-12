@@ -33,7 +33,7 @@ setup(name='opencore',
           'simplejson',
           'plone.memoize',
           'cabochonclient',
-          'lxml'
+          'lxml>=1.2,<2.0dev'
           ]
       )
 
