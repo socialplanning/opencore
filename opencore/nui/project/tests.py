@@ -102,7 +102,9 @@ def test_suite():
     for suite in suites:
         suite.layer = OpencoreContent
     readme.layer = MockHTTPwithContent
-    return unittest.TestSuite(suites + (readme,))
+    unit = doctest.DocTestSuite('opencore.nui.project.view',
+                                optionflags=optionflags)
+    return unittest.TestSuite(suites + (readme, unit))
 
 
 if __name__ == '__main__':
