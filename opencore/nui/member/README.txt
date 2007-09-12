@@ -134,6 +134,14 @@ XXXX Notice that the project title here isn't properly unicode for some reason. 
     >>> sorted([d['proj_id'] for d in project_dicts])
     ['apples', 'i18n', 'p1', 'p3']
 
+If we try to leave a project with an international title which has no
+other members, we should not be able to leave, and the system should
+not explode::
+    >>> view.leave_project('i18n')
+    False
+    >>> view.portal_status_message
+    [u'You are the only remaining administrator of "i18n"...]
+
     Now we'll try to set the listing as private:
 
     First though, let's verify that he is currently listed as public
