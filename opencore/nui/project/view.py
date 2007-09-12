@@ -1409,9 +1409,4 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         self._norender = True
         self.redirect(self.request.ACTUAL_URL) # redirect clears form values
 
-def test_suite():
-    import unittest
-    from zope.testing import doctest
-    optionflags = doctest.ELLIPSIS
-    return doctest.DocTestSuite('opencore.nui.project.view',
-                                optionflags=optionflags)
+
