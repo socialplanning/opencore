@@ -65,7 +65,7 @@ ImageManager._pluginInfo = {
 
 HTMLArea.Config.prototype.ImageManager =
 {
-  'backend'    : _editor_url + 'plugins/ImageManager/backend.php?__plugin=ImageManager&',
+  'backend'    : 'backend?',
   'backend_data' : null,
   
   // Deprecated method for passing config, use above instead!

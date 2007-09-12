@@ -36,11 +36,8 @@ class WikiBase(BaseView):
         else:
             return '%s %s- %s' % (context.Title(), mode, self.area.Title())
 
-
-
 class WikiView(WikiBase):
     view_attachments_snippet = ZopeTwoPageTemplateFile('attachment-view.pt')
-
 
 class WikiEdit(WikiBase, OctopoLite):
 
@@ -324,6 +321,18 @@ class AttachmentView(BaseView):
 
         return ('%s.%s.%s' % (name, str(idx), ext))
 
+
+class ImageManager(WikiBase):
+    attachment_snippet = ZopeTwoPageTemplateFile('image-manager-image.pt')
+
+
+    def images(self):
+        path = '/'.join(self.context.aq_inner.aq_parent.getPhysicalPath())
+        brains = self.catalog(portal_type='FileAttachment',
+                              path=path,
+                              )        
+        return brains
+    
 
 class WikiNewsEditView(WikiEdit):
     """Should look exactly like wiki edit, but also contain description field"""

@@ -53,6 +53,7 @@ var xinha_plugins =
  'CharacterMap',
  'ContextMenu',
  'FullPage',
+ 'ImageManager',
  'ListType',
  'SpellChecker',
  'Stylist',
