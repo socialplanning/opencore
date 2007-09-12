@@ -394,6 +394,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
                 }
         return snippets
 
+
 class ProjectPreferencesView(ProjectBaseView):
         
     @formhandler.button('update')
@@ -420,12 +421,43 @@ class ProjectPreferencesView(ProjectBaseView):
         self.redirect(self.context.absolute_url())
 
 
+
 def valid_project_title(title):
+    """
+    Alphanumeric is ok with punctuation and whitespace::
+    
+    >>> valid_project_title('title 1!')
+    True
+
+    Unicode is ok (though you will get an ugly id)::
+
+    >>> valid_project_title('\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e')
+    True
+
+    Punctuation is a no go::
+
+    >>> valid_project_title('"!"& ^"")""')
+    False
+
+    As is whitespace::
+
+    >>> valid_project_title('\t ')
+    False
+
+    """
     if len(title) < 2: return False
     for c in title:
-        if c.isalnum():
-            return True
+        if not _ignore.get(c):
+            if c.isalnum(): # catch alphanumerics
+                return True
+            if not _printable.get(c): # catch unicode chars but not
+                                     # whitespace or escapes
+                return True
+
     return False
+
+_ignore = dict((char, True) for char in ''.join((string.punctuation, string.whitespace)))
+_printable = dict((char, True) for char in string.printable)
 
 def valid_project_id(id):
     # projects ids are more strict than titles
@@ -1376,3 +1408,10 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
         self._norender = True
         self.redirect(self.request.ACTUAL_URL) # redirect clears form values
+
+def test_suite():
+    import unittest
+    from zope.testing import doctest
+    optionflags = doctest.ELLIPSIS
+    return doctest.DocTestSuite('opencore.nui.project.view',
+                                optionflags=optionflags)
