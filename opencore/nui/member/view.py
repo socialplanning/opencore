@@ -305,26 +305,12 @@ class MemberAccountView(BaseView, OctopoLite):
         if not self._can_leave(proj_id): return False
 
         if self._is_only_admin(proj_id):
-            try:
-                proj_path = self.get_portal().getPhysicalPath()
-                proj_path += ('projects', proj_id)
-                proj_path = '/'.join(proj_path)
-                proj_metadata = self.catalogtool.getMetadataForUID(proj_path)
-                proj_title = proj_metadata.get("Title")
+            proj = self.portal.projects[proj_id]
+            proj_title = unicode(proj.Title(), 'utf-8') # accessor always will return ascii
 
-            # XXX this shouldn't be necessary now -- and should go away, it's bad
-            # i think it's to keep tests working, but the proj_metadata line should
-            # be fixed now
-            except KeyError:
-                proj_title = proj_id
-
-            # XXX i think this points to the fact that project titles
-            # are being stored/fetched as nonunicode strings; is this
-            # a problem and can we fix it generally in one place? 
-            if not isinstance(proj_title, unicode):
-                proj_title = unicode(proj_title, 'utf-8')
-
-            only_admin_msg = u"You are the only remaining administrator of \"%s\". You can't leave this project without appointing another." % proj_title
+            only_admin_msg = u'You are the only remaining administrator of "%s".' % proj_title
+            only_admin_msg += u"You can't leave this project without appointing another." 
+            
             self.addPortalStatusMessage(only_admin_msg)
             return False
 
