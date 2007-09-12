@@ -67,7 +67,7 @@ Create a project with an international unicode title::
     >>> request['id'] = 'i18n'
 
 This is some japanese that I found::
-    >>> request['title'] = '\xe6\x97\xa5\xe8\xaa\x9e'
+    >>> request['title'] = u'\u65e5\u8a9e'
     >>> request['workflow_policy'] = 'medium_policy'
     >>> request['__initialize_project__'] = True
     >>> html = proj_add_view.handle_request()
