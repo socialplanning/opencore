@@ -318,6 +318,12 @@ class MemberAccountView(BaseView, OctopoLite):
             except KeyError:
                 proj_title = proj_id
 
+            # XXX i think this points to the fact that project titles
+            # are being stored/fetched as nonunicode strings; is this
+            # a problem and can we fix it generally in one place? 
+            if not isinstance(proj_title, unicode):
+                proj_title = unicode(proj_title, 'utf-8')
+
             only_admin_msg = u"You are the only remaining administrator of \"%s\". You can't leave this project without appointing another." % proj_title
             self.addPortalStatusMessage(only_admin_msg)
             return False
