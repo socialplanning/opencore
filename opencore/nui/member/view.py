@@ -306,8 +306,15 @@ class MemberAccountView(BaseView, OctopoLite):
 
         if self._is_only_admin(proj_id):
             try:
-                proj_metadata = self.catalogtool.getMetadataForUID('/openplans/projects/%s' % proj_id)
+                proj_path = self.get_portal().getPhysicalPath()
+                proj_path += ('projects', proj_id)
+                proj_path = '/'.join(proj_path)
+                proj_metadata = self.catalogtool.getMetadataForUID(proj_path)
                 proj_title = proj_metadata.get("Title")
+
+            # XXX this shouldn't be necessary now -- and should go away, it's bad
+            # i think it's to keep tests working, but the proj_metadata line should
+            # be fixed now
             except KeyError:
                 proj_title = proj_id
 
