@@ -333,8 +333,14 @@ class ImageManager(WikiBase):
         brains = self.catalog(portal_type='FileAttachment',
                               path=path,
                               )
-        brains = [b for b in brains if b.getObject().content_type.startswith("image/")]
-        return brains
+        images = [b.getObject() for b in brains if b.getObject().content_type.startswith("image/")]
+        for image in images:
+            if not hasattr(image, 'width'):
+                im = Image.open(StringIO(image.data))
+                image.width, image.height = im.size
+                image.size = len(image.data)
+                
+        return images
 
     def thumb(self):
         image = self.context.aq_inner
@@ -352,6 +358,17 @@ class ImageManager(WikiBase):
 
         #fixme: content-type
         return image.thumbnails[size]
+    
+    def prettySize(self, size):
+        if size < 1000:
+            return "%d B" % size
+        elif size < 1000000:
+            return "%.1f" % (int(size / 100) / 10.0) + " kB"
+        elif size < 1000000000:
+            return "%.1f" % (int(size / 100000) / 10.0) + " mB"
+        else:
+            return "%.1f" % (int(size / 100000000) / 10.0) + " gB"
+
 
 class WikiNewsEditView(WikiEdit):
     """Should look exactly like wiki edit, but also contain description field"""

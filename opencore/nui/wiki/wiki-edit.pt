@@ -175,7 +175,6 @@ window.onload = xinha_init;
  
               <div class="oc-js-expander oc-expander">
                 <h2 class="oc-bigText"><a href="#oc-wiki-comment" class="oc-js-expander_open oc-expanderLink">Revision note</a></h2>
-                <!--<a href="#" class="oc-js-expander_close oc-expander-close" style="display:none;">X</a>-->
                 <div class="oc-js-expander-content">
                   <textarea name="comment" id="comment" rows="5" cols="80"></textarea>
                 </div><!-- end expander-content -->
