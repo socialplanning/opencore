@@ -88,11 +88,6 @@
     <td>
       <input name="f_padding" id="f_padding" size="3" type="text">
       px </td>
-    <th align="left">Color:</th>
-    <td>
-      <input name="f_backgroundColor" id="f_backgroundColor" size="7" type="text">
-      <input id="bgCol_pick" value="..." type="button">
-    </td>
   </tr>
 
 
@@ -116,11 +111,7 @@
     <td>
       <input name="f_border" id="f_border" size="3" type="text">
       px </td>
-    <th align="left">Color:</th>
-    <td>
-      <input name="f_borderColor" id="f_borderColor" size="7" type="text">
-      <input id="bdCol_pick" value="..." type="button">
-    </td>
+
   </tr>
 
 </tbody></table>
