@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><title>Insert Image</title>
+
+
+
+	
+  <script type="text/javascript">
+    // temporary. An ImageManager rewrite will take care of this kludge.
+    _backend_url = "backend?__plugin=ImageManager&backend_config=a%3A7%3A%7Bs%3A10%3A%22images_dir%22%3Bs%3A40%3A%22%2Fwww%2Fstreetsblog.org%2Fwp-content%2Fuploads%2F%22%3Bs%3A10%3A%22images_url%22%3Bs%3A20%3A%22%2Fwp-content%2Fuploads%2F%22%3Bs%3A9%3A%22safe_mode%22%3Bb%3A0%3Bs%3A13%3A%22allow_new_dir%22%3Bb%3A1%3Bs%3A12%3A%22allow_upload%22%3Bb%3A1%3Bs%3A15%3A%22thumbnail_width%22%3Bi%3A96%3Bs%3A16%3A%22thumbnail_height%22%3Bi%3A96%3B%7D&backend_config_hash=773e8785b2a025af8d4e4f34193daf2ecec6d938&backend_config_secret_key_location=Xinha%3AImageManager&";
+    _resized_prefix = ".resized";
+    _resized_dir = ".resized";
+  </script>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link href="++resource++xinha/plugins/ImageManager/assets/manager.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="++resource++xinha/plugins/ImageManager/assets/popup.js"></script>
+<script type="text/javascript" src="++resource++xinha/popups/popup.js"></script>
+<script type="text/javascript" src="++resource++xinha/plugins/ImageManager/assets/dialog.js"></script>
+<script type="text/javascript">
+/*<![CDATA[*/
+	if(window.opener)
+		HTMLArea = window.opener.HTMLArea;
+
+	var thumbdir = ".thumbs";
+	var components = document.location.href.split("/");
+	var base_url = components.slice(0, components.length - 2).join("/");
+/*]]>*/
+</script>
+<script type="text/javascript" src="++resource++xinha/plugins/ImageManager/assets/manager.js"></script></head><body>
+<div class="title">Insert Image</div>
+<form target="imgManager" action="backend" id="uploadForm" method="post" enctype="multipart/form-data">
+
+<input name="__plugin" value="ImageManager" type="hidden">
+<input name="__function" value="images" type="hidden">
+
+<fieldset>
+  <legend>Image Manager</legend>
+  <table width="100%">
+    <tbody>
+            <tr>
+          <th align="left">Upload:</th>
+          <td colspan="2">
+            <input name="upload" id="upload" type="file">
+            <input type="submit" name="task|upload-attachment" class="oc-js-actionButton" value="Upload" /> or <a href="#" class="oc-js-expander_close">Cancel</a>
+	    <input type="hidden" name="snippet" value="imagemanager-image" />
+          </td>
+        </tr>
+        
+  </tbody></table>
+
+  <div id="messages" style="display: none;"><span id="message">Uploading</span><img src="backend.php_files/dots.gif" alt="..." height="12" width="22"></div>
+
+  <iframe src="backend-images" name="imgManager" id="imgManager" class="imageFrame" title="Image Selection" frameborder="0" scrolling="auto"></iframe>
+
+</fieldset>
+
+<!-- image properties -->
+
+<table border="0" cellpadding="0" cellspacing="0">
+  <tbody><tr>
+    <th align="left">Description:</th>
+    <td colspan="6">
+      <input id="f_alt" style="width: 100%;" type="text">
+    </td>
+  </tr>
+
+  <tr>
+    <th align="left">Width:</th>
+    <td>
+      <input id="f_width" name="f_width" size="4" onchange="javascript:checkConstrains('width');" type="text">
+    </td>
+    <td rowspan="2">
+      <div style="position: relative;">
+        <img src="++resource++img/locked.gif" id="imgLock" alt="Constrained Proportions" valign="middle" height="32" width="25"><input id="constrain_prop" checked="checked" onclick="javascript:toggleConstrains(this);" style="position: absolute; top: 8px; left: 0px;" type="checkbox">
+      </div>
+    </td>
+    <th align="left">Margin:</th>
+    <td colspan="3">
+      <input name="f_margin" id="f_margin" size="3" type="text">
+      px </td>
+  </tr>
+
+  <tr>
+    <th align="left">Height:</th>
+    <td>
+      <input name="f_height" id="f_height" size="4" type="text">
+    </td>
+    <th align="left">Padding:</th>
+    <td>
+      <input name="f_padding" id="f_padding" size="3" type="text">
+      px </td>
+    <th align="left">Color:</th>
+    <td>
+      <input name="f_backgroundColor" id="f_backgroundColor" size="7" type="text">
+      <input id="bgCol_pick" value="..." type="button">
+    </td>
+  </tr>
+
+
+  <tr>
+    <th align="left">Align:</th>
+    <td colspan="2">
+      <select size="1" id="f_align" title="Positioning of this image">
+        <option value="">Not set</option>
+        <option value="left">Left</option>
+        <option value="right">Right</option>
+        <option value="texttop">Texttop</option>
+        <option value="absmiddle">Absmiddle</option>
+        <option value="baseline" selected="selected">Baseline</option>
+        <option value="absbottom">Absbottom</option>
+        <option value="bottom">Bottom</option>
+        <option value="middle">Middle</option>
+        <option value="top">Top</option>
+      </select>
+    </td>
+    <th align="left">Border:</th>
+    <td>
+      <input name="f_border" id="f_border" size="3" type="text">
+      px </td>
+    <th align="left">Color:</th>
+    <td>
+      <input name="f_borderColor" id="f_borderColor" size="7" type="text">
+      <input id="bdCol_pick" value="..." type="button">
+    </td>
+  </tr>
+
+</tbody></table>
+
+<div style="text-align: right;">
+  <hr>
+  <button type="button" class="buttons" onclick="return refresh();">Refresh</button>
+  <button type="button" class="buttons" onclick="return onOK();">OK</button>
+  <button type="button" class="buttons" onclick="return onCancel();">Cancel</button>
+</div>
+
+<!--// image properties -->
+<input id="orginal_width" type="hidden">
+<input id="orginal_height" type="hidden">
+<input id="f_url" class="largelWidth" value="" type="hidden">
+</form>
+<div></div></body></html>
