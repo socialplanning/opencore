@@ -1,6 +1,8 @@
 from opencore.nui.base import BaseView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.nui.formhandler import button, OctopoLite, action
+from PIL import Image
+from StringIO import StringIO
 
 class WikiBase(BaseView):
 
@@ -330,9 +332,26 @@ class ImageManager(WikiBase):
         path = '/'.join(self.context.aq_inner.aq_parent.getPhysicalPath())
         brains = self.catalog(portal_type='FileAttachment',
                               path=path,
-                              )        
+                              )
+        brains = [b for b in brains if b.getObject().content_type.startswith("image/")]
         return brains
-    
+
+    def thumb(self):
+        image = self.context.aq_inner
+        width = height = 100
+        
+        if not hasattr(image, "thumbnails"):
+            image.thumbnails = {}
+        size = (width, height)
+        if not size in image.thumbnails:
+            im = Image.open(StringIO(image.data))
+            im.thumbnail(size, Image.ANTIALIAS)
+            thumb = StringIO()
+            im.save(thumb, "JPEG")
+            image.thumbnails[size] = thumb.getvalue()
+
+        #fixme: content-type
+        return image.thumbnails[size]
 
 class WikiNewsEditView(WikiEdit):
     """Should look exactly like wiki edit, but also contain description field"""

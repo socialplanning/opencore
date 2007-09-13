@@ -180,4 +180,12 @@
      permission="cmf.ModifyPortalContent"
      />
 
+  <browser:page
+     attribute="thumb"
+     class=".view.ImageManager"
+     for="Products.RichDocument.FileAttachment.FileAttachment"
+     name="thumb"
+     permission="zope2.View"
+     />
+
 </configure>
