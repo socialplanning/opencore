@@ -561,7 +561,22 @@ Verify invitations view works appropriately
     >>> list(bt)
     []
 
+If we leave a project where we are a ProjectAdmin, we should no longer
+have the ProjectAdmin role::
+    >>> japanese_team = self.portal.portal_teams.i18n
+    >>> japanese_team.getHighestTeamRoleForMember('m1')
+    'ProjectAdmin'
 
+    >>> request = self.app.REQUEST
+    >>> view = MemberAccountView(member, request)
+    >>> view = view.__of__(member)
+    >>> view
+    <opencore.nui.member.view.MemberAccountView object at ...>
+
+    >>> view._apply_transition_to('i18n', 'deactivate')
+    True
+    >>> japanese_team.getHighestTeamRoleForMember('m1')
+    'ProjectMember'
 
     Now let's call the view simulating the request:
     XXX member areas need to be created first though for m1
