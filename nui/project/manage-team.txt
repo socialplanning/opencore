@@ -221,6 +221,19 @@ into an admin
     >>> list(tm.get_msgs('m3', view.msg_category))[-1]
     (1, u'You are now an admin of <a href="http://nohost/plone/projects/p3">Project Three</a>')
 
+If a project admin is removed from the team, he should lose the
+ProjectAdmin role::
+    >>> view.doMshipWFAction('deactivate', ('m3',))
+    ['m3']
+    >>> team.getHighestTeamRoleForMember('m3')
+    'ProjectMember'
+
+Make him an admin again::
+    >>> team.manage_delObjects(ids=['m3']) # <-- remove to re-add
+    >>> team.addMember('m3')
+    <OpenMembership at ...m3>
+    >>> team.setTeamRolesForMember('m3', ('ProjectMember', 'ProjectAdmin'))
+
 Demotions should also yield transient messages
     >>> view.request.form.update(
     ...    {'task|batch_role|set-roles': 'Lalala',
