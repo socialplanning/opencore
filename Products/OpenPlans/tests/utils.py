@@ -5,7 +5,6 @@ from Products.OpenPlans.utils import parseDepends, doc_file
 import Products.Five
 import Products.Five.site
 import Products.wicked
-#import Products.filter
 import Products.Archetypes
 import Products.Fate
 import Products.OpenPlans
