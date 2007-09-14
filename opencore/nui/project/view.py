@@ -886,7 +886,6 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         Returns the number of memberships for which the transition was
         successful.
         """
-        wftool = self.get_tool('portal_workflow')
         team = self.team
         ids_acted_on = []
         for mem_id in mem_ids:
