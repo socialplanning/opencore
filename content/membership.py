@@ -6,7 +6,7 @@ from Products.Archetypes.public import registerType
 from Products.TeamSpace.membership import TeamMembership
 from Products.TeamSpace.permissions import ManageTeamMembership
 
-from Products.OpenPlans.config import PROJECTNAME
+from Products.OpenPlans.config import PROJECTNAME, DEFAULT_ROLES
 from Products.OpenPlans.interfaces import IOpenMembership
 
 class OpenMembership(TeamMembership):
@@ -17,7 +17,17 @@ class OpenMembership(TeamMembership):
 
     implements(IOpenMembership)
 
-    intended_visibility = 'public'
+    intended_visibility = 'public'    
+
+    def deactivate(self):
+        """
+        Deactivates the mship (member leaves project) and removes
+        the ProjectAdmin role from the mship so that if mship is
+        reactivated it doesn't keep the ProjectAdmin role
+        """
+        self.editTeamRoles(DEFAULT_ROLES[:-1])
+        wftool = getToolByName(self, 'portal_workflow')
+        wftool.doActionFor(self, 'deactivate')
 
     def getTeamRoles(self):
         """

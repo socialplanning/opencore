@@ -873,6 +873,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         mtool = self.get_tool('portal_membership')
         return '%s/profile' % mtool.getHomeUrl(mem_id)
 
+    # XXX i kind of feel like this whole function is questionable    
     def doMshipWFAction(self, transition, mem_ids, pred=lambda mship:True):
         """
         Fires the specified workflow transition for the memberships
@@ -891,7 +892,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         for mem_id in mem_ids:
             mship = team._getOb(mem_id)
             if pred(mship):
-                wftool.doActionFor(mship, transition)
+                # XXX this is hideous, but i want to make it work.
+                if transition == 'deactivate':
+                    mship.deactivate()
+                else:
+                    wftool.doActionFor(mship, transition)
                 ids_acted_on.append(mship.getId())
         return ids_acted_on
 
@@ -1140,6 +1145,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         # for some reason checking the role is not enough
         # I've gotten ProjectAdmin roles back for a member
         # in the pending state
+        ## XXX this is because role is independent of state,
+        #      and we haven't been changing the role when we
+        #      transition to a new state. can probably remove
+        #      now that this is changing, but maybe best to
+        #      keep this just in case.
         if mem_id is None:
             mem_id = self.viewed_member_info['id']
         mship = team._getOb(mem_id)
@@ -1169,8 +1179,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     @formhandler.action('remove-members')
     def remove_members(self, targets, fields=None):
         """
-        Doesn't actually remove the membership objects, just puts them
-        into an inactive workflow state.
+        Doesn't actually remove the membership objects, just
+        puts them into an inactive workflow state.
         """
         mem_ids = targets
         mems_removed = self.doMshipWFAction('deactivate', mem_ids, self.mship_only_admin)

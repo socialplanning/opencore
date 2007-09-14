@@ -144,9 +144,12 @@ should be sent:
 
 And if we try to remove ourselves, it should not be allowed
 
-But we have to remove the portal owner first
+But we have to remove the portal owner first. We'll also
+update his roles to include ProjectAdmin again, since it
+won't keep ProjectAdmin when we remove him::
     >>> view.remove_members(['portal_owner'])
     {'portal_owner': {'action': 'delete'}}
+    >>> team.setTeamRolesForMember('portal_owner', ('ProjectMember', 'ProjectAdmin'))
 
 Clear out all the portal status messages
     >>> view.portal_status_message
