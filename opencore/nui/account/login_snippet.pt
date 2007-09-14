@@ -1,13 +1,19 @@
 <metal:login define-macro="login_snippet">
   <form  class="oc-boxy" name="login_form" method="post" id="oc-login-form"
     tal:attributes="action string:login">
+
+    <!-- for insufficient_privileges -->
     <input type="hidden" name="came_from" id="came_from" 
       tal:condition="view/request/came_from | nothing" 
       tal:attributes="value view/request/came_from" />
-
     <input type="hidden" name="referer" id="referer" 
       tal:condition="view/request/referer | nothing"
       tal:attributes="value view/request/referer" />
+
+    <!-- for login redirection -->
+    <input type="hidden" name="http_referer" id="http_referer"
+	   tal:condition="view/request/HTTP_REFERER | nothing"
+	   tal:attributes="value view/request/HTTP_REFERER" />
 
     <fieldset>
       <h1>Sign in</h1> 
