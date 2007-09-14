@@ -43,7 +43,7 @@
         
   </tbody></table>
 
-  <div id="messages" style="display: none;"><span id="message">Uploading</span><img src="backend.php_files/dots.gif" alt="..." height="12" width="22"></div>
+  <div id="messages" style="display: none;"><span id="message">Uploading</span><img src="++resource++xinha/plugins/ImageManager/img/dots.gif/dots.gif" alt="..." height="12" width="22"></div>
 
   <iframe src="backend-images" name="imgManager" id="imgManager" class="imageFrame" title="Image Selection" frameborder="0" scrolling="auto"></iframe>
 

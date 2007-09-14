@@ -379,6 +379,15 @@ class ImageManager(WikiBase, OctopoLite):
         view.create_attachment(target, fields)
         return self.backend_images_snippet()
 
+    
+    @action('delete-image')
+    def delete_image(self, target=None, fields=None):
+        page = self.context.aq_inner.aq_parent.get(target[0])
+        view = WikiEdit(page, self.request)
+        view = view.__of__(self.loggedinmember)
+        view.delete_attachment([self.request['att']], fields)
+        return self.backend_images_snippet()
+
 
 class WikiNewsEditView(WikiEdit):
     """Should look exactly like wiki edit, but also contain description field"""
