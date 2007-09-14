@@ -17,17 +17,16 @@ class OpenMembership(TeamMembership):
 
     implements(IOpenMembership)
 
-    intended_visibility = 'public'    
+    intended_visibility = 'public'
 
-    def deactivate(self):
-        """
-        Deactivates the mship (member leaves project) and removes
-        the ProjectAdmin role from the mship so that if mship is
-        reactivated it doesn't keep the ProjectAdmin role
-        """
-        self.editTeamRoles(DEFAULT_ROLES[:-1])
+    apply_after_transition = dict(deactivate = lambda self: self.editTeamRoles(DEFAULT_ROLES[:-1]))
+
+    def do_transition(self, transition):
         wftool = getToolByName(self, 'portal_workflow')
-        wftool.doActionFor(self, 'deactivate')
+        wftool.doActionFor(self, transition)
+        after_transition = self.apply_after_transition.get(transition)
+        if after_transition:
+            after_transition(self)
 
     def getTeamRoles(self):
         """

@@ -296,12 +296,8 @@ class MemberAccountView(BaseView, OctopoLite):
         # maybe it belongs in opencore.content somewhere? note that it's kind of
         # identical to opencore.nui.project.view.doMshipWFAction...
         mship = self._membership_for_proj(proj_id)
-        wft = self.get_tool('portal_workflow')
         try:
-            if transition == 'deactivate':
-                mship.deactivate()
-            else:
-                wft.doActionFor(mship, transition)
+            mship.do_transition(transition)
             return True
         except WorkflowException:
             return False

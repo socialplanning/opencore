@@ -892,11 +892,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         for mem_id in mem_ids:
             mship = team._getOb(mem_id)
             if pred(mship):
-                # XXX this is hideous, but i want to make it work.
-                if transition == 'deactivate':
-                    mship.deactivate()
-                else:
-                    wftool.doActionFor(mship, transition)
+                mship.do_transition(transition)
                 ids_acted_on.append(mship.getId())
         return ids_acted_on
 
