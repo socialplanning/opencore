@@ -84,7 +84,9 @@ And our project should contain a roster and list instance
     >>> pprint(sorted(ids))
     ['.wf_policy_config', 'lists', 'proj_roster', 'project-home']
 
-Our project shouldn't have any users with the Owner role::
+After creation is finished, our project shouldn't have any users
+with the Owner role, because Owners get permissions regardless of
+subsequent membership in the project::
     >>> handroll.users_with_local_role("Owner")
     []
 
