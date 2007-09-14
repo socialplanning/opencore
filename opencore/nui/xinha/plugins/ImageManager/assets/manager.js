@@ -116,27 +116,7 @@ function onOK()
 	    
 	}
     
-    // See if we need to resize the image
-    var origsize =
-	{
-	    w:document.getElementById('orginal_width').value,
-	    h:document.getElementById('orginal_height').value
-	}
-    
-    if(  (origsize.w != param.f_width)
-	 || (origsize.h != param.f_height) )
-	{
-	    // Yup, need to resize
-	    var resized = HTMLArea._geturlcontent(_backend_url + '&__function=resizer&img=' + encodeURIComponent(document.getElementById('f_url').value) + '&width=' + param.f_width + '&height=' + param.f_height);
-	    // alert(resized);
-	    resized = eval(resized);
-	    if(resized)
-		{
-		    param.f_url = makeURL(base_url, resized);
-		}
-	}
-    
-    
+
     __dlg_close(param);
     return false;
 }
