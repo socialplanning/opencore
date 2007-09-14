@@ -108,8 +108,6 @@ HTMLArea.prototype._insertImage = function(image) {
 			f_margin : image.style.margin,
 			f_width  : image.width,
 			f_height  : image.height,
-      f_backgroundColor: image.style.backgroundColor,
-      f_borderColor: image.style.borderColor
 			};
 
     function shortSize(cssSize)
@@ -204,9 +202,6 @@ HTMLArea.prototype._insertImage = function(image) {
           }
           break;
           
-          case "f_borderColor": img.style.borderColor = value; break;
-          case "f_backgroundColor": img.style.backgroundColor = value; break;
-            
           case "f_padding": 
           {
             if(value.length)

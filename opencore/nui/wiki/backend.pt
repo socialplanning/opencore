@@ -27,10 +27,7 @@
 </script>
 <script type="text/javascript" src="++resource++xinha/plugins/ImageManager/assets/manager.js"></script></head><body>
 <div class="title">Insert Image</div>
-<form target="imgManager" action="backend" id="uploadForm" method="post" enctype="multipart/form-data">
-
-<input name="__plugin" value="ImageManager" type="hidden">
-<input name="__function" value="images" type="hidden">
+<form target="imgManager" id="uploadForm" method="post" enctype="multipart/form-data" tal:attributes="action string:${here/absolute_url}/backend-upload">
 
 <fieldset>
   <legend>Image Manager</legend>
@@ -39,9 +36,8 @@
             <tr>
           <th align="left">Upload:</th>
           <td colspan="2">
-            <input name="upload" id="upload" type="file">
-            <input type="submit" name="task|upload-attachment" class="oc-js-actionButton" value="Upload" /> or <a href="#" class="oc-js-expander_close">Cancel</a>
-	    <input type="hidden" name="snippet" value="imagemanager-image" />
+            <input name="attachmentFile" id="attachmentFile" type="file">
+            <input type="submit" name="task|upload-attachment-manager" class="oc-js-actionButton" value="Upload" /> or <a href="#" class="oc-js-expander_close">Cancel</a>
           </td>
         </tr>
         

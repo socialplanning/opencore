@@ -21,8 +21,9 @@
      
   <!--image manager stuff-->
 
+<!--    class=".view.ImageManager"-->
   <browser:page
-    class=".view.ImageManager"
+
     for="opencore.interfaces.IOpenPage"
     name="backend"
     permission="zope2.View"
@@ -33,6 +34,14 @@
     class=".view.ImageManager"
     for="opencore.interfaces.IOpenPage"
     name="backend-images"
+    permission="zope2.View"
+    template="backend-images.pt"
+    />
+
+  <browser:page
+    class=".view.ImageManager"
+    for="opencore.interfaces.IOpenPage"
+    name="backend-upload"
     permission="zope2.View"
     template="backend-images.pt"
     />
