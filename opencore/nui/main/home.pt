@@ -106,16 +106,9 @@
               </li>
             </ul>
           </div><!-- OpenPlans News -->
-          <div class="oc-boxy">
-            <h2>New features! New look!</h2>
-            <p>We're currently testing a new interface and are wondering what you think.</p>
-            <ul style="list-style-position: inside; padding: 0;">
-              <li>What do you like about the new site?</li>
-              <li>What could be better?</li>
-              <li>What features would be helpful to you?</li>
-              <li>Have you experienced any problems?</li>
-            </ul>
-            <p><a tal:attributes="href string:${context/portal_url}/contact-site-admin">Let us know</a> if you have a question or comment. We love to hear from you.</p>
+          <div class="oc-boxy" style="background: none;">
+            <a href="http://topp.openplans.org/"><img src="++resource++img/topp_logo.jpg" style="float: left; margin-right: 1em;"/></a>
+            <p>OpenPlans is proud to be one of the many projects supported by <a href="http://topp.openplans.org/">The Open Planning Project</a>, a New York City&ndash;based non-profit building technology to enhance civic participation. <a href="about">Learn more&hellip;</a>
           </div>
       </div>
       
