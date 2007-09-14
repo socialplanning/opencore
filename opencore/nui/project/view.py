@@ -394,6 +394,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
                 }
         return snippets
 
+
 class ProjectPreferencesView(ProjectBaseView):
         
     @formhandler.button('update')
@@ -420,12 +421,43 @@ class ProjectPreferencesView(ProjectBaseView):
         self.redirect(self.context.absolute_url())
 
 
+
 def valid_project_title(title):
+    """
+    Alphanumeric is ok with punctuation and whitespace::
+    
+    >>> valid_project_title('title 1!')
+    True
+
+    Unicode is ok (though you will get an ugly id)::
+
+    >>> valid_project_title('\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e')
+    True
+
+    Punctuation is a no go::
+
+    >>> valid_project_title('"!"& ^"")""')
+    False
+
+    As is whitespace::
+
+    >>> valid_project_title('\t ')
+    False
+
+    """
     if len(title) < 2: return False
     for c in title:
-        if c.isalnum():
-            return True
+        if not _ignore.get(c):
+            if c.isalnum(): # catch alphanumerics
+                return True
+            if not _printable.get(c): # catch unicode chars but not
+                                     # whitespace or escapes
+                return True
+
     return False
+
+_ignore = dict((char, True) for char in ''.join((string.punctuation, string.whitespace)))
+_printable = dict((char, True) for char in string.printable)
 
 def valid_project_id(id):
     # projects ids are more strict than titles
@@ -495,6 +527,7 @@ class ProjectAddView(BaseView, OctopoLite):
 
         proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
         # not calling validate because it explodes on "'" for project titles
+        # XXX is no validation better than an occasional ugly error?
         #proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
             self.addPortalStatusMessage(u'Please correct the errors indicated below.')
@@ -840,6 +873,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         mtool = self.get_tool('portal_membership')
         return '%s/profile' % mtool.getHomeUrl(mem_id)
 
+    # XXX i kind of feel like this whole function is questionable    
     def doMshipWFAction(self, transition, mem_ids, pred=lambda mship:True):
         """
         Fires the specified workflow transition for the memberships
@@ -852,13 +886,12 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         Returns the number of memberships for which the transition was
         successful.
         """
-        wftool = self.get_tool('portal_workflow')
         team = self.team
         ids_acted_on = []
         for mem_id in mem_ids:
             mship = team._getOb(mem_id)
             if pred(mship):
-                wftool.doActionFor(mship, transition)
+                mship.do_transition(transition)
                 ids_acted_on.append(mship.getId())
         return ids_acted_on
 
@@ -1107,6 +1140,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         # for some reason checking the role is not enough
         # I've gotten ProjectAdmin roles back for a member
         # in the pending state
+        ## XXX this is because role is independent of state,
+        #      and we haven't been changing the role when we
+        #      transition to a new state. can probably remove
+        #      now that this is changing, but maybe best to
+        #      keep this just in case.
         if mem_id is None:
             mem_id = self.viewed_member_info['id']
         mship = team._getOb(mem_id)
@@ -1136,8 +1174,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     @formhandler.action('remove-members')
     def remove_members(self, targets, fields=None):
         """
-        Doesn't actually remove the membership objects, just puts them
-        into an inactive workflow state.
+        Doesn't actually remove the membership objects, just
+        puts them into an inactive workflow state.
         """
         mem_ids = targets
         mems_removed = self.doMshipWFAction('deactivate', mem_ids, self.mship_only_admin)
@@ -1197,8 +1235,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                                         'html': html,
                                         'effects': 'highlight'}
                     transient_msg = (team.getHighestTeamRoleForMember(mem_id) == 'ProjectAdmin'
-                                     and 'You are now an admin at'
-                                     or 'You are no longer an admin at')
+                                     and 'You are now an admin of'
+                                     or 'You are no longer an admin of')
                     self._add_transient_msg_for(mem_id, transient_msg)
                         
 
@@ -1375,3 +1413,5 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
         self._norender = True
         self.redirect(self.request.ACTUAL_URL) # redirect clears form values
+
+

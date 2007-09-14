@@ -52,6 +52,8 @@ def _initialize_project(instance, request):
     This is called by the IAfterProjectAddedEvent to perform after creation
     to initialize the content within the project.
     """
+    instance._createTeam()
+
     # Set initial security policy
     policy = request.get('workflow_policy', None)
     policy_writer = IWriteWorkflowPolicySupport(instance)
@@ -61,7 +63,6 @@ def _initialize_project(instance, request):
     # @@ move to subscriber
     instance._createIndexPage()
 
-    instance._createTeam()
 
 
 @adapter(IAfterSubProjectAddedEvent)

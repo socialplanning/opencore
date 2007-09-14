@@ -14,6 +14,11 @@ Make a new project::
     >>> self.portal.projects.newproject
     <OpenProject at /plone/projects/newproject>
 
+Let's make sure that the wfp config is created for the team also::
+
+    >>> getattr(self.portal.portal_teams.newproject, '.wf_policy_config')
+    <WorkflowPolicyConfig at /plone/portal_teams/newproject/.wf_policy_conf>
+
 Log out and query for the project as anonymous user (shouldn't show up)::
     >>> self.logout()
     >>> proj_query_results = view.catalog(portal_type='OpenProject', id='newproject')

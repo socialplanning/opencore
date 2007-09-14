@@ -22,7 +22,8 @@ from Products.OpenPlans.Extensions.Install import createMemIndexes, \
      installColumns, createValidationMember, \
      install_local_transient_message_utility, install_email_invites_utility
 from Products.OpenPlans.Extensions.Install import setCaseInsensitiveLogins, \
-     setSiteEmailAddresses, updateWorkflowRoleMappings
+     setSiteEmailAddresses, updateWorkflowRoleMappings, \
+     install_team_placeful_workflow_policies
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans import config as op_config
 from indexing import createIndexes
@@ -30,11 +31,31 @@ from DateTime import DateTime
 from topp.featurelets.interfaces import IFeatureletSupporter
 from opencore.interfaces import IOpenPage, INewsItem
 from opencore.nui.project.metadata import _update_last_modified_author
+from opencore.nui.wiki.add import get_view_names
+from Products.OpenPlans.content.project import OpenProject
 
 logger = getLogger(op_config.PROJECTNAME)
 
 HERE = os.path.dirname(__file__)
 ALIASES = os.path.join(HERE, 'aliases.cfg')
+
+
+def move_blocking_content(portal):
+    try:
+        proj = portal.projects[portal.projects.objectIds()[1]]
+    except IndexError:
+        return
+    names = get_view_names(proj, ignore_dummy=True)
+    projects_path = '/'.join(portal.projects.getPhysicalPath())
+    blockers = portal.portal_catalog(getId=list(names), path=projects_path)
+    for blocker in blockers:
+        obj = blocker.getObject()
+        parent = obj.aq_parent
+        id_ = obj.getId()
+        if parent != portal.projects:
+            new_id = "%s-page" % id_
+            parent.manage_renameObjects([obj.getId()], [new_id])
+
 
 def reindex_membrane_tool(portal):
     # requires the types to be reinstalled first
@@ -243,8 +264,10 @@ def markNewsItems(portal):
 
 from Products.Archetypes.utils import OrderedDict
 
+# make rest of names readable  (maybe use config system)
 nui_functions = OrderedDict()
-nui_functions['createMemIndexes'] = convertFunc(createMemIndexes)
+nui_functions['Move Blocking Content'] = move_blocking_content
+nui_functions['Create Member Indexes'] = convertFunc(createMemIndexes)
 nui_functions['installNewsFolder'] = convertFunc(installNewsFolder)
 nui_functions['move_interface_marking_on_projects_folder'] = move_interface_marking_on_projects_folder
 nui_functions['setupHomeLayout'] = convertFunc(setupHomeLayout)
@@ -268,6 +291,7 @@ nui_functions['reindex_membrane_tool'] = reindex_membrane_tool
 nui_functions['Update Method Aliases'] = set_method_aliases
 nui_functions['Migrate portraits (add new sizes)'] = migrate_portraits
 nui_functions['Remove project roster objects'] = remove_roster_objects
+nui_functions['Install default team workflow policy'] = convertFunc(install_team_placeful_workflow_policies)
 nui_functions['Migrate memberships to new workflow'] = migrate_mship_workflow_states
 nui_functions['Update team active states'] = update_team_active_states
 nui_functions['Add made_active_date attribute to memberships'] = migrate_mships_made_active_date

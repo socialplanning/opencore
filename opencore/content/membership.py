@@ -6,7 +6,7 @@ from Products.Archetypes.public import registerType
 from Products.TeamSpace.membership import TeamMembership
 from Products.TeamSpace.permissions import ManageTeamMembership
 
-from Products.OpenPlans.config import PROJECTNAME
+from Products.OpenPlans.config import PROJECTNAME, DEFAULT_ROLES
 from Products.OpenPlans.interfaces import IOpenMembership
 
 class OpenMembership(TeamMembership):
@@ -18,6 +18,15 @@ class OpenMembership(TeamMembership):
     implements(IOpenMembership)
 
     intended_visibility = 'public'
+
+    apply_after_transition = dict(deactivate = lambda self: self.editTeamRoles(DEFAULT_ROLES[:-1]))
+
+    def do_transition(self, transition):
+        wftool = getToolByName(self, 'portal_workflow')
+        wftool.doActionFor(self, transition)
+        after_transition = self.apply_after_transition.get(transition)
+        if after_transition:
+            after_transition(self)
 
     def getTeamRoles(self):
         """

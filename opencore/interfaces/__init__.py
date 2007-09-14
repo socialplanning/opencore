@@ -1,6 +1,7 @@
 try:
     from Products.OpenPlans.interfaces import IProject
     from Products.OpenPlans.interfaces import IEditProject
+    from Products.OpenPlans.interfaces import IOpenTeam
     from Products.OpenPlans.interfaces import IWriteWorkflowPolicySupport
     from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
 except ImportError:

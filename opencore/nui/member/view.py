@@ -292,10 +292,12 @@ class MemberAccountView(BaseView, OctopoLite):
         return mship
 
     def _apply_transition_to(self, proj_id, transition):
+        ### XXX this apply_transition_to function strikes me as highly questionable.
+        # maybe it belongs in opencore.content somewhere? note that it's kind of
+        # identical to opencore.nui.project.view.doMshipWFAction...
         mship = self._membership_for_proj(proj_id)
-        wft = self.get_tool('portal_workflow')
         try:
-            wft.doActionFor(mship, transition)
+            mship.do_transition(transition)
             return True
         except WorkflowException:
             return False
@@ -305,13 +307,12 @@ class MemberAccountView(BaseView, OctopoLite):
         if not self._can_leave(proj_id): return False
 
         if self._is_only_admin(proj_id):
-            try:
-                proj_metadata = self.catalogtool.getMetadataForUID('/openplans/projects/%s' % proj_id)
-                proj_title = proj_metadata.get("Title")
-            except KeyError:
-                proj_title = proj_id
+            proj = self.portal.projects[proj_id]
+            proj_title = unicode(proj.Title(), 'utf-8') # accessor always will return ascii
 
-            only_admin_msg = u"You are the only remaining administrator of \"%s\". You can't leave this project without appointing another." % proj_title
+            only_admin_msg = u'You are the only remaining administrator of "%s".' % proj_title
+            only_admin_msg += u"You can't leave this project without appointing another." 
+            
             self.addPortalStatusMessage(only_admin_msg)
             return False
 

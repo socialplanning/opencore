@@ -3,7 +3,6 @@ from zope.testing import doctest
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase 
 from Testing.ZopeTestCase import FunctionalDocFileSuite
-#from opencore.testing.layer import OpenPlansLayer as test_layer
 from opencore.testing.layer import OpencoreContent as test_layer
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 
@@ -29,6 +28,7 @@ def test_suite():
         tc.response = tc.request.RESPONSE
         tc.homepage = getattr(tc.portal, 'site-home')
         tc.projects = tc.portal.projects
+
     globs = locals()
     readme = FunctionalDocFileSuite("README.txt",
                                     optionflags=optionflags,
@@ -39,6 +39,15 @@ def test_suite():
                                     )
 
     readme.layer = test_layer
+    
+    setup = FunctionalDocFileSuite("setup.txt",
+                                    optionflags=optionflags,
+                                    package='opencore.nui',
+                                    test_class=OpenPlansTestCase,
+                                    globs = globs,
+                                    setUp=readme_setup
+                                    )
+    setup.layer = test_layer
 
     email_sender = FunctionalDocFileSuite("email-sender.txt",
                                     optionflags=optionflags,
@@ -59,7 +68,8 @@ def test_suite():
                                                )
 
     placeful_workflow.layer = test_layer
-    return unittest.TestSuite((readme, octotest(), email_sender, placeful_workflow))
+    
+    return unittest.TestSuite((readme, octotest(), email_sender, placeful_workflow, setup))
 
 
 if __name__ == '__main__':

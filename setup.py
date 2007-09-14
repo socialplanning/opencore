@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.9.2'
+version = '0.9.3'
 
 f = open('README.txt')
 readme = "".join(f.readlines())
@@ -33,7 +33,7 @@ setup(name='opencore',
           'simplejson',
           'plone.memoize',
           'cabochonclient',
-          'lxml'
+          'lxml>=1.2,<2.0dev'
           ]
       )
 

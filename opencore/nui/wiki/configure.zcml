@@ -74,14 +74,22 @@
     permission="cmf.ManagePortal"
     />
 
-  <!-- placeholder view for lists -->
+  <!-- placeholder views for lists & tasks -->
   <browser:page
-     class="opencore.nui.wiki.add.ListsDummy"
+     class="opencore.nui.wiki.add.IgnorableDummy"
      for="opencore.interfaces.IProject"
      permission="zope2.View"
      name="lists"
      />
 
+  <browser:page
+     class="opencore.nui.wiki.add.Dummy"
+     for="opencore.interfaces.IProject"
+     permission="zope2.View"
+     name="tasks"
+     />
+
+  <!-- link renderer -->
   <browser:page
      for="opencore.interfaces.IOpenPage"
      name="link_renderer"

@@ -1,9 +1,7 @@
 from Products.wicked.browser.add import WickedAdd
 from Acquisition import aq_inner, aq_parent
 from Products.wicked.lib.normalize import titleToNormalizedId as normalize
-from zope.interface import providedBy
-from zope.app.apidoc.component import getRequiredAdapters as get_required
-from zope.publisher.interfaces import IRequest
+
 from opencore.nui.base import BaseView
 from Products.wicked.utils import getFilter
 from zope.component import ComponentLookupError
@@ -73,21 +71,33 @@ class NuiPageAdd(NuiBaseAdd):
     def get_container(self):
         return aq_parent(aq_inner(self.context))
 
+# consider moving out to more general location
+from zope.interface import providedBy
+from zope.app.apidoc.component import getRequiredAdapters as get_required
+from zope.publisher.interfaces import IRequest
 
-def get_view_names(obj):
+def get_view_names(obj, ignore_dummy=False):
+    """Gets all view names for a particular object"""
     ifaces = providedBy(obj)
     regs = itertools.chain(*(get_required(iface, withViews=True) \
                              for iface in ifaces))
+    if ignore_dummy:
+        return set(reg.name for reg in regs\
+               if reg.required[-1].isOrExtends(IRequest) and not issubclass(reg.value, IgnorableDummy))
     return set(reg.name for reg in regs\
                if reg.required[-1].isOrExtends(IRequest))
 
-class ListsDummy(BaseView):
+class Dummy(BaseView):
+    """Creates dummy for blocking the overcreation of deliverance
+    paths"""
     def __init__(self, context, request):
-        super(ListsDummy, self).__init__(context, request)
-        raise Redirect, "%s/%s" %(self.area.absolute_url(), "preferences")
+        super(Dummy, self).__init__(context, request)
         
-    
+    def __call__(self, *args, **kw):
+        raise Redirect, "%s/%s" %(self.area.absolute_url(), "preferences")
 
+class IgnorableDummy(Dummy):
+    """a dummy that get_view_names will ignore (for special persistent objects)"""
     
 
     

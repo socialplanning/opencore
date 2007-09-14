@@ -150,7 +150,7 @@ class LoginView(AccountView):
     @anon_only(BaseView.siteURL)
     def handle_request(self):
         """ redirect logged in users """
-            
+        
     @property
     def came_from(self):
         return self.request.get('came_from', '')
@@ -158,7 +158,7 @@ class LoginView(AccountView):
     @property
     def destination(self):
         """where you go after you're logged in"""
-        if self.came_from:
+        if self.came_from: # (if insufficient privileges)
             destination = self.came_from 
 
             # append referer to destination as query string 
@@ -168,8 +168,10 @@ class LoginView(AccountView):
                 destination = '%s?referer=%s' % (destination, 
                                                  urllib.quote(referer))
             return destination
-
-        return '%s/account' % self.memfolder_url()
+        else:
+            default_redirect = '%s/account' % self.memfolder_url()
+            referer = self.request.get('http_referer', default_redirect)
+            return referer
 
     def logout(self, redirect=None):
         logout = self.cookie_logout

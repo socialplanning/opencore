@@ -92,7 +92,6 @@ def migrate_redirection(portal):
     migrate_redirected_objects(portal.projects, IProject)
     migrate_redirected_objects(portal.people, IMemberFolder)
     
-
 def fixProjectWFStates(portal):
     """
     make sure the projects are in the WF state that matches the
@@ -139,6 +138,20 @@ def initializeTeamWorkflow(portal):
             # XXX: Bad Touching to avoid waking up the entire portal
             wftool._recursiveUpdateRoleMappings(tm, wfs)
 
+def fixMembershipOwnership(portal):
+    cat = getToolByName(portal, 'portal_catalog')
+    uf = getToolByName(portal, 'acl_users')
+    brains = cat(portal_type="OpenMembership")
+    for brain in brains:
+        mship = brain.getObject()
+        owners = mship.users_with_local_role('Owner')
+        if brain.getId not in mship.users_with_local_role('Owner'):
+            mship.manage_delLocalRoles(owners)
+            user = uf.getUserById(brain.getId)
+            if user is not None:
+                mship.changeOwnership(user)
+                mship.manage_setLocalRoles(brain.getId, ('Owner',))
+
 
 topp_functions = dict(
     setupKupu = convertFunc(setupKupu),
@@ -175,6 +188,7 @@ topp_functions = dict(
 topp_functions["NUI Setup"]=setup_nui
 topp_functions["Propagate workflow security settings"] = \
                           convertFunc(updateWorkflowRoleMappings)
+topp_functions["Fix membership object ownership"] = fixMembershipOwnership
 
 class TOPPSetup(SetupWidget):
     """ OpenPlans Setup Bucket Brigade  """

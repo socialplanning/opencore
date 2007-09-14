@@ -49,6 +49,7 @@ def _send_object_message(queue, page):
 
     queue.send_message(params)
 
+# use a channel (the event itself is too wide)
 @adapter(IObjectAddedEvent)
 def objectAdded(event):
     cabochonclient = getUtility(ICabochonClient)

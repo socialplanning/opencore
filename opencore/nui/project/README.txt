@@ -78,12 +78,51 @@ And if we login as a different user, it should stil be the same
 
 Log back in as the test user
     >>> self.logout()
+    >>> self.login('m2')
+
+Can the creator of a closed project really leave? Let's find out
+in a test::
+    >>> projects = self.portal.projects
+    >>> view = projects.restrictedTraverse("create")
+    >>> form_vars = dict(id='test1', __initialize_project__=True,
+    ...                  workflow_policy='closed_policy',
+    ...                  add=True, featurelets = [], set_flets=1)
+    >>> view.request.form.update(form_vars)
+    >>> view.request.form['title'] = 'testing 1341'
+    >>> view.request.form['id'] = 'test1341'
+    >>> out = view.handle_request()
+    >>> proj = projects.test1341
+    >>> self.logout()
+
+Make sure a nonmember of this new closed project can't access it::
+    >>> self.login('m1')
+    >>> view = projects.test1341.restrictedTraverse("preferences")
+    Traceback (most recent call last):
+    ...
+    Unauthorized: You are not allowed to access 'preferences' in this context
+    >>> self.logout()
+
+Log back in as the creator and deactivate him; now he can't access
+his project either::
+    >>> self.login('m2')
+    >>> view = projects.test1341.restrictedTraverse("manage-team")
+    >>> wftool = view.get_tool("portal_workflow")
+    >>> team = view.team
+    >>> mship = team._getOb("m2")
+    >>> wftool.doActionFor(mship, "deactivate")
+
+Whoops! This is failing because of #1341::
+    >>> view = projects.test1341.restrictedTraverse("preferences")
+    Traceback (most recent call last):
+    ...
+    Unauthorized: You are not allowed to access 'preferences' in this context
+    >>> self.logout()
     >>> self.login('test_user_1_')
-
-
+    
 Preference View
 ===============
 
+    >>> proj = projects.test1
     >>> proj.restrictedTraverse('preferences')
     <...SimpleViewClass ...preferences.pt...>
 
