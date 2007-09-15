@@ -22,8 +22,6 @@ from Products.remember.content.member import FolderishMember
 from Products.remember.interfaces import IHashPW
 from Products.remember.config import ALLOWED_MEMBER_ID_PATTERN
 
-from Products.TeamSpace.security import TeamSecurity
-
 from Products.OpenPlans.config import PROJECTNAME
 from Products.OpenPlans.config import PROHIBITED_MEMBER_PREFIXES
 
@@ -163,7 +161,7 @@ for action in actions:
     if action['id'] == 'metadata':
         action['permissions'] = ('Manage users',)
 
-class OpenMember(TeamSecurity, FolderishMember):
+class OpenMember(FolderishMember):
     """ OpenPlans Member Object """
     security = ClassSecurityInfo()
     portal_type = meta_type = 'OpenMember'
@@ -188,14 +186,6 @@ class OpenMember(TeamSecurity, FolderishMember):
         registration manually
         """
         return self.UID()
-
-    # team security support
-    def _getTeamsForLocalRoles(self):
-        """
-        return the teams for which the member has an active
-        membership
-        """
-        return self.getActiveTeams()
 
     security.declareProtected(View, 'getActiveTeams')
     def getActiveTeams(self):

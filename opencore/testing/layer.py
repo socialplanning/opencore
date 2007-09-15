@@ -4,6 +4,7 @@ import transaction as txn
 
 from Testing import ZopeTestCase
 
+from Products.Five import pythonproducts
 from Products.CMFCore.utils  import getToolByName
 from Products.PloneTestCase.layer import PloneSite, ZCML
 from Products.PloneTestCase.setup import setupPloneSite
@@ -49,8 +50,8 @@ class BrowserIdManagerMock(object):
 
 
 class SiteSetupLayer(PloneSite):
-    setupPloneSite()
     installConfiguredProducts()
+    setupPloneSite()
 
     @classmethod
     def setUp(cls):
@@ -75,6 +76,9 @@ class SiteSetupLayer(PloneSite):
 class OpenPlansLayer(SiteSetupLayer):
     @classmethod
     def setUp(cls):
+        # need to explicitly apply pythonproducts patches to get the
+        # borg.localrole package's FactoryDispatcher to work
+        pythonproducts.applyPatches()
         portal = get_portal_as_owner()
         qi = getToolByName(portal, 'portal_quickinstaller')
         qi.installProduct('OpenPlans')
