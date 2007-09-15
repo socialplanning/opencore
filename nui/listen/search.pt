@@ -18,6 +18,7 @@
                 </label>
 
                 <input name="search_text" type="text"
+                       class="oc-autoFocus"
                        tal:attributes="value request/search_text|nothing" />
 
               <span class="oc-actions">
