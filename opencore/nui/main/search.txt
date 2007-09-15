@@ -297,9 +297,27 @@ Check globbing for members (advanced query globbing has index issue)::
    >>> [b.getId for b in brains]
    ['m1', 'm2', 'm3', 'm4']
 
+Members should not match based on name
    >>> brains = view.search_by_letter('F')
    >>> [b.getId for b in brains]
-   ['m4']
+   []
+
+And if we sort by modification date
+   >>> brains = view.search_by_letter('M', sort_by='modified')
+   >>> len(brains)
+   4
+   >>> mod_dates = [b.modified for b in brains]
+   >>> for i in range(3): mod_dates[i] < mod_dates[i+1]
+   True
+   True
+   True
+
+How about portal type
+   >>> brains = view.search_by_letter('P', sort_by='portal_type')
+   >>> len(brains)
+   9
+   >>> [b.getId for b in brains]
+   ['project-home', 'project-home', 'project-home', 'project-home', 'project-home', 'p1', 'p2', 'p3', 'p4']
 
 
 Homepage View
