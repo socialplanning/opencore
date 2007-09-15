@@ -198,9 +198,20 @@ def _sort_by_id(brains):
     This is a function, not a method, so it can be called from
     assorted view classes.
     """
-    return sorted(brains, key=lambda x: x.portal_type == 'OpenMember' \
-                  and x.getId.lower() or x.Title.lower())
+    return sorted(brains, key=lambda x: x.getId.lower() or x.Title.lower())
+
+def _sort_by_modified(brains):
+    return sorted(brains, key=lambda x: x.modified)
+
+# XXX should fall back on sorting by id here
+def _sort_by_portal_type(brains):
+    def cmp_portal_type(a, b):
+        if a.portal_type != b.portal_type:
+            return cmp(a.portal_type, b.portal_type)
+        return cmp(a.id, b.id)
     
+    return sorted(brains, cmp=cmp_portal_type)
+
 def searchForPerson(mcat, search_for, sort_by=None):
     """
     This is a function, not a method, so it can be called from
@@ -371,31 +382,35 @@ class SitewideSearchView(SearchView):
         letter = letter.lower()
         if letter == 'num':
             search_for = '1* OR 2* OR 3* OR 4* OR 5* OR 6* OR 7* OR 8* OR 9* OR 0*'
-            query = (Eq('portal_type', 'OpenProject') & Eq('Title', search_for)) \
-                    | (Eq('portal_type', 'Document') & Eq('Title', search_for)) \
-                    | (Eq('portal_type', 'OpenMember') & Eq('Title', search_for))
+            catalog_query = (Eq('portal_type', 'OpenProject') & Eq('Title', search_for)) \
+                    | (Eq('portal_type', 'Document') & Eq('Title', search_for))
+#                    | (Eq('portal_type', 'OpenMember') & Eq('Title', search_for))
+            membrane_query = dict(RosterSearchableText=search_for)
         elif letter == 'all':
-            query = Eq('portal_type', 'OpenProject') \
-                    | Eq('portal_type', 'Document') \
-                    | Eq('portal_type', 'OpenMember')
+            catalog_query = Eq('portal_type', 'OpenProject') \
+                    | Eq('portal_type', 'Document')
+#                    | Eq('portal_type', 'OpenMember')
+            membrane_query = dict()
         else:
             search_for = letter + '*'
-            query = ((Eq('portal_type', 'OpenProject') & (Eq('Title', search_for) | Eq('getUserId', search_for))) \
-                    | (Eq('portal_type', 'Document') & (Eq('Title', search_for) | Eq('getUserId', search_for))) \
-                    | (Eq('portal_type', 'OpenMember') & (Eq('Title', search_for) | Eq('getUserId', search_for))))
+            catalog_query = ((Eq('portal_type', 'OpenProject') & (Eq('Title', search_for))) \
+                    | (Eq('portal_type', 'Document') & (Eq('Title', search_for))))
+#                    | (Eq('portal_type', 'OpenMember') & (Eq('Title', search_for))))
+            membrane_query = dict(RosterSearchableText=search_for)
+
 
         if not sort_by:
             sort_by = 'getId'
 
-        if sort_by == 'getId':
-            rs = ()
-        else:
-            rs = ((sort_by, 'desc'),)
-
-        brains = self.catalog.evalAdvancedQuery(query, rs)
+        brains = self.catalog.evalAdvancedQuery(catalog_query, ()) + \
+                 self.get_tool('membrane_tool')(membrane_query)
 
         if sort_by == 'getId':
             brains = _sort_by_id(brains)
+        elif sort_by == 'modified':
+            brains = _sort_by_modified(brains)
+        elif sort_by == 'portal_type':
+            brains = _sort_by_portal_type(brains)
 
         if letter == 'all':
             return brains

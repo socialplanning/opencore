@@ -16,7 +16,7 @@ from Products.listen.interfaces.mailinglist import IMailingList
 from Products.remember.interfaces import IReMember
 from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, \
      IIndexingGhost, IMetadataDictionary, ILastWorkflowTransitionDate, IMailingListThreadCount, \
-     IHighestTeamRole, IGetUserIds, ILastModifiedComment
+     IHighestTeamRole, ILastModifiedComment
 from opencore.interfaces import IOpenMembership, IOpenPage
 
 from zope.component import adapter, queryUtility, adapts
@@ -36,7 +36,6 @@ idxs = (('FieldIndex', PROJECT_POLICY, None),
         ('DateIndex', 'ModificationDate', None),
         ('FieldIndex', 'mailing_list_threads', None),
         ('FieldIndex', 'highestTeamRole', None),
-        ('KeywordIndex', 'getUserId', None),
         )
 
 mem_idxs = (('FieldIndex', 'exact_getFullname',
@@ -99,17 +98,6 @@ class HighestTeamRole(object):
         team = mship.getTeam()
         mem_id = mship.getId()
         return team.getHighestTeamRoleForMember(mem_id)
-
-class UserIdGetter(object):
-    """gets the user id for members"""
-    adapts(IReMember)
-    implements(IHighestTeamRole)
-
-    def __init__(self, context):
-        self.context = context
-
-    def getValue(self):
-        return self.context.getId()
 
 class LastModifiedComment(object):
     """populates the last modified comment on an IOpenPage"""
@@ -227,9 +215,6 @@ def register_indexable_attrs():
                              'getValue')
     registerInterfaceIndexer('highestTeamRole',
                              IHighestTeamRole,
-                             'getValue')
-    registerInterfaceIndexer('getUserId',
-                             IGetUserIds,
                              'getValue')
     registerInterfaceIndexer('lastModifiedComment',
                              ILastModifiedComment,
