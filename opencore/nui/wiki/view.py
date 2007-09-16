@@ -335,6 +335,7 @@ class ImageManager(WikiEdit, OctopoLite):
         brains = self.catalog(portal_type='FileAttachment',
                               path=path,
                               )
+        # XXX what is this line for? it's really bad -- "dereferencing" a brain is very slow; any way to avoid it?
         images = [b.getObject() for b in brains if b.getObject().content_type.startswith("image/")]
         for image in images:
             if not hasattr(image, 'width'):
@@ -380,6 +381,7 @@ class ImageManager(WikiEdit, OctopoLite):
     
     @action('delete-image')
     def delete_image(self, target=None, fields=None):
+        # XXX don't do this -- just call the method that WikiEdit.delete_attachment calls.
         page = self.context.aq_inner.aq_parent.get(target[0])
         view = WikiEdit(page, self.request)
         view = view.__of__(self.loggedinmember)
