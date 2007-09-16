@@ -942,9 +942,12 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             transition_id = transition[0]['id']
             wftool.doActionFor(mship, transition_id)
             napproved += 1
-            self.email_sender.sendEmail(mem_id, msg_id='request_approved',
-                                        project_title=self.context.title,
-                                        project_url=self.context.absolute_url())
+            try:
+                self.email_sender.sendEmail(mem_id, msg_id='request_approved',
+                                            project_title=self.context.title,
+                                            project_url=self.context.absolute_url())
+            except MailHostError: 
+                pass
             self._add_transient_msg_for(mem_id, 'You have been accepted to')
             res[mem_id] = {'action': 'delete'}
             # will only be one mem_id in AJAX requests
