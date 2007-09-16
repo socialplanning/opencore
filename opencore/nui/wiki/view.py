@@ -324,7 +324,7 @@ class AttachmentView(BaseView):
         return ('%s.%s.%s' % (name, str(idx), ext))
 
 
-class ImageManager(WikiBase, OctopoLite):
+class ImageManager(WikiEdit, OctopoLite):
     template = ZopeTwoPageTemplateFile("backend-images.pt")
     
     attachment_snippet = ZopeTwoPageTemplateFile('image-manager-image.pt')
@@ -374,9 +374,7 @@ class ImageManager(WikiBase, OctopoLite):
 
     @action('upload-attachment-manager')
     def create_attachment_manager(self, target=None, fields=None):
-        view = WikiEdit(self.context, self.request)
-        view = view.__of__(self.loggedinmember)
-        view.create_attachment(target, fields)
+        new_file = self._handle_createAtt()
         return self.backend_images_snippet()
 
     
