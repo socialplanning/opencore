@@ -12,8 +12,8 @@
   </li>
 
   <li>
-    <a tal:attributes="href string:${memfolder_url}/account"
-       tal:content="string:Account" />
+    <a tal:attributes="href string:${memfolder_url}/account"/>Account <span class="oc-usermenu-messagecount"
+          tal:condition="python:view.user_message_count > 0" tal:content="string:(${view/user_message_count})" />
   </li>
 
   <tal:projects define="projects view/project_brains | nothing"
