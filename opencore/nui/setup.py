@@ -5,6 +5,8 @@ from pprint import pprint
 from zope.component import getUtility
 from zope.interface import alsoProvides
 
+from borg.localrole.utils import setup_localrole_plugin
+
 from topp.utils import config
 from topp.featurelets.interfaces import IFeatureletSupporter, IFeatureletRegistry
 
@@ -266,6 +268,7 @@ from Products.Archetypes.utils import OrderedDict
 
 # make rest of names readable  (maybe use config system)
 nui_functions = OrderedDict()
+nui_functions['Install borg.localrole PAS plug-in'] = setup_localrole_plugin
 nui_functions['Move Blocking Content'] = move_blocking_content
 nui_functions['Create Member Indexes'] = convertFunc(createMemIndexes)
 nui_functions['installNewsFolder'] = convertFunc(installNewsFolder)

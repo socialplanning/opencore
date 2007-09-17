@@ -103,7 +103,7 @@ Make sure a nonmember of this new closed project can't access it::
     >>> self.logout()
 
 Log back in as the creator and deactivate him; now he can't access
-his project either::
+views on his project either::
     >>> self.login('m2')
     >>> view = projects.test1341.restrictedTraverse("manage-team")
     >>> wftool = view.get_tool("portal_workflow")
@@ -111,11 +111,17 @@ his project either::
     >>> mship = team._getOb("m2")
     >>> wftool.doActionFor(mship, "deactivate")
 
-Whoops! This is failing because of #1341::
     >>> view = projects.test1341.restrictedTraverse("preferences")
     Traceback (most recent call last):
     ...
     Unauthorized: You are not allowed to access 'preferences' in this context
+
+Make sure he can't access wiki pages in his project, too::
+    >>> view = projects.test1341.restrictedTraverse("project-home")
+    Traceback (most recent call last):
+    ...
+    Unauthorized: You are not allowed to access 'project-home' in this context
+
     >>> self.logout()
     >>> self.login('test_user_1_')
     

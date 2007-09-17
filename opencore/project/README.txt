@@ -84,6 +84,12 @@ And our project should contain a roster and list instance
     >>> pprint(sorted(ids))
     ['.wf_policy_config', 'lists', 'proj_roster', 'project-home']
 
+After creation is finished, our project shouldn't have any users
+with the Owner role, because Owners get permissions regardless of
+subsequent membership in the project::
+    >>> handroll.users_with_local_role("Owner")
+    []
+
 When a subproject is created, we add an additional subscriber that
 does 2 things: registers the redirect information and associates a
 child project to its parent. To test, we will need to prep a project

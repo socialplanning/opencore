@@ -81,7 +81,6 @@
      permission="zope2.View"
      name="lists"
      />
-
   <browser:page
      class="opencore.nui.wiki.add.Dummy"
      for="opencore.interfaces.IProject"

@@ -44,7 +44,14 @@ def handle_postcreation(event):
         roster = instance._getOb(roster_id[0])
         if not roster.getTeams():
             roster.setTeams(instance.getTeams())
-    
+
+    # we need to remove the Owner role which is assigned to the
+    # member who created the project; otherwise the creator will
+    # have all administrative privileges even after he leaves
+    # the project or is demoted to member.
+    owners = instance.users_with_local_role("Owner")
+    instance.manage_delLocalRoles(owners)
+    # @@ why don't i need to reindex allowed roles and users?
 
 #@@ should this be own subscriber
 def _initialize_project(instance, request):

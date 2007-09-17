@@ -68,7 +68,7 @@
   <!-- topnav-explore-menu -->
   <browser:page
      for="*"
-     class="opencore.nui.base.BaseView"
+     class=".topnav.AuthMenuView"
      permission="zope2.View"
      name="topnav-mystuff-menu"
      template="mystuff-menu.pt"

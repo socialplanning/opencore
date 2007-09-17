@@ -331,4 +331,4 @@ class WikiNewsEditView(WikiEdit):
     def handle_save(self, target=None, fields=None):
         description = self.request.form.get('description', '').strip()
         self.context.setDescription(description)
-        return super(WikiNewsEditView, self).handle_save(target, fields)
+        return WikiEdit.handle_save(self, target, fields)

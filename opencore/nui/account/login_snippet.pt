@@ -21,11 +21,14 @@
         <tbody>
           <tr>
             <th class="oc-form-label" scope="row"><label for="__ac_name">Username </label></th>
-            <td class="oc-form-value" tal:define="url request/ACTUAL_URL">
-              <tal:focused_username condition="python: url.endswith('/login')">
+            <td class="oc-form-value"
+              tal:define="url request/ACTUAL_URL;
+                          user_focus python: url.endswith('/login') or '/require_login' in url">
+              <tal:focused_username
+                condition="user_focus">
                 <input type="text" size="15" tabindex="0" name="__ac_name" value="" id="__ac_name" class="oc-autoFocus" />
               </tal:focused_username>
-              <tal:unfocused_username condition="python: not url.endswith('/login')">
+              <tal:unfocused_username condition="not: user_focus">
                 <input type="text" size="15" tabindex="0" name="__ac_name" value="" id="__ac_name" />
               </tal:unfocused_username>
             </td>
