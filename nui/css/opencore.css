@@ -147,6 +147,9 @@ text-align: left;
 .oc-usermenu-messagecount {
   color: #EB852B;
 }
+.oc-selected .oc-usermenu-messagecount {
+  visibility: hidden;
+}
 .oc-dropdown-list {
   position: relative;
   padding: 0;
