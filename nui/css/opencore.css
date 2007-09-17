@@ -144,6 +144,9 @@ text-align: left;
 #oc-topnav-usermenu {
  float: right;
 }
+.oc-usermenu-messagecount {
+  color: #EB852B;
+}
 .oc-dropdown-list {
   position: relative;
   padding: 0;
