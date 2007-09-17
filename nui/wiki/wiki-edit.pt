@@ -76,7 +76,7 @@
                   define="news_interface python:modules['opencore.interfaces'].INewsItem"
                   condition="python:news_interface.providedBy(context)">
                   <label for="description">Description</label>
-                  <textarea id="description" name="description"></textarea>
+                  <textarea id="description" name="description" tal:content="context/Description" />
                 </tal:description>
 
                 <metal:fieldMacro use-macro="python:here.widget('text', mode='edit')"/>
