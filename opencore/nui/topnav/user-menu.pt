@@ -9,8 +9,8 @@
       tal:condition="python: auth and memfolder_url">
       <a tal:attributes="href memprofile_url"><span
           tal:replace="view/member_info/id"/></a>
-      <a tal:attributes="href memaccount_url">(<span
-          tal:replace="view/user_message_count"/>)</a>
+      <a tal:attributes="href memaccount_url"><span class="oc-usermenu-messagecount"
+          tal:content="view/user_message_count" /></a>
     <tal:mystuffmenu replace="structure context/topnav-mystuff-menu" />
   </li>
 
