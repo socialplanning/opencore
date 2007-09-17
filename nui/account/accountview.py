@@ -98,6 +98,15 @@ www.openplans.org""" % url
 
 class LoginView(AccountView):
 
+    @property
+    def boring_urls(self):
+        """
+        a list of urls which should not be redirected
+        back to after login because they are boring.
+        """
+        urls = (self.siteURL, self.url_for("login"),)
+        return urls
+
     def login_pending_member(self):
         # check to see if the member is pending
         member = None
@@ -170,7 +179,9 @@ class LoginView(AccountView):
             return destination
         else:
             default_redirect = '%s/account' % self.memfolder_url()
-            referer = self.request.get('http_referer', default_redirect)
+            referer = self.request.get('http_referer')
+            if not referer or referer in self.boring_urls:
+                return default_redirect
             return referer
 
     def logout(self, redirect=None):
