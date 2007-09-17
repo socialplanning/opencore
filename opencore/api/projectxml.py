@@ -1,4 +1,6 @@
+from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
+from opencore.content.membership import OpenMembership
 
 class MemberXML(BrowserView):
 
@@ -8,7 +10,17 @@ class MemberXML(BrowserView):
         response.setHeader('Content-Type',"application/xml")
 
     def team(self):
-        return self.context.getTeams()[0]
-    
+        teams = self.context.getTeams()
+        assert len(teams) == 1
+        return teams[0]
+
+    # XXX merge with opencore.nui.ManageTeamView.project.active_mships
     def members(self):
-        return self.team().getFolderContents(None,batch=True,full_objects=True)
+        team = self.team()
+        team_path = '/'.join(team.getPhysicalPath())
+        cat = getToolByName(self.context, "portal_catalog")
+        mem_ids = team.getActiveMemberIds()
+        brains = cat(portal_type=OpenMembership.portal_type,
+                     path=team_path,
+                     id=mem_ids)
+        return brains
