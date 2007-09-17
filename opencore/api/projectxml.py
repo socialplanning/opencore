@@ -2,7 +2,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from opencore.content.membership import OpenMembership
 
-class MemberXML(BrowserView):
+class ProjectMembershipXML(BrowserView):
 
     def __init__(self, context, request):
         BrowserView.__init__(self, context, request)

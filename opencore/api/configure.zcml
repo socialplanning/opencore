@@ -12,6 +12,6 @@
      permission="zope.Public"
      name="members.xml"
      template="project_members_xml.pt"
-     class=".projectxml.MemberXML"
+     class=".projectxml.ProjectMembershipXML"
      />
 </configure>
