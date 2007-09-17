@@ -182,6 +182,7 @@ class ProjectMenuView(BaseView):
                 {'content': 'Join project',
                  'href': req_mship_url,
                  'selected': self.request.ACTUAL_URL == req_mship_url,
+                 'class': 'oc-topnav-join'
                  },
                 )
 
