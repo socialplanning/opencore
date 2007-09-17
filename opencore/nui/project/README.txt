@@ -111,7 +111,6 @@ views on his project either::
     >>> mship = team._getOb("m2")
     >>> wftool.doActionFor(mship, "deactivate")
 
-Whoops! This is failing because of #1341::
     >>> view = projects.test1341.restrictedTraverse("preferences")
     Traceback (most recent call last):
     ...
@@ -121,7 +120,7 @@ Make sure he can't access wiki pages in his project, too::
     >>> view = projects.test1341.restrictedTraverse("project-home")
     Traceback (most recent call last):
     ...
-    Unauthorized: You are not allowed to access 'preferences' in this context
+    Unauthorized: You are not allowed to access 'project-home' in this context
 
     >>> self.logout()
     >>> self.login('test_user_1_')
