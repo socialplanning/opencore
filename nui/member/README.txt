@@ -366,6 +366,7 @@ Let's also reject an invitation extended to us::
 Check that changing passwords works
 
     Let's check without setting any fields
+    >>> request.form = {}
     >>> view.change_password()
     >>> view.portal_status_message
     [u'Please check the old password you entered.']
