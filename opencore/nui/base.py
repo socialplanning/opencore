@@ -45,7 +45,7 @@ class BaseView(BrowserView):
 
     # XXX only used once, move into member/view
     _url_for = dict(projects="projects", project_create="projects/create",
-                    login="login")
+                    login="login", forgot="forgot", join="join")
     def url_for(self, screen):
         return '%s/%s' % (self.siteURL, self._url_for[screen])
 

@@ -104,7 +104,9 @@ class LoginView(AccountView):
         a list of urls which should not be redirected
         back to after login because they are boring.
         """
-        urls = (self.siteURL, self.url_for("login"),)
+        urls = (self.siteURL,)
+        more_urls = [self.url_for(x) for x in ("login", "forgot", "join")]
+        urls += more_urls
         return urls
 
     def login_pending_member(self):
