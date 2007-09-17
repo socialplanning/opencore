@@ -63,13 +63,12 @@ Create a project with an international unicode title::
     >>> from opencore.nui.project.view import ProjectAddView
     >>> proj_add_view = ProjectAddView(self.portal.projects,
     ...                                self.portal.REQUEST)
-    >>> request = proj_add_view.request.form
-    >>> request['id'] = 'i18n'
+    >>> request.form['id'] = 'i18n'
 
 This is some japanese that I found::
-    >>> request['title'] = u'\u65e5\u8a9e'
-    >>> request['workflow_policy'] = 'medium_policy'
-    >>> request['__initialize_project__'] = True
+    >>> request.form['title'] = u'\u65e5\u8a9e'
+    >>> request.form['workflow_policy'] = 'medium_policy'
+    >>> request.form['__initialize_project__'] = True
     >>> html = proj_add_view.handle_request()
     >>> japanese_project = self.portal.projects.i18n
     >>> japanese_project
@@ -82,11 +81,10 @@ Create a project starting with a capital letter to test case
 insensitive sort::
     >>> proj_add_view = ProjectAddView(self.portal.projects,
     ...                                self.portal.REQUEST)
-    >>> request = proj_add_view.request.form
-    >>> request['id'] = 'apples'
-    >>> request['title'] = 'apples are good'
-    >>> request['workflow_policy'] = 'medium_policy'
-    >>> request['__initialize_project__'] = True
+    >>> request.form['id'] = 'apples'
+    >>> request.form['title'] = 'apples are good'
+    >>> request.form['workflow_policy'] = 'medium_policy'
+    >>> request.form['__initialize_project__'] = True
     >>> html = proj_add_view.handle_request()
     >>> apple_project = self.portal.projects.apples
     >>> apple_project
@@ -367,9 +365,6 @@ Let's also reject an invitation extended to us::
 
 Check that changing passwords works
 
-    We'll need to modify some request variables
-    >>> request = view.request.form = {}
-
     Let's check without setting any fields
     >>> view.change_password()
     >>> view.portal_status_message
@@ -377,43 +372,43 @@ Check that changing passwords works
 
     Now we set the old password to what it should be,
     so that we get different portal status messages
-    >>> request['passwd_curr'] = 'testy'
+    >>> request.form['passwd_curr'] = 'testy'
     >>> view.change_password()
     >>> view.portal_status_message
     [u'You must enter a password.']
 
     Set a new password
-    >>> request['password'] = 'foo'
+    >>> request.form['password'] = 'foo'
     >>> view.change_password()
     >>> view.portal_status_message
     [u'You must enter a password.']
 
     Set all the required fields
     and the passwords don't match
-    >>> request['password2'] = 'bar'
+    >>> request.form['password2'] = 'bar'
     >>> view.change_password()
     >>> view.portal_status_message
     [u'Please make sure that both password fields are the same.']
 
     Now we set the same passwordz, only not enough characters
-    >>> request['password'] = 'abc'
-    >>> request['password2'] = 'abc'
+    >>> request.form['password'] = 'abc'
+    >>> request.form['password2'] = 'abc'
     >>> view.change_password()
     >>> view.portal_status_message
     [u'Passwords must contain at least 5 characters.']
 
     And if we try to change to the same password?
     We act as if it was a successful change
-    >>> request['passwd_curr'] = 'testy'
-    >>> request['password'] = 'testy'
-    >>> request['password2'] = 'testy'
+    >>> request.form['passwd_curr'] = 'testy'
+    >>> request.form['password'] = 'testy'
+    >>> request.form['password2'] = 'testy'
     >>> view.change_password()
     >>> view.portal_status_message
     [u'Your password has been changed.']
 
     And finally, the last hoorah!
-    >>> request['password'] = 'hoorah'
-    >>> request['password2'] = 'hoorah'
+    >>> request.form['password'] = 'hoorah'
+    >>> request.form['password2'] = 'hoorah'
     >>> view.change_password()
     >>> view.portal_status_message
     [u'Your password has been changed.']
@@ -422,7 +417,7 @@ Members can also change their email address with this view
 It's talented, isn't it?
 
     Reset the request, so there's no funny business
-    >>> view.request.form = request = {}
+    >>> view.request.form = {}
 
     With no email set, we should get an error portal status message
     >>> view.change_email()
@@ -430,7 +425,7 @@ It's talented, isn't it?
     [u'Please enter your new email address.']
 
     Upon setting an invalid email, we get an appropriate message
-    >>> request['email'] = 'foobarbazquux'
+    >>> request.form['email'] = 'foobarbazquux'
     >>> view.change_email()
     >>> view.portal_status_message
     [u'That email address is invalid.']
@@ -446,8 +441,8 @@ It's talented, isn't it?
     But we have to set the anonymous email setting first
     >>> mem.getUseAnonByDefault()
     True
-    >>> request['hide_email'] = '1'
-    >>> request['email'] = 'notreal1@example.com'
+    >>> request.form['hide_email'] = '1'
+    >>> request.form['email'] = 'notreal1@example.com'
     >>> view.change_email()
     >>> view.portal_status_message
     []
@@ -455,7 +450,7 @@ It's talented, isn't it?
     'notreal1@example.com'
 
     And if we use an email address that's already taken
-    >>> request['email'] = 'notreal2@example.com'
+    >>> request.form['email'] = 'notreal2@example.com'
     >>> view.change_email()
     >>> view.portal_status_message
     [u'That email address is already in use.  Please choose another.']
@@ -464,7 +459,7 @@ It's talented, isn't it?
     # should have different messages for both
 
     And now actually change the email address
-    >>> request['email'] = 'foobarbazquux@example.com'
+    >>> request.form['email'] = 'foobarbazquux@example.com'
     >>> view.change_email()
     >>> view.portal_status_message
     [u'Your email address has been changed.']
@@ -475,15 +470,15 @@ It's talented, isn't it?
 
     And if we change the anonymous setting, it should change the
     visibility on the member object
-    >>> del request['hide_email']
+    >>> del request.form['hide_email']
     >>> view.change_email()
     >>> view.portal_status_message
     [u'Default email is not anonymous']
     
     Now if we change both at the same time,
     we should get 2 portal status messages
-    >>> request['hide_email'] = '1'
-    >>> request['email'] = 'zul@example.com'
+    >>> request.form['hide_email'] = '1'
+    >>> request.form['email'] = 'zul@example.com'
     >>> view.change_email()
     >>> psms = view.portal_status_message
     >>> len(psms)
@@ -504,7 +499,7 @@ Verify invitations view works appropriately
     Instantiate the view
     >>> from opencore.nui.member.view import InvitationView
     >>> view = InvitationView(member, view.request)
-    >>> view.request.form = request = {}
+    >>> view.request.form = {}
     
     And the utility where we manage email invites
     >>> email_inviter = getUtility(IEmailInvites, context=self.portal)
