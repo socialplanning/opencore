@@ -32,12 +32,12 @@ ul#oc-topnav-context {
 ul#oc-topnav-context li {
   background: #665D55;
 }
+ul#oc-topnav-context li.oc-topnav-join a {
+  background: #6BA12A;
+}
 ul#oc-topnav-context li a:hover,
 ul#oc-topnav-context li.oc-topnav-selected a {
   background: #EB852B;
-}
-ul#oc-topnav-context li.oc-topnav-join a {
-  background: #6BA12A;
 }
 #oc-content-wrapper {
  /* padding: 1.5em 0 1em; */
