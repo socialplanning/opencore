@@ -1,18 +1,21 @@
 """
 TopNav view classes.
 """
+from zope.component import getUtility
+
 from plone.memoize import view
 
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.TeamSpace.permissions import ManageTeamMembership
 
+from opencore.project.content import IProject
+
 from opencore.nui.base import BaseView
 from opencore.nui.contexthijack import HeaderHijackable
-from opencore.project.content import IProject
+from opencore.nui.member.interfaces import ITransientMessage
 
 
 memoizedproperty = lambda func: property(view.memoize(func))
-
 
 
 class TopNavView(HeaderHijackable):
@@ -220,6 +223,16 @@ class AuthMenuView(BaseView):
     """
     View class for the user menu when user is logged in.
     """
+    @memoizedproperty
+    def user_message_count(self):
+        """
+        returns the number of transient messages currently stored
+        for the logged in member
+        """
+        tm = getUtility(ITransientMessage, context=self.portal)
+        msgs = tm.get_all_msgs(self.loggedinmember.getId())
+        return len(msgs)
+
     @memoizedproperty
     def menudata(self):
         mem_data = self.member_info
