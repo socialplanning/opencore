@@ -528,6 +528,8 @@ class MemberAccountView(BaseView, OctopoLite):
         password = self.request.form.get('password')
         password2 = self.request.form.get('password2')
 
+        self.request.form['confirm_password'] = password2
+
         member = self.viewedmember()
         mem_id = self.viewed_member_info['id']
 
