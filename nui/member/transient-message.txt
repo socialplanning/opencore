@@ -33,6 +33,11 @@ Check storing and retrieving transient messages
     >>> list(tm.get_msgs('m2', 'ghosts'))
     [(0, 'stay puff marshmallow man')]
 
+Can we get all messages across all categories? Yes, but this is not
+efficient, since it dereferences all the messages upon generation::
+    >>> len(tm.get_all_msgs('m1'))
+    4
+
     And if we try to get messages for non existent members/categories,
     we just get nothing back
     >>> msgs = tm.get_msgs('m3', 'whatever-man')

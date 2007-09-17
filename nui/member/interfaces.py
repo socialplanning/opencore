@@ -12,6 +12,11 @@ class ITransientMessage(Interface):
         
            each message returned is a (idx, msg)"""
 
+    def get_all_msgs(mem_id):
+        """return an iterable of all messages for a user
+        
+           each message returned is a (idx, msg)"""
+
     def pop(mem_id, category, idx):
         """remove and return the message for the member, category, and index"""
 
