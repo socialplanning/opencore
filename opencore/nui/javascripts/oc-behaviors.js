@@ -119,13 +119,11 @@ OC.breatheLife = function(newNode, force) {
         
         if (force || typeof OC.liveElements[extEl.id][constructorName] == "undefined" ) {
           OC.liveElements[extEl.id][constructorName] = new constructor(extEl);
-          OC.debug(extEl.id + ": new  " + constructorName);
         }
       }
       
     } // end for each element
     
-    OC.debug(OC.liveElements);
     OC.timeEnd('breatheLife');
     
 }; // breatheLife()
@@ -138,8 +136,12 @@ OC.breatheLife = function(newNode, force) {
 
 // Debug Function.  Turn off for live code or IE
 OC.debug = function(string) {
+    args = ""
+    for (var i = 0; i < arguments.length; ++i) {
+	args += " " + arguments[i]
+    }
     if( typeof console != 'undefined' ) {
-	     console.log(string);
+	     console.log(args);
     }
 };
 
@@ -1233,7 +1235,6 @@ OC.Expander = function(extEl) {
 	     OC.debug('OC.Expander: couldn\'t get element references');
         return;
     }
-    OC.debug("OC expander is good " + extEl);
     
     // settings
     content.setVisibilityMode(Ext.Element.DISPLAY);	
