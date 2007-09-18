@@ -2,18 +2,30 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from opencore.content.membership import OpenMembership
 
-class ProjectMembershipXML(BrowserView):
-
+class XMLView(BrowserView):
     def __init__(self, context, request):
         BrowserView.__init__(self, context, request)
-        response = request.RESPONSE
-        response.setHeader('Content-Type',"application/xml")
+        request.RESPONSE.setHeader('Content-Type',"application/xml")
 
+
+class MemberInfoXML(XMLView):
+    # XXX memoize?
+    def member(self):
+        mem_folder = self.context
+        pm = getToolByName(mem_folder, "portal_membership")
+        mem_id = mem_folder.getId()
+        return pm.getMemberById(mem_id)
+
+
+class ProjectMembershipXML(XMLView):
+
+    # XXX should probably memoize this?
     def team(self):
         teams = self.context.getTeams()
         assert len(teams) == 1
         return teams[0]
 
+    # XXX memoize this too, i imagine
     # XXX merge with opencore.nui.ManageTeamView.project.active_mships
     def members(self):
         team = self.team()

@@ -1,12 +1,14 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser"
 	   xmlns:five="http://namespaces.zope.org/five">
+
   <browser:page
      for="opencore.interfaces.IProject"
      permission="zope.Public"
      name="info.xml"
      template="project_info_xml.pt"
      />
+
   <browser:page
      for="opencore.interfaces.IProject"
      permission="zope.Public"
@@ -14,4 +16,13 @@
      template="project_members_xml.pt"
      class=".projectxml.ProjectMembershipXML"
      />
+
+  <browser:page
+     for="opencore.interfaces.IMemberFolder"
+     permission="zope.Public"
+     name="info.xml"
+     template="member_info_xml.pt"
+     class=".projectxml.MemberInfoXML"
+     />
+
 </configure>

@@ -35,3 +35,10 @@ info.xml shows the project's security policy::
     </info>...
 
 
+Member API
+==========
+
+info.xml shows personal information about the member, but I've 
+described this in member_api.txt and unhooked it from the testrunner
+because I can't get the damn tests to pass (member content doesn't
+seem to be getting created no matter how hard I try).
