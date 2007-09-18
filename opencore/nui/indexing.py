@@ -16,7 +16,8 @@ from Products.listen.interfaces.mailinglist import IMailingList
 from Products.remember.interfaces import IReMember
 from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorId, \
      IIndexingGhost, IMetadataDictionary, ILastWorkflowTransitionDate, IMailingListThreadCount, \
-     IHighestTeamRole, IGetUserIds, ILastModifiedComment
+     IHighestTeamRole, IGetUserIds, ILastModifiedComment, \
+     IImageWidthHeight, IImageSize, IIsImage
 from opencore.interfaces import IOpenMembership, IOpenPage
 
 from zope.component import adapter, queryUtility, adapts
@@ -37,6 +38,7 @@ idxs = (('FieldIndex', PROJECT_POLICY, None),
         ('FieldIndex', 'mailing_list_threads', None),
         ('FieldIndex', 'highestTeamRole', None),
         ('KeywordIndex', 'getUserId', None),
+        ('FieldIndex', 'is_image', None),
         )
 
 mem_idxs = (('FieldIndex', 'exact_getFullname',
@@ -50,7 +52,8 @@ mem_idxs = (('FieldIndex', 'exact_getFullname',
 
 metadata_cols = ('lastWorkflowActor', 'made_active_date', 'lastModifiedAuthor',
                  'lastWorkflowTransitionDate', 'mailing_list_threads',
-                 'highestTeamRole', 'lastModifiedComment', PROJECT_POLICY)
+                 'highestTeamRole', 'lastModifiedComment', PROJECT_POLICY,
+                 'image_width_height', 'image_size')
 
 
 class LastWorkflowActor(object):
@@ -134,6 +137,49 @@ class LastModifiedComment(object):
         except (IndexError, ArchivistRetrieveError, ConflictError,
                 TransactionFailedError):
             return ''
+
+class ImageIndexer(object):
+    """base class for image adapters to share code"""
+
+    def __init__(self, context):
+        self.context = context
+
+    def is_image_type(self):
+        # image attachments have a FileAttachment portal_type
+        # and there content_type starts with "image/" ie. image/jpeg
+        return hasattr(self.context, 'portal_type') and \
+               self.context.portal_type == 'FileAttachment' and \
+               hasattr(self.context, 'content_type') and \
+               self.context.content_type.startswith('image/')
+
+    def getValue(self):
+        # template method design pattern to save code
+        # delegate to subclass hook to return right value
+        if not self.is_image_type():
+            return MissingValue
+        return self._getValue()
+
+
+class ImageWidthHeightIndexer(ImageIndexer):
+    adapts(Interface) #XXX really no more specific interface?
+    implements(IImageWidthHeight)
+
+    def _getValue(self):
+        return (self.context.width, self.context.height)
+
+class ImageSizeIndexer(ImageIndexer):
+    adapts(Interface) #XXX see above
+    implements(IImageSize)
+
+    def _getValue(self):
+        return len(self.context.data)
+
+class IsImageIndexer(ImageIndexer):
+    adapts(Interface) #XXX see above
+    implements(IIsImage)
+
+    def getValue(self):
+        return self.is_image_type()
 
 @implementer(ILastModifiedAuthorId)
 def authenticated_memberid(context):
@@ -230,6 +276,15 @@ def register_indexable_attrs():
                              'getValue')
     registerInterfaceIndexer('getUserId',
                              IGetUserIds,
+                             'getValue')
+    registerInterfaceIndexer('is_image',
+                             IIsImage,
+                             'getValue')
+    registerInterfaceIndexer('image_width_height',
+                             IImageWidthHeight,
+                             'getValue')
+    registerInterfaceIndexer('image_size',
+                             IImageSize,
                              'getValue')
     registerInterfaceIndexer('lastModifiedComment',
                              ILastModifiedComment,
