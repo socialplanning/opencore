@@ -59,6 +59,9 @@ class WikiVersionView(WikiBase):
     def pretty_mod_date(self, version):
         return prettyDate(DateTime(version.sys_metadata['timestamp']))
 
+    def can_revert(self):
+        return self.get_tool('portal_membership').checkPermission('CMFEditions: Revert to previous versions', self)
+
 
 
 class WikiVersionCompare(WikiVersionView):
