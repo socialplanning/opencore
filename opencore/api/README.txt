@@ -2,12 +2,14 @@
  opencore.api
 ==============
 
-APIs for remote interaction with opencore.
+APIs for remote interaction with opencore. Currently we have two APIs
+provided by projects and one provided by members.
 
-Currently we have 2 APIs provided by project.
+Project APIs
+============
 
-Members show a project's members, providing id and highest team role
-for each::
+members.xml shows a project's memberships, providing member id and
+highest team role for each::
     >>> print http(r'''
     ... GET /plone/projects/p1/@@members.xml HTTP/1.1
     ... ''')
@@ -21,15 +23,15 @@ for each::
      </member>...
     </members>...
 
-Project info shows the project's security policy::
+info.xml shows the project's security policy::
     >>> print http(r'''
     ... GET /plone/projects/p1/@@info.xml HTTP/1.1
     ... ''')
     HTTP/1.1 200 OK
     Content-Length: ...
     Content-Type: text/html; charset=utf-8...
-    <info>...
-    <policy>medium_policy</policy>
+    <info>
+     <policy>medium_policy</policy>
     </info>...
 
 
