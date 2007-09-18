@@ -131,6 +131,7 @@ var _XC_plugins = [
       'InsertPicture',
       'InsertSmiley',
       'InsertWords',
+      'InternalLink',
       'LangMarks',
       'Linker',
       'ListType',
@@ -762,12 +763,8 @@ var XinhaConfig = {
     pageStyle : '',
     pageStyleSheets : [],
     plugins : [
-	       //'SuperClean',
-      //      'FindReplace',
-      //'FullPage',
-      //'HtmlEntities',
       'ImageManager',
-      //      'Stylist',
+      'InternalLink',
       'TableOperations',
       'SpellChecker'
     ],

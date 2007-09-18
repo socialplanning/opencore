@@ -21,7 +21,6 @@
      
   <!--image manager stuff-->
 
-<!--    class=".view.ImageManager"-->
   <browser:page
 
     for="opencore.interfaces.IOpenPage"
@@ -45,6 +44,15 @@
     permission="zope2.View"
     template="backend-images.pt"
     />
+
+  <browser:page
+    class=".view.InternalLink"
+    for="opencore.interfaces.IOpenPage"
+    name="internal-link"
+    permission="zope2.View"
+    template="internal-link.pt"
+    />
+
 
   <!-- Wiki views  -->
   <browser:page

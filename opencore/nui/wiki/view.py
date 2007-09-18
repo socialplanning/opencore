@@ -385,6 +385,15 @@ class ImageManager(WikiEdit, OctopoLite):
         self.context.manage_delObjects(survivors)
         return self.backend_images_snippet()
 
+class InternalLink(WikiBase):
+
+    def file_list(self):
+        path = '/'.join(self.context.aq_inner.aq_parent.getPhysicalPath())
+        brains = self.catalog(portal_type='Document',
+                              path=path,
+                              )
+        return [{'url' : brain.getURL(),
+          'title' : brain.Title} for brain in brains]
 
 class WikiNewsEditView(WikiEdit):
     """Should look exactly like wiki edit, but also contain description field"""
