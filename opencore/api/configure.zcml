@@ -19,7 +19,7 @@
 
   <browser:page
      for="opencore.interfaces.IMemberFolder"
-     permission="zope.Public"
+     permission="cmf.ModifyPortalContent"
      name="info.xml"
      template="member_info_xml.pt"
      class=".apis.MemberInfoXML"
