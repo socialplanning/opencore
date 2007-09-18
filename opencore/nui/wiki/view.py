@@ -381,11 +381,8 @@ class ImageManager(WikiEdit, OctopoLite):
     
     @action('delete-image')
     def delete_image(self, target=None, fields=None):
-        # XXX don't do this -- just call the method that WikiEdit.delete_attachment calls.
-        page = self.context.aq_inner.aq_parent.get(target[0])
-        view = WikiEdit(page, self.request)
-        view = view.__of__(self.loggedinmember)
-        view.delete_attachment([self.request['att']], fields)
+        survivors = list(target)
+        self.context.manage_delObjects(survivors)
         return self.backend_images_snippet()
 
 
