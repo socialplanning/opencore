@@ -29,7 +29,8 @@ class ProfileView(BaseView):
     field_snippet = ZopeTwoPageTemplateFile('field_snippet.pt')
     member_macros = ZopeTwoPageTemplateFile('member_macros.pt') 
 
-
+    # XXX this seems to be called twice when i hit /user/profile 
+    #     or /user/profile/edit ... why is that?
     def __init__(self, context, request):
         BaseView.__init__(self, context, request)
         self.public_projects = []
