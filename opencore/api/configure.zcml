@@ -14,7 +14,7 @@
      permission="zope.Public"
      name="members.xml"
      template="project_members_xml.pt"
-     class=".projectxml.ProjectMembershipXML"
+     class=".apis.ProjectMembershipXML"
      />
 
   <browser:page
@@ -22,7 +22,7 @@
      permission="zope.Public"
      name="info.xml"
      template="member_info_xml.pt"
-     class=".projectxml.MemberInfoXML"
+     class=".apis.MemberInfoXML"
      />
 
 </configure>
