@@ -26,7 +26,7 @@ function TableOperations(editor) {
   // Remove existing inserttable and toggleborders, we will replace it in our group  
   cfg.removeToolbarElement(' inserttable toggleborders '); 
   
-	var toolbar = ["linebreak", "inserttable", "toggleborders"];
+  var toolbar = ["inserttable"];//["linebreak", "inserttable", "toggleborders"];
     
 	for (var i = 0; i < bl.length; ++i) {
 		var btn = bl[i];
@@ -694,7 +694,8 @@ TableOperations.prototype.buttonPress = function(editor, button_id) {
 };
 
 // the list of buttons added by this plugin
-TableOperations.btnList = [
+TableOperations.btnList = [];
+/*
 	// table properties button
     ["table-prop",       "table", "Table properties"],
 	null,			// separator
@@ -722,7 +723,7 @@ TableOperations.btnList = [
 	["cell-merge",         "tr", "Merge cells"],
 	["cell-split",         "td[colSpan!=1,rowSpan!=1]", "Split cell"]
 	];
-
+*/
 
 
 //// GENERIC CODE [style of any element; this should be moved into a separate

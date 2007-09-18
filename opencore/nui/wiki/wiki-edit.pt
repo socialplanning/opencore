@@ -39,90 +39,8 @@ var _editor_lang = "en";
 </script>
 <!-- Load up the actual editor core -->
 <script type="text/javascript" src="/++resource++xinha/XinhaCore.js"></script>
-<script type="text/javascript">
-/************************************************************************
- * Plugins you will be using in the editors on this page.
- * List all the plugins you will need, even if not all the editors will
- * use all the plugins.
- ************************************************************************
- * Please refer to http://xinha.python-hosting.com/wiki/Plugins for the
- * list of availables plugins
- ************************************************************************/
-var xinha_plugins =
-[
- 'CharacterMap',
- 'ContextMenu',
- 'FullPage',
- 'ImageManager',
- 'ListType',
- 'SpellChecker',
- 'Stylist',
- 'SuperClean',
- 'TableOperations'
-];
-/************************************************************************
- * Names of the textareas you will be turning into editors
- ************************************************************************/
-var xinha_editors =
-[
-  'text'
-];
-/************************************************************************
- * Initialisation function
- ************************************************************************/
+<script type="text/javascript" src="/++resource++xinha/xinhaconfig.js"></script>
 
-function xinha_init()
-{
-  // THIS BIT OF JAVASCRIPT LOADS THE PLUGINS, NO TOUCHING  :)
-  if(!Xinha.loadPlugins(xinha_plugins, xinha_init)) return;
-
-  /*************************************************************************
-   * We create a default configuration to be used by all the editors.
-   * If you wish to configure some of the editors differently this will be
-   * done later after editors are initiated.
-   ************************************************************************
-   * Please refer to http://xinha.python-hosting.com/wiki/Documentation/Customise
-   * for the configuration parameters
-   ************************************************************************/
-  var xinha_config = new Xinha.Config();
-  /************************************************************************
-   * We first create editors for the textareas.
-   * You can do this in two ways, either
-   *
-   *   xinha_editors   = Xinha.makeEditors(xinha_editors, xinha_config, xinha_plugins);
-   *
-   * if you want all the editor objects to use the same set of plugins, OR;
-   *
-   *   xinha_editors = Xinha.makeEditors(xinha_editors, xinha_config);
-   *   xinha_editors['myTextArea'].registerPlugins(['Stylist','FullScreen']);
-   *   xinha_editors['anotherOne'].registerPlugins(['CSS','SuperClean']);
-   *
-   * if you want to use a different set of plugins for one or more of the
-   * editors.
-   ************************************************************************/
-
-  xinha_editors = Xinha.makeEditors(xinha_editors, xinha_config, xinha_plugins);
-  /************************************************************************
-   * If you want to change the configuration variables of any of the
-   * editors,  this is the place to do that, for example you might want to
-   * change the width and height of one of the editors, like this...
-   ************************************************************************/
-  xinha_editors.text.config.width = '800px';
-  xinha_editors.text.config.height = '600px';
-  /************************************************************************
-   * Or remove the statusbar on the other one, like this...
-   * For every possible configuration, please refer to
-   * http://xinha.python-hosting.com/wiki/Documentation/ConfigVariablesList
-   ************************************************************************/
-  //xinha_editors.anotherOne.config.statusBar = false;
-  /************************************************************************
-   * Finally we "start" the editors, this turns the textareas into
-   * Xinha editors.
-   ************************************************************************/
-  Xinha.startEditors(xinha_editors);
-}
-window.onload = xinha_init;
-</script>
     </metal:script-slot>
   </head>
   <body>
@@ -170,7 +88,7 @@ window.onload = xinha_init;
                   <textarea id="description" name="description"></textarea>
                 </tal:description>
 
-                <textarea id="text" name="text" rows="25" cols="80" tal:content="context/getText"></textarea>
+                <textarea editor-type="wysiwyg" style="width: 800px; height:600px;" id="text" name="text" rows="25" cols="80" width="800px" height="600px" base="advanced" tal:content="context/getText"></textarea>
               </div><!-- end .oc-wiki-edit-content" --> 
  
               <div class="oc-js-expander oc-expander">
