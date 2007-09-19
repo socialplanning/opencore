@@ -9,6 +9,7 @@ from App import config
 from AccessControl.SecurityManagement import newSecurityManager
 from zExceptions import Forbidden, Redirect, Unauthorized
 
+from zope.component import getUtility
 from zope.event import notify
 from plone.memoize import instance
 
@@ -21,6 +22,7 @@ from Products.validation.validators.BaseValidators import EMAIL_RE
 from opencore.siteui.member import FirstLoginEvent
 from opencore.nui.base import BaseView
 from opencore.nui.email_sender import EmailSender
+from opencore.nui.project.interfaces import IEmailInvites
 from opencore.nui.formhandler import *
 from DateTime import DateTime
 
@@ -335,7 +337,7 @@ class ConfirmAccountView(AccountView):
         
     def handle_confirmation(self, *args, **kw):
         member = self.member
-        if not member:
+        if member is None:
             self.addPortalStatusMessage(u'Denied -- bad key')
             return self.redirect("%s/%s" %(self.siteURL, 'login'))
         
@@ -356,6 +358,10 @@ class InitialLogin(BaseView):
 
         # set login time since for some reason zope doesn't do it
         member.setLogin_time(DateTime())
+
+        # convert email invites into mship objects
+        email_invites = getUtility(IEmailInvites)
+        email_invites.convertInvitesForMember(member)
 
         baseurl = self.memfolder_url()
         # Go to the user's Profile Page in Edit Mode

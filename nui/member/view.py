@@ -107,12 +107,13 @@ class ProfileEditView(ProfileView, OctopoLite):
     template = ZopeTwoPageTemplateFile('profile-edit.pt')
 
     def has_invitations(self):
-        """check whether the new member has any pending project invitations to manage"""
+        """check whether the member has any pending project
+        invitations to manage"""
         member = self.loggedinmember
-        address = member.getEmail()
-        email_invites = getUtility(IEmailInvites, context=self.portal)
-        invites = email_invites.getInvitesByEmailAddress(address)
-        return bool(invites)
+        cat = self.catalogtool
+        pending_mships = cat(portal_type='OpenMembership',
+                             review_state='pending')
+        return bool(pending_mships)
 
     def check_portrait(self, member, portrait):
         try:
@@ -584,50 +585,3 @@ class MemberAccountView(BaseView, OctopoLite):
     def pretty_role(self, role):
         role = self.role_map.get(role, role)
         return role
-
-
-class InvitationView(BaseView, OctopoLite):
-    """view to manage first time login project invitations"""
-
-    template = ZopeTwoPageTemplateFile('invitations.pt')
-
-    def _create_proj_info(self, proj_id, since):
-        proj_path = '/'.join(['/'.join(self.portal.getPhysicalPath()),
-                              'projects',
-                              proj_id,
-                              ])
-        project_info = self.catalogtool.getMetadataForUID(proj_path)
-        title = project_info['Title']
-        url = '%s/projects/%s' % (self.siteURL, proj_id)
-        since = prettyDate(since)
-        return dict(url=url, since=since, proj_id=proj_id, title=title)
-
-    @req_memoize
-    def projinfos(self):
-        address = self.loggedinmember.getEmail()
-        email_inviter = getUtility(IEmailInvites, context=self.portal)
-
-        btree = email_inviter.getInvitesByEmailAddress(address)
-        return [self._create_proj_info(proj_id, since)
-                for proj_id, since in btree.items()]
-
-    def _join_project(self, proj_id):
-        pt = self.get_tool('portal_teams')
-        team = pt._getOb(proj_id)
-        team.joinAndApprove()
-
-    @action('join')
-    def handle_join(self, targets=None, fields=None):
-        projects_to_join = targets
-        # we need to get rid of the invitations we joined
-        email_invites = getUtility(IEmailInvites, context=self.portal)
-        address = self.loggedinmember.getEmail()
-        results = {}
-        for proj_id in projects_to_join:
-            self._join_project(proj_id)
-            row_id = 'proj_%s' % proj_id
-            results[row_id] = dict(action='delete')
-            email_invites.removeInvitation(address, proj_id)
-
-        # XXX redirect somewhere else?
-        return results
