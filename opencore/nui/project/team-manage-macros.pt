@@ -56,7 +56,7 @@
   <tr metal:use-macro="team_manage_macros/pendingrow">
 
     <td metal:fill-slot="status"
-        tal:content="string:needs approval" />
+        tal:content="string:awaiting approval" />
 
   </tr> <!-- end pendingrow -->
 
