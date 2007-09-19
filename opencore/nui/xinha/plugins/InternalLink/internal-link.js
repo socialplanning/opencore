@@ -28,21 +28,13 @@ function InternalLink(editor, args)
   this.lConfig = editor.config.InternalLink;
 
   var linker = this;
-  if(editor.config.btnList.createlink)
-  {
-    editor.config.btnList.createlink[3]
-      =  function(e, objname, obj) { linker._createLink(linker._getSelectedAnchor()); };
-  }
-  else
-  {
-    editor.config.registerButton(
-                                 'createlink', 'Insert/Modify Hyperlink', [_editor_url + "images/ed_buttons_main.gif",6,1], false,
-                                 function(e, objname, obj) { linker._createLink(linker._getSelectedAnchor()); }
-                                 );
-  }
+  editor.config.registerButton(
+			       'createinternallink', 'Link to Internal Page', [_editor_url + "images/ed_buttons_main.gif",7,1], false,
+			       function(e, objname, obj) { linker._createLink(linker._getSelectedAnchor()); }
+			       );
 
   // See if we can find 'createlink'
- editor.config.addToolbarElement("createlink", "createlink", 0);
+ editor.config.addToolbarElement("createinternallink", "createlink", 1);
 }
 
 InternalLink.prototype._lc = function(string)
