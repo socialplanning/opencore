@@ -1820,6 +1820,9 @@ Xinha.prototype.generate = function ()
       {
         editor._iframeLoadDone = true;
         editor.initIframe();
+        // focus the editor (activating the buttons on the toolbar)
+        Xinha._someEditorHasBeenActivated = true;
+        editor.focusEditor();
       }
       return true;
     }
