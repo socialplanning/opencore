@@ -10,7 +10,6 @@
 
     <metal:title-slot define-slot="title" />
 
-    <link rel="stylesheet" href="/++resource++css/plone.css" type="text/css" media="all" />
     <link rel="stylesheet" href="/++resource++css/opencore.css" type="text/css" media="all" />
     <!--[if IE]>
       <link rel="stylesheet" href="++resource++css/ie.css" type="text/css" media="all" />
