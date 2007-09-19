@@ -906,8 +906,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         return getUtility(ITransientMessage, context=self.portal)
 
     def _add_transient_msg_for(self, mem_id, msg):
-        # XXX not happy about generating the html for this here ... but it's a one liner
-        # can move to a macro
+        # XXX not happy about generating the html for this here
+        # but it's a one liner can move to a macro
         proj_url = self.context.absolute_url()
         title = self.context.title
         msg = '%(msg)s <a href="%(proj_url)s">%(title)s</a>' % locals()
@@ -1345,10 +1345,14 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         invites = self.request.form.get('email-invites')
         invites = [addy.strip() for addy in invites.split(',')]
         regex = re.compile(EMAIL_RE)
+        good = []
         bad = []
         for addy in invites:
-            if regex.match(addy) is None:
-                bad.append(addy)
+            if addy: # ignore empty entries
+                if regex.match(addy) is None:
+                    bad.append(addy)
+                else:
+                    good.append(addy)
         if bad:
             psm = (u"Poorly formed email addresses, please correct: %s"
                    % ', '.join(bad))
@@ -1364,7 +1368,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         mem_failures = []
         email_invites = []
         already_invited = []
-        for addy in invites:
+        for addy in good:
             # first check to see if we're already a site member
             match = uSR(getEmail=addy)
             if match:

@@ -216,10 +216,11 @@ class OpenTeam(Team):
         mship.reindexObject()
         mship._p_changed = True
 
-        
-    def _createMembership(self):
+    security.declarePrivate('_createMembership')
+    def _createMembership(self, mem=None):
         mtool = getToolByName(self, 'portal_membership')
-        mem = mtool.getAuthenticatedMember()
+        if mem is None:
+            mem = mtool.getAuthenticatedMember()
         mem_id = mem.getId()
         if self.getMembershipByMemberId(mem_id) is not None:
             # already have a membership
