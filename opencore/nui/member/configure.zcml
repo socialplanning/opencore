@@ -19,13 +19,6 @@
  
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
-     class=".view.InvitationView"
-     permission="cmf.ModifyPortalContent"
-     name="invitations"
-     />
- 
-  <browser:page
-     for="opencore.siteui.interfaces.IMemberFolder"
      class=".view.ProfileView"
      permission="zope2.View"
      name="profile"

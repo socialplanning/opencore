@@ -906,8 +906,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         return getUtility(ITransientMessage, context=self.portal)
 
     def _add_transient_msg_for(self, mem_id, msg):
-        # XXX not happy about generating the html for this here ... but it's a one liner
-        # can move to a macro
+        # XXX not happy about generating the html for this here
+        # but it's a one liner can move to a macro
         proj_url = self.context.absolute_url()
         title = self.context.title
         msg = '%(msg)s <a href="%(proj_url)s">%(title)s</a>' % locals()

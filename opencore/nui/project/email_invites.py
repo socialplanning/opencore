@@ -5,6 +5,8 @@ import DateTime
 from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
 
+from Products.CMFCore.utils import getToolByName
+
 from opencore.nui.project.interfaces import IEmailInvites
 
 class EmailInvites(SimpleItem):
@@ -51,4 +53,25 @@ class EmailInvites(SimpleItem):
     def removeAllInvitesForAddress(self, address):
         by_email = self.getInvitesByEmailAddress(address)[:]
         for proj_id in by_email:
+            self.removeInvitation(address, proj_id)
+
+    def convertInvitesForMember(self, member):
+        address = member.getEmail()
+        invites = self.getInvitesByEmailAddress(address)
+        tmtool = getToolByName(self, 'portal_teams')
+        wftool = getToolByName(self, 'portal_workflow')
+        for proj_id in invites:
+            tm = tmtool.getTeamById(proj_id)
+            if tm is not None:
+                mship = tm._createMembership(member)
+                # bad touch, we have to make it look like someone
+                # other than the actual user made the request, so
+                # it'll be treated as an invitation :-(
+                wf_id = wftool.getChainFor(mship)[0]
+                wf_hist = mship.workflow_history.get(wf_id)
+                wf_status = wf_hist[-1]
+                wf_status['actor'] = 'admin'
+                mship.from_email_invite = True
+                mship.reindexObject()
+                
             self.removeInvitation(address, proj_id)

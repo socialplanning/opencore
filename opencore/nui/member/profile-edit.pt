@@ -16,7 +16,7 @@
             </p>
             <div tal:condition="view/has_invitations" class="oc-bigText">
                 Or, continue to
-                <a tal:attributes="href string:${context/absolute_url}/invitations">
+                <a tal:attributes="href string:${memberdata/folder_url}/account">
                   The Projects that Invited You
                 </a>.
             </div>

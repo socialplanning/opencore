@@ -39,3 +39,10 @@ class IEmailInvites(Interface):
         Does nothing if no invitations exist for the specified
         address.
         """
+
+    def convertInvitesForMember(member):
+        """
+        Converts any invitations for the email address related to the
+        given member object into actual membership object invitations
+        which can be approved per the default interface.
+        """
