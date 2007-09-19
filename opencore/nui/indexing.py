@@ -1,3 +1,5 @@
+from PIL import Image
+from StringIO import StringIO
 from Missing import Value as MissingValue
 from ZODB.POSException import ConflictError
 from ZODB.POSException import TransactionFailedError
@@ -165,7 +167,10 @@ class ImageWidthHeightIndexer(ImageIndexer):
     implements(IImageWidthHeight)
 
     def _getValue(self):
-        return (self.context.width, self.context.height)
+        data = StringIO(self.context.data)
+        im = Image.open(data)
+        # size is (width, height)
+        return im.size
 
 class ImageSizeIndexer(ImageIndexer):
     adapts(Interface) #XXX see above

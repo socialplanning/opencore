@@ -332,18 +332,8 @@ class ImageManager(WikiEdit, OctopoLite):
 
     def images(self):
         path = '/'.join(self.context.aq_inner.aq_parent.getPhysicalPath())
-        brains = self.catalog(portal_type='FileAttachment',
-                              path=path,
-                              )
-        # XXX what is this line for? it's really bad -- "dereferencing" a brain is very slow; any way to avoid it?
-        images = [b.getObject() for b in brains if b.getObject().content_type.startswith("image/")]
-        for image in images:
-            if not hasattr(image, 'width'):
-                im = Image.open(StringIO(image.data))
-                image.width, image.height = im.size
-                image.size = len(image.data)
-                
-        return images
+        image_brains = self.catalog(is_image=True, path=path)
+        return image_brains
 
     def thumb(self):
         image = self.context.aq_inner
@@ -385,6 +375,15 @@ class ImageManager(WikiEdit, OctopoLite):
         self.context.manage_delObjects(survivors)
         return self.backend_images_snippet()
 
+    def parse_parent_from(self, brain):
+        url = brain.getURL()
+        try:
+            parent = url.split('/')[-2]
+            return parent
+        except IndexError:
+            return url
+
+
 class InternalLink(WikiBase):
 
     def file_list(self):
@@ -394,6 +393,7 @@ class InternalLink(WikiBase):
                               )
         return [{'url' : brain.getURL(),
           'title' : brain.Title} for brain in brains]
+
 
 class WikiNewsEditView(WikiEdit):
     """Should look exactly like wiki edit, but also contain description field"""
