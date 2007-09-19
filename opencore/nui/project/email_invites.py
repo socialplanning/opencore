@@ -48,7 +48,7 @@ class EmailInvites(SimpleItem):
         by_project = self.getInvitesByProject(proj_id)
         if address in by_project:
             by_project.pop(address)
-            self._by_project = by_project
+            self._by_project[proj_id] = by_project
 
     def removeAllInvitesForAddress(self, address):
         by_email = self.getInvitesByEmailAddress(address)[:]
