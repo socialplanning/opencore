@@ -686,7 +686,10 @@ Xinha.prototype.setCC = function ( target )
   else
   {
     var sel = this.getSelection();
-    sel.getRangeAt(0).insertNode( document.createTextNode( this.cc ) );
+    if (sel.anchorNode) {
+	sel.getRangeAt(0).insertNode( document.createTextNode( this.cc ) );
+    }
+    
   }
 };
 
@@ -699,7 +702,7 @@ Xinha.prototype.findCC = function ( target )
     if (target == "textarea")
     {
       var ta = this._textArea;
-      var start = pos = ta.selectionStart;
+      var start = pos = ta.selectionStart
       var end = ta.selectionEnd;
       var scrollTop = ta.scrollTop;
       ta.value = ta.value.substring( 0, start ) + ta.value.substring( end, ta.value.length );
@@ -713,7 +716,9 @@ Xinha.prototype.findCC = function ( target )
       var sel = this.getSelection();
       sel.getRangeAt(0).deleteContents();
     }
-  }  
+  } else {
+      this._textArea.focus();
+  }
 };
 /*--------------------------------------------------------------------------*/
 /*------------ EXTEND SOME STANDARD "Xinha.prototype" METHODS --------------*/
