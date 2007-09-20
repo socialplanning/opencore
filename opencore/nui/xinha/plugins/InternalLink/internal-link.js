@@ -57,7 +57,7 @@ InternalLink.prototype._createLink = function(a)
     target:   '',
     p_width:  '',
     p_height: '',
-    p_options: ['menubar=no','toolbar=yes','location=no','status=no','scrollbars=yes','resizeable=yes'],
+    p_options: ['menubar=no','toolbar=yes','location=no','status=no','scrollbars=yes','resizeable=yes']
   };
 
   if(a && a.tagName.toLowerCase() == 'a')
@@ -292,7 +292,8 @@ InternalLink.Dialog.prototype._prepareDialog = function()
   var html = this.html;
 
   // Now we have everything we need, so we can build the dialog.
-  var dialog = this.dialog = new Xinha.Dialog(linker.editor, this.html, 'InternalLink');
+  this.dialog = new Xinha.Dialog(linker.editor, this.html, 'InternalLink');
+  var dialog = this.dialog;
   var dTreeName = Xinha.uniq('dTree_');
 
   this.dTree = new dTree(dTreeName, _editor_url + 'plugins/InternalLink/dTree/');
@@ -331,13 +332,16 @@ InternalLink.Dialog.prototype._prepareDialog = function()
       if (h<0) h = 0;
       options.style.height = ddTree.style.height = h + 'px';
       ddTree.style.width  = w + 'px';
-    }
+    };
 
   this.ready = true;
 };
 
 InternalLink.Dialog.prototype.makeNodes = function(files, parent)
 {
+  var id;
+  var link;
+  var title;
   for(var i = 0; i < files.length; i++)
   {
     if(typeof files[i] == 'string')
@@ -349,24 +353,24 @@ InternalLink.Dialog.prototype.makeNodes = function(files, parent)
     }
     else if(files[i].length)
     {
-      var id = this.Dialog_nxtid++;
+      id = this.Dialog_nxtid++;
       this.dTree.add(id, parent, files[i][0].replace(/^.*\//, ''), null, files[i][0]);
       this.makeNodes(files[i][1], id);
     }
     else if(typeof files[i] == 'object')
     {
       if(files[i].children) {
-        var id = this.Dialog_nxtid++;
+        id = this.Dialog_nxtid++;
       } else {
-        var id = InternalLink.nxtid++;
+        id = InternalLink.nxtid++;
       }
 
-      if(files[i].title) var title = files[i].title;
-      else if(files[i].url) var title = files[i].url.replace(/^.*\//, '');
-      else var title = "no title defined";
+      if(files[i].title) title = files[i].title;
+      else if(files[i].url) title = files[i].url.replace(/^.*\//, '');
+      else title = "no title defined";
 
-      if(files[i].url) var link = 'javascript:document.getElementsByName(\'' + this.dialog.id.href + '\')[0].value=decodeURIComponent(\'' + encodeURIComponent(files[i].url) + '\');document.getElementsByName(\'' + this.dialog.id.href + '\')[0].focus();void(0);';
-      else var link = '';
+      if(files[i].url) link = 'javascript:document.getElementsByName(\'' + this.dialog.id.href + '\')[0].value=decodeURIComponent(\'' + encodeURIComponent(files[i].url) + '\');document.getElementsByName(\'' + this.dialog.id.href + '\')[0].focus();void(0);';
+      else link = '';
       
       this.dTree.add(id, parent, title, link, title);
       if(files[i].children) {
@@ -427,7 +431,7 @@ InternalLink.Dialog.prototype.show = function(inputs, ok, cancel)
   }
   else
   {
-    this.dialog.getElementById('cancel').onclick = function() { lDialog.hide()};
+    this.dialog.getElementById('cancel').onclick = function() { lDialog.hide();};
   }
 
   // Show the dialog
