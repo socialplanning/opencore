@@ -758,7 +758,7 @@ var XinhaConfig = {
     },
     height : '600',
     ImageManager : { 
-	'backend' : 'backend?',
+	'backend' : 'backend?'
     },
     pageStyle : '',
     pageStyleSheets : ['/++resource++css/opencore.css', '/++resource++css/themes/openplans.css'],
