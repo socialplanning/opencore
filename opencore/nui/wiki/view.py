@@ -3,6 +3,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.nui.formhandler import button, OctopoLite, action
 from PIL import Image
 from StringIO import StringIO
+from lxml.html.clean import clean_html
 
 class WikiBase(BaseView):
 
@@ -48,9 +49,12 @@ class WikiEdit(WikiBase, OctopoLite):
     attachment_snippet = ZopeTwoPageTemplateFile('attachment.pt')
 
 
+    def _clean_html(self, html):
+        """ delegate cleaning of html to lxml """
+        return clean_html(html)
+
     @action('save')
     def handle_save(self, target=None, fields=None):
-
         self.create_attachment()
 
         self.errors = {}
@@ -66,7 +70,20 @@ class WikiEdit(WikiBase, OctopoLite):
             if k in allowed_params:
                 new_form[k] = self.request.form[k]
         
-        self.context.processForm(values=self.request)
+        # don't call process form, because we do our own cleaning of html
+        # self.context.processForm(values=self.request)
+
+        page_title = new_form['title']
+        page_text = new_form['text']
+        # XXX check description on news page
+        description = new_form.get('description', None)
+        clean_text = self._clean_html(page_text)
+
+        self.context.setTitle(page_title)
+        self.context.setText(clean_text)
+        if description is not None:
+            self.context.setDescription(description)
+
         repo = self.context.portal.portal_repository
         repo.save(self.context, comment = self.request.form.get('comment', ''))
         self.context.reindexObject()
