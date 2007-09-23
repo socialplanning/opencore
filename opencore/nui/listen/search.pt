@@ -12,7 +12,7 @@
                              batch results;">
 
           <div class="oc-widget-search oc-boxy">
-            <form action="./search_archive" method="post">
+            <form action="./search_archive">
                 <label class="oc-label-heading oc-biggerText" for="text" i18n:translate="label_search_text" tal:content="view/Title">
                   Search:
                 </label>
