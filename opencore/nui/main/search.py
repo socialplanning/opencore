@@ -54,10 +54,10 @@ class ProjectsSearchView(SearchView):
     active_states = ['public', 'private']
 
     def __call__(self):
-        search_for = self.request.get('search_for', None)
-        letter_search = self.request.get('letter_search', None)
+        search_for = self.request.get('search_for')
+        letter_search = self.request.get('letter_search')
         start = self.request.get('b_start', 0)
-        sort_by = self.request.get('sort_by', None)
+        sort_by = self.request.get('sort_by')
         self.search_results = None
         self.search_query = None
 
@@ -242,10 +242,10 @@ class PeopleSearchView(SearchView):
         SearchView.__init__(self, context, request)
 
     def __call__(self):
-        search_for = self.request.get('search_for', None)
-        letter_search = self.request.get('letter_search', None)
+        search_for = self.request.get('search_for')
+        letter_search = self.request.get('letter_search')
         start = self.request.get('b_start', 0)
-        sort_by = self.request.get('sort_by', None)
+        sort_by = self.request.get('sort_by')
         self.search_results = None
         self.search_query = None
            
@@ -342,10 +342,10 @@ class HomeView(SearchView):
 class SitewideSearchView(SearchView):
 
     def __call__(self):
-        letter_search = self.request.get('letter_search', None)
-        search_for = self.request.get('search_for', None)
+        letter_search = self.request.get('letter_search')
+        search_for = self.request.get('search_for')
         start = self.request.get('b_start', 0)
-        sort_by = self.request.get('sort_by', None)
+        sort_by = self.request.get('sort_by')
         self.search_results = None
         self.search_query = None
 
