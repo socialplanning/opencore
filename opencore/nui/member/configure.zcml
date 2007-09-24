@@ -19,6 +19,13 @@
  
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
+     class=".view.TrackbackView"
+     permission="zope2.View"
+     name="trackback"
+     />
+
+  <browser:page
+     for="opencore.siteui.interfaces.IMemberFolder"
      class=".view.ProfileView"
      permission="zope2.View"
      name="profile"
