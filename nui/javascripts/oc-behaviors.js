@@ -139,19 +139,22 @@ OC.breatheLife = function(newNode, force) {
 // Debug Function.  Turn off for live code or IE
 OC.debug = function(string) {
     if( typeof console != 'undefined' ) {
-	     console.log(string);
+       //un-comment this line to turn on debugging
+	     //console.log(string);
     }
 };
 
 // Timer
 OC.time = function(name) {
   if (typeof console != 'undefined') {
-    console.time(name);
+    //un-comment the line below to turn on timing
+    //console.time(name);
   }
 }
 OC.timeEnd = function(name) {
   if (typeof console != 'undefined') {
-    console.timeEnd(name);
+    //un-comment the line below to turn on timing
+    //console.timeEnd(name);
   }
 }
 
