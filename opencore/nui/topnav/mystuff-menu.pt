@@ -13,6 +13,7 @@
 
   <li>
     <a tal:attributes="href string:${memfolder_url}/account"/>Account <span class="oc-mystuff-messagecount"
+          id="killme-mystuffmenu-messagecount"
           tal:condition="python:view.user_message_count > 0"
           tal:content="string:(${view/user_message_count} messages)" />
   </li>

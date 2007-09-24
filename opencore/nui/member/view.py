@@ -503,10 +503,25 @@ class MemberAccountView(BaseView, OctopoLite):
         except KeyError:
             return {}
         else:
-            elt_id = '%s_close' % idx
-            return {elt_id: dict(action='delete'),
-                    "num_updates": {'action': 'copy',
-                                    'html': self.nupdates()}}
+            num_msgs = self.nupdates()
+
+            # stubbing out. don't feel like doing this now
+            # because i'll just make more of a mess
+            if False and not num_msgs:
+                pass
+            else:
+                def update_msg_num(string=None):
+                    if not string: string = "%d"
+                    return {'action': 'copy',
+                            'html': string % num_msgs}
+                
+                elt_id = 'close_%s' % idx
+                #mystuff_plural_crap = num_msgs == 1 and "(%d message)" or "(%d messages)"
+                return {elt_id: {'action':'delete'},
+                        "num_updates": update_msg_num(),
+                        "killme-usermenu-messagecount": update_msg_num("(%d)"),
+                        "killme-mystuffmenu-messagecount": update_msg_num("(%d messages)"),
+                        }
 
     @property
     @req_memoize
