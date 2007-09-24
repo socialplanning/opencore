@@ -223,6 +223,13 @@ class WikiEdit(WikiBase, OctopoLite):
                                                      'effects': 'fadeout'}
         return commands
 
+    def rawtext(self):
+        rawtext = self.context.getRawText()
+        if rawtext:
+            return rawtext
+        else:
+            return "Please enter some text for your page"
+
 
 class AttachmentView(BaseView):
     attachment_snippet = ZopeTwoPageTemplateFile('attachment.pt')
