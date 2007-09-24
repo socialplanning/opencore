@@ -58,7 +58,7 @@ class WikiEdit(WikiBase, OctopoLite):
         self.context.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
             for msg in self.errors.values():
-                self.addPortalStatusMessage(msg)
+                self.add_status_message(msg)
             return self.errors
 
         allowed_params = set(['comment', 'oc-target', 'text_file', 'title', 'text', 'attachmentFile', 'submitted', 'text_text_format', 'attachmentTitle', 'task|save'])
@@ -71,7 +71,7 @@ class WikiEdit(WikiBase, OctopoLite):
         repo = self.context.portal.portal_repository
         repo.save(self.context, comment = self.request.form.get('comment', ''))
         self.context.reindexObject()
-        self.addPortalStatusMessage(u'Your changes have been saved.')
+        self.add_status_message('saved')
 
         self.template = None
         self.redirect(self.context.absolute_url())

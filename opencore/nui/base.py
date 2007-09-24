@@ -13,7 +13,8 @@ from opencore.interfaces import IProject
 from opencore.nui.static import render_static
 from plone.memoize import instance
 from plone.memoize import view 
-from time import strptime
+
+from topp.messages.psm import psm
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.utils.pretty_date import prettyDate
 from topp.utils.pretty_text import truncate
@@ -23,6 +24,7 @@ import DateTime
 import cgi
 import datetime
 import urllib
+from time import strptime
 
 view.memoizedproperty = lambda func: property(view.memoize(func))
 view.mcproperty = lambda func: property(view.memoize_contextless(func))
@@ -100,12 +102,20 @@ class BaseView(BrowserView):
             msgs.append(req_psm)
         return msgs
 
-    # XXX standardize
-    def add_status_message(self, msg):
+    def add_status_message(self, msg, **kwargs):
+
+        # XXX this should be factored out
+        # XXX in fact, as much as possible of this function should be
+        from string import Template
+
+        msg = psm.get(msg, msg)
+        msg = Template(msg).substitute(kwargs)
         plone_utils = self.get_tool('plone_utils')
         plone_utils.addPortalMessage(_(msg))
 
-    addPortalStatusMessage = add_status_message
+    def add_status_message_list(self, msg, **kwargs):        
+        self.add_status_message(msg, **dict([(i, ', '.join(j)) 
+                                             for i, j in kwargs.items()]))
 
     # XXX not used
     def include(self, viewname):
@@ -493,7 +503,7 @@ class BaseView(BrowserView):
             # XXX ultimately validate_password_form should play more nicely with messages
             if messages:
                 for msg in messages:
-                    self.addPortalStatusMessage(msg)
+                    self.add_status_message(msg)
                 return False
             return member
 
@@ -501,20 +511,22 @@ class BaseView(BrowserView):
             # get the member object
             id = member
             if not id:
-                messages.append('You need to enter your username.')
+                messages.append('missing username')
                 return exit_function()
                 
             member = self.get_tool("membrane_tool")(getUserName=id)
             if not member:
+                # XXX do this better!
+                # use topp.messages.psm['no such user']
                 messages.append('There is no member named "%s".' % id)
                 return exit_function()
             member = member[0].getObject()
 
-        if not password or not password2:
-            messages.append("You must enter a password.")
+        if not password or not password2:            
+            messages.append('missing password')
             return exit_function()
         if password != password2:
-            messages.append("Please make sure that both password fields are the same.")
+            messages.append('nonmatching passwords')
             return exit_function()
         msg = member.validate_password(password)
         if msg:

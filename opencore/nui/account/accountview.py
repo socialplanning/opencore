@@ -32,7 +32,6 @@ class AccountView(BaseView):
     distinguished by its login functionality
     """
 
-    add_status_message = BaseView.addPortalStatusMessage
     login_snippet = ZopeTwoPageTemplateFile('login_snippet.pt')
     forgot_snippet = ZopeTwoPageTemplateFile('forgot_snippet.pt')
 
@@ -122,9 +121,9 @@ class LoginView(AccountView):
         # ensure there is one match and the password is right
         if member and member.verifyCredentials({'login': id_, 
                                                 'password': password}):
-            self.addPortalStatusMessage("""Your account has not yet been activated. An email was sent to %s from %s containing a link to activate your account.""" %
-                (member.getEmail(),
-                 self.portal.getProperty('email_from_address')))
+            
+            self.add_status_message('pending', email=member.getEmail(),
+                                    greetings=self.portal.getProperty('email_from_address'))
             self.redirect('pending?key=%s' % member.UID())
             return True
         return False
@@ -136,7 +135,7 @@ class LoginView(AccountView):
 
         id_ = self.request.get('__ac_name')
         if self.loggedin:
-            self.addPortalStatusMessage('Welcome! You have signed in.')
+            self.add_status_message('login')
             self.update_credentials(id_)
             self.membertool.setLoginTimes()
 
@@ -158,7 +157,7 @@ class LoginView(AccountView):
             destination = self.destination
             return self.redirect(destination)
 
-        self.addPortalStatusMessage(u'Please check your username and password. If you still have trouble, you can <a href="forgot">retrieve your sign in information</a>.')
+        self.add_status_message('login failed')
 
     @anon_only(BaseView.siteURL)
     def handle_request(self):
@@ -193,7 +192,7 @@ class LoginView(AccountView):
 
         self.invalidate_session()
             
-        self.add_status_message("You have signed out.")
+        self.add_status_message('logout')
         
         if redirect is None:
             redirect = self.login_url
@@ -218,7 +217,8 @@ class LoginView(AccountView):
             session.invalidate()
 
     def privs_redirect(self):
-        self.add_status_message("You do not have sufficient permissions.")
+        # XXX is this used anywhere?
+        self.add_status_message('insufficient privileges')
         if not self.loggedin:
             self.redirect(self.login_url)
             
@@ -273,7 +273,7 @@ class JoinView(AccountView, OctopoLite):
             self._sendmail_to_pendinguser(id=mem_id,
                                           email=self.request.get('email'),
                                           url=url)
-            self.addPortalStatusMessage(u'Thanks for joining OpenPlans, %s!\nA confirmation email has been sent to you with instructions on activating your account.' % mem_id)
+            self.add_status_message('joined', username=mem_id)
             self.redirect(self.portal_url())
             return mdc._getOb(mem_id)
         else:
@@ -326,7 +326,7 @@ class ConfirmAccountView(AccountView):
         """Move member into the confirmed workflow state"""
         pf = self.get_tool("portal_workflow")
         if pf.getInfoFor(member, 'review_state') != 'pending':
-            self.addPortalStatusMessage(u'You have tried to activate an account that is not pending confirmation. Please sign in normally.')
+            self.add_status_message('already confirmed')
             return False
         
         # need to set/delete the attribute for the workflow guards
@@ -338,7 +338,7 @@ class ConfirmAccountView(AccountView):
     def handle_confirmation(self, *args, **kw):
         member = self.member
         if member is None:
-            self.addPortalStatusMessage(u'Denied -- bad key')
+            self.add_status_message('bad confirmation key')
             return self.redirect("%s/%s" %(self.siteURL, 'login'))
         
         # redirect to login page if confirmation isn't pending
@@ -379,7 +379,7 @@ class ForgotLoginView(AccountView):
         if userid:
             if email_confirmation():
                 self._mailPassword(userid)
-                self.addPortalStatusMessage('Your username is %s.  If you would like to reset your password, please check your email account for further instructions.' % userid)
+                self.add_status_message('forgot', username=userid)
             else:
                 self.redirect(self.reset_url)
             return True
@@ -425,7 +425,7 @@ class ForgotLoginView(AccountView):
     def userid(self):
         user_lookup = self.request.get("__ac_name")
         if not user_lookup:
-            self.addPortalStatusMessage(u"Please enter your username or email address.")
+            self.add_status_message('need name or email')
             return None
         
         if '@' in user_lookup:
@@ -434,7 +434,7 @@ class ForgotLoginView(AccountView):
             brains = self.membranetool(getUserName=user_lookup)
 
         if not brains:
-            self.addPortalStatusMessage(u"We can't find your account. This could be because you have not yet completed your email confirmation.")
+            self.add_status_message('no account')
             return
         return brains[0].getId
 
@@ -460,21 +460,16 @@ class PasswordResetView(AccountView):
             pw_tool.resetPassword(userid, randomstring, password)
         except 'InvalidRequestError':
             # XXX TODO redirect to 404 instead
-            msg = u'Password reset attempt failed. Did you mistype your username or password?'
-            self.addPortalStatusMessage(msg)
+            self.add_status_message('password reset failure')
             return self.redirect(self.siteURL)
         except 'ExpiredRequestError':
-            msg = u'Your password reset request has expired.'
-            msg += (u'You can <a href="login">sign in</a> again using'
-                    'your old username and password or '
-                    '<a href="forgot">request a new password</a> again.')
-            self.addPortalStatusMessage(msg)
+            self.add_status_message('password reset expired')
             return self.redirect("%s/login" % self.siteURL)
 
         # Automatically log the user in
         self.login(userid)
         
-        self.addPortalStatusMessage(u'Welcome! Your password has been reset, and you are now signed in.')
+        self.add_status_message('password reset success')
         self.redirect('%s/account' % self.memfolder_url(userid))
         return True
 
@@ -516,18 +511,17 @@ class PendingView(AccountView):
             email = self.request.form.get('email', '')
             msg = member.validate_email(email)
             if msg:
-                email = ''
-            else:
-                member.setEmail(email)
+                self.add_status_message(msg)
+                return
+            member.setEmail(email)
         
         if email:
             self._sendmail_to_pendinguser(member.getId(),
                                           email,
                                           self._confirmation_url(member))
             mfrom = self.portal.getProperty('email_from_address')
-            msg = 'A new activation email has been sent to %s from %s. Please follow the link in the email to activate this account.' % (email, mfrom)
-
-        self.addPortalStatusMessage(msg)
+            self.add_status_message('activation reminder', 
+                                    email=email, greetings=mfrom)
 
     def handle_request(self):
         self._pending_member()

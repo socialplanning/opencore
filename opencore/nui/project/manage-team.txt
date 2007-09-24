@@ -166,7 +166,7 @@ And if we try nobody
     >>> view.remove_members([])
     {}
     >>> view.portal_status_message
-    [u'Please select members to remove.']
+    [u'Please select a member to remove.']
 
 Transient Message should be added as well
 

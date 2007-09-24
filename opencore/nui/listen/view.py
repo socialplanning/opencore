@@ -74,7 +74,7 @@ def make_nui_listen_view_class(ListenClass, set_errors=False, add_update=False):
             def update(self):
                 result = super(NuiListenView, self).update()
                 if self.status and self.errors:
-                    self.addPortalStatusMessage(self.status)
+                    self.add_status_message(self.status)
                 return result
 
 
