@@ -19,6 +19,23 @@
  
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
+<<<<<<< .mine
+     class=".view.InvitationView"
+     permission="cmf.ModifyPortalContent"
+     name="invitations"
+     />
+
+  <browser:page
+     for="opencore.siteui.interfaces.IMemberFolder"
+     class=".view.TrackbackView"
+     permission="zope2.View"
+     name="trackback"
+     />
+
+  <browser:page
+     for="opencore.siteui.interfaces.IMemberFolder"
+=======
+>>>>>>> .r9086
      class=".view.ProfileView"
      permission="zope2.View"
      name="profile"

@@ -100,6 +100,29 @@ class ProfileView(BaseView):
         timestamp = str(DateTime()).replace(' ', '_')
         return '%s?%s' % (portrait_url, timestamp)
 
+    def trackbacks(self):
+        tm = getUtility(ITransientMessage, context=self.portal)
+        mem_id = self.viewed_member_info['id']
+        msgs = tm.get_msgs(mem_id, 'Trackback')
+        # import pdb; pdb.set_trace()
+
+        # We have to import datetime renamed because it fails in a bizarre fashion if we don't.  Maybe it's
+        # a case sensitivity issue with Zope's DateTime ?
+        import datetime as doug
+        old_messages = [(idx, value) for (idx, value) in msgs if doug.datetime.fromtimestamp(value['time']) < doug.datetime.now() - doug.timedelta(days=60)]
+        for (idx, value) in old_messages:
+            tm.pop(mem_id, 'Trackback', idx)
+            msgs = tm.get_msgs(mem_id, 'Trackback')
+
+        # We want to insert the indexes into the values so that we can properly address them for deletion
+        addressable_msgs = []
+        for (idx, value) in msgs:
+            value['idx'] = 'trackback_%d' % idx
+            value['close_url'] = 'trackback?idx=%d&action=delete' % idx
+            addressable_msgs.append(value)
+
+        return addressable_msgs
+
 
 class ProfileEditView(ProfileView, OctopoLite):
 
@@ -585,3 +608,92 @@ class MemberAccountView(BaseView, OctopoLite):
     def pretty_role(self, role):
         role = self.role_map.get(role, role)
         return role
+<<<<<<< .mine
+
+
+class InvitationView(BaseView, OctopoLite):
+    """view to manage first time login project invitations"""
+
+    template = ZopeTwoPageTemplateFile('invitations.pt')
+
+    def _create_proj_info(self, proj_id, since):
+        proj_path = '/'.join(['/'.join(self.portal.getPhysicalPath()),
+                              'projects',
+                              proj_id,
+                              ])
+        project_info = self.catalogtool.getMetadataForUID(proj_path)
+        title = project_info['Title']
+        url = '%s/projects/%s' % (self.siteURL, proj_id)
+        since = prettyDate(since)
+        return dict(url=url, since=since, proj_id=proj_id, title=title)
+
+    @req_memoize
+    def projinfos(self):
+        address = self.loggedinmember.getEmail()
+        email_inviter = getUtility(IEmailInvites, context=self.portal)
+
+        btree = email_inviter.getInvitesByEmailAddress(address)
+        return [self._create_proj_info(proj_id, since)
+                for proj_id, since in btree.items()]
+
+    def _join_project(self, proj_id):
+        pt = self.get_tool('portal_teams')
+        team = pt._getOb(proj_id)
+        team.joinAndApprove()
+
+    @action('join')
+    def handle_join(self, targets=None, fields=None):
+        projects_to_join = targets
+        # we need to get rid of the invitations we joined
+        email_invites = getUtility(IEmailInvites, context=self.portal)
+        address = self.loggedinmember.getEmail()
+        results = {}
+        for proj_id in projects_to_join:
+            self._join_project(proj_id)
+            row_id = 'proj_%s' % proj_id
+            results[row_id] = dict(action='delete')
+            email_invites.removeInvitation(address, proj_id)
+
+        # XXX redirect somewhere else?
+        return results
+
+class TrackbackView(BaseView):
+    """handle trackbacks"""
+
+    msg_category = 'Trackback'
+
+    def __call__(self):
+        mem_id = self.viewed_member_info['id']
+        tm = getUtility(ITransientMessage, context=self.portal)
+
+        # only accept posts
+        # if self.request['REQUEST_METHOD'] != 'POST':
+        #     self.request.response.setStatus(501)
+        #     return 'Not Post'
+
+        # Is this a user delete?
+        delete = self.request.form.get('action', None)
+        index = self.request.form.get('idx', None)
+        # Add a permissions check here
+        if delete == 'delete':
+            if index is None:
+                self.request.response.setStatus(501)
+                return 'No index specified'
+            # Do the delete
+            tm.pop(mem_id, 'Trackback', int(index))
+            return {'trackback_%s' % index:{'action': 'delete'}}
+
+        # check for all variables
+        url = self.request.form.get('url', None)
+        title = self.request.form.get('title', None)
+        blog_name = self.request.form.get('blog_name', None)
+        if url is None or title is None or blog_name is None:
+            self.request.response.setStatus(501)
+            return 'No Url'
+
+        # do some validation on the url
+        from time import time
+        tm.store(mem_id, self.msg_category, {'url':url, 'title':title, 'blog_name':blog_name, 'time':time()})
+        return 'hi there Member: %s - Title: %s - Blog: %s - URL: %s' % (mem_id, title, blog_name, url)
+=======
+>>>>>>> .r9086
