@@ -119,10 +119,8 @@ Test actually creating, editing, deleting an attachment::
 
      >>> import os, hmac, sha, base64, re
      >>> from urllib import quote
-     >>> secret_file_name = os.environ.get('TOPP_SECRET_FILENAME', '')
-     >>> if not secret_file_name:
-     ...    secret_file_name = os.path.join(os.environ.get('INSTANCE_HOME'), 'secret.txt')
-     
+     >>> from opencore.auth.SignedCookieAuthHelper import get_secret_file_name
+     >>> secret_file_name = get_secret_file_name()
      >>> len(secret_file_name) > 0
      True
      >>> os.path.exists(secret_file_name)
