@@ -634,7 +634,7 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
             for recipient in mto:
                 try:
                     sender.sendEmail(recipient, msg=email_msg, **email_vars)
-                except: #MailHostError:  #XXX let's fail silently on all errors for now.
+                except MailHostError:
                     pass
             psm = (u'Your request to join "%s" has been sent to the project administrator(s).' % self.context.title)
         else:
