@@ -11,15 +11,13 @@
         <tal:first-login condition="request/first_login | nothing">
           <div class="oc-getstarted oc-js-closeable">
             <h1>Welcome to OpenPlans!</h1>
-            <p class="oc-bigText">
+            <p tal:condition="view/has_invitations" class="oc-bigText">
+              Please take a moment to fill out your profile, then proceed to your <a href="account">account</a> page
+              to join the project that invited you.
+            </p>
+            <p tal:condition="not:view/has_invitations" class="oc-bigText">
               Please take a moment to fill out your profile, then proceed to your <a href="account">account</a> page.
             </p>
-            <div tal:condition="view/has_invitations" class="oc-bigText">
-                Or, continue to
-                <a tal:attributes="href string:${memberdata/folder_url}/account">
-                  The Projects that Invited You
-                </a>.
-            </div>
           </div>
         </tal:first-login>
         <form name="profile_form" id="profile_form" method="post" class="oc-member-edit" action="profile-edit" enctype="multipart/form-data">
