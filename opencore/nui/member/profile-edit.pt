@@ -12,7 +12,7 @@
           <div class="oc-getstarted oc-js-closeable">
             <h1>Welcome to OpenPlans!</h1>
             <p class="oc-bigText">
-              Please take a moment to fill out your profile then proceed to your <a href="account">account</a> page.
+              Please take a moment to fill out your profile, then proceed to your <a href="account">account</a> page.
             </p>
             <div tal:condition="view/has_invitations" class="oc-bigText">
                 Or, continue to
