@@ -104,7 +104,6 @@ class ProfileView(BaseView):
         tm = getUtility(ITransientMessage, context=self.portal)
         mem_id = self.viewed_member_info['id']
         msgs = tm.get_msgs(mem_id, 'Trackback')
-        # import pdb; pdb.set_trace()
 
         # We have to import datetime renamed because it fails in a bizarre fashion if we don't.  Maybe it's
         # a case sensitivity issue with Zope's DateTime ?
@@ -626,11 +625,12 @@ class TrackbackView(BaseView):
         # Is this a user delete?
         delete = self.request.form.get('action', None)
         index = self.request.form.get('idx', None)
-        # Add a permissions check here
         if delete == 'delete':
             if index is None:
                 self.request.response.setStatus(501)
                 return 'No index specified'
+            if self.viewedmember() != self.loggedinmember:
+                return 'You must be logged in to delete your posts!'
             # Do the delete
             tm.pop(mem_id, 'Trackback', int(index))
             return {'trackback_%s' % index:{'action': 'delete'}}

@@ -77,7 +77,7 @@
                      class="oc-profile-feed-item"><a
               tal:attributes="href trackback/url"
               tal:content="trackback/title" /> at <span
-              tal:content="trackback/blog_name" /><a
+              tal:content="trackback/blog_name" /> <a
               class="oc-js-actionLink oc-actionLink"
               tal:attributes="href trackback/close_url">Close</a></li>
                  <li tal:repeat="trackback view/trackbacks"
