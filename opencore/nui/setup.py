@@ -1,6 +1,7 @@
 import os
 from logging import getLogger, INFO
 from pprint import pprint
+from StringIO import StringIO
 
 from zope.component import getUtility
 from zope.interface import alsoProvides
@@ -30,6 +31,7 @@ from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans import config as op_config
 from indexing import createIndexes
 from DateTime import DateTime
+from datetime import datetime
 from topp.featurelets.interfaces import IFeatureletSupporter
 from opencore.interfaces import IOpenPage, INewsItem
 from opencore.nui.project.metadata import _update_last_modified_author
@@ -264,6 +266,201 @@ def markNewsItems(portal):
         if not INewsItem.providedBy(ni):
             alsoProvides(ni, INewsItem)
 
+
+def _DateTime_to_datetime(zdt):
+    return datetime(*map(int, zdt.parts()[:-1]))
+
+def _html_entities(text): 
+    body = StringIO()
+    for x in text:
+        if ord(x) >= 128:
+            body.write("&#%d;" % ord(x))
+        else:
+            body.write(x)
+    return body.getvalue()   
+
+def migrate_to_nz(portal):
+    logger.log(INFO, "Migrating to nz")
+    
+    from paste.deploy import appconfig
+    from pylons import config
+
+    from nz.config.environment import load_environment
+
+    conf_dir = "/home/novalis/nz/src/nz"
+
+    conf = appconfig('config:' + os.path.join(conf_dir, 'test.ini'))
+    load_environment(conf.global_conf, conf.local_conf)
+
+    #Note: No security
+    from nz.model.models import *
+    WikiPageVersion = WikiPage.history.versionClass
+    
+    pf = getToolByName(portal, "portal_workflow")
+    catalog = getToolByName(portal, 'portal_catalog')
+
+    
+    #projects
+    policy_to_security_level = { 'open_policy' : 1,
+                                 'medium_policy' : 2,
+                                 'closed_policy' : 3
+                                 }
+    for project_name in portal.projects.aq_base:
+        if project_name.startswith("."):
+            continue
+        project = portal.projects[project_name]
+
+        path = "/".join(project.getPhysicalPath())
+        metadata = catalog.getMetadataForUID(path)
+
+        security_level = policy_to_security_level[metadata['project_policy']]
+        try:
+            creator = User.byUsername(project.Creator())
+        except:
+            #one bizarre default deserves another
+            creator = User.byUsername('anonymous')
+            
+        project = Project(title = project.Title(),
+                          uri = project.getId(),
+                          description = project.Description(),
+                          security_level = security_level,
+                          homeID = 0, #we'll set this later
+                          creator = creator,
+                          created = _DateTime_to_datetime(project.created()),
+                          last_modified = _DateTime_to_datetime(project.modified()),
+                          )
+        
+        #todo: featurelets
+        
+
+    
+    for member in portal.portal_memberdata.objectValues():
+        user = User(username = member.getId(),
+                    password = "", #we'll set this later
+                    email = member.email,
+                    fullname = member.Title(),
+                    confirmed = pf.getInfoFor(member, 'review_state') != "pending",
+                    homeID = 0, #we'll set this later                    
+                    member_since = _DateTime_to_datetime(member.created()),
+                    last_login = _DateTime_to_datetime(member.getLast_login_time()),
+                    last_modified = _DateTime_to_datetime(member.created()), #this will be corrected later
+                    statement = member.statement,     
+                    background = member.background,
+                    skills = member.skills,
+
+                    affiliations = member.affiliations,
+                    favorites = member.favorites,
+                    )
+
+        #FIXME\
+        #user.portrait = member.getPortrait()
+
+        user.set_password_crypted(member.password)
+           
+        mships = catalog(portal_type='OpenMembership', getId=member.getId())
+        for brain in mships:
+
+            project_id = mships[0].getPath().split("/")[-2]
+
+            review_state = brain.review_state
+            is_pending = review_state == 'pending'
+            role = brain.highestTeamRole
+            inviter = brain.lastWorkflowActor
+            if inviter == 'admin':
+                #this should never happen except in test data.
+                inviter = user.username
+                
+            ProjectMembership(projectID = Project.byUri(project_id).id,
+                              userID = user.id,
+                              created = _DateTime_to_datetime(brain.created),
+                              is_invite = inviter != user.username,
+                              is_pending =  is_pending,
+                              is_visible = (review_state == 'public' or review_state == 'pending'),
+                              rejected = False,
+                              role = role == "ProjectAdmin",
+                              inviterID = User.byUsername(inviter).id,
+                              request = '', #request is not stored in zope, afaict 
+                              )
+
+    #wiki pages
+    class_id = {}
+    for cls in (Project, User, WikiPage):
+        class_id[cls] = ContentType.byTable_name(cls.sqlmeta.table).id
+        
+    brains = catalog(portal_type='Document')
+    for brain in brains:
+
+        zpage = brain.getObject()
+        parts = zpage.getPhysicalPath()[-3:]
+        cls, mount, link = parts
+        if cls == "projects":
+            source = Project.byUri(mount)
+        elif cls == "people":
+            source = User.byUsername(mount)
+        else:
+            continue
+        pr = getToolByName(portal, 'portal_repository')
+        history = list(pr.getHistory(zpage, countPurged=False))
+        if history:
+            comment = history[-1].comment
+        else:
+            comment = ""
+
+        body = _html_entities(zpage.text())
+
+        page = WikiPage(link = link,
+                        title = brain.Title,
+                        body = body,
+                        last_modified_by = 0, #fixme
+                        last_modified = _DateTime_to_datetime(brain.modified),
+                        created = _DateTime_to_datetime(brain.created),
+                        comment = comment,
+                        deleted = False,
+                        mount_classID = class_id[source.__class__],
+                        mount_id = source.id
+                        )
+
+
+        for version in history[1:]:
+            version_obj = version.object
+            body = _html_entities(version_obj.text())
+            import pdb;pdb.set_trace()
+            WikiPageVersion(masterID=page.id,
+                            dateArchived = datetime.fromtimestamp(version.sys_metadata['timestamp']),
+                            link = link,
+                            title = version_obj.title,
+                            body = body,
+                            last_modified_byID = User.byUsername(version.sys_metadata['principal']).id,
+                            last_modified = datetime.fromtimestamp(version.sys_metadata['timestamp']),
+                            created = _DateTime_to_datetime(brain.created), #same as page
+                            comment = version.comment,
+                            deleted = False,
+                            mount_classID = class_id[source.__class__],
+                            mount_id = source.id)
+
+        
+        attachments = catalog(path="/".join(zpage.getPhysicalPath()), portal_type='FileAttachment')
+        for brain in attachments:
+            attachment = brain.getObject()
+            Attachment(title = brain.Title,
+                       uri = brain.id,
+                       content_type = attachment.content_type,
+                       body = attachment.data,
+                       size = len(attachment.data),
+                       created = _DateTime_to_datetime(brain.created),
+                       created_by = User.byUsername(attachment.Creator()).id,
+                       mount_classID = class_id[WikiPage],
+                       mount_id = page.id,
+                       )
+
+
+            
+        if link == "project-home" and cls == "projects":
+            source.home = page
+        elif cls == "user" and link == "%s-home" % source.username:
+            source.home = page
+        
+    
 from Products.Archetypes.utils import OrderedDict
 
 # make rest of names readable  (maybe use config system)
@@ -304,7 +501,7 @@ nui_functions['annotate last modified author'] = annotate_last_modified_author
 nui_functions["Propagate workflow security settings"] = \
                          convertFunc(updateWorkflowRoleMappings)
 nui_functions['markNewsItems'] = markNewsItems
-
+nui_functions['Migrate To NZ'] = migrate_to_nz
 
 def run_nui_setup(portal):
     pm = portal.portal_migration
