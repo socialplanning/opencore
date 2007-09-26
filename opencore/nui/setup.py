@@ -37,7 +37,8 @@ from opencore.interfaces import IOpenPage, INewsItem
 from opencore.nui.project.metadata import _update_last_modified_author
 from opencore.nui.wiki.add import get_view_names
 from Products.OpenPlans.content.project import OpenProject
-
+from opencore.project.utils import get_featurelets
+        
 logger = getLogger(op_config.PROJECTNAME)
 
 HERE = os.path.dirname(__file__)
@@ -289,7 +290,7 @@ def migrate_to_nz(portal):
 
     conf_dir = "/home/novalis/nz/src/nz"
 
-    conf = appconfig('config:' + os.path.join(conf_dir, 'test.ini'))
+    conf = appconfig('config:' + os.path.join(conf_dir, 'development.ini'))
     load_environment(conf.global_conf, conf.local_conf)
 
     #Note: No security
@@ -320,7 +321,7 @@ def migrate_to_nz(portal):
             #one bizarre default deserves another
             creator = User.byUsername('anonymous')
             
-        project = Project(title = project.Title(),
+        soproject = Project(title = project.Title(),
                           uri = project.getId(),
                           description = project.Description(),
                           security_level = security_level,
@@ -330,10 +331,14 @@ def migrate_to_nz(portal):
                           last_modified = _DateTime_to_datetime(project.modified()),
                           )
         
-        #todo: featurelets
-        
 
-    
+        flets = get_featurelets(project)
+        for flet in flets:
+            flet = Featurelet.byName(flet['name'])
+            ProjectFeaturelet(projectID = soproject.id,
+                              featureletID = flet.id)
+                
+                    
     for member in portal.portal_memberdata.objectValues():
         user = User(username = member.getId(),
                     password = "", #we'll set this later
@@ -352,10 +357,17 @@ def migrate_to_nz(portal):
                     favorites = member.favorites,
                     )
 
-        #FIXME\
-        #user.portrait = member.getPortrait()
 
         user.set_password_crypted(member.password)
+
+        
+        from nz.lib.storage import store_data
+        portrait = member.getPortrait()
+        if portrait:
+            data = portrait.data.data
+            portrait_file_name = store_data(data)
+            user.photo = portrait_file_name
+            user.photo_content_type = portrait.content_type
            
         mships = catalog(portal_type='OpenMembership', getId=member.getId())
         for brain in mships:
@@ -424,7 +436,7 @@ def migrate_to_nz(portal):
         for version in history[1:]:
             version_obj = version.object
             body = _html_entities(version_obj.text())
-            import pdb;pdb.set_trace()
+
             WikiPageVersion(masterID=page.id,
                             dateArchived = datetime.fromtimestamp(version.sys_metadata['timestamp']),
                             link = link,
