@@ -368,11 +368,12 @@ def migrate_to_nz(portal):
             portrait_file_name = store_data(data)
             user.photo = portrait_file_name
             user.photo_content_type = portrait.content_type
-           
+
+        #user's memberships
         mships = catalog(portal_type='OpenMembership', getId=member.getId())
         for brain in mships:
 
-            project_id = mships[0].getPath().split("/")[-2]
+            project_id = brain.getPath().split("/")[-2]
 
             review_state = brain.review_state
             is_pending = review_state == 'pending'
