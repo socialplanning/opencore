@@ -780,7 +780,8 @@ var XinhaConfig = {
 	["fontsize"],
 	["justifyleft","justifycenter","justifyright","justifyfull"],
 	["outdent","indent"],
-	["createlink"],
+        // use only one link creation button (internal link)
+	//["createlink"],
 	["insertunorderedlist","insertorderedlist"],
 	["forecolor","hilitecolor","textindicator"],
 	["htmlmode"]
