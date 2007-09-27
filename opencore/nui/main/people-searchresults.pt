@@ -67,11 +67,11 @@
                   </a>
                 </div>
                 <div class="oc-peopleresults-content">
-                  <h3 class="fn">
-                    <a href="" tal:attributes="href string:${context/portal_url}/people/${item/getId}/profile" tal:content="item/getId">Username</a>
+                  <h3 class="fn nickname">
+                    <a href="" tal:attributes="href string:${context/portal_url}/people/${item/getId}/profile"                     tal:content="item/getId">Username</a>
                   </h3>
                   <div class="n" tal:content="item/getFullname">name</div>
-                  <div class="oc-discreetText adr" tal:define="loc item/getLocation" tal:condition="loc" tal:content="loc">location</div>
+                  <div class="oc-discreetText adr" tal:define="loc item/getLocation" tal:condition="loc"><span class="locality" tal:content="loc" /></div>
                 </div>
               </li>
             </ol>
