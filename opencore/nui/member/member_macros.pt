@@ -1,6 +1,6 @@
 <metal:login-info define-macro="login-info">
   <div class="oc-headingBlock">
-    <h1 class="fn" tal:content="memberdata/id" />
+    <h1 class="fn nickname" tal:content="memberdata/id" />
     <p class="oc-headingContext oc-discreetText">
       member since
       <span tal:replace="memberdata/membersince" />,
