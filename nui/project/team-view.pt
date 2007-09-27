@@ -66,9 +66,10 @@
                 </div>
                 <div class="oc-roster-content">
                   <div class="oc-headingBlock">
-                  <h3 class="fn">
+                  <h3>
                     <a href=""
                        tal:attributes="href string:${context/portal_url}/people/${mem/getId}/profile"
+                       class="fn nickname"
                        tal:content="mem/getId"
                        />
                     <span class="oc-discreetText" tal:condition="python: view.is_admin(mem.getId())">
@@ -91,7 +92,7 @@
                     </tal:email>
                     <tal:location tal:define="loc mem/getLocation" tal:condition="loc">
                       <dt>Location:</dt>
-                      <dd class="adr" tal:content="loc">Big City, ST</dd>
+                      <dd class="adr"><span class="locality" tal:content="loc" /></dd>
                     </tal:location>
                     <tal:projects tal:define="projects python: view.projects_for_member(mem);
                                      nprojects python: view.num_projects_for_member(mem)"
