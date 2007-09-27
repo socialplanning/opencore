@@ -267,7 +267,9 @@ def markNewsItems(portal):
         if not INewsItem.providedBy(ni):
             alsoProvides(ni, INewsItem)
 
-
+# ============ NZ MIGRATION =====
+#Note: No security
+from nz.model.models import *
 def _DateTime_to_datetime(zdt):
     return datetime(*map(int, zdt.parts()[:-1]))
 
@@ -279,6 +281,12 @@ def _html_entities(text):
         else:
             body.write(x)
     return body.getvalue()   
+
+def _user_by_username(username):
+    try:
+        return User.byUsername(username)
+    except:
+        return User.byUsername('anonymous')
 
 def migrate_to_nz(portal):
     logger.log(INFO, "Migrating to nz")
@@ -293,19 +301,19 @@ def migrate_to_nz(portal):
     conf = appconfig('config:' + os.path.join(conf_dir, 'development.ini'))
     load_environment(conf.global_conf, conf.local_conf)
 
-    #Note: No security
-    from nz.model.models import *
     WikiPageVersion = WikiPage.history.versionClass
     
     pf = getToolByName(portal, "portal_workflow")
     catalog = getToolByName(portal, 'portal_catalog')
 
+    import gc
     
     #projects
     policy_to_security_level = { 'open_policy' : 1,
                                  'medium_policy' : 2,
                                  'closed_policy' : 3
                                  }
+    flet_map = {'tasks' : 'TaskTracker', 'listen' : 'Listen'}
     for project_name in portal.projects.aq_base:
         if project_name.startswith("."):
             continue
@@ -316,10 +324,10 @@ def migrate_to_nz(portal):
 
         security_level = policy_to_security_level[metadata['project_policy']]
         try:
-            creator = User.byUsername(project.Creator())
+            creator = _user_by_username(project.Creator())
         except:
             #one bizarre default deserves another
-            creator = User.byUsername('anonymous')
+            creator = _user_by_username('anonymous')
             
         soproject = Project(title = project.Title(),
                           uri = project.getId(),
@@ -331,16 +339,25 @@ def migrate_to_nz(portal):
                           last_modified = _DateTime_to_datetime(project.modified()),
                           )
         
-
+        del metadata
         flets = get_featurelets(project)
         for flet in flets:
-            flet = Featurelet.byName(flet['name'])
+            if flet['name'] not in flet_map:
+                continue
+            flet = Featurelet.byName(flet_map[flet['name']])
             ProjectFeaturelet(projectID = soproject.id,
                               featureletID = flet.id)
                 
-                    
+        del soproject
+        del project
+        
+    inviters = {}
     for member in portal.portal_memberdata.objectValues():
-        user = User(username = member.getId(),
+        username = member.getId()
+        if username == 'Anonymous':
+            username = 'Anonymous_from_zope'
+            
+        user = User(username = username,
                     password = "", #we'll set this later
                     email = member.email,
                     fullname = member.Title(),
@@ -364,7 +381,10 @@ def migrate_to_nz(portal):
         from nz.lib.storage import store_data
         portrait = member.getPortrait()
         if portrait:
-            data = portrait.data.data
+            if isinstance(portrait.data, str):
+                data = portrait.data
+            else:
+                data = portrait.data.data
             portrait_file_name = store_data(data)
             user.photo = portrait_file_name
             user.photo_content_type = portrait.content_type
@@ -383,17 +403,33 @@ def migrate_to_nz(portal):
                 #this should never happen except in test data.
                 inviter = user.username
                 
-            ProjectMembership(projectID = Project.byUri(project_id).id,
-                              userID = user.id,
-                              created = _DateTime_to_datetime(brain.created),
-                              is_invite = inviter != user.username,
-                              is_pending =  is_pending,
-                              is_visible = (review_state == 'public' or review_state == 'pending'),
-                              rejected = False,
-                              role = role == "ProjectAdmin",
-                              inviterID = User.byUsername(inviter).id,
-                              request = '', #request is not stored in zope, afaict 
-                              )
+            mship = ProjectMembership(projectID = Project.byUri(project_id).id,
+                                      userID = user.id,
+                                      created = _DateTime_to_datetime(brain.created),
+                                      is_invite = inviter != user.username,
+                                      is_pending =  is_pending,
+                                      is_visible = (review_state == 'public' or review_state == 'pending'),
+                                      rejected = False,
+                                      role = role == "ProjectAdmin",
+                                      inviterID = 0, #need to fix up later, 
+                                      #since inviter might not yet exist
+                                      request = '', #request is not stored in zope, afaict 
+                                      )
+            inviters[mship] = inviter
+            del mship
+        del user
+        
+    for invitee, inviter in inviters.items():
+        if inviter == 'Anonymous':
+            inviter = 'Anonymous_from_zope'
+        inv = list(User.selectBy(username=inviter))
+        if len(inv):
+            invitee.inviterID = inv[0].id
+        else:
+            print "no such user %s, who supposedly invited %s to %s\n" % (inviter, invitee.user.username, invitee.project)
+            invitee.inviterID = _user_by_username("anonymous").id
+
+    del inviters
 
     #wiki pages
     class_id = {}
@@ -402,14 +438,15 @@ def migrate_to_nz(portal):
         
     brains = catalog(portal_type='Document')
     for brain in brains:
-
         zpage = brain.getObject()
         parts = zpage.getPhysicalPath()[-3:]
         cls, mount, link = parts
         if cls == "projects":
             source = Project.byUri(mount)
         elif cls == "people":
-            source = User.byUsername(mount)
+            if mount == 'Anonymous':
+                mount = 'Anonymous_from_zope'                    
+            source = _user_by_username(mount)
         else:
             continue
         pr = getToolByName(portal, 'portal_repository')
@@ -419,7 +456,7 @@ def migrate_to_nz(portal):
         else:
             comment = ""
 
-        body = _html_entities(zpage.text())
+        body = _html_entities(zpage.getRawText())
 
         page = WikiPage(link = link,
                         title = brain.Title,
@@ -436,14 +473,17 @@ def migrate_to_nz(portal):
 
         for version in history[1:]:
             version_obj = version.object
-            body = _html_entities(version_obj.text())
-
+            body = _html_entities(version_obj.getRawText())
+            principal = version.sys_metadata['principal']
+            if principal == 'Anonymous':
+                principal = 'Anonymous_from_zope'
+            
             WikiPageVersion(masterID=page.id,
                             dateArchived = datetime.fromtimestamp(version.sys_metadata['timestamp']),
                             link = link,
                             title = version_obj.title,
                             body = body,
-                            last_modified_byID = User.byUsername(version.sys_metadata['principal']).id,
+                            last_modified_byID = _user_by_username(principal).id,
                             last_modified = datetime.fromtimestamp(version.sys_metadata['timestamp']),
                             created = _DateTime_to_datetime(brain.created), #same as page
                             comment = version.comment,
@@ -455,24 +495,28 @@ def migrate_to_nz(portal):
         attachments = catalog(path="/".join(zpage.getPhysicalPath()), portal_type='FileAttachment')
         for brain in attachments:
             attachment = brain.getObject()
+            creator = attachment.Creator()
+            if creator == 'Anonymous':
+                creator = 'Anonymous_from_zope'
+            
             Attachment(title = brain.Title,
                        uri = brain.id,
                        content_type = attachment.content_type,
                        body = attachment.data,
                        size = len(attachment.data),
                        created = _DateTime_to_datetime(brain.created),
-                       created_by = User.byUsername(attachment.Creator()).id,
+                       created_by = _user_by_username(creator).id,
                        mount_classID = class_id[WikiPage],
                        mount_id = page.id,
                        )
-
-
             
         if link == "project-home" and cls == "projects":
             source.home = page
         elif cls == "user" and link == "%s-home" % source.username:
             source.home = page
-        
+
+        del zpage
+        del page
     
 from Products.Archetypes.utils import OrderedDict
 
