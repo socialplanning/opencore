@@ -385,6 +385,8 @@ class BaseView(BrowserView):
         if id_ is None:
             if not self.loggedin:
                 return None
+            if not hasattr(self, 'memberinfo'):
+                return None #admin user
             id_ = self.member_info['id']
         return self.membertool.getHomeFolder(id_)
 
