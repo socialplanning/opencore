@@ -422,6 +422,8 @@ def migrate_to_nz(portal):
     for invitee, inviter in inviters.items():
         if inviter == 'Anonymous':
             inviter = 'Anonymous_from_zope'
+	if not isinstance(inviter, str) and not isinstance(inviter, unicode):
+            continue
         inv = list(User.selectBy(username=inviter))
         if len(inv):
             invitee.inviterID = inv[0].id
@@ -436,9 +438,12 @@ def migrate_to_nz(portal):
     for cls in (Project, User, WikiPage):
         class_id[cls] = ContentType.byTable_name(cls.sqlmeta.table).id
         
-    brains = catalog(portal_type='Document')
+    brains = sorted(catalog(portal_type='Document'), key=lambda x: x.getRID())
+
     for brain in brains:
         zpage = brain.getObject()
+        if not zpage.content_type == "text/html":
+            continue
         parts = zpage.getPhysicalPath()[-3:]
         cls, mount, link = parts
         if cls == "projects":
@@ -449,12 +454,13 @@ def migrate_to_nz(portal):
             source = _user_by_username(mount)
         else:
             continue
+
+	#fixme: the history seems to load everything at once
+	#the fix is to (a) not list history, (b) set initial
+        #comment to nothing, (c) read history without using list()
+	#(d) set comment at end, (e) delete spurious version cause by this
+
         pr = getToolByName(portal, 'portal_repository')
-        history = list(pr.getHistory(zpage, countPurged=False))
-        if history:
-            comment = history[-1].comment
-        else:
-            comment = ""
 
         body = _html_entities(zpage.getRawText())
 
@@ -464,15 +470,23 @@ def migrate_to_nz(portal):
                         last_modified_by = 0, #fixme
                         last_modified = _DateTime_to_datetime(brain.modified),
                         created = _DateTime_to_datetime(brain.created),
-                        comment = comment,
+                        comment = "",
                         deleted = False,
                         mount_classID = class_id[source.__class__],
                         mount_id = source.id
                         )
 
-
-        for version in history[1:]:
+        history = pr.getHistory(zpage, countPurged=False)
+	comment = ""
+        seen_first = False
+        for version in history:
+            gc.collect()
+            if not seen_first:
+                seen_first = True
+                continue
             version_obj = version.object
+            if not version_obj.content_type == "text/html":
+                continue
             body = _html_entities(version_obj.getRawText())
             principal = version.sys_metadata['principal']
             if principal == 'Anonymous':
@@ -490,6 +504,14 @@ def migrate_to_nz(portal):
                             deleted = False,
                             mount_classID = class_id[source.__class__],
                             mount_id = source.id)
+            comment = version.comment
+
+        if comment:
+            page.comment = comment
+            bogus_version = list(WikiPageVersion.selectBy(masterID=page.id).orderBy("-id").limit(1))
+            if not len(bogus_version):
+                import pdb;pdb.set_trace()
+            bogus_version[0].destroySelf()
 
         
         attachments = catalog(path="/".join(zpage.getPhysicalPath()), portal_type='FileAttachment')
