@@ -6,7 +6,7 @@
     <div metal:fill-slot="content">
 
       <div class="oc-headingBlock">
-        <h1>People on OpenPlans</h1>
+        <h1>People on <tal:block replace="view/portal_title">OpenPlans</tal:block></h1>
         <p class="oc-headingContext">
           <span tal:replace="view/nusers">XXX</span> members,
           <span tal:condition="view/loggedin">and growing</span>

@@ -90,11 +90,18 @@ def get_view_names(obj, ignore_dummy=False):
 class Dummy(BaseView):
     """Creates dummy for blocking the overcreation of deliverance
     paths"""
+
     def __init__(self, context, request):
         super(Dummy, self).__init__(context, request)
         
     def __call__(self, *args, **kw):
-        raise Redirect, "%s/%s" %(self.area.absolute_url(), "preferences")
+        raise Redirect, self.redirect_url
+
+    @property
+    def redirect_url(self):
+        return "%s/%s" %(self.area.absolute_url(), "preferences")
+    
+
 
 class IgnorableDummy(Dummy):
     """a dummy that get_view_names will ignore (for special persistent objects)"""

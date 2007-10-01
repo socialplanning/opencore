@@ -317,6 +317,10 @@ class BaseView(BrowserView):
     def get_portal(self):
         return aq_iface(self.context, self.site_iface)
 
+    def portal_title(self):
+        portal = aq_iface(self.context, self.site_iface)
+        return portal.Title()
+    
     portal = property(view.memoize_contextless(get_portal))
 
     # XXX move to topnav
