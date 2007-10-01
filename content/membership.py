@@ -55,7 +55,7 @@ class OpenMembership(TeamMembership):
         here instead of in the guard's TALES expression b/c access to
         the team object isn't possible when it's a closed project.
         """
-        team = self.aq_inner.aq_base
+        team = self.aq_inner.aq_parent
         return team.Creator() == self.getId()
 
     def canApprove(self, dest_state=None):
