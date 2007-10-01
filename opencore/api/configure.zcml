@@ -4,14 +4,14 @@
 
   <browser:page
      for="opencore.interfaces.IProject"
-     permission="zope.Public"
+     permission="zope2.View"
      name="info.xml"
      template="project_info_xml.pt"
      />
 
   <browser:page
      for="opencore.interfaces.IProject"
-     permission="zope.Public"
+     permission="zope2.View"
      name="members.xml"
      template="project_members_xml.pt"
      class=".apis.ProjectMembershipXML"
