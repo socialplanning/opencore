@@ -53,6 +53,10 @@ def reinstallWorkflows(portal):
     wfs = set(product.getWorkflows())
     wfs = wfs.union(set(WORKFLOW_MAP.keys()))
     wfs.remove('(Default)')
+    existing = dict.fromkeys(wftool.objectIds())
+    for wf in wfs:
+        if wf not in existing:
+            wfs.remove(wf)
     wftool.manage_delObjects(ids=wfs)
     out = StringIO()
     installWorkflows(portal, out)
