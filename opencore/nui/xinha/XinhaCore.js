@@ -2369,7 +2369,7 @@ Xinha.prototype.initIframe = function()
       }
     }
     html += "</head>\n";
-    html += "<body>\n";
+    html += '<body class="oc-wiki-content">\n';
     html +=   editor.inwardHtml(editor._textArea.value);
     html += "</body>\n";
     html += "</html>";

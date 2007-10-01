@@ -761,7 +761,7 @@ var XinhaConfig = {
 	'backend' : 'backend?'
     },
     pageStyle : '',
-    pageStyleSheets : ['/++resource++css/opencore.css', '/++resource++css/themes/openplans.css'],
+    pageStyleSheets : ['/++resource++css/opencore.css'],
     plugins : [
       'ImageManager',
       'InternalLink',
