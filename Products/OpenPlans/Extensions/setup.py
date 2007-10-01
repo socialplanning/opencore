@@ -12,6 +12,7 @@ from Products.Archetypes.public import listTypes
 from Products.Archetypes.Extensions.utils import installTypes
 from Products.OpenPlans import config
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
+from Products.OpenPlans.workflows import WORKFLOW_MAP
 from zLOG import INFO, ERROR
 
 from Install import installColumns, fixUpEditTab, hideActions, \
@@ -49,7 +50,9 @@ def reinstallWorkflows(portal):
     wftool = getToolByName(portal, 'portal_workflow')
     qi = getToolByName(portal, 'portal_quickinstaller')
     product = getattr(qi, PROJECTNAME)
-    wfs = product.getWorkflows()
+    wfs = set(product.getWorkflows())
+    wfs = wfs.union(set(WORKFLOW_MAP.keys()))
+    wfs.remove('(Default)')
     wftool.manage_delObjects(ids=wfs)
     out = StringIO()
     installWorkflows(portal, out)
