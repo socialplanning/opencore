@@ -44,6 +44,20 @@ class OpenMembership(TeamMembership):
         team = self.getTeam()
         team.setTeamRolesForMember(self.getId(), team_roles)
 
+    def isProjectCreator(self):
+        """
+        Returns True or False to indicate whether the member
+        associated with this membership object is the creator of the
+        project / team objects with which the membership is
+        associated.
+
+        This method is used as a w/f transition guard.  Have to do it
+        here instead of in the guard's TALES expression b/c access to
+        the team object isn't possible when it's a closed project.
+        """
+        team = self.aq_inner.aq_base
+        return team.Creator() == self.getId()
+
     def canApprove(self, dest_state=None):
         """
         Determines whether the currently authenticated user has the
