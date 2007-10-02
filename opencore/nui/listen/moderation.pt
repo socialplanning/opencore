@@ -35,7 +35,9 @@
                     </dl>
                   </td>
                   <td style="width: 25%; text-align: right;">
-                    <form name="moderate-post-form" class="oc-listen-moderate-form oc-js-liveEdit"
+                    <form name="moderate-post-form"
+                          class="oc-listen-moderate-form oc-js-liveEdit"
+                          method="POST"
                           tal:attributes="action request/ACTUAL_URL">
                       <input type="hidden" name="postid" tal:attributes="value python: str(post['postid'])" />
                       <input type="hidden" name="email" tal:attributes="value python: str(post['user'])" />
