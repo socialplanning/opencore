@@ -753,6 +753,17 @@ var XinhaConfig = {
       'Pull-quote' : 'blockquote',
       'Normal' : 'p'
     },
+      formatblockSelectors : {
+          'Pull-quote': function (el) {
+              while (el !== null) {
+                  if (el.tagName == 'BLOCKQUOTE') {
+                      return /\bpullquote\b/.test(el.className);
+                  }
+                  el = el.parentNode;
+              }
+              return false;
+          }
+      },
     filters : {
 	'tidy_handler' : null
     },

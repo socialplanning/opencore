@@ -3393,10 +3393,14 @@ Xinha.prototype.updateToolbar = function(noStatus)
         for ( var indexBlock in this.config.formatblock )
         {
           // prevent iterating over wrong type
-          if ( typeof this.config.formatblock[indexBlock] == 'string' )
+          if (typeof this.config.formatblockSelectors[indexBlock] == 'function')
+          {
+            blocks[blocks.length] = this.config.formatblockSelectors[indexBlock];
+          } else if ( typeof this.config.formatblock[indexBlock] == 'string' )
           {
             blocks[blocks.length] = this.config.formatblock[indexBlock];
           }
+
         }
 
         var deepestAncestor = this._getFirstAncestor(this.getSelection(), blocks);
@@ -3404,9 +3408,18 @@ Xinha.prototype.updateToolbar = function(noStatus)
         {
           for ( var x = 0; x < blocks.length; x++ )
           {
-            if ( blocks[x].toLowerCase() == deepestAncestor.tagName.toLowerCase() )
+            if (typeof blocks[x] == 'function')
+            {
+              if (blocks[x](deepestAncestor))
+              {
+                btn.element.selectedIndex = x;
+                break;
+              }
+            } 
+            else if ( blocks[x].toLowerCase() == deepestAncestor.tagName.toLowerCase() ) 
             {
               btn.element.selectedIndex = x;
+              break;
             }
           }
         }
@@ -3714,7 +3727,25 @@ Xinha.prototype._comboSelected = function(el, txt)
       {
         value = "<" + value + ">";
       }
-      this.execCommand(txt, false, value);
+      if (value.indexOf('blockquote') != -1)
+      {
+          this.execCommand("formatblock", false, "blockquote");
+
+          var blockquote = this.getParentElement();
+          while (blockquote !== null && blockquote.tagName != 'BLOCKQUOTE') {
+              blockquote = blockquote.parentNode;
+          } 
+          if (blockquote)
+              blockquote.className = "pullquote";
+
+          // this actually does the reset
+          this.updateToolbar()
+      }
+      else
+      {
+          // we may need to get rid of the parent block quote here
+          this.execCommand(txt, false, value);
+      }
     break;
     default:
       // try to look it up in the registered dropdowns
@@ -3887,7 +3918,7 @@ Xinha.prototype.execCommand = function(cmdID, UI, param)
         }
       }
     break;
-    
+
     case 'justifyleft'  :
     case 'justifyright' :
     {
