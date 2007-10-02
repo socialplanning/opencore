@@ -814,10 +814,6 @@ var XinhaConfig = {
                     }
                   }}
     },
-    formatblockSelectors : {
-        'Pull-quote': function (el) {
-        }
-    },
     filters : {
 	'tidy_handler' : null
     },
@@ -830,7 +826,7 @@ var XinhaConfig = {
     plugins : [
       'ImageManager',
       'InternalLink',
-      'TableOperations'
+      //'TableOperations'
       // remove spellchecker (don't have backend yet)
       //'SpellChecker'
     ],
@@ -841,16 +837,18 @@ var XinhaConfig = {
 	'show_dialog' : false
     },
     toolbar : [
-	["insertimage"],
-	["bold","italic","underline","strikethrough"],
-	["fontsize"],
-	["justifyleft","justifycenter","justifyright","justifyfull"],
-	["outdent","indent"],
-        // use only one link creation button (internal link)
-	//["createlink"],
-	["insertunorderedlist","insertorderedlist"],
-	["forecolor","hilitecolor","textindicator"],
-	["htmlmode"]
+        ["formatblock"],
+        ["fontsize"],
+        ["bold","italic","strikethrough"],
+        ["forecolor","hilitecolor"],
+        ["justifyleft","justifycenter","justifyright","justifyfull"],
+        ["insertorderedlist","insertunorderedlist"],
+        ["outdent","indent"],
+        ["createinternallink"],
+        ["inserttable"],
+        ["toggleborders"],
+        ["insertimage"],
+        ["htmlmode"]
     ],
     width : '800'
   },
