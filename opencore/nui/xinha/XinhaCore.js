@@ -3278,9 +3278,10 @@ Xinha.prototype.updateToolbar = function(noStatus)
         {
           txt += "#" + el.id;
         }
-        if ( el.className )
+        // FIXME: do not show oc-wiki-content
+        if ( el.className && el.className != 'oc-wiki-content')
         {
-          txt += "." + el.className;
+            txt += "." + el.className;
         }
         a.appendChild(document.createTextNode(txt));
         this._statusBarTree.appendChild(a);
