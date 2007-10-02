@@ -745,25 +745,79 @@ var XinhaConfig = {
   },
 
   advanced : {
-    charSet : 'ISO-8859-1',
+    charSet : 'utf8',
     flowToolbars : false,
     formatblock : {
       'Heading' : 'h2',
       'Subheading' : 'h3',
-      'Pull-quote' : 'blockquote',
-      'Normal' : 'p'
+      'Pull-quote' : {tag: 'blockquote',
+                      invoker: function (xinha) {
+                        xinha.execCommand("formatblock", false, "blockquote");
+                        var blockquote = xinha.getParentElement();
+                        while (blockquote !== null && blockquote.tagName != 'BLOCKQUOTE') {
+                          blockquote = blockquote.parentNode;
+                        } 
+                        if (blockquote)
+                          blockquote.className = "pullquote";
+
+                        xinha.updateToolbar()
+                      },
+                      detect: function (xinha, el) {
+                        last_el = el
+                        while (el !== null) {
+                          if (el.nodeType == 1 && el.tagName.toUpperCase() == 'BLOCKQUOTE') {
+                            return /\bpullquote\b/.test(el.className);
+                          }
+                          el = el.parentNode;
+                        }
+                        return false;
+                      }
+                     },
+      'Normal' : {tag: 'p',
+                  invoker: function (xinha) {
+                    var blockquote = xinha.getParentElement();
+                    while (blockquote !== null && blockquote.tagName != 'BLOCKQUOTE')
+                    {
+                      blockquote = blockquote.parentNode;
+                    }
+                    if (blockquote)
+                    {
+                      var blockParent = blockquote.parentNode;
+                      var firstChild = null;
+                      while (blockquote.childNodes.length) {
+                        if (firstChild === null)
+                        {
+                          firstChild = blockquote.childNodes[0];
+                        }
+                        blockParent.insertBefore(blockquote.childNodes[0], blockquote);
+                      }
+                      blockParent.removeChild(blockquote);
+                      if (firstChild !== null)
+                      {
+                        // FIXME: this selects the entire first node, instead of just placing the
+                        // cursor at the beginning (or at the previous location where the cursor was).
+                        // Without this, the cursor hangs off to the side of the screen, where the
+                        // blockquote once had been.
+                        xinha.selectNodeContents(firstChild);
+                      }
+                    }
+                    else
+                    {
+                      if( !Xinha.is_gecko)
+                      {
+                        xinha.execCommand('formatblock', false, '<p>');
+                      }
+                      else
+                      {
+                        xinha.execCommand('formatblock', false, 'p');
+                      }                        
+                    }
+                  }}
     },
-      formatblockSelectors : {
-          'Pull-quote': function (el) {
-              while (el !== null) {
-                  if (el.tagName == 'BLOCKQUOTE') {
-                      return /\bpullquote\b/.test(el.className);
-                  }
-                  el = el.parentNode;
-              }
-              return false;
-          }
-      },
+    formatblockSelectors : {
+        'Pull-quote': function (el) {
+        }
+    },
     filters : {
 	'tidy_handler' : null
     },

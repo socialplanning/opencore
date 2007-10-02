@@ -1106,7 +1106,18 @@ Xinha.prototype._createToolbar1 = function (editor, toolbar, tb_objects)
         // == "formatblock" we retrieve config.formatblock (or
         // a different way to write it in JS is
         // config["formatblock"].
-        options = editor.config[txt];
+        options = {};
+        for (var i in editor.config[txt])
+        {
+          val = editor.config[txt][i];
+          if (typeof val == 'object') {
+            options[i] = val.tag;
+          }
+          else
+          {
+            options[i] = val;
+          }
+        }
         cmd = txt;
       break;
       default:
@@ -3392,13 +3403,14 @@ Xinha.prototype.updateToolbar = function(noStatus)
         var blocks = [];
         for ( var indexBlock in this.config.formatblock )
         {
-          // prevent iterating over wrong type
-          if (typeof this.config.formatblockSelectors[indexBlock] == 'function')
+          var blockItem = this.config.formatblock[indexBlock];
+          if (typeof blockItem == 'object')
           {
-            blocks[blocks.length] = this.config.formatblockSelectors[indexBlock];
-          } else if ( typeof this.config.formatblock[indexBlock] == 'string' )
+            blocks[blocks.length] = blockItem.detect || blockItem.tag;
+          }
+          else if (typeof blockItem == 'string')
           {
-            blocks[blocks.length] = this.config.formatblock[indexBlock];
+            blocks[blocks.length] = blockItem;
           }
 
         }
@@ -3410,7 +3422,7 @@ Xinha.prototype.updateToolbar = function(noStatus)
           {
             if (typeof blocks[x] == 'function')
             {
-              if (blocks[x](deepestAncestor))
+              if (blocks[x](this, deepestAncestor))
               {
                 btn.element.selectedIndex = x;
                 break;
@@ -3717,68 +3729,37 @@ Xinha.prototype._comboSelected = function(el, txt)
       this.execCommand(txt, false, value);
     break;
     case "formatblock":
+    {
       // Mozilla inserts an empty tag (<>) if no parameter is passed  
       if ( !value )
       {
       	this.updateToolbar();
       	break;
       }
+      var invoker = null;
+      for (var i in this.config.formatblock)
+      {
+        var val = this.config.formatblock[i];
+        if (typeof val == 'object'
+            && val.tag == value)
+        {
+          invoker = val.invoker || null;
+          break;
+        }
+      }
       if( !Xinha.is_gecko || value !== 'blockquote' )
       {
         value = "<" + value + ">";
       }
-      if (value.indexOf('blockquote') != -1)
+      if (invoker) 
       {
-          this.execCommand("formatblock", false, "blockquote");
-
-          var blockquote = this.getParentElement();
-          while (blockquote !== null && blockquote.tagName != 'BLOCKQUOTE') {
-              blockquote = blockquote.parentNode;
-          } 
-          if (blockquote)
-              blockquote.className = "pullquote";
-
-          // this actually does the reset
-          this.updateToolbar()
-      }
-      else if (value == '<p>' || value == 'p')
-      {
-          var blockquote = this.getParentElement();
-          while (blockquote !== null && blockquote.tagName != 'BLOCKQUOTE')
-          {
-            blockquote = blockquote.parentNode;
-          }
-          if (blockquote)
-          {
-               var blockParent = blockquote.parentNode;
-               var firstChild = null;
-               while (blockquote.childNodes.length) {
-                    if (firstChild === null)
-                    {
-                         firstChild = blockquote.childNodes[0];
-                    }
-                    blockParent.insertBefore(blockquote.childNodes[0], blockquote);
-               }
-               blockParent.removeChild(blockquote);
-               if (firstChild !== null)
-               {
-                    // FIXME: this selects the entire first node, instead of just placing the
-                    // cursor at the beginning (or at the previous location where the cursor was).
-                    // Without this, the cursor hangs off to the side of the screen, where the
-                    // blockquote once had been.
-                    this.selectNodeContents(firstChild);
-               }
-          }
-          else
-          {
-            this.execCommand(txt, false, value);
-          }
+        invoker(this);
       }
       else
       {
-          // we may need to get rid of the parent block quote here
-          this.execCommand(txt, false, value);
+        this.execCommand(txt, false, value);
       }
+    }
     break;
     default:
       // try to look it up in the registered dropdowns
