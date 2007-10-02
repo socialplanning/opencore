@@ -3741,6 +3741,39 @@ Xinha.prototype._comboSelected = function(el, txt)
           // this actually does the reset
           this.updateToolbar()
       }
+      else if (value == '<p>' || value == 'p')
+      {
+          var blockquote = this.getParentElement();
+          while (blockquote !== null && blockquote.tagName != 'BLOCKQUOTE')
+          {
+            blockquote = blockquote.parentNode;
+          }
+          if (blockquote)
+          {
+               var blockParent = blockquote.parentNode;
+               var firstChild = null;
+               while (blockquote.childNodes.length) {
+                    if (firstChild === null)
+                    {
+                         firstChild = blockquote.childNodes[0];
+                    }
+                    blockParent.insertBefore(blockquote.childNodes[0], blockquote);
+               }
+               blockParent.removeChild(blockquote);
+               if (firstChild !== null)
+               {
+                    // FIXME: this selects the entire first node, instead of just placing the
+                    // cursor at the beginning (or at the previous location where the cursor was).
+                    // Without this, the cursor hangs off to the side of the screen, where the
+                    // blockquote once had been.
+                    this.selectNodeContents(firstChild);
+               }
+          }
+          else
+          {
+            this.execCommand(txt, false, value);
+          }
+      }
       else
       {
           // we may need to get rid of the parent block quote here
