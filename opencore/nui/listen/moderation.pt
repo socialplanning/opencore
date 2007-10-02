@@ -65,6 +65,12 @@
                 </tr>
               </tbody>
             </table>
+            <form name="moderate_all_posts"
+                  method="POST"
+                  tal:condition="pending_list"
+                  tal:attributes="action request/ACTUAL_URL">
+              <input type="submit" name="discard_all_posts" value="Discard all posts" />
+            </form>
           <p tal:condition="python: not pending_list">No posts pending moderation</p>
         </div>
 
