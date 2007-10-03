@@ -788,6 +788,9 @@ var XinhaConfig = {
                       }                        
                     }
                   },
+                  // always return false, to give others a chance to override
+                  // if nobody else thinks they should be selected, then it will default
+                  // to normal because it comes first
                   detect: function(xinha, el) { return false; }
                  },
       'Heading' : 'h2',
