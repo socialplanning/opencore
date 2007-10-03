@@ -29,7 +29,7 @@ function InternalLink(editor, args)
 
   var linker = this;
   editor.config.registerButton(
-			       'createinternallink', 'Link to Internal Page', [_editor_url + "images/ed_buttons_main.gif",7,1], false,
+			       'createinternallink', 'Create link', [_editor_url + "images/ed_buttons_main.gif",7,1], false,
 			       function(e, objname, obj) { linker._createLink(linker._getSelectedAnchor()); }
 			       );
 
