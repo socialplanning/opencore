@@ -375,6 +375,8 @@ class ImageManager(WikiEdit, OctopoLite):
             im = Image.open(StringIO(image.data))
             im.thumbnail(size, Image.ANTIALIAS)
             thumb = StringIO()
+            if im.mode != "RGB":
+                im = im.convert("RGB")
             im.save(thumb, "JPEG")
             image.thumbnails[size] = thumb.getvalue()
 
