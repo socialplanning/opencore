@@ -823,7 +823,7 @@ var XinhaConfig = {
 	'backend' : 'backend?'
     },
     pageStyle : '',
-    pageStyleSheets : ['/++resource++css/opencore.css'],
+    pageStyleSheets : ['/++resource++css/themes/openplans.css', '/++resource++css/opencore.css'],
     plugins : [
       'ImageManager',
       'InternalLink',
