@@ -21,8 +21,8 @@
   height: 18px;
 }
 .htmlarea .toolbar a.button:hover {
-  border: 1px solid;
-  border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
+  border: 1px solid #888;
+  /*border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;*/
 }
 .htmlarea .toolbar a.buttonDisabled:hover {
   border-color: ButtonFace;
