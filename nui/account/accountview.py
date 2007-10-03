@@ -183,6 +183,7 @@ class LoginView(AccountView):
             return destination
         else:
             default_redirect = '%s/account' % self.memfolder_url()
+            return default_redirect  # need to restrict domain!
             referer = self.request.get('http_referer')
             if not referer or referer in self.boring_urls:
                 return default_redirect
