@@ -748,32 +748,6 @@ var XinhaConfig = {
     charSet : 'utf8',
     flowToolbars : false,
     formatblock : {
-      'Heading' : 'h2',
-      'Subheading' : 'h3',
-      'Pull-quote' : {tag: 'blockquote',
-                      invoker: function (xinha) {
-                        xinha.execCommand("formatblock", false, "blockquote");
-                        var blockquote = xinha.getParentElement();
-                        while (blockquote !== null && blockquote.tagName != 'BLOCKQUOTE') {
-                          blockquote = blockquote.parentNode;
-                        } 
-                        if (blockquote)
-                        {
-                          Xinha.addClass(blockquote, "pullquote");
-                        }
-                        xinha.updateToolbar()
-                      },
-                      detect: function (xinha, el) {
-                        last_el = el
-                        while (el !== null) {
-                          if (el.nodeType == 1 && el.tagName.toUpperCase() == 'BLOCKQUOTE') {
-                            return /\bpullquote\b/.test(el.className);
-                          }
-                          el = el.parentNode;
-                        }
-                        return false;
-                      }
-                     },
       'Normal' : {tag: 'p',
                   invoker: function (xinha) {
                     var blockquote = xinha.getParentElement();
@@ -813,7 +787,34 @@ var XinhaConfig = {
                         xinha.execCommand('formatblock', false, 'p');
                       }                        
                     }
-                  }}
+                  },
+                  detect: function(xinha, el) { return false; }
+                 },
+      'Heading' : 'h2',
+      'Subheading' : 'h3',
+      'Pull-quote' : {tag: 'blockquote',
+                      invoker: function (xinha) {
+                        xinha.execCommand("formatblock", false, "blockquote");
+                        var blockquote = xinha.getParentElement();
+                        while (blockquote !== null && blockquote.tagName != 'BLOCKQUOTE') {
+                          blockquote = blockquote.parentNode;
+                        } 
+                        if (blockquote)
+                        {
+                          Xinha.addClass(blockquote, "pullquote");
+                        }
+                        xinha.updateToolbar()
+                      },
+                      detect: function (xinha, el) {
+                        while (el !== null) {
+                          if (el.nodeType == 1 && el.tagName.toUpperCase() == 'BLOCKQUOTE') {
+                            return /\bpullquote\b/.test(el.className);
+                          }
+                          el = el.parentNode;
+                        }
+                        return false;
+                      }
+                     }
     },
     filters : {
 	'tidy_handler' : null
