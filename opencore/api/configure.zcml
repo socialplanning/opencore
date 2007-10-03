@@ -9,10 +9,18 @@
      template="project_info_xml.pt"
      />
 
+  <!-- consider deprecated, use /memberships -->
   <browser:page
      for="opencore.interfaces.IProject"
      permission="zope2.View"
      name="members.xml"
+     template="project_members_xml.pt"
+     class=".apis.ProjectMembershipXML"
+     />
+  <browser:page
+     for="opencore.interfaces.IProject"
+     permission="zope2.View"
+     name="memberships.xml"
      template="project_members_xml.pt"
      class=".apis.ProjectMembershipXML"
      />
