@@ -15,13 +15,14 @@
   background: ButtonFace;
   color: ButtonText;
   border: 1px solid ButtonFace;
-  padding: 2px;
-  margin: 0px;
+  padding: 2px 4px 3px 2px;
+  margin: 0 2px 0 0;
   width: 18px;
   height: 18px;
 }
 .htmlarea .toolbar a.button:hover {
-  border: 1px solid #888;
+  border: 1px solid;
+  border-color: #ccc #888 #888 #ccc;
   /*border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;*/
 }
 .htmlarea .toolbar a.buttonDisabled:hover {

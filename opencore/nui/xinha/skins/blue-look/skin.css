@@ -7,11 +7,16 @@
 {
   margin-top:2px;
   margin-bottom:2px;
-  border:1px dotted #DEDEDE;
+  /*border:1px dotted #DEDEDE;*/
   padding:2px;
   -moz-border-radius:3px;
   margin:4px;
   height:25px;
+}
+
+.toolbarElement
+{
+  padding: 2px;
 }
 
 .htmlarea .toolbar .button
@@ -19,7 +24,8 @@
   background-image: url(button-background.png);
   width:20px;
   height:20px;
-  padding:0px;
+  padding:2px 4px 3px 2px;
+  margin: 0 2px 0 0;
   border:1px solid #f7f8fd;
 }
 
@@ -42,7 +48,7 @@
 .htmlarea .toolbar a.button:hover
 {
   border: 1px solid;
-  border-color: white #CCC #CCC white;
+  border-color: #ccc #888 #888 #ccc;
 }
 
 .htmlarea .toolbar a.buttonDisabled:hover
@@ -51,10 +57,12 @@
 }
 
 .htmlarea .toolbar .button.buttonActive,
-.htmlarea .toolbar .button.buttonPressed
+.htmlarea .toolbar .button.buttonPressed,
+.htmlarea .toolbar a.button.buttonPressed:hover
 {
   border: 1px solid;
-  border-color: #CCC white white #CCC;
+  border-color: #888 white white #888;
+  padding: 2px 4px 3px 2px;
 }
 
 .htmlarea .statusBar {
