@@ -758,8 +758,9 @@ var XinhaConfig = {
                           blockquote = blockquote.parentNode;
                         } 
                         if (blockquote)
-                          blockquote.className = "pullquote";
-
+                        {
+                          Xinha.addClass(blockquote, "pullquote");
+                        }
                         xinha.updateToolbar()
                       },
                       detect: function (xinha, el) {
