@@ -17,6 +17,14 @@ class MemberInfoXML(XMLView):
         return pm.getMemberById(mem_id)
 
 
+# ugh.
+class AllMembersInfoXML(XMLView):
+    def members(self):
+        membrane_tool = getToolByName(self.context, 'membrane_tool')
+        members = membrane_tool.unrestrictedSearchResults()
+        return members
+
+
 class ProjectMembershipXML(XMLView):
 
     # XXX should probably memoize this?

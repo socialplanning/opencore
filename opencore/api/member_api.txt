@@ -9,6 +9,13 @@ documentation refer to the main README.txt
 Member API
 ==========
 
+all.xml shows personal information about all members. A site admin
+can access it, but it's not publicly accessible::
+    >>> print http(r'''
+    ... GET /plone/people/@@all.xml HTTP/1.1
+    ... ''')
+    HTTP/1.1 302 Moved Temporarily...
+
 info.xml shows personal information about the member::
     >>> print http(r'''
     ... GET /plone/people/m1/@@info.xml HTTP/1.1

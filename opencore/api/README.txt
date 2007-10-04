@@ -3,7 +3,8 @@
 ==============
 
 APIs for remote interaction with opencore. Currently we have two APIs
-provided by projects and one provided by members.
+provided by projects, one provided by the people folder, and one
+provided by members.
 
 Project APIs
 ============

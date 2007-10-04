@@ -23,8 +23,13 @@ def test_suite():
                                         optionflags=optionflags,
                                         globs=locals(),
                                         )
+    member_api = ztc.FunctionalDocFileSuite('member_api.txt',
+                                            package='opencore.api',
+                                            optionflags=optionflags,
+                                            globs=locals(),
+                                            )
     
-    zcml_suites = (readme,)
+    zcml_suites = (readme,member_api)
     for suite in zcml_suites:
         suite.layer = OpenCoreContent
         

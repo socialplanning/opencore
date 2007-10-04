@@ -25,6 +25,15 @@
      class=".apis.ProjectMembershipXML"
      />
 
+  <!-- this WILL move. don't rely on it too much -->
+  <browser:page
+     for="opencore.interfaces.IAmAPeopleFolder"
+     permission="cmf.ModifyPortalContent"
+     name="all.xml"
+     template="all_members_info_xml.pt"
+     class=".apis.AllMembersInfoXML"
+     />
+
   <browser:page
      for="opencore.interfaces.IMemberFolder"
      permission="cmf.ModifyPortalContent"
