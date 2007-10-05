@@ -44,10 +44,27 @@ InternalLink.prototype._lc = function(string)
 
 InternalLink.prototype._createLink = function(a)
 {
-  if(!a && this.editor.selectionEmpty(this.editor.getSelection()))
-  {       
-    alert(this._lc("You must select some text before making a new link."));
-    return false;
+  if (!a)
+  {
+    selection = (this.editor.getSelection());
+    if (this.editor.selectionEmpty(selection))
+    {
+      alert(this._lc("You must select some text before making a new link."));
+      return;
+    }
+    // get the text node that this is a part of, and check to see that it's
+    // not in between the wiki (( )) syntax
+    parent = this.editor.getParentElement();
+    if (parent)
+    {
+      text_node = parent.childNodes[0];
+      text = text_node.nodeValue;
+      if (/\(\([^)]*\)\)/.test(text))
+      {
+        alert('Cannot create a link inside of a wiki link');
+        return;
+      }
+    }
   }
 
   var inputs =
