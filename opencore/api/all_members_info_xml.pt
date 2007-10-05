@@ -2,5 +2,6 @@
  <member tal:repeat="member members">
   <username tal:content="member/getId" />
   <name tal:content="member/getFullname" />
+  <email tal:content="member/getEmail" />
  </member>
 </members>
