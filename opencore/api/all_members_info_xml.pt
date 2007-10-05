@@ -1,0 +1,6 @@
+<members tal:define="members view/members">
+ <member tal:repeat="member members">
+  <username tal:content="member/getId" />
+  <name tal:content="member/getFullname" />
+ </member>
+</members>
