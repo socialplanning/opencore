@@ -20,6 +20,7 @@ from opencore.nui.formhandler import OctopoLite, action
 from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.nui.member.interfaces import ITransientMessage
 from opencore.nui.project.interfaces import IEmailInvites
+from opencore.nui.indexing import queueObjectReindex
 
 from zope.event import notify
 from zope.app.event.objectevent import ObjectModifiedEvent
@@ -439,6 +440,12 @@ class MemberAccountView(BaseView, OctopoLite):
         # XXX do we notify anybody (proj admins) when a mship has been accepted?
         if not self._apply_transition_to(proj_id, 'approve_public'):
             return {}
+
+        # send the reindex jobs to the catalog queue
+        team = self.get_tool('portal_teams').getTeamById(proj_id)
+        proj = team.getProject()
+        queueObjectReindex(team, recursive=True)
+        queueObjectReindex(proj, recursive=True)
 
         projinfos = self.projects_for_user
         if len(projinfos) > 1:
