@@ -361,6 +361,27 @@ Check that when logging back in as m1, m3 is still the last modified author
      >>> ILastModifiedAuthorId(proj)
      'm3'
 
+Experimental marking should control which template is used
+The project should not be marked experimental initially
+     >>> from opencore.interfaces import IAmExperimental
+     >>> IAmExperimental.providedBy(proj)
+     False
+
+So, the template is the original kupu template
+     >>> html = view.template()
+     >>> 'kupu' in html
+     True
+     >>> 'xinha' in html
+     False
+
+After marking with the experimental interface, the template
+is the xinha template
+     >>> alsoProvides(proj, IAmExperimental)
+     >>> html = view.template()
+     >>> 'kupu' in html
+     False
+     >>> 'xinha' in html
+     True
 
 News Edit View
 ==============
