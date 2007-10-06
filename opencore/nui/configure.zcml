@@ -19,6 +19,9 @@
   <include package=".listen" />
   <include file="indexing.zcml" />
 
+  <!-- allows this interface show up as a potential marker in zmi -->
+  <interface interface="opencore.interfaces.IAmExperimental" />
+
   <!-- resource directories for css, images, etc -->
   <browser:resourceDirectory
     name="css"

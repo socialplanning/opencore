@@ -3,6 +3,7 @@ from zope.app.event import objectevent
 from opencore.nui.base import BaseView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.nui.formhandler import button, OctopoLite, action
+from opencore.interfaces import IAmExperimental
 from PIL import Image
 from StringIO import StringIO
 from lxml.html.clean import clean_html
@@ -46,10 +47,20 @@ class WikiView(WikiBase):
 
 class WikiEdit(WikiBase, OctopoLite):
 
-    template = ZopeTwoPageTemplateFile("wiki-edit.pt")
+    kupu_template = ZopeTwoPageTemplateFile("wiki-edit.pt")
+    xinha_template = ZopeTwoPageTemplateFile("wiki-edit-xinha.pt")
 
     attachment_snippet = ZopeTwoPageTemplateFile('attachment.pt')
 
+    @property
+    def template(self):
+        # parent can be either a project, or a member folder
+        # in either case, the behavior works properly
+        parent = self.context.aq_inner.aq_parent
+        if IAmExperimental.providedBy(parent):
+            return self.xinha_template
+        else:
+            return self.kupu_template
 
     def _clean_html(self, html):
         """ delegate cleaning of html to lxml """
@@ -94,7 +105,10 @@ class WikiEdit(WikiBase, OctopoLite):
         # this updates things like last modified author on a wiki page
         notify(objectevent.ObjectModifiedEvent(self.context))
 
-        self.template = None
+        # XXX is setting the template to None necessary?
+        # it causes problems because it's more convenient to make template
+        # a property now, which can't be set to None
+        # self.template = None
         self.redirect(self.context.absolute_url())
 
     def _handle_createAtt(self):
