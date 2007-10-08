@@ -260,7 +260,7 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
     // trim response text to avoid errors in IE
     OC.debug(o.responseText);
     var cleanedResponseText = o.responseText.replace(/[\r\n]/g, "");
-    cleanedResponseText = cleanedResponseText.replace(/^\s*<html>\s*<body>/, "");
+    cleanedResponseText = cleanedResponseText.replace(/^\s*<html>.*?<body>/, "");
     cleanedResponseText = cleanedResponseText.replace(/<\/body>\s*<\/html>\s*$/, "")
 
     cleanedResponseText = cleanedResponseText.replace(/&lt;/g, "<");

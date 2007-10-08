@@ -831,7 +831,8 @@ var XinhaConfig = {
     plugins : [
       'ImageManager',
       'InternalLink',
-      'GetHtml'
+      'GetHtml',
+      'FullScreen'
       //'TableOperations'
       // remove spellchecker (don't have backend yet)
       //'SpellChecker'

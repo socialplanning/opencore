@@ -1290,7 +1290,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         """
         if not mem_id in self.team.getMemberIds():
             # create the membership
-            self.team.addMember(mem_id)
+            self.team.addMember(mem_id, reindex=False)
         else:
             # reinvite existing membership
             wftool = self.get_tool('portal_workflow')

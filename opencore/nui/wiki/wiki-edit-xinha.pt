@@ -88,7 +88,7 @@ var _editor_lang = "en";
                   <textarea id="description" name="description" tal:content="context/Description" />
                 </tal:description>
 
-                <textarea editor-type="wysiwyg" style="width: 800px; height:600px;" id="text" name="text" rows="25" cols="80" width="800px" height="600px" base="advanced" tal:content="view/rawtext"></textarea>
+                <textarea editor-type="wysiwyg" id="text" name="text" rows="10" cols="80" width="800px" height="600px" base="advanced" tal:content="view/rawtext"></textarea>
               </div><!-- end .oc-wiki-edit-content" --> 
  
               <div class="oc-js-expander oc-expander">

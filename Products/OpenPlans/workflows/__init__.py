@@ -9,8 +9,6 @@ import team
 import policy_open
 import policy_medium
 import policy_closed
-import mship_policy_open
-import mship_policy_closed
 import open_folder_openplans_workflow
 import medium_folder_openplans_workflow
 import closed_folder_openplans_workflow
@@ -42,10 +40,6 @@ WORKFLOW_MAP = {'plone_openplans_workflow': ('Default OpenPlans Workflow [Plone]
                 'medium_policy_workflow': ('Medium Security Policy Workflow',
                                             () ),
                 'closed_policy_workflow': ('Closed Security Policy Workflow',
-                                            () ),
-                'mship_open_policy_workflow': ('Open Security Membership Policy Workflow',
-                                             () ),
-                'mship_closed_policy_workflow': ('Closed Security Membership Policy Workflow',
                                             () ),
                 }
 
@@ -94,7 +88,7 @@ PLACEFUL_POLICIES = {'open_policy': { 'title':       'Open',
 mship_open_policy = dict(
     title='Open',
     description='Anyone can view',
-    default=['openplans_team_membership_workflow'],
+    default=['plone_openplans_workflow'],
     types={'OpenMembership': 'openplans_team_membership_workflow'},
     context_trans='open',
     )
@@ -102,7 +96,7 @@ mship_open_policy = dict(
 mship_closed_policy = dict(
     title='Closed',
     description='Only team members',
-    default=['closed_openplans_team_membership_workflow'],
+    default=['plone_openplans_workflow'],
     types={'OpenMembership': 'closed_openplans_team_membership_workflow'},
     context_trans='close',
     )

@@ -4,7 +4,7 @@ def htmlify(js):
     js = "%s" % js
     js = js.replace("<", "&lt;")
     js = js.replace(">", "&gt;")
-    return "<html><body> %s </body></html>" % js
+    return '<html><head><meta http-equiv="x-deliverance-no-theme" content="1"/></head><body> %s </body></html>' % js
 
 class Octopus(object):
     """
