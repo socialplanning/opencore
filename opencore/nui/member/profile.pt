@@ -60,34 +60,11 @@
               </dd>
               <dt>
                 Member home
-                  <a tal:condition="view/viewingself" class="oc-actionLink"
-                     tal:attributes="href string:${memberdata/home_url}/edit">Edit</a>
               </dt>
               <dd>
                 <a class="url" tal:attributes="href memberdata/home_url"
                    tal:content="string:${memberdata/folder_url}" />
-                </dd>
-              <dt>Blogosphere
-              </dt>
-              <dd tal:define="is_anon not: view/loggedin">
-               <ul class="oc-profile-feed">
-                 <li tal:repeat="trackback view/trackbacks"
-                     tal:condition="view/viewingself"
-              tal:attributes="id trackback/idx"
-                     class="oc-profile-feed-item"><a
-              tal:attributes="href trackback/url"
-              tal:content="trackback/title" /> at <span
-              tal:content="trackback/blog_name" /> <a
-              class="oc-js-actionLink oc-actionLink"
-              tal:attributes="href trackback/close_url">Close</a></li>
-                 <li tal:repeat="trackback view/trackbacks"
-                     tal:condition="not: view/viewingself"
-                     class="oc-profile-feed-item"><a
-              tal:attributes="href trackback/url"
-              tal:content="trackback/title" /> at <span
-              tal:content="trackback/blog_name" /></li>
-               </ul>
-             </dd>
+              </dd>
             </dl>
           </div>
         </div>
