@@ -1831,9 +1831,14 @@ Xinha.prototype.generate = function ()
       {
         editor._iframeLoadDone = true;
         editor.initIframe();
-        // focus the editor (activating the buttons on the toolbar)
-        Xinha._someEditorHasBeenActivated = true;
-        editor.focusEditor();
+        // FIXME: this is commented out because some plugins expect
+        // the cursor to be in the text area some where to work properly
+        // ideally, we would just position the cursor either at the beginning or
+        // the end to resolve
+        // this just focuses the editor (activating the buttons on the toolbar)
+        // it does not insert the cursor
+        //Xinha._someEditorHasBeenActivated = true;
+        //editor.focusEditor();
       }
       return true;
     }
