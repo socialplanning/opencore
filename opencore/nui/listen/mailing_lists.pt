@@ -17,7 +17,7 @@
         <div class="oc-headingBlock">
           <h1>Mailing lists</h1>
           <p class="oc-headingContent">
-            View<span tal:condition="can_add_lists"> or manage exisiting</span> mailing lists<span tal:condition="can_add_lists"> or <a href="opencore.add_mailinglist">add a new mailing list</a></span>.
+            View<span tal:condition="can_add_lists"> or manage exisiting</span> mailing lists<span tal:condition="can_add_lists"> or <a tal:attributes="href string:${context/absolute_url}/opencore.add_mailinglist">add a new mailing list</a></span>.
           </p>
         </div>
   
