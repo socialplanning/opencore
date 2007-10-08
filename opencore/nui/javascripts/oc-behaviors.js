@@ -38,6 +38,7 @@ OC.liveElementKey.Class = {
     'oc-checkAll'            : "CheckAll",
     'oc-js-liveEdit'         : "LiveEdit",
     'oc-js-actionLink'       : "ActionLink",
+    'oc-js-actionPost'       : "ActionLink",
     'oc-js-actionButton'     : "ActionButton",
     'oc-js-actionSelect'     : "ActionSelect",
     'oc-js-liveValidate'     : "LiveValidatee",
@@ -390,25 +391,37 @@ OC.ActionLink = function(extEl) {
 	     OC.debug("ActionLink: Could not get refs");
     } 
     
+    if (link.hasClass('oc-js-actionPost')) {
+        method = "POST";
+    } else {
+        method = "GET";
+    }
+
     function _doAction(e, el, o) {
-	YAHOO.util.Event.stopEvent(e);
-	
-	// get action/href & split action from params
-	var action = el.href.split("?")[0];
-	var requestData = el.href.split("?")[1];
-	OC.debug("request data is " + requestData);
-	
-	var requestUri = el.href + "&mode=async";
-	
-	this.button.dom.innerHTML = "Please wait..."; 
-	
-	// make connection
-	var cObj = YAHOO.util.Connect.asyncRequest("GET", requestUri, {
-		success: OC.Callbacks.afterAjaxSuccess, 
-		failure: OC.Callbacks.afterAjaxFailure,
-		scope: this 
-	    });
-    } 
+    	YAHOO.util.Event.stopEvent(e);
+    	
+    	// get action/href & split action from params
+    	var action = el.href.split("?")[0];
+    	var requestData = el.href.split("?")[1] + '&mode=async';
+    	OC.debug("request data is " + requestData);
+    	
+    	this.button.dom.innerHTML = "Please wait..."; 
+    	
+    	// make connection
+        if (method == "GET") {
+        	var cObj = YAHOO.util.Connect.asyncRequest("GET", action + '?' + requestData, {
+        		success: OC.Callbacks.afterAjaxSuccess, 
+        		failure: OC.Callbacks.afterAjaxFailure,
+        		scope: this 
+        	    });
+        } else if (method == "POST") {
+        	var cObj = YAHOO.util.Connect.asyncRequest("POST", action, {
+        		success: OC.Callbacks.afterAjaxSuccess, 
+        		failure: OC.Callbacks.afterAjaxFailure,
+        		scope: this 
+        	    }, requestData);
+        }
+    }
     link.on('click', _doAction, this);
     
     // pass back element to OC.LiveElements
