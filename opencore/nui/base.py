@@ -251,6 +251,7 @@ class BaseView(BrowserView):
                 background  = member.getBackground(),
                 skills      = member.getSkills(),
                 affiliations= member.getAffiliations(),
+                website     = member.getWebsite(),
                 favorites   = member.getFavorites(),
                 anon_email  = member.getUseAnonByDefault(),
                 )

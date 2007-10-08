@@ -65,6 +65,13 @@
                 <a class="url" tal:attributes="href memberdata/home_url"
                    tal:content="string:${memberdata/folder_url}" />
               </dd>
+              <dt>Website
+                <a tal:condition="view/viewingself" class="oc-actionLink"
+                   href="profile-edit?field=website">Edit</a>
+              </dt>
+              <dd>
+                <a class="url" tal:attributes="href memberdata/website"
+                   tal:content="memberdata/website" />
             </dl>
           </div>
         </div>
