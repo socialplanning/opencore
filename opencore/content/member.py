@@ -99,7 +99,6 @@ nuischema = Schema((
                       ),
                     StringField(
                       'website',
-                      index='ZCTextIndex,lexicon_id=plone_lexicon,index_type=Cosine Measure|TextIndex:brains',
                       searchable=1,
                       widget=StringWidget(
                         label='website',
