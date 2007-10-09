@@ -33,7 +33,10 @@ setup(name='opencore',
           'simplejson',
           'plone.memoize',
           'cabochonclient',
-          'lxml>=2',
+          'lxml>=2.0alpha',
+          'plone.mail',
+          'plone.app.form',
+          'borg.localrole==1.0rc1',
           ]
       )
 
