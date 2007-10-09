@@ -2,12 +2,12 @@
 utility, directive and helper functions for locating the active
 wordpress instance
 """
-from opencore.wordpress.interfaces import IWordpressInfo
+from opencore.wordpress.interfaces import IWordPressInfo
 from zope.interface import implements
 from zope.component import getUtility
 
 class WordpressURI(object):
-    implements(IWordpressInfo)
+    implements(IWordPressInfo)
     def __init__(self, uri=None, external_uri=None):
         self.uri = uri
         self.external_uri = external_uri
@@ -28,7 +28,7 @@ def configure_wp_info(_context, uri, external_uri=None):
         )
 
 def get():
-    return getUtility(IWordpressInfo).uri
+    return getUtility(IWordPressInfo).uri
 
 def get_external_uri():
-    return getUtility(IWordpressInfo).external_uri
+    return getUtility(IWordPressInfo).external_uri
