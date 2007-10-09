@@ -855,7 +855,8 @@ var XinhaConfig = {
         ["inserttable"],
         ["toggleborders"],
         ["insertimage"],
-        ["htmlmode"]
+        ["htmlmode"],
+        ["fullscreen"]
     ],
     width : '800'
   },
