@@ -4,6 +4,15 @@
     <title>Potal Stats</title>
   </head>  
   <body>
-    <div tal:content=view/get_active_projects />
+    <table border="0">
+      <tr>
+        <td>Number of projects</td>
+	<td tal:content="python: len(view.get_projects())" />
+      </tr>
+      <tr>
+        <td>Number of active projects</td>
+	<td tal:content="python: len(view.get_active_projects())" />
+      </tr>
+    </table>
   </body>
 </html>
