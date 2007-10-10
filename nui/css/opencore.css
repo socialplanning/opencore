@@ -1074,7 +1074,7 @@ height: 1em; */
   clear: both;
   margin-bottom: 4em;
 }
-.oc-dataTable-heading {
+.oc-dataTable-heading, .oc-section-heading {
 	color: #fff;
 	background: #332F2A;
 	padding: 0.25em;
