@@ -3,7 +3,8 @@ from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 import DateTime
-
+from Products.listen.interfaces import ISearchableArchive
+from zope.app import zapi
 
 
 class StatsView(BrowserView):
@@ -11,11 +12,13 @@ class StatsView(BrowserView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
+        self.catalog = getToolByName(self.context, 'portal_catalog')
+        self.membrane_tool = getToolByName(self.context, 'membrane_tool')
+        
 
     def get_projects(self):
-        catalog = getToolByName(self.context, 'portal_catalog')
         query = dict(portal_type='OpenProject')
-        brains = catalog(**query)
+        brains = self.catalog(**query)
         return brains
 
     def get_active_projects(self):    
@@ -23,3 +26,40 @@ class StatsView(BrowserView):
         projects = self.get_projects()
         filtered_projects = [project for project in projects if project.modified > DateTime.now()-30]
         return filtered_projects
+
+    def get_members(self):
+        query = dict()
+        brains = self.membrane_tool(**query)
+        return brains
+
+    def get_active_members(self):    
+        # "active" is defined as having logged in the last 30 days
+        members = self.get_members()
+        filtered_members = [member for member in members if member.modified > DateTime.now()-30]
+        return filtered_members
+
+    def get_mailing_lists(self):
+        query = dict(portal_type='Open Mailing List')
+        brains = self.catalog(**query)
+        return brains
+
+    def get_active_mailing_lists(self):    
+        # "active" is defined as having a message in the last 30 days
+        lists = self.get_mailing_lists()
+        filtered_lists = []
+#         for lst in lists:
+#             mail_catalog = zapi.getUtility(ISearchableArchive, context=lst)
+#             query = dict(sort_on='date',
+#                          sort_order='descending')
+#             brains = mail_catalog(**query)
+#             latest_date = brains[0].date
+
+#             if latest_date > DateTime.now()-30:
+#                 filtered_lists.append(lst)
+        
+        return filtered_lists
+
+    
+
+
+        

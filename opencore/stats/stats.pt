@@ -1,17 +1,32 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head profile="http://gmpg.org/xfn/11">
-    <title>Potal Stats</title>
+    <link rel="stylesheet" href="/++resource++css/themes/openplans.css" type="text/css" media="all" />
+
+    <title>Portal Stats</title>
   </head>  
   <body>
-    <table border="0">
+    <h1>Portal Stats</h1>
+    <table>
+      <tr>
+        <td></td>
+        <td>Total</td>
+	<td>Active</td>
+      </tr>
       <tr>
         <td>Number of projects</td>
 	<td tal:content="python: len(view.get_projects())" />
+	<td tal:content="python: len(view.get_active_projects())" />
       </tr>
       <tr>
-        <td>Number of active projects</td>
-	<td tal:content="python: len(view.get_active_projects())" />
+        <td>Number of members</td>
+	<td tal:content="python: len(view.get_members())" />
+	<td tal:content="python: len(view.get_active_members())" />
+      </tr>
+      <tr>
+        <td>Number of mailing lists</td>
+	<td tal:content="python: len(view.get_mailing_lists())" />
+	<td tal:content="python: len(view.get_active_mailing_lists())" />
       </tr>
     </table>
   </body>
