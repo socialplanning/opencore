@@ -584,6 +584,7 @@ class MemberAccountView(BaseView, OctopoLite):
             return
 
         mem.setEmail(email)
+        mem.reindexObject(idxs=['getEmail'])
         self.addPortalStatusMessage('Your email address has been changed.')
 
 

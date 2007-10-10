@@ -469,6 +469,13 @@ It's talented, isn't it?
     >>> mem.getEmail()
     'foobarbazquux@example.com'
 
+    The membrane tool should also have an updated entry for the email address
+    >>> brains = list(self.portal.membrane_tool(getId='m1'))
+    >>> len(brains)
+    1
+    >>> brains[0].getEmail
+    'foobarbazquux@example.com'
+
     And if we change the anonymous setting, it should change the
     visibility on the member object
     >>> del request.form['hide_email']
