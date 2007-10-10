@@ -23,15 +23,23 @@ class WordPressFeaturelet(SatelliteFeaturelet):
              }
 
     def deliverPackage(self, obj):
-        uri = "%/openplans_create_blog.php" % wp_uri.get()
+        #uri = "%/openplans-create-blog.php" % wp_uri.get()
+        uri = "http://localhost:8090/openplans-create-blog.php"
         params = {}
 
         params['domain'] = domain = "%s.openplans.org" % obj.getId()
 
         auth = obj.acl_users.credentials_signed_cookie_auth
         secret = auth.secret
-        params['signature'] = hmac.new(secret, domain, sha).digest()
+        sig = hmac.new(secret, domain, sha).digest()
+        params['signature'] = sig = sig.encode('base64').strip()
 
-        params['title'] = obj.getTitle()
-        body = "&".join(["%s=%s" % (i, params[i]) for i in params])
-        return self.http.request(uri, method="POST", body=body)
+        params['title'] = obj.Title()
+        import urllib
+        params = urllib.urlencode(params)
+
+        ret = urllib.urlopen(uri, params)
+        read = ret.read()
+        import pdb; pdb.set_trace()
+        
+        return ret
