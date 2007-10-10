@@ -346,6 +346,30 @@ Login [to be done]
 [Output should really be the user's homepage.  but it isn't
 due to the fact that PAS isn't called.  Deal with this later]
 
+
+Javascript functionality for Vacuum
+===================================
+
+Logged out user:
+
+    >>> self.logout()
+    >>> jsview = portal.restrictedTraverse('@@user.js')
+    >>> output = jsview()  # XXX left off here.
+
+Logged in user:
+
+    >>> self.login()
+    >>> output = jsview()  # XXX left off here.
+    >>> # normalize whitespace.
+    >>> output = '\n'.join([li.strip() for li in output.split('\n')]).strip()
+    >>> print output
+    var OpenCore.MemberInfo = {
+    name: '',
+    website: '',
+    email: 'test_emailer_1_@example.com',
+    }
+
+
 Verify initial login converts email invites to mship invites
 ============================================================
 

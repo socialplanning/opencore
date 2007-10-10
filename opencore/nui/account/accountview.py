@@ -56,6 +56,20 @@ class AccountView(BaseView):
     def login_url(self):
         return "%s/login" % self.context.absolute_url()
 
+    def logged_in_user_js(self):
+        """Get info about the current member (if any), as javascript.
+        """
+        info = self.member_info
+        # XXX What should this do if member_info is empty?
+        js = """
+        var OpenCore.MemberInfo = {
+        name: %(fullname)r,
+        website: %(website)r,
+        email: %(email)r,
+        }
+        """ % info
+        return js
+
     ### methods to deal with pending members
 
     def is_pending(self, **query):
