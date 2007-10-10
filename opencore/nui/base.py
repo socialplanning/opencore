@@ -227,6 +227,9 @@ class BaseView(BrowserView):
 
 
     def member_info_for_member(self, member):
+        if member == None:
+            # Not logged in.
+            return {}
         result = {}
         if IReMember.providedBy(member):
             id = member.getId()
