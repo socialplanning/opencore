@@ -49,12 +49,14 @@ class StatsView(BrowserView):
         filtered_lists = []
         for lst in lists:
             mail_catalog = queryUtility(ISearchableArchive, context=lst)
-            if not mail_catalog:
-                continue
-            query = dict(sort_on='date',
-                         sort_order='descending')
-            brains = mail_catalog(**query)
-            latest_date = brains[0].date
+            latest_date = 0
+            if mail_catalog:
+                query = dict(sort_on='date',
+                             sort_order='descending')
+                brains = mail_catalog(**query)
+                latest_date = brains[0].date
+            if lst.modified > latest_date:
+                latest_date = lst.modified
             if latest_date > DateTime.now()-30:
                 filtered_lists.append(lst)
         
