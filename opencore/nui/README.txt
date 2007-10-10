@@ -146,7 +146,8 @@ Member info
      'projects': [],
      'skills': '',
      'statement': '',
-     'url': 'http://nohost/plone/people/test_user_1_'}
+     'url': 'http://nohost/plone/people/test_user_1_',
+     'website': ''}
 
 
 test nusers and projects_served_count
