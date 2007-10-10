@@ -41,19 +41,19 @@
         </div>
         <div id="oc-contact" class="oc-boxy">
           <h2>Get in touch</h2>
-            <address class="vcard">
+            <div class="vcard">
               <p style="font-weight: bold;" class="fn org">
                 <a class="url" href="http://topp.openplans.org">The Open Planning Project</a>
               </p>
               <dl class="oc-plainList">
                 <dt>General Inquiries</dt>
-                <dd class="email">
+                <dd>
                   info<span 
                   style="display: none;">NOSPAM</span
                   >@openplans.org
                 </dd>
                 <dt>Help</dt>
-                <dd class="email">
+                <dd>
                   help<span
                   style="display: none;">NOSPAM</span
                   >@openplans.org
@@ -73,7 +73,7 @@
                 <dt>Fax</dt>
                 <dd class="tel">646.390.2624</dd>
               </dl>
-            </address>
+            </div>
         </div>
       </div>
     </div><!-- content-fill-slot -->
