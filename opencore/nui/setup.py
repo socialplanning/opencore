@@ -25,7 +25,7 @@ from Products.OpenPlans.Extensions.Install import createMemIndexes, \
      install_local_transient_message_utility, install_email_invites_utility
 from Products.OpenPlans.Extensions.Install import setCaseInsensitiveLogins, \
      setSiteEmailAddresses, updateWorkflowRoleMappings, \
-     install_team_placeful_workflow_policies
+     install_team_placeful_workflow_policies, addCatalogQueue
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans import config as op_config
 from indexing import createIndexes
@@ -269,6 +269,7 @@ from Products.Archetypes.utils import OrderedDict
 # make rest of names readable  (maybe use config system)
 nui_functions = OrderedDict()
 nui_functions['Install borg.localrole PAS plug-in'] = setup_localrole_plugin
+nui_functions['Add Catalog Queue'] = convertFunc(addCatalogQueue)
 nui_functions['Move Blocking Content'] = move_blocking_content
 nui_functions['Create Member Indexes'] = convertFunc(createMemIndexes)
 nui_functions['installNewsFolder'] = convertFunc(installNewsFolder)

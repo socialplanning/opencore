@@ -308,4 +308,31 @@ def create_indexes(out, catalog, idxs):
 doCreateIndexes = create_indexes
 ifaceIndexer = registerInterfaceIndexer
 
+from Products.QueueCatalog.QueueCatalog import CHANGED
 
+def queueObjectReindex(obj, recursive=False, skip_self=False):
+    """
+    This will put a recursive security reindex job for the given
+    object into the async catalog queue.
+
+    o obj - any CMF content object
+
+    o recursive - if True, reindex all subobjects
+
+    o skip_self - if True, don't reindex self
+
+    Setting recursive to False and skip_self to True is a no-op.
+    """
+    queue = getToolByName(obj, 'portal_catalog_queue')
+    path = '/'.join(obj.getPhysicalPath())
+
+    if not recursive and not skip_self:
+        queue._update(path, CHANGED)
+
+    if recursive:
+        cat = getToolByName(obj, 'portal_catalog')
+        for brain in cat.unrestrictedSearchResults(path=path):
+            brain_path = brain.getPath()
+            if brain_path == path and skip_self:
+                continue
+            queue._update(brain_path, CHANGED)
