@@ -14,7 +14,7 @@ class StatsView(BrowserView):
         self.request = request
         self.catalog = getToolByName(self.context, 'portal_catalog')
         self.membrane_tool = getToolByName(self.context, 'membrane_tool')
-        
+        self.expiry_date = DateTime.now()-30
 
     def get_projects(self):
         query = dict(portal_type='OpenProject')
@@ -24,7 +24,7 @@ class StatsView(BrowserView):
     def get_active_projects(self):    
         # "active" is defined as having been modified in the last 30 days
         projects = self.get_projects()
-        filtered_projects = [project for project in projects if project.modified > DateTime.now()-30]
+        filtered_projects = [project for project in projects if project.modified > self.expiry_date]
         return filtered_projects
 
     def get_members(self):
@@ -35,7 +35,11 @@ class StatsView(BrowserView):
     def get_active_members(self):    
         # "active" is defined as having logged in the last 30 days
         members = self.get_members()
-        filtered_members = [member for member in members if member.modified > DateTime.now()-30]
+        filtered_members = []
+        for mem in members:
+            mem_obj = mem.getObject()
+            if mem_obj.getLast_login_time() > self.expiry_date:
+                filtered_members.append(mem)
         return filtered_members
 
     def get_mailing_lists(self):
@@ -57,7 +61,7 @@ class StatsView(BrowserView):
                 latest_date = brains[0].date
             if lst.modified > latest_date:
                 latest_date = lst.modified
-            if latest_date > DateTime.now()-30:
+            if latest_date > self.expiry_date:
                 filtered_lists.append(lst)
         
         return filtered_lists
