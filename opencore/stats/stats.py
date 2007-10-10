@@ -4,7 +4,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 import DateTime
 from Products.listen.interfaces import ISearchableArchive
-from zope.app import zapi
+from zope.component import queryUtility
 
 
 class StatsView(BrowserView):
@@ -47,15 +47,16 @@ class StatsView(BrowserView):
         # "active" is defined as having a message in the last 30 days
         lists = self.get_mailing_lists()
         filtered_lists = []
-#         for lst in lists:
-#             mail_catalog = zapi.getUtility(ISearchableArchive, context=lst)
-#             query = dict(sort_on='date',
-#                          sort_order='descending')
-#             brains = mail_catalog(**query)
-#             latest_date = brains[0].date
-
-#             if latest_date > DateTime.now()-30:
-#                 filtered_lists.append(lst)
+        for lst in lists:
+            mail_catalog = queryUtility(ISearchableArchive, context=lst)
+            if not mail_catalog:
+                continue
+            query = dict(sort_on='date',
+                         sort_order='descending')
+            brains = mail_catalog(**query)
+            latest_date = brains[0].date
+            if latest_date > DateTime.now()-30:
+                filtered_lists.append(lst)
         
         return filtered_lists
 
