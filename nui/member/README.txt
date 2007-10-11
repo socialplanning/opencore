@@ -442,7 +442,6 @@ It's talented, isn't it?
     But we have to set the anonymous email setting first
     >>> mem.getUseAnonByDefault()
     True
-    >>> request.form['hide_email'] = '1'
     >>> request.form['email'] = 'notreal1@example.com'
     >>> view.change_email()
     >>> view.portal_status_message
@@ -475,32 +474,6 @@ It's talented, isn't it?
     1
     >>> brains[0].getEmail
     'foobarbazquux@example.com'
-
-    And if we change the anonymous setting, it should change the
-    visibility on the member object
-    >>> del request.form['hide_email']
-    >>> view.change_email()
-    >>> view.portal_status_message
-    [u'Default email is not anonymous']
-    
-    Now if we change both at the same time,
-    we should get 2 portal status messages
-    >>> request.form['hide_email'] = '1'
-    >>> request.form['email'] = 'zul@example.com'
-    >>> view.change_email()
-    >>> psms = view.portal_status_message
-    >>> len(psms)
-    2
-    >>> psms[0]
-    u'Default email is anonymous'
-    >>> psms[1]
-    u'Your email address has been changed.'
-
-    And the member object should have changed
-    >>> mem.getEmail()
-    'zul@example.com'
-    >>> mem.getUseAnonByDefault()
-    True
 
 If we leave a project where we are a ProjectAdmin, we should no longer
 have the ProjectAdmin role::
