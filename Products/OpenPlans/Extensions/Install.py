@@ -688,6 +688,7 @@ def createValidationMember(portal, out):
     mdtool._validation_member = mem
 
 def install_local_transient_message_utility(portal, out):
+    setSite(portal) # specify the portal as the local utility context
     if queryUtility(ITransientMessage) is not None:
         return
 
@@ -696,6 +697,7 @@ def install_local_transient_message_utility(portal, out):
     print >> out, ('Transient message utility installed')
 
 def install_email_invites_utility(portal, out):
+    setSite(portal) # specify the portal as the local utility context
     if queryUtility(IEmailInvites) is not None:
         return
 
@@ -715,7 +717,6 @@ def addCatalogQueue(portal, out):
 def install(self, migrate_atdoc_to_openpage=True):
     out = StringIO()
     portal = getToolByName(self, 'portal_url').getPortalObject()
-    setSite(portal) # specify the portal as the local utility context
     installDepends(self)
     install_subskin(self, out, config.GLOBALS)
     installRoles(portal, out)
