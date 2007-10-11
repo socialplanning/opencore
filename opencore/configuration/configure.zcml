@@ -10,7 +10,7 @@
   <include package="opencore.featurelets.browser" />
   <include package="opencore.api" />
   <include package="opencore.auth" />
-  <!--include package="opencore.cabochon" /-->
+  <include package="opencore.cabochon" />
   <include package="opencore.listen" />
   <include package="opencore.siteui" />
   <include package="opencore.nui" />
