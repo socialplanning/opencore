@@ -572,12 +572,6 @@ class MemberAccountView(BaseView, OctopoLite):
             self.addPortalStatusMessage(msg)
             return
 
-        mem_hide_email = mem.getUseAnonByDefault()
-        if mem_hide_email != hide_email:
-            mem.setUseAnonByDefault(hide_email)
-            setting = hide_email and 'anonymous' or 'not anonymous'
-            self.addPortalStatusMessage('Default email is %s' % setting)
-
         if mem.getEmail() == email:
             return
 
