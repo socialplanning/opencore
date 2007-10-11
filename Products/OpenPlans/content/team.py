@@ -7,6 +7,7 @@ from Products.CMFPlone.utils import _createObjectByType
 from Products.Archetypes.public import registerType
 from Products.TeamSpace.team import Team, team_type_information
 from Products.TeamSpace.permissions import ManageTeam, ViewTeam
+from Products.TeamSpace.permissions import ManageTeamMembership
 from Products.TeamSpace.exceptions import MemberRoleNotAllowed
 
 from zope.interface import implements
@@ -15,6 +16,7 @@ from zope.event import notify
 from Products.OpenPlans.interfaces import IOpenTeam
 from Products.OpenPlans.config import DEFAULT_ROLES
 
+from opencore.nui.indexing import queueObjectReindex
 from opencore.interfaces.event import ChangedTeamRolesEvent
 
 from DateTime import DateTime
@@ -244,5 +246,16 @@ class OpenTeam(Team):
         project._updateMember('add', mem, mship, self)
 
         return mship
+
+    security.declareProtected(ManageTeamMembership, 'reindexTeamSpaceSecurity')
+    def reindexTeamSpaceSecurity(self):
+        """
+        Override the base class implementation so we can push this job
+        into the catalog queue to run asynchronously
+        """
+        proj = self.getProject()
+        queueObjectReindex(self, recursive=True)
+        queueObjectReindex(proj, recursive=True)
+
 
 registerType(OpenTeam)
