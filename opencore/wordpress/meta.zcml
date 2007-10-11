@@ -2,7 +2,7 @@
   <directives namespace="http://namespaces.openplans.org/opencore">
     <directive
        name="wordpress"
-       schema=".interfaces.IWordpressInfo"
+       schema=".interfaces.IWordPressInfo"
        handler=".uri.configure_wp_info"
      />
   </directives>

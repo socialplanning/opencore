@@ -4,7 +4,7 @@
            xmlns:opencore="http://namespaces.openplans.org/opencore">
   <utility component="opencore.wordpress.uri._wp_info" />
   <opencore:wordpress
-     uri="http://localhost:5050"
+     uri="http://localhost:8090"
      external_uri="blog" />
   
 </configure>

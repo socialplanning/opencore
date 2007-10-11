@@ -24,8 +24,7 @@ class WordPressFeaturelet(SatelliteFeaturelet):
              }
 
     def deliverPackage(self, obj):
-        #uri = "%/openplans-create-blog.php" % wp_uri.get()
-        uri = "http://localhost:8090/openplans-create-blog.php"
+        uri = "%s/openplans-create-blog.php" % wp_uri.get()
         params = {}
 
         params['domain'] = domain = "%s.openplans.org" % obj.getId()
