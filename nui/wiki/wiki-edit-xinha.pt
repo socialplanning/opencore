@@ -11,6 +11,15 @@
 
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
+
+      <tal:comment replace="nothing">
+        do not put the base tag in for ie6
+        ie6 breaks with an operation aborted error message
+      </tal:comment>
+      <metal:base metal:fill-slot="base">
+        <base tal:replace="structure view/render_base_tag" />
+      </metal:base>
+
     <title metal:fill-slot="title" tal:content="python:view.wiki_window_title(mode='edit')" />
     <metal:link-slot metal:fill-slot="link">
 <link type="text/css" rel="stylesheet" title="blue-look" href="/++resource++xinha/skins/blue-look/skin.css"/>

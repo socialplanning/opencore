@@ -2,11 +2,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head profile="http://gmpg.org/xfn/11">
-    <base tal:replace="structure view/render_base_tag" />
 
-    <!--
-    <title tal:content="view/windowtitle" />
-    -->
+    <tal:comment replace="nothing">
+      show the base tag unless you are on an edit wiki page
+      that template should override the base slot
+    </tal:comment>
+    <metal:base metal:define-slot="base">
+      <base href="" tal:attributes="href string:${context/absolute_url}/" />
+    </metal:base>
 
     <metal:title-slot define-slot="title" />
 
