@@ -5,6 +5,7 @@ class GetCookie(BrowserView):
 
     def get_cookie_hash(self):
         if self.request.environ['REQUEST_METHOD'] != "POST":
+            self.request.response.setStatus(405)
             return
 
         mem_folder = self.context
@@ -18,6 +19,7 @@ class GetCookie(BrowserView):
         auth = acl.credentials_signed_cookie_auth
 
         if not member.verifyCredentials(dict(login=mem_id, password=pw)):
+            self.request.response.setStatus(400)
             return
 
         return auth.generateCookie(mem_id)
