@@ -1,4 +1,5 @@
 import hmac, sha
+import urllib
 from memojito import memoizedproperty
 
 from opencore.featurelets.satellite import SatelliteFeaturelet
@@ -35,11 +36,10 @@ class WordPressFeaturelet(SatelliteFeaturelet):
         params['signature'] = sig = sig.encode('base64').strip()
 
         params['title'] = obj.Title()
-        import urllib
         params = urllib.urlencode(params)
 
-        ret = urllib.urlopen(uri, params)
-        read = ret.read()
-        import pdb; pdb.set_trace()
+        response, content = self.http.request(uri, method="POST", body=params)
+        if response.status != 200:
+            raise AssertionError("Failed to create blog.")
         
-        return ret
+        return BaseFeaturelet.deliverPackage(self, obj)
