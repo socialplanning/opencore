@@ -533,9 +533,9 @@ class BaseView(BrowserView):
         because the tal doesn't get rendered"""
         base_url = self.context.absolute_url()
         return """\
-      <!--[if !IE 6]>
-        <base href="%s" />
-      <![endif]-->""" % base_url
+                <!--[if IE 6]><![if !IE 6]><![endif]-->
+        <base href="%s/" />
+                <!--[if IE 6]><![endif]><![endif]-->""" % base_url
 
 
 def aq_iface(obj, iface):
