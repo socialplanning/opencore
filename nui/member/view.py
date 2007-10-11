@@ -441,11 +441,9 @@ class MemberAccountView(BaseView, OctopoLite):
         if not self._apply_transition_to(proj_id, 'approve_public'):
             return {}
 
-        # send the reindex jobs to the catalog queue
+        # security reindex (async to the catalog queue)
         team = self.get_tool('portal_teams').getTeamById(proj_id)
-        proj = team.getProject()
-        queueObjectReindex(team, recursive=True)
-        queueObjectReindex(proj, recursive=True)
+        team.reindexTeamSpaceSecurity()
 
         projinfos = self.projects_for_user
         if len(projinfos) > 1:

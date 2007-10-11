@@ -1420,5 +1420,3 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
         self._norender = True
         self.redirect(self.request.ACTUAL_URL) # redirect clears form values
-
-
