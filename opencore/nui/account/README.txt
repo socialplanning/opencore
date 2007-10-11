@@ -350,23 +350,31 @@ due to the fact that PAS isn't called.  Deal with this later]
 Javascript functionality for Vacuum
 ===================================
 
+    >>> def normalize_whitespace(astring):
+    ...      # just a little helper to avoid caring about indentation.
+    ...      return '\n'.join([li.strip() for li in astring.split('\n')]).strip()
+
+
 Logged out user:
 
     >>> self.logout()
     >>> jsview = portal.restrictedTraverse('@@user.js')
-    >>> output = jsview()  # XXX left off here.
+    >>> output = jsview()
+    >>> print normalize_whitespace(output)
+    var OpenCore.MemberInfo = {
+    loggedin: false
+    }
 
 Logged in user:
 
     >>> self.login()
-    >>> output = jsview()  # XXX left off here.
-    >>> # normalize whitespace.
-    >>> output = '\n'.join([li.strip() for li in output.split('\n')]).strip()
-    >>> print output
+    >>> output = jsview()
+    >>> print normalize_whitespace(output)
     var OpenCore.MemberInfo = {
+    loggedin: true,
     name: '',
     website: '',
-    email: 'test_emailer_1_@example.com',
+    email: 'test_emailer_1_@example.com'
     }
 
 

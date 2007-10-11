@@ -60,15 +60,22 @@ class AccountView(BaseView):
         """Get info about the current member (if any), as javascript.
         """
         info = self.member_info
-        # XXX What should this do if member_info is empty?
-        js = """
-        var OpenCore.MemberInfo = {
-        name: %(fullname)r,
-        website: %(website)r,
-        email: %(email)r,
-        }
-        """ % info
-        return js
+        if info:
+            return """
+            var OpenCore.MemberInfo = {
+            loggedin: true,
+            name: %(fullname)r,
+            website: %(website)r,
+            email: %(email)r
+            }
+            """ % info
+        else:
+            # Not logged in.
+            return """
+            var OpenCore.MemberInfo = {
+            loggedin: false
+            }
+            """
 
     ### methods to deal with pending members
 
