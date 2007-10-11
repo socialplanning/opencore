@@ -97,7 +97,7 @@
   <div class="oc-boxy">
     <h2>Account settings</h2>
     <a href="profile-edit">Edit profile</a>
-    <form class="oc-js-expander" action="account">
+    <form class="oc-js-expander" method="POST" action="account">
       <fieldset>
         <legend class="oc-legend-label">
           <a href="#" class="oc-js-expander_open oc-expanderLink">Change email</a>
@@ -125,7 +125,7 @@
         </ul>
       </fieldset>
     </form>
-    <form class="oc-js-expander oc-expander" action="account" method="post">
+    <form class="oc-js-expander oc-expander" action="account" method="POST">
       <fieldset>
         <legend class="oc-legend-label">
           <a href="#" class="oc-js-expander_open oc-expanderLink">Change password</a>
