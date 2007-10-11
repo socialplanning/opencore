@@ -526,6 +526,18 @@ class BaseView(BrowserView):
             return exit_function()
         return exit_function() # XXX redundant, leaving for now
 
+    def render_base_tag(self):
+        """return the html that main template uses to fix relative links
+
+        turning it off in the base template conditionally fails
+        because the tal doesn't get rendered"""
+        base_url = self.context.absolute_url()
+        return """\
+      <!--[if !IE 6]>
+        <base href="%s" />
+      <![endif]-->""" % base_url
+
+
 def aq_iface(obj, iface):
     obj = aq_inner(obj)
     while obj is not None and not iface.providedBy(obj):
