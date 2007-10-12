@@ -25,12 +25,12 @@ setup(name='opencore',
                         'https://svn.plone.org/svn/plone/plone.memoize/trunk#egg=plone.memoize-dev'],
       install_requires=[
           # -*- Extra requirements: -*-
+          'simplejson',
           'topp.featurelets',
           'topp.utils',
           'memojito',
           'OpencoreRedirect',
           'httplib2',
-          'simplejson',
           'plone.memoize',
           'cabochonclient',
           'lxml>=2.0alpha',
