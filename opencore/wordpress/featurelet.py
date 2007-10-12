@@ -2,6 +2,7 @@ import hmac, sha
 import urllib
 from memojito import memoizedproperty
 
+from topp.featurelets.base import BaseFeaturelet
 from opencore.featurelets.satellite import SatelliteFeaturelet
 from opencore.wordpress.interfaces import \
     IWordPressFeatureletInstalled, IWordPressContainer
@@ -37,8 +38,9 @@ class WordPressFeaturelet(SatelliteFeaturelet):
         params['title'] = obj.Title()
         params = urllib.urlencode(params)
 
-        response, content = self.http.request(uri, method="POST", body=params)
-        if response.status != 200:
-            raise AssertionError("Failed to create blog.")
+        response = urllib.urlopen(uri, params)
+        response = response.read()
+        if "Created blog ID" not in response:
+            raise AssertionError("Failed to create blog. %s" % response)
         
         return BaseFeaturelet.deliverPackage(self, obj)
