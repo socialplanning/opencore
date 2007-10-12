@@ -6,5 +6,11 @@
   <opencore:wordpress
      uri="http://localhost:8090"
      external_uri="blog" />
+
+  <subscriber
+    for="Products.remember.interfaces.IReMember
+         zope.app.event.interfaces.IObjectCreatedEvent"
+    handler=".events.notify_wordpress_user_created"
+    />
   
 </configure>
