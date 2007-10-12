@@ -30,13 +30,6 @@ class MailingListAddForm(BaseAddForm):
     form_fields = openplans_form_fields
     portal_type = 'Open Mailing List'
 
-    def __call__(self):
-        """
-        Disable editable border.
-        """
-        self.request.set('disable_border', True)
-        return BaseAddForm.__call__(self)
-
     def setUpWidgets(self, ignore_request=True):
         self.widgets = form.setUpInputWidgets(
             self.form_fields, self.prefix, self.context, self.request,
