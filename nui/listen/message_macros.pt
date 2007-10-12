@@ -29,7 +29,7 @@
   <metal:messagemacro define-macro="message">
     <div class="oc-listen-message">
     <div class="oc-headingBlock">
-      <h2 tal:content="message/subject" />
+      <h2 tal:content="python: message.subject() or '(No Subject)'" />
       <span>
       <!-- put in an anchor whether we can reply or not -->
       <a name="." id="."
