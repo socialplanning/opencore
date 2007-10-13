@@ -127,7 +127,6 @@ class NamedTemplateAdapter(object):
         use aq_inner of the innermost context so we don't get a
         circular acquisition context.
         """
-        import pdb; pdb.set_trace()
         view = self.context.__of__(self.context.context.aq_inner)
         cleanup = []
 
