@@ -85,6 +85,10 @@ class ProjectBaseView(BaseView):
     def has_task_tracker(self):
         return self._has_featurelet('tasks')
 
+    @memoizedproperty
+    def has_blog(self):
+        return self._has_featurelet('blog')
+
     def _has_featurelet(self, flet_id):
         flets = get_featurelets(self.context)
         for flet in flets:
