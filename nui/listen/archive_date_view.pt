@@ -23,7 +23,9 @@
                   <a href="."
                     i18n:translate=""
                     tal:attributes="href month/url"
-                    tal:content="python: month['title'] or '(No Subject)'" />
+                    tal:content="python: month['title'] or default">
+                    (No Subject)
+                  </a>
                 </li>
               </ul>
             </li>
