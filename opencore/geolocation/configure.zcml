@@ -1,0 +1,15 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <content class="Products.OpenPlans.content.project.OpenProject">
+      <implements
+          interface="zope.app.annotation.IAttributeAnnotatable"
+          />
+  </content>
+
+  <adapter
+      for="zope.app.annotation.interfaces.IAnnotatable"
+      provides="opencore.geolocation.interfaces.IGeoLocation"
+      factory="opencore.geolocation.location.GeoLocation"
+      />
+
+</configure>

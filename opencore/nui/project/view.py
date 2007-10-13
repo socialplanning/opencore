@@ -39,6 +39,7 @@ from opencore.nui.formhandler import OctopoLite, action
 from opencore.nui.main import SearchView
 from opencore.nui.main.search import searchForPerson
 from opencore.nui.member.interfaces import ITransientMessage
+from opencore.geolocation.interfaces import IGeoLocation
 
 from interfaces import IEmailInvites
 import mship_messages
@@ -396,6 +397,15 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
 
 
 class ProjectPreferencesView(ProjectBaseView):
+
+    def __init__(self, context, request):
+        ProjectBaseView.__init__(self, context, request)
+        try:
+            gl = IGeoLocation(self.context)
+            x, y = gl.latitude_longitude()
+            self.location = '%s, %s' % (x, y)
+        except ValueError:
+            pass
         
     @formhandler.button('update')
     def handle_request(self):
@@ -409,6 +419,19 @@ class ProjectPreferencesView(ProjectBaseView):
             self.addPortalStatusMessage(u'Please correct the errors indicated below.')
             return
 
+        location = self.request.form.get('location', '').strip()
+        if location:
+            self.request.form['location'] = location
+            try:
+                coords = re.findall('(?:\d)+(?:\.\d+)?', location)
+                lat, lon = coords
+                lat, lon = float(lat), float(lon)
+                gl = IGeoLocation(self.context)
+                gl.store_latitude_longitude((lat, lon))
+            except (KeyError, ValueError):
+                self.errors['location'] = 'Please enter a pair of latitude longitude values'
+                return
+
         allowed_params = set(['__initialize_project__', 'update', 'set_flets', 'title', 'description', 'workflow_policy', 'featurelets'])
         new_form = {}
         for k in self.request.form:
@@ -417,9 +440,9 @@ class ProjectPreferencesView(ProjectBaseView):
         
         self.request.form = new_form
         self.context.processForm(REQUEST=self.request, metadata=1)
+
         self.addPortalStatusMessage('Your changes have been saved.')
         self.redirect(self.context.absolute_url())
-
 
 
 def valid_project_title(title):
