@@ -12,7 +12,7 @@ from opencore.wordpress import uri as wp_uri
 class SyncUsersView(BrowserView):
     def sync(self):
         base_uri = wp_uri.get()
-        uri = "%s/openplans-sync-users.php" % base_uri
+        uri = "%s/openplans-do-sync.php" % base_uri
         params = {}
 
         # XXX should be moved out somewhere.. wordpress.utils? or is it more general?
