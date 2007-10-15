@@ -1,6 +1,9 @@
 import sys
 
 def htmlify(js):
+    """
+    this does NOT belong here.
+    """
     js = "%s" % js
     js = js.replace("<", "&lt;")
     js = js.replace(">", "&gt;")
@@ -75,7 +78,7 @@ class Octopus(object):
         mode = self._octopus_get('mode')
         if mode == 'async':
             self._octopus_async_postprocess(ret)
-            return htmlify(ret)
+            return htmlify(ret)  # no
         else:
             return self._octopus_template()
 
