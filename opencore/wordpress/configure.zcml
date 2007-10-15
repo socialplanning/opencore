@@ -3,6 +3,7 @@
 	   xmlns:five="http://namespaces.zope.org/five"
            xmlns:opencore="http://namespaces.openplans.org/opencore">
   <utility component="opencore.wordpress.uri._wp_info" />
+
   <opencore:wordpress
      uri="http://localhost:8090"
      external_uri="blog" />
@@ -12,5 +13,13 @@
          zope.app.event.interfaces.IObjectCreatedEvent"
     handler=".events.notify_wordpress_user_created"
     />
+
+  <browser:page
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     permission="cmf.ModifyPortalContent"
+     class=".views.SyncUsersView"
+     name="sync-wordpress-users"
+     attribute="sync"
+     />
   
 </configure>
