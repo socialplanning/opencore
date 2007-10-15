@@ -3,7 +3,7 @@ octopus should be in octopus.txt, deletion and update methods should
 be tested directly.. etc -egj
 
    >>> def dehtml(html):
-   ... 	   html = html.replace("<html><body>", "")
+   ... 	   html = html.replace('<html><head><meta http-equiv="x-deliverance-no-theme" content="1"/></head><body>', "")
    ... 	   html = html.replace("</body></html>", "")
    ... 	   html = html.replace("&lt;", "<")
    ... 	   html = html.replace("&gt;", ">")
