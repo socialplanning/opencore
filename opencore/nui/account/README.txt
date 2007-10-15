@@ -361,21 +361,23 @@ Logged out user:
     >>> jsview = portal.restrictedTraverse('@@user.js')
     >>> output = jsview()
     >>> print normalize_whitespace(output)
-    var OpenCore.MemberInfo = {
+    OpenCore.login({
     loggedin: false
-    }
+    });
 
 Logged in user:
 
     >>> self.login()
     >>> output = jsview()
     >>> print normalize_whitespace(output)
-    var OpenCore.MemberInfo = {
+    OpenCore.login({
     loggedin: true,
+    id: 'test_user_1_',
     name: '',
+    url: 'http://nohost/plone/people/test_user_1_/profile',
     website: '',
     email: 'test_emailer_1_@example.com'
-    }
+    });
 
 
 Verify initial login converts email invites to mship invites

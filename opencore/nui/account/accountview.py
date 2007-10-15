@@ -58,23 +58,26 @@ class AccountView(BaseView):
 
     def logged_in_user_js(self):
         """Get info about the current member (if any), as javascript.
+        (We use a callback so client knows when this script has loaded.)
         """
         info = self.member_info
         if info:
             return """
-            var OpenCore.MemberInfo = {
+            OpenCore.login({
             loggedin: true,
-            name: %(fullname)r,
-            website: %(website)r,
-            email: %(email)r
-            }
+            id: '%(id)s',
+            name: '%(fullname)s',
+            url: '%(url)s/profile',
+            website: '%(website)s',
+            email: '%(email)s'
+            });
             """ % info
         else:
             # Not logged in.
             return """
-            var OpenCore.MemberInfo = {
+            OpenCore.login({
             loggedin: false
-            }
+            });
             """
 
     ### methods to deal with pending members
