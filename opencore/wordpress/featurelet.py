@@ -64,7 +64,8 @@ class WordPressFeaturelet(SatelliteFeaturelet):
             id_ = pm.getAuthenticatedMember().getId()
             params['members'] = "<members><member><id>%s</id><role>ProjectAdmin</role></member></members>" % id_
 
-        post = self.creation_command(**params)
+        #post = self.creation_command(**params)
+        post = urllib.urlencode(params)
 
         response = urllib.urlopen(uri, post)
         response = response.read()
