@@ -26,7 +26,22 @@ class WordPressFeaturelet(SatelliteFeaturelet):
                             ),
              }
 
-    creation_command = ZopeTwoPageTemplateFile("create_blog.pt")
+    #creation_command = ZopeTwoPageTemplateFile("create_blog.pt")
+
+    def creation_command(self, signature, domain, title, members):
+        return """<blog>
+ <signature>
+   %s
+ </signature>
+ <domain>
+   %s
+ </domain>
+ <title>
+   %s
+ </title>
+ %s
+</blog>
+""" % (signature, domain, title, members)
 
     def deliverPackage(self, obj):
         uri = "%s/openplans-create-blog.php" % wp_uri.get()
@@ -44,7 +59,6 @@ class WordPressFeaturelet(SatelliteFeaturelet):
         params['members'] = obj.restrictedTraverse("memberships.xml")()
 
         post = self.creation_command(**params)
-
 
         response = urllib.urlopen(uri, post)
         response = response.read()
