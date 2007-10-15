@@ -2,6 +2,7 @@ import hmac, sha
 import urllib
 from memojito import memoizedproperty
 
+from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 from topp.featurelets.base import BaseFeaturelet
@@ -56,7 +57,12 @@ class WordPressFeaturelet(SatelliteFeaturelet):
 
         params['title'] = obj.Title()
 
-        params['members'] = obj.restrictedTraverse("memberships.xml")()
+        if obj.getTeams():
+            params['members'] = obj.restrictedTraverse("memberships.xml")()
+        else: # no team has been set up yet, so fake it
+            pm = getToolByName(obj, "portal_membership")
+            id_ = pm.getAuthenticatedMember().getId()
+            params['members'] = "<members><member><id>%s</id><role>ProjectAdmin</role></member></members>" % id_
 
         post = self.creation_command(**params)
 
