@@ -18,11 +18,12 @@ class SyncUsersView(BrowserView):
         # XXX should be moved out somewhere.. wordpress.utils? or is it more general?
         auth = self.context.acl_users.credentials_signed_cookie_auth
         secret = auth.secret
-        sig = hmac.new(secret, "admin", sha).digest() # XXX use real user, don't fake it
+        sig = hmac.new(secret, "admin", sha).digest() # XXX use real user, don't fake it (but wait for WP to be ok with that)
         params['signature'] = sig = sig.encode('base64').strip()
 
         params = urllib.urlencode(params)
         response = urllib.urlopen(uri, params)
-        
-        return "OK, now have a blast!"
+
+        response = response.read()
+        return "%s\nOK, now have a blast!" % response
         
