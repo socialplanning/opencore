@@ -2,6 +2,8 @@ import hmac, sha
 import urllib
 from memojito import memoizedproperty
 
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+
 from topp.featurelets.base import BaseFeaturelet
 from opencore.featurelets.satellite import SatelliteFeaturelet
 from opencore.wordpress.interfaces import \
@@ -24,6 +26,8 @@ class WordPressFeaturelet(SatelliteFeaturelet):
                             ),
              }
 
+    creation_command = ZopeTwoPageTemplateFile("create_blog.pt")
+
     def deliverPackage(self, obj):
         uri = "%s/openplans-create-blog.php" % wp_uri.get()
         params = {}
@@ -36,9 +40,13 @@ class WordPressFeaturelet(SatelliteFeaturelet):
         params['signature'] = sig = sig.encode('base64').strip()
 
         params['title'] = obj.Title()
-        params = urllib.urlencode(params)
 
-        response = urllib.urlopen(uri, params)
+        params['members'] = obj.restrictedTraverse("memberships.xml")()
+
+        post = self.creation_command(**params)
+
+
+        response = urllib.urlopen(uri, post)
         response = response.read()
         if "Created blog ID" not in response:
             raise AssertionError("Failed to create blog. %s" % response)
