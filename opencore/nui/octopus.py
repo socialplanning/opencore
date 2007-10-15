@@ -1,7 +1,8 @@
 import sys
+import simplejson
 
 def htmlify(js):
-    js = "%s" % js
+    js = simplejson.dumps(js)
     js = js.replace("<", "&lt;")
     js = js.replace(">", "&gt;")
     return "<html><body> %s </body></html>" % js
