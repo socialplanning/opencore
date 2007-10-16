@@ -430,7 +430,6 @@ class MemberAccountView(BaseView, OctopoLite):
         assert len(targets) == 1
         proj_id = targets[0]
 
-        # XXX do we notify anybody (proj admins) when a mship has been accepted?
         if not self._apply_transition_to(proj_id, 'approve_public'):
             return {}
 
@@ -474,9 +473,26 @@ class MemberAccountView(BaseView, OctopoLite):
     def deny_handler(self, targets, fields=None):
         assert len(targets) == 1
         proj_id = targets[0]
-        # XXX do we notify anybody (proj admins) when a mship has been denied?
+
         if not self._apply_transition_to(proj_id, 'reject_by_owner'):
             return {}
+
+        id_ = self.loggedinmember.getId()
+
+        # there must be a better way to get the last wf transition which was an invite... right?
+        wftool = self.get_tool("portal_workflow")
+        team = self.get_tool("portal_teams").getTeamById(proj_id)
+        mship = team.getMembershipByMemberId(id_)
+        wf_id = wftool.getChainFor(mship)[0]
+        wf_history = mship.workflow_history.get(wf_id)
+        spurned_admin = [i for i in wf_history if i['review_state'] == 'pending'][-1]['actor']
+        
+        transient_msgs = getUtility(ITransientMessage, context=self.portal)
+
+        project_url = '/'.join((self.url_for('projects'), proj_id))
+        msg = '%s has declined your invitation to join <a href="%s">%s</a>' % (id_, project_url, proj_id)
+        transient_msgs.store(spurned_admin, "membership", msg)
+
         elt_id = '%s_invitation' % proj_id
         return {elt_id: dict(action='delete'),
                 "num_updates": {'action': 'copy',
