@@ -10,5 +10,11 @@
      class="Products.listen.utilities.list_lookup.MailDeliveryView"
      permission="zope2.Public"
      />
+     
+   <subscriber
+     for=".interfaces.IMailingList
+          zope.app.event.interfaces.IObjectModifiedEvent"
+     handler=".events.mailinglist_changed"
+     />
 
 </configure>
