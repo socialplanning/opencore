@@ -2,11 +2,21 @@
 
 
 <!-- BEGIN WIKI BCRUMB -->
-<ul metal:define-macro="bcrumb" class="oc-headingBlock oc-wiki-headingBlock oc-bcrumb">
+<metal:bcrumb define-macro="bcrumb">
+<ul class="oc-headingBlock oc-wiki-headingBlock oc-bcrumb">
   <li>
     <h1 class="oc-bcrumb-current" tal:content="view/context/Title" />
   </li>
 </ul>
+<tal:lastmod condition="view/displayLastModified | nothing"
+  define="author view/lastModifiedAuthor;
+          time view/lastModifiedTime">
+  <p class="oc-discreetText oc-wiki-lastModified">&nbsp; last modified by
+    <a tal:attributes="href python:'%s/people/%s/profile' % (view.portal_url(), author)"
+       tal:content="author"/>
+    <span tal:replace="time" /></p>
+</tal:lastmod>
+</metal:bcrumb>
 <!-- END WIKI BCRUMB -->
 
 <!-- BEGIN WIKI TABS -->

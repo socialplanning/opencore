@@ -7,6 +7,8 @@ from opencore.interfaces import IAmExperimental
 from PIL import Image
 from StringIO import StringIO
 from lxml.html.clean import clean_html
+from opencore.interfaces.catalog import ILastModifiedAuthorId
+from topp.utils.pretty_date import prettyDate
 
 class WikiBase(BaseView):
 
@@ -42,7 +44,15 @@ class WikiBase(BaseView):
         else:
             return '%s %s- %s' % (context.Title(), mode, self.area.Title())
 
+    def lastModifiedTime(self):
+        return prettyDate(self.context.ModificationDate())
+
+    def lastModifiedAuthor(self):
+        return ILastModifiedAuthorId(self.context)
+
 class WikiView(WikiBase):
+    displayLastModified = True # see wiki_macros.pt
+
     view_attachments_snippet = ZopeTwoPageTemplateFile('attachment-view.pt')
 
 class WikiEdit(WikiBase, OctopoLite):
