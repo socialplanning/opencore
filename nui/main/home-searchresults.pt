@@ -31,7 +31,7 @@
               
               Result<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
               <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
-              of <span tal:replace="sequence_length">376</span> sorted by
+              of <span tal:replace="sequence_length">376</span> sorted 
 
               <!-- when sorting, we post the action to distinguish between searching
 		   this was necessary because the batch macro reposts the request data, and we see problems
@@ -39,10 +39,10 @@
               <form name="people_sort" method="POST" action="." tal:attributes="action string:${context/portal_url}/sitesearch">
 
                 <select name="sort_by" class="oc-js-autoSelect" tal:define="sorted_by python: request.get('sort_by')">
-                  <option tal:condition="not: request/letter_search | nothing" value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
-                  <option value="getId" tal:attributes="selected python: sorted_by == 'getId'">alphabetical</option>
-                  <option value="modified" tal:attributes="selected python: sorted_by == 'modified'">date updated</option>
-                  <option value="portal_type" tal:attributes="selected python: sorted_by == 'portal_type'">content type</option>
+                  <option tal:condition="not: request/letter_search | nothing" value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">by relevancy</option>
+                  <option value="getId" tal:attributes="selected python: sorted_by == 'getId'">A to Z</option>
+                  <option value="modified" tal:attributes="selected python: sorted_by == 'modified'">by date updated</option>
+                  <option value="portal_type" tal:attributes="selected python: sorted_by == 'portal_type'">by content type</option>
                   
                 </select>
 
