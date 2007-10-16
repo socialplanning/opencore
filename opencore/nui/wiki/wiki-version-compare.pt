@@ -61,7 +61,9 @@
                 by <a tal:define="author view/new_version/sys_metadata/principal" 
                             tal:attributes="href string:${people_url}/${author}/profile"
                             tal:content="author">author</a>, modified
-                <span tal:replace="python: view.pretty_mod_date(view.new_version)" />
+                <abbr tal:attributes="title python:view.new_version.object.ModificationDate()">
+                  <Span tal:replace="python: view.pretty_mod_date(view.new_version)" />
+                </abbr>
               </td>
               <td>
               </td>
@@ -98,7 +100,9 @@
                 by <a tal:define="author view/old_version/sys_metadata/principal" 
                             tal:attributes="href string:${people_url}/${author}/profile"
                             tal:content="author">author</a>, modified
+              <abbr tal:attributes="title python:view.old_version.object.ModificationDate()">
                 <span tal:replace="python:view.pretty_mod_date(view.old_version)" />
+              </abbr>
               </td>
               <td>
                 <!-- show the revert button if an old version is being 
