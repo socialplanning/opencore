@@ -14,7 +14,10 @@
   <p class="oc-discreetText oc-wiki-lastModified">&nbsp; last modified by
     <a tal:attributes="href python:'%s/people/%s/profile' % (view.portal_url(), author)"
        tal:content="author"/>
-    <span tal:replace="time" /></p>
+     <abbr tal:attributes="title context/ModificationDate">
+       <span tal:replace="time" />
+     </abbr>
+  </p>
 </tal:lastmod>
 </metal:bcrumb>
 <!-- END WIKI BCRUMB -->
