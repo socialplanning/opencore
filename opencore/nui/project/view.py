@@ -522,7 +522,7 @@ class ProjectAddView(BaseView, OctopoLite):
                 self.errors['id'] = 'The requested url is already taken.'
 
         if self.errors:
-            self.add_status_message(u'correct_errors_below')
+            self.add_status_message(msgid='correct_errors_below')
             return
 
         proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
@@ -530,7 +530,7 @@ class ProjectAddView(BaseView, OctopoLite):
         # XXX is no validation better than an occasional ugly error?
         #proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
-            self.add_status_message(u'correct_errors_below')
+            self.add_status_message(msgid='correct_errors_below')
             return 
 
         self.context.portal_factory.doCreate(proj, id_)
