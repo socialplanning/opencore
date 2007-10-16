@@ -193,6 +193,20 @@ The view has a validate() method which returns an error dict::
 
 #    ['confirm_password', 'email', 'password']
 
+Test what happens when password is "password"
+
+    >>> request.form = dict(id='foouser3',
+    ...                     fullname='foo user',
+    ...                     email='foo3@example.com',
+    ...                     password='password',
+    ...                     confirm_password='password',
+    ...                     )
+    >>> view.create_member()
+    {'password': u'"password" is not a valid password.'}
+    >>> view.errors
+    {'password': u'"password" is not a valid password.'}
+
+
 Test what happens when both passwords are blank
 
     >>> request.form = dict(id='foouser',

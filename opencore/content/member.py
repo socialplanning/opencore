@@ -358,6 +358,21 @@ class OpenMember(FolderishMember):
             return True
         else:
             return False
-        
+
+    security.declarePrivate('post_validate')
+    def post_validate(self, REQUEST, errors):
+        FolderishMember.post_validate(self, REQUEST, errors)
+        form = REQUEST.form
+        if form.has_key('password'):
+            password = form.get('password', None)
+            confirm = form.get('confirm_password', None)
+            
+            if not errors.get('password', None):
+                if password and password == 'password':
+                    errors['password'] = \
+                        self.translate('id_pass_password',
+                                       default='"password" is not a valid password.',
+                                       domain='remember-plone')
+
 
 atapi.registerType(OpenMember, package=PROJECTNAME)
