@@ -1,25 +1,25 @@
+from Products.CMFCore.utils import getToolByName
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from Products.MailHost.MailHost import MailHostError
 from Products.validation.validators.BaseValidators import EMAIL_RE
+from opencore.configuration import DEFAULT_ROLES
+from opencore.content.membership import OpenMembership
 from opencore.nui import formhandler
+from opencore.nui.email_sender import EmailSender
 from opencore.nui.main import SearchView
 from opencore.nui.main.search import searchForPerson
 from opencore.nui.member.interfaces import ITransientMessage
 from opencore.nui.project import mship_messages
 from opencore.nui.project.interfaces import IEmailInvites
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from operator import attrgetter
 from plone.memoize.instance import memoize, memoizedproperty
-from plone.memoize.view import memoize_contextless
 from plone.memoize.view import memoize as req_memoize
-from opencore.configuration import DEFAULT_ROLES
-from opencore.content.membership import OpenMembership
-from Products.MailHost.MailHost import MailHostError
-from opencore.nui.email_sender import EmailSender
-from Products.CMFCore.utils import getToolByName
+from plone.memoize.view import memoize_contextless
+from topp.utils.detag import detag
 from zope.component import getUtility
+from zope.i18nmessageid import Message
 import re
 import urllib
-from topp.utils.detag import detag
-from operator import attrgetter
-from zope.i18nmessageid import Message
 
 
 class TeamRelatedView(SearchView):
