@@ -427,11 +427,14 @@ class SitewideSearchView(SearchView):
                 
         return out_brains
 
-
-
     def search(self, search_for, sort_by=None):
         search_query = search_for.lower().strip()
-
+        
+        # Trac ticket #1328
+        bad_chars = ["(", ")"]
+        for char in bad_chars:
+            search_query = search_query.replace(char, '"%s"' % char)
+    
         if search_query == '*':
             return []
 
