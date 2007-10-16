@@ -509,7 +509,11 @@ dl.oc-member-info dd {
 }
 .oc-wiki-headingBlock {
   margin: 0;
-  display: block;
+  margin-right: 1em;
+}
+.oc-wiki-lastModified {
+  display: inline;
+  float: left;
 }
 ul.oc-tabs {
   display: block;
