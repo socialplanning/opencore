@@ -1352,8 +1352,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         of them fail validation as an email address then an error is
         returned and the entire operation is aborted.
         """
-        invites = self.request.form.get('email-invites')
-        invites = [addy.strip() for addy in invites.split(',')]
+        invites = self.request.form.get('email-invites')        
+        invites = [addy.strip() for addy in invites.split(',')] 
         regex = re.compile(EMAIL_RE)
         good = []
         bad = []
@@ -1363,6 +1363,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                     bad.append(addy)
                 else:
                     good.append(addy)
+            
+        if not good and not bad:
+            self.add_status_message("Please add email addresses for people you'd like to invite.")
+            return # don't do anything, just re-render the form
+        
         if bad:
             psm = (u"Poorly formed email addresses, please correct: %s"
                    % ', '.join(bad))
