@@ -653,18 +653,38 @@ class TrackbackView(BaseView):
         comment = self.request.form.get('comment', None)
         if url is None or comment is None:
             self.request.response.setStatus(400)
-            return 'Invalid arguments'
+            return 'OpenCore.complete(false);'
 
         # do some validation on the url
         from datetime import datetime
         tm.store(mem_id, self.msg_category, {'url':url, 'title':title, 'blog_name':blog_name, 'excerpt':comment, 'time':datetime.now()})
         return 'prefill(\'%s\',\'%s\',\'%s\');' % (self.viewed_member_info['fullname'], self.viewed_member_info['email'], self.viewed_member_info['website'])
+        return 'OpenCore.complete(true);'
         # return 'hi there Member: %s - Title: %s - Blog: %s - URL: %s' % (mem_id, title, blog_name, url)
 
-    def prefill(self):
+
+    def delete(self):
+        mem_id = self.viewed_member_info['id']
+        tm = getUtility(ITransientMessage, context=self.portal)
+
+        from urlparse import urlsplit, urlunsplit
+        if urlsplit(self.request['HTTP_REFERER'])[1] != urlsplit(self.siteURL)[1]:
+        if self.request['REQUEST_METHOD'] != 'POST':
+            self.request.response.setStatus(405)
+            return 'Not Post'
         if self.viewedmember() != self.loggedinmember:
             self.request.response.setStatus(403)
-            return 'alert(You must be logged in to prefill your comments!);'
-        return 'prefill(\'%s\',\'%s\',\'%s\');' % (self.viewed_member_info['fullname'], self.viewed_member_info['email'], self.viewed_member_info['website'])
+            return 'You must be logged in to modify your posts!'
+
+        index = self.request.form.get('idx', None)
+        if index is None:
+            self.request.response.setStatus(400)
+            return 'No index specified'
+
+        # Do the delete
+        tm.pop(mem_id, self.msg_category, int(index))
+        # TODO: Make sure this is an AJAX request before sending an AJAX response
+        return {'trackback_%s' % index:{'action': 'delete'}}
+
 
 
