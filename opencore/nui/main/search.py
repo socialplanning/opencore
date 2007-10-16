@@ -137,16 +137,15 @@ class ProjectsSearchView(SearchView):
         return project_brains
     
     def recently_updated_projects(self, sort_limit=10):
-        query = dict(portal_type='OpenProject',
-                     sort_on='modified',
-                     sort_order='descending',
-                     sort_limit=sort_limit,
-                     )
+        
+        rs = (('modified', 'desc'),)
+            
+        query = Eq('portal_type', 'OpenProject') & (Eq('project_policy', 'open_policy') | Eq('project_policy', 'medium_policy'))
 
-        self.apply_context_restrictions(query)
-
-        project_brains = self.catalog(**query) 
-        return project_brains
+        query = self.adv_context_restrictions_applied(query)
+        
+        project_brains = self.catalog.evalAdvancedQuery(query, rs)
+        return project_brains[:sort_limit]
 
     def n_project_members(self, proj_brain):
         proj_id = proj_brain.getId
@@ -333,14 +332,13 @@ class HomeView(SearchView):
         return self.projects_search.n_project_members(proj_brain)
 
     def recently_created_projects(self):
-        query = dict(portal_type='OpenProject',
-                     sort_on='created',
-                     sort_order='descending',
-                     sort_limit=5,
-                     )
+        rs = (('created', 'desc'),)
+            
+        query = Eq('portal_type', 'OpenProject') & (Eq('project_policy', 'open_policy') | Eq('project_policy', 'medium_policy'))
+        
+        project_brains = self.catalog.evalAdvancedQuery(query, rs)
+        return project_brains[:5]
 
-        project_brains = self.catalog(**query) 
-        return project_brains
 
     def news(self):
         news_path = '/'.join(self.context.portal.getPhysicalPath()) + '/news'

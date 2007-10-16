@@ -348,6 +348,16 @@ How about portal type
 Homepage View
 =============
 
+Create a closed project::
+    >>> form_vars = dict(id='cl0sed', __initialize_project__=True,
+    ...                  title='cl0sed',
+    ...                  workflow_policy='closed_policy',
+    ...                  add=True, featurelets = ['listen'], set_flets=1)
+    >>> proj_view = self.portal.projects.restrictedTraverse("create")
+    >>> proj_view.request.form.update(form_vars)
+    >>> out = proj_view.handle_request()
+
+And ensure that the closed project does not come up::
    >>> view = search.HomeView(self.portal, request)
    >>> brains = view.recently_created_projects()
    >>> [b.getId for b in brains]
