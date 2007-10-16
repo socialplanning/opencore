@@ -265,6 +265,14 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
         return self.team_manage
 
+    def id_is_loggedin(self, item):
+        id_ = None
+        try: # @@HACK to get around admin user issues
+            id_ = self.loggedinmember.getId()
+        except 'MemberDataError':
+            id_ = self.loggedinmember.id
+        return item.get('id') == id_
+        
     @property
     @req_memoize
     def pending_mships(self):
