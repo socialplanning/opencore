@@ -406,7 +406,7 @@ class ProjectPreferencesView(ProjectBaseView):
             self.errors['title'] = 'The project name must contain at least 2 characters with at least 1 letter or number.'
 
         if self.errors:
-            self.addPortalStatusMessage(u'Please correct the errors indicated below.')
+            self.addPortalStatusMessage(msgid='correct_errors_below')
             return
 
         allowed_params = set(['__initialize_project__', 'update', 'set_flets', 'title', 'description', 'workflow_policy', 'featurelets'])
@@ -522,7 +522,7 @@ class ProjectAddView(BaseView, OctopoLite):
                 self.errors['id'] = 'The requested url is already taken.'
 
         if self.errors:
-            self.addPortalStatusMessage(u'Please correct the errors indicated below.')
+            self.addPortalStatusMessage(u'correct_errors_below')
             return
 
         proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
@@ -530,7 +530,7 @@ class ProjectAddView(BaseView, OctopoLite):
         # XXX is no validation better than an occasional ugly error?
         #proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
-            self.addPortalStatusMessage(u'Please correct the errors indicated below.')
+            self.addPortalStatusMessage(u'correct_errors_below')
             return 
 
         self.context.portal_factory.doCreate(proj, id_)
@@ -539,7 +539,10 @@ class ProjectAddView(BaseView, OctopoLite):
         self.template = None
         proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)
 
-        self.addPortalStatusMessage(u'"%s" has been created. Create a team by searching for other members to invite to your project, then <a href="%s">edit your project home page</a>.' % (title, proj_edit_url))
+        self.addPortalStatusMessage(msgid='project_created',
+                                    mapping={'title': title,
+                                             'proj_edit_url': proj_edit_url},
+                                    )
         self.redirect('%s/manage-team' % proj.absolute_url())
 
     def notify(self, project):
@@ -591,12 +594,13 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
         """ if already logged in / member of project, redirect appropriately """
         # if not logged in, redirect to the login form
         if not self.loggedin:
-            self.addPortalStatusMessage('Please sign in to continue.')
+            self.addPortalStatusMessage(msgid='please_sign_in')
             self.redirect('%s/login?came_from=%s' % (self.siteURL, self.request.ACTUAL_URL))
             return
         # if already a part of the team, redirect to project home page
         if self.member_info['id'] in self.team.getActiveMemberIds():
-            self.addPortalStatusMessage('You are already a member of this project.')
+            self.addPortalStatusMessage(msgid='already_project_member',
+                                        default='You are already a member of this project.')
             self.redirect('%s?came_from=%s' % (self.context.absolute_url(), self.request.ACTUAL_URL))
         return super(RequestMembershipView, self).__call__()
 
@@ -608,7 +612,7 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
         if self.loggedin:
             joined = self.team.join()
         else:
-            self.addPortalStatusMessage('Please sign in to continue.')
+            self.addPortalStatusMessage(msgid='please_sign_in')
             self.redirect('%s/login?came_from=%s' % (self.siteURL, self.request.ACTUAL_URL))
             return
 
@@ -636,11 +640,14 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
                     sender.sendEmail(recipient, msg=email_msg, **email_vars)
                 except MailHostError:
                     pass
-            psm = (u'Your request to join "%s" has been sent to the project administrator(s).' % self.context.title)
+            psmid = 'proj_join_request_sent'
         else:
-            psm = (u"You are already a pending or active member of %s." % self.context.title)
+            psmid = 'already_proj_member'
 
-        self.addPortalStatusMessage(psm)
+        self.addPortalStatusMessage(msgid=psmid,
+                                    mapping={'project_title',
+                                             self.context.Title()}
+                                    )
         self.template = None # don't render the form before the redirect
         self.redirect(self.context.absolute_url())
 
