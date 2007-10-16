@@ -139,6 +139,8 @@ Get a user so that we can try to get a user's confirmation code for manual regis
     >>> user
     <OpenMember at ...>
 
+    >>> user.setUserConfirmationCode()
+
 The getUserConfirmationCode method should only be available to site managers::
 
     >>> m = user.restrictedTraverse("getUserConfirmationCode")

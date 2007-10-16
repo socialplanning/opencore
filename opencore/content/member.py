@@ -1,3 +1,5 @@
+import sys
+import random
 import re
 from types import TupleType, ListType, UnicodeType
 
@@ -177,7 +179,7 @@ class OpenMember(FolderishMember):
         'filter_content_types':1,
         }
 
-    actions = actions
+    actions = actions    
 
     security.declareProtected(ManagePortal, 'getUserConfirmationCode')
     def getUserConfirmationCode(self):
@@ -185,7 +187,11 @@ class OpenMember(FolderishMember):
         Return the user's unique confirmation code to complete
         registration manually
         """
-        return self.UID()
+        return '%sconfirm%s' % (self.UID(), self._confirmation_key)
+
+    security.declareProtected(ManagePortal, 'setUserConfirmationCode')
+    def setUserConfirmationCode(self):
+        self._confirmation_key = '%x' % random.randint(0, sys.maxint)
 
     security.declareProtected(View, 'getActiveTeams')
     def getActiveTeams(self):
