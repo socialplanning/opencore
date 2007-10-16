@@ -287,8 +287,7 @@ class MemberAccountView(BaseView, OctopoLite):
 
     @req_memoize
     def _membership_for_proj(self, proj_id):
-        tmtool = self.get_tool('portal_teams')
-        team = tmtool.getTeamById(proj_id)
+        team = self.get_tool('portal_teams').getTeamById(proj_id)
         mem_id = self.viewed_member_info['id']
         mship = team._getMembershipByMemberId(mem_id)
         return mship
@@ -395,7 +394,7 @@ class MemberAccountView(BaseView, OctopoLite):
         return is_active or is_pending_member_requested
 
     def _is_only_admin(self, proj_id, mem_id=None):
-        team = self.get_tool('portal_teams')._getOb(proj_id)
+        team = self.get_tool('portal_teams').getTeamById(proj_id)
 
         # for some reason checking the role is not enough
         # I've gotten ProjectAdmin roles back for a member
@@ -439,6 +438,7 @@ class MemberAccountView(BaseView, OctopoLite):
         team = self.get_tool('portal_teams').getTeamById(proj_id)
         team.reindexTeamSpaceSecurity()
 
+        
         projinfos = self.projects_for_user
         if len(projinfos) > 1:
             projinfo = self._get_projinfo_for_id(proj_id)
