@@ -402,6 +402,7 @@ class MemberAccountView(BaseView, OctopoLite):
         # in the pending state
         if mem_id is None:
             mem_id = self.viewed_member_info['id']
+
         mship = team._getOb(mem_id)
         wft = self.get_tool('portal_workflow')
         review_state = wft.getInfoFor(mship, 'review_state')
@@ -410,14 +411,7 @@ class MemberAccountView(BaseView, OctopoLite):
         role = team.getHighestTeamRoleForMember(mem_id)
         if role != 'ProjectAdmin': return False
 
-        portal_path = '/'.join(self.portal.getPhysicalPath())
-        team_path = '/'.join([portal_path, 'portal_teams', proj_id])
-        project_admins = self.catalogtool(
-            highestTeamRole='ProjectAdmin',
-            portal_type='OpenMembership',
-            review_state=self.active_states,
-            path=team_path,
-            )
+        project_admins = team.get_admin_ids()
 
         return len(project_admins) <= 1
 
