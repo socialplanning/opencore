@@ -20,7 +20,6 @@ from opencore.nui.formhandler import OctopoLite, action
 from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.nui.member.interfaces import ITransientMessage
 from opencore.nui.project.interfaces import IEmailInvites
-from opencore.nui.indexing import queueObjectReindex
 
 from zope.event import notify
 from zope.app.event.objectevent import ObjectModifiedEvent
