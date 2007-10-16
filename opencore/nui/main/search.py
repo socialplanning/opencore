@@ -326,7 +326,23 @@ class HomeView(SearchView):
     intro = static_txt('main_home_intro.txt')
 
     def recently_updated_projects(self):
-        return self.projects_search.recently_updated_projects(sort_limit=5)
+        created_brains = self.recently_created_projects()
+        updated_brains = self.projects_search.recently_updated_projects(sort_limit=10)
+        out = []
+        count = 0
+        for ubrain in updated_brains:
+            not_redundant = 1
+            for cbrain in created_brains:
+                if ubrain.getId == cbrain.getId:
+                    not_redundant = 0
+                    
+            if not_redundant == 1:
+                out.append(ubrain)
+                count+=1
+            if count == 5:
+                return out
+            
+        return out
 
     def n_project_members(self, proj_brain):
         return self.projects_search.n_project_members(proj_brain)
