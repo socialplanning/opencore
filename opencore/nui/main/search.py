@@ -25,6 +25,13 @@ def first_letter_match(title, letter):
                or title.startswith('a ' + letter) \
                or title.startswith('an ' + letter)
 
+def clean_search_query(search_query):
+    search_query = search_query.lower().strip()    
+    
+    bad_chars = ["(", ")"]
+    for char in bad_chars:
+        search_query = search_query.replace(char, '"%s"' % char)
+    return search_query
 
 class SearchView(BaseView):
     match = staticmethod(first_letter_match)
@@ -106,7 +113,7 @@ class ProjectsSearchView(SearchView):
         return project_brains
 
     def search_for_project(self, project, sort_by=None):
-        proj_query = project.lower().strip()
+        proj_query = clean_search_query(project)
 
         if proj_query == '*':
             return []
@@ -217,7 +224,7 @@ def searchForPerson(mcat, search_for, sort_by=None):
     This is a function, not a method, so it can be called from
     assorted view classes.
     """
-    person_query = search_for.lower().strip()
+    person_query = clean_search_query(search_for)
 
     if person_query == '*':
         return []
@@ -428,12 +435,7 @@ class SitewideSearchView(SearchView):
         return out_brains
 
     def search(self, search_for, sort_by=None):
-        search_query = search_for.lower().strip()
-        
-        # Trac ticket #1328
-        bad_chars = ["(", ")"]
-        for char in bad_chars:
-            search_query = search_query.replace(char, '"%s"' % char)
+        search_query = clean_search_query(search_for)
     
         if search_query == '*':
             return []
