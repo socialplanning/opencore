@@ -438,6 +438,13 @@ class MemberAccountView(BaseView, OctopoLite):
         team = self.get_tool('portal_teams').getTeamById(proj_id)
         team.reindexTeamSpaceSecurity()
 
+        admin_ids = team.get_admin_ids()
+        transient_msgs = getUtility(ITransientMessage, context=self.portal)
+        id_ = self.loggedinmember.getId()
+        project_url = '/'.join((self.url_for('projects'), proj_id))
+        msg = '%s has joined <a href="%s">%s</a>' % (id_, project_url, proj_id)
+        for mem_id in admin_ids:
+            transient_msgs.store(mem_id, "membership", msg)
         
         projinfos = self.projects_for_user
         if len(projinfos) > 1:
@@ -476,6 +483,7 @@ class MemberAccountView(BaseView, OctopoLite):
                                 'html': self.nupdates()}}
 
     # XXX is there any difference between ignore and deny?
+    ## currently unused
     @action('IgnoreInvitation')
     def ignore_handler(self, targets, fields=None):
         assert len(targets) == 1
