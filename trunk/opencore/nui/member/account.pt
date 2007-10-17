@@ -1,0 +1,169 @@
+<tal:vars define="data view/viewed_member_info">
+
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:Account - ${view/area/Title} on OpenPlans" />
+  </head>
+  <body>
+
+    <div metal:fill-slot="content">
+
+<div class="oc-headingBlock">
+  <h1>Your account</h1>
+  <p class="oc-headingContext">View and manage your project memberships and account settings.</p>
+</div>
+  
+<div id="oc-content-main">
+  
+  <div id="updates_widget"
+       class="oc-widget oc-widget-invite"
+       tal:define="nupdates view/nupdates"
+       >
+    <tal:has_updates condition="nupdates">
+      <div class="oc-headingBlock">
+        <h2>
+          Latest updates (<span id="num_updates" tal:content="nupdates" />)
+        </h2>
+      </div>
+      <!-- currently create 2 separate list groups:
+           status info messages,
+           projects inviting user -->
+      <!-- invitations -->
+      <ul tal:define="invitations view/invitations"
+          tal:condition="invitations"
+          class="oc-invite-list">
+        <form name="invitation-form" action="account">
+          <tal:for repeat="projinfo invitations">
+            <li class="oc-invite oc-boxy oc-clearAfter"
+                tal:define="proj_id projinfo/proj_id"
+                tal:attributes="id string:${proj_id}_invitation">
+              <div class="oc-avatar">
+                <!-- XXX is this the project avatar? proj admin avatar? -->
+                <img src="" />
+              </div>
+              <p class="oc-invite-content">
+                <a href="" tal:attributes="href string:${view/portal_url}/projects/${proj_id}" tal:content="projinfo/title">Animal Campaign</a> 
+                has invited you to become a member
+              </p>
+              <ul class="oc-actions oc-invite-actions oc-actionClose"
+                  tal:define="url request/ACTUAL_URL">
+                <li tal:repeat="action view/invitation_actions">
+                  <a tal:attributes="href string:${url}?task|${proj_id}|${action}Invitation=${action};
+                                     class string:oc-actionLink oc-js-actionLink oc-choose${action}"
+                     tal:content="action"
+                     />
+                </li>
+              </ul>
+            </li>
+          </tal:for>
+        </form>
+      </ul>
+      <!-- info messages -->
+      <ul tal:define="infomsgs view/infomsgs"
+          tal:condition="infomsgs"
+          class="oc-invite-list">
+        <form name="info-form" action="account">
+          <tal:for repeat="infomsg infomsgs">
+            <li class="oc-invite oc-boxy oc-clearAfter"
+                tal:define="idx python: infomsg[0];
+                            msg python: infomsg[1]"
+                tal:attributes="id string:close_${msg}"
+                >
+              <tal:info_msg define="idx python: infomsg[0];
+                                    msg python: infomsg[1]">
+                <div class="oc-avatar">
+                  <img src="" />
+                </div>
+                <p class="oc-invite-content"
+                   tal:content="structure msg" />
+                <a href="#" title="Close" class="oc-actionClose oc-actionLink"
+                   tal:attributes="href string:${request/ACTUAL_URL}?task|${idx}|close=Close"
+                   >Close</a>
+              </tal:info_msg>
+            </li>
+          </tal:for>
+        </form>
+      </ul>
+    </tal:has_updates>
+    <tal:no_updates condition="not: nupdates">
+    </tal:no_updates>
+  </div><!-- end .widget-invitations -->
+  
+  <metal:do use-macro="view/project_table/macros/project_table" />
+
+</div><!-- end #oc-content-main -->
+
+<div id="oc-content-sidebar">
+  <div class="oc-boxy">
+    <h2>Account settings</h2>
+    <a href="profile-edit">Edit profile</a>
+    <form class="oc-js-expander" method="POST" action="account">
+      <fieldset>
+        <legend class="oc-legend-label">
+          <a href="#" class="oc-js-expander_open oc-expanderLink">Change email</a>
+        </legend>
+        <ul class="oc-js-expander-content oc-expander-content oc-plainList">
+          <li>
+            <label for="email">Email</label><br />
+            <input type="text" id="email" name="email" tal:attributes="value data/email"/>
+          </li>
+          <li tal:replace="nothing" class="oc-form-fieldBlock oc-smallText">
+            <input type="checkbox"
+                   class="oc-input-typeCheck"
+                   id="hide_email"
+                   name="hide_email"
+                   value="1"
+                   tal:attributes="checked data/anon_email"
+                   />
+            <label for="hide_email">Hide email address by default?</label>
+          </li>
+          <li>
+            <input type="submit" value="Change"
+                   name="task|change-email" 
+                   class="oc-button oc-chooseThis" />  or <a href="#" class="oc-js-expander_close">Cancel</a>
+          </li>
+        </ul>
+      </fieldset>
+    </form>
+    <form class="oc-js-expander oc-expander" action="account" method="POST">
+      <fieldset>
+        <legend class="oc-legend-label">
+          <a href="#" class="oc-js-expander_open oc-expanderLink">Change password</a>
+        </legend>
+        <ul class="oc-js-expander-content oc-expander-content oc-plainList">
+          <li>
+            <label for="passwd_curr">Current password</label><br />
+            <input type="password" id="passwd_curr" name="passwd_curr" />
+          </li>
+          <li>
+            <label for="passwd_new">New password</label><br />
+            <input type="password" id="password" name="password" />
+          </li>
+          <li>
+            <label for="passwd_new_confirm">Confirm new password</label><br />
+            <input type="password" id="password2" name="password2" />
+          </li>
+          <li>
+            <input type="submit" value="Change"
+                   name="task|change-password" 
+                   class="oc-button oc-chooseThis" /> or <a href="#" class="oc-js-expander_close">Cancel</a>
+          </li>
+        </ul>
+      </fieldset>
+    </form>
+  </div>
+  
+  <div class="oc-plainList oc-boxy">
+    <p><strong>What does it mean to be &ldquo;listed&rdquo; on a project?</strong></p>
+    <p>For your privacy, you can choose whether or not to be publicly listed as a member of a project.</p>
+    <p>If you choose not to be listed then only fellow team members can see your affiliation. Those who are not members of the project will not see you listed in the team roster, nor will they see the project listed anywhere on your profile.</p>
+    <p>However, any updates you make on a publicly viewable project could still display your username and a link to your profile.</p>
+  </div>
+  
+</div><!-- end #oc-content-sidebar -->
+
+
+  </div><!-- content-fill-slot -->
+</body>
+</html>
+</tal:vars>

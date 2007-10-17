@@ -1,0 +1,60 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five">
+
+  <adapter for="opencore.interfaces.IOpenPage"
+	   factory=".indexing.authenticated_memberid" />
+
+  <adapter for="opencore.interfaces.IProject"
+	   factory=".indexing.authenticated_memberid" />
+
+  <adapter
+     for="opencore.interfaces.IOpenMembership"
+     provides="opencore.interfaces.catalog.ILastWorkflowActor"
+     factory="opencore.nui.indexing.LastWorkflowActor"
+     />
+
+  <adapter
+     for="opencore.interfaces.IOpenMembership"
+     provides="opencore.interfaces.catalog.ILastWorkflowTransitionDate"
+     factory="opencore.nui.indexing.LastWorkflowTransitionDate"
+     />
+
+  <adapter
+     for="opencore.interfaces.IOpenMembership"
+     provides="opencore.interfaces.catalog.IHighestTeamRole"
+     factory="opencore.nui.indexing.HighestTeamRole"
+     />
+
+  <adapter
+     for="opencore.interfaces.IOpenPage"
+     provides="opencore.interfaces.catalog.ILastModifiedComment"
+     factory="opencore.nui.indexing.LastModifiedComment"
+     />
+
+  <!-- XXX I could not find an interface for the attachment -->
+  <adapter
+     for="Products.RichDocument.content.attachments.FileAttachment"
+     provides="opencore.interfaces.catalog.IImageWidthHeight"
+     factory="opencore.nui.indexing.ImageWidthHeightIndexer"
+     />
+
+  <!-- XXX see above comment -->
+  <adapter
+     for="Products.RichDocument.content.attachments.FileAttachment"
+     provides="opencore.interfaces.catalog.IImageSize"
+     factory="opencore.nui.indexing.ImageSizeIndexer"
+     />
+
+  <adapter
+     for="Products.RichDocument.content.attachments.FileAttachment"
+     provides="opencore.interfaces.catalog.IIsImage"
+     factory="opencore.nui.indexing.IsImageIndexer"
+     />
+
+  <adapter factory=".indexing.metadata_for_brain" />
+
+  <adapter factory=".indexing.metadata_for_portal_content" />
+
+  <adapter factory=".indexing.MailingListThreadCount" />
+
+</configure>

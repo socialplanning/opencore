@@ -1,0 +1,106 @@
+.htmlarea .toolbar, .htmlarea .toolbar .button
+{
+  background-color:#f7f8fd;
+}
+
+.htmlarea .toolbarRow
+{
+  margin-top:2px;
+  margin-bottom:2px;
+  /*border:1px dotted #DEDEDE;*/
+  padding:2px;
+  -moz-border-radius:3px;
+  margin:4px;
+  height:25px;
+}
+
+.toolbarElement
+{
+  padding: 2px;
+}
+
+.htmlarea .toolbar .button
+{
+  background-image: url(button-background.png);
+  width:20px;
+  height:20px;
+  padding:2px 4px 3px 2px;
+  margin: 0 2px 0 0;
+  border:1px solid #f7f8fd;
+}
+
+.buttonImageContainer
+{
+  position:relative;
+  left:1px;
+  top :1px;
+}
+
+.htmlarea .toolbar .separator {
+  margin:0px;
+  background-image: url(separator.gif);
+  border:1px #f7f8fd;
+  width:   7px;
+  height: 20px;
+  padding: 0px;
+}
+
+.htmlarea .toolbar a.button:hover
+{
+  border: 1px solid;
+  border-color: #ccc #888 #888 #ccc;
+}
+
+.htmlarea .toolbar a.buttonDisabled:hover
+{
+  border-color: #f7f8fd;
+}
+
+.htmlarea .toolbar .button.buttonActive,
+.htmlarea .toolbar .button.buttonPressed,
+.htmlarea .toolbar a.button.buttonPressed:hover
+{
+  border: 1px solid;
+  border-color: #888 white white #888;
+  padding: 2px 4px 3px 2px;
+}
+
+.htmlarea .statusBar {
+  border-color: #CCC white white #CCC;
+  padding: 0px;
+  height:20px;
+  background-image: url(button-background.png);
+  background-repeat: repeat-x;
+  background-color: #f7f8fd;
+  color: ButtonText;
+  font: 11px helvetica,arial,sans-serif;
+}
+
+.htmlarea .statusBar .statusBarTree
+{
+  display:block;
+  margin: 3px;
+}
+
+.htmlarea .statusBar .statusBarTree a
+{
+  padding: 2px 5px;
+  color: #00f;
+  text-decoration:none;
+}
+
+.htmlarea .panel h1
+{
+  background-image: url('button-background.png');
+  background-repeat: repeat-x;
+  background-color: #f7f8fd;
+}
+.dialog {
+  background-color:#f7f8fd;
+}
+.dialog .title {
+  background-image: url(button-background.png);
+}  
+.dialog button{
+  background-image: url(button-background.png);
+}

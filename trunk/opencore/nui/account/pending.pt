@@ -1,0 +1,69 @@
+<tal:vars define="global fdata view/handle_request;
+		  global gdata view/handle_post" />
+<html metal:use-macro="here/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">
+      <div id="oc-content-main">
+	<p>
+	  <form name="resend_email_form" method="post">
+            <input type="hidden" name="key" id="key" 
+                   tal:condition="view/request/key | nothing" 
+                   tal:attributes="value view/request/key" />
+	    
+	    <input class="context" type="submit" name="resend_email:boolean"
+		   value="Send me another activation email" />
+	  </form>
+	</p>
+	
+	<p>
+	  Or enter a new address where you would like to
+	  receive the activation email for this account again
+	</p>
+
+	<form name="new_email_form" method="post" id="oc-new-email-form"
+	      action="pending">
+          <input type="hidden" name="key" id="key" 
+                 tal:condition="view/request/key | nothing" 
+                 tal:attributes="value view/request/key" />
+	  <fieldset class="oc-boxy">
+	    <legend class="oc-legend-heading oc-biggestText">
+	      Enter a new email address
+	    </legend>
+	    <table class="oc-form">
+	      <thead></thead>
+	      <tbody>
+		<tr>
+		  <th class="oc-form-label" scope="row">
+		    <label for="email">Email</label>
+		  </th>
+		  <td class="oc-form-value">
+		    <input type="text" name="email" id="email" />
+		  </td>
+		</tr>
+		<tr class="oc-actions">
+		  <th></th>
+		  <td class="oc-form-value">
+		    <input class="context" 
+			   type="submit" 
+			   name="new_email:boolean" 
+			   value="Send" />
+		  </td>
+		</tr>
+	      </tbody>
+	    </table>
+	  </fieldset>
+	</form>
+
+	<p>
+	  If you think this is a mistake, you can try to login again
+	</p>
+
+	<metal:login use-macro="view/login_snippet/macros/login_snippet" />
+	<metal:forgot use-macro="view/forgot_snippet/macros/forgot_snippet" />
+
+      </div><!-- end #content-main -->
+
+    </div><!-- end content slot -->
+  </body>
+</html>
+

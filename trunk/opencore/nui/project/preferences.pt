@@ -1,0 +1,124 @@
+<tal:handle-request 
+   replace="nothing"
+   define="fdata view/handle_request">
+  This could be used to return a variety of template friendly info
+  regarding the processing of the form
+</tal:handle-request>
+<tal:vars define="proj view/project_info">
+  <html metal:use-macro="here/@@standard_macros/master">
+    <head>
+      <title metal:fill-slot="title" tal:content="string:Preferences - ${view/area/Title}" />
+    </head>
+    <body>
+      <div metal:fill-slot="content">
+        <div class="oc-headingBlock">
+          <h1>Project preferences</h1>
+        </div>
+        <div id="oc-content-main" class="oc-content-main-fullWidth">
+          <form name="prefs_form" method="post" class="enableUnloadProtection"
+            tal:attributes="action view/name">
+            <input type="hidden" name="set_flets" value="1"/>
+            <fieldset class="oc-boxy">
+              <legend class="oc-legend-heading oc-biggerText">Basics</legend>
+              <table class="oc-form">
+                <tbody>
+                  <tr class="oc-form-row">
+                    <th class="oc-form-label" scope="row">
+                      <label for="title">Name</label>
+                    </th>
+                    <td class="oc-form-value">
+                      <input type="text" id="title" name="title"
+                             tal:attributes="value request/title | proj/title "/>
+                    </td>
+                    <td class="oc-form-help">
+                      <span class="oc-form-context"></span>
+                      <span id="oc-title-validator" class="oc-form-validator"></span>
+                      <span id="oc-error" class="oc-form-error" tal:content="view/errors/title | nothing" />
+                    </td>
+                  </tr>
+                  <tr class="oc-form-row">
+                    <th class="oc-form-label" scope="row">
+                      <label>URL</label>
+                    </th>
+                    <td class="oc-form-value">
+                      <span tal:content="proj/url"/>
+                    </td>
+                    <td class="oc-form-help">
+                      <span class="oc-form-context"></span>
+                    </td>
+                  </tr>
+                  <tr class="oc-form-row">
+                    <th class="oc-form-label" scope="row">
+                      <label for="description">Goal</label>
+                    </th>
+                    <td class="oc-form-value">
+                      <textarea name="description" id="description" tal:content="request/description | proj/description" rows="3" cols="40" />
+                    </td>
+                    <td class="oc-form-help">
+                      <span class="oc-form-context"></span>
+                      <span id="oc-description-validator" class="oc-form-validator"></span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </fieldset>
+
+            <fieldset class="oc-boxy">
+              <legend class="oc-legend-heading oc-biggerText">Security</legend>
+              <fieldset>
+                <legend class="oc-legend-label"><strong>Visitors to OpenPlans can:</strong></legend>
+                <ul class="oc-form-radiolist oc-form-fieldBlock">
+                  <li>
+                    <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
+                    value="medium_policy" tal:attributes="checked python:proj['security']=='medium_policy' and 'checked' or ''"/>
+                    <label for="workflow_policy_medium">View this project's content</label>
+                  </li>
+                  <li>
+                    <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
+                    value="open_policy" tal:attributes="checked python:proj['security']=='open_policy' and 'checked' or ''"/>
+                    <label for="workflow_policy_open">and contribute to it</label><br />
+                    <strong class="oc-smallText">OR</strong>
+                  </li>
+                  <li>
+                    <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
+                    value="closed_policy" tal:attributes="checked python:proj['security']=='closed_policy' and 'checked' or ''"/>
+                    <label for="workflow_policy_closed">Only team members can view, contribute, or search for this project</label>
+                  </li>
+                </ul>
+              </fieldset>
+            </fieldset>
+
+            <fieldset class="oc-boxy">
+              <legend class="oc-legend-heading oc-biggerText">Tools</legend>
+              <ul class="oc-form-radiolist">
+                <li>
+                  <input type="checkbox" class="oc-input-typeCheck oc-warn-popup" id="tasktracker" name="featurelets:list" value="tasks"
+                    tal:attributes="checked python:view.has_task_tracker" />
+                  <label for="tasktracker">Task Tracker</label>
+                  <!-- <p class="oc-form-context">An extensive to-do list manager that makes it easy to share tasks and get things done.</p> -->
+                </li>
+                <li>
+                  <input type="checkbox" class="oc-input-typeCheck oc-warn-popup" id="listen" name="featurelets:list" value="listen"
+                    tal:attributes="checked python:view.has_mailing_lists" />
+                  <label for="listen">Mailing lists</label>
+                  <!-- <p class="oc-form-context">Email and forum-based discussion spaces.</p> -->
+                </li>
+              </ul>
+            </fieldset>
+            <ul class="oc-actions">
+              <li>
+                <button type="submit" 
+                  name="update:boolean" 
+                  value="True" 
+                  class="oc-button oc-chooseThis">
+                  Update
+                </button>
+              </li>
+              <li>or <a href="">Cancel</a></li>
+            </ul>
+          </form>
+        </div><!-- end .oc-content-main -->
+      </div><!-- end content-fill-slot -->
+    </body>
+  </html>
+</tal:vars>

@@ -1,0 +1,28 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:browser="http://namespaces.zope.org/browser">
+
+  <browser:page
+    name="personalbar_wrapper"
+    template="personalbar_wrapper.pt"
+    permission="zope2.View"
+    for="*"
+  />
+
+  <browser:viewletManager
+     name="opencore.personalbar"
+     provides=".interfaces.IPersonalBar"
+     permission="zope2.View"
+     template="personalbar.pt"
+     />
+
+  <browser:viewlet
+     name="project_menu"
+     for="*"
+     manager=".interfaces.IPersonalBar"
+     class=".menus.NavMenu"
+     template="project_menu.pt"
+     permission="zope2.View"
+     />
+
+</configure>

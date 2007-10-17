@@ -1,0 +1,17 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
+	   >
+  <five:traversable
+     class="Products.ATContentTypes.content.folder.ATBTreeFolder" />
+
+  <content class=".page.OpenPage">
+    <implements
+      interface="Products.ploneundelete.interfaces.ICanBeUndeleted" />
+  </content>
+
+  <subscriber
+     for="opencore.interfaces.IOpenMembership
+          zope.app.container.interfaces.IObjectAddedEvent"
+     handler=".membership.fixupOwnership" />
+
+</configure>
