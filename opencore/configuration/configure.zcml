@@ -19,5 +19,8 @@
   <include package="opencore.redirect" />
   <include package="opencore.utility" />
 
+  <!-- overrides -->
+  <!--includeOverrides package="opencore.sputnik" file="overrides.zcml" /-->
+
 </configure>
  
