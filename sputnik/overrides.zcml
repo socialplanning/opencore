@@ -1,0 +1,15 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:meta="http://namespaces.zope.org/meta"
+    xmlns:five="http://namespaces.zope.org/five">
+
+  <!-- home -->
+  <browser:page
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     permission="zope2.View"
+     name="view"
+     class="opencore.nui.main.search.HomeView"
+     template="home.pt"
+     />
+
+ </configure>
