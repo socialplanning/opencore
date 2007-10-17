@@ -4,12 +4,11 @@ import logging
 from zExceptions import Forbidden
 
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from Products.OpenPlans.config import PROJECTNAME
 
 import opencore.nui.octopus
 from opencore.nui.octopus import action
 
-log = logging.getLogger(PROJECTNAME)
+log = logging.getLogger('opencore.nui.formhandler')
 
 def button(name=None):
     def curry(handle_request):

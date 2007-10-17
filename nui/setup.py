@@ -35,6 +35,7 @@ from opencore.interfaces import IOpenPage, INewsItem
 from opencore.nui.project.metadata import _update_last_modified_author
 from opencore.nui.wiki.add import get_view_names
 from Products.OpenPlans.content.project import OpenProject
+from persistent import mapping
 
 logger = getLogger(op_config.PROJECTNAME)
 
@@ -220,13 +221,20 @@ def fix_case_on_featurelets(portal):
         flet_supporter = IFeatureletSupporter(project)
         listen_storage = flet_supporter.storage.get('listen', None)
         if listen_storage:
+            # we have to make a complete copy of the date structure
+            listen_storage = dict(listen_storage)
             listen_storage['content'][0]['title'] = 'Mailing lists'
             listen_storage['menu_items'][0]['title'] = u'Mailing lists'
             listen_storage['menu_items'][0]['description'] = u'Mailing lists'
+
+            # setting the new values triggers persistence
+            flet_supporter.storage['listen']=listen_storage
         tt_storage = flet_supporter.storage.get('tasks', None)
         if tt_storage:
+            tt_storage=dict(tt_storage)
             tt_storage['menu_items'][0]['title'] = u'Tasks'
-            tt_storage['menu_items'][0]['description'] = u'Task tracker'    
+            tt_storage['menu_items'][0]['description'] = u'Task tracker'
+            flet_supporter.storage['tasks']=tt_storage
 
 def annotate_last_modified_author(portal):
     from opencore.nui.project.metadata import ANNOT_KEY

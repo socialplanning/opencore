@@ -6,13 +6,13 @@
   </li>
 
   <li>
-    <a tal:attributes="href string:${view/siteURL}/projects"
-       tal:content="string:Projects" />
+    <a tal:attributes="href string:${view/siteURL}/people"
+       tal:content="string:People" />
   </li>
 
   <li>
-    <a tal:attributes="href string:${view/siteURL}/people"
-       tal:content="string:People" />
+    <a tal:attributes="href string:${view/siteURL}/projects"
+       tal:content="string:Projects" />
   </li>
 
   <li>

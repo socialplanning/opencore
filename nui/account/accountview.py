@@ -268,6 +268,8 @@ class JoinView(AccountView, OctopoLite):
                        mem_id,
                        self.context.absolute_url()))
         result = mem.processForm()
+        mem.setUserConfirmationCode()
+
         url = self._confirmation_url(mem)
 
         if email_confirmation():
@@ -312,8 +314,10 @@ class ConfirmAccountView(AccountView):
         member = None
         
         try:
-            UID = self.key
+            UID, confirmation_key = self.key.split('confirm')
         except KeyError:
+            return None
+        except ValueError: # if there is no 'confirm' (or too many?)
             return None
     
         # we need to do an unrestrictedSearch because a default search
@@ -321,6 +325,9 @@ class ConfirmAccountView(AccountView):
         matches = self.membranetool.unrestrictedSearchResults(UID=UID)
         if matches:
             member = matches[0].getObject()
+        if member._confirmation_key != confirmation_key:
+            return None
+
         return member
 
     def confirm(self, member):

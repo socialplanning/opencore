@@ -15,7 +15,7 @@
 
       <tal:pending-role tal:condition="pending">
         <td class="oc-dataTable-row-title"
-            tal:content="string:waiting approval"
+            tal:content="string:awaiting approval"
             />
       </tal:pending-role>
 
