@@ -11,17 +11,16 @@ __docformat__ = 'restructuredtext'
 
 import os.path
 from App.Common import package_home
+from opencore.configuration import DEFAULT_ROLES, DEFAULT_ACTIVE_MSHIP_STATES
+from opencore.configuration import PROJECTNAME, COOKIE_DOMAIN, SITE_FROM_ADDRESS
+from opencore.configuration import PROHIBITED_MEMBER_PREFIXES
 
 GLOBALS                = globals()
-PROJECTNAME            = "OpenPlans"
+
 PKG_HOME               = package_home(GLOBALS)
 SKINS_DIR              = 'skins'
 COPY_DIR               = 'copy'
 COPY_PATH              = os.path.join(PKG_HOME, COPY_DIR)
-
-# DEFAULT_ROLES should be in order from lowest to highest privilege
-DEFAULT_ROLES          = ['ProjectMember', 'ProjectAdmin']
-DEFAULT_ACTIVE_MSHIP_STATES=['public', 'private']
 
 NOT_ADDABLE_TYPES = ['Smartlink', 'IronicWiki', 'TeamSpace']
 
@@ -36,13 +35,6 @@ NAVTREE_TYPES = ['Collector', 'HelpCenterErrorReferencefolder',
                  ]
 
 SITE_INDEX_TEMPLATE = 'site_index_html'
-
-COOKIE_DOMAIN = '.openplans.org'
-
-SITE_FROM_ADDRESS = 'greetings@openplans.org'
-
-PROHIBITED_MEMBER_PREFIXES = ['openplans', 'topp', 'anon', 'admin',
-                              'manager', 'webmaster', 'help', 'support']
 
 try:
     # When Reference are in CMFCore

@@ -157,7 +157,7 @@ var _editor_lang = "en";
                         <th class="oc-form-label"></th>
                         <td class="oc-form-value">  
                           <span class="oc-indicator" id="indicator|upload-attachment"><img src="++resource++img/indicator-bounce-eee.gif" alt="Loading..." /></span> 
-                          <input type="submit" name="task|upload-attachment" class="oc-js-actionButton" value="Upload" /> or <a href="#" class="oc-js-expander_close">Cancel</a></td>
+                          <input type="submit" name="task|upload-attachment" class="oc-js-actionButton oc-has-indicator" value="Upload" /> or <a href="#" class="oc-js-expander_close">Cancel</a></td>
                         <td class="oc-form-help"></td>
                       </tr>
                     </tbody>

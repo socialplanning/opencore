@@ -227,7 +227,7 @@ Team view
 
 Set up the view::
 
-    >>> from opencore.nui.project.view import ProjectTeamView
+    >>> from opencore.nui.project.team import ProjectTeamView
     >>> request = self.portal.REQUEST
     >>> proj = projects.p1
     >>> view = ProjectTeamView(proj, request)

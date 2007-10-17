@@ -398,6 +398,13 @@ Check that changing passwords works
     >>> view.portal_status_message
     [u'Passwords must contain at least 5 characters.']
 
+    Try for the password "password"
+    >>> request.form['password'] = 'password'
+    >>> request.form['password2'] = 'password'
+    >>> view.change_password()
+    >>> view.portal_status_message
+    [u'"password" is not a valid password.']
+
     And if we try to change to the same password?
     We act as if it was a successful change
     >>> request.form['passwd_curr'] = 'testy'

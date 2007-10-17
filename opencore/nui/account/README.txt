@@ -139,6 +139,8 @@ Get a user so that we can try to get a user's confirmation code for manual regis
     >>> user
     <OpenMember at ...>
 
+    >>> user.setUserConfirmationCode()
+
 The getUserConfirmationCode method should only be available to site managers::
 
     >>> m = user.restrictedTraverse("getUserConfirmationCode")
@@ -190,6 +192,20 @@ The view has a validate() method which returns an error dict::
     >>> # sorted([i for i in view.validate().keys() if i.split('-')[1] in request.form])
 
 #    ['confirm_password', 'email', 'password']
+
+Test what happens when password is "password"
+
+    >>> request.form = dict(id='foouser3',
+    ...                     fullname='foo user',
+    ...                     email='foo3@example.com',
+    ...                     password='password',
+    ...                     confirm_password='password',
+    ...                     )
+    >>> view.create_member()
+    {'password': u'"password" is not a valid password.'}
+    >>> view.errors
+    {'password': u'"password" is not a valid password.'}
+
 
 Test what happens when both passwords are blank
 
