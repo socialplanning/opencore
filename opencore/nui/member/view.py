@@ -669,6 +669,9 @@ class TrackbackView(BaseView):
 
         from urlparse import urlsplit, urlunsplit
         if urlsplit(self.request['HTTP_REFERER'])[1] != urlsplit(self.siteURL)[1]:
+            self.request.response.setStatus(403)
+            return 'Cross site deletes not allowed!'
+
         if self.request['REQUEST_METHOD'] != 'POST':
             self.request.response.setStatus(405)
             return 'Not Post'
