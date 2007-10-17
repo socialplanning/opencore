@@ -22,8 +22,8 @@ setup(name='opencore',
       zip_safe=False,
       dependency_links=['https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect',
                         'http://www.openplans.org/projects/opencore/dependencies',
-                        'https://svn.plone.org/svn/plone/plone.memoize/trunk#egg=plone.memoize-dev'
-                        'https://svn.openplans.org/svn/flunc/trunk#egg=flunc'
+                        'https://svn.plone.org/svn/plone/plone.memoize/trunk#egg=plone.memoize-dev',
+                        'https://svn.openplans.org/svn/flunc/branches/setuptools-command#egg=flunc-0.1.1'
                         ],
       install_requires=[
           # -*- Extra requirements: -*-
@@ -38,16 +38,15 @@ setup(name='opencore',
           'plone.mail',
           'plone.app.form',
           'borg.localrole==1.0rc1',
-#                    'ToppFTest'
-
+          'flunc==0.1.1'
           ],
+      setup_requires=['flunc'],
       ftest_require=['flunc'],
-      #setup_requires=['ToppFTest'],
       entry_points="""
-      [distutils.commands]
-      ftest = opencore.ftest:ftest
       [distutils.setup_keywords]
       ftest_require=setuptools.dist:check_requirements
+      [distutils.commands]
+      ftest = flunc.command:ftest
       """,
       )
 
