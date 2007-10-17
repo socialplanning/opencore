@@ -2,6 +2,18 @@
    xmlns:browser="http://namespaces.zope.org/browser"
    xmlns:five="http://namespaces.zope.org/five">
 
+  <adapter
+    for="opencore.interfaces.IOpenPage"
+    provides="opencore.nui.wiki.interfaces.IWikiHistoryCache"
+    factory="opencore.nui.wiki.historyview.WikiHistoryCache"
+    />
+
+  <subscriber
+    for="opencore.interfaces.IOpenPage
+         zope.app.event.interfaces.IObjectModifiedEvent"
+    handler=".historyview.wiki_page_edited"
+    />
+
   <!-- macros -->
   <browser:page
      class="opencore.nui.base.BaseView"
