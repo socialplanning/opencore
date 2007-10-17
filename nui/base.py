@@ -208,6 +208,8 @@ class BaseView(BrowserView):
                             review_state=default_states)
 
     def project_brains_for(self, member):
+        if not IReMember.providedBy(member):
+            return []
         mships = self.mship_brains_for(member)
         teams = [i.getPath().split('/')[-2] for i in mships]
         projects = self.catalog(portal_type='OpenProject', id=teams)
