@@ -1,0 +1,10 @@
+# remove an allowed sender
+#
+# projname - name of the project under which the list resides
+# listtitle - title of the list
+# user - the user to be removed
+#
+
+go ${base_url}/projects/${projname}/lists/${listtitle}/manage_membership
+fv 2 remove_${user} on
+submit

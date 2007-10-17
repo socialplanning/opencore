@@ -1,0 +1,19 @@
+#
+# approve a project membership
+#
+# projfullname - the project to accept the invitation of
+# membername - the member accepting
+#
+# expects: 
+#    that the member has an invitation to the project
+#    and is logged in
+#
+#
+
+extend_with flunc.checkbox 
+
+go ${base_url}/people/${membername}/account
+find '${projfullname}</a>\s* has invited you to become a member' s
+follow 'Accept'
+notfind '${projfullname}</a>\s* has invited you to become a member' s
+

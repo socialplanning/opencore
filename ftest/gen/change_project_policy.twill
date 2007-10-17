@@ -1,0 +1,16 @@
+#
+# change the security policy of a project 
+#
+# projname - the project id 
+# projpolicy - the policy to set 
+#              [open_policy,medium_policy,closed_policy]
+#
+# expects: 
+#   project exists, logged in as project admin 
+#
+
+go ${base_url}/projects/${projname}
+follow 'Preferences'
+fv prefs_form workflow_policy $projpolicy 
+submit
+find 'Your changes have been saved'

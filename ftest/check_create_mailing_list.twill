@@ -1,0 +1,10 @@
+#
+# checks the user can create a mailing list
+#
+# projname - name of the project under which the list will be created
+#
+go ${base_url}/projects/${projname}
+follow "Mailing lists"
+follow "add a new mailing list" 
+find 'Archival method'
+notfind "add a new mailing list" 

@@ -1,0 +1,23 @@
+#
+# edits a given project 
+#
+# projname - the id of the project to edit 
+# projtitle - the title to set for the project
+# projdesc - the description to set for the project 
+# projbody - the body text of the home page to set 
+# pagelink - this is always added to the end of the project body
+# 
+# expects: 
+#   project exists
+#
+
+
+#FIXME: this doesn't work for anonymous users
+#go ${base_url}/projects/${projname}
+#notfind 'edit'
+
+go ${base_url}/projects/${projname}/edit
+find 'do not have sufficient permissions|Login.*Username.*Password' is
+
+
+#TODO: fake a form and submit it

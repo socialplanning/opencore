@@ -1,0 +1,10 @@
+#
+# makes sure footer looks correct
+#
+# expects: 
+#    zope is working
+
+go ${base_url}
+
+# This find rocks!
+find '<div id="oc-footer-wrapper">\s*<div id="oc-footer">\s*<ul class="oc-smallText">\s*<li><a href="${base_url}/about">about</a></li>\s*<li><a href="${base_url}/contact">contact</a></li>\s*<li><a href="${base_url}/news">news</a></li>.*</ul>\s*<div id="oc-footer-about" class="oc-smallText">\s*OpenPlans is\s*<a href="${base_url}/people">\d+ people</a> and\s*<a href="${base_url}/projects">\d+ projects</a> since\s*.*.<br />\s*&copy; 2007 <a href="http://topp.openplans.org/">The Open Planning Project</a>\s*</div>\s*</div>\s*</div>\s*</div>\s*</body>\s*</html>' s

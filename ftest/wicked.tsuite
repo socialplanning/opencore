@@ -1,0 +1,8 @@
+# runs some basic wicked tests 
+create_user
+login
+create_project
+create_page(pagename=${pagename}) # this creates the configured link 
+wicked_check_last_modified
+delete_page(item=${pagename})
+logout

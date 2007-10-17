@@ -1,0 +1,20 @@
+extend_with flunc.zope_get_uid
+
+go ${base_url}/join
+
+fv edit_form id 'test_error 123$!@$#%!#@$%'
+fv edit_form fullname 'test name 12345%@!#$'
+fv edit_form email 'bad email address'
+fv edit_form password 'a'
+fv edit_form confirm_password 'b'
+submit
+
+find 'The login name you selected is already in use or is not valid. Please choose another.'
+find '(optional)'
+find 'That email address is invalid.'
+find 'Passwords must contain at least 5 characters.'
+
+fv edit_form password ''
+submit
+
+find 'Please enter a password'

@@ -1,0 +1,10 @@
+#
+# looks in project contents
+#
+# lookfor - string to make sure doesn't exist
+#
+# expects:
+#    project already exist to search for
+#
+go ${base_url}/projects/${projname}/contents
+notfind $lookfor

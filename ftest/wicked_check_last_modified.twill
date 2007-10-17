@@ -1,0 +1,17 @@
+#
+# check that the last modified author and timestamp
+# appear on the WikiView view but not WikiEdit or WikiHistory
+#
+# $projname   - the project the page is in
+# $pagename   - the page to verify
+#
+# expects: 
+#    project projname and page pagename exist
+#
+
+go ${base_url}/projects/${projname}
+find "last modified by"
+follow "edit"
+notfind "last modified by"
+follow "history"
+notfind "last modified by"

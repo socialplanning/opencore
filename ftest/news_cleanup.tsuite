@@ -1,0 +1,4 @@
+# cleans up artifacts of the news suite
+destroy_user
+destroy_news_item(newsid='bridge')
+destroy_news_item(newsid='ninjas')

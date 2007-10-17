@@ -1,0 +1,13 @@
+#
+# creates a new page off the home page of the project
+#
+# expects:
+#    project already exist to search for
+#    $pagename is linked to be created in the project home page
+#
+
+go ${base_url}/projects/${projname}
+follow edit
+fv edit_form text '((${pagename}))'
+submit task|save
+follow ${pagename}+

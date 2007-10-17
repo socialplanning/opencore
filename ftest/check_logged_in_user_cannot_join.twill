@@ -1,0 +1,12 @@
+#
+# makes sure that a logged in user cannot join
+#
+# expects: 
+#    logged in
+#
+
+go ${base_url}
+notfind '<a href="http://localhost:8080/openplans/join">Join</a>'
+go ${base_url}/join
+notfind 'Join OpenPlans' i
+# XXX maybe add a url test to verify on the right page when this passes

@@ -1,0 +1,12 @@
+# discards all posts
+#
+# projname - name of the project under which the list resides
+# listtitle - title of the list
+# look_for - the string to look for after moderating (should be present in all posts)
+#
+# expects already logged in as list manager
+
+go ${base_url}/projects/${projname}/lists/${listtitle}/moderation
+fv moderate_all_posts discard_all_posts 'click this one'
+submit
+notfind $look_for

@@ -1,0 +1,15 @@
+#
+# requests membership to a project
+#
+# projname - the project for which to request membership
+# user - the username to add
+#
+# expects: 
+#    project exists, member exists, member is logged in
+#
+
+go ${base_url}/projects/${projname}/request-membership
+url 'request-membership'
+fv 2 request-message "i would like to join"
+submit
+find 'Your request to join .* has been sent to the project administrator\(s\).'

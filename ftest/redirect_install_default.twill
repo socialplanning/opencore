@@ -1,0 +1,19 @@
+#
+# Installs default redirection 
+#
+# *** warning ***
+# this test should not be run against a 
+# production site. 
+# 
+#  
+# expects: 
+#   user is logged in as admin or user  
+#   with proper permissions 
+#
+
+go ${base_url}/opencore_redirect_install_default
+find "install default redirect store" i 
+submit
+notfind "404" 
+notfind "site error" i 
+find "the default redirect store is installed" i

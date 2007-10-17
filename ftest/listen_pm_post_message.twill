@@ -1,0 +1,15 @@
+# post a message to the archive of a post-moderated (announce) list
+#
+# projname - name of the project under which the list resides
+# listtitle - title of the list
+# postsubject - subject of the message
+# postbody - body of the message
+#
+
+go ${base_url}/projects/${projname}/lists/${listtitle}/archive
+follow "Post new message"
+fv 2 subject $postsubject
+fv 2  body $postbody
+submit
+find "Post Pending Moderation"
+notfind $postsubject

@@ -1,0 +1,25 @@
+#
+# create an isolated mailing list
+#
+# projname - name of the project under which the list will be created
+# listtitle - title of the list
+# listdesc - description of the list
+# mailto - address of the list
+# listtype - list type
+# attach - attachment setting for the list
+#
+go ${base_url}/projects/${projname}
+follow "Mailing lists"
+follow "add a new mailing list" 
+find 'Managers.*${user}' s
+fv 2 form.title ${listtitle}
+fv 2 form.description ${listdesc}
+fv 2 form.mailto ${mailto}
+fv 2 form.list_type ${listtype}
+fv 2 form.archived ${attach}
+submit Add
+notfind "site error" i
+go ${base_url}/projects/${projname}/lists/${listtitle}
+notfind "404"
+find $listtitle
+find $user

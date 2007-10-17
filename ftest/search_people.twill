@@ -1,0 +1,18 @@
+#
+# searches openplans people
+#
+# query - member query string to search with
+# expect - string to check for in results page
+#
+# expects: 
+#    members already exist to search for
+#
+
+go ${base_url}/people
+fv search_form search_for $query
+submit 
+find 'Member'
+find 'of\s+\d+'
+find 'sorted'
+notfind 'No results found.'
+find $expect

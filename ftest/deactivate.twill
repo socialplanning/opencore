@@ -1,0 +1,8 @@
+# turn off redirection on a project
+# expects
+#   projname
+#   config_url
+
+go ${base_url}/projects/${projname}/${config_url}
+fv 2 form.actions.deactivate ''
+submit

@@ -1,0 +1,9 @@
+#
+# makes sure topnav is correct when not logged in
+#
+# expects: 
+#    not logged in
+#
+
+go ${base_url}
+find 'oc-topnav-context.*People.*Projects.*Start a project.*oc-usermenu-explore.*Home.*People.*Projects.*Start a project.*oc-topnav-usermenu.*Sign in.*Join' s

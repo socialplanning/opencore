@@ -1,0 +1,7 @@
+# contains the mapping of hosts to use
+# lhs contains what the host:port to redirect to would normally be
+# rhs contains the new host:port mapping to use instead
+# note that the host header will still be set to the old host
+# but the request will be sent to the new host
+
+fleem.openplans.org:8080       localhost:8080

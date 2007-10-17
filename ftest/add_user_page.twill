@@ -1,0 +1,3 @@
+follow Home
+follow ${newpage}
+find 'has been created'

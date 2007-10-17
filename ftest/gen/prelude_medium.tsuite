@@ -1,0 +1,3 @@
+login(user=${u1_name})
+change_project_policy(projpolicy='medium_policy')
+logout 

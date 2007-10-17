@@ -1,0 +1,5 @@
+# cleans up artifacts of the basic suite, normally run with -c basic 
+destroy_project
+destroy_user(user=${u1_name})
+destroy_user(user=${u2_name})
+
