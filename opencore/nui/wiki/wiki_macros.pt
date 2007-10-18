@@ -1,57 +1,25 @@
 <!-- put macros here -->
 
 
-<!-- BEGIN FILE UPLOAD FORM -->
-<form metal:define-macro="upload" class="oc-js-uploadForm" action="@@createAtt" enctype="multipart/form-data" method="post">
-  <input type="hidden" name="oc-target" value="oc-wiki-attachments" />
-  
-  <table class="oc-form">
-    <thead></thead>
-    <tbody>
-      <tr class="oc-form-row">
-        <th class="oc-form-label"><label for="attachmentFile">Locate file</label></th>
-        <td class="oc-form-value"><input type="file"           
-            id="attachmentFile"
-            name="attachmentFile"
-            size="30" 
-            tabindex="" 
-            tal:attributes="tabindex tabindex/next;
-            value request/attachmentFile/filename | nothing"
-            /></td>
-        <td class="oc-form-help"></td>
-      </tr>
-      <tr class="oc-table-row">
-        <th class="oc-form-label"><label for="attachmentTitle">Enter new name</label></th>
-        <td class="oc-form-value"><input type="text" 
-            id="attachmentTitle" 
-            name="attachmentTitle" 
-            size="30" 
-            tabindex=""
-            tal:attributes="tabindex tabindex/next;"
-            value=""/></td>
-        <td class="oc-form-help">
-          <span class="oc-form-context">(optional)</span>
-          <span class="oc-table-validator"></span>
-        </td>
-      </tr>
-      <tr class="oc-options">
-        <th class="oc-form-label"></th>
-        <td class="oc-form-value">  
-          <span class="oc-indicator"><img src="++resource++img/indicator-bounce-eee.gif" alt="Loading..." /></span>
-          <input type="submit" value="Upload" /> or Cancel</td>
-        <td class="oc-form-help"></td>
-      </tr>
-    </tbody>
-  </table>
-</form>
-<!-- END FILE UPLOAD FORM -->
-
 <!-- BEGIN WIKI BCRUMB -->
-<ul metal:define-macro="bcrumb" class="oc-headingBlock oc-wiki-headingBlock oc-bcrumb">
+<metal:bcrumb define-macro="bcrumb">
+<ul class="oc-headingBlock oc-wiki-headingBlock oc-bcrumb">
   <li>
     <h1 class="oc-bcrumb-current" tal:content="view/context/Title" />
   </li>
 </ul>
+<tal:lastmod condition="view/displayLastModified | nothing"
+  define="author view/lastModifiedAuthor;
+          time view/lastModifiedTime">
+  <p class="oc-discreetText oc-wiki-lastModified">&nbsp; last modified by
+    <a tal:attributes="href python:'%s/people/%s/profile' % (view.portal_url(), author)"
+       tal:content="author"/>
+     <abbr tal:attributes="title context/ModificationDate">
+       <span tal:replace="time" />
+     </abbr>
+  </p>
+</tal:lastmod>
+</metal:bcrumb>
 <!-- END WIKI BCRUMB -->
 
 <!-- BEGIN WIKI TABS -->

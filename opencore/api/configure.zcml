@@ -42,4 +42,12 @@
      class=".apis.MemberInfoXML"
      />
 
+  <browser:page
+     for="opencore.interfaces.IMemberFolder"
+     permission="zope2.View"
+     class=".getcookie.GetCookie"
+     attribute="get_cookie_hash"
+     name="get-hash"
+     />
+
 </configure>

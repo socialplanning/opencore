@@ -19,6 +19,41 @@
     permission="zope2.View"
     />
      
+  <!--image manager stuff-->
+
+  <browser:page
+
+    for="opencore.interfaces.IOpenPage"
+    name="backend"
+    permission="zope2.View"
+    template="backend.pt"
+    />
+
+  <browser:page
+    class=".view.ImageManager"
+    for="opencore.interfaces.IOpenPage"
+    name="backend-images"
+    permission="zope2.View"
+    template="backend-images.pt"
+    />
+
+  <browser:page
+    class=".view.ImageManager"
+    for="opencore.interfaces.IOpenPage"
+    name="backend-upload"
+    permission="zope2.View"
+    template="backend-images.pt"
+    />
+
+  <browser:page
+    class=".view.InternalLink"
+    for="opencore.interfaces.IOpenPage"
+    name="internal-link"
+    permission="zope2.View"
+    template="internal-link.pt"
+    />
+
+
   <!-- Wiki views  -->
   <browser:page
     class=".view.WikiView"
@@ -167,6 +202,14 @@
      for="opencore.interfaces.IOpenPage"
      name="deleteAtt"
      permission="cmf.ModifyPortalContent"
+     />
+
+  <browser:page
+     attribute="thumb"
+     class=".view.ImageManager"
+     for="Products.RichDocument.FileAttachment.FileAttachment"
+     name="thumb"
+     permission="zope2.View"
      />
 
 </configure>

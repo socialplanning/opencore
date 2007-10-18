@@ -13,8 +13,9 @@
         </div>
 
         <form name="manage-form" id="manage-form"
-          tal:attributes="action request/ACTUAL_URL"
-          tal:define="errors view/errors|nothing">
+              tal:attributes="action request/ACTUAL_URL"
+              tal:define="errors view/errors|nothing"
+              method="post">
           <table class="oc-dataTable" cellspacing="0">
             <thead>
             <tr>

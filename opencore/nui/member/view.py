@@ -108,12 +108,13 @@ class ProfileEditView(ProfileView, OctopoLite):
     template = ZopeTwoPageTemplateFile('profile-edit.pt')
 
     def has_invitations(self):
-        """check whether the new member has any pending project invitations to manage"""
+        """check whether the member has any pending project
+        invitations to manage"""
         member = self.loggedinmember
-        address = member.getEmail()
-        email_invites = getUtility(IEmailInvites, context=self.portal)
-        invites = email_invites.getInvitesByEmailAddress(address)
-        return bool(invites)
+        cat = self.catalogtool
+        pending_mships = cat(portal_type='OpenMembership',
+                             review_state='pending')
+        return bool(pending_mships)
 
     def check_portrait(self, member, portrait):
         try:
@@ -286,8 +287,7 @@ class MemberAccountView(BaseView, OctopoLite):
 
     @req_memoize
     def _membership_for_proj(self, proj_id):
-        tmtool = self.get_tool('portal_teams')
-        team = tmtool.getTeamById(proj_id)
+        team = self.get_tool('portal_teams').getTeamById(proj_id)
         mem_id = self.viewed_member_info['id']
         mship = team._getMembershipByMemberId(mem_id)
         return mship
@@ -394,13 +394,14 @@ class MemberAccountView(BaseView, OctopoLite):
         return is_active or is_pending_member_requested
 
     def _is_only_admin(self, proj_id, mem_id=None):
-        team = self.get_tool('portal_teams')._getOb(proj_id)
+        team = self.get_tool('portal_teams').getTeamById(proj_id)
 
         # for some reason checking the role is not enough
         # I've gotten ProjectAdmin roles back for a member
         # in the pending state
         if mem_id is None:
             mem_id = self.viewed_member_info['id']
+
         mship = team._getOb(mem_id)
         wft = self.get_tool('portal_workflow')
         review_state = wft.getInfoFor(mship, 'review_state')
@@ -409,14 +410,7 @@ class MemberAccountView(BaseView, OctopoLite):
         role = team.getHighestTeamRoleForMember(mem_id)
         if role != 'ProjectAdmin': return False
 
-        portal_path = '/'.join(self.portal.getPhysicalPath())
-        team_path = '/'.join([portal_path, 'portal_teams', proj_id])
-        project_admins = self.catalogtool(
-            highestTeamRole='ProjectAdmin',
-            portal_type='OpenMembership',
-            review_state=self.active_states,
-            path=team_path,
-            )
+        project_admins = team.get_admin_ids()
 
         return len(project_admins) <= 1
 
@@ -436,10 +430,21 @@ class MemberAccountView(BaseView, OctopoLite):
         assert len(targets) == 1
         proj_id = targets[0]
 
-        # XXX do we notify anybody (proj admins) when a mship has been accepted?
         if not self._apply_transition_to(proj_id, 'approve_public'):
             return {}
 
+        # security reindex (async to the catalog queue)
+        team = self.get_tool('portal_teams').getTeamById(proj_id)
+        team.reindexTeamSpaceSecurity()
+
+        admin_ids = team.get_admin_ids()
+        transient_msgs = getUtility(ITransientMessage, context=self.portal)
+        id_ = self.loggedinmember.getId()
+        project_url = '/'.join((self.url_for('projects'), proj_id))
+        msg = '%s has joined <a href="%s">%s</a>' % (id_, project_url, proj_id)
+        for mem_id in admin_ids:
+            transient_msgs.store(mem_id, "membership", msg)
+        
         projinfos = self.projects_for_user
         if len(projinfos) > 1:
             projinfo = self._get_projinfo_for_id(proj_id)
@@ -468,15 +473,33 @@ class MemberAccountView(BaseView, OctopoLite):
     def deny_handler(self, targets, fields=None):
         assert len(targets) == 1
         proj_id = targets[0]
-        # XXX do we notify anybody (proj admins) when a mship has been denied?
+
         if not self._apply_transition_to(proj_id, 'reject_by_owner'):
             return {}
+
+        id_ = self.loggedinmember.getId()
+
+        # there must be a better way to get the last wf transition which was an invite... right?
+        wftool = self.get_tool("portal_workflow")
+        team = self.get_tool("portal_teams").getTeamById(proj_id)
+        mship = team.getMembershipByMemberId(id_)
+        wf_id = wftool.getChainFor(mship)[0]
+        wf_history = mship.workflow_history.get(wf_id)
+        spurned_admin = [i for i in wf_history if i['review_state'] == 'pending'][-1]['actor']
+        
+        transient_msgs = getUtility(ITransientMessage, context=self.portal)
+
+        project_url = '/'.join((self.url_for('projects'), proj_id))
+        msg = '%s has declined your invitation to join <a href="%s">%s</a>' % (id_, project_url, proj_id)
+        transient_msgs.store(spurned_admin, "membership", msg)
+
         elt_id = '%s_invitation' % proj_id
         return {elt_id: dict(action='delete'),
                 "num_updates": {'action': 'copy',
                                 'html': self.nupdates()}}
 
     # XXX is there any difference between ignore and deny?
+    ## currently unused
     @action('IgnoreInvitation')
     def ignore_handler(self, targets, fields=None):
         assert len(targets) == 1
@@ -567,12 +590,6 @@ class MemberAccountView(BaseView, OctopoLite):
             self.addPortalStatusMessage(msg)
             return
 
-        mem_hide_email = mem.getUseAnonByDefault()
-        if mem_hide_email != hide_email:
-            mem.setUseAnonByDefault(hide_email)
-            setting = hide_email and 'anonymous' or 'not anonymous'
-            self.addPortalStatusMessage('Default email is %s' % setting)
-
         if mem.getEmail() == email:
             return
 
@@ -587,50 +604,3 @@ class MemberAccountView(BaseView, OctopoLite):
     def pretty_role(self, role):
         role = self.role_map.get(role, role)
         return role
-
-
-class InvitationView(BaseView, OctopoLite):
-    """view to manage first time login project invitations"""
-
-    template = ZopeTwoPageTemplateFile('invitations.pt')
-
-    def _create_proj_info(self, proj_id, since):
-        proj_path = '/'.join(['/'.join(self.portal.getPhysicalPath()),
-                              'projects',
-                              proj_id,
-                              ])
-        project_info = self.catalogtool.getMetadataForUID(proj_path)
-        title = project_info['Title']
-        url = '%s/projects/%s' % (self.siteURL, proj_id)
-        since = prettyDate(since)
-        return dict(url=url, since=since, proj_id=proj_id, title=title)
-
-    @req_memoize
-    def projinfos(self):
-        address = self.loggedinmember.getEmail()
-        email_inviter = getUtility(IEmailInvites, context=self.portal)
-
-        btree = email_inviter.getInvitesByEmailAddress(address)
-        return [self._create_proj_info(proj_id, since)
-                for proj_id, since in btree.items()]
-
-    def _join_project(self, proj_id):
-        pt = self.get_tool('portal_teams')
-        team = pt._getOb(proj_id)
-        team.joinAndApprove()
-
-    @action('join')
-    def handle_join(self, targets=None, fields=None):
-        projects_to_join = targets
-        # we need to get rid of the invitations we joined
-        email_invites = getUtility(IEmailInvites, context=self.portal)
-        address = self.loggedinmember.getEmail()
-        results = {}
-        for proj_id in projects_to_join:
-            self._join_project(proj_id)
-            row_id = 'proj_%s' % proj_id
-            results[row_id] = dict(action='delete')
-            email_invites.removeInvitation(address, proj_id)
-
-        # XXX redirect somewhere else?
-        return results

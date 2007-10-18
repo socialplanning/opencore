@@ -217,7 +217,7 @@ def setup_openplans_team_membership_workflow(wf):
                        actbox_name='Auto Approve Public',
                        actbox_url='',
                        actbox_category='workflow',
-                       props={'guard_expr': 'python:container.Creator()==here.getId()'},
+                       props={'guard_expr': 'python:here.isProjectCreator()'},
                        )
 
     tdef = wf.transitions['auto_pending']

@@ -36,3 +36,18 @@ class TaskTrackerFeaturelet(SatelliteFeaturelet):
         return SatelliteFeaturelet.deliverPackage(
             self, obj,
             extra_headers = {"X-Tasktracker-Initialize":"True"})
+        header = {"X-Tasktracker-Initialize":"True"}
+        response, content = self._makeHttpReqAsUser(self.init_uri, obj=obj,
+                                                    headers=header)
+        
+
+        if response.status != 200:
+	    raise AssertionError("Project initialization failed: status %d (maybe TaskTracker isn't running?)" % response.status)
+        return BaseFeaturelet.deliverPackage(self, obj)
+
+    def removePackage(self, obj):
+        response, content = self._makeHttpReqAsUser(self.uninit_uri, obj=obj)
+        if response.status != 200:
+            # @@ raise a real error, por fa
+	    raise AssertionError("Terrible!")
+        return BaseFeaturelet.removePackage(self, obj)

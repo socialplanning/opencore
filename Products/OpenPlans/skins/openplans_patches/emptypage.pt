@@ -1,5 +1,6 @@
 <html class="kupu-html">
   <head>
+    <meta http-equiv="x-deliverance-no-theme" content="1" />
     <title>Kupu Content</title>
     
     <link rel="stylesheet" type="text/css" href="#" tal:attributes="href string:${here/portal_url}/++resource++css/opencore.css" />

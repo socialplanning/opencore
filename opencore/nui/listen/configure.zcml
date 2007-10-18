@@ -39,5 +39,11 @@
      template="listen_macros.pt"
      />
 
+  <adapter
+     for=".view.NuiMailingListAddView"
+     factory=".view.default_named_template_adapter"
+     name="default"
+     provides="zope.formlib.namedtemplate.INamedTemplate"
+     />
 
 </configure>

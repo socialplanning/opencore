@@ -30,7 +30,9 @@
       <a tal:define="author lastChange/sys_metadata/principal" 
                      tal:attributes="href string:${people_url}/${author}" 
                      tal:content="author">author</a>, 
-      <span tal:replace="python: view.pretty_mod_date(lastChange)" />. 
+      <abbr tal:attributes="title python:lastChange.object.ModificationDate()">
+       <span tal:replace="python: view.pretty_mod_date(lastChange)" />. 
+      </abbr>
     </span>
     </div> <!-- end .oc-headingBlock --> 
         
@@ -73,7 +75,9 @@
       <a tal:define="author version/sys_metadata/principal" 
                            tal:attributes="href string:${people_url}/${author}/profile" 
                            tal:content="author">author</a>, 
-      <span tal:replace="python: view.pretty_mod_date(version)" />
+      <abbr tal:attributes="title python:version.object.ModificationDate()">
+        <span tal:replace="python: view.pretty_mod_date(version)" />
+      </abbr>
       <p class="oc-wiki-history-item-context oc-discreetText">
         <span tal:replace="version/comment">comment</span>
       </p>

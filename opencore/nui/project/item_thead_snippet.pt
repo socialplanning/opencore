@@ -41,8 +41,14 @@
           <metal:do use-macro="view/item_thead_snippet/macros/sortable_header" />
         </th>
         <th scope="col"
-            tal:condition="python:item_type!='pages'"
+            tal:condition="python:item_type!='pages' and item_type!='lists'"
             tal:define="myname string:Size;
+                        myvalue string:obj_size">
+          <metal:do use-macro="view/item_thead_snippet/macros/sortable_header" />
+        </th>
+        <th scope="col"
+            tal:condition="python:item_type=='lists'"
+            tal:define="myname string:Conversations;
                         myvalue string:obj_size">
           <metal:do use-macro="view/item_thead_snippet/macros/sortable_header" />
         </th>

@@ -25,7 +25,7 @@ from Products.OpenPlans.Extensions.Install import createMemIndexes, \
      install_local_transient_message_utility, install_email_invites_utility
 from Products.OpenPlans.Extensions.Install import setCaseInsensitiveLogins, \
      setSiteEmailAddresses, updateWorkflowRoleMappings, \
-     install_team_placeful_workflow_policies
+     install_team_placeful_workflow_policies, addCatalogQueue
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans import config as op_config
 from indexing import createIndexes
@@ -35,6 +35,7 @@ from opencore.interfaces import IOpenPage, INewsItem
 from opencore.nui.project.metadata import _update_last_modified_author
 from opencore.nui.wiki.add import get_view_names
 from Products.OpenPlans.content.project import OpenProject
+from persistent import mapping
 
 logger = getLogger(op_config.PROJECTNAME)
 
@@ -220,13 +221,20 @@ def fix_case_on_featurelets(portal):
         flet_supporter = IFeatureletSupporter(project)
         listen_storage = flet_supporter.storage.get('listen', None)
         if listen_storage:
+            # we have to make a complete copy of the date structure
+            listen_storage = dict(listen_storage)
             listen_storage['content'][0]['title'] = 'Mailing lists'
             listen_storage['menu_items'][0]['title'] = u'Mailing lists'
             listen_storage['menu_items'][0]['description'] = u'Mailing lists'
+
+            # setting the new values triggers persistence
+            flet_supporter.storage['listen']=listen_storage
         tt_storage = flet_supporter.storage.get('tasks', None)
         if tt_storage:
+            tt_storage=dict(tt_storage)
             tt_storage['menu_items'][0]['title'] = u'Tasks'
-            tt_storage['menu_items'][0]['description'] = u'Task tracker'    
+            tt_storage['menu_items'][0]['description'] = u'Task tracker'
+            flet_supporter.storage['tasks']=tt_storage
 
 def annotate_last_modified_author(portal):
     from opencore.nui.project.metadata import ANNOT_KEY
@@ -269,6 +277,7 @@ from Products.Archetypes.utils import OrderedDict
 # make rest of names readable  (maybe use config system)
 nui_functions = OrderedDict()
 nui_functions['Install borg.localrole PAS plug-in'] = setup_localrole_plugin
+nui_functions['Add Catalog Queue'] = convertFunc(addCatalogQueue)
 nui_functions['Move Blocking Content'] = move_blocking_content
 nui_functions['Create Member Indexes'] = convertFunc(createMemIndexes)
 nui_functions['installNewsFolder'] = convertFunc(installNewsFolder)

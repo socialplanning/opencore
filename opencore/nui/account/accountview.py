@@ -9,6 +9,7 @@ from App import config
 from AccessControl.SecurityManagement import newSecurityManager
 from zExceptions import Forbidden, Redirect, Unauthorized
 
+from zope.component import getUtility
 from zope.event import notify
 from zope.app.event.objectevent import ObjectCreatedEvent
 from plone.memoize import instance
@@ -22,6 +23,7 @@ from Products.validation.validators.BaseValidators import EMAIL_RE
 from opencore.siteui.member import FirstLoginEvent
 from opencore.nui.base import BaseView
 from opencore.nui.email_sender import EmailSender
+from opencore.nui.project.interfaces import IEmailInvites
 from opencore.nui.formhandler import *
 from DateTime import DateTime
 
@@ -182,6 +184,7 @@ class LoginView(AccountView):
             return destination
         else:
             default_redirect = '%s/account' % self.memfolder_url()
+            return default_redirect  # need to restrict domain!
             referer = self.request.get('http_referer')
             if not referer or referer in self.boring_urls:
                 return default_redirect
@@ -267,6 +270,8 @@ class JoinView(AccountView, OctopoLite):
                        self.context.absolute_url()))
         result = mem.processForm()
         notify(ObjectCreatedEvent(mem))
+        mem.setUserConfirmationCode()
+
         url = self._confirmation_url(mem)
 
         if email_confirmation():
@@ -311,8 +316,10 @@ class ConfirmAccountView(AccountView):
         member = None
         
         try:
-            UID = self.key
+            UID, confirmation_key = self.key.split('confirm')
         except KeyError:
+            return None
+        except ValueError: # if there is no 'confirm' (or too many?)
             return None
     
         # we need to do an unrestrictedSearch because a default search
@@ -320,6 +327,9 @@ class ConfirmAccountView(AccountView):
         matches = self.membranetool.unrestrictedSearchResults(UID=UID)
         if matches:
             member = matches[0].getObject()
+        if member._confirmation_key != confirmation_key:
+            return None
+
         return member
 
     def confirm(self, member):
@@ -337,7 +347,7 @@ class ConfirmAccountView(AccountView):
         
     def handle_confirmation(self, *args, **kw):
         member = self.member
-        if not member:
+        if member is None:
             self.addPortalStatusMessage(u'Denied -- bad key')
             return self.redirect("%s/%s" %(self.siteURL, 'login'))
         
@@ -358,6 +368,10 @@ class InitialLogin(BaseView):
 
         # set login time since for some reason zope doesn't do it
         member.setLogin_time(DateTime())
+
+        # convert email invites into mship objects
+        email_invites = getUtility(IEmailInvites)
+        email_invites.convertInvitesForMember(member)
 
         baseurl = self.memfolder_url()
         # Go to the user's Profile Page in Edit Mode

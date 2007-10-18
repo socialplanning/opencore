@@ -705,6 +705,15 @@ def install_email_invites_utility(portal, out):
     sm.registerUtility(IEmailInvites, EmailInvites())
     print >> out, ('Email invites utility installed')
 
+def addCatalogQueue(portal, out):
+    q_id = 'portal_catalog_queue'
+    if q_id not in portal.objectIds():
+        print >> out, ('Adding portal_catalog_queue')
+        f_disp = portal.manage_addProduct['QueueCatalog']
+        f_disp.manage_addQueueCatalog(q_id)
+        queue = portal._getOb(q_id)
+        queue.setLocation('portal_catalog')
+
 def install(self, migrate_atdoc_to_openpage=True):
     out = StringIO()
     portal = getToolByName(self, 'portal_url').getPortalObject()
@@ -722,6 +731,7 @@ def install(self, migrate_atdoc_to_openpage=True):
     setMemberType(portal, out)
     setCaseInsensitiveLogins(portal, out)
     setTeamType(portal, out)
+    addCatalogQueue(portal, out)
     addProjectsFolder(portal, out)
     setProjectFolderPermissions(portal, out)
     setupProjectLayout(portal, out)

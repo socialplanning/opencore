@@ -46,7 +46,9 @@
                         by <a tal:define="author version/sys_metadata/principal" 
                                 tal:attributes="href string:${people_url}/${author}/profile"
                                 tal:content="author">author</a>, modified 
-                        <span tal:replace="python:view.pretty_mod_date(version)" />
+                        <abbr tal:attributes="title python:version.object.ModificationDate()">
+                          <span tal:replace="python:view.pretty_mod_date(version)" />
+                        </abbr>
                       </td>
                   </tr>
                 </table>
@@ -59,7 +61,7 @@
                     </tal:if>
                     <li>
                       <!-- FIXME ? relative --> 
-                      <form method="post" id="revert_form" action="revert">
+                      <form method="post" id="revert_form" action="revert" tal:condition="python: view.can_revert()">
                         <input type="hidden" name="version_id" tal:attributes="value version_id" />
                         <input type="submit" name="revert" value="revert to this version" class="oc-smallText" />
                       </form> 

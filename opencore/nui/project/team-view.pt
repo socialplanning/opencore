@@ -37,16 +37,16 @@
               
               Member<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
               <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
-              of <span tal:replace="sequence_length">376</span> sorted by&nbsp;
+              of <span tal:replace="sequence_length">376</span> sorted&nbsp;
               <!-- when sorting, we post the action to distinguish between searching
               this was necessary because the batch macro reposts the request data, and we see problems when trying to reset to page when the sorting changes -->
               <form name="people_sort" class="enableUnloadProtection" method="POST" tal:attributes="action string:${view/name}">
                 <input type="hidden" name="sort:boolean" value="True" />
               <!-- FIXME This should not require a button to work. -->
                 <select name="sort_by" class="oc-js-autoSelect" tal:define="sorted_by request/sort_by | nothing">
-                  <option value="username" tal:attributes="selected python: sorted_by == 'username'">user name</option>
-                  <option value="membership_date" tal:attributes="selected python: sorted_by == 'membership_date'">membership start date</option>
-                  <option value="location" tal:attributes="selected python: sorted_by == 'location'">location</option>
+                  <option value="username" tal:attributes="selected python: sorted_by == 'username'">by user name</option>
+                  <option value="membership_date" tal:attributes="selected python: sorted_by == 'membership_date'">by membership start date</option>
+                  <option value="location" tal:attributes="selected python: sorted_by == 'location'">by location</option>
                 </select>
                 <button type="submit"
                   class="oc-button oc-chooseThis">
@@ -66,9 +66,10 @@
                 </div>
                 <div class="oc-roster-content">
                   <div class="oc-headingBlock">
-                  <h3 class="fn">
+                  <h3>
                     <a href=""
                        tal:attributes="href string:${context/portal_url}/people/${mem/getId}/profile"
+                       class="fn nickname"
                        tal:content="mem/getId"
                        />
                     <span class="oc-discreetText" tal:condition="python: view.is_admin(mem.getId())">
@@ -91,7 +92,7 @@
                     </tal:email>
                     <tal:location tal:define="loc mem/getLocation" tal:condition="loc">
                       <dt>Location:</dt>
-                      <dd class="adr" tal:content="loc">Big City, ST</dd>
+                      <dd class="adr"><span class="locality" tal:content="loc" /></dd>
                     </tal:location>
                     <tal:projects tal:define="projects python: view.projects_for_member(mem);
                                      nprojects python: view.num_projects_for_member(mem)"

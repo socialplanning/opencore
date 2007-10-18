@@ -11,6 +11,8 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
 from opencore.interfaces import IProject 
 from opencore.nui.static import render_static
+from opencore.i18n import i18n_domain
+from opencore.i18n import translate
 from plone.memoize import instance
 from plone.memoize import view 
 from time import strptime
@@ -84,6 +86,18 @@ class BaseView(BrowserView):
         extra_context['macro'] = macro
         return template.pt_render(extra_context=extra_context)
 
+    def translate(self, msgid, domain=i18n_domain, mapping=None,
+                  target_language=None, default=None):
+        """
+        Wrapper around translate machinery which defaults to our i18n
+        domain and the current context object.  Returns instance of
+        unicode type.
+        """
+        context = aq_inner(self.context)
+        kw = dict(domain=domain, mapping=mapping, context=context,
+                  target_language=target_language, default=default)
+        return translate(msgid, **kw)
+
     @property
     def portal_status_message(self):
         if hasattr(self, '_redirected'):
@@ -101,9 +115,13 @@ class BaseView(BrowserView):
         return msgs
 
     # XXX standardize
-    def add_status_message(self, msg):
+    def add_status_message(self, msg=None, msgid=None, **kw):
         plone_utils = self.get_tool('plone_utils')
-        plone_utils.addPortalMessage(_(msg))
+        if msgid is not None:
+            msg = self.translate(msgid, **kw)
+        else:
+            msg = _(msg)
+        plone_utils.addPortalMessage(msg)
 
     addPortalStatusMessage = add_status_message
 
@@ -190,6 +208,8 @@ class BaseView(BrowserView):
                             review_state=default_states)
 
     def project_brains_for(self, member):
+        if not IReMember.providedBy(member):
+            return []
         mships = self.mship_brains_for(member)
         teams = [i.getPath().split('/')[-2] for i in mships]
         projects = self.catalog(portal_type='OpenProject', id=teams)
@@ -317,6 +337,10 @@ class BaseView(BrowserView):
     def get_portal(self):
         return aq_iface(self.context, self.site_iface)
 
+    def portal_title(self):
+        portal = aq_iface(self.context, self.site_iface)
+        return portal.Title()
+    
     portal = property(view.memoize_contextless(get_portal))
 
     # XXX move to topnav
@@ -523,6 +547,18 @@ class BaseView(BrowserView):
             messages.append(msg)
             return exit_function()
         return exit_function() # XXX redundant, leaving for now
+
+    def render_base_tag(self):
+        """return the html that main template uses to fix relative links
+
+        turning it off in the base template conditionally fails
+        because the tal doesn't get rendered"""
+        base_url = self.context.absolute_url()
+        return """\
+                <!--[if IE 6]><![if !IE 6]><![endif]-->
+        <base href="%s/" />
+                <!--[if IE 6]><![endif]><![endif]-->""" % base_url
+
 
 def aq_iface(obj, iface):
     obj = aq_inner(obj)

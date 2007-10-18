@@ -56,7 +56,7 @@
   <tr metal:use-macro="team_manage_macros/pendingrow">
 
     <td metal:fill-slot="status"
-        tal:content="string:needs approval" />
+        tal:content="string:awaiting approval" />
 
   </tr> <!-- end pendingrow -->
 
@@ -181,14 +181,14 @@
   <tr tal:attributes="id item/id">
 
     <td>
-      <input tal:condition="python: item['id'] != view.loggedinmember()" 
+      <input tal:condition="python: not view.id_is_loggedin(item)" 
              type="checkbox" name="checked:list"
              tal:attributes="value item/id" />
-      <input tal:condition="python: item['id'] == view.loggedinmember()"
+      <input tal:condition="python: view.id_is_loggedin(item)" 
              type="checkbox" name="checked:list" disabled="true"
              tal:attributes="value item/id" />
 
-      <input tal:condition="python: item['id'] != view.loggedinmember()"
+      <input tal:condition="python: not view.id_is_loggedin(item)" 
              type="hidden" name="all:list"
              tal:attributes="value item/id"/>
     </td>
@@ -206,9 +206,7 @@
     </td>
 
     <td tal:define="member_role item/role">
-      
-    
-      <div class="oc-js-liveEdit" tal:condition="python:item['id'] != view.loggedinmember.getId()">
+      <div class="oc-js-liveEdit" tal:condition="python:not view.id_is_loggedin(item)">
         <div class="oc-js-liveEdit-value oc-js-liveEdit_showForm oc-liveEdit-value oc-directEdit" tal:content="member_role">
           
         </div><!-- end .liveEdit-value -->
@@ -228,7 +226,7 @@
       </div><!-- end .liveEdit -->
       
 
-      <div tal:condition="python:item['id'] == view.loggedinmember.getId()">
+      <div tal:condition="python:view.id_is_loggedin(item)">
         <span tal:replace="member_role" />
         <input type="hidden"
                tal:attributes="name string:${item/id}_role;

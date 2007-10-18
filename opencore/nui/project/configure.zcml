@@ -40,7 +40,7 @@
 
   <browser:page
      for="opencore.interfaces.IProject"
-     class=".view.ProjectTeamView"
+     class=".team.ProjectTeamView"
      permission="zope2.View"
      name="team"
      template="team-view.pt"
@@ -48,14 +48,14 @@
 
   <browser:page
      for="opencore.interfaces.IProject"
-     class=".view.ManageTeamView"
+     class=".team.ManageTeamView"
      permission="teamspace.ManageTeamMemberships"
      name="manage-team"
      />
 
   <browser:page
      for="opencore.interfaces.IProject"
-     class=".view.RequestMembershipView"
+     class=".team.RequestMembershipView"
      permission="zope2.View"
      name="request-membership"
      />

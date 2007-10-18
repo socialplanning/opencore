@@ -119,10 +119,8 @@ Test actually creating, editing, deleting an attachment::
 
      >>> import os, hmac, sha, base64, re
      >>> from urllib import quote
-     >>> secret_file_name = os.environ.get('TOPP_SECRET_FILENAME', '')
-     >>> if not secret_file_name:
-     ...    secret_file_name = os.path.join(os.environ.get('INSTANCE_HOME'), 'secret.txt')
-     
+     >>> from opencore.auth.SignedCookieAuthHelper import get_secret_file_name
+     >>> secret_file_name = get_secret_file_name()
      >>> len(secret_file_name) > 0
      True
      >>> os.path.exists(secret_file_name)
@@ -212,6 +210,46 @@ Try listing the attachments
      >>> brain.Title
      'Alcibiades'
 
+IMAGE MANAGER BACKEND
+=====================
+
+     >>> view = page.restrictedTraverse('@@backend')
+     >>> view
+     <...SimpleViewClass from ...wiki/backend.pt object at ...>
+
+     >>> view = page.restrictedTraverse('@@backend-images')
+     >>> view
+     <...SimpleViewClass from ...wiki/backend-images.pt object at ...>
+
+Upload an attachment
+
+     >>> request = self.portal.REQUEST
+     >>> nui_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+     >>> filename = os.path.join(nui_dir, "xinha/images/xinha_logo.gif")
+     >>> open(filename).read()
+     'GIF...
+     >>> imgfile = tempfile(filename)
+     >>> form = {'attachmentFile': imgfile}
+     >>> request.form = form
+
+and check that it appears in the list of files
+(should it be unicode output?)
+     >>> view.create_attachment_manager()
+     '<...203x50...
+
+(the magic number is the size of xinha_logo.gif)    
+
+and delete it
+     >>> request.form = {'task|xinha_logo.gif|delete-image' : 'Delete'}
+     >>> import re
+     >>> empty_body = re.compile('<body>\s*</body>')
+     >>> empty_body.search(view())
+     <_sre.SRE_Match object at ...>
+     
+
+boy, those 
+
+
 
 VERSION COMPARE
 ===============
@@ -295,6 +333,7 @@ Login as different users, each time checking the last modified author
 Now start changing the page
      >>> request = view.request.form
      >>> request['text'] = 'foo'
+     >>> request['title'] = 'bar'
      >>> view.handle_save()
 
 Verify the last modified author changes took place
@@ -322,6 +361,27 @@ Check that when logging back in as m1, m3 is still the last modified author
      >>> ILastModifiedAuthorId(proj)
      'm3'
 
+Experimental marking should control which template is used
+The project should not be marked experimental initially
+     >>> from opencore.interfaces import IAmExperimental
+     >>> IAmExperimental.providedBy(proj)
+     False
+
+So, the template is the original kupu template
+     >>> html = view.template()
+     >>> 'kupu' in html
+     True
+     >>> 'xinha' in html
+     False
+
+After marking with the experimental interface, the template
+is the xinha template
+     >>> alsoProvides(proj, IAmExperimental)
+     >>> html = view.template()
+     >>> 'kupu' in html
+     False
+     >>> 'xinha' in html
+     True
 
 News Edit View
 ==============

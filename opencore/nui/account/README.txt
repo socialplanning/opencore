@@ -139,6 +139,8 @@ Get a user so that we can try to get a user's confirmation code for manual regis
     >>> user
     <OpenMember at ...>
 
+    >>> user.setUserConfirmationCode()
+
 The getUserConfirmationCode method should only be available to site managers::
 
     >>> m = user.restrictedTraverse("getUserConfirmationCode")
@@ -190,6 +192,20 @@ The view has a validate() method which returns an error dict::
     >>> # sorted([i for i in view.validate().keys() if i.split('-')[1] in request.form])
 
 #    ['confirm_password', 'email', 'password']
+
+Test what happens when password is "password"
+
+    >>> request.form = dict(id='foouser3',
+    ...                     fullname='foo user',
+    ...                     email='foo3@example.com',
+    ...                     password='password',
+    ...                     confirm_password='password',
+    ...                     )
+    >>> view.create_member()
+    {'password': u'"password" is not a valid password.'}
+    >>> view.errors
+    {'password': u'"password" is not a valid password.'}
+
 
 Test what happens when both passwords are blank
 
@@ -345,6 +361,55 @@ Login [to be done]
 
 [Output should really be the user's homepage.  but it isn't
 due to the fact that PAS isn't called.  Deal with this later]
+
+Verify initial login converts email invites to mship invites
+============================================================
+
+    Retrieve any member object for use in our test
+
+    >>> mtool = getToolByName(portal, 'portal_membership')
+    >>> tmtool = getToolByName(portal, 'portal_teams')
+    >>> wftool = getToolByName(portal, 'portal_workflow')
+    >>> mem_id = 'm1'
+    >>> proj_id = 'p4'
+    >>> mem = mtool.getMemberById(mem_id)
+    >>> team = tmtool.getTeamById(proj_id) # <- m1 isn't a member
+    >>> team._getOb(mem_id, None) is None
+    True
+
+    Artificially insert an email invite for the user (sacrificing a
+    dead chicken or two in the process)
+
+    >>> from zope.app.component.hooks import setSite, setHooks
+    >>> setSite(portal)
+    >>> setHooks()
+    >>> from zope.component import getUtility
+    >>> from opencore.nui.project.interfaces import IEmailInvites
+    >>> email_invites = getUtility(IEmailInvites)
+    >>> email_invites.addInvitation(mem.getEmail(), proj_id)
+
+    Login as the member and trigger the 'init-login' view
+
+    >>> self.login(mem_id)
+    >>> view = portal.restrictedTraverse('init-login')
+    >>> view()
+    'http://...first_login=1'
+
+    We should have a pending membership, last workflow actor is not
+    the member himself
+
+    >>> mship = team._getOb(mem_id, None)
+    >>> mship is None
+    False
+    >>> wftool.getInfoFor(mship, 'review_state')
+    'pending'
+    >>> wf_id = wftool.getChainFor(mship)[0]
+    >>> history = wftool.getHistoryOf(wf_id, mship)
+    >>> history[-1]['actor'] != mem_id
+    True
+
+    Log out so we don't interfere w/ later tests
+    >>> self.logout()
 
 Verify portal status messages aren't being swallowed
 ====================================================

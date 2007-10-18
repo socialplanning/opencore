@@ -76,15 +76,15 @@ def manage_addSignedCookieAuthHelper(self, id, title='',
 from Globals import DTMLFile
 manage_addSignedCookieAuthHelperForm = DTMLFile("../zmi/SignedCookieAuthHelperForm", globals())
 
-def get_secret():
-    secret_file_name = ''
+def get_secret_file_name():
     cfg = config.getConfiguration().product_config.get('opencore.auth')
     if cfg:
-        secret_file_name = cfg.get('topp_secret_filename', '')
+        return cfg.get('topp_secret_filename', '')
+    else:
+        return os.path.join(os.environ.get('INSTANCE_HOME'), 'secret.txt')
 
-    # XXX use of this environment variable IS OBSELETE!!!
-    if not secret_file_name:
-        secret_file_name = os.path.join(os.environ.get('INSTANCE_HOME'), 'secret.txt')
+def get_secret():
+    secret_file_name = get_secret_file_name()
 
     if os.path.exists(secret_file_name):
         f = open(secret_file_name)

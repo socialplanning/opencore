@@ -10,7 +10,7 @@ request so we've got some more useful data.
     >>> self.logout()
     >>> self.login('m4') # <-- m4 not on team
     >>> request = self.portal.REQUEST
-    >>> from opencore.nui.project.view import RequestMembershipView
+    >>> from opencore.nui.project.team import RequestMembershipView
     >>> view = RequestMembershipView(proj, request)
 
 Set up the form data, and request membership

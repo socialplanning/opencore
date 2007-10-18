@@ -109,28 +109,26 @@
           <metal:search-members use-macro="team_manage_macros/search-members-results" />
         </form><!-- end #search-members -->
       
-      <tal:comment replace="nothing">
-        <!-- Comment out inviting by email due to some issues -->
-
-      <hr />
+        <hr />
       
-        <div class="oc-headingBlock">
+        <div class="oc-headingBlock"
+             tal:condition="python:proj['security']!='closed_policy'">
           <h3>Invite by email address</h3>
           <p class="oc-headingContext">Send an email to invite people to join</p>
         </div>
         <form id="oc-inviteByEmail" name="oc-inviteByEmail"
               tal:attributes="action view/request/ACTUAL_URL"
+              tal:condition="python:proj['security']!='closed_policy'"
               method="POST">
           <textarea style="width: 90%;" rows="3" cols="20" id="email-invites" name="email-invites"
                     tal:content="view/request/form/email-invites | nothing" />
           <p class="oc-discreetText">Comma separated</p>
           <input type="submit" name="task|email-invites" value="Send"
-                  class="oc-button" />
+                 class="oc-button" />
         </form>
-      </tal:comment>
 
       </div>
-      
+
     </div><!-- end #oc-content-sidebar -->
     
     </div><!-- end content-fill-slot -->

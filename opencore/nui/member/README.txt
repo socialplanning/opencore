@@ -398,6 +398,13 @@ Check that changing passwords works
     >>> view.portal_status_message
     [u'Passwords must contain at least 5 characters.']
 
+    Try for the password "password"
+    >>> request.form['password'] = 'password'
+    >>> request.form['password2'] = 'password'
+    >>> view.change_password()
+    >>> view.portal_status_message
+    [u'"password" is not a valid password.']
+
     And if we try to change to the same password?
     We act as if it was a successful change
     >>> request.form['passwd_curr'] = 'testy'
@@ -442,7 +449,6 @@ It's talented, isn't it?
     But we have to set the anonymous email setting first
     >>> mem.getUseAnonByDefault()
     True
-    >>> request.form['hide_email'] = '1'
     >>> request.form['email'] = 'notreal1@example.com'
     >>> view.change_email()
     >>> view.portal_status_message
@@ -469,93 +475,12 @@ It's talented, isn't it?
     >>> mem.getEmail()
     'foobarbazquux@example.com'
 
-    And if we change the anonymous setting, it should change the
-    visibility on the member object
-    >>> del request.form['hide_email']
-    >>> view.change_email()
-    >>> view.portal_status_message
-    [u'Default email is not anonymous']
-    
-    Now if we change both at the same time,
-    we should get 2 portal status messages
-    >>> request.form['hide_email'] = '1'
-    >>> request.form['email'] = 'zul@example.com'
-    >>> view.change_email()
-    >>> psms = view.portal_status_message
-    >>> len(psms)
-    2
-    >>> psms[0]
-    u'Default email is anonymous'
-    >>> psms[1]
-    u'Your email address has been changed.'
-
-    And the member object should have changed
-    >>> mem.getEmail()
-    'zul@example.com'
-    >>> mem.getUseAnonByDefault()
-    True
-
-Verify invitations view works appropriately
-
-    Instantiate the view
-    >>> from opencore.nui.member.view import InvitationView
-    >>> view = InvitationView(member, view.request)
-    >>> view.request.form = {}
-    
-    And the utility where we manage email invites
-    >>> email_inviter = getUtility(IEmailInvites, context=self.portal)
-    >>> email_inviter
-    <EmailInvites at /plone/utilities/>
-
-    Shouldn't have any messages currently
-    >>> email = mem.getEmail()
-    >>> list(email_inviter.getInvitesByEmailAddress(email))
-    []
-    >>> dict(email_inviter.getInvitesByEmailAddress(email))
-    {}
-
-    Let's confirm that the view agrees with us
-    >>> from opencore.nui.member.view import ProfileEditView
-    >>> profileeditview = ProfileEditView(member, view.request)
-    >>> profileeditview.has_invitations()
-    False
-
-    Let's remove the member object that's currently there
-    >>> proj_team = pt.p2
-    >>> proj_team.manage_delObjects(['m1'])
-
-    And now let's add an invitation
-    >>> email_inviter.addInvitation(email, 'p2')
-
-    Now the login view should say we have invitations
-    >>> profileeditview.has_invitations()
-    True
-
-    And ask the view for the invitation structures
-    >>> projinfos = view.projinfos()
-    >>> len(projinfos)
+    The membrane tool should also have an updated entry for the email address
+    >>> brains = list(self.portal.membrane_tool(getId='m1'))
+    >>> len(brains)
     1
-    >>> pprint(dict(projinfos[0]))
-    {'proj_id': 'p2',
-     'since': 'today',
-     'title': 'Project Two',
-     'url': 'http://nohost/plone/projects/p2'}
-
-    After joining the project, the invitation should be removed
-    >>> view.handle_join(['p2'])
-    {'proj_p2': {'action': 'delete'}}
-
-    And the membership object should be there, and it should be active
-    >>> mship = proj_team.m1
-    >>> wft.getInfoFor(mship, 'review_state')
-    'public'
-
-    And finally, the invitation should no longer exist
-    >>> profileeditview.has_invitations()
-    False
-    >>> bt = email_inviter.getInvitesByEmailAddress(mem.getEmail())
-    >>> list(bt)
-    []
+    >>> brains[0].getEmail
+    'foobarbazquux@example.com'
 
 If we leave a project where we are a ProjectAdmin, we should no longer
 have the ProjectAdmin role::

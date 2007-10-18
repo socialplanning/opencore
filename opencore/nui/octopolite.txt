@@ -78,14 +78,14 @@ Stub out response (will be set in BaseView when live)
 
    >>> view()
    eggs of the devil!
-   "<html><body> ['dummy'] </body></html>"
+   '...dummy...'
 
 A request with no actions will dispatch to the action specified as default::
 
    >>> del view.request.form['task|dummy|sod']
    >>> view()
    Rock!
-   '<html><body> {} </body></html>'
+   '...{}...'
 
 You will probably want to specify decorators, like post_only or
 jsonify, to be triggered only if the action is dispatched to, but
@@ -95,7 +95,7 @@ are not triggered if the action is called directly::
    >>> view()
    in decorator!
    fine!
-   '<html><body> {} </body></html>'
+   '...{}...'
 
    >>> view.fine()
    fine!

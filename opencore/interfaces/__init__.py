@@ -17,6 +17,7 @@ from membership import IOpenMembership
 
 from Products.wicked.interfaces import IAmWicked
 from zope.interface import Interface 
+
 class IAddSubProject(Interface):
     """I add sub-projects"""
 
@@ -34,3 +35,6 @@ class IConsumeNewMembers(Interface):
 
 class INewsItem(IOpenPage):
     """Marker interface representing a news item"""
+
+class IAmExperimental(Interface):
+    """ Marker interface to control new experimental behavior """

@@ -10,12 +10,10 @@ Test for Cookie Auth
   >>> from zope.interface import implementedBy
   >>> from Interface.Implements import flattenInterfaces
   >>> from Products.PloneTestCase.PloneTestCase import portal_name
+  >>> from opencore.auth import SignedCookieAuthHelper 
 
 Ensure that the environment is set up
-  >>> secret_file_name = os.environ.get('TOPP_SECRET_FILENAME', '')
-  >>> if not secret_file_name:
-  ...    secret_file_name = os.path.join(os.environ.get('INSTANCE_HOME'), 'secret.txt')
-
+  >>> secret_file_name = SignedCookieAuthHelper.get_secret_file_name()
   >>> len(secret_file_name) > 0
   True
   >>> os.path.exists(secret_file_name)

@@ -1,4 +1,16 @@
-from opencore.listen.mailinglist_views import MailingListAddForm, MailingListEditForm, MailingListView
+import cgi
+import new
+import os.path
+
+from zope.interface import implements
+from zope.formlib.namedtemplate import INamedTemplate
+
+from plone.memoize.view import memoize as req_memoize
+from plone.app.form import _named
+
+from Products.PageTemplates.PageTemplate import PageTemplate
+from Products.Five.browser import pagetemplatefile
+from Products.Five.browser import metaconfigure
 from Products.listen.browser.mail_archive_views import ArchiveForumView, ArchiveDateView, \
                                                        ArchiveNewTopicView, SubFolderDateView, \
                                                        ArchiveSearchView
@@ -7,10 +19,10 @@ from Products.listen.browser.mail_message_views import ForumMailMessageView, Thr
 from Products.listen.browser.manage_membership import ManageMembersView
 from Products.listen.utilities.list_lookup import ListLookupView
 from Products.listen.browser.moderation import ModerationView
-from opencore.nui.base import BaseView
 from Products.listen.interfaces import IMailingList
-from plone.memoize.view import memoize as req_memoize
-import cgi
+
+from opencore.listen.mailinglist_views import MailingListAddForm, MailingListEditForm, MailingListView
+from opencore.nui.base import BaseView
 
 
 class ListenBaseView(BaseView):
@@ -96,3 +108,78 @@ NuiModerationView = make_nui_listen_view_class(ModerationView)
 NuiSearchDebugView = make_nui_listen_view_class(SearchDebugView)
 NuiArchiveSearchView  = make_nui_listen_view_class(ArchiveSearchView)
 NuiListLookupView = make_nui_listen_view_class(ListLookupView)
+
+
+##########################################################################
+# We're overriding the default NamedTemplateAdapter to work around a
+# bug in plone.app.form._named.  The bug has been fixed on the Plone
+# trunk.
+##########################################################################
+
+class NamedTemplateAdapter(object):
+    """A named template adapter implementation that has the ability
+    to lookup the template portion from regular traversal (intended for
+    being able to customize the template portion of a view component
+    in the traditional portal_skins style).
+    """
+
+    implements(INamedTemplate)
+
+    def __init__(self, context):
+        self.context = context
+
+    def __call__(self, *args, **kwargs):
+        """
+        use aq_inner of the innermost context so we don't get a
+        circular acquisition context.
+        """
+        view = self.context.__of__(self.context.context.aq_inner)
+        cleanup = []
+
+        # basically this means we only do customized template lookups
+        # for views defined with <browser:page template='foo'> 
+        if isinstance(view, metaconfigure.ViewMixinForTemplates) and \
+               _named.try_portal_skins:
+            index = getattr(view, 'index', None)
+            if index is not None:
+                name = _named.proper_name(index.filename)
+                try:
+                    template = view.context.portal_url.getPortalObject().restrictedTraverse(name)
+                except AttributeError:
+                    # ok, we couldn't find a portal_skins defined item
+                    # so we fall back to the defined page template
+                    template = index
+                else:
+                    if isinstance(getattr(template, 'aq_base', object()), PageTemplate):
+                        template = _named.ViewTemplateFromPageTemplate(template,
+                                                                       view.context)
+                        template = template.__of__(view)
+                    else:
+                        template = index
+
+            result = template(*args, **kwargs)
+            return result
+        else:
+            return self.default_template.__of__(view)(*args, **kwargs)
+
+
+def named_template_adapter(template):
+    """Return a new named template adapter which defaults the to given
+    template.
+    """
+
+    new_class = new.classobj('GeneratedClass', 
+                             (NamedTemplateAdapter,),
+                             {})
+    new_class.default_template = template
+
+    return new_class
+
+path_prefix = os.path.split(_named.__file__)[0]
+_path = os.path.join(path_prefix, 'pageform.pt')
+_template = pagetemplatefile.ViewPageTemplateFile(_path)
+default_named_template_adapter = named_template_adapter(_template)
+
+_subpage_path = os.path.join(path_prefix, 'subpageform.pt')
+_subpage_template = pagetemplatefile.ViewPageTemplateFile(_subpage_path)
+default_subpage_template = named_template_adapter(_subpage_template)

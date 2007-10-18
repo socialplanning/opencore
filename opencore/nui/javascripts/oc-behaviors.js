@@ -76,11 +76,23 @@ OC.breatheLife = function(newNode, force) {
           targetNode = newNode; 
     }
     
+    // Build regexes out of our class list.  This allows
+    // us to have one very quick lookup un elements to
+    // prevent unnecessary processing.
+    var classRegexString = '';
+    for (var key in this.liveElementKey.Class) {
+        if (classRegexString.length) {
+            classRegexString += '|';
+        }
+        classRegexString += '\\b' + key + '\\b';
+    }
+    var classRegex = new RegExp(classRegexString);
+
     // get an array of elements
     var elements = Ext.query('*', targetNode);
     elements.push(targetNode);
     // loop through elements and match up against selectors
-    for (var i = 0; i<elements.length; i++) {
+    for (var i = 0, len=elements.length; i<len; i++) {
       var element = elements[i];
     
       // which constructors will we add to this element?
@@ -98,12 +110,16 @@ OC.breatheLife = function(newNode, force) {
       }
       
       // check if class matches anything in the Classes list
-      var classNames = element.className.split(' ');
-      for (var j=0; j<classNames.length; j++) {
-        if (this.liveElementKey.Class[classNames[j]] != undefined) {
-          constructorNames.push(this.liveElementKey.Class[classNames[j]]); 
+      // We only do full class processing if the regex registers
+      // a hit against the class list.
+      if (element.className.match (classRegex)) {
+        var classNames = element.className.split(' ');
+        for (var j=0; j<classNames.length; j++) {
+          if (this.liveElementKey.Class[classNames[j]] != undefined) {
+            constructorNames.push(this.liveElementKey.Class[classNames[j]]); 
+          }
         }
-      }      
+      }
       
       // check if ID matches anything in the IDs list
       if (this.liveElementKey.Id[element.getAttribute('id')] != undefined) {
@@ -111,21 +127,22 @@ OC.breatheLife = function(newNode, force) {
       }
       
       // foreach match, check to see if it exists
-      for (var j=0; j<constructorNames.length; j++) {
-        var constructorName = constructorNames[j];
+      // we break out the element retrieve so we only perform one per element.
+      if (constructorNames.length > 0) {
         var extEl = Ext.get(element);
-        if (typeof OC.liveElements[extEl.id] == "undefined") { OC.liveElements[extEl.id] = {} };
-        var constructor = OC[constructorName];
-        
-        if (force || typeof OC.liveElements[extEl.id][constructorName] == "undefined" ) {
-          OC.liveElements[extEl.id][constructorName] = new constructor(extEl);
-          OC.debug(extEl.id + ": new  " + constructorName);
+        for (var j=0; j<constructorNames.length; j++) {
+          var constructorName = constructorNames[j];
+          if (typeof OC.liveElements[extEl.id] == "undefined") { OC.liveElements[extEl.id] = {} };
+          var constructor = OC[constructorName];
+          
+          if (force || typeof OC.liveElements[extEl.id][constructorName] == "undefined" ) {
+            OC.liveElements[extEl.id][constructorName] = new constructor(extEl);
+          }
         }
       }
       
     } // end for each element
     
-    OC.debug(OC.liveElements);
     OC.timeEnd('breatheLife');
     
 }; // breatheLife()
@@ -138,20 +155,26 @@ OC.breatheLife = function(newNode, force) {
 
 // Debug Function.  Turn off for live code or IE
 OC.debug = function(string) {
+    args = ""
+    for (var i = 0; i < arguments.length; ++i) {
+	args += " " + arguments[i]
+    }
     if( typeof console != 'undefined' ) {
-	     console.log(string);
+	     console.log(args);
     }
 };
 
 // Timer
 OC.time = function(name) {
   if (typeof console != 'undefined') {
-    console.time(name);
+    //un-comment the line below to turn on timing
+    //console.time(name);
   }
 }
 OC.timeEnd = function(name) {
   if (typeof console != 'undefined') {
-    console.timeEnd(name);
+    //un-comment the line below to turn on timing
+    //console.timeEnd(name);
   }
 }
 
@@ -256,7 +279,7 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
     // trim response text to avoid errors in IE
     OC.debug(o.responseText);
     var cleanedResponseText = o.responseText.replace(/[\r\n]/g, "");
-    cleanedResponseText = cleanedResponseText.replace(/^\s*<html>\s*<body>/, "");
+    cleanedResponseText = cleanedResponseText.replace(/^\s*<html>.*?<body>/, "");
     cleanedResponseText = cleanedResponseText.replace(/<\/body>\s*<\/html>\s*$/, "")
 
     cleanedResponseText = cleanedResponseText.replace(/&lt;/g, "<");
@@ -493,7 +516,13 @@ OC.ActionButton = function(extEl) {
     this.button = extEl;
     var form = this.button.up('form');
     var name = this.button.dom.name.replace('task|', "");
-    this.indicator = Ext.get('indicator|' + name);
+
+    // In order to have good performance, actionButtons
+    // must be tagged if they actually have an indicator.  This
+    // prevents really expensive whole page searches otherwise.
+    if (extEl.hasClass('oc-has-indicator')) {
+      this.indicator = Ext.get('indicator|' + name);
+    }
         
     // check refs
     if (!this.button || !form) {
@@ -1240,7 +1269,6 @@ OC.Expander = function(extEl) {
 	     OC.debug('OC.Expander: couldn\'t get element references');
         return;
     }
-    OC.debug("OC expander is good " + extEl);
     
     // settings
     content.setVisibilityMode(Ext.Element.DISPLAY);	

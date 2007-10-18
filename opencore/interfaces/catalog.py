@@ -39,9 +39,26 @@ class IHighestTeamRole(Interface):
 class ILastModifiedComment(Interface):
 
     def getValue():
-      """
-      Returns the last modified comment on the wiki page
-      """
+        """
+        Returns the last modified comment on the wiki page
+        """
+
+class IIsImage(Interface):
+
+    def getValue():
+        """
+        Returns whether or not the object is an image
+        """
+
+class IImageWidthHeight(Interface):
+
+    def getValue():
+        """retrieve the image's width and height"""
+
+class IImageSize(Interface):
+
+    def getValue():
+        """retrieve the image's size (data size)"""
 
 class ILastModifiedAuthorId(Interface):
     """string id for last author to modify a piece of content"""
