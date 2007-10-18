@@ -14,7 +14,7 @@ def notify_wordpress_user_created(mem, event):
     sig = hmac.new(secret, username, sha).digest()
     params['signature'] = sig = sig.encode('base64').strip()
     params = urllib.urlencode(params)
-    
+
     response = urllib.urlopen(uri, params)
     response = response.read()
     if not response.startswith("Creating user"):

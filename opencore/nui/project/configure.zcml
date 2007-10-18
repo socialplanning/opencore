@@ -16,11 +16,18 @@
      permission="openplans.AddSubProject"
      />
 
+   <!-- move to contents.py; these will share functionality -->
    <browser:page
       for="opencore.interfaces.IProject"
       class=".view.ProjectContentsView"
       permission="zope2.View"
       name="contents"
+      />
+  <browser:page
+      for="opencore.interfaces.IProject"
+      class=".contents.RecentUpdatesView"
+      permission="zope2.View"
+      name="recent-updates"
       />
 
   <browser:page
