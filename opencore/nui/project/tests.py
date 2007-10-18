@@ -99,15 +99,16 @@ def test_suite():
                                                 )
 
 
-    preferences = FunctionalDocFileSuite("preferences.txt",
-                                         optionflags=optionflags,
-                                         package='opencore.nui.project',
-                                         test_class=OpenPlansTestCase,
-                                         globs = globs, 
-                                         setUp=manage_team_setup,
-                                         )    
-
-    suites = (contents, metadata, manage_team, request_membership, preferences)
+#    preferences = FunctionalDocFileSuite("preferences.txt",
+#                                         optionflags=optionflags,
+#                                         package='opencore.nui.project',
+#                                         test_class=OpenPlansTestCase,
+#                                         globs = globs, 
+#                                         setUp=manage_team_setup,
+#                                         )    
+#
+#    suites = (contents, metadata, manage_team, request_membership, preferences)
+    suites = (contents, metadata, manage_team, request_membership,)
     for suite in suites:
         suite.layer = OpencoreContent
     readme.layer = MockHTTPwithContent

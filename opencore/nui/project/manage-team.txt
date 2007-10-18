@@ -48,10 +48,21 @@ are attempted without anything checked::
     [u'Please select members to deny.']
 
 Now let's make sure the project admin can approve membership requests.
+And an event should get fired as well.
 First we need to clear out the memoized cache:
 
     >>> self.clearMemoCache()
+
+    >>> self.clear_events()
+    >>> self.events
+    []
     >>> res = view.approve_requests(['m4'])
+    >>> len(self.events)
+    1
+    >>> mship, event = self.events[0]
+    >>> from opencore.interfaces.event import IJoinedProjectEvent
+    >>> IJoinedProjectEvent.providedBy(event)
+    True
     >>> len(view.pending_requests)
     0
     >>> len(view.active_mships)

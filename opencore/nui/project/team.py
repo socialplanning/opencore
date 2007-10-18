@@ -2,6 +2,10 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.MailHost.MailHost import MailHostError
 from Products.validation.validators.BaseValidators import EMAIL_RE
+from zope.event import notify
+from opencore.interfaces.event import JoinedProjectEvent
+from opencore.interfaces.event import LeftProjectEvent
+from opencore.interfaces.event import ChangedTeamRolesEvent
 from opencore.configuration import DEFAULT_ROLES
 from opencore.content.membership import OpenMembership
 from opencore.nui import formhandler
@@ -412,6 +416,10 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             transition_id = transition[0]['id']
             wftool.doActionFor(mship, transition_id)
             napproved += 1
+
+            notify(JoinedProjectEvent(mship))
+
+            #XXX sending the email should go in an event subscriber
             try:
                 self.email_sender.sendEmail(mem_id, msg_id='request_approved',
                                             project_title=self.context.title,
@@ -654,7 +662,10 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         mems_removed = self.doMshipWFAction('deactivate', mem_ids, self.mship_only_admin)
         sender = self.email_sender
         ret = {}
+        #XXX sending an email should be in an event handler
         for mem_id in mems_removed:
+            mship = self.team._getOb(mem_id)
+            notify(LeftProjectEvent(mship))
             try:
                 sender.sendEmail(mem_id, msg_id='membership_deactivated',
                                  project_title=self.context.title)
@@ -699,6 +710,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             active_mships = dict([(m['getId'], m) for m in active_mships])
             for mem_id in changes:
                 item = active_mships.get(mem_id)
+                mship = team._getOb(mem_id)
+                notify(ChangedTeamRolesEvent(mship))
                 if item:
                     extra_context={'item': item,
                                    'team_manage_macros': self.team_manage_macros}

@@ -1,6 +1,9 @@
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase
 
+from zope.interface import Interface
+from zope.component import provideHandler
+from zope.app.event.interfaces import IObjectEvent
 from zope.app.annotation.interfaces import IAnnotations
 from plone.memoize.view import ViewMemo
 from plone.memoize.instance import Memojito
@@ -30,7 +33,23 @@ class OpenPlansTestCase(ArcheSiteTestCase):
         self.login()
         mdc = getToolByName(self.portal, 'portal_memberdata')
         mdc.unit_test_mode = True # suppress registration emails
-        
+
+        # add event subscriber to listen to all channel events
+        self.listen_for_object_events()
+
+    def listen_for_object_events(self):
+        """listen for all events so that tests can verify they were sent
+
+           events are stored in the test case "events" attribute"""
+
+        self.events = events = []
+        def generic_listener(obj, event):
+            events.append((obj, event))
+        provideHandler(generic_listener, adapts=[Interface, IObjectEvent])
+
+    def clear_events(self):
+        self.events[:] = []
+
     def tearDown(self):
         # avoid any premature tearing down
         PortalTestCase.tearDown(self)

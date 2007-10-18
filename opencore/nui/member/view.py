@@ -18,6 +18,9 @@ from DateTime import DateTime
 from opencore.nui.base import BaseView
 from opencore.nui.formhandler import OctopoLite, action
 from opencore.interfaces.catalog import ILastWorkflowActor
+from opencore.interfaces.event import MemberEmailChangedEvent
+from opencore.interfaces.event import JoinedProjectEvent
+from opencore.interfaces.event import LeftProjectEvent
 from opencore.nui.member.interfaces import ITransientMessage
 from opencore.nui.project.interfaces import IEmailInvites
 
@@ -318,6 +321,8 @@ class MemberAccountView(BaseView, OctopoLite):
             return False
 
         if self._apply_transition_to(proj_id, 'deactivate'):
+            mship = self._membership_for_proj(proj_id)
+            notify(LeftProjectEvent(mship))
             return True
         else:
             self.addPortalStatusMessage('You cannot leave this project.')
@@ -467,6 +472,9 @@ class MemberAccountView(BaseView, OctopoLite):
                                 'html': self.nupdates()}
                 })
 
+        mship = team._getOb(id_)
+        notify(JoinedProjectEvent(mship))
+
         return command
 
     @action('DenyInvitation')
@@ -595,7 +603,7 @@ class MemberAccountView(BaseView, OctopoLite):
 
         mem.setEmail(email)
         mem.reindexObject(idxs=['getEmail'])
-        notify(ObjectModifiedEvent(mem))
+        notify(MemberEmailChangedEvent(mem))
         self.addPortalStatusMessage('Your email address has been changed.')
 
 
