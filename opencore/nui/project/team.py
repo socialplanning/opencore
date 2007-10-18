@@ -301,7 +301,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     @property
     @req_memoize
     def pending_email_invites(self):
-        invites_util = getUtility(IEmailInvites)
+        invites_util = getUtility(IEmailInvites, context=self.portal)
         invites = invites_util.getInvitesByProject(self.context.getId())
         return [{'id': urllib.quote(address), 'address': address,
                  'timestamp': timestamp}
@@ -574,7 +574,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         msg = sender.constructMailMessage('invitation_retracted',
                                           project_title=self.context.title)
 
-        invite_util = getUtility(IEmailInvites)
+        invite_util = getUtility(IEmailInvites, context=self.portal)
         proj_id = self.context.getId()
         for address in addresses:
             invite_util.removeInvitation(address, proj_id)
@@ -842,7 +842,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             self.add_status_message(psm)
             return # don't do anything, just re-render the form
 
-        utility = getUtility(IEmailInvites)
+        utility = getUtility(IEmailInvites, context=self.portal)
         proj_id = self.context.getId()
         proj_title = self.context.title
         mbtool = self.membranetool
