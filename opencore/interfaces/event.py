@@ -10,9 +10,8 @@ class IAfterSubProjectAddedEvent(IAfterProjectAddedEvent):
     """What happens after a subproject is added"""
     
 
-class IChangedTeamRolesEvent(Interface):
+class IChangedTeamRolesEvent(IObjectModifiedEvent):
     """What happens after a membership object changed roles"""
-    membership = Attribute(u'membership object')
 
 class IJoinedProjectEvent(IObjectModifiedEvent):
     """When a user becomes an active project member"""
@@ -50,7 +49,5 @@ class AfterSubProjectAddedEvent(AfterProjectAddedEvent):
         self.parent = parent 
 
 
-class ChangedTeamRolesEvent(object):
+class ChangedTeamRolesEvent(ObjectModifiedEvent):
     implements(IChangedTeamRolesEvent)
-    def __init__(self, membership):
-        self.membership = membership

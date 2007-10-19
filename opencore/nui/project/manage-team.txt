@@ -211,22 +211,6 @@ can use him for testing later:
     >>> 'm3' in mship.getActiveMemberIds()
     True
 
-Create a custom subscriber to role changed events
-XXX for some reason this gets fired in other tests as well,
-which causes a NameError because the global events_fired doesn't exist
-trying to catch a NameError explicitly doesn't help
-    >>> events_fired = []
-    >>> def role_change_event_fired(event):
-    ...     try:
-    ...         events_fired.append(event)
-    ...     except:
-    ...         pass
-    >>> from zope.component import provideHandler
-    >>> from opencore.interfaces.membership import IOpenMembership
-    >>> from opencore.interfaces.event import IChangedTeamRolesEvent
-    >>> provideHandler(role_change_event_fired,
-    ...                adapts=[IChangedTeamRolesEvent])
-
 Verify roles
 Also verify that events get fired for role changes
     >>> team.getHighestTeamRoleForMember('m1')
@@ -251,9 +235,9 @@ Also verify that events get fired for role changes
 
 2 events should have been fired (2 role changes)
 portal_owner was demoted, and m3 was promoted
-    >>> len(events_fired)
+    >>> len(self.events)
     2
-    >>> sorted([e.membership.id for e in events_fired])
+    >>> sorted([mship_obj.id for mship_obj, event in self.events])
     ['m3', 'portal_owner']
     >>> team.getHighestTeamRoleForMember('m1')
     'ProjectAdmin'

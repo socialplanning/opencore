@@ -13,7 +13,11 @@ def project_contains_blog(f, mship_obj, event):
     team = mship_obj.aq_inner.aq_parent
     proj_id = team.getId()
     portal = getToolByName(mship_obj, 'portal_url').getPortalObject()
-    project = portal.projects._getOb(proj_id)
+    try:
+        project = portal.projects._getOb(proj_id)
+    except KeyError:
+        # cannot find project with same name as team (unit test only?)
+        return
     for flet in get_featurelets(project):
         if flet['name'] == 'blog':
             break
