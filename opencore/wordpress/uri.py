@@ -5,6 +5,7 @@ wordpress instance
 from opencore.wordpress.interfaces import IWordPressInfo
 from zope.interface import implements
 from zope.component import getUtility
+from App import config
 
 class WordpressURI(object):
     implements(IWordPressInfo)
@@ -28,7 +29,15 @@ def configure_wp_info(_context, uri, external_uri=None):
         )
 
 def get():
-    return getUtility(IWordPressInfo).uri
+    cfg = config.getConfiguration().product_config.get('opencore.wordpress')
+    fallback = getUtility(IWordPressInfo).uri
+    if cfg:
+        return cfg.get('uri', fallback)
+    return fallback
 
 def get_external_uri():
-    return getUtility(IWordPressInfo).external_uri
+    cfg = config.getConfiguration().product_config.get('opencore.wordpress')
+    fallback = getUtility(IWordPressInfo).external_uri
+    if cfg:
+        return cfg.get('external_uri', fallback)
+    return fallback
