@@ -24,7 +24,7 @@ def project_contains_blog(f, mship_obj, event):
     else:
         # no blog on project
         return
-    f(mship, event)
+    f(mship_obj, event)
 
 def send_to_wordpress(uri, username, params, context):
     """Send some data (params) to wordpress with the given user.
