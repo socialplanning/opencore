@@ -69,4 +69,13 @@
      template="pending.pt"
      />
 
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
+     class=".accountview.AccountView"
+     attribute="logged_in_user_js"
+     permission="zope.Public"
+     name="user.js"
+     />
+
+
 </configure>

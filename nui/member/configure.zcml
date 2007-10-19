@@ -16,7 +16,24 @@
      permission="cmf.ModifyPortalContent"
      name="profile-edit"
      />
- 
+
+  <browser:page
+     for="opencore.siteui.interfaces.IMemberFolder"
+     class=".view.TrackbackView"
+     permission="zope2.View"
+     name="trackback"
+     />
+
+  <browser:page
+     for="opencore.siteui.interfaces.IMemberFolder"
+     class=".view.TrackbackView"
+     permission="zope2.View"
+     name="trackback-delete"
+     attribute="delete"
+     />
+
+
+
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
      class=".view.ProfileView"

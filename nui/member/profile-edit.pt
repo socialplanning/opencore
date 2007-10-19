@@ -89,6 +89,15 @@
               tal:condition="python: request.form.get('field') != 'affiliations'"
               tal:content="request/affiliations | memberdata/affiliations"></textarea>
 
+            <label for="website">Website</label>
+            <textarea rows="1" cols="80" name="website" id="website"
+              class="oc-autoFocus"
+              tal:condition="python: request.form.get('field') == 'website'"
+              tal:content="request/website | memberdata/website"></textarea>
+            <textarea rows="1" cols="80" name="website" id="website"
+              tal:condition="python: request.form.get('field') != 'website'"
+              tal:content="request/website | memberdata/website"></textarea>
+
             <label for="favorites">Favorites</label>
             <textarea rows="1" cols="80" name="favorites" id="favorites"
               class="oc-autoFocus"
