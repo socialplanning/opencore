@@ -127,9 +127,15 @@ XXXX Notice that the project title here isn't properly unicode for some reason. 
     >>> self.clear_events()
     >>> view.leave_project('p2')
     True
+
+    A role change event gets fired in addition to a left project event
     >>> len(self.events)
-    1
+    2
     >>> obj, event = self.events[0]
+    >>> from opencore.interfaces.event import IChangedTeamRolesEvent
+    >>> IChangedTeamRolesEvent.providedBy(event)
+    True
+    >>> obj, event = self.events[1]
     >>> from opencore.interfaces.event import ILeftProjectEvent
     >>> ILeftProjectEvent.providedBy(event)
     True
