@@ -170,7 +170,7 @@ Now set a valid title::
     >>> view.handle_request()
     >>> del view._redirected 
     >>> view.portal_status_message
-    [u'The title has been changed.', u'The security policy has been changed.', u'Mailing lists have been removed.']
+    [u'The title has been changed.', u'The security policy has been changed.', u'Mailing lists feature has been removed.']
 
     >>> view.errors
     {}
@@ -196,7 +196,7 @@ Now set a valid title::
     >>> view.handle_request()
     >>> del view._redirected 
     >>> view.portal_status_message
-    [u'Mailing lists have been added.']
+    [u'Mailing lists feature has been added.']
 
 
 Make sure we can install a TaskTracker featurelet too::
