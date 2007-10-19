@@ -374,7 +374,8 @@ Logged in user:
     loggedin: true,
     id: 'test_user_1_',
     name: '',
-    url: 'http://nohost/plone/people/test_user_1_/profile',
+    profileurl: 'http://nohost/plone/people/test_user_1_/profile',
+    memberurl: 'http://nohost/plone/people/test_user_1_',
     website: '',
     email: 'test_emailer_1_@example.com'
     });

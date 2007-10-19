@@ -67,7 +67,8 @@ class AccountView(BaseView):
             loggedin: true,
             id: '%(id)s',
             name: '%(fullname)s',
-            url: '%(url)s/profile',
+            profileurl: '%(url)s/profile',
+            memberurl: '%(url)s',
             website: '%(website)s',
             email: '%(email)s'
             });
@@ -210,6 +211,9 @@ class LoginView(AccountView):
             referer = self.request.get('http_referer')
             if not referer or referer in self.boring_urls:
                 return default_redirect
+            anchor = self.request.get('came_from_anchor')
+            if anchor:
+                referer = '%s#%s' % (referer, anchor)
             return referer
 
     def logout(self, redirect=None):
