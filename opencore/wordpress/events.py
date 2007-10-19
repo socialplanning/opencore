@@ -32,6 +32,9 @@ def send_to_wordpress(uri, username, params, context):
 
     sig = hmac.new(secret, username, sha).digest()
     params['signature'] = sig = sig.encode('base64').strip()
+    project = params.get('domain', None)
+    if project is not None:
+        params['domain'] = '%s.openplans.org' % project
     params = urllib.urlencode(params)
 
     http = Http()
@@ -55,7 +58,7 @@ def notify_wordpress_user_joined_project(mship, event):
     team = mship.aq_inner.aq_parent
     params = dict(
             username=username,
-            project=team.getId(),
+            domain=team.getId(),
             role=team.getHighestTeamRoleForMember(username),
             )
     send_to_wordpress(uri, username, params, mship)
@@ -77,7 +80,7 @@ def notify_wordpress_role_changed(mship, event):
     proj_id = team.getId()
     params = dict(
             username=username,
-            project=team.getId(),
+            domain=team.getId(),
             role=team.getHighestTeamRoleForMember(username),
             )
     send_to_wordpress(uri, username, params, mship)
@@ -89,6 +92,6 @@ def notify_wordress_user_left_project(mship, event):
     team = mship.aq_inner.aq_parent
     params = dict(
             username=username,
-            project=team.getId(),
+            domain=team.getId(),
             )
     send_to_wordpress(uri, username, params, mship)
