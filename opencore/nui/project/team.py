@@ -710,8 +710,6 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             active_mships = dict([(m['getId'], m) for m in active_mships])
             for mem_id in changes:
                 item = active_mships.get(mem_id)
-                mship = team._getOb(mem_id)
-                notify(ChangedTeamRolesEvent(mship))
                 if item:
                     extra_context={'item': item,
                                    'team_manage_macros': self.team_manage_macros}

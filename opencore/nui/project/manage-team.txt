@@ -147,7 +147,14 @@ because the octopus decorator requires (and returns) it.  Notifier
 should be sent:
 
     >>> self.clearMemoCache()
+    >>> self.clear_events()
     >>> res = view.remove_members(['m2'])
+    >>> len(self.events)
+    1
+    >>> obj, event = self.events[0]
+    >>> from opencore.interfaces.event import ILeftProjectEvent
+    >>> ILeftProjectEvent.providedBy(event)
+    True
     >>> len(view.active_mships)
     2
     >>> len(mailhost.messages)
@@ -204,7 +211,24 @@ can use him for testing later:
     >>> 'm3' in mship.getActiveMemberIds()
     True
 
+Create a custom subscriber to role changed events
+XXX for some reason this gets fired in other tests as well,
+which causes a NameError because the global events_fired doesn't exist
+trying to catch a NameError explicitly doesn't help
+    >>> events_fired = []
+    >>> def role_change_event_fired(event):
+    ...     try:
+    ...         events_fired.append(event)
+    ...     except:
+    ...         pass
+    >>> from zope.component import provideHandler
+    >>> from opencore.interfaces.membership import IOpenMembership
+    >>> from opencore.interfaces.event import IChangedTeamRolesEvent
+    >>> provideHandler(role_change_event_fired,
+    ...                adapts=[IChangedTeamRolesEvent])
+
 Verify roles
+Also verify that events get fired for role changes
     >>> team.getHighestTeamRoleForMember('m1')
     'ProjectAdmin'
     >>> team.getHighestTeamRoleForMember('portal_owner')
@@ -219,10 +243,18 @@ Verify roles
     ...     'm3_role': 'ProjectAdmin'
     ...     })
     >>> view.request.environ['HTTP_REFERER'] = 'referer'
+    >>> self.clear_events()
     >>> html = view.set_roles(['m1', 'portal_owner', 'm3'],
     ...                      [{'role': 'ProjectAdmin'},
     ...                       {'role': 'ProjectMember'},
     ...                       {'role': 'ProjectAdmin'}])
+
+2 events should have been fired (2 role changes)
+portal_owner was demoted, and m3 was promoted
+    >>> len(events_fired)
+    2
+    >>> sorted([e.membership.id for e in events_fired])
+    ['m3', 'portal_owner']
     >>> team.getHighestTeamRoleForMember('m1')
     'ProjectAdmin'
     >>> team.getHighestTeamRoleForMember('portal_owner')
