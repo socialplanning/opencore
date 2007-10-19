@@ -1,7 +1,9 @@
 import hmac
 import sha
 import urllib
+from httplib2 import Http
 
+from zope.component import getAdapter
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 
@@ -21,9 +23,15 @@ class SyncUsersView(BrowserView):
         sig = hmac.new(secret, "admin", sha).digest() # XXX use real user, don't fake it (but wait for WP to be ok with that)
         params['signature'] = sig = sig.encode('base64').strip()
 
-        params = urllib.urlencode(params)
-        response = urllib.urlopen(uri, params)
+        all_member_view = getAdapter((self.context, self.request), name='all.xml')
+        all_member_data = all_member_view()
+        params['members'] = all_member_data
 
-        response = response.read()
-        return "%s\nOK, now have a blast!" % response
-        
+        params = urllib.urlencode(params)
+
+        http = Http()
+        response, content = http.request(uri, 'POST', headers={'Content-type': 'application/x-www-form-urlencoded'}, body=params)
+        if response.status != 200:
+            return 'Error: %s - %s' % (response.status, content)
+        else:
+            return 'All users successfully synced'
