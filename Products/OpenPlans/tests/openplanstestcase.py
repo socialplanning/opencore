@@ -44,7 +44,7 @@ class OpenPlansTestCase(ArcheSiteTestCase):
         """All wordpress handlers involve sending a message to wordpress
            on a different port. We patch the sending, so the methods still get
            triggered, they just don't get sent anywhere"""
-        def patched_send_to_wordpress(uri, username, params, context, response_pred):
+        def patched_send_to_wordpress(uri, username, params, context):
             pass
 
         import opencore.wordpress.events
