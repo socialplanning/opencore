@@ -290,6 +290,11 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 	var action = command.action;
 	
 	switch( action ) {
+	case "error":
+        var target = Ext.get(elId);
+        target.frame();
+        break;
+
 	case "delete":
 	    OC.debug("DELETE on " + elId);
 	    OC.Dom.removeItem(elId);
