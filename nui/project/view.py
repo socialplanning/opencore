@@ -401,11 +401,11 @@ class ProjectPreferencesView(ProjectBaseView):
 
         for flet in featurelets:
             if flet not in old_featurelets:
-                changed[_('%s have been added.' % flet[1])] = 1
+                changed[_('%s feature has been added.' % flet[1])] = 1
         
         for flet in old_featurelets:
             if flet not in featurelets:
-                changed[_('%s have been removed.' % flet[1])] = 1
+                changed[_('%s feature has been removed.' % flet[1])] = 1
 
         
         for field, changed in changed.items():
