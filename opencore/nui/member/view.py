@@ -125,7 +125,7 @@ class ProfileView(BaseView):
                 value['excerpt'] = ''
                 tm.store(mem_id, self.msg_category, value)
             value['idx'] = 'trackback_%d' % idx
-            value['close_url'] = 'trackback?idx=%d&action=delete' % idx
+            value['close_url'] = 'trackback-delete?idx=%d' % idx
             value['pub_date']    = prettyDate(value['time'])
             value['content'] = "<![CDATA[<a href=\"%s\">%s</a> at <span>%s</span> - \"%s\"]]>" % (value['url'], value['title'], value['blog_name'], value['excerpt'])
             addressable_msgs.append(value)
@@ -624,49 +624,35 @@ class TrackbackView(BaseView):
     msg_category = 'Trackback'
 
     def __call__(self):
+        # Add a trackback and return a javascript callback
+        # so client script knows when it's done and whether it succeeded.
         mem_id = self.viewed_member_info['id']
         tm = getUtility(ITransientMessage, context=self.portal)
 
-        if self.request['REQUEST_METHOD'] != 'POST':
-            self.request.response.setStatus(405)
-            return 'Not Post'
         if self.viewedmember() != self.loggedinmember:
             self.request.response.setStatus(403)
-            return 'You must be logged in to modify your posts!'
-
-        # Is this a user delete?
-        delete = self.request.form.get('action', None)
-        index = self.request.form.get('idx', None)
-        if delete == 'delete':
-            if index is None:
-                self.request.response.setStatus(400)
-                return 'No index specified'
-            # Do the delete
-            tm.pop(mem_id, self.msg_category, int(index))
-            # TODO: Make sure this is an AJAX request before sending an AJAX response
-            return {'trackback_%s' % index:{'action': 'delete'}}
+            return 'OpenCore.submitstatus(false);'
 
         # check for all variables
-        url = self.request.environ.get('HTTP_REFERER', None)
-        title = self.request.form.get('title', 'Submitted from WordPress')
-        blog_name = self.request.form.get('blog_name', 'Streetsblog')
+        url = self.request.form.get('commenturl')
+        title = self.request.form.get('title')
+        blog_name = self.request.form.get('blog_name', 'an unnamed blog')
         comment = self.request.form.get('comment', None)
+        if not title:
+            excerpt = comment.split('.')[0]
+            title = excerpt[:100]
+            if title != excerpt:
+                title += '...'
         if url is None or comment is None:
             self.request.response.setStatus(400)
-            return 'OpenCore.complete(false);'
-
-        # do some validation on the url
+            return 'OpenCore.submitstatus(false);'
         from datetime import datetime
         tm.store(mem_id, self.msg_category, {'url':url, 'title':title, 'blog_name':blog_name, 'excerpt':comment, 'time':datetime.now()})
-        return 'prefill(\'%s\',\'%s\',\'%s\');' % (self.viewed_member_info['fullname'], self.viewed_member_info['email'], self.viewed_member_info['website'])
-        return 'OpenCore.complete(true);'
-        # return 'hi there Member: %s - Title: %s - Blog: %s - URL: %s' % (mem_id, title, blog_name, url)
+        return 'OpenCore.submitstatus(true);'
 
 
     def delete(self):
         mem_id = self.viewed_member_info['id']
-        tm = getUtility(ITransientMessage, context=self.portal)
-
         from urlparse import urlsplit, urlunsplit
         if urlsplit(self.request['HTTP_REFERER'])[1] != urlsplit(self.siteURL)[1]:
             self.request.response.setStatus(403)
@@ -685,9 +671,10 @@ class TrackbackView(BaseView):
             return 'No index specified'
 
         # Do the delete
+        tm = getUtility(ITransientMessage, context=self.portal)
         tm.pop(mem_id, self.msg_category, int(index))
         # TODO: Make sure this is an AJAX request before sending an AJAX response
-        return {'trackback_%s' % index:{'action': 'delete'}}
+        return {'trackback_%s' % index: {'action': 'delete'}}
 
 
 
