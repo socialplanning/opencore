@@ -100,6 +100,38 @@ class ProfileView(BaseView):
         timestamp = str(DateTime()).replace(' ', '_')
         return '%s?%s' % (portrait_url, timestamp)
 
+    def trackbacks(self):
+        self.msg_category = 'Trackback'
+
+        tm = getUtility(ITransientMessage, context=self.portal)
+        mem_id = self.viewed_member_info['id']
+        msgs = tm.get_msgs(mem_id, self.msg_category)
+
+        # We have to import datetime renamed because it fails in a bizarre fashion if we don't.  Maybe it's
+        # a case sensitivity issue with Zope's DateTime ?
+        from datetime import datetime, timedelta
+        old_messages = [(idx, value) for (idx, value) in msgs if value['time'] < datetime.now() - timedelta(days=60)]
+        for (idx, value) in old_messages:
+            tm.pop(mem_id, self.msg_category, idx)
+        if not old_messages:
+            msgs = tm.get_msgs(mem_id, self.msg_category)
+
+        # We want to insert the indexes into the values so that we can properly address them for deletion
+        addressable_msgs = []
+        from time import strftime, gmtime
+        for (idx, value) in msgs:
+            if 'excerpt' not in value.keys():
+                tm.pop(mem_id, self.msg_category, idx)
+                value['excerpt'] = ''
+                tm.store(mem_id, self.msg_category, value)
+            value['idx'] = 'trackback_%d' % idx
+            value['close_url'] = 'trackback-delete?idx=%d' % idx
+            value['pub_date']    = prettyDate(value['time'])
+            value['content'] = "<![CDATA[<a href=\"%s\">%s</a> at <span>%s</span> - \"%s\"]]>" % (value['url'], value['title'], value['blog_name'], value['excerpt'])
+            addressable_msgs.append(value)
+
+        return addressable_msgs
+
 
 class ProfileEditView(ProfileView, OctopoLite):
 
@@ -602,3 +634,64 @@ class MemberAccountView(BaseView, OctopoLite):
     def pretty_role(self, role):
         role = self.role_map.get(role, role)
         return role
+
+class TrackbackView(BaseView):
+    """handle trackbacks"""
+
+    msg_category = 'Trackback'
+
+    def __call__(self):
+        # Add a trackback and return a javascript callback
+        # so client script knows when it's done and whether it succeeded.
+        mem_id = self.viewed_member_info['id']
+        tm = getUtility(ITransientMessage, context=self.portal)
+
+        if self.viewedmember() != self.loggedinmember:
+            self.request.response.setStatus(403)
+            return 'OpenCore.submitstatus(false);'
+
+        # check for all variables
+        url = self.request.form.get('commenturl')
+        title = self.request.form.get('title')
+        blog_name = self.request.form.get('blog_name', 'an unnamed blog')
+        comment = self.request.form.get('comment', None)
+        if not title:
+            excerpt = comment.split('.')[0]
+            title = excerpt[:100]
+            if title != excerpt:
+                title += '...'
+        if url is None or comment is None:
+            self.request.response.setStatus(400)
+            return 'OpenCore.submitstatus(false);'
+        from datetime import datetime
+        tm.store(mem_id, self.msg_category, {'url':url, 'title':title, 'blog_name':blog_name, 'excerpt':comment, 'time':datetime.now()})
+        return 'OpenCore.submitstatus(true);'
+
+
+    def delete(self):
+        mem_id = self.viewed_member_info['id']
+        from urlparse import urlsplit, urlunsplit
+        if urlsplit(self.request['HTTP_REFERER'])[1] != urlsplit(self.siteURL)[1]:
+            self.request.response.setStatus(403)
+            return 'Cross site deletes not allowed!'
+
+        if self.request['REQUEST_METHOD'] != 'POST':
+            self.request.response.setStatus(405)
+            return 'Not Post'
+        if self.viewedmember() != self.loggedinmember:
+            self.request.response.setStatus(403)
+            return 'You must be logged in to modify your posts!'
+
+        index = self.request.form.get('idx', None)
+        if index is None:
+            self.request.response.setStatus(400)
+            return 'No index specified'
+
+        # Do the delete
+        tm = getUtility(ITransientMessage, context=self.portal)
+        tm.pop(mem_id, self.msg_category, int(index))
+        # TODO: Make sure this is an AJAX request before sending an AJAX response
+        return {'trackback_%s' % index: {'action': 'delete'}}
+
+
+

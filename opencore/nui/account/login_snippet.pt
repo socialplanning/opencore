@@ -15,6 +15,10 @@
 	   tal:condition="view/request/HTTP_REFERER | nothing"
 	   tal:attributes="value view/request/HTTP_REFERER" />
 
+    <input type="hidden" name="came_from_anchor" id="came_from_anchor"
+	   tal:condition="view/request/came_from_anchor | nothing"
+	   tal:attributes="value request/came_from_anchor" />
+
     <fieldset>
       <h1>Sign in</h1> 
       <table class="oc-form">
