@@ -3,12 +3,10 @@ import sha
 import urllib
 from httplib2 import Http
 
-from zope.component import getAdapter
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 
 from opencore.content.membership import OpenMembership
-
 from opencore.wordpress import uri as wp_uri
 
 class SyncUsersView(BrowserView):
@@ -23,7 +21,7 @@ class SyncUsersView(BrowserView):
         sig = hmac.new(secret, "admin", sha).digest() # XXX use real user, don't fake it (but wait for WP to be ok with that)
         params['signature'] = sig = sig.encode('base64').strip()
 
-        all_member_view = getAdapter((self.context, self.request), name='all.xml')
+        all_member_view = self.context.people.restrictedTraverse('all.xml')
         all_member_data = all_member_view()
         params['members'] = all_member_data
 
@@ -31,7 +29,6 @@ class SyncUsersView(BrowserView):
 
         http = Http()
         response, content = http.request(uri, 'POST', headers={'Content-type': 'application/x-www-form-urlencoded'}, body=params)
-        if response.status != 200:
-            return 'Error: %s - %s' % (response.status, content)
-        else:
-            return 'All users successfully synced'
+        
+        self.request.RESPONSE.setHeader('Content-Type',"text/html")
+        return content
