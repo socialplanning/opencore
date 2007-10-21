@@ -106,6 +106,24 @@
               </li>
             </ul>
           </fieldset>
+          <fieldset class="oc-boxy">
+            <legend class="oc-legend-heading oc-biggerText">Project Home Page</legend>
+            <ul class="oc-form-radiolist oc-form-fieldBlock"
+                tal:define="url context/absolute_url">
+              <li>
+                <input type="radio" class="oc-input-typeRadio" id="home_wiki" name="home-page" value="project-home" checked="true" />
+                <label for="home_wiki">Wiki</label>
+              </li>
+              <li>
+                <input type="radio" class="oc-input-typeRadio" id="home_tasktracker" name="home-page" value="tasks" />
+                <label for="home_tasktracker">Task lists</label>
+              </li>
+              <li>
+                <input type="radio" class="oc-input-typeRadio" id="home_listen" name="home-page" value="lists" />
+                <label for="home_listen">Mailing lists</label>
+              </li>
+            </ul>
+          </fieldset>
           <ul class="oc-actions">
             <li>
               <input type="submit" 

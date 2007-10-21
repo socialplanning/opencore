@@ -2,6 +2,12 @@
    xmlns:browser="http://namespaces.zope.org/browser"
    xmlns:five="http://namespaces.zope.org/five">
 
+  <adapter
+      for="opencore.interfaces.IProject"
+      provides=".interfaces.IHomePage"
+      factory=".home_page.HomePage"
+      />
+
   <browser:page
      for="opencore.interfaces.IAddProject"
      name="create"
@@ -51,6 +57,18 @@
      class=".team.RequestMembershipView"
      permission="zope2.View"
      name="request-membership"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".view.RedirectView"
+     permission="zope2.View"
+     name="view"
+     />
+
+  <browser:defaultView
+     for="opencore.interfaces.IProject"
+     name="view"
      />
 
   <subscriber
