@@ -12,9 +12,9 @@
   </li>
 
   <li>
-    <a tal:attributes="href string:${memfolder_url}/account"/>Account <span class="oc-mystuff-messagecount"
+    <a tal:attributes="href string:${memfolder_url}/account">Account<span class="oc-mystuff-messagecount"
           tal:condition="python:view.user_message_count > 0"
-          tal:content="string:(${view/user_message_count} messages)" />
+          tal:content="string: (${view/user_message_count} messages)" /></a>
   </li>
 
   <tal:projects define="projects view/project_brains | nothing"
