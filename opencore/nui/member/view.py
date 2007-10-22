@@ -2,6 +2,10 @@ from datetime import datetime, timedelta
 
 from zope import event
 from zope.component import getUtility
+from zope.event import notify
+from zope.app.event.objectevent import ObjectModifiedEvent
+
+from DateTime import DateTime
 
 from zExceptions import BadRequest
 from zExceptions import Redirect
@@ -15,16 +19,12 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.AdvancedQuery import Eq
 
 from topp.utils.pretty_date import prettyDate
-from DateTime import DateTime
 
+from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.nui.base import BaseView
 from opencore.nui.formhandler import OctopoLite, action
-from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.nui.member.interfaces import ITransientMessage
 from opencore.nui.project.interfaces import IEmailInvites
-
-from zope.event import notify
-from zope.app.event.objectevent import ObjectModifiedEvent
 
 class ProfileView(BaseView):
 
