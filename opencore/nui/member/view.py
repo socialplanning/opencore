@@ -1,5 +1,7 @@
-from datetime import datetime, timedelta
-from time import strftime, gmtime
+from datetime import datetime
+from datetime import timedelta
+from time import strftime
+from time import gmtime
 
 from zope.component import getUtility
 from zope.event import notify
@@ -19,7 +21,8 @@ from topp.utils.pretty_date import prettyDate
 
 from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.nui.base import BaseView
-from opencore.nui.formhandler import OctopoLite, action
+from opencore.nui.formhandler import OctopoLite
+from opencore.nui.formhandler import action
 from opencore.nui.member.interfaces import ITransientMessage
 from opencore.nui.project.interfaces import IEmailInvites
 
