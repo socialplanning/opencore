@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
 
-from zope import event
 from zope.component import getUtility
 from zope.event import notify
 from zope.app.event.objectevent import ObjectModifiedEvent
