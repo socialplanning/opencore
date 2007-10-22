@@ -159,10 +159,19 @@ Try setting a bogus title::
     {'title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
     >>> view.errors = {}
 
+Clear old PSMs
+
+    >>> view.portal_status_message
+    [...]
+
+
 Now set a valid title::
     >>> view.request.form['title'] = 'new full name'
-
     >>> view.handle_request()
+    >>> del view._redirected 
+    >>> view.portal_status_message
+    [u'The title has been changed.', u'The security policy has been changed.', u'Mailing lists feature has been removed.']
+
     >>> view.errors
     {}
     >>> view = proj.restrictedTraverse('preferences')
@@ -180,6 +189,15 @@ Now set a valid title::
     >>> from opencore.project.browser.projectinfo import get_featurelets
     >>> get_featurelets(proj)
     []
+
+#re-add mailing lists
+    >>> view.request.set('flet_recurse_flag', None)
+    >>> view.request.form['featurelets'] = ['listen']
+    >>> view.handle_request()
+    >>> del view._redirected 
+    >>> view.portal_status_message
+    [u'Mailing lists feature has been added.']
+
 
 Make sure we can install a TaskTracker featurelet too::
     >>> form_vars = dict(title='new full name',

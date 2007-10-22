@@ -444,6 +444,8 @@ class InternalLink(WikiBase):
     def file_list(self):
         path = '/'.join(self.context.aq_inner.aq_parent.getPhysicalPath())
         brains = self.catalog(portal_type='Document',
+                              sort_on='sortable_title',
+                              sort_order='ascending',
                               path=path,
                               )
         return [{'url' : brain.getURL(),

@@ -48,10 +48,21 @@ are attempted without anything checked::
     [u'Please select members to deny.']
 
 Now let's make sure the project admin can approve membership requests.
+And an event should get fired as well.
 First we need to clear out the memoized cache:
 
     >>> self.clearMemoCache()
+
+    >>> self.clear_events()
+    >>> self.events
+    []
     >>> res = view.approve_requests(['m4'])
+    >>> len(self.events)
+    1
+    >>> mship, event = self.events[0]
+    >>> from opencore.interfaces.event import IJoinedProjectEvent
+    >>> IJoinedProjectEvent.providedBy(event)
+    True
     >>> len(view.pending_requests)
     0
     >>> len(view.active_mships)
@@ -136,7 +147,20 @@ because the octopus decorator requires (and returns) it.  Notifier
 should be sent:
 
     >>> self.clearMemoCache()
+    >>> self.clear_events()
     >>> res = view.remove_members(['m2'])
+    
+    A role change event gets fired in addition to a left project event
+    >>> len(self.events)
+    2
+    >>> obj, event = self.events[0]
+    >>> from opencore.interfaces.event import IChangedTeamRolesEvent
+    >>> IChangedTeamRolesEvent.providedBy(event)
+    True
+    >>> obj, event = self.events[1]
+    >>> from opencore.interfaces.event import ILeftProjectEvent
+    >>> ILeftProjectEvent.providedBy(event)
+    True
     >>> len(view.active_mships)
     2
     >>> len(mailhost.messages)
@@ -194,6 +218,7 @@ can use him for testing later:
     True
 
 Verify roles
+Also verify that events get fired for role changes
     >>> team.getHighestTeamRoleForMember('m1')
     'ProjectAdmin'
     >>> team.getHighestTeamRoleForMember('portal_owner')
@@ -208,10 +233,18 @@ Verify roles
     ...     'm3_role': 'ProjectAdmin'
     ...     })
     >>> view.request.environ['HTTP_REFERER'] = 'referer'
+    >>> self.clear_events()
     >>> html = view.set_roles(['m1', 'portal_owner', 'm3'],
     ...                      [{'role': 'ProjectAdmin'},
     ...                       {'role': 'ProjectMember'},
     ...                       {'role': 'ProjectAdmin'}])
+
+2 events should have been fired (2 role changes)
+portal_owner was demoted, and m3 was promoted
+    >>> len(self.events)
+    2
+    >>> sorted([mship_obj.id for mship_obj, event in self.events])
+    ['m3', 'portal_owner']
     >>> team.getHighestTeamRoleForMember('m1')
     'ProjectAdmin'
     >>> team.getHighestTeamRoleForMember('portal_owner')

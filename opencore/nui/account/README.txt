@@ -253,6 +253,16 @@ and delete the existing task::
     >>> validate_map = view.validate()
     >>> len([i for i in validate_map.values() if i['html']])
     0
+
+Verify that the proper events gets sent out when a member gets created
+    >>> events_fired = []
+    >>> def event_fired(obj, event):
+    ...     events_fired.append((obj, event))
+    >>> from zope.component import provideHandler
+    >>> from zope.app.event.interfaces import IObjectCreatedEvent
+    >>> from Products.remember.interfaces import IReMember
+    >>> provideHandler(event_fired,
+    ...                adapts=[IReMember, IObjectCreatedEvent])
     
 We need to make the request a POST::
 
@@ -262,6 +272,11 @@ We need to make the request a POST::
     u'...<!-- join form -->...'
     >>> view.membertool.getMemberById('foobar')
     <OpenMember at /plone/portal_memberdata/foobar...>
+    >>> len(events_fired)
+    1
+    >>> obj, event = events_fired[0]
+    >>> IObjectCreatedEvent.providedBy(event)
+    True
 
 Ensure that you can't join the site with another foobar::
 

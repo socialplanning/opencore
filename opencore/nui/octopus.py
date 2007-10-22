@@ -1,10 +1,8 @@
 import sys
+import simplejson
 
 def htmlify(js):
-    """
-    this does NOT belong here.
-    """
-    js = "%s" % js
+    js = simplejson.dumps(js)
     js = js.replace("<", "&lt;")
     js = js.replace(">", "&gt;")
     return '<html><head><meta http-equiv="x-deliverance-no-theme" content="1"/></head><body> %s </body></html>' % js

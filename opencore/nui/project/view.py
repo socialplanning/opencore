@@ -3,6 +3,8 @@ import string
 
 from zope import event
 from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.i18nmessageid import Message, MessageFactory
 from zExceptions import BadRequest, Redirect
 from Acquisition import aq_parent
 
@@ -19,6 +21,7 @@ from opencore.interfaces import IAddProject, IAddSubProject
 from opencore.interfaces.catalog import IMetadataDictionary 
 from opencore.interfaces.event import AfterProjectAddedEvent, \
       AfterSubProjectAddedEvent
+from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
 
 from opencore.project.utils import get_featurelets
 from opencore.tasktracker import uri as tt_uri
@@ -34,6 +37,7 @@ from opencore.nui.project import mship_messages
 
 _marker = object()
 
+_ = MessageFactory('opencore')
 
 class ProjectBaseView(BaseView):
 
@@ -44,6 +48,10 @@ class ProjectBaseView(BaseView):
     @memoizedproperty
     def has_task_tracker(self):
         return self._has_featurelet('tasks')
+
+    @memoizedproperty
+    def has_blog(self):
+        return self._has_featurelet('blog')
 
     def _has_featurelet(self, flet_id):
         flets = get_featurelets(self.context)
@@ -374,13 +382,40 @@ class ProjectPreferencesView(ProjectBaseView):
 
         allowed_params = set(['__initialize_project__', 'update', 'set_flets', 'title', 'description', 'workflow_policy', 'featurelets'])
         new_form = {}
-        for k in self.request.form:
-            if k in allowed_params:
+        for k in allowed_params:
+            if k in self.request.form:
                 new_form[k] = self.request.form[k]
+
+        reader = IReadWorkflowPolicySupport(self.context)
+        old_workflow_policy = reader.getCurrentPolicyId()
+
+        #store change status of flet, security, title, description
+
+        changed = {
+            _("The title has been changed.") : self.context.title != self.request.form.get('title', self.context.title),
+            _("The description has been changed.") : self.context.description != self.request.form.get('description', self.context.description),
+            _("The security policy has been changed.") : old_workflow_policy != self.request.form['workflow_policy'],            
+            }
         
+        old_featurelets = set([(x['name'], x['title']) for x in get_featurelets(self.context)])
+            
         self.request.form = new_form
         self.context.processForm(REQUEST=self.request, metadata=1)
-        self.add_status_message('Your changes have been saved.')
+        featurelets = set([(x['name'], x['title']) for x in get_featurelets(self.context)])
+
+        for flet in featurelets:
+            if flet not in old_featurelets:
+                changed[_('%s feature has been added.' % flet[1])] = 1
+        
+        for flet in old_featurelets:
+            if flet not in featurelets:
+                changed[_('%s feature has been removed.' % flet[1])] = 1
+
+        
+        for field, changed in changed.items():
+            if changed:
+                self.add_status_message(field)
+        #self.add_status_message('Your changes have been saved.')
         self.redirect(self.context.absolute_url())
 
 

@@ -103,6 +103,11 @@
                   <label for="listen">Mailing lists</label>
                   <!-- <p class="oc-form-context">Email and forum-based discussion spaces.</p> -->
                 </li>
+                <li>
+                  <input type="checkbox" class="oc-input-typeCheck oc-warn-popup" id="wordpress" name="featurelets:list" value="blog"
+                    tal:attributes="checked python:view.has_blog" />
+                  <label for="wordpress">Blog</label>
+                </li>
               </ul>
             </fieldset>
             <ul class="oc-actions">

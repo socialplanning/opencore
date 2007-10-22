@@ -104,6 +104,10 @@
                 <input type="checkbox" class="oc-input-typeCheck" id="listen" name="featurelets:list" value="listen" checked="true" />
                 <label for="listen">Mailing lists</label>
               </li>
+              <li>
+                <input type="checkbox" class="oc-input-typeCheck" id="wordpress" name="featurelets:list" value="blog" checked="true" />
+                <label for="wordpress">Blog</label>
+              </li>
             </ul>
           </fieldset>
           <ul class="oc-actions">
