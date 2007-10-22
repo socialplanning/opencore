@@ -2,6 +2,8 @@ from datetime import datetime
 from datetime import timedelta
 from time import strftime
 from time import gmtime
+from urlparse import urlsplit
+from urlparse import urlunsplit
 
 from zope.component import getUtility
 from zope.event import notify
@@ -663,18 +665,21 @@ class TrackbackView(BaseView):
         if url is None or comment is None:
             self.request.response.setStatus(400)
             return 'OpenCore.submitstatus(false);'
-        from datetime import datetime
+
         tm.store(mem_id, self.msg_category, {'url':url, 'title':title, 'blog_name':blog_name, 'excerpt':comment, 'time':datetime.now()})
         return 'OpenCore.submitstatus(true);'
 
 
     def delete(self):
         mem_id = self.viewed_member_info['id']
-        from urlparse import urlsplit, urlunsplit
+
         if urlsplit(self.request['HTTP_REFERER'])[1] != urlsplit(self.siteURL)[1]:
             self.request.response.setStatus(403)
             return 'Cross site deletes not allowed!'
 
+        # XXX todo 
+        #     a) move this to @nui.formhandler.post_only 
+        #     b) use that
         if self.request['REQUEST_METHOD'] != 'POST':
             self.request.response.setStatus(405)
             return 'Not Post'
