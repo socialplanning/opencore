@@ -7,6 +7,9 @@
     
       <div class="oc-headingBlock">
         <h1>Join <span tal:replace="view/area/Title" /></h1>
+          <h2 tal:define="mission context/Description"
+              tal:condition="mission"
+              tal:content="mission">Project mission statement</h2>
         <p class="oc-headingContext">Request membership to this project.</p>
       </div>
     
