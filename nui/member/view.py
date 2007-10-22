@@ -123,6 +123,7 @@ class ProfileView(BaseView):
                 tm.pop(mem_id, self.msg_category, idx)
                 value['excerpt'] = ''
                 tm.store(mem_id, self.msg_category, value)
+            # XXX is there any way to avoid generating html in python code here? usually a bad idea.
             value['idx'] = 'trackback_%d' % idx
             value['close_url'] = 'trackback-delete?idx=%d' % idx
             value['pub_date']    = prettyDate(value['time'])
