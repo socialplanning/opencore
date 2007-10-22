@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from time import strftime, gmtime
 
 from zope.component import getUtility
 from zope.event import notify
@@ -114,7 +115,6 @@ class ProfileView(BaseView):
 
         # We want to insert the indexes into the values so that we can properly address them for deletion
         addressable_msgs = []
-        from time import strftime, gmtime
         for (idx, value) in msgs:
             if 'excerpt' not in value.keys():
                 tm.pop(mem_id, self.msg_category, idx)
