@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from zope import event
 from zope.component import getUtility
 
@@ -107,7 +109,6 @@ class ProfileView(BaseView):
         mem_id = self.viewed_member_info['id']
         msgs = tm.get_msgs(mem_id, self.msg_category)
 
-        from datetime import datetime, timedelta
         old_messages = [(idx, value) for (idx, value) in msgs if value['time'] < datetime.now() - timedelta(days=60)]
         for (idx, value) in old_messages:
             tm.pop(mem_id, self.msg_category, idx)
