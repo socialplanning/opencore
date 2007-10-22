@@ -105,7 +105,8 @@ class ProfileView(BaseView):
         mem_id = self.viewed_member_info['id']
         msgs = tm.get_msgs(mem_id, self.msg_category)
 
-        old_messages = [(idx, value) for (idx, value) in msgs if value['time'] < datetime.now() - timedelta(days=60)]
+        timediff = datetime.now() - timedelta(days=60)
+        old_messages = [(idx, value) for (idx, value) in msgs if value['time'] < timediff]
         for (idx, value) in old_messages:
             tm.pop(mem_id, self.msg_category, idx)
         if not old_messages:
