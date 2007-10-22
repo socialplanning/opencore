@@ -691,6 +691,7 @@ class TrackbackView(BaseView):
         tm = getUtility(ITransientMessage, context=self.portal)
         tm.pop(mem_id, self.msg_category, int(index))
         # TODO: Make sure this is an AJAX request before sending an AJAX response
+        #       by using octopus/octopolite
         return {'trackback_%s' % index: {'action': 'delete'}}
 
 
