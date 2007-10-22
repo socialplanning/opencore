@@ -6,9 +6,6 @@ from zope.app.event.objectevent import ObjectModifiedEvent
 
 from DateTime import DateTime
 
-from zExceptions import BadRequest
-from zExceptions import Redirect
-
 from plone.memoize.view import memoize as req_memoize
 
 from Products.CMFCore.WorkflowCore import WorkflowException
