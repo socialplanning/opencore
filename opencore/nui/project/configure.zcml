@@ -60,6 +60,13 @@
      name="request-membership"
      />
 
+  <browser:page
+     for="opencore.interfaces.IProjeect"
+     class=".latest_activity.LatestActivityView"
+     permission="zope2.View"
+     name="latest-activity"
+     />
+
   <subscriber
      for="opencore.interfaces.IOpenPage
           zope.app.event.interfaces.IObjectModifiedEvent"
