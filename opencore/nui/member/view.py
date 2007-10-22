@@ -654,7 +654,7 @@ class TrackbackView(BaseView):
         url = self.request.form.get('commenturl')
         title = self.request.form.get('title')
         blog_name = self.request.form.get('blog_name', 'an unnamed blog')
-        comment = self.request.form.get('comment', None)
+        comment = self.request.form.get('comment')
         if not title:
             excerpt = comment.split('.')[0]
             title = excerpt[:100]
@@ -682,7 +682,7 @@ class TrackbackView(BaseView):
             self.request.response.setStatus(403)
             return 'You must be logged in to modify your posts!'
 
-        index = self.request.form.get('idx', None)
+        index = self.request.form.get('idx')
         if index is None:
             self.request.response.setStatus(400)
             return 'No index specified'
