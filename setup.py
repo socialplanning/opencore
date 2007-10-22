@@ -26,6 +26,7 @@ setup(name='opencore',
       install_requires=[
           # -*- Extra requirements: -*-
           'simplejson',
+          'decorator',
           'topp.featurelets',
           'topp.utils',
           'memojito',
