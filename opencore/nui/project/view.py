@@ -31,7 +31,6 @@ from opencore.nui.base import BaseView
 from opencore.nui.formhandler import OctopoLite, action
 from opencore.nui.main import SearchView
 from opencore.nui.main.search import searchForPerson
-from opencore.nui.member.interfaces import ITransientMessage
 from opencore.nui.project.utils import vdict
 from opencore.nui.project import mship_messages
 
