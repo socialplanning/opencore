@@ -107,8 +107,6 @@ class ProfileView(BaseView):
         mem_id = self.viewed_member_info['id']
         msgs = tm.get_msgs(mem_id, self.msg_category)
 
-        # We have to import datetime renamed because it fails in a bizarre fashion if we don't.  Maybe it's
-        # a case sensitivity issue with Zope's DateTime ?
         from datetime import datetime, timedelta
         old_messages = [(idx, value) for (idx, value) in msgs if value['time'] < datetime.now() - timedelta(days=60)]
         for (idx, value) in old_messages:
