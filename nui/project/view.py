@@ -5,7 +5,6 @@ from zope import event
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.i18nmessageid import Message, MessageFactory
-from zExceptions import BadRequest, Redirect
 from Acquisition import aq_parent
 
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
