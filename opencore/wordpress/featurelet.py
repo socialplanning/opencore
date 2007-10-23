@@ -70,7 +70,7 @@ class WordPressFeaturelet(BaseFeaturelet):
 
         response = urllib.urlopen(uri, post)
         response = response.read()
-        if "Created blog ID" not in response:
+        if "Created blog ID" not in response or "already exists" not in response:
             raise AssertionError("Failed to create blog. %s" % response)
         
         return BaseFeaturelet.deliverPackage(self, obj)
