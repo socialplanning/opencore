@@ -1,0 +1,151 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+
+<head>
+    <metal:block fill-slot="top_slot"
+                 tal:define="dummy python:request.set('disable_border',1)" />
+</head>
+
+<body>
+
+  <div metal:fill-slot="main"
+       tal:define="errors options/state/getErrors;">
+
+    <h1>Contact Project Administrators</h1>
+
+    <div class="documentDescription">
+      Are you interested in getting involved with this project, or in
+      contacting the folks who are organizing this effort for any
+      reason?  If so, please use the form below to send a message to
+      the project administrators.
+    </div>
+  
+    <form name="feedback_form"
+          action=""
+          method="post"
+          tal:attributes="action string:$here_url/$template_id">
+
+      <fieldset>
+
+        <legend i18n:translate="legend_contact_project_admins">Contact Project Administrators</legend>
+
+        <div class="field"
+             tal:define="error errors/send_from_address|nothing;"
+             tal:attributes="class python:test(error, 'field error', 'field')"
+             tal:condition="isAnon">
+
+          <label for="send_from_address" i18n:translate="label_send_from">From</label>
+
+          <span class="fieldRequired" title="Required"
+                i18n:attributes="title title_required;"
+                i18n:translate="label_required">(Required)</span>
+
+          <div class="formHelp" i18n:translate="help_send_from">
+            Your email address.
+          </div>
+
+          <div tal:content="error">Validation error output</div>
+
+          <input type="text"
+                 id="send_from_address"
+                 name="send_from_address"
+                 size="40"
+                 tabindex=""
+                 tal:attributes="value python: request.get('send_from_address', member.getProperty('email',''));
+                                 tabindex tabindex/next;"
+                 />
+        </div>
+
+        <div class="field"
+             tal:condition="not: isAnon"
+             tal:define="anonDefault python:context.getAnonymailerDefault();
+                         error errors/anonymize|nothing;"
+             tal:attributes="class python:test(error, 'field_error', 'field')">
+
+	  <input class="noborder" type="checkbox" value="on"
+                 id="anonymize" name="anonymize_visible"
+                 tal:attributes="checked python:test(anonDefault, 'checked', '')"
+                 onclick="toggle_boolean('anonymize', 'anonymize_hidden'); return true" />
+
+	  <input type="hidden" name="anonymize" id="anonymize_hidden"
+                 tal:attributes="value python:test(anonDefault, 1, 0)" />
+
+          <label for="anonymize">Anonymize email address?</label>
+
+          <div class="formHelp" id="anonymize_help">
+            If selected, your email address will not be exposed to the recipient
+            of the message that you send.
+          </div>
+
+        </div>
+
+        <div class="field"
+             tal:define="error errors/subject|nothing"
+             tal:attributes="class python:test(error, 'field error', 'field')">
+          <label for="subject" i18n:translate="label_subject">
+            Subject
+          </label>
+
+          <span class="fieldRequired" title="Required"
+                i18n:attributes="title title_required;"
+                i18n:translate="label_required">(Required)</span>
+
+          <br />
+          <input type="text" 
+                 id="subject" 
+                 name="subject" 
+                 size="50" 
+                 value="" 
+                 tabindex="" 
+                 tal:attributes="tabindex tabindex/next; value request/subject|nothing"
+                 />
+        </div>
+        <div class="field"
+             tal:define="error errors/message|nothing"
+             tal:attributes="class python:test(error, 'field error', 'field')">
+          <label for="message" i18n:translate="label_message">
+            Message
+          </label>
+
+          <span class="fieldRequired" title="Required"
+                i18n:attributes="title title_required;"
+                i18n:translate="label_required">(Required)</span>
+
+          <textarea name="message"
+                    id="message"
+                    rows="5"
+                    cols="25"
+                    tabindex=""
+                    tal:attributes="tabindex tabindex/next;"
+                    tal:content="request/message|nothing"
+                    ></textarea>
+        </div>
+
+        <div class="formControls">
+
+          <input class="context"
+                 tabindex=""
+                 type="submit"
+                 name="form.button.Send"
+                 value="Send"
+                 i18n:attributes="value label_send;"
+                 tal:attributes="tabindex tabindex/next;" />
+
+        </div>
+
+      </fieldset>
+
+      <!--input type="hidden" name="author" value="" tal:attributes="value author" /-->
+      <input type="hidden" name="referer" value="" 
+             tal:attributes="value python:request.get('referer', request.get('HTTP_REFERER', 'unknown url') )" />
+      <input type="hidden" name="form.submitted" value="1" />
+
+    </form>
+
+    
+  </div>
+</body>
+</html>
+

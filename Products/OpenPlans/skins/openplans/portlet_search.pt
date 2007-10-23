@@ -1,0 +1,68 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="plone">
+
+<body tal:define="Iterator python:modules['Products.CMFPlone'].IndexIterator;
+                  tabindex python:Iterator()">
+
+<!-- Site search -->
+
+<div metal:define-macro="portlet"
+     tal:omit-tag="">
+
+  <dl class="portlet" id="portlet-team_mgmt">
+
+    <dt class="portletHeader"
+        i18n:translate="">
+      Search
+    </dt>
+
+    <form name="searchform"
+          action="search"
+          tal:define="livesearch site_properties/enable_livesearch|nothing"
+          tal:attributes="action string:${portal_url}/search;
+                          onsubmit python:test(livesearch==True,'return liveSearchSubmit()','')"
+          style="white-space:nowrap">
+
+        <label for="searchGadget" class="hiddenStructure"
+                    i18n:translate="text_search">Search Site</label>
+
+        <div class="LSBox">
+        <input id="searchGadget"
+               tabindex=""
+               name="SearchableText"
+               type="text"
+               size="24"
+               value=""
+               title="Search Site"
+               accesskey="4"
+               i18n:attributes="title title_search_site;"
+               tal:attributes="value request/SearchableText|nothing;
+                               tabindex tabindex/next"
+               class="visibility:visible" />
+        <br />
+        <input class="searchButton"
+               type="submit"
+               tabindex=""
+               value="Search"
+               tal:attributes="tabindex tabindex/next"
+               i18n:attributes="value label_search;" />
+
+        <div class="LSResult" id="LSResult" style=""><div class="LSShadow" id="LSShadow"></div></div>
+        </div>
+    </form>
+
+    <div id="portal-advanced-search"
+         class="hiddenStructure">
+        <a href="#"
+           tal:attributes="href string:$portal_url/search_form"
+           i18n:translate="label_advanced_search"
+           accesskey="5">
+            Advanced Search&hellip;
+        </a>
+    </div>
+  </dl>
+
+</div>
+</body>
+</html>
