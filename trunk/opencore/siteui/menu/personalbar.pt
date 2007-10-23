@@ -1,6 +1,0 @@
-<tal:comment replace="nothing">THE PERSONAL BAR DEFINITION CURRENTLY
-ONLY HANDLES PART OF THE PERSONAL BAR</tal:comment>
-
-<tal:personal-viewlets repeat="viewlet view/viewlets">
-  <tal:viewlet replace="structure viewlet" />
-</tal:personal-viewlets>
