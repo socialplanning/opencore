@@ -104,10 +104,9 @@
                   <!-- <p class="oc-form-context">Email and forum-based discussion spaces.</p> -->
                 </li>
               </ul>
-            </fieldset>
 
-            <fieldset class="oc-boxy">
-              <legend class="oc-legend-heading oc-biggerText">Project Home Page</legend>
+              <p>Select the home page for your project</p>
+
               <ul class="oc-form-radiolist">
                 <li tal:repeat="item view/home_pages">
                   <tal:home_page_item define="

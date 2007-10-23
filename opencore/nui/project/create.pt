@@ -105,9 +105,9 @@
                 <label for="listen">Mailing lists</label>
               </li>
             </ul>
-          </fieldset>
-          <fieldset class="oc-boxy">
-            <legend class="oc-legend-heading oc-biggerText">Project Home Page</legend>
+
+            <p>Select the home page for your project</p>
+
             <ul class="oc-form-radiolist oc-form-fieldBlock"
                 tal:define="url context/absolute_url">
               <li>

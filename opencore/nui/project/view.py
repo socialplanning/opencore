@@ -428,14 +428,13 @@ class ProjectPreferencesView(ProjectBaseView):
         return IHomePage(self.context).home_page.split('/')[-1]
 
     def home_pages(self):
-        # all featurelets can have a home page set
-        # and put in the wiki as well
-        return (get_featurelets(self.context)
-                + [dict(
-                    name='wiki',
-                    url='project-home',
-                    title='Wiki',
-                    )])
+        # XXX hard-coded list
+        # XXX summary page should be added here when ready
+        return [
+             dict(name='wiki', url='project-home', title='Wiki'),
+             dict(name='tasks', url='tasks', title='Task lists'),
+             dict(name='lists', url='lists', title='Mailing lists'),
+             ]
 
 
 class ProjectAddView(BaseView, OctopoLite):
