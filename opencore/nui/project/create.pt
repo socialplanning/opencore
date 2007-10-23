@@ -76,12 +76,12 @@
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
                   value="open_policy" />
-                  <label for="workflow_policy_open">Any OpenPlans member can view or contribute to this project</label>
+                  <label for="workflow_policy_open">Anyone can view this project and any OpenPlans member can contribute to it</label>
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
                   value="medium_policy" checked="checked"/>
-                  <label for="workflow_policy_medium">Any OpenPlans member can view this project but only team members can contribute to it</label>
+                  <label for="workflow_policy_medium">Anyone can view this project but only team members can contribute to it</label>
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
