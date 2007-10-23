@@ -1,8 +1,13 @@
 import urllib
 import hmac, sha
-from httplib2 import Http
+
 from decorator import decorator
+
+from zope.component import getUtility
+
 from Products.CMFCore.utils import getToolByName
+
+from opencore.utility.interfaces import IHTTPClient
 from opencore.wordpress.uri import get as uri_get
 from opencore.project.utils import get_featurelets
 
@@ -41,7 +46,7 @@ def send_to_wordpress(uri, username, params, context):
         params['domain'] = '%s.openplans.org' % project
     params = urllib.urlencode(params)
 
-    http = Http()
+    http = getUtility(IHTTPClient)
     response, content = http.request(uri, 'POST', headers={'Content-type': 'application/x-www-form-urlencoded'}, body=params)
     if response.status != 200:
         raise AssertionError('Failed to update wordpress: %s %s' % (response.status, content))
