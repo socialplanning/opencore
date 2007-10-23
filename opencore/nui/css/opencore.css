@@ -809,6 +809,13 @@ GENERIC: Elements
 .oc-hover {
    background: #fdffdd;
 }
+.oc-disabled { 
+  color: #999;
+ }
+.oc-warning { 
+  color: red;
+  padding-left: .5em;
+ }
 /* GENERIC: Buttons */
 input.oc-button {
   display: inline;
