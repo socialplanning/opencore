@@ -6,9 +6,11 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 from topp.featurelets.base import BaseFeaturelet
-from opencore.wordpress.interfaces import \
-    IWordPressFeatureletInstalled, IWordPressContainer
+
 from opencore.wordpress import uri as wp_uri
+from opencore.wordpress.interfaces import IWordPressFeatureletInstalled
+from opencore.wordpress.interfaces import IWordPressContainer
+
 
 class WordPressFeaturelet(BaseFeaturelet):
     """
