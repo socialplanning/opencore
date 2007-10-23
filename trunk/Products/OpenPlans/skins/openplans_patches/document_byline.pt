@@ -1,0 +1,75 @@
+<div metal:define-macro="byline"
+     i18n:domain="plone"
+     tal:condition="python: site_properties.allowAnonymousViewAbout or not isAnon"
+     tal:define="creator here/Creator;">
+
+    <div class="documentByLine" style="text-align: right">
+        <img src="" alt=""
+           title="This document is locked."
+           tal:define="locked portal_object/lock_icon.gif;
+                       lockable python:hasattr(here, 'wl_isLocked');"
+           tal:condition="python:lockable and here.wl_isLocked()"
+           tal:replace="structure python:locked.tag(title='Locked')"
+           i18n:attributes="title label_document_locked;"
+           />
+
+        <tal:name tal:condition="python:False"
+            tal:define="author python:mtool.getMemberInfo(creator)">
+          <span i18n:translate="label_by_author">
+            by
+          <a href="#"
+             tal:attributes="href string:${portal_url}/author/${creator}"
+             tal:content="python:author and author['fullname'] or creator"
+             tal:omit-tag="not:author"
+             i18n:name="author">
+            Bob Dobalina
+          </a>
+          </span>
+
+          &mdash;
+
+        </tal:name>
+
+	<!-- (this should probably go in its own macro-slot) -->
+        <span i18n:translate="box_last_modified">
+        last modified
+        </span>
+        <span tal:replace="python:here.toLocalizedTime(here.ModificationDate(),long_format=1)">
+        August 16, 2001 at 23:35:59
+        </span>
+
+        <span class="state-expired"
+            tal:condition="python:portal.isExpired(here)"
+            i18n:translate="time_expired">
+        &mdash; expired
+        </span>
+
+        <span tal:define="locked portal_object/lock_icon.gif"
+              tal:condition="isLocked">
+            <img src=""
+                 tal:replace="structure python:locked.tag(title='This item is locked')"
+                 alt="Object locked"
+                 i18n:attributes="alt label_object_locked;" />
+        </span>
+
+        <div tal:condition="here/Contributors"
+             i18n:translate="text_contributors">
+            Contributors:
+            <span i18n:name="name"
+                  tal:omit-tag=""
+                  tal:content="python: ', '.join(here.Contributors())">
+              Mary
+            </span>
+        </div>
+
+        <tal:rights condition="here/Rights">
+        <div tal:replace="here/Rights">
+          Copyleft NiceCorp Inc.
+        </div>
+        </tal:rights>
+
+        <span metal:use-macro="here/review_history/macros/review_history" />
+
+    </div>
+
+</div>

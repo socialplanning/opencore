@@ -1,0 +1,50 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+	   xmlns:browser="http://namespaces.zope.org/browser"
+	   xmlns:five="http://namespaces.zope.org/five">
+
+
+  <browser:page
+     for="opencore.siteui.interfaces.IMemberFolder"
+     class=".view.MemberAccountView"
+     permission="cmf.ModifyPortalContent"
+     name="account"
+     />
+
+  <browser:page
+     for="opencore.siteui.interfaces.IMemberFolder"
+     class=".view.ProfileEditView"
+     permission="cmf.ModifyPortalContent"
+     name="profile-edit"
+     />
+
+  <browser:page
+     for="opencore.siteui.interfaces.IMemberFolder"
+     class=".view.TrackbackView"
+     permission="zope2.View"
+     name="trackback"
+     />
+
+  <browser:page
+     for="opencore.siteui.interfaces.IMemberFolder"
+     class=".view.TrackbackView"
+     permission="zope2.View"
+     name="trackback-delete"
+     attribute="delete"
+     />
+
+
+
+  <browser:page
+     for="opencore.siteui.interfaces.IMemberFolder"
+     class=".view.ProfileView"
+     permission="zope2.View"
+     name="profile"
+     template="profile.pt"
+     />
+
+  <subscriber
+     for="opencore.interfaces.event.IChangedTeamRolesEvent"
+     handler=".event.membership_changed_reindex_catalog"
+     />
+
+</configure>

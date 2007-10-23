@@ -1,0 +1,23 @@
+
+<ul id="oc-topnav-usermenu" class="oc-dropdown-list">
+
+  <li class="oc-dropdown-container"
+      tal:define="auth view/loggedin;
+                  memfolder_url view/memfolder_url;
+                  memprofile_url string:${memfolder_url}/profile;
+                  memaccount_url string:${memfolder_url}/account"
+      tal:condition="python: auth and memfolder_url">
+      <a tal:attributes="href memprofile_url"><span
+          tal:replace="view/member_info/id"/>
+        <span class="oc-usermenu-messagecount"
+              tal:condition="python:view.user_message_count > 0"     tal:content="string:(${view/user_message_count})" />
+      </a>
+    <tal:mystuffmenu replace="structure context/topnav-mystuff-menu" />
+  </li>
+
+  <li tal:repeat="menuitem view/menudata">
+    <a tal:attributes="href menuitem/href"
+       tal:content="menuitem/content" />
+  </li>
+
+</ul>

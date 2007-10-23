@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <title>Roster Macros</title>
+  </head>
+  <body>
+
+<!-- roster display wrapper -->
+<div metal:define-macro="roster_template">
+  <div tal:define="sort_on python:request.get('sort_on','exact_getFullname');
+                   search_str python:request.get('search_str','');
+		   batch_size python:test(batch_size, batch_size, 25);
+                   member_brains python:here.rosterSearchResults(RosterSearchableText=search_str, sort_on=sort_on );">
+
+    <div tal:define="Batch python:modules['Products.CMFPlone'].Batch;
+              	     b_start python:request.get('b_start',0);
+                     batch python:Batch(member_brains, batch_size, int(b_start), orphan=5);">
+
+      <h1>Team Roster:</h1>
+      <h4 tal:condition="python:not search_str"><span tal:replace="batch/sequence_length" /> total team members...</h4>
+      <h4 tal:condition="search_str"><span tal:replace="batch/sequence_length" /> team members found...</h4>
+      <form name="roster_form" style="text-align:right">
+        <table class="brc_roster_widgets">
+          <tr>
+            <td valign="top">
+              <input name="search_str" tal:attributes="value request/search_str | nothing" size=20>
+              <input type="submit" name="submit" class="context" value="search">
+            </td>
+          </tr>
+        </table>
+      </form>
+
+      <div metal:use-macro="here/batch_macros/macros/navigation" />
+
+      <div metal:define-slot="display_members">
+	Members are displayed here
+      </div>
+
+      <div metal:use-macro="here/batch_macros/macros/navigation" />
+
+    </div>
+  </div>
+</div>
+
+  </body>
+</html>

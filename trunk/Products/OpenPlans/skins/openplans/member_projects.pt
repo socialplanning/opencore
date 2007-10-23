@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="plone">
+  <head><title></title></head>
+  <body>
+
+    <metal:projectslist define-macro="projectslist">
+      <span tal:repeat="project projects">
+        <a tal:attributes="href project/absolute_url"
+           tal:content="project/Title" /><span tal:replace="string:, "
+                                               tal:condition="not: repeat/project/end" />
+      </span>
+    </metal:projectslist>
+
+    <metal:view_macro define-macro="view" 
+                      tal:define="projects python:field.getAccessor(here)()">
+      <span metal:use-macro="here/member_projects/macros/projectslist" />
+    </metal:view_macro>
+
+  </body>
+
+</html>

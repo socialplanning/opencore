@@ -1,0 +1,75 @@
+=========================
+ Tests for setup widgets
+=========================
+
+This doctest is for the testing and description of nui's setup
+widgets. 
+
+    >>> from opencore.nui import setup
+
+Move Blocking Content
+=====================
+
+Due to the sequence of operations in acquistion, persistent object may
+ghost views, thereby overriding them.
+
+We want to be able to migrate any namespace collisions if a new view
+is added.  Currently our only adding is done by wicked and we use
+dummy views to block names either used by deliverance or special
+persistent objects.
+
+A plain dummy view will block a path name::
+
+    >>> proj = self.projects.p1
+    >>> from opencore.nui.wiki.add import Dummy
+    >>> view = proj.restrictedTraverse('tasks')
+    >>> isinstance(view, Dummy)
+    True
+
+An ignorable dummy will block a name, but not trigger a renaming::
+
+    >>> from opencore.nui.wiki.add import IgnorableDummy
+    >>> view = proj.restrictedTraverse('lists')
+    >>> isinstance(view, IgnorableDummy)
+    True
+
+Ignorable dummy is a subclass of Dummy, and inherits the call method:
+a raise that redirects to the preferences page::
+
+    >>> issubclass(IgnorableDummy, Dummy)
+    True
+    
+    >>> view()
+    Traceback (most recent call last):
+    ...
+    Redirect: http://nohost/plone/projects/p1/preferences
+
+First we will create some objects: one to represent an object blocking
+a view, one for an object blocking a special persistent, and one
+blocking a reserved path name (ala deliverance)::
+
+    >>> self.loginAsPortalOwner()
+    >>> import transaction as txn
+    >>> id_ = proj.invokeFactory('Document', 'manage-team', title='Bad item')
+    >>> id2 = proj.invokeFactory('Document', 'lists', title='Bad item 2')
+    >>> id3 = proj.invokeFactory('Document', 'tasks', title='Bad Path')
+    >>> sp = txn.savepoint(optimistic=True)
+
+Let's make sure our content got renamed::
+
+    >>> setup.move_blocking_content(self.portal)
+    >>> '%s-page' %id_ in proj.objectIds()
+    True
+
+But our persistent object did not (blocked by an ignorable dummy)::
+
+    >>> setup.move_blocking_content(self.portal)
+    >>> not 'lists-page' in proj.objectIds()
+    True
+
+Anything in a deliverance path name (ie something we blocked with a
+normal dummy) should be changed::
+
+    >>> setup.move_blocking_content(self.portal)
+    >>> 'tasks-page' in proj.objectIds()
+    True

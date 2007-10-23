@@ -1,0 +1,43 @@
+<div metal:define-macro="search_widget" class="oc-boxy oc-widget oc-widget-search oc-widget-multiSearch">    
+  <form name="search_form" action="." tal:attributes="action form_action_url"
+  tal:define="letter_search request/letter_search | string:; search_for request/search_for | string:">
+     <label class="oc-label-heading oc-biggerText">Search</label>
+        <a tal:condition="python:current_search_page!='people'" class="oc-search-people" tal:attributes="href string:${context/portal_url}/people/searchresults?letter_search=${letter_search}&search_for=${search_for}">People</a>
+        
+        <strong tal:condition="python:current_search_page=='people'">People</strong>
+        
+       |
+      
+      <a tal:condition="python:current_search_page!='projects'" class="oc-search-projects" tal:attributes="href string:${context/portal_url}/projects/searchresults?letter_search=${letter_search}&search_for=${search_for}">Projects</a>
+      
+      <strong tal:condition="python:current_search_page=='projects'">Projects</strong>
+      
+      |
+        <a tal:condition="python:current_search_page!='sitesearch'" class="oc-search-everything" tal:attributes="href string:${context/portal_url}/sitesearch?letter_search=${letter_search}&search_for=${search_for}">Everything</a>      
+        <strong tal:condition="python:current_search_page=='sitesearch'">Everything</strong>
+     
+      <div class="oc-form-fieldBlock">
+      <input class="oc-input-typeText oc-autoFocus" type="text" name="search_for" tal:attributes="value string:${search_for}" />
+      <button type="submit">Search</button>
+    </div>
+  </form>
+  
+  <ul class="oc-widget-alphabet oc-clearAfter oc-boxy" tal>
+              <li tal:repeat="letter modules/string/uppercase">
+              
+                <a href="" tal:content="letter" tal:attributes="href string:${form_action_url}?letter_search=${letter}" tal:condition="python:letter!=request.form.get('letter_search')">A</a>
+                
+                <a href="" class="oc-widget-alphabet-selectedLetter" tal:content="letter" tal:attributes="href string:${form_action_url}?letter_search=${letter}" tal:condition="python:letter==request.form.get('letter_search')">A</a>
+              </li>
+	      <li>
+                <a href="" tal:attributes="href string:${form_action_url}?letter_search=num" tal:condition="python:request.form.get('letter_search')!='num'">#</a>
+                
+                <a href="" class="oc-widget-alphabet-selectedLetter" tal:attributes="href string:${form_action_url}?letter_search=num" tal:condition="python:request.form.get('letter_search')=='num'">#</a>
+	      </li>
+	      <li>
+                <a href="" tal:attributes="href string:${form_action_url}?letter_search=all" tal:condition="python:request.form.get('letter_search')!='all'">all</a>
+                
+                <a href="" class="oc-widget-alphabet-selectedLetter" tal:attributes="href string:${form_action_url}?letter_search=all" tal:condition="python:request.form.get('letter_search')=='all'">all</a>
+	      </li>
+  </ul>
+</div><!-- end .oc-widget-multiSearch -->

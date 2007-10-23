@@ -1,0 +1,130 @@
+<tal:vars define="usr view/viewedmember;
+                  memberdata view/viewed_member_info">
+
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:${view/area/Title} on OpenPlans" />
+  </head>
+  <body>
+    <div metal:fill-slot="content">
+      <div id="oc-content-main">
+        <tal:first-login condition="request/first_login | nothing">
+          <div class="oc-getstarted oc-js-closeable">
+            <h1>Welcome to OpenPlans!</h1>
+            <p tal:condition="view/has_invitations" class="oc-bigText">
+              Please take a moment to fill out your profile, then proceed to your <a href="account">account</a> page
+              to join the project that invited you.
+            </p>
+            <p tal:condition="not:view/has_invitations" class="oc-bigText">
+              Please take a moment to fill out your profile, then proceed to your <a href="account">account</a> page.
+            </p>
+          </div>
+        </tal:first-login>
+        <form name="profile_form" id="profile_form" method="post" class="oc-member-edit" action="profile-edit" enctype="multipart/form-data">
+          <div id="oc-member-badge" class="oc-boxy oc-clearAfter">
+            <div class="oc-member-editimage">
+              <div metal:use-macro="view/portrait_snippet/macros/portrait" />
+            </div>
+            <fieldset>
+              <metal:login-info use-macro="view/member_macros/macros/login-info" />
+              <ul class="oc-plainList">
+                <li>
+                  <label for="fullname">Name</label><br />
+                  <input type="text" id="fullname" name="fullname"
+                    class="oc-autoFocus"
+                    tal:condition="python: request.form.get('field') == 'fullname'"
+                    tal:attributes="value request/fullname | memberdata/fullname" />
+                  <input type="text" id="fullname" name="fullname"
+                    tal:condition="python: request.form.get('field') != 'fullname'"
+                    tal:attributes="value request/fullname | memberdata/fullname" />
+                </li>
+                <li>
+                  <label for="location">Location</label><br />
+                  <input type="text" id="location" name="location"
+                    class="oc-autoFocus"
+                    tal:condition="python: request.form.get('field') == 'location'"
+                    tal:attributes="value request/location | memberdata/location" />
+                  <input type="text" id="location" name="location"
+                    tal:condition="python: request.form.get('field') != 'location'"
+                    tal:attributes="value request/location | memberdata/location" />
+                </li>
+              </ul>
+            </fieldset>
+          </div>
+          <fieldset>
+
+            <label for="statement">About</label>
+            <textarea rows="3" cols="80" name="statement" id="statement"
+              class="oc-autoFocus"
+              tal:condition="python: request.form.get('field') == 'statement'"
+              tal:content="request/statement | memberdata/statement"></textarea>
+            <textarea rows="3" cols="80" name="statement" id="statement"
+              tal:condition="python: request.form.get('field') != 'statement'"
+              tal:content="request/statement | memberdata/statement"></textarea>
+
+            <label for="background">Background</label>
+            <textarea rows="1" cols="80" name="background" id="background"
+              class="oc-autoFocus"
+              tal:condition="python: request.form.get('field') == 'background'"
+              tal:content="request/background | memberdata/background"></textarea>
+            <textarea rows="1" cols="80" name="background" id="background"
+              tal:condition="python: request.form.get('field') != 'background'"
+              tal:content="request/background | memberdata/background"></textarea>
+
+            <label for="skills">Skills/Interests</label>
+            <textarea rows="1" cols="80" name="skills" id="skills"
+              class="oc-autoFocus"
+              tal:condition="python: request.form.get('field') == 'skills'"
+              tal:content="request/skills | memberdata/skills"></textarea>
+            <textarea rows="1" cols="80" name="skills" id="skills"
+              tal:condition="python: request.form.get('field') != 'skills'"
+              tal:content="request/skills | memberdata/skills"></textarea>
+
+            <label for="affiliations">Affiliations</label>
+            <textarea rows="1" cols="80" name="affiliations" id="affiliations"
+              class="oc-autoFocus"
+              tal:condition="python: request.form.get('field') == 'affiliations'"
+              tal:content="request/affiliations | memberdata/affiliations"></textarea>
+            <textarea rows="1" cols="80" name="affiliations" id="affiliations"
+              tal:condition="python: request.form.get('field') != 'affiliations'"
+              tal:content="request/affiliations | memberdata/affiliations"></textarea>
+
+            <label for="website">Website</label>
+            <textarea rows="1" cols="80" name="website" id="website"
+              class="oc-autoFocus"
+              tal:condition="python: request.form.get('field') == 'website'"
+              tal:content="request/website | memberdata/website"></textarea>
+            <textarea rows="1" cols="80" name="website" id="website"
+              tal:condition="python: request.form.get('field') != 'website'"
+              tal:content="request/website | memberdata/website"></textarea>
+
+            <label for="favorites">Favorites</label>
+            <textarea rows="1" cols="80" name="favorites" id="favorites"
+              class="oc-autoFocus"
+              tal:condition="python: request.form.get('field') == 'favorites'"
+              tal:content="request/favorites | memberdata/favorites"></textarea>
+            <textarea rows="1" cols="80" name="favorites" id="favorites"
+              tal:condition="python: request.form.get('field') != 'favorites'"
+              tal:content="request/favorites | memberdata/favorites"></textarea>
+
+          </fieldset>
+
+          <ul class="oc-actions oc-wiki-actions">
+            <li>
+              <input type="submit" 
+                     name="task|update"
+                     value="Update"
+                     class="oc-button oc-chooseThis" />
+              or <a href="profile">Cancel</a>
+            </li>
+          </ul> 
+        </form>
+      </div><!-- end #oc-content-main -->
+
+      <div id="oc-content-sidebar">
+        <metal:status-messages use-macro="view/member_macros/macros/recent-activity" />
+      </div><!-- end .oc-content-sidebar -->
+    </div><!-- content-fill-slot -->
+  </body>
+</html>
+</tal:vars>

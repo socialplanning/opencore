@@ -1,0 +1,69 @@
+<metal:login-info define-macro="login-info">
+  <div class="oc-headingBlock">
+    <h1 class="fn nickname" tal:content="memberdata/id" />
+    <p class="oc-headingContext oc-discreetText">
+      member since
+      <span tal:replace="memberdata/membersince" />,
+
+      last login
+      <span tal:replace="memberdata/lastlogin" />
+    </p>
+  </div>
+</metal:login-info>
+
+
+<metal:recent-activity define-macro="recent-activity">
+  <div class="oc-boxy">
+    <h2>Recent activity</h2>
+    <div class="oc-widget oc-widget-lastModified">
+      <div class="oc-headingBlock">
+        <h3>Pages last modified by <span tal:replace="memberdata/id" /></h3>
+      </div><!-- end .oc-headingBlock -->
+      <table class="oc-dataTable" cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Page</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr tal:repeat="item view/activity">
+            <td tal:content="item/date" class="oc-lastModified-date" />
+            <td class="oc-lastModified-title"><a tal:attributes="href item/url" tal:content="item/title" />
+              <tal:inproj condition="item/project">
+                in <a tal:attributes="href item/projurl" tal:content="item/project" />
+              </tal:inproj>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <tal:blogosphere tal:define="trackbacks view/trackbacks" tal:condition="python:trackbacks">
+        <div class="oc-headingBlock">
+          <h3>Comments and posts last written by <span tal:replace="memberdata/id" /></h3>
+        </div><!-- end .oc-headingBlock -->
+        <table class="oc-dataTable" cellpadding="0" cellspacing="0">
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Article</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr tal:repeat="trackback python:trackbacks" class="oc-profile-feed" tal:attributes="id trackback/idx">
+              <td tal:content="trackback/pub_date" class="oc-profile-feed-item-date" />
+              <td class="oc-profile-feed-item"><a
+                    tal:attributes="href trackback/url"
+                    tal:content="trackback/title" /> at <span
+                    tal:content="trackback/blog_name" />
+                <tal:loggedin condition="view/viewingself">
+                  <a class="oc-js-actionPost oc-actionLink"
+                    tal:attributes="href trackback/close_url">Close</a>
+                </tal:loggedin>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </tal:blogosphere>
+    </div><!-- end .oc-widget-lastModified -->
+  </div><!-- end .oc-boxy -->
+</metal:recent-activity>

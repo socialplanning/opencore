@@ -1,0 +1,6 @@
+[validators]
+validators=validate_contact_project_admins
+
+[actions]
+action.success = redirect_to_action:string:view
+action.failure = redirect_to_action:string:view

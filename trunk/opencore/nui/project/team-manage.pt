@@ -1,0 +1,136 @@
+<tal:vars define="global proj view/project_info;
+                  global team_manage_macros view/team_manage_macros/macros" />
+
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:Manage Team - ${view/area/Title}" />
+  </head>
+  <body>
+    <div metal:fill-slot="content">
+    
+    <div class="oc-headingBlock">
+      <h1>Team management</h1>
+      <p class="oc-headingContext"
+         tal:define="nmembers python:len(view.active_mships);
+                     npending python:len(view.pending_mships);
+                     many_members python:nmembers != 1;
+                     many_memberships python:npending !=1;"
+                     >
+        <tal:many_members
+          condition="many_members"
+          replace="string:${nmembers} members,"
+          />
+        <tal:one_member
+          condition="not: many_members"
+          replace="string:1 member,"
+          />
+        <tal:many_memberships
+          condition="many_memberships"
+          replace="string:${npending} pending memberships"
+          />
+        <tal:one_membership
+          condition="not: many_memberships"
+          replace="string:1 pending membership"
+          />
+      </p>
+    </div>
+    
+    <div id="oc-content-main">
+      <div id="oc-security-settings" class="oc-boxy">
+        <h2>Your security settings</h2>
+        <p tal:condition="python:proj['security']=='open_policy'">
+          Currently anyone can view the content of your project and 
+	  contribute to it.
+        </p>
+        <p tal:condition="python:proj['security']=='medium_policy'">
+          Currently anyone can view the content of your project.  Only project
+	  members can contribute content.
+        </p>
+        <p tal:condition="python:proj['security']=='closed_policy'">
+          Currently only your project members can view the content
+          of your project and contribute to it.
+        </p>
+        <p><a href="preferences">Change security settings</a></p>
+      </div>
+
+        
+        <tal:pendingrequests
+           define="item_heading string:Users requesting to join your project;
+                   item_type string:request;
+                   item_collection view/pending_requests;
+                   num_items python:len(item_collection);"
+           condition="item_collection">
+          <metal:pending
+             use-macro="team_manage_macros/pendinglist" />
+           </tal:pendingrequests>
+
+        <tal:pendinginvitations
+           define="item_heading string:Pending membership invitations;
+                   item_type string:invitation;
+                   item_collection view/pending_invitations;
+                   num_items python:len(item_collection);"
+           condition="item_collection">
+          <metal:pending
+             use-macro="team_manage_macros/pendinglist" />
+        </tal:pendinginvitations>
+
+        <tal:pendingemailinvites
+           define="item_heading string:Pending email invitations;
+                   item_type string:email-invite;
+                   item_collection view/pending_email_invites;
+                   num_items python:len(item_collection);"
+           condition="item_collection">
+          <metal:emailinvites
+             use-macro="team_manage_macros/pendinglist" />
+        </tal:pendingemailinvites>
+
+        <tal:memberships>
+          <metal:mshiplist use-macro="team_manage_macros/mshiplist" />
+        </tal:memberships>
+    </div><!-- end #oc-content-main -->
+    
+    <div id="oc-content-sidebar">
+      <div class="oc-boxy">
+        <h2>Invite new members</h2>
+        
+        <form name="search-members" id="search-members" method="POST" 
+              tal:attributes="action view/request/ACTUAL_URL">
+    
+          <div class="oc-headingBlock">
+            <h3>Search for members</h3>
+            <p class="oc-headingContext">Search for and invite existing members</p>
+          </div>
+          <fieldset class="oc-form-fieldBlock" style="margin-bottom: 1em;">
+            <input class="oc-input-typeText" type="text" name="search_for" />
+            <input type="submit" name="task|none|search-members"
+             value="Search" class="oc-button" />
+           </fieldset>
+    
+          <metal:search-members use-macro="team_manage_macros/search-members-results" />
+        </form><!-- end #search-members -->
+      
+        <hr />
+      
+        <div class="oc-headingBlock"
+             tal:condition="python:proj['security']!='closed_policy'">
+          <h3>Invite by email address</h3>
+          <p class="oc-headingContext">Send an email to invite people to join</p>
+        </div>
+        <form id="oc-inviteByEmail" name="oc-inviteByEmail"
+              tal:attributes="action view/request/ACTUAL_URL"
+              tal:condition="python:proj['security']!='closed_policy'"
+              method="POST">
+          <textarea style="width: 90%;" rows="3" cols="20" id="email-invites" name="email-invites"
+                    tal:content="view/request/form/email-invites | nothing" />
+          <p class="oc-discreetText">Comma separated</p>
+          <input type="submit" name="task|email-invites" value="Send"
+                 class="oc-button" />
+        </form>
+
+      </div>
+
+    </div><!-- end #oc-content-sidebar -->
+    
+    </div><!-- end content-fill-slot -->
+  </body>
+</html>

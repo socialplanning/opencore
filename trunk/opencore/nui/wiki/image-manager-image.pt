@@ -1,0 +1,21 @@
+<tal:macro metal:define-macro="image">
+  <tal:setvar define="
+  thumb_uri string:${image/getURL}/thumb;
+  image_desc python: '%s - %s' % (image.Title, view.prettySize(image.image_size));
+  image_path python:'%s/%s' % (view.parse_parent_from(image), image.id);
+  width_height image/image_width_height;
+  width python:width_height[0];
+  height python:width_height[1]">
+
+    <div class="thumb_holder" tal:attributes="id string:holder_${image_path}">
+      <a href="#" class="thumb" style="cursor: pointer;" tal:attributes="title image_desc; onclick string:selectImage('/${image_path}', '${image/Title}', ${width}, ${height});; return false;;">
+        <img tal:attributes="src thumb_uri; alt image_desc" />
+      </a>
+      <div class="edit">
+        <a tal:attributes="href string:backend-upload?task|${image/aq_parent/id}|delete-image=del&amp;att=${image/id}" title="Trash" onclick="return confirmDeleteFile('');"><img src="++resource++img/edit_trash.gif" alt="Trash" height="15" width="15" /></a>
+
+        <span tal:replace="width"/>x<span tal:replace="height"/>
+      </div>
+    </div>
+  </tal:setvar>
+</tal:macro>
