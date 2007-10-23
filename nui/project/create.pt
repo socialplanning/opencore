@@ -69,20 +69,19 @@
             <legend class="oc-legend-heading oc-biggerText">Step 2: Security</legend>
             <p class="oc-headingContext oc-smallText">Decide who can see and contribute to this project.  You will create your team on the next page.</p>
             <fieldset>
-              <legend class="oc-legend-label">
+              <!--<legend class="oc-legend-label">
                 <strong>Visitors to OpenPlans can:</strong>
-              </legend>
+              </legend>-->
               <ul class="oc-form-radiolist oc-form-fieldBlock">
-                <li>
-                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
-                  value="medium_policy" checked="checked"/>
-                  <label for="workflow_policy_medium">View this project's content</label>
-                </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
                   value="open_policy" />
-                  <label for="workflow_policy_open">and contribute to it</label><br>
-                  <strong class="oc-smallText">OR</strong>
+                  <label for="workflow_policy_open">Any OpenPlans member can view or contribute to this project</label>
+                </li>
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
+                  value="medium_policy" checked="checked"/>
+                  <label for="workflow_policy_medium">Any OpenPlans member can view this project but only team members can contribute to it</label>
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
