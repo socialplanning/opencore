@@ -123,7 +123,7 @@
                     cur_home view/current_home_page;
                     checked python: url == cur_home;
                     ">
-                    <label tal:attributes="for name">
+                    <label tal:attributes="for name; id string:oc-js-togglee-${name}">
                       <tal:selected condition="checked">
                         <input type="radio" class="" name="home-page"
                                tal:attributes="value url; id name"
