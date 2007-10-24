@@ -66,11 +66,6 @@
      name="view"
      />
 
-  <browser:defaultView
-     for="opencore.interfaces.IProject"
-     name="view"
-     />
-
   <subscriber
      for="opencore.interfaces.IOpenPage
           zope.app.event.interfaces.IObjectModifiedEvent"
