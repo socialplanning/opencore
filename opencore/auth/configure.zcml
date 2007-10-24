@@ -12,4 +12,9 @@
      permission="zope2.View"
      />
 
+  <subscriber 
+     for=".event.IRemoteLoginSucceeded"
+     handler=".handler.copy_remote_member"
+     />
+
 </configure>
