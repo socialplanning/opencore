@@ -46,3 +46,20 @@ class IEmailInvites(Interface):
         given member object into actual membership object invitations
         which can be approved per the default interface.
         """
+
+class IFeedItem(Interface):
+
+    def title():
+        """title of the item"""
+
+    def URL():
+        """location of the item in webspace"""
+
+    def author():
+        """author of the item"""
+
+    def modified():
+        """when the item was modified"""
+
+    
+        
