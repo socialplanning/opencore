@@ -20,7 +20,7 @@ class RemoteAuthView(BrowserView):
         form = self.request.form
         result = uf.authenticate(form.get('username'),
                                  form.get('password'),
-                                 request)
+                                 self.request)
         if result is None:
             return 'False'
         else:
