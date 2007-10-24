@@ -100,6 +100,17 @@ nuischema = Schema((
                         ),
                       ),
                     StringField(
+                      'website',
+                      searchable=1,
+                      widget=StringWidget(
+                        label='website',
+                        label_msgid='label_website',
+                        description_msgid='desc_website',
+                        description='website description.',
+                        size=50,
+                        ),
+                      ),
+                    StringField(
                       'background',
                       index='ZCTextIndex,lexicon_id=plone_lexicon,index_type=Cosine Measure|TextIndex:brains',
                       searchable=1,

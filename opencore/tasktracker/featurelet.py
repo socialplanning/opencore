@@ -33,10 +33,10 @@ class TaskTrackerFeaturelet(SatelliteFeaturelet):
         return "%s/project/uninitialize/" % self.uri
 
     def deliverPackage(self, obj):
-        return SatelliteFeaturelet.deliverPackage(
-            self, obj,
-            extra_headers = {"X-Tasktracker-Initialize":"True"})
-        header = {"X-Tasktracker-Initialize":"True"}
+        #XXX: we send both headers for now so that TT and OC can be updated
+        #independently.  The first can be removed once TT is updated.
+        header = {"X-Tasktracker-Initialize":"True"}        
+        header = {"X-Openplans-Tasktracker-Initialize":"True"}
         response, content = self._makeHttpReqAsUser(self.init_uri, obj=obj,
                                                     headers=header)
         

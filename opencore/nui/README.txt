@@ -126,27 +126,7 @@ Get homepage url (coming soon)::
 
 Member info
 -----------
-
-    >>> pprint(pview.member_info)
-    {'affiliations': '',
-     'anon_email': True,
-     'background': '',
-     'email': '',
-     'favorites': '',
-     'folder_url': 'http://nohost/plone/people/test_user_1_',
-     'fullname': '',
-     'home_url': 'http://nohost/plone/people/test_user_1_/None',
-     'id': 'test_user_1_',
-     'lastlogin': 'never',
-     'location': '',
-     'membersince': 'today',
-     'portrait_thumb_url': '++resource++img/default-portrait-thumb.gif',
-     'portrait_url': '++resource++img/default-portrait.gif',
-     'portrait_width': '200',
-     'projects': [],
-     'skills': '',
-     'statement': '',
-     'url': 'http://nohost/plone/people/test_user_1_'}
+See member_info_test.txt.
 
 
 test nusers and projects_served_count

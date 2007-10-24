@@ -45,22 +45,18 @@ ul#oc-topnav-context li.oc-topnav-selected a {
 }
 #oc-content-main {
 }
-ul.oc-tabs {
-  border-color: #6BA12A;
-}
 #oc-footer-wrapper {
-  color: #999;
-  background: transparent;
+  color: #666;
+  background: #f9f9f9;
   border-top: 1px solid #332F2A;
-  margin: 0 0 2em;
-  padding: 0.5em 0;
+  padding: 0.5em 0 1em;
 }
 #oc-footer a {
-  color: #999;
+  color: #666;
   text-decoration: none;
 }
 #oc-footer a:hover {
-  color: #CCC;
+  color: #999;
 }   
 .oc-missingText {
   color: gray;

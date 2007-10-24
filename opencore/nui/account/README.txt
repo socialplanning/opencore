@@ -377,6 +377,41 @@ Login [to be done]
 [Output should really be the user's homepage.  but it isn't
 due to the fact that PAS isn't called.  Deal with this later]
 
+
+Javascript functionality for Vacuum
+===================================
+
+    >>> def normalize_whitespace(astring):
+    ...      # just a little helper to avoid caring about indentation.
+    ...      return '\n'.join([li.strip() for li in astring.split('\n')]).strip()
+
+
+Logged out user:
+
+    >>> self.logout()
+    >>> jsview = portal.restrictedTraverse('@@user.js')
+    >>> output = jsview()
+    >>> print normalize_whitespace(output)
+    OpenCore.login({
+    loggedin: false
+    });
+
+Logged in user:
+
+    >>> self.login()
+    >>> output = jsview()
+    >>> print normalize_whitespace(output)
+    OpenCore.login({
+    loggedin: true,
+    id: 'test_user_1_',
+    name: '',
+    profileurl: 'http://nohost/plone/people/test_user_1_/profile',
+    memberurl: 'http://nohost/plone/people/test_user_1_',
+    website: '',
+    email: 'test_emailer_1_@example.com'
+    });
+
+
 Verify initial login converts email invites to mship invites
 ============================================================
 

@@ -69,20 +69,19 @@
             <legend class="oc-legend-heading oc-biggerText">Step 2: Security</legend>
             <p class="oc-headingContext oc-smallText">Decide who can see and contribute to this project.  You will create your team on the next page.</p>
             <fieldset>
-              <legend class="oc-legend-label">
+              <!--<legend class="oc-legend-label">
                 <strong>Visitors to OpenPlans can:</strong>
-              </legend>
+              </legend>-->
               <ul class="oc-form-radiolist oc-form-fieldBlock">
-                <li>
-                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
-                  value="medium_policy" checked="checked"/>
-                  <label for="workflow_policy_medium">View this project's content</label>
-                </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
                   value="open_policy" />
-                  <label for="workflow_policy_open">and contribute to it</label><br>
-                  <strong class="oc-smallText">OR</strong>
+                  <label for="workflow_policy_open">Anyone can view this project and any OpenPlans member can contribute to it</label>
+                </li>
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
+                  value="medium_policy" checked="checked"/>
+                  <label for="workflow_policy_medium">Anyone can view this project but only team members can contribute to it</label>
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
@@ -97,16 +96,40 @@
             <legend class="oc-legend-heading oc-biggerText">Step 3: Tools</legend>
             <ul class="oc-form-radiolist oc-form-fieldBlock" >
               <li>
-                <input type="checkbox" class="oc-input-typeCheck" id="tasktracker" name="featurelets:list" value="tasks" checked="true" />
-                <label for="tasktracker">Task lists</label>
+                <input type="checkbox" class="oc-input-typeCheck oc-js-toggler" id="oc-js-toggler-tasks" name="featurelets:list" value="tasks" checked="true" />
+                <label for="oc-js-toggler-tasks">Task lists</label>
               </li>
               <li>
-                <input type="checkbox" class="oc-input-typeCheck" id="listen" name="featurelets:list" value="listen" checked="true" />
-                <label for="listen">Mailing lists</label>
+                <input type="checkbox" class="oc-input-typeCheck oc-js-toggler" id="oc-js-toggler-lists" name="featurelets:list" value="listen" checked="true" />
+                <label for="oc-js-toggler-lists">Mailing lists</label>
               </li>
               <li>
                 <input type="checkbox" class="oc-input-typeCheck" id="wordpress" name="featurelets:list" value="blog" checked="true" />
                 <label for="wordpress">Blog</label>
+              </li>
+            </ul>
+
+            <fieldset style="margin-top: 10px;"><!-- FIXME: Rollie, make something generic for this-->
+            <legend><strong>Select the home page for your project:</strong></legend>
+
+            <ul class="oc-form-radiolist oc-form-fieldBlock">
+              <li>
+                <label for="home_wiki" id="oc-js-togglee-wiki">
+                  <input type="radio" class="oc-input-typeRadio" id="home_wiki" name="home-page" value="project-home" checked="true" />
+                  Wiki
+                </label>
+              </li>
+              <li>
+                <label for="home_tasktracker" id="oc-js-togglee-tasks">
+                  <input type="radio" class="oc-input-typeRadio" id="home_tasktracker" name="home-page" value="tasks" />
+                  Task lists
+                </label>
+              </li>
+              <li>
+                <label for="home_listen" id="oc-js-togglee-lists">
+                  <input type="radio" class="oc-input-typeRadio" id="home_listen" name="home-page" value="lists" />
+                  Mailing lists
+                </label>
               </li>
             </ul>
           </fieldset>

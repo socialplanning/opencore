@@ -2,6 +2,12 @@
    xmlns:browser="http://namespaces.zope.org/browser"
    xmlns:five="http://namespaces.zope.org/five">
 
+  <adapter
+      for="opencore.interfaces.IProject"
+      provides=".interfaces.IHomePage"
+      factory=".home_page.HomePage"
+      />
+
   <browser:page
      for="opencore.interfaces.IAddProject"
      name="create"
@@ -74,6 +80,13 @@
      permission="zope2.View"
      name="latest-snippet"
      template="latest_snippet.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".view.RedirectView"
+     permission="zope2.View"
+     name="view"
      />
 
   <subscriber
