@@ -64,6 +64,7 @@ class MemberMenuView(BaseView):
     def userprefs_url(self):
         return '%s/account' % self.areaURL
 
+    #XXX no longer used
     @memoizedproperty
     def atMemberHome(self):
         result = False
@@ -79,7 +80,7 @@ class MemberMenuView(BaseView):
     @memoizedproperty
     def menudata(self):
         menudata = (
-            {'content': 'Home',
+            {'content': 'Wiki',
              'href': self.areaURL,
              'selected': self.atMemberHome,
              },
@@ -127,15 +128,16 @@ class ProjectMenuView(BaseView):
         featurelets = self.piv.featurelets
         proj = self.piv.project
         proj_url = self.areaURL
+        wiki_url = '%s/%s' % (proj_url, proj.getDefaultPage())
         contents_url = "%s/contents" % proj_url
         team_url = "%s/team" % proj_url
         prefs_url = "%s/preferences" % proj_url
         manage_team_url = "%s/manage-team" % proj_url
 
         menudata = (
-            {'content': 'Home',
-             'href': proj_url,
-             'selected': self.atProjectHome,
+            {'content': 'Wiki',
+             'href': wiki_url,
+             'selected': self.request.ACTUAL_URL == wiki_url,#self.atProjectHome,
              },
 
             {'content': 'Contents',

@@ -34,7 +34,8 @@ OC.liveElementKey.Class = {
     "oc-widget-multiSearch"  : "SearchLinks",
     'oc-dropdown-container'  : "DropDown",
     "oc-autoFocus"           : "AutoFocus",
-    "oc-warn-popup"          : "WarnPopup",
+    "oc-js-toggler"          : "Toggler",
+    "oc-js-featurelet-undelete-warner" : "FeatureletUndeleteWarner",
     'oc-checkAll'            : "CheckAll",
     'oc-js-liveEdit'         : "LiveEdit",
     'oc-js-actionLink'       : "ActionLink",
@@ -1200,42 +1201,31 @@ OC.CloseButton = function(extEl) {
   # Warn Popups
   #  -- THIS IS DUMB AND SHOULD BE LOOKED OVER BY NICK TO MAKE BETTER
 */
-OC.WarnPopup = function(extEl) {
+OC.FeatureletUndeleteWarner = function(extEl) {
 
   //get refs
-  var checkbox = extEl;
+  var container = extEl;
+  var checkbox = Ext.get(container.dom.getElementsByTagName('input')[0]);
+  var warning = Ext.get(Ext.query('.oc-warning', container.dom)[0]);
   
   //check refs
-  if (!checkbox) {
+  if (!checkbox || !container || !warning) {
     return;
+  } 
+
+  // we only want to display the error message
+  // if the element wasn't already selected by default
+  // in other words, only display the warning if the user is taking away
+  // the featurelet, not if they added it and took it away
+  if (checkbox.dom.checked) {
+    checkbox.on('click', function(e, el) { 
+      if (!el.checked) {
+        warning.show();
+      } else {
+        warning.hide();
+      }
+    });
   }
-  
-  extEl.on('click', function(e, el) { 
-    if (!el.checked) {
-      YAHOO.util.Event.preventDefault(e);
-      var msg = "Removing this feature may result in lost data for your project. <br /><br /> Are you sure you want to remove the feature?<br />";
-      Ext.MessageBox.confirm('Confirm', msg, _callback);
-    }
-  });
-  
-  function _callback(button_id) {
-    if (button_id == "yes") {
-      checkbox.dom.checked = false;
-      
-    }
-  }
-/* 
-    var msg = "Removing this feature may result in lost data for your project."
-    msg += " Are you sure you want to remove the feature?"
-    var item = Ext.get(extEl);
-    //behaviors
-    function _itemClick(e, el, o) {
-	if( !item.dom.checked )
-	    if( !confirm(msg) )
-		YAHOO.util.Event.stopEvent(e);
-    }
-    item.on('click', _itemClick, this);
-*/
 };
 
 /* 
@@ -1418,4 +1408,30 @@ OC.HistoryList = function(extEl) {
     OC.debug(form.dom.elements);
     
     return this;
+};
+
+OC.Toggler = function(extEl) {
+    var checkbox = extEl;
+    var label = Ext.get(checkbox.dom.id.replace('toggler', 'togglee'));
+    var radio = Ext.get(label.dom.getElementsByTagName('input')[0]);
+    var wiki = Ext.get(Ext.get('oc-js-togglee-wiki').dom.getElementsByTagName('input')[0]);
+    // check references
+    if (!checkbox || !radio || !wiki || !label) {
+        OC.debug('Error getting references for toggler');
+        return false;
+    }
+    _handle_toggle();
+    function _handle_toggle() {
+        if (checkbox.dom.checked) {
+            radio.dom.disabled = false;
+            label.removeClass('oc-disabled');
+        } else {
+            radio.dom.disabled = true;
+            label.addClass('oc-disabled');
+            if (radio.dom.checked) {
+                wiki.dom.checked = true;
+            }
+        }
+    }
+    checkbox.on('click', _handle_toggle, this);
 };

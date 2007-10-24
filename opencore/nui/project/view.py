@@ -6,6 +6,8 @@ from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.i18nmessageid import Message, MessageFactory
 from Acquisition import aq_parent
+from zope.app.annotation.interfaces import IAnnotations
+from BTrees.OOBTree import OOBTree
 
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
@@ -29,6 +31,7 @@ from opencore.nui import formhandler
 from opencore.nui.base import BaseView
 from opencore.nui.formhandler import OctopoLite, action
 from opencore.nui.project.utils import vdict
+from opencore.nui.project.interfaces import IHomePage
 
 _marker = object()
 
@@ -371,7 +374,7 @@ class ProjectPreferencesView(ProjectBaseView):
             self.add_status_message(msgid='correct_errors_below')
             return
 
-        allowed_params = set(['__initialize_project__', 'update', 'set_flets', 'title', 'description', 'workflow_policy', 'featurelets'])
+        allowed_params = set(['__initialize_project__', 'update', 'set_flets', 'title', 'description', 'workflow_policy', 'featurelets', 'home-page'])
         new_form = {}
         for k in allowed_params:
             if k in self.request.form:
@@ -407,7 +410,26 @@ class ProjectPreferencesView(ProjectBaseView):
             if changed:
                 self.add_status_message(field)
         #self.add_status_message('Your changes have been saved.')
+
+        home_page = self.request.form.get('home-page', None)
+        if home_page is not None:
+            home_page = '%s/%s' % (self.context.absolute_url(), home_page)
+            IHomePage(self.context).home_page = home_page
+            self.add_status_message(_(u'Project home page set to: <a href="%s">%s</a>' % (home_page, home_page)))
+
         self.redirect(self.context.absolute_url())
+
+    def current_home_page(self):
+        return IHomePage(self.context).home_page.split('/')[-1]
+
+    def home_pages(self):
+        # XXX hard-coded list
+        # XXX summary page should be added here when ready
+        return [
+             dict(name='wiki', url='project-home', title='Wiki'),
+             dict(name='tasks', url='tasks', title='Task lists'),
+             dict(name='lists', url='lists', title='Mailing lists'),
+             ]
 
 
 class ProjectAddView(BaseView, OctopoLite):
@@ -475,6 +497,11 @@ class ProjectAddView(BaseView, OctopoLite):
         self.template = None
         proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)
 
+        home_page = self.request.form.get('home-page', None)
+        if home_page is not None:
+            home_page = '%s/%s' % (proj.absolute_url(), home_page)
+            IHomePage(proj).home_page = home_page
+
         self.add_status_message(msgid='project_created',
                                     mapping={'title': title,
                                              'proj_edit_url': proj_edit_url},
@@ -484,6 +511,13 @@ class ProjectAddView(BaseView, OctopoLite):
     def notify(self, project):
         event.notify(AfterProjectAddedEvent(project, self.request))
 
+
+class RedirectView(BaseView):
+    """redirect to the project home page url"""
+
+    def __call__(self):
+        url = IHomePage(self.context).home_page
+        self.redirect(url)
 
 class SubProjectAddView(ProjectAddView):
 
