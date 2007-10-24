@@ -23,10 +23,12 @@ from topp.utils.pretty_date import prettyDate
 
 from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.nui.base import BaseView
-from opencore.nui.formhandler import OctopoLite
-from opencore.nui.formhandler import action
+from opencore.nui.formhandler import OctopoLite, action
 from opencore.nui.member.interfaces import ITransientMessage
 from opencore.nui.project.interfaces import IEmailInvites
+
+from App import config
+
 
 class ProfileView(BaseView):
 
@@ -226,6 +228,15 @@ class MemberAccountView(BaseView, OctopoLite):
 
     active_states = ['public', 'private']
     msg_category = 'membership'
+
+
+    def twirlip_uri(self):
+        cfg = config.getConfiguration().product_config.get('opencore.nui')
+        if cfg:
+            return cfg.get('twirlip_uri', '')
+        else:
+            #this will fail, but at least looking at the source, we'll know why.
+            return 'http://twirlip.example.com'
 
     @property
     @req_memoize

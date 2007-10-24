@@ -88,7 +88,8 @@
     <tal:no_updates condition="not: nupdates">
     </tal:no_updates>
   </div><!-- end .widget-invitations -->
-  
+
+  <a tal:attributes="href string:${view/twirlip_uri}/user/watchlist" rel="include"></a>
   <metal:do use-macro="view/project_table/macros/project_table" />
 
 </div><!-- end #oc-content-main -->
@@ -151,6 +152,7 @@
         </ul>
       </fieldset>
     </form>
+  <a tal:attributes="href string:${view/twirlip_uri}/user/preferences" rel="include"></a>
   </div>
   
   <div class="oc-plainList oc-boxy">
