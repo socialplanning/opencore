@@ -98,11 +98,11 @@
             <ul class="oc-form-radiolist oc-form-fieldBlock" >
               <li>
                 <input type="checkbox" class="oc-input-typeCheck oc-js-toggler" id="oc-js-toggler-tasks" name="featurelets:list" value="tasks" checked="true" />
-                <label for="tasktracker">Task lists</label>
+                <label for="oc-js-toggler-tasks">Task lists</label>
               </li>
               <li>
                 <input type="checkbox" class="oc-input-typeCheck oc-js-toggler" id="oc-js-toggler-lists" name="featurelets:list" value="listen" checked="true" />
-                <label for="listen">Mailing lists</label>
+                <label for="oc-js-toggler-lists">Mailing lists</label>
               </li>
             </ul>
 

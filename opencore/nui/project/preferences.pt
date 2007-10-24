@@ -97,14 +97,14 @@
                 <li class="oc-js-featurelet-undelete-warner">
                   <input type="checkbox" class="oc-input-typeCheck oc-js-toggler" id="oc-js-toggler-tasks" name="featurelets:list" value="tasks"
                     tal:attributes="checked python:view.has_task_tracker" />
-                  <label for="tasktracker">Task Tracker</label>
+                  <label for="oc-js-toggler-tasks">Task Tracker</label>
                   <span class="oc-warning" style="display: none" tal:content="warning" />
                   <!-- <p class="oc-form-context">An extensive to-do list manager that makes it easy to share tasks and get things done.</p> -->
                 </li>
                 <li class="oc-js-featurelet-undelete-warner">
                   <input type="checkbox" class="oc-input-typeCheck oc-js-toggler" id="oc-js-toggler-lists" name="featurelets:list" value="listen"
                     tal:attributes="checked python:view.has_mailing_lists" />
-                  <label for="listen">Mailing lists</label>
+                  <label for="oc-js-toggler-lists">Mailing lists</label>
                   <span class="oc-warning" style="display: none" tal:content="warning" />
                   <!-- <p class="oc-form-context">Email and forum-based discussion spaces.</p> -->
                 </li>
@@ -123,16 +123,16 @@
                     cur_home view/current_home_page;
                     checked python: url == cur_home;
                     ">
-                    <label tal:attributes="for name; id string:oc-js-togglee-${name}">
+                    <label tal:attributes="for name">
                       <tal:selected condition="checked">
                         <input type="radio" class="" name="home-page"
-                               tal:attributes="value url"
+                               tal:attributes="value url; id name"
                                checked="yes"
                                />
                       </tal:selected>
                       <tal:not_selected condition="not:checked">
                         <input type="radio" class="" name="home-page"
-                               tal:attributes="value url"
+                               tal:attributes="value url; id name"
                                />
                       </tal:not_selected>
                       <span tal:replace="title" />
