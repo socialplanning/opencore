@@ -3,7 +3,6 @@ some base class for opencore ui work!
 """
 from Acquisition import aq_inner, aq_parent
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFPlone.utils import transaction_note
 from Products.Five import BrowserView
@@ -11,6 +10,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
 from opencore.interfaces import IProject 
 from opencore.nui.static import render_static
+from zope.i18nmessageid import Message, MessageFactory
 from opencore.i18n import i18n_domain
 from opencore.i18n import translate
 from plone.memoize import instance
@@ -28,6 +28,8 @@ import urllib
 
 view.memoizedproperty = lambda func: property(view.memoize(func))
 view.mcproperty = lambda func: property(view.memoize_contextless(func))
+
+_ = MessageFactory('opencore')
 
 
 class BaseView(BrowserView):
@@ -115,12 +117,14 @@ class BaseView(BrowserView):
         return msgs
 
     # XXX standardize
-    def add_status_message(self, msg=None, msgid=None, **kw):
+    def add_status_message(self, msg):
         plone_utils = self.get_tool('plone_utils')
-        if msgid is not None:
-            msg = self.translate(msgid, **kw)
-        else:
-            msg = _(msg)
+
+        # portal messages don't seem to get translated implicitly
+        # this is why there's an explicit translate here
+        if isinstance(msg, Message):
+            msg = self.translate(msg)
+
         plone_utils.addPortalMessage(msg)
 
     addPortalStatusMessage = add_status_message

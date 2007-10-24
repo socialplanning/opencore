@@ -4,7 +4,6 @@ import string
 from zope import event
 from zope.component import getMultiAdapter
 from zope.component import getUtility
-from zope.i18nmessageid import Message, MessageFactory
 from Acquisition import aq_parent
 
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
@@ -26,13 +25,12 @@ from opencore.project.utils import get_featurelets
 from opencore.tasktracker import uri as tt_uri
 
 from opencore.nui import formhandler
-from opencore.nui.base import BaseView
+from opencore.nui.base import BaseView, _
 from opencore.nui.formhandler import OctopoLite, action
 from opencore.nui.project.utils import vdict
 
 _marker = object()
 
-_ = MessageFactory('opencore')
 
 class ProjectBaseView(BaseView):
 
@@ -368,7 +366,7 @@ class ProjectPreferencesView(ProjectBaseView):
             self.errors['title'] = 'The project name must contain at least 2 characters with at least 1 letter or number.'
 
         if self.errors:
-            self.add_status_message(msgid='correct_errors_below')
+            self.add_status_message(_(u'correct_errors_below', u'Please correct the errors indicated below.'))
             return
 
         allowed_params = set(['__initialize_project__', 'update', 'set_flets', 'title', 'description', 'workflow_policy', 'featurelets'])
@@ -458,7 +456,7 @@ class ProjectAddView(BaseView, OctopoLite):
                 self.errors['id'] = 'The requested url is already taken.'
 
         if self.errors:
-            self.add_status_message(msgid='correct_errors_below')
+            self.add_status_message(_(u'correct_errors_below', u'Please correct the errors indicated below.'))
             return
 
         proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
@@ -466,7 +464,7 @@ class ProjectAddView(BaseView, OctopoLite):
         # XXX is no validation better than an occasional ugly error?
         #proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
-            self.add_status_message(msgid='correct_errors_below')
+            self.add_status_message(_(u'correct_errors_below', u'Please correct the errors indicated below.'))
             return 
 
         self.context.portal_factory.doCreate(proj, id_)
@@ -474,11 +472,13 @@ class ProjectAddView(BaseView, OctopoLite):
         self.notify(proj)
         self.template = None
         proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)
-
-        self.add_status_message(msgid='project_created',
-                                    mapping={'title': title,
-                                             'proj_edit_url': proj_edit_url},
-                                    )
+        
+        s_message_mapping = {'title': title, 'proj_edit_url': proj_edit_url}
+        s_message = _(u'project_created',
+                      u'"${title}" has been created. Create a team by searching for other members to invite to your project, then <a href="${proj_edit_url}">edit your project home page</a>.',
+                      mapping=s_message_mapping)
+        
+        self.add_status_message(s_message)
         self.redirect('%s/manage-team' % proj.absolute_url())
 
     def notify(self, project):
