@@ -2,7 +2,7 @@ import os, sys
 import unittest
 
 from plone.memoize.view import ViewMemo
-from zope.annotation.interfaces import IAnnotations
+from zope.app.annotation.interfaces import IAnnotations
 from zope.interface import alsoProvides
 from zope.component import getMultiAdapter
 
