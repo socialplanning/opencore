@@ -1205,41 +1205,27 @@ OC.FeatureletUndeleteWarner = function(extEl) {
 
   //get refs
   var container = extEl;
-    var checkbox = Ext.get(container.dom.getElementsByTagName('input')[0]);
-    var warning = Ext.get(Ext.query('.oc-warning', container.dom)[0]);
+  var checkbox = Ext.get(container.dom.getElementsByTagName('input')[0]);
+  var warning = Ext.get(Ext.query('.oc-warning', container.dom)[0]);
   
   //check refs
   if (!checkbox || !container || !warning) {
     return;
   } 
-  
-  checkbox.on('click', function(e, el) { 
 
-    if (!el.checked) {
+  // we only want to display the error message
+  // if the element wasn't already selected by default
+  // in other words, only display the warning if the user is taking away
+  // the featurelet, not if they added it and took it away
+  if (checkbox.dom.checked) {
+    checkbox.on('click', function(e, el) { 
+      if (!el.checked) {
         warning.show();
-    } else {
+      } else {
         warning.hide();
-    }
-  });
-  
-  function _callback(button_id) {
-    if (button_id == "yes") {
-      checkbox.dom.checked = false;
-      
-    }
+      }
+    });
   }
-/* 
-    var msg = "Removing this feature may result in lost data for your project."
-    msg += " Are you sure you want to remove the feature?"
-    var item = Ext.get(extEl);
-    //behaviors
-    function _itemClick(e, el, o) {
-	if( !item.dom.checked )
-	    if( !confirm(msg) )
-		YAHOO.util.Event.stopEvent(e);
-    }
-    item.on('click', _itemClick, this);
-*/
 };
 
 /* 
