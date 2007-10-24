@@ -11,7 +11,7 @@ from Products.CMFCore.utils import getToolByName
 from opencore.utility.interfaces import IHTTPClient
 
 
-def copyRemoteMember(event):
+def copy_remote_member(event):
     """
     Creates a new member object that is a copy of one on the remote
     server.
