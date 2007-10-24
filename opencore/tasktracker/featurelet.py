@@ -61,7 +61,10 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
         return self.http.request(uri, method=method, headers=headers)
 
     def deliverPackage(self, obj):
-        header = {"X-Tasktracker-Initialize":"True"}
+        #XXX: we send both headers for now so that TT and OC can be updated
+        #independently.  The first can be removed once TT is updated.
+        header = {"X-Tasktracker-Initialize":"True"}        
+        header = {"X-Openplans-Tasktracker-Initialize":"True"}
         response, content = self._makeHttpReqAsUser(self.init_uri, obj=obj,
                                                     headers=header)
         
