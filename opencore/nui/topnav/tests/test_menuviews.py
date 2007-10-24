@@ -96,6 +96,8 @@ class TestProjectMenu(OpenPlansTestCase):
         self.proj_id = 'p3'
         self.proj_admin_id = 'm1'
         self.proj = self.portal.projects._getOb(self.proj_id)
+        request = self.request
+        request.ACTUAL_URL = self.request.URL = 'http://nohost/plone/projects/p3/project-home'
         self.proj_view = getMultiAdapter((self.proj, self.request),
                                           name='topnav-project-menu')
         self.proj_home = self.proj._getOb(self.proj.getDefaultPage())
@@ -129,7 +131,7 @@ class TestProjectMenu(OpenPlansTestCase):
         # add 'preferences' and 'manage team', remove 'join'
 
         self.failUnless(len(menudata) == 5)
-        self.assertEqual(mdmap['wiki']['href'], self.proj.absolute_url())
+        self.assertEqual(mdmap['wiki']['href'], self.proj.absolute_url() + '/project-home')
         self.failUnless(mdmap['wiki']['selected'])
         self.failIf(mdmap['contents']['selected'])
         self.failIf(mdmap['team']['selected'])
@@ -147,7 +149,7 @@ class TestProjectMenu(OpenPlansTestCase):
         menudata = self.proj_view.menudata
         mdmap = self.make_menudata_map(menudata)
         self.failUnless(len(menudata) == 5)
-        self.assertEqual(mdmap['wiki']['href'], self.proj.absolute_url())
+        self.assertEqual(mdmap['wiki']['href'], self.proj.absolute_url() + '/project-home')
         self.failIf(mdmap['wiki']['selected'])
         self.failUnless(mdmap['contents']['selected'])
         self.failIf(mdmap['team']['selected'])
@@ -160,7 +162,7 @@ class TestProjectMenu(OpenPlansTestCase):
         menudata = self.proj_view.menudata
         mdmap = self.make_menudata_map(menudata)
         self.failUnless(len(menudata) == 5)
-        self.assertEqual(menudata[0]['href'], self.proj.absolute_url())
+        self.assertEqual(menudata[0]['href'], self.proj.absolute_url() + '/project-home')
         self.failIf(mdmap['wiki']['selected'])
         self.failIf(mdmap['contents']['selected'])
         self.failUnless(mdmap['team']['selected'])
@@ -173,7 +175,7 @@ class TestProjectMenu(OpenPlansTestCase):
         menudata = self.proj_view.menudata
         mdmap = self.make_menudata_map(menudata)
         self.failUnless(len(menudata) == 5)
-        self.assertEqual(menudata[0]['href'], self.proj.absolute_url())
+        self.assertEqual(menudata[0]['href'], self.proj.absolute_url() + '/project-home')
         self.failIf(mdmap['wiki']['selected'])
         self.failIf(mdmap['contents']['selected'])
         self.failIf(mdmap['team']['selected'])
@@ -186,7 +188,7 @@ class TestProjectMenu(OpenPlansTestCase):
         menudata = self.proj_view.menudata
         mdmap = self.make_menudata_map(menudata)
         self.failUnless(len(menudata) == 5)
-        self.assertEqual(mdmap['wiki']['href'], self.proj.absolute_url())
+        self.assertEqual(mdmap['wiki']['href'], self.proj.absolute_url() + '/project-home')
         self.failIf(mdmap['wiki']['selected'])
         self.failIf(mdmap['contents']['selected'])
         self.failIf(mdmap['team']['selected'])
