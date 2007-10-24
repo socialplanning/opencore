@@ -47,6 +47,20 @@ ProjectSchema = TeamSpace.schema.copy() + \
             size=50,
             ),
           ),
+
+        ImageField('logo',
+          mode='rw',
+          accessor='getLogo',
+          mutator='setLogo',
+          max_size=(150,150),
+          widget=ImageWidget(
+            label='Logo',
+            label_msgid='label_logo',
+            description="",
+            description_msgid='help_logo',
+            i18n_domain='plone',
+            ),
+          ),
         ))
 
 ProjectSchema['id'].widget.label = 'URL Name'
