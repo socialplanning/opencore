@@ -92,19 +92,20 @@
               <legend class="oc-legend-heading oc-biggerText">Tools</legend>
               <fieldset>
                 <legend><strong>Which additional tools would you like to install?</strong></legend>
-              <ul class="oc-form-radiolist">
+              <ul class="oc-form-radiolist"
+                  tal:define="warning string:Warning: Removing this feature may result in data loss.">
                 <li class="oc-js-featurelet-undelete-warner">
                   <input type="checkbox" class="oc-input-typeCheck oc-js-toggler" id="oc-js-toggler-tasks" name="featurelets:list" value="tasks"
                     tal:attributes="checked python:view.has_task_tracker" />
                   <label for="tasktracker">Task Tracker</label>
-                  <span class="oc-warning" style="display: none">Warning: Removing this feature may result in data loss.</span>
+                  <span class="oc-warning" style="display: none" tal:content="warning" />
                   <!-- <p class="oc-form-context">An extensive to-do list manager that makes it easy to share tasks and get things done.</p> -->
                 </li>
                 <li class="oc-js-featurelet-undelete-warner">
                   <input type="checkbox" class="oc-input-typeCheck oc-js-toggler" id="oc-js-toggler-lists" name="featurelets:list" value="listen"
                     tal:attributes="checked python:view.has_mailing_lists" />
                   <label for="listen">Mailing lists</label>
-                  <span class="oc-warning" style="display: none">Warning: Removing this feature may result in data loss.</span>
+                  <span class="oc-warning" style="display: none" tal:content="warning" />
                   <!-- <p class="oc-form-context">Email and forum-based discussion spaces.</p> -->
                 </li>
               </ul>
