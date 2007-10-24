@@ -4,16 +4,11 @@
   </head>
   <body>
     <div metal:fill-slot="content">
-    
-      <div class="oc-headingBlock">
-        <h1>Join <span tal:replace="view/area/Title" /></h1>
-          <h2 tal:define="mission context/Description"
-              tal:condition="mission"
-              tal:content="mission">Project mission statement</h2>
-        <p class="oc-headingContext">Request membership to this project.</p>
-      </div>
-    
       <div id="oc-content-main">
+        <div class="oc-headingBlock">
+          <h1>Join <span tal:replace="view/area/Title" /></h1>
+          <p class="oc-headingContext">Request membership to this project.</p>
+        </div>
         <form method="POST" id="request-membership"
               tal:attributes="action view/request/ACTUAL_URL">
             <label for="request-message">Message</label>
@@ -30,6 +25,17 @@
                </a>
         </form>
       </div><!--end oc-content-main -->
+      <div id="oc-content-sidebar">
+        <div class="oc-boxy" tal:condition="mission">
+        <h2>About &ldquo;<span tal:replace="view/area/Title" />&rdquo;</h2>
+        <dl class="oc-plainList">
+          <dt>Goals</dt>
+          <dd tal:define="mission context/Description"
+             tal:condition="mission"
+             tal:content="mission">Project mission statement</dd>
+        </dl>
+        </div>
+      </div>
     
     </div><!-- end content-fill-slot -->
   </body>
