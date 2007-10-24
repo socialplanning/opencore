@@ -52,14 +52,14 @@ class IFeedItem(Interface):
     def title():
         """title of the item"""
 
-    def URL():
+    def url():
         """location of the item in webspace"""
 
     def author():
         """author of the item"""
 
-    def modified():
-        """when the item was modified"""
+    def date():
+        """when the item was modified/created"""
 
     
         

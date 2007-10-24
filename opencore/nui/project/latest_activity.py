@@ -24,6 +24,31 @@ class ListFromCatalog:
             number = len(items)
         return items[:number]
 
+class Feed:
+    """a rediculously stupid class for feeds.
+    should be redone"""
+    def __init__(self, title, listgetter, listgetterargs,
+                 tofeed):
+        self.title = title
+        self.listgetter = listgetter
+        self.listgetterargs = listgetterargs # should be like ( [], {} )
+        self.tofeed = tofeed
+
+    def getlist(self):
+        return self.listgetter(*self.listgetterargs[0], **self.listgetterargs[1])
+
+    def getfeeds(self):
+        return [ self.tofeed(source) for source in self.getlist() ]
+
+def project2feed(project_brains):
+    return { 'title': project_brains.Title,
+             'url': project_brains.getURL(),
+             'author': { 'home': 'http://www.google.com',
+                         'userid': 'foo', },
+             'date': 'never',
+             }
+             
+
 class LatestActivityView(ProjectContentsView):
     """
     displays latest activity for a project.
@@ -37,14 +62,33 @@ class LatestActivityView(ProjectContentsView):
 
     def __init__(self, context, request):
         ProjectContentsView.__init__(self, context, request)
-        self.feed_types = [ 'pages', 'lists' ]
+        
+        self.feed_types = [ Feed('Pages',
+                                 ListFromCatalog(self._portal_type['pages'], self.project_path),
+                                 ([self.catalog], {}),
+                                 project2feed),
+                            ]
+
+        if self.has_mailing_lists:
+            self.feed_types.append(Feed('Discussions',
+                                        ListFromCatalog(self._portal_type['lists'], self.project_path),
+                                        ([self.catalog], {})),
+                                   )                                                             
+    def snippet(self, feed):
+        snip = self.context.unrestrictedTraverse('latest-snippet')
+        snip.feedtitle = feed.title
+        snip.items = feed.getfeeds()
+        return snip()
 
     def feeds(self):
-        return [ ListFromCatalog(self._portal_type['pages'], self.project_path)(self.catalog),
-                 ListFromCatalog(self._portal_type['lists'], self.project_path)(self.catalog) ]
+        feeds = [ self.snippet(feed) for feed in self.feed_types ]
+        return feeds
 
     def activity(self):
         f = ListFromCatalog(portal_type='Document', path=self.project_path)
-        g = LatestSnippet(self.context, self.request, 'A Bad Title')
-        import pdb;  pdb.set_trace()
+        g = self.context.unrestrictedTraverse('latest-snippet')
+        foo = g()
+#        import pdb;  pdb.set_trace()
+#        g = LatestSnippet(self.context, self.request, 'A Bad Title')
+
             

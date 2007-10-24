@@ -1,10 +1,10 @@
 <div class="oc-widget oc-widget-feed oc-home-column">
-  <h2 class="oc-feed-title">view/feedtitle</h2>
+  <h2 class="oc-feed-title" tal:content="view/feedtitle">Feed Title</h2>
   <ul class="oc-feed-list">
     <li class="oc-feed-item oc-clearAfter" 
 	tal:repeat="feeditem
 		    view/items">
-      <img tal:attributes="src feeditem/icon" />
+<!--      <img tal:attributes="src feeditem/icon" /> -->
       <div>
 	<h3 class="oc-feed-item-title">
 	  <a tal:attributes="href feeditem/url"

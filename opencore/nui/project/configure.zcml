@@ -68,6 +68,14 @@
      template="latest_activity.pt"
      />
 
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".latest_snippet.LatestSnippet"
+     permission="zope2.View"
+     name="latest-snippet"
+     template="latest_snippet.pt"
+     />
+
   <subscriber
      for="opencore.interfaces.IOpenPage
           zope.app.event.interfaces.IObjectModifiedEvent"
