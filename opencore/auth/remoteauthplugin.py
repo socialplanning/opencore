@@ -4,8 +4,10 @@ from zope import event
 from zope.interface import implements
 from zope.component import getUtility
 
-from Products.PluggableAuthService.interfaces import IAuthenticationPlugin
+from Globals import InitializeClass
+from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
+from Products.PluggableAuthService.interfaces.plugins import IAuthenticationPlugin
 
 from opencore.utility.interfaces import IHTTPClient
 
@@ -14,11 +16,36 @@ from config_tmp import REMOTE_AUTH_SITES
 
 TRUE = 'True'
 
+
+manage_addOpenCoreRemoteAuthForm = PageTemplateFile(
+        "zmi/OpenCoreRemoteAuthPluginForm.pt", globals(),
+        __name__="manage_addOpenCoreRemoteAuthForm")
+
+
+def manage_addOpenCoreRemoteAuth(dispatcher, id, title=None, REQUEST=None):
+    """Add an OpenCore remote auth plugin to a Pluggable
+    Authentication Service acl_users."""
+    authplugin = RemoteOpenCoreAuth(id, title)
+    dispatcher._setObject(authplugin.getId(), authplugin)
+
+    if REQUEST is not None:
+        query = urlencode({'manage_tabs_message':
+                           'OpenCore+remote+auth+plugin+added.',
+                           },
+                          )
+        REQUEST.RESPONSE.redirect(
+                '%s/manage_workspace?%s'
+                % (dispatcher.absolute_url(),
+                   query)
+                )
+
+
 class RemoteOpenCoreAuth(BasePlugin):
     """
     Authenticates against a set of remote authentication providers.
     Fires an event upon successful authentication.
     """
+    meta_type = 'OpenCore Remote Authentication'
     
     implements(IAuthenticationPlugin)
 
@@ -48,3 +75,5 @@ class RemoteOpenCoreAuth(BasePlugin):
 
         # all remote auth attempts failed
         return None
+
+InitializeClass(RemoteOpenCoreAuth)
