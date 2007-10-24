@@ -2,10 +2,6 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.MailHost.MailHost import MailHostError
 from Products.validation.validators.BaseValidators import EMAIL_RE
-from zope.event import notify
-from opencore.interfaces.event import JoinedProjectEvent
-from opencore.interfaces.event import LeftProjectEvent
-from opencore.interfaces.event import ChangedTeamRolesEvent
 from opencore.configuration import DEFAULT_ROLES
 from opencore.content.membership import OpenMembership
 from opencore.nui import formhandler
@@ -301,7 +297,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     @property
     @req_memoize
     def pending_email_invites(self):
-        invites_util = getUtility(IEmailInvites, context=self.portal)
+        invites_util = getUtility(IEmailInvites)
         invites = invites_util.getInvitesByProject(self.context.getId())
         return [{'id': urllib.quote(address), 'address': address,
                  'timestamp': timestamp}
@@ -416,10 +412,6 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             transition_id = transition[0]['id']
             wftool.doActionFor(mship, transition_id)
             napproved += 1
-
-            notify(JoinedProjectEvent(mship))
-
-            #XXX sending the email should go in an event subscriber
             try:
                 self.email_sender.sendEmail(mem_id, msg_id='request_approved',
                                             project_title=self.context.title,
@@ -574,7 +566,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         msg = sender.constructMailMessage('invitation_retracted',
                                           project_title=self.context.title)
 
-        invite_util = getUtility(IEmailInvites, context=self.portal)
+        invite_util = getUtility(IEmailInvites)
         proj_id = self.context.getId()
         for address in addresses:
             invite_util.removeInvitation(address, proj_id)
@@ -662,10 +654,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         mems_removed = self.doMshipWFAction('deactivate', mem_ids, self.mship_only_admin)
         sender = self.email_sender
         ret = {}
-        #XXX sending an email should be in an event handler
         for mem_id in mems_removed:
-            mship = self.team._getOb(mem_id)
-            notify(LeftProjectEvent(mship))
             try:
                 sender.sendEmail(mem_id, msg_id='membership_deactivated',
                                  project_title=self.context.title)
@@ -840,7 +829,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             self.add_status_message(psm)
             return # don't do anything, just re-render the form
 
-        utility = getUtility(IEmailInvites, context=self.portal)
+        utility = getUtility(IEmailInvites)
         proj_id = self.context.getId()
         proj_title = self.context.title
         mbtool = self.membranetool

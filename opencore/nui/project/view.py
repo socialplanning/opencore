@@ -5,7 +5,6 @@ from zope import event
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.i18nmessageid import Message, MessageFactory
-from zExceptions import BadRequest, Redirect
 from Acquisition import aq_parent
 
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
@@ -29,11 +28,7 @@ from opencore.tasktracker import uri as tt_uri
 from opencore.nui import formhandler
 from opencore.nui.base import BaseView
 from opencore.nui.formhandler import OctopoLite, action
-from opencore.nui.main import SearchView
-from opencore.nui.main.search import searchForPerson
-from opencore.nui.member.interfaces import ITransientMessage
 from opencore.nui.project.utils import vdict
-from opencore.nui.project import mship_messages
 
 _marker = object()
 
@@ -48,10 +43,6 @@ class ProjectBaseView(BaseView):
     @memoizedproperty
     def has_task_tracker(self):
         return self._has_featurelet('tasks')
-
-    @memoizedproperty
-    def has_blog(self):
-        return self._has_featurelet('blog')
 
     def _has_featurelet(self, flet_id):
         flets = get_featurelets(self.context)

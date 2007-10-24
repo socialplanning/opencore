@@ -6,11 +6,10 @@
 	   provides="opencore.cabochon.interfaces.ICabochonClient"
 	   />
 
-  <!--subscriber
+  <subscriber
      handler=".objectAdded"
-     /-->
+     />
   <subscriber
      handler=".objectModified"
-     for="Products.remember.interfaces.IReMember zope.app.event.interfaces.IObjectModifiedEvent"
      />
 </configure>

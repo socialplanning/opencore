@@ -5,7 +5,6 @@ tasktracker instance
 from opencore.tasktracker.interfaces import ITaskTrackerInfo
 from zope.interface import implements
 from zope.component import getUtility
-from App import config
 
 class TaskTrackerURI(object):
     implements(ITaskTrackerInfo)
@@ -29,15 +28,7 @@ def configure_tt_info(_context, uri, external_uri=None):
         )
 
 def get():
-    cfg = config.getConfiguration().product_config.get('opencore.tasktracker')
-    fallback = getUtility(ITaskTrackerInfo).uri
-    if cfg:
-        return cfg.get('uri', fallback)
-    return fallback
+    return getUtility(ITaskTrackerInfo).uri
 
 def get_external_uri():
-    cfg = config.getConfiguration().product_config.get('opencore.tasktracker')
-    fallback = getUtility(ITaskTrackerInfo).external_uri
-    if cfg:
-        return cfg.get('external_uri', fallback)
-    return fallback
+    return getUtility(ITaskTrackerInfo).external_uri

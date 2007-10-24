@@ -21,12 +21,12 @@ setup(name='opencore',
       include_package_data=True,
       zip_safe=False,
       dependency_links=['https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect',
+                        'http://svn.red-bean.com/bob/simplejson/trunk/#egg=simplejson-dev',
                         'http://www.openplans.org/projects/opencore/dependencies',
                         'https://svn.plone.org/svn/plone/plone.memoize/trunk#egg=plone.memoize-dev'],
       install_requires=[
           # -*- Extra requirements: -*-
           'simplejson',
-          'decorator',
           'topp.featurelets',
           'topp.utils',
           'memojito',
@@ -37,7 +37,6 @@ setup(name='opencore',
           'plone.mail',
           'plone.app.form',
           'borg.localrole==1.0rc1',
-          'wsseauth',
           ]
       )
 

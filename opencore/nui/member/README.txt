@@ -123,21 +123,7 @@ XXXX Notice that the project title here isn't properly unicode for some reason. 
     >>> self.login('m1')
 
     Now we should be able to leave the project just fine
-    The proper event should get fired as well
-    >>> self.clear_events()
     >>> view.leave_project('p2')
-    True
-
-    A role change event gets fired in addition to a left project event
-    >>> len(self.events)
-    2
-    >>> obj, event = self.events[0]
-    >>> from opencore.interfaces.event import IChangedTeamRolesEvent
-    >>> IChangedTeamRolesEvent.providedBy(event)
-    True
-    >>> obj, event = self.events[1]
-    >>> from opencore.interfaces.event import ILeftProjectEvent
-    >>> ILeftProjectEvent.providedBy(event)
     True
 
     And finally, m1 should no longer have active membership to project p2
@@ -302,20 +288,9 @@ Let's accept our gracious invitation
 
     >>> view.request.form = dict(mode='async')
 
-    And we should verify that the proper events get sent
-    >>> self.clear_events()
-
     Now we can trigger them, we get the json response
     >>> sorted(view.accept_handler(['p4']).keys())
     ['num_updates', 'p4_invitation', 'projinfos_for_user']
-
-    Now we can check that we got the event
-    >>> len(self.events)
-    1
-    >>> obj, event = self.events[0]
-    >>> from opencore.interfaces.event import IJoinedProjectEvent
-    >>> IJoinedProjectEvent.providedBy(event)
-    True
 
     And thus, we should no longer be invited
     >>> self.clearMemoCache()
@@ -491,16 +466,8 @@ It's talented, isn't it?
     # should have different messages for both
 
     And now actually change the email address
-    and verify that the proper event was sent
-    >>> self.clear_events()
     >>> request.form['email'] = 'foobarbazquux@example.com'
     >>> view.change_email()
-    >>> len(self.events)
-    1
-    >>> from opencore.interfaces.event import IMemberEmailChangedEvent
-    >>> obj, event = self.events[0]
-    >>> IMemberEmailChangedEvent.providedBy(event)
-    True
     >>> view.portal_status_message
     [u'Your email address has been changed.']
 

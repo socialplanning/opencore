@@ -1,10 +1,17 @@
-from zope.schema import ASCII
-from zope.i18nmessageid import MessageIDFactory
+from zope.interface import invariant
+from zope.interface import Invalid
+
+from Products.CMFCore.utils import getToolByName
 
 from Products.listen.interfaces.mailinglist import IMailingList
 
+from zope.schema import ASCII
+from zope.i18nmessageid import MessageIDFactory
+
 from utils import isValidPrefix
+
 from config import LIST_SUFFIX as SUFFIX
+
 
 _ = MessageIDFactory('opencore')
 
@@ -21,3 +28,4 @@ class IOpenMailingList(IMailingList):
         )
 
     mailto.order = IMailingList['mailto'].order
+

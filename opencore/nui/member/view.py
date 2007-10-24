@@ -1,8 +1,15 @@
-from zope import event
-from zope.component import getUtility
+from datetime import datetime
+from datetime import timedelta
+from time import strftime
+from time import gmtime
+from urlparse import urlsplit
+from urlparse import urlunsplit
 
-from zExceptions import BadRequest
-from zExceptions import Redirect
+from zope.component import getUtility
+from zope.event import notify
+from zope.app.event.objectevent import ObjectModifiedEvent
+
+from DateTime import DateTime
 
 from plone.memoize.view import memoize as req_memoize
 
@@ -13,27 +20,20 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.AdvancedQuery import Eq
 
 from topp.utils.pretty_date import prettyDate
-from DateTime import DateTime
 
-from opencore.nui.base import BaseView
-from opencore.nui.formhandler import OctopoLite, action
 from opencore.interfaces.catalog import ILastWorkflowActor
-from opencore.interfaces.event import MemberEmailChangedEvent
-from opencore.interfaces.event import JoinedProjectEvent
-from opencore.interfaces.event import LeftProjectEvent
+from opencore.nui.base import BaseView
+from opencore.nui.formhandler import OctopoLite
+from opencore.nui.formhandler import action
 from opencore.nui.member.interfaces import ITransientMessage
 from opencore.nui.project.interfaces import IEmailInvites
-
-from zope.event import notify
-from zope.app.event.objectevent import ObjectModifiedEvent
 
 class ProfileView(BaseView):
 
     field_snippet = ZopeTwoPageTemplateFile('field_snippet.pt')
     member_macros = ZopeTwoPageTemplateFile('member_macros.pt') 
 
-    # XXX this seems to be called twice when i hit /user/profile 
-    #     or /user/profile/edit ... why is that?
+
     def __init__(self, context, request):
         BaseView.__init__(self, context, request)
         self.public_projects = []
@@ -103,6 +103,36 @@ class ProfileView(BaseView):
             return portrait_url
         timestamp = str(DateTime()).replace(' ', '_')
         return '%s?%s' % (portrait_url, timestamp)
+
+    def trackbacks(self):
+        self.msg_category = 'Trackback'
+
+        tm = getUtility(ITransientMessage, context=self.portal)
+        mem_id = self.viewed_member_info['id']
+        msgs = tm.get_msgs(mem_id, self.msg_category)
+
+        timediff = datetime.now() - timedelta(days=60)
+        old_messages = [(idx, value) for (idx, value) in msgs if value['time'] < timediff]
+        for (idx, value) in old_messages:
+            tm.pop(mem_id, self.msg_category, idx)
+        if not old_messages:
+            msgs = tm.get_msgs(mem_id, self.msg_category)
+
+        # We want to insert the indexes into the values so that we can properly address them for deletion
+        addressable_msgs = []
+        for (idx, value) in msgs:
+            if 'excerpt' not in value.keys():
+                tm.pop(mem_id, self.msg_category, idx)
+                value['excerpt'] = ''
+                tm.store(mem_id, self.msg_category, value)
+            # XXX is there any way to avoid generating html in python code here? usually a bad idea.
+            value['idx'] = 'trackback_%d' % idx
+            value['close_url'] = 'trackback-delete?idx=%d' % idx
+            value['pub_date']    = prettyDate(value['time'])
+            value['content'] = "<![CDATA[<a href=\"%s\">%s</a> at <span>%s</span> - \"%s\"]]>" % (value['url'], value['title'], value['blog_name'], value['excerpt'])
+            addressable_msgs.append(value)
+
+        return addressable_msgs
 
 
 class ProfileEditView(ProfileView, OctopoLite):
@@ -321,8 +351,6 @@ class MemberAccountView(BaseView, OctopoLite):
             return False
 
         if self._apply_transition_to(proj_id, 'deactivate'):
-            mship = self._membership_for_proj(proj_id)
-            notify(LeftProjectEvent(mship))
             return True
         else:
             self.addPortalStatusMessage('You cannot leave this project.')
@@ -472,9 +500,6 @@ class MemberAccountView(BaseView, OctopoLite):
                                 'html': self.nupdates()}
                 })
 
-        mship = team._getOb(id_)
-        notify(JoinedProjectEvent(mship))
-
         return command
 
     @action('DenyInvitation')
@@ -603,7 +628,6 @@ class MemberAccountView(BaseView, OctopoLite):
 
         mem.setEmail(email)
         mem.reindexObject(idxs=['getEmail'])
-        notify(MemberEmailChangedEvent(mem))
         self.addPortalStatusMessage('Your email address has been changed.')
 
 
@@ -612,3 +636,65 @@ class MemberAccountView(BaseView, OctopoLite):
     def pretty_role(self, role):
         role = self.role_map.get(role, role)
         return role
+
+class TrackbackView(BaseView):
+    """handle trackbacks"""
+
+    msg_category = 'Trackback'
+
+    def __call__(self):
+        # Add a trackback and return a javascript callback
+        # so client script knows when it's done and whether it succeeded.
+        mem_id = self.viewed_member_info['id']
+        tm = getUtility(ITransientMessage, context=self.portal)
+
+        if self.viewedmember() != self.loggedinmember:
+            self.request.response.setStatus(403)
+            return 'OpenCore.submitstatus(false);'
+
+        # check for all variables
+        url = self.request.form.get('commenturl')
+        title = self.request.form.get('title')
+        blog_name = self.request.form.get('blog_name', 'an unnamed blog')
+        comment = self.request.form.get('comment')
+        if not title:
+            excerpt = comment.split('.')[0]
+            title = excerpt[:100]
+            if title != excerpt:
+                title += '...'
+        if url is None or comment is None:
+            self.request.response.setStatus(400)
+            return 'OpenCore.submitstatus(false);'
+
+        tm.store(mem_id, self.msg_category, {'url':url, 'title':title, 'blog_name':blog_name, 'excerpt':comment, 'time':datetime.now()})
+        return 'OpenCore.submitstatus(true);'
+
+
+    def delete(self):
+        mem_id = self.viewed_member_info['id']
+
+        if urlsplit(self.request['HTTP_REFERER'])[1] != urlsplit(self.siteURL)[1]:
+            self.request.response.setStatus(403)
+            return 'Cross site deletes not allowed!'
+
+        # XXX todo 
+        #     a) move this to @nui.formhandler.post_only 
+        #     b) use that
+        if self.request['REQUEST_METHOD'] != 'POST':
+            self.request.response.setStatus(405)
+            return 'Not Post'
+        if self.viewedmember() != self.loggedinmember:
+            self.request.response.setStatus(403)
+            return 'You must be logged in to modify your posts!'
+
+        index = self.request.form.get('idx')
+        if index is None:
+            self.request.response.setStatus(400)
+            return 'No index specified'
+
+        # Do the delete
+        tm = getUtility(ITransientMessage, context=self.portal)
+        tm.pop(mem_id, self.msg_category, int(index))
+        # TODO: Make sure this is an AJAX request before sending an AJAX response
+        #       by using octopus/octopolite
+        return {'trackback_%s' % index: {'action': 'delete'}}

@@ -253,16 +253,6 @@ and delete the existing task::
     >>> validate_map = view.validate()
     >>> len([i for i in validate_map.values() if i['html']])
     0
-
-Verify that the proper events gets sent out when a member gets created
-    >>> events_fired = []
-    >>> def event_fired(obj, event):
-    ...     events_fired.append((obj, event))
-    >>> from zope.component import provideHandler
-    >>> from zope.app.event.interfaces import IObjectCreatedEvent
-    >>> from Products.remember.interfaces import IReMember
-    >>> provideHandler(event_fired,
-    ...                adapts=[IReMember, IObjectCreatedEvent])
     
 We need to make the request a POST::
 
@@ -272,11 +262,6 @@ We need to make the request a POST::
     u'...<!-- join form -->...'
     >>> view.membertool.getMemberById('foobar')
     <OpenMember at /plone/portal_memberdata/foobar...>
-    >>> len(events_fired)
-    1
-    >>> obj, event = events_fired[0]
-    >>> IObjectCreatedEvent.providedBy(event)
-    True
 
 Ensure that you can't join the site with another foobar::
 
@@ -376,6 +361,41 @@ Login [to be done]
 
 [Output should really be the user's homepage.  but it isn't
 due to the fact that PAS isn't called.  Deal with this later]
+
+
+Javascript functionality for Vacuum
+===================================
+
+    >>> def normalize_whitespace(astring):
+    ...      # just a little helper to avoid caring about indentation.
+    ...      return '\n'.join([li.strip() for li in astring.split('\n')]).strip()
+
+
+Logged out user:
+
+    >>> self.logout()
+    >>> jsview = portal.restrictedTraverse('@@user.js')
+    >>> output = jsview()
+    >>> print normalize_whitespace(output)
+    OpenCore.login({
+    loggedin: false
+    });
+
+Logged in user:
+
+    >>> self.login()
+    >>> output = jsview()
+    >>> print normalize_whitespace(output)
+    OpenCore.login({
+    loggedin: true,
+    id: 'test_user_1_',
+    name: '',
+    profileurl: 'http://nohost/plone/people/test_user_1_/profile',
+    memberurl: 'http://nohost/plone/people/test_user_1_',
+    website: '',
+    email: 'test_emailer_1_@example.com'
+    });
+
 
 Verify initial login converts email invites to mship invites
 ============================================================

@@ -1,0 +1,54 @@
+==============
+
+opencore.nui.base
+=================
+
+    >>> from opencore.nui.base import BaseView
+    >>> view = BaseView(self.homepage, self.request)
+    >>> view = view.__of__(self.homepage)
+
+Member info - anonymous
+-----------------------
+
+    >>> self.logout()
+    >>> view.loggedin
+    False
+    >>> print view.loggedinmember
+    None
+    >>> view.member_info_for_member(None)
+    {}
+    >>> view.member_info
+    {}
+
+Member info - authenticated
+-----------------------------
+
+
+    >>> self.login()
+    >>> view.loggedin
+    True
+    >>> view.loggedinmember
+    <OpenMember at /plone/portal_memberdata/test_user_1_>
+    >>> pprint(view.member_info)
+    {'affiliations': '',
+     'anon_email': True,
+     'background': '',
+     'email': '',
+     'favorites': '',
+     'folder_url': 'http://nohost/plone/people/test_user_1_',
+     'fullname': '',
+     'home_url': 'http://nohost/plone/people/test_user_1_/None',
+     'id': 'test_user_1_',
+     'lastlogin': 'never',
+     'location': '',
+     'membersince': 'today',
+     'portrait_thumb_url': '++resource++img/default-portrait-thumb.gif',
+     'portrait_url': '++resource++img/default-portrait.gif',
+     'portrait_width': '200',
+     'projects': [],
+     'skills': '',
+     'statement': '',
+     'url': 'http://nohost/plone/people/test_user_1_',
+     'website': ''}
+    >>> view.member_info_for_member(view.loggedinmember) == view.member_info
+    True

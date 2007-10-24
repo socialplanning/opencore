@@ -247,6 +247,9 @@ class BaseView(BrowserView):
 
 
     def member_info_for_member(self, member):
+        if member == None:
+            # Not logged in.
+            return {}
         result = {}
         if IReMember.providedBy(member):
             id = member.getId()
@@ -271,6 +274,7 @@ class BaseView(BrowserView):
                 background  = member.getBackground(),
                 skills      = member.getSkills(),
                 affiliations= member.getAffiliations(),
+                website     = member.getWebsite(),
                 favorites   = member.getFavorites(),
                 anon_email  = member.getUseAnonByDefault(),
                 )
@@ -349,7 +353,6 @@ class BaseView(BrowserView):
         view = getMultiAdapter((self.context, self.request), name=name)
         return view.__of__(aq_inner(self.context))
 
-    #egj: piv? miv? these names suck.
     @property
     def piv(self):
         return self.get_view('project_info')
@@ -430,7 +433,6 @@ class BaseView(BrowserView):
     def loggedin(self):
         return not self.membertool.isAnonymousUser()
 
-    #egj: this feels very convoluted, do we need to do it this way?
     # XXX move to member.view
     @view.memoize
     def viewedmember(self):

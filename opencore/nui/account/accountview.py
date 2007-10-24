@@ -11,7 +11,6 @@ from zExceptions import Forbidden, Redirect, Unauthorized
 
 from zope.component import getUtility
 from zope.event import notify
-from zope.app.event.objectevent import ObjectCreatedEvent
 from plone.memoize import instance
 
 from Products.Five import BrowserView
@@ -56,6 +55,31 @@ class AccountView(BaseView):
     @property
     def login_url(self):
         return "%s/login" % self.context.absolute_url()
+
+    def logged_in_user_js(self):
+        """Get info about the current member (if any), as javascript.
+        (We use a callback so client knows when this script has loaded.)
+        """
+        info = self.member_info
+        if info:
+            return """
+            OpenCore.login({
+            loggedin: true,
+            id: '%(id)s',
+            name: '%(fullname)s',
+            profileurl: '%(url)s/profile',
+            memberurl: '%(url)s',
+            website: '%(website)s',
+            email: '%(email)s'
+            });
+            """ % info
+        else:
+            # Not logged in.
+            return """
+            OpenCore.login({
+            loggedin: false
+            });
+            """
 
     ### methods to deal with pending members
 
@@ -188,6 +212,9 @@ class LoginView(AccountView):
             referer = self.request.get('http_referer')
             if not referer or referer in self.boring_urls:
                 return default_redirect
+            anchor = self.request.get('came_from_anchor')
+            if anchor:
+                referer = '%s#%s' % (referer, anchor)
             return referer
 
     def logout(self, redirect=None):
@@ -269,7 +296,6 @@ class JoinView(AccountView, OctopoLite):
                        mem_id,
                        self.context.absolute_url()))
         result = mem.processForm()
-        notify(ObjectCreatedEvent(mem))
         mem.setUserConfirmationCode()
 
         url = self._confirmation_url(mem)

@@ -66,18 +66,17 @@
             <fieldset class="oc-boxy">
               <legend class="oc-legend-heading oc-biggerText">Security</legend>
               <fieldset>
-                <legend class="oc-legend-label"><strong>Visitors to OpenPlans can:</strong></legend>
+                <!-- <legend class="oc-legend-label"><strong>Visitors to OpenPlans can:</strong></legend> -->
                 <ul class="oc-form-radiolist oc-form-fieldBlock">
-                  <li>
-                    <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
-                    value="medium_policy" tal:attributes="checked python:proj['security']=='medium_policy' and 'checked' or ''"/>
-                    <label for="workflow_policy_medium">View this project's content</label>
-                  </li>
                   <li>
                     <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
                     value="open_policy" tal:attributes="checked python:proj['security']=='open_policy' and 'checked' or ''"/>
-                    <label for="workflow_policy_open">and contribute to it</label><br />
-                    <strong class="oc-smallText">OR</strong>
+                    <label for="workflow_policy_open">Anyone can view this project and any OpenPlans member can contribute to it</label>
+                  </li>
+                  <li>
+                    <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
+                    value="medium_policy" tal:attributes="checked python:proj['security']=='medium_policy' and 'checked' or ''"/>
+                    <label for="workflow_policy_medium">Anyone can view this project but only team members can contribute to it</label>
                   </li>
                   <li>
                     <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
@@ -102,11 +101,6 @@
                     tal:attributes="checked python:view.has_mailing_lists" />
                   <label for="listen">Mailing lists</label>
                   <!-- <p class="oc-form-context">Email and forum-based discussion spaces.</p> -->
-                </li>
-                <li>
-                  <input type="checkbox" class="oc-input-typeCheck oc-warn-popup" id="wordpress" name="featurelets:list" value="blog"
-                    tal:attributes="checked python:view.has_blog" />
-                  <label for="wordpress">Blog</label>
                 </li>
               </ul>
             </fieldset>

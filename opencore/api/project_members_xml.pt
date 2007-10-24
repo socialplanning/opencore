@@ -1,6 +1,11 @@
 <members>
- <member tal:repeat="mship view/members">
-  <id tal:content="mship/getId" />
-  <role tal:content="mship/highestTeamRole" />
- </member>
+
+<member tal:repeat="membership view/members">
+
+<id tal:content="python:str(membership.getId())" />
+<tal:for repeat="role membership/getTeamRoles">
+<role tal:content="role" />
+</tal:for>
+</member>
+
 </members>
