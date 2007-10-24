@@ -92,7 +92,7 @@
               <legend class="oc-legend-heading oc-biggerText">Tools</legend>
               <fieldset>
                 <legend><strong>Which additional tools would you like to install?</strong></legend>
-              <ul class="oc-form-radiolist"
+              <ul class="oc-form-radiolist oc-form-fieldBlock"
                   tal:define="warning string:Warning: Removing this feature may result in data loss.">
                 <li class="oc-js-featurelet-undelete-warner">
                   <input type="checkbox" class="oc-input-typeCheck oc-js-toggler" id="oc-js-toggler-tasks" name="featurelets:list" value="tasks"
@@ -114,7 +114,7 @@
               <fieldset style="margin-top: 10px;"><!-- FIXME: Rollie, make something generic for this-->
               <legend><strong>Select the home page for your project:</strong></legend>
 
-              <ul class="oc-form-radiolist">
+              <ul class="oc-form-radiolist oc-form-fieldBlock">
                 <li tal:repeat="item view/home_pages">
                   <tal:home_page_item define="
                     name item/name;
