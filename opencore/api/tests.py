@@ -17,12 +17,19 @@ optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 def test_suite():
     from zope.component import getMultiAdapter, getUtility
     from zope.interface import alsoProvides
+
     readme = ztc.FunctionalDocFileSuite('README.txt',
                                         package='opencore.api',
                                         optionflags=optionflags,
-                                        globs=locals())
+                                        globs=locals(),
+                                        )
+    member_api = ztc.FunctionalDocFileSuite('member_api.txt',
+                                            package='opencore.api',
+                                            optionflags=optionflags,
+                                            globs=locals(),
+                                            )
     
-    zcml_suites = (readme,)
+    zcml_suites = (readme,member_api)
     for suite in zcml_suites:
         suite.layer = OpenCoreContent
         
