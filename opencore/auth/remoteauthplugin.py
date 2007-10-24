@@ -26,7 +26,7 @@ def manage_addOpenCoreRemoteAuth(dispatcher, id, title=None, REQUEST=None):
     """Add an OpenCore remote auth plugin to a Pluggable
     Authentication Service acl_users."""
     authplugin = RemoteOpenCoreAuth(id, title)
-    dispatcher._setObject(authplugin.getId(), authplugin)
+    dispatcher._setObject(authplugin.id, authplugin)
 
     if REQUEST is not None:
         query = urlencode({'manage_tabs_message':
@@ -48,6 +48,10 @@ class RemoteOpenCoreAuth(BasePlugin):
     meta_type = 'OpenCore Remote Authentication'
     
     implements(IAuthenticationPlugin)
+
+    def __init__(self, id, title=None):
+        self.id = id
+        self.title = title
 
     #
     # IAuthenticationPlugin implementation
