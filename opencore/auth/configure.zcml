@@ -1,7 +1,15 @@
 <configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
            xmlns:five="http://namespaces.zope.org/five"
-           xmlns:ploneschema="http://namespaces.plone.org/ploneschema"
            xmlns:i18n="http://namespaces.zope.org/i18n"
            i18n_domain="opencore">
+
+  <browser:page
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     name="authenticate-credentials"
+     class=".view.RemoteAuthView"
+     attribute="authenticate"
+     permission="zope2.View"
+     />
 
 </configure>
