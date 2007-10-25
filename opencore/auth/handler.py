@@ -3,6 +3,7 @@ from lxml import etree
 
 from DateTime import DateTime
 
+from zope.event import notify
 from zope.component import getUtility
 from zope.app.event.objectevent import ObjectCreatedEvent
 
@@ -37,7 +38,6 @@ def copy_remote_member(event):
     mem = mem_folder.restrictedTraverse('%s' % id_)
     mem = pf.doCreate(mem, event.username)
     mem.processForm(values=newdata)
-    notify(ObjectCreatedEvent(mem))
 
     # force the member into an active state
     mem_wf = 'openplans_member_workflow'
@@ -48,5 +48,6 @@ def copy_remote_member(event):
               'actor': event.username,
               'time': DateTime(),
               }
-    wfhist += status
+    wfhist += (status,)
     mem.workflow_history[mem_wf] = wfhist
+    notify(ObjectCreatedEvent(mem))
