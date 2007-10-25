@@ -65,21 +65,21 @@
                               tal:attributes="href python:item_type in use_view_action and item_url+'/view' or item_url+'/';">
                               Item Title
                             </a>
-                            <span tal:define="author python:view.membertool.getMemberInfo(item_creator)"
-                                  tal:condition="item_creator" i18n:translate="label_by_author"
-                                  class="oc-discreetText">
-                              by
-                              <a href="#"
-                                 tal:attributes="href string:${view/siteURL}/people/${item_creator}"
-                                 tal:content="python:author and author['fullname'] or item_creator"
-                                 tal:omit-tag="not:author"
-                                 i18n:name="author">
-                                Bob Dobalina
-                              </a>
-                            </span>
+                            (<span tal:condition="view/loggedin" tal:replace="python:item.getObject().mailto">listaddress@lists.openplans.org</span>)
                           </dt>
+                          <dd tal:define="author python:view.membertool.getMemberInfo(item_creator)"
+                                tal:condition="item_creator" i18n:translate="label_by_author"
+                                class="oc-discreetText">
+                            created by
+                            <a href="#"
+                               tal:attributes="href string:${view/siteURL}/people/${item_creator}"
+                               tal:content="python:author and author['fullname'] or item_creator"
+                               tal:omit-tag="not:author"
+                               i18n:name="author">
+                              Bob Dobalina
+                            </a>
+                          </dd>
                           <dd tal:condition="item_description" tal:content="item_description"/>
-                          <dd class="oc-smallText" tal:condition="view/loggedin" tal:content="python:item.getObject().mailto">listaddress@lists.openplans.org</dd>
                         </dl>
                       </td>
                       <td tal:content="item_modified" />
