@@ -80,7 +80,7 @@ Searching for projects starting with a number::
    []
 
 Create a project that starts with a number::
-    >>> form_vars = dict(id='5test', __initialize_project__=True,
+    >>> form_vars = dict(projid='5test', __initialize_project__=True,
     ...                  title='5test',
     ...                  workflow_policy='medium_policy',
     ...                  add=True, featurelets = ['listen'], set_flets=1)
@@ -349,7 +349,7 @@ Homepage View
 =============
 
 Create a closed project::
-    >>> form_vars = dict(id='cl0sed', __initialize_project__=True,
+    >>> form_vars = dict(projid='cl0sed', __initialize_project__=True,
     ...                  title='cl0sed',
     ...                  workflow_policy='closed_policy',
     ...                  add=True, featurelets = ['listen'], set_flets=1)

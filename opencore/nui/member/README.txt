@@ -63,7 +63,7 @@ Create a project with an international unicode title::
     >>> from opencore.nui.project.view import ProjectAddView
     >>> proj_add_view = ProjectAddView(self.portal.projects,
     ...                                self.portal.REQUEST)
-    >>> request.form['id'] = 'i18n'
+    >>> request.form['projid'] = 'i18n'
 
 This is some japanese that I found::
     >>> request.form['title'] = u'\u65e5\u8a9e'
