@@ -77,18 +77,42 @@ def create_test_content(self, p_map=None, m_map=None):
         _initialize_project(getattr(pcontainer, p_id), request)
         out.append('Project %s added' % p_id)
 
-    for mem_id, mem_data in m_map.items():
-        mdc.invokeFactory('OpenMember', mem_id, **mem_data)
-        mem = mdc._getOb(mem_id)
-        mem._setPassword(mem_data['password'])
-        mem.fixOwnership()
-        mem.isConfirmable = True
-        wf_tool.doActionFor(mem, 'register_public')
-        del mem.isConfirmable
+    pf = mdc.portal_factory
 
-        # create the member area and mark it with the appropriate interface
-        # ms_tool.createMemberArea(mem_id)
-        # do_create_home_directory(mem, {}, 'worthless text')
+    for mem_id, mem_data in m_map.items():
+        id_ = mem_id
+        mem_folder = pf._getTempFolder('OpenMember')
+        mem = mem_folder.restrictedTraverse('%s' % id_)
+        
+        # now we have mem, a temp member. create it for real.
+        mem = pf.doCreate(mem, mem_id)
+        result = mem.processForm()
+        mem.setUserConfirmationCode()
+        mem._setPassword(mem_data['password'])
+        mem.setEmail(mem_data['email'])
+        mem.setFullname(mem_data['fullname'])
+
+        #and confirm it.
+        
+        # need to set/delete the attribute for the workflow guards
+        setattr(mem, 'isConfirmable', True)
+        status = wf_tool.getStatusOf('openplans_member_workflow', mem)
+        status ['review_state'] = 'public'
+        wf_tool.setStatusOf('openplans_member_workflow', mem, status)
+        delattr(mem, 'isConfirmable')
+
+        ms_tool.createMemberArea(mem.getId())
+##         from opencore.interfaces import IMemberFolder
+##         from zope.interface import alsoProvides
+##         mem_folder = self.people._getOb(mem.getId())
+##         alsoProvides(mem_folder, IMemberFolder)
+##         IMemberFolder.providedBy(mem_folder)
+##         mem_folder.setDefaultPage('%s-home' % mem.getId())
+
+        mem.member_index = lambda member_id: "This is the content for member %s's home page -- or would be, if Zope worked" % member_id
+        from opencore.siteui.member import initializeMemberArea
+        initializeMemberArea(ms_tool, {}, member_id=mem.getId())
+        delattr(mem, 'member_index') #unpicklable
 
         out.append('Member %s added' % mem_id)
         for p_id, p_roles in mem_data['projects'].items():

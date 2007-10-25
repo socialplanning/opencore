@@ -160,15 +160,18 @@ class ProfileView(BrowserView):
         return results
         
 
-def initializeMemberArea(mtool, request):
+def initializeMemberArea(mtool, request, member_id=None):
     """
     This method is triggered by the 'notifyMemberAreaCreated' script
     that is called at the end of the membership tool's
     createMemberArea() method.  Will switch to an event as soon as the
     membership tool starts firing one.
     """
-    member = mtool.getAuthenticatedMember()
-    member_id = member.getId()
+    if member_id:
+        member = mtool.getMemberById(member_id)
+    else:
+        member = mtool.getAuthenticatedMember()
+        member_id = member.getId()
 
     folder = mtool.getHomeFolder(member_id)
     alsoProvides(folder, IMemberFolder)
