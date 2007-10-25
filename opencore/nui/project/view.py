@@ -3,22 +3,17 @@ import string
 
 from zope import event
 from zope.component import getMultiAdapter
-from zope.component import getUtility
 from zope.i18nmessageid import Message, MessageFactory
 from Acquisition import aq_parent
-from zope.app.annotation.interfaces import IAnnotations
-from BTrees.OOBTree import OOBTree
 
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import DeleteObjects
-from Products.CMFPlone.utils import transaction_note
 from plone.memoize.instance import memoize, memoizedproperty
 from plone.memoize.view import memoize_contextless
 from plone.memoize.view import memoize as req_memoize
 
-from Products.OpenPlans.config import DEFAULT_ROLES
-from opencore.interfaces import IAddProject, IAddSubProject
+from opencore.interfaces import IAddProject
 from opencore.interfaces.catalog import IMetadataDictionary 
 from opencore.interfaces.event import AfterProjectAddedEvent, \
       AfterSubProjectAddedEvent
