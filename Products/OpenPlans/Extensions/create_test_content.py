@@ -101,6 +101,8 @@ def create_test_content(self, p_map=None, m_map=None):
         wf_tool.setStatusOf('openplans_member_workflow', mem, status)
         delattr(mem, 'isConfirmable')
 
+        mem.reindexObject()
+
         ms_tool.createMemberArea(mem.getId())
 ##         from opencore.interfaces import IMemberFolder
 ##         from zope.interface import alsoProvides
@@ -109,10 +111,10 @@ def create_test_content(self, p_map=None, m_map=None):
 ##         IMemberFolder.providedBy(mem_folder)
 ##         mem_folder.setDefaultPage('%s-home' % mem.getId())
 
-        mem.member_index = lambda member_id: "This is the content for member %s's home page -- or would be, if Zope worked" % member_id
-        from opencore.siteui.member import initializeMemberArea
-        initializeMemberArea(ms_tool, {}, member_id=mem.getId())
-        delattr(mem, 'member_index') #unpicklable
+#        mem.member_index = lambda member_id: "This is the content for member %s's home page -- or would be, if Zope worked" % member_id
+#        from opencore.siteui.member import initializeMemberArea
+#        initializeMemberArea(ms_tool, {}, member_id=mem.getId())
+#        delattr(mem, 'member_index') #unpicklable
 
         out.append('Member %s added' % mem_id)
         for p_id, p_roles in mem_data['projects'].items():
