@@ -61,7 +61,6 @@ class RemoteOpenCoreAuth(BasePlugin):
         Iterate through the remote servers and test the credentials
         against each one in turn.
         """
-        import pdb; pdb.set_trace()
         username = credentials.get('login')
         password = credentials.get('password')
         query = urlencode({'username': username, 'password': password})
