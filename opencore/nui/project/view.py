@@ -433,6 +433,7 @@ class ProjectPreferencesView(ProjectBaseView):
              dict(name='wiki', url='project-home', title='Wiki'),
              dict(name='tasks', url='tasks', title='Task lists'),
              dict(name='lists', url='lists', title='Mailing lists'),
+             dict(name='blog', url='blog', title='Blog'),
              ]
 
 
