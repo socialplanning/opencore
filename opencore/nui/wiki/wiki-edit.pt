@@ -78,7 +78,8 @@
                   <label for="description">Description</label>
                   <textarea id="description" name="description" tal:content="context/Description" />
                 </tal:description>
-
+<p class="oc-wiki-instructions">Tip: To create a new page, wrap the title of the new page in double parentheses.  For example, ((My New Page)).  <br/> Once you click "Save" you will see a link to your new page.
+</p>
                 <metal:fieldMacro use-macro="python:here.widget('text', mode='edit')"/>
               </div><!-- end .oc-wiki-edit-content" --> 
  
