@@ -9,7 +9,8 @@
       <div metal:use-macro="here/@@listen_macros/tabs"/>
       <div id="oc-content-main">
         <tal:threads define="results view/searchArchive;
-                             batch results;">
+                             batch results;
+			     template_id string:search_archive">
 
           <div class="oc-widget-search oc-boxy">
             <form action="./search_archive" method="post">
@@ -60,8 +61,8 @@
               </tal:items>
             </tbody>
           </table>
-
           <div metal:use-macro="here/batch_macros/macros/navigation" />
+	  
 
           <p tal:define="search request/search_text | nothing"
              tal:condition="python: not results and search"
