@@ -82,6 +82,7 @@ class OpenPlansLayer(SiteSetupLayer):
         portal = get_portal_as_owner()
         qi = getToolByName(portal, 'portal_quickinstaller')
         qi.installProduct('OpenPlans')
+        portal.clearCurrentSkin()
 
         portal.oldMailHost = portal.MailHost
         portal.MailHost = MailHostMock()
