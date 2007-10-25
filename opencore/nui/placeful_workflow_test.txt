@@ -6,7 +6,7 @@ Make a new project::
     <Products.Five.metaclass.ProjectAddView object at ...>
     >>> request = view.request.form
     >>> request.update(
-    ...   id='newproject',
+    ...   projid='newproject',
     ...   title='new project',
     ...   workflow_policy='closed_policy',
     ...   )
