@@ -435,7 +435,7 @@ class ProjectAddView(BaseView, OctopoLite):
     def validate(self, target=None, fields=None):
         putils = getToolByName(self.context, 'plone_utils')
         errors = {}
-        id_ = self.request.form.get('id')
+        id_ = self.request.form.get('projid')
         id_ = putils.normalizeString(id_)
         if self.context.has_key(id_):
             errors['oc-id-error'] = {
@@ -466,7 +466,7 @@ class ProjectAddView(BaseView, OctopoLite):
             self.errors['title'] = 'The project name must contain ' \
               'at least 2 characters with at least 1 letter or number.'
 
-        id_ = self.request.form.get('id')
+        id_ = self.request.form.get('projid')
         if not valid_project_id(id_):
             self.errors['id'] = 'The project url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'
         else:

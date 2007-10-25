@@ -54,7 +54,7 @@ class TestWorkflowPolicy(OpenPlansTestCase):
         self.failUnless(policy == returned_policy)
 
     def test_initialProjectStateIsRight(self):
-        form = {'id': 'closed',
+        form = {'projid': 'closed',
                 'title': 'Closed Project',
                 'workflow_policy': 'closed_policy',
                 'add': 'submit',
