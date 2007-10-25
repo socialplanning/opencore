@@ -65,11 +65,9 @@
                               tal:attributes="href python:item_type in use_view_action and item_url+'/view' or item_url+'/';">
                               Item Title
                             </a>
-                          </dt>
-                          <dd tal:condition="view/loggedin" tal:content="python:item.getObject().mailto">listaddress@lists.openplans.org</dd>
-                          <!-- <dd class="oc-discreetText" tal:condition="item_creator"
-                                    tal:define="author python:view.membertool.getMemberInfo(item_creator)">
-                            <span i18n:translate="label_by_author">
+                            <span tal:define="author python:view.membertool.getMemberInfo(item_creator)"
+                                  tal:condition="item_creator" i18n:translate="label_by_author"
+                                  class="oc-discreetText">
                               by
                               <a href="#"
                                  tal:attributes="href string:${view/siteURL}/people/${item_creator}"
@@ -79,8 +77,9 @@
                                 Bob Dobalina
                               </a>
                             </span>
-                          </dd> -->
+                          </dt>
                           <dd tal:condition="item_description" tal:content="item_description"/>
+                          <dd class="oc-smallText" tal:condition="view/loggedin" tal:content="python:item.getObject().mailto">listaddress@lists.openplans.org</dd>
                         </dl>
                       </td>
                       <td tal:content="item_modified" />
