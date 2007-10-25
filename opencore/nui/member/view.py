@@ -229,7 +229,8 @@ class MemberAccountView(BaseView, OctopoLite):
     active_states = ['public', 'private']
     msg_category = 'membership'
 
-
+    # DWM: application specific term should be part of method names
+    # probably indicate this needs to be behind an api
     def twirlip_uri(self):
         cfg = config.getConfiguration().product_config.get('opencore.nui')
         if cfg:
@@ -641,12 +642,12 @@ class MemberAccountView(BaseView, OctopoLite):
         mem.reindexObject(idxs=['getEmail'])
         self.addPortalStatusMessage('Your email address has been changed.')
 
-
-    role_map = {'ProjectAdmin':  'administrator',
-                'ProjectMember': 'member'}
     def pretty_role(self, role):
-        role = self.role_map.get(role, role)
+        role_map = dict(ProjectAdmin='administrator',
+                        ProjectMember='member')
+        role = role_map.get(role, role)
         return role
+
 
 class TrackbackView(BaseView):
     """handle trackbacks"""
