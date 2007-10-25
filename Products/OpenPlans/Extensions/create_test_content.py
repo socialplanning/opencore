@@ -73,7 +73,8 @@ def create_test_content(self, p_map=None, m_map=None):
     for p_id, p_data in p_map.items():
         pcontainer.invokeFactory('OpenProject', p_id, **p_data)
         request = self.REQUEST
-        request.form['workflow_policy'] = 'medium_policy'
+        request.form['workflow_policy'] = p_data.get('workflow_policy',
+                                                     'medium_policy')
         _initialize_project(getattr(pcontainer, p_id), request)
         out.append('Project %s added' % p_id)
 
@@ -104,17 +105,6 @@ def create_test_content(self, p_map=None, m_map=None):
         mem.reindexObject()
 
         ms_tool.createMemberArea(mem.getId())
-##         from opencore.interfaces import IMemberFolder
-##         from zope.interface import alsoProvides
-##         mem_folder = self.people._getOb(mem.getId())
-##         alsoProvides(mem_folder, IMemberFolder)
-##         IMemberFolder.providedBy(mem_folder)
-##         mem_folder.setDefaultPage('%s-home' % mem.getId())
-
-#        mem.member_index = lambda member_id: "This is the content for member %s's home page -- or would be, if Zope worked" % member_id
-#        from opencore.siteui.member import initializeMemberArea
-#        initializeMemberArea(ms_tool, {}, member_id=mem.getId())
-#        delattr(mem, 'member_index') #unpicklable
 
         out.append('Member %s added' % mem_id)
         for p_id, p_roles in mem_data['projects'].items():
