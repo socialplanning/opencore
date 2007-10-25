@@ -81,7 +81,7 @@ Create a project starting with a capital letter to test case
 insensitive sort::
     >>> proj_add_view = ProjectAddView(self.portal.projects,
     ...                                self.portal.REQUEST)
-    >>> request.form['id'] = 'apples'
+    >>> request.form['projid'] = 'apples'
     >>> request.form['title'] = 'apples are good'
     >>> request.form['workflow_policy'] = 'medium_policy'
     >>> request.form['__initialize_project__'] = True

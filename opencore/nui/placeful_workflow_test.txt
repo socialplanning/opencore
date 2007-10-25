@@ -59,7 +59,7 @@ public state
     ...   featurelets=[],
     ...   set_flets=1,
     ...   __initialize_project__=False,
-    ...   id='new_closed_project',
+    ...   projid='new_closed_project',
     ...   title='new_closed_project',
     ...   ))
     >>> request.set('flet_recurse_flag', None)

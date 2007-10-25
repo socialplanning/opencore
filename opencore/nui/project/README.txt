@@ -84,7 +84,7 @@ Can the creator of a closed project really leave? Let's find out
 in a test::
     >>> projects = self.portal.projects
     >>> view = projects.restrictedTraverse("create")
-    >>> form_vars = dict(id='test1', __initialize_project__=True,
+    >>> form_vars = dict(projid='test1', __initialize_project__=True,
     ...                  workflow_policy='closed_policy',
     ...                  add=True, featurelets = [], set_flets=1)
     >>> view.request.form.update(form_vars)
