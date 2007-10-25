@@ -17,13 +17,7 @@ can access it, but it's not publicly accessible::
     HTTP/1.1 302 Moved Temporarily...
 
 info.xml shows personal information about the member::
-    >>> print http(r'''
-    ... GET /plone/people/m1/@@info.xml HTTP/1.1
-    ... ''')
-    HTTP/1.1 200 OK
-    Content-Length: ...
-    Content-Type: text/html; charset=utf-8...
-    <info>
-     <name>Member One</name>
-     <email>m1@example.com</email>
-    </info>...
+    >>> self.loginAsPortalOwner()
+
+    >>> self.portal.people.m1.restrictedTraverse('info.xml')()
+    '<info>...<name>Member One</name>...<email>notreal1@example.com</email>...</info>...'

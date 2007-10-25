@@ -292,7 +292,7 @@ Sitewide Search
    9
    >>> brains = view.search_by_letter('m', sort_by='getId')
    >>> [b.getId for b in brains]
-   ['m1', 'm2', 'm3', 'm4']
+   ['m1', 'm1-home', 'm2', 'm2-home', 'm3', 'm3-home', 'm4', 'm4-home']
 
 Try irregular char::
    >>> brains = view.search('Pr(oj')
@@ -302,7 +302,7 @@ Try irregular char::
 Search for everything::
    >>> brains = view.search_by_letter('all', sort_by='getId')
    >>> len(brains)
-   18
+   22
 
 Search for things starting with a number::
    >>> brains = view.search_by_letter('num')
@@ -320,7 +320,7 @@ Check that searching by letter matches on the id as well
 Check globbing for members (advanced query globbing has index issue)::
    >>> brains = view.search_by_letter('M')
    >>> [b.getId for b in brains]
-   ['m1', 'm2', 'm3', 'm4']
+   ['m1', 'm1-home', 'm2', 'm2-home', 'm3', 'm3-home', 'm4', 'm4-home']
 
 Members should not match based on name
    >>> brains = view.search_by_letter('F')
@@ -330,7 +330,7 @@ Members should not match based on name
 And if we sort by modification date
    >>> brains = view.search_by_letter('M', sort_by='modified')
    >>> len(brains)
-   4
+   8
    >>> mod_dates = [b.modified for b in brains]
    >>> for i in range(3): mod_dates[i] < mod_dates[i+1]
    True

@@ -11,4 +11,4 @@ mtool = getToolByName(context, 'portal_membership')
 request = context.REQUEST
 
 from opencore.siteui.member import initializeMemberArea
-initializeMemberArea(mtool, request)
+initializeMemberArea(mtool, request, member_id=context.getId())

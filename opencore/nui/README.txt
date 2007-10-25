@@ -103,11 +103,6 @@ User/Account methods
 Member folder/homepage url
 --------
 
-Nothing means member isn't confirmed::
-    
-    >>> pview.memfolder_url(id_='m1') is None
-    True
-
 Should get the member folder url for a confirmed member::
 
     >>> pview.memfolder_url(id_='test_user_1_')
@@ -139,9 +134,11 @@ test nusers and projects_served_count
     ...                            'password':'testy',
     ...                            'email':'new_user@example.com',
     ...                            'projects':{}}}
-    >>> projects_map = {'new_project':{'title':'New Project', 'workflow_policy':'closed_policy'}}
-    >>> from Products.OpenPlans.Extensions import create_test_content
-    >>> create_test_content.create_test_content(self.portal, p_map=projects_map, m_map=members_map)
+    >>> projects_map = {'new_project':{'title':'New Project',
+    ...                                'workflow_policy':'closed_policy'}}
+    >>> from Products.OpenPlans.Extensions.create_test_content import create_test_content
+    >>> self.loginAsPortalOwner() # <-- so we have req'd perms
+    >>> create_test_content(self.portal, p_map=projects_map, m_map=members_map)
     'Project new_project added\nMember new_user added'
     >>> self.clearMemoCache()
     >>> pview.nusers()

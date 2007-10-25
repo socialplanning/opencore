@@ -498,9 +498,9 @@ class ProjectAddView(BaseView, OctopoLite):
             IHomePage(proj).home_page = home_page
 
         self.add_status_message(msgid='project_created',
-                                    mapping={'title': title,
-                                             'proj_edit_url': proj_edit_url},
-                                    )
+                                mapping={'title': title,
+                                         'proj_edit_url': proj_edit_url},
+                                )
         self.redirect('%s/manage-team' % proj.absolute_url())
 
     def notify(self, project):

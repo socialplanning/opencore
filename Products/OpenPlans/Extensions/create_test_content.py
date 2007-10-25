@@ -73,22 +73,38 @@ def create_test_content(self, p_map=None, m_map=None):
     for p_id, p_data in p_map.items():
         pcontainer.invokeFactory('OpenProject', p_id, **p_data)
         request = self.REQUEST
-        request.form['workflow_policy'] = 'medium_policy'
+        request.form['workflow_policy'] = p_data.get('workflow_policy',
+                                                     'medium_policy')
         _initialize_project(getattr(pcontainer, p_id), request)
         out.append('Project %s added' % p_id)
 
-    for mem_id, mem_data in m_map.items():
-        mdc.invokeFactory('OpenMember', mem_id, **mem_data)
-        mem = mdc._getOb(mem_id)
-        mem._setPassword(mem_data['password'])
-        mem.fixOwnership()
-        mem.isConfirmable = True
-        wf_tool.doActionFor(mem, 'register_public')
-        del mem.isConfirmable
+    pf = mdc.portal_factory
 
-        # create the member area and mark it with the appropriate interface
-        # ms_tool.createMemberArea(mem_id)
-        # do_create_home_directory(mem, {}, 'worthless text')
+    for mem_id, mem_data in m_map.items():
+        id_ = mem_id
+        mem_folder = pf._getTempFolder('OpenMember')
+        mem = mem_folder.restrictedTraverse('%s' % id_)
+        
+        # now we have mem, a temp member. create it for real.
+        mem = pf.doCreate(mem, mem_id)
+        result = mem.processForm()
+        mem.setUserConfirmationCode()
+        mem._setPassword(mem_data['password'])
+        mem.setEmail(mem_data['email'])
+        mem.setFullname(mem_data['fullname'])
+
+        #and confirm it.
+        
+        # need to set/delete the attribute for the workflow guards
+        setattr(mem, 'isConfirmable', True)
+        status = wf_tool.getStatusOf('openplans_member_workflow', mem)
+        status ['review_state'] = 'public'
+        wf_tool.setStatusOf('openplans_member_workflow', mem, status)
+        delattr(mem, 'isConfirmable')
+
+        mem.reindexObject()
+
+        ms_tool.createMemberArea(mem.getId())
 
         out.append('Member %s added' % mem_id)
         for p_id, p_roles in mem_data['projects'].items():
