@@ -1,5 +1,6 @@
 from memojito import memoizedproperty
 
+from topp.featurelets.base import BaseFeaturelet
 from opencore.featurelets.satellite import SatelliteFeaturelet
 from opencore.tasktracker import uri as tt_uri
 from opencore.tasktracker.interfaces import \
