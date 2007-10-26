@@ -63,6 +63,13 @@ class RemoteOpenCoreAuth(BasePlugin):
         Iterate through the remote servers and test the credentials
         against each one in turn.
         """
+        if credentials.get('success'):
+            # opencore.content.member.OpenMember's verifyCredentials
+            # method marks the credentials object if auth succeeds so
+            # that we know not to try remotely here.  we have to do
+            # this b/c PAS always invokes _every_ auth plug-in during
+            # the auth check
+            return
         portal = getToolByName(self, 'portal_url').getPortalObject()
         remote_auth_sites = portal.getProperty('remote_auth_sites')
         if not remote_auth_sites:
