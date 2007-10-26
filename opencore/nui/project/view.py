@@ -30,12 +30,26 @@ from opencore.nui.base import BaseView
 from opencore.nui.formhandler import OctopoLite, action
 from opencore.nui.project.utils import vdict
 
+from DateTime import DateTime
+
+from plone.memoize import view 
+view.memoizedproperty = lambda func: property(view.memoize(func))
+
 _marker = object()
 
 _ = MessageFactory('opencore')
 
+
 class ProjectBaseView(BaseView):
 
+    # XXX
+    @view.memoizedproperty
+    def get_proj(self):
+        from opencore.project.content import OpenProject
+        proj = self.context
+        assert isinstance(proj, OpenProject)
+        return proj
+    
     @memoizedproperty
     def has_mailing_lists(self):
         return self._has_featurelet('listen')
@@ -357,8 +371,63 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
         return snippets
 
 
+
 class ProjectPreferencesView(ProjectBaseView):
+
+    logo_snippet = ZopeTwoPageTemplateFile('logo-snippet.pt')
         
+    def mangled_logo_url(self):
+        """When a project logo is changed, the logo_url remains the same.
+        This method appends a timestamp to logo_url to trick the browser into
+        fetching the new image instead of using the cached one which could be --
+        and always will be in the ajaxy-change-logo case -- out of date.
+        P.S. This is an ugly hack."""
+        logo = self.get_proj.getLogo()
+        if logo:
+            timestamp = str(DateTime()).replace(' ', '_')
+            return '%s?%s' % (logo.absolute_url(), timestamp)
+        return self.defaultProjLogoURL
+
+    def check_logo(self, logo):
+        try:
+            self.get_proj.setLogo(logo)
+        except ValueError: # must have tried to upload an unsupported filetype
+            self.addPortalStatusMessage('Please choose an image in gif, jpeg, png, or bmp format.')
+            return False
+        return True
+
+    @action("uploadAndUpdate")
+    def change_logo(self, target=None, fields=None):
+        logo = self.request.form.get("logo")
+
+        if not self.check_logo(logo):
+            return
+
+        self.get_proj.reindexObject('logo')
+        return {
+            'oc-profile-avatar' : {
+                'html': self.logo_snippet(),
+                'action': 'replace',
+                'effects': 'highlight'
+                }
+            }
+
+
+
+    @action("remove")
+    def remove_logo(self, target=None, fields=None):
+        proj = self.get_proj
+        proj.setLogo("DELETE_IMAGE")  # AT API nonsense
+        proj.reindexObject('logo')
+        return {
+                'oc-profile-avatar' : {
+                    'html': self.logo_snippet(),
+                    'action': 'replace',
+                    'effects': 'highlight'
+                    }
+                }
+
+
     @formhandler.button('update')
     def handle_request(self):
         title = self.request.form.get('title')

@@ -35,6 +35,8 @@ class BaseView(BrowserView):
     logoURL = '++resource++img/logo.gif'
     defaultPortraitURL = '++resource++img/default-portrait.gif'
     defaultPortraitThumbURL = '++resource++img/default-portrait-thumb.gif'
+    defaultProjLogoURL = '++resource++img/default-projlogo.gif'
+    defaultProjLogoThumbURL = '++resource++img/default-projlogo-thumb.gif'
     windowTitleSeparator = ' :: '
     render_static = staticmethod(render_static)
     truncate = staticmethod(truncate)
