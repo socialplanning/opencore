@@ -161,10 +161,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
     @memoizedproperty
     def pages(self):
         objs = self._sorted_items('pages', 'sortable_title')
-        for d in objs:
-            if d['id'] == 'project-home':
-                d['uneditable'] = True
-        return objs
+        return self._filter_objs(objs)
 
     @memoizedproperty
     def lists(self):
@@ -264,17 +261,26 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
         # XXX this is a speed hack for #1158,
         # delete button is only shown for
         # project members, it is not
-        # fine grained. 
+        # fine grained.
         return 'ProjectMember' in self.context.getTeamRolesForAuthMember()
+
+    def _filter_objs(self, objs):
+        # Mark stuff that can't be edited or deleted.  This is another
+        # speed hack to handle bugs 1330 (and 1158 via show_deletes())
+        # but again, we don't check security on each object.
+        show_deletes = self.show_deletes()
+        for d in objs:
+            if d['id'] == 'project-home':
+                d['uneditable'] = True
+                d['undeletable'] = True
+            if not show_deletes:
+                d['undeletable'] = True
+        return objs
 
     def _resort(self, item_type, sort_by=None, sort_order=None):
         sort_by = self.needed_values[item_type].sortable(sort_by)
         new_objs = self._sorted_items(item_type, sort_by, sort_order)
-        if item_type == "pages":
-            for d in new_objs:
-                if d['id'] == 'project-home':
-                    d['uneditable'] = True
-        return new_objs
+        return self._filter_objs(new_objs)
 
     @action('resort')
     def resort(self, sources, fields=None):
