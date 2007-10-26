@@ -43,7 +43,8 @@
      />
 
   <subscriber
-     for="opencore.interfaces.event.IChangedTeamRolesEvent"
+     for="opencore.interfaces.membership.IOpenMembership
+          opencore.interfaces.event.IChangedTeamRolesEvent"
      handler=".event.membership_changed_reindex_catalog"
      />
 

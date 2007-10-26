@@ -103,6 +103,10 @@
                 <input type="checkbox" class="oc-input-typeCheck oc-js-toggler" id="oc-js-toggler-lists" name="featurelets:list" value="listen" checked="true" />
                 <label for="oc-js-toggler-lists">Mailing lists</label>
               </li>
+              <li>
+                <input type="checkbox" class="oc-input-typeCheck oc-js-toggler" id="oc-js-toggler-blog" name="featurelets:list" value="blog" checked="true" />
+                <label for="oc-js-toggler-blog">Blog</label>
+              </li>
             </ul>
 
             <fieldset style="margin-top: 10px;"><!-- FIXME: Rollie, make something generic for this-->
@@ -125,6 +129,12 @@
                 <label for="home_listen" id="oc-js-togglee-lists">
                   <input type="radio" class="oc-input-typeRadio" id="home_listen" name="home-page" value="lists" />
                   Mailing lists
+                </label>
+              </li>
+              <li>
+                <label for="home_wordpress" id="oc-js-togglee-blog">
+                  <input type="radio" class="oc-input-typeRadio" id="home_wordpress" name="home-page" value="blog" />
+                  Blog
                 </label>
               </li>
             </ul>

@@ -22,13 +22,20 @@
      permission="openplans.AddSubProject"
      />
 
+   <!-- move to contents.py; these will share functionality -->
    <browser:page
       for="opencore.interfaces.IProject"
       class=".view.ProjectContentsView"
       permission="zope2.View"
       name="contents"
       />
-
+   <!--  <browser:page
+      for="opencore.interfaces.IProject"
+      class=".contents.RecentUpdatesView"
+      permission="zope2.View"
+      name="recent-updates"
+      />
+    -->
   <browser:page
      for="opencore.interfaces.IProject"
      class=".view.ProjectPreferencesView"
@@ -57,6 +64,22 @@
      class=".team.RequestMembershipView"
      permission="zope2.View"
      name="request-membership"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".latest_activity.LatestActivityView"
+     permission="zope2.View"
+     name="latest-activity"
+     template="latest_activity.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".latest_snippet.LatestSnippet"
+     permission="zope2.View"
+     name="latest-snippet"
+     template="latest_snippet.pt"
      />
 
   <browser:page

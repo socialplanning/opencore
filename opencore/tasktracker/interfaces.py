@@ -1,5 +1,5 @@
-from zope.interface import Interface, Attribute, implements
-from zope.schema import TextLine, Bool
+from zope.interface import Interface
+from zope.schema import TextLine
 
 class ITaskTrackerFeatureletInstalled(Interface):
     """

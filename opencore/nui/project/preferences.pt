@@ -107,6 +107,12 @@
                   <span class="oc-warning" style="display: none" tal:content="warning" />
                   <!-- <p class="oc-form-context">Email and forum-based discussion spaces.</p> -->
                 </li>
+                <li class="oc-js-featurelet-undelete-warner">
+                  <input type="checkbox" class="oc-input-typeCheck oc-js-toggler" id="oc-js-toggler-blog" name="featurelets:list" value="blog"
+                    tal:attributes="checked python:view.has_blog" />
+                  <label for="oc-js-toggler-blog">Blog</label>
+                  <span class="oc-warning" style="display: none" tal:content="warning" />
+                </li>
               </ul>
               </fieldset>
               

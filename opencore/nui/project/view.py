@@ -42,6 +42,10 @@ class ProjectBaseView(BaseView):
     def has_task_tracker(self):
         return self._has_featurelet('tasks')
 
+    @memoizedproperty
+    def has_blog(self):
+        return self._has_featurelet('blog')
+
     def _has_featurelet(self, flet_id):
         flets = get_featurelets(self.context)
         for flet in flets:
@@ -430,6 +434,7 @@ class ProjectPreferencesView(ProjectBaseView):
              dict(name='wiki', url='project-home', title='Wiki'),
              dict(name='tasks', url='tasks', title='Task lists'),
              dict(name='lists', url='lists', title='Mailing lists'),
+             dict(name='blog', url='blog', title='Blog'),
              ]
 
 

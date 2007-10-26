@@ -11,6 +11,7 @@ from zExceptions import Forbidden, Redirect, Unauthorized
 
 from zope.component import getUtility
 from zope.event import notify
+from zope.app.event.objectevent import ObjectCreatedEvent
 from plone.memoize import instance
 
 from Products.Five import BrowserView
@@ -299,6 +300,7 @@ class JoinView(AccountView, OctopoLite):
                        mem_id,
                        self.context.absolute_url()))
         result = mem.processForm()
+        notify(ObjectCreatedEvent(mem))
         mem.setUserConfirmationCode()
 
         url = self._confirmation_url(mem)

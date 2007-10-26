@@ -28,6 +28,7 @@ setup(name='opencore',
       install_requires=[
           # -*- Extra requirements: -*-
           'simplejson',
+          'decorator',
           'hprof',
           'topp.featurelets',
           'topp.utils',
@@ -39,6 +40,8 @@ setup(name='opencore',
           'plone.mail',
           'plone.app.form',
           'borg.localrole==1.0rc1',
+          'wsseauth',
           ]
       )
+
 
