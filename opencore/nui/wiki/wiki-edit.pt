@@ -78,10 +78,11 @@
                   <label for="description">Description</label>
                   <textarea id="description" name="description" tal:content="context/Description" />
                 </tal:description>
-
+                <p class="oc-discreetText oc-boxy"><strong>Tip:</strong> To create a new page, wrap the title of the new page in double parentheses.  For example, ((A New Page)). Once you click "Save" you will see a link to your new page.  If a page with that name already exists it will instead link to that existing page.
+                </p>
                 <metal:fieldMacro use-macro="python:here.widget('text', mode='edit')"/>
-              </div><!-- end .oc-wiki-edit-content" --> 
- 
+              </div><!-- end .oc-wiki-edit-content" -->
+
               <div class="oc-js-expander oc-expander">
                 <h2 class="oc-bigText"><a href="#oc-wiki-comment" class="oc-js-expander_open oc-expanderLink">Revision note</a></h2>
                 <!--<a href="#" class="oc-js-expander_close oc-expander-close" style="display:none;">X</a>-->

@@ -48,8 +48,8 @@
                         <li>
                           <input class="oc-actionLink" type="submit" name="post_discard" i18n:attributes="value" value="Discard (Spam)" title="Deny this message without notifying the sender" />
                         </li>
-                        <li class="oc-js-liveEdit_showForm">
-                          <a class="oc-actionLink" href="#" title="Deny this message and notify the sender, message optional">Reject</a>
+                        <li class="oc-js-liveEdit_showForm" tal:condition="python:is_post_moderated or is_membership_moderated">
+                          <a class="oc-actionLink" href="moderation#" title="Deny this message and notify the sender, message optional">Reject</a>
                         </li>
                       </ul>
                       <div class="oc-js-liveEdit-editForm oc-liveEdit-editForm oc-form-fieldBlock" style="display: none;" tal:condition="python:is_post_moderated or is_membership_moderated">

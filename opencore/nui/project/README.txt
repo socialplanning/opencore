@@ -10,7 +10,7 @@ Add view
     >>> view
     <Products.Five.metaclass.ProjectAddView object at...>
 
-    >>> form_vars = dict(id='test1', __initialize_project__=True,
+    >>> form_vars = dict(projid='test1', __initialize_project__=True,
     ...                  workflow_policy='medium_policy',
     ...                  add=True, featurelets = ['listen'], set_flets=1)
     >>> view.request.form.update(form_vars)
@@ -36,14 +36,14 @@ Try setting some invalid titles::
 
 How about an invalid id?::
     >>> view.request.form['title'] = "valid title"
-    >>> view.request.form['id'] = ''
+    >>> view.request.form['projid'] = ''
     >>> out = view.handle_request()
     >>> view.errors
     {'id': 'The project url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'}
     >>> view.errors = {}
 
 And, another invalid id::
-    >>> view.request.form['id'] = 'abcd1-_+'
+    >>> view.request.form['projid'] = 'abcd1-_+'
     >>> out = view.handle_request()
     >>> view.errors
     {'id': 'The project url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'}
@@ -51,7 +51,7 @@ And, another invalid id::
 
 Now, a valid title and id::
     >>> view.request.form['title'] = 'now a valid title!'
-    >>> view.request.form['id'] = 'test1'
+    >>> view.request.form['projid'] = 'test1'
     >>> out = view.handle_request()
     >>> view.errors
     {}
@@ -84,12 +84,12 @@ Can the creator of a closed project really leave? Let's find out
 in a test::
     >>> projects = self.portal.projects
     >>> view = projects.restrictedTraverse("create")
-    >>> form_vars = dict(id='test1', __initialize_project__=True,
+    >>> form_vars = dict(projid='test1', __initialize_project__=True,
     ...                  workflow_policy='closed_policy',
     ...                  add=True, featurelets = [], set_flets=1)
     >>> view.request.form.update(form_vars)
     >>> view.request.form['title'] = 'testing 1341'
-    >>> view.request.form['id'] = 'test1341'
+    >>> view.request.form['projid'] = 'test1341'
     >>> out = view.handle_request()
     >>> proj = projects.test1341
     >>> self.logout()

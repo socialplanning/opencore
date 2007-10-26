@@ -23,13 +23,15 @@ from topp.utils.pretty_date import prettyDate
 
 from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.nui.base import BaseView
-from opencore.nui.formhandler import OctopoLite
-from opencore.nui.formhandler import action
+from opencore.nui.formhandler import OctopoLite, action
 from opencore.interfaces.event import MemberEmailChangedEvent
 from opencore.interfaces.event import JoinedProjectEvent
 from opencore.interfaces.event import LeftProjectEvent
 from opencore.nui.member.interfaces import ITransientMessage
 from opencore.nui.project.interfaces import IEmailInvites
+
+from App import config
+
 
 class ProfileView(BaseView):
 
@@ -230,6 +232,16 @@ class MemberAccountView(BaseView, OctopoLite):
 
     active_states = ['public', 'private']
     msg_category = 'membership'
+
+    # DWM: application specific term should be part of method names
+    # probably indicate this needs to be behind an api
+    def twirlip_uri(self):
+        cfg = config.getConfiguration().product_config.get('opencore.nui')
+        if cfg:
+            return cfg.get('twirlip_uri', '')
+        else:
+            #this will fail, but at least looking at the source, we'll know why.
+            return 'http://twirlip.example.com'
 
     @property
     @req_memoize
@@ -640,12 +652,12 @@ class MemberAccountView(BaseView, OctopoLite):
         notify(MemberEmailChangedEvent(mem))
         self.addPortalStatusMessage('Your email address has been changed.')
 
-
-    role_map = {'ProjectAdmin':  'administrator',
-                'ProjectMember': 'member'}
     def pretty_role(self, role):
-        role = self.role_map.get(role, role)
+        role_map = dict(ProjectAdmin='administrator',
+                        ProjectMember='member')
+        role = role_map.get(role, role)
         return role
+
 
 class TrackbackView(BaseView):
     """handle trackbacks"""

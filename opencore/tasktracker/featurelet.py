@@ -7,6 +7,8 @@ from opencore.tasktracker.interfaces import \
     ITaskTrackerFeatureletInstalled, ITaskTrackerContainer
 
 class TaskTrackerFeaturelet(SatelliteFeaturelet):
+    # could we make featurlets named utilities?
+    # currently featurelet all have the same state always
     """
     A featurelet that installs a Task Tracker
     """
@@ -52,3 +54,4 @@ class TaskTrackerFeaturelet(SatelliteFeaturelet):
             # @@ raise a real error, por fa
 	    raise AssertionError("Terrible!")
         return BaseFeaturelet.removePackage(self, obj)
+

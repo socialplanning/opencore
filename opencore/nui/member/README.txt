@@ -63,7 +63,7 @@ Create a project with an international unicode title::
     >>> from opencore.nui.project.view import ProjectAddView
     >>> proj_add_view = ProjectAddView(self.portal.projects,
     ...                                self.portal.REQUEST)
-    >>> request.form['id'] = 'i18n'
+    >>> request.form['projid'] = 'i18n'
 
 This is some japanese that I found::
     >>> request.form['title'] = u'\u65e5\u8a9e'
@@ -81,7 +81,7 @@ Create a project starting with a capital letter to test case
 insensitive sort::
     >>> proj_add_view = ProjectAddView(self.portal.projects,
     ...                                self.portal.REQUEST)
-    >>> request.form['id'] = 'apples'
+    >>> request.form['projid'] = 'apples'
     >>> request.form['title'] = 'apples are good'
     >>> request.form['workflow_policy'] = 'medium_policy'
     >>> request.form['__initialize_project__'] = True

@@ -94,6 +94,9 @@ class AccountView(BaseView):
         if portal_workflow.getInfoFor(member, 'review_state') == 'pending':
             return member
 
+    def is_userid_pending(self, userid):
+        return self.is_pending(getUserName=userid)
+
     def _confirmation_url(self, mem):
         code = mem.getUserConfirmationCode()
         return "%s/confirm-account?key=%s" % (self.siteURL, code)
@@ -409,18 +412,32 @@ class InitialLogin(BaseView):
 
 class ForgotLoginView(AccountView):
 
+    # XXX this class should store some sort of member data
+    # on a per request basis.  as it is now, multiple
+    # catatlogue queries are done for the same user
+    # which can't be good
+
     @anon_only(BaseView.siteURL)
     @button('send')
     @post_only(raise_=False)
     def handle_request(self):
         userid = self.userid
         if userid:
+
+            if self.is_userid_pending(userid):
+                self.redirect('%s/resend-confirmation?member=%s' % (self.siteURL, userid))
+                return
+            
             if email_confirmation():
                 self._mailPassword(userid)
                 self.addPortalStatusMessage('Your username is %s.  If you would like to reset your password, please check your email account for further instructions.' % userid)
             else:
                 self.redirect(self.reset_url)
             return True
+
+        # else the user isn't found
+        self.addPortalStatusMessage(u"We can't find your account.")
+
         return False
     
     @instance.memoizedproperty
@@ -465,16 +482,21 @@ class ForgotLoginView(AccountView):
         if not user_lookup:
             self.addPortalStatusMessage(u"Please enter your username or email address.")
             return None
-        
-        if '@' in user_lookup:
-            brains = self.membranetool(getEmail=user_lookup)
-        else:
-            brains = self.membranetool(getUserName=user_lookup)
 
-        if not brains:
-            self.addPortalStatusMessage(u"We can't find your account. This could be because you have not yet completed your email confirmation.")
-            return
-        return brains[0].getId
+        def get_user(user_lookup, callable):
+            if '@' in user_lookup:
+                return callable(getEmail=user_lookup)
+            return callable(getUserName=user_lookup)
+            
+        brains = get_user(user_lookup, self.membranetool)
+
+        if brains:
+            return brains[0].getId
+
+        # check to see if the user is pending
+        member = get_user(user_lookup, self.is_pending)
+        if member:
+            return member.getId()
 
 
 class PasswordResetView(AccountView):
@@ -537,7 +559,7 @@ class PendingView(AccountView):
             self.redirect(unauthorized_destination)
         member = self.is_pending(UID=key)
         if not member:
-            self.redirect(unauthorized_destination)        
+            self.redirect(unauthorized_destination)
         return member
 
     @post_only(raise_=False)    
@@ -569,6 +591,23 @@ class PendingView(AccountView):
 
     def handle_request(self):
         self._pending_member()
+
+class ResendConfirmationView(AccountView):
+
+    @anon_only(BaseView.siteURL)
+    def handle_request(self):
+        name = self.request.form.get('member', '')
+        member = self.is_userid_pending(name)
+        if not member:
+            self.add_status_message('No pending member by the name "%s" found' % name)
+            self.redirect(self.siteURL)
+            return
+        self._sendmail_to_pendinguser(member.getId(),
+                                      member.getEmail(),
+                                      self._confirmation_url(member))
+        self.add_status_message('A new activation email has been sent to the email address provided for %s.' % name)
+        self.redirect("%s/login" %self.siteURL)
+
 
 def email_confirmation():
     """get email confirmation mode from zope.conf"""

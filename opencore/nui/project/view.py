@@ -3,22 +3,17 @@ import string
 
 from zope import event
 from zope.component import getMultiAdapter
-from zope.component import getUtility
 from zope.i18nmessageid import Message, MessageFactory
 from Acquisition import aq_parent
-from zope.app.annotation.interfaces import IAnnotations
-from BTrees.OOBTree import OOBTree
 
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import DeleteObjects
-from Products.CMFPlone.utils import transaction_note
 from plone.memoize.instance import memoize, memoizedproperty
 from plone.memoize.view import memoize_contextless
 from plone.memoize.view import memoize as req_memoize
 
-from Products.OpenPlans.config import DEFAULT_ROLES
-from opencore.interfaces import IAddProject, IAddSubProject
+from opencore.interfaces import IAddProject
 from opencore.interfaces.catalog import IMetadataDictionary 
 from opencore.interfaces.event import AfterProjectAddedEvent, \
       AfterSubProjectAddedEvent
@@ -170,10 +165,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
     @memoizedproperty
     def pages(self):
         objs = self._sorted_items('pages', 'sortable_title')
-        for d in objs:
-            if d['id'] == 'project-home':
-                d['uneditable'] = True
-        return objs
+        return self._filter_objs(objs)
 
     @memoizedproperty
     def lists(self):
@@ -273,17 +265,26 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
         # XXX this is a speed hack for #1158,
         # delete button is only shown for
         # project members, it is not
-        # fine grained. 
+        # fine grained.
         return 'ProjectMember' in self.context.getTeamRolesForAuthMember()
+
+    def _filter_objs(self, objs):
+        # Mark stuff that can't be edited or deleted.  This is another
+        # speed hack to handle bugs 1330 (and 1158 via show_deletes())
+        # but again, we don't check security on each object.
+        show_deletes = self.show_deletes()
+        for d in objs:
+            if d['id'] == 'project-home':
+                d['uneditable'] = True
+                d['undeletable'] = True
+            if not show_deletes:
+                d['undeletable'] = True
+        return objs
 
     def _resort(self, item_type, sort_by=None, sort_order=None):
         sort_by = self.needed_values[item_type].sortable(sort_by)
         new_objs = self._sorted_items(item_type, sort_by, sort_order)
-        if item_type == "pages":
-            for d in new_objs:
-                if d['id'] == 'project-home':
-                    d['uneditable'] = True
-        return new_objs
+        return self._filter_objs(new_objs)
 
     @action('resort')
     def resort(self, sources, fields=None):
@@ -445,7 +446,7 @@ class ProjectAddView(BaseView, OctopoLite):
     def validate(self, target=None, fields=None):
         putils = getToolByName(self.context, 'plone_utils')
         errors = {}
-        id_ = self.request.form.get('id')
+        id_ = self.request.form.get('projid')
         id_ = putils.normalizeString(id_)
         if self.context.has_key(id_):
             errors['oc-id-error'] = {
@@ -476,7 +477,7 @@ class ProjectAddView(BaseView, OctopoLite):
             self.errors['title'] = 'The project name must contain ' \
               'at least 2 characters with at least 1 letter or number.'
 
-        id_ = self.request.form.get('id')
+        id_ = self.request.form.get('projid')
         if not valid_project_id(id_):
             self.errors['id'] = 'The project url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'
         else:
@@ -508,9 +509,9 @@ class ProjectAddView(BaseView, OctopoLite):
             IHomePage(proj).home_page = home_page
 
         self.add_status_message(msgid='project_created',
-                                    mapping={'title': title,
-                                             'proj_edit_url': proj_edit_url},
-                                    )
+                                mapping={'title': title,
+                                         'proj_edit_url': proj_edit_url},
+                                )
         self.redirect('%s/manage-team' % proj.absolute_url())
 
     def notify(self, project):

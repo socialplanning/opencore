@@ -823,8 +823,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         of them fail validation as an email address then an error is
         returned and the entire operation is aborted.
         """
-        invites = self.request.form.get('email-invites')
-        invites = [addy.strip() for addy in invites.split(',')]
+        invites = []
+        for i in self.request.form.get('email-invites').split(','):
+            invites.extend(i.split())
         regex = re.compile(EMAIL_RE)
         good = []
         bad = []

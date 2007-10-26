@@ -7,6 +7,6 @@ by using the <a class="oc-actionLink" href="edit">edit</a> link on the green lin
 <p>
 <b>Create a new page:</b>
 Add a new page by enclosing the title of the page name
-in &#40;&#8288;&#40;double parentheses&#41;&#8288;&#41;.  This will convert the text into a link; clicking on this link will create the new page.  If a page with that name already exists, the text will instead
+in &#40;&#8205;&#40;double parentheses&#41;&#8205;&#41;.  This will convert the text into a link; clicking on this link will create the new page.  If a page with that name already exists, the text will instead
 link to that page.
 </p>

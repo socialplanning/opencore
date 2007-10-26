@@ -2,7 +2,7 @@
            tal:define="item item | options/item;
                        item_type item_type | options/item_type;
                        editable editable | not:item/uneditable | nothing; 
-                       deletable show_deletes | nothing">
+                       deletable not:item/undeletable | nothing">
   <tr class="oc-js-liveEdit" tal:attributes="id item/id">
     <td tal:condition="item/collection/editable | view/editable">
       <tal:if condition="not:deletable">

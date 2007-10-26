@@ -37,9 +37,9 @@
                   </th>
                   <td class="oc-form-value oc-form-fieldBlock">
                     <span tal:replace="context/absolute_url" />/
-                    <input type="text" name="id" id="id"
+                    <input type="text" name="projid" id="projid"
                            class="oc-js-liveValidate"
-                           tal:attributes="value request/id | nothing" />
+                           tal:attributes="value request/projid | nothing" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
