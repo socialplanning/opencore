@@ -100,6 +100,15 @@ class WikiEdit(WikiBase, OctopoLite):
         page_text = new_form['text']
         # XXX check description on news page
         description = new_form.get('description', None)
+        #Between zope and various weird web browsers, the text could
+        #be a str encoded in utf-8.  Let's make sure it's Python
+        #unicode before we pass it to lxml.
+        if isinstance(page_text, str):
+            try:
+                page_text = page_text.decode('utf-8')
+            except UnicodeDecodeError:
+                pass
+            
         clean_text = self._clean_html(page_text)
 
         self.context.setTitle(page_title)
