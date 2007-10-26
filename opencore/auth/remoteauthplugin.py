@@ -8,11 +8,11 @@ from Globals import InitializeClass
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.interfaces.plugins import IAuthenticationPlugin
+from Products.CMFCore.utils import getToolByName
 
 from opencore.utility.interfaces import IHTTPClient
 
 from event import RemoteLoginSucceeded
-from config_tmp import REMOTE_AUTH_SITES
 
 TRUE = 'True'
 
@@ -43,7 +43,9 @@ def manage_addOpenCoreRemoteAuth(dispatcher, id, title=None, REQUEST=None):
 class RemoteOpenCoreAuth(BasePlugin):
     """
     Authenticates against a set of remote authentication providers.
-    Fires an event upon successful authentication.
+    Fires an event upon successful authentication.  The URLs of the
+    remote auth providers are retrieved from a 'remote_auth_sites'
+    property (of 'lines' type) on the Portal object.
     """
     meta_type = 'OpenCore Remote Authentication'
     
@@ -61,11 +63,16 @@ class RemoteOpenCoreAuth(BasePlugin):
         Iterate through the remote servers and test the credentials
         against each one in turn.
         """
+        portal = getToolByName(self, 'portal_url').getPortalObject()
+        remote_auth_sites = portal.getProperty('remote_auth_sites')
+        if not remote_auth_sites:
+            return
+        
         username = credentials.get('login')
         password = credentials.get('password')
         query = urlencode({'username': username, 'password': password})
         h = getUtility(IHTTPClient)
-        for siteurl in REMOTE_AUTH_SITES:
+        for siteurl in remote_auth_sites:
             authurl = '%s/authenticate-credentials?%s' % (siteurl, query)
             resp, content = h.request(authurl, 'GET')
             if content == TRUE:
@@ -78,6 +85,6 @@ class RemoteOpenCoreAuth(BasePlugin):
                 return username, username
 
         # all remote auth attempts failed
-        return None
+        return
 
 InitializeClass(RemoteOpenCoreAuth)
