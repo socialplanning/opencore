@@ -12,6 +12,8 @@ from opencore.tasktracker import uri as tt_uri
 from memojito import memoizedproperty
 
 class TaskTrackerFeaturelet(BaseFeaturelet):
+    # could we make featurlets named utilities?
+    # currently featurelet all have the same state always
     """
     A featurelet that installs a Task Tracker
     """
@@ -79,3 +81,4 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
             # @@ raise a real error, por fa
 	    raise AssertionError("Terrible!")
         return BaseFeaturelet.removePackage(self, obj)
+
