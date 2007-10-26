@@ -23,9 +23,9 @@ from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
 
 from opencore.project.utils import get_featurelets
 from opencore.tasktracker import uri as tt_uri
-
+from opencore.i18n import _
 from opencore.nui import formhandler
-from opencore.nui.base import BaseView, _
+from opencore.nui.base import BaseView
 from opencore.nui.formhandler import OctopoLite, action
 from opencore.nui.project.utils import vdict
 

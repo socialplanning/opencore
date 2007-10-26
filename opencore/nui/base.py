@@ -10,8 +10,8 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
 from opencore.interfaces import IProject 
 from opencore.nui.static import render_static
-from zope.i18nmessageid import Message, MessageFactory
-from opencore.i18n import i18n_domain
+from zope.i18nmessageid import Message
+from opencore.i18n import i18n_domain, _
 from opencore.i18n import translate
 from plone.memoize import instance
 from plone.memoize import view 
@@ -28,8 +28,6 @@ import urllib
 
 view.memoizedproperty = lambda func: property(view.memoize(func))
 view.mcproperty = lambda func: property(view.memoize_contextless(func))
-
-_ = MessageFactory('opencore')
 
 
 class BaseView(BrowserView):
@@ -533,20 +531,20 @@ class BaseView(BrowserView):
             # get the member object
             id = member
             if not id:
-                messages.append('You need to enter your username.')
+                messages.append(_(u'password_no_username_error', u'You need to enter your username.'))
                 return exit_function()
                 
             member = self.get_tool("membrane_tool")(getUserName=id)
             if not member:
-                messages.append('There is no member named "%s".' % id)
+                messages.append(_(u'password_no_member_error', u'There is no member named "%s".' % id))
                 return exit_function()
             member = member[0].getObject()
 
         if not password or not password2:
-            messages.append("You must enter a password.")
+            messages.append(_(u'password_no_password_error', u"You must enter a password."))
             return exit_function()
         if password != password2:
-            messages.append("Please make sure that both password fields are the same.")
+            messages.append(_(u'password_not_same_error', u"Please make sure that both password fields are the same."))
             return exit_function()
         msg = member.validate_password(password)
         if msg:
@@ -578,4 +576,3 @@ def static_txt(fname):
     def new_func(self):
         return self.render_static(fname)
     return new_func
-
