@@ -201,8 +201,10 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
     #IAuthenticationPlugin
 
     def authenticateCredentials(self, credentials):
-        login = credentials['login']
-        if credentials['hash'] == self.generateHash(login):
+        login = credentials.get('login')
+        cookiehash = credentials.get('hash')
+        if cookiehash is not None and \
+               cookiehash  == self.generateHash(login):
             return (login, login)
 
 InitializeClass(SignedCookieAuthHelper)
