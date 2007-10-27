@@ -23,7 +23,10 @@ $Id: test_doctests.py 32811 2006-11-06 14:01:12Z shh42 $
 # Load fixture
 import unittest
 from Testing import ZopeTestCase
-from Products.OpenPlans.tests.openplanstestcase import OpenPlansLayer
+from opencore.testing.layer import OpenPlansLayer
+from opencore.testing.layer import MockHTTP
+from opencore.testing.layer import OpenCoreContent
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
 from Products.PloneTestCase.PloneTestCase import setupPloneSite
 
@@ -32,7 +35,19 @@ from ZPublisher.HTTPResponse import HTTPResponse
 from Testing.ZopeTestCase import installProduct
 import doctest
 
+memxml = """
+<member id="foo">
+  <email>none@nothing.com</email>
+  <fullname>Foo Barsky</fullname>
+</member>
+"""
+
 setupPloneSite()
+
+class MockHTTPContentLayer(MockHTTP, OpenCoreContent):
+    """
+    Replaces the IHTTPClient utility and creates the test content.
+    """
 
 # Silence Plone's handling of exceptions
 orig_exception = HTTPResponse.exception
@@ -59,20 +74,22 @@ HTTPResponse.exception = exception
 HTTPResponse.setBody = setBody
 
 import warnings; warnings.filterwarnings("ignore")
+
 def test_suite():
     suite = unittest.TestSuite()
     DocFileSuite = ZopeTestCase.FunctionalDocFileSuite
     tests = (
-        ('auth.txt', FunctionalTestCase),
+        ('auth.txt', FunctionalTestCase, OpenPlansLayer),
+        ('remote_auth.txt', FunctionalTestCase, MockHTTPContentLayer),
         )
 
-    for fname, klass in tests:
+    for fname, klass, layer in tests:
         t = DocFileSuite(fname,
                          test_class=klass,
                          optionflags = doctest.ELLIPSIS,
                          package='opencore.auth.tests')
         #all openplans tests need this
-        t.layer = OpenPlansLayer
+        t.layer = layer
         suite.addTest(t)
     return suite
 
