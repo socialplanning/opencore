@@ -3,10 +3,15 @@ import urllib
 from httplib2 import Http
 from memojito import memoizedproperty
 
+from zope.interface import implements
+
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
+from topp.featurelets.interfaces import IFeaturelet
 from topp.featurelets.base import BaseFeaturelet
+
+from Products.OpenPlans.interfaces import IProject
 
 from opencore.wordpress import uri as wp_uri
 from opencore.wordpress.interfaces import IWordPressFeatureletInstalled
@@ -15,10 +20,12 @@ class WordPressFeaturelet(BaseFeaturelet):
     """
     A featurelet that installs a WordPress blog
     """
+    implements(IFeaturelet)
 
     id = "blog"
     title = "WordPress"
     installed_marker = IWordPressFeatureletInstalled
+    _required_interfaces = BaseFeaturelet._required_interfaces + (IProject,)
 
     _info = {'menu_items': ({'title': u'blog',
                              'description': u'WordPress',
