@@ -7,8 +7,7 @@ from memojito import memoizedproperty
 from topp.featurelets.base import BaseFeaturelet
 from opencore.utility.interfaces import IHTTPClient
 from opencore.tasktracker import uri as tt_uri
-from opencore.tasktracker.interfaces import \
-    ITaskTrackerFeatureletInstalled, ITaskTrackerContainer
+from opencore.tasktracker.interfaces import ITaskTrackerFeatureletInstalled
 
 class TaskTrackerFeaturelet(BaseFeaturelet):
     # could we make featurlets named utilities?
