@@ -5,7 +5,7 @@
   <include package="Products.Five" />
   <include file="meta.zcml" />
   <opencore:tasktracker
-     uri="http://localhost:5050" 
+     uri="http://nohost:tasktracker" 
      external_uri="tasks" />
   <utility component="opencore.tasktracker.uri._tt_info" />
 </configure>
