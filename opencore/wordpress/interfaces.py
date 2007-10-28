@@ -6,11 +6,6 @@ class IWordPressFeatureletInstalled(Interface):
     Marks an object as having the wordpress featurelet installed.
     """
 
-class IWordPressContainer(Interface):
-    """
-    Marks an object as a wordpress container
-    """
-
 class IWordPressInfo(Interface):
     """utility declaratively representing the uri for a wordpress
     instance"""
