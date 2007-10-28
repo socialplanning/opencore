@@ -84,7 +84,7 @@ def initialize(context):
     flet_registry = getUtility(IFeatureletRegistry)
     flet_registry.registerFeaturelet(ListenFeaturelet())
     flet_registry.registerFeaturelet(TaskTrackerFeaturelet())
-    flet_registry.registerFeaturelet(WordPressFeaturelet())
+    #flet_registry.registerFeaturelet(WordPressFeaturelet())
     # BBB the roster featurelet can go away once we've removed all
     #     the installed rosters
     flet_registry.registerFeaturelet(RosterFeaturelet())
