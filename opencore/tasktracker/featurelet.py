@@ -1,12 +1,16 @@
+from zope.component import getUtility
+
+from Products.CMFCore.utils import getToolByName
+
 from memojito import memoizedproperty
 
 from topp.featurelets.base import BaseFeaturelet
-from opencore.featurelets.satellite import SatelliteFeaturelet
+from opencore.utility.interfaces import IHTTPClient
 from opencore.tasktracker import uri as tt_uri
 from opencore.tasktracker.interfaces import \
     ITaskTrackerFeatureletInstalled, ITaskTrackerContainer
 
-class TaskTrackerFeaturelet(SatelliteFeaturelet):
+class TaskTrackerFeaturelet(BaseFeaturelet):
     # could we make featurlets named utilities?
     # currently featurelet all have the same state always
     """
@@ -34,6 +38,19 @@ class TaskTrackerFeaturelet(SatelliteFeaturelet):
     @property
     def uninit_uri(self):
         return "%s/project/uninitialize/" % self.uri
+
+    @memoizedproperty
+    def http(self):
+        return getUtility(IHTTPClient)
+
+    def _makeHttpReqAsUser(self, uri, obj, method="POST", headers=None):
+        if headers is None: headers = {}
+        auth = obj.acl_users.credentials_signed_cookie_auth
+
+        user_id = getToolByName(obj, 'portal_membership').getAuthenticatedMember().getId()
+        headers['Cookie'] = auth.generateCookie(user_id)
+        headers['X-Openplans-Project'] = obj.getId()
+        return self.http.request(uri, method=method, headers=headers)
 
     def deliverPackage(self, obj):
         #XXX: we send both headers for now so that TT and OC can be updated
