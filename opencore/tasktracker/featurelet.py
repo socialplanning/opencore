@@ -1,10 +1,15 @@
 from zope.component import getUtility
+from zope.interface import implements
 
 from Products.CMFCore.utils import getToolByName
 
 from memojito import memoizedproperty
 
 from topp.featurelets.base import BaseFeaturelet
+from topp.featurelets.interfaces import IFeaturelet
+
+from Products.OpenPlans.interfaces import IProject
+
 from opencore.utility.interfaces import IHTTPClient
 from opencore.tasktracker import uri as tt_uri
 from opencore.tasktracker.interfaces import ITaskTrackerFeatureletInstalled
@@ -16,10 +21,13 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
     A featurelet that installs a Task Tracker
     """
 
+    implements(IFeaturelet)
+
     id = "tasks"
     title = "Task Tracker"
     installed_marker = ITaskTrackerFeatureletInstalled
 
+    _required_interfaces = BaseFeaturelet._required_interfaces + (IProject,)
     _info = {'menu_items': ({'title': u'Tasks',
                              'description': u'Task tracker',
                              'action': 'tasks'
