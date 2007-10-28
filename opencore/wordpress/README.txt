@@ -2,8 +2,6 @@
  wordpress opencore integration
 ==================================
 
-** tests don't mean anything right now **
-
 URI convenience api
 ===================
 
@@ -11,33 +9,31 @@ URI convenience api
 
 #@@ this should be cleaned up and return none
 
-    >>> tt_uri.get()
-    u'http://localhost:5050'
+    >>> wp_uri.get()
+    u'http://localhost:8090'
 
 featurelet install
 ==================
 
-    >>> from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
-    >>> ttf = TaskTrackerFeaturelet()
+    >>> from opencore.wordpress.featurelet import WordPressFeaturelet
+    >>> wpf = WordPressFeaturelet()
 
 The mock http should be hooked up::
 
-    >>> ttf.http
-    <Mock ... httplib2.Http>
+    >>> wpf.http
+    <HTTPMock ... httplib2.Http>
 
-We will simulate 'deliverPackage' and 'removePackage', the http calls
-to tasktracker::
+We will call 'deliverPackage' and 'removePackage', which trigger
+the http calls to wordpress::
 
     >>> project = self.app.plone.projects.p1
-    >>> header = {"X-Tasktracker-Initialize":"True"}
-    >>> ttf._makeHttpReqAsUser(ttf.init_uri, obj=project, headers=header)
+    >>> wpf.deliverPackage(project)
     Called httplib2.Http.request(
-        u'http://localhost:5050/project/initialize/',
-        headers={'X-Openplans-Project': 'p1', 'Cookie': '__ac=...', 'X-Tasktracker-Initialize': 'True'},
-        method='POST')
+        u'http://localhost:8090/openplans-create-blog.php',
+        ...
+    {'menu_items'...}
 
-    >>> ttf._makeHttpReqAsUser(ttf.uninit_uri, obj=project)
+    >>> wpf.removePackage(project)
     Called httplib2.Http.request(
-        u'http://localhost:5050/project/uninitialize/',
-        headers={'X-Openplans-Project': 'p1', 'Cookie': '__ac=...'},
-        method='POST')
+        u'http://localhost:8090/openplans-delete-blog.php',
+        ...

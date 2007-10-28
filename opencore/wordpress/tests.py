@@ -19,14 +19,14 @@ optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 
 def readme_setup(tc):
     tc.new_request = utils.new_request()
-    import opencore.tasktracker
+    import opencore.wordpress
     from zope.app.annotation.interfaces import IAttributeAnnotatable
     from zope.testing.loggingsupport import InstalledHandler
-    tc.log = InstalledHandler(opencore.tasktracker.LOG)
+    tc.log = InstalledHandler(opencore.wordpress.LOG)
 
 def directive_setup(tc):
-    import opencore.tasktracker
-    zcml.load_config('test-directive.zcml', opencore.tasktracker)
+    import opencore.wordpress
+    zcml.load_config('test-directive.zcml', opencore.wordpress)
 
 class MockHTTPwithContent(MockHTTP, OpencoreContent):
     """not sure this is the right spelling"""
@@ -37,7 +37,7 @@ def test_suite():
     from opencore.utility.interfaces import IHTTPClient
     
     directive = doctest.DocFileSuite('directive.txt',
-                                     package='opencore.tasktracker',
+                                     package='opencore.wordpress',
                                      optionflags=optionflags,
                                      setUp=directive_setup,
                                      tearDown=clean_CA,
@@ -45,7 +45,7 @@ def test_suite():
     unit_suites = (directive, )
     
     readme = ztc.FunctionalDocFileSuite('README.txt',
-                                        package='opencore.tasktracker',
+                                        package='opencore.wordpress',
                                         optionflags=optionflags,
                                         setUp=readme_setup,
                                         globs=locals())
