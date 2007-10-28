@@ -3,6 +3,6 @@
 	   xmlns:five="http://namespaces.zope.org/five"
 	   xmlns:opencore="http://namespaces.openplans.org/opencore">
   <opencore:wordpress
-     uri="http://localhost:5050" 
+     uri="http://nohost:wordpress" 
      external_uri="blog" />
 </configure>

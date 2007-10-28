@@ -20,6 +20,7 @@ optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 def readme_setup(tc):
     tc.new_request = utils.new_request()
     import opencore.wordpress
+    zcml.load_config('test-directive.zcml', opencore.wordpress)
     from zope.app.annotation.interfaces import IAttributeAnnotatable
     from zope.testing.loggingsupport import InstalledHandler
     tc.log = InstalledHandler(opencore.wordpress.LOG)

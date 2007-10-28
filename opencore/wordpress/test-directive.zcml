@@ -5,7 +5,7 @@
   <include package="Products.Five" />
   <include file="meta.zcml" />
   <opencore:wordpress
-     uri="http://localhost:5050" 
+     uri="http://nohost:wordpress" 
      external_uri="blog" />
   <utility component="opencore.wordpress.uri._wp_info" />
 </configure>

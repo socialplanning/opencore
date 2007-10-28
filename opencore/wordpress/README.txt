@@ -10,7 +10,7 @@ URI convenience api
 #@@ this should be cleaned up and return none
 
     >>> wp_uri.get()
-    u'http://localhost:8090'
+    u'http://nohost:wordpress'
 
 featurelet install
 ==================
@@ -29,11 +29,11 @@ the http calls to wordpress::
     >>> project = self.app.plone.projects.p1
     >>> wpf.deliverPackage(project)
     Called httplib2.Http.request(
-        u'http://localhost:8090/openplans-create-blog.php',
+        u'http://nohost:wordpress/openplans-create-blog.php',
         ...
     {'menu_items'...}
 
     >>> wpf.removePackage(project)
     Called httplib2.Http.request(
-        u'http://localhost:8090/openplans-delete-blog.php',
+        u'http://nohost:wordpress/openplans-delete-blog.php',
         ...
