@@ -53,10 +53,16 @@ def send_to_wordpress(uri, username, params, context):
 
 def notify_wordpress_user_created(mem, event):
     uri = "openplans-create-user.php"
+    #XXX we can't get the member home folder by calling
+    # mship_tool.getHomeFolder because it hasn't been created yet
     username = mem.getId()
+    portal_url = getToolByName(mem, 'portal_url').getPortalObject().absolute_url()
+    default_page = '%s-home' % username
+    home_page = '%s/people/%s/%s' % (portal_url, username, default_page)
     params = dict(
             username=username,
             email=mem.getEmail(),
+            home_page=home_page,
             )
     send_to_wordpress(uri, username, params, mem)
 

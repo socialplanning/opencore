@@ -23,7 +23,17 @@ class AllMembersInfoXML(XMLView):
         membrane_tool = getToolByName(self.context, 'membrane_tool')
         members = membrane_tool.unrestrictedSearchResults()
         return members
-
+    def home_page_for(self, mem):
+        #XXX ideally, we would get the home page dynamically for each member
+        # but that requires a member object now, which would make things slow
+        # we could add a new piece of metadata that contains this,
+        # but it's not necessary just yet
+        mem_id = mem.getId
+        return '%s/%s/%s-home' % (self.context.absolute_url(),
+                                  mem_id,
+                                  mem_id,
+                                  )
+                                  
 
 class ProjectMembershipXML(XMLView):
 
