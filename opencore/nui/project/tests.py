@@ -7,7 +7,7 @@ from opencore.testing.layer import OpencoreContent
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from zope.interface import alsoProvides
 from opencore.featurelets.interfaces import IListenContainer
-from opencore.tasktracker.tests import MockHTTPwithContent
+from opencore.testing.layer import MockHTTPWithContent
 from zope.app.component.hooks import setSite
 from Products.Five.site.localsite import enableLocalSiteHook
 from zope.app.component.hooks import setSite, setHooks
@@ -100,7 +100,7 @@ def test_suite():
     suites = (contents, metadata, manage_team, request_membership)
     for suite in suites:
         suite.layer = OpencoreContent
-    readme.layer = MockHTTPwithContent
+    readme.layer = MockHTTPWithContent
     unit = doctest.DocTestSuite('opencore.nui.project.view',
                                 optionflags=optionflags)
     return unittest.TestSuite(suites + (readme, unit))

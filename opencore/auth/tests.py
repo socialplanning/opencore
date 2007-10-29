@@ -24,8 +24,7 @@ $Id: test_doctests.py 32811 2006-11-06 14:01:12Z shh42 $
 import unittest
 from Testing import ZopeTestCase
 from opencore.testing.layer import OpenPlansLayer
-from opencore.testing.layer import MockHTTP
-from opencore.testing.layer import OpenCoreContent
+from opencore.testing.layer import MockHTTPWithContent
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
 from Products.PloneTestCase.PloneTestCase import setupPloneSite
@@ -43,11 +42,6 @@ memxml = """
 """
 
 setupPloneSite()
-
-class MockHTTPContentLayer(MockHTTP, OpenCoreContent):
-    """
-    Replaces the IHTTPClient utility and creates the test content.
-    """
 
 # Silence Plone's handling of exceptions
 orig_exception = HTTPResponse.exception
@@ -80,7 +74,7 @@ def test_suite():
     DocFileSuite = ZopeTestCase.FunctionalDocFileSuite
     tests = (
         ('auth.txt', FunctionalTestCase, OpenPlansLayer),
-        ('remote_auth.txt', FunctionalTestCase, MockHTTPContentLayer),
+        ('remote_auth.txt', FunctionalTestCase, MockHTTPWithContent),
         )
 
     for fname, klass, layer in tests:
