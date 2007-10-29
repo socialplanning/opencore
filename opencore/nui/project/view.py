@@ -3,8 +3,11 @@ import string
 
 from zope import event
 from zope.component import getMultiAdapter
+from zope.component import getUtility
 from zope.i18nmessageid import Message, MessageFactory
 from Acquisition import aq_parent
+
+from topp.featurelets.interfaces import IFeatureletRegistry
 
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
@@ -427,15 +430,24 @@ class ProjectPreferencesView(ProjectBaseView):
     def current_home_page(self):
         return IHomePage(self.context).home_page.split('/')[-1]
 
-    def home_pages(self):
-        # XXX hard-coded list
-        # XXX summary page should be added here when ready
-        return [
-             dict(name='wiki', url='project-home', title='Wiki'),
-             dict(name='tasks', url='tasks', title='Task lists'),
-             dict(name='lists', url='lists', title='Mailing lists'),
-             dict(name='blog', url='blog', title='Blog'),
-             ]
+    def featurelets(self, include_wiki=False):
+        # XXX manually filter out openroster for now
+        # this needs to go away when the openroster featurelet is destroyed
+        all_flets = getUtility(IFeatureletRegistry).getFeaturelets()
+        installed_flets = [f['name'] for f in get_featurelets(self.context)]
+        flet_data = [dict(id=f.id,
+                          title=f.title,
+                          url=f._info['menu_items'][0]['action'],
+                          checked=f.id in installed_flets,
+                          )
+                     for f in all_flets if f.id != 'openroster']
+        if include_wiki:
+            flet_data.insert(0, dict(id='wiki',
+                                     title='Wiki pages',
+                                     url='project-home',
+                                     checked='True',
+                                     ))
+        return flet_data
 
 
 class ProjectAddView(BaseView, OctopoLite):
@@ -516,6 +528,24 @@ class ProjectAddView(BaseView, OctopoLite):
 
     def notify(self, project):
         event.notify(AfterProjectAddedEvent(project, self.request))
+
+    def featurelets(self, include_wiki=False):
+        flets = getUtility(IFeatureletRegistry).getFeaturelets()
+        # XXX manually filter out openroster for now
+        # this needs to go away when the openroster featurelet is destroyed
+        flet_data = [dict(id=f.id,
+                          title=f.title,
+                          url=f._info['menu_items'][0]['action'],
+                          checked=False,
+                          )
+                     for f in flets if f.id != 'openroster']
+        if include_wiki:
+            flet_data.insert(0, dict(id='wiki',
+                                     title='Wiki pages',
+                                     url='project-home',
+                                     checked='True',
+                                     ))
+        return flet_data
 
 
 class RedirectView(BaseView):

@@ -93,25 +93,21 @@
                 <legend><strong>Which additional tools would you like to install?</strong></legend>
               <ul class="oc-form-radiolist oc-form-fieldBlock"
                   tal:define="warning string:Warning: Removing this feature may result in data loss.">
-                <li class="oc-js-featurelet-undelete-warner">
-                  <input type="checkbox" class="oc-input-typeCheck oc-js-toggler" id="oc-js-toggler-tasks" name="featurelets:list" value="tasks"
-                    tal:attributes="checked python:view.has_task_tracker" />
-                  <label for="oc-js-toggler-tasks">Task lists</label>
-                  <span class="oc-warning" style="display: none" tal:content="warning" />
-                  <!-- <p class="oc-form-context">An extensive to-do list manager that makes it easy to share tasks and get things done.</p> -->
-                </li>
-                <li class="oc-js-featurelet-undelete-warner">
-                  <input type="checkbox" class="oc-input-typeCheck oc-js-toggler" id="oc-js-toggler-lists" name="featurelets:list" value="listen"
-                    tal:attributes="checked python:view.has_mailing_lists" />
-                  <label for="oc-js-toggler-lists">Mailing lists</label>
-                  <span class="oc-warning" style="display: none" tal:content="warning" />
-                  <!-- <p class="oc-form-context">Email and forum-based discussion spaces.</p> -->
-                </li>
-                <li class="oc-js-featurelet-undelete-warner">
-                  <input type="checkbox" class="oc-input-typeCheck oc-js-toggler" id="oc-js-toggler-blog" name="featurelets:list" value="blog"
-                    tal:attributes="checked python:view.has_blog" />
-                  <label for="oc-js-toggler-blog">Blog</label>
-                  <span class="oc-warning" style="display: none" tal:content="warning" />
+                <li tal:repeat="flet view/featurelets">
+                  <input type="checkbox"
+                         class="oc-input-typeCheck oc-js-toggler"
+                         name="featurelets:list"
+                         tal:attributes="id string:oc-js-toggler-${flet/id};
+                                         checked flet/checked;
+                                         value flet/id"
+                         />
+                  <label tal:attributes="for string:oc-js-toggler-${flet/id}"
+                         tal:content="flet/title"
+                         />
+                  <span class="oc-warning"
+                        style="display: none"
+                        tal:content="warning"
+                        />
                 </li>
               </ul>
               </fieldset>
@@ -120,24 +116,24 @@
               <legend><strong>Select the home page for your project:</strong></legend>
 
               <ul class="oc-form-radiolist oc-form-fieldBlock">
-                <li tal:repeat="item view/home_pages">
+                <li tal:repeat="flet python:view.featurelets(include_wiki=True)">
                   <tal:home_page_item define="
-                    name item/name;
-                    url item/url;
-                    title item/title;
+                    id flet/id;
+                    url flet/url;
+                    title flet/title;
                     cur_home view/current_home_page;
                     checked python: url == cur_home;
                     ">
-                    <label tal:attributes="for name; id string:oc-js-togglee-${name}">
+                    <label tal:attributes="for id; id string:oc-js-togglee-${id}">
                       <tal:selected condition="checked">
                         <input type="radio" class="" name="home-page"
-                               tal:attributes="value url; id name"
+                               tal:attributes="value url; id id"
                                checked="yes"
                                />
                       </tal:selected>
                       <tal:not_selected condition="not:checked">
                         <input type="radio" class="" name="home-page"
-                               tal:attributes="value url; id name"
+                               tal:attributes="value url; id id"
                                />
                       </tal:not_selected>
                       <span tal:replace="title" />

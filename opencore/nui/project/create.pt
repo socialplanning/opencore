@@ -95,17 +95,17 @@
           <fieldset class="oc-boxy">
             <legend class="oc-legend-heading oc-biggerText">Step 3: Tools</legend>
             <ul class="oc-form-radiolist oc-form-fieldBlock" >
-              <li>
-                <input type="checkbox" class="oc-input-typeCheck oc-js-toggler" id="oc-js-toggler-tasks" name="featurelets:list" value="tasks" checked="true" />
-                <label for="oc-js-toggler-tasks">Task lists</label>
-              </li>
-              <li>
-                <input type="checkbox" class="oc-input-typeCheck oc-js-toggler" id="oc-js-toggler-lists" name="featurelets:list" value="listen" checked="true" />
-                <label for="oc-js-toggler-lists">Mailing lists</label>
-              </li>
-              <li>
-                <input type="checkbox" class="oc-input-typeCheck oc-js-toggler" id="oc-js-toggler-blog" name="featurelets:list" value="blog" checked="true" />
-                <label for="oc-js-toggler-blog">Blog</label>
+              <li tal:repeat="flet view/featurelets">
+                <input type="checkbox"
+                       class="oc-input-typeCheck oc-js-toggler"
+                       name="featurelets:list"
+                       checked="true"
+                       tal:attributes="id string:oc-js-toggler-${flet/id};
+                                       value flet/id"
+                       />
+                <label tal:attributes="for string:oc-js-toggler-${flet/id}"
+                       tal:content="flet/title"
+                       />
               </li>
             </ul>
 
@@ -113,28 +113,27 @@
             <legend><strong>Select the home page for your project:</strong></legend>
 
             <ul class="oc-form-radiolist oc-form-fieldBlock">
-              <li>
-                <label for="home_wiki" id="oc-js-togglee-wiki">
-                  <input type="radio" class="oc-input-typeRadio" id="home_wiki" name="home-page" value="project-home" checked="true" />
-                  Wiki
-                </label>
-              </li>
-              <li>
-                <label for="home_tasktracker" id="oc-js-togglee-tasks">
-                  <input type="radio" class="oc-input-typeRadio" id="home_tasktracker" name="home-page" value="tasks" />
-                  Task lists
-                </label>
-              </li>
-              <li>
-                <label for="home_listen" id="oc-js-togglee-lists">
-                  <input type="radio" class="oc-input-typeRadio" id="home_listen" name="home-page" value="lists" />
-                  Mailing lists
-                </label>
-              </li>
-              <li>
-                <label for="home_wordpress" id="oc-js-togglee-blog">
-                  <input type="radio" class="oc-input-typeRadio" id="home_wordpress" name="home-page" value="blog" />
-                  Blog
+              <li tal:repeat="flet python:view.featurelets(include_wiki=True)">
+                <label tal:attributes="for string:home_${flet/id};
+                                       id string:oc-js-togglee-${flet/id}">
+                <tal:radio-checked condition="flet/checked">
+                    <input type="radio"
+                           class="oc-input-typeRadio"
+                           name="home-page"
+                           checked="true"
+                           tal:attributes="id string:home_${flet/id};
+                                           value flet/url"
+                           />
+                </tal:radio-checked>
+                <tal:radio-not-checked condition="not:flet/checked">
+                    <input type="radio"
+                           class="oc-input-typeRadio"
+                           name="home-page"
+                           tal:attributes="id string:home_${flet/id};
+                                           value flet/url"
+                           />
+                </tal:radio-not-checked>
+                <span tal:replace="flet/title" />
                 </label>
               </li>
             </ul>
