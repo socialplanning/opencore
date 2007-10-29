@@ -7,12 +7,16 @@ from BTrees.OOBTree import OOBTree
 from opencore.interfaces import IProject
 from opencore.nui.project.interfaces import IHomePage
 
+import re
+
 class HomePage(object):
     """store the full url to the project home page
        in an annotation on a project"""
 
     adapts(IProject)
     implements(IHomePage)
+
+    _allowed_home_page_re = re.compile("^[\w/-]*")
 
     def __init__(self, context):
         self.context = context
@@ -30,6 +34,7 @@ class HomePage(object):
         return self.annot.get('home_page', default_page)
 
     def _set_home_page(self, value):
+        assert self._allowed_home_page_re.match(value)
         self.annot['home_page'] = value
 
     home_page = property(fget=_get_home_page, fset=_set_home_page)

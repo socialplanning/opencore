@@ -420,10 +420,13 @@ class ProjectPreferencesView(ProjectBaseView):
         #self.add_status_message('Your changes have been saved.')
 
         home_page = self.request.form.get('home-page', None)
+        hpcontext = IHomePage(self.context)
         if home_page is not None:
             home_page = '%s/%s' % (self.context.absolute_url(), home_page)
-            IHomePage(self.context).home_page = home_page
-            self.add_status_message(_(u'Project home page set to: <a href="%s">%s</a>' % (home_page, home_page)))
+            if hpcontext.home_page != home_page:
+                self.add_status_message(_(u'Project home page set to: <a href="%s">%s</a>' % (home_page, home_page)))
+                hpcontext.home_page = home_page
+
 
         self.redirect(self.context.absolute_url())
 
