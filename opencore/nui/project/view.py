@@ -431,8 +431,6 @@ class ProjectPreferencesView(ProjectBaseView):
         return IHomePage(self.context).home_page.split('/')[-1]
 
     def featurelets(self, include_wiki=False):
-        # XXX manually filter out openroster for now
-        # this needs to go away when the openroster featurelet is destroyed
         all_flets = getUtility(IFeatureletRegistry).getFeaturelets()
         installed_flets = [f['name'] for f in get_featurelets(self.context)]
         flet_data = [dict(id=f.id,
@@ -440,7 +438,7 @@ class ProjectPreferencesView(ProjectBaseView):
                           url=f._info['menu_items'][0]['action'],
                           checked=f.id in installed_flets,
                           )
-                     for f in all_flets if f.id != 'openroster']
+                     for f in all_flets]
         if include_wiki:
             flet_data.insert(0, dict(id='wiki',
                                      title='Wiki pages',
@@ -531,14 +529,12 @@ class ProjectAddView(BaseView, OctopoLite):
 
     def featurelets(self, include_wiki=False):
         flets = getUtility(IFeatureletRegistry).getFeaturelets()
-        # XXX manually filter out openroster for now
-        # this needs to go away when the openroster featurelet is destroyed
         flet_data = [dict(id=f.id,
                           title=f.title,
                           url=f._info['menu_items'][0]['action'],
                           checked=False,
                           )
-                     for f in flets if f.id != 'openroster']
+                     for f in flets]
         if include_wiki:
             flet_data.insert(0, dict(id='wiki',
                                      title='Wiki pages',
