@@ -536,7 +536,8 @@ class BaseView(BrowserView):
                 
             member = self.get_tool("membrane_tool")(getUserName=id)
             if not member:
-                messages.append(_(u'password_no_member_error', u'There is no member named "%s".' % id))
+                messages.append(_(u'password_no_member_error', u'There is no member named "${user_id}".',
+                                  mapping={u'user_id':id}))
                 return exit_function()
             member = member[0].getObject()
 
