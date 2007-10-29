@@ -192,13 +192,16 @@ class ProjectMenuView(BaseView):
 
 
     def is_flet_selected(self, flet):
-        flet = flet.get('title').lower()
-        if flet == 'mailing lists':
+        flet = flet.get('name')
+        if flet == 'listen':
             lists_url = '/'.join((self.areaURL, 'lists'))
             return self.request.ACTUAL_URL.startswith(lists_url)
         elif flet == 'tasks':
             header = self.request.get_header('X-Openplans-Application')
             return header == 'tasktracker'
+        elif flet == 'blog':
+            header = self.request.get_header('X-Openplans-Application')
+            return header == 'blog'
         return False
 
 class AnonMenuView(BaseView):
