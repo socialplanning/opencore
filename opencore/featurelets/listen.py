@@ -4,6 +4,9 @@ from zope.interface import alsoProvides
 
 from zope.component import getMultiAdapter
 
+from zope.event import notify
+from opencore.interfaces.event import ListenFeatureletCreatedEvent
+
 from topp.featurelets.interfaces import IFeaturelet
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.base import BaseFeaturelet
@@ -46,4 +49,5 @@ class ListenFeaturelet(BaseFeaturelet):
         container = obj._getOb(self._info['content'][0]['id'])
         container.setLayout('mailing_lists')
         alsoProvides(container, IListenContainer)
+        notify(ListenFeatureletCreatedEvent(obj))
         return self._info
