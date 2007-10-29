@@ -58,7 +58,7 @@ the event and check its state::
     >>> req_vars = dict(team_assignment=True,
     ...                 workflow_policy='open_policy',
     ...                 title="Handroll!",
-    ...                 featurelets=['listen', 'openroster'],
+    ...                 featurelets=['listen'],
     ...                 set_flets=True)
     >>> request.form.update(req_vars) 
     >>> handle_postcreation(AfterProjectAddedEvent(handroll, request))
@@ -82,7 +82,7 @@ And our project should contain a roster and list instance
 
     >>> ids = handroll.objectIds()
     >>> pprint(sorted(ids))
-    ['.wf_policy_config', 'lists', 'proj_roster', 'project-home']
+    ['.wf_policy_config', 'lists', 'project-home']
 
 After creation is finished, our project shouldn't have any users
 with the Owner role, because Owners get permissions regardless of
