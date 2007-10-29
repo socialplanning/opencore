@@ -39,6 +39,12 @@
      visible="False">
    <permission>List folder contents</permission>
   </action>
+  <action title="Undelete" action_id="project_default_undelete"
+     category="object"
+     condition_expr="python: (object.isDefaultPageInFolder() and path('folder/@@undelete_view/listDeleted|nothing')) or (object is folder and path('object/@@undelete_view/listDeleted|nothing'))"
+     url_expr="string:$folder_url/undelete_view" visible="True">
+   <permission>CMFEditions: Revert to previous versions</permission>
+  </action>
  </action-provider>
 
  <action-provider name="portal_membership">

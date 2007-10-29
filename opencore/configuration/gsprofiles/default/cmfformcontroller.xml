@@ -5,5 +5,4 @@
           context_type="OpenMember"
           object_id="validate_integrity"
           action_type="traverse_to"/>
-
 </cmfformcontroller>

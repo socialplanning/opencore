@@ -13,11 +13,8 @@ from Products.CMFCore import permissions
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.TypesTool import FactoryTypeInformation
 from Products.CMFCore.Expression import Expression
-from Products.Archetypes.Extensions.utils import install_subskin
 from Products.Archetypes.public import listTypes
-from Products.Archetypes.config import REFERENCE_CATALOG
 from Products.Archetypes.Extensions.utils import installTypes#, install_subskin
-from Products.membrane.config import TOOLNAME as MBTOOLNAME
 from Products.remember.Extensions.workflow import addWorkflowScripts
 from Products.remember.utils import getAdderUtility
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
@@ -29,22 +26,10 @@ from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
 
 from Products.OpenPlans import config
 from Products.OpenPlans import content
-from Products.OpenPlans.permissions import DEFAULT_PERMISSIONS_DATA
 from Products.OpenPlans.permissions import DEFAULT_PFOLDER_PERMISSIONS_DATA
 from Products.OpenPlans.permissions import PLACEFUL_PERMISSIONS_DATA
 from Products.OpenPlans.content.team import OpenTeam
 from Products.OpenPlans.utils import installDepends
-from Products.OpenPlans.utils import add_form_controller_overrides
-from Products.OpenPlans.utils import remove_form_controller_overrides
-from Products.OpenPlans.workflows import default
-from Products.OpenPlans.workflows import folder
-from Products.OpenPlans.workflows import teamspace
-from Products.OpenPlans.workflows import teammembership
-from Products.OpenPlans.workflows import member
-from Products.OpenPlans.workflows import team
-from Products.OpenPlans.workflows import WORKFLOW_MAP
-from Products.OpenPlans.workflows import PLACEFUL_POLICIES
-from Products.OpenPlans.workflows import MEMBERSHIP_PLACEFUL_POLICIES
 from Products.OpenPlans.Extensions.utils import setupKupu
 
 from opencore.interfaces import IAddProject
@@ -61,20 +46,23 @@ from opencore.nui.indexing import createMemIndexes
 from opencore.nui.project.interfaces import IEmailInvites
 from opencore.nui.project.email_invites import EmailInvites
 
+out = StringIO()
 
-def installRoles(portal, out):
-    """ Installs custom roles """
-    vr = portal.validRoles()
-    for role in config.DEFAULT_ROLES:
-        if not role in vr:
-            print >> out, "-> Adding '%s'" % role
-            portal.manage_defined_roles(submit='Add Role',
-                                        REQUEST={'role': role})
-    tmtool = getToolByName(portal, 'portal_teams')
-    tmtool.setDefaultAllowedRoles(config.DEFAULT_ROLES)
-    tmtool.setDefaultRoles(config.DEFAULT_ROLES[:1])
-    tmtool.setDefaultActiveStates(config.DEFAULT_ACTIVE_MSHIP_STATES)
+def setuphandler(fn):
+    """
+    Decorator that turns QI functions into setuphandlers.
+    """
+    def execute_handler(context):
+        stepname = fn.__name__
+        if context.readDataFile('%s.txt' % stepname) is None:
+            return
+        portal = context.getSite()
+        fn(portal, out)
+        logger = context.getLogger('OpenCore setuphandlers')
+        logger.info(out.getvalue())
+    return execute_handler
 
+@setuphandler
 def install_team_placeful_workflow_policies(portal, out):
     print >> out, 'Installing team placeful workflow policies'
 
@@ -90,43 +78,7 @@ def install_team_placeful_workflow_policies(portal, out):
         wf_tool = getToolByName(teams, 'portal_workflow')
         wf_tool.updateRoleMappings()
 
-
-def installZ3Types(portal, out):
-    """ Installs types defined by z3 schemas """
-    ttool = getToolByName(portal, 'portal_types')
-    for f in content.z3ftis:
-        if f['id'] not in ttool.objectIds():
-            fti = FactoryTypeInformation(**f)
-            ttool._setObject(f['id'], fti)
-            print >> out, "Registered %s with the types tool" % f['id']
-
-def install_workflow_map(portal, out, wfs=WORKFLOW_MAP):
-    wf_tool = getToolByName(portal, 'portal_workflow')
-    # First, change WF for MemberDataContainer to PortalWorkflow
-    existing_wfs = wf_tool.objectIds()
-    for wf in wfs.keys():
-        if not wf in existing_wfs and wf != '(Default)':
-            print >> out, '-> Adding %s' % wf
-            wf_tool.manage_addWorkflow('%s (%s)' % (wf, wfs[wf][0]), wf)
-
-            # XXX DCWorkflowDump doesn't yet support the 'manager_bypass'
-            #     option.  when it does, the next 3 lines can be removed.
-            if wf not in ('openplans_member_workflow',
-                          'openplans_team_membership_workflow',
-                          'closed_openplans_team_membership_workflow'):
-                wfobj = wf_tool.getWorkflowById(wf)
-                wfobj.manager_bypass = 1
-
-        print >> out, '-> Assigning types to %s' % wf
-        wf_tool.setChainForPortalTypes(wfs[wf][1], wf)
-        if wf == 'openplans_member_workflow':
-           addWorkflowScripts(wf_tool.getWorkflowById(wf))
-    wf_tool.setDefaultChain('plone_openplans_workflow')
-
-def installWorkflows(portal, out):
-    """ Installs workflows """
-    return install_workflow_map(portal, out)
-
+@setuphandler
 def installWorkflowPolicies(portal, out):
     pwf_tool = getToolByName(portal, 'portal_placeful_workflow')
     pols = PLACEFUL_POLICIES
@@ -168,10 +120,6 @@ def getDefaultChains(portal):
                             'chain': chain})
     return types_info
 
-def updateWorkflowRoleMappings(portal, out):
-    wf_tool = getToolByName(portal, 'portal_workflow')
-    wf_tool.updateRoleMappings()
-
 def setPermissions(obj, perm_data, out):
     """ apply the specified permission settings to obj """
     for roles, perms in perm_data:
@@ -184,6 +132,7 @@ def setPermissions(obj, perm_data, out):
                 # permission doesn't exist... that's okay
                 pass
 
+@setuphandler
 def securityTweaks(portal, out):
     """ tweak site-wide security settings """
     print >> out, 'Modifying site security settings'
@@ -191,25 +140,7 @@ def securityTweaks(portal, out):
         obj = portal.unrestrictedTraverse(obj_path)
         setPermissions(obj, obj_perms, out)
 
-def setupSitePortlets(portal, out):
-    print >> out, 'Portlet configuration:'
-
-    print >> out, '-> Removing all site portlets'
-    portal.manage_changeProperties(left_slots=tuple())
-    portal.manage_changeProperties(right_slots=tuple())
-
-    mdc = getToolByName(portal, 'portal_memberdata')
-    print >> out, '-> Removing all portal_memberdata portlets'
-    mdc.manage_changeProperties(left_slots=tuple())
-
-def navTreeSetup(portal, out):
-    nav_types = config.NAVTREE_TYPES
-    portal.prefs_navigation_set(generated_tabs=False, portaltypes=nav_types)
-    print >> out, '-> Navigation Tree types set'
-
-def addprojectlistingview(portal, out):
-    print >> out, 'Added project listing view'
-
+@setuphandler
 def setupVersioning(portal, out):
     versioned_types = ('Document', 'Event', 'News Item', 'Link', 'File', 'Image')
     ttool = getToolByName(portal, 'portal_types')
@@ -234,12 +165,14 @@ def setupVersioning(portal, out):
     if diff_tool is not None:
         ttool.ChangeSet.global_allow = False
 
+@setuphandler
 def setMemberType(portal, out):
     mtype = 'OpenMember'
     print >> out, 'Specifying %s as default member type' % mtype
     adder = getAdderUtility(portal)
     adder.default_member_type = mtype
 
+@setuphandler
 def setTeamType(portal, out):
     tmtool = getToolByName(portal, 'portal_teams')
     teamtype = OpenTeam.portal_type
@@ -259,6 +192,7 @@ def setTeamType(portal, out):
         print >> out, 'Setting %s to be default membership type' % mshiptype
         tmtool.setDefaultMembershipType(mshiptype)
 
+@setuphandler
 def addProjectsFolder(portal, out):
     if not 'projects' in portal.objectIds():
         print >> out, 'Creating projects folder'
@@ -288,20 +222,24 @@ def addProjectsFolder(portal, out):
         wf_config.setPolicyBelow(policy='open_policy')
         wf_tool = getToolByName(pfolder, 'portal_workflow')
 
+@setuphandler
 def setProjectFolderPermissions(portal, out):
     print >> out, 'Setting extra permissions in projects folder'
     pfolder = portal._getOb('projects')
     setPermissions(pfolder, DEFAULT_PFOLDER_PERMISSIONS_DATA, out)
 
+@setuphandler
 def setupProjectLayout(portal, out):
     print >> out, 'Setting projects folder view'
     pfolder = portal._getOb('projects')
     pfolder.setLayout('@@view')
 
+@setuphandler
 def setupHomeLayout(portal, out):
     print >> out, 'Setting home view'
     portal.setLayout('@@view')
 
+@setuphandler
 def setupPeopleFolder(portal, out):
     """
     set up the 'people' folder
@@ -349,6 +287,7 @@ def setupPeopleFolder(portal, out):
     pf.setDefaultPage(None)
     pf.setLayout('@@view')
     
+@setuphandler
 def migrateATDocToOpenPage(portal, out):
     print >> out, 'Migrating ATDocument type to OpenPage'
     if not 'migrate_atdoc_openpage' in portal.objectIds():
@@ -361,6 +300,7 @@ def migrateATDocToOpenPage(portal, out):
     print >> out, portal.migrate_atdoc_openpage(portal)
     portal.manage_delObjects(ids=['migrate_atdoc_openpage'])
 
+@setuphandler
 def setSiteIndexPage(portal, out):
     index_id = 'site-home'
     index_title = 'OpenPlans Home'
@@ -373,6 +313,7 @@ def setSiteIndexPage(portal, out):
         page.setText(page_file.read())
         portal.setDefaultPage(index_id)
 
+@setuphandler
 def setCookieDomain(portal, out):
     app = portal.getPhysicalRoot()
     bid_mgr = app._getOb('browser_id_manager', None)
@@ -380,6 +321,7 @@ def setCookieDomain(portal, out):
         bid_mgr.setCookieDomain(config.COOKIE_DOMAIN)
         print >> out, "Set cookie domain to %s" % config.COOKIE_DOMAIN
 
+@setuphandler
 def installCookieAuth(portal, out):
     
     uf = portal.acl_users
@@ -425,6 +367,7 @@ def installCookieAuth(portal, out):
         print >> out, ("Move signed cookie auth to be top priority challenge "
                        "plugin")
 
+@setuphandler
 def installNewsFolder(portal, out):
     print >> out, ("Creating '%s' content" % 'news')
     existing_item = getattr(portal.aq_base, 'news', None)
@@ -443,11 +386,13 @@ def installNewsFolder(portal, out):
     pf.setLayout('@@view')
 
 
+@setuphandler
 def createValidationMember(portal, out):
     mdtool = getToolByName(portal, 'portal_memberdata')
     mem = OpenMember('validation_member')
     mdtool._validation_member = mem
 
+@setuphandler
 def install_local_transient_message_utility(portal, out):
     setSite(portal) # specify the portal as the local utility context
     if queryUtility(ITransientMessage) is not None:
@@ -457,6 +402,7 @@ def install_local_transient_message_utility(portal, out):
     sm.registerUtility(ITransientMessage, TransientMessage(portal))
     print >> out, ('Transient message utility installed')
 
+@setuphandler
 def install_email_invites_utility(portal, out):
     setSite(portal) # specify the portal as the local utility context
     if queryUtility(IEmailInvites) is not None:
@@ -466,6 +412,7 @@ def install_email_invites_utility(portal, out):
     sm.registerUtility(IEmailInvites, EmailInvites())
     print >> out, ('Email invites utility installed')
 
+@setuphandler
 def addCatalogQueue(portal, out):
     q_id = 'portal_catalog_queue'
     if q_id not in portal.objectIds():
@@ -475,33 +422,8 @@ def addCatalogQueue(portal, out):
         queue = portal._getOb(q_id)
         queue.setLocation('portal_catalog')
 
-def install(self, migrate_atdoc_to_openpage=True):
-    out = StringIO()
-    portal = getToolByName(self, 'portal_url').getPortalObject()
-    installDepends(self) # dependencies
-    installWorkflowPolicies(portal, out) # placeful workflow stuff
 
-    setCookieDomain(portal, out) # tweaks app root browser_id_manager
-    installCookieAuth(portal, out) # adds auth plugin to PAS
-    securityTweaks(portal, out) # placeful security changes (can go at root?)
-    setMemberType(portal, out) # specifies default member type
-
-    setTeamType(portal, out) # TeamSpace has no GS profile yet :-(
-    addCatalogQueue(portal, out) # adds QueueCatalog instance to site root
-    addProjectsFolder(portal, out) # adds 'projects' folder to site root
-    setProjectFolderPermissions(portal, out) # more placeful security changes
-    setupProjectLayout(portal, out) # sets layout setting on project folder
-    setupPeopleFolder(portal, out) # various people folder tweaks
-    setupKupu(portal, out) # various kupu tweaks
-    if migrate_atdoc_to_openpage: # needed for unit test sanity
-        migrateATDocToOpenPage(portal, out)
-
-    setSiteIndexPage(portal, out) # creates site home and specifies as such
-    setupVersioning(portal, out) # CMFEditions config
-    installNewsFolder(portal, out) # adds / configures news folder
-    createValidationMember(portal, out) # adds mem ob for use during validation
-    install_local_transient_message_utility(portal, out) # adds local utility
-    install_email_invites_utility(portal, out) # another local utility
-    install_team_placeful_workflow_policies(portal, out) # placeful wf stuff
-    print >> out, "Successfully installed %s." % config.PROJECTNAME
-    return out.getvalue()
+@setuphandler
+def install_dependencies(portal, out):
+    print >> out, ('Installing dependency products')
+    installDepends(self)
