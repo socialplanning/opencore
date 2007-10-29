@@ -43,7 +43,6 @@ def initialize(context):
     from opencore.content import *
     from opencore.featurelets.listen import ListenFeaturelet
     from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
-    from opencore.wordpress.featurelet import WordPressFeaturelet
     from opencore.listen import mailinglist
 
     # Register customization policy
