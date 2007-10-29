@@ -419,11 +419,11 @@ OC.ActionLink = function(extEl) {
     if (!link) {
 	     OC.debug("ActionLink: Could not get refs");
     } 
-    
+
     if (link.hasClass('oc-js-actionPost')) {
-        method = "POST";
+        var method = "POST";
     } else {
-        method = "GET";
+        var method = "GET";
     }
 
     function _doAction(e, el, o) {
