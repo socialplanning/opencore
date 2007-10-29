@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<object name="TempFolder" meta_type="Factory-based Type Information"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <property name="title"></property>
+ <property
+    name="description">Use folders to put content in categories.</property>
+ <property name="content_icon">folder_icon.gif</property>
+ <property name="content_meta_type">TempFolder</property>
+ <property name="product">CMFCore</property>
+ <property name="factory">manage_addPortalFolder</property>
+ <property name="immediate_view">folder_edit_form</property>
+ <property name="global_allow">False</property>
+ <property name="filter_content_types">False</property>
+ <property name="allowed_content_types">
+  <element value="ATBooleanCriterion"/>
+  <element value="ATCurrentAuthorCriterion"/>
+  <element value="ATDateCriteria"/>
+  <element value="ATDateRangeCriterion"/>
+  <element value="ATDocument"/>
+  <element value="ATListCriterion"/>
+  <element value="ATPathCriterion"/>
+  <element value="ATPortalTypeCriterion"/>
+  <element value="ATReferenceCriterion"/>
+  <element value="ATRelativePathCriterion"/>
+  <element value="ATSelectionCriterion"/>
+  <element value="ATSimpleIntCriterion"/>
+  <element value="ATSimpleStringCriterion"/>
+  <element value="ATSortCriterion"/>
+  <element value="AnonymailerTool"/>
+  <element value="CMF Document"/>
+  <element value="CMF Event"/>
+  <element value="CMF Favorite"/>
+  <element value="CMF File"/>
+  <element value="CMF Folder"/>
+  <element value="CMF Image"/>
+  <element value="CMF Large Plone Folder"/>
+  <element value="CMF Link"/>
+  <element value="CMF News Item"/>
+  <element value="CMF Topic"/>
+  <element value="ChangeSet"/>
+  <element value="Discussion Item"/>
+  <element value="Document"/>
+  <element value="Event"/>
+  <element value="Favorite"/>
+  <element value="File"/>
+  <element value="FileAttachment"/>
+  <element value="Folder"/>
+  <element value="Image"/>
+  <element value="ImageAttachment"/>
+  <element value="IronicWiki"/>
+  <element value="Large Plone Folder"/>
+  <element value="Link"/>
+  <element value="MailingList"/>
+  <element value="Member"/>
+  <element value="MemberDataContainer"/>
+  <element value="News Item"/>
+  <element value="Open Mailing List"/>
+  <element value="OpenMember"/>
+  <element value="OpenMembership"/>
+  <element value="OpenPage"/>
+  <element value="OpenProject"/>
+  <element value="OpenRoster"/>
+  <element value="OpenTeam"/>
+  <element value="Plone Site"/>
+  <element value="RichDocument"/>
+  <element value="Smartlink"/>
+  <element value="Team"/>
+  <element value="Team Membership"/>
+  <element value="TeamRoster"/>
+  <element value="TeamSpace"/>
+  <element value="TeamsTool"/>
+  <element value="TempFolder"/>
+  <element value="Topic"/>
+  <element value="WickedDoc"/>
+ </property>
+ <property name="allow_discussion">False</property>
+ <alias from="(Default)" to="index_html"/>
+ <alias from="index.html" to="index_html"/>
+ <alias from="view" to="index_html"/>
+ <action title="View" action_id="view" category="object" condition_expr=""
+    url_expr="string:${object_url}" visible="True">
+  <permission value="View"/>
+ </action>
+ <action title="Edit" action_id="edit" category="object"
+    condition_expr="python:portal.portal_membership.checkPermission(&quot;Modify portal content&quot;, object)"
+    url_expr="string:${object_url}/folder_edit_form" visible="True">
+  <permission value="Manage properties"/>
+ </action>
+ <action title="Local Roles" action_id="localroles" category="object"
+    condition_expr="" url_expr="string:${object_url}/folder_localrole_form"
+    visible="True">
+  <permission value="Change local roles"/>
+ </action>
+ <action title="Folder contents" action_id="folderContents" category="object"
+    condition_expr="" url_expr="string:${object_url}/folder_contents"
+    visible="True">
+  <permission value="List folder contents"/>
+ </action>
+ <action title="New..." action_id="new" category="object" condition_expr=""
+    url_expr="string:${object_url}/folder_factories" visible="False">
+  <permission value="Add portal content"/>
+ </action>
+ <action title="Rename items" action_id="rename_items" category="object"
+    condition_expr="" url_expr="string:${object_url}/folder_rename_form"
+    visible="False">
+  <permission value="Add portal content"/>
+ </action>
+ <action title="State" action_id="content_status_history"
+    category="object_tabs"
+    condition_expr="python:object and portal.portal_workflow.getTransitionsFor(object, object.getParentNode())"
+    url_expr="string:$object_url/content_status_history" visible="False">
+  <permission value="View"/>
+ </action>
+ <action title="Sharing" action_id="local_roles" category="object"
+    condition_expr="" url_expr="string:${object_url}/folder_localrole_form"
+    visible="False">
+  <permission value="Manage properties"/>
+ </action>
+ <action title="External Edit" action_id="external_edit" category="object"
+    condition_expr="" url_expr="string:$object_url/external_edit"
+    visible="False">
+  <permission value="Modify portal content"/>
+ </action>
+ <action title="Edit" action_id="grey_edit" category="object"
+    condition_expr="python:not portal.portal_membership.checkPermission(&quot;Modify portal content&quot;, object)"
+    url_expr="string:${object_url}/edit" visible="True">
+  <permission value="View"/>
+ </action>
+</object>

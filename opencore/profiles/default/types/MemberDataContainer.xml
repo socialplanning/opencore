@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<object name="MemberDataContainer" meta_type="Factory-based Type Information"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <property name="title">MemberDataContainer</property>
+ <property name="description">Default member container object.</property>
+ <property name="content_icon">user.gif</property>
+ <property name="content_meta_type">MemberDataContainer</property>
+ <property name="product">remember</property>
+ <property name="factory">addMemberDataContainer</property>
+ <property name="immediate_view">base_edit</property>
+ <property name="global_allow">False</property>
+ <property name="filter_content_types">True</property>
+ <property name="allowed_content_types">
+  <element value="Member"/>
+  <element value="OpenMember"/>
+ </property>
+ <property name="allow_discussion">False</property>
+ <alias from="(Default)" to="base_view"/>
+ <alias from="edit" to="base_edit"/>
+ <alias from="view" to="(Default)"/>
+ <action title="View" action_id="view" category="object" condition_expr=""
+    url_expr="string:${object_url}/base_view" visible="True">
+  <permission value="View"/>
+ </action>
+ <action title="Edit" action_id="edit" category="object"
+    condition_expr="python:portal.portal_membership.checkPermission(&quot;Modify portal content&quot;, object)"
+    url_expr="string:${object_url}/base_edit" visible="True">
+  <permission value="Modify portal content"/>
+ </action>
+ <action title="Properties" action_id="metadata" category="object"
+    condition_expr="" url_expr="string:${object_url}/base_metadata"
+    visible="False">
+  <permission value="Modify portal content"/>
+ </action>
+ <action title="References" action_id="references" category="object"
+    condition_expr="object/archetype_tool/has_graphviz"
+    url_expr="string:${object_url}/reference_graph" visible="True">
+  <permission value="Modify portal content"/>
+  <permission value="Review portal content"/>
+ </action>
+ <action title="Edit" action_id="grey_edit" category="object"
+    condition_expr="python:not portal.portal_membership.checkPermission(&quot;Modify portal content&quot;, object)"
+    url_expr="string:${object_url}/edit" visible="True">
+  <permission value="View"/>
+ </action>
+</object>
