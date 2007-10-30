@@ -1,0 +1,16 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:five="http://namespaces.zope.org/five">
+
+  <utility factory="opencore.cabochon.client.CabochonClient"
+	   provides="opencore.cabochon.interfaces.ICabochonClient"
+	   />
+
+  <!--subscriber
+     handler=".objectAdded"
+     /-->
+  <subscriber
+     handler=".objectModified"
+     for="Products.remember.interfaces.IReMember zope.app.event.interfaces.IObjectModifiedEvent"
+     />
+</configure>

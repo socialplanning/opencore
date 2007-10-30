@@ -1,0 +1,31 @@
+
+<ul id="oc-usermenu-mystuff" style="display:none;"
+    tal:define="memfolder_url view/memfolder_url">
+  <li>
+    <a tal:attributes="href string:${memfolder_url}/profile"
+       tal:content="string:Profile" />
+  </li>
+
+  <li>
+    <a tal:attributes="href memfolder_url"
+       tal:content="string:Wiki" />
+  </li>
+
+  <li>
+    <a tal:attributes="href string:${memfolder_url}/account">Account<span class="oc-mystuff-messagecount"
+          tal:condition="python:view.user_message_count > 0"
+          tal:content="string: (${view/user_message_count} messages)" /></a>
+  </li>
+
+  <tal:projects define="projects view/project_brains | nothing"
+                condition="projects">
+    
+    <li><hr class="oc-usermenu-divider" /></li>
+    
+    <li tal:repeat="project projects">
+      <a tal:attributes="href project/getURL"
+         tal:content="project/Title" />
+    </li>
+
+  </tal:projects>
+</ul>

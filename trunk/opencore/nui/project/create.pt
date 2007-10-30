@@ -1,0 +1,155 @@
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:Start a Project - OpenPlans" />
+  </head>
+  <body>
+    <div metal:fill-slot="content">
+      <div class="oc-headingBlock">
+        <h1>Start a project</h1>
+        <br />
+      </div>
+      <div id="oc-content-main" class="oc-content-main-fullWidth">
+        <form name="create_form" id="oc-project-create" method="post"
+	      class="enableUnloadProtection"
+              tal:attributes="action view/name">
+          <input type="hidden" name="set_flets" value="1"/>
+          <fieldset class="oc-boxy">
+            <legend  class="oc-legend-heading oc-biggerText">Step 1: Basics</legend>
+            <table class="oc-form">
+              <tbody>
+                <tr class="oc-form-row">
+                  <th class="oc-form-label" scope="row">
+                    <label for="title">Name</label>
+                  </th>
+                  <td class="oc-form-value">
+                    <input type="text" id="title" class="oc-autoFocus" name="title"
+                           tal:attributes="value request/title | nothing" />
+                  </td>
+                  <td class="oc-form-help">
+                    <span class="oc-form-context"></span>
+                    <span id="oc-title-validator" class="oc-form-validator"></span>
+                    <span id="oc-error" class="oc-form-error" tal:content="view/errors/title | nothing" />
+                  </td>
+                </tr>
+                <tr class="oc-form-row">
+                  <th class="oc-form-label" scope="row">
+                    <label for="id">URL</label>
+                  </th>
+                  <td class="oc-form-value oc-form-fieldBlock">
+                    <span tal:replace="context/absolute_url" />/
+                    <input type="text" name="projid" id="projid"
+                           class="oc-js-liveValidate"
+                           tal:attributes="value request/projid | nothing" />
+                  </td>
+                  <td class="oc-form-help">
+                    <span class="oc-form-context"></span>
+                    <span id="oc-id-validator" class="oc-form-validator"></span>
+                    <span id="oc-id-error" class="oc-form-error" tal:content="view/errors/id | nothing" />
+                  </td>
+                </tr>
+                <tr class="oc-form-row">
+                  <th class="oc-form-label" scope="row">
+                    <label for="description">Goal</label>
+                  </th>
+                  <td class="oc-form-value">
+                    <textarea name="description" id="description" rows="3" cols="40" tal:content="request/description | nothing"/>
+                    <!-- this would be called mission instead of description if we weren't hijacking an existing field -->
+                  </td>
+                  <td class="oc-form-help">
+                    <span class="oc-form-context"></span>
+                    <span id="oc-description-validator" class="oc-form-validator"></span>
+                    <span id="oc-description-error" class="oc-form-error" tal:content="view/errors/description | nothing" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </fieldset>
+
+          <fieldset class="oc-boxy">
+            <legend class="oc-legend-heading oc-biggerText">Step 2: Security</legend>
+            <p class="oc-headingContext oc-smallText">Decide who can see and contribute to this project.  You will create your team on the next page.</p>
+            <fieldset>
+              <!--<legend class="oc-legend-label">
+                <strong>Visitors to OpenPlans can:</strong>
+              </legend>-->
+              <ul class="oc-form-radiolist oc-form-fieldBlock">
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
+                  value="open_policy" />
+                  <label for="workflow_policy_open">Anyone can view this project and any OpenPlans member can contribute to it</label>
+                </li>
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
+                  value="medium_policy" checked="checked"/>
+                  <label for="workflow_policy_medium">Anyone can view this project but only team members can contribute to it</label>
+                </li>
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
+                  value="closed_policy" />
+                  <label for="workflow_policy_closed">Only team members can view, contribute, or search for this project</label>
+                </li>
+              </ul>
+            </fieldset>
+          </fieldset>
+
+          <fieldset class="oc-boxy">
+            <legend class="oc-legend-heading oc-biggerText">Step 3: Tools</legend>
+            <ul class="oc-form-radiolist oc-form-fieldBlock" >
+              <li tal:repeat="flet view/featurelets">
+                <input type="checkbox"
+                       class="oc-input-typeCheck oc-js-toggler"
+                       name="featurelets:list"
+                       checked="true"
+                       tal:attributes="id string:oc-js-toggler-${flet/id};
+                                       value flet/id"
+                       />
+                <label tal:attributes="for string:oc-js-toggler-${flet/id}"
+                       tal:content="flet/title"
+                       />
+              </li>
+            </ul>
+
+            <fieldset style="margin-top: 10px;"><!-- FIXME: Rollie, make something generic for this-->
+            <legend><strong>Select the home page for your project:</strong></legend>
+
+            <ul class="oc-form-radiolist oc-form-fieldBlock">
+              <li tal:repeat="flet python:view.featurelets(include_wiki=True)">
+                <label tal:attributes="for string:home_${flet/id};
+                                       id string:oc-js-togglee-${flet/id}">
+                <tal:radio-checked condition="flet/checked">
+                    <input type="radio"
+                           class="oc-input-typeRadio"
+                           name="home-page"
+                           checked="true"
+                           tal:attributes="id string:home_${flet/id};
+                                           value flet/url"
+                           />
+                </tal:radio-checked>
+                <tal:radio-not-checked condition="not:flet/checked">
+                    <input type="radio"
+                           class="oc-input-typeRadio"
+                           name="home-page"
+                           tal:attributes="id string:home_${flet/id};
+                                           value flet/url"
+                           />
+                </tal:radio-not-checked>
+                <span tal:replace="flet/title" />
+                </label>
+              </li>
+            </ul>
+          </fieldset>
+          <ul class="oc-actions">
+            <li>
+              <input type="submit" 
+                     name="task|add" 
+                     value="Create" 
+                     class="oc-button oc-chooseThis" />
+            </li>
+            <li>or <a href="">Cancel</a></li>
+          </ul>
+        </form>
+
+      </div><!-- end .oc-content-main -->
+    </div><!-- end content-fill-slot -->
+  </body>
+</html>

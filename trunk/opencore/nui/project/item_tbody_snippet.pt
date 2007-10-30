@@ -1,0 +1,24 @@
+<tal:macro metal:define-macro="item_tbody_snippet">
+  <tal:setvar define="item_collection item_collection | options/item_collection;
+                      item_header item_header | item_collection/info/header;
+                      item_type item_type | item_collection/item_type;
+                      ">
+
+  <tal:if condition="item_collection/editable">
+    <tbody tal:attributes="id string:oc-${item_type}-tbody" >
+      <tal:for repeat="item item_collection">
+        <tal:macro metal:use-macro="view/item_row/macros/item_row" />
+      </tal:for>
+    </tbody>
+  </tal:if>
+
+  <tal:if condition="not:item_collection/editable">
+    <tbody tal:attributes="id string:oc-${item_type}-tbody" >
+      <tal:for repeat="item item_collection">
+        <tal:macro metal:use-macro="view/item_row/macros/item_row" />
+      </tal:for>
+    </tbody>    
+  </tal:if>
+
+  </tal:setvar>
+</tal:macro>

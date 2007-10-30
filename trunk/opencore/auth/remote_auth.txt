@@ -1,0 +1,38 @@
+Test for Remote Auth
+====================
+
+We start by setting up the Plone site's 'remote_auth_sites' property
+so it tries to do remote authentication (otherwise the plugin will
+just return).
+
+    >>> portal = self.portal
+    >>> portal._setProperty('remote_auth_sites',
+    ...                     ['http://localhost:8080/openplans'],
+    ...                     type='lines')
+
+Then we push some response data into our mock HTTP connection object
+so that the plugin and the event handler will get reasonable data back
+from their http requests.
+
+    >>> from opencore.testing.minimock import HTTPMock
+    >>> from opencore.auth.remoteauthplugin import TRUE
+    >>> from opencore.auth.tests import memxml
+    >>> HTTPMock.add_to_response_content(TRUE)
+    >>> HTTPMock.add_to_response_content(memxml)
+
+Now we're ready to see if the plugin will authenticate successfully.
+
+    >>> login = 'login'
+    >>> plugin = self.portal.acl_users.opencore_remote_auth
+    >>> credentials = {'login': login, 'password': 'password'}
+    >>> auth_result = plugin.authenticateCredentials(credentials)
+    Called httplib2.Http.request...
+    Called httplib2.Http.request...
+    >>> self.failUnless(auth_result == (login, login))
+
+The mock HTTP response stack should be empty now, so a subsequent
+attempt to authenticate should fail.
+
+    >>> auth_result = plugin.authenticateCredentials(credentials)
+    Called httplib2.Http.request...
+    >>> self.failUnless(auth_result is None)

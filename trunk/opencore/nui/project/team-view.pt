@@ -1,0 +1,146 @@
+<tal:handle-request 
+   replace="nothing"
+   define="global fdata view/handle_request;">
+  This could be used to return a variety of template friendly info
+  regarding the processing of the form
+</tal:handle-request>
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:Team - ${view/area/Title}" />
+  </head>
+  <body>
+
+    <div metal:fill-slot="content">              
+
+      <div id="oc-content-main">
+
+          <!-- batch needs to have some variables set up to work properly.
+          here is where they are defined -->
+          <tal:got_results condition="view/memberships"
+                           define="batch view/memberships;
+                                   batch_base_url request/ACTUAL_URL;
+                                   start batch/start | nothing;
+                                   end batch/end | nothing;
+                                   sequence_length batch/sequence_length | nothing;
+                                   many python: start != end
+            ">
+            <div class="oc-headingBlock">
+              <h1>Team members</h1>
+              <p class="oc-headingContext"><span tal:replace="sequence_length">N</span> member<tal:plural condition="many">s</tal:plural>. <span tal:condition="python: view.membertool.checkPermission('TeamSpace: Manage team memberships', context)"><a href="manage-team">Add or remove members</a>.</span></p>
+            </div>
+
+            <!-- display the number of results that came back -->
+            <div class="oc-searchresults-nresults">
+              
+              <!-- pagination uses the batch macro -->
+              <div metal:use-macro="context/@@nui_batch_macros/pagination"/>
+              
+              Member<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
+              <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
+              of <span tal:replace="sequence_length">376</span> sorted&nbsp;
+              <!-- when sorting, we post the action to distinguish between searching
+              this was necessary because the batch macro reposts the request data, and we see problems when trying to reset to page when the sorting changes -->
+              <form name="people_sort" class="enableUnloadProtection" method="POST" tal:attributes="action string:${view/name}">
+                <input type="hidden" name="sort:boolean" value="True" />
+              <!-- FIXME This should not require a button to work. -->
+                <select name="sort_by" class="oc-js-autoSelect" tal:define="sorted_by request/sort_by | nothing">
+                  <option value="username" tal:attributes="selected python: sorted_by == 'username'">by user name</option>
+                  <option value="membership_date" tal:attributes="selected python: sorted_by == 'membership_date'">by membership start date</option>
+                  <option value="location" tal:attributes="selected python: sorted_by == 'location'">by location</option>
+                </select>
+                <button type="submit"
+                  class="oc-button oc-chooseThis">
+                  sort
+                </button> 
+              </form>
+            </div>
+
+          <!-- the results are displayed here -->
+          <ol class="oc-roster oc-clearAfter">
+            <li class="oc-clearAfter oc-boxy vcard" tal:repeat="membrain view/memberships">
+              <tal:member-result define="mem membrain/getObject">
+                <div class="oc-avatar" tal:define="memdata python:view.member_info_for_member(mem)">
+                  <a href="" tal:attributes="href string:${context/portal_url}/people/${memdata/id}/profile">
+                    <img class="photo" tal:attributes="src memdata/portrait_thumb_url" />
+                  </a>
+                </div>
+                <div class="oc-roster-content">
+                  <div class="oc-headingBlock">
+                  <h3>
+                    <a href=""
+                       tal:attributes="href string:${context/portal_url}/people/${mem/getId}/profile"
+                       class="fn nickname"
+                       tal:content="mem/getId"
+                       />
+                    <span class="oc-discreetText" tal:condition="python: view.is_admin(mem.getId())">
+                      (Administrator)
+                    </span>
+                  </h3>
+                  <p class="oc-headingContext oc-discreetText"
+                       tal:define="memship python: view.membership_info_for(mem)">
+                    team member since <span tal:replace="memship/activation">January 1, 2000</span>
+                  </p>
+                  </div>
+                  <dl class="oc-plainList">
+                    <tal:fullname tal:condition="mem/getFullname">
+                      <dt>Name:</dt>
+                      <dd class="n" tal:content="mem/getFullname" />
+                    </tal:fullname>
+                    <tal:email tal:condition="python: view.get_tool('portal_membership').checkPermission('OpenPlans: View emails', context)">
+                      <dt>Email:</dt>
+                      <dd class="email" tal:content="mem/getEmail" />
+                    </tal:email>
+                    <tal:location tal:define="loc mem/getLocation" tal:condition="loc">
+                      <dt>Location:</dt>
+                      <dd class="adr"><span class="locality" tal:content="loc" /></dd>
+                    </tal:location>
+                    <tal:projects tal:define="projects python: view.projects_for_member(mem);
+                                     nprojects python: view.num_projects_for_member(mem)"
+                                     >
+                      <dt class="oc-roster-projects">
+                        Projects (<span tal:replace="nprojects">N</span>):
+                      </dt>
+                      <dd>
+                        <ul class="oc-inlineList">
+                          <li tal:repeat="project projects">
+                            <!-- isprivate setting -->
+                            <a href="" tal:attributes="href project/absolute_url" tal:define="isprivate nothing">
+                              <span tal:content="project/Title" 
+                              /><span tal:condition="isprivate" class="oc-discreetText"> (private)</span></a></li>
+                          <li tal:condition="python: nprojects > 10">
+                            <a tal:attributes="href string:${here/portal_url}/people/${mem/getId}/profile">
+                               (view all&hellip;)</a>
+                               
+                          </li>
+                        </ul>
+                      </dd>
+                    </tal:projects>
+                  </dl>
+                </div>
+              </tal:member-result>
+            </li>
+          </ol>
+          <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
+          
+            <!-- we put pagination on the bottom of the page too -->
+            <div metal:use-macro="context/@@nui_batch_macros/pagination"/>
+          
+            Member<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
+            <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
+            of <span tal:replace="sequence_length">376</span> 
+
+    </div>
+        </tal:got_results>
+
+        <!-- if we get no results, this is what is displayed -->
+        <div tal:condition="not: view/memberships">No team members found.</div>
+
+    </div> <!-- content-main -->
+
+
+    <div id="oc-content-sidebar">
+    </div><!-- content-sidebar -->
+    
+  </div><!-- content-fill-slot -->
+</body>
+</html>

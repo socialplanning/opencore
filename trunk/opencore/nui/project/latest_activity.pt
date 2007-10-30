@@ -1,0 +1,28 @@
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" 
+	   tal:content="string:Latest Activity - ${view/area/Title}">
+      Latest Activity
+    </title>
+  </head>
+  <body>
+    <div metal:fill-slot="content">
+      <div id="oc-content-main" class="oc-content-main">
+
+	<!-- project metadata -->
+	<h1 tal:content="view/area/Title">Title</h1>
+	
+	<!-- feeds -->
+	<div tal:repeat="feed view/feeds" >
+	  <span tal:replace="structure python:feed" />
+	</div>
+
+	<span tal:replace="view/activity"/>
+
+      </div><!-- content-main -->     
+      <div id="oc-content-sidebar">
+	bar
+      </div><!-- content-sidebar -->
+    </div><!-- content-fill-slot -->
+  </body>
+</html>

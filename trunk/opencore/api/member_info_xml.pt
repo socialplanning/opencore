@@ -1,0 +1,4 @@
+<info tal:define="member view/member">
+ <name tal:content="member/getFullname"/>
+ <email tal:content="member/getEmail"/>
+</info>

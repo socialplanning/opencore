@@ -1,0 +1,46 @@
+<!-- put macros here -->
+
+
+<!-- BEGIN WIKI BCRUMB -->
+<metal:bcrumb define-macro="bcrumb">
+<ul class="oc-headingBlock oc-wiki-headingBlock oc-bcrumb">
+  <li>
+    <h1 class="oc-bcrumb-current" tal:content="view/context/Title" />
+  </li>
+</ul>
+<tal:lastmod condition="view/displayLastModified | nothing"
+  define="author view/lastModifiedAuthor;
+          time view/lastModifiedTime">
+  <p class="oc-discreetText oc-wiki-lastModified">
+     &nbsp; last modified <abbr tal:attributes="title context/ModificationDate" tal:content="time" />
+     by <a tal:attributes="href python:'%s/people/%s/profile' % (view.portal_url(), author)"
+       tal:content="author"/>
+  </p>
+</tal:lastmod>
+</metal:bcrumb>
+<!-- END WIKI BCRUMB -->
+
+<!-- BEGIN WIKI TABS -->
+<ul class="oc-tabs" metal:define-macro="tabs">
+  <li tal:attributes="class python:view.get_tab_class(u'view')">
+    <a tal:attributes="href context/absolute_url">view</a>
+  </li>
+  <li tal:attributes="class python:view.get_tab_class(u'edit')">
+    <a tal:attributes="href string:${context/absolute_url}/edit">edit</a>
+  </li>
+  <li tal:attributes="class python:view.get_tab_class([u'history', u'version', u'version_compare'])">
+    <a tal:attributes="href string:${context/absolute_url}/history">history</a>
+  </li>
+  <!--
+  <li>
+   <form class="" >
+     <select class="oc-selectBoxAutoLinks">
+       <option value="">More...</option>
+       <option value="http://www.google.com">I'm feeling lucky</option>
+     </select>
+     <input type="submit" value="Go" style=""/>
+   </form>
+  </li>
+  -->
+</ul>
+<!-- END WIKI TABS -->

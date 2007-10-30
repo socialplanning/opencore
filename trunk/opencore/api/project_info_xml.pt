@@ -1,0 +1,5 @@
+<info tal:define="obj_context nocall:view/object_stub|nocall:context;
+                 policy_info obj_context/@@policy_support;
+                 cur_policy policy_info/getCurrentPolicyId">
+ <policy tal:content="cur_policy"/>
+</info>

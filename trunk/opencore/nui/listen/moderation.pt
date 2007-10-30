@@ -1,0 +1,118 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" i18n:domain="plone"
+  metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:${view/context/Title} - ${view/area/Title}" />
+  </head>
+  <body>
+    <div metal:fill-slot="content">
+      <div metal:use-macro="here/@@listen_macros/bcrumb"/>
+      <div metal:use-macro="here/@@listen_macros/tabs"/>
+      <div id="oc-content-main" class="oc-content-main-fullWidth" i18n:domain="listen"
+        tal:define="is_post_moderated view/is_post_moderated;
+                    is_membership_moderated view/is_membership_moderated;
+                    pending_list view/get_pending_lists">
+        <div class="oc-headingBlock">
+          <h2 i18n:translate="" tal:content="view/Title" />
+        </div>
+        <div class="oc-message" tal:condition="view/errors|nothing" tal:content="view/errors|nothing"/>
+        <div class="oc-widget oc-widget-dataTable">
+          <h3 class="oc-dataTable-heading" i18n:translate="">Posts awaiting moderation</h3>
+            <table class="oc-dataTable" cellspacing="0" tal:condition="pending_list">
+              <thead>
+              <tr>
+                <th scope="col" i18n:translate="">From</th>
+                <th scope="col" i18n:translate="">Message</th>
+                <th scope="col">Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr tal:repeat="post pending_list">
+                  <td style="width: 25%;" tal:content="post/user_name" /> 
+                  <td style="width: 49%;">
+                    <dl class="oc-plainList">
+                      <dt tal:content="post/subject" />
+                      <dd tal:content="python: post['body'][:50]" />
+                    </dl>
+                  </td>
+                  <td style="width: 25%; text-align: right;">
+                    <form name="moderate-post-form"
+                          class="oc-listen-moderate-form oc-js-liveEdit"
+                          method="POST"
+                          tal:attributes="action request/ACTUAL_URL">
+                      <input type="hidden" name="postid" tal:attributes="value python: str(post['postid'])" />
+                      <input type="hidden" name="email" tal:attributes="value python: str(post['user'])" />
+                      <ul class="oc-actions oc-dataTable-row-actions oc-js-liveEdit-value">
+                        <li>
+                          <input class="oc-actionLink" type="submit" name="post_approve" i18n:attributes="value" value="Approve" title="Allow this message to be posted" />
+                        </li>
+                        <li>
+                          <input class="oc-actionLink" type="submit" name="post_discard" i18n:attributes="value" value="Discard (Spam)" title="Deny this message without notifying the sender" />
+                        </li>
+                        <li class="oc-js-liveEdit_showForm" tal:condition="python:is_post_moderated or is_membership_moderated">
+                          <a class="oc-actionLink" href="moderation#" title="Deny this message and notify the sender, message optional">Reject</a>
+                        </li>
+                      </ul>
+                      <div class="oc-js-liveEdit-editForm oc-liveEdit-editForm oc-form-fieldBlock" style="display: none;" tal:condition="python:is_post_moderated or is_membership_moderated">
+                          <label class="oc-smallText" for="message_reject_reason">
+                            <strong>Reason:</strong> <span class="oc-discreetText">(optional)</span>
+                          </label>
+                          <input id="message_reject_reason" name="reject_reason" type="text" />
+                          <input class="oc-actionLink" type="submit" name="post_reject" i18n:attributes="value" value="Reject" title="Deny this message and notify the sender, message optional"/> or <a href="#" class="oc-js-liveEdit_hideForm">Cancel</a>
+
+                      </div>
+                    </form>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <form name="moderate_all_posts"
+                  method="POST"
+                  tal:condition="pending_list"
+                  tal:attributes="action request/ACTUAL_URL">
+              <input type="submit" name="discard_all_posts" value="Discard all posts" />
+            </form>
+          <p tal:condition="python: not pending_list">No posts pending moderation</p>
+        </div>
+
+        <div class="oc-widget oc-widget-dataTable" condition="is_membership_moderated"
+          tal:define="pending_members view/get_pending_members">
+          <h3 class="oc-dataTable-heading" i18n:translate="">Users awaiting moderation</h3>
+            <table tal:condition="pending_members" class="oc-dataTable" cellspacing="0">
+              <thead>
+                <tr>
+                  <th scope="col" i18n:translate="">User</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr tal:repeat="pending_member pending_members">
+                  <td tal:content="pending_member/user_name" />
+                  <td>
+                    <form name="moderate-member-form" id="moderate-member-form"
+                          tal:attributes="action request/ACTUAL_URL">
+                      <input type="hidden" name="email" tal:attributes="value pending_member/user" />
+                      <ul class="oc-actions oc-dataTable-row-actions">
+                        <li>
+                          <input i18n:attributes="value" type="submit" name="member_approve" value="Approve" />
+                        </li>
+                        <li>
+                          <input i18n:attributes="value" type="submit" name="member_discard" value="Discard" />
+                        </li>
+                        <li oc-form-fieldBlock>
+                          <label for="user_reject_reason">
+                            <input i18n:attributes="value" type="submit" name="member_reject" value="Reject" />
+                          </label>
+                          <input type="text" id="user_reject_reason" name="reject_reason" />
+                        </li>
+                      </ul>
+                    </form>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          <p tal:condition="python: not pending_members ">No members pending moderation.</p>
+        </div>
+      </div><!-- content-main -->
+    </div><!-- content-container -->
+  </body>
+</html>

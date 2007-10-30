@@ -1,0 +1,32 @@
+# Translation of opencore.pot to English
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenCore\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8\n"
+"Domain: opencore\n"
+"X-Is-Fallback-For: en-au en-bz en-ca en-ie en-jm en-nz en-ph en-za en-tt en-gb en-us en-zw\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2007-10-15 18:05-0800\n"
+"Last-Translator: Rob Miller <robm@openplans.org>\n"
+"Language-Team: \n"
+
+msgid "correct_errors_below"
+msgstr "Please correct the errors indicated below."
+
+msgid "project_created"
+msgstr "\"${title}\" has been created. Create a team by searching for other members to invite to your project, then <a href=\"${proj_edit_url}\">edit your project home page</a>."
+
+msgid "please_sign_in"
+msgstr "Please sign in to continue."
+
+msgid "proj_join_request_sent"
+msgstr "Your request to join \"${project_title}\" has been sent to the project administrator(s)."
+
+msgid "already_proj_member"
+msgstr "You are already a pending or active member of ${project_title}."

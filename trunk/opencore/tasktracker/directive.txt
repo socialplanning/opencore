@@ -1,0 +1,14 @@
+=======================
+ tasktracker directive
+=======================
+
+    >>> from opencore.tasktracker.interfaces import ITaskTrackerInfo
+    >>> getUtility(ITaskTrackerInfo)
+    <opencore.tasktracker.uri.TaskTrackerURI object at ...>
+
+    >>> tt_info = getUtility(ITaskTrackerInfo)
+    >>> tt_info.uri
+    u'http://nohost:tasktracker'
+
+    >>> tt_info.external_uri
+    u'tasks'
