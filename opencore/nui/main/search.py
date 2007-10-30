@@ -508,5 +508,3 @@ class NewsView(SearchView):
         edit_url = '%s/edit' % item.absolute_url()
         self.request.response.redirect(edit_url)
 
-    sidebar = static_txt('main_news_sidebar.txt')
-
