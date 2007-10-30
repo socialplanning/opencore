@@ -3,6 +3,7 @@ from Products.listen.permissions import InviteSubscribers
 from Products.OpenPlans.config import PROJECTNAME
 
 from Products.CMFCore import permissions as CMFPermissions
+from Products.CMFDefault.DublinCore import DefaultDublinCoreImpl
 from Products.listen import permissions
 
 from zope.interface import implements
@@ -80,7 +81,7 @@ def addOpenMailingList(self, id, title=u''):
     o = OpenMailingList(id, title)
     self._setObject(id, o)
 
-class OpenMailingList(MailingList):
+class OpenMailingList(MailingList, DefaultDublinCoreImpl):
     """
     Some OpenPlans specific tweaks to listen mailing lists.
     """
@@ -88,6 +89,7 @@ class OpenMailingList(MailingList):
 
     portal_type = "Open Mailing List"
     meta_type = "OpenMailingList"
+    creator = ""
 
     mailto = ListNameFieldProperty(IOpenMailingList['mailto'])
 

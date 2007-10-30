@@ -1,8 +1,15 @@
-from zope import event
-from zope.component import getUtility
+from datetime import datetime
+from datetime import timedelta
+from time import strftime
+from time import gmtime
+from urlparse import urlsplit
+from urlparse import urlunsplit
 
-from zExceptions import BadRequest
-from zExceptions import Redirect
+from zope.component import getUtility
+from zope.event import notify
+from zope.app.event.objectevent import ObjectModifiedEvent
+
+from DateTime import DateTime
 
 from plone.memoize.view import memoize as req_memoize
 
@@ -13,24 +20,26 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.AdvancedQuery import Eq
 
 from topp.utils.pretty_date import prettyDate
-from DateTime import DateTime
 
+from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.nui.base import BaseView
 from opencore.nui.formhandler import OctopoLite, action
-from opencore.interfaces.catalog import ILastWorkflowActor
+from opencore.interfaces.event import MemberEmailChangedEvent
+from opencore.interfaces.event import JoinedProjectEvent
+from opencore.interfaces.event import LeftProjectEvent
 from opencore.nui.member.interfaces import ITransientMessage
 from opencore.nui.project.interfaces import IEmailInvites
-from opencore.nui.indexing import queueObjectReindex
 
-from zope.event import notify
-from zope.app.event.objectevent import ObjectModifiedEvent
+from App import config
+
 
 class ProfileView(BaseView):
 
     field_snippet = ZopeTwoPageTemplateFile('field_snippet.pt')
     member_macros = ZopeTwoPageTemplateFile('member_macros.pt') 
 
-
+    # XXX this seems to be called twice when i hit /user/profile 
+    #     or /user/profile/edit ... why is that?
     def __init__(self, context, request):
         BaseView.__init__(self, context, request)
         self.public_projects = []
@@ -100,6 +109,36 @@ class ProfileView(BaseView):
             return portrait_url
         timestamp = str(DateTime()).replace(' ', '_')
         return '%s?%s' % (portrait_url, timestamp)
+
+    def trackbacks(self):
+        self.msg_category = 'Trackback'
+
+        tm = getUtility(ITransientMessage, context=self.portal)
+        mem_id = self.viewed_member_info['id']
+        msgs = tm.get_msgs(mem_id, self.msg_category)
+
+        timediff = datetime.now() - timedelta(days=60)
+        old_messages = [(idx, value) for (idx, value) in msgs if value['time'] < timediff]
+        for (idx, value) in old_messages:
+            tm.pop(mem_id, self.msg_category, idx)
+        if not old_messages:
+            msgs = tm.get_msgs(mem_id, self.msg_category)
+
+        # We want to insert the indexes into the values so that we can properly address them for deletion
+        addressable_msgs = []
+        for (idx, value) in msgs:
+            if 'excerpt' not in value.keys():
+                tm.pop(mem_id, self.msg_category, idx)
+                value['excerpt'] = ''
+                tm.store(mem_id, self.msg_category, value)
+            # XXX is there any way to avoid generating html in python code here? usually a bad idea.
+            value['idx'] = 'trackback_%d' % idx
+            value['close_url'] = 'trackback-delete?idx=%d' % idx
+            value['pub_date']    = prettyDate(value['time'])
+            value['content'] = "<![CDATA[<a href=\"%s\">%s</a> at <span>%s</span> - \"%s\"]]>" % (value['url'], value['title'], value['blog_name'], value['excerpt'])
+            addressable_msgs.append(value)
+
+        return addressable_msgs
 
 
 class ProfileEditView(ProfileView, OctopoLite):
@@ -194,6 +233,16 @@ class MemberAccountView(BaseView, OctopoLite):
     active_states = ['public', 'private']
     msg_category = 'membership'
 
+    # DWM: application specific term should be part of method names
+    # probably indicate this needs to be behind an api
+    def twirlip_uri(self):
+        cfg = config.getConfiguration().product_config.get('opencore.nui')
+        if cfg:
+            return cfg.get('twirlip_uri', '')
+        else:
+            #this will fail, but at least looking at the source, we'll know why.
+            return 'http://twirlip.example.com'
+
     @property
     @req_memoize
     def _mship_brains(self, **extra):
@@ -287,8 +336,7 @@ class MemberAccountView(BaseView, OctopoLite):
 
     @req_memoize
     def _membership_for_proj(self, proj_id):
-        tmtool = self.get_tool('portal_teams')
-        team = tmtool.getTeamById(proj_id)
+        team = self.get_tool('portal_teams').getTeamById(proj_id)
         mem_id = self.viewed_member_info['id']
         mship = team._getMembershipByMemberId(mem_id)
         return mship
@@ -319,6 +367,8 @@ class MemberAccountView(BaseView, OctopoLite):
             return False
 
         if self._apply_transition_to(proj_id, 'deactivate'):
+            mship = self._membership_for_proj(proj_id)
+            notify(LeftProjectEvent(mship))
             return True
         else:
             self.addPortalStatusMessage('You cannot leave this project.')
@@ -395,13 +445,14 @@ class MemberAccountView(BaseView, OctopoLite):
         return is_active or is_pending_member_requested
 
     def _is_only_admin(self, proj_id, mem_id=None):
-        team = self.get_tool('portal_teams')._getOb(proj_id)
+        team = self.get_tool('portal_teams').getTeamById(proj_id)
 
         # for some reason checking the role is not enough
         # I've gotten ProjectAdmin roles back for a member
         # in the pending state
         if mem_id is None:
             mem_id = self.viewed_member_info['id']
+
         mship = team._getOb(mem_id)
         wft = self.get_tool('portal_workflow')
         review_state = wft.getInfoFor(mship, 'review_state')
@@ -410,14 +461,7 @@ class MemberAccountView(BaseView, OctopoLite):
         role = team.getHighestTeamRoleForMember(mem_id)
         if role != 'ProjectAdmin': return False
 
-        portal_path = '/'.join(self.portal.getPhysicalPath())
-        team_path = '/'.join([portal_path, 'portal_teams', proj_id])
-        project_admins = self.catalogtool(
-            highestTeamRole='ProjectAdmin',
-            portal_type='OpenMembership',
-            review_state=self.active_states,
-            path=team_path,
-            )
+        project_admins = team.get_admin_ids()
 
         return len(project_admins) <= 1
 
@@ -437,7 +481,6 @@ class MemberAccountView(BaseView, OctopoLite):
         assert len(targets) == 1
         proj_id = targets[0]
 
-        # XXX do we notify anybody (proj admins) when a mship has been accepted?
         if not self._apply_transition_to(proj_id, 'approve_public'):
             return {}
 
@@ -445,6 +488,14 @@ class MemberAccountView(BaseView, OctopoLite):
         team = self.get_tool('portal_teams').getTeamById(proj_id)
         team.reindexTeamSpaceSecurity()
 
+        admin_ids = team.get_admin_ids()
+        transient_msgs = getUtility(ITransientMessage, context=self.portal)
+        id_ = self.loggedinmember.getId()
+        project_url = '/'.join((self.url_for('projects'), proj_id))
+        msg = '%s has joined <a href="%s">%s</a>' % (id_, project_url, proj_id)
+        for mem_id in admin_ids:
+            transient_msgs.store(mem_id, "membership", msg)
+        
         projinfos = self.projects_for_user
         if len(projinfos) > 1:
             projinfo = self._get_projinfo_for_id(proj_id)
@@ -467,21 +518,42 @@ class MemberAccountView(BaseView, OctopoLite):
                                 'html': self.nupdates()}
                 })
 
+        mship = team._getOb(id_)
+        notify(JoinedProjectEvent(mship))
+
         return command
 
     @action('DenyInvitation')
     def deny_handler(self, targets, fields=None):
         assert len(targets) == 1
         proj_id = targets[0]
-        # XXX do we notify anybody (proj admins) when a mship has been denied?
+
         if not self._apply_transition_to(proj_id, 'reject_by_owner'):
             return {}
+
+        id_ = self.loggedinmember.getId()
+
+        # there must be a better way to get the last wf transition which was an invite... right?
+        wftool = self.get_tool("portal_workflow")
+        team = self.get_tool("portal_teams").getTeamById(proj_id)
+        mship = team.getMembershipByMemberId(id_)
+        wf_id = wftool.getChainFor(mship)[0]
+        wf_history = mship.workflow_history.get(wf_id)
+        spurned_admin = [i for i in wf_history if i['review_state'] == 'pending'][-1]['actor']
+        
+        transient_msgs = getUtility(ITransientMessage, context=self.portal)
+
+        project_url = '/'.join((self.url_for('projects'), proj_id))
+        msg = '%s has declined your invitation to join <a href="%s">%s</a>' % (id_, project_url, proj_id)
+        transient_msgs.store(spurned_admin, "membership", msg)
+
         elt_id = '%s_invitation' % proj_id
         return {elt_id: dict(action='delete'),
                 "num_updates": {'action': 'copy',
                                 'html': self.nupdates()}}
 
     # XXX is there any difference between ignore and deny?
+    ## currently unused
     @action('IgnoreInvitation')
     def ignore_handler(self, targets, fields=None):
         assert len(targets) == 1
@@ -577,11 +649,74 @@ class MemberAccountView(BaseView, OctopoLite):
 
         mem.setEmail(email)
         mem.reindexObject(idxs=['getEmail'])
+        notify(MemberEmailChangedEvent(mem))
         self.addPortalStatusMessage('Your email address has been changed.')
 
-
-    role_map = {'ProjectAdmin':  'administrator',
-                'ProjectMember': 'member'}
     def pretty_role(self, role):
-        role = self.role_map.get(role, role)
+        role_map = dict(ProjectAdmin='administrator',
+                        ProjectMember='member')
+        role = role_map.get(role, role)
         return role
+
+
+class TrackbackView(BaseView):
+    """handle trackbacks"""
+
+    msg_category = 'Trackback'
+
+    def __call__(self):
+        # Add a trackback and return a javascript callback
+        # so client script knows when it's done and whether it succeeded.
+        mem_id = self.viewed_member_info['id']
+        tm = getUtility(ITransientMessage, context=self.portal)
+
+        if self.viewedmember() != self.loggedinmember:
+            self.request.response.setStatus(403)
+            return 'OpenCore.submitstatus(false);'
+
+        # check for all variables
+        url = self.request.form.get('commenturl')
+        title = self.request.form.get('title')
+        blog_name = self.request.form.get('blog_name', 'an unnamed blog')
+        comment = self.request.form.get('comment')
+        if not title:
+            excerpt = comment.split('.')[0]
+            title = excerpt[:100]
+            if title != excerpt:
+                title += '...'
+        if url is None or comment is None:
+            self.request.response.setStatus(400)
+            return 'OpenCore.submitstatus(false);'
+
+        tm.store(mem_id, self.msg_category, {'url':url, 'title':title, 'blog_name':blog_name, 'excerpt':comment, 'time':datetime.now()})
+        return 'OpenCore.submitstatus(true);'
+
+
+    def delete(self):
+        mem_id = self.viewed_member_info['id']
+
+        if urlsplit(self.request['HTTP_REFERER'])[1] != urlsplit(self.siteURL)[1]:
+            self.request.response.setStatus(403)
+            return 'Cross site deletes not allowed!'
+
+        # XXX todo 
+        #     a) move this to @nui.formhandler.post_only 
+        #     b) use that
+        if self.request['REQUEST_METHOD'] != 'POST':
+            self.request.response.setStatus(405)
+            return 'Not Post'
+        if self.viewedmember() != self.loggedinmember:
+            self.request.response.setStatus(403)
+            return 'You must be logged in to modify your posts!'
+
+        index = self.request.form.get('idx')
+        if index is None:
+            self.request.response.setStatus(400)
+            return 'No index specified'
+
+        # Do the delete
+        tm = getUtility(ITransientMessage, context=self.portal)
+        tm.pop(mem_id, self.msg_category, int(index))
+        # TODO: Make sure this is an AJAX request before sending an AJAX response
+        #       by using octopus/octopolite
+        return {'trackback_%s' % index: {'action': 'delete'}}

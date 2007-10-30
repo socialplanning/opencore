@@ -63,7 +63,7 @@ Create a project with an international unicode title::
     >>> from opencore.nui.project.view import ProjectAddView
     >>> proj_add_view = ProjectAddView(self.portal.projects,
     ...                                self.portal.REQUEST)
-    >>> request.form['id'] = 'i18n'
+    >>> request.form['projid'] = 'i18n'
 
 This is some japanese that I found::
     >>> request.form['title'] = u'\u65e5\u8a9e'
@@ -81,7 +81,7 @@ Create a project starting with a capital letter to test case
 insensitive sort::
     >>> proj_add_view = ProjectAddView(self.portal.projects,
     ...                                self.portal.REQUEST)
-    >>> request.form['id'] = 'apples'
+    >>> request.form['projid'] = 'apples'
     >>> request.form['title'] = 'apples are good'
     >>> request.form['workflow_policy'] = 'medium_policy'
     >>> request.form['__initialize_project__'] = True
@@ -123,7 +123,21 @@ XXXX Notice that the project title here isn't properly unicode for some reason. 
     >>> self.login('m1')
 
     Now we should be able to leave the project just fine
+    The proper event should get fired as well
+    >>> self.clear_events()
     >>> view.leave_project('p2')
+    True
+
+    A role change event gets fired in addition to a left project event
+    >>> len(self.events)
+    2
+    >>> obj, event = self.events[0]
+    >>> from opencore.interfaces.event import IChangedTeamRolesEvent
+    >>> IChangedTeamRolesEvent.providedBy(event)
+    True
+    >>> obj, event = self.events[1]
+    >>> from opencore.interfaces.event import ILeftProjectEvent
+    >>> ILeftProjectEvent.providedBy(event)
     True
 
     And finally, m1 should no longer have active membership to project p2
@@ -288,9 +302,20 @@ Let's accept our gracious invitation
 
     >>> view.request.form = dict(mode='async')
 
+    And we should verify that the proper events get sent
+    >>> self.clear_events()
+
     Now we can trigger them, we get the json response
     >>> sorted(view.accept_handler(['p4']).keys())
     ['num_updates', 'p4_invitation', 'projinfos_for_user']
+
+    Now we can check that we got the event
+    >>> len(self.events)
+    1
+    >>> obj, event = self.events[0]
+    >>> from opencore.interfaces.event import IJoinedProjectEvent
+    >>> IJoinedProjectEvent.providedBy(event)
+    True
 
     And thus, we should no longer be invited
     >>> self.clearMemoCache()
@@ -398,6 +423,13 @@ Check that changing passwords works
     >>> view.portal_status_message
     [u'Passwords must contain at least 5 characters.']
 
+    Try for the password "password"
+    >>> request.form['password'] = 'password'
+    >>> request.form['password2'] = 'password'
+    >>> view.change_password()
+    >>> view.portal_status_message
+    [u'"password" is not a valid password.']
+
     And if we try to change to the same password?
     We act as if it was a successful change
     >>> request.form['passwd_curr'] = 'testy'
@@ -459,8 +491,16 @@ It's talented, isn't it?
     # should have different messages for both
 
     And now actually change the email address
+    and verify that the proper event was sent
+    >>> self.clear_events()
     >>> request.form['email'] = 'foobarbazquux@example.com'
     >>> view.change_email()
+    >>> len(self.events)
+    1
+    >>> from opencore.interfaces.event import IMemberEmailChangedEvent
+    >>> obj, event = self.events[0]
+    >>> IMemberEmailChangedEvent.providedBy(event)
+    True
     >>> view.portal_status_message
     [u'Your email address has been changed.']
 

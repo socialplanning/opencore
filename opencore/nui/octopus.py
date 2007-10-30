@@ -1,7 +1,8 @@
 import sys
+import simplejson
 
 def htmlify(js):
-    js = "%s" % js
+    js = simplejson.dumps(js)
     js = js.replace("<", "&lt;")
     js = js.replace(">", "&gt;")
     return '<html><head><meta http-equiv="x-deliverance-no-theme" content="1"/></head><body> %s </body></html>' % js
@@ -75,7 +76,7 @@ class Octopus(object):
         mode = self._octopus_get('mode')
         if mode == 'async':
             self._octopus_async_postprocess(ret)
-            return htmlify(ret)
+            return htmlify(ret)  # no
         else:
             return self._octopus_template()
 

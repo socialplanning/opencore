@@ -1,4 +1,5 @@
 from zope.interface import Interface
+from zope.schema import TextLine
 
 class IEmailInvites(Interface):
     """
@@ -46,3 +47,26 @@ class IEmailInvites(Interface):
         given member object into actual membership object invitations
         which can be approved per the default interface.
         """
+
+
+class IFeedItem(Interface):
+
+    def title():
+        """title of the item"""
+
+    def url():
+        """location of the item in webspace"""
+
+    def author():
+        """author of the item"""
+
+    def date():
+        """when the item was modified/created"""
+
+        
+class IHomePage(Interface):
+    """store a home page attribute on an object"""
+    home_page = TextLine(
+                    title=u'home page url',
+                    description=u"url of object's home page",
+                    )

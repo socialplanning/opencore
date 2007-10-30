@@ -10,7 +10,7 @@ URI convenience api
 #@@ this should be cleaned up and return none
 
     >>> tt_uri.get() 
-    u'http://localhost:5050'
+    u'http://nohost:tasktracker'
 
 featurelet install
 ==================
@@ -41,13 +41,13 @@ to tasktracker::
     >>> header = {"X-Tasktracker-Initialize":"True"}
     >>> ttf._makeHttpReqAsUser(ttf.init_uri, obj=project, headers=header)
     Called httplib2.Http.request(
-        u'http://localhost:5050/project/initialize/',
+        u'http://nohost:tasktracker/project/initialize/',
         headers={'X-Openplans-Project': 'p1', 'Cookie': '__ac=...', 'X-Tasktracker-Initialize': 'True'},
         method='POST')
     (<...MockResponse object at ...>, 'Mock request succeeded!')
     >>> ttf._makeHttpReqAsUser(ttf.uninit_uri, obj=project)
     Called httplib2.Http.request(
-        u'http://localhost:5050/project/uninitialize/',
+        u'http://nohost:tasktracker/project/uninitialize/',
         headers={'X-Openplans-Project': 'p1', 'Cookie': '__ac=...'},
         method='POST')
     (<...MockResponse object at ...>, 'Mock request succeeded!')

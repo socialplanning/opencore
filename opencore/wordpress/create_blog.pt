@@ -1,0 +1,12 @@
+<blog>
+ <signature>
+   options/signature
+ </signature>
+ <domain>
+   options/domain
+ </domain>
+ <title>
+   options/title
+ </title>
+ options/members
+</blog>

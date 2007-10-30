@@ -69,4 +69,20 @@
      template="pending.pt"
      />
 
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
+     class=".accountview.AccountView"
+     attribute="logged_in_user_js"
+     permission="zope.Public"
+     name="user.js"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
+     class=".accountview.ResendConfirmationView"
+     attribute="handle_request"
+     permission="zope.Public"
+     name="resend-confirmation"
+     />
+
 </configure>

@@ -10,7 +10,7 @@ Add view
     >>> view
     <Products.Five.metaclass.ProjectAddView object at...>
 
-    >>> form_vars = dict(id='test1', __initialize_project__=True,
+    >>> form_vars = dict(projid='test1', __initialize_project__=True,
     ...                  workflow_policy='medium_policy',
     ...                  add=True, featurelets = ['listen'], set_flets=1)
     >>> view.request.form.update(form_vars)
@@ -36,14 +36,14 @@ Try setting some invalid titles::
 
 How about an invalid id?::
     >>> view.request.form['title'] = "valid title"
-    >>> view.request.form['id'] = ''
+    >>> view.request.form['projid'] = ''
     >>> out = view.handle_request()
     >>> view.errors
     {'id': 'The project url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'}
     >>> view.errors = {}
 
 And, another invalid id::
-    >>> view.request.form['id'] = 'abcd1-_+'
+    >>> view.request.form['projid'] = 'abcd1-_+'
     >>> out = view.handle_request()
     >>> view.errors
     {'id': 'The project url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'}
@@ -51,7 +51,7 @@ And, another invalid id::
 
 Now, a valid title and id::
     >>> view.request.form['title'] = 'now a valid title!'
-    >>> view.request.form['id'] = 'test1'
+    >>> view.request.form['projid'] = 'test1'
     >>> out = view.handle_request()
     >>> view.errors
     {}
@@ -84,12 +84,12 @@ Can the creator of a closed project really leave? Let's find out
 in a test::
     >>> projects = self.portal.projects
     >>> view = projects.restrictedTraverse("create")
-    >>> form_vars = dict(id='test1', __initialize_project__=True,
+    >>> form_vars = dict(projid='test1', __initialize_project__=True,
     ...                  workflow_policy='closed_policy',
     ...                  add=True, featurelets = [], set_flets=1)
     >>> view.request.form.update(form_vars)
     >>> view.request.form['title'] = 'testing 1341'
-    >>> view.request.form['id'] = 'test1341'
+    >>> view.request.form['projid'] = 'test1341'
     >>> out = view.handle_request()
     >>> proj = projects.test1341
     >>> self.logout()
@@ -156,13 +156,22 @@ Try setting a bogus title::
     >>> view.request.form['title'] = '?'
     >>> out = view.handle_request()
     >>> view.errors
-    {'title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
+    {'title': u'err_project_name'}
     >>> view.errors = {}
+
+Clear old PSMs
+
+    >>> view.portal_status_message
+    [...]
+
 
 Now set a valid title::
     >>> view.request.form['title'] = 'new full name'
-
     >>> view.handle_request()
+    >>> del view._redirected 
+    >>> view.portal_status_message
+    [u'The security policy has been changed.', u'The title has been changed.', u'Mailing lists feature has been removed.']
+
     >>> view.errors
     {}
     >>> view = proj.restrictedTraverse('preferences')
@@ -180,6 +189,15 @@ Now set a valid title::
     >>> from opencore.project.browser.projectinfo import get_featurelets
     >>> get_featurelets(proj)
     []
+
+#re-add mailing lists
+    >>> view.request.set('flet_recurse_flag', None)
+    >>> view.request.form['featurelets'] = ['listen']
+    >>> view.handle_request()
+    >>> del view._redirected 
+    >>> view.portal_status_message
+    [u'Mailing lists feature has been added.']
+
 
 Make sure we can install a TaskTracker featurelet too::
     >>> form_vars = dict(title='new full name',
@@ -227,7 +245,7 @@ Team view
 
 Set up the view::
 
-    >>> from opencore.nui.project.view import ProjectTeamView
+    >>> from opencore.nui.project.team import ProjectTeamView
     >>> request = self.portal.REQUEST
     >>> proj = projects.p1
     >>> view = ProjectTeamView(proj, request)

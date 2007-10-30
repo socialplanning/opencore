@@ -11,7 +11,7 @@ from opencore.interfaces.event import IAfterProjectAddedEvent, \
 from opencore.interfaces import IProject
 from opencore import redirect
 
-from Products.OpenPlans.interfaces import IWriteWorkflowPolicySupport
+from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
 
 
 @adapter(IAfterProjectAddedEvent)

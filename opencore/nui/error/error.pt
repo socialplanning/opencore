@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
       lang="en"
       metal:use-macro="here/@@standard_macros/master"
-      i18n:domain="plone">
+      i18n:domain="opencore">
 
 <body>
 <div metal:fill-slot="content"
@@ -13,17 +13,17 @@
 
   <div tal:condition="python:err_type=='NotFound'">
 
-    <h1 i18n:translate="heading_site_error_apologies">Our apologies...</h1>
+    <h1 i18n:translate="error_heading">Our apologies...</h1>
 
-    <p i18n:translate="description_site_error_does_not_exist">
+    <p i18n:translate="error_description_1">
       The item you requested does not exist on this server or cannot be served.
     </p>
 
-    <p i18n:translate="description_site_error_double_check_or_search">
+    <p i18n:translate="error_description_2">
       Please double check the web address or use the search function on this page to find what you are looking for.
     </p>
 
-    <p i18n:translate="description_site_error_mail_admin">
+    <p i18n:translate="error_description_3">
       If you know you have the correct web address but are encountering an error, please
       contact the <span i18n:name="site_admin">
         <a href="#" 
@@ -31,11 +31,11 @@
            tal:attributes="href string:${view/siteURL}/contact-site-admin">Site Administration</a></span>.
     </p>
 
-    <p i18n:translate="description_site_error_thank_you">
+    <p i18n:translate="error_thank_you">
       Thank you.
     </p>
 
-    <code i18n:translate="text_error_not_found">
+    <code i18n:translate="error_404">
       404 Not Found
     </code>
 
@@ -43,43 +43,43 @@
 
   <div tal:condition="python: err_type!='NotFound'">
 
-    <h1 i18n:translate="heading_site_error">Site error</h1>
+    <h1 i18n:translate="error_site_heading">Site error</h1>
  
-    <p i18n:translate="description_site_error">
+    <p i18n:translate="error_site_description">
       This site encountered an error trying to fulfill your request.
       The errors were:
     </p>
 
     <dl>
-      <dt i18n:translate="label_error_type">
+      <dt i18n:translate="error_type">
         Error Type
       </dt>
       
-      <dd i18n:translate="" tal:content="structure err_type">
+      <dd tal:content="structure err_type">
         The rendered error type
       </dd>
       
       <tal:error condition="err_message">
-        <dt i18n:translate="label_error_message">
+        <dt i18n:translate="error_message">
           Error Message
         </dt>
         
-        <dd i18n:translate="" tal:content="structure err_message|nothing">
+        <dd tal:content="structure err_message|nothing">
           The rendered error message
         </dd>
       </tal:error>
       
       <tal:value condition="python: err_value and (err_value != err_message)">
-        <dt i18n:translate="label_error_value">
+        <dt i18n:translate="error_value">
           Error Value
         </dt>
         
-        <dd i18n:translate="" tal:content="structure err_value">
+        <dd tal:content="structure err_value">
           The rendered error value
         </dd>
       </tal:value>
       
-      <dt i18n:translate="label_error_time">
+      <dt i18n:translate="error_time">
         Request made at
       </dt>
       

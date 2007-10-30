@@ -1,18 +1,16 @@
-import random
-
-import transaction as txn
-
-from Testing import ZopeTestCase
-
-from Products.Five import pythonproducts
 from Products.CMFCore.utils  import getToolByName
+from Products.Five import pythonproducts
+from Products.OpenPlans.tests.utils import installConfiguredProducts
 from Products.PloneTestCase.layer import PloneSite, ZCML
 from Products.PloneTestCase.setup import setupPloneSite
-
-from Products.OpenPlans.tests.utils import installConfiguredProducts
-from opencore.testing.utility import setup_mock_http
+from Testing import ZopeTestCase
 from opencore.project.handler import add_redirection_hooks 
+from opencore.testing.utility import setup_mock_http
 from utils import get_portal, get_portal_as_owner, create_test_content
+from topp.utils.testing import layer_factory
+from topp.utils import introspection
+import random
+import transaction as txn
 
 
 class MailHostMock(object):
@@ -82,6 +80,7 @@ class OpenPlansLayer(SiteSetupLayer):
         portal = get_portal_as_owner()
         qi = getToolByName(portal, 'portal_quickinstaller')
         qi.installProduct('OpenPlans')
+        portal.clearCurrentSkin()
 
         portal.oldMailHost = portal.MailHost
         portal.MailHost = MailHostMock()
@@ -96,7 +95,7 @@ class OpenPlansLayer(SiteSetupLayer):
         portal.MailHost = portal.oldMailHost
         del portal.oldMailHost
         del portal.browser_id_manager
-
+        raise NotImplementedError
 
 class OpencoreContent(OpenPlansLayer):
     @classmethod
@@ -112,6 +111,7 @@ class OpencoreContent(OpenPlansLayer):
 
 OpenCoreContent = OpencoreContent
 
+
 class MockHTTP(ZCML):
     @classmethod
     def setUp(cls):
@@ -120,4 +120,19 @@ class MockHTTP(ZCML):
     @classmethod
     def tearDown(cls):
         raise NotImplementedError
+
+
+class MockHTTPWithContent(OpencoreContent):
+    """
+    Add the mock httplib2 utility to the OpencoreContent layer.
+    """
+    @classmethod
+    def setUp(cls):
+        setup_mock_http()
+        txn.commit()
+    
+    @classmethod
+    def tearDown(cls):
+        raise NotImplementedError
+
 

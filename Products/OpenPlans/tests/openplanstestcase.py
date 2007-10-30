@@ -1,6 +1,9 @@
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase
 
+from zope.interface import Interface
+from zope.component import provideHandler
+from zope.app.event.interfaces import IObjectEvent
 from zope.app.annotation.interfaces import IAnnotations
 from plone.memoize.view import ViewMemo
 from plone.memoize.instance import Memojito
@@ -30,7 +33,36 @@ class OpenPlansTestCase(ArcheSiteTestCase):
         self.login()
         mdc = getToolByName(self.portal, 'portal_memberdata')
         mdc.unit_test_mode = True # suppress registration emails
-        
+
+        # add event subscriber to listen to all channel events
+        self.listen_for_object_events()
+
+        # patch expensive handlers for tests
+        self.patch_wordpress_handlers()
+
+    def patch_wordpress_handlers(self):
+        """All wordpress handlers involve sending a message to wordpress
+           on a different port. We patch the sending, so the methods still get
+           triggered, they just don't get sent anywhere"""
+        def patched_send_to_wordpress(uri, username, params, context):
+            pass
+
+        import opencore.wordpress.events
+        opencore.wordpress.events.send_to_wordpress = patched_send_to_wordpress
+
+    def listen_for_object_events(self):
+        """listen for all events so that tests can verify they were sent
+
+           events are stored in the test case "events" attribute"""
+
+        self.events = events = []
+        def generic_listener(obj, event):
+            events.append((obj, event))
+        provideHandler(generic_listener, adapts=[Interface, IObjectEvent])
+
+    def clear_events(self):
+        self.events[:] = []
+
     def tearDown(self):
         # avoid any premature tearing down
         PortalTestCase.tearDown(self)
@@ -51,7 +83,7 @@ class OpenPlansTestCase(ArcheSiteTestCase):
 
     def createClosedProject(self, proj_id):
         proj_folder = self.portal.projects
-        from opencore.interfaces import IAddProject
+        from opencore.interfaces.adding import IAddProject
         IAddProject.providedBy(proj_folder)
 
         proj = proj_folder.restrictedTraverse(

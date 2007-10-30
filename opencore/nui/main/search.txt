@@ -80,7 +80,7 @@ Searching for projects starting with a number::
    []
 
 Create a project that starts with a number::
-    >>> form_vars = dict(id='5test', __initialize_project__=True,
+    >>> form_vars = dict(projid='5test', __initialize_project__=True,
     ...                  title='5test',
     ...                  workflow_policy='medium_policy',
     ...                  add=True, featurelets = ['listen'], set_flets=1)
@@ -110,6 +110,13 @@ Try a substring search::
    >>> titles.sort()
    >>> titles
    ['Project Four', 'Project One', 'Project Three', 'Project Two']
+
+Try irregular chars::
+
+   >>> brains = view.search_for_project('Pr(oj')
+   >>> titles = [b.Title for b in brains]
+   >>> titles
+   []
 
 And now sort them by creation time::
 
@@ -170,6 +177,19 @@ test_user_1 shows up here, and I don't know if anyone's entirely sure
 whether that's a good or a bad thing, but let's let the test pass::
    >>> sorted(names)
    ['m1', 'm2', 'm3', 'm4', 'test_user_1_']
+
+Search for a particular user::
+
+   >>> people = view.search_for_person('m1')
+   >>> names = [p.getId for p in people]
+   >>> names
+   ['m1']
+
+Try irregular chars::
+
+   >>> people = view.search_for_person('m(1')
+   >>> people
+   []
 
 Search for members starting with a letter, only sort the results::
 
@@ -272,12 +292,17 @@ Sitewide Search
    9
    >>> brains = view.search_by_letter('m', sort_by='getId')
    >>> [b.getId for b in brains]
-   ['m1', 'm2', 'm3', 'm4']
+   ['m1', 'm1-home', 'm2', 'm2-home', 'm3', 'm3-home', 'm4', 'm4-home']
+
+Try irregular char::
+   >>> brains = view.search('Pr(oj')
+   >>> len(brains)
+   0
 
 Search for everything::
    >>> brains = view.search_by_letter('all', sort_by='getId')
    >>> len(brains)
-   18
+   22
 
 Search for things starting with a number::
    >>> brains = view.search_by_letter('num')
@@ -295,7 +320,7 @@ Check that searching by letter matches on the id as well
 Check globbing for members (advanced query globbing has index issue)::
    >>> brains = view.search_by_letter('M')
    >>> [b.getId for b in brains]
-   ['m1', 'm2', 'm3', 'm4']
+   ['m1', 'm1-home', 'm2', 'm2-home', 'm3', 'm3-home', 'm4', 'm4-home']
 
 Members should not match based on name
    >>> brains = view.search_by_letter('F')
@@ -305,7 +330,7 @@ Members should not match based on name
 And if we sort by modification date
    >>> brains = view.search_by_letter('M', sort_by='modified')
    >>> len(brains)
-   4
+   8
    >>> mod_dates = [b.modified for b in brains]
    >>> for i in range(3): mod_dates[i] < mod_dates[i+1]
    True
@@ -323,6 +348,16 @@ How about portal type
 Homepage View
 =============
 
+Create a closed project::
+    >>> form_vars = dict(projid='cl0sed', __initialize_project__=True,
+    ...                  title='cl0sed',
+    ...                  workflow_policy='closed_policy',
+    ...                  add=True, featurelets = ['listen'], set_flets=1)
+    >>> proj_view = self.portal.projects.restrictedTraverse("create")
+    >>> proj_view.request.form.update(form_vars)
+    >>> out = proj_view.handle_request()
+
+And ensure that the closed project does not come up::
    >>> view = search.HomeView(self.portal, request)
    >>> brains = view.recently_created_projects()
    >>> [b.getId for b in brains]

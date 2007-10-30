@@ -11,6 +11,7 @@ from zExceptions import Forbidden, Redirect, Unauthorized
 
 from zope.component import getUtility
 from zope.event import notify
+from zope.app.event.objectevent import ObjectCreatedEvent
 from plone.memoize import instance
 
 from Products.Five import BrowserView
@@ -20,7 +21,7 @@ from Products.remember.utils import getAdderUtility
 from Products.validation.validators.BaseValidators import EMAIL_RE
 
 from opencore.siteui.member import FirstLoginEvent
-from opencore.nui.base import BaseView
+from opencore.nui.base import BaseView, _
 from opencore.nui.email_sender import EmailSender
 from opencore.nui.project.interfaces import IEmailInvites
 from opencore.nui.formhandler import *
@@ -56,6 +57,31 @@ class AccountView(BaseView):
     def login_url(self):
         return "%s/login" % self.context.absolute_url()
 
+    def logged_in_user_js(self):
+        """Get info about the current member (if any), as javascript.
+        (We use a callback so client knows when this script has loaded.)
+        """
+        info = self.member_info
+        if info:
+            return """
+            OpenCore.login({
+            loggedin: true,
+            id: '%(id)s',
+            name: '%(fullname)s',
+            profileurl: '%(url)s/profile',
+            memberurl: '%(url)s',
+            website: '%(website)s',
+            email: '%(email)s'
+            });
+            """ % info
+        else:
+            # Not logged in.
+            return """
+            OpenCore.login({
+            loggedin: false
+            });
+            """
+
     ### methods to deal with pending members
 
     def is_pending(self, **query):
@@ -68,6 +94,9 @@ class AccountView(BaseView):
         if portal_workflow.getInfoFor(member, 'review_state') == 'pending':
             return member
 
+    def is_userid_pending(self, userid):
+        return self.is_pending(getUserName=userid)
+
     def _confirmation_url(self, mem):
         code = mem.getUserConfirmationCode()
         return "%s/confirm-account?key=%s" % (self.siteURL, code)
@@ -78,9 +107,9 @@ class AccountView(BaseView):
         mailhost_tool = self.get_tool("MailHost")
 
         # TODO move this to a template for easier editting
-        message = """You recently signed up to use OpenPlans.org. 
+        message = _(u'email_to_pending_user', u"""You recently signed up to use OpenPlans.org. 
 
-Please confirm your email address at the following address: %s
+Please confirm your email address at the following address: ${url}
 
 If you cannot click on the link, you can cut and paste it into your browser's address bar.
 
@@ -90,12 +119,12 @@ If you did not initiate this request or believe it was sent in error you can saf
 
 Cheers,
 The OpenPlans Team
-www.openplans.org""" % url
+www.openplans.org""", mapping={u'url':url})
         
         sender = EmailSender(self, secureSend=True)
         sender.sendEmail(mto=email,
                          msg=message,
-                         subject='Welcome to OpenPlans! - Confirm your email')
+                         subject=_(u'email_to_pending_user_subject', u'Welcome to OpenPlans! - Confirm your email'))
 
 
 class LoginView(AccountView):
@@ -122,9 +151,8 @@ class LoginView(AccountView):
         # ensure there is one match and the password is right
         if member and member.verifyCredentials({'login': id_, 
                                                 'password': password}):
-            self.addPortalStatusMessage("""Your account has not yet been activated. An email was sent to %s from %s containing a link to activate your account.""" %
-                (member.getEmail(),
-                 self.portal.getProperty('email_from_address')))
+            self.addPortalStatusMessage(_(u'psm_account_not_activated',u"""Your account has not yet been activated. An email was sent to ${user} from ${email_from_address} containing a link to activate your account.""",
+                                          mapping={u'user':member.getEmail()}), u'email_from_address', self.portal.getProperty('email_from_address'))
             self.redirect('pending?key=%s' % member.UID())
             return True
         return False
@@ -136,7 +164,7 @@ class LoginView(AccountView):
 
         id_ = self.request.get('__ac_name')
         if self.loggedin:
-            self.addPortalStatusMessage('Welcome! You have signed in.')
+            self.addPortalStatusMessage(_(u'psm_signin_welcome', u'Welcome! You have signed in.'))
             self.update_credentials(id_)
             self.membertool.setLoginTimes()
 
@@ -158,7 +186,7 @@ class LoginView(AccountView):
             destination = self.destination
             return self.redirect(destination)
 
-        self.addPortalStatusMessage(u'Please check your username and password. If you still have trouble, you can <a href="forgot">retrieve your sign in information</a>.')
+        self.addPortalStatusMessage(_(u'psm_check_username_password', u'Please check your username and password. If you still have trouble, you can <a href="forgot">retrieve your sign in information</a>.'))
 
     @anon_only(BaseView.siteURL)
     def handle_request(self):
@@ -187,6 +215,9 @@ class LoginView(AccountView):
             referer = self.request.get('http_referer')
             if not referer or referer in self.boring_urls:
                 return default_redirect
+            anchor = self.request.get('came_from_anchor')
+            if anchor:
+                referer = '%s#%s' % (referer, anchor)
             return referer
 
     def logout(self, redirect=None):
@@ -194,7 +225,7 @@ class LoginView(AccountView):
 
         self.invalidate_session()
             
-        self.add_status_message("You have signed out.")
+        self.add_status_message(_(u'psm_signed_out', u"You have signed out."))
         
         if redirect is None:
             redirect = self.login_url
@@ -219,7 +250,7 @@ class LoginView(AccountView):
             session.invalidate()
 
     def privs_redirect(self):
-        self.add_status_message("You do not have sufficient permissions.")
+        self.add_status_message(_(u'psm_not_sufficient_perms', u"You do not have sufficient permissions."))
         if not self.loggedin:
             self.redirect(self.login_url)
             
@@ -245,7 +276,7 @@ class JoinView(AccountView, OctopoLite):
         password = self.request.form.get('password')
         password2 = self.request.form.get('confirm_password')
         if not password and not password2:
-            self.errors.update({'password': 'Please enter a password' })
+            self.errors.update({'password': _(u'no_password', u'Please enter a password') })
 
         if self.errors:
             return self.errors
@@ -268,13 +299,17 @@ class JoinView(AccountView, OctopoLite):
                        mem_id,
                        self.context.absolute_url()))
         result = mem.processForm()
+        notify(ObjectCreatedEvent(mem))
+        mem.setUserConfirmationCode()
+
         url = self._confirmation_url(mem)
 
         if email_confirmation():
             self._sendmail_to_pendinguser(id=mem_id,
                                           email=self.request.get('email'),
                                           url=url)
-            self.addPortalStatusMessage(u'Thanks for joining OpenPlans, %s!\nA confirmation email has been sent to you with instructions on activating your account.' % mem_id)
+            self.addPortalStatusMessage(_('psm_thankyou_for_joining', u'Thanks for joining OpenPlans, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account.',
+                                          mapping={u'mem_id':mem_id}))
             self.redirect(self.portal_url())
             return mdc._getOb(mem_id)
         else:
@@ -312,8 +347,10 @@ class ConfirmAccountView(AccountView):
         member = None
         
         try:
-            UID = self.key
+            UID, confirmation_key = self.key.split('confirm')
         except KeyError:
+            return None
+        except ValueError: # if there is no 'confirm' (or too many?)
             return None
     
         # we need to do an unrestrictedSearch because a default search
@@ -321,13 +358,16 @@ class ConfirmAccountView(AccountView):
         matches = self.membranetool.unrestrictedSearchResults(UID=UID)
         if matches:
             member = matches[0].getObject()
+        if member._confirmation_key != confirmation_key:
+            return None
+
         return member
 
     def confirm(self, member):
         """Move member into the confirmed workflow state"""
         pf = self.get_tool("portal_workflow")
         if pf.getInfoFor(member, 'review_state') != 'pending':
-            self.addPortalStatusMessage(u'You have tried to activate an account that is not pending confirmation. Please sign in normally.')
+            self.addPortalStatusMessage(_(u'psm_not_pending_account', u'You have tried to activate an account that is not pending confirmation. Please sign in normally.'))
             return False
         
         # need to set/delete the attribute for the workflow guards
@@ -339,7 +379,7 @@ class ConfirmAccountView(AccountView):
     def handle_confirmation(self, *args, **kw):
         member = self.member
         if member is None:
-            self.addPortalStatusMessage(u'Denied -- bad key')
+            self.addPortalStatusMessage(_(u'psm_denied', u'Denied -- bad key'))
             return self.redirect("%s/%s" %(self.siteURL, 'login'))
         
         # redirect to login page if confirmation isn't pending
@@ -372,18 +412,34 @@ class InitialLogin(BaseView):
 
 class ForgotLoginView(AccountView):
 
+    # XXX this class should store some sort of member data
+    # on a per request basis.  as it is now, multiple
+    # catatlogue queries are done for the same user
+    # which can't be good
+
     @anon_only(BaseView.siteURL)
     @button('send')
     @post_only(raise_=False)
     def handle_request(self):
         userid = self.userid
         if userid:
+
+            if self.is_userid_pending(userid):
+                self.redirect('%s/resend-confirmation?member=%s' % (self.siteURL, userid))
+                return
+            
             if email_confirmation():
                 self._mailPassword(userid)
-                self.addPortalStatusMessage('Your username is %s.  If you would like to reset your password, please check your email account for further instructions.' % userid)
+                self.addPortalStatusMessage(_(u'psm_forgot_login',
+                                              u'Your username is ${user_id}.  If you would like to reset your password, please check your email account for further instructions.',
+                                              mapping={u'user_id': userid}))
             else:
                 self.redirect(self.reset_url)
             return True
+
+        # else the user isn't found
+        self.addPortalStatusMessage(u"We can't find your account.")
+
         return False
     
     @instance.memoizedproperty
@@ -411,12 +467,12 @@ class ForgotLoginView(AccountView):
 
         try:
             pwt = self.get_tool("portal_password_reset")
-            mail_text = self.render_static("account_forgot_password_email.txt")
-            mail_text += self.reset_url
+            mail_text = _(u'email_forgot_password', u'You requested a password reminder for your OpenPlans account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}',
+                          mapping={u'url':self.reset_url})
             sender = EmailSender(self, secureSend=True)
             sender.sendEmail(mto=email, 
                         msg=mail_text,
-                        subject='OpenPlans - Password reminder')
+                        subject=_(u'email_forgot_password_subject', u'OpenPlans - Password reminder'))
         except SMTPRecipientsRefused:
             # Don't disclose email address on failure
             # XXX is this needed?
@@ -426,18 +482,23 @@ class ForgotLoginView(AccountView):
     def userid(self):
         user_lookup = self.request.get("__ac_name")
         if not user_lookup:
-            self.addPortalStatusMessage(u"Please enter your username or email address.")
+            self.addPortalStatusMessage(_(u'psm_enter_username_email', u"Please enter your username or email address."))
             return None
-        
-        if '@' in user_lookup:
-            brains = self.membranetool(getEmail=user_lookup)
-        else:
-            brains = self.membranetool(getUserName=user_lookup)
 
-        if not brains:
-            self.addPortalStatusMessage(u"We can't find your account. This could be because you have not yet completed your email confirmation.")
-            return
-        return brains[0].getId
+        def get_user(user_lookup, callable):
+            if '@' in user_lookup:
+                return callable(getEmail=user_lookup)
+            return callable(getUserName=user_lookup)
+            
+        brains = get_user(user_lookup, self.membranetool)
+
+        if brains:
+            return brains[0].getId
+
+        # check to see if the user is pending
+        member = get_user(user_lookup, self.is_pending)
+        if member:
+            return member.getId()
 
 
 class PasswordResetView(AccountView):
@@ -461,12 +522,12 @@ class PasswordResetView(AccountView):
             pw_tool.resetPassword(userid, randomstring, password)
         except 'InvalidRequestError':
             # XXX TODO redirect to 404 instead
-            msg = u'Password reset attempt failed. Did you mistype your username or password?'
+            msg = _(u'psm_pass_reset_fail', u'Password reset attempt failed. Did you mistype your username or password?')
             self.addPortalStatusMessage(msg)
             return self.redirect(self.siteURL)
         except 'ExpiredRequestError':
-            msg = u'Your password reset request has expired.'
-            msg += (u'You can <a href="login">sign in</a> again using'
+            msg = _(u'psm_pass_reset_expired', u'Your password reset request has expired. '
+                    'You can <a href="login">sign in</a> again using '
                     'your old username and password or '
                     '<a href="forgot">request a new password</a> again.')
             self.addPortalStatusMessage(msg)
@@ -475,7 +536,7 @@ class PasswordResetView(AccountView):
         # Automatically log the user in
         self.login(userid)
         
-        self.addPortalStatusMessage(u'Welcome! Your password has been reset, and you are now signed in.')
+        self.addPortalStatusMessage(_(u'psm_password_reset', u'Welcome! Your password has been reset, and you are now signed in.'))
         self.redirect('%s/account' % self.memfolder_url(userid))
         return True
 
@@ -488,7 +549,7 @@ class PasswordResetView(AccountView):
         except "InvalidRequestError":
             raise Forbidden, "Your password reset key is invalid. Please verify that it is identical to the email and try again."
         except "ExpiredRequestError":
-            raise Forbidden, "Your password reset key has expired. Please try again."
+            raise Forbidden, "Your password reset key Please try again."
         return key
 
 class PendingView(AccountView):
@@ -500,7 +561,7 @@ class PendingView(AccountView):
             self.redirect(unauthorized_destination)
         member = self.is_pending(UID=key)
         if not member:
-            self.redirect(unauthorized_destination)        
+            self.redirect(unauthorized_destination)
         return member
 
     @post_only(raise_=False)    
@@ -526,12 +587,30 @@ class PendingView(AccountView):
                                           email,
                                           self._confirmation_url(member))
             mfrom = self.portal.getProperty('email_from_address')
-            msg = 'A new activation email has been sent to %s from %s. Please follow the link in the email to activate this account.' % (email, mfrom)
+            msg = _(u'psm_new_activation', u'A new activation email has been sent to ${email} from ${mfrom}. Please follow the link in the email to activate this account.',
+                    mapping={u'email':email, u'mfrom':mfrom})
 
         self.addPortalStatusMessage(msg)
 
     def handle_request(self):
         self._pending_member()
+
+class ResendConfirmationView(AccountView):
+
+    @anon_only(BaseView.siteURL)
+    def handle_request(self):
+        name = self.request.form.get('member', '')
+        member = self.is_userid_pending(name)
+        if not member:
+            self.add_status_message('No pending member by the name "%s" found' % name)
+            self.redirect(self.siteURL)
+            return
+        self._sendmail_to_pendinguser(member.getId(),
+                                      member.getEmail(),
+                                      self._confirmation_url(member))
+        self.add_status_message('A new activation email has been sent to the email address provided for %s.' % name)
+        self.redirect("%s/login" %self.siteURL)
+
 
 def email_confirmation():
     """get email confirmation mode from zope.conf"""

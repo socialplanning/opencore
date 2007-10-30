@@ -24,7 +24,8 @@ from Products.OpenPlans.Extensions.Install import createMemIndexes, \
      installColumns, createValidationMember, \
      install_local_transient_message_utility, install_email_invites_utility
 from Products.OpenPlans.Extensions.Install import setCaseInsensitiveLogins, \
-     setSiteEmailAddresses, updateWorkflowRoleMappings, \
+     setSiteEmailAddresses, updateWorkflowRoleMappings
+from Products.OpenPlans.Extensions.Install import install_remote_auth_plugin, \
      install_team_placeful_workflow_policies, addCatalogQueue
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans import config as op_config
@@ -35,6 +36,7 @@ from opencore.interfaces import IOpenPage, INewsItem
 from opencore.nui.project.metadata import _update_last_modified_author
 from opencore.nui.wiki.add import get_view_names
 from Products.OpenPlans.content.project import OpenProject
+from persistent import mapping
 
 logger = getLogger(op_config.PROJECTNAME)
 
@@ -85,7 +87,7 @@ def move_interface_marking_on_projects_folder(portal):
     #XX needed? test?
     from Products.Five.utilities.marker import erase
     from zope.interface import alsoProvides
-    from opencore.interfaces import IAddProject
+    from opencore.interfaces.adding import IAddProject
     import sys
     import opencore
     sys.modules['Products.OpenPlans.interfaces.adding'] = opencore.interfaces.adding
@@ -220,13 +222,20 @@ def fix_case_on_featurelets(portal):
         flet_supporter = IFeatureletSupporter(project)
         listen_storage = flet_supporter.storage.get('listen', None)
         if listen_storage:
+            # we have to make a complete copy of the date structure
+            listen_storage = dict(listen_storage)
             listen_storage['content'][0]['title'] = 'Mailing lists'
             listen_storage['menu_items'][0]['title'] = u'Mailing lists'
             listen_storage['menu_items'][0]['description'] = u'Mailing lists'
+
+            # setting the new values triggers persistence
+            flet_supporter.storage['listen']=listen_storage
         tt_storage = flet_supporter.storage.get('tasks', None)
         if tt_storage:
+            tt_storage=dict(tt_storage)
             tt_storage['menu_items'][0]['title'] = u'Tasks'
-            tt_storage['menu_items'][0]['description'] = u'Task tracker'    
+            tt_storage['menu_items'][0]['description'] = u'Task tracker'
+            flet_supporter.storage['tasks']=tt_storage
 
 def annotate_last_modified_author(portal):
     from opencore.nui.project.metadata import ANNOT_KEY
@@ -305,7 +314,8 @@ nui_functions['annotate last modified author'] = annotate_last_modified_author
 nui_functions["Propagate workflow security settings"] = \
                          convertFunc(updateWorkflowRoleMappings)
 nui_functions['markNewsItems'] = markNewsItems
-
+nui_functions['Install OpenCore Remote Auth Plugin'] = \
+                       convertFunc(install_remote_auth_plugin)
 
 def run_nui_setup(portal):
     pm = portal.portal_migration

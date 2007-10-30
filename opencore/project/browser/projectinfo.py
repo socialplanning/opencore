@@ -6,7 +6,7 @@ from zope.interface import implements
 from Products.CMFCore.utils import getToolByName 
 from Products.Five import BrowserView
 from Products.Five.browser.TrustedExpression import getEngine
-from Products.OpenPlans.interfaces import IProject, IOpenTeam
+from opencore.interfaces import IProject, IOpenTeam
 from memojito import memoizedproperty
 from interfaces import IProjectInfo
 from topp.featurelets.interfaces import IFeatureletSupporter

@@ -229,14 +229,16 @@ text-align: left;
 /* @FOOTER - Global footer
 --------------------------------------- */
 #oc-footer-about {
-  text-align: right;
+  text-align: left;
 }
 
 #oc-footer ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  float: left;
+  float: right;
+  text-transform: uppercase;
+  font-size: 9px;
 }
 #oc-footer li {
   display: inline;
@@ -509,13 +511,17 @@ dl.oc-member-info dd {
 }
 .oc-wiki-headingBlock {
   margin: 0;
-  display: block;
+  margin-right: 1em;
+}
+.oc-wiki-lastModified {
+  display: inline;
+  float: right;
 }
 ul.oc-tabs {
   display: block;
   margin-top: 0;
   padding: 0;
-  border-bottom: 2px solid #000;
+  border-bottom: 2px solid #eee;
   text-align: right;
 }
 ul.oc-tabs li {
@@ -559,7 +565,6 @@ ul.oc-tabs li.oc-notallowed a {
   clear: both;
 }
 .oc-wiki-edit-content {
-
 }
 .oc-actions.oc-wiki-actions {
   border-top: 2px solid #ccc;
@@ -803,6 +808,13 @@ GENERIC: Elements
 .oc-hover {
    background: #fdffdd;
 }
+.oc-disabled { 
+  color: #999;
+ }
+.oc-warning { 
+  color: red;
+  padding-left: .5em;
+ }
 /* GENERIC: Buttons */
 input.oc-button {
   display: inline;
@@ -864,7 +876,8 @@ a.oc-banana {
   line-height: inherit;
 }
 .oc-bcrumb .oc-bcrumb-current {
-  font-size: 14px;
+  font-size: 18px;
+  font-weight: bold;
 }
 .oc-actionClose,
 .oc-close {
@@ -1545,6 +1558,9 @@ hr {
   border: 1px solid #ccc;
   padding: 0;
   margin: 1em 0;
+}
+abbr, acronym {
+  border-bottom: none;
 }
 .oc-clearElement {
   visibility: hidden;

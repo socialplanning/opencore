@@ -25,6 +25,13 @@ def first_letter_match(title, letter):
                or title.startswith('a ' + letter) \
                or title.startswith('an ' + letter)
 
+def clean_search_query(search_query):
+    search_query = search_query.lower().strip()    
+    
+    bad_chars = ["(", ")"]
+    for char in bad_chars:
+        search_query = search_query.replace(char, '"%s"' % char)
+    return search_query
 
 class SearchView(BaseView):
     match = staticmethod(first_letter_match)
@@ -106,7 +113,7 @@ class ProjectsSearchView(SearchView):
         return project_brains
 
     def search_for_project(self, project, sort_by=None):
-        proj_query = project.lower().strip()
+        proj_query = clean_search_query(project)
 
         if proj_query == '*':
             return []
@@ -130,16 +137,15 @@ class ProjectsSearchView(SearchView):
         return project_brains
     
     def recently_updated_projects(self, sort_limit=10):
-        query = dict(portal_type='OpenProject',
-                     sort_on='modified',
-                     sort_order='descending',
-                     sort_limit=sort_limit,
-                     )
+        
+        rs = (('modified', 'desc'),)
+            
+        query = Eq('portal_type', 'OpenProject') & (Eq('project_policy', 'open_policy') | Eq('project_policy', 'medium_policy'))
 
-        self.apply_context_restrictions(query)
-
-        project_brains = self.catalog(**query) 
-        return project_brains
+        query = self.adv_context_restrictions_applied(query)
+        
+        project_brains = self.catalog.evalAdvancedQuery(query, rs)
+        return project_brains[:sort_limit]
 
     def n_project_members(self, proj_brain):
         proj_id = proj_brain.getId
@@ -217,7 +223,7 @@ def searchForPerson(mcat, search_for, sort_by=None):
     This is a function, not a method, so it can be called from
     assorted view classes.
     """
-    person_query = search_for.lower().strip()
+    person_query = clean_search_query(search_for)
 
     if person_query == '*':
         return []
@@ -320,20 +326,35 @@ class HomeView(SearchView):
     intro = static_txt('main_home_intro.txt')
 
     def recently_updated_projects(self):
-        return self.projects_search.recently_updated_projects(sort_limit=5)
+        created_brains = self.recently_created_projects()
+        updated_brains = self.projects_search.recently_updated_projects(sort_limit=10)
+        out = []
+        count = 0
+        for ubrain in updated_brains:
+            not_redundant = 1
+            for cbrain in created_brains:
+                if ubrain.getId == cbrain.getId:
+                    not_redundant = 0
+                    
+            if not_redundant == 1:
+                out.append(ubrain)
+                count+=1
+            if count == 5:
+                return out
+            
+        return out
 
     def n_project_members(self, proj_brain):
         return self.projects_search.n_project_members(proj_brain)
 
     def recently_created_projects(self):
-        query = dict(portal_type='OpenProject',
-                     sort_on='created',
-                     sort_order='descending',
-                     sort_limit=5,
-                     )
+        rs = (('created', 'desc'),)
+            
+        query = Eq('portal_type', 'OpenProject') & (Eq('project_policy', 'open_policy') | Eq('project_policy', 'medium_policy'))
+        
+        project_brains = self.catalog.evalAdvancedQuery(query, rs)
+        return project_brains[:5]
 
-        project_brains = self.catalog(**query) 
-        return project_brains
 
     def news(self):
         news_path = '/'.join(self.context.portal.getPhysicalPath()) + '/news'
@@ -346,8 +367,6 @@ class HomeView(SearchView):
         brains = self.catalog(**query)
         return brains
     
-    aboutus = static_txt('main_home_aboutus.txt')
-
 
 class SitewideSearchView(SearchView):
 
@@ -427,11 +446,9 @@ class SitewideSearchView(SearchView):
                 
         return out_brains
 
-
-
     def search(self, search_for, sort_by=None):
-        search_query = search_for.lower().strip()
-
+        search_query = clean_search_query(search_for)
+    
         if search_query == '*':
             return []
 

@@ -139,6 +139,8 @@ Get a user so that we can try to get a user's confirmation code for manual regis
     >>> user
     <OpenMember at ...>
 
+    >>> user.setUserConfirmationCode()
+
 The getUserConfirmationCode method should only be available to site managers::
 
     >>> m = user.restrictedTraverse("getUserConfirmationCode")
@@ -191,6 +193,20 @@ The view has a validate() method which returns an error dict::
 
 #    ['confirm_password', 'email', 'password']
 
+Test what happens when password is "password"
+
+    >>> request.form = dict(id='foouser3',
+    ...                     fullname='foo user',
+    ...                     email='foo3@example.com',
+    ...                     password='password',
+    ...                     confirm_password='password',
+    ...                     )
+    >>> view.create_member()
+    {'password': u'"password" is not a valid password.'}
+    >>> view.errors
+    {'password': u'"password" is not a valid password.'}
+
+
 Test what happens when both passwords are blank
 
     >>> request.form = dict(id='foouser',
@@ -198,9 +214,9 @@ Test what happens when both passwords are blank
     ...                     email='foo@example.com',
     ...                     )
     >>> view.create_member()
-    {'password': 'Please enter a password'}
+    {'password': u'no_password'}
     >>> view.errors
-    {'password': 'Please enter a password'}
+    {'password': u'no_password'}
     >>> request.form.update(password='freddy',
     ...                     confirm_password='freddy',
     ...                     )
@@ -237,6 +253,15 @@ and delete the existing task::
     >>> validate_map = view.validate()
     >>> len([i for i in validate_map.values() if i['html']])
     0
+
+Verify that the proper events gets sent out when a member gets created::
+
+    >>> from zope.component import provideHandler
+    >>> from opencore.nui.account.tests import dummy_handler, events_fired
+    >>> from zope.app.event.interfaces import IObjectCreatedEvent
+    >>> from Products.remember.interfaces import IReMember
+    >>> provideHandler(dummy_handler,
+    ...                adapts=[IReMember, IObjectCreatedEvent])
     
 We need to make the request a POST::
 
@@ -246,6 +271,14 @@ We need to make the request a POST::
     u'...<!-- join form -->...'
     >>> view.membertool.getMemberById('foobar')
     <OpenMember at /plone/portal_memberdata/foobar...>
+    >>> len(events_fired)
+    1
+    >>> obj, event = events_fired[0]
+    >>> IObjectCreatedEvent.providedBy(event)
+    True
+
+We SHOULD be cleaning up our event handler here, but there's no way to unregister
+an event handler in Z2.9, that API landed in Z2.10.
 
 Ensure that you can't join the site with another foobar::
 
@@ -345,6 +378,41 @@ Login [to be done]
 
 [Output should really be the user's homepage.  but it isn't
 due to the fact that PAS isn't called.  Deal with this later]
+
+
+Javascript functionality for Vacuum
+===================================
+
+    >>> def normalize_whitespace(astring):
+    ...      # just a little helper to avoid caring about indentation.
+    ...      return '\n'.join([li.strip() for li in astring.split('\n')]).strip()
+
+
+Logged out user:
+
+    >>> self.logout()
+    >>> jsview = portal.restrictedTraverse('@@user.js')
+    >>> output = jsview()
+    >>> print normalize_whitespace(output)
+    OpenCore.login({
+    loggedin: false
+    });
+
+Logged in user:
+
+    >>> self.login()
+    >>> output = jsview()
+    >>> print normalize_whitespace(output)
+    OpenCore.login({
+    loggedin: true,
+    id: 'test_user_1_',
+    name: '',
+    profileurl: 'http://nohost/plone/people/test_user_1_/profile',
+    memberurl: 'http://nohost/plone/people/test_user_1_',
+    website: '',
+    email: 'test_emailer_1_@example.com'
+    });
+
 
 Verify initial login converts email invites to mship invites
 ============================================================

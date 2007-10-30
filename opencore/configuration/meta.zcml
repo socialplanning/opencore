@@ -1,5 +1,6 @@
 <configure xmlns="http://namespaces.zope.org/zope">
   <!-- addform meta goes here too -->
   <include package="opencore.tasktracker" file="meta.zcml" />
+  <include package="opencore.wordpress" file="meta.zcml" />
   <include package="opencore.project" file="meta.zcml" />
 </configure>

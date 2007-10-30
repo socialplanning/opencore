@@ -32,16 +32,16 @@
               
               Member<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
               <tal:justone condition="many">&ndash; <span tal:replace="end">10</span></tal:justone> 
-              of <span tal:replace="sequence_length">376</span> sorted by
+              of <span tal:replace="sequence_length">376</span> sorted 
 
               <!-- when sorting, we post the action to distinguish between searching
                    this was necessary because the batch macro reposts the request data, and we see problems when trying to reset to page when the sorting changes -->
               <form name="people_sort" method="POST" action="." tal:attributes="action string:${context/portal_url}/people/searchresults">
                 <!-- FIXME This should not require a button to work. -->
                 <select class="oc-js-autoSelect" name="sort_by" tal:define="sorted_by python: request.get('sort_by')">
-                  <option tal:condition="not: request/letter_search | nothing" value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">relevancy</option>
-                  <option value="getId" tal:attributes="selected python: sorted_by == 'getId'">username</option>
-                  <option value="exact_getFullname" tal:attributes="selected python: sorted_by == 'exact_getFullname'">name</option>
+                  <option tal:condition="not: request/letter_search | nothing" value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">by relevancy</option>
+                  <option value="getId" tal:attributes="selected python: sorted_by == 'getId'">by username</option>
+                  <option value="exact_getFullname" tal:attributes="selected python: sorted_by == 'exact_getFullname'">by name</option>
                 </select>
 
                 <!-- resend the current data when sorting -->

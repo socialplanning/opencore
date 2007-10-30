@@ -44,7 +44,7 @@ Test wiki history registrations::
     >>> newSecurityManager(None, nobody)
     >>> history = page.restrictedTraverse('history')
     >>> history()
-    '... There are no previous versions...
+    u'... There are no previous versions...
 
 Test wiki attachment registrations which are not used any more::
 
@@ -332,17 +332,20 @@ Login as different users, each time checking the last modified author
 
 Now start changing the page
      >>> request = view.request.form
-     >>> request['text'] = 'foo'
+     >>> request['text'] = u'<p>foo<br>\n\u2255baz</p>'.encode('utf-8')
      >>> request['title'] = 'bar'
      >>> view.handle_save()
 
-Verify the last modified author changes took place
+Verify the last modified author and text changes took place
      >>> proj = self.portal.projects.p1
      >>> from opencore.interfaces.catalog import ILastModifiedAuthorId
      >>> ILastModifiedAuthorId(page)
      'm1'
      >>> ILastModifiedAuthorId(proj)
      'm1'
+
+     >>> page.text.raw
+     u'<p>foo<br>\n&#8789;baz</p>'
 
      >>> self.logout()
      >>> self.login('m3')

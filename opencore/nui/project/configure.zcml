@@ -2,27 +2,40 @@
    xmlns:browser="http://namespaces.zope.org/browser"
    xmlns:five="http://namespaces.zope.org/five">
 
+  <adapter
+      for="opencore.interfaces.IProject"
+      provides=".interfaces.IHomePage"
+      factory=".home_page.HomePage"
+      />
+
   <browser:page
-     for="opencore.interfaces.IAddProject"
+     for="opencore.interfaces.adding.IAddProject"
      name="create"
      class=".view.ProjectAddView"
      permission="openplans.AddOpenProject"
      />
 
   <browser:page
-     for="opencore.interfaces.IAddSubProject"
+     for="opencore.interfaces.adding.IAddSubProject"
      name="create_project"
      class=".view.SubProjectAddView"
      permission="openplans.AddSubProject"
      />
 
+   <!-- move to contents.py; these will share functionality -->
    <browser:page
       for="opencore.interfaces.IProject"
       class=".view.ProjectContentsView"
       permission="zope2.View"
       name="contents"
       />
-
+   <!--  <browser:page
+      for="opencore.interfaces.IProject"
+      class=".contents.RecentUpdatesView"
+      permission="zope2.View"
+      name="recent-updates"
+      />
+    -->
   <browser:page
      for="opencore.interfaces.IProject"
      class=".view.ProjectPreferencesView"
@@ -33,7 +46,7 @@
 
   <browser:page
      for="opencore.interfaces.IProject"
-     class=".view.ProjectTeamView"
+     class=".team.ProjectTeamView"
      permission="zope2.View"
      name="team"
      template="team-view.pt"
@@ -41,16 +54,39 @@
 
   <browser:page
      for="opencore.interfaces.IProject"
-     class=".view.ManageTeamView"
+     class=".team.ManageTeamView"
      permission="teamspace.ManageTeamMemberships"
      name="manage-team"
      />
 
   <browser:page
      for="opencore.interfaces.IProject"
-     class=".view.RequestMembershipView"
+     class=".team.RequestMembershipView"
      permission="zope2.View"
      name="request-membership"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".latest_activity.LatestActivityView"
+     permission="zope2.View"
+     name="latest-activity"
+     template="latest_activity.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".latest_snippet.LatestSnippet"
+     permission="zope2.View"
+     name="latest-snippet"
+     template="latest_snippet.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".view.RedirectView"
+     permission="zope2.View"
+     name="view"
      />
 
   <subscriber

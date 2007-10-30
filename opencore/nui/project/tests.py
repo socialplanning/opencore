@@ -7,7 +7,7 @@ from opencore.testing.layer import OpencoreContent
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from zope.interface import alsoProvides
 from opencore.featurelets.interfaces import IListenContainer
-from opencore.tasktracker.tests import MockHTTPwithContent
+from opencore.testing.layer import MockHTTPWithContent
 from zope.app.component.hooks import setSite
 from Products.Five.site.localsite import enableLocalSiteHook
 from zope.app.component.hooks import setSite, setHooks
@@ -26,7 +26,7 @@ def test_suite():
     from pprint import pprint
     from zope.interface import alsoProvides
     from zope.component import getUtility
-    from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
+    from opencore.interfaces.workflow import IReadWorkflowPolicySupport
     from opencore.testing import utils
     from opencore.nui.indexing import authenticated_memberid
 
@@ -98,10 +98,27 @@ def test_suite():
                                                 setUp=manage_team_setup,
                                                 )
 
-    suites = (contents, metadata, manage_team, request_membership)
+    homepage = FunctionalDocFileSuite("homepage.txt",
+                                                optionflags=optionflags,
+                                                package='opencore.nui.project',
+                                                test_class=OpenPlansTestCase,
+                                                globs = globs, 
+                                                setUp=manage_team_setup,
+                                                )
+
+#    preferences = FunctionalDocFileSuite("preferences.txt",
+#                                         optionflags=optionflags,
+#                                         package='opencore.nui.project',
+#                                         test_class=OpenPlansTestCase,
+#                                         globs = globs, 
+#                                         setUp=manage_team_setup,
+#                                         )    
+#
+#    suites = (contents, metadata, manage_team, request_membership, preferences)
+    suites = (contents, metadata, manage_team, request_membership, homepage)
     for suite in suites:
         suite.layer = OpencoreContent
-    readme.layer = MockHTTPwithContent
+    readme.layer = MockHTTPWithContent
     unit = doctest.DocTestSuite('opencore.nui.project.view',
                                 optionflags=optionflags)
     return unittest.TestSuite(suites + (readme, unit))

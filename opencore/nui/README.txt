@@ -103,11 +103,6 @@ User/Account methods
 Member folder/homepage url
 --------
 
-Nothing means member isn't confirmed::
-    
-    >>> pview.memfolder_url(id_='m1') is None
-    True
-
 Should get the member folder url for a confirmed member::
 
     >>> pview.memfolder_url(id_='test_user_1_')
@@ -126,27 +121,7 @@ Get homepage url (coming soon)::
 
 Member info
 -----------
-
-    >>> pprint(pview.member_info)
-    {'affiliations': '',
-     'anon_email': True,
-     'background': '',
-     'email': '',
-     'favorites': '',
-     'folder_url': 'http://nohost/plone/people/test_user_1_',
-     'fullname': '',
-     'home_url': 'http://nohost/plone/people/test_user_1_/None',
-     'id': 'test_user_1_',
-     'lastlogin': 'never',
-     'location': '',
-     'membersince': 'today',
-     'portrait_thumb_url': '++resource++img/default-portrait-thumb.gif',
-     'portrait_url': '++resource++img/default-portrait.gif',
-     'portrait_width': '200',
-     'projects': [],
-     'skills': '',
-     'statement': '',
-     'url': 'http://nohost/plone/people/test_user_1_'}
+See member_info_test.txt.
 
 
 test nusers and projects_served_count
@@ -159,9 +134,11 @@ test nusers and projects_served_count
     ...                            'password':'testy',
     ...                            'email':'new_user@example.com',
     ...                            'projects':{}}}
-    >>> projects_map = {'new_project':{'title':'New Project', 'workflow_policy':'closed_policy'}}
-    >>> from Products.OpenPlans.Extensions import create_test_content
-    >>> create_test_content.create_test_content(self.portal, p_map=projects_map, m_map=members_map)
+    >>> projects_map = {'new_project':{'title':'New Project',
+    ...                                'workflow_policy':'closed_policy'}}
+    >>> from Products.OpenPlans.Extensions.create_test_content import create_test_content
+    >>> self.loginAsPortalOwner() # <-- so we have req'd perms
+    >>> create_test_content(self.portal, p_map=projects_map, m_map=members_map)
     'Project new_project added\nMember new_user added'
     >>> self.clearMemoCache()
     >>> pview.nusers()

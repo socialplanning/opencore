@@ -11,7 +11,7 @@ from topp.featurelets.base import BaseFeaturelet
 from interfaces import IListenFeatureletInstalled
 from interfaces import IListenContainer
 
-from Products.OpenPlans.interfaces import IProject
+from opencore.interfaces import IProject
 
 class ListenFeaturelet(BaseFeaturelet):
     """

@@ -26,6 +26,7 @@ from Products.CMFEditions.Permissions import RevertToPreviousVersions
 from Products.RichDocument.Extensions.utils import \
      registerAttachmentsFormControllerActions
 from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
+from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
 
 from Products.OpenPlans import config
 from Products.OpenPlans import content
@@ -47,9 +48,7 @@ from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from Products.OpenPlans.workflows import MEMBERSHIP_PLACEFUL_POLICIES
 from Products.OpenPlans.Extensions.utils import setupKupu
 
-from opencore.interfaces import IAddProject
-from opencore.interfaces import IAmAPeopleFolder
-from opencore.interfaces import IAmANewsFolder
+from opencore.interfaces.adding import IAddProject, IAmAPeopleFolder, IAmANewsFolder
 from opencore.content.membership import OpenMembership
 from opencore.content.member import OpenMember
 from opencore.auth.SignedCookieAuthHelper import SignedCookieAuthHelper
@@ -642,7 +641,6 @@ def installCookieAuth(portal, out):
         openplans.manage_addSignedCookieAuthHelper('credentials_signed_cookie_auth',
                                                    cookie_name=cookie_name)
     print >> out, "Added Extended Cookie Auth Helper."
-    from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
     activatePluginInterfaces(portal, 'credentials_signed_cookie_auth', out)
 
     signed_cookie_auth = uf._getOb('credentials_signed_cookie_auth')
@@ -714,6 +712,17 @@ def addCatalogQueue(portal, out):
         queue = portal._getOb(q_id)
         queue.setLocation('portal_catalog')
 
+def install_remote_auth_plugin(portal, out):
+    plugin_id = 'opencore_remote_auth'
+    uf = portal.acl_users
+    if plugin_id in uf.objectIds():
+        # plugin is already there, do nothing
+        return
+    print >> out, "Adding OpenCore remote auth plugin"
+    openplans = uf.manage_addProduct['OpenPlans']
+    openplans.manage_addOpenCoreRemoteAuth(plugin_id)
+    activatePluginInterfaces(portal, plugin_id, out)
+
 def install(self, migrate_atdoc_to_openpage=True):
     out = StringIO()
     portal = getToolByName(self, 'portal_url').getPortalObject()
@@ -756,6 +765,7 @@ def install(self, migrate_atdoc_to_openpage=True):
     install_local_transient_message_utility(portal, out)
     install_email_invites_utility(portal, out)
     updateWorkflowRoleMappings(portal, out)
+    install_remote_auth_plugin(portal, out)
     install_team_placeful_workflow_policies(portal, out)
     print >> out, "Successfully installed %s." % config.PROJECTNAME
     return out.getvalue()

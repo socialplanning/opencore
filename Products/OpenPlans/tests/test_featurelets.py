@@ -37,28 +37,13 @@ class TestFeaturelets(OpenPlansTestCase):
         self.assertEqual(set([f.id for f in flets]),
                          set([f['id'] for f in flets_info]))
 
-    def test_addRosterFeatureletUsingView(self):
-        flet_id = 'openroster'
-        content_id = 'proj_roster'
-        menu_key = 'Project Roster'
-        self.failIf(flet_id in self.proj.objectIds())
-        registry = getUtility(IFeatureletRegistry)
-        flet = registry.getFeaturelet(flet_id)
-        view = self.proj.restrictedTraverse('@@featurelet_support')
-        view.installFeaturelet(flet)
-        self.failUnless(content_id in self.proj.objectIds())
-
-        menusupporter = IMenuSupporter(self.proj)
-        menu_items = menusupporter.getMenuItems('featurelets')
-        self.failUnless(menu_items.has_key(menu_key))
-
     def test_featureletsNotRemoved(self):
         # there was a bug where edits on the container that were not
         # from the edit template would cause all of the featurelets to
         # be uninstalled; this demonstrates that the bug has been
         # fixed
-        flet_id = 'openroster'
-        content_id = 'proj_roster'
+        flet_id = 'listen'
+        content_id = 'lists'
         registry = getUtility(IFeatureletRegistry)
         flet = registry.getFeaturelet(flet_id)
         supporter = IFeatureletSupporter(self.proj)

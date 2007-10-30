@@ -1,0 +1,581 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2007-10-30 19:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: opencore\n"
+
+#: ./opencore/siteui/interfaces.py:130
+msgid "Create test content"
+msgstr ""
+
+#: ./opencore/siteui/interfaces.py:116
+msgid "Id"
+msgstr ""
+
+#: ./opencore/listen/interfaces.py:16
+msgid "List Address Prefix"
+msgstr ""
+
+#: ./opencore/featurelets/browser/listen.py:53
+msgid "Mailing list deleted."
+msgstr ""
+
+#: ./opencore/featurelets/browser/listen.py:48
+msgid "Mailing list deletion cancelled."
+msgstr ""
+
+#: ./opencore/siteui/interfaces.py:124
+msgid "Name of the site instance"
+msgstr ""
+
+#: ./opencore/listen/utils.py:14
+msgid "Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, periods, and plus signs (i.e. A-Z, a-z, 0-9, and _-.+ symbols)."
+msgstr ""
+
+#: ./opencore/siteui/interfaces.py:131
+msgid "Please create example projects and members"
+msgstr ""
+
+#: ./Products/OpenPlans/skins/openplans_login_patches/require_login.py:24
+msgid "Please sign in to continue."
+msgstr ""
+
+#: ./opencore/siteui/interfaces.py:117
+msgid "The object id."
+msgstr ""
+
+#: ./opencore/listen/interfaces.py:17
+msgid "The prefix portion of the main address for the mailing list."
+msgstr ""
+
+#: ./opencore/siteui/interfaces.py:123
+msgid "Title"
+msgstr ""
+
+#: ./Products/OpenPlans/skins/openplans_login_patches/insufficient_privileges.cpy:51
+msgid "You do not have sufficient permissions."
+msgstr ""
+
+#. Default: "You requested a password reminder for your OpenPlans account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}"
+#: ./opencore/nui/account/accountview.py:470
+msgid "email_forgot_password"
+msgstr ""
+
+#. Default: "OpenPlans - Password reminder"
+#: ./opencore/nui/account/accountview.py:475
+msgid "email_forgot_password_subject"
+msgstr ""
+
+#. Default: "Subject: OpenPlans - Invitation to join  ${project_title}\n\nThe invitation extended to you to join \"${project_title}\" on OpenPlans has been revoked.\n"
+#: ./opencore/nui/project/mship_messages.py:23
+msgid "email_invitation_retracted"
+msgstr ""
+
+#. Default: "Subject: OpenPlans - Invitation to join ${project_title}\n\nYou have been invited to join \"${project_title}\" on OpenPlans.\n\nIf you would like to get involved, set up an OpenPlans account: ${join_url}\n\nOpenPlans is a free toolset for social change. With OpenPlans, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks.\n\nWe hope you'll take OpenPlans for a spin.\n\nCheers,\nThe OpenPlans Team\nwww.openplans.org\n"
+#: ./opencore/nui/project/mship_messages.py:47
+msgid "email_invite_email"
+msgstr ""
+
+#. Default: "Subject: OpenPlans - Invitation to join ${project_title}\n\nYou have been invited to join \"${project_title}\".  Please visit your account page to accept or decline the invitation: ${account_url}\n"
+#: ./opencore/nui/project/mship_messages.py:3
+msgid "email_invite_member"
+msgstr ""
+
+#. Default: "Subject: OpenPlans - Membership deactivated for ${project_title}\n\nYou are no longer a member of \"${project_title}\" on OpenPlans.\n"
+#: ./opencore/nui/project/mship_messages.py:28
+msgid "email_membership_deactivated"
+msgstr ""
+
+#. Default: "Subject: OpenPlans - Request to join ${project_title}\n\n${member_id} would like to get involved with \"${project_title}\".\n\nTo approve or deny this request please visit the project's team management screen: ${team_manage_url}\n"
+#: ./opencore/nui/project/mship_messages.py:33
+msgid "email_membership_requested"
+msgstr ""
+
+#. Default: "\n\n${member_id} included the following message:\n\n\"${member_message}\"\n"
+#: ./opencore/nui/project/mship_messages.py:40
+msgid "email_mship_request_message"
+msgstr ""
+
+#. Default: "Subject: OpenPlans - Invitation to join ${project_title}\n\nThis is a reminder that you've been invited to join \"${project_title}\" on OpenPlans.  Please visit your account page to accept or decline the invitation: ${account_url}\n"
+#: ./opencore/nui/project/mship_messages.py:8
+msgid "email_remind_invitee"
+msgstr ""
+
+#. Default: "Subject: OpenPlans - Welcome to ${project_title}\n\nYour request to join \"${project_title}\" on OpenPlans has been approved.  The project is accessible at the following address: ${project_url}\n"
+#: ./opencore/nui/project/mship_messages.py:13
+msgid "email_request_approved"
+msgstr ""
+
+#. Default: "Subject: OpenPlans - Your request to join ${project_title}\n\nYour request to join \"${project_title}\" on OpenPlans has been denied.\n"
+#: ./opencore/nui/project/mship_messages.py:18
+msgid "email_request_denied"
+msgstr ""
+
+#. Default: "You recently signed up to use OpenPlans.org. \n\nPlease confirm your email address at the following address: ${url}\n\nIf you cannot click on the link, you can cut and paste it into your browser's address bar.\n\nOnce you have confirmed, you can start using OpenPlans.\n\nIf you did not initiate this request or believe it was sent in error you can safely ignore this message.\n\nCheers,\nThe OpenPlans Team\nwww.openplans.org"
+#: ./opencore/nui/account/accountview.py:110
+msgid "email_to_pending_user"
+msgstr ""
+
+#. Default: "Welcome to OpenPlans! - Confirm your email"
+#: ./opencore/nui/account/accountview.py:127
+msgid "email_to_pending_user_subject"
+msgstr ""
+
+#. Default: "The project name must contain at least 2 characters with at least 1 letter or number."
+#: ./opencore/nui/project/view.py:376
+msgid "err_project_name"
+msgstr ""
+
+#. Default: "404 Not Found"
+#: ./opencore/nui/error/error.pt:38
+msgid "error_404"
+msgstr ""
+
+#. Default: "The item you requested does not exist on this server or cannot be served."
+#: ./opencore/nui/error/error.pt:18
+msgid "error_description_1"
+msgstr ""
+
+#. Default: "Please double check the web address or use the search function on this page to find what you are looking for."
+#: ./opencore/nui/error/error.pt:22
+msgid "error_description_2"
+msgstr ""
+
+#. Default: "If you know you have the correct web address but are encountering an error, please contact the ${site_admin}."
+#: ./opencore/nui/error/error.pt:28
+msgid "error_description_3"
+msgstr ""
+
+#. Default: "Our apologies..."
+#: ./opencore/nui/error/error.pt:16
+msgid "error_heading"
+msgstr ""
+
+#. Default: "Error Message"
+#: ./opencore/nui/error/error.pt:63
+msgid "error_message"
+msgstr ""
+
+#. Default: "This site encountered an error trying to fulfill your request. The errors were:"
+#: ./opencore/nui/error/error.pt:48
+msgid "error_site_description"
+msgstr ""
+
+#. Default: "Site error"
+#: ./opencore/nui/error/error.pt:46
+msgid "error_site_heading"
+msgstr ""
+
+#. Default: "Thank you."
+#: ./opencore/nui/error/error.pt:34
+msgid "error_thank_you"
+msgstr ""
+
+#. Default: "Request made at"
+#: ./opencore/nui/error/error.pt:82
+msgid "error_time"
+msgstr ""
+
+#. Default: "Error Type"
+#: ./opencore/nui/error/error.pt:54
+msgid "error_type"
+msgstr ""
+
+#. Default: "Error Value"
+#: ./opencore/nui/error/error.pt:73
+msgid "error_value"
+msgstr ""
+
+#. Default: "about"
+#: ./opencore/nui/footer.pt:3
+msgid "footer_about_link"
+msgstr ""
+
+#. Default: "contact"
+#: ./opencore/nui/footer.pt:4
+msgid "footer_contact_link"
+msgstr ""
+
+#. Default: "&copy; 2007 <a href=\"http://topp.openplans.org/\">The Open Planning Project</a>"
+#: ./opencore/nui/footer.pt:15
+msgid "footer_copyright"
+msgstr ""
+
+#. Default: "news"
+#: ./opencore/nui/footer.pt:5
+msgid "footer_news_link"
+msgstr ""
+
+#. Default: "${num_people} people"
+#: ./opencore/nui/footer.pt:12
+msgid "footer_num_people"
+msgstr ""
+
+#. Default: "${num_projects} projects"
+#: ./opencore/nui/footer.pt:13
+msgid "footer_num_projects"
+msgstr ""
+
+#. Default: "OpenPlans is"
+#: ./opencore/nui/footer.pt:11
+msgid "footer_openplans_is"
+msgstr ""
+
+#. Default: "Join OpenPlans"
+#: ./opencore/nui/account/forgot.pt:15
+msgid "forgot_join"
+msgstr ""
+
+#. Default: "New users"
+#: ./opencore/nui/account/forgot.pt:13
+msgid "forgot_new_users"
+msgstr ""
+
+#. Default: "Whether your group is mobilizing voters, planning a protest, or growing a garden, OpenPlans can help you become more effective."
+#: ./opencore/nui/account/forgot.pt:14
+msgid "forgot_openplans_more_effective"
+msgstr ""
+
+#. Default: "Enter your username or email address to retrieve your login information."
+#: ./opencore/nui/account/forgot_snippet.pt:8
+msgid "forgot_snippet_enter_username"
+msgstr ""
+
+#. Default: "<a class=\"oc-js-expander_open oc-expanderLink-open oc-expanderLink\" href=\"forgot\">Forgot your username or password?</a>"
+#: ./opencore/nui/account/forgot_snippet.pt:4
+msgid "forgot_snippet_title"
+msgstr ""
+
+#. Default: "Username or email address"
+#: ./opencore/nui/account/forgot_snippet.pt:14
+msgid "forgot_snippet_username_label"
+msgstr ""
+
+#. Default: "You do not have sufficient privileges to view this page."
+#: ./opencore/nui/account/insufficient_privileges.pt:10
+msgid "insufficient_privileges_description"
+msgstr ""
+
+#. Default: "Insufficient Privileges"
+#: ./opencore/nui/account/insufficient_privileges.pt:8
+msgid "insufficient_privileges_heading"
+msgstr ""
+
+#. Default: "Already a member?"
+#: ./opencore/nui/account/join.pt:165
+msgid "join_already_member_heading"
+msgstr ""
+
+#. Default: "Join"
+#: ./opencore/nui/account/join.pt:144
+msgid "join_button"
+msgstr ""
+
+#. Default: "Check your email to confirm registration"
+#: ./opencore/nui/account/join.pt:22
+msgid "join_check_email"
+msgstr ""
+
+#. Default: "Confirm passsword"
+#: ./opencore/nui/account/join.pt:121
+msgid "join_conf_password_label"
+msgstr ""
+
+#. Default: "Registration is free and your email will not be shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system."
+#: ./opencore/nui/account/join.pt:16
+msgid "join_description"
+msgstr ""
+
+#. Default: "Email"
+#: ./opencore/nui/account/join.pt:77
+msgid "join_email_label"
+msgstr ""
+
+#. Default: "Full Name"
+#: ./opencore/nui/account/join.pt:55
+msgid "join_full_name_label"
+msgstr ""
+
+#. Default: "Join OpenPlans"
+#: ./opencore/nui/account/join.pt:14
+msgid "join_heading"
+msgstr ""
+
+#. Default: "Password"
+#: ./opencore/nui/account/join.pt:99
+msgid "join_password_label"
+msgstr ""
+
+#. Default: "Sign in"
+#: ./opencore/nui/account/join.pt:166
+msgid "join_sign_in"
+msgstr ""
+
+#. Default: "Username"
+#: ./opencore/nui/account/join.pt:33
+msgid "join_username_label"
+msgstr ""
+
+#. Default: "Site Administration"
+#: ./opencore/nui/error/error.pt:29
+msgid "label_site_admin"
+msgstr ""
+
+#. Default: "Whether your group is mobilizing voters, planning a protest, or growing a garden, OpenPlans can help you become more effective."
+#: ./opencore/nui/account/login.pt:17
+msgid "login_description"
+msgstr ""
+
+#. Default: "New users"
+#: ./opencore/nui/account/login.pt:16
+msgid "login_heading"
+msgstr ""
+
+#. Default: "Join OpenPlans"
+#: ./opencore/nui/account/login.pt:18
+msgid "login_join"
+msgstr ""
+
+#. Default: "Sign in"
+#: ./opencore/nui/account/login_snippet.pt:23
+msgid "login_snippet_header"
+msgstr ""
+
+#. Default: "Keep me logged in"
+#: ./opencore/nui/account/login_snippet.pt:54
+msgid "login_snippet_keep_logged_in"
+msgstr ""
+
+#. Default: "Log in"
+#: ./opencore/nui/account/login_snippet.pt:62
+msgid "login_snippet_login_button"
+msgstr ""
+
+#. Default: "Password"
+#: ./opencore/nui/account/login_snippet.pt:45
+msgid "login_snippet_password_label"
+msgstr ""
+
+#. Default: "Username"
+#: ./opencore/nui/account/login_snippet.pt:27
+msgid "login_snippet_username_label"
+msgstr ""
+
+#. Default: "Please enter a password"
+#: ./opencore/nui/account/accountview.py:279
+msgid "no_password"
+msgstr ""
+
+#. Default: "There is no member named \"${user_id}\"."
+#: ./opencore/nui/base.py:543
+msgid "password_no_member_error"
+msgstr ""
+
+#. Default: "You must enter a password."
+#: ./opencore/nui/base.py:549
+msgid "password_no_password_error"
+msgstr ""
+
+#. Default: "You need to enter your username."
+#: ./opencore/nui/base.py:538
+msgid "password_no_username_error"
+msgstr ""
+
+#. Default: "Please make sure that both password fields are the same."
+#: ./opencore/nui/base.py:552
+msgid "password_not_same_error"
+msgstr ""
+
+#. Default: "Or enter a new address where you would like to receive the activation email for this account again"
+#: ./opencore/nui/account/pending.pt:18
+msgid "pending_description"
+msgstr ""
+
+#. Default: "Email"
+#: ./opencore/nui/account/pending.pt:37
+msgid "pending_email_label"
+msgstr ""
+
+#. Default: "Enter a new email address"
+#: ./opencore/nui/account/pending.pt:29
+msgid "pending_enter_new_email"
+msgstr ""
+
+#. Default: "If you think this is a mistake, you can try to login again"
+#: ./opencore/nui/account/pending.pt:57
+msgid "pending_mistake"
+msgstr ""
+
+#. Default: "Send me another activation email"
+#: ./opencore/nui/account/pending.pt:13
+msgid "pending_send_another_activation"
+msgstr ""
+
+#. Default: "\"${title}\" has been created. Create a team by searching for other members to invite to your project, then <a href=\"${proj_edit_url}\">edit your project home page</a>."
+#: ./opencore/nui/project/view.py:525
+msgid "project_created"
+msgstr ""
+
+#. Default: "Your account has not yet been activated. An email was sent to ${user} from ${email_from_address} containing a link to activate your account."
+#: ./opencore/nui/account/accountview.py:154
+msgid "psm_account_not_activated"
+msgstr ""
+
+#. Default: "Please check your username and password. If you still have trouble, you can <a href=\"forgot\">retrieve your sign in information</a>."
+#: ./opencore/nui/account/accountview.py:189
+msgid "psm_check_username_password"
+msgstr ""
+
+#. Default: "Please correct the errors indicated below."
+#: ./opencore/nui/project/view.py:379
+msgid "psm_correct_errors_below"
+msgstr ""
+
+#. Default: "Denied -- bad key"
+#: ./opencore/nui/account/accountview.py:382
+msgid "psm_denied"
+msgstr ""
+
+#. Default: "Please enter your username or email address."
+#: ./opencore/nui/account/accountview.py:485
+msgid "psm_enter_username_email"
+msgstr ""
+
+#. Default: "${flet} feature has been added."
+#: ./opencore/nui/project/view.py:407
+msgid "psm_featurelet_added"
+msgstr ""
+
+#. Default: "${flet} feature has been removed."
+#: ./opencore/nui/project/view.py:412
+msgid "psm_featurelet_removed"
+msgstr ""
+
+#. Default: "Your username is ${user_id}.  If you would like to reset your password, please check your email account for further instructions."
+#: ./opencore/nui/account/accountview.py:433
+msgid "psm_forgot_login"
+msgstr ""
+
+#. Default: "A new activation email has been sent to ${email} from ${mfrom}. Please follow the link in the email to activate this account."
+#: ./opencore/nui/account/accountview.py:590
+msgid "psm_new_activation"
+msgstr ""
+
+#. Default: "Please select items to delete."
+#: ./opencore/nui/project/view.py:217
+msgid "psm_no_items_to_delete"
+msgstr ""
+
+#. Default: "You have tried to activate an account that is not pending confirmation. Please sign in normally."
+#: ./opencore/nui/account/accountview.py:370
+msgid "psm_not_pending_account"
+msgstr ""
+
+#. Default: "You do not have sufficient permissions."
+#: ./opencore/nui/account/accountview.py:253
+msgid "psm_not_sufficient_perms"
+msgstr ""
+
+#. Default: "Your password reset request has expired. You can <a href=\"login\">sign in</a> again using your old username and password or <a href=\"forgot\">request a new password</a> again."
+#: ./opencore/nui/account/accountview.py:529
+msgid "psm_pass_reset_expired"
+msgstr ""
+
+#. Default: "Password reset attempt failed. Did you mistype your username or password?"
+#: ./opencore/nui/account/accountview.py:525
+msgid "psm_pass_reset_fail"
+msgstr ""
+
+#. Default: "Welcome! Your password has been reset, and you are now signed in."
+#: ./opencore/nui/account/accountview.py:539
+msgid "psm_password_reset"
+msgstr ""
+
+#. Default: "Project home page set to: <a href=\"${homepage}\">${homepage}</a>"
+#: ./opencore/nui/project/view.py:426
+msgid "psm_proj_homepage_change"
+msgstr ""
+
+#. Default: "The description has been changed."
+#: ./opencore/nui/project/view.py:395
+msgid "psm_project_desc_changed"
+msgstr ""
+
+#. Default: "The title has been changed."
+#: ./opencore/nui/project/view.py:394
+msgid "psm_project_title_changed"
+msgstr ""
+
+#. Default: "The security policy has been changed."
+#: ./opencore/nui/project/view.py:396
+msgid "psm_security_changed"
+msgstr ""
+
+#. Default: "You have signed out."
+#: ./opencore/nui/account/accountview.py:228
+msgid "psm_signed_out"
+msgstr ""
+
+#. Default: "Welcome! You have signed in."
+#: ./opencore/nui/account/accountview.py:167
+msgid "psm_signin_welcome"
+msgstr ""
+
+#. Default: "Thanks for joining OpenPlans, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account."
+#: ./opencore/nui/account/accountview.py:311
+msgid "psm_thankyou_for_joining"
+msgstr ""
+
+#. Default: "Reset password"
+#: ./opencore/nui/account/reset-password.pt:74
+msgid "reset-password_button"
+msgstr ""
+
+#. Default: "Confirm password"
+#: ./opencore/nui/account/reset-password.pt:57
+msgid "reset-password_confirm_label"
+msgstr ""
+
+#. Default: "New password"
+#: ./opencore/nui/account/reset-password.pt:41
+msgid "reset-password_new_password_label"
+msgstr ""
+
+#. Default: "Username"
+#: ./opencore/nui/account/reset-password.pt:28
+msgid "reset-password_username_label"
+msgstr ""
+
+#. Default: "You are already a pending or active member of ${project_title}."
+#: ./opencore/nui/project/team.py:104
+msgid "team_already_proj_member"
+msgstr ""
+
+#. Default: "You are already a member of this project."
+#: ./opencore/nui/project/team.py:61
+msgid "team_already_project_member"
+msgstr ""
+
+#. Default: "Please sign in to continue."
+#: ./opencore/nui/project/team.py:56
+msgid "team_please_sign_in"
+msgstr ""
+
+#. Default: "Your request to join \"${project_title}\" has been sent to the project administrator(s)."
+#: ./opencore/nui/project/team.py:100
+msgid "team_proj_join_request_sent"
+msgstr ""
+

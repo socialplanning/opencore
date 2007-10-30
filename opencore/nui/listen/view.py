@@ -110,6 +110,12 @@ NuiArchiveSearchView  = make_nui_listen_view_class(ArchiveSearchView)
 NuiListLookupView = make_nui_listen_view_class(ListLookupView)
 
 
+##########################################################################
+# We're overriding the default NamedTemplateAdapter to work around a
+# bug in plone.app.form._named.  The bug has been fixed on the Plone
+# trunk.
+##########################################################################
+
 class NamedTemplateAdapter(object):
     """A named template adapter implementation that has the ability
     to lookup the template portion from regular traversal (intended for

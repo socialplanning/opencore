@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.9.5'
+version = '0.9.7'
 
 f = open('README.txt')
 readme = "".join(f.readlines())
@@ -21,22 +21,27 @@ setup(name='opencore',
       include_package_data=True,
       zip_safe=False,
       dependency_links=['https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect',
+                        'http://svn.red-bean.com/bob/simplejson/trunk/#egg=simplejson-dev',
                         'http://www.openplans.org/projects/opencore/dependencies',
-                        'https://svn.plone.org/svn/plone/plone.memoize/trunk#egg=plone.memoize-dev'],
+                        'https://svn.plone.org/svn/plone/plone.memoize/trunk#egg=plone.memoize-dev',
+                        'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof'],
       install_requires=[
           # -*- Extra requirements: -*-
           'simplejson',
+          'decorator',
           'topp.featurelets',
           'topp.utils',
           'memojito',
           'OpencoreRedirect',
           'httplib2',
           'plone.memoize',
-          'cabochonclient',
           'lxml>=2.0alpha',
           'plone.mail',
           'plone.app.form',
           'borg.localrole==1.0rc1',
-          ]
+          'wsseauth',
+          ],
+      extras_require=dict(ubuntu=['hprof'])
       )
+
 

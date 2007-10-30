@@ -34,10 +34,12 @@ OC.liveElementKey.Class = {
     "oc-widget-multiSearch"  : "SearchLinks",
     'oc-dropdown-container'  : "DropDown",
     "oc-autoFocus"           : "AutoFocus",
-    "oc-warn-popup"          : "WarnPopup",
+    "oc-js-toggler"          : "Toggler",
+    "oc-js-featurelet-undelete-warner" : "FeatureletUndeleteWarner",
     'oc-checkAll'            : "CheckAll",
     'oc-js-liveEdit'         : "LiveEdit",
     'oc-js-actionLink'       : "ActionLink",
+    'oc-js-actionPost'       : "ActionLink",
     'oc-js-actionButton'     : "ActionButton",
     'oc-js-actionSelect'     : "ActionSelect",
     'oc-js-liveValidate'     : "LiveValidatee",
@@ -76,11 +78,23 @@ OC.breatheLife = function(newNode, force) {
           targetNode = newNode; 
     }
     
+    // Build regexes out of our class list.  This allows
+    // us to have one very quick lookup un elements to
+    // prevent unnecessary processing.
+    var classRegexString = '';
+    for (var key in this.liveElementKey.Class) {
+        if (classRegexString.length) {
+            classRegexString += '|';
+        }
+        classRegexString += '\\b' + key + '\\b';
+    }
+    var classRegex = new RegExp(classRegexString);
+
     // get an array of elements
     var elements = Ext.query('*', targetNode);
     elements.push(targetNode);
     // loop through elements and match up against selectors
-    for (var i = 0; i<elements.length; i++) {
+    for (var i = 0, len=elements.length; i<len; i++) {
       var element = elements[i];
     
       // which constructors will we add to this element?
@@ -98,12 +112,16 @@ OC.breatheLife = function(newNode, force) {
       }
       
       // check if class matches anything in the Classes list
-      var classNames = element.className.split(' ');
-      for (var j=0; j<classNames.length; j++) {
-        if (this.liveElementKey.Class[classNames[j]] != undefined) {
-          constructorNames.push(this.liveElementKey.Class[classNames[j]]); 
+      // We only do full class processing if the regex registers
+      // a hit against the class list.
+      if (element.className.match (classRegex)) {
+        var classNames = element.className.split(' ');
+        for (var j=0; j<classNames.length; j++) {
+          if (this.liveElementKey.Class[classNames[j]] != undefined) {
+            constructorNames.push(this.liveElementKey.Class[classNames[j]]); 
+          }
         }
-      }      
+      }
       
       // check if ID matches anything in the IDs list
       if (this.liveElementKey.Id[element.getAttribute('id')] != undefined) {
@@ -111,14 +129,17 @@ OC.breatheLife = function(newNode, force) {
       }
       
       // foreach match, check to see if it exists
-      for (var j=0; j<constructorNames.length; j++) {
-        var constructorName = constructorNames[j];
+      // we break out the element retrieve so we only perform one per element.
+      if (constructorNames.length > 0) {
         var extEl = Ext.get(element);
-        if (typeof OC.liveElements[extEl.id] == "undefined") { OC.liveElements[extEl.id] = {} };
-        var constructor = OC[constructorName];
-        
-        if (force || typeof OC.liveElements[extEl.id][constructorName] == "undefined" ) {
-          OC.liveElements[extEl.id][constructorName] = new constructor(extEl);
+        for (var j=0; j<constructorNames.length; j++) {
+          var constructorName = constructorNames[j];
+          if (typeof OC.liveElements[extEl.id] == "undefined") { OC.liveElements[extEl.id] = {} };
+          var constructor = OC[constructorName];
+          
+          if (force || typeof OC.liveElements[extEl.id][constructorName] == "undefined" ) {
+            OC.liveElements[extEl.id][constructorName] = new constructor(extEl);
+          }
         }
       }
       
@@ -293,6 +314,11 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 	var action = command.action;
 	
 	switch( action ) {
+	case "error":
+        var target = Ext.get(elId);
+        target.frame();
+        break;
+
 	case "delete":
 	    OC.debug("DELETE on " + elId);
 	    OC.Dom.removeItem(elId);
@@ -393,26 +419,38 @@ OC.ActionLink = function(extEl) {
     if (!link) {
 	     OC.debug("ActionLink: Could not get refs");
     } 
-    
+
+    if (link.hasClass('oc-js-actionPost')) {
+        var method = "POST";
+    } else {
+        var method = "GET";
+    }
+
     function _doAction(e, el, o) {
-	YAHOO.util.Event.stopEvent(e);
-	
-	// get action/href & split action from params
-	var action = el.href.split("?")[0];
-	var requestData = el.href.split("?")[1];
-	OC.debug("request data is " + requestData);
-	
-	var requestUri = el.href + "&mode=async";
-	
-	this.button.dom.innerHTML = "Please wait..."; 
-	
-	// make connection
-	var cObj = YAHOO.util.Connect.asyncRequest("GET", requestUri, {
-		success: OC.Callbacks.afterAjaxSuccess, 
-		failure: OC.Callbacks.afterAjaxFailure,
-		scope: this 
-	    });
-    } 
+    	YAHOO.util.Event.stopEvent(e);
+    	
+    	// get action/href & split action from params
+    	var action = el.href.split("?")[0];
+    	var requestData = el.href.split("?")[1] + '&mode=async';
+    	OC.debug("request data is " + requestData);
+    	
+    	this.button.dom.innerHTML = "Please wait..."; 
+    	
+    	// make connection
+        if (method == "GET") {
+        	var cObj = YAHOO.util.Connect.asyncRequest("GET", action + '?' + requestData, {
+        		success: OC.Callbacks.afterAjaxSuccess, 
+        		failure: OC.Callbacks.afterAjaxFailure,
+        		scope: this 
+        	    });
+        } else if (method == "POST") {
+        	var cObj = YAHOO.util.Connect.asyncRequest("POST", action, {
+        		success: OC.Callbacks.afterAjaxSuccess, 
+        		failure: OC.Callbacks.afterAjaxFailure,
+        		scope: this 
+        	    }, requestData);
+        }
+    }
     link.on('click', _doAction, this);
     
     // pass back element to OC.LiveElements
@@ -497,7 +535,13 @@ OC.ActionButton = function(extEl) {
     this.button = extEl;
     var form = this.button.up('form');
     var name = this.button.dom.name.replace('task|', "");
-    this.indicator = Ext.get('indicator|' + name);
+
+    // In order to have good performance, actionButtons
+    // must be tagged if they actually have an indicator.  This
+    // prevents really expensive whole page searches otherwise.
+    if (extEl.hasClass('oc-has-indicator')) {
+      this.indicator = Ext.get('indicator|' + name);
+    }
         
     // check refs
     if (!this.button || !form) {
@@ -914,7 +958,7 @@ OC.ProjectCreateForm = function(extEl) {
     // get refs
     var form = extEl;
     var nameField = Ext.get(Ext.query('#title')[0], form.dom);
-    var urlField = Ext.get(Ext.query('#id')[0], form.dom);
+    var urlField = Ext.get(Ext.query('#projid')[0], form.dom);
     
     // check refs
     if (!form || !nameField || !urlField) {
@@ -1157,42 +1201,31 @@ OC.CloseButton = function(extEl) {
   # Warn Popups
   #  -- THIS IS DUMB AND SHOULD BE LOOKED OVER BY NICK TO MAKE BETTER
 */
-OC.WarnPopup = function(extEl) {
+OC.FeatureletUndeleteWarner = function(extEl) {
 
   //get refs
-  var checkbox = extEl;
+  var container = extEl;
+  var checkbox = Ext.get(container.dom.getElementsByTagName('input')[0]);
+  var warning = Ext.get(Ext.query('.oc-warning', container.dom)[0]);
   
   //check refs
-  if (!checkbox) {
+  if (!checkbox || !container || !warning) {
     return;
+  } 
+
+  // we only want to display the error message
+  // if the element wasn't already selected by default
+  // in other words, only display the warning if the user is taking away
+  // the featurelet, not if they added it and took it away
+  if (checkbox.dom.checked) {
+    checkbox.on('click', function(e, el) { 
+      if (!el.checked) {
+        warning.show();
+      } else {
+        warning.hide();
+      }
+    });
   }
-  
-  extEl.on('click', function(e, el) { 
-    if (!el.checked) {
-      YAHOO.util.Event.preventDefault(e);
-      var msg = "Removing this feature may result in lost data for your project. <br /><br /> Are you sure you want to remove the feature?<br />";
-      Ext.MessageBox.confirm('Confirm', msg, _callback);
-    }
-  });
-  
-  function _callback(button_id) {
-    if (button_id == "yes") {
-      checkbox.dom.checked = false;
-      
-    }
-  }
-/* 
-    var msg = "Removing this feature may result in lost data for your project."
-    msg += " Are you sure you want to remove the feature?"
-    var item = Ext.get(extEl);
-    //behaviors
-    function _itemClick(e, el, o) {
-	if( !item.dom.checked )
-	    if( !confirm(msg) )
-		YAHOO.util.Event.stopEvent(e);
-    }
-    item.on('click', _itemClick, this);
-*/
 };
 
 /* 
@@ -1375,4 +1408,30 @@ OC.HistoryList = function(extEl) {
     OC.debug(form.dom.elements);
     
     return this;
+};
+
+OC.Toggler = function(extEl) {
+    var checkbox = extEl;
+    var label = Ext.get(checkbox.dom.id.replace('toggler', 'togglee'));
+    var radio = Ext.get(label.dom.getElementsByTagName('input')[0]);
+    var wiki = Ext.get(Ext.get('oc-js-togglee-wiki').dom.getElementsByTagName('input')[0]);
+    // check references
+    if (!checkbox || !radio || !wiki || !label) {
+        OC.debug('Error getting references for toggler');
+        return false;
+    }
+    _handle_toggle();
+    function _handle_toggle() {
+        if (checkbox.dom.checked) {
+            radio.dom.disabled = false;
+            label.removeClass('oc-disabled');
+        } else {
+            radio.dom.disabled = true;
+            label.addClass('oc-disabled');
+            if (radio.dom.checked) {
+                wiki.dom.checked = true;
+            }
+        }
+    }
+    checkbox.on('click', _handle_toggle, this);
 };

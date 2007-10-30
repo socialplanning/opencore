@@ -3,7 +3,6 @@ from Products.CMFCore.utils import getToolByName
 from zope.app.annotation.interfaces import IAnnotations
 
 from topp.featurelets.interfaces import IFeatureletSupporter
-from opencore.featurelets.roster import RosterFeaturelet
 
 def bootstrap_fletmenus(self):
     out = []
@@ -21,15 +20,6 @@ def bootstrap_fletmenus(self):
         
         # set up the proj home menu item
         proj._initProjectHomeMenuItem()
-
-        # check for roster featurelet, remove if yes
-        featurelet = RosterFeaturelet()
-        supporter = IFeatureletSupporter(proj)
-        if featurelet.id in supporter.getInstalledFeatureletIds():
-            supporter.removeFeaturelet(featurelet)
-
-        # install roster featurelet
-        supporter.installFeaturelet(featurelet)
 
         out.append("Project '%s' initialized" % proj.getId())
 

@@ -40,7 +40,7 @@
      />
 
   <browser:page
-     for="opencore.interfaces.IAddSubProject"
+     for="opencore.interfaces.adding.IAddSubProject"
      class=".search.SubProjectsSearchView"
      permission="zope2.View"
      name="projects"
@@ -49,7 +49,7 @@
 
   <!-- people portal -->
   <browser:page
-     for="opencore.interfaces.IAmAPeopleFolder"
+     for="opencore.interfaces.adding.IAmAPeopleFolder"
      class=".search.PeopleSearchView"
      permission="zope2.View"
      name="view"
@@ -58,7 +58,7 @@
 
   <!-- people-searchresults -->
   <browser:page
-     for="opencore.interfaces.IAmAPeopleFolder"
+     for="opencore.interfaces.adding.IAmAPeopleFolder"
      class=".search.PeopleSearchView"
      permission="zope2.View"
      name="searchresults"
@@ -115,7 +115,7 @@
   
   <!-- news -->
   <browser:page
-     for="opencore.interfaces.IAmANewsFolder"
+     for="opencore.interfaces.adding.IAmANewsFolder"
      class=".search.NewsView"
      permission="zope2.View"
      name="view"
@@ -124,7 +124,7 @@
 
   <!-- news -->
   <browser:page
-     for="opencore.interfaces.IAmANewsFolder"
+     for="opencore.interfaces.adding.IAmANewsFolder"
      class=".search.NewsView"
      permission="cmf.ManagePortal"
      name="add-news-item"

@@ -1,18 +1,45 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser"
 	   xmlns:five="http://namespaces.zope.org/five">
+
   <browser:page
      for="opencore.interfaces.IProject"
-     permission="zope.Public"
+     permission="zope2.View"
      name="info.xml"
      template="project_info_xml.pt"
      />
+
+  <!-- consider deprecated, use /memberships -->
   <browser:page
      for="opencore.interfaces.IProject"
-     permission="zope.Public"
+     permission="zope2.View"
      name="members.xml"
      template="project_members_xml.pt"
-     class=".projectxml.MemberXML"
+     class=".apis.ProjectMembershipXML"
+     />
+  <browser:page
+     for="opencore.interfaces.IProject"
+     permission="zope2.View"
+     name="memberships.xml"
+     template="project_members_xml.pt"
+     class=".apis.ProjectMembershipXML"
+     />
+
+  <!-- this WILL move. don't rely on it too much -->
+  <browser:page
+     for="opencore.interfaces.adding.IAmAPeopleFolder"
+     permission="cmf.ModifyPortalContent"
+     name="all.xml"
+     template="all_members_info_xml.pt"
+     class=".apis.AllMembersInfoXML"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IMemberFolder"
+     permission="cmf.ModifyPortalContent"
+     name="info.xml"
+     template="member_info_xml.pt"
+     class=".apis.MemberInfoXML"
      />
 
   <browser:page

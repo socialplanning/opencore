@@ -30,7 +30,9 @@
     <div class="oc-listen-message">
     <div class="oc-headingBlock">
       <h2 tal:define="subject message/subject | string:''"
-          tal:content="python: subject or '(No Subject)'" />
+          tal:content="python: subject or default">
+        (No Subject)
+      </h2>
       <span>
       <!-- put in an anchor whether we can reply or not -->
       <a name="." id="."

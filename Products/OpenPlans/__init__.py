@@ -10,30 +10,36 @@ from AccessControl import allow_module, allow_class, allow_type
 
 from Globals import package_home
 
+from zope.component import getUtility
+
+from Products.PluggableAuthService import registerMultiPlugin
 from Products.CMFCore import CMFCorePermissions
 from Products.CMFCore import utils as cmf_utils
 from Products.CMFCore.FSPageTemplate import FSPageTemplate
 from Products.CMFCore.DirectoryView import registerDirectory
 from Products.CMFCore.DirectoryView import registerFileExtension
 from Products.Archetypes import public as atapi
-
 from Products.listen.permissions import AddMailingList
 
-from zope.component import getUtility
-
 from topp.featurelets.interfaces import IFeatureletRegistry
+
+from opencore.nui import indexing
+from opencore.auth import remoteauthplugin
 
 import config
 from permissions import initialize as initialize_permissions
 
 import monkey
 import Extensions.setup
-from opencore.nui import indexing
+
 
 # Register Global Tools/Services/Config
 # (Skins)
 registerFileExtension('xsl', FSPageTemplate)
 registerDirectory(config.SKINS_DIR, config.GLOBALS)
+
+# register the remote auth PAS plugin
+registerMultiPlugin(remoteauthplugin.RemoteOpenCoreAuth.meta_type)
 
 
 def initialize(context):
@@ -41,7 +47,6 @@ def initialize(context):
     # with the Archetypes runtime
     from content import *
     from opencore.content import *
-    from opencore.featurelets.roster import RosterFeaturelet
     from opencore.featurelets.listen import ListenFeaturelet
     from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
     from opencore.listen import mailinglist
@@ -83,9 +88,6 @@ def initialize(context):
     flet_registry = getUtility(IFeatureletRegistry)
     flet_registry.registerFeaturelet(ListenFeaturelet())
     flet_registry.registerFeaturelet(TaskTrackerFeaturelet())
-    # BBB the roster featurelet can go away once we've removed all
-    #     the installed rosters
-    flet_registry.registerFeaturelet(RosterFeaturelet())
     
     from opencore.auth import SignedCookieAuthHelper
     from AccessControl.Permissions import add_user_folders
@@ -95,7 +97,13 @@ def initialize(context):
                                             SignedCookieAuthHelper.manage_addSignedCookieAuthHelper ),
                            visibility = None
                            )
-    
+
+    context.registerClass(remoteauthplugin.RemoteOpenCoreAuth,
+                          permission = add_user_folders,
+                          constructors = (remoteauthplugin.manage_addOpenCoreRemoteAuthForm,
+                                          remoteauthplugin.manage_addOpenCoreRemoteAuth),
+                          visibility = None
+                          )
+
     # do all at import cataloging setup
     indexing.register_indexable_attrs()
-    

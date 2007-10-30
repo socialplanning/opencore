@@ -14,7 +14,7 @@
               tal:attributes="action view/name">
           <input type="hidden" name="set_flets" value="1"/>
           <fieldset class="oc-boxy">
-            <legend  class="oc-legend-heading oc-biggerText">Step 1: Basics</legend>
+            <legend i18n:translate="" class="oc-legend-heading oc-biggerText">Step 1: Basics</legend>
             <table class="oc-form">
               <tbody>
                 <tr class="oc-form-row">
@@ -37,9 +37,9 @@
                   </th>
                   <td class="oc-form-value oc-form-fieldBlock">
                     <span tal:replace="context/absolute_url" />/
-                    <input type="text" name="id" id="id"
+                    <input type="text" name="projid" id="projid"
                            class="oc-js-liveValidate"
-                           tal:attributes="value request/id | nothing" />
+                           tal:attributes="value request/projid | nothing" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
@@ -69,20 +69,19 @@
             <legend class="oc-legend-heading oc-biggerText">Step 2: Security</legend>
             <p class="oc-headingContext oc-smallText">Decide who can see and contribute to this project.  You will create your team on the next page.</p>
             <fieldset>
-              <legend class="oc-legend-label">
+              <!--<legend class="oc-legend-label">
                 <strong>Visitors to OpenPlans can:</strong>
-              </legend>
+              </legend>-->
               <ul class="oc-form-radiolist oc-form-fieldBlock">
-                <li>
-                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
-                  value="medium_policy" checked="checked"/>
-                  <label for="workflow_policy_medium">View this project's content</label>
-                </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
                   value="open_policy" />
-                  <label for="workflow_policy_open">and contribute to it</label><br>
-                  <strong class="oc-smallText">OR</strong>
+                  <label for="workflow_policy_open">Anyone can view this project and any OpenPlans member can contribute to it</label>
+                </li>
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
+                  value="medium_policy" checked="checked"/>
+                  <label for="workflow_policy_medium">Anyone can view this project but only team members can contribute to it</label>
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
@@ -96,13 +95,46 @@
           <fieldset class="oc-boxy">
             <legend class="oc-legend-heading oc-biggerText">Step 3: Tools</legend>
             <ul class="oc-form-radiolist oc-form-fieldBlock" >
-              <li>
-                <input type="checkbox" class="oc-input-typeCheck" id="tasktracker" name="featurelets:list" value="tasks" checked="true" />
-                <label for="tasktracker">Task lists</label>
+              <li tal:repeat="flet view/featurelets">
+                <input type="checkbox"
+                       class="oc-input-typeCheck oc-js-toggler"
+                       name="featurelets:list"
+                       checked="true"
+                       tal:attributes="id string:oc-js-toggler-${flet/id};
+                                       value flet/id"
+                       />
+                <label tal:attributes="for string:oc-js-toggler-${flet/id}"
+                       tal:content="flet/title"
+                       />
               </li>
-              <li>
-                <input type="checkbox" class="oc-input-typeCheck" id="listen" name="featurelets:list" value="listen" checked="true" />
-                <label for="listen">Mailing lists</label>
+            </ul>
+
+            <fieldset style="margin-top: 10px;"><!-- FIXME: Rollie, make something generic for this-->
+            <legend><strong>Select the home page for your project:</strong></legend>
+
+            <ul class="oc-form-radiolist oc-form-fieldBlock">
+              <li tal:repeat="flet python:view.featurelets(include_wiki=True)">
+                <label tal:attributes="for string:home_${flet/id};
+                                       id string:oc-js-togglee-${flet/id}">
+                <tal:radio-checked condition="flet/checked">
+                    <input type="radio"
+                           class="oc-input-typeRadio"
+                           name="home-page"
+                           checked="true"
+                           tal:attributes="id string:home_${flet/id};
+                                           value flet/url"
+                           />
+                </tal:radio-checked>
+                <tal:radio-not-checked condition="not:flet/checked">
+                    <input type="radio"
+                           class="oc-input-typeRadio"
+                           name="home-page"
+                           tal:attributes="id string:home_${flet/id};
+                                           value flet/url"
+                           />
+                </tal:radio-not-checked>
+                <span tal:replace="flet/title" />
+                </label>
               </li>
             </ul>
           </fieldset>

@@ -1,3 +1,5 @@
+import sys
+import random
 import re
 from types import TupleType, ListType, UnicodeType
 
@@ -98,6 +100,17 @@ nuischema = Schema((
                         ),
                       ),
                     StringField(
+                      'website',
+                      searchable=1,
+                      widget=StringWidget(
+                        label='website',
+                        label_msgid='label_website',
+                        description_msgid='desc_website',
+                        description='website description.',
+                        size=50,
+                        ),
+                      ),
+                    StringField(
                       'background',
                       index='ZCTextIndex,lexicon_id=plone_lexicon,index_type=Cosine Measure|TextIndex:brains',
                       searchable=1,
@@ -177,7 +190,7 @@ class OpenMember(FolderishMember):
         'filter_content_types':1,
         }
 
-    actions = actions
+    actions = actions    
 
     security.declareProtected(ManagePortal, 'getUserConfirmationCode')
     def getUserConfirmationCode(self):
@@ -185,7 +198,11 @@ class OpenMember(FolderishMember):
         Return the user's unique confirmation code to complete
         registration manually
         """
-        return self.UID()
+        return '%sconfirm%s' % (self.UID(), self._confirmation_key)
+
+    security.declareProtected(ManagePortal, 'setUserConfirmationCode')
+    def setUserConfirmationCode(self):
+        self._confirmation_key = '%x' % random.randint(0, sys.maxint)
 
     security.declareProtected(View, 'getActiveTeams')
     def getActiveTeams(self):
@@ -331,8 +348,12 @@ class OpenMember(FolderishMember):
 
     def verifyCredentials(self, credentials):
         """
-        We override the base member's verifyCredentials method to be
-        able to support case insensitive login.
+        We override base member class's verifyCredentials for two reasons:
+
+        o to be able to support case insensitive login.
+
+        o to mark the credentials object to negate a check by the remote
+          auth plug-in
         """
         mbtool = getToolByName(self, MBTOOLNAME)
         login = credentials.get('login')
@@ -348,10 +369,33 @@ class OpenMember(FolderishMember):
         username = self.getUserName()
         if not mbtool.case_sensitive_auth:
             username = username.lower()
-        if login == username and hasher.validate(hashed, password):
-            return True
+        if login == username:
+            # we ARE the right member, block remote auth
+            credentials['opencore_auth_match'] = True
+            if hasher.validate(hashed, password):
+                # AND the password was right
+                return True
+            else:
+                # password was wrong
+                return False
         else:
+            # we're not even the right member object
             return False
-        
+
+    security.declarePrivate('post_validate')
+    def post_validate(self, REQUEST, errors):
+        FolderishMember.post_validate(self, REQUEST, errors)
+        form = REQUEST.form
+        if form.has_key('password'):
+            password = form.get('password', None)
+            confirm = form.get('confirm_password', None)
+            
+            if not errors.get('password', None):
+                if password and password == 'password':
+                    errors['password'] = \
+                        self.translate('id_pass_password',
+                                       default='"password" is not a valid password.',
+                                       domain='remember-plone')
+
 
 atapi.registerType(OpenMember, package=PROJECTNAME)

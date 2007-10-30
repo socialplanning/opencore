@@ -7,6 +7,8 @@ from opencore.interfaces import IAmExperimental
 from PIL import Image
 from StringIO import StringIO
 from lxml.html.clean import clean_html
+from opencore.interfaces.catalog import ILastModifiedAuthorId
+from topp.utils.pretty_date import prettyDate
 
 class WikiBase(BaseView):
 
@@ -42,7 +44,15 @@ class WikiBase(BaseView):
         else:
             return '%s %s- %s' % (context.Title(), mode, self.area.Title())
 
+    def lastModifiedTime(self):
+        return prettyDate(self.context.ModificationDate())
+
+    def lastModifiedAuthor(self):
+        return ILastModifiedAuthorId(self.context)
+
 class WikiView(WikiBase):
+    displayLastModified = True # see wiki_macros.pt
+
     view_attachments_snippet = ZopeTwoPageTemplateFile('attachment-view.pt')
 
 class WikiEdit(WikiBase, OctopoLite):
@@ -90,6 +100,15 @@ class WikiEdit(WikiBase, OctopoLite):
         page_text = new_form['text']
         # XXX check description on news page
         description = new_form.get('description', None)
+        #Between zope and various weird web browsers, the text could
+        #be a str encoded in utf-8.  Let's make sure it's Python
+        #unicode before we pass it to lxml.
+        if isinstance(page_text, str):
+            try:
+                page_text = page_text.decode('utf-8')
+            except UnicodeDecodeError:
+                pass
+            
         clean_text = self._clean_html(page_text)
 
         self.context.setTitle(page_title)
@@ -434,6 +453,8 @@ class InternalLink(WikiBase):
     def file_list(self):
         path = '/'.join(self.context.aq_inner.aq_parent.getPhysicalPath())
         brains = self.catalog(portal_type='Document',
+                              sort_on='sortable_title',
+                              sort_order='ascending',
                               path=path,
                               )
         return [{'url' : brain.getURL(),

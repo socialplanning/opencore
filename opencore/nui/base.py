@@ -3,7 +3,6 @@ some base class for opencore ui work!
 """
 from Acquisition import aq_inner, aq_parent
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFPlone.utils import transaction_note
 from Products.Five import BrowserView
@@ -11,6 +10,9 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
 from opencore.interfaces import IProject 
 from opencore.nui.static import render_static
+from zope.i18nmessageid import Message
+from opencore.i18n import i18n_domain, _
+from opencore.i18n import translate
 from plone.memoize import instance
 from plone.memoize import view 
 from time import strptime
@@ -84,6 +86,18 @@ class BaseView(BrowserView):
         extra_context['macro'] = macro
         return template.pt_render(extra_context=extra_context)
 
+    def translate(self, msgid, domain=i18n_domain, mapping=None,
+                  target_language=None, default=None):
+        """
+        Wrapper around translate machinery which defaults to our i18n
+        domain and the current context object.  Returns instance of
+        unicode type.
+        """
+        context = aq_inner(self.context)
+        kw = dict(domain=domain, mapping=mapping, context=context,
+                  target_language=target_language, default=default)
+        return translate(msgid, **kw)
+
     @property
     def portal_status_message(self):
         if hasattr(self, '_redirected'):
@@ -103,7 +117,15 @@ class BaseView(BrowserView):
     # XXX standardize
     def add_status_message(self, msg):
         plone_utils = self.get_tool('plone_utils')
-        plone_utils.addPortalMessage(_(msg))
+
+        # portal messages don't seem to get translated implicitly
+        # this is why there's an explicit translate here
+        if isinstance(msg, Message):
+            msg = self.translate(msg)
+        else:
+            msg = _(msg)
+
+        plone_utils.addPortalMessage(msg)
 
     addPortalStatusMessage = add_status_message
 
@@ -190,6 +212,8 @@ class BaseView(BrowserView):
                             review_state=default_states)
 
     def project_brains_for(self, member):
+        if not IReMember.providedBy(member):
+            return []
         mships = self.mship_brains_for(member)
         teams = [i.getPath().split('/')[-2] for i in mships]
         projects = self.catalog(portal_type='OpenProject', id=teams)
@@ -227,6 +251,9 @@ class BaseView(BrowserView):
 
 
     def member_info_for_member(self, member):
+        if member == None:
+            # Not logged in.
+            return {}
         result = {}
         if IReMember.providedBy(member):
             id = member.getId()
@@ -251,6 +278,7 @@ class BaseView(BrowserView):
                 background  = member.getBackground(),
                 skills      = member.getSkills(),
                 affiliations= member.getAffiliations(),
+                website     = member.getWebsite(),
                 favorites   = member.getFavorites(),
                 anon_email  = member.getUseAnonByDefault(),
                 )
@@ -288,7 +316,7 @@ class BaseView(BrowserView):
 
         calculated once
         """
-        from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
+        from opencore.interfaces.workflow import IReadWorkflowPolicySupport
         proj_info = {}
         if self.piv.inProject:
             proj = aq_inner(self.piv.project)
@@ -329,6 +357,7 @@ class BaseView(BrowserView):
         view = getMultiAdapter((self.context, self.request), name=name)
         return view.__of__(aq_inner(self.context))
 
+    #egj: piv? miv? these names suck.
     @property
     def piv(self):
         return self.get_view('project_info')
@@ -409,6 +438,7 @@ class BaseView(BrowserView):
     def loggedin(self):
         return not self.membertool.isAnonymousUser()
 
+    #egj: this feels very convoluted, do we need to do it this way?
     # XXX move to member.view
     @view.memoize
     def viewedmember(self):
@@ -505,20 +535,21 @@ class BaseView(BrowserView):
             # get the member object
             id = member
             if not id:
-                messages.append('You need to enter your username.')
+                messages.append(_(u'password_no_username_error', u'You need to enter your username.'))
                 return exit_function()
                 
             member = self.get_tool("membrane_tool")(getUserName=id)
             if not member:
-                messages.append('There is no member named "%s".' % id)
+                messages.append(_(u'password_no_member_error', u'There is no member named "${user_id}".',
+                                  mapping={u'user_id':id}))
                 return exit_function()
             member = member[0].getObject()
 
         if not password or not password2:
-            messages.append("You must enter a password.")
+            messages.append(_(u'password_no_password_error', u"You must enter a password."))
             return exit_function()
         if password != password2:
-            messages.append("Please make sure that both password fields are the same.")
+            messages.append(_(u'password_not_same_error', u"Please make sure that both password fields are the same."))
             return exit_function()
         msg = member.validate_password(password)
         if msg:
@@ -537,12 +568,15 @@ class BaseView(BrowserView):
         <base href="%s/" />
                 <!--[if IE 6]><![endif]><![endif]-->""" % base_url
 
-
-def aq_iface(obj, iface):
-    obj = aq_inner(obj)
-    while obj is not None and not iface.providedBy(obj):
-        obj = aq_parent(obj)
-    return obj
+try:
+    from topp.utils import zutils
+    aq_iface = zutils.aq_iface
+except ImportError:
+    def aq_iface(obj, iface):
+        obj = aq_inner(obj)
+        while obj is not None and not iface.providedBy(obj):
+            obj = aq_parent(obj)
+        return obj
 
 
 def static_txt(fname):
@@ -550,4 +584,3 @@ def static_txt(fname):
     def new_func(self):
         return self.render_static(fname)
     return new_func
-
