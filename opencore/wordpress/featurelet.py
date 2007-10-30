@@ -26,7 +26,7 @@ class WordPressFeaturelet(BaseFeaturelet):
     implements(IFeaturelet)
 
     id = "blog"
-    title = "WordPress"
+    title = "Blog"
     installed_marker = IWordPressFeatureletInstalled
     _required_interfaces = BaseFeaturelet._required_interfaces + (IProject,)
 
