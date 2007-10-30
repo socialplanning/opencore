@@ -156,7 +156,7 @@ the project's contents listing to "Hobbes"::
     ...         'item_type': 'pages'}
     >>> request.form = form
     >>> view()
-    '...'
+    u'...'
 
     >>> page.Title()
     'Hobbes'

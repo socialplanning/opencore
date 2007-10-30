@@ -44,7 +44,7 @@ Test wiki history registrations::
     >>> newSecurityManager(None, nobody)
     >>> history = page.restrictedTraverse('history')
     >>> history()
-    '... There are no previous versions...
+    u'... There are no previous versions...
 
 Test wiki attachment registrations which are not used any more::
 

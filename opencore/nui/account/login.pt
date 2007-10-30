@@ -1,7 +1,7 @@
 <tal:vars define="global fdata view/handle_request;
                   global login view/handle_login" />
 
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
@@ -13,9 +13,9 @@
 
       <div id="oc-content-sidebar">
         <div class="oc-getstarted">
-          <h2>New users</h2>
-          <p>Whether your group is mobilizing voters, planning a protest, or growing a garden, OpenPlans can help you become more effective.</p>
-          <a href="join" class="oc-banana">Join OpenPlans</a>
+          <h2 i18n:translate="login_heading">New users</h2>
+          <p i18n:translate="login_description">Whether your group is mobilizing voters, planning a protest, or growing a garden, OpenPlans can help you become more effective.</p>
+          <a i18n:translate="login_join" href="join" class="oc-banana">Join OpenPlans</a>
         </div>
       </div><!-- end #content-sidebar -->
 

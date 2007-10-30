@@ -1,17 +1,17 @@
-<div id="oc-footer">
+<div i18n:domain="opencore" id="oc-footer">
   <ul class="oc-smallText">
-    <li><a tal:attributes="href string:${here/portal_url}/about">about</a></li>
-    <li><a tal:attributes="href string:${here/portal_url}/contact">contact</a></li>
-    <li><a tal:attributes="href string:${here/portal_url}/news">news</a></li>
+    <li><a i18n:translate="footer_about_link" tal:attributes="href string:${here/portal_url}/about">about</a></li>
+    <li><a i18n:translate="footer_contact_link" tal:attributes="href string:${here/portal_url}/contact">contact</a></li>
+    <li><a i18n:translate="footer_news_link" tal:attributes="href string:${here/portal_url}/news">news</a></li>
     <!-- <li><a tal:attributes="href string:${here/portal_url}/legal">legal</a></li> -->
     <!-- <li><a tal:attributes="href string:${here/portal_url}/privacy">privacy</a></li> -->
   </ul>
 
   <div id="oc-footer-about" class="oc-smallText">
-    OpenPlans is
-    <a tal:attributes="href string:${here/portal_url}/people" tal:content="string:${view/nusers} people" /> and
-    <a tal:attributes="href string:${here/portal_url}/projects" tal:content="string:${view/projects_served_count} projects" /> since
-    <span tal:replace="string:${view/dob}" />.<br />
-    &copy; 2007 <a href="http://topp.openplans.org/">The Open Planning Project</a>
+    <span i18n:translate="footer_openplans_is">OpenPlans is
+    <a i18n:name="num_people" tal:attributes="href string:${here/portal_url}/people" tal:content="string:${view/nusers}" /> people and
+    <a i18n:name="num_projects" tal:attributes="href string:${here/portal_url}/projects" tal:content="string:${view/projects_served_count}" /> projects since
+    <span i18n:name="date_of_birth" tal:replace="string:${view/dob}" />.</span><br />
+    <span i18n:translate="footer_copyright">&copy; 2007 <a href="http://topp.openplans.org/">The Open Planning Project</a></span>
   </div>
 </div>

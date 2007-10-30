@@ -14,7 +14,7 @@
               tal:attributes="action view/name">
           <input type="hidden" name="set_flets" value="1"/>
           <fieldset class="oc-boxy">
-            <legend  class="oc-legend-heading oc-biggerText">Step 1: Basics</legend>
+            <legend i18n:translate="" class="oc-legend-heading oc-biggerText">Step 1: Basics</legend>
             <table class="oc-form">
               <tbody>
                 <tr class="oc-form-row">

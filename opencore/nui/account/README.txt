@@ -214,9 +214,9 @@ Test what happens when both passwords are blank
     ...                     email='foo@example.com',
     ...                     )
     >>> view.create_member()
-    {'password': 'Please enter a password'}
+    {'password': u'no_password'}
     >>> view.errors
-    {'password': 'Please enter a password'}
+    {'password': u'no_password'}
     >>> request.form.update(password='freddy',
     ...                     confirm_password='freddy',
     ...                     )

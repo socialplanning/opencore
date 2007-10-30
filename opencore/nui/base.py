@@ -3,7 +3,6 @@ some base class for opencore ui work!
 """
 from Acquisition import aq_inner, aq_parent
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFPlone.utils import transaction_note
 from Products.Five import BrowserView
@@ -11,7 +10,8 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
 from opencore.interfaces import IProject 
 from opencore.nui.static import render_static
-from opencore.i18n import i18n_domain
+from zope.i18nmessageid import Message
+from opencore.i18n import i18n_domain, _
 from opencore.i18n import translate
 from plone.memoize import instance
 from plone.memoize import view 
@@ -115,12 +115,16 @@ class BaseView(BrowserView):
         return msgs
 
     # XXX standardize
-    def add_status_message(self, msg=None, msgid=None, **kw):
+    def add_status_message(self, msg):
         plone_utils = self.get_tool('plone_utils')
-        if msgid is not None:
-            msg = self.translate(msgid, **kw)
+
+        # portal messages don't seem to get translated implicitly
+        # this is why there's an explicit translate here
+        if isinstance(msg, Message):
+            msg = self.translate(msg)
         else:
             msg = _(msg)
+
         plone_utils.addPortalMessage(msg)
 
     addPortalStatusMessage = add_status_message
@@ -531,20 +535,21 @@ class BaseView(BrowserView):
             # get the member object
             id = member
             if not id:
-                messages.append('You need to enter your username.')
+                messages.append(_(u'password_no_username_error', u'You need to enter your username.'))
                 return exit_function()
                 
             member = self.get_tool("membrane_tool")(getUserName=id)
             if not member:
-                messages.append('There is no member named "%s".' % id)
+                messages.append(_(u'password_no_member_error', u'There is no member named "${user_id}".',
+                                  mapping={u'user_id':id}))
                 return exit_function()
             member = member[0].getObject()
 
         if not password or not password2:
-            messages.append("You must enter a password.")
+            messages.append(_(u'password_no_password_error', u"You must enter a password."))
             return exit_function()
         if password != password2:
-            messages.append("Please make sure that both password fields are the same.")
+            messages.append(_(u'password_not_same_error', u"Please make sure that both password fields are the same."))
             return exit_function()
         msg = member.validate_password(password)
         if msg:
@@ -579,4 +584,3 @@ def static_txt(fname):
     def new_func(self):
         return self.render_static(fname)
     return new_func
-

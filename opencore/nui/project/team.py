@@ -9,6 +9,7 @@ from opencore.interfaces.event import ChangedTeamRolesEvent
 from opencore.configuration import DEFAULT_ROLES
 from opencore.content.membership import OpenMembership
 from opencore.nui import formhandler
+from opencore.nui.base import _
 from opencore.nui.email_sender import EmailSender
 from opencore.nui.main import SearchView
 from opencore.nui.main.search import searchForPerson
@@ -52,13 +53,13 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
         """ if already logged in / member of project, redirect appropriately """
         # if not logged in, redirect to the login form
         if not self.loggedin:
-            self.add_status_message(msgid='please_sign_in')
+            self.add_status_message(_(u'team_please_sign_in', u'Please sign in to continue.'))
             self.redirect('%s/login?came_from=%s' % (self.siteURL, self.request.ACTUAL_URL))
             return
         # if already a part of the team, redirect to project home page
         if self.member_info['id'] in self.team.getActiveMemberIds():
-            self.add_status_message(msgid='already_project_member',
-                                        default='You are already a member of this project.')
+            self.add_status_message(_(u'team_already_project_member',
+                                        u'You are already a member of this project.'))
             self.redirect('%s?came_from=%s' % (self.context.absolute_url(), self.request.ACTUAL_URL))
         return super(RequestMembershipView, self).__call__()
 
@@ -70,7 +71,7 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
         if self.loggedin:
             joined = self.team.join()
         else:
-            self.add_status_message(msgid='please_sign_in')
+            self.add_status_message(_(u'team_please_sign_in', u'Please sign in to continue.'))
             self.redirect('%s/login?came_from=%s' % (self.siteURL, self.request.ACTUAL_URL))
             return
 
@@ -85,11 +86,9 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
                                                     **email_vars)
             request_message = self.request.form.get('request-message')
             if request_message:
-                # adding the two Message objects together creates a unicode
-                # type, must instantiate a new Message
-                email_msg += sender.constructMailMessage('mship_request_message')
                 email_vars.update(member_message=detag(request_message))
-                email_msg = Message(email_msg, mapping=email_vars)
+                email_msg += sender.constructMailMessage('mship_request_message', **email_vars)
+
 
             mto = self.team.get_admin_ids()
 
@@ -98,14 +97,13 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
                     sender.sendEmail(recipient, msg=email_msg, **email_vars)
                 except MailHostError:
                     pass
-            psmid = 'proj_join_request_sent'
+            self.add_status_message(_(u'team_proj_join_request_sent', u'Your request to join "${project_title}" has been sent to the project administrator(s).',
+                                      mapping={'project_title':self.context.Title()}))
         else:
             psmid = 'already_proj_member'
+            self.add_status_message(_(u'team_already_proj_member', u'You are already a pending or active member of ${project_title}.',
+                                      mapping={'project_title':self.context.Title()}))
 
-        self.add_status_message(msgid=psmid,
-                                mapping={'project_title':
-                                         self.context.Title()}
-                                    )
         self.template = None # don't render the form before the redirect
         self.redirect(self.context.absolute_url())
 
