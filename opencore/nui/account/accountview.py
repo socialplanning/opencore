@@ -467,12 +467,12 @@ class ForgotLoginView(AccountView):
 
         try:
             pwt = self.get_tool("portal_password_reset")
-            mail_text = self.render_static("account_forgot_password_email.txt")
-            mail_text += self.reset_url
+            mail_text = _(u'email_forgot_password', u'You requested a password reminder for your OpenPlans account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}',
+                          mapping={u'url':self.reset_url})
             sender = EmailSender(self, secureSend=True)
             sender.sendEmail(mto=email, 
                         msg=mail_text,
-                        subject=_(u'email_pass_reminder_subject', u'OpenPlans - Password reminder'))
+                        subject=_(u'email_forgot_password_subject', u'OpenPlans - Password reminder'))
         except SMTPRecipientsRefused:
             # Don't disclose email address on failure
             # XXX is this needed?
