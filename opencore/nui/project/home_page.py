@@ -16,7 +16,7 @@ class HomePage(object):
     adapts(IProject)
     implements(IHomePage)
 
-    _allowed_home_page_re = re.compile("^[\w/:-]*$")
+    _allowed_home_page_re = re.compile("^[\w/:\.-]*$")
 
     def __init__(self, context):
         self.context = context
