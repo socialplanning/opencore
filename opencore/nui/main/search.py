@@ -323,7 +323,6 @@ class HomeView(SearchView):
 
         self.projects_search = ProjectsSearchView(context, request)
 
-    intro = static_txt('main_home_intro.txt')
 
     def recently_updated_projects(self):
         created_brains = self.recently_created_projects()

@@ -23,7 +23,9 @@
                     <a class="oc-banana" tal:attributes="href string:${context/portal_url}/projects/create">Start a project</a>
                   </li>
             </ul>
-            <div tal:replace="structure view/intro" />
+            <div>
+	      <p>OpenPlans is a platform for social activism.</p><p>You want to <strong>make a difference</strong>, we want to <strong>make it easy</strong>. OpenPlans is the simple way to bring groups together, promote your cause, make plans, and get things done.</p>
+	    </div>
           </div><!-- oc-home-content -->
         
         <div class="oc-home-columnGroup oc-clearAfter">
