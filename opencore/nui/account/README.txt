@@ -394,7 +394,7 @@ Logged out user:
     >>> jsview = portal.restrictedTraverse('@@user.js')
     >>> output = jsview()
     >>> print normalize_whitespace(output)
-    OpenCore.login({
+    OpenCore.prepareform({
     loggedin: false
     });
 
@@ -403,7 +403,7 @@ Logged in user:
     >>> self.login()
     >>> output = jsview()
     >>> print normalize_whitespace(output)
-    OpenCore.login({
+    OpenCore.prepareform({
     loggedin: true,
     id: 'test_user_1_',
     name: '',
