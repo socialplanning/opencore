@@ -156,7 +156,7 @@ Try setting a bogus title::
     >>> view.request.form['title'] = '?'
     >>> out = view.handle_request()
     >>> view.errors
-    {'title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
+    {'title': u'err_project_name'}
     >>> view.errors = {}
 
 Clear old PSMs
@@ -170,7 +170,7 @@ Now set a valid title::
     >>> view.handle_request()
     >>> del view._redirected 
     >>> view.portal_status_message
-    [u'The title has been changed.', u'The security policy has been changed.', u'Mailing lists feature has been removed.']
+    [u'The security policy has been changed.', u'The title has been changed.', u'Mailing lists feature has been removed.']
 
     >>> view.errors
     {}

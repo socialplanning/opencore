@@ -23,9 +23,8 @@ from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 
 from opencore.project.utils import get_featurelets
 from opencore.tasktracker import uri as tt_uri
-from opencore.i18n import _
 from opencore.nui import formhandler
-from opencore.nui.base import BaseView
+from opencore.nui.base import BaseView, _
 from opencore.nui.formhandler import OctopoLite, action
 from opencore.nui.project.utils import vdict
 from opencore.nui.project.interfaces import IHomePage
@@ -215,7 +214,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
         deleted_objects = []
         
         if not brains:
-            self.add_status_message(u'Please select items to delete.')
+            self.add_status_message(_(u'psm_no_items_to_delete', u'Please select items to delete.'))
 
         # put obj ids in dict keyed on their parents for optimal batch deletion
         for brain in brains:                
@@ -374,10 +373,10 @@ class ProjectPreferencesView(ProjectBaseView):
         title = strip_extra_whitespace(title)
         self.request.form['title'] = title
         if not valid_project_title(title):
-            self.errors['title'] = 'The project name must contain at least 2 characters with at least 1 letter or number.'
+            self.errors['title'] = _(u'err_project_name', u'The project name must contain at least 2 characters with at least 1 letter or number.')
 
         if self.errors:
-            self.add_status_message(_(u'correct_errors_below', u'Please correct the errors indicated below.'))
+            self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return
 
         allowed_params = set(['__initialize_project__', 'update', 'set_flets', 'title', 'description', 'workflow_policy', 'featurelets', 'home-page'])
@@ -392,9 +391,9 @@ class ProjectPreferencesView(ProjectBaseView):
         #store change status of flet, security, title, description
 
         changed = {
-            _("The title has been changed.") : self.context.title != self.request.form.get('title', self.context.title),
-            _("The description has been changed.") : self.context.description != self.request.form.get('description', self.context.description),
-            _("The security policy has been changed.") : old_workflow_policy != self.request.form['workflow_policy'],            
+            _(u'psm_project_title_changed', u"The title has been changed.") : self.context.title != self.request.form.get('title', self.context.title),
+            _(u'psm_project_desc_changed', u"The description has been changed.") : self.context.description != self.request.form.get('description', self.context.description),
+            _(u'psm_security_changed', u"The security policy has been changed.") : old_workflow_policy != self.request.form['workflow_policy'],            
             }
         
         old_featurelets = set([(x['name'], x['title']) for x in get_featurelets(self.context)])
@@ -405,11 +404,13 @@ class ProjectPreferencesView(ProjectBaseView):
 
         for flet in featurelets:
             if flet not in old_featurelets:
-                changed[_('%s feature has been added.' % flet[1])] = 1
+                changed[_(u'psm_featurelet_added', u'${flet} feature has been added.',
+                          mapping={u'flet':flet[1]})] = 1
         
         for flet in old_featurelets:
             if flet not in featurelets:
-                changed[_('%s feature has been removed.' % flet[1])] = 1
+                changed[_(u'psm_featurelet_removed', u'${flet} feature has been removed.',
+                          mapping={u'flet':flet[1]})] = 1
 
         
         for field, changed in changed.items():
@@ -422,7 +423,8 @@ class ProjectPreferencesView(ProjectBaseView):
         if home_page is not None:
             home_page = '%s/%s' % (self.context.absolute_url(), home_page)
             if hpcontext.home_page != home_page:
-                self.add_status_message(_(u'Project home page set to: <a href="%s">%s</a>' % (home_page, home_page)))
+                self.add_status_message(_(u'psm_proj_homepage_change', u'Project home page set to: <a href="${homepage}">${homepage}</a>',
+                                          mapping={u'homepage':home_page}))
                 hpcontext.home_page = home_page
 
 
@@ -497,7 +499,7 @@ class ProjectAddView(BaseView, OctopoLite):
                 self.errors['id'] = 'The requested url is already taken.'
 
         if self.errors:
-            self.add_status_message(_(u'correct_errors_below', u'Please correct the errors indicated below.'))
+            self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return
 
         proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
@@ -505,7 +507,7 @@ class ProjectAddView(BaseView, OctopoLite):
         # XXX is no validation better than an occasional ugly error?
         #proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
-            self.add_status_message(_(u'correct_errors_below', u'Please correct the errors indicated below.'))
+            self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return 
 
         self.context.portal_factory.doCreate(proj, id_)

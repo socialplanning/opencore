@@ -1,28 +1,15 @@
-# Translation of opencore.pot to English
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenCore\n"
-"POT-Creation-Date: 2007-10-15 23:20+0000\n"
-"PO-Revision-Date: 2007-10-29 13:52-0500\n"
+"Project-Id-Version: opencore\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2007-10-30 14:13-0500\n"
 "Last-Translator: \n"
-"Language-Team: \n"
+"Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"Language-Code: en\n"
-"Language-Name: English\n"
-"Preferred-Encodings: utf-8\n"
-"Domain: opencore\n"
-"X-Is-Fallback-For: en-au en-bz en-ca en-ie en-jm en-nz en-ph en-za en-tt en-gb en-us en-zw\n"
-
-#: nui/project/view.py:397
-msgid "%s feature has been added."
-msgstr ""
-
-#: nui/project/view.py:401
-msgid "%s feature has been removed."
-msgstr ""
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
 
 #: siteui/interfaces.py:130
 msgid "Create test content"
@@ -32,7 +19,7 @@ msgstr ""
 msgid "Id"
 msgstr ""
 
-#: listen/interfaces.py:23
+#: listen/interfaces.py:16
 msgid "List Address Prefix"
 msgstr ""
 
@@ -56,34 +43,17 @@ msgstr ""
 msgid "Please create example projects and members"
 msgstr ""
 
-#: nui/project/view.py:385
-msgid "The description has been changed."
-msgstr ""
-
 #: siteui/interfaces.py:117
 msgid "The object id."
 msgstr ""
 
-#: listen/interfaces.py:24
+#: listen/interfaces.py:17
 msgid "The prefix portion of the main address for the mailing list."
-msgstr ""
-
-#: nui/project/view.py:386
-msgid "The security policy has been changed."
-msgstr ""
-
-#: nui/project/view.py:384
-msgid "The title has been changed."
 msgstr ""
 
 #: siteui/interfaces.py:123
 msgid "Title"
 msgstr ""
-
-#. Default: "Please correct the errors indicated below."
-#: nui/project/view.py:369
-msgid "correct_errors_below"
-msgstr "Please correct the errors indicated below."
 
 #. Default: "Subject: OpenPlans - Invitation to join  ${project_title}\n\nThe invitation extended to you to join \"${project_title}\" on OpenPlans has been revoked.\n"
 #: nui/project/mship_messages.py:23
@@ -116,7 +86,7 @@ msgid "email_mship_request_message"
 msgstr ""
 
 #. Default: "OpenPlans - Password reminder"
-#: nui/account/accountview.py:456
+#: nui/account/accountview.py:475
 msgid "email_pass_reminder_subject"
 msgstr ""
 
@@ -136,13 +106,78 @@ msgid "email_request_denied"
 msgstr ""
 
 #. Default: "You recently signed up to use OpenPlans.org. \n\nPlease confirm your email address at the following address: ${url}\n\nIf you cannot click on the link, you can cut and paste it into your browser's address bar.\n\nOnce you have confirmed, you can start using OpenPlans.\n\nIf you did not initiate this request or believe it was sent in error you can safely ignore this message.\n\nCheers,\nThe OpenPlans Team\nwww.openplans.org"
-#: nui/account/accountview.py:106
+#: nui/account/accountview.py:110
 msgid "email_to_pending_user"
 msgstr ""
 
 #. Default: "Welcome to OpenPlans! - Confirm your email"
-#: nui/account/accountview.py:123
+#: nui/account/accountview.py:127
 msgid "email_to_pending_user_subject"
+msgstr ""
+
+#. Default: "The project name must contain at least 2 characters with at least 1 letter or number."
+#: nui/project/view.py:376
+msgid "err_project_name"
+msgstr ""
+
+#. Default: "404 Not Found"
+#: nui/error/error.pt:38
+msgid "error_404"
+msgstr ""
+
+#. Default: "The item you requested does not exist on this server or cannot be served."
+#: nui/error/error.pt:18
+msgid "error_description_1"
+msgstr ""
+
+#. Default: "Please double check the web address or use the search function on this page to find what you are looking for."
+#: nui/error/error.pt:22
+msgid "error_description_2"
+msgstr ""
+
+#. Default: "If you know you have the correct web address but are encountering an error, please contact the ${site_admin}."
+#: nui/error/error.pt:28
+msgid "error_description_3"
+msgstr ""
+
+#. Default: "Our apologies..."
+#: nui/error/error.pt:16
+msgid "error_heading"
+msgstr ""
+
+#. Default: "Error Message"
+#: nui/error/error.pt:63
+msgid "error_message"
+msgstr ""
+
+#. Default: "This site encountered an error trying to fulfill your request. The errors were:"
+#: nui/error/error.pt:48
+msgid "error_site_description"
+msgstr ""
+
+#. Default: "Site error"
+#: nui/error/error.pt:46
+msgid "error_site_heading"
+msgstr ""
+
+#. Default: "Thank you."
+#: nui/error/error.pt:34
+msgid "error_thank_you"
+msgstr ""
+
+#. Default: "Request made at"
+#: nui/error/error.pt:82
+msgid "error_time"
+msgstr ""
+
+#. Default: "Error Type"
+#: nui/error/error.pt:54
+msgid "error_type"
+msgstr ""
+
+#. Default: "Error Value"
+#: nui/error/error.pt:73
+msgid "error_value"
 msgstr ""
 
 #. Default: "about"
@@ -165,10 +200,20 @@ msgstr ""
 msgid "footer_news_link"
 msgstr ""
 
-#. Default: "OpenPlans is ${num_people} people and ${num_projects} projects since ${date_of_birth}."
-#: nui/footer.pt:14
+#. Default: "${num_people} people"
+#: nui/footer.pt:12
+msgid "footer_num_people"
+msgstr ""
+
+#. Default: "${num_projects} projects"
+#: nui/footer.pt:13
+msgid "footer_num_projects"
+msgstr ""
+
+#. Default: "OpenPlans is"
+#: nui/footer.pt:11
 msgid "footer_openplans_is"
-msgstr "OpenPlans is ${num_people} people and ${num_projects} projects since ${date_of_birth}."
+msgstr ""
 
 #. Default: "Join OpenPlans"
 #: nui/account/forgot.pt:15
@@ -265,6 +310,11 @@ msgstr ""
 msgid "join_username_label"
 msgstr ""
 
+#. Default: "Site Administration"
+#: nui/error/error.pt:29
+msgid "label_site_admin"
+msgstr ""
+
 #. Default: "Whether your group is mobilizing voters, planning a protest, or growing a garden, OpenPlans can help you become more effective."
 #: nui/account/login.pt:17
 msgid "login_description"
@@ -306,27 +356,27 @@ msgid "login_snippet_username_label"
 msgstr ""
 
 #. Default: "Please enter a password"
-#: nui/account/accountview.py:275
+#: nui/account/accountview.py:279
 msgid "no_password"
 msgstr ""
 
 #. Default: "There is no member named \"${user_id}\"."
-#: nui/base.py:539
+#: nui/base.py:543
 msgid "password_no_member_error"
 msgstr ""
 
 #. Default: "You must enter a password."
-#: nui/base.py:545
+#: nui/base.py:549
 msgid "password_no_password_error"
 msgstr ""
 
 #. Default: "You need to enter your username."
-#: nui/base.py:534
+#: nui/base.py:538
 msgid "password_no_username_error"
 msgstr ""
 
 #. Default: "Please make sure that both password fields are the same."
-#: nui/base.py:548
+#: nui/base.py:552
 msgid "password_not_same_error"
 msgstr ""
 
@@ -356,82 +406,112 @@ msgid "pending_send_another_activation"
 msgstr ""
 
 #. Default: "\"${title}\" has been created. Create a team by searching for other members to invite to your project, then <a href=\"${proj_edit_url}\">edit your project home page</a>."
-#: nui/project/view.py:477
+#: nui/project/view.py:525
 msgid "project_created"
-msgstr "\"${title}\" has been created. Create a team by searching for other members to invite to your project, then <a href=\"${proj_edit_url}\">edit your project home page</a>."
+msgstr ""
 
 #. Default: "Your account has not yet been activated. An email was sent to ${user} from ${email_from_address} containing a link to activate your account."
-#: nui/account/accountview.py:150
+#: nui/account/accountview.py:154
 msgid "psm_account_not_activated"
 msgstr ""
 
-#. Default: "We can't find your account. This could be because you have not yet completed your email confirmation."
-#: nui/account/accountview.py:475
-msgid "psm_cant_find_account"
-msgstr ""
-
 #. Default: "Please check your username and password. If you still have trouble, you can <a href=\"forgot\">retrieve your sign in information</a>."
-#: nui/account/accountview.py:185
+#: nui/account/accountview.py:189
 msgid "psm_check_username_password"
 msgstr ""
 
+#. Default: "Please correct the errors indicated below."
+#: nui/project/view.py:379
+msgid "psm_correct_errors_below"
+msgstr ""
+
 #. Default: "Denied -- bad key"
-#: nui/account/accountview.py:377
+#: nui/account/accountview.py:382
 msgid "psm_denied"
 msgstr ""
 
 #. Default: "Please enter your username or email address."
-#: nui/account/accountview.py:466
+#: nui/account/accountview.py:485
 msgid "psm_enter_username_email"
 msgstr ""
 
+#. Default: "${flet} feature has been added."
+#: nui/project/view.py:407
+msgid "psm_featurelet_added"
+msgstr ""
+
+#. Default: "${flet} feature has been removed."
+#: nui/project/view.py:412
+msgid "psm_featurelet_removed"
+msgstr ""
+
 #. Default: "Your username is ${user_id}.  If you would like to reset your password, please check your email account for further instructions."
-#: nui/account/accountview.py:418
+#: nui/account/accountview.py:433
 msgid "psm_forgot_login"
 msgstr ""
 
 #. Default: "A new activation email has been sent to ${email} from ${mfrom}. Please follow the link in the email to activate this account."
-#: nui/account/accountview.py:566
+#: nui/account/accountview.py:590
 msgid "psm_new_activation"
 msgstr ""
 
 #. Default: "You have tried to activate an account that is not pending confirmation. Please sign in normally."
-#: nui/account/accountview.py:365
+#: nui/account/accountview.py:370
 msgid "psm_not_pending_account"
 msgstr ""
 
 #. Default: "You do not have sufficient permissions."
-#: nui/account/accountview.py:249
+#: nui/account/accountview.py:253
 msgid "psm_not_sufficient_perms"
 msgstr ""
 
 #. Default: "Your password reset request has expired. You can <a href=\"login\">sign in</a> again using your old username and password or <a href=\"forgot\">request a new password</a> again."
-#: nui/account/accountview.py:505
+#: nui/account/accountview.py:529
 msgid "psm_pass_reset_expired"
 msgstr ""
 
 #. Default: "Password reset attempt failed. Did you mistype your username or password?"
-#: nui/account/accountview.py:501
+#: nui/account/accountview.py:525
 msgid "psm_pass_reset_fail"
 msgstr ""
 
 #. Default: "Welcome! Your password has been reset, and you are now signed in."
-#: nui/account/accountview.py:515
+#: nui/account/accountview.py:539
 msgid "psm_password_reset"
 msgstr ""
 
+#. Default: "Project home page set to: <a href=\"${homepage}\">${homepage}</a>"
+#: nui/project/view.py:426
+msgid "psm_proj_homepage_change"
+msgstr ""
+
+#. Default: "The description has been changed."
+#: nui/project/view.py:395
+msgid "psm_project_desc_changed"
+msgstr ""
+
+#. Default: "The title has been changed."
+#: nui/project/view.py:394
+msgid "psm_project_title_changed"
+msgstr ""
+
+#. Default: "The security policy has been changed."
+#: nui/project/view.py:396
+msgid "psm_security_changed"
+msgstr ""
+
 #. Default: "You have signed out."
-#: nui/account/accountview.py:224
+#: nui/account/accountview.py:228
 msgid "psm_signed_out"
 msgstr ""
 
 #. Default: "Welcome! You have signed in."
-#: nui/account/accountview.py:163
+#: nui/account/accountview.py:167
 msgid "psm_signin_welcome"
 msgstr ""
 
 #. Default: "Thanks for joining OpenPlans, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account."
-#: nui/account/accountview.py:306
+#: nui/account/accountview.py:311
 msgid "psm_thankyou_for_joining"
 msgstr ""
 
@@ -453,5 +533,25 @@ msgstr ""
 #. Default: "Username"
 #: nui/account/reset-password.pt:28
 msgid "reset-password_username_label"
+msgstr ""
+
+#. Default: "You are already a pending or active member of ${project_title}."
+#: nui/project/team.py:104
+msgid "team_already_proj_member"
+msgstr ""
+
+#. Default: "You are already a member of this project."
+#: nui/project/team.py:61
+msgid "team_already_project_member"
+msgstr ""
+
+#. Default: "Please sign in to continue."
+#: nui/project/team.py:56
+msgid "team_please_sign_in"
+msgstr ""
+
+#. Default: "Your request to join \"${project_title}\" has been sent to the project administrator(s)."
+#: nui/project/team.py:100
+msgid "team_proj_join_request_sent"
 msgstr ""
 

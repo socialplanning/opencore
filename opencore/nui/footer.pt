@@ -8,10 +8,10 @@
   </ul>
 
   <div id="oc-footer-about" class="oc-smallText">
-    <span i18n:translate="footer_openplans_is">OpenPlans is
-    <a i18n:name="num_people" tal:attributes="href string:${here/portal_url}/people" tal:content="string:${view/nusers}" /> people and
-    <a i18n:name="num_projects" tal:attributes="href string:${here/portal_url}/projects" tal:content="string:${view/projects_served_count}" /> projects since
-    <span i18n:name="date_of_birth" tal:replace="string:${view/dob}" />.</span><br />
-    <span i18n:translate="footer_copyright">&copy; 2007 <a href="http://topp.openplans.org/">The Open Planning Project</a></span>
+    <span i18n:translate="footer_openplans_is" tal:omit-tag="">OpenPlans is</span>
+    <a i18n:translate="footer_num_people" tal:attributes="href string:${here/portal_url}/people"><span i18n:name="num_people" tal:replace="string:${view/nusers}"/> people</a> and
+    <a i18n:translate="footer_num_projects" tal:attributes="href string:${here/portal_url}/projects"><span i18n:name="num_projects" tal:replace="string:${view/projects_served_count}"/> projects</a> since
+    <span tal:replace="string:${view/dob}" />.<br />
+    <span i18n:translate="footer_copyright" tal:omit-tag="">&copy; 2007 <a href="http://topp.openplans.org/">The Open Planning Project</a></span>
   </div>
 </div>
