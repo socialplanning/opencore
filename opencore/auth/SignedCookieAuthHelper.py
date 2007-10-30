@@ -76,12 +76,13 @@ def manage_addSignedCookieAuthHelper(self, id, title='',
 from Globals import DTMLFile
 manage_addSignedCookieAuthHelperForm = DTMLFile("../zmi/SignedCookieAuthHelperForm", globals())
 
+from opencore.configuration import utils as conf_utils 
+
 def get_secret_file_name():
-    cfg = config.getConfiguration().product_config.get('opencore.auth')
-    if cfg:
-        return cfg.get('topp_secret_filename', '')
-    else:
-        return os.path.join(os.environ.get('INSTANCE_HOME'), 'secret.txt')
+    filename = conf_utils.product_config('topp_secret_filename', 'opencore.auth')
+    if filename:
+        return filename
+    return os.path.join(os.environ.get('INSTANCE_HOME'), 'secret.txt')
 
 def get_secret():
     secret_file_name = get_secret_file_name()
