@@ -1,9 +1,0 @@
-[default]
-title=Contact Project Administrators
-
-[validators]
-validators=validate_contact_project_admins
-
-[actions]
-action.success=traverse_to:string:sendto_project_admins
-action.failure=traverse_to:string:contact_project_admins
