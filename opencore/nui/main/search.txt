@@ -246,11 +246,6 @@ Test the news view::
    >>> view.news_items()
    []
 
-Check our static content::
-
-   >>> view.sidebar()
-   '...'
-
 We shouldn't have an add link because we're not the admin
    >>> result = view()
    >>> 'Add news item...' in result
