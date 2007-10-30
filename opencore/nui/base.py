@@ -9,7 +9,6 @@ from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
 from opencore.interfaces import IProject 
-from opencore.nui.static import render_static
 from zope.i18nmessageid import Message
 from opencore.i18n import i18n_domain, _
 from opencore.i18n import translate
@@ -36,7 +35,6 @@ class BaseView(BrowserView):
     defaultPortraitURL = '++resource++img/default-portrait.gif'
     defaultPortraitThumbURL = '++resource++img/default-portrait-thumb.gif'
     windowTitleSeparator = ' :: '
-    render_static = staticmethod(render_static)
     truncate = staticmethod(truncate)
     txn_note = staticmethod(transaction_note)
     site_iface = IPloneSiteRoot
@@ -577,10 +575,3 @@ except ImportError:
         while obj is not None and not iface.providedBy(obj):
             obj = aq_parent(obj)
         return obj
-
-
-def static_txt(fname):
-    """module level cache?"""
-    def new_func(self):
-        return self.render_static(fname)
-    return new_func
