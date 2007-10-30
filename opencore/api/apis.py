@@ -1,6 +1,7 @@
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from opencore.content.membership import OpenMembership
+from opencore.content.member import OpenMember
 
 class XMLView(BrowserView):
     def __init__(self, context, request):
@@ -21,7 +22,8 @@ class MemberInfoXML(XMLView):
 class AllMembersInfoXML(XMLView):
     def members(self):
         membrane_tool = getToolByName(self.context, 'membrane_tool')
-        members = membrane_tool.unrestrictedSearchResults()
+        memtype = OpenMember.portal_type
+        members = membrane_tool.unrestrictedSearchResults(portal_type=memtype)
         return members
     def home_page_for(self, mem):
         #XXX ideally, we would get the home page dynamically for each member
