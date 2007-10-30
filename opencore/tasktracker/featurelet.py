@@ -8,7 +8,7 @@ from memojito import memoizedproperty
 from topp.featurelets.base import BaseFeaturelet
 from topp.featurelets.interfaces import IFeaturelet
 
-from Products.OpenPlans.interfaces import IProject
+from opencore.interfaces import IProject
 
 from opencore.utility.interfaces import IHTTPClient
 from opencore.tasktracker import uri as tt_uri

@@ -83,7 +83,7 @@ class OpenPlansTestCase(ArcheSiteTestCase):
 
     def createClosedProject(self, proj_id):
         proj_folder = self.portal.projects
-        from opencore.interfaces import IAddProject
+        from opencore.interfaces.adding import IAddProject
         IAddProject.providedBy(proj_folder)
 
         proj = proj_folder.restrictedTraverse(

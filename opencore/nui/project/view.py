@@ -16,11 +16,11 @@ from plone.memoize.instance import memoize, memoizedproperty
 from plone.memoize.view import memoize_contextless
 from plone.memoize.view import memoize as req_memoize
 
-from opencore.interfaces import IAddProject
+from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.catalog import IMetadataDictionary 
 from opencore.interfaces.event import AfterProjectAddedEvent, \
       AfterSubProjectAddedEvent
-from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
+from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 
 from opencore.project.utils import get_featurelets
 from opencore.tasktracker import uri as tt_uri

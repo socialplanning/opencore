@@ -9,14 +9,14 @@
       />
 
   <browser:page
-     for="opencore.interfaces.IAddProject"
+     for="opencore.interfaces.adding.IAddProject"
      name="create"
      class=".view.ProjectAddView"
      permission="openplans.AddOpenProject"
      />
 
   <browser:page
-     for="opencore.interfaces.IAddSubProject"
+     for="opencore.interfaces.adding.IAddSubProject"
      name="create_project"
      class=".view.SubProjectAddView"
      permission="openplans.AddSubProject"

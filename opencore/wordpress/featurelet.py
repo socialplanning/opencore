@@ -12,7 +12,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from topp.featurelets.interfaces import IFeaturelet
 from topp.featurelets.base import BaseFeaturelet
 
-from Products.OpenPlans.interfaces import IProject
+from opencore.interfaces import IProject
 
 from opencore.utility.interfaces import IHTTPClient
 

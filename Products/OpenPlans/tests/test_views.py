@@ -16,7 +16,7 @@ from Products.ATContentTypes.content.folder import ATFolder
 
 from Products.Fate.tests.utils import load_string
 
-from opencore.interfaces import IAddProject
+from opencore.interfaces.adding import IAddProject
 from openplanstestcase import OpenPlansTestCase, makeContent
 from sets import Set
 

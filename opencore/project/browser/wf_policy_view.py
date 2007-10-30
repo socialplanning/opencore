@@ -1,8 +1,8 @@
 from Products.Five.browser import BrowserView
 from opencore.lib.wf_policy_support import WFPolicyReadAdapter
 from opencore.lib.wf_policy_support import ProjectWFPolicyWriteAdapter
-from opencore.interfaces import IReadWorkflowPolicySupport
-from opencore.interfaces import IWriteWorkflowPolicySupport
+from opencore.interfaces.workflow import IReadWorkflowPolicySupport
+from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
 from zope.interface import implements
 
 class WorkflowPolicyView(BrowserView, WFPolicyReadAdapter):

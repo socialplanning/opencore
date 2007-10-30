@@ -95,7 +95,7 @@ class OpenPlansLayer(SiteSetupLayer):
         portal.MailHost = portal.oldMailHost
         del portal.oldMailHost
         del portal.browser_id_manager
-
+        raise NotImplementedError
 
 class OpencoreContent(OpenPlansLayer):
     @classmethod
@@ -130,7 +130,9 @@ class MockHTTPWithContent(OpencoreContent):
     def setUp(cls):
         setup_mock_http()
         txn.commit()
-
+    
     @classmethod
     def tearDown(cls):
         raise NotImplementedError
+
+

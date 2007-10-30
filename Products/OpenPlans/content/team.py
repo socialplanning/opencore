@@ -13,7 +13,7 @@ from Products.TeamSpace.exceptions import MemberRoleNotAllowed
 from zope.interface import implements
 from zope.event import notify
 
-from Products.OpenPlans.interfaces import IOpenTeam
+from opencore.interfaces import IOpenTeam
 from Products.OpenPlans.config import DEFAULT_ROLES
 
 from opencore.nui.indexing import queueObjectReindex

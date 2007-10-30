@@ -12,23 +12,23 @@
      />
 
   <browser:page
-     for="Products.OpenPlans.interfaces.IProject"
+     for="opencore.interfaces.IProject"
      class=".wf_policy_view.WorkflowPolicyView"
      permission="zope2.View"
      name="policy_support"
-     allowed_interface="Products.OpenPlans.interfaces.IReadWorkflowPolicySupport"
+     allowed_interface="opencore.interfaces.workflow.IReadWorkflowPolicySupport"
      />
 
   <browser:page
-     for="Products.OpenPlans.interfaces.IProject"
+     for="opencore.interfaces.IProject"
      class=".wf_policy_view.WorkflowPolicyWriterView"
      permission="openplans.ManageWorkflowPolicy"
      name="policy_writer"
-     allowed_interface="Products.OpenPlans.interfaces.IWriteWorkflowPolicySupport"
+     allowed_interface="opencore.interfaces.workflow.IWriteWorkflowPolicySupport"
      />
 
   <browser:page
-     for="Products.OpenPlans.interfaces.IProject"
+     for="opencore.interfaces.IProject"
      class=".featurelet.FeatureletSupporterView"
      permission="zope2.View"
      name="featurelet_support"
@@ -37,7 +37,7 @@
      />
 
   <browser:page
-     for="Products.OpenPlans.interfaces.IProject"
+     for="opencore.interfaces.IProject"
      class=".featurelet.FeatureletMenuView"
      permission="zope2.View"
      name="featurelet_menu"
@@ -63,7 +63,7 @@
 
   <browser:page
      name="add_project"
-     for="opencore.interfaces.IAddProject"
+     for="opencore.interfaces.adding.IAddProject"
      permission="zope2.View"
      class="..browser.ProjectAddView"
      attribute="redirect"
@@ -71,7 +71,7 @@
 
   <fate:addform
      name="do_add_project"
-     for="opencore.interfaces.IAddProject"
+     for="opencore.interfaces.adding.IAddProject"
      permission="zope2.View"
      product="OpenPlans"
      meta_type="OpenProject"
@@ -82,7 +82,7 @@
 
   <fate:addform
      name="add_project"
-     for="opencore.interfaces.IAddSubProject"
+     for="opencore.interfaces.adding.IAddSubProject"
      permission="zope2.View"
      product="OpenPlans"
      meta_type="OpenProject"
@@ -91,7 +91,7 @@
 
   <browser:page 
      name="projects"
-     for="opencore.interfaces.IAddSubProject"
+     for="opencore.interfaces.adding.IAddSubProject"
      class="..browser.SubProjectListingView"
      permission="zope2.View"
      template="subproject_listing.pt" 

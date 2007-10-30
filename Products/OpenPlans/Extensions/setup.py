@@ -27,8 +27,8 @@ from migrate_membership_roles import migrate_membership_roles
 
 from cStringIO import StringIO
 
-from opencore.interfaces import IWriteWorkflowPolicySupport
-from opencore.interfaces import IReadWorkflowPolicySupport
+from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
+from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 
 from Products.OpenPlans.config import PROJECTNAME
 

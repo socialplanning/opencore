@@ -16,7 +16,7 @@ from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.CMFPlone.utils import _createObjectByType
 
 from Products.OpenPlans import config
-from Products.OpenPlans.interfaces import IProject
+from opencore.interfaces import IProject
 from Products.OpenPlans.permissions import CopyOrMove
 from Products.OpenPlans.permissions import ManageWorkflowPolicy
 from Products.TeamSpace.space import TeamSpace

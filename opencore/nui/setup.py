@@ -87,7 +87,7 @@ def move_interface_marking_on_projects_folder(portal):
     #XX needed? test?
     from Products.Five.utilities.marker import erase
     from zope.interface import alsoProvides
-    from opencore.interfaces import IAddProject
+    from opencore.interfaces.adding import IAddProject
     import sys
     import opencore
     sys.modules['Products.OpenPlans.interfaces.adding'] = opencore.interfaces.adding

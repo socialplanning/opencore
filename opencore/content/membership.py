@@ -7,7 +7,8 @@ from Products.TeamSpace.membership import TeamMembership
 from Products.TeamSpace.permissions import ManageTeamMembership
 
 from Products.OpenPlans.config import PROJECTNAME, DEFAULT_ROLES
-from Products.OpenPlans.interfaces import IOpenMembership
+from opencore.interfaces.membership import IOpenMembership
+
 
 class OpenMembership(TeamMembership):
     """

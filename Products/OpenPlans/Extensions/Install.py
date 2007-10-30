@@ -48,9 +48,7 @@ from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from Products.OpenPlans.workflows import MEMBERSHIP_PLACEFUL_POLICIES
 from Products.OpenPlans.Extensions.utils import setupKupu
 
-from opencore.interfaces import IAddProject
-from opencore.interfaces import IAmAPeopleFolder
-from opencore.interfaces import IAmANewsFolder
+from opencore.interfaces.adding import IAddProject, IAmAPeopleFolder, IAmANewsFolder
 from opencore.content.membership import OpenMembership
 from opencore.content.member import OpenMember
 from opencore.auth.SignedCookieAuthHelper import SignedCookieAuthHelper

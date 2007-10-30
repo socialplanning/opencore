@@ -26,7 +26,7 @@ def test_suite():
     from pprint import pprint
     from zope.interface import alsoProvides
     from zope.component import getUtility
-    from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
+    from opencore.interfaces.workflow import IReadWorkflowPolicySupport
     from opencore.testing import utils
     from opencore.nui.indexing import authenticated_memberid
 

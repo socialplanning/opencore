@@ -11,7 +11,7 @@ from Products.CMFCore.interfaces._tools import ICatalogTool
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.CatalogTool import registerIndexableAttribute
 from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
-from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
+from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from Products.ZCatalog.CatalogBrains import AbstractCatalogBrain
 from Products.listen.interfaces import ISearchableArchive
 from Products.listen.interfaces.mailinglist import IMailingList

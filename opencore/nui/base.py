@@ -312,7 +312,7 @@ class BaseView(BrowserView):
 
         calculated once
         """
-        from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
+        from opencore.interfaces.workflow import IReadWorkflowPolicySupport
         proj_info = {}
         if self.piv.inProject:
             proj = aq_inner(self.piv.project)
@@ -563,12 +563,15 @@ class BaseView(BrowserView):
         <base href="%s/" />
                 <!--[if IE 6]><![endif]><![endif]-->""" % base_url
 
-
-def aq_iface(obj, iface):
-    obj = aq_inner(obj)
-    while obj is not None and not iface.providedBy(obj):
-        obj = aq_parent(obj)
-    return obj
+try:
+    from topp.utils import zutils
+    aq_iface = zutils.aq_iface
+except ImportError:
+    def aq_iface(obj, iface):
+        obj = aq_inner(obj)
+        while obj is not None and not iface.providedBy(obj):
+            obj = aq_parent(obj)
+        return obj
 
 
 def static_txt(fname):

@@ -1,6 +1,6 @@
 from Products.CMFCore.utils import getToolByName
 
-from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
+from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 
 def migrate_project_workflow(self):

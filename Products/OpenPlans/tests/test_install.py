@@ -19,7 +19,7 @@ from openplanstestcase import OpenPlansTestCase, makeContent, \
      installConfiguredProducts, ArcheSiteTestCase
 from utils import installConfiguredProducts
 import Products.CMFCore
-from Products.OpenPlans.interfaces import IWriteWorkflowPolicySupport, IReadWorkflowPolicySupport
+from opencore.interfaces.workflow import IWriteWorkflowPolicySupport, IReadWorkflowPolicySupport
 
 installConfiguredProducts()
 
