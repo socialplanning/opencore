@@ -348,8 +348,12 @@ class OpenMember(FolderishMember):
 
     def verifyCredentials(self, credentials):
         """
-        We override the base member's verifyCredentials method to be
-        able to support case insensitive login.
+        We override base member class's verifyCredentials for two reasons:
+
+        o to be able to support case insensitive login.
+
+        o to mark the credentials object to negate a check by the remote
+          auth plug-in
         """
         mbtool = getToolByName(self, MBTOOLNAME)
         login = credentials.get('login')
@@ -365,9 +369,17 @@ class OpenMember(FolderishMember):
         username = self.getUserName()
         if not mbtool.case_sensitive_auth:
             username = username.lower()
-        if login == username and hasher.validate(hashed, password):
-            return True
+        if login == username:
+            # we ARE the right member, block remote auth
+            credentials['opencore_auth_match'] = True
+            if hasher.validate(hashed, password):
+                # AND the password was right
+                return True
+            else:
+                # password was wrong
+                return False
         else:
+            # we're not even the right member object
             return False
 
     security.declarePrivate('post_validate')

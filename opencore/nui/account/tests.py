@@ -19,6 +19,11 @@ if cfg is None:
     config.getConfiguration().product_config['opencore.nui'] = cfg
 cfg['email-confirmation'] = 'True'
 
+# event handler used in the tests
+events_fired = []
+def dummy_handler(obj, event):
+    events_fired.append((obj, event))
+
 def test_suite():
     from Products.Five.utilities.marker import erase as noLongerProvides
     from Products.PloneTestCase import ptc

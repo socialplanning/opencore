@@ -42,6 +42,14 @@
      template="profile.pt"
      />
 
+  <browser:page
+     for="opencore.siteui.interfaces.IMemberFolder"
+     class=".view.ProfileView"
+     permission="zope2.View"
+     name="memberinfo.xml"
+     template="memberinfo.pt"
+     />
+
   <subscriber
      for="opencore.interfaces.membership.IOpenMembership
           opencore.interfaces.event.IChangedTeamRolesEvent"

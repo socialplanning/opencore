@@ -254,14 +254,13 @@ and delete the existing task::
     >>> len([i for i in validate_map.values() if i['html']])
     0
 
-Verify that the proper events gets sent out when a member gets created
-    >>> events_fired = []
-    >>> def event_fired(obj, event):
-    ...     events_fired.append((obj, event))
+Verify that the proper events gets sent out when a member gets created::
+
     >>> from zope.component import provideHandler
+    >>> from opencore.nui.account.tests import dummy_handler, events_fired
     >>> from zope.app.event.interfaces import IObjectCreatedEvent
     >>> from Products.remember.interfaces import IReMember
-    >>> provideHandler(event_fired,
+    >>> provideHandler(dummy_handler,
     ...                adapts=[IReMember, IObjectCreatedEvent])
     
 We need to make the request a POST::
@@ -277,6 +276,9 @@ We need to make the request a POST::
     >>> obj, event = events_fired[0]
     >>> IObjectCreatedEvent.providedBy(event)
     True
+
+We SHOULD be cleaning up our event handler here, but there's no way to unregister
+an event handler in Z2.9, that API landed in Z2.10.
 
 Ensure that you can't join the site with another foobar::
 

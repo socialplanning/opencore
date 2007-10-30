@@ -73,6 +73,20 @@ class HTTPMock(Mock):
     """ 
     A mock object for simulating httplib2.Http objects
     """
+    _resp_content = []
+
+    @classmethod
+    def add_to_response_content(cls, content):
+        cls._resp_content.append(content)
+
+    @property
+    def resp_content(self):
+        if HTTPMock._resp_content:
+            ret = HTTPMock._resp_content[0]
+            HTTPMock._resp_content = HTTPMock._resp_content[1:]
+            return ret
+        return "Mock request succeeded!"
+    
     class MockResponse(object):
         def __init__(self, status=200):
             self.status = status
@@ -81,7 +95,7 @@ class HTTPMock(Mock):
         base_response = Mock.__call__(self, *args, **kw)
         if self.mock_name.endswith("request"):
             response = HTTPMock.MockResponse(200)
-            content = "Mock request succeeded!"
+            content = self.resp_content
             return (response, content)
         return base_response
 
