@@ -29,7 +29,6 @@ setup(name='opencore',
           # -*- Extra requirements: -*-
           'simplejson',
           'decorator',
-          'hprof',
           'topp.featurelets',
           'topp.utils',
           'memojito',
@@ -41,7 +40,8 @@ setup(name='opencore',
           'plone.app.form',
           'borg.localrole==1.0rc1',
           'wsseauth',
-          ]
+          ],
+      extras_require=dict(ubuntu=['hprof'])
       )
 
 
