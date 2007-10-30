@@ -54,7 +54,41 @@
           </p>
            <a tal:attributes="href string:${view/siteURL}/projects/create" class="oc-banana">Start a new project</a>
         </div>
-        <div class="oc-boxy" tal:content="structure python: view.render_static('main_projects_featured_projects.txt')" />
+        <div class="oc-boxy">
+          <h2>Featured projects</h2>
+          <h3>Transportation </h3>
+          <ul style="list-style: none; padding: 0;">
+            <li><a title="Car Free Central Park Main Page" href="projects/carfreepark/project-home" target="_self">Car Free Central Park</a></li>
+            <li><a title="Cadman Park Plaza" href="projects/cadman-park/project-home" target="_self">Cadman Park Plaza - Parking Lot</a></li>
+            <li><a title="Project Home" href="projects/laf-st-bikelane/project-home" target="_self">Lafayette Street Bike Lane</a></li>
+            <li><a title="NYCSR" href="projects/nycstreets/project-home" target="_self">NYC Streets Renaissance Campaign</a></li>
+            <li><a title="Project Home" href="projects/park-and-ride/project-home" target="_self">Park and Ride</a></li>
+            <li><a title="Testimony" href="projects/downtown-brooklyn-ped-plaza/project-home" target="_self">Willoughby Adams Pedestrian Plaza</a></li>
+          </ul>
+          <h3>Community</h3>
+          <ul style="list-style: none; padding: 0;">
+            <li><a title="Clean Up Projects in Pawtucket and the Blackstone Valley" href="projects/pawtucket-clean-up/project-home" target="_self">Pawtucket Clean Up</a></li>
+            <li><a title="Closing the GAP. Creating a Place to Bring Brooklyn Together" href="projects/gap/project-home" target="_self">Grand Army Plaza Reclamation </a></li>
+            <li><a title="Project Home" href="projects/the-campaign/project-home" target="_self">Campaign for Community-Based Planning</a></li>
+            <li><a title="Liz Christy Garden" href="projects/liz-christy-garden/project-home" target="_self">Liz Christie Community Garden</a></li>
+            <li><a title="Mark Lanes in Bay Ridge" href="projects/mark-lanes/project-home" target="_self">Mark Lanes</a></li>
+            <li><a title="Western Virginia Broadband Initiative" href="projects/wwbi/project-home" target="_self">West Virginia Broadband Initiative</a></li>
+          </ul>
+          <h3>Conference, Organization, <br />and Event Planning</h3>
+          <ul style="list-style: none; padding: 0;">
+            <li><a title="Brownstone Brooklyn Traffic Forum" href="../projects/brownstone-brooklyn-traffic/project-home" target="_self">Brownstone Brooklyn Community Forum</a></li>
+            <li><a title="Project Home" href="projects/whereweare/project-home" target="_self">Where We Are</a></li>
+            <li><a title="MAS Exhibition Preparations" href="projects/mas/project-home" target="_self">NYC Streets Renaissance exhibit </a></li>
+            <li><a title="Project Home" href="projects/plone-marketing/project-home" target="_self">Plone Marketing</a></li>
+          </ul>
+          <h3>TOPP Projects</h3>
+          <ul style="list-style: none; padding: 0;">
+            <li><a title="The Open Planning Project" href="projects/topp-the-organization/project-home" target="_self">TOPP: The Organization</a></li>
+            <li><a title="OpenCore Software" href="projects/opencore/project-home" target="_self">OpenCore Software</a></li>
+            <li><a title="TOPP: video production" href="projects/topp-video-production/project-home" target="_self">TOPP Video Production</a></li>
+            <li><a title="wicked : wiki distilled" href="projects/wicked/project-home" target="_self">Wicked : wiki distilled</a></li>
+          </ul>
+	</div>
       </div>
     </div><!-- content-fill-slot -->
     
