@@ -131,11 +131,27 @@ class ProfileView(BaseView):
                 tm.pop(mem_id, self.msg_category, idx)
                 value['excerpt'] = ''
                 tm.store(mem_id, self.msg_category, value)
-            # XXX is there any way to avoid generating html in python code here? usually a bad idea.
+
+                # XXX TODO: We don't want to display escaped HTML entities,
+                # eg. if the comment text contains "I paid &#8364;20
+                # for mine" we want the user to see the euro symbol,
+                # not the entity code.  But we don't want to just
+                # throw them away either.  We could leave the data
+                # alone and use "structure" in the template; but then
+                # we're assuming the data is safe, and it's only as
+                # trustworthy as the openplans user.  Below is some
+                # code that just throws the entities (and all HTML)
+                # away.  Maybe we could convert entities to unicode
+                # prior to or instead of calling detag?  Can do that
+                # using Beautiful Soup, see: http://tinyurl.com/28ugnq
+
+#             from topp.utils.detag import detag
+#             for k, v in value.items():
+#                 if isinstance(v, basestring):
+#                     value[k] = detag(v)
             value['idx'] = 'trackback_%d' % idx
             value['close_url'] = 'trackback-delete?idx=%d' % idx
             value['pub_date']    = prettyDate(value['time'])
-            value['content'] = "<![CDATA[<a href=\"%s\">%s</a> at <span>%s</span> - \"%s\"]]>" % (value['url'], value['title'], value['blog_name'], value['excerpt'])
             addressable_msgs.append(value)
 
         return addressable_msgs
@@ -671,22 +687,21 @@ class TrackbackView(BaseView):
         tm = getUtility(ITransientMessage, context=self.portal)
 
         if self.viewedmember() != self.loggedinmember:
-            self.request.response.setStatus(403)
-            return 'OpenCore.submitstatus(false);'
+            return 'OpenCore.submitstatus(false, "Permission denied");'
 
         # check for all variables
         url = self.request.form.get('commenturl')
         title = self.request.form.get('title')
         blog_name = self.request.form.get('blog_name', 'an unnamed blog')
         comment = self.request.form.get('comment')
+        if None in (url, comment):
+            msg = (url == None) and "url not provided" or "comment not provided"
+            return 'OpenCore.submitstatus(false, "%s")' % msg
         if not title:
             excerpt = comment.split('.')[0]
             title = excerpt[:100]
             if title != excerpt:
                 title += '...'
-        if url is None or comment is None:
-            self.request.response.setStatus(400)
-            return 'OpenCore.submitstatus(false);'
 
         tm.store(mem_id, self.msg_category, {'url':url, 'title':title, 'blog_name':blog_name, 'excerpt':comment, 'time':datetime.now()})
         return 'OpenCore.submitstatus(true);'
