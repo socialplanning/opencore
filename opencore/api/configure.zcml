@@ -27,7 +27,7 @@
 
   <!-- this WILL move. don't rely on it too much -->
   <browser:page
-     for="opencore.interfaces.IAmAPeopleFolder"
+     for="opencore.interfaces.adding.IAmAPeopleFolder"
      permission="cmf.ModifyPortalContent"
      name="all.xml"
      template="all_members_info_xml.pt"
