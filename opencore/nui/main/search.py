@@ -367,8 +367,6 @@ class HomeView(SearchView):
         brains = self.catalog(**query)
         return brains
     
-    aboutus = static_txt('main_home_aboutus.txt')
-
 
 class SitewideSearchView(SearchView):
 
