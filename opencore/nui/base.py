@@ -122,6 +122,8 @@ class BaseView(BrowserView):
         # this is why there's an explicit translate here
         if isinstance(msg, Message):
             msg = self.translate(msg)
+        else:
+            msg = _(msg)
 
         plone_utils.addPortalMessage(msg)
 

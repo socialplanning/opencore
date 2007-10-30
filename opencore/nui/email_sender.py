@@ -1,7 +1,6 @@
 import re
 from types import StringTypes
 from zope.i18nmessageid import Message
-from zope.i18n import translate
 
 from plone.mail import construct_simple_encoded_message
 
@@ -87,7 +86,7 @@ class EmailSender(object):
         msg = getattr(self.messages, msg_id)
         unicode_kwargs = self._unicode_values(kwargs)
         msg = Message(msg, mapping=unicode_kwargs)
-        return msg
+        return self.view.translate(msg)
 
     def sendEmail(self, mto, msg=None, msg_id=None, subject=None,
                   mfrom=None, **kwargs):
@@ -136,7 +135,6 @@ class EmailSender(object):
         else:
             mfrom = self.toEmailAddress(mfrom)
 
-        translated_message = translate(msg)
-        if isinstance(translated_message, unicode):
-            translated_message = translated_message.encode('utf-8')
-        self.send(translated_message, recips, mfrom, subject)
+        if isinstance(msg, unicode):
+            msg = msg.encode('utf-8')
+        self.send(msg, recips, mfrom, subject)
