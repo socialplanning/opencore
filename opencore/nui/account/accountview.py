@@ -64,7 +64,7 @@ class AccountView(BaseView):
         info = self.member_info
         if info:
             return """
-            OpenCore.login({
+            OpenCore.prepareform({
             loggedin: true,
             id: '%(id)s',
             name: '%(fullname)s',
@@ -77,7 +77,7 @@ class AccountView(BaseView):
         else:
             # Not logged in.
             return """
-            OpenCore.login({
+            OpenCore.prepareform({
             loggedin: false
             });
             """
