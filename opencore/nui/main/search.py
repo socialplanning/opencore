@@ -310,7 +310,6 @@ class PeopleSearchView(SearchView):
     def search_for_person(self, person, sort_by=None):
         return searchForPerson(self.membranetool, person, sort_by)
 
-    anonymous_txt = static_txt('main_people_anonymous.txt')
 
 class HomeView(SearchView):
     """zpublisher"""
