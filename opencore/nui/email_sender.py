@@ -120,6 +120,10 @@ class EmailSender(object):
         to_info = None
         if msg is None:
             msg = self.constructMailMessage(msg_id, **kwargs)
+        if isinstance(msg, Message):
+            msg = self.view.translate(msg)
+        if isinstance(subject, Message):
+            subject = self.view.translate(subject)
         if type(mto) in StringTypes:
             mto = (mto,)
         recips = []
@@ -137,4 +141,5 @@ class EmailSender(object):
 
         if isinstance(msg, unicode):
             msg = msg.encode('utf-8')
+
         self.send(msg, recips, mfrom, subject)
