@@ -69,13 +69,11 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
         
 
         if response.status != 200:
-	    raise AssertionError("Project initialization failed: status %d (maybe TaskTracker isn't running?)" % response.status)
+            raise AssertionError("Project initialization failed: status %d (maybe TaskTracker isn't running?)" % response.status)
         return BaseFeaturelet.deliverPackage(self, obj)
 
     def removePackage(self, obj):
         response, content = self._makeHttpReqAsUser(self.uninit_uri, obj=obj)
         if response.status != 200:
-            # @@ raise a real error, por fa
-	    raise AssertionError("Terrible!")
+            raise AssertionError("Error removing tasktracker featurelet")
         return BaseFeaturelet.removePackage(self, obj)
-
