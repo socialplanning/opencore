@@ -405,12 +405,12 @@ class ProjectPreferencesView(ProjectBaseView):
         for flet in featurelets:
             if flet not in old_featurelets:
                 changed[_(u'psm_featurelet_added', u'${flet} feature has been added.',
-                          mapping={u'flet':flet[1]})] = 1
+                          mapping={u'flet':flet[1].capitalize()})] = 1
         
         for flet in old_featurelets:
             if flet not in featurelets:
                 changed[_(u'psm_featurelet_removed', u'${flet} feature has been removed.',
-                          mapping={u'flet':flet[1]})] = 1
+                          mapping={u'flet':flet[1].capitalize()})] = 1
 
         
         for field, changed in changed.items():
