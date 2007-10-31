@@ -1,4 +1,4 @@
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:${view/context/Title} - ${view/area/Title}" />
   </head>
@@ -6,18 +6,18 @@
     <div metal:fill-slot="content">
       <div metal:use-macro="here/@@listen_macros/bcrumb"/>
       <div metal:use-macro="here/@@listen_macros/tabs"/>
-      <div id="oc-content-main" i18n:domain="listen"
+      <div id="oc-content-main" 
         tal:define="messages view/getMessageList;
                     template_id string:by_date;">
         <div class="oc-headingBlock">
-          <h2 i18n:translate="" tal:content="view/Title" />
-          <div class="oc-headingContext oc-smallText">View by <a i18n:translate="" href="../forum_view">conversation</a> or <strong>date</strong> (<strong>flat</strong> or <a id="switch_view" href="by_thread" i18n:translate="">threaded</a>)</div>
+          <h2 tal:content="view/Title" />
+          <div i18n:translate="archive_view_by" class="oc-headingContext oc-smallText">View by <a href="../forum_view">conversation</a> or <strong>date</strong> (<strong>flat</strong> or <a id="switch_view" href="by_thread">threaded</a>)</div>
         </div>
 
           <ul id="message-list" class="oc-plainList">
             <li tal:repeat="message messages">
               <a href="." tal:attributes="href message/url;"
-                 ><strong tal:content="message/subject" i18n:translate="">Re: Subj</strong></a>
+                 ><strong tal:content="message/subject">Re: Subj</strong></a>
               <span class="oc-discreetText">
                 from <a href="."
                    tal:omit-tag="not:message/from_id"
@@ -30,7 +30,7 @@
           </ul>
 
           <p tal:condition="not: messages"
-             i18n:translate="description_no_posts">
+             i18n:translate="archive_no_posts">
             There are currently no posts in this archive.
           </p>
       </div><!-- content-main -->

@@ -1,4 +1,4 @@
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:${view/context/Title} - ${view/area/Title}" />
   </head>
@@ -8,20 +8,19 @@
       <div metal:use-macro="here/@@listen_macros/tabs"/>
       <div id="oc-content-main">
         <div class="oc-headingBlock">
-          <h2 i18n:translate="" tal:content="view/Title" />
-          <div class="oc-headingContext oc-smallText">View by <a i18n:translate="" href="forum_view">conversation</a> or <strong>date</strong></div>
+          <h2 tal:content="view/Title" />
+          <div i18n:translate="archive_date_view_by" class="oc-headingContext oc-smallText">View by <a href="forum_view">conversation</a> or <strong>date</strong></div>
         </div>
-        <div tal:define="dates view/getAvailableDates; template_id string:date_view;" i18n:domain="listen">
+        <div tal:define="dates view/getAvailableDates; template_id string:date_view;">
           <ul id="archive-folders" class="oc-listen-archive-dateview">
             <li tal:repeat="year dates" >
               <div class="oc-headingBlock">
                 <h2 tal:content="year/title" />
-                  <a href="." tal:attributes="href year/url">view all</a>
+                  <a i18n:translate="archive_date_view_all" href="." tal:attributes="href year/url">view all</a>
               </div>
               <ul tal:condition="year/children" class="oc-plainList">
                 <li tal:repeat="month year/children">
                   <a href="."
-                    i18n:translate=""
                     tal:attributes="href month/url"
                     tal:content="python: month['title'] or default">
                     (No Subject)
@@ -32,7 +31,7 @@
           </ul>
 
           <p tal:condition="not: dates"
-            i18n:translate="description_no_posts">
+            i18n:translate="archive_no_posts">
             There are currently no posts in this archive.
           </p>
         </div>

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2007-10-30 19:54+0000\n"
+"POT-Creation-Date: 2007-10-30 22:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -380,22 +380,22 @@ msgid "no_password"
 msgstr ""
 
 #. Default: "There is no member named \"${user_id}\"."
-#: ./opencore/nui/base.py:543
+#: ./opencore/nui/base.py:541
 msgid "password_no_member_error"
 msgstr ""
 
 #. Default: "You must enter a password."
-#: ./opencore/nui/base.py:549
+#: ./opencore/nui/base.py:547
 msgid "password_no_password_error"
 msgstr ""
 
 #. Default: "You need to enter your username."
-#: ./opencore/nui/base.py:538
+#: ./opencore/nui/base.py:536
 msgid "password_no_username_error"
 msgstr ""
 
 #. Default: "Please make sure that both password fields are the same."
-#: ./opencore/nui/base.py:552
+#: ./opencore/nui/base.py:550
 msgid "password_not_same_error"
 msgstr ""
 

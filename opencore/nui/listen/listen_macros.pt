@@ -8,32 +8,32 @@
 <!-- END LISTEN BCRUMB -->
 
 <!-- BEGIN LISTEN TABS -->
-<ul class="oc-tabs" tal:condition="python: view.list_url()!=''" metal:define-macro="tabs"
+<ul i18n:domain="opencore" class="oc-tabs" tal:condition="python: view.list_url()!=''" metal:define-macro="tabs"
   tal:define="permissions modules/Products/listen/permissions">
   <li tal:attributes="class python:view.get_tab_class(u'mailinglist_view')">
-    <a tal:attributes="href view/list_url" class="oc-actionLink">
+    <a i18n:translate="listen_macros_summary" tal:attributes="href view/list_url" class="oc-actionLink">
     Summary</a>
   </li>
   <li tal:attributes= "class python:view.get_tab_class([u'forum_view', u'date_view', u'new_topic', u'by_thread', u'threaded_view', u'by_date'])">
-    <a tal:attributes="href string:${view/list_url}/archive" class="oc-actionLink">
+    <a i18n:translate="listen_macros_messages" tal:attributes="href string:${view/list_url}/archive" class="oc-actionLink">
     Messages</a>
   </li>
   <li tal:attributes="class python:view.get_tab_class(u'manage_membership')">
     <a tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.EditMailingList, context)" 
-      tal:attributes="href string:${view/list_url}/manage_membership" class="oc-actionLink">
+      i18n:translate="listen_macros_membership" tal:attributes="href string:${view/list_url}/manage_membership" class="oc-actionLink">
     Membership</a>
   </li>
   <li tal:attributes="class python:view.get_tab_class(u'moderation')">
     <a tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.ModerateMessage, context)" 
-      tal:attributes="href string:${view/list_url}/moderation" class="oc-actionLink">
+      i18n:translate="listen_macros_moderation" tal:attributes="href string:${view/list_url}/moderation" class="oc-actionLink">
     Moderation</a>
   </li>
   <li tal:attributes="class python:view.get_tab_class(u'search_archive')">
-    <a tal:attributes="href string:${view/list_url}/archive/search_archive" class="oc-actionLink">
+    <a i18n:translate="listen_macros_search" tal:attributes="href string:${view/list_url}/archive/search_archive" class="oc-actionLink">
     Search</a>
   </li>
   <li tal:attributes="class python:view.get_tab_class(u'edit')" id="oc-tabs-edit">
-    <a tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.EditMailingList, context)" tal:attributes="href string:${view/list_url}/edit" class="oc-actionLink">
+    <a i18n:translate="listen_macros_preferences" tal:condition="python:view.get_tool('portal_membership').checkPermission(permissions.EditMailingList, context)" tal:attributes="href string:${view/list_url}/edit" class="oc-actionLink">
     Preferences</a>
   </li>
 </ul>
@@ -43,7 +43,7 @@
 <metal:aboutmacro define-macro="about">
   <a class="oc-banana" href="#" tal:condition="view/canPost"
    tal:attributes="href string:${context/absolute_url}/new_topic;"
-   i18n:translate="label_forum_new_topic_button">
+   i18n:translate="listen_macros_post">
     Post new message
   </a>
   <div class="oc-boxy">
@@ -55,7 +55,7 @@
       </tal:email>
       <dt>Description</dt>
       <dd tal:content="view/listDescription" tal:condition="view/listDescription" />
-      <dd tal:condition="not:view/listDescription">
+      <dd i18n:translate="listen_macros_no_desc" tal:condition="not:view/listDescription">
         none
       </dd>
     </dl>
