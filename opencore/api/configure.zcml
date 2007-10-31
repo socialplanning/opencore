@@ -50,4 +50,12 @@
      name="get-hash"
      />
 
+  <browser:page
+     for="opencore.interfaces.IMemberFolder"
+     permission="zope2.View"
+     name="exists"
+     class=".apis.XMLView"
+     attribute="exists"
+     />
+
 </configure>

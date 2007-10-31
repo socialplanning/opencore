@@ -8,6 +8,13 @@ class XMLView(BrowserView):
         BrowserView.__init__(self, context, request)
         request.RESPONSE.setHeader('Content-Type',"application/xml")
 
+    def exists(self):
+        """
+        Returns an empty string; browser:page tags can specify this
+        attribute as a view on content to support existence checks; if
+        the content exists response is 200, if not response is 404.
+        """
+        return ''
 
 class MemberInfoXML(XMLView):
     # XXX memoize?
