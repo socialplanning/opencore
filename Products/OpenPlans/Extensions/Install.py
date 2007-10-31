@@ -56,8 +56,6 @@ from opencore.auth.SignedCookieAuthHelper import SignedCookieAuthHelper
 
 from opencore.nui.member.interfaces import ITransientMessage
 from opencore.nui.member.transient_messages import TransientMessage
-from opencore.nui.indexing import createIndexes
-from opencore.nui.indexing import createMemIndexes
 from opencore.nui.project.interfaces import IEmailInvites
 from opencore.nui.project.email_invites import EmailInvites
 

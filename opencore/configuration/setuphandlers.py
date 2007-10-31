@@ -31,6 +31,8 @@ from Products.OpenPlans.permissions import PLACEFUL_PERMISSIONS_DATA
 from Products.OpenPlans.content.team import OpenTeam
 from Products.OpenPlans.utils import installDepends
 from Products.OpenPlans.Extensions.utils import setupKupu
+from Products.OpenPlans.workflows import PLACEFUL_POLICIES
+from Products.OpenPlans.workflows import MEMBERSHIP_PLACEFUL_POLICIES
 
 from opencore.interfaces import IAddProject
 from opencore.interfaces import IAmAPeopleFolder
@@ -41,12 +43,8 @@ from opencore.auth.SignedCookieAuthHelper import SignedCookieAuthHelper
 
 from opencore.nui.member.interfaces import ITransientMessage
 from opencore.nui.member.transient_messages import TransientMessage
-from opencore.nui.indexing import createIndexes
-from opencore.nui.indexing import createMemIndexes
 from opencore.nui.project.interfaces import IEmailInvites
 from opencore.nui.project.email_invites import EmailInvites
-
-out = StringIO()
 
 def setuphandler(fn):
     """
@@ -57,10 +55,16 @@ def setuphandler(fn):
         if context.readDataFile('%s.txt' % stepname) is None:
             return
         portal = context.getSite()
+        out = StringIO()
         fn(portal, out)
         logger = context.getLogger('OpenCore setuphandlers')
         logger.info(out.getvalue())
     return execute_handler
+
+@setuphandler
+def install_dependencies(portal, out):
+    print >> out, ('Installing dependency products')
+    installDepends(portal)
 
 @setuphandler
 def install_team_placeful_workflow_policies(portal, out):
@@ -421,9 +425,3 @@ def addCatalogQueue(portal, out):
         f_disp.manage_addQueueCatalog(q_id)
         queue = portal._getOb(q_id)
         queue.setLocation('portal_catalog')
-
-
-@setuphandler
-def install_dependencies(portal, out):
-    print >> out, ('Installing dependency products')
-    installDepends(self)

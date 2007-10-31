@@ -2,6 +2,7 @@
 <cmfformcontroller>
   <action status="success"
           action_arg="string:choose_destination"
+          button=""
           context_type="OpenMember"
           object_id="validate_integrity"
           action_type="traverse_to"/>

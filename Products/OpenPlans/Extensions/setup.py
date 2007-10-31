@@ -15,13 +15,12 @@ from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from Products.OpenPlans.workflows import WORKFLOW_MAP
 from zLOG import INFO, ERROR
 
-from Install import installColumns, fixUpEditTab, hideActions, \
-     installWorkflows, setupPortalActions, addFormControllerOverrides, \
-     installWorkflowPolicies, hideActionTabs, securityTweaks, uiTweaks, \
-     migrateATDocToOpenPage, createIndexes, installZ3Types, registerJS, \
-     setupProjectLayout, createMemIndexes, setCookieDomain, installCookieAuth, \
+from Install import \
+     installWorkflowPolicies, securityTweaks, \
+     migrateATDocToOpenPage, \
+     setupProjectLayout, setCookieDomain, installCookieAuth, \
      setupPeopleFolder, setupProjectLayout, setupHomeLayout, \
-     installNewsFolder, setProjectFolderPermissions, updateWorkflowRoleMappings
+     installNewsFolder, setProjectFolderPermissions
 from migrate_teams_to_projects import migrate_teams_to_projects
 from migrate_membership_roles import migrate_membership_roles
 
@@ -160,25 +159,11 @@ def fixMembershipOwnership(portal):
 
 topp_functions = dict(
     setupKupu = convertFunc(setupKupu),
-    fixUpEditTab = convertFunc(fixUpEditTab),
-    installMetadataColumns = convertFunc(installColumns),
     setProjectListingLayout = convertFunc(setupProjectLayout),
-    setupPortalActions = convertFunc(setupPortalActions),
-    hideActions = convertFunc(hideActions),
-    hideActionTabs = convertFunc(hideActionTabs),
-    reinstallWorkflows = reinstallWorkflows,
     reinstallWorkflowPolicies = reinstallWorkflowPolicies,
-    reinstallTypes = reinstallTypes,
-    reinstallSubskins = reinstallSubskins,
-    addFormControllerOverrides = convertFunc(addFormControllerOverrides),
     securityTweaks = convertFunc(securityTweaks),
     setProjectFolderPermissions = convertFunc(setProjectFolderPermissions),
-    uiTweaks = convertFunc(uiTweaks),
     migrateATDocToOpenPage = convertFunc(migrateATDocToOpenPage),
-    createIndexes = convertFunc(createIndexes),
-    installZ3Types = convertFunc(installZ3Types),
-    registerJS = convertFunc(registerJS),
-    createMemIndexes = convertFunc(createMemIndexes),
     setCookieDomain = convertFunc(setCookieDomain),
     installCookieAuth=convertFunc(installCookieAuth),
     migrate_listen_member_lookup=migrate_listen_member_lookup,
@@ -191,8 +176,6 @@ topp_functions = dict(
     )
 
 topp_functions["NUI Setup"]=setup_nui
-topp_functions["Propagate workflow security settings"] = \
-                          convertFunc(updateWorkflowRoleMappings)
 topp_functions["Fix membership object ownership"] = fixMembershipOwnership
 
 class TOPPSetup(SetupWidget):

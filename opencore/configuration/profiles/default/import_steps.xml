@@ -1,155 +1,207 @@
 <?xml version="1.0"?>
 <import-steps>
 
+ <import-step id="actions" version="20071031-01"
+              handler="Products.CMFCore.exportimport.actions.importActionProviders"
+              title="Action Providers">
+  <dependency step="toolset"/>
+  <dependency step="typeinfo"/>
+    Import actions tool's action providers and their actions.
+ </import-step>
+
   <import-step
+     version="20071029-01"
+     id="install_dependencies"
+     handler="opencore.configuration.setuphandlers.install_dependencies"
+     title="OpenCore install dependencies">
+    Installs all OpenCore dependency products.
+    <dependency step="typeinfo" />
+    <dependency step="workflow" />
+    <dependency step="catalog" />
+  </import-step>
+
+  <import-step
+     version="20071029-01"
      id="securityTweaks"
      handler="opencore.configuration.setuphandlers.securityTweaks"
      title="OpenCore security tweaks">
     OpenCore-related miscellaneous security settings.
+    <dependency step="install_dependencies" />
   </import-step>
 
   <import-step
+     version="20071029-01"
      id="installWorkflowPolicies"
      handler="opencore.configuration.setuphandlers.installWorkflowPolicies"
      title="OpenCore install project workflow policies">
     Install workflow policies for use inside OpenProject objects.
+    <dependency step="install_dependencies" />
   </import-step>
 
   <import-step
+     version="20071029-01"
      id="install_team_placeful_workflow_policies"
      handler="opencore.configuration.setuphandlers.install_team_placeful_workflow_policies"
      title="OpenCore install team workflow policies">
     Install workflow policies for use inside OpenTeam objects.
+    <dependency step="install_dependencies" />
   </import-step>
 
   <import-step
+     version="20071029-01"
      id="setupVersioning"
      handler="opencore.configuration.setuphandlers.setupVersioning"
      title="OpenCore setup versioning">
     OpenCore CMFEditions configuration.
+    <dependency step="install_dependencies" />
   </import-step>
 
   <import-step
+     version="20071029-01"
      id="setMemberType"
      handler="opencore.configuration.setuphandlers.setMemberType"
      title="OpenCore set default member type">
     Set IUserAdder utilities default member type to OpenMember.
+    <dependency step="install_dependencies" />
   </import-step>
 
   <import-step
+     version="20071029-01"
      id="setTeamType"
      handler="opencore.configuration.setuphandlers.setTeamType"
      title="OpenCore set team type">
     Set team tool's default team type to OpenTeam.
+    <dependency step="install_dependencies" />
   </import-step>
 
   <import-step
+     version="20071029-01"
      id="addProjectsFolder"
      handler="opencore.configuration.setuphandlers.addProjectsFolder"
      title="OpenCore add projects folder">
     Create and configure OpenCore projects container.
+    <dependency step="install_dependencies" />
   </import-step>
 
   <import-step
+     version="20071029-01"
      id="setProjectFolderPermissions"
      handler="opencore.configuration.setuphandlers.setProjectFolderPermissions"
      title="OpenCore set project folder permissions">
     Set permissions on OpenCore projects folder.
     <dependency step="addProjectsFolder" />
+    <dependency step="install_dependencies" />
   </import-step>
 
   <import-step
+     version="20071029-01"
      id="setupProjectLayout"
      handler="opencore.configuration.setuphandlers.setupProjectLayout"
      title="OpenCore set projects folder layout">
     Specifies the default view for the projects folder.
     <dependency step="addProjectsFolder" />
+    <dependency step="install_dependencies" />
   </import-step>
 
   <import-step
+     version="20071029-01"
      id="setupHomeLayout"
      handler="opencore.configuration.setuphandlers.setupHomeLayout"
      title="OpenCore set portal object layout">
     Specifies the default view for the site root portal object.
+    <dependency step="install_dependencies" />
   </import-step>
 
   <import-step
+     version="20071029-01"
      id="setupPeopleFolder"
      handler="opencore.configuration.setuphandlers.setupPeopleFolder"
      title="OpenCore set up people folder">
     Configures the people folder as the member homepage container.
+    <dependency step="install_dependencies" />
   </import-step>
 
   <import-step
+     version="20071029-01"
      id="migrateATDocToOpenPage"
      handler="opencore.configuration.setuphandlers.migrateATDocToOpenPage"
      title="OpenCore migrate ATDocument to OpenPage">
     Switches the default Document type in the from ATDocument to OpenPage.
+    <dependency step="install_dependencies" />
   </import-step>
 
   <import-step
+     version="20071029-01"
      id="setSiteIndexPage"
      handler="opencore.configuration.setuphandlers.setSiteIndexPage"
      title="OpenCore set site index page">
     Specifies the OpenCore site's home page.
+    <dependency step="install_dependencies" />
   </import-step>
 
   <import-step
+     version="20071029-01"
      id="setCookieDomain"
      handler="opencore.configuration.setuphandlers.setCookieDomain"
      title="OpenCore set cookie domain">
     Specifies the domain to use for the OpenCore auth cookie.
+    <dependency step="install_dependencies" />
   </import-step>
 
   <import-step
+     version="20071029-01"
      id="installCookieAuth"
      handler="opencore.configuration.setuphandlers.installCookieAuth"
      title="OpenCore install cookie auth plug-in">
     Installs and configures the PAS signed cookie auth plug-in.
+    <dependency step="install_dependencies" />
   </import-step>
 
   <import-step
+     version="20071029-01"
      id="installNewsFolder"
      handler="opencore.configuration.setuphandlers.installNewsFolder"
      title="OpenCore install news folder">
     Installs and configures the OpenCore news folder.
+    <dependency step="install_dependencies" />
   </import-step>
 
   <import-step
+     version="20071029-01"
      id="createValidationMember"
      handler="opencore.configuration.setuphandlers.createValidationMember"
      title="OpenCore create validation member">
     Creates a stub member object for use during the data validation process.
+    <dependency step="install_dependencies" />
   </import-step>
 
   <import-step
+     version="20071029-01"
      id="install_local_transient_message_utility"
      handler="opencore.configuration.setuphandlers.install_local_transient_message_utility"
      title="OpenCore install transient message utility">
     Installs a local utility to handle the OpenCore transient messages.
+    <dependency step="install_dependencies" />
   </import-step>
 
   <import-step
+     version="20071029-01"
      id="install_email_invites_utility"
      handler="opencore.configuration.setuphandlers.install_email_invites_utility"
      title="OpenCore install email invites utility">
     Installs a local utility which keeps track of the email project invitations
     that have been extended.
+    <dependency step="install_dependencies" />
   </import-step>
 
   <import-step
+     version="20071029-01"
      id="addCatalogQueue"
      handler="opencore.configuration.setuphandlers.addCatalogQueue"
      title="OpenCore add catalog queue">
     Creates a QueueCatalog instance at the root of the site to provide for
     asynchronous indexing.
-  </import-step>
-
-  <import-step
-     id="install_dependencies"
-     handler="opencore.configuration.setuphandlers.install_dependencies"
-     title="OpenCore install dependencies">
-    Installs all OpenCore dependency products.
+    <dependency step="install_dependencies" />
   </import-step>
 
 </import-steps>

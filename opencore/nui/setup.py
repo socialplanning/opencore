@@ -16,19 +16,16 @@ from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
 
 from Products.OpenPlans.Extensions.setup import convertFunc, reinstallTypes, \
      reinstallWorkflows, reinstallWorkflowPolicies
-from Products.OpenPlans.Extensions.Install import install_workflow_map, \
+from Products.OpenPlans.Extensions.Install import \
      installNewsFolder, securityTweaks
 from Products.OpenPlans.Extensions.Install import setupPeopleFolder, \
      setupProjectLayout, setupHomeLayout
-from Products.OpenPlans.Extensions.Install import createMemIndexes, \
-     installColumns, createValidationMember, \
+from Products.OpenPlans.Extensions.Install import createValidationMember, \
      install_local_transient_message_utility, install_email_invites_utility
-from Products.OpenPlans.Extensions.Install import setCaseInsensitiveLogins, \
-     setSiteEmailAddresses, updateWorkflowRoleMappings, \
+from Products.OpenPlans.Extensions.Install import \
      install_team_placeful_workflow_policies, addCatalogQueue
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans import config as op_config
-from indexing import createIndexes
 from DateTime import DateTime
 from topp.featurelets.interfaces import IFeatureletSupporter
 from opencore.interfaces import IOpenPage, INewsItem
@@ -279,23 +276,19 @@ nui_functions = OrderedDict()
 nui_functions['Install borg.localrole PAS plug-in'] = setup_localrole_plugin
 nui_functions['Add Catalog Queue'] = convertFunc(addCatalogQueue)
 nui_functions['Move Blocking Content'] = move_blocking_content
-nui_functions['Create Member Indexes'] = convertFunc(createMemIndexes)
 nui_functions['installNewsFolder'] = convertFunc(installNewsFolder)
 nui_functions['move_interface_marking_on_projects_folder'] = move_interface_marking_on_projects_folder
 nui_functions['setupHomeLayout'] = convertFunc(setupHomeLayout)
 nui_functions['setupPeopleFolder'] = convertFunc(setupPeopleFolder)
 nui_functions['setupProjectLayout'] = convertFunc(setupProjectLayout)
 nui_functions['securityTweaks'] = convertFunc(securityTweaks)
-nui_functions['installMetadataColumns'] = convertFunc(installColumns)
 nui_functions['reinstallSubskins'] = reinstallSubskins
 nui_functions['migrate_wiki_attachments'] = migrate_wiki_attachments
 nui_functions['createValidationMember'] = convertFunc(createValidationMember)
-nui_functions['reinstallWorkflows'] = reinstallWorkflows
 nui_functions['reinstallWorkflowPolicies'] = reinstallWorkflowPolicies
 nui_functions['setup_transient_message_utility'] = convertFunc(install_local_transient_message_utility)
 nui_functions['install_email_invites_utility'] = convertFunc(install_email_invites_utility)
 nui_functions['migrate_mission_statement'] = migrate_mission_statement
-nui_functions['createIndexes'] = convertFunc(createIndexes)
 nui_functions['migrate_page_descriptions'] = migrate_page_descriptions
 nui_functions['fix_case_on_featurelets'] = fix_case_on_featurelets
 nui_functions['reindex_membrane_tool'] = reindex_membrane_tool
@@ -307,11 +300,7 @@ nui_functions['Install default team workflow policy'] = convertFunc(install_team
 nui_functions['Migrate memberships to new workflow'] = migrate_mship_workflow_states
 nui_functions['Update team active states'] = update_team_active_states
 nui_functions['Add made_active_date attribute to memberships'] = migrate_mships_made_active_date
-nui_functions['Set case insensitive logins'] = convertFunc(setCaseInsensitiveLogins)
-nui_functions['Set site email addresses'] = convertFunc(setSiteEmailAddresses)
 nui_functions['annotate last modified author'] = annotate_last_modified_author
-nui_functions["Propagate workflow security settings"] = \
-                         convertFunc(updateWorkflowRoleMappings)
 nui_functions['markNewsItems'] = markNewsItems
 
 
