@@ -303,11 +303,10 @@ dl.oc-plainList dd {
 
 /* GENERIC search results & lineups */
 
-.oc-lineup, /* series of similar items */
-.oc-searchresults {
+.oc-lineup,
+.oc-directory {
 }
-.oc-lineup-list,
-.oc-searchresults-list {
+.oc-lineup-list {
   list-style-type: none;
   margin:  0;
   padding: 0;
@@ -315,83 +314,54 @@ dl.oc-plainList dd {
   border-top: 2px solid #eee;
 
 }
-.oc-lineup-item,
-.oc-searchresults-item {
+.oc-lineup-item {
   margin: 0.25em 0;
   padding: 0.25em 0;
   border-bottom: 1px dotted #eee;
 }
-.oc-lineup-item h3,
-.oc-searchresults-item h3 {
+.oc-lineup-item h3 {
   display: inline;
 }
-.oc-lineup-item h3 img,
-.oc-searchresults-item h3 img {
+.oc-lineup-item h3 img {
   vertical-align: bottom;
 }
-.oc-lineup-item p,
-.oc-searchresults-item p {
+.oc-lineup-item p {
   margin: 0;
 }
-.oc-lineup-item-sorter,
-.oc-searchresults-nresults {
+.oc-lineup-sorter,
+.oc-directory-sorter {
   /* float: left; */
   font-size: 10px;
   margin-bottom: 1em;
 }
-.oc-lineup-item-sorter form,
-.oc-lineup-item-sorter select,
-.oc-searchresults-nresults form,
-.oc-searchresults-nresults form select {
+.oc-lineup-sorter form,
+.oc-lineup-sorter select,
+.oc-directory-sorter form,
+.oc-directory-sorter select {
   display: inline;
   font-size: 100%;
 }
-.oc-lineup-item-sorter input,
-.oc-searchresults-nresults form input {
+.oc-lineup-sorter input,
+.oc-directory-sorter input {
   /* display: none; */
 }
 .oc-lineup .oc-paginator,
-.oc-searchresults .oc-paginator,
-.oc-peopleresults .oc-paginator {
+.oc-directory-sorter .oc-paginator {
   float: right;
   clear: none;
   font-size: 10px;
 }
 
-/* Portal Home */
-#oc-home-content {
-}
-#oc-home-content .oc-headingBlock h1{
-	font-size: 36px;
-}
-#oc-home-getstarted {
+/* Directory view of search results */
 
-}
-.oc-home-columnGroup {
-  width: 100%;
-}
-.oc-home-column {
-  float: left;
-  margin: 0 1%;
-  clear: none;
-  width: 48%;
-}
-#oc-home-news h2 {
-	background: #6BA12A;
-}
-
-/* People search results (people-searchresults.pt) */
-
-.oc-peopleresults {
-}
-.oc-peopleresults-list {
+.oc-directory-list {
   clear: both;
   list-style-type: none;
   padding: 0;
   margin: 0;
   width: 101%;
 }
-.oc-peopleresults-list li {
+.oc-directory-list li {
   margin: 0 0.5% 0.25em 0;
   width: 49%;
   float: left;
@@ -402,22 +372,23 @@ dl.oc-plainList dd {
   height: 80px;
   overflow: hidden;
 }
-.oc-peopleresults-list .oc-avatar {
+.oc-directory-list .oc-project-logo,
+.oc-directory-list .oc-avatar {
   width: 80px;
   height: 80px;
   overflow: hidden;
   float: left;
   margin-right: 1em;
 }
-.oc-peopleresults-content {
+.oc-directory-content {
   white-space: normal;
   padding: 0.5em;
 }
-.oc-peopleresults-content .fn, /* OpenPlans username */
-.oc-peopleresults-content .n /* full name */ {
+.oc-directory-content .fn, /* OpenPlans username */
+.oc-directory-content .n /* full name */ {
   margin: 0;
 }
-.oc-peopleresults-content .adr /* location */ {
+.oc-directory-content .adr /* location */ {
   font-style: normal;
 }
 
@@ -455,7 +426,27 @@ dl.oc-plainList dd {
   margin-bottom: 0;
 }
 
+/* Portal Home */
+#oc-home-content {
+}
+#oc-home-content .oc-headingBlock h1{
+  font-size: 36px;
+}
+#oc-home-getstarted {
 
+}
+.oc-home-columnGroup {
+  width: 100%;
+}
+.oc-home-column {
+  float: left;
+  margin: 0 1%;
+  clear: none;
+  width: 48%;
+}
+#oc-home-news h2 {
+	background: #6BA12A;
+}
 
 /* Member profile */
 
