@@ -125,11 +125,11 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
 
     def generateCookieVal(self, login):
         encoded = encodestring("%s\0%s" % (login, self.generateHash(login)))
-        return encoded.rstrip()
+        return quote(encoded.rstrip())
 
     def generateCookie(self, login):
         cookie_val = self.generateCookieVal(login)
-        return '%s=%s' % (self.cookie_name, quote(cookie_val))
+        return '%s=%s' % (self.cookie_name, cookie_val)
 
     security.declarePrivate('extractCredentials')
     def extractCredentials(self, request):
@@ -168,7 +168,6 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
     def updateCredentials(self, request, response, login, new_password):
         """ Respond to change of credentials (NOOP for basic auth). """
         cookie_val = self.generateCookieVal(login)
-        cookie_val = quote(cookie_val)
 
         if request.get("no_expire_cookie"):
             response.setCookie(self.cookie_name, cookie_val, path='/',
