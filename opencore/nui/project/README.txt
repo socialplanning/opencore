@@ -130,7 +130,7 @@ Preference View
 
     >>> proj = projects.test1
     >>> proj.restrictedTraverse('preferences')
-    <...SimpleViewClass ...preferences.pt...>
+    <...SimpleViewClass ...preferences...>
 
     >>> view = proj.restrictedTraverse('preferences')
     >>> view.project_info['security']
@@ -238,7 +238,7 @@ Make sure we can install a TaskTracker featurelet too::
 
     Now we can see it again
     >>> proj.restrictedTraverse('preferences')
-    <...SimpleViewClass ...preferences.pt...>
+    <...SimpleViewClass ...preferences...>
 
 Team view
 =========

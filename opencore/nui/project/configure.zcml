@@ -110,5 +110,6 @@
   <subscriber handler="opencore.nui.project.preferences.kick_cache" />
   <subscriber handler="opencore.nui.project.preferences.handle_flet_uninstall" />
   <subscriber handler="opencore.nui.project.preferences.queue_delete_team" />
+  <adapter factory="opencore.nui.project.preferences.ProjectFeatureletSupporter" />
 
 </configure>

@@ -12,12 +12,16 @@ from opencore.nui.project.view import ProjectPreferencesView
 from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
 from topp.clockqueue.interfaces import IClockQueue
 from topp.featurelets.interfaces import IFeatureletSupporter
+from topp.featurelets.interfaces import IFeatureletSupporter
+from topp.featurelets.supporter import FeatureletSupporter
 from topp.utils import zutils
 from zope.app.container.contained import IObjectRemovedEvent
-from zope.component import adapter
+from zope.component import adapter, adapts
+from zope.interface import implements
+import inspect
 import logging
-import zExceptions
 import traceback
+import zExceptions
 
 
 log = logging.getLogger('opencore.project')
@@ -40,7 +44,7 @@ class ProjectPreferencesView(ProjectPreferencesView):
 def handle_flet_uninstall(project, event=None):
     supporter = IFeatureletSupporter(project)
     for flet_id in supporter.getInstalledFeatureletIds():
-        supporter.removeFeaturelet(flet_id, ignore_errors=True)
+        supporter.removeFeaturelet(flet_id, raise_error=True)
 
 #@adapter(IProject, IObjectWillBeRemovedEvent)
 @adapter(ITeamSpaceTeamRelation, IObjectWillBeRemovedEvent)
@@ -83,3 +87,21 @@ def handle_blog_delete(project, event=None):
 @adapter(IProject, IObjectRemovedEvent)
 def kick_cache(project, event=None):
     pass
+
+
+class ProjectFeatureletSupporter(FeatureletSupporter):
+    adapts(IProject)
+    implements(IFeatureletSupporter)
+
+    def removeFeaturelet(self, featurelet, raise_error=True):
+        """
+        See IFeatureletSupporter.
+        """
+        name, featurelet=self._fetch_featurelet(featurelet)
+        if self.storage.has_key(name):
+            if 'raise_error' in inspect.getargspec(featurelet.removePackage)[0]:
+                featurelet.removePackage(self.context, raise_error=raise_error)
+            else:
+                featurelet.removePackage(self.context)
+            self.storage.pop(name)
+                
