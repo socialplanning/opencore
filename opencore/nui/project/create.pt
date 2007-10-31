@@ -74,7 +74,7 @@
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
                   value="open_policy" />
                   <label for="workflow_policy_open"
-                         tal:contene="string:Anyone can view this project and any ${view/portal_title} member can contribute to it" />
+                         tal:content="string:Anyone can view this project and any ${view/portal_title} member can contribute to it" />
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
