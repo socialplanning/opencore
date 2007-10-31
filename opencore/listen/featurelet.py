@@ -22,7 +22,6 @@ class ListenFeaturelet(BaseFeaturelet):
 
     id = "listen"
     title = "Mailing lists"
-    #config_view = "listen_config"
     installed_marker = IListenFeatureletInstalled
     
     _info = {'content': ({'id': 'lists', 'title': 'Mailing lists',
