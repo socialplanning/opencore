@@ -1,6 +1,7 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title">Search Projects - OpenPlans</title>
+    <title metal:fill-slot="title"
+           tal:content="string:Search Projects - ${view/portal_title}" />
   </head>  
   <body> 
 

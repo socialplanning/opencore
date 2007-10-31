@@ -1,6 +1,7 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title">Welcome to OpenPlans!</title>
+    <title metal:fill-slot="title"
+           tal:content="string:Welcome to ${view/portal_title}!" />
   </head>
   <body>
     <div metal:fill-slot="content">
@@ -11,7 +12,9 @@
             </div>
             <ul class="oc-plainList" style="width: 50%; float: right;">
                   <li tal:condition="not: view/loggedin">
-                    <a class="oc-banana" tal:attributes="href string:${context/portal_url}/join">Join OpenPlans</a>
+                    <a class="oc-banana" 
+                       tal:attributes="href string:${context/portal_url}/join"
+                       tal:content="string:Join ${view/portal_title}" />
                   </li>
                   <li tal:condition="not: view/loggedin">
                     <a class="oc-banana" tal:attributes="href string:${context/portal_url}/about">Learn more</a>
@@ -24,7 +27,8 @@
                   </li>
             </ul>
             <div>
-	      <p>OpenPlans is a platform for social activism.</p><p>You want to <strong>make a difference</strong>, we want to <strong>make it easy</strong>. OpenPlans is the simple way to bring groups together, promote your cause, make plans, and get things done.</p>
+	      <p tal:content="string:${view/portal_title} is a platform for social activism." />
+              <p>You want to <strong>make a difference</strong>, we want to <strong>make it easy</strong>. OpenPlans is the simple way to bring groups together, promote your cause, make plans, and get things done.</p>
 	    </div>
           </div><!-- oc-home-content -->
         
@@ -89,7 +93,8 @@
             </div>
           </tal:comment>
           <div id="oc-home-news" class="oc-widget oc-widget-feed">
-            <h2 class="oc-feed-title">OpenPlans News</h2>
+            <h2 class="oc-feed-title"
+                tal:content="string:${view/portal_title} News" />
             <ul class="oc-feed-list">
               <li tal:repeat="item view/news" class="oc-feed-item oc-clearAfter">
                 <h3 class="oc-feed-item-title">

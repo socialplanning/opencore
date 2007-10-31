@@ -8,7 +8,8 @@
      tal:define="portal view/portal">
 
 <div class="oc-headingBlock">
-  <h1 i18n:translate="heading_contact_information">Contact OpenPlans</h1>     
+  <h1 i18n:translate="heading_contact_information"
+      tal:content="string:Contact ${view/portal_title}" />     
   <p class="oc-headingContext"
      i18n:translate="description_contact_info_feedback">
     Fill in the form

@@ -1,11 +1,12 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title">News - Openplans</title>
+    <title metal:fill-slot="title"
+           tal:content="string:News - ${view/portal_title}" />
   </head>
   <body>
     <div metal:fill-slot="content">              
       <div class="oc-headingBlock">
-        <h1>OpenPlans News</h1>
+        <h1 tal:content="string:${view/portal_title} News" />
         <p class="oc-headingContext" tal:define="days_free view/subpoena_free; plural python: days_free != 1">
           Subpeona free for <span tal:replace="view/subpoena_free">456</span> day<span tal:condition="plural" tal:content="string:s"/>
         </p>
