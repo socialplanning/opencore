@@ -6,6 +6,7 @@ from types import TupleType, ListType, UnicodeType
 from AccessControl import ClassSecurityInfo
 
 from zope.component import getAdapter
+from zope.component import getUtility
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.CMFCorePermissions import *
@@ -26,6 +27,10 @@ from Products.remember.config import ALLOWED_MEMBER_ID_PATTERN
 
 from Products.OpenPlans.config import PROJECTNAME
 from Products.OpenPlans.config import PROHIBITED_MEMBER_PREFIXES
+
+from opencore.utility.interfaces import IHTTPClient
+from opencore.nui.member.utils import member_path
+
 
 member_schema = id_schema + contact_schema + plone_schema + \
                 security_schema + login_info_schema
@@ -280,6 +285,24 @@ class OpenMember(FolderishMember):
         data = ' '.join(data)
         return data
 
+    security.declarePrivate('_id_exists_remotely')
+    def _id_exists_remotely(self, id):
+        """
+        Checks all of the servers in the remote_auth_sites property to
+        see if this specified id exists on any of those sites.
+        """
+        portal = getToolByName(self, 'portal_url').getPortalObject()
+        remote_auth_sites = portal.getProperty('remote_auth_sites')
+        if remote_auth_sites:
+            http = getUtility(IHTTPClient)
+            for url in remote_auth_sites:
+                mem_url = "%s/%s/exists" % (url, member_path(id))
+                resp, content = http.request(mem_url)
+                if resp.status == 200:
+                    # a remote member exists
+                    return True
+        return False
+
     security.declarePrivate('validate_id')
     def validate_id(self, id):
         """
@@ -299,9 +322,12 @@ class OpenMember(FolderishMember):
             if len(mbtool.unrestrictedSearchResults(getUserName=id)) > 0 or \
                    not ALLOWED_MEMBER_ID_PATTERN.match(id):
                 allowed = False
-            for prefix in PROHIBITED_MEMBER_PREFIXES:
-                if id.lower().startswith(prefix):
-                    allowed = False
+            if allowed:
+                for prefix in PROHIBITED_MEMBER_PREFIXES:
+                    if id.lower().startswith(prefix):
+                        allowed = False
+            if allowed and self._id_exists_remotely(id):
+                allowed = False
             if not allowed:
                 msg = "The login name you selected is already " + \
                       "in use or is not valid. Please choose another."
