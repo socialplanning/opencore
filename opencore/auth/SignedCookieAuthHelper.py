@@ -124,7 +124,8 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
         return hmac.new(self.secret, login, sha).hexdigest()
 
     def generateCookieVal(self, login):
-        return encodestring("%s\0%s" % (login, self.generateHash(login)))
+        encoded = encodestring("%s\0%s" % (login, self.generateHash(login)))
+        return encoded.rstrip()
 
     def generateCookie(self, login):
         cookie_val = self.generateCookieVal(login)
@@ -167,8 +168,7 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
     def updateCredentials(self, request, response, login, new_password):
         """ Respond to change of credentials (NOOP for basic auth). """
         cookie_val = self.generateCookieVal(login)
-
-        cookie_val = quote(cookie_val.rstrip())
+        cookie_val = quote(cookie_val)
 
         if request.get("no_expire_cookie"):
             response.setCookie(self.cookie_name, cookie_val, path='/',
