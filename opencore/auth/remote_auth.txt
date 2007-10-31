@@ -15,9 +15,8 @@ so that the plugin and the event handler will get reasonable data back
 from their http requests.
 
     >>> from opencore.testing.minimock import HTTPMock
-    >>> from opencore.auth.remoteauthplugin import TRUE
     >>> from opencore.auth.tests import memxml
-    >>> HTTPMock.add_to_response_content(TRUE)
+    >>> HTTPMock.add_to_response_content('some-bogus-auth-hash')
     >>> HTTPMock.add_to_response_content(memxml)
 
 Now we're ready to see if the plugin will authenticate successfully.
@@ -30,9 +29,17 @@ Now we're ready to see if the plugin will authenticate successfully.
     Called httplib2.Http.request...
     >>> self.failUnless(auth_result == (login, login))
 
-The mock HTTP response stack should be empty now, so a subsequent
-attempt to authenticate should fail.
+Let's add failure responses to make sure auth failures correctly.
+First a 404 (member doesn't exist):
 
+    >>> HTTPMock.add_to_response_content('', 404)
+    >>> auth_result = plugin.authenticateCredentials(credentials)
+    Called httplib2.Http.request...
+    >>> self.failUnless(auth_result is None)
+
+Now a 400 (auth failed):
+
+    >>> HTTPMock.add_to_response_content('', 400)
     >>> auth_result = plugin.authenticateCredentials(credentials)
     Called httplib2.Http.request...
     >>> self.failUnless(auth_result is None)

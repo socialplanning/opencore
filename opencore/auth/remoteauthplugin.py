@@ -14,8 +14,6 @@ from opencore.utility.interfaces import IHTTPClient
 
 from event import RemoteLoginSucceeded
 
-TRUE = 'True'
-
 
 manage_addOpenCoreRemoteAuthForm = PageTemplateFile(
         "zmi/OpenCoreRemoteAuthPluginForm.pt", globals(),
@@ -77,21 +75,24 @@ class RemoteOpenCoreAuth(BasePlugin):
         
         username = credentials.get('login')
         password = credentials.get('password')
-        query = urlencode({'username': username, 'password': password})
+        query = urlencode({'__ac_password': password})
         h = getUtility(IHTTPClient)
         for siteurl in remote_auth_sites:
-            authurl = '%s/authenticate-credentials?%s' % (siteurl, query)
-            resp, content = h.request(authurl, 'GET')
-            if content == TRUE:
-                # SUCCESS
+            authurl = '%s/people/%s/get-hash' % (siteurl, username)
+            resp, content = h.request(authurl, 'POST', query)
+            resp_code = resp.get('status')
+            if resp_code == '400' or resp_code == '404':
+                # remote auth failed on this server
+                continue
+            else:
+                # remote auth succeeds, we're done
                 event.notify(event = RemoteLoginSucceeded(self,
                                                           username,
                                                           password,
                                                           siteurl))
                 # we use same value for userid and username
                 return username, username
-
-        # all remote auth attempts failed
+        # all auth attempts failed
         return
 
 InitializeClass(RemoteOpenCoreAuth)

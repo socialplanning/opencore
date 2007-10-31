@@ -75,9 +75,22 @@ class HTTPMock(Mock):
     """
     _resp_content = []
 
+    class MockResponse(object):
+        def __init__(self, status=200):
+            self.status = status # <--- httplib2 response codes are strings
+        def get(self, key, default=None):
+            value = getattr(self, key, default)
+            if value != default:
+                # response codes are strings retrieved using dict API
+                value = str(value)
+            return value
+        def __getitem__(self, key, default=None):
+            return self.get(key, default)
+    
     @classmethod
-    def add_to_response_content(cls, content):
-        cls._resp_content.append(content)
+    def add_to_response_content(cls, content, status=200):
+        response = cls.MockResponse(status)
+        cls._resp_content.append((response, content))
 
     @property
     def resp_content(self):
@@ -85,17 +98,12 @@ class HTTPMock(Mock):
             ret = HTTPMock._resp_content[0]
             HTTPMock._resp_content = HTTPMock._resp_content[1:]
             return ret
-        return "Mock request succeeded!"
-    
-    class MockResponse(object):
-        def __init__(self, status=200):
-            self.status = status
+        return ((self.MockResponse(200), "Mock request succeeded!"))
     
     def __call__(self, *args, **kw):
         base_response = Mock.__call__(self, *args, **kw)
         if self.mock_name.endswith("request"):
-            response = HTTPMock.MockResponse(200)
-            content = self.resp_content
+            response, content = self.resp_content
             return (response, content)
         return base_response
 
