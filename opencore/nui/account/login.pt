@@ -2,6 +2,9 @@
                   global login view/handle_login" />
 
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" 
+           tal:content="string:${view/portal_title} Login" />
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
