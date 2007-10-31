@@ -62,8 +62,8 @@ ProjectSchema['title'].widget.label = 'Name'
 ProjectSchema['title'].widget.description = \
       "The name for your project will be " + \
       "used to refer to your project throughout the " + \
-      "OpenPlans web site.  Because it is used in a " + \
-      "navigation context throughout the OpenPlans site, " + \
+      "web site.  Because it is used in a " + \
+      "navigation context throughout the site, " + \
       "it is suggested that this be no more than 15 " + \
       "characters"
 ProjectSchema['title'].widget.size = 50

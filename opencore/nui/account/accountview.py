@@ -107,24 +107,25 @@ class AccountView(BaseView):
         mailhost_tool = self.get_tool("MailHost")
 
         # TODO move this to a template for easier editting
-        message = _(u'email_to_pending_user', u"""You recently signed up to use OpenPlans.org. 
+        message = _(u'email_to_pending_user', u"""You recently signed up to use ${portal_title}. 
 
 Please confirm your email address at the following address: ${url}
 
 If you cannot click on the link, you can cut and paste it into your browser's address bar.
 
-Once you have confirmed, you can start using OpenPlans.
+Once you have confirmed, you can start using ${portal_title}.
 
 If you did not initiate this request or believe it was sent in error you can safely ignore this message.
 
 Cheers,
-The OpenPlans Team
-www.openplans.org""", mapping={u'url':url})
+The ${portal_title} Team
+${portal_url}""", mapping={u'url':url,
+                           u'portal_url':self.siteURL})
         
         sender = EmailSender(self, secureSend=True)
         sender.sendEmail(mto=email,
                          msg=message,
-                         subject=_(u'email_to_pending_user_subject', u'Welcome to OpenPlans! - Confirm your email'))
+                         subject=_(u'email_to_pending_user_subject', u'Welcome to %s! - Confirm your email' % self.portal_title()))
 
 
 class LoginView(AccountView):
@@ -308,8 +309,10 @@ class JoinView(AccountView, OctopoLite):
             self._sendmail_to_pendinguser(id=mem_id,
                                           email=self.request.get('email'),
                                           url=url)
-            self.addPortalStatusMessage(_('psm_thankyou_for_joining', u'Thanks for joining OpenPlans, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account.',
-                                          mapping={u'mem_id':mem_id}))
+            self.addPortalStatusMessage(_('psm_thankyou_for_joining',
+                                          u'Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account.',
+                                          mapping={u'mem_id':mem_id,
+                                                   u'portal_title':self.portal_title()}))
             self.redirect(self.portal_url())
             return mdc._getOb(mem_id)
         else:
@@ -467,12 +470,12 @@ class ForgotLoginView(AccountView):
 
         try:
             pwt = self.get_tool("portal_password_reset")
-            mail_text = _(u'email_forgot_password', u'You requested a password reminder for your OpenPlans account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}',
+            mail_text = _(u'email_forgot_password', u'You requested a password reminder for your ${portal_title} account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}',
                           mapping={u'url':self.reset_url})
             sender = EmailSender(self, secureSend=True)
             sender.sendEmail(mto=email, 
                         msg=mail_text,
-                        subject=_(u'email_forgot_password_subject', u'OpenPlans - Password reminder'))
+                        subject=_(u'email_forgot_password_subject', u'%s - Password reminder' % self.portal_title()))
         except SMTPRecipientsRefused:
             # Don't disclose email address on failure
             # XXX is this needed?

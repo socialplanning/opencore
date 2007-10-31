@@ -3,7 +3,7 @@ from zope.interface import implements
 
 class IRemoteLoginSucceeded(Interface):
     """
-    Authentication against a remote OpenPlans server was successful.
+    Authentication against a remote OpenCore server was successful.
     """
 
 class RemoteLoginSucceeded(object):

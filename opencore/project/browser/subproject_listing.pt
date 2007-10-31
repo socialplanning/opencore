@@ -23,24 +23,9 @@
     <div metal:fill-slot="main">
     <metal:main-macro define-macro="main">
 
-      <!-- XXX is this comment obselete? Nov 22, 2006 -->
-        <!-- div class="documentDescription" tal:content="here/Description">
-            description
-            </div -->
-
 	<!-- XXX why is this div here? Nov 22, 2006 -->
 	<div>
 	  
-	  <!-- XXX is this comment obselete? Nov 22, 2006 -->
-          <!-- a href=""
-             class="link-parent"
-             tal:define="parent_url portal_url"
-             tal:condition="parent_url"
-             tal:attributes="href parent_url"
-             i18n:translate="go_to_homepage">
-            OpenPlans 
-            </a -->
-
 	    <div id="column-one" 
 		 tal:define="txt view/leftcolumn/txt">
 

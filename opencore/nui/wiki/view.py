@@ -37,9 +37,10 @@ class WikiBase(BaseView):
                 return '%s %s' % (context.Title(), mode)
 
             if vmi['home_url'] == context.absolute_url():
-                return '%s on OpenPlans' % vmi['id']
+                return '%s on %s' % (vmi['id'], self.portal_title())
             else:
-                return '%s - %s on OpenPlans' % (context.Title(), vmi['id'])
+                return '%s - %s on %s' % (context.Title(), vmi['id'],
+                                          self.portal_title())
 
         else:
             return '%s %s- %s' % (context.Title(), mode, self.area.Title())

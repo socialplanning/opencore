@@ -233,6 +233,9 @@ the form the validate() method will be triggered::
     >>> str(view())
     '...Join OpenPlans...'
 
+NOTE: The test above will fail if the title of the site is not
+"OpenPlans".  Need to change it to a better test.
+      
 The template was rerendered with the error messages; to get the error
 dict directly, make the request asynchronous::
 
