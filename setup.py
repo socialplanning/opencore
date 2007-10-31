@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.9.7'
+version = '0.9.7.1'
 
 f = open('README.txt')
 readme = "".join(f.readlines())
@@ -21,12 +21,14 @@ setup(name='opencore',
       include_package_data=True,
       zip_safe=False,
       dependency_links=['https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect',
+                        "https://svn.openplans.org/svn/ClockQueue/trunk#egg=ClockQueue-dev",
                         'http://svn.red-bean.com/bob/simplejson/trunk/#egg=simplejson-dev',
                         'http://www.openplans.org/projects/opencore/dependencies',
                         'https://svn.plone.org/svn/plone/plone.memoize/trunk#egg=plone.memoize-dev',
                         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof'],
       install_requires=[
           # -*- Extra requirements: -*-
+          "ClockQueue==dev,>=0.0",
           'simplejson',
           'decorator',
           'topp.featurelets',
