@@ -47,7 +47,7 @@ def initialize(context):
     # with the Archetypes runtime
     from content import *
     from opencore.content import *
-    from opencore.featurelets.listen import ListenFeaturelet
+    from opencore.listen.featurelet import ListenFeaturelet
     from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
     from opencore.listen import mailinglist
 

@@ -7,7 +7,7 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.OpenPlans.interfaces import IProject
 from opencore.listen.interfaces import IOpenMailingList
-from opencore.featurelets.interfaces import IListenFeatureletInstalled
+from opencore.listen.interfaces import IListenFeatureletInstalled
 
 class ITellYouAboutContent(Interface):
     """

@@ -6,7 +6,7 @@ from Testing.ZopeTestCase import FunctionalDocFileSuite
 from opencore.testing.layer import OpencoreContent
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from zope.interface import alsoProvides
-from opencore.featurelets.interfaces import IListenContainer
+from opencore.listen.interfaces import IListenContainer
 from opencore.testing.layer import MockHTTPWithContent
 from zope.app.component.hooks import setSite
 from Products.Five.site.localsite import enableLocalSiteHook

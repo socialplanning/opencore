@@ -5,7 +5,7 @@
            i18n_domain="opencore">
 
   <browser:page
-     for="opencore.featurelets.interfaces.IListenContainer"
+     for="opencore.listen.interfaces.IListenContainer"
      name="mailing_lists"
      class="opencore.nui.base.BaseView"
      permission="zope2.View"
@@ -17,7 +17,7 @@
 
   <browser:page
      name="opencore.add_mailinglist"
-     for="opencore.featurelets.interfaces.IListenContainer"
+     for="opencore.listen.interfaces.IListenContainer"
      permission="listen.AddMailingList"
      class=".view.NuiMailingListAddView"
      template="listen_formlib.pt"

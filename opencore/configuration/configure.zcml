@@ -7,7 +7,6 @@
   <include package="opencore.content" />
   <include file="permissions.zcml" />
   <include package="topp.featurelets" />
-  <include package="opencore.featurelets.browser" />
   <include package="opencore.api" />
   <include package="opencore.auth" />
   <include package="opencore.listen" />
