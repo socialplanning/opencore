@@ -115,7 +115,7 @@
           </div><!-- OpenPlans News -->
           <div class="oc-boxy" style="background: none;">
             <a href="http://topp.openplans.org/"><img src="++resource++img/topp_logo.jpg" style="float: left; margin-right: 1em;"/></a>
-            <p>OpenPlans is proud to be one of the many projects supported by <a href="http://topp.openplans.org/">The Open Planning Project</a>, a New York City&ndash;based non-profit building technology to enhance civic participation. <a href="about">Learn more&hellip;</a>
+            <p><tal:block replace="view/portal_title" /> is proud to be one of the many projects supported by <a href="http://topp.openplans.org/">The Open Planning Project</a>, a New York City&ndash;based non-profit building technology to enhance civic participation. <a href="about">Learn more&hellip;</a>
           </div>
       </div>
       
