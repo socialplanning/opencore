@@ -435,6 +435,8 @@ class ImageManager(WikiEdit, OctopoLite):
     
     @action('delete-image')
     def delete_image(self, target=None, fields=None):
+        if target is None:
+            target = []
         survivors = list(target)
         self.context.manage_delObjects(survivors)
         return self.backend_images_snippet()
