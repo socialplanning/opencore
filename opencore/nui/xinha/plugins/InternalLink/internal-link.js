@@ -281,7 +281,18 @@ InternalLink.Dialog.prototype._prepareDialog = function()
     if(linker.lConfig.backend)
     {
         //get files from backend
-        Xinha._postback(linker.lConfig.backend,
+	backend_url = linker.lConfig.backend;
+
+	// check if we are in a blog
+	// and need to use an absolute url
+        url = window.location.href;
+        result = /(.*\/)blog\//.exec(url);
+        if (result && result.length == 2) {
+            urlPrefix = result[1];
+            backend_url = urlPrefix + 'project-home/' + backend_url
+	}
+
+        Xinha._postback(backend_url,
                           linker.lConfig.backend_data,
                           function(txt) {
                             try {
