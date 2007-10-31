@@ -154,7 +154,17 @@ HTMLArea.prototype._insertImage = function(image) {
             manager += '&' + i + '=' + encodeURIComponent(editor.config.ImageManager.backend_data[i]);
         }
     }
-    
+
+    // check if we are on looking on a blog, in which case we have to make the url absolute
+    // to hit zope properly
+
+    url = window.location.href;
+    result = /(.*\/)blog\//.exec(url);
+    if (result && result.length == 2) {
+        urlPrefix = result[1];
+        manager = urlPrefix + 'project-home/' + manager;
+    }
+
     Dialog(manager, function(param) {
 	       if (!param) {	// user must have pressed Cancel
 		   return false;
