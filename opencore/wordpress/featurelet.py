@@ -1,23 +1,21 @@
-import hmac, sha
-import urllib
-
-from memojito import memoizedproperty
-
-from zope.interface import implements
-from zope.component import getUtility
-
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-
-from topp.featurelets.interfaces import IFeaturelet
-from topp.featurelets.base import BaseFeaturelet
-
+from memojito import memoizedproperty
 from opencore.interfaces import IProject
-
 from opencore.utility.interfaces import IHTTPClient
-
 from opencore.wordpress import uri as wp_uri
 from opencore.wordpress.interfaces import IWordPressFeatureletInstalled
+from topp.featurelets.base import BaseFeaturelet
+from topp.featurelets.interfaces import IFeaturelet
+from zope.component import getUtility
+from zope.interface import implements
+import hmac
+import sha
+import urllib
+import logging
+
+log = logging.getLogger('opencore.wordpress')
+
 
 class WordPressFeaturelet(BaseFeaturelet):
     """
@@ -43,6 +41,7 @@ class WordPressFeaturelet(BaseFeaturelet):
     def http(self):
         return getUtility(IHTTPClient)
 
+    # @@ use a template 
     def creation_command(self, signature, domain, title, members):
         return """<blog>
  <signature>
@@ -87,7 +86,7 @@ class WordPressFeaturelet(BaseFeaturelet):
         
         return BaseFeaturelet.deliverPackage(self, obj)
 
-    def removePackage(self, obj):
+    def removePackage(self, obj, raise_error=True):
         uri = "%s/openplans-delete-blog.php" % wp_uri.get()
         params = {}
 
@@ -104,7 +103,9 @@ class WordPressFeaturelet(BaseFeaturelet):
         response, content = self.http.request(uri, 'POST', headers={'Content-type': 'application/x-www-form-urlencoded'}, body=post)
         #import pdb; pdb.set_trace()
 
-        if response.status != 200:
+        if response.status != 200 and raise_error is True:
             raise AssertionError('Failed to remove wordpress blog: %s' % content)
+        else:
+            log.info('Failed to remove wordpress blog: %s' % content)
 
         return BaseFeaturelet.removePackage(self, obj)

@@ -1,17 +1,17 @@
-from zope.interface import Interface
-from zope.interface import implements
-from zope.interface import alsoProvides
-
-from zope.component import getMultiAdapter
-
+from interfaces import IListenContainer
+from interfaces import IListenFeatureletInstalled
+from opencore.interfaces import IProject
+from topp.featurelets.base import BaseFeaturelet
 from topp.featurelets.interfaces import IFeaturelet
 from topp.featurelets.interfaces import IFeatureletSupporter
-from topp.featurelets.base import BaseFeaturelet
+from zope.component import getMultiAdapter
+from zope.interface import Interface
+from zope.interface import alsoProvides
+from zope.interface import implements
+import logging
 
-from interfaces import IListenFeatureletInstalled
-from interfaces import IListenContainer
+log = logging.getLogger('opencore.featurelets.listen')
 
-from opencore.interfaces import IProject
 
 class ListenFeaturelet(BaseFeaturelet):
     """
@@ -47,3 +47,8 @@ class ListenFeaturelet(BaseFeaturelet):
         container.setLayout('mailing_lists')
         alsoProvides(container, IListenContainer)
         return self._info
+
+    def removePackage(self, obj, raise_error=True):
+        return BaseFeaturelet.removePackage(self, obj)
+
+            

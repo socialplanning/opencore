@@ -1,3 +1,4 @@
+<!-- deprecated / unused -->
 <tal:handle-request 
    replace="nothing"
    define="fdata view/handle_request">
