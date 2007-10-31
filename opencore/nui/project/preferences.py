@@ -44,7 +44,7 @@ class ProjectPreferencesView(ProjectPreferencesView):
 def handle_flet_uninstall(project, event=None):
     supporter = IFeatureletSupporter(project)
     for flet_id in supporter.getInstalledFeatureletIds():
-        supporter.removeFeaturelet(flet_id, raise_error=True)
+        supporter.removeFeaturelet(flet_id, raise_error=False)
 
 #@adapter(IProject, IObjectWillBeRemovedEvent)
 @adapter(ITeamSpaceTeamRelation, IObjectWillBeRemovedEvent)
