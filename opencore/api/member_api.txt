@@ -21,3 +21,48 @@ info.xml shows personal information about the member::
 
     >>> self.portal.people.m1.restrictedTraverse('info.xml')()
     '<info>...<name>Member One</name>...<email>notreal1@example.com</email>...</info>...'
+
+get-hash returns the user's opencore auth cookie so clients can set
+the cookie remotely::
+
+    >>> print http(r'''
+    ... POST /plone/people/m1/get-hash HTTP/1.1
+    ... Content-Type: application/x-www-form-urlencoded
+    ...
+    ... __ac_password=testy''')
+    HTTP/1.1 200 OK...
+    __ac=...
+
+It is only accessible by POST, to protect the user::
+    >>> print http(r'''
+    ... GET /plone/people/m1/get-hash HTTP/1.1
+    ... ''')
+    HTTP/1.1 405 Method Not Allowed...
+
+The request fails if the __ac_password parameter is not present or
+does not contain the user's valid password::
+    >>> print http(r'''
+    ... POST /plone/people/m1/get-hash HTTP/1.1
+    ... ''')
+    HTTP/1.1 400 Bad Request...
+
+    >>> print http(r'''
+    ... POST /plone/people/m1/get-hash HTTP/1.1
+    ... Content-Type: application/x-www-form-urlencoded
+    ...
+    ... __ac_password=wrong''')
+    HTTP/1.1 400 Bad Request...
+
+Sanity checks for the returned hash::
+    >>> view = self.portal.people.m1.restrictedTraverse('get-hash')
+    >>> #view.request = type("DummyRequest", (object,), {'environ':{}, 'form':{}})
+    >>> view.request.environ = {'REQUEST_METHOD': "POST"}
+    >>> view.request.form = {}
+    >>> view.request.form['__ac_password'] = "testy"
+    >>> content = view.get_cookie_hash()
+    >>> type(content)
+    <type 'str'>
+    >>> content.startswith("__ac=")
+    True
+    >>> content.endswith("%0A")
+    False
