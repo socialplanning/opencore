@@ -186,7 +186,7 @@ Now set a valid title::
     >>> IReadWorkflowPolicySupport(proj).getCurrentPolicyId()
     'closed_policy'
 
-    >>> from opencore.project.browser.projectinfo import get_featurelets
+    >>> from opencore.project.utils import get_featurelets
     >>> get_featurelets(proj)
     []
 
