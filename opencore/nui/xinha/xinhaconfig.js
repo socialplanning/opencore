@@ -822,7 +822,7 @@ var XinhaConfig = {
     filters : {
 	'tidy_handler' : null
     },
-    height : '600',
+    height : '300',
     ImageManager : { 
 	'backend' : 'backend?'
     },
@@ -831,11 +831,8 @@ var XinhaConfig = {
     plugins : [
       'ImageManager',
       'InternalLink',
-      'GetHtml',
-      'FullScreen'
-      //'TableOperations'
-      // remove spellchecker (don't have backend yet)
-      //'SpellChecker'
+      'GetHtml'
+      //'FullScreen'
     ],
     showLoading : false,
     statusBar : true,
@@ -845,9 +842,7 @@ var XinhaConfig = {
     },
     toolbar : [
         ["formatblock"],
-        ["fontsize"],
         ["bold","italic","strikethrough"],
-        ["forecolor","hilitecolor"],
         ["justifyleft","justifycenter","justifyright","justifyfull"],
         ["insertorderedlist","insertunorderedlist"],
         ["outdent","indent"],
@@ -855,10 +850,9 @@ var XinhaConfig = {
         ["inserttable"],
         ["toggleborders"],
         ["insertimage"],
-        ["htmlmode"],
-        ["fullscreen"]
+        ["htmlmode"]
     ],
-    width : '800'
+    width : '694'
   },
 
   advform : {
