@@ -59,7 +59,8 @@ def setBody(self, *args, **kw):
             title, body = args[0]
             args = (body,) + args[1:]
     except (TypeError, IndexError):
-        pass
+        pass # if there's no response body, args[0] will be None
+
     return orig_setBody(self, *args, **kw)
 
 def _traceback(self, t, v, tb, as_html=1):
