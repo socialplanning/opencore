@@ -1,6 +1,6 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title" tal:content="string:Start a Project - OpenPlans" />
+    <title metal:fill-slot="title" tal:content="string:Start a Project - ${view/portal_title}" />
   </head>
   <body>
     <div metal:fill-slot="content">
@@ -69,14 +69,12 @@
             <legend class="oc-legend-heading oc-biggerText">Step 2: Security</legend>
             <p class="oc-headingContext oc-smallText">Decide who can see and contribute to this project.  You will create your team on the next page.</p>
             <fieldset>
-              <!--<legend class="oc-legend-label">
-                <strong>Visitors to OpenPlans can:</strong>
-              </legend>-->
               <ul class="oc-form-radiolist oc-form-fieldBlock">
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
                   value="open_policy" />
-                  <label for="workflow_policy_open">Anyone can view this project and any OpenPlans member can contribute to it</label>
+                  <label for="workflow_policy_open"
+                         tal:contene="string:Anyone can view this project and any ${view/portal_title} member can contribute to it" />
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"

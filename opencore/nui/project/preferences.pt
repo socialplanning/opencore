@@ -66,12 +66,12 @@
             <fieldset class="oc-boxy">
               <legend class="oc-legend-heading oc-biggerText">Security</legend>
               <fieldset>
-                <!-- <legend class="oc-legend-label"><strong>Visitors to OpenPlans can:</strong></legend> -->
                 <ul class="oc-form-radiolist oc-form-fieldBlock">
                   <li>
                     <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
                     value="open_policy" tal:attributes="checked python:proj['security']=='open_policy' and 'checked' or ''"/>
-                    <label for="workflow_policy_open">Anyone can view this project and any OpenPlans member can contribute to it</label>
+                    <label for="workflow_policy_open"
+                           tal:content="string:Anyone can view this project and any ${view/portal_title} member can contribute to it" />
                   </li>
                   <li>
                     <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"

@@ -83,6 +83,9 @@ class EmailSender(object):
         be ignored; failing to include a kwarg required by the
         specified message will raise a KeyError.
         """
+        # insert the portal title, used by nearly every message
+        if not kwargs.has_key('portal_title'):
+            kwargs['portal_title'] = self.view.portal_title()
         msg = getattr(self.messages, msg_id)
         unicode_kwargs = self._unicode_values(kwargs)
         msg = Message(msg, mapping=unicode_kwargs)
