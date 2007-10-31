@@ -54,9 +54,12 @@ def exception(self, **kw):
 orig_setBody = HTTPResponse.setBody
 def setBody(self, *args, **kw):
     kw['is_error'] = 0
-    if len(args[0]) == 2:
-        title, body = args[0]
-        args = (body,) + args[1:]
+    try:
+        if len(args[0]) == 2:
+            title, body = args[0]
+            args = (body,) + args[1:]
+    except (TypeError, IndexError):
+        pass
     return orig_setBody(self, *args, **kw)
 
 def _traceback(self, t, v, tb, as_html=1):
