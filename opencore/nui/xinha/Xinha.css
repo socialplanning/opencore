@@ -1,3 +1,9 @@
+table.htmlarea {
+
+    width: 100% !important;
+
+}
+
 .htmlarea { background: #fff; }
 
 .htmlarea .toolbar {
