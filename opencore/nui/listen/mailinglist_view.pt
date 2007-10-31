@@ -57,7 +57,7 @@
             <dt i18n:translate="mailinglist_view_contact">
               Contact
             </dt>
-            <dd id="manager_email" tal:content="view/manager_email" i18n:translate="mailinglist_view_inquiries">
+            <dd id="manager_email" tal:content="view/manager_email">
               Please direct inquiries about this list to listmanager@example.com.
             </dd>
           </dl>
@@ -109,7 +109,7 @@
               </tal:anon>
               <tal:pending tal:condition="python: isPending">
               <h2 i18n:translate="mailinglist_view_sub_pending">Subscription pending</h2>
-                <p>
+                <p i18n:translate="mailinglist_view_sub_pending_desc">
                   Your subscription request is pending moderation by the list manager. 
                   <span id="manager_email" tal:content="view/manager_email" i18n:name="manager_email">
                     Please direct inquiries to listmanager@example.com.

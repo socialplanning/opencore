@@ -18,7 +18,7 @@
         <div class="oc-getstarted">
           <h2 i18n:translate="login_heading">New users</h2>
           <p i18n:translate="login_description">Whether your group is mobilizing voters, planning a protest, or growing a garden, OpenPlans can help you become more effective.</p>
-          <a i18n:translate="login_join" href="join" class="oc-banana"
+          <a href="join" class="oc-banana"
              tal:content="string:Join ${view/portal_title}" />
         </div>
       </div><!-- end #content-sidebar -->
