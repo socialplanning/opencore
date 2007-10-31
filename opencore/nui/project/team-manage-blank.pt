@@ -24,9 +24,7 @@
 
       <div id="oc-congrats" class="oc-getstarted">
         <h2>Congratulations on your new project!</h2>
-        <p>
-          You should now create a team for your project by adding existing
-          OpenPlans members.
+        <p tal:content="string:You should now create a team for your project by adding existing ${view/portal_title} members.">
         </p>
         <p>
           You will always be able to add new members and manage your team
@@ -39,9 +37,8 @@
         
         <div id="oc-search-members" class="oc-widget oc-widget-search oc-boxy">
           <h2>Search for members</h2>
-          <p class="oc-headingContext">
-            Search the OpenPlans directory to find users you know and
-            invite them to join your project.
+          <p class="oc-headingContext"
+             tal:content="string:Search the ${view/portal_title} directory to find users you know and invite them to join your project.">
           </p>
           <fieldset class="oc-form-fieldBlock" style="margin-bottom: 1em;">
             <input class="oc-input-typeText" type="text" name="search_for" />
@@ -62,8 +59,8 @@
   
         <h3>About Teams</h3>
         <p>
-          An OpenPlans team is a group of registered members that are
-          active participants in your project.
+          A team is a group of registered members that are active
+          participants in your project.
         </p>
         <p>
           If your project is open, anyone else can edit your content, but

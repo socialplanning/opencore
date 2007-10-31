@@ -3,14 +3,14 @@
 
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title" tal:content="string:${view/area/Title} on OpenPlans" />
+    <title metal:fill-slot="title" tal:content="string:${view/area/Title} on ${view/portal_title}" />
   </head>
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
         <tal:first-login condition="request/first_login | nothing">
           <div class="oc-getstarted oc-js-closeable">
-            <h1>Welcome to OpenPlans!</h1>
+            <h1 tal:content="string:Welcome to ${view/portal_title}!" />
             <p tal:condition="view/has_invitations" class="oc-bigText">
               Please take a moment to fill out your profile, then proceed to your <a href="account">account</a> page
               to join the project that invited you.

@@ -2,7 +2,7 @@
 
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title" tal:content="string:Account - ${view/area/Title} on OpenPlans" />
+    <title metal:fill-slot="title" tal:content="string:Account - ${view/area/Title} on ${view/portal_title}" />
   </head>
   <body>
 
