@@ -153,7 +153,7 @@ class LoginView(AccountView):
         if member and member.verifyCredentials({'login': id_, 
                                                 'password': password}):
             self.addPortalStatusMessage(_(u'psm_account_not_activated',u"""Your account has not yet been activated. An email was sent to ${user} from ${email_from_address} containing a link to activate your account.""",
-                                          mapping={u'user':member.getEmail()}), u'email_from_address', self.portal.getProperty('email_from_address'))
+                                          mapping={u'user':member.getEmail(), u'email_from_address':self.portal.getProperty('email_from_address')}))
             self.redirect('pending?key=%s' % member.UID())
             return True
         return False
