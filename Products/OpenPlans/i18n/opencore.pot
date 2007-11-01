@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2007-10-31 21:49+0000\n"
+"POT-Creation-Date: 2007-11-01 14:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -409,6 +409,11 @@ msgstr ""
 msgid "join_username_label"
 msgstr ""
 
+#. Default: "by"
+#: ./opencore/nui/listen/threaded_message.pt:40
+msgid "label_author"
+msgstr ""
+
 #. Default: "Site Administration"
 #: ./opencore/nui/error/error.pt:29
 msgid "label_site_admin"
@@ -444,7 +449,32 @@ msgstr ""
 msgid "listen_macros_summary"
 msgstr ""
 
-#. Default: "Whether your group is mobilizing voters, planning a protest, or growing a garden, OpenPlans can help you become more effective."
+#. Default: "Search"
+#: ./opencore/nui/listen/search.pt:26
+msgid "listen_search_button"
+msgstr ""
+
+#. Default: "Started by"
+#: ./opencore/nui/listen/search.pt:39
+msgid "listen_search_creator"
+msgstr ""
+
+#. Default: "No results for '${search_string}'. Please try another search term."
+#: ./opencore/nui/listen/search.pt:72
+msgid "listen_search_no_results"
+msgstr ""
+
+#. Default: "<h2>About &ldquo;${list_title}&rdquo;</h2> <dl class=\"oc-plainList\"> <dt>Address</dt> ${list_address} <dt>Description</dt> ${list_desc} </dl>"
+#: ./opencore/nui/listen/search.pt:83
+msgid "listen_search_sidebar"
+msgstr ""
+
+#. Default: "Subject"
+#: ./opencore/nui/listen/search.pt:37
+msgid "listen_search_subject"
+msgstr ""
+
+#. Default: "Whether your group is mobilizing voters, planning a protest, or growing a garden, ${DYNAMIC_CONTENT} can help you become more effective."
 #: ./opencore/nui/account/login.pt:20
 msgid "login_description"
 msgstr ""
@@ -754,6 +784,41 @@ msgstr ""
 msgid "moderation_users_heading"
 msgstr ""
 
+#. Default: "Cancel"
+#: ./opencore/nui/listen/new_topic_view.pt:74
+msgid "new_topic_cancel_button"
+msgstr ""
+
+#. Default: "Send"
+#: ./opencore/nui/listen/new_topic_view.pt:70
+msgid "new_topic_send_button"
+msgstr ""
+
+#. Default: "From:"
+#: ./opencore/nui/listen/new_topic_view.pt:30
+msgid "new_topic_view_from"
+msgstr ""
+
+#. Default: "New post to &ldquo;${list_title}&rdquo;"
+#: ./opencore/nui/listen/new_topic_view.pt:15
+msgid "new_topic_view_heading"
+msgstr ""
+
+#. Default: "Message:"
+#: ./opencore/nui/listen/new_topic_view.pt:51
+msgid "new_topic_view_message_body"
+msgstr ""
+
+#. Default: "(Required)"
+#: ./opencore/nui/listen/new_topic_view.pt:43
+msgid "new_topic_view_required"
+msgstr ""
+
+#. Default: "Subject:"
+#: ./opencore/nui/listen/new_topic_view.pt:34
+msgid "new_topic_view_subject"
+msgstr ""
+
 #. Default: "Please enter a password"
 #: ./opencore/nui/account/accountview.py:280
 msgid "no_password"
@@ -957,5 +1022,35 @@ msgstr ""
 #. Default: "Your request to join \"${project_title}\" has been sent to the project administrator(s)."
 #: ./opencore/nui/project/team.py:100
 msgid "team_proj_join_request_sent"
+msgstr ""
+
+#. Default: "flat"
+#: ./opencore/nui/listen/threaded_message.pt:20
+msgid "threaded_message_flat"
+msgstr ""
+
+#. Default: "Next in thread:"
+#: ./opencore/nui/listen/threaded_message.pt:60
+msgid "threaded_message_next"
+msgstr ""
+
+#. Default: "Replies:"
+#: ./opencore/nui/listen/threaded_message.pt:31
+msgid "threaded_message_replies"
+msgstr ""
+
+#. Default: "Return to date view:"
+#: ./opencore/nui/listen/threaded_message.pt:16
+msgid "threaded_message_return"
+msgstr ""
+
+#. Default: "In reply to:"
+#: ./opencore/nui/listen/threaded_message.pt:49
+msgid "threaded_message_thread_reply"
+msgstr ""
+
+#. Default: "threaded"
+#: ./opencore/nui/listen/threaded_message.pt:17
+msgid "threaded_message_threaded"
 msgstr ""
 
