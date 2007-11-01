@@ -73,8 +73,9 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
 
     def removePackage(self, obj, raise_error=True):
         response, content = self._makeHttpReqAsUser(self.uninit_uri, obj=obj)
-        if response.status != 200 and raise_error is True:
-            raise AssertionError("Error removing tasktracker featurelet")
-        else:
-            log.info('Error removing TaskTracker: %s' % content)
+        if response.status != 200:
+            if raise_error:
+                raise AssertionError("Error removing tasktracker featurelet: %s" % content)
+            else:
+                log.info('Error removing TaskTracker: %s' % content)
         return BaseFeaturelet.removePackage(self, obj)
