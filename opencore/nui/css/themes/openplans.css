@@ -166,7 +166,7 @@ ul#oc-topnav-context li.oc-topnav-selected a {
 
 /* Member badges */
 #oc-member-badge,
-.oc-peopleresults-list li.vcard,
+.oc-directory-list li.vcard,
 .oc-roster li.vcard {
   background-color: #F6F6F6;
 }
