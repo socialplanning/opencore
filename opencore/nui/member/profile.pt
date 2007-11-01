@@ -71,8 +71,10 @@
               </dt>
               <dd>
                 <tal:haswebsite condition="memberdata/website"
-                  define="website python:memberdata['website'].startswith('http://') and 
-                          memberdata['website'] or ('http://' + memberdata['website'])">
+                  define="as_entered memberdata/website;
+                          website python:(as_entered.startswith('http://') or
+                          as_entered.startswith('https://') and as_entered or
+                          ('http://' + as_entered)">
                   <a class="url" tal:attributes="href website"
                      tal:content="website" />
                 </tal:haswebsite>
