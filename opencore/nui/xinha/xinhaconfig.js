@@ -831,8 +831,8 @@ var XinhaConfig = {
     plugins : [
       'ImageManager',
       'InternalLink',
-      'GetHtml'
-      //'FullScreen'
+      'GetHtml',
+      'TableOperations'
     ],
     showLoading : false,
     statusBar : true,
@@ -847,10 +847,11 @@ var XinhaConfig = {
         ["insertorderedlist","insertunorderedlist"],
         ["outdent","indent"],
         ["createinternallink"],
-        ["inserttable"],
         ["toggleborders"],
         ["insertimage"],
-        ["htmlmode"]
+        ["htmlmode"],
+        ["linebreak"],
+        ["inserttable", "toggleborders"]
     ],
     width : '694'
   },

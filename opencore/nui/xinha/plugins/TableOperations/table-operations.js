@@ -26,7 +26,7 @@ function TableOperations(editor) {
   // Remove existing inserttable and toggleborders, we will replace it in our group  
   cfg.removeToolbarElement(' inserttable toggleborders '); 
   
-  var toolbar = ["inserttable"];//["linebreak", "inserttable", "toggleborders"];
+  var toolbar = ["inserttable", "toggleborders"];
     
 	for (var i = 0; i < bl.length; ++i) {
 		var btn = bl[i];
@@ -693,37 +693,36 @@ TableOperations.prototype.buttonPress = function(editor, button_id) {
 	}
 };
 
+// topp has edited the list of buttons here, directly in the plugin
 // the list of buttons added by this plugin
-TableOperations.btnList = [];
-/*
+TableOperations.btnList = [ //[];
 	// table properties button
     ["table-prop",       "table", "Table properties"],
 	null,			// separator
 
 	// ROWS
-	["row-prop",         "tr", "Row properties"],
+	//["row-prop",         "tr", "Row properties"],
 	["row-insert-above", "tr", "Insert row before"],
 	["row-insert-under", "tr", "Insert row after"],
 	["row-delete",       "tr", "Delete row"],
-	["row-split",        "td[rowSpan!=1]", "Split row"],
+	//["row-split",        "td[rowSpan!=1]", "Split row"],
 	null,
 
 	// COLS
 	["col-insert-before", "td", "Insert column before"],
 	["col-insert-after",  "td", "Insert column after"],
 	["col-delete",        "td", "Delete column"],
-	["col-split",         "td[colSpan!=1]", "Split column"],
+	//["col-split",         "td[colSpan!=1]", "Split column"],
 	null,
 
 	// CELLS
-	["cell-prop",          "td", "Cell properties"],
-	["cell-insert-before", "td", "Insert cell before"],
-	["cell-insert-after",  "td", "Insert cell after"],
-	["cell-delete",        "td", "Delete cell"],
-	["cell-merge",         "tr", "Merge cells"],
-	["cell-split",         "td[colSpan!=1,rowSpan!=1]", "Split cell"]
+	["cell-prop",          "td", "Cell properties"]
+	//["cell-insert-before", "td", "Insert cell before"],
+	//["cell-insert-after",  "td", "Insert cell after"],
+	//["cell-delete",        "td", "Delete cell"],
+	//["cell-merge",         "tr", "Merge cells"],
+	//["cell-split",         "td[colSpan!=1,rowSpan!=1]", "Split cell"]
 	];
-*/
 
 
 //// GENERIC CODE [style of any element; this should be moved into a separate
