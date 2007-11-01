@@ -144,7 +144,8 @@ text-align: left;
 #oc-topnav-usermenu {
  float: right;
 }
-.oc-usermenu-messagecount {
+.oc-usermenu-messagecount,
+.oc-mystuff-messagecount {
   color: #EB852B;
 }
 .oc-selected .oc-usermenu-messagecount {
