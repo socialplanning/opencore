@@ -11,7 +11,7 @@
       <div id="oc-content-sidebar">
         <div class="oc-getstarted">
           <h2 i18n:translate="forgot_new_users">New users</h2>
-          <p i18n:translate="forgot_openplans_more_effective">Whether your group is mobilizing voters, planning a protest, or growing a garden, <tal:block replace="view/portal_title">OpenPlans</tal:block> can help you become more effective.</p>
+          <p i18n:translate="forgot_openplans_more_effective">Whether your group is mobilizing voters, planning a protest, or growing a garden, <tal:block replace="view/portal_title" /> can help you become more effective.</p>
           <a href="join" class="oc-banana"
              tal:content="string:Join ${view/portal_title}" />
         </div>

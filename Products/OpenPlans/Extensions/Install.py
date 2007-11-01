@@ -61,6 +61,8 @@ from opencore.nui.indexing import createMemIndexes
 from opencore.nui.project.interfaces import IEmailInvites
 from opencore.nui.project.email_invites import EmailInvites
 
+psheet_id = 'opencore_properties'
+
 def fixUpEditTab(portal, out):
     pt=getToolByName(portal, 'portal_types')
     action=pt.Document._actions[1]
@@ -244,7 +246,8 @@ def setupPortalActions(portal, out):
     print >> out, '-> Changing condition on the "home" portal tab'
     atool = getToolByName(portal, 'portal_actions')
     action = atool.getActionObject('portal_tabs/index_html')
-    action.edit(title="OpenPlans Home", visible=False)
+    title = '%s Home' % portal.getProperty('title')
+    action.edit(title=title, visible=False)
 
     mtool = getToolByName(portal, 'portal_membership')
     action = mtool.getActionObject('user/mystuff')
@@ -597,7 +600,8 @@ def migrateATDocToOpenPage(portal, out):
 
 def setSiteIndexPage(portal, out):
     index_id = 'site-home'
-    index_title = 'OpenPlans Home'
+    portal_title = portal.getProperty('title')
+    index_title = '%s Home' % portal_title
     if index_id not in portal.objectIds():
         print >> out, '-> creating site index page'
         portal.invokeFactory('Document', index_id, title=index_title)
@@ -669,7 +673,8 @@ def installNewsFolder(portal, out):
         portal.manage_delObjects([existing_item.getId()])
         
     if getattr(portal.aq_base, 'news', None) is None:
-        portal.invokeFactory('Folder', 'news', title='OpenPlans News')
+        title = '%s News' % portal.getProperty('title')
+        portal.invokeFactory('Folder', 'news', title=title)
 
     # mark the news folder with an interface
     pf = getattr(portal, 'news')
@@ -723,6 +728,49 @@ def install_remote_auth_plugin(portal, out):
     openplans.manage_addOpenCoreRemoteAuth(plugin_id)
     activatePluginInterfaces(portal, plugin_id, out)
 
+from Products.GenericSetup.utils import PropertyManagerHelpers
+class PSheetImporter(PropertyManagerHelpers):
+    """
+    Stub class so we can use GS's XML parsing code for properties
+    outside of the regular GS context.
+    """
+    def __init__(self, context):
+        self.context = context
+
+    def _getNodeText(self, node):
+        text = ''
+        for child in node.childNodes:
+            if child.nodeName != '#text':
+                continue
+            lines = [ line.lstrip() for line in child.nodeValue.splitlines() ]
+            text += '\n'.join(lines)
+        return text
+
+    def _convertToBoolean(self, val):
+        return val.lower() in ('true', 'yes', '1')
+
+def install_opencore_propertysheet(portal, out):
+    ptool = getToolByName(portal, 'portal_properties')
+    if psheet_id not in ptool.objectIds():
+        print >> out, "Creating opencore_properties property sheet"
+        ptool.manage_addPropertySheet(psheet_id)
+    psheet = ptool._getOb(psheet_id)
+
+    # borrow some GenericSetup code
+    from xml.dom import minidom
+    import opencore.configuration
+    importer = PSheetImporter(psheet)
+
+    f = open('%s/profiles/default/propertiestool.xml'
+             % opencore.configuration.__path__[0])
+    root = minidom.parseString(f.read())
+    oc_sheet_node = None
+    for ob_node in root.getElementsByTagName('object'):
+        if ob_node.getAttribute('name') == psheet_id:
+            oc_sheet_node = ob_node
+            break
+    importer._initProperties(oc_sheet_node)
+
 def install(self, migrate_atdoc_to_openpage=True):
     out = StringIO()
     portal = getToolByName(self, 'portal_url').getPortalObject()
@@ -737,6 +785,7 @@ def install(self, migrate_atdoc_to_openpage=True):
     installCookieAuth(portal, out)
     securityTweaks(portal, out)
     uiTweaks(portal, out)
+    install_opencore_propertysheet(portal, out)
     setMemberType(portal, out)
     setCaseInsensitiveLogins(portal, out)
     setTeamType(portal, out)

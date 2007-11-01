@@ -15,6 +15,7 @@ from Products.OpenPlans.workflows import WORKFLOW_MAP
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from Products.OpenPlans.config import DEFAULT_ROLES
 from Products.OpenPlans.Extensions.Install import migrateATDocToOpenPage
+from Products.OpenPlans.Extensions.Install import psheet_id
 from openplanstestcase import OpenPlansTestCase, makeContent, \
      installConfiguredProducts, ArcheSiteTestCase
 from utils import installConfiguredProducts
@@ -60,6 +61,13 @@ class TestOpenPlansInstall(OpenPlansTestCase):
             self.failIf(wf_id not in wf_tool.listWorkflows() and
                         wf_id != '(Default)')
             
+    def test_propertysheetinstall(self):
+        ptool = getToolByName(self.portal, 'portal_properties')
+        self.failUnless(psheet_id in ptool.objectIds())
+        psheet = ptool._getOb(psheet_id)
+        self.failUnless(psheet.hasProperty('remote_auth_sites'))
+        self.failUnless(psheet.hasProperty('mailing_list_fqdn'))
+
     def test_install(self):
         # workflows are installed
         ttool = getToolByName(self.portal, 'portal_types')

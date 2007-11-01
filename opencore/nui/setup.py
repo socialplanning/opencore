@@ -27,6 +27,7 @@ from Products.OpenPlans.Extensions.Install import setCaseInsensitiveLogins, \
      setSiteEmailAddresses, updateWorkflowRoleMappings
 from Products.OpenPlans.Extensions.Install import install_remote_auth_plugin, \
      install_team_placeful_workflow_policies, addCatalogQueue
+from Products.OpenPlans.Extensions.Install import install_opencore_propertysheet
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans import config as op_config
 from indexing import createIndexes
@@ -316,6 +317,8 @@ nui_functions["Propagate workflow security settings"] = \
 nui_functions['markNewsItems'] = markNewsItems
 nui_functions['Install OpenCore Remote Auth Plugin'] = \
                        convertFunc(install_remote_auth_plugin)
+nui_functions['Install OpenCore configuration PropertySheet'] = \
+                       convertFunc(install_opencore_propertysheet)
 
 def run_nui_setup(portal):
     pm = portal.portal_migration
