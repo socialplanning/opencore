@@ -1538,7 +1538,7 @@ textarea {
 fieldset {
   border: none;
   padding: 0;
-  margin: 0;
+  margin: 0 0 1em;
 }
 label {
   font-weight: bold;
