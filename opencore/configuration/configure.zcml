@@ -18,6 +18,7 @@
   <!--include package="opencore.wordpress" /-->
   <include package="opencore.redirect" />
   <include package="opencore.utility" />
+  <include package="opencore.clockqueue" />
 
 </configure>
  

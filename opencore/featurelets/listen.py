@@ -48,7 +48,5 @@ class ListenFeaturelet(BaseFeaturelet):
         alsoProvides(container, IListenContainer)
         return self._info
 
-    def removePackage(self, obj, raise_error=True):
-        return BaseFeaturelet.removePackage(self, obj)
 
             
