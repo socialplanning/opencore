@@ -490,6 +490,10 @@ dl.oc-member-info dd {
   margin-right: 1em;
   margin-bottom: 0.5em;
 }
+.oc-member-edit #oc-member-badge .oc-member-editimage .oc-expander-open {
+  border: 1px solid orange; 
+  background-color: #fffff9;
+}
 .oc-member-edit #oc-member-badge .oc-plainList input {
   width: 60%;
 }
