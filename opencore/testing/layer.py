@@ -95,7 +95,7 @@ class OpenPlansLayer(SiteSetupLayer):
         portal.MailHost = portal.oldMailHost
         del portal.oldMailHost
         del portal.browser_id_manager
-        raise NotImplementedError
+
 
 class OpencoreContent(OpenPlansLayer):
     @classmethod
