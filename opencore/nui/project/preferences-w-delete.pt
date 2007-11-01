@@ -163,7 +163,7 @@
                 <button type="submit" 
                   name="delete:boolean" 
                   value="True" 
-                  class="oc-button oc-warn-popup">
+                  class="oc-button oc-confirmProjectDelete">
                   Delete Project
                 </button>
             </fieldset>
