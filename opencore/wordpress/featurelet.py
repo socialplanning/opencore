@@ -103,9 +103,10 @@ class WordPressFeaturelet(BaseFeaturelet):
         response, content = self.http.request(uri, 'POST', headers={'Content-type': 'application/x-www-form-urlencoded'}, body=post)
         #import pdb; pdb.set_trace()
 
-        if response.status != 200 and raise_error is True:
-            raise AssertionError('Failed to remove wordpress blog: %s' % content)
-        else:
-            log.info('Failed to remove wordpress blog: %s' % content)
+        if response.status != 200:
+            if raise_error:
+                raise AssertionError('Failed to remove wordpress blog: %s' % content)
+            else:
+                log.info('Failed to remove wordpress blog: %s' % content)
 
         return BaseFeaturelet.removePackage(self, obj)
