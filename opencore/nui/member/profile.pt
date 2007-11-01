@@ -70,8 +70,15 @@
                    href="profile-edit?field=website">Edit</a>
               </dt>
               <dd>
-                <a class="url" tal:attributes="href memberdata/website"
-                   tal:content="memberdata/website" />
+                <tal:haswebsite condition="memberdata/website"
+                  define="website python:memberdata['website'].startswith('http://') and 
+                          memberdata['website'] or ('http://' + memberdata['website'])">
+                  <a class="url" tal:attributes="href website"
+                     tal:content="website" />
+                </tal:haswebsite>
+                <tal:nohaswebsite condition="not:memberdata/website">
+                  none
+                </tal:nohaswebsite>
               </dd>
             </dl>
           </div>
