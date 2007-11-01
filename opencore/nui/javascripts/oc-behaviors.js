@@ -44,8 +44,8 @@ OC.liveElementKey.Class = {
     'oc-js-actionSelect'     : "ActionSelect",
     'oc-js-liveValidate'     : "LiveValidatee",
     "oc-js-closeable"        : "CloseButton",
-    "oc-directEdit"          : "DirectEdit"
-
+    "oc-directEdit"          : "DirectEdit",
+    "oc-confirmProjectDelete": "ConfirmProjectDelete",
 }
 OC.liveElementKey.Id = {
     "version_compare_form"   : "HistoryList",
@@ -1435,3 +1435,43 @@ OC.Toggler = function(extEl) {
     }
     checkbox.on('click', _handle_toggle, this);
 };
+
+/*
+#  Confirmation for Project Deletion
+*/
+
+OC.ConfirmProjectDelete = function(extEl) {
+
+  //get refs
+  var button = extEl;
+  
+  //check refs
+  if (!button) {
+    return;
+  }
+  
+  extEl.on('click', function(e, el) { 
+       YAHOO.util.Event.preventDefault(e);
+      var msg = "Project deletion is permanent and irreversible <br /><br /> Are you sure you want to remove this project?<br />";
+      Ext.MessageBox.confirm('Confirm', msg, _callback);
+   });
+  
+  function _callback(button_id) {
+      // is there a way to climb the dom tree?
+      // and aquire the parent form?
+      //button = Ext.get(button_id);
+
+      var form = document.forms['prefs_form'];
+      var button = form.elements['delete:boolean'];
+      console.log(button);
+      button.status = true
+      console.log(button.status);
+      console.log(button.value);
+
+      button.form.submit(); // this should work
+
+      //form.submit();
+
+  }
+
+}
