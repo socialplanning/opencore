@@ -83,7 +83,7 @@
                       favs   python: memberdata['favorites']   #instead use the following when tagger is ready: view.viewed_member_profile_tags('favorites');">
 
           <span tal:replace="structure python:
-            view.field_snippet(title='Personal Statement',
+            view.field_snippet(title='About',
                                value=memberdata.get('statement'),
                                anchor='statement')" />
           <span tal:replace="structure python:
