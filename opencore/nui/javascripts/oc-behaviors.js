@@ -45,7 +45,7 @@ OC.liveElementKey.Class = {
     'oc-js-liveValidate'     : "LiveValidatee",
     "oc-js-closeable"        : "CloseButton",
     "oc-directEdit"          : "DirectEdit",
-    "oc-confirmProjectDelete": "ConfirmProjectDelete",
+    "oc-confirmProjectDelete": "ConfirmProjectDelete"
 }
 OC.liveElementKey.Id = {
     "version_compare_form"   : "HistoryList",
