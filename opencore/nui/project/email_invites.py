@@ -1,6 +1,6 @@
 from zope.interface import implements
 from zope.app.annotation import IAnnotations
-from topp.utils.persistent import OOBTreeBag
+from topp.utils.persistent import OOBTreeBag, KeyedMap
 from BTree.OOBTree import OOBTree
 import DateTime
 from OFS.SimpleItem import SimpleItem
@@ -77,14 +77,5 @@ class EmailInvites(SimpleItem):
             self.removeInvitation(address, proj_id)
 
 
-class KeyedMap(OOBTreeBag):
-    """simple btree ish mapping with it's own unique key"""
-    def __init__(self, btree=None, key=None):
-        self._data = btree
-        if not btree: # for migration
-            self._data = OOBTree()
-        self.key = self.make_key(key)
-        
-    def make_key(self, input):
-        return hash(self, input)
+
     
