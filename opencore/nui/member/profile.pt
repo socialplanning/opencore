@@ -96,21 +96,23 @@
                                value=memberdata.get('statement'),
                                anchor='statement')" />
           <span tal:replace="structure python:
-            view.field_snippet(title='Background',
-                               value=memberdata.get('background'),
-                               anchor='background')" />
-          <span tal:replace="structure python:
-            view.field_snippet(title='Skills/Interests',
+            view.field_snippet(title='Interests',
                                value=skills,
                                anchor='skills')" />
-          <span tal:replace="structure python:
-            view.field_snippet(title='Affiliations',
-                               value=affils,
-                               anchor='affiliations')" />
-          <span tal:replace="structure python:
-            view.field_snippet(title='Favorites',
-                               value=favs,
-                               anchor='favorites')" />
+          <tal:comment replace="nothing">
+            <span tal:replace="structure python:
+              view.field_snippet(title='Background',
+                                 value=memberdata.get('background'),
+                                 anchor='background')" />
+            <span tal:replace="structure python:
+              view.field_snippet(title='Affiliations',
+                                 value=affils,
+                                 anchor='affiliations')" />
+            <span tal:replace="structure python:
+              view.field_snippet(title='Favorites',
+                                 value=favs,
+                                 anchor='favorites')" />
+          </tal:comment>
 
         </dl>
       </div><!-- end #oc-content-main -->
