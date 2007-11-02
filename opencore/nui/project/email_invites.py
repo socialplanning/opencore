@@ -1,13 +1,12 @@
-from zope.interface import implements
-from zope.app.annotation import IAnnotations
-from topp.utils.persistence import OOBTreeBag, KeyedMap
 from BTrees.OOBTree import OOBTree
-import DateTime
 from OFS.SimpleItem import SimpleItem
-
 from Products.CMFCore.utils import getToolByName
-
 from opencore.nui.project.interfaces import IEmailInvites
+from topp.utils.persistence import OOBTreeBag, KeyedMap, bbb_keymap
+from zope.app.annotation import IAnnotations
+from zope.interface import implements
+import DateTime
+
 
 class EmailInvites(SimpleItem):
     """
@@ -21,6 +20,7 @@ class EmailInvites(SimpleItem):
         self._by_address = OOBTree()
         self._by_project = OOBTree()
 
+    @bbb_keymap(wrap=True) # put a contextual here eventually
     def getInvitesByEmailAddress(self, address):
         return self._by_address.get(address, KeyedMap(key=(address, self)))
 
