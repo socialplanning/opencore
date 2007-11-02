@@ -28,6 +28,7 @@ setup(name='opencore',
                         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof'],
       install_requires=[
           # -*- Extra requirements: -*-
+          'hprof',
           "ClockQueue==dev,>=0.0",
           'simplejson',
           'decorator',
