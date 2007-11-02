@@ -1,7 +1,7 @@
 from zope.interface import implements
 from zope.app.annotation import IAnnotations
-from topp.utils.persistent import OOBTreeBag, KeyedMap
-from BTree.OOBTree import OOBTree
+from topp.utils.persistence import OOBTreeBag, KeyedMap
+from BTrees.OOBTree import OOBTree
 import DateTime
 from OFS.SimpleItem import SimpleItem
 
