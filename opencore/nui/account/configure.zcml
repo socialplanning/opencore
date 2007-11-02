@@ -63,6 +63,13 @@
 
   <browser:page
      for="opencore.interfaces.IOpenSiteRoot"
+     class=".join.InviteJoinView"
+     permission="zope.Public"
+     name="invite-join"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
      class=".accountview.PendingView"
      permission="zope.Public"
      name="pending"
