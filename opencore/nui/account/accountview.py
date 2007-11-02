@@ -123,9 +123,11 @@ ${portal_url}""", mapping={u'url':url,
                            u'portal_url':self.siteURL})
         
         sender = EmailSender(self, secureSend=True)
+        subject = _(u'email_to_pending_user_subject',
+                    u'Welcome to %s! - Confirm your email' % self.portal_title())
         sender.sendEmail(mto=email,
                          msg=message,
-                         subject=_(u'email_to_pending_user_subject', u'Welcome to %s! - Confirm your email' % self.portal_title()))
+                         subject=subject)
 
 
 class LoginView(AccountView):

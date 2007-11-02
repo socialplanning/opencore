@@ -226,6 +226,7 @@ Test what happens when both passwords are blank
     {}
     >>> request.form = form
 
+
 If you add 'task|validate' to the request before submitting
 the form the validate() method will be triggered::
 
@@ -536,3 +537,16 @@ Ensure test atomicity by removing the created user:
 Is the member still in the catalog?
 
 
+Creation email message
+=======================
+Bug #1711. Member creation message should use the portal title.
+
+    >>> view = portal.restrictedTraverse("@@join")
+    >>> mh = view.get_tool('MailHost')
+    >>> mh
+    <...MockMailHost at ...>
+    >>> view._sendmail_to_pendinguser('unused id', '1711@example.com',
+    ...                               'http://confirm-url.com')
+    >>> emailtext = mh.messages[-1].get_payload()
+    >>> emailtext.count(view.portal_title()) > 0
+    True

@@ -345,8 +345,7 @@ class BaseView(BrowserView):
         return aq_iface(self.context, self.site_iface)
 
     def portal_title(self):
-        portal = aq_iface(self.context, self.site_iface)
-        return portal.Title()
+        return self.portal.Title()
     
     portal = property(view.memoize_contextless(get_portal))
 
