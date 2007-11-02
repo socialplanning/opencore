@@ -598,6 +598,25 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                 else:
                     good.append(addy)
         return bad
+
+    def do_nonmember_invite_email(self):
+        # perform invitation
+        key = self.invite_util.addInvitation(addy, proj_id)
+        query_str = urllib.urlencode(dict(email=addy,__k=key))
+        join_url = "%s/invite-join?%s" % (self.portal.absolute_url(),
+                                                      query_str)
+        msg_subs = dict(project_title=self.context.title,
+                        join_url=join_url,
+                        portal_url=self.siteURL,
+                        portal_title=self.portal_title
+                        )
+        self.email_sender.sendEmail(addy, msg_id='invite_email',
+                                    **msg_subs)
+
+    @view.memoizedproperty
+    @staticmethod
+    def invite_util():
+        return getUtility(IEmailInvites)
         
     @formhandler.action('email-invites')
     def add_email_invites(self, targets=None, fields=None):
@@ -621,7 +640,6 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             self.add_status_message(psm)
             return # don't do anything, just re-render the form
         
-        utility = getUtility(IEmailInvites, context=self.portal)
         proj_id = self.context.getId()
         proj_title = self.context.title
         mbtool = self.membranetool
@@ -652,20 +670,10 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                     mem_failures.append(mem_id)
             else:
                 # not a member
-                if addy in utility.getInvitesByProject(proj_id):
+                if addy in self.invite_util.getInvitesByProject(proj_id):
                     already_invited.append(addy)
                 else:
-                    # perform invitation
-                    utility.addInvitation(addy, proj_id)
-                    query_str = urllib.urlencode({'email': addy})
-                    join_url = "%s/join?%s" % (self.portal.absolute_url(),
-                                               query_str)
-                    msg_subs = {'project_title': self.context.title,
-                                'join_url': join_url,
-                                'portal_url': self.siteURL,
-                                }
-                    self.email_sender.sendEmail(addy, msg_id='invite_email',
-                                                **msg_subs)
+                    self.do_nonmember_invitation_email(addy)
                     email_invites.append(addy)
 
         if mem_invites:
