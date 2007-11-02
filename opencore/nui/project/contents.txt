@@ -155,8 +155,8 @@ the project's contents listing to "Hobbes"::
     ...         'new1_title': 'Hobbes',
     ...         'item_type': 'pages'}
     >>> request.form = form
-    >>> view()
-    u'...'
+    >>> isinstance(view(), basestring) # this is a dumb test
+    True
 
     >>> page.Title()
     'Hobbes'
