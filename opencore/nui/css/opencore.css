@@ -436,11 +436,9 @@ dl.oc-plainList dd {
 #oc-home-getstarted {
 
 }
-.oc-columnGroup,
 .oc-home-columnGroup {
   width: 100%;
 }
-.oc-column,
 .oc-home-column {
   float: left;
   margin: 0 1%;
