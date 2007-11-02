@@ -6,6 +6,7 @@ from opencore.interfaces.adding import IAmAPeopleFolder
 from opencore.interfaces.adding import IAmANewsFolder
 
 from opencore.interfaces.membership import IOpenMembership
+from opencore.interfaces.pending_requests import IPendingRequests
 
 from Products.wicked.interfaces import IAmWicked
 from zope.interface import Interface 

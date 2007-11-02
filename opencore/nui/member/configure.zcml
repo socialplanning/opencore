@@ -62,4 +62,14 @@
      handler=".event.membership_changed_reindex_catalog"
      />
 
+  <adapter
+     for="zope.app.annotation.interfaces.IAnnotatable"
+     provides="opencore.interfaces.pending_requests.IPendingRequests"
+     factory="opencore.nui.member.pending_requests.PendingRequests"
+     />
+  <content class="opencore.content.member.OpenMember">
+    <implements interface="zope.app.annotation.IAttributeAnnotatable" />
+  </content>
+	   
+     
 </configure>
