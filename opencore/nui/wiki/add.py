@@ -87,6 +87,7 @@ def get_view_names(obj, ignore_dummy=False):
     return set(reg.name for reg in regs\
                if reg.required[-1].isOrExtends(IRequest))
 
+
 class Dummy(BaseView):
     """Creates dummy for blocking the overcreation of deliverance
     paths"""
