@@ -72,7 +72,8 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
         return BaseFeaturelet.deliverPackage(self, obj)
 
     def removePackage(self, obj, raise_error=True):
-        response, content = self._makeHttpReqAsUser(self.uninit_uri, obj=obj)
+        header = {"X-Openplans-Tasktracker-Initialize":"True"}
+        response, content = self._makeHttpReqAsUser(self.uninit_uri, obj=obj, headers=header)
         if response.status != 200:
             if raise_error:
                 raise AssertionError("Error removing tasktracker featurelet: %s" % content)
