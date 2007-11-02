@@ -7,6 +7,15 @@
     <div metal:fill-slot="content">
 
       <div id="oc-content-main">
+
+	<!-- explanation of editting your profile -->
+	<p>
+	  <a tal:attributes="href
+			     string:${context/absolute_url}/profile-edit">
+	    edit my profile
+	  </a>
+	</p>
+
       </div><!-- end #oc-content-main -->
 
       <div id="oc-content-sidebar">
