@@ -445,7 +445,7 @@ Verify initial login converts email invites to mship invites
     >>> self.login(mem_id)
     >>> view = portal.restrictedTraverse('init-login')
     >>> view()
-    'http://...first_login=1'
+    'http://...m1/tour'
 
     We should have a pending membership, last workflow actor is not
     the member himself
