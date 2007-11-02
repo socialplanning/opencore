@@ -1,4 +1,5 @@
 from opencore.nui.project.team import * # star imports are for panzies
+from opencore.nui.base import view
 
 EMAIL_RE = re.compile(EMAIL_RE)
 TA_SPLIT = re.compile('\n|,')
@@ -595,11 +596,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             if addy: # ignore empty entries
                 if EMAIL_RE.match(addy) is None:
                     bad.append(addy)
-                else:
-                    good.append(addy)
         return bad
 
-    def do_nonmember_invite_email(self):
+    def do_nonmember_invitation_email(self, addy, proj_id):
         # perform invitation
         key = self.invite_util.addInvitation(addy, proj_id)
         query_str = urllib.urlencode(dict(email=addy,__k=key))
@@ -608,14 +607,13 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         msg_subs = dict(project_title=self.context.title,
                         join_url=join_url,
                         portal_url=self.siteURL,
-                        portal_title=self.portal_title
+                        portal_title=self.portal_title()
                         )
         self.email_sender.sendEmail(addy, msg_id='invite_email',
                                     **msg_subs)
 
     @view.memoizedproperty
-    @staticmethod
-    def invite_util():
+    def invite_util(self):
         return getUtility(IEmailInvites)
         
     @formhandler.action('email-invites')
@@ -673,7 +671,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                 if addy in self.invite_util.getInvitesByProject(proj_id):
                     already_invited.append(addy)
                 else:
-                    self.do_nonmember_invitation_email(addy)
+                    self.do_nonmember_invitation_email(addy, proj_id)
                     email_invites.append(addy)
 
         if mem_invites:
