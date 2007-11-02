@@ -1,5 +1,7 @@
 from opencore.i18n import _
 
+# @@ could we use some fricking type of templates here?
+
 invite_member = _(u'email_invite_member', u"""Subject: ${portal_title} - Invitation to join ${project_title}
 
 You have been invited to join "${project_title}".  Please visit your account page to accept or decline the invitation: ${account_url}
