@@ -39,7 +39,7 @@ Flet Removal
     >>> handle_flet_uninstall(project) 
     Called httplib2.Http.request(
         u'http://.../project/uninitialize/',
-        headers={'X-Openplans-Project': 'p1', 'Cookie': '__ac=...'},
+        headers={...},
         method='POST')
 
 Gotta reinstall::    
@@ -93,7 +93,7 @@ Put it all together
     >>> deleting = view._handle_delete() 
     Called httplib2.Http.request(
         u'http://.../project/uninitialize/',
-        headers={'X-Openplans-Project': 'p1', 'Cookie': '__ac=...'},
+        headers={...},
         method='POST')
 
     >>> deleting
