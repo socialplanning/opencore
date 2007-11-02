@@ -8,22 +8,18 @@ from opencore.nui.formhandler import action, post_only
 from opencore.nui.base import view
 from opencore.nui.project.interfaces import IEmailInvites
 from zope.component import getUtility
-import time
+
 
 class InviteJoinView(accountview.JoinView):
     """a preconfirmed join view that also introspects any invitation a
     perspective member has"""
-
-    def _get_confirmation_email(self):
-        pass
 
     def do_project_joins(self, member, project_ids):
         for proj_id in self.project_ids:
             continue
     
     @view.memoizedproperty
-    @staticmethod
-    def invite_util():
+    def invite_util(self):
         return getUtility(IEmailInvites)
     
     @view.memoizedproperty
