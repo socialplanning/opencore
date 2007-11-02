@@ -5,7 +5,7 @@ separate pre-confirmed view for folks already invited to a project
 
 from opencore.nui.account import accountview
 
-class InviteJoinView(accountview):
+class InviteJoinView(accountview.JoinView):
     """a preconfirmed join view that also introspects any invitation a
     perspective member has"""
     
