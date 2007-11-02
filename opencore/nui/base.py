@@ -9,6 +9,7 @@ from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
 from opencore.interfaces import IProject 
+from opencore.project.utils import project_path
 from zope.i18nmessageid import Message
 from opencore.i18n import i18n_domain, _
 from opencore.i18n import translate
@@ -482,6 +483,10 @@ class BaseView(BrowserView):
     @property
     def portal_url(self):
         return self.get_tool('portal_url')
+
+    @property
+    def projects_url(self, project=None):
+        return '%s/%s' % ( self.siteURL, project_path(project) )
 
     @instance.clearbefore
     def _clear_instance_memos(self):
