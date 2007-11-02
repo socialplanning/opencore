@@ -1,0 +1,58 @@
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:Tour - ${view/area/Title} on ${view/portal_title}" />
+  </head>
+  <body>
+
+    <div metal:fill-slot="content">
+
+      <div id="oc-content-main">
+
+	<!-- explanation for create a team -->
+	<p>
+	  <a tal:attributes="href string:${context/absolute_url}/manage-team">Manage Team</a>
+	</p>
+
+	<!-- explanation for (wiki) pages -->
+	<p>
+	  <a tal:attributes="href string:${context/absolute_url}/project-home">Pages</a>
+	</p>
+
+	<!-- explanation for blog posts -->
+	<p tal:condition="view/has_blog">
+	  <a tal:attributes="href string:${context/absolute_url}/blog">Blog</a>
+	</p>
+
+	<!-- explanation for email lists -->
+	<p tal:condition="view/has_mailing_lists">
+	  <a tal:attributes="href
+			     string:${context/absolute_url}/lists">email lists</a>
+	</p>
+
+	<!-- explanation for task tracker -->
+	<p tal:condition="view/has_task_tracker">
+	  <a tal:attributes="href
+			     string:${context/absolute_url}/blog">task tracker</a>
+	</p>
+
+	<!-- Info about your preferences -->
+	<p>
+	  <a tal:attributes="href
+			     string:${context/absolute_url}/preferences">your preferences</a>
+	</p>
+	
+	<!-- Info about contents page -->
+	<p>
+	  <a tal:attributes="href
+			     string:${context/absolute_url}/contents">contents page</a>
+	</p>
+
+      </div><!-- end #oc-content-main -->
+
+      <div id="oc-content-sidebar">
+      </div><!-- end #oc-content-sidebar -->
+
+  </div><!-- content-fill-slot -->
+  </body>
+</html>
+

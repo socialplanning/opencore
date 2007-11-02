@@ -522,13 +522,15 @@ class ProjectAddView(BaseView, OctopoLite):
             IHomePage(proj).home_page = home_page
 
         s_message_mapping = {'title': title, 'proj_edit_url': proj_edit_url}
+
+
         s_message = _(u'project_created',
                       u'"${title}" has been created. Create a team by searching for other members to invite to your project, then <a href="${proj_edit_url}">edit your project home page</a>.',
                       mapping=s_message_mapping)
         
-        self.add_status_message(s_message)
+#        self.add_status_message(s_message)
 
-        self.redirect('%s/manage-team' % proj.absolute_url())
+        self.redirect('%s/tour' % proj.absolute_url())
 
     def notify(self, project):
         event.notify(AfterProjectAddedEvent(project, self.request))
@@ -614,6 +616,9 @@ def valid_project_title(title):
                 return True
 
     return False
+
+class TourView(ProjectBaseView):
+    """ dummy view for the 1 page tour """
 
 _ignore = dict((char, True) for char in ''.join((string.punctuation, string.whitespace)))
 _printable = dict((char, True) for char in string.printable)
