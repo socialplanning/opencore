@@ -27,6 +27,7 @@ from opencore.nui.project.interfaces import IEmailInvites
 from opencore.nui.formhandler import * # start import are for pansies
 from DateTime import DateTime
 
+
 class AccountView(BaseView):
     """
     base class for views dealing with accounts
@@ -264,8 +265,7 @@ class JoinView(AccountView, OctopoLite):
     def handle_request(self):
         """ redirect logged in users """
 
-    @action('join', apply=post_only(raise_=False))
-    def create_member(self, targets=None, fields=None):
+    def _create_member(self, targets=None, fields=None, confirmed=False):
         mdc = self.get_tool('portal_memberdata')
         mem = mdc._validation_member
 
@@ -301,11 +301,12 @@ class JoinView(AccountView, OctopoLite):
                        self.context.absolute_url()))
         result = mem.processForm()
         notify(ObjectCreatedEvent(mem))
-        mem.setUserConfirmationCode()
+        if not confirmed: # pdb through this
+            mem.setUserConfirmationCode()
 
         url = self._confirmation_url(mem)
 
-        if email_confirmation():
+        if not confirmed and email_confirmation():
             self._sendmail_to_pendinguser(id=mem_id,
                                           email=self.request.get('email'),
                                           url=url)
@@ -317,6 +318,9 @@ class JoinView(AccountView, OctopoLite):
             return mdc._getOb(mem_id)
         else:
             return self.redirect(url)
+        return mem
+
+    create_member = action('join', apply=post_only(raise_=False))(_create_member)
 
     @action('validate')
     def validate(self, targets=None, fields=None):
