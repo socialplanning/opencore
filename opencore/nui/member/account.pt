@@ -37,8 +37,8 @@
             <li class="oc-invite oc-boxy oc-clearAfter"
                 tal:define="proj_id projinfo/proj_id"
                 tal:attributes="id string:${proj_id}_invitation">
-              <div class="oc-avatar">
-                <!-- XXX is this the project avatar? proj admin avatar? -->
+              <div tal:omit-tag="" class="oc-avatar">
+                <!-- XXX is this the project avatar. commented out until we use it -->
                 <img src="" />
               </div>
               <p class="oc-invite-content">
