@@ -6,7 +6,7 @@
     <div metal:fill-slot="content">
       <div class="oc-headingBlock">
         <h1>Start a project</h1>
-        <br />
+        <p class="oc-headingContext">Each project is a toolbox to help you get things done. Using your project you can team up with others, sketch out your plans, and keep track of your progress.</p>
       </div>
       <div id="oc-content-main" class="oc-content-main-fullWidth">
         <form name="create_form" id="oc-project-create" method="post"
