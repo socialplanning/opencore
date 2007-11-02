@@ -1,8 +1,8 @@
 from zope.interface import implements
 from zope.app.annotation import IAnnotations
-
+from topp.utils.persistent import OOBTreeBag
+from BTree.OOBTree import OOBTree
 import DateTime
-from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
 
 from Products.CMFCore.utils import getToolByName
@@ -22,7 +22,7 @@ class EmailInvites(SimpleItem):
         self._by_project = OOBTree()
 
     def getInvitesByEmailAddress(self, address):
-        return self._by_address.get(address, OOBTree())
+        return self._by_address.get(address, KeyedMap(key=(address, self)))
 
     def getInvitesByProject(self, proj_id):
         return self._by_project.get(proj_id, OOBTree())
@@ -75,3 +75,16 @@ class EmailInvites(SimpleItem):
                 mship.reindexObject()
                 
             self.removeInvitation(address, proj_id)
+
+
+class KeyedMap(OOBTreeBag):
+    """simple btree ish mapping with it's own unique key"""
+    def __init__(self, btree=None, key=None):
+        self._data = btree
+        if not btree: # for migration
+            self._data = OOBTree()
+        self.key = self.make_key(key)
+        
+    def make_key(self, input):
+        return hash(self, input)
+    
