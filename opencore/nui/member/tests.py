@@ -48,8 +48,7 @@ def test_suite():
                                  globs=globs,
                                  )
 
-    #return unittest.TestSuite((readme, transient, pending))
-    return unittest.TestSuite((pending,))
+    return unittest.TestSuite((readme, transient, pending))
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')
