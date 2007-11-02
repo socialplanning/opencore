@@ -1,0 +1,18 @@
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:Tour - ${view/area/Title} on ${view/portal_title}" />
+  </head>
+  <body>
+
+    <div metal:fill-slot="content">
+
+      <div id="oc-content-main">
+      </div><!-- end #oc-content-main -->
+
+      <div id="oc-content-sidebar">
+      </div><!-- end #oc-content-sidebar -->
+
+  </div><!-- content-fill-slot -->
+  </body>
+</html>
+

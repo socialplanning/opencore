@@ -410,7 +410,7 @@ class InitialLogin(BaseView):
         baseurl = self.memfolder_url()
         # Go to the user's Profile Page in Edit Mode
         return self.redirect("%s/%s" % (self.memfolder_url(),
-                                        'profile-edit?first_login=1'))
+                                        'tour'))
 
 
 class ForgotLoginView(AccountView):

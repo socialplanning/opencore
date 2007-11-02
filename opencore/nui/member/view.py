@@ -735,3 +735,6 @@ class TrackbackView(BaseView):
         # TODO: Make sure this is an AJAX request before sending an AJAX response
         #       by using octopus/octopolite
         return {'trackback_%s' % index: {'action': 'delete'}}
+
+class TourView(BaseView):
+    """ dummy view for the 1page tour """

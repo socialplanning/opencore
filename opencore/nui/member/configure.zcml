@@ -32,14 +32,20 @@
      attribute="delete"
      />
 
-
-
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
      class=".view.ProfileView"
      permission="zope2.View"
      name="profile"
      template="profile.pt"
+     />
+
+  <browser:page
+     for="opencore.siteui.interfaces.IMemberFolder"
+     class=".view.TourView"
+     permission="cmf.ModifyPortalContent"
+     name="tour"
+     template="tour.pt"
      />
 
   <browser:page
