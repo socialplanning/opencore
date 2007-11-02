@@ -55,7 +55,7 @@
 
   <browser:page
      for="opencore.interfaces.IProject"
-     class=".team.ManageTeamView"
+     class=".manageteam.ManageTeamView"
      permission="teamspace.ManageTeamMemberships"
      name="manage-team"
      />
