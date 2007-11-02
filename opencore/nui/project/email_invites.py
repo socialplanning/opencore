@@ -38,6 +38,7 @@ class EmailInvites(SimpleItem):
         if address not in by_project:
             by_project[address] = now
             self._by_project[proj_id] = by_project
+        return by_address.key
 
     def removeInvitation(self, address, proj_id):
         by_email = self.getInvitesByEmailAddress(address)
