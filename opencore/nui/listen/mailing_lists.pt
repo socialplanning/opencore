@@ -95,11 +95,15 @@
             </table>
           </tal:listing>
   
-          <p tal:condition="not: mailing_lists" i18n:translate="mailing_lists_no_lists">
+          <p tal:condition="not: mailing_lists" i18n:translate="mailing_lists_no_lists" class="oc-boxy oc-discreetText">
             There are currently no mailing lists for this project.
           </p>
   
         </tal:foldercontents>
+      </div><!-- oc-content-main -->
+      
+      <div id="oc-content-sidebar">
+        <a class="oc-banana" tal:attributes="href string:${context/absolute_url}/opencore.add_mailinglist">Add a mailing list</a>
       </div>
     </div>
   </body>

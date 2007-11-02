@@ -44,7 +44,7 @@
   <a class="oc-banana" href="#" tal:condition="view/canPost"
    tal:attributes="href string:${context/absolute_url}/new_topic;"
    i18n:translate="listen_macros_post">
-    Post new message
+    Write new message
   </a>
   <div class="oc-boxy">
     <h2>About &ldquo;<span tal:replace="context/Title" />&rdquo;</h2>
