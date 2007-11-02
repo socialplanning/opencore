@@ -2,9 +2,10 @@ import re
 
 from zope.i18nmessageid import MessageFactory
 from zope.schema import ValidationError
-from Products.listen.interfaces.mailinglist import check_mailto
+from zope.app.component.hooks import getSite
 
-from config import LIST_SUFFIX as SUFFIX
+from Products.CMFCore.utils import getToolByName
+from Products.listen.interfaces.mailinglist import check_mailto
 
 _ = MessageFactory("opencore")
 
@@ -18,12 +19,26 @@ class InvalidPrefix(ValidationError):
 
 def isValidPrefix(prefix):
     """
-    Returns True if the prefix only contains valid email prefix chars.
+    Returns True if the prefix only contains valid email prefix chars,
+    raises an InvalidPrefix exception otherwise.
     """
-    check_mailto(prefix + SUFFIX)
+    # use getSite since we've got no other acq hook
+    suffix = getSuffix()
+    check_mailto(prefix + suffix)
 
     match = regex.search(prefix)
     if match is not None:
         raise InvalidPrefix
     return True
     
+def getSuffix():
+    """
+    Retrieves the FQDN that is the list address suffix for a site from
+    the opencore_properties PropertySheet.  Requires a context object
+    from inside the site so the properties tool can be retrieved.
+    """
+    # use threadlocal site to hook into acquisition context
+    site = getSite()
+    ptool = getToolByName(site, 'portal_properties')
+    ocprops = ptool._getOb('opencore_properties')
+    return '@' + str(ocprops.getProperty('mailing_list_fqdn').strip())

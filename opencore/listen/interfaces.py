@@ -4,7 +4,6 @@ from zope.i18nmessageid import MessageIDFactory
 from Products.listen.interfaces.mailinglist import IMailingList
 
 from utils import isValidPrefix
-from config import LIST_SUFFIX as SUFFIX
 
 _ = MessageIDFactory('opencore')
 

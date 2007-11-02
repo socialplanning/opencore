@@ -1,7 +1,7 @@
 from zope.app.form.browser import ASCIIWidget
 from zope.app.form.browser.widget import renderTag
 
-from config import LIST_SUFFIX as SUFFIX
+from utils import getSuffix
 
 class OpenListNameWidget(ASCIIWidget):
     """
@@ -10,10 +10,12 @@ class OpenListNameWidget(ASCIIWidget):
     input box.
     """
     def __call__(self):
+        suffix = getSuffix()
         value = self._getFormValue()
-        if value.endswith(SUFFIX):
-            value = value[:-len(SUFFIX)]
+        if value.endswith(suffix):
+            value = value[:-len(suffix)]
         return renderElement(self.tag,
+                             suffix,
                              type=self.type,
                              name=self.name,
                              id=self.name,
@@ -21,11 +23,11 @@ class OpenListNameWidget(ASCIIWidget):
                              cssClass=self.cssClass,
                              extra=self.extra)
 
-def renderElement(tag, **kw):
+def renderElement(tag, suffix, **kw):
     contents = kw.pop('contents', None)
     if contents is not None:
         # Do not quote contents, since it often contains generated HTML.
         return u"%s>%s</%s> %s" % (renderTag(tag, **kw), contents, tag,
-                                   SUFFIX)
+                                   suffix)
     else:
-        return renderTag(tag, **kw) + " />" + SUFFIX
+        return renderTag(tag, **kw) + " />" + suffix
