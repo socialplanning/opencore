@@ -24,7 +24,7 @@ from opencore.siteui.member import FirstLoginEvent
 from opencore.nui.base import BaseView, _
 from opencore.nui.email_sender import EmailSender
 from opencore.nui.project.interfaces import IEmailInvites
-from opencore.nui.formhandler import *
+from opencore.nui.formhandler import * # start import are for pansies
 from DateTime import DateTime
 
 class AccountView(BaseView):
