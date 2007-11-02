@@ -1,4 +1,7 @@
-from opencore.nui.team import * # star imports are for panzies
+from opencore.nui.project.team import * # star imports are for panzies
+
+EMAIL_RE = re.compile(EMAIL_RE)
+TA_SPLIT = re.compile('\n|,')
 
 class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     """
@@ -581,6 +584,21 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     #### EMAIL INVITES BUTTON HANDLER
     ##################
 
+    @property
+    def email_invites(self):
+        return [invite.strip() for invite \
+                in TA_SPLIT.split(self.request.form.get('email-invites'))]
+
+    def validate_email_invites(self, invites):
+        bad = []
+        for addy in invites:
+            if addy: # ignore empty entries
+                if EMAIL_RE.match(addy) is None:
+                    bad.append(addy)
+                else:
+                    good.append(addy)
+        return bad
+        
     @formhandler.action('email-invites')
     def add_email_invites(self, targets=None, fields=None):
         """
@@ -595,24 +613,14 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         of them fail validation as an email address then an error is
         returned and the entire operation is aborted.
         """
-        invites = []
-        for i in self.request.form.get('email-invites').split(','):
-            invites.extend(i.split())
-        regex = re.compile(EMAIL_RE)
-        good = []
-        bad = []
-        for addy in invites:
-            if addy: # ignore empty entries
-                if regex.match(addy) is None:
-                    bad.append(addy)
-                else:
-                    good.append(addy)
+        invites = self.email_invites
+        bad = self.validate_email_invites(invites)
         if bad:
             psm = (u"Poorly formed email addresses, please correct: %s"
                    % ', '.join(bad))
             self.add_status_message(psm)
             return # don't do anything, just re-render the form
-
+        
         utility = getUtility(IEmailInvites, context=self.portal)
         proj_id = self.context.getId()
         proj_title = self.context.title
@@ -622,7 +630,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         mem_failures = []
         email_invites = []
         already_invited = []
-        for addy in good:
+        for addy in invites:
             # first check to see if we're already a site member
             match = uSR(getEmail=addy)
             if match:
