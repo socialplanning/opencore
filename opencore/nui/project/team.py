@@ -66,8 +66,6 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
         if self.loggedin:
             joined = self.team.join()
         else:
-            self.add_status_message(_(u'team_please_sign_in', u'Please sign in to continue.'))
-            self.redirect('%s/login?came_from=%s' % (self.siteURL, self.request.ACTUAL_URL))
             return
 
         if joined:
