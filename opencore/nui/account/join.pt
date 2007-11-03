@@ -154,7 +154,7 @@
           
         </form>
         <p i18n:translate="join_description" tal:condition="not:fdata/getUser | nothing" class="oc-discreetText">
-          We will not shate your email with anyone. However, we need to confirm your email address to avoid spam and other malicious acts.
+          We will not share your email with anyone. However, we need to confirm your email address to avoid spam and other malicious acts.
         </p>
       </div><!-- end #oc-content-main -->
       
