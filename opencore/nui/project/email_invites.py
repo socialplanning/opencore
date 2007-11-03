@@ -22,10 +22,16 @@ class EmailInvites(SimpleItem):
 
     @bbb_keymap(wrap=True) # put a contextual here eventually
     def getInvitesByEmailAddress(self, address):
-        return self._by_address.get(address, KeyedMap(key=(address, self)))
+        by_addy = self._by_address.get(address)
+        if by_addy is not None:
+            return by_addy
+        return KeyedMap(key=(address, self))
 
     def getInvitesByProject(self, proj_id):
-        return self._by_project.get(proj_id, OOBTree())
+        by_proj = self._by_project.get(proj_id)
+        if by_proj is None:
+            return by_proj  
+        return OOBTree()
 
     def addInvitation(self, address, proj_id):
         now = DateTime.now()
@@ -56,26 +62,32 @@ class EmailInvites(SimpleItem):
         for proj_id in by_email:
             self.removeInvitation(address, proj_id)
 
+    def convertInviteForMember(self, member, address, proj_id):
+        tmtool = getToolByName(self, 'portal_teams')
+        wftool = getToolByName(self, 'portal_workflow')
+        tm = tmtool.getTeamById(proj_id)
+
+        if tm is not None:
+            mship = tm._createMembership(member)
+            # bad touch, we have to make it look like someone
+            # other than the actual user made the request, so
+            # it'll be treated as an invitation :-(
+            wf_id = wftool.getChainFor(mship)[0]
+            wf_hist = mship.workflow_history.get(wf_id)
+            wf_status = wf_hist[-1]
+            wf_status['actor'] = 'admin'
+            mship.from_email_invite = True
+            mship.reindexObject()
+        self.removeInvitation(address, proj_id)
+        return mship
+
     def convertInvitesForMember(self, member):
         address = member.getEmail()
         invites = self.getInvitesByEmailAddress(address)
-        tmtool = getToolByName(self, 'portal_teams')
-        wftool = getToolByName(self, 'portal_workflow')
-        for proj_id in invites:
-            tm = tmtool.getTeamById(proj_id)
-            if tm is not None:
-                mship = tm._createMembership(member)
-                # bad touch, we have to make it look like someone
-                # other than the actual user made the request, so
-                # it'll be treated as an invitation :-(
-                wf_id = wftool.getChainFor(mship)[0]
-                wf_hist = mship.workflow_history.get(wf_id)
-                wf_status = wf_hist[-1]
-                wf_status['actor'] = 'admin'
-                mship.from_email_invite = True
-                mship.reindexObject()
+        mships = [self.convertInviteForMember(member, address, proj_id) for proj_id in invites]
+        return mships
                 
-            self.removeInvitation(address, proj_id)
+
 
 
 
