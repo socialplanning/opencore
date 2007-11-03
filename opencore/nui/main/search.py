@@ -209,6 +209,9 @@ def _sort_by_id(brains):
 def _sort_by_modified(brains):
     return sorted(brains, key=lambda x: x.modified)
 
+def _sort_by_created(brains):
+    return sorted(brains, key=lambda x:x.created, reverse=True)
+
 # XXX should fall back on sorting by id here
 def _sort_by_portal_type(brains):
     def cmp_portal_type(a, b):
@@ -341,6 +344,14 @@ class HomeView(SearchView):
                 return out
             
         return out
+
+    def recently_created_members(self):
+        query = dict(sort_on='created',
+                     sort_order='descending',
+                     sort_limit=5)
+        brains = self.membranetool(**query)
+        
+        return _sort_by_created(brains)
 
     def n_project_members(self, proj_brain):
         return self.projects_search.n_project_members(proj_brain)
