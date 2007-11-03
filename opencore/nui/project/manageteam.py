@@ -1,5 +1,9 @@
 from opencore.nui.project.team import * # star imports are for panzies
 from opencore.nui.base import view
+from opencore.nui.account.accountview import email_confirmation
+import logging
+
+log = logging.getLogger('opencore.project.manageteam')
 
 EMAIL_RE = re.compile(EMAIL_RE)
 TA_SPLIT = re.compile('\n|,')
@@ -301,7 +305,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                 # delete
                 deletes.append(mem_id)
             ret[mem_id] = {'action': 'delete'}
-            sender.sendEmail(mem_id, msg=msg)
+            if email_confirmation():
+                sender.sendEmail(mem_id, msg=msg)
 
         if deletes:
             self.team.manage_delObjects(ids=deletes)
@@ -353,7 +358,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         proj_id = self.context.getId()
         for address in addresses:
             invite_util.removeInvitation(address, proj_id)
-            sender.sendEmail(address, msg=msg)
+            if email_confirmation():
+                sender.sendEmail(address, msg=msg)
 
         msg = u'Email invitations removed: %s' % ', '.join(addresses)
         self.add_status_message(msg)
@@ -609,8 +615,13 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                         portal_url=self.siteURL,
                         portal_title=self.portal_title()
                         )
-        self.email_sender.sendEmail(addy, msg_id='invite_email',
-                                    **msg_subs)
+        if email_confirmation():
+            self.email_sender.sendEmail(addy, msg_id='invite_email',
+                                        **msg_subs)
+        else:
+            msg = self.email_sender.constructMailMessage(msg_id='invite_email',
+                                                         **msg_subs)
+            log.info(msg)
 
     @view.memoizedproperty
     def invite_util(self):
