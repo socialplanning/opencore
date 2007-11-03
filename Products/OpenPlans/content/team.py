@@ -178,7 +178,7 @@ class OpenTeam(Team):
         mem_id = mem.getId()
 
         if mem_id not in self.getMemberIds():
-            self._createMembership()
+            self._createMembership(mem)
 
         elif mem_id not in self.getActiveMemberIds():
             wftool = getToolByName(self, 'portal_workflow')
