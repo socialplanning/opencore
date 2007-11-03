@@ -16,7 +16,7 @@ Let's add some featurelets::
 
     >>> IFeatureletSupporter(project).installFeaturelet(TaskTrackerFeaturelet()) # the ... shouldn't be necessary, test conf overrides ought to set this to http://nohost:tasktracker (so this is a real bug) -egj
     Called httplib2.Http.request(
-        u'http://.../project/initialize/',
+        'http://.../project/initialize/',
         headers={'X-Openplans-Project': 'p1', 'X-Openplans-Tasktracker-Initialize': 'True', 'Cookie': '__ac=...'},
         method='POST')
 
@@ -38,7 +38,7 @@ Flet Removal
 
     >>> handle_flet_uninstall(project) 
     Called httplib2.Http.request(
-        u'http://.../project/uninitialize/',
+        'http://.../project/uninitialize/',
         headers={...},
         method='POST')
 
@@ -92,7 +92,7 @@ Put it all together
 
     >>> deleting = view._handle_delete() 
     Called httplib2.Http.request(
-        u'http://.../project/uninitialize/',
+        'http://.../project/uninitialize/',
         headers={...},
         method='POST')
 
