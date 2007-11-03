@@ -140,27 +140,33 @@ need to combine with regular join form
                   </td>
                 </tr>
                 
-                <tal:invites condition="view/invites">
+                <tal:invites condition="view/invite_map">
+                  <tr>
+                    <td></td>
+                    <td><hr /></td>
+                  </tr>
                   <tr>
                     <th>
                       <label i18n:translate="invite_join_invitations_label" for="confirm_password">
                         Invitations to Join
                       </label>
                     </th>
-                    <td><hr /></td>
-                  </tr>
-                  <ul class="oc-form-radiolist oc-form-fieldBlock">
-                    <li tal:repeat="invite view/invite_map" tal:condition="invite/title">
-                        <label tal:attributes="for invite/id"
-                               tal:content="python:invite/title">
-                          <input type="radio"
-                                 class="oc-input-typeRadio"
-                                 name="invites:list"
-                                 checked="true"
-                                 tal:attributes="value invite"
-                                 />
-                      </li>
-                    </ul>
+                    <td>
+                      <ul class="oc-form-radiolist oc-form-fieldBlock">
+                        <tal:loop tal:repeat="invite view/invite_map"> 
+                          <li  tal:condition="invite/title">
+                            <label tal:attributes="for invite/id"
+                                   tal:content="python:invite/title" />
+                            <input type="radio"
+                                   class="oc-input-typeRadio"
+                                   name="invites:list"
+                                   checked="true"
+                                   tal:attributes="value invite"
+                                   />
+                          </li>
+                        </tal:loop>
+                      </ul>
+                    </td>
                   </tr>
                 </tal:invites>
 
