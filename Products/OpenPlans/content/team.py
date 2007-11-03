@@ -156,10 +156,12 @@ class OpenTeam(Team):
         return res
 
     security.declarePublic('join')
-    def join(self):
+    def join(self, mem=None):
         """
-        Apply for project membership for the currently authenticated
-        member.  Will either create a new membership object or fire
+        Apply for project membership for the member provided or for
+        the currently authenticated member by default.
+        
+        Will either create a new membership object or fire
         the rerequest transition (if a membership already exists).
 
         Can't delegate to addMember b/c we need to bypass the security
@@ -167,10 +169,12 @@ class OpenTeam(Team):
 
         Returns True if the action was successful, False if not.
         """
-        ret = True
-        putils = getToolByName(self, 'plone_utils')
-        mtool = getToolByName(self, 'portal_membership')
-        mem = mtool.getAuthenticatedMember()
+        if mem is None:
+            ret = True
+            putils = getToolByName(self, 'plone_utils')
+            mtool = getToolByName(self, 'portal_membership')
+            mem = mtool.getAuthenticatedMember()
+
         mem_id = mem.getId()
 
         if mem_id not in self.getMemberIds():
