@@ -43,8 +43,8 @@ Test wiki history registrations::
     >>> from AccessControl.User import nobody
     >>> newSecurityManager(None, nobody)
     >>> history = page.restrictedTraverse('history')
-    >>> history()
-    '... There are no previous versions...
+    >>> unicode(history())
+    u'... There are no previous versions...
 
 Test wiki attachment registrations which are not used any more::
 
