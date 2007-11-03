@@ -4,20 +4,15 @@
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
-        <!-- join form -->
+        <!-- join form -->        
         <form id="oc-join-form" name="edit_form" class="oc-boxy" method="post" 
               tal:attributes="action string:${context/absolute_url}/join"
               >
-          
+          <div class="oc-headingBlock">
+            <h1 i18n:translate="join_page_title">Create an account on <span i18n:name="page_title" tal:replace="string:${view/portal_title}" /></h1>
+          </div>
+
           <fieldset>
-
-            <h1 tal:content="string:Join ${view/portal_title}" />
-
-            <p i18n:translate="join_description" tal:condition="not:fdata/getUser | nothing">
-              Registration is free and your email will not be
-              shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system.
-            </p>
-
             <!-- on successful registration -->
             <p i18n:translate="join_check_email" tal:condition="fdata/getUser | nothing">
               Check your email to confirm registration 
@@ -158,9 +153,20 @@
           </fieldset>
           
         </form>
+        <p i18n:translate="join_description" tal:condition="not:fdata/getUser | nothing" class="oc-discreetText">
+          We will not shate your email with anyone. However, we need to confirm your email address to avoid spam and other malicious acts.
+        </p>
       </div><!-- end #oc-content-main -->
       
       <div id="oc-content-sidebar">
+        <div class="oc-boxy">
+          <h2 i18n:translate="join_get_started">Becoming a member means&hellip;</h2>
+          <ul i18n:translate="join_get_started_list" style="padding-left: 1em;">
+            <li>You can join and participate in existing projects</li>
+            <li>You can create your own project and invite others to join you</li>
+            <li>You can share information about yourself</li>
+          </ul>
+        </div>
         <div class="oc-boxy">
           <h2 i18n:translate="join_already_member_heading">Already a member?</h2>
           <a i18n:translate="join_sign_in" href="login">Sign in</a>
