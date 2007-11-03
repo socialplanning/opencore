@@ -71,16 +71,6 @@ And try to request a membership, one more time, from the owner rejected state
     >>> wft.getInfoFor(mship, 'review_state')
     'pending'
 
-Also check that we get redirected to login
-if we try to request membership as an anonymous user
-    >>> self.logout()
-    >>> html = view()
-    >>> delattr(view, '_redirected')
-    >>> view.request.response.getHeader('location')
-    'http://nohost/plone/login?came_from=http://nohost'
-    >>> view.portal_status_message
-    [u'Please sign in to continue.']
-
 And as a logged in user trying to request membership to a project he already
 has membership to, he should get redirected to the project contents with an
 appropriate error message
