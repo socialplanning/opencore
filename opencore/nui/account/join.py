@@ -11,17 +11,16 @@ from zope.component import getUtility
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 
-class InviteJoinView(accountview.JoinView):
+class InviteJoinView(accountview.JoinView, accountview.ConfirmAccountView):
     """a preconfirmed join view that also introspects any invitation a
     perspective member has"""
 
     template = ZopeTwoPageTemplateFile('invite-join.pt')
 
-
-    def do_project_joins(self, member, project_ids):
-        for proj_id in self.project_ids:
-            continue
-    
+    @property
+    def proj_ids(self):
+        return self.request.get('invites', [])
+        
     @view.memoizedproperty
     def invite_util(self):
         return getUtility(IEmailInvites)
@@ -40,8 +39,10 @@ class InviteJoinView(accountview.JoinView):
 
     @view.memoizedproperty
     def invite_map(self):
-        return [dict(id=invite, title=self.proj_title(invite)) \
-                for invite in self.invites]
+        if self.invites:
+            return [dict(id=invite, title=self.proj_title(invite)) \
+                    for invite in self.invites]
+        return tuple()
 
     @action('join', apply=post_only(raise_=False))
     def create_member(self, targets=None, fields=None):
@@ -51,8 +52,20 @@ class InviteJoinView(accountview.JoinView):
             raise zExceptions.BadRequest("Must present proper validation")
         if int(key) != self.invites.key:
             raise ValueError('Bad confirmation key')
+
+        # do all the member making stuff
         member = super(InviteJoinView, self)._create_member(targets, fields, confirmed=True)
-        self.do_project_joins(member, self.request.get('invited_projects'))        
+        if isinstance(member, dict): # @ some wierd octo shizzle?
+            return member
+        self.confirm(member)
+        self.login(member.getId())
+
+        # do the joins and activations
+        mships = self.invite_util.convertInvitesForMember(member)
+        for mship in mships:
+            if mship.aq_parent.getId() in self.proj_ids:
+                mship.do_transition('approve_public')
+        return self.redirect("%s/init-login" %self.siteURL)
 
     def proj_title(self, invite):
         proj_obj = self.context.projects.get(invite)
