@@ -50,12 +50,7 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
     template = ZopeTwoPageTemplateFile('request-membership.pt')
 
     def __call__(self):
-        """ if already logged in / member of project, redirect appropriately """
-        # if not logged in, redirect to the login form
-        if not self.loggedin:
-            self.add_status_message(_(u'team_please_sign_in', u'Please sign in to continue.'))
-            self.redirect('%s/login?came_from=%s' % (self.siteURL, self.request.ACTUAL_URL))
-            return
+        """ if already member of project, redirect appropriately """
         # if already a part of the team, redirect to project home page
         if self.member_info['id'] in self.team.getActiveMemberIds():
             self.add_status_message(_(u'team_already_project_member',
