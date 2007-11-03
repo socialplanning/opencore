@@ -52,7 +52,7 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
     def __call__(self):
         """ if already member of project, redirect appropriately """
         # if already a part of the team, redirect to project home page
-        if self.member_info['id'] in self.team.getActiveMemberIds():
+        if self.member_info.get('id') in self.team.getActiveMemberIds():
             self.add_status_message(_(u'team_already_project_member',
                                         u'You are already a member of this project.'))
             self.redirect('%s?came_from=%s' % (self.context.absolute_url(), self.request.ACTUAL_URL))
