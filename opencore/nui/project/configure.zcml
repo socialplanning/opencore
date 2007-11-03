@@ -42,7 +42,7 @@
      class=".preferences.ProjectPreferencesView"
      permission="cmf.ModifyPortalContent"
      name="preferences"
-     template="preferences-w-delete.pt"
+     template="preferences.pt"
      />
 
   <browser:page
