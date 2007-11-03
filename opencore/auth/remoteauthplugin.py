@@ -80,6 +80,8 @@ class RemoteOpenCoreAuth(BasePlugin):
         query = urlencode({'__ac_password': password})
         h = getUtility(IHTTPClient)
         for siteurl in remote_auth_sites:
+            if not siteurl:
+                continue
             authurl = '%s/people/%s/get-hash' % (siteurl, username)
             resp, content = h.request(authurl, 'POST', query)
             resp_code = resp.get('status')
