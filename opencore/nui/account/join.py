@@ -17,6 +17,7 @@ class InviteJoinView(accountview.JoinView):
 
     template = ZopeTwoPageTemplateFile('invite-join.pt')
 
+
     def do_project_joins(self, member, project_ids):
         for proj_id in self.project_ids:
             continue
@@ -27,19 +28,28 @@ class InviteJoinView(accountview.JoinView):
     
     @view.memoizedproperty
     def email(self):
-        return self.request('email')
+        return self.request.get('email')
 
     @view.memoizedproperty
     def invites(self):
-        return sorted(self.invite_util.getInvitesByEmailAddress(self.email))
+        return self.invite_util.getInvitesByEmailAddress(self.email)
 
+    @view.memoizedproperty
+    def sorted_invites(self):
+        return sorted(self.invites)
+
+    @view.memoizedproperty
     def invite_map(self):
         return [dict(id=invite, title=self.proj_title(invite)) \
-                for invite in invites]
+                for invite in self.invites]
 
     @action('join', apply=post_only(raise_=False))
     def create_member(self, targets=None, fields=None):
-        if not int(request.get('__k')) == self.invites.key:
+        key = self.request.get('__k')
+        import zExceptions
+        if not key:
+            raise zExceptions.BadRequest("Must present proper validation")
+        if int(key) != self.invites.key:
             raise ValueError('Bad confirmation key')
         member = super(InviteJoinView, self)._create_member(targets, fields, confirmed=True)
         self.do_project_joins(member, self.request.get('invited_projects'))        
