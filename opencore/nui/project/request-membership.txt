@@ -38,8 +38,9 @@ Verify membership object is in the pending state now
     >>> wft.getInfoFor(mship, 'review_state')
     'pending'
 
-Now, we simulate an admin rejecting
     >>> self.logout()
+
+Now, we simulate an admin rejecting
     >>> self.loginAsPortalOwner()
     >>> wft.doActionFor(mship, 'reject_by_admin')
     >>> wft.getInfoFor(mship, 'review_state')

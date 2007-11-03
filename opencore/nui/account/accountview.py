@@ -407,6 +407,12 @@ class InitialLogin(BaseView):
         email_invites = getUtility(IEmailInvites)
         email_invites.convertInvitesForMember(member)
 
+        # convert pending mship requests into real mship requests
+        from opencore.interfaces import IPendingRequests
+        mships = IPendingRequests(member).getRequests()
+        if mships:
+            # convert each mship
+
         baseurl = self.memfolder_url()
         # Go to the user's Profile Page in Edit Mode
         return self.redirect("%s/%s" % (self.memfolder_url(),
