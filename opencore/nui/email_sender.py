@@ -1,10 +1,9 @@
-import re
+from Products.validation.validators.BaseValidators import EMAIL_RE
+from plone.mail import construct_simple_encoded_message
 from types import StringTypes
 from zope.i18nmessageid import Message
+import re
 
-from plone.mail import construct_simple_encoded_message
-
-from Products.validation.validators.BaseValidators import EMAIL_RE
 regex = re.compile(EMAIL_RE)
 
 
