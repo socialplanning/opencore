@@ -166,7 +166,7 @@ need to combine with regular join form
                                      class="oc-input-typeCheck"
                                      name="invites:list"
                                      checked="true"
-                                     tal:attributes="value invite"
+                                     tal:attributes="value invite/id"
                                      />
                               <label tal:attributes="for invite/id"
                                      tal:content="invite/title" />
