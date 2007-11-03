@@ -9,14 +9,15 @@ need to combine with regular join form
       <div id="oc-content-main">
         <!-- join form -->
         <form id="oc-join-form" name="edit_form" class="oc-boxy" method="post" 
-              tal:attributes="action string:${context/absolute_url}/join"
+              tal:attributes="action string:${context/absolute_url}/${view/name}"
               >
           
           <fieldset>
 
             <h1 tal:content="string:Join ${view/portal_title}" />
 
-            <p i18n:translate="join_description" tal:condition="not:fdata/getUser | nothing">
+            <p i18n:translate="join_description" 
+               tal:condition="not:fdata/getUser | request/__k | nothing">
               Registration is free and your email will not be
               shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system.
             </p>
@@ -81,7 +82,12 @@ need to combine with regular join form
                   </th>
                   <td class="oc-form-value">
                     <input type="text" name="email" id="email"
-                           tal:attributes="value request/email | nothing" />
+                           tal:attributes="value request/email | nothing;
+                                           type python:request.get('__k') and 'hidden' or 'text'" 
+                           />
+                    <strong id="email"
+                           tal:content="request/email" 
+                           tal:condition="request/__k"/>
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
@@ -141,40 +147,44 @@ need to combine with regular join form
                 </tr>
                 
                 <tal:invites condition="view/invite_map">
+                  <tr><td colspan=2><hr /></td></tr>
                   <tr>
-                    <td></td>
-                    <td><hr /></td>
-                  </tr>
-                  <tr>
-                    <th>
-                      <label i18n:translate="invite_join_invitations_label" for="confirm_password">
-                        Invitations to Join
-                      </label>
+                    <th class="oc-form-label">
+                        <label class="oc-form-label" i18n:translate="invite_join_invitations_label" for="confirm_password">
+                          Invitations to Join
+                        </label>
                     </th>
                     <td>
-                      <ul class="oc-form-radiolist oc-form-fieldBlock">
-                        <tal:loop tal:repeat="invite view/invite_map"> 
-                          <li  tal:condition="invite/title">
-                            <label tal:attributes="for invite/id"
-                                   tal:content="python:invite/title" />
-                            <input type="radio"
-                                   class="oc-input-typeRadio"
-                                   name="invites:list"
-                                   checked="true"
-                                   tal:attributes="value invite"
-                                   />
-                          </li>
-                        </tal:loop>
-                      </ul>
                     </td>
-                  </tr>
+                    <tr>
+                      <td></td>
+                      <td align='left'>
+                        <ul class="oc-form-radiolist oc-form-fieldBlock">
+                          <tal:loop tal:repeat="invite python:sorted(view.invite_map)"> 
+                            <li tal:condition="invite/title">
+                              <input type="checkbox"
+                                     class="oc-input-typeCheck"
+                                     name="invites:list"
+                                     checked="true"
+                                     tal:attributes="value invite"
+                                     />
+                              <label tal:attributes="for invite/id"
+                                     tal:content="invite/title" />
+                            </li>
+                          </tal:loop>
+                        </ul>
+                      </td>
+                    </tr>
+                  <tr><td colspan=2><hr /></td></tr>
                 </tal:invites>
 
                 <tr class="oc-actions">
                   <th class="oc-form-label">
                   </th>
                   <td class="oc-form-value">
-                    <input type="submit" name="task|join" i18n:attributes="value join_button" value="Join" />
+                    <input type="submit" name="task|join" 
+                           i18n:attributes="value join_button" 
+                           value="Join" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
@@ -189,7 +199,7 @@ need to combine with regular join form
               </tbody>
             </table>            
           </fieldset>
-          
+          <input type="hidden" name="__k" tal:attributes="value request/__k"/>
         </form>
       </div><!-- end #oc-content-main -->
       
