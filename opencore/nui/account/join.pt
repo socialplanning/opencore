@@ -154,7 +154,7 @@
           
         </form>
         <p i18n:translate="join_description" tal:condition="not:fdata/getUser | nothing" class="oc-discreetText">
-          We will not share your email with anyone. However, we need to confirm your email address to avoid spam and other malicious acts.
+          We will not share your email with anyone. Ever.
         </p>
       </div><!-- end #oc-content-main -->
       
@@ -163,7 +163,7 @@
           <h2 i18n:translate="join_get_started">Becoming a member means&hellip;</h2>
           <ul i18n:translate="join_get_started_list" style="padding-left: 1em;">
             <li>You can join and participate in existing projects</li>
-            <li>You can create your own project and invite others to join you</li>
+            <li>You can create your own project and invite others to join</li>
             <li>You can share information about yourself</li>
           </ul>
         </div>
