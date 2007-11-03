@@ -1,31 +1,27 @@
 """
 views pertaining to accounts -- creation, login, password reset
 """
-import urllib
-import socket
-from smtplib import SMTPRecipientsRefused, SMTP
-
-from App import config
 from AccessControl.SecurityManagement import newSecurityManager
-from zExceptions import Forbidden, Redirect, Unauthorized
-
-from zope.component import getUtility
-from zope.event import notify
-from zope.app.event.objectevent import ObjectCreatedEvent
-from plone.memoize import instance
-
+from DateTime import DateTime
+from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from Products.CMFCore.utils import getToolByName
 from Products.remember.utils import getAdderUtility
 from Products.validation.validators.BaseValidators import EMAIL_RE
-
-from opencore.siteui.member import FirstLoginEvent
+from opencore.configuration.utils import product_config
 from opencore.nui.base import BaseView, _
 from opencore.nui.email_sender import EmailSender
-from opencore.nui.project.interfaces import IEmailInvites
 from opencore.nui.formhandler import * # start import are for pansies
-from DateTime import DateTime
+from opencore.nui.project.interfaces import IEmailInvites
+from opencore.siteui.member import FirstLoginEvent
+from plone.memoize import instance
+from smtplib import SMTPRecipientsRefused, SMTP
+from zExceptions import Forbidden, Redirect, Unauthorized
+from zope.app.event.objectevent import ObjectCreatedEvent
+from zope.component import getUtility
+from zope.event import notify
+import socket
+import urllib
 
 
 class AccountView(BaseView):
@@ -301,8 +297,7 @@ class JoinView(AccountView, OctopoLite):
                        self.context.absolute_url()))
         result = mem.processForm()
         notify(ObjectCreatedEvent(mem))
-        if not confirmed: # pdb through this
-            mem.setUserConfirmationCode()
+        mem.setUserConfirmationCode()
 
         url = self._confirmation_url(mem)
 
@@ -317,7 +312,7 @@ class JoinView(AccountView, OctopoLite):
             self.redirect(self.portal_url())
             return mdc._getOb(mem_id)
         else:
-            return self.redirect(url)
+            self.redirect(url)
         return mem
 
     create_member = action('join', apply=post_only(raise_=False))(_create_member)
@@ -602,6 +597,7 @@ class PendingView(AccountView):
     def handle_request(self):
         self._pending_member()
 
+
 class ResendConfirmationView(AccountView):
 
     @anon_only(BaseView.siteURL)
@@ -621,9 +617,9 @@ class ResendConfirmationView(AccountView):
 
 def email_confirmation():
     """get email confirmation mode from zope.conf"""
-    cfg = config.getConfiguration().product_config.get('opencore.nui')
-    if cfg:
-        val = cfg.get('email-confirmation', 'True').title()
+    conf = product_config('email-confirmation', 'opencore.nui')
+    if conf:
+        val = conf.title()
         if val == 'True':
             return True
         elif val == 'False':
