@@ -6,9 +6,7 @@
   <property name="remote_auth_sites" type="lines">
   </property>
 
-  <property name="mailing_list_fqdn" type="string">
-    lists.openplans.org
-  </property>
+  <property name="mailing_list_fqdn" type="string">lists.openplans.org</property>
 
  </object>
 

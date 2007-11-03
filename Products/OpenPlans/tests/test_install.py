@@ -3,6 +3,7 @@ tests the integrity of an installation as
 installed by the customization policy
 """
 import os, sys, time
+import socket
 import unittest
 from sets import Set
 import traceback
@@ -67,6 +68,17 @@ class TestOpenPlansInstall(OpenPlansTestCase):
         psheet = ptool._getOb(psheet_id)
         self.failUnless(psheet.hasProperty('remote_auth_sites'))
         self.failUnless(psheet.hasProperty('mailing_list_fqdn'))
+
+    def test_portalproperties(self):
+        # portlets should be empty
+        self.failIf(self.portal.getProperty('left_slots'))
+        self.failIf(self.portal.getProperty('right_slots'))
+        self.failIf(self.portal.getProperty('validate_email'))
+        self.assertEqual(self.portal.getProperty('title'),
+                         'OpenCore Site')
+        addy = 'greetings@%s' % socket.getfqdn()
+        self.assertEqual(self.portal.getProperty('email_from_address'),
+                         addy)
 
     def test_install(self):
         # workflows are installed

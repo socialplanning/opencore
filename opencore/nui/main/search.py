@@ -401,19 +401,18 @@ class SitewideSearchView(SearchView):
             search_for = '1* OR 2* OR 3* OR 4* OR 5* OR 6* OR 7* OR 8* OR 9* OR 0*'
             catalog_query = (Eq('portal_type', 'OpenProject') & Eq('Title', search_for)) \
                     | (Eq('portal_type', 'Document') & Eq('Title', search_for))
-#                    | (Eq('portal_type', 'OpenMember') & Eq('Title', search_for))
-            membrane_query = dict(RosterSearchableText=search_for)
+            membrane_query = dict(portal_type="OpenMember",
+                                  RosterSearchableText=search_for)
         elif letter == 'all':
             catalog_query = Eq('portal_type', 'OpenProject') \
                     | Eq('portal_type', 'Document')
-#                    | Eq('portal_type', 'OpenMember')
-            membrane_query = dict()
+            membrane_query = dict(portal_type="OpenMember")
         else:
             search_for = letter + '*'
             catalog_query = ((Eq('portal_type', 'OpenProject') & (Eq('Title', search_for))) \
                     | (Eq('portal_type', 'Document') & (Eq('Title', search_for))))
-#                    | (Eq('portal_type', 'OpenMember') & (Eq('Title', search_for))))
-            membrane_query = dict(RosterSearchableText=search_for)
+            membrane_query = dict(portal_type="OpenMember",
+                                  RosterSearchableText=search_for)
 
 
         if not sort_by:
