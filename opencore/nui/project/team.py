@@ -58,6 +58,28 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
             self.redirect('%s?came_from=%s' % (self.context.absolute_url(), self.request.ACTUAL_URL))
         return super(RequestMembershipView, self).__call__()
 
+    def _send_request_email(self):
+        team_manage_url = "%s/manage-team" % self.context.absolute_url()
+        email_vars = {'member_id': self.member_info.get('id'),
+                      'project_title': self.context.title,
+                      'team_manage_url': team_manage_url,
+                      }
+        sender = EmailSender(self, mship_messages)
+        email_msg = sender.constructMailMessage('membership_requested',
+                                                **email_vars)
+        request_message = self.request.form.get('request-message')
+        if request_message:
+            email_vars.update(member_message=detag(request_message))
+            email_msg += sender.constructMailMessage('mship_request_message', **email_vars)
+
+        mto = self.team.get_admin_ids()
+
+        for recipient in mto:
+            try:
+                sender.sendEmail(recipient, msg=email_msg, **email_vars)
+            except MailHostError:
+                pass
+
     @formhandler.action('request-membership')
     def request_membership(self, targets=None, fields=None):
         """
@@ -76,27 +98,8 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
             self.redirect(self.context.absolute_url())
             return
 
-        team_manage_url = "%s/manage-team" % self.context.absolute_url()
-        email_vars = {'member_id': self.member_info.get('id'),
-                      'project_title': self.context.title,
-                      'team_manage_url': team_manage_url,
-                      }
-        sender = EmailSender(self, mship_messages)
-        email_msg = sender.constructMailMessage('membership_requested',
-                                                    **email_vars)
-        request_message = self.request.form.get('request-message')
-        if request_message:
-            email_vars.update(member_message=detag(request_message))
-            email_msg += sender.constructMailMessage('mship_request_message', **email_vars)
+        self._send_request_email()
 
-        mto = self.team.get_admin_ids()
-
-        for recipient in mto:
-            try:
-                sender.sendEmail(recipient, msg=email_msg, **email_vars)
-            except MailHostError:
-                pass
-        
         self.add_status_message(_(u'team_proj_join_request_sent',
                                   u'Your request to join "${project_title}" has been sent to the project administrator(s).',
                                   mapping={'project_title':self.context.Title()}))
