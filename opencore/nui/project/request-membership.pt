@@ -11,7 +11,7 @@
         </div>
         <form method="POST" id="request-membership"
               tal:attributes="action view/request/ACTUAL_URL">
-          <div class="oc-boxy oc-columnGroup oc-clearAfter">
+          <div class="oc-boxy oc-columnGroup oc-clearAfter" tal:condition="not:view/loggedin">
           
               <fieldset class="oc-column">
                 <legend class="oc-legend-heading oc-biggerText" i18n:translate="login_snippet_header">Already a member? Sign in</legend> 
