@@ -294,6 +294,7 @@ class OpenMember(FolderishMember):
         ptool = getToolByName(self, 'portal_properties')
         ocprops = ptool._getOb('opencore_properties')
         remote_auth_sites = ocprops.getProperty('remote_auth_sites')
+        remote_auth_sites = [s for s in remote_auth_sites if s.strip()]
         if remote_auth_sites:
             http = getUtility(IHTTPClient)
             for url in remote_auth_sites:
