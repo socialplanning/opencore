@@ -99,7 +99,8 @@
                 <legend><strong>Which additional tools would you like to install?</strong></legend>
               <ul class="oc-form-radiolist oc-form-fieldBlock"
                   tal:define="warning string:Warning: Removing this feature may result in data loss.">
-                <li tal:repeat="flet view/featurelets">
+                <li class="oc-js-featurelet-undelete-warner"
+                  tal:repeat="flet view/featurelets">
                   <input type="checkbox"
                          class="oc-input-typeCheck oc-js-toggler"
                          name="featurelets:list"
@@ -161,7 +162,7 @@
                   class="oc-button oc-confirmProjectDelete">
                   Delete Project
                 </button>
-                Remove this project from <span tal:replace="${view/portal_title}" />?
+                Remove this project from <span tal:replace="view/portal_title" />?
                 <span id="oc-project-delete-warning" class="oc-hidden oc-warning">
                   Removing your project is permanent, are you sure you want to continue?
                 </span>
