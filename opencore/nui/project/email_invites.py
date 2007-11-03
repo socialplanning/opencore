@@ -29,7 +29,7 @@ class EmailInvites(SimpleItem):
 
     def getInvitesByProject(self, proj_id):
         by_proj = self._by_project.get(proj_id)
-        if by_proj is None:
+        if by_proj is not None:
             return by_proj  
         return OOBTree()
 
