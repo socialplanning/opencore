@@ -5,8 +5,6 @@
 
  <property name="validate_email" type="boolean">False</property>
 
- <property name="remote_auth_sites" type="lines" />
-
  <property name="title" type="string">OpenCore Site</property>
 
  <property name="email_from_address"

@@ -1,12 +1,11 @@
 Test for Remote Auth
 ====================
 
-We start by setting up the Plone site's 'remote_auth_sites' property
-so it tries to do remote authentication (otherwise the plugin will
-just return).
+We start by setting up the 'remote_auth_sites' property so it tries to
+do remote authentication (otherwise the plugin will just return).
 
-    >>> portal = self.portal
-    >>> portal.manage_changeProperties(
+    >>> ocprops = self.portal.portal_properties.opencore_properties
+    >>> ocprops.manage_changeProperties(
     ...                     remote_auth_sites=
     ...                     ['http://localhost:8080/openplans'])
 

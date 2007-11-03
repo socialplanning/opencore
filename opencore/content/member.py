@@ -291,8 +291,9 @@ class OpenMember(FolderishMember):
         Checks all of the servers in the remote_auth_sites property to
         see if this specified id exists on any of those sites.
         """
-        portal = getToolByName(self, 'portal_url').getPortalObject()
-        remote_auth_sites = portal.getProperty('remote_auth_sites')
+        ptool = getToolByName(self, 'portal_properties')
+        ocprops = ptool._getOb('opencore_properties')
+        remote_auth_sites = ocprops.getProperty('remote_auth_sites')
         if remote_auth_sites:
             http = getUtility(IHTTPClient)
             for url in remote_auth_sites:
