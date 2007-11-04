@@ -86,7 +86,7 @@ Put it all together
 
     >>> view = project.restrictedTraverse('preferences')
     >>> view
-    <...project/preferences-w-delete.pt...>
+    <...project/preferences.pt...>
 
     <...sputnik/preferences.pt...>
 
