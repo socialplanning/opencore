@@ -457,7 +457,7 @@ class ProjectAddView(BaseView, OctopoLite):
     template = ZopeTwoPageTemplateFile('create.pt')
 
     def reserved_names(self):
-        return get_view_names(self.context) + ['people', 'projects']
+        return get_view_names(self.context) + set(['people', 'projects'])
 
     @action('validate')
     def validate(self, target=None, fields=None):
