@@ -1,0 +1,14 @@
+Make sure the RequestMembershipWithEmail adapter is hooked up::
+    >>> team = portal.portal_teams.p1
+    >>> from opencore.interfaces.pending_requests import IRequestMembership
+    >>> rm = IRequestMembership(team)
+    >>> rm
+    <opencore.nui.project.team_membership.RequestMembershipWithEmail object ...>
+
+The logged in user can request membership to the project::
+    >>> rm.join()
+    True
+
+If the user is not able to request membership, we'll find out::
+    >>> rm.join()
+    False
