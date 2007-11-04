@@ -12,7 +12,7 @@ __docformat__ = 'restructuredtext'
 import os.path
 from App.Common import package_home
 from opencore.configuration import DEFAULT_ROLES, DEFAULT_ACTIVE_MSHIP_STATES
-from opencore.configuration import PROJECTNAME, COOKIE_DOMAIN, SITE_FROM_ADDRESS
+from opencore.configuration import PROJECTNAME, COOKIE_DOMAIN
 from opencore.configuration import PROHIBITED_MEMBER_PREFIXES
 
 GLOBALS                = globals()

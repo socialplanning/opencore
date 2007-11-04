@@ -21,6 +21,8 @@ from Products.AdvancedQuery import Eq
 
 from topp.utils.pretty_date import prettyDate
 
+from opencore.project.utils import project_path
+
 from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.nui.base import BaseView
 from opencore.nui.formhandler import OctopoLite, action
@@ -736,5 +738,12 @@ class TrackbackView(BaseView):
         #       by using octopus/octopolite
         return {'trackback_%s' % index: {'action': 'delete'}}
 
-class TourView(BaseView):
+class TourView(MemberAccountView):
     """ dummy view for the 1page tour """
+
+    template = ZopeTwoPageTemplateFile('tour.pt')
+
+    def has_projects(self):
+        if self.invitations or self.projects_for_user:
+            return True
+        return False

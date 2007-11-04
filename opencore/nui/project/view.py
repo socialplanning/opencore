@@ -28,6 +28,7 @@ from opencore.nui.base import BaseView, _
 from opencore.nui.formhandler import OctopoLite, action
 from opencore.nui.project.utils import vdict
 from opencore.nui.project.interfaces import IHomePage
+from opencore.nui.wiki.add import get_view_names
 
 _marker = object()
 
@@ -455,13 +456,17 @@ class ProjectAddView(BaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('create.pt')
 
+    def reserved_names(self):
+        return list(get_view_names(self.context)) + ['people', 'projects']
+
     @action('validate')
     def validate(self, target=None, fields=None):
         putils = getToolByName(self.context, 'plone_utils')
         errors = {}
         id_ = self.request.form.get('projid')
         id_ = putils.normalizeString(id_)
-        if self.context.has_key(id_):
+        if (self.context.has_key(id_)
+            or id_ in self.reserved_names()):
             errors['oc-id-error'] = {
                 'html': 'The requested url is already taken.',
                 'action': 'copy',
@@ -509,6 +514,11 @@ class ProjectAddView(BaseView, OctopoLite):
         if self.errors:
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return 
+
+        if id_ in self.reserved_names():
+            self.add_status_message(_(u'The name "%s" is reserved. Please try a different name.' % id_))
+            self.redirect('%s/create' % self.context.absolute_url())
+            return
 
         self.context.portal_factory.doCreate(proj, id_)
         proj = self.context._getOb(id_)

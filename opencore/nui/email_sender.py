@@ -128,7 +128,11 @@ class EmailSender(object):
         if msg is None:
             msg = self.constructMailMessage(msg_id, **kwargs)
         if isinstance(msg, Message):
-            msg = self.view.translate(msg) # needs to go
+            # insert the portal title, used by nearly every message,
+            # including those that don't come from constructMailMessage().
+            # fixes bug #1711.
+            msg.mapping.setdefault('portal_title', self.view.portal_title())
+            msg = self.view.translate(msg)
         if isinstance(subject, Message):
             subject = self.view.translate(subject) #needs to go
         if type(mto) in StringTypes:

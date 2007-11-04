@@ -60,7 +60,11 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
 
     def _send_request_email(self):
         team_manage_url = "%s/manage-team" % self.context.absolute_url()
-        email_vars = {'member_id': self.member_info.get('id'),
+        member_string = self.member_info.get('id')
+        member_fn = self.member_info.get('fullname')
+        if member_fn:
+            member_string = member_string + ' (' + member_fn + ')'
+        email_vars = {'member_id': member_string,
                       'project_title': self.context.title,
                       'team_manage_url': team_manage_url,
                       }

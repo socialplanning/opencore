@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<site>
+ <property name="left_slots" type="lines"/>
+ <property name="right_slots" type="lines"/>
+
+ <property name="validate_email" type="boolean">False</property>
+
+ <property name="title" type="string">OpenCore Site</property>
+
+ <property name="email_from_address"
+           type="string">greetings@localhost.localdomain</property>
+</site>

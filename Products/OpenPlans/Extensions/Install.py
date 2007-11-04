@@ -229,10 +229,6 @@ def securityTweaks(portal, out):
 def setupSitePortlets(portal, out):
     print >> out, 'Portlet configuration:'
 
-    print >> out, '-> Removing all site portlets'
-    portal.manage_changeProperties(left_slots=tuple())
-    portal.manage_changeProperties(right_slots=tuple())
-
     mdc = getToolByName(portal, 'portal_memberdata')
     print >> out, '-> Removing all portal_memberdata portlets'
     mdc.manage_changeProperties(left_slots=tuple())
@@ -408,9 +404,6 @@ def setMemberType(portal, out):
     if mtype not in view_types:
         view_types += (mtype,)
     sprops.manage_changeProperties(typesUseViewActionInListings=view_types)
-    
-    print >> out, '-> allow users to choose their own password'
-    portal.manage_changeProperties(validate_email=0)
 
 def setCaseInsensitiveLogins(portal, out):
     mbtool = getToolByName(portal, MBTOOLNAME)
@@ -611,10 +604,6 @@ def setSiteIndexPage(portal, out):
         page.setText(page_file.read())
         portal.setDefaultPage(index_id)
 
-def setSiteEmailAddresses(portal, out):
-    print >> out, "Setting site from address"
-    portal.manage_changeProperties(email_from_address=config.SITE_FROM_ADDRESS)
-
 def setCookieDomain(portal, out):
     app = portal.getPhysicalRoot()
     bid_mgr = app._getOb('browser_id_manager', None)
@@ -728,8 +717,19 @@ def install_remote_auth_plugin(portal, out):
     openplans.manage_addOpenCoreRemoteAuth(plugin_id)
     activatePluginInterfaces(portal, plugin_id, out)
 
+
+#
+# These next install steps are pulling config information in from
+# GenericSetup XML files to be forward compatible with using an entire
+# GenericSetup profile.
+#
+
+from xml.dom import minidom
+import opencore.configuration
+profilepath = '%s/profiles/default' % opencore.configuration.__path__[0]
+
 from Products.GenericSetup.utils import PropertyManagerHelpers
-class PSheetImporter(PropertyManagerHelpers):
+class PropertyImporter(PropertyManagerHelpers):
     """
     Stub class so we can use GS's XML parsing code for properties
     outside of the regular GS context.
@@ -750,6 +750,10 @@ class PSheetImporter(PropertyManagerHelpers):
         return val.lower() in ('true', 'yes', '1')
 
 def install_opencore_propertysheet(portal, out):
+    """
+    Reads the data from the same place the GenericSetup profile will
+    expect to find it, for forward compatibility.
+    """
     ptool = getToolByName(portal, 'portal_properties')
     if psheet_id not in ptool.objectIds():
         print >> out, "Creating opencore_properties property sheet"
@@ -757,12 +761,10 @@ def install_opencore_propertysheet(portal, out):
     psheet = ptool._getOb(psheet_id)
 
     # borrow some GenericSetup code
-    from xml.dom import minidom
-    import opencore.configuration
-    importer = PSheetImporter(psheet)
+    importer = PropertyImporter(psheet)
 
-    f = open('%s/profiles/default/propertiestool.xml'
-             % opencore.configuration.__path__[0])
+    f = open('%s/propertiestool.xml' % profilepath)
+    # minidom is annoying, but it's what the importer expects
     root = minidom.parseString(f.read())
     oc_sheet_node = None
     for ob_node in root.getElementsByTagName('object'):
@@ -771,9 +773,29 @@ def install_opencore_propertysheet(portal, out):
             break
     importer._initProperties(oc_sheet_node)
 
+def set_portal_properties(portal, out):
+    """
+    Another faux GS-profile reading install function.
+    """
+    importer = PropertyImporter(portal)
+    f = open('%s/properties.xml' % profilepath)
+    root = minidom.parseString(f.read())
+    site_node = root.getElementsByTagName('site')[0]
+    importer._initProperties(site_node)
+
+    # some hand-tweaking of the email_from_address so it's more likely
+    # to work out of the box
+    if portal.getProperty('email_from_address') \
+       == 'greetings@localhost.localdomain':
+        import socket
+        addy = 'greetings@%s' % socket.getfqdn()
+        portal.manage_changeProperties(email_from_address=addy)
+    
+    
 def install(self, migrate_atdoc_to_openpage=True):
     out = StringIO()
     portal = getToolByName(self, 'portal_url').getPortalObject()
+    set_portal_properties(portal, out)
     installDepends(self)
     install_subskin(self, out, config.GLOBALS)
     installRoles(portal, out)
@@ -803,7 +825,6 @@ def install(self, migrate_atdoc_to_openpage=True):
         migrateATDocToOpenPage(portal, out)
     addFormControllerOverrides(portal, out)
     setSiteIndexPage(portal, out)
-    setSiteEmailAddresses(portal, out)
     setupVersioning(portal, out)
     fixUpEditTab(portal, out)
     createGreyEditTab(portal, out)

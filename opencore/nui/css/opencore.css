@@ -929,6 +929,10 @@ fieldset .oc-legend-label {
   padding: 0;
   font-size: 12px;
 }
+#oc-content-sidebar fieldset .oc-legend-subheading {
+  font-size: 10px;
+  font-weight: bold;
+}
 #oc-content-sidebar fieldset .oc-legend-label {
   font-size: 10px;
 }
@@ -1517,7 +1521,9 @@ ul.oc-tabs li a.oc-actionLink:hover {
 }
 
 /* Form bits */
-
+form {
+  margin: 0;
+}
 select,
 input,
 button,

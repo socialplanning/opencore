@@ -43,7 +43,8 @@ class RemoteOpenCoreAuth(BasePlugin):
     Authenticates against a set of remote authentication providers.
     Fires an event upon successful authentication.  The URLs of the
     remote auth providers are retrieved from a 'remote_auth_sites'
-    property (of 'lines' type) on the Portal object.
+    property (of 'lines' type) on the opencore_properties property
+    sheet.
     """
     meta_type = 'OpenCore Remote Authentication'
     
@@ -68,16 +69,19 @@ class RemoteOpenCoreAuth(BasePlugin):
             # we have to do this b/c PAS always invokes _every_ auth
             # plug-in during the auth check
             return
-        portal = getToolByName(self, 'portal_url').getPortalObject()
-        remote_auth_sites = portal.getProperty('remote_auth_sites')
+        ptool = getToolByName(self, 'portal_properties')
+        ocprops = ptool._getOb('opencore_properties')
+        remote_auth_sites = ocprops.getProperty('remote_auth_sites')
         if not remote_auth_sites:
             return
-        
+
         username = credentials.get('login')
         password = credentials.get('password')
         query = urlencode({'__ac_password': password})
         h = getUtility(IHTTPClient)
         for siteurl in remote_auth_sites:
+            if not siteurl:
+                continue
             authurl = '%s/people/%s/get-hash' % (siteurl, username)
             resp, content = h.request(authurl, 'POST', query)
             resp_code = resp.get('status')

@@ -20,9 +20,13 @@ def get_featurelets(project):
             )
     return result
 
-def project_path(proj_id):
+def project_path(proj_id=None):
     """
     Returns the specified project's home folder path relative to the
     site root.
     """
-    return "projects/%s" % proj_id
+    projects_url='projects'
+    if proj_id is None:
+        return projects_url
+    
+    return "%s/%s" % (projects_url, proj_id)
