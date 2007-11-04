@@ -121,7 +121,7 @@ If you did not initiate this request or believe it was sent in error you can saf
 
 Cheers,
 The ${portal_title} Team
-${portal_url}""", mapping={u'user_name':user_name
+${portal_url}""", mapping={u'user_name':user_name,
                            u'url':url,
                            u'portal_url':self.siteURL})
         
