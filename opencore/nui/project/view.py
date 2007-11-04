@@ -456,6 +456,9 @@ class ProjectAddView(BaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('create.pt')
 
+    def reserved_names(self):
+        return get_view_names(self.context) + ['people', 'projects']
+
     @action('validate')
     def validate(self, target=None, fields=None):
         putils = getToolByName(self.context, 'plone_utils')
@@ -463,7 +466,7 @@ class ProjectAddView(BaseView, OctopoLite):
         id_ = self.request.form.get('projid')
         id_ = putils.normalizeString(id_)
         if (self.context.has_key(id_)
-            or id_ in get_view_names(self.context)):
+            or id_ in self.reserved_names()):
             errors['oc-id-error'] = {
                 'html': 'The requested url is already taken.',
                 'action': 'copy',
@@ -512,7 +515,7 @@ class ProjectAddView(BaseView, OctopoLite):
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return 
 
-        if id_ in get_view_names(self.context):
+        if id_ in self.reserved_names():
             self.add_status_message(_(u'The name "%s" is reserved. Please try a different name.' % id_))
             self.redirect('%s/create' % self.context.absolute_url())
             return
