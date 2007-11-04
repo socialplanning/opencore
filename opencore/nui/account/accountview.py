@@ -101,13 +101,15 @@ class AccountView(BaseView):
         code = mem.getUserConfirmationCode()
         return "%s/confirm-account?key=%s" % (self.siteURL, code)
 
-    def _sendmail_to_pendinguser(self, id, email, url):
+    def _sendmail_to_pendinguser(self, user_name, email, url):
         """ send a mail to a pending user """
         # TODO only send mail if in the pending workflow state
         mailhost_tool = self.get_tool("MailHost")
 
         # TODO move this to a template for easier editting
-        message = _(u'email_to_pending_user', u"""You recently signed up to use ${portal_title}. 
+        message = _(u'email_to_pending_user', u"""${user_name},
+
+You recently signed up to use ${portal_title}. 
 
 Please confirm your email address at the following address: ${url}
 
@@ -119,7 +121,8 @@ If you did not initiate this request or believe it was sent in error you can saf
 
 Cheers,
 The ${portal_title} Team
-${portal_url}""", mapping={u'url':url,
+${portal_url}""", mapping={u'user_name':user_name
+                           u'url':url,
                            u'portal_url':self.siteURL})
         
         sender = EmailSender(self, secureSend=True)
@@ -307,8 +310,11 @@ class JoinView(AccountView, OctopoLite):
 
         url = self._confirmation_url(mem)
 
+        mem_name = mem.getFullname()
+        mem_name = mem_name or mem_id
+
         if email_confirmation():
-            self._sendmail_to_pendinguser(id=mem_id,
+            self._sendmail_to_pendinguser(user_name=mem_name,
                                           email=self.request.get('email'),
                                           url=url)
             self.addPortalStatusMessage(_('psm_thankyou_for_joining',
@@ -587,8 +593,11 @@ class PendingView(AccountView):
             else:
                 member.setEmail(email)
         
+        mem_name = member.getFullname()
+        mem_name = mem_name or mem_id
+
         if email:
-            self._sendmail_to_pendinguser(member.getId(),
+            self._sendmail_to_pendinguser(mem_name,
                                           email,
                                           self._confirmation_url(member))
             mfrom = self.portal.getProperty('email_from_address')
@@ -610,7 +619,9 @@ class ResendConfirmationView(AccountView):
             self.add_status_message('No pending member by the name "%s" found' % name)
             self.redirect(self.siteURL)
             return
-        self._sendmail_to_pendinguser(member.getId(),
+        mem_name = member.getFullname()
+        mem_name = mem_name or mem_id
+        self._sendmail_to_pendinguser(mem_name,
                                       member.getEmail(),
                                       self._confirmation_url(member))
         self.add_status_message('A new activation email has been sent to the email address provided for %s.' % name)
