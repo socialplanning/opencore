@@ -408,11 +408,12 @@ class InitialLogin(BaseView):
         email_invites.convertInvitesForMember(member)
 
         # convert pending mship requests into real mship requests
+        from zope.component import getMultiAdapter
         from opencore.interfaces import IPendingRequests
-        mships = IPendingRequests(member).getRequests()
-        if mships:
-            # convert each mship
-
+        from opencore.interfaces.pending_requests import IRequestMembership
+        mship_bucket = getMultiAdapter((member, self.portal.portal_teams), IPendingRequests).getRequests()
+        mship_bucket.convertRequests()
+             
         baseurl = self.memfolder_url()
         # Go to the user's Profile Page in Edit Mode
         return self.redirect("%s/%s" % (self.memfolder_url(),
