@@ -185,13 +185,14 @@ ${portal_url}""", mapping={u'url':url,
         if self.loggedin: 
             # PAS will kick in, request will be "logged in" if form's login snippet is filled out correctly
             # so the user might be really logged in, or might have provided valid credentials w/request
-            joined = self.team.join()
+            joined = IRequestMembership(self.team).join()
             self._login() # conditionally set cookie if valid credentials were provided
         elif id_: # trying to create a member
             # create member
             mem = self._create()
+            from zope.component import getMultiAdapter
             from opencore.interfaces.pending_requests import IPendingRequests
-            req_bucket = IPendingRequests(mem)
+            req_bucket = getMultiAdapter((mem, self.portal.portal_teams), IPendingRequests)
             req_bucket.addRequest(self.context.getId())
             self.add_status_message(_(u'team_proj_join_request_sent',
                                       u'Your request to join "${project_title}" has been sent to the project administrator(s).',
@@ -213,6 +214,7 @@ ${portal_url}""", mapping={u'url':url,
             self.redirect(self.context.absolute_url())
             return
 
+        # XXX should be handled by the IRequestMembership adapter now
         self._send_request_email()
 
         self.add_status_message(_(u'team_proj_join_request_sent',
