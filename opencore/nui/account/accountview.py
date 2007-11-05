@@ -123,11 +123,13 @@ Cheers,
 The ${portal_title} Team
 ${portal_url}""", mapping={u'user_name':user_name,
                            u'url':url,
-                           u'portal_url':self.siteURL})
+                           u'portal_url':self.siteURL,
+                           u'portal_title':self.portal_title()})
         
         sender = EmailSender(self, secureSend=True)
         subject = _(u'email_to_pending_user_subject',
-                    u'Welcome to %s! - Confirm your email' % self.portal_title())
+                    u'Welcome to ${portal_title}! - Please confirm your email address',
+                    mapping={u'portal_title':self.portal_title()})
         sender.sendEmail(mto=email,
                          msg=message,
                          subject=subject)
