@@ -5,6 +5,7 @@ from memojito import memoizedproperty
 
 from zope.interface import implements
 from zope.component import getUtility
+from zope.component import adapts
 
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
@@ -23,6 +24,7 @@ class WordPressFeaturelet(BaseFeaturelet):
     """
     A featurelet that installs a WordPress blog
     """
+    adapts(IFeatureletSupporter)
     implements(IFeaturelet)
 
     id = "blog"

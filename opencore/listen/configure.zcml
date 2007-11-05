@@ -17,4 +17,11 @@
      handler=".events.mailinglist_changed"
      />
 
+   <adapter
+       for="topp.featurelets.interfaces.IFeatureletSupporter"
+       provides="topp.featurelets.interfaces.IFeaturelet"
+       factory=".featurelet.ListenFeaturelet"
+       name="listen"
+       />
+
 </configure>

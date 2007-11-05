@@ -3,12 +3,13 @@ from zope.interface import implements
 from zope.interface import alsoProvides
 
 from zope.component import getMultiAdapter
+from zope.component import adapts
 
 from topp.featurelets.interfaces import IFeaturelet
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.base import BaseFeaturelet
 
-from interfaces import IListenFeatureletInstalled
+from opencore.listen.interfaces import IListenFeatureletInstalled
 from interfaces import IListenContainer
 
 from opencore.interfaces import IProject
@@ -18,6 +19,7 @@ class ListenFeaturelet(BaseFeaturelet):
     A featurelet that installs a folder for managing listen based
     mailing lists.
     """
+    adapts(IFeatureletSupporter)
     implements(IFeaturelet)
 
     id = "listen"

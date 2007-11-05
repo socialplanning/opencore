@@ -6,5 +6,12 @@
   <opencore:tasktracker
      uri="http://localhost:5050"
      external_uri="tasks" />
+
+  <adapter
+      for="topp.featurelets.interfaces.IFeatureletSupporter"
+      provides="topp.featurelets.interfaces.IFeaturelet"
+      factory=".featurelet.TaskTrackerFeaturelet"
+      name="tasks"
+      />
   
 </configure>

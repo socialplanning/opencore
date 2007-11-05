@@ -21,8 +21,6 @@ from Products.CMFCore.DirectoryView import registerFileExtension
 from Products.Archetypes import public as atapi
 from Products.listen.permissions import AddMailingList
 
-from topp.featurelets.interfaces import IFeatureletRegistry
-
 from opencore.nui import indexing
 from opencore.auth import remoteauthplugin
 
@@ -85,10 +83,6 @@ def initialize(context):
             fti                = ftis,
             ).initialize(context)
 
-    flet_registry = getUtility(IFeatureletRegistry)
-    flet_registry.registerFeaturelet(ListenFeaturelet())
-    flet_registry.registerFeaturelet(TaskTrackerFeaturelet())
-    
     from opencore.auth import SignedCookieAuthHelper
     from AccessControl.Permissions import add_user_folders
     context.registerClass( SignedCookieAuthHelper.SignedCookieAuthHelper,

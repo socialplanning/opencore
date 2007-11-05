@@ -1,4 +1,4 @@
-import os
+import os, sys
 from logging import getLogger, INFO
 from pprint import pprint
 
@@ -88,7 +88,6 @@ def move_interface_marking_on_projects_folder(portal):
     from Products.Five.utilities.marker import erase
     from zope.interface import alsoProvides
     from opencore.interfaces.adding import IAddProject
-    import sys
     import opencore
     sys.modules['Products.OpenPlans.interfaces.adding'] = opencore.interfaces.adding
     pf = portal.projects
@@ -273,6 +272,43 @@ def markNewsItems(portal):
         if not INewsItem.providedBy(ni):
             alsoProvides(ni, INewsItem)
 
+def move_featurelet_markings(portal):
+    """DOES NOT WORK PROPERLY
+       unmark and remark all installed featurelet markings on projects
+       because their locations moved"""
+
+    # seems that this doesn't work because the alias is difficult to set up
+    # the installed marker interfaces used to be in opencore.featurelets
+    # now they are moved to separate packages
+    # which is problematic for creating an alias
+
+    # first, aliases need to be set up so the projects can be retrieved from
+    # the zodb
+    from opencore.listen.interfaces import IListenFeatureletInstalled
+    from opencore.tasktracker.interfaces import ITaskTrackerFeatureletInstalled
+    from opencore.wordpress.interfaces import IWordPressFeatureletInstalled
+    import opencore
+    # map the marker with the interfaces location
+    mapping = {
+            IListenFeatureletInstalled: opencore.listen.interfaces,
+            ITaskTrackerFeatureletInstalled: opencore.tasktracker.interfaces,
+            IWordPressFeatureletInstalled: opencore.wordpress.interfaces,
+            }
+
+    # now we take away the project featurelet markings
+    # and re-add them so that their locations will be correct
+    from Products.Five.utilities.marker import erase
+    projs = portal.projects
+    for proj_id in projs.objectIds():
+        if proj_id == '.wf_policy_config':
+            continue
+        proj = projs._getOb(proj_id)
+        for iface, module in mapping.items():
+            sys.modules['opencore.featurelet.interfaces'] = module
+            if iface.providedBy(proj):
+                erase(proj, iface)
+                alsoProvides(proj, iface)
+
 from Products.Archetypes.utils import OrderedDict
 
 # make rest of names readable  (maybe use config system)
@@ -316,6 +352,7 @@ nui_functions["Propagate workflow security settings"] = \
 nui_functions['markNewsItems'] = markNewsItems
 nui_functions['Install OpenCore Remote Auth Plugin'] = \
                        convertFunc(install_remote_auth_plugin)
+nui_functions['Move featurelet markings'] = move_featurelet_markings
 
 def run_nui_setup(portal):
     pm = portal.portal_migration

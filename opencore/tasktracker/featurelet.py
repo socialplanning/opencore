@@ -1,4 +1,5 @@
 from zope.component import getUtility
+from zope.component import adapts
 from zope.interface import implements
 
 from Products.CMFCore.utils import getToolByName
@@ -7,6 +8,7 @@ from memojito import memoizedproperty
 
 from topp.featurelets.base import BaseFeaturelet
 from topp.featurelets.interfaces import IFeaturelet
+from topp.featurelets.interfaces import IFeatureletSupporter
 
 from opencore.interfaces import IProject
 
@@ -21,6 +23,7 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
     A featurelet that installs a Task Tracker
     """
 
+    adapts(IFeatureletSupporter)
     implements(IFeaturelet)
 
     id = "tasks"

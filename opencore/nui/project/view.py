@@ -2,11 +2,13 @@ import re
 import string
 
 from zope import event
+from zope.interface import implements
+from zope.component import getAdapters, queryAdapter
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from Acquisition import aq_parent
 
-from topp.featurelets.interfaces import IFeatureletRegistry
+from topp.featurelets.interfaces import IFeaturelet, IFeatureletSupporter
 
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
@@ -21,7 +23,6 @@ from opencore.interfaces.event import AfterProjectAddedEvent, \
       AfterSubProjectAddedEvent
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 
-from opencore.project.utils import get_featurelets
 from opencore.tasktracker import uri as tt_uri
 from opencore.nui import formhandler
 from opencore.nui.base import BaseView, _
@@ -30,7 +31,6 @@ from opencore.nui.project.utils import vdict
 from opencore.nui.project.interfaces import IHomePage
 
 _marker = object()
-
 
 class ProjectBaseView(BaseView):
 
@@ -47,11 +47,7 @@ class ProjectBaseView(BaseView):
         return self._has_featurelet('blog')
 
     def _has_featurelet(self, flet_id):
-        flets = get_featurelets(self.context)
-        for flet in flets:
-            if flet['name'] == flet_id:
-                return True
-        return False
+        return queryAdapter(IFeatureletSupporter(self.context), IFeaturelet, name=flet_id)
 
 
 class ProjectContentsView(ProjectBaseView, OctopoLite):
@@ -396,11 +392,14 @@ class ProjectPreferencesView(ProjectBaseView):
             _(u'psm_security_changed', u"The security policy has been changed.") : old_workflow_policy != self.request.form['workflow_policy'],            
             }
         
-        old_featurelets = set([(x['name'], x['title']) for x in get_featurelets(self.context)])
+        supporter = IFeatureletSupporter(self.context)
+        flets = [f for n, f in getAdapters((supporter,), IFeaturelet)]
+
+        old_featurelets = set([(f.id, f.title) for f in flets if f.installed])
             
         self.request.form = new_form
         self.context.processForm(REQUEST=self.request, metadata=1)
-        featurelets = set([(x['name'], x['title']) for x in get_featurelets(self.context)])
+        featurelets = set([(f.id, f.title) for f in flets if f.installed])
 
         for flet in featurelets:
             if flet not in old_featurelets:
@@ -434,8 +433,9 @@ class ProjectPreferencesView(ProjectBaseView):
         return IHomePage(self.context).home_page.split('/')[-1]
 
     def featurelets(self, include_wiki=False):
-        all_flets = getUtility(IFeatureletRegistry).getFeaturelets()
-        installed_flets = [f['name'] for f in get_featurelets(self.context)]
+        supporter = IFeatureletSupporter(self.context)
+        all_flets = [flet for name, flet in getAdapters((supporter,), IFeaturelet)]
+        installed_flets = [flet.id for flet in all_flets if flet.installed]
         flet_data = [dict(id=f.id,
                           title=f.title,
                           url=f._info['menu_items'][0]['action'],
@@ -534,13 +534,20 @@ class ProjectAddView(BaseView, OctopoLite):
         event.notify(AfterProjectAddedEvent(project, self.request))
 
     def featurelets(self, include_wiki=False):
-        flets = getUtility(IFeatureletRegistry).getFeaturelets()
+        # create a stub object that provides IFeatureletSupporter
+        # is there a better way to get the list of adapters without having
+        # the "for" object?
+        class DummyFeatureletSupporter(object):
+            implements(IFeatureletSupporter)
+
+        obj = DummyFeatureletSupporter()
+        flets = getAdapters((obj,), IFeaturelet)
         flet_data = [dict(id=f.id,
                           title=f.title,
                           url=f._info['menu_items'][0]['action'],
                           checked=False,
                           )
-                     for f in flets]
+                     for name, f in flets]
         if include_wiki:
             flet_data.insert(0, dict(id='wiki',
                                      title='Wiki pages',
