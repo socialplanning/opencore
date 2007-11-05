@@ -18,12 +18,12 @@
         </div>
         
         <div class="oc-getstarted">
-          <h2><a  href="string:${view/portal_url}/projects">Join a project and help it succeed</a></h2>
+          <h2><a tal:attributes="href string:${view/portal_url}/projects">Join a project and help it succeed</a></h2>
           <p>Found something you’re interested in? Want to volunteer an hour of your time? Join a project and help someone’s vision become a reality.</p>
         </div>
         
         <div class="oc-getstarted">
-          <h2><a  href="string:${view/portal_url}/projects/create">Start your own project</a></h2>
+          <h2><a tal:attributes="href string:${view/portal_url}/projects/create">Start your own project</a></h2>
           <p>Is there something you’d like to do? Install bike parking? Create a community garden? Throw a block party? Start your own project and use our toolkit to stay organized.</p>
         </div>
       </div><!-- end #oc-content-main -->
