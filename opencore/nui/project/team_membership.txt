@@ -9,6 +9,10 @@ It should have found a site::
     >>> rm.portal
     <PloneSite at ...>
 
+We can find the logged in user::
+    >>> rm._loggedinmember
+    <OpenMember at ...>
+
 The logged in user can request membership to the project::
     >>> rm.join()
     True

@@ -2,6 +2,8 @@ from Acquisition import aq_parent
 from zope.interface import implements
 from zope.component import adapts
 
+from Products.CMFCore.utils import getToolByName
+
 from opencore.interfaces import IOpenTeam
 from opencore.interfaces import IOpenSiteRoot
 from opencore.interfaces.pending_requests import IRequestMembership
@@ -27,11 +29,48 @@ class RequestMembershipWithEmail(object):
                 break
         self.portal = portal
 
-    def join(self):
+    # XXX kill
+    @property
+    def _loggedinmember(self):
+        membertool = getToolByName(self.portal, "portal_membership")
+        return membertool.getAuthenticatedMember()
+
+    # XXX kill
+    def _construct_request_email(self, request_message=None):
+        team = self.context
+        team_manage_url = "%s/projects/%s/manage-team" % self.portal.absolute_url(), team.title
+        member = self._loggedinmember
+        member_string = member.getId()
+        member_fn = member.getFullname()
+        if member_fn:
+            member_string = member_string + ' (' + member_fn + ')'
+        email_vars = {'member_id': member_string,
+                      'project_title': context.title,
+                      'team_manage_url': team_manage_url,
+                      }
+
+        sender = IEmailSender(self.portal)
+        email_msg = sender.constructMailMessage('membership_requested',
+                                                **email_vars)
+        #if request_message:
+        #    email_vars.update(member_message=detag(request_message))
+        #    email_msg += sender.constructMailMessage('mship_request_message', **email_vars)
+        return email_msg
+        
+    def join(self, request_message=None):
         context = self.context
         joined = context.join()
         if not joined:
             return False
+
         email_sender = IEmailSender(self.portal)
+        email_msg = self._construct_request_email(request_message)
+        mto = team.get_admin_ids()
+        for recipient in mto:
+            try:
+                sender.sendEmail(recipient, msg=email_msg, **email_vars)
+            except MailHostError:
+                pass
+
         #email_sender.sendMail()
         return True
