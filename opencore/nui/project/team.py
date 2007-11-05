@@ -208,7 +208,7 @@ ${portal_url}""", mapping={u'url':url,
                                       mapping={'project_title':self.context.Title()}))
             self.template = None # don't render the form before the redirect
             self.redirect(self.context.absolute_url())
-            
+            return
         else:
             self.add_status_message(u"You must login or create an account")
             self.template = None
