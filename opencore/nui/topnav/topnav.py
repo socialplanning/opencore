@@ -184,8 +184,7 @@ class ProjectMenuView(BaseView):
 
         team = proj.getTeams()[0]
         filter_states = tuple(team.getActiveStates()) + ('pending',)
-        if self.loggedin and self.member_info.get('id') not in \
-               team.getMemberIdsByStates(filter_states):
+        if self.member_info.get('id') not in team.getMemberIdsByStates(filter_states):
             req_mship_url = '%s/request-membership' % proj.absolute_url()
             menudata += (
                 {'content': 'Join project',

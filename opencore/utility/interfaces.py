@@ -44,3 +44,27 @@ class IHTTPClient(Interface):
         a string that contains the response entity body.
         """
 
+class IEmailSender(Interface):
+    """
+    Encapsulates the email messages sending logic for the OpenPlans
+    user interface.
+
+    Ideally, this is a global utility. Because of current dependence
+    on tools, which are site-specific, I think the best we can do is
+    a local utility on the site. However, to avoid any additional
+    installation or migration steps, it will be implemented first as
+    a very generic adapter.
+    """
+
+    def constructMailMessage():
+        """
+        Contructs and returns mail message text that is ready to be
+        delivered to a user: converts a message id into a message,
+        substitutes variable names in the message with values based
+        on a mapping provided, and triggers the translation mechanism.
+        """
+
+    def sendMail():
+        """Sends an email."""
+       
+        

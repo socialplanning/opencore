@@ -417,6 +417,17 @@ class InitialLogin(BaseView):
         email_invites = getUtility(IEmailInvites)
         email_invites.convertInvitesForMember(member)
 
+        # convert pending mship requests into real mship requests
+        from zope.component import getMultiAdapter
+        from opencore.interfaces import IPendingRequests
+        from opencore.interfaces.pending_requests import IRequestMembership
+        mship_bucket = getMultiAdapter((member, self.portal.projects), IPendingRequests)
+        converted = mship_bucket.convertRequests()
+        for proj_title in converted:
+            self.add_status_message(_(u'team_proj_join_request_sent',
+                                      u'Your request to join "${project_title}" has been sent to the project administrator(s).',
+                                      mapping={'project_title':proj_title}))
+
         baseurl = self.memfolder_url()
         # Go to the user's Profile Page in Edit Mode
         return self.redirect("%s/%s" % (self.memfolder_url(),

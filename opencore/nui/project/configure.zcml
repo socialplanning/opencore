@@ -120,4 +120,10 @@
   <subscriber handler="opencore.nui.project.preferences.queue_delete_team" />
   <adapter factory="opencore.nui.project.preferences.ProjectFeatureletSupporter" />
 
+  <adapter
+      for="opencore.interfaces.IOpenTeam"
+      provides="opencore.interfaces.pending_requests.IRequestMembership"
+      factory="opencore.nui.project.team_membership.RequestMembershipWithEmail"
+      />
+
 </configure>
