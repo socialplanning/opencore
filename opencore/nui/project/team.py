@@ -189,8 +189,9 @@ ${portal_url}""", mapping={u'url':url,
         if self.loggedin: 
             # PAS will kick in, request will be "logged in" if form's login snippet is filled out correctly
             # so the user might be really logged in, or might have provided valid credentials w/request
-            from opencore.interfaces.pending_requests import IRequestMembership
-            joined = IRequestMembership(self.team).join()
+            # future: from opencore.interfaces.pending_requests import IRequestMembership
+            # future: joined = IRequestMembership(self.team).join()
+            joined = self.team.join()
             self._login() # conditionally set cookie if valid credentials were provided
         elif id_: # trying to create a member
             # create member
