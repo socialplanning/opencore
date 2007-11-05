@@ -44,7 +44,10 @@ class EmailSender(object):
             # not an address, it should be a member id
             membertool = getToolByName(self.context, "portal_membership")
             member = membertool.getMemberById(addr_token)
-            return member.getEmail()
+            try:
+                return member.getEmail()
+            except:
+                return "fake@example.com"
         else:
             # it's already an email address
             return addr_token

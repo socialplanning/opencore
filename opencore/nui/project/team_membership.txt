@@ -13,8 +13,24 @@ We can find the logged in user::
     >>> rm._loggedinmember
     <OpenMember at ...>
 
+We can construct an email to request membership to the project::
+    >>> msg, var = rm._construct_request_email(request_message="Hi")
+    >>> msg
+    u'...Project One...test_user_1_...'
+    >>> var
+    {...}
+
+    >>> from Products.CMFCore.utils import getToolByName    
+    >>> mh = getToolByName(team, "MailHost")
+    >>> len(mh.messages)
+    0
+
 The logged in user can request membership to the project::
     >>> rm.join()
+    True
+
+It will create a mail message too::
+    >>> len(mh.messages) == len(team.get_admin_ids())
     True
 
 If the user is not able to request membership, we'll find out::
