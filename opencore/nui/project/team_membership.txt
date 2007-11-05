@@ -15,10 +15,10 @@ We can find the logged in user::
 
 We can construct an email to request membership to the project::
     >>> self.logout()
-    >>> self.login('m3')
+    >>> self.login('m2')
     >>> msg, var = rm._construct_request_email(request_message="Hi")
     >>> msg
-    u'...Project One...m1...'
+    u'...Project One...m2...Hi...'
     >>> var
     {...}
 
