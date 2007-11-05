@@ -889,6 +889,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                     msg_subs = {'project_title': self.context.title,
                                 'join_url': join_url,
                                 'portal_url': self.siteURL,
+                                'inviter_name': self.loggedinmember.id + ' (' + self.loggedinmember.fullname + ')',
+                                'portal_title':self.portal_title(),
+                                'project_url':self.context.absolute_url()
                                 }
                     self.email_sender.sendEmail(addy, msg_id='invite_email',
                                                 **msg_subs)
