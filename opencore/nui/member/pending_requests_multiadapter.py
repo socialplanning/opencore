@@ -27,35 +27,36 @@ class PendingRequests(object):
         annot = IAnnotations(requester)
         req_annot = annot.get(annot_key, None)
         if req_annot is None:
-            req_annot = set()
+            req_annot = dict()
             annot[annot_key] = req_annot
         self._req_store = req_annot
 
     def getRequests(self):
-        return tuple(self._req_store)
+        return dict(self._req_store)
         
-    def addRequest(self, proj_id):
+    def addRequest(self, proj_id, request_message=None):
         # trigger the exception if this doesn't exist or is inaccessible
         proj = getattr(self.folder, proj_id)
-        self._req_store.add(proj_id)
+        if proj_id not in self._req_store:
+            self._req_store[proj_id] = request_message
 
     def removeRequest(self, proj_id):
-        self._req_store.remove(proj_id)
+        self._req_store.pop(proj_id)
 
     def removeAllRequestsForUser(self):
         self._req_store.clear()
 
-    def _convertRequest(self, proj_id):
+    def _convertRequest(self, proj_id, request_message=None):
         proj = getattr(self.folder, proj_id)
         team = proj.getTeams()[0]
-        return IRequestMembership(team).join()
+        return IRequestMembership(team).join(request_message)
 
     def convertRequests(self):
         reqs = self._req_store
         converted = []
-        for proj_id in reqs:
-            if self._convertRequest(proj_id):
+        for (proj_id, msg) in reqs.items():
+            if self._convertRequest(proj_id, msg):
                 converted.append(proj_id)
         for proj_id in converted:
-            reqs.remove(proj_id)
+            reqs.pop(proj_id)
         return tuple(converted)

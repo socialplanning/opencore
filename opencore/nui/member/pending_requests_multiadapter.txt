@@ -1,7 +1,7 @@
 A multi-adapter to annotate objects with a list of project ids to
 store membership requests which should be created in the future.
 
-It's really just wrapping a set.
+It's really just wrapping a dict.
 
 It adapts IAnnotatable as the object which wants to make the request
 (eg the member) and IATBTreeFolder as the folder containing the projects
@@ -24,20 +24,22 @@ which requests can be made for.
 
 The member shouldn't have any requests initially::
     >>> pr.getRequests()
-    ()
+    {}
 
 We store a few requests to join projects and then get them::
     >>> pr.addRequest("p1")
     >>> pr.getRequests()
-    ('p1',)
-    >>> pr.addRequest("p2")
+    {'p1': None}
+
+Requests can include a request message to the admins::
+    >>> pr.addRequest("p2", request_message="let me in")
     >>> pr.getRequests()
-    ('p2', 'p1')
+    {'p2': 'let me in', 'p1': None}
 
 Adding a request which is already stored quietly does nothing::
-    >>> pr.addRequest("p1")
+    >>> pr.addRequest("p2", 'dont let me in')
     >>> pr.getRequests()
-    ('p2', 'p1')
+    {'p2': 'let me in', 'p1': None}
 
 Adding a request for a team which doesn't exist or which the user doesn't
 have permission to access will fail::
@@ -53,12 +55,12 @@ We can remove requests, but only if they exist::
     ...
     KeyError: 'foo'
     >>> pr.getRequests()
-    ('p1',)
+    {'p1': None}
 
 And we can remove all requests::
     >>> pr.removeAllRequestsForUser()
     >>> pr.getRequests()
-    ()
+    {}
 
 We can also convert pending requests to real requests. The converter 
 returns the requests which were successfully converted and removes
@@ -68,7 +70,7 @@ them from its pending request bucket::
     >>> pr.convertRequests()
     ('p2', 'p3')
     >>> pr.getRequests()
-    ()
+    {}
 
 Let's see what happens if we try to create requests on projects where
 we already have a pending membership. Note that this is intentionally
@@ -79,4 +81,4 @@ requests::
     >>> pr.convertRequests()
     ()
     >>> pr.getRequests()
-    ('p2', 'p3')
+    {'p2': None, 'p3': None}
