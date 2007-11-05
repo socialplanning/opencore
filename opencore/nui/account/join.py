@@ -63,6 +63,7 @@ class InviteJoinView(accountview.JoinView, accountview.ConfirmAccountView):
         # do the joins and activations
         mships = self.invite_util.convertInvitesForMember(member)
         for mship in mships:
+            mship._v_self_approved = True
             if mship.aq_parent.getId() in self.proj_ids:
                 mship.do_transition('approve_public')
         return self.redirect("%s/init-login" %self.siteURL)
