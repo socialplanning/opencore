@@ -744,6 +744,6 @@ class TourView(MemberAccountView):
     template = ZopeTwoPageTemplateFile('tour.pt')
 
     def has_projects(self):
-        if self.invitations or self.projects_for_user:
+        if self.invitations() or self.projects_for_user:
             return True
         return False
