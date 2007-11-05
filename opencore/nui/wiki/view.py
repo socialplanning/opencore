@@ -58,20 +58,24 @@ class WikiView(WikiBase):
 
 class WikiEdit(WikiBase, OctopoLite):
 
-    kupu_template = ZopeTwoPageTemplateFile("wiki-edit.pt")
-    xinha_template = ZopeTwoPageTemplateFile("wiki-edit-xinha.pt")
+    # kupu template turned of now
+    # can be removed if we never go back
+    #kupu_template = ZopeTwoPageTemplateFile("wiki-edit.pt")
+    #xinha_template = ZopeTwoPageTemplateFile("wiki-edit-xinha.pt")
+    template = ZopeTwoPageTemplateFile("wiki-edit-xinha.pt")
 
     attachment_snippet = ZopeTwoPageTemplateFile('attachment.pt')
 
-    @property
-    def template(self):
-        # parent can be either a project, or a member folder
-        # in either case, the behavior works properly
-        parent = self.context.aq_inner.aq_parent
-        if IAmExperimental.providedBy(parent):
-            return self.xinha_template
-        else:
-            return self.kupu_template
+# always use xinha, see comment above
+#    @property
+#    def template(self):
+#         parent can be either a project, or a member folder
+#         in either case, the behavior works properly
+#        parent = self.context.aq_inner.aq_parent
+#        if IAmExperimental.providedBy(parent):
+#            return self.xinha_template
+#        else:
+#            return self.kupu_template
 
     def _clean_html(self, html):
         """ delegate cleaning of html to lxml """

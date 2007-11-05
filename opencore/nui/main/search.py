@@ -209,6 +209,9 @@ def _sort_by_id(brains):
 def _sort_by_modified(brains):
     return sorted(brains, key=lambda x: x.modified)
 
+def _sort_by_created(brains):
+    return sorted(brains, key=lambda x:x.created, reverse=True)
+
 # XXX should fall back on sorting by id here
 def _sort_by_portal_type(brains):
     def cmp_portal_type(a, b):
@@ -342,6 +345,14 @@ class HomeView(SearchView):
             
         return out
 
+    def recently_created_members(self):
+        query = dict(sort_on='created',
+                     sort_order='descending',
+                     sort_limit=5)
+        brains = self.membranetool(**query)
+        
+        return _sort_by_created(brains)
+
     def n_project_members(self, proj_brain):
         return self.projects_search.n_project_members(proj_brain)
 
@@ -401,19 +412,18 @@ class SitewideSearchView(SearchView):
             search_for = '1* OR 2* OR 3* OR 4* OR 5* OR 6* OR 7* OR 8* OR 9* OR 0*'
             catalog_query = (Eq('portal_type', 'OpenProject') & Eq('Title', search_for)) \
                     | (Eq('portal_type', 'Document') & Eq('Title', search_for))
-#                    | (Eq('portal_type', 'OpenMember') & Eq('Title', search_for))
-            membrane_query = dict(RosterSearchableText=search_for)
+            membrane_query = dict(portal_type="OpenMember",
+                                  RosterSearchableText=search_for)
         elif letter == 'all':
             catalog_query = Eq('portal_type', 'OpenProject') \
                     | Eq('portal_type', 'Document')
-#                    | Eq('portal_type', 'OpenMember')
-            membrane_query = dict()
+            membrane_query = dict(portal_type="OpenMember")
         else:
             search_for = letter + '*'
             catalog_query = ((Eq('portal_type', 'OpenProject') & (Eq('Title', search_for))) \
                     | (Eq('portal_type', 'Document') & (Eq('Title', search_for))))
-#                    | (Eq('portal_type', 'OpenMember') & (Eq('Title', search_for))))
-            membrane_query = dict(RosterSearchableText=search_for)
+            membrane_query = dict(portal_type="OpenMember",
+                                  RosterSearchableText=search_for)
 
 
         if not sort_by:

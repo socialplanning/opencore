@@ -74,8 +74,6 @@ This is some japanese that I found::
     >>> japanese_project
     <OpenProject at /plone/projects/i18n>
     >>> delattr(proj_add_view, '_redirected')
-    >>> proj_add_view.portal_status_message
-    [u'"\u65e5\u8a9e" has been created...]
 
 Create a project starting with a capital letter to test case
 insensitive sort::
@@ -90,8 +88,6 @@ insensitive sort::
     >>> apple_project
     <OpenProject at /plone/projects/apples>
     >>> delattr(proj_add_view, '_redirected')
-    >>> proj_add_view.portal_status_message
-    [u'"apples are good" has been created...]
 
 Check projects for user m1::
     >>> project_dicts = view.projects_for_user

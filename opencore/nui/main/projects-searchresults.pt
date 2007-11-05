@@ -14,7 +14,7 @@
           <div metal:use-macro="here/main_macros/search_widget" />
         </tal:set_var>
         
-        <div class="oc-searchresults">
+        <div class="oc-directory">
 
           <!-- batch needs to have some variables set up to work properly.
                here is where they are defined -->
@@ -27,7 +27,7 @@
                                    ">
 
             <!-- display the number of results that came back -->
-            <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
+            <div class="oc-directory-sorter" tal:define="many python: start!=end">
               <!-- pagination uses the batch macro -->
               <div metal:use-macro="here/@@nui_batch_macros/pagination"/>
               Project<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
@@ -61,36 +61,46 @@
             </div>
 
             <!-- the results are displayed here -->
-            <ol class="oc-searchresults-list">
-              <li class="oc-searchresults-item" tal:repeat="item view/search_results">
-                <h3><a href="" tal:attributes="href string:${context/portal_url}/projects/${item/getId}" tal:content="item/Title">Project Title</a> </h3> 
+            <ol class="oc-directory-list oc-clearAfter">
+              <li tal:repeat="item view/search_results">
+                <div class="oc-project-logo">
+                  <a tal:attributes="href string:${context/portal_url}/projects/${item/getId}" >
+                    <img src="++resource++img/default-projlogo-thumb.gif" tal:attributes="alt item/Title; title item/Title" />
+                  </a>
+                </div>
+                <div class="oc-directory-content">
+                  <h3><a tal:attributes="href string:${context/portal_url}/projects/${item/getId}" tal:content="item/Title">Project Title</a> </h3> 
 
-                <span class="oc-discreetText" tal:define="sorting_by request/sort_by | nothing">
+                  <span class="oc-discreetText" tal:define="sorting_by request/sort_by | nothing">
 
-                  <tal:not-modified-block condition="python: sorting_by != 'modified'">
-                   created by
-                    <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
-                    <span tal:content="python: view.pretty_date(item.CreationDate)" />
-                  </tal:not-modified-block>
+                    <tal:not-modified-block condition="python: sorting_by != 'modified'">
+                      created by
+                      <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
+                      <span tal:content="python: view.pretty_date(item.CreationDate)" />
+                    </tal:not-modified-block>
 
-                  <tal:modified-block tal:condition="python: sorting_by == 'modified'">
-                    last updated
-                    <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
-                      by
-                      <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
-                    </tal:has_updated_author>
-                    <span tal:content="python: view.pretty_date(item.ModificationDate)" />
-                  </tal:modified-block>
+                    <tal:modified-block tal:condition="python: sorting_by == 'modified'">
+                      last updated
+                      <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
+                        by
+                        <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
+                      </tal:has_updated_author>
+                      <span tal:content="python: view.pretty_date(item.ModificationDate)" />
+                    </tal:modified-block>
 
-                </span>
+                  </span>
 
-                <p tal:define="desc item/Description">
-                  <span tal:condition="desc" tal:replace="desc" />
-                </p>
+                  <!-- FIXME
+                  <p tal:define="desc item/Description">
+                    <span tal:condition="desc" tal:replace="desc" />
+                  </p>
+                  -->
+
+                </div>
 
               </li>
             </ol>
-            <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
+            <div class="oc-directory-sorter" tal:define="many python: start!=end">
               <!-- we put pagination on the bottom of the page too -->
               <div metal:use-macro="here/@@nui_batch_macros/pagination"/>
               Project<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>

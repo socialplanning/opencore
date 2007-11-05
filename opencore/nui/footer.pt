@@ -1,14 +1,14 @@
 <div i18n:domain="opencore" id="oc-footer">
   <ul class="oc-smallText">
     <li><a i18n:translate="footer_about_link" tal:attributes="href string:${here/portal_url}/about">about</a></li>
-    <li><a i18n:translate="footer_contact_link" tal:attributes="href string:${here/portal_url}/contact">contact</a></li>
+    <li><a i18n:translate="footer_contact_link" tal:attributes="href string:${here/portal_url}/contact-site-admin">contact</a></li>
     <li><a i18n:translate="footer_news_link" tal:attributes="href string:${here/portal_url}/news">news</a></li>
     <!-- <li><a tal:attributes="href string:${here/portal_url}/legal">legal</a></li> -->
     <!-- <li><a tal:attributes="href string:${here/portal_url}/privacy">privacy</a></li> -->
   </ul>
 
   <div id="oc-footer-about" class="oc-smallText">
-    <span tal:omit-tag="" tal:content="string:${view/portal_title} is" />
+    <span tal:replace="string:${view/portal_title}" /> is
     <a i18n:translate="footer_num_people" tal:attributes="href string:${here/portal_url}/people"><span i18n:name="num_people" tal:replace="string:${view/nusers}"/> people</a> and
     <a i18n:translate="footer_num_projects" tal:attributes="href string:${here/portal_url}/projects"><span i18n:name="num_projects" tal:replace="string:${view/projects_served_count}"/> projects</a> since
     <span tal:replace="string:${view/dob}" />.<br />

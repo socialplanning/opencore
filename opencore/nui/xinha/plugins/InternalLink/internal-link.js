@@ -42,6 +42,74 @@ InternalLink.prototype._lc = function(string)
   return Xinha._lc(string, 'InternalLink');
 };
 
+function search_up(elt, direction, offset) {
+    var dir_property = 'nextSibling';
+    if (direction == 'left') {
+        dir_property = 'previousSibling';
+    }
+    // If the current node is a text node (which can only happen on the very first call, since text nodes
+    // can't have children), we search the portion of it that is to the left or right of the selection.
+    // Otherwise, we search all siblings in the given direction, and continue doing so until we hit the root.
+    // This search will stop at the top of the iframe, and not continue into the parent document.
+    for (var node = elt.nodeType == 3 ? elt : elt[dir_property]; node != null; node = node[dir_property]) {
+        // 3 is text node
+        if (node.nodeType == 3) {
+            if (direction == 'left') {
+                var nv = offset != undefined ? node.nodeValue.substring(0, offset) : node.nodeValue;
+                var result = nv.match(/\(\(+|\)\)+/g);
+                if (result && result.length > 0) {
+                    return result[result.length-1][0] == '(' ? 'open' : 'closed';
+                }
+            } else {
+                var nv = offset != undefined ? node.nodeValue.substring(offset, node.nodeValue.length-1) : node.nodeValue;
+                var result = nv.match(/\)\)+/g);
+                if (result && result.length > 0) {
+                    return 'closed'
+                }
+            }
+        // Node 1 is an element
+        } else if (node.nodeType == 1) {
+            down = search_down(node, direction);
+            if ((down == 'open') || (down == 'closed')) {
+                return down;
+            }
+        }
+    }
+    if (elt.parentNode) {
+        return search_up(elt.parentNode, direction);
+    }
+}
+
+function search_down(elt, direction) {
+    var child_property = 'firstChild';
+    var dir_property = 'nextSibling';
+    if (direction == 'left') {
+        dir_property = 'previousSibling';
+        child_property = 'lastChild';
+    }
+    for (var node = elt[child_property]; node != null; node = node[dir_property]) {
+        // 3 is text node
+        if (node.nodeType == 3) {
+            if (direction == 'left') {
+                var result = node.nodeValue.match(/\(\(+|\)\)+/g);
+                if (result && result.length > 0) {
+                    return result[result.length-1][0] == '(' ? 'open' : 'closed';
+                }
+            } else {
+                var result = node.nodeValue.match(/\)\)+/g);
+                if (result && result.length > 0) {
+                    return 'closed'
+                }
+            }
+        } else if (node.nodeType == 1) {
+            down = search_down(node, direction);
+            if ((down == 'open') || (down == 'closed')) {
+                return down;
+            }
+        }
+    }
+}
+
 InternalLink.prototype._createLink = function(a)
 {
   if (!a)
@@ -51,6 +119,66 @@ InternalLink.prototype._createLink = function(a)
     {
       alert(this._lc("You must select some text before making a new link."));
       return;
+    }
+
+    range = this.editor.createRange(selection);
+
+    // This algorithm is going to have a lot of explanation, because it is not
+    // at all obvious.  I hope that's just a byproduct of the fact that we have
+    // to do tree traversal and we have complicated link rules, not because
+    // I've written illegible code. This algorithm is very dependant on
+    // Wicked's processing of wiki links, as it uses Wicked rules to determine
+    // whether or not a link is active.  Important things to know about Wicked
+    // link processing:
+    //
+    // 1) Wicked links can not be nested
+    // 2) Nested Wicked links are treated as plain text
+    // 3) Close brackets '))' that lead the text are just plain brackets
+    // 4) Unclosed trailing open brackets '((' are also just plain brackets
+    //
+    // A byproduct of all this is that at any given point, the last set of
+    // brackets ('((' or '))') determine the link state.  If they are open
+    // brackets, we are potentially in a link (unless there are no closing
+    // brackets), and if they are close brackets, we are not currently in a
+    // link.
+    //
+    // As such, our algorithm is as follows:
+    // Are we in a link state because of open brackets before the selection?
+    //     If so, check for close brackets in or after the selection.
+    // If not, are we in a link state because there are open brackets in the selection?
+    //     If so, check for a valid Wicked link in the selection, or close brackets
+    //     trailing the selection.
+    // 
+    // Finally, I'd like to explain the tree traversal.  For a node to be
+    // considered as after the current node, it has to be either a child of the
+    // current node, or a sibling (and it's children) to the right of the
+    // current node, or a sibling (and it's children) to the right of it's
+    // parents.
+    // Nodes that are before the current node or siblings (and their children)
+    // to the left, or siblings (and their children) to the left of parents.
+    //
+    // In order to visit all nodes in a direction, we have to perform two
+    // different operations.  The first is an up traversal, where we process
+    // the current node and all of it's parents in order to find siblings in
+    // the given direction.  The second is a down traversal, where for each
+    // node not in the direct chain of parents, we travers all of its children.
+
+    // In order to be sure we don't check Wicked links in comments, we have
+    // to only process the selection text.  For W3C ranges, we use the toString()
+    // method, and the text property for IE
+    selection_text = range.toString ? range.toString() : range.text;
+
+    if (search_up(selection.anchorNode, 'left', selection.anchorOffset) == 'open') {
+        if ((selection_text.search(/\)\)+/) >= 0) || (search_up(selection.focusNode, 'right', selection.focusOffset))) {
+
+            alert('Cannot create a link inside of a wiki link');
+            return;
+        }
+    } else if ((selection_text.search(/\(\(+/) >= 0) &&
+        ((selection_text.search(/\(\(+.*\)\)+/) >= 0) || (search_up(selection.focusNode, 'right', selection.focusOffset)))) {
+
+        alert('Cannot create a link inside of a wiki link');
+        return;
     }
   }
 

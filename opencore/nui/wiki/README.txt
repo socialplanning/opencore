@@ -43,7 +43,7 @@ Test wiki history registrations::
     >>> from AccessControl.User import nobody
     >>> newSecurityManager(None, nobody)
     >>> history = page.restrictedTraverse('history')
-    >>> history()
+    >>> unicode(history())
     u'... There are no previous versions...
 
 Test wiki attachment registrations which are not used any more::
@@ -364,22 +364,12 @@ Check that when logging back in as m1, m3 is still the last modified author
      >>> ILastModifiedAuthorId(proj)
      'm3'
 
-Experimental marking should control which template is used
-The project should not be marked experimental initially
+Experimental marking should no longer control which template is used
      >>> from opencore.interfaces import IAmExperimental
      >>> IAmExperimental.providedBy(proj)
      False
 
-So, the template is the original kupu template
-     >>> html = view.template()
-     >>> 'kupu' in html
-     True
-     >>> 'xinha' in html
-     False
-
-After marking with the experimental interface, the template
-is the xinha template
-     >>> alsoProvides(proj, IAmExperimental)
+Check for xinha
      >>> html = view.template()
      >>> 'kupu' in html
      False

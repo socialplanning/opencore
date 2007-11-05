@@ -36,24 +36,6 @@
     </div>
     
     <div id="oc-content-main">
-      <div id="oc-security-settings" class="oc-boxy">
-        <h2>Your security settings</h2>
-        <p tal:condition="python:proj['security']=='open_policy'">
-          Currently anyone can view the content of your project and 
-	  contribute to it.
-        </p>
-        <p tal:condition="python:proj['security']=='medium_policy'">
-          Currently anyone can view the content of your project.  Only project
-	  members can contribute content.
-        </p>
-        <p tal:condition="python:proj['security']=='closed_policy'">
-          Currently only your project members can view the content
-          of your project and contribute to it.
-        </p>
-        <p><a href="preferences">Change security settings</a></p>
-      </div>
-
-        
         <tal:pendingrequests
            define="item_heading string:Users requesting to join your project;
                    item_type string:request;
@@ -122,11 +104,28 @@
               method="POST">
           <textarea style="width: 90%;" rows="3" cols="20" id="email-invites" name="email-invites"
                     tal:content="view/request/form/email-invites | nothing" />
-          <p class="oc-discreetText">Comma separated</p>
+          <p class="oc-discreetText">Comma separated, or one-per-line</p>
           <input type="submit" name="task|email-invites" value="Send"
                  class="oc-button" />
         </form>
 
+      </div>
+      
+      <div id="oc-security-settings" class="oc-boxy">
+        <h2>Your security settings</h2>
+        <p tal:condition="python:proj['security']=='open_policy'">
+          Currently anyone can view the content of your project and 
+	  contribute to it.
+        </p>
+        <p tal:condition="python:proj['security']=='medium_policy'">
+          Currently anyone can view the content of your project.  Only project
+	  members can contribute content.
+        </p>
+        <p tal:condition="python:proj['security']=='closed_policy'">
+          Currently only your project members can view the content
+          of your project and contribute to it.
+        </p>
+        <p><a href="preferences">Change security settings</a></p>
       </div>
 
     </div><!-- end #oc-content-sidebar -->

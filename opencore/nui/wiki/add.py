@@ -72,6 +72,7 @@ class NuiPageAdd(NuiBaseAdd):
         return aq_parent(aq_inner(self.context))
 
 # consider moving out to more general location
+# the project create code shares this as well
 from zope.interface import providedBy
 from zope.app.apidoc.component import getRequiredAdapters as get_required
 from zope.publisher.interfaces import IRequest
