@@ -5,6 +5,10 @@ Make sure the RequestMembershipWithEmail adapter is hooked up::
     >>> rm
     <opencore.nui.project.team_membership.RequestMembershipWithEmail object ...>
 
+It should have found a site::
+    >>> rm.portal
+    <PloneSite at ...>
+
 The logged in user can request membership to the project::
     >>> rm.join()
     True
