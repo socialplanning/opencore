@@ -101,6 +101,10 @@ ul#oc-topnav-context li.oc-topnav-selected a {
   color: #fff;
   margin: 0 0 0.5em;
 }
+.oc-getstarted h1 a,
+.oc-getstarted h2 a {
+  color: #fff;
+}
 .oc-getstarted p {
   margin: 0;
 }
