@@ -201,7 +201,7 @@ ${portal_url}""", mapping={u'url':url,
                 return mem 
             from zope.component import getMultiAdapter
             from opencore.interfaces.pending_requests import IPendingRequests
-            req_bucket = getMultiAdapter((mem, self.portal.portal_teams), IPendingRequests)
+            req_bucket = getMultiAdapter((mem, self.portal.projects), IPendingRequests)
             req_bucket.addRequest(self.context.getId())
             self.add_status_message(_(u'team_proj_join_request_sent',
                                       u'Your request to join "${project_title}" has been sent to the project administrator(s).',

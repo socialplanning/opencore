@@ -419,7 +419,7 @@ class InitialLogin(BaseView):
         from zope.component import getMultiAdapter
         from opencore.interfaces import IPendingRequests
         from opencore.interfaces.pending_requests import IRequestMembership
-        mship_bucket = getMultiAdapter((member, self.portal.portal_teams), IPendingRequests)
+        mship_bucket = getMultiAdapter((member, self.portal.projects), IPendingRequests)
         converted = mship_bucket.convertRequests()
         # do we want to tell the user?
 
