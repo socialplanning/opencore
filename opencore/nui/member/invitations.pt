@@ -1,0 +1,28 @@
+<ul tal:define="invitations view/invitations"
+    tal:condition="invitations"
+    class="oc-invite-list">
+  <form name="invitation-form" action="account">
+    <tal:for repeat="projinfo invitations">
+      <li class="oc-invite oc-boxy oc-clearAfter"
+          tal:define="proj_id projinfo/proj_id"
+          tal:attributes="id string:${proj_id}_invitation">
+        <!-- <div  tal:omit-tag="" class="oc-avatar">
+             <img src="" />
+          </div> -->
+        <p class="oc-invite-content">
+          <a href="" tal:attributes="href string:${view/portal_url}/projects/${proj_id}" tal:content="projinfo/title">Animal Campaign</a> 
+          has invited you to become a member
+        </p>
+        <ul class="oc-actions oc-invite-actions oc-actionClose"
+            tal:define="url request/ACTUAL_URL">
+          <li tal:repeat="action view/invitation_actions">
+            <a tal:attributes="href string:${url}?task|${proj_id}|${action}Invitation=${action};
+                               class string:oc-actionLink oc-js-actionLink oc-choose${action}"
+               tal:content="action"
+               />
+          </li>
+        </ul>
+      </li>
+    </tal:for>
+  </form>
+</ul>

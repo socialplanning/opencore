@@ -64,18 +64,18 @@
 
 	  <!-- explanation of project page -->
 	  <p>
-	    <a href="string:${view/portal_url}/projects">projects</a>
+	    <a tal:attributes="href string:${view/portal_url}/projects">projects</a>
 	  </p>
 
 	  <!-- start a project -->
 	  <p>
-	    <a href="string:${view/portal_url}/projects/create">start a project</a>
+	    <a tal:attributes="href string:${view/portal_url}/projects/create">start a project</a>
 	  </p>
 
 	  <!-- join upper west side project -->
 	  <!-- commented out for now
 	  <p>
-	    <a href="${view/portal_url}/projects/
+	    <a tal:attributes="href ${view/portal_url}/projects/"
 	  </p>
 	  -->
 	</div>
