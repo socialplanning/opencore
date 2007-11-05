@@ -812,7 +812,7 @@ GENERIC: Elements
   padding-left: .5em;
  }
 /* GENERIC: Buttons */
-input.oc-button {
+input.oc-button, button.oc-button {
   display: inline;
   padding: .25em .5em;
   font-size: inherit;
