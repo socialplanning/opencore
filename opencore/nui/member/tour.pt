@@ -36,7 +36,7 @@
             <li class="oc-clearAfter" tal:repeat="project projects" style="width: 96%;">
               <div class="oc-project-logo">
                 <a tal:attributes="href project/getURL">
-                  <img src="++resource++img/default-portrait-thumb.gif" tal:attributes="alt project/Title" />
+                  <img src="++resource++img/default-projlogo-thumb.gif" tal:attributes="alt project/Title" />
                 </a>
               </div>
               <div class="oc-directory-content">
