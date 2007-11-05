@@ -103,7 +103,9 @@
       </div><!-- oc-content-main -->
       
       <div id="oc-content-sidebar">
-        <a class="oc-banana" tal:attributes="href string:${context/absolute_url}/opencore.add_mailinglist">Add a mailing list</a>
+        <div class="oc-getstarted">
+          <a class="oc-banana" tal:attributes="href string:${context/absolute_url}/opencore.add_mailinglist">Add a mailing list</a>
+	</div>
       </div>
     </div>
   </body>
