@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-11-01 10:50-0500\n"
+"PO-Revision-Date: 2007-11-05 11:19-0500\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 msgid "Id"
 msgstr ""
 
-#: opencore/listen/interfaces.py:16
+#: opencore/listen/interfaces.py:15
 msgid "List Address Prefix"
 msgstr ""
 
@@ -35,7 +35,7 @@ msgstr ""
 msgid "Name of the site instance"
 msgstr ""
 
-#: opencore/listen/utils.py:14
+#: opencore/listen/utils.py:15
 msgid "Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, periods, and plus signs (i.e. A-Z, a-z, 0-9, and _-.+ symbols)."
 msgstr ""
 
@@ -51,7 +51,7 @@ msgstr ""
 msgid "The object id."
 msgstr ""
 
-#: opencore/listen/interfaces.py:17
+#: opencore/listen/interfaces.py:16
 msgid "The prefix portion of the main address for the mailing list."
 msgstr ""
 
@@ -114,12 +114,12 @@ msgid "archive_view_by"
 msgstr ""
 
 #. Default: "You requested a password reminder for your ${portal_title} account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}"
-#: opencore/nui/account/accountview.py:473
+#: opencore/nui/account/accountview.py:481
 msgid "email_forgot_password"
 msgstr ""
 
 #. Default: "%s - Password reminder"
-#: opencore/nui/account/accountview.py:478
+#: opencore/nui/account/accountview.py:486
 msgid "email_forgot_password_subject"
 msgstr ""
 
@@ -168,18 +168,18 @@ msgstr ""
 msgid "email_request_denied"
 msgstr ""
 
-#. Default: "You recently signed up to use ${portal_title}. \n\nPlease confirm your email address at the following address: ${url}\n\nIf you cannot click on the link, you can cut and paste it into your browser's address bar.\n\nOnce you have confirmed, you can start using ${portal_title}.\n\nIf you did not initiate this request or believe it was sent in error you can safely ignore this message.\n\nCheers,\nThe ${portal_title} Team\n${portal_url}"
+#. Default: "${user_name},\n\nYou recently signed up to use ${portal_title}. \n\nPlease confirm your email address at the following address: ${url}\n\nIf you cannot click on the link, you can cut and paste it into your browser's address bar.\n\nOnce you have confirmed, you can start using ${portal_title}.\n\nIf you did not initiate this request or believe it was sent in error you can safely ignore this message.\n\nCheers,\nThe ${portal_title} Team\n${portal_url}"
 #: opencore/nui/account/accountview.py:110
 msgid "email_to_pending_user"
 msgstr ""
 
 #. Default: "Welcome to %s! - Confirm your email"
-#: opencore/nui/account/accountview.py:128
+#: opencore/nui/account/accountview.py:129
 msgid "email_to_pending_user_subject"
 msgstr ""
 
 #. Default: "The project name must contain at least 2 characters with at least 1 letter or number."
-#: opencore/nui/project/view.py:376
+#: opencore/nui/project/view.py:377
 msgid "err_project_name"
 msgstr ""
 
@@ -354,52 +354,67 @@ msgid "insufficient_privileges_heading"
 msgstr ""
 
 #. Default: "Already a member?"
-#: opencore/nui/account/join.pt:165
+#: opencore/nui/account/join.pt:171
 msgid "join_already_member_heading"
 msgstr ""
 
 #. Default: "Join"
-#: opencore/nui/account/join.pt:144
+#: opencore/nui/account/join.pt:139
 msgid "join_button"
 msgstr ""
 
 #. Default: "Check your email to confirm registration"
-#: opencore/nui/account/join.pt:22
+#: opencore/nui/account/join.pt:17
 msgid "join_check_email"
 msgstr ""
 
 #. Default: "Confirm passsword"
-#: opencore/nui/account/join.pt:121
+#: opencore/nui/account/join.pt:116
 msgid "join_conf_password_label"
 msgstr ""
 
-#. Default: "Registration is free and your email will not be shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system."
-#: opencore/nui/account/join.pt:16
+#. Default: "We will not share your email with anyone. Ever."
+#: opencore/nui/account/join.pt:156
 msgid "join_description"
 msgstr ""
 
 #. Default: "Email"
-#: opencore/nui/account/join.pt:77
+#: opencore/nui/account/join.pt:72
 msgid "join_email_label"
 msgstr ""
 
 #. Default: "Full Name"
-#: opencore/nui/account/join.pt:55
+#: opencore/nui/account/join.pt:50
 msgid "join_full_name_label"
 msgstr ""
 
+#. Default: "Becoming a member means…"
+#: opencore/nui/account/join.pt:163
+msgid "join_get_started"
+msgstr ""
+
+#. Default: "<li>You can join and participate in existing projects</li> <li>You can create your own project and invite others to join</li> <li>You can share information about yourself</li>"
+#: opencore/nui/account/join.pt:164
+msgid "join_get_started_list"
+msgstr ""
+
+#. Default: "Create an account on ${page_title}"
+#: opencore/nui/account/join.pt:12
+msgid "join_page_title"
+msgstr ""
+
 #. Default: "Password"
-#: opencore/nui/account/join.pt:99
+#: opencore/nui/account/join.pt:94
 msgid "join_password_label"
 msgstr ""
 
 #. Default: "Sign in"
-#: opencore/nui/account/join.pt:166
+#: opencore/nui/account/join.pt:172
 msgid "join_sign_in"
 msgstr ""
 
 #. Default: "Username"
-#: opencore/nui/account/join.pt:33
+#: opencore/nui/account/join.pt:28
 msgid "join_username_label"
 msgstr ""
 
@@ -814,27 +829,27 @@ msgid "new_topic_view_subject"
 msgstr ""
 
 #. Default: "Please enter a password"
-#: opencore/nui/account/accountview.py:280
+#: opencore/nui/account/accountview.py:285
 msgid "no_password"
 msgstr ""
 
 #. Default: "There is no member named \"${user_id}\"."
-#: opencore/nui/base.py:541
+#: opencore/nui/base.py:545
 msgid "password_no_member_error"
 msgstr ""
 
 #. Default: "You must enter a password."
-#: opencore/nui/base.py:547
+#: opencore/nui/base.py:551
 msgid "password_no_password_error"
 msgstr ""
 
 #. Default: "You need to enter your username."
-#: opencore/nui/base.py:536
+#: opencore/nui/base.py:540
 msgid "password_no_username_error"
 msgstr ""
 
 #. Default: "Please make sure that both password fields are the same."
-#: opencore/nui/base.py:550
+#: opencore/nui/base.py:554
 msgid "password_not_same_error"
 msgstr ""
 
@@ -864,117 +879,122 @@ msgid "pending_send_another_activation"
 msgstr ""
 
 #. Default: "\"${title}\" has been created. Create a team by searching for other members to invite to your project, then <a href=\"${proj_edit_url}\">edit your project home page</a>."
-#: opencore/nui/project/view.py:525
+#: opencore/nui/project/view.py:538
 msgid "project_created"
 msgstr ""
 
 #. Default: "Your account has not yet been activated. An email was sent to ${user} from ${email_from_address} containing a link to activate your account."
-#: opencore/nui/account/accountview.py:155
+#: opencore/nui/account/accountview.py:160
 msgid "psm_account_not_activated"
 msgstr ""
 
 #. Default: "Please check your username and password. If you still have trouble, you can <a href=\"forgot\">retrieve your sign in information</a>."
-#: opencore/nui/account/accountview.py:190
+#: opencore/nui/account/accountview.py:195
 msgid "psm_check_username_password"
 msgstr ""
 
 #. Default: "Please correct the errors indicated below."
-#: opencore/nui/project/view.py:379
+#: opencore/nui/project/view.py:380
 msgid "psm_correct_errors_below"
 msgstr ""
 
 #. Default: "Denied -- bad key"
-#: opencore/nui/account/accountview.py:385
+#: opencore/nui/account/accountview.py:393
 msgid "psm_denied"
 msgstr ""
 
 #. Default: "Please enter your username or email address."
-#: opencore/nui/account/accountview.py:488
+#: opencore/nui/account/accountview.py:496
 msgid "psm_enter_username_email"
 msgstr ""
 
 #. Default: "${flet} feature has been added."
-#: opencore/nui/project/view.py:407
+#: opencore/nui/project/view.py:408
 msgid "psm_featurelet_added"
 msgstr ""
 
 #. Default: "${flet} feature has been removed."
-#: opencore/nui/project/view.py:412
+#: opencore/nui/project/view.py:413
 msgid "psm_featurelet_removed"
 msgstr ""
 
 #. Default: "Your username is ${user_id}.  If you would like to reset your password, please check your email account for further instructions."
-#: opencore/nui/account/accountview.py:436
+#: opencore/nui/account/accountview.py:444
 msgid "psm_forgot_login"
 msgstr ""
 
 #. Default: "A new activation email has been sent to ${email} from ${mfrom}. Please follow the link in the email to activate this account."
-#: opencore/nui/account/accountview.py:593
+#: opencore/nui/account/accountview.py:604
 msgid "psm_new_activation"
 msgstr ""
 
 #. Default: "Please select items to delete."
-#: opencore/nui/project/view.py:217
+#: opencore/nui/project/view.py:218
 msgid "psm_no_items_to_delete"
 msgstr ""
 
 #. Default: "You have tried to activate an account that is not pending confirmation. Please sign in normally."
-#: opencore/nui/account/accountview.py:373
+#: opencore/nui/account/accountview.py:381
 msgid "psm_not_pending_account"
 msgstr ""
 
 #. Default: "You do not have sufficient permissions."
-#: opencore/nui/account/accountview.py:254
+#: opencore/nui/account/accountview.py:259
 msgid "psm_not_sufficient_perms"
 msgstr ""
 
 #. Default: "Your password reset request has expired. You can <a href=\"login\">sign in</a> again using your old username and password or <a href=\"forgot\">request a new password</a> again."
-#: opencore/nui/account/accountview.py:532
+#: opencore/nui/account/accountview.py:540
 msgid "psm_pass_reset_expired"
 msgstr ""
 
 #. Default: "Password reset attempt failed. Did you mistype your username or password?"
-#: opencore/nui/account/accountview.py:528
+#: opencore/nui/account/accountview.py:536
 msgid "psm_pass_reset_fail"
 msgstr ""
 
 #. Default: "Welcome! Your password has been reset, and you are now signed in."
-#: opencore/nui/account/accountview.py:542
+#: opencore/nui/account/accountview.py:550
 msgid "psm_password_reset"
 msgstr ""
 
 #. Default: "Project home page set to: <a href=\"${homepage}\">${homepage}</a>"
-#: opencore/nui/project/view.py:426
+#: opencore/nui/project/view.py:427
 msgid "psm_proj_homepage_change"
 msgstr ""
 
 #. Default: "The description has been changed."
-#: opencore/nui/project/view.py:395
+#: opencore/nui/project/view.py:396
 msgid "psm_project_desc_changed"
 msgstr ""
 
+#. Default: "The name \"${project_name}\" is reserved. Please try a different name."
+#: opencore/nui/project/view.py:519
+msgid "psm_project_name_reserved"
+msgstr ""
+
 #. Default: "The title has been changed."
-#: opencore/nui/project/view.py:394
+#: opencore/nui/project/view.py:395
 msgid "psm_project_title_changed"
 msgstr ""
 
 #. Default: "The security policy has been changed."
-#: opencore/nui/project/view.py:396
+#: opencore/nui/project/view.py:397
 msgid "psm_security_changed"
 msgstr ""
 
 #. Default: "You have signed out."
-#: opencore/nui/account/accountview.py:229
+#: opencore/nui/account/accountview.py:234
 msgid "psm_signed_out"
 msgstr ""
 
 #. Default: "Welcome! You have signed in."
-#: opencore/nui/account/accountview.py:168
+#: opencore/nui/account/accountview.py:173
 msgid "psm_signin_welcome"
 msgstr ""
 
 #. Default: "Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account."
-#: opencore/nui/account/accountview.py:312
+#: opencore/nui/account/accountview.py:320
 msgid "psm_thankyou_for_joining"
 msgstr ""
 
@@ -999,7 +1019,7 @@ msgid "reset-password_username_label"
 msgstr ""
 
 #. Default: "You are already a pending or active member of ${project_title}."
-#: opencore/nui/project/team.py:104
+#: opencore/nui/project/team.py:108
 msgid "team_already_proj_member"
 msgstr ""
 
@@ -1014,7 +1034,7 @@ msgid "team_please_sign_in"
 msgstr ""
 
 #. Default: "Your request to join \"${project_title}\" has been sent to the project administrator(s)."
-#: opencore/nui/project/team.py:100
+#: opencore/nui/project/team.py:104
 msgid "team_proj_join_request_sent"
 msgstr ""
 
