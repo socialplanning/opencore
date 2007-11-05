@@ -196,6 +196,9 @@ ${portal_url}""", mapping={u'url':url,
         elif id_: # trying to create a member
             # create member
             mem = self._create()
+            if isinstance(mem, dict):
+                # failure, so return the errors to be rendered
+                return mem 
             from zope.component import getMultiAdapter
             from opencore.interfaces.pending_requests import IPendingRequests
             req_bucket = getMultiAdapter((mem, self.portal.portal_teams), IPendingRequests)
