@@ -34,7 +34,8 @@ class PendingRequests(object):
         return tuple(self._req_store)
         
     def addRequest(self, proj_id):
-        proj = getattr(self.folder, proj_id) # so we might get an exception if this doesn't exist or is inaccessible
+        # trigger the exception if this doesn't exist or is inaccessible
+        proj = getattr(self.folder, proj_id)
         self._req_store.add(proj_id)
 
     def removeRequest(self, proj_id):
@@ -46,15 +47,14 @@ class PendingRequests(object):
     def _convertRequest(self, proj_id):
         proj = getattr(self.folder, proj_id)
         team = proj.getTeams()[0]
-
-        joined = IRequestMembership(team).join()
-
-        if joined:
-            self._req_store.remove(proj_id)
-        return joined
+        return IRequestMembership(team).join()
 
     def convertRequests(self):
         reqs = self._req_store
+        converted = []
         for proj_id in reqs:
-            if not self._convertRequest(proj_id):
-                continue
+            if self._convertRequest(proj_id):
+                converted.append(proj_id)
+        for proj_id in converted:
+            reqs.remove(proj_id)
+        return tuple(converted)

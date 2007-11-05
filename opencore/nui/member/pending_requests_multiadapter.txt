@@ -60,4 +60,23 @@ And we can remove all requests::
     >>> pr.getRequests()
     ()
 
-Yay.
+We can also convert pending requests to real requests. The converter 
+returns the requests which were successfully converted and removes
+them from its pending request bucket::
+    >>> pr.addRequest("p2")
+    >>> pr.addRequest("p3")
+    >>> pr.convertRequests()
+    ('p2', 'p3')
+    >>> pr.getRequests()
+    ()
+
+Let's see what happens if we try to create requests on projects where
+we already have a pending membership. Note that this is intentionally
+not caught when the request is added, only when we try to convert the
+requests::
+    >>> pr.addRequest("p2")
+    >>> pr.addRequest("p3")
+    >>> pr.convertRequests()
+    ()
+    >>> pr.getRequests()
+    ('p2', 'p3')
