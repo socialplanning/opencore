@@ -7,44 +7,67 @@
     <div metal:fill-slot="content">
 
       <div id="oc-content-main">
+        <div class="oc-headingBlock">
+          <h1>Congratulations on starting your first project.</h1>
+          <p class="oc-headingContext"> Now you can&hellip;</p>
+        </div>
+      <div class="oc-boxy">
+        <div class="oc-headingBlock">
+          <h2>Communicate</h2>
+          <p class="oc-headingContext">Announce your project using the following tools:</p>
+        </div>
+        
+        <div tal:condition="view/has_blog">
+					<h3><a tal:attributes="href string:${context/absolute_url}/blog">Blog</a></h3>
+					<ul>
+						<li>A blank canvas for key information</li>
+						<li>Sketch out your goals</li>
+						<li>Share photos</li>
+					</ul>
+				</div>
 
+				<div>
+					<h3><a tal:attributes="href string:${context/absolute_url}/project-home">Wiki pages</a></h3>
+					<ul>
+						<li>A blank canvas for key information</li>
+						<li>Sketch out your goals</li>
+						<li>Share photos</li>
+					</ul>
+				</div>
+			</div>
 	<!-- explanation for create a team -->
 	<p>
-	  <a tal:attributes="href string:${context/absolute_url}/manage-team">Manage Team</a>
+	  <a tal:attributes="href string:${context/absolute_url}/manage-team">Manage team</a>
 	</p>
 
 	<!-- explanation for (wiki) pages -->
-	<p>
-	  <a tal:attributes="href string:${context/absolute_url}/project-home">Pages</a>
-	</p>
+
 
 	<!-- explanation for blog posts -->
-	<p tal:condition="view/has_blog">
-	  <a tal:attributes="href string:${context/absolute_url}/blog">Blog</a>
-	</p>
+
 
 	<!-- explanation for email lists -->
 	<p tal:condition="view/has_mailing_lists">
 	  <a tal:attributes="href
-			     string:${context/absolute_url}/lists">email lists</a>
+			     string:${context/absolute_url}/lists">Mailing lists</a>
 	</p>
 
 	<!-- explanation for task tracker -->
 	<p tal:condition="view/has_task_tracker">
 	  <a tal:attributes="href
-			     string:${context/absolute_url}/blog">task tracker</a>
+			     string:${context/absolute_url}/blog">Task Tracker</a>
+	</p>
+
+	<!-- Info about contents page -->
+	<p>
+	  <a tal:attributes="href
+			     string:${context/absolute_url}/contents">Contents</a>
 	</p>
 
 	<!-- Info about your preferences -->
 	<p>
 	  <a tal:attributes="href
-			     string:${context/absolute_url}/preferences">your preferences</a>
-	</p>
-	
-	<!-- Info about contents page -->
-	<p>
-	  <a tal:attributes="href
-			     string:${context/absolute_url}/contents">contents page</a>
+			     string:${context/absolute_url}/preferences">Preferences</a>
 	</p>
 
       </div><!-- end #oc-content-main -->
