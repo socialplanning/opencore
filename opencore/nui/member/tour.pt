@@ -56,19 +56,12 @@
             </form>
           </ul>
         </div>
-        <div class="oc-boxy" tal:define="projects view/project_brains"
+        <div class="oc-widget oc-widget-feed" tal:define="projects view/project_brains"
               tal:condition="projects">
-          <h2>Projects you belong to:</h2>
-          <ul class="oc-directory-list oc-bigText oc-clearAfter">
-            <li class="oc-clearAfter" tal:repeat="project projects" style="width: 96%;">
-              <div class="oc-project-logo">
-                <a tal:attributes="href project/getURL">
-                  <img src="++resource++img/default-projlogo-thumb.gif" tal:attributes="alt project/Title" />
-                </a>
-              </div>
-              <div class="oc-directory-content">
+          <h2 class="oc-feed-title">Projects you belong to:</h2>
+          <ul class="oc-feed-list oc-bigText oc-clearAfter">
+            <li class="oc-feed-item oc-clearAfter" tal:repeat="project projects">
                 <a tal:attributes="href project/getURL" tal:content="project/Title" />
-              </div>
             </li>
           </ul>
         </div>
