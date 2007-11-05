@@ -220,7 +220,7 @@ ${portal_url}""", mapping={u'url':url,
             self.redirect(self.context.absolute_url())
             return
 
-        # XXX should be handled by the IRequestMembership adapter now
+        # future: XXX should be handled by the IRequestMembership adapter now
         self._send_request_email()
 
         self.add_status_message(_(u'team_proj_join_request_sent',
