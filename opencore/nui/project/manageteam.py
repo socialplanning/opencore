@@ -377,14 +377,17 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         project_title = self.context.title
         for address in addresses:
             # XXX if member hasn't logged in yet, acct_url will be whack
-            query_str = urllib.urlencode({'email': address})
-            join_url = "%s/join?%s" % (self.portal.absolute_url(),
-                                       query_str)
-            msg_vars = {'project_title': project_title,
-                        'join_url': join_url,
-                        'portal_url': self.siteURL,
-                        }
-            sender.sendEmail(address, msg_id='invite_email', **msg_vars)
+            query_str = urllib.urlencode(dict(email=addy,__k=key))
+            #query_str = urllib.urlencode({'email': address})
+            join_url = "%s/invite-join?%s" % (self.portal.absolute_url(),
+                                              query_str)
+            msg_subs = dict(project_title=self.context.title,
+                            join_url=join_url,
+                            portal_url=self.siteURL,
+                            portal_title=self.portal_title()
+                            )
+            
+            sender.sendEmail(address, msg_id='invite_email', **msg_subs)
 
         msg = "Reminders sent: %s" % ", ".join(addresses)
         self.add_status_message(msg)
