@@ -11,6 +11,7 @@ from opencore.interfaces.pending_requests import IRequestMembership
 
 annot_key = 'opencore.member.pending_requests' #planning for future
 
+# XXX todo we have to store the request msg as well as the proj id!
 class PendingRequests(object):
     """
     Simple IPendingRequests implementation which stores pending requests
