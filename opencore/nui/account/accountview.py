@@ -421,7 +421,10 @@ class InitialLogin(BaseView):
         from opencore.interfaces.pending_requests import IRequestMembership
         mship_bucket = getMultiAdapter((member, self.portal.projects), IPendingRequests)
         converted = mship_bucket.convertRequests()
-        # do we want to tell the user?
+        for proj_title in converted:
+            self.add_status_message(_(u'team_proj_join_request_sent',
+                                      u'Your request to join "${project_title}" has been sent to the project administrator(s).',
+                                      mapping={'project_title':proj_title}))
 
         baseurl = self.memfolder_url()
         # Go to the user's Profile Page in Edit Mode

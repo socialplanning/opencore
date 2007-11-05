@@ -174,7 +174,7 @@ ${portal_url}""", mapping={u'url':url,
                                       email=self.request.get('email'),
                                       url=url)
         self.addPortalStatusMessage(_('psm_thankyou_for_joining',
-                                      u'Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account.',
+                                      u'Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account. After you have activated your account, your request to join the project will be sent to the project administrators.',
                                       mapping={u'mem_id':mem_id,
                                                u'portal_title':self.portal_title()}))
         return mdc._getOb(mem_id)
@@ -202,10 +202,8 @@ ${portal_url}""", mapping={u'url':url,
             from zope.component import getMultiAdapter
             from opencore.interfaces.pending_requests import IPendingRequests
             req_bucket = getMultiAdapter((mem, self.portal.projects), IPendingRequests)
-            req_bucket.addRequest(self.context.getId())
-            self.add_status_message(_(u'team_proj_join_request_sent',
-                                      u'Your request to join "${project_title}" has been sent to the project administrator(s).',
-                                      mapping={'project_title':self.context.Title()}))
+            req_msg = self.request.form.get("request-message")
+            req_bucket.addRequest(self.context.getId(), request_message=req_msg)
             self.template = None # don't render the form before the redirect
             self.redirect(self.context.absolute_url())
             return
