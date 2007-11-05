@@ -516,7 +516,8 @@ class ProjectAddView(BaseView, OctopoLite):
             return 
 
         if id_ in self.reserved_names():
-            self.add_status_message(_(u'The name "%s" is reserved. Please try a different name.' % id_))
+            self.add_status_message(_(u'psm_project_name_reserved', u'The name "${project_name}" is reserved. Please try a different name.',
+                                      mapping={u'project_name':id_}))
             self.redirect('%s/create' % self.context.absolute_url())
             return
 
