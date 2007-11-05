@@ -7,45 +7,79 @@
     <div metal:fill-slot="content">
 
       <div id="oc-content-main">
+        <div class="oc-headingBlock">
+          <h1>Congratulations on starting your project.</h1>
+          <p class="oc-headingContext"> Now you can&hellip;</p>
+        </div>
 
-	<!-- explanation for create a team -->
-	<p>
-	  <a tal:attributes="href string:${context/absolute_url}/manage-team">Manage Team</a>
-	</p>
+        <div class="oc-boxy">
+          <div class="oc-headingBlock">
+            <h2>Communicate</h2>
+            <p class="oc-headingContext">Announce your project.</p>
+          </div>
 
-	<!-- explanation for (wiki) pages -->
-	<p>
-	  <a tal:attributes="href string:${context/absolute_url}/project-home">Pages</a>
-	</p>
+          <div>
+            <h3><a tal:attributes="href string:${context/absolute_url}/project-home">Wiki pages</a></h3>
+            <ul class="oc-discreetText">
+              <li>A blank canvas for key information</li>
+              <li>Write collaboratively</li>
+              <li>Sketch out your goals</li>
+              <li>Share photos</li>
+            </ul>
+          </div>
 
-	<!-- explanation for blog posts -->
-	<p tal:condition="view/has_blog">
-	  <a tal:attributes="href string:${context/absolute_url}/blog">Blog</a>
-	</p>
+          <div tal:condition="view/has_blog">
+            <h3><a tal:attributes="href string:${context/absolute_url}/blog">Blog</a></h3>
+            <ul class="oc-discreetText">
+              <li>Publish updates</li>
+              <li>Attract attention</li>
+              <li>Speak out</li>
+            </ul>
+          </div>
 
-	<!-- explanation for email lists -->
-	<p tal:condition="view/has_mailing_lists">
-	  <a tal:attributes="href
-			     string:${context/absolute_url}/lists">email lists</a>
-	</p>
+        </div>
+        
+        <div class="oc-boxy">
+          <div class="oc-headingBlock">
+            <h2>Organize</h2>
+            <p class="oc-headingContext">Keep your team organized and on-track.</p>
+          </div>
 
-	<!-- explanation for task tracker -->
-	<p tal:condition="view/has_task_tracker">
-	  <a tal:attributes="href
-			     string:${context/absolute_url}/blog">task tracker</a>
-	</p>
+          <div>
+            <h3><a tal:attributes="href string:${context/absolute_url}/manage-team">Manage your team</a></h3>
+            <ul class="oc-discreetText">
+              <li>Invite people to join this project</li>
+              <li>Build momentum</li>
+              <li>Find collaborators</li>
+            </ul>
+          </div>
+        
+          <div tal:condition="view/has_mailing_lists">
+            <h3><a tal:attributes="href
+                   string:${context/absolute_url}/lists">Mailing lists</a></h3>
+            <ul class="oc-discreetText">
+              <li>Keep everyone up-to-date</li>
+              <li>Promote discussions</li>
+              <li>Call supporters to action</li>
+            </ul>
+          </div>
+        
+          <div tal:condition="view/has_task_tracker">
+            <h3><a tal:attributes="href
+                   string:${context/absolute_url}/tasks">Task Tracker</a></h3>
+            <ul class="oc-discreetText">
+              <li>Share to-do lists</li>
+              <li>Assign tasks to others</li>
+              <li>Keep track of progress</li>
+            </ul>
+          </div>
 
-	<!-- Info about your preferences -->
-	<p>
-	  <a tal:attributes="href
-			     string:${context/absolute_url}/preferences">your preferences</a>
-	</p>
-	
-	<!-- Info about contents page -->
-	<p>
-	  <a tal:attributes="href
-			     string:${context/absolute_url}/contents">contents page</a>
-	</p>
+        </div>
+
+  <p class="oc-smallText">
+    Want to add or remove tools from your project? Change your <a tal:attributes="href
+           string:${context/absolute_url}/preferences">project preferences</a>.
+  </p>
 
       </div><!-- end #oc-content-main -->
 

@@ -50,6 +50,14 @@
 
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
+     class=".view.ProjectInvitationsView"
+     permission="cmf.ModifyPortalContent"
+     name="invitations"
+     template="invitations.pt"
+     />
+
+  <browser:page
+     for="opencore.siteui.interfaces.IMemberFolder"
      class=".view.ProfileView"
      permission="cmf.ModifyPortalContent"
      name="memberinfo.xml"

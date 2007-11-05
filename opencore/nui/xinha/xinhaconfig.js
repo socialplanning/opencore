@@ -965,7 +965,8 @@ function Editor(textarea) {
       return null;
     }
 
-    // get the textarea by the provided id string
+  
+  // get the textarea by the provided id string
     textarea = document.getElementById(textarea);
   }
 
@@ -1352,6 +1353,7 @@ function _XC_startEditors(editors) {
   HTMLArea.startEditors(loaders);
 }
 
+var xinha_editors = [];
 var pre_wysiwyg_onload = window.onload;
 window.onload = function() {
   if (pre_wysiwyg_onload) {
@@ -1360,10 +1362,10 @@ window.onload = function() {
 
   var w = __get_wysiwygs();
 
-  var editors = [];
+  xinha_editors = [];
   for (var i = 0; i < w.length; i++) {
-    editors.pushOrExtendIfNew(new Editor(w[i]));
+    xinha_editors.pushOrExtendIfNew(new Editor(w[i]));
   }
 
-  _XC_startEditors(editors);
+  _XC_startEditors(xinha_editors);
 };

@@ -133,16 +133,13 @@ class ProjectMenuView(BaseView):
         team_url = "%s/team" % proj_url
         prefs_url = "%s/preferences" % proj_url
         manage_team_url = "%s/manage-team" % proj_url
+        can_manage = self.membertool.checkPermission(ManageTeamMembership,
+                                                     proj)
 
         menudata = (
             {'content': 'Wiki',
              'href': wiki_url,
              'selected': self.request.ACTUAL_URL == wiki_url,#self.atProjectHome,
-             },
-
-            {'content': 'Contents',
-             'href': contents_url,
-             'selected': self.request.ACTUAL_URL == contents_url,
              },
             )
 
@@ -162,13 +159,23 @@ class ProjectMenuView(BaseView):
              },
             )
 
-        if self.membertool.checkPermission(ManageTeamMembership, proj):
+        if can_manage:
             menudata += (
                 {'content': 'Manage team',
                  'href': manage_team_url,
                  'selected': self.request.ACTUAL_URL == manage_team_url,
                  },
+                )
+            
+        menudata += (
+            {'content': 'Contents',
+             'href': contents_url,
+             'selected': self.request.ACTUAL_URL == contents_url,
+             },
+            )
 
+        if can_manage:
+            menudata += (
                 {'content': 'Preferences',
                  'href': prefs_url,
                  'selected': self.request.ACTUAL_URL == prefs_url,

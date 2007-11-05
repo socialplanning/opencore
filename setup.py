@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.9.7.1'
+version = '0.9.7.2'
 
 f = open('README.txt')
 readme = "".join(f.readlines())
@@ -28,7 +28,9 @@ setup(name='opencore',
                         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof'],
       install_requires=[
           # -*- Extra requirements: -*-
-          'hprof',
+          # comment out hprof because it was causing a linking build issue
+          # on theman
+          #'hprof',
           "ClockQueue==dev,>=0.0",
           'simplejson',
           'decorator',
@@ -38,7 +40,7 @@ setup(name='opencore',
           'OpencoreRedirect',
           'httplib2',
           'plone.memoize',
-          'lxml>=2.0alpha',
+          'lxml>=2.0alpha5',
           'plone.mail',
           'plone.app.form',
           'borg.localrole==1.0rc1',

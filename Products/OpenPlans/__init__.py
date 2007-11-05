@@ -49,6 +49,7 @@ def initialize(context):
     from opencore.content import *
     from opencore.featurelets.listen import ListenFeaturelet
     from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
+    from opencore.wordpress.featurelet import WordPressFeaturelet
     from opencore.listen import mailinglist
 
     # Register customization policy
@@ -88,6 +89,7 @@ def initialize(context):
     flet_registry = getUtility(IFeatureletRegistry)
     flet_registry.registerFeaturelet(ListenFeaturelet())
     flet_registry.registerFeaturelet(TaskTrackerFeaturelet())
+    flet_registry.registerFeaturelet(WordPressFeaturelet())
     
     from opencore.auth import SignedCookieAuthHelper
     from AccessControl.Permissions import add_user_folders

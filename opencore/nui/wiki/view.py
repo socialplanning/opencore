@@ -6,7 +6,7 @@ from opencore.nui.formhandler import button, OctopoLite, action
 from opencore.interfaces import IAmExperimental
 from PIL import Image
 from StringIO import StringIO
-from lxml.html.clean import clean_html
+from lxml.html.clean import Cleaner
 from opencore.interfaces.catalog import ILastModifiedAuthorId
 from topp.utils.pretty_date import prettyDate
 
@@ -79,7 +79,11 @@ class WikiEdit(WikiBase, OctopoLite):
 
     def _clean_html(self, html):
         """ delegate cleaning of html to lxml """
-        return clean_html(html)
+        ocprops = self.get_tool('portal_properties').opencore_properties
+        whitelist = ocprops.getProperty('embed_whitelist')
+        whitelist = [x for x in whitelist if x.strip()]
+        cleaner = Cleaner(host_whitelist=whitelist)
+        return cleaner.clean_html(html)
 
     @action('save')
     def handle_save(self, target=None, fields=None):
