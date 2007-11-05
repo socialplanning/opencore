@@ -419,9 +419,10 @@ class InitialLogin(BaseView):
         from zope.component import getMultiAdapter
         from opencore.interfaces import IPendingRequests
         from opencore.interfaces.pending_requests import IRequestMembership
-        mship_bucket = getMultiAdapter((member, self.portal.portal_teams), IPendingRequests).getRequests()
-        mship_bucket.convertRequests()
-             
+        mship_bucket = getMultiAdapter((member, self.portal.portal_teams), IPendingRequests)
+        converted = mship_bucket.convertRequests()
+        # do we want to tell the user?
+
         baseurl = self.memfolder_url()
         # Go to the user's Profile Page in Edit Mode
         return self.redirect("%s/%s" % (self.memfolder_url(),
