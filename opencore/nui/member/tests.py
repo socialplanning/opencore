@@ -41,6 +41,15 @@ def test_suite():
 
     pending.layer = test_layer
 
+    pending_multi = FunctionalDocFileSuite("pending_requests_multiadapter.txt",
+                                    optionflags=optionflags,
+                                    package='opencore.nui.member',
+                                    test_class=OpenPlansTestCase,
+                                    globs = globs,
+                                    )
+
+    pending_multi.layer = test_layer
+
     transient = FunctionalDocFileSuite('transient-message.txt',
                                  optionflags=optionflags,
                                  package='opencore.nui.member',
@@ -48,7 +57,7 @@ def test_suite():
                                  globs=globs,
                                  )
 
-    return unittest.TestSuite((readme, transient, pending))
+    return unittest.TestSuite((readme, transient, pending, pending_multi))
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')

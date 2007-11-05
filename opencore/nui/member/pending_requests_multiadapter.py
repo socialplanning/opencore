@@ -4,9 +4,10 @@ from zope.app.annotation.interfaces import IAnnotatable
 from zope.app.annotation.interfaces import IAnnotations
 
 from BTrees.OOBTree import OOBTree
-from Products.ATContentTypes.interface.folder import IATBFolder
+from Products.ATContentTypes.interface.folder import IATBTreeFolder
 
 from opencore.interfaces.pending_requests import IPendingRequests
+from opencore.interfaces.pending_requests import IRequestMembership
 
 annot_key = 'opencore.member.pending_requests' #planning for future
 
@@ -16,7 +17,7 @@ class PendingRequests(object):
     as an annotation on the requester object consisting of a list of
     project ids as strings.
     """
-    adapts(IAnnotatable, IATBFolder)
+    adapts(IAnnotatable, IATBTreeFolder)
     implements(IPendingRequests)
 
     def __init__(self, requester, folder):
