@@ -7,6 +7,9 @@ from zope.app.annotation import IAnnotations
 from zope.interface import implements
 import DateTime
 
+from opencore.auth.SignedCookieAuthHelper import get_secret
+
+secret = get_secret()
 
 class EmailInvites(SimpleItem):
     """
@@ -20,12 +23,12 @@ class EmailInvites(SimpleItem):
         self._by_address = OOBTree()
         self._by_project = OOBTree()
 
-    @bbb_keymap(wrap=True) # put a contextual here eventually
+    @bbb_keymap(wrap=True, secret=secret) # put a contextual here eventually
     def getInvitesByEmailAddress(self, address):
         by_addy = self._by_address.get(address)
         if by_addy is not None:
             return by_addy
-        return KeyedMap(key=(address, self))
+        return KeyedMap(key=((address,), secret))
 
     def getInvitesByProject(self, proj_id):
         by_proj = self._by_project.get(proj_id)
