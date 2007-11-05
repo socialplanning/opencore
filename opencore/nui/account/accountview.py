@@ -615,8 +615,10 @@ class ResendConfirmationView(AccountView):
         self.redirect("%s/login" %self.siteURL)
 
 
-def email_confirmation():
+def email_confirmation(is_test=False):
     """get email confirmation mode from zope.conf"""
+    if is_test:
+        return True
     conf = product_config('email-confirmation', 'opencore.nui')
     if conf:
         val = conf.title()
@@ -627,3 +629,4 @@ def email_confirmation():
         else:
             raise ValueError('email-confirmation should be "True" or "False"')
     return True # the default
+
