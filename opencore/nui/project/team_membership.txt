@@ -14,9 +14,11 @@ We can find the logged in user::
     <OpenMember at ...>
 
 We can construct an email to request membership to the project::
+    >>> self.logout()
+    >>> self.login('m3')
     >>> msg, var = rm._construct_request_email(request_message="Hi")
     >>> msg
-    u'...Project One...test_user_1_...'
+    u'...Project One...m1...'
     >>> var
     {...}
 
