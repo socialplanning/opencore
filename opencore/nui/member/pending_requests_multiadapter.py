@@ -2,7 +2,7 @@ from zope.interface import implements
 from zope.component import adapts
 from zope.app.annotation.interfaces import IAnnotatable
 from zope.app.annotation.interfaces import IAnnotations
-
+from persistent.dict import PersistentDict
 from BTrees.OOBTree import OOBTree
 from Products.ATContentTypes.interface.folder import IATBTreeFolder
 
@@ -27,7 +27,7 @@ class PendingRequests(object):
         annot = IAnnotations(requester)
         req_annot = annot.get(annot_key, None)
         if req_annot is None:
-            req_annot = dict()
+            req_annot = PersistentDict()
             annot[annot_key] = req_annot
         self._req_store = req_annot
 
