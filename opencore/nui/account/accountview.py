@@ -630,3 +630,8 @@ def email_confirmation(is_test=False):
             raise ValueError('email-confirmation should be "True" or "False"')
     return True # the default
 
+def turn_confirmation_on():
+    email_confirmation.func_defaults = (True,)
+
+def turn_confirmation_off():
+    email_confirmation.func_defaults = (False,)
