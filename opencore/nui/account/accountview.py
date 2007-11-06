@@ -415,15 +415,20 @@ class InitialLogin(BaseView):
         # set login time since for some reason zope doesn't do it
         member.setLogin_time(DateTime())
 
-        # convert email invites into mship objects
-        email_invites = getUtility(IEmailInvites)
-        email_invites.convertInvitesForMember(member)
-
-        # convert pending mship requests into real mship requests
+        # first check for any pending requests which are also email invites
         from zope.component import getMultiAdapter
         from opencore.interfaces import IPendingRequests
         from opencore.interfaces.pending_requests import IRequestMembership
         mship_bucket = getMultiAdapter((member, self.portal.projects), IPendingRequests)
+        email_invites_bucket = getUtility(IEmailInvites)
+
+        
+        
+        # convert email invites into mship objects
+
+        email_invites_bucket.convertInvitesForMember(member)
+
+        # convert pending mship requests into real mship requests
         converted = mship_bucket.convertRequests()
         for proj_title in converted:
             self.add_status_message(_(u'team_proj_join_request_sent',
