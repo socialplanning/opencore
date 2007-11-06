@@ -1,7 +1,8 @@
 <tal:comment tal:replace="nothing">
 need to combine with regular join form
 </tal:comment>
-<tal:vars define="global fdata view/handle_request;" />
+<tal:vars define="global fdata view/handle_request;
+                  global pending view/if_pending_user;" />
 
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <body>
