@@ -569,6 +569,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         return True
 
     @formhandler.action('invite-member')
+    @formhandler.action('invite-member')
     def invite_member(self, targets, fields=None):
         """
         Sends an invitation notice, and creates a pending membership
@@ -582,9 +583,19 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             raise Redirect('%s/manage-team' % self.context.absolute_url())
 
         acct_url = self._getAccountURLForMember(mem_id)
+        logged_in_mem = self.loggedinmember
+        logged_in_mem_name = logged_in_mem.getFullname() or logged_in_mem.id
+        mem_path = '%s/%s' % (self.portal.portal_memberdata.absolute_url_path(), mem_id)
+        mem_metadata = self.catalogtool.getMetadataForUID(mem_path)
+        mem_user_name = mem_metadata['getFullname'] or mem_metadata['id']
         # XXX if member hasn't logged in yet, acct_url will be whack
-        msg_subs = {'project_title': self.context.title,
-                    'account_url': acct_url,
+        msg_subs = {
+                'project_title': self.context.title,
+                'account_url': acct_url,
+                'user_name': mem_user_name,
+                'inviter_name': logged_in_mem_name,
+                'portal_name': self.portal.title,
+                'portal_url': self.portal.absolute_url(),
                     }
         self.email_sender.sendEmail(mem_id, msg_id='invite_member',
                                     **msg_subs)
