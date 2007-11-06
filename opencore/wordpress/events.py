@@ -57,8 +57,8 @@ def notify_wordpress_user_created(mem, event):
     # mship_tool.getHomeFolder because it hasn't been created yet
     username = mem.getId()
     portal_url = getToolByName(mem, 'portal_url').getPortalObject().absolute_url()
-    default_page = '%s-home' % username
-    home_page = '%s/people/%s/%s' % (portal_url, username, default_page)
+    profile_page = 'profile'
+    home_page = '%s/people/%s/%s' % (portal_url, username, profile_page)
     params = dict(
             username=username,
             email=mem.getEmail(),
