@@ -63,7 +63,7 @@
                       <label i18n:translate="join_username_label" for="id">Username</label>
                     </th>
                     <td class="oc-form-value">
-                      <input type="text" name="id" id="id" class="oc-autoFocus oc-js-liveValidate"
+                      <input type="text" name="id" id="id" class="oc-autoFocus"
                              tal:attributes="value request/id | nothing" />
                     </td>
                     <td class="oc-form-help">
@@ -154,9 +154,11 @@
               <label for="request-message">Message for &ldquo;<span tal:replace="view/area/Title" />&rdquo;</label>
               <span class="oc-discreetText">(optional)</span>
               <textarea rows="4" cols="80" 
+                        class="oc-autoFocus"
                         name="request-message"
                         id="request-message"
-                        class="oc-autoFocus"></textarea>
+                        tal:attributes="value request/request-message | nothing"
+                        ></textarea>
           </fieldset>
           <fieldset class="oc-actions">
             <input type="submit" name="task|request-membership" value="Join" class="oc-button oc-chooseThis" />
