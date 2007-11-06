@@ -220,8 +220,20 @@ Test what happens when both passwords are blank
     >>> request.form.update(password='freddy',
     ...                     confirm_password='freddy',
     ...                     )
-    >>> view.create_member()
+
+MockHTTP will catch outward communication as event inform other apps
+the member has been created::
+
+    >>> member = view.create_member()
+    Called httplib2.Http.request(
+        u'http://localhost:8090/openplans-create-user.php',
+        'POST',
+        body='...',
+        headers={...})
+
+    >>> member
     <OpenMember at /plone/portal_memberdata/foouser>
+    
     >>> pprint(view.errors)
     {}
     >>> request.form = form
@@ -268,8 +280,13 @@ We need to make the request a POST::
 
     >>> request.environ["REQUEST_METHOD"] = "POST"
     >>> view.membertool.getMemberById('foobar')
-    >>> unicode(view())
-    u'...<!-- join form -->...'
+    >>> rendered = unicode(view())
+    Called httplib2.Http.request(
+        u'http://localhost:8090/openplans-create-user.php',
+        'POST',
+        body='...',
+        headers={...})
+
     >>> view.membertool.getMemberById('foobar')
     <OpenMember at /plone/portal_memberdata/foobar...>
     >>> len(events_fired)
@@ -316,7 +333,14 @@ But we do allow appending to existing logins::
     ...             password='testy',
     ...             confirm_password='testy')
     >>> view.request.form.update(form)
-    >>> 'Please choose another' not in view()
+    >>> rendered =  view()
+    Called httplib2.Http.request(
+        u'http://localhost:8090/openplans-create-user.php',
+        'POST',
+        body='...',
+        headers={...})
+
+    >>> 'Please choose another' not in rendered #@@ brittle
     True
     >>> view.membertool.getMemberById('foobar3')
     <OpenMember at /plone/portal_memberdata/foobar3...>

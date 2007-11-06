@@ -5,7 +5,7 @@ from Testing.ZopeTestCase import PortalTestCase
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from Products.PasswordResetTool.tests.test_doctests import MockMailHostTestCase
 
-from opencore.testing.layer import OpencoreContent
+from opencore.testing.layer import MockHTTPWithContent
 
 optionflags = doctest.ELLIPSIS
 
@@ -49,7 +49,7 @@ def test_suite():
                                     setUp=readme_setup
                                     )
 
-    readme.layer = OpencoreContent
+    readme.layer = MockHTTPWithContent
 
     return unittest.TestSuite((readme,))
 
