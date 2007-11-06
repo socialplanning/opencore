@@ -313,16 +313,6 @@ class JoinView(AccountView, OctopoLite):
         mem_name = mem_name or mem_id
 
         if email_confirmation():
-<<<<<<< .working
-            self._sendmail_to_pendinguser(user_name=mem_name,
-                                          email=self.request.get('email'),
-                                          url=url)
-            self.addPortalStatusMessage(_(u'psm_thankyou_for_joining',
-                                          u'Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account.',
-                                          mapping={u'mem_id':mem_id,
-                                                   u'portal_title':self.portal_title()}))
-            self.redirect(self.portal_url())
-=======
             if not confirmed:
                 self._sendmail_to_pendinguser(user_name=mem_name,
                                               email=self.request.get('email'),
@@ -333,7 +323,6 @@ class JoinView(AccountView, OctopoLite):
                                               mapping={u'mem_id':mem_id,
                                                        u'portal_title':self.portal_title()}))
                 self.redirect(self.portal_url())
->>>>>>> .merge-right.r10551
             return mdc._getOb(mem_id)
         else:
             self.redirect(url)
