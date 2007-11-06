@@ -213,8 +213,6 @@ ${portal_url}""", mapping={u'url':url,
             return
         else:
             self.add_status_message(u"You must login or create an account")
-            self.template = None
-            self.redirect("%s/request-membership" % self.context.absolute_url())
             return
 
         if not joined:
