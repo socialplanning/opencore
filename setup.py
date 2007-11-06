@@ -25,7 +25,10 @@ setup(name='opencore',
                         'http://svn.red-bean.com/bob/simplejson/trunk/#egg=simplejson-dev',
                         'http://www.openplans.org/projects/opencore/dependencies',
                         'https://svn.plone.org/svn/plone/plone.memoize/trunk#egg=plone.memoize-dev',
-                        'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof'],
+                        'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
+                        'http://zesty.ca/python/uuid.py#egg=uuid-dev'
+                        ],
+      
       install_requires=[
           # -*- Extra requirements: -*-
           # comment out hprof because it was causing a linking build issue
@@ -45,6 +48,7 @@ setup(name='opencore',
           'plone.app.form',
           'borg.localrole==1.0rc1',
           'wsseauth',
+          'uuid',
           ],
       extras_require=dict(ubuntu=['hprof'])
       )
