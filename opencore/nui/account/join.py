@@ -73,3 +73,23 @@ class InviteJoinView(accountview.JoinView, accountview.ConfirmAccountView):
         if proj_obj is not None:
             return proj_obj.Title()
         return None
+
+    def if_pending_user(self):
+        """
+        A valid key here is good enough for an email confirmation, so if the
+        user already has a pending member object, we can just confirm that
+        member by redirecting to the confirm-account view.
+        """
+        key = self.request.get('__k')
+        import zExceptions
+        if not key:
+            raise zExceptions.BadRequest("Must present proper validation")
+        if int(key) != self.invites.key:
+            raise ValueError('Bad confirmation key')
+        
+        email = self.request.form.get("email")
+        member = self.membranetool.unrrestrictedSearchResults(getEmail=email)
+        if member:
+            member = member[0].getObject()
+        
+        return self.redirect(self._confirmation_url(member))
