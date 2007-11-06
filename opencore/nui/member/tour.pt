@@ -46,7 +46,7 @@
                       tal:define="url request/ACTUAL_URL">
                     <li tal:repeat="action view/invitation_actions">
                       <a tal:attributes="href string:${url}?task|${proj_id}|${action}Invitation=${action};
-                       class string:oc-actionLink oc-js-actionLink oc-choose${action}"
+                       class string:oc-actionLink oc-choose${action}"
                    tal:content="action"
                    />
                     </li>
