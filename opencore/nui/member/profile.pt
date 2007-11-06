@@ -70,13 +70,17 @@
                    href="profile-edit?field=website">Edit</a>
               </dt>
               <dd>
-                <tal:haswebsite condition="memberdata/website"
-                  define="as_entered memberdata/website;
-                          website python:(as_entered.startswith('http://') or
-                          as_entered.startswith('https://')) and as_entered or
-                          ('http://' + as_entered)">
-                  <a class="url" tal:attributes="href website"
-                     tal:content="website" />
+                <tal:haswebsite condition="memberdata/website">
+                  <ul class="oc-plainList">
+                  <tal:sites repeat="url python:[url.strip() for url in memberdata['website'].split(',')]">
+                    <tal:link define="website python:(url.startswith('http://') or
+                                      url.startswith('https://')) and url or
+                                      ('http://' + url)">
+                      <li><a class="url" tal:attributes="href website"
+                             tal:content="website" /></li>
+                    </tal:link>
+                  </tal:sites>
+                  </ul>
                 </tal:haswebsite>
                 <tal:nohaswebsite condition="not:memberdata/website">
                   none
