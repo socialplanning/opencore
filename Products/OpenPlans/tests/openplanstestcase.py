@@ -38,7 +38,7 @@ class OpenPlansTestCase(ArcheSiteTestCase):
         self.listen_for_object_events()
 
         # patch expensive handlers for tests
-        self.patch_wordpress_handlers()
+        # self.patch_wordpress_handlers()
 
     def patch_wordpress_handlers(self):
         """All wordpress handlers involve sending a message to wordpress
