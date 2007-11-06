@@ -69,13 +69,19 @@ class RemoteOpenCoreAuth(BasePlugin):
             # we have to do this b/c PAS always invokes _every_ auth
             # plug-in during the auth check
             return
+
+        username = credentials.get('login')
+        root_uf = self.getPhysicalRoot().acl_users
+        if root_uf.getUserById(username) is not None:
+            # user exists at the Zope root, don't check remotely
+            return
+
         ptool = getToolByName(self, 'portal_properties')
         ocprops = ptool._getOb('opencore_properties')
         remote_auth_sites = ocprops.getProperty('remote_auth_sites')
         if not remote_auth_sites:
             return
 
-        username = credentials.get('login')
         password = credentials.get('password')
         query = urlencode({'__ac_password': password})
         h = getUtility(IHTTPClient)
@@ -85,10 +91,7 @@ class RemoteOpenCoreAuth(BasePlugin):
             authurl = '%s/people/%s/get-hash' % (siteurl, username)
             resp, content = h.request(authurl, 'POST', query)
             resp_code = resp.get('status')
-            if resp_code == '400' or resp_code == '404':
-                # remote auth failed on this server
-                continue
-            else:
+            if resp_code == '200':
                 # remote auth succeeds, we're done
                 event.notify(event = RemoteLoginSucceeded(self,
                                                           username,
@@ -96,6 +99,7 @@ class RemoteOpenCoreAuth(BasePlugin):
                                                           siteurl))
                 # we use same value for userid and username
                 return username, username
+
         # all auth attempts failed
         return
 
