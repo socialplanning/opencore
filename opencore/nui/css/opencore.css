@@ -1648,6 +1648,7 @@ abbr, acronym {
   border-left: 4px solid #ccc;
   padding-left: 1em;
   margin-left: 1em;
+  overflow: auto;
 }
 .oc-wiki-content .pullquote h1, 
 .oc-wiki-content .pullquote h2, 
