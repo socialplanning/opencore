@@ -56,7 +56,7 @@
 
   <browser:page
      for="opencore.interfaces.IOpenSiteRoot"
-     class=".accountview.JoinView"
+     class=".join.JoinView"
      permission="zope.Public"
      name="join"
      />

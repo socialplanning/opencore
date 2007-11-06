@@ -1,17 +1,106 @@
 """
 separate pre-confirmed view for folks already invited to a project
 """
-# @@ join should move in here too
-
 from opencore.nui.account import accountview
-from opencore.nui.formhandler import action, post_only
+from opencore.nui.formhandler import action, post_only, OctopoLite
+from opencore.nui.formhandler import anon_only
 from opencore.nui.base import view
 from opencore.nui.project.interfaces import IEmailInvites
 from zope.component import getUtility
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from opencore.nui.base import BaseView
+from zope.event import notify
+from zope.app.event.objectevent import ObjectCreatedEvent
+from opencore.nui.base import BaseView, _
 
 
-class InviteJoinView(accountview.JoinView, accountview.ConfirmAccountView):
+class JoinView(accountview.AccountView, OctopoLite):
+
+    template = ZopeTwoPageTemplateFile('join.pt')
+
+    @anon_only(BaseView.siteURL)
+    def handle_request(self):
+        """ redirect logged in users """
+
+    def _create_member(self, targets=None, fields=None, confirmed=False):
+        mdc = self.get_tool('portal_memberdata')
+        mem = mdc._validation_member
+
+        self.errors = {}
+        
+        self.errors = mem.validate(REQUEST=self.request,
+                                   errors=self.errors,
+                                   data=1, metadata=0)
+        password = self.request.form.get('password')
+        password2 = self.request.form.get('confirm_password')
+        if not password and not password2:
+            self.errors.update(dict(password=_(u'no_password', u'Please enter a password')))
+
+        if self.errors:
+            return self.errors
+
+        # create a member in portal factory
+        mdc = self.get_tool('portal_memberdata')
+        pf = mdc.portal_factory
+
+        #00 pythonscript call, move to fs code
+        id_ = self.context.generateUniqueId('OpenMember')
+
+        mem_folder = pf._getTempFolder('OpenMember')
+        mem = mem_folder.restrictedTraverse('%s' % id_)
+
+        # now we have mem, a temp member. create him for real.
+        mem_id = self.request.form.get('id')
+        mem = pf.doCreate(mem, mem_id)
+        self.txn_note('Created %s with id %s in %s' % \
+                      (mem.getTypeInfo().getId(),
+                       mem_id,
+                       self.context.absolute_url()))
+        result = mem.processForm()
+        notify(ObjectCreatedEvent(mem))
+        mem.setUserConfirmationCode()
+        mem_name = mem.getFullname()
+        mem_name = mem_name or mem_id
+        url = self._confirmation_url(mem)
+        if accountview.email_confirmation():
+            if not confirmed:
+                self._sendmail_to_pendinguser(user_name=mem_name,
+                                              email=self.request.get('email'),
+                                              url=url)
+            
+                self.addPortalStatusMessage(_(u'psm_thankyou_for_joining',
+                                              u'Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account.',
+                                              mapping={u'mem_id':mem_id,
+                                                       u'portal_title':self.portal_title()}))
+                self.redirect(self.portal_url())
+            return mdc._getOb(mem_id)
+        self.redirect(url)
+        return mem
+
+    create_member = action('join', apply=post_only(raise_=False))(_create_member)
+
+    @action('validate')
+    def validate(self, targets=None, fields=None):
+        """ this is really dumb. """
+        mdc = self.get_tool('portal_memberdata')
+        mem = mdc._validation_member
+        errors = {}
+        errors = mem.validate(REQUEST=self.request,
+                              errors=self.errors,
+                              data=1, metadata=0)
+        erase = [error for error in errors if error not in self.request.form]
+        also_erase = [field for field in self.request.form if field not in errors]
+        for e in erase + also_erase:
+            errors[e] = ''
+        ret = {}
+        for e in errors:
+            ret['oc-%s-error' % e] = {
+                'html': str(errors[e]),
+                'action': 'copy', 'effects': 'highlight'}
+        return ret
+
+
+class InviteJoinView(JoinView, accountview.ConfirmAccountView):
     """a preconfirmed join view that also introspects any invitation a
     perspective member has"""
 
