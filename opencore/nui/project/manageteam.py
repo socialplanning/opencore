@@ -8,6 +8,7 @@ log = logging.getLogger('opencore.project.manageteam')
 EMAIL_RE = re.compile(EMAIL_RE)
 TA_SPLIT = re.compile('\n|,')
 
+
 class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     """
     View class for the team management screens.

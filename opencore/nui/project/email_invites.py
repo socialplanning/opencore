@@ -2,20 +2,20 @@ from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
 from Products.CMFCore.utils import getToolByName
 from opencore.nui.project.interfaces import IEmailInvites
-from topp.utils.persistence import OOBTreeBag, KeyedMap, bbb_keymap
+from topp.utils.persistence import OOBTreeBag, KeyedMap
+from opencore.bbb import bbb_keymap
 from zope.app.annotation import IAnnotations
 from zope.interface import implements
 import DateTime
-
-from opencore.auth.SignedCookieAuthHelper import get_secret
-
-secret = get_secret()
+import uuid
 
 class EmailInvites(SimpleItem):
     """
     IEmailInvites local utility implementation.  Does no sanity
     checking of email addresses or project ids, just takes the
     information provided and stores / retrieves it.
+
+    @@ might be better to use UIDs for project ids
     """
     implements(IEmailInvites)
 
@@ -23,12 +23,13 @@ class EmailInvites(SimpleItem):
         self._by_address = OOBTree()
         self._by_project = OOBTree()
 
-    @bbb_keymap(wrap=True, secret=secret) # put a contextual here eventually
+    @bbb_keymap(wrap=True) # put a contextual here eventually
     def getInvitesByEmailAddress(self, address):
         by_addy = self._by_address.get(address)
         if by_addy is not None:
             return by_addy
-        return KeyedMap(key=((address,), secret))
+        key = hash(uuid.uuid4())
+        return KeyedMap(key=key)
 
     def getInvitesByProject(self, proj_id):
         by_proj = self._by_project.get(proj_id)
@@ -64,6 +65,11 @@ class EmailInvites(SimpleItem):
         by_email = self.getInvitesByEmailAddress(address)[:]
         for proj_id in by_email:
             self.removeInvitation(address, proj_id)
+
+    def removeAllInvitesForProject(self, proj_id):
+        if not isinstance(proj_id, basestring):
+            proj_id = proj_id.getId()
+        del self._by_project[proj_id]
 
     def convertInviteForMember(self, member, address, proj_id):
         tmtool = getToolByName(self, 'portal_teams')
