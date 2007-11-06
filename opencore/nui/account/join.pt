@@ -1,6 +1,9 @@
 <tal:vars define="global fdata view/handle_request;" />
 
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title">Join</title>
+  </head>
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
@@ -28,7 +31,7 @@
                     <label i18n:translate="join_username_label" for="id">Username</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" name="id" id="id" class="oc-autoFocus oc-js-liveValidate"
+                    <input type="text" name="id" id="id" class="oc-autoFocus"
                            tal:attributes="value request/id | nothing" />
                   </td>
                   <td class="oc-form-help">
@@ -50,7 +53,7 @@
                     <label i18n:translate="join_full_name_label" for="fullname">Full Name</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" name="fullname" id="fullname" class="oc-js-liveValidate"
+                    <input type="text" name="fullname" id="fullname" class=""
                            tal:attributes="value request/fullname | nothing" />
                   </td>
                   <td class="oc-form-help">
@@ -72,7 +75,7 @@
                     <label i18n:translate="join_email_label" for="email">Email</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" name="email" id="email" class="oc-js-liveValidate"
+                    <input type="text" name="email" id="email" class=""
                            tal:attributes="value request/email | nothing" />
                   </td>
                   <td class="oc-form-help">
@@ -94,7 +97,7 @@
                     <label i18n:translate="join_password_label" for="password">Password</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="password" name="password" id="password" class="oc-js-liveValidate"
+                    <input type="password" name="password" id="password" class=""
                            />
                   </td>
                   <td class="oc-form-help">
@@ -116,7 +119,7 @@
                     <label i18n:translate="join_conf_password_label" for="confirm_password">Confirm passsword</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="password" name="confirm_password" id="confirm_password" class="oc-js-liveValidate"/>  
+                    <input type="password" name="confirm_password" id="confirm_password" class=""/>  
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
