@@ -30,4 +30,12 @@
      handler=".event.membership_changed_reindex_catalog"
      />
 
+  <browser:page
+     for="opencore.siteui.interfaces.IMemberFolder"
+     class=".view.ProfileView"
+     permission="cmf.ModifyPortalContent"
+     name="memberinfo.xml"
+     template="memberinfo.pt"
+     />
+
 </configure>
