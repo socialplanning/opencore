@@ -1,8 +1,15 @@
 from opencore.i18n import _
 
-invite_member = _(u'email_invite_member', u"""Subject: ${portal_title} - Invitation to join ${project_title}
+invite_member = _(u'email_invite_member', u"""Subject: You've been invited to join "${project_title}"
 
-You have been invited to join "${project_title}".  Please visit your account page to accept or decline the invitation: ${account_url}
+Hi ${user_name},
+
+You have been invited to join "${project_title}" by ${inviter_name}.
+Please visit your account page to accept or decline the invitation: ${account_url}
+
+Cheers,
+The ${portal_name} Team
+${portal_url}
 """)
 
 remind_invitee = _(u'email_remind_invitee', u"""Subject: ${portal_title} - Invitation to join ${project_title}

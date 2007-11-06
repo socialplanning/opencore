@@ -29,7 +29,7 @@
               <tr class="oc-actions">
                <th></th>
                 <td>
-                  <button type="submit" 
+                  <button class="oc-button" type="submit" 
                           name="send:boolean" 
                           value="True">Send</button>
                 <td class="oc-form-help"></td>

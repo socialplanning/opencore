@@ -1,4 +1,4 @@
-<html metal:use-macro="here/@@standard_macros/master">
+﻿<html metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:Tour - ${view/area/Title} on ${view/portal_title}" />
   </head>
