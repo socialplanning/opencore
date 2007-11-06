@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.9.7.2'
+version = '0.9.7.6'
 
 f = open('README.txt')
 readme = "".join(f.readlines())
@@ -35,7 +35,7 @@ setup(name='opencore',
           'simplejson',
           'decorator',
           'topp.featurelets>=0.2.1',
-          'topp.utils>=0.2.6',
+          'topp.utils>=0.2.7',
           'memojito',
           'OpencoreRedirect',
           'httplib2',
