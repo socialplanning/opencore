@@ -804,9 +804,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         acct_url = self._getAccountURLForMember(mem_id)
         logged_in_mem = self.loggedinmember
         logged_in_mem_name = logged_in_mem.getFullname() or logged_in_mem.id
-        portal = getToolByName(self.portal, 'portal_url').getPortalObject()
-        mem = self.portal.portal_memberdata._getOb(mem_id)
-        mem_user_name = mem.getFullname() or mem.getId()
+        mdtool = getToolByName(self.context, 'portal_memberdata')
+        mdtoolpath = '/'.join(mdtool.getPhysicalPath())
+        mem_path = '%s/%s' % (mdtoolpath, mem_id) 
+        mem_metadata = self.catalogtool.getMetadataForUID(mem_path) 
+        mem_user_name = mem_metadata['getFullname'] or mem_metadata['id']
         # XXX if member hasn't logged in yet, acct_url will be whack
         msg_subs = {
                 'project_title': self.context.title,
