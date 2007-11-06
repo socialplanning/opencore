@@ -491,6 +491,12 @@ It's talented, isn't it?
     >>> self.clear_events()
     >>> request.form['email'] = 'foobarbazquux@example.com'
     >>> view.change_email()
+    Called httplib2.Http.request(
+        u'http://localhost:8090/openplans-change-email.php',
+        'POST',
+        body='...',
+        headers={...})
+
     >>> len(self.events)
     1
     >>> from opencore.interfaces.event import IMemberEmailChangedEvent

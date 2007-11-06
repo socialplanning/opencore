@@ -2,7 +2,7 @@ import os
 import unittest
 from zope.testing import doctest
 from Testing.ZopeTestCase import FunctionalDocFileSuite
-from opencore.testing.layer import OpencoreContent as test_layer
+from opencore.testing.layer import MockHTTPWithContent as test_layer
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
