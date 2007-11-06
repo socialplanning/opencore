@@ -88,7 +88,7 @@ class InviteJoinView(accountview.JoinView, accountview.ConfirmAccountView):
             raise ValueError('Bad confirmation key')
         
         email = self.request.form.get("email")
-        member = self.membranetool.unrrestrictedSearchResults(getEmail=email)
+        member = self.membranetool.unrestrictedSearchResults(getEmail=email)
         if member:
             member = member[0].getObject()
         
