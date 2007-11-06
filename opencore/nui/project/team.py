@@ -185,6 +185,7 @@ ${portal_url}""", mapping={u'url':url,
         Delegates to the team object and handles destination.
         """
         joined = False
+        ac_name = self.request.form.get("__ac_name")
         id_ = self.request.form.get("id")
         if self.loggedin: 
             # PAS will kick in, request will be "logged in" if form's login snippet is filled out correctly
@@ -206,6 +207,9 @@ ${portal_url}""", mapping={u'url':url,
             req_bucket.addRequest(self.context.getId(), request_message=req_msg)
             self.template = None # don't render the form before the redirect
             self.redirect(self.context.absolute_url())
+            return
+        elif ac_name: # trying to login, but failed
+            self.addPortalStatusMessage(_(u'psm_check_username_password', u'Please check your username and password. If you still have trouble, you can <a href="forgot">retrieve your sign in information</a>.'))
             return
         else:
             self.add_status_message(u"You must login or create an account")
