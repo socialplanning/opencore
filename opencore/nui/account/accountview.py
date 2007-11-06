@@ -422,12 +422,22 @@ class InitialLogin(BaseView):
         mship_bucket = getMultiAdapter((member, self.portal.projects), IPendingRequests)
         email_invites_bucket = getUtility(IEmailInvites)
 
-        
+        email_invites = email_invites_bucket.getInvitesByEmailAddress(member.getEmail()).keys()
+        pending_requests = mship_bucket.getRequests().keys()
+        mships_to_confirm = [mship for mship in email_invites if mship in pending_requests]
         
         # convert email invites into mship objects
-
-        email_invites_bucket.convertInvitesForMember(member)
-
+        email_invites = email_invites_bucket.convertInvitesForMember(member)
+        
+        # autoconfirm any mships which both the admin and the user already took action on
+        for mship in email_invites:
+            # copied from join.py, should combine
+            mship._v_self_approved = True
+            proj_id = mship.aq_parent.getId()
+            if proj_id in mships_to_confirm:
+                mship.do_transition('approve_public')
+                mship_bucket.removeRequest(proj_id)
+                
         # convert pending mship requests into real mship requests
         converted = mship_bucket.convertRequests()
         for proj_title in converted:
