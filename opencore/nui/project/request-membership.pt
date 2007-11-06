@@ -47,7 +47,7 @@
               
             <fieldset class="oc-column">
   
-              <legend class="oc-legend-heading oc-biggerText" tal:content="string:Join ${view/portal_title}" />
+              <legend class="oc-legend-heading oc-biggerText" tal:content="string:Create an account on ${view/portal_title}" />
               <!-- on successful registration -->
               <p i18n:translate="join_check_email" tal:condition="fdata/getUser | nothing">
                 Check your email to confirm registration 
