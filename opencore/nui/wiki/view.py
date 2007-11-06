@@ -80,10 +80,15 @@ class WikiEdit(WikiBase, OctopoLite):
     def _clean_html(self, html):
         """ delegate cleaning of html to lxml """
         ocprops = self.get_tool('portal_properties').opencore_properties
-        whitelist = ocprops.getProperty('embed_whitelist')
-        whitelist = [x for x in whitelist if x.strip()]
+        whitelist = ocprops.getProperty('embed_whitelist') or []
+        try:
+            whitelist = [x for x in whitelist if x.strip()]
+        except TypeError:
+            raise TypeError("Bad value for portal_properties.embed_whitelist: %r" % whitelist)
         cleaner = Cleaner(host_whitelist=whitelist)
-        return cleaner.clean_html(html)
+        new_html = cleaner.clean_html(html)
+        ## FIXME: we should have some way of notifying the user about tags that were removed
+        return new_html
 
     @action('save')
     def handle_save(self, target=None, fields=None):
