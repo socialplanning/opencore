@@ -616,7 +616,7 @@ class PendingView(AccountView):
                                           email,
                                           self._confirmation_url(member))
             mfrom = self.portal.getProperty('email_from_address')
-            msg = _(u'psm_new_activation', u'A new activation email has been sent to ${email} from ${mfrom}. Please follow the link in the email to activate this account.',
+            msg = _(u'psm_new_activation', u'A new activation email has been sent to ${email} from ${mfrom}. <br />Please follow the link in the email to activate this account.',
                     mapping={u'email':email, u'mfrom':mfrom})
 
         self.addPortalStatusMessage(msg)
