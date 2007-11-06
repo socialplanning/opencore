@@ -1,31 +1,28 @@
 """
 views pertaining to accounts -- creation, login, password reset
 """
-import urllib
-import socket
-from smtplib import SMTPRecipientsRefused, SMTP
-
-from App import config
 from AccessControl.SecurityManagement import newSecurityManager
-from zExceptions import Forbidden, Redirect, Unauthorized
-
-from zope.component import getUtility
-from zope.event import notify
-from zope.app.event.objectevent import ObjectCreatedEvent
-from plone.memoize import instance
-
+from DateTime import DateTime
+from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from Products.CMFCore.utils import getToolByName
 from Products.remember.utils import getAdderUtility
 from Products.validation.validators.BaseValidators import EMAIL_RE
-
-from opencore.siteui.member import FirstLoginEvent
+from opencore.configuration.utils import product_config
 from opencore.nui.base import BaseView, _
 from opencore.nui.email_sender import EmailSender
+from opencore.nui.formhandler import * # start import are for pansies
 from opencore.nui.project.interfaces import IEmailInvites
-from opencore.nui.formhandler import *
-from DateTime import DateTime
+from opencore.siteui.member import FirstLoginEvent
+from plone.memoize import instance
+from smtplib import SMTPRecipientsRefused, SMTP
+from zExceptions import Forbidden, Redirect, Unauthorized
+from zope.app.event.objectevent import ObjectCreatedEvent
+from zope.component import getUtility
+from zope.event import notify
+import socket
+import urllib
+
 
 class AccountView(BaseView):
     """
@@ -130,6 +127,7 @@ ${portal_url}""", mapping={u'user_name':user_name,
         subject = _(u'email_to_pending_user_subject',
                     u'Welcome to ${portal_title}! - Please confirm your email address',
                     mapping={u'portal_title':self.portal_title()})
+
         sender.sendEmail(mto=email,
                          msg=message,
                          subject=subject)
@@ -271,8 +269,7 @@ class JoinView(AccountView, OctopoLite):
     def handle_request(self):
         """ redirect logged in users """
 
-    @action('join', apply=post_only(raise_=False))
-    def create_member(self, targets=None, fields=None):
+    def _create_member(self, targets=None, fields=None, confirmed=False):
         mdc = self.get_tool('portal_memberdata')
         mem = mdc._validation_member
 
@@ -316,6 +313,7 @@ class JoinView(AccountView, OctopoLite):
         mem_name = mem_name or mem_id
 
         if email_confirmation():
+<<<<<<< .working
             self._sendmail_to_pendinguser(user_name=mem_name,
                                           email=self.request.get('email'),
                                           url=url)
@@ -324,9 +322,24 @@ class JoinView(AccountView, OctopoLite):
                                           mapping={u'mem_id':mem_id,
                                                    u'portal_title':self.portal_title()}))
             self.redirect(self.portal_url())
+=======
+            if not confirmed:
+                self._sendmail_to_pendinguser(user_name=mem_name,
+                                              email=self.request.get('email'),
+                                              url=url)
+            
+                self.addPortalStatusMessage(_(u'psm_thankyou_for_joining',
+                                              u'Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account.',
+                                              mapping={u'mem_id':mem_id,
+                                                       u'portal_title':self.portal_title()}))
+                self.redirect(self.portal_url())
+>>>>>>> .merge-right.r10551
             return mdc._getOb(mem_id)
         else:
-            return self.redirect(url)
+            self.redirect(url)
+        return mem
+
+    create_member = action('join', apply=post_only(raise_=False))(_create_member)
 
     @action('validate')
     def validate(self, targets=None, fields=None):
@@ -622,6 +635,7 @@ class PendingView(AccountView):
     def handle_request(self):
         self._pending_member()
 
+
 class ResendConfirmationView(AccountView):
 
     @anon_only(BaseView.siteURL)
@@ -641,11 +655,13 @@ class ResendConfirmationView(AccountView):
         self.redirect("%s/login" %self.siteURL)
 
 
-def email_confirmation():
+def email_confirmation(is_test=False):
     """get email confirmation mode from zope.conf"""
-    cfg = config.getConfiguration().product_config.get('opencore.nui')
-    if cfg:
-        val = cfg.get('email-confirmation', 'True').title()
+    if is_test:
+        return True
+    conf = product_config('email-confirmation', 'opencore.nui')
+    if conf:
+        val = conf.title()
         if val == 'True':
             return True
         elif val == 'False':
@@ -653,3 +669,9 @@ def email_confirmation():
         else:
             raise ValueError('email-confirmation should be "True" or "False"')
     return True # the default
+
+def turn_confirmation_on():
+    email_confirmation.func_defaults = (True,)
+
+def turn_confirmation_off():
+    email_confirmation.func_defaults = (False,)

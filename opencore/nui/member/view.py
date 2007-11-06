@@ -757,3 +757,5 @@ class ProjectInvitationsView(MemberAccountView):
     """
 
     template = ZopeTwoPageTemplateFile('invitations.pt') # could change this
+
+

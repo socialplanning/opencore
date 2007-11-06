@@ -439,7 +439,8 @@ Verify initial login converts email invites to mship invites
     >>> from zope.component import getUtility
     >>> from opencore.nui.project.interfaces import IEmailInvites
     >>> email_invites = getUtility(IEmailInvites)
-    >>> email_invites.addInvitation(mem.getEmail(), proj_id)
+    >>> isinstance(email_invites.addInvitation(mem.getEmail(), proj_id), int)
+    True
 
     Login as the member and trigger the 'init-login' view
 
