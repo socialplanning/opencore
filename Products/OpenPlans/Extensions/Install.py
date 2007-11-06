@@ -16,7 +16,7 @@ from Products.CMFCore.Expression import Expression
 from Products.Archetypes.Extensions.utils import install_subskin
 from Products.Archetypes.public import listTypes
 from Products.Archetypes.config import REFERENCE_CATALOG
-from Products.Archetypes.Extensions.utils import installTypes#, install_subskin
+from Products.Archetypes.Extensions.utils import installTypes
 from Products.membrane.config import TOOLNAME as MBTOOLNAME
 from Products.remember.Extensions.workflow import addWorkflowScripts
 from Products.remember.utils import getAdderUtility
@@ -26,6 +26,7 @@ from Products.CMFEditions.Permissions import RevertToPreviousVersions
 from Products.RichDocument.Extensions.utils import \
      registerAttachmentsFormControllerActions
 from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
+from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
 
 from Products.OpenPlans import config
 from Products.OpenPlans import content
@@ -714,6 +715,74 @@ def addCatalogQueue(portal, out):
         queue = portal._getOb(q_id)
         queue.setLocation('portal_catalog')
 
+def install_remote_auth_plugin(portal, out):
+    plugin_id = 'opencore_remote_auth'
+    uf = portal.acl_users
+    if plugin_id in uf.objectIds():
+        # plugin is already there, do nothing
+        return
+    print >> out, "Adding OpenCore remote auth plugin"
+    openplans = uf.manage_addProduct['OpenPlans']
+    openplans.manage_addOpenCoreRemoteAuth(plugin_id)
+    activatePluginInterfaces(portal, plugin_id, out)
+
+
+#
+# These next install steps are pulling config information in from
+# GenericSetup XML files to be forward compatible with using an entire
+# GenericSetup profile.
+#
+
+from xml.dom import minidom
+import opencore.configuration
+profilepath = '%s/profiles/default' % opencore.configuration.__path__[0]
+psheet_id = 'opencore_properties'
+
+from Products.GenericSetup.utils import PropertyManagerHelpers
+class PropertyImporter(PropertyManagerHelpers):
+    """
+    Stub class so we can use GS's XML parsing code for properties
+    outside of the regular GS context.
+    """
+    def __init__(self, context):
+        self.context = context
+
+    def _getNodeText(self, node):
+        text = ''
+        for child in node.childNodes:
+            if child.nodeName != '#text':
+                continue
+            lines = [ line.lstrip() for line in child.nodeValue.splitlines() ]
+            text += '\n'.join(lines)
+        return text
+
+    def _convertToBoolean(self, val):
+        return val.lower() in ('true', 'yes', '1')
+
+def install_opencore_propertysheet(portal, out):
+    """
+    Reads the data from the same place the GenericSetup profile will
+    expect to find it, for forward compatibility.
+    """
+    ptool = getToolByName(portal, 'portal_properties')
+    if psheet_id not in ptool.objectIds():
+        print >> out, "Creating opencore_properties property sheet"
+        ptool.manage_addPropertySheet(psheet_id)
+    psheet = ptool._getOb(psheet_id)
+
+    # borrow some GenericSetup code
+    importer = PropertyImporter(psheet)
+
+    f = open('%s/propertiestool.xml' % profilepath)
+    # minidom is annoying, but it's what the importer expects
+    root = minidom.parseString(f.read())
+    oc_sheet_node = None
+    for ob_node in root.getElementsByTagName('object'):
+        if ob_node.getAttribute('name') == psheet_id:
+            oc_sheet_node = ob_node
+            break
+    importer._initProperties(oc_sheet_node)
+
 def install(self, migrate_atdoc_to_openpage=True):
     out = StringIO()
     portal = getToolByName(self, 'portal_url').getPortalObject()
@@ -727,6 +796,7 @@ def install(self, migrate_atdoc_to_openpage=True):
     setCookieDomain(portal, out)
     installCookieAuth(portal, out)
     securityTweaks(portal, out)
+    install_opencore_propertysheet(portal, out)
     uiTweaks(portal, out)
     setMemberType(portal, out)
     setCaseInsensitiveLogins(portal, out)
@@ -756,6 +826,7 @@ def install(self, migrate_atdoc_to_openpage=True):
     install_local_transient_message_utility(portal, out)
     install_email_invites_utility(portal, out)
     updateWorkflowRoleMappings(portal, out)
+    install_remote_auth_plugin(portal, out)
     install_team_placeful_workflow_policies(portal, out)
     print >> out, "Successfully installed %s." % config.PROJECTNAME
     return out.getvalue()

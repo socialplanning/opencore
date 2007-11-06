@@ -10,6 +10,7 @@ from AccessControl import allow_module, allow_class, allow_type
 
 from Globals import package_home
 
+from Products.PluggableAuthService import registerMultiPlugin
 from Products.CMFCore import CMFCorePermissions
 from Products.CMFCore import utils as cmf_utils
 from Products.CMFCore.FSPageTemplate import FSPageTemplate
@@ -29,11 +30,15 @@ from permissions import initialize as initialize_permissions
 import monkey
 import Extensions.setup
 from opencore.nui import indexing
+from opencore.auth import remoteauthplugin
 
 # Register Global Tools/Services/Config
 # (Skins)
 registerFileExtension('xsl', FSPageTemplate)
 registerDirectory(config.SKINS_DIR, config.GLOBALS)
+
+# register the remote auth PAS plugin
+registerMultiPlugin(remoteauthplugin.RemoteOpenCoreAuth.meta_type)
 
 
 def initialize(context):
@@ -95,6 +100,13 @@ def initialize(context):
                                             SignedCookieAuthHelper.manage_addSignedCookieAuthHelper ),
                            visibility = None
                            )
+
+    context.registerClass(remoteauthplugin.RemoteOpenCoreAuth,
+                          permission = add_user_folders,
+                          constructors = (remoteauthplugin.manage_addOpenCoreRemoteAuthForm,
+                                          remoteauthplugin.manage_addOpenCoreRemoteAuth),
+                          visibility = None
+                          )
     
     # do all at import cataloging setup
     indexing.register_indexable_attrs()
