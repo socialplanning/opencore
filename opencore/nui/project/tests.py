@@ -128,6 +128,15 @@ def test_suite():
                                                 layer=OpencoreContent     
                                                 )
 
+    team_request_membership = dtf.FunctionalDocFileSuite("team_membership.txt",
+                                                         optionflags=optionflags,
+                                                         package='opencore.nui.project',
+                                                         test_class=OpenPlansTestCase,
+                                                         globs = globs, 
+                                                         setUp=oc_setup.set_portal_as_site,
+                                                         layer=OpencoreContent                                                 
+                                                         )
+
 ##     preferences = FunctionalDocFileSuite("preferences.txt",
 ##                                          optionflags=optionflags,
 ##                                          package='opencore.nui.project',
@@ -137,7 +146,7 @@ def test_suite():
 ##                                          )    
 
 ##     suites = (contents, metadata, manage_team, request_membership, preferences)
-    suites = (contents, metadata, manage_team, request_membership, homepage)
+    suites = (contents, metadata, manage_team, request_membership, homepage, team_request_membership)
     unit = doctest.DocTestSuite('opencore.nui.project.view',
                                 optionflags=optionflags)
     return unittest.TestSuite(suites + (readme, unit, delete))

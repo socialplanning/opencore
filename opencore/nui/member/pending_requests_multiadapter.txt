@@ -1,0 +1,84 @@
+A multi-adapter to annotate objects with a list of project ids to
+store membership requests which should be created in the future.
+
+It's really just wrapping a dict.
+
+It adapts IAnnotatable as the object which wants to make the request
+(eg the member) and IATBTreeFolder as the folder containing the projects
+which requests can be made for.
+
+    >>> m1 = portal.portal_memberdata.m1
+    >>> from zope.app.annotation.interfaces import IAnnotatable
+    >>> IAnnotatable.providedBy(m1)
+    True
+
+    >>> from Products.ATContentTypes.interface.folder import IATBTreeFolder
+    >>> projects_folder = portal.projects
+    >>> IATBTreeFolder.providedBy(projects_folder)
+    True
+
+    >>> from zope.component import getMultiAdapter
+    >>> pr = getMultiAdapter((m1, projects_folder), IPendingRequests)
+    >>> pr
+    <opencore.nui.member.pending_requests_multiadapter.PendingRequests object ...>
+
+The member shouldn't have any requests initially::
+    >>> pr.getRequests()
+    {}
+
+We store a few requests to join projects and then get them::
+    >>> pr.addRequest("p1")
+    >>> pr.getRequests()
+    {'p1': None}
+
+Requests can include a request message to the admins::
+    >>> pr.addRequest("p2", request_message="let me in")
+    >>> pr.getRequests()
+    {'p2': 'let me in', 'p1': None}
+
+Adding a request which is already stored quietly does nothing::
+    >>> pr.addRequest("p2", 'dont let me in')
+    >>> pr.getRequests()
+    {'p2': 'let me in', 'p1': None}
+
+Adding a request for a team which doesn't exist or which the user doesn't
+have permission to access will fail::
+    >>> pr.addRequest("fake-project")
+    Traceback (most recent call last):
+    ...
+    AttributeError: ...
+
+We can remove requests, but only if they exist::
+    >>> pr.removeRequest("p2")
+    >>> pr.removeRequest("foo")
+    Traceback (most recent call last):
+    ...
+    KeyError: 'foo'
+    >>> pr.getRequests()
+    {'p1': None}
+
+And we can remove all requests::
+    >>> pr.removeAllRequestsForUser()
+    >>> pr.getRequests()
+    {}
+
+We can also convert pending requests to real requests. The converter 
+returns the requests which were successfully converted and removes
+them from its pending request bucket::
+    >>> pr.addRequest("p2")
+    >>> pr.addRequest("p3")
+    >>> pr.convertRequests()
+    ('p2', 'p3')
+    >>> pr.getRequests()
+    {}
+
+Let's see what happens if we try to create requests on projects where
+we already have a pending membership. Note that this is intentionally
+not caught when the request is added, only when we try to convert the
+requests::
+    >>> pr.addRequest("p2")
+    >>> pr.addRequest("p3")
+    >>> pr.convertRequests()
+    ()
+    >>> pr.getRequests()
+    {'p2': None, 'p3': None}

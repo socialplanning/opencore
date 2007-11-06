@@ -1,4 +1,4 @@
-<html metal:use-macro="here/@@standard_macros/master">
+﻿<html metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:Tour - ${view/area/Title} on ${view/portal_title}" />
   </head>
@@ -8,81 +8,65 @@
 
       <div id="oc-content-main">
 
-	<!-- explanation of editting your profile -->
-	<p>
-	  <a tal:attributes="href
-			     string:${context/absolute_url}/profile-edit">
-	    edit my profile
-	  </a>
-	</p>
-
-	<!-- if the member has been invited by email,
-	     display information pertaining to their projects -->
-	<div tal:condition="view/has_projects">
-	  You has got projects.
-
-	  <!-- project invitations (is this deprecated?) -->
-	  <ul tal:define="proj_id view/invitations" 
-	      tal:condition="proj_id">
-	    <li class="oc-invite oc-boxy oc-clearAfter"
-              tal:attributes="id string:${proj_id}_invitation">
-                tal:define="proj_id projinfo/proj_id"
-		tal:repeat="invite invitations">
-		You have been invited by 
-		<p class="oc-invite-content">
-                <a href="" tal:attributes="href string:${view/portal_url}/projects/${proj_id}" tal:content="projinfo/title">Animal Campaign</a> 
-                has invited you to become a member
-              </p>
-              <ul class="oc-actions oc-invite-actions oc-actionClose"
-                  tal:define="url request/ACTUAL_URL">
-                <li tal:repeat="action view/invitation_actions">
-                  <a tal:attributes="href string:${url}?task|${proj_id}|${action}Invitation=${action};
-                                     class string:oc-actionLink oc-js-actionLink oc-choose${action}"
-                     tal:content="action"
-                     />
-                </li>
-              </ul>
-            </li>
-	  </ul>
-
-	  <!-- projects join (is this done?) -->
-	  <ul tal:define="projects view/project_brains"
-	      tal:condition="projects">
-	    <li tal:repeat="project projects">
-	      You are a member of
-	      <a tal:attributes="href project/getURL"
-		 tal:content="project/Title"/>
-	    </li>
-	  </ul>
-
-	</div>
-
-	<!-- if the member has joined on their own, 
-	     give them some idea on how they might get involved -->
-	<div tal:condition="not:view/has_projects">
-	  You aren't the member of any projects.
-
-	  <!-- explanation of project page -->
-	  <p>
-	    <a href="string:${view/portal_url}/projects">projects</a>
-	  </p>
-
-	  <!-- start a project -->
-	  <p>
-	    <a href="string:${view/portal_url}/projects/create">start a project</a>
-	  </p>
-
-	  <!-- join upper west side project -->
-	  <!-- commented out for now
-	  <p>
-	    <a href="${view/portal_url}/projects/
-	  </p>
-	  -->
-	</div>
+        <div class="oc-headingBlock">
+          <h1>Welcome to <span tal:replace="string:${view/portal_title}" />!</h1>
+          <p class="oc-headingContext">We hope you will use this website to plan events, start projects, and improve your communities. Now you can&hellip;</p>
+        </div>
+        
+        <div class="oc-getstarted">
+          <h2><a tal:attributes="href string:${context/absolute_url}/profile-edit">Complete your profile</a></h2>
+          <p>Let other <span tal:replace="string:${view/portal_title}" /> members know who you are and what you're interested in. The more information you provide, the more contacts you'll make.</p>
+        </div>
+        
+        <div class="oc-getstarted">
+          <h2><a tal:attributes="href string:${view/portal_url}/projects">Join a project and help it succeed</a></h2>
+          <p>Found something you're interested in? Want to volunteer an hour of your time? Join a project and help someone's vision become a reality.</p>
+        </div>
+        
+        <div class="oc-getstarted">
+          <h2><a tal:attributes="href string:${view/portal_url}/projects/create">Start your own project</a></h2>
+          <p>Is there something you'd like to do? Install bike parking? Create a community garden? Throw a block party? Start your own project and use our toolkit to stay organized.</p>
+        </div>
 
       </div><!-- end #oc-content-main -->
 
       <div id="oc-content-sidebar">
+        <div class="ox-boxy" tal:define="invitations view/invitations"
+              tal:condition="invitations">
+          <h2>You have been invited to:</h2>
+          <ul class="oc-invite-list">
+            <form name="invitation-form" action="account">
+              <tal:for repeat="projinfo invitations">
+                <li class="oc-invite oc-boxy oc-clearAfter"
+                    tal:define="proj_id projinfo/proj_id"
+                    tal:attributes="id string:${proj_id}_invitation"> 
+                  <p class="oc-invite-content">
+                    <a href="" tal:attributes="href string:${view/portal_url}/projects/${proj_id}" tal:content="projinfo/title">Animal Campaign</a> 
+                    has invited you to become a member
+                  </p>
+                  <ul class="oc-actions oc-invite-actions oc-actionClose"
+                      tal:define="url request/ACTUAL_URL">
+                    <li tal:repeat="action view/invitation_actions">
+                      <a tal:attributes="href string:${url}?task|${proj_id}|${action}Invitation=${action};
+                       class string:oc-actionLink oc-js-actionLink oc-choose${action}"
+                   tal:content="action"
+                   />
+                    </li>
+                  </ul>
+                </li>
+              </tal:for>
+            </form>
+          </ul>
+        </div>
+        <div class="oc-widget oc-widget-feed" tal:define="projects view/project_brains"
+              tal:condition="projects">
+          <h2 class="oc-feed-title">Projects you belong to:</h2>
+          <ul class="oc-feed-list oc-bigText oc-clearAfter">
+            <li class="oc-feed-item oc-clearAfter" tal:repeat="project projects">
+                <a tal:attributes="href project/getURL" tal:content="project/Title" />
+            </li>
+          </ul>
+        </div>
       </div><!-- end #oc-content-sidebar -->
 
   </div><!-- content-fill-slot -->

@@ -377,7 +377,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         project_title = self.context.title
         for address in addresses:
             # XXX if member hasn't logged in yet, acct_url will be whack
-            query_str = urllib.urlencode(dict(email=addy,__k=key))
+            key = self.invite_util.getInvitesByEmailAddress(address).key
+            query_str = urllib.urlencode(dict(email=address,__k=key))
             #query_str = urllib.urlencode({'email': address})
             join_url = "%s/invite-join?%s" % (self.portal.absolute_url(),
                                               query_str)

@@ -1,0 +1,58 @@
+=========================
+opencore.nui.email_sender
+=========================
+
+Check that the basic aspects of sending email out are working properly
+
+First, let's instantiate an email sender
+    >>> from opencore.interfaces import IOpenSiteRoot
+    >>> portal = self.portal
+    >>> IOpenSiteRoot.providedBy(portal)
+    True
+    >>> from opencore.utility.interfaces import IEmailSender
+    >>> es = IEmailSender(portal)
+    >>> es
+    <opencore.utility.email_sender.EmailSender object at ...>
+    >>> mh = getToolByName(portal, 'MailHost')
+    >>> mh
+    <opencore.testing.layer.MailHostMock object at ...>
+
+Check converting to email addresses
+    >>> es._to_email_address('m1')
+    'notreal1@example.com'
+    >>> es._to_email_address('fooey@example.com')
+    'fooey@example.com'
+    >>> es._to_email_address('notreal1@example.com')
+    'notreal1@example.com'
+
+Check translation machinery::
+    >>> from zope.i18nmessageid import Message
+    >>> msg = Message("I am a ${adj} message", mapping=dict(adj="lovely"))
+    >>> es._translate(msg)
+    u'I am a lovely message'
+
+Test the mail message construction, which is a horrible horrible
+horrible hack::
+    >>> es.constructMailMessage("membership_requested", project_title="p1", member_id="lammy", team_manage_url="bloop")
+    u'Subject:...p1...lammy...bloop...'
+
+Send some emails, and check that they went out
+    >>> es.sendMail(
+    ...     'lammy@example.com',
+    ...     msg=u'unicode, hi there from ${pal}',
+    ...     subject='testing',
+    ...     mfrom='hammy@example.com',
+    ...     pal='the hamster',
+    ...     unused='whatever',
+    ...     andsomething=u'unused unicode',
+    ...     )
+    >>> len(mh.messages)
+    1
+    >>> es.sendMail(
+    ...     'bammy@example.com',
+    ...     msg='hi there, no unicode',
+    ...     subject='more testing',
+    ...     mfrom='hammy@example.com',
+    ...     )
+    >>> len(mh.messages)
+    2

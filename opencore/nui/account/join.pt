@@ -113,7 +113,7 @@
                 
                 <tr>
                   <th class="oc-form-label">
-                    <label i18n:translate="join_conf_password_label" for="confirm_password">Confirm passsword</label>
+                    <label i18n:translate="join_conf_password_label" for="confirm_password">Confirm password</label>
                   </th>
                   <td class="oc-form-value">
                     <input type="password" name="confirm_password" id="confirm_password" class="oc-js-liveValidate"/>  
@@ -136,7 +136,7 @@
                   <th class="oc-form-label">
                   </th>
                   <td class="oc-form-value">
-                    <input type="submit" name="task|join" i18n:attributes="value join_button" value="Join" />
+                    <input type="submit" class="oc-button oc-chooseThis" name="task|join" i18n:attributes="value join_button" value="Join" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">

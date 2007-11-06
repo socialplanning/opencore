@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2007-11-05 15:52+0000\n"
+"POT-Creation-Date: 2007-11-05 17:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -120,12 +120,20 @@ msgid "archive_view_by"
 msgstr ""
 
 #. Default: "You requested a password reminder for your ${portal_title} account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}"
+<<<<<<< .working
 #: ./opencore/nui/account/accountview.py:481
+=======
+#: ./opencore/nui/account/accountview.py:483
+>>>>>>> .merge-right.r10549
 msgid "email_forgot_password"
 msgstr ""
 
 #. Default: "%s - Password reminder"
+<<<<<<< .working
 #: ./opencore/nui/account/accountview.py:486
+=======
+#: ./opencore/nui/account/accountview.py:488
+>>>>>>> .merge-right.r10549
 msgid "email_forgot_password_subject"
 msgstr ""
 
@@ -179,8 +187,13 @@ msgstr ""
 msgid "email_to_pending_user"
 msgstr ""
 
+<<<<<<< .working
 #. Default: "Welcome to %s! - Confirm your email"
 #: ./opencore/nui/account/accountview.py:129
+=======
+#. Default: "Welcome to ${portal_title}! - Please confirm your email address"
+#: ./opencore/nui/account/accountview.py:130
+>>>>>>> .merge-right.r10549
 msgid "email_to_pending_user_subject"
 msgstr ""
 
@@ -835,7 +848,11 @@ msgid "new_topic_view_subject"
 msgstr ""
 
 #. Default: "Please enter a password"
+<<<<<<< .working
 #: ./opencore/nui/account/accountview.py:285
+=======
+#: ./opencore/nui/account/accountview.py:287
+>>>>>>> .merge-right.r10549
 msgid "no_password"
 msgstr ""
 
@@ -890,12 +907,20 @@ msgid "project_created"
 msgstr ""
 
 #. Default: "Your account has not yet been activated. An email was sent to ${user} from ${email_from_address} containing a link to activate your account."
+<<<<<<< .working
 #: ./opencore/nui/account/accountview.py:160
+=======
+#: ./opencore/nui/account/accountview.py:162
+>>>>>>> .merge-right.r10549
 msgid "psm_account_not_activated"
 msgstr ""
 
 #. Default: "Please check your username and password. If you still have trouble, you can <a href=\"forgot\">retrieve your sign in information</a>."
+<<<<<<< .working
 #: ./opencore/nui/account/accountview.py:195
+=======
+#: ./opencore/nui/account/accountview.py:197
+>>>>>>> .merge-right.r10549
 msgid "psm_check_username_password"
 msgstr ""
 
@@ -905,12 +930,20 @@ msgid "psm_correct_errors_below"
 msgstr ""
 
 #. Default: "Denied -- bad key"
+<<<<<<< .working
 #: ./opencore/nui/account/accountview.py:393
+=======
+#: ./opencore/nui/account/accountview.py:395
+>>>>>>> .merge-right.r10549
 msgid "psm_denied"
 msgstr ""
 
 #. Default: "Please enter your username or email address."
+<<<<<<< .working
 #: ./opencore/nui/account/accountview.py:496
+=======
+#: ./opencore/nui/account/accountview.py:498
+>>>>>>> .merge-right.r10549
 msgid "psm_enter_username_email"
 msgstr ""
 
@@ -925,12 +958,20 @@ msgid "psm_featurelet_removed"
 msgstr ""
 
 #. Default: "Your username is ${user_id}.  If you would like to reset your password, please check your email account for further instructions."
+<<<<<<< .working
 #: ./opencore/nui/account/accountview.py:444
+=======
+#: ./opencore/nui/account/accountview.py:446
+>>>>>>> .merge-right.r10549
 msgid "psm_forgot_login"
 msgstr ""
 
 #. Default: "A new activation email has been sent to ${email} from ${mfrom}. Please follow the link in the email to activate this account."
+<<<<<<< .working
 #: ./opencore/nui/account/accountview.py:604
+=======
+#: ./opencore/nui/account/accountview.py:606
+>>>>>>> .merge-right.r10549
 msgid "psm_new_activation"
 msgstr ""
 
@@ -940,27 +981,47 @@ msgid "psm_no_items_to_delete"
 msgstr ""
 
 #. Default: "You have tried to activate an account that is not pending confirmation. Please sign in normally."
+<<<<<<< .working
 #: ./opencore/nui/account/accountview.py:381
+=======
+#: ./opencore/nui/account/accountview.py:383
+>>>>>>> .merge-right.r10549
 msgid "psm_not_pending_account"
 msgstr ""
 
 #. Default: "You do not have sufficient permissions."
+<<<<<<< .working
 #: ./opencore/nui/account/accountview.py:259
+=======
+#: ./opencore/nui/account/accountview.py:261
+>>>>>>> .merge-right.r10549
 msgid "psm_not_sufficient_perms"
 msgstr ""
 
 #. Default: "Your password reset request has expired. You can <a href=\"login\">sign in</a> again using your old username and password or <a href=\"forgot\">request a new password</a> again."
+<<<<<<< .working
 #: ./opencore/nui/account/accountview.py:540
+=======
+#: ./opencore/nui/account/accountview.py:542
+>>>>>>> .merge-right.r10549
 msgid "psm_pass_reset_expired"
 msgstr ""
 
 #. Default: "Password reset attempt failed. Did you mistype your username or password?"
+<<<<<<< .working
 #: ./opencore/nui/account/accountview.py:536
+=======
+#: ./opencore/nui/account/accountview.py:538
+>>>>>>> .merge-right.r10549
 msgid "psm_pass_reset_fail"
 msgstr ""
 
 #. Default: "Welcome! Your password has been reset, and you are now signed in."
+<<<<<<< .working
 #: ./opencore/nui/account/accountview.py:550
+=======
+#: ./opencore/nui/account/accountview.py:552
+>>>>>>> .merge-right.r10549
 msgid "psm_password_reset"
 msgstr ""
 
@@ -990,17 +1051,29 @@ msgid "psm_security_changed"
 msgstr ""
 
 #. Default: "You have signed out."
+<<<<<<< .working
 #: ./opencore/nui/account/accountview.py:234
+=======
+#: ./opencore/nui/account/accountview.py:236
+>>>>>>> .merge-right.r10549
 msgid "psm_signed_out"
 msgstr ""
 
 #. Default: "Welcome! You have signed in."
+<<<<<<< .working
 #: ./opencore/nui/account/accountview.py:173
+=======
+#: ./opencore/nui/account/accountview.py:175
+>>>>>>> .merge-right.r10549
 msgid "psm_signin_welcome"
 msgstr ""
 
 #. Default: "Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account."
+<<<<<<< .working
 #: ./opencore/nui/account/accountview.py:320
+=======
+#: ./opencore/nui/account/accountview.py:322
+>>>>>>> .merge-right.r10549
 msgid "psm_thankyou_for_joining"
 msgstr ""
 

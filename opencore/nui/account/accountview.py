@@ -120,11 +120,15 @@ Cheers,
 The ${portal_title} Team
 ${portal_url}""", mapping={u'user_name':user_name,
                            u'url':url,
-                           u'portal_url':self.siteURL})
+                           u'portal_url':self.siteURL,
+                           u'portal_title':self.portal_title()})
         
         sender = EmailSender(self, secureSend=True)
+
         subject = _(u'email_to_pending_user_subject',
-                    u'Welcome to %s! - Confirm your email' % self.portal_title())
+                    u'Welcome to ${portal_title}! - Please confirm your email address',
+                    mapping={u'portal_title':self.portal_title()})
+
         sender.sendEmail(mto=email,
                          msg=message,
                          subject=subject)
@@ -314,7 +318,7 @@ class JoinView(AccountView, OctopoLite):
                 self._sendmail_to_pendinguser(user_name=mem_name,
                                               email=self.request.get('email'),
                                               url=url)
-
+            
                 self.addPortalStatusMessage(_(u'psm_thankyou_for_joining',
                                               u'Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account.',
                                               mapping={u'mem_id':mem_id,
@@ -415,6 +419,17 @@ class InitialLogin(BaseView):
         # convert email invites into mship objects
         email_invites = getUtility(IEmailInvites)
         email_invites.convertInvitesForMember(member)
+
+        # convert pending mship requests into real mship requests
+        from zope.component import getMultiAdapter
+        from opencore.interfaces import IPendingRequests
+        from opencore.interfaces.pending_requests import IRequestMembership
+        mship_bucket = getMultiAdapter((member, self.portal.projects), IPendingRequests)
+        converted = mship_bucket.convertRequests()
+        for proj_title in converted:
+            self.add_status_message(_(u'team_proj_join_request_sent',
+                                      u'Your request to join "${project_title}" has been sent to the project administrator(s).',
+                                      mapping={'project_title':proj_title}))
 
         baseurl = self.memfolder_url()
         # Go to the user's Profile Page in Edit Mode
