@@ -569,7 +569,6 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         return True
 
     @formhandler.action('invite-member')
-    @formhandler.action('invite-member')
     def invite_member(self, targets, fields=None):
         """
         Sends an invitation notice, and creates a pending membership
