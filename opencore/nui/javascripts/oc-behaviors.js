@@ -286,6 +286,7 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 
     cleanedResponseText = cleanedResponseText.replace(/&lt;/g, "<");
     cleanedResponseText = cleanedResponseText.replace(/&gt;/g, ">");
+    cleanedResponseText = cleanedResponseText.replace(/&amp;/g, "&");
     OC.debug(cleanedResponseText);
     
     try {
