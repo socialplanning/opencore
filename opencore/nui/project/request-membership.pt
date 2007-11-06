@@ -19,16 +19,8 @@
                   <tbody>
                     <tr>
                       <th class="oc-form-label" scope="row"><label i18n:translate="login_snippet_username_label" for="__ac_name">Username </label></th>
-                      <td class="oc-form-value"
-                        tal:define="url request/ACTUAL_URL;
-                                    user_focus python: url.endswith('/login') or '/require_login' in url">
-                        <tal:focused_username
-                          condition="user_focus">
-                          <input type="text" size="15" tabindex="0" name="__ac_name" value="" id="__ac_name" class="oc-autoFocus" />
-                        </tal:focused_username>
-                        <tal:unfocused_username condition="not: user_focus">
-                          <input type="text" size="15" tabindex="0" name="__ac_name" value="" id="__ac_name" />
-                        </tal:unfocused_username>
+                      <td class="oc-form-value">
+                        <input type="text" size="15" tabindex="0" name="__ac_name" value="" id="__ac_name" />
                       </td>
                       <td class="oc-form-help">
                         <span class="oc-form-context"></span>
@@ -63,7 +55,7 @@
                       <label i18n:translate="join_username_label" for="id">Username</label>
                     </th>
                     <td class="oc-form-value">
-                      <input type="text" name="id" id="id" class="oc-autoFocus"
+                      <input type="text" name="id" id="id"
                              tal:attributes="value request/id | nothing" />
                     </td>
                     <td class="oc-form-help">
@@ -157,8 +149,7 @@
                         class="oc-autoFocus"
                         name="request-message"
                         id="request-message"
-                        tal:attributes="value request/request-message | nothing"
-                        ></textarea>
+                        ><tal:dummy replace="request/request-message | nothing"/></textarea>
           </fieldset>
           <fieldset class="oc-actions">
             <input type="submit" name="task|request-membership" value="Join" class="oc-button oc-chooseThis" />
