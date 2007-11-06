@@ -1,13 +1,15 @@
-from zope.interface import implements
-from zope.app.annotation import IAnnotations
-
-import DateTime
 from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
-
 from Products.CMFCore.utils import getToolByName
-
 from opencore.nui.project.interfaces import IEmailInvites
+from topp.utils.persistence import OOBTreeBag, KeyedMap, bbb_keymap
+from zope.app.annotation import IAnnotations
+from zope.interface import implements
+import DateTime
+
+from opencore.auth.SignedCookieAuthHelper import get_secret
+
+secret = get_secret()
 
 class EmailInvites(SimpleItem):
     """
@@ -21,11 +23,18 @@ class EmailInvites(SimpleItem):
         self._by_address = OOBTree()
         self._by_project = OOBTree()
 
+    @bbb_keymap(wrap=True, secret=secret) # put a contextual here eventually
     def getInvitesByEmailAddress(self, address):
-        return self._by_address.get(address, OOBTree())
+        by_addy = self._by_address.get(address)
+        if by_addy is not None:
+            return by_addy
+        return KeyedMap(key=((address,), secret))
 
     def getInvitesByProject(self, proj_id):
-        return self._by_project.get(proj_id, OOBTree())
+        by_proj = self._by_project.get(proj_id)
+        if by_proj is not None:
+            return by_proj  
+        return OOBTree()
 
     def addInvitation(self, address, proj_id):
         now = DateTime.now()
@@ -38,6 +47,7 @@ class EmailInvites(SimpleItem):
         if address not in by_project:
             by_project[address] = now
             self._by_project[proj_id] = by_project
+        return by_address.key
 
     def removeInvitation(self, address, proj_id):
         by_email = self.getInvitesByEmailAddress(address)
@@ -55,23 +65,33 @@ class EmailInvites(SimpleItem):
         for proj_id in by_email:
             self.removeInvitation(address, proj_id)
 
+    def convertInviteForMember(self, member, address, proj_id):
+        tmtool = getToolByName(self, 'portal_teams')
+        wftool = getToolByName(self, 'portal_workflow')
+        tm = tmtool.getTeamById(proj_id)
+
+        if tm is not None:
+            mship = tm._createMembership(member)
+            # bad touch, we have to make it look like someone
+            # other than the actual user made the request, so
+            # it'll be treated as an invitation :-(
+            wf_id = wftool.getChainFor(mship)[0]
+            wf_hist = mship.workflow_history.get(wf_id)
+            wf_status = wf_hist[-1]
+            wf_status['actor'] = 'admin'
+            mship.from_email_invite = True
+            mship.reindexObject()
+        self.removeInvitation(address, proj_id)
+        return mship
+
     def convertInvitesForMember(self, member):
         address = member.getEmail()
         invites = self.getInvitesByEmailAddress(address)
-        tmtool = getToolByName(self, 'portal_teams')
-        wftool = getToolByName(self, 'portal_workflow')
-        for proj_id in invites:
-            tm = tmtool.getTeamById(proj_id)
-            if tm is not None:
-                mship = tm._createMembership(member)
-                # bad touch, we have to make it look like someone
-                # other than the actual user made the request, so
-                # it'll be treated as an invitation :-(
-                wf_id = wftool.getChainFor(mship)[0]
-                wf_hist = mship.workflow_history.get(wf_id)
-                wf_status = wf_hist[-1]
-                wf_status['actor'] = 'admin'
-                mship.from_email_invite = True
-                mship.reindexObject()
+        mships = [self.convertInviteForMember(member, address, proj_id) for proj_id in invites]
+        return mships
                 
-            self.removeInvitation(address, proj_id)
+
+
+
+
+    

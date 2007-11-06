@@ -1,4 +1,6 @@
 import os, sys, unittest
+from opencore.nui.account import accountview
+accountview.turn_confirmation_on()
 from zope.testing import doctest
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase
