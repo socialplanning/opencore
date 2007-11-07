@@ -1,7 +1,7 @@
 from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
 from Products.CMFCore.utils import getToolByName
-from opencore.nui.project.interfaces import IEmailInvites
+from opencore.nui.project import utils
 from topp.utils.persistence import OOBTreeBag, KeyedMap
 from opencore.bbb import bbb_keymap
 from zope.app.annotation import IAnnotations
@@ -28,7 +28,7 @@ class EmailInvites(SimpleItem):
         by_addy = self._by_address.get(address)
         if by_addy is not None:
             return by_addy
-        key = hash(uuid.uuid4())
+        key = utils.make_key()
         return KeyedMap(key=key)
 
     def getInvitesByProject(self, proj_id):
@@ -96,6 +96,5 @@ class EmailInvites(SimpleItem):
         mships = [self.convertInviteForMember(member, address, proj_id) for proj_id in invites]
         return mships
                 
-    @classmethod
-    def make_key(cls):
-        return uuid.uuid4().bytes.encode('base64')[:-3]
+
+
