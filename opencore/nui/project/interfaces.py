@@ -50,6 +50,8 @@ class IEmailInvites(Interface):
 
 
 class IFeedItem(Interface):
+    # XXX any reason these are methods and not using zope.schema?
+    # XXX also, where is this used?
 
     def title():
         """title of the item"""
