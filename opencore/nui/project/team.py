@@ -190,9 +190,8 @@ ${portal_url}""", mapping={u'url':url,
         if self.loggedin: 
             # PAS will kick in, request will be "logged in" if form's login snippet is filled out correctly
             # so the user might be really logged in, or might have provided valid credentials w/request
-            # future: from opencore.interfaces.pending_requests import IRequestMembership
-            # future: joined = IRequestMembership(self.team).join()
-            joined = self.team.join()
+            from opencore.interfaces.pending_requests import IRequestMembership
+            joined = IRequestMembership(self.team).join()
             self._login() # conditionally set cookie if valid credentials were provided
         elif id_: # trying to create a member
             # create member
@@ -222,9 +221,6 @@ ${portal_url}""", mapping={u'url':url,
             self.template = None # don't render the form before the redirect
             self.redirect(self.context.absolute_url())
             return
-
-        # future: XXX should be handled by the IRequestMembership adapter now
-        self._send_request_email()
 
         self.add_status_message(_(u'team_proj_join_request_sent',
                                   u'Your request to join "${project_title}" has been sent to the project administrator(s).',
