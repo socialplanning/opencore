@@ -96,8 +96,6 @@ class EmailInvites(SimpleItem):
         mships = [self.convertInviteForMember(member, address, proj_id) for proj_id in invites]
         return mships
                 
-
-
-
-
-    
+    @classmethod
+    def make_key(cls):
+        return uuid.uuid4().bytes.encode('base64')[:-3]

@@ -1,4 +1,5 @@
 from topp.utils.persistence import KeyedMap
+from opencore.nui.projects.email_invite import EmailInvites 
 import uuid
 
 
@@ -9,7 +10,7 @@ def bbb_keymap(wrap=True):
             keymap = func(*args, **kwargs)
             if not isinstance(keymap, KeyedMap):
                 address = args[1]
-                key = hash(uuid.uuid4())
+                key = EmailInvites.make_key()
                 return KeyedMap(btree=keymap, key=key)
             return keymap
         return wrap
