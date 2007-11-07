@@ -144,7 +144,9 @@ class InviteJoinView(JoinView, accountview.ConfirmAccountView):
 
         # do all the member making stuff
         member = super(InviteJoinView, self)._create_member(targets, fields, confirmed=True)
-        if isinstance(member, dict): # @ some wierd octo shizzle?
+        if isinstance(member, dict):
+            # @ some wierd octo shizzle?
+            # no.. create method returns an error dict on failure -egj
             return member
         self.confirm(member)
         self.login(member.getId())
