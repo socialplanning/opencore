@@ -1,6 +1,5 @@
-<!-- XXX project logo is using the member portrait classes for now -->
 <tal:macro metal:define-macro="logo">
-  <div class="oc-avatar" id="oc-profile-avatar">
+  <div class="oc-project-logo" id="oc-project-logo">
     <img tal:attributes="src view/mangled_logo_url" />
     <fieldset
       tal:define="expand python:request.get('field') == 'logo';
@@ -16,15 +15,15 @@
       </legend>
       <div class="oc-js-expander-content oc-expander-content" style="border: 1px solid orange; background: #fffff9;">
         <input type="file" 
-          tal:define="focus python:request.get('field') == 'portrait';
+          tal:define="focus python:request.get('field') == 'logo';
           input_class python:'oc-autoFocus';
           default_class python:''" 
           tal:attributes="class python:focus and input_class or default_class"
-          name="portrait" size="14" /><br />
-        <input type="submit" name="task|oc-profile-avatar|uploadAndUpdate"
+          name="logo" size="14" /><br />
+        <input type="submit" name="task|oc-project-logo|uploadAndUpdate"
           class="oc-js-actionButton" value="Update" />
         <tal:haslogo condition="python:view.get_proj.getLogo() != ''">or
-          <input type="submit" name="task|oc-profile-avatar|remove"
+          <input type="submit" name="task|oc-project-logo|remove"
             class="oc-js-actionButton" value="Remove" />
         </tal:haslogo>
         or <a href="#" class="oc-js-expander_close">Cancel</a>

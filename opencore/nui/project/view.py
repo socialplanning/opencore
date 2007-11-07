@@ -399,13 +399,14 @@ class ProjectPreferencesView(ProjectBaseView):
     @action("uploadAndUpdate")
     def change_logo(self, target=None, fields=None):
         logo = self.request.form.get("logo")
+        #import pdb; pdb.set_trace()
 
         if not self.check_logo(logo):
             return
 
         self.get_proj.reindexObject('logo')
         return {
-            'oc-profile-avatar' : {
+            'oc-project-logo' : {
                 'html': self.logo_snippet(),
                 'action': 'replace',
                 'effects': 'highlight'
@@ -417,10 +418,10 @@ class ProjectPreferencesView(ProjectBaseView):
     @action("remove")
     def remove_logo(self, target=None, fields=None):
         proj = self.get_proj
-        proj.setLogo("DELETE_IMAGE")  # AT API nonsense
+        proj.setLogo("DELETE_IMAGE")  # blame the AT API
         proj.reindexObject('logo')
         return {
-                'oc-profile-avatar' : {
+                'oc-project-logo' : {
                     'html': self.logo_snippet(),
                     'action': 'replace',
                     'effects': 'highlight'
@@ -440,7 +441,9 @@ class ProjectPreferencesView(ProjectBaseView):
             self.add_status_message(msgid='correct_errors_below')
             return
 
-        allowed_params = set(['__initialize_project__', 'update', 'set_flets', 'title', 'description', 'workflow_policy', 'featurelets'])
+        allowed_params = set(['__initialize_project__', 'update', 'set_flets',
+                              'title', 'description', 'logo', 'workflow_policy',
+                              'featurelets'])
         new_form = {}
         for k in allowed_params:
             if k in self.request.form:
@@ -449,13 +452,20 @@ class ProjectPreferencesView(ProjectBaseView):
         reader = IReadWorkflowPolicySupport(self.context)
         old_workflow_policy = reader.getCurrentPolicyId()
 
-        #store change status of flet, security, title, description
+        logo = self.request.form.get('logo')
+        if logo:
+            if not self.check_logo(logo):
+                return
+            del self.request.form['logo']
 
+        #store change status of flet, security, title, description, logo
         changed = {
             _("The title has been changed.") : self.context.title != self.request.form.get('title', self.context.title),
             _("The description has been changed.") : self.context.description != self.request.form.get('description', self.context.description),
+            #_("The project logo has been changed.") : self.get_proj.getLogo() != logo,
             _("The security policy has been changed.") : old_workflow_policy != self.request.form['workflow_policy'],            
             }
+
         
         old_featurelets = set([(x['name'], x['title']) for x in get_featurelets(self.context)])
             
