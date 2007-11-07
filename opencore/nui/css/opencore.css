@@ -1219,6 +1219,11 @@ li.oc-feed-item .oc-feed-item-data.oc-actions {
   display: block;
   padding: 0.75em 0;
 }
+.oc-widget-feed .oc-options {
+  padding: 0.25em;
+  text-transform: uppercase;
+  font-weight: bold;
+}
 
 /* Invitations Widget */
 .oc-widget-invite {
