@@ -2,7 +2,7 @@ from decorator import decorator
 
 from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IWriteMembershipList
-from opencore.listen.mailinglist import addOpenMailingList
+from opencore.listen.mailinglist import OpenMailingList
 from opencore.project.utils import get_featurelets
 
 # make sure that modification date gets updated
@@ -31,9 +31,6 @@ def listen_featurelet_installed(f, mship_obj, action):
     f(mship_obj, action)
 
 
-#XXX events handlers below are called for all lists
-# maybe we should only do this for experimental projects first
-
 @listen_featurelet_installed
 def perform_listen_action(mship, action):
     mem_id = mship.getId()
@@ -44,7 +41,8 @@ def perform_listen_action(mship, action):
     try:
         ml = portal.projects._getOb(proj_id).lists._getOb(default_list_name)
     except AttributeError:
-        print "no default project discussion list for '%s'" % proj_id
+        #XXX just raising an error if default list doesn't exist
+        raise ValueError("no default project discussion list for '%s'" % proj_id)
         return
     memlist = IWriteMembershipList(ml)
     getattr(memlist, action)(mem_id)
@@ -61,9 +59,12 @@ def listen_featurelet_installed(proj, event):
     proj_id = proj.getId()
     proj_title = proj.Title()
     ml_id = '%s-discussion' % proj_id
+
+    # XXX invokeFactory depends on the title being set in the request
     ml_title = u'%s discussion' % (proj_title)
-    lists_folder = proj.lists
-    addOpenMailingList(lists_folder, ml_id, ml_title)
+    proj.REQUEST.set('title', ml_title)
+    lists_folder = proj.lists.aq_inner
+    lists_folder.invokeFactory(OpenMailingList.portal_type, ml_id)
     ml = lists_folder._getOb(ml_id)
     memlist = IWriteMembershipList(ml)
 
@@ -80,8 +81,8 @@ def listen_featurelet_installed(proj, event):
         mem_id = mship_tool.getAuthenticatedMember().getId()
         memlist.subscribe(mem_id)
         return
-    active_state = teams.getDefaultActiveStates()
+    active_states = teams.getDefaultActiveStates()
     team_url = team.absolute_url_path()
     mships = cat(portal_type='OpenMembership', review_state=active_states)
     for mship in mships:
-        memlist.subscribe(mship.getId())
+        memlist.subscribe(mship.getId)
