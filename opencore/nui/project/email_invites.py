@@ -1,9 +1,10 @@
 from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
 from Products.CMFCore.utils import getToolByName
-from opencore.nui.project import utils
-from topp.utils.persistence import OOBTreeBag, KeyedMap
 from opencore.bbb import bbb_keymap
+from opencore.nui.project import utils
+from opencore.nui.project.interfaces import IEmailInvites
+from topp.utils.persistence import OOBTreeBag, KeyedMap
 from zope.app.annotation import IAnnotations
 from zope.interface import implements
 import DateTime
