@@ -17,29 +17,25 @@
         </tal:set_var>
 
         <!-- list of recently updated projects. XXX maybe create a macro out of this? Generic for recent content? -->
-        <div class="oc-directory">
-          <h2>Recently updated projects</h2>
-          <ul class="oc-directory-list oc-clearAfter">
-            <li tal:repeat="project view/recently_updated_projects">
-              <div class="oc-project-logo">
-                <a tal:attributes="href project/absolute_url">
-                  <img src="++resource++img/default-projlogo-thumb.gif" tal:attributes="alt project/Title; title project/Title" />
-                </a>
-              </div>
-              <div class="oc-directory-content">
-                <h3>
+        <div class="oc-widget oc-widget-feed">
+          <h2 class="oc-feed-title">Recently updated projects</h2>
+          <ul class="oc-feed-list oc-clearAfter">
+            <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recently_updated_projects">
+              <a tal:attributes="href project/absolute_url">
+                <img class="oc-project-logo" src="++resource++img/default-projlogo-thumb.gif" tal:attributes="alt project/Title; title project/Title" />
+              </a>
+              <div class="oc-feed-item-content">
+                <h3 class="oc-feed-item-title">
                   <a href="" tal:attributes="href python:view.project_url(project)" tal:content="project/Title">Project Title</a>
                 </h3>
-                <p class=" oc-discreetText" tal:define="nmembers python:view.n_project_members(project)">
+                <p class="oc-feed-item-data oc-discreetText" tal:define="nmembers python:view.n_project_members(project)">
                   <span tal:replace="nmembers">YY</span>
                   member<span tal:condition="python: nmembers != 1" tal:replace="string:s" />,
                   last updated <span tal:replace="python: view.pretty_date(project.ModificationDate)" />
                 </p>
-                <!-- FIXME
-                <p tal:define="desc project/Description">
+                <p class="oc-feed-item-description" tal:define="desc project/Description">
                   <span tal:condition="desc" tal:replace="desc" />
                 </p>
-                -->
               </div>
             </li>
           </ul>

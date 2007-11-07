@@ -330,7 +330,8 @@ dl.oc-plainList dd {
   margin: 0;
 }
 .oc-lineup-sorter,
-.oc-directory-sorter {
+.oc-directory-sorter,
+.oc-feed-sorter {
   /* float: left; */
   font-size: 10px;
   margin-bottom: 1em;
@@ -338,7 +339,9 @@ dl.oc-plainList dd {
 .oc-lineup-sorter form,
 .oc-lineup-sorter select,
 .oc-directory-sorter form,
-.oc-directory-sorter select {
+.oc-directory-sorter select,
+.oc-feed-sorter form,
+.oc-feed-sorter select {
   display: inline;
   font-size: 100%;
 }
@@ -1189,12 +1192,7 @@ li.oc-feed-item {
 .oc-feed-list li.oc-feed-item:last-child {
   border: none;
 }
-li.oc-feed-item .oc-avatar {
-  width: 80px;
-  float: left;
-  clear: none;
-  margin-right: 1em;
-}
+li.oc-feed-item .oc-avatar,
 li.oc-feed-item .oc-project-logo {
   width: 80px;
   float: left;
@@ -1204,7 +1202,8 @@ li.oc-feed-item .oc-project-logo {
 li.oc-feed-item .oc-feed-item-content {
   float: left;
   clear: none;
-  width: 80%;
+  padding: 0.75em 0;
+  width: 67%;
 }
 li.oc-feed-item .oc-feed-item-title,
 li.oc-feed-item .oc-feed-item-data,
