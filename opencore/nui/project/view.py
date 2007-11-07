@@ -372,16 +372,17 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
 
 
 
-class ProjectPreferencesView(ProjectBaseView):
+class ProjectPreferencesView(ProjectBaseView, OctopoLite):
 
+    template = ZopeTwoPageTemplateFile('preferences.pt')
     logo_snippet = ZopeTwoPageTemplateFile('logo-snippet.pt')
         
     def mangled_logo_url(self):
         """When a project logo is changed, the logo_url remains the same.
         This method appends a timestamp to logo_url to trick the browser into
         fetching the new image instead of using the cached one which could be --
-        and always will be in the ajaxy-change-logo case -- out of date.
-        P.S. This is an ugly hack."""
+        out of date (and always will be in the ajaxy case).
+        """
         logo = self.get_proj.getLogo()
         if logo:
             timestamp = str(DateTime()).replace(' ', '_')
