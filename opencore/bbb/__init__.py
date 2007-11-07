@@ -1,5 +1,5 @@
 from topp.utils.persistence import KeyedMap
-from opencore.nui.project.email_invite import EmailInvites 
+from opencore.nui.project.email_invites import EmailInvites 
 import uuid
 
 
