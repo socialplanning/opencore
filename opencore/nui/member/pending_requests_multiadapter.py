@@ -9,7 +9,7 @@ from Products.ATContentTypes.interface.folder import IATBTreeFolder
 from opencore.interfaces.pending_requests import IPendingRequests
 from opencore.interfaces.pending_requests import IRequestMembership
 
-annot_key = 'opencore.member.pending_requests' #planning for future
+annot_key = 'opencore.membership.pending_requests' #planning for future
 
 # XXX todo we have to store the request msg as well as the proj id!
 class PendingRequests(object):
