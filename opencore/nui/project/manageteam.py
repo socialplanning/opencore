@@ -1,7 +1,28 @@
-from opencore.nui.project.team import * # star imports are for panzies
-from opencore.nui.base import view
+#from opencore.nui.project.team import * # star imports are for panzies
+from opencore.configuration import DEFAULT_ROLES
+from Products.CMFCore.utils import getToolByName
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from Products.MailHost.MailHost import MailHostError
+from Products.validation.validators.BaseValidators import EMAIL_RE
+from opencore.nui.main.search import searchForPerson
+from opencore.content.membership import OpenMembership
+from opencore.interfaces.event import JoinedProjectEvent
+from opencore.interfaces.event import LeftProjectEvent
+from opencore.nui import formhandler
 from opencore.nui.account.accountview import email_confirmation
+from opencore.nui.base import _
+from opencore.nui.base import view
+from opencore.nui.email_sender import EmailSender
+from opencore.nui.member.interfaces import ITransientMessage
+from opencore.nui.project.interfaces import IEmailInvites
+from opencore.nui.project.team import TeamRelatedView
+from plone.memoize.view import memoize as req_memoize
+from opencore.nui.project import mship_messages
+from zope.component import getUtility
+from zope.event import notify
 import logging
+import re
+import urllib
 
 log = logging.getLogger('opencore.project.manageteam')
 
@@ -20,11 +41,10 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     mship_type = OpenMembership.portal_type
 
     # XXX REFACTOR: role_map is repeated in nui.member.view.MemberAccountView
-    # XXX could intefere with mbship tool
+    # XXX could intefere with mbship tool b/c of aquisition
     rolemap = {'ProjectAdmin': 'administrator',
                'ProjectMember': 'member',
                }
-
 
     listedmap = {'public': 'yes',
                  'private': 'no',
