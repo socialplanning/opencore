@@ -1,0 +1,13 @@
+====================
+ Join by Invitation
+====================
+
+in response to `http://trac.openplans.org/openplans/ticket/1621`
+
+This piece of architecture streamlines joining for users that have
+received an invitation via email to join a project.  The invitation's
+link points to a special view on the project, 'invite-join' along with
+a unique key and the users email.  The view presents a join form with
+a fixed email value and check boxes for any project w/ an invite for
+the aforementioned address.
+
