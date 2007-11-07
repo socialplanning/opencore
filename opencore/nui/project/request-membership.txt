@@ -115,8 +115,9 @@ Stub out the send email method to raise a MailHostError
     [u'Your request to join "Project Three" has been sent to the project administrator(s).']
 
 And a message should still get sent out for whatever admins it can
+    >>> import pdb; pdb.set_trace()
     >>> len(mailhost.messages)
-    7
+    8
 
 Remember to restore the EmailSender method
     >>> EmailSender.sendEmail = EmailSender.oldSendEmail
