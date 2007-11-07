@@ -31,6 +31,7 @@ OC.liveElementKey.Element = {
 OC.liveElementKey.Class = {
     "oc-js-autoSelect"       : "AutoSelect",
     "oc-js-expander"         : "Expander",
+    "oc-js-formClear"        : "FormClear",
     "oc-widget-multiSearch"  : "SearchLinks",
     'oc-dropdown-container'  : "DropDown",
     "oc-autoFocus"           : "AutoFocus",
@@ -1323,6 +1324,18 @@ OC.Expander = function(extEl) {
     
     return this;
 };
+
+
+/*
+  #
+  # Clear all inputs of the form this element appears in
+  #
+*/
+OC.FormClear = function(extEl) {
+    // TODO
+    OC.debug("in OC.FormClear")
+};
+
 
 /*
   #

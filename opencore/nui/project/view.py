@@ -389,18 +389,10 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             return '%s?%s' % (logo.absolute_url(), timestamp)
         return self.defaultProjLogoURL
 
-    def check_logo(self, logo):
-        try:
-            self.get_proj.setLogo(logo)
-        except ValueError: # must have tried to upload an unsupported filetype
-            self.addPortalStatusMessage('Please choose an image in gif, jpeg, png, or bmp format.')
-            return False
-        return True
 
     @action("uploadAndUpdate")
     def change_logo(self, target=None, fields=None):
         logo = self.request.form.get("logo")
-        #import pdb; pdb.set_trace()
 
         if not self.check_logo(logo):
             return
@@ -414,6 +406,13 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                 }
             }
 
+    def check_logo(self, logo):
+        try:
+            self.get_proj.setLogo(logo)
+        except ValueError: # must have tried to upload an unsupported filetype
+            self.addPortalStatusMessage('Please choose an image in gif, jpeg, png, or bmp format.')
+            return False
+        return True
 
 
     @action("remove")
@@ -454,16 +453,18 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         old_workflow_policy = reader.getCurrentPolicyId()
 
         logo = self.request.form.get('logo')
+        logochanged = False
         if logo:
             if not self.check_logo(logo):
                 return
+            logochanged = True
             del self.request.form['logo']
 
         #store change status of flet, security, title, description, logo
         changed = {
             _("The title has been changed.") : self.context.title != self.request.form.get('title', self.context.title),
             _("The description has been changed.") : self.context.description != self.request.form.get('description', self.context.description),
-            #_("The project logo has been changed.") : self.get_proj.getLogo() != logo,
+            _("The project logo has been changed.") : logochanged,
             _("The security policy has been changed.") : old_workflow_policy != self.request.form['workflow_policy'],            
             }
 
@@ -514,6 +515,35 @@ class ProjectAddView(BaseView, OctopoLite):
                 }
         return errors
 
+
+#    logo_snippet = ZopeTwoPageTemplateFile('logo-snippet.pt')
+#    @action("uploadAndUpdate")
+#    def change_logo(self, target=None, fields=None):
+#        logo = self.request.form.get("logo")
+#
+#        if not self.check_logo(logo):
+#            return
+#
+#        self.get_proj.reindexObject('logo')
+#        return {
+#            'oc-project-logo' : {
+#                'html': self.logo_snippet(),
+#                'action': 'replace',
+#                'effects': 'highlight'
+#                }
+#            }
+
+
+    def check_logo(self, project, logo):
+        try:
+            project.setLogo(logo)
+        except ValueError: # must have tried to upload an unsupported filetype
+            self.addPortalStatusMessage('Please choose an image in gif, jpeg, png, or bmp format.')
+            return False
+        return True
+
+
+
     @action('add')
     def handle_request(self, target=None, fields=None):
         putils = getToolByName(self.context, 'plone_utils')
@@ -548,10 +578,16 @@ class ProjectAddView(BaseView, OctopoLite):
         if self.errors:
             self.add_status_message(msgid='correct_errors_below')
             return 
-
         self.context.portal_factory.doCreate(proj, id_)
         proj = self.context._getOb(id_)
         self.notify(proj)
+
+        logo = self.request.form.get('logo')
+        if logo:
+            if not self.check_logo(proj, logo):
+                return
+            del self.request.form['logo']
+
         self.template = None
         proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)
 

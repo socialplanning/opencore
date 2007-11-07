@@ -9,9 +9,8 @@
         <br />
       </div>
       <div id="oc-content-main" class="oc-content-main-fullWidth">
-        <form name="create_form" id="oc-project-create" method="post"
-	      class="enableUnloadProtection"
-              tal:attributes="action view/name">
+        <form name="create_form" id="oc-project-create" method="post" enctype="multipart/form-data"
+	            class="enableUnloadProtection" tal:attributes="action view/name">
           <input type="hidden" name="set_flets" value="1"/>
           <fieldset class="oc-boxy">
             <legend  class="oc-legend-heading oc-biggerText">Step 1: Basics</legend>
@@ -66,10 +65,11 @@
                     <label for="logo">Logo</label> 
                   </th>
                   <td class="oc-form-value">
-                    <!-- XXX project logo is using the member portrait classes for now -->
-                    <div class="oc-member-editimage">
-                      <div class="oc-avatar" id="oc-profile-avatar">
+                    <div class="oc-project-editimage">
+                      <div class="oc-project-logo" id="oc-project-logo">
+                        <!--
                         <img tal:attributes="src request/logo | view/defaultProjLogoURL" />
+                        -->
                         <fieldset
                           tal:define="expand python:request.get('field') == 'logo';
                           classes_closed python:'oc-js-expander oc-expander';
@@ -89,9 +89,12 @@
                               default_class python:''" 
                               tal:attributes="class python:focus and input_class or default_class"
                               name="logo" size="14" /><br />
-                            <input type="submit" name="task|oc-profile-avatar|uploadAndUpdate"
+                            <!--
+                            <input type="submit" name="task|oc-project-logo|uploadAndUpdate"
                               class="oc-js-actionButton" value="Update" />
-                            or <a href="#" class="oc-js-expander_close">Cancel</a>
+                            -->
+                            <!-- XXX clear the file input above when clicked (TODO: write OC.FormClear in oc-behaviors.js) -->
+                            or <a href="#" class="oc-js-expander_close oc-js-formClear">Cancel</a>
                           </div>
                         </fieldset>
                       </div>
