@@ -1,3 +1,5 @@
+import uuid
+
 class vdict(dict):
     _sortable = dict(id=None,
                      url=None,
@@ -26,3 +28,6 @@ class vdict(dict):
         if not key:
             return False
         return key
+
+def make_key():
+    return uuid.uuid4().bytes.encode('base64')[:-3]
