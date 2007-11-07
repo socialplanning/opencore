@@ -13,7 +13,6 @@ from Globals import package_home
 from zope.component import getUtility
 
 from Products.PluggableAuthService import registerMultiPlugin
-from Products.CMFCore import CMFCorePermissions
 from Products.CMFCore import utils as cmf_utils
 from Products.CMFCore.FSPageTemplate import FSPageTemplate
 from Products.CMFCore.DirectoryView import registerDirectory

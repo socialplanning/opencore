@@ -1,5 +1,5 @@
 from Testing import ZopeTestCase
-from zope.app.tests.placelesssetup import setUp, tearDown
+from zope.app.testing.placelesssetup import setUp, tearDown
 from Products.Five import zcml
 from Products.OpenPlans.utils import parseDepends, doc_file
 import Products.Five

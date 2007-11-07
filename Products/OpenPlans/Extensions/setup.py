@@ -4,7 +4,6 @@ only need to happen occasionally
 """
 from logging import getLogger
 
-from Products.CMFCore import CMFCorePermissions
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.setup.SetupBase import SetupWidget
 from Products.CMFPlone import MigrationTool
