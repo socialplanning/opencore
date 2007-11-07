@@ -1,4 +1,3 @@
-#from opencore.nui.project.team import * # star imports are for panzies
 from opencore.configuration import DEFAULT_ROLES
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
