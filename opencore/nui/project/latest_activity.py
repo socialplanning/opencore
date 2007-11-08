@@ -99,7 +99,7 @@ class LatestActivityView(ProjectContentsView):
     def feeds(self):
         feeds = []
         if self.has_blog:
-            self.request['uri'] = ''
+            self.request['uri'] = 'http://www.nycstreets.org/projects/uws/blog/feed/'
             blogfeed = self.context.unrestrictedTraverse('feedlist')
         feeds.extend( [ self.snippet(feed) for feed in self.feed_types ] )
         return feeds
