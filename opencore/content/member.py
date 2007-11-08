@@ -398,8 +398,7 @@ class OpenMember(FolderishMember):
         if not mbtool.case_sensitive_auth:
             username = username.lower()
         if login == username:
-            # we ARE the right member, block remote auth
-            credentials['opencore_auth_match'] = True
+            # we're the right member object
             if hasher.validate(hashed, password):
                 # AND the password was right
                 return True
