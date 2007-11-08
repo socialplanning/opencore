@@ -127,6 +127,9 @@ Finally, it processes the invites::
     ['ProjectMember']
 
 
-# do Pending user behavior::
+Pending Users
+=============
 
     >>> 
+
+# @@ could use some edge case and error case testing in general
