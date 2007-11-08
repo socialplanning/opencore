@@ -9,9 +9,8 @@
         <p class="oc-headingContext">Each project is a toolbox to help you get things done. Using your project you can team up with others, sketch out your plans, and keep track of your progress.</p>
       </div>
       <div id="oc-content-main" class="oc-content-main-fullWidth">
-        <form name="create_form" id="oc-project-create" method="post"
-        class="enableUnloadProtection"
-              tal:attributes="action view/name">
+        <form name="create_form" id="oc-project-create" method="post" enctype="multipart/form-data"
+	            class="enableUnloadProtection" tal:attributes="action view/name">
           <input type="hidden" name="set_flets" value="1"/>
           <fieldset class="oc-boxy">
             <legend i18n:translate="" class="oc-legend-heading oc-biggerText">Step 1: Basics</legend>
@@ -59,6 +58,15 @@
                     <span class="oc-form-context"></span>
                     <span id="oc-description-validator" class="oc-form-validator"></span>
                     <span id="oc-description-error" class="oc-form-error" tal:content="view/errors/description | nothing" />
+                  </td>
+                </tr>
+                <tr class="oc-form-row">
+                  <th class="oc-form-label" scope="row">
+                    <label for="logo">Image or logo</label> 
+                  </th>
+                  <td class="oc-form-value">
+                    <input type="file" name="logo" id="logo" size="14" />
+                    <a href="#" class="oc-js-expander_close oc-js-fieldClear" oc:target="logo">Clear</a>
                   </td>
                 </tr>
               </tbody>

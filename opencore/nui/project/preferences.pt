@@ -22,7 +22,7 @@
         </div>
         <div id="oc-content-main" class="oc-content-main-fullWidth">
           <form name="prefs_form" method="post" class="enableUnloadProtection"
-            tal:attributes="action view/name">
+            tal:attributes="action view/name" enctype="multipart/form-data">
             <input type="hidden" name="set_flets" value="1"/>
             <fieldset class="oc-boxy">
               <legend class="oc-legend-heading oc-biggerText">Basics</legend>
@@ -63,6 +63,16 @@
                     <td class="oc-form-help">
                       <span class="oc-form-context"></span>
                       <span id="oc-description-validator" class="oc-form-validator"></span>
+                    </td>
+                  </tr>
+                  <tr class="oc-form-row">
+                    <th class="oc-form-label" scope="row">
+                      <label for="logo">Image or logo</label> 
+                    </th>
+                    <td class="oc-form-value">
+                      <div class="oc-project-editimage">
+                        <div metal:use-macro="view/logo_snippet/macros/logo" />
+                      </div>
                     </td>
                   </tr>
                 </tbody>

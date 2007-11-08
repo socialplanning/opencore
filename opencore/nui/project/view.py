@@ -30,7 +30,10 @@ from opencore.nui.project.utils import vdict
 from opencore.nui.project.interfaces import IHomePage
 from opencore.nui.wiki.add import get_view_names
 
+from DateTime import DateTime
+
 _marker = object()
+
 
 
 class ProjectBaseView(BaseView):
@@ -366,8 +369,64 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
         return snippets
 
 
-class ProjectPreferencesView(ProjectBaseView):
+
+class ProjectPreferencesView(ProjectBaseView, OctopoLite):
+
+    template = ZopeTwoPageTemplateFile('preferences.pt')
+    logo_snippet = ZopeTwoPageTemplateFile('logo-snippet.pt')
         
+    def mangled_logo_url(self):
+        """When a project logo is changed, the logo_url remains the same.
+        This method appends a timestamp to logo_url to trick the browser into
+        fetching the new image instead of using the cached one which could be --
+        out of date (and always will be in the ajaxy case).
+        """
+        logo = self.context.getLogo()
+        if logo:
+            timestamp = str(DateTime()).replace(' ', '_')
+            return '%s?%s' % (logo.absolute_url(), timestamp)
+        return self.defaultProjLogoURL
+
+
+    @action("uploadAndUpdate")
+    def change_logo(self, target=None, fields=None):
+        logo = self.request.form.get("logo")
+
+        if not self.check_logo(logo):
+            return
+
+        self.context.reindexObject('logo')
+        return {
+            'oc-project-logo' : {
+                'html': self.logo_snippet(),
+                'action': 'replace',
+                'effects': 'highlight'
+                }
+            }
+
+    def check_logo(self, logo):
+        try:
+            self.context.setLogo(logo)
+        except ValueError: # must have tried to upload an unsupported filetype
+            self.addPortalStatusMessage('Please choose an image in gif, jpeg, png, or bmp format.')
+            return False
+        return True
+
+
+    @action("remove")
+    def remove_logo(self, target=None, fields=None):
+        proj = self.context
+        proj.setLogo("DELETE_IMAGE")  # blame the AT API
+        proj.reindexObject('logo')
+        return {
+                'oc-project-logo' : {
+                    'html': self.logo_snippet(),
+                    'action': 'replace',
+                    'effects': 'highlight'
+                    }
+                }
+
+
     @formhandler.button('update')
     def handle_request(self):
         title = self.request.form.get('title')
@@ -380,7 +439,9 @@ class ProjectPreferencesView(ProjectBaseView):
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return
 
-        allowed_params = set(['__initialize_project__', 'update', 'set_flets', 'title', 'description', 'workflow_policy', 'featurelets', 'home-page'])
+        allowed_params = set(['__initialize_project__', 'update', 'set_flets',
+                              'title', 'description', 'logo', 'workflow_policy',
+                              'featurelets', 'home-page'])
         new_form = {}
         for k in allowed_params:
             if k in self.request.form:
@@ -389,13 +450,22 @@ class ProjectPreferencesView(ProjectBaseView):
         reader = IReadWorkflowPolicySupport(self.context)
         old_workflow_policy = reader.getCurrentPolicyId()
 
-        #store change status of flet, security, title, description
+        logo = self.request.form.get('logo')
+        logochanged = False
+        if logo:
+            if not self.check_logo(logo):
+                return
+            logochanged = True
+            del self.request.form['logo']
 
+        #store change status of flet, security, title, description, logo
         changed = {
             _(u'psm_project_title_changed', u"The title has been changed.") : self.context.title != self.request.form.get('title', self.context.title),
             _(u'psm_project_desc_changed', u"The description has been changed.") : self.context.description != self.request.form.get('description', self.context.description),
+            _(u'psm_project_logo_changed', u"The project image has been changed.") : logochanged,
             _(u'psm_security_changed', u"The security policy has been changed.") : old_workflow_policy != self.request.form['workflow_policy'],            
             }
+
         
         old_featurelets = set([(x['name'], x['title']) for x in get_featurelets(self.context)])
             
@@ -480,6 +550,17 @@ class ProjectAddView(BaseView, OctopoLite):
                 }
         return errors
 
+
+    def check_logo(self, project, logo):
+        try:
+            project.setLogo(logo)
+        except ValueError: # must have tried to upload an unsupported filetype
+            self.addPortalStatusMessage('Please choose an image in gif, jpeg, png, or bmp format.')
+            return False
+        return True
+
+
+
     @action('add')
     def handle_request(self, target=None, fields=None):
         putils = getToolByName(self.context, 'plone_utils')
@@ -514,7 +595,6 @@ class ProjectAddView(BaseView, OctopoLite):
         if self.errors:
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return 
-
         if id_ in self.reserved_names():
             self.add_status_message(_(u'psm_project_name_reserved', u'The name "${project_name}" is reserved. Please try a different name.',
                                       mapping={u'project_name':id_}))
@@ -524,6 +604,13 @@ class ProjectAddView(BaseView, OctopoLite):
         self.context.portal_factory.doCreate(proj, id_)
         proj = self.context._getOb(id_)
         self.notify(proj)
+
+        logo = self.request.form.get('logo')
+        if logo:
+            if not self.check_logo(proj, logo):
+                return
+            del self.request.form['logo']
+
         self.template = None
         proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)
 
