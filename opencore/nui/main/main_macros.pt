@@ -1,24 +1,24 @@
-<div metal:define-macro="search_widget" class="oc-boxy oc-widget oc-widget-search oc-widget-multiSearch">    
+<div i18n:domain="opencore" metal:define-macro="search_widget" class="oc-boxy oc-widget oc-widget-search oc-widget-multiSearch">    
   <form name="search_form" action="." tal:attributes="action form_action_url"
   tal:define="letter_search request/letter_search | string:; search_for request/search_for | string:">
-     <label class="oc-label-heading oc-biggerText">Search</label>
-        <a tal:condition="python:current_search_page!='people'" class="oc-search-people" tal:attributes="href string:${context/portal_url}/people/searchresults?letter_search=${letter_search}&search_for=${search_for}">People</a>
+     <label i18n:translate="main_macros_search_label" class="oc-label-heading oc-biggerText">Search</label>
+        <a i18n:translate="main_macros_people_label" tal:condition="python:current_search_page!='people'" class="oc-search-people" tal:attributes="href string:${context/portal_url}/people/searchresults?letter_search=${letter_search}&search_for=${search_for}">People</a>
         
-        <strong tal:condition="python:current_search_page=='people'">People</strong>
+        <strong i18n:translate="main_macros_people_label" tal:condition="python:current_search_page=='people'">People</strong>
         
        |
       
-      <a tal:condition="python:current_search_page!='projects'" class="oc-search-projects" tal:attributes="href string:${context/portal_url}/projects/searchresults?letter_search=${letter_search}&search_for=${search_for}">Projects</a>
+      <a i18n:translate="main_macros_projects_label" tal:condition="python:current_search_page!='projects'" class="oc-search-projects" tal:attributes="href string:${context/portal_url}/projects/searchresults?letter_search=${letter_search}&search_for=${search_for}">Projects</a>
       
-      <strong tal:condition="python:current_search_page=='projects'">Projects</strong>
+      <strong i18n:translate="main_macros_projects_label" tal:condition="python:current_search_page=='projects'">Projects</strong>
       
       |
-        <a tal:condition="python:current_search_page!='sitesearch'" class="oc-search-everything" tal:attributes="href string:${context/portal_url}/sitesearch?letter_search=${letter_search}&search_for=${search_for}">Everything</a>      
-        <strong tal:condition="python:current_search_page=='sitesearch'">Everything</strong>
+        <a i18n:translate="main_macros_everything_label" tal:condition="python:current_search_page!='sitesearch'" class="oc-search-everything" tal:attributes="href string:${context/portal_url}/sitesearch?letter_search=${letter_search}&search_for=${search_for}">Everything</a>      
+        <strong i18n:translate="main_macros_everything_label" tal:condition="python:current_search_page=='sitesearch'">Everything</strong>
      
       <div class="oc-form-fieldBlock">
       <input class="oc-input-typeText oc-autoFocus" type="text" name="search_for" tal:attributes="value string:${search_for}" />
-      <button type="submit">Search</button>
+      <button i18n:translate="main_macros_search_button" type="submit">Search</button>
     </div>
   </form>
   

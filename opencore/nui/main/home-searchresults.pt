@@ -1,4 +1,4 @@
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title"
            tal:content="string:Search - ${view/portal_title}" />
@@ -106,7 +106,7 @@
           </tal:got_results>
 
           <!-- if we get no results, this is what is displayed -->
-          <div tal:condition="not: view/search_results">No results found.</div>
+          <div i18n:translate="home-searchresults_no_results" tal:condition="not: view/search_results">No results found.</div>
 
 	</div> <!-- oc-lineup -->
       </div> <!-- content-main -->

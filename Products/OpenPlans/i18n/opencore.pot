@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2007-11-05 17:33+0000\n"
+"POT-Creation-Date: 2007-11-08 18:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,6 +69,21 @@ msgstr ""
 msgid "You do not have sufficient permissions."
 msgstr ""
 
+#. Default: "<h2>Get in touch</h2> <div class=\"vcard\"> <p style=\"font-weight: bold;\" class=\"fn org\"> <a class=\"url\" href=\"http://topp.openplans.org\">The Open Planning Project</a> </p> <dl class=\"oc-plainList\"> <dt>General Inquiries</dt> <dd> info<span style=\"display: none;\">NOSPAM</span>@openplans.org </dd> <dt>Help</dt> <dd> help<span style=\"display: none;\">NOSPAM</span>@openplans.org </dd> <dt>Employment</dt> <dd> <a href=\"http://topp.openplans.org/careers\">We're hiring!</a> </dd> <dt>Address</dt> <dd class=\"adr\"> <div class=\"street-address\">349 West 12<sup>th</sup> Street, #3</div> <span class=\"locality\">New York</span>, <span class=\"region\">NY</span> <span class=\"postal-code\">10014</span> <a href=\"http://maps.google.com/maps?f=q&hl=en&geocode=&q=349+W+12th+St,+New+York,+NY+10014&sll=40.737566,-74.007217&sspn=0.006568,0.01796&ie=UTF8&ll=40.738657,-74.007211&spn=0.006568,0.01796&t=k&z=16&iwloc=addr&om=1\">map</a> </dd> <dt>Phone</dt> <dd class=\"tel\">212.796.4220</dd> <dt>Fax</dt> <dd class=\"tel\">646.390.2624</dd> </dl> </div>"
+#: ./opencore/nui/main/about.pt:43
+msgid "about_get_in_touch"
+msgstr ""
+
+#. Default: "<h2>Help!</h2> <p>We're here to help you. If you have a question, <a href=\"${DYNAMIC_CONTENT}\">let us know</a>.</p>"
+#: ./opencore/nui/main/about.pt:41
+msgid "about_let_us_know"
+msgstr ""
+
+#. Default: "<p>OpenPlans is a platform for social activism.</p> <p>Whether your group is mobilizing voters, planning a protest, or growing a garden, OpenPlans can help you become more effective. OpenPlans is about greasing the wheels of democracy.</p> <p>With our collaborative wiki pages and other tools, you and your group can:</p> <ul class=\"oc-smallText\"> <li>Make projects</li> <li>Share to-do lists</li> <li>Upload photos</li> <li>Publicize your cause</li> <li>Create and use mailing lists</li> <li>Store and share files</li> <li>and more…</li> </ul> <p>If you don't see something you need, please <a href=\"${DYNAMIC_CONTENT}\">let us know</a>. Chances are, it's just around the bend.</p> <p>If you are a developer who wants to get involved, visit the <a href=\"${DYNAMIC_CONTENT}\">OpenCore Software</a> project.</p> <h1>About The Open Planning Project</h1> <p>OpenPlans is developed by <a href=\"http://topp.openplans.org\"><acronym title=\"The Open Planning Project\">TOPP</acronym></a>. We are a dot-org: a non-profit building technology to enhance civic participation. We care about what we build, and we're open source through and through.</p> <p>We created OpenPlans for social change groups, to help them save time and become more effective. These groups often have a lot of passion and smarts, but not a lot of extra people power or time.</p> <p>OpenPlans is our third initiative. We also founded <a href=\"http://geoserver.org/\">GeoServer</a>, a platform for sharing geographic information, and we are collaborators in the <a href=\"http://nycsr.org/\">New York City Streets Renaissance</a>, a campaign for lively public space in NYC.</p> <p>TOPP was born in 2000.</p>"
+#: ./opencore/nui/main/about.pt:29
+msgid "about_openplans"
+msgstr ""
+
 #. Default: "view all"
 #: ./opencore/nui/listen/archive_date_view.pt:19
 msgid "archive_date_view_all"
@@ -119,6 +134,46 @@ msgstr ""
 msgid "archive_view_by"
 msgstr ""
 
+#. Default: "Next"
+#: ./opencore/nui/main/batch_macros.pt:102
+msgid "batch_macros_next_x_items"
+msgstr ""
+
+#. Default: "Prev"
+#: ./opencore/nui/main/batch_macros.pt:21
+msgid "batch_macros_previous_x_items"
+msgstr ""
+
+#. Default: "Fill in the form below to contact the site administrators."
+#: ./opencore/nui/main/contact-site-admin.pt:12
+msgid "contact-site-admin_description"
+msgstr ""
+
+#. Default: "Message"
+#: ./opencore/nui/main/contact-site-admin.pt:99
+msgid "contact-site-admin_label_message"
+msgstr ""
+
+#. Default: "(Required)"
+#: ./opencore/nui/main/contact-site-admin.pt:51
+msgid "contact-site-admin_label_required"
+msgstr ""
+
+#. Default: "E-Mail"
+#: ./opencore/nui/main/contact-site-admin.pt:48
+msgid "contact-site-admin_label_sender_from_address"
+msgstr ""
+
+#. Default: "Name"
+#: ./opencore/nui/main/contact-site-admin.pt:30
+msgid "contact-site-admin_label_sender_fullname"
+msgstr ""
+
+#. Default: "Subject"
+#: ./opencore/nui/main/contact-site-admin.pt:78
+msgid "contact-site-admin_label_subject"
+msgstr ""
+
 #. Default: "You requested a password reminder for your ${portal_title} account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}"
 #: ./opencore/nui/account/accountview.py:483
 msgid "email_forgot_password"
@@ -130,47 +185,47 @@ msgid "email_forgot_password_subject"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Invitation to join  ${project_title}\n\nThe invitation extended to you to join \"${project_title}\" on ${portal_title} has been revoked.\n"
-#: ./opencore/nui/project/mship_messages.py:23
+#: ./opencore/nui/project/mship_messages.py:30
 msgid "email_invitation_retracted"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Invitation to join ${project_title}\n\nYou have been invited to join \"${project_title}\" on ${portal_title}.\n\nIf you would like to get involved, set up an ${portal_title} account: ${join_url}\n\n${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks.\n\nWe hope you'll take ${portal_title} for a spin.\n\nCheers,\nThe ${portal_title} Team\n${portal_url}\n"
-#: ./opencore/nui/project/mship_messages.py:47
+#: ./opencore/nui/project/mship_messages.py:54
 msgid "email_invite_email"
 msgstr ""
 
-#. Default: "Subject: ${portal_title} - Invitation to join ${project_title}\n\nYou have been invited to join \"${project_title}\".  Please visit your account page to accept or decline the invitation: ${account_url}\n"
+#. Default: "Subject: You've been invited to join \"${project_title}\"\n\nHi ${user_name},\n\nYou have been invited to join \"${project_title}\" by ${inviter_name}.\nPlease visit your account page to accept or decline the invitation: ${account_url}\n\nCheers,\nThe ${portal_name} Team\n${portal_url}\n"
 #: ./opencore/nui/project/mship_messages.py:3
 msgid "email_invite_member"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Membership deactivated for ${project_title}\n\nYou are no longer a member of \"${project_title}\" on ${portal_title}.\n"
-#: ./opencore/nui/project/mship_messages.py:28
+#: ./opencore/nui/project/mship_messages.py:35
 msgid "email_membership_deactivated"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Request to join ${project_title}\n\n${member_id} would like to get involved with \"${project_title}\".\n\nTo approve or deny this request please visit the project's team management screen: ${team_manage_url}\n"
-#: ./opencore/nui/project/mship_messages.py:33
+#: ./opencore/nui/project/mship_messages.py:40
 msgid "email_membership_requested"
 msgstr ""
 
 #. Default: "\n\n${member_id} included the following message:\n\n\"${member_message}\"\n"
-#: ./opencore/nui/project/mship_messages.py:40
+#: ./opencore/nui/project/mship_messages.py:47
 msgid "email_mship_request_message"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Invitation to join ${project_title}\n\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.  Please visit your account page to accept or decline the invitation: ${account_url}\n"
-#: ./opencore/nui/project/mship_messages.py:8
+#: ./opencore/nui/project/mship_messages.py:15
 msgid "email_remind_invitee"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Welcome to ${project_title}\n\nYour request to join \"${project_title}\" on ${portal_title} has been approved.  The project is accessible at the following address: ${project_url}\n"
-#: ./opencore/nui/project/mship_messages.py:13
+#: ./opencore/nui/project/mship_messages.py:20
 msgid "email_request_approved"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Your request to join ${project_title}\n\nYour request to join \"${project_title}\" on ${portal_title} has been denied.\n"
-#: ./opencore/nui/project/mship_messages.py:18
+#: ./opencore/nui/project/mship_messages.py:25
 msgid "email_request_denied"
 msgstr ""
 
@@ -349,6 +404,56 @@ msgstr ""
 msgid "forum_update_button"
 msgstr ""
 
+#. Default: "No results found."
+#: ./opencore/nui/main/home-searchresults.pt:109
+msgid "home-searchresults_no_results"
+msgstr ""
+
+#. Default: "Find projects"
+#: ./opencore/nui/main/home.pt:23
+msgid "home_find_projects"
+msgstr ""
+
+#. Default: "Do good, better."
+#: ./opencore/nui/main/home.pt:11
+msgid "home_header"
+msgstr ""
+
+#. Default: "Learn more"
+#: ./opencore/nui/main/home.pt:20
+msgid "home_learn_more"
+msgstr ""
+
+#. Default: "Newest projects"
+#: ./opencore/nui/main/home.pt:37
+msgid "home_newest_projects"
+msgstr ""
+
+#. Default: "You want to <strong>make a difference</strong>, we want to <strong>make it easy</strong>. OpenPlans is the simple way to bring groups together, promote your cause, make plans, and get things done."
+#: ./opencore/nui/main/home.pt:31
+msgid "home_opening_blurb"
+msgstr ""
+
+#. Default: "created ${creation_date}"
+#: ./opencore/nui/main/home.pt:46
+msgid "home_project_created"
+msgstr ""
+
+#. Default: "last updated ${project_updated}"
+#: ./opencore/nui/main/home.pt:68
+msgid "home_project_updated"
+msgstr ""
+
+#. Default: "Start a project"
+#: ./opencore/nui/main/home.pt:26
+msgid "home_start_project"
+msgstr ""
+
+#. Default: "Updated projects"
+#: ./opencore/nui/main/home.pt:56
+msgid "home_updated_projects"
+msgstr ""
+
 #. Default: "You do not have sufficient privileges to view this page."
 #: ./opencore/nui/account/insufficient_privileges.pt:10
 msgid "insufficient_privileges_description"
@@ -360,73 +465,83 @@ msgid "insufficient_privileges_heading"
 msgstr ""
 
 #. Default: "Already a member?"
-#: ./opencore/nui/account/join.pt:171
+#: ./opencore/nui/account/join.pt:174
 msgid "join_already_member_heading"
 msgstr ""
 
 #. Default: "Join"
-#: ./opencore/nui/account/join.pt:139
+#: ./opencore/nui/account/join.pt:142
 msgid "join_button"
 msgstr ""
 
 #. Default: "Check your email to confirm registration"
-#: ./opencore/nui/account/join.pt:17
+#: ./opencore/nui/account/join.pt:20
 msgid "join_check_email"
 msgstr ""
 
-#. Default: "Confirm passsword"
-#: ./opencore/nui/account/join.pt:116
+#. Default: "Confirm password"
+#: ./opencore/nui/account/join.pt:119
 msgid "join_conf_password_label"
 msgstr ""
 
 #. Default: "We will not share your email with anyone. Ever."
-#: ./opencore/nui/account/join.pt:156
+#: ./opencore/nui/account/join.pt:159
 msgid "join_description"
 msgstr ""
 
 #. Default: "Email"
-#: ./opencore/nui/account/join.pt:72
+#: ./opencore/nui/account/join.pt:75
 msgid "join_email_label"
 msgstr ""
 
 #. Default: "Full Name"
-#: ./opencore/nui/account/join.pt:50
+#: ./opencore/nui/account/join.pt:53
 msgid "join_full_name_label"
 msgstr ""
 
 #. Default: "Becoming a member means…"
-#: ./opencore/nui/account/join.pt:163
+#: ./opencore/nui/account/join.pt:166
 msgid "join_get_started"
 msgstr ""
 
 #. Default: "<li>You can join and participate in existing projects</li> <li>You can create your own project and invite others to join</li> <li>You can share information about yourself</li>"
-#: ./opencore/nui/account/join.pt:164
+#: ./opencore/nui/account/join.pt:167
 msgid "join_get_started_list"
 msgstr ""
 
 #. Default: "Create an account on ${page_title}"
-#: ./opencore/nui/account/join.pt:12
+#: ./opencore/nui/account/join.pt:15
 msgid "join_page_title"
 msgstr ""
 
 #. Default: "Password"
-#: ./opencore/nui/account/join.pt:94
+#: ./opencore/nui/account/join.pt:97
 msgid "join_password_label"
 msgstr ""
 
 #. Default: "Sign in"
-#: ./opencore/nui/account/join.pt:172
+#: ./opencore/nui/account/join.pt:175
 msgid "join_sign_in"
 msgstr ""
 
 #. Default: "Username"
-#: ./opencore/nui/account/join.pt:28
+#: ./opencore/nui/account/join.pt:31
 msgid "join_username_label"
 msgstr ""
 
 #. Default: "by"
 #: ./opencore/nui/listen/threaded_message.pt:40
 msgid "label_author"
+msgstr ""
+
+#. Default: "(Required)"
+#: ./opencore/nui/main/contact-site-admin.pt:102
+msgid "label_required"
+msgstr ""
+
+#. Default: "Send"
+#: ./opencore/nui/main/contact-site-admin.pt:119
+msgid "label_send"
 msgstr ""
 
 #. Default: "Site Administration"
@@ -509,7 +624,7 @@ msgstr ""
 msgid "login_snippet_keep_logged_in"
 msgstr ""
 
-#. Default: "Log in"
+#. Default: "Sign in"
 #: ./opencore/nui/account/login_snippet.pt:62
 msgid "login_snippet_login_button"
 msgstr ""
@@ -667,6 +782,31 @@ msgstr ""
 #. Default: "Unsubscribe"
 #: ./opencore/nui/listen/mailinglist_view.pt:84
 msgid "mailinglist_view_unsub_button"
+msgstr ""
+
+#. Default: "Everything"
+#: ./opencore/nui/main/main_macros.pt:16
+msgid "main_macros_everything_label"
+msgstr ""
+
+#. Default: "People"
+#: ./opencore/nui/main/main_macros.pt:5
+msgid "main_macros_people_label"
+msgstr ""
+
+#. Default: "Projects"
+#: ./opencore/nui/main/main_macros.pt:11
+msgid "main_macros_projects_label"
+msgstr ""
+
+#. Default: "Search"
+#: ./opencore/nui/main/main_macros.pt:21
+msgid "main_macros_search_button"
+msgstr ""
+
+#. Default: "Search"
+#: ./opencore/nui/main/main_macros.pt:4
+msgid "main_macros_search_label"
 msgstr ""
 
 #. Default: "Add:"
@@ -834,6 +974,26 @@ msgstr ""
 msgid "new_topic_view_subject"
 msgstr ""
 
+#. Default: "We would love to hear from you. Learn more <a href=\"${DYNAMIC_CONTENT}\">about us and our software</a> or <a href=\"${DYNAMIC_CONTENT}\">contact us</a> for more information."
+#: ./opencore/nui/main/news.pt:41
+msgid "news_about_us_description"
+msgstr ""
+
+#. Default: "About us"
+#: ./opencore/nui/main/news.pt:40
+msgid "news_about_us_heading"
+msgstr ""
+
+#. Default: "Add news item..."
+#: ./opencore/nui/main/news.pt:16
+msgid "news_add_item"
+msgstr ""
+
+#. Default: "Read more…"
+#: ./opencore/nui/main/news.pt:33
+msgid "news_read_more"
+msgstr ""
+
 #. Default: "Please enter a password"
 #: ./opencore/nui/account/accountview.py:287
 msgid "no_password"
@@ -860,22 +1020,22 @@ msgid "password_not_same_error"
 msgstr ""
 
 #. Default: "Or enter a new address where you would like to receive the activation email for this account again"
-#: ./opencore/nui/account/pending.pt:18
+#: ./opencore/nui/account/pending.pt:24
 msgid "pending_description"
 msgstr ""
 
 #. Default: "Email"
-#: ./opencore/nui/account/pending.pt:37
+#: ./opencore/nui/account/pending.pt:41
 msgid "pending_email_label"
 msgstr ""
 
-#. Default: "Enter a new email address"
-#: ./opencore/nui/account/pending.pt:29
+#. Default: "Enter a different email address"
+#: ./opencore/nui/account/pending.pt:33
 msgid "pending_enter_new_email"
 msgstr ""
 
-#. Default: "If you think this is a mistake, you can try to login again"
-#: ./opencore/nui/account/pending.pt:57
+#. Default: "<a class=\"oc-js-expander_open oc-expanderLink\"> If you think this is a mistake, you can try to login again </a>"
+#: ./opencore/nui/account/pending.pt:69
 msgid "pending_mistake"
 msgstr ""
 
@@ -884,9 +1044,44 @@ msgstr ""
 msgid "pending_send_another_activation"
 msgstr ""
 
+#. Default: "No results found."
+#: ./opencore/nui/main/people-searchresults.pt:91
+msgid "people-searchresults_no_results"
+msgstr ""
+
+#. Default: "${num_members} members, <span>and growing</span> <span>and <a href=\"${DYNAMIC_CONTENT}\">you</a></span>"
+#: ./opencore/nui/main/people.pt:14
+msgid "people_members"
+msgstr ""
+
 #. Default: "\"${title}\" has been created. Create a team by searching for other members to invite to your project, then <a href=\"${proj_edit_url}\">edit your project home page</a>."
 #: ./opencore/nui/project/view.py:538
 msgid "project_created"
+msgstr ""
+
+#. Default: "No results found."
+#: ./opencore/nui/main/projects-searchresults.pt:113
+msgid "projects-searchresults_no_results"
+msgstr ""
+
+#. Default: "Currently serving ${num_projects} projects"
+#: ./opencore/nui/main/projects.pt:10
+msgid "projects_currently_serving"
+msgstr ""
+
+#. Default: "Can&rsquo;t find a project you are interested in? See a need that is not being met?"
+#: ./opencore/nui/main/projects.pt:57
+msgid "projects_get_started"
+msgstr ""
+
+#. Default: "Get started…"
+#: ./opencore/nui/main/projects.pt:56
+msgid "projects_get_started_heading"
+msgstr ""
+
+#. Default: "Start a new project"
+#: ./opencore/nui/main/projects.pt:59
+msgid "projects_start_project_button"
 msgstr ""
 
 #. Default: "Your account has not yet been activated. An email was sent to ${user} from ${email_from_address} containing a link to activate your account."
@@ -929,7 +1124,7 @@ msgstr ""
 msgid "psm_forgot_login"
 msgstr ""
 
-#. Default: "A new activation email has been sent to ${email} from ${mfrom}. Please follow the link in the email to activate this account."
+#. Default: "A new activation email has been sent to ${email} from ${mfrom}. <br />Please follow the link in the email to activate this account."
 #: ./opencore/nui/account/accountview.py:606
 msgid "psm_new_activation"
 msgstr ""
@@ -1072,5 +1267,10 @@ msgstr ""
 #. Default: "threaded"
 #: ./opencore/nui/listen/threaded_message.pt:17
 msgid "threaded_message_threaded"
+msgstr ""
+
+#. Default: "Required"
+#: ./opencore/nui/main/contact-site-admin.pt:51
+msgid "title_required"
 msgstr ""
 
