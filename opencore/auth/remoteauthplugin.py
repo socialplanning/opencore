@@ -62,15 +62,13 @@ class RemoteOpenCoreAuth(BasePlugin):
         Iterate through the remote servers and test the credentials
         against each one in turn.
         """
-        if credentials.get('opencore_auth_match'):
-            # opencore.content.member.OpenMember's verifyCredentials
-            # method marks the credentials object if the username was
-            # indeed a match so that we know not to try remotely here.
-            # we have to do this b/c PAS always invokes _every_ auth
-            # plug-in during the auth check
+        username = credentials.get('login')
+        mdtool = getToolByName(self, 'portal_memberdata')
+        if mdtool.hasObject(username):
+            # a member object w/ this username exists locally (whether
+            # active or no), don't check remotely
             return
 
-        username = credentials.get('login')
         root_uf = self.getPhysicalRoot().acl_users
         if root_uf.getUserById(username) is not None:
             # user exists at the Zope root, don't check remotely
