@@ -97,7 +97,11 @@ class LatestActivityView(ProjectContentsView):
         return snip()
 
     def feeds(self):
-        feeds = [ self.snippet(feed) for feed in self.feed_types ]
+        feeds = []
+        if self.has_blog:
+            self.request['uri'] = ''
+            blogfeed = self.context.unrestrictedTraverse('feedlist')
+        feeds.extend( [ self.snippet(feed) for feed in self.feed_types ] )
         return feeds
 
     def activity(self):

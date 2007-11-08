@@ -9,7 +9,7 @@
      for="*"
      class="opencore.nui.rss.view.RSSView"
      permission="zope.Public"
-     name="rsslist"
+     name="feedlist"
      template="list.pt"
      />
 
