@@ -91,5 +91,6 @@ class InviteJoinView(accountview.JoinView, accountview.ConfirmAccountView):
         member = self.membranetool.unrestrictedSearchResults(getEmail=email)
         if member:
             member = member[0].getObject()
-        
-        return self.redirect(self._confirmation_url(member))
+            return self.redirect(self._confirmation_url(member))
+
+        return None
