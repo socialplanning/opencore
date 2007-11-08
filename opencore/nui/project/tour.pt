@@ -19,8 +19,11 @@
           </div>
 
           <div>
-            <h3><a tal:attributes="href string:${context/absolute_url}/project-home">Wiki pages</a></h3>
-            <ul class="oc-discreetText">
+            <a tal:attributes="href string:${context/absolute_url}/project-home">
+              <img src="++resource++img/touricons/wiki.gif" alt="Wiki pages" class="oc-tour-icon" />
+              <h3>Wiki pages</h3>
+            </a>
+            <ul class="oc-discreetText oc-plainList">
               <li>A blank canvas for key information</li>
               <li>Write collaboratively</li>
               <li>Sketch out your goals</li>
@@ -29,8 +32,11 @@
           </div>
 
           <div tal:condition="view/has_blog">
-            <h3><a tal:attributes="href string:${context/absolute_url}/blog">Blog</a></h3>
-            <ul class="oc-discreetText">
+            <a tal:attributes="href string:${context/absolute_url}/blog">
+              <img src="++resource++img/touricons/blog.gif" alt="Blog" class="oc-tour-icon" />
+              <h3>Blog</h3>
+            </a>
+            <ul class="oc-discreetText oc-plainList">
               <li>Publish updates</li>
               <li>Attract attention</li>
               <li>Speak out</li>
@@ -46,8 +52,11 @@
           </div>
 
           <div>
-            <h3><a tal:attributes="href string:${context/absolute_url}/manage-team">Manage your team</a></h3>
-            <ul class="oc-discreetText">
+            <a tal:attributes="href string:${context/absolute_url}/manage-team">
+              <img src="++resource++img/touricons/team.gif" alt="Teams" class="oc-tour-icon" />
+              <h3>Manage your team</h3>
+            </a>
+            <ul class="oc-discreetText oc-plainList">
               <li>Invite people to join this project</li>
               <li>Build momentum</li>
               <li>Find collaborators</li>
@@ -55,9 +64,11 @@
           </div>
         
           <div tal:condition="view/has_mailing_lists">
-            <h3><a tal:attributes="href
-                   string:${context/absolute_url}/lists">Mailing lists</a></h3>
-            <ul class="oc-discreetText">
+            <a tal:attributes="href string:${context/absolute_url}/lists">
+              <img src="++resource++img/touricons/mailinglist.gif" alt="Mailing lists" class="oc-tour-icon" />
+              <h3>Mailing lists</h3>
+            </a>
+            <ul class="oc-discreetText oc-plainList">
               <li>Keep everyone up-to-date</li>
               <li>Promote discussions</li>
               <li>Call supporters to action</li>
@@ -65,9 +76,11 @@
           </div>
         
           <div tal:condition="view/has_task_tracker">
-            <h3><a tal:attributes="href
-                   string:${context/absolute_url}/tasks">Task Tracker</a></h3>
-            <ul class="oc-discreetText">
+            <a tal:attributes="href string:${context/absolute_url}/tasks">
+              <img src="++resource++img/touricons/tasks.gif" alt="Tasks" class="oc-tour-icon" />
+              <h3>Task Tracker</h3>
+            </a>
+            <ul class="oc-discreetText oc-plainList">
               <li>Share to-do lists</li>
               <li>Assign tasks to others</li>
               <li>Keep track of progress</li>
