@@ -12,7 +12,7 @@ _ = MessageFactory("opencore")
 regex = re.compile(r'[^A-Za-z0-9_\-\.+]')
 
 class InvalidPrefix(ValidationError):
-    __doc__ = _("Only the following characters are allowed in "
+    __doc__ = _(u'listen_prefix_validation_error', u"Only the following characters are allowed in "
                 "list address prefixes: alpha-numerics, underscores, "
                 "hyphens, periods, and plus signs (i.e. A-Z, a-z, 0-9, "
                 "and _-.+ symbols).")

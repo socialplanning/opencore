@@ -113,22 +113,22 @@ class IAddOpenPlans(Interface):
     """Add form for topp site"""
 
     id = ASCIILine(
-        title=_(u"Id"),
-        description=_(u"The object id."),
+        title=u"Id",
+        description=u"The object id.",
         default='openplans',
         required=True
         )
     
     title = TextLine(
-        title=_(u"Title"),
-        description=_(u"Name of the site instance"),
+        title=u"Title",
+        description=u"Name of the site instance",
         default=u"OpenPlans",
         required=True
         )
 
     testcontent = Bool(
-        title=_("Create test content"),
-        description=_(u"Please create example projects and members"),
+        title=u"Create test content",
+        description=u"Please create example projects and members",
         default=False,
         required=False
         )

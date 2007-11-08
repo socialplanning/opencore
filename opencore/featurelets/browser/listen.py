@@ -45,12 +45,12 @@ class DeleteListView(BrowserView):
 
     def confirmDeleteList(self):
         form = self.request.form
-        psm = _("Mailing list deletion cancelled.")
+        psm = _(u'psm_mailing_list_deletion_cancelled', u"Mailing list deletion cancelled.")
         list_id = form.get('list_id', '')
         confirm = form.get('%s_confirm_delete' % list_id, 'false')
         if confirm == 'true':
             self.context.manage_delObjects(ids=[list_id])
-            psm = _("Mailing list deleted.")
+            psm = _(u'psm_mailing_list_deleted', u"Mailing list deleted.")
         url = "%s?portal_status_message=%s" % (self.context.absolute_url(),
                                                psm)
         self.request.RESPONSE.redirect(url)

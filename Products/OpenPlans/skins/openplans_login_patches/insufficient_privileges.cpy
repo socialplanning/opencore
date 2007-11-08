@@ -48,7 +48,7 @@ if query:
         referer = urlunquote(referer)
 
 plone_utils = getToolByName(portal, 'plone_utils')
-plone_utils.addPortalMessage(_("You do not have sufficient permissions."))
+plone_utils.addPortalMessage(_(u'psm_not_sufficient_permissions', u"You do not have sufficient permissions."))
 
 if referer.split('?')[0].endswith('/require_login'):
     referer = dummy_referer
