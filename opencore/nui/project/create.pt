@@ -62,7 +62,7 @@
                 </tr>
                 <tr class="oc-form-row">
                   <th class="oc-form-label" scope="row">
-                    <label for="logo">Logo</label> 
+                    <label for="logo">Image or logo</label> 
                   </th>
                   <td class="oc-form-value">
                     <input type="file" name="logo" id="logo" size="14" />
