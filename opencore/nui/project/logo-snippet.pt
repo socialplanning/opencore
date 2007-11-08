@@ -22,7 +22,7 @@
           name="logo" size="14" /><br />
         <input type="submit" name="task|oc-project-logo|uploadAndUpdate"
           class="oc-js-actionButton" value="Update" />
-        <tal:haslogo condition="python:view.get_proj.getLogo() != ''">or
+        <tal:haslogo condition="context/getLogo">or
           <input type="submit" name="task|oc-project-logo|remove"
             class="oc-js-actionButton" value="Remove" />
         </tal:haslogo>

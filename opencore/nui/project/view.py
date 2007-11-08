@@ -42,14 +42,6 @@ _ = MessageFactory('opencore')
 
 class ProjectBaseView(BaseView):
 
-    # XXX
-    @view.memoizedproperty
-    def get_proj(self):
-        from opencore.project.content import OpenProject
-        proj = self.context
-        assert isinstance(proj, OpenProject)
-        return proj
-    
     @memoizedproperty
     def has_mailing_lists(self):
         return self._has_featurelet('listen')
@@ -383,7 +375,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         fetching the new image instead of using the cached one which could be --
         out of date (and always will be in the ajaxy case).
         """
-        logo = self.get_proj.getLogo()
+        logo = self.context.getLogo()
         if logo:
             timestamp = str(DateTime()).replace(' ', '_')
             return '%s?%s' % (logo.absolute_url(), timestamp)
@@ -397,7 +389,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         if not self.check_logo(logo):
             return
 
-        self.get_proj.reindexObject('logo')
+        self.context.reindexObject('logo')
         return {
             'oc-project-logo' : {
                 'html': self.logo_snippet(),
@@ -408,7 +400,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
 
     def check_logo(self, logo):
         try:
-            self.get_proj.setLogo(logo)
+            self.context.setLogo(logo)
         except ValueError: # must have tried to upload an unsupported filetype
             self.addPortalStatusMessage('Please choose an image in gif, jpeg, png, or bmp format.')
             return False
@@ -417,7 +409,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
 
     @action("remove")
     def remove_logo(self, target=None, fields=None):
-        proj = self.get_proj
+        proj = self.context
         proj.setLogo("DELETE_IMAGE")  # blame the AT API
         proj.reindexObject('logo')
         return {
@@ -514,24 +506,6 @@ class ProjectAddView(BaseView, OctopoLite):
                 'effects': ''
                 }
         return errors
-
-
-#    logo_snippet = ZopeTwoPageTemplateFile('logo-snippet.pt')
-#    @action("uploadAndUpdate")
-#    def change_logo(self, target=None, fields=None):
-#        logo = self.request.form.get("logo")
-#
-#        if not self.check_logo(logo):
-#            return
-#
-#        self.get_proj.reindexObject('logo')
-#        return {
-#            'oc-project-logo' : {
-#                'html': self.logo_snippet(),
-#                'action': 'replace',
-#                'effects': 'highlight'
-#                }
-#            }
 
 
     def check_logo(self, project, logo):
