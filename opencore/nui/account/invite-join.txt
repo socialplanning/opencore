@@ -11,3 +11,44 @@ a unique key and the users email.  The view presents a join form with
 a fixed email value and check boxes for any project w/ an invite for
 the aforementioned address.
 
+
+The process loop
+================
+
+Invites start in opencore.nui.project.manageteams.ManageTeamView::
+
+    >>> from Testing.makerequest import makerequest
+    >>> self.portal = makerequest(self.portal); request = self.portal.REQUEST
+    >>> mt = self.portal.projects.p1.unrestrictedTraverse("manage-team")
+    >>> key=mt.do_nonmember_invitation_email('bob@bob.com', 'p1')
+
+It is stored in the invite_utils in a keyed map::
+
+    >>> invite_utils = getUtility(IEmailInvites)
+    >>> type(invite_utils.getInvitesByEmailAddress('bob@bob.com'))
+    <class 'topp.utils.persistence.KeyedMap'>
+
+We'll simulate the link and get the invite-join view::
+
+    >>> request.form['__k']=key
+    >>> request.form['email']='bob@bob.com'
+    >>> inv_join = self.portal.projects.p1.unrestrictedTraverse("invite-join")
+    >>> inv_join
+    <...InviteJoinView ...>
+
+    >>> inv_join.email
+    'bob@bob.com'
+
+    >>> inv_join.invites
+    {'p1': DateTime('...')}
+
+    >>> pprint(inv_join.invite_map)
+    [{'id': 'p1', 'title': 'Project One'}]
+
+
+
+# do save
+
+# do Pending user behavior::
+
+    >>> 

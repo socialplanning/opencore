@@ -18,7 +18,7 @@ def test_suite():
     from opencore.interfaces import IMemberFolder
     from opencore.interfaces.pending_requests import IPendingRequests
     from opencore.nui.member.interfaces import ITransientMessage
-    from opencore.nui.project.interfaces import IEmailInvites
+    from opencore.interfaces.membership import IEmailInvites
 
     img = os.path.join(os.path.dirname(__file__), 'test-portrait.jpg')
     portrait = open(img)
