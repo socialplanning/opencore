@@ -631,7 +631,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         msg_subs = dict(project_title=self.context.title,
                         join_url=join_url,
                         portal_url=self.siteURL,
-                        portal_title=self.portal_title()
+                        portal_title=self.portal_title(),
+                        project_url=self.context.absolute_url(),
+                        inviter_name=self.loggedinmember.getId()
                         )
         if email_confirmation():
             self.email_sender.sendEmail(addy, msg_id='invite_email',
