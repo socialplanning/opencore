@@ -72,11 +72,17 @@ class LatestActivityView(ProjectContentsView):
     def __init__(self, context, request):                
         ProjectContentsView.__init__(self, context, request)
 
-        self.feed_types = [ Feed('Pages',
-                                 ListFromCatalog(self._portal_type['pages'], self.project_path),
-                                 ([self.catalog], {}),
-                                 project2feed, ( [ self.memfolder_url ], {}) ),
-                            ]
+        self.feed_types = []
+
+#        if self.has_blog:
+#            self.feed_types.append(Feed, 'Blog',
+#                                   ListFromRSS(...))
+
+        self.feed_types.append(Feed('Pages',
+                                    ListFromCatalog(self._portal_type['pages'], self.project_path),
+                                    ([self.catalog], {}),
+                                    project2feed, ( [ self.memfolder_url ], {}) ),
+                               )
 
         if self.has_mailing_lists:
             self.feed_types.append(Feed('Discussions',

@@ -26,6 +26,7 @@ setup(name='opencore',
                         'http://www.openplans.org/projects/opencore/dependencies',
                         'https://svn.plone.org/svn/plone/plone.memoize/trunk#egg=plone.memoize-dev',
                         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
+                        'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         'http://zesty.ca/python/uuid.py#egg=uuid-dev'
                         ],
       
@@ -35,6 +36,7 @@ setup(name='opencore',
           # on theman
           #'hprof',
           "ClockQueue==dev,>=0.0",
+          'feedparser', 
           'simplejson',
           'decorator',
           'topp.featurelets>=0.2.1',

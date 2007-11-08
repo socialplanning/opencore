@@ -18,6 +18,7 @@
   <include package=".account" />
   <include package=".member" />
   <include package=".topnav" />
+  <include package=".rss" />
   <include package=".error" />
   <include package=".listen" />
   <include file="indexing.zcml" />
