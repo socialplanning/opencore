@@ -28,7 +28,12 @@ It is stored in the invite_utils in a keyed map::
     >>> type(invite_utils.getInvitesByEmailAddress('bob@bob.com'))
     <class 'topp.utils.persistence.KeyedMap'>
 
-We'll simulate the link and get the invite-join view::
+We'll simulate the link and get the invite-join view. Let's logout::
+
+
+    >>> self.logout()
+
+    
 
     >>> request.form['__k']=key
     >>> request.form['email']='bob@bob.com'
@@ -46,8 +51,81 @@ We'll simulate the link and get the invite-join view::
     [{'id': 'p1', 'title': 'Project One'}]
 
 
+Saving
+======
 
-# do save
+First, 'create_member' checks the key::
+
+    >>> del request.form['__k']
+    >>> inv_join.validate_key()
+    Traceback (most recent call last):
+    ...
+    BadRequest: Must present proper validation
+
+    >>> request.form['__k'] = 'monkeys'
+    >>> inv_join.validate_key()
+    Traceback (most recent call last):
+    ...
+    ValueError: Bad confirmation key
+
+    >>> request.form['__k']=key
+    >>> inv_join.validate_key()
+    True
+
+After making sure our key is valid, the view runs the JoinInv_Join's
+create_member as confirmed::
+
+    >>> request.form.update(dict(password='p@ssw0rd',
+    ...                     confirm_password='p@ssw0rd',
+    ...                     id='bob',
+    ...                     invites=['p1']))
+
+    >>> member = inv_join._create_member(confirmed=True)
+    Called httplib2.Http.request(
+        u'http://.../openplans-create-user.php',
+        'POST',
+        body='home_page=...',
+        headers={...})
+
+
+    >>> member
+    <OpenMember at /plone/portal_memberdata/bob>
+
+    >>> member.getEmail()
+    'bob@bob.com'
+
+    >>> member.getId()
+    'bob'
+
+    >>> inv_join.confirm(member)
+    True
+    
+    >>> inv_join.login(member.getId())
+
+bob should be logged in (but no cookies in the test) so we fake it
+with ztc::
+
+    >>> from AccessControl import getSecurityManager
+    >>> getSecurityManager().getUser()
+    <SpecialUser 'Anonymous User'>
+
+    >>> self.login(member.getId())
+
+Finally, it processes the invites::
+
+    >>> self.portal.portal_teams.p1['bob']
+    Traceback (most recent call last):
+    ...
+    KeyError: 'bob'
+
+    >>> inv_join.do_invite_joins(member)
+    >>> mbship = self.portal.portal_teams.p1['bob']
+    >>> mbship
+    <OpenMembership at /plone/portal_teams/p1/bob>
+
+    >>> mbship.getTeamRoles()
+    ['ProjectMember']
+
 
 # do Pending user behavior::
 

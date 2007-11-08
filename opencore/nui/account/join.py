@@ -136,31 +136,35 @@ class InviteJoinView(JoinView, accountview.ConfirmAccountView):
                     for invite in self.invites]
         return tuple()
 
-    @action('join', apply=post_only(raise_=False))
-    def create_member(self, targets=None, fields=None):
-        key = self.request.get('__k')
+    def validate_key(self):
+        key = self.request.form.get('__k')
         import zExceptions
         if not key:
             raise zExceptions.BadRequest("Must present proper validation")
-        if int(key) != self.invites.key:
+        if key != self.invites.key:
             raise ValueError('Bad confirmation key')
+        return True
 
+    @action('join', apply=post_only(raise_=False))
+    def create_member(self, targets=None, fields=None):
+        self.validate_key()
         # do all the member making stuff
         member = super(InviteJoinView, self)._create_member(targets, fields, confirmed=True)
         if isinstance(member, dict):
-            # @ some wierd octo shizzle?
-            # no.. create method returns an error dict on failure -egj
+            # return errors 
             return member
         self.confirm(member)
         self.login(member.getId())
+        self.do_invite_joins(member)
+        return self.redirect("%s/init-login" %self.siteURL)
 
-        # do the joins and activations
+    def do_invite_joins(self, member):
+        """do the joins and activations"""
         mships = self.invite_util.convertInvitesForMember(member)
         for mship in mships:
             mship._v_self_approved = True
             if mship.aq_parent.getId() in self.proj_ids:
                 mship.do_transition('approve_public')
-        return self.redirect("%s/init-login" %self.siteURL)
 
     def proj_title(self, invite):
         proj_obj = self.context.projects.get(invite)
