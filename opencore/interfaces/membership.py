@@ -1,3 +1,4 @@
+# @@ maybe these should go in a team.py
 from zope.interface import Interface
 
 class IOpenMembership(Interface):
