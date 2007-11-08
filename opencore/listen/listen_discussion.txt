@@ -1,0 +1,19 @@
+Create a new project
+    >>> request = self.portal.REQUEST
+    >>> request.form['title'] = u'testproj'
+    >>> self.portal.projects.invokeFactory('OpenProject', 'testproj')
+    'testproj'
+    >>> proj = self.portal.projects._getOb('testproj')
+
+Add the mailing list featurelet to the project
+    >>> from topp.featurelets.interfaces import IFeatureletSupporter
+    >>> from opencore.featurelets.listen import ListenFeaturelet
+    >>> IFeatureletSupporter(proj).installFeaturelet(ListenFeaturelet())
+    >>> from opencore.featurelets.interfaces import IListenFeatureletInstalled
+    >>> IListenFeatureletInstalled.providedBy(proj)
+    True
+
+And verify that the mailing list automatically gets added
+    >>> lists_folder = proj.lists
+    >>> lists_folder._getOb('testproj-discussion')
+    <OpenMailingList at /plone/projects/testproj/lists/testproj-discussion>
