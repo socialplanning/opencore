@@ -3,11 +3,11 @@ from opencore.interfaces.membership import IEmailInvites
 from zope.interface import Interface
 from zope.schema import TextLine
 
-warn("!!! %s is deprecated. get your interfaces from opencore.interfaces" %__name__)
+warn("!!! %s is deprecated. get put your interfaces from opencore.interfaces" %__name__)
 
 
 class IFeedItem(Interface):
-    # XXX any reason these are methods and not using zope.schema?
+    # XXX any reason these are methods and not using zope.schema? or attributes?
     # XXX also, where is this used?
 
     def title():
