@@ -13,7 +13,7 @@ from opencore.nui.base import _
 from opencore.nui.base import view
 from opencore.nui.email_sender import EmailSender
 from opencore.nui.member.interfaces import ITransientMessage
-from opencore.nui.project.interfaces import IEmailInvites
+from opencore.interfaces.membership import IEmailInvites
 from opencore.nui.project.team import TeamRelatedView
 from plone.memoize.view import memoize as req_memoize
 from opencore.nui.project import mship_messages
@@ -619,7 +619,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                 'inviter_name': logged_in_mem_name,
                 'portal_name': self.portal.title,
                 'portal_url': self.portal.absolute_url(),
-                    }
+                }
         self.email_sender.sendEmail(mem_id, msg_id='invite_member',
                                     **msg_subs)
         self.add_status_message(u'You invited %s to join this project.' % mem_id)
@@ -660,6 +660,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             msg = self.email_sender.constructMailMessage(msg_id='invite_email',
                                                          **msg_subs)
             log.info(msg)
+        return key
 
     @view.memoizedproperty
     def invite_util(self):
@@ -667,6 +668,24 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         
     @formhandler.action('email-invites')
     def add_email_invites(self, targets=None, fields=None):
+        invites = self.email_invites
+        psm = self._add_email_invites(invites)
+        if psm['mem_invites']:
+            self.add_status_message(u"Members invited: %s"
+                                        % ', '.join(psm['mem_invites']))
+        if psm['mem_failures']:
+            self.add_status_message(u"Members for whom invitation failed: %s"
+                                        % ', '.join(psm['mem_failures']))
+        if psm['already_invited']:
+            self.add_status_message(u"Emails already invited: %s"
+                                        % ', '.join(psm['already_invited']))
+        if psm['email_invites']:
+            self.add_status_message(u"Email invitations: %s"
+                                        % ', '.join(psm['email_invites']))
+        self._norender = True
+        self.redirect(self.request.ACTUAL_URL) # redirect clears form values
+        
+    def _add_email_invites(self, invites):
         """
         Invite non-site-members to join the site and this project.
         Sends an email to the address, records the action so they'll
@@ -679,7 +698,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         of them fail validation as an email address then an error is
         returned and the entire operation is aborted.
         """
-        invites = self.email_invites
+
         bad = self.validate_email_invites(invites)
         if bad:
             psm = (u"Poorly formed email addresses, please correct: %s"
@@ -708,9 +727,10 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                     msg_subs = {'project_title': proj_title,
                                 'account_url': acct_url,
                                 }
-                    self.email_sender.sendEmail(mem_id,
-                                                msg_id='invite_member',
-                                                **msg_subs)
+                    if email_confirmation():
+                        self.email_sender.sendEmail(mem_id,
+                                                    msg_id='invite_member',
+                                                    **msg_subs)
                     mem_invites.append(mem_id)
                 else:
                     # invitation attempt failed
@@ -722,19 +742,10 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                 else:
                     self.do_nonmember_invitation_email(addy, proj_id)
                     email_invites.append(addy)
+                    
+        return dict(mem_invites=mem_invites,
+                    mem_failures=mem_failures,
+                    email_invites=email_invites,
+                    already_invited=already_invited)
 
-        if mem_invites:
-            self.add_status_message(u"Members invited: %s"
-                                        % ', '.join(mem_invites))
-        if mem_failures:
-            self.add_status_message(u"Members for whom invitation failed: %s"
-                                        % ', '.join(mem_failures))
-        if already_invited:
-            self.add_status_message(u"Emails already invited: %s"
-                                        % ', '.join(already_invited))
-        if email_invites:
-            self.add_status_message(u"Email invitations: %s"
-                                        % ', '.join(email_invites))
 
-        self._norender = True
-        self.redirect(self.request.ACTUAL_URL) # redirect clears form values

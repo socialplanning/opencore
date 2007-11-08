@@ -1,6 +1,6 @@
 import os, sys, unittest
-from opencore.nui.account import accountview
-accountview.turn_confirmation_on()
+from opencore.nui.account import utils
+utils.turn_confirmation_on()
 from zope.testing import doctest
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase
@@ -10,7 +10,6 @@ from zope.interface import alsoProvides
 from opencore.featurelets.interfaces import IListenContainer
 from opencore.testing.layer import MockHTTPWithContent
 from opencore.testing import setup as oc_setup
-from zope.app.component.hooks import setSite
 from Products.Five.site.localsite import enableLocalSiteHook
 from zope.app.component.hooks import setSite, setHooks
 from opencore.testing import dtfactory as dtf
@@ -146,7 +145,9 @@ def test_suite():
 ##                                          )    
 
 ##     suites = (contents, metadata, manage_team, request_membership, preferences)
-    suites = (contents, metadata, manage_team, request_membership, homepage, team_request_membership)
+    suites = (contents, metadata, manage_team,
+              request_membership, homepage,
+              team_request_membership)
     unit = doctest.DocTestSuite('opencore.nui.project.view',
                                 optionflags=optionflags)
     return unittest.TestSuite(suites + (readme, unit, delete))

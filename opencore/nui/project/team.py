@@ -3,8 +3,6 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.MailHost.MailHost import MailHostError
 from Products.validation.validators.BaseValidators import EMAIL_RE
 from zope.event import notify
-from opencore.interfaces.event import JoinedProjectEvent
-from opencore.interfaces.event import LeftProjectEvent
 from opencore.interfaces.event import ChangedTeamRolesEvent
 from opencore.configuration import DEFAULT_ROLES
 from opencore.content.membership import OpenMembership
@@ -15,7 +13,7 @@ from opencore.nui.main import SearchView
 from opencore.nui.main.search import searchForPerson
 from opencore.nui.member.interfaces import ITransientMessage
 from opencore.nui.project import mship_messages
-from opencore.nui.project.interfaces import IEmailInvites
+from opencore.interfaces.membership import IEmailInvites
 from operator import attrgetter
 from plone.memoize.instance import memoize, memoizedproperty
 from plone.memoize.view import memoize as req_memoize

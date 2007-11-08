@@ -340,6 +340,9 @@ And last we reinvite m4, who was rejected_by_admin:
     >>> len(mailhost.messages)
     10
 
+Email Invitations
+=================
+
 Okay, now to deal with inviting people by email address.  First we try
 a couple of addresses that don't belong to any site members:
 

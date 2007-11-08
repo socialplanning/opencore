@@ -3,12 +3,12 @@ from OFS.SimpleItem import SimpleItem
 from Products.CMFCore.utils import getToolByName
 from opencore.bbb import bbb_keymap
 from opencore.nui.project import utils
-from opencore.nui.project.interfaces import IEmailInvites
+from opencore.interfaces.membership import IEmailInvites
 from topp.utils.persistence import OOBTreeBag, KeyedMap
 from zope.app.annotation import IAnnotations
 from zope.interface import implements
 import DateTime
-import uuid
+
 
 class EmailInvites(SimpleItem):
     """
@@ -24,13 +24,13 @@ class EmailInvites(SimpleItem):
         self._by_address = OOBTree()
         self._by_project = OOBTree()
 
-    @bbb_keymap(wrap=True) # put a contextual here eventually
     def getInvitesByEmailAddress(self, address):
         by_addy = self._by_address.get(address)
         if by_addy is not None:
             return by_addy
         key = utils.make_key()
         return KeyedMap(key=key)
+    getInvitesByEmailAddress = bbb_keymap(wrap=True)(getInvitesByEmailAddress)
 
     def getInvitesByProject(self, proj_id):
         by_proj = self._by_project.get(proj_id)
