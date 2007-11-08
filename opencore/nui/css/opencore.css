@@ -229,10 +229,6 @@ text-align: left;
 
 /* @FOOTER - Global footer
 --------------------------------------- */
-#oc-footer-about {
-  text-align: left;
-}
-
 #oc-footer ul {
   list-style-type: none;
   padding: 0;
@@ -244,6 +240,12 @@ text-align: left;
 #oc-footer li {
   display: inline;
   padding: 0 0.5em;
+}
+#oc-footer-about {
+  text-align: left;
+}
+#oc-footer #oc-footer-about  a {
+  text-decoration: underline;
 }
 
 /* LAYOUT for @OpenPlans Pages
