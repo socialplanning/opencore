@@ -53,7 +53,7 @@ from opencore.content.membership import OpenMembership
 from opencore.content.member import OpenMember
 from opencore.auth.SignedCookieAuthHelper import SignedCookieAuthHelper
 
-from opencore.nui.member.interfaces import ITransientMessage
+from opencore.interfaces.message import ITransientMessage
 from opencore.nui.member.transient_messages import TransientMessage
 from opencore.nui.indexing import metadata_cols, install_columns as installColumns
 from opencore.nui.indexing import createIndexes

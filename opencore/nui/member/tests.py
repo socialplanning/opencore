@@ -17,7 +17,7 @@ def test_suite():
     from zope.component import getUtility
     from opencore.interfaces import IMemberFolder
     from opencore.interfaces.pending_requests import IPendingRequests
-    from opencore.nui.member.interfaces import ITransientMessage
+    from opencore.interfaces.message import ITransientMessage
     from opencore.interfaces.membership import IEmailInvites
 
     img = os.path.join(os.path.dirname(__file__), 'test-portrait.jpg')

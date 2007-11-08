@@ -157,8 +157,8 @@ When the method is accessible, it should return a string code for the user::
 
     >>> self.loginAsPortalOwner()
     >>> m = user.restrictedTraverse("getUserConfirmationCode")
-    >>> m()
-    '...'
+    >>> isinstance(m(), basestring)
+    True
 
 
 Join
@@ -461,7 +461,7 @@ Verify initial login converts email invites to mship invites
     >>> setSite(portal)
     >>> setHooks()
     >>> from zope.component import getUtility
-    >>> from opencore.nui.project.interfaces import IEmailInvites
+    >>> from opencore.interfaces.membership import IEmailInvites
     >>> email_invites = getUtility(IEmailInvites)
     >>> isinstance(email_invites.addInvitation(mem.getEmail(), proj_id), int)
     True

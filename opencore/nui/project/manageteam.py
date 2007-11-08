@@ -12,7 +12,7 @@ from opencore.nui.account.accountview import email_confirmation
 from opencore.nui.base import _
 from opencore.nui.base import view
 from opencore.nui.email_sender import EmailSender
-from opencore.nui.member.interfaces import ITransientMessage
+from opencore.interfaces.message import ITransientMessage
 from opencore.interfaces.membership import IEmailInvites
 from opencore.nui.project.team import TeamRelatedView
 from plone.memoize.view import memoize as req_memoize

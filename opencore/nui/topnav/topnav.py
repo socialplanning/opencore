@@ -12,7 +12,7 @@ from opencore.project.content import IProject
 
 from opencore.nui.base import BaseView
 from opencore.nui.contexthijack import HeaderHijackable
-from opencore.nui.member.interfaces import ITransientMessage
+from opencore.interfaces.message import ITransientMessage
 
 
 memoizedproperty = lambda func: property(view.memoize(func))

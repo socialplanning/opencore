@@ -1,38 +1,30 @@
-from datetime import datetime
-from datetime import timedelta
-from time import strftime
-from time import gmtime
-from urlparse import urlsplit
-from urlparse import urlunsplit
-
-from zope.component import getUtility
-from zope.event import notify
-from zope.app.event.objectevent import ObjectModifiedEvent
-
+from App import config
 from DateTime import DateTime
-
-from plone.memoize.view import memoize as req_memoize
-
+from Products.AdvancedQuery import Eq
 from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import transaction_note
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from Products.AdvancedQuery import Eq
-
-from topp.utils.pretty_date import prettyDate
-
-from opencore.project.utils import project_path
-
+from datetime import datetime
+from datetime import timedelta
 from opencore.interfaces.catalog import ILastWorkflowActor
-from opencore.nui.base import BaseView
-from opencore.nui.formhandler import OctopoLite, action
-from opencore.interfaces.event import MemberEmailChangedEvent
 from opencore.interfaces.event import JoinedProjectEvent
 from opencore.interfaces.event import LeftProjectEvent
-from opencore.nui.member.interfaces import ITransientMessage
-from opencore.nui.project.interfaces import IEmailInvites
-
-from App import config
+from opencore.interfaces.event import MemberEmailChangedEvent
+from opencore.interfaces.membership import IEmailInvites
+from opencore.nui.base import BaseView
+from opencore.nui.formhandler import OctopoLite, action
+from opencore.interfaces.message import ITransientMessage
+from opencore.project.utils import project_path
+from plone.memoize.view import memoize as req_memoize
+from time import gmtime
+from time import strftime
+from topp.utils.pretty_date import prettyDate
+from urlparse import urlsplit
+from urlparse import urlunsplit
+from zope.app.event.objectevent import ObjectModifiedEvent
+from zope.component import getUtility
+from zope.event import notify
 
 
 class ProfileView(BaseView):

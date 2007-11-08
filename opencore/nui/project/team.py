@@ -11,7 +11,7 @@ from opencore.nui.base import _
 from opencore.nui.email_sender import EmailSender
 from opencore.nui.main import SearchView
 from opencore.nui.main.search import searchForPerson
-from opencore.nui.member.interfaces import ITransientMessage
+from opencore.interfaces.message import ITransientMessage
 from opencore.nui.project import mship_messages
 from opencore.interfaces.membership import IEmailInvites
 from operator import attrgetter

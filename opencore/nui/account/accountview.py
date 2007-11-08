@@ -8,11 +8,11 @@ from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.utils import getAdderUtility
 from Products.validation.validators.BaseValidators import EMAIL_RE
-from opencore.configuration.utils import product_config
+from opencore.nui.account.utils import email_confirmation, turn_confirmation_on, turn_confirmation_off
 from opencore.nui.base import BaseView, _
 from opencore.nui.email_sender import EmailSender
 from opencore.nui.formhandler import * # start import are for pansies
-from opencore.nui.project.interfaces import IEmailInvites
+from opencore.interfaces.membership import IEmailInvites
 from opencore.siteui.member import FirstLoginEvent
 from plone.memoize import instance
 from smtplib import SMTPRecipientsRefused, SMTP
@@ -571,23 +571,4 @@ class ResendConfirmationView(AccountView):
         self.redirect("%s/login" %self.siteURL)
 
 
-def email_confirmation(is_test=False):
-    """get email confirmation mode from zope.conf"""
-    if is_test:
-        return True
-    conf = product_config('email-confirmation', 'opencore.nui')
-    if conf:
-        val = conf.title()
-        if val == 'True':
-            return True
-        elif val == 'False':
-            return False
-        else:
-            raise ValueError('email-confirmation should be "True" or "False"')
-    return True # the default
 
-def turn_confirmation_on():
-    email_confirmation.func_defaults = (True,)
-
-def turn_confirmation_off():
-    email_confirmation.func_defaults = (False,)
