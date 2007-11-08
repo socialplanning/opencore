@@ -153,6 +153,7 @@ class InviteJoinView(JoinView, accountview.ConfirmAccountView):
         if isinstance(member, dict):
             # return errors 
             return member
+
         self.confirm(member)
         self.login(member.getId())
         self.do_invite_joins(member)
@@ -189,6 +190,8 @@ class InviteJoinView(JoinView, accountview.ConfirmAccountView):
         member = self.membranetool.unrestrictedSearchResults(getEmail=email)
         if member:
             member = member[0].getObject()
-            return self.redirect(self._confirmation_url(member))
+            pf = self.get_tool("portal_workflow")
+            if pf.getInfoFor(member, 'review_state') == 'pending':
+                return self.redirect(self._confirmation_url(member))
 
         return None

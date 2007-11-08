@@ -229,10 +229,6 @@ text-align: left;
 
 /* @FOOTER - Global footer
 --------------------------------------- */
-#oc-footer-about {
-  text-align: left;
-}
-
 #oc-footer ul {
   list-style-type: none;
   padding: 0;
@@ -244,6 +240,12 @@ text-align: left;
 #oc-footer li {
   display: inline;
   padding: 0 0.5em;
+}
+#oc-footer-about {
+  text-align: left;
+}
+#oc-footer #oc-footer-about  a {
+  text-decoration: underline;
 }
 
 /* LAYOUT for @OpenPlans Pages
@@ -687,6 +689,26 @@ a.wickedadd {
 }
 .oc-version-note h3 {
 	font-weight: bold;
+}
+
+/* About and 1 Page tours */
+
+.oc-about-toolkit {
+}
+.oc-about-tool {
+  clear: left;
+  margin: 0 2em 1em 0;
+}
+.oc-about-tool h3, .oc-about-tool ul {
+  margin: 0;
+}
+.oc-about-tool ul {
+  list-style-position: inside;
+}
+.oc-tour-icon,
+.oc-about-icon {
+  float: left;
+  margin-right: 1em;
 }
 
 /* Listen */
