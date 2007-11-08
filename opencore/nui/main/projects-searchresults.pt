@@ -64,7 +64,10 @@
             <ol class="oc-feed-list">
               <li class="oc-feed-item oc-clearAfter" tal:repeat="item view/search_results">
                   <a tal:attributes="href string:${context/portal_url}/projects/${item/getId}" >
-                    <img class="oc-project-logo" src="++resource++img/default-projlogo-thumb.gif" tal:attributes="alt item/Title; title item/Title" />
+                    <tal:setvar define="logo python:item.getObject().getLogo();
+                                        logo_url python:logo and ('%s/logo_thumb' % item.getURL()) or view.defaultProjLogoURL">
+                      <img class="oc-project-logo" tal:attributes="src logo_url; alt item/Title; title item/Title" />
+                    </tal:setvar>
                   </a>
                 <div class="oc-feed-item-content">
 
