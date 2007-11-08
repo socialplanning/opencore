@@ -31,7 +31,7 @@ OC.liveElementKey.Element = {
 OC.liveElementKey.Class = {
     "oc-js-autoSelect"       : "AutoSelect",
     "oc-js-expander"         : "Expander",
-    "oc-js-formClear"        : "FormClear",
+    "oc-js-fieldClear"       : "FieldClear",
     "oc-widget-multiSearch"  : "SearchLinks",
     'oc-dropdown-container'  : "DropDown",
     "oc-autoFocus"           : "AutoFocus",
@@ -157,12 +157,14 @@ OC.breatheLife = function(newNode, force) {
 
 // Debug Function.  Turn off for live code or IE
 OC.debug = function(string) {
+    /*
     args = ""
     for (var i = 0; i < arguments.length; ++i) {
-	args += " " + arguments[i]
+      args += " " + arguments[i]
     }
+    */
     if( typeof console != 'undefined' ) {
-	     console.log(args);
+	     console.log(string);
     }
 };
 
@@ -1331,9 +1333,24 @@ OC.Expander = function(extEl) {
   # Clear all inputs of the form this element appears in
   #
 */
-OC.FormClear = function(extEl) {
-    // TODO
-    OC.debug("in OC.FormClear")
+OC.FieldClear = function(extEl) {
+    // get references
+    var link = extEl;
+    var fieldname = link.dom.getAttribute("oc:target");
+    var field = document.getElementById(fieldname);
+    
+    // check references
+    if (!link || !field) {
+        OC.debug("OC.FieldClear could not get references");
+        return;
+    }
+
+    function _clearField() {
+        OC.debug("in clearField");
+        field.value = "";
+    }
+
+    link.on("click", _clearField, this, {preventDefault: true});
 };
 
 

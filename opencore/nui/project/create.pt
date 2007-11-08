@@ -65,40 +65,8 @@
                     <label for="logo">Logo</label> 
                   </th>
                   <td class="oc-form-value">
-                    <div class="oc-project-editimage">
-                      <div class="oc-project-logo" id="oc-project-logo">
-                        <!--
-                        <img tal:attributes="src request/logo | view/defaultProjLogoURL" />
-                        -->
-                        <fieldset
-                          tal:define="expand python:request.get('field') == 'logo';
-                          classes_closed python:'oc-js-expander oc-expander';
-                          classes_opened python:classes_closed + ' oc-expander-open'"
-                          tal:attributes="class python:expand and classes_opened or classes_closed"
-                          style="clear: left;">
-                          <legend class="oc-legend-label">
-                            <a href="#"
-                              tal:define="a_classes_closed python:'oc-js-expander_open oc-expanderLink';
-                              a_classes_opened python:a_classes_closed + ' oc-expanderLink-open'"
-                              tal:attributes="class python:expand and a_classes_opened or a_classes_closed">Change image</a>
-                          </legend>
-                          <div class="oc-js-expander-content oc-expander-content" style="border: 1px solid orange; background: #fffff9;">
-                            <input type="file" 
-                              tal:define="focus python:request.get('field') == 'logo';
-                              input_class python:'oc-autoFocus';
-                              default_class python:''" 
-                              tal:attributes="class python:focus and input_class or default_class"
-                              name="logo" size="14" /><br />
-                            <!--
-                            <input type="submit" name="task|oc-project-logo|uploadAndUpdate"
-                              class="oc-js-actionButton" value="Update" />
-                            -->
-                            <!-- XXX clear the file input above when clicked (TODO: write OC.FormClear in oc-behaviors.js) -->
-                            or <a href="#" class="oc-js-expander_close oc-js-formClear">Cancel</a>
-                          </div>
-                        </fieldset>
-                      </div>
-                    </div>
+                    <input type="file" name="logo" id="logo" size="14" />
+                    <a href="#" class="oc-js-expander_close oc-js-fieldClear" oc:target="logo">Clear</a>
                   </td>
                 </tr>
               </tbody>
