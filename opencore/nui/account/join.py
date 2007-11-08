@@ -91,9 +91,9 @@ class InviteJoinView(accountview.JoinView, accountview.ConfirmAccountView):
         email = self.request.form.get("email")
         member = self.membranetool.unrestrictedSearchResults(getEmail=email)
         if member:
+            member = member[0].getObject()
             pf = self.get_tool("portal_workflow")
             if pf.getInfoFor(member, 'review_state') == 'pending':
-                member = member[0].getObject()
                 return self.redirect(self._confirmation_url(member))
 
         return None
