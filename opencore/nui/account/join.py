@@ -57,6 +57,7 @@ class InviteJoinView(accountview.JoinView, accountview.ConfirmAccountView):
         member = super(InviteJoinView, self)._create_member(targets, fields, confirmed=True)
         if isinstance(member, dict): # @ some wierd octo shizzle?
             return member
+
         self.confirm(member)
         self.login(member.getId())
 
@@ -90,7 +91,9 @@ class InviteJoinView(accountview.JoinView, accountview.ConfirmAccountView):
         email = self.request.form.get("email")
         member = self.membranetool.unrestrictedSearchResults(getEmail=email)
         if member:
-            member = member[0].getObject()
-            return self.redirect(self._confirmation_url(member))
+            pf = self.get_tool("portal_workflow")
+            if pf.getInfoFor(member, 'review_state') == 'pending':
+                member = member[0].getObject()
+                return self.redirect(self._confirmation_url(member))
 
         return None
