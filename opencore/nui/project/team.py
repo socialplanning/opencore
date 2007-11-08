@@ -119,8 +119,10 @@ If you did not initiate this request or believe it was sent in error you can saf
 
 Cheers,
 The ${portal_title} Team
-${portal_url}""", mapping={u'url':url,
-                           u'portal_url':self.siteURL})
+${portal_url}""",  mapping={u'user_name':id,
+                           u'url':url,
+                           u'portal_url':self.siteURL,
+                           u'portal_title':self.portal_title()})
         
         sender = EmailSender(self, secureSend=True)
         sender.sendEmail(mto=email,
