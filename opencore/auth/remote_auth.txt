@@ -28,6 +28,11 @@ Now we're ready to see if the plugin will authenticate successfully.
     Called httplib2.Http.request...
     >>> self.failUnless(auth_result == (login, login))
 
+That should have created a local member object.  Let's delete it.
+
+    >>> mdtool = self.portal.portal_memberdata
+    >>> mdtool.manage_delObjects('login')
+
 Let's add failure responses to make sure auth failures are handled
 correctly.  First a 404 (member doesn't exist):
 
