@@ -1,4 +1,4 @@
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title"
            tal:content="string:Welcome to ${view/portal_title}!" />
@@ -8,7 +8,7 @@
       <div id="oc-content-main" class="oc-content-main">
         <div id="oc-home-content" class="oc-boxy">
             <div class="oc-headingBlock">
-              <h1>Do good, better.</h1>
+              <h1 i18n:translate="home_header">Do good, better.</h1>
             </div>
             <ul class="oc-plainList" style="width: 50%; float: right;">
                   <li tal:condition="not: view/loggedin">
@@ -17,33 +17,33 @@
                        tal:content="string:Join ${view/portal_title}" />
                   </li>
                   <li tal:condition="not: view/loggedin">
-                    <a class="oc-banana" tal:attributes="href string:${context/portal_url}/about">Learn more</a>
+                    <a class="oc-banana" i18n:translate="home_learn_more" tal:attributes="href string:${context/portal_url}/about">Learn more</a>
                   </li>
                   <li tal:condition="view/loggedin">
-                    <a class="oc-banana" tal:attributes="href string:${context/portal_url}/projects">Find projects</a>
+                    <a class="oc-banana" i18n:translate="home_find_projects" tal:attributes="href string:${context/portal_url}/projects">Find projects</a>
                   </li>
                   <li tal:condition="view/loggedin">
-                    <a class="oc-banana" tal:attributes="href string:${context/portal_url}/projects/create">Start a project</a>
+                    <a class="oc-banana" i18n:translate="home_start_project" tal:attributes="href string:${context/portal_url}/projects/create">Start a project</a>
                   </li>
             </ul>
             <div>
 	      <p tal:content="string:${view/portal_title} is a platform for social activism." />
-              <p>You want to <strong>make a difference</strong>, we want to <strong>make it easy</strong>. OpenPlans is the simple way to bring groups together, promote your cause, make plans, and get things done.</p>
+              <p i18n:translate="home_opening_blurb">You want to <strong>make a difference</strong>, we want to <strong>make it easy</strong>. OpenPlans is the simple way to bring groups together, promote your cause, make plans, and get things done.</p>
 	    </div>
           </div><!-- oc-home-content -->
         
         <div class="oc-home-columnGroup oc-clearAfter">
           <div class="oc-widget oc-widget-feed oc-home-column">
-            <h2 class="oc-feed-title">Newest projects</h2>
+            <h2 i18n:translate="home_newest_projects" class="oc-feed-title">Newest projects</h2>
             <ul class="oc-feed-list">
               <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recently_created_projects">
                 <!--<img class="oc-avatar" src="" tal:attributes="src project/image_src | nothing" />-->
                 <h3 class="oc-feed-item-title">
                   <a href="" tal:attributes="href python:view.project_url(project)" tal:content="project/Title">Project title</a>
                 </h3>
-                <p class="oc-feed-item-data oc-discreetText">
+                <p i18n:translate="home_project_created" class="oc-feed-item-data oc-discreetText">
                   created
-                  <span tal:replace="python: view.pretty_date(project.CreationDate)">Jan 1937</span>
+                  <span i18n:name="creation_date" tal:replace="python: view.pretty_date(project.CreationDate)">Jan 1937</span>
                 </p>
                 <p class="oc-feed-item-description" tal:content="project/Description | nothing">
                   Project Mission
@@ -53,7 +53,7 @@
           </div>
           
           <div class="oc-widget oc-widget-feed oc-home-column">
-            <h2 class="oc-feed-title">Updated projects</h2>
+            <h2 i18n:translate="home_updated_projects" class="oc-feed-title">Updated projects</h2>
             <ul class="oc-feed-list">
               <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recently_updated_projects">
               <!-- FIXME optimization potential -->
@@ -64,8 +64,8 @@
                 <p class="oc-feed-item-data oc-discreetText" tal:define="nmembers python: view.n_project_members(project)">
                   <span tal:replace="nmembers">YY</span> member<span tal:condition="python: nmembers != 1" tal:replace="string:s" />
                 </p>
-                <p class="oc-feed-item-data oc-discreetText">
-                  last updated <span tal:replace="python: view.pretty_date(project.ModificationDate)">Jan 1937</span>
+                <p class="oc-feed-item-data oc-discreetText" i18n:translate="home_project_updated">
+                  last updated <span i18n:name="project_updated" tal:replace="python: view.pretty_date(project.ModificationDate)">Jan 1937</span>
                 </p>
               </li>
             </ul>

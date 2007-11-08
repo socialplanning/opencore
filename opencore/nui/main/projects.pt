@@ -1,4 +1,4 @@
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title"
            tal:content="string:Projects - ${view/portal_title}" />
@@ -7,7 +7,7 @@
     <div metal:fill-slot="content">              
       <div class="oc-headingBlock">
         <h1 tal:content="string:Projects on ${view/portal_title}" />
-        <p class="oc-headingContext">Currently serving <span tal:replace="view/projects_served_count"/> projects</p>
+        <p i18n:translate="projects_currently_serving" class="oc-headingContext">Currently serving <span i18n:name="num_projects" tal:replace="view/projects_served_count"/> projects</p>
       </div>
       <div id="oc-content-main">
         
@@ -53,10 +53,10 @@
       <!-- content-sidebar -->
       <div id="oc-content-sidebar">
         <div class="oc-getstarted" tal:condition="view/loggedin">
-          <h2>Get started&hellip;</h2>
-          <p>Can&rsquo;t find a project you are interested in? See a need that is not being met?
+          <h2 i18n:translate="projects_get_started_heading">Get started&hellip;</h2>
+          <p i18n:translate="projects_get_started">Can&rsquo;t find a project you are interested in? See a need that is not being met?
           </p>
-           <a tal:attributes="href string:${view/siteURL}/projects/create" class="oc-banana">Start a new project</a>
+           <a i18n:translate="projects_start_project_button" tal:attributes="href string:${view/siteURL}/projects/create" class="oc-banana">Start a new project</a>
         </div>
       </div>
     </div><!-- content-fill-slot -->

@@ -1,4 +1,4 @@
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title"
            tal:content="string:News - ${view/portal_title}" />
@@ -13,7 +13,7 @@
       </div>
 
       <div id="oc-content-main">
-        <a tal:condition="view/can_add_news" tal:attributes="href string:${context/portal_url}/news/add-news-item">Add news item...</a>
+        <a i18n:translate="news_add_item" tal:condition="view/can_add_news" tal:attributes="href string:${context/portal_url}/news/add-news-item">Add news item...</a>
         <ul class="oc-widget oc-widget-feed oc-feed-list">
           <li class="oc-feed-item" tal:repeat="item view/news_items">
             <h2 class="oc-feed-item-title">
@@ -30,15 +30,15 @@
               <span tal:content="python: view.pretty_date(item.CreationDate)">today</span>
             </p>
             <p class="oc-feed-item-description" tal:content="item/Description">The description is the comment for the news item, however long it is</p>
-            <p class="oc-feed-item-data oc-actions oc-smallText"><a href="" tal:attributes="href string:${context/portal_url}/news/${item/getId}">Read more&hellip;</a></p>
+            <p class="oc-feed-item-data oc-actions oc-smallText"><a href="" tal:attributes="href string:${context/portal_url}/news/${item/getId}" i18n:translate="news_read_more">Read more&hellip;</a></p>
           </li>
         </ul>
       </div><!-- content-main -->
 
       <div id="oc-content-sidebar">
         <div id="oc-contact" class="oc-boxy">
-          <h2>About us</h2>
-          <p>We would love to hear from you. Learn more <a tal:attributes="href string:${here/portal_url}/about">about us and our software</a> or <a tal:attributes="href string:${here/portal_url}/contact">contact us</a> for more information.</p>
+          <h2 i18n:translate="news_about_us_heading">About us</h2>
+          <p i18n:translate="news_about_us_description">We would love to hear from you. Learn more <a tal:attributes="href string:${here/portal_url}/about">about us and our software</a> or <a tal:attributes="href string:${here/portal_url}/contact">contact us</a> for more information.</p>
         </div>
       </div>
 

@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
       lang="en"
       metal:use-macro="here/@@standard_macros/master"
-      i18n:domain="plone">
+      i18n:domain="opencore">
 
 <body>
 <div metal:fill-slot="content"
@@ -10,7 +10,7 @@
 <div class="oc-headingBlock">
   <h1 tal:content="string:Contact ${view/portal_title}" />     
   <p class="oc-headingContext"
-     i18n:translate="description_contact_info_feedback">
+     i18n:translate="contact-site-admin_description">
     Fill in the form
     below to contact the site administrators.
   </p>
@@ -27,7 +27,7 @@
       <div class="oc-form-fieldBlock"
            tal:define="error errors/sender_fullname|nothing"
            tal:attributes="class python:error and 'oc-fieldBlock-error' or 'oc-fieldBlock'">
-        <label for="sender_fullname" i18n:translate="label_sender_fullname">
+        <label for="sender_fullname" i18n:translate="contact-site-admin_label_sender_fullname">
           Name
         </label>
 
@@ -45,12 +45,12 @@
       <div class="oc-form-fieldBlock"
            tal:define="error errors/sender_from_address|nothing"
            tal:attributes="class python:error and 'oc-fieldBlock-error' or 'oc-fieldBlock'">
-        <label for="sender_from_address" i18n:translate="label_sender_from_address">
+        <label for="sender_from_address" i18n:translate="contact-site-admin_label_sender_from_address">
           E-Mail
         </label>
         <span class="oc-discreetText" title="Required"
               i18n:attributes="title title_required;"
-              i18n:translate="label_required">(Required)</span>
+              i18n:translate="contact-site-admin_label_required">(Required)</span>
         
         <div tal:content="error" class="oc-form-error">Validation error output</div>            
 
@@ -75,12 +75,12 @@
     <div class="oc-form-fieldBlock"
          tal:define="error errors/subject|nothing"
          tal:attributes="class python:error and 'oc-fieldBlock-error' or 'oc-fieldBlock'">
-      <label for="subject" i18n:translate="label_subject">
+      <label for="subject" i18n:translate="contact-site-admin_label_subject">
         Subject
       </label>
       <span class="oc-discreetText" title="Required"
             i18n:attributes="title title_required;"
-            i18n:translate="label_required">(Required)</span>
+            i18n:translate="contact-site-admin_label_required">(Required)</span>
       
       <div tal:content="error" class="oc-form-error">Validation error output</div>            
 
@@ -96,7 +96,7 @@
     <div class="oc-form-fieldBlock"
          tal:define="error errors/message|nothing"
          tal:attributes="class python:error and 'oc-fieldBlock-error' or 'oc-fieldBlock'">
-      <label for="message" i18n:translate="label_message">
+      <label for="message" i18n:translate="contact-site-admin_label_message">
         Message
       </label>
       <span class="oc-discreetText" title="Required"
