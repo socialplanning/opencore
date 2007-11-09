@@ -428,18 +428,18 @@ class ForgotLoginView(AccountView):
             self.addPortalStatusMessage(_(u'psm_enter_username_email', u"Please enter your username or email address."))
             return None
 
-        def get_user(user_lookup, callable):
-            if '@' in user_lookup:
-                return callable(getEmail=user_lookup)
-            return callable(getUserName=user_lookup)
-            
-        brains = get_user(user_lookup, self.membranetool)
+        query = dict()
+        if '@' in user_lookup:
+            query['getEmail'] = user_lookup
+        else:
+            query['getUserName'] = user_lookup
 
+        brains = self.membranetool(query)
         if brains:
             return brains[0].getId
 
         # check to see if the user is pending
-        member = get_user(user_lookup, self.is_pending)
+        member = self.is_pending(query)
         if member:
             return member.getId()
 
