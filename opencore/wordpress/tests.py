@@ -8,7 +8,7 @@ from Testing import ZopeTestCase as ztc
 from Products.Five import zcml
 from zope.interface import alsoProvides
 from zope.testing.cleanup import cleanUp
-from opencore.testing.layer import MockHTTP, OpencoreContent
+from opencore.testing.layer import MockHTTPWithContent
 
 def clean_CA(tc):
     return cleanUp()
@@ -29,12 +29,9 @@ def directive_setup(tc):
     import opencore.wordpress
     zcml.load_config('test-directive.zcml', opencore.wordpress)
 
-class MockHTTPwithContent(MockHTTP, OpencoreContent):
-    """not sure this is the right spelling"""
-
 def test_suite():
     from zope.component import getMultiAdapter, getUtility
-    from opencore.testing import *
+    from opencore.testing import * # star imports are for pansies
     from opencore.utility.interfaces import IHTTPClient
     
     directive = doctest.DocFileSuite('directive.txt',
@@ -53,7 +50,7 @@ def test_suite():
     
     zcml_suites = (readme,)
     for suite in zcml_suites:
-        suite.layer = MockHTTPwithContent
+        suite.layer = MockHTTPWithContent
         
     suites = unit_suites + zcml_suites
     return unittest.TestSuite(suites)

@@ -7,6 +7,8 @@
 
  <property name="remote_auth_sites" type="lines" />
 
+ <property name="title" type="string">OpenCore Site</property>
+
  <property name="email_from_address"
-    type="string">greetings@openplans.org</property>
+           type="string">greetings@localhost.localdomain</property>
 </site>

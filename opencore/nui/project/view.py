@@ -4,7 +4,6 @@ import string
 from zope import event
 from zope.component import getMultiAdapter
 from zope.component import getUtility
-from zope.i18nmessageid import Message, MessageFactory
 from Acquisition import aq_parent
 
 from topp.featurelets.interfaces import IFeatureletRegistry
@@ -16,24 +15,26 @@ from plone.memoize.instance import memoize, memoizedproperty
 from plone.memoize.view import memoize_contextless
 from plone.memoize.view import memoize as req_memoize
 
-from opencore.interfaces import IAddProject
+from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.catalog import IMetadataDictionary 
 from opencore.interfaces.event import AfterProjectAddedEvent, \
       AfterSubProjectAddedEvent
-from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
+from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 
 from opencore.project.utils import get_featurelets
 from opencore.tasktracker import uri as tt_uri
-
 from opencore.nui import formhandler
-from opencore.nui.base import BaseView
+from opencore.nui.base import BaseView, _
 from opencore.nui.formhandler import OctopoLite, action
 from opencore.nui.project.utils import vdict
 from opencore.nui.project.interfaces import IHomePage
+from opencore.nui.wiki.add import get_view_names
+
+from DateTime import DateTime
 
 _marker = object()
 
-_ = MessageFactory('opencore')
+
 
 class ProjectBaseView(BaseView):
 
@@ -217,7 +218,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
         deleted_objects = []
         
         if not brains:
-            self.add_status_message(u'Please select items to delete.')
+            self.add_status_message(_(u'psm_no_items_to_delete', u'Please select items to delete.'))
 
         # put obj ids in dict keyed on their parents for optimal batch deletion
         for brain in brains:                
@@ -368,21 +369,79 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
         return snippets
 
 
-class ProjectPreferencesView(ProjectBaseView):
+
+class ProjectPreferencesView(ProjectBaseView, OctopoLite):
+
+    template = ZopeTwoPageTemplateFile('preferences.pt')
+    logo_snippet = ZopeTwoPageTemplateFile('logo-snippet.pt')
         
+    def mangled_logo_url(self):
+        """When a project logo is changed, the logo_url remains the same.
+        This method appends a timestamp to logo_url to trick the browser into
+        fetching the new image instead of using the cached one which could be --
+        out of date (and always will be in the ajaxy case).
+        """
+        logo = self.context.getLogo()
+        if logo:
+            timestamp = str(DateTime()).replace(' ', '_')
+            return '%s?%s' % (logo.absolute_url(), timestamp)
+        return self.defaultProjLogoURL
+
+
+    @action("uploadAndUpdate")
+    def change_logo(self, target=None, fields=None):
+        logo = self.request.form.get("logo")
+
+        if not self.check_logo(logo):
+            return
+
+        self.context.reindexObject('logo')
+        return {
+            'oc-project-logo' : {
+                'html': self.logo_snippet(),
+                'action': 'replace',
+                'effects': 'highlight'
+                }
+            }
+
+    def check_logo(self, logo):
+        try:
+            self.context.setLogo(logo)
+        except ValueError: # must have tried to upload an unsupported filetype
+            self.addPortalStatusMessage('Please choose an image in gif, jpeg, png, or bmp format.')
+            return False
+        return True
+
+
+    @action("remove")
+    def remove_logo(self, target=None, fields=None):
+        proj = self.context
+        proj.setLogo("DELETE_IMAGE")  # blame the AT API
+        proj.reindexObject('logo')
+        return {
+                'oc-project-logo' : {
+                    'html': self.logo_snippet(),
+                    'action': 'replace',
+                    'effects': 'highlight'
+                    }
+                }
+
+
     @formhandler.button('update')
     def handle_request(self):
         title = self.request.form.get('title')
         title = strip_extra_whitespace(title)
         self.request.form['title'] = title
         if not valid_project_title(title):
-            self.errors['title'] = 'The project name must contain at least 2 characters with at least 1 letter or number.'
+            self.errors['title'] = _(u'err_project_name', u'The project name must contain at least 2 characters with at least 1 letter or number.')
 
         if self.errors:
-            self.add_status_message(msgid='correct_errors_below')
+            self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return
 
-        allowed_params = set(['__initialize_project__', 'update', 'set_flets', 'title', 'description', 'workflow_policy', 'featurelets', 'home-page'])
+        allowed_params = set(['__initialize_project__', 'update', 'set_flets',
+                              'title', 'description', 'logo', 'workflow_policy',
+                              'featurelets', 'home-page'])
         new_form = {}
         for k in allowed_params:
             if k in self.request.form:
@@ -391,13 +450,22 @@ class ProjectPreferencesView(ProjectBaseView):
         reader = IReadWorkflowPolicySupport(self.context)
         old_workflow_policy = reader.getCurrentPolicyId()
 
-        #store change status of flet, security, title, description
+        logo = self.request.form.get('logo')
+        logochanged = False
+        if logo:
+            if not self.check_logo(logo):
+                return
+            logochanged = True
+            del self.request.form['logo']
 
+        #store change status of flet, security, title, description, logo
         changed = {
-            _("The title has been changed.") : self.context.title != self.request.form.get('title', self.context.title),
-            _("The description has been changed.") : self.context.description != self.request.form.get('description', self.context.description),
-            _("The security policy has been changed.") : old_workflow_policy != self.request.form['workflow_policy'],            
+            _(u'psm_project_title_changed', u"The title has been changed.") : self.context.title != self.request.form.get('title', self.context.title),
+            _(u'psm_project_desc_changed', u"The description has been changed.") : self.context.description != self.request.form.get('description', self.context.description),
+            _(u'psm_project_logo_changed', u"The project image has been changed.") : logochanged,
+            _(u'psm_security_changed', u"The security policy has been changed.") : old_workflow_policy != self.request.form['workflow_policy'],            
             }
+
         
         old_featurelets = set([(x['name'], x['title']) for x in get_featurelets(self.context)])
             
@@ -407,11 +475,13 @@ class ProjectPreferencesView(ProjectBaseView):
 
         for flet in featurelets:
             if flet not in old_featurelets:
-                changed[_('%s feature has been added.' % flet[1])] = 1
+                changed[_(u'psm_featurelet_added', u'${flet} feature has been added.',
+                          mapping={u'flet':flet[1].capitalize()})] = 1
         
         for flet in old_featurelets:
             if flet not in featurelets:
-                changed[_('%s feature has been removed.' % flet[1])] = 1
+                changed[_(u'psm_featurelet_removed', u'${flet} feature has been removed.',
+                          mapping={u'flet':flet[1].capitalize()})] = 1
 
         
         for field, changed in changed.items():
@@ -420,10 +490,14 @@ class ProjectPreferencesView(ProjectBaseView):
         #self.add_status_message('Your changes have been saved.')
 
         home_page = self.request.form.get('home-page', None)
+        hpcontext = IHomePage(self.context)
         if home_page is not None:
             home_page = '%s/%s' % (self.context.absolute_url(), home_page)
-            IHomePage(self.context).home_page = home_page
-            self.add_status_message(_(u'Project home page set to: <a href="%s">%s</a>' % (home_page, home_page)))
+            if hpcontext.home_page != home_page:
+                self.add_status_message(_(u'psm_proj_homepage_change', u'Project home page set to: <a href="${homepage}">${homepage}</a>',
+                                          mapping={u'homepage':home_page}))
+                hpcontext.home_page = home_page
+
 
         self.redirect(self.context.absolute_url())
 
@@ -431,8 +505,6 @@ class ProjectPreferencesView(ProjectBaseView):
         return IHomePage(self.context).home_page.split('/')[-1]
 
     def featurelets(self, include_wiki=False):
-        # XXX manually filter out openroster for now
-        # this needs to go away when the openroster featurelet is destroyed
         all_flets = getUtility(IFeatureletRegistry).getFeaturelets()
         installed_flets = [f['name'] for f in get_featurelets(self.context)]
         flet_data = [dict(id=f.id,
@@ -440,7 +512,7 @@ class ProjectPreferencesView(ProjectBaseView):
                           url=f._info['menu_items'][0]['action'],
                           checked=f.id in installed_flets,
                           )
-                     for f in all_flets if f.id != 'openroster']
+                     for f in all_flets]
         if include_wiki:
             flet_data.insert(0, dict(id='wiki',
                                      title='Wiki pages',
@@ -454,13 +526,17 @@ class ProjectAddView(BaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('create.pt')
 
+    def reserved_names(self):
+        return list(get_view_names(self.context)) + ['people', 'projects']
+
     @action('validate')
     def validate(self, target=None, fields=None):
         putils = getToolByName(self.context, 'plone_utils')
         errors = {}
         id_ = self.request.form.get('projid')
         id_ = putils.normalizeString(id_)
-        if self.context.has_key(id_):
+        if (self.context.has_key(id_)
+            or id_ in self.reserved_names()):
             errors['oc-id-error'] = {
                 'html': 'The requested url is already taken.',
                 'action': 'copy',
@@ -473,6 +549,17 @@ class ProjectAddView(BaseView, OctopoLite):
                 'effects': ''
                 }
         return errors
+
+
+    def check_logo(self, project, logo):
+        try:
+            project.setLogo(logo)
+        except ValueError: # must have tried to upload an unsupported filetype
+            self.addPortalStatusMessage('Please choose an image in gif, jpeg, png, or bmp format.')
+            return False
+        return True
+
+
 
     @action('add')
     def handle_request(self, target=None, fields=None):
@@ -498,7 +585,7 @@ class ProjectAddView(BaseView, OctopoLite):
                 self.errors['id'] = 'The requested url is already taken.'
 
         if self.errors:
-            self.add_status_message(msgid='correct_errors_below')
+            self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return
 
         proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
@@ -506,12 +593,24 @@ class ProjectAddView(BaseView, OctopoLite):
         # XXX is no validation better than an occasional ugly error?
         #proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
         if self.errors:
-            self.add_status_message(msgid='correct_errors_below')
+            self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return 
+        if id_ in self.reserved_names():
+            self.add_status_message(_(u'psm_project_name_reserved', u'The name "${project_name}" is reserved. Please try a different name.',
+                                      mapping={u'project_name':id_}))
+            self.redirect('%s/create' % self.context.absolute_url())
+            return
 
         self.context.portal_factory.doCreate(proj, id_)
         proj = self.context._getOb(id_)
         self.notify(proj)
+
+        logo = self.request.form.get('logo')
+        if logo:
+            if not self.check_logo(proj, logo):
+                return
+            del self.request.form['logo']
+
         self.template = None
         proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)
 
@@ -520,25 +619,28 @@ class ProjectAddView(BaseView, OctopoLite):
             home_page = '%s/%s' % (proj.absolute_url(), home_page)
             IHomePage(proj).home_page = home_page
 
-        self.add_status_message(msgid='project_created',
-                                mapping={'title': title,
-                                         'proj_edit_url': proj_edit_url},
-                                )
-        self.redirect('%s/manage-team' % proj.absolute_url())
+        s_message_mapping = {'title': title, 'proj_edit_url': proj_edit_url}
+
+
+        s_message = _(u'project_created',
+                      u'"${title}" has been created. Create a team by searching for other members to invite to your project, then <a href="${proj_edit_url}">edit your project home page</a>.',
+                      mapping=s_message_mapping)
+        
+#        self.add_status_message(s_message)
+
+        self.redirect('%s/tour' % proj.absolute_url())
 
     def notify(self, project):
         event.notify(AfterProjectAddedEvent(project, self.request))
 
     def featurelets(self, include_wiki=False):
         flets = getUtility(IFeatureletRegistry).getFeaturelets()
-        # XXX manually filter out openroster for now
-        # this needs to go away when the openroster featurelet is destroyed
         flet_data = [dict(id=f.id,
                           title=f.title,
                           url=f._info['menu_items'][0]['action'],
                           checked=False,
                           )
-                     for f in flets if f.id != 'openroster']
+                     for f in flets]
         if include_wiki:
             flet_data.insert(0, dict(id='wiki',
                                      title='Wiki pages',
@@ -612,6 +714,9 @@ def valid_project_title(title):
                 return True
 
     return False
+
+class TourView(ProjectBaseView):
+    """ dummy view for the 1 page tour """
 
 _ignore = dict((char, True) for char in ''.join((string.punctuation, string.whitespace)))
 _printable = dict((char, True) for char in string.printable)

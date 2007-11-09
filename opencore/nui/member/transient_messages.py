@@ -6,7 +6,7 @@ from BTrees.IOBTree import IOBTree
 
 from OFS.SimpleItem import SimpleItem
 
-from opencore.nui.member.interfaces import ITransientMessage
+from opencore.interfaces.message import ITransientMessage
 
 class TransientMessage(SimpleItem):
     implements(ITransientMessage)

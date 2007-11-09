@@ -16,7 +16,7 @@ from Products.ATContentTypes.content.folder import ATFolder
 
 from Products.Fate.tests.utils import load_string
 
-from opencore.interfaces import IAddProject
+from opencore.interfaces.adding import IAddProject
 from openplanstestcase import OpenPlansTestCase, makeContent
 from sets import Set
 
@@ -32,7 +32,7 @@ class AddFormTest(OpenPlansTestCase):
                                name='do_add_project')
         view.update()
         self.assertEqual(Set(view.fieldNames),
-                         Set(('id', 'title', 'space_teams')))
+                         Set(('id', 'title', 'space_teams', 'logo')))
 
 def test_suite():
     suite = unittest.TestSuite()

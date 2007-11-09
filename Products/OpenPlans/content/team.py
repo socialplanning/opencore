@@ -13,7 +13,7 @@ from Products.TeamSpace.exceptions import MemberRoleNotAllowed
 from zope.interface import implements
 from zope.event import notify
 
-from Products.OpenPlans.interfaces import IOpenTeam
+from opencore.interfaces import IOpenTeam
 from Products.OpenPlans.config import DEFAULT_ROLES
 
 from opencore.nui.indexing import queueObjectReindex
@@ -158,8 +158,9 @@ class OpenTeam(Team):
     security.declarePublic('join')
     def join(self):
         """
-        Apply for project membership for the currently authenticated
-        member.  Will either create a new membership object or fire
+        Apply for project membership for the currently authenticated member.
+        
+        Will either create a new membership object or fire
         the rerequest transition (if a membership already exists).
 
         Can't delegate to addMember b/c we need to bypass the security
@@ -171,10 +172,11 @@ class OpenTeam(Team):
         putils = getToolByName(self, 'plone_utils')
         mtool = getToolByName(self, 'portal_membership')
         mem = mtool.getAuthenticatedMember()
+
         mem_id = mem.getId()
 
         if mem_id not in self.getMemberIds():
-            self._createMembership()
+            self._createMembership(mem)
 
         elif mem_id not in self.getActiveMemberIds():
             wftool = getToolByName(self, 'portal_workflow')

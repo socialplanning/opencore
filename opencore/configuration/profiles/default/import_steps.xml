@@ -237,4 +237,33 @@
     <dependency step="install_dependencies" />
   </import-step>
 
+  <import-step
+     version="20071109-01"
+     id="install_remote_auth_plugin"
+     handler="opencore.configuration.setuphandlers.install_remote_auth_plugin"
+     title="OpenCore install remote auth plugin">
+    Installs and activates the remote auth plugin in the site's PAS
+    acl_users folder.
+    <dependency step="install_dependencies" />
+  </import-step>
+
+  <import-step
+     version="20071109-01"
+     id="local_fqdn_return_address"
+     handler="opencore.configuration.setuphandlers.local_fqdn_return_address"
+     title="OpenCore set local return address">
+    Sets the hostname on the site return address to match the local FQDN,
+    but only if the profile contains the default setting.
+    <dependency step="install_dependencies" />
+  </import-step>
+
+  <import-step
+     version="20071109-01"
+     id="setupKupu"
+     handler="opencore.configuration.setuphandlers.setupKupu"
+     title="OpenCore setup kupu libraries">
+    Tweak the library settings in the kupu drawers.
+    <dependency step="install_dependencies" />
+  </import-step>
+
 </import-steps>

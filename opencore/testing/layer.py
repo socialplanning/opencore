@@ -106,6 +106,7 @@ class OpencoreContent(OpenPlansLayer):
 
 OpenCoreContent = OpencoreContent
 
+
 class MockHTTP(ZCML):
     @classmethod
     def setUp(cls):
@@ -116,11 +117,17 @@ class MockHTTP(ZCML):
         raise NotImplementedError
 
 
-class MockHTTPwithContent(MockHTTP, OpencoreContent):
-    """just what it sounds like for all your project -> app testing
-    needs"""
+class MockHTTPWithContent(OpencoreContent):
+    """
+    Add the mock httplib2 utility to the OpencoreContent layer.
+    """
+    @classmethod
+    def setUp(cls):
+        setup_mock_http()
+        txn.commit()
+    
+    @classmethod
+    def tearDown(cls):
+        raise NotImplementedError
 
 
-
-
-        

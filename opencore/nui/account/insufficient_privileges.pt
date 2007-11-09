@@ -1,13 +1,13 @@
 <tal:redirect define="dummy view/privs_redirect" />
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
 
 <body>
 
 <div metal:fill-slot="content">
    <div>
-      <h1 i18n:translate="heading_no_privileges">Insufficient Privileges</h1>
+      <h1 i18n:translate="insufficient_privileges_heading">Insufficient Privileges</h1>
 
-      <p i18n:translate="description_no_privileges">
+      <p i18n:translate="insufficient_privileges_description">
       You do not have sufficient privileges to view this page.
       </p>
 

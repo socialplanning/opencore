@@ -1,6 +1,6 @@
 <tal:vars define="global fdata view/handle_request;
 		  global gdata view/handle_post" />
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
@@ -10,31 +10,35 @@
                    tal:condition="view/request/key | nothing" 
                    tal:attributes="value view/request/key" />
 	    
-	    <input class="context" type="submit" name="resend_email:boolean"
-		   value="Send me another activation email" />
+	    <input i18n:attributes="value pending_send_another_activation" class="context" type="submit" name="resend_email:boolean"
+		   value="Send me another activation email" style="font-size: 1.3em;" />
 	  </form>
 	</p>
+	<br />
 	
-	<p>
-	  Or enter a new address where you would like to
-	  receive the activation email for this account again
-	</p>
+	<div class="oc-js-expander">
+	
+	
+	
+	<h2 class="oc-bigText">
+	  <a class="oc-js-expander_open oc-expanderLink" i18n:translate="pending_description">Or enter a new address where you would like to receive the activation email for this account again</a>
+	</h2>
 
 	<form name="new_email_form" method="post" id="oc-new-email-form"
-	      action="pending">
+	      action="pending" class="oc-js-expander-content oc-expander-content">
           <input type="hidden" name="key" id="key" 
                  tal:condition="view/request/key | nothing" 
                  tal:attributes="value view/request/key" />
 	  <fieldset class="oc-boxy">
-	    <legend class="oc-legend-heading oc-biggestText">
-	      Enter a new email address
+	    <legend i18n:translate="pending_enter_new_email" class="oc-legend-heading oc-biggestText">
+	      Enter a different email address
 	    </legend>
 	    <table class="oc-form">
 	      <thead></thead>
 	      <tbody>
 		<tr>
 		  <th class="oc-form-label" scope="row">
-		    <label for="email">Email</label>
+		    <label for="email" i18n:translate="pending_email_label">Email</label>
 		  </th>
 		  <td class="oc-form-value">
 		    <input type="text" name="email" id="email" />
@@ -54,15 +58,32 @@
 	  </fieldset>
 	</form>
 
-	<p>
-	  If you think this is a mistake, you can try to login again
-	</p>
+  </div><!-- end expander -->
 
+	
+	<hr />
+	
+	<div class="oc-js-expander">
+	
+	
+	<h2 i18n:translate="pending_mistake" class="oc-bigText">
+	  <a class="oc-js-expander_open oc-expanderLink">
+	   If you think this is a mistake, you can try to login again
+	  </a>
+	</h2>
+	
+
+  <div class="oc-js-expander-content oc-expander-content">
 	<metal:login use-macro="view/login_snippet/macros/login_snippet" />
+	</div>
+	
+	</div>
 	<metal:forgot use-macro="view/forgot_snippet/macros/forgot_snippet" />
 
       </div><!-- end #content-main -->
-
+      <div id="oc-content-sidebar">
+	
+      </div>
     </div><!-- end content slot -->
   </body>
 </html>

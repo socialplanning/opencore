@@ -1,0 +1,41 @@
+Make sure the RequestMembershipWithEmail adapter is hooked up::
+    >>> team = portal.portal_teams.p1
+    >>> from opencore.interfaces.pending_requests import IRequestMembership
+    >>> rm = IRequestMembership(team)
+    >>> rm
+    <opencore.nui.project.team_membership.RequestMembershipWithEmail object ...>
+
+It should have found a site::
+    >>> rm.portal
+    <PloneSite at ...>
+
+We can find the logged in user::
+    >>> rm._loggedinmember
+    <OpenMember at ...>
+
+We can construct an email to request membership to the project::
+    >>> self.logout()
+    >>> self.login('m4')
+    >>> team.manage_delObjects(['m4'])
+    >>> msg, var = rm._construct_request_email(request_message="Hi")
+    >>> msg
+    u'...Project One...m4...Hi...'
+    >>> var
+    {...}
+
+    >>> from Products.CMFCore.utils import getToolByName    
+    >>> mh = getToolByName(team, "MailHost")
+    >>> len(mh.messages)
+    0
+
+The logged in user can request membership to the project::
+    >>> rm.join()
+    True
+
+It will create a mail message too::
+    >>> len(mh.messages) == len(team.get_admin_ids())
+    True
+
+If the user is not able to request membership, we'll find out::
+    >>> rm.join()
+    False

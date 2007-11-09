@@ -1,8 +1,8 @@
 from Acquisition import aq_get, aq_inner, aq_base
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
-from Products.OpenPlans.interfaces import IWriteWorkflowPolicySupport
-from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
+from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
+from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from Products.OpenPlans.workflows import MEMBERSHIP_PLACEFUL_POLICIES
 

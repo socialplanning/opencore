@@ -1,5 +1,5 @@
 <tal:vars define="can_add_lists python:view.membertool.checkPermission('Listen: Add list', here);">
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:Mailing Lists - ${view/area/Title}" />
   </head>
@@ -13,8 +13,8 @@
       <div id="oc-content-main">
 
         <div class="oc-headingBlock">
-          <h1>Mailing lists</h1>
-          <p class="oc-headingContent">
+          <h1 i18n:translate="mailing_lists_heading">Mailing lists</h1>
+          <p i18n:translate="mailing_lists_description" class="oc-headingContent">
             View<span tal:condition="can_add_lists"> or manage exisiting</span> mailing lists<span tal:condition="can_add_lists"> or <a tal:attributes="href string:${context/absolute_url}/opencore.add_mailinglist">add a new mailing list</a></span>.
           </p>
         </div>
@@ -25,9 +25,9 @@
             
               <thead>
                 <tr>
-                  <th scope="col">Mailing list</th>
-                  <th>Last activity</th>
-                  <th scope="col">Actions</th>
+                  <th i18n:translate="mailing_lists_column_header" scope="col">Mailing list</th>
+                  <th i18n:translate="mailing_lists_last_activity">Last activity</th>
+                  <th i18n:translate="mailing_lists_actions" scope="col">Actions</th>
                 </tr>
               </thead>
 
@@ -47,9 +47,9 @@
                               tal:attributes="href list_url">
                               Item Title
                             </a>
-                            <span class="oc-discreetText">(<span tal:condition="view/loggedin" tal:replace="python:list.getObject().mailto">listaddress@lists.openplans.org</span>)</span>
+                            <span class="oc-discreetText"><span tal:condition="view/loggedin" tal:replace="python:'(' + list.getObject().mailto + ')'">listaddress@lists.openplans.org</span></span>
                           </dt>
-                          <dd tal:condition="list_creator" i18n:translate="label_by_author"
+                          <dd tal:condition="list_creator" i18n:translate="mailing_lists_created_by"
                                 class="oc-discreetText">
                             created by
                             <a href="#"
@@ -95,11 +95,17 @@
             </table>
           </tal:listing>
   
-          <p tal:condition="not: mailing_lists" i18n:translate="description_no_items_in_folder">
+          <p tal:condition="not: mailing_lists" i18n:translate="mailing_lists_no_lists" class="oc-boxy oc-discreetText">
             There are currently no mailing lists for this project.
           </p>
   
         </tal:foldercontents>
+      </div><!-- oc-content-main -->
+      
+      <div id="oc-content-sidebar">
+        <div class="oc-getstarted">
+          <a class="oc-banana" tal:attributes="href string:${context/absolute_url}/opencore.add_mailinglist">Add a mailing list</a>
+	</div>
       </div>
     </div>
   </body>

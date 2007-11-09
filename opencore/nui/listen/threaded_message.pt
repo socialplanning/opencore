@@ -1,4 +1,4 @@
-<html metal:use-macro="here/@@standard_macros/master">
+<html metal:use-macro="here/@@standard_macros/master" i18n:domain="opencore">
   <head>
     <title metal:fill-slot="title" tal:content="string:${view/context/Title} - ${view/area/Title}" />
   </head>
@@ -13,12 +13,12 @@
       </div><!-- content-main -->
       <div id="oc-content-sidebar">
         <div class="oc-boxy">
-          <strong>Return to date view:</strong>
+          <strong i18n:translate="threaded_message_return">Return to date view:</strong>
           <a id="to_threaded" href="." tal:attributes="href string:${view/folderURL}/by_thread"
-            i18n:translate="">threaded</a>
+            i18n:translate="threaded_message_threaded">threaded</a>
           or
           <a id="to_flat" href="." tal:attributes="href string:${view/folderURL}/by_date"
-            i18n:translate="">flat</a>
+            i18n:translate="threaded_message_flat">flat</a>
         </div>
         <ul id="thread-navigation" class="oc-plainList oc-boxy"
           tal:define="next_link view/getNextInThread;
@@ -28,13 +28,13 @@
                       replies view/getReplies;">
           <li tal:condition="replies">
             <dl id="thread-replies" class="oc-plainList">
-              <dt i18n:translate="label_threadreplies">
+              <dt i18n:translate="threaded_message_replies">
                 Replies:
               </dt>
               <dd>
                 <ul id="mail-reply-list" class="oc-plainList">
                   <li tal:repeat="reply replies">
-                    <a href="#" i18n:translate="" tal:content="reply/subject"
+                    <a href="#" tal:content="reply/subject"
                       tal:attributes="href reply/url">Subject</a>
                     <span class="oc-smallText">
                       <span i18n:translate="label_author" tal:omit-tag="">by</span>
@@ -46,24 +46,24 @@
             </dl>
           </li>
           <li tal:condition="prev_link">
-            <strong id="thread-previous" i18n:translate="label_thread_reply">
+            <strong id="thread-previous" i18n:translate="threaded_message_thread_reply">
               In reply to:
             </strong>
-            <a href="#" i18n:translate="" tal:content="prev_link/subject"
+            <a href="#" tal:content="prev_link/subject"
               tal:attributes="href prev_link/url">Subject</a>
             <span class="oc-smallText">
-              <span i18n:translate="label_author" tal:omit-tag="">by</span>
+              <span tal:omit-tag="">by</span>
               <span tal:replace="prev_link/mail_from">Author</span>
             </span>
           </li>
           <li tal:condition="next_link">
-            <strong id="thread-next" i18n:translate="label_mail_thread_next">
+            <strong id="thread-next" i18n:translate="threaded_message_next">
               Next in thread:
             </strong>
-            <a href="#" tal:content="next_link/subject" i18n:translate="" 
+            <a href="#" tal:content="next_link/subject" 
               tal:attributes="href next_link/url">Subject</a>
             <span class="oc-smallText">
-              <span i18n:translate="label_author" tal:omit-tag="">by</span>
+              <span tal:omit-tag="">by</span>
               <span tal:replace="next_link/mail_from">Author</span>
             </span>
           </li>

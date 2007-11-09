@@ -16,11 +16,12 @@ from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
 
 from Products.OpenPlans.Extensions.setup import convertFunc, \
      reinstallWorkflowPolicies, installNewsFolder, securityTweaks
+
 from opencore.configuration.setuphandlers import setupPeopleFolder, \
      setupProjectLayout, setupHomeLayout
 from opencore.configuration.setuphandlers import createValidationMember, \
      install_local_transient_message_utility, install_email_invites_utility
-from opencore.configuration.setuphandlers import \
+from opencore.configuration.setuphandlers import install_remote_auth_plugin, \
      install_team_placeful_workflow_policies, addCatalogQueue
 
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
@@ -55,7 +56,6 @@ def move_blocking_content(portal):
             new_id = "%s-page" % id_
             parent.manage_renameObjects([obj.getId()], [new_id])
 
-
 def reindex_membrane_tool(portal):
     # XXX this should trigger the GS import step to be run if it's ever
     # XXX needed again
@@ -84,7 +84,7 @@ def move_interface_marking_on_projects_folder(portal):
     #XX needed? test?
     from Products.Five.utilities.marker import erase
     from zope.interface import alsoProvides
-    from opencore.interfaces import IAddProject
+    from opencore.interfaces.adding import IAddProject
     import sys
     import opencore
     sys.modules['Products.OpenPlans.interfaces.adding'] = opencore.interfaces.adding
@@ -303,7 +303,8 @@ nui_functions['Update team active states'] = update_team_active_states
 nui_functions['Add made_active_date attribute to memberships'] = migrate_mships_made_active_date
 nui_functions['annotate last modified author'] = annotate_last_modified_author
 nui_functions['markNewsItems'] = markNewsItems
-
+nui_functions['Install OpenCore Remote Auth Plugin'] = \
+                       convertFunc(install_remote_auth_plugin)
 
 def run_nui_setup(portal):
     pm = portal.portal_migration

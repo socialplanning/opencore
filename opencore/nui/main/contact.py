@@ -1,7 +1,7 @@
 from plone.memoize.view import memoize as req_memoize
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
-from opencore.nui.base import BaseView
+from opencore.nui.base import BaseView, _
 from opencore.nui import formhandler
 from opencore.nui.email_sender import EmailSender
 
@@ -34,7 +34,7 @@ class ContactView(BaseView, formhandler.OctopoLite):
         self.validate()
         if self.errors:
             # don't send, just return and render the page
-            self.addPortalStatusMessage(u'Please correct the specified '
+            self.addPortalStatusMessage(u'psm_please_correct_errors', u'Please correct the specified '
                                         'errors.')
             return
         form = self.request.form
@@ -44,6 +44,6 @@ class ContactView(BaseView, formhandler.OctopoLite):
         mfrom = form.get('sender_from_address')
         self.email_sender.sendEmail(mto, msg=msg, subject=subject,
                                     mfrom=mfrom)
-        self.addPortalStatusMessage(u'Message sent.')
+        self.addPortalStatusMessage(u'psm_message_sent_to_admin', u'Message sent.')
         self.template = None
         self.redirect(self.request.ACTUAL_URL)

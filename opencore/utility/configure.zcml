@@ -8,4 +8,8 @@
     <utility factory="httplib2.Http"
 	     provides="opencore.utility.interfaces.IHTTPClient"
 	     />
+    <adapter for="opencore.interfaces.IOpenSiteRoot"
+	     provides="opencore.utility.interfaces.IEmailSender"
+	     factory="opencore.utility.email_sender.EmailSender"
+	     />
 </configure>

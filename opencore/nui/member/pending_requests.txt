@@ -1,0 +1,45 @@
+A simple adapter to annotate objects with a list of project ids to
+store membership requests which should be created in the future.
+
+It's really just wrapping a set.
+
+    >>> m1 = portal.portal_memberdata.m1
+    >>> from zope.app.annotation.interfaces import IAnnotatable
+    >>> IAnnotatable.providedBy(m1)
+    True
+    >>> pr = IPendingRequests(m1)
+    >>> pr
+    <opencore.nui.member.pending_requests.PendingRequests object ...>
+
+The member shouldn't have any requests initially::
+    >>> pr.getRequests()
+    ()
+
+We store a few requests to join projects and then get them::
+    >>> pr.addRequest("p1")
+    >>> pr.getRequests()
+    ('p1',)
+    >>> pr.addRequest("p2")
+    >>> pr.getRequests()
+    ('p2', 'p1')
+
+Adding a request which is already stored quietly does nothing::
+    >>> pr.addRequest("p1")
+    >>> pr.getRequests()
+    ('p2', 'p1')
+
+We can remove requests, but only if they exist::
+    >>> pr.removeRequest("p2")
+    >>> pr.removeRequest("foo")
+    Traceback (most recent call last):
+    ...
+    KeyError: 'foo'
+    >>> pr.getRequests()
+    ('p1',)
+
+And we can remove all requests::
+    >>> pr.removeAllRequestsForUser()
+    >>> pr.getRequests()
+    ()
+
+Yay.

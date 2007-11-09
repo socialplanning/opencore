@@ -67,7 +67,7 @@ def remove_form_controller_overrides(portal, actions):
 def get_project(context):
     """Given a context, return the nearest/parent openplans project
     """
-    from Products.OpenPlans.interfaces import IProject
+    from opencore.interfaces import IProject
     chain = context.aq_chain
     for item in chain:
         if IProject.providedBy(item):

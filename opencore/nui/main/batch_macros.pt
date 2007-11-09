@@ -1,6 +1,6 @@
 <html xmlns:tal="http://xml.zope.org/namespaces/tal"
   xmlns:metal="http://xml.zope.org/namespaces/metal"
-  i18n:domain="plone">
+  i18n:domain="opencore">
   <body>
     <!-- Navigation -->
     <div
@@ -18,7 +18,7 @@
           tal:condition="p">
           <a href="" tal:attributes="href python: '%s?%s' % (url , mq( request.form, {batch.b_start_str:p.first} ));">
             &larr;
-            <span i18n:translate="batch_previous_x_items" tal:omit-tag="">Prev</span>
+            <span i18n:translate="batch_macros_previous_x_items" tal:omit-tag="">Prev</span>
           </a>
         </li>
 
@@ -99,7 +99,7 @@
         <li tal:define="n batch/next | nothing"
           tal:condition="n">
           <a href="" tal:attributes="href python: '%s?%s' % (url , mq( request.form, {batch.b_start_str:n.first} ))">
-            <span i18n:translate="batch_next_x_items" tal:omit-tag="">Next</span>
+            <span i18n:translate="batch_macros_next_x_items" tal:omit-tag="">Next</span>
             &rarr;
           </a>
         </li>

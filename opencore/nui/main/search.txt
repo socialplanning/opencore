@@ -246,11 +246,6 @@ Test the news view::
    >>> view.news_items()
    []
 
-Check our static content::
-
-   >>> view.sidebar()
-   '...'
-
 We shouldn't have an add link because we're not the admin
    >>> result = view()
    >>> 'Add news item...' in result
@@ -376,3 +371,8 @@ Check that the project url method works
    'http://nohost/plone/projects/p2'
    >>> view.n_project_members(brain)
    4
+
+flex the recently_created_members list
+   >>> brains = view.recently_created_members()
+   >>> brains[0].created >= brains[1].created >= brains[2].created >= brains[3].created >= brains[4].created
+   True

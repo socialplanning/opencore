@@ -1,4 +1,5 @@
 import os
+import socket
 from StringIO import StringIO
 
 from zope.interface import alsoProvides
@@ -8,6 +9,7 @@ from zope.app.component.hooks import setSite
 from Products.CMFCore.utils import getToolByName
 from Products.remember.utils import getAdderUtility
 from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
+from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
 
 from Products.OpenPlans import config
 from Products.OpenPlans.permissions import DEFAULT_PFOLDER_PERMISSIONS_DATA
@@ -19,13 +21,16 @@ from Products.OpenPlans.workflows import MEMBERSHIP_PLACEFUL_POLICIES
 from opencore.interfaces import IAddProject
 from opencore.interfaces import IAmAPeopleFolder
 from opencore.interfaces import IAmANewsFolder
+from opencore.interfaces.message import ITransientMessage
 from opencore.content.membership import OpenMembership
 from opencore.content.member import OpenMember
 
-from opencore.nui.member.interfaces import ITransientMessage
 from opencore.nui.member.transient_messages import TransientMessage
 from opencore.nui.project.interfaces import IEmailInvites
 from opencore.nui.project.email_invites import EmailInvites
+
+from utils import kupu_libraries
+from utils import kupu_resource_map
 
 
 Z_DEPS = ('PlacelessTranslationService', 'Five', 'membrane', 'remember',
@@ -444,3 +449,63 @@ def addCatalogQueue(portal, out):
         f_disp.manage_addQueueCatalog(q_id)
         queue = portal._getOb(q_id)
         queue.setLocation('portal_catalog')
+
+@setuphandler
+def install_remote_auth_plugin(portal, out):
+    plugin_id = 'opencore_remote_auth'
+    uf = portal.acl_users
+    if plugin_id in uf.objectIds():
+        # plugin is already there, do nothing
+        return
+    print >> out, "Adding OpenCore remote auth plugin"
+    openplans = uf.manage_addProduct['OpenPlans']
+    openplans.manage_addOpenCoreRemoteAuth(plugin_id)
+    activatePluginInterfaces(portal, plugin_id, out)
+
+@setuphandler
+def local_fqdn_return_address(portal, out):
+    """
+    If the boilerplate return address is there, we do a best-guess for
+    a valid email_from_address hostname by using the local FQDN.
+    """
+    default = 'greetings@localhost.localdomain'
+    if portal.getProperty('email_from_address') == default:
+        addy = 'greetings@%s' % socket.getfqdn()
+        portal.manage_changeProperties(email_from_address=addy)
+
+@setuphandler
+def setupKupu(portal, out):
+    # this should really read from a config file
+    # but for now, will do
+    # this code taken from kupu source(plone config example)
+    
+    mt = getToolByName(portal, 'portal_membership')
+    people = 'portal/%s/absolute_url' %mt.getMembersFolder().getId()
+
+    people = dict(src='string:${%s}/kupucollection.xml' %people,
+                  uri='string:${%s}' %people)
+    [kl.update(people) for kl in kupu_libraries \
+     if kl['id'] == 'people']
+
+    typetool = getToolByName(portal, 'portal_types')
+    def typefilter(types):
+        all_meta_types = dict([ (t.id, 1) for t in typetool.listTypeInfo()])
+        return [ t for t in types if t in all_meta_types ]
+        
+    kupu = getToolByName(portal, 'kupu_library_tool')
+    libs = kupu.zmi_get_libraries()
+    kupu.deleteLibraries(range(len(libs)))
+
+    types = kupu.zmi_get_type_mapping()
+    kupu.deleteResourceTypes([ t for (t,p) in types])
+
+    for k,v in kupu_resource_map.items():
+        kupu.addResourceType(k, typefilter(v))
+
+    for lib in kupu_libraries:
+        kupu.addLibrary(**lib)
+        
+    kupu.zmi_set_default_library('myitems')
+    
+    if out:
+        print >> out, "Kupu setup completed"

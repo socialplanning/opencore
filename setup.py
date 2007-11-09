@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.9.6'
+version = '0.9.7.6'
 
 f = open('README.txt')
 readme = "".join(f.readlines())
@@ -21,27 +21,36 @@ setup(name='opencore',
       include_package_data=True,
       zip_safe=False,
       dependency_links=['https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect',
+                        "https://svn.openplans.org/svn/ClockQueue/trunk#egg=ClockQueue-dev",
                         'http://svn.red-bean.com/bob/simplejson/trunk/#egg=simplejson-dev',
                         'http://www.openplans.org/projects/opencore/dependencies',
                         'https://svn.plone.org/svn/plone/plone.memoize/trunk#egg=plone.memoize-dev',
-                        'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof'],
+                        'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
+                        'http://zesty.ca/python/uuid.py#egg=uuid-dev'
+                        ],
+      
       install_requires=[
           # -*- Extra requirements: -*-
+          # comment out hprof because it was causing a linking build issue
+          # on theman
+          #'hprof',
+          "ClockQueue==dev,>=0.0",
           'simplejson',
           'decorator',
-          'hprof',
-          'topp.featurelets',
-          'topp.utils',
+          'topp.featurelets>=0.2.1',
+          'topp.utils>=0.2.7',
           'memojito',
           'OpencoreRedirect',
           'httplib2',
           'plone.memoize',
-          'lxml>=2.0alpha',
+          'lxml>=2.0alpha5',
           'plone.mail',
           'plone.app.form',
           'borg.localrole==1.0rc1',
           'wsseauth',
-          ]
+          'uuid',
+          ],
+      extras_require=dict(ubuntu=['hprof'])
       )
 
 

@@ -12,7 +12,7 @@ from opencore.project.content import IProject
 
 from opencore.nui.base import BaseView
 from opencore.nui.contexthijack import HeaderHijackable
-from opencore.nui.member.interfaces import ITransientMessage
+from opencore.interfaces.message import ITransientMessage
 
 
 memoizedproperty = lambda func: property(view.memoize(func))
@@ -133,16 +133,13 @@ class ProjectMenuView(BaseView):
         team_url = "%s/team" % proj_url
         prefs_url = "%s/preferences" % proj_url
         manage_team_url = "%s/manage-team" % proj_url
+        can_manage = self.membertool.checkPermission(ManageTeamMembership,
+                                                     proj)
 
         menudata = (
             {'content': 'Wiki',
              'href': wiki_url,
              'selected': self.request.ACTUAL_URL == wiki_url,#self.atProjectHome,
-             },
-
-            {'content': 'Contents',
-             'href': contents_url,
-             'selected': self.request.ACTUAL_URL == contents_url,
              },
             )
 
@@ -162,13 +159,23 @@ class ProjectMenuView(BaseView):
              },
             )
 
-        if self.membertool.checkPermission(ManageTeamMembership, proj):
+        if can_manage:
             menudata += (
                 {'content': 'Manage team',
                  'href': manage_team_url,
                  'selected': self.request.ACTUAL_URL == manage_team_url,
                  },
+                )
+            
+        menudata += (
+            {'content': 'Contents',
+             'href': contents_url,
+             'selected': self.request.ACTUAL_URL == contents_url,
+             },
+            )
 
+        if can_manage:
+            menudata += (
                 {'content': 'Preferences',
                  'href': prefs_url,
                  'selected': self.request.ACTUAL_URL == prefs_url,
@@ -177,8 +184,7 @@ class ProjectMenuView(BaseView):
 
         team = proj.getTeams()[0]
         filter_states = tuple(team.getActiveStates()) + ('pending',)
-        if self.loggedin and self.member_info.get('id') not in \
-               team.getMemberIdsByStates(filter_states):
+        if self.member_info.get('id') not in team.getMemberIdsByStates(filter_states):
             req_mship_url = '%s/request-membership' % proj.absolute_url()
             menudata += (
                 {'content': 'Join project',
@@ -192,13 +198,16 @@ class ProjectMenuView(BaseView):
 
 
     def is_flet_selected(self, flet):
-        flet = flet.get('title').lower()
-        if flet == 'mailing lists':
+        flet = flet.get('name')
+        if flet == 'listen':
             lists_url = '/'.join((self.areaURL, 'lists'))
             return self.request.ACTUAL_URL.startswith(lists_url)
         elif flet == 'tasks':
             header = self.request.get_header('X-Openplans-Application')
             return header == 'tasktracker'
+        elif flet == 'blog':
+            header = self.request.get_header('X-Openplans-Application')
+            return header == 'blog'
         return False
 
 class AnonMenuView(BaseView):

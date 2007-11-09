@@ -23,7 +23,9 @@ $Id: test_doctests.py 32811 2006-11-06 14:01:12Z shh42 $
 # Load fixture
 import unittest
 from Testing import ZopeTestCase
-from Products.OpenPlans.tests.openplanstestcase import OpenPlansLayer
+from opencore.testing.layer import OpenPlansLayer
+from opencore.testing.layer import MockHTTPWithContent
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
 from Products.PloneTestCase.PloneTestCase import setupPloneSite
 
@@ -31,6 +33,13 @@ from zExceptions.ExceptionFormatter import format_exception
 from ZPublisher.HTTPResponse import HTTPResponse
 from Testing.ZopeTestCase import installProduct
 import doctest
+
+memxml = """
+<member id="foo">
+  <email>none@nothing.com</email>
+  <fullname>Foo Barsky</fullname>
+</member>
+"""
 
 setupPloneSite()
 
@@ -45,9 +54,13 @@ def exception(self, **kw):
 orig_setBody = HTTPResponse.setBody
 def setBody(self, *args, **kw):
     kw['is_error'] = 0
-    if len(args[0]) == 2:
-        title, body = args[0]
-        args = (body,) + args[1:]
+    try:
+        if len(args[0]) == 2:
+            title, body = args[0]
+            args = (body,) + args[1:]
+    except (TypeError, IndexError):
+        pass # if there's no response body, args[0] will be None
+
     return orig_setBody(self, *args, **kw)
 
 def _traceback(self, t, v, tb, as_html=1):
@@ -59,20 +72,22 @@ HTTPResponse.exception = exception
 HTTPResponse.setBody = setBody
 
 import warnings; warnings.filterwarnings("ignore")
+
 def test_suite():
     suite = unittest.TestSuite()
     DocFileSuite = ZopeTestCase.FunctionalDocFileSuite
     tests = (
-        ('auth.txt', FunctionalTestCase),
+        ('auth.txt', FunctionalTestCase, OpenPlansLayer),
+        ('remote_auth.txt', FunctionalTestCase, MockHTTPWithContent),
         )
 
-    for fname, klass in tests:
+    for fname, klass, layer in tests:
         t = DocFileSuite(fname,
                          test_class=klass,
                          optionflags = doctest.ELLIPSIS,
                          package='opencore.auth.tests')
         #all openplans tests need this
-        t.layer = OpenPlansLayer
+        t.layer = layer
         suite.addTest(t)
     return suite
 

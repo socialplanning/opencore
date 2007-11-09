@@ -5,6 +5,9 @@ from Products.CMFCore.CatalogTool import _getAuthenticatedUser, \
 from Products.AdvancedQuery import In, Eq, Le, Ge
 from Products.AdvancedQuery.eval import eval as _eval
 from Products.PasswordResetTool.tests.utils.mailhost import MockMailHost
+import logging
+
+logger = logging.getLogger('OpenPlans.monkey')
 
 ##################################################
 # make MaildropHost work like SecureMailHost
@@ -23,6 +26,9 @@ def patch_class(klass, method_name, new_method):
     if orig_method is not None:
         setattr(klass, name, orig_method)
     setattr(klass, method_name, new_method)
+    logger.debug("monkeypatched %s.%s.%s" % (klass.__module__,
+                                             klass.__name__, method_name))
+
 
 def unpatch_class(klass, method_name):
     name = PREFIX + method_name
@@ -30,6 +36,8 @@ def unpatch_class(klass, method_name):
     orig_method = getattr(klass, name, None)
     if orig_method is not None:
         setattr(klass, method_name, orig_method)
+        logger.debug("restoring  %s.%s.%s" % (klass.__module__,
+                                              klass.__name__, method_name))
 
 def alt_send(self, mfrom, mto, body, **kwargs):
     return self._orig_method__send(mfrom, mto, body)
@@ -113,3 +121,49 @@ def patch_fileattachment():
     patch_class(FileAttachment, 'inlineMimetypes', new_val)
 
 patch_fileattachment()
+
+
+def patch_plonehotfix_psm():
+    """
+    PloneHotfix20071106 makes broken HTTP headers from
+    long portal status messages. Fix that.
+    See bug https://dev.plone.org/plone/ticket/7325
+    """
+    try:
+        from Products.PloneHotfix20071106 import statusmessages
+    except ImportError:
+        return
+    if hasattr(statusmessages, '_orig_encodeCookieValue'):
+        return
+    statusmessages._orig_encodeCookieValue = statusmessages._encodeCookieValue
+    def encodeCookieValueNoNewlines(*args, **kw):
+        """OpenPlans: Monkeypatching the monkeypatch to fix
+        bug https://dev.plone.org/plone/ticket/7325
+        """
+        value = statusmessages._orig_encodeCookieValue(*args, **kw)
+        return value.replace('\n', '')
+
+    statusmessages._encodeCookieValue = encodeCookieValueNoNewlines
+    # They have a NameError in their error handling too.
+    statusmessages.logger = logging.getLogger('statusmessages')
+    import sys
+    statusmessages.sys = sys
+    # Finally, to get this all to take, we need to re-patch what
+    # they patched.
+    from Products.statusmessages import adapter
+    from Products.statusmessages import message
+    adapter._encodeCookieValue = statusmessages._encodeCookieValue
+    adapter._decodeCookieValue = statusmessages._decodeCookieValue
+    logger.debug("monkeypatched PloneHotfix20071106 to fix psm cookie bug")
+
+def unpatch_plonehotfix_psm():
+    try:
+        from Products.PloneHotfix20071106 import statusmessages
+    except ImportError:
+        return
+    if hasattr(statusmessages, '_orig_encodeCookieValue'):
+        statusmessages._encodeCookieValue = statusmessages._orig_encodeCookieValue
+    logger.debug(
+        "Restoring PloneHotfix20071106.statusmessages._encodeCookieValue")
+
+patch_plonehotfix_psm()

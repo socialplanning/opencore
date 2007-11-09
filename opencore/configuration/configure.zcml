@@ -13,9 +13,10 @@
   <include package="opencore.nui" />
   <include package="opencore.project" />
   <include package="opencore.tasktracker" />
-  <!--include package="opencore.wordpress" /-->
+  <include package="opencore.wordpress" />
   <include package="opencore.redirect" />
   <include package="opencore.utility" />
-
+  <include package="opencore.clockqueue" />
+  <include package="opencore.member" />
 </configure>
  

@@ -3,6 +3,7 @@ tests the integrity of an installation as
 installed by the customization policy
 """
 import os, sys, time
+import socket
 import unittest
 from sets import Set
 import traceback
@@ -16,10 +17,12 @@ from Products.OpenPlans.config import DEFAULT_ROLES
 from openplanstestcase import OpenPlansTestCase, makeContent, \
      ArcheSiteTestCase
 import Products.CMFCore
-from Products.OpenPlans.interfaces import IWriteWorkflowPolicySupport, IReadWorkflowPolicySupport
+from opencore.interfaces.workflow import IWriteWorkflowPolicySupport, IReadWorkflowPolicySupport
 
 from opencore.nui.indexing import PROJECT_POLICY as ppidx
 from Products.OpenPlans.content.project import OpenProject 
+
+psheet_id = 'opencore_properties'
 
 class TestOpenPlansInstall(OpenPlansTestCase):
     def afterSetUp(self):
@@ -49,6 +52,24 @@ class TestOpenPlansInstall(OpenPlansTestCase):
         self.failUnless(project_wf_config)
         self.failUnless(project_wf_config.getPolicyBelowId())
             
+    def test_propertysheetinstall(self):
+        ptool = getToolByName(self.portal, 'portal_properties')
+        self.failUnless(psheet_id in ptool.objectIds())
+        psheet = ptool._getOb(psheet_id)
+        self.failUnless(psheet.hasProperty('remote_auth_sites'))
+        self.failUnless(psheet.hasProperty('mailing_list_fqdn'))
+
+    def test_portalproperties(self):
+        # portlets should be empty
+        self.failIf(self.portal.getProperty('left_slots'))
+        self.failIf(self.portal.getProperty('right_slots'))
+        self.failIf(self.portal.getProperty('validate_email'))
+        self.assertEqual(self.portal.getProperty('title'),
+                         'OpenCore Site')
+        addy = 'greetings@%s' % socket.getfqdn()
+        self.assertEqual(self.portal.getProperty('email_from_address'),
+                         addy)
+
     def test_install(self):
         # workflows are installed
         ttool = getToolByName(self.portal, 'portal_types')
@@ -65,7 +86,8 @@ class TestOpenPlansInstall(OpenPlansTestCase):
                             in self.portal.contentIds(spec="HelpCenter"))
 
     def test_kupusetup(self):
-        from Products.OpenPlans.Extensions.utils import kupu_libraries, kupu_resource_map
+        from Products.OpenPlans.Extensions.utils import kupu_libraries, \
+             kupu_resource_map
         from sets import Set
         kt = getToolByName(self.portal, 'kupu_library_tool')
         self.assertEqual(Set([kl['id'] for kl in kupu_libraries]),

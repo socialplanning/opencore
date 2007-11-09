@@ -16,7 +16,7 @@ from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.CMFPlone.utils import _createObjectByType
 
 from Products.OpenPlans import config
-from Products.OpenPlans.interfaces import IProject
+from opencore.interfaces import IProject
 from Products.OpenPlans.permissions import CopyOrMove
 from Products.OpenPlans.permissions import ManageWorkflowPolicy
 from Products.TeamSpace.space import TeamSpace
@@ -47,6 +47,20 @@ ProjectSchema = TeamSpace.schema.copy() + \
             size=50,
             ),
           ),
+
+        ImageField('logo',
+          mode='rw',
+          accessor='getLogo',
+          mutator='setLogo',
+          max_size=(150,150),
+          widget=ImageWidget(
+            label='Logo',
+            label_msgid='label_logo',
+            description="",
+            description_msgid='help_logo',
+            i18n_domain='plone',
+            ),
+          ),
         ))
 
 ProjectSchema['id'].widget.label = 'URL Name'
@@ -62,8 +76,8 @@ ProjectSchema['title'].widget.label = 'Name'
 ProjectSchema['title'].widget.description = \
       "The name for your project will be " + \
       "used to refer to your project throughout the " + \
-      "OpenPlans web site.  Because it is used in a " + \
-      "navigation context throughout the OpenPlans site, " + \
+      "web site.  Because it is used in a " + \
+      "navigation context throughout the site, " + \
       "it is suggested that this be no more than 15 " + \
       "characters"
 ProjectSchema['title'].widget.size = 50

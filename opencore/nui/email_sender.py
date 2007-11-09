@@ -1,11 +1,9 @@
-import re
+from Products.validation.validators.BaseValidators import EMAIL_RE
+from plone.mail import construct_simple_encoded_message
 from types import StringTypes
 from zope.i18nmessageid import Message
-from zope.i18n import translate
+import re
 
-from plone.mail import construct_simple_encoded_message
-
-from Products.validation.validators.BaseValidators import EMAIL_RE
 regex = re.compile(EMAIL_RE)
 
 
@@ -33,7 +31,8 @@ class EmailSender(object):
 
     @property
     def mailhost(self):
-        return self.view.get_tool('MailHost')
+        # getToolByName(self.context, "MailHost")
+        return self.view.get_tool('MailHost') 
 
     @property
     def send(self):
@@ -53,7 +52,10 @@ class EmailSender(object):
         view = self.view
         if regex.match(addr_token) is None:
             # not an address, it should be a member id
+            # getToolByName(self.context, "portal_membership")
             member = view.membertool.getMemberById(addr_token)
+
+            # member.getEmail()
             member_info = view.member_info_for_member(member)
             return member_info.get('email')
         else:
@@ -84,10 +86,13 @@ class EmailSender(object):
         be ignored; failing to include a kwarg required by the
         specified message will raise a KeyError.
         """
+        # insert the portal title, used by nearly every message
+        if not kwargs.has_key('portal_title'):
+            kwargs['portal_title'] = self.view.portal_title() # needs to go
         msg = getattr(self.messages, msg_id)
         unicode_kwargs = self._unicode_values(kwargs)
         msg = Message(msg, mapping=unicode_kwargs)
-        return msg
+        return self.view.translate(msg) # needs to go
 
     def sendEmail(self, mto, msg=None, msg_id=None, subject=None,
                   mfrom=None, **kwargs):
@@ -121,6 +126,14 @@ class EmailSender(object):
         to_info = None
         if msg is None:
             msg = self.constructMailMessage(msg_id, **kwargs)
+        if isinstance(msg, Message):
+            # insert the portal title, used by nearly every message,
+            # including those that don't come from constructMailMessage().
+            # fixes bug #1711.
+            msg.mapping.setdefault('portal_title', self.view.portal_title())
+            msg = self.view.translate(msg)
+        if isinstance(subject, Message):
+            subject = self.view.translate(subject) #needs to go
         if type(mto) in StringTypes:
             mto = (mto,)
         recips = []
@@ -132,11 +145,11 @@ class EmailSender(object):
                 recips.append(recip)
 
         if mfrom is None:
-            mfrom = view.portal.getProperty('email_from_address')
+            mfrom = view.portal.getProperty('email_from_address') # needs to go
         else:
             mfrom = self.toEmailAddress(mfrom)
 
-        translated_message = translate(msg)
-        if isinstance(translated_message, unicode):
-            translated_message = translated_message.encode('utf-8')
-        self.send(translated_message, recips, mfrom, subject)
+        if isinstance(msg, unicode):
+            msg = msg.encode('utf-8')
+
+        self.send(msg, recips, mfrom, subject)

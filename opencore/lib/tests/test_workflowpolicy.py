@@ -3,8 +3,8 @@ import unittest
 
 from Products.CMFCore.utils import getToolByName
 
-from Products.OpenPlans.interfaces import IWriteWorkflowPolicySupport
-from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
+from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
+from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 
 from opencore.nui.project.view import ProjectAddView
 

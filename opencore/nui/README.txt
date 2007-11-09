@@ -21,7 +21,7 @@ opencore.nui.base
     'http://nohost/plone'
 
     >>> view.sitetitle
-    'Portal'
+    'OpenCore Site'
 
 
 'get_view' retrieves and wraps a view::

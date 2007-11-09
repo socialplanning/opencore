@@ -38,8 +38,9 @@ Verify membership object is in the pending state now
     >>> wft.getInfoFor(mship, 'review_state')
     'pending'
 
-Now, we simulate an admin rejecting
     >>> self.logout()
+
+Now, we simulate an admin rejecting
     >>> self.loginAsPortalOwner()
     >>> wft.doActionFor(mship, 'reject_by_admin')
     >>> wft.getInfoFor(mship, 'review_state')
@@ -70,16 +71,6 @@ And try to request a membership, one more time, from the owner rejected state
     [u'Your request to join "Project Three" has been sent to the project administrator(s).']
     >>> wft.getInfoFor(mship, 'review_state')
     'pending'
-
-Also check that we get redirected to login
-if we try to request membership as an anonymous user
-    >>> self.logout()
-    >>> html = view()
-    >>> delattr(view, '_redirected')
-    >>> view.request.response.getHeader('location')
-    'http://nohost/plone/login?came_from=http://nohost'
-    >>> view.portal_status_message
-    [u'Please sign in to continue.']
 
 And as a logged in user trying to request membership to a project he already
 has membership to, he should get redirected to the project contents with an
@@ -125,7 +116,7 @@ Stub out the send email method to raise a MailHostError
 
 And a message should still get sent out for whatever admins it can
     >>> len(mailhost.messages)
-    7
+    8
 
 Remember to restore the EmailSender method
     >>> EmailSender.sendEmail = EmailSender.oldSendEmail

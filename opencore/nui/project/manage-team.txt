@@ -76,7 +76,7 @@ Verify that the notifying email went out:
 
 Also verify that the transient messages were saved
 
-    >>> from opencore.nui.member.interfaces import ITransientMessage
+    >>> from opencore.interfaces.message import ITransientMessage
     >>> tm = getUtility(ITransientMessage, context=self.portal)
     >>> list(tm.get_msgs('m4', view.msg_category))
     [(0, u'You have been accepted to <a href="http://nohost/plone/projects/p3">Project Three</a>')]
@@ -339,6 +339,9 @@ And last we reinvite m4, who was rejected_by_admin:
     3
     >>> len(mailhost.messages)
     10
+
+Email Invitations
+=================
 
 Okay, now to deal with inviting people by email address.  First we try
 a couple of addresses that don't belong to any site members:

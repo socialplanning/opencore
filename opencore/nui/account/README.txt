@@ -37,6 +37,11 @@ The member needs to have a 'legitimate' email address::
     <OpenMember at /plone/portal_memberdata/test_user_1_>
     >>> member.setEmail('test_emailer_1_@example.com')
 
+We can lookup the member by email too, now that he has one::
+    >>> view.request.form['__ac_name'] = 'test_emailer_1_@example.com'
+    >>> view.userid
+    'test_user_1_'
+
 Running handle request does all this, and sends the email::
 
     >>> view.request.environ["REQUEST_METHOD"] = "POST"
@@ -157,8 +162,8 @@ When the method is accessible, it should return a string code for the user::
 
     >>> self.loginAsPortalOwner()
     >>> m = user.restrictedTraverse("getUserConfirmationCode")
-    >>> m()
-    '...'
+    >>> isinstance(m(), basestring)
+    True
 
 
 Join
@@ -214,24 +219,37 @@ Test what happens when both passwords are blank
     ...                     email='foo@example.com',
     ...                     )
     >>> view.create_member()
-    {'password': 'Please enter a password'}
+    {'password': u'no_password'}
     >>> view.errors
-    {'password': 'Please enter a password'}
+    {'password': u'no_password'}
     >>> request.form.update(password='freddy',
     ...                     confirm_password='freddy',
     ...                     )
-    >>> view.create_member()
+
+MockHTTP will catch outward communication as event inform other apps
+the member has been created::
+
+    >>> member = view.create_member()
+    Called httplib2.Http.request(
+        u'http://localhost:8090/openplans-create-user.php',
+        'POST',
+        body='...',
+        headers={...})
+
+    >>> member
     <OpenMember at /plone/portal_memberdata/foouser>
+    
     >>> pprint(view.errors)
     {}
     >>> request.form = form
+
 
 If you add 'task|validate' to the request before submitting
 the form the validate() method will be triggered::
 
     >>> request.form['task|validate'] = 'Foo'
     >>> str(view())
-    '...Join OpenPlans...'
+    '...<!-- join form -->...We will not share...'
 
 The template was rerendered with the error messages; to get the error
 dict directly, make the request asynchronous::
@@ -254,22 +272,26 @@ and delete the existing task::
     >>> len([i for i in validate_map.values() if i['html']])
     0
 
-Verify that the proper events gets sent out when a member gets created
-    >>> events_fired = []
-    >>> def event_fired(obj, event):
-    ...     events_fired.append((obj, event))
+Verify that the proper events gets sent out when a member gets created::
+
     >>> from zope.component import provideHandler
+    >>> from opencore.nui.account.tests import dummy_handler, events_fired
     >>> from zope.app.event.interfaces import IObjectCreatedEvent
     >>> from Products.remember.interfaces import IReMember
-    >>> provideHandler(event_fired,
+    >>> provideHandler(dummy_handler,
     ...                adapts=[IReMember, IObjectCreatedEvent])
     
 We need to make the request a POST::
 
     >>> request.environ["REQUEST_METHOD"] = "POST"
     >>> view.membertool.getMemberById('foobar')
-    >>> unicode(view())
-    u'...<!-- join form -->...'
+    >>> rendered = unicode(view())
+    Called httplib2.Http.request(
+        u'http://localhost:8090/openplans-create-user.php',
+        'POST',
+        body='...',
+        headers={...})
+
     >>> view.membertool.getMemberById('foobar')
     <OpenMember at /plone/portal_memberdata/foobar...>
     >>> len(events_fired)
@@ -277,6 +299,9 @@ We need to make the request a POST::
     >>> obj, event = events_fired[0]
     >>> IObjectCreatedEvent.providedBy(event)
     True
+
+We SHOULD be cleaning up our event handler here, but there's no way to unregister
+an event handler in Z2.9, that API landed in Z2.10.
 
 Ensure that you can't join the site with another foobar::
 
@@ -313,7 +338,14 @@ But we do allow appending to existing logins::
     ...             password='testy',
     ...             confirm_password='testy')
     >>> view.request.form.update(form)
-    >>> 'Please choose another' not in view()
+    >>> rendered =  view()
+    Called httplib2.Http.request(
+        u'http://localhost:8090/openplans-create-user.php',
+        'POST',
+        body='...',
+        headers={...})
+
+    >>> 'Please choose another' not in rendered #@@ brittle
     True
     >>> view.membertool.getMemberById('foobar3')
     <OpenMember at /plone/portal_memberdata/foobar3...>
@@ -392,7 +424,7 @@ Logged out user:
     >>> jsview = portal.restrictedTraverse('@@user.js')
     >>> output = jsview()
     >>> print normalize_whitespace(output)
-    OpenCore.login({
+    OpenCore.prepareform({
     loggedin: false
     });
 
@@ -401,7 +433,7 @@ Logged in user:
     >>> self.login()
     >>> output = jsview()
     >>> print normalize_whitespace(output)
-    OpenCore.login({
+    OpenCore.prepareform({
     loggedin: true,
     id: 'test_user_1_',
     name: '',
@@ -434,16 +466,17 @@ Verify initial login converts email invites to mship invites
     >>> setSite(portal)
     >>> setHooks()
     >>> from zope.component import getUtility
-    >>> from opencore.nui.project.interfaces import IEmailInvites
+    >>> from opencore.interfaces.membership import IEmailInvites
     >>> email_invites = getUtility(IEmailInvites)
-    >>> email_invites.addInvitation(mem.getEmail(), proj_id)
+    >>> isinstance(email_invites.addInvitation(mem.getEmail(), proj_id), int)
+    True
 
     Login as the member and trigger the 'init-login' view
 
     >>> self.login(mem_id)
     >>> view = portal.restrictedTraverse('init-login')
     >>> view()
-    'http://...first_login=1'
+    'http://...m1/tour'
 
     We should have a pending membership, last workflow actor is not
     the member himself
@@ -534,3 +567,16 @@ Ensure test atomicity by removing the created user:
 Is the member still in the catalog?
 
 
+Creation email message
+=======================
+Bug #1711. Member creation message should use the portal title.
+
+    >>> view = portal.restrictedTraverse("@@join")
+    >>> mh = view.get_tool('MailHost')
+    >>> mh
+    <...MockMailHost at ...>
+    >>> view._sendmail_to_pendinguser('unused id', '1711@example.com',
+    ...                               'http://confirm-url.com')
+    >>> emailtext = mh.messages[-1].get_payload()
+    >>> emailtext.count(view.portal_title()) > 0
+    True

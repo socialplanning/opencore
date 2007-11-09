@@ -1,9 +1,15 @@
+table.htmlarea {
+
+    width: 100% !important;
+
+}
+
 .htmlarea { background: #fff; }
 
 .htmlarea .toolbar {
   cursor: default;
   background: ButtonFace;
-  padding: 3px;
+  padding: 1px;
   border: 1px solid;
   border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
 }

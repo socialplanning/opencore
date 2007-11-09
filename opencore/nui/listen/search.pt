@@ -1,5 +1,5 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
-  metal:use-macro="here/@@standard_macros/master">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:${view/context/Title} - ${view/area/Title}" />
   </head>
@@ -14,7 +14,7 @@
 
           <div class="oc-widget-search oc-boxy">
             <form action="./search_archive" method="post">
-                <label class="oc-label-heading oc-biggerText" for="text" i18n:translate="label_search_text" tal:content="view/Title">
+                <label class="oc-label-heading oc-biggerText" for="text" tal:content="view/Title">
                   Search:
                 </label>
 
@@ -23,19 +23,20 @@
                        tal:attributes="value request/search_text|nothing" />
 
               <span class="oc-actions">
-                <input class="context" type="submit" name="submit" value="Search" />
+                <input class="context" i18n:attributes="value listen_search_button" 
+		type="submit" name="submit" value="Search" />
               </span>
               
             </form>
           </div>
 
           <table class="oc-dataTable" id="forum-topics" tal:condition="results"
-                 summary="Search results" i18n:attributes="summary" cellspacing="0">
+                 summary="Search results" cellspacing="0">
             <thead>
               <tr>
-                <th  scope="col">&nbsp;<tal:title i18n:translate="list_archive_thread_subject"
+                <th  scope="col">&nbsp;<tal:title i18n:translate="listen_search_subject"
                 >Subject</tal:title>&nbsp;</th>
-                <th  scope="col">&nbsp;<tal:title i18n:translate="list_archive_thread_originator"
+                <th  scope="col">&nbsp;<tal:title i18n:translate="listen_search_creator"
                 >Started by</tal:title>&nbsp;</th>
               </tr>
             </thead>
@@ -48,7 +49,7 @@
                   <td>
                     <a href="#"
                        tal:content="item/brief_subject"
-                       tal:attributes="href item/url" i18n:translate="" >
+                       tal:attributes="href item/url">
                     Subject</a>
                   </td>
                   <td>
@@ -67,19 +68,19 @@
           <p tal:define="search request/search_text | nothing"
              tal:condition="python: not results and search"
              class="oc-message oc-bigText"
-             i18n:translate="description_no_search_results">
-            No results for '<span tal:replace="search" />'. Please try another search term.
+             i18n:translate="listen_search_no_results">
+            No results for '<span i18n:name="search_string" tal:replace="search" />'. Please try another search term.
           </p>
         </tal:threads>
       </div><!-- content-main -->
       <div id="oc-content-sidebar">
-        <div class="oc-boxy">
-          <h2>About &ldquo;<span tal:replace="context/Title" />&rdquo;</h2>
+        <div i18n:translate="listen_search_sidebar" class="oc-boxy">
+          <h2>About &ldquo;<span i18n:name="list_title" tal:replace="context/Title" />&rdquo;</h2>
           <dl class="oc-plainList">
           <dt>Address</dt>
-          <dd id="listaddress" tal:content="view/listAddress" tal:condition="view/listAddress" />
+          <dd id="listaddress" i18n:name="list_address" tal:content="view/listAddress" tal:condition="view/listAddress" />
           <dt>Description</dt>
-          <dd tal:content="view/listDescription" tal:condition="view/listDescription" />
+          <dd tal:content="view/listDescription" i18n:name="list_desc" tal:condition="view/listDescription" />
           </dl>
         </div>
       </div><!-- content-sidebar -->

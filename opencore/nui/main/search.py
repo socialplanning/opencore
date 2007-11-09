@@ -12,7 +12,7 @@ from Products.CMFPlone.PloneBatch import Batch
 from topp.utils.pretty_date import prettyDate
 from opencore import redirect
 from opencore.interfaces import INewsItem
-from opencore.nui.base import BaseView, static_txt
+from opencore.nui.base import BaseView
 
 num_regex = re.compile('((the|a|an)\s+)?[0-9]+')
 
@@ -209,6 +209,9 @@ def _sort_by_id(brains):
 def _sort_by_modified(brains):
     return sorted(brains, key=lambda x: x.modified)
 
+def _sort_by_created(brains):
+    return sorted(brains, key=lambda x:x.created, reverse=True)
+
 # XXX should fall back on sorting by id here
 def _sort_by_portal_type(brains):
     def cmp_portal_type(a, b):
@@ -310,7 +313,6 @@ class PeopleSearchView(SearchView):
     def search_for_person(self, person, sort_by=None):
         return searchForPerson(self.membranetool, person, sort_by)
 
-    anonymous_txt = static_txt('main_people_anonymous.txt')
 
 class HomeView(SearchView):
     """zpublisher"""
@@ -323,7 +325,6 @@ class HomeView(SearchView):
 
         self.projects_search = ProjectsSearchView(context, request)
 
-    intro = static_txt('main_home_intro.txt')
 
     def recently_updated_projects(self):
         created_brains = self.recently_created_projects()
@@ -343,6 +344,14 @@ class HomeView(SearchView):
                 return out
             
         return out
+
+    def recently_created_members(self):
+        query = dict(sort_on='created',
+                     sort_order='descending',
+                     sort_limit=5)
+        brains = self.membranetool(**query)
+        
+        return _sort_by_created(brains)
 
     def n_project_members(self, proj_brain):
         return self.projects_search.n_project_members(proj_brain)
@@ -367,8 +376,6 @@ class HomeView(SearchView):
         brains = self.catalog(**query)
         return brains
     
-    aboutus = static_txt('main_home_aboutus.txt')
-
 
 class SitewideSearchView(SearchView):
 
@@ -405,19 +412,18 @@ class SitewideSearchView(SearchView):
             search_for = '1* OR 2* OR 3* OR 4* OR 5* OR 6* OR 7* OR 8* OR 9* OR 0*'
             catalog_query = (Eq('portal_type', 'OpenProject') & Eq('Title', search_for)) \
                     | (Eq('portal_type', 'Document') & Eq('Title', search_for))
-#                    | (Eq('portal_type', 'OpenMember') & Eq('Title', search_for))
-            membrane_query = dict(RosterSearchableText=search_for)
+            membrane_query = dict(portal_type="OpenMember",
+                                  RosterSearchableText=search_for)
         elif letter == 'all':
             catalog_query = Eq('portal_type', 'OpenProject') \
                     | Eq('portal_type', 'Document')
-#                    | Eq('portal_type', 'OpenMember')
-            membrane_query = dict()
+            membrane_query = dict(portal_type="OpenMember")
         else:
             search_for = letter + '*'
             catalog_query = ((Eq('portal_type', 'OpenProject') & (Eq('Title', search_for))) \
                     | (Eq('portal_type', 'Document') & (Eq('Title', search_for))))
-#                    | (Eq('portal_type', 'OpenMember') & (Eq('Title', search_for))))
-            membrane_query = dict(RosterSearchableText=search_for)
+            membrane_query = dict(portal_type="OpenMember",
+                                  RosterSearchableText=search_for)
 
 
         if not sort_by:
@@ -510,6 +516,4 @@ class NewsView(SearchView):
         alsoProvides(item, INewsItem)
         edit_url = '%s/edit' % item.absolute_url()
         self.request.response.redirect(edit_url)
-
-    sidebar = static_txt('main_news_sidebar.txt')
 

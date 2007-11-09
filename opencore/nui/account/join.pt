@@ -1,25 +1,23 @@
 <tal:vars define="global fdata view/handle_request;" />
 
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title">Create an account</title>
+  </head>
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
-        <!-- join form -->
+        <!-- join form -->        
         <form id="oc-join-form" name="edit_form" class="oc-boxy" method="post" 
               tal:attributes="action string:${context/absolute_url}/join"
               >
-          
+          <div class="oc-headingBlock">
+            <h1 i18n:translate="join_page_title">Create an account on <span i18n:name="page_title" tal:replace="string:${view/portal_title}" /></h1>
+          </div>
+
           <fieldset>
-
-            <h1>Join OpenPlans</h1>
-
-            <p tal:condition="not:fdata/getUser | nothing">
-              Registration is free and your email will not be
-              shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system.
-            </p>
-
             <!-- on successful registration -->
-            <p tal:condition="fdata/getUser | nothing">
+            <p i18n:translate="join_check_email" tal:condition="fdata/getUser | nothing">
               Check your email to confirm registration 
             </p>
 
@@ -30,10 +28,10 @@
             
                 <tr class="oc-form-row">
                   <th class="oc-form-label">
-                    <label for="id">Username</label>
+                    <label i18n:translate="join_username_label" for="id">Username</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" name="id" id="id" class="oc-autoFocus oc-js-liveValidate"
+                    <input type="text" name="id" id="id" class="oc-autoFocus"
                            tal:attributes="value request/id | nothing" />
                   </td>
                   <td class="oc-form-help">
@@ -52,7 +50,7 @@
 
                 <tr>
                   <th class="oc-form-label">
-                    <label for="fullname">Full Name</label>
+                    <label i18n:translate="join_full_name_label" for="fullname">Full Name</label>
                   </th>
                   <td class="oc-form-value">
                     <input type="text" name="fullname" id="fullname" class=""
@@ -74,10 +72,10 @@
 
                 <tr>
                   <th class="oc-form-label">
-                    <label for="email">Email</label>
+                    <label i18n:translate="join_email_label" for="email">Email</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" name="email" id="email"
+                    <input type="text" name="email" id="email" class=""
                            tal:attributes="value request/email | nothing" />
                   </td>
                   <td class="oc-form-help">
@@ -96,7 +94,7 @@
 
                 <tr>
                   <th class="oc-form-label">
-                    <label for="password">Password</label>
+                    <label i18n:translate="join_password_label" for="password">Password</label>
                   </th>
                   <td class="oc-form-value">
                     <input type="password" name="password" id="password" class=""
@@ -118,10 +116,10 @@
                 
                 <tr>
                   <th class="oc-form-label">
-                    <label for="confirm_password">Confirm passsword</label>
+                    <label i18n:translate="join_conf_password_label" for="confirm_password">Confirm password</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="password" name="confirm_password" id="confirm_password" />  
+                    <input type="password" name="confirm_password" id="confirm_password" class=""/>  
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
@@ -141,7 +139,7 @@
                   <th class="oc-form-label">
                   </th>
                   <td class="oc-form-value">
-                    <input type="submit" name="task|join" value="Join" />
+                    <input type="submit" class="oc-button oc-chooseThis" name="task|join" i18n:attributes="value join_button" value="Join" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context">
@@ -158,12 +156,23 @@
           </fieldset>
           
         </form>
+        <p i18n:translate="join_description" tal:condition="not:fdata/getUser | nothing" class="oc-discreetText">
+          We will not share your email with anyone. Ever.
+        </p>
       </div><!-- end #oc-content-main -->
       
       <div id="oc-content-sidebar">
         <div class="oc-boxy">
-          <h2>Already a member?</h2>
-          <a href="login">Sign in</a>
+          <h2 i18n:translate="join_get_started">Becoming a member means&hellip;</h2>
+          <ul i18n:translate="join_get_started_list" style="padding-left: 1em;">
+            <li>You can join and participate in existing projects</li>
+            <li>You can create your own project and invite others to join</li>
+            <li>You can share information about yourself</li>
+          </ul>
+        </div>
+        <div class="oc-boxy">
+          <h2 i18n:translate="join_already_member_heading">Already a member?</h2>
+          <a i18n:translate="join_sign_in" href="login">Sign in</a>
         </div>
       </div><!-- end #oc-content-sidebar -->
 

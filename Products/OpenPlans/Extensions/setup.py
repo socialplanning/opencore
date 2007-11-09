@@ -4,7 +4,6 @@ only need to happen occasionally
 """
 from logging import getLogger
 
-from Products.CMFCore import CMFCorePermissions
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.setup.SetupBase import SetupWidget
 from Products.CMFPlone import MigrationTool
@@ -25,8 +24,8 @@ from migrate_membership_roles import migrate_membership_roles
 
 from cStringIO import StringIO
 
-from opencore.interfaces import IWriteWorkflowPolicySupport
-from opencore.interfaces import IReadWorkflowPolicySupport
+from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
+from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 
 from Products.OpenPlans.config import PROJECTNAME
 

@@ -19,12 +19,12 @@ class LiveSearchTestCase(ATCTFunctionalSiteTestCase):
 def test_suite():
     from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
     from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
-    from Products.PloneTestCase import setup
+    from Products.PloneTestCase.setup import setupPloneSite
     from opencore import redirect
     from opencore.testing import *
     from opencore.siteui.interfaces import IMemberFolder, IMemberHomePage
 
-    setup.setupPloneSite()
+    setupPloneSite()
     def general_setup(tc):
         tc._refreshSkinData()
 

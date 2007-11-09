@@ -3,30 +3,35 @@ from zope.testing import doctest
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase 
 from Testing.ZopeTestCase import FunctionalDocFileSuite
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansLayer
 from opencore.testing.layer import OpencoreContent
-
-#optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
-optionflags = doctest.ELLIPSIS
+optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 
 import warnings; warnings.filterwarnings("ignore")
 
 def test_suite():
-    from Products.Five.utilities.marker import erase as noLongerProvides
-    from Products.PloneTestCase import setup
-    from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
     from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
-    from pprint import pprint
-    from zope.interface import alsoProvides
+    from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
+    from Products.PloneTestCase import setup
+    from opencore.testing import alsoProvides, noLongerProvides
+    from opencore import redirect
 
     setup.setupPloneSite()
+    def readme_setup(tc):
+        orig_user = tc.portal.portal_membership.getAuthenticatedMember().getId()
+        tc.loginAsPortalOwner()
+        tc._refreshSkinData()
+        tc.login(orig_user)
 
     globs = locals()
     readme = FunctionalDocFileSuite("README.txt",
                                     optionflags=optionflags,
-                                    package='opencore.nui.static',
+                                    package='opencore.member',
                                     test_class=FunctionalTestCase,
                                     globs = globs,
+                                    setUp=readme_setup
                                     )
+
     readme.layer = OpencoreContent
 
     return unittest.TestSuite((readme,))

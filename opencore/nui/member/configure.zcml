@@ -32,8 +32,6 @@
      attribute="delete"
      />
 
-
-
   <browser:page
      for="opencore.siteui.interfaces.IMemberFolder"
      class=".view.ProfileView"
@@ -42,10 +40,46 @@
      template="profile.pt"
      />
 
+  <browser:page
+     for="opencore.siteui.interfaces.IMemberFolder"
+     class=".view.TourView"
+     permission="cmf.ModifyPortalContent"
+     name="tour"
+     template="tour.pt"
+     />
+
+  <browser:page
+     for="opencore.siteui.interfaces.IMemberFolder"
+     class=".view.ProjectInvitationsView"
+     permission="cmf.ModifyPortalContent"
+     name="invitations"
+     template="invitations.pt"
+     />
+
+  <browser:page
+     for="opencore.siteui.interfaces.IMemberFolder"
+     class=".view.ProfileView"
+     permission="cmf.ModifyPortalContent"
+     name="memberinfo.xml"
+     template="memberinfo.pt"
+     />
+
   <subscriber
      for="opencore.interfaces.membership.IOpenMembership
           opencore.interfaces.event.IChangedTeamRolesEvent"
      handler=".event.membership_changed_reindex_catalog"
      />
 
+  <adapter
+     for="zope.app.annotation.interfaces.IAnnotatable"
+     provides="opencore.interfaces.pending_requests.IPendingRequests"
+     factory="opencore.nui.member.pending_requests.PendingRequests"
+     />
+  <adapter
+     for="zope.app.annotation.interfaces.IAnnotatable
+          Products.ATContentTypes.interface.folder.IATBTreeFolder"
+     provides="opencore.interfaces.pending_requests.IPendingRequests"
+     factory="opencore.nui.member.pending_requests_multiadapter.PendingRequests"
+     />
+     
 </configure>

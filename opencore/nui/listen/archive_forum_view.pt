@@ -1,4 +1,4 @@
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:${view/context/Title} - ${view/area/Title}" />
   </head>
@@ -8,8 +8,8 @@
       <div metal:use-macro="here/@@listen_macros/tabs"/>
       <div id="oc-content-main">
         <div class="oc-headingBlock">
-          <h2 i18n:translate="" tal:content="view/Title" />
-          <div class="oc-headingContext oc-smallText">View by <strong>conversation</strong> or <a i18n:translate="" href="date_view">date</a></div>
+          <h2 tal:content="view/Title" />
+          <div i18n:translate="archive_forum_view_by" class="oc-headingContext oc-smallText">View by <strong>conversation</strong> or <a href="date_view">date</a></div>
         </div>
         <tal:threads define="threads view/getTopics; 
            batch threads; 
@@ -17,13 +17,13 @@
           <div class="oc-listen-paginator">
             <div metal:use-macro="here/batch_macros/macros/navigation" />
           </div>
-          <table id="forum-topics" class="oc-dataTable" tal:condition="threads" summary="Forum view" i18n:attributes="summary" cellspacing="0">
+          <table id="forum-topics" class="oc-dataTable" tal:condition="threads" summary="Forum view" cellspacing="0">
             <thead>
               <tr>
-                <th scope="col"><tal:title i18n:translate="list_archive_thread_subject">Subject</tal:title></th>
-                <th><tal:title i18n:translate="list_archive_thread_originator">Started by</tal:title></th>
-                <th scope="col"><tal:title i18n:translate="list_archive_thread_replies">Replies</tal:title></th>
-                <th scope="col"><tal:title i18n:translate="list_archive_thread_recent_post_date">Last activity</tal:title></th>
+                <th scope="col"><tal:title i18n:translate="archive_forum_thread_subject">Subject</tal:title></th>
+                <th><tal:title i18n:translate="archive_forum_list_thread_starter">Started by</tal:title></th>
+                <th scope="col"><tal:title i18n:translate="archive_forum_thread_replies">Replies</tal:title></th>
+                <th scope="col"><tal:title i18n:translate="archive_forum_thread_last_activity">Last activity</tal:title></th>
               </tr>
             </thead>
 
@@ -32,7 +32,7 @@
                 <tr>
                   <td>
                     <a href="#"
-                       i18n:translate="" tal:content="item/brief_subject"
+                       tal:content="item/brief_subject"
                        tal:attributes="href item/url">
                     Subject</a>
                   </td>
@@ -44,13 +44,13 @@
                     </a>
                   </td>
                   <td tal:content="item/responses">10</td>
-                  <td tal:content="item/last_post" i18n:translate="">12/1/2005 3:54 pm</td>
+                  <td tal:content="item/last_post">12/1/2005 3:54 pm</td>
                 </tr>
               </tal:items>
             </tbody>
           </table>
 
-          <p tal:condition="not: threads" i18n:translate="description_no_posts">
+          <p tal:condition="not: threads" i18n:translate="archive_no_posts">
             There are currently no posts in this archive.
           </p>
         </tal:threads>

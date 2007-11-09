@@ -1,4 +1,4 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" i18n:domain="plone"
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" i18n:domain="opencore"
   metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:${view/context/Title} - ${view/area/Title}" />
@@ -7,9 +7,9 @@
     <div metal:fill-slot="content">
       <div metal:use-macro="here/@@listen_macros/bcrumb"/>
       <div metal:use-macro="here/@@listen_macros/tabs"/>
-      <div id="oc-content-main" i18n:domain="listen">
+      <div id="oc-content-main">
         <div class="oc-headingBlock">
-          <h2 i18n:translate="" tal:content="view/Title" />
+          <h2 tal:content="view/Title" />
         </div>
 
         <form name="manage-form" id="manage-form"
@@ -19,9 +19,9 @@
           <table class="oc-dataTable" cellspacing="0">
             <thead>
             <tr>
-              <th scope="col" i18n:translate="">Remove</th>
-              <th scope="col" i18n:translate="">Address / User ID</th>
-              <th scope="col" i18n:translate="">Subscribed</th>
+              <th scope="col" i18n:translate="manage_membership_remove">Remove</th>
+              <th scope="col" i18n:translate="manage_membership_user">Address / User ID</th>
+              <th scope="col" i18n:translate="manage_membership_subscribed">Subscribed</th>
               <th scope="col"></th>
             </tr>
             </thead>
@@ -49,19 +49,19 @@
             <tr>
               <td></td>
               <td>
-                <label for="add_email">Add:</label>
+                <label i18n:translate="manage_membership_add" for="add_email">Add:</label>
                 <input type="text" id="add_email" name="add_email" value="" size="25" />
               </td>
               <td class="oc-form-fieldBlock">
                 <input type="checkbox" id="add_subscribed" name="add_subscribed" />
-                <label for="add_subscribed">Subscribe?</label>
+                <label i18n:translate="manage_membership_subscribe" for="add_subscribed">Subscribe?</label>
               </td>
               <td />
             </tr>
             </tfoot>
           </table>
           <div class="oc-actions">
-            <input type="submit" name="save" i18n:attributes="value" value="Save changes" />
+            <input type="submit" name="save" i18n:attributes="value manage_membership_save_button" value="Save changes" />
           </div>
           <!-- ???
           <p tal:content="python: errors" />

@@ -2,23 +2,8 @@
 $Id: __init__.py,v 1.2 2005/02/26 17:56:10 sidnei Exp $
 """
 
-from zope.interface import Interface
+from opencore.interfaces.workflow import IReadWorkflowPolicySupport
+from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
+from warnings import warn
 
-class IReadWorkflowPolicySupport(Interface):
-    """Interface for viewing information about customizable workflow
-       policies on an object.
-    """
-    def getCurrentPolicyId():
-        """Returns the current policy id or the default as determined by
-           acquisition."""
-
-    def getAvailablePolicies():
-        """Returns a list of mappings representing available security
-           policies, these contain an id, title, and description."""
-
-class IWriteWorkflowPolicySupport(IReadWorkflowPolicySupport):
-    """Interface for editing information about customizable workflow
-       policies on an object.
-    """
-    def setPolicy(policy_in):
-        """Sets the workflow policy on the object."""
+warn('%s is a deprecated import path. Please use opencore.interfaces.workflow' %__name__)

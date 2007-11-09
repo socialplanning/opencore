@@ -16,7 +16,8 @@ from memojito import memoizedproperty, memoize
 
 from projectlisting import ProjectListingView
 from opencore import redirect
-from opencore.interfaces import IAddSubProject, IAddProject, IProject
+from opencore.interfaces.adding import IAddSubProject, IAddProject 
+from opencore.interfaces import IProject
 from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
 from zope.app.traversing.interfaces import ITraversable
 from Products.Five.traversable import FiveTraversable

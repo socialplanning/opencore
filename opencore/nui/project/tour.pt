@@ -1,0 +1,105 @@
+﻿<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:Tour - ${view/area/Title} on ${view/portal_title}" />
+  </head>
+  <body>
+
+    <div metal:fill-slot="content">
+
+      <div id="oc-content-main">
+        <div class="oc-headingBlock">
+          <h1>Congratulations on starting your project.</h1>
+          <p class="oc-headingContext"> Now you can&hellip;</p>
+        </div>
+
+        <div class="oc-boxy">
+          <div class="oc-headingBlock">
+            <h2>Communicate</h2>
+            <p class="oc-headingContext">Announce your project.</p>
+          </div>
+
+          <div>
+            <a tal:attributes="href string:${context/absolute_url}/project-home">
+              <img src="++resource++img/touricons/wiki.gif" alt="Wiki pages" class="oc-tour-icon" />
+              <h3>Wiki pages</h3>
+            </a>
+            <ul class="oc-discreetText oc-plainList">
+              <li>A blank canvas for key information</li>
+              <li>Write collaboratively</li>
+              <li>Sketch out your goals</li>
+              <li>Share photos</li>
+            </ul>
+          </div>
+
+          <div tal:condition="view/has_blog">
+            <a tal:attributes="href string:${context/absolute_url}/blog">
+              <img src="++resource++img/touricons/blog.gif" alt="Blog" class="oc-tour-icon" />
+              <h3>Blog</h3>
+            </a>
+            <ul class="oc-discreetText oc-plainList">
+              <li>Publish updates</li>
+              <li>Attract attention</li>
+              <li>Speak out</li>
+            </ul>
+          </div>
+
+        </div>
+        
+        <div class="oc-boxy">
+          <div class="oc-headingBlock">
+            <h2>Organize</h2>
+            <p class="oc-headingContext">Keep your team organized and on-track.</p>
+          </div>
+
+          <div>
+            <a tal:attributes="href string:${context/absolute_url}/manage-team">
+              <img src="++resource++img/touricons/team.gif" alt="Teams" class="oc-tour-icon" />
+              <h3>Manage your team</h3>
+            </a>
+            <ul class="oc-discreetText oc-plainList">
+              <li>Invite people to join this project</li>
+              <li>Build momentum</li>
+              <li>Find collaborators</li>
+            </ul>
+          </div>
+        
+          <div tal:condition="view/has_mailing_lists">
+            <a tal:attributes="href string:${context/absolute_url}/lists">
+              <img src="++resource++img/touricons/mailinglist.gif" alt="Mailing lists" class="oc-tour-icon" />
+              <h3>Mailing lists</h3>
+            </a>
+            <ul class="oc-discreetText oc-plainList">
+              <li>Keep everyone up-to-date</li>
+              <li>Promote discussions</li>
+              <li>Call supporters to action</li>
+            </ul>
+          </div>
+        
+          <div tal:condition="view/has_task_tracker">
+            <a tal:attributes="href string:${context/absolute_url}/tasks">
+              <img src="++resource++img/touricons/tasks.gif" alt="Tasks" class="oc-tour-icon" />
+              <h3>Task Tracker</h3>
+            </a>
+            <ul class="oc-discreetText oc-plainList">
+              <li>Share to-do lists</li>
+              <li>Assign tasks to others</li>
+              <li>Keep track of progress</li>
+            </ul>
+          </div>
+
+        </div>
+
+  <p class="oc-smallText">
+    Want to add or remove tools from your project? Change your <a tal:attributes="href
+           string:${context/absolute_url}/preferences">project preferences</a>.
+  </p>
+
+      </div><!-- end #oc-content-main -->
+
+      <div id="oc-content-sidebar">
+      </div><!-- end #oc-content-sidebar -->
+
+  </div><!-- content-fill-slot -->
+  </body>
+</html>
+

@@ -3,15 +3,15 @@ some base class for opencore ui work!
 """
 from Acquisition import aq_inner, aq_parent
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFPlone.utils import transaction_note
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
 from opencore.interfaces import IProject 
-from opencore.nui.static import render_static
-from opencore.i18n import i18n_domain
+from opencore.project.utils import project_path
+from zope.i18nmessageid import Message
+from opencore.i18n import i18n_domain, _
 from opencore.i18n import translate
 from plone.memoize import instance
 from plone.memoize import view 
@@ -35,8 +35,9 @@ class BaseView(BrowserView):
     logoURL = '++resource++img/logo.gif'
     defaultPortraitURL = '++resource++img/default-portrait.gif'
     defaultPortraitThumbURL = '++resource++img/default-portrait-thumb.gif'
+    defaultProjLogoURL = '++resource++img/default-projlogo.gif'
+    defaultProjLogoThumbURL = '++resource++img/default-projlogo-thumb.gif'
     windowTitleSeparator = ' :: '
-    render_static = staticmethod(render_static)
     truncate = staticmethod(truncate)
     txn_note = staticmethod(transaction_note)
     site_iface = IPloneSiteRoot
@@ -115,12 +116,16 @@ class BaseView(BrowserView):
         return msgs
 
     # XXX standardize
-    def add_status_message(self, msg=None, msgid=None, **kw):
+    def add_status_message(self, msg):
         plone_utils = self.get_tool('plone_utils')
-        if msgid is not None:
-            msg = self.translate(msgid, **kw)
+
+        # portal messages don't seem to get translated implicitly
+        # this is why there's an explicit translate here
+        if isinstance(msg, Message):
+            msg = self.translate(msg)
         else:
             msg = _(msg)
+
         plone_utils.addPortalMessage(msg)
 
     addPortalStatusMessage = add_status_message
@@ -312,7 +317,7 @@ class BaseView(BrowserView):
 
         calculated once
         """
-        from Products.OpenPlans.interfaces import IReadWorkflowPolicySupport
+        from opencore.interfaces.workflow import IReadWorkflowPolicySupport
         proj_info = {}
         if self.piv.inProject:
             proj = aq_inner(self.piv.project)
@@ -342,8 +347,7 @@ class BaseView(BrowserView):
         return aq_iface(self.context, self.site_iface)
 
     def portal_title(self):
-        portal = aq_iface(self.context, self.site_iface)
-        return portal.Title()
+        return self.portal.Title()
     
     portal = property(view.memoize_contextless(get_portal))
 
@@ -481,6 +485,10 @@ class BaseView(BrowserView):
     def portal_url(self):
         return self.get_tool('portal_url')
 
+    @property
+    def projects_url(self, project=None):
+        return '%s/%s' % ( self.siteURL, project_path(project) )
+
     @instance.clearbefore
     def _clear_instance_memos(self):
         pass
@@ -531,20 +539,21 @@ class BaseView(BrowserView):
             # get the member object
             id = member
             if not id:
-                messages.append('You need to enter your username.')
+                messages.append(_(u'password_no_username_error', u'You need to enter your username.'))
                 return exit_function()
                 
             member = self.get_tool("membrane_tool")(getUserName=id)
             if not member:
-                messages.append('There is no member named "%s".' % id)
+                messages.append(_(u'password_no_member_error', u'There is no member named "${user_id}".',
+                                  mapping={u'user_id':id}))
                 return exit_function()
             member = member[0].getObject()
 
         if not password or not password2:
-            messages.append("You must enter a password.")
+            messages.append(_(u'password_no_password_error', u"You must enter a password."))
             return exit_function()
         if password != password2:
-            messages.append("Please make sure that both password fields are the same.")
+            messages.append(_(u'password_not_same_error', u"Please make sure that both password fields are the same."))
             return exit_function()
         msg = member.validate_password(password)
         if msg:
@@ -563,17 +572,12 @@ class BaseView(BrowserView):
         <base href="%s/" />
                 <!--[if IE 6]><![endif]><![endif]-->""" % base_url
 
-
-def aq_iface(obj, iface):
-    obj = aq_inner(obj)
-    while obj is not None and not iface.providedBy(obj):
-        obj = aq_parent(obj)
-    return obj
-
-
-def static_txt(fname):
-    """module level cache?"""
-    def new_func(self):
-        return self.render_static(fname)
-    return new_func
-
+try:
+    from topp.utils import zutils
+    aq_iface = zutils.aq_iface
+except ImportError:
+    def aq_iface(obj, iface):
+        obj = aq_inner(obj)
+        while obj is not None and not iface.providedBy(obj):
+            obj = aq_parent(obj)
+        return obj

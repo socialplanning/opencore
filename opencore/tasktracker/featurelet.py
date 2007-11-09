@@ -1,18 +1,17 @@
-from zope.component import getUtility
-from zope.interface import implements
-
 from Products.CMFCore.utils import getToolByName
-
 from memojito import memoizedproperty
-
-from topp.featurelets.base import BaseFeaturelet
-from topp.featurelets.interfaces import IFeaturelet
-
-from Products.OpenPlans.interfaces import IProject
-
-from opencore.utility.interfaces import IHTTPClient
+from opencore.interfaces import IProject
 from opencore.tasktracker import uri as tt_uri
 from opencore.tasktracker.interfaces import ITaskTrackerFeatureletInstalled
+from opencore.utility.interfaces import IHTTPClient
+from topp.featurelets.base import BaseFeaturelet
+from topp.featurelets.interfaces import IFeaturelet
+from zope.component import getUtility
+from zope.interface import implements
+import logging
+
+log = logging.getLogger('opencore.tasktracker')
+
 
 class TaskTrackerFeaturelet(BaseFeaturelet):
     # could we make featurlets named utilities?
@@ -69,13 +68,15 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
         
 
         if response.status != 200:
-	    raise AssertionError("Project initialization failed: status %d (maybe TaskTracker isn't running?)" % response.status)
+            raise AssertionError("Project initialization failed: status %d (maybe TaskTracker isn't running?)" % response.status)
         return BaseFeaturelet.deliverPackage(self, obj)
 
-    def removePackage(self, obj):
-        response, content = self._makeHttpReqAsUser(self.uninit_uri, obj=obj)
+    def removePackage(self, obj, raise_error=True):
+        header = {"X-Openplans-Tasktracker-Initialize":"True"}
+        response, content = self._makeHttpReqAsUser(self.uninit_uri, obj=obj, headers=header)
         if response.status != 200:
-            # @@ raise a real error, por fa
-	    raise AssertionError("Terrible!")
+            if raise_error:
+                raise AssertionError("Error removing tasktracker featurelet: %s" % content)
+            else:
+                log.info('Error removing TaskTracker: %s' % content)
         return BaseFeaturelet.removePackage(self, obj)
-

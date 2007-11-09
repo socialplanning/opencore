@@ -1,14 +1,15 @@
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore"  metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title">People - OpenPlans</title>
+    <title metal:fill-slot="title"
+           tal:content="string:People - ${view/portal_title}" />
   </head>
   <body>
     <div metal:fill-slot="content">
 
       <div class="oc-headingBlock">
-        <h1>People on <tal:block replace="view/portal_title">OpenPlans</tal:block></h1>
-        <p class="oc-headingContext">
-          <span tal:replace="view/nusers">XXX</span> members,
+        <h1 tal:content="string:People on ${view/portal_title}" />
+        <p i18n:translate="people_members" class="oc-headingContext">
+          <span i18n:name="num_members" tal:replace="view/nusers">XXX</span> members,
           <span tal:condition="view/loggedin">and growing</span>
           <span tal:condition="not: view/loggedin">and <a tal:attributes="href string:${context/portal_url}/join">you</a></span>
         </p>

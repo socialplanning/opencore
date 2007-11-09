@@ -1,13 +1,13 @@
-from zope.interface import implements
-
-from Products.CMFCore.utils import getToolByName
-from Products.CMFCore.permissions import ManagePortal
+from AccessControl import ClassSecurityInfo
 from Products.Archetypes.public import registerType
+from Products.CMFCore.permissions import ManagePortal
+from Products.CMFCore.utils import getToolByName
+from Products.OpenPlans.config import PROJECTNAME, DEFAULT_ROLES
 from Products.TeamSpace.membership import TeamMembership
 from Products.TeamSpace.permissions import ManageTeamMembership
+from opencore.interfaces.membership import IOpenMembership
+from zope.interface import implements
 
-from Products.OpenPlans.config import PROJECTNAME, DEFAULT_ROLES
-from Products.OpenPlans.interfaces import IOpenMembership
 
 class OpenMembership(TeamMembership):
     """
@@ -16,6 +16,8 @@ class OpenMembership(TeamMembership):
     archetype_name = portal_type = meta_type = "OpenMembership"
 
     implements(IOpenMembership)
+
+    security = ClassSecurityInfo()
 
     intended_visibility = 'public'
 
@@ -44,6 +46,7 @@ class OpenMembership(TeamMembership):
         team = self.getTeam()
         team.setTeamRolesForMember(self.getId(), team_roles)
 
+    security.declarePublic('isProjectCreator')
     def isProjectCreator(self):
         """
         Returns True or False to indicate whether the member
@@ -58,6 +61,7 @@ class OpenMembership(TeamMembership):
         team = self.aq_inner.aq_parent
         return team.Creator() == self.getId()
 
+    security.declarePublic('canApprove')
     def canApprove(self, dest_state=None):
         """
         Determines whether the currently authenticated user has the
@@ -68,6 +72,9 @@ class OpenMembership(TeamMembership):
         transition that results in the desired membership visibility
         is exposed
         """
+        if getattr(self, '_v_self_approved', False):
+            return True
+        
         if dest_state is not None and \
            dest_state != self.intended_visibility:
             return False

@@ -130,7 +130,7 @@ Preference View
 
     >>> proj = projects.test1
     >>> proj.restrictedTraverse('preferences')
-    <...SimpleViewClass ...preferences.pt...>
+    <...SimpleViewClass ...preferences...>
 
     >>> view = proj.restrictedTraverse('preferences')
     >>> view.project_info['security']
@@ -156,7 +156,7 @@ Try setting a bogus title::
     >>> view.request.form['title'] = '?'
     >>> out = view.handle_request()
     >>> view.errors
-    {'title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
+    {'title': u'err_project_name'}
     >>> view.errors = {}
 
 Clear old PSMs
@@ -170,7 +170,7 @@ Now set a valid title::
     >>> view.handle_request()
     >>> del view._redirected 
     >>> view.portal_status_message
-    [u'The title has been changed.', u'The security policy has been changed.', u'Mailing lists feature has been removed.']
+    [u'The security policy has been changed.', u'The title has been changed.', u'Mailing lists feature has been removed.']
 
     >>> view.errors
     {}
@@ -186,7 +186,7 @@ Now set a valid title::
     >>> IReadWorkflowPolicySupport(proj).getCurrentPolicyId()
     'closed_policy'
 
-    >>> from opencore.project.browser.projectinfo import get_featurelets
+    >>> from opencore.project.utils import get_featurelets
     >>> get_featurelets(proj)
     []
 
@@ -238,7 +238,7 @@ Make sure we can install a TaskTracker featurelet too::
 
     Now we can see it again
     >>> proj.restrictedTraverse('preferences')
-    <...SimpleViewClass ...preferences.pt...>
+    <...SimpleViewClass ...preferences...>
 
 Team view
 =========

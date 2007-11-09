@@ -1,4 +1,3 @@
-# move to opencore.interfaces
 from zope.interface import Interface
 
 class ITransientMessage(Interface):
@@ -19,4 +18,3 @@ class ITransientMessage(Interface):
 
     def pop(mem_id, category, idx):
         """remove and return the message for the member, category, and index"""
-

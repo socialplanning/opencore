@@ -31,6 +31,7 @@ OC.liveElementKey.Element = {
 OC.liveElementKey.Class = {
     "oc-js-autoSelect"       : "AutoSelect",
     "oc-js-expander"         : "Expander",
+    "oc-js-fieldClear"       : "FieldClear",
     "oc-widget-multiSearch"  : "SearchLinks",
     'oc-dropdown-container'  : "DropDown",
     "oc-autoFocus"           : "AutoFocus",
@@ -44,8 +45,8 @@ OC.liveElementKey.Class = {
     'oc-js-actionSelect'     : "ActionSelect",
     'oc-js-liveValidate'     : "LiveValidatee",
     "oc-js-closeable"        : "CloseButton",
-    "oc-directEdit"          : "DirectEdit"
-
+    "oc-directEdit"          : "DirectEdit",
+    "oc-confirmProjectDelete": "ConfirmProjectDelete"
 }
 OC.liveElementKey.Id = {
     "version_compare_form"   : "HistoryList",
@@ -157,12 +158,14 @@ OC.breatheLife = function(newNode, force) {
 
 // Debug Function.  Turn off for live code or IE
 OC.debug = function(string) {
+    /*
     args = ""
     for (var i = 0; i < arguments.length; ++i) {
-	args += " " + arguments[i]
+      args += " " + arguments[i]
     }
+    */
     if( typeof console != 'undefined' ) {
-	     console.log(args);
+	     console.log(string);
     }
 };
 
@@ -286,6 +289,7 @@ OC.Callbacks.afterAjaxSuccess = function(o) {
 
     cleanedResponseText = cleanedResponseText.replace(/&lt;/g, "<");
     cleanedResponseText = cleanedResponseText.replace(/&gt;/g, ">");
+    cleanedResponseText = cleanedResponseText.replace(/&amp;/g, "&");
     OC.debug(cleanedResponseText);
     
     try {
@@ -419,11 +423,11 @@ OC.ActionLink = function(extEl) {
     if (!link) {
 	     OC.debug("ActionLink: Could not get refs");
     } 
-    
+
     if (link.hasClass('oc-js-actionPost')) {
-        method = "POST";
+        var method = "POST";
     } else {
-        method = "GET";
+        var method = "GET";
     }
 
     function _doAction(e, el, o) {
@@ -1314,6 +1318,33 @@ OC.Expander = function(extEl) {
     return this;
 };
 
+
+/*
+  #
+  # Clear all inputs of the form this element appears in
+  #
+*/
+OC.FieldClear = function(extEl) {
+    // get references
+    var link = extEl;
+    var fieldname = link.dom.getAttribute("oc:target");
+    var field = document.getElementById(fieldname);
+    
+    // check references
+    if (!link || !field) {
+        OC.debug("OC.FieldClear could not get references");
+        return;
+    }
+
+    function _clearField() {
+        OC.debug("in clearField");
+        field.value = "";
+    }
+
+    link.on("click", _clearField, this, {preventDefault: true});
+};
+
+
 /*
   #
   # History List
@@ -1435,3 +1466,33 @@ OC.Toggler = function(extEl) {
     }
     checkbox.on('click', _handle_toggle, this);
 };
+
+/*
+#  Confirmation for Project Deletion
+*/
+
+OC.ConfirmProjectDelete = function(extEl) {
+
+  //get refs
+  var button = extEl;
+  
+  //check refs
+  if (!button) {
+    return;
+  }
+  
+  extEl.on('click', function(e, el) { 
+          //YAHOO.util.Event.preventDefault(e);
+          var msg = "Project deletion is permanent and irreversible <br /><br /> Are you sure you want to remove this project?<br />";
+          Ext.MessageBox.confirm('Confirm', msg, _callback(e));
+   });
+
+  function _callback(e) {
+      return function (conf_id) {
+          if (conf_id != 'yes'){
+              YAHOO.util.Event.preventDefault(e);
+          }
+      }
+  }
+
+}

@@ -1,6 +1,7 @@
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title">Search Projects - OpenPlans</title>
+    <title metal:fill-slot="title"
+           tal:content="string:Search Projects - ${view/portal_title}" />
   </head>  
   <body> 
 
@@ -13,7 +14,7 @@
           <div metal:use-macro="here/main_macros/search_widget" />
         </tal:set_var>
         
-        <div class="oc-searchresults">
+        <div class="oc-widget oc-widget-feed">
 
           <!-- batch needs to have some variables set up to work properly.
                here is where they are defined -->
@@ -26,7 +27,7 @@
                                    ">
 
             <!-- display the number of results that came back -->
-            <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
+            <div class="oc-feed-sorter" tal:define="many python: start!=end">
               <!-- pagination uses the batch macro -->
               <div metal:use-macro="here/@@nui_batch_macros/pagination"/>
               Project<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
@@ -60,36 +61,46 @@
             </div>
 
             <!-- the results are displayed here -->
-            <ol class="oc-searchresults-list">
-              <li class="oc-searchresults-item" tal:repeat="item view/search_results">
-                <h3><a href="" tal:attributes="href string:${context/portal_url}/projects/${item/getId}" tal:content="item/Title">Project Title</a> </h3> 
+            <ol class="oc-feed-list">
+              <li class="oc-feed-item oc-clearAfter" tal:repeat="item view/search_results">
+                  <a tal:attributes="href string:${context/portal_url}/projects/${item/getId}" >
+                    <tal:setvar define="logo python:item.getObject().getLogo();
+                                        logo_url python:logo and ('%s/logo_thumb' % item.getURL()) or view.defaultProjLogoURL">
+                      <img class="oc-project-logo" tal:attributes="src logo_url; alt item/Title; title item/Title" />
+                    </tal:setvar>
+                  </a>
+                <div class="oc-feed-item-content">
 
-                <span class="oc-discreetText" tal:define="sorting_by request/sort_by | nothing">
+                  <h3 class="oc-feed-item-title"><a tal:attributes="href string:${context/portal_url}/projects/${item/getId}" tal:content="item/Title">Project Title</a> </h3> 
 
-                  <tal:not-modified-block condition="python: sorting_by != 'modified'">
-                   created by
-                    <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
-                    <span tal:content="python: view.pretty_date(item.CreationDate)" />
-                  </tal:not-modified-block>
+                  <span class="oc-feed-item-data oc-discreetText" tal:define="sorting_by request/sort_by | nothing">
 
-                  <tal:modified-block tal:condition="python: sorting_by == 'modified'">
-                    last updated
-                    <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
-                      by
-                      <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
-                    </tal:has_updated_author>
-                    <span tal:content="python: view.pretty_date(item.ModificationDate)" />
-                  </tal:modified-block>
+                    <tal:not-modified-block condition="python: sorting_by != 'modified'">
+                      created by
+                      <a tal:define="userid item/Creator" tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
+                      <span tal:content="python: view.pretty_date(item.CreationDate)" />
+                    </tal:not-modified-block>
 
-                </span>
+                    <tal:modified-block tal:condition="python: sorting_by == 'modified'">
+                      last updated
+                      <tal:has_updated_author define="userid item/lastModifiedAuthor" condition="userid">
+                        by
+                        <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
+                      </tal:has_updated_author>
+                      <span tal:content="python: view.pretty_date(item.ModificationDate)" />
+                    </tal:modified-block>
 
-                <p tal:define="desc item/Description">
-                  <span tal:condition="desc" tal:replace="desc" />
-                </p>
+                  </span>
+
+                  <p class="oc-feed-item-description" tal:define="desc item/Description">
+                    <span tal:condition="desc" tal:replace="desc" />
+                  </p>
+
+                </div>
 
               </li>
             </ol>
-            <div class="oc-searchresults-nresults" tal:define="many python: start!=end">
+            <div class="oc-feed-sorter" tal:define="many python: start!=end">
               <!-- we put pagination on the bottom of the page too -->
               <div metal:use-macro="here/@@nui_batch_macros/pagination"/>
               Project<tal:plural condition="many">s</tal:plural> <span tal:replace="start">1</span>
@@ -99,7 +110,7 @@
           </tal:got_results>
 
           <!-- if we get no results, this is what is displayed -->
-          <div tal:condition="not: view/search_results">No results found.</div>
+          <div i18n:translate="projects-searchresults_no_results" tal:condition="not: view/search_results">No results found.</div>
 
         </div> <!-- oc-searchresults -->
       </div> <!-- content-main -->

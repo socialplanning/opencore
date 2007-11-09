@@ -1,52 +1,67 @@
-import os, sys, unittest
-from zope.testing import doctest
-from Testing import ZopeTestCase
-from Testing.ZopeTestCase import PortalTestCase 
-from Testing.ZopeTestCase import FunctionalDocFileSuite
 from Products.PasswordResetTool.tests.test_doctests import MockMailHostTestCase
+from Testing import ZopeTestCase
+from Testing.ZopeTestCase import FunctionalDocFileSuite
+from Testing.ZopeTestCase import PortalTestCase 
+from opencore.testing import dtfactory as dtf
+from opencore.testing.layer import MockHTTPWithContent
+from zope.testing import doctest
+import os
+import sys
+import unittest
+from opencore.member.interfaces import IHandleMemberWorkflow
 
-from opencore.testing.layer import OpencoreContent
+#import warnings; warnings.filterwarnings("ignore")
+
+from opencore.nui.account.utils import email_confirmation, turn_confirmation_on
+turn_confirmation_on()
 
 optionflags = doctest.ELLIPSIS
 
-import warnings; warnings.filterwarnings("ignore")
-
-# ensure that email_confirmation is set to true
-from App import config
-cfg = config.getConfiguration().product_config.get('opencore.nui')
-if cfg is None:
-    cfg = {}
-    config.getConfiguration().product_config['opencore.nui'] = cfg
-cfg['email-confirmation'] = 'True'
+# event handler used in the tests
+events_fired = []
+def dummy_handler(obj, event):
+    events_fired.append((obj, event))
 
 def test_suite():
     from Products.Five.utilities.marker import erase as noLongerProvides
     from Products.PloneTestCase import ptc
     from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
     from pprint import pprint
-    from zope.interface import alsoProvides
+    from opencore.testing import alsoProvides, noLongerProvides
+    from opencore.interfaces.membership import IEmailInvites
+    from zope.app.component.hooks import setSite, setHooks
+    from zope.component import getUtility
+    import pdb
+    from pprint import pprint
+    globs = locals()
 
     def readme_setup(tc):
+        setSite(tc.portal)
         tc._refreshSkinData()
-        pwt = tc.portal.portal_workflow
         member = tc.portal.portal_membership.getAuthenticatedMember()
-        if pwt.getInfoFor(member, 'review_state') == 'pending':
-            member.isConfirmable = True
-            pwt.doActionFor(member, 'register_public')
-            del member.isConfirmable
+        member = IHandleMemberWorkflow(member)
+        if member.is_unconfirmed():
+            member.confirm()
 
-    globs = locals()
-    readme = FunctionalDocFileSuite("README.txt",
-                                    optionflags=optionflags,
-                                    package='opencore.nui.account',
-                                    test_class=MockMailHostTestCase,
-                                    globs = globs,
-                                    setUp=readme_setup
-                                    )
+    readme = dtf.ZopeDocFileSuite("README.txt",
+                                        optionflags=optionflags,
+                                        package='opencore.nui.account',
+                                        test_class=MockMailHostTestCase,
+                                        globs = globs,
+                                        setUp=readme_setup,
+                                        layer=MockHTTPWithContent
+                                        )
 
-    readme.layer = OpencoreContent
+    invite = dtf.ZopeDocFileSuite("invite-join.txt",
+                                  optionflags=optionflags,
+                                  package='opencore.nui.account',
+                                  test_class=MockMailHostTestCase,
+                                  globs = globs,
+                                  setUp=readme_setup,
+                                  layer=MockHTTPWithContent
+                                  )
 
-    return unittest.TestSuite((readme,))
+    return unittest.TestSuite((readme, invite))
 
 
 if __name__ == '__main__':

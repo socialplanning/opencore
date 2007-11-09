@@ -9,14 +9,14 @@
       />
 
   <browser:page
-     for="opencore.interfaces.IAddProject"
+     for="opencore.interfaces.adding.IAddProject"
      name="create"
      class=".view.ProjectAddView"
      permission="openplans.AddOpenProject"
      />
 
   <browser:page
-     for="opencore.interfaces.IAddSubProject"
+     for="opencore.interfaces.adding.IAddSubProject"
      name="create_project"
      class=".view.SubProjectAddView"
      permission="openplans.AddSubProject"
@@ -36,9 +36,10 @@
       name="recent-updates"
       />
     -->
+
   <browser:page
      for="opencore.interfaces.IProject"
-     class=".view.ProjectPreferencesView"
+     class=".preferences.ProjectPreferencesView"
      permission="cmf.ModifyPortalContent"
      name="preferences"
      template="preferences.pt"
@@ -54,7 +55,7 @@
 
   <browser:page
      for="opencore.interfaces.IProject"
-     class=".team.ManageTeamView"
+     class=".manageteam.ManageTeamView"
      permission="teamspace.ManageTeamMemberships"
      name="manage-team"
      />
@@ -64,6 +65,14 @@
      class=".team.RequestMembershipView"
      permission="zope2.View"
      name="request-membership"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".view.TourView"
+     permission="cmf.ModifyPortalContent"
+     name="tour"
+     template="tour.pt"
      />
 
   <browser:page
@@ -104,5 +113,17 @@
          zope.app.event.interfaces.IObjectModifiedEvent"
      handler=".metadata.update_last_modified_author"
      />
+
+  <!-- deletion subscribers -->
+  <subscriber handler="opencore.nui.project.preferences.kick_cache" />
+  <subscriber handler="opencore.nui.project.preferences.handle_flet_uninstall" />
+  <subscriber handler="opencore.nui.project.preferences.queue_delete_team" />
+  <adapter factory="opencore.nui.project.preferences.ProjectFeatureletSupporter" />
+
+  <adapter
+      for="opencore.interfaces.IOpenTeam"
+      provides="opencore.interfaces.pending_requests.IRequestMembership"
+      factory="opencore.nui.project.team_membership.RequestMembershipWithEmail"
+      />
 
 </configure>

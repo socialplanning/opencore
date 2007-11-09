@@ -17,8 +17,9 @@
 <tal:if condition="nothing"> <!-- hack to prevent non-macro execution -->
 <tal:macro metal:define-macro="contents_table"
      define="form_name string:${item_type}_contents">
-<div class="oc-widget oc-widget-dataTable">
-  <h2 class="oc-dataTable-heading"><tal:dummy replace="item_header" /></h2>
+    <div class="oc-widget oc-widget-dataTable">
+
+     <h2 class="oc-dataTable-heading"><tal:dummy replace="item_header" /></h2>
 
   <form action="contents"
   tal:attributes="name form_name">
@@ -50,7 +51,6 @@
     <tal:macro metal:use-macro="view/item_thead_snippet/macros/item_thead_snippet" />
     <tal:macro metal:use-macro="view/item_tbody_snippet/macros/item_tbody_snippet" />
   </table>
-
 </div> <!-- end .oc-widget-dataTable -->
 </tal:macro>
 </tal:if>

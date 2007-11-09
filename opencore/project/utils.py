@@ -1,6 +1,10 @@
 from topp.featurelets.interfaces import IFeatureletSupporter
 
 def get_featurelets(project):
+    """
+    Returns a list of dicts representing the featurelets that are
+    installed into the provided project.
+    """
     supporter = IFeatureletSupporter(project)
     flet_ids = supporter.getInstalledFeatureletIds()
     getfletdesc = supporter.getFeatureletDescriptor
@@ -15,3 +19,14 @@ def get_featurelets(project):
              }
             )
     return result
+
+def project_path(proj_id=None):
+    """
+    Returns the specified project's home folder path relative to the
+    site root.
+    """
+    projects_url='projects'
+    if proj_id is None:
+        return projects_url
+    
+    return "%s/%s" % (projects_url, proj_id)

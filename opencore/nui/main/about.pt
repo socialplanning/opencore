@@ -1,9 +1,8 @@
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <body>
     <head>
-      <title metal:fill-slot="title">
-        About - OpenPlans
-      </title>
+      <title metal:fill-slot="title"
+             tal:content="string:About - ${view/portal_title}" />
     </head>
 
     <div metal:fill-slot="content">
@@ -11,8 +10,9 @@
       <div id="oc-content-main">
 
         <div class="oc-headingBlock">
-          <h1>About OpenPlans</h1>
+          <h1 tal:content="string:About ${view/portal_title}" />
         </div>
+	<div i18n:translate="about_openplans">
         <p>OpenPlans is a platform for social activism.</p>
         <p>Whether your group is mobilizing voters, planning a protest, or growing a garden, OpenPlans can help you become more effective. OpenPlans is about greasing the wheels of democracy.</p>
         <p>With our collaborative wiki pages and other tools, you and your group can:</p>
@@ -33,13 +33,14 @@
         <p>We created OpenPlans for social change groups, to help them save time and become more effective. These groups often have a lot of passion and smarts, but not a lot of extra people power or time.</p>
         <p>OpenPlans is our third initiative. We also founded <a href="http://geoserver.org/">GeoServer</a>, a platform for sharing geographic information, and we are collaborators in the <a href="http://nycsr.org/">New York City Streets Renaissance</a>, a campaign for lively public space in NYC.</p>
         <p>TOPP was born in 2000.</p>
+	</div>
       </div><!-- content-main -->
       <div id="oc-content-sidebar">
-        <div class="oc-getstarted">
+        <div i18n:translate="about_let_us_know" class="oc-getstarted">
           <h2>Help!</h2>
           <p>We're here to help you. If you have a question, <a tal:attributes="href string:${context/portal_url}/contact-site-admin">let us know</a>.</p>
         </div>
-        <div id="oc-contact" class="oc-boxy">
+        <div i18n:translate="about_get_in_touch" id="oc-contact" class="oc-boxy">
           <h2>Get in touch</h2>
             <div class="vcard">
               <p style="font-weight: bold;" class="fn org">

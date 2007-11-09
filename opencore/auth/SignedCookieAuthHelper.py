@@ -76,12 +76,13 @@ def manage_addSignedCookieAuthHelper(self, id, title='',
 from Globals import DTMLFile
 manage_addSignedCookieAuthHelperForm = DTMLFile("../zmi/SignedCookieAuthHelperForm", globals())
 
+from opencore.configuration import utils as conf_utils 
+
 def get_secret_file_name():
-    cfg = config.getConfiguration().product_config.get('opencore.auth')
-    if cfg:
-        return cfg.get('topp_secret_filename', '')
-    else:
-        return os.path.join(os.environ.get('INSTANCE_HOME'), 'secret.txt')
+    filename = conf_utils.product_config('topp_secret_filename', 'opencore.auth')
+    if filename:
+        return filename
+    return os.path.join(os.environ.get('INSTANCE_HOME'), 'secret.txt')
 
 def get_secret():
     secret_file_name = get_secret_file_name()
@@ -123,11 +124,12 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
         return hmac.new(self.secret, login, sha).hexdigest()
 
     def generateCookieVal(self, login):
-        return encodestring("%s\0%s" % (login, self.generateHash(login)))
+        encoded = encodestring("%s\0%s" % (login, self.generateHash(login)))
+        return quote(encoded.rstrip())
 
     def generateCookie(self, login):
         cookie_val = self.generateCookieVal(login)
-        return '__ac=%s' % quote(cookie_val)
+        return '%s=%s' % (self.cookie_name, cookie_val)
 
     security.declarePrivate('extractCredentials')
     def extractCredentials(self, request):
@@ -167,8 +169,6 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
         """ Respond to change of credentials (NOOP for basic auth). """
         cookie_val = self.generateCookieVal(login)
 
-        cookie_val = quote(cookie_val.rstrip())
-
         if request.get("no_expire_cookie"):
             response.setCookie(self.cookie_name, cookie_val, path='/',
                                expires="Sat, 06-May-2017 19:06:00 GMT")
@@ -201,8 +201,10 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
     #IAuthenticationPlugin
 
     def authenticateCredentials(self, credentials):
-        login = credentials['login']
-        if credentials['hash'] == self.generateHash(login):
+        login = credentials.get('login')
+        cookiehash = credentials.get('hash')
+        if cookiehash is not None and \
+               cookiehash  == self.generateHash(login):
             return (login, login)
 
 InitializeClass(SignedCookieAuthHelper)

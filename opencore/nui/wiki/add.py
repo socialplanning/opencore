@@ -72,6 +72,7 @@ class NuiPageAdd(NuiBaseAdd):
         return aq_parent(aq_inner(self.context))
 
 # consider moving out to more general location
+# the project create code shares this as well
 from zope.interface import providedBy
 from zope.app.apidoc.component import getRequiredAdapters as get_required
 from zope.publisher.interfaces import IRequest
@@ -86,6 +87,7 @@ def get_view_names(obj, ignore_dummy=False):
                if reg.required[-1].isOrExtends(IRequest) and not issubclass(reg.value, IgnorableDummy))
     return set(reg.name for reg in regs\
                if reg.required[-1].isOrExtends(IRequest))
+
 
 class Dummy(BaseView):
     """Creates dummy for blocking the overcreation of deliverance

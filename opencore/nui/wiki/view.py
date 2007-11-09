@@ -6,7 +6,7 @@ from opencore.nui.formhandler import button, OctopoLite, action
 from opencore.interfaces import IAmExperimental
 from PIL import Image
 from StringIO import StringIO
-from lxml.html.clean import clean_html
+from lxml.html.clean import Cleaner
 from opencore.interfaces.catalog import ILastModifiedAuthorId
 from topp.utils.pretty_date import prettyDate
 
@@ -37,9 +37,10 @@ class WikiBase(BaseView):
                 return '%s %s' % (context.Title(), mode)
 
             if vmi['home_url'] == context.absolute_url():
-                return '%s on OpenPlans' % vmi['id']
+                return '%s on %s' % (vmi['id'], self.portal_title())
             else:
-                return '%s - %s on OpenPlans' % (context.Title(), vmi['id'])
+                return '%s - %s on %s' % (context.Title(), vmi['id'],
+                                          self.portal_title())
 
         else:
             return '%s %s- %s' % (context.Title(), mode, self.area.Title())
@@ -57,24 +58,37 @@ class WikiView(WikiBase):
 
 class WikiEdit(WikiBase, OctopoLite):
 
-    kupu_template = ZopeTwoPageTemplateFile("wiki-edit.pt")
-    xinha_template = ZopeTwoPageTemplateFile("wiki-edit-xinha.pt")
+    # kupu template turned of now
+    # can be removed if we never go back
+    #kupu_template = ZopeTwoPageTemplateFile("wiki-edit.pt")
+    #xinha_template = ZopeTwoPageTemplateFile("wiki-edit-xinha.pt")
+    template = ZopeTwoPageTemplateFile("wiki-edit-xinha.pt")
 
     attachment_snippet = ZopeTwoPageTemplateFile('attachment.pt')
 
-    @property
-    def template(self):
-        # parent can be either a project, or a member folder
-        # in either case, the behavior works properly
-        parent = self.context.aq_inner.aq_parent
-        if IAmExperimental.providedBy(parent):
-            return self.xinha_template
-        else:
-            return self.kupu_template
+# always use xinha, see comment above
+#    @property
+#    def template(self):
+#         parent can be either a project, or a member folder
+#         in either case, the behavior works properly
+#        parent = self.context.aq_inner.aq_parent
+#        if IAmExperimental.providedBy(parent):
+#            return self.xinha_template
+#        else:
+#            return self.kupu_template
 
     def _clean_html(self, html):
         """ delegate cleaning of html to lxml """
-        return clean_html(html)
+        ocprops = self.get_tool('portal_properties').opencore_properties
+        whitelist = ocprops.getProperty('embed_whitelist') or []
+        try:
+            whitelist = [x for x in whitelist if x.strip()]
+        except TypeError:
+            raise TypeError("Bad value for portal_properties.embed_whitelist: %r" % whitelist)
+        cleaner = Cleaner(host_whitelist=whitelist)
+        new_html = cleaner.clean_html(html)
+        ## FIXME: we should have some way of notifying the user about tags that were removed
+        return new_html
 
     @action('save')
     def handle_save(self, target=None, fields=None):
@@ -435,6 +449,8 @@ class ImageManager(WikiEdit, OctopoLite):
     
     @action('delete-image')
     def delete_image(self, target=None, fields=None):
+        if target is None:
+            target = []
         survivors = list(target)
         self.context.manage_delObjects(survivors)
         return self.backend_images_snippet()
