@@ -28,9 +28,6 @@ class EmailSender(object):
 
     def __init__(self, context):
         self.context = context
-        # this is terrible but i just want to get this out for now
-        # whit suggests named adapters
-        self.messages = mship_messages # @.@ 
 
     @property
     def _mailhost(self):
@@ -73,7 +70,6 @@ class EmailSender(object):
     def constructMailMessage(self, msg_id, **kwargs):
         if not kwargs.has_key('portal_title'):
             kwargs['portal_title'] = self.context.Title()
-        #### msg = getattr(self.messages, msg_id) #XX
         unicode_kwargs = self._unicode_values(kwargs)
         msg = _(msg_id, mapping=unicode_kwargs)
         return self._translate(msg)
