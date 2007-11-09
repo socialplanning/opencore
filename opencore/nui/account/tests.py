@@ -8,6 +8,7 @@ from zope.testing import doctest
 import os
 import sys
 import unittest
+from opencore.member.interfaces import IHandleMemberWorkflow
 
 #import warnings; warnings.filterwarnings("ignore")
 
@@ -37,13 +38,10 @@ def test_suite():
     def readme_setup(tc):
         setSite(tc.portal)
         tc._refreshSkinData()
-        pwt = tc.portal.portal_workflow
         member = tc.portal.portal_membership.getAuthenticatedMember()
-        if pwt.getInfoFor(member, 'review_state') == 'pending':
-            member.isConfirmable = True
-            pwt.doActionFor(member, 'register_public')
-            del member.isConfirmable
-
+        member = IHandleMemberWorkflow(member)
+        if member.is_unconfirmed():
+            member.confirm()
 
     readme = dtf.ZopeDocFileSuite("README.txt",
                                         optionflags=optionflags,
