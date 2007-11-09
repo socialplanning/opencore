@@ -6,6 +6,7 @@
            i18n_domain="opencore">
 
   <include package="opencore.js" />
+  <include package=".topnav" />
 
   <browser:resourceDirectory
      name="css"
@@ -45,5 +46,23 @@
     permission="zope.Public"
     allowed_interface="zope.interface.common.mapping.IItemMapping"
     />
+
+  <!-- footer -->
+  <browser:page
+     for="*"
+     class="opencore.nui.base.BaseView"
+     permission="zope.Public"
+     name="oc-footer"
+     template="footer.pt"
+     />
+
+  <!-- blank (for testing) -->
+  <browser:page
+     for="*"
+     class=".base.BaseView"
+     permission="zope.Public"
+     name="oc-blank"
+     template="blank.pt"
+     />
 
 </configure>
