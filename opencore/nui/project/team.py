@@ -87,7 +87,7 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
         sender = EmailSender(self, secureSend=True)
         sender.sendEmail(mto=email,
                          msg=message,
-                         subject=_(u'email_to_pending_user_subject', u'Welcome to %s! - Confirm your email' % self.portal_title()))
+                         subject=_(u'email_to_pending_user_subject'))
 
     # XXX get this outta here right away
     def _create(self):
