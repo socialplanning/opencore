@@ -9,7 +9,9 @@
 ##
 
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import PloneMessageFactory as _
+import zope.i18nmessageid
+from Products.CMFPlone.i18nl10n import utranslate
+_ = zope.i18nmessageid.MessageFactory('opencore')
 
 portal = context.portal_url.getPortalObject()
 dummy_referer = context.portal_url()
@@ -48,7 +50,7 @@ if query:
         referer = urlunquote(referer)
 
 plone_utils = getToolByName(portal, 'plone_utils')
-plone_utils.addPortalMessage(_(u'psm_not_sufficient_permissions', u"You do not have sufficient permissions."))
+plone_utils.addPortalMessage(utranslate('opencore',_(u'psm_not_sufficient_perms', u"You do not have sufficient permissions.")))
 
 if referer.split('?')[0].endswith('/require_login'):
     referer = dummy_referer
