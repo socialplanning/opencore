@@ -269,6 +269,31 @@ class OpenMember(FolderishMember):
         data = ' '.join(data)
         return data
 
+    security.declarePrivate('_id_exists_remotely')
+    def _id_exists_remotely(self, id):
+        """
+        Checks all of the servers in the remote_auth_sites property to
+        see if this specified id exists on any of those sites.  We check
+        for the ex
+        """
+        ptool = getToolByName(self, 'portal_properties')
+        ocprops = ptool._getOb('opencore_properties')
+        remote_auth_sites = ocprops.getProperty('remote_auth_sites')
+        remote_auth_sites = [s for s in remote_auth_sites if s.strip()]
+        if remote_auth_sites:
+            http = getUtility(IHTTPClient)
+            for url in remote_auth_sites:
+                mem_url = "%s/portal_memberdata/%s" % (url, id)
+                resp, content = http.request(mem_url, method='HEAD')
+                if resp.status in (200, 401, 405):
+                    # a remote member exists; we'll get a 404 if the
+                    # member doesn't.  note that we consider errors on
+                    # the remote side a negatives; better to have
+                    # login namespace collision than to block acct
+                    # creation b/c remote auth site is down.
+                    return True
+        return False
+
     security.declarePrivate('validate_id')
     def validate_id(self, id):
         """
@@ -288,9 +313,12 @@ class OpenMember(FolderishMember):
             if len(mbtool.unrestrictedSearchResults(getUserName=id)) > 0 or \
                    not ALLOWED_MEMBER_ID_PATTERN.match(id):
                 allowed = False
-            for prefix in PROHIBITED_MEMBER_PREFIXES:
-                if id.lower().startswith(prefix):
-                    allowed = False
+            if allowed:
+                for prefix in PROHIBITED_MEMBER_PREFIXES:
+                    if id.lower().startswith(prefix):
+                        allowed = False
+            if allowed and self._id_exists_remotely(id):
+                allowed = False
             if not allowed:
                 msg = "The login name you selected is already " + \
                       "in use or is not valid. Please choose another."
