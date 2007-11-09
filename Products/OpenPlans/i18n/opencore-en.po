@@ -190,7 +190,7 @@ msgstr ""
 #. Default: "${user_name},\n\nYou recently signed up to use ${portal_title}. \n\nPlease confirm your email address at the following address: ${url}\n\nIf you cannot click on the link, you can cut and paste it into your browser's address bar.\n\nOnce you have confirmed, you can start using ${portal_title}.\n\nIf you did not initiate this request or believe it was sent in error you can safely ignore this message.\n\nCheers,\nThe ${portal_title} Team\n${portal_url}"
 #: opencore/nui/account/accountview.py:107
 msgid "email_to_pending_user"
-msgstr ""
+msgstr "${user_name},\n\nYou recently signed up to use ${portal_title}. \n\nPlease confirm your email address at the following address: ${url}\n\nIf you cannot click on the link, you can cut and paste it into your browser's address bar.\n\nOnce you have confirmed, you can start using ${portal_title}.\n\nIf you did not initiate this request or believe it was sent in error you can safely ignore this message.\n\nCheers,\nThe ${portal_title} Team\n${portal_url}"
 
 #. Default: "Welcome to ${portal_title}! - Please confirm your email address"
 #: opencore/nui/account/accountview.py:127

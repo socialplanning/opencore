@@ -78,23 +78,11 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
         # TODO only send mail if in the pending workflow state
         mailhost_tool = self.get_tool("MailHost")
 
-        # TODO move this to a template for easier editting
-        message = _(u'email_to_pending_user', u"""You recently signed up to use ${portal_title}. 
-
-Please confirm your email address at the following address: ${url}
-
-If you cannot click on the link, you can cut and paste it into your browser's address bar.
-
-Once you have confirmed, you can start using ${portal_title}.
-
-If you did not initiate this request or believe it was sent in error you can safely ignore this message.
-
-Cheers,
-The ${portal_title} Team
-${portal_url}""",  mapping={u'user_name':id,
-                           u'url':url,
-                           u'portal_url':self.siteURL,
-                           u'portal_title':self.portal_title()})
+        message = _(u'email_to_pending_user',
+                    mapping={u'user_name':id,
+                             u'url':url,
+                             u'portal_url':self.siteURL,
+                             u'portal_title':self.portal_title()})
         
         sender = EmailSender(self, secureSend=True)
         sender.sendEmail(mto=email,
