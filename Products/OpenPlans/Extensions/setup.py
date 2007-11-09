@@ -12,7 +12,6 @@ from Products.Archetypes.public import listTypes
 from Products.Archetypes.Extensions.utils import installTypes
 from Products.OpenPlans import config
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
-from Products.OpenPlans.workflows import WORKFLOW_MAP
 from zLOG import INFO, ERROR
 
 from opencore.configuration.setuphandlers import \
@@ -48,20 +47,6 @@ def convertFunc(func):
         return out.getvalue()
     return new_func
 
-def reinstallWorkflows(portal):
-    wftool = getToolByName(portal, 'portal_workflow')
-    qi = getToolByName(portal, 'portal_quickinstaller')
-    product = getattr(qi, PROJECTNAME)
-    wfs = set(product.getWorkflows())
-    wfs = wfs.union(set(WORKFLOW_MAP.keys()))
-    wfs.remove('(Default)')
-    existing = dict.fromkeys(wftool.objectIds())
-    wfs = [wf for wf in wfs if wf in existing]
-    wftool.manage_delObjects(ids=wfs)
-    out = StringIO()
-    installWorkflows(portal, out)
-    return out.getvalue()
-
 def reinstallWorkflowPolicies(portal):
     pwftool = getToolByName(portal, 'portal_placeful_workflow')
     policies = set(pwftool.objectIds())
@@ -69,12 +54,6 @@ def reinstallWorkflowPolicies(portal):
     pwftool.manage_delObjects(ids=list(deletes))
     out = StringIO()
     installWorkflowPolicies(portal, out)
-
-def reinstallTypes(portal):
-    out = StringIO()
-    installTypes(portal, out, listTypes(config.PROJECTNAME),
-                 config.PROJECTNAME)
-    hideActionTabs(portal, out)
 
 def migrate_listen_member_lookup(portal):
     from Products.listen.interfaces import IMemberLookup

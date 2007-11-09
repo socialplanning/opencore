@@ -11,7 +11,6 @@ from Testing import ZopeTestCase
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore import permissions
-from Products.OpenPlans.workflows import WORKFLOW_MAP
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from Products.OpenPlans.config import DEFAULT_ROLES
 from Products.OpenPlans.Extensions.Install import migrateATDocToOpenPage
@@ -53,12 +52,6 @@ class TestOpenPlansInstall(OpenPlansTestCase):
         project_wf_config = pwf_tool.getWorkflowPolicyConfig(self.portal.projects)
         self.failUnless(project_wf_config)
         self.failUnless(project_wf_config.getPolicyBelowId())
-            
-    def test_workflowinstall(self):
-        wf_tool = getToolByName(self.portal, 'portal_workflow')
-        for wf_id in WORKFLOW_MAP.keys():
-            self.failIf(wf_id not in wf_tool.listWorkflows() and
-                        wf_id != '(Default)')
             
     def test_install(self):
         # workflows are installed

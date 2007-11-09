@@ -14,8 +14,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.PortalTransforms.libtransforms.utils import MissingBinary
 from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
 
-from Products.OpenPlans.Extensions.setup import convertFunc, reinstallTypes, \
-     reinstallWorkflows, reinstallWorkflowPolicies
+from Products.OpenPlans.Extensions.setup import convertFunc, \
+     reinstallWorkflowPolicies
 from opencore.configuration.setuphandlers import \
      installNewsFolder, securityTweaks
 from opencore.configuration.setuphandlers import setupPeopleFolder, \
@@ -59,8 +59,10 @@ def move_blocking_content(portal):
 
 
 def reindex_membrane_tool(portal):
+    # XXX this should trigger the GS import step to be run if it's ever
+    # XXX needed again
     # requires the types to be reinstalled first
-    reinstallTypes(portal)
+    # reinstallTypes(portal)
     mbtool = getToolByName(portal, 'membrane_tool')
     mbtool.reindexIndex('getLocation', portal.REQUEST)
     logger.log(INFO, "getLocation reindexed")
