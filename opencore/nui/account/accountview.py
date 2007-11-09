@@ -1,14 +1,10 @@
 """
 views pertaining to accounts -- creation, login, password reset
 """
-from AccessControl.SecurityManagement import newSecurityManager
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
-from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from Products.remember.utils import getAdderUtility
-from Products.validation.validators.BaseValidators import EMAIL_RE
-from opencore.nui.account.utils import email_confirmation, turn_confirmation_on, turn_confirmation_off
+from opencore.nui.account.utils import email_confirmation
 from opencore.nui.base import BaseView, _
 from opencore.nui.email_sender import EmailSender
 from opencore.nui.formhandler import * # start import are for pansies
@@ -17,10 +13,8 @@ from opencore.siteui.member import FirstLoginEvent
 from plone.memoize import instance
 from smtplib import SMTPRecipientsRefused, SMTP
 from zExceptions import Forbidden, Redirect, Unauthorized
-from zope.app.event.objectevent import ObjectCreatedEvent
 from zope.component import getUtility
 from zope.event import notify
-import socket
 import urllib
 
 
