@@ -76,8 +76,7 @@ class AccountView(BaseView):
     ### methods to deal with pending members
 
     def is_pending(self, **query):
-        membrane_tool = self.get_tool('membrane_tool')
-        matches = membrane_tool.unrestrictedSearchResults(**query)
+        matches = self.membranetool.unrestrictedSearchResults(**query)
         if len(matches) != 1:
             return
         member = matches[0].getObject()
