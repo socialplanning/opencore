@@ -1,10 +1,8 @@
+# @@ obsolete??
 from Products.CMFCore.utils import getToolByName
-
+from opencore.interfaces.member import IMemberFolder
+from opencore.interfaces.member import IMemberHomePage
 from zope.interface import alsoProvides
-
-from opencore.siteui.interfaces import IMemberFolder
-from opencore.siteui.interfaces import IMemberHomePage
-
 
 
 def mark_member_homes(self):
