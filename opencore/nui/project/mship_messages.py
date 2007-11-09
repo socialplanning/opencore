@@ -37,20 +37,6 @@ membership_deactivated = _(u'email_membership_deactivated', u"""Subject: ${porta
 You are no longer a member of "${project_title}" on ${portal_title}.
 """)
 
-membership_requested = _(u'email_membership_requested', u"""Subject: ${portal_title} - Request to join ${project_title}
-
-${member_id} would like to get involved with "${project_title}".
-
-To approve or deny this request please visit the project's team management screen: ${team_manage_url}
-""")
-
-mship_request_message = _(u'email_mship_request_message', u"""
-
-${member_id} included the following message:
-
-"${member_message}"
-""")
-
 invite_email = _(u'email_invite_email', u"""Subject: ${portal_title} - Invitation to join ${project_title}
 
 You have been invited to join "${project_title}" on ${portal_title}.
