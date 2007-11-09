@@ -170,7 +170,7 @@ msgstr "Subject: ${portal_title} - Request to join ${project_title}\n\n${member_
 #. Default: "\n\n${member_id} included the following message:\n\n\"${member_message}\"\n"
 #: opencore/nui/project/mship_messages.py:47
 msgid "email_mship_request_message"
-msgstr ""
+msgstr "\n\n${member_id} included the following message:\n\n\"${member_message}\"\n"
 
 #. Default: "Subject: ${portal_title} - Invitation to join ${project_title}\n\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.  Please visit your account page to accept or decline the invitation: ${account_url}\n"
 #: opencore/nui/project/mship_messages.py:15
