@@ -57,7 +57,8 @@ class RequestMembershipWithEmail(object):
                                                 **email_vars)
         if request_message:
             email_vars.update(member_message=detag(request_message))
-            email_msg += sender.constructMailMessage('mship_request_message', **email_vars)
+            email_msg += sender.constructMailMessage('mship_request_message',
+                                                     **email_vars)
         return (email_msg, email_vars)
         
     def join(self, request_message=None):
