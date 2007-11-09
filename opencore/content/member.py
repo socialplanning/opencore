@@ -6,6 +6,7 @@ from types import TupleType, ListType, UnicodeType
 from AccessControl import ClassSecurityInfo
 
 from zope.component import getAdapter
+from zope.component import getUtility
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.CMFCorePermissions import *
