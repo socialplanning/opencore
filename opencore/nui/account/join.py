@@ -187,11 +187,7 @@ class InviteJoinView(JoinView, accountview.ConfirmAccountView):
             raise ValueError('Bad confirmation key')
         
         email = self.request.form.get("email")
-        member = self.membranetool.unrestrictedSearchResults(getEmail=email)
-        if member:
-            member = member[0].getObject()
-            pf = self.get_tool("portal_workflow")
-            if pf.getInfoFor(member, 'review_state') == 'pending':
-                return self.redirect(self._confirmation_url(member))
+        if self.is_pending(getEmail=email):
+            return self.redirect(self._confirmation_url(member))
 
         return None
