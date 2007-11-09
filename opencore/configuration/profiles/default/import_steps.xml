@@ -1,13 +1,25 @@
 <?xml version="1.0"?>
 <import-steps>
 
- <import-step id="actions" version="20071031-01"
+ <import-step id="actions" version="20040630-01"
               handler="Products.CMFCore.exportimport.actions.importActionProviders"
               title="Action Providers">
   <dependency step="toolset"/>
   <dependency step="typeinfo"/>
-    Import actions tool's action providers and their actions.
+  <dependency step="install_dependencies"/>
+  We have to reinstall actions after the dependencies.
  </import-step>
+
+  <import-step
+     version="20071029-01"
+     id="install_mem_dependencies"
+     handler="opencore.configuration.setuphandlers.install_mem_dependencies"
+     title="OpenCore install dependencies">
+    Installs membrane and remember.
+    <dependency step="typeinfo" />
+    <dependency step="workflow" />
+    <dependency step="catalog" />
+  </import-step>
 
   <import-step
      version="20071029-01"
@@ -18,6 +30,27 @@
     <dependency step="typeinfo" />
     <dependency step="workflow" />
     <dependency step="catalog" />
+    <dependency step="install_mem_dependencies" />
+  </import-step>
+
+  <import-step
+     version="20071029-01"
+     id="membranetool_again"
+     handler="Products.membrane.exportimport.membranetool.importMembraneTool"
+     title="Membrane Tool (again)">
+    We have to explicitly import the membrane tool settings AFTER we install
+    the member dependencies b/c membrane will overwrite what we already set
+    up.
+    <dependency step="install_dependencies" />
+  </import-step>
+
+  <import-step
+     version="20071029-01"
+     id="setupTeamTool"
+     handler="opencore.configuration.setuphandlers.setupTeamTool"
+     title="Configure Team Tool">
+    Team tool configuration.
+    <dependency step="install_dependencies" />
   </import-step>
 
   <import-step

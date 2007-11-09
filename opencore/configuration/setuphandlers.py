@@ -29,7 +29,6 @@ from Products.OpenPlans import content
 from Products.OpenPlans.permissions import DEFAULT_PFOLDER_PERMISSIONS_DATA
 from Products.OpenPlans.permissions import PLACEFUL_PERMISSIONS_DATA
 from Products.OpenPlans.content.team import OpenTeam
-from Products.OpenPlans.utils import installDepends
 from Products.OpenPlans.Extensions.utils import setupKupu
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from Products.OpenPlans.workflows import MEMBERSHIP_PLACEFUL_POLICIES
@@ -46,13 +45,29 @@ from opencore.nui.member.transient_messages import TransientMessage
 from opencore.nui.project.interfaces import IEmailInvites
 from opencore.nui.project.email_invites import EmailInvites
 
+# zrequire PlacelessTranslationService
+# zrequire Five
+# zrequire membrane
+# zrequire remember
+# zrequire GenericSetup
+# zrequire CMFPlone
+# zrequire ManagableIndex
+# zrequire QueueCatalog
+
+MEM_DEPS = ('membrane', 'remember')
+
+DEPS = ('wicked', 'TeamSpace',
+        'CMFPlacefulWorkflow', 'RichDocument', 'listen',
+        'CMFDiffTool', 'CMFEditions')
+
 def setuphandler(fn):
     """
     Decorator that turns QI functions into setuphandlers.
     """
     def execute_handler(context):
         stepname = fn.__name__
-        if context.readDataFile('%s.txt' % stepname) is None:
+        handlers = context.readDataFile('setuphandlers.txt')
+        if handlers is None or stepname not in handlers:
             return
         portal = context.getSite()
         out = StringIO()
@@ -62,9 +77,20 @@ def setuphandler(fn):
     return execute_handler
 
 @setuphandler
+def install_mem_dependencies(portal, out):
+    print >> out, ('Installing membrane and remember')
+    qi = getToolByName(portal, 'portal_quickinstaller')
+    for dep in MEM_DEPS:
+        print >> out, '--> installing: %s' % dep
+        qi.installProduct(dep)
+
+@setuphandler
 def install_dependencies(portal, out):
     print >> out, ('Installing dependency products')
-    installDepends(portal)
+    qi = getToolByName(portal, 'portal_quickinstaller')
+    for dep in DEPS:
+        print >> out, '--> installing: %s' % dep
+        qi.installProduct(dep)
 
 @setuphandler
 def install_team_placeful_workflow_policies(portal, out):
@@ -175,6 +201,14 @@ def setMemberType(portal, out):
     print >> out, 'Specifying %s as default member type' % mtype
     adder = getAdderUtility(portal)
     adder.default_member_type = mtype
+
+    # have to REset the MDC allowed types, since remember's install
+    # undid what we have specified in our profile type description
+    ttool = getToolByName(portal, 'portal_types')
+    mdc_fti = ttool._getOb('MemberDataContainer')
+    mdc_fti.manage_changeProperties(allowed_content_types=('Member',
+                                                           'OpenMember',
+                                                           ))
 
 @setuphandler
 def setTeamType(portal, out):
@@ -324,6 +358,13 @@ def setCookieDomain(portal, out):
     if bid_mgr is not None:
         bid_mgr.setCookieDomain(config.COOKIE_DOMAIN)
         print >> out, "Set cookie domain to %s" % config.COOKIE_DOMAIN
+
+@setuphandler
+def setupTeamTool(portal, out):
+    tmtool = getToolByName(portal, 'portal_teams')
+    tmtool.setDefaultAllowedRoles(config.DEFAULT_ROLES)
+    tmtool.setDefaultRoles(config.DEFAULT_ROLES[:1])
+    tmtool.setDefaultActiveStates(config.DEFAULT_ACTIVE_MSHIP_STATES)
 
 @setuphandler
 def installCookieAuth(portal, out):
