@@ -26,7 +26,6 @@
  <object name="ATSimpleStringCriterion"
     meta_type="Factory-based Type Information"/>
  <object name="ATSortCriterion" meta_type="Factory-based Type Information"/>
- <object name="AnonymailerTool" meta_type="Factory-based Type Information"/>
  <object name="CMF Document" meta_type="Factory-based Type Information"/>
  <object name="CMF Event" meta_type="Factory-based Type Information"/>
  <object name="CMF Favorite" meta_type="Factory-based Type Information"/>

@@ -26,7 +26,6 @@
   <element value="ATSimpleIntCriterion"/>
   <element value="ATSimpleStringCriterion"/>
   <element value="ATSortCriterion"/>
-  <element value="AnonymailerTool"/>
   <element value="CMF Document"/>
   <element value="CMF Event"/>
   <element value="CMF Favorite"/>
