@@ -2,7 +2,7 @@ from zope.event import notify
 from zope.app.event import objectevent
 from opencore.browser.base import BaseView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from opencore.nui.formhandler import button, OctopoLite, action
+from opencore.browser.formhandler import button, OctopoLite, action
 from opencore.interfaces import IAmExperimental
 from PIL import Image
 from StringIO import StringIO

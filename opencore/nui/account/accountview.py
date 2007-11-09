@@ -11,7 +11,7 @@ from Products.validation.validators.BaseValidators import EMAIL_RE
 from opencore.nui.account.utils import email_confirmation, turn_confirmation_on, turn_confirmation_off
 from opencore.browser.base import BaseView, _
 from opencore.nui.email_sender import EmailSender
-from opencore.nui.formhandler import * # start import are for pansies
+from opencore.browser.formhandler import * # start import are for pansies
 from opencore.interfaces.membership import IEmailInvites
 from opencore.siteui.member import FirstLoginEvent
 from plone.memoize import instance

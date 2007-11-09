@@ -1,5 +1,5 @@
 Here's a quick overview of how to use the
-opencore.nui.formhandler.octopus decorator to handle complex form
+opencore.browser.formhandler.octopus decorator to handle complex form
 submissions as either synchronous or asynchronous (i.e. AJAX) HTTP
 requests.
 
@@ -9,7 +9,7 @@ requests.
   browser:page ZCML tag).
 
 - the method that the form submits to should be decorated by the
-  opencore.nui.formhandler.octopus function.
+  opencore.browser.formhandler.octopus function.
 
 - octopus expects to find a form element named "task"; this tells the
   machinery what it's doing.  usually you would set name="task" on all

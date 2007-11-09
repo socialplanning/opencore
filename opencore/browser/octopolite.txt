@@ -28,7 +28,7 @@ And that's about it! Note the required target, fields signature for
 your action methods. See bottom of this file for the syntax of
 the JSON object to be returned to the client.
 
-   >>> from opencore.nui.formhandler import OctopoLite, action
+   >>> from opencore.browser.formhandler import OctopoLite, action
    >>> def decorator(func):
    ...     def inner(self, *a, **b):
    ...         print "in decorator!"

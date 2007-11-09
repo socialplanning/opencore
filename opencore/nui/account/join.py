@@ -5,8 +5,8 @@ Join Views
 * separate pre-confirmed view for folks already invited to a project
 """
 from opencore.nui.account import accountview
-from opencore.nui.formhandler import action, post_only, OctopoLite
-from opencore.nui.formhandler import anon_only
+from opencore.browser.formhandler import action, post_only, OctopoLite
+from opencore.browser.formhandler import anon_only
 from opencore.browser.base import view
 from opencore.interfaces.membership import IEmailInvites
 from zope.component import getUtility

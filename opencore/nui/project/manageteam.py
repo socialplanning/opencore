@@ -7,7 +7,7 @@ from opencore.nui.main.search import searchForPerson
 from opencore.content.membership import OpenMembership
 from opencore.interfaces.event import JoinedProjectEvent
 from opencore.interfaces.event import LeftProjectEvent
-from opencore.nui import formhandler
+from opencore.browser import formhandler
 from opencore.nui.account.accountview import email_confirmation
 from opencore.browser.base import _
 from opencore.browser.base import view

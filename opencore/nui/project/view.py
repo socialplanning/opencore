@@ -23,9 +23,9 @@ from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 
 from opencore.project.utils import get_featurelets
 from opencore.tasktracker import uri as tt_uri
-from opencore.nui import formhandler
+from opencore.browser import formhandler
 from opencore.browser.base import BaseView, _
-from opencore.nui.formhandler import OctopoLite, action
+from opencore.browser.formhandler import OctopoLite, action
 from opencore.nui.project.utils import vdict
 from opencore.nui.project.interfaces import IHomePage
 from opencore.nui.wiki.add import get_view_names

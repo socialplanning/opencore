@@ -25,7 +25,7 @@
 
   <browser:page
     for="*"
-    class="opencore.nui.base.BaseView"
+    class="opencore.browser.base.BaseView"
     permission="zope.Public"
     name="main_template"
     template="main_template.pt"
@@ -50,7 +50,7 @@
   <!-- footer -->
   <browser:page
      for="*"
-     class="opencore.nui.base.BaseView"
+     class="opencore.browser.base.BaseView"
      permission="zope.Public"
      name="oc-footer"
      template="footer.pt"

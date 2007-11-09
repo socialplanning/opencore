@@ -5,10 +5,10 @@ from zExceptions import Forbidden
 
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
-import opencore.nui.octopus
-from opencore.nui.octopus import action
+import opencore.browser.octopus
+from opencore.browser.octopus import action
 
-log = logging.getLogger('opencore.nui.formhandler')
+log = logging.getLogger('opencore.browser.formhandler')
 
 def button(name=None):
     def curry(handle_request):
@@ -137,11 +137,11 @@ def deoctopize(func):
         return ret
     return inner
 
-class OctopoLite(opencore.nui.octopus.Octopus):
+class OctopoLite(opencore.browser.octopus.Octopus):
     """
     Merge of the octopus request form handling with the FormLite form
     delegation code.  Meant to be used as a mix-in to any class that
-    also subclasses opencore.nui.base.BaseView.
+    also subclasses opencore.browser.base.BaseView.
     """
 
     def _octopus_get(self, key):

@@ -57,7 +57,7 @@ They should be properly wrapped(sort of).  The context will be in the
 acquisition chain::
 
     >>> pview.piv.aq_parent
-    <opencore.nui.base.BaseView object at ...>
+    <opencore.browser.base.BaseView object at ...>
 
     >>> pview.piv.aq_parent.aq_parent
     <OpenProject at /plone/projects/p1>
@@ -87,7 +87,7 @@ Aliases to commonly used tools are provided and also memoized::
 These should also be properly wrapped(sort of)::
 
     >>> pview.portal_url.aq_parent
-    <opencore.nui.base.BaseView object at ...>
+    <opencore.browser.base.BaseView object at ...>
 
 
 User/Account methods

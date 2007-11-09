@@ -19,7 +19,7 @@ def test_suite():
     from pprint import pprint
     from zope.interface import alsoProvides
     from pprint import pprint
-    from opencore.nui.formhandler import test_suite as octotest
+    from opencore.browser.formhandler import test_suite as octotest
     
     setup.setupPloneSite()
     def readme_setup(tc):

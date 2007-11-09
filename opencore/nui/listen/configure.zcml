@@ -7,7 +7,7 @@
   <browser:page
      for="opencore.featurelets.interfaces.IListenContainer"
      name="mailing_lists"
-     class="opencore.nui.base.BaseView"
+     class="opencore.browser.base.BaseView"
      permission="zope2.View"
      template="mailing_lists.pt"
      />
@@ -33,7 +33,7 @@
 
   <browser:page
      for="*"
-     class="opencore.nui.base.BaseView"
+     class="opencore.browser.base.BaseView"
      name="listen_macros"
      permission="zope2.View"
      template="listen_macros.pt"

@@ -6,7 +6,7 @@ from zope.event import notify
 from opencore.interfaces.event import ChangedTeamRolesEvent
 from opencore.configuration import DEFAULT_ROLES
 from opencore.content.membership import OpenMembership
-from opencore.nui import formhandler
+from opencore.browser import formhandler
 from opencore.browser.base import _
 from opencore.nui.email_sender import EmailSender
 from opencore.nui.main import SearchView

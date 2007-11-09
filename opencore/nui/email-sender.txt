@@ -8,7 +8,7 @@ First, let's instantiate an email sender
     >>> from opencore.browser.base import BaseView
     >>> view = BaseView(self.portal, self.portal.REQUEST)
     >>> view
-    <opencore.nui.base.BaseView object at ...>
+    <opencore.browser.base.BaseView object at ...>
     >>> from opencore.nui.email_sender import EmailSender
     >>> es = EmailSender(view)
     >>> es

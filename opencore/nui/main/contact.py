@@ -2,7 +2,7 @@ from plone.memoize.view import memoize as req_memoize
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 from opencore.browser.base import BaseView, _
-from opencore.nui import formhandler
+from opencore.browser import formhandler
 from opencore.nui.email_sender import EmailSender
 
 class ContactView(BaseView, formhandler.OctopoLite):

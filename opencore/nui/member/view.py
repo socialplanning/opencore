@@ -13,7 +13,7 @@ from opencore.interfaces.event import LeftProjectEvent
 from opencore.interfaces.event import MemberEmailChangedEvent
 from opencore.interfaces.membership import IEmailInvites
 from opencore.browser.base import BaseView
-from opencore.nui.formhandler import OctopoLite, action
+from opencore.browser.formhandler import OctopoLite, action
 from opencore.interfaces.message import ITransientMessage
 from opencore.project.utils import project_path
 from plone.memoize.view import memoize as req_memoize

@@ -7,7 +7,7 @@ from Products.Five import BrowserView
 from Products.TeamSpace.interfaces import ITeamSpaceTeamRelation
 from opencore.interfaces import IProject
 from opencore.interfaces.adding import IAddProject
-from opencore.nui import formhandler
+from opencore.browser import formhandler
 from opencore.nui.project.view import ProjectPreferencesView
 from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
 from topp.clockqueue.interfaces import IClockQueue

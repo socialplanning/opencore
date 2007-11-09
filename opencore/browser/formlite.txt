@@ -2,7 +2,7 @@ Formlite.
 
 It's getting fatter.
 
-   >>> from opencore.nui.formhandler import FormLite, action
+   >>> from opencore.browser.formhandler import FormLite, action
    >>> def decorator(func):
    ...     def inner(self):
    ...         print "in decorator"
@@ -44,8 +44,8 @@ It's getting fatter.
 The dispatch methods are loaded into a dictlike object::
 
    >>> pprint(view.actions)
-   {'roklok': <opencore.nui.formhandler.Action object at ...>,
-    'sod': <opencore.nui.formhandler.Action object at ...>}
+   {'roklok': <opencore.browser.formhandler.Action object at ...>,
+    'sod': <opencore.browser.formhandler.Action object at ...>}
 
 The dispatcher is dumb as a rock.  Whatever action it finds first, it executes::
 

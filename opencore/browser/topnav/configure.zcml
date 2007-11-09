@@ -59,7 +59,7 @@
   <!-- topnav-explore-menu -->
   <browser:page
      for="*"
-     class="opencore.nui.base.BaseView"
+     class="opencore.browser.base.BaseView"
      permission="zope2.View"
      name="topnav-explore-menu"
      template="explore-menu.pt"
