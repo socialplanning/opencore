@@ -23,3 +23,8 @@ class MemberWorkflowHandler(object):
         
     def is_unconfirmed(self):
         return self._wfstate == "pending"
+
+    def confirm(self):
+        setattr(self.context, 'isConfirmable', True)
+        self._wftool.doActionFor(self.context, "register_public")
+        delattr(self.context, 'isConfirmable')

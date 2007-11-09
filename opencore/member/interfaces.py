@@ -22,3 +22,10 @@ class IHandleMemberWorkflow(Interface):
         Returns True if the user account associated with the member
         object is unconfirmed.
         """
+    
+    def confirm(self):
+        """
+        Confirms a user account. 
+
+        No error checking is done within this method.
+        """

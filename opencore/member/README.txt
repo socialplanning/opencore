@@ -21,3 +21,13 @@ the interface because the whole point of this is to abstract away from
 portal_workflow and hardcoded strings::
     >>> IHandleMemberWorkflow(mem)._wfstate
     'public'
+
+We can confirm a member account that is pending confirmation::
+
+But this method doesn't do any error checking of its own, so if we
+try to confirm an account that's already confirmed we'll get an
+exception from portal_workflow::
+    >>> IHandleMemberWorkflow(mem).confirm()
+    Traceback (most recent call last):
+    ...
+    WorkflowException: No workflow provides the "register_public" action.
