@@ -19,7 +19,7 @@ class TestContentCreator(formbase.PageForm):
 
 class AddOpenPlansForm(formbase.AddForm):
     form_fields = form.Fields(IAddOpenPlans)
-    profiles = ('membrane:default', 'remember:default')
+    profiles = ('opencore.configuration:default',)
 
     @property
     def factory(self):
@@ -32,8 +32,7 @@ class AddOpenPlansForm(formbase.AddForm):
                      extension_ids=self.profiles)
 
         portal = getattr(self.context, data['id'])
-        qi = getToolByName(portal, 'portal_quickinstaller')
-        qi.installProduct('OpenPlans')
-        setup_nui(portal)
         if data.get('testcontent'):
             self.status = self.status + create_test_content(portal)
+
+        self.request.response.redirect(portal.absolute_url())
