@@ -85,9 +85,6 @@ class AccountView(BaseView):
         if IHandleMemberWorkflow(member).is_unconfirmed():
             return member
 
-    def is_userid_pending(self, userid):
-        return self.is_pending(getUserName=userid)
-
     def _confirmation_url(self, mem):
         code = mem.getUserConfirmationCode()
         return "%s/confirm-account?key=%s" % (self.siteURL, code)
@@ -370,7 +367,7 @@ class ForgotLoginView(AccountView):
         userid = self.userid
         if userid:
 
-            if self.is_userid_pending(userid):
+            if self.is_pending(getUserName=userid):
                 self.redirect('%s/resend-confirmation?member=%s' % (self.siteURL, userid))
                 return
             
@@ -551,7 +548,7 @@ class ResendConfirmationView(AccountView):
     @anon_only(BaseView.siteURL)
     def handle_request(self):
         name = self.request.form.get('member', '')
-        member = self.is_userid_pending(name)
+        member = self.is_pending(getUserName=name)
         if not member:
             self.add_status_message('No pending member by the name "%s" found' % name)
             self.redirect(self.siteURL)
