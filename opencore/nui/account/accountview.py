@@ -16,6 +16,7 @@ from zExceptions import Forbidden, Redirect, Unauthorized
 from zope.component import getUtility
 from zope.event import notify
 import urllib
+from opencore.member.interfaces import IHandleMemberWorkflow
 
 
 class AccountView(BaseView):
@@ -80,7 +81,6 @@ class AccountView(BaseView):
         if len(matches) != 1:
             return
         member = matches[0].getObject()
-        from opencore.member.interfaces import IHandleMemberWorkflow
         if IHandleMemberWorkflow(member).is_unconfirmed():
             return member
 
@@ -281,13 +281,13 @@ class ConfirmAccountView(AccountView):
 
     def confirm(self, member):
         """Move member into the confirmed workflow state"""
-        pf = self.get_tool("portal_workflow")
-        if pf.getInfoFor(member, 'review_state') != 'pending':
+        if not IHandleMemberWorkflow(member).is_unconfirmed():
             self.addPortalStatusMessage(_(u'psm_not_pending_account', u'You have tried to activate an account that is not pending confirmation. Please sign in normally.'))
             return False
         
         # need to set/delete the attribute for the workflow guards
         setattr(member, 'isConfirmable', True)
+        pf = self.get_tool("portal_workflow")
         pf.doActionFor(member, 'register_public')
         delattr(member, 'isConfirmable')
         return True
