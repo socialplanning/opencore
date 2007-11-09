@@ -56,32 +56,6 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
             self.redirect('%s?came_from=%s' % (self.context.absolute_url(), self.request.ACTUAL_URL))
         return super(RequestMembershipView, self).__call__()
 
-    def _send_request_email(self):
-        team_manage_url = "%s/manage-team" % self.context.absolute_url()
-        member_string = self.member_info.get('id')
-        member_fn = self.member_info.get('fullname')
-        if member_fn:
-            member_string = member_string + ' (' + member_fn + ')'
-        email_vars = {'member_id': member_string,
-                      'project_title': self.context.title,
-                      'team_manage_url': team_manage_url,
-                      }
-        sender = EmailSender(self, mship_messages)
-        email_msg = sender.constructMailMessage('membership_requested',
-                                                **email_vars)
-        request_message = self.request.form.get('request-message')
-        if request_message:
-            email_vars.update(member_message=detag(request_message))
-            email_msg += sender.constructMailMessage('mship_request_message', **email_vars)
-
-        mto = self.team.get_admin_ids()
-
-        for recipient in mto:
-            try:
-                sender.sendEmail(recipient, msg=email_msg, **email_vars)
-            except MailHostError:
-                pass
-
     def _login(self):
         id_ = self.request.form.get("__ac_name")
         if not id_:
