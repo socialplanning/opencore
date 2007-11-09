@@ -15,7 +15,7 @@ from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from Products.OpenPlans.workflows import WORKFLOW_MAP
 from zLOG import INFO, ERROR
 
-from Install import \
+from opencore.configuration.setuphandlers import \
      installWorkflowPolicies, securityTweaks, \
      migrateATDocToOpenPage, \
      setupProjectLayout, setCookieDomain, installCookieAuth, \
@@ -36,12 +36,15 @@ from utils import setupKupu, reinstallSubskins
 out = StringIO()
 def convertFunc(func):
     """
-    turns a standard install function, which requires two arguments,
-    into a setup widget function, which only requires one.
+    Turns one of our setuphandler functions into a portal_migrations
+    setup widget.  The setuphandler functions have an 'orig' attribute
+    containing an inner function; if we find one of these, that's what
+    we really want to call.
     """
+    realfn = getattr(func, 'orig', func)
     def new_func(portal):
         out=StringIO()
-        func(portal, out)
+        realfn(portal, out)
         return out.getvalue()
     return new_func
 
