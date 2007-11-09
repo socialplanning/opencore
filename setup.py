@@ -27,12 +27,12 @@ setup(name='opencore',
                         'https://svn.plone.org/svn/plone/plone.memoize/trunk#egg=plone.memoize-dev',
                         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
                         'http://zesty.ca/python/uuid.py#egg=uuid-dev',
-                        'https://svn.openplans.org/svn/opencore.js/trunk/#egg=opencore.js-dev'
+                        'https://svn.openplans.org/svn/oc-js/trunk/#egg=oc-js-dev'
                         ],
       
       install_requires=[
           # -*- Extra requirements: -*-
-          "opencore.js==dev,>=0.0",    
+          "oc-js==dev,>=0.0",    
           "ClockQueue==dev,>=0.0",
           'simplejson',
           'decorator',
