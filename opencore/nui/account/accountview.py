@@ -13,7 +13,7 @@ from opencore.browser.base import BaseView, _
 from opencore.nui.email_sender import EmailSender
 from opencore.browser.formhandler import * # start import are for pansies
 from opencore.interfaces.membership import IEmailInvites
-from opencore.siteui.member import FirstLoginEvent
+from opencore.interfaces.event import FirstLoginEvent
 from plone.memoize import instance
 from smtplib import SMTPRecipientsRefused, SMTP
 from zExceptions import Forbidden, Redirect, Unauthorized
@@ -178,6 +178,7 @@ class LoginView(AccountView):
             # createMemberArea method will trigger
             # notifyMemberAreaCreated skin script, which will trigger
             # opencore.siteui.member.initializeMemberArea
+            # @@ move out of skins!!!
             self.membertool.createMemberArea()
 
             member = self.loggedinmember

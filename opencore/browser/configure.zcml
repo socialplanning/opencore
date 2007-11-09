@@ -7,6 +7,7 @@
 
   <include package="opencore.js" />
   <include package=".topnav" />
+  <include package=".menu" />
 
   <browser:resourceDirectory
      name="css"
@@ -63,6 +64,36 @@
      permission="zope.Public"
      name="oc-blank"
      template="blank.pt"
+     />
+
+  <browser:page
+     for="OFS.Folder.Folder"
+     name="add-openplans.html"
+     permission="five.ManageSite"
+     class=".management.AddOpenPlansForm"
+     />
+
+  <!-- convenience view to create_test_content -->
+  <browser:page
+     for="Products.CMFPlone.Portal.PloneSite"
+     permission="five.ManageSite"
+     name="topp-testcontent.html"
+     class=".management.TestContentCreator"
+     />
+
+  <!-- @@ remove for plone3 -->
+  <five:traversable class="Products.CMFCore.DynamicType.DynamicType" />
+
+  <five:traversable class="Products.Archetypes.BaseObject.BaseObject" />
+
+  <five:traversable class="OFS.Folder.Folder" />
+
+  <!-- browser:page for new topnav view -->
+  <browser:page
+     for="*"
+     permission="zope.Public"
+     name="opencore-topnav"
+     template="topnav.pt"
      />
 
 </configure>

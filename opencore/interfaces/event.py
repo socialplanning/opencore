@@ -25,6 +25,9 @@ class IMemberEmailChangedEvent(IObjectModifiedEvent):
        Necessary to add instead of just object modified event because
        the handlers for this can be expensive"""
 
+class IFirstLoginEvent(Interface):
+    """ Interface for FirstLoginEvent """
+
 class JoinedProjectEvent(ObjectModifiedEvent):
     implements(IJoinedProjectEvent)
 
@@ -51,3 +54,10 @@ class AfterSubProjectAddedEvent(AfterProjectAddedEvent):
 
 class ChangedTeamRolesEvent(ObjectModifiedEvent):
     implements(IChangedTeamRolesEvent)
+
+
+class FirstLoginEvent(object):
+    implements(IFirstLoginEvent)
+    def __init__(self, member, request):
+        self.member = member
+        self.request = request

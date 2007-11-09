@@ -4,28 +4,28 @@
 
 
   <browser:page
-     for="opencore.siteui.interfaces.IMemberFolder"
+     for="opencore.interfaces.member.IMemberFolder"
      class=".view.MemberAccountView"
      permission="cmf.ModifyPortalContent"
      name="account"
      />
 
   <browser:page
-     for="opencore.siteui.interfaces.IMemberFolder"
+     for="opencore.interfaces.member.IMemberFolder"
      class=".view.ProfileEditView"
      permission="cmf.ModifyPortalContent"
      name="profile-edit"
      />
 
   <browser:page
-     for="opencore.siteui.interfaces.IMemberFolder"
+     for="opencore.interfaces.member.IMemberFolder"
      class=".view.TrackbackView"
      permission="zope2.View"
      name="trackback"
      />
 
   <browser:page
-     for="opencore.siteui.interfaces.IMemberFolder"
+     for="opencore.interfaces.member.IMemberFolder"
      class=".view.TrackbackView"
      permission="zope2.View"
      name="trackback-delete"
@@ -33,7 +33,7 @@
      />
 
   <browser:page
-     for="opencore.siteui.interfaces.IMemberFolder"
+     for="opencore.interfaces.member.IMemberFolder"
      class=".view.ProfileView"
      permission="zope2.View"
      name="profile"
@@ -41,7 +41,7 @@
      />
 
   <browser:page
-     for="opencore.siteui.interfaces.IMemberFolder"
+     for="opencore.interfaces.member.IMemberFolder"
      class=".view.TourView"
      permission="cmf.ModifyPortalContent"
      name="tour"
@@ -49,7 +49,7 @@
      />
 
   <browser:page
-     for="opencore.siteui.interfaces.IMemberFolder"
+     for="opencore.interfaces.member.IMemberFolder"
      class=".view.ProjectInvitationsView"
      permission="cmf.ModifyPortalContent"
      name="invitations"
@@ -57,12 +57,22 @@
      />
 
   <browser:page
-     for="opencore.siteui.interfaces.IMemberFolder"
+     for="opencore.interfaces.member.IMemberFolder"
      class=".view.ProfileView"
      permission="cmf.ModifyPortalContent"
      name="memberinfo.xml"
      template="memberinfo.pt"
      />
+
+  <browser:page
+     for="OFS.interfaces.IItem"
+     class=".miv.MemberInfoView"
+     permission="zope.Public"
+     name="member_info"
+     allowed_interface="opencore.interfaces.member.IMemberInfo"
+     />
+
+  <subscriber handler=".miv.auto_approve_member"/>
 
   <subscriber
      for="opencore.interfaces.membership.IOpenMembership

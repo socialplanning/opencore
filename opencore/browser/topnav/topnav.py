@@ -1,18 +1,14 @@
 """
 TopNav view classes.
 """
-from zope.component import getUtility
-
-from plone.memoize import view
-
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.TeamSpace.permissions import ManageTeamMembership
-
-from opencore.project.content import IProject
-
 from opencore.browser.base import BaseView
-from opencore.nui.contexthijack import HeaderHijackable
 from opencore.interfaces.message import ITransientMessage
+from opencore.nui.contexthijack import HeaderHijackable
+from opencore.project.content import IProject
+from plone.memoize import view
+from zope.component import getUtility
 
 
 memoizedproperty = lambda func: property(view.memoize(func))

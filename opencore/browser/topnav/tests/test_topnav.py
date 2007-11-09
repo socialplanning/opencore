@@ -7,7 +7,7 @@ from zope.component import getMultiAdapter
 from Products.CMFCore.utils import getToolByName
 
 from opencore.testing.layer import OpencoreContent
-from opencore.siteui.interfaces import IMemberFolder
+from opencore.interfaces.member import IMemberFolder
 
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase, \
      makeContent
