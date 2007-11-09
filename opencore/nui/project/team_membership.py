@@ -53,11 +53,11 @@ class RequestMembershipWithEmail(object):
                       }
 
         sender = IEmailSender(self.portal)
-        email_msg = sender.constructMailMessage('membership_requested',
+        email_msg = sender.constructMailMessage('email_membership_requested',
                                                 **email_vars)
         if request_message:
             email_vars.update(member_message=detag(request_message))
-            email_msg += sender.constructMailMessage('mship_request_message',
+            email_msg += sender.constructMailMessage('email_mship_request_message',
                                                      **email_vars)
         return (email_msg, email_vars)
         

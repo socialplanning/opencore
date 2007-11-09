@@ -12,6 +12,7 @@ regex = re.compile(EMAIL_RE)
 
 from opencore.i18n import translate
 from opencore.i18n import i18n_domain
+from opencore.i18n import _
 from opencore.interfaces import IOpenSiteRoot
 from opencore.utility.interfaces import IEmailSender
 
@@ -72,9 +73,9 @@ class EmailSender(object):
     def constructMailMessage(self, msg_id, **kwargs):
         if not kwargs.has_key('portal_title'):
             kwargs['portal_title'] = self.context.Title()
-        msg = getattr(self.messages, msg_id) #XX
+        #### msg = getattr(self.messages, msg_id) #XX
         unicode_kwargs = self._unicode_values(kwargs)
-        msg = Message(msg, mapping=unicode_kwargs)
+        msg = _(msg_id, mapping=unicode_kwargs)
         return self._translate(msg)
 
     def sendMail(self, mto, msg=None, msg_id=None, subject=None,
