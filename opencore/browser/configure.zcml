@@ -19,7 +19,7 @@
 
   <browser:resourceDirectory
      name="kupu"
-     directory="kupu"
+     directory="historical/kupu"
      />
 
   <browser:page
