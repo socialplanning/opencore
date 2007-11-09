@@ -5,7 +5,7 @@
   </head>
   <head>
     <metal:do metal:fill-slot="script">
-      <script src="++resource++javascripts/delete_list.js"></script>
+      <script src="++resource++oc-js/delete_list.js"></script>
     </metal:do>
   </head>
   <body>

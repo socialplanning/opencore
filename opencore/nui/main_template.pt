@@ -29,15 +29,14 @@
     <link rel="stylesheet" href="/++resource++css/themes/openplans.css" type="text/css" media="all" />
     <!-- TODO print style sheet -->
 
-    <script type="text/javascript" src="/++resource++javascripts/yui-ext/yahoo-dom-event.js"></script>
-    <script type="text/javascript" src="/++resource++javascripts/yui-ext/connection-min.js"></script>
-    <script type="text/javascript" src="/++resource++javascripts/yui-ext/animation-min.js"></script>
-    <script type="text/javascript" src="/++resource++javascripts/yui-ext/ext.js"></script>
-    <link rel="stylesheet" type="text/css" href="/++resource++javascripts/yui-ext/resources/css/xtheme-opencore.css" />
+    <script type="text/javascript" src="/++resource++ext/yahoo-dom-event.js"></script>
+    <script type="text/javascript" src="/++resource++ext/connection-min.js"></script>
+    <script type="text/javascript" src="/++resource++ext/animation-min.js"></script>
+    <script type="text/javascript" src="/++resource++ext/ext.js"></script>
+    <link rel="stylesheet" type="text/css" href="/++resource++ext/resources/css/xtheme-opencore.css" />
     
-    
-    <script type="text/javascript" src="/++resource++javascripts/oc-behaviors.js" ></script>
-    <script type="text/javascript" src="/++resource++javascripts/firebug/firebug.js" ></script>
+    <script type="text/javascript" src="/++resource++oc-js/oc-behaviors.js" ></script>
+    <script tal:condition="view/debug" type="text/javascript" src="/++resource++firebug/firebug.js" ></script>
 
     <!-- allows for the insertion of css and other linked features -->
     <metal:link-slot define-slot="link"/>   
