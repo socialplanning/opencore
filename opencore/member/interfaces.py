@@ -1,6 +1,6 @@
-from zope.interface import Interface
+from zope.app.annotation import IAttributeAnnotatable
 
-class IOpenMember(Interface):
+class IOpenMember(IAttributeAnnotatable):
     """
     Interface for OpenPlans members.
 

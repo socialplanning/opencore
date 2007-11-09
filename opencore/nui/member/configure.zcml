@@ -81,9 +81,5 @@
      provides="opencore.interfaces.pending_requests.IPendingRequests"
      factory="opencore.nui.member.pending_requests_multiadapter.PendingRequests"
      />
-  <content class="opencore.content.member.OpenMember">
-    <implements interface="zope.app.annotation.IAttributeAnnotatable" />
-  </content>
-	   
      
 </configure>
