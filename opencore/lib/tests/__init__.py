@@ -1,1 +1,0 @@
-# opencore.lib.tests package
