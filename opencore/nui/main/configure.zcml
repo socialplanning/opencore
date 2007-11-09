@@ -5,7 +5,7 @@
   <!-- macro to control pagination -->
   <browser:page
      for="*"
-     class="..base.BaseView"
+     class="opencore.browser.base.BaseView"
      permission="zope2.View"
      name="nui_batch_macros"
      template="batch_macros.pt"

@@ -32,54 +32,15 @@ def test_suite():
     globs = locals()
     readme = FunctionalDocFileSuite("README.txt",
                                     optionflags=optionflags,
-                                    package='opencore.nui',
+                                    package='opencore.browser',
                                     test_class=OpenPlansTestCase,
                                     globs = globs,
                                     setUp=readme_setup
                                     )
 
     readme.layer = test_layer
-    
-    setup = FunctionalDocFileSuite("setup.txt",
-                                    optionflags=optionflags,
-                                    package='opencore.nui',
-                                    test_class=OpenPlansTestCase,
-                                    globs = globs,
-                                    setUp=readme_setup
-                                    )
-    setup.layer = test_layer
 
-    email_sender = FunctionalDocFileSuite("email-sender.txt",
-                                    optionflags=optionflags,
-                                    package='opencore.nui',
-                                    test_class=OpenPlansTestCase,
-                                    globs = globs,
-                                    setUp=readme_setup
-                                    )
-
-    email_sender.layer = test_layer
-
-    placeful_workflow = FunctionalDocFileSuite("placeful_workflow_test.txt",
-                                               optionflags=optionflags,
-                                               package='opencore.nui',
-                                               test_class=OpenPlansTestCase,
-                                               globs = globs,
-                                               setUp=readme_setup
-                                               )
-
-    placeful_workflow.layer = test_layer
-
-    member_info = FunctionalDocFileSuite("member_info_test.txt",
-                                         optionflags=optionflags,
-                                         package='opencore.nui',
-                                         test_class=OpenPlansTestCase,
-                                         globs = globs,
-                                         setUp=readme_setup
-                                         )
-
-    member_info.layer = test_layer
-
-    return unittest.TestSuite((readme, octotest(), email_sender, placeful_workflow, member_info, setup))
+    return unittest.TestSuite((readme, octotest()))
 
 
 if __name__ == '__main__':

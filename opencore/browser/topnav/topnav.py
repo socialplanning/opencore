@@ -10,7 +10,7 @@ from Products.TeamSpace.permissions import ManageTeamMembership
 
 from opencore.project.content import IProject
 
-from opencore.nui.base import BaseView
+from opencore.browser.base import BaseView
 from opencore.nui.contexthijack import HeaderHijackable
 from opencore.interfaces.message import ITransientMessage
 

@@ -2,10 +2,10 @@
  opencore.nui
 ==============
 
-opencore.nui.base
+opencore.browser.base
 =================
 
-    >>> from opencore.nui.base import BaseView
+    >>> from opencore.browser.base import BaseView
     >>> view = BaseView(self.homepage, self.request)
     >>> view = view.__of__(self.homepage)
     >>> view.get_portal()
