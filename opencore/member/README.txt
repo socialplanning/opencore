@@ -23,6 +23,7 @@ portal_workflow and hardcoded strings::
     'public'
 
 We can confirm a member account that is pending confirmation::
+    (if we had one but i don't feel like setting this up now)
 
 But this method doesn't do any error checking of its own, so if we
 try to confirm an account that's already confirmed we'll get an
