@@ -16,6 +16,7 @@
      name="img"
      directory="img"
      />
+
   <browser:resourceDirectory
      name="kupu"
      directory="kupu"
