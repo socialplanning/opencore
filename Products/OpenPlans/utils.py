@@ -1,95 +1,9 @@
 import sys
-import os.path
-from os.path import join, abspath, dirname, basename
 from StringIO import StringIO
 
-import ZConfig
 from TAL.TALInterpreter import TALInterpreter
-from ZODB.POSException import ConflictError
 
-from Products.PageTemplates.Expressions import getEngine
 from Products.CMFCore.utils import getToolByName
-
-## Configuration utilities
-DIR_PATH = abspath(dirname(__file__))
-
-def conf_file(file):
-    return join(DIR_PATH, 'conf', file)
-
-def doc_file(file):
-    return join(DIR_PATH, 'docs', file)
-
-def register(portal, pkg):
-    install = portal.portal_quickinstaller.installProduct
-    install(pkg)
-
-def requires(portal, pkg):
-    """Make sure that we can load and install the package into the
-    site"""
-    register(portal, pkg)
-
-def optional(portal, pkg):
-    try:
-        register(portal, pkg)
-        return True
-    except ConflictError:
-        raise
-    except:
-        return False
-
-def parseDepends():
-    schema = ZConfig.loadSchema(conf_file('depends.xml'))
-    config, handler = ZConfig.loadConfig(schema,
-                                         conf_file('depends.conf'))
-    return config, handler
-
-def installDepends(portal):
-    config, handler = parseDepends()
-    # Curry up some handlers
-    def zrequired_handler(values, portal=portal):
-        return None
-    
-    def required_handler(values, portal=portal):
-        for pkg in values:
-            requires(portal, pkg)
-
-    def optional_handler(values, portal=portal):
-        for pkg in values:
-            optional(portal, pkg)
-
-    handler({'zrequired': zrequired_handler,
-             'required' : required_handler,
-             'optional' : optional_handler,
-             })
-
-def lifecycleContext(project, module, config, **kwargs):
-    '''
-    An expression context provides names for TALES expressions.
-    '''
-    pm = getToolByName(project, 'portal_membership')
-    if module is None:
-        module_url = ''
-    else:
-        module_url = module.absolute_url()
-    if pm.isAnonymousUser():
-        member = None
-    else:
-        member = pm.getAuthenticatedMember()
-
-    data = {
-        'module'      : module,
-        'module_url'  : module_url,
-        'project'     : project,
-        'project_url' : project.absolute_url(),
-        'config'      : config,
-        'nothing':      None,
-        'request':      getattr(project, 'REQUEST', None ),
-        'modules':      SecureModuleImporter,
-        'member':       member,
-        }
-    data.update(kwargs)
-    return getEngine().getContext(data)
-
 
 def macro_render(macro, aq_ob, context, **kwargs):
     buffer = StringIO()
