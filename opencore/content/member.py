@@ -298,10 +298,14 @@ class OpenMember(FolderishMember):
         if remote_auth_sites:
             http = getUtility(IHTTPClient)
             for url in remote_auth_sites:
-                mem_url = "%s/%s/exists" % (url, member_path(id))
-                resp, content = http.request(mem_url)
-                if resp.status == 200:
-                    # a remote member exists
+                mem_url = "%s/portal_memberdata/%s" % (url, id)
+                resp, content = http.request(mem_url, method='HEAD')
+                if resp.status in (200, 401, 405):
+                    # a remote member exists; we'll get a 404 if the
+                    # member doesn't.  note that we consider errors on
+                    # the remote side a negatives; better to have
+                    # login namespace collision than to block acct
+                    # creation b/c remote auth site is down.
                     return True
         return False
 
