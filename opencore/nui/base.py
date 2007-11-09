@@ -43,6 +43,10 @@ class BaseView(BrowserView):
     site_iface = IPloneSiteRoot
     getToolByName=getToolByName
 
+    def debug(self):
+        """@@ this should be calculated from conf"""
+        return True
+
     # XXX only used by formlite in this fashion
     main_macros = ZopeTwoPageTemplateFile('main_macros.pt')
 
