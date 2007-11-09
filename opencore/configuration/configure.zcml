@@ -3,7 +3,6 @@
            xmlns:five="http://namespaces.zope.org/five"
            xmlns:opencore="http://namespaces.openplans.org/opencore"
            >
-
   <include package="opencore.content" />
   <include file="permissions.zcml" />
   <include package="topp.featurelets" />
@@ -11,7 +10,6 @@
   <include package="opencore.api" />
   <include package="opencore.auth" />
   <include package="opencore.listen" />
-  <!-- include package="opencore.siteui" / -->
   <include package="opencore.nui" />
   <include package="opencore.browser" />
   <include package="opencore.project" />
@@ -20,6 +18,5 @@
   <include package="opencore.redirect" />
   <include package="opencore.utility" />
   <include package="opencore.clockqueue" />
-
 </configure>
  

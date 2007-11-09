@@ -4,7 +4,7 @@ from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase 
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from opencore.testing.layer import OpencoreContent
-
+from opencore.project.test_workflow_policy import test_suite as wftest
 optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 
 import warnings; warnings.filterwarnings("ignore")
@@ -34,8 +34,8 @@ def test_suite():
                                     )
 
     readme.layer = OpencoreContent
-
-    return unittest.TestSuite((readme,))
+    
+    return unittest.TestSuite((readme, wftest()))
 
 
 if __name__ == '__main__':

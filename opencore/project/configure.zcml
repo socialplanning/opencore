@@ -18,14 +18,14 @@
   <adapter
      for="opencore.interfaces.IProject"
      provides="opencore.interfaces.IWriteWorkflowPolicySupport"
-     factory="opencore.lib.wf_policy_support.ProjectWFPolicyWriteAdapter"
+     factory="opencore.project.wf_policy_support.ProjectWFPolicyWriteAdapter"
      permission="openplans.ManageWorkflowPolicy"
      />
 
   <adapter
      for="opencore.interfaces.IOpenTeam"
      provides="opencore.interfaces.IWriteWorkflowPolicySupport"
-     factory="opencore.lib.wf_policy_support.TeamWFPolicyWriteAdapter"
+     factory="opencore.project.wf_policy_support.TeamWFPolicyWriteAdapter"
      permission="openplans.ManageWorkflowPolicy"
      />
 
@@ -36,7 +36,7 @@
   <subscriber
      for="opencore.interfaces.IProject
           zope.app.event.interfaces.IObjectModifiedEvent"
-     handler="opencore.lib.wf_policy_support.saveWFPolicy" />
+     handler="opencore.project.wf_policy_support.saveWFPolicy" />
 
   <subscriber handler="opencore.project.handler.save_featurelets" />
 
