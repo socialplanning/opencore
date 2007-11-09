@@ -1,3 +1,4 @@
+from zope.interface import Interface
 from zope.app.annotation import IAttributeAnnotatable
 
 class IOpenMember(IAttributeAnnotatable):
@@ -9,4 +10,15 @@ class IOpenMember(IAttributeAnnotatable):
     gain real content in the future but I want to tread very carefully
     so it will do nothing at first.
     """
-    
+
+class IHandleMemberWorkflow(Interface):
+    """
+    Adapter for member objects to inquire about and set their state
+    because I never remember how to use portal_workflow.
+    """
+
+    def is_unconfirmed(self):
+        """
+        Returns True if the user account associated with the member
+        object is unconfirmed.
+        """
