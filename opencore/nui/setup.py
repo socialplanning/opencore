@@ -16,14 +16,15 @@ from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
 
 from Products.OpenPlans.Extensions.setup import convertFunc, reinstallTypes, \
      reinstallWorkflows, reinstallWorkflowPolicies
-from Products.OpenPlans.Extensions.Install import \
+from opencore.configuration.setuphandlers import \
      installNewsFolder, securityTweaks
-from Products.OpenPlans.Extensions.Install import setupPeopleFolder, \
+from opencore.configuration.setuphandlers import setupPeopleFolder, \
      setupProjectLayout, setupHomeLayout
-from Products.OpenPlans.Extensions.Install import createValidationMember, \
+from opencore.configuration.setuphandlers import createValidationMember, \
      install_local_transient_message_utility, install_email_invites_utility
-from Products.OpenPlans.Extensions.Install import \
+from opencore.configuration.setuphandlers import \
      install_team_placeful_workflow_policies, addCatalogQueue
+
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans import config as op_config
 from DateTime import DateTime
