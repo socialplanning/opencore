@@ -15,9 +15,7 @@ from Products.PortalTransforms.libtransforms.utils import MissingBinary
 from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
 
 from Products.OpenPlans.Extensions.setup import convertFunc, \
-     reinstallWorkflowPolicies
-from opencore.configuration.setuphandlers import \
-     installNewsFolder, securityTweaks
+     reinstallWorkflowPolicies, installNewsFolder, securityTweaks
 from opencore.configuration.setuphandlers import setupPeopleFolder, \
      setupProjectLayout, setupHomeLayout
 from opencore.configuration.setuphandlers import createValidationMember, \
