@@ -2,7 +2,7 @@ from Products.wicked.browser.add import WickedAdd
 from Acquisition import aq_inner, aq_parent
 from Products.wicked.lib.normalize import titleToNormalizedId as normalize
 
-from opencore.nui.base import BaseView
+from opencore.browser.base import BaseView
 from Products.wicked.utils import getFilter
 from zope.component import ComponentLookupError
 from zExceptions import Redirect

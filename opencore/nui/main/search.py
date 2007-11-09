@@ -12,7 +12,7 @@ from Products.CMFPlone.PloneBatch import Batch
 from topp.utils.pretty_date import prettyDate
 from opencore import redirect
 from opencore.interfaces import INewsItem
-from opencore.nui.base import BaseView
+from opencore.browser.base import BaseView
 
 num_regex = re.compile('((the|a|an)\s+)?[0-9]+')
 

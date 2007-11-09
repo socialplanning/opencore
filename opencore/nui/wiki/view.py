@@ -1,6 +1,6 @@
 from zope.event import notify
 from zope.app.event import objectevent
-from opencore.nui.base import BaseView
+from opencore.browser.base import BaseView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.nui.formhandler import button, OctopoLite, action
 from opencore.interfaces import IAmExperimental

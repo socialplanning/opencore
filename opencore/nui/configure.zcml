@@ -5,7 +5,6 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="opencore">
 
-
   <five:implements 
      class="ZPublisher.HTTPRequest.HTTPRequest" 
      interface="zope.app.annotation.IAttributeAnnotatable"/>
@@ -17,72 +16,12 @@
   <include package=".main" />
   <include package=".account" />
   <include package=".member" />
-  <include package=".topnav" />
+
   <include package=".error" />
   <include package=".listen" />
   <include file="indexing.zcml" />
 
   <!-- allows this interface show up as a potential marker in zmi -->
   <interface interface="opencore.interfaces.IAmExperimental" />
-
-  <!-- resource directories for css, images, etc -->
-  <include package="opencore.js" />
-
-  <browser:resourceDirectory
-    name="css"
-    directory="css"
-    />
-
-  <browser:resourceDirectory
-    name="img"
-    directory="img"
-    />
-  <browser:resourceDirectory
-    name="kupu"
-    directory="kupu"
-    />
-
-
-  <browser:page
-    for="*"
-    class="opencore.nui.base.BaseView"
-    permission="zope.Public"
-    name="main_template"
-    template="main_template.pt"
-    />
-
-  <browser:view
-    for="*"
-    name="standard_macros"
-    class=".macros.StandardMacros"
-    permission="zope.Public"
-    allowed_interface="zope.interface.common.mapping.IItemMapping"
-    />
-
-  <browser:view
-    for="*"
-    name="nui_macros"
-    class=".macros.NuiMacros"
-    permission="zope.Public"
-    allowed_interface="zope.interface.common.mapping.IItemMapping"
-    />
-
-  <!-- footer -->
-  <browser:page
-     for="*"
-     class="opencore.nui.base.BaseView"
-     permission="zope.Public"
-     name="oc-footer"
-     template="footer.pt"
-     />
-
-  <!-- blank (for testing) -->
-  <browser:page
-     for="*"
-     class=".base.BaseView"
-     permission="zope.Public"
-     name="oc-blank"
-     template="blank.pt"
-     />
 
 </configure>

@@ -12,7 +12,7 @@ from opencore.interfaces.event import JoinedProjectEvent
 from opencore.interfaces.event import LeftProjectEvent
 from opencore.interfaces.event import MemberEmailChangedEvent
 from opencore.interfaces.membership import IEmailInvites
-from opencore.nui.base import BaseView
+from opencore.browser.base import BaseView
 from opencore.nui.formhandler import OctopoLite, action
 from opencore.interfaces.message import ITransientMessage
 from opencore.project.utils import project_path

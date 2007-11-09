@@ -22,7 +22,7 @@ from Products.listen.browser.moderation import ModerationView
 from Products.listen.interfaces import IMailingList
 
 from opencore.listen.mailinglist_views import MailingListAddForm, MailingListEditForm, MailingListView
-from opencore.nui.base import BaseView
+from opencore.browser.base import BaseView
 
 
 class ListenBaseView(BaseView):

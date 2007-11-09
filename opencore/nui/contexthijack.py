@@ -1,7 +1,7 @@
 """
 """
 
-from opencore.nui.base import BaseView
+from opencore.browser.base import BaseView
 from Products.CMFCore.utils import getToolByName
 
 from plone.memoize import view

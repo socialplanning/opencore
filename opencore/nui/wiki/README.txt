@@ -66,7 +66,7 @@ Test wiki attachment registrations which are not used any more::
 Test logged in user::
 
     >>> self.loginAsPortalOwner()
-    >>> from opencore.nui.base import BaseView
+    >>> from opencore.browser.base import BaseView
     >>> view = BaseView(self.portal, self.portal.REQUEST)
     >>> view.loggedinmember.getId = lambda *a:'whatever'
 
