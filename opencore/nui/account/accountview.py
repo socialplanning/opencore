@@ -281,15 +281,13 @@ class ConfirmAccountView(AccountView):
 
     def confirm(self, member):
         """Move member into the confirmed workflow state"""
-        if not IHandleMemberWorkflow(member).is_unconfirmed():
-            self.addPortalStatusMessage(_(u'psm_not_pending_account', u'You have tried to activate an account that is not pending confirmation. Please sign in normally.'))
+        member = IHandleMemberWorkflow(member)
+        if not member.is_unconfirmed():
+            self.addPortalStatusMessage(_(u'psm_not_pending_account',
+                                          u'You have tried to activate an account that is not pending confirmation. Please sign in normally.'))
             return False
-        
-        # need to set/delete the attribute for the workflow guards
-        setattr(member, 'isConfirmable', True)
-        pf = self.get_tool("portal_workflow")
-        pf.doActionFor(member, 'register_public')
-        delattr(member, 'isConfirmable')
+
+        member.confirm()
         return True
         
     def handle_confirmation(self, *args, **kw):
