@@ -81,8 +81,8 @@ class AccountView(BaseView):
         if len(matches) != 1:
             return
         member = matches[0].getObject()
-        portal_workflow = self.get_tool('portal_workflow')
-        if portal_workflow.getInfoFor(member, 'review_state') == 'pending':
+        from opencore.member.interfaces import IHandleMemberWorkflow
+        if IHandleMemberWorkflow(member).is_unconfirmed():
             return member
 
     def is_userid_pending(self, userid):
