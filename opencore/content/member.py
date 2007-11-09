@@ -273,8 +273,7 @@ class OpenMember(FolderishMember):
     def _id_exists_remotely(self, id):
         """
         Checks all of the servers in the remote_auth_sites property to
-        see if this specified id exists on any of those sites.  We check
-        for the ex
+        see if this specified id exists on any of those sites.
         """
         ptool = getToolByName(self, 'portal_properties')
         ocprops = ptool._getOb('opencore_properties')
