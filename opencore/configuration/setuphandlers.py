@@ -204,7 +204,7 @@ def setMemberType(portal, out):
     adder.default_member_type = mtype
 
     # have to REset the MDC allowed types, since remember's install
-    # undid what we have specified in our profile type description
+    # undid what we have specified in the GenericSetup profile
     ttool = getToolByName(portal, 'portal_types')
     mdc_fti = ttool._getOb('MemberDataContainer')
     mdc_fti.manage_changeProperties(allowed_content_types=('Member',
