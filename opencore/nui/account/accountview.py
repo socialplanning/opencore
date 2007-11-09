@@ -95,7 +95,6 @@ class AccountView(BaseView):
     def _sendmail_to_pendinguser(self, user_name, email, url):
         """ send a mail to a pending user """
         # TODO only send mail if in the pending workflow state
-        mailhost_tool = self.get_tool("MailHost")
 
         message = _(u'email_to_pending_user',
                     mapping={u'user_name':user_name,
