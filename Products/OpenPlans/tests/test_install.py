@@ -13,14 +13,10 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFCore import permissions
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from Products.OpenPlans.config import DEFAULT_ROLES
-from Products.OpenPlans.Extensions.Install import migrateATDocToOpenPage
 from openplanstestcase import OpenPlansTestCase, makeContent, \
-     installConfiguredProducts, ArcheSiteTestCase
-from utils import installConfiguredProducts
+     ArcheSiteTestCase
 import Products.CMFCore
 from Products.OpenPlans.interfaces import IWriteWorkflowPolicySupport, IReadWorkflowPolicySupport
-
-installConfiguredProducts()
 
 from opencore.nui.indexing import PROJECT_POLICY as ppidx
 from Products.OpenPlans.content.project import OpenProject 

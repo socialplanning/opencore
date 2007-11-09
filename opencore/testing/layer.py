@@ -1,12 +1,12 @@
 from Products.CMFCore.utils  import getToolByName
 from Products.Five import pythonproducts
-from Products.OpenPlans.tests.utils import installConfiguredProducts
 from Products.PloneTestCase.layer import PloneSite, ZCML
 from Products.PloneTestCase.setup import setupPloneSite
 from Testing import ZopeTestCase
 from opencore.project.handler import add_redirection_hooks 
 from opencore.testing.utility import setup_mock_http
 from utils import get_portal, get_portal_as_owner, create_test_content
+from utils import zinstall_products
 from topp.utils.testing import layer_factory
 from topp.utils import introspection
 import random
@@ -48,19 +48,13 @@ class BrowserIdManagerMock(object):
 
 
 class SiteSetupLayer(PloneSite):
-    installConfiguredProducts()
     setupPloneSite()
 
     @classmethod
     def setUp(cls):
         portal = get_portal()
-        setup_tool = portal.portal_setup
-        setup_tool.setImportContext('profile-membrane:default')
-        setup_tool.runAllImportSteps()
 
-        setup_tool.setImportContext('profile-remember:default')
-        setup_tool.runAllImportSteps()
-
+        zinstall_products()
         # install OpenPlans into ZTC
         ZopeTestCase.installProduct('OpenPlans')
 
@@ -78,9 +72,10 @@ class OpenPlansLayer(SiteSetupLayer):
         # borg.localrole package's FactoryDispatcher to work
         pythonproducts.applyPatches()
         portal = get_portal_as_owner()
-        qi = getToolByName(portal, 'portal_quickinstaller')
-        qi.installProduct('OpenPlans')
-        portal.clearCurrentSkin()
+
+        setup_tool = portal.portal_setup
+        setup_tool.setImportContext('profile-opencore.configuration:default')
+        setup_tool.runAllImportSteps()
 
         portal.oldMailHost = portal.MailHost
         portal.MailHost = MailHostMock()

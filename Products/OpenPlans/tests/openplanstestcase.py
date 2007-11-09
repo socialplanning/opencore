@@ -10,13 +10,13 @@ from plone.memoize.instance import Memojito
 
 from Products.CMFCore.utils  import getToolByName
 from Products.Archetypes.tests.ArchetypesTestCase import ArcheSiteTestCase
-from Products.OpenPlans.Extensions.Install import migrateATDocToOpenPage as migrateOpenPage
+from opencore.configuration.setuphandlers import migrateATDocToOpenPage
+migrateOpenPage = migrateATDocToOpenPage.orig
 
 import Products.OpenPlans.config as config
 
 from opencore.testing.layer import SiteSetupLayer, OpenPlansLayer
 from opencore.testing.utils import makeContent, getPortal, login_portal_owner
-from utils import installConfiguredProducts
 
 # This is the test case. You will have to add test_<methods> to your
 # class in order to assert things about your Product.

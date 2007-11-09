@@ -1,35 +1,18 @@
 import os
 from StringIO import StringIO
 
-from OFS.ObjectManager import BadRequestException
-
 from zope.interface import alsoProvides
 from zope.component import queryUtility
 from zope.app.component.hooks import setSite
 
-from Products.ZCatalog.ZCatalog import manage_addZCatalog
-from Products.Five.site.localsite import enableLocalSiteHook
-from Products.CMFCore import permissions
 from Products.CMFCore.utils import getToolByName
-from Products.CMFCore.TypesTool import FactoryTypeInformation
-from Products.CMFCore.Expression import Expression
-from Products.Archetypes.public import listTypes
-from Products.Archetypes.Extensions.utils import installTypes#, install_subskin
-from Products.remember.Extensions.workflow import addWorkflowScripts
 from Products.remember.utils import getAdderUtility
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
-     WorkflowPolicyConfig_id
-from Products.CMFEditions.Permissions import RevertToPreviousVersions
-from Products.RichDocument.Extensions.utils import \
-     registerAttachmentsFormControllerActions
 from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
 
 from Products.OpenPlans import config
-from Products.OpenPlans import content
 from Products.OpenPlans.permissions import DEFAULT_PFOLDER_PERMISSIONS_DATA
 from Products.OpenPlans.permissions import PLACEFUL_PERMISSIONS_DATA
 from Products.OpenPlans.content.team import OpenTeam
-from Products.OpenPlans.Extensions.utils import setupKupu
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from Products.OpenPlans.workflows import MEMBERSHIP_PLACEFUL_POLICIES
 
@@ -38,27 +21,21 @@ from opencore.interfaces import IAmAPeopleFolder
 from opencore.interfaces import IAmANewsFolder
 from opencore.content.membership import OpenMembership
 from opencore.content.member import OpenMember
-from opencore.auth.SignedCookieAuthHelper import SignedCookieAuthHelper
 
 from opencore.nui.member.interfaces import ITransientMessage
 from opencore.nui.member.transient_messages import TransientMessage
 from opencore.nui.project.interfaces import IEmailInvites
 from opencore.nui.project.email_invites import EmailInvites
 
-# zrequire PlacelessTranslationService
-# zrequire Five
-# zrequire membrane
-# zrequire remember
-# zrequire GenericSetup
-# zrequire CMFPlone
-# zrequire ManagableIndex
-# zrequire QueueCatalog
+
+Z_DEPS = ('PlacelessTranslationService', 'Five', 'membrane', 'remember',
+          'GenericSetup', 'CMFPlone', 'ManagableIndex', 'QueueCatalog',
+          'txtfilter')
 
 MEM_DEPS = ('membrane', 'remember')
 
-DEPS = ('wicked', 'TeamSpace',
-        'CMFPlacefulWorkflow', 'RichDocument', 'listen',
-        'CMFDiffTool', 'CMFEditions')
+DEPS = ('wicked', 'TeamSpace', 'CMFPlacefulWorkflow', 'RichDocument',
+        'listen', 'CMFDiffTool', 'CMFEditions')
 
 def setuphandler(fn):
     """

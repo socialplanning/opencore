@@ -5,6 +5,7 @@ from Products.PloneTestCase.setup import portal_owner
 from Products.OpenPlans.Extensions.create_test_content import create_test_content
 from zope.app.annotation.interfaces import IAnnotations
 from plone.memoize import view, instance
+from opencore.configuration.setuphandlers import Z_DEPS, DEPS
 
 def login_portal_owner(app=None):
     if app is None:
@@ -45,3 +46,7 @@ def clear_instance_memo(obj):
 def clear_all_memos(view):
     clear_instance_memo(view)
     clear_view_memo(view.request)
+
+def zinstall_products():
+    for product in Z_DEPS + DEPS:
+        ZopeTestCase.installProduct(product)
