@@ -9,6 +9,14 @@
   <include package=".topnav" />
   <include package=".menu" />
 
+  <browser:page
+    for="*"
+    class="opencore.browser.base.BaseView"
+    permission="zope.Public"
+    name="error"
+    template="error.pt"
+    />
+
   <browser:resourceDirectory
      name="css"
      directory="css"
