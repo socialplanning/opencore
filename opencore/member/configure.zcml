@@ -1,0 +1,5 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+  <content class="opencore.member.OpenMember">
+    <implements interface="opencore.member.interfaces.IOpenMember" />
+  </content>
+</configure>

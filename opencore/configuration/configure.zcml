@@ -19,6 +19,6 @@
   <include package="opencore.redirect" />
   <include package="opencore.utility" />
   <include package="opencore.clockqueue" />
-
+  <include package="opencore.member" />
 </configure>
  
