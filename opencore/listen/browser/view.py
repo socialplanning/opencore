@@ -1,28 +1,24 @@
+from Products.Five.browser import metaconfigure
+from Products.Five.browser import pagetemplatefile
+from Products.PageTemplates.PageTemplate import PageTemplate
+from Products.listen.browser.mail_archive_views import ArchiveForumView, ArchiveDateView
+from Products.listen.browser.mail_archive_views import ArchiveNewTopicView, SubFolderDateView
+from Products.listen.browser.mail_archive_views import ArchiveSearchView
+from Products.listen.browser.mail_message_views import ForumMailMessageView, ThreadedMailMessageView
+from Products.listen.browser.mail_message_views import MessageReplyView, SearchDebugView
+from Products.listen.browser.manage_membership import ManageMembersView
+from Products.listen.browser.moderation import ModerationView
+from Products.listen.interfaces import IMailingList
+from Products.listen.utilities.list_lookup import ListLookupView
+from opencore.browser.base import BaseView
+from opencore.listen.mailinglist_views import MailingListAddForm, MailingListEditForm, MailingListView
+from plone.app.form import _named
+from plone.memoize.view import memoize as req_memoize
+from zope.formlib.namedtemplate import INamedTemplate
+from zope.interface import implements
 import cgi
 import new
 import os.path
-
-from zope.interface import implements
-from zope.formlib.namedtemplate import INamedTemplate
-
-from plone.memoize.view import memoize as req_memoize
-from plone.app.form import _named
-
-from Products.PageTemplates.PageTemplate import PageTemplate
-from Products.Five.browser import pagetemplatefile
-from Products.Five.browser import metaconfigure
-from Products.listen.browser.mail_archive_views import ArchiveForumView, ArchiveDateView, \
-                                                       ArchiveNewTopicView, SubFolderDateView, \
-                                                       ArchiveSearchView
-from Products.listen.browser.mail_message_views import ForumMailMessageView, ThreadedMailMessageView, \
-                                                       MessageReplyView, SearchDebugView
-from Products.listen.browser.manage_membership import ManageMembersView
-from Products.listen.utilities.list_lookup import ListLookupView
-from Products.listen.browser.moderation import ModerationView
-from Products.listen.interfaces import IMailingList
-
-from opencore.listen.mailinglist_views import MailingListAddForm, MailingListEditForm, MailingListView
-from opencore.browser.base import BaseView
 
 
 class ListenBaseView(BaseView):
@@ -67,7 +63,7 @@ class ListenBaseView(BaseView):
 
         return msgs
 
-
+# uh.. if you are going right meta factories you should write tests too
 def make_nui_listen_view_class(ListenClass, set_errors=False, add_update=False):
     class NuiListenView(ListenBaseView, ListenClass):
         # mask the property defined in any listen views
@@ -88,7 +84,6 @@ def make_nui_listen_view_class(ListenClass, set_errors=False, add_update=False):
                 if self.status and self.errors:
                     self.addPortalStatusMessage(self.status)
                 return result
-
 
     return NuiListenView
 

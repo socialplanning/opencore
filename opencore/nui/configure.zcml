@@ -18,7 +18,6 @@
   <include package=".member" />
 
   <include package=".error" />
-  <include package=".listen" />
   <include file="indexing.zcml" />
 
   <!-- allows this interface show up as a potential marker in zmi -->
