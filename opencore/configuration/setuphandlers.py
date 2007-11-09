@@ -74,6 +74,7 @@ def setuphandler(fn):
         fn(portal, out)
         logger = context.getLogger('OpenCore setuphandlers')
         logger.info(out.getvalue())
+    execute_handler.orig = fn
     return execute_handler
 
 @setuphandler
