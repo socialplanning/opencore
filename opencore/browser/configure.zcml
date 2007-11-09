@@ -1,0 +1,48 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:meta="http://namespaces.zope.org/meta"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:i18n="http://namespaces.zope.org/i18n"
+           i18n_domain="opencore">
+
+  <include package="opencore.js" />
+
+  <browser:resourceDirectory
+     name="css"
+     directory="css"
+     />
+
+  <browser:resourceDirectory
+     name="img"
+     directory="img"
+     />
+  <browser:resourceDirectory
+     name="kupu"
+     directory="kupu"
+     />
+
+  <browser:page
+    for="*"
+    class="opencore.nui.base.BaseView"
+    permission="zope.Public"
+    name="main_template"
+    template="main_template.pt"
+    />
+
+  <browser:view
+    for="*"
+    name="standard_macros"
+    class=".macros.StandardMacros"
+    permission="zope.Public"
+    allowed_interface="zope.interface.common.mapping.IItemMapping"
+    />
+
+  <browser:view
+    for="*"
+    name="nui_macros"
+    class=".macros.NuiMacros"
+    permission="zope.Public"
+    allowed_interface="zope.interface.common.mapping.IItemMapping"
+    />
+
+</configure>
