@@ -28,6 +28,7 @@ def test_suite():
     from pprint import pprint
     from opencore.testing import alsoProvides, noLongerProvides
     from opencore.interfaces.membership import IEmailInvites
+    from opencore.interfaces.member import IMemberHomePage, IMemberFolder
     from zope.app.component.hooks import setSite, setHooks
     from zope.component import getUtility
     import pdb
