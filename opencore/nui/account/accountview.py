@@ -433,14 +433,9 @@ class ForgotLoginView(AccountView):
         else:
             query['getUserName'] = user_lookup
 
-        brains = self.membranetool(query)
+        brains = self.membranetool.unrestrictedSearchResults(query)
         if brains:
             return brains[0].getId
-
-        # check to see if the user is pending
-        member = self.is_pending(query)
-        if member:
-            return member.getId()
 
 
 class PasswordResetView(AccountView):
