@@ -6,5 +6,8 @@
   <adapter for="opencore.member.interfaces.IOpenMember"
 	   provides="opencore.member.interfaces.IHandleMemberWorkflow"
 	   factory="opencore.member.workflow.MemberWorkflowHandler" />
+  <adapter for="opencore.interfaces.IOpenSiteRoot"
+	   provides="opencore.member.interfaces.ICreateMembers"
+	   factory="opencore.member.factory.MemberFactory" />
 
 </configure>
