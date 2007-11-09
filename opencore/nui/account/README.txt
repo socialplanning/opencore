@@ -37,6 +37,11 @@ The member needs to have a 'legitimate' email address::
     <OpenMember at /plone/portal_memberdata/test_user_1_>
     >>> member.setEmail('test_emailer_1_@example.com')
 
+We can lookup the member by email too, now that he has one::
+    >>> view.request.form['__ac_name'] = 'test_emailer_1_@example.com'
+    >>> view.userid
+    'test_user_1_'
+
 Running handle request does all this, and sends the email::
 
     >>> view.request.environ["REQUEST_METHOD"] = "POST"
