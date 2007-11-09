@@ -4,20 +4,23 @@ views pertaining to accounts -- creation, login, password reset
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from opencore.interfaces.membership import IEmailInvites
+from opencore.member.interfaces import IHandleMemberWorkflow
 from opencore.nui.account.utils import email_confirmation
 from opencore.nui.base import BaseView, _
 from opencore.nui.email_sender import EmailSender
 from opencore.nui.formhandler import * # start import are for pansies
-from opencore.interfaces.membership import IEmailInvites
 from opencore.siteui.member import FirstLoginEvent
 from plone.memoize import instance
 from smtplib import SMTPRecipientsRefused, SMTP
 from zExceptions import Forbidden, Redirect, Unauthorized
 from zope.component import getUtility
 from zope.event import notify
+import logging
 import urllib
-from opencore.member.interfaces import IHandleMemberWorkflow
 
+
+logger = logging.getLogger("opencore.nui.accountview")
 
 class AccountView(BaseView):
     """
@@ -36,10 +39,11 @@ class AccountView(BaseView):
     
     def login(self, member_id):
         """login a user programmatically"""
-        self.update_credentials(member_id)
         self.request.set('__ac_name', member_id)
         self.auth.login()
-        self.membertool.setLoginTimes()
+        # Note that login() doesn't actually seem to log us in during
+        # the current request.  eg. this next line:
+        self.membertool.setLoginTimes() # XXX does nothing, we're anonymous.
 
     def update_credentials(self, member_id):
         return self.auth.updateCredentials(self.request, self.response,
@@ -299,7 +303,7 @@ class ConfirmAccountView(AccountView):
         # redirect to login page if confirmation isn't pending
         if not self.confirm(member):
             return self.redirect("%s/login" %self.siteURL)
-        
+
         self.login(member.getId())
         return self.redirect("%s/init-login" %self.siteURL)
 
@@ -308,10 +312,15 @@ class InitialLogin(BaseView):
 
     def first_login(self):
         member = self.membertool.getAuthenticatedMember()
+        if not self.loggedin:
+            # Pretty much everything else in this method will fail.
+            logger.warn("Anonymous got into first_login, should never happen!")
+            raise Unauthorized("You must log in.")
         if not self.membertool.getHomeFolder():
             self.membertool.createMemberArea(member.getId())
 
         # set login time since for some reason zope doesn't do it
+        
         member.setLogin_time(DateTime())
 
         # first check for any pending requests which are also email invites
