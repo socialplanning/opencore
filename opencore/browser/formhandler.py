@@ -70,7 +70,7 @@ def octopus(func):
     to the client in the case of an AJAX request.
 
     It expects a very specific format for the request; this is 
-    documented in opencore.nui.project/contents.txt
+    documented in opencore.project.browser/contents.txt
     """
     def inner(self):
         # XXX todo don't rely on '_' or ':' special characters

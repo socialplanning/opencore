@@ -6,7 +6,7 @@ from Products.CMFCore.utils import getToolByName
 from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 
-from opencore.nui.project.view import ProjectAddView
+from opencore.project.browser.view import ProjectAddView
 
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase, \
      makeContent

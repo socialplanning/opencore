@@ -1,7 +1,7 @@
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
-from opencore.nui.project.latest_snippet import LatestSnippet
-from opencore.nui.project.view import ProjectContentsView
+from opencore.project.browser.latest_snippet import LatestSnippet
+from opencore.project.browser.view import ProjectContentsView
 
 
 class ListFromCatalog:

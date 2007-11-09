@@ -1,5 +1,5 @@
 from topp.utils.persistence import KeyedMap
-from opencore.nui.project import utils
+from opencore.project.browser import utils
 import uuid
 
 

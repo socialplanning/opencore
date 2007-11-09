@@ -2,7 +2,7 @@ from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
 from Products.CMFCore.utils import getToolByName
 from opencore.bbb import bbb_keymap
-from opencore.nui.project import utils
+from opencore.project.browser import utils
 from opencore.interfaces.membership import IEmailInvites
 from topp.utils.persistence import OOBTreeBag, KeyedMap
 from zope.app.annotation import IAnnotations

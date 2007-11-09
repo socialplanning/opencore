@@ -34,7 +34,7 @@ from indexing import createIndexes
 from DateTime import DateTime
 from topp.featurelets.interfaces import IFeatureletSupporter
 from opencore.interfaces import IOpenPage, INewsItem
-from opencore.nui.project.metadata import _update_last_modified_author
+from opencore.project.browser.metadata import _update_last_modified_author
 from opencore.nui.wiki.add import get_view_names
 from Products.OpenPlans.content.project import OpenProject
 from persistent import mapping
@@ -239,7 +239,7 @@ def fix_case_on_featurelets(portal):
             flet_supporter.storage['tasks']=tt_storage
 
 def annotate_last_modified_author(portal):
-    from opencore.nui.project.metadata import ANNOT_KEY
+    from opencore.project.browser.metadata import ANNOT_KEY
     pr = getToolByName(portal, 'portal_repository')
     cat = getToolByName(portal, 'portal_catalog')
 

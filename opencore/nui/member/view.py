@@ -354,7 +354,7 @@ class MemberAccountView(BaseView, OctopoLite):
     def _apply_transition_to(self, proj_id, transition):
         ### XXX this apply_transition_to function strikes me as highly questionable.
         # maybe it belongs in opencore.content somewhere? note that it's kind of
-        # identical to opencore.nui.project.view.doMshipWFAction...
+        # identical to opencore.project.browser.view.doMshipWFAction...
         mship = self._membership_for_proj(proj_id)
         try:
             mship.do_transition(transition)

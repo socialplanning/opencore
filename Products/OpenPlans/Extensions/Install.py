@@ -58,8 +58,8 @@ from opencore.nui.member.transient_messages import TransientMessage
 from opencore.nui.indexing import metadata_cols, install_columns as installColumns
 from opencore.nui.indexing import createIndexes
 from opencore.nui.indexing import createMemIndexes
-from opencore.nui.project.interfaces import IEmailInvites
-from opencore.nui.project.email_invites import EmailInvites
+from opencore.interfaces.membership import IEmailInvites
+from opencore.project.browser.email_invites import EmailInvites
 
 psheet_id = 'opencore_properties'
 

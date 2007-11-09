@@ -10,7 +10,7 @@ from zope.component import adapts
 from Products.Five.traversable import Traversable
 from Products.CMFCore.utils import getToolByName
 from Products.Fate.meta.view import AddView as BaseAddView
-import Products.OpenPlans.content.project as project
+#import Products.OpenPlans.content.project as project
 
 from memojito import memoizedproperty, memoize
 

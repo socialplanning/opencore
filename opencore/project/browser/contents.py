@@ -1,4 +1,4 @@
-from opencore.nui.project.view import ProjectBaseView
+from opencore.project.browser.view import ProjectBaseView
 
 class RecentUpdatesView(ProjectBaseView):
     """

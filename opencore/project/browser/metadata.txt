@@ -8,7 +8,7 @@ displaying the last object modified's time and modifier.
 
 Let's get set up::
 
-    >>> from opencore.nui.project import metadata as md
+    >>> from opencore.project.browser import metadata as md
     >>> from StringIO import StringIO
     >>> from sets import Set
 

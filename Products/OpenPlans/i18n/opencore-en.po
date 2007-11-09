@@ -130,12 +130,12 @@ msgid "email_forgot_password_subject"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Invitation to join  ${project_title}\n\nThe invitation extended to you to join \"${project_title}\" on ${portal_title} has been revoked.\n"
-#: opencore/nui/project/mship_messages.py:30
+#: opencore.project.browser/mship_messages.py:30
 msgid "email_invitation_retracted"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Invitation to join ${project_title}\n\nYou have been invited to join \"${project_title}\" on ${portal_title}.\n\nIf you would like to get involved, set up an ${portal_title} account: ${join_url}\n\n${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks.\n\nWe hope you'll take ${portal_title} for a spin.\n\nCheers,\nThe ${portal_title} Team\n${portal_url}\n"
-#: opencore/nui/project/mship_messages.py:54
+#: opencore.project.browser/mship_messages.py:54
 msgid "email_invite_email"
 msgstr ""
 "Subject: ${inviter_name} would like you to join \"${project_title}\"\n"
@@ -153,37 +153,37 @@ msgstr ""
 "\n"
 
 #. Default: "Subject: You've been invited to join \"${project_title}\"\n\nHi ${user_name},\n\nYou have been invited to join \"${project_title}\" by ${inviter_name}.\nPlease visit your account page to accept or decline the invitation: ${account_url}\n\nCheers,\nThe ${portal_name} Team\n${portal_url}\n"
-#: opencore/nui/project/mship_messages.py:3
+#: opencore.project.browser/mship_messages.py:3
 msgid "email_invite_member"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Membership deactivated for ${project_title}\n\nYou are no longer a member of \"${project_title}\" on ${portal_title}.\n"
-#: opencore/nui/project/mship_messages.py:35
+#: opencore.project.browser/mship_messages.py:35
 msgid "email_membership_deactivated"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Request to join ${project_title}\n\n${member_id} would like to get involved with \"${project_title}\".\n\nTo approve or deny this request please visit the project's team management screen: ${team_manage_url}\n"
-#: opencore/nui/project/mship_messages.py:40
+#: opencore.project.browser/mship_messages.py:40
 msgid "email_membership_requested"
 msgstr ""
 
 #. Default: "\n\n${member_id} included the following message:\n\n\"${member_message}\"\n"
-#: opencore/nui/project/mship_messages.py:47
+#: opencore.project.browser/mship_messages.py:47
 msgid "email_mship_request_message"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Invitation to join ${project_title}\n\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.  Please visit your account page to accept or decline the invitation: ${account_url}\n"
-#: opencore/nui/project/mship_messages.py:15
+#: opencore.project.browser/mship_messages.py:15
 msgid "email_remind_invitee"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Welcome to ${project_title}\n\nYour request to join \"${project_title}\" on ${portal_title} has been approved.  The project is accessible at the following address: ${project_url}\n"
-#: opencore/nui/project/mship_messages.py:20
+#: opencore.project.browser/mship_messages.py:20
 msgid "email_request_approved"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Your request to join ${project_title}\n\nYour request to join \"${project_title}\" on ${portal_title} has been denied.\n"
-#: opencore/nui/project/mship_messages.py:25
+#: opencore.project.browser/mship_messages.py:25
 msgid "email_request_denied"
 msgstr ""
 
@@ -198,7 +198,7 @@ msgid "email_to_pending_user_subject"
 msgstr ""
 
 #. Default: "The project name must contain at least 2 characters with at least 1 letter or number."
-#: opencore/nui/project/view.py:436
+#: opencore.project.browser/view.py:436
 msgid "err_project_name"
 msgstr ""
 
@@ -1033,7 +1033,7 @@ msgid "people_members"
 msgstr ""
 
 #. Default: "\"${title}\" has been created. Create a team by searching for other members to invite to your project, then <a href=\"${proj_edit_url}\">edit your project home page</a>."
-#: opencore/nui/project/view.py:625
+#: opencore.project.browser/view.py:625
 msgid "project_created"
 msgstr ""
 
@@ -1073,7 +1073,7 @@ msgid "psm_check_username_password"
 msgstr ""
 
 #. Default: "Please correct the errors indicated below."
-#: opencore/nui/project/view.py:439
+#: opencore.project.browser/view.py:439
 msgid "psm_correct_errors_below"
 msgstr ""
 
@@ -1088,12 +1088,12 @@ msgid "psm_enter_username_email"
 msgstr ""
 
 #. Default: "${flet} feature has been added."
-#: opencore/nui/project/view.py:478
+#: opencore.project.browser/view.py:478
 msgid "psm_featurelet_added"
 msgstr ""
 
 #. Default: "${flet} feature has been removed."
-#: opencore/nui/project/view.py:483
+#: opencore.project.browser/view.py:483
 msgid "psm_featurelet_removed"
 msgstr ""
 
@@ -1118,7 +1118,7 @@ msgid "psm_new_activation"
 msgstr ""
 
 #. Default: "Please select items to delete."
-#: opencore/nui/project/view.py:221
+#: opencore.project.browser/view.py:221
 msgid "psm_no_items_to_delete"
 msgstr ""
 
@@ -1158,32 +1158,32 @@ msgid "psm_please_sign_in"
 msgstr ""
 
 #. Default: "Project home page set to: <a href=\"${homepage}\">${homepage}</a>"
-#: opencore/nui/project/view.py:497
+#: opencore.project.browser/view.py:497
 msgid "psm_proj_homepage_change"
 msgstr ""
 
 #. Default: "The description has been changed."
-#: opencore/nui/project/view.py:464
+#: opencore.project.browser/view.py:464
 msgid "psm_project_desc_changed"
 msgstr ""
 
 #. Default: "The project image has been changed."
-#: opencore/nui/project/view.py:465
+#: opencore.project.browser/view.py:465
 msgid "psm_project_logo_changed"
 msgstr ""
 
 #. Default: "The name \"${project_name}\" is reserved. Please try a different name."
-#: opencore/nui/project/view.py:599
+#: opencore.project.browser/view.py:599
 msgid "psm_project_name_reserved"
 msgstr ""
 
 #. Default: "The title has been changed."
-#: opencore/nui/project/view.py:463
+#: opencore.project.browser/view.py:463
 msgid "psm_project_title_changed"
 msgstr ""
 
 #. Default: "The security policy has been changed."
-#: opencore/nui/project/view.py:466
+#: opencore.project.browser/view.py:466
 msgid "psm_security_changed"
 msgstr ""
 
@@ -1223,12 +1223,12 @@ msgid "reset-password_username_label"
 msgstr ""
 
 #. Default: "You are already a pending or active member of ${project_title}."
-#: opencore/nui/project/team.py:217
+#: opencore.project.browser/team.py:217
 msgid "team_already_proj_member"
 msgstr ""
 
 #. Default: "You are already a member of this project."
-#: opencore/nui/project/team.py:54
+#: opencore.project.browser/team.py:54
 msgid "team_already_project_member"
 msgstr ""
 

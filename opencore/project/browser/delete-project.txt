@@ -25,7 +25,7 @@ Let's add some featurelets::
 Flet Removal
 ============
 
-    >>> from opencore.nui.project.preferences import handle_flet_uninstall
+    >>> from opencore.project.browser.preferences import handle_flet_uninstall
 
   << POST? shouldn't it be DELETE? egj? -- you think tasktracker is
   remotely restful? :P actually, tho, it shouldn't be DELETE, because
@@ -51,7 +51,7 @@ Gotta reinstall::
 Team removal
 ============
 
-    >>> from opencore.nui.project.preferences import delete_team
+    >>> from opencore.project.browser.preferences import delete_team
 
 We'll kill a team we don't need for this test::
 
@@ -64,7 +64,7 @@ the same job)::
 
     >>> pprint(sorted([x for x in IClockQueue(self.projects)]))
     [(...,
-      <topp.clockqueue.Job 'opencore.nui.project.preferences.delete_team'  args:() kw:{'ids': ['p4']}>)]
+      <topp.clockqueue.Job 'opencore.project.browser.preferences.delete_team'  args:() kw:{'ids': ['p4']}>)]
 
 Since this is a bad situation, we make repeated deletes
 'safe'. 'delete_teams' prints and logs the formatted exception::
@@ -76,7 +76,7 @@ Just one safe chicken...not more::
 
     >>> pprint(sorted([x for x in IClockQueue(self.projects)]))
     [(...,
-      <topp.clockqueue.Job 'opencore.nui.project.preferences.delete_team'  args:() kw:{'ids': ['p4']}>)]
+      <topp.clockqueue.Job 'opencore.project.browser.preferences.delete_team'  args:() kw:{'ids': ['p4']}>)]
 
 Put it all together
 ===================
@@ -86,7 +86,7 @@ Put it all together
 
     >>> view = project.restrictedTraverse('preferences')
     >>> view
-    <...project/preferences.pt...>
+    <...project/browser/preferences.pt...>
 
     <...sputnik/preferences.pt...>
 
@@ -109,13 +109,13 @@ p1 should be gone::
     >>> sorted(self.projects.objectIds())
     ['.wf_policy_config', 'p2', 'p3', 'p4']
 
-The team should be queued for deletion::
+The team should be queued for deletion:: # brittle
 
     >>> pprint(sorted([x for x in IClockQueue(self.projects)]))
     [(...,
-      <topp.clockqueue.Job 'opencore.nui.project.preferences.delete_team'  args:() kw:{'ids': ['p1']}>),
+      <topp.clockqueue.Job 'opencore.project.browser.preferences.delete_team'  args:() kw:{'ids': ['p4']}>),
      (...,
-      <topp.clockqueue.Job 'opencore.nui.project.preferences.delete_team'  args:() kw:{'ids': ['p4']}>)]
+      <topp.clockqueue.Job 'opencore.project.browser.preferences.delete_team'  args:() kw:{'ids': ['p1']}>)]
 
 We should redirect to somewhere sensible... `start a project`?
 

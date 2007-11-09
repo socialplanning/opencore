@@ -12,7 +12,7 @@ from opencore.nui.email_sender import EmailSender
 from opencore.nui.main import SearchView
 from opencore.nui.main.search import searchForPerson
 from opencore.interfaces.message import ITransientMessage
-from opencore.nui.project import mship_messages
+from opencore.project.browser import mship_messages
 from opencore.interfaces.membership import IEmailInvites
 from operator import attrgetter
 from plone.memoize.instance import memoize, memoizedproperty

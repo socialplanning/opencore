@@ -26,8 +26,8 @@ from opencore.tasktracker import uri as tt_uri
 from opencore.browser import formhandler
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
-from opencore.nui.project.utils import vdict
-from opencore.nui.project.interfaces import IHomePage
+from opencore.project.browser.utils import vdict
+from opencore.interfaces import IHomePage
 from opencore.nui.wiki.add import get_view_names
 
 from DateTime import DateTime

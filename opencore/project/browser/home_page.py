@@ -1,13 +1,11 @@
-from zope.interface import implements
-from zope.component import adapts
-
-from zope.app.annotation.interfaces import IAnnotations
 from BTrees.OOBTree import OOBTree
-
+from opencore.interfaces import IHomePage
 from opencore.interfaces import IProject
-from opencore.nui.project.interfaces import IHomePage
-
+from zope.app.annotation.interfaces import IAnnotations
+from zope.component import adapts
+from zope.interface import implements
 import re
+
 
 class HomePage(object):
     """store the full url to the project home page
@@ -21,10 +19,10 @@ class HomePage(object):
     def __init__(self, context):
         self.context = context
         annot = IAnnotations(context)
-        homepage_annot = annot.get('opencore.nui.project.home_page', None)
+        homepage_annot = annot.get('opencore.project.browser.home_page', None)
         if homepage_annot is None:
             homepage_annot = OOBTree()
-            annot['opencore.nui.project.home_page'] = homepage_annot
+            annot['opencore.project.browser.home_page'] = homepage_annot
         self.annot = homepage_annot
 
     def _get_home_page(self):

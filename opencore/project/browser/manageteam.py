@@ -14,9 +14,9 @@ from opencore.browser.base import view
 from opencore.nui.email_sender import EmailSender
 from opencore.interfaces.message import ITransientMessage
 from opencore.interfaces.membership import IEmailInvites
-from opencore.nui.project.team import TeamRelatedView
+from opencore.project.browser.team import TeamRelatedView
 from plone.memoize.view import memoize as req_memoize
-from opencore.nui.project import mship_messages
+from opencore.project.browser import mship_messages
 from zope.component import getUtility
 from zope.event import notify
 import logging

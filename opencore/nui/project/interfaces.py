@@ -23,9 +23,4 @@ class IFeedItem(Interface):
         """when the item was modified/created"""
 
         
-class IHomePage(Interface):
-    """store a home page attribute on an object"""
-    home_page = TextLine(
-                    title=u'home page url',
-                    description=u"url of object's home page",
-                    )
+

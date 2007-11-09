@@ -21,7 +21,7 @@ from zope.component import adapter
 from zope.interface import alsoProvides
 
 # where the last modified author is stored
-ANNOT_KEY = 'opencore.nui.project.metadata'
+ANNOT_KEY = 'opencore.project.browser.metadata'
 
 ### XXX todo write a test for this here -egj
 @adapter(IMailMessage, IObjectModifiedEvent)

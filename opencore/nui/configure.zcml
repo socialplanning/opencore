@@ -12,12 +12,10 @@
   <meta:redefinePermission from="zope2.Public" to="zope.Public" />
 
   <include package=".wiki" />
-  <include package=".project" />
   <include package=".main" />
   <include package=".account" />
   <include package=".member" />
 
-  <include package=".error" />
   <include file="indexing.zcml" />
 
   <!-- allows this interface show up as a potential marker in zmi -->
