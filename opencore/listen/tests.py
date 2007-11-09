@@ -1,5 +1,7 @@
 import os, sys, unittest
 from zope.testing import doctest
+from zope.app.component.hooks import setSite, setHooks
+from Products.Five.site.localsite import enableLocalSiteHook
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase 
 from Testing.ZopeTestCase import FunctionalDocFileSuite
@@ -22,12 +24,15 @@ def test_suite():
     from opencore.nui.formhandler import test_suite as octotest
     
     setup.setupPloneSite()
-    def readme_setup(tc):
+    def listen_discussion_setup(tc):
         tc._refreshSkinData()
         tc.request = tc.app.REQUEST
         tc.response = tc.request.RESPONSE
         tc.homepage = getattr(tc.portal, 'site-home')
         tc.projects = tc.portal.projects
+        enableLocalSiteHook(tc.portal)
+        setSite(tc.portal)
+        setHooks()
 
     globs = locals()
     listen_discussion = FunctionalDocFileSuite("listen_discussion.txt",
@@ -35,7 +40,7 @@ def test_suite():
                                     package='opencore.listen',
                                     test_class=OpenPlansTestCase,
                                     globs = globs,
-                                    setUp=readme_setup
+                                    setUp=listen_discussion_setup,
                                     )
 
     return unittest.TestSuite((listen_discussion,))
