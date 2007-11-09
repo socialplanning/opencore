@@ -26,19 +26,18 @@ setup(name='opencore',
                         'http://www.openplans.org/projects/opencore/dependencies',
                         'https://svn.plone.org/svn/plone/plone.memoize/trunk#egg=plone.memoize-dev',
                         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
-                        'http://zesty.ca/python/uuid.py#egg=uuid-dev'
+                        'http://zesty.ca/python/uuid.py#egg=uuid-dev',
+                        'https://svn.openplans.org/svn/opencore.js/trunk/#egg=opencore.js-dev'
                         ],
       
       install_requires=[
           # -*- Extra requirements: -*-
-          # comment out hprof because it was causing a linking build issue
-          # on theman
-          #'hprof',
+          "opencore.js==dev,>=0.0",    
           "ClockQueue==dev,>=0.0",
           'simplejson',
           'decorator',
           'topp.featurelets>=0.2.1',
-          'topp.utils>=0.2.7',
+          'topp.utils==0.2.9',
           'memojito',
           'OpencoreRedirect',
           'httplib2',
