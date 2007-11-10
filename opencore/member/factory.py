@@ -61,6 +61,7 @@ class MemberFactory(object):
 
     def create(self, fields):
         # create a member in portal factory
+        # i don't think this is really necessary any more. -egj
         mdc = self._membertool
         pf = mdc.portal_factory
 
@@ -82,7 +83,7 @@ class MemberFactory(object):
         result = mem.processForm(values=fields)
         # what does result look like? what do we do with it?
         # and shouldn't we process form BEFORE we finalize creation?
-        notify(ObjectCreatedEvent(mem)) #is this necessary here?
+        notify(ObjectCreatedEvent(mem))
         mem.setUserConfirmationCode()
 
         return mem
