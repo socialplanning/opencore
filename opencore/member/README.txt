@@ -22,7 +22,7 @@ It lets us determine if a user's account is unconfirmed::
 
 We can also see the member's state directly, but this isn't part of
 the interface because the whole point of this is to abstract away from
-portal_workflow and hardcoded strings::
+portal_workflow and hardcoded strings (so please don't do it)::
     >>> IHandleMemberWorkflow(mem)._wfstate
     'public'
 
