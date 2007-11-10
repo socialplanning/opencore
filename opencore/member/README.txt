@@ -85,6 +85,8 @@ complicated dance involving portal_factory and validation::
     ...                     email='greeble@example.com',
     ...                     password='testy',
     ...                     confirm_password='testy'))
+    Called httplib2.Http.request...
+    ...
     <OpenMember at /plone/portal_memberdata/foo>
 
 Let's make sure the dude really exists and his fields were set::
@@ -112,4 +114,6 @@ that this was taken from (in opencore.nui.account.join)
     ...                     email='greexampledotcom',
     ...                     password='tesde',
     ...                     confirm_password='testy'))
+    Called httplib2.Http.request...
+    ...
     <OpenMember at /plone/portal_memberdata/darcy>
