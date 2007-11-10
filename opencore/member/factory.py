@@ -62,8 +62,7 @@ class MemberFactory(object):
     def create(self, fields):
         # create a member in portal factory
         # i don't think this is really necessary any more. -egj
-        mdc = self._membertool
-        pf = mdc.portal_factory
+        pf = self._membertool.portal_factory
 
         #00 pythonscript call, move to fs code
         id_ = self.context.generateUniqueId('OpenMember')
