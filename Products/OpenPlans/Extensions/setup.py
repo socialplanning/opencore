@@ -11,16 +11,14 @@ from Products.Archetypes.public import listTypes
 from Products.Archetypes.Extensions.utils import installTypes
 from Products.OpenPlans import config
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
-from Products.OpenPlans.workflows import WORKFLOW_MAP
 from zLOG import INFO, ERROR
 
-from Install import installColumns, fixUpEditTab, hideActions, \
-     installWorkflows, setupPortalActions, addFormControllerOverrides, \
-     installWorkflowPolicies, hideActionTabs, securityTweaks, uiTweaks, \
-     migrateATDocToOpenPage, createIndexes, installZ3Types, registerJS, \
-     setupProjectLayout, createMemIndexes, setCookieDomain, installCookieAuth, \
+from opencore.configuration.setuphandlers import \
+     installWorkflowPolicies, securityTweaks, \
+     migrateATDocToOpenPage, \
+     setupProjectLayout, setCookieDomain, installCookieAuth, \
      setupPeopleFolder, setupProjectLayout, setupHomeLayout, \
-     installNewsFolder, setProjectFolderPermissions, updateWorkflowRoleMappings
+     installNewsFolder, setProjectFolderPermissions
 from migrate_teams_to_projects import migrate_teams_to_projects
 from migrate_membership_roles import migrate_membership_roles
 
@@ -36,28 +34,17 @@ from utils import setupKupu, reinstallSubskins
 out = StringIO()
 def convertFunc(func):
     """
-    turns a standard install function, which requires two arguments,
-    into a setup widget function, which only requires one.
+    Turns one of our setuphandler functions into a portal_migrations
+    setup widget.  The setuphandler functions have an 'orig' attribute
+    containing an inner function; if we find one of these, that's what
+    we really want to call.
     """
+    realfn = getattr(func, 'orig', func)
     def new_func(portal):
         out=StringIO()
-        func(portal, out)
+        realfn(portal, out)
         return out.getvalue()
     return new_func
-
-def reinstallWorkflows(portal):
-    wftool = getToolByName(portal, 'portal_workflow')
-    qi = getToolByName(portal, 'portal_quickinstaller')
-    product = getattr(qi, PROJECTNAME)
-    wfs = set(product.getWorkflows())
-    wfs = wfs.union(set(WORKFLOW_MAP.keys()))
-    wfs.remove('(Default)')
-    existing = dict.fromkeys(wftool.objectIds())
-    wfs = [wf for wf in wfs if wf in existing]
-    wftool.manage_delObjects(ids=wfs)
-    out = StringIO()
-    installWorkflows(portal, out)
-    return out.getvalue()
 
 def reinstallWorkflowPolicies(portal):
     pwftool = getToolByName(portal, 'portal_placeful_workflow')
@@ -66,12 +53,6 @@ def reinstallWorkflowPolicies(portal):
     pwftool.manage_delObjects(ids=list(deletes))
     out = StringIO()
     installWorkflowPolicies(portal, out)
-
-def reinstallTypes(portal):
-    out = StringIO()
-    installTypes(portal, out, listTypes(config.PROJECTNAME),
-                 config.PROJECTNAME)
-    hideActionTabs(portal, out)
 
 def migrate_listen_member_lookup(portal):
     from Products.listen.interfaces import IMemberLookup
@@ -159,25 +140,11 @@ def fixMembershipOwnership(portal):
 
 topp_functions = dict(
     setupKupu = convertFunc(setupKupu),
-    fixUpEditTab = convertFunc(fixUpEditTab),
-    installMetadataColumns = convertFunc(installColumns),
     setProjectListingLayout = convertFunc(setupProjectLayout),
-    setupPortalActions = convertFunc(setupPortalActions),
-    hideActions = convertFunc(hideActions),
-    hideActionTabs = convertFunc(hideActionTabs),
-    reinstallWorkflows = reinstallWorkflows,
     reinstallWorkflowPolicies = reinstallWorkflowPolicies,
-    reinstallTypes = reinstallTypes,
-    reinstallSubskins = reinstallSubskins,
-    addFormControllerOverrides = convertFunc(addFormControllerOverrides),
     securityTweaks = convertFunc(securityTweaks),
     setProjectFolderPermissions = convertFunc(setProjectFolderPermissions),
-    uiTweaks = convertFunc(uiTweaks),
     migrateATDocToOpenPage = convertFunc(migrateATDocToOpenPage),
-    createIndexes = convertFunc(createIndexes),
-    installZ3Types = convertFunc(installZ3Types),
-    registerJS = convertFunc(registerJS),
-    createMemIndexes = convertFunc(createMemIndexes),
     setCookieDomain = convertFunc(setCookieDomain),
     installCookieAuth=convertFunc(installCookieAuth),
     migrate_listen_member_lookup=migrate_listen_member_lookup,
@@ -190,8 +157,6 @@ topp_functions = dict(
     )
 
 topp_functions["NUI Setup"]=setup_nui
-topp_functions["Propagate workflow security settings"] = \
-                          convertFunc(updateWorkflowRoleMappings)
 topp_functions["Fix membership object ownership"] = fixMembershipOwnership
 
 class TOPPSetup(SetupWidget):

@@ -12,21 +12,17 @@ from Testing import ZopeTestCase
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore import permissions
-from Products.OpenPlans.workflows import WORKFLOW_MAP
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from Products.OpenPlans.config import DEFAULT_ROLES
-from Products.OpenPlans.Extensions.Install import migrateATDocToOpenPage
-from Products.OpenPlans.Extensions.Install import psheet_id
 from openplanstestcase import OpenPlansTestCase, makeContent, \
-     installConfiguredProducts, ArcheSiteTestCase
-from utils import installConfiguredProducts
+     ArcheSiteTestCase
 import Products.CMFCore
 from opencore.interfaces.workflow import IWriteWorkflowPolicySupport, IReadWorkflowPolicySupport
 
-installConfiguredProducts()
-
 from opencore.nui.indexing import PROJECT_POLICY as ppidx
 from Products.OpenPlans.content.project import OpenProject 
+
+psheet_id = 'opencore_properties'
 
 class TestOpenPlansInstall(OpenPlansTestCase):
     def afterSetUp(self):
@@ -55,12 +51,6 @@ class TestOpenPlansInstall(OpenPlansTestCase):
         project_wf_config = pwf_tool.getWorkflowPolicyConfig(self.portal.projects)
         self.failUnless(project_wf_config)
         self.failUnless(project_wf_config.getPolicyBelowId())
-            
-    def test_workflowinstall(self):
-        wf_tool = getToolByName(self.portal, 'portal_workflow')
-        for wf_id in WORKFLOW_MAP.keys():
-            self.failIf(wf_id not in wf_tool.listWorkflows() and
-                        wf_id != '(Default)')
             
     def test_propertysheetinstall(self):
         ptool = getToolByName(self.portal, 'portal_properties')
@@ -96,7 +86,8 @@ class TestOpenPlansInstall(OpenPlansTestCase):
                             in self.portal.contentIds(spec="HelpCenter"))
 
     def test_kupusetup(self):
-        from Products.OpenPlans.Extensions.utils import kupu_libraries, kupu_resource_map
+        from opencore.configuration.utils import kupu_libraries, \
+             kupu_resource_map
         from sets import Set
         kt = getToolByName(self.portal, 'kupu_library_tool')
         self.assertEqual(Set([kl['id'] for kl in kupu_libraries]),

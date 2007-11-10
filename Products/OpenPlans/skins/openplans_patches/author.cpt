@@ -153,28 +153,6 @@
                 <legend i18n:translate="legend_feedback_for_author">Feedback for author</legend>
 
                 <div class="field"
-                     tal:define="anonDefault python:context.getAnonymailerDefault();
-                                 error errors/anonymize|nothing;"
-                     tal:attributes="class python:test(error, 'field_error', 'field')">
-
-	          <input class="noborder" type="checkbox" value="on"
-                         id="anonymize" name="anonymize_visible"
-                         tal:attributes="checked python:test(anonDefault, 'checked', '')"
-                         onclick="toggle_boolean('anonymize', 'anonymize_hidden'); return true" />
-
-	          <input type="hidden" name="anonymize" id="anonymize_hidden"
-                         tal:attributes="value python:test(anonDefault, 1, 0)" />
-
-                  <label for="anonymize">Anonymize email address?</label>
-
-                  <div class="formHelp" id="anonymize_help">
-                    If selected, your email address will not be exposed to the recipient
-                    of the message that you send.
-                  </div>
-
-                </div>
-
-                <div class="field"
                   tal:define="error errors/subject|nothing"
                   tal:attributes="class python:test(error, 'field error', 'field')">
                   <label for="subject" i18n:translate="label_subject">

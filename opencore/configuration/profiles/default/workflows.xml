@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<object name="portal_workflow" meta_type="Plone Workflow Tool">
+ <property
+    name="title">Contains workflow definitions for your portal</property>
+
+ <object name="closed_folder_openplans_workflow" meta_type="Workflow"/>
+ <object name="closed_openplans_team_membership_workflow"
+    meta_type="Workflow"/>
+ <object name="closed_policy_workflow" meta_type="Workflow"/>
+ <object name="folder_openplans_workflow" meta_type="Workflow"/>
+ <object name="medium_folder_openplans_workflow" meta_type="Workflow"/>
+ <object name="medium_policy_workflow" meta_type="Workflow"/>
+ <object name="open_folder_openplans_workflow" meta_type="Workflow"/>
+ <object name="open_policy_workflow" meta_type="Workflow"/>
+ <object name="openplans_member_workflow" meta_type="Workflow"/>
+ <object name="openplans_team_membership_workflow" meta_type="Workflow"/>
+ <object name="openplans_team_workflow" meta_type="Workflow"/>
+ <object name="openplans_teamspace_workflow" meta_type="Workflow"/>
+ <object name="plone_openplans_workflow" meta_type="Workflow"/>
+
+ <bindings>
+  <default>
+   <bound-workflow workflow_id="plone_openplans_workflow"/>
+  </default>
+  <type type_id="ATBooleanCriterion"/>
+  <type type_id="ATCurrentAuthorCriterion"/>
+  <type type_id="ATDateCriteria"/>
+  <type type_id="ATDateRangeCriterion"/>
+  <type type_id="ATListCriterion"/>
+  <type type_id="ATPathCriterion"/>
+  <type type_id="ATPortalTypeCriterion"/>
+  <type type_id="ATReferenceCriterion"/>
+  <type type_id="ATSelectionCriterion"/>
+  <type type_id="ATSimpleIntCriterion"/>
+  <type type_id="ATSimpleStringCriterion"/>
+  <type type_id="ATSortCriterion"/>
+  <type type_id="Discussion Item"/>
+  <type type_id="FileAttachment"/>
+  <type type_id="Folder">
+   <bound-workflow workflow_id="folder_openplans_workflow"/>
+  </type>
+  <type type_id="ImageAttachment"/>
+  <type type_id="Large Plone Folder">
+   <bound-workflow workflow_id="folder_openplans_workflow"/>
+  </type>
+  <type type_id="Member">
+   <bound-workflow workflow_id="openplans_member_workflow"/>
+  </type>
+  <type type_id="OpenMember">
+   <bound-workflow workflow_id="openplans_member_workflow"/>
+  </type>
+  <type type_id="OpenMembership">
+   <bound-workflow workflow_id="openplans_team_membership_workflow"/>
+  </type>
+  <type type_id="OpenProject">
+   <bound-workflow workflow_id="openplans_teamspace_workflow"/>
+  </type>
+  <type type_id="OpenRoster">
+   <bound-workflow workflow_id="(Default)"/>
+  </type>
+  <type type_id="OpenTeam">
+   <bound-workflow workflow_id="openplans_team_workflow"/>
+  </type>
+  <type type_id="Plone Site"/>
+  <type type_id="Team">
+   <bound-workflow workflow_id="openplans_team_workflow"/>
+  </type>
+  <type type_id="Team Membership">
+   <bound-workflow workflow_id="openplans_team_membership_workflow"/>
+  </type>
+  <type type_id="TeamsTool">
+   <bound-workflow workflow_id="openplans_team_workflow"/>
+  </type>
+  <type type_id="Topic">
+   <bound-workflow workflow_id="folder_workflow"/>
+  </type>
+ </bindings>
+</object>

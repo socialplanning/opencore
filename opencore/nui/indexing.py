@@ -30,18 +30,6 @@ _marker = object()
 
 PROJECT_POLICY='project_policy'
 
-MAILTO = 'mailto'
-idxs = (('FieldIndex', PROJECT_POLICY, None),
-        ('FieldIndex', MAILTO, None),
-        ('DateIndex', 'made_active_date', None),
-        ('FieldIndex', 'getObjSize', None),
-        ('FieldIndex', 'lastModifiedAuthor', None),
-        ('DateIndex', 'ModificationDate', None),
-        ('FieldIndex', 'mailing_list_threads', None),
-        ('FieldIndex', 'highestTeamRole', None),
-        ('FieldIndex', 'is_image', None),
-        )
-
 mem_idxs = (('FieldIndex', 'exact_getFullname',
              {'indexed_attrs': 'getFullname'}),
             ('ZCTextIndex', 'RosterSearchableText',
@@ -50,12 +38,6 @@ mem_idxs = (('FieldIndex', 'exact_getFullname',
             ('FieldIndex', 'sortableLocation',
              {'indexed_attrs': 'getLocation'}),
              )
-
-metadata_cols = ('lastWorkflowActor', 'made_active_date', 'lastModifiedAuthor',
-                 'lastWorkflowTransitionDate', 'mailing_list_threads',
-                 'highestTeamRole', 'lastModifiedComment', PROJECT_POLICY,
-                 'image_width_height', 'image_size')
-
 
 class LastWorkflowActor(object):
     """
@@ -218,21 +200,8 @@ class MailingListThreadCount(object):
         else:
             return len(util.getToplevelMessages())
 
-def createIndexes(portal, out, idxs=idxs, tool='portal_catalog'):
-    catalog = getToolByName(portal, tool)
-    create_indexes(out, catalog, idxs)
-
 def createMemIndexes(portal, out):
     createIndexes(portal, out, idxs=mem_idxs, tool='membrane_tool')
-
-def install_columns(portal, out, cols=metadata_cols):
-    catalog = getToolByName(portal, 'portal_catalog')
-    switch=dict([(x, True) for x in catalog.schema()])
-    add = catalog.addColumn
-    for col in cols:
-        if not switch.has_key(col):
-            add(col) 
-    print >> out, 'metadata columns %s installed' %str(cols)
 
 def registerInterfaceIndexer(idx, iface, method=None, default=None):
     """
@@ -289,23 +258,7 @@ class _extra:
     """ lame holder class to support index 'extra' argument """
     pass
 
-def create_indexes(out, catalog, idxs):
-    indexes = dict([(x, True) for x in catalog.indexes()])
-    added = []
-    for idx, name, extra in idxs:
-        if not indexes.get(name, None):
-            if extra is not None:
-                # *sigh*
-                extra_dict = extra
-                extra = _extra()
-                extra.__dict__ = extra_dict
-            catalog.addIndex(name, idx, extra)
-            added.append(name)
-            print >> out, "Added %s index" % idx
-    if added:
-        catalog.manage_reindexIndex(ids=added)
 
-doCreateIndexes = create_indexes
 ifaceIndexer = registerInterfaceIndexer
 
 from Products.QueueCatalog.QueueCatalog import CHANGED

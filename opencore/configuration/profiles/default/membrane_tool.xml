@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<object name="membrane_tool" meta_type="MembraneTool">
+ <property name="title"></property>
+ <object name="lexicon" meta_type="ZCTextIndex Lexicon">
+  <element name="Case Normalizer" group="Case Normalizer"/>
+  <element name="Unicode Whitespace splitter" group="Word Splitter"/>
+ </object>
+ <index name="RosterSearchableText" meta_type="ZCTextIndex">
+  <indexed_attr value="RosterSearchableText"/>
+  <extra name="index_type" value="Okapi BM25 Rank"/>
+  <extra name="lexicon_id" value="lexicon"/>
+ </index>
+ <index name="SearchableText" meta_type="TextIndex" deprecated="True"/>
+ <index name="Title" meta_type="ZCTextIndex">
+  <indexed_attr value="Title"/>
+  <extra name="index_type" value="Cosine Measure"/>
+  <extra name="lexicon_id" value="lexicon"/>
+ </index>
+ <index name="UID" meta_type="FieldIndex">
+  <indexed_attr value="UID"/>
+ </index>
+ <index name="allowedRolesAndUsers" meta_type="KeywordIndex">
+  <indexed_attr value="allowedRolesAndUsers"/>
+ </index>
+ <index name="created" meta_type="DateIndex">
+  <property name="index_naive_time_as_local">True</property>
+ </index>
+ <index name="exact_getFullname" meta_type="FieldIndex">
+  <indexed_attr value="getFullname"/>
+ </index>
+ <index name="exact_getGroupId" meta_type="FieldIndex">
+  <indexed_attr value="getGroupId"/>
+ </index>
+ <index name="exact_getUserId" meta_type="FieldIndex">
+  <indexed_attr value="getUserId"/>
+ </index>
+ <index name="exact_getUserName" meta_type="FieldIndex">
+  <indexed_attr value="getUserName"/>
+ </index>
+ <index name="getEmail" meta_type="ZCTextIndex">
+  <indexed_attr value="getEmail"/>
+  <extra name="index_type" value="Cosine Measure"/>
+  <extra name="lexicon_id" value="lexicon"/>
+ </index>
+ <index name="getFullname" meta_type="ZCTextIndex">
+  <indexed_attr value="getFullname"/>
+  <extra name="index_type" value="Cosine Measure"/>
+  <extra name="lexicon_id" value="lexicon"/>
+ </index>
+ <index name="getGroupId" meta_type="ZCTextIndex">
+  <indexed_attr value="getGroupId"/>
+  <extra name="index_type" value="Cosine Measure"/>
+  <extra name="lexicon_id" value="lexicon"/>
+ </index>
+ <index name="getGroups" meta_type="FieldIndex">
+  <indexed_attr value="getGroups"/>
+ </index>
+ <index name="getId" meta_type="FieldIndex">
+  <indexed_attr value="getId"/>
+ </index>
+ <index name="getLast_login_time" meta_type="DateIndex">
+  <property name="index_naive_time_as_local">True</property>
+ </index>
+ <index name="getLocation" meta_type="TextIndex" deprecated="True"/>
+ <index name="getReview_state" meta_type="FieldIndex">
+  <indexed_attr value="getReview_state"/>
+ </index>
+ <index name="getRoles" meta_type="FieldIndex">
+  <indexed_attr value="getRoles"/>
+ </index>
+ <index name="getUserId" meta_type="ZCTextIndex">
+  <indexed_attr value="getUserId"/>
+  <extra name="index_type" value="Cosine Measure"/>
+  <extra name="lexicon_id" value="lexicon"/>
+ </index>
+ <index name="getUserName" meta_type="ZCTextIndex">
+  <indexed_attr value="getUserName"/>
+  <extra name="index_type" value="Cosine Measure"/>
+  <extra name="lexicon_id" value="lexicon"/>
+ </index>
+ <index name="meta_type" meta_type="FieldIndex">
+  <indexed_attr value="meta_type"/>
+ </index>
+ <index name="modified" meta_type="DateIndex">
+  <property name="index_naive_time_as_local">True</property>
+ </index>
+ <index name="object_implements" meta_type="KeywordIndex">
+  <indexed_attr value="object_implements"/>
+ </index>
+ <index name="path" meta_type="ExtendedPathIndex"/>
+ <index name="portal_type" meta_type="FieldIndex">
+  <indexed_attr value="portal_type"/>
+ </index>
+ <index name="review_state" meta_type="FieldIndex">
+  <indexed_attr value="review_state"/>
+ </index>
+ <index name="sortableLocation" meta_type="FieldIndex">
+  <indexed_attr value="getLocation"/>
+ </index>
+ <index name="startendrange" meta_type="DateRangeIndex" since_field="start"
+    until_field="end"/>
+ <column value="CreationDate"/>
+ <column value="EffectiveDate"/>
+ <column value="ExpiresDate"/>
+ <column value="ModificationDate"/>
+ <column value="Title"/>
+ <column value="UID"/>
+ <column value="created"/>
+ <column value="effective"/>
+ <column value="exact_getGroupId"/>
+ <column value="expires"/>
+ <column value="getEmail"/>
+ <column value="getFullname"/>
+ <column value="getGroupId"/>
+ <column value="getGroups"/>
+ <column value="getIcon"/>
+ <column value="getId"/>
+ <column value="getLast_login_time"/>
+ <column value="getLocation"/>
+ <column value="getReview_state"/>
+ <column value="getRoles"/>
+ <column value="getUserId"/>
+ <column value="getUserName"/>
+ <column value="modified"/>
+ <column value="parent_path"/>
+ <column value="portal_type"/>
+ <column value="review_state"/>
+ <membrane-type name="Member">
+  <active-workflow-state name="public"/>
+  <active-workflow-state name="private"/>
+ </membrane-type>
+ <membrane-type name="OpenMember">
+  <active-workflow-state name="disabled"/>
+  <active-workflow-state name="new"/>
+  <active-workflow-state name="private"/>
+  <active-workflow-state name="pending"/>
+  <active-workflow-state name="public"/>
+ </membrane-type>
+ <query_index_map>
+  <index name="fullname">getFullname</index>
+  <index name="email">getEmail</index>
+  <index name="review_state">getReview_state</index>
+ </query_index_map>
+ <case_sensitive_login>False</case_sensitive_login>
+</object>

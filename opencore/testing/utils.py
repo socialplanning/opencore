@@ -7,6 +7,7 @@ from plone.memoize import view, instance
 from zope.app.annotation.interfaces import IAnnotations
 from zope.publisher.browser import TestRequest
 from zope.testing.cleanup import cleanUp
+from opencore.configuration.setuphandlers import Z_DEPS, DEPS
 
 
 def login_portal_owner(app=None):
@@ -115,3 +116,7 @@ def newuser():
     from AccessControl.SecurityManagement import newSecurityManager
     from AccessControl.User import UnrestrictedUser
     newSecurityManager( {}, UnrestrictedUser('debug', 'debug', [], [] ))
+
+def zinstall_products():
+    for product in Z_DEPS + DEPS:
+        ZopeTestCase.installProduct(product)

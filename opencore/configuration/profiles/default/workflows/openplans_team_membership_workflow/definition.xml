@@ -1,0 +1,363 @@
+<?xml version="1.0"?>
+<dc-workflow workflow_id="openplans_team_membership_workflow"
+             title="OpenPlans Team Membership Workflow"
+             state_variable="review_state"
+             initial_state="new">
+ <permission>Access contents information</permission>
+ <permission>Modify portal content</permission>
+ <permission>View</permission>
+ <permission>List folder contents</permission>
+ <state state_id="inactive" title="Inactive">
+  <exit-transition transition_id="activate_private"/>
+  <exit-transition transition_id="activate_public"/>
+  <exit-transition transition_id="reinvite"/>
+  <exit-transition transition_id="rerequest"/>
+  <permission-map name="Access contents information"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>Reviewer</permission-role>
+  </permission-map>
+  <permission-map name="List folder contents"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>Reviewer</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="new" title="">
+  <exit-transition transition_id="auto_pending"/>
+  <exit-transition transition_id="trigger"/>
+  <permission-map name="Access contents information"
+                  acquired="True">
+  </permission-map>
+  <permission-map name="List folder contents"
+                  acquired="True">
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="True">
+  </permission-map>
+  <permission-map name="View" acquired="True">
+  </permission-map>
+ </state>
+ <state state_id="pending" title="Pending Approval">
+  <exit-transition transition_id="approve_private"/>
+  <exit-transition transition_id="approve_public"/>
+  <exit-transition transition_id="auto_approve_public"/>
+  <exit-transition transition_id="deactivate"/>
+  <exit-transition transition_id="reject_by_admin"/>
+  <exit-transition transition_id="reject_by_owner"/>
+  <permission-map name="Access contents information"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>Reviewer</permission-role>
+  </permission-map>
+  <permission-map name="List folder contents"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>Reviewer</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="private" title="">
+  <exit-transition transition_id="deactivate"/>
+  <exit-transition transition_id="make_public"/>
+  <permission-map name="Access contents information"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectMember</permission-role>
+  </permission-map>
+  <permission-map name="List folder contents"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectMember</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="public" title="">
+  <exit-transition transition_id="deactivate"/>
+  <exit-transition transition_id="make_private"/>
+  <permission-map name="Access contents information"
+                  acquired="False">
+   <permission-role>Anonymous</permission-role>
+  </permission-map>
+  <permission-map name="List folder contents"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Anonymous</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="rejected_by_admin" title="">
+  <exit-transition transition_id="approve_private"/>
+  <exit-transition transition_id="approve_public"/>
+  <exit-transition transition_id="reinvite"/>
+  <exit-transition transition_id="rerequest"/>
+  <permission-map name="Access contents information"
+                  acquired="True">
+  </permission-map>
+  <permission-map name="List folder contents"
+                  acquired="True">
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="True">
+  </permission-map>
+  <permission-map name="View" acquired="True">
+  </permission-map>
+ </state>
+ <state state_id="rejected_by_owner" title="Reject by Owner">
+  <exit-transition transition_id="approve_private"/>
+  <exit-transition transition_id="approve_public"/>
+  <exit-transition transition_id="reinvite"/>
+  <exit-transition transition_id="rerequest"/>
+  <permission-map name="Access contents information"
+                  acquired="True">
+  </permission-map>
+  <permission-map name="List folder contents"
+                  acquired="True">
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="True">
+  </permission-map>
+  <permission-map name="View" acquired="True">
+  </permission-map>
+ </state>
+ <transition transition_id="activate_private"
+             title="Activate Private" new_state="private"
+             trigger="USER" before_script=""
+             after_script="mship_activated">
+  <action url="" category="workflow">Activate</action>
+  <guard>
+   <guard-permission>TeamSpace: Manage team memberships</guard-permission>
+   <guard-expression>python:here.intended_visibility == 'private'</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="activate_public"
+             title="Activate Public" new_state="public"
+             trigger="USER" before_script=""
+             after_script="mship_activated">
+  <action url="" category="workflow">Activate</action>
+  <guard>
+   <guard-permission>TeamSpace: Manage team memberships</guard-permission>
+   <guard-expression>python:here.intended_visibility == 'public'</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="approve_private"
+             title="Approve Private" new_state="private"
+             trigger="USER" before_script=""
+             after_script="mship_activated">
+  <action url="" category="workflow">Approve</action>
+  <guard>
+   <guard-expression>python:here.canApprove('private')</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="approve_public"
+             title="Approve Public" new_state="public"
+             trigger="USER" before_script=""
+             after_script="mship_activated">
+  <action url="" category="workflow">Approve</action>
+  <guard>
+   <guard-expression>python:here.canApprove('public')</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="auto_approve_public"
+             title="Auto Approve Public" new_state="public"
+             trigger="AUTOMATIC" before_script=""
+             after_script="mship_activated">
+  <description>Automatically approve the project creator's membership.</description>
+  <action url="" category="workflow">Auto Approve Public</action>
+  <guard>
+   <guard-expression>python:here.isProjectCreator()</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="auto_pending"
+             title="Automatic to Pending"
+             new_state="pending" trigger="AUTOMATIC"
+             before_script="" after_script="">
+  <action url="" category="workflow">Automatic to Pending</action>
+  <guard>
+  </guard>
+ </transition>
+ <transition transition_id="deactivate"
+             title="Membership is Made Inactive"
+             new_state="inactive" trigger="USER"
+             before_script="" after_script="">
+  <action url="%(content_url)s/content_retract_form"
+          category="workflow">Deactivate</action>
+  <guard>
+   <guard-permission>Modify portal content</guard-permission>
+  </guard>
+ </transition>
+ <transition transition_id="make_private"
+             title="Make membership private"
+             new_state="private" trigger="USER"
+             before_script="" after_script="">
+  <action url="" category="workflow">Make Private</action>
+  <guard>
+  </guard>
+ </transition>
+ <transition transition_id="make_public"
+             title="Make membership public"
+             new_state="public" trigger="USER"
+             before_script="" after_script="">
+  <action url="" category="workflow">Make Public</action>
+  <guard>
+  </guard>
+ </transition>
+ <transition transition_id="reinvite"
+             title="Reinvite an inactive user"
+             new_state="pending" trigger="USER"
+             before_script="" after_script="">
+  <action url="" category="workflow">Reinvite</action>
+  <guard>
+   <guard-permission>Modify portal content</guard-permission>
+  </guard>
+ </transition>
+ <transition transition_id="reject_by_admin"
+             title="Admin Reject"
+             new_state="rejected_by_admin" trigger="USER"
+             before_script="" after_script="">
+  <action url="" category="workflow">Reject</action>
+  <guard>
+   <guard-expression>python:here.canReject('admin')</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="reject_by_owner"
+             title="Owner Reject"
+             new_state="rejected_by_owner" trigger="USER"
+             before_script="" after_script="">
+  <action url="" category="workflow">Reject</action>
+  <guard>
+   <guard-expression>python:here.canReject('owner')</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="rerequest"
+             title="Owner mship request from inactive"
+             new_state="pending" trigger="USER"
+             before_script="" after_script="">
+  <description>Member request to pending after being deactivated (whether by owner or admin)</description>
+  
+  <guard>
+   <guard-role>Owner</guard-role>
+  </guard>
+ </transition>
+ <transition transition_id="trigger"
+             title="Trigger any automatic transitions"
+             new_state="" trigger="USER" before_script=""
+             after_script="">
+  
+  <guard>
+  </guard>
+ </transition>
+ <worklist worklist_id="reviewer_queue" title="">
+  <description>Reviewer tasks</description>
+  <action url="%(portal_url)s/search?review_state=pending"
+          category="global">Pending (%(count)d)</action>
+  <guard>
+   <guard-permission>Review portal content</guard-permission>
+  </guard>
+  <match name="review_state" values="pending"/>
+ </worklist>
+ <variable variable_id="action" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>The last transition</description>
+  <default>
+   
+   <expression>transition/getId|nothing</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="actor" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>The ID of the user who performed the last transition</description>
+  <default>
+   
+   <expression>user/getId</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="comments" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>Comments about the last transition</description>
+  <default>
+   
+   <expression>python:state_change.kwargs.get('comment', '')</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="review_history" for_catalog="False"
+           for_status="False" update_always="False">
+  <description>Provides access to workflow history</description>
+  <default>
+   
+   <expression>state_change/getHistory</expression>
+  </default>
+  <guard>
+   <guard-permission>Request review</guard-permission>
+   <guard-permission>Review portal content</guard-permission>
+  </guard>
+ </variable>
+ <variable variable_id="time" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>Time of the last transition</description>
+  <default>
+   
+   <expression>state_change/getDateTime</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <script script_id="mship_activated" type="External Method"
+         filename="" module="OpenPlans.workflow"
+         function="mship_activated"/>
+</dc-workflow>
