@@ -117,3 +117,9 @@ that this was taken from (in opencore.nui.account.join)
     Called httplib2.Http.request...
     ...
     <OpenMember at /plone/portal_memberdata/darcy>
+
+    >>> mem = self.portal.portal_memberdata.darcy
+    >>> mem
+    <OpenMember at /plone/portal_memberdata/darcy>
+    >>> (mem.getId(), mem.getEmail())
+    ('darcy', 'greexampledotcom')
