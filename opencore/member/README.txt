@@ -104,10 +104,12 @@ grace; it expects you to validate before attempting creation::
     ...
     BadRequest: The id "m1" is invalid - it is already in use.
 
-I would expect that creation fails if you provide bad fields that
-don't validate correctly, but this seems not to be the case::
+If we try to create a member with fields that do not validate, the
+factory does NOT fail, but creates the member with these bad fields.
+This is bad and should be fixed, but this is the behavior of the code
+that this was taken from (in opencore.nui.account.join)
     >>> factory.create(dict(id='darcy',
     ...                     email='greexampledotcom',
     ...                     password='tesde',
     ...                     confirm_password='testy'))
-    anything but <OpenMember at /plone/portal_memberdata/foo>
+    <OpenMember at /plone/portal_memberdata/darcy>
