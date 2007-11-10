@@ -195,7 +195,7 @@ msgstr "${user_name},\n\nYou recently signed up to use ${portal_title}. \n\nPlea
 #. Default: "Welcome to ${portal_title}! - Please confirm your email address"
 #: opencore/nui/account/accountview.py:127
 msgid "email_to_pending_user_subject"
-msgstr ""
+msgstr "Welcome to ${portal_title}! - Please confirm your email address"
 
 #. Default: "The project name must contain at least 2 characters with at least 1 letter or number."
 #: opencore/nui/project/view.py:436

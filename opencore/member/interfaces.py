@@ -11,6 +11,26 @@ class IOpenMember(IAttributeAnnotatable):
     so it will do nothing at first.
     """
 
+class ICreateMembers(Interface):
+    """
+    Sort of a factory for member creation.
+
+    Looks like it could be a multiadapter for requests, which means
+    maybe it's actually just a view, but I'm going to start with what
+    feels right here, which is ICreateMembers(portal).create(request.form)
+    because it spells out what it's doing.
+    """
+    
+    def validate(self, fields):
+        """
+        Validates fields for a member and returns an error dict
+        """
+
+    def create(self, fields):
+        """
+        Create and return a new member
+        """
+
 class IHandleMemberWorkflow(Interface):
     """
     Adapter for member objects to inquire about and set their state

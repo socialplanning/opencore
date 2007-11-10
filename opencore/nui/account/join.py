@@ -4,6 +4,7 @@ Join Views
 * normal join view
 * separate pre-confirmed view for folks already invited to a project
 """
+from opencore.member.interfaces import ICreateMembers
 from opencore.nui.account import accountview
 from opencore.nui.formhandler import action, post_only, OctopoLite
 from opencore.nui.formhandler import anon_only
@@ -26,19 +27,9 @@ class JoinView(accountview.AccountView, OctopoLite):
         """ redirect logged in users """
 
     def _create_member(self, targets=None, fields=None, confirmed=False):
-        mdc = self.get_tool('portal_memberdata')
-        mem = mdc._validation_member
+        factory = ICreateMembers(self.portal)
 
-        self.errors = {}
-        
-        self.errors = mem.validate(REQUEST=self.request,
-                                   errors=self.errors,
-                                   data=1, metadata=0)
-        password = self.request.form.get('password')
-        password2 = self.request.form.get('confirm_password')
-        if not password and not password2:
-            self.errors.update(dict(password=_(u'no_password', u'Please enter a password')))
-
+        self.errors = factory.validate(self.request.form)
         if self.errors:
             return self.errors
 
@@ -85,12 +76,8 @@ class JoinView(accountview.AccountView, OctopoLite):
     @action('validate')
     def validate(self, targets=None, fields=None):
         """ this is really dumb. """
-        mdc = self.get_tool('portal_memberdata')
-        mem = mdc._validation_member
-        errors = {}
-        errors = mem.validate(REQUEST=self.request,
-                              errors=self.errors,
-                              data=1, metadata=0)
+        errors = ICreateMembers(self.portal).validate(self.request.form)
+
         erase = [error for error in errors if error not in self.request.form]
         also_erase = [field for field in self.request.form if field not in errors]
         for e in erase + also_erase:

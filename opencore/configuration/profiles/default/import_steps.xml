@@ -245,6 +245,7 @@
     Installs and activates the remote auth plugin in the site's PAS
     acl_users folder.
     <dependency step="install_dependencies" />
+    <dependency step="installCookieAuth" />
   </import-step>
 
   <import-step
