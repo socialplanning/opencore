@@ -4,7 +4,7 @@ from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase 
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansLayer
-from opencore.testing.layer import OpencoreContent
+from opencore.testing.layer import MockHTTPWithContent
 optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 
 import warnings; warnings.filterwarnings("ignore")
@@ -32,7 +32,7 @@ def test_suite():
                                     setUp=readme_setup
                                     )
 
-    readme.layer = OpencoreContent
+    readme.layer = MockHTTPWithContent #yuck, shouldn't be necessary
 
     return unittest.TestSuite((readme,))
 
