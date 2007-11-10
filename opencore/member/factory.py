@@ -71,7 +71,6 @@ class MemberFactory(object):
         mem = mem_folder.restrictedTraverse('%s' % id_)
 
         # now we have mem, a temp member. create him for real.
-        request = _FakeRequest(fields)
         mem_id = fields.get('id')
         mem = pf.doCreate(mem, mem_id)
         transaction_note('Created %s with id %s in %s' % \
@@ -80,7 +79,7 @@ class MemberFactory(object):
                               self.context.absolute_url()))
 
         # post-creation setup
-        result = mem.processForm(REQUEST=request)
+        result = mem.processForm(values=fields)
         # what does result look like? what do we do with it?
         # and shouldn't we process form BEFORE we finalize creation?
         notify(ObjectCreatedEvent(mem)) #is this necessary here?
