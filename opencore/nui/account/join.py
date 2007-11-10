@@ -33,28 +33,8 @@ class JoinView(accountview.AccountView, OctopoLite):
         if self.errors:
             return self.errors
 
-        # create a member in portal factory
-        mdc = self.get_tool('portal_memberdata')
-        pf = mdc.portal_factory
-
-        #00 pythonscript call, move to fs code
-        id_ = self.context.generateUniqueId('OpenMember')
-
-        mem_folder = pf._getTempFolder('OpenMember')
-        mem = mem_folder.restrictedTraverse('%s' % id_)
-
-        # now we have mem, a temp member. create him for real.
-        mem_id = self.request.form.get('id')
-        mem = pf.doCreate(mem, mem_id)
-        self.txn_note('Created %s with id %s in %s' % \
-                      (mem.getTypeInfo().getId(),
-                       mem_id,
-                       self.context.absolute_url()))
-        result = mem.processForm()
-        notify(ObjectCreatedEvent(mem))
-        mem.setUserConfirmationCode()
-        mem_name = mem.getFullname()
-        mem_name = mem_name or mem_id
+        mem = factory.create(self.request.form)
+        mem_name = mem.getFullname() or mem.getId()
         url = self._confirmation_url(mem)
         if accountview.email_confirmation():
             if not confirmed:
@@ -64,10 +44,10 @@ class JoinView(accountview.AccountView, OctopoLite):
             
                 self.addPortalStatusMessage(_(u'psm_thankyou_for_joining',
                                               u'Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account.',
-                                              mapping={u'mem_id':mem_id,
+                                              mapping={u'mem_id':mem.getId(),
                                                        u'portal_title':self.portal_title()}))
                 self.redirect(self.portal_url())
-            return mdc._getOb(mem_id)
+            return mem
         self.redirect(url)
         return mem
 
