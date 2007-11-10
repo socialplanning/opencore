@@ -1,7 +1,10 @@
 from zope.component import adapts
 from zope.interface import implements
+from zope.event import notify
+from zope.app.event.objectevent import ObjectCreatedEvent
 
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import transaction_note
 
 from opencore.i18n import _
 
@@ -55,3 +58,32 @@ class MemberFactory(object):
         if not pw and not pw_:
             errors['password'] = _(u'no_password', u'Please enter a password')
         return errors
+
+    def create(self, fields):
+        # create a member in portal factory
+        mdc = self._membertool
+        pf = mdc.portal_factory
+
+        #00 pythonscript call, move to fs code
+        id_ = self.context.generateUniqueId('OpenMember')
+
+        mem_folder = pf._getTempFolder('OpenMember')
+        mem = mem_folder.restrictedTraverse('%s' % id_)
+
+        # now we have mem, a temp member. create him for real.
+        request = _FakeRequest(fields)
+        mem_id = fields.get('id')
+        mem = pf.doCreate(mem, mem_id)
+        transaction_note('Created %s with id %s in %s' % \
+                             (mem.getTypeInfo().getId(),
+                              mem_id,
+                              self.context.absolute_url()))
+
+        # post-creation setup
+        result = mem.processForm(REQUEST=request)
+        # what does result look like? what do we do with it?
+        # and shouldn't we process form BEFORE we finalize creation?
+        notify(ObjectCreatedEvent(mem)) #is this necessary here?
+        mem.setUserConfirmationCode()
+
+        return mem

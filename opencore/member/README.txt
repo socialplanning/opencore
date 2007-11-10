@@ -79,7 +79,35 @@ the lovely validate method on the adapter::
     >>> sorted(errors.keys())
     ['email', 'id', 'password']
 
-future We can also create a member without remembering how to go through a
-future complicated dance involving portal_factory and validation::
-future     >>> factory.create(baz)
+We can also create a member without remembering how to go through a
+complicated dance involving portal_factory and validation::
+    >>> factory.create(dict(id='foo',
+    ...                     email='greeble@example.com',
+    ...                     password='testy',
+    ...                     confirm_password='testy'))
+    <OpenMember at /plone/portal_memberdata/foo>
 
+Let's make sure the dude really exists and his fields were set::
+    >>> mem = self.portal.portal_memberdata.foo
+    >>> mem
+    <OpenMember at /plone/portal_memberdata/foo>
+    >>> (mem.getId(), mem.getEmail())
+    ('foo', 'greeble@example.com')
+
+If we try to create a member with errors, the factory fails without
+grace; it expects you to validate before attempting creation::
+    >>> factory.create(dict(id='m1',
+    ...                     email='greexampledotcom',
+    ...                     password='tesde',
+    ...                     confirm_password='testy'))
+    Traceback (most recent call last):
+    ...
+    BadRequest: The id "m1" is invalid - it is already in use.
+
+I would expect that creation fails if you provide bad fields that
+don't validate correctly, but this seems not to be the case::
+    >>> factory.create(dict(id='darcy',
+    ...                     email='greexampledotcom',
+    ...                     password='tesde',
+    ...                     confirm_password='testy'))
+    anything but <OpenMember at /plone/portal_memberdata/foo>
