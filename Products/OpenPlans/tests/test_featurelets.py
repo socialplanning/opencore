@@ -15,6 +15,9 @@ from topp.featurelets.interfaces import IFeatureletSupporter
 
 from Products.CMFCore.utils import getToolByName
 
+from zope.app.component.hooks import setSite, setHooks
+from Products.Five.site.localsite import enableLocalSiteHook
+
 from openplanstestcase import OpenPlansTestCase
 from openplanstestcase import makeContent
 
@@ -26,6 +29,9 @@ class TestFeaturelets(OpenPlansTestCase):
         self.folder.manage_permission('OpenPlans: Add OpenProject',
                                       roles=('Manager', 'Owner'))
         self.proj = makeContent(self.folder, 'project1', 'OpenProject')
+        enableLocalSiteHook(self.portal)
+        setSite(self.portal)
+        setHooks()
 
     def test_featureletSupporterView(self):
         registry = getUtility(IFeatureletRegistry)

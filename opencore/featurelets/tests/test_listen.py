@@ -15,6 +15,9 @@ from zope.interface import Interface
 
 from Testing.ZopeTestCase import ZopeTestCase
 
+from zope.app.component.hooks import setSite, setHooks
+from Products.Five.site.localsite import enableLocalSiteHook
+
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.interfaces import IMenuSupporter
 from opencore.featurelets.listen import ListenFeaturelet
@@ -26,6 +29,9 @@ class TestListenFeaturelet(OpenPlansTestCase):
         OpenPlansTestCase.afterSetUp(self)
         self.loginAsPortalOwner()
         self.project = makeContent(self.portal, 'project', 'OpenProject')
+        enableLocalSiteHook(self.portal)
+        setSite(self.portal)
+        setHooks()
 
     def test_addFeaturelet(self):
         featurelet = ListenFeaturelet()
