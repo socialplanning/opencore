@@ -66,6 +66,10 @@ def listen_featurelet_installed(proj, event):
     lists_folder = proj.lists.aq_inner
     lists_folder.invokeFactory(OpenMailingList.portal_type, ml_id)
     ml = lists_folder._getOb(ml_id)
+    ml.mailto = ml_id
+    ms_tool = getToolByName(proj, 'portal_membership')
+    cur_mem_id = unicode(ms_tool.getAuthenticatedMember().getId())
+    ml.managers = (cur_mem_id,)
     memlist = IWriteMembershipList(ml)
 
     portal = getToolByName(proj, 'portal_url').getPortalObject()
@@ -77,9 +81,7 @@ def listen_featurelet_installed(proj, event):
         # if the team doesn't exist
         # then nobody is on the project yet
         # so we only need to subscribe the current user
-        mship_tool = getToolByName(portal, 'portal_membership')
-        mem_id = mship_tool.getAuthenticatedMember().getId()
-        memlist.subscribe(mem_id)
+        memlist.subscribe(cur_mem_id)
         return
     active_states = teams.getDefaultActiveStates()
     team_path = '/'.join(team.getPhysicalPath())
