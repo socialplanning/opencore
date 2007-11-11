@@ -1,3 +1,6 @@
+Login as an opencore member
+    >>> self.login('m1')
+
 Create a new project
     >>> request = self.portal.REQUEST
     >>> request.form['title'] = u'testproj'
@@ -9,11 +12,74 @@ Add the mailing list featurelet to the project
     >>> from topp.featurelets.interfaces import IFeatureletSupporter
     >>> from opencore.featurelets.listen import ListenFeaturelet
     >>> IFeatureletSupporter(proj).installFeaturelet(ListenFeaturelet())
-    >>> from opencore.featurelets.interfaces import IListenFeatureletInstalled
-    >>> IListenFeatureletInstalled.providedBy(proj)
-    True
 
 And verify that the mailing list automatically gets added
     >>> lists_folder = proj.lists
-    >>> lists_folder._getOb('testproj-discussion')
+    >>> ml = lists_folder._getOb('testproj-discussion')
+    >>> ml
     <OpenMailingList at /plone/projects/testproj/lists/testproj-discussion>
+
+And, it should already have the current user subscribed
+    >>> from Products.listen.interfaces import IMembershipList
+    >>> mem_list = IMembershipList(ml)
+    >>> mem_list.subscribers
+    ['notreal1@example.com']
+
+Let's add a mailing list featurelet to an existing project now
+    >>> p3 = self.portal.projects.p3
+    >>> fs = IFeatureletSupporter(p3)
+    >>> fs.installFeaturelet(ListenFeaturelet())
+
+Should be able to get a mailing list for the project now
+    >>> lists_folder = p3.lists
+    >>> ml = lists_folder._getOb('p3-discussion')
+    >>> ml
+    <OpenMailingList at /plone/projects/p3/lists/p3-discussion>
+
+And the list should have members of the project subscribed
+    >>> mem_list = IMembershipList(ml)
+    >>> mem_list.subscribers
+    ['notreal1@example.com', 'notreal2@example.com', 'notreal3@example.com']
+
+Removing a membership, and triggering the event should remove a subscriber too
+We deactivate the membership here
+    >>> mship2 = self.portal.portal_teams.p3.m2
+    >>> wft = self.portal.portal_workflow
+    >>> wft.getInfoFor(mship2, 'review_state')
+    'public'
+    >>> wft.doActionFor(mship2, 'deactivate')
+
+And simulate the event call
+    >>> from opencore.listen.events import member_left_project
+    >>> evt = None #the event isn't actually used
+    >>> member_left_project(mship2, None)
+
+Now the subscriber list should be short m2
+    >>> mem_list.subscribers
+    ['notreal1@example.com', 'notreal3@example.com']
+
+And if we add the member back, he will be subscribed again
+Here we just hack the right state to add him back
+    >>> wfid = wft.getChainFor(mship2)[0]
+    >>> status = wft.getStatusOf(wfid, mship2)
+    >>> status['review_state'] = 'public'
+    >>> wft.setStatusOf(wfid, mship2, status)
+
+Now simulate the member joined event
+    >>> from opencore.listen.events import member_joined_project
+    >>> member_joined_project(mship2, evt)
+
+And m2 should be listed again as a subscriber
+    >>> mem_list.subscribers
+    ['notreal1@example.com', 'notreal2@example.com', 'notreal3@example.com']
+
+Finally, if we remove the mailing list featurelet for the project,
+the lists folder should no longer exist
+First, remove the featurelet from the project
+    >>> fs.removeFeaturelet('listen')
+
+Now, try to get the lists folder
+    >>> p3.lists
+    Traceback (most recent call last):
+    ...
+    AttributeError: lists

@@ -43,6 +43,8 @@ def test_suite():
                                     setUp=listen_discussion_setup,
                                     )
 
+    listen_discussion.layer = test_layer
+
     return unittest.TestSuite((listen_discussion,))
 
 

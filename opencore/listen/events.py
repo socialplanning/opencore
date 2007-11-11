@@ -82,7 +82,7 @@ def listen_featurelet_installed(proj, event):
         memlist.subscribe(mem_id)
         return
     active_states = teams.getDefaultActiveStates()
-    team_url = team.absolute_url_path()
-    mships = cat(portal_type='OpenMembership', review_state=active_states)
+    team_path = '/'.join(team.getPhysicalPath())
+    mships = cat(portal_type='OpenMembership', review_state=active_states, path=team_path)
     for mship in mships:
         memlist.subscribe(mship.getId)
