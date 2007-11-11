@@ -83,3 +83,24 @@ Now, try to get the lists folder
     Traceback (most recent call last):
     ...
     AttributeError: lists
+
+Creating the auto discussion list should fail silently
+if the mailing list address already exists
+
+We can reuse the testproj mailing list, and change the mailto
+    >>> ll = getUtility(IListLookup, context=self.portal)
+    >>> ml = proj.lists._getOb('testproj-discussion')
+
+XXX looks like there's an issue that removing the listen featurelet
+doesn't actually unregister the lists there
+this needs to be revisited for removing projects as well
+    >>> ll.unregisterList(ml)
+    >>> ml.mailto = 'p3-discussion'
+    >>> ll.registerList(ml)
+
+Now we should silently not create the mailing list
+    >>> IFeatureletSupporter(p3).installFeaturelet(ListenFeaturelet())
+    >>> p3.lists._getOb('p3-discussion')
+    Traceback (most recent call last):
+    ...
+    AttributeError: p3-discussion

@@ -22,6 +22,8 @@ def test_suite():
     from zope.interface import alsoProvides
     from pprint import pprint
     from opencore.nui.formhandler import test_suite as octotest
+    from zope.component import getUtility
+    from Products.listen.interfaces import IListLookup
     
     setup.setupPloneSite()
     def listen_discussion_setup(tc):
