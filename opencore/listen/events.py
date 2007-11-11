@@ -1,12 +1,15 @@
 from decorator import decorator
 
+from zope.component import getUtility
 from zope.app.event.objectevent import ObjectCreatedEvent
 from zope.event import notify
 
 from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IWriteMembershipList
+from Products.listen.interfaces import IListLookup
 from opencore.listen.mailinglist import OpenMailingList
 from opencore.project.utils import get_featurelets
+from utils import getSuffix
 
 # make sure that modification date gets updated
 # when new messages are sent to list
@@ -62,6 +65,15 @@ def listen_featurelet_installed(proj, event):
     proj_id = proj.getId()
     proj_title = proj.Title()
     ml_id = '%s-discussion' % proj_id
+    address = '%s%s' % (ml_id, getSuffix())
+
+    # need to verify that a mailing list with this name isn't already created
+    portal = getToolByName(proj, 'portal_url').getPortalObject()
+    ll = getUtility(IListLookup, context=portal)
+    if ll.getListForAddress(address) is not None:
+        # XXX we'll just silently fail for now, not sure what else we can do
+        # psm maybe?
+        return
 
     # XXX invokeFactory depends on the title being set in the request
     ml_title = u'%s discussion' % (proj_title)
@@ -77,7 +89,6 @@ def listen_featurelet_installed(proj, event):
 
     memlist = IWriteMembershipList(ml)
 
-    portal = getToolByName(proj, 'portal_url').getPortalObject()
     cat = getToolByName(portal, 'portal_catalog')
     teams = getToolByName(portal, 'portal_teams')
     try:
