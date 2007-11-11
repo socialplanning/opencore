@@ -1,5 +1,8 @@
 from decorator import decorator
 
+from zope.app.event.objectevent import ObjectCreatedEvent
+from zope.event import notify
+
 from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IWriteMembershipList
 from opencore.listen.mailinglist import OpenMailingList
@@ -70,6 +73,8 @@ def listen_featurelet_installed(proj, event):
     ms_tool = getToolByName(proj, 'portal_membership')
     cur_mem_id = unicode(ms_tool.getAuthenticatedMember().getId())
     ml.managers = (cur_mem_id,)
+    notify(ObjectCreatedEvent(ml))
+
     memlist = IWriteMembershipList(ml)
 
     portal = getToolByName(proj, 'portal_url').getPortalObject()
