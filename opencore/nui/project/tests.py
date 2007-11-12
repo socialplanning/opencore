@@ -63,13 +63,25 @@ def test_suite():
         tc.project = tc.portal.projects.p1
         tc.page = getattr(tc.project, 'project-home')
 
+    def readme_setup(tc):
+        oc_setup.fresh_skin(tc)
+        enableLocalSiteHook(tc.portal)
+        setSite(tc.portal)
+        setHooks()
+
+    def tasktracker_setup(tc):
+        oc_setup.extended_tt_setup(tc)
+        enableLocalSiteHook(tc.portal)
+        setSite(tc.portal)
+        setHooks()
+
     globs = locals()
     readme = dtf.FunctionalDocFileSuite("README.txt", 
                                     optionflags=optionflags,
                                     package='opencore.nui.project',
                                     test_class=FunctionalTestCase,
                                     globs = globs,
-                                    setUp=oc_setup.fresh_skin,
+                                    setUp=readme_setup,
                                     layer = MockHTTPWithContent                                       
                                     )
 
@@ -78,7 +90,7 @@ def test_suite():
                                     package='opencore.nui.project',
                                     test_class=OpenPlansTestCase,
                                     globs = globs,
-                                    setUp=oc_setup.extended_tt_setup,
+                                    setUp=tasktracker_setup,
                                     layer = MockHTTPWithContent                                       
                                     )
     

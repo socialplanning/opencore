@@ -4,6 +4,9 @@ from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase 
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from opencore.testing.layer import OpencoreContent
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
+from Products.Five.site.localsite import enableLocalSiteHook
+from zope.app.component.hooks import setSite, setHooks
 
 optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 
@@ -23,12 +26,15 @@ def test_suite():
     setup.setupPloneSite()
     def readme_setup(tc):
         tc._refreshSkinData()
+        enableLocalSiteHook(tc.portal)
+        setSite(tc.portal)
+        setHooks()
 
     globs = locals()
     readme = FunctionalDocFileSuite("README.txt",
                                     optionflags=optionflags,
                                     package='opencore.project',
-                                    test_class=FunctionalTestCase,
+                                    test_class=OpenPlansTestCase,
                                     globs = globs,
                                     setUp=readme_setup
                                     )
