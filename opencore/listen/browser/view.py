@@ -20,6 +20,7 @@ import cgi
 import new
 import os.path
 
+from lxml.html.clean import Cleaner
 
 class ListenBaseView(BaseView):
     @req_memoize
