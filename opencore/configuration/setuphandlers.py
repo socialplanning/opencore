@@ -9,21 +9,23 @@ from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
 from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
 from Products.remember.utils import getAdderUtility
 from StringIO import StringIO
+from opencore.configuration import OC_REQ as OPENCORE
 from opencore.content.member import OpenMember
 from opencore.content.membership import OpenMembership
 from opencore.interfaces import IAddProject
 from opencore.interfaces import IAmANewsFolder
 from opencore.interfaces import IAmAPeopleFolder
+from opencore.interfaces.membership import IEmailInvites
 from opencore.interfaces.message import ITransientMessage
 from opencore.nui.member.transient_messages import TransientMessage
 from opencore.project.browser.email_invites import EmailInvites
-from opencore.interfaces.membership import IEmailInvites
 from utils import kupu_libraries
 from utils import kupu_resource_map
 from zope.app.component.hooks import setSite
 from zope.component import queryUtility
 from zope.interface import alsoProvides
 import os
+import pkg_resources
 import socket
 
 
@@ -323,8 +325,7 @@ def setSiteIndexPage(portal, out):
         print >> out, '-> creating site index page'
         portal.invokeFactory('Document', index_id, title=index_title)
         page = portal._getOb(index_id)
-        page_file = open(os.path.join(config.COPY_PATH,
-                                      'site_index.html'), 'r')
+        page_file = pkg_resources.resource_stream(OPENCORE, 'copy/%s' %'site_index.html')
         page.setText(page_file.read())
         portal.setDefaultPage(index_id)
 

@@ -1,35 +1,30 @@
 from AccessControl import ClassSecurityInfo
 from Acquisition import aq_base, aq_parent, aq_inner
-
-from Products.ZCTextIndex import ParseTree
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 from Products.Archetypes.ExtensibleMetadata import ExtensibleMetadata
 from Products.Archetypes.config import REFERENCE_CATALOG
 from Products.Archetypes.public import *
 from Products.Archetypes.utils import shasattr
-
+from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFCore.permissions import ManagePortal, View
 from Products.CMFCore.permissions import ModifyPortalContent, DeleteObjects
 from Products.CMFCore.utils import getToolByName
-from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.CMFPlone.utils import _createObjectByType
-
-from Products.OpenPlans import config
-from opencore.interfaces import IProject
 from Products.OpenPlans.permissions import CopyOrMove
 from Products.OpenPlans.permissions import ManageWorkflowPolicy
 from Products.TeamSpace.space import TeamSpace
-
+from Products.ZCTextIndex import ParseTree
 from ZODB.POSException import ConflictError
-
+from opencore.configuration import OC_REQ as OPENCORE
+from opencore.interfaces import IProject
 from topp.featurelets.config import MENU_ID
 from topp.featurelets.interfaces import IMenuSupporter
 from zope.app.annotation.interfaces import IAnnotatable
 from zope.app.annotation.interfaces import IAttributeAnnotatable
 from zope.interface import Interface, implements
-
 import os.path
+import pkg_resources
 
 ProjectSchema = TeamSpace.schema.copy() + \
       Schema((
@@ -216,8 +211,7 @@ class OpenProject(BrowserDefaultMixin, TeamSpace):
         self.invokeFactory('Document', self.home_page_id,
                            title=self.home_page_title)
         page = self._getOb(self.home_page_id)
-        page_file = open(os.path.join(config.COPY_PATH,
-                                      self.home_page_file), 'r')
+        page_file = pkg_resources.resource_stream(OPENCORE, 'copy/%s' %self.home_page_file)
         page.setText(page_file.read())
 
         self.setDefaultPage(self.home_page_id)
