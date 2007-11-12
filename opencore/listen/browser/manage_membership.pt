@@ -61,7 +61,7 @@
             </tfoot>
           </table>
           <div class="oc-actions">
-            <input type="submit" name="save" i18n:attributes="value manage_membership_save_button" value="Save changes" />
+            <input type="submit" name="save" value="Save changes" />
           </div>
           <!-- ???
           <p tal:content="python: errors" />
