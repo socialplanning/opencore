@@ -8,6 +8,8 @@ from OFS.SimpleItem import SimpleItem
 
 from opencore.interfaces.message import ITransientMessage
 
+from lxml.html.clean import Cleaner
+
 class TransientMessage(SimpleItem):
     implements(ITransientMessage)
 
@@ -28,8 +30,17 @@ class TransientMessage(SimpleItem):
             new_id = cat.maxKey() + 1
         except ValueError:
             new_id = 0
-        cat[new_id] = msg
 
+        is_unicode =  isinstance(msg, unicode)
+            
+        cleaner = Cleaner()
+        msg = cleaner.clean_html(msg)
+        if msg.startswith('<p>'):
+            msg = msg[3:-4]
+        if is_unicode:
+            msg = unicode(msg)
+        cat[new_id] = msg
+        
     def get_msgs(self, mem_id, category):
         cat = self._category_annot(mem_id, category)
         return cat.items()
