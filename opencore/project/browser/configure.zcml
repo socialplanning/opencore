@@ -44,15 +44,6 @@
      />
 
   <browser:page
-     name="project_listing"
-     for="Products.ATContentTypes.z3.interfaces.IATBTreeFolder"
-     allowed_interface=".interfaces.IProjectListingAllow"
-     class=".projectlisting.ProjectListingView"
-     permission="zope2.View"
-     template = "project_listing.pt"
-     />
-
-  <browser:page
      for="OFS.interfaces.IItem"
      class=".projectinfo.ProjectInfoView"
      permission="zope.Public"
