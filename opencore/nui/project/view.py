@@ -47,12 +47,15 @@ class ProjectBaseView(BaseView):
     def has_blog(self):
         return self._has_featurelet('blog')
 
-    def _has_featurelet(self, flet_id):
+    def _get_featurelet(self, flet_id):
         flets = get_featurelets(self.context)
         for flet in flets:
             if flet['name'] == flet_id:
-                return True
-        return False
+                return flet
+        return None
+
+    def _has_featurelet(self, flet_id):
+        return bool(self._get_featurelet(flet_id))
 
 
 class ProjectContentsView(ProjectBaseView, OctopoLite):

@@ -1,5 +1,7 @@
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
+from opencore.project.utils import get_featurelets
+
 from opencore.nui.project.latest_snippet import LatestSnippet
 from opencore.nui.project.view import ProjectContentsView
 
@@ -74,10 +76,6 @@ class LatestActivityView(ProjectContentsView):
 
         self.feed_types = []
 
-#        if self.has_blog:
-#            self.feed_types.append(Feed, 'Blog',
-#                                   ListFromRSS(...))
-
         self.feed_types.append(Feed('Pages',
                                     ListFromCatalog(self._portal_type['pages'], self.project_path),
                                     ([self.catalog], {}),
@@ -99,8 +97,11 @@ class LatestActivityView(ProjectContentsView):
     def feeds(self):
         feeds = []
         if self.has_blog:
-            self.request['uri'] = 'http://www.nycstreets.org/projects/uws/blog/feed/'
+            self.request['uri'] = '/'.join((self.context.absolute_url(),
+                                            self._get_featurelet('blog')['url'],
+                                            'feed'))
             blogfeed = self.context.unrestrictedTraverse('feedlist')
+            feeds.append(blogfeed())
         feeds.extend( [ self.snippet(feed) for feed in self.feed_types ] )
         return feeds
 
@@ -108,7 +109,6 @@ class LatestActivityView(ProjectContentsView):
         f = ListFromCatalog(portal_type='Document', path=self.project_path)
         g = self.context.unrestrictedTraverse('latest-snippet')
         foo = g()
-#        import pdb;  pdb.set_trace()
-#        g = LatestSnippet(self.context, self.request, 'A Bad Title')
+
 
             
