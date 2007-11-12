@@ -1,0 +1,1719 @@
+/* 
+Title: NUI for OpenCore
+Date: April 2007
+Author: Rolando Penate & Nick Grossman
+Version: 1ish
+
+@Contents: (@ symbol to make searching easy)
+ - Global Layout
+ - Header
+ - Content
+ - Footer
+ - Layout for OpenPlans pages
+ - OpenPlans Project Page
+ - "Custom" CSS - little tricks & snazzy stuff
+ - General Classes
+ - HTML Elements & General Typography
+
+*/
+
+/* @Global Layout
+-----------------------------------------*/
+html {
+}
+body {
+  margin: 0;
+  padding: 0 8px;
+  color: #333333;
+}
+#oc-topnav,
+#oc-content-container,
+#oc-footer {
+ max-width: 78em; /* As a rule, measure should be between two and three alphabets long. In other words, between 52 and 78 characters, including spaces. Since characters average out to about one-half EM in width this translates to a minimum width of 26em and a maximum of 39em, or two to three alphabets.   IN OTHER WORDS: avoid changing the width. */
+ min-width: 52em;
+ margin: 0 auto;
+}
+#oc-page-container {
+
+}
+#oc-topnav {
+  padding: 0;
+  padding: 0.5em 1em;
+
+}
+#oc-content-container {
+  padding: 1em;
+}
+#oc-content-main {
+  float: left;
+  clear: none;
+  width: 65%;
+}
+#oc-content-main.oc-content-main-fullWidth {
+  width: 100%;
+}
+#oc-content-sidebar {
+  float: right;
+  clear: none;
+  width: 33%;
+  padding: 0;
+  line-height: 1.35;
+}
+#oc-project-tabs {
+}
+#oc-project-content {
+}
+#oc-footer {
+  clear: both;
+  padding: .5em 1em;
+}
+
+/* @TOPNAV - Global header
+--------------------------------------- */
+#oc-topnav {
+  position: relative;
+  text-align: left;
+}
+#oc-topnav h1 {
+  padding: 0.5em 0 0.25em;
+  margin: 0;
+}
+ul#oc-topnav-context {
+  list-style-type: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+ul#oc-topnav-context li {
+  float: left;
+  clear: none;
+  display: block;
+  padding: 0.25em 0.5em;
+  margin: 0 0.25em;
+}
+ul#oc-topnav-context li a {
+  padding: .25em .5em;
+  text-transform: capitalize;
+}
+#oc-topnav a:hover {
+}
+ul#oc-topnav-context {
+  font-weight: bold;
+  font-size: 10px;
+  margin: 0;
+}
+ul#oc-topnav-context li {
+  margin: 0 0.25em;
+  padding: 0;
+  background: #665D55;
+}
+ul#oc-topnav-context li.oc-topnav-selected {
+}
+#oc-topnav-tab {
+  position: absolute;
+  top: 0;
+  right: 1em;
+  width: 31%;
+  padding: 0 0.5em;
+  background: #4D4945;
+}
+#oc-topnav-tab form#oc-sitesearch {
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+}
+#oc-topnav-tab form#oc-sitesearch input.oc-input-typeText {
+  display: inline; 
+  font-size: 10px;
+  border: 1px solid #999;
+  width: 40%;
+  background: #fff url("/++resource++img/magglass.gif") no-repeat 3px center;
+  padding-left: 16px;
+}
+#oc-topnav-globalmenu-container {
+text-align: right;
+}
+#oc-topnav-globalmenu {
+text-align: left;
+}
+#oc-topnav-usermenu-container {
+ margin-top: 0.5em;
+ padding-top: 0;
+ border-top: 1px dotted #ccc;
+}
+#oc-topnav-usermenu {
+ float: right;
+}
+.oc-usermenu-messagecount,
+.oc-mystuff-messagecount {
+  color: #EB852B;
+}
+.oc-selected .oc-usermenu-messagecount {
+  visibility: hidden;
+}
+.oc-dropdown-list {
+  position: relative;
+  padding: 0;
+  margin: 0.25em 0;
+  list-style: none;
+  font-size: 10px;
+  text-align: left;
+  font-weight: bold;
+  text-transform: lowercase;
+}
+.oc-dropdown-list li {
+  float: left;
+  clear: none;
+  margin: 0 0.25em;
+  padding: 0 0.25em;
+  font-weight: bold;
+}
+.oc-dropdown-list li a:hover {
+  text-decoration: underline;
+}
+.oc-dropdown-list li.oc-dropdown-container {
+  position: relative;
+  background: url("/++resource++img/dropdown-nub-closed.gif") no-repeat 98% 7px;
+  padding-right: 15px;
+  cursor: pointer;
+}
+.oc-dropdown-list li.oc-dropdown-container.oc-hover {
+  border-bottom: none;
+  background-color: transparent;
+}
+.oc-dropdown-list li.oc-dropdown-container.oc-hover a {
+  background: transparent;
+}
+.oc-dropdown-list ul li.oc-dropdown-container.oc-hover {
+  border: none;
+}
+.oc-dropdown-list li.oc-dropdown-container.oc-selected {
+  background: url("/++resource++img/dropdown-nub-open.gif") no-repeat 98% 7px;
+  border-bottom: none;
+}
+.oc-dropdown-list li.oc-dropdown-container ul {
+  position: absolute;
+  top: 1.8em;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  width: 12em;
+  background: #665D55;
+  border: 1px solid #3D3935;
+  border-right: 2px solid #332F2A;
+  border-bottom: 2px solid #332F2A;
+  z-index: 1000;
+}
+.oc-dropdown-list li.oc-dropdown-container li {
+  float: left;
+  list-style: none;
+  clear: left;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+.oc-dropdown-list li.oc-dropdown-container li a {
+  display: block;
+  margin: 0;
+  padding: 0.125em .25em;
+}
+.oc-dropdown-list li.oc-dropdown-container li a:hover {
+  background: #EB852B;
+}
+.oc-dropdown-list hr.oc-usermenu-divider {
+  border: none;
+  border-bottom: 1px solid #eee;
+  margin: 0.25em 0;
+}
+
+/* @FOOTER - Global footer
+--------------------------------------- */
+#oc-footer ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  float: right;
+  text-transform: uppercase;
+  font-size: 9px;
+}
+#oc-footer li {
+  display: inline;
+  padding: 0 0.5em;
+}
+#oc-footer-about {
+  text-align: left;
+}
+#oc-footer #oc-footer-about  a {
+  text-decoration: underline;
+}
+
+/* LAYOUT for @OpenPlans Pages
+-------------------------------------------- */
+/* This is where general layout elements within the content of a page are defined. Could also aply to how we implement templates. 
+  
+/* GENERIC layout elements */
+
+.oc-plainList { /* list with no formatting */
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 1em;
+}
+dl.oc-plainList {
+  line-height: normal;
+}
+dl.oc-plainList dt {
+  font-weight: bold;
+}
+dl.oc-plainList dd {
+  margin: 0 0 1em;
+}
+.oc-inlineList { /* comma-separated list (space-separated in IE) */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.oc-inlineList li {
+  display: inline;
+}
+.oc-inlineList li:after {
+  content: ", ";
+}
+.oc-inlineList li:last-child:after {
+  content: "";
+}
+.oc-boxy {
+  margin-bottom: 1em;
+}
+.oc-boxy h1,
+.oc-boxy h2,
+.oc-boxy h3,
+.oc-boxy h4,
+.oc-boxy h5 {
+  margin: 0 0 0.5em;
+}
+.oc-boxy-content {
+  margin: 0;
+  padding: 0;
+}
+.oc-boxy legend.oc-legend-heading {
+	padding-left: 0.25em;
+	padding-right: 0.25em;
+}
+.oc-boxy textarea {
+  margin: 0;
+}
+
+/* GENERIC search results & lineups */
+
+.oc-lineup,
+.oc-directory {
+}
+.oc-lineup-list {
+  list-style-type: none;
+  margin:  0;
+  padding: 0;
+  clear: both;
+  border-top: 2px solid #eee;
+
+}
+.oc-lineup-item {
+  margin: 0.25em 0;
+  padding: 0.25em 0;
+  border-bottom: 1px dotted #eee;
+}
+.oc-lineup-item h3 {
+  display: inline;
+}
+.oc-lineup-item h3 img {
+  vertical-align: bottom;
+}
+.oc-lineup-item p {
+  margin: 0;
+}
+.oc-lineup-sorter,
+.oc-directory-sorter,
+.oc-feed-sorter {
+  /* float: left; */
+  font-size: 10px;
+  margin-bottom: 1em;
+}
+.oc-lineup-sorter form,
+.oc-lineup-sorter select,
+.oc-directory-sorter form,
+.oc-directory-sorter select,
+.oc-feed-sorter form,
+.oc-feed-sorter select {
+  display: inline;
+  font-size: 100%;
+}
+.oc-lineup-sorter input,
+.oc-directory-sorter input {
+  /* display: none; */
+}
+.oc-lineup .oc-paginator,
+.oc-directory-sorter .oc-paginator {
+  float: right;
+  clear: none;
+  font-size: 10px;
+}
+
+/* Directory view of search results */
+
+.oc-directory-list {
+  clear: both;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 101%;
+}
+.oc-directory-list li {
+  margin: 0 0.5% 0.25em 0;
+  width: 49%;
+  float: left;
+  clear: none;
+  white-space: nowrap;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  height: 80px;
+  overflow: hidden;
+}
+.oc-directory-list .oc-project-logo,
+.oc-directory-list .oc-avatar {
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  float: left;
+  margin-right: 1em;
+}
+.oc-directory-content {
+  white-space: normal;
+  padding: 0.5em;
+}
+.oc-directory-content .fn, /* OpenPlans username */
+.oc-directory-content .n /* full name */ {
+  margin: 0;
+}
+.oc-directory-content .adr /* location */ {
+  font-style: normal;
+}
+
+/* Team View */
+.oc-roster {
+  clear: both;
+  list-style-type: none;
+  padding: 0;
+}
+.oc-roster .oc-avatar {
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  float: left;
+  clear: none;
+  margin-right: 1em;
+}
+.oc-roster-content {
+  float: left;
+  clear: none;
+  width: 60%;
+  white-space: normal;
+}
+.oc-roster-content h3 /* OpenPlans username */{
+  display: inline;
+  margin: 0;
+  font-weight: bold;
+}
+.oc-roster dl.oc-plainList dt {
+  font-weight: bold;
+  float: left;
+  padding-right: 0.5em;
+}
+.oc-roster dl.oc-plainList dd {
+  margin-bottom: 0;
+}
+
+/* Portal Home */
+#oc-home-content {
+}
+#oc-home-content .oc-headingBlock h1{
+  font-size: 36px;
+}
+#oc-home-getstarted {
+
+}
+.oc-columnGroup,
+.oc-home-columnGroup {
+  width: 100%;
+}
+.oc-column,
+.oc-home-column {
+  float: left;
+  margin: 0 1%;
+  clear: none;
+  width: 48%;
+}
+#oc-home-news h2 {
+	background: #6BA12A;
+}
+
+/* Member profile */
+
+#oc-member-badge {
+}
+#oc-member-badge .oc-avatar {
+  overflow: hidden;
+  float: left; 
+  clear: none; 
+}
+#oc-member-badge .oc-avatar img {
+  margin: 0 auto;
+}
+#oc-member-badge .oc-member-details {
+  margin-left: 200px; /* Overrideen by style attribute with actual image width value */
+  padding-left: 1em;
+}
+#oc-member-badge .oc-member-details .oc-headingBlock p {
+  margin: 0;
+  line-height: normal;
+}
+dl.oc-member-info {
+  line-height: normal;
+}
+dl.oc-member-info dt {
+  font-weight: bold;
+}
+dl.oc-member-info dd {
+  margin: 0 0 1em;
+}
+
+/* Member profile edit */
+
+.oc-member-edit #oc-member-badge {
+  background-color: transparent;
+}
+.oc-member-edit #oc-member-badge .oc-member-editimage {
+  float: left;
+  width: 200px;
+  margin-right: 1em;
+  margin-bottom: 0.5em;
+}
+.oc-member-edit #oc-member-badge .oc-member-editimage .oc-expander-open {
+  border: 1px solid orange; 
+  background-color: #fffff9;
+}
+.oc-member-edit #oc-member-badge .oc-plainList input {
+  width: 60%;
+}
+.oc-member-edit textarea {
+  width: 99%;
+}
+
+/* Wiki pages */
+
+.oc-wiki {
+}
+.oc-wiki-headingBlock {
+  margin: 0;
+  margin-right: 1em;
+}
+.oc-wiki-lastModified {
+  display: inline;
+  float: right;
+}
+ul.oc-tabs {
+  display: block;
+  margin-top: 0;
+  padding: 0;
+  border-bottom: 2px solid #eee;
+  text-align: right;
+}
+ul.oc-tabs li {
+  display: inline;
+}
+ul.oc-tabs li a,
+ul.oc-tabs li a:visited {
+  padding: 0.5em;
+  background: none;
+  color: #333;
+  padding: 0.125em 0.25em;
+  text-decoration: none;
+  font-size: 9px;
+  text-transform: uppercase;
+}
+ul.oc-tabs li a.oc-actionLink:hover {
+  background-color: transparent;
+}
+/* Selected tab */
+ul.oc-tabs li.oc-selected a {
+  color: #fff;
+  font-weight: bold;
+  background: #332F2A;
+}
+ul.oc-tabs li.oc-notallowed a {
+  color: #999;
+  background-color: #eee;
+}
+.oc-tabs form {
+  display: inline;
+}
+.oc-wiki-content {
+  margin-bottom: 1.5em;
+}
+.oc-wiki-content ol,
+.oc-wiki-content ul,
+.oc-wiki-content dl {
+  line-height: 1.25;
+}
+.oc-wiki-edit {
+  clear: both;
+}
+.oc-wiki-edit-content {
+}
+.oc-actions.oc-wiki-actions {
+  border-top: 2px solid #ccc;
+  padding-top: .5em;
+}
+a.oc-wiki-wickedadd,
+a.wickedadd {
+  color: red;
+}
+#oc-wiki-viewAttachments {
+  clear: both;
+}
+/* History */
+
+.oc-wiki-history-item {
+  margin: .25em 0;
+  border: 1px solid transparent;
+  padding: .25em;
+}
+.oc-wiki-history-item.oc-selected {
+  background: #eee;
+  border: 1px solid #ccc;
+}
+.oc-wiki-history-item h3 {
+  display: inline;
+}
+.oc-wiki-history-item-context {
+  padding: 0 0 0 1.75em;
+  margin: 0;
+  width: 52em;
+}
+.oc-widget-version-compare {
+  margin-bottom: .5em;
+}
+.oc-widget-version-compare table {
+  float: left;
+  padding: 0;
+  margin: 0;
+}
+.oc-widget-version-compare th {
+  text-align: right;
+  padding: 0 0.5em 0;
+  font-weight: normal;
+  vertical-align: bottom;
+}
+.oc-widget-version-compare h2 {
+	margin: 0;
+}
+.oc-widget-version-compare td {
+  text-align: left;
+  padding: 0 .25em;
+  vertical-align: bottom;
+  line-height: normal;
+}
+.oc-widget-version-compare td a.oc-button {
+	font-weight: bold;
+	font-size: 12px;
+}
+.oc-widget-version-compare td a:hover.oc-button {
+	text-decoration: none;
+}
+.oc-version-compare-legend {
+  float: right;
+  margin: 0;
+  padding: 0;
+}
+.oc-version-compare-legend h2 {
+  margin: 0;
+  padding: 0;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.oc-version-compare-legend ul {
+  margin: 0;
+  padding: 0;
+  line-height: normal;
+}
+.oc-widget-version-compare ul.oc-actions {
+  float: right;
+  margin: 0 0 0 1em;
+  padding: 0;
+}
+.oc-widget-version-compare ul.oc-actions li {
+  float: left;
+  padding-left: 1em;
+}
+.oc-version-compare-legend ul {
+  margin: 0;
+  padding: 0;
+}
+.oc-version-compare-legend li {
+  list-style: none;
+  padding: 0;
+}
+.oc-wiki del,
+.oc-widget-version-compare a.oc-version-old {
+ background: #eee;
+ color: #444;
+ padding: 0 .125em;
+}
+.oc-wiki ins,
+.oc-widget-version-compare a.oc-version-current {
+  background: #B0EB8D;
+  text-decoration:none;
+  padding: 0 .125em;
+  color: #006600;
+}
+.oc-widget-version-compare a.oc-version-current {
+  text-decoration: underline;
+}
+.oc-version-note.oc-boxy {
+	background-color: #eee;
+	border-color: #ccc;
+	padding: 0.5em 1em;
+}
+.oc-version-note h3,
+.oc-version-note p {
+	display: inline;
+}
+.oc-version-note h3 {
+	font-weight: bold;
+}
+
+/* About and 1 Page tours */
+
+.oc-about-toolkit {
+}
+.oc-about-tool {
+  clear: left;
+  margin: 0 2em 1em 0;
+}
+.oc-about-tool h3, .oc-about-tool ul {
+  margin: 0;
+}
+.oc-about-tool ul {
+  list-style-position: inside;
+}
+.oc-tour-icon,
+.oc-about-icon {
+  float: left;
+  margin-right: 1em;
+}
+
+/* Listen */
+
+.oc-listen-details-subscribe {
+}
+.oc-listen-details-subscribe h2 {
+}
+.oc-listen-details-subscribe p {
+}
+.oc-listen-details-subscribe .oc-actions {
+}
+.oc-listen-archive-dateview {
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+	font-size: 10px;
+}
+.oc-listen-archive-dateview .oc-headingBlock {
+	display: block;
+	margin: 0;
+	background: #eee;
+	padding: 0.25em 0.25em 0.125em;
+	border-bottom: 2px solid #ccc;
+}
+.oc-listen-archive-dateview .oc-headingBlock h2 {
+	display: inline;
+	font-weight: bold;
+}
+.oc-listen-archive-dateview ul li {
+	padding: 0.25em 0.5em;
+	border-bottom: 1px solid #ccc;
+}
+.oc-listen-message .oc-headingBlock h2 {
+  display: inline;
+}
+.oc-listen-message .oc-headingBlock .oc-headingContext {
+  display: block;
+}
+.oc-listen-message pre.oc-listen-message-body {
+  width: 100%;
+}
+.oc-listen-message-child {
+  border-top: 1px solid #ccc;
+  padding-top: 1em;
+  list-style-type: none;
+}
+.oc-listen-paginator {
+  display: block;
+  text-align: right;
+  clear: none;
+  font-size: 10px;
+}
+.oc-listen-paginator .next,
+.oc-listen-paginator .previous {
+  padding: 0 0.5em 0 0;
+}
+.oc-listen-moderate-form input.oc-actionLink,
+.oc-listen-moderate-form a.oc-actionLink {
+  color: #444;
+  background: #DDD;
+  border: none;
+  padding: 0.125em 0.25em;
+  text-decoration: none;
+  font-size: 9px;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+.oc-listen-moderate-form a.oc-actionLink {
+  padding: 0.25em 0.5em;
+}
+.oc-listen-moderate-form .oc-form-fieldBlock {
+  white-space: nowrap;
+  display: block;
+}
+
+/* "@Custom" CSS : clearAfter Hack, op-dropdown Dropdowns
+-------------------------------------------- */
+
+/* This hack replicates the CSS3 "clearAfter" property.
+The IE hacks take advantage of several IE non-compliance issues to clearAfter the floated columns. */
+
+.oc-clearAfter:after,
+#oc-topnav-global:after,
+#oc-page-container:after
+{ 
+  content: ""; 
+  display: block; 
+  height: 0; 
+  clear: both;
+  visibility: hidden;
+}
+      
+/* GENERIC CLASSES & FORMS & WIDGETS & BEHAVIORS oh my - reusable thingys
+-------------------------------------------
+
+GENERIC: Buttons
+GENERIC: Elements
+
+@FORM Stuff
+  Expanders
+  Actions
+
+@WIDGETS
+  headingBlock
+  List table
+  Last modified
+  Feeds
+  Invitations
+  Search box
+  Alphabet Search
+  
+@BEHAVIORS
+
+*/
+
+.oc-hidden {
+   display:none;
+}
+.oc-hover {
+   background: #fdffdd;
+}
+.oc-disabled { 
+  color: #999;
+ }
+.oc-warning { 
+  color: red;
+  padding-left: .5em;
+ }
+/* GENERIC: Buttons */
+input.oc-button, button.oc-button {
+  display: inline;
+  padding: .25em .5em;
+  font-size: inherit;
+}
+a.oc-button {
+  display: block;
+  padding:  0 .25em;
+  border: 1px solid #ccc;
+  text-decoration: none;
+  background: #eee;
+}
+a.oc-button:hover {
+  background: #ddd;
+  color: #000;
+}
+a.oc-banana {
+	display: block;
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+	background-color: #EB852B;
+	border: 1px solid #B36521;
+	border-right: 2px solid #B36521;
+	border-bottom: 2px solid #B36521;
+	color: #fff !important;
+	text-decoration: none;
+	padding: 0.25em;
+	margin: 4em;
+	margin-bottom: 0.75em;
+	margin-top: 0;
+}
+
+/* GENERIC: Elements */
+.oc-paginator {
+  margin: 0;
+  padding: 0;
+}
+.oc-paginator li {
+  display: inline;
+  padding: 0 .25em;
+}
+/* bcrumb */
+.oc-bcrumb {
+  padding: 0;
+  margin: 0;
+  display: inline;
+  font-size: 12px;
+  float: left;
+  line-height: normal;
+}
+.oc-bcrumb li,
+.oc-bcrumb li h1,
+.oc-bcrumb li h2,
+.oc-bcrumb li h3,
+.oc-bcrumb li h4 {
+  display: inline;
+  line-height: inherit;
+}
+.oc-bcrumb .oc-bcrumb-current {
+  font-size: 18px;
+  font-weight: bold;
+}
+.oc-actionClose,
+.oc-close {
+  position: absolute;
+  top: 0.5em;
+  right: 1em;
+  display: block;
+}
+.oc-message,
+.oc-statusMessage {
+  background-color: #EBD2BC;
+  border: 1px solid #EB852B;
+  color: #333333;
+  font-weight: bold;
+  margin: 0 0 1.5em;
+  padding: 0.125em 1.5em 0.125em 0.25em;
+  padding-right: 0.25em;
+  position: relative; /* note: this causes psm to overlap topnav menu in IE.  disabled in ie.css */
+  vertical-align: middle;
+  z-index: 0;
+}
+.oc-message-error {
+  background: pink;
+}
+
+/* @FORM Stuff */
+fieldset .oc-legend-heading,
+.oc-label-heading {
+  display: block;
+  margin: 0;
+  margin-bottom: 0.25em;
+  padding: 0;
+ }
+fieldset .oc-headingContext {
+  margin: 0 0 1em;
+  line-height: normal;
+}
+fieldset fieldset .oc-legend-heading,
+#oc-content-sidebar fieldset .oc-legend-heading {
+  font-size: 14px;
+}
+fieldset fieldset fieldset .oc-legend-heading,
+#oc-content-sidebar fieldset fieldset .oc-legend-heading {
+  font-size: 12px;
+}
+#oc-content-sidebar fieldset fieldset fieldset .oc-legend-heading {
+  font-size: 10px;
+}
+fieldset .oc-legend-label {
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+}
+#oc-content-sidebar fieldset .oc-legend-subheading {
+  font-size: 10px;
+  font-weight: bold;
+}
+#oc-content-sidebar fieldset .oc-legend-label {
+  font-size: 10px;
+}
+fieldset .oc-heading-context {
+  margin: 0 0 .5em;
+  padding: 0;
+}
+.oc-label-option {
+  font-weight: normal;
+  font-size: 10px;
+}
+
+.oc-form {
+}
+.oc-form * {
+  vertical-align: top;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.oc-form-label {
+  text-align: right;
+  width: 8em;
+  padding-right: 0.5em;
+  line-height: normal;
+}
+.oc-form-radiolist {
+  list-style-type: none;
+  margin: 0 0 0 8em;
+  padding: 0;
+}
+.oc-form-radiolist ul {
+  list-style-type: none;
+}
+.oc-form-value {
+  width: auto;
+}
+.oc-form-value.oc-form-fieldBlock {
+  white-space: nowrap;
+}
+.oc-form-help {
+  display: block;
+  line-height: normal;
+}
+.oc-form-context {
+  color: #666;
+  font-style: italic;
+}
+.oc-form-validator {
+}
+.oc-form-error {
+  color: #F00;
+  font-weight: bold;
+  font-size: 11px;
+}
+.oc-form-fieldBlock label {
+  font-weight: normal;
+}
+.oc-form-fieldBlock input.oc-input-typeCheck,
+.oc-form-fieldBlock input.oc-input-typeRadio {
+  margin-left: 0;
+}
+.oc-fieldBlock-focused textarea, 
+textarea.oc-fieldBlock-focused,
+input.oc-fieldBlock-focused {
+  border-color: orange;
+  background: #fffff9;
+}
+.oc-fieldBlock-error textarea, 
+textarea.oc-fieldBlock-error,
+input.oc-fieldBlock-error {
+  border-color: red;
+  background: #ffdddd;
+}
+.oc-input-typeText { /* Since browser support for selecting by type is... limited */
+}
+.oc-input-typeRadio,
+.oc-input-typeCheck {
+/* font-size: 100%; This resizes radio and check elements to match the text
+width: 1em;
+height: 1em; */
+}
+
+/* Expanders */
+.oc-expander {
+  margin: 0;
+}
+.oc-expander h2,
+.oc-expander h3 {
+  margin: 0.25em 0;
+}
+.oc-expander-open {
+  background: #F9F9F9;
+  border: 1px solid #E6D3C0;
+  padding: .5em;
+  margin: 0.25em 0 0.5em;
+}
+.oc-expander-content {
+  margin: .25em 0;
+  padding: .5em;
+}
+.oc-expanderLink {
+  background: url("/++resource++img/expander-nub-closed.gif") 0 3px no-repeat;
+  padding-left: 12px;
+}
+.oc-expanderLink.oc-expanderLink-open {
+  background: url("/++resource++img/expander-nub-open.gif") 0 3px no-repeat;
+}
+
+/* Actions */
+.oc-actions { 
+  margin: 0;
+  padding: 0;
+  font-size: 11px;
+}
+.oc-actions li {
+  margin: 0;
+  display: inline;
+}
+
+.oc-chooseThis { /* Default option */
+  font-weight: bold;
+}
+.oc-actions .oc-chooseAccept,
+.oc-actions a.oc-chooseAccept {
+  color: #0c0;
+}
+.oc-actions .oc-chooseDeny,
+.oc-actions a.oc-chooseDeny {
+  color: #c00;
+}
+.oc-actions .oc-chooseSpam,
+.actions a.chooseSpam {
+  color: #999;
+}
+
+/* @WIDGETS */
+.oc-widget {
+ /* clear: both; */
+}
+
+/* Widget heading blocks */
+.oc-widget .oc-headingBlock {
+   margin-bottom: .5em;
+   clear: both;
+}
+.oc-widget .oc-headingBlock h2 {
+  font-size: 14px;
+}
+.oc-widget .oc-headingContext {
+}
+
+/* List table */
+.oc-widget-dataTable {
+  clear: both;
+  margin-bottom: 4em;
+}
+.oc-dataTable-heading, .oc-section-heading {
+	color: #fff;
+	background: #332F2A;
+	padding: 0.25em;
+	margin: 0;
+}
+.oc-dataTable  {
+   width: 100%;
+   /* white-space: nowrap; */
+   font-size: 10px;
+   border-bottom: 2px solid #ccc;
+   border-collapse:	collapse;
+}
+#oc-content-sidebar .oc-dataTable {
+   border-bottom: none;
+}
+.oc-dataTable thead {
+   background: #eee;
+}
+.oc-dataTable thead th, 
+.oc-dataTable thead th.oc-sortableColumn, 
+.oc-dataTable thead th.oc-columnActions {
+  text-align: left;
+  padding: .25em .5em;
+  /* font-size: 10px; */
+  border-bottom: 2px solid #ccc;
+}
+.oc-dataTable td {
+  padding: .25em .5em;
+  border-bottom: 1px solid #ccc;
+  /* font-size: 10px; */
+} 
+.oc-dataTable a.oc-columnSortable {
+  color: #000;
+}
+.oc-dataTable a.oc-columnSortable.oc-selected {
+}
+.oc-dataTable th.oc-dataTable-checkBoxColumn {
+  width: 25px;
+}
+.oc-dataTable-row-title {
+   white-space: normal;
+   font-size: 12px;
+}
+.oc-dataTable-row-actions li {
+  list-style: none;
+}
+.oc-dataTable-actions {
+  float: left;
+  padding: .5em 0;
+  margin:0;
+  font-size: 10px;
+}
+.oc-dataTable-actions li {
+   
+}
+.oc-dataTable-paginator {
+  float: right;
+  padding: .5em 0;
+  font-size: 10px;
+}
+
+/* Last Modified Stuff */
+.oc-widget-lastModified thead {
+  display: none;
+}
+.oc-widget-lastModified td {
+  border-bottom: none;
+  padding: .25em .5em .25em 0;
+}
+.oc-widget-lastModified td.oc-lastModified-date {
+	width: 6em;
+}
+/* Feeds */
+
+.oc-widget-feed {
+  margin-bottom: 1em;
+  padding-bottom: 0.25em;
+}
+.oc-feed-title {
+	color: #fff;
+	background: #332F2A;
+	padding: 0.25em;
+  margin: 0;
+}
+.oc-feed-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 2px solid #332F2A;
+  border-bottom: 2px solid #332F2A;
+}
+li.oc-feed-item {
+  margin: 0.5em 0 0;
+  padding: 0 0 0.5em;
+  border-bottom: 1px dotted #332F2A;
+}
+.oc-feed-list li.oc-feed-item:last-child {
+  border: none;
+}
+li.oc-feed-item .oc-avatar,
+li.oc-feed-item .oc-project-logo {
+  width: 80px;
+  float: left;
+  clear: none;
+  margin-right: 1em;
+}
+li.oc-feed-item .oc-feed-item-content {
+  float: left;
+  clear: none;
+  padding: 0.75em 0;
+  width: 67%;
+}
+li.oc-feed-item .oc-feed-item-title,
+li.oc-feed-item .oc-feed-item-data,
+li.oc-feed-item .oc-feed-item-description {
+  margin: 0;
+  line-height: normal;
+}
+li.oc-feed-item .oc-feed-item-data.oc-actions {
+  text-align: right;
+}
+.oc-widget-feed .oc-paginator {
+  display: block;
+  padding: 0.75em 0;
+}
+.oc-widget-feed .oc-options {
+  padding: 0.25em;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+/* Invitations Widget */
+.oc-widget-invite {
+}
+.oc-invite-list {
+  font-size: 10px;
+   margin: 0;
+   padding: 0;
+}
+li.oc-invite {
+  clear: both;
+  list-style:none;
+  position: relative;
+}
+li.oc-invite .oc-avatar {
+  float: left;
+  margin-right: 1em;
+}
+li.oc-invite .oc-avatar img {
+  width: 75px;
+}
+li.oc-invite .oc-invite-content {
+   margin: 0 12em 0 0;
+}
+.oc-invite-actions {
+}
+.oc-invite-actions li {
+   display: inline;
+}
+
+/* Search box */
+
+.oc-widget-search {
+}
+#oc-content-sidebar .oc-widget-search {
+}
+.oc-widget-search form input,
+.oc-widget-search form button {
+  font-size: 10px;
+}
+#oc-content-main .oc-widget-search form .oc-input-typeText {
+  width: 50%;
+}
+#oc-content-sidebar .oc-widget-search form .oc-input-typeText {
+  width: 65%;
+}
+.oc-widget-search h2,
+.oc-widget-search .oc-label-heading {
+  margin: 0 0 0.5em;
+}
+.oc-widget-multiSearch {
+}
+.oc-widget-multiSearch ul.oc-inlineList {
+	margin: 0.5em 0;
+}
+
+/* Alphabet search */
+
+.oc-widget-alphabet {
+  list-style: none;
+  margin-bottom: 0;
+  padding: 0.25em;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 14px;
+}
+.oc-widget-search ul.oc-widget-alphabet {
+  margin-top: 1em;
+}
+#oc-content-sidebar ul.oc-widget-alphabet {
+  background: none;
+}
+.oc-widget-alphabet li {
+  display: block;
+  float: left;
+}
+.oc-widget-alphabet li a {
+  text-decoration: none;
+  display: block;
+  float: left;
+  padding: 0.065em 0.25em;
+}
+.oc-widget-alphabet li a:hover {
+  background: #ddd;
+  text-decoration: none;
+}
+.oc-widget-alphabet li a.oc-widget-alphabet-selectedLetter {
+ border: 1px solid #EB852B;
+}
+
+/* Get Started */
+
+.oc-getstarted {
+  margin-bottom: 1em;
+}
+.oc-getstarted h2 {
+  margin-bottom: 0.5em;
+}
+.oc-getstarted-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+.oc-getstarted-list li h3 {
+  margin: 0;
+}
+.oc-getstarted-list li h3 a {
+  text-decoration: none;
+}
+.oc-getstarted-list li h3 a:hover {
+  text-decoration: underline;
+}
+.oc-getstarted-list li p.oc-discreetText {
+  margin: 0 0 0.5em;
+  line-height: normal;
+}
+
+/* @BEHAVIORS
+--------------------------*/
+
+/* Highlight form fields */
+.oc-liveEdit-value {
+  border-bottom: 1px dotted #256E81;
+}
+.oc-liveEdit-editForm {
+  border-bottom: 1px dotted red;
+}
+.oc-liveEdit-value .oc-directEdit-hover,
+.oc-directEdit-hover {
+ background: #ffffcc;
+ cursor: pointer;
+}
+
+a.oc-liveItem_showForm,
+a.oc-liveItem_showForm:visited,
+a.oc-actionLink,
+a.oc-actionLink:visited {
+  color: #444;
+  background-color: #DDD;
+  padding: 0.125em 0.25em;
+  text-decoration: none;
+  font-size: 9px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+a.oc-liveItem_showForm:hover,
+a.oc-actionLink:hover {
+	color: #fff;
+  background-color: #EB852B;
+  text-decoration: none;
+}
+a.oc-liveItem_hoverShowForm,
+a.oc-liveItem_hoverShowForm:visited {
+ position: absolute;
+ top: 0;
+ right: 0;
+ color: red;
+ text-transform: uppercase;
+ font-size: .9em
+}
+a.oc-js-liveEdit_hideForm {
+ color: red;
+}
+
+.oc-liveEdit-form,
+.oc-liveEdit-selected,
+.oc-liveItem-editForm {
+  /* background: #ffe5c1;
+  padding: .25em; */
+}
+.oc-liveEdit-editing,
+.oc-table td.oc-liveEdit-editing {
+  background-color: #cbeb9b;
+  padding: 3px;
+}
+
+/* Action Select */
+
+.oc-js-actionSelect select {
+  width: 100%;
+}
+
+/* @HTML ELEMENTS GENERAL @TYPOGRAPHY
+This should be the only place where font information is specified
+-------------------------------------------- */
+
+body, textarea {
+  font-size: 12px;
+  line-height: 1.5em; /* 18px % 14px = 1.25em */
+  font-family: "Lucida Grande", Arial, sans-serif;
+  /* These typographic rules will establish rhythm of 18px at base font size */
+}
+#oc-content-sidebar {
+  font-size: 11px;
+}
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.oc-legend-heading,
+.oc-label-heading {
+	font-family: Arial, sans-serif;
+  letter-spacing: 0;
+  font-weight: normal;
+  margin: 1em 0 0.5em;
+}
+h1 acronym, h1 abbr, h2 acronym, h2 abbr, h3 acronym, h3 abbr, h4 acronym, h4 abbr {
+  border: none;
+}
+h1, .oc-biggestText, .oc-legend-heading.oc-biggestText {
+  font-size: 24px;
+  line-height: 0.75em;
+  letter-spacing: -0.0325em;
+}
+h2, .oc-biggerText, 
+.oc-legend-heading.oc-biggerText, 
+#oc-content-sidebar h1 {
+  font-size: 18px;
+  line-height: 1em;
+  letter-spacing: -0.0325em;
+}
+h3, .oc-bigText,
+#oc-content-sidebar h2 {
+  font-size: 14px;
+}
+#oc-content-sidebar h3 {
+  font-size: 12px;
+}
+h4, .h4 {
+  font-size: 14px;
+  font-style: italic;
+}
+h5, .h5, h6, .h6 {
+  font-size: 12px;
+  font-weight: bold;
+}
+#oc-content-sidebar h4 {
+  font-size: 12px;
+}
+#oc-content-sidebar h1,
+#oc-content-sidebar h2,
+#oc-content-sidebar h3,
+#oc-content-sidebar h4 {
+	font-weight: bold;
+}
+p {
+	margin: 0 0 .65em;
+}
+.oc-smallText,
+.oc-discreetText,
+  
+  /* Error Messages */
+    .oc-portalMessage,
+    .oc-portalWarningMessage,
+    .oc-portalStopMessage,
+    .oc-system-message,
+    #oc-error-handling,
+    .formHelp /* FIXME */
+  {
+  font-size: 11px;
+}
+.formHelp /*FIXME */ {
+  font-weight: normal;
+}
+#oc-content-sidebar .smallText,
+#oc-content-sidebar .discreetText {
+  font-size: 10px;
+}
+.oc-discreetText {
+  color: #665D55;
+}
+a, a:visited {
+  color: #6BA12A;
+}
+a:hover,
+ul.oc-tabs li a.oc-actionLink:hover {
+  color: #EB852B;
+  text-decoration: underline;
+}
+
+/* Heading Blocks */
+
+.oc-headingBlock {
+  margin-bottom: 0.75em;
+}
+.oc-headingBlock h1,
+.oc-headingBlock h2,
+.oc-headingBlock h3,
+.oc-headingBlock h4 {
+  margin: 0;
+  margin-bottom: 0.125em;
+}
+.oc-headingBlock .oc-headingContext {
+  margin: 0 0 1em;
+}
+.oc-headingSimple a {
+  text-decoration: none;
+}
+.oc-headingSimple a:hover {
+  text-decoration: underline;
+}
+
+/* Form bits */
+form {
+  margin: 0;
+}
+select,
+input,
+button,
+textarea {
+  /* ToDo Style buttons nicely */
+  /*border: 1px solid #999; */
+  margin: 0;
+  font-size: 10px;
+  vertical-align: bottom;
+}
+input,
+button,
+textarea {
+  padding: 0.25em;
+}
+textarea {
+  display: block;
+  margin-bottom: 1em;
+}
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0 0 1em;
+}
+label {
+  font-weight: bold;
+}
+address {
+  font-style: normal;
+}
+
+img {
+   border: none;
+}
+hr {
+  border: 1px solid #ccc;
+  padding: 0;
+  margin: 1em 0;
+}
+abbr, acronym {
+  border-bottom: none;
+}
+.oc-clearElement {
+  visibility: hidden;
+  clear: both;
+  height: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* OTHER stuff that needs to be sorted out 
+-------------------------------------------- */
+
+.oc-closeButton, oc-closeButton:hover {
+  position: absolute;
+  top: 0.0625em;
+  right: 0.25em;
+  display: block;
+  text-decoration: none !important;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: normal;
+  color: #333 !important;
+}
+.oc-closeButton:hover {
+  color: #FFF !important;
+  background-color: none;
+}
+.oc-js-closeable {
+	position: relative;
+}
+.oc-tasktracker h1,
+.oc-tasktracker h2,
+.oc-tasktracker h3,
+.oc-tasktracker h4,
+.oc-tasktracker h5,
+.oc-tasktracker h6 {
+  margin-top: 0;
+}
+
+/* WIKI CONTENT + LEGACY support for pages generated with Kupu 
+-------------------------------------------- */
+
+.oc-wiki-content br {
+  line-height: 1em;
+}
+.oc-wiki-content h1, 
+.oc-wiki-content h2, /* Kupu: Heading */
+.oc-wiki-content h3, /* Kupu: Subheading */
+.oc-wiki-content h4, 
+.oc-wiki-content h5 {
+  font-weight: bold;
+  margin: 0.5em 0 0.25em;
+}
+.oc-wiki-content p,
+.oc-wiki-content pre,
+.oc-wiki-content ul,
+.oc-wiki-content ol {
+  margin: 0.75em 0;
+}
+.oc-wiki-content ul,
+.oc-wiki-content ol {
+  padding-left: 1.5em;
+}
+.oc-wiki-content li {
+  margin: 0 0 0.75em;
+}
+/* Kupu: Literal */
+.oc-wiki-content pre {
+  background: #eee;
+  border: 1px solid #ccc;
+  padding: 0.75em;
+}
+/* Kupu: Discreet */
+.oc-wiki-content .discreet {
+  color: #665D55;
+  font-size: 11px;
+}
+/* Kupu: Pull-quote */
+.oc-wiki-content .pullquote {
+  width: 35%;
+  float: right;
+  clear: right;
+  border-left: 4px solid #ccc;
+  padding-left: 1em;
+  margin-left: 1em;
+  overflow: auto;
+}
+.oc-wiki-content .pullquote h1, 
+.oc-wiki-content .pullquote h2, 
+.oc-wiki-content .pullquote h3, 
+.oc-wiki-content .pullquote h4, 
+.oc-wiki-content .pullquote h5 {
+  margin-top: 0;
+}
+/* Kupu: Callout */
+.oc-wiki-content .callout {
+  font-family: Palatino, Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+  margin: 1em 0;
+  line-height: 1.25em;
+  margin: 1em auto;
+  width: 60%;  
+}
+.oc-wiki-content .pullquote ul {
+  padding-left: 1em;
+}
+/* Kupu: Listing */
+.oc-wiki-content table.listing {
+	border-collapse: collapse;
+  border: 1px solid #eee;
+  margin-bottom: 1em;
+  font-size: 95%;
+}
+.oc-wiki-content table.listing th,
+.oc-wiki-content table.listing td {
+  padding: 0.25em 0.5em;
+}
+.oc-wiki-content table.listing th {
+  background-color: #eee;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+.oc-wiki-content table.listing td {
+  border: 1px solid #ccc;
+}

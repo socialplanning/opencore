@@ -12,8 +12,8 @@ from opencore.interfaces.event import JoinedProjectEvent
 from opencore.interfaces.event import LeftProjectEvent
 from opencore.interfaces.event import MemberEmailChangedEvent
 from opencore.interfaces.membership import IEmailInvites
-from opencore.nui.base import BaseView
-from opencore.nui.formhandler import OctopoLite, action
+from opencore.browser.base import BaseView
+from opencore.browser.formhandler import OctopoLite, action
 from opencore.interfaces.message import ITransientMessage
 from opencore.project.utils import project_path
 from plone.memoize.view import memoize as req_memoize
@@ -354,7 +354,7 @@ class MemberAccountView(BaseView, OctopoLite):
     def _apply_transition_to(self, proj_id, transition):
         ### XXX this apply_transition_to function strikes me as highly questionable.
         # maybe it belongs in opencore.content somewhere? note that it's kind of
-        # identical to opencore.nui.project.view.doMshipWFAction...
+        # identical to opencore.project.browser.view.doMshipWFAction...
         mship = self._membership_for_proj(proj_id)
         try:
             mship.do_transition(transition)

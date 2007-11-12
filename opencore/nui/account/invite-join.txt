@@ -15,7 +15,7 @@ the aforementioned address.
 The process loop
 ================
 
-Invites start in opencore.nui.project.manageteams.ManageTeamView::
+Invites start in opencore.project.browser.manageteams.ManageTeamView::
 
     >>> from Testing.makerequest import makerequest
     >>> self.portal = makerequest(self.portal); request = self.portal.REQUEST

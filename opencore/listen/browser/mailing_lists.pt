@@ -1,0 +1,113 @@
+<tal:vars define="can_add_lists python:view.membertool.checkPermission('Listen: Add list', here);">
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:Mailing Lists - ${view/area/Title}" />
+  </head>
+  <head>
+    <metal:do metal:fill-slot="script">
+      <script src="++resource++oc-js/delete_list.js"></script>
+    </metal:do>
+  </head>
+  <body>
+    <div metal:fill-slot="content">
+      <div id="oc-content-main">
+
+        <div class="oc-headingBlock">
+          <h1 i18n:translate="mailing_lists_heading">Mailing lists</h1>
+          <p i18n:translate="mailing_lists_description" class="oc-headingContent">
+            View<span tal:condition="can_add_lists"> or manage exisiting</span> mailing lists<span tal:condition="can_add_lists"> or <a tal:attributes="href string:${context/absolute_url}/opencore.add_mailinglist">add a new mailing list</a></span>.
+          </p>
+        </div>
+  
+        <tal:foldercontents define="mailing_lists context/getFolderContents;">
+          <tal:listing condition="mailing_lists">
+            <table class="oc-dataTable" cellspacing="0">
+            
+              <thead>
+                <tr>
+                  <th i18n:translate="mailing_lists_column_header" scope="col">Mailing list</th>
+                  <th i18n:translate="mailing_lists_last_activity">Last activity</th>
+                  <th i18n:translate="mailing_lists_actions" scope="col">Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr tal:repeat="list mailing_lists">
+                  <tal:block tal:define="list_url list/getURL|list/absolute_url;
+                      list_id list/getId|list/id;
+                      list_title_or_id list/pretty_title_or_id;
+                      list_description list/Description;
+                      list_modified list/ModificationDate;
+                      list_creator list/Creator;
+                      ">
+                      <td>
+                        <dl class="oc-plainList">
+                          <dt class="oc-bigText">
+                            <a href="#" tal:content="list_title_or_id"
+                              tal:attributes="href list_url">
+                              Item Title
+                            </a>
+                            <span class="oc-discreetText"><span tal:condition="view/loggedin" tal:replace="python:'(' + list.getObject().mailto + ')'">listaddress@lists.openplans.org</span></span>
+                          </dt>
+                          <dd tal:condition="list_creator" i18n:translate="mailing_lists_created_by"
+                                class="oc-discreetText">
+                            created by
+                            <a href="#"
+                               tal:attributes="href string:${view/siteURL}/people/${list_creator}"
+                               tal:content="list_creator"
+                               tal:omit-tag="not:list_creator"
+                               i18n:name="list_creator">
+                              Bob Dobalina
+                            </a>
+                          </dd>
+                          <dd tal:condition="list_description" tal:content="list_description"/>
+                        </dl>
+                      </td>
+                      <td tal:content="list_modified" />
+                      <td>
+                        <form name="LIST_ID_form"
+                            action="confirm_delete_list"
+                            tal:attributes="name string:${list_id}_form">
+                          <tal:delete
+                             condition="can_add_lists">
+                            <input type="hidden"
+                                  name="list_id"
+                                  value="LIST_ID"
+                                  tal:attributes="value list_id" />
+                            <input type="hidden"
+                                  name="LIST_ID_confirm_delete"
+                                  id="LIST_ID_confirm_delete"
+                                  value="false"
+                                  tal:define="name string:${list_id}_confirm_delete"
+                                  tal:attributes="name name;id name" />
+                            <input type="submit"
+                                  name="LIST_ID_submit_delete"
+                                  value="Delete"
+                                  onclick="DELETELIST_CONFIRM"
+                                  tal:attributes="name string:${list_id}_submit_delete;
+                                      onclick string:javascript:deletelist_openConfirmation('${here/absolute_url}', '$list_id')" />
+                          </tal:delete>
+                        </form>
+                      </td>
+                    </tal:block>
+                </tr>
+              </tbody>
+            </table>
+          </tal:listing>
+  
+          <p tal:condition="not: mailing_lists" i18n:translate="mailing_lists_no_lists" class="oc-boxy oc-discreetText">
+            There are currently no mailing lists for this project.
+          </p>
+  
+        </tal:foldercontents>
+      </div><!-- oc-content-main -->
+      
+      <div id="oc-content-sidebar">
+        <div class="oc-getstarted">
+          <a class="oc-banana" tal:attributes="href string:${context/absolute_url}/opencore.add_mailinglist">Add a mailing list</a>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>
+</tal:vars>

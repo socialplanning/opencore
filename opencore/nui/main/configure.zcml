@@ -5,7 +5,7 @@
   <!-- macro to control pagination -->
   <browser:page
      for="*"
-     class="..base.BaseView"
+     class="opencore.browser.base.BaseView"
      permission="zope2.View"
      name="nui_batch_macros"
      template="batch_macros.pt"
@@ -13,7 +13,7 @@
   
   <!-- macros -->
   <browser:page
-     class="opencore.nui.base.BaseView"
+     class="opencore.browser.base.BaseView"
      for="*"
      name="main_macros"
      permission="zope2.View"
@@ -85,28 +85,28 @@
 
   <!-- footer links -->
   <browser:page
-     class="opencore.nui.base.BaseView"
+     class="opencore.browser.base.BaseView"
      for="*"
      permission="zope2.View"
      name="about"
      template="about.pt"
      />
   <browser:page
-     class="opencore.nui.base.BaseView"
+     class="opencore.browser.base.BaseView"
      for="*"
      permission="zope2.View"
      name="contact"
      template="about.pt"
      />
   <browser:page
-     class="opencore.nui.base.BaseView"
+     class="opencore.browser.base.BaseView"
      for="*"
      permission="zope2.View"
      name="legal"
      template="legal.pt"
      />
   <browser:page
-     class="opencore.nui.base.BaseView"
+     class="opencore.browser.base.BaseView"
      for="*"
      permission="zope2.View"
      name="privacy"

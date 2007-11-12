@@ -1,15 +1,14 @@
-from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
-from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from Products.TeamSpace.interfaces.team import ITeam
+from Products.wicked.interfaces import IAmWicked
 from opencore.interfaces.adding import IAddProject
-from opencore.interfaces.adding import IAmAPeopleFolder
 from opencore.interfaces.adding import IAmANewsFolder
-
+from opencore.interfaces.adding import IAmAPeopleFolder
 from opencore.interfaces.membership import IOpenMembership
 from opencore.interfaces.pending_requests import IPendingRequests
-
-from Products.wicked.interfaces import IAmWicked
+from opencore.interfaces.workflow import IReadWorkflowPolicySupport
+from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
 from zope.interface import Interface 
+from zope.schema import TextLine
 
 
 class IAddSubProject(Interface):
@@ -83,4 +82,9 @@ class IOpenTeam(ITeam):
         """
 
 
-
+class IHomePage(Interface):
+    """store a home page attribute on an object"""
+    home_page = TextLine(
+                    title=u'home page url',
+                    description=u"url of object's home page",
+                    )

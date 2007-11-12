@@ -1,0 +1,107 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:meta="http://namespaces.zope.org/meta"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:i18n="http://namespaces.zope.org/i18n"
+           i18n_domain="opencore">
+
+  <include package="opencore.js" />
+  <include package=".topnav" />
+  <include package=".menu" />
+
+  <browser:page
+    for="*"
+    class="opencore.browser.base.BaseView"
+    permission="zope.Public"
+    name="error"
+    template="error.pt"
+    />
+
+  <browser:resourceDirectory
+     name="css"
+     directory="css"
+     />
+
+  <browser:resourceDirectory
+     name="img"
+     directory="img"
+     />
+
+  <browser:resourceDirectory
+     name="kupu"
+     directory="historical/kupu"
+     />
+
+  <browser:page
+    for="*"
+    class="opencore.browser.base.BaseView"
+    permission="zope.Public"
+    name="main_template"
+    template="main_template.pt"
+    />
+
+  <browser:view
+    for="*"
+    name="standard_macros"
+    class=".macros.StandardMacros"
+    permission="zope.Public"
+    allowed_interface="zope.interface.common.mapping.IItemMapping"
+    />
+
+  <browser:view
+    for="*"
+    name="nui_macros"
+    class=".macros.NuiMacros"
+    permission="zope.Public"
+    allowed_interface="zope.interface.common.mapping.IItemMapping"
+    />
+
+  <!-- footer -->
+  <browser:page
+     for="*"
+     class="opencore.browser.base.BaseView"
+     permission="zope.Public"
+     name="oc-footer"
+     template="footer.pt"
+     />
+
+  <!-- blank (for testing) -->
+  <browser:page
+     for="*"
+     class=".base.BaseView"
+     permission="zope.Public"
+     name="oc-blank"
+     template="blank.pt"
+     />
+
+  <browser:page
+     for="OFS.Folder.Folder"
+     name="add-openplans.html"
+     permission="five.ManageSite"
+     class=".management.AddOpenPlansForm"
+     />
+
+  <!-- convenience view to create_test_content -->
+  <browser:page
+     for="Products.CMFPlone.Portal.PloneSite"
+     permission="five.ManageSite"
+     name="topp-testcontent.html"
+     class=".management.TestContentCreator"
+     />
+
+  <!-- @@ remove for plone3 -->
+  <five:traversable class="Products.CMFCore.DynamicType.DynamicType" />
+
+  <five:traversable class="Products.Archetypes.BaseObject.BaseObject" />
+
+  <five:traversable class="OFS.Folder.Folder" />
+
+  <!-- browser:page for new topnav view -->
+  <browser:page
+     for="*"
+     permission="zope.Public"
+     name="opencore-topnav"
+     template="topnav.pt"
+     />
+
+</configure>

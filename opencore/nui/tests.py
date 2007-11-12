@@ -19,7 +19,7 @@ def test_suite():
     from pprint import pprint
     from zope.interface import alsoProvides
     from pprint import pprint
-    from opencore.nui.formhandler import test_suite as octotest
+    from opencore.browser.formhandler import test_suite as octotest
     
     setup.setupPloneSite()
     def readme_setup(tc):
@@ -30,15 +30,7 @@ def test_suite():
         tc.projects = tc.portal.projects
 
     globs = locals()
-    readme = FunctionalDocFileSuite("README.txt",
-                                    optionflags=optionflags,
-                                    package='opencore.nui',
-                                    test_class=OpenPlansTestCase,
-                                    globs = globs,
-                                    setUp=readme_setup
-                                    )
 
-    readme.layer = test_layer
     
     setup = FunctionalDocFileSuite("setup.txt",
                                     optionflags=optionflags,
@@ -79,7 +71,7 @@ def test_suite():
 
     member_info.layer = test_layer
 
-    return unittest.TestSuite((readme, octotest(), email_sender, placeful_workflow, member_info, setup))
+    return unittest.TestSuite((email_sender, placeful_workflow, member_info, setup))
 
 
 if __name__ == '__main__':

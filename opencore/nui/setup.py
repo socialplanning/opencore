@@ -29,7 +29,7 @@ from Products.OpenPlans import config as op_config
 from DateTime import DateTime
 from topp.featurelets.interfaces import IFeatureletSupporter
 from opencore.interfaces import IOpenPage, INewsItem
-from opencore.nui.project.metadata import _update_last_modified_author
+from opencore.project.browser.metadata import _update_last_modified_author
 from opencore.nui.wiki.add import get_view_names
 from Products.OpenPlans.content.project import OpenProject
 from persistent import mapping
@@ -92,6 +92,20 @@ def move_interface_marking_on_projects_folder(portal):
     erase(pf, IAddProject)
     alsoProvides(pf, IAddProject)
     logger.log(INFO, "Fixed up interfaces")
+
+def move_interface_marking_on_member_folder(portal):
+    #XX needed? test?
+    from Products.Five.utilities.marker import erase
+    from zope.interface import alsoProvides
+    from opencore.interfaces.adding import IAddProject
+    import sys
+    import opencore
+    sys.modules['Products.OpenPlans.interfaces.adding'] = opencore.interfaces.adding
+    pf = portal.members
+    erase(pf, IAddProject)
+    alsoProvides(pf, IAddProject)
+    logger.log(INFO, "Fixed up interfaces")
+
 
 def migrate_wiki_attachments(portal):
     catalog = getToolByName(portal, 'portal_catalog')
@@ -235,7 +249,7 @@ def fix_case_on_featurelets(portal):
             flet_supporter.storage['tasks']=tt_storage
 
 def annotate_last_modified_author(portal):
-    from opencore.nui.project.metadata import ANNOT_KEY
+    from opencore.project.browser.metadata import ANNOT_KEY
     pr = getToolByName(portal, 'portal_repository')
     cat = getToolByName(portal, 'portal_catalog')
 

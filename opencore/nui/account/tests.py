@@ -3,7 +3,7 @@ from Testing import ZopeTestCase
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from Testing.ZopeTestCase import PortalTestCase 
 from opencore.testing import dtfactory as dtf
-from opencore.testing.layer import MockHTTPWithContent
+from opencore.testing.layer import MockHTTPWithContent, OpencoreContent
 from zope.testing import doctest
 import os
 import sys
@@ -29,6 +29,7 @@ def test_suite():
     from pprint import pprint
     from opencore.testing import alsoProvides, noLongerProvides
     from opencore.interfaces.membership import IEmailInvites
+    from opencore.interfaces.member import IMemberHomePage, IMemberFolder
     from zope.app.component.hooks import setSite, setHooks
     from zope.component import getUtility
     import pdb
@@ -60,8 +61,17 @@ def test_suite():
                                   setUp=readme_setup,
                                   layer=MockHTTPWithContent
                                   )
+    
+    first_login = dtf.ZopeDocFileSuite("firstlogin.txt",
+                                       optionflags=optionflags,
+                                       package='opencore.nui.account',
+                                       test_class=ptc.PloneTestCase,
+                                       globs = globs,
+                                       setUp=readme_setup,
+                                       layer = OpencoreContent
+                                       )
 
-    return unittest.TestSuite((readme, invite))
+    return unittest.TestSuite((readme, invite, first_login))
 
 
 if __name__ == '__main__':

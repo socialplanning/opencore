@@ -21,7 +21,7 @@ def test_suite():
     from pprint import pprint
     from zope.interface import alsoProvides
     from pprint import pprint
-    from opencore.nui.formhandler import test_suite as octotest
+    from opencore.browser.formhandler import test_suite as octotest
     from zope.component import getUtility
     from Products.listen.interfaces import IListLookup
     

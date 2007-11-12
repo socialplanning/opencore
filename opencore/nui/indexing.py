@@ -159,7 +159,7 @@ class IsImageIndexer(ImageIndexer):
 @implementer(ILastModifiedAuthorId)
 def authenticated_memberid(context):
     """ the last modified author is set on an annotation """
-    from opencore.nui.project.metadata import ANNOT_KEY
+    from opencore.project.browser.metadata import ANNOT_KEY
     from Missing import Value as MissingValue
     annot = IAnnotations(context)
     annot = annot.get(ANNOT_KEY, OOBTree())

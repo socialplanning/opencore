@@ -72,7 +72,7 @@ def setup_nui(portal):
 def migrate_redirection(portal):
     from opencore.redirect import migrate_redirected_objects
     from opencore.interfaces import IProject
-    from opencore.siteui.interfaces import IMemberFolder
+    from opencore.interfaces.member import IMemberFolder
     
     migrate_redirected_objects(portal.projects, IProject)
     migrate_redirected_objects(portal.people, IMemberFolder)

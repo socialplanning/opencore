@@ -13,11 +13,14 @@ class IAfterSubProjectAddedEvent(IAfterProjectAddedEvent):
 class IChangedTeamRolesEvent(IObjectModifiedEvent):
     """What happens after a membership object changed roles"""
 
+
 class IJoinedProjectEvent(IObjectModifiedEvent):
     """When a user becomes an active project member"""
 
+
 class ILeftProjectEvent(IObjectModifiedEvent):
     """When a user is deactivated from a project"""
+
 
 class IMemberEmailChangedEvent(IObjectModifiedEvent):
     """When a user changed his email
@@ -25,17 +28,26 @@ class IMemberEmailChangedEvent(IObjectModifiedEvent):
        Necessary to add instead of just object modified event because
        the handlers for this can be expensive"""
 
+
 class IListenFeatureletCreatedEvent(IObjectCreatedEvent):
     """when a listen featurelet gets installed on a project"""
+
+
+class IFirstLoginEvent(Interface):
+    """ Interface for FirstLoginEvent """
+
 
 class JoinedProjectEvent(ObjectModifiedEvent):
     implements(IJoinedProjectEvent)
 
+
 class LeftProjectEvent(ObjectModifiedEvent):
     implements(ILeftProjectEvent)
 
+
 class MemberEmailChangedEvent(ObjectModifiedEvent):
     implements(IMemberEmailChangedEvent)
+
 
 class AfterProjectAddedEvent(object):
     implements(IAfterProjectAddedEvent)
@@ -58,4 +70,11 @@ class ChangedTeamRolesEvent(ObjectModifiedEvent):
 
 class ListenFeatureletCreatedEvent(ObjectCreatedEvent):
     implements(IListenFeatureletCreatedEvent)
+
+
+class FirstLoginEvent(object):
+    implements(IFirstLoginEvent)
+    def __init__(self, member, request):
+        self.member = member
+        self.request = request
 

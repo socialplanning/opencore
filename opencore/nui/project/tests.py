@@ -78,7 +78,7 @@ def test_suite():
     globs = locals()
     readme = dtf.FunctionalDocFileSuite("README.txt", 
                                     optionflags=optionflags,
-                                    package='opencore.nui.project',
+                                    package='opencore.project.browser',
                                     test_class=FunctionalTestCase,
                                     globs = globs,
                                     setUp=readme_setup,
@@ -87,7 +87,7 @@ def test_suite():
 
     delete = dtf.FunctionalDocFileSuite("delete-project.txt",
                                     optionflags=optionflags,
-                                    package='opencore.nui.project',
+                                    package='opencore.project.browser',
                                     test_class=OpenPlansTestCase,
                                     globs = globs,
                                     setUp=tasktracker_setup,
@@ -96,7 +96,7 @@ def test_suite():
     
     metadata = dtf.FunctionalDocFileSuite("metadata.txt", 
                                     optionflags=optionflags,
-                                    package='opencore.nui.project',
+                                    package='opencore.project.browser',
                                     test_class=FunctionalTestCase,
                                     globs = globs,
                                     setUp=metadata_setup,
@@ -105,7 +105,7 @@ def test_suite():
     
     contents = dtf.FunctionalDocFileSuite("contents.txt",
                                     optionflags=optionflags,
-                                    package='opencore.nui.project',
+                                    package='opencore.project.browser',
                                     test_class=OpenPlansTestCase,
                                     globs = globs,
                                     setUp=contents_content,
@@ -114,7 +114,7 @@ def test_suite():
 
     manage_team = dtf.FunctionalDocFileSuite("manage-team.txt",
                                          optionflags=optionflags,
-                                         package='opencore.nui.project',
+                                         package='opencore.project.browser',
                                          test_class=OpenPlansTestCase,
                                          globs = globs, 
                                          setUp=oc_setup.set_portal_as_site,
@@ -123,7 +123,7 @@ def test_suite():
 
     request_membership = dtf.FunctionalDocFileSuite("request-membership.txt",
                                                 optionflags=optionflags,
-                                                package='opencore.nui.project',
+                                                package='opencore.project.browser',
                                                 test_class=OpenPlansTestCase,
                                                 globs = globs, 
                                                 setUp=oc_setup.set_portal_as_site,
@@ -132,7 +132,7 @@ def test_suite():
 
     homepage = dtf.FunctionalDocFileSuite("homepage.txt",
                                                 optionflags=optionflags,
-                                                package='opencore.nui.project',
+                                                package='opencore.project.browser',
                                                 test_class=OpenPlansTestCase,
                                                 globs = globs, 
                                                 setUp=oc_setup.set_portal_as_site,
@@ -141,7 +141,7 @@ def test_suite():
 
     team_request_membership = dtf.FunctionalDocFileSuite("team_membership.txt",
                                                          optionflags=optionflags,
-                                                         package='opencore.nui.project',
+                                                         package='opencore.project.browser',
                                                          test_class=OpenPlansTestCase,
                                                          globs = globs, 
                                                          setUp=oc_setup.set_portal_as_site,
@@ -150,7 +150,7 @@ def test_suite():
 
 ##     preferences = FunctionalDocFileSuite("preferences.txt",
 ##                                          optionflags=optionflags,
-##                                          package='opencore.nui.project',
+##                                          package='opencore.project.browser',
 ##                                          test_class=OpenPlansTestCase,
 ##                                          globs = globs, 
 ##                                          setUp=manage_team_setup,
@@ -160,7 +160,7 @@ def test_suite():
     suites = (contents, metadata, manage_team,
               request_membership, homepage,
               team_request_membership)
-    unit = doctest.DocTestSuite('opencore.nui.project.view',
+    unit = doctest.DocTestSuite('opencore.project.browser.view',
                                 optionflags=optionflags)
     return unittest.TestSuite(suites + (readme, unit, delete))
 

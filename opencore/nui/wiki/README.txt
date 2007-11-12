@@ -66,7 +66,7 @@ Test wiki attachment registrations which are not used any more::
 Test logged in user::
 
     >>> self.loginAsPortalOwner()
-    >>> from opencore.nui.base import BaseView
+    >>> from opencore.browser.base import BaseView
     >>> view = BaseView(self.portal, self.portal.REQUEST)
     >>> view.loggedinmember.getId = lambda *a:'whatever'
 
@@ -225,7 +225,7 @@ Upload an attachment
 
      >>> request = self.portal.REQUEST
      >>> nui_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-     >>> filename = os.path.join(nui_dir, "xinha/images/xinha_logo.gif")
+     >>> filename = os.path.join(nui_dir, 'wiki', 'logo.gif')
      >>> open(filename).read()
      'GIF...
      >>> imgfile = tempfile(filename)
@@ -240,7 +240,7 @@ and check that it appears in the list of files
 (the magic number is the size of xinha_logo.gif)    
 
 and delete it
-     >>> request.form = {'task|xinha_logo.gif|delete-image' : 'Delete'}
+     >>> request.form = {'task|logo.gif|delete-image' : 'Delete'}
      >>> import re
      >>> empty_body = re.compile('<body>\s*</body>')
      >>> empty_body.search(view())

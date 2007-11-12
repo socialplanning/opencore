@@ -1,0 +1,49 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:i18n="http://namespaces.zope.org/i18n"
+           i18n_domain="opencore">
+
+  <browser:page
+     for="opencore.featurelets.interfaces.IListenContainer"
+     name="mailing_lists"
+     class="opencore.browser.base.BaseView"
+     permission="zope2.View"
+     template="mailing_lists.pt"
+     />
+
+
+  <include package="plone.app.form" />
+
+  <browser:page
+     name="opencore.add_mailinglist"
+     for="opencore.featurelets.interfaces.IListenContainer"
+     permission="listen.AddMailingList"
+     class=".view.NuiMailingListAddView"
+     template="listen_formlib.pt"
+     />
+
+  <browser:page
+     name="edit"
+     for="opencore.listen.interfaces.IOpenMailingList"
+     permission="listen.EditMailingList"
+     class=".view.NuiMailingListEditView"
+     template="listen_formlib.pt"
+     />
+
+  <browser:page
+     for="*"
+     class="opencore.browser.base.BaseView"
+     name="listen_macros"
+     permission="zope2.View"
+     template="listen_macros.pt"
+     />
+
+  <adapter
+     for=".view.NuiMailingListAddView"
+     factory=".view.default_named_template_adapter"
+     name="default"
+     provides="zope.formlib.namedtemplate.INamedTemplate"
+     />
+
+</configure>

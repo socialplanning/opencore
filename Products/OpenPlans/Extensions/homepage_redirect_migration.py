@@ -1,7 +1,7 @@
 import re
 from StringIO import StringIO
 from Products.CMFCore.utils import getToolByName
-from opencore.nui.project.interfaces import IHomePage
+from opencore.project.browser.interfaces import IHomePage
 
 pat = 'http://[^/]*(.*)'
 regex = re.compile(pat)

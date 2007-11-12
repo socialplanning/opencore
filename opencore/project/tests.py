@@ -1,12 +1,15 @@
-import os, sys, unittest
-from zope.testing import doctest
-from Testing import ZopeTestCase
-from Testing.ZopeTestCase import PortalTestCase 
-from Testing.ZopeTestCase import FunctionalDocFileSuite
-from opencore.testing.layer import OpencoreContent
-from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from Products.Five.site.localsite import enableLocalSiteHook
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
+from Testing import ZopeTestCase
+from Testing.ZopeTestCase import FunctionalDocFileSuite
+from Testing.ZopeTestCase import PortalTestCase 
+from opencore.project.test_workflowpolicy import test_suite as wftest
+from opencore.testing.layer import OpencoreContent
 from zope.app.component.hooks import setSite, setHooks
+from zope.testing import doctest
+import os
+import sys
+import unittest
 
 optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 
@@ -40,8 +43,8 @@ def test_suite():
                                     )
 
     readme.layer = OpencoreContent
-
-    return unittest.TestSuite((readme,))
+    
+    return unittest.TestSuite((readme, wftest()))
 
 
 if __name__ == '__main__':

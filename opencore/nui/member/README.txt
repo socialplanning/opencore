@@ -60,7 +60,7 @@ Exercise the Member Account Class
     >>> self.login('m1')
 
 Create a project with an international unicode title::
-    >>> from opencore.nui.project.view import ProjectAddView
+    >>> from opencore.project.browser.view import ProjectAddView
     >>> proj_add_view = ProjectAddView(self.portal.projects,
     ...                                self.portal.REQUEST)
     >>> request.form['projid'] = 'i18n'

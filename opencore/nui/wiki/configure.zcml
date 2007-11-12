@@ -4,7 +4,7 @@
 
   <!-- macros -->
   <browser:page
-     class="opencore.nui.base.BaseView"
+     class="opencore.browser.base.BaseView"
      for="opencore.interfaces.IOpenPage"
      name="wiki_macros"
      permission="zope2.View"

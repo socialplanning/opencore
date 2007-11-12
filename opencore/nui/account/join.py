@@ -6,16 +6,16 @@ Join Views
 """
 from opencore.member.interfaces import ICreateMembers
 from opencore.nui.account import accountview
-from opencore.nui.formhandler import action, post_only, OctopoLite
-from opencore.nui.formhandler import anon_only
-from opencore.nui.base import view
+from opencore.browser.formhandler import action, post_only, OctopoLite
+from opencore.browser.formhandler import anon_only
+from opencore.browser.base import view
 from opencore.interfaces.membership import IEmailInvites
 from zope.component import getUtility
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from opencore.nui.base import BaseView
+from opencore.browser.base import BaseView
 from zope.event import notify
 from zope.app.event.objectevent import ObjectCreatedEvent
-from opencore.nui.base import BaseView, _
+from opencore.browser.base import BaseView, _
 
 
 class JoinView(accountview.AccountView, OctopoLite):

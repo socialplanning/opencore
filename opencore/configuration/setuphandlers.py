@@ -1,36 +1,30 @@
-import os
-import socket
-from StringIO import StringIO
-
-from zope.interface import alsoProvides
-from zope.component import queryUtility
-from zope.app.component.hooks import setSite
-
 from Products.CMFCore.utils import getToolByName
-from Products.remember.utils import getAdderUtility
-from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
-from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
-
 from Products.OpenPlans import config
+from Products.OpenPlans.content.team import OpenTeam
 from Products.OpenPlans.permissions import DEFAULT_PFOLDER_PERMISSIONS_DATA
 from Products.OpenPlans.permissions import PLACEFUL_PERMISSIONS_DATA
-from Products.OpenPlans.content.team import OpenTeam
-from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from Products.OpenPlans.workflows import MEMBERSHIP_PLACEFUL_POLICIES
-
-from opencore.interfaces import IAddProject
-from opencore.interfaces import IAmAPeopleFolder
-from opencore.interfaces import IAmANewsFolder
-from opencore.interfaces.message import ITransientMessage
-from opencore.content.membership import OpenMembership
+from Products.OpenPlans.workflows import PLACEFUL_POLICIES
+from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
+from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
+from Products.remember.utils import getAdderUtility
+from StringIO import StringIO
 from opencore.content.member import OpenMember
-
+from opencore.content.membership import OpenMembership
+from opencore.interfaces import IAddProject
+from opencore.interfaces import IAmANewsFolder
+from opencore.interfaces import IAmAPeopleFolder
+from opencore.interfaces.message import ITransientMessage
 from opencore.nui.member.transient_messages import TransientMessage
-from opencore.nui.project.interfaces import IEmailInvites
-from opencore.nui.project.email_invites import EmailInvites
-
+from opencore.project.browser.email_invites import EmailInvites
+from opencore.interfaces.membership import IEmailInvites
 from utils import kupu_libraries
 from utils import kupu_resource_map
+from zope.app.component.hooks import setSite
+from zope.component import queryUtility
+from zope.interface import alsoProvides
+import os
+import socket
 
 
 Z_DEPS = ('PlacelessTranslationService', 'Five', 'membrane', 'remember',

@@ -16,7 +16,7 @@ from opencore.i18n import _
 from opencore.interfaces import IOpenSiteRoot
 from opencore.utility.interfaces import IEmailSender
 
-from opencore.nui.project import mship_messages
+from opencore.project.browser import mship_messages
 
 class EmailSender(object):
     """
