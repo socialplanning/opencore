@@ -33,23 +33,8 @@ def test_suite():
                                     layer = test_layer
                                     )
 
-    pending = dtf.ZopeDocFileSuite("pending_requests.txt",
-                                     optionflags=optionflags,
-                                     package='opencore.member.browser',
-                                     test_class=OpenPlansTestCase,
-                                     globs = globs,
-                                     layer = test_layer
-                                    )
 
-    pending_multi = dtf.ZopeDocFileSuite("pending_requests_multiadapter.txt",
-                                         optionflags=optionflags,
-                                         package='opencore.member.browser',
-                                         test_class=OpenPlansTestCase,
-                                         globs = globs,
-                                         layer = test_layer                                         
-                                         )
-
-    return unittest.TestSuite((readme, pending, pending_multi))
+    return unittest.TestSuite((readme,))
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')

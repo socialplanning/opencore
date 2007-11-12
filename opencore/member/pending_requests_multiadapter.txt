@@ -20,7 +20,7 @@ which requests can be made for.
     >>> from zope.component import getMultiAdapter
     >>> pr = getMultiAdapter((m1, projects_folder), IPendingRequests)
     >>> pr
-    <opencore.nui.member.pending_requests_multiadapter.PendingRequests object ...>
+    <...pending_requests.PendingRequestsForFolder object ...>
 
 The member shouldn't have any requests initially::
     >>> pr.getRequests()

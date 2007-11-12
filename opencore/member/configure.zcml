@@ -3,6 +3,8 @@
     <implements interface="opencore.member.interfaces.IOpenMember" />
   </content>
 
+  <include package="opencore.member.browser" />
+
   <adapter for="opencore.member.interfaces.IOpenMember"
 	   provides="opencore.member.interfaces.IHandleMemberWorkflow"
 	   factory="opencore.member.workflow.MemberWorkflowHandler" />

@@ -29,7 +29,6 @@ from Products.OpenPlans.config import PROJECTNAME
 from Products.OpenPlans.config import PROHIBITED_MEMBER_PREFIXES
 
 from opencore.utility.interfaces import IHTTPClient
-from opencore.nui.member.utils import member_path
 
 
 member_schema = id_schema + contact_schema + plone_schema + \
@@ -427,3 +426,12 @@ class OpenMember(FolderishMember):
 
 
 atapi.registerType(OpenMember, package=PROJECTNAME)
+
+def member_path(mem_id):
+    """
+    Returns the specified member's home folder path relative to the
+    site root.
+
+    #@@ this should read config somewhere
+    """
+    return "people/%s" % mem_id

@@ -10,5 +10,5 @@ from Products.CMFCore.utils import getToolByName
 mtool = getToolByName(context, 'portal_membership')
 request = context.REQUEST
 
-from opencore.nui.member.miv import initializeMemberArea
+from opencore.member.browser.miv import initializeMemberArea
 initializeMemberArea(mtool, request, member_id=context.getId())

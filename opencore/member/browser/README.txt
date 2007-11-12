@@ -1,6 +1,6 @@
-=====================
- opencore.nui.member
-=====================
+=========================
+ opencore.member.browser
+=========================
 
 Test registration of member related views::
 
@@ -42,7 +42,7 @@ Exercise the Member Account Class
 
     Instantiate the view::
 
-    >>> from opencore.nui.member.view import MemberAccountView
+    >>> from opencore.member.browser.view import MemberAccountView
     >>> request = self.app.REQUEST
     >>> request.form = {}
 
@@ -53,7 +53,7 @@ Exercise the Member Account Class
     >>> view = MemberAccountView(member, request)
     >>> view = view.__of__(member)
     >>> view
-    <opencore.nui.member.view.MemberAccountView object at ...>
+    <...MemberAccountView object at ...>
 
     Login as the m1 user::
 
@@ -527,7 +527,7 @@ have the ProjectAdmin role::
     >>> view = MemberAccountView(member, request)
     >>> view = view.__of__(member)
     >>> view
-    <opencore.nui.member.view.MemberAccountView object at ...>
+    <...MemberAccountView object at ...>
 
     >>> view._apply_transition_to('i18n', 'deactivate')
     True

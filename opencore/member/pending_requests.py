@@ -1,25 +1,15 @@
-from zope.interface import implements
-from zope.component import adapts
-from zope.app.annotation.interfaces import IAnnotatable
-from zope.app.annotation.interfaces import IAnnotations
-from persistent.dict import PersistentDict
 from BTrees.OOBTree import OOBTree
 from Products.ATContentTypes.interface.folder import IATBTreeFolder
-
 from opencore.interfaces.pending_requests import IPendingRequests
 from opencore.interfaces.pending_requests import IRequestMembership
-
-
-from zope.interface import implements
-from zope.component import adapts
+from persistent.dict import PersistentDict
 from zope.app.annotation.interfaces import IAnnotatable
 from zope.app.annotation.interfaces import IAnnotations
-
-from BTrees.OOBTree import OOBTree
-
-from opencore.interfaces.pending_requests import IPendingRequests
+from zope.component import adapts
+from zope.interface import implements
 
 annot_key = 'opencore.member.pending_requests' #planning for future
+
 
 class PendingRequests(object):
     """
