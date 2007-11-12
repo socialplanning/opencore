@@ -1,29 +1,26 @@
-from BTrees.OOBTree import OOBTree
-from zExceptions import Redirect
 from AccessControl import ClassSecurityInfo
-from Products.CMFCore.utils import getToolByName
-from Products.CMFCore.WorkflowCore import WorkflowException
-from Products.CMFPlone.utils import _createObjectByType
+from BTrees.OOBTree import OOBTree
+from DateTime import DateTime
 from Products.Archetypes.public import registerType
-from Products.TeamSpace.team import Team, team_type_information
+from Products.CMFCore.WorkflowCore import WorkflowException
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import _createObjectByType
+from opencore.configuration import DEFAULT_ROLES
+from Products.TeamSpace.exceptions import MemberRoleNotAllowed
 from Products.TeamSpace.permissions import ManageTeam, ViewTeam
 from Products.TeamSpace.permissions import ManageTeamMembership
-from Products.TeamSpace.exceptions import MemberRoleNotAllowed
-
-from zope.interface import implements
-from zope.event import notify
-
+from Products.TeamSpace.team import Team, team_type_information
 from opencore.interfaces import IOpenTeam
-from Products.OpenPlans.config import DEFAULT_ROLES
-
-from opencore.nui.indexing import queueObjectReindex
 from opencore.interfaces.event import ChangedTeamRolesEvent
-
-from DateTime import DateTime
+from opencore.nui.indexing import queueObjectReindex
+from zExceptions import Redirect
+from zope.event import notify
+from zope.interface import implements
 
 marker = object()
 
 openteam_schema = Team.schema.copy()
+
 
 class OpenTeam(Team):
     """

@@ -1,4 +1,5 @@
 import uuid
+from topp.utils.persistence import KeyedMap
 
 class vdict(dict):
     _sortable = dict(id=None,
@@ -31,3 +32,20 @@ class vdict(dict):
 
 def make_key():
     return uuid.uuid4().bytes.encode('base64')[:-3]
+
+def bbb_keymap(wrap=True):
+    """auto-migrater"""
+    def wrap_func(func): 
+        def wrap(*args, **kwargs):
+            keymap = func(*args, **kwargs)
+            if not isinstance(keymap, KeyedMap):
+                address = args[1]
+                key = utils.make_key()
+                return KeyedMap(btree=keymap, key=key)
+            return keymap
+        return wrap
+    if wrap:
+        return wrap_func
+    else:
+        return func
+

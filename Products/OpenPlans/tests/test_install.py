@@ -13,7 +13,7 @@ from Testing import ZopeTestCase
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore import permissions
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
-from Products.OpenPlans.config import DEFAULT_ROLES
+from opencore.configuration import DEFAULT_ROLES
 from openplanstestcase import OpenPlansTestCase, makeContent, \
      ArcheSiteTestCase
 import Products.CMFCore

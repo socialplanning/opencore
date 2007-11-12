@@ -1,15 +1,12 @@
-from Products.listen.content.mailinglist import MailingList
-from Products.listen.permissions import InviteSubscribers
-from Products.OpenPlans.config import PROJECTNAME
-
 from Products.CMFCore import permissions as CMFPermissions
 from Products.CMFDefault.DublinCore import DefaultDublinCoreImpl
 from Products.listen import permissions
-
-from zope.interface import implements
-
-from interfaces import IOpenMailingList
+from Products.listen.content.mailinglist import MailingList
+from Products.listen.permissions import InviteSubscribers
 from fieldproperty import ListNameFieldProperty
+from interfaces import IOpenMailingList
+from opencore.configuration import PROJECTNAME
+from zope.interface import implements
 
 PKG_NAME = 'listen'
 

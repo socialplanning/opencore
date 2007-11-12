@@ -9,7 +9,7 @@ from Products.RichDocument.content.richdocument import RichDocument
 from Products.RichDocument.widgets.attachments import AttachmentsManagerWidget
 from Products.wicked.example.wickeddoc import schema as WickedSchema
 from opencore.interfaces import IOpenPage
-from Products.OpenPlans.config import PROJECTNAME
+from opencore.configuration import PROJECTNAME
 
 from zope.interface import implements
 

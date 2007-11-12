@@ -25,7 +25,6 @@ from opencore.configuration.setuphandlers import install_remote_auth_plugin, \
      install_team_placeful_workflow_policies, addCatalogQueue
 
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
-from Products.OpenPlans import config as op_config
 from DateTime import DateTime
 from topp.featurelets.interfaces import IFeatureletSupporter
 from opencore.interfaces import IOpenPage, INewsItem
@@ -34,7 +33,7 @@ from opencore.nui.wiki.add import get_view_names
 from Products.OpenPlans.content.project import OpenProject
 from persistent import mapping
 
-logger = getLogger(op_config.PROJECTNAME)
+logger = getLogger('opencore.nui.setup')
 
 HERE = os.path.dirname(__file__)
 ALIASES = os.path.join(HERE, 'aliases.cfg')

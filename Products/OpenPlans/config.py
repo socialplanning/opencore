@@ -19,8 +19,6 @@ GLOBALS                = globals()
 
 PKG_HOME               = package_home(GLOBALS)
 SKINS_DIR              = 'skins'
-COPY_DIR               = 'copy'
-COPY_PATH              = os.path.join(PKG_HOME, COPY_DIR)
 
 NOT_ADDABLE_TYPES = ['Smartlink', 'IronicWiki', 'TeamSpace']
 

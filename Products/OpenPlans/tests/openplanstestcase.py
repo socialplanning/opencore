@@ -1,22 +1,19 @@
+from Products.Archetypes.tests.ArchetypesTestCase import ArcheSiteTestCase
+from Products.CMFCore.utils  import getToolByName
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase
-
-from zope.interface import Interface
-from zope.component import provideHandler
-from zope.app.event.interfaces import IObjectEvent
-from zope.app.annotation.interfaces import IAnnotations
-from plone.memoize.view import ViewMemo
-from plone.memoize.instance import Memojito
-
-from Products.CMFCore.utils  import getToolByName
-from Products.Archetypes.tests.ArchetypesTestCase import ArcheSiteTestCase
 from opencore.configuration.setuphandlers import migrateATDocToOpenPage
-migrateOpenPage = migrateATDocToOpenPage.orig
-
-import Products.OpenPlans.config as config
-
 from opencore.testing.layer import SiteSetupLayer, OpenPlansLayer
 from opencore.testing.utils import makeContent, getPortal, login_portal_owner
+from plone.memoize.instance import Memojito
+from plone.memoize.view import ViewMemo
+from zope.app.annotation.interfaces import IAnnotations
+from zope.app.event.interfaces import IObjectEvent
+from zope.component import provideHandler
+from zope.interface import Interface
+
+migrateOpenPage = migrateATDocToOpenPage.orig
+
 
 # This is the test case. You will have to add test_<methods> to your
 # class in order to assert things about your Product.

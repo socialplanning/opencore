@@ -2,7 +2,7 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.public import registerType
 from Products.CMFCore.permissions import ManagePortal
 from Products.CMFCore.utils import getToolByName
-from Products.OpenPlans.config import PROJECTNAME, DEFAULT_ROLES
+from opencore.configuration import PROJECTNAME, DEFAULT_ROLES
 from Products.TeamSpace.membership import TeamMembership
 from Products.TeamSpace.permissions import ManageTeamMembership
 from opencore.interfaces.membership import IOpenMembership

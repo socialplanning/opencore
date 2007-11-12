@@ -1,14 +1,10 @@
+from Products.Archetypes.Extensions.utils import install_subskin
+from Products.CMFCore.utils import getToolByName
+from ZODB.POSException import ConflictError
 from cStringIO import StringIO
 from os.path import join, abspath, dirname, basename
-import time
-
 import ZConfig
-from ZODB.POSException import ConflictError
-
-from Products.CMFCore.utils import getToolByName
-from Products.Archetypes.Extensions.utils import install_subskin
-
-from Products.OpenPlans.config import GLOBALS
+import time
 
 VOCAB_PREFIX = abspath(join(dirname(__file__), '..', 'vocabulary'))
 CONF_PREFIX = abspath(join(dirname(__file__), '..', 'conf'))
@@ -142,4 +138,4 @@ def reinstallSubskins(portal):
     stool = getToolByName(portal, 'portal_skins')
     dels = [id for id in stool.objectIds() if id.startswith('openplans')]
     stool.manage_delObjects(ids=dels)
-    install_subskin(portal, out, GLOBALS)
+    install_subskin(portal, out, {})

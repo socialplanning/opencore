@@ -2,34 +2,26 @@
 for setup widgets for those annoying little tasks that
 only need to happen occasionally
 """
-from logging import getLogger
-
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.setup.SetupBase import SetupWidget
-from Products.CMFPlone import MigrationTool
-from Products.Archetypes.public import listTypes
 from Products.Archetypes.Extensions.utils import installTypes
-from Products.OpenPlans import config
+from Products.Archetypes.public import listTypes
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone import MigrationTool
+from Products.CMFPlone.setup.SetupBase import SetupWidget
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
+from cStringIO import StringIO
+from logging import getLogger
+from migrate_membership_roles import migrate_membership_roles
+from migrate_teams_to_projects import migrate_teams_to_projects
+from opencore.interfaces.workflow import IReadWorkflowPolicySupport
+from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
+from utils import setupKupu, reinstallSubskins
 from zLOG import INFO, ERROR
-
 from opencore.configuration.setuphandlers import \
      installWorkflowPolicies, securityTweaks, \
      migrateATDocToOpenPage, \
      setupProjectLayout, setCookieDomain, installCookieAuth, \
      setupPeopleFolder, setupProjectLayout, setupHomeLayout, \
      installNewsFolder, setProjectFolderPermissions
-from migrate_teams_to_projects import migrate_teams_to_projects
-from migrate_membership_roles import migrate_membership_roles
-
-from cStringIO import StringIO
-
-from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
-from opencore.interfaces.workflow import IReadWorkflowPolicySupport
-
-from Products.OpenPlans.config import PROJECTNAME
-
-from utils import setupKupu, reinstallSubskins
 
 out = StringIO()
 def convertFunc(func):
