@@ -246,16 +246,13 @@ class ConfirmAccountView(AccountView):
 
     @property
     def key(self):
-        return self.request.form["key"]
+        return self.request.form.get('key', '')
     
     @instance.memoizedproperty
     def member(self):
         member = None
-        
         try:
             UID, confirmation_key = self.key.split('confirm')
-        except KeyError:
-            return None
         except ValueError: # if there is no 'confirm' (or too many?)
             return None
     
@@ -264,8 +261,8 @@ class ConfirmAccountView(AccountView):
         matches = self.membranetool.unrestrictedSearchResults(UID=UID)
         if matches:
             member = matches[0].getObject()
-        if member._confirmation_key != confirmation_key:
-            return None
+            if member._confirmation_key != confirmation_key:
+                return None
 
         return member
 
