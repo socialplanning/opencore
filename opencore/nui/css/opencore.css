@@ -1222,10 +1222,7 @@ li.oc-feed-item .oc-project-logo {
   margin-right: 1em;
 }
 li.oc-feed-item .oc-feed-item-content {
-  float: left;
-  clear: none;
-  padding: 0.75em 0;
-  width: 67%;
+  padding: 0.75em 0pt 0.75em 90px;
 }
 li.oc-feed-item .oc-feed-item-title,
 li.oc-feed-item .oc-feed-item-data,
