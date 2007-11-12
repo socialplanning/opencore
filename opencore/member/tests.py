@@ -5,6 +5,7 @@ from Testing.ZopeTestCase import PortalTestCase
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansLayer
 from opencore.testing.layer import MockHTTPWithContent
+from opencore.testing import dtfactory as dtf
 optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 
 import warnings; warnings.filterwarnings("ignore")
@@ -15,6 +16,7 @@ def test_suite():
     from Products.PloneTestCase import setup
     from opencore.testing import alsoProvides, noLongerProvides
     from opencore import redirect
+    from opencore.interfaces.message import ITransientMessage
 
     setup.setupPloneSite()
     def readme_setup(tc):
@@ -24,17 +26,23 @@ def test_suite():
         tc.login(orig_user)
 
     globs = locals()
-    readme = FunctionalDocFileSuite("README.txt",
-                                    optionflags=optionflags,
-                                    package='opencore.member',
-                                    test_class=FunctionalTestCase,
-                                    globs = globs,
-                                    setUp=readme_setup
-                                    )
+    readme = dtf.ZopeDocFileSuite("README.txt",
+                                  optionflags=optionflags,
+                                  package='opencore.member',
+                                  test_class=FunctionalTestCase,
+                                  globs = globs,
+                                  setUp=readme_setup,
+                                  layer=MockHTTPWithContent
+                                  )
 
-    readme.layer = MockHTTPWithContent #yuck, shouldn't be necessary
+    transient = dtf.ZopeDocFileSuite('transient-message.txt',
+                                 optionflags=optionflags,
+                                 package='opencore.member',
+                                 test_class=OpenPlansTestCase,
+                                 globs=globs,
+                                 )
 
-    return unittest.TestSuite((readme,))
+    return unittest.TestSuite((readme, transient))
 
 
 if __name__ == '__main__':

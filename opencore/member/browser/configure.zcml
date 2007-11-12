@@ -83,13 +83,14 @@
   <adapter
      for="zope.app.annotation.interfaces.IAnnotatable"
      provides="opencore.interfaces.pending_requests.IPendingRequests"
-     factory="opencore.nui.member.pending_requests.PendingRequests"
+     factory="opencore.member.pending_requests.PendingRequests"
      />
+
   <adapter
      for="zope.app.annotation.interfaces.IAnnotatable
           Products.ATContentTypes.interface.folder.IATBTreeFolder"
      provides="opencore.interfaces.pending_requests.IPendingRequests"
-     factory="opencore.nui.member.pending_requests_multiadapter.PendingRequests"
+     factory="opencore.member.pending_requests.PendingRequestsForFolder"
      />
      
 </configure>

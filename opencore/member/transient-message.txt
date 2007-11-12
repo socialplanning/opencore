@@ -1,11 +1,11 @@
 ======================================
-opencore.nui.member.transient_messages
+opencore.member.transient_messages
 ======================================
 
 Check storing and retrieving transient messages
 
     Let's begin by instantiating our utility, always a good start
-    >>> from opencore.nui.member.transient_messages import TransientMessage
+    >>> from opencore.member.transient_messages import TransientMessage
     >>> app = self.app
     >>> tm = TransientMessage(app)
     >>> tm

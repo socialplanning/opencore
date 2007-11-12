@@ -4,6 +4,7 @@ from zope.testing import doctest
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from opencore.testing.layer import MockHTTPWithContent as test_layer
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
+from opencore.testing import dtfactory as dtf
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
@@ -24,40 +25,31 @@ def test_suite():
     portrait = open(img)
 
     globs = locals()
-    readme = FunctionalDocFileSuite("README.txt",
+    readme = dtf.ZopeDocFileSuite("README.txt",
                                     optionflags=optionflags,
-                                    package='opencore.nui.member',
+                                    package='opencore.member.browser',
                                     test_class=OpenPlansTestCase,
                                     globs = globs,
+                                    layer = test_layer
                                     )
 
-    readme.layer = test_layer
-    pending = FunctionalDocFileSuite("pending_requests.txt",
-                                    optionflags=optionflags,
-                                    package='opencore.nui.member',
-                                    test_class=OpenPlansTestCase,
-                                    globs = globs,
+    pending = dtf.ZopeDocFileSuite("pending_requests.txt",
+                                     optionflags=optionflags,
+                                     package='opencore.member.browser',
+                                     test_class=OpenPlansTestCase,
+                                     globs = globs,
+                                     layer = test_layer
                                     )
 
-    pending.layer = test_layer
+    pending_multi = dtf.ZopeDocFileSuite("pending_requests_multiadapter.txt",
+                                         optionflags=optionflags,
+                                         package='opencore.member.browser',
+                                         test_class=OpenPlansTestCase,
+                                         globs = globs,
+                                         layer = test_layer                                         
+                                         )
 
-    pending_multi = FunctionalDocFileSuite("pending_requests_multiadapter.txt",
-                                    optionflags=optionflags,
-                                    package='opencore.nui.member',
-                                    test_class=OpenPlansTestCase,
-                                    globs = globs,
-                                    )
-
-    pending_multi.layer = test_layer
-
-    transient = FunctionalDocFileSuite('transient-message.txt',
-                                 optionflags=optionflags,
-                                 package='opencore.nui.member',
-                                 test_class=OpenPlansTestCase,
-                                 globs=globs,
-                                 )
-
-    return unittest.TestSuite((readme, transient, pending, pending_multi))
+    return unittest.TestSuite((readme, pending, pending_multi))
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')
