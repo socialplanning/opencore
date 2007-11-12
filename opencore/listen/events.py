@@ -19,7 +19,7 @@ def mailinglist_changed(ml, event):
 #XXX this is directly copied from the wordpress event code to check
 # need to extract a method, or utility, or something
 @decorator
-def listen_featurelet_installed(f, mship_obj, action):
+def is_listen_featurelet_installed(f, mship_obj, action):
     team = mship_obj.aq_inner.aq_parent
     proj_id = team.getId()
     portal = getToolByName(mship_obj, 'portal_url').getPortalObject()
@@ -37,7 +37,7 @@ def listen_featurelet_installed(f, mship_obj, action):
     f(mship_obj, action)
 
 
-@listen_featurelet_installed
+@is_listen_featurelet_installed
 def perform_listen_action(mship, action):
     mem_id = mship.getId()
     team = mship.aq_inner.aq_parent
