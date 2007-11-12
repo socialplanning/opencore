@@ -353,13 +353,41 @@ But we do allow appending to existing logins::
 Confirm
 =======
 
-Test the account confirmation view:: (fill this in!)
+Test the account confirmation view::
 
 Calling the view with no key in the request will fail and go to the login page::
 
     >>> view = portal.restrictedTraverse("@@confirm-account")
+    >>> ignored = view.portal_status_message  # clear old messages
+    >>> view.request.form.clear()
     >>> view()
     'http://nohost/plone/login'
+
+Calling the view with an invalid key should give you some kind of
+error message::
+
+    >>> view = portal.restrictedTraverse("@@confirm-account")
+    >>> view.request.form.clear()
+    >>> view.request.form['key'] = 'garbage'
+    >>> view()
+    'http://nohost/plone/login'
+    >>> del(view._redirected)  # Need this to see the psm.
+    >>> view.portal_status_message
+    [u'Denied -- bad key']
+
+
+Calling the view with a valid but wrong key should give you some kind of
+error message::
+
+    >>> view = portal.restrictedTraverse("@@confirm-account")
+    >>> view.request.form.clear()
+    >>> view.request.form['key'] = 'xyz confirm pdq'
+    >>> view()
+    'http://nohost/plone/login'
+    >>> del(view._redirected)  # Need this to see the psm. Argh.
+    >>> view.portal_status_message
+    [u'Denied -- bad key']
+
 
 Get the newly created member::
 
@@ -380,6 +408,10 @@ Calling the view with the proper key will bring you to your account page::
     >>> view.request.form['key'] = key
     >>> view()
     'http://nohost/plone/init-login'
+    >>> view.portal_status_message
+    []
+
+
 
 Login
 =====
