@@ -27,7 +27,8 @@ setup(name='opencore',
                         'https://svn.plone.org/svn/plone/plone.memoize/trunk#egg=plone.memoize-dev',
                         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
                         'http://zesty.ca/python/uuid.py#egg=uuid-dev',
-                        'https://svn.openplans.org/svn/oc-js/trunk/#egg=oc-js-dev'
+                        'https://svn.openplans.org/svn/oc-js/trunk/#egg=oc-js-dev',
+                        'https://svn.openplans.org/svn/flunc/branches/setuptools-command#egg=flunc-0.1.1'
                         ],
       
       install_requires=[
@@ -48,6 +49,7 @@ setup(name='opencore',
           'borg.localrole==1.0rc1',
           'wsseauth',
           'uuid',
+          'flunc==0.1.1'
           ],
       extras_require=dict(ubuntu=['hprof'])
       )

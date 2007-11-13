@@ -107,7 +107,7 @@ class ProfileView(BaseView):
     def trackbacks(self):
         self.msg_category = 'Trackback'
 
-        tm = getUtility(ITransientMessage, context=self.portal)
+        tm = ITransientMessage(self.portal)
         mem_id = self.viewed_member_info['id']
         msgs = tm.get_msgs(mem_id, self.msg_category)
 
@@ -499,7 +499,7 @@ class MemberAccountView(BaseView, OctopoLite):
         team.reindexTeamSpaceSecurity()
 
         admin_ids = team.get_admin_ids()
-        transient_msgs = getUtility(ITransientMessage, context=self.portal)
+        transient_msgs = ITransientMessage(self.portal)
         id_ = self.loggedinmember.getId()
         project_url = '/'.join((self.url_for('projects'), proj_id))
         msg = _(u'tmsg_joined_project', u'${id} has joined <a href="${project_url}">${proj_id}</a>',
@@ -552,7 +552,7 @@ class MemberAccountView(BaseView, OctopoLite):
         wf_history = mship.workflow_history.get(wf_id)
         spurned_admin = [i for i in wf_history if i['review_state'] == 'pending'][-1]['actor']
         
-        transient_msgs = getUtility(ITransientMessage, context=self.portal)
+        transient_msgs = ITransientMessage(self.portal)
 
         project_url = '/'.join((self.url_for('projects'), proj_id))
         msg = _(u'tmsg_decline_invite', u'${id} has declined your invitation to join <a href="${project_url}">${proj_id}</a>',
@@ -585,7 +585,7 @@ class MemberAccountView(BaseView, OctopoLite):
         idx = int(idx)
         # XXX explicit context shouldn't be req'd, but lookup fails
         # in the tests w/o it  :(
-        tm = getUtility(ITransientMessage, context=self.portal)
+        tm = ITransientMessage(self.portal)
         mem_id = self.viewed_member_info['id']
         try:
             tm.pop(mem_id, self.msg_category, idx)
@@ -606,7 +606,7 @@ class MemberAccountView(BaseView, OctopoLite):
            so that they can be popped by the user"""
         # XXX explicit context shouldn't be req'd, but lookup fails
         # in the tests w/o it  :(
-        tm = getUtility(ITransientMessage, context=self.portal)
+        tm = ITransientMessage(self.portal)
         mem_id = self.viewed_member_info['id']
         msgs = tm.get_msgs(mem_id, self.msg_category)
         return msgs
@@ -680,7 +680,7 @@ class TrackbackView(BaseView):
         # Add a trackback and return a javascript callback
         # so client script knows when it's done and whether it succeeded.
         mem_id = self.viewed_member_info['id']
-        tm = getUtility(ITransientMessage, context=self.portal)
+        tm = ITransientMessage(self.portal)
 
         if self.viewedmember() != self.loggedinmember:
             return 'OpenCore.submitstatus(false, "Permission denied");'
@@ -726,7 +726,7 @@ class TrackbackView(BaseView):
             return 'No index specified'
 
         # Do the delete
-        tm = getUtility(ITransientMessage, context=self.portal)
+        tm = ITransientMessage(self.portal)
         tm.pop(mem_id, self.msg_category, int(index))
         # TODO: Make sure this is an AJAX request before sending an AJAX response
         #       by using octopus/octopolite

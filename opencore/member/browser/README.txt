@@ -325,7 +325,7 @@ Let's accept our gracious invitation
 And now if we were to receive an info message::
 
     Let's stick some phony messages in there first
-    >>> tm = getUtility(ITransientMessage, context=self.portal)
+    >>> tm = ITransientMessage(self.portal)
     >>> tm.store('m1', view.msg_category, 'All your base are belong to us')
     >>> tm.store('m1', view.msg_category, 'You were just acceped to Move Zig')
 

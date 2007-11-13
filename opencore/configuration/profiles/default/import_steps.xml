@@ -210,15 +210,6 @@
 
   <import-step
      version="20071029-01"
-     id="install_local_transient_message_utility"
-     handler="opencore.configuration.setuphandlers.install_local_transient_message_utility"
-     title="OpenCore install transient message utility">
-    Installs a local utility to handle the OpenCore transient messages.
-    <dependency step="install_dependencies" />
-  </import-step>
-
-  <import-step
-     version="20071029-01"
      id="install_email_invites_utility"
      handler="opencore.configuration.setuphandlers.install_email_invites_utility"
      title="OpenCore install email invites utility">

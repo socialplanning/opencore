@@ -176,7 +176,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     @property
     @req_memoize
     def transient_msgs(self):
-        return getUtility(ITransientMessage, context=self.portal)
+        return ITransientMessage(self.portal)
 
     def _add_transient_msg_for(self, mem_id, msg):
         # XXX not happy about generating the html for this here

@@ -1,23 +1,21 @@
-from zope.interface import implements
-from zope.app.annotation import IAnnotations
-
-from BTrees.OOBTree import OOBTree
 from BTrees.IOBTree import IOBTree
-
+from BTrees.OOBTree import OOBTree
 from OFS.SimpleItem import SimpleItem
-
-from opencore.interfaces.message import ITransientMessage
-
 from lxml.html.clean import Cleaner
-
-from zope.i18nmessageid import Message
 from opencore.i18n import _
 from opencore.i18n import translate
+from opencore.interfaces.message import ITransientMessage
+from zope.app.annotation import IAnnotations
+from zope.i18nmessageid import Message
+from zope.interface import implements
+from zope.component import adapts
+from opencore.interfaces import IOpenSiteRoot
 
 
-class TransientMessage(SimpleItem):
+class TransientMessage(object):
+    adapts(IOpenSiteRoot)
     implements(ITransientMessage)
-
+    
     key = 'transient-message'
 
     def __init__(self, site_root):

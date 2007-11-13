@@ -408,32 +408,29 @@ def installNewsFolder(portal, out):
     # set the default view on the news folder
     pf.setLayout('@@view')
 
-
 @setuphandler
 def createValidationMember(portal, out):
     mdtool = getToolByName(portal, 'portal_memberdata')
     mem = OpenMember('validation_member')
     mdtool._validation_member = mem
 
-@setuphandler
-def install_local_transient_message_utility(portal, out):
-    setSite(portal) # specify the portal as the local utility context
-    if queryUtility(ITransientMessage) is not None:
-        return
+def install_local_utility(iface, klass, name):
+    def do_install(portal, out):
+        setSite(portal) # specify the portal as the local utility context
+        if queryUtility(iface) is not None:
+            return
+        sm = portal.getSiteManager()
+        try:
+            sm.registerUtility(iface, klass())
+            print >> out, ('%s utility installed' %iface.__name__)
+        except ValueError:
+            old_utility = getattr(portal.utilities, iface.__name__)
+            sm.registerUtility(iface, old_utility)
+            print >> out, ('%s utility interface updated' %iface.__name__)
+    do_install.__name__=name
+    return setuphandler(do_install)
 
-    sm = portal.getSiteManager()
-    sm.registerUtility(ITransientMessage, TransientMessage(portal))
-    print >> out, ('Transient message utility installed')
-
-@setuphandler
-def install_email_invites_utility(portal, out):
-    setSite(portal) # specify the portal as the local utility context
-    if queryUtility(IEmailInvites) is not None:
-        return
-
-    sm = portal.getSiteManager()
-    sm.registerUtility(IEmailInvites, EmailInvites())
-    print >> out, ('Email invites utility installed')
+install_email_invites_utility = install_local_utility(IEmailInvites, EmailInvites, 'install_email_invites_utility')
 
 @setuphandler
 def addCatalogQueue(portal, out):

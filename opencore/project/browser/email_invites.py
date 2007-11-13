@@ -19,9 +19,13 @@ class EmailInvites(SimpleItem):
     """
     implements(IEmailInvites)
 
-    def __init__(self):
-        self._by_address = OOBTree()
-        self._by_project = OOBTree()
+    def __init__(self, migrate_from=None):
+        if migrate_from is not None:
+            self._by_address = migrate_from._by_address
+            self._by_project = migrate_from._by_project
+        else:
+            self._by_address = OOBTree()
+            self._by_project = OOBTree()
 
     def getInvitesByEmailAddress(self, address):
         by_addy = self._by_address.get(address)

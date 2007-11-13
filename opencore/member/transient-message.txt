@@ -9,7 +9,7 @@ Check storing and retrieving transient messages
     >>> app = self.app
     >>> tm = TransientMessage(app)
     >>> tm
-    <TransientMessage at >
+    <opencore.member.transient_messages.TransientMessage object at ...>
 
     Now, we can start to store all kinds of messages
     >>> tm.store('m1', 'ghosts', 'there is only zul')
@@ -71,10 +71,7 @@ efficient, since it dereferences all the messages upon generation::
     >>> list(tm.get_msgs('m1', 'ghosts'))
     [(0, 'there is only zul'), (2, 'do not cross the streams'), (3, 'gatekeeper and keymaster')]
 
-    Now we just have to check that when we try to get the utility,
-    we actually get the right object back.  We pass in the portal
-    as the explicit context for the utility lookup, since setSite doesn't
-    seem to work for us here in test-land.
+    Get the adapter!
     >>> from opencore.interfaces.message import ITransientMessage
-    >>> getUtility(ITransientMessage, context=self.portal)
-    <TransientMessage at /plone/utilities/>
+    >>> ITransientMessage(self.portal)
+    <opencore.member.transient_messages.TransientMessage object at ...>

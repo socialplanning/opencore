@@ -1,37 +1,33 @@
-import os
+from DateTime import DateTime
+from Products.CMFCore.utils import getToolByName
+from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
+from Products.OpenPlans.Extensions.setup import convertFunc
+from Products.OpenPlans.Extensions.setup import installNewsFolder
+from Products.OpenPlans.Extensions.setup import reinstallWorkflowPolicies 
+from Products.OpenPlans.Extensions.setup import securityTweaks
+from Products.OpenPlans.Extensions.utils import reinstallSubskins
+from Products.OpenPlans.content.project import OpenProject
+from Products.PortalTransforms.libtransforms.utils import MissingBinary
+from borg.localrole.utils import setup_localrole_plugin
 from logging import getLogger, INFO
+from opencore.configuration.setuphandlers import addCatalogQueue
+from opencore.configuration.setuphandlers import createValidationMember
+from opencore.configuration.setuphandlers import install_email_invites_utility
+from opencore.configuration.setuphandlers import install_remote_auth_plugin
+from opencore.configuration.setuphandlers import install_team_placeful_workflow_policies
+from opencore.configuration.setuphandlers import setupPeopleFolder
+from opencore.configuration.setuphandlers import setupProjectLayout, setupHomeLayout
+from opencore.interfaces import IOpenPage, INewsItem
+from opencore.nui.wiki.add import get_view_names
+from opencore.project.browser.metadata import _update_last_modified_author
+from persistent import mapping
 from pprint import pprint
-
+from topp.featurelets.interfaces import IFeatureletSupporter
+from topp.featurelets.interfaces import IFeatureletSupporter, IFeatureletRegistry
+from topp.utils import config
 from zope.component import getUtility
 from zope.interface import alsoProvides
-
-from borg.localrole.utils import setup_localrole_plugin
-
-from topp.utils import config
-from topp.featurelets.interfaces import IFeatureletSupporter, IFeatureletRegistry
-
-from Products.CMFCore.utils import getToolByName
-from Products.PortalTransforms.libtransforms.utils import MissingBinary
-from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
-
-from Products.OpenPlans.Extensions.setup import convertFunc, \
-     reinstallWorkflowPolicies, installNewsFolder, securityTweaks
-
-from opencore.configuration.setuphandlers import setupPeopleFolder, \
-     setupProjectLayout, setupHomeLayout
-from opencore.configuration.setuphandlers import createValidationMember, \
-     install_local_transient_message_utility, install_email_invites_utility
-from opencore.configuration.setuphandlers import install_remote_auth_plugin, \
-     install_team_placeful_workflow_policies, addCatalogQueue
-
-from Products.OpenPlans.Extensions.utils import reinstallSubskins
-from DateTime import DateTime
-from topp.featurelets.interfaces import IFeatureletSupporter
-from opencore.interfaces import IOpenPage, INewsItem
-from opencore.project.browser.metadata import _update_last_modified_author
-from opencore.nui.wiki.add import get_view_names
-from Products.OpenPlans.content.project import OpenProject
-from persistent import mapping
+import os
 
 logger = getLogger('opencore.nui.setup')
 
@@ -300,7 +296,6 @@ nui_functions['reinstallSubskins'] = reinstallSubskins
 nui_functions['migrate_wiki_attachments'] = migrate_wiki_attachments
 nui_functions['createValidationMember'] = convertFunc(createValidationMember)
 nui_functions['reinstallWorkflowPolicies'] = reinstallWorkflowPolicies
-nui_functions['setup_transient_message_utility'] = convertFunc(install_local_transient_message_utility)
 nui_functions['install_email_invites_utility'] = convertFunc(install_email_invites_utility)
 nui_functions['migrate_mission_statement'] = migrate_mission_statement
 nui_functions['migrate_page_descriptions'] = migrate_page_descriptions

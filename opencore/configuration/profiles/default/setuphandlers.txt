@@ -4,7 +4,6 @@ createValidationMember
 installCookieAuth
 install_dependencies
 install_email_invites_utility
-install_local_transient_message_utility
 install_mem_dependencies
 install_remote_auth_plugin
 installNewsFolder
