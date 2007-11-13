@@ -29,8 +29,6 @@ from Products.OpenPlans.config import PROJECTNAME
 from Products.OpenPlans.config import PROHIBITED_MEMBER_PREFIXES
 
 from opencore.utility.interfaces import IHTTPClient
-from opencore.nui.member.utils import member_path
-
 
 member_schema = id_schema + contact_schema + plone_schema + \
                 security_schema + login_info_schema
@@ -285,8 +283,7 @@ class OpenMember(FolderishMember):
         data = ' '.join(data)
         return data
 
-    security.declarePrivate('_remote_sites')
-    @property
+    security.declarePrivate('_remote_auth_sites')
     def _remote_auth_sites(self):
         ptool = getToolByName(self, 'portal_properties')
         ocprops = ptool._getOb('opencore_properties')
@@ -300,7 +297,7 @@ class OpenMember(FolderishMember):
         Checks all of the servers in the remote_auth_sites property to
         see if this specified id exists on any of those sites.
         """
-        remote_auth_sites = self._remote_auth_sites
+        remote_auth_sites = self._remote_auth_sites()
         if remote_auth_sites:
             http = getUtility(IHTTPClient)
             for url in remote_auth_sites:
@@ -351,7 +348,7 @@ class OpenMember(FolderishMember):
         Checks all of the servers in the remote_auth_sites property to
         see if this specified id exists on any of those sites.
         """
-        remote_auth_sites = self._remote_auth_sites
+        remote_auth_sites = self._remote_auth_sites()
         if remote_auth_sites:
             http = getUtility(IHTTPClient)
             for url in remote_auth_sites:
@@ -381,7 +378,6 @@ class OpenMember(FolderishMember):
                 msg = ("That email address is already in use.  "
                        "Please choose another.")
                 return self.translate(msg, default=msg)
-
 
     def __bobo_traverse__(self, REQUEST, name):
         """Transparent access to image scales
