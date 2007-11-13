@@ -7,6 +7,7 @@ from opencore.browser.base import BaseView
 from opencore.interfaces.message import ITransientMessage
 from opencore.nui.contexthijack import HeaderHijackable
 from opencore.project.content import IProject
+from opencore.content.page import OpenPage
 from plone.memoize import view
 from zope.component import getUtility
 
@@ -60,25 +61,18 @@ class MemberMenuView(BaseView):
     def userprefs_url(self):
         return '%s/account' % self.areaURL
 
-    #XXX no longer used
     @memoizedproperty
-    def atMemberHome(self):
-        result = False
+    def atMemberWiki(self):
         memfolder = self.miv.member_folder
-        if memfolder is not None:
-            homepage = memfolder._getOb(memfolder.getDefaultPage())
-            if self.context == homepage and \
-               self.request.ACTUAL_URL not in (self.userprefs_url,
-                                               self.profile_url):
-                result = True
-        return result
+        memfolder_url = memfolder.absolute_url()
+        return memfolder_url in self.request.ACTUAL_URL and isinstance(self.context, OpenPage)
 
     @memoizedproperty
     def menudata(self):
         menudata = (
             {'content': 'Wiki',
              'href': self.areaURL,
-             'selected': self.atMemberHome,
+             'selected': self.atMemberWiki,
              },
 
             {'content': 'Profile',
