@@ -40,16 +40,11 @@ class TransientMessage(SimpleItem):
             msg = translate(msg, context=self)
         else:
             msg = _(msg)
-
-# at this point msg will always be of type Message
-#         is_unicode =  isinstance(msg, unicode)
             
         cleaner = Cleaner()
         msg = cleaner.clean_html(msg)
         if msg.startswith('<p>'):
             msg = msg[3:-4]
-#         if is_unicode:
-#             msg = unicode(msg)
         cat[new_id] = msg
         
     def get_msgs(self, mem_id, category):
