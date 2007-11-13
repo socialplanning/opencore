@@ -44,6 +44,12 @@ class TestMemberMenu(OpenPlansTestCase):
 
         
     def test_menudata(self):
+        # preserve the orignal URL
+        orig_actual_url = self.request.ACTUAL_URL 
+
+        # test to see if the 'Wiki' is highlighted
+        self.clearMemoCache()
+        self.request.ACTUAL_URL = self.mf.absolute_url()
         menudata = self.view.menudata
         self.failUnless(len(menudata) == 3)
         self.assertEqual(self.mf.absolute_url(), menudata[0]['href'])
@@ -51,8 +57,7 @@ class TestMemberMenu(OpenPlansTestCase):
         self.failIf(menudata[1]['selected'])
         self.failIf(menudata[2]['selected'])
 
-        orig_actual_url = self.request.ACTUAL_URL
-
+        # test to see if the 'Profile' is highlighted
         self.clearMemoCache()
         profile_url = "%s/profile" % self.mf.absolute_url()
         self.request.ACTUAL_URL = profile_url
@@ -63,6 +68,7 @@ class TestMemberMenu(OpenPlansTestCase):
         self.failUnless(menudata[1]['selected'])
         self.failIf(menudata[2]['selected'])
 
+        # test to see if 'Account' is highlighted
         self.clearMemoCache()
         userprefs_url = "%s/account" % self.mf.absolute_url()
         self.request.ACTUAL_URL = userprefs_url
