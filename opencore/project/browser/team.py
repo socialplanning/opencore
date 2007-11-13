@@ -34,7 +34,7 @@ class TeamRelatedView(SearchView):
         SearchView.__init__(self, context, request)
         project = self.context
         teams = project.getTeams()
-        assert len(teams) == 1
+        assert len(teams) == 1, "%d teams. 1 expected" %len(teams)
         self.team = team = teams[0]
         self.team_path = '/'.join(team.getPhysicalPath())
         self.active_states = team.getActiveStates()
