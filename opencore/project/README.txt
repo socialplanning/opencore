@@ -106,3 +106,39 @@ as a parent::
 
     >>> pinfo.values()
     ['/plone/projects/handroll']
+
+
+Geolocation
+============
+
+Projects are marked as geolocatable.
+
+    >>> from Products.PleiadesGeocoder.interfaces import IGeoreferenceable
+    >>> IGeoreferenceable.providedBy(projects.p1)
+    True
+
+They're also marked as able to use Pleiades' default annotation adapter.
+
+    >>> from Products.PleiadesGeocoder.interfaces import IGeoAnnotatableContent
+    >>> IGeoAnnotatableContent.providedBy(proj)
+    True
+
+
+They can be adapted to IGeoItemSimple, and coordinates set on them.
+XXX Why does this work in zopectl debug, but not in zopectl test?
+
+
+    >>> from Products.PleiadesGeocoder.interfaces import IGeoItemSimple
+    >>> geo = IGeoItemSimple(projects.p1)
+    >>> coordinates = (10.0, -20.0, 0.0)
+    >>> geo.setGeoInterface('Point', coordinates)
+    >>> geo.coords
+    (10.0, -20.0, 0.0)
+
+You can then view the project as georss.
+
+    >>> view = projects.p1.restrictedTraverse('@@geo')
+    >>> view()
+    some atom xml stuff
+
+
