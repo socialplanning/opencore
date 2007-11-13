@@ -1,20 +1,20 @@
 <configure xmlns="http://namespaces.zope.org/zope">
-  <include package="opencore.content" />
   <include file="permissions.zcml" />
   <include file="profiles.zcml" />
-  <include package="topp.featurelets" />
-  <include package="opencore.featurelets.browser" />
   <include package="opencore.api" />
   <include package="opencore.auth" />
-  <include package="opencore.listen" />
-  <include package="opencore.nui" />
   <include package="opencore.browser" />
-  <include package="opencore.project" />
-  <include package="opencore.tasktracker" />
-  <include package="opencore.wordpress" />
-  <include package="opencore.redirect" />
-  <include package="opencore.utility" />
   <include package="opencore.clockqueue" />
+  <include package="opencore.content" />
+  <include package="opencore.featurelets.browser" />
+  <include package="opencore.listen" />
   <include package="opencore.member" />
+  <include package="opencore.nui" />
+  <include package="opencore.project" />
+  <include package="opencore.redirect" />
+  <include package="opencore.tasktracker" />
+  <include package="opencore.utility" />
+  <include package="opencore.wordpress" />
+  <include package="topp.featurelets" />
 </configure>
  

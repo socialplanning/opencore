@@ -18,7 +18,7 @@ from zope.event import notify
 from zope.interface import implements, alsoProvides
 
 
-allow_module('opencore.nui.member.miv')
+allow_module('opencore.member.browser.miv')
 
 class MemberInfoView(BrowserView):
     """A view which also provides contextual information about a member."""

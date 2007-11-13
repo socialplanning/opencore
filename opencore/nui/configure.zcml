@@ -14,7 +14,6 @@
   <include package=".wiki" />
   <include package=".main" />
   <include package=".account" />
-  <include package=".member" />
 
   <include file="indexing.zcml" />
 

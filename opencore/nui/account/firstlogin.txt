@@ -1,11 +1,6 @@
-===========
- member ui
-===========
-
-    >>> import pdb; st = pdb.set_trace
-
-First Login Event
-=================
+===================
+ First Login Event
+===================
 
 When a use logins for the first time, we want to create a properly
 configured user folder to hang lots of user specific fancyness
@@ -16,9 +11,9 @@ First, we'll get logged in at a low level::
     >>> site = self.app.plone
     >>> self.login('m1')
 
-We hand trigger the event; normally the login form would call this
+We hand trigger the event. Normally the login form would call this
 python script object.  The result is the same as calling
-'opencore.nui.member.miv.create_home_directory', but checks our
+'opencore.member.browser.miv.create_home_directory', but checks our
 registrations::
 
     >>> self.app.plone.portal_membership.createMemberArea('m1')

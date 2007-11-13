@@ -9,7 +9,7 @@ It's really just wrapping a set.
     True
     >>> pr = IPendingRequests(m1)
     >>> pr
-    <opencore.nui.member.pending_requests.PendingRequests object ...>
+    <...pending_requests.PendingRequests object ...>
 
 The member shouldn't have any requests initially::
     >>> pr.getRequests()

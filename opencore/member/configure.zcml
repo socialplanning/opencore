@@ -3,11 +3,17 @@
     <implements interface="opencore.member.interfaces.IOpenMember" />
   </content>
 
+  <include package="opencore.member.browser" />
+
   <adapter for="opencore.member.interfaces.IOpenMember"
 	   provides="opencore.member.interfaces.IHandleMemberWorkflow"
 	   factory="opencore.member.workflow.MemberWorkflowHandler" />
+
   <adapter for="opencore.interfaces.IOpenSiteRoot"
 	   provides="opencore.member.interfaces.ICreateMembers"
 	   factory="opencore.member.factory.MemberFactory" />
+
+  <adapter factory="opencore.member.pending_requests.PendingRequests" />
+  <adapter factory="opencore.member.pending_requests.PendingRequestsForFolder" />
 
 </configure>
