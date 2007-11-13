@@ -47,7 +47,12 @@ class ProjectBaseView(BaseView):
         return self._has_featurelet('blog')
 
     def _has_featurelet(self, flet_id):
-        return queryAdapter(IFeatureletSupporter(self.context), IFeaturelet, name=flet_id)
+        adapter = queryAdapter(
+                      IFeatureletSupporter(self.context),
+                      IFeaturelet,
+                      name=flet_id,
+                      )
+        return adapter is not None
 
 
 class ProjectContentsView(ProjectBaseView, OctopoLite):
