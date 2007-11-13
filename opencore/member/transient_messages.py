@@ -10,6 +10,11 @@ from opencore.interfaces.message import ITransientMessage
 
 from lxml.html.clean import Cleaner
 
+from zope.i18nmessageid import Message
+from opencore.i18n import _
+from opencore.i18n import translate
+
+
 class TransientMessage(SimpleItem):
     implements(ITransientMessage)
 
@@ -31,14 +36,20 @@ class TransientMessage(SimpleItem):
         except ValueError:
             new_id = 0
 
-        is_unicode =  isinstance(msg, unicode)
+        if isinstance(msg, Message):
+            msg = translate(msg, context=self)
+        else:
+            msg = _(msg)
+
+# at this point msg will always be of type Message
+#         is_unicode =  isinstance(msg, unicode)
             
         cleaner = Cleaner()
         msg = cleaner.clean_html(msg)
         if msg.startswith('<p>'):
             msg = msg[3:-4]
-        if is_unicode:
-            msg = unicode(msg)
+#         if is_unicode:
+#             msg = unicode(msg)
         cat[new_id] = msg
         
     def get_msgs(self, mem_id, category):
