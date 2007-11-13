@@ -57,6 +57,7 @@ class SiteSetupLayer(PloneSite):
         zinstall_products()
         # install OpenPlans into ZTC
         ZopeTestCase.installProduct('OpenPlans')
+        ZopeTestCase.installProduct('PleiadesGeocoder')
 
         txn.commit()
 
