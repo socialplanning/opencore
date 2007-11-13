@@ -113,6 +113,11 @@ class ProjectMenuView(BaseView):
                 result = True
         return result
 
+
+    def atProjectWiki(self):
+        return self.areaURL in self.request.ACTUAL_URL and \
+               isinstance(self.context, OpenPage)
+
     @memoizedproperty
     def menudata(self):
         featurelets = self.piv.featurelets
@@ -129,7 +134,7 @@ class ProjectMenuView(BaseView):
         menudata = (
             {'content': 'Wiki',
              'href': wiki_url,
-             'selected': self.request.ACTUAL_URL == wiki_url,#self.atProjectHome,
+             'selected': self.atProjectWiki(),
              },
             )
 
