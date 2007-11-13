@@ -12,7 +12,7 @@ from opencore.interfaces.event import JoinedProjectEvent
 from opencore.interfaces.event import LeftProjectEvent
 from opencore.interfaces.event import MemberEmailChangedEvent
 from opencore.interfaces.membership import IEmailInvites
-from opencore.browser.base import BaseView
+from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.interfaces.message import ITransientMessage
 from opencore.project.utils import project_path
@@ -169,7 +169,7 @@ class ProfileEditView(ProfileView, OctopoLite):
         try:
             member.setPortrait(portrait)
         except ValueError: # must have tried to upload an unsupported filetype
-            self.addPortalStatusMessage('Please choose an image in gif, jpeg, png, or bmp format.')
+            self.addPortalStatusMessage(_(u'psm_choose_image', u'Please choose an image in gif, jpeg, png, or bmp format.'))
             return False
         return True
 
@@ -370,8 +370,8 @@ class MemberAccountView(BaseView, OctopoLite):
             proj = self.portal.projects[proj_id]
             proj_title = unicode(proj.Title(), 'utf-8') # accessor always will return ascii
 
-            only_admin_msg = u'You are the only remaining administrator of "%s".' % proj_title
-            only_admin_msg += u"You can't leave this project without appointing another." 
+            only_admin_msg = _(u'psm_leave_project_admin', u'You are the only remaining administrator of "${proj_title}". You can\'t leave this project without appointing another.',
+                               mapping={u'proj_title':proj_title})
             
             self.addPortalStatusMessage(only_admin_msg)
             return False
@@ -381,7 +381,7 @@ class MemberAccountView(BaseView, OctopoLite):
             notify(LeftProjectEvent(mship))
             return True
         else:
-            self.addPortalStatusMessage('You cannot leave this project.')
+            self.addPortalStatusMessage(_(u'psm_cannot_leave_project', u'You cannot leave this project.'))
             return False
 
     def change_visibility(self, proj_id, to=None):
@@ -502,7 +502,8 @@ class MemberAccountView(BaseView, OctopoLite):
         transient_msgs = getUtility(ITransientMessage, context=self.portal)
         id_ = self.loggedinmember.getId()
         project_url = '/'.join((self.url_for('projects'), proj_id))
-        msg = '%s has joined <a href="%s">%s</a>' % (id_, project_url, proj_id)
+        msg = _(u'tmsg_joined_project', u'${id} has joined <a href="${project_url}">${proj_id}</a>',
+                mapping={u'id':id_, u'project_url':project_url, u'proj_id':proj_id})
         for mem_id in admin_ids:
             transient_msgs.store(mem_id, "membership", msg)
         
@@ -554,7 +555,8 @@ class MemberAccountView(BaseView, OctopoLite):
         transient_msgs = getUtility(ITransientMessage, context=self.portal)
 
         project_url = '/'.join((self.url_for('projects'), proj_id))
-        msg = '%s has declined your invitation to join <a href="%s">%s</a>' % (id_, project_url, proj_id)
+        msg = _(u'tmsg_decline_invite', u'${id} has declined your invitation to join <a href="${project_url}">${proj_id}</a>',
+                mapping={u'id':id_, u'project_url':project_url, u'proj_id':proj_id})
         transient_msgs.store(spurned_admin, "membership", msg)
 
         elt_id = '%s_invitation' % proj_id
@@ -623,13 +625,13 @@ class MemberAccountView(BaseView, OctopoLite):
 
         if not member.verifyCredentials({'login': mem_id,
                                         'password': passwd_curr}):
-            self.addPortalStatusMessage('Please check the old password you entered.')
+            self.addPortalStatusMessage(_(u'psm_check_old_password', u'Please check the old password you entered.'))
             return
 
         if self.validate_password_form(password, password2, member):
 
             member._setPassword(password)
-            self.addPortalStatusMessage('Your password has been changed.')
+            self.addPortalStatusMessage(_(u'psm_password_changed', u'Your password has been changed.'))
 
     def nupdates(self):
         return len(self.infomsgs) + len(self.invitations())
@@ -645,7 +647,7 @@ class MemberAccountView(BaseView, OctopoLite):
         hide_email = bool(self.request.form.get('hide_email'))
 
         if not email:
-            self.addPortalStatusMessage('Please enter your new email address.')
+            self.addPortalStatusMessage(_(u'psm_enter_new_email', u'Please enter your new email address.'))
             return
 
         mem = self.loggedinmember
@@ -660,7 +662,7 @@ class MemberAccountView(BaseView, OctopoLite):
         mem.setEmail(email)
         mem.reindexObject(idxs=['getEmail'])
         notify(MemberEmailChangedEvent(mem))
-        self.addPortalStatusMessage('Your email address has been changed.')
+        self.addPortalStatusMessage(_(u'psm_email_changed', u'Your email address has been changed.'))
 
     def pretty_role(self, role):
         role_map = dict(ProjectAdmin='administrator',

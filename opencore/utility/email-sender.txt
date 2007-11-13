@@ -34,7 +34,7 @@ Check translation machinery::
 Test the mail message construction, which generates messages based on
 msg ids using the hooked up i18n translation files::
     >>> es.constructMailMessage("email_membership_requested", project_title="p1", member_id="lammy", team_manage_url="bloop")
-    u'Subject:...p1...lammy...bloop...'
+    u'email_membership_requested'
 
 Send some emails, and check that they went out
     >>> es.sendMail(

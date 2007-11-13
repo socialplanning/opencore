@@ -13,17 +13,17 @@
 
 
 <metal:recent-activity define-macro="recent-activity">
-  <div class="oc-boxy">
-    <h2>Recent activity</h2>
+  <div i18n:domain="opencore" class="oc-boxy">
+    <h2 i18n:translate="member_macros_recent_activity">Recent activity</h2>
     <div class="oc-widget oc-widget-lastModified">
       <div class="oc-headingBlock">
-        <h3>Pages last modified by <span tal:replace="memberdata/id" /></h3>
+        <h3 i18n:translate="member_macros_pages_modified">Pages last modified by <span i18n:name="member" tal:replace="memberdata/id" /></h3>
       </div><!-- end .oc-headingBlock -->
       <table class="oc-dataTable" cellpadding="0" cellspacing="0">
         <thead>
           <tr>
-            <th scope="col">Date</th>
-            <th scope="col">Page</th>
+            <th i18n:translate="member_macros_date_header" scope="col">Date</th>
+            <th i18n:translate="member_macros_page_header" scope="col">Page</th>
           </tr>
         </thead>
         <tbody>
@@ -39,13 +39,13 @@
       </table>
       <tal:blogosphere tal:define="trackbacks view/trackbacks" tal:condition="python:trackbacks">
         <div class="oc-headingBlock">
-          <h3>Comments and posts last written by <span tal:replace="memberdata/id" /></h3>
+          <h3 i18n:translate="member_macros_comments_by">Comments and posts last written by <span i18n:name="member" tal:replace="memberdata/id" /></h3>
         </div><!-- end .oc-headingBlock -->
         <table class="oc-dataTable" cellpadding="0" cellspacing="0">
           <thead>
             <tr>
-              <th scope="col">Date</th>
-              <th scope="col">Article</th>
+              <th i18n:translate="member_macros_date_header" scope="col">Date</th>
+              <th i18n:translate="member_macros_article_header" scope="col">Article</th>
             </tr>
           </thead>
           <tbody>
@@ -57,7 +57,7 @@
                     tal:content="trackback/blog_name" />
                 <tal:loggedin condition="view/viewingself">
                   <a class="oc-js-actionPost oc-actionLink"
-                    tal:attributes="href trackback/close_url">Close</a>
+                    tal:attributes="href trackback/close_url" i18n:translate="member_macros_close">Close</a>
                 </tal:loggedin>
               </td>
             </tr>

@@ -1,6 +1,6 @@
 <tal:vars define="data view/viewed_member_info">
 
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:Account - ${view/area/Title} on ${view/portal_title}" />
   </head>
@@ -9,8 +9,8 @@
     <div metal:fill-slot="content">
 
 <div class="oc-headingBlock">
-  <h1>Your account</h1>
-  <p class="oc-headingContext">View and manage your project memberships and account settings.</p>
+  <h1 i18n:translate="account_heading">Your account</h1>
+  <p i18n:translate="account_description" class="oc-headingContext">View and manage your project memberships and account settings.</p>
 </div>
   
 <div id="oc-content-main">
@@ -21,8 +21,8 @@
        >
     <tal:has_updates condition="nupdates">
       <div class="oc-headingBlock">
-        <h2>
-          Latest updates (<span id="num_updates" tal:content="nupdates" />)
+        <h2 i18n:translate="account_latest_updates">
+          Latest updates (<span id="num_updates" i18n:name="num_updates" tal:content="nupdates" />)
         </h2>
       </div>
       <!-- currently create 2 separate list groups:
@@ -40,8 +40,8 @@
               <!-- <div  tal:omit-tag="" class="oc-avatar">
                 <img src="" />
               </div> -->
-              <p class="oc-invite-content">
-                <a href="" tal:attributes="href string:${view/portal_url}/projects/${proj_id}" tal:content="projinfo/title">Animal Campaign</a> 
+              <p i18n:translate="account_invite" class="oc-invite-content">
+                <a i18n:name="project" href="" tal:attributes="href string:${view/portal_url}/projects/${proj_id}" tal:content="projinfo/title">Animal Campaign</a> 
                 has invited you to become a member
               </p>
               <ul class="oc-actions oc-invite-actions oc-actionClose"
@@ -95,16 +95,16 @@
 
 <div id="oc-content-sidebar">
   <div class="oc-boxy">
-    <h2>Account settings</h2>
-    <a href="profile-edit">Edit profile</a>
+    <h2 i18n:translate="account_settings">Account settings</h2>
+    <a i18n:translate="account_edit_profile" href="profile-edit">Edit profile</a>
     <form class="oc-js-expander" method="POST" action="account">
       <fieldset>
         <legend class="oc-legend-label">
-          <a href="#" class="oc-js-expander_open oc-expanderLink">Change email</a>
+          <a href="#" i18n:translate="account_change_email" class="oc-js-expander_open oc-expanderLink">Change email</a>
         </legend>
         <ul class="oc-js-expander-content oc-expander-content oc-plainList">
           <li>
-            <label for="email">Email</label><br />
+            <label i18n:translate="account_email_label" for="email">Email</label><br />
             <input type="text" id="email" name="email" tal:attributes="value data/email"/>
           </li>
           <li tal:replace="nothing" class="oc-form-fieldBlock oc-smallText">
@@ -115,12 +115,12 @@
                    value="1"
                    tal:attributes="checked data/anon_email"
                    />
-            <label for="hide_email">Hide email address by default?</label>
+            <label i18n:translate="account_hide_email_label" for="hide_email">Hide email address by default?</label>
           </li>
           <li>
             <input type="submit" value="Change"
                    name="task|change-email" 
-                   class="oc-button oc-chooseThis" />  or <a href="#" class="oc-js-expander_close">Cancel</a>
+                   class="oc-button oc-chooseThis" />  or <a href="#" i18n:translate="account_cancel_hide_email" class="oc-js-expander_close">Cancel</a>
           </li>
         </ul>
       </fieldset>
@@ -128,25 +128,25 @@
     <form class="oc-js-expander oc-expander" action="account" method="POST">
       <fieldset>
         <legend class="oc-legend-label">
-          <a href="#" class="oc-js-expander_open oc-expanderLink">Change password</a>
+          <a href="#" i18n:translate="account_change_pass" class="oc-js-expander_open oc-expanderLink">Change password</a>
         </legend>
         <ul class="oc-js-expander-content oc-expander-content oc-plainList">
           <li>
-            <label for="passwd_curr">Current password</label><br />
+            <label i18n:translate="account_current_pass" for="passwd_curr">Current password</label><br />
             <input type="password" id="passwd_curr" name="passwd_curr" />
           </li>
           <li>
-            <label for="passwd_new">New password</label><br />
+            <label i18n:translate="account_new_pass" for="passwd_new">New password</label><br />
             <input type="password" id="password" name="password" />
           </li>
           <li>
-            <label for="passwd_new_confirm">Confirm new password</label><br />
+            <label i18n:translate="account_confirm_new_pass" for="passwd_new_confirm">Confirm new password</label><br />
             <input type="password" id="password2" name="password2" />
           </li>
           <li>
             <input type="submit" value="Change"
                    name="task|change-password" 
-                   class="oc-button oc-chooseThis" /> or <a href="#" class="oc-js-expander_close">Cancel</a>
+                   class="oc-button oc-chooseThis" /> or <a href="#" i18n:translate="account_cancel_change_pass" class="oc-js-expander_close">Cancel</a>
           </li>
         </ul>
       </fieldset>
@@ -154,7 +154,7 @@
   <a tal:attributes="href string:${view/twirlip_uri}/user/preferences" rel="include"></a>
   </div>
   
-  <div class="oc-plainList oc-boxy">
+  <div i18n:translate="account_listed_explanation" class="oc-plainList oc-boxy">
     <p><strong>What does it mean to be &ldquo;listed&rdquo; on a project?</strong></p>
     <p>For your privacy, you can choose whether or not to be publicly listed as a member of a project.</p>
     <p>If you choose not to be listed then only fellow team members can see your affiliation. Those who are not members of the project will not see you listed in the team roster, nor will they see the project listed anywhere on your profile.</p>

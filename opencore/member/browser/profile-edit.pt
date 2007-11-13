@@ -1,7 +1,7 @@
 <tal:vars define="usr view/viewedmember;
                   memberdata view/viewed_member_info">
 
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:${view/area/Title} on ${view/portal_title}" />
   </head>
@@ -11,11 +11,11 @@
         <tal:first-login condition="request/first_login | nothing">
           <div class="oc-getstarted oc-js-closeable">
             <h1 tal:content="string:Welcome to ${view/portal_title}!" />
-            <p tal:condition="view/has_invitations" class="oc-bigText">
+            <p tal:condition="view/has_invitations" i18n:translate="profile-edit_fill_in_invite" class="oc-bigText">
               Please take a moment to fill out your profile, then proceed to your <a href="account">account</a> page
               to join the project that invited you.
             </p>
-            <p tal:condition="not:view/has_invitations" class="oc-bigText">
+            <p tal:condition="not:view/has_invitations" i18n:translate="profile-edit_fill_in" class="oc-bigText">
               Please take a moment to fill out your profile, then proceed to your <a href="account">account</a> page.
             </p>
           </div>
@@ -29,7 +29,7 @@
               <metal:login-info use-macro="view/member_macros/macros/login-info" />
               <ul class="oc-plainList">
                 <li>
-                  <label for="fullname">Name</label><br />
+                  <label i18n:translate="profile-edit_name_label" for="fullname">Name</label><br />
                   <input type="text" id="fullname" name="fullname"
                     class="oc-autoFocus"
                     tal:condition="python: request.form.get('field') == 'fullname'"
@@ -39,7 +39,7 @@
                     tal:attributes="value request/fullname | memberdata/fullname" />
                 </li>
                 <li>
-                  <label for="location">Location</label><br />
+                  <label i18n:translate="profile-edit_location_label" for="location">Location</label><br />
                   <input type="text" id="location" name="location"
                     class="oc-autoFocus"
                     tal:condition="python: request.form.get('field') == 'location'"
@@ -49,7 +49,7 @@
                     tal:attributes="value request/location | memberdata/location" />
                 </li>
                 <li>
-                  <label for="website">Website</label><br />
+                  <label i18n:translate="profile-edit_website_label" for="website">Website</label><br />
                   <input type="text" id="website" name="website"
                     class="oc-autoFocus"
                     tal:condition="python: request.form.get('field') == 'website'"
@@ -63,7 +63,7 @@
           </div>
           <fieldset>
 
-            <label for="statement">About</label>
+            <label i18n:translate="profile-edit_about_label" for="statement">About</label>
             <textarea rows="3" cols="80" name="statement" id="statement"
               class="oc-autoFocus"
               tal:condition="python: request.form.get('field') == 'statement'"
@@ -72,7 +72,7 @@
               tal:condition="python: request.form.get('field') != 'statement'"
               tal:content="request/statement | memberdata/statement"></textarea>
 
-            <label for="skills">Interests</label>
+            <label i18n:translate="profile-edit_interests_label" for="skills">Interests</label>
             <textarea rows="1" cols="80" name="skills" id="skills"
               class="oc-autoFocus"
               tal:condition="python: request.form.get('field') == 'skills'"
@@ -118,7 +118,7 @@
                      name="task|update"
                      value="Update"
                      class="oc-button oc-chooseThis" />
-              or <a href="profile">Cancel</a>
+              or <a i18n:translate="profile-edit_cancel" href="profile">Cancel</a>
             </li>
           </ul> 
         </form>

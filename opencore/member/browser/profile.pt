@@ -1,6 +1,6 @@
 <tal:vars define="memberdata view/viewed_member_info">
 
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:${view/area/Title} on ${view/portal_title}" />
   </head>
@@ -10,13 +10,13 @@
         <div id="oc-member-badge" class="oc-boxy oc-clearAfter vcard">
           <div class="oc-avatar">
             <img class="photo" tal:attributes="src view/mangled_portrait_url" /><br />
-            <a tal:condition="view/viewingself" class="oc-actionLink" href="profile-edit?field=portrait">Edit</a>
+            <a tal:condition="view/viewingself" i18n:translate="profile_edit" class="oc-actionLink" href="profile-edit?field=portrait">Edit</a>
           </div>
           <div class="oc-member-details" tal:attributes="style python:'margin-left: %spx' % memberdata['portrait_width']">
             <metal:login-info use-macro="view/member_macros/macros/login-info" />
             <dl class="oc-member-info">
               <tal:fullname tal:define="fn memberdata/fullname" tal:condition="python:fn or view.viewingself()">
-                <dt>Name
+                <dt><tal:label i18n:translate="profile_name">Name</tal:label>
                   <a tal:condition="view/viewingself" class="oc-actionLink"
                       href="profile-edit?field=fullname">Edit</a>
                 </dt>
@@ -24,14 +24,14 @@
                 <dd class="oc-discreetText" tal:condition="not:fn" tal:content="string:N/A" />
               </tal:fullname>
               <tal:location tal:define="loc memberdata/location" tal:condition="python:loc or view.viewingself()">
-                <dt>Location
+                <dt><tal:label i18n:translate="profile_location">Location</tal:label>
                   <a tal:condition="view/viewingself" class="oc-actionLink"
                     href="profile-edit?field=location">Edit</a>
                 </dt>
                 <dd class="adr" tal:condition="loc"><span class="locality" tal:content="loc" /></dd>
                 <dd class="oc-discreetText" tal:condition="not:loc" tal:content="string:N/A" />
               </tal:location>
-              <dt>Projects
+              <dt><tal:label i18n:translate="profile_projects">Projects</tal:label>
                 <a tal:condition="view/viewingself" class="oc-actionLink" 
                    href="account">Edit</a>
               </dt>
@@ -39,7 +39,7 @@
                               pub_projs nocall:view/public_projects;
                               priv_projs nocall:view/private_projects" >
                 <tal:pub_projects condition="pub_projs">
-                  <div class="oc-discreetText">visible to all:</div>
+                  <div i18n:translate="profile_visible_all" class="oc-discreetText">visible to all:</div>
                   <ul class="oc-inlineList">
                     <li tal:repeat="proj pub_projs"><a
                         tal:attributes="href proj/getURL"
@@ -47,7 +47,7 @@
                   </ul>
                 </tal:pub_projects>
                 <tal:priv_projects condition="priv_projs">
-                  <div class="oc-discreetText">visible only to team members:</div>
+                  <div i18n:translate="profile_visible_team" class="oc-discreetText">visible only to team members:</div>
                   <ul class="oc-inlineList">
                     <li tal:repeat="proj priv_projs"><a
                         tal:attributes="href proj/getURL"
@@ -58,14 +58,14 @@
                   none
                 </tal:no_projects>
               </dd>
-              <dt>
+              <dt i18n:translate="profile_member_home">
                 Member home
               </dt>
               <dd>
                 <a class="url" tal:attributes="href memberdata/home_url"
                    tal:content="string:${memberdata/folder_url}" />
               </dd>
-              <dt>Website
+              <dt><tal:label i18n:translate="profile_website">Website</tal:label>
                 <a tal:condition="view/viewingself" class="oc-actionLink"
                    href="profile-edit?field=website">Edit</a>
               </dt>

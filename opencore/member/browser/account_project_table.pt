@@ -1,22 +1,22 @@
-<tal:macro metal:define-macro="project_table">
+<tal:macro i18n:domain="opencore" metal:define-macro="project_table">
   <tal:projects_table define="projinfos view/projects_for_user">
     <div id="project_table"
          class="oc-widget oc-widget-dataTable oc-clearAfter"
          tal:condition="projinfos"
          >
-      <h2 class="oc-toggleFold oc-dataTable-heading">
-        Projects you belong to (<span id="num_projs" tal:content="python: len(projinfos)" />)
+      <h2 i18n:translate="account_project_belong_to" class="oc-toggleFold oc-dataTable-heading">
+        Projects you belong to (<span i18n:name="num_projects" id="num_projs" tal:content="python: len(projinfos)" />)
       </h2>      
       <form class="" action="account">
         <table id="" class="oc-dataTable" cellpadding="0" cellspacing="0">
           <thead>
             <tr>
               <th class="" style="width: 10px;" scope="col"><input class="oc-checkAll" type="checkbox" /></th>
-              <th class="oc-columnSortable" style="width: 200px;" scope="col">Project </th>
-              <th class="oc-columnSortable" scope="col">Role</th>
-              <th class="oc-columnSortable" scope="col">Since</th>
-              <th class="oc-columnSortable" scope="col">Listed</th>
-              <th class="oc-columnAction" scope="col">Actions</th>
+              <th i18n:translate="account_project_project_header" class="oc-columnSortable" style="width: 200px;" scope="col">Project </th>
+              <th i18n:translate="account_project_role_header" class="oc-columnSortable" scope="col">Role</th>
+              <th i18n:translate="account_project_since_header" class="oc-columnSortable" scope="col">Since</th>
+              <th i18n:translate="account_project_listed_header" class="oc-columnSortable" scope="col">Listed</th>
+              <th i18n:translate="account_project_actions_header" class="oc-columnAction" scope="col">Actions</th>
             </tr>
           </thead>
           <tbody id="projinfos_for_user">
@@ -44,7 +44,7 @@
     <!-- end .widget-table --></div>
 
     <tal:no_updates condition="not: projinfos">
-      <div id="project_table">
+      <div i18n:translate="account_project_no_projects" id="project_table">
         <h2>You don't belong to any projects.</h2>
         <p>Why not <a tal:attributes="href python:view.url_for('projects')">look for a project to join</a> or
         <a tal:attributes="href python:view.url_for('project_create')">start your own</a>?</p>
