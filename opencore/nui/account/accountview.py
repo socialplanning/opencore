@@ -511,7 +511,7 @@ class PendingView(AccountView):
                 member.setEmail(email)
         
         mem_name = member.getFullname()
-        mem_name = mem_name or mem_id
+        mem_name = mem_name or member.getId()
 
         if email:
             self._sendmail_to_pendinguser(mem_name,
@@ -538,7 +538,7 @@ class ResendConfirmationView(AccountView):
             self.redirect(self.siteURL)
             return
         mem_name = member.getFullname()
-        mem_name = mem_name or mem_id
+        mem_name = mem_name or member.getId()
         self._sendmail_to_pendinguser(mem_name,
                                       member.getEmail(),
                                       self._confirmation_url(member))
