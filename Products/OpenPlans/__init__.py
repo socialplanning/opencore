@@ -103,3 +103,6 @@ def initialize(context):
     # do all at import cataloging setup
     indexing.register_indexable_attrs()
 
+    # bbb
+    import opencore.bbb
+
