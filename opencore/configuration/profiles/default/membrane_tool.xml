@@ -10,7 +10,7 @@
   <extra name="index_type" value="Okapi BM25 Rank"/>
   <extra name="lexicon_id" value="lexicon"/>
  </index>
- <index name="SearchableText" meta_type="TextIndex" deprecated="True"/>
+ <index name="SearchableText" meta_type="TextIndex"/>
  <index name="Title" meta_type="ZCTextIndex">
   <indexed_attr value="Title"/>
   <extra name="index_type" value="Cosine Measure"/>
@@ -61,7 +61,7 @@
  <index name="getLast_login_time" meta_type="DateIndex">
   <property name="index_naive_time_as_local">True</property>
  </index>
- <index name="getLocation" meta_type="TextIndex" deprecated="True"/>
+ <index name="getLocation" meta_type="TextIndex"/>
  <index name="getReview_state" meta_type="FieldIndex">
   <indexed_attr value="getReview_state"/>
  </index>

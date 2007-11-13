@@ -43,8 +43,8 @@ def reinstallWorkflowPolicies(portal):
     policies = set(pwftool.objectIds())
     deletes = policies.intersection(set(PLACEFUL_POLICIES.keys()))
     pwftool.manage_delObjects(ids=list(deletes))
-    out = StringIO()
-    installWorkflowPolicies(portal, out)
+    # have to unwrap it from the setuphandler decorator
+    convertFunc(installWorkflowPolicies)(portal)
 
 def migrate_listen_member_lookup(portal):
     from Products.listen.interfaces import IMemberLookup
