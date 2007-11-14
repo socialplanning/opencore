@@ -17,4 +17,22 @@
      handler=".events.mailinglist_changed"
      />
 
+   <subscriber
+     for="opencore.interfaces.membership.IOpenMembership
+          opencore.interfaces.event.IJoinedProjectEvent"
+     handler=".events.member_joined_project"
+     />
+
+   <subscriber
+     for="opencore.interfaces.membership.IOpenMembership
+          opencore.interfaces.event.ILeftProjectEvent"
+     handler=".events.member_left_project"
+     />
+
+   <subscriber
+     for="opencore.interfaces.IProject
+          opencore.interfaces.event.IListenFeatureletCreatedEvent"
+     handler=".events.listen_featurelet_installed"
+     />
+
 </configure>
