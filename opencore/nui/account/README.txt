@@ -610,5 +610,5 @@ Bug #1711. Member creation message should use the portal title.
     >>> view._sendmail_to_pendinguser('unused id', '1711@example.com',
     ...                               'http://confirm-url.com')
     >>> emailtext = mh.messages[-1].get_payload()
-    >>> emailtext.count(view.portal_title()) > 0
+    >>> view.portal_title() in emailtext
     True
