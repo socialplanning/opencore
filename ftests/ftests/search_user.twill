@@ -1,0 +1,10 @@
+#
+# asserts that a user can be found via the search widget
+#
+# user - user to search for 
+
+go ${base_url}
+fv searchform search_for $user
+submit
+find 'Results'
+notfind 'No results found.'

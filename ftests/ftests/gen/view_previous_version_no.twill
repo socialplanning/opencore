@@ -1,0 +1,6 @@
+#TODO: Again, the anon problem
+#go  ${base_url}/projects/${projname}/project-home
+#notfind history
+
+go ${base_url}/projects/${projname}/project-home/?version_id=0
+find 'do not have sufficient permissions|Login.*Username.*Password' is

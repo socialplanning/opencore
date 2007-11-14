@@ -1,0 +1,20 @@
+#
+# configures a default redirect host 
+#
+# $default_redirect_host - the host to redirect to 
+# $default_redirect_ignore_path - ignore path (eg /openplans)
+#    when redirecting  
+# 
+# expects: 
+# default redirection has been installed (redirect_install_default) 
+# logged in a administrator 
+#
+#
+
+go ${base_url}/opencore_redirect_config_default
+fv 2 form.url ${default_redirect_host}
+fv 2 form.ignore_path ${default_redirect_ignore_path}
+submit 'Save changes'
+notfind 'site error' i 
+notfind '404' 
+find 'Changes saved' 

@@ -1,0 +1,7 @@
+#
+# asserts that a url is not redirected
+#
+# url - the url to test
+#
+go ${test_url}
+url ${test_url}

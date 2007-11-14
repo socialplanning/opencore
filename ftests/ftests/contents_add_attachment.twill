@@ -1,0 +1,13 @@
+#
+# adds an attachment to the project
+# 
+# expects: 
+#    project projname exists
+#    this file appears in ${test_path}
+#
+
+go ${base_url}/projects/${projname}
+follow "edit"
+formfile edit_form attachmentFile ${test_path}/contents_add_attachment.twill
+fv edit_form attachmentTitle 'uploaded this test'
+submit 'Upload'

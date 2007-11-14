@@ -1,0 +1,17 @@
+#
+# enables the listen featurelet in a project 
+#
+# projname - the project id to enable listen in  
+#
+# expects: 
+#   project exists, logged in as project admin, 
+#
+
+
+go ${base_url}/projects/${projname}
+notfind "Mailing lists"
+follow "Preferences"
+fv prefs_form featurelets:list 'listen'
+submit update:boolean
+follow "Mailing lists" 
+find "add a mailing list" i

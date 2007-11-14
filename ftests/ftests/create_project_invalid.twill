@@ -1,0 +1,25 @@
+#
+# try to create an invalid project 
+#
+# projname - the id of the project 
+# projfullname - the full name of the project 
+# projpolicy - the initial security policy 
+#              [open_policy,medium_policy]
+# projfeaturelets - a comma separated list of featurelet names to enable
+# 
+# expects: 
+#    logged in
+#    projpolicy is NOT closed_policy (must use create_closed_project)
+#
+extend_with flunc.checkbox
+
+go ${base_url}
+follow "Start a project"
+fv create_form projid $projname
+fv create_form title $projfullname
+fv create_form workflow_policy $projpolicy
+check_group_values create_form featurelets:list '-listen, -tasks, -blog'
+check_group_values create_form featurelets:list $projfeaturelets
+submit
+
+find 'psm_project_name_reserved'

@@ -1,0 +1,42 @@
+extend_with flunc.zope_get_uid
+
+# create a user
+go ${base_url}/join
+fv edit_form id $user
+fv edit_form fullname $fullname
+fv edit_form email $email
+fv edit_form password $password
+fv edit_form confirm_password $password
+submit
+
+# try and create a duplicate user before confirmation 
+go ${base_url}/join
+fv edit_form id $user
+fv edit_form fullname $fullname
+fv edit_form email $email
+fv edit_form password $password
+fv edit_form confirm_password $password
+submit
+find 'The login name you selected is already in use or is not valid.  *Please choose another.'
+find 'That email address is already in use.  *Please choose another.'
+
+# confirm first user
+get_uid $user $admin $adminpw
+go ${base_url}/confirm-account?key=${__uid__}
+notfind 404
+notfind 'site error' i
+# It's the "tour" page now. Jeff - please update when we know what to
+# look for on this page.
+find $user
+follow $logout_txt
+
+# try and create a duplicate user after confirmation 
+go ${base_url}/join
+fv edit_form id $user
+fv edit_form fullname $fullname
+fv edit_form email $email
+fv edit_form password $password
+fv edit_form confirm_password $password
+submit
+find 'The login name you selected is already in use or is not valid.  *Please choose another.'
+find 'That email address is already in use.  *Please choose another.'

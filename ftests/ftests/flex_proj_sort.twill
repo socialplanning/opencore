@@ -1,0 +1,19 @@
+#
+# exercises the project sort
+#
+#
+
+go ${base_url}/projects
+follow 'all'
+fv projects_sort sort_by 'modified'
+submit
+find 'selected="selected">by date updated<'
+fv projects_sort sort_by 'created'
+submit
+find 'selected="selected">by date created<'
+fv projects_sort sort_by 'sortable_title'
+submit
+find 'selected="selected">by project name<'
+fv projects_sort sort_by 'Creator'
+submit
+find 'selected="selected">by project creator<'

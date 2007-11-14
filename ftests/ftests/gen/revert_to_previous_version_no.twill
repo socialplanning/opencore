@@ -1,0 +1,7 @@
+go ${base_url}/projects/${projname}?version_id=1
+notfind 'revert to this version'
+
+#fixme: this should also do a POST
+go ${base_url}/projects/${projname}/project-home/revert?version_id=1
+find 'do not have sufficient permissions|Login.*Username.*Password' is
+

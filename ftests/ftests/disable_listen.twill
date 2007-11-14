@@ -1,0 +1,17 @@
+#
+# disables the listen featurelet in a project 
+#
+# projname - the project id to disable listen in 
+# 
+# expects: 
+#   project exists, logged in as project admin
+#
+
+
+
+go ${base_url}/projects/${projname}
+find "Mailing lists"
+follow "Preferences"
+fv prefs_form featurelets:list "-listen" 
+submit update:boolean
+notfind "Mailing lists<" 

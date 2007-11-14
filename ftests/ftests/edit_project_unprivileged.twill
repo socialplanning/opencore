@@ -1,0 +1,13 @@
+#
+# edits a given project hoping to be redirected to the login page
+#
+# projname - the id of the project to edit 
+
+
+go ${base_url}/projects
+follow $projname
+follow edit
+url ${base_url}/acl_users/credentials_signed_cookie_auth/require_login.came_from=.*projects/${projname}/.*
+
+# check the portal status message
+find 'Hey!' 

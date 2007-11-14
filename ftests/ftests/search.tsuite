@@ -1,0 +1,90 @@
+# exercise searching
+#   projects
+#   people
+#   site wide (home page)
+
+create_user
+login
+
+switch_search_types
+
+# project search setup
+create_project(projname='search_proj1', projfullname='proj fullname1')
+create_project(projname='search_proj2', projfullname='proj fullname2')
+create_project(projname='search_proj3', projfullname='proj fullname3')
+create_project(projname='123search_proj4', projfullname='123proj fullname4')
+
+# project search tests
+search_proj(query='fullname1', expect='search_proj1')
+search_proj(query='fullname2', expect='search_proj2')
+search_proj(query='fullname', expect='search_proj3')
+search_proj(query='123', expect='123search_proj4')
+
+# check that searching by letter works
+search_proj_letter(letter='P', expect='search_proj1')
+search_proj_letter(letter='P', expect='search_proj3')
+search_proj_letter(letter='#', expect='123search_proj4')
+
+# check no results on project search
+# XXX this test is only legit on an empty instance...
+search_proj_letter_nofind(letter='A')
+
+# search from the results page
+search_projresults(query='123proj', expect='123search_proj4')
+search_projresults_letter(letter='P', expect='search_proj1')
+
+# search for all projects
+search_proj_letter(letter='all', expect='123search_proj4')
+search_proj_letter(letter='all', expect='search_proj1')
+
+flex_proj_sort
+logout
+
+# people search setup
+create_user(user='fa', fullname='foo fighter', email='foo@example.com')
+create_user(user='fb', fullname='bar bie', email='foobar@example.com')
+create_user(user='fz', fullname='baaz master', email='foobaz@example.com')
+create_user(user='Fc', fullname='flux capacitor', email='quux@example.com')
+create_user(user='zul', fullname='ghost buster', email='zul@example.com')
+
+# search for person tests
+search_people(query='fa', expect='foo fighter')
+search_people(query='fb', expect='bar bie')
+search_people(query='fz', expect='baaz master')
+search_people(query='capacitor', expect='Fc')
+search_people(query='ghost', expect='zul')
+
+# search for people by letters
+search_people_letter(letter='F', expect='foo fighter')
+search_people_letter(letter='F', expect='baaz master')
+search_people_letter(letter='Z', expect='zul')
+
+# people search, no results
+search_people_nofind(query='peanut23j89tuh239rfh2')
+
+# people search from the results page
+search_peopleresults_letter(letter='Z', expect='zul')
+search_peopleresults(query='Fc', expect='flux capacitor')
+
+# search for all people
+search_people_letter(letter='all', expect='foo fighter')
+search_people_letter(letter='all', expect='baaz master')
+
+flex_people_sort
+
+# everything search
+
+# search for home page search
+search_everything(query='site', expect='site-home')
+search_everything(query='project', expect='project-home')
+search_everything(query='fa', expect='fa Home')
+search_everything(query='123', expect='123search_proj4')
+
+search_everything_letter(letter='F', expect='fa')
+search_everything_letter(letter='F', expect='fb')
+search_everything_letter(letter='#', expect='123search_proj4')
+
+flex_everything_sort
+
+# test pagination
+flex_pagination

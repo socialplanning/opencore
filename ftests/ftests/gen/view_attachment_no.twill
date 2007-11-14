@@ -1,0 +1,2 @@
+go  ${base_url}/projects/${projname}/project-home/prelude_view_attachment_guts-twill
+find 'do not have sufficient permissions|Login.*Username.*Password' is

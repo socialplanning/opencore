@@ -1,0 +1,7 @@
+#
+# makes sure the current user can't create a news item
+#
+
+
+go ${base_url}/news
+notfind 'Add news item'

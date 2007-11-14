@@ -1,0 +1,17 @@
+#
+# searches openplans 
+#
+# letter - letter to click on
+# expect - string to check for in results page
+#
+# expects:
+#    items already exist to search for
+#
+
+go ${base_url}/sitesearch
+follow $letter
+find 'Result'
+find 'of\s+\d+'
+find 'sorted'
+notfind 'No results found.'
+find $expect

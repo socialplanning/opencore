@@ -1,0 +1,22 @@
+#
+# follow the 'new page' link to add a page, edit that page, follow
+# a link back to the project home
+#
+# projname - the id of the project 
+# anotherbody - body of another page (contains wicked link back to 
+#               project home page)
+# 
+# expects: 
+#    project exists, new page wicked link exists
+#
+
+
+go ${base_url}/projects/${projname}
+follow "add-page"
+find "new page"
+fv edit_form text ${anotherbody}${homelink}
+submit 'task|save'
+find "new page"
+find $anotherbody
+follow $projtitle
+find $projname

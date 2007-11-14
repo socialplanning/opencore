@@ -1,0 +1,16 @@
+#
+# disable_redirection
+#
+# object 
+#
+
+go ${base_url}/${object}/opencore_redirect_config
+fv 2 form.activate 0
+fv 2 form.redirect_url ""
+submit
+notfind "404"
+notfind "site error" i
+find "changes saved" i
+
+go ${base_url}/${object}
+url ${base_url}/${object}
