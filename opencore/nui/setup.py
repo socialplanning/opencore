@@ -278,12 +278,19 @@ def markNewsItems(portal):
 
 def create_auto_discussion_lists(portal):
     cat = getToolByName(portal, 'portal_catalog')
+    # event is not used in handler
+    evt = None
     for brain in cat(portal_type='OpenProject'):
         proj = brain.getObject()
         if IListenFeatureletInstalled.providedBy(proj):
-            evt = None
             # call the event handler, simulating the featurelet was just added
             listen_featurelet_installed(proj, evt)
+
+            # set the creator to the creator of the project
+            # not the admin that ran the migration
+            ml = proj.lists._getOb('%s-discussion' % proj.getId())
+            proj_creator = proj.Creator()
+            ml.setCreators((proj_creator,))
 
 from Products.Archetypes.utils import OrderedDict
 
