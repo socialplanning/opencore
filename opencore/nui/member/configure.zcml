@@ -25,6 +25,14 @@
      template="profile.pt"
      />
 
+  <browser:page
+     for="opencore.interfaces.adding.IAmAPeopleFolder"
+     class=".view.EmailExistsView"
+     permission="zope2.View"
+     name="email"
+     attribute="email_exists"
+     />
+
   <subscriber
      for="opencore.interfaces.event.IChangedTeamRolesEvent"
      handler=".event.membership_changed_reindex_catalog"
