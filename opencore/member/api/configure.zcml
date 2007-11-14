@@ -1,0 +1,12 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+	   xmlns:browser="http://namespaces.zope.org/browser">
+
+  <browser:page
+     for="opencore.interfaces.adding.IAmAPeopleFolder"
+     class=".email_exists.EmailExistsView"
+     permission="zope2.View"
+     name="email"
+     attribute="email_exists"
+     />
+
+</configure>

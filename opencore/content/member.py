@@ -30,7 +30,6 @@ from opencore.configuration import PROHIBITED_MEMBER_PREFIXES
 
 from opencore.utility.interfaces import IHTTPClient
 
-
 member_schema = id_schema + contact_schema + plone_schema + \
                 security_schema + login_info_schema
 content_schema = member_schema.copy() # copy before editing
@@ -284,16 +283,21 @@ class OpenMember(FolderishMember):
         data = ' '.join(data)
         return data
 
+    security.declarePrivate('_remote_auth_sites')
+    def _remote_auth_sites(self):
+        ptool = getToolByName(self, 'portal_properties')
+        ocprops = ptool._getOb('opencore_properties')
+        remote_auth_sites = ocprops.getProperty('remote_auth_sites')
+        remote_auth_sites = [s for s in remote_auth_sites if s.strip()]
+        return remote_auth_sites
+
     security.declarePrivate('_id_exists_remotely')
     def _id_exists_remotely(self, id):
         """
         Checks all of the servers in the remote_auth_sites property to
         see if this specified id exists on any of those sites.
         """
-        ptool = getToolByName(self, 'portal_properties')
-        ocprops = ptool._getOb('opencore_properties')
-        remote_auth_sites = ocprops.getProperty('remote_auth_sites')
-        remote_auth_sites = [s for s in remote_auth_sites if s.strip()]
+        remote_auth_sites = self._remote_auth_sites()
         if remote_auth_sites:
             http = getUtility(IHTTPClient)
             for url in remote_auth_sites:
@@ -334,6 +338,22 @@ class OpenMember(FolderishMember):
                       "in use or is not valid. Please choose another."
                 return self.translate(msg, default=msg)
 
+    security.declarePrivate('_id_exists_remotely')
+    def _email_exists_remotely(self, email):
+        """
+        Checks all of the servers in the remote_auth_sites property to
+        see if this specified id exists on any of those sites.
+        """
+        remote_auth_sites = self._remote_auth_sites()
+        if remote_auth_sites:
+            http = getUtility(IHTTPClient)
+            for url in remote_auth_sites:
+                email_url = "%s/people/email?email=%s" % (url, email)
+                resp, content = http.request(email_url, method='HEAD')
+                if resp.status == 200:
+                    return True
+        return False
+
     security.declarePrivate('validate_email')
     def validate_email(self, email):
         """
@@ -343,16 +363,17 @@ class OpenMember(FolderishMember):
         if form.has_key('email') and not form['email']:
             return self.translate('Input is required but no input given.',
                                   default='You did not enter an email address.')
-        elif email != self.getEmail():
-            mbtool = getToolByName(self, 'membrane_tool')
-            if len(mbtool.unrestrictedSearchResults(getEmail=email)) > 0:
-                msg = ("That email address is already in use.  "
-                       "Please choose another.")
-                return self.translate(msg, default=msg)
         regex = re.compile(EMAIL_RE)
         if regex.match(email) is None:
             msg = "That email address is invalid."
             return self.translate(msg, default=msg)
+        if email != self.getEmail():
+            mbtool = getToolByName(self, 'membrane_tool')
+            if len(mbtool.unrestrictedSearchResults(getEmail=email)) > 0 \
+                   or self._email_exists_remotely(email):
+                msg = ("That email address is already in use.  "
+                       "Please choose another.")
+                return self.translate(msg, default=msg)
 
     def __bobo_traverse__(self, REQUEST, name):
         """Transparent access to image scales

@@ -4,6 +4,7 @@
   </content>
 
   <include package="opencore.member.browser" />
+  <include package="opencore.member.api" />
 
   <adapter for="opencore.member.interfaces.IOpenMember"
 	   provides="opencore.member.interfaces.IHandleMemberWorkflow"
