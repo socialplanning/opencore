@@ -751,3 +751,22 @@ class ProjectInvitationsView(MemberAccountView):
     template = ZopeTwoPageTemplateFile('invitations.pt') # could change this
 
 
+class EmailExistsView(BaseView):
+    """
+    Simple view that provides a RESTful API for determining whether a
+    given email address is in use on the site.
+    """
+    def email_exists(self):
+        """
+        Expects an 'email' entry in the request form.  Returns a 200
+        response if the email is being used, a 404 otherwise.
+        """
+        email = self.request.form.get('email')
+        response = self.request.response
+        if email is not None:
+            mbtool = self.get_tool('membrane_tool')
+            if len(mbtool.unrestrictedSearchResults(getEmail=email)) > 0:
+                response.setHeader('Content-Type', 'text/xml')
+                return "<email>%s</email>" % email
+
+        response.setStatus(404)

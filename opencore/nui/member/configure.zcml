@@ -64,6 +64,14 @@
      template="memberinfo.pt"
      />
 
+  <browser:page
+     for="opencore.interfaces.adding.IAmAPeopleFolder"
+     class=".view.EmailExistsView"
+     permission="zope2.View"
+     name="email"
+     attribute="email_exists"
+     />
+
   <subscriber
      for="opencore.interfaces.membership.IOpenMembership
           opencore.interfaces.event.IChangedTeamRolesEvent"
@@ -75,11 +83,12 @@
      provides="opencore.interfaces.pending_requests.IPendingRequests"
      factory="opencore.nui.member.pending_requests.PendingRequests"
      />
+
   <adapter
      for="zope.app.annotation.interfaces.IAnnotatable
           Products.ATContentTypes.interface.folder.IATBTreeFolder"
      provides="opencore.interfaces.pending_requests.IPendingRequests"
      factory="opencore.nui.member.pending_requests_multiadapter.PendingRequests"
      />
-     
+
 </configure>
