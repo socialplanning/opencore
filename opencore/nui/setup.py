@@ -291,6 +291,7 @@ def create_auto_discussion_lists(portal):
             ml = proj.lists._getOb('%s-discussion' % proj.getId())
             proj_creator = proj.Creator()
             ml.setCreators((proj_creator,))
+            ml.reindexObject()
 
 from Products.Archetypes.utils import OrderedDict
 
