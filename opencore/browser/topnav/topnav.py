@@ -216,7 +216,7 @@ class AnonMenuView(BaseView):
              'href': '%s/login' % self.siteURL,
              },
 
-            {'content': 'Join',
+            {'content': 'Create account',
              'href': '%s/join' % self.siteURL,
              },
 
