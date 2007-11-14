@@ -9,7 +9,6 @@ from opencore.nui.contexthijack import HeaderHijackable
 from opencore.project.content import IProject
 from opencore.content.page import OpenPage
 from plone.memoize import view
-from zope.component import getUtility
 
 
 memoizedproperty = lambda func: property(view.memoize(func))
@@ -236,7 +235,7 @@ class AuthMenuView(BaseView):
         returns the number of transient messages currently stored
         for the logged in member
         """
-        tm = getUtility(ITransientMessage, context=self.portal)
+        tm = ITransientMessage(self.portal)
         msgs = tm.get_all_msgs(self.loggedinmember.getId())
         return len(msgs)
 
