@@ -2,6 +2,7 @@ import sys
 import random
 import re
 from types import TupleType, ListType, UnicodeType
+import urllib
 
 from AccessControl import ClassSecurityInfo
 
@@ -302,7 +303,9 @@ class OpenMember(FolderishMember):
             http = getUtility(IHTTPClient)
             for url in remote_auth_sites:
                 mem_url = "%s/portal_memberdata/%s" % (url, id)
-                resp, content = http.request(mem_url, method='HEAD')
+                resp, content = http.request(mem_url,
+                                             headers={'Connection': 'close'},
+                                             method='HEAD')
                 if resp.status in (200, 401, 405):
                     # a remote member exists; we'll get a 404 if the
                     # member doesn't.  note that we consider errors on
@@ -352,8 +355,10 @@ class OpenMember(FolderishMember):
         if remote_auth_sites:
             http = getUtility(IHTTPClient)
             for url in remote_auth_sites:
-                email_url = "%s/people/email?email=%s" % (url, email)
-                resp, content = http.request(email_url, method='HEAD')
+                q = urllib.urlencode({'email': email})
+                email_url = "%s/people/email?%s" % (url, q)
+                resp, cont = http.request(email_url,
+                                          headers={'Connection': 'close'})
                 if resp.status == 200:
                     return True
         return False

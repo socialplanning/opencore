@@ -2,6 +2,7 @@ from datetime import datetime
 from datetime import timedelta
 from time import strftime
 from time import gmtime
+import urllib
 from urlparse import urlsplit
 from urlparse import urlunsplit
 
@@ -771,10 +772,16 @@ class EmailExistsView(BaseView):
         """
         email = self.request.form.get('email')
         response = self.request.response
+        response.setHeader('Content-Type', 'text/xml')
         if email is not None:
+            email = urllib.unquote(email)
             mbtool = self.get_tool('membrane_tool')
             if len(mbtool.unrestrictedSearchResults(getEmail=email)) > 0:
-                response.setHeader('Content-Type', 'text/xml')
-                return "<email>%s</email>" % email
+                content = "<email>%s</email>" % email
+                response.setHeader('Content-Length', len(content))
+                return content
 
         response.setStatus(404)
+        content = "<email />"
+        response.setHeader('Content-Length', len(content))
+        return content
