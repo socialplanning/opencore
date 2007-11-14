@@ -7,6 +7,7 @@ from zope.event import notify
 from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IWriteMembershipList
 from Products.listen.interfaces import IListLookup
+from opencore.i18n import _
 from opencore.listen.mailinglist import OpenMailingList
 from opencore.project.utils import get_featurelets
 from utils import getSuffix
@@ -85,6 +86,7 @@ def listen_featurelet_installed(proj, event):
     ms_tool = getToolByName(proj, 'portal_membership')
     cur_mem_id = unicode(ms_tool.getAuthenticatedMember().getId())
     ml.managers = (cur_mem_id,)
+    ml.setDescription(_(u'Discussion list for this project. New project members are automatically added to this list.'))
     notify(ObjectCreatedEvent(ml))
 
     memlist = IWriteMembershipList(ml)

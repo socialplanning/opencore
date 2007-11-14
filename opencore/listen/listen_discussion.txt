@@ -19,6 +19,10 @@ And verify that the mailing list automatically gets added
     >>> ml
     <OpenMailingList at /plone/projects/testproj/lists/testproj-discussion>
 
+Verify description is set
+    >>> ml.Description()
+    'Discussion list for this project. New project members are automatically added to this list.'
+
 And, it should already have the current user subscribed
     >>> from Products.listen.interfaces import IMembershipList
     >>> mem_list = IMembershipList(ml)
