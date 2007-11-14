@@ -12,7 +12,9 @@ it to one of the same name::
     >>> utility1 = getUtility(INumberOne, context=self.portal)
     >>> utility1
     <Utility at /plone/utilities/>
-    
+
+    >>> utility1.flag = True
+
     >>> class INumberOne(Interface):
     ...     " Moved Iface "
     >>> getUtility(INumberOne)
@@ -30,5 +32,6 @@ it to one of the same name::
     >>> utility2
     <Utility at /plone/utilities/>
 
-    >>> utility1 is utility2
+    >>> from Acquisition import aq_inner
+    >>> utility2.flag
     True
