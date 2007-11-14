@@ -1,3 +1,4 @@
+from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.OpenPlans import config
 from Products.OpenPlans.content.team import OpenTeam
@@ -45,6 +46,7 @@ def setuphandler(fn):
     def execute_handler(context):
         stepname = fn.__name__
         handlers = context.readDataFile('setuphandlers.txt')
+        #@@ DWM: this limits reuse of decorated functions
         if handlers is None or stepname not in handlers:
             return
         portal = context.getSite()
@@ -414,23 +416,25 @@ def createValidationMember(portal, out):
     mem = OpenMember('validation_member')
     mdtool._validation_member = mem
 
-def install_local_utility(iface, klass, name):
-    def do_install(portal, out):
-        setSite(portal) # specify the portal as the local utility context
-        if queryUtility(iface) is not None:
-            return
-        sm = portal.getSiteManager()
-        try:
-            sm.registerUtility(iface, klass())
-            print >> out, ('%s utility installed' %iface.__name__)
-        except ValueError:
-            old_utility = getattr(portal.utilities, iface.__name__)
-            sm.registerUtility(iface, old_utility)
-            print >> out, ('%s utility interface updated' %iface.__name__)
-    do_install.__name__=name
-    return setuphandler(do_install)
+def register_local_utility(portal, out, iface, klass):
+    setSite(portal) # specify the portal as the local utility context
+    if queryUtility(iface) is not None:
+        return
+    sm = portal.getSiteManager()
+    try:
+        sm.registerUtility(iface, klass())
+        print >> out, ('%s utility installed' %iface.__name__)
+    except ValueError:
+        # re-register object
+        old_utility = aq_inner(getattr(portal.utilities, iface.__name__))
+        portal.utilities._delObject(iface.__name__, suppress_events=True)
+        alsoProvides(old_utility, iface)
+        sm.registerUtility(iface, old_utility)
+        print >> out, ('%s utility interface updated' %iface.__name__)
 
-install_email_invites_utility = install_local_utility(IEmailInvites, EmailInvites, 'install_email_invites_utility')
+@setuphandler
+def install_email_invites_utility(portal, out):
+    register_local_utility(portal, out, IEmailInvites, EmailInvites)
 
 @setuphandler
 def addCatalogQueue(portal, out):

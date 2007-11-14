@@ -1,0 +1,34 @@
+============================
+ local_utility registration
+============================
+
+We will test the automigration feature of the local_utility installer.
+
+We need to register a utility with one interface and then change
+it to one of the same name::
+
+    >>> sm = self.portal.getSiteManager()
+    >>> sm.registerUtility(INumberOne, Utility())
+    >>> utility1 = getUtility(INumberOne, context=self.portal)
+    >>> utility1
+    <Utility at /plone/utilities/>
+    
+    >>> class INumberOne(Interface):
+    ...     " Moved Iface "
+    >>> getUtility(INumberOne)
+    Traceback (most recent call last):
+    ...
+    ComponentLookupError: (<InterfaceClass __builtin__.INumberOne>, '')
+
+    >>> from opencore.configuration.setuphandlers import register_local_utility
+    >>> out = StringIO()
+    >>> register_local_utility(self.portal, out, INumberOne, Utility)
+    >>> out.getvalue()
+    'INumberOne utility interface updated\n'
+
+    >>> utility2 = getUtility(INumberOne, context=self.portal)
+    >>> utility2
+    <Utility at /plone/utilities/>
+
+    >>> utility1 is utility2
+    True
