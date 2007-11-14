@@ -11,8 +11,8 @@
   <include package="opencore.member" />
   <include package="opencore.nui" />
   <include package="opencore.project" />
-  <!--include package="opencore.tasktracker" /-->
-  <!--include package="opencore.wordpress" /-->
+  <include package="opencore.tasktracker" />
+  <include package="opencore.wordpress" />
   <include package="opencore.redirect" />
   <include package="opencore.utility" />
   <include package="topp.featurelets" />
