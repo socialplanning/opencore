@@ -21,7 +21,7 @@ And verify that the mailing list automatically gets added
 
 Verify description is set
     >>> ml.Description()
-    'Discussion list for this project. New project members are automatically added to this list.'
+    'Discussion list for this project, consisting of all project members.'
 
 And, it should already have the current user subscribed
     >>> from Products.listen.interfaces import IMembershipList
