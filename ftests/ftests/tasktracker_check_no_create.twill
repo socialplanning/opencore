@@ -1,9 +1,0 @@
-#
-# makes sure create list is not enabled for anonymous user
-#
-# projname - the id of the project 
-#
-
-go ${base_url}/projects/${projname}
-follow 'tasks'
-notfind 'Create a new list'

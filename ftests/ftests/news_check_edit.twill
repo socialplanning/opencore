@@ -1,7 +1,0 @@
-#
-# makes sure the current user can create a news item
-#
-
-
-go ${base_url}/news
-find 'Add news item'

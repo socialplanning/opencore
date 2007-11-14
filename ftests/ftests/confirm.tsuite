@@ -1,4 +1,0 @@
-# utility suite for confirming a user
-# try flunc confirm -D"user='someuser'"
-# 
-confirm_user

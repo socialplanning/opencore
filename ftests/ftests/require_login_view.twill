@@ -1,3 +1,0 @@
-go ${base_url}/require_login
-find 'Login'
-find 'Hey!'

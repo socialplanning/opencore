@@ -1,6 +1,0 @@
-
-go ${base_url}/projects/${projname}/project-home/history
-follow 'Version 2'
-fv revert_form version_id 1
-submit 'revert to this version'
-

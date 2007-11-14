@@ -1,4 +1,0 @@
-# cleans up artifacts of the contents suite
-destroy_project
-destroy_user
-

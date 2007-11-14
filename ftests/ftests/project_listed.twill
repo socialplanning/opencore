@@ -1,3 +1,0 @@
-go ${base_url}
-follow "Projects" 
-find $projname

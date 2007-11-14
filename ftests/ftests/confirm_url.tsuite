@@ -1,4 +1,0 @@
-# utility suite for showing the confirm url for some user 
-# try flunc confirm_url -D"user='someuser'"
-# 
-echo_confirm_url

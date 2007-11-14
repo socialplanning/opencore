@@ -1,3 +1,0 @@
-go ${base_url}/projects/${projname}/project-home
-follow history
-notfind 'do not have sufficient permissions|Login.*Username.*Password' is

@@ -1,6 +1,0 @@
-
-go ${base_url}/projects/${projname}
-follow "edit"
-follow "task.*prelude_view" 
-go ${base_url}/projects/${projname}
-notfind 'uploaded this test'

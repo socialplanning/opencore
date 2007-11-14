@@ -1,3 +1,0 @@
-follow Wiki
-follow ${newpage}
-find 'has been created'

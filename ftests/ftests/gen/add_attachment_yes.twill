@@ -1,7 +1,0 @@
-go ${base_url}/projects/${projname}
-follow "edit"
-formfile edit_form attachmentFile ${test_path}/add_attachment_yes.twill
-fv edit_form attachmentTitle 'morx'
-submit 'Upload'
-go ${base_url}/projects/${projname}
-find add_attachment_yes

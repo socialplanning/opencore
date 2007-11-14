@@ -1,2 +1,0 @@
-go ${base_url}/projects/${projname}/project-home/edit?task|prelude_view_attachment_guts-twill|delete-attachment
-#don't verify; it's ok to fail.

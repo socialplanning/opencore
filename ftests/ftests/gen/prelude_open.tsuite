@@ -1,3 +1,0 @@
-login(user=${u1_name})
-change_project_policy(projpolicy='open_policy')
-logout

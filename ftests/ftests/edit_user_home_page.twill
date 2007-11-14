@@ -1,5 +1,0 @@
-follow Wiki
-follow edit
-notfind "Insufficient Privileges"
-fv edit_form text '((${newpage}))'
-submit task|save

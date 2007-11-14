@@ -1,7 +1,0 @@
-# project and username are left over after redirect suite
-redirect_disable_default
-destroy_project(projname=${redir_normal_proj_id})
-destroy_project(projname=${redir_proj_id})
-destroy_user(user=${redir_user})
-destroy_user
-

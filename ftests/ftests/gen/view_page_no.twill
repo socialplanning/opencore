@@ -1,2 +1,0 @@
-go ${base_url}/projects/${projname}
-find 'do not have sufficient permissions|Login.*Username.*Password' is
