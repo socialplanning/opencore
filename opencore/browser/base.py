@@ -105,6 +105,10 @@ class BaseView(BrowserView):
 
     @property
     def portal_status_message(self):
+        # Note, showPortalMessages returns AND CLEARS them.
+        # Hence this oddity: we don't want to clear them
+        # if this view is redirecting, because then nobody would
+        # ever see them.
         if hasattr(self, '_redirected'):
             return []
         plone_utils = self.get_tool('plone_utils')
