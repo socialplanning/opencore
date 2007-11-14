@@ -73,6 +73,30 @@ And m2 should be listed again as a subscriber
     >>> mem_list.subscribers
     ['notreal1@example.com', 'notreal2@example.com', 'notreal3@example.com']
 
+If we remove the mailing list, and remove a member
+It should fail silently
+
+Remove the mailing list
+    >>> lists_folder.manage_delObjects(['p3-discussion'])
+    >>> lists_folder._getOb('p3-discussion')
+    Traceback (most recent call last):
+    ...
+    AttributeError: p3-discussion
+
+Simulate a member leaving
+    >>> wft.doActionFor(mship2, 'deactivate')
+    >>> member_joined_project(mship2, evt)
+
+No change
+    >>> mem_list.subscribers
+    ['notreal1@example.com', 'notreal2@example.com', 'notreal3@example.com']
+
+Try to add himself again
+No action should happen
+    >>> member_left_project(mship2, None)
+    >>> mem_list.subscribers
+    ['notreal1@example.com', 'notreal2@example.com', 'notreal3@example.com']
+
 Finally, if we remove the mailing list featurelet for the project,
 the lists folder should no longer exist
 First, remove the featurelet from the project

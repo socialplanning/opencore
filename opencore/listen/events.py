@@ -47,8 +47,8 @@ def perform_listen_action(mship, action):
     try:
         ml = portal.projects._getOb(proj_id).lists._getOb(default_list_name)
     except AttributeError:
-        #XXX just raising an error if default list doesn't exist
-        raise ValueError("no default project discussion list for '%s'" % proj_id)
+        # somebody could have removed the default mailing list
+        # silently fail
         return
     memlist = IWriteMembershipList(ml)
     getattr(memlist, action)(mem_id)
