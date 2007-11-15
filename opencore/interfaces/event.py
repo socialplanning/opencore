@@ -1,6 +1,6 @@
 from zope.interface import Interface, Attribute, implements
-from zope.app.event.interfaces import IObjectModifiedEvent
-from zope.app.event.objectevent import ObjectModifiedEvent
+from zope.app.event.interfaces import IObjectModifiedEvent, IObjectCreatedEvent
+from zope.app.event.objectevent import ObjectModifiedEvent, ObjectCreatedEvent
 
 class IAfterProjectAddedEvent(Interface):
     """What happens after a project is added"""
@@ -24,6 +24,9 @@ class IMemberEmailChangedEvent(IObjectModifiedEvent):
 
        Necessary to add instead of just object modified event because
        the handlers for this can be expensive"""
+
+class IListenFeatureletCreatedEvent(IObjectCreatedEvent):
+    """when a listen featurelet gets installed on a project"""
 
 class JoinedProjectEvent(ObjectModifiedEvent):
     implements(IJoinedProjectEvent)
@@ -51,3 +54,8 @@ class AfterSubProjectAddedEvent(AfterProjectAddedEvent):
 
 class ChangedTeamRolesEvent(ObjectModifiedEvent):
     implements(IChangedTeamRolesEvent)
+
+
+class ListenFeatureletCreatedEvent(ObjectCreatedEvent):
+    implements(IListenFeatureletCreatedEvent)
+

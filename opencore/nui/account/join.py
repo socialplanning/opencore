@@ -5,12 +5,14 @@ Join Views
 * separate pre-confirmed view for folks already invited to a project
 """
 from opencore.member.interfaces import ICreateMembers
+from opencore.interfaces.event import JoinedProjectEvent
 from opencore.nui.account import accountview
 from opencore.nui.formhandler import action, post_only, OctopoLite
 from opencore.nui.formhandler import anon_only
 from opencore.nui.base import view
 from opencore.interfaces.membership import IEmailInvites
 from zope.component import getUtility
+from zope.event import notify
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.nui.base import BaseView
 from zope.event import notify
@@ -153,6 +155,8 @@ class InviteJoinView(JoinView, accountview.ConfirmAccountView):
             mship._v_self_approved = True
             if mship.aq_parent.getId() in self.proj_ids:
                 mship.do_transition('approve_public')
+            notify(JoinedProjectEvent(mship))
+        return self.redirect("%s/init-login" %self.siteURL)
 
     def proj_title(self, invite):
         proj_obj = self.context.projects.get(invite)
