@@ -51,7 +51,7 @@ def clear_all_memos(view):
     clear_view_memo(view.request)
 
 def clear_status_messages(view):
-    """clear all portal status messages from cookies, the request,
+    """Clear all portal status messages from cookies, the request,
     and the response. I hope.
     """
     from Products.statusmessages.interfaces import IStatusMessage
@@ -60,6 +60,19 @@ def clear_status_messages(view):
     for mapping in request.form, request.cookies, request.other:
         if mapping.has_key('portal_status_message'):
             del(mapping['portal_status_message'])
+
+def get_status_messages(view):
+    """Return (and clear) the view's status messages, regardless of
+    redirect status.
+    """
+    restore = False
+    if hasattr(view, '_redirected'):
+        restore = True
+        del view._redirected
+    messages = view.portal_status_message
+    if restore:
+        view._redirected = True
+    return messages
 
 
 class RESPONSE(object):
