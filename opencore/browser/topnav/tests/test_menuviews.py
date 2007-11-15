@@ -29,8 +29,6 @@ class TestMemberMenu(OpenPlansTestCase):
         mtool.createMemberArea(other_mem_id)
         self.other_mf = mtool.getHomeFolder(other_mem_id)
         self.other_mhome = self.other_mf._getOb(self.other_mf.getDefaultPage())
-        self.other_view = getMultiAdapter((self.other_mhome, self.request),
-                                          name='topnav-member-menu')
         self.logout()
 
         mem_id = self.mem_id = 'm1'
@@ -39,9 +37,6 @@ class TestMemberMenu(OpenPlansTestCase):
         mtool.createMemberArea(mem_id)
         self.mf = mtool.getHomeFolder(mem_id)
         self.mhome = self.mf._getOb(self.mf.getDefaultPage())
-        self.view = getMultiAdapter((self.mhome, self.request),
-                                    name='topnav-member-menu')
-
         
     def test_menudata(self):
         # preserve the orignal URL
@@ -50,7 +45,9 @@ class TestMemberMenu(OpenPlansTestCase):
         # test to see if the 'Wiki' is highlighted
         self.clearMemoCache()
         self.request.ACTUAL_URL = self.mf.absolute_url()
-        menudata = self.view.menudata
+        view = getMultiAdapter((self.mhome, self.request),
+                               name='topnav-member-menu')
+        menudata = view.menudata
         self.failUnless(len(menudata) == 3)
         self.assertEqual(self.mf.absolute_url(), menudata[0]['href'])
         self.failUnless(menudata[0]['selected'])
@@ -61,7 +58,9 @@ class TestMemberMenu(OpenPlansTestCase):
         self.clearMemoCache()
         profile_url = "%s/profile" % self.mf.absolute_url()
         self.request.ACTUAL_URL = profile_url
-        menudata = self.view.menudata
+        view = getMultiAdapter((self.mf, self.request),
+                               name='topnav-member-menu')
+        menudata = view.menudata
         self.failUnless(len(menudata) == 3)
         self.assertEqual(self.mf.absolute_url(), menudata[0]['href'])
         self.failIf(menudata[0]['selected'])
@@ -72,7 +71,7 @@ class TestMemberMenu(OpenPlansTestCase):
         self.clearMemoCache()
         userprefs_url = "%s/account" % self.mf.absolute_url()
         self.request.ACTUAL_URL = userprefs_url
-        menudata = self.view.menudata
+        menudata = view.menudata
         self.failUnless(len(menudata) == 3)
         self.assertEqual(self.mf.absolute_url(), menudata[0]['href'])
         self.failIf(menudata[0]['selected'])
@@ -82,7 +81,9 @@ class TestMemberMenu(OpenPlansTestCase):
         self.clearMemoCache()
         other_profile_url = "%s/profile" % self.other_mf.absolute_url()
         self.request.ACTUAL_URL = other_profile_url
-        menudata = self.other_view.menudata
+        view = getMultiAdapter((self.other_mf, self.request),
+                               name='topnav-member-menu')
+        menudata = view.menudata
         self.failUnless(len(menudata) == 2)
         self.assertEqual(self.other_mf.absolute_url(), menudata[0]['href'])
         self.failIf(menudata[0]['selected'])
