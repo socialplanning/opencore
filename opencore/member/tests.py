@@ -1,11 +1,12 @@
-from Products.OpenPlans.tests.openplanstestcase import OpenPlansLayer, OpenPlansTestCase
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansLayer
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from Testing.ZopeTestCase import PortalTestCase 
 from opencore.testing import dtfactory as dtf
 from opencore.testing.layer import MockHTTPWithContent
-from opencore.testing.layer import MockHTTPWithContent as test_layer
 from zope.testing import doctest
+from zope.app.component.hooks import setSite
 import os
 import sys
 import unittest
@@ -32,6 +33,7 @@ def test_suite():
         tc.loginAsPortalOwner()
         tc._refreshSkinData()
         tc.login(orig_user)
+        setSite(tc.portal)
 
     globs = locals()
     readme = dtf.ZopeDocFileSuite("README.txt",
@@ -44,26 +46,26 @@ def test_suite():
                                   )
 
     transient = dtf.ZopeDocFileSuite('transient-message.txt',
-                                 optionflags=optionflags,
-                                 package='opencore.member',
-                                 test_class=OpenPlansTestCase,
-                                 globs=globs,
-                                 )
-
-    pending = dtf.ZopeDocFileSuite("pending_requests.txt",
                                      optionflags=optionflags,
                                      package='opencore.member',
                                      test_class=OpenPlansTestCase,
-                                     globs = globs,
-                                     layer = test_layer
-                                    )
+                                     globs=globs,
+                                     )
+
+    pending = dtf.ZopeDocFileSuite("pending_requests.txt",
+                                   optionflags=optionflags,
+                                   package='opencore.member',
+                                   test_class=OpenPlansTestCase,
+                                   globs = globs,
+                                   layer=MockHTTPWithContent
+                                   )
 
     pending_multi = dtf.ZopeDocFileSuite("pending_requests_multiadapter.txt",
                                          optionflags=optionflags,
                                          package='opencore.member',
                                          test_class=OpenPlansTestCase,
                                          globs = globs,
-                                         layer = test_layer                                         
+                                         layer=MockHTTPWithContent
                                          )
 
     return unittest.TestSuite((readme, transient, pending, pending_multi))

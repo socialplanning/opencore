@@ -13,6 +13,7 @@ from opencore.project.utils import project_path
 from zope.i18nmessageid import Message
 from opencore.i18n import i18n_domain, _
 from opencore.i18n import translate
+from opencore.utils import get_opencore_property
 from plone.memoize import instance
 from plone.memoize import view 
 from time import strptime
@@ -76,6 +77,9 @@ class BaseView(BrowserView):
         if mailname is None:
             mailname = email
         return '<a href="&#0109;ailto&#0058;' + email + '">' + mailname + '</a>'
+
+    def get_opencore_property(self, prop):
+        return get_opencore_property(prop, aq_inner(self.context))
 
     #XXX only used once, move into project.view
     def render_macro(self, macro, extra_context={}):

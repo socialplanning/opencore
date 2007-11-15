@@ -2,11 +2,6 @@
            xmlns:browser="http://namespaces.zope.org/browser"
 	   xmlns:five="http://namespaces.zope.org/five"
            xmlns:opencore="http://namespaces.openplans.org/opencore">
-  <utility component="opencore.wordpress.uri._wp_info" />
-
-  <opencore:wordpress
-     uri="http://localhost:8090"
-     external_uri="blog" />
 
   <subscriber
     for="Products.remember.interfaces.IReMember

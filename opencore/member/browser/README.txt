@@ -492,7 +492,7 @@ It's talented, isn't it?
     >>> request.form['email'] = 'foobarbazquux@example.com'
     >>> view.change_email()
     Called httplib2.Http.request(
-        u'http://localhost:8090/openplans-change-email.php',
+        'http://nohost:wordpress/openplans-change-email.php',
         'POST',
         body='...',
         headers={...})

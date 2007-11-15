@@ -505,14 +505,15 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         return IHomePage(self.context).home_page.split('/')[-1]
 
     def featurelets(self, include_wiki=False):
-        all_flets = getUtility(IFeatureletRegistry).getFeaturelets()
+        all_flets = getUtility(IFeatureletRegistry).getFeaturelets(self.context)
         installed_flets = [f['name'] for f in get_featurelets(self.context)]
         flet_data = [dict(id=f.id,
                           title=f.title,
                           url=f._info['menu_items'][0]['action'],
                           checked=f.id in installed_flets,
                           )
-                     for f in all_flets]
+                     for f in all_flets
+                     if getattr(f, 'active', True)]
         if include_wiki:
             flet_data.insert(0, dict(id='wiki',
                                      title='Wiki pages',

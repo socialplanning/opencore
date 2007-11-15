@@ -231,7 +231,7 @@ the member has been created::
 
     >>> member = view.create_member()
     Called httplib2.Http.request(
-        u'http://localhost:8090/openplans-create-user.php',
+        'http://nohost:wordpress/openplans-create-user.php',
         'POST',
         body='...',
         headers={...})
@@ -287,7 +287,7 @@ We need to make the request a POST::
     >>> view.membertool.getMemberById('foobar')
     >>> rendered = unicode(view())
     Called httplib2.Http.request(
-        u'http://localhost:8090/openplans-create-user.php',
+        'http://nohost:wordpress/openplans-create-user.php',
         'POST',
         body='...',
         headers={...})
@@ -340,7 +340,7 @@ But we do allow appending to existing logins::
     >>> view.request.form.update(form)
     >>> rendered =  view()
     Called httplib2.Http.request(
-        u'http://localhost:8090/openplans-create-user.php',
+        'http://nohost:wordpress/openplans-create-user.php',
         'POST',
         body='...',
         headers={...})
@@ -494,9 +494,6 @@ Verify initial login converts email invites to mship invites
     Artificially insert an email invite for the user (sacrificing a
     dead chicken or two in the process)
 
-    >>> from zope.app.component.hooks import setSite, setHooks
-    >>> setSite(portal)
-    >>> setHooks()
     >>> from zope.component import getUtility
     >>> from opencore.interfaces.membership import IEmailInvites
     >>> email_invites = getUtility(IEmailInvites)

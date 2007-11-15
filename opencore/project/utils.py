@@ -11,6 +11,9 @@ def get_featurelets(project):
     result = []
     for id in flet_ids:
         flet_info = getfletdesc(id)
+        if flet_info is None:
+            # flet registered but non-functional
+            continue
         menu_item = flet_info['menu_items'][0]
         result.append(
             {'name': id,

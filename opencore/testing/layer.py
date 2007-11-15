@@ -5,13 +5,13 @@ from Products.PloneTestCase.setup import setupPloneSite
 from Testing import ZopeTestCase
 from opencore.project.handler import add_redirection_hooks 
 from opencore.testing.utility import setup_mock_http
+from opencore.utils import set_opencore_properties
 from utils import get_portal, get_portal_as_owner, create_test_content
 from utils import zinstall_products
 from topp.utils.testing import layer_factory
 from topp.utils import introspection
 import random
 import transaction as txn
-
 
 class MailHostMock(object):
     """
@@ -124,6 +124,9 @@ class MockHTTPWithContent(OpencoreContent):
     @classmethod
     def setUp(cls):
         setup_mock_http()
+        portal = get_portal_as_owner()
+        set_opencore_properties(wordpress_uri='http://nohost:wordpress',
+                                context=portal)
         txn.commit()
     
     @classmethod

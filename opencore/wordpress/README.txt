@@ -2,15 +2,12 @@
  wordpress opencore integration
 ==================================
 
-URI convenience api
-===================
+Make sure the WP URI is set up for testing
+==========================================
 
-    >>> from opencore.wordpress import uri as wp_uri
-
-#@@ this should be cleaned up and return none
-
-    >>> wp_uri.get()
-    u'http://nohost:wordpress'
+    >>> from opencore.utils import get_opencore_property
+    >>> get_opencore_property('wordpress_uri')
+    'http://nohost:wordpress'
 
 featurelet install
 ==================
@@ -29,11 +26,12 @@ the http calls to wordpress::
     >>> project = self.app.plone.projects.p1
     >>> wpf.deliverPackage(project)
     Called httplib2.Http.request(
-        u'http://nohost:wordpress/openplans-create-blog.php',
+        'http://nohost:wordpress/openplans-create-blog.php',
         ...
     {'menu_items'...}
 
     >>> wpf.removePackage(project)
     Called httplib2.Http.request(
-        u'http://nohost:wordpress/openplans-delete-blog.php',
+        'http://nohost:wordpress/openplans-delete-blog.php',
         ...
+

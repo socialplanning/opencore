@@ -4,6 +4,7 @@ from Testing.ZopeTestCase import FunctionalDocFileSuite
 from Testing.ZopeTestCase import PortalTestCase 
 from opencore.testing import dtfactory as dtf
 from opencore.testing.layer import MockHTTPWithContent, OpencoreContent
+from zope.app.component.hooks import setSite
 from zope.testing import doctest
 import os
 import sys
@@ -32,7 +33,6 @@ def test_suite():
     from opencore.interfaces.member import IMemberHomePage, IMemberFolder
     from zope.app.component.hooks import setSite, setHooks
     from zope.component import getUtility
-    import pdb
     from pprint import pprint
     globs = locals()
 
@@ -43,6 +43,7 @@ def test_suite():
         member = IHandleMemberWorkflow(member)
         if member.is_unconfirmed():
             member.confirm()
+        setSite(tc.portal)
 
     readme = dtf.ZopeDocFileSuite("README.txt",
                                         optionflags=optionflags,

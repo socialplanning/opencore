@@ -7,11 +7,10 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 
 from opencore.content.membership import OpenMembership
-from opencore.wordpress import uri as wp_uri
 
 class SyncUsersView(BrowserView):
     def sync(self):
-        base_uri = wp_uri.get()
+        base_uri = self.get_opencore_property('wordpress_uri')
         uri = "%s/openplans-do-sync.php" % base_uri
         params = {}
 

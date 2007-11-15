@@ -6,10 +6,13 @@ from Products.CMFCore.utils import getToolByName
 from decorator import decorator
 from opencore.project.utils import get_featurelets
 from opencore.utility.interfaces import IHTTPClient
-from opencore.wordpress.uri import get as uri_get
+from opencore.utils import get_opencore_property
 from zope.component import getUtility
 import hmac, sha
 import urllib
+import logging
+
+log = logging.getLogger('opencore.wordpress')
 
 # @@ DWM: why not use @adapter so one could see how these are hooked
 # up while looking at the code
@@ -37,7 +40,13 @@ def project_contains_blog(f, mship_obj, event):
 def send_to_wordpress(uri, username, params, context):
     """Send some data (params) to wordpress with the given user.
        The context is used to find the secret"""
-    uri = '%s/%s' % (uri_get(), uri)
+    wp_uri = get_opencore_property('wordpress_uri')
+    if not wp_uri:
+        # either None or empty value mean do nothing
+        log.info('Failed to connect to WordPress: no WP URI set')
+        return
+        
+    uri = '%s/%s' % (wp_uri, uri)
     acl_users = context.acl_users
     auth = acl_users.credentials_signed_cookie_auth
     secret = auth.secret

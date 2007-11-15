@@ -1,6 +1,7 @@
 import os
 import unittest
 from zope.testing import doctest
+from zope.app.component.hooks import setSite
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from opencore.testing.layer import MockHTTPWithContent as test_layer
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
@@ -24,14 +25,21 @@ def test_suite():
     img = os.path.join(os.path.dirname(__file__), 'test-portrait.jpg')
     portrait = open(img)
 
+    def setup(tc):
+        """
+        Make sure the local site is set.
+        """
+        setSite(tc.portal)
+
     globs = locals()
     readme = dtf.ZopeDocFileSuite("README.txt",
-                                    optionflags=optionflags,
-                                    package='opencore.member.browser',
-                                    test_class=OpenPlansTestCase,
-                                    globs = globs,
-                                    layer = test_layer
-                                    )
+                                  optionflags=optionflags,
+                                  package='opencore.member.browser',
+                                  test_class=OpenPlansTestCase,
+                                  globs = globs,
+                                  layer = test_layer,
+                                  setUp = setup,
+                                  )
 
 
     return unittest.TestSuite((readme,))

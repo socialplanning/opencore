@@ -3,7 +3,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from memojito import memoizedproperty
 from opencore.interfaces import IProject
 from opencore.utility.interfaces import IHTTPClient
-from opencore.wordpress import uri as wp_uri
+from opencore.utils import get_opencore_property
 from opencore.wordpress.interfaces import IWordPressFeatureletInstalled
 from topp.featurelets.base import BaseFeaturelet
 from topp.featurelets.interfaces import IFeaturelet
@@ -41,6 +41,14 @@ class WordPressFeaturelet(BaseFeaturelet):
     def http(self):
         return getUtility(IHTTPClient)
 
+    @property
+    def wp_uri(self):
+        return get_opencore_property('wordpress_uri')
+
+    @property
+    def active(self):
+        return bool(self.wp_uri)
+
     # @@ use a template 
     def creation_command(self, signature, domain, title, members):
         return """<blog>
@@ -58,7 +66,13 @@ class WordPressFeaturelet(BaseFeaturelet):
 """ % (signature, domain, title, members)
 
     def deliverPackage(self, obj):
-        uri = "%s/openplans-create-blog.php" % wp_uri.get()
+        wp_uri = self.wp_uri
+        if not wp_uri:
+            # either None or empty value mean do nothing
+            log.info('Failed to add WordPress blog: no WP URI set')
+            return
+
+        uri = "%s/openplans-create-blog.php" % wp_uri
         params = {}
 
         params['domain'] = domain = "%s.openplans.org" % obj.getId()
@@ -87,7 +101,13 @@ class WordPressFeaturelet(BaseFeaturelet):
         return BaseFeaturelet.deliverPackage(self, obj)
 
     def removePackage(self, obj, raise_error=True):
-        uri = "%s/openplans-delete-blog.php" % wp_uri.get()
+        wp_uri = self.wp_uri
+        if not wp_uri:
+            # either None or empty value mean do nothing
+            log.info('Failed to remove WordPress blog: no WP URI set')
+            return
+
+        uri = "%s/openplans-delete-blog.php" % wp_uri
         params = {}
 
         params['domain'] = domain = "%s.openplans.org" % obj.getId()
@@ -101,12 +121,11 @@ class WordPressFeaturelet(BaseFeaturelet):
         post = urllib.urlencode(params)
 
         response, content = self.http.request(uri, 'POST', headers={'Content-type': 'application/x-www-form-urlencoded'}, body=post)
-        #import pdb; pdb.set_trace()
 
         if response.status != 200:
             if raise_error:
-                raise AssertionError('Failed to remove wordpress blog: %s' % content)
+                raise AssertionError('Failed to remove WordPress blog: %s' % content)
             else:
-                log.info('Failed to remove wordpress blog: %s' % content)
+                log.info('Failed to remove WordPress blog: %s' % content)
 
         return BaseFeaturelet.removePackage(self, obj)
