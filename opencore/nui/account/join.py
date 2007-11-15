@@ -136,7 +136,6 @@ class InviteJoinView(JoinView, accountview.ConfirmAccountView):
             if mship.aq_parent.getId() in self.proj_ids:
                 mship.do_transition('approve_public')
             notify(JoinedProjectEvent(mship))
-        return self.redirect("%s/init-login" %self.siteURL)
 
     def proj_title(self, invite):
         proj_obj = self.context.projects.get(invite)
