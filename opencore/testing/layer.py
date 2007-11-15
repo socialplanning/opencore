@@ -1,15 +1,17 @@
 from Products.CMFCore.utils  import getToolByName
 from Products.Five import pythonproducts
+from Products.Five.site.localsite import enableLocalSiteHook
 from Products.PloneTestCase.layer import PloneSite, ZCML
 from Products.PloneTestCase.setup import setupPloneSite
 from Testing import ZopeTestCase
 from opencore.project.handler import add_redirection_hooks 
 from opencore.testing.utility import setup_mock_http
 from opencore.utils import set_opencore_properties
+from topp.utils import introspection
+from topp.utils.testing import layer_factory
 from utils import get_portal, get_portal_as_owner, create_test_content
 from utils import zinstall_products
-from topp.utils.testing import layer_factory
-from topp.utils import introspection
+from zope.app.component.hooks import setSite, setHooks
 import random
 import transaction as txn
 
@@ -57,6 +59,9 @@ class SiteSetupLayer(PloneSite):
         zinstall_products()
         # install OpenPlans into ZTC
         ZopeTestCase.installProduct('OpenPlans')
+        enableLocalSiteHook(portal)
+        setSite(portal)
+        setHooks()
 
         txn.commit()
 
