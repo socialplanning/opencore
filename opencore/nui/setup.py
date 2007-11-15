@@ -17,7 +17,9 @@ from opencore.configuration.setuphandlers import install_remote_auth_plugin
 from opencore.configuration.setuphandlers import install_team_placeful_workflow_policies
 from opencore.configuration.setuphandlers import setupPeopleFolder
 from opencore.configuration.setuphandlers import setupProjectLayout, setupHomeLayout
+from opencore.featurelets.interfaces import IListenFeatureletInstalled
 from opencore.interfaces import IOpenPage, INewsItem
+from opencore.listen.events import listen_featurelet_installed
 from opencore.nui.wiki.add import get_view_names
 from opencore.project.browser.metadata import _update_last_modified_author
 from persistent import mapping
@@ -279,6 +281,23 @@ def markNewsItems(portal):
         if not INewsItem.providedBy(ni):
             alsoProvides(ni, INewsItem)
 
+def create_auto_discussion_lists(portal):
+    cat = getToolByName(portal, 'portal_catalog')
+    # event is not used in handler
+    evt = None
+    for brain in cat(portal_type='OpenProject'):
+        proj = brain.getObject()
+        if IListenFeatureletInstalled.providedBy(proj):
+            # call the event handler, simulating the featurelet was just added
+            listen_featurelet_installed(proj, evt)
+
+            # set the creator to the creator of the project
+            # not the admin that ran the migration
+            ml = proj.lists._getOb('%s-discussion' % proj.getId())
+            proj_creator = proj.Creator()
+            ml.setCreators((proj_creator,))
+            ml.reindexObject()
+
 from Products.Archetypes.utils import OrderedDict
 
 # make rest of names readable  (maybe use config system)
@@ -313,6 +332,7 @@ nui_functions['annotate last modified author'] = annotate_last_modified_author
 nui_functions['markNewsItems'] = markNewsItems
 nui_functions['Install OpenCore Remote Auth Plugin'] = \
                        convertFunc(install_remote_auth_plugin)
+nui_functions['Create auto discussion lists'] = create_auto_discussion_lists
 
 def run_nui_setup(portal):
     pm = portal.portal_migration
