@@ -31,10 +31,9 @@ class ConfirmAccountView(AccountView):
         matches = self.membranetool.unrestrictedSearchResults(UID=UID)
         if matches:
             member = matches[0].getObject()
-            if member._confirmation_key != confirmation_key:
-                return None
-
-        return member
+            if member._confirmation_key == confirmation_key:
+                return member
+        return None
 
     def confirm(self, member):
         """Move member into the confirmed workflow state"""
