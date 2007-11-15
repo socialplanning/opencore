@@ -5,12 +5,9 @@
 URI convenience api
 ===================
 
-    >>> from opencore.tasktracker import uri as tt_uri
-
-#@@ this should be cleaned up and return none
-
-    >>> tt_uri.get() 
-    u'http://nohost:tasktracker'
+    >>> from opencore.utils import get_opencore_property
+    >>> get_opencore_property('tasktracker_uri')
+    'http://nohost:tasktracker'
 
 featurelet install
 ==================
@@ -41,13 +38,13 @@ to tasktracker::
     >>> header = {"X-Tasktracker-Initialize":"True"}
     >>> ttf._makeHttpReqAsUser(ttf.init_uri, obj=project, headers=header)
     Called httplib2.Http.request(
-        u'http://nohost:tasktracker/project/initialize/',
+        'http://nohost:tasktracker/project/initialize/',
         headers={'X-Openplans-Project': 'p1', 'Cookie': '__ac=...', 'X-Tasktracker-Initialize': 'True'},
         method='POST')
     (<...MockResponse object at ...>, 'Mock request succeeded!')
     >>> ttf._makeHttpReqAsUser(ttf.uninit_uri, obj=project)
     Called httplib2.Http.request(
-        u'http://nohost:tasktracker/project/uninitialize/',
+        'http://nohost:tasktracker/project/uninitialize/',
         headers={'X-Openplans-Project': 'p1', 'Cookie': '__ac=...'},
         method='POST')
     (<...MockResponse object at ...>, 'Mock request succeeded!')

@@ -22,7 +22,6 @@ from opencore.interfaces.event import AfterProjectAddedEvent, \
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 
 from opencore.project.utils import get_featurelets
-from opencore.tasktracker import uri as tt_uri
 from opencore.browser import formhandler
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
@@ -142,7 +141,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
     def tasktracker_url(self): 
         # XXX todo all this logic prob ought be in opencore.tasktracker.
 
-        loc = tt_uri.get_external_uri()
+        loc = self.get_opencore_property('tasktracker_external_uri')
 
         if loc.startswith('http://'): # XXX todo this is dumb
             return loc

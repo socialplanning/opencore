@@ -15,8 +15,12 @@
   <property name="remote_auth_sites" type="lines"></property>
   <property name="mailing_list_fqdn" type="string">lists.openplans.org</property>
   <property name="embed_whitelist" type="lines"></property>
+
   <property name="wordpress_uri" type="string"></property>
   <property name="wordpress_external_uri" type="string">blog</property>
+
+  <property name="tasktracker_uri" type="string"></property>
+  <property name="tasktracker_external_uri" type="string">tasks</property>
  </object>
 
 </object>

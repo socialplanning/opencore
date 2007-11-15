@@ -1,9 +1,9 @@
 from Products.CMFCore.utils import getToolByName
 from memojito import memoizedproperty
 from opencore.interfaces import IProject
-from opencore.tasktracker import uri as tt_uri
 from opencore.tasktracker.interfaces import ITaskTrackerFeatureletInstalled
 from opencore.utility.interfaces import IHTTPClient
+from opencore.utils import get_opencore_property
 from topp.featurelets.base import BaseFeaturelet
 from topp.featurelets.interfaces import IFeaturelet
 from zope.component import getUtility
@@ -33,9 +33,14 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
                              },
                             ),
              }
-    @memoizedproperty
+
+    @property
     def uri(self):
-        return tt_uri.get()
+        return get_opencore_property('tasktracker_uri')
+
+    @property
+    def active(self):
+        return bool(self.uri)
 
     @property
     def init_uri(self):
@@ -59,19 +64,28 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
         return self.http.request(uri, method=method, headers=headers)
 
     def deliverPackage(self, obj):
+        if not self.active:
+            # we don't have a TT URI set, don't do anything
+            log.info('Failed to add TaskTracker featurelet: no TT URI set')
+            return
+
         #XXX: we send both headers for now so that TT and OC can be updated
         #independently.  The first can be removed once TT is updated.
-        header = {"X-Tasktracker-Initialize":"True"}        
+        header = {"X-Tasktracker-Initialize":"True"}
         header = {"X-Openplans-Tasktracker-Initialize":"True"}
         response, content = self._makeHttpReqAsUser(self.init_uri, obj=obj,
                                                     headers=header)
-        
 
         if response.status != 200:
             raise AssertionError("Project initialization failed: status %d (maybe TaskTracker isn't running?)" % response.status)
         return BaseFeaturelet.deliverPackage(self, obj)
 
     def removePackage(self, obj, raise_error=True):
+        if not self.active:
+            # we don't have a TT URI set, don't do anything
+            log.info('Failed to remove TaskTracker featurelet: no TT URI set')
+            return
+
         header = {"X-Openplans-Tasktracker-Initialize":"True"}
         response, content = self._makeHttpReqAsUser(self.uninit_uri, obj=obj, headers=header)
         if response.status != 200:

@@ -6,6 +6,7 @@ from zope.testing import doctest
 from zope.component import testing
 from Testing import ZopeTestCase as ztc
 from Products.Five import zcml
+from zope.app.component.hooks import setSite
 from zope.interface import alsoProvides
 from zope.testing.cleanup import cleanUp
 from opencore.testing.layer import MockHTTPWithContent
@@ -16,26 +17,12 @@ def clean_CA(tc):
 
 import warnings; warnings.filterwarnings("ignore")
 
-optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
-
-
-
-def directive_setup(tc):
-    import opencore.tasktracker
-    zcml.load_config('test-directive.zcml', opencore.tasktracker)
+optionflags = doctest.ELLIPSIS
 
 def test_suite():
     from zope.component import getMultiAdapter, getUtility
     from opencore.testing import *
     from opencore.utility.interfaces import IHTTPClient
-    
-    directive = doctest.DocFileSuite('directive.txt',
-                                     package='opencore.tasktracker',
-                                     optionflags=optionflags,
-                                     setUp=directive_setup,
-                                     tearDown=clean_CA,
-                                     globs=locals())
-    unit_suites = (directive, )
     
     readme = ztc.FunctionalDocFileSuite('README.txt',
                                         package='opencore.tasktracker',
@@ -43,11 +30,10 @@ def test_suite():
                                         setUp=base_tt_setup,
                                         globs=locals())
     
-    zcml_suites = (readme,)
-    for suite in zcml_suites:
+    suites = (readme,)
+    for suite in suites:
         suite.layer = MockHTTPWithContent
         
-    suites = unit_suites + zcml_suites
     return unittest.TestSuite(suites)
 
 if __name__ == '__main__':
