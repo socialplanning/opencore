@@ -117,6 +117,19 @@ Finally, it processes the invites::
     ...
     KeyError: 'bob'
 
+Verify that the IJoinedProjectEvent gets fired when a member joins
+    >>> fired = []
+    >>> from opencore.interfaces.event import IJoinedProjectEvent
+    >>> from opencore.interfaces.membership import IOpenMembership
+    >>> from zope.component import adapter
+    >>> @adapter(IOpenMembership, IJoinedProjectEvent)
+    ... def dummy_subscriber(mship, evt):
+    ...     fired.append((mship, evt))
+
+Rig up the dummy subscriber
+    >>> from zope.component import provideHandler
+    >>> provideHandler(dummy_subscriber)
+
     >>> inv_join.do_invite_joins(member)
     >>> mbship = self.portal.portal_teams.p1['bob']
     >>> mbship
@@ -124,6 +137,15 @@ Finally, it processes the invites::
 
     >>> mbship.getTeamRoles()
     ['ProjectMember']
+
+Check if the project joined event was fired
+    >>> len(fired)
+    1
+    >>> mship, evt = fired[0]
+    >>> mship.getId()
+    'bob'
+    >>> evt.__class__.__name__
+    'JoinedProjectEvent'
 
 
 Pending Users
