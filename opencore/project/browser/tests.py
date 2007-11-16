@@ -1,5 +1,5 @@
 import os, sys, unittest
-from opencore.nui.account import utils
+from opencore.account import utils
 utils.turn_confirmation_on()
 from zope.testing import doctest
 from Testing import ZopeTestCase
