@@ -64,7 +64,7 @@
         none
       </dd>
     </dl>
-    <div tal:replace="structure view/subscription_snippet"/>
+    <!-- div tal:replace="structure view/subscription_snippet"/ -->
   </div>
 </metal:aboutmacro>
 <!-- END LISTEN ABOUT LIST -->
