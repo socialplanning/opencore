@@ -26,7 +26,6 @@
                 <th scope="col"><tal:title i18n:translate="archive_forum_thread_last_activity">Last activity</tal:title></th>
               </tr>
             </thead>
-
             <tbody>
               <tal:items repeat="item threads">
                 <tr>

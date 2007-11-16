@@ -1,5 +1,7 @@
 from Products.Five.browser import metaconfigure
 from Products.Five.browser import pagetemplatefile
+from Acquisition import aq_inner
+from zope.app.annotation.interfaces import IAnnotations
 from Products.PageTemplates.PageTemplate import PageTemplate
 from Products.listen.browser.mail_archive_views import ArchiveForumView, ArchiveDateView
 from Products.listen.browser.mail_archive_views import ArchiveNewTopicView, SubFolderDateView
@@ -63,7 +65,8 @@ class ListenBaseView(BaseView):
 
         return msgs
 
-# uh.. if you are going right meta factories you should write tests too
+# uh.. if you are going write meta factories you should write tests too
+# isn't this what super and mixins are is suppose to solve?
 def make_nui_listen_view_class(ListenClass, set_errors=False, add_update=False):
     class NuiListenView(ListenBaseView, ListenClass):
         # mask the property defined in any listen views
@@ -92,14 +95,24 @@ def make_nui_listen_view_class(ListenClass, set_errors=False, add_update=False):
             if body.startswith('<p>'):
                 body = body[3:-4]
             return body
-
+    
     return NuiListenView
 
-
+# prefixing everything is unnecessary
 NuiMailingListView = make_nui_listen_view_class(MailingListView)
 NuiMailingListAddView = make_nui_listen_view_class(MailingListAddForm, set_errors=True, add_update=True)
 NuiMailingListEditView = make_nui_listen_view_class(MailingListEditForm, set_errors=True, add_update=True)
-NuiArchiveForumView = make_nui_listen_view_class(ArchiveForumView)
+
+
+from Products.listen.interfaces import IMembershipPendingList
+from zope.component import getAdapter
+
+class ArchiveForumView(make_nui_listen_view_class(ArchiveForumView)):
+    """puke a little, inherit"""
+    def subscription_snippet(self):
+        the_list = aq_inner(self.context).aq_parent
+        return the_list.restrictedTraverse("subscription_snippet")()
+
 NuiArchiveDateView = make_nui_listen_view_class(ArchiveDateView)
 NuiArchiveNewTopicView = make_nui_listen_view_class(ArchiveNewTopicView)
 NuiSubFolderDateView = make_nui_listen_view_class(SubFolderDateView)

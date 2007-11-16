@@ -7,7 +7,7 @@
   <browser:page
      for="Products.listen.interfaces.IListArchive"
      name="forum_view"
-     class=".view.NuiArchiveForumView"
+     class=".view.ArchiveForumView"
      permission="zope2.View"
      template="archive_forum_view.pt"
      />
@@ -93,14 +93,6 @@
     class=".view.NuiListLookupView"
     permission="zope2.View"
     template="lookup_view.pt"
-    />
-
-  <browser:page
-    for="Products.listen.interfaces.IMailingList"
-    name="mailinglist_view"
-    class=".view.NuiMailingListView"
-    permission="zope2.View"
-    template="mailinglist_view.pt"
     />
 
   <browser:page

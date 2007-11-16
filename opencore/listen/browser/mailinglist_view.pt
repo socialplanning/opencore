@@ -61,63 +61,7 @@
               Please direct inquiries about this list to listmanager@example.com.
             </dd>
           </dl>
-          <div class="oc-listen-details-subscribe oc-boxy oc-clearAfter">
-            <p tal:condition="python:isAnon or not can_subscribe" id="unsub-instructions" i18n:translate="mailinglist_view_to_unsubscribe">
-              To unsubscribe from this list send an email to the list with the subject
-              "<span tal:replace="view/unsubscribe_keyword" i18n:name="sunsubscribe_keyword" />"
-              and an empty body.
-            </p>
-      
-            <form name="subscription-form" id="subscription-form"
-              tal:define="errors view/errors|nothing;
-                          isPending view/isPending"
-              action="." tal:attributes="action request/ACTUAL_URL">
-              <tal:member condition="python:can_subscribe and not isAnon and not isPending">
-                <h2 i18n:translate="mailinglist_view_sub_form_heading">Subscription status</h2>
-                <p id="subscription-status" tal:condition="subscribed" i18n:translate="mailinglist_view_subscribed">
-                  You are currently <strong>subscribed</strong> to this list.
-                </p>
-                <p id="subscription-status" tal:condition="not:subscribed" i18n:translate="mailinglist_view_not_subscribed">
-                  You are currently <strong>not subscribed</strong> to this list.
-                </p>
-                <div class="oc-actions">
-                  <input type="submit" name="unsubscribe_member" value="Unsubscribe"
-                    tal:condition="subscribed" i18n:attributes="value mailinglist_view_unsub_button" />
-                  <input type="submit" name="subscribe_member" value="Subscribe"
-                    tal:condition="not:subscribed" i18n:attributes="value mailinglist_view_sub_button" />
-                </div>
-              </tal:member>
-              <tal:anon tal:define="error errors/email_address|nothing"
-                        condition="python:isAnon and can_subscribe">
-                <p id="subscription-status" i18n:translate="mailinglist_view_enter_email">
-                  To subscribe to the list enter your email in the field below.
-                </p>
-                <fieldset 
-                  tal:attributes="class python:'oc-form-fieldBlock' + (error and ' error' or '')">
-                  <label for="email_address" i18n:translate="mailinglist_view_email_add"><strong>Email address:</strong></label>
-                  <input type="text" value="" name="email_address"
-                  tal:attributes="value request/email_address|nothing" />
-                  <span class="oc-actions">
-                    <input type="submit"
-                    class="context"
-                    name="subscribe_email"
-                    value="Subscribe Address"
-                    i18n:attributes="value mailinglist_view_sub_email_button" />
-                  </span>
-                  <span class="oc-discreetText" style="white-space: nowrap;" tal:condition="error" tal:content="error"/>
-                </fieldset>
-              </tal:anon>
-              <tal:pending tal:condition="python: isPending">
-              <h2 i18n:translate="mailinglist_view_sub_pending">Subscription pending</h2>
-                <p i18n:translate="mailinglist_view_sub_pending_desc">
-                  Your subscription request is pending moderation by the list manager. 
-                  <span id="manager_email" tal:content="view/manager_email" i18n:name="manager_email">
-                    Please direct inquiries to listmanager@example.com.
-                  </span>
-                </p>
-              </tal:pending>
-            </form>
-          </div><!-- end oc-listen-details-subscribe -->
+          <div metal:use-macro="here/@@listen_macros/subscribe" />
         </div><!-- content-main -->
       </tal:vars>
     </div><!-- content-fill-slot -->
