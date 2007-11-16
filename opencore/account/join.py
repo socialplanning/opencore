@@ -4,23 +4,24 @@ Join Views
 * normal join view
 * separate pre-confirmed view for folks already invited to a project
 """
-from opencore.member.interfaces import ICreateMembers
-from opencore.account import accountview
-from opencore.interfaces.event import JoinedProjectEvent
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from opencore.account import browser
+from opencore.account import utils
+from opencore.account.confirmation import ConfirmAccountView
+from opencore.browser.base import BaseView
+from opencore.browser.base import BaseView, _
+from opencore.browser.base import view
 from opencore.browser.formhandler import action, post_only, OctopoLite
 from opencore.browser.formhandler import anon_only
-from opencore.browser.base import view
+from opencore.interfaces.event import JoinedProjectEvent
 from opencore.interfaces.membership import IEmailInvites
+from opencore.member.interfaces import ICreateMembers
+from zope.app.event.objectevent import ObjectCreatedEvent
 from zope.component import getUtility
 from zope.event import notify
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from opencore.browser.base import BaseView
-from zope.event import notify
-from zope.app.event.objectevent import ObjectCreatedEvent
-from opencore.browser.base import BaseView, _
 
 
-class JoinView(accountview.AccountView, OctopoLite):
+class JoinView(browser.AccountView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('join.pt')
 
@@ -38,7 +39,7 @@ class JoinView(accountview.AccountView, OctopoLite):
         mem = factory.create(self.request.form)
         mem_name = mem.getFullname() or mem.getId()
         url = self._confirmation_url(mem)
-        if accountview.email_confirmation():
+        if utils.email_confirmation():
             if not confirmed:
                 self._sendmail_to_pendinguser(user_name=mem_name,
                                               email=self.request.get('email'),
@@ -72,7 +73,7 @@ class JoinView(accountview.AccountView, OctopoLite):
         return ret
 
 
-class InviteJoinView(JoinView, accountview.ConfirmAccountView):
+class InviteJoinView(JoinView, ConfirmAccountView):
     """a preconfirmed join view that also introspects any invitation a
     perspective member has"""
 
