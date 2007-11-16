@@ -5,6 +5,8 @@ from Testing.ZopeTestCase import PortalTestCase
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from opencore.testing.layer import OpencoreContent as test_layer
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
+from opencore.testing import dtfactory as dtf
+from opencore.testing.setup import simple_setup
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
@@ -18,60 +20,29 @@ def test_suite():
     from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
     from pprint import pprint
     from zope.interface import alsoProvides
-    from pprint import pprint
-    from opencore.browser.formhandler import test_suite as octotest
     
     setup.setupPloneSite()
-    def readme_setup(tc):
-        tc._refreshSkinData()
-        tc.request = tc.app.REQUEST
-        tc.response = tc.request.RESPONSE
-        tc.homepage = getattr(tc.portal, 'site-home')
-        tc.projects = tc.portal.projects
 
     globs = locals()
+    setup = dtf.ZopeDocFileSuite("setup.txt",
+                                 optionflags=optionflags,
+                                 package='opencore.nui',
+                                 test_class=OpenPlansTestCase,
+                                 globs = globs,
+                                 setUp=simple_setup,
+                                 layer=test_layer
+                                 )
 
-    
-    setup = FunctionalDocFileSuite("setup.txt",
-                                    optionflags=optionflags,
-                                    package='opencore.nui',
-                                    test_class=OpenPlansTestCase,
-                                    globs = globs,
-                                    setUp=readme_setup
-                                    )
-    setup.layer = test_layer
+    email_sender = dtf.ZopeDocFileSuite("email-sender.txt",
+                                        optionflags=optionflags,
+                                        package='opencore.nui',
+                                        test_class=OpenPlansTestCase,
+                                        globs = globs,
+                                        setUp=simple_setup,
+                                        layer=test_layer
+                                        )
 
-    email_sender = FunctionalDocFileSuite("email-sender.txt",
-                                    optionflags=optionflags,
-                                    package='opencore.nui',
-                                    test_class=OpenPlansTestCase,
-                                    globs = globs,
-                                    setUp=readme_setup
-                                    )
-
-    email_sender.layer = test_layer
-
-    placeful_workflow = FunctionalDocFileSuite("placeful_workflow_test.txt",
-                                               optionflags=optionflags,
-                                               package='opencore.nui',
-                                               test_class=OpenPlansTestCase,
-                                               globs = globs,
-                                               setUp=readme_setup
-                                               )
-
-    placeful_workflow.layer = test_layer
-
-    member_info = FunctionalDocFileSuite("member_info_test.txt",
-                                         optionflags=optionflags,
-                                         package='opencore.nui',
-                                         test_class=OpenPlansTestCase,
-                                         globs = globs,
-                                         setUp=readme_setup
-                                         )
-
-    member_info.layer = test_layer
-
-    return unittest.TestSuite((email_sender, placeful_workflow, member_info, setup))
+    return unittest.TestSuite((email_sender, setup))
 
 
 if __name__ == '__main__':
