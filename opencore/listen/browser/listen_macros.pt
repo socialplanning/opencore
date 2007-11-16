@@ -64,7 +64,7 @@
         none
       </dd>
     </dl>
-    <!-- div tal:replace="structure view/subscription_snippet"/ -->
+    <div tal:replace="structure view/subscription_snippet" />
   </div>
 </metal:aboutmacro>
 <!-- END LISTEN ABOUT LIST -->
@@ -81,7 +81,7 @@
     <form name="subscription-form" id="subscription-form"
           tal:define="errors view/errors|nothing;
                       isPending view/isPending"
-          action="." tal:attributes="action request/ACTUAL_URL">
+          action="." tal:attributes="action context/absolute_url">
       <tal:member condition="python:can_subscribe and not isAnon and not isPending">
         <h2 i18n:translate="mailinglist_view_sub_form_heading">Subscription status</h2>
         <p id="subscription-status" tal:condition="subscribed" i18n:translate="mailinglist_view_subscribed">
