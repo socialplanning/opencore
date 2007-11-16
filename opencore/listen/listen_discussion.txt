@@ -141,4 +141,4 @@ Now we should silently not create the mailing list
 Archive index wrapper
 =====================
 
-    >>> import pdb; pdb.set_trace()
+    >>> import pdb; set_trace = pdb.set_trace
