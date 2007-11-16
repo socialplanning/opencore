@@ -353,7 +353,8 @@ Confirm
 
 See confirm.txt.  But for testing other features below, we want to
 confirm one member.  (We could stand to do some redesigning for better
-testability.)
+testability.  This is cargo-culted from other tests, not sure if
+there's an easier way...)
 
     >>> user = mt.restrictedTraverse('foobar')
     >>> self.loginAsPortalOwner()
