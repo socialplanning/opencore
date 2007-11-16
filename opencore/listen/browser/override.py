@@ -14,7 +14,6 @@ class ArchiveWrapper(BaseView):
         pass
 
     def __call__(self):
-        import pdb;pdb.set_trace()
         BaseView.__call__(self)
         forum_view = self.get_forum_view()
         return forum_view()
