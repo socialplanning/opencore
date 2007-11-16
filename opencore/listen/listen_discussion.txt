@@ -1,3 +1,7 @@
+===================
+ Listen discussion
+===================
+
 Login as an opencore member
     >>> self.login('m1')
 
@@ -132,3 +136,9 @@ Now we should silently not create the mailing list
     Traceback (most recent call last):
     ...
     AttributeError: p3-discussion
+
+
+Archive index wrapper
+=====================
+
+    >>> import pdb; pdb.set_trace()

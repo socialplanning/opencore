@@ -46,4 +46,19 @@
      provides="zope.formlib.namedtemplate.INamedTemplate"
      />
 
+  <browser:page
+     for="opencore.listen.interfaces.IOpenMailingList"
+     name="summary"
+     class=".view.NuiMailingListView"
+     permission="zope2.View"
+     template="mailinglist_view.pt"
+     />
+
+  <browser:page
+     for="opencore.listen.interfaces.IOpenMailingList"
+     name="mailinglist_view"
+     class="opencore.listen.browser.override.ArchiveWrapper"
+     permission="zope2.View"
+     />
+
 </configure>
