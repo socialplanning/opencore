@@ -1,7 +1,6 @@
 """
 OpenPlans
 """
-
 __authors__ = 'Rob Miller <ra@burningman.com>'
 __docformat__ = 'restructuredtext'
 
@@ -15,13 +14,16 @@ from Products.CMFCore.DirectoryView import registerFileExtension
 from Products.CMFCore.FSPageTemplate import FSPageTemplate
 from Products.PluggableAuthService import registerMultiPlugin
 from Products.listen.permissions import AddMailingList
+from opencore import configuration as config
 from opencore.auth import remoteauthplugin
+from opencore.bbb.module_alias import do_aliases
 from opencore.nui import indexing
 from permissions import initialize as initialize_permissions
 from topp.featurelets.interfaces import IFeatureletRegistry
 from zope.component import getUtility
-from opencore import configuration as config
 import monkey
+
+do_aliases()
 
 GLOBALS = globals()
 SKINS_DIR = 'skins'

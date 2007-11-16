@@ -9,13 +9,16 @@ import opencore.interfaces.bbb
 import opencore.browser
 import opencore.project
 import opencore.project.browser
-sys.modules['opencore.siteui'] = opencore.browser
-#sys.modules['opencore.nui'] = opencore.browser
-sys.modules['opencore.nui.project'] = opencore.project.browser
-sys.modules['opencore.nui.member'] = opencore.member.browser
-sys.modules['opencore.nui.member.transient_messages'] = opencore.member.transient_messages
-sys.modules['opencore.nui.member.interfaces'] = opencore.interfaces.bbb
-sys.modules['opencore.nui.project.interfaces'] = opencore.interfaces.bbb
-sys.modules['opencore.siteui.interfaces'] = opencore.interfaces.member
+import opencore.bbb.transient_messages
+
+def do_aliases():
+    sys.modules['opencore.siteui'] = opencore.browser
+    #sys.modules['opencore.nui'] = opencore.browser
+    sys.modules['opencore.nui.project'] = opencore.project.browser
+    sys.modules['opencore.nui.member'] = opencore.member.browser
+    sys.modules['opencore.nui.member.transient_messages'] = opencore.bbb.transient_messages
+    sys.modules['opencore.nui.member.interfaces'] = opencore.interfaces.bbb
+    sys.modules['opencore.nui.project.interfaces'] = opencore.interfaces.bbb
+    sys.modules['opencore.siteui.interfaces'] = opencore.interfaces.member
 
 

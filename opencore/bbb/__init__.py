@@ -1,2 +1,1 @@
-import module_alias
 import setup_widgets
