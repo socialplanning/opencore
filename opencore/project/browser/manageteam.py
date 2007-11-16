@@ -8,7 +8,7 @@ from opencore.content.membership import OpenMembership
 from opencore.interfaces.event import JoinedProjectEvent
 from opencore.interfaces.event import LeftProjectEvent
 from opencore.browser import formhandler
-from opencore.account.accountview import email_confirmation
+from opencore.account.utils import email_confirmation
 from opencore.browser.base import _
 from opencore.browser.base import view
 from opencore.nui.email_sender import EmailSender
