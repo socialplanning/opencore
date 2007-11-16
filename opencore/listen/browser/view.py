@@ -10,6 +10,7 @@ from Products.listen.browser.manage_membership import ManageMembersView
 from Products.listen.browser.moderation import ModerationView
 from Products.listen.interfaces import IMailingList
 from Products.listen.utilities.list_lookup import ListLookupView
+from lxml.html.clean import Cleaner
 from opencore.browser.base import BaseView
 from opencore.listen.mailinglist_views import MailingListAddForm, MailingListEditForm, MailingListView
 from plone.app.form import _named
@@ -19,8 +20,6 @@ from zope.interface import implements
 import cgi
 import new
 import os.path
-
-from lxml.html.clean import Cleaner
 
 class ListenBaseView(BaseView):
     @req_memoize
