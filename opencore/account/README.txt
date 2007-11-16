@@ -110,8 +110,7 @@ Now try non-matching passwords:
 Test doing the reset:
 
 First, ensure there is no portal status message:
-    >>> view.portal_status_message
-    []
+    >>> clear_status_messages(view)
 
 Next, ensure that we're using a valid password:
     >>> view.validate_password_form('wordy', 'wordy', 'test_user_1_')
@@ -305,15 +304,13 @@ an event handler in Z2.9, that API landed in Z2.10.
 
 Ensure that you can't join the site with another foobar::
 
-    >>> view.portal_status_message  # clear PSMs
-    [...]
+    >>> clear_status_messages(view)
     >>> view()
     u'...The login name you selected is already in use or is not valid. Please choose another...'
     
 You also shouldn't be able to join with case-variants::
 
-    >>> view.portal_status_message  # clear PSMs
-    [...]
+    >>> clear_status_messages(view)
     >>> form = dict(id='FooBar',
     ...             email='foobartwo@example.com',
     ...             password='testy',
@@ -350,68 +347,23 @@ But we do allow appending to existing logins::
     >>> view.membertool.getMemberById('foobar3')
     <OpenMember at /plone/portal_memberdata/foobar3...>
 
+
 Confirm
 =======
 
-Test the account confirmation view::
-
-Calling the view with no key in the request will fail and go to the login page::
-
-    >>> view = portal.restrictedTraverse("@@confirm-account")
-    >>> ignored = view.portal_status_message  # clear old messages
-    >>> view.request.form.clear()
-    >>> view()
-    'http://nohost/plone/login'
-
-Calling the view with an invalid key should give you some kind of
-error message::
-
-    >>> view = portal.restrictedTraverse("@@confirm-account")
-    >>> view.request.form.clear()
-    >>> view.request.form['key'] = 'garbage'
-    >>> view()
-    'http://nohost/plone/login'
-    >>> del(view._redirected)  # Need this to see the psm.
-    >>> view.portal_status_message
-    [u'Denied -- bad key']
-
-
-Calling the view with a valid but wrong key should give you some kind of
-error message::
-
-    >>> view = portal.restrictedTraverse("@@confirm-account")
-    >>> view.request.form.clear()
-    >>> view.request.form['key'] = 'xyz confirm pdq'
-    >>> view()
-    'http://nohost/plone/login'
-    >>> del(view._redirected)  # Need this to see the psm. Argh.
-    >>> view.portal_status_message
-    [u'Denied -- bad key']
-
-
-Get the newly created member::
+See confirm.txt.  But for testing other features below, we want to
+confirm one member.  (We could stand to do some redesigning for better
+testability.)
 
     >>> user = mt.restrictedTraverse('foobar')
-    >>> user
-    <OpenMember at /plone/portal_memberdata/foobar>
-
     >>> self.loginAsPortalOwner()
-    >>> m = user.restrictedTraverse("getUserConfirmationCode")
-    >>> key = m()
-    >>> key
-    '...'
-
-Calling the view with the proper key will bring you to your account page::
-
+    >>> getcode = user.restrictedTraverse("getUserConfirmationCode")
+    >>> key = getcode()
     >>> view = portal.restrictedTraverse("@@confirm-account")
     >>> view.request.form.clear()
     >>> view.request.form['key'] = key
-    >>> view()
+    >>> view.handle_confirmation()
     'http://nohost/plone/init-login'
-    >>> view.portal_status_message
-    []
-
-
 
 Login
 =====
@@ -428,8 +380,7 @@ Get the login view
 
 Clear the portal status messages and form
 
-    >>> view.portal_status_message
-    [...]
+    >>> clear_status_messages(view)
     >>> view.request.form.clear()
 
 Login [to be done]
@@ -532,8 +483,7 @@ Verify portal status messages aren't being swallowed
     >>> view = portal.restrictedTraverse('@@login')
 
     Reset the portal status message
-    >>> view.portal_status_message
-    [...]
+    >>> clear_status_messages(view)
     
     Now setup a pseudo post
     >>> request = view.request
@@ -560,10 +510,9 @@ Verify portal status messages aren't being swallowed
 Verify authentication challenges do the right thing
 ===================================================
 
-Swallow those portal status messages and clear the form
+Clear portal status messages and clear the form
 
-    >>> view.portal_status_message
-    [...]
+    >>> clear_status_messages(view)
     >>> view.request.form.clear()
     >>> view.request.form
     {}

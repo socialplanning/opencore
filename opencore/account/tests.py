@@ -2,26 +2,49 @@ from Products.PasswordResetTool.tests.test_doctests import MockMailHostTestCase
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from Testing.ZopeTestCase import PortalTestCase 
+from opencore.account.utils import email_confirmation, turn_confirmation_on
+from opencore.member.interfaces import IHandleMemberWorkflow
 from opencore.testing import dtfactory as dtf
 from opencore.testing.layer import MockHTTPWithContent, OpencoreContent
 from zope.app.component.hooks import setSite
+from zope.interface import implements
 from zope.testing import doctest
 import os
 import sys
 import unittest
-from opencore.member.interfaces import IHandleMemberWorkflow
 
 #import warnings; warnings.filterwarnings("ignore")
 
-from opencore.account.utils import email_confirmation, turn_confirmation_on
-turn_confirmation_on()
+turn_confirmation_on() # should maybe go in the layer
 
 optionflags = doctest.ELLIPSIS
-
+ 
 # event handler used in the tests
 events_fired = []
 def dummy_handler(obj, event):
     events_fired.append((obj, event))
+
+class StubMemberWorkflow:
+    """A stub to avoid depending on real members in some account tests.
+    XXX Not sure where this should live? Move it if you have an idea.
+    @@ maybe in opencore.testing???
+    """
+
+    implements(IHandleMemberWorkflow)
+
+    def __init__(self, id, confirmed=False):
+        self.confirmed = confirmed
+        self.id = id
+
+    def is_unconfirmed(self):
+        return not self.confirmed
+
+    def confirm(self):
+        self.confirmed = True
+
+    def getId(self):
+        return self.id
+
 
 def test_suite():
     from Products.Five.utilities.marker import erase as noLongerProvides
@@ -29,12 +52,17 @@ def test_suite():
     from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
     from pprint import pprint
     from opencore.testing import alsoProvides, noLongerProvides
+    from opencore.testing.utils import clear_status_messages
+    from opencore.testing.utils import get_status_messages
     from opencore.interfaces.membership import IEmailInvites
     from opencore.interfaces.member import IMemberHomePage, IMemberFolder
+    from opencore.member.interfaces import IHandleMemberWorkflow
     from zope.app.component.hooks import setSite, setHooks
     from zope.component import getUtility
     from pprint import pprint
+    fired = []
     globs = locals()
+    globs['StubMemberWorkflow'] = StubMemberWorkflow
 
     setup.setupPloneSite()
     def readme_setup(tc):
@@ -64,6 +92,15 @@ def test_suite():
                                   layer=MockHTTPWithContent
                                   )
     
+    confirm = dtf.ZopeDocFileSuite("confirm.txt",
+                                   optionflags=optionflags,
+                                   package='opencore.account',
+                                   test_class=ptc.PloneTestCase,
+                                   globs = globs,
+                                   setUp=readme_setup,
+                                   layer = MockHTTPWithContent
+                                   )
+
     first_login = dtf.ZopeDocFileSuite("firstlogin.txt",
                                        optionflags=optionflags,
                                        package='opencore.account',
@@ -73,7 +110,8 @@ def test_suite():
                                        layer = OpencoreContent
                                        )
 
-    return unittest.TestSuite((first_login, readme, invite))
+    return unittest.TestSuite((readme, invite, confirm, first_login))
+
 
 
 if __name__ == '__main__':

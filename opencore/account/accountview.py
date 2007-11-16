@@ -22,6 +22,7 @@ import urllib
 from opencore.account.browser import AccountView
 
 logger = logging.getLogger("opencore.accountview")
+marker = object()
 
     
 class ConfirmAccountView(AccountView):
@@ -32,21 +33,19 @@ class ConfirmAccountView(AccountView):
     
     @instance.memoizedproperty
     def member(self):
-        member = None
         try:
             UID, confirmation_key = self.key.split('confirm')
         except ValueError: # if there is no 'confirm' (or too many?)
             return None
-    
+
         # we need to do an unrestrictedSearch because a default search
         # will filter results by user permissions
         matches = self.membranetool.unrestrictedSearchResults(UID=UID)
         if matches:
             member = matches[0].getObject()
-            if member._confirmation_key != confirmation_key:
-                return None
-
-        return member
+            if member._confirmation_key == confirmation_key:
+                return member
+        return None
 
     def confirm(self, member):
         """Move member into the confirmed workflow state"""
@@ -58,7 +57,7 @@ class ConfirmAccountView(AccountView):
 
         member.confirm()
         return True
-        
+
     def handle_confirmation(self, *args, **kw):
         member = self.member
         if member is None:

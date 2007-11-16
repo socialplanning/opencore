@@ -33,8 +33,6 @@ We'll simulate the link and get the invite-join view. Let's logout::
 
     >>> self.logout()
 
-    
-
     >>> request.form['__k']=key
     >>> request.form['email']='bob@bob.com'
     >>> inv_join = self.portal.projects.p1.unrestrictedTraverse("invite-join")
@@ -118,7 +116,7 @@ Finally, it processes the invites::
     KeyError: 'bob'
 
 Verify that the IJoinedProjectEvent gets fired when a member joins
-    >>> fired = []
+
     >>> from opencore.interfaces.event import IJoinedProjectEvent
     >>> from opencore.interfaces.membership import IOpenMembership
     >>> from zope.component import adapter
