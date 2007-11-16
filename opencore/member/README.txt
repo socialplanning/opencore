@@ -79,7 +79,7 @@ grace; it expects you to validate before attempting creation::
 If we try to create a member with fields that do not validate, the
 factory does NOT fail, but creates the member with these bad fields.
 This is bad and should be fixed, but this is the behavior of the code
-that this was taken from (in opencore.nui.account.join)
+that this was taken from (in opencore.account.join)
     >>> factory.create(dict(id='darcy',
     ...                     email='greexampledotcom',
     ...                     password='tesde',

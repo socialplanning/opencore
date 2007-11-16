@@ -13,7 +13,6 @@
 
   <include package=".wiki" />
   <include package=".main" />
-  <include package=".account" />
 
   <include file="indexing.zcml" />
 

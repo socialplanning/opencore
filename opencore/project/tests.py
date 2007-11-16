@@ -4,7 +4,9 @@ from Testing import ZopeTestCase
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from Testing.ZopeTestCase import PortalTestCase 
 from opencore.project.test_workflowpolicy import test_suite as wftest
-from opencore.testing.layer import OpencoreContent
+from opencore.testing import dtfactory as dtf
+from opencore.testing.layer import OpencoreContent as test_layer
+from opencore.testing.setup import simple_setup
 from zope.app.component.hooks import setSite, setHooks
 from zope.testing import doctest
 import os
@@ -21,28 +23,36 @@ def test_suite():
     from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
     from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
     from opencore import redirect
-    from pprint import pprint
     from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
     from opencore.testing import create_test_content
+    from pprint import pprint
     from zope.interface import alsoProvides
 
     setup.setupPloneSite()
-    def readme_setup(tc):
+    def hook_setup(tc):
         tc._refreshSkinData()
         enableLocalSiteHook(tc.portal)
         setSite(tc.portal)
         setHooks()
 
     globs = locals()
-    readme = FunctionalDocFileSuite("README.txt",
-                                    optionflags=optionflags,
-                                    package='opencore.project',
-                                    test_class=OpenPlansTestCase,
-                                    globs = globs,
-                                    setUp=readme_setup
-                                    )
+    readme = dtf.ZopeDocFileSuite("README.txt",
+                                  optionflags=optionflags,
+                                  package='opencore.project',
+                                  test_class=OpenPlansTestCase,
+                                  globs = globs,
+                                  setUp=hook_setup,
+                                  layer=test_layer
+                                  )
 
-    readme.layer = OpencoreContent
+    placeful_workflow = dtf.ZopeDocFileSuite("placeful_workflow_test.txt",
+                                             optionflags=optionflags,
+                                             package='opencore.nui',
+                                             test_class=OpenPlansTestCase,
+                                             globs = globs,
+                                             setUp=simple_setup,
+                                             layer=test_layer
+                                             )
     
     return unittest.TestSuite((readme, wftest()))
 
