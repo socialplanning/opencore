@@ -640,7 +640,8 @@ class ProjectAddView(BaseView, OctopoLite):
                           url=f._info['menu_items'][0]['action'],
                           checked=False,
                           )
-                     for f in flets]
+                     for f in flets
+                     if getattr(f, 'active', True)]
         if include_wiki:
             flet_data.insert(0, dict(id='wiki',
                                      title='Wiki pages',
