@@ -340,6 +340,28 @@ How about portal type
    ['project-home', 'project-home', 'project-home', 'project-home', 'project-home', 'p1', 'p2', 'p3', 'p4']
 
 
+Bug 1689: Searching sitewide for a member id should give matches to
+the member, not just the member home, regardless of whether the member
+has a full name or not. First let's check for a member who has no full
+name - this always worked::
+
+
+   >>> m4.setFullname('')
+   >>> m4.reindexObject()
+   >>> brains = view.search('m4')
+   >>> [(b.getId, b.getFullname) for b in brains]
+   [('m4', ''), ('m4-home', Missing.Value)]
+
+Now let's check for a member who has a full name. This was the bug::
+
+   >>> m4.setFullname('Captain Potato')
+   >>> m4.reindexObject()
+   >>> brains = view.search('m4')
+   >>> [(b.getId, b.getFullname) for b in brains]
+   [('m4', 'Captain Potato'), ('m4-home', Missing.Value)]
+
+
+
 Homepage View
 =============
 

@@ -64,6 +64,9 @@ content_schema['portrait'].sizes=dict(thumb=(80,80),
                                       )
 content_schema['portrait'].max_size=(200,200)
 
+# Add id to the SearchableText field. Fixes trac #1689
+content_schema['id'].searchable = 1
+
 # new fields for nui profile
 nuischema = Schema((
                     StringField(

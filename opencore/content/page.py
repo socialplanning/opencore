@@ -29,6 +29,9 @@ schema['text'].default_output_type = 'text/x-html-safe'
 
 schema['description'].widget.rows = 1
 
+# Prevent bug 1689 from occurring with pages too.
+schema['id'].searchable = 1
+
 schema = schema + Schema((
     BooleanField(
         'displayAttachments',

@@ -26,8 +26,11 @@ from zope.interface import Interface, implements
 import os.path
 import pkg_resources
 
-ProjectSchema = TeamSpace.schema.copy() + \
-      Schema((
+ProjectSchema = TeamSpace.schema.copy()
+# Prevent bug 1689 from affecting projects too.
+ProjectSchema['id'].searchable = 1
+
+ProjectSchema += Schema((
         ComputedField(
           'full_name',
           index='ZCTextIndex,lexicon_id=plone_lexicon,index_type=Cosine Measure|TextIndex:brains',
