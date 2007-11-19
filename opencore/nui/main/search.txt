@@ -349,7 +349,7 @@ name - this always worked::
    >>> m4.setFullname('')
    >>> m4.reindexObject()
    >>> brains = view.search('m4')
-   >>> [(b.getId, b.getFullname) for b in brains]
+   >>> sorted([(b.getId, b.getFullname) for b in brains])
    [('m4', ''), ('m4-home', Missing.Value)]
 
 Now let's check for a member who has a full name. This was the bug::
@@ -357,7 +357,7 @@ Now let's check for a member who has a full name. This was the bug::
    >>> m4.setFullname('Captain Potato')
    >>> m4.reindexObject()
    >>> brains = view.search('m4')
-   >>> [(b.getId, b.getFullname) for b in brains]
+   >>> sorted([(b.getId, b.getFullname) for b in brains])
    [('m4', 'Captain Potato'), ('m4-home', Missing.Value)]
 
 
