@@ -737,7 +737,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                     mem_user_name = mem_metadata['getFullname'] or mem_metadata['id']
 
                     msg_subs = {
-                        'project_title': self.context.title,
+                        'project_title': proj_title,
                         'account_url': acct_url,
                         'user_name': mem_user_name,
                         'inviter_name': logged_in_mem_name,
