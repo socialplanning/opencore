@@ -687,9 +687,22 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                 invited = self._doInviteMember(mem_id)
                 if invited:
                     acct_url = self._getAccountURLForMember(mem_id)
-                    msg_subs = {'project_title': proj_title,
-                                'account_url': acct_url,
-                                }
+                    logged_in_mem = self.loggedinmember
+                    logged_in_mem_name = logged_in_mem.getFullname() or logged_in_mem.id
+
+                    mdtool = getToolByName(self.context, 'portal_memberdata')
+                    mdtoolpath = '/'.join(mdtool.getPhysicalPath())
+                    mem_path = '%s/%s' % (mdtoolpath, mem_id) 
+                    mem_metadata = self.catalogtool.getMetadataForUID(mem_path) 
+                    mem_user_name = mem_metadata['getFullname'] or mem_metadata['id']
+                    msg_subs = {
+                        'project_title': proj_title,
+                        'account_url': acct_url,
+                        'user_name': mem_user_name,
+                        'inviter_name': logged_in_mem_name,
+                        'portal_name': self.portal.title,
+                        'portal_url': self.portal.absolute_url(),
+                        }
                     self.email_sender.sendEmail(mem_id,
                                                 msg_id='invite_member',
                                                 **msg_subs)
