@@ -1,0 +1,25 @@
+#admin
+create_user(user=${u1_name}, fullname=${u1_fullname}, email=${u1_email})
+
+#pm
+create_user(user=${u2_name}, fullname=${u2_fullname}, email=${u2_email})
+
+#auth
+create_user(user=${u3_name}, fullname=${u3_fullname}, email=${u3_email})
+
+#create the project
+login(user=${u1_name})
+create_project
+logout
+
+# now u1 adds u2 as a member 
+login(user=${u1_name})
+add_project_member(membername=${u2_name})
+logout 
+
+# u2 has to approve membership
+login(user=${u2_name})
+approve_project_membership(membername=${u2_name})
+logout
+
+login(user=${u1_name})

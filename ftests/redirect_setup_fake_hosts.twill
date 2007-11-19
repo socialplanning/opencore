@@ -1,0 +1,9 @@
+#
+# sets up some host aliases for 
+# testing
+#
+
+extend_with flunc.redirect_host
+
+host_alias ${default_redirect_host} ${base_url}
+host_alias ${project_redirect_host} ${base_url}

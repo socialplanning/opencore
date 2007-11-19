@@ -1,0 +1,13 @@
+#
+# searches openplans projects, asserts no results
+#
+# letter - letter to click on
+#
+# expects:
+#    projects already exist to search for
+#
+
+go ${base_url}/projects
+follow $letter
+find 'projects-searchresults_no_results'
+notfind '<a href="http://localhost:8080/openplans/projects/.*${expect}.*</a>'

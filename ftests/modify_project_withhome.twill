@@ -1,0 +1,30 @@
+#
+# modifies the home page on a project
+#
+# projname - the id of the project to edit 
+# homepage - the page in the project to redirect to
+# expects: 
+#   project exists
+
+
+go ${base_url}/projects/${projname}/edit
+fv prefs_form title $projfullname
+fv prefs_form home-page $homepage
+submit 'update:boolean'
+notfind 404
+notfind 'site error' i
+
+
+#
+# because we don't want new projects showing up in both the newest and
+# the recently update lists, and all of the projects that we exercise
+# are projects that we've created, we need to verify that our project
+# appears in newest projects list, NOT the updated list
+#
+
+go ${base_url}
+notfind 'Updated projects.*${projtitle}' s
+find 'home_newest_projects.*${projtitle}' s
+go ${base_url}/projects
+find 'updated projects.*${projtitle}.*(1|2)\s*members?,\s*last updated today' s
+

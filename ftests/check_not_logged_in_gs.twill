@@ -1,0 +1,9 @@
+#
+# makes sure get started box is correct when not logged in
+#
+# expects: 
+#    not logged in
+#
+
+go ${base_url}
+find 'oc-home-getstarted.*Get started!.*Become a member.*sign in.*Find projects.*Find people' s

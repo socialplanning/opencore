@@ -1,0 +1,10 @@
+#
+# enables task tracker for a project
+#
+# projname - the id of the project 
+#
+go ${base_url}/projects/${projname}
+follow 'Preferences'
+fv edit_form featurelets 'tasks'
+submit
+find 'tasks'

@@ -1,0 +1,23 @@
+extend_with flunc.zope_get_uid
+
+go ${base_url}/join
+
+fv edit_form id $user
+fv edit_form fullname $fullname
+fv edit_form email $email
+fv edit_form password $password
+fv edit_form confirm_password $password
+submit
+get_uid $user $admin $adminpw
+go ${base_url}/confirm-account?key=${__uid__}
+
+notfind 404
+notfind 'site error' i
+
+# Jeff: please update this when we know what text goes on the Tour page
+#find 'Welcome'
+find $user
+
+# create user should not leave any side effects
+# this means that the user should not stay logged in
+follow "Sign out"
