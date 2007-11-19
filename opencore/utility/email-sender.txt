@@ -31,10 +31,12 @@ Check translation machinery::
     >>> es._translate(msg)
     u'I am a lovely message'
 
-Test the mail message construction, which generates messages based on
-msg ids using the hooked up i18n translation files::
-    >>> es.constructMailMessage("email_membership_requested", project_title="p1", member_id="lammy", team_manage_url="bloop")
-    u'email_membership_requested'
+Test the mail message construction, which really just translates a
+previously constructed Message::
+    >>> from opencore.i18n import _
+    >>> msg = _(u"email_membership_requested", mapping=dict(project_title="p1", member_id="lammy", team_manage_url="bloop"))
+    >>> es.constructMailMessage(msg)
+    u'...p1...lammy...bloop...'
 
 Send some emails, and check that they went out
     >>> es.sendMail(
