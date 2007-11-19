@@ -7,6 +7,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.MailHost.MailHost import MailHostError
 
 from topp.utils.detag import detag
+from opencore.browser.base import _
 from opencore.interfaces import IOpenTeam
 from opencore.interfaces import IOpenSiteRoot
 from opencore.interfaces.pending_requests import IRequestMembership
@@ -47,19 +48,27 @@ class RequestMembershipWithEmail(object):
         member_fn = member.getFullname()
         if member_fn:
             member_string = member_string + ' (' + member_fn + ')'
-        email_vars = {'member_id': member_string,
-                      'project_title': team.title,
-                      'team_manage_url': team_manage_url,
-                      }
-
+        email_msg = _(u'email_membership_requested',
+                      mapping = {'member_id': member_string,
+                                 'project_title': team.title,
+                                 'team_manage_url': team_manage_url,
+                                 }
+                      )
+        
         sender = IEmailSender(self.portal)
-        email_msg = sender.constructMailMessage('email_membership_requested',
-                                                **email_vars)
+        email_msg = sender.constructMailMessage(email_msg)
+
         if request_message:
-            email_vars.update(member_message=detag(request_message))
-            email_msg += sender.constructMailMessage('email_mship_request_message',
-                                                     **email_vars)
-        return (email_msg, email_vars)
+            member_message = _('email_mship_request_message',
+                               mapping = {'member_id': member_string,
+                                          'project_title': team.title,
+                                          'team_manage_url': team_manage_url,
+                                          'member_message': detag(request_message),
+                                          }
+                               )
+            member_message = sender.constructMailMessage(member_message)
+            email_msg += member_message
+        return email_msg
         
     def join(self, request_message=None):
         context = self.context
@@ -68,11 +77,11 @@ class RequestMembershipWithEmail(object):
             return False
 
         sender = IEmailSender(self.portal)
-        email_msg, email_vars = self._construct_request_email(request_message)
+        email_msg = self._construct_request_email(request_message)
         mto = context.get_admin_ids()
         for recipient in mto:
             try:
-                sender.sendMail(recipient, msg=email_msg, **email_vars)
+                sender.sendMail(recipient, msg=email_msg)
             except MailHostError:
                 pass
 
