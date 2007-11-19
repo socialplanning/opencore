@@ -14,6 +14,15 @@ msgstr ""
 "Language-Code: en\n"
 "Language-Name: English\n"
 
+#. Default: "Subject: ${portal_title} - Request to join ${project_title}\n\n${member_id} would like to get involved with \"${project_title}\".\n\nTo approve or deny this request please visit the project's team management screen: ${team_manage_url}\n" 
+#: opencore/nui/project/mship_messages.py:40 
+msgid "email_membership_requested" 
+msgstr "Subject: ${portal_title} - Request to join ${project_title}\n\n${member_id} would like to get involved with \"${project_title}\".\n\nTo approve or deny this request please visit the project's team management screen: ${team_manage_url}\n" 
+#. Default: "\n\n${member_id} included the following message:\n\n\"${member_message}\"\n" 
+#: opencore/nui/project/mship_messages.py:47 
+msgid "email_mship_request_message" 
+msgstr "\n\n${member_id} included the following message:\n\n\"${member_message}\"\n" 
+
 #. Default: "<h2>Get in touch</h2> <div class=\"vcard\"> <p style=\"font-weight: bold;\" class=\"fn org\"> <a class=\"url\" href=\"http://topp.openplans.org\">The Open Planning Project</a> </p> <dl class=\"oc-plainList\"> <dt>General Inquiries</dt> <dd> info<span style=\"display: none;\">NOSPAM</span>@openplans.org </dd> <dt>Help</dt> <dd> help<span style=\"display: none;\">NOSPAM</span>@openplans.org </dd> <dt>Employment</dt> <dd> <a href=\"http://topp.openplans.org/careers\">We're hiring!</a> </dd> <dt>Address</dt> <dd class=\"adr\"> <div class=\"street-address\">349 West 12<sup>th</sup> Street, #3</div> <span class=\"locality\">New York</span>, <span class=\"region\">NY</span> <span class=\"postal-code\">10014</span> <a href=\"http://maps.google.com/maps?f=q&hl=en&geocode=&q=349+W+12th+St,+New+York,+NY+10014&sll=40.737566,-74.007217&sspn=0.006568,0.01796&ie=UTF8&ll=40.738657,-74.007211&spn=0.006568,0.01796&t=k&z=16&iwloc=addr&om=1\">map</a> </dd> <dt>Phone</dt> <dd class=\"tel\">212.796.4220</dd> <dt>Fax</dt> <dd class=\"tel\">646.390.2624</dd> </dl> </div>"
 #: opencore/nui/main/about.pt:43
 msgid "about_get_in_touch"

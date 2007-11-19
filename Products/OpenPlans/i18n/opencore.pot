@@ -22,6 +22,15 @@ msgstr ""
 msgid "about_get_in_touch"
 msgstr ""
 
+#. Default: "Subject: ${portal_title} - Request to join ${project_title}\n\n${member_id} would like to get involved with \"${project_title}\".\n\nTo approve or deny this request please visit the project's team management screen: ${team_manage_url}\n" 
+#: opencore/nui/project/mship_messages.py:40 
+msgid "email_membership_requested" 
+msgstr ""
+#. Default: "\n\n${member_id} included the following message:\n\n\"${member_message}\"\n" 
+#: opencore/nui/project/mship_messages.py:47 
+msgid "email_mship_request_message" 
+msgstr ""
+
 #. Default: "<h2>Help!</h2> <p>We're here to help you. If you have a question, <a href=\"${DYNAMIC_CONTENT}\">let us know</a>.</p>"
 #: ./opencore/nui/main/about.pt:41
 msgid "about_let_us_know"
