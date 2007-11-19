@@ -23,8 +23,6 @@ from topp.featurelets.interfaces import IFeatureletRegistry
 from zope.component import getUtility
 import monkey
 
-do_aliases()
-
 GLOBALS = globals()
 SKINS_DIR = 'skins'
 
@@ -107,4 +105,6 @@ def initialize(context):
 
     # bbb
     import opencore.bbb
+    do_aliases()
+
 
