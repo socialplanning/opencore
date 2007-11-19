@@ -19,7 +19,7 @@ We can construct an email to request membership to the project::
     >>> team.manage_delObjects(['m4'])
     >>> msg, var = rm._construct_request_email(request_message="Hi")
     >>> msg
-    u'...Project One...m4...p1...Hi...'
+    u'email_membership_requestedemail_mship_request_message'
     >>> var
     {...}
 

@@ -185,12 +185,16 @@ msgstr "contact-site-admin_label_sender_fullname"
 #: opencore/nui/main/contact-site-admin.pt:78
 msgid "contact-site-admin_label_subject"
 msgstr "contact-site-admin_label_subject"
+#. Default: "Discussion list for this project, consisting of all project members."
+#: opencore/listen/events.py:89
+msgid "discussion_list_desc"
+msgstr "discussion_list_desc"
 #. Default: "You requested a password reminder for your ${portal_title} account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}"
-#: opencore/nui/account/accountview.py:402
+#: opencore/account/login.py:257
 msgid "email_forgot_password"
 msgstr "email_forgot_password"
 #. Default: "%s - Password reminder"
-#: opencore/nui/account/accountview.py:407
+#: opencore/account/login.py:262
 msgid "email_forgot_password_subject"
 msgstr "email_forgot_password_subject"
 #. Default: "Subject: ${portal_title} - Invitation to join  ${project_title}\n\nThe invitation extended to you to join \"${project_title}\" on ${portal_title} has been revoked.\n"
@@ -234,7 +238,7 @@ msgstr "email_request_approved"
 #: opencore/project/browser/mship_messages.py:25
 msgid "email_request_denied"
 msgstr "email_request_denied"
-#: opencore/nui/account/accountview.py:99
+#: opencore/account/browser.py:81
 msgid "email_to_pending_user"
 msgstr "email_to_pending_user""${user_name},\n"
 "\n"
@@ -253,11 +257,11 @@ msgstr "email_to_pending_user""${user_name},\n"
 "${portal_url}"
 
 #. Default: "Welcome to ${portal_title}! - Please confirm your email address"
-#: opencore/nui/account/accountview.py:106
+#: opencore/account/browser.py:88
 msgid "email_to_pending_user_subject"
 msgstr "email_to_pending_user_subject"
 #. Default: "The project name must contain at least 2 characters with at least 1 letter or number."
-#: opencore/project/browser/view.py:436
+#: opencore/project/browser/view.py:435
 msgid "err_project_name"
 msgstr "err_project_name"
 #. Default: "404 Not Found"
@@ -333,23 +337,23 @@ msgstr "footer_num_people"
 msgid "footer_num_projects"
 msgstr "footer_num_projects"
 #. Default: "New users"
-#: opencore/nui/account/forgot.pt:13
+#: opencore/account/forgot.pt:13
 msgid "forgot_new_users"
 msgstr "forgot_new_users"
 #. Default: "Whether your group is mobilizing voters, planning a protest, or growing a garden, ${DYNAMIC_CONTENT} can help you become more effective."
-#: opencore/nui/account/forgot.pt:14
+#: opencore/account/forgot.pt:14
 msgid "forgot_openplans_more_effective"
 msgstr "forgot_openplans_more_effective"
 #. Default: "Enter your username or email address to retrieve your login information."
-#: opencore/nui/account/forgot_snippet.pt:8
+#: opencore/account/forgot_snippet.pt:8
 msgid "forgot_snippet_enter_username"
 msgstr "forgot_snippet_enter_username"
 #. Default: "<a class=\"oc-js-expander_open oc-expanderLink-open oc-expanderLink\" href=\"forgot\">Forgot your username or password?</a>"
-#: opencore/nui/account/forgot_snippet.pt:4
+#: opencore/account/forgot_snippet.pt:4
 msgid "forgot_snippet_title"
 msgstr "forgot_snippet_title"
 #. Default: "Username or email address"
-#: opencore/nui/account/forgot_snippet.pt:14
+#: opencore/account/forgot_snippet.pt:14
 msgid "forgot_snippet_username_label"
 msgstr "forgot_snippet_username_label"
 #. Default: "Flat"
@@ -429,11 +433,11 @@ msgstr "home_start_project"
 msgid "home_updated_projects"
 msgstr "home_updated_projects"
 #. Default: "You do not have sufficient privileges to view this page."
-#: opencore/nui/account/insufficient_privileges.pt:10
+#: opencore/account/insufficient_privileges.pt:10
 msgid "insufficient_privileges_description"
 msgstr "insufficient_privileges_description"
 #. Default: "Insufficient Privileges"
-#: opencore/nui/account/insufficient_privileges.pt:8
+#: opencore/account/insufficient_privileges.pt:8
 msgid "insufficient_privileges_heading"
 msgstr "insufficient_privileges_heading"
 #. Default: "${project} has invited you to become a member"
@@ -441,59 +445,59 @@ msgstr "insufficient_privileges_heading"
 msgid "invitations_invite"
 msgstr "invitations_invite"
 #. Default: "Invitations to Join"
-#: opencore/nui/account/invite-join.pt:154
+#: opencore/account/invite-join.pt:154
 msgid "invite_join_invitations_label"
 msgstr "invite_join_invitations_label"
 #. Default: "Already a member?"
-#: opencore/nui/account/invite-join.pt:209
+#: opencore/account/invite-join.pt:209
 msgid "join_already_member_heading"
 msgstr "join_already_member_heading"
 #. Default: "Join"
-#: opencore/nui/account/invite-join.pt:186
+#: opencore/account/invite-join.pt:186
 msgid "join_button"
 msgstr "join_button"
 #. Default: "Check your email to confirm registration"
-#: opencore/nui/account/invite-join.pt:27
+#: opencore/account/invite-join.pt:27
 msgid "join_check_email"
 msgstr "join_check_email"
 #. Default: "Confirm password"
-#: opencore/nui/account/invite-join.pt:131
+#: opencore/account/invite-join.pt:131
 msgid "join_conf_password_label"
 msgstr "join_conf_password_label"
 #. Default: "Registration is free and your email will not be shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system."
-#: opencore/nui/account/invite-join.pt:20
+#: opencore/account/invite-join.pt:20
 msgid "join_description"
 msgstr "join_description"
 #. Default: "Email"
-#: opencore/nui/account/invite-join.pt:82
+#: opencore/account/invite-join.pt:82
 msgid "join_email_label"
 msgstr "join_email_label"
 #. Default: "Full Name"
-#: opencore/nui/account/invite-join.pt:60
+#: opencore/account/invite-join.pt:60
 msgid "join_full_name_label"
 msgstr "join_full_name_label"
 #. Default: "Becoming a member means…"
-#: opencore/nui/account/join.pt:166
+#: opencore/account/join.pt:166
 msgid "join_get_started"
 msgstr "join_get_started"
 #. Default: "<li>You can join and participate in existing projects</li> <li>You can create your own project and invite others to join</li> <li>You can share information about yourself</li>"
-#: opencore/nui/account/join.pt:167
+#: opencore/account/join.pt:167
 msgid "join_get_started_list"
 msgstr "join_get_started_list"
 #. Default: "Create an account on ${page_title}"
-#: opencore/nui/account/join.pt:15
+#: opencore/account/join.pt:15
 msgid "join_page_title"
 msgstr "join_page_title"
 #. Default: "Password"
-#: opencore/nui/account/invite-join.pt:109
+#: opencore/account/invite-join.pt:109
 msgid "join_password_label"
 msgstr "join_password_label"
 #. Default: "Sign in"
-#: opencore/nui/account/invite-join.pt:210
+#: opencore/account/invite-join.pt:210
 msgid "join_sign_in"
 msgstr "join_sign_in"
 #. Default: "Username"
-#: opencore/nui/account/invite-join.pt:38
+#: opencore/account/invite-join.pt:38
 msgid "join_username_label"
 msgstr "join_username_label"
 #. Default: "by"
@@ -521,27 +525,27 @@ msgstr "listen_address_prefix"
 msgid "listen_address_prefix_description"
 msgstr "listen_address_prefix_description"
 #. Default: "Membership"
-#: opencore/listen/browser/listen_macros.pt:22
+#: opencore/listen/browser/listen_macros.pt:20
 msgid "listen_macros_membership"
 msgstr "listen_macros_membership"
 #. Default: "Messages"
-#: opencore/listen/browser/listen_macros.pt:18
+#: opencore/listen/browser/listen_macros.pt:15
 msgid "listen_macros_messages"
 msgstr "listen_macros_messages"
 #. Default: "Moderation"
-#: opencore/listen/browser/listen_macros.pt:27
+#: opencore/listen/browser/listen_macros.pt:25
 msgid "listen_macros_moderation"
 msgstr "listen_macros_moderation"
 #. Default: "Preferences"
-#: opencore/listen/browser/listen_macros.pt:36
+#: opencore/listen/browser/listen_macros.pt:41
 msgid "listen_macros_preferences"
 msgstr "listen_macros_preferences"
 #. Default: "Search"
-#: opencore/listen/browser/listen_macros.pt:32
+#: opencore/listen/browser/listen_macros.pt:30
 msgid "listen_macros_search"
 msgstr "listen_macros_search"
 #. Default: "Summary"
-#: opencore/listen/browser/listen_macros.pt:14
+#: opencore/listen/browser/listen_macros.pt:34
 msgid "listen_macros_summary"
 msgstr "listen_macros_summary"
 #. Default: "Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, periods, and plus signs (i.e. A-Z, a-z, 0-9, and _-.+ symbols)."
@@ -569,31 +573,31 @@ msgstr "listen_search_sidebar"
 msgid "listen_search_subject"
 msgstr "listen_search_subject"
 #. Default: "Whether your group is mobilizing voters, planning a protest, or growing a garden, ${DYNAMIC_CONTENT} can help you become more effective."
-#: opencore/nui/account/login.pt:20
+#: opencore/account/login.pt:20
 msgid "login_description"
 msgstr "login_description"
 #. Default: "New users"
-#: opencore/nui/account/login.pt:19
+#: opencore/account/login.pt:19
 msgid "login_heading"
 msgstr "login_heading"
 #. Default: "Sign in"
-#: opencore/nui/account/login_snippet.pt:23
+#: opencore/account/login_snippet.pt:23
 msgid "login_snippet_header"
 msgstr "login_snippet_header"
 #. Default: "Keep me logged in"
-#: opencore/nui/account/login_snippet.pt:54
+#: opencore/account/login_snippet.pt:54
 msgid "login_snippet_keep_logged_in"
 msgstr "login_snippet_keep_logged_in"
 #. Default: "Sign in"
-#: opencore/nui/account/login_snippet.pt:62
+#: opencore/account/login_snippet.pt:62
 msgid "login_snippet_login_button"
 msgstr "login_snippet_login_button"
 #. Default: "Password"
-#: opencore/nui/account/login_snippet.pt:45
+#: opencore/account/login_snippet.pt:45
 msgid "login_snippet_password_label"
 msgstr "login_snippet_password_label"
 #. Default: "Username"
-#: opencore/nui/account/login_snippet.pt:27
+#: opencore/account/login_snippet.pt:27
 msgid "login_snippet_username_label"
 msgstr "login_snippet_username_label"
 #. Default: "List Address"
@@ -656,62 +660,18 @@ msgstr "mailinglist_view_contact"
 #: opencore/listen/browser/mailinglist_view.pt:17
 msgid "mailinglist_view_desc"
 msgstr "mailinglist_view_desc"
-#. Default: "<strong>Email address:</strong>"
-#: opencore/listen/browser/mailinglist_view.pt:97
-msgid "mailinglist_view_email_add"
-msgstr "mailinglist_view_email_add"
-#. Default: "To subscribe to the list enter your email in the field below."
-#: opencore/listen/browser/mailinglist_view.pt:92
-msgid "mailinglist_view_enter_email"
-msgstr "mailinglist_view_enter_email"
 #. Default: "Managers"
 #: opencore/listen/browser/mailinglist_view.pt:29
 msgid "mailinglist_view_managers"
 msgstr "mailinglist_view_managers"
-#. Default: "You are currently <strong>not subscribed</strong> to this list."
-#: opencore/listen/browser/mailinglist_view.pt:80
-msgid "mailinglist_view_not_subscribed"
-msgstr "mailinglist_view_not_subscribed"
-#. Default: "Subscribe"
-#: opencore/listen/browser/mailinglist_view.pt:86
-msgid "mailinglist_view_sub_button"
-msgstr "mailinglist_view_sub_button"
-#. Default: "Subscribe Address"
-#: opencore/listen/browser/mailinglist_view.pt:101
-msgid "mailinglist_view_sub_email_button"
-msgstr "mailinglist_view_sub_email_button"
-#. Default: "Subscription status"
-#: opencore/listen/browser/mailinglist_view.pt:76
-msgid "mailinglist_view_sub_form_heading"
-msgstr "mailinglist_view_sub_form_heading"
-#. Default: "Subscription pending"
-#: opencore/listen/browser/mailinglist_view.pt:111
-msgid "mailinglist_view_sub_pending"
-msgstr "mailinglist_view_sub_pending"
-#. Default: "Your subscription request is pending moderation by the list manager. ${manager_email}"
-#: opencore/listen/browser/mailinglist_view.pt:114
-msgid "mailinglist_view_sub_pending_desc"
-msgstr "mailinglist_view_sub_pending_desc"
-#. Default: "You are currently <strong>subscribed</strong> to this list."
-#: opencore/listen/browser/mailinglist_view.pt:77
-msgid "mailinglist_view_subscribed"
-msgstr "mailinglist_view_subscribed"
 #. Default: "Title"
 #: opencore/listen/browser/mailinglist_view.pt:14
 msgid "mailinglist_view_title"
 msgstr "mailinglist_view_title"
-#. Default: "To unsubscribe from this list send an email to the list with the subject \"${sunsubscribe_keyword}\" and an empty body."
-#: opencore/listen/browser/mailinglist_view.pt:67
-msgid "mailinglist_view_to_unsubscribe"
-msgstr "mailinglist_view_to_unsubscribe"
 #. Default: "Type"
 #: opencore/listen/browser/mailinglist_view.pt:40
 msgid "mailinglist_view_type"
 msgstr "mailinglist_view_type"
-#. Default: "Unsubscribe"
-#: opencore/listen/browser/mailinglist_view.pt:84
-msgid "mailinglist_view_unsub_button"
-msgstr "mailinglist_view_unsub_button"
 #. Default: "Everything"
 #: opencore/nui/main/main_macros.pt:16
 msgid "main_macros_everything_label"
@@ -909,39 +869,39 @@ msgstr "news_read_more"
 msgid "no_password"
 msgstr "no_password"
 #. Default: "There is no member named \"${user_id}\"."
-#: opencore/browser/base.py:551
+#: opencore/browser/base.py:559
 msgid "password_no_member_error"
 msgstr "password_no_member_error"
 #. Default: "You must enter a password."
-#: opencore/browser/base.py:557
+#: opencore/browser/base.py:565
 msgid "password_no_password_error"
 msgstr "password_no_password_error"
 #. Default: "You need to enter your username."
-#: opencore/browser/base.py:546
+#: opencore/browser/base.py:554
 msgid "password_no_username_error"
 msgstr "password_no_username_error"
 #. Default: "Please make sure that both password fields are the same."
-#: opencore/browser/base.py:560
+#: opencore/browser/base.py:568
 msgid "password_not_same_error"
 msgstr "password_not_same_error"
 #. Default: "Or enter a new address where you would like to receive the activation email for this account again"
-#: opencore/nui/account/pending.pt:24
+#: opencore/account/pending.pt:24
 msgid "pending_description"
 msgstr "pending_description"
 #. Default: "Email"
-#: opencore/nui/account/pending.pt:41
+#: opencore/account/pending.pt:41
 msgid "pending_email_label"
 msgstr "pending_email_label"
 #. Default: "Enter a different email address"
-#: opencore/nui/account/pending.pt:33
+#: opencore/account/pending.pt:33
 msgid "pending_enter_new_email"
 msgstr "pending_enter_new_email"
 #. Default: "<a class=\"oc-js-expander_open oc-expanderLink\"> If you think this is a mistake, you can try to login again </a>"
-#: opencore/nui/account/pending.pt:69
+#: opencore/account/pending.pt:69
 msgid "pending_mistake"
 msgstr "pending_mistake"
 #. Default: "Send me another activation email"
-#: opencore/nui/account/pending.pt:13
+#: opencore/account/pending.pt:13
 msgid "pending_send_another_activation"
 msgstr "pending_send_another_activation"
 #. Default: "No results found."
@@ -1049,7 +1009,7 @@ msgstr "projects_get_started_heading"
 msgid "projects_start_project_button"
 msgstr "projects_start_project_button"
 #. Default: "Your account has not yet been activated. An email was sent to ${user} from ${email_from_address} containing a link to activate your account."
-#: opencore/nui/account/accountview.py:139
+#: opencore/account/login.py:45
 msgid "psm_account_not_activated"
 msgstr "psm_account_not_activated"
 #. Default: "You cannot leave this project."
@@ -1061,7 +1021,7 @@ msgstr "psm_cannot_leave_project"
 msgid "psm_check_old_password"
 msgstr "psm_check_old_password"
 #. Default: "Please check your username and password. If you still have trouble, you can <a href=\"forgot\">retrieve your sign in information</a>."
-#: opencore/nui/account/accountview.py:175
+#: opencore/account/login.py:81
 msgid "psm_check_username_password"
 msgstr "psm_check_username_password"
 #. Default: "Please choose an image in gif, jpeg, png, or bmp format."
@@ -1069,11 +1029,11 @@ msgstr "psm_check_username_password"
 msgid "psm_choose_image"
 msgstr "psm_choose_image"
 #. Default: "Please correct the errors indicated below."
-#: opencore/project/browser/view.py:439
+#: opencore/project/browser/view.py:438
 msgid "psm_correct_errors_below"
 msgstr "psm_correct_errors_below"
 #. Default: "Denied -- bad key"
-#: opencore/nui/account/accountview.py:283
+#: opencore/account/confirmation.py:52
 msgid "psm_denied"
 msgstr "psm_denied"
 #. Default: "Your email address has been changed."
@@ -1085,19 +1045,19 @@ msgstr "psm_email_changed"
 msgid "psm_enter_new_email"
 msgstr "psm_enter_new_email"
 #. Default: "Please enter your username or email address."
-#: opencore/nui/account/accountview.py:417
+#: opencore/account/login.py:272
 msgid "psm_enter_username_email"
 msgstr "psm_enter_username_email"
 #. Default: "${flet} feature has been added."
-#: opencore/project/browser/view.py:478
+#: opencore/project/browser/view.py:477
 msgid "psm_featurelet_added"
 msgstr "psm_featurelet_added"
 #. Default: "${flet} feature has been removed."
-#: opencore/project/browser/view.py:483
+#: opencore/project/browser/view.py:482
 msgid "psm_featurelet_removed"
 msgstr "psm_featurelet_removed"
 #. Default: "Your username is ${user_id}.  If you would like to reset your password, please check your email account for further instructions."
-#: opencore/nui/account/accountview.py:365
+#: opencore/account/login.py:220
 msgid "psm_forgot_login"
 msgstr "psm_forgot_login"
 #. Default: "You are the only remaining administrator of \"${proj_title}\". You can't leave this project without appointing another."
@@ -1113,15 +1073,15 @@ msgstr "psm_mailing_list_deleted"
 msgid "psm_mailing_list_deletion_cancelled"
 msgstr "psm_mailing_list_deletion_cancelled"
 #. Default: "A new activation email has been sent to ${email} from ${mfrom}. <br />Please follow the link in the email to activate this account."
-#: opencore/nui/account/accountview.py:521
+#: opencore/account/confirmation.py:100
 msgid "psm_new_activation"
 msgstr "psm_new_activation"
 #. Default: "Please select items to delete."
-#: opencore/project/browser/view.py:221
+#: opencore/project/browser/view.py:220
 msgid "psm_no_items_to_delete"
 msgstr "psm_no_items_to_delete"
 #. Default: "You have tried to activate an account that is not pending confirmation. Please sign in normally."
-#: opencore/nui/account/accountview.py:273
+#: opencore/account/confirmation.py:42
 msgid "psm_not_pending_account"
 msgstr "psm_not_pending_account"
 #. Default: "You do not have sufficient permissions."
@@ -1129,11 +1089,11 @@ msgstr "psm_not_pending_account"
 msgid "psm_not_sufficient_perms"
 msgstr "psm_not_sufficient_perms"
 #. Default: "Your password reset request has expired. You can <a href=\"login\">sign in</a> again using your old username and password or <a href=\"forgot\">request a new password</a> again."
-#: opencore/nui/account/accountview.py:456
+#: opencore/account/password_reset.py:31
 msgid "psm_pass_reset_expired"
 msgstr "psm_pass_reset_expired"
 #. Default: "Password reset attempt failed. Did you mistype your username or password?"
-#: opencore/nui/account/accountview.py:452
+#: opencore/account/password_reset.py:27
 msgid "psm_pass_reset_fail"
 msgstr "psm_pass_reset_fail"
 #. Default: "Your password has been changed."
@@ -1141,7 +1101,7 @@ msgstr "psm_pass_reset_fail"
 msgid "psm_password_changed"
 msgstr "psm_password_changed"
 #. Default: "Welcome! Your password has been reset, and you are now signed in."
-#: opencore/nui/account/accountview.py:466
+#: opencore/account/password_reset.py:41
 msgid "psm_password_reset"
 msgstr "psm_password_reset"
 #. Default: "Please sign in to continue."
@@ -1149,15 +1109,15 @@ msgstr "psm_password_reset"
 msgid "psm_please_sign_in"
 msgstr "psm_please_sign_in"
 #. Default: "Project home page set to: <a href=\"${homepage}\">${homepage}</a>"
-#: opencore/project/browser/view.py:497
+#: opencore/project/browser/view.py:496
 msgid "psm_proj_homepage_change"
 msgstr "psm_proj_homepage_change"
 #. Default: "The description has been changed."
-#: opencore/project/browser/view.py:464
+#: opencore/project/browser/view.py:463
 msgid "psm_project_desc_changed"
 msgstr "psm_project_desc_changed"
 #. Default: "The project image has been changed."
-#: opencore/project/browser/view.py:465
+#: opencore/project/browser/view.py:464
 msgid "psm_project_logo_changed"
 msgstr "psm_project_logo_changed"
 #. Default: "The name \"${project_name}\" is reserved. Please try a different name."
@@ -1165,39 +1125,39 @@ msgstr "psm_project_logo_changed"
 msgid "psm_project_name_reserved"
 msgstr "psm_project_name_reserved"
 #. Default: "The title has been changed."
-#: opencore/project/browser/view.py:463
+#: opencore/project/browser/view.py:462
 msgid "psm_project_title_changed"
 msgstr "psm_project_title_changed"
 #. Default: "The security policy has been changed."
-#: opencore/project/browser/view.py:466
+#: opencore/project/browser/view.py:465
 msgid "psm_security_changed"
 msgstr "psm_security_changed"
 #. Default: "You have signed out."
-#: opencore/nui/account/accountview.py:214
+#: opencore/account/login.py:120
 msgid "psm_signed_out"
 msgstr "psm_signed_out"
 #. Default: "Welcome! You have signed in."
-#: opencore/nui/account/accountview.py:152
+#: opencore/account/login.py:58
 msgid "psm_signin_welcome"
 msgstr "psm_signin_welcome"
 #. Default: "Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account."
-#: opencore/nui/account/join.py:45
+#: opencore/account/join.py:48
 msgid "psm_thankyou_for_joining"
 msgstr "psm_thankyou_for_joining"
 #. Default: "Reset password"
-#: opencore/nui/account/reset-password.pt:74
+#: opencore/account/reset-password.pt:74
 msgid "reset-password_button"
 msgstr "reset-password_button"
 #. Default: "Confirm password"
-#: opencore/nui/account/reset-password.pt:57
+#: opencore/account/reset-password.pt:57
 msgid "reset-password_confirm_label"
 msgstr "reset-password_confirm_label"
 #. Default: "New password"
-#: opencore/nui/account/reset-password.pt:41
+#: opencore/account/reset-password.pt:41
 msgid "reset-password_new_password_label"
 msgstr "reset-password_new_password_label"
 #. Default: "Username"
-#: opencore/nui/account/reset-password.pt:28
+#: opencore/account/reset-password.pt:28
 msgid "reset-password_username_label"
 msgstr "reset-password_username_label"
 #. Default: "You are already a pending or active member of ${project_title}."
@@ -1209,7 +1169,7 @@ msgstr "team_already_proj_member"
 msgid "team_already_project_member"
 msgstr "team_already_project_member"
 #. Default: "Your request to join \"${project_title}\" has been sent to the project administrator(s)."
-#: opencore/nui/account/accountview.py:335
+#: opencore/account/login.py:191
 msgid "team_proj_join_request_sent"
 msgstr "team_proj_join_request_sent"
 #. Default: "flat"

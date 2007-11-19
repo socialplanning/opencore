@@ -30,7 +30,7 @@ We're just interested in the 2nd one
 
 The project title and member id should be in the email
     >>> mailhost.messages[1]['msg']
-    '...Project Three...m4...'
+    'email_membership_requested'
 
 Verify membership object is in the pending state now
     >>> wft = view.get_tool('portal_workflow')
