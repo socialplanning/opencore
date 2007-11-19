@@ -26,7 +26,9 @@ def test_suite():
     from opencore.testing import create_test_content
     from zope.interface import alsoProvides
 
-    setup.setupPloneSite()
+    ZopeTestCase.installProduct('PleiadesGeocoder')
+    setup.setupPloneSite(products=['PleiadesGeocoder'])
+
     def readme_setup(tc):
         tc._refreshSkinData()
         enableLocalSiteHook(tc.portal)
