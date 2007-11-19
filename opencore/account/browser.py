@@ -1,7 +1,7 @@
 from opencore.browser.base import BaseView, _
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.member.interfaces import IHandleMemberWorkflow
-from opencore.nui.email_sender import EmailSender
+from opencore.utility.interfaces import IEmailSender
 
 
 class AccountView(BaseView):
@@ -84,11 +84,7 @@ class AccountView(BaseView):
                              u'portal_url':self.siteURL,
                              u'portal_title':self.portal_title()})
         
-        sender = EmailSender(self, secureSend=True)
-        subject = _(u'email_to_pending_user_subject',
-                    u'Welcome to ${portal_title}! - Please confirm your email address',
-                    mapping={u'portal_title':self.portal_title()})
+        sender = IEmailSender(self.portal)
 
-        sender.sendEmail(mto=email,
-                         msg=message,
-                         subject=subject)
+        sender.sendMail(mto=email,
+                        msg=message)

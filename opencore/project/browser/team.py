@@ -14,6 +14,7 @@ from opencore.nui.main.search import searchForPerson
 from opencore.interfaces.message import ITransientMessage
 from opencore.project.browser import mship_messages
 from opencore.interfaces.membership import IEmailInvites
+from opencore.utility.interfaces import IEmailSender
 from operator import attrgetter
 from plone.memoize.instance import memoize, memoizedproperty
 from plone.memoize.view import memoize as req_memoize
@@ -84,10 +85,9 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
                              u'portal_url':self.siteURL,
                              u'portal_title':self.portal_title()})
         
-        sender = EmailSender(self, secureSend=True)
-        sender.sendEmail(mto=email,
-                         msg=message,
-                         subject=_(u'email_to_pending_user_subject'))
+        sender = IEmailSender(self.portal)
+        sender.sendMail(mto=email,
+                        msg=message)
 
     # XXX get this outta here right away
     def _create(self):
