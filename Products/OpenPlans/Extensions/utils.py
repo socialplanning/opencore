@@ -138,4 +138,4 @@ def reinstallSubskins(portal):
     stool = getToolByName(portal, 'portal_skins')
     dels = [id for id in stool.objectIds() if id.startswith('openplans')]
     stool.manage_delObjects(ids=dels)
-    install_subskin(portal, out, {})
+    install_subskin(portal, out, dict(__name__='Products.OpenPlans'))
