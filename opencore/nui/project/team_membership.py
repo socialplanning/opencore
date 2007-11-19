@@ -41,7 +41,7 @@ class RequestMembershipWithEmail(object):
     # XXX kill
     def _construct_request_email(self, request_message=None):
         team = self.context
-        team_manage_url = "%s/projects/%s/manage-team" % (self.portal.absolute_url(), team.title)
+        team_manage_url = "%s/projects/%s/manage-team" % (self.portal.absolute_url(), team.id)
         member = self._loggedinmember
         member_string = member.getId()
         member_fn = member.getFullname()
