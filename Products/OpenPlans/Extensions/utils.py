@@ -6,6 +6,7 @@ from os.path import join, abspath, dirname, basename
 import ZConfig
 import time
 
+# is this used for anything (doesn't seem to be)
 VOCAB_PREFIX = abspath(join(dirname(__file__), '..', 'vocabulary'))
 CONF_PREFIX = abspath(join(dirname(__file__), '..', 'conf'))
 
