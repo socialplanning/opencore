@@ -67,18 +67,16 @@ class EmailSender(object):
                   target_language=target_language, default=default)
         return translate(msgid, **kw)
 
-    def constructMailMessage(self, msg_id, **kwargs):
-        if not kwargs.has_key('portal_title'):
-            kwargs['portal_title'] = self.context.Title()
-        unicode_kwargs = self._unicode_values(kwargs)
-        msg = _(msg_id, mapping=unicode_kwargs)
+    def constructMailMessage(self, msg):
+        msg.mapping.setdefault('portal_title', self.context.Title())
+        #unicode_kwargs = self._unicode_values(kwargs)
         return self._translate(msg)
 
-    def sendMail(self, mto, msg=None, msg_id=None, subject=None,
+    def sendMail(self, mto, msg=None, subject=None,
                  mfrom=None, **kwargs):
         to_info = None
-        if msg is None:
-            msg = self.constructMailMessage(msg_id, **kwargs)
+        #if msg is None:
+        #    msg = self.constructMailMessage(msg_id, **kwargs)
         if isinstance(msg, Message):
             # insert the portal title, used by nearly every message,
             # including those that don't come from constructMailMessage().
