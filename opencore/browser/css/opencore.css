@@ -867,7 +867,7 @@ a.oc-banana {
 	color: #fff !important;
 	text-decoration: none;
 	padding: 0.25em;
-	margin: 4em;
+	margin: 0.5em 4em;
 	margin-bottom: 0.75em;
 	margin-top: 0;
 }
@@ -1339,6 +1339,7 @@ li.oc-invite .oc-invite-content {
 /* Get Started */
 
 .oc-getstarted {
+  padding: 0.5em;
   margin-bottom: 1em;
 }
 .oc-getstarted h2 {

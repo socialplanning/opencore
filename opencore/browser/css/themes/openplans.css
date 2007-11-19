@@ -96,9 +96,8 @@ ul#oc-topnav-context li.oc-topnav-selected a {
 }
 .oc-getstarted h1,
 .oc-getstarted h2 {
-  background-color: #EB852B;
-  padding: 0.25em;
-  color: #fff;
+  border-bottom: 1px dotted #EB852B;
+  padding-bottom: 0.5em;
   margin: 0 0 0.5em;
 }
 .oc-getstarted h1 a,
@@ -111,12 +110,9 @@ ul#oc-topnav-context li.oc-topnav-selected a {
 
 .oc-getstarted p,
 .oc-getstarted-list {
-  padding: 1em;
-  padding-top: 0;
+  margin-bottom: 1em;
 }
 .oc-getstarted-list p {
-  padding: 0 0 0 1.25em;
-  margin-bottom: 0.5em;
 }
 .oc-getstarted a {
  color: #EB852B;
