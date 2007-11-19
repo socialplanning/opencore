@@ -322,11 +322,6 @@ msgstr ""
 "The ${portal_title} Team\n"
 "${portal_url}"
 
-#. Default: "Welcome to ${portal_title}! - Please confirm your email address"
-#: opencore/account/browser.py:88
-msgid "email_to_pending_user_subject"
-msgstr ""
-
 #. Default: "The project name must contain at least 2 characters with at least 1 letter or number."
 #: opencore/project/browser/view.py:435
 msgid "err_project_name"
