@@ -31,7 +31,7 @@
           Name
         </label>
 
-        <div tal:content="error" class="oc-form-error">Validation error output</div>            
+        <div tal:content="error" class="oc-form-error">Validation error output</div>
 
         <input type="text" 
                id="sender_fullname" 
@@ -66,8 +66,8 @@
     </tal:feedbackForm>
     <tal:feedbackForm condition="view/loggedin">
       <tal:feedbackDefines define="member_info view/member_info;
-                                   fullname python:request.get('fullname', member_info.get('fullname', ''));
-                                   email python:request.get('email', member_info.get('email',''));">
+                                   fullname view/loggedinmember/Title;
+                                   email python:member_info.get('email','');">
         <input type="hidden" name="sender_fullname" value="fullname" tal:attributes="value fullname" />
         <input type="hidden" name="sender_from_address" value="email" tal:attributes="value email" />
       </tal:feedbackDefines>
