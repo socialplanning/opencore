@@ -15,8 +15,11 @@ Check storing and retrieving transient messages
     >>> tm.store('m1', 'ghosts', 'there is only zul')
     >>> tm.store('m1', 'ghosts', 'all hail vigor')
     >>> tm.store('m1', 'foo', 'bar')
-    >>> tm.store('m2', 'ghosts', 'stay puff marshmallow man')
+    >>> tm.store('m2', 'ghosts', 'stay puff <a src="marshmellow.html">marshmallow</a> man')
     >>> tm.store('m1', 'ghosts', 'do not cross the streams')
+    >>> from opencore.i18n import _
+    >>> tm.store('m1', 'trythis', _(u'test_transient_msg', u'So <strong>this html</strong> should not be stripped, but ${strip_html}should be stripped',
+    ... mapping={u'strip_html':u'<script src="virus.html">this script tag</script>'}))
 
     And what good would messages be if we couldn't retrieve them
     >>> msgs = tm.get_msgs('m1', 'ghosts')
@@ -31,12 +34,14 @@ Check storing and retrieving transient messages
     >>> list(tm.get_msgs('m1', 'foo'))
     [(0, 'bar')]
     >>> list(tm.get_msgs('m2', 'ghosts'))
-    [(0, 'stay puff marshmallow man')]
+    [(0, 'stay puff <a src="marshmellow.html">marshmallow</a> man')]
+    >>> list(tm.get_msgs('m1', 'trythis'))
+    [(0, 'So <strong>this html</strong> should not be stripped, but should be stripped')]
 
 Can we get all messages across all categories? Yes, but this is not
 efficient, since it dereferences all the messages upon generation::
     >>> len(tm.get_all_msgs('m1'))
-    4
+    5
 
     And if we try to get messages for non existent members/categories,
     we just get nothing back
@@ -52,7 +57,7 @@ efficient, since it dereferences all the messages upon generation::
     >>> tm.pop('m1', 'ghosts', 1)
     'all hail vigor'
     >>> tm.pop('m2', 'ghosts', 0)
-    'stay puff marshmallow man'
+    'stay puff <a src="marshmellow.html">marshmallow</a> man'
 
     And poof, they are gone from the list
     >>> list(tm.get_msgs('m1', 'ghosts'))

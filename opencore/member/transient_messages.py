@@ -19,6 +19,7 @@ class TransientMessage(object):
     key = 'transient-message'
 
     def __init__(self, site_root):
+        self.site_root = site_root
         self.annot = IAnnotations(site_root)
 
     def _category_annot(self, mem_id, category):
@@ -35,7 +36,7 @@ class TransientMessage(object):
             new_id = 0
 
         if isinstance(msg, Message):
-            msg = translate(msg, context=self)
+            msg = translate(msg, context=self.site_root)
         else:
             msg = _(msg)
             
