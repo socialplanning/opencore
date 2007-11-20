@@ -48,6 +48,7 @@ setup(name='opencore',
           'borg.localrole==1.0rc1',
           'wsseauth',
           'uuid',
+          'geopy>=0.93',
           ],
       extras_require=dict(ubuntu=['hprof'])
       )
