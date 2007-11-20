@@ -4,6 +4,8 @@
   </head>
   <body>
     <div metal:fill-slot="content">
+      <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAQLu1UUa9Exjl_V_rj9rMWRTwM0brOpm-All5BF6PoaKBxRWWERSPejWvdVAWxDv499lZCh0fhiixIA"
+          type="text/javascript"></script>
       <div class="oc-headingBlock">
         <h1>Start a project</h1>
         <p class="oc-headingContext">Each project is a toolbox to help you get things done. Using your project you can team up with others, sketch out your plans, and keep track of your progress.</p>
@@ -74,7 +76,43 @@
           </fieldset>
 
           <fieldset class="oc-boxy">
-            <legend class="oc-legend-heading oc-biggerText">Step 2: Security</legend>
+            <legend i18n:translate="" class="oc-legend-heading oc-biggerText">Step 2: Location</legend>
+            <table class="oc-form">
+              <tbody>
+                <tr class="oc-form-row">
+                  <th class="oc-form-label" scope="row">
+                    <label for="location">Location</label>
+                  </th>
+                  <td class="oc-form-value">
+                    <input type="text" id="location" name="location"
+                           tal:attributes="value request/location | nothing" />
+                  </td>
+                  <td class="oc-form-help">
+                    <span class="oc-form-context"></span>
+                    <span id="oc-location-validator" class="oc-form-validator"></span>
+                    <span id="oc-location-error" class="oc-form-error" tal:content="view/errors/location | nothing" />
+                  </td>
+                </tr>
+                <tr id="oc-template-location.json" class="oc-form-row oc-js-template">
+                  <th id="position-header" class="oc-form-label" scope="row">
+                    <label for="position-text">Position On Map</label>
+                  </th>
+                  <td id="position-input" class="oc-form-value oc-form-fieldBlock">
+                    <input type="text" id="position-text" name="position-text"
+                           tal:attributes="value request/position-text | nothing" />
+                  </td>
+                  <td class="oc-form-help">
+                    <span class="oc-form-context"></span>
+                    <span id="oc-position-validator" class="oc-form-validator"></span>
+                    <span id="oc-position-error" class="oc-form-error" tal:content="view/errors/positiontext | nothing" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </fieldset>
+
+          <fieldset class="oc-boxy">
+            <legend class="oc-legend-heading oc-biggerText">Step 3: Security</legend>
             <p class="oc-headingContext oc-smallText">Decide who can see and contribute to this project.  You will create your team on the next page.</p>
             <fieldset>
               <ul class="oc-form-radiolist oc-form-fieldBlock">
@@ -99,7 +137,7 @@
           </fieldset>
 
           <fieldset class="oc-boxy">
-            <legend class="oc-legend-heading oc-biggerText">Step 3: Tools</legend>
+            <legend class="oc-legend-heading oc-biggerText">Step 4: Tools</legend>
 
             <fieldset>
               <legend class="oc-legend-subheading">Choose which tools you want for your project:</legend>

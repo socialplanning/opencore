@@ -110,6 +110,11 @@
      permission="openplans.AddOpenProject"
      />
 
+  <browser:resource
+     name="location.json"
+     file="location.json"
+     />
+
   <browser:page
      for="opencore.interfaces.adding.IAddSubProject"
      name="create_project"

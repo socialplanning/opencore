@@ -1363,6 +1363,14 @@ li.oc-invite .oc-invite-content {
   line-height: normal;
 }
 
+/* Map control */
+
+.oc-map {
+  width: 500px;
+  height: 300px;
+  margin: 10px 0 0 0;
+}
+
 /* @BEHAVIORS
 --------------------------*/
 
