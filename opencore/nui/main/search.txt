@@ -70,7 +70,7 @@ Searching for all projects::
    >>> brains = view.search_for_project_by_letter('all')
    >>> titles = [p.Title for p in brains]
    >>> titles
-   ['Project Two', 'Project Three', 'Project One', 'Project Four']
+   ['Project Four', 'Project One', 'Project Three', 'Project Two']
 
 Searching for projects starting with a number::
 

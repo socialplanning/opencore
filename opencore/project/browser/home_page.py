@@ -27,8 +27,7 @@ class HomePage(object):
 
     def _get_home_page(self):
         project = self.context
-        default_page = '%s/%s' % (project.absolute_url(),
-                                  project.getDefaultPage())
+        default_page = '%s/project-home' % project.absolute_url()
         return self.annot.get('home_page', default_page)
 
     def _set_home_page(self, value):

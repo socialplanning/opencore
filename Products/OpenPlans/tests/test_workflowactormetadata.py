@@ -46,7 +46,7 @@ class TestWorkflowActorMetadata(OpenPlansTestCase):
         self.login(mem_id)
 
         proj = self.portal.projects._getOb(proj_id)
-        page = proj._getOb(proj.getDefaultPage())
+        page = proj._getOb('project-home')
 
         wftool = getToolByName(self.portal, 'portal_workflow')
         wftool.doActionFor(page, 'team')

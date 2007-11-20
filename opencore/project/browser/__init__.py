@@ -16,13 +16,17 @@ from memojito import memoizedproperty, memoize
 
 from projectlisting import ProjectListingView
 from opencore import redirect
+from opencore.project import PROJ_HOME
 from opencore.interfaces.adding import IAddSubProject, IAddProject 
 from opencore.interfaces import IProject
-from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
+from opencore.interfaces.event import AfterProjectAddedEvent
+from opencore.interfaces.event import AfterSubProjectAddedEvent
 from zope.app.traversing.interfaces import ITraversable
 from Products.Five.traversable import FiveTraversable
 
-HOME_PAGE_ID = 'project-home'
+# the home page id is used in a lot of places, put it higher in the
+# package path to prevent circular imports
+HOME_PAGE_ID = PROJ_HOME
 HOME_PAGE_TITLE = 'Project Home'
 HOME_PAGE_FILE = 'project_index.html'
 

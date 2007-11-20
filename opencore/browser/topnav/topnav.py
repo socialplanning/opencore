@@ -7,6 +7,7 @@ from opencore.browser.base import BaseView
 from opencore.interfaces.message import ITransientMessage
 from opencore.nui.contexthijack import HeaderHijackable
 from opencore.project.content import IProject
+from opencore.project import PROJ_HOME
 from opencore.content.page import OpenPage
 from plone.memoize import view
 
@@ -105,9 +106,7 @@ class ProjectMenuView(BaseView):
         proj = self.piv.project
         if proj is not None:
             proj_home = None
-            dp = proj.getDefaultPage()
-            if dp:
-                proj_home = proj._getOb(dp)
+            proj_home = proj._getOb(PROJ_HOM)
             if self.context == proj_home:
                 result = True
         return result
@@ -122,7 +121,7 @@ class ProjectMenuView(BaseView):
         featurelets = self.piv.featurelets
         proj = self.piv.project
         proj_url = self.areaURL
-        wiki_url = '%s/%s' % (proj_url, proj.getDefaultPage())
+        wiki_url = '%s/project-home' % (proj_url)
         contents_url = "%s/contents" % proj_url
         team_url = "%s/team" % proj_url
         prefs_url = "%s/preferences" % proj_url

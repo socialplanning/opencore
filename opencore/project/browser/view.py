@@ -22,6 +22,7 @@ from opencore.interfaces.event import AfterProjectAddedEvent, \
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 
 from opencore.project.utils import get_featurelets
+from opencore.project import PROJ_HOME
 from opencore.browser import formhandler
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
@@ -277,7 +278,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
         # but again, we don't check security on each object.
         show_deletes = self.show_deletes()
         for d in objs:
-            if d['id'] == 'project-home':
+            if d['id'] == PROJ_HOME:
                 d['uneditable'] = True
                 d['undeletable'] = True
             if not show_deletes:
@@ -326,7 +327,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
     def delete_items(self, sources, fields=None):
         item_type = self.request.form.get("item_type")
 
-        if item_type == 'pages' and 'project-home' in sources:
+        if item_type == 'pages' and PROJ_HOME in sources:
             sources.remove("project-home")
 
         brains = self.catalog(id=sources, path=self.project_path)
@@ -344,7 +345,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
     def update_items(self, sources, fields=None):
         item_type = self.request.form.get("item_type")
 
-        if item_type == 'pages' and 'project-home' in sources:
+        if item_type == 'pages' and PROJ_HOME in sources:
             sources.remove("project-home")
 
         brains = self.catalog(id=sources, path=self.project_path)
@@ -516,7 +517,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         if include_wiki:
             flet_data.insert(0, dict(id='wiki',
                                      title='Wiki pages',
-                                     url='project-home',
+                                     url=PROJ_HOME,
                                      checked='True',
                                      ))
         return flet_data
@@ -645,7 +646,7 @@ class ProjectAddView(BaseView, OctopoLite):
         if include_wiki:
             flet_data.insert(0, dict(id='wiki',
                                      title='Wiki pages',
-                                     url='project-home',
+                                     url=PROJ_HOME,
                                      checked='True',
                                      ))
         return flet_data

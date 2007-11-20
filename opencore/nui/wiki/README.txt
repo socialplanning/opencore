@@ -1,7 +1,7 @@
  wiki ui
 =========
 
-    >>> page_id = self.portal.projects.p1.getDefaultPage()
+    >>> page_id = 'project-home'
     >>> page = getattr(self.portal.projects.p1, page_id)
 
 Registrations

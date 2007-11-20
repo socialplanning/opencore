@@ -226,7 +226,7 @@ Make sure we can install a TaskTracker featurelet too::
     Unauthorized: You are not allowed to access 'preferences' in this context
 
     We should also not be able to edit the default page
-    >>> page_id = proj.getDefaultPage()
+    >>> page_id = 'project-home'
     >>> page = getattr(proj, page_id)
     >>> page.restrictedTraverse('edit')
     Traceback (most recent call last):
@@ -300,8 +300,10 @@ They should be sorted according to id, by location
 Test the projects for members work::
     >>> mem = self.portal.portal_memberdata.m4
     >>> mem_projects = view.projects_for_member(mem)
-    >>> [mem_project.getId() for mem_project in mem_projects]
-    ['p2', 'p1', 'p4']
+    >>> mem_proj_ids = [mem_project.getId() for mem_project in mem_projects]
+    >>> mem_proj_ids.sort()
+    >>> mem_proj_ids
+    ['p1', 'p2', 'p4']
     >>> view.num_projects_for_member(brains[0].getObject())
     3
 

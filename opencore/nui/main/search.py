@@ -97,7 +97,8 @@ class ProjectsSearchView(SearchView):
             search_for = letter + '*'
             query = dict(portal_type="OpenProject", Title=search_for)
 
-
+        if sort_by is None:
+            sort_by = 'sortable_title'
         query['sort_on'] = sort_by
 
         self.apply_context_restrictions(query)

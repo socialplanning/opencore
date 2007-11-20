@@ -107,7 +107,7 @@ class TestProjectMenu(OpenPlansTestCase):
         request.ACTUAL_URL = self.request.URL = 'http://nohost/plone/projects/p3/project-home'
         self.proj_view = getMultiAdapter((self.proj, self.request),
                                           name='topnav-project-menu')
-        self.proj_home = self.proj._getOb(self.proj.getDefaultPage())
+        self.proj_home = self.proj._getOb('project-home')
         self.phome_view = getMultiAdapter((self.proj_home, self.request),
                                           name='topnav-project-menu')
 

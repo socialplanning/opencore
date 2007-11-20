@@ -22,6 +22,7 @@ from opencore.interfaces import IOpenPage, INewsItem
 from opencore.listen.events import listen_featurelet_installed
 from opencore.nui.wiki.add import get_view_names
 from opencore.project.browser.metadata import _update_last_modified_author
+from opencore.project import PROJ_HOME
 from persistent import mapping
 from pprint import pprint
 from topp.featurelets.interfaces import IFeatureletSupporter
@@ -143,6 +144,13 @@ def migrate_portraits(portal):
         if old_portrait:
             member.setPortrait(old_portrait)
 
+def fixup_project_homepages(portal):
+    cat = getToolByName(portal, 'portal_catalog')
+    proj_brains = cat(portal_type='OpenProject')
+    for brain in proj_brains:
+        proj = brain.getObject()
+        proj.setLayout('view')
+
 def migrate_mship_workflow_states(portal):
     logger.log(INFO, "Updating memberships' workflow states:")
     catalog = getToolByName(portal, 'portal_catalog')
@@ -182,7 +190,7 @@ def migrate_mission_statement(portal):
     catalog = getToolByName(portal, 'portal_catalog')
     proj_brains = catalog(portal_type='OpenProject')
     for proj in (b.getObject() for b in proj_brains):
-        home_page = proj.getDefaultPage()
+        home_page = PROJ_HOME
         page = proj.unrestrictedTraverse(home_page)
         description = page.Description()
         if description:
@@ -333,6 +341,7 @@ nui_functions['markNewsItems'] = markNewsItems
 nui_functions['Install OpenCore Remote Auth Plugin'] = \
                        convertFunc(install_remote_auth_plugin)
 nui_functions['Create auto discussion lists'] = create_auto_discussion_lists
+nui_functions['Fix up project home pages'] = fixup_project_homepages
 
 def run_nui_setup(portal):
     pm = portal.portal_migration
