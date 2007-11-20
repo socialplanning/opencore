@@ -1,13 +1,13 @@
 <tal:vars define="proj view/project_info">
-<html metal:use-macro="here/@@standard_macros/master">
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:Contents - ${view/area/Title}" />
   </head>
   <body>
     <div metal:fill-slot="content">
       <div class="oc-headingBlock">
-        <h1>Project contents</h1>
-        <p class="oc-headingContext">At-a-glance view of all documents within this project.</p>
+        <h1 i18n:translate="contents_heading">Project contents</h1>
+        <p i18n:translate="contents_desc" class="oc-headingContext">At-a-glance view of all documents within this project.</p>
       </div>
       
       <div id="oc-content-main" class="oc-content-main-fullWidth">
@@ -40,7 +40,7 @@
           <tal:macro metal:use-macro="view/item_table_snippet/macros/contents_table_wrapper" />
         </tal:setvar> 
 
-        <a rel="include" tal:condition="view/has_task_tracker"
+        <a rel="include" i18n:translate="contents_view_tasks" tal:condition="view/has_task_tracker"
           tal:attributes="href string:${view/tasktracker_url}">View tasklists</a> 
       </div><!-- end .oc-content-main -->
     </div><!-- end content-fill-slot -->
