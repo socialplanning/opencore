@@ -8,7 +8,7 @@
 #
 
 go ${base_url}/projects/${projname}/lists/${listtitle}/archive
-follow "Write new message"
+follow "listen_macros_post"
 fv 2 subject $postsubject
 fv 2  body $postbody
 submit
