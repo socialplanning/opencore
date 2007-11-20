@@ -45,7 +45,7 @@
 <!-- END LISTEN TABS -->
 
 <!-- BEGIN LISTEN ABOUT LIST-->
-<metal:aboutmacro define-macro="about">
+<metal:aboutmacro i18n:domain="opencore" define-macro="about">
   <a class="oc-banana" href="#" tal:condition="view/canPost"
    tal:attributes="href string:${context/absolute_url}/new_topic;"
    i18n:translate="listen_macros_post">
@@ -70,7 +70,7 @@
 <!-- END LISTEN ABOUT LIST -->
 
 <!-- LISTEN SUBSCRIBE MACRO -->
-<metal:subscribe define-macro="subscribe">
+<metal:subscribe i18n:domain="opencore" define-macro="subscribe">
   <div class="oc-listen-details-subscribe oc-boxy oc-clearAfter">
     <p tal:condition="python:isAnon or not can_subscribe" id="unsub-instructions" i18n:translate="mailinglist_view_to_unsubscribe">
       To unsubscribe from this list send an email to the list with the subject
