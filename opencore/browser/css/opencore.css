@@ -1061,6 +1061,7 @@ height: 1em; */
 .oc-expanderLink {
   background: url("/++resource++img/expander-nub-closed.gif") 0 3px no-repeat;
   padding-left: 12px;
+  cursor: pointer;
 }
 .oc-expanderLink.oc-expanderLink-open {
   background: url("/++resource++img/expander-nub-open.gif") 0 3px no-repeat;
