@@ -34,8 +34,8 @@ class ContactView(BaseView, formhandler.OctopoLite):
         self.validate()
         if self.errors:
             # don't send, just return and render the page
-            self.addPortalStatusMessage(u'psm_please_correct_errors', u'Please correct the specified '
-                                        'errors.')
+            self.addPortalStatusMessage(u'psm_please_correct_errors',
+                                        u'Please correct the specified errors.')
             return
         form = self.request.form
         mto = self.portal.getProperty('email_from_address')
