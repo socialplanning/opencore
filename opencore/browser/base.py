@@ -21,6 +21,7 @@ from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.utils.pretty_date import prettyDate
 from topp.utils.pretty_text import truncate
 from zope.component import getMultiAdapter, adapts, adapter
+from lxml.html.clean import Cleaner
 
 import DateTime
 import cgi
@@ -137,6 +138,11 @@ class BaseView(BrowserView):
             msg = self.translate(msg)
         else:
             msg = _(msg)
+
+        cleaner = Cleaner()
+        msg = cleaner.clean_html(msg)
+        if msg.startswith('<p>'):
+            msg = msg[3:-4]
 
         plone_utils.addPortalMessage(msg)
 

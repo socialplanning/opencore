@@ -158,10 +158,18 @@ The BaseView class has a property portal_status_message which returns
 a list of all portal_status_messages: both those saved in the
 plone_utils tool and those passed into the request.
 
-    >>> self.request.form['portal_status_message'] = "I am a banana!"
+    >>> self.request.form['portal_status_message'] = "I am a banana!<script>escape this</script>"
     >>> view = BaseView(self.homepage, self.request)
     >>> view.portal_status_message
-    ['I am a banana!']
+    ['I am a banana!&lt;script&gt;escape this&lt;/script&gt;']
+    
+    >>> from opencore.i18n import _
+    >>> msg = _(u'psm_test', u'This is a <strong>test</strong> portal status message.  ${this} should be stripped of the script tag.',
+    ... mapping={u'this':u'<script>strip this</script>This html'})
+    >>> view.add_status_message(msg)
+    >>> view.portal_status_message
+    [u'This is a <strong>test</strong> portal status message.  This html should be stripped of the script tag.', 'I am a banana!&lt;script&gt;escape this&lt;/script&gt;']
+
 
 include
 -------
