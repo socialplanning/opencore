@@ -93,7 +93,6 @@ ul#oc-topnav-context li {
 }
 ul#oc-topnav-context li a {
   padding: .25em .5em;
-  text-transform: capitalize;
 }
 #oc-topnav a:hover {
 }
