@@ -55,9 +55,9 @@
         <li tal:condition="editable">
         <a href="#" class="oc-js-liveEdit_showForm oc-actionLink">Rename</a></li>
         <li tal:condition="deletable">
-          <a class="oc-js-actionLink oc-actionLink"
+          <a class="oc-js-actionLink oc-actionLink oc-js-confirm"
              tal:attributes="href string:contents?task|${item/id}|delete=Delete&item_type=${item_type}&authenticator=${view/authenticator}">
-            Delete
+            Delete <span class="oc-hidden oc-warning">This deletion is permanant.  Are you sure you want to delete?</span>
           </a>
         </li>
       </ul>
