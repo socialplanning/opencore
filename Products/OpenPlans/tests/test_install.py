@@ -105,6 +105,21 @@ class TestOpenPlansInstall(OpenPlansTestCase):
 
         self.assertEqual(krm.keys(), kupu_resource_map.keys())
 
+    def test_openproject_method_aliases(self):
+        tt = getToolByName(self.portal, 'portal_types')
+        aliases = tt.OpenProject.getMethodAliases()
+        default_alias = aliases['(Default)']
+        view_alias = aliases['view']
+        edit_alias = aliases['edit']
+        index_alias = aliases['index.html']
+
+        self.failIf(default_alias == '(dynamic view)')
+        self.failUnless(default_alias == '@@view')
+
+        self.failUnless(view_alias == '@@view')
+        self.failUnless(edit_alias == '@@preferences')
+        self.failUnless(index_alias == '@@view')
+
 
 def test_suite():
     suite = unittest.TestSuite()
