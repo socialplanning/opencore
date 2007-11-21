@@ -231,6 +231,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             brain = self.catalog(path='/'.join(mship.getPhysicalPath()))[0]
             extra_context={'item': self.getMshipInfoFromBrain(brain),
                            'team_manage_macros': self.team_manage_macros.macros,
+                           'changeable': True, # they're removable
                            }
             html = self.render_macro(self.team_manage_macros.macros['mshiprow'],
                                      extra_context=extra_context)
@@ -529,7 +530,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                 item = active_mships.get(mem_id)
                 if item:
                     extra_context={'item': item,
-                                   'team_manage_macros': self.team_manage_macros}
+                                   'team_manage_macros': self.team_manage_macros,
+                                   'changeable': True}
                     html = self.render_macro(self.team_manage_macros.macros['mshiprow'],
                                              extra_context=extra_context)
                     commands[mem_id] = {'action': 'replace',
