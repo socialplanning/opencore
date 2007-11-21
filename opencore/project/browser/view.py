@@ -1,5 +1,6 @@
 import re
 import string
+import urllib
 
 from zope import event
 from zope.component import getMultiAdapter
@@ -26,9 +27,11 @@ from opencore.tasktracker import uri as tt_uri
 from opencore.browser import formhandler
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
-from opencore.project.browser.utils import vdict
+from opencore.project.browser.utils import vdict, google_encode
 from opencore.interfaces import IHomePage
 from opencore.nui.wiki.add import get_view_names
+
+from Products.PleiadesGeocoder.interfaces import IGeoItemSimple
 
 from DateTime import DateTime
 
@@ -441,7 +444,10 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
 
         allowed_params = set(['__initialize_project__', 'update', 'set_flets',
                               'title', 'description', 'logo', 'workflow_policy',
-                              'featurelets', 'home-page'])
+                              'featurelets', 'home-page',
+                              'location',  # XXX this isn't getting saved?
+                              'position-latitude', 'position-longitude',
+                              'position-text'])
         new_form = {}
         for k in allowed_params:
             if k in self.request.form:
@@ -466,7 +472,9 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             _(u'psm_security_changed', u"The security policy has been changed.") : old_workflow_policy != self.request.form['workflow_policy'],            
             }
 
-        
+        if self.update_geolocation(new_form):
+            self.add_status_message(_(u'psm_location_changed', u'The location has been changed'))
+
         old_featurelets = set([(x['name'], x['title']) for x in get_featurelets(self.context)])
             
         self.request.form = new_form
@@ -520,6 +528,50 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                                      checked='True',
                                      ))
         return flet_data
+
+    def update_geolocation(self, form):
+        try:
+            lon = float(form.get('position-longitude'))
+            lat = float(form.get('position-latitude'))
+        except TypeError:
+            lon = lat = None
+        position = form.get('position-text', '').strip()
+        if position:
+            # If we got this, then presumably javascript was disabled;
+            # it overrides the other form variables.
+            # The value should be something we can look up via the geocoder.
+            geo_tool = self.get_tool('portal_geocoder')
+            records = geo_tool.geocode(position)
+            if records:
+                lat = records[0]['lat']
+                lon = records[0]['lon']
+            else:
+                self.add_status_message(_(u'psm_geocode_failed',
+                                          u"Sorry, we were unable to find that address on the map"))
+        if lat is not None and lon is not None:
+            geo = IGeoItemSimple(self.context)
+            # Longitude first! Yes, really.
+            new_coords = (lon, lat, 0.0)
+            if new_coords != geo.coords:
+                geo.setGeoInterface('Point', new_coords)
+                return True
+        return False
+
+    def location_img_url(self):
+        # Used for non-ajax UI to get a static map image.
+        geo = IGeoItemSimple(self.context)
+        if not geo.coords:
+            return ''
+        lon, lat, z = geo.coords
+        # Don't know if order matters, so assume it does.
+        params = (('latitude_e6', google_encode(lat)),
+                  ('longitude_e6', google_encode(lon)),
+                  ('w', 500), ('h', 300), # XXX These must match our css.
+                  ('zm', 9600),  # Zoom.
+                  ('cc', ''), # No idea what this is.
+                  )
+        url = 'http://maps.google.com/mapdata?' + urllib.urlencode(params)
+        return url
 
 
 class ProjectAddView(BaseView, OctopoLite):

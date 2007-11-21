@@ -49,3 +49,12 @@ def bbb_keymap(wrap=True):
     else:
         return func
 
+
+def google_encode(lat_or_lon):
+    """Google makes life easy for themselves, and harder for us, by
+    encoding signed float latitude and longitude into unsigned integers.
+    """
+    lat_or_lon *= 1000000
+    if lat_or_lon < 0:
+        lat_or_lon = 2 ** 32 + lat_or_lon
+    return int(lat_or_lon)

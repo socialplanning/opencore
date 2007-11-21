@@ -240,6 +240,49 @@ Make sure we can install a TaskTracker featurelet too::
     >>> proj.restrictedTraverse('preferences')
     <...SimpleViewClass ...preferences...>
 
+
+Look for geolocation info, first when it's not set...
+
+    >>> view = proj.restrictedTraverse('preferences')
+    >>> form = {}
+    >>> view.update_geolocation(form)
+    False
+    >>> view.project_info.has_key('position-latitude')
+    False
+    >>> view.project_info.has_key('position-longitude')
+    False
+
+
+You can set and then retrieve coordinates::
+
+    >>> form = {'position-latitude': '10.0', 'position-longitude': '-20.0'}
+    >>> view.update_geolocation(form)
+    True
+
+    Clear the memoized stuff from the request to see the info.
+
+    >>> utils.clear_all_memos(view)
+    >>> print view.project_info.get('position-longitude')
+    -20.0
+    >>> print view.project_info.get('position-latitude')
+    10.0
+
+You can also pass in a string which overrides the coordinates,
+and uses a remote service to look them up::
+
+
+    >>> form['position-text'] = '349 W 12th St, New York, NY'
+    >>> view.update_geolocation(form)   # XXX this isn't using mockHTTP! it makes a real network call.
+    Fetching http:...
+    True
+    >>> utils.clear_all_memos(view)
+    >>> print view.project_info.get('position-latitude')
+    40.737...
+    >>> print view.project_info.get('position-longitude')
+    -74.007...
+
+XXX need to test location_img_url() and the underlying utility function.
+
 Team view
 =========
 

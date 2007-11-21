@@ -131,9 +131,13 @@ And marked as serializable.
 
 
 They can be adapted to IGeoItemSimple, and coordinates set on them.
+WARNING TO GEO NOOBS: This is an (x, y, z) point where x is longitude.
+Yes, longitude goes first.
 
     >>> from Products.PleiadesGeocoder.interfaces import IGeoItemSimple
     >>> geo = IGeoItemSimple(projects.p1)
+    >>> print geo.coords
+    None
     >>> coordinates = (10.0, -20.0, 0.0)
     >>> geo.setGeoInterface('Point', coordinates)
     >>> geo.coords
@@ -148,6 +152,10 @@ suitable for building a georss view.
     >>> len(info)
     1
     >>> info = info[0]
+
+    Note that coords_georss is latitude-longitude, so you get them
+    back in the reverse order:
+
     >>> info['coords_georss']
     '-20.000000 10.000000'
     >>> info['geometry']['type']

@@ -110,6 +110,9 @@
                     <td id="position-input" class="oc-form-value">
                       <input type="text" id="position-text" name="position-text"
                              tal:attributes="value request/position-text | proj/position-text | nothing" />
+		      <p tal:condition="view/location_img_url" >
+			<img tal:attributes="src view/location_img_url" class="oc-map" />
+		      </p>
                     </td>
                     <td class="oc-form-help">
                       <span class="oc-form-context"></span>
