@@ -18,7 +18,7 @@ from their http requests.
     >>> HTTPMock.add_to_response_content('some-bogus-auth-hash')
     >>> HTTPMock.add_to_response_content(memxml)
 
-Now we're ready to see if the plugin will authenticate successfully.
+Now we're ready to see if the plugin will authenticate successfully:
 
     >>> login = 'login'
     >>> plugin = self.portal.acl_users.opencore_remote_auth
@@ -27,6 +27,18 @@ Now we're ready to see if the plugin will authenticate successfully.
     Called httplib2.Http.request...
     Called httplib2.Http.request...
     >>> self.failUnless(auth_result == (login, login))
+
+A member object should now exist, and it should have the right
+security settings.  The rolesOfPermission call returns a bit of an
+unwieldy data structure, tailored towards the ZMI's permissions
+screens, so we iterate through it and pull out the roles:
+
+    >>> mem = self.portal.portal_memberdata._getOb(login)
+    >>> viewroles = []
+    >>> for role in mem.rolesOfPermission('View'):
+    ...     if role.get('selected'):
+    ...         viewroles.append(role.get('name'))
+    >>> self.failUnless('Anonymous' in viewroles)
 
 Let's add failure responses to make sure auth failures are handled
 correctly.  First a 404 (member doesn't exist):

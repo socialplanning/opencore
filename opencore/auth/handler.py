@@ -50,4 +50,11 @@ def copy_remote_member(event):
               }
     wfhist += (status,)
     mem.workflow_history[mem_wf] = wfhist
+
+    # sync the object to the new wf state's permissions
+    wft = getToolByName(event.context, 'portal_workflow')
+    wf = wft._getOb(mem_wf)
+    wf.updateRoleMappingsFor(mem)
+    mem.reindexObjectSecurity()
+
     notify(ObjectCreatedEvent(mem))
