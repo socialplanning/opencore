@@ -60,6 +60,45 @@ class ProjectBaseView(BaseView):
                 return True
         return False
 
+    def geocode_from_form(self, form):
+        """
+        Inspect the values in the form in order to extract a geolocation.  Will
+        perform a lookup on a textual position if necessary.
+        """
+        try:
+            lon = float(form.get('position-longitude'))
+            lat = float(form.get('position-latitude'))
+        except TypeError:
+            lon = lat = None
+        except ValueError:
+            lon = lat = None
+        position = form.get('position-text', '').strip()
+        if position:
+            # If we got this, then presumably javascript was disabled;
+            # it overrides the other form variables.
+            # The value should be something we can look up via the geocoder.
+            geo_tool = self.get_tool('portal_geocoder')
+            records = geo_tool.geocode(position)
+            if records:
+                lat = records[0]['lat']
+                lon = records[0]['lon']
+            else:
+                return None
+        return lat, lon
+
+    def update_geolocation(self, proj, lat, lon):
+        """
+        Update the project with the given latitude and longitude.
+        """
+        if lat is not None and lon is not None:
+            geo = IGeoItemSimple(proj)
+            # Longitude first! Yes, really.
+            new_coords = (lon, lat, 0.0)
+            if new_coords != geo.coords:
+                geo.setGeoInterface('Point', new_coords)
+                return True
+        return False
+
 
 class ProjectContentsView(ProjectBaseView, OctopoLite):
 
@@ -438,6 +477,11 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         if not valid_project_title(title):
             self.errors['title'] = _(u'err_project_name', u'The project name must contain at least 2 characters with at least 1 letter or number.')
 
+        try:
+            lat, lon = self.geocode_from_form(self.request.form)
+        except TypeError:
+            self.errors['position-text'] = _(u'psm_geocode_failed', u"Sorry, we were unable to find that address on the map")
+
         if self.errors:
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return
@@ -445,9 +489,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         allowed_params = set(['__initialize_project__', 'update', 'set_flets',
                               'title', 'description', 'logo', 'workflow_policy',
                               'featurelets', 'home-page',
-                              'location',  # XXX this isn't getting saved?
-                              'position-latitude', 'position-longitude',
-                              'position-text'])
+                              'location']) # XXX location isn't getting saved?
         new_form = {}
         for k in allowed_params:
             if k in self.request.form:
@@ -464,6 +506,10 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             logochanged = True
             del self.request.form['logo']
 
+        import pdb; pdb.set_trace()
+        if self.update_geolocation(self.context, lat, lon):
+            self.add_status_message(_(u'psm_location_changed', u'The location has been changed'))
+
         #store change status of flet, security, title, description, logo
         changed = {
             _(u'psm_project_title_changed', u"The title has been changed.") : self.context.title != self.request.form.get('title', self.context.title),
@@ -471,9 +517,6 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             _(u'psm_project_logo_changed', u"The project image has been changed.") : logochanged,
             _(u'psm_security_changed', u"The security policy has been changed.") : old_workflow_policy != self.request.form['workflow_policy'],            
             }
-
-        if self.update_geolocation(new_form):
-            self.add_status_message(_(u'psm_location_changed', u'The location has been changed'))
 
         old_featurelets = set([(x['name'], x['title']) for x in get_featurelets(self.context)])
             
@@ -495,7 +538,6 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         for field, changed in changed.items():
             if changed:
                 self.add_status_message(field)
-        #self.add_status_message('Your changes have been saved.')
 
         home_page = self.request.form.get('home-page', None)
         hpcontext = IHomePage(self.context)
@@ -529,34 +571,6 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                                      ))
         return flet_data
 
-    def update_geolocation(self, form):
-        try:
-            lon = float(form.get('position-longitude'))
-            lat = float(form.get('position-latitude'))
-        except TypeError:
-            lon = lat = None
-        position = form.get('position-text', '').strip()
-        if position:
-            # If we got this, then presumably javascript was disabled;
-            # it overrides the other form variables.
-            # The value should be something we can look up via the geocoder.
-            geo_tool = self.get_tool('portal_geocoder')
-            records = geo_tool.geocode(position)
-            if records:
-                lat = records[0]['lat']
-                lon = records[0]['lon']
-            else:
-                self.add_status_message(_(u'psm_geocode_failed',
-                                          u"Sorry, we were unable to find that address on the map"))
-        if lat is not None and lon is not None:
-            geo = IGeoItemSimple(self.context)
-            # Longitude first! Yes, really.
-            new_coords = (lon, lat, 0.0)
-            if new_coords != geo.coords:
-                geo.setGeoInterface('Point', new_coords)
-                return True
-        return False
-
     def location_img_url(self):
         # Used for non-ajax UI to get a static map image.
         geo = IGeoItemSimple(self.context)
@@ -574,7 +588,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         return url
 
 
-class ProjectAddView(BaseView, OctopoLite):
+class ProjectAddView(ProjectBaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('create.pt')
 
@@ -636,11 +650,13 @@ class ProjectAddView(BaseView, OctopoLite):
             if self.context.has_key(id_):
                 self.errors['id'] = 'The requested url is already taken.'
 
-        if self.errors:
-            self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
-            return
-
         proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
+
+        try:
+            lat, lon = self.geocode_from_form(self.request.form)
+        except TypeError:
+            self.errors['position-text'] = _(u'psm_geocode_failed', u"Sorry, we were unable to find that address on the map")
+
         # not calling validate because it explodes on "'" for project titles
         # XXX is no validation better than an occasional ugly error?
         #proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
@@ -662,6 +678,8 @@ class ProjectAddView(BaseView, OctopoLite):
             if not self.check_logo(proj, logo):
                 return
             del self.request.form['logo']
+
+        self.update_geolocation(proj, lat, lon)
 
         self.template = None
         proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)

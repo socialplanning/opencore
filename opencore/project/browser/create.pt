@@ -104,7 +104,7 @@
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
                     <span id="oc-position-validator" class="oc-form-validator"></span>
-                    <span id="oc-position-error" class="oc-form-error" tal:content="view/errors/positiontext | nothing" />
+                    <span id="oc-position-error" class="oc-form-error" tal:content="view/errors/position-text | nothing" />
                   </td>
                 </tr>
               </tbody>
