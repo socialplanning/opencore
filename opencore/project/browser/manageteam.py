@@ -238,9 +238,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                                  'html': html,
                                  'effects':  'fadeIn'}
 
-        plural = napproved != 1
-        self.add_status_message(u'You have added %d member%s.' %
-                                    (napproved, plural and 's' or ''))
+        if napproved == 1:
+            self.add_status_message(u'You have added %s.' % mem_id)
+        else:
+            self.add_status_message(u'You have added %d members.' % napproved)
+            
         if napproved:
             self.team.reindexTeamSpaceSecurity()
 
