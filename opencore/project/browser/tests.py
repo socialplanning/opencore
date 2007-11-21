@@ -32,9 +32,8 @@ def test_suite():
     from opencore.testing import utils
     from opencore.nui.indexing import authenticated_memberid
 
-    # @@ bah... crappy irregular import scheme
     from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
-    from opencore.featurelets.listen import ListenFeaturelet
+    from opencore.listen.featurelet import ListenFeaturelet
 
     # for delet-project
     from topp.featurelets.interfaces import IFeatureletSupporter

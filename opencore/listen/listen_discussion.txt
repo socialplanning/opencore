@@ -14,7 +14,7 @@ Create a new project
 
 Add the mailing list featurelet to the project
     >>> from topp.featurelets.interfaces import IFeatureletSupporter
-    >>> from opencore.featurelets.listen import ListenFeaturelet
+    >>> from opencore.listen.featurelet import ListenFeaturelet
     >>> IFeatureletSupporter(proj).installFeaturelet(ListenFeaturelet())
 
 And verify that the mailing list automatically gets added

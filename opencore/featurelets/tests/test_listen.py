@@ -20,7 +20,7 @@ from Products.Five.site.localsite import enableLocalSiteHook
 
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.interfaces import IMenuSupporter
-from opencore.featurelets.listen import ListenFeaturelet
+from opencore.listen.featurelet import ListenFeaturelet
 from opencore.featurelets.browser.listen import ListenConfigView
 
 class TestListenFeaturelet(OpenPlansTestCase):

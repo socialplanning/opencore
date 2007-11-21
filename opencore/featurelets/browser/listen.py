@@ -6,7 +6,7 @@ from zope.i18nmessageid import MessageFactory
 
 from topp.featurelets.interfaces import IFeatureletSupporter
 
-from opencore.featurelets.listen import ListenFeaturelet
+from opencore.listen.featurelet import ListenFeaturelet
 
 _ = MessageFactory("opencore")
 

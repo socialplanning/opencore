@@ -1,6 +1,6 @@
 import logging
-from interfaces import IListenContainer
-from interfaces import IListenFeatureletInstalled
+from opencore.featurelets.interfaces import IListenContainer
+from opencore.featurelets.interfaces import IListenFeatureletInstalled
 from opencore.interfaces import IProject
 from opencore.interfaces.event import ListenFeatureletCreatedEvent
 from topp.featurelets.base import BaseFeaturelet
