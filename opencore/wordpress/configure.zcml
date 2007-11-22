@@ -1,7 +1,4 @@
-<configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:browser="http://namespaces.zope.org/browser"
-	   xmlns:five="http://namespaces.zope.org/five"
-           xmlns:opencore="http://namespaces.openplans.org/opencore">
+<configure xmlns="http://namespaces.zope.org/zope">
 
   <subscriber
     for="Products.remember.interfaces.IReMember
@@ -16,29 +13,23 @@
     />
 
   <subscriber
-      for="Products.remember.interfaces.IReMember
-           opencore.interfaces.event.IMemberEmailChangedEvent"
+    for="Products.remember.interfaces.IReMember
+         opencore.interfaces.event.IMemberEmailChangedEvent"
     handler=".events.notify_wordpress_email_changed"
     />
 
   <subscriber
-      for="opencore.interfaces.membership.IOpenMembership
-           opencore.interfaces.event.IChangedTeamRolesEvent"
+    for="opencore.interfaces.membership.IOpenMembership
+         opencore.interfaces.event.IChangedTeamRolesEvent"
     handler=".events.notify_wordpress_role_changed"
     />
 
   <subscriber
     for="opencore.interfaces.membership.IOpenMembership
-         opencore.interfaces.event.ILeftProjectEvent"
+       opencore.interfaces.event.ILeftProjectEvent"
     handler=".events.notify_wordress_user_left_project"
     />
 
-  <browser:page
-     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-     permission="cmf.ModifyPortalContent"
-     class=".views.SyncUsersView"
-     name="sync-wordpress-users"
-     attribute="sync"
-     />
-  
+  <include package=".browser" />
+
 </configure>

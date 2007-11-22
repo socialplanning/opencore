@@ -4,11 +4,11 @@ import urllib
 from httplib2 import Http
 
 from Products.CMFCore.utils import getToolByName
-from Products.Five import BrowserView
+from opencore.browser.base import BaseView
 
 from opencore.content.membership import OpenMembership
 
-class SyncUsersView(BrowserView):
+class SyncUsersView(BaseView):
     def sync(self):
         base_uri = self.get_opencore_property('wordpress_uri')
         uri = "%s/openplans-do-sync.php" % base_uri
