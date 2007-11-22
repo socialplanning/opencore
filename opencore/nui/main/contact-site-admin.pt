@@ -66,7 +66,7 @@
     </tal:feedbackForm>
     <tal:feedbackForm condition="view/loggedin">
       <tal:feedbackDefines define="member_info view/member_info;
-                                   fullname python:request.get('fullname', member_info.get('fullname', ''));
+                                   fullname view/loggedinmember/Title;
                                    email python:request.get('email', member_info.get('email',''));">
         <input type="hidden" name="sender_fullname" value="fullname" tal:attributes="value fullname" />
         <input type="hidden" name="sender_from_address" value="email" tal:attributes="value email" />

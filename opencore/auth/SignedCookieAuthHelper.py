@@ -129,7 +129,7 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
 
     def generateCookie(self, login):
         cookie_val = self.generateCookieVal(login)
-        return '%s=%s' % (self.cookie_name, cookie_val)
+        return '%s="%s"' % (self.cookie_name, cookie_val)
 
     security.declarePrivate('extractCredentials')
     def extractCredentials(self, request):
