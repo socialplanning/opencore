@@ -296,8 +296,21 @@ def create_auto_discussion_lists(portal):
     for brain in cat(portal_type='OpenProject'):
         proj = brain.getObject()
         if IListenFeatureletInstalled.providedBy(proj):
-            # call the event handler, simulating the featurelet was just added
-            listen_featurelet_installed(proj, evt)
+            if not hasattr(proj, 'lists'):
+                print '%s says that the featurelet is installed, but has no lists' % proj.id
+                continue
+
+            # if an error is raised here,
+            # that means that a discussion list already exists
+            # we'll just skip it here
+            try:
+                # call the event handler, simulating the featurelet was just added
+                listen_featurelet_installed(proj, evt)
+
+                # was trying to catch zope.publisher.interfaces.BadRequest, but always missed
+            except:
+                print '%s already has a list with the id %s-discussion' % (proj.id, proj.id)
+                continue
 
             # set the creator to the creator of the project
             # not the admin that ran the migration
