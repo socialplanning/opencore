@@ -1,0 +1,30 @@
+Add the listen featurelet to a project
+    >>> self.login('m3')
+    >>> proj = self.portal.projects.p1
+    >>> from topp.featurelets.interfaces import IFeatureletSupporter
+    >>> from opencore.listen.featurelet import ListenFeaturelet
+    >>> fs = IFeatureletSupporter(proj)
+    >>> IFeatureletSupporter(proj).installFeaturelet(ListenFeaturelet())
+    >>> proj.lists
+    <ATFolder at /plone/projects/p1/lists>
+
+The discussion list should have been created
+And should have been registered in the list lookup utility
+    >>> from Products.listen.interfaces import IListLookup
+    >>> ll = getUtility(IListLookup)
+    >>> mapping = ll.showAddressMapping()
+    >>> len(mapping)
+    1
+    >>> sorted(mapping[0].items())
+    [('address', 'p1-discussion@lists.openplans.org'), ('path', '/plone/projects/p1/lists/p1-discussion')]
+
+And now we remove the featurelet
+    >>> fs.removeFeaturelet('listen')
+    >>> proj.lists
+    Traceback (most recent call last):
+    ...
+    AttributeError: lists
+
+And it should get unregistered from the list lookup utility
+    >>> ll.showAddressMapping()
+    []

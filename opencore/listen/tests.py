@@ -26,15 +26,22 @@ def test_suite():
     from Products.listen.interfaces import IListLookup
     
     setup.setupPloneSite()
+
+    def set_site(tc):
+        enableLocalSiteHook(tc.portal)
+        setSite(tc.portal)
+        setHooks()
+
     def listen_discussion_setup(tc):
         tc._refreshSkinData()
         tc.request = tc.app.REQUEST
         tc.response = tc.request.RESPONSE
         tc.homepage = getattr(tc.portal, 'site-home')
         tc.projects = tc.portal.projects
-        enableLocalSiteHook(tc.portal)
-        setSite(tc.portal)
-        setHooks()
+        set_site(tc)
+
+    def listen_featurelet_setup(tc):
+        set_site(tc)
 
     globs = locals()
     listen_discussion = FunctionalDocFileSuite("listen_discussion.txt",
@@ -45,9 +52,17 @@ def test_suite():
                                     setUp=listen_discussion_setup,
                                     )
 
-    listen_discussion.layer = test_layer
+    listen_featurelet = FunctionalDocFileSuite("listen_featurelet.txt",
+                                    optionflags=optionflags,
+                                    package='opencore.listen',
+                                    test_class=OpenPlansTestCase,
+                                    globs = globs,
+                                    setUp=listen_featurelet_setup,
+                                    )
 
-    return unittest.TestSuite((listen_discussion,))
+    listen_discussion.layer = listen_featurelet.layer = test_layer
+
+    return unittest.TestSuite((listen_discussion, listen_featurelet))
 
 
 if __name__ == '__main__':

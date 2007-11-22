@@ -3,10 +3,14 @@ from opencore.featurelets.interfaces import IListenContainer
 from opencore.featurelets.interfaces import IListenFeatureletInstalled
 from opencore.interfaces import IProject
 from opencore.interfaces.event import ListenFeatureletCreatedEvent
+from opencore.listen.mailinglist import OpenMailingList
+from Products.CMFCore.utils import getToolByName
+from Products.listen.interfaces import IListLookup
 from topp.featurelets.base import BaseFeaturelet
 from topp.featurelets.interfaces import IFeaturelet
 from topp.featurelets.interfaces import IFeatureletSupporter
 from zope.component import getMultiAdapter
+from zope.component import getUtility
 from zope.interface import Interface
 from zope.interface import alsoProvides
 from zope.interface import implements
@@ -51,5 +55,10 @@ class ListenFeaturelet(BaseFeaturelet):
         notify(ListenFeatureletCreatedEvent(obj))
         return self._info
 
-
-            
+    def removePackage(self, obj):
+        ll = getUtility(IListLookup)
+        cat = getToolByName(obj, 'portal_catalog')
+        for brain in cat(portal_type=OpenMailingList.portal_type):
+            ml = brain.getObject()
+            ll.unregisterList(ml)
+        return BaseFeaturelet.removePackage(self, obj)
