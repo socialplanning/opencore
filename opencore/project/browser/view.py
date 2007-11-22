@@ -492,17 +492,17 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         home_page = self.request.form.get('home-page', None)
         hpcontext = IHomePage(self.context)
         if home_page is not None:
-            home_page = '%s/%s' % (self.context.absolute_url(), home_page)
             if hpcontext.home_page != home_page:
-                self.add_status_message(_(u'psm_proj_homepage_change', u'Project home page set to: <a href="${homepage}">${homepage}</a>',
-                                          mapping={u'homepage':home_page}))
+                hp_url = '%s/%s' % (self.context.absolute_url(), home_page)
+                self.add_status_message(_(u'psm_proj_homepage_change', u'Project home page set to: <a href="${hp_url}">${homepage}</a>',
+                                        mapping={u'homepage':home_page, u'hp_url':hp_url}))
                 hpcontext.home_page = home_page
 
 
         self.redirect(self.context.absolute_url())
 
     def current_home_page(self):
-        return IHomePage(self.context).home_page.split('/')[-1]
+        return IHomePage(self.context).home_page
 
     def featurelets(self, include_wiki=False):
         all_flets = getUtility(IFeatureletRegistry).getFeaturelets(self.context)
@@ -617,7 +617,6 @@ class ProjectAddView(BaseView, OctopoLite):
 
         home_page = self.request.form.get('home-page', None)
         if home_page is not None:
-            home_page = '%s/%s' % (proj.absolute_url(), home_page)
             IHomePage(proj).home_page = home_page
 
         s_message_mapping = {'title': title, 'proj_edit_url': proj_edit_url}
@@ -656,7 +655,8 @@ class RedirectView(BaseView):
     """redirect to the project home page url"""
 
     def __call__(self):
-        url = IHomePage(self.context).home_page
+        hp = IHomePage(self.context).home_page
+        url = '%s/%s' % (self.context.absolute_url(), hp)
         self.redirect(url)
 
 class SubProjectAddView(ProjectAddView):
