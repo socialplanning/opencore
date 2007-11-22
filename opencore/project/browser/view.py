@@ -218,7 +218,8 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
         deleted_objects = []
         
         if not brains:
-            self.add_status_message(_(u'psm_no_items_to_delete', u'Please select items to delete.'))
+            self.add_status_message(_(u'psm_no_items_to_delete',
+                                      u'Please select items to delete.'))
 
         # put obj ids in dict keyed on their parents for optimal batch deletion
         for brain in brains:                
