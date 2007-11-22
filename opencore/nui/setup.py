@@ -18,7 +18,7 @@ from opencore.configuration.setuphandlers import install_team_placeful_workflow_
 from opencore.configuration.setuphandlers import setupPeopleFolder
 from opencore.configuration.setuphandlers import setupProjectLayout, setupHomeLayout
 from opencore.featurelets.interfaces import IListenFeatureletInstalled
-from opencore.interfaces import IOpenPage, INewsItem
+from opencore.interfaces import IOpenPage, INewsItem, IHomePage
 from opencore.listen.events import listen_featurelet_installed
 from opencore.nui.wiki.add import get_view_names
 from opencore.project.browser.metadata import _update_last_modified_author
@@ -306,6 +306,22 @@ def create_auto_discussion_lists(portal):
             ml.setCreators((proj_creator,))
             ml.reindexObject()
 
+def make_proj_homepages_relative(portal):
+    cat = getToolByName(portal, 'portal_catalog')
+    for brain in cat(portal_type='OpenProject'):
+        proj = brain.getObject()
+        hp = IHomePage(proj)
+        abs_url = hp.home_page
+        by_slashes = abs_url.split('/')
+
+        # no slashes means that it's already relative
+        # and we should skip it
+        if len(by_slashes) == 1:
+            continue
+
+        rel_url = by_slashes[-1]
+        hp.home_page = rel_url
+
 from Products.Archetypes.utils import OrderedDict
 
 # make rest of names readable  (maybe use config system)
@@ -342,6 +358,7 @@ nui_functions['Install OpenCore Remote Auth Plugin'] = \
                        convertFunc(install_remote_auth_plugin)
 nui_functions['Create auto discussion lists'] = create_auto_discussion_lists
 nui_functions['Fix up project home pages'] = fixup_project_homepages
+nui_functions['Make project home pages relative'] = make_proj_homepages_relative
 
 def run_nui_setup(portal):
     pm = portal.portal_migration
