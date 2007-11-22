@@ -13,7 +13,7 @@ Get the adapter for it
 Get the default home page on it
     >>> url = hp.home_page
     >>> url
-    'http://nohost/plone/projects/p1/project-home'
+    'project-home'
 
 Now set the home page to something else, say the mailing lists
     >>> url = url.replace('project-home', 'lists')
@@ -21,4 +21,4 @@ Now set the home page to something else, say the mailing lists
 
 And check that the page got set
     >>> hp.home_page
-    'http://nohost/plone/projects/p1/lists'
+    'lists'
