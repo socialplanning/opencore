@@ -17,6 +17,6 @@ go ${base_url}/projects/${projname}
 follow "Manage team"
 fv team-members checked:list ${membername}
 submit "task|batch_checked|remove-members"
-find "Members deactivated: ${membername}"
+find "Member deactivated: ${membername}"
 notfind "Your team members.*${membername}" s 
 
