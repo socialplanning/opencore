@@ -9,6 +9,7 @@ from opencore.nui.contexthijack import HeaderHijackable
 from opencore.project.content import IProject
 from opencore.project import PROJ_HOME
 from opencore.content.page import OpenPage
+from operator import itemgetter
 from plone.memoize import view
 
 
@@ -136,6 +137,7 @@ class ProjectMenuView(BaseView):
              },
             )
 
+        featurelets.sort(key=itemgetter('title'))
         for flet in featurelets:
             menudata += (
                 {'content': flet.get('title'),
