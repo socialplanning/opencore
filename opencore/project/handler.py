@@ -1,10 +1,9 @@
-from zope.component import adapter, getUtility
+from zope.component import adapter, getUtility, getAdapter, getAdapters
 from zope.app.event.interfaces import IObjectCreatedEvent 
 from zope.app.event.interfaces import IObjectModifiedEvent
 from zope.app.container.interfaces import IContainerModifiedEvent
 
-from topp.featurelets.interfaces import IFeatureletSupporter
-from topp.featurelets.interfaces import IFeatureletRegistry
+from topp.featurelets.interfaces import IFeatureletSupporter, IFeaturelet
 
 from opencore.interfaces.event import IAfterProjectAddedEvent, \
      IAfterSubProjectAddedEvent
@@ -124,24 +123,22 @@ def save_featurelets(obj, event=None, request=None):
         return
 
     request.set('flet_recurse_flag', True)
-    registry = getUtility(IFeatureletRegistry)
     supporter = IFeatureletSupporter(obj)
+    flets = dict(getAdapters((supporter,), IFeaturelet))
 
     desired = request.form.get('featurelets')
     if desired is None:
         desired = tuple()
     desired = set(desired)
-    installed = set(supporter.getInstalledFeatureletIds())
+    installed = set([name for name, flet in flets.items() if flet.installed])
 
     needed = desired.difference(installed)
     for flet_id in needed:
-        flet = registry.getFeaturelet(flet_id)
-        supporter.installFeaturelet(flet)
+        supporter.installFeaturelet(flets[flet_id])
 
     removed = installed.difference(desired)
     for flet_id in removed:
-        flet = registry.getFeaturelet(flet_id)
-        supporter.removeFeaturelet(flet)
+        supporter.removeFeaturelet(flets[flet_id])
 
 def add_redirection_hooks(container, ignore=[]):
     for obj in container.objectValues():

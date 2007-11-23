@@ -4,7 +4,7 @@ Add the listen featurelet to a project
     >>> from topp.featurelets.interfaces import IFeatureletSupporter
     >>> from opencore.listen.featurelet import ListenFeaturelet
     >>> fs = IFeatureletSupporter(proj)
-    >>> IFeatureletSupporter(proj).installFeaturelet(ListenFeaturelet())
+    >>> IFeatureletSupporter(proj).installFeaturelet(ListenFeaturelet(proj))
     >>> proj.lists
     <ATFolder at /plone/projects/p1/lists>
 

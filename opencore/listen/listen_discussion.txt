@@ -15,7 +15,7 @@ Create a new project
 Add the mailing list featurelet to the project
     >>> from topp.featurelets.interfaces import IFeatureletSupporter
     >>> from opencore.listen.featurelet import ListenFeaturelet
-    >>> IFeatureletSupporter(proj).installFeaturelet(ListenFeaturelet())
+    >>> IFeatureletSupporter(proj).installFeaturelet(ListenFeaturelet(proj))
 
 And verify that the mailing list automatically gets added
     >>> lists_folder = proj.lists
@@ -36,7 +36,7 @@ And, it should already have the current user subscribed
 Let's add a mailing list featurelet to an existing project now
     >>> p3 = self.portal.projects.p3
     >>> fs = IFeatureletSupporter(p3)
-    >>> fs.installFeaturelet(ListenFeaturelet())
+    >>> fs.installFeaturelet(ListenFeaturelet(proj))
 
 Should be able to get a mailing list for the project now
     >>> lists_folder = p3.lists
@@ -131,7 +131,7 @@ this needs to be revisited for removing projects as well
     >>> ll.registerList(ml)
 
 Now we should silently not create the mailing list
-    >>> IFeatureletSupporter(p3).installFeaturelet(ListenFeaturelet())
+    >>> IFeatureletSupporter(p3).installFeaturelet(ListenFeaturelet(proj))
     >>> p3.lists._getOb('p3-discussion')
     Traceback (most recent call last):
     ...

@@ -6,11 +6,13 @@ from Testing import ZopeTestCase
 import zope.event
 from zope.app.event import objectevent
 from zope.component import provideUtility
+from zope.component import getAdapter
 from zope.component import getUtility
 
 from topp.featurelets.registry import FeatureletRegistry
 from topp.featurelets.interfaces import IFeatureletRegistry
 from topp.featurelets.interfaces import IMenuSupporter
+from topp.featurelets.interfaces import IFeaturelet
 from topp.featurelets.interfaces import IFeatureletSupporter
 
 from Products.CMFCore.utils import getToolByName
@@ -50,9 +52,8 @@ class TestFeaturelets(OpenPlansTestCase):
         # fixed
         flet_id = 'listen'
         content_id = 'lists'
-        registry = getUtility(IFeatureletRegistry)
-        flet = registry.getFeaturelet(flet_id)
         supporter = IFeatureletSupporter(self.proj)
+        flet = getAdapter(supporter, IFeaturelet, flet_id)
         supporter.installFeaturelet(flet)
         self.failUnless(content_id in self.proj.objectIds())
         # unset the "don't recurse" flag

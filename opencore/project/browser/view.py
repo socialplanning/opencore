@@ -2,11 +2,13 @@ import re
 import string
 
 from zope import event
+from zope.interface import implements
+from zope.component import getAdapters, queryAdapter
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from Acquisition import aq_parent
 
-from topp.featurelets.interfaces import IFeatureletRegistry
+from topp.featurelets.interfaces import IFeaturelet, IFeatureletSupporter
 
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
@@ -21,7 +23,6 @@ from opencore.interfaces.event import AfterProjectAddedEvent, \
       AfterSubProjectAddedEvent
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 
-from opencore.project.utils import get_featurelets
 from opencore.project import PROJ_HOME
 from opencore.browser import formhandler
 from opencore.browser.base import BaseView, _
@@ -33,7 +34,6 @@ from opencore.nui.wiki.add import get_view_names
 from DateTime import DateTime
 
 _marker = object()
-
 
 
 class ProjectBaseView(BaseView):
@@ -51,11 +51,13 @@ class ProjectBaseView(BaseView):
         return self._has_featurelet('blog')
 
     def _has_featurelet(self, flet_id):
-        flets = get_featurelets(self.context)
-        for flet in flets:
-            if flet['name'] == flet_id:
-                return True
-        return False
+        flet_adapter = queryAdapter(
+                         IFeatureletSupporter(self.context),
+                         IFeaturelet,
+                         name=flet_id)
+        if flet_adapter is None:
+            return False
+        return flet_adapter.installed
 
 
 class ProjectContentsView(ProjectBaseView, OctopoLite):
@@ -467,11 +469,14 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             }
 
         
-        old_featurelets = set([(x['name'], x['title']) for x in get_featurelets(self.context)])
+        supporter = IFeatureletSupporter(self.context)
+        flets = [f for n, f in getAdapters((supporter,), IFeaturelet)]
+
+        old_featurelets = set([(f.id, f.title) for f in flets if f.installed])
             
         self.request.form = new_form
         self.context.processForm(REQUEST=self.request, metadata=1)
-        featurelets = set([(x['name'], x['title']) for x in get_featurelets(self.context)])
+        featurelets = set([(f.id, f.title) for f in flets if f.installed])
 
         for flet in featurelets:
             if flet not in old_featurelets:
@@ -505,15 +510,15 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         return IHomePage(self.context).home_page
 
     def featurelets(self, include_wiki=False):
-        all_flets = getUtility(IFeatureletRegistry).getFeaturelets(self.context)
-        installed_flets = [f['name'] for f in get_featurelets(self.context)]
+        supporter = IFeatureletSupporter(self.context)
+        all_flets = [flet for name, flet in getAdapters((supporter,), IFeaturelet)]
+        installed_flets = [flet.id for flet in all_flets if flet.installed]
         flet_data = [dict(id=f.id,
                           title=f.title,
                           url=f._info['menu_items'][0]['action'],
                           checked=f.id in installed_flets,
                           )
-                     for f in all_flets
-                     if getattr(f, 'active', True)]
+                     for f in all_flets]
         if include_wiki:
             flet_data.insert(0, dict(id='wiki',
                                      title='Wiki pages',
@@ -634,14 +639,20 @@ class ProjectAddView(BaseView, OctopoLite):
         event.notify(AfterProjectAddedEvent(project, self.request))
 
     def featurelets(self, include_wiki=False):
-        flets = getUtility(IFeatureletRegistry).getFeaturelets()
+        # create a stub object that provides IFeatureletSupporter
+        # is there a better way to get the list of adapters without having
+        # the "for" object?
+        class DummyFeatureletSupporter(object):
+            implements(IFeatureletSupporter)
+
+        obj = DummyFeatureletSupporter()
+        flets = getAdapters((obj,), IFeaturelet)
         flet_data = [dict(id=f.id,
                           title=f.title,
                           url=f._info['menu_items'][0]['action'],
                           checked=False,
                           )
-                     for f in flets
-                     if getattr(f, 'active', True)]
+                     for name, f in flets]
         if include_wiki:
             flet_data.insert(0, dict(id='wiki',
                                      title='Wiki pages',

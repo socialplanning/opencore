@@ -34,7 +34,7 @@ class TestListenFeaturelet(OpenPlansTestCase):
         setHooks()
 
     def test_addFeaturelet(self):
-        featurelet = ListenFeaturelet()
+        featurelet = ListenFeaturelet(self.project)
         team = makeContent(self.portal.portal_teams, 'Team', 'OpenTeam')
         self.project.setSpaceTeams([team])
         self.assertEqual(self.project.objectIds(), [])
@@ -65,7 +65,7 @@ class TestListenFeaturelet(OpenPlansTestCase):
         #              "featurelet is installed.")
 
     def test_removeFeaturelet(self):
-        featurelet = ListenFeaturelet()
+        featurelet = ListenFeaturelet(self.project)
         fletsupporter = IFeatureletSupporter(self.project)
         fletsupporter.installFeaturelet(featurelet)
         fletsupporter.removeFeaturelet(featurelet)

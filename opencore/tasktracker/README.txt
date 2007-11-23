@@ -13,7 +13,8 @@ featurelet install
 ==================
 
     >>> from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
-    >>> ttf = TaskTrackerFeaturelet()
+    >>> project = self.app.plone.projects.p1
+    >>> ttf = TaskTrackerFeaturelet(project)
 
 The mock http should be hooked up::
 
@@ -34,7 +35,6 @@ The response is set up to return status code 200::
 We will simulate 'deliverPackage' and 'removePackage', the http calls
 to tasktracker::
 
-    >>> project = self.app.plone.projects.p1
     >>> header = {"X-Tasktracker-Initialize":"True"}
     >>> ttf._makeHttpReqAsUser(ttf.init_uri, obj=project, headers=header)
     Called httplib2.Http.request(

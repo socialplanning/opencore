@@ -13,7 +13,8 @@ featurelet install
 ==================
 
     >>> from opencore.wordpress.featurelet import WordPressFeaturelet
-    >>> wpf = WordPressFeaturelet()
+    >>> project = self.app.plone.projects.p1
+    >>> wpf = WordPressFeaturelet(project)
 
 The mock http should be hooked up::
 
@@ -23,7 +24,6 @@ The mock http should be hooked up::
 We will call 'deliverPackage' and 'removePackage', which trigger
 the http calls to wordpress::
 
-    >>> project = self.app.plone.projects.p1
     >>> wpf.deliverPackage(project)
     Called httplib2.Http.request(
         'http://nohost:wordpress/openplans-create-blog.php',

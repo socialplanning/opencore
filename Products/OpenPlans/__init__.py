@@ -19,7 +19,6 @@ from opencore.auth import remoteauthplugin
 from opencore.bbb.module_alias import do_aliases
 from opencore.nui import indexing
 from permissions import initialize as initialize_permissions
-from topp.featurelets.interfaces import IFeatureletRegistry
 from zope.component import getUtility
 import monkey
 
@@ -40,9 +39,6 @@ def initialize(context):
     # with the Archetypes runtime
     from content import *
     from opencore.content import *
-    from opencore.listen.featurelet import ListenFeaturelet
-    from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
-    from opencore.wordpress.featurelet import WordPressFeaturelet
     from opencore.listen import mailinglist
 
     # Register customization policy
@@ -79,11 +75,6 @@ def initialize(context):
             fti                = ftis,
             ).initialize(context)
 
-    flet_registry = getUtility(IFeatureletRegistry)
-    flet_registry.registerFeaturelet(ListenFeaturelet())
-    flet_registry.registerFeaturelet(TaskTrackerFeaturelet())
-    flet_registry.registerFeaturelet(WordPressFeaturelet())
-    
     from opencore.auth import SignedCookieAuthHelper
     from AccessControl.Permissions import add_user_folders
     context.registerClass( SignedCookieAuthHelper.SignedCookieAuthHelper,

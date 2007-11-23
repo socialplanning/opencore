@@ -14,13 +14,13 @@ Let's add some featurelets::
 
     >>> self.loginAsPortalOwner() #@@ this should be the project owner
 
-    >>> IFeatureletSupporter(project).installFeaturelet(TaskTrackerFeaturelet()) # the ... shouldn't be necessary, test conf overrides ought to set this to http://nohost:tasktracker (so this is a real bug) -egj
+    >>> IFeatureletSupporter(project).installFeaturelet(TaskTrackerFeaturelet(project)) # the ... shouldn't be necessary, test conf overrides ought to set this to http://nohost:tasktracker (so this is a real bug) -egj
     Called httplib2.Http.request(
         'http://.../project/initialize/',
         headers={'X-Openplans-Project': 'p1', 'X-Openplans-Tasktracker-Initialize': 'True', 'Cookie': '__ac=...'},
         method='POST')
 
-    >>> IFeatureletSupporter(project).installFeaturelet(ListenFeaturelet())
+    >>> IFeatureletSupporter(project).installFeaturelet(ListenFeaturelet(project))
 
 Flet Removal
 ============
@@ -44,7 +44,7 @@ Flet Removal
 
 Gotta reinstall::    
 
-    >>> IFeatureletSupporter(project).installFeaturelet(TaskTrackerFeaturelet())
+    >>> IFeatureletSupporter(project).installFeaturelet(TaskTrackerFeaturelet(project))
     Called...
 
 

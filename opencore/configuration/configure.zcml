@@ -9,10 +9,11 @@
   <include package="opencore.clockqueue" />
   <include package="opencore.content" />
   <include package="opencore.featurelets.browser" />
-  <include package="opencore.listen" />
   <include package="opencore.member" />
   <include package="opencore.nui" />
   <include package="opencore.project" />
+  <include package="opencore.listen" />
+  <include package="opencore.tasktracker" />
   <include package="opencore.wordpress" />
   <include package="opencore.redirect" />
   <include package="opencore.utility" />
