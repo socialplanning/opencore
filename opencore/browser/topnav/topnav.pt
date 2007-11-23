@@ -5,7 +5,14 @@
        tal:content="view/area/Title" />
   </h1>
 
-  <tal:contextMenu replace="structure view/contextmenu" />
+  <!-- old topnav generation -->
+  <tal:comment replace="nothing">
+    <tal:contextMenu replace="structure view/contextmenu" />
+  </tal:comment>
+
+  <ul id="oc-topnav-context" class="oc-clearAfter">
+    <tal:providers replace="structure provider:opencore.topnavmenu" />
+  </ul>
 
   <div id="oc-topnav-tab">
     <div id="oc-topnav-globalmenu-container">

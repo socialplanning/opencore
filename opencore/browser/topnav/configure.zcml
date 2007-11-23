@@ -83,4 +83,169 @@
      template="historical/topnav-accessibility.pt"
      />
 
+ <!-- wanted to override ordering in the manager
+      getting a forbidden attribute error though
+      so ordering will happen by overridding cmp
+      in the viewlets -->
+  <!--browser:viewletManager
+     name="opencore.topnavmenu"
+     provides=".interfaces.ITopnavMenuItems"
+     class=".topnav_manager.SortingViewletManager"
+     permission="zope2.View"
+     /-->
+
+  <!-- context menu is handled through viewlets -->
+  <browser:viewletManager
+     name="opencore.topnavmenu"
+     provides=".interfaces.ITopnavMenuItems"
+     permission="zope2.View"
+     />
+
+ <!-- member specific viewlets -->
+ <browser:viewlet
+     name="10-member-wiki"
+     for="*"
+     manager=".interfaces.ITopnavMenuItems"
+     class=".topnav_menuitem.MemberWikiMenuItem"
+     permission="zope2.View"
+     />
+
+ <browser:viewlet
+     name="20-profile"
+     for="*"
+     manager=".interfaces.ITopnavMenuItems"
+     class=".topnav_menuitem.ProfileMenuItem"
+     permission="zope2.View"
+     />
+
+ <browser:viewlet
+     name="30-account"
+     for="*"
+     manager=".interfaces.ITopnavMenuItems"
+     class=".topnav_menuitem.AccountMenuItem"
+     permission="zope2.View"
+     />
+
+ <!-- project specific viewlets -->
+ <browser:viewlet
+     name="10-project-wiki"
+     for="*"
+     manager=".interfaces.ITopnavMenuItems"
+     class=".topnav_menuitem.ProjectWikiMenuItem"
+     permission="zope2.View"
+     />
+
+ <browser:viewlet
+     name="50-team"
+     for="*"
+     manager=".interfaces.ITopnavMenuItems"
+     class=".topnav_menuitem.TeamMenuItem"
+     permission="zope2.View"
+     />
+
+ <browser:viewlet
+     name="60-manage-team"
+     for="*"
+     manager=".interfaces.ITopnavMenuItems"
+     class=".topnav_menuitem.ManageTeamMenuItem"
+     permission="teamspace.ManageTeamMemberships"
+     />
+
+ <browser:viewlet
+     name="70-contents"
+     for="*"
+     manager=".interfaces.ITopnavMenuItems"
+     class=".topnav_menuitem.ContentsMenuItem"
+     permission="zope2.View"
+     />
+
+ <browser:viewlet
+     name="80-preferences"
+     for="*"
+     manager=".interfaces.ITopnavMenuItems"
+     class=".topnav_menuitem.PreferencesMenuItem"
+     permission="teamspace.ManageTeamMemberships"
+     />
+
+ <browser:viewlet
+     name="90-join"
+     for="*"
+     manager=".interfaces.ITopnavMenuItems"
+     class=".topnav_menuitem.JoinMenuItem"
+     permission="zope2.View"
+     />
+
+ <!-- people/projects folder specific viewlets -->
+ <browser:viewlet
+     name="10-people"
+     for="opencore.interfaces.adding.IAddProject"
+     manager=".interfaces.ITopnavMenuItems"
+     class=".topnav_menuitem.PeopleMenuItem"
+     permission="zope2.View"
+     />
+
+ <browser:viewlet
+     name="10-people"
+     for="opencore.interfaces.adding.IAmAPeopleFolder"
+     manager=".interfaces.ITopnavMenuItems"
+     class=".topnav_menuitem.PeopleMenuItem"
+     permission="zope2.View"
+     />
+
+ <browser:viewlet
+     name="10-people"
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     manager=".interfaces.ITopnavMenuItems"
+     class=".topnav_menuitem.PeopleMenuItem"
+     permission="zope2.View"
+     />
+
+ <browser:viewlet
+     name="20-projects"
+     for="opencore.interfaces.adding.IAddProject"
+     manager=".interfaces.ITopnavMenuItems"
+     class=".topnav_menuitem.ProjectsMenuItem"
+     permission="zope2.View"
+     />
+
+ <browser:viewlet
+     name="20-projects"
+     for="opencore.interfaces.adding.IAmAPeopleFolder"
+     manager=".interfaces.ITopnavMenuItems"
+     class=".topnav_menuitem.ProjectsMenuItem"
+     permission="zope2.View"
+     />
+
+ <browser:viewlet
+     name="20-projects"
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     manager=".interfaces.ITopnavMenuItems"
+     class=".topnav_menuitem.ProjectsMenuItem"
+     permission="zope2.View"
+     />
+
+ <browser:viewlet
+     name="30-start-a-project"
+     for="opencore.interfaces.adding.IAddProject"
+     manager=".interfaces.ITopnavMenuItems"
+     class=".topnav_menuitem.StartProjectMenuItem"
+     permission="zope2.View"
+     />
+
+ <browser:viewlet
+     name="30-start-a-project"
+     for="opencore.interfaces.adding.IAmAPeopleFolder"
+     manager=".interfaces.ITopnavMenuItems"
+     class=".topnav_menuitem.StartProjectMenuItem"
+     permission="zope2.View"
+     />
+
+ <browser:viewlet
+     name="30-start-a-project"
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     manager=".interfaces.ITopnavMenuItems"
+     class=".topnav_menuitem.StartProjectMenuItem"
+     permission="zope2.View"
+     />
+
 </configure>

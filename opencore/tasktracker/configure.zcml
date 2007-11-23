@@ -7,4 +7,6 @@
       name="tasks"
       />
 
+   <include package=".browser" />
+
 </configure>

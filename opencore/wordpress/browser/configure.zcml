@@ -11,4 +11,11 @@
      attribute="sync"
      />
   
+  <browser:viewlet
+     for="*"
+     name="20-wordpress"
+     class=".topnav_menuitem.WordpressMenuItem"
+     permission="zope2.View"
+     />
+
 </configure>
