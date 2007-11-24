@@ -4,4 +4,4 @@ from opencore.tasktracker.interfaces import ITaskTrackerFeatureletInstalled
 class TasktrackerMenuItem(BaseFeatureletMenuItem):
     name = u'Task tracker'
     supp_must_provide = ITaskTrackerFeatureletInstalled
-    flet_url = 'tasks'
+    item_url = 'tasks'
