@@ -148,7 +148,7 @@ not explode::
     >>> view.leave_project('i18n')
     False
     >>> view.portal_status_message
-    [u'You are the only remaining administrator of "\u65e5\u8a9e"...]
+    [u'You are the only remaining administrator of "&#26085;&#35486;"...]
 
     Now we'll try to set the listing as private:
 

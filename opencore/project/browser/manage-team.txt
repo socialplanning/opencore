@@ -109,6 +109,8 @@ email notifier:
     True
     >>> self.login('m1')
     >>> res = view.reject_requests(['m4'])
+    >>> view.portal_status_message
+    [u'You have added m4.', u'Request discarded: m4', u'Request denied: m4']
     >>> len(view.pending_requests)
     0
     >>> len(view.active_mships)
@@ -137,6 +139,8 @@ Make sure we can remove invitations; email notifier should be sent:
 
     >>> self.clearMemoCache()
     >>> res = view.remove_invitations(['m3'])
+    >>> view.portal_status_message
+    [u'Reminder sent: m3', u'Invitation removed: m3']
     >>> len(view.pending_invitations)
     0
     >>> len(mailhost.messages)
@@ -174,10 +178,8 @@ won't keep ProjectAdmin when we remove him::
     >>> view.remove_members(['portal_owner'])
     {'portal_owner': {'action': 'delete'}}
     >>> team.setTeamRolesForMember('portal_owner', ('ProjectMember', 'ProjectAdmin'))
-
-Clear out all the portal status messages
     >>> view.portal_status_message
-    [...]
+    [u'Member deactivated: m2', u'Member deactivated: portal_owner']
 
 Now we can try to remove the last admin
     >>> view.remove_members(['m1'])
@@ -238,6 +240,8 @@ Also verify that events get fired for role changes
     ...                      [{'role': 'ProjectAdmin'},
     ...                       {'role': 'ProjectMember'},
     ...                       {'role': 'ProjectAdmin'}])
+    >>> view.portal_status_message
+    [u'You have added m3.', u'Role changed for the following members: m3, portal_owner']
 
 2 events should have been fired (2 role changes)
 portal_owner was demoted, and m3 was promoted
@@ -395,6 +399,9 @@ Verify we can send reminders to the email invitees:
     >>> self.clearMemoCache()
     >>> addys = [addy.strip() for addy in invites.split(',')]
     >>> view.remind_email_invites(addys)
+    >>> delattr(view, '_redirected')
+    >>> view.portal_status_message
+    [u'Role changed for the following member: m3', u'You invited m3 to join this project.', u'You invited m2 to join this project.', u'You invited m4 to join this project.', u'Email invitations: doesnotexist@example.com, isnotthere@example.com', u'Members invited: m3', u'Members for whom invitation failed: m3', u'Reminders sent: doesnotexist@example.com, isnotthere@example.com']
     >>> len(mailhost.messages) # <- increase by two
     15
 
@@ -403,6 +410,8 @@ And that they can be removed:
     >>> self.clearMemoCache()
     >>> view.remove_email_invites(addys)
     {...doesnotexist@example.com...isnotthere@example.com...}
+    >>> view.portal_status_message
+    [u'Email invitations removed: doesnotexist@example.com, isnotthere@example.com']
     >>> len(view.pending_email_invites)
     0
     >>> len(mailhost.messages) # <- increase by two
