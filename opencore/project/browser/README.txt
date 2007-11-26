@@ -245,7 +245,8 @@ Look for geolocation info, first when it's not set...
 
     >>> view = proj.restrictedTraverse('preferences')
     >>> form = {}
-    >>> view.update_geolocation(form)
+    >>> lat, lon = view.geocode_from_form(form)
+    >>> view.update_geolocation(proj, lat, lon)
     False
     >>> view.project_info.has_key('position-latitude')
     False
@@ -253,27 +254,40 @@ Look for geolocation info, first when it's not set...
     False
 
 
-You can set and then retrieve coordinates::
+You can set and then view coordinates::
 
-    >>> form = {'position-latitude': '10.0', 'position-longitude': '-20.0'}
-    >>> view.update_geolocation(form)
+    >>> view.update_geolocation(proj, 11.1, -22.2)
     True
 
     Clear the memoized stuff from the request to see the info.
 
     >>> utils.clear_all_memos(view)
-    >>> print view.project_info.get('position-longitude')
-    -20.0
     >>> print view.project_info.get('position-latitude')
-    10.0
+    11.1
+    >>> print view.project_info.get('position-longitude')
+    -22.2
+
+Calling again with the same points makes no change:
+
+    >>> view.update_geolocation(proj, 11.1, -22.2)
+    False
+
+
+You can extract coordinates from the form::
+
+    >>> form = {'position-latitude': '10.0', 'position-longitude': '-20.0'}
+    >>> view.geocode_from_form(form)
+    (10.0, -20.0)
 
 You can also pass in a string which overrides the coordinates,
 and uses a remote service to look them up::
 
-
     >>> form['position-text'] = '349 W 12th St, New York, NY'
-    >>> view.update_geolocation(form)   # XXX this isn't using mockHTTP! it makes a real network call.
+    >>> latlon = view.geocode_from_form(form)   # XXX this isn't using mockHTTP! it makes a real network call.
     Fetching http:...
+    >>> print latlon
+    (40.737..., -74.007...)
+    >>> view.update_geolocation(proj, *latlon)
     True
     >>> utils.clear_all_memos(view)
     >>> print view.project_info.get('position-latitude')
@@ -281,7 +295,33 @@ and uses a remote service to look them up::
     >>> print view.project_info.get('position-longitude')
     -74.007...
 
-XXX need to test location_img_url() and the underlying utility function.
+The non-ajaxy view defaults to using a google maps image based on the
+geolocation::
+
+    >>> print view.location_img_url()
+    http://maps.google.com/mapdata?latitude_e6=40737562&longitude_e6=4220960206&...
+
+
+Geolocation can also be set at project creation time.
+
+    >>> createview = projects.restrictedTraverse("create")
+    >>> createview.request.form['title'] = 'a geolocated project!'
+    >>> createview.request.form['projid'] = 'testgeo'
+    >>> createview.request.form['position-latitude'] = '33.33'
+    >>> createview.request.form['position-longitude'] = '44.44'
+    >>> out = createview.handle_request()
+    >>> createview.errors
+    {}
+    >>> view = projects.restrictedTraverse('testgeo/preferences')
+    >>> utils.clear_all_memos(view)
+    >>> print view.project_info['position-latitude']
+    33.33
+    >>> print view.project_info['position-longitude']
+    44.44
+
+Clean up...
+
+    >>> projects.manage_delObjects(['testgeo'])
 
 Team view
 =========
