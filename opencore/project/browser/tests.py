@@ -36,12 +36,14 @@ def test_suite():
     from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
     from opencore.featurelets.listen import ListenFeaturelet
 
-    # for delet-project
+    # for delete-project
     from topp.featurelets.interfaces import IFeatureletSupporter
     from topp.clockqueue.interfaces import IClockQueue
+
     import pdb
-        
-    setup.setupPloneSite()
+
+    installProduct('PleiadesGeocoder')
+    setup.setupPloneSite(products=['PleiadesGeocoder'])
 
     def contents_content(tc):
         tc.loginAsPortalOwner()
