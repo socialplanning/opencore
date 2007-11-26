@@ -27,7 +27,7 @@ from opencore.tasktracker import uri as tt_uri
 from opencore.browser import formhandler
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
-from opencore.project.browser.utils import vdict, google_encode
+from opencore.project.browser.utils import vdict, google_e6_encode
 from opencore.interfaces import IHomePage
 from opencore.nui.wiki.add import get_view_names
 
@@ -62,8 +62,9 @@ class ProjectBaseView(BaseView):
 
     def geocode_from_form(self, form):
         """
-        Inspect the values in the form in order to extract a geolocation.  Will
-        perform a lookup on a textual position if necessary.
+        Inspect the values in the form in order to extract and return
+        a geolocation.  Will perform a lookup on a textual position if
+        necessary.
         """
         try:
             lon = float(form.get('position-longitude'))
@@ -506,7 +507,6 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             logochanged = True
             del self.request.form['logo']
 
-        import pdb; pdb.set_trace()
         if self.update_geolocation(self.context, lat, lon):
             self.add_status_message(_(u'psm_location_changed', u'The location has been changed'))
 
@@ -578,8 +578,8 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             return ''
         lon, lat, z = geo.coords
         # Don't know if order matters, so assume it does.
-        params = (('latitude_e6', google_encode(lat)),
-                  ('longitude_e6', google_encode(lon)),
+        params = (('latitude_e6', google_e6_encode(lat)),
+                  ('longitude_e6', google_e6_encode(lon)),
                   ('w', 500), ('h', 300), # XXX These must match our css.
                   ('zm', 9600),  # Zoom.
                   ('cc', ''), # No idea what this is.
