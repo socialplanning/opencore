@@ -399,8 +399,9 @@ Verify we can send reminders to the email invitees:
     >>> self.clearMemoCache()
     >>> addys = [addy.strip() for addy in invites.split(',')]
     >>> view.remind_email_invites(addys)
+    >>> delattr(view, '_redirected')
     >>> view.portal_status_message
-    [u'Reminders sent: doesnotexist@example.com, isnotthere@example.com']
+    [u'Role changed for the following member: m3', u'You invited m3 to join this project.', u'You invited m2 to join this project.', u'You invited m4 to join this project.', u'Email invitations: doesnotexist@example.com, isnotthere@example.com', u'Members invited: m3', u'Members for whom invitation failed: m3', u'Reminders sent: doesnotexist@example.com, isnotthere@example.com']
     >>> len(mailhost.messages) # <- increase by two
     15
 
