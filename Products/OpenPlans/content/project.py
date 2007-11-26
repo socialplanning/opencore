@@ -56,6 +56,20 @@ ProjectSchema = TeamSpace.schema.copy() + \
             i18n_domain='plone',
             ),
           ),
+        StringField(
+          'location',
+          mode='rw',
+          read_permission=View,
+          write_permission=ModifyPortalContent,
+          widget=StringWidget(
+            label='Location',
+            label_msgid='label_location',
+            description="Your location - either city and country - or in a company setting, where your office is located.",
+            description_msgid='help_location',
+            i18n_domain='plone',
+            ),
+          searchable=True,
+          ),
         ))
 
 ProjectSchema['id'].widget.label = 'URL Name'

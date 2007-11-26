@@ -490,7 +490,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         allowed_params = set(['__initialize_project__', 'update', 'set_flets',
                               'title', 'description', 'logo', 'workflow_policy',
                               'featurelets', 'home-page',
-                              'location']) # XXX location isn't getting saved?
+                              'location'])
         new_form = {}
         for k in allowed_params:
             if k in self.request.form:
@@ -499,23 +499,27 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         reader = IReadWorkflowPolicySupport(self.context)
         old_workflow_policy = reader.getCurrentPolicyId()
 
-        logo = self.request.form.get('logo')
+        logo = new_form.get('logo')
         logochanged = False
         if logo:
             if not self.check_logo(logo):
                 return
             logochanged = True
-            del self.request.form['logo']
+            del self.request.form['logo'], new_form['logo']
 
+        locationchanged = False
         if self.update_geolocation(self.context, lat, lon):
-            self.add_status_message(_(u'psm_location_changed', u'The location has been changed'))
+            locationchanged = True
+        elif self.context.getLocation() != new_form.get('location'):
+            locationchanged = True
 
-        #store change status of flet, security, title, description, logo
+        #display change status of flet, security, title, description, logo.
         changed = {
-            _(u'psm_project_title_changed', u"The title has been changed.") : self.context.title != self.request.form.get('title', self.context.title),
-            _(u'psm_project_desc_changed', u"The description has been changed.") : self.context.description != self.request.form.get('description', self.context.description),
+            _(u'psm_project_title_changed', u"The title has been changed.") : self.context.title != new_form.get('title', self.context.title),
+            _(u'psm_project_desc_changed', u"The description has been changed.") : self.context.description != new_form.get('description'),
             _(u'psm_project_logo_changed', u"The project image has been changed.") : logochanged,
-            _(u'psm_security_changed', u"The security policy has been changed.") : old_workflow_policy != self.request.form['workflow_policy'],            
+            _(u'psm_security_changed', u"The security policy has been changed.") : old_workflow_policy != new_form.get('workflow_policy'),
+            _(u'psm_location_changed', u"The location has been changed."): locationchanged,
             }
 
         old_featurelets = set([(x['name'], x['title']) for x in get_featurelets(self.context)])

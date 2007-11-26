@@ -31,8 +31,9 @@ class AddFormTest(OpenPlansTestCase):
         view = getMultiAdapter((pfolder, self.request),
                                name='do_add_project')
         view.update()
-        self.assertEqual(Set(view.fieldNames),
-                         Set(('id', 'title', 'space_teams', 'logo')))
+        self.assertEqual(
+            Set(view.fieldNames),
+            Set(['id', 'title', 'space_teams', 'logo', 'location']))
 
 def test_suite():
     suite = unittest.TestSuite()

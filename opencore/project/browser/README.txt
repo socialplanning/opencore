@@ -279,30 +279,49 @@ You can extract coordinates from the form::
     >>> view.geocode_from_form(form)
     (10.0, -20.0)
 
-You can also pass in a string which overrides the coordinates,
-and uses a remote service to look them up::
+You can also pass in a string which overrides the coordinates, and
+uses a remote service to look them up.  Let's mock it so we don't
+actually hit google on every test run::
 
-    >>> form['position-text'] = '349 W 12th St, New York, NY'
-    >>> latlon = view.geocode_from_form(form)   # XXX this isn't using mockHTTP! it makes a real network call.
-    Fetching http:...
+    >>> text = '349 W 12th St, New York, NY'
+    >>> form['position-text'] = text
+    >>> from opencore.testing.minimock import Mock
+    >>> from Products.PleiadesGeocoder.geocode import Geocoder
+    >>> Geocoder.geocode = Mock('Products.PleiadesGeocoder.geocode.Geocoder.geocode')
+    >>> Geocoder.geocode.mock_returns = [{'place':  text,
+    ...                                   'lat': 40.737562, 'lon': -74.00709}]
+    >>> latlon = view.geocode_from_form(form)
+    Called ....geocode(
+        '349 W 12th St, New York, NY')
     >>> print latlon
-    (40.737..., -74.007...)
+    (40.73756..., -74.00709...)
     >>> view.update_geolocation(proj, *latlon)
     True
+    >>> print '\n'.join(view.portal_status_message) #XXX broken? check after merge
+    Location updated
     >>> utils.clear_all_memos(view)
     >>> print view.project_info.get('position-latitude')
-    40.737...
+    40.737562
     >>> print view.project_info.get('position-longitude')
-    -74.007...
+    -74.00709
+
+
+We also now save the usual archetypes "location" field, for use as a
+human-readable place name::
+
+    >>> view.request.form['location'] = "oceania"
+    >>> view.handle_request()
+    >>> view.context.getLocation()
+    'oceania'
 
 The non-ajaxy view defaults to using a google maps image based on the
-geolocation::
+current geolocation, by calling this method::
 
     >>> print view.location_img_url()
     http://maps.google.com/mapdata?latitude_e6=40737562&longitude_e6=4220960206&...
 
 
-Geolocation can also be set at project creation time.
+Geolocation can also be set at project creation time::
 
     >>> createview = projects.restrictedTraverse("create")
     >>> createview.request.form['title'] = 'a geolocated project!'
@@ -322,6 +341,7 @@ Geolocation can also be set at project creation time.
 Clean up...
 
     >>> projects.manage_delObjects(['testgeo'])
+
 
 Team view
 =========
