@@ -493,7 +493,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         allowed_params = set(['__initialize_project__', 'update', 'set_flets',
                               'title', 'description', 'logo', 'workflow_policy',
                               'featurelets', 'home-page',
-                              'location'])
+                              'location', 'position-text'])
         new_form = {}
         for k in allowed_params:
             if k in self.request.form:

@@ -355,7 +355,7 @@ class BaseView(BrowserView):
                 lon, lat, z = coords
                 proj_info['position-latitude'] = lat
                 proj_info['position-longitude'] = lon
-
+            proj_info['position-text'] = proj.getPositionText()
         return proj_info
 
     # tool and view handling
