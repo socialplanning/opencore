@@ -1,116 +1,115 @@
-<tal:handle-delete 
-   replace="nothing" 
-   define="global deleting view/handle_delete"> 
-   This handles deleting and set the signal flag to not render any of
-   the rest of the page
-</tal:handle-delete>
 <tal:handle-request 
    replace="nothing"
    define="fdata view/handle_request">
   This could be used to return a variety of template friendly info
   regarding the processing of the form
 </tal:handle-request>
-<tal:vars define="proj view/project_info" condition="not: deleting">
-  <html metal:use-macro="here/@@standard_macros/master">
-    <head>
-      <title metal:fill-slot="title" tal:content="string:Preferences - ${view/area/Title}" />
-    </head>
-    <body>
-      <div metal:fill-slot="content">
-        <div class="oc-headingBlock">
-          <h1>Project preferences</h1>
-        </div>
-        <div id="oc-content-main" class="oc-content-main-fullWidth">
-          <form name="prefs_form" method="post" class="enableUnloadProtection"
-            tal:attributes="action view/name" enctype="multipart/form-data">
-            <input type="hidden" name="set_flets" value="1"/>
-            <fieldset class="oc-boxy">
-              <legend class="oc-legend-heading oc-biggerText">Basics</legend>
-              <table class="oc-form">
-                <tbody>
-                  <tr class="oc-form-row">
-                    <th class="oc-form-label" scope="row">
-                      <label for="title">Name</label>
-                    </th>
-                    <td class="oc-form-value">
-                      <input type="text" id="title" name="title"
-                             tal:attributes="value request/title | proj/title "/>
-                    </td>
-                    <td class="oc-form-help">
-                      <span class="oc-form-context"></span>
-                      <span id="oc-title-validator" class="oc-form-validator"></span>
-                      <span id="oc-error" class="oc-form-error" tal:content="view/errors/title | nothing" />
-                    </td>
-                  </tr>
-                  <tr class="oc-form-row">
-                    <th class="oc-form-label" scope="row">
-                      <label>URL</label>
-                    </th>
-                    <td class="oc-form-value">
-                      <span tal:content="proj/url"/>
-                    </td>
-                    <td class="oc-form-help">
-                      <span class="oc-form-context"></span>
-                    </td>
-                  </tr>
-                  <tr class="oc-form-row">
-                    <th class="oc-form-label" scope="row">
-                      <label for="description">Goal</label>
-                    </th>
-                    <td class="oc-form-value">
-                      <textarea name="description" id="description" tal:content="request/description | proj/description" rows="3" cols="40" />
-                    </td>
-                    <td class="oc-form-help">
-                      <span class="oc-form-context"></span>
-                      <span id="oc-description-validator" class="oc-form-validator"></span>
-                    </td>
-                  </tr>
-                  <tr class="oc-form-row">
-                    <th class="oc-form-label" scope="row">
-                      <label for="logo">Image or logo</label> 
-                    </th>
-                    <td class="oc-form-value">
-                      <div class="oc-project-editimage">
-                        <div metal:use-macro="view/logo_snippet/macros/logo" />
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </fieldset>
+<tal:vars 
+   define="proj view/project_info">
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:Preferences - ${view/area/Title}" />
+  </head>
+  <body>
+    <div metal:fill-slot="content">
+      <div class="oc-headingBlock">
+        <h1>Project preferences</h1>
+      </div>
+      <div id="oc-content-main" class="oc-content-main-fullWidth">
+        <form 
+           name="prefs_form" 
+           method="post" 
+           class="enableUnloadProtection"
+           tal:attributes="action view/name" 
+           enctype="multipart/form-data">
+          <input type="hidden" name="set_flets" value="1"/>
+          <fieldset class="oc-boxy">
+            <legend class="oc-legend-heading oc-biggerText">Basics</legend>
+            <table class="oc-form">
+              <tbody>
+                <tr class="oc-form-row">
+                  <th class="oc-form-label" scope="row">
+                    <label for="title">Name</label>
+                  </th>
+                  <td class="oc-form-value">
+                    <input type="text" id="title" name="title"
+                           tal:attributes="value request/title | proj/title "/>
+                  </td>
+                  <td class="oc-form-help">
+                    <span class="oc-form-context"></span>
+                    <span id="oc-title-validator" class="oc-form-validator"></span>
+                    <span id="oc-error" class="oc-form-error" tal:content="view/errors/title | nothing" />
+                  </td>
+                </tr>
+                <tr class="oc-form-row">
+                  <th class="oc-form-label" scope="row">
+                    <label>URL</label>
+                  </th>
+                  <td class="oc-form-value">
+                    <span tal:content="proj/url"/>
+                  </td>
+                  <td class="oc-form-help">
+                    <span class="oc-form-context"></span>
+                  </td>
+                </tr>
+                <tr class="oc-form-row">
+                  <th class="oc-form-label" scope="row">
+                    <label for="description">Goal</label>
+                  </th>
+                  <td class="oc-form-value">
+                    <textarea name="description" id="description" tal:content="request/description | proj/description" rows="3" cols="40" />
+                  </td>
+                  <td class="oc-form-help">
+                    <span class="oc-form-context"></span>
+                    <span id="oc-description-validator" class="oc-form-validator"></span>
+                  </td>
+                </tr>
+                <tr class="oc-form-row">
+                  <th class="oc-form-label" scope="row">
+                    <label for="logo">Image or logo</label> 
+                  </th>
+                  <td class="oc-form-value">
+                    <div class="oc-project-editimage">
+                      <div metal:use-macro="view/logo_snippet/macros/logo" />
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </fieldset>
 
-            <fieldset class="oc-boxy">
-              <legend class="oc-legend-heading oc-biggerText">Security</legend>
-              <fieldset>
-                <ul class="oc-form-radiolist oc-form-fieldBlock">
-                  <li>
-                    <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
-                    value="open_policy" tal:attributes="checked python:proj['security']=='open_policy' and 'checked' or ''"/>
-                    <label for="workflow_policy_open"
-                           tal:content="string:Anyone can view this project and any ${view/portal_title} member can contribute to it" />
-                  </li>
-                  <li>
-                    <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
-                    value="medium_policy" tal:attributes="checked python:proj['security']=='medium_policy' and 'checked' or ''"/>
-                    <label for="workflow_policy_medium">Anyone can view this project but only team members can contribute to it</label>
-                  </li>
-                  <li>
-                    <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
-                    value="closed_policy" tal:attributes="checked python:proj['security']=='closed_policy' and 'checked' or ''"/>
-                    <label for="workflow_policy_closed">Only team members can view, contribute, or search for this project</label>
-                  </li>
-                </ul>
-              </fieldset>
+          <fieldset class="oc-boxy">
+            <legend class="oc-legend-heading oc-biggerText">Security</legend>
+            <fieldset>
+              <ul class="oc-form-radiolist oc-form-fieldBlock">
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
+                         value="open_policy" tal:attributes="checked python:proj['security']=='open_policy' and 'checked' or ''"/>
+                  <label for="workflow_policy_open"
+                         tal:content="string:Anyone can view this project and any ${view/portal_title} member can contribute to it" />
+                </li>
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
+                         value="medium_policy" tal:attributes="checked python:proj['security']=='medium_policy' and 'checked' or ''"/>
+                  <label for="workflow_policy_medium">Anyone can view this project but only team members can contribute to it</label>
+                </li>
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
+                         value="closed_policy" tal:attributes="checked python:proj['security']=='closed_policy' and 'checked' or ''"/>
+                  <label for="workflow_policy_closed">Only team members can view, contribute, or search for this project</label>
+                </li>
+              </ul>
             </fieldset>
+          </fieldset>
 
-            <fieldset class="oc-boxy">
-              <legend class="oc-legend-heading oc-biggerText">Tools</legend>
-              <fieldset>
-                <legend><strong>Which additional tools would you like to install?</strong></legend>
+          <fieldset class="oc-boxy">
+            <legend class="oc-legend-heading oc-biggerText">Tools</legend>
+            <fieldset>
+              <legend><strong>Which additional tools would you like to install?</strong></legend>
               <ul class="oc-form-radiolist oc-form-fieldBlock"
                   tal:define="warning string:Warning: Removing this feature may result in data loss.">
                 <li class="oc-js-featurelet-undelete-warner"
-                  tal:repeat="flet view/featurelets">
+                    tal:repeat="flet view/featurelets">
                   <input type="checkbox"
                          class="oc-input-typeCheck oc-js-toggler"
                          name="featurelets:list"
@@ -127,20 +126,20 @@
                         />
                 </li>
               </ul>
-              </fieldset>
-              
-              <fieldset>
+            </fieldset>
+            
+            <fieldset>
               <legend  class="oc-legend-label">Select the home page for your project:</legend>
 
               <ul class="oc-form-radiolist oc-form-fieldBlock">
                 <li tal:repeat="flet python:view.featurelets(include_wiki=True)">
                   <tal:home_page_item define="
-                    id flet/id;
-                    url flet/url;
-                    title flet/title;
-                    cur_home view/current_home_page;
-                    checked python: url == cur_home;
-                    ">
+                                              id flet/id;
+                                              url flet/url;
+                                              title flet/title;
+                                              cur_home view/current_home_page;
+                                              checked python: url == cur_home;
+                                              ">
                     <label tal:attributes="for id; id string:oc-js-togglee-${id}">
                       <tal:selected condition="checked">
                         <input type="radio" class="" name="home-page"
@@ -158,41 +157,29 @@
                   </tal:home_page_item>
                 </li>
               </ul>
-              </fieldset>
             </fieldset>
-            
-            
-            <!-- Delete Project -->
-            <!--
-            <fieldset class="oc-boxy">
-              <legend class="oc-legend-heading oc-biggerText">Delete Project</legend>
-                <button type="submit" 
-                  name="delete:boolean" 
-                  value="True" 
-                  class="oc-button oc-confirmProjectDelete">
-                  Delete Project
-                </button>
-                Remove this project from <span tal:replace="view/portal_title" />?
-                <span id="oc-project-delete-warning" class="oc-hidden oc-warning">
-                  Removing your project is permanent, are you sure you want to continue?
-                </span>
-            </fieldset>
-            -->
-            
-            <ul class="oc-actions">
-              <li>
-                <button type="submit" 
-                  name="update:boolean" 
-                  value="True" 
-                  class="oc-button oc-chooseThis">
-                  Update
-                </button>
-              </li>
-              <li>or <a href="">Cancel</a></li>
-            </ul>
-          </form>
-        </div><!-- end .oc-content-main -->
-      </div><!-- end content-fill-slot -->
-    </body>
-  </html>
+          </fieldset>
+                <!-- Delete Project -->
+          <fieldset class="oc-boxy">
+            <legend class="oc-legend-heading oc-biggerText">Delete Project</legend>
+            <a tal:attributes="href string:${context/absolute_url}/delete">
+              Remove this project from <span tal:replace="view/portal_title" />?
+            </a>
+          </fieldset>    
+          <ul class="oc-actions">
+            <li>
+              <button type="submit" 
+                      name="update:boolean" 
+                      value="True" 
+                      class="oc-button oc-chooseThis">
+                Update
+              </button>
+            </li>
+            <li>or <a href="">Cancel</a></li>
+          </ul>
+        </form>
+      </div><!-- end .oc-content-main -->
+    </div><!-- end content-fill-slot -->
+  </body>
+</html>
 </tal:vars>
