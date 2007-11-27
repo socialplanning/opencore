@@ -84,11 +84,9 @@ Put it all together
     >>> project.getTeams()
     [<OpenTeam at /plone/portal_teams/p1>]
 
-    >>> view = project.restrictedTraverse('preferences')
+    >>> view = project.restrictedTraverse('delete')
     >>> view
-    <...project/browser/preferences.pt...>
-
-    <...sputnik/preferences.pt...>
+    <...project/browser/delete.pt...>
 
     >>> deleting = view._handle_delete() 
     Called httplib2.Http.request(
@@ -122,7 +120,7 @@ We should redirect to somewhere sensible... `start a project`?
     >>> print self.request.RESPONSE.headers['location']
     http://nohost/plone/projects/create
 
-What else?
+What else? [test wp, tt, removal]
 
 
 

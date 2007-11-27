@@ -136,6 +136,14 @@
 
   <browser:page
      for="opencore.interfaces.IProject"
+     class=".preferences.ProjectDeletionView"
+     permission="cmf.ModifyPortalContent"
+     name="delete"
+     template="delete.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
      class=".team.ProjectTeamView"
      permission="zope2.View"
      name="team"
