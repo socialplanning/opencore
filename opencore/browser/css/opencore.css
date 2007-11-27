@@ -1662,6 +1662,8 @@ abbr, acronym {
   background: #eee;
   border: 1px solid #ccc;
   padding: 0.75em;
+  overflow: auto;
+  margin: 0 2em 1em;
 }
 /* Kupu: Discreet */
 .oc-wiki-content .discreet {
