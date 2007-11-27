@@ -90,7 +90,7 @@
                   </th>
                   <td class="oc-form-value">
                     <input type="text" id="location" name="location"
-                           tal:attributes="value request/location | nothing "/>
+                           tal:attributes="value request/location | context/getLocation | nothing "/>
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
