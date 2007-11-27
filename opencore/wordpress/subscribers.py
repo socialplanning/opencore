@@ -1,7 +1,3 @@
-# @@ DWM: poor module name: (event connotates an event object,
-# something that should usually go into an interfaces module)
-# subscribers would be better
-
 from Products.CMFCore.utils import getToolByName
 from decorator import decorator
 from opencore.project.utils import get_featurelets
