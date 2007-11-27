@@ -335,7 +335,7 @@ And now if we were to receive an info message::
 
     Let's go ahead and kill the first one, the message is not so nice
     >>> sorted(view.close_msg_handler('0').keys())
-    ['0_close', 'num_updates']
+    ['close_info_message_0', 'num_updates']
 
     Poof, he's gone
     >>> self.clearMemoCache()
