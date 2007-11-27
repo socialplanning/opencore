@@ -57,7 +57,7 @@
         <li tal:condition="deletable">
           <a class="oc-js-actionLink oc-actionLink oc-js-confirm"
              tal:attributes="href string:contents?task|${item/id}|delete=Delete&item_type=${item_type}&authenticator=${view/authenticator}">
-            Delete <span class="oc-hidden oc-warning">This deletion is permanant.  Are you sure you want to delete?</span>
+            Delete <span class="oc-hidden oc-warning oc-confirm">This deletion is permanent.  Are you sure you want to delete?</span>
           </a>
         </li>
       </ul>

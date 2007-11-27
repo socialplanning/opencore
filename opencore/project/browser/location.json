@@ -1,0 +1,19 @@
+{
+    'position-header':{
+        'action':'replace',
+        'effects':'',
+        'html':
+'<th></th>'
+},
+    'position-input':{
+        'action':'replace',
+        'effects':'',
+        'html':
+'<td class="oc-js-expander">
+    <a class="oc-js-expander_open oc-expanderLink" href="#">Add position on map</a>
+    <div class="oc-js-expander-content oc-expander-content">
+        Find on map:
+        <div id="position" class="oc-js-gmap oc-map"></div>
+    </div>
+</td>'
+}}

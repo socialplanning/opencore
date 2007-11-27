@@ -3,6 +3,7 @@ Preference view
 """
 from OFS.interfaces import IObjectWillBeRemovedEvent
 from Products.CMFCore.utils import getToolByName
+from opencore.browser.base import BaseView
 from Products.Five import BrowserView
 from Products.TeamSpace.interfaces import ITeamSpaceTeamRelation
 from opencore.interfaces import IProject
@@ -28,7 +29,10 @@ log = logging.getLogger('opencore.project')
 
 
 class ProjectPreferencesView(ProjectPreferencesView):
+    """Place holder"""
 
+class ProjectDeletionView(BaseView):
+    
     def _handle_delete(self):
         proj_folder = zutils.aq_iface(self, IAddProject)
         title = self.context.Title()

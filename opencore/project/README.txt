@@ -106,3 +106,93 @@ as a parent::
 
     >>> pinfo.values()
     ['/plone/projects/handroll']
+
+
+Geolocation
+============
+
+Projects are marked as geolocatable.
+
+    >>> from Products.PleiadesGeocoder.interfaces import IGeoreferenceable
+    >>> IGeoreferenceable.providedBy(projects.p1)
+    True
+
+They're also marked as able to use Pleiades' default annotation adapter.
+
+    >>> from Products.PleiadesGeocoder.interfaces import IGeoAnnotatableContent
+    >>> IGeoAnnotatableContent.providedBy(proj)
+    True
+
+And marked as serializable.
+
+    >>> from Products.PleiadesGeocoder.interfaces import IGeoserializable
+    >>> IGeoserializable.providedBy(proj)
+    True
+
+
+They can be adapted to IGeoItemSimple, and coordinates set on them.
+WARNING TO GEO NOOBS: This is an (x, y, z) point where x is longitude.
+Yes, longitude goes first.
+
+    >>> from Products.PleiadesGeocoder.interfaces import IGeoItemSimple
+    >>> geo = IGeoItemSimple(projects.p1)
+    >>> print geo.coords
+    None
+    >>> coordinates = (10.0, -20.0, 0.0)
+    >>> geo.setGeoInterface('Point', coordinates)
+    >>> geo.coords
+    (10.0, -20.0, 0.0)
+
+
+The Projects collection can be adapted to a sequence of dictionaries
+suitable for building a georss view.
+
+    >>> view = projects.restrictedTraverse('@@geo')
+    >>> info = list(view.forRSS())
+    >>> len(info)
+    1
+    >>> info = info[0]
+
+    Note that coords_georss is latitude-longitude, so you get them
+    back in the reverse order:
+
+    >>> info['coords_georss']
+    '-20.000000 10.000000'
+    >>> info['geometry']['type']
+    'Point'
+    >>> info['geometry']['coordinates']
+    (10.0, -20.0, 0.0)
+    >>> info['hasLineString']
+    0
+    >>> info['hasPoint']
+    1
+    >>> info['hasPolygon']
+    0
+    >>> info['id']
+    'p1'
+    >>> info['properties']['description']
+    ''
+    >>> info['properties']['link']
+    'http://nohost/plone/projects/p1'
+    >>> info['properties']['title']
+    'Project One'
+
+
+The projects georss view is exposed by a skin template that generates
+xml.  (Has to be added to our portal_skins layers for this to work; in
+tests this is done via setupPloneSite)
+
+    >>> skinview = projects.restrictedTraverse('georss')
+    >>> xml = skinview()
+    >>> lines = [s.strip() for s in xml.split('\n') if s.strip()]
+    >>> print '\n'.join(lines)
+    <?xml...
+    <feed xmlns="http://www.w3.org/2005/Atom"...
+    <title>Projects</title>
+    <link rel="self" href="http://nohost/plone/projects"/>...
+    <entry>
+    <title>Project One</title>...
+    <id>http://nohost/plone/projects/p1</id>...
+    <gml:Point>
+    <gml:pos>-20.000000 10.000000</gml:pos>
+    </gml:Point>...

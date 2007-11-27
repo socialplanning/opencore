@@ -63,7 +63,7 @@ def clear_status_messages(view):
 
 def get_status_messages(view):
     """Return (and clear) the view's status messages, regardless of
-    redirect status.
+    redirect status. Sorted lexicographically.
     """
     restore = False
     if hasattr(view, '_redirected'):
@@ -72,7 +72,7 @@ def get_status_messages(view):
     messages = view.portal_status_message
     if restore:
         view._redirected = True
-    return messages
+    return sorted(messages)
 
 
 class RESPONSE(object):

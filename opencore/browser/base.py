@@ -348,6 +348,14 @@ class BaseView(BrowserView):
                              description=proj.Description(),
                              featurelets=self.piv.featurelets,
                              obj=proj)
+            from Products.PleiadesGeocoder.interfaces import IGeoItemSimple
+            coords = IGeoItemSimple(proj).coords
+            if coords:
+                # Yes, longitude first.
+                lon, lat, z = coords
+                proj_info['position-latitude'] = lat
+                proj_info['position-longitude'] = lon
+
         return proj_info
 
     # tool and view handling

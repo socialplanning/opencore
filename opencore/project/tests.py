@@ -28,7 +28,9 @@ def test_suite():
     from pprint import pprint
     from zope.interface import alsoProvides
 
-    setup.setupPloneSite()
+    ZopeTestCase.installProduct('PleiadesGeocoder')
+    setup.setupPloneSite(products=['PleiadesGeocoder'])
+
     def hook_setup(tc):
         tc._refreshSkinData()
         enableLocalSiteHook(tc.portal)

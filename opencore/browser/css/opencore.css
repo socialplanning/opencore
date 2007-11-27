@@ -1060,6 +1060,7 @@ height: 1em; */
 .oc-expanderLink {
   background: url("/++resource++img/expander-nub-closed.gif") 0 3px no-repeat;
   padding-left: 12px;
+  cursor: pointer;
 }
 .oc-expanderLink.oc-expanderLink-open {
   background: url("/++resource++img/expander-nub-open.gif") 0 3px no-repeat;
@@ -1361,6 +1362,14 @@ li.oc-invite .oc-invite-content {
 .oc-getstarted-list li p.oc-discreetText {
   margin: 0 0 0.5em;
   line-height: normal;
+}
+
+/* Map control */
+
+.oc-map {
+  width: 500px;
+  height: 300px;
+  margin: 10px 0 0 0;
 }
 
 /* @BEHAVIORS

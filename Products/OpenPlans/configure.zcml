@@ -3,4 +3,5 @@
   <include package="opencore.configuration" file="permissions.zcml" />
   <include package="Products.listen" file="permissions.zcml" />
   <include package="opencore.configuration" />
+  <include package="Products.PleiadesGeocoder" />
 </configure>

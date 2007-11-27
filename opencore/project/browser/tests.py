@@ -35,12 +35,14 @@ def test_suite():
     from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
     from opencore.listen.featurelet import ListenFeaturelet
 
-    # for delet-project
+    # for delete-project
     from topp.featurelets.interfaces import IFeatureletSupporter
     from topp.clockqueue.interfaces import IClockQueue
+
     import pdb
-        
-    setup.setupPloneSite()
+
+    installProduct('PleiadesGeocoder')
+    setup.setupPloneSite(products=['PleiadesGeocoder'])
 
     def contents_content(tc):
         tc.loginAsPortalOwner()
@@ -146,7 +148,6 @@ def test_suite():
                                                          setUp=oc_setup.set_portal_as_site,
                                                          layer=OpencoreContent                                                 
                                                          )
-
 ##     preferences = FunctionalDocFileSuite("preferences.txt",
 ##                                          optionflags=optionflags,
 ##                                          package='opencore.project.browser',
@@ -156,12 +157,16 @@ def test_suite():
 ##                                          )    
 
 ##     suites = (contents, metadata, manage_team, request_membership, preferences)
-    suites = (contents, metadata, manage_team,
-              request_membership, homepage,
-              team_request_membership)
     unit = doctest.DocTestSuite('opencore.project.browser.view',
                                 optionflags=optionflags)
-    return unittest.TestSuite(suites + (readme, unit, delete))
+    utilsunit = doctest.DocTestSuite('opencore.project.browser.utils',
+                                     optionflags=optionflags)
+    suites = (contents, metadata, manage_team,
+              request_membership, homepage,
+              team_request_membership,
+              readme, unit, utilsunit, delete,
+              )
+    return unittest.TestSuite(suites)
 
 
 if __name__ == '__main__':

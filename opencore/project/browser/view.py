@@ -1,5 +1,6 @@
 import re
 import string
+import urllib
 
 from zope import event
 from zope.interface import implements
@@ -27,9 +28,11 @@ from opencore.project import PROJ_HOME
 from opencore.browser import formhandler
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
-from opencore.project.browser.utils import vdict
+from opencore.project.browser.utils import vdict, google_e6_encode
 from opencore.interfaces import IHomePage
 from opencore.nui.wiki.add import get_view_names
+
+from Products.PleiadesGeocoder.interfaces import IGeoItemSimple
 
 from DateTime import DateTime
 
@@ -58,6 +61,46 @@ class ProjectBaseView(BaseView):
         if flet_adapter is None:
             return False
         return flet_adapter.installed
+
+    def geocode_from_form(self, form):
+        """
+        Inspect the values in the form in order to extract and return
+        a geolocation.  Will perform a lookup on a textual position if
+        necessary.
+        """
+        try:
+            lon = float(form.get('position-longitude'))
+            lat = float(form.get('position-latitude'))
+        except TypeError:
+            lon = lat = None
+        except ValueError:
+            lon = lat = None
+        position = form.get('position-text', '').strip()
+        if position:
+            # If we got this, then presumably javascript was disabled;
+            # it overrides the other form variables.
+            # The value should be something we can look up via the geocoder.
+            geo_tool = self.get_tool('portal_geocoder')
+            records = geo_tool.geocode(position)
+            if records:
+                lat = records[0]['lat']
+                lon = records[0]['lon']
+            else:
+                return None
+        return lat, lon
+
+    def update_geolocation(self, proj, lat, lon):
+        """
+        Update the project with the given latitude and longitude.
+        """
+        if lat is not None and lon is not None:
+            geo = IGeoItemSimple(proj)
+            # Longitude first! Yes, really.
+            new_coords = (lon, lat, 0.0)
+            if new_coords != geo.coords:
+                geo.setGeoInterface('Point', new_coords)
+                return True
+        return False
 
 
 class ProjectContentsView(ProjectBaseView, OctopoLite):
@@ -438,13 +481,19 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         if not valid_project_title(title):
             self.errors['title'] = _(u'err_project_name', u'The project name must contain at least 2 characters with at least 1 letter or number.')
 
+        try:
+            lat, lon = self.geocode_from_form(self.request.form)
+        except TypeError:
+            self.errors['position-text'] = _(u'psm_geocode_failed', u"Sorry, we were unable to find that address on the map")
+
         if self.errors:
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return
 
         allowed_params = set(['__initialize_project__', 'update', 'set_flets',
                               'title', 'description', 'logo', 'workflow_policy',
-                              'featurelets', 'home-page'])
+                              'featurelets', 'home-page',
+                              'location'])
         new_form = {}
         for k in allowed_params:
             if k in self.request.form:
@@ -453,23 +502,29 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         reader = IReadWorkflowPolicySupport(self.context)
         old_workflow_policy = reader.getCurrentPolicyId()
 
-        logo = self.request.form.get('logo')
+        logo = new_form.get('logo')
         logochanged = False
         if logo:
             if not self.check_logo(logo):
                 return
             logochanged = True
-            del self.request.form['logo']
+            del self.request.form['logo'], new_form['logo']
 
-        #store change status of flet, security, title, description, logo
+        locationchanged = False
+        if self.update_geolocation(self.context, lat, lon):
+            locationchanged = True
+        elif self.context.getLocation() != new_form.get('location', ''):
+            locationchanged = True
+
+        #display change status of flet, security, title, description, logo.
         changed = {
-            _(u'psm_project_title_changed', u"The title has been changed.") : self.context.title != self.request.form.get('title', self.context.title),
-            _(u'psm_project_desc_changed', u"The description has been changed.") : self.context.description != self.request.form.get('description', self.context.description),
+            _(u'psm_project_title_changed', u"The title has been changed.") : self.context.title != new_form.get('title', self.context.title),
+            _(u'psm_project_desc_changed', u"The description has been changed.") : self.context.description != new_form.get('description', self.context.description),
             _(u'psm_project_logo_changed', u"The project image has been changed.") : logochanged,
-            _(u'psm_security_changed', u"The security policy has been changed.") : old_workflow_policy != self.request.form['workflow_policy'],            
+            _(u'psm_security_changed', u"The security policy has been changed.") : old_workflow_policy != new_form.get('workflow_policy', old_workflow_policy),
+            _(u'psm_location_changed', u"The location has been changed."): locationchanged,
             }
 
-        
         supporter = IFeatureletSupporter(self.context)
         flets = [f for n, f in getAdapters((supporter,), IFeaturelet)]
 
@@ -493,7 +548,6 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         for field, changed in changed.items():
             if changed:
                 self.add_status_message(field)
-        #self.add_status_message('Your changes have been saved.')
 
         home_page = self.request.form.get('home-page', None)
         hpcontext = IHomePage(self.context)
@@ -528,8 +582,24 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                                      ))
         return flet_data
 
+    def location_img_url(self):
+        # Used for non-ajax UI to get a static map image.
+        geo = IGeoItemSimple(self.context)
+        if not geo.coords:
+            return ''
+        lon, lat, z = geo.coords
+        # Don't know if order matters, so assume it does.
+        params = (('latitude_e6', google_e6_encode(lat)),
+                  ('longitude_e6', google_e6_encode(lon)),
+                  ('w', 500), ('h', 300), # XXX These must match our css.
+                  ('zm', 9600),  # Zoom.
+                  ('cc', ''), # No idea what this is.
+                  )
+        url = 'http://maps.google.com/mapdata?' + urllib.urlencode(params)
+        return url
 
-class ProjectAddView(BaseView, OctopoLite):
+
+class ProjectAddView(ProjectBaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('create.pt')
 
@@ -591,11 +661,11 @@ class ProjectAddView(BaseView, OctopoLite):
             if self.context.has_key(id_):
                 self.errors['id'] = 'The requested url is already taken.'
 
-        if self.errors:
-            self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
-            return
+        try:
+            lat, lon = self.geocode_from_form(self.request.form)
+        except TypeError:
+            self.errors['position-text'] = _(u'psm_geocode_failed', u"Sorry, we were unable to find that address on the map")
 
-        proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
         # not calling validate because it explodes on "'" for project titles
         # XXX is no validation better than an occasional ugly error?
         #proj.validate(REQUEST=self.request, errors=self.errors, data=1, metadata=0)
@@ -608,6 +678,8 @@ class ProjectAddView(BaseView, OctopoLite):
             self.redirect('%s/create' % self.context.absolute_url())
             return
 
+        proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
+
         self.context.portal_factory.doCreate(proj, id_)
         proj = self.context._getOb(id_)
         self.notify(proj)
@@ -617,6 +689,8 @@ class ProjectAddView(BaseView, OctopoLite):
             if not self.check_logo(proj, logo):
                 return
             del self.request.form['logo']
+
+        self.update_geolocation(proj, lat, lon)
 
         self.template = None
         proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)
