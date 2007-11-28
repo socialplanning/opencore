@@ -8,6 +8,12 @@ fv edit_form email $email
 fv edit_form password $password
 fv edit_form confirm_password $password
 submit
+
+# We should now be on the messages-only page.
+url ${base_url}/messages-only
+find "psm_thankyou_for_joining"
+
+# Confirm.
 get_uid $user $admin $adminpw
 go ${base_url}/confirm-account?key=${__uid__}
 

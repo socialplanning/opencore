@@ -104,4 +104,13 @@
      template="topnav.pt"
      />
 
+  <!-- page for workflows that dead-end in a simple message display -->
+  <browser:page
+     for="*"
+     permission="zope.Public"
+     name="messages-only"
+     class=".base.BaseView"
+     template="deadend-message.pt"
+     />
+
 </configure>
