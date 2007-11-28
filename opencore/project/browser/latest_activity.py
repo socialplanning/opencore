@@ -1,7 +1,9 @@
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
-from opencore.project.browser.latest_snippet import LatestSnippet
-from opencore.project.browser.view import ProjectContentsView
+from opencore.project.utils import get_featurelets
+
+from opencore.nui.project.latest_snippet import LatestSnippet
+from opencore.nui.project.view import ProjectContentsView
 
 
 class ListFromCatalog:
@@ -72,11 +74,13 @@ class LatestActivityView(ProjectContentsView):
     def __init__(self, context, request):                
         ProjectContentsView.__init__(self, context, request)
 
-        self.feed_types = [ Feed('Pages',
-                                 ListFromCatalog(self._portal_type['pages'], self.project_path),
-                                 ([self.catalog], {}),
-                                 project2feed, ( [ self.memfolder_url ], {}) ),
-                            ]
+        self.feed_types = []
+
+        self.feed_types.append(Feed('Pages',
+                                    ListFromCatalog(self._portal_type['pages'], self.project_path),
+                                    ([self.catalog], {}),
+                                    project2feed, ( [ self.memfolder_url ], {}) ),
+                               )
 
         if self.has_mailing_lists:
             self.feed_types.append(Feed('Discussions',
@@ -91,14 +95,20 @@ class LatestActivityView(ProjectContentsView):
         return snip()
 
     def feeds(self):
-        feeds = [ self.snippet(feed) for feed in self.feed_types ]
+        feeds = []
+        if self.has_blog:
+            self.request['uri'] = '/'.join((self.context.absolute_url(),
+                                            self._get_featurelet('blog')['url'],
+                                            'feed'))
+            blogfeed = self.context.unrestrictedTraverse('feedlist')
+            feeds.append(blogfeed())
+        feeds.extend( [ self.snippet(feed) for feed in self.feed_types ] )
         return feeds
 
     def activity(self):
         f = ListFromCatalog(portal_type='Document', path=self.project_path)
         g = self.context.unrestrictedTraverse('latest-snippet')
         foo = g()
-#        import pdb;  pdb.set_trace()
-#        g = LatestSnippet(self.context, self.request, 'A Bad Title')
+
 
             
