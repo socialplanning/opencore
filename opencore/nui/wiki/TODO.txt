@@ -1,0 +1,25 @@
+======
+ TODO
+======
+
+File handling
+=============
+
+tickets:
+
+- http://trac.openplans.org/openplans/ticket/16
+- http://trac.openplans.org/openplans/ticket/1889
+
+
+1. figure out the mime/type (reasonably)
+
+2. Pick appropriate plone/cmf content types to save as
+
+3. save in file repository (not the page)
+
+4. save reference for displaying with page
+
+5. migrate all existing attachments to proper file/image type and new
+   location with proper 'linking'
+
+
