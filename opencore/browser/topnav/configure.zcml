@@ -104,13 +104,91 @@
      permission="zope2.View"
      />
 
- <opencore:menuitem
-     name="Start project"
-     url="lists"
-     css_class="oc-topnav"
-     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-     manager=".interfaces.ITopnavMenuItems"
-     permission="zope2.View"
-     />
+  <opencore:menuitem
+      name="Member Wiki"
+      filter=".manager.contained_within"
+      container="opencore.interfaces.IMemberFolder"
+      url=".manager.member_wiki_url"
+      selected=".manager.openpage_provided"
+      sort_order="10"
+      />
+
+  <opencore:menuitem
+      name="Profile"
+      filter=".manager.contained_within"
+      container="opencore.interfaces.IMemberFolder"
+      item_url="profile"
+      sort_order="20"
+      />
+
+  <opencore:menuitem
+      name="Account"
+      filter=".manager.contained_within"
+      container="opencore.interfaces.IMemberFolder"
+      item_url="account"
+      sort_order="30"
+      />
+
+  <opencore:menuitem
+      name="Project Wiki"
+      filter=".manager.contained_within"
+      container="opencore.interfaces.IProject"
+      url=".manager.project_wiki_url"
+      selected=".manager.openpage_provided"
+      sort_order="10"
+      />
+
+  <opencore:menuitem
+      name="Team"
+      filter=".manager.contained_within"
+      container="opencore.interfaces.IProject"
+      item_url="team"
+      sort_order="50"
+      />
+
+  <opencore:menuitem
+      name="Manage Team"
+      filter=".manager.contained_within"
+      container="opencore.interfaces.IProject"
+      item_url="manage-team"
+      sort_order="60"
+      />
+
+  <opencore:menuitem
+      name="Contents"
+      filter=".manager.contained_within"
+      container="opencore.interfaces.IProject"
+      item_url="contents"
+      sort_order="70"
+      />
+
+  <opencore:menuitem
+      name="Preferences"
+      filter=".manager.contained_within"
+      container="opencore.interfaces.IProject"
+      item_url="preferences"
+      sort_order="80"
+      />
+
+  <opencore:menuitem
+      name="People"
+      filter=".manager.if_portal_people_or_projects"
+      url=".manager.people_url"
+      sort_order="10"
+      />
+
+  <opencore:menuitem
+      name="Projects"
+      filter=".manager.if_portal_people_or_projects"
+      url=".manager.projects_url"
+      sort_order="20"
+      />
+
+  <opencore:menuitem
+      name="Start A Project"
+      filter=".manager.if_portal_people_or_projects"
+      url=".manager.project_create_url"
+      sort_order="30"
+      />
 
 </configure>
