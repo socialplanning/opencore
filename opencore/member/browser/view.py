@@ -648,7 +648,8 @@ class MemberAccountView(BaseView, OctopoLite):
         hide_email = bool(self.request.form.get('hide_email'))
 
         if not email:
-            self.addPortalStatusMessage(_(u'psm_enter_new_email', u'Please enter your new email address.'))
+            self.addPortalStatusMessage(_(u'psm_enter_new_email',
+                                          u'Please enter your new email address.'))
             return
 
         mem = self.loggedinmember
