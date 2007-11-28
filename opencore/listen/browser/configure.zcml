@@ -69,11 +69,11 @@
      permission="zope2.View"
      />
 
-  <browser:viewlet
+  <!-- browser:viewlet
      for="*"
      name="30-listen"
      class=".topnav_menuitem.ListenMenuItem"
      permission="zope2.View"
-     />
+     /-->
 
 </configure>

@@ -5,8 +5,11 @@ from opencore.interfaces import IProject
 from opencore.interfaces import IOpenPage
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.adding import IAmAPeopleFolder
+from zope.interface import implements
 from zope.interface import Interface
 from zope.viewlet.viewlet import ViewletBase
+from Acquisition import Explicit
+
 
 class BaseMenuItem(ViewletBase):
     """Base class for topnav menu items."""
@@ -21,26 +24,29 @@ class BaseMenuItem(ViewletBase):
         if not self.context_matches():
             return self.no_render()
 
-        self.url = self.get_url()
-        if self.is_selected():
-            self.set_css_class()
-
     def set_state(self):
         """subclasses should set internal variables here for use later"""
 
     def context_matches(self):
         """subclasses should check here if they should be rendered"""
+        return self._item_providing(self.chain_must_provide)
 
-    def get_url(self):
+    @property
+    def url(self):
         """subclasses should return the url attribute here
            this represents the menu item's link"""
+        return '%s/%s' % (self.context.absolute_url(), self.item_url)
 
     def is_selected(self):
         """subclasses should check if the menu item should be rendered
            selected"""
+        return self.request.ACTUAL_URL.startswith('%s/%s' % (self.context.absolute_url(), self.item_url))
 
-    def set_css_class(self):
-        self.css_class = 'oc-topnav-selected'
+    @property
+    def css_class(self):
+        if self.is_selected():
+             return self._css_class
+        return None
 
     def no_render(self):
         # replace render method to return an empty string
@@ -59,6 +65,10 @@ class BaseMenuItem(ViewletBase):
                 return item
 
     render = ZopeTwoPageTemplateFile('topnav_menuitem.pt')
+
+
+
+
 
 # Here are some mixins for certain contexts that help reduce code
 
