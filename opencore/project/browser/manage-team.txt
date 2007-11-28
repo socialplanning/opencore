@@ -146,6 +146,11 @@ Make sure we can remove invitations; email notifier should be sent:
     >>> len(mailhost.messages)
     4
 
+Make sure we get a helpful PSM if we didn't select anyone to remind::
+    >>> res = view.remind_invitations([])
+    >>> view.portal_status_message
+    [u'Please select at least one person to send a reminder to.']
+
 Test membership removal.  We set the HTTP_REFERER on the request
 because the octopus decorator requires (and returns) it.  Notifier
 should be sent:

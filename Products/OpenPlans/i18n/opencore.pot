@@ -1714,3 +1714,7 @@ msgstr ""
 msgid "tour_start_projects_heading"
 msgstr ""
 
+#. Default: "Please select at least one person to send a reminder to."
+#: ./opencore/project/browser/manageteam.py:365
+msgid "remind_invite_none_selected"
+msgstr ""

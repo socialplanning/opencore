@@ -362,11 +362,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             sender.sendEmail(mem_id, msg_id='remind_invitee', **msg_vars)
 
         if not mem_ids:
-            msg = "Please select at least one person to send a reminder to."
+            self.addPortalStatusMessage(_(u"remind_invite_none_selected"))
         else:
             plural = len(mem_ids) != 1
             msg = "Reminder%s sent: %s" % (plural and 's' or '', ", ".join(mem_ids))
-        self.add_status_message(msg)
+            self.add_status_message(msg)
 
 
     ##################
