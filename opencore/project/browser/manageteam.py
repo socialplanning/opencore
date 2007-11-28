@@ -540,9 +540,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                     commands[mem_id] = {'action': 'replace',
                                         'html': html,
                                         'effects': 'highlight'}
-                    transient_msg = (team.getHighestTeamRoleForMember(mem_id) == 'ProjectAdmin'
-                                     and 'You are now an admin of'
-                                     or 'You are no longer an admin of')
+                    promoted = team.getHighestTeamRoleForMember(mem_id) == 'ProjectAdmin'
+                    if promoted:
+                        transient_msg = 'You are now an admin of'
+                    else:
+                        transient_msg = 'You are no longer an admin of'
                     self._add_transient_msg_for(mem_id, transient_msg)
                         
             plural = len(changes) != 1
