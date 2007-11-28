@@ -1718,3 +1718,13 @@ msgstr ""
 #: ./opencore/project/browser/manageteam.py:365
 msgid "remind_invite_none_selected"
 msgstr ""
+
+#. Default: "${name} is now an administrator"
+#: ./opencore/project/browser/manageteam.py:546
+msgid "promote_to_admin"
+msgstr ""
+
+#. Default: "${name} is no longer an administrator"
+#: ./opencore/project/browser/manageteam.py:549
+msgid "demote_to_member"
+msgstr ""

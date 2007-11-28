@@ -1783,3 +1783,13 @@ msgstr ""
 #: ./opencore/project/browser/manageteam.py:365
 msgid "remind_invite_none_selected"
 msgstr "Please select at least one person to send a reminder to."
+
+#. Default: "${name} is now an administrator"
+#: ./opencore/project/browser/manageteam.py:546
+msgid "promote_to_admin"
+msgstr "${name} is now an administrator"
+
+#. Default: "${name} is no longer an administrator"
+#: ./opencore/project/browser/manageteam.py:549
+msgid "demote_to_member"
+msgstr "${name} is no longer an administrator"
