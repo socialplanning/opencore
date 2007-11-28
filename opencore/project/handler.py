@@ -154,4 +154,6 @@ def unindex_project(project, event):
     manage_delObjects on the projects folder doesn't.
     """
     cat = getToolByName(project, 'portal_catalog')
-    cat.unindexObject(project)
+    path = '/'.join(project.getPhysicalPath())
+    if cat._catalog.hasuid(path):
+        cat.unindexObject(project)
