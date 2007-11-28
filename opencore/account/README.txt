@@ -544,7 +544,7 @@ Ensure test atomicity by removing the created user:
     Called httplib2.Http.request(
         'http://nohost:wordpress/openplans-remove-user.php',
         'POST',
-        body='username=test_user_1_&signature=X...,
+        body='username=test_user_1_&signature=...,
         headers={'Content-type': 'application/x-www-form-urlencoded'})
     >>> portal.people.manage_delObjects('test_user_1_')
 
