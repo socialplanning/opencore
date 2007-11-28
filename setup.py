@@ -28,7 +28,8 @@ setup(name='opencore',
                         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
                         'http://zesty.ca/python/uuid.py#egg=uuid-dev',
                         'https://svn.openplans.org/svn/oc-js/trunk/#egg=oc-js-dev',
-                        'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.1.2'
+                        'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.1.2',
+                        'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         ],
       
       install_requires=[
@@ -37,6 +38,7 @@ setup(name='opencore',
           "ClockQueue==dev,>=0.0",
           'simplejson',
           'decorator',
+          'feedparser',
           'topp.featurelets>=0.2.2',
           'topp.utils==0.2.9',
           'memojito',
