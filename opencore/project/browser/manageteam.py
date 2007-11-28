@@ -543,14 +543,13 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                     promoted = team.getHighestTeamRoleForMember(mem_id) == 'ProjectAdmin'
                     if promoted:
                         transient_msg = 'You are now an admin of'
+                        status_msg = '%s is now an administrator' % mem_id
                     else:
                         transient_msg = 'You are no longer an admin of'
+                        status_msg = '%s is no longer an administrator' % mem_id
                     self._add_transient_msg_for(mem_id, transient_msg)
-                        
-            plural = len(changes) != 1
-            msg = u'Role changed for the following member%s: %s' \
-                  % (plural and 's' or '', ', '.join(changes))
-            self.add_status_message(msg)
+                    self.add_status_message(status_msg)
+
             return commands
         else:
             msg = u"No roles changed"
