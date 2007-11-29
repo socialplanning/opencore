@@ -23,6 +23,7 @@ from opencore.interfaces.event import AfterProjectAddedEvent, \
       AfterSubProjectAddedEvent
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 
+from opencore.project.utils import get_featurelets
 from opencore.project import PROJ_HOME
 from opencore.browser import formhandler
 from opencore.browser.base import BaseView, _
@@ -49,6 +50,13 @@ class ProjectBaseView(BaseView):
     @memoizedproperty
     def has_blog(self):
         return self._has_featurelet('blog')
+
+    def _get_featurelet(self, flet_id):
+        flets = get_featurelets(self.context)
+        for flet in flets:
+            if flet['name'] == flet_id:
+                return flet
+        return None
 
     def _has_featurelet(self, flet_id):
         flet_adapter = queryAdapter(
