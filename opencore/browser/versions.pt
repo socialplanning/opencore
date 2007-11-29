@@ -1,0 +1,6 @@
+<dl id="oc-version-list">
+  <tal:version_data repeat="version_data view/version_data">
+    <dt tal:content="version_data/component" />
+    <dd tal:content="version_data/version" />
+  </tal:version_data>
+</dl>
