@@ -30,6 +30,7 @@ setup(name='opencore',
                         'https://svn.openplans.org/svn/oc-js/trunk/#egg=oc-js-dev',
                         'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.1.2',
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
+                        'https://svn.openplans.org/svn/OpencoreMu/trunk#egg=OpencoreMu-dev',
                         ],
       
       install_requires=[
@@ -51,7 +52,8 @@ setup(name='opencore',
           'borg.localrole==1.0rc1',
           'wsseauth',
           'uuid',
-          'flunc>=0.1.2'
+          'flunc>=0.1.2',
+          'OpencoreMu==dev'
           ],
       extras_require=dict(ubuntu=['hprof'])
       )
