@@ -1,4 +1,6 @@
 from setuptools import setup, find_packages
+import pkg_resources as pkr
+
 import sys, os
 
 version = '0.9.7.7'
@@ -7,7 +9,10 @@ f = open('README.txt')
 readme = "".join(f.readlines())
 f.close()
 
-setup(name='opencore',
+name='opencore'
+
+setup(
+    name=name,
       version=version,
       description="Software that drives http://openplans.org",
       long_description=readme,
@@ -31,7 +36,7 @@ setup(name='opencore',
                         'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.1.2',
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         ],
-      
+
       install_requires=[
           # -*- Extra requirements: -*-
           "oc-js==dev,>=0.0",    
@@ -53,7 +58,21 @@ setup(name='opencore',
           'uuid',
           'flunc>=0.1.2'
           ],
-      extras_require=dict(ubuntu=['hprof'])
+      extras_require=dict(ubuntu=['hprof']),
+      entry_points="""
+      [distutils.commands]
+      zinstall = topp.utils.setup_command:zinstall
+      [opencore.versions]
+      opencore = opencore.configuration:OC_REQ
+      [distutils.setup_keywords]
+      Dists_we_care_about=setuptools.dist:check_requirements
+      """,
+    dists_we_care_about=['oc-js',
+                         'opencore',
+                         'topp.utils',
+                         'topp.featurelets'
+    ]
+      
       )
 
 
