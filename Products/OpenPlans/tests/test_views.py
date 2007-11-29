@@ -33,7 +33,8 @@ class AddFormTest(OpenPlansTestCase):
         view.update()
         self.assertEqual(
             Set(view.fieldNames),
-            Set(['id', 'title', 'space_teams', 'logo', 'location']))
+            Set(['id', 'title', 'space_teams', 'logo',
+                 'location', 'position-text']))
 
 def test_suite():
     suite = unittest.TestSuite()
