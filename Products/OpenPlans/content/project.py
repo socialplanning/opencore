@@ -178,7 +178,7 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
         )
 
     def __init__(self, id, title=''):
-        BaseFolder.__init__(self, id)
+        BaseBTreeFolder.__init__(self, id)
         self.title = title or self.meta_type
 
     def _createTeam(self):
