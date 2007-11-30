@@ -23,6 +23,12 @@
 	   on <span tal:define="date feeditem/date"
 		    tal:replace="python:view.pretty_date(date)" />   
 	</p>
+
+	<!-- display the summary for the first item -->
+	<p tal:condition="repeat/feeditem/start"
+	   tal:content="feeditem/summary">
+	  Lorem ipsum dolor
+	</p>
       </div>
     </li>
   </ul>

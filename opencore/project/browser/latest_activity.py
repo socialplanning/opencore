@@ -125,7 +125,7 @@ class LatestActivityView(ProjectContentsView):
             self.request['uri'] = '/'.join((self.context.absolute_url(),
                                             self._get_featurelet('blog')['url'],
                                             'feed'))
-            blogfeed = self.context.unrestrictedTraverse('feedlist')
+            blogfeed = self.context.unrestrictedTraverse('feedlist+')
             feeds.append(blogfeed())
         feeds.extend( [ self.snippet(feed) for feed in self.feed_types ] )
         return feeds        

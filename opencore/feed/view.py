@@ -13,6 +13,6 @@ class FeedView(BaseView):
         if uri:
             self.feed = feedparser.parse(uri)
             self.title = self.request.get('title', self.feed.feed.title)
-#            self.feed.entries.sort(cmp=date_cmp)
+#            self.feed.entries.sort(cmp=date_cmp) # they appeared sorted already?
             self.feed.entries = self.feed.entries[:n]
 
