@@ -22,7 +22,6 @@ setup(name='opencore',
       zip_safe=False,
       dependency_links=['https://svn.openplans.org/svn/OpencoreRedirect/trunk#egg=OpencoreRedirect',
                         "https://svn.openplans.org/svn/ClockQueue/trunk#egg=ClockQueue-dev",
-                        "https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader-dev",
                         'http://svn.red-bean.com/bob/simplejson/trunk/#egg=simplejson-dev',
                         'http://www.openplans.org/projects/opencore/dependencies',
                         'https://svn.plone.org/svn/plone/plone.memoize/trunk#egg=plone.memoize-dev',
@@ -32,6 +31,7 @@ setup(name='opencore',
                         'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.1.2',
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         'https://svn.openplans.org/svn/OpencoreMu/trunk#egg=OpencoreMu-dev',
+                        "https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader-dev",
                         ],
       
       install_requires=[
@@ -54,8 +54,8 @@ setup(name='opencore',
           'wsseauth',
           'uuid',
           'flunc>=0.1.2',
-          'ZCMLLoader==dev',
-          'OpencoreMu==dev'
+          'OpencoreMu==dev,>=0.0',
+          'ZCMLLoader==dev,>=0.0',
           ],
       extras_require=dict(ubuntu=['hprof'])
       )
