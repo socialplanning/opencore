@@ -28,7 +28,8 @@ setup(name='opencore',
                         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
                         'http://zesty.ca/python/uuid.py#egg=uuid-dev',
                         'https://svn.openplans.org/svn/oc-js/trunk/#egg=oc-js-dev',
-                        'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.1.2'
+                        'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.1.2',
+                        'https://svn.openplans.org/svn/vendor/geopy/openplans/dist',
                         ],
       
       install_requires=[
@@ -49,7 +50,7 @@ setup(name='opencore',
           'borg.localrole==1.0rc1',
           'wsseauth',
           'uuid',
-          'geopy>=0.93',
+          'geopy=0.93-20071130',  # forces our vendor branch.
           'flunc>=0.1.2'
           ],
       extras_require=dict(ubuntu=['hprof'])
