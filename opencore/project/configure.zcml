@@ -20,14 +20,6 @@
   </content>
 
 
-  <!-- Mark our projects folder as providing a georss feed. -->
-  <class class="Products.ATContentTypes.content.folder.ATBTreeFolder">
-     <implements
-       interface="Products.PleiadesGeocoder.interfaces.IGeoserializable
-                  Products.PleiadesGeocoder.interfaces.IGeoFolder"
-      />
-  </class>
-
   <adapter
      for="opencore.interfaces.IProject"
      provides="opencore.interfaces.IWriteWorkflowPolicySupport"

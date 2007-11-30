@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml
+  xmlns="http://earth.google.com/kml/2.1"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  >
+  <Feature>
+    <metal:description_macro metal:define-macro="description">
+      <description>
+        <span tal:replace="structure string:&lt;![CDATA[" />
+          <div>
+            <p tal:content="item/properties/description">ITEM DESCRIPTION</p>
+            <p>URL: 
+              <a 
+                tal:attributes="href item/properties/link" 
+                tal:content="item/properties/link"
+                >ITEM URL
+              </a>
+            </p>
+          </div>
+        <span tal:replace="structure string:]]&gt;" />
+      </description>
+    </metal:description_macro>
+    <metal:geometry_macro metal:define-macro="geometry">
+      <Point tal:condition="item/hasPoint">
+        <coordinates tal:content="item/coords_kml">
+          COORDINATE LIST
+        </coordinates>
+      </Point>
+      <LineString tal:condition="item/hasLineString">
+        <coordinates tal:content="item/coords_kml">
+          COORDINATE LIST
+        </coordinates>
+      </LineString>
+      <Polygon tal:condition="item/hasPolygon">
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates tal:content="item/coords_kml">
+              COORDINATE LIST
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </metal:geometry_macro>
+  </Feature>
+</kml>

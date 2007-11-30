@@ -1,0 +1,19 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:meta="http://namespaces.zope.org/meta"
+    i18n_domain="zope"
+    >
+
+  <!-- Mark our projects folder as providing a georss feed. -->
+  <class class="Products.ATContentTypes.content.folder.ATBTreeFolder">
+     <implements
+       interface="Products.PleiadesGeocoder.interfaces.IGeoserializable
+                  Products.PleiadesGeocoder.interfaces.IGeoFolder"
+      />
+  </class>
+
+  <include package=".browser" />
+
+</configure>
