@@ -1,5 +1,5 @@
 from Acquisition import aq_base
-from opencore.browser.topnav.topnav_menuitem import BaseMenuItem
+from opencore.browser.topnav.viewlet import BaseMenuItem
 from opencore.interfaces import IOpenPage
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.adding import IAmAPeopleFolder

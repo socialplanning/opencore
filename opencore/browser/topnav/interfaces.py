@@ -1,4 +1,4 @@
-from opencore.browser.topnav.topnav_menuitem import BaseMenuItem
+from opencore.browser.topnav.viewlet import BaseMenuItem
 from opencore.i18n import _
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.adding import IAmAPeopleFolder
