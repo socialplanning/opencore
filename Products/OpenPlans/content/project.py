@@ -13,6 +13,7 @@ from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.CMFPlone.utils import _createObjectByType
 from Products.OpenPlans.permissions import CopyOrMove
 from Products.OpenPlans.permissions import ManageWorkflowPolicy
+from Products.TeamSpace.space import TeamSpaceMixin
 from Products.TeamSpace.space import TeamSpace
 from Products.ZCTextIndex import ParseTree
 from ZODB.POSException import ConflictError
@@ -122,7 +123,7 @@ project_menu_preferences = {'title': u'Project Preferences',
                             '_for': Interface,
                             }
 
-class OpenProject(BrowserDefaultMixin, TeamSpace):
+class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
     """
     A Project workspace.
     """
@@ -175,6 +176,10 @@ class OpenProject(BrowserDefaultMixin, TeamSpace):
         'visible'     : False,
          },
         )
+
+    def __init__(self, id, title=''):
+        BaseFolder.__init__(self, id)
+        self.title = title or self.meta_type
 
     def _createTeam(self):
         """
