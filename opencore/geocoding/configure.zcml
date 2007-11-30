@@ -6,13 +6,37 @@
     i18n_domain="zope"
     >
 
-  <!-- Mark our projects folder as providing a georss feed. -->
+  <!-- Mark our projects folder as providing georss & kml feeds. -->
   <class class="Products.ATContentTypes.content.folder.ATBTreeFolder">
-     <implements
-       interface="Products.PleiadesGeocoder.interfaces.IGeoserializable
-                  Products.PleiadesGeocoder.interfaces.IGeoFolder"
+    <implements
+      interface="Products.PleiadesGeocoder.interfaces.IGeoserializable
+                 Products.PleiadesGeocoder.interfaces.IGeoFolder"
       />
   </class>
+
+  <!-- Mark projects as serializable to georss & kml.  -->
+  <class class="Products.OpenPlans.content.project.OpenProject">
+    <implements
+      interface="Products.PleiadesGeocoder.interfaces.IGeoreferenceable
+                 Products.PleiadesGeocoder.interfaces.IGeoAnnotatableContent
+                 Products.PleiadesGeocoder.interfaces.IGeoserializable
+                "
+    />
+  </class>
+
+  <!-- Mark member info folders
+       (and while we're at it all other ATFolders.)
+    -->
+  <class class="Products.ATContentTypes.content.folder.ATFolder">
+    <implements
+      interface="Products.PleiadesGeocoder.interfaces.IGeoAnnotatableContent
+                 Products.PleiadesGeocoder.interfaces.IGeoreferenceable
+                "
+    />
+  </class>
+
+  <!-- Don't have to do anything special for the members folder,
+       PleiadesGeocoder already registers interfaces for it. -->
 
   <include package=".browser" />
 

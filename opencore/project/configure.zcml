@@ -12,9 +12,6 @@
       interface="opencore.interfaces.IEditProject
                  zope.app.annotation.interfaces.IAttributeAnnotatable
                  Products.ploneundelete.interfaces.IUndeleteContainer
-		 Products.PleiadesGeocoder.interfaces.IGeoreferenceable
-		 Products.PleiadesGeocoder.interfaces.IGeoAnnotatableContent
-		 Products.PleiadesGeocoder.interfaces.IGeoserializable
 		 "
     />
   </content>

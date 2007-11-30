@@ -1,29 +1,43 @@
-Geolocation
+GEOLOCATION
 ============
+
+Projects
+=========
+
 
     >>> projects = self.portal.projects
     >>> proj = projects.p1
+    >>> from Products.PleiadesGeocoder.interfaces import IGeoFolder, \
+    ...    IGeoreferenceable, IGeoAnnotatableContent, IGeoserializable, \
+    ...    IGeoserializableMembersFolder
 
 Projects are marked as geolocatable.
 
-    >>> from Products.PleiadesGeocoder.interfaces import IGeoreferenceable
     >>> IGeoreferenceable.providedBy(proj)
     True
 
-They're also marked as able to use Pleiades' default annotation adapter.
 
-    >>> from Products.PleiadesGeocoder.interfaces import IGeoAnnotatableContent
+They're also marked as able to use Pleiades' default annotation
+adapter, so we can mark them with geolocation info.
+
     >>> IGeoAnnotatableContent.providedBy(proj)
     True
 
 And marked as serializable.
 
-    >>> from Products.PleiadesGeocoder.interfaces import IGeoserializable
     >>> IGeoserializable.providedBy(proj)
     True
 
+The projects folder is marked as a serializable container.
 
-They can be adapted to IGeoItemSimple, and coordinates set on them.
+    >>> IGeoserializable.providedBy(projects)
+    True
+    >>> IGeoFolder.providedBy(projects)
+    True
+
+
+
+Projects can be adapted to IGeoItemSimple, and coordinates set on them.
 WARNING TO GEO NOOBS: This is an (x, y, z) point where x is longitude.
 Yes, longitude goes first.
 
@@ -139,3 +153,50 @@ And a separate view that generates kml markup::
     </Point>
     ...
     </kml>
+
+
+People
+=======
+
+
+The people folder is marked as a special folder interface.
+
+    >>> people = self.portal.people
+    >>> IGeoserializableMembersFolder.providedBy(people)
+    True
+
+
+A member is marked with the same interfaces as a project.
+
+    >>> m1 = people.m1
+    >>> IGeoserializable.providedBy(m1)
+    True
+    >>> IGeoreferenceable.providedBy(m1)
+    True
+    >>> IGeoAnnotatableContent.providedBy(m1)
+    True
+
+
+You can get geo info on the people folder::
+
+    >>> view = people.restrictedTraverse('@@geo')
+    >>> info = list(view.forRSS())
+    >>> len(info)
+    0
+
+To see anything interesting, let's annotate a member and try again::
+
+XXX Left off here. PleiadesGeocoder treats members differently from
+other content types; you apparently can't annotate them this same way.
+Or you can, but a different view is used on the members folder, so it
+doesn't notice these annotations.  Blah.  See the two view classes in
+PleiadesGeocoder/browser/info.py ... the latter is used on the people
+folder because P.G. marks that folder with IGeoserializableMembersFolder
+at install time.  Disable that? or override their view?
+
+    >>> geo = IGeoItemSimple(m1)
+    >>> geo.setGeoInterface('Point', (1.0, 2.0, 0.0))
+    >>> view = people.restrictedTraverse('@@geo')
+    >>> info = list(view.forRSS())
+    >>> import pprint
+    >>> pprint.pprint(info)  # XXX empty, see above.

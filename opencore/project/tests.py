@@ -28,7 +28,6 @@ def test_suite():
     from pprint import pprint
     from zope.interface import alsoProvides
 
-    ZopeTestCase.installProduct('PleiadesGeocoder')
     setup.setupPloneSite()
 
     def hook_setup(tc):
