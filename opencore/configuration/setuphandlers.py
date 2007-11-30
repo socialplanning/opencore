@@ -37,7 +37,9 @@ Z_DEPS = ('PlacelessTranslationService', 'Five', 'membrane', 'remember',
 MEM_DEPS = ('membrane', 'remember')
 
 DEPS = ('wicked', 'TeamSpace', 'CMFPlacefulWorkflow', 'RichDocument',
-        'listen', 'CMFDiffTool', 'CMFEditions')
+        'listen', 'CMFDiffTool', 'CMFEditions',
+        'PleiadesGeocoder'
+       )
 
 def setuphandler(fn):
     """
