@@ -1,12 +1,13 @@
 from Acquisition import aq_base
-from opencore.browser.topnav.viewlet import BaseMenuItem
 from opencore.browser.topnav.viewlet import contained_item_url
 from opencore.browser.topnav.viewlet import nofilter
 from opencore.browser.topnav.viewlet import default_css
 from opencore.browser.topnav.viewlet import if_request_starts_with_url
 from Products.CMFPlone.interfaces import IPloneSiteRoot
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.Five.viewlet.manager import ViewletManagerBase
 from Products.Five.viewlet.metaconfigure import viewletDirective
+from Products.Five.viewlet.viewlet import ViewletBase
 
 class TopnavManager(ViewletManagerBase):
     """custom menu manager for opencore topnavigation"""
@@ -36,9 +37,10 @@ class TopnavManager(ViewletManagerBase):
                               container,
                               css_class,
                               selected,
+                              template,
                               **kw
                               ):
-        klass_name = "%s-%s" % (BaseMenuItem.__name__, str(name))
+        klass_name = "%s-%s" % (ViewletBase.__name__, str(name))
         attrs = dict(name=name,
                      text=text,
                      sort_order=sort_order,
@@ -48,8 +50,9 @@ class TopnavManager(ViewletManagerBase):
                      container=container,
                      css_class=css_class,
                      selected=selected,
+                     render=template,
                      )
-        return type(klass_name, (BaseMenuItem,), attrs)                
+        return type(klass_name, (ViewletBase,), attrs)                
 
             
 def oc_menuitem_directive(_context, name, sort_order,
@@ -61,11 +64,14 @@ def oc_menuitem_directive(_context, name, sort_order,
                           container=IPloneSiteRoot,
                           css_class=default_css,
                           selected=if_request_starts_with_url,
+                          template=None,
                           **kw):
     """create a class specific for viewlet"""
     new_keyword_args = kw.copy()
     if text is None:
         text = name
+    if template is None:
+        template = ZopeTwoPageTemplateFile('menuitem.pt')
     viewlet_factory = TopnavManager.create_topnav_viewlet(
         name,
         sort_order,
@@ -76,6 +82,7 @@ def oc_menuitem_directive(_context, name, sort_order,
         container,
         css_class,
         selected,
+        template,
         )
     new_keyword_args['class_'] = viewlet_factory
     new_keyword_args['manager'] = TopnavManager

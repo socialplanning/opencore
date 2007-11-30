@@ -3,23 +3,18 @@ from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.adding import IAmAPeopleFolder
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from Products.Five.viewlet.viewlet import ViewletBase
 from topp.utils import zutils
 
-class BaseMenuItem(ViewletBase):
-    render = ZopeTwoPageTemplateFile('menuitem.pt')
+# all viewlet methods used for the menuitem registration
+# can be found below
+# these control the various permutations required
+# for displaying all menu items
 
 def contained_within(viewlet):
     return zutils.aq_iface(viewlet.context, viewlet.container)
 
 def nofilter(viewlet):
     return True
-
-# all viewlet methods used for the menuitem registration
-# can be found below
-# these control the various permutations required
-# for displaying all menu items
 
 def contained_item_url(viewlet):
     item = contained_within(viewlet)
