@@ -4,7 +4,7 @@ from Products.CMFCore.CatalogTool import _getAuthenticatedUser, \
      _checkPermission, AccessInactivePortalContent
 from Products.AdvancedQuery import In, Eq, Le, Ge
 from Products.AdvancedQuery.eval import eval as _eval
-from Products.PasswordResetTool.tests.utils.mailhost import MockMailHost
+from Products.PasswordResetTool.tests.utils import MockMailHost
 import logging
 
 logger = logging.getLogger('OpenPlans.monkey')
@@ -115,7 +115,7 @@ def patch_fileattachment():
     """
     tell the FileAttachment to display image types inline
     """
-    from Products.RichDocument.content.attachments import FileAttachment
+    from Products.SimpleAttachment.content.file import FileAttachment
     image_mimetypes = ('image/jpeg', 'image/gif', 'image/png')
     new_val = image_mimetypes + FileAttachment.inlineMimetypes
     patch_class(FileAttachment, 'inlineMimetypes', new_val)

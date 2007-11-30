@@ -1,11 +1,11 @@
 from zope.schema import ASCII
-from zope.i18nmessageid import MessageIDFactory
+from zope.i18nmessageid import MessageFactory
 
 from Products.listen.interfaces.mailinglist import IMailingList
 
 from utils import isValidPrefix
 
-_ = MessageIDFactory('opencore')
+_ = MessageFactory('opencore')
 
 class IOpenMailingList(IMailingList):
     """

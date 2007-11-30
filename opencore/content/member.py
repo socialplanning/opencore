@@ -9,7 +9,7 @@ from zope.component import getAdapter
 from zope.component import getUtility
 
 from Products.CMFCore.utils import getToolByName
-from Products.CMFCore.CMFCorePermissions import *
+from Products.CMFCore.permissions import *
 import Products.Archetypes.public as atapi
 from Products.Archetypes.ExtensibleMetadata import ExtensibleMetadata
 from Products.Archetypes.ArchetypeTool import base_factory_type_information as bfti

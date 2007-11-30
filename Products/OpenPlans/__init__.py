@@ -7,6 +7,8 @@ __docformat__ = 'restructuredtext'
 from AccessControl import ModuleSecurityInfo
 from AccessControl import allow_module, allow_class, allow_type
 from Globals import package_home
+
+from Products.CMFCore import permissions as CMFCorePermissions
 from Products.Archetypes import public as atapi
 from Products.CMFCore import utils as cmf_utils
 from Products.CMFCore.DirectoryView import registerDirectory
@@ -21,6 +23,8 @@ from opencore.nui import indexing
 from permissions import initialize as initialize_permissions
 from zope.component import getUtility
 import monkey
+#import Extensions.setup
+from opencore.nui import indexing
 
 GLOBALS = globals()
 SKINS_DIR = 'skins'
@@ -42,8 +46,8 @@ def initialize(context):
     from opencore.listen import mailinglist
 
     # Register customization policy
-    import policy
-    policy.register(context, GLOBALS)
+    #import policy
+    #policy.register(context, config.GLOBALS)
 
     from AccessControl import ModuleSecurityInfo
 

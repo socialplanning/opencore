@@ -2,8 +2,9 @@
 for setup widgets for those annoying little tasks that
 only need to happen occasionally
 """
-from Products.Archetypes.Extensions.utils import installTypes
-from Products.Archetypes.public import listTypes
+from logging import getLogger
+
+from Products.CMFCore import permissions as CMFCorePermissions
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import MigrationTool
 from Products.CMFPlone.setup.SetupBase import SetupWidget

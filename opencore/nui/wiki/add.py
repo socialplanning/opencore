@@ -1,10 +1,10 @@
-from Products.wicked.browser.add import WickedAdd
+from wicked.at.link import ATWickedAdd as WickedAdd
 from Acquisition import aq_inner, aq_parent
-from Products.wicked.lib.normalize import titleToNormalizedId as normalize
+from wicked.normalize import titleToNormalizedId as normalize
 
 from opencore.browser.base import BaseView
 from opencore.browser.base import _
-from Products.wicked.utils import getFilter
+from wicked.utils import getWicked
 from zope.component import ComponentLookupError
 from zExceptions import Redirect
 import itertools
@@ -31,7 +31,7 @@ class NuiBaseAdd(WickedAdd, BaseView):
     
     def do_wicked(self, newcontent, title, section):
         try:
-            wicked = getFilter(self.context)
+            wicked = getWicked(self.context.getField('text'), self.context)
             wicked.section=section 
             wicked.manageLink(newcontent, normalize(title))
         except ComponentLookupError:
