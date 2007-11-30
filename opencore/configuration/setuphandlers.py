@@ -159,9 +159,6 @@ def setupVersioning(portal, out):
     diff_tool = getToolByName(portal, 'portal_diff', None)
     if version_tool is not None:
         version_tool.setVersionableContentTypes(versioned_types)
-        action = version_tool.getActionObject('object/Versions')
-        if action is not None:
-            action.edit(title='History')
 
     for p_type in versioned_types:
         if version_tool is not None:
@@ -422,7 +419,7 @@ def register_local_utility(portal, out, iface, klass):
         return
     sm = portal.getSiteManager()
     try:
-        sm.registerUtility(iface, klass())
+        sm.registerUtility(klass(), iface)
         print >> out, ('%s utility installed' %iface.__name__)
     except ValueError:
         # re-register object
