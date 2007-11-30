@@ -12,7 +12,7 @@
       interface="opencore.interfaces.IEditProject
                  zope.app.annotation.interfaces.IAttributeAnnotatable
                  Products.ploneundelete.interfaces.IUndeleteContainer
-		 "
+                "
     />
   </content>
 
