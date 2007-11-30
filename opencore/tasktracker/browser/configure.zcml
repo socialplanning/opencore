@@ -1,12 +1,14 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:opencore="http://namespaces.openplans.org/opencore"
            >
 
-  <browser:viewlet
-     for="*"
-     name="40-tasktracker"
-     class=".topnav_menuitem.TasktrackerMenuItem"
-     permission="zope2.View"
-     />
+  <opencore:menuitem
+      name="Task Tracker"
+      filter="opencore.browser.topnav.manager.contained_within"
+      container="opencore.interfaces.IProject"
+      item_url="tasks"
+      sort_order="40"
+      />
 
 </configure>

@@ -152,6 +152,7 @@
       container="opencore.interfaces.IProject"
       item_url="manage-team"
       sort_order="60"
+      permission="teamspace.ManageTeamMemberships"
       />
 
   <opencore:menuitem
@@ -168,6 +169,16 @@
       container="opencore.interfaces.IProject"
       item_url="preferences"
       sort_order="80"
+      permission="teamspace.ManageTeamMemberships"
+      />
+
+  <opencore:menuitem
+      name="Join Project"
+      filter=".manager.not_part_of_project"
+      container="opencore.interfaces.IProject"
+      item_url="request-membership"
+      sort_order="90"
+      css_class=".manager.join_css"
       />
 
   <opencore:menuitem
@@ -181,6 +192,7 @@
       name="Projects"
       filter=".manager.if_portal_people_or_projects"
       url=".manager.projects_url"
+      selected=".manager.if_projects_selected"
       sort_order="20"
       />
 

@@ -60,6 +60,10 @@ def if_portal_people_or_projects(viewlet):
             return True
     return False
 
+def if_projects_selected(viewlet):
+    return (IAddProject.providedBy(viewlet.context)
+            and not viewlet.context.request.ACTUAL_URL.endswith('/create'))
+
 def openpage_provided(viewlet):
     return IOpenPage.providedBy(viewlet.context)
 
@@ -69,6 +73,19 @@ def default_css(viewlet):
 def join_css(viewlet):
     return viewlet.selected() and 'oc-topnav-selected' or 'oc-topnav-join'
 
+def not_part_of_project(viewlet):
+    proj = contained_within(viewlet)
+    if proj is None:
+        return False
+    mstool = getToolByName(viewlet.context, 'portal_membership')
+    if mstool.isAnonymousUser():
+        return True
+    mem = mstool.getAuthenticatedMember()
+    team = proj.getTeams()[0]
+    filter_states = tuple(team.getActiveStates()) + ('pending',)
+    if mem.getId() in team.getMemberIdsByStates(filter_states):
+        return False
+    return True
 
 
 class TopnavManager(ViewletManagerBase):
