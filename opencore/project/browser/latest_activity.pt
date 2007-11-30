@@ -10,7 +10,24 @@
       <div id="oc-content-main" class="oc-content-main">
 
 	<!-- project metadata -->
-	<h1 tal:content="view/area/Title">Title</h1>
+	<div class="oc-headingBlock">
+	  <h1 tal:content="view/area/Title">Title</h1>
+	  <p class="oc-headingContext">
+	    created on 
+	    <span tal:define="date view/area/CreationDate"
+		  tal:content="python:view.pretty_date(date)">
+	      September 26
+	    </span>,
+	    last updated
+	    <span tal:define="date view/area/ModificationDate"
+		  tal:content="python:view.pretty_date(date)">
+	      yesterday
+	    </span>
+	  </p>
+	  <h2>Goal</h2>
+	  <p tal:content="view/project_info/description" />
+
+	</div>
 	
 	<!-- feeds -->
 	<div tal:repeat="feed view/feeds" >
@@ -20,9 +37,22 @@
 	<span tal:replace="view/activity"/>
 
       </div><!-- content-main -->     
+
       <div id="oc-content-sidebar">
-	bar
+	
+	<!-- Location -->
+	<!-- TODO -->
+
+	<!-- Team -->
+	<div>
+	  <h1>Team</h1>
+	  <ul tal:repeat="member view/team_members">
+	    <li tal:content="member/id">lammy</li>
+	  </ul>
+	</div>
+
       </div><!-- content-sidebar -->
+
     </div><!-- content-fill-slot -->
   </body>
 </html>

@@ -58,7 +58,16 @@ def project2feed(project_brains, args):
                          'userid': author },
              'date': project_brains.ModificationDate,
              }
-             
+
+def discussions2feed(brains, args):
+    member_url = args[0][0] # this is a hack for a quick checkin :(
+    author = brains.lastModifiedAuthor
+    return { 'title': brains.Title,
+             'url': brains.getURL(),
+             'author': { 'home': member_url(author),
+                         'userid': author },
+             'date': brains.ModificationDate,
+             }
 
 class LatestActivityView(ProjectContentsView):
     """
@@ -86,7 +95,7 @@ class LatestActivityView(ProjectContentsView):
             self.feed_types.append(Feed('Discussions',
                                         ListFromCatalog(self._portal_type['lists'], self.project_path),
                                         ([self.catalog], {}),
-                                        project2feed, ( [ self.memfolder_url ], {}) ),
+                                        discussions2feed, ( [ self.memfolder_url ], {}) ),
                                    )                                                             
     def snippet(self, feed):
         snip = self.context.unrestrictedTraverse('latest-snippet')
@@ -103,12 +112,18 @@ class LatestActivityView(ProjectContentsView):
             blogfeed = self.context.unrestrictedTraverse('feedlist')
             feeds.append(blogfeed())
         feeds.extend( [ self.snippet(feed) for feed in self.feed_types ] )
-        return feeds
+        return feeds        
 
     def activity(self):
         f = ListFromCatalog(portal_type='Document', path=self.project_path)
         g = self.context.unrestrictedTraverse('latest-snippet')
         foo = g()
 
-
-            
+    def team_members(self):
+        # XXX don't know if this is replicated elsewhere
+        team = self.area.getTeams()
+        assert len(team) == 1
+        team = team[0]
+        import pdb;  pdb.set_trace()
+        return team.getMembers()
+        
