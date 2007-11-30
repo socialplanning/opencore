@@ -15,9 +15,10 @@ class ITopnavMenuItems(IViewletManager):
     """Viewlets for the context topnav menu"""
 
 
-#class ITopnavMenuItemSchema(IViewletDirective):
 class ITopnavMenuItemSchema(Interface):
-    """schema for topnav menu item configuration"""
+    """schema for topnav menu item configuration
+       really a superset of IViewletDirective, but we have defaults
+       for permission, class, and template, so we don't require those"""
 
     sort_order = TextLine(
         title=_("Sort index"),
@@ -58,7 +59,8 @@ class ITopnavMenuItemSchema(Interface):
 
     item_url = TextLine(
         title=_('Relative item url'),
-        description=_("When generating url, join this part of the url with the context"),
+        description=_("When generating url, join this part of the url with the"
+                      "context"),
         required=False,
         )
 

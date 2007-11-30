@@ -174,14 +174,14 @@
 
   <opencore:menuitem
      name="People"
-     filter=".viewlet.if_portal_people_or_projects"
+     filter=".viewlet.portal_people_or_projects"
      url=".viewlet.people_url"
      sort_order="10"
      />
 
   <opencore:menuitem
      name="Projects"
-     filter=".viewlet.if_portal_people_or_projects"
+     filter=".viewlet.portal_people_or_projects"
      url=".viewlet.projects_url"
      selected=".viewlet.if_projects_selected"
      sort_order="20"
@@ -189,7 +189,7 @@
 
   <opencore:menuitem
      name="Start A Project"
-     filter=".viewlet.if_portal_people_or_projects"
+     filter=".viewlet.portal_people_or_projects"
      url=".viewlet.project_create_url"
      sort_order="30"
      />

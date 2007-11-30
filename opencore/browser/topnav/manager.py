@@ -10,23 +10,20 @@ from Products.Five.viewlet.metaconfigure import viewletDirective
 from Products.Five.viewlet.viewlet import ViewletBase
 
 class TopnavManager(ViewletManagerBase):
-    """custom menu manager for opencore topnavigation"""
+    """custom menu viewlet manager for opencore topnav"""
 
     def filter(self, viewlets):
-        """also filter out viewlets by containment"""
-        viewlets = super(TopnavManager, self).filter(viewlets)
-        return [result for result in viewlets\
+        """give viewlets the chance to opt out of rendering"""
+        return [result for result in super(TopnavManager, self).filter(viewlets)
                 if result[1].filter()]
 
     def sort(self, viewlets):
         """Sort the viewlets.
-
-        ``viewlets`` is a list of tuples of the form (name, viewlet).
-        """
-        # By default, use the standard Python way of doing sorting. Unwrap the
-        # objects first so that they are sorted as expected.  This is dumb
-        # but it allows the tests to have deterministic results.
-        return sorted(viewlets, lambda x, y: cmp(aq_base(x[1].sort_order), aq_base(y[1].sort_order)))
+           All topnav menuitems have a sort_order attribute, which will specify
+           the ordering"""
+        return sorted(
+            viewlets,
+            lambda x, y: cmp(aq_base(x[1].sort_order), aq_base(y[1].sort_order)))
 
     @classmethod
     def create_topnav_viewlet(cls, name, sort_order,
@@ -40,6 +37,9 @@ class TopnavManager(ViewletManagerBase):
                               template,
                               **kw
                               ):
+        """factory function that creates viewlet classes
+           based on configuration"""
+        # set the name to help when getting a repr on the object"""
         klass_name = "%s-%s" % (ViewletBase.__name__, str(name))
         attrs = dict(name=name,
                      text=text,
@@ -66,7 +66,7 @@ def oc_menuitem_directive(_context, name, sort_order,
                           selected=if_request_starts_with_url,
                           template=None,
                           **kw):
-    """create a class specific for viewlet"""
+    """create a class specific for viewlet, and register it"""
     new_keyword_args = kw.copy()
     if text is None:
         text = name
