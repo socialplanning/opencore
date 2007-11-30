@@ -178,9 +178,8 @@ suitable for building a georss view.
     'Project One'
 
 
-The projects georss view is exposed by a XXX skin template that generates
-xml.  (Has to be added to our portal_skins layers for this to work; in
-tests this is done via setupPloneSite)
+The projects georss view is exposed by a separate view that generates
+xml.
 
     >>> feedview = projects.restrictedTraverse('@@georss')
     >>> xml = feedview()

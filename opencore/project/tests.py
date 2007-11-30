@@ -29,7 +29,7 @@ def test_suite():
     from zope.interface import alsoProvides
 
     ZopeTestCase.installProduct('PleiadesGeocoder')
-    setup.setupPloneSite(products=['PleiadesGeocoder'])
+    setup.setupPloneSite()
 
     def hook_setup(tc):
         tc._refreshSkinData()
