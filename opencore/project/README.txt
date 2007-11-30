@@ -195,3 +195,54 @@ xml.
     <gml:Point>
     <gml:pos>-20.000000 10.000000</gml:pos>
     </gml:Point>...
+
+
+You can also adapt to a view suitable for building kml::
+
+    >>> view = projects.restrictedTraverse('@@geo')
+    >>> info = list(view.forKML())
+    >>> len(info)
+    1
+    >>> info = info[0]
+
+    Note that coords_kml is of the form longitude,latitude,z.
+
+    >>> info['coords_kml']
+    '10.000000,-20.000000,0.000000'
+    >>> info['geometry']['type']
+    'Point'
+    >>> info['geometry']['coordinates']
+    (10.0, -20.0, 0.0)
+    >>> info['hasLineString']
+    0
+    >>> info['hasPoint']
+    1
+    >>> info['hasPolygon']
+    0
+    >>> info['id']
+    'p1'
+
+
+And a separate view that generates kml markup::
+
+    >>> feedview = projects.restrictedTraverse('@@kml')
+    >>> xml = feedview()
+    >>> lines = [s.strip() for s in xml.split('\n') if s.strip()]
+    >>> print '\n'.join(lines)
+    <?xml...
+    <kml xmlns="http://earth.google.com/kml/2.1">
+    <Document>...
+    <name>Projects</name>
+    ...
+    <Placemark>
+    <name>Project One</name>
+    <description>
+    ...
+    <p>URL:
+    <a href="http://nohost/plone/projects/p1">http://nohost/plone/projects/p1</a>
+    ...
+    <Point>
+    <coordinates>10.000000,-20.000000,0.000000</coordinates>
+    </Point>
+    ...
+    </kml>
