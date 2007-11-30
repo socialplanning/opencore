@@ -26,6 +26,22 @@ class ListFromCatalog:
             number = len(items)
         return items[:number]
 
+class DiscussionList(ListFromCatalog):
+    """rediculously bad class to get mail"""
+
+    def __call__(self, catalog, number=None):
+        lists = catalog(**self.base_query)
+        items = []
+        for mlist in lists:
+            for year in mlist.getObject().archive.values():
+                for month in year.values():
+                    items.extend(month.values())
+        date_cmp = lambda x, y: cmp(x.date, y.date)
+        items.sort(date_cmp)
+        if number is None:
+            number = len(items)
+        return items
+
 class Feed:
     """a rediculously stupid class for feeds.
     should be redone"""
@@ -59,14 +75,14 @@ def project2feed(project_brains, args):
              'date': project_brains.ModificationDate,
              }
 
-def discussions2feed(brains, args):
-    member_url = args[0][0] # this is a hack for a quick checkin :(
-    author = brains.lastModifiedAuthor
-    return { 'title': brains.Title,
-             'url': brains.getURL(),
+def discussions2feed(message, args):
+    member_url = args[0][0]
+    author = message.getOwner().getUserName()
+    return { 'title': message.Title,
+             'url': message.absolute_url(),
              'author': { 'home': member_url(author),
                          'userid': author },
-             'date': brains.ModificationDate,
+             'date': message.date
              }
 
 class LatestActivityView(ProjectContentsView):
@@ -93,9 +109,9 @@ class LatestActivityView(ProjectContentsView):
 
         if self.has_mailing_lists:
             self.feed_types.append(Feed('Discussions',
-                                        ListFromCatalog(self._portal_type['lists'], self.project_path),
+                                        DiscussionList(self._portal_type['lists'], self.project_path),
                                         ([self.catalog], {}),
-                                        discussions2feed, ( [ self.memfolder_url ], {}) ),
+                                         discussions2feed, ( [ self.memfolder_url ], {}) ),
                                    )                                                             
     def snippet(self, feed):
         snip = self.context.unrestrictedTraverse('latest-snippet')

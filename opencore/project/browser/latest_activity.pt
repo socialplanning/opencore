@@ -44,8 +44,14 @@
 	<!-- TODO -->
 
 	<!-- Team -->
-	<div>
+	<div tal:define="members view/team_members">
 	  <h1>Team</h1>
+	  <p class="oc-headingContext">
+	    <span tal:replace="python:len(members)">12</span> 
+	    <span tal:condition="python:len(members) >  1">members</span>
+	    <span tal:condition="python:len(members) == 1">member</span>
+
+	  </p>
 	  <ul tal:repeat="member view/team_members">
 	    <a tal:attributes="href member/url">
 	      <img tal:attributes="src member/portrait_url"/>
