@@ -109,6 +109,7 @@ class TopnavManager(ViewletManagerBase):
 
     @classmethod
     def create_topnav_viewlet(cls, name, sort_order,
+                              text,
                               url,
                               item_url,
                               filter,
@@ -119,6 +120,7 @@ class TopnavManager(ViewletManagerBase):
                               ):
         klass_name = "%s-%s" % (BaseMenuItem.__name__, str(name))
         attrs = dict(name=name,
+                     text=text,
                      sort_order=sort_order,
                      url=url,
                      item_url=item_url,
@@ -131,6 +133,7 @@ class TopnavManager(ViewletManagerBase):
 
             
 def oc_menuitem_directive(_context, name, sort_order,
+                          text=None,
                           permission='zope2.View',
                           url=contained_item_url,
                           item_url=u'',
@@ -141,9 +144,12 @@ def oc_menuitem_directive(_context, name, sort_order,
                           **kw):
     """create a class specific for viewlet"""
     new_keyword_args = kw.copy()
+    if text is None:
+        text = name
     viewlet_factory = TopnavManager.create_topnav_viewlet(
         name,
         sort_order,
+        text,
         url,
         item_url,
         filter,

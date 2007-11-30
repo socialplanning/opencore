@@ -1,4 +1,4 @@
 <li tal:attributes="class view/css_class">
   <a tal:attributes="href view/url"
-     tal:content="view/name" />
+     tal:content="view/text" />
 </li>

@@ -85,18 +85,7 @@
      template="historical/topnav-accessibility.pt"
      />
 
- <!-- wanted to override ordering in the manager
-      getting a forbidden attribute error though
-      so ordering will happen by overridding cmp
-      in the viewlets -->
-  <!--browser:viewletManager
-     name="opencore.topnavmenu"
-     provides=".interfaces.ITopnavMenuItems"
-     class=".topnav_manager.SortingViewletManager"
-     permission="zope2.View"
-     /-->
-
-  <!-- context menu is handled through viewlets -->
+  <!-- topnav context menu is handled through viewlets -->
   <browser:viewletManager
      name="opencore.topnavmenu"
      provides=".interfaces.ITopnavMenuItems"
@@ -106,6 +95,7 @@
 
   <opencore:menuitem
       name="Member Wiki"
+      text="Wiki"
       filter=".manager.contained_within"
       container="opencore.interfaces.IMemberFolder"
       url=".manager.member_wiki_url"
@@ -131,6 +121,7 @@
 
   <opencore:menuitem
       name="Project Wiki"
+      text="Wiki"
       filter=".manager.contained_within"
       container="opencore.interfaces.IProject"
       url=".manager.project_wiki_url"

@@ -19,7 +19,19 @@ class ITopnavMenuItems(IViewletManager):
 #class ITopnavMenuItemSchema(IViewletDirective):
 class ITopnavMenuItemSchema(Interface):
     """schema for topnav menu item configuration"""
-    # can add title, description, required to schema
+
+    sort_order = TextLine(
+        title=_("Sort index"),
+        description=_("Index used to determine viewlet order"),
+        required=True,
+        )
+
+    text = TextLine(
+        title=_("Menu item text"),
+        description=_("Text that the menu item display. Defaults to name"),
+        required=False,
+        )
+    
     filter = GlobalObject(
         title=_('Should viewlet render'),
         description=_('Predicate function to filter inclusion in menu.'),
@@ -61,20 +73,6 @@ class ITopnavMenuItemSchema(Interface):
         title=_('Test if selected'),
         description=_('Predicate function to check if menu item is selected'),
         required=False,
-        )
-
-# could not get this to work properly
-#     template = Path(
-#         title=_("Content-generating template."),
-#         description=_("Refers to a file containing a page template (should "
-#                       "end in extension ``.pt`` or ``.html``)."),
-#         required=False,
-#         )
-
-    sort_order = TextLine(
-        title=_("Sort index"),
-        description=_("Index used to determine viewlet order"),
-        required=True,
         )
 
 # this allows extra fields in configure to get passed through
