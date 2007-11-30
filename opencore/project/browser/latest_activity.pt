@@ -47,7 +47,9 @@
 	<div>
 	  <h1>Team</h1>
 	  <ul tal:repeat="member view/team_members">
-	    <li tal:content="member/id">lammy</li>
+	    <a tal:attributes="href member/url">
+	      <img tal:attributes="src member/portrait_url"/>
+	    </a>
 	  </ul>
 	</div>
 

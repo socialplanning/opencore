@@ -124,6 +124,5 @@ class LatestActivityView(ProjectContentsView):
         team = self.area.getTeams()
         assert len(team) == 1
         team = team[0]
-        import pdb;  pdb.set_trace()
-        return team.getMembers()
+        return [ self.member_info_for_member(member) for member in team.getMembers() ]
         
