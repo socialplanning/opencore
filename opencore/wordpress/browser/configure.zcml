@@ -14,7 +14,7 @@
   
   <opencore:menuitem
       name="Blog"
-      filter="opencore.browser.topnav.manager.contained_within"
+      filter="opencore.browser.topnav.viewlet.contained_within"
       container="opencore.interfaces.IProject"
       item_url="blog"
       sort_order="20"

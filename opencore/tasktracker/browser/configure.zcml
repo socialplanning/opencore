@@ -5,7 +5,7 @@
 
   <opencore:menuitem
       name="Task Tracker"
-      filter="opencore.browser.topnav.manager.contained_within"
+      filter="opencore.browser.topnav.viewlet.contained_within"
       container="opencore.interfaces.IProject"
       item_url="tasks"
       sort_order="40"

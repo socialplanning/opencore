@@ -96,16 +96,16 @@
   <opencore:menuitem
      name="Member Wiki"
      text="Wiki"
-     filter=".manager.contained_within"
+     filter=".viewlet.contained_within"
      container="opencore.interfaces.IMemberFolder"
-     url=".manager.member_wiki_url"
-     selected=".manager.openpage_provided"
+     url=".viewlet.member_wiki_url"
+     selected=".viewlet.openpage_provided"
      sort_order="10"
      />
 
   <opencore:menuitem
      name="Profile"
-     filter=".manager.contained_within"
+     filter=".viewlet.contained_within"
      container="opencore.interfaces.IMemberFolder"
      item_url="profile"
      sort_order="20"
@@ -113,7 +113,7 @@
 
   <opencore:menuitem
      name="Account"
-     filter=".manager.contained_within"
+     filter=".viewlet.contained_within"
      container="opencore.interfaces.IMemberFolder"
      item_url="account"
      sort_order="30"
@@ -122,16 +122,16 @@
   <opencore:menuitem
      name="Project Wiki"
      text="Wiki"
-     filter=".manager.contained_within"
+     filter=".viewlet.contained_within"
      container="opencore.interfaces.IProject"
-     url=".manager.project_wiki_url"
-     selected=".manager.openpage_provided"
+     url=".viewlet.project_wiki_url"
+     selected=".viewlet.openpage_provided"
      sort_order="10"
      />
 
   <opencore:menuitem
      name="Team"
-     filter=".manager.contained_within"
+     filter=".viewlet.contained_within"
      container="opencore.interfaces.IProject"
      item_url="team"
      sort_order="50"
@@ -139,7 +139,7 @@
 
   <opencore:menuitem
      name="Manage Team"
-     filter=".manager.contained_within"
+     filter=".viewlet.contained_within"
      container="opencore.interfaces.IProject"
      item_url="manage-team"
      sort_order="60"
@@ -148,7 +148,7 @@
 
   <opencore:menuitem
      name="Contents"
-     filter=".manager.contained_within"
+     filter=".viewlet.contained_within"
      container="opencore.interfaces.IProject"
      item_url="contents"
      sort_order="70"
@@ -156,7 +156,7 @@
 
   <opencore:menuitem
      name="Preferences"
-     filter=".manager.contained_within"
+     filter=".viewlet.contained_within"
      container="opencore.interfaces.IProject"
      item_url="preferences"
      sort_order="80"
@@ -165,32 +165,32 @@
 
   <opencore:menuitem
      name="Join Project"
-     filter=".manager.not_part_of_project"
+     filter=".viewlet.not_part_of_project"
      container="opencore.interfaces.IProject"
      item_url="request-membership"
      sort_order="90"
-     css_class=".manager.join_css"
+     css_class=".viewlet.join_css"
      />
 
   <opencore:menuitem
      name="People"
-     filter=".manager.if_portal_people_or_projects"
-     url=".manager.people_url"
+     filter=".viewlet.if_portal_people_or_projects"
+     url=".viewlet.people_url"
      sort_order="10"
      />
 
   <opencore:menuitem
      name="Projects"
-     filter=".manager.if_portal_people_or_projects"
-     url=".manager.projects_url"
-     selected=".manager.if_projects_selected"
+     filter=".viewlet.if_portal_people_or_projects"
+     url=".viewlet.projects_url"
+     selected=".viewlet.if_projects_selected"
      sort_order="20"
      />
 
   <opencore:menuitem
      name="Start A Project"
-     filter=".manager.if_portal_people_or_projects"
-     url=".manager.project_create_url"
+     filter=".viewlet.if_portal_people_or_projects"
+     url=".viewlet.project_create_url"
      sort_order="30"
      />
 
