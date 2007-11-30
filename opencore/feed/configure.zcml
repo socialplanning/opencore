@@ -7,7 +7,7 @@
 
   <browser:page
      for="*"
-     class="opencore.nui.rss.view.RSSView"
+     class="opencore.feed.view.FeedView"
      permission="zope.Public"
      name="feedlist"
      template="list.pt"

@@ -1,7 +1,7 @@
 import feedparser
-from opencore.nui.base import BaseView
+from opencore.browser.base import BaseView
 
-class RSSView(BaseView):
+class FeedView(BaseView):
     def handle_request(self):
         uri = self.request.get('uri')
         if uri:
