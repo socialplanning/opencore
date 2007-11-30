@@ -50,7 +50,7 @@ setup(name='opencore',
           'borg.localrole==1.0rc1',
           'wsseauth',
           'uuid',
-          'geopy=0.93-20071130',  # forces our vendor branch.
+          'geopy==0.93-20071130',  # forces our vendor branch.
           'flunc>=0.1.2'
           ],
       extras_require=dict(ubuntu=['hprof'])
