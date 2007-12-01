@@ -22,5 +22,4 @@ class IWordpressContainer(Interface):
     featurelet.
     """
 
-from opencore.tasktracker.interfaces import *
 

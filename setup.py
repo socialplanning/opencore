@@ -35,6 +35,8 @@ setup(
                         'https://svn.openplans.org/svn/oc-js/trunk/#egg=oc-js-dev',
                         'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.1.2',
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
+                        'https://svn.openplans.org/svn/OpencoreMu/trunk#egg=OpencoreMu-dev',
+                        "https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader-dev",
                         ],
 
       install_requires=[
@@ -56,7 +58,9 @@ setup(
           'borg.localrole==1.0rc1',
           'wsseauth',
           'uuid',
-          'flunc>=0.1.2'
+          'flunc>=0.1.2',
+          'OpencoreMu==dev,>=0.0',
+          'ZCMLLoader==dev,>=0.0',
           ],
       extras_require=dict(ubuntu=['hprof']),
 
