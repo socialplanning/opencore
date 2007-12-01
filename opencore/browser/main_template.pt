@@ -56,8 +56,10 @@
 
         <div id="oc-content-container">
 
-          <metal:status-messages
-             use-macro="view/main_macros/macros/status-messages" />
+         <metal:sm-slot define-slot="status-message-slot">
+           <metal:status-messages
+              use-macro="view/main_macros/macros/status-messages" />
+	 </metal:sm-slot>
 
           <!-- content is injected here -->
           <tal:everything metal:define-slot="content" />
@@ -70,7 +72,14 @@
       </div>
     </div>
 
+  <tal:comment replace="nothing">
+    Helpful to list versions of components used in opencore
+  </tal:comment>
+  <div id="oc-versions" class="oc-smallText"
+       tal:condition="exists: request/openplans-versions"
+       tal:content="structure view/portal/@@openplans-versions"
+       />
+
   </body>
 </html>
 </metal:template>
-

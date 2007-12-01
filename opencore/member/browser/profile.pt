@@ -33,7 +33,7 @@
               </tal:location>
               <dt><tal:label i18n:translate="profile_projects">Projects</tal:label>
                 <a tal:condition="view/viewingself" class="oc-actionLink" 
-                   href="account">Edit</a>
+                   href="account">Manage</a>
               </dt>
               <dd tal:define="not_used view/populate_project_lists;
                               pub_projs nocall:view/public_projects;

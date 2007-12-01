@@ -143,8 +143,8 @@ class BaseView(BrowserView):
         msg = cleaner.clean_html(msg)
         if msg.startswith('<p>'):
             msg = msg[3:-4]
-
-        plone_utils.addPortalMessage(msg)
+        msg = unicode(msg)
+        plone_utils.addPortalMessage(msg, request=self.request)
 
     addPortalStatusMessage = add_status_message
 

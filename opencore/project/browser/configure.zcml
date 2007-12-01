@@ -136,6 +136,14 @@
 
   <browser:page
      for="opencore.interfaces.IProject"
+     class=".preferences.ProjectDeletionView"
+     permission="cmf.ModifyPortalContent"
+     name="delete"
+     template="delete.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
      class=".team.ProjectTeamView"
      permission="zope2.View"
      name="team"
@@ -204,10 +212,9 @@
      />
 
   <!-- deletion subscribers -->
-  <subscriber handler="opencore.project.browser.preferences.kick_cache" />
-  <subscriber handler="opencore.project.browser.preferences.handle_flet_uninstall" />
-  <subscriber handler="opencore.project.browser.preferences.queue_delete_team" />
-  <adapter factory="opencore.project.browser.preferences.ProjectFeatureletSupporter" />
+  <subscriber handler=".preferences.handle_flet_uninstall" />
+  <subscriber handler=".preferences.delete_team" />
+  <adapter factory=".preferences.ProjectFeatureletSupporter" />
 
   <adapter
       for="opencore.interfaces.IOpenTeam"

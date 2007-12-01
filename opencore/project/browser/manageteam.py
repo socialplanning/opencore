@@ -231,6 +231,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             brain = self.catalog(path='/'.join(mship.getPhysicalPath()))[0]
             extra_context={'item': self.getMshipInfoFromBrain(brain),
                            'team_manage_macros': self.team_manage_macros.macros,
+                           'changeable': True, # they're removable
                            }
             html = self.render_macro(self.team_manage_macros.macros['mshiprow'],
                                      extra_context=extra_context)
@@ -238,9 +239,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                                  'html': html,
                                  'effects':  'fadeIn'}
 
-        plural = napproved != 1
-        self.add_status_message(u'You have added %d member%s.' %
-                                    (napproved, plural and 's' or ''))
+        if napproved == 1:
+            self.add_status_message(u'You have added %s.' % mem_id)
+        else:
+            self.add_status_message(u'You have added %d members.' % napproved)
+            
         if napproved:
             self.team.reindexTeamSpaceSecurity()
 
@@ -260,9 +263,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             return {}
 
         # copy targets list b/c manage_delObjects empties the list
+
         mem_ids = targets[:]
         self.team.manage_delObjects(ids=mem_ids)
-        msg = u"Requests discarded: %s" % ', '.join(mem_ids)
+        plural = len(targets[:]) != 1
+        msg = u"Request%s discarded: %s" % (plural and 's' or '',', '.join(targets[:]))
         
         self.add_status_message(msg)
         return dict( ((mem_id, {'action': 'delete'}) for mem_id in mem_ids) )
@@ -286,7 +291,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             sender.sendEmail(mem_id, msg=msg)
             self._add_transient_msg_for(mem_id, 'You have been denied membership to')
 
-        msg = u"Requests denied: %s" % ', '.join(mem_ids)
+        plural = len(mem_ids) != 1
+        msg = u"Request%s denied: %s" % (plural and 's' or '',', '.join(mem_ids))
         self.add_status_message(msg)
         return dict( ((mem_id, {'action': 'delete'}) for mem_id in mem_ids) )
 
@@ -331,7 +337,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         if deletes:
             self.team.manage_delObjects(ids=deletes)
 
-        msg = u'Invitations removed: %s' % ', '.join(mem_ids)
+        plural = len(mem_ids) != 1
+        msg = u'Invitation%s removed: %s' % (plural and 's' or '', ', '.join(mem_ids))
         self.add_status_message(msg)
         return ret
 
@@ -354,8 +361,12 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                         }
             sender.sendEmail(mem_id, msg_id='remind_invitee', **msg_vars)
 
-        msg = "Reminders sent: %s" % ", ".join(mem_ids)
-        self.add_status_message(msg)
+        if not mem_ids:
+            self.addPortalStatusMessage(_(u"remind_invite_none_selected"))
+        else:
+            plural = len(mem_ids) != 1
+            msg = "Reminder%s sent: %s" % (plural and 's' or '', ", ".join(mem_ids))
+            self.add_status_message(msg)
 
 
     ##################
@@ -381,7 +392,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             if email_confirmation():
                 sender.sendEmail(address, msg=msg)
 
-        msg = u'Email invitations removed: %s' % ', '.join(addresses)
+        plural = len(addresses) != 1
+        msg = u'Email invitation%s removed: %s' % (plural and 's' or '',', '.join(addresses))
         self.add_status_message(msg)
 
         ret = dict([(target, {'action': 'delete'}) for target in targets])
@@ -410,7 +422,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             
             sender.sendEmail(address, msg_id='invite_email', **msg_subs)
 
-        msg = "Reminders sent: %s" % ", ".join(addresses)
+        plural = len(addresses) != 1
+
+        msg = "Reminder%s sent: %s" % (plural and 's' or '',', '.join(addresses))
         self.add_status_message(msg)
 
     def mship_only_admin(self, mship):
@@ -481,7 +495,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             ret[mem_id] = {'action': 'delete'}
 
         if mems_removed:
-            msg = "Members deactivated: %s" % ', '.join(mems_removed)
+            plural = len(mems_removed) != 1
+            msg = "Member%s deactivated: %s" % (plural and 's' or '', ', '.join(mems_removed))
         elif mem_ids:
             msg = 'Cannot remove last admin: %s' % mem_ids[0]
         else:
@@ -518,21 +533,25 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                 item = active_mships.get(mem_id)
                 if item:
                     extra_context={'item': item,
-                                   'team_manage_macros': self.team_manage_macros}
+                                   'team_manage_macros': self.team_manage_macros,
+                                   'changeable': True}
                     html = self.render_macro(self.team_manage_macros.macros['mshiprow'],
                                              extra_context=extra_context)
                     commands[mem_id] = {'action': 'replace',
                                         'html': html,
                                         'effects': 'highlight'}
-                    transient_msg = (team.getHighestTeamRoleForMember(mem_id) == 'ProjectAdmin'
-                                     and 'You are now an admin of'
-                                     or 'You are no longer an admin of')
+                    promoted = team.getHighestTeamRoleForMember(mem_id) == 'ProjectAdmin'
+                    if promoted:
+                        transient_msg = 'You are now an admin of'
+                        status_msg = _(u'promote_to_admin',
+                                       mapping={'name': mem_id})
+                    else:
+                        transient_msg = 'You are no longer an admin of'
+                        status_msg = _(u'demote_to_member',
+                                       mapping={'name': mem_id})
                     self._add_transient_msg_for(mem_id, transient_msg)
-                        
+                    self.add_status_message(status_msg)
 
-            msg = u'Role changed for the following members: %s' \
-                  % ', '.join(changes)
-            self.add_status_message(msg)
             return commands
         else:
             msg = u"No roles changed"
@@ -672,6 +691,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     def add_email_invites(self, targets=None, fields=None):
         invites = self.email_invites
         psm = self._add_email_invites(invites)
+        if not psm:
+            return
         if psm['mem_invites']:
             self.add_status_message(u"Members invited: %s"
                                         % ', '.join(psm['mem_invites']))
@@ -703,8 +724,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
         bad = self.validate_email_invites(invites)
         if bad:
-            psm = (u"Poorly formed email addresses, please correct: %s"
-                   % ', '.join(bad))
+            plural = len(bad) != 1
+            psm = (u"Poorly formed email address%s, please correct: %s"
+                   % (plural and 'es' or '', ', '.join(bad)))
             self.add_status_message(psm)
             return # don't do anything, just re-render the form
         

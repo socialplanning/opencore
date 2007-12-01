@@ -1,7 +1,3 @@
-# @@ DWM: poor module name: (event connotates an event object,
-# something that should usually go into an interfaces module)
-# subscribers would be better
-
 from Products.CMFCore.utils import getToolByName
 from decorator import decorator
 from opencore.project.utils import get_featurelets
@@ -127,3 +123,11 @@ def notify_wordress_user_left_project(mship, event):
             domain=team.getId(),
             )
     send_to_wordpress(uri, username, params, mship)
+
+def notify_wordress_user_removed(mem, event):
+    uri = 'openplans-remove-user.php'
+    username = mem.getId()
+    params = dict(
+            username=username,
+            )
+    send_to_wordpress(uri, username, params, mem)

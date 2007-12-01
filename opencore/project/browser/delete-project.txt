@@ -14,9 +14,9 @@ Let's add some featurelets::
 
     >>> self.loginAsPortalOwner() #@@ this should be the project owner
 
-    >>> IFeatureletSupporter(project).installFeaturelet(TaskTrackerFeaturelet(project)) # the ... shouldn't be necessary, test conf overrides ought to set this to http://nohost:tasktracker (so this is a real bug) -egj
+    >>> IFeatureletSupporter(project).installFeaturelet(TaskTrackerFeaturelet(project))
     Called httplib2.Http.request(
-        'http://.../project/initialize/',
+        'http://nohost:tasktracker/project/initialize/',
         headers={'X-Openplans-Project': 'p1', 'X-Openplans-Tasktracker-Initialize': 'True', 'Cookie': '__ac=...'},
         method='POST')
 
@@ -53,30 +53,14 @@ Team removal
 
     >>> from opencore.project.browser.preferences import delete_team
 
-We'll kill a team we don't need for this test::
+Make sure delete_team does what it's supposed to; we'll kill a team we
+don't need for this test::
 
-    >>> delete_team(self.portal, self.request, [self.projects.p4.getId()])
+    >>> p4_proj = self.projects.p4
+    >>> delete_team(p4_proj)
     >>> sorted(self.portal.portal_teams.objectIds())
     ['.wf_policy_config', 'p1', 'p2', 'p3']
 
-Here's our chicken (ClockQueue should see the second delete we do as
-the same job)::
-
-    >>> pprint(sorted([x for x in IClockQueue(self.projects)]))
-    [(...,
-      <topp.clockqueue.Job 'opencore.project.browser.preferences.delete_team'  args:() kw:{'ids': ['p4']}>)]
-
-Since this is a bad situation, we make repeated deletes
-'safe'. 'delete_teams' prints and logs the formatted exception::
-
-    >>> print delete_team(self.portal, self.request, ['p4'])
-    Traceback...BadRequest: p4 does not exist...
-
-Just one safe chicken...not more::
-
-    >>> pprint(sorted([x for x in IClockQueue(self.projects)]))
-    [(...,
-      <topp.clockqueue.Job 'opencore.project.browser.preferences.delete_team'  args:() kw:{'ids': ['p4']}>)]
 
 Put it all together
 ===================
@@ -84,11 +68,9 @@ Put it all together
     >>> project.getTeams()
     [<OpenTeam at /plone/portal_teams/p1>]
 
-    >>> view = project.restrictedTraverse('preferences')
+    >>> view = project.restrictedTraverse('delete')
     >>> view
-    <...project/browser/preferences.pt...>
-
-    <...sputnik/preferences.pt...>
+    <...project/browser/delete.pt...>
 
     >>> deleting = view._handle_delete() 
     Called httplib2.Http.request(
@@ -109,20 +91,17 @@ p1 should be gone::
     >>> sorted(self.projects.objectIds())
     ['.wf_policy_config', 'p2', 'p3', 'p4']
 
-The team should be queued for deletion:: # brittle
+The team should also be gone::
 
-    >>> pprint(sorted([x for x in IClockQueue(self.projects)]))
-    [(...,
-      <topp.clockqueue.Job 'opencore.project.browser.preferences.delete_team'  args:() kw:{'ids': ['p4']}>),
-     (...,
-      <topp.clockqueue.Job 'opencore.project.browser.preferences.delete_team'  args:() kw:{'ids': ['p1']}>)]
+    >>> sorted(self.portal.portal_teams.objectIds())
+    ['.wf_policy_config', 'p2', 'p3']
 
 We should redirect to somewhere sensible... `start a project`?
 
     >>> print self.request.RESPONSE.headers['location']
     http://nohost/plone/projects/create
 
-What else?
+What else? [test wp, tt, removal]
 
 
 

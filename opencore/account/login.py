@@ -15,6 +15,7 @@ from zope.component import getUtility
 from zope.event import notify
 from DateTime import DateTime
 import logging
+import urllib
 
 logger = logging.getLogger("opencore.account.login")
 
@@ -103,9 +104,10 @@ class LoginView(AccountView):
             return destination
         else:
             default_redirect = '%s/account' % self.memfolder_url()
-            return default_redirect  # need to restrict domain!
             referer = self.request.get('http_referer')
-            if not referer or referer in self.boring_urls:
+            if not referer or not referer.startswith(self.portal_url()):
+                return default_redirect
+            if referer in self.boring_urls:
                 return default_redirect
             anchor = self.request.get('came_from_anchor')
             if anchor:

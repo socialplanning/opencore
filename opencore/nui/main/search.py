@@ -67,11 +67,6 @@ class ProjectsSearchView(SearchView):
         sort_by = self.request.get('sort_by', None)
         self.search_results = None
         self.search_query = None
-
-        # this resets pagination when the sort order is changed
-        if self.request.get('REQUEST_METHOD', None) == 'POST':
-            start = 0
-            self.request.set('b_start', 0)
             
         if letter_search:
             self.search_results = self._get_batch(self.search_for_project_by_letter(letter_search, sort_by), start)
@@ -263,11 +258,6 @@ class PeopleSearchView(SearchView):
         sort_by = self.request.get('sort_by', None)
         self.search_results = None
         self.search_query = None
-
-        # this resets pagination when the sort order is changed
-        if self.request.get('REQUEST_METHOD', None) == 'POST':
-            start = 0
-            self.request.set('b_start', 0)
             
         if letter_search:
             self.search_results = self._get_batch(self.search_for_person_by_letter(letter_search, sort_by), start)
@@ -387,11 +377,6 @@ class SitewideSearchView(SearchView):
         sort_by = self.request.get('sort_by', None)
         self.search_results = None
         self.search_query = None
-
-        # this resets pagination when the sort order is changed
-        if self.request.get('REQUEST_METHOD', None) == 'POST':
-            start = 0
-            self.request.set('b_start', 0)
             
         if letter_search:
             self.search_results = self._get_batch(self.search_by_letter(letter_search, sort_by), start)

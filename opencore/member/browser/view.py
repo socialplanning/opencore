@@ -115,7 +115,8 @@ class ProfileView(BaseView):
         old_messages = [(idx, value) for (idx, value) in msgs if value['time'] < timediff]
         for (idx, value) in old_messages:
             tm.pop(mem_id, self.msg_category, idx)
-        if not old_messages:
+        if old_messages:
+            # We've removed messages, so we should refresh the list
             msgs = tm.get_msgs(mem_id, self.msg_category)
 
         # We want to insert the indexes into the values so that we can properly address them for deletion
@@ -592,7 +593,7 @@ class MemberAccountView(BaseView, OctopoLite):
         except KeyError:
             return {}
         else:
-            elt_id = '%s_close' % idx
+            elt_id = 'close_info_message_%s' % idx
             return {elt_id: dict(action='delete'),
                     "num_updates": {'action': 'copy',
                                     'html': self.nupdates()}}
@@ -647,7 +648,8 @@ class MemberAccountView(BaseView, OctopoLite):
         hide_email = bool(self.request.form.get('hide_email'))
 
         if not email:
-            self.addPortalStatusMessage(_(u'psm_enter_new_email', u'Please enter your new email address.'))
+            self.addPortalStatusMessage(_(u'psm_enter_new_email',
+                                          u'Please enter your new email address.'))
             return
 
         mem = self.loggedinmember

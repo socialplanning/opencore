@@ -181,12 +181,14 @@
   <tr tal:attributes="id item/id">
 
     <td>
-      <input tal:condition="python: not view.id_is_loggedin(item)" 
-             type="checkbox" name="checked:list"
-             tal:attributes="value item/id" />
-      <input tal:condition="python: view.id_is_loggedin(item)" 
-             type="checkbox" name="checked:list" disabled="true"
-             tal:attributes="value item/id" />
+      <tal:checkbox condition="changeable">
+        <input tal:condition="python: not view.id_is_loggedin(item)" 
+               type="checkbox" name="checked:list"
+               tal:attributes="value item/id" />
+        <input tal:condition="python: view.id_is_loggedin(item)" 
+               type="checkbox" name="checked:list" disabled="true"
+               tal:attributes="value item/id" />
+      </tal:checkbox>
 
       <input tal:condition="python: not view.id_is_loggedin(item)" 
              type="hidden" name="all:list"
@@ -248,12 +250,20 @@
   </tr>
 </metal:mshiprow>
 
+
 <metal:mshiplist define-macro="mshiplist">
+  <!-- Every project must have at least one admin, so if there's only
+       one project member we don't expose the remove or change role
+       buttons -->
   <div class="oc-widget oc-widget-dataTable"
        tal:define="mships view/active_mships;
-                   num_items python:len(mships)">
+                   num_items python:len(mships);
+                   changeable python:num_items > 1">
 
-    <h2 class="oc-dataTable-heading" tal:content="string:Your team members ($num_items)" />
+    <h2 class="oc-dataTable-heading" tal:condition="python:num_items!=1"
+        tal:content="string:Your team members ($num_items)" />
+    <h2 class="oc-dataTable-heading" tal:condition="python:num_items==1"
+        tal:content="string:Your team member" />
 
     <form name="team-members" id="team-members" method="POST"
           tal:attributes="action view/request/ACTUAL_URL">
@@ -261,7 +271,7 @@
 
         <thead>
           <tr>
-            <th class="oc-dataTable-checkBoxColumn"><input type="checkbox" class="oc-checkAll" /></th>
+            <th class="oc-dataTable-checkBoxColumn"><input tal:condition="changeable" type="checkbox" class="oc-checkAll" /></th>
             <th scope="col"><!--a class="oc-columnSortable" href=""-->Username<!--/a--></th>
             <th scope="col"><!--a class="oc-columnSortable" href=""-->Role<!--/a--></th>
             <th scope="col"><!--a class="oc-columnSortable" href=""-->Effective since<!--/a--></th>
@@ -279,7 +289,8 @@
 
       </table>
 
-      <ul class="oc-actions oc-dataTable-actions">
+      <ul class="oc-actions oc-dataTable-actions"
+          tal:condition="python:len(mships) > 1">
         <li>
           <input type="submit" name="task|batch_checked|remove-members"
                  value="Remove" class="oc-button" />
