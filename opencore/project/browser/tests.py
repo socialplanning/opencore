@@ -10,6 +10,7 @@ from zope.interface import alsoProvides
 from opencore.featurelets.interfaces import IListenContainer
 from opencore.testing.layer import MockHTTPWithContent
 from opencore.testing import setup as oc_setup
+from opencore.tasktracker.testing.setup import extended_tt_setup
 from Products.Five.site.localsite import enableLocalSiteHook
 from zope.app.component.hooks import setSite, setHooks
 from opencore.testing import dtfactory as dtf
@@ -69,7 +70,7 @@ def test_suite():
         setHooks()
 
     def tasktracker_setup(tc):
-        oc_setup.extended_tt_setup(tc)
+        extended_tt_setup(tc)
         enableLocalSiteHook(tc.portal)
         setSite(tc.portal)
         setHooks()
