@@ -9,6 +9,7 @@
   <include package="opencore.clockqueue" />
   <include package="opencore.content" />
   <include package="opencore.featurelets.browser" />
+  <include package="opencore.feed" />
   <include package="opencore.member" />
   <include package="opencore.nui" />
   <include package="opencore.project" />
