@@ -1,5 +1,5 @@
-from Products.ATContentTypes.migration.walker import CatalogWalker
-from Products.ATContentTypes.migration.migrator import CMFItemMigrator
+from Products.contentmigration.basemigrator.walker import CatalogWalker
+from Products.contentmigration.basemigrator.migrator import CMFItemMigrator
 from Products.CMFCore.utils import getToolByName
 
 class OpenPageMigrator(CMFItemMigrator):
