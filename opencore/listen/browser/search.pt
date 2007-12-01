@@ -13,7 +13,7 @@
 			     template_id string:search_archive">
 
           <div class="oc-widget-search oc-boxy">
-            <form action="./search_archive">
+            <form action="./search_archive" method="post">
                 <label class="oc-label-heading oc-biggerText" for="text" tal:content="view/Title">
                   Search:
                 </label>

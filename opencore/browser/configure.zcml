@@ -104,22 +104,4 @@
      template="topnav.pt"
      />
 
-  <!-- page for workflows that dead-end in a simple message display -->
-  <browser:page
-     for="*"
-     permission="zope.Public"
-     name="messages-only"
-     class=".base.BaseView"
-     template="deadend-message.pt"
-     />
-
-  <!-- debugging view that shows the version numbers of certain components that are in use -->
-  <browser:page
-     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-     name="openplans-versions"
-     class=".versions.OpencoreVersionView"
-     template="versions.pt"
-     permission="zope2.View"
-     />
-
 </configure>

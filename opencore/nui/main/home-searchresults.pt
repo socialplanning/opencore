@@ -37,7 +37,7 @@
               <!-- when sorting, we post the action to distinguish between searching
 		   this was necessary because the batch macro reposts the request data, and we see problems
 		   when trying to reset to page when the sorting changes -->
-              <form name="people_sort" action="." tal:attributes="action string:${context/portal_url}/sitesearch">
+              <form name="people_sort" method="POST" action="." tal:attributes="action string:${context/portal_url}/sitesearch">
 
                 <select name="sort_by" class="oc-js-autoSelect" tal:define="sorted_by python: request.get('sort_by')">
                   <option tal:condition="not: request/letter_search | nothing" value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">by relevancy</option>
@@ -50,6 +50,8 @@
 		<!-- resend the current data when sorting -->
                 <input tal:condition="request/search_for | nothing" type="hidden" name="search_for"
                        tal:attributes="value request/search_for" />
+                <input tal:condition="request/b_start | nothing" type="hidden" name="b_start:int"
+                       tal:attributes="value request/b_start" />
                 <input tal:condition="request/letter_search | nothing" type="hidden" name="letter_search"
                        tal:attributes="value request/letter_search" />
                 <input type="submit" name="action_sort" value="sort" />

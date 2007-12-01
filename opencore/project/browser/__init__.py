@@ -1,23 +1,28 @@
-#import Products.OpenPlans.content.project as project
+import os.path
+import cgi
+
 from Acquisition import aq_parent
+
+from zope import event
+from zope.interface import implements, Interface
+from zope.component import adapts
+
+from Products.Five.traversable import Traversable
 from Products.CMFCore.utils import getToolByName
 from Products.Fate.meta.view import AddView as BaseAddView
-from Products.Five.traversable import FiveTraversable
-from Products.Five.traversable import Traversable
+#import Products.OpenPlans.content.project as project
+
 from memojito import memoizedproperty, memoize
+
+from projectlisting import ProjectListingView
 from opencore import redirect
-from opencore.interfaces import IProject
+from opencore.project import PROJ_HOME
 from opencore.interfaces.adding import IAddSubProject, IAddProject 
+from opencore.interfaces import IProject
 from opencore.interfaces.event import AfterProjectAddedEvent
 from opencore.interfaces.event import AfterSubProjectAddedEvent
-from opencore.project import PROJ_HOME
-from projectlisting import ProjectListingView
-from zope import event
 from zope.app.traversing.interfaces import ITraversable
-from zope.component import adapts
-from zope.interface import implements, Interface
-import cgi
-import os.path
+from Products.Five.traversable import FiveTraversable
 
 # the home page id is used in a lot of places, put it higher in the
 # package path to prevent circular imports

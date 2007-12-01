@@ -3,7 +3,6 @@ from Acquisition import aq_inner, aq_parent
 from Products.wicked.lib.normalize import titleToNormalizedId as normalize
 
 from opencore.browser.base import BaseView
-from opencore.browser.base import _
 from Products.wicked.utils import getFilter
 from zope.component import ComponentLookupError
 from zExceptions import Redirect
@@ -49,13 +48,11 @@ class NuiBaseAdd(WickedAdd, BaseView):
                              title=title)
         newcontent = getattr(self.context, newcontentid)
         self.do_wicked(newcontent, title, section)
-        self.add_status_message(_(u'psm_page_created',
-                                  u'"${pagetitle}" has been created',
-                                  mapping={'pagetitle': title})
-                                )
+        portal_status_message='"%s" has been created' % title
+        BaseView.add_status_message(self, portal_status_message)
         url = newcontent.absolute_url()
         restr = "%s/edit" %url
-        return self.redirect(restr)
+        return BaseView.redirect(self, restr)
 
     @property
     def names_for_context(self):

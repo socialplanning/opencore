@@ -16,10 +16,6 @@
   <property name="mailing_list_fqdn" type="string">lists.openplans.org</property>
   <property name="embed_whitelist" type="lines"></property>
 
-  <property name="email_blacklist" type="lines">
-    <element value="greetings@openplans.org" />
-  </property>
-
   <property name="wordpress_uri" type="string"></property>
   <property name="wordpress_external_uri" type="string">blog</property>
 

@@ -10,24 +10,7 @@
       <div id="oc-content-main" class="oc-content-main">
 
 	<!-- project metadata -->
-	<div class="oc-headingBlock">
-	  <h1 tal:content="view/area/Title">Title</h1>
-	  <p class="oc-headingContext">
-	    created on 
-	    <span tal:define="date view/area/CreationDate"
-		  tal:content="python:view.pretty_date(date)">
-	      September 26
-	    </span>,
-	    last updated
-	    <span tal:define="date view/area/ModificationDate"
-		  tal:content="python:view.pretty_date(date)">
-	      yesterday
-	    </span>
-	  </p>
-	  <h2>Goal</h2>
-	  <p tal:content="view/project_info/description" />
-
-	</div>
+	<h1 tal:content="view/area/Title">Title</h1>
 	
 	<!-- feeds -->
 	<div tal:repeat="feed view/feeds" >
@@ -37,30 +20,9 @@
 	<span tal:replace="view/activity"/>
 
       </div><!-- content-main -->     
-
       <div id="oc-content-sidebar">
-	
-	<!-- Location -->
-	<!-- TODO -->
-
-	<!-- Team -->
-	<div tal:define="members view/team_members">
-	  <h1>Team</h1>
-	  <p class="oc-headingContext">
-	    <span tal:replace="python:len(members)">12</span> 
-	    <span tal:condition="python:len(members) >  1">members</span>
-	    <span tal:condition="python:len(members) == 1">member</span>
-
-	  </p>
-	  <ul tal:repeat="member view/team_members">
-	    <a tal:attributes="href member/url">
-	      <img tal:attributes="src member/portrait_url"/>
-	    </a>
-	  </ul>
-	</div>
-
+	bar
       </div><!-- content-sidebar -->
-
     </div><!-- content-fill-slot -->
   </body>
 </html>

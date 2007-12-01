@@ -66,7 +66,7 @@
             <li class="oc-invite oc-boxy oc-clearAfter"
                 tal:define="idx python: infomsg[0];
                             msg python: infomsg[1]"
-                tal:attributes="id string:close_info_message_${idx}"
+                tal:attributes="id string:close_${msg}"
                 >
               <tal:info_msg define="idx python: infomsg[0];
                                     msg python: infomsg[1]">
@@ -75,7 +75,7 @@
                 </div> -->
                 <p class="oc-invite-content"
                    tal:content="structure msg" />
-                <a href="#" title="Close" class="oc-actionClose oc-actionLink oc-js-actionLink"
+                <a href="#" title="Close" class="oc-actionClose oc-actionLink"
                    tal:attributes="href string:${request/ACTUAL_URL}?task|${idx}|close=Close"
                    >Close</a>
               </tal:info_msg>

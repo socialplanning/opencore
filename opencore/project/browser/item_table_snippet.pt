@@ -22,8 +22,7 @@
      <h2 class="oc-dataTable-heading"><tal:dummy replace="item_header" /></h2>
 
   <form action="contents"
-  tal:attributes="name form_name" class="oc-js-formConfirm">
-    <span class="oc-hidden oc-warning oc-confirm">This deletion is permanent.  Are you sure you want to delete?</span>
+  tal:attributes="name form_name">
     <input tal:replace="structure view/authenticator_input"/>
     <input type="hidden" name="item_type"
       tal:attributes="value item_type" /> 

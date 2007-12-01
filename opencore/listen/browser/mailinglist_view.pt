@@ -44,14 +44,14 @@
               List type
             </dd>
             <dt i18n:translate="mailinglist_view_archive" id="archival-state">
-              Message archive
+              Archive
             </dt>
             <dd>
               <span tal:content="view/archived">
                 Messages to this list are archived
               </span>
-              <a tal:condition="view/is_archived" tal:attributes="href python:'%s/archive' % view.context.absolute_url()" i18n:translate="mailinglist_view_archive_link">
-                View messages.
+              <a tal:condition="view/is_archived" tal:attributes="href python:'%s/archive' % view.context.absolute_url()" i18n:translate="mailinglist_view_archive">
+                View archive.
               </a>
             </dd>
             <dt i18n:translate="mailinglist_view_contact">

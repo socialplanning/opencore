@@ -148,7 +148,7 @@ not explode::
     >>> view.leave_project('i18n')
     False
     >>> view.portal_status_message
-    [u'You are the only remaining administrator of "&#26085;&#35486;"...]
+    [u'You are the only remaining administrator of "\u65e5\u8a9e"...]
 
     Now we'll try to set the listing as private:
 
@@ -335,7 +335,7 @@ And now if we were to receive an info message::
 
     Let's go ahead and kill the first one, the message is not so nice
     >>> sorted(view.close_msg_handler('0').keys())
-    ['close_info_message_0', 'num_updates']
+    ['0_close', 'num_updates']
 
     Poof, he's gone
     >>> self.clearMemoCache()

@@ -16,11 +16,11 @@
                    has_msgs python:msgs > 0;
                    msgs_str python:msgs != 1 and 'messages' or 'message';
                    "
+       tal:condition="has_msgs"
        tal:attributes="href string:${memfolder_url}/account"
        >
        Account
        <span class="oc-mystuff-messagecount"
-             tal:condition="has_msgs"
              tal:content="string:(${msgs} ${msgs_str})" />
     </a>
   </li>

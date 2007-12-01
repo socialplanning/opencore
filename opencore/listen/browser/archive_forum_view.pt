@@ -11,9 +11,8 @@
           <h2 tal:content="view/Title" />
           <div i18n:translate="archive_forum_view_by" class="oc-headingContext oc-smallText">View by <strong>conversation</strong> or <a href="date_view">date</a></div>
         </div>
-        <tal:threads define="
-           batch view/getTopics;
-	   threads python:batch.topic_list; 
+        <tal:threads define="threads view/getTopics; 
+           batch threads; 
            batch_base_url string:${here/absolute_url}">
           <div class="oc-listen-paginator">
             <div metal:use-macro="here/batch_macros/macros/navigation" />
