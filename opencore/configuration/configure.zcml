@@ -13,7 +13,6 @@
   <include package="opencore.nui" />
   <include package="opencore.project" />
   <include package="opencore.listen" />
-  <include package="opencore.tasktracker" />
   <include package="opencore.redirect" />
   <include package="opencore.utility" />
   <include package="topp.featurelets" />
