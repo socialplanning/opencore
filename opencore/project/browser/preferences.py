@@ -10,7 +10,6 @@ from opencore.interfaces import IProject
 from opencore.interfaces.adding import IAddProject
 from opencore.browser import formhandler
 from opencore.project.browser.view import ProjectPreferencesView
-from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
 from topp.clockqueue.interfaces import IClockQueue
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.interfaces import IFeatureletSupporter
