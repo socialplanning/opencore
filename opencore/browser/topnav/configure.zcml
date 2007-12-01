@@ -13,24 +13,6 @@
      template="topnav.pt"
      />
 
-  <!-- topnav-project-menu -->
-  <browser:page
-     for="*"
-     class=".topnav.ProjectMenuView"
-     permission="zope2.View"
-     name="topnav-project-menu"
-     template="context-menu.pt"
-     />
-
-  <!-- topnav-member-menu -->
-  <browser:page
-     for="*"
-     class=".topnav.MemberMenuView"
-     permission="zope2.View"
-     name="topnav-member-menu"
-     template="context-menu.pt"
-     />
-
   <!-- topnav-default-menu -->
   <browser:page
      for="*"
