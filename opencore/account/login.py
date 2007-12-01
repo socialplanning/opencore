@@ -15,7 +15,6 @@ from zope.component import getUtility
 from zope.event import notify
 from DateTime import DateTime
 import logging
-import urllib
 
 logger = logging.getLogger("opencore.account.login")
 

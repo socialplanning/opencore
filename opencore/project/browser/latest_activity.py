@@ -26,22 +26,6 @@ class ListFromCatalog:
             number = len(items)
         return items[:number]
 
-class DiscussionList(ListFromCatalog):
-    """rediculously bad class to get mail"""
-
-    def __call__(self, catalog, number=None):
-        lists = catalog(**self.base_query)
-        items = []
-        for mlist in lists:
-            for year in mlist.getObject().archive.values():
-                for month in year.values():
-                    items.extend(month.values())
-        date_cmp = lambda x, y: cmp(x.date, y.date)
-        items.sort(date_cmp)
-        if number is None:
-            number = len(items)
-        return items
-
 class Feed:
     """a rediculously stupid class for feeds.
     should be redone"""
@@ -74,16 +58,7 @@ def project2feed(project_brains, args):
                          'userid': author },
              'date': project_brains.ModificationDate,
              }
-
-def discussions2feed(message, args):
-    member_url = args[0][0]
-    author = message.getOwner().getUserName()
-    return { 'title': message.Title,
-             'url': message.absolute_url(),
-             'author': { 'home': member_url(author),
-                         'userid': author },
-             'date': message.date
-             }
+             
 
 class LatestActivityView(ProjectContentsView):
     """
@@ -109,9 +84,9 @@ class LatestActivityView(ProjectContentsView):
 
         if self.has_mailing_lists:
             self.feed_types.append(Feed('Discussions',
-                                        DiscussionList(self._portal_type['lists'], self.project_path),
+                                        ListFromCatalog(self._portal_type['lists'], self.project_path),
                                         ([self.catalog], {}),
-                                         discussions2feed, ( [ self.memfolder_url ], {}) ),
+                                        project2feed, ( [ self.memfolder_url ], {}) ),
                                    )                                                             
     def snippet(self, feed):
         snip = self.context.unrestrictedTraverse('latest-snippet')
@@ -125,20 +100,15 @@ class LatestActivityView(ProjectContentsView):
             self.request['uri'] = '/'.join((self.context.absolute_url(),
                                             self._get_featurelet('blog')['url'],
                                             'feed'))
-            blogfeed = self.context.unrestrictedTraverse('feedlist+')
+            blogfeed = self.context.unrestrictedTraverse('feedlist')
             feeds.append(blogfeed())
         feeds.extend( [ self.snippet(feed) for feed in self.feed_types ] )
-        return feeds        
+        return feeds
 
     def activity(self):
         f = ListFromCatalog(portal_type='Document', path=self.project_path)
         g = self.context.unrestrictedTraverse('latest-snippet')
         foo = g()
 
-    def team_members(self):
-        # XXX don't know if this is replicated elsewhere
-        team = self.area.getTeams()
-        assert len(team) == 1
-        team = team[0]
-        return [ self.member_info_for_member(member) for member in team.getMembers() ]
-        
+
+            

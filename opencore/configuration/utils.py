@@ -1,6 +1,9 @@
 """
 config utils
 """
+from Products.CMFCore.utils import getToolByName
+
+
 def product_config(variable, namespace, default=''):
     """
     get a variable from the product-config (etc/zope.conf)

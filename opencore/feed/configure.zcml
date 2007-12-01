@@ -5,23 +5,12 @@
 	   xmlns:i18n="http://namespaces.zope.org/i18n"
 	   i18n_domain="opencore">
 
-  <!-- straight list of feeds -->
   <browser:page
      for="*"
-     class="opencore.feed.view.FeedView"
+     class="opencore.nui.rss.view.RSSView"
      permission="zope.Public"
      name="feedlist"
      template="list.pt"
      />
-
-  <!-- list of feeds with the head item accentuated -->
-  <browser:page
-     for="*"
-     class="opencore.feed.view.FeedView"
-     permission="zope.Public"
-     name="feedlist+"
-     template="headlist.pt"
-     />
-
 
 </configure>
