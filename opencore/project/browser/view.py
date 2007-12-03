@@ -56,9 +56,6 @@ class ProjectBaseView(BaseView):
         return flet_adapter.installed
 
 
-profileit = profile('/Users/whit/dev/pages.prof')
-
-
 class ProjectContentsView(ProjectBaseView, OctopoLite):
 
     class ContentsCollection(list):
