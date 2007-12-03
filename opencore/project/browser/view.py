@@ -22,6 +22,8 @@ from opencore.interfaces.catalog import IMetadataDictionary
 from opencore.interfaces.event import AfterProjectAddedEvent, \
       AfterSubProjectAddedEvent
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
+import logging
+from collective.testing.profile import profile
 
 from opencore.project import PROJ_HOME
 from opencore.browser import formhandler
@@ -59,8 +61,19 @@ class ProjectBaseView(BaseView):
             return False
         return flet_adapter.installed
 
+#profileit = profile('/home/douglas/profiler.txt')
 
 class ProjectContentsView(ProjectBaseView, OctopoLite):
+
+#    @profileit
+#    def __call__(self):
+#        import time
+#        timeStart = time.time()
+#        retval = super(ProjectContentsView, self).__call__()
+#        timeEnd = time.time()
+#        log = logging.getLogger('opencore.project')
+#        log.info("Contents View __call__ %s" % ((timeEnd-timeStart) * 1000.0))
+#        return retval
 
     class ContentsCollection(list):
         """
@@ -92,11 +105,6 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
                 item.collection = self
 
     template = ZopeTwoPageTemplateFile('contents.pt')
-
-    item_row = ZopeTwoPageTemplateFile('item_row.pt')
-    item_table_snippet = ZopeTwoPageTemplateFile('item_table_snippet.pt')
-    item_tbody_snippet = ZopeTwoPageTemplateFile('item_tbody_snippet.pt')
-    item_thead_snippet = ZopeTwoPageTemplateFile('item_thead_snippet.pt')
 
     _portal_type = {'pages': "Document",
                     'lists': "Open Mailing List",
@@ -308,7 +316,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
         else:
             sort_order = 'ascending'
 
-        thead_obj = {'html': self.item_thead_snippet(item_type=item_type,
+        thead_obj = {'html': self.template(item_type=item_type,
                                                      item_date_author_header=(item_type=='pages' and "Last Modified" or "Created"),
                                                      sort_on=sort_by,
                                                      sort_order=sort_order,
@@ -317,7 +325,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
                      'effects': '',
                      'action': 'replace'
                      }
-        tbody_obj = {'html': self.item_tbody_snippet(item_collection=items),
+        tbody_obj = {'html': self.template(item_collection=items),
                      'effects': 'highlight',
                      'action': 'replace'
                      }
@@ -361,7 +369,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
             page.setTitle(new['title'])
             page.reindexObject(('Title',))
             snippets[page.getId()] = {
-                'html': self.item_row(
+                'html': self.template(
                     item=self._make_dict_and_translate(
                         page,
                         self.needed_values[item_type]),
