@@ -10,9 +10,11 @@
     <tal:contextMenu replace="structure view/contextmenu" />
   </tal:comment>
 
-  <ul id="oc-topnav-context" class="oc-clearAfter">
-    <tal:providers replace="structure provider:opencore.topnavmenu" />
-  </ul>
+  <ul id="oc-topnav-context" class="oc-clearAfter"
+      tal:define="contextmenu view/contextmenu"
+      tal:condition="contextmenu"
+      tal:content="structure contextmenu"
+      />
 
   <div id="oc-topnav-tab">
     <div id="oc-topnav-globalmenu-container">
