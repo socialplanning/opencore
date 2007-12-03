@@ -130,7 +130,7 @@ class InviteJoinView(JoinView, accountview.ConfirmAccountView):
         import zExceptions
         if not key:
             raise zExceptions.BadRequest("Must present proper validation")
-        if key != self.invites.key:
+        if key != str(self.invites.key):
             raise ValueError('Bad confirmation key')
         return True
 

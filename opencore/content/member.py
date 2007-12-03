@@ -29,6 +29,7 @@ from Products.OpenPlans.config import PROJECTNAME
 from Products.OpenPlans.config import PROHIBITED_MEMBER_PREFIXES
 
 from opencore.utility.interfaces import IHTTPClient
+from opencore.nui.member.utils import member_path
 
 member_schema = id_schema + contact_schema + plone_schema + \
                 security_schema + login_info_schema
