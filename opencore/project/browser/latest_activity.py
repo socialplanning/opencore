@@ -122,12 +122,20 @@ class LatestActivityView(ProjectContentsView):
     def feeds(self):
         feeds = []
         if self.has_blog:
+
+            # add parameters to the request
             self.request['uri'] = '/'.join((self.context.absolute_url(),
                                             self._get_featurelet('blog')['url'],
                                             'feed'))
             self.request['title'] = 'Blog'
+            self.request['subtitle'] = 'MORE PAGES'
+            
+
+            # render the view
             blogfeed = self.context.unrestrictedTraverse('feedlist+')
             feeds.append(blogfeed())
+
+        # extend (legacy) feeds
         feeds.extend( [ self.snippet(feed) for feed in self.feed_types ] )
         return feeds        
 

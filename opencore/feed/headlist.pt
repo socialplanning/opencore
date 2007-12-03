@@ -2,7 +2,14 @@
 
 <div class="oc-widget oc-widget-feed oc-home-column"
      tal:condition="view/feed | nothing">
-  <h2 class="oc-feed-title" tal:content="view/title">Feed Title</h2>
+  <h2 class="oc-feed-title">
+    <span tal:replace="view/title">Feed Title</span>
+    <a tal:attributes="href view/feed/feed/link"
+       tal:content="view/subtitle">
+      MORE ITEMS
+    </a>
+  </h2>
+  <!-- view/feed/link -->
   <ul class="oc-feed-list">
     <li class="oc-feed-item oc-clearAfter" 
 	tal:repeat="feeditem
