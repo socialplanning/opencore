@@ -25,6 +25,7 @@ from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 
 from opencore.project.utils import get_featurelets
 from opencore.project import PROJ_HOME
+from opencore.project import LATEST_ACTIVITY
 from opencore.browser import formhandler
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
@@ -35,6 +36,25 @@ from opencore.nui.wiki.add import get_view_names
 from DateTime import DateTime
 
 _marker = object()
+
+
+def intrinsic_homepages():
+    """return data for homepages intrinsic to opencore
+    (not featurelet-dependent)
+    """
+    # XXX maybe this should just be a list?
+    return [ dict(id='wiki',
+                  title='Wiki pages',
+                  url=PROJ_HOME,
+                  checked=True,
+                  ),
+                 
+             dict(id='latest-activity',
+                  title='Latest activity',
+                  url=LATEST_ACTIVITY,
+                  checked=False
+                  )
+             ]
 
 
 class ProjectBaseView(BaseView):
@@ -533,12 +553,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
     def homepages(self):
         """possible homepages for the app"""        
 
-        flet_data = self.featurelets()
-        flet_data.insert(0, dict(id='wiki',
-                                 title='Wiki pages',
-                                     url=PROJ_HOME,
-                                     checked='True',
-                                     ))
+        flet_data = intrinsic_homepages() + self.featurelets()
         return flet_data
 
 
@@ -670,12 +685,7 @@ class ProjectAddView(BaseView, OctopoLite):
         return flet_data
 
     def homepages(self):
-        flet_data = self.featurelets()
-        flet_data.insert(0, dict(id='wiki',
-                                 title='Wiki pages',
-                                 url=PROJ_HOME,
-                                 checked='True',
-                                 ))
+        flet_data = intrinsic_homepages() + self.featurelets()
         return flet_data
 
 
