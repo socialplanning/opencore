@@ -45,9 +45,11 @@ class DiscussionList(ListFromCatalog):
 class Feed:
     """a rediculously stupid class for feeds.
     should be redone"""
-    def __init__(self, title, listgetter, listgetterargs,
+    def __init__(self, title, link, linktitle, listgetter, listgetterargs,
                  tofeed, tofeedargs=None):
         self.title = title
+        self.link = link
+        self.linktitle = linktitle
         self.listgetter = listgetter
         if listgetterargs is None:
             listgetterargs = ( [], {} )
@@ -100,8 +102,10 @@ class LatestActivityView(ProjectContentsView):
         ProjectContentsView.__init__(self, context, request)
 
         self.feed_types = []
-
         self.feed_types.append(Feed('Pages',
+                                    '/'.join((self.area.absolute_url(),
+                                              'project-home')),
+                                    'MORE PAGES',
                                     ListFromCatalog(self._portal_type['pages'], self.project_path),
                                     ([self.catalog], {}),
                                     project2feed, ( [ self.memfolder_url ], {}) ),
@@ -109,6 +113,9 @@ class LatestActivityView(ProjectContentsView):
 
         if self.has_mailing_lists:
             self.feed_types.append(Feed('Discussions',
+                                        '/'.join((self.area.absolute_url(),
+                                                  self._get_featurelet('listen')['url'])),
+                                        'MORE THREADS',
                                         DiscussionList(self._portal_type['lists'], self.project_path),
                                         ([self.catalog], {}),
                                          discussions2feed, ( [ self.memfolder_url ], {}) ),
@@ -116,6 +123,8 @@ class LatestActivityView(ProjectContentsView):
     def snippet(self, feed):
         snip = self.context.unrestrictedTraverse('latest-snippet')
         snip.feedtitle = feed.title
+        snip.link = feed.link
+        snip.linktitle = feed.linktitle
         snip.items = feed.getfeeds()
         return snip()
 
@@ -128,7 +137,7 @@ class LatestActivityView(ProjectContentsView):
                                             self._get_featurelet('blog')['url'],
                                             'feed'))
             self.request['title'] = 'Blog'
-            self.request['subtitle'] = 'MORE PAGES'
+            self.request['subtitle'] = 'MORE POSTS'
             
 
             # render the view
