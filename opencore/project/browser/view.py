@@ -158,7 +158,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
             item['undeletable'] = True
         return item
 
-    def _sorted_items(self, item_type, sort_by=None, sort_order='descending'):
+    def _sorted_items(self, item_type, sort_by=None, sort_order='ascending'):
         query = dict(portal_type=self._portal_type[item_type],
                      path=self.project_path,
                      sort_on=sort_by,
