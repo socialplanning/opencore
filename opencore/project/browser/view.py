@@ -518,7 +518,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
     def current_home_page(self):
         return IHomePage(self.context).home_page
 
-    def featurelets(self, include_wiki=False):
+    def featurelets(self):
         supporter = IFeatureletSupporter(self.context)
         all_flets = [flet for name, flet in getAdapters((supporter,), IFeaturelet)]
         installed_flets = [flet.id for flet in all_flets if flet.installed]
@@ -528,9 +528,14 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                           checked=f.id in installed_flets,
                           )
                      for f in all_flets]
-        if include_wiki:
-            flet_data.insert(0, dict(id='wiki',
-                                     title='Wiki pages',
+        return flet_data
+
+    def homepages(self):
+        """possible homepages for the app"""        
+
+        flet_data = self.featurelets()
+        flet_data.insert(0, dict(id='wiki',
+                                 title='Wiki pages',
                                      url=PROJ_HOME,
                                      checked='True',
                                      ))
@@ -647,7 +652,7 @@ class ProjectAddView(BaseView, OctopoLite):
     def notify(self, project):
         event.notify(AfterProjectAddedEvent(project, self.request))
 
-    def featurelets(self, include_wiki=False):
+    def featurelets(self):
         # create a stub object that provides IFeatureletSupporter
         # is there a better way to get the list of adapters without having
         # the "for" object?
@@ -662,12 +667,15 @@ class ProjectAddView(BaseView, OctopoLite):
                           checked=False,
                           )
                      for name, f in flets]
-        if include_wiki:
-            flet_data.insert(0, dict(id='wiki',
-                                     title='Wiki pages',
-                                     url=PROJ_HOME,
-                                     checked='True',
-                                     ))
+        return flet_data
+
+    def homepages(self):
+        flet_data = self.featurelets()
+        flet_data.insert(0, dict(id='wiki',
+                                 title='Wiki pages',
+                                 url=PROJ_HOME,
+                                 checked='True',
+                                 ))
         return flet_data
 
 
