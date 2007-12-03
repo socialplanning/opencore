@@ -68,6 +68,7 @@ class ProjectBaseView(BaseView):
         a geolocation.  Will perform a lookup on a textual position if
         necessary.
         """
+        # XXX move to a non-project-specific view
         try:
             lon = float(form.get('position-longitude'))
             lat = float(form.get('position-latitude'))
@@ -93,6 +94,7 @@ class ProjectBaseView(BaseView):
         """
         Update the project with the given latitude and longitude.
         """
+        # XXX move to a non-project-specific view
         if lat is not None and lon is not None:
             geo = IGeoItemSimple(proj)
             # Longitude first! Yes, really.
@@ -583,7 +585,9 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         return flet_data
 
     def location_img_url(self):
-        # Used for non-ajax UI to get a static map image.
+        # Used for non-ajax UI to get a static map image.  XXX I think
+        # this wants to move to a new view or adapter named eg. IOCGeoItem
+        # that we could use on multiple contexts.
         geo = IGeoItemSimple(self.context)
         if not geo.coords:
             return ''
@@ -766,6 +770,8 @@ class SubProjectAddView(ProjectAddView):
 
 whitespace_pattern = re.compile('\s+')
 def strip_extra_whitespace(title):
+    if title is None:
+        return ''
     title = whitespace_pattern.sub(' ', title).strip()
     return title.strip()
 

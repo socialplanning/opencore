@@ -41,7 +41,6 @@ def test_suite():
 
     import pdb
 
-    installProduct('PleiadesGeocoder')
     setup.setupPloneSite()
 
     def contents_content(tc):
