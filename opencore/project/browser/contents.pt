@@ -136,7 +136,7 @@
 													item_type item_type | options/item_type;
 													editable editable | not:item/uneditable | nothing; 
 													deletable not:item/undeletable | nothing">
-										<td tal:condition="item/collection/editable | view/editable">
+										<td tal:condition="item_collection/editable">
 											<input tal:condition="not:deletable" type="checkbox" class="oc-js-checkAll-never" name="deletes:list"
 												 tal:attributes="value item/id" 
 												 disabled="True" />
@@ -145,9 +145,9 @@
 										</td>
 										<td>
 										<div class="oc-js-liveEdit-value">
-											<a tal:attributes="href item/url" content="item/title" />
+											<a tal:attributes="href item/url" tal:content="item/title" />
 										</div>
-										<div tal:condition="item/collection/editable | view/editable"
+										<div tal:condition="item_collection/editable"
 											 class="oc-js-liveEdit-editForm oc-liveEdit-editForm">
 											<input tal:condition="editable" type="text" 
 													 tal:attributes="name string:${item/id}_title; value item/title" />
@@ -164,7 +164,7 @@
 											<a tal:attributes="href string:${view/siteURL}/people/${author}/profile" tal:content="author" />
 										</tal:setvar>
 										</td>
-										<td tal:condition="item/collection/editable | view/editable">
+										<td tal:condition="item_collection/editable">
 										<ul class="oc-actions oc-dataTable-row-actions">
 											<li tal:condition="editable">
 											<a href="#" class="oc-js-liveEdit_showForm oc-actionLink">Rename</a></li>

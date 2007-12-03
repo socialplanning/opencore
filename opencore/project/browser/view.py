@@ -61,19 +61,7 @@ class ProjectBaseView(BaseView):
             return False
         return flet_adapter.installed
 
-#profileit = profile('/home/douglas/profiler.txt')
-
 class ProjectContentsView(ProjectBaseView, OctopoLite):
-
-#    @profileit
-#    def __call__(self):
-#        import time
-#        timeStart = time.time()
-#        retval = super(ProjectContentsView, self).__call__()
-#        timeEnd = time.time()
-#        log = logging.getLogger('opencore.project')
-#        log.info("Contents View __call__ %s" % ((timeEnd-timeStart) * 1000.0))
-#        return retval
 
     class ContentsCollection(list):
         """
@@ -93,16 +81,12 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
 
         def __setitem__(self, i, y):
             list.__setitem__(self, i, y)
-            y.collection = self
 
         def append(self, item):
             list.append(self, item)
-            item.collection = self
 
         def extend(self, items):
             list.extend(self, items)
-            for item in items:
-                item.collection = self
 
     template = ZopeTwoPageTemplateFile('contents.pt')
 
@@ -134,7 +118,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
 
     def _make_dict_and_translate(self, obj, needed_values):
         # could probably fold this map a bit
-        obj_dict = type('contents_item', (dict,), {'collection': None})()
+        obj_dict = {}
         metadata = self.retrieve_metadata(obj)
         
         for field in needed_values: # loop through fields that we need
