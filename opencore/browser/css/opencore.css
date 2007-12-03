@@ -1578,6 +1578,7 @@ textarea {
 textarea {
   display: block;
   visibility: hidden;
+  overflow: hidden;
   margin-bottom: 1em;
 }
 fieldset {
