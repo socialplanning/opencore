@@ -106,13 +106,12 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
                                      obj_size='mailing_list_threads'),
                          )
 
-    @profileit
     def retrieve_metadata(self, obj):
         ## DWM: not sure adaptation gives a real advantage here
         if isinstance(obj, AbstractCatalogBrain):
             metadata = indexing.metadata_for_brain(obj)
         else:
-            indexing.metadata_for_portal_content(obj, self.catalog)
+            metadata = indexing.metadata_for_portal_content(obj, self.catalog)
         return metadata
 
     def _make_dict_and_translate(self, obj, needed_values):
