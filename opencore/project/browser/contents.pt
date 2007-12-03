@@ -79,12 +79,12 @@
 										tal:condition="python:item_type!='pages'"
 										tal:define="myname string:Size;
 													myvalue string:obj_size">
-									<metal:do use-macro="view/template/macros/sortable_header" />
+									<metal:do use-macro="template/macros/sortable_header" />
 									</th>
 									<th scope="col" 
 										tal:define="myname item_date_author_header;
 													myvalue string:obj_date">
-									<metal:do use-macro="view/template/macros/sortable_header" />
+									<metal:do use-macro="template/macros/sortable_header" />
 									</th>
 									<th>Actions</th>
 								</tr>
@@ -97,24 +97,24 @@
 									<th scope="col"
 										tal:define="myname string:Title;
 													myvalue string:title">
-									<metal:do use-macro="view/template/macros/sortable_header" />
+									<metal:do use-macro="template/macros/sortable_header" />
 									</th>
 									<th scope="col"
 										tal:condition="python:item_type!='pages' and item_type!='lists'"
 										tal:define="myname string:Size;
 													myvalue string:obj_size">
-									<metal:do use-macro="view/template/macros/sortable_header" />
+									<metal:do use-macro="template/macros/sortable_header" />
 									</th>
 									<th scope="col"
 										tal:condition="python:item_type=='lists'"
 										tal:define="myname string:Conversations;
 													myvalue string:obj_size">
-									<metal:do use-macro="view/template/macros/sortable_header" />
+									<metal:do use-macro="template/macros/sortable_header" />
 									</th>
 									<th scope="col" 
 										tal:define="myname item_date_author_header;
 													myvalue string:obj_date">
-									<metal:do use-macro="view/template/macros/sortable_header" />
+									<metal:do use-macro="template/macros/sortable_header" />
 									</th>
 								</tr>
 								</thead>
@@ -185,7 +185,7 @@
 							<tal:if condition="not:item_collection/editable">
 								<tbody tal:attributes="id string:oc-${item_type}-tbody" >
 								<tal:for repeat="item item_collection">
-									<tal:macro metal:use-macro="view/template/macros/item_row" />
+									<tal:macro metal:use-macro="template/macros/item_row" />
 								</tal:for>
 								</tbody>	
 							</tal:if>
@@ -210,8 +210,8 @@
 					<div class="oc-widget oc-widget-dataTable">
 					<h2 class="oc-dataTable-heading"><tal:dummy replace="item_header" /></h2>
 					<table class="oc-dataTable" cellpadding="0" cellspacing="0">
-						<tal:macro metal:use-macro="view/template/macros/item_thead_snippet" />
-						<tal:macro metal:use-macro="view/template/macros/item_tbody_snippet" />
+						<tal:macro metal:use-macro="template/macros/item_thead_snippet" />
+						<tal:macro metal:use-macro="template/macros/item_tbody_snippet" />
 					</table>
 					</div> <!-- end .oc-widget-dataTable -->
 				</metal:contents_table_uneditable>
@@ -226,7 +226,7 @@
 							item_date_author_header string:Created;
 							show_deletes view/show_deletes
 							">
-			 <tal:macro metal:use-macro="view/template/macros/contents_table_wrapper" />
+			 <tal:macro metal:use-macro="template/macros/contents_table_wrapper" />
 		</tal:setvar> 
 
 		<tal:setvar condition="view/has_mailing_lists" 
@@ -236,7 +236,7 @@
 					item_date_author_header string:Created;
 					show_deletes view/show_deletes
 					">
-			<tal:macro metal:use-macro="view/template/macros/contents_table_wrapper" />
+			<tal:macro metal:use-macro="template/macros/contents_table_wrapper" />
 		</tal:setvar> 
 
 		<a rel="include" i18n:translate="contents_view_tasks" tal:condition="view/has_task_tracker"
