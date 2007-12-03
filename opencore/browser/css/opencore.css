@@ -1577,6 +1577,7 @@ textarea {
 }
 textarea {
   display: block;
+  visibility: hidden;
   margin-bottom: 1em;
 }
 fieldset {
