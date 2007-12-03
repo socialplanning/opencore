@@ -1,39 +1,33 @@
-import re
-import string
-
-from zope import event
-from zope.interface import implements
-from zope.component import getAdapters, queryAdapter
-from zope.component import getMultiAdapter
-from zope.component import getUtility
 from Acquisition import aq_parent
-
-from topp.featurelets.interfaces import IFeaturelet, IFeatureletSupporter
-
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from Products.CMFCore.utils import getToolByName
+from DateTime import DateTime
 from Products.CMFCore.permissions import DeleteObjects
-from plone.memoize.instance import memoize, memoizedproperty
-from plone.memoize.view import memoize_contextless
-from plone.memoize.view import memoize as req_memoize
-
-from opencore.interfaces.adding import IAddProject
-from opencore.interfaces.catalog import IMetadataDictionary 
-from opencore.interfaces.event import AfterProjectAddedEvent, \
-      AfterSubProjectAddedEvent
-from opencore.interfaces.workflow import IReadWorkflowPolicySupport
-import logging
+from Products.CMFCore.utils import getToolByName
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from Products.ZCatalog.Catalog import AbstractCatalogBrain
 from collective.testing.profile import profile
-
-from opencore.project import PROJ_HOME
 from opencore.browser import formhandler
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
-from opencore.project.browser.utils import vdict
 from opencore.interfaces import IHomePage
+from opencore.interfaces.adding import IAddProject
+from opencore.interfaces.catalog import IMetadataDictionary 
+from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
+from opencore.interfaces.workflow import IReadWorkflowPolicySupport
+from opencore.nui import indexing
 from opencore.nui.wiki.add import get_view_names
-
-from DateTime import DateTime
+from opencore.project import PROJ_HOME
+from opencore.project.browser.utils import vdict
+from plone.memoize.instance import memoize, memoizedproperty
+from plone.memoize.view import memoize as req_memoize
+from plone.memoize.view import memoize_contextless
+from topp.featurelets.interfaces import IFeaturelet, IFeatureletSupporter
+from zope import event
+from zope.component import getAdapters, queryAdapter
+from zope.component import getMultiAdapter, getUtility
+from zope.interface import implements
+import logging
+import re
+import string
 
 _marker = object()
 
@@ -60,6 +54,10 @@ class ProjectBaseView(BaseView):
         if flet_adapter is None:
             return False
         return flet_adapter.installed
+
+
+profileit = profile('/Users/whit/dev/pages.prof')
+
 
 class ProjectContentsView(ProjectBaseView, OctopoLite):
 
@@ -108,12 +106,13 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
                                      obj_size='mailing_list_threads'),
                          )
 
+    @profileit
     def retrieve_metadata(self, obj):
         ## DWM: not sure adaptation gives a real advantage here
-        try:
-            metadata = IMetadataDictionary(obj)
-        except TypeError:
-            metadata = getMultiAdapter((obj, self.catalog), IMetadataDictionary)
+        if isinstance(obj, AbstractCatalogBrain):
+            metadata = indexing.metadata_for_brain(obj)
+        else:
+            indexing.metadata_for_portal_content(obj, self.catalog)
         return metadata
 
     def _make_dict_and_translate(self, obj, needed_values):
@@ -146,6 +145,23 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
     def project_path(self):
         return '/'.join(self.context.getPhysicalPath())
 
+    def _filter_objs(self, objs, ):
+        show_deletes = self.show_deletes()
+        return [self._prep_editable_deletable(items, show_deletes) for items in objs]
+
+    def _prep_editable_deletable(self, item, show_deletes=None):
+        # Mark stuff that can't be edited or deleted.  This is another
+        # speed hack to handle bugs 1330 (and 1158 via show_deletes())
+        # but again, we don't check security on each object.
+        if show_deletes is None:
+            show_deletes = self.show_deletes()
+        if item['id'] == PROJ_HOME:
+            item['uneditable'] = True
+            item['undeletable'] = True
+        if not show_deletes:
+            item['undeletable'] = True
+        return item
+
     def _sorted_items(self, item_type, sort_by=None, sort_order='descending'):
         query = dict(portal_type=self._portal_type[item_type],
                      path=self.project_path,
@@ -154,16 +170,18 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
         brains = self.catalog(**query)
         needed_values = self.needed_values[item_type]
         ret = self.ContentsCollection(item_type, self)
+        show_deletes = self.show_deletes()
         for brain in brains:
-            ret.append(self._make_dict_and_translate(brain, needed_values))
+            item = self._make_dict_and_translate(brain, needed_values)
+            item = self._prep_editable_deletable(item)
+            ret.append(item)
         if needed_values.editable is False:
             ret.editable = False
         return ret
 
     @memoizedproperty
     def pages(self):
-        objs = self._sorted_items('pages', 'sortable_title')
-        return self._filter_objs(objs)
+        return self._sorted_items('pages', 'sortable_title')
 
     @memoizedproperty
     def lists(self):
@@ -260,6 +278,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
 
         return (deleted_objects, surviving_objects)
 
+    @memoize
     def show_deletes(self):
         # XXX this is a speed hack for #1158,
         # delete button is only shown for
@@ -267,23 +286,10 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
         # fine grained.
         return 'ProjectMember' in self.context.getTeamRolesForAuthMember()
 
-    def _filter_objs(self, objs):
-        # Mark stuff that can't be edited or deleted.  This is another
-        # speed hack to handle bugs 1330 (and 1158 via show_deletes())
-        # but again, we don't check security on each object.
-        show_deletes = self.show_deletes()
-        for d in objs:
-            if d['id'] == PROJ_HOME:
-                d['uneditable'] = True
-                d['undeletable'] = True
-            if not show_deletes:
-                d['undeletable'] = True
-        return objs
-
     def _resort(self, item_type, sort_by=None, sort_order=None):
         sort_by = self.needed_values[item_type].sortable(sort_by)
         new_objs = self._sorted_items(item_type, sort_by, sort_order)
-        return self._filter_objs(new_objs)
+        return new_objs
 
     @action('resort')
     def resort(self, sources, fields=None):
