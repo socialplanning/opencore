@@ -35,7 +35,6 @@ setup(
                         'https://svn.openplans.org/svn/oc-js/trunk/#egg=oc-js-dev',
                         'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.1.2',
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
-                        'https://svn.openplans.org/svn/topp.utils/trunk#egg=topp.utils==dev',
                         ],
 
       install_requires=[
