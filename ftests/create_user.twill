@@ -24,6 +24,10 @@ notfind 'site error' i
 #find 'Welcome'
 find $user
 
+# User should show up on the list of newly created users
+go ${base_url}/people
+find $user
+
 # create user should not leave any side effects
 # this means that the user should not stay logged in
 follow "Sign out"

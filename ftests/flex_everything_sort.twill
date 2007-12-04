@@ -4,7 +4,7 @@
 #
 
 go ${base_url}/sitesearch
-follow 'all'
+follow 'sitesearch.*all'
 fv people_sort sort_by 'getId'
 submit
 find 'selected="selected">A to Z<'

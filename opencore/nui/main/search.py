@@ -304,6 +304,14 @@ class PeopleSearchView(SearchView):
     def search_for_person(self, person, sort_by=None):
         return searchForPerson(self.membranetool, person, sort_by)
 
+    def recently_created_members(self, sort_limit=10):
+        query = dict(sort_on='created',
+                     sort_order='descending',
+                     sort_limit=5)
+        brains = self.membranetool(**query)
+        
+        return _sort_by_created(brains)
+
 
 class HomeView(SearchView):
     """zpublisher"""

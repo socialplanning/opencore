@@ -11,5 +11,6 @@ follow 'main_macros_everything_label'
 find 'class="oc-widget-alphabet-selectedLetter">A'
 fv search_form search_for 'test for this'
 submit
-follow 'people/searchresults\?letter_search'
 find 'value="test for this"'
+follow 'all'
+find 'class="oc-widget-alphabet-selectedLetter">all'
