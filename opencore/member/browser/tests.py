@@ -4,7 +4,6 @@ from zope.testing import doctest
 from Testing import ZopeTestCase
 from opencore.testing.layer import OpencoreContent 
 from zope.app.component.hooks import setSite
-from Testing.ZopeTestCase import FunctionalDocFileSuite
 from opencore.testing.layer import MockHTTPWithContent as test_layer
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from opencore.testing import dtfactory as dtf
@@ -18,14 +17,15 @@ import warnings; warnings.filterwarnings("ignore")
 def test_suite():
     # these imports are needed inside the doctests
     from Products.CMFCore.utils import getToolByName
-    from zope.interface import alsoProvides
-    from zope.component import getUtility
     from opencore.interfaces import IMemberFolder
-    from opencore.interfaces.pending_requests import IPendingRequests
-    from opencore.interfaces.message import ITransientMessage
     from opencore.interfaces.membership import IEmailInvites
+    from opencore.interfaces.message import ITransientMessage
+    from opencore.interfaces.pending_requests import IPendingRequests
+    from opencore.testing import utils
     from pprint import pprint
-    
+    from zope.component import getUtility
+    from zope.interface import alsoProvides
+
     img = os.path.join(os.path.dirname(__file__), 'test-portrait.jpg')
     portrait = open(img)
 
