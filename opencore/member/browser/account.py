@@ -473,3 +473,14 @@ class TourView(MemberAccountView):
         if self.invitations() or self.projects_for_user:
             return True
         return False
+
+class ProjectInvitationsView(MemberAccountView):
+    """
+    view of the members project invitations
+    XXX: could be generalized
+    XXX: should go to the general pattern of `content -> adapter -> view`
+    """
+
+    template = ZopeTwoPageTemplateFile('invitations.pt') # could change this
+
+

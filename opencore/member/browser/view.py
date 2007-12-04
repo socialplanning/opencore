@@ -292,13 +292,3 @@ class TrackbackView(BaseView):
         #       by using octopus/octopolite
         return {'trackback_%s' % index: {'action': 'delete'}}
 
-class ProjectInvitationsView(MemberAccountView):
-    """
-    view of the members project invitations
-    XXX: could be generalized
-    XXX: should go to the general pattern of `content -> adapter -> view`
-    """
-
-    template = ZopeTwoPageTemplateFile('invitations.pt') # could change this
-
-
