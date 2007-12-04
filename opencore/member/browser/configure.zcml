@@ -42,7 +42,7 @@
 
   <browser:page
      for="opencore.interfaces.member.IMemberFolder"
-     class=".view.TourView"
+     class=".tour.TourView"
      permission="cmf.ModifyPortalContent"
      name="tour"
      template="tour.pt"
