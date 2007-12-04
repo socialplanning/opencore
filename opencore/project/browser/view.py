@@ -60,14 +60,14 @@ class ProjectBaseView(BaseView):
             return False
         return flet_adapter.installed
 
-    def geocode_from_form(self, form):
+    def geocode_from_form(self, form=None):
         """
         Inspect the values in the form in order to extract and return
         a geolocation.  Will perform a lookup on a textual position if
         necessary.
-
-        XXX why do we pass the form instead of using self.request?
         """
+        if form is None:
+            form = self.request.form
         geo = self.context.restrictedTraverse('oc-geo-info')
         return geo.geocode_from_form(form)
 
@@ -458,7 +458,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             self.errors['title'] = _(u'err_project_name', u'The project name must contain at least 2 characters with at least 1 letter or number.')
 
         try:
-            lat, lon = self.geocode_from_form(self.request.form)
+            lat, lon = self.geocode_from_form()
         except TypeError:
             self.errors['position-text'] = _(u'psm_geocode_failed', u"Sorry, we were unable to find that address on the map")
 
@@ -627,7 +627,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
                 self.errors['id'] = 'The requested url is already taken.'
 
         try:
-            lat, lon = self.geocode_from_form(self.request.form)
+            lat, lon = self.geocode_from_form()
         except TypeError:
             self.errors['position-text'] = _(u'psm_geocode_failed', u"Sorry, we were unable to find that address on the map")
 
