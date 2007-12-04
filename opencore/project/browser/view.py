@@ -25,6 +25,7 @@ from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 
 from opencore.project.utils import get_featurelets
 from opencore.project import PROJ_HOME
+from opencore.project import LATEST_ACTIVITY
 from opencore.browser import formhandler
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
@@ -35,6 +36,25 @@ from opencore.nui.wiki.add import get_view_names
 from DateTime import DateTime
 
 _marker = object()
+
+
+def intrinsic_homepages():
+    """return data for homepages intrinsic to opencore
+    (not featurelet-dependent)
+    """
+    # XXX maybe this should just be a list?
+    return [ dict(id='wiki',
+                  title='Wiki pages',
+                  url=PROJ_HOME,
+                  checked=True,
+                  ),
+                 
+             dict(id='latest-activity',
+                  title='Latest activity',
+                  url=LATEST_ACTIVITY,
+                  checked=False
+                  )
+             ]
 
 
 class ProjectBaseView(BaseView):
@@ -518,7 +538,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
     def current_home_page(self):
         return IHomePage(self.context).home_page
 
-    def featurelets(self, include_wiki=False):
+    def featurelets(self):
         supporter = IFeatureletSupporter(self.context)
         all_flets = [flet for name, flet in getAdapters((supporter,), IFeaturelet)]
         installed_flets = [flet.id for flet in all_flets if flet.installed]
@@ -528,12 +548,12 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                           checked=f.id in installed_flets,
                           )
                      for f in all_flets]
-        if include_wiki:
-            flet_data.insert(0, dict(id='wiki',
-                                     title='Wiki pages',
-                                     url=PROJ_HOME,
-                                     checked='True',
-                                     ))
+        return flet_data
+
+    def homepages(self):
+        """possible homepages for the app"""        
+
+        flet_data = intrinsic_homepages() + self.featurelets()
         return flet_data
 
 
@@ -647,7 +667,7 @@ class ProjectAddView(BaseView, OctopoLite):
     def notify(self, project):
         event.notify(AfterProjectAddedEvent(project, self.request))
 
-    def featurelets(self, include_wiki=False):
+    def featurelets(self):
         # create a stub object that provides IFeatureletSupporter
         # is there a better way to get the list of adapters without having
         # the "for" object?
@@ -662,12 +682,10 @@ class ProjectAddView(BaseView, OctopoLite):
                           checked=False,
                           )
                      for name, f in flets]
-        if include_wiki:
-            flet_data.insert(0, dict(id='wiki',
-                                     title='Wiki pages',
-                                     url=PROJ_HOME,
-                                     checked='True',
-                                     ))
+        return flet_data
+
+    def homepages(self):
+        flet_data = intrinsic_homepages() + self.featurelets()
         return flet_data
 
 
@@ -700,6 +718,8 @@ class SubProjectAddView(ProjectAddView):
 
 whitespace_pattern = re.compile('\s+')
 def strip_extra_whitespace(title):
+    if title is None:
+        return ''
     title = whitespace_pattern.sub(' ', title).strip()
     return title.strip()
 

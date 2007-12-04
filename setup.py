@@ -59,20 +59,16 @@ setup(
           'flunc>=0.1.2'
           ],
       extras_require=dict(ubuntu=['hprof']),
+
+      # the opencore.versions are the names of the packages
+      # these are what show up in the openplans-versions view
       entry_points="""
       [distutils.commands]
       zinstall = topp.utils.setup_command:zinstall
       [opencore.versions]
-      opencore = opencore.configuration:OC_REQ
-      [distutils.setup_keywords]
-      Dists_we_care_about=setuptools.dist:check_requirements
+      opencore = opencore
+      oc-js = opencore.js
+      topp.utils = topp.utils
+      topp.featurelets = topp.featurelets
       """,
-    dists_we_care_about=['oc-js',
-                         'opencore',
-                         'topp.utils',
-                         'topp.featurelets'
-    ]
-      
-      )
-
-
+    )

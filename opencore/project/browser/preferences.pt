@@ -132,7 +132,7 @@
               <legend  class="oc-legend-label">Select the home page for your project:</legend>
 
               <ul class="oc-form-radiolist oc-form-fieldBlock">
-                <li tal:repeat="flet python:view.featurelets(include_wiki=True)">
+                <li tal:repeat="flet view/homepages">
                   <tal:home_page_item define="
                                               id flet/id;
                                               url flet/url;

@@ -10,7 +10,7 @@ from opencore.browser.octopus import action
 
 log = logging.getLogger('opencore.browser.formhandler')
 
-def button(name=None):
+def button(name):
     def curry(handle_request):
         def new_method(self):
             if self.request.form.get(name):
