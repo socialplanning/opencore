@@ -28,11 +28,12 @@ from opencore.project import PROJ_HOME
 from opencore.browser import formhandler
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
-from opencore.project.browser.utils import vdict, google_e6_encode
+from opencore.project.browser.utils import vdict
 from opencore.interfaces import IHomePage
 from opencore.nui.wiki.add import get_view_names
 
-from Products.PleiadesGeocoder.interfaces import IGeoItemSimple
+#from Products.PleiadesGeocoder.interfaces import IGeoItemSimple
+#from opencore.geocoding.interfaces import IOCGeoView
 
 from DateTime import DateTime
 
@@ -67,42 +68,18 @@ class ProjectBaseView(BaseView):
         Inspect the values in the form in order to extract and return
         a geolocation.  Will perform a lookup on a textual position if
         necessary.
+
+        XXX why do we pass the form instead of using self.request?
         """
-        # XXX move to a non-project-specific view
-        try:
-            lon = float(form.get('position-longitude'))
-            lat = float(form.get('position-latitude'))
-        except TypeError:
-            lon = lat = None
-        except ValueError:
-            lon = lat = None
-        position = form.get('position-text', '').strip()
-        if position:
-            # If we got this, then presumably javascript was disabled;
-            # it overrides the other form variables.
-            # The value should be something we can look up via the geocoder.
-            geo_tool = self.get_tool('portal_geocoder')
-            records = geo_tool.geocode(position)
-            if records:
-                lat = records[0]['lat']
-                lon = records[0]['lon']
-            else:
-                return None
-        return lat, lon
+        geo = self.context.restrictedTraverse('oc-geo-info')
+        return geo.geocode_from_form(form)
 
     def update_geolocation(self, proj, lat, lon):
         """
         Update the project with the given latitude and longitude.
         """
-        # XXX move to a non-project-specific view
-        if lat is not None and lon is not None:
-            geo = IGeoItemSimple(proj)
-            # Longitude first! Yes, really.
-            new_coords = (lon, lat, 0.0)
-            if new_coords != geo.coords:
-                geo.setGeoInterface('Point', new_coords)
-                return True
-        return False
+        geo = proj.restrictedTraverse('oc-geo-info')
+        return geo.update_geolocation(lat, lon)
 
 
 class ProjectContentsView(ProjectBaseView, OctopoLite):
@@ -585,22 +562,9 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         return flet_data
 
     def location_img_url(self):
-        # Used for non-ajax UI to get a static map image.  XXX I think
-        # this wants to move to a new view or adapter named eg. IOCGeoItem
-        # that we could use on multiple contexts.
-        geo = IGeoItemSimple(self.context)
-        if not geo.coords:
-            return ''
-        lon, lat, z = geo.coords
-        # Don't know if order matters, so assume it does.
-        params = (('latitude_e6', google_e6_encode(lat)),
-                  ('longitude_e6', google_e6_encode(lon)),
-                  ('w', 500), ('h', 300), # XXX These must match our css.
-                  ('zm', 9600),  # Zoom.
-                  ('cc', ''), # No idea what this is.
-                  )
-        url = 'http://maps.google.com/mapdata?' + urllib.urlencode(params)
-        return url
+        # Used for non-ajax UI to get a static map image.
+        geo = self.context.restrictedTraverse('oc-geo-info')
+        return geo.location_img_url()
 
 
 class ProjectAddView(ProjectBaseView, OctopoLite):

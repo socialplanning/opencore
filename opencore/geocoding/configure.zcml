@@ -6,6 +6,24 @@
     i18n_domain="zope"
     >
 
+  <!-- View to abstract geocoding api on our content.
+       TO DO: move the interface into opencore,
+       and register a default do-nothing implementation,
+       and then override it here, so everything works w/o geolocation
+       installed. then we can make this package optional.
+
+       XXX don't really care about having a named view, but
+       i couldn't remember the right multi-adapter magic.
+
+       XXX NEED TO RESTRICT PERMISSION  -->
+  <browser:view
+     for="*"
+     name="oc-geo-info"
+     allowed_interface=".interfaces.IOCGeoView"
+     class=".view.OCGeoView"
+     permission="zope2.View"
+  />
+
   <!-- Mark our projects folder as providing georss & kml feeds. -->
   <class class="Products.ATContentTypes.content.folder.ATBTreeFolder">
     <implements

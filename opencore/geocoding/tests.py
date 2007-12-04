@@ -35,8 +35,9 @@ def test_suite():
                                   setUp=hook_setup,
                                   layer=test_layer
                                   )
-
-    return unittest.TestSuite((readme,))
+    utilsunit = doctest.DocTestSuite('opencore.geocoding.utils',
+                                optionflags=optionflags)
+    return unittest.TestSuite((utilsunit, readme,))
 
 
 if __name__ == '__main__':
