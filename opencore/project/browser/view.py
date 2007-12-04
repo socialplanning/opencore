@@ -32,9 +32,6 @@ from opencore.project.browser.utils import vdict
 from opencore.interfaces import IHomePage
 from opencore.nui.wiki.add import get_view_names
 
-#from Products.PleiadesGeocoder.interfaces import IGeoItemSimple
-#from opencore.geocoding.interfaces import IOCGeoView
-
 from DateTime import DateTime
 
 _marker = object()
