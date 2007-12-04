@@ -448,3 +448,28 @@ class MemberAccountView(BaseView, OctopoLite):
                         ProjectMember='member')
         role = role_map.get(role, role)
         return role
+
+class ProjectInvitationsView(MemberAccountView):
+    """
+    view of the members project invitations
+    XXX: could be generalized
+    XXX: should go to the general pattern of `content -> adapter -> view`
+    looks to me like this could be a viewlet? --egj
+    """
+
+    template = ZopeTwoPageTemplateFile('invitations.pt') # could change this
+
+class TourView(MemberAccountView):
+    """ dummy view for the 1page tour 
+    
+    XXX: this shouldn't need to inherit from memberaccountview;
+         should find the necessary functions and turn them into
+         content adapters or viewlets. -egj
+    """
+
+    template = ZopeTwoPageTemplateFile('tour.pt')
+
+    def has_projects(self):
+        if self.invitations() or self.projects_for_user:
+            return True
+        return False
