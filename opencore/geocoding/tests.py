@@ -1,5 +1,6 @@
 from Products.Five.site.localsite import enableLocalSiteHook
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
+from Testing.ZopeTestCase import FunctionalDocFileSuite
 from Testing import ZopeTestCase
 from opencore.testing import dtfactory as dtf
 from opencore.testing.layer import OpencoreContent as test_layer
@@ -13,11 +14,10 @@ import warnings; warnings.filterwarnings("ignore")
 
 def test_suite():
     from Products.PloneTestCase import setup
-    from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
     from opencore import redirect
     from pprint import pprint
 
-    installProduct('PleiadesGeocoder')
+    ZopeTestCase.installProduct('PleiadesGeocoder')
     setup.setupPloneSite()
 
     def hook_setup(tc):
