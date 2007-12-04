@@ -44,7 +44,7 @@
 							<tal:setvar define="item_type item_type | options/item_type;
 												item_date_author_header item_date_author_header | options/item_date_author_header;
 												sort_on options/sort_on | string:title;
-												sort_order options/sort_order | string:ascending;
+												sort_order options/sort_order | string:descending;
 												item_collection item_collection | options/item_collection;
 												">
 							<tal:if condition="item_collection/editable">

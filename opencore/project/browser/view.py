@@ -329,7 +329,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
             return False
 
         sort_by = self.request.form.get("sort_by")
-        sort_order = self.request.form.get("sort_order")
+        sort_order = self.request.form.get("sort_order", 'descending')
         items = self._resort(item_type, sort_by, sort_order)
 
         if sort_order == 'ascending':
