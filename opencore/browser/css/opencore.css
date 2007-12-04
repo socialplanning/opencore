@@ -43,6 +43,8 @@ body {
 }
 #oc-content-container {
   padding: 1em;
+  min-height: 42em;
+  height: auto;
 }
 #oc-content-main {
   float: left;
