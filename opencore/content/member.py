@@ -175,6 +175,16 @@ content_schema += atapi.Schema((
 
 content_schema.moveField('useAnonByDefault', after='email')
 
+# Support for PleiadesGeocoder, which out-of-the-box assumes
+# non-remember members.
+geo_schema =  atapi.Schema((
+    StringField('geometryType', searchable=0),
+    StringField('spatialCoordinates', searchable=0),
+    ))
+
+content_schema += geo_schema
+
+
 actions = bfti[0].copy()['actions']
 for action in actions:
     if action['id'] == 'metadata':
