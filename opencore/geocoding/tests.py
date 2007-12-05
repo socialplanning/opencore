@@ -16,6 +16,7 @@ def test_suite():
     from Products.PloneTestCase import setup
     from opencore import redirect
     from pprint import pprint
+    from Products.PleiadesGeocoder.interfaces import IGeoItemSimple
 
     ZopeTestCase.installProduct('PleiadesGeocoder')
     setup.setupPloneSite()
@@ -36,7 +37,7 @@ def test_suite():
                                   layer=test_layer
                                   )
     utilsunit = doctest.DocTestSuite('opencore.geocoding.utils',
-                                optionflags=optionflags)
+                                     optionflags=optionflags)
     return unittest.TestSuite((utilsunit, readme,))
 
 
