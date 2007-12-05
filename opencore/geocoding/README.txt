@@ -1,6 +1,7 @@
 GEOLOCATION
 ============
 
+
 Projects
 =========
 
@@ -41,7 +42,6 @@ Projects can be adapted to IGeoItemSimple, and coordinates set on them.
 WARNING TO GEO NOOBS: This is an (x, y, z) point where x is longitude.
 Yes, longitude goes first.
 
-    >>> from Products.PleiadesGeocoder.interfaces import IGeoItemSimple
     >>> geo = IGeoItemSimple(proj)
     >>> print geo.coords
     None
@@ -84,26 +84,6 @@ suitable for building a georss view.
     >>> info['properties']['title']
     'Project One'
 
-
-The projects georss view is exposed by a separate view that generates
-xml.
-
-    >>> feedview = projects.restrictedTraverse('@@georss')
-    >>> xml = feedview()
-    >>> lines = [s.strip() for s in xml.split('\n') if s.strip()]
-    >>> print '\n'.join(lines)
-    <?xml...
-    <feed xmlns="http://www.w3.org/2005/Atom"...
-    <title>Projects</title>
-    <link rel="self" href="http://nohost/plone/projects"/>...
-    <entry>
-    <title>Project One</title>...
-    <id>http://nohost/plone/projects/p1</id>...
-    <gml:Point>
-    <gml:pos>-20.000000 10.000000</gml:pos>
-    </gml:Point>...
-
-
 You can also adapt to a view suitable for building kml::
 
     >>> view = projects.restrictedTraverse('@@geo')
@@ -130,34 +110,11 @@ You can also adapt to a view suitable for building kml::
     'p1'
 
 
-And a separate view that generates kml markup::
-
-    >>> feedview = projects.restrictedTraverse('@@kml')
-    >>> xml = feedview()
-    >>> lines = [s.strip() for s in xml.split('\n') if s.strip()]
-    >>> print '\n'.join(lines)
-    <?xml...
-    <kml xmlns="http://earth.google.com/kml/2.1">
-    <Document>...
-    <name>Projects</name>
-    ...
-    <Placemark>
-    <name>Project One</name>
-    <description>
-    ...
-    <p>URL:
-    <a href="http://nohost/plone/projects/p1">http://nohost/plone/projects/p1</a>
-    ...
-    <Point>
-    <coordinates>10.000000,-20.000000,0.000000</coordinates>
-    </Point>
-    ...
-    </kml>
-
-
 People
 =======
 
+This is a little more complex than I'd like due to the schism between
+member areas (people/foo) and member data (portal_memberdata/foo).
 
 The people folder is marked as a special folder interface.
 
@@ -166,14 +123,14 @@ The people folder is marked as a special folder interface.
     True
 
 
-A member is marked with the same interfaces as a project.
+A member area is marked with the same interfaces as a project.
 
-    >>> m1 = people.m1
-    >>> IGeoserializable.providedBy(m1)
+    >>> m1folder = self.portal.people.m1
+    >>> IGeoserializable.providedBy(m1folder)
     True
-    >>> IGeoreferenceable.providedBy(m1)
+    >>> IGeoreferenceable.providedBy(m1folder)
     True
-    >>> IGeoAnnotatableContent.providedBy(m1)
+    >>> IGeoAnnotatableContent.providedBy(m1folder)
     True
 
 
@@ -186,17 +143,42 @@ You can get geo info on the people folder::
 
 To see anything interesting, let's annotate a member and try again::
 
-XXX Left off here. PleiadesGeocoder treats members differently from
-other content types; you apparently can't annotate them this same way.
-Or you can, but a different view is used on the members folder, so it
-doesn't notice these annotations.  Blah.  See the two view classes in
-PleiadesGeocoder/browser/info.py ... the latter is used on the people
-folder because P.G. marks that folder with IGeoserializableMembersFolder
-at install time.  Disable that? or override their view?
-
+    >>> self.login('m1')
+    >>> m1 = people.m1
     >>> geo = IGeoItemSimple(m1)
+    >>> geo
+    <....MemberFolderGeoItem instance at ...>
     >>> geo.setGeoInterface('Point', (1.0, 2.0, 0.0))
+    >>> geo.coords
+    (1.0, 2.0, 0.0)
+    >>> geo.geom_type
+    'Point'
+
+So, we can now get a feed of geocoded people::
+
     >>> view = people.restrictedTraverse('@@geo')
     >>> info = list(view.forRSS())
-    >>> import pprint
-    >>> pprint.pprint(info)  # XXX empty, see above.
+    >>> len(info)
+    1
+    >>> pprint(info)
+    [{'coords_georss': '2.000000 1.000000',
+      'geometry': {'type': 'Point', 'coordinates': (1.0, 2.0, 0.0)},
+      'hasLineString': 0,
+      'hasPoint': 1,
+      'hasPolygon': 0,
+      'id': 'm1',
+      'properties': {'description': 'No description',
+                     'language': '',
+                     'link': 'http://nohost/plone/author/m1',
+                     'location': '',
+                     'title': 'Member One'}}]
+
+
+And for the kml feed::
+
+    >>> info = list(view.forKML())
+    >>> len(info)
+    1
+    >>> pprint(info)
+    [{'coords_kml': '1.000000,2.000000,0.000000',...
+    

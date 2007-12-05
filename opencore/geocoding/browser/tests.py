@@ -22,7 +22,7 @@ def setup_mock_geocoder():
     Geocoder.geocode = Mock(
         'Products.PleiadesGeocoder.geocode.Geocoder.geocode')
     Geocoder.geocode.mock_returns = [{'place':  'mock place',
-                                      'lat': 12.34567, 'lon': -87.65432}]
+                                      'lat': 12.34567, 'lon': -87.654321}]
 
 def restore_geocoder():
     if hasattr(Geocoder, '_orig_geocode'):
@@ -39,6 +39,7 @@ def test_suite():
     from pprint import pprint
     from zope.component import getUtility
     from zope.interface import alsoProvides
+    from Products.PleiadesGeocoder.interfaces import IGeoItemSimple
 
     import pdb
 

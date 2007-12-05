@@ -17,12 +17,29 @@
 
        XXX NEED TO RESTRICT PERMISSION  -->
   <browser:view
-     for="*"
+     for="zope.app.container.interfaces.IContainer"
      name="oc-geo-info"
      allowed_interface=".interfaces.IOCGeoView"
      class=".view.OCGeoView"
      permission="zope2.View"
   />
+  <!-- Register a custom adapter for annotating member areas. -->
+  <browser:view
+     for="opencore.interfaces.IMemberFolder"
+     name="oc-geo-info"
+     allowed_interface=".interfaces.IOCGeoView"
+     class=".view.OCMemberareaGeoView"
+     permission="zope2.View"
+  />
+
+ <!-- Register a custom adapter to integrate our member areas
+      with PleiadesGeocoder and not need skins. -->
+ <adapter
+    for="opencore.interfaces.IMemberFolder"
+    provides="Products.PleiadesGeocoder.interfaces.simple.IGeoItemSimple"
+    factory=".view.MemberFolderGeoItem"
+  />
+
 
   <!-- Mark our projects folder as providing georss & kml feeds. -->
   <class class="Products.ATContentTypes.content.folder.ATBTreeFolder">
@@ -53,7 +70,7 @@
     />
   </class>
 
-  <!-- Don't have to do anything special for the members folder,
+  <!-- Don't have to do anything special for the people folder,
        PleiadesGeocoder already registers interfaces for it. -->
 
   <include package=".browser" />
