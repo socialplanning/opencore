@@ -134,9 +134,9 @@
 										tal:attributes="id item/id"
 										tal:define="item item | options/item;
 													item_type item_type | options/item_type;
-													editable editable | not:item/uneditable | nothing; 
+													editable python: not item.get('uneditable') and view.editable; 
 													deletable not:item/undeletable | nothing">
-										<td tal:condition="item_collection/editable">
+										<td tal:condition="view/editable">
 											<input tal:condition="not:deletable" type="checkbox" class="oc-js-checkAll-never" name="deletes:list"
 												 tal:attributes="value item/id" 
 												 disabled="True" />
@@ -147,13 +147,13 @@
 										<div class="oc-js-liveEdit-value">
 											<a tal:attributes="href item/url" tal:content="item/title" />
 										</div>
-										<div tal:condition="item_collection/editable"
+										<div tal:condition="editable"
 											 class="oc-js-liveEdit-editForm oc-liveEdit-editForm">
-											<input tal:condition="editable" type="text" 
+											<input type="text" 
 													 tal:attributes="name string:${item/id}_title; value item/title" />
-											<input tal:condition="editable" type="submit" class="oc-js-actionButton" value="Save"
+											<input type="submit" class="oc-js-actionButton" value="Save"
 													 tal:attributes="name string:task|${item/id}|update" /> or
-											<a tal:condition="editable" href="" class="oc-js-liveEdit_hideForm" tal:content="string:Cancel" />
+											<a href="" class="oc-js-liveEdit_hideForm" tal:content="string:Cancel" />
 										</div>
 										</td>
 										<td tal:condition="python:item_type!='pages'" tal:content="item/obj_size" />
@@ -164,9 +164,9 @@
 											<a tal:attributes="href string:${view/siteURL}/people/${author}/profile" tal:content="author" />
 										</tal:setvar>
 										</td>
-										<td tal:condition="item_collection/editable">
-										<ul class="oc-actions oc-dataTable-row-actions">
-											<li tal:condition="editable">
+										<td>
+										<ul class="oc-actions oc-dataTable-row-actions" tal:condition="editable">
+											<li>
 											<a href="#" class="oc-js-liveEdit_showForm oc-actionLink">Rename</a></li>
 											<li tal:condition="deletable">
 											<a class="oc-js-actionLink oc-actionLink oc-js-confirm"
