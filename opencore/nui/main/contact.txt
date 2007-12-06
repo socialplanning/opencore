@@ -1,0 +1,41 @@
+=============
+Contact view
+=============
+
+
+It should require all the fields.
+
+    >>> view = portal.restrictedTraverse('@@contact-site-admin')
+    >>> view.request.form.clear()
+    >>> view.validate()
+    >>> pprint(view.errors)
+    {'message': 'Input required',
+     'sender_from_address': 'Input required',
+     'sender_fullname': 'Input required',
+     'subject': 'Input required'}
+    >>> view.send()
+    >>> view.portal_status_message
+    [u'Please correct the specified errors.']
+
+If you provide them all, it should send the mail.
+
+    >>> view = portal.restrictedTraverse('@@contact-site-admin')
+    >>> view.request.form.update(
+    ...    {'message': 'test message', 'subject': 'test subject',
+    ...    'sender_fullname': 'Michael Bolton',
+    ...    'sender_from_address': 'foo@foo.org'})
+    >>> view.validate()
+    >>> pprint(view.errors)
+    {}
+    >>> view.send()
+
+We should now see something on the mock mailhost, and a PSM::
+
+    >>> pprint(portal.MailHost.messages[-1])
+    {'mfrom': 'foo@foo.org',
+     'msg': 'test message',
+     'mto': ['greetings@...'],
+     'subject': 'test subject'}
+    >>> del(view._redirected)  # hack to see psm
+    >>> view.portal_status_message
+    [u'Message sent.']

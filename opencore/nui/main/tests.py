@@ -1,9 +1,8 @@
 import os, sys, unittest
 from zope.testing import doctest
 from Testing import ZopeTestCase
-from Testing.ZopeTestCase import PortalTestCase 
-from Testing.ZopeTestCase import FunctionalDocFileSuite
-from opencore.testing.layer import OpencoreContent
+from opencore.testing import dtfactory
+from opencore.testing.layer import OpencoreContent, OpenPlansLayer
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
@@ -22,8 +21,8 @@ def test_suite():
     from Products.Five.utilities.marker import erase as noLongerProvides
     from Products.PloneTestCase import setup
     from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
-    from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
     from pprint import pprint
+    from opencore.testing import utils
     from zope.interface import alsoProvides
 
     setup.setupPloneSite()
@@ -34,16 +33,22 @@ def test_suite():
         for idx in 'created', 'modified':
             replace_datetimeidx(idx, catalog)
         
-    search = FunctionalDocFileSuite("search.txt",
-                                    optionflags=optionflags,
-                                    package='opencore.nui.main',
-                                    test_class=FunctionalTestCase,
-                                    setUp=setup,
-                                    globs = globs,
-                                    )
-    search.layer = OpencoreContent
-
-    return unittest.TestSuite((search,))
+    search = dtfactory.ZopeDocFileSuite("search.txt",
+                                        optionflags=optionflags,
+                                        package='opencore.nui.main',
+                                        test_class=FunctionalTestCase,
+                                        setUp=setup,
+                                        globs=globs,
+                                        layer=OpencoreContent
+                                        )
+    contact = dtfactory.ZopeDocFileSuite("contact.txt",
+                                         optionflags=optionflags,
+                                         package='opencore.nui.main',
+                                         test_class=FunctionalTestCase,
+                                         globs=globs,
+                                         layer=OpenPlansLayer
+                                         )
+    return unittest.TestSuite((search, contact))
 
 
 if __name__ == '__main__':

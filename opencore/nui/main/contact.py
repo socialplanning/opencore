@@ -34,16 +34,17 @@ class ContactView(BaseView, formhandler.OctopoLite):
         self.validate()
         if self.errors:
             # don't send, just return and render the page
-            self.addPortalStatusMessage(u'psm_please_correct_errors', u'Please correct the specified '
-                                        'errors.')
+            self.addPortalStatusMessage(_(u'psm_please_correct_errors',
+                                          u'Please correct the specified errors.'))
             return
         form = self.request.form
         mto = self.portal.getProperty('email_from_address')
         msg = form.get('message')
         subject = form.get('subject')
         mfrom = form.get('sender_from_address')
+        # XXX we require sender_fullname but we ignore it! duh.
         self.email_sender.sendEmail(mto, msg=msg, subject=subject,
                                     mfrom=mfrom)
-        self.addPortalStatusMessage(u'psm_message_sent_to_admin', u'Message sent.')
+        self.addPortalStatusMessage(_(u'psm_message_sent_to_admin', u'Message sent.'))
         self.template = None
         self.redirect(self.request.ACTUAL_URL)
