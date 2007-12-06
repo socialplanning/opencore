@@ -1,7 +1,9 @@
 from Products.Five import BrowserView
 from Products.PleiadesGeocoder.browser.info import get_coords
-from Products.PleiadesGeocoder.interfaces import IGeoItemSimple
+from Products.PleiadesGeocoder.geo import GeoItemSimple
+from Products.PleiadesGeocoder.interfaces.simple import IGeoItemSimple
 from opencore.browser.base import BaseView
+from opencore.content.member import member_path
 import utils
 from zope.interface import implements
 import interfaces
@@ -80,59 +82,36 @@ class OCMemberareaGeoView(OCGeoView, BaseView):
     def _geo(self):
         return IGeoItemSimple(self.member)
 
-                        
-class MemberFolderGeoItem:
-    """ Adapt a member's home folder to IGeoItemSimple.
+def MemberFolderGeoItem(context):
+    """Adapt a member's home folder to IGeoItemSimple.
+    This allows us to treat remember members the same as projects,
+    which is simpler than the extra stuff PleiadesGeocoder has to do
+    for normal Plone members.
     """
+    member = getattr(context.portal_memberdata, context.getId(), None)
+    return IGeoItemSimple(member)
 
-    def __init__(self, context):
-        self.context = context
-        self.member = getattr(context.portal_memberdata, context.getId(), None)
-
-    def setGeoInterface(self, geomtype, coords):
-        # wtf is SRS anyway? cargo-culting it from PleiadesGeocoder.
-        if not self.member:
-            # XXX log something?
-            return
-        srs = 'EPSG:4326'
-        geomtype = utils.serialize_geomtype(geomtype)
-        coords = utils.serialize_coords(coords)
-        self.member.setProperties(
-            spatialCoordinates=coords, geometryType=geomtype, srs=srs)
-
-    def isGeoreferenced(self):
-        if not self.member:
-            return False
-        return bool(self.geom_type and self.coords)
-
-    @property
-    def coords(self):
-        coords = self.member.getProperty('spatialCoordinates', '')
-        geomtype = utils.serialize_geomtype(self.geom_type or 'Point')
-        coords = get_coords(coords, geomtype)
-        return coords
-
-    @property
-    def geom_type(self):
-        gtype = self.member.getProperty('geometryType', None)
-        if not gtype:
-            return None
-        try:
-            return utils.deserialize_geomtype(gtype)
-        except ValueError:
-            return None
+class MemberGeoItem(GeoItemSimple):
 
     @property
     def __geo_interface__(self):
-        member = self.member
-        folder = self.context
-        # Kinda guessing what we want here.
+        # Kinda guessing what info we want for members.
+        member = self.context
+        member_id = member.getId()
+        # there's surely a better way to get this url.
+        home_url = '%s/%s' % (member.portal_url(), member_path(member_id))
+        properties = {
+            'language': member.getProperty('language'),
+            'location': member.getProperty('location'),
+            # According to PleiadesGeocoder.browser.info comments,
+            # OpenLayers can't handle an empty descr or title.
+            'description': member.getProperty('description') or 'No description',
+            'title': member.getProperty('fullname') or 'No title',
+            'link': home_url,
+            }
+        
         return {
-            'id': folder.getId(),
-            'properties': {
-                'title': member.getFullname(),
-                'description': member.getStatement(), # ?
-                'link': folder.absolute_url(),
-                },
+            'id': member_id,
+            'properties': properties,
             'geometry': {'type': self.geom_type, 'coordinates': self.coords}
             }

@@ -1,6 +1,12 @@
 GEOLOCATION
 ============
 
+This package enhances opencore to allow storing and retrieving
+geospatial coordinates, and getting georss feeds on containers.
+
+Initially we're implementing this for the opencore people and projects
+folders.
+
 
 Projects
 =========
@@ -8,7 +14,7 @@ Projects
 
     >>> projects = self.portal.projects
     >>> proj = projects.p1
-    >>> from Products.PleiadesGeocoder.interfaces import IGeoFolder, \
+    >>> from opencore.geocoding.interfaces import IGeoFolder, IOCGeoView, \
     ...    IGeoreferenceable, IGeoAnnotatableContent, IGeoserializable, \
     ...    IGeoserializableMembersFolder
 
@@ -50,6 +56,8 @@ Yes, longitude goes first.
     >>> geo.coords
     (10.0, -20.0, 0.0)
 
+
+Projects can also be adapted to our 
 
 The Projects collection can be adapted to a sequence of dictionaries
 suitable for building a georss view.
@@ -133,10 +141,19 @@ A member area is marked with the same interfaces as a project.
     >>> IGeoAnnotatableContent.providedBy(m1folder)
     True
 
+The actual data is stored on the remember member::
+
+    >>> m1data = self.portal.portal_memberdata.m1
+    >>> IGeoAnnotatableContent.providedBy(m1data)
+    True
+    >>> IGeoreferenceable.providedBy(m1data)
+    True
 
 You can get geo info on the people folder::
 
     >>> view = people.restrictedTraverse('@@geo')
+    >>> view  # make sure our overrides.zcml took effect.
+    <Products.Five.metaclass.GeoInfosetView object at ...>
     >>> info = list(view.forRSS())
     >>> len(info)
     0
@@ -146,8 +163,6 @@ To see anything interesting, let's annotate a member and try again::
     >>> self.login('m1')
     >>> m1 = people.m1
     >>> geo = IGeoItemSimple(m1)
-    >>> geo
-    <....MemberFolderGeoItem instance at ...>
     >>> geo.setGeoInterface('Point', (1.0, 2.0, 0.0))
     >>> geo.coords
     (1.0, 2.0, 0.0)
@@ -169,7 +184,7 @@ So, we can now get a feed of geocoded people::
       'id': 'm1',
       'properties': {'description': 'No description',
                      'language': '',
-                     'link': 'http://nohost/plone/author/m1',
+                     'link': 'http://nohost/plone/people/m1',
                      'location': '',
                      'title': 'Member One'}}]
 

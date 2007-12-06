@@ -31,8 +31,7 @@
      class=".view.OCMemberareaGeoView"
      permission="zope2.View"
   />
-
- <!-- Register a custom adapter to integrate our member areas
+ <!-- Register an adapter to integrate our member areas
       with PleiadesGeocoder and not need skins. -->
  <adapter
     for="opencore.interfaces.IMemberFolder"
@@ -40,6 +39,22 @@
     factory=".view.MemberFolderGeoItem"
   />
 
+ <!-- Make members use a slightly special IGeoItemSimple implementation. -->
+  <adapter
+    for="opencore.member.interfaces.IOpenMember"
+    provides="Products.PleiadesGeocoder.interfaces.simple.IGeoItemSimple"
+    factory=".view.MemberGeoItem"
+    />
+
+
+ <!-- Mark members as annotatable, to enable the above. -->
+  <class class="opencore.content.member.OpenMember">
+    <implements
+      interface="Products.PleiadesGeocoder.interfaces.IGeoAnnotatableContent
+                 Products.PleiadesGeocoder.interfaces.IGeoreferenceable
+                "
+      />
+  </class>
 
   <!-- Mark our projects folder as providing georss & kml feeds. -->
   <class class="Products.ATContentTypes.content.folder.ATBTreeFolder">
@@ -70,8 +85,6 @@
     />
   </class>
 
-  <!-- Don't have to do anything special for the people folder,
-       PleiadesGeocoder already registers interfaces for it. -->
 
   <include package=".browser" />
 

@@ -1,14 +1,19 @@
+from Products.PleiadesGeocoder.interfaces.simple import *
 from zope.interface import Interface
 
 class IOCGeoView(Interface):
     """View for using OpenCore content with geocoding.
     """
 
-    def update_geolocation(lat, lon):
+    def set_geolocation(lat, lon):
         """Store a latitude and longitude on the context."""
 
+    def get_geolocation():
+        """Get the current coordinates on the context.
+        Output as (longitude, latitude, z)"""
+
     def geocode_from_form(form=None):
-        """Return geocoding information as a (lat, lon) pair.
+        """Look up geocoding information as a (lat, lon) pair.
 
         The request (or optional passed-in mapping) should contain
         either 'position-latitude' and 'position-longitude' keys, or a
@@ -23,3 +28,4 @@ class IOCGeoView(Interface):
         Used for non-ajax UI to get a static map image for the context's
         location.
         """
+
