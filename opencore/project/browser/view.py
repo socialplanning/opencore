@@ -71,12 +71,12 @@ class ProjectBaseView(BaseView):
         geo = self.context.restrictedTraverse('oc-geo-info')
         return geo.geocode_from_form(form)
 
-    def update_geolocation(self, proj, lat, lon):
+    def set_geolocation(self, proj, lat, lon):
         """
         Update the project with the given latitude and longitude.
         """
         geo = proj.restrictedTraverse('oc-geo-info')
-        return geo.update_geolocation(lat, lon)
+        return geo.set_geolocation(lat, lon)
 
 
 class ProjectContentsView(ProjectBaseView, OctopoLite):
@@ -487,7 +487,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             del self.request.form['logo'], new_form['logo']
 
         locationchanged = False
-        if self.update_geolocation(self.context, lat, lon):
+        if self.set_geolocation(self.context, lat, lon):
             locationchanged = True
         elif self.context.getLocation() != new_form.get('location', ''):
             locationchanged = True
@@ -655,7 +655,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
                 return
             del self.request.form['logo']
 
-        self.update_geolocation(proj, lat, lon)
+        self.set_geolocation(proj, lat, lon)
 
         self.template = None
         proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)

@@ -16,7 +16,7 @@ Look for geolocation info, first when it's not set...
     >>> view = proj.restrictedTraverse('preferences')
     >>> form = {}
     >>> lat, lon = view.geocode_from_form(form)
-    >>> view.update_geolocation(proj, lat, lon)
+    >>> view.set_geolocation(proj, lat, lon)
     False
     >>> view.project_info.has_key('position-latitude')
     False
@@ -26,7 +26,7 @@ Look for geolocation info, first when it's not set...
 
 You can set and then view coordinates::
 
-    >>> view.update_geolocation(proj, 11.1, -22.2)
+    >>> view.set_geolocation(proj, 11.1, -22.2)
     True
 
     Clear the memoized stuff from the request to see the info.
@@ -39,7 +39,7 @@ You can set and then view coordinates::
 
 Calling again with the same points makes no change:
 
-    >>> view.update_geolocation(proj, 11.1, -22.2)
+    >>> view.set_geolocation(proj, 11.1, -22.2)
     False
 
 
@@ -61,7 +61,7 @@ actually hit google on every test run::
         'address does not matter for mock results')
     >>> print latlon
     (12.3456..., -87.6543...)
-    >>> view.update_geolocation(proj, *latlon)
+    >>> view.set_geolocation(proj, *latlon)
     True
     >>> utils.clear_all_memos(view)
     >>> print view.project_info.get('position-latitude')

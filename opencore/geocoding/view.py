@@ -14,7 +14,7 @@ class OCGeoView(BrowserView):
     def _geo(self):
         return IGeoItemSimple(self.context)
 
-    def update_geolocation(self, lat, lon):
+    def set_geolocation(self, lat, lon):
         """See IOCGeoView."""
         # XXX what about non-Point locations?
         if lat is not None and lon is not None:
@@ -25,6 +25,10 @@ class OCGeoView(BrowserView):
                 geo.setGeoInterface('Point', new_coords)
                 return True
         return False
+
+    def get_geolocation(self):
+        """See IOCGeoView. Note the output is ordered as (lon, lat, z)."""
+        return self._geo().coords
 
     def geocode_from_form(self, form=None):
         """See IOCGeoView."""
