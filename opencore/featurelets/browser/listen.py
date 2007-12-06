@@ -7,8 +7,8 @@ from zope.i18nmessageid import MessageFactory
 from topp.featurelets.interfaces import IFeatureletSupporter
 
 from opencore.listen.featurelet import ListenFeaturelet
+from opencore.i18n import _, translate
 
-_ = MessageFactory("opencore")
 
 class ListenConfigView(BrowserView):
     """
@@ -51,6 +51,7 @@ class DeleteListView(BrowserView):
         if confirm == 'true':
             self.context.manage_delObjects(ids=[list_id])
             psm = _(u'psm_mailing_list_deleted', u"Mailing list deleted.")
+        psm = translate(psm)
         url = "%s?portal_status_message=%s" % (self.context.absolute_url(),
                                                psm)
         self.request.RESPONSE.redirect(url)
