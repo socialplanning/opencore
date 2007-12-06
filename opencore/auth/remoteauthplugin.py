@@ -62,12 +62,15 @@ class RemoteOpenCoreAuth(BasePlugin):
         Iterate through the remote servers and test the credentials
         against each one in turn.
         """
+        oc_props = getToolByName(self, 'portal_properties').opencore_properties
+        remote_auth_sites = oc_props.getProperty('remote_auth_sites')
+        if not remote_auth_sites:
+            # no remote sites to check
+            return
+
         if credentials.get('opencore_auth_match'):
-            # opencore.content.member.OpenMember's verifyCredentials
-            # method marks the credentials object if the username was
-            # indeed a match so that we know not to try remotely here.
-            # we have to do this b/c PAS always invokes _every_ auth
-            # plug-in during the auth check
+            # SignedCookieAuth and OpenMember may set this to negate
+            # remote auth attempts
             return
 
         username = credentials.get('login')
@@ -76,10 +79,9 @@ class RemoteOpenCoreAuth(BasePlugin):
             # user exists at the Zope root, don't check remotely
             return
 
-        ptool = getToolByName(self, 'portal_properties')
-        ocprops = ptool._getOb('opencore_properties')
-        remote_auth_sites = ocprops.getProperty('remote_auth_sites')
-        if not remote_auth_sites:
+        mdtool = getToolByName(self, 'portal_memberdata')
+        if mdtool.has_key(username):
+            # member object exists on this site, probably pending
             return
 
         password = credentials.get('password')
