@@ -21,6 +21,8 @@
 
   <property name="tasktracker_uri" type="string"></property>
   <property name="tasktracker_external_uri" type="string">tasks</property>
+  <property name="google_maps_key" type="string">ABQIAAAAQLu1UUa9Exjl_V_rj9rMWRTwM0brOpm-All5BF6PoaKBxRWWERSPejWvdVAWxDv499lZCh0fhiixIA</property>
+
  </object>
 
 </object>

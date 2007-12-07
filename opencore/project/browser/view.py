@@ -1,3 +1,4 @@
+import logging
 import re
 import string
 import urllib
@@ -36,6 +37,7 @@ from DateTime import DateTime
 
 _marker = object()
 
+logger = logging.getLogger('opencore.project.browser')
 
 class ProjectBaseView(BaseView):
 
@@ -71,9 +73,10 @@ class ProjectBaseView(BaseView):
             return ''
         # XXX Need to register for different keys for each host.
         # put one in portal properties.
-        default_key = "ABQIAAAAQLu1UUa9Exjl_V_rj9rMWRTwM0brOpm-All5BF6PoaKBxRWWERSPejWvdVAWxDv499lZCh0fhiixIA"
-        key = self.get_opencore_property('google_maps_key') or default_key
-        url = "http://maps.google.com/maps?file=api&amp;v=2&amp;key=%s" % key
+        key = self.get_opencore_property('google_maps_key')
+        if not key:
+            logger.warn("you need to set a google maps key in opencore_properties")
+        url = "http://maps.google.com/maps?file=api&v=2&key=%s" % key
         return url
 
     def geocode_from_form(self, form=None):
