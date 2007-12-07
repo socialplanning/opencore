@@ -12,7 +12,7 @@
   </head>
   <body>
     <div metal:fill-slot="content">
-      <script tal:condition="view/have_geocoder"
+      <script tal:condition="view/has_geocoder"
               tal:attributes="src view/maps_script_url"
               type="text/javascript"></script>
       <div class="oc-headingBlock">
