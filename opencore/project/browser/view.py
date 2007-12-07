@@ -62,13 +62,12 @@ class ProjectBaseView(BaseView):
             return False
         return flet_adapter.installed
 
+    # XXX move all geo stuff to a separate view?
     @property
     def has_geocoder(self):
-        # XXX move to base view?
         return getToolByName(self.context, 'portal_geocoder', None) is not None
 
     def maps_script_url(self):
-        # XXX move to base view?
         if not self.has_geocoder:
             return ''
         # XXX Need to register for different keys for each host.
@@ -85,7 +84,6 @@ class ProjectBaseView(BaseView):
         coordinates.  Will perform a lookup on a textual position if
         necessary.  If any problems, adds a message to self.errors.
         """
-        # XXX move to base view?
         default = ()
         if not self.has_geocoder:
             return default
@@ -105,7 +103,6 @@ class ProjectBaseView(BaseView):
         Update the project with the given coordinates
         (for now assume latitude, longitude).
         """
-        # XXX move to base view?
         if not self.has_geocoder:
             return False
         geo = proj.restrictedTraverse('oc-geo-info')

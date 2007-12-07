@@ -64,9 +64,26 @@ Under the hood
 API tests for projects
 -----------------------
 
-Projects can also be adapted to our IOCGeoView adapter which provides
-a simple API for everything we care about.
-XXX Duh, test this!
+Projects can be adapted to our IOCGeoView which provides a simple
+API for everything we care about.
+
+
+    >>> geo = proj.restrictedTraverse('oc-geo-info')
+    >>> IOCGeoView.providedBy(geo)
+    True
+    >>> geo.get_geolocation()
+    (10.0, -20.0, 0.0)
+    >>> geo.set_geolocation((1, 2))  # XXX lat first, change that?
+    True
+    >>> geo.get_geolocation()
+    (2.0, 1.0, 0.0)
+    >>> geo.set_geolocation((1, 2))  # same as before, so False.
+    False
+    >>> geo.geocode_from_form({'position-latitude': 5,
+    ...                        'position-longitude': '6'})
+    (5.0, 6.0)
+    >>> geo.get_geolocation()  # geocode_from_form has no side effects.
+    (2.0, 1.0, 0.0)
 
 
 People
@@ -127,7 +144,21 @@ Under the hood
 API tests for people
 --------------------
 
-People can also be adapted to our IOCGeoView adapter which provides
-a simple API for everything we care about.
-XXX Duh, test this!
+People can be adapted to our OCGeoView which provides a simple API for
+everything we care about.
 
+
+    >>> geo = portal.people.m1.restrictedTraverse('oc-geo-info')
+    >>> IOCGeoView.providedBy(geo)
+    True
+    >>> geo.get_geolocation()
+    (1.0, 2.0, 0.0)
+    >>> geo.set_geolocation((-3, -4))  # XXX lat first, change that?
+    True
+    >>> geo.get_geolocation()
+    (-4.0, -3.0, 0.0)
+    >>> geo.geocode_from_form({'position-latitude': 16,
+    ...                        'position-longitude': '-44.0'})
+    (16.0, -44.0)
+    >>> geo.get_geolocation()  # geocode_from_form has no side effects.
+    (-4.0, -3.0, 0.0)

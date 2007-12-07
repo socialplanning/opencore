@@ -81,7 +81,7 @@ class OCMemberareaGeoView(OCGeoView, BaseView):
     # member. oh well.
 
     def _geo(self):
-        return IGeoItemSimple(self.member)
+        return IGeoItemSimple(self.viewedmember())
 
 def MemberFolderGeoItem(context):
     """Adapt a member's home folder to IGeoItemSimple.
