@@ -22,7 +22,7 @@ def setup_mock_geocoder():
     Geocoder.geocode = Mock(
         'Products.PleiadesGeocoder.geocode.Geocoder.geocode')
     Geocoder.geocode.mock_returns = [{'place':  'mock place',
-                                      'lat': 12.34567, 'lon': -87.654321}]
+                                      'lat': 12.0, 'lon': -87.0}]
 
 def restore_geocoder():
     if hasattr(Geocoder, '_orig_geocode'):
@@ -44,6 +44,8 @@ def test_suite():
     import pdb
 
     installProduct('PleiadesGeocoder')
+    # Don't need to do setupPloneSite(products=['PleiadesGeocoder']) because
+    # we'll use a mock instead.
     setup.setupPloneSite()
     projname = 'p3'
     admin = 'm1'

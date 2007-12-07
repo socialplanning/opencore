@@ -5,8 +5,10 @@ class IOCGeoView(Interface):
     """View for using OpenCore content with geocoding.
     """
 
-    def set_geolocation(lat, lon):
-        """Store a latitude and longitude on the context."""
+    def set_geolocation(coords):
+        """Store coordinates on the context (latitude first).
+        If a change is made, return True; else return False.
+        """
 
     def get_geolocation():
         """Get the current coordinates on the context.

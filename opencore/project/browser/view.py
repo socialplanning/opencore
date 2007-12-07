@@ -60,23 +60,53 @@ class ProjectBaseView(BaseView):
             return False
         return flet_adapter.installed
 
+    @property
+    def has_geocoder(self):
+        # XXX move to base view?
+        return getToolByName(self.context, 'portal_geocoder', None) is not None
+
+    def maps_script_url(self):
+        # XXX move to base view?
+        if not self.has_geocoder:
+            return ''
+        # XXX Need to register for different keys for each host.
+        # put one in portal properties.
+        default_key = "ABQIAAAAQLu1UUa9Exjl_V_rj9rMWRTwM0brOpm-All5BF6PoaKBxRWWERSPejWvdVAWxDv499lZCh0fhiixIA"
+        key = self.get_opencore_property('google_maps_key') or default_key
+        url = "http://maps.google.com/maps?file=api&amp;v=2&amp;key=%s" % key
+        return url
+
     def geocode_from_form(self, form=None):
         """
         Inspect the values in the form in order to extract and return
-        a geolocation.  Will perform a lookup on a textual position if
-        necessary.
+        coordinates.  Will perform a lookup on a textual position if
+        necessary.  If any problems, adds a message to self.errors.
         """
+        # XXX move to base view?
+        default = ()
+        if not self.has_geocoder:
+            return default
         if form is None:
             form = self.request.form
-        geo = self.context.restrictedTraverse('oc-geo-info')
-        return geo.geocode_from_form(form)
+        try:
+            geo = self.context.restrictedTraverse('oc-geo-info')
+            coords = geo.geocode_from_form(form)
+            return coords
+        except TypeError:
+            self.errors['position-text'] = _(u'psm_geocode_failed', u"Sorry, we were unable to find that address on the map")
+            return default
+    
 
-    def set_geolocation(self, proj, lat, lon):
+    def set_geolocation(self, proj, coords):
         """
-        Update the project with the given latitude and longitude.
+        Update the project with the given coordinates
+        (for now assume latitude, longitude).
         """
+        # XXX move to base view?
+        if not self.has_geocoder:
+            return False
         geo = proj.restrictedTraverse('oc-geo-info')
-        return geo.set_geolocation(lat, lon)
+        return geo.set_geolocation(coords)
 
 
 class ProjectContentsView(ProjectBaseView, OctopoLite):
@@ -457,10 +487,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         if not valid_project_title(title):
             self.errors['title'] = _(u'err_project_name', u'The project name must contain at least 2 characters with at least 1 letter or number.')
 
-        try:
-            lat, lon = self.geocode_from_form()
-        except TypeError:
-            self.errors['position-text'] = _(u'psm_geocode_failed', u"Sorry, we were unable to find that address on the map")
+        coords = self.geocode_from_form()
 
         if self.errors:
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
@@ -487,7 +514,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             del self.request.form['logo'], new_form['logo']
 
         locationchanged = False
-        if self.set_geolocation(self.context, lat, lon):
+        if self.set_geolocation(self.context, coords):
             locationchanged = True
         elif self.context.getLocation() != new_form.get('location', ''):
             locationchanged = True
@@ -626,10 +653,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             if self.context.has_key(id_):
                 self.errors['id'] = 'The requested url is already taken.'
 
-        try:
-            lat, lon = self.geocode_from_form()
-        except TypeError:
-            self.errors['position-text'] = _(u'psm_geocode_failed', u"Sorry, we were unable to find that address on the map")
+        coords = self.geocode_from_form()
 
         # not calling validate because it explodes on "'" for project titles
         # XXX is no validation better than an occasional ugly error?
@@ -655,7 +679,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
                 return
             del self.request.form['logo']
 
-        self.set_geolocation(proj, lat, lon)
+        self.set_geolocation(proj, coords)
 
         self.template = None
         proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)

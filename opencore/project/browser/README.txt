@@ -15,6 +15,15 @@ Add view
     ...                  add=True, featurelets = ['listen'], set_flets=1)
     >>> view.request.form.update(form_vars)
 
+The test setup should be ensuring that geocoding is disabled::
+
+    >>> view.has_geocoder
+    False
+    >>> view.maps_script_url()
+    ''
+    >>> print view.geocode_from_form()
+    ()
+
 Try setting some invalid titles::
     >>> view.request.form['title'] = ""
     >>> out = view.handle_request()
@@ -124,6 +133,15 @@ Make sure he can't access wiki pages in his project, too::
 
     >>> self.logout()
     >>> self.login('test_user_1_')
+
+Maps url should work if the geocoder is available::
+
+    >>> view = projects.restrictedTraverse('create')
+    >>> view.has_geocoder = True
+    >>> view.maps_script_url()
+    'http://maps.google.com/maps?file=api...'
+
+
     
 Preference View
 ===============
@@ -138,6 +156,13 @@ Preference View
 
     >>> view.project_info['featurelets']
     [{'url': u'lists', 'name': 'listen', 'title': u'Mailing lists'}]
+
+
+    The test setup should have disabled geocoding::
+
+    >>> view = proj.restrictedTraverse('preferences')
+    >>> view.has_geocoder
+    False
 
     >>> form_vars = dict(workflow_policy='closed_policy',
     ...                  update=True,
@@ -237,6 +262,22 @@ Make sure we can install a TaskTracker featurelet too::
     Now we can see it again
     >>> proj.restrictedTraverse('preferences')
     <...SimpleViewClass ...preferences...>
+
+
+If the geocoding tool is not available, these methods do nothing::
+
+    >>> view.has_geocoder
+    False
+    >>> view.maps_script_url()
+    ''
+    >>> print view.geocode_from_form()
+    ()
+
+Maps url should work if the geocoder is available::
+
+    >>> view.has_geocoder = True
+    >>> view.maps_script_url()
+    'http://maps.google.com/maps?file=api...'
 
 
 Team view

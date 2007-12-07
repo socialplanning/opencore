@@ -1,18 +1,21 @@
-import os, sys, unittest
-from opencore.account import utils
-utils.turn_confirmation_on()
-from zope.testing import doctest
+from Products.Five.site.localsite import enableLocalSiteHook
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase
-from opencore.testing.layer import OpencoreContent
-from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
-from zope.interface import alsoProvides
+from opencore.account import utils
 from opencore.featurelets.interfaces import IListenContainer
-from opencore.testing.layer import MockHTTPWithContent
-from opencore.testing import setup as oc_setup
-from Products.Five.site.localsite import enableLocalSiteHook
-from zope.app.component.hooks import setSite, setHooks
+from opencore.project.browser.view import ProjectBaseView
 from opencore.testing import dtfactory as dtf
+from opencore.testing import setup as oc_setup
+from opencore.testing.layer import MockHTTPWithContent
+from opencore.testing.layer import OpencoreContent
+from zope.app.component.hooks import setSite, setHooks
+from zope.interface import alsoProvides
+from zope.testing import doctest
+import os, sys, unittest
+
+utils.turn_confirmation_on()
+
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
@@ -68,6 +71,14 @@ def test_suite():
         enableLocalSiteHook(tc.portal)
         setSite(tc.portal)
         setHooks()
+        # Force geocoding off for these tests.
+        # (ie. even if it's installed, act like it isn't.)
+        ProjectBaseView._old_has_geocoder = ProjectBaseView.has_geocoder
+        ProjectBaseView.has_geocoder = False
+
+    def readme_teardown(tc):
+        ProjectBaseView.has_geocoder = ProjectBaseView._old_has_geocoder
+        
 
     def tasktracker_setup(tc):
         oc_setup.extended_tt_setup(tc)
@@ -77,13 +88,14 @@ def test_suite():
 
     globs = locals()
     readme = dtf.FunctionalDocFileSuite("README.txt", 
-                                    optionflags=optionflags,
-                                    package='opencore.project.browser',
-                                    test_class=FunctionalTestCase,
-                                    globs = globs,
-                                    setUp=readme_setup,
-                                    layer = MockHTTPWithContent                                       
-                                    )
+                                        optionflags=optionflags,
+                                        package='opencore.project.browser',
+                                        test_class=FunctionalTestCase,
+                                        globs = globs,
+                                        setUp=readme_setup,
+                                        tearDown=readme_teardown,
+                                        layer = MockHTTPWithContent,
+                                        )
 
     delete = dtf.FunctionalDocFileSuite("delete-project.txt",
                                     optionflags=optionflags,

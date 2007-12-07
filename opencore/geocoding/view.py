@@ -16,11 +16,12 @@ class OCGeoView(BrowserView):
     def _geo(self):
         return IGeoItemSimple(self.context)
 
-    def set_geolocation(self, lat, lon):
+    def set_geolocation(self, coords):
         """See IOCGeoView."""
-        # XXX what about non-Point locations?
-        if lat is not None and lon is not None:
+        if coords and not None in coords:
             geo = self._geo()
+            # XXX need to handle things other than a point!
+            lat, lon = coords[:2]
             # Longitude first! Yes, really.
             new_coords = (lon, lat, 0.0)
             if new_coords != geo.coords:
