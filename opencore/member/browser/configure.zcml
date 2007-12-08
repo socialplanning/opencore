@@ -75,7 +75,7 @@
   <browser:page
      for="opencore.interfaces.member.IMemberFolder"
      permission="zope2.View"
-     name="badge.vcard"
+     name="badge"
      template="badge.pt"
      class=".badge.BadgeView"
      />
