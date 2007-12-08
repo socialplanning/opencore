@@ -2,7 +2,7 @@
 
 <!-- navigation links -->
 <ul id="oc-topnav-context" class="oc-clearAfter">
-  <span tal:replace="structure python:view.siteroot_link('people/searchresults?letter_search=all', 'People')" />
+  <span tal:replace="structure python:view.siteroot_link('people', 'People')" />
   <span tal:replace="structure python:view.siteroot_link('projects', 'Projects')" />
   <span tal:replace="structure python:view.siteroot_link('projects/create', 'Start a project')" />
 </ul>

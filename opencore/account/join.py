@@ -32,7 +32,7 @@ class JoinView(browser.AccountView, OctopoLite):
     def _create_member(self, targets=None, fields=None, confirmed=False):
         factory = ICreateMembers(self.portal)
 
-        self.errors = factory.validate(self.request.form)
+        self.errors = factory.validate(self.request)
         if self.errors:
             return self.errors
 

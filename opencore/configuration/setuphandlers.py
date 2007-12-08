@@ -410,8 +410,15 @@ def installNewsFolder(portal, out):
 @setuphandler
 def createValidationMember(portal, out):
     mdtool = getToolByName(portal, 'portal_memberdata')
+    if getattr(mdtool.aq_base, '_validation_member', None) is not None:
+        # already exists
+        return
+
     mem = OpenMember('validation_member')
+    from Products.remember.permissions import EDIT_SECURITY_PERMISSION
+    mem.getField('password').write_permission = EDIT_SECURITY_PERMISSION
     mdtool._validation_member = mem
+    
 
 def register_local_utility(portal, out, iface, klass):
     setSite(portal) # specify the portal as the local utility context

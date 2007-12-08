@@ -66,6 +66,15 @@ Let's make sure the dude really exists and his fields were set::
     >>> (mem.getId(), mem.getEmail())
     ('foo', 'greeble@example.com')
 
+Let's see if he shows up in the recently created members list::
+    >>> people = self.portal.people
+    >>> from zope.component import getMultiAdapter
+    >>> view = getMultiAdapter((people, people.REQUEST), name='view')
+    >>> view
+    <Products.Five.metaclass.SimpleViewClass from...>
+    >>> view.recently_created_members()[0].getObject()
+    <OpenMember at /plone/portal_memberdata/test_user_1_>
+
 If we try to create a member with errors, the factory fails without
 grace; it expects you to validate before attempting creation::
     >>> factory.create(dict(id='m1',

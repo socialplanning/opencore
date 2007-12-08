@@ -1,0 +1,77 @@
+========
+ tal.py
+========
+
+Module for simple tal related utilities
+
+render_tal
+==========
+
+This will need to be updated for zope 2.10 and z3 (this test is here
+in part to make that move easier).
+
+We use The opencore.browser.tal.create_tal_context creates a context
+with an abbreviated subset of normal vars found in a template (no modules).
+
+It also adds any keyword args to the context as available vars. Let's give it a whirl::
+
+    >>> from opencore.browser import tal
+
+Our goal is to render this macro::
+
+    >>> tal_frag = """
+    ... <metal:block define-macro="our_macro">
+    ...   request: <span tal:replace="request" />
+    ...   context: <span tal:replace="context" />
+    ...   view: <span tal:replace="python: repr(view)" />
+    ...   kw: <span tal:replace="hello" />
+    ...   some view attr: <span tal:replace="view/attr" />
+    ... </metal:block>
+    ... """    
+
+We'll abuse the view registration architecture to create a real life
+like situation(see tests.py for details)::
+
+    >>> view_class = tal.make_view_w_macro(tal_frag, name='macro bearing view', attr='dont mttr')
+
+Now we have to fake a instantiation with the proper wrappings as if we
+were published::
+
+    >>> view = view_class(self.app, 'Im the request').__of__(self.app)
+
+Great, we have a fake view. Now we want to render the macro inside it.
+
+First we will create a context::
+
+    >>> tcontext = tal.create_tal_context(view, hello='cruel world')
+    >>> tcontext
+    <Products.PageTemplates.TALES.Context instance at ...>
+
+Some global vars we care about should be in there::
+
+    >>> pprint(tcontext.global_vars)
+    {'context': <Application at >,
+     'default': <Products.PageTemplates.TALES.Default instance at ...>,
+     'hello': 'cruel world',
+     'here': <Application at >,
+     'loop': <Products.PageTemplates.TALES.SafeMapping object at ...>,
+     'nothing': None,
+     'repeat': <Products.PageTemplates.TALES.SafeMapping object at ...>,
+     'request': 'Im the request',
+     'view': <Products.Five.metaclass.SimpleViewClass from ... object at ...>}
+
+Note: no modules. we do use them (with views, you don't need modules
+in tal space), so I'm avoiding the overhead.
+
+Finally: using the context, we can render a macro (we'll grab the macro from
+the default template binding 'index')::
+
+    >>> macro = view.index.macros['our_macro']
+    >>> import sys
+    >>> tal.render_tal(macro, tcontext, stream=sys.stdout)
+    <BLANKLINE>
+      request: Im the request
+      context: ...Application at...
+      view: ...Products.Five.metaclass.SimpleViewClass from ... object at ...
+      kw: cruel world
+      some view attr: dont mttr

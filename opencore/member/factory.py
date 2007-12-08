@@ -3,6 +3,9 @@ from zope.interface import implements
 from zope.event import notify
 from zope.app.event.objectevent import ObjectCreatedEvent
 
+from AccessControl.SecurityManagement import getSecurityManager
+from AccessControl.SecurityManagement import newSecurityManager
+from AccessControl.SecurityManagement import setSecurityManager
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import transaction_note
 
@@ -47,12 +50,31 @@ class MemberFactory(object):
     def _validation_member(self):
         return self._membertool._validation_member
 
-    def validate(self, fields):
+    def validate(self, request):
+        """
+        Delegates to AT validation on a shared persistent reference
+        member object.
+        """
+        validation_member = self._validation_member
+
+        # XXX as of Plone 3 AT only validates a field if the member
+        # has edit privs.  for now we become a Manager user just long
+        # enough to perform the validation... ugh! (ra)
+        orig_sec_mgr = getSecurityManager()
+        mgr_userid = 'admin' # <-- XXX get this from config
+        app = validation_member.getPhysicalRoot()
+        user = app.acl_users.getUserById(mgr_userid)
+        user = user.__of__(app.acl_users)
+        newSecurityManager(request, user)
         errors = {}
-        request = _FakeRequest(fields)
-        errors = self._validation_member.validate(REQUEST=request,
-                                                  errors=errors,
-                                                  data=1, metadata=0)
+        request = _FakeRequest(request.form) # why fake request? (ra)
+        
+        errors = validation_member.validate(REQUEST=request,
+                                            errors=errors,
+                                            data=1, metadata=0)
+
+        # return to our safe state
+        setSecurityManager(orig_sec_mgr)
         pw, pw_ = (request.form.get("password"),
                    request.form.get("confirm_password"))
         if not pw and not pw_:

@@ -1,10 +1,14 @@
-import os, sys, unittest
-from zope.testing import doctest
-from Testing import ZopeTestCase
-from Testing.ZopeTestCase import PortalTestCase 
-from Testing.ZopeTestCase import FunctionalDocFileSuite
-from opencore.testing.layer import OpencoreContent as test_layer
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
+from Testing import ZopeTestCase
+from Testing.ZopeTestCase import FunctionalDocFileSuite
+from Testing.ZopeTestCase import PortalTestCase 
+from opencore.testing import dtfactory as dtf
+from opencore.testing.layer import OpencoreContent as test_layer
+from zope.testing import doctest
+from opencore.browser import tal
+import os
+import sys
+import unittest
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
@@ -20,7 +24,7 @@ def test_suite():
     from zope.interface import alsoProvides
     from pprint import pprint
     from opencore.browser.formhandler import test_suite as octotest
-    
+
     setup.setupPloneSite()
     def readme_setup(tc):
         tc._refreshSkinData()
@@ -30,17 +34,16 @@ def test_suite():
         tc.projects = tc.portal.projects
 
     globs = locals()
-    readme = FunctionalDocFileSuite("README.txt",
-                                    optionflags=optionflags,
-                                    package='opencore.browser',
-                                    test_class=OpenPlansTestCase,
-                                    globs = globs,
-                                    setUp=readme_setup
-                                    )
-
-    readme.layer = test_layer
-
-    return unittest.TestSuite((readme, octotest()))
+    readme = dtf.ZopeDocFileSuite("README.txt",
+                                  optionflags=optionflags,
+                                  package='opencore.browser',
+                                  test_class=OpenPlansTestCase,
+                                  globs = globs,
+                                  setUp=readme_setup,
+                                  layer = test_layer                                  
+                                  )
+    tal_test = tal.test_suite()
+    return unittest.TestSuite((readme, octotest(), tal_test))
 
 
 if __name__ == '__main__':
