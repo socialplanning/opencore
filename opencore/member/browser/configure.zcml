@@ -72,6 +72,14 @@
      allowed_interface="opencore.interfaces.member.IMemberInfo"
      />
 
+  <browser:page
+     for="opencore.interfaces.member.IMemberFolder"
+     permission="zope2.View"
+     name="badge.vcard"
+     template="badge.pt"
+     class=".badge.BadgeView"
+     />
+
   <subscriber handler=".miv.auto_approve_member"/>
 
   <subscriber
