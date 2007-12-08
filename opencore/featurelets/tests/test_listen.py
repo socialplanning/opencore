@@ -37,7 +37,7 @@ class TestListenFeaturelet(OpenPlansTestCase):
         featurelet = ListenFeaturelet(self.project)
         team = makeContent(self.portal.portal_teams, 'Team', 'OpenTeam')
         self.project.setSpaceTeams([team])
-        self.assertEqual(self.project.objectIds(), [])
+        self.assertEqual(list(self.project.objectIds()), [])
         request = self.project.REQUEST
         try:
             view = getMultiAdapter((self.project, request),
