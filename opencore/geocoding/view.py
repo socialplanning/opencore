@@ -90,7 +90,10 @@ def MemberFolderGeoItem(context):
     for normal Plone members.
     """
     member = getattr(context.portal_memberdata, context.getId(), None)
-    return IGeoItemSimple(member)
+    from opencore.member.interfaces import IOpenMember
+    if IOpenMember.providedBy(member):
+        return IGeoItemSimple(member)
+    return None
 
 class MemberGeoItem(GeoItemSimple):
 
