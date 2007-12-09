@@ -117,6 +117,7 @@
      container="opencore.interfaces.IMemberFolder"
      item_url="account"
      sort_order="30"
+     permission="cmf.ModifyPortalContent"
      />
 
   <opencore:menuitem

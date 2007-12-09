@@ -72,7 +72,7 @@ class TestMemberMenu(OpenPlansTestCase):
         self.request.ACTUAL_URL = self.mf.absolute_url()
         view = getMultiAdapter(
             (self.mhome, self.request),
-            name='topnav-member-menu')
+            name='oc-topnav')
         manager = getMultiAdapter((self.mhome, self.request, view),
                                   ITopnavMenuItems,
                                   name='opencore.topnavmenu')
@@ -91,7 +91,7 @@ class TestMemberMenu(OpenPlansTestCase):
         profile_url = "%s/profile" % self.mf.absolute_url()
         self.request.ACTUAL_URL = profile_url
         view = getMultiAdapter((self.mf, self.request),
-                               name='topnav-member-menu')
+                               name='oc-topnav')
         manager = getMultiAdapter((self.mf, self.request, view),
                                   ITopnavMenuItems,
                                   name='opencore.topnavmenu')
@@ -126,15 +126,15 @@ class TestMemberMenu(OpenPlansTestCase):
         other_profile_url = "%s/profile" % self.other_mf.absolute_url()
         self.request.ACTUAL_URL = other_profile_url
         view = getMultiAdapter((self.other_mf, self.request),
-                               name='topnav-member-menu')
-        manager = getMultiAdapter((self.mf, self.request, view),
+                               name='oc-topnav')
+        manager = getMultiAdapter((self.other_mf, self.request, view),
                                   ITopnavMenuItems,
                                   name='opencore.topnavmenu')
         manager.update()
         html = manager.render()
         lis, links = self._parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 2)
-        self.assertEqual('%s/m1-home' % self.other_mf.absolute_url(),
+        self.assertEqual('%s/m2-home' % self.other_mf.absolute_url(),
                          links[0]['href'])
         self.failIf(lis[0]['selected'])
         self.assertEqual(lis[1]['selected'], u'oc-topnav-selected')

@@ -46,11 +46,9 @@ def project_create_url(viewlet):
     return '%s/projects/create' % portal.absolute_url()
 
 def member_wiki_url(viewlet):
-    """return the url to the logged in user's wiki home page"""
-    mstool = getToolByName(viewlet.context, 'portal_membership')
-    home_folder = mstool.getHomeFolder()
-    id_ = home_folder.getId()
-    return '%s/%s-home' % (home_folder.absolute_url(), id_)
+    """return the url to the viewed user's wiki home page"""
+    mf = contained_within(viewlet)
+    return '%s/%s-home' % (mf.absolute_url(), mf.getId())
 
 def project_wiki_url(viewlet):
     """return the url to the project's wiki home page"""
