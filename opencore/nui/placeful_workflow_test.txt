@@ -50,7 +50,7 @@ And the object should be in the proper state
 If we create a closed project, we should verify that the member is in the
 public state
     >>> self.login('m1')
-    >>> from opencore.project.browser.view import ProjectAddView
+    >>> from opencore.project.browser.add import ProjectAddView
     >>> request = self.portal.REQUEST
     >>> view = ProjectAddView(self.portal.projects, request)
     >>> request.form.update(dict(

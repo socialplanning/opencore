@@ -1,12 +1,10 @@
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-
+from opencore.project.browser.latest_snippet import LatestSnippet
+from opencore.project.browser.contents import ProjectContentsView
 from opencore.project.utils import get_featurelets
 
-from opencore.project.browser.latest_snippet import LatestSnippet
-from opencore.project.browser.view import ProjectContentsView
 
-
-class ListFromCatalog:
+class ListFromCatalog(object):
     """
     return the latest items from a catalog
     """
@@ -42,7 +40,7 @@ class DiscussionList(ListFromCatalog):
             number = len(items)
         return items
 
-class Feed:
+class Feed(object):
     """a rediculously stupid class for feeds.
     should be redone"""
     def __init__(self, title, link, linktitle, listgetter, listgetterargs,

@@ -7,6 +7,7 @@ from opencore.project import LATEST_ACTIVITY
 from opencore.project import PROJ_HOME
 from topp.utils import text
 
+
 class ProjectBaseView(BaseView):
 
     @memoizedproperty

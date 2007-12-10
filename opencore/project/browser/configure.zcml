@@ -51,73 +51,38 @@
      allowed_interface=".interfaces.IProjectInfo"
      />
 
-  <browser:page
-     name="add_project"
-     for="opencore.interfaces.adding.IAddProject"
-     permission="zope2.View"
-     class="..browser.ProjectAddView"
-     attribute="redirect"
-     />
-
-  <fate:addform
-     name="do_add_project"
-     for="opencore.interfaces.adding.IAddProject"
-     permission="zope2.View"
-     product="OpenPlans"
-     meta_type="OpenProject"
-     class="..browser.ProjectAddView"
-     />
-
-  <!-- 
-
-  <fate:addform
-     name="add_project"
-     for="opencore.interfaces.adding.IAddSubProject"
-     permission="zope2.View"
-     product="OpenPlans"
-     meta_type="OpenProject"
-     class="..browser.SubProjectAddView"
-     /> 
-
-  <browser:page 
+  <!-- browser:page 
      name="projects"
      for="opencore.interfaces.adding.IAddSubProject"
-     class="..browser.SubProjectListingView"
+     class="opencore.project.browser.subproject_listing.SubProjectListingView"
      permission="zope2.View"
      template="subproject_listing.pt" 
-     /> 
-  
-  --> 
+     / --> 
 
-
-  <!-- from nui -->
-  <adapter
-      for="opencore.interfaces.IProject"
-      provides="opencore.interfaces.IHomePage"
-      factory=".home_page.HomePage"
-      />
+  <adapter factory=".home_page.HomePage" />
 
   <browser:page
      for="opencore.interfaces.adding.IAddProject"
      name="create"
-     class=".view.ProjectAddView"
+     class=".add.ProjectAddView"
      permission="openplans.AddOpenProject"
      />
 
   <browser:page
      for="opencore.interfaces.adding.IAddSubProject"
      name="create_project"
-     class=".view.SubProjectAddView"
+     class=".add.SubProjectAddView"
      permission="openplans.AddSubProject"
      />
 
    <!-- move to contents.py; these will share functionality -->
    <browser:page
       for="opencore.interfaces.IProject"
-      class=".view.ProjectContentsView"
+      class=".contents.ProjectContentsView"
       permission="zope2.View"
       name="contents"
       />
+
    <!--  <browser:page
       for="opencore.interfaces.IProject"
       class=".contents.RecentUpdatesView"
@@ -166,7 +131,7 @@
 
   <browser:page
      for="opencore.interfaces.IProject"
-     class=".view.TourView"
+     class="opencore.project.browser.TourView"
      permission="cmf.ModifyPortalContent"
      name="tour"
      template="tour.pt"
@@ -190,7 +155,7 @@
 
   <browser:page
      for="opencore.interfaces.IProject"
-     class=".view.RedirectView"
+     class="opencore.project.browser.RedirectView"
      permission="zope2.View"
      name="view"
      />
@@ -201,9 +166,7 @@
      handler=".metadata.updateContainerMetadata"
      />
 
-  <subscriber
-     handler=".metadata.updateThreadCount"
-     />
+  <subscriber handler=".metadata.updateThreadCount" />
 
   <subscriber
      for="opencore.interfaces.IOpenPage

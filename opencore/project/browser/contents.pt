@@ -20,10 +20,10 @@
 							">
 			<tal:macro metal:define-macro="contents_table_wrapper">
 			<tal:setvar define="item_collection item_collection | options/item_collection;
-								item_header item_header | item_collection/info/header;
-								item_type item_type | item_collection/item_type;
-								item_date_author_header item_date_author_header | options/item_date_author_header;
-								">
+					item_header item_header | item_collection/info/header;
+					item_type item_type | item_collection/item_type;
+					item_date_author_header item_date_author_header | options/item_date_author_header;
+					">
 				<tal:if condition="item_collection/editable">
 				<metal:contents_table define-macro="contents_table">
 					<div class="oc-widget oc-widget-dataTable" 
@@ -34,7 +34,7 @@
 					</h2>
 
 					<form action="contents"
-							tal:attributes="name form_name" class="oc-js-formConfirm">
+						tal:attributes="name form_name" class="oc-js-formConfirm">
 						<span class="oc-hidden oc-warning oc-confirm">This deletion is permanent. Are you sure you want to delete?</span>
 						<input tal:replace="structure view/authenticator_input"/>
 						<input type="hidden" name="item_type"
@@ -134,9 +134,10 @@
 										tal:attributes="id item/id"
 										tal:define="item item | options/item;
 													item_type item_type | options/item_type;
-													editable python: not item.get('uneditable') and view.editable; 
+													editable python: not item.get('uneditable');
+                                                                                                        editable python: type_editable | editable;
 													deletable not:item/undeletable | nothing">
-										<td tal:condition="view/editable">
+										<td tal:condition="editable | item_collection/editable">
 											<input tal:condition="not:deletable" type="checkbox" class="oc-js-checkAll-never" name="deletes:list"
 												 tal:attributes="value item/id" 
 												 disabled="True" />
@@ -164,9 +165,11 @@
 											<a tal:attributes="href string:${view/siteURL}/people/${author}/profile" tal:content="author" />
 										</tal:setvar>
 										</td>
+
 										<td>
-										<ul class="oc-actions oc-dataTable-row-actions" tal:condition="editable">
+										<ul class="oc-actions oc-dataTable-row-actions" tal:condition="editable | item_collection/editable">
 											<li>
+
 											<a href="#" class="oc-js-liveEdit_showForm oc-actionLink">Rename</a></li>
 											<li tal:condition="deletable">
 											<a class="oc-js-actionLink oc-actionLink oc-js-confirm"
@@ -221,22 +224,22 @@
 		</tal:setvar>
 
 		<tal:setvar define="item_header string:Images & Attachments;
-							item_type string:files;
-							item_collection view/files;
-							item_date_author_header string:Created;
-							show_deletes view/show_deletes
-							">
+				    item_type string:files;
+				    item_collection view/files;
+				    item_date_author_header string:Created;
+				    show_deletes view/show_deletes
+				    ">
 			 <tal:macro metal:use-macro="template/macros/contents_table_wrapper" />
 		</tal:setvar> 
 
 		<tal:setvar condition="view/has_mailing_lists" 
 			define="item_header string:Mailing lists;
-					item_type string:lists;
-					item_collection view/lists;
-					item_date_author_header string:Created;
-					show_deletes view/show_deletes
-					">
-			<tal:macro metal:use-macro="template/macros/contents_table_wrapper" />
+				item_type string:lists;
+				item_collection view/lists;
+				item_date_author_header string:Created;
+				show_deletes view/show_deletes
+				">
+			<metal:table use-macro="template/macros/contents_table_wrapper" />
 		</tal:setvar> 
 
 		<a rel="include" i18n:translate="contents_view_tasks" tal:condition="view/has_task_tracker"

@@ -23,3 +23,42 @@ tickets:
    location with proper 'linking'
 
 
+Migrating old files to new location
+===================================
+
+pros:
+
+  - everything in one place
+
+  - deletion would be safe
+
+  - single way of looking things up
+
+issues:
+
+   - have to fix existing links
+
+   - extra migration steps
+
+Migrating to new file types
+===========================
+
+pros::
+
+  - file and image have better handling of media than fileattachment class
+
+issues::
+
+  - migration to new file types
+
+
+Link continuity
+===============
+
+- store references to moved objects as annontation on container
+
+- traversal adapter on container(project, memberfolder)
+
+  - if traversal falls through, redirect to new location of attachment
+
+
