@@ -5,8 +5,8 @@
        tal:content="view/area/Title" />
   </h1>
 
-  <!-- old topnav generation -->
   <tal:comment replace="nothing">
+    <!-- old topnav generation -->
     <tal:contextMenu replace="structure view/contextmenu" />
   </tal:comment>
 
