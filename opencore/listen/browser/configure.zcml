@@ -35,8 +35,8 @@
      name="edit"
      for="opencore.listen.interfaces.IOpenMailingList"
      permission="listen.EditMailingList"
-     class=".view.NuiMailingListEditView"
-     template="listen_formlib.pt"
+     class=".view.ListEditView"
+     template="edit.pt"
      />
 
   <browser:page

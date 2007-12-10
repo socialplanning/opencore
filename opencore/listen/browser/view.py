@@ -10,6 +10,7 @@ from Products.listen.browser.mail_message_views import ForumMailMessageView, Thr
                                                        MessageReplyView, SearchDebugView
 from Products.listen.browser.manage_membership import ManageMembersView
 from Products.listen.browser.moderation import ModerationView
+from Products.listen.content import ListTypeChanged
 from Products.listen.interfaces import IMailingList
 from Products.listen.interfaces.list_types import PublicListTypeDefinition, \
                                                   PostModeratedListTypeDefinition, \
@@ -27,13 +28,21 @@ from plone.app.form import _named
 from plone.memoize.view import memoize as req_memoize
 from zope.app.annotation.interfaces import IAnnotations
 from zope.app.component.hooks import getSite
+from zope.event import notify
 from zope.formlib.namedtemplate import INamedTemplate
-from zope.interface import implements
+from zope.interface import implements, directlyProvides
 from zExceptions import BadRequest
 import cgi
 import re
 import new
 import os.path
+
+
+_ml_type_to_interface = {
+    PublicListTypeDefinition : IPublicList,
+    PostModeratedListTypeDefinition : IPostModeratedList,
+    MembershipModeratedListTypeDefinition : IMembershipModeratedList,
+    }
 
 class ListAddView(BaseView, OctopoLite):
 
@@ -138,22 +147,20 @@ class ListAddView(BaseView, OctopoLite):
         list.managers = (unicode(self.loggedinmember.getId()),)
         list.setDescription(unicode(self.request.form.get('description','')))
 
+        old_type = list.list_type
+        
         if workflow == 'policy_open':
-            list.list_type = PublicListTypeDefinition
-            if not IPublicList.providedBy(list):
-                list.setDescription(u'PublicListTypeDefinition  error')
-            list.setDescription(u'PublicListTypeDefinition')
+            new_type = PublicListTypeDefinition
         elif workflow == 'policy_moderated':
-            list.list_type = PostModeratedListTypeDefinition
-            if not IMembershipModeratedList.providedBy(list):
-                list.setDescription(u'PostModeratedListTypeDefinition  error')
-            list.setDescription(u'PostModeratedListTypeDefinition')
+            new_type = PostModeratedListTypeDefinition
         else:
-            list.list_type = MembershipModeratedListTypeDefinition
-            if not IPostModeratedList.providedBy(list):
-                list.setDescription(u'MembershipModeratedListTypeDefinition  error')
-            list.setDescription(u'MembershipModeratedListTypeDefinition')
+            new_type = MembershipModeratedListTypeDefinition
+            
+        notify(ListTypeChanged(list,
+                               _ml_type_to_interface[old_type],
+                               _ml_type_to_interface[new_type]))
 
+        
         if archive == 'policy_all':
             list.archived = 0
         elif archive == 'policy_text':
@@ -171,7 +178,6 @@ class ListAddView(BaseView, OctopoLite):
         self.add_status_message(s_message)
 
         self.redirect(list.absolute_url())
-
 
 class ListenBaseView(BaseView):
     @req_memoize
@@ -214,6 +220,15 @@ class ListenBaseView(BaseView):
             msgs.append(req_psm2)
 
         return msgs
+
+
+class ListEditView(ListenBaseView, OctopoLite):
+    template = ZopeTwoPageTemplateFile('edit.pt')
+
+    @action('add')
+    def handle_request(self, target=None, fields=None):
+        print "handle_request for list edit view"
+
 
 # uh.. if you are going write meta factories you should write tests too
 # isn't this what super and mixins are is suppose to solve?

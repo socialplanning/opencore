@@ -1,0 +1,103 @@
+<html metal:use-macro="context/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:${view/context/Title} - ${view/area/Title}" />
+  </head>
+  <body>
+    <div metal:fill-slot="content">
+      <div metal:use-macro="here/@@listen_macros/bcrumb"/>
+      <div metal:use-macro="here/@@listen_macros/tabs"/>
+
+      <div id="oc-content-main" class="oc-content-main-fullWidth">
+List type:      <div tal:content="context/list_type/title"></div>
+
+        <form class="edit-form" method="post" action="http://localhost:8080/openplans2/projects/morx/lists/asdf/@@edit">
+          <fieldset class="oc-boxy">
+            <label for="form.title" title="">Title</label>
+            
+            <div class="oc-form-fieldBlock">
+              <input class="textType" id="form.title" name="form.title" size="20" value="asdf" type="text">
+            </div>
+          </fieldset>
+          <fieldset class="oc-boxy">
+            <label for="form.description" title="A description of the mailing list.">Description</label>
+            
+            <div class="oc-form-fieldBlock">
+              <textarea cols="40" id="form.description" name="form.description" rows="3">PostModeratedListTypeDefinition</textarea>
+            </div>
+          </fieldset>
+          <fieldset class="oc-boxy">
+            <label for="form.mailto" title="listen_address_prefix_description">List Address Prefix</label>
+            
+            <div class="oc-form-fieldBlock">
+              <input class="textType" id="form.mailto" name="form.mailto" value="asdf" type="text">@lists.openplans.org
+            </div>
+          </fieldset>
+          <fieldset class="oc-boxy">
+            <label for="form.managers" title="The people who maintain the list.  Managers can edit list settings and can edit the list of allowed senders / subscribers.  Managers receive moderation requests, general inquiries and any bounced mail.">Managers</label>
+            
+            <div class="oc-form-fieldBlock">
+              <div id="test">
+
+<script type="text/javascript" src="edit_files/resourcelistoperations.js">
+</script>
+
+<div id="sourceParent">
+  <input name="form.managers.marker" id="form.managers.marker" type="hidden">
+  
+    <input name="form.managers" id="value.0.form.managers" value="novalis" type="hidden">
+  
+  <input id="form.managers" type="hidden">
+  <div id="select.form.managers">
+    
+      <div id="select.0.form.managers">
+        <a href="#remove" onclick='sequenceRemoveItem("form.managers", "0"); return false;' style="text-decoration: none;">[ - ]</a>
+        <span>novalis</span>
+      </div>
+    
+  </div>
+</div>
+
+<div>
+  <input id="input.form.managers" onkeypress="return onKeyPress(event);" type="text">
+  <button type="button" onclick="sequenceAddItem('form.managers')">
+    Add
+  </button>
+</div>
+
+</div>
+
+            </div>
+          </fieldset>
+          <fieldset class="oc-boxy">
+            <label for="form.list_type" title="The policy that defines the behavior of the list.">List Type</label>
+            
+            <div class="oc-form-fieldBlock">
+              <div>
+<div class="value">
+<label><input class="radioType" checked="checked" id="form.list_type.0" name="form.list_type" value="Public List" type="radio">&nbsp;Public List<br><span class="formHelp">Anyone who confirms their email address is valid can post and receive messages.</span></label><br><label><input class="radioType" id="form.list_type.1" name="form.list_type" value="Announce List" type="radio">&nbsp;Announce List<br><span class="formHelp">Anyone can receive messages, but each posted message has to be approved by the list managers first.</span></label><br><label><input class="radioType" id="form.list_type.2" name="form.list_type" value="Members List" type="radio">&nbsp;Members List<br><span class="formHelp">Only those approved by the list managers can post and receive messages.</span></label>
+</div>
+<input name="form.list_type-empty-marker" value="1" type="hidden">
+</div>
+            </div>
+          </fieldset>
+          <fieldset class="oc-boxy">
+            <label for="form.archived" title="When archiving is enabled, all messages sent to the list will be saved on the server.  You may choose whether to archive just the message text, or include attachments.">Archival method</label>
+            
+            <div class="oc-form-fieldBlock">
+              <div>
+<div class="value">
+<label><input class="radioType" checked="checked" id="form.archived.0" name="form.archived" value="The entire message, including attachments" type="radio">&nbsp;The entire message, including attachments</label><br><label><input class="radioType" id="form.archived.1" name="form.archived" value="The message text only" type="radio">&nbsp;The message text only</label><br><label><input class="radioType" id="form.archived.2" name="form.archived" value="Do not archive messages" type="radio">&nbsp;Do not archive messages</label>
+</div>
+<input name="form.archived-empty-marker" value="1" type="hidden">
+</div>
+            </div>
+          </fieldset>
+          <span class="oc-actions">
+            <input id="form.actions.label_save" name="form.actions.label_save" value="Save" class="context" type="submit">
+            <input id="form.actions.label_cancel" name="form.actions.label_cancel" value="Cancel" class="context" type="submit">
+          </span>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
