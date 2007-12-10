@@ -1,3 +1,5 @@
+-*- mode: doctest ;-*-
+
 GEOLOCATION
 ============
 
@@ -120,26 +122,6 @@ Under the hood
     >>> IGeoreferenceable.providedBy(m1data)
     True
 
-    You can get geo info on the people folder::
-
-    >>> view = people.restrictedTraverse('@@geo')
-    >>> view  # make sure our overrides.zcml took effect.
-    <Products.Five.metaclass.GeoInfosetView object at ...>
-    >>> info = list(view.forRSS())
-    >>> len(info)
-    0
-
-    To see anything interesting, let's annotate a member and try again::
-
-    >>> self.login('m1')
-    >>> m1 = people.m1
-    >>> geo = IGeoItemSimple(m1)
-    >>> geo.setGeoInterface('Point', (1.0, 2.0, 0.0))
-    >>> geo.coords
-    (1.0, 2.0, 0.0)
-    >>> geo.geom_type
-    'Point'
-
 
 API tests for people
 --------------------
@@ -151,8 +133,8 @@ everything we care about.
     >>> geo = portal.people.m1.restrictedTraverse('oc-geo-info')
     >>> IOCGeoView.providedBy(geo)
     True
-    >>> geo.get_geolocation()
-    (1.0, 2.0, 0.0)
+    >>> print geo.get_geolocation()
+    None
     >>> geo.set_geolocation((-3, -4))  # XXX lat first, change that?
     True
     >>> geo.get_geolocation()

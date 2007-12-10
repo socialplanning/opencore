@@ -38,7 +38,9 @@
       >URL
     </link>
     <id tal:content="item/properties/link">ID</id>
-    <updated/>
+    <!-- need to add updated to forRSS ... so i'm using even less of PG, yay -->
+    <updated tal:content="item/properties/updated">yesterday</updated>
+    <!-- XXX need a created timestamp, but atom doesn't define one. -->
     <summary
       tal:content="python:item['properties']['description'] or 'None.'"
       >ABOUT

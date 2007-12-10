@@ -39,11 +39,16 @@
     factory=".view.MemberFolderGeoItem"
   />
 
- <!-- Make members use a slightly special IGeoItemSimple implementation. -->
+ <!-- Use slightly special IGeoItemSimple implementations. -->
   <adapter
     for="opencore.member.interfaces.IOpenMember"
     provides="Products.PleiadesGeocoder.interfaces.simple.IGeoItemSimple"
     factory=".view.MemberGeoItem"
+    />
+  <adapter
+    for="opencore.interfaces.IProject"
+    provides="Products.PleiadesGeocoder.interfaces.simple.IGeoItemSimple"
+    factory=".view.ProjectGeoItem"
     />
 
 

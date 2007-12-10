@@ -1,3 +1,4 @@
+from DateTime import DateTime
 from Products.Five import BrowserView
 from Products.PleiadesGeocoder.browser.info import get_coords
 from Products.PleiadesGeocoder.geo import GeoItemSimple
@@ -86,7 +87,7 @@ class OCMemberareaGeoView(OCGeoView, BaseView):
 
 def MemberFolderGeoItem(context):
     """Adapt a member's home folder to IGeoItemSimple.
-    This allows us to treat remember members the same as projects,
+    This allows us to treat remember members much the same as projects,
     which is simpler than the extra stuff PleiadesGeocoder has to do
     for normal Plone members.
     """
@@ -95,6 +96,14 @@ def MemberFolderGeoItem(context):
         return IGeoItemSimple(member)
     return None
 
+
+def _iso8601(dt_or_string):
+    # Use this to get something suitable for use in atom feeds.
+    # Needed because Archetypes.ExtensibleMetadata date fields are sometimes
+    # DateTime objects, and sometimes strings. omg wtf etc.
+    dt = DateTime(dt_or_string)
+    return dt.ISO8601()
+    
 class MemberGeoItem(GeoItemSimple):
 
     @property
@@ -112,6 +121,8 @@ class MemberGeoItem(GeoItemSimple):
             'description': member.getProperty('description') or 'No description',
             'title': member.getProperty('fullname') or 'No title',
             'link': home_url,
+            'updated': _iso8601(member.ModificationDate()),
+            'created': _iso8601(member.CreationDate()),
             }
         
         return {
@@ -119,3 +130,20 @@ class MemberGeoItem(GeoItemSimple):
             'properties': properties,
             'geometry': {'type': self.geom_type, 'coordinates': self.coords}
             }
+
+class ProjectGeoItem(GeoItemSimple):
+
+    @property
+    def __geo_interface__(self):
+        info = super(ProjectGeoItem, self).__geo_interface__
+        project = self.context
+        properties = {
+            # According to PleiadesGeocoder.browser.info comments,
+            # OpenLayers can't handle an empty descr or title.
+            'description': info['properties']['description'] or 'No description',
+            'title': info['properties']['title'] or 'No title',
+            'updated': _iso8601(project.ModificationDate()),
+            'created': _iso8601(project.CreationDate()),
+            }
+        info['properties'].update(properties)
+        return info

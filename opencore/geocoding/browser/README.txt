@@ -1,3 +1,5 @@
+-*- mode: doctest ;-*-
+
 Geocoding views of opencore content
 ===================================
 
@@ -147,11 +149,20 @@ suitable for building a georss view.
     >>> print info['geometry']['coordinates']
     (-87.0, 12.0, 0.0)
     >>> info['properties']['description']
-    ''
+    'No description'
     >>> info['properties']['link']
     'http://nohost/plone/projects/p3'
     >>> info['properties']['title']
     'IGNORANCE IS STRENGTH'
+
+(Unfortunately it's hard to assert much about dates...  it should
+look iso8601-ish.)
+
+    >>> info['properties']['updated']
+    '...-...-...T...:...:...'
+    >>> info['properties']['created'] == info['properties']['created']
+    True
+
 
 You can also adapt to a view suitable for building kml::
 
@@ -179,7 +190,6 @@ You can also adapt to a view suitable for building kml::
     True
     >>> info['properties']['title']
     'IGNORANCE IS STRENGTH'
-
 
 The projects georss view is exposed by a separate view that generates
 xml.
@@ -253,14 +263,18 @@ First try the views that generate info:
       'hasPoint': 1,
       'hasPolygon': 0,
       'id': 'm1',
-      'properties': {'description': 'No description',
-                     'language': '',
-                     'link': 'http://nohost/plone/people/m1',
-                     'location': '',
-                     'title': 'Member One'}}]
+      'properties': {...}}]
+    >>> pprint(info[0]['properties'])
+    {'created': '...-...-...T...:...:...',
+     'description': 'No description',
+     'language': '',
+     'link': 'http://nohost/plone/people/m1',
+     'location': '',
+     'title': 'Member One',
+     'updated': '...-...-...T...:...:...'}
 
 
-And info for generating kml::
+And similar info for generating kml::
 
     >>> info = list(view.forKML())
     >>> len(info)
@@ -269,7 +283,7 @@ And info for generating kml::
     [{'coords_kml': '55.000000,-66.000000,0.000000',...
 
 
-Now the actual feeds::
+Now the actual georss xml feed::
 
     >>> feedview = portal.people.restrictedTraverse('@@georss')
     >>> xml = feedview()
@@ -281,6 +295,28 @@ Now the actual feeds::
     <id>http://nohost/plone/people</id>
     <entry>
     <title>Member One</title>...
+    <updated>...-...-...T...:...:...</updated>...
     <gml:Point>
     <gml:pos>-66.000000 55.000000</gml:pos>
     </gml:Point>...
+
+
+Now the actual kml feed::
+
+    >>> feedview = portal.people.restrictedTraverse('@@kml')
+    >>> xml = feedview()
+    >>> lines = [s.strip() for s in xml.split('\n') if s.strip()]
+    >>> print '\n'.join(lines)
+    <?xml...
+    <kml xmlns="http://earth.google.com/kml/2.1">
+    <Document>...
+    <name>People</name>...
+    <Placemark>
+    <name>Member One</name>
+    <description>...
+    <p>URL:
+    <a href="http://nohost/plone/people/m1">http://nohost/plone/people/m1</a>...
+    <Point>
+    <coordinates>55.000000,-66.000000,0.000000</coordinates>
+    </Point>...
+    </kml>
