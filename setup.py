@@ -1,4 +1,6 @@
 from setuptools import setup, find_packages
+import pkg_resources as pkr
+
 import sys, os
 
 version = '0.9.7.7'
@@ -7,7 +9,10 @@ f = open('README.txt')
 readme = "".join(f.readlines())
 f.close()
 
-setup(name='opencore',
+name='opencore'
+
+setup(
+    name=name,
       version=version,
       description="Software that drives http://openplans.org",
       long_description=readme,
@@ -28,17 +33,19 @@ setup(name='opencore',
                         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
                         'http://zesty.ca/python/uuid.py#egg=uuid-dev',
                         'https://svn.openplans.org/svn/oc-js/trunk/#egg=oc-js-dev',
-                        'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.1.2'
+                        'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.1.2',
+                        'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         ],
-      
+
       install_requires=[
           # -*- Extra requirements: -*-
           "oc-js==dev,>=0.0",    
           "ClockQueue==dev,>=0.0",
           'simplejson',
           'decorator',
+          'feedparser',
           'topp.featurelets>=0.2.2',
-          'topp.utils==0.2.9',
+          'topp.utils>=0.2.10',
           'memojito',
           'OpencoreRedirect',
           'httplib2',
@@ -51,7 +58,17 @@ setup(name='opencore',
           'uuid',
           'flunc>=0.1.2'
           ],
-      extras_require=dict(ubuntu=['hprof'])
-      )
+      extras_require=dict(ubuntu=['hprof']),
 
-
+      # the opencore.versions are the names of the packages
+      # these are what show up in the openplans-versions view
+      entry_points="""
+      [distutils.commands]
+      zinstall = topp.utils.setup_command:zinstall
+      [opencore.versions]
+      opencore = opencore
+      oc-js = opencore.js
+      topp.utils = topp.utils
+      topp.featurelets = topp.featurelets
+      """,
+    )

@@ -16,10 +16,12 @@ class HomePage(object):
 
     _allowed_home_page_re = re.compile("^[\w/:\.-]*$")
 
+    KEY = 'opencore.project.browser.home_page'
+
     def __init__(self, context):
         self.context = context
         annot = IAnnotations(context)
-        homepage_annot = annot.get('opencore.project.browser.home_page', None)
+        homepage_annot = annot.get(self.KEY, None)
         if homepage_annot is None:
             homepage_annot = OOBTree()
             annot['opencore.project.browser.home_page'] = homepage_annot

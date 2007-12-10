@@ -1,3 +1,9 @@
+==================
+ Project Homepage
+==================
+
+@@ describe what is going on
+
 Get an instance to a test project
     >>> proj = self.portal.projects.p1
     >>> from opencore.interfaces import IProject

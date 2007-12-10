@@ -29,6 +29,7 @@ from opencore.configuration import PROJECTNAME
 from opencore.configuration import PROHIBITED_MEMBER_PREFIXES
 
 from opencore.utility.interfaces import IHTTPClient
+from opencore.utils import get_opencore_property
 
 member_schema = id_schema + contact_schema + plone_schema + \
                 security_schema + login_info_schema
@@ -371,11 +372,14 @@ class OpenMember(FolderishMember):
             msg = "That email address is invalid."
             return self.translate(msg, default=msg)
         if email != self.getEmail():
+            msg = ("That email address is already in use.  "
+                   "Please choose another.")
+            email_blacklist = get_opencore_property('email_blacklist', self)
+            if email_blacklist and email.lower() in email_blacklist:
+                return self.translate(msg, default=msg)
             mbtool = getToolByName(self, 'membrane_tool')
             if len(mbtool.unrestrictedSearchResults(getEmail=email)) > 0 \
                    or self._email_exists_remotely(email):
-                msg = ("That email address is already in use.  "
-                       "Please choose another.")
                 return self.translate(msg, default=msg)
 
     def __bobo_traverse__(self, REQUEST, name):

@@ -67,11 +67,6 @@ class ProjectsSearchView(SearchView):
         sort_by = self.request.get('sort_by', None)
         self.search_results = None
         self.search_query = None
-
-        # this resets pagination when the sort order is changed
-        if self.request.get('REQUEST_METHOD', None) == 'POST':
-            start = 0
-            self.request.set('b_start', 0)
             
         if letter_search:
             self.search_results = self._get_batch(self.search_for_project_by_letter(letter_search, sort_by), start)
@@ -263,11 +258,6 @@ class PeopleSearchView(SearchView):
         sort_by = self.request.get('sort_by', None)
         self.search_results = None
         self.search_query = None
-
-        # this resets pagination when the sort order is changed
-        if self.request.get('REQUEST_METHOD', None) == 'POST':
-            start = 0
-            self.request.set('b_start', 0)
             
         if letter_search:
             self.search_results = self._get_batch(self.search_for_person_by_letter(letter_search, sort_by), start)
@@ -313,6 +303,14 @@ class PeopleSearchView(SearchView):
 
     def search_for_person(self, person, sort_by=None):
         return searchForPerson(self.membranetool, person, sort_by)
+
+    def recently_created_members(self, sort_limit=10):
+        query = dict(sort_on='created',
+                     sort_order='descending',
+                     sort_limit=5)
+        brains = self.membranetool(**query)
+        
+        return _sort_by_created(brains)
 
 
 class HomeView(SearchView):
@@ -387,11 +385,6 @@ class SitewideSearchView(SearchView):
         sort_by = self.request.get('sort_by', None)
         self.search_results = None
         self.search_query = None
-
-        # this resets pagination when the sort order is changed
-        if self.request.get('REQUEST_METHOD', None) == 'POST':
-            start = 0
-            self.request.set('b_start', 0)
             
         if letter_search:
             self.search_results = self._get_batch(self.search_by_letter(letter_search, sort_by), start)

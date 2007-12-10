@@ -1,5 +1,12 @@
 <div class="oc-widget oc-widget-feed oc-home-column">
-  <h2 class="oc-feed-title" tal:content="view/feedtitle">Feed Title</h2>
+  <h2 class="oc-feed-title">
+    <span tal:replace="view/feedtitle">Feed Title</span>
+    <a tal:attributes="href view/link">
+      <span tal:replace="view/linktitle">
+	MORE ITEMS
+      </span>
+    </a>       
+  </h2>
   <ul class="oc-feed-list">
     <li class="oc-feed-item oc-clearAfter" 
 	tal:repeat="feeditem
@@ -16,7 +23,8 @@
 	   </span>
 	   <a tal:attributes="href feeditem/author/home"
 	      tal:content="feeditem/author/userid" />
-	   on <span tal:replace="feeditem/date" />	   
+	   on <span tal:define="date feeditem/date"
+		    tal:replace="python:view.pretty_date(date)"/>
 	</p>
       </div>
     </li>

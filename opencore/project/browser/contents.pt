@@ -20,10 +20,10 @@
 							">
 			<tal:macro metal:define-macro="contents_table_wrapper">
 			<tal:setvar define="item_collection item_collection | options/item_collection;
-								item_header item_header | item_collection/info/header;
-								item_type item_type | item_collection/item_type;
-								item_date_author_header item_date_author_header | options/item_date_author_header;
-								">
+					item_header item_header | item_collection/info/header;
+					item_type item_type | item_collection/item_type;
+					item_date_author_header item_date_author_header | options/item_date_author_header;
+					">
 				<tal:if condition="item_collection/editable">
 				<metal:contents_table define-macro="contents_table">
 					<div class="oc-widget oc-widget-dataTable" 
@@ -34,7 +34,7 @@
 					</h2>
 
 					<form action="contents"
-							tal:attributes="name form_name" class="oc-js-formConfirm">
+						tal:attributes="name form_name" class="oc-js-formConfirm">
 						<span class="oc-hidden oc-warning oc-confirm">This deletion is permanent. Are you sure you want to delete?</span>
 						<input tal:replace="structure view/authenticator_input"/>
 						<input type="hidden" name="item_type"
@@ -44,7 +44,7 @@
 							<tal:setvar define="item_type item_type | options/item_type;
 												item_date_author_header item_date_author_header | options/item_date_author_header;
 												sort_on options/sort_on | string:title;
-												sort_order options/sort_order | string:ascending;
+												sort_order options/sort_order | string:descending;
 												item_collection item_collection | options/item_collection;
 												">
 							<tal:if condition="item_collection/editable">
@@ -79,12 +79,12 @@
 										tal:condition="python:item_type!='pages'"
 										tal:define="myname string:Size;
 													myvalue string:obj_size">
-									<metal:do use-macro="template/macros/sortable_header" />
+									<metal:do use-macro="view/template/macros/sortable_header" />
 									</th>
 									<th scope="col" 
 										tal:define="myname item_date_author_header;
 													myvalue string:obj_date">
-									<metal:do use-macro="template/macros/sortable_header" />
+									<metal:do use-macro="view/template/macros/sortable_header" />
 									</th>
 									<th>Actions</th>
 								</tr>
@@ -97,24 +97,24 @@
 									<th scope="col"
 										tal:define="myname string:Title;
 													myvalue string:title">
-									<metal:do use-macro="template/macros/sortable_header" />
+									<metal:do use-macro="view/template/macros/sortable_header" />
 									</th>
 									<th scope="col"
 										tal:condition="python:item_type!='pages' and item_type!='lists'"
 										tal:define="myname string:Size;
 													myvalue string:obj_size">
-									<metal:do use-macro="template/macros/sortable_header" />
+									<metal:do use-macro="view/template/macros/sortable_header" />
 									</th>
 									<th scope="col"
 										tal:condition="python:item_type=='lists'"
 										tal:define="myname string:Conversations;
 													myvalue string:obj_size">
-									<metal:do use-macro="template/macros/sortable_header" />
+									<metal:do use-macro="view/template/macros/sortable_header" />
 									</th>
 									<th scope="col" 
 										tal:define="myname item_date_author_header;
 													myvalue string:obj_date">
-									<metal:do use-macro="template/macros/sortable_header" />
+									<metal:do use-macro="view/template/macros/sortable_header" />
 									</th>
 								</tr>
 								</thead>
@@ -134,9 +134,10 @@
 										tal:attributes="id item/id"
 										tal:define="item item | options/item;
 													item_type item_type | options/item_type;
-													editable editable | not:item/uneditable | nothing; 
+													editable python: not item.get('uneditable');
+                                                                                                        editable python: type_editable | editable;
 													deletable not:item/undeletable | nothing">
-										<td tal:condition="item_collection/editable">
+										<td tal:condition="editable | item_collection/editable">
 											<input tal:condition="not:deletable" type="checkbox" class="oc-js-checkAll-never" name="deletes:list"
 												 tal:attributes="value item/id" 
 												 disabled="True" />
@@ -147,13 +148,13 @@
 										<div class="oc-js-liveEdit-value">
 											<a tal:attributes="href item/url" tal:content="item/title" />
 										</div>
-										<div tal:condition="item_collection/editable"
+										<div tal:condition="editable"
 											 class="oc-js-liveEdit-editForm oc-liveEdit-editForm">
-											<input tal:condition="editable" type="text" 
+											<input type="text" 
 													 tal:attributes="name string:${item/id}_title; value item/title" />
-											<input tal:condition="editable" type="submit" class="oc-js-actionButton" value="Save"
+											<input type="submit" class="oc-js-actionButton" value="Save"
 													 tal:attributes="name string:task|${item/id}|update" /> or
-											<a tal:condition="editable" href="" class="oc-js-liveEdit_hideForm" tal:content="string:Cancel" />
+											<a href="" class="oc-js-liveEdit_hideForm" tal:content="string:Cancel" />
 										</div>
 										</td>
 										<td tal:condition="python:item_type!='pages'" tal:content="item/obj_size" />
@@ -164,9 +165,11 @@
 											<a tal:attributes="href string:${view/siteURL}/people/${author}/profile" tal:content="author" />
 										</tal:setvar>
 										</td>
-										<td tal:condition="item_collection/editable">
-										<ul class="oc-actions oc-dataTable-row-actions">
-											<li tal:condition="editable">
+
+										<td>
+										<ul class="oc-actions oc-dataTable-row-actions" tal:condition="editable | item_collection/editable">
+											<li>
+
 											<a href="#" class="oc-js-liveEdit_showForm oc-actionLink">Rename</a></li>
 											<li tal:condition="deletable">
 											<a class="oc-js-actionLink oc-actionLink oc-js-confirm"
@@ -221,22 +224,22 @@
 		</tal:setvar>
 
 		<tal:setvar define="item_header string:Images & Attachments;
-							item_type string:files;
-							item_collection view/files;
-							item_date_author_header string:Created;
-							show_deletes view/show_deletes
-							">
+				    item_type string:files;
+				    item_collection view/files;
+				    item_date_author_header string:Created;
+				    show_deletes view/show_deletes
+				    ">
 			 <tal:macro metal:use-macro="template/macros/contents_table_wrapper" />
 		</tal:setvar> 
 
 		<tal:setvar condition="view/has_mailing_lists" 
 			define="item_header string:Mailing lists;
-					item_type string:lists;
-					item_collection view/lists;
-					item_date_author_header string:Created;
-					show_deletes view/show_deletes
-					">
-			<tal:macro metal:use-macro="template/macros/contents_table_wrapper" />
+				item_type string:lists;
+				item_collection view/lists;
+				item_date_author_header string:Created;
+				show_deletes view/show_deletes
+				">
+			<metal:table use-macro="template/macros/contents_table_wrapper" />
 		</tal:setvar> 
 
 		<a rel="include" i18n:translate="contents_view_tasks" tal:condition="view/has_task_tracker"

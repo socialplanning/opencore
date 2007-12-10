@@ -1,18 +1,22 @@
-import os, sys, unittest
 from opencore.account import utils
 utils.turn_confirmation_on()
-from zope.testing import doctest
+from Products.Five.site.localsite import enableLocalSiteHook
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase
-from opencore.testing.layer import OpencoreContent
-from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
-from zope.interface import alsoProvides
+from opencore.configuration import OC_REQ
 from opencore.featurelets.interfaces import IListenContainer
-from opencore.testing.layer import MockHTTPWithContent
-from opencore.testing import setup as oc_setup
-from Products.Five.site.localsite import enableLocalSiteHook
-from zope.app.component.hooks import setSite, setHooks
 from opencore.testing import dtfactory as dtf
+from opencore.testing import setup as oc_setup
+from opencore.testing.layer import MockHTTPWithContent
+from opencore.testing.layer import OpencoreContent
+from zope.app.component.hooks import setSite, setHooks
+from zope.interface import alsoProvides
+from zope.testing import doctest
+import os
+import sys
+import unittest
+import pkg_resources as pkgr
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
@@ -20,24 +24,21 @@ optionflags = doctest.ELLIPSIS
 import warnings; warnings.filterwarnings("ignore")
 
 def test_suite():
+    from Products.CMFCore.utils import getToolByName
     from Products.Five.utilities.marker import erase as noLongerProvides
     from Products.PloneTestCase import setup
-    from Products.CMFCore.utils import getToolByName
-    from Testing.ZopeTestCase import installProduct
     from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
-    from pprint import pprint
-    from zope.interface import alsoProvides
-    from zope.component import getUtility
+    from Testing.ZopeTestCase import installProduct
     from opencore.interfaces.workflow import IReadWorkflowPolicySupport
-    from opencore.testing import utils
-    from opencore.nui.indexing import authenticated_memberid
-
-    from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
     from opencore.listen.featurelet import ListenFeaturelet
-
-    # for delet-project
-    from topp.featurelets.interfaces import IFeatureletSupporter
+    from opencore.nui.indexing import authenticated_memberid
+    from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
+    from opencore.testing import utils
+    from pprint import pprint
     from topp.clockqueue.interfaces import IClockQueue
+    from topp.featurelets.interfaces import IFeatureletSupporter
+    from zope.component import getUtility
+    from zope.interface import alsoProvides
     import pdb
         
     setup.setupPloneSite()
@@ -74,8 +75,9 @@ def test_suite():
         setSite(tc.portal)
         setHooks()
 
+    test_file = pkgr.resource_stream(OC_REQ, 'opencore/project/browser/test.png')
     globs = locals()
-    readme = dtf.FunctionalDocFileSuite("README.txt", 
+    readme = dtf.ZopeDocFileSuite("README.txt", 
                                     optionflags=optionflags,
                                     package='opencore.project.browser',
                                     test_class=FunctionalTestCase,
@@ -84,16 +86,25 @@ def test_suite():
                                     layer = MockHTTPWithContent                                       
                                     )
 
-    delete = dtf.FunctionalDocFileSuite("delete-project.txt",
+    logo = dtf.FunctionalDocFileSuite("logo.txt",
+                                optionflags=optionflags,
+                                package='opencore.project.browser',
+                                test_class=OpenPlansTestCase,
+                                globs=globs,
+                                setUp=tasktracker_setup,
+                                layer=MockHTTPWithContent                                       
+                                )
+
+    delete = dtf.ZopeDocFileSuite("delete-project.txt",
                                     optionflags=optionflags,
                                     package='opencore.project.browser',
                                     test_class=OpenPlansTestCase,
-                                    globs = globs,
+                                    globs=globs,
                                     setUp=tasktracker_setup,
-                                    layer = MockHTTPWithContent                                       
+                                    layer=MockHTTPWithContent                                       
                                     )
     
-    metadata = dtf.FunctionalDocFileSuite("metadata.txt", 
+    metadata = dtf.ZopeDocFileSuite("metadata.txt", 
                                     optionflags=optionflags,
                                     package='opencore.project.browser',
                                     test_class=FunctionalTestCase,
@@ -102,7 +113,7 @@ def test_suite():
                                     layer=OpencoreContent     
                                     )
     
-    contents = dtf.FunctionalDocFileSuite("contents.txt",
+    contents = dtf.ZopeDocFileSuite("contents.txt",
                                     optionflags=optionflags,
                                     package='opencore.project.browser',
                                     test_class=OpenPlansTestCase,
@@ -111,7 +122,7 @@ def test_suite():
                                     layer=OpencoreContent                                              
                                     )
 
-    manage_team = dtf.FunctionalDocFileSuite("manage-team.txt",
+    manage_team = dtf.ZopeDocFileSuite("manage-team.txt",
                                          optionflags=optionflags,
                                          package='opencore.project.browser',
                                          test_class=OpenPlansTestCase,
@@ -120,7 +131,7 @@ def test_suite():
                                          layer=OpencoreContent                                                 
                                          )
 
-    request_membership = dtf.FunctionalDocFileSuite("request-membership.txt",
+    request_membership = dtf.ZopeDocFileSuite("request-membership.txt",
                                                 optionflags=optionflags,
                                                 package='opencore.project.browser',
                                                 test_class=OpenPlansTestCase,
@@ -129,14 +140,14 @@ def test_suite():
                                                 layer=OpencoreContent                                                        
                                                 )
 
-    homepage = dtf.FunctionalDocFileSuite("homepage.txt",
-                                                optionflags=optionflags,
-                                                package='opencore.project.browser',
-                                                test_class=OpenPlansTestCase,
-                                                globs = globs, 
-                                                setUp=oc_setup.set_portal_as_site,
-                                                layer=OpencoreContent     
-                                                )
+    homepage = dtf.ZopeDocFileSuite("homepage.txt",
+                                    optionflags=optionflags,
+                                    package='opencore.project.browser',
+                                    test_class=OpenPlansTestCase,
+                                    globs = globs, 
+                                    setUp=oc_setup.set_portal_as_site,
+                                    layer=OpencoreContent     
+                                    )
 
     team_request_membership = dtf.FunctionalDocFileSuite("team_membership.txt",
                                                          optionflags=optionflags,
@@ -146,22 +157,12 @@ def test_suite():
                                                          setUp=oc_setup.set_portal_as_site,
                                                          layer=OpencoreContent                                                 
                                                          )
+    
 
-##     preferences = FunctionalDocFileSuite("preferences.txt",
-##                                          optionflags=optionflags,
-##                                          package='opencore.project.browser',
-##                                          test_class=OpenPlansTestCase,
-##                                          globs = globs, 
-##                                          setUp=manage_team_setup,
-##                                          )    
-
-##     suites = (contents, metadata, manage_team, request_membership, preferences)
     suites = (contents, metadata, manage_team,
               request_membership, homepage,
-              team_request_membership)
-    unit = doctest.DocTestSuite('opencore.project.browser.view',
-                                optionflags=optionflags)
-    return unittest.TestSuite(suites + (readme, unit, delete))
+              team_request_membership, logo)
+    return unittest.TestSuite(suites + (readme, delete))
 
 
 if __name__ == '__main__':

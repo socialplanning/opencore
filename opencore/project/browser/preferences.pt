@@ -70,7 +70,39 @@
                   </th>
                   <td class="oc-form-value">
                     <div class="oc-project-editimage">
-                      <div metal:use-macro="view/logo_snippet/macros/logo" />
+                      <metal:logo define-macro="logo">
+                        <div class="oc-project-logo" id="oc-project-logo">
+                          <img tal:attributes="src view/mangled_logo_url" />
+                          <fieldset
+                             tal:define="expand python:request.get('field') == 'logo';
+                                         classes_closed python:'oc-js-expander oc-expander';
+                                         classes_opened python:classes_closed + ' oc-expander-open'"
+                             tal:attributes="class python:expand and classes_opened or classes_closed"
+                             style="clear: left;">
+                            <legend class="oc-legend-label">
+                              <a href="#"
+                                 tal:define="a_classes_closed python:'oc-js-expander_open oc-expanderLink';
+                                             a_classes_opened python:a_classes_closed + ' oc-expanderLink-open'"
+                                 tal:attributes="class python:expand and a_classes_opened or a_classes_closed">Change image</a>
+                            </legend>
+                            <div class="oc-js-expander-content oc-expander-content" style="border: 1px solid orange; background: #fffff9;">
+                              <input type="file" 
+                                     tal:define="focus python:request.get('field') == 'logo';
+                                                 input_class python:'oc-autoFocus';
+                                                 default_class python:''" 
+                                     tal:attributes="class python:focus and input_class or default_class"
+                                     name="logo" size="14" /><br />
+                              <input type="submit" name="task|oc-project-logo|uploadAndUpdate"
+                                     class="oc-js-actionButton" value="Update" />
+                              <tal:haslogo condition="context/getLogo">
+                                <input type="submit" name="task|oc-project-logo|remove"
+                                       class="oc-js-actionButton" value="Remove" />
+                              </tal:haslogo>
+                              <a href="#" class="oc-js-expander_close">Cancel</a>
+                            </div>
+                          </fieldset>
+                        </div>
+                      </metal:logo>
                     </div>
                   </td>
                 </tr>
@@ -132,7 +164,7 @@
               <legend  class="oc-legend-label">Select the home page for your project:</legend>
 
               <ul class="oc-form-radiolist oc-form-fieldBlock">
-                <li tal:repeat="flet python:view.featurelets(include_wiki=True)">
+                <li tal:repeat="flet view/homepages">
                   <tal:home_page_item define="
                                               id flet/id;
                                               url flet/url;

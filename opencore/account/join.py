@@ -49,7 +49,7 @@ class JoinView(browser.AccountView, OctopoLite):
                                               u'Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account.',
                                               mapping={u'mem_id':mem.getId(),
                                                        u'portal_title':self.portal_title()}))
-                self.redirect(self.portal_url())
+                self.redirect(self.portal_url() + '/messages-only')
             return mem
         self.redirect(url)
         return mem
