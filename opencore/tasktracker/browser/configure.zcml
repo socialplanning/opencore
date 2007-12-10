@@ -1,23 +1,14 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser"
-           xmlns:five="http://namespaces.zope.org/five"
            xmlns:opencore="http://namespaces.openplans.org/opencore"
            >
 
-  <browser:page
-     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-     permission="cmf.ModifyPortalContent"
-     class=".views.SyncUsersView"
-     name="sync-wordpress-users"
-     attribute="sync"
-     />
-  
   <opencore:menuitem
-      name="Blog"
+      name="Task Tracker"
       filter="opencore.browser.topnav.viewlet.contained_within"
       container="opencore.interfaces.IProject"
-      item_url="blog"
-      sort_order="20"
+      item_url="tasks"
+      sort_order="40"
       />
 
 </configure>

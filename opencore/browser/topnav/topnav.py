@@ -4,6 +4,7 @@ TopNav view classes.
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.TeamSpace.permissions import ManageTeamMembership
 from opencore.browser.base import BaseView
+from opencore.browser.topnav.interfaces import ITopnavMenuItems
 from opencore.interfaces.message import ITransientMessage
 from opencore.nui.contexthijack import HeaderHijackable
 from opencore.project.content import IProject
@@ -11,7 +12,7 @@ from opencore.project import PROJ_HOME
 from opencore.content.page import OpenPage
 from operator import itemgetter
 from plone.memoize import view
-
+from zope.component import getMultiAdapter
 
 memoizedproperty = lambda func: property(view.memoize(func))
 
@@ -22,13 +23,16 @@ class TopNavView(HeaderHijackable):
     """
     @memoizedproperty
     def contextmenu(self):
-        if self.inmember:
-            viewname = 'topnav-member-menu'
-        elif self.inproject:
-            viewname = 'topnav-project-menu'
-        else:
-            viewname = 'topnav-default-menu'
-        return self.get_view(viewname)
+        """ask a viewlet manager for the context menu
+           HeaderHijackable takes care of making sure that the context
+           is set correctly if we are getting a request with certain
+           headers set to specify the context"""
+        manager = getMultiAdapter(
+            (self.context, self.request, self),
+            ITopnavMenuItems,
+            name="opencore.topnavmenu")
+        manager.update()
+        return manager.render()
 
     @memoizedproperty
     def usermenu(self):
