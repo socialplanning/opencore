@@ -1,6 +1,8 @@
 # topnav view tests
 
-def parse_topnav_context_menu(self, contextmenu_html):
+import re
+
+def parse_topnav_context_menu(contextmenu_html):
     """convenience method to parse topnav list items"""
 
     lis = [] # list of list item dicts, contains 'selected'
