@@ -287,7 +287,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
 
             data = dict(item=self._make_dict_and_translate(page, self.needed_values[item_type]),
                         item_type=item_type,
-                        type_editable=self.needed_values[item_type].editable,
+                        options=dict(editable=self.needed_values[item_type].editable),
                         )
             
             tal_context = tal.create_tal_context(self, **data)

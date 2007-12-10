@@ -135,7 +135,7 @@
 										tal:define="item item | options/item;
 													item_type item_type | options/item_type;
 													editable python: not item.get('uneditable');
-                                                                                                        editable python: type_editable | editable;
+                                                                                                        editable options/editable | editable;
 													deletable not:item/undeletable | nothing">
 										<td tal:condition="editable | item_collection/editable">
 											<input tal:condition="not:deletable" type="checkbox" class="oc-js-checkAll-never" name="deletes:list"
