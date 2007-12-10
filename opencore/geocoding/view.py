@@ -4,10 +4,11 @@ from Products.PleiadesGeocoder.geo import GeoItemSimple
 from Products.PleiadesGeocoder.interfaces.simple import IGeoItemSimple
 from opencore.browser.base import BaseView
 from opencore.content.member import member_path
-import utils
+from opencore.member.interfaces import IOpenMember
 from zope.interface import implements
 import interfaces
 import urllib
+import utils
 
 class OCGeoView(BrowserView):
 
@@ -90,7 +91,6 @@ def MemberFolderGeoItem(context):
     for normal Plone members.
     """
     member = getattr(context.portal_memberdata, context.getId(), None)
-    from opencore.member.interfaces import IOpenMember
     if IOpenMember.providedBy(member):
         return IGeoItemSimple(member)
     return None
