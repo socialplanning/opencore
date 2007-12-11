@@ -21,8 +21,8 @@
      
   <!--image manager stuff-->
 
+  <!-- @@ these "backend" views are poorly named, they seem to be xinha-specific -->
   <browser:page
-
     for="opencore.interfaces.IOpenPage"
     name="backend"
     permission="zope2.View"
