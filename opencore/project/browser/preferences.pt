@@ -9,12 +9,13 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:Preferences - ${view/area/Title}" />
+    <script metal:fill-slot="script"
+            tal:condition="view/has_geocoder"
+	    tal:attributes="src view/maps_script_url"
+	    type="text/javascript"></script>
   </head>
   <body>
     <div metal:fill-slot="content">
-      <script tal:condition="view/has_geocoder"
-              tal:attributes="src view/maps_script_url"
-              type="text/javascript"></script>
       <div class="oc-headingBlock">
         <h1>Project preferences</h1>
       </div>
