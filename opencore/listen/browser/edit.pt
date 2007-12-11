@@ -20,7 +20,7 @@
                   </th>
                   <td class="oc-form-value">
                     <input type="text" id="title" class="oc-autoFocus" name="title"
-                           tal:attributes="value context/title | nothing" />
+                           tal:attributes="value request/title | context/title | nothing" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
@@ -33,7 +33,7 @@
                     <label i18n:translate="create_list_description" for="description">Description</label>
                   </th>
                   <td class="oc-form-value">
-                    <textarea name="description" id="description" rows="3" cols="40" tal:content="context/description | nothing"/>
+                    <textarea name="description" id="description" rows="3" cols="40" tal:content="request/description | context/description | nothing"/>
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
@@ -64,7 +64,7 @@
           <fieldset class="oc-boxy">
             <legend i18n:translate="edit_list_security" class="oc-legend-heading oc-biggerText">Security</legend>
             <p i18n:translate="edit_list_security_desc" class="oc-headingContext oc-smallText">The policy that defines the behavior of the list.</p>
-            <fieldset tal:define="policy view/workflow_policy | string:policy_open">
+            <fieldset tal:define="policy request/workflow_policy | view/workflow_policy | string:policy_open">
               <ul class="oc-form-radiolist oc-form-fieldBlock">
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
@@ -89,7 +89,9 @@
           <fieldset class="oc-boxy">
             <legend i18n:translate="edit_list_archival" class="oc-legend-heading oc-biggerText">Archival</legend>
             <p i18n:translate="create_list_archival_desc" class="oc-headingContext oc-smallText">When archiving is enabled, all messages sent to the list will be saved on the server. You may choose whether to archive just the message text, or include attachments.</p>
-            <fieldset tal:define="policy context/archived | python: 0">
+            <fieldset tal:define=
+"policy_str request/archival_policy | context/archived | python: 0;
+ policy python:int(policy_str)">
               <ul class="oc-form-radiolist oc-form-fieldBlock">
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="archival_policy_all" name="archival_policy"

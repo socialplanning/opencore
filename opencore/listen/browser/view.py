@@ -99,19 +99,49 @@ class ListenBaseView(BaseView):
         ocprops = ptool._getOb('opencore_properties')
         return '@' + str(ocprops.getProperty('mailing_list_fqdn').strip())
 
+    def validate_form(self):
+        putils = getToolByName(self.context, 'plone_utils')
+        # Create an empty dictionary to hold any eventual errors.
+        self.errors = {}
+
+        # Let's do some form validation
+        # Get and clean up title from request
+        title = self.request.form.get('title', '')
+        title = re.compile('\s+').sub(' ', title).strip()
+        if title:
+            self.request.form['title'] = title
+        else:
+            if not isinstance(title, unicode):
+                title = unicode(title, 'utf-8')
+            self.errors['title'] = _(u'list_create_invalid_title', u'The mailing list must have a title.')
+
+        # Get and check the list policies
+        workflow = self.request.form.get('workflow_policy')
+        if workflow not in ('policy_open', 'policy_moderated', 'policy_closed'):
+            self.errors['workflow_policy'] = _(u'list_create_invalid_workflow_error', u'The mailing list security must be set to open, moderated, or closed.')
+
+        archive = int(self.request.form.get('archival_policy'))
+        if archive not in (0, 1, 2):
+            self.errors['archive'] = _(u'list_create_invalid_archive_error', u'The mailing list archival method must be set to all, text-only, or none.')
+
+        mailto = self.request.form.get('mailto')
+        if not re.match('[a-zA-Z][-\w]+', mailto):
+            self.errors['mailto'] = _(u'list_create_invalid_prefix_error', u'Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)')
+        else:
+            mailto = putils.normalizeString(mailto)
+            if hasattr(self.context, mailto):
+                self.errors['mailto'] = _(u'list_create_duplicate_error', u'The requested list prefix is already taken.')
+
+        # If we don't pass sanity checks by this point, abort and let the user correct their errors.
+        if self.errors:
+            self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
+            return False
+        return title, workflow, archive, mailto
+
+
 class ListAddView(ListenBaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('create.pt')
-
-    @req_memoize
-    def list_title(self):
-        obj = self.context
-        while not IMailingList.providedBy(obj):
-            try:
-                obj = obj.aq_parent
-            except AttributeError:
-                return ''
-        return obj.Title()            
         
     @action('validate')
     def validate(self, target=None, fields=None):
@@ -139,38 +169,11 @@ class ListAddView(ListenBaseView, OctopoLite):
         # Get the tool used to normalize strings
         putils = getToolByName(self.context, 'plone_utils')
 
-        # Create an empty dictionary to hold any eventual errors.
-        self.errors = {}
-
-        # Let's do some form validation
-        # Get and clean up title from request
-        title = self.request.form.get('title', '')
-        title = re.compile('\s+').sub(' ', title).strip()
-        if not isinstance(title, unicode):
-            title = unicode(title, 'utf-8')
-        self.request.form['title'] = title
-
-        # Get and check the list policies
-        workflow = self.request.form.get('workflow_policy')
-        if workflow not in ('policy_open', 'policy_moderated', 'policy_closed'):
-            self.errors['workflow_policy'] = _(u'list_create_invalid_workflow_error', u'The mailing list security must be set to open, moderated, or closed.')
-
-        archive = int(self.request.form.get('archival_policy'))
-        if archive not in (0, 1, 2):
-            self.errors['archive'] = _(u'list_create_invalid_archive_error', u'The mailing list archival method must be set to all, text-only, or none.')
-
-        mailto = self.request.form.get('mailto')
-        if not re.match('[a-zA-Z][-\w]+', mailto):
-            self.errors['mailto'] = _(u'list_create_invalid_prefix_error', u'Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)')
-        else:
-            mailto = putils.normalizeString(mailto)
-            if hasattr(self.context, mailto):
-                self.errors['mailto'] = _(u'list_create_duplicate_error', u'The requested list prefix is already taken.')
-
-        # If we don't pass sanity checks by this point, abort and let the user correct their errors.
-        if self.errors:
-            self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
+        result = self.validate_form()
+        if not result:
             return
+
+        title, workflow, archive, mailto = result
 
         # Try to create a mailing list using the mailto address to see if it's going to be valid
         lists_folder = self.context
@@ -217,46 +220,15 @@ class ListEditView(ListenBaseView, OctopoLite):
 
     @action('add')
     def handle_request(self, target=None, fields=None):
-        #FIXME: refactor out form normalization stuff
-        
-
-        # Get the tool used to normalize strings
-        putils = getToolByName(self.context, 'plone_utils')
-
-        # Create an empty dictionary to hold any eventual errors.
-        self.errors = {}
-
-        # Let's do some form validation
-        # Get and clean up title from request
-        title = self.request.form.get('title', '')
-        title = re.compile('\s+').sub(' ', title).strip()
-        if not isinstance(title, unicode):
-            title = unicode(title, 'utf-8')
-        self.request.form['title'] = title
-
-        # Get and check the list policies
-        workflow = self.request.form.get('workflow_policy')
-        if workflow not in ('policy_open', 'policy_moderated', 'policy_closed'):
-            self.errors['workflow_policy'] = _(u'list_create_invalid_workflow_error', u'The mailing list security must be set to open, moderated, or closed.')
-
-        archive = int(self.request.form.get('archival_policy'))
-        if archive not in (0, 1, 2):
-            self.errors['archive'] = _(u'list_create_invalid_archive_error', u'The mailing list archival method must be set to all, text-only, or none.')
-
-        mailto = self.request.form.get('mailto')
-        if not re.match('[a-zA-Z][-\w]+', mailto):
-            self.errors['mailto'] = _(u'list_create_invalid_prefix_error', u'Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)')
-        else:
-            mailto = putils.normalizeString(mailto)
-            if hasattr(self.context, mailto):
-                self.errors['mailto'] = _(u'list_create_duplicate_error', u'The requested list prefix is already taken.')
-
-        # If we don't pass sanity checks by this point, abort and let the user correct their errors.
-        if self.errors:
-            self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
+        result = self.validate_form()
+        if not result:
             return
 
+        title, workflow, archive, mailto = result
+
         list = self.context
+
+        list.setTitle(title)
 
         if self.errors:
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
