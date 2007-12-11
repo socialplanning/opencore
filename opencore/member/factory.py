@@ -55,11 +55,15 @@ class MemberFactory(object):
         Delegates to AT validation on a shared persistent reference
         member object.
         """
+        # XXX changes to AT in Plone 3 have made this convenience hack
+        # for using AT's validation machinery way more painful.  we
+        # really need to replace this with a different validation
+        # mechanism. (ra)
+
         validation_member = self._validation_member
 
-        # XXX as of Plone 3 AT only validates a field if the member
-        # has edit privs.  for now we become a Manager user just long
-        # enough to perform the validation... ugh! (ra)
+        # XXX we temporarily become a Manager user b/c we have to have
+        # write privs on a field before AT will perform the validation
         orig_sec_mgr = getSecurityManager()
         mgr_userid = 'admin' # <-- XXX get this from config
         app = validation_member.getPhysicalRoot()
@@ -73,12 +77,22 @@ class MemberFactory(object):
                                             errors=errors,
                                             data=1, metadata=0)
 
-        # return to our safe state
+        # return to being the original user
         setSecurityManager(orig_sec_mgr)
+
         pw, pw_ = (request.form.get("password"),
                    request.form.get("confirm_password"))
         if not pw and not pw_:
             errors['password'] = _(u'no_password', u'Please enter a password')
+
+        if not errors.has_key('password'):
+            # XXX now we have to (re)validate the password, b/c being a
+            # Manager meant the password length check was too lenient
+            regtool = getToolByName(self.context, 'portal_registration')
+            pwerror = regtool.testPasswordValidity(pw, pw_)
+            if pwerror is not None:
+                errors['password'] = pwerror
+        
         return errors
 
     def create(self, fields):
