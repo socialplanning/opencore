@@ -327,6 +327,7 @@ class BaseView(BrowserView):
 
         return result
 
+    # XXX  Why is this in BaseView? move to project?
     @view.mcproperty
     def project_info(self):
         """
@@ -347,18 +348,24 @@ class BaseView(BrowserView):
                              url=proj.absolute_url(),
                              description=proj.Description(),
                              featurelets=self.piv.featurelets,
+                             location=proj.getLocation(),
                              obj=proj)
-            from Products.PleiadesGeocoder.interfaces import IGeoItemSimple
-            coords = IGeoItemSimple(proj).coords
+            proj_info['position-text'] = proj.getPositionText()
+            geo = proj.restrictedTraverse('oc-geo-info')  # XXX handle failures
+            coords = geo.get_geolocation()
             if coords:
                 # Yes, longitude first.
-                lon, lat, z = coords
-                proj_info['position-latitude'] = lat
-                proj_info['position-longitude'] = lon
-            proj_info['position-text'] = proj.getPositionText()
+                proj_info['position-latitude'] = coords[1]
+                proj_info['position-longitude'] = coords[0]
         return proj_info
 
     # tool and view handling
+
+    @view.memoize_contextless
+    def has_geocoder(self):
+        """Is a PleiadesGeocoder tool available?
+        """
+        return getToolByName(self.context, 'portal_geocoder', None) is not None
 
     @view.memoize_contextless
     def get_tool(self, name):

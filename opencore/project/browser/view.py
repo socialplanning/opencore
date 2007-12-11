@@ -41,6 +41,8 @@ logger = logging.getLogger('opencore.project.browser')
 
 class ProjectBaseView(BaseView):
 
+    proj_macros = ZopeTwoPageTemplateFile('macros.pt')
+
     @memoizedproperty
     def has_mailing_lists(self):
         return self._has_featurelet('listen')
@@ -63,10 +65,6 @@ class ProjectBaseView(BaseView):
         return flet_adapter.installed
 
     # XXX move all geo stuff to a separate view?
-    @property
-    def has_geocoder(self):
-        return getToolByName(self.context, 'portal_geocoder', None) is not None
-
     def maps_script_url(self):
         if not self.has_geocoder:
             return ''
@@ -107,6 +105,21 @@ class ProjectBaseView(BaseView):
             return False
         geo = proj.restrictedTraverse('oc-geo-info')
         return geo.set_geolocation(coords)
+
+    @property
+    def geo_info(self):
+        """geo information for display in forms;
+        takes values from request, falls back to existing project
+        if possible."""
+        try:
+            geo = self.context.restrictedTraverse('oc-geo-info')
+            info = {'static_img_url': geo.location_img_url()}
+        except:  # XXX what?
+            info = {}
+        for key in ('position-text', 'location', 'position-latitude',
+                    'position-longitude'):
+            info[key] = self.request.get(key) or self.project_info.get(key)
+        return info
 
 
 class ProjectContentsView(ProjectBaseView, OctopoLite):
@@ -584,12 +597,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                                      checked='True',
                                      ))
         return flet_data
-
-    def location_img_url(self):
-        # Used for non-ajax UI to get a static map image.
-        geo = self.context.restrictedTraverse('oc-geo-info')
-        return geo.location_img_url()
-
+                
 
 class ProjectAddView(ProjectBaseView, OctopoLite):
 

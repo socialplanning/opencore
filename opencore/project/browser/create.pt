@@ -1,12 +1,12 @@
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:Start a Project - ${view/portal_title}" />
+    <script metal:fill-slot="script" tal:condition="view/has_geocoder"
+            tal:attributes="src view/maps_script_url"
+            type="text/javascript"></script>
   </head>
   <body>
     <div metal:fill-slot="content">
-      <script tal:condition="view/has_geocoder"
-              tal:attributes="src view/maps_script_url"
-          type="text/javascript"></script>
       <div class="oc-headingBlock">
         <h1 i18n:translate="create_project_heading">Start a project</h1>
         <p i18n:translate="create_project_desc" class="oc-headingContext">Each project is a toolbox to help you get things done. Using your project you can team up with others, sketch out your plans, and keep track of your progress.</p>
@@ -78,38 +78,7 @@
 
           <fieldset class="oc-boxy">
             <legend i18n:translate="create_project_step_location" class="oc-legend-heading oc-biggerText">Step 2: Location</legend>
-            <table class="oc-form">
-              <tbody>
-                <tr class="oc-form-row">
-                  <th class="oc-form-label" scope="row">
-                    <label for="location">Location</label>
-                  </th>
-                  <td class="oc-form-value">
-                    <input type="text" id="location" name="location"
-                           tal:attributes="value request/location | nothing" />
-                  </td>
-                  <td class="oc-form-help">
-                    <span class="oc-form-context"></span>
-                    <span id="oc-location-validator" class="oc-form-validator"></span>
-                    <span id="oc-location-error" class="oc-form-error" tal:content="view/errors/location | nothing" />
-                  </td>
-                </tr>
-                <tr id="oc-template-location.json" class="oc-form-row oc-js-template">
-                  <th id="position-header" class="oc-form-label" scope="row">
-                    <label for="position-text">Position On Map</label>
-                  </th>
-                  <td id="position-input" class="oc-form-value oc-form-fieldBlock">
-                    <input type="text" id="position-text" name="position-text"
-                           tal:attributes="value request/position-text | nothing" />
-                  </td>
-                  <td class="oc-form-help">
-                    <span class="oc-form-context"></span>
-                    <span id="oc-position-validator" class="oc-form-validator"></span>
-                    <span id="oc-position-error" class="oc-form-error" tal:content="view/errors/position-text | nothing" />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <metal:location use-macro="view/proj_macros/macros/location_form" />
           </fieldset>
 
           <fieldset class="oc-boxy">

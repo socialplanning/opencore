@@ -21,7 +21,7 @@
       </div>
       <div id="oc-content-main" class="oc-content-main-fullWidth">
         <form 
-           name="prefs_form" 
+           name="prefs_form"
            method="post" 
            class="enableUnloadProtection"
            tal:attributes="action view/name" 
@@ -84,45 +84,7 @@
 
           <fieldset class="oc-boxy">
             <legend class="oc-legend-heading oc-biggerText">Location</legend>
-            <table class="oc-form">
-              <tbody>
-                <tr class="oc-form-row">
-                  <th class="oc-form-label" scope="row">
-                    <label for="location">Location</label>
-                  </th>
-                  <td class="oc-form-value">
-                    <input type="text" id="location" name="location"
-                           tal:attributes="value request/location | context/getLocation | nothing "/>
-                  </td>
-                  <td class="oc-form-help">
-                    <span class="oc-form-context"></span>
-                    <span id="oc-location-validator" class="oc-form-validator"></span>
-                    <span id="oc-location-error" class="oc-form-error" tal:content="view/errors/location | nothing" />
-                  </td>
-                </tr>
-                <input type="hidden" id="position-latitude" name="position-latitude"
-                       tal:attributes="value request/position-latitude | proj/position-latitude | nothing" />
-                <input type="hidden" id="position-longitude" name="position-longitude"
-                       tal:attributes="value request/position-longitude | proj/position-longitude | nothing" />
-                <tr id="oc-template-location.json" class="oc-form-row oc-js-template">
-                  <th id="position-header" class="oc-form-label" scope="row">
-                    <label for="position-text">Geographic Location</label>
-                  </th>
-                  <td id="position-input" class="oc-form-value">
-                    <input type="text" id="position-text" name="position-text"
-                           tal:attributes="value request/position-text | proj/position-text | nothing" />
-		      <p tal:condition="view/location_img_url" >
-			<img tal:attributes="src view/location_img_url" class="oc-map" />
-		      </p>
-                  </td>
-                  <td class="oc-form-help">
-                    <span class="oc-form-context"></span>
-                    <span id="oc-position-validator" class="oc-form-validator"></span>
-                    <span id="oc-position-error" class="oc-form-error" tal:content="view/errors/position-text | nothing" />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <metal:location use-macro="view/proj_macros/macros/location_form" />
           </fieldset>
 
           <fieldset class="oc-boxy">
