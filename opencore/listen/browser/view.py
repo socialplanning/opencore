@@ -190,13 +190,13 @@ class ListAddView(ListenBaseView, OctopoLite):
         list.managers = (unicode(self.loggedinmember.getId()),)
         list.setDescription(unicode(self.request.form.get('description','')))
 
-        old_type = list.list_type
+        old_workflow_type = list.list_type
         
-        new_type = _workflow_to_ml_type[workflow]
+        new_workflow_type = _workflow_to_ml_type[workflow]
             
         notify(ListTypeChanged(list,
-                               old_type.list_marker,
-                               new_type.list_marker))
+                               old_workflow_type.list_marker,
+                               new_workflow_type.list_marker))
 
         list.archived = archive
 
