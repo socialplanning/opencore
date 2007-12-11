@@ -37,14 +37,69 @@ import re
 import new
 import os.path
 
-
-_ml_type_to_interface = {
-    PublicListTypeDefinition : IPublicList,
-    PostModeratedListTypeDefinition : IPostModeratedList,
-    MembershipModeratedListTypeDefinition : IMembershipModeratedList,
+_ml_type_to_workflow = {
+    PublicListTypeDefinition : 'policy_open',
+    PostModeratedListTypeDefinition : 'policy_moderated',
+    MembershipModeratedListTypeDefinition : 'policy_closed',
     }
 
-class ListAddView(BaseView, OctopoLite):
+_workflow_to_ml_type = dict((y, x) for x, y in _ml_type_to_workflow.items())
+
+class ListenBaseView(BaseView):
+    @req_memoize
+    def list_url(self):
+        obj = self.context
+        while not IMailingList.providedBy(obj):
+            try:
+                obj = obj.aq_parent
+            except AttributeError:
+                return ''
+        return obj.absolute_url()            
+
+    @req_memoize
+    def list_title(self):
+        obj = self.context
+        while not IMailingList.providedBy(obj):
+            try:
+                obj = obj.aq_parent
+            except AttributeError:
+                return ''
+        return obj.Title()            
+        
+    @property
+    def portal_status_message(self):
+        if hasattr(self, '_redirected'):
+            return []
+        plone_utils = self.get_tool('plone_utils')
+        msgs = plone_utils.showPortalMessages()
+        if msgs:
+            msgs = [msg.message for msg in msgs]
+        else:
+            msgs = []
+        req_psm = self.request.form.get("portal_status_message")
+        req_psm2 = self.request.get("portal_status_message")
+        if req_psm:
+            req_psm = cgi.escape(req_psm)
+            msgs.append(req_psm)
+        elif req_psm2:
+            req_psm2 = cgi.escape(req_psm2)
+            msgs.append(req_psm2)
+
+        return msgs
+
+    def getSuffix(self):
+        """
+        Retrieves the FQDN that is the list address suffix for a site from
+        the opencore_properties PropertySheet.  Requires a context object
+        from inside the site so the properties tool can be retrieved.
+        """
+        # use threadlocal site to hook into acquisition context
+        site = getSite()
+        ptool = getToolByName(site, 'portal_properties')
+        ocprops = ptool._getOb('opencore_properties')
+        return '@' + str(ocprops.getProperty('mailing_list_fqdn').strip())
+
+class ListAddView(ListenBaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('create.pt')
 
@@ -58,18 +113,6 @@ class ListAddView(BaseView, OctopoLite):
                 return ''
         return obj.Title()            
         
-    def getSuffix(self):
-        """
-        Retrieves the FQDN that is the list address suffix for a site from
-        the opencore_properties PropertySheet.  Requires a context object
-        from inside the site so the properties tool can be retrieved.
-        """
-        # use threadlocal site to hook into acquisition context
-        site = getSite()
-        ptool = getToolByName(site, 'portal_properties')
-        ocprops = ptool._getOb('opencore_properties')
-        return '@' + str(ocprops.getProperty('mailing_list_fqdn').strip())
-
     @action('validate')
     def validate(self, target=None, fields=None):
         putils = getToolByName(self.context, 'plone_utils')
@@ -149,18 +192,12 @@ class ListAddView(BaseView, OctopoLite):
 
         old_type = list.list_type
         
-        if workflow == 'policy_open':
-            new_type = PublicListTypeDefinition
-        elif workflow == 'policy_moderated':
-            new_type = PostModeratedListTypeDefinition
-        else:
-            new_type = MembershipModeratedListTypeDefinition
+        new_type = _workflow_to_ml_type[workflow]
             
         notify(ListTypeChanged(list,
-                               _ml_type_to_interface[old_type],
-                               _ml_type_to_interface[new_type]))
+                               old_type.list_marker,
+                               new_type.list_marker))
 
-        
         if archive == 'policy_all':
             list.archived = 0
         elif archive == 'policy_text':
@@ -179,48 +216,6 @@ class ListAddView(BaseView, OctopoLite):
 
         self.redirect(list.absolute_url())
 
-class ListenBaseView(BaseView):
-    @req_memoize
-    def list_url(self):
-        obj = self.context
-        while not IMailingList.providedBy(obj):
-            try:
-                obj = obj.aq_parent
-            except AttributeError:
-                return ''
-        return obj.absolute_url()            
-
-    @req_memoize
-    def list_title(self):
-        obj = self.context
-        while not IMailingList.providedBy(obj):
-            try:
-                obj = obj.aq_parent
-            except AttributeError:
-                return ''
-        return obj.Title()            
-        
-    @property
-    def portal_status_message(self):
-        if hasattr(self, '_redirected'):
-            return []
-        plone_utils = self.get_tool('plone_utils')
-        msgs = plone_utils.showPortalMessages()
-        if msgs:
-            msgs = [msg.message for msg in msgs]
-        else:
-            msgs = []
-        req_psm = self.request.form.get("portal_status_message")
-        req_psm2 = self.request.get("portal_status_message")
-        if req_psm:
-            req_psm = cgi.escape(req_psm)
-            msgs.append(req_psm)
-        elif req_psm2:
-            req_psm2 = cgi.escape(req_psm2)
-            msgs.append(req_psm2)
-
-        return msgs
-
 
 class ListEditView(ListenBaseView, OctopoLite):
     template = ZopeTwoPageTemplateFile('edit.pt')
@@ -229,6 +224,9 @@ class ListEditView(ListenBaseView, OctopoLite):
     def handle_request(self, target=None, fields=None):
         print "handle_request for list edit view"
 
+    def workflow_policy(self):
+
+        return _ml_type_to_workflow[self.context.list_type]
 
 # uh.. if you are going write meta factories you should write tests too
 # isn't this what super and mixins are is suppose to solve?

@@ -8,94 +8,119 @@
       <div metal:use-macro="here/@@listen_macros/tabs"/>
 
       <div id="oc-content-main" class="oc-content-main-fullWidth">
-List type:      <div tal:content="context/list_type/title"></div>
-
-        <form class="edit-form" method="post" action="http://localhost:8080/openplans2/projects/morx/lists/asdf/@@edit">
+        <form name="edit-form" id="oc-list-create" method="post" enctype="multipart/form-data"
+	            class="enableUnloadProtection" tal:attributes="action view/name">
           <fieldset class="oc-boxy">
-            <label for="form.title" title="">Title</label>
-            
-            <div class="oc-form-fieldBlock">
-              <input class="textType" id="form.title" name="form.title" size="20" value="asdf" type="text">
-            </div>
+            <legend i18n:translate="edit_list_basics" class="oc-legend-heading oc-biggerText">Basics</legend>
+            <table class="oc-form">
+              <tbody>
+                <tr class="oc-form-row">
+                  <th class="oc-form-label" scope="row">
+                    <label i18n:translate="create_title_name" for="title">Title</label>
+                  </th>
+                  <td class="oc-form-value">
+                    <input type="text" id="title" class="oc-autoFocus" name="title"
+                           tal:attributes="value context/title | nothing" />
+                  </td>
+                  <td class="oc-form-help">
+                    <span class="oc-form-context"></span>
+                    <span id="oc-title-validator" class="oc-form-validator"></span>
+                    <span id="oc-error" class="oc-form-error" tal:content="view/errors/title | nothing" />
+                  </td>
+                </tr>
+                <tr class="oc-form-row">
+                  <th class="oc-form-label" scope="row">
+                    <label i18n:translate="create_list_description" for="description">Description</label>
+                  </th>
+                  <td class="oc-form-value">
+                    <textarea name="description" id="description" rows="3" cols="40" tal:content="context/description | nothing"/>
+                  </td>
+                  <td class="oc-form-help">
+                    <span class="oc-form-context"></span>
+                    <span id="oc-description-validator" class="oc-form-validator"></span>
+                    <span id="oc-description-error" class="oc-form-error" tal:content="view/errors/description | nothing" />
+                  </td>
+                </tr>
+                <tr class="oc-form-row">
+                  <th class="oc-form-label" scope="row">
+                    <label i18n:translate="create_list_mailto" for="mailto">List Address Prefix</label>
+                  </th>
+                  <td class="oc-form-value oc-form-fieldBlock">
+                    <input type="text" name="mailto" id="mailto"
+                           class="oc-js-liveValidate"
+                           tal:attributes="value context/mailto | nothing" />
+                    <span tal:replace="view/getSuffix" />
+                  </td>
+                  <td class="oc-form-help">
+                    <span class="oc-form-context"></span>
+                    <span id="oc-mailto-validator" class="oc-form-validator"></span>
+                    <span id="oc-mailto-error" class="oc-form-error" tal:content="view/errors/mailto | nothing" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </fieldset>
-          <fieldset class="oc-boxy">
-            <label for="form.description" title="A description of the mailing list.">Description</label>
-            
-            <div class="oc-form-fieldBlock">
-              <textarea cols="40" id="form.description" name="form.description" rows="3">PostModeratedListTypeDefinition</textarea>
-            </div>
-          </fieldset>
-          <fieldset class="oc-boxy">
-            <label for="form.mailto" title="listen_address_prefix_description">List Address Prefix</label>
-            
-            <div class="oc-form-fieldBlock">
-              <input class="textType" id="form.mailto" name="form.mailto" value="asdf" type="text">@lists.openplans.org
-            </div>
-          </fieldset>
-          <fieldset class="oc-boxy">
-            <label for="form.managers" title="The people who maintain the list.  Managers can edit list settings and can edit the list of allowed senders / subscribers.  Managers receive moderation requests, general inquiries and any bounced mail.">Managers</label>
-            
-            <div class="oc-form-fieldBlock">
-              <div id="test">
 
-<script type="text/javascript" src="edit_files/resourcelistoperations.js">
-</script>
-
-<div id="sourceParent">
-  <input name="form.managers.marker" id="form.managers.marker" type="hidden">
-  
-    <input name="form.managers" id="value.0.form.managers" value="novalis" type="hidden">
-  
-  <input id="form.managers" type="hidden">
-  <div id="select.form.managers">
-    
-      <div id="select.0.form.managers">
-        <a href="#remove" onclick='sequenceRemoveItem("form.managers", "0"); return false;' style="text-decoration: none;">[ - ]</a>
-        <span>novalis</span>
-      </div>
-    
-  </div>
-</div>
-
-<div>
-  <input id="input.form.managers" onkeypress="return onKeyPress(event);" type="text">
-  <button type="button" onclick="sequenceAddItem('form.managers')">
-    Add
-  </button>
-</div>
-
-</div>
-
-            </div>
-          </fieldset>
           <fieldset class="oc-boxy">
-            <label for="form.list_type" title="The policy that defines the behavior of the list.">List Type</label>
-            
-            <div class="oc-form-fieldBlock">
-              <div>
-<div class="value">
-<label><input class="radioType" checked="checked" id="form.list_type.0" name="form.list_type" value="Public List" type="radio">&nbsp;Public List<br><span class="formHelp">Anyone who confirms their email address is valid can post and receive messages.</span></label><br><label><input class="radioType" id="form.list_type.1" name="form.list_type" value="Announce List" type="radio">&nbsp;Announce List<br><span class="formHelp">Anyone can receive messages, but each posted message has to be approved by the list managers first.</span></label><br><label><input class="radioType" id="form.list_type.2" name="form.list_type" value="Members List" type="radio">&nbsp;Members List<br><span class="formHelp">Only those approved by the list managers can post and receive messages.</span></label>
-</div>
-<input name="form.list_type-empty-marker" value="1" type="hidden">
-</div>
-            </div>
+            <legend i18n:translate="edit_list_security" class="oc-legend-heading oc-biggerText">Security</legend>
+            <p i18n:translate="edit_list_security_desc" class="oc-headingContext oc-smallText">The policy that defines the behavior of the list.</p>
+            <fieldset tal:define="policy view/workflow_policy | string:policy_open">
+              <ul class="oc-form-radiolist oc-form-fieldBlock">
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
+                  value="policy_open" tal:attributes="checked python:policy == 'policy_open' and 'checked' or ''" />
+                  <label i18n:translate="create_list_workflow_open" for="workflow_policy_open">
+                  Anyone who confirms their email address is valid can post and receive messages.</label>
+                </li>
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_moderated" name="workflow_policy"
+                  value="policy_moderated" tal:attributes="checked python:policy == 'policy_moderated' and 'checked' or ''" />
+                  <label i18n:translate="create_list_workflow_moderated" for="workflow_policy_moderated">Anyone can receive messages, but each posted message has to be approved by the list managers first.</label>
+                </li>
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
+                  value="policy_closed" tal:attributes="checked python:policy == 'policy_closed' and 'checked' or ''" />
+                  <label i18n:translate="create_list_workflow_closed" for="workflow_policy_closed">Only those approved by the list managers can post and receive messages.</label>
+                </li>
+              </ul>
+            </fieldset>
           </fieldset>
+
           <fieldset class="oc-boxy">
-            <label for="form.archived" title="When archiving is enabled, all messages sent to the list will be saved on the server.  You may choose whether to archive just the message text, or include attachments.">Archival method</label>
-            
-            <div class="oc-form-fieldBlock">
-              <div>
-<div class="value">
-<label><input class="radioType" checked="checked" id="form.archived.0" name="form.archived" value="The entire message, including attachments" type="radio">&nbsp;The entire message, including attachments</label><br><label><input class="radioType" id="form.archived.1" name="form.archived" value="The message text only" type="radio">&nbsp;The message text only</label><br><label><input class="radioType" id="form.archived.2" name="form.archived" value="Do not archive messages" type="radio">&nbsp;Do not archive messages</label>
-</div>
-<input name="form.archived-empty-marker" value="1" type="hidden">
-</div>
-            </div>
+            <legend i18n:translate="edit_list_archival" class="oc-legend-heading oc-biggerText">Archival</legend>
+            <p i18n:translate="create_list_archival_desc" class="oc-headingContext oc-smallText">When archiving is enabled, all messages sent to the list will be saved on the server. You may choose whether to archive just the message text, or include attachments.</p>
+            <fieldset tal:define="policy context/archival_policy | string:policy_all">
+              <ul class="oc-form-radiolist oc-form-fieldBlock">
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="archival_policy_all" name="archival_policy"
+                  value="policy_all" tal:attributes="checked python:policy == 'policy_all' and 'checked' or ''" />
+                  <label i18n:translate="create_list_archive_all" for="archival_policy_all">The entire message, including attachments</label>
+                </li>
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="archival_policy_text" name="archival_policy"
+                  value="policy_text" tal:attributes="checked python:policy == 'policy_text' and 'checked' or ''" />
+                  <label i18n:translate="create_list_archive_text" for="archival_policy_text">The message text only</label>
+                </li>
+                <li>
+                  <input type="radio" class="oc-input-typeRadio" id="archival_policy_none" name="archival_policy"
+                  value="policy_none" tal:attributes="checked python:policy == 'policy_none' and 'checked' or ''" />
+                  <label i18n:translate="create_list_archive_none" for="archival_policy_none">Do not archive messages</label>
+                </li>
+              </ul>
+            </fieldset>
           </fieldset>
-          <span class="oc-actions">
-            <input id="form.actions.label_save" name="form.actions.label_save" value="Save" class="context" type="submit">
-            <input id="form.actions.label_cancel" name="form.actions.label_cancel" value="Cancel" class="context" type="submit">
-          </span>
+          <fieldset>
+            <ul class="oc-actions">
+              <li>
+                <input type="submit" 
+                       name="task|add" 
+                       value="Edit" 
+		       i18n:attributes="value edit_edit_button"
+                       class="oc-button oc-chooseThis" />
+              </li>
+              <li>or <a i18n:translate="create_list_cancel" href="">Cancel</a></li>
+            </ul>
+          </fieldset>
         </form>
       </div>
     </div>
