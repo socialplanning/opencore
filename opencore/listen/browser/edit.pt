@@ -48,7 +48,7 @@
                   <td class="oc-form-value oc-form-fieldBlock">
                     <input type="text" name="mailto" id="mailto"
                            class="oc-js-liveValidate"
-                           tal:attributes="value context/mailto | nothing" />
+                           tal:attributes="value view/mailto | nothing" />
                     <span tal:replace="view/getSuffix" />
                   </td>
                   <td class="oc-form-help">
@@ -89,21 +89,21 @@
           <fieldset class="oc-boxy">
             <legend i18n:translate="edit_list_archival" class="oc-legend-heading oc-biggerText">Archival</legend>
             <p i18n:translate="create_list_archival_desc" class="oc-headingContext oc-smallText">When archiving is enabled, all messages sent to the list will be saved on the server. You may choose whether to archive just the message text, or include attachments.</p>
-            <fieldset tal:define="policy context/archival_policy | string:policy_all">
+            <fieldset tal:define="policy context/archived | python: 0">
               <ul class="oc-form-radiolist oc-form-fieldBlock">
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="archival_policy_all" name="archival_policy"
-                  value="policy_all" tal:attributes="checked python:policy == 'policy_all' and 'checked' or ''" />
+                  value="0" tal:attributes="checked python:policy == 0 and 'checked' or ''" />
                   <label i18n:translate="create_list_archive_all" for="archival_policy_all">The entire message, including attachments</label>
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="archival_policy_text" name="archival_policy"
-                  value="policy_text" tal:attributes="checked python:policy == 'policy_text' and 'checked' or ''" />
+                  value="1" tal:attributes="checked python:policy == 1 and 'checked' or ''" />
                   <label i18n:translate="create_list_archive_text" for="archival_policy_text">The message text only</label>
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="archival_policy_none" name="archival_policy"
-                  value="policy_none" tal:attributes="checked python:policy == 'policy_none' and 'checked' or ''" />
+                  value="2" tal:attributes="checked python:policy == 2 and 'checked' or ''" />
                   <label i18n:translate="create_list_archive_none" for="archival_policy_none">Do not archive messages</label>
                 </li>
               </ul>

@@ -155,8 +155,8 @@ class ListAddView(ListenBaseView, OctopoLite):
         if workflow not in ('policy_open', 'policy_moderated', 'policy_closed'):
             self.errors['workflow_policy'] = _(u'list_create_invalid_workflow_error', u'The mailing list security must be set to open, moderated, or closed.')
 
-        archive = self.request.form.get('archival_policy')
-        if archive not in ('policy_all', 'policy_text', 'policy_none'):
+        archive = int(self.request.form.get('archival_policy'))
+        if archive not in (0, 1, 2):
             self.errors['archive'] = _(u'list_create_invalid_archive_error', u'The mailing list archival method must be set to all, text-only, or none.')
 
         mailto = self.request.form.get('mailto')
@@ -172,7 +172,7 @@ class ListAddView(ListenBaseView, OctopoLite):
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return
 
-        # Try to create an OpenMember using the mailto address to see if it's going to be valid
+        # Try to create a mailing list using the mailto address to see if it's going to be valid
         lists_folder = self.context
         try:
             lists_folder.invokeFactory(OpenMailingList.portal_type, mailto)
@@ -198,12 +198,7 @@ class ListAddView(ListenBaseView, OctopoLite):
                                old_type.list_marker,
                                new_type.list_marker))
 
-        if archive == 'policy_all':
-            list.archived = 0
-        elif archive == 'policy_text':
-            list.archived = 1
-        else:
-            list.archived = 2
+        list.archived = archive
 
         self.template = None
 
@@ -222,11 +217,79 @@ class ListEditView(ListenBaseView, OctopoLite):
 
     @action('add')
     def handle_request(self, target=None, fields=None):
-        print "handle_request for list edit view"
+        #FIXME: refactor out form normalization stuff
+        
+
+        # Get the tool used to normalize strings
+        putils = getToolByName(self.context, 'plone_utils')
+
+        # Create an empty dictionary to hold any eventual errors.
+        self.errors = {}
+
+        # Let's do some form validation
+        # Get and clean up title from request
+        title = self.request.form.get('title', '')
+        title = re.compile('\s+').sub(' ', title).strip()
+        if not isinstance(title, unicode):
+            title = unicode(title, 'utf-8')
+        self.request.form['title'] = title
+
+        # Get and check the list policies
+        workflow = self.request.form.get('workflow_policy')
+        if workflow not in ('policy_open', 'policy_moderated', 'policy_closed'):
+            self.errors['workflow_policy'] = _(u'list_create_invalid_workflow_error', u'The mailing list security must be set to open, moderated, or closed.')
+
+        archive = int(self.request.form.get('archival_policy'))
+        if archive not in (0, 1, 2):
+            self.errors['archive'] = _(u'list_create_invalid_archive_error', u'The mailing list archival method must be set to all, text-only, or none.')
+
+        mailto = self.request.form.get('mailto')
+        if not re.match('[a-zA-Z][-\w]+', mailto):
+            self.errors['mailto'] = _(u'list_create_invalid_prefix_error', u'Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)')
+        else:
+            mailto = putils.normalizeString(mailto)
+            if hasattr(self.context, mailto):
+                self.errors['mailto'] = _(u'list_create_duplicate_error', u'The requested list prefix is already taken.')
+
+        # If we don't pass sanity checks by this point, abort and let the user correct their errors.
+        if self.errors:
+            self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
+            return
+
+        list = self.context
+
+        if self.errors:
+            self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
+            return 
+
+        #fixme: set managers
+
+        list.setDescription(unicode(self.request.form.get('description','')))
+
+        list.mailto = mailto
+
+        old_type = list.list_type        
+        new_type = _workflow_to_ml_type[workflow]
+            
+        notify(ListTypeChanged(list,
+                               old_type.list_marker,
+                               new_type.list_marker))
+
+        list.archived = archive
+        self.template = None
+
+        s_message = _(u'list_preferences_updated',
+                      u'Your changes have been saved.')
+        
+        self.add_status_message(s_message)
+
+        self.redirect(list.absolute_url() + "/edit")
 
     def workflow_policy(self):
-
         return _ml_type_to_workflow[self.context.list_type]
+
+    def mailto(self):
+        return self.context.mailto.split("@")[0]
 
 # uh.. if you are going write meta factories you should write tests too
 # isn't this what super and mixins are is suppose to solve?
