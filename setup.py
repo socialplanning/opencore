@@ -45,7 +45,7 @@ setup(
           'decorator',
           'feedparser',
           'topp.featurelets>=0.2.2',
-          'topp.utils>=0.2.10',
+          'topp.utils>=0.3.0',
           'memojito',
           'OpencoreRedirect',
           'httplib2',
