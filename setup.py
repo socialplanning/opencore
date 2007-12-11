@@ -3,7 +3,7 @@ import pkg_resources as pkr
 
 import sys, os
 
-version = '0.9.7.7'
+version = '0.9.7.7p3'
 
 f = open('README.txt')
 readme = "".join(f.readlines())
@@ -25,7 +25,8 @@ setup(
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
       zip_safe=False,
-      dependency_links=['https://svn.openplans.org/svn/OpencoreRedirect/branches/plone3#egg=OpencoreRedirect',
+      dependency_links=['https://svn.openplans.org/svn/topp.featurelets/branches/plone3#egg=topp.featurelets-0.2.2p3',
+                        'https://svn.openplans.org/svn/OpencoreRedirect/branches/plone3#egg=OpencoreRedirect',
                         "https://svn.openplans.org/svn/ClockQueue/trunk#egg=ClockQueue-dev",
                         'http://svn.red-bean.com/bob/simplejson/trunk/#egg=simplejson-dev',
                         'http://www.openplans.org/projects/opencore/dependencies',
@@ -44,7 +45,7 @@ setup(
           'simplejson',
           'decorator',
           'feedparser',
-          'topp.featurelets>=0.2.2',
+          'topp.featurelets==0.2.2p3',
           'topp.utils>=0.3.0',
           'memojito',
           'OpencoreRedirect',
