@@ -83,7 +83,7 @@ def create_test_content(self, p_map=None, m_map=None):
     for mem_id, mem_data in m_map.items():
         id_ = mem_id
         mem_folder = pf._getTempFolder('OpenMember')
-        mem = mem_folder.restrictedTraverse('%s' % id_)
+        mem = mem_folder.restrictedTraverse(id_)
         
         # now we have mem, a temp member. create it for real.
         mem = pf.doCreate(mem, mem_id)
