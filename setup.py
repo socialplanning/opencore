@@ -45,7 +45,7 @@ setup(
           'simplejson',
           'decorator',
           'feedparser',
-          'topp.featurelets==0.2.2p3',
+          'topp.featurelets>=0.2.2p3dev',
           'topp.utils>=0.3.0',
           'memojito',
           'OpencoreRedirect',
