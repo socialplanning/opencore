@@ -25,6 +25,7 @@ from zope.component import getUtility
 import monkey
 #import Extensions.setup
 from opencore.nui import indexing
+from borg.localrole import initialize as lrinit
 
 GLOBALS = globals()
 SKINS_DIR = 'skins'
@@ -39,6 +40,7 @@ registerMultiPlugin(remoteauthplugin.RemoteOpenCoreAuth.meta_type)
 
 
 def initialize(context):
+    lrinit(context)
     # Importing the content types allows for their registration
     # with the Archetypes runtime
     from content import *

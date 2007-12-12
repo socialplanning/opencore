@@ -2,5 +2,6 @@
   <include package="zope.annotation" />
   <include package="opencore.configuration" file="permissions.zcml" />
   <include package="Products.listen" file="permissions.zcml" />
+  <include package="borg.localrole" />
   <include package="opencore.configuration" />
 </configure>

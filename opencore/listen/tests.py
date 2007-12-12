@@ -1,7 +1,7 @@
 import os, sys, unittest
 from zope.testing import doctest
 from zope.app.component.hooks import setSite, setHooks
-from Products.Five.site.localsite import enableLocalSiteHook
+#from Products.Five.site.localsite import enableLocalSiteHook
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase 
 from Testing.ZopeTestCase import FunctionalDocFileSuite
@@ -28,7 +28,7 @@ def test_suite():
     setup.setupPloneSite()
 
     def set_site(tc):
-        enableLocalSiteHook(tc.portal)
+        #enableLocalSiteHook(tc.portal)
         setSite(tc.portal)
         setHooks()
 

@@ -54,7 +54,7 @@ def test_suite():
         lists = proj.lists
         lists.setLayout('mailing_lists')
         alsoProvides(lists, IListenContainer)
-        enableLocalSiteHook(tc.portal)
+        #enableLocalSiteHook(tc.portal)
         setSite(tc.portal)
         setHooks()
         proj.lists.invokeFactory('Open Mailing List', 'list1', title=u'new list')
@@ -65,13 +65,13 @@ def test_suite():
 
     def readme_setup(tc):
         oc_setup.fresh_skin(tc)
-        enableLocalSiteHook(tc.portal)
+        #enableLocalSiteHook(tc.portal)
         setSite(tc.portal)
         setHooks()
 
     def tasktracker_setup(tc):
         oc_setup.extended_tt_setup(tc)
-        enableLocalSiteHook(tc.portal)
+        #enableLocalSiteHook(tc.portal)
         setSite(tc.portal)
         setHooks()
 

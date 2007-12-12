@@ -31,7 +31,7 @@ class TestFeaturelets(OpenPlansTestCase):
         self.folder.manage_permission('OpenPlans: Add OpenProject',
                                       roles=('Manager', 'Owner'))
         self.proj = makeContent(self.folder, 'project1', 'OpenProject')
-        enableLocalSiteHook(self.portal)
+        #enableLocalSiteHook(self.portal)
         setSite(self.portal)
         setHooks()
 

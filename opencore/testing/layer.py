@@ -15,6 +15,7 @@ from zope.app.component.hooks import setSite, setHooks
 import random
 import transaction as txn
 from opencore.configuration.setuphandlers import Z_DEPS, DEPS
+from five.localsitemanager import make_objectmanager_site
 
 class MailHostMock(object):
     """
@@ -49,31 +50,29 @@ class BrowserIdManagerMock(object):
         else:
             return str(random.random())
 
-class PreSite(ZCML):
+class Install(ZCML):
     @classmethod
     def setUp(cls):
+        zinstall_products()
+        ZopeTestCase.installProduct('OpenPlans')
         ZopeTestCase.installPackage('borg.localrole')
-
+        make_objectmanager_site(ZopeTestCase.app())
+        txn.commit()
+        
     @classmethod
     def tearDown(cls):
         raise NotImplementedError
 
-class SiteSetupLayer(PreSite, PloneSite):
+class SiteSetupLayer(Install, PloneSite):
     setupPloneSite(
         products = ('OpenPlans',) + DEPS,
-        extension_profiles=['borg.localrole:default', 'opencore.configuration:default'])
+        extension_profiles=[#'borg.localrole:default',
+                            'opencore.configuration:default'])
 
-    @classmethod
-    def setUp(cls):
-        portal = get_portal()
-        zinstall_products()
-        # install OpenPlans into ZTC
-        #ZopeTestCase.installProduct('OpenPlans')
-        #enableLocalSiteHook(portal)
-        setSite(portal)
-        setHooks()
+##     @classmethod
+##     def setUp(cls):
+##         portal = get_portal()
 
-        txn.commit()
 
     @classmethod
     def tearDown(cls):

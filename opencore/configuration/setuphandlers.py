@@ -32,7 +32,7 @@ import socket
 
 Z_DEPS = ('PlacelessTranslationService', 'Five', 'membrane', 'remember',
           'GenericSetup', 'CMFPlone', 'ManagableIndex', 'QueueCatalog',
-          'txtfilter')
+          )
 
 MEM_DEPS = ('membrane', 'remember')
 
