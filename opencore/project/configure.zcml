@@ -8,7 +8,7 @@
   <class class="Products.OpenPlans.content.project.OpenProject">
     <implements
       interface="opencore.interfaces.IEditProject
-                 zope.app.annotation.interfaces.IAttributeAnnotatable
+                 zope.annotation.interfaces.IAttributeAnnotatable
                  Products.ploneundelete.interfaces.IUndeleteContainer" />
   </class>
 

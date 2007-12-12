@@ -7,7 +7,7 @@
 
   <five:implements 
      class="ZPublisher.HTTPRequest.HTTPRequest" 
-     interface="zope.app.annotation.IAttributeAnnotatable"/>
+     interface="zope.annotation.interfaces.IAttributeAnnotatable"/>
 
   <meta:redefinePermission from="zope2.Public" to="zope.Public" />
 
