@@ -1,9 +1,6 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser"
-	   xmlns:five="http://namespaces.zope.org/five"
-	   xmlns:fate="http://namespaces.plone.org/fate">
-
-  <include package="Products.Fate" file="meta.zcml" />
+	   xmlns:five="http://namespaces.zope.org/five">
 
   <browser:resource
      file="projpage.js"
@@ -51,34 +48,7 @@
      allowed_interface=".interfaces.IProjectInfo"
      />
 
-  <browser:page
-     name="add_project"
-     for="opencore.interfaces.adding.IAddProject"
-     permission="zope2.View"
-     class="..browser.ProjectAddView"
-     attribute="redirect"
-     />
-
-  <fate:addform
-     name="do_add_project"
-     for="opencore.interfaces.adding.IAddProject"
-     permission="zope2.View"
-     product="OpenPlans"
-     meta_type="OpenProject"
-     class="..browser.ProjectAddView"
-     />
-
-  <!-- 
-
-  <fate:addform
-     name="add_project"
-     for="opencore.interfaces.adding.IAddSubProject"
-     permission="zope2.View"
-     product="OpenPlans"
-     meta_type="OpenProject"
-     class="..browser.SubProjectAddView"
-     /> 
-
+<!--
   <browser:page 
      name="projects"
      for="opencore.interfaces.adding.IAddSubProject"
