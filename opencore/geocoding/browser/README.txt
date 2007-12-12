@@ -4,8 +4,8 @@ Geocoding views of opencore content
 ===================================
 
 
-Admin views for Projects
--------------------------
+Preferences view for Projects
+------------------------------
 
 
     >>> self.login(admin)
@@ -86,14 +86,43 @@ human-readable place name::
     >>> view.context.getLocation()
     'oceania'
 
-The non-ajaxy view defaults to using a google maps image based on the
-current geolocation, by calling this method::
+The view includes a bunch of convenient geo-related stuff for UIs::
 
-    >>> print view.location_img_url()
-    http://maps.google.com/mapdata?latitude_e6=12000000&longitude_e6=42...
+    >>> sorted(view.geo_info.keys())
+    ['location', 'position-latitude', 'position-longitude', 'position-text', 'static_img_url']
+    >>> view.geo_info['location']
+    'oceania'
+    >>> round(view.geo_info['position-latitude'])
+    12.0
+    >>> round(view.geo_info['position-longitude'])
+    -87.0
+    >>> view.geo_info['position-text']
+    ''
+    >>> view.geo_info['static_img_url']
+    'http://maps.google.com/mapdata?latitude_e6=12000000&longitude_e6=4207967296&w=500&h=300&zm=9600&cc='
 
+Most of which can be overridden in the request::
 
-Geolocation can also be set at project creation time::
+    >>> view.request.form.update({'location': 'nunya bizness',
+    ...     'position-latitude': 1.2, 'position-longitude': 3.4,
+    ...     'position-text': 'my house',  'static_img_url': 'unused'})
+    >>> view.geo_info['location']
+    'nunya bizness'
+    >>> print view.geo_info['position-latitude']
+    1.2
+    >>> print view.geo_info['position-longitude']
+    3.4
+    >>> view.geo_info['position-text']
+    'my house'
+    >>> view.geo_info['static_img_url']
+    'http://maps.google.com/mapdata?latitude_e6=12000000&longitude_e6=4207967296&w=500&h=300&zm=9600&cc='
+
+clean up...
+    >>> view.request.form.clear()
+
+Create view for Projects
+------------------------
+
 
     >>> createview = projects.restrictedTraverse("create")
     >>> createview.request.form.update({'title': 'A geolocated project!',
@@ -232,8 +261,12 @@ And a separate view that generates kml markup::
 
 
 
+Preferences views for Members
+-----------------------------
 
-Admin views for Members
+XXX not implemented yet!
+
+Create view for Members
 ------------------------
 
 XXX not implemented yet!

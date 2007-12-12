@@ -361,7 +361,7 @@ class BaseView(BrowserView):
 
     # tool and view handling
 
-    @view.memoize_contextless
+    @view.memoizedproperty
     def has_geocoder(self):
         """Is a PleiadesGeocoder tool available?
         """

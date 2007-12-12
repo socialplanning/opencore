@@ -3,8 +3,8 @@ from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase
 from opencore.account import utils
+from opencore.browser.base import BaseView
 from opencore.featurelets.interfaces import IListenContainer
-from opencore.project.browser.view import ProjectBaseView
 from opencore.testing import dtfactory as dtf
 from opencore.testing import setup as oc_setup
 from opencore.testing.layer import MockHTTPWithContent
@@ -73,11 +73,11 @@ def test_suite():
         setHooks()
         # Force geocoding off for these tests.
         # (ie. even if it's installed, act like it isn't.)
-        ProjectBaseView._old_has_geocoder = ProjectBaseView.has_geocoder
-        ProjectBaseView.has_geocoder = False
+        BaseView._old_has_geocoder = BaseView.has_geocoder
+        BaseView.has_geocoder = False
 
     def readme_teardown(tc):
-        ProjectBaseView.has_geocoder = ProjectBaseView._old_has_geocoder
+        BaseView.has_geocoder = BaseView._old_has_geocoder
         
 
     def tasktracker_setup(tc):
