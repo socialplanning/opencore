@@ -80,3 +80,15 @@ People
     True
     >>> IGeoreferenceable.providedBy(m1data)
     True
+
+    People folders can be adapted to IGeoItemSimple, and coordinates set on them.
+
+    >>> geo = IGeoItemSimple(m1folder)
+    >>> print geo.coords
+    None
+    >>> coordinates = (1, -2, 3)
+    >>> geo.setGeoInterface('Point', coordinates)
+    >>> geo = IGeoItemSimple(m1folder)
+    >>> geo.coords
+    (1.0, -2.0, 3.0)
+
