@@ -311,8 +311,8 @@ class BaseView(BrowserView):
                 geo = folder.restrictedTraverse('oc-geo-info')
                 coords = geo.get_geolocation()
                 if coords is not None:
-                    result['position-latitude'] = geo.coords[1]
-                    result['position-longitude'] = geo.coords[0]
+                    result['position-latitude'] = coords[1]
+                    result['position-longitude'] = coords[0]
         else:
             # XXX TODO 
             # we're an old school member object, e.g. an admin user
@@ -369,13 +369,77 @@ class BaseView(BrowserView):
                 proj_info['position-longitude'] = coords[0]
         return proj_info
 
-    # tool and view handling
+    # hooks for geocoding stuff to work if installed. XXX move these
+    # to a separate view?
 
     @view.memoizedproperty
     def has_geocoder(self):
         """Is a PleiadesGeocoder tool available?
         """
         return getToolByName(self.context, 'portal_geocoder', None) is not None
+
+    def _maps_script_url(self):
+        if not self.has_geocoder:
+            return ''
+        key = self.get_opencore_property('google_maps_key')
+        if not key:
+            logger.warn("you need to set a google maps key in opencore_properties")
+            return ''
+        url = "http://maps.google.com/maps?file=api&v=2&key=%s" % key
+        return url
+
+    def _get_geo_info(self, context_info):
+        # context_info would be eg. self.member_info or self.project_info.
+        try:
+            geo = self.context.restrictedTraverse('oc-geo-info')
+            info = {'static_img_url': geo.location_img_url()}
+        except:  # XXX what?
+            info = {'static_img_url': ''}
+        info['maps_script_url'] = self._maps_script_url()
+        _marker = object()
+        for key in ('position-text', 'location', 'position-latitude',
+                    'position-longitude'):
+            if self.request.form.get(key, _marker) is not _marker:
+                info[key] = self.request.form[key]
+            elif context_info.get(key, _marker) is not _marker:
+                info[key] = context_info[key]
+            else:
+                info[key] = ''
+        return info
+        
+    def geocode_from_form(self, form=None):
+        """
+        Inspect the values in the form in order to extract and return
+        coordinates.  Will perform a lookup on a textual position if
+        necessary.  If any problems, adds a message to self.errors.
+        """
+        default = ()
+        if not self.has_geocoder:
+            return default
+        if form is None:
+            form = self.request.form
+        try:
+            geo = self.context.restrictedTraverse('oc-geo-info')
+            coords = geo.geocode_from_form(form)
+            return coords
+        except TypeError:
+            self.errors['position-text'] = _(u'psm_geocode_failed', u"Sorry, we were unable to find that address on the map")
+            return default
+
+    def set_geolocation(self, coords, context=None):
+        """
+        Update the given context (or self.context) with the given coordinates
+        (for now assume latitude, longitude).
+        """
+        if not self.has_geocoder:
+            return False
+        if context is None:
+            context = self.context
+        geo = context.restrictedTraverse('oc-geo-info')
+        return geo.set_geolocation(coords)
+
+            
+    # tool and view handling
 
     @view.memoize_contextless
     def get_tool(self, name):

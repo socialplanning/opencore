@@ -64,62 +64,12 @@ class ProjectBaseView(BaseView):
             return False
         return flet_adapter.installed
 
-    # XXX move all geo stuff to a separate view?
-    def maps_script_url(self):
-        if not self.has_geocoder:
-            return ''
-        # XXX Need to register for different keys for each host.
-        # put one in portal properties.
-        key = self.get_opencore_property('google_maps_key')
-        if not key:
-            logger.warn("you need to set a google maps key in opencore_properties")
-        url = "http://maps.google.com/maps?file=api&v=2&key=%s" % key
-        return url
-
-    def geocode_from_form(self, form=None):
-        """
-        Inspect the values in the form in order to extract and return
-        coordinates.  Will perform a lookup on a textual position if
-        necessary.  If any problems, adds a message to self.errors.
-        """
-        default = ()
-        if not self.has_geocoder:
-            return default
-        if form is None:
-            form = self.request.form
-        try:
-            geo = self.context.restrictedTraverse('oc-geo-info')
-            coords = geo.geocode_from_form(form)
-            return coords
-        except TypeError:
-            self.errors['position-text'] = _(u'psm_geocode_failed', u"Sorry, we were unable to find that address on the map")
-            return default
-    
-
-    def set_geolocation(self, proj, coords):
-        """
-        Update the project with the given coordinates
-        (for now assume latitude, longitude).
-        """
-        if not self.has_geocoder:
-            return False
-        geo = proj.restrictedTraverse('oc-geo-info')
-        return geo.set_geolocation(coords)
-
     @property
     def geo_info(self):
         """geo information for display in forms;
         takes values from request, falls back to existing project
         if possible."""
-        try:
-            geo = self.context.restrictedTraverse('oc-geo-info')
-            info = {'static_img_url': geo.location_img_url()}
-        except:  # XXX what?
-            info = {}
-        for key in ('position-text', 'location', 'position-latitude',
-                    'position-longitude'):
-            info[key] = self.request.form.get(key) or self.project_info.get(key)
-        return info
+        return self._get_geo_info(self.project_info)
 
 
 class ProjectContentsView(ProjectBaseView, OctopoLite):
@@ -527,7 +477,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             del self.request.form['logo'], new_form['logo']
 
         locationchanged = False
-        if self.set_geolocation(self.context, coords):
+        if self.set_geolocation(coords):
             locationchanged = True
         elif self.context.getLocation() != new_form.get('location', ''):
             locationchanged = True
@@ -687,7 +637,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
                 return
             del self.request.form['logo']
 
-        self.set_geolocation(proj, coords)
+        self.set_geolocation(coords, context=proj)
 
         self.template = None
         proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)

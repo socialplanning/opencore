@@ -150,6 +150,13 @@ class ProfileView(BaseView):
 
         return addressable_msgs
 
+    @property
+    def geo_info(self):
+        """geo information for display in forms;
+        takes values from request, falls back to existing member info
+        if possible."""
+        return self._get_geo_info(self.member_info)
+
 
 class ProfileEditView(ProfileView, OctopoLite):
 
@@ -213,6 +220,17 @@ class ProfileEditView(ProfileView, OctopoLite):
             if not self.check_portrait(member, portrait):
                 return
             del self.request.form['portrait']
+
+        # handle geo stuff
+        coords = self.geocode_from_form()
+        locationchanged = False
+        if self.set_geolocation(coords):
+            locationchanged = True
+        elif self.context.getLocation() != new_form.get('location', ''):
+            locationchanged = True
+        for key in self.request.form.keys():
+            if key.startswith('position-'):
+                del self.request.form[key]
 
         # now deal with the rest of the fields
         for field, value in self.request.form.items():

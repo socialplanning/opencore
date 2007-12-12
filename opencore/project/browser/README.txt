@@ -19,10 +19,18 @@ The test setup should be ensuring that geocoding is disabled::
 
     >>> view.has_geocoder
     False
-    >>> view.maps_script_url()
+    >>> view._maps_script_url()
     ''
     >>> print view.geocode_from_form()
     ()
+    >>> pprint(view.geo_info)
+    {'location': '',
+     'maps_script_url': '',
+     'position-latitude': '',
+     'position-longitude': '',
+     'position-text': '',
+     'static_img_url': ''}
+    
 
 Try setting some invalid titles::
     >>> view.request.form['title'] = ""
@@ -138,7 +146,7 @@ Maps url should work if the geocoder is available::
 
     >>> view = projects.restrictedTraverse('create')
     >>> view.has_geocoder = True
-    >>> view.maps_script_url()
+    >>> view._maps_script_url()
     'http://maps.google.com/maps?file=api...'
 
 
@@ -264,19 +272,32 @@ Make sure we can install a TaskTracker featurelet too::
     <...SimpleViewClass ...preferences...>
 
 
-If the geocoding tool is not available, these methods do nothing::
+If the geocoding tool is not available, these methods successfully do
+nothing interesting::
 
     >>> view.has_geocoder
     False
-    >>> view.maps_script_url()
+    >>> view._maps_script_url()
     ''
     >>> print view.geocode_from_form()
     ()
+    >>> pprint(view.geo_info)
+    {'location': '',
+     'maps_script_url': '',
+     'position-latitude': '',
+     'position-longitude': '',
+     'position-text': '',
+     'static_img_url': ''}
 
-Maps url should work if the geocoder is available::
+
+Maps url should work if the geocoder is available and a key is set::
 
     >>> view.has_geocoder = True
-    >>> view.maps_script_url()
+    >>> len(view.get_opencore_property('google_maps_key')) > 0
+    True
+    >>> view._maps_script_url()
+    'http://maps.google.com/maps?file=api...'
+    >>> view.geo_info['maps_script_url']
     'http://maps.google.com/maps?file=api...'
 
 

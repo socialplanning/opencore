@@ -19,7 +19,7 @@ Look for geolocation info, first when it's not set...
     >>> view.has_geocoder
     True
     >>> coords = view.geocode_from_form(form)
-    >>> view.set_geolocation(proj, coords)
+    >>> view.set_geolocation(coords)
     False
     >>> view.project_info.has_key('position-latitude')
     False
@@ -29,7 +29,7 @@ Look for geolocation info, first when it's not set...
 
 You can set and then view coordinates::
 
-    >>> view.set_geolocation(proj, (11.1, -22.2))
+    >>> view.set_geolocation((11.1, -22.2))
     True
 
     Clear the memoized stuff from the request to see the info.
@@ -42,7 +42,7 @@ You can set and then view coordinates::
 
 Calling again with the same points makes no change:
 
-    >>> view.set_geolocation(proj, (11.1, -22.2))
+    >>> view.set_geolocation((11.1, -22.2))
     False
 
 
@@ -64,7 +64,7 @@ actually hit google on every test run::
         'address does not matter for mock results')
     >>> latlon
     (12.0, -87.0)
-    >>> view.set_geolocation(proj, latlon)
+    >>> view.set_geolocation(latlon)
     True
     >>> utils.clear_all_memos(view)
     >>> print view.project_info.get('position-latitude')
@@ -89,7 +89,7 @@ human-readable place name::
 The view includes a bunch of convenient geo-related stuff for UIs::
 
     >>> sorted(view.geo_info.keys())
-    ['location', 'position-latitude', 'position-longitude', 'position-text', 'static_img_url']
+    ['location', 'maps_script_url', 'position-latitude', 'position-longitude', 'position-text', 'static_img_url']
     >>> view.geo_info['location']
     'oceania'
     >>> round(view.geo_info['position-latitude'])
@@ -100,12 +100,16 @@ The view includes a bunch of convenient geo-related stuff for UIs::
     ''
     >>> view.geo_info['static_img_url']
     'http://maps.google.com/mapdata?latitude_e6=12000000&longitude_e6=4207967296&w=500&h=300&zm=9600&cc='
+    >>> view.geo_info['maps_script_url']
+    'http://maps.google.com/maps?file=api&v=2&key=...'
+
 
 Most of which can be overridden in the request::
 
     >>> view.request.form.update({'location': 'nunya bizness',
     ...     'position-latitude': 1.2, 'position-longitude': 3.4,
-    ...     'position-text': 'my house',  'static_img_url': 'unused'})
+    ...     'position-text': 'my house',  'static_img_url': 'IGNORED',
+    ...     'maps_script_url': 'IGNORED'})
     >>> view.geo_info['location']
     'nunya bizness'
     >>> print view.geo_info['position-latitude']
@@ -116,6 +120,9 @@ Most of which can be overridden in the request::
     'my house'
     >>> view.geo_info['static_img_url']
     'http://maps.google.com/mapdata?latitude_e6=12000000&longitude_e6=4207967296&w=500&h=300&zm=9600&cc='
+    >>> view.geo_info['maps_script_url']
+    'http://maps.google.com/maps?file=...'
+
 
 clean up...
     >>> view.request.form.clear()
@@ -141,7 +148,7 @@ Create view for Projects
 Clean that one up...
 
     >>> projects.manage_delObjects(['testgeo'])
-
+    >>> view.request.form.clear()
 
 XXX Add tests for publically available views of projects.
 
@@ -261,10 +268,50 @@ And a separate view that generates kml markup::
 
 
 
-Preferences views for Members
------------------------------
+Profile edit views for Members
+------------------------------
 
-XXX not implemented yet!
+The view has a geo_info attribute containing pretty much everything
+needed to build the UI::
+
+    >>> people = portal.people
+    >>> m1 = people.m1
+    >>> view = m1.restrictedTraverse('@@profile-edit')
+    >>> view.request.form.clear()
+    >>> pprint(view.geo_info)
+    {'location': '',
+     'maps_script_url': 'http://...',
+     'position-latitude': '',
+     'position-longitude': '',
+     'position-text': '',
+     'static_img_url': ''}
+
+Request values override geo_info::
+
+    >>> view.request.form.update({'position-latitude': 45.0,
+    ...  'position-longitude': 0.0, 'location': 'somewhere', })
+
+    >>> pprint(view.geo_info)
+    {'location': 'somewhere',
+     'maps_script_url': 'http://...',
+     'position-latitude': 45.0,
+     'position-longitude': 0.0,
+     'position-text': '',
+     'static_img_url': ''}
+
+Submitting the form updates everything, and we get a static image url now::
+    
+    >>> redirected = view.handle_form()
+    >>> view.request.form.clear()
+    >>> view = m1.restrictedTraverse('@@profile-edit')
+    >>> pprint(view.geo_info)
+    {'location': 'somewhere',
+     'maps_script_url': 'http://...',
+     'position-latitude': 45.0,
+     'position-longitude': 0.0,
+     'position-text': '',
+     'static_img_url': 'http://...'}
+    
 
 Create view for Members
 ------------------------
@@ -274,17 +321,18 @@ XXX not implemented yet!
 Feeds for Members
 ------------------
 
-First try the views that generate info:
+A bit of setup here to avoid depending on previous tests::
 
-    >>> people = portal.people
-    >>> view = people.restrictedTraverse('@@geo')
-    >>> info = list(view.forRSS())
-    >>> len(info)
-    0
     >>> self.login('m1')
     >>> m1 = portal.people.m1
     >>> geo = IGeoItemSimple(m1)
     >>> geo.setGeoInterface('Point', (55.0, -66.0, 0.0))
+
+
+First try the views that generate info, should be public::
+
+    >>> self.logout()
+    >>> view = people.restrictedTraverse('@@geo')
     >>> info = list(view.forRSS())
     >>> len(info)
     1
@@ -302,7 +350,7 @@ First try the views that generate info:
      'description': 'No description',
      'language': '',
      'link': 'http://nohost/plone/people/m1',
-     'location': '',
+     'location': 'somewhere',
      'title': 'Member One',
      'updated': '...-...-...T...:...:...'}
 

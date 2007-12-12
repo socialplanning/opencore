@@ -11,7 +11,7 @@
     <title metal:fill-slot="title" tal:content="string:Preferences - ${view/area/Title}" />
     <script metal:fill-slot="script"
             tal:condition="view/has_geocoder"
-	    tal:attributes="src view/maps_script_url"
+	    tal:attributes="src view/geo_info/maps_script_url"
 	    type="text/javascript"></script>
   </head>
   <body>

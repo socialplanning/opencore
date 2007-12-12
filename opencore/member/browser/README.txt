@@ -566,3 +566,14 @@ this is inadequate, but hey, there were no tests of it before...
     >>> m1.getPortrait()
     <Image at .../m1/portrait>
 
+
+There should always be some minimal geo info available::
+
+    >>> pprint(editview.geo_info)
+    {'location': '',
+     'maps_script_url': '',
+     'position-latitude': '',
+     'position-longitude': '',
+     'position-text': '',
+     'static_img_url': ''}
+    
