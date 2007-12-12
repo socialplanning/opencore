@@ -27,10 +27,11 @@ import DateTime
 import cgi
 import datetime
 import urllib
+import logging
 
 view.memoizedproperty = lambda func: property(view.memoize(func))
 view.mcproperty = lambda func: property(view.memoize_contextless(func))
-
+logger = logging.getLogger("opencore.browser.base")
 
 class BaseView(BrowserView):
     """Base view for general use for nui templates and as an abstract base"""
