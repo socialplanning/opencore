@@ -1,10 +1,12 @@
-import os, sys, unittest
-from zope.testing import doctest
-from Testing import ZopeTestCase
-from Testing.ZopeTestCase import PortalTestCase 
-from Testing.ZopeTestCase import FunctionalDocFileSuite
-from opencore.testing.layer import OpencoreContent as test_layer
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
+from Testing import ZopeTestCase
+from Testing.ZopeTestCase import FunctionalDocFileSuite
+from Testing.ZopeTestCase import PortalTestCase 
+from opencore.testing import dtfactory as dtf
+from opencore.testing.layer import OpencoreContent as test_layer
+from opencore.testing.setup import simple_setup
+from zope.testing import doctest
+import os, sys, unittest
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
@@ -20,27 +22,30 @@ def test_suite():
     from zope.interface import alsoProvides
     from pprint import pprint
     from opencore.browser.formhandler import test_suite as octotest
+    from opencore.browser.base import BaseView
+    from opencore.i18n import _
     
     setup.setupPloneSite()
-    def readme_setup(tc):
-        tc._refreshSkinData()
-        tc.request = tc.app.REQUEST
-        tc.response = tc.request.RESPONSE
-        tc.homepage = getattr(tc.portal, 'site-home')
-        tc.projects = tc.portal.projects
 
     globs = locals()
-    readme = FunctionalDocFileSuite("README.txt",
-                                    optionflags=optionflags,
-                                    package='opencore.browser',
-                                    test_class=OpenPlansTestCase,
-                                    globs = globs,
-                                    setUp=readme_setup
-                                    )
+    readme = dtf.ZopeDocFileSuite("README.txt",
+                                  optionflags=optionflags,
+                                  package='opencore.browser',
+                                  test_class=OpenPlansTestCase,
+                                  globs=globs,
+                                  setUp=simple_setup,
+                                  layer=test_layer
+                                  )
+    member_info = dtf.ZopeDocFileSuite("member_info_test.txt",
+                                       optionflags=optionflags,
+                                       package='opencore.browser',
+                                       test_class=OpenPlansTestCase,
+                                       globs=globs,
+                                       setUp=simple_setup,
+                                       layer=test_layer
+                                       )
 
-    readme.layer = test_layer
-
-    return unittest.TestSuite((readme, octotest()))
+    return unittest.TestSuite((readme, member_info, octotest()))
 
 
 if __name__ == '__main__':

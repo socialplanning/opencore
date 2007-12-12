@@ -1,3 +1,5 @@
+-*- mode: doctest ;-*-
+
 ==============
 
 opencore.nui.base
@@ -45,6 +47,9 @@ Member info - authenticated
      'portrait_thumb_url': '++resource++img/default-portrait-thumb.gif',
      'portrait_url': '++resource++img/default-portrait.gif',
      'portrait_width': '200',
+     'position-latitude': '',
+     'position-longitude': '',
+     'position-text': '',
      'projects': [],
      'skills': '',
      'statement': '',

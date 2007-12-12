@@ -45,17 +45,7 @@ def test_suite():
                                   setUp = setup,
                                   )
 
-    member_info = dtf.ZopeDocFileSuite("member_info_test.txt",
-                                       optionflags=optionflags,
-                                       package='opencore.member.browser',
-                                       test_class=OpenPlansTestCase,
-                                       globs=globs,
-                                       setUp=simple_setup,
-                                       layer=OpencoreContent
-                                       )
-
-
-    return unittest.TestSuite((readme, member_info))
+    return unittest.TestSuite((readme,))
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')

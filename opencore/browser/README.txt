@@ -5,7 +5,6 @@
 opencore.browser.base
 =================
 
-    >>> from opencore.browser.base import BaseView
     >>> view = BaseView(self.homepage, self.request)
     >>> view = view.__of__(self.homepage)
     >>> view.get_portal()

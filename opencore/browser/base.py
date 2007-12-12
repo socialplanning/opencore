@@ -286,7 +286,6 @@ class BaseView(BrowserView):
             else:
                 logintime = logintime and prettyDate(logintime) or 'member.getLogin_time() is None?'
 
-            
             result.update(
                 id          = id,
                 fullname    = member.getFullname(),
@@ -306,17 +305,24 @@ class BaseView(BrowserView):
                 anon_email  = member.getUseAnonByDefault(),
                 )
             result['position-text'] = member.getPositionText()
-##             geo = member.restrictedTraverse('oc-geo-info') #XXX handle failure
-##             result['position-latitude'] = geo.coords[1]
-##             result['position-longitude'] = geo.coords[0]
+            result['position-latitude'] = ''
+            result['position-longitude'] = ''
+            if folder:
+                geo = folder.restrictedTraverse('oc-geo-info')
+                coords = geo.get_geolocation()
+                if coords is not None:
+                    result['position-latitude'] = geo.coords[1]
+                    result['position-longitude'] = geo.coords[0]
         else:
             # XXX TODO 
             # we're an old school member object, e.g. an admin user
             result.update(fullname=member.fullname)
 
-            for key in 'membersince', 'lastlogin','location', \
-                    'statement', 'affiliations', 'skills', \
-                    'background',  'url', 'favorites':
+            for key in ('membersince', 'lastlogin','location',
+                        'statement', 'affiliations', 'skills',
+                        'background',  'url', 'favorites',
+                        'position-text', 'position-latitude', 'position-longitude',
+                        ):
                 result[key] = ''
                 
         result['portrait_url'] = self.defaultPortraitURL
