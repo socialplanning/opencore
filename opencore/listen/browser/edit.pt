@@ -3,6 +3,7 @@
     <title metal:fill-slot="title" tal:content="string:${view/context/Title} - ${view/area/Title}" />
   </head>
   <body>
+
     <div metal:fill-slot="content">
       <div metal:use-macro="here/@@listen_macros/bcrumb"/>
       <div metal:use-macro="here/@@listen_macros/tabs"/>
@@ -10,6 +11,7 @@
       <div id="oc-content-main" class="oc-content-main-fullWidth">
         <form name="edit-form" id="oc-list-create" method="post" enctype="multipart/form-data"
 	            class="enableUnloadProtection" tal:attributes="action view/name">
+<!-- basics -->
           <fieldset class="oc-boxy">
             <legend i18n:translate="edit_list_basics" class="oc-legend-heading oc-biggerText">Basics</legend>
             <table class="oc-form">
@@ -61,6 +63,7 @@
             </table>
           </fieldset>
 
+<!-- managers -->
           <fieldset class="oc-boxy">
             <label for="managers"
                    title="The people who maintain the list.  Managers can edit list settings and can edit the list of allowed senders / subscribers.  Managers receive moderation requests, general inquiries and any bounced mail.">Managers</label>
@@ -72,38 +75,43 @@
                 </script>
 
                 <div id="sourceParent">
-  <input type="hidden" name="managers.marker"
-         id="managers.marker" />
+                  <input type="hidden" name="managers.marker" 
+                         id="managers.marker" />
 
-    <input tal:repeat="manager request/managers | context/managers | nothing" 
-           type="hidden" name="form.managers"
-           tal:attributes="id string:value.${repeat/manager/index}.managers; value manager" />
+                  <input tal:repeat="manager request/managers | 
+                                     context/managers | nothing" 
+                         type="hidden" name="form.managers"
+                         tal:attributes="id string:value.${repeat/manager/index}.managers; 
+                                         value manager" />
   
 
-  <input type="hidden" id="managers" />
-  <div id="select.managers">
-      <div tal:repeat="manager request/managers | context/managers | nothing" tal:attributes = "id string:select.${repeat/manager/index}.managers">
-        <a href="#remove"
-           onclick="string: sequenceRemoveItem(&quot;;managers&quot;;, &quot;;${repeat/manager/index}&quot;;); return false;"
-           style="text-decoration: none;">[ - ]</a>
-        <span tal:content="manager"></span>
-      </div>
-  </div>
-</div>
+                  <input type="hidden" id="managers" />
+                    <div id="select.managers">
+                      <div tal:repeat="manager request/managers | 
+                                       context/managers | nothing" 
+                           tal:attributes = "id string:select.${repeat/manager/index}.managers">
+                        <a href="#remove"
+                           onclick="string: sequenceRemoveItem(&quot;;managers&quot;;, &quot;;${repeat/manager/index}&quot;;); return false;"
+                           style="text-decoration: none;">[ - ]</a>
+                        <span tal:content="manager"></span>
+                      </div>
+                    </div>
+                 </div>
 
-<div>
-  <input type="text" id="input.managers"
-         onkeypress="return onKeyPress(event);" />
-  <button type="button"
-          onclick="sequenceAddItem('managers')">
-    Add
-  </button>
-</div>
+                 <div>
+                   <input type="text" id="input.managers"
+                          onkeypress="return onKeyPress(event);" />
+                   <button type="button"
+                           onclick="sequenceAddItem('managers')">Add
+                   </button>
+                 </div>
 
-</div>
+               </div>
 
             </div>
           </fieldset>
+
+<!-- security -->
 
           <fieldset class="oc-boxy">
             <legend i18n:translate="edit_list_security" class="oc-legend-heading oc-biggerText">Security</legend>
@@ -130,6 +138,8 @@
             </fieldset>
           </fieldset>
 
+<!-- archival -->
+
           <fieldset class="oc-boxy">
             <legend i18n:translate="edit_list_archival" class="oc-legend-heading oc-biggerText">Archival</legend>
             <p i18n:translate="create_list_archival_desc" class="oc-headingContext oc-smallText">When archiving is enabled, all messages sent to the list will be saved on the server. You may choose whether to archive just the message text, or include attachments.</p>
@@ -155,6 +165,8 @@
               </ul>
             </fieldset>
           </fieldset>
+
+<!-- submit -->
           <fieldset>
             <ul class="oc-actions">
               <li>

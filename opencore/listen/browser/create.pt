@@ -12,6 +12,8 @@
       <div id="oc-content-main" class="oc-content-main-fullWidth">
         <form name="edit-form" id="oc-list-create" method="post" enctype="multipart/form-data"
 	            class="enableUnloadProtection" tal:attributes="action view/name">
+
+<!-- basics -->
           <fieldset class="oc-boxy">
             <legend i18n:translate="create_list_step_1" class="oc-legend-heading oc-biggerText">Step 1: Basics</legend>
             <table class="oc-form">
@@ -63,6 +65,55 @@
             </table>
           </fieldset>
 
+<!-- managers -->
+          <fieldset class="oc-boxy">
+            <label for="managers"
+                   title="The people who maintain the list.  Managers can edit list settings and can edit the list of allowed senders / subscribers.  Managers receive moderation requests, general inquiries and any bounced mail.">Managers</label>
+            
+            <div class="oc-form-fieldBlock">
+              <div id="test">
+
+                <script type="text/javascript" src="http://www.openplans.org/projects/cabochon/lists/cabochon-discussion/++resource++listoperations.js">
+                </script>
+
+                <div id="sourceParent">
+                  <input type="hidden" name="managers.marker" 
+                         id="managers.marker" />
+
+                  <input tal:repeat="manager request/managers | 
+                                     context/managers | python:[view.loggedinmember.getId()]" 
+                         type="hidden" name="form.managers"
+                         tal:attributes="id string:value.${repeat/manager/index}.managers; 
+                                         value manager" />
+  
+
+                  <input type="hidden" id="managers" />
+                    <div id="select.managers">
+                      <div tal:repeat="manager request/managers | 
+                                       context/managers | nothing" 
+                           tal:attributes = "id string:select.${repeat/manager/index}.managers">
+                        <a href="#remove"
+                           onclick="string: sequenceRemoveItem(&quot;;managers&quot;;, &quot;;${repeat/manager/index}&quot;;); return false;"
+                           style="text-decoration: none;">[ - ]</a>
+                        <span tal:content="manager"></span>
+                      </div>
+                    </div>
+                 </div>
+
+                 <div>
+                   <input type="text" id="input.managers"
+                          onkeypress="return onKeyPress(event);" />
+                   <button type="button"
+                           onclick="sequenceAddItem('managers')">Add
+                   </button>
+                 </div>
+
+               </div>
+
+            </div>
+          </fieldset>
+
+<!-- security -->
           <fieldset class="oc-boxy">
             <legend i18n:translate="create_list_step_2" class="oc-legend-heading oc-biggerText">Step 2: Security</legend>
             <p i18n:translate="create_list_step_2_desc" class="oc-headingContext oc-smallText">The policy that defines the behavior of the list.</p>
@@ -87,7 +138,7 @@
               </ul>
             </fieldset>
           </fieldset>
-
+<!-- archival -->
           <fieldset class="oc-boxy">
             <legend i18n:translate="create_list_step_3" class="oc-legend-heading oc-biggerText">Step 3: Archival</legend>
             <p i18n:translate="create_list_step_3_desc" class="oc-headingContext oc-smallText">When archiving is enabled, all messages sent to the list will be saved on the server. You may choose whether to archive just the message text, or include attachments.</p>
@@ -112,6 +163,8 @@
               </ul>
             </fieldset>
           </fieldset>
+
+<!-- submit -->
           <fieldset>
             <ul class="oc-actions">
               <li>
