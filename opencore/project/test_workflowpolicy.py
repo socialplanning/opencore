@@ -1,15 +1,11 @@
-import os, sys
-import unittest
-
 from Products.CMFCore.utils import getToolByName
-
-from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase, makeContent
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
-
-from opencore.project.browser.view import ProjectAddView
-
-from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase, \
-     makeContent
+from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
+from opencore.project.browser.add import ProjectAddView
+import os
+import sys
+import unittest
 
 class TestWorkflowPolicy(OpenPlansTestCase):
 

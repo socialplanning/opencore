@@ -14,6 +14,8 @@ def create_tal_context(view, **kw):
     data.update(kw)
     return getEngine().getContext(data)
 
+make_context = create_tal_context 
+
 def render_tal(tal, context, macros={}, debug=0, stream=None):
     assert tal, """No tal was provided"""
     retval = False
@@ -23,6 +25,8 @@ def render_tal(tal, context, macros={}, debug=0, stream=None):
     ti()
     if retval == True:
         return stream.getvalue()
+
+render = render_tal 
 
 def make_view_w_macro(tal, bases=(), name='template class', **cdict):
     """

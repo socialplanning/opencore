@@ -9,7 +9,7 @@ from Products.remember.interfaces import IReMember
 from opencore.interfaces.member import IMemberFolder, IMemberHomePage
 from opencore.interfaces.member import IMemberInfo
 from opencore.interfaces.event import IFirstLoginEvent
-from memojito import memoizedproperty, memoize
+from plone.memoize.instance import memoize, memoizedproperty
 from opencore import redirect 
 from opencore.interfaces import IProject, IConsumeNewMembers
 from topp.utils.pretty_date import prettyDate

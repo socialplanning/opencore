@@ -298,6 +298,7 @@ def create_auto_discussion_lists(portal):
         proj = brain.getObject()
         if IListenFeatureletInstalled.providedBy(proj):
             if not hasattr(proj, 'lists'):
+                # @@ log don't print :(
                 print '%s says that the featurelet is installed, but has no lists' % proj.id
                 continue
 
@@ -365,6 +366,7 @@ from Products.Archetypes.utils import OrderedDict
 
 # make rest of names readable  (maybe use config system)
 nui_functions = OrderedDict()
+nui_functions['Initialize Project BTrees'] = initialize_project_btrees
 nui_functions['Install borg.localrole PAS plug-in'] = setup_localrole_plugin
 nui_functions['Add Catalog Queue'] = convertFunc(addCatalogQueue)
 nui_functions['Move Blocking Content'] = move_blocking_content
@@ -398,7 +400,7 @@ nui_functions['Install OpenCore Remote Auth Plugin'] = \
 nui_functions['Create auto discussion lists'] = create_auto_discussion_lists
 nui_functions['Fix up project home pages'] = fixup_project_homepages
 nui_functions['Make project home pages relative'] = make_proj_homepages_relative
-nui_functions['Initialize Project BTrees'] = initialize_project_btrees
+
 
 def run_nui_setup(portal):
     pm = portal.portal_migration

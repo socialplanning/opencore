@@ -1,6 +1,6 @@
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from memojito import memoizedproperty
+from plone.memoize.instance import memoize, memoizedproperty
 from opencore.interfaces import IProject
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utils import get_opencore_property

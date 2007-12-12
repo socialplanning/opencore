@@ -5,7 +5,16 @@
        tal:content="view/area/Title" />
   </h1>
 
-  <tal:contextMenu replace="structure view/contextmenu" />
+  <tal:comment replace="nothing">
+    <!-- old topnav generation -->
+    <tal:contextMenu replace="structure view/contextmenu" />
+  </tal:comment>
+
+  <ul id="oc-topnav-context" class="oc-clearAfter"
+      tal:define="contextmenu view/contextmenu"
+      tal:condition="contextmenu"
+      tal:content="structure contextmenu"
+      />
 
   <div id="oc-topnav-tab">
     <div id="oc-topnav-globalmenu-container">

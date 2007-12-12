@@ -1,25 +1,31 @@
 """
 project and subproject adding
+
+# @@ needs tests
 """
-from opencore.browser import formhandler
-from opencore.browser.base import BaseView, _
-from opencore.browser.formhandler import OctopoLite, action
-from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
+from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from opencore.browser import formhandler
+from opencore.browser.base import _
+from opencore.browser.formhandler import OctopoLite, action
+from opencore.interfaces import IHomePage
+from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
 from opencore.nui.wiki.add import get_view_names
+from opencore.project.browser.base import ProjectBaseView
 from plone.memoize.instance import memoize, memoizedproperty
 from plone.memoize.view import memoize as req_memoize
 from plone.memoize.view import memoize_contextless
-from Products.CMFCore.utils import getToolByName
+from topp.featurelets.interfaces import IFeatureletSupporter, IFeaturelet
 from topp.utils import text
 from zope import event
-
+from zope.component import getAdapters
+from zope.interface import implements
 import logging
 
 log = logging.getLogger('opencore.project.browser.add')
 
 
-class ProjectAddView(BaseView, OctopoLite):
+class ProjectAddView(ProjectBaseView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('create.pt')
     valid_id = staticmethod(text.valid_id)
@@ -132,9 +138,12 @@ class ProjectAddView(BaseView, OctopoLite):
         # create a stub object that provides IFeatureletSupporter
         # is there a better way to get the list of adapters without having
         # the "for" object?
-        class DummyFeatureletSupporter(object):
-            implements(IFeatureletSupporter)
 
+        # @@ dwm: look at the adapter reg or uses the apidoc api which
+        # featurelet to display is a policy decision on the portal
+        # (like opencore_properties). Might work best to build the ui
+        # around a policy abstraction
+        
         obj = DummyFeatureletSupporter()
         flets = getAdapters((obj,), IFeaturelet)
         flet_data = [dict(id=f.id,
@@ -148,6 +157,10 @@ class ProjectAddView(BaseView, OctopoLite):
     def homepages(self):
         flet_data = self.intrinsic_homepages() + self.featurelets()
         return flet_data
+
+
+class DummyFeatureletSupporter(object):
+    implements(IFeatureletSupporter)
 
 
 class SubProjectAddView(ProjectAddView):

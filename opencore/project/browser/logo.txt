@@ -2,3 +2,51 @@
  logo handling
 ===============
 
+some basic unit tests for logo handling on ::
+
+    >>> proj = self.portal.projects.p1
+
+note: we should store the logo as a file in the project, not a field
+on the content. then people could get to it by xinha, use it in
+documents, etc.
+
+    >>> proj.getLogo()
+    ''
+
+Views
+=====
+
+Let's take a look at logo handling methods in the view classes. First
+stop, preferences::
+
+    >>> prefs = proj.unrestrictedTraverse('preferences')
+
+Special method to return uncached image. The default (for no image)::
+
+    >>> prefs.mangled_logo_url()
+    '++resource++img/default-projlogo.gif'
+
+To test this method again, we'll need to upload an image.  We'll test
+the change logo method in the process. First we have to hack together some
+fileupload simulation ::
+
+    >>> from ZPublisher.HTTPRequest import FileUpload
+    >>> from cgi import FieldStorage
+    >>> from StringIO import StringIO
+    >>> file_field = FieldStorage(StringIO(), {})
+    >>> file_field.file = test_file
+    >>> file_field.filename = 'test.png'
+    >>> logo = FileUpload(file_field)
+
+Now we should be able to change the logo::
+
+    >>> self.loginAsPortalOwner()
+    >>> pprint(prefs.change_logo(logo))
+    {'oc-project-logo': {'action': 'replace',
+                         'effects': 'highlight',
+                         'html': '...<div class="oc-project-logo" ...
+
+    >>> print prefs.mangled_logo_url()
+    http://nohost/plone/projects/p1/logo?...
+
+
