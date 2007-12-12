@@ -273,15 +273,19 @@ class BaseView(BrowserView):
         if member == None:
             # Not logged in.
             return {}
-        result = {}
+        id = member.getId()
+        result = {'id': id}
+        folder = self.membertool.getHomeFolder(id)
+        if folder:
+            result['url'] = folder.absolute_url()
+        
         if IReMember.providedBy(member):
-            id = member.getId()
-
             logintime = member.getLogin_time()
             if logintime == DateTime.DateTime('2000/01/01'): # XXX hack around zope
                 logintime = 'never'
             else:
                 logintime = logintime and prettyDate(logintime) or 'member.getLogin_time() is None?'
+
             
             result.update(
                 id          = id,
@@ -301,19 +305,19 @@ class BaseView(BrowserView):
                 favorites   = member.getFavorites(),
                 anon_email  = member.getUseAnonByDefault(),
                 )
+            result['position-text'] = member.getPositionText()
+##             geo = member.restrictedTraverse('oc-geo-info') #XXX handle failure
+##             result['position-latitude'] = geo.coords[1]
+##             result['position-longitude'] = geo.coords[0]
         else:
             # XXX TODO 
             # we're an old school member object, e.g. an admin user
-            result.update(id=member.id, fullname=member.fullname)
+            result.update(fullname=member.fullname)
 
             for key in 'membersince', 'lastlogin','location', \
                     'statement', 'affiliations', 'skills', \
                     'background',  'url', 'favorites':
                 result[key] = ''
-
-        folder = self.membertool.getHomeFolder(result['id'])
-        if folder:
-            result['url'] = folder.absolute_url()
                 
         result['portrait_url'] = self.defaultPortraitURL
         portrait = member.getProperty('portrait', None)

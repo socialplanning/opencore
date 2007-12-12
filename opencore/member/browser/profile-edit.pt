@@ -125,6 +125,27 @@
       </div><!-- end #oc-content-main -->
 
       <div id="oc-content-sidebar">
+        <table>
+                <tr id="oc-template-location.json" class="oc-form-row oc-js-template">
+                  <th id="position-header" class="oc-form-label" scope="row">
+                    <label for="position-text">Position On Map</label>
+                  </th>
+                  <td id="position-input" class="oc-form-value oc-form-fieldBlock">
+                    <input type="text" id="position-text" name="position-text"
+                           tal:attributes="value view/geo_info/position-text | nothing" />
+		      <p tal:condition="view/geo_info/static_img_url | nothing">
+			<img tal:attributes="src view/geo_info/static_img_url" class="oc-map" />
+		      </p>
+                  </td>
+                  <td class="oc-form-help">
+                    <span class="oc-form-context"></span>
+                    <span id="oc-position-validator" class="oc-form-validator"></span>
+                    <span id="oc-position-error" class="oc-form-error" tal:content="view/errors/position-text | nothing" />
+                  </td>
+                </tr>
+
+
+	</table>
         <metal:status-messages use-macro="view/member_macros/macros/recent-activity" />
       </div><!-- end .oc-content-sidebar -->
     </div><!-- content-fill-slot -->
