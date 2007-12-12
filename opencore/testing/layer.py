@@ -1,5 +1,5 @@
 from Products.CMFCore.utils  import getToolByName
-#from Products.Five import pythonproducts
+from Testing import ZopeTestCase
 from Products.Five.site.localsite import enableLocalSiteHook
 from Products.PloneTestCase.layer import PloneSite, ZCML
 from Products.PloneTestCase.setup import setupPloneSite
@@ -14,6 +14,7 @@ from utils import zinstall_products
 from zope.app.component.hooks import setSite, setHooks
 import random
 import transaction as txn
+from opencore.configuration.setuphandlers import Z_DEPS, DEPS
 
 class MailHostMock(object):
     """
@@ -48,18 +49,27 @@ class BrowserIdManagerMock(object):
         else:
             return str(random.random())
 
+class PreSite(ZCML):
+    @classmethod
+    def setUp(cls):
+        ZopeTestCase.installPackage('borg.localrole')
 
-class SiteSetupLayer(PloneSite):
-    setupPloneSite()
+    @classmethod
+    def tearDown(cls):
+        raise NotImplementedError
+
+class SiteSetupLayer(PreSite, PloneSite):
+    setupPloneSite(
+        products = ('OpenPlans',) + DEPS,
+        extension_profiles=['borg.localrole:default', 'opencore.configuration:default'])
 
     @classmethod
     def setUp(cls):
         portal = get_portal()
-
         zinstall_products()
         # install OpenPlans into ZTC
-        ZopeTestCase.installProduct('OpenPlans')
-        enableLocalSiteHook(portal)
+        #ZopeTestCase.installProduct('OpenPlans')
+        #enableLocalSiteHook(portal)
         setSite(portal)
         setHooks()
 
@@ -75,12 +85,15 @@ class OpenPlansLayer(SiteSetupLayer):
     def setUp(cls):
         # need to explicitly apply pythonproducts patches to get the
         # borg.localrole package's FactoryDispatcher to work
-        #pythonproducts.applyPatches()
         portal = get_portal_as_owner()
 
-        setup_tool = portal.portal_setup
-        setup_tool.setImportContext('profile-opencore.configuration:default')
-        setup_tool.runAllImportSteps()
+##         setup_tool = portal.portal_setup
+##         setup_tool.setImportContext('profile-opencore.configuration:default')
+##         try:
+##             setup_tool.runAllImportSteps()
+##         except :
+##             import pdb; import sys;
+##             pdb.post_mortem(sys.exc_info()[2])
 
         portal.oldMailHost = portal.MailHost
         portal.MailHost = MailHostMock()
