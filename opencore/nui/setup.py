@@ -27,7 +27,7 @@ from opencore.project import PROJ_HOME
 from persistent import mapping
 from pprint import pprint
 from topp.featurelets.interfaces import IFeatureletSupporter
-from topp.featurelets.interfaces import IFeatureletSupporter, IFeatureletRegistry
+from topp.featurelets.interfaces import IFeatureletRegistry
 from topp.utils import config
 from zope.component import getUtility
 from zope.interface import alsoProvides
