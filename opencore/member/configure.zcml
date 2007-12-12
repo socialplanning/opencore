@@ -1,7 +1,7 @@
 <configure xmlns="http://namespaces.zope.org/zope">
-  <content class="opencore.member.OpenMember">
+  <class class="opencore.member.OpenMember">
     <implements interface="opencore.member.interfaces.IOpenMember" />
-  </content>
+  </class>
 
   <include package="opencore.member.browser" />
   <include package="opencore.member.api" />

@@ -89,13 +89,6 @@
      class=".management.TestContentCreator"
      />
 
-  <!-- @@ remove for plone3 -->
-  <five:traversable class="Products.CMFCore.DynamicType.DynamicType" />
-
-  <five:traversable class="Products.Archetypes.BaseObject.BaseObject" />
-
-  <five:traversable class="OFS.Folder.Folder" />
-
   <!-- browser:page for new topnav view -->
   <browser:page
      for="*"
