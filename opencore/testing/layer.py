@@ -1,5 +1,5 @@
 from Products.CMFCore.utils  import getToolByName
-from Products.Five import pythonproducts
+#from Products.Five import pythonproducts
 from Products.Five.site.localsite import enableLocalSiteHook
 from Products.PloneTestCase.layer import PloneSite, ZCML
 from Products.PloneTestCase.setup import setupPloneSite
@@ -75,7 +75,7 @@ class OpenPlansLayer(SiteSetupLayer):
     def setUp(cls):
         # need to explicitly apply pythonproducts patches to get the
         # borg.localrole package's FactoryDispatcher to work
-        pythonproducts.applyPatches()
+        #pythonproducts.applyPatches()
         portal = get_portal_as_owner()
 
         setup_tool = portal.portal_setup
