@@ -118,7 +118,7 @@ class ProjectBaseView(BaseView):
             info = {}
         for key in ('position-text', 'location', 'position-latitude',
                     'position-longitude'):
-            info[key] = self.request.get(key) or self.project_info.get(key)
+            info[key] = self.request.form.get(key) or self.project_info.get(key)
         return info
 
 
