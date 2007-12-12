@@ -1,4 +1,4 @@
-from Products.Archetypes.tests.ArchetypesTestCase import ArcheSiteTestCase
+from Products.Archetypes.tests.atsitetestcase import ATSiteTestCase as ArcheSiteTestCase
 from Products.CMFCore.utils  import getToolByName
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase
