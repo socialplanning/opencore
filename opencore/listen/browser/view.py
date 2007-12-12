@@ -234,8 +234,6 @@ class ListEditView(ListenBaseView, OctopoLite):
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return 
 
-        #fixme: set managers
-
         list.setDescription(unicode(self.request.form.get('description','')))
 
         list.mailto = mailto
@@ -248,6 +246,14 @@ class ListEditView(ListenBaseView, OctopoLite):
                                new_type.list_marker))
 
         list.archived = archive
+
+        managers = map(unicode, self.request.form.get('managers', []))
+        current_user = unicode(self.loggedinmember.getId())
+        if not current_user in managers:
+            managers.append (current_user)
+
+        list.managers = tuple(managers)
+
         self.template = None
 
         s_message = _(u'list_preferences_updated',
@@ -255,7 +261,7 @@ class ListEditView(ListenBaseView, OctopoLite):
         
         self.add_status_message(s_message)
 
-        self.redirect(list.absolute_url() + "/edit")
+        self.redirect(list.absolute_url())
 
     def workflow_policy(self):
         return _ml_type_to_workflow[self.context.list_type]

@@ -62,6 +62,50 @@
           </fieldset>
 
           <fieldset class="oc-boxy">
+            <label for="managers"
+                   title="The people who maintain the list.  Managers can edit list settings and can edit the list of allowed senders / subscribers.  Managers receive moderation requests, general inquiries and any bounced mail.">Managers</label>
+            
+            <div class="oc-form-fieldBlock">
+              <div id="test">
+
+                <script type="text/javascript" src="http://www.openplans.org/projects/cabochon/lists/cabochon-discussion/++resource++listoperations.js">
+                </script>
+
+                <div id="sourceParent">
+  <input type="hidden" name="managers.marker"
+         id="managers.marker" />
+
+    <input tal:repeat="manager request/managers | context/managers | nothing" 
+           type="hidden" name="form.managers"
+           tal:attributes="id string:value.${repeat/manager/index}.managers; value manager" />
+  
+
+  <input type="hidden" id="managers" />
+  <div id="select.managers">
+      <div tal:repeat="manager request/managers | context/managers | nothing" tal:attributes = "id string:select.${repeat/manager/index}.managers">
+        <a href="#remove"
+           onclick="string: sequenceRemoveItem(&quot;;managers&quot;;, &quot;;${repeat/manager/index}&quot;;); return false;"
+           style="text-decoration: none;">[ - ]</a>
+        <span tal:content="manager"></span>
+      </div>
+  </div>
+</div>
+
+<div>
+  <input type="text" id="input.managers"
+         onkeypress="return onKeyPress(event);" />
+  <button type="button"
+          onclick="sequenceAddItem('managers')">
+    Add
+  </button>
+</div>
+
+</div>
+
+            </div>
+          </fieldset>
+
+          <fieldset class="oc-boxy">
             <legend i18n:translate="edit_list_security" class="oc-legend-heading oc-biggerText">Security</legend>
             <p i18n:translate="edit_list_security_desc" class="oc-headingContext oc-smallText">The policy that defines the behavior of the list.</p>
             <fieldset tal:define="policy request/workflow_policy | view/workflow_policy | string:policy_open">
