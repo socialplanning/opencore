@@ -50,4 +50,10 @@
       factory=".rss.ListsFeedAdapter"
       />
 
+   <adapter
+      for="opencore.listen.interfaces.IOpenMailingList"
+      provides="opencore.rss.interfaces.IFeedData"
+      factory=".rss.MailingListFeedAdapter"
+      />
+
 </configure>

@@ -65,6 +65,10 @@ class ListenBaseView(BaseView):
 
         return msgs
 
+class ListsView(ListenBaseView):
+    """create a separate view for this so that viewlets
+       can specify it in configuration"""
+
 # uh.. if you are going write meta factories you should write tests too
 # isn't this what super and mixins are is suppose to solve?
 def make_nui_listen_view_class(ListenClass, set_errors=False, add_update=False):

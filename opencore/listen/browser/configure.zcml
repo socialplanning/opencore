@@ -8,7 +8,7 @@
   <browser:page
      for="opencore.featurelets.interfaces.IListenContainer"
      name="mailing_lists"
-     class="opencore.browser.base.BaseView"
+     class=".view.ListsView"
      permission="zope2.View"
      template="mailing_lists.pt"
      />
@@ -85,7 +85,7 @@
   <browser:viewlet
      name="10 Lists Rss"
      manager="opencore.browser.topnav.interfaces.ITopnavActions"
-     view="opencore.browser.base.BaseView"
+     view=".view.ListsView"
      for="opencore.rss.interfaces.ICanFeed"
      template="../../rss/browser/rss_action.pt"
      permission="zope2.View"
@@ -94,8 +94,30 @@
   <browser:viewlet
      name="20 Lists Atom"
      manager="opencore.browser.topnav.interfaces.ITopnavActions"
-     view="opencore.browser.base.BaseView"
+     view=".view.ListsView"
      for="opencore.rss.interfaces.ICanFeed"
+     template="../../rss/browser/atom_action.pt"
+     permission="zope2.View"
+     />
+
+  <!-- XXX need to actually mark the archive of the list
+       for these to kick in
+       it makes sense too, because we wouldn't be able to see
+       messages if the mailing list had no archive either -->
+  <browser:viewlet
+     name="10 Mailing list Rss"
+     manager="opencore.browser.topnav.interfaces.ITopnavActions"
+     for="opencore.rss.interfaces.ICanFeed"
+     view=".view.ArchiveForumView"
+     template="../../rss/browser/rss_action.pt"
+     permission="zope2.View"
+     />
+
+  <browser:viewlet
+     name="20 Mailing list Atom"
+     manager="opencore.browser.topnav.interfaces.ITopnavActions"
+     for="opencore.rss.interfaces.ICanFeed"
+     view=".view.ArchiveForumView"
      template="../../rss/browser/atom_action.pt"
      permission="zope2.View"
      />
