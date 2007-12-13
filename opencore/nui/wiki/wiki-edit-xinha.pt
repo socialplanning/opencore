@@ -96,8 +96,19 @@ var _editor_lang = "en";
                   <label for="description">Description</label>
                   <textarea id="description" name="description" tal:content="context/Description" />
                 </tal:description>
+                <textarea id="rawtext" name="rawtext" style="visibility:hidden; overflow:hidden; display:none;" tal:content="view/rawtext"></textarea>
+                <script type="text/javascript">
+                  <!--
+                  document.write('                <textarea editor-type="wysiwyg" id="text" name="text" style="visibility:hidden; overflow:hidden;" rows="10" cols="80" width="800px" height="600px" base="advanced"><' + '/textarea>');
+                  elraw = document.getElementById("rawtext");
+                  eltxt = document.getElementById("text");
+                  eltxt.innerHTML = elraw.innerHTML;
+                  //-->
+                </script> 
+                <noscript>
+                  <textarea editor-type="wysiwyg" id="text" name="text" rows="10" cols="80" width="800px" height="600px" base="advanced" tal:content="view/rawtext"></textarea>
+                </noscript>
 
-                <textarea editor-type="wysiwyg" id="text" name="text" rows="10" cols="80" width="800px" height="600px" base="advanced" tal:content="view/rawtext"></textarea>
               </div><!-- end .oc-wiki-edit-content" --> 
  
               <div class="oc-js-expander oc-expander">

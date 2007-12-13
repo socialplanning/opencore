@@ -1577,10 +1577,6 @@ button,
 textarea {
   padding: 0.25em;
 }
-textarea#text{ 
-  visibility: hidden;
-  overflow: hidden;
-}
 textarea {
   display: block;
   margin-bottom: 1em;
