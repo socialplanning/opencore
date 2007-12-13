@@ -1,8 +1,8 @@
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces import IPloneSiteRoot
 from opencore.interfaces import IOpenPage
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.adding import IAmAPeopleFolder
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces import IPloneSiteRoot
 from topp.utils import zutils
 
 # all viewlet methods used for the menuitem registration

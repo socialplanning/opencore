@@ -52,6 +52,10 @@
         <div tal:replace="structure here/@@oc-topnav" />
       </div>
 
+      <div id="oc-topnav-actions">
+        <div tal:replace="structure provider:opencore.topnav-actions" />
+      </div>
+
       <div id="oc-content-wrapper">
 
         <div id="oc-content-container">

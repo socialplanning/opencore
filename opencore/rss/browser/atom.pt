@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      >
+ 
+ <title tal:content="context/title" />
+ <link tal:attributes="href context/link" />
+ <updated tal:content="context/pubDate/ISO8601" />
+ <author>
+   <name tal:content="context/author" />
+ </author>
+ 
+ <entry tal:repeat="entry context/items">
+   <title tal:content="entry/title" />
+   <link tal:attributes="href entry/link" />
+   <updated tal:content="entry/pubDate/ISO8601" />
+   <summary tal:content="entry/description" />
+ </entry>
+ 
+</feed>

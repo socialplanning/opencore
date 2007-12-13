@@ -11,7 +11,8 @@
     <implements
       interface="opencore.interfaces.IEditProject
                  zope.app.annotation.interfaces.IAttributeAnnotatable
-                 Products.ploneundelete.interfaces.IUndeleteContainer" />
+                 Products.ploneundelete.interfaces.IUndeleteContainer
+                 " />
   </content>
 
 
@@ -27,6 +28,12 @@
      provides="opencore.interfaces.IWriteWorkflowPolicySupport"
      factory="opencore.project.wf_policy_support.TeamWFPolicyWriteAdapter"
      permission="openplans.ManageWorkflowPolicy"
+     />
+
+  <adapter
+     for="opencore.interfaces.adding.IAddProject"
+     provides="opencore.rss.interfaces.IFeedData"
+     factory=".rss.ProjectsFeedAdapter"
      />
 
   <subscriber handler=".handler.handle_postcreation" />

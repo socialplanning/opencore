@@ -15,6 +15,10 @@ class ITopnavMenuItems(IViewletManager):
     """Viewlets for the context topnav menu"""
 
 
+class ITopnavActions(IViewletManager):
+    """Viewlets for the topnav actions"""
+
+
 class ITopnavMenuItemSchema(Interface):
     """schema for topnav menu item configuration
        really a superset of IViewletDirective, but we have defaults

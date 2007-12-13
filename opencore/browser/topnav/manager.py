@@ -9,6 +9,16 @@ from Products.Five.viewlet.manager import ViewletManagerBase
 from Products.Five.viewlet.metaconfigure import viewletDirective
 from Products.Five.viewlet.viewlet import ViewletBase
 
+class SortingViewletManager(ViewletManagerBase):
+    """custom viewlet manager that sorts viewlets by name"""
+
+    def sort(self, viewlets):
+        """sort viewlets according to name"""
+        def sort_by_name(x, y):
+            return cmp(aq_base(x[0]), aq_base(y[0]))
+        return sorted(viewlets, cmp=sort_by_name)
+
+
 class TopnavManager(ViewletManagerBase):
     """custom menu viewlet manager for opencore topnav"""
 

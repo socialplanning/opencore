@@ -19,5 +19,6 @@
   <include package="opencore.redirect" />
   <include package="opencore.utility" />
   <include package="topp.featurelets" />
+  <include package="opencore.rss" />
 </configure>
  

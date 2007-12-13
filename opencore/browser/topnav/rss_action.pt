@@ -1,0 +1,1 @@
+<a tal:attributes="href string:${context/absolute_url}/rss">RSS</a>

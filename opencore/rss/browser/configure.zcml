@@ -1,0 +1,19 @@
+<configure xmlns="http://namespaces.zope.org/browser">
+
+  <page
+     for="opencore.rss.interfaces.ICanFeed"
+     name="rss"
+     class=".view.RssView"
+     template="rss.pt"
+     permission="zope2.View"
+     />
+
+  <page
+     for="opencore.rss.interfaces.ICanFeed"
+     name="atom"
+     class=".view.RssView"
+     template="atom.pt"
+     permission="zope2.View"
+     />
+
+</configure>

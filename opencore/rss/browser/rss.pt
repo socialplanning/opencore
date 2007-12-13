@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<rss version="2.0"
+     xmlns:tal="http://xml.zope.org/namespaces/tal"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     >
+  <channel>
+    <title tal:content="context/title" />
+    <link tal:content="context/link" />
+    <description tal:content="context/description" />
+    <language tal:content="context/language" />
+    <pubDate tal:content="context/pubDate/ISO" />
+ 
+    <item tal:repeat="item context/items">
+      <title tal:content="item/title" />
+      <link tal:content="item/link" />
+      <description tal:content="item/description" />
+      <pubDate tal:content="item/pubDate/ISO" />
+      <content:encoded tal:define="body item/body | nothing"
+                       tal:condition="body">
+        <tal:body define="open_bracket python:'\074';
+                          close_bracket python:'\076'">
+          <span tal:replace="structure open_bracket" />![CDATA[
+            <span tal:replace="body" />
+          ]]<span tal:replace="structure close_bracket" />
+        </tal:body>
+      </content:encoded>
+    </item>
+
+  </channel>
+</rss>
