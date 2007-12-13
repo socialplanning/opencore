@@ -394,7 +394,7 @@ class BaseView(BrowserView):
         try:
             geo = self.context.restrictedTraverse('oc-geo-info')
             info = {'static_img_url': geo.location_img_url()}
-        except:  # XXX what?
+        except:  # XXX except what?
             info = {'static_img_url': ''}
         info['maps_script_url'] = self._maps_script_url()
         _marker = object()

@@ -311,12 +311,31 @@ Submitting the form updates everything, and we get a static image url now::
      'position-longitude': 0.0,
      'position-text': '',
      'static_img_url': 'http://...'}
-    
 
-Create view for Members
-------------------------
 
-XXX not implemented yet!
+Submitting the form with position-text should cause the (mock)
+geocoder to be used::
+
+    >>> view.request.form.update({'position-text': 'atlantis',
+    ...     'location': 'somewhere underwater', })
+    ...
+    >>> redirected = view.handle_form()
+    Called Products.PleiadesGeocoder.geocode.Geocoder.geocode('atlantis')
+    >>> pprint(view.geo_info)
+    {'location': 'somewhere underwater',
+     'maps_script_url': 'http://...',
+     'position-latitude': 12.0,
+     'position-longitude': -87.0,
+     'position-text': 'atlantis',
+     'static_img_url': 'http://...'}
+
+
+The public profile view should show the same data::
+
+    >>> pview = m1.restrictedTraverse('@@profile')
+    >>> pview.geo_info == view.geo_info
+    True
+
 
 Feeds for Members
 ------------------
@@ -324,9 +343,12 @@ Feeds for Members
 A bit of setup here to avoid depending on previous tests::
 
     >>> self.login('m1')
-    >>> m1 = portal.people.m1
-    >>> geo = IGeoItemSimple(m1)
-    >>> geo.setGeoInterface('Point', (55.0, -66.0, 0.0))
+    >>> edit = m1.restrictedTraverse('profile-edit')
+    >>> edit.request.form.clear()
+    >>> edit.request.form.update({'location': 'nowhere', 'position-latitude': -66.0,
+    ...      'position-longitude': 55.0})
+
+    >>> redirected = edit.handle_form()
 
 
 First try the views that generate info, should be public::
@@ -350,7 +372,7 @@ First try the views that generate info, should be public::
      'description': 'No description',
      'language': '',
      'link': 'http://nohost/plone/people/m1',
-     'location': 'somewhere',
+     'location': 'nowhere',
      'title': 'Member One',
      'updated': '...-...-...T...:...:...'}
 

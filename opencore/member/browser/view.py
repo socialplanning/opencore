@@ -226,10 +226,10 @@ class ProfileEditView(ProfileView, OctopoLite):
         locationchanged = False
         if self.set_geolocation(coords):
             locationchanged = True
-        elif self.context.getLocation() != new_form.get('location', ''):
+        elif member.getLocation() != self.request.form.get('location', ''):
             locationchanged = True
-        for key in self.request.form.keys():
-            if key.startswith('position-'):
+        for key in ('position-latitude', 'position-longitude'):
+            if self.request.form.has_key(key):
                 del self.request.form[key]
 
         # now deal with the rest of the fields
