@@ -20,7 +20,7 @@
         <tal:body define="open_bracket python:'\074';
                           close_bracket python:'\076'">
           <span tal:replace="structure open_bracket" />![CDATA[
-            <span tal:replace="body" />
+            <span tal:replace="structure body" />
           ]]<span tal:replace="structure close_bracket" />
         </tal:body>
       </content:encoded>
