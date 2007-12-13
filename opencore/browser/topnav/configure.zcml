@@ -85,6 +85,14 @@
      template="historical/topnav-accessibility.pt"
      />
 
+  <!-- manager for topnav action items -->
+  <browser:viewletManager
+     name="opencore.topnav-actions"
+     provides=".interfaces.ITopnavActions"
+     class=".manager.SortingViewletManager"
+     permission="zope2.View"
+     />
+
   <!-- topnav context menu is handled through viewlets -->
   <browser:viewletManager
      name="opencore.topnavmenu"
@@ -193,50 +201,6 @@
      filter=".viewlet.portal_people_or_projects"
      url=".viewlet.project_create_url"
      sort_order="30"
-     />
-
-  <!-- registrations for the topnav actions -->
-  <browser:viewletManager
-     name="opencore.topnav-actions"
-     provides=".interfaces.ITopnavActions"
-     class=".manager.SortingViewletManager"
-     permission="zope2.View"
-     />
-
-  <browser:viewlet
-     name="10 Projects RSS"
-     manager=".interfaces.ITopnavActions"
-     view="opencore.nui.main.search.ProjectsSearchView"
-     for="opencore.rss.interfaces.ICanFeed"
-     template="rss_action.pt"
-     permission="zope2.View"
-     />
-
-  <browser:viewlet
-     name="10 People RSS"
-     manager=".interfaces.ITopnavActions"
-     view="opencore.nui.main.search.PeopleSearchView"
-     for="opencore.rss.interfaces.ICanFeed"
-     template="rss_action.pt"
-     permission="zope2.View"
-     />
-
-  <browser:viewlet
-     name="20 Projects Atom"
-     manager=".interfaces.ITopnavActions"
-     view="opencore.nui.main.search.ProjectsSearchView"
-     for="opencore.rss.interfaces.ICanFeed"
-     template="atom_action.pt"
-     permission="zope2.View"
-     />
-
-  <browser:viewlet
-     name="20 People Atom"
-     manager=".interfaces.ITopnavActions"
-     view="opencore.nui.main.search.PeopleSearchView"
-     for="opencore.rss.interfaces.ICanFeed"
-     template="atom_action.pt"
-     permission="zope2.View"
      />
 
 </configure>

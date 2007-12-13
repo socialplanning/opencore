@@ -9,11 +9,9 @@ from zope.viewlet.metadirectives import IViewletDirective
 from zope.configuration.fields import GlobalObject
 from zope.configuration.fields import Path
 
-# these functions control viewlet behavior
 
 class ITopnavMenuItems(IViewletManager):
     """Viewlets for the context topnav menu"""
-
 
 class ITopnavActions(IViewletManager):
     """Viewlets for the topnav actions"""
