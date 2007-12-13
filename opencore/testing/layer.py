@@ -51,6 +51,10 @@ class BrowserIdManagerMock(object):
             return str(random.random())
 
 class Install(ZCML):
+    setupPloneSite(
+        products = ('OpenPlans',) + DEPS,
+        extension_profiles=[#'borg.localrole:default',
+                            'opencore.configuration:default'])
     @classmethod
     def setUp(cls):
         zinstall_products()
@@ -63,23 +67,9 @@ class Install(ZCML):
     def tearDown(cls):
         raise NotImplementedError
 
-class SiteSetupLayer(Install, PloneSite):
-    setupPloneSite(
-        products = ('OpenPlans',) + DEPS,
-        extension_profiles=[#'borg.localrole:default',
-                            'opencore.configuration:default'])
+SiteSetupLayer = Install
 
-##     @classmethod
-##     def setUp(cls):
-##         portal = get_portal()
-
-
-    @classmethod
-    def tearDown(cls):
-        raise NotImplementedError
-
-
-class OpenPlansLayer(SiteSetupLayer):
+class OpenPlansLayer(Install, PloneSite):
     @classmethod
     def setUp(cls):
         # need to explicitly apply pythonproducts patches to get the

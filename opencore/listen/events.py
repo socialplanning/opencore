@@ -86,7 +86,8 @@ def listen_featurelet_installed(proj, event):
     ms_tool = getToolByName(proj, 'portal_membership')
     cur_mem_id = unicode(ms_tool.getAuthenticatedMember().getId())
     ml.managers = (cur_mem_id,)
-    ml.setDescription(translate(_(u'discussion_list_desc', u'Discussion list for this project, consisting of all project members.')))
+    #@@repoze
+    ml.setDescription(translate(_(u'discussion_list_desc', u'Discussion list for this project, consisting of all project members.'), context=proj))
     notify(ObjectCreatedEvent(ml))
 
     memlist = IWriteMembershipList(ml)

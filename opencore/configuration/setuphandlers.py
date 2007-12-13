@@ -28,7 +28,9 @@ from zope.interface import alsoProvides
 import os
 import pkg_resources
 import socket
+import logging
 
+log = logging.getLogger('opencore.configuration.setuphandlers')
 
 Z_DEPS = ('PlacelessTranslationService', 'Five', 'membrane', 'remember',
           'GenericSetup', 'CMFPlone', 'ManagableIndex', 'QueueCatalog',
@@ -418,23 +420,43 @@ def createValidationMember(portal, out):
     from Products.remember.permissions import EDIT_SECURITY_PERMISSION
     mem.getField('password').write_permission = EDIT_SECURITY_PERMISSION
     mdtool._validation_member = mem
-    
 
-def register_local_utility(portal, out, iface, klass):
+#@@ for completeness, add name to sig??
+def register_local_utility(portal, out, iface, klass=None):
     setSite(portal) # specify the portal as the local utility context
-    if queryUtility(iface) is not None:
-        return
     sm = portal.getSiteManager()
-    try:
-        sm.registerUtility(klass(), iface)
-        print >> out, ('%s utility installed' %iface.__name__)
-    except ValueError:
-        # re-register object
-        old_utility = aq_inner(getattr(portal.utilities, iface.__name__))
-        portal.utilities._delObject(iface.__name__, suppress_events=True)
-        alsoProvides(old_utility, iface)
-        sm.registerUtility(iface, old_utility)
-        print >> out, ('%s utility interface updated' %iface.__name__)
+    assert klass, ValueError('You must provide a class if not re-registering')
+    if sm.queryUtility((), iface):
+        return 
+    sm.registerUtility(klass(), iface)
+    print >> out, ('%s utility installed' %iface.__name__)
+
+def migrate_local_utility_iface(portal, out, iface, old_iface=None, klass=None):
+    """re-register object w/ an iface of same name"""
+    setSite(portal) # specify the portal as the local utility context
+    sm = portal.getSiteManager()
+
+    if old_iface is None:
+        # sometimes you just moved the interface but they are
+        # equivalent. This finds the first iface of the same name
+        old_iface = retrieve_orphaned_iface(iface, sm.utilities)
+
+    old_utility = sm.queryUtility(old_iface)
+    if klass is not None:
+        # optional assertion 
+        # if this misses we might have a big problem
+        assert isinstance(old_utility, klass), "Classes do not match"
+
+    alsoProvides(old_utility, iface) # necessary?
+    sm.unregisterUtility(old_utility, old_iface)
+    sm.registerUtility(old_utility, iface)
+    print >> out, ('%s utility interface updated' %iface.__name__)
+
+def retrieve_orphaned_iface(new_iface, reg):
+    # bad touch
+    for iface in reg._adapters[0].keys():
+        if iface.__name__ == new_iface.__name__:
+            return iface
 
 @setuphandler
 def install_email_invites_utility(portal, out):
