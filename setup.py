@@ -32,7 +32,7 @@ setup(
                         'https://svn.plone.org/svn/plone/plone.memoize/trunk#egg=plone.memoize-dev',
                         'http://download.savannah.nongnu.org/releases/pyprof/hprof-0.1.1.tar.gz#egg=hprof',
                         'http://zesty.ca/python/uuid.py#egg=uuid-dev',
-                        'https://svn.openplans.org/svn/oc-js/trunk/#egg=oc-js-dev',
+                        'https://svn.openplans.org/svn/oc-js/tags/0.4/#egg=oc-js-0.4',
                         'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.1.2',
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         ],
