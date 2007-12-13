@@ -78,32 +78,28 @@ class TestOpenPlansInstall(OpenPlansTestCase):
         for role in DEFAULT_ROLES:
             self.failIf(role not in self.portal.validRoles())
         # top level content is correct
-        self.failUnless('projects' \
-                        in self.portal.contentIds(spec="ATBTreeFolder"))
+        self.failUnless('projects' in self.portal.objectIds())
 
-        if hasattr(ttool, 'HelpCenter'):
-            self.failUnless('support' \
-                            in self.portal.contentIds(spec="HelpCenter"))
+#@@repoze
+##     def test_kupusetup(self):
+##         from opencore.configuration.utils import kupu_libraries, \
+##              kupu_resource_map
+##         from sets import Set
+##         kt = getToolByName(self.portal, 'kupu_library_tool')
+##         self.assertEqual(Set([kl['id'] for kl in kupu_libraries]),
+##                          Set([kl['id'] for kl in kt.zmi_get_libraries()]))
 
-    def test_kupusetup(self):
-        from opencore.configuration.utils import kupu_libraries, \
-             kupu_resource_map
-        from sets import Set
-        kt = getToolByName(self.portal, 'kupu_library_tool')
-        self.assertEqual(Set([kl['id'] for kl in kupu_libraries]),
-                         Set([kl['id'] for kl in kt.zmi_get_libraries()]))
-
-        krm = dict(kt.zmi_get_type_mapping())
-        typetool = getToolByName(self.portal, 'portal_types')
-        def typefilter(types):
-            all_meta_types = dict([ (t.id, 1) for t in typetool.listTypeInfo()])
-            return [ t for t in types if t in all_meta_types ]
+##         krm = dict(kt.zmi_get_type_mapping())
+##         typetool = getToolByName(self.portal, 'portal_types')
+##         def typefilter(types):
+##             all_meta_types = dict([ (t.id, 1) for t in typetool.listTypeInfo()])
+##             return [ t for t in types if t in all_meta_types ]
         
-        for key in krm.keys():
-            self.assertEqual(Set(krm[key]), \
-                             Set(typefilter(kupu_resource_map[key])))
+##         for key in krm.keys():
+##             self.assertEqual(Set(krm[key]), \
+##                              Set(typefilter(kupu_resource_map[key])))
 
-        self.assertEqual(krm.keys(), kupu_resource_map.keys())
+##         self.assertEqual(krm.keys(), kupu_resource_map.keys())
 
     def test_openproject_method_aliases(self):
         tt = getToolByName(self.portal, 'portal_types')
