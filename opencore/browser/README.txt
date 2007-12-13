@@ -162,7 +162,6 @@ plone_utils tool and those passed into the request.
     >>> view.portal_status_message
     ['I am a banana!&lt;script&gt;escape this&lt;/script&gt;']
     
-    >>> from opencore.i18n import _
     >>> msg = _(u'psm_test', u'This is a <strong>test</strong> portal status message.  ${this} should be stripped of the script tag.',
     ... mapping={u'this':u'<script>strip this</script>This html'})
     >>> view.add_status_message(msg)

@@ -7,7 +7,6 @@ from zope.app.component.hooks import setSite
 from opencore.testing.layer import MockHTTPWithContent as test_layer
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from opencore.testing import dtfactory as dtf
-from opencore.testing.setup import simple_setup
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
