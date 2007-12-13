@@ -8,6 +8,6 @@
       />
 
    <!-- @@ viewlet reg -->
-   <!-- include package=".browser" / -->
+   <include package=".browser" />
 
 </configure>

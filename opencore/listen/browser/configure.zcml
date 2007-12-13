@@ -71,11 +71,11 @@
      />
 
   <opencore:menuitem
-      name="Mailing Lists"
-      filter="opencore.browser.topnav.viewlet.contained_within"
-      container="opencore.interfaces.IProject"
-      item_url="lists"
-      sort_order="30"
-      />
+     name="Mailing Lists"
+     filter="opencore.browser.topnav.viewlet.contained_within"
+     container="opencore.featurelets.interfaces.IListenFeatureletInstalled"
+     item_url="lists"
+     sort_order="30"
+     />
 
 </configure>

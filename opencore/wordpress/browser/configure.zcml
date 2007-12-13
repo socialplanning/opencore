@@ -13,11 +13,11 @@
      />
   
   <opencore:menuitem
-      name="Blog"
-      filter="opencore.browser.topnav.viewlet.contained_within"
-      container="opencore.interfaces.IProject"
-      item_url="blog"
-      sort_order="20"
-      />
+     name="Blog"
+     filter="opencore.browser.topnav.viewlet.contained_within"
+     container="opencore.wordpress.interfaces.IWordPressFeatureletInstalled"
+     item_url="blog"
+     sort_order="20"
+     />
 
 </configure>
