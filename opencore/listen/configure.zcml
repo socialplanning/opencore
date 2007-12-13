@@ -44,4 +44,10 @@
        name="listen"
        />
 
+   <adapter
+      for="opencore.featurelets.interfaces.IListenContainer"
+      provides="opencore.rss.interfaces.IFeedData"
+      factory=".rss.ListsFeedAdapter"
+      />
+
 </configure>
