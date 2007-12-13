@@ -108,35 +108,63 @@ class ListenBaseView(BaseView):
         # Get and clean up title from request
         title = self.request.form.get('title', '')
         title = re.compile('\s+').sub(' ', title).strip()
+        # The form title variable must be unicode or listen blows up
+        if not isinstance(title, unicode):
+            title = unicode(title, 'utf-8')
+
         if title:
             self.request.form['title'] = title
         else:
-            if not isinstance(title, unicode):
-                title = unicode(title, 'utf-8')
-            self.errors['title'] = _(u'list_create_invalid_title', u'The mailing list must have a title.')
+            self.errors['title'] = _(u'list_invalid_title', u'The mailing list must have a title.')
+
+        # Check the list of managers
+        form_managers = self.request.form.get('managers','')
+        if not isinstance(form_managers, unicode):
+            form_managers = unicode(form_managers, 'utf-8')
+        self.request.form['managers'] = form_managers
+
+        managers = []
+        bad_managers = []
+        if not form_managers:
+            self.errors['managers'] = _(u'list_no_managers_error', u'The mailing list must have at least one manager.')
+        else:
+            for manager in form_managers.split(','):
+                manager = manager.strip()
+                if not self.is_member(manager):
+                    bad_managers.append(manager)
+                else:
+                    managers.append(manager)
+
+        if bad_managers:
+            s_message_mapping = {'managers': ", ".join(bad_managers)}
+            self.errors['managers'] = _(u'list_invalid_managers_error',
+                                        u'The following managers are not members of this site: ${managers}',
+                                        mapping=s_message_mapping)
 
         # Get and check the list policies
         workflow = self.request.form.get('workflow_policy')
         if workflow not in ('policy_open', 'policy_moderated', 'policy_closed'):
-            self.errors['workflow_policy'] = _(u'list_create_invalid_workflow_error', u'The mailing list security must be set to open, moderated, or closed.')
+            self.errors['workflow_policy'] = _(u'list_invalid_workflow_error', u'The mailing list security must be set to open, moderated, or closed.')
 
         archive = int(self.request.form.get('archival_policy'))
         if archive not in (0, 1, 2):
-            self.errors['archive'] = _(u'list_create_invalid_archive_error', u'The mailing list archival method must be set to all, text-only, or none.')
+            self.errors['archive'] = _(u'list_invalid_archive_error', u'The mailing list archival method must be set to all, text-only, or none.')
 
         mailto = self.request.form.get('mailto')
-        if not re.match('[a-zA-Z][-\w]+', mailto):
-            self.errors['mailto'] = _(u'list_create_invalid_prefix_error', u'Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)')
+        if not mailto:
+            self.errors['mailto'] = _(u'list_missing_prefix_error', u'The mailing list must have a list prefix.')
+        elif not re.match('[a-zA-Z][-\w]+', mailto):
+            self.errors['mailto'] = _(u'list_invalid_prefix_error', u'Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)')
         else:
             mailto = putils.normalizeString(mailto)
             if hasattr(self.context, mailto):
-                self.errors['mailto'] = _(u'list_create_duplicate_error', u'The requested list prefix is already taken.')
+                self.errors['mailto'] = _(u'list_duplicate_error', u'The requested list prefix is already taken.')
 
         # If we don't pass sanity checks by this point, abort and let the user correct their errors.
         if self.errors:
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return False
-        return title, workflow, archive, mailto
+        return title, workflow, archive, mailto, managers
 
 
 class ListAddView(ListenBaseView, OctopoLite):
@@ -173,7 +201,7 @@ class ListAddView(ListenBaseView, OctopoLite):
         if not result:
             return
 
-        title, workflow, archive, mailto = result
+        title, workflow, archive, mailto, managers = result
 
         # Try to create a mailing list using the mailto address to see if it's going to be valid
         lists_folder = self.context
@@ -186,11 +214,7 @@ class ListAddView(ListenBaseView, OctopoLite):
 
         list = lists_folder._getOb(mailto)
 
-        if self.errors:
-            self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
-            return 
-
-        list.managers = (unicode(self.loggedinmember.getId()),)
+        list.managers = tuple(managers)
         list.setDescription(unicode(self.request.form.get('description','')))
 
         old_workflow_type = list.list_type
