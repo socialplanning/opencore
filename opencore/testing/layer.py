@@ -1,6 +1,6 @@
 from Products.CMFCore.utils  import getToolByName
 from Testing import ZopeTestCase
-from Products.Five.site.localsite import enableLocalSiteHook
+#from Products.Five.site.localsite import enableLocalSiteHook
 from Products.PloneTestCase.layer import PloneSite, ZCML
 from Products.PloneTestCase.setup import setupPloneSite
 from Testing import ZopeTestCase
