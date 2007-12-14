@@ -18,7 +18,7 @@ from topp.featurelets.interfaces import IFeatureletSupporter
 from Products.CMFCore.utils import getToolByName
 
 from zope.app.component.hooks import setSite, setHooks
-from Products.Five.site.localsite import enableLocalSiteHook
+#from Products.Five.site.localsite import enableLocalSiteHook
 
 from openplanstestcase import OpenPlansTestCase
 from openplanstestcase import makeContent
