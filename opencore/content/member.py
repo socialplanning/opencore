@@ -353,7 +353,8 @@ class OpenMember(FolderishMember):
             http = getUtility(IHTTPClient)
             for url in remote_auth_sites:
                 email_url = "%s/people/email?email=%s" % (url, email)
-                resp, content = http.request(email_url, method='HEAD')
+                resp, content = http.request(email_url, method='HEAD',
+                                             headers={'Connection': 'close'})
                 if resp.status == 200:
                     return True
         return False
