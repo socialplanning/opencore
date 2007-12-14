@@ -25,12 +25,15 @@ highest team role for each::
     </members>...
 
 info.xml shows the project's security policy::
+
+#@@repoze -- mysterious change in encoding
+
     >>> print http(r'''
     ... GET /plone/projects/p1/@@info.xml HTTP/1.1
     ... ''')
     HTTP/1.1 200 OK
     Content-Length: ...
-    Content-Type: text/html; charset=utf-8...
+    Content-Type: application/xml; ...
     <info>
      <policy>medium_policy</policy>
     </info>...

@@ -1,9 +1,10 @@
 # this will break in 2.10 and will need rewriting
+from Products.Five.browser.metaconfigure import makeClassForTemplate
 from Products.PageTemplates.Expressions import getEngine
 from StringIO import StringIO
 from TAL.TALInterpreter import TALInterpreter
-from Products.Five.browser.metaconfigure import makeClassForTemplate
 import unittest
+
 
 def create_tal_context(view, **kw):
     data = dict(context=view.context,

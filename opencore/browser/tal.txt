@@ -45,8 +45,8 @@ First we will create a context::
 
     >>> tcontext = tal.create_tal_context(view, hello='cruel world')
     >>> tcontext
-    <Products.PageTemplates.TALES.Context instance at ...>
-
+    <Products.PageTemplates.Expressions.ZopeContext object at ...>
+    
 Some global vars we care about should be in there::
 
     >>> pprint(tcontext.global_vars)
