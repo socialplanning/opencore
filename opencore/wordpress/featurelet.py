@@ -93,8 +93,7 @@ class WordPressFeaturelet(BaseFeaturelet):
 
         #post = self.creation_command(**params)
         post = urllib.urlencode(params)
-        headers={'Content-type': 'application/x-www-form-urlencoded',
-                 'Connection': 'close'}
+        headers={'Content-type': 'application/x-www-form-urlencoded'}
         response, content = self.http.request(uri, 'POST', headers=headers,
                                               body=post)
         if response.status != 200:
@@ -121,8 +120,7 @@ class WordPressFeaturelet(BaseFeaturelet):
 
         params['title'] = obj.Title()
         post = urllib.urlencode(params)
-        headers={'Content-type': 'application/x-www-form-urlencoded',
-                 'Connection': 'close'}
+        headers={'Content-type': 'application/x-www-form-urlencoded'}
         response, content = self.http.request(uri, 'POST', headers=headers,
                                               body=post)
 

@@ -55,8 +55,7 @@ def send_to_wordpress(uri, username, params, context):
     params = urllib.urlencode(params)
 
     http = getUtility(IHTTPClient)
-    headers={'Content-type': 'application/x-www-form-urlencoded',
-             'Connection': 'close'}
+    headers={'Content-type': 'application/x-www-form-urlencoded'}
     response, content = http.request(uri, 'POST', headers=headers,
                                      body=params)
 

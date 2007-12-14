@@ -27,8 +27,7 @@ class SyncUsersView(BaseView):
         params = urllib.urlencode(params)
 
         http = Http()
-        headers={'Content-type': 'application/x-www-form-urlencoded',
-                 'Connection': 'close'}
+        headers={'Content-type': 'application/x-www-form-urlencoded'}
         response, content = http.request(uri, 'POST', headers=headers,
                                          body=params)
         

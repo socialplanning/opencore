@@ -65,8 +65,7 @@ def handle_subproject_vhoster(event):
     uri = urljoin(vhoster_uri(), "/.deliverance/remote_uris?add")
     data = [{'path': child_path,
             'headers': {'X-Openplans-Project': subproj.getId()}}]
-    headers = {'Host': virtual_host,
-               'Connection': 'close'}
+    headers = {'Host': virtual_host}
     
     # perform the RESTy call to deliverance 
     rc = http.request(uri,
