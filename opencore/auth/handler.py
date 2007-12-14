@@ -24,7 +24,7 @@ def copy_remote_member(event):
                       )
     memurl = '%s/people/%s/memberinfo.xml?%s' % (event.siteurl, event.username,
                                                  query)
-    resp, content = h.request(memurl, 'GET')
+    resp, content = h.request(memurl, 'GET', headers={'Connection': 'close'})
     member = etree.fromstring(content)
     newdata = {}
     for child in member.iterchildren():

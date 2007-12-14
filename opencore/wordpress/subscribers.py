@@ -55,7 +55,10 @@ def send_to_wordpress(uri, username, params, context):
     params = urllib.urlencode(params)
 
     http = getUtility(IHTTPClient)
-    response, content = http.request(uri, 'POST', headers={'Content-type': 'application/x-www-form-urlencoded'}, body=params)
+    headers={'Content-type': 'application/x-www-form-urlencoded',
+             'Connection': 'close'}
+    response, content = http.request(uri, 'POST', headers=headers,
+                                     body=params)
 
     # @@ DWM: response codes mean something specific and this is a
     # generic function. Return the response and content, and this

@@ -306,7 +306,8 @@ class OpenMember(FolderishMember):
             http = getUtility(IHTTPClient)
             for url in remote_auth_sites:
                 mem_url = "%s/%s/exists" % (url, member_path(id))
-                resp, content = http.request(mem_url)
+                resp, content = http.request(mem_url,
+                                             headers={'Connection': 'close'})
                 if resp.status == 200:
                     # a remote member exists
                     return True

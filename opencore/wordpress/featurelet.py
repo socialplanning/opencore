@@ -93,8 +93,10 @@ class WordPressFeaturelet(BaseFeaturelet):
 
         #post = self.creation_command(**params)
         post = urllib.urlencode(params)
-
-        response, content = self.http.request(uri, 'POST', headers={'Content-type': 'application/x-www-form-urlencoded'}, body=post)
+        headers={'Content-type': 'application/x-www-form-urlencoded',
+                 'Connection': 'close'}
+        response, content = self.http.request(uri, 'POST', headers=headers,
+                                              body=post)
         if response.status != 200:
             raise AssertionError('Failed to add blog: %s' % content)
         
@@ -119,8 +121,10 @@ class WordPressFeaturelet(BaseFeaturelet):
 
         params['title'] = obj.Title()
         post = urllib.urlencode(params)
-
-        response, content = self.http.request(uri, 'POST', headers={'Content-type': 'application/x-www-form-urlencoded'}, body=post)
+        headers={'Content-type': 'application/x-www-form-urlencoded',
+                 'Connection': 'close'}
+        response, content = self.http.request(uri, 'POST', headers=headers,
+                                              body=post)
 
         if response.status != 200:
             if raise_error:

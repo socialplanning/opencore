@@ -91,7 +91,8 @@ class RemoteOpenCoreAuth(BasePlugin):
             if not siteurl:
                 continue
             authurl = '%s/people/%s/get-hash' % (siteurl, username)
-            resp, content = h.request(authurl, 'POST', query)
+            resp, content = h.request(authurl, 'POST', query,
+                                      headers={'Connection': 'close'})
             resp_code = resp.get('status')
             if resp_code == '200':
                 # remote auth succeeds, we're done

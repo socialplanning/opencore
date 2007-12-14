@@ -545,7 +545,7 @@ Ensure test atomicity by removing the created user:
         'http://nohost:wordpress/openplans-remove-user.php',
         'POST',
         body='username=test_user_1_&signature=...,
-        headers={'Content-type': 'application/x-www-form-urlencoded'})
+        headers={...'application/x-www-form-urlencoded'...})
     >>> portal.people.manage_delObjects('test_user_1_')
 
 Is the member still in the catalog?
