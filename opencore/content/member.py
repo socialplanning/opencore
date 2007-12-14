@@ -199,6 +199,11 @@ class OpenMember(FolderishMember):
 
     actions = actions    
 
+    def indexObject(self):
+        if self.isTemporary():
+            return
+        FolderishMember.indexObject(self)
+
     security.declareProtected(ManagePortal, 'getUserConfirmationCode')
     def getUserConfirmationCode(self):
         """
