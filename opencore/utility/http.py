@@ -9,7 +9,7 @@ class HTTPClient(Http):
     """
     implements(IHTTPClient)
     
-    def request(uri, **kw):
+    def request(self, uri, **kw):
         """
         Inject Connection=close into the HTTP request headers.
         """
