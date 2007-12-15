@@ -41,6 +41,7 @@ setup(
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         'https://svn.plone.org/svn/collective/contentmigration/trunk#egg=Products.contentmigration-1.0b4',
                         'https://svn.plone.org/svn/collective/Products.SimpleAttachment/tags/3.0.2#egg=Products.SimpleAttachment-3.0.2',
+                        'https://svn.openplans.org/svn/bundles/opencore-repoze#egg=opencoreproducts-0.8',
                         ],
       install_requires=["ClockQueue==dev,>=0.0",
                         "listen",
@@ -64,6 +65,7 @@ setup(
                         "WickedProduct",
                         'Products.contentmigration',
                         'Products.SimpleAttachment',
+                        'opencoreproducts',
                         ],
       extras_require=dict(ubuntu=['hprof']),
 
