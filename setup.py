@@ -40,6 +40,7 @@ setup(
                         'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.1.2',
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         'https://svn.plone.org/svn/collective/contentmigration/trunk#egg=Products.contentmigration-1.0b4',
+                        'https://svn.plone.org/svn/collective/Products.SimpleAttachment/tags/3.0.2#egg=Products.SimpleAttachment-3.0.2',
                         ],
       install_requires=["ClockQueue==dev,>=0.0",
                         "listen",
@@ -62,6 +63,7 @@ setup(
                         'wsseauth',
                         "WickedProduct",
                         'Products.contentmigration',
+                        'Products.SimpleAttachment',
                         ],
       extras_require=dict(ubuntu=['hprof']),
 
