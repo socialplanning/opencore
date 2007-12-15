@@ -50,6 +50,8 @@ class BrowserIdManagerMock(object):
         else:
             return str(random.random())
 
+
+# XXX Do we use the 'Install' layer at all? (ra)
 class Install(ZCML):
     setupPloneSite(
         products = ('OpenPlans',) + DEPS,
@@ -72,17 +74,10 @@ SiteSetupLayer = Install
 class OpenPlansLayer(Install, PloneSite):
     @classmethod
     def setUp(cls):
-        # need to explicitly apply pythonproducts patches to get the
-        # borg.localrole package's FactoryDispatcher to work
         portal = get_portal_as_owner()
 
-##         setup_tool = portal.portal_setup
-##         setup_tool.setImportContext('profile-opencore.configuration:default')
-##         try:
-##             setup_tool.runAllImportSteps()
-##         except :
-##             import pdb; import sys;
-##             pdb.post_mortem(sys.exc_info()[2])
+        portal.clearCurrentSkin()
+        portal.setupCurrentSkin(portal.REQUEST)
 
         portal.oldMailHost = portal.MailHost
         portal.MailHost = MailHostMock()
