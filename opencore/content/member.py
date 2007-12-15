@@ -451,11 +451,6 @@ class OpenMember(FolderishMember):
                                        default='"password" is not a valid password.',
                                        domain='remember-plone')
 
-    #@@repoze -- Fix Me
-    def unicodeEncode(self, value):
-        return value
-
-
 atapi.registerType(OpenMember, package=PROJECTNAME)
 
 def member_path(mem_id):
