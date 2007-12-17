@@ -14,7 +14,7 @@ class StatsView(BrowserView):
         self.request = request
         self.catalog = getToolByName(self.context, 'portal_catalog')
         self.membrane_tool = getToolByName(self.context, 'membrane_tool')
-        self.expiry_date = DateTime.now()-30
+        self.expiry_date = DateTime.now()-14
 
     def get_projects(self):
         query = dict(portal_type='OpenProject')
@@ -22,7 +22,9 @@ class StatsView(BrowserView):
         return brains
 
     def get_active_projects(self):    
-        # "active" is defined as having been modified in the last 30 days
+        # "active" is defined as having been modified since expiry_date
+        # XXX what about including mailing list activity etc.
+        # XXX is this just wiki activity?
         projects = self.get_projects()
         filtered_projects = [project for project in projects if project.modified > self.expiry_date]
         return filtered_projects
@@ -33,7 +35,7 @@ class StatsView(BrowserView):
         return brains
 
     def get_active_members(self):    
-        # "active" is defined as having logged in the last 30 days
+        # "active" is defined as having logged in since expiry_date
         members = self.get_members()
         filtered_members = []
         for mem in members:
@@ -65,6 +67,12 @@ class StatsView(BrowserView):
                 filtered_lists.append(lst)
         
         return filtered_lists
+
+    def get_member_stickiness(self):
+        # for all non-active members
+        # find AVG(last_login - creation_date)
+        # equals the average length of time they were active
+        pass
 
     
 
