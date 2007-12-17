@@ -27,11 +27,6 @@
      directory="img"
      />
 
-  <browser:resourceDirectory
-     name="kupu"
-     directory="historical/kupu"
-     />
-
   <browser:page
     for="*"
     class="opencore.browser.base.BaseView"
