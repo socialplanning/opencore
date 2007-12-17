@@ -41,14 +41,26 @@ def make_view_w_macro(tal, bases=(), name='template class', **cdict):
     return makeClassForTemplate(filename, bases=bases, cdict=cdict, name=name)
 
 def test_suite():
-    from opencore.testing import dtfactory as dtf
-    from zope.testing import doctest
-    from pprint import pprint
     from Testing.ZopeTestCase import ZopeTestCase
+    from opencore.testing import dtfactory as dtf
+    from pprint import pprint
+    from zope.app.testing import placelesssetup
+    from zope.component import Interface
+    from zope.component import provideAdapter
+    from zope.testing import doctest
+    from zope.traversing.adapters import DefaultTraversable
+    from zope.traversing.interfaces import ITraversable
+
+    def setup(tc):
+        provideAdapter(DefaultTraversable, adapts=(Interface,),  provides=ITraversable)
+
     tal_tests = dtf.ZopeDocFileSuite("tal.txt",
                                      package='opencore.browser',
                                      optionflags=doctest.ELLIPSIS,
                                      test_class=ZopeTestCase,
+                                     setUp=setup,
+                                     tearDown=placelesssetup.tearDown,
+                                     
                                      globs=locals())
     return unittest.TestSuite((tal_tests,))
 
