@@ -86,3 +86,28 @@ efficient)::
     [{'icon': 'plone/document_icon.gif',
       'path': '/plone/projects/p1/lists-page',
       'uid': '...'}]
+
+Got to copy over some tests from wicked/browser/add.txt since we're overriding the
+wickedadd behavior; test that foreign characters don't explode and are properly
+normalized::
+
+    >>> title = u'Test G\u00e9omatique'.encode("utf-8")
+    >>> self.folder.REQUEST.set('Title', title)
+    >>> view = projects.p1.restrictedTraverse('@@add-page')
+    >>> retadd = view()
+    >>> print retadd
+    http://nohost/plone/projects/p1/test-geomatique/edit
+    >>> delattr(view, "_redirected")
+    >>> view.portal_status_message
+    [...u'"Test G&#233;omatique" has been created'...]
+
+    >>> title = u'\u3322'.encode("utf-8")
+    >>> self.folder.REQUEST.set('Title', title)
+    >>> view = projects.p1.restrictedTraverse('@@add-page')
+    >>> retadd = view()
+    >>> print retadd
+    http://nohost/plone/projects/p1/%7E3322/edit
+    >>> delattr(view, "_redirected")
+    >>> view.portal_status_message
+    [u'"&#13090;" has been created']
+
