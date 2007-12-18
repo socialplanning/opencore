@@ -11,7 +11,7 @@
     <table border="1" cellspacing="0">
       <tr>
         <td>total</td>
-	<td>logged in (in last <span tal:replace="view/expiry_days"/> days)</td>
+	<td>active (in last <span tal:replace="view/expiry_days"/> days)</td>
 	<td>never used</td>
 	<td>avg time before expiry of used members</td>
       </tr>

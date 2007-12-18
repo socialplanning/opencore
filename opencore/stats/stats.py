@@ -14,7 +14,7 @@ class StatsView(BrowserView):
         self.request = request
         self.catalog = getToolByName(self.context, 'portal_catalog')
         self.membrane_tool = getToolByName(self.context, 'membrane_tool')
-        self.expiry_days = 14
+        self.expiry_days = 30
         self.expiry_date = DateTime.now()-self.expiry_days
 
     def get_members(self):
