@@ -24,6 +24,7 @@ class NuiBaseAdd(WickedAdd, BaseView):
         raise NotImplementedError
 
     def sanitize(self, id_):
+        id_ = id_.decode("utf-8")
         new_id = normalize(id_)
         if new_id in self.names_for_context:
             new_id = "%s-%s" %(new_id, self.extender)
