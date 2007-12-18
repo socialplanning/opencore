@@ -11,9 +11,9 @@
     <table border="1" cellspacing="0">
       <tr>
         <td>total</td>
-	<td>active (in last <span tal:replace="view/expiry_days"/> days)</td>
+	<td>active (login in last <span tal:replace="view/expiry_days"/> days)</td>
 	<td>average lifespan</td>
-	<td>never used</td>
+	<td>never used beyond first 24 hours</td>
       </tr>
       <tr>
 	<td tal:content="python: len(view.get_members())" />
@@ -26,9 +26,9 @@
     <table border="1" cellspacing="0">
       <tr>
         <td>total</td>
-	<td>active (used in last <span tal:replace="view/expiry_days"/> days)</td>
+	<td>active (edited in last <span tal:replace="view/expiry_days"/> days)</td>
 	<td>average lifespan</td>
-	<td>never used</td>
+	<td>never used beyond first 24 hours</td>
       </tr>
       <tr>
 	<td tal:content="python: len(view.get_projects())" />
@@ -37,7 +37,6 @@
 	<td tal:content="python: len(view.get_unused_projects())" />
       </tr>
     </table>
-
     <table tal:replace="nothing" border="1" cellspacing="0">
       <tr><td>member</td>
         <td>modified</td>
