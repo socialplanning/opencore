@@ -27,8 +27,7 @@ class StatsView(BrowserView):
         members = self.get_members()
         filtered_members = []
         for mem in members:
-            mem_obj = mem.getObject()
-            if mem_obj.getLast_login_time() > self.expiry_date:
+            if mem.getLast_login_time > self.expiry_date:
                 filtered_members.append(mem)
         return filtered_members
 
