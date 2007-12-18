@@ -29,6 +29,9 @@ class WikiBase(BaseView):
                               )
         return brains
 
+    def page_title(self):
+        return self.context.Title().decode("utf-8")
+
     def wiki_window_title(self, mode='view'):
         """see http://trac.openplans.org/openplans/ticket/588.
         mode should be one of: 'view', 'edit', or 'history'."""
@@ -39,7 +42,7 @@ class WikiBase(BaseView):
 
         context = self.context
 
-        title = context.Title()
+        title = self.page_title()
 
         if self.inmember:
             vmi = self.viewed_member_info

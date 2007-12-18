@@ -24,7 +24,6 @@ class NuiBaseAdd(WickedAdd, BaseView):
         raise NotImplementedError
 
     def sanitize(self, id_):
-        id_ = id_.decode("utf-8")
         new_id = normalize(id_)
         if new_id in self.names_for_context:
             new_id = "%s-%s" %(new_id, self.extender)
@@ -42,6 +41,8 @@ class NuiBaseAdd(WickedAdd, BaseView):
         # this is 2.5 specific and will need to be updated for new
         # wicked implementation (which is more modular)
         title = self.request.get('Title', title)
+        if title:
+            title = title.decode("utf-8")
         section = self.request.get('section', section)
         assert title, 'Must have a title to create content' 
         newcontentid=self.sanitize(title)

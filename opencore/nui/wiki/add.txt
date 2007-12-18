@@ -107,7 +107,7 @@ explosions::
     >>> view.wiki_window_title()
     u'Test G\xe9omatique - Project One'
     >>> view()
-    'dfoo'
+    u'...geomatique...'
 
     >>> title = u'\u3322'.encode("utf-8")
     >>> self.folder.REQUEST.set('Title', title)
