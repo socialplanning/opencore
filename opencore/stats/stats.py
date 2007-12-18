@@ -27,7 +27,7 @@ class StatsView(BrowserView):
         members = self.get_members()
         filtered_members = []
         for mem in members:
-            if mem.getLast_login_time > self.expiry_date:
+            if mem.ModificationDate > self.expiry_date:
                 filtered_members.append(mem)
         return filtered_members
 
@@ -36,7 +36,7 @@ class StatsView(BrowserView):
         members = self.get_members()
         filtered_members = []
         for mem in members:
-            if mem.getLast_login_time < DateTime.DateTime('2003-01-01'):
+            if mem.ModificationDate < DateTime.DateTime('2003-01-01'):
                 filtered_members.append(mem)
         return filtered_members
 
@@ -49,9 +49,9 @@ class StatsView(BrowserView):
         i = 0
         for mem in members:
             creation_date = DateTime.DateTime(mem.CreationDate)
-            if (mem.getLast_login_time < self.expiry_date) and (creation_date < mem.getLast_login_time):
+            if (mem.ModificationDate < self.expiry_date) and (creation_date < mem.ModificationDate):
                 i += 1
-                active_length += mem.getLast_login_time - creation_date
+                active_length += mem.ModificationDate - creation_date
         
         if i > 0:
             avg_active_length = active_length / i

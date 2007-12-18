@@ -41,10 +41,12 @@
     <table border="1" cellspacing="0">
       <tr><td>member</td>
         <td>getLast_login_time</td>
+        <td>ModificationDate</td>
         <td>CreationDate</td></tr>
       <tr tal:repeat="mem view/get_members">
         <td tal:content="mem/Title"/>
         <td tal:content="mem/getLast_login_time" />
+        <td tal:content="mem/ModificationDate" />
         <td tal:content="mem/CreationDate"/></tr>
     </table>
 
