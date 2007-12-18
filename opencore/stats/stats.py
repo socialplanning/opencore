@@ -14,21 +14,8 @@ class StatsView(BrowserView):
         self.request = request
         self.catalog = getToolByName(self.context, 'portal_catalog')
         self.membrane_tool = getToolByName(self.context, 'membrane_tool')
-        self.expiry_days = 14
+        self.expiry_days = 0
         self.expiry_date = DateTime.now()-self.expiry_days
-
-    def get_projects(self):
-        query = dict(portal_type='OpenProject')
-        brains = self.catalog(**query)
-        return brains
-
-    def get_active_projects(self):    
-        # "active" is defined as having been modified since expiry_date
-        # XXX what about including mailing list activity etc.
-        # XXX is this just wiki activity?
-        projects = self.get_projects()
-        filtered_projects = [project for project in projects if project.modified > self.expiry_date]
-        return filtered_projects
 
     def get_members(self):
         query = dict()
@@ -50,8 +37,7 @@ class StatsView(BrowserView):
         members = self.get_members()
         filtered_members = []
         for mem in members:
-            mem_obj = mem.getObject()
-            if mem_obj.getLast_login_time() < DateTime.DateTime('2003-01-01'):
+            if mem.getLast_login_time < DateTime.DateTime('2003-01-01'):
                 filtered_members.append(mem)
         return filtered_members
 
@@ -60,23 +46,67 @@ class StatsView(BrowserView):
         # find AVG(last_login - creation_date)
         # equals the average length of time a member is active
         members = self.get_members()
-        expired_members = []
         active_length = 0
         i = 0
         for mem in members:
-            mem_obj = mem.getObject()
-            if mem_obj.getLast_login_time() < self.expiry_date:
-                expired_members.append(mem)
-                creation_date = DateTime.DateTime(mem_obj.CreationDate())
-                if creation_date < mem_obj.getLast_login_time():
-                    i += 1
-                    active_length += mem_obj.getLast_login_time() - creation_date
+            creation_date = DateTime.DateTime(mem.CreationDate)
+            if (mem.getLast_login_time < self.expiry_date) and (creation_date < mem.getLast_login_time):
+                i += 1
+                active_length += mem.getLast_login_time - creation_date
         
         if i > 0:
             avg_active_length = active_length / i
         else:
             avg_active_length = 0
         return avg_active_length, i
+
+
+    def get_projects(self):
+        query = dict(portal_type='OpenProject')
+        brains = self.catalog(**query)
+        return brains
+
+    def get_active_projects(self):    
+        # "active" is defined as having been modified since expiry_date
+        # this includes wiki activity
+        # this includes updating project prefs
+        # does not include contents deletion
+        # XXX what about including mailing list, tt, blog activity etc.
+        projects = self.get_projects()
+        filtered_projects = [project for project in projects if project.modified > self.expiry_date]
+        return filtered_projects
+
+    def get_unused_projects(self):
+        # "unused" is defined as having never been modified on any day
+        # after the day it was created
+        projects = self.get_projects()
+        filtered_projects = []
+        for proj in projects:
+            if (proj.modified < self.expiry_date) and (proj.modified - proj.created < 1):
+                filtered_projects.append(proj)
+        return filtered_projects
+        
+
+    def get_project_stickiness(self):
+        # for all non-active projects
+        # find AVG(modified - creation_date)
+        # equals the average length of time a project is active
+        projects = self.get_projects()
+        active_length = 0
+        i = 0
+        for proj in projects:
+            if (proj.modified < self.expiry_date) and (proj.modified - proj.created >= 1):
+                i += 1
+                active_length += proj.modified - proj.created
+        
+        if i > 0:
+            avg_active_length = active_length / i
+        else:
+            avg_active_length = 0
+        return avg_active_length, i
+
+
+
 
     def get_mailing_lists(self):
         query = dict(portal_type='Open Mailing List')
