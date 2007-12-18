@@ -12,14 +12,14 @@
       <tr>
         <td>total</td>
 	<td>active (in last <span tal:replace="view/expiry_days"/> days)</td>
+	<td>average lifespan</td>
 	<td>never used</td>
-	<td>avg time before expiry of used members</td>
       </tr>
       <tr>
 	<td tal:content="python: len(view.get_members())" />
 	<td tal:content="python: len(view.get_active_members())" />
-	<td tal:content="python: len(view.get_unused_members())" />
         <td tal:content="python: '%.1f days from %d members' % view.get_member_stickiness()" />
+	<td tal:content="python: len(view.get_unused_members())" />
       </tr>
     </table>
     <h2>projects</h2>
@@ -27,14 +27,14 @@
       <tr>
         <td>total</td>
 	<td>active (used in last <span tal:replace="view/expiry_days"/> days)</td>
+	<td>average lifespan</td>
 	<td>never used</td>
-	<td>avg time before expiry of used projects</td>
       </tr>
       <tr>
 	<td tal:content="python: len(view.get_projects())" />
 	<td tal:content="python: len(view.get_active_projects())" />
-	<td tal:content="python: len(view.get_unused_projects())" />
         <td tal:content="python: '%.1f days from %d projects' % view.get_project_stickiness()" />
+	<td tal:content="python: len(view.get_unused_projects())" />
       </tr>
     </table>
 
