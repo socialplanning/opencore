@@ -9,10 +9,11 @@
 				<p i18n:translate="create_list_desc" class="oc-headingContext">Email based mailing lists are used to have discussions and distribute information about the project.</p>
 			</div>
 
-<!-- basics -->
 			<div id="oc-content-main" class="oc-content-main-fullWidth">
 				<form name="edit-form" id="oc-list-create" method="post" enctype="multipart/form-data"
 							class="enableUnloadProtection" tal:attributes="action view/name">
+
+<!-- basics -->
 					<fieldset class="oc-boxy">
 						<legend i18n:translate="create_list_step_1" class="oc-legend-heading oc-biggerText">Step 1: Basics</legend>
 						<table class="oc-form">
@@ -64,6 +65,7 @@
 						</table>
 					</fieldset>
 
+<!-- security -->
 					<fieldset class="oc-boxy">
 						<legend i18n:translate="create_list_step_2" class="oc-legend-heading oc-biggerText">Step 2: Security</legend>
 						<table class="oc-form">
@@ -101,6 +103,7 @@
 										<span id="oc-error" class="oc-form-error" tal:content="view/errors/workflow_policy | nothing" />
 									</td>
 								</tr>
+<!-- managers -->
 								<tr class="oc-form-row">
 									<th class="oc-form-label" scope="row">
 										<label i18n:translate="create_list_managers_name" for="managers">Managers</label>
@@ -144,6 +147,8 @@
 							</ul>
 						</fieldset>
 					</fieldset>
+
+<!-- submit -->
 					<fieldset>
 						<ul class="oc-actions">
 							<li>
