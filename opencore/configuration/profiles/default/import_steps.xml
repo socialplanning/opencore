@@ -249,13 +249,4 @@
     <dependency step="install_dependencies" />
   </import-step>
 
-  <import-step
-     version="20071109-01"
-     id="setupKupu"
-     handler="opencore.configuration.setuphandlers.setupKupu"
-     title="OpenCore setup kupu libraries">
-    Tweak the library settings in the kupu drawers.
-    <dependency step="install_dependencies" />
-  </import-step>
-
 </import-steps>
