@@ -50,7 +50,7 @@
         <td tal:content="mem/created"/></tr>
     </table>
 
-    <table border="1" cellspacing="0">
+    <table tal:replace="nothing" border="1" cellspacing="0">
       <tr><td>project</td>
         <td>modified</td>
         <td>created</td></tr>
