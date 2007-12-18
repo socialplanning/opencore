@@ -558,7 +558,7 @@ Bug #1711. Member creation message should use the portal title.
     >>> view = portal.restrictedTraverse("@@join")
     >>> mh = view.get_tool('MailHost')
     >>> mh
-    <...MockMailHost at ...>
+    <...MockMailHost ...>
     >>> view._sendmail_to_pendinguser('unused id', '1711@example.com',
     ...                               'http://confirm-url.com')
     >>> emailtext = mh.messages[-1].get_payload()
