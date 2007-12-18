@@ -36,7 +36,7 @@ class StatsView(BrowserView):
         members = self.get_members()
         filtered_members = []
         for mem in members:
-            if mem.modified < DateTime.DateTime('2003-01-01'):
+            if mem.getLast_login_time < DateTime.DateTime('2003-01-01'):
                 filtered_members.append(mem)
         return filtered_members
 
