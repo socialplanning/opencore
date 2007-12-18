@@ -11,22 +11,16 @@
       <tr>
         <td></td>
         <td>total</td>
-	<td>active</td>
-      </tr>
-      <tr>
-        <td>projects</td>
-	<td tal:content="python: len(view.get_projects())" />
-	<td tal:content="python: len(view.get_active_projects())" />
+	<td>logged in (in last <span tal:replace="view/expiry_days"/> days)</td>
+	<td>never used</td>
+	<td>avg time before expiry of used members</td>
       </tr>
       <tr>
         <td>members</td>
 	<td tal:content="python: len(view.get_members())" />
 	<td tal:content="python: len(view.get_active_members())" />
-      </tr>
-      <tr>
-        <td>mailing lists</td>
-	<td tal:content="python: len(view.get_mailing_lists())" />
-	<td tal:content="python: len(view.get_active_mailing_lists())" />
+	<td tal:content="python: len(view.get_unused_members())" />
+        <td tal:content="python: '%.1f days from %d members' % view.get_member_stickiness()" />
       </tr>
     </table>
   </body>
