@@ -9,7 +9,7 @@ from opencore.browser.formhandler import button, post_only, anon_only, octopus
 from opencore.interfaces.browser import IIgnorableDummy 
 from zExceptions import Redirect
 from zope.app.apidoc.component import getRequiredAdapters as get_required
-from zope.interface import providedBy
+from zope.interface import providedBy, implements
 from zope.publisher.interfaces import IRequest
 import itertools
 
