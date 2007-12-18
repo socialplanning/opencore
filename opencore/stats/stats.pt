@@ -38,7 +38,7 @@
       </tr>
     </table>
 
-    <table border="1" cellspacing="0">
+    <table tal:replace="nothing" border="1" cellspacing="0">
       <tr><td>member</td>
         <td>getLast_login_time</td>
         <td>modified</td>
@@ -48,6 +48,16 @@
         <td tal:content="mem/getLast_login_time" />
         <td tal:content="mem/modified" />
         <td tal:content="mem/created"/></tr>
+    </table>
+
+    <table border="1" cellspacing="0">
+      <tr><td>project</td>
+        <td>modified</td>
+        <td>created</td></tr>
+      <tr tal:repeat="proj view/get_projects">
+        <td tal:content="proj/Title"/>
+        <td tal:content="proj/modified" />
+        <td tal:content="proj/created"/></tr>
     </table>
 
   </body>
