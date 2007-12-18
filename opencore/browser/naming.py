@@ -32,11 +32,17 @@ class IgnorableDummy(Dummy):
     special persistent objects"""
     _dummy_ignore = True
 
+
 def get_view_names(obj, ignore_dummy=False):
     """Gets all view names for a particular object"""
     ifaces = providedBy(obj)
-    regs = itertools.chain(*(get_required(iface, withViews=True) for iface in ifaces))
+    required = (get_required(iface, withViews=True) for iface in ifaces)
+    regs = itertools.chain(*required)
+
     if ignore_dummy:
-        return set(reg.name for reg in regs if reg.required[-1].isOrExtends(IRequest) and not getattr(reg.value, '_dummy_ignore', False))
+        return set(reg.name for reg in regs \
+                   if reg.required[-1].isOrExtends(IRequest) \
+                   and not getattr(reg.value, '_dummy_ignore', False))
+    
     return set(reg.name for reg in regs\
                if reg.required[-1].isOrExtends(IRequest))
