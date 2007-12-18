@@ -20,7 +20,7 @@
 							<tbody>
 								<tr class="oc-form-row">
 									<th class="oc-form-label" scope="row">
-										<label i18n:translate="create_title_name" for="title">Title</label>
+										<label i18n:translate="list_title_name" for="title">Title</label>
 									</th>
 									<td class="oc-form-value">
 										<input type="text" id="title" class="oc-autoFocus" name="title"
@@ -34,7 +34,7 @@
 								</tr>
 								<tr class="oc-form-row">
 									<th class="oc-form-label" scope="row">
-										<label i18n:translate="create_list_description" for="description">Description</label>
+										<label i18n:translate="list_description_name" for="description">Description</label>
 									</th>
 									<td class="oc-form-value">
 										<textarea name="description" id="description" rows="3" cols="40" tal:content="request/description | nothing"/>
@@ -47,7 +47,7 @@
 								</tr>
 								<tr class="oc-form-row">
 									<th class="oc-form-label" scope="row">
-										<label i18n:translate="create_list_mailto" for="mailto">List Address Prefix</label>
+										<label i18n:translate="list_mailto_name" for="mailto">List Address Prefix</label>
 									</th>
 									<td class="oc-form-value oc-form-fieldBlock">
 										<input type="text" name="mailto" id="mailto"
@@ -72,27 +72,27 @@
 							<tbody>
 								<tr class="oc-form-row">
 									<th class="oc-form-label" scope="row">
-										<p i18n:translate="create_list_workflow_policy">Workflow</p>
+										<p i18n:translate="list_workflow_policy_name">Workflow</p>
 									</th>
 									<td class="oc-form-value">
-					          <p i18n:translate="create_list_workflow_desc" class="oc-headingContext oc-smallText">The policy that defines the behavior of the list.</p>
+					          <p i18n:translate="list_workflow_desc" class="oc-headingContext oc-smallText">The policy that defines the behavior of the list.</p>
 										<fieldset tal:define="policy request/workflow_policy | string:policy_open">
 											<ul class="oc-plainList oc-form-fieldBlock">
 												<li>
 													<input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
 													value="policy_open" tal:attributes="checked python:policy == 'policy_open' and 'checked' or ''" />
-													<label i18n:translate="create_list_workflow_open" for="workflow_policy_open">
+													<label i18n:translate="list_workflow_open" for="workflow_policy_open">
 													Anyone who confirms their email address is valid can post and receive messages.</label>
 												</li>
 												<li>
 													<input type="radio" class="oc-input-typeRadio" id="workflow_policy_moderated" name="workflow_policy"
 													value="policy_moderated" tal:attributes="checked python:policy == 'policy_moderated' and 'checked' or ''" />
-													<label i18n:translate="create_list_workflow_moderated" for="workflow_policy_moderated">Anyone can receive messages, but each posted message has to be approved by the list managers first.</label>
+													<label i18n:translate="list_workflow_moderated" for="workflow_policy_moderated">Anyone can receive messages, but each posted message has to be approved by the list managers first.</label>
 												</li>
 												<li>
 													<input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
 													value="policy_closed" tal:attributes="checked python:policy == 'policy_closed' and 'checked' or ''" />
-													<label i18n:translate="create_list_workflow_closed" for="workflow_policy_closed">Only those approved by the list managers can post and receive messages.</label>
+													<label i18n:translate="list_workflow_closed" for="workflow_policy_closed">Only those approved by the list managers can post and receive messages.</label>
 												</li>
 											</ul>
 										</fieldset>
@@ -106,10 +106,10 @@
 <!-- managers -->
 								<tr class="oc-form-row">
 									<th class="oc-form-label" scope="row">
-										<label i18n:translate="create_list_managers_name" for="managers">Managers</label>
+										<label i18n:translate="list_managers_name" for="managers">Managers</label>
 									</th>
 									<td class="oc-form-value">
-					          <p i18n:translate="create_list_managers_desc" class="oc-headingContext oc-smallText">A comma seperated list of users with permissions to modify the list.</p>
+					          <p i18n:translate="list_managers_desc" class="oc-headingContext oc-smallText">A comma seperated list of users with permissions to modify the list.</p>
 										<input type="text" id="managers" class="oc-autoFocus" name="managers"
 													 tal:attributes="value request/managers | view/loggedinmember | nothing" />
 									</td>
@@ -132,17 +132,17 @@
 								<li>
 									<input type="radio" class="oc-input-typeRadio" id="archival_policy_all" name="archival_policy"
 									value="0" tal:attributes="checked python:policy == 0 and 'checked' or ''" />
-									<label i18n:translate="create_list_archive_all" for="archival_policy_all">The entire message, including attachments</label>
+									<label i18n:translate="list_archive_all" for="archival_policy_all">The entire message, including attachments</label>
 								</li>
 								<li>
 									<input type="radio" class="oc-input-typeRadio" id="archival_policy_text" name="archival_policy"
 									value="1" tal:attributes="checked python:policy == 1 and 'checked' or ''" />
-									<label i18n:translate="create_list_archive_text" for="archival_policy_text">The message text only</label>
+									<label i18n:translate="list_archive_text" for="archival_policy_text">The message text only</label>
 								</li>
 								<li>
 									<input type="radio" class="oc-input-typeRadio" id="archival_policy_none" name="archival_policy"
 									value="2" tal:attributes="checked python:policy == 2 and 'checked' or ''" />
-									<label i18n:translate="create_list_archive_none" for="archival_policy_none">Do not archive messages</label>
+									<label i18n:translate="list_archive_none" for="archival_policy_none">Do not archive messages</label>
 								</li>
 							</ul>
 						</fieldset>
@@ -158,7 +158,7 @@
 					 i18n:attributes="value create_create_button"
 											 class="oc-button oc-chooseThis" />
 							</li>
-							<li>or <a i18n:translate="create_list_cancel" href="">Cancel</a></li>
+							<li>or <a i18n:translate="list_cancel" href="">Cancel</a></li>
 						</ul>
 					</fieldset>
 				</form>
