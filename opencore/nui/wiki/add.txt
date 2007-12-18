@@ -101,6 +101,14 @@ normalized::
     >>> view.portal_status_message
     [...u'"Test G&#233;omatique" has been created'...]
 
+The window title should display properly, and the page should be renderable without
+explosions::
+    >>> view = projects.p1['test-geomatique'].restrictedTraverse('@@view')
+    >>> view.wiki_window_title()
+    u'Test G\xe9omatique - Project One'
+    >>> view()
+    'dfoo'
+
     >>> title = u'\u3322'.encode("utf-8")
     >>> self.folder.REQUEST.set('Title', title)
     >>> view = projects.p1.restrictedTraverse('@@add-page')
