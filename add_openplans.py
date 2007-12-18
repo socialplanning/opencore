@@ -19,9 +19,3 @@ if not site_id in app.objectIds():
 
     transaction.commit()
 
-
-
-
-
-
-!DSPAM:4014,47682718224951804284693!
