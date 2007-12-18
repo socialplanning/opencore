@@ -111,13 +111,13 @@
 
   <!-- placeholder views for lists & tasks -->
   <browser:page
-     class="opencore.nui.wiki.add.IgnorableDummy"
+     class="opencore.browser.naming.IgnorableDummy"
      for="opencore.interfaces.IProject"
      permission="zope2.View"
      name="lists"
      />
   <browser:page
-     class="opencore.nui.wiki.add.Dummy"
+     class="opencore.browser.naming.Dummy"
      for="opencore.interfaces.IProject"
      permission="zope2.View"
      name="tasks"
