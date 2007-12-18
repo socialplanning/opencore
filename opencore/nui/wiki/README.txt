@@ -344,8 +344,11 @@ Verify the last modified author and text changes took place
      >>> ILastModifiedAuthorId(proj)
      'm1'
 
+The raw text should be saved encoded as it was entered, rather than replacing
+non-ASCII characters with equivalent HTML entities. (Note: this is important;
+see http://trac.openplans.org/openplans/ticket/1942)
      >>> page.text.raw
-     u'<p>foo<br>\n&#8789;baz</p>'
+     u'<p>foo<br>\n\u2255baz</p>'
 
      >>> self.logout()
      >>> self.login('m3')

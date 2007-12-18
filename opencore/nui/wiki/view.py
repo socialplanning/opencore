@@ -6,6 +6,16 @@ from opencore.browser.formhandler import button, OctopoLite, action
 from opencore.interfaces import IAmExperimental
 from PIL import Image
 from StringIO import StringIO
+
+
+from lxml import etree# no longer necessary after lxml.html trunk gets released
+from lxml.html import fromstring # no longer necessary after lxml.html trunk gets released
+import copy # no longer necessary after lxml.html trunk gets release
+import re
+__replace_meta_content_type = re.compile(
+    r'<meta http-equiv="Content-Type".*?>').sub  # no longer necessary after lxml.html trunk gets release
+
+
 from lxml.html.clean import Cleaner
 from opencore.interfaces.catalog import ILastModifiedAuthorId
 from topp.utils.pretty_date import prettyDate
@@ -56,6 +66,20 @@ class WikiView(WikiBase):
 
     view_attachments_snippet = ZopeTwoPageTemplateFile('attachment-view.pt')
 
+# XXX stoled from lxml.html to allow selection of encoding (fixed in lxml.html trunk; wait for a release and then delete me)
+def tostring(doc, pretty_print=False, include_meta_content_type=False, encoding="utf-8"):
+    """
+    return HTML string representation of the document given 
+ 
+    note: this will create a meta http-equiv="Content" tag in the head
+    and may replace any that are present 
+    """
+    assert doc is not None
+    html = etree.tostring(doc, method="html", pretty_print=pretty_print, encoding=encoding)
+    if not include_meta_content_type:
+        html = __replace_meta_content_type('', html)
+    return html
+
 class WikiEdit(WikiBase, OctopoLite):
 
     # kupu template turned of now
@@ -78,7 +102,7 @@ class WikiEdit(WikiBase, OctopoLite):
 #            return self.kupu_template
 
     def _clean_html(self, html):
-        """ delegate cleaning of html to lxml """
+        """ delegate cleaning of html to lxml .. sort of """
         ocprops = self.get_tool('portal_properties').opencore_properties
         whitelist = ocprops.getProperty('embed_whitelist') or []
         try:
@@ -86,9 +110,23 @@ class WikiEdit(WikiBase, OctopoLite):
         except TypeError:
             raise TypeError("Bad value for portal_properties.embed_whitelist: %r" % whitelist)
         cleaner = Cleaner(host_whitelist=whitelist)
-        new_html = cleaner.clean_html(html)
+
+        # stoled from lxml.html.clean
+        if isinstance(html, basestring):
+            return_string = True
+            doc = fromstring(html)
+        else:
+            return_string = False
+            doc = copy.deepcopy(html)
+        cleaner(doc)
+        if return_string:
+            return tostring(doc)
+        else:
+            return doc
+
+        #new_html = cleaner.clean_html(html)
         ## FIXME: we should have some way of notifying the user about tags that were removed
-        return new_html
+        #return new_html
 
     @action('save')
     def handle_save(self, target=None, fields=None):
