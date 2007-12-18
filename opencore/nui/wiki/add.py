@@ -1,18 +1,16 @@
-from wicked.at.link import ATWickedAdd as WickedAdd
 from Acquisition import aq_inner, aq_parent
-from wicked.normalize import titleToNormalizedId as normalize
-
 from opencore.browser.base import BaseView
 from opencore.browser.base import _
+from opencore.browsern.naming import get_view_names
+from wicked.at.link import ATWickedAdd as WickedAdd
+from wicked.normalize import titleToNormalizedId as normalize
 from wicked.utils import getWicked
-from zope.component import ComponentLookupError
 from zExceptions import Redirect
-import itertools
+from zope.component import ComponentLookupError
 
 
 class NuiBaseAdd(WickedAdd, BaseView):
     type_name = 'Document'
-    _viewnames = None
     extender = 'page'
 
     def __init__(self, context, request):
@@ -74,46 +72,7 @@ class NuiPageAdd(NuiBaseAdd):
     def get_container(self):
         return aq_parent(aq_inner(self.context))
 
-# consider moving out to more general location
-# the project create code shares this as well
-from zope.interface import providedBy
-from zope.app.apidoc.component import getRequiredAdapters as get_required
-from zope.publisher.interfaces import IRequest
-from zope.interface import Interface, implements
-import types
 
-def get_view_names(obj, ignore_dummy=False):
-    """Gets all view names for a particular object"""
-    ifaces = providedBy(obj)
-    regs = itertools.chain(*(get_required(iface, withViews=True) for iface in ifaces))
-    if ignore_dummy:
-        return set(reg.name for reg in regs\
-                   if reg.required[-1].isOrExtends(IRequest) \
-                   and not IIgnorableDummy.providedBy(reg.value))
-    return set(reg.name for reg in regs\
-               if reg.required[-1].isOrExtends(IRequest))
-
-
-class Dummy(BaseView):
-    """Creates dummy for blocking the overcreation of deliverance
-    paths"""
-
-    def __init__(self, context, request):
-        super(Dummy, self).__init__(context, request)
-        
-    def __call__(self, *args, **kw):
-        raise Redirect, self.redirect_url
-
-    @property
-    def redirect_url(self):
-        return "%s/%s" %(self.area.absolute_url(), "preferences")
-    
-class IIgnorableDummy(Interface):
-    """go ahead and ignore me"""
-
-class IgnorableDummy(Dummy):
-    """a dummy that get_view_names will ignore (for special persistent objects)"""
-    implements(IIgnorableDummy)
 
     
     

@@ -10,7 +10,7 @@ from opencore.browser.base import _
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.interfaces import IHomePage
 from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
-from opencore.nui.wiki.add import get_view_names
+from opencore.browser.naming import get_view_names
 from opencore.project.browser.base import ProjectBaseView
 from plone.memoize.instance import memoize, memoizedproperty
 from plone.memoize.view import memoize as req_memoize
@@ -32,6 +32,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
     valid_title = staticmethod(text.valid_title)
     
     def reserved_names(self):
+        #@@ use dummies for people and projects
         return list(get_view_names(self.context)) + ['people', 'projects']
 
     @action('validate')

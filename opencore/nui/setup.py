@@ -21,7 +21,7 @@ from opencore.configuration.setuphandlers import setupProjectLayout, setupHomeLa
 from opencore.featurelets.interfaces import IListenFeatureletInstalled
 from opencore.interfaces import IOpenPage, INewsItem, IHomePage
 from opencore.listen.events import listen_featurelet_installed
-from opencore.nui.wiki.add import get_view_names
+from opencore.browser.naming import get_view_names
 from opencore.project.browser.metadata import _update_last_modified_author
 from opencore.project import PROJ_HOME
 from persistent import mapping
