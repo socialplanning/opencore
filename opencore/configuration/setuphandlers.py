@@ -496,38 +496,5 @@ def local_fqdn_return_address(portal, out):
         portal.manage_changeProperties(email_from_address=addy)
 
 @setuphandler
-def setupKupu(portal, out):
-    # this should really read from a config file
-    # but for now, will do
-    # this code taken from kupu source(plone config example)
-    
-    mt = getToolByName(portal, 'portal_membership')
-    people = 'portal/%s/absolute_url' %mt.getMembersFolder().getId()
-
-    people = dict(src='string:${%s}/kupucollection.xml' %people,
-                  uri='string:${%s}' %people)
-    [kl.update(people) for kl in kupu_libraries \
-     if kl['id'] == 'people']
-
-    typetool = getToolByName(portal, 'portal_types')
-    def typefilter(types):
-        all_meta_types = dict([ (t.id, 1) for t in typetool.listTypeInfo()])
-        return [ t for t in types if t in all_meta_types ]
-        
-    kupu = getToolByName(portal, 'kupu_library_tool')
-    libs = kupu.zmi_get_libraries()
-    kupu.deleteLibraries(range(len(libs)))
-
-    types = kupu.zmi_get_type_mapping()
-    kupu.deleteResourceTypes([ t for (t,p) in types])
-
-    for k,v in kupu_resource_map.items():
-        kupu.addResourceType(k, typefilter(v))
-
-    for lib in kupu_libraries:
-        kupu.addLibrary(**lib)
-        
-    kupu.zmi_set_default_library('myitems')
-    
-    if out:
-        print >> out, "Kupu setup completed"
+def activate_wicked(site, out):
+    pass
