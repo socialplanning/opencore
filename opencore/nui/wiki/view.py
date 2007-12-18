@@ -39,21 +39,23 @@ class WikiBase(BaseView):
 
         context = self.context
 
+        title = context.Title()
+
         if self.inmember:
             vmi = self.viewed_member_info
 
             # if viewing member homepage
             if mode:
-                return '%s %s' % (context.Title(), mode)
+                return '%s %s' % (title, mode)
 
             if vmi['home_url'] == context.absolute_url():
                 return '%s on %s' % (vmi['id'], self.portal_title())
             else:
-                return '%s - %s on %s' % (context.Title(), vmi['id'],
+                return '%s - %s on %s' % (title, vmi['id'],
                                           self.portal_title())
 
         else:
-            return '%s %s- %s' % (context.Title(), mode, self.area.Title())
+            return '%s %s- %s' % (title, mode, self.area.Title())
 
     def lastModifiedTime(self):
         return prettyDate(self.context.ModificationDate())
