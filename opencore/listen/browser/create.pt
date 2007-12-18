@@ -29,7 +29,7 @@
 									<td class="oc-form-help">
 										<span class="oc-form-context"></span>
 										<span id="oc-title-validator" class="oc-form-validator"></span>
-										<span id="oc-error" class="oc-form-error" tal:content="view/errors/title | nothing" />
+										<span id="oc-title-error" class="oc-form-error" tal:content="view/errors/title | nothing" />
 									</td>
 								</tr>
 								<tr class="oc-form-row">
@@ -99,8 +99,6 @@
 									</td>
 									<td class="oc-form-help">
 										<span class="oc-form-context"></span>
-										<span id="oc-workflow_policy-validator" class="oc-form-validator"></span>
-										<span id="oc-error" class="oc-form-error" tal:content="view/errors/workflow_policy | nothing" />
 									</td>
 								</tr>
 <!-- managers -->
@@ -116,7 +114,7 @@
 									<td class="oc-form-help">
 										<span class="oc-form-context"></span>
 										<span id="oc-managers-validator" class="oc-form-validator"></span>
-										<span id="oc-error" class="oc-form-error" tal:content="view/errors/managers | nothing" />
+										<span id="oc-managers-error" class="oc-form-error" tal:content="view/errors/managers | nothing" />
 									</td>
 								</tr>
 							</tbody>

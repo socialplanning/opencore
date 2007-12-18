@@ -24,6 +24,7 @@ from opencore.browser.formhandler import OctopoLite, action
 from opencore.browser.base import BaseView, _
 from opencore.listen.mailinglist import OpenMailingList
 from opencore.listen.mailinglist_views import MailingListAddForm, MailingListEditForm, MailingListView
+from opencore.listen.utils import isValidPrefix
 from plone.app.form import _named
 from plone.memoize.view import memoize as req_memoize
 from zope.app.annotation.interfaces import IAnnotations
@@ -99,7 +100,7 @@ class ListenBaseView(BaseView):
         ocprops = ptool._getOb('opencore_properties')
         return '@' + str(ocprops.getProperty('mailing_list_fqdn').strip())
 
-    def validate_form(self):
+    def validate_form(self, justValidate=False):
         putils = getToolByName(self.context, 'plone_utils')
         # Create an empty dictionary to hold any eventual errors.
         self.errors = {}
@@ -146,14 +147,19 @@ class ListenBaseView(BaseView):
         if workflow not in ('policy_open', 'policy_moderated', 'policy_closed'):
             self.errors['workflow_policy'] = _(u'list_invalid_workflow_error', u'The mailing list security must be set to open, moderated, or closed.')
 
-        archive = int(self.request.form.get('archival_policy'))
+        archive = None
+        try:
+            archive = int(self.request.form.get('archival_policy'))
+        except TypeError:
+            pass 
+            
         if archive not in (0, 1, 2):
             self.errors['archive'] = _(u'list_invalid_archive_error', u'The mailing list archival method must be set to all, text-only, or none.')
 
         mailto = self.request.form.get('mailto')
         if not mailto:
             self.errors['mailto'] = _(u'list_missing_prefix_error', u'The mailing list must have a list prefix.')
-        elif not re.match('[a-zA-Z][-\w]+', mailto):
+        elif not isValidPrefix(mailto):
             self.errors['mailto'] = _(u'list_invalid_prefix_error', u'Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)')
         else:
             mailto = putils.normalizeString(mailto)
@@ -161,7 +167,7 @@ class ListenBaseView(BaseView):
                 self.errors['mailto'] = _(u'list_duplicate_error', u'The requested list prefix is already taken.')
 
         # If we don't pass sanity checks by this point, abort and let the user correct their errors.
-        if self.errors:
+        if self.errors and not justValidate:
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return False
         return title, workflow, archive, mailto, managers
@@ -174,21 +180,24 @@ class ListAddView(ListenBaseView, OctopoLite):
     @action('validate')
     def validate(self, target=None, fields=None):
         putils = getToolByName(self.context, 'plone_utils')
-        errors = {}
+        result = self.validate_form(justValidate=True)
+        #fixme: should not be default, should be translated.
+        def oc_json_error(v):
+            return {'html': v.default,
+                    'action': 'copy',
+                    }
+        errors = dict (("oc-%s-error" % k, oc_json_error(v)) for k, v in self.errors.items())
         mailto = self.request.form.get('mailto')
         mailto = putils.normalizeString(mailto)
-        if (self.context.has_key(mailto)):
-            errors['oc-mailto-error'] = {
-                'html': 'The requested list prefix is already taken.',
-                'action': 'copy',
-                'effects': 'highlight'
-                }
-        else:
-            errors['oc-mailto-error'] = {
-                'html': '',
-                'action': 'copy',
-                'effects': ''
-                }
+        
+        if not 'oc-mailto-error' in self.errors:
+            if self.context.has_key(mailto):
+                errors['oc-mailto-error'] = {
+                    'html': 'The requested list prefix is already taken.',
+                    'action': 'copy',
+                    'effects': 'highlight'
+                    }
+
         return errors
 
 
