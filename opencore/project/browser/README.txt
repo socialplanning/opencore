@@ -295,7 +295,7 @@ Verify that the locations were set
 
 They should be sorted according to id, by location
     >>> [b.getId for b in brains]
-    ['m3', 'm1', 'm4']
+    ['m1', 'm3', 'm4']
 
 Test the projects for members work::
     >>> mem = self.portal.portal_memberdata.m4
