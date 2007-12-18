@@ -18,7 +18,7 @@ setProjectFolderPermissions
 setSiteIndexPage
 setTeamType
 setupHomeLayout
-setupKupu
+activate_wicked
 setupPeopleFolder
 setupProjectLayout
 setupTeamTool
