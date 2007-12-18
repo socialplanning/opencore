@@ -32,23 +32,23 @@ class StatsView(BrowserView):
         return filtered_members
 
     def get_unused_members(self):    
-        # "unused" is defined as having never logged in after confirming account
+        # "unused" is defined as never using the account beyond the first 24 hours
         members = self.get_members()
         filtered_members = []
         for mem in members:
-            if mem.getLast_login_time < DateTime.DateTime('2003-01-01'):
+            if (mem.modified - mem.created < 1) and (mem.modified < self.expiry_date):
                 filtered_members.append(mem)
         return filtered_members
 
     def get_member_stickiness(self):
-        # for all non-active members
+        # for all non-active members who were at one time active
         # find AVG(last_login - creation_date)
         # equals the average length of time a member is active
         members = self.get_members()
         active_length = 0
         i = 0
         for mem in members:
-            if (mem.modified < self.expiry_date) and (mem.created < mem.modified):
+            if (mem.modified < self.expiry_date) and (mem.modified - mem.created >= 1):
                 i += 1
                 active_length += mem.modified - mem.created
         
@@ -75,8 +75,8 @@ class StatsView(BrowserView):
         return filtered_projects
 
     def get_unused_projects(self):
-        # "unused" is defined as having never been modified on any day
-        # after the day it was created
+        # "unused" is defined as having never been modified beyond the 
+        # first 24 hours after it was created
         projects = self.get_projects()
         filtered_projects = []
         for proj in projects:
@@ -86,7 +86,7 @@ class StatsView(BrowserView):
         
 
     def get_project_stickiness(self):
-        # for all non-active projects
+        # for all non-active projects which were at one time active
         # find AVG(modified - creation_date)
         # equals the average length of time a project is active
         projects = self.get_projects()
