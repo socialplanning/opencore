@@ -234,8 +234,8 @@ Upload an attachment
 
 and check that it appears in the list of files
 (should it be unicode output?)
-     >>> view.create_attachment_manager()
-     '<...203x50...
+     >>> print view.create_attachment_manager()
+     <...203x50...
 
 (the magic number is the size of xinha_logo.gif)    
 
