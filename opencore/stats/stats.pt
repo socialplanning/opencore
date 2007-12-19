@@ -75,10 +75,12 @@
     <table  border="1" cellspacing="0">
       <tr><td>mailing list</td>
         <td>latest_date</td>
+        <td>modified</td>
         <td>created</td></tr>
       <tr tal:repeat="ml view/get_mailing_lists">
         <td tal:content="ml/Title"/>
         <td tal:content="ml/latest_date" />
+        <td tal:content="ml/modified" />
         <td tal:content="ml/created"/></tr>
     </table>
   </body>
