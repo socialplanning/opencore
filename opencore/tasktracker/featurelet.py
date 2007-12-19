@@ -1,9 +1,9 @@
 from Products.CMFCore.utils import getToolByName
-from memojito import memoizedproperty
 from opencore.interfaces import IProject
 from opencore.tasktracker.interfaces import ITaskTrackerFeatureletInstalled
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utils import get_opencore_property
+from plone.memoize.instance import memoizedproperty, memoize
 from topp.featurelets.base import BaseFeaturelet
 from topp.featurelets.interfaces import IFeaturelet
 from zope.component import getUtility

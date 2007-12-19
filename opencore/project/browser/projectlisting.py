@@ -2,7 +2,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.AdvancedQuery import Eq, Generic
 from zope.interface import implements
-from memojito import memoizedproperty, memoize
+from plone.memoize.instance import memoizedproperty, memoize
 
 from Products.OpenPlans.content.project import OpenProject
 

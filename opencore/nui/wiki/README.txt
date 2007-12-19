@@ -152,6 +152,7 @@ Create an attachment to upload::
      >>> request.form = form
      >>> view.create_attachment()
      {...'oc-wiki-attachments'...}
+     
      >>> attachs = view.fileAttachments()
      >>> len(attachs)
      1
@@ -185,6 +186,7 @@ If we create an attachment with no title, the title should be the id::
      >>> request.form = form
      >>> view.create_attachment()
      {...'oc-wiki-attachments'...}
+     
      >>> newatt = view.context._getOb('secret.txt')
      >>> newatt
      <FileAttachment at /plone/projects/p1/project-home/secret.txt>

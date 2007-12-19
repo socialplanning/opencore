@@ -46,7 +46,6 @@ setup(
           'feedparser',
           'topp.featurelets>=0.2.2',
           'topp.utils>=0.3.0',
-          'memojito',
           'OpencoreRedirect',
           'httplib2',
           'plone.memoize',

@@ -1,18 +1,18 @@
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from memojito import memoizedproperty
 from opencore.interfaces import IProject
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utils import get_opencore_property
 from opencore.wordpress.interfaces import IWordPressFeatureletInstalled
+from plone.memoize.instance import memoizedproperty, memoize
 from topp.featurelets.base import BaseFeaturelet
 from topp.featurelets.interfaces import IFeaturelet
 from zope.component import getUtility
 from zope.interface import implements
 import hmac
+import logging
 import sha
 import urllib
-import logging
 
 log = logging.getLogger('opencore.wordpress')
 

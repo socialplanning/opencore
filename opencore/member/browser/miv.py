@@ -6,12 +6,12 @@ from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.remember.interfaces import IReMember
-from opencore.interfaces.member import IMemberFolder, IMemberHomePage
-from opencore.interfaces.member import IMemberInfo
-from opencore.interfaces.event import IFirstLoginEvent
-from memojito import memoizedproperty, memoize
 from opencore import redirect 
 from opencore.interfaces import IProject, IConsumeNewMembers
+from opencore.interfaces.event import IFirstLoginEvent
+from opencore.interfaces.member import IMemberFolder, IMemberHomePage
+from opencore.interfaces.member import IMemberInfo
+from plone.memoize.instance import memoizedproperty, memoize
 from topp.utils.pretty_date import prettyDate
 from zope.component import getMultiAdapter, adapts, adapter
 from zope.event import notify
