@@ -1,3 +1,6 @@
+from AccessControl import ClassSecurityInfo #XXX
+from Globals import InitializeClass  #XXX
+
 from DateTime import DateTime
 from Products.Five import BrowserView
 from Products.PleiadesGeocoder.browser.info import get_coords
@@ -11,57 +14,19 @@ import interfaces
 import urllib
 import utils
 
-class OCGeoView(BrowserView):
+class ReadGeoView(BrowserView):
 
-    implements(interfaces.IOCGeoView)
+    implements(interfaces.IReadGeo)
 
     def _geo(self):
         return IGeoItemSimple(self.context)
 
-    def set_geolocation(self, coords):
-        """See IOCGeoView."""
-        if coords and not None in coords:
-            geo = self._geo()
-            # XXX need to handle things other than a point!
-            lat, lon = coords[:2]
-            # Longitude first! Yes, really.
-            new_coords = (lon, lat, 0.0)
-            if new_coords != geo.coords:
-                geo.setGeoInterface('Point', new_coords)
-                return True
-        return False
-
     def get_geolocation(self):
-        """See IOCGeoView. Note the output is ordered as (lon, lat, z)."""
+        """See IReadGeo. Note the output is ordered as (lon, lat, z)."""
         return self._geo().coords
 
-    def geocode_from_form(self, form=None):
-        """See IOCGeoView."""
-        if form is None:
-            form = self.request.form
-        try:
-            lon = float(form.get('position-longitude'))
-            lat = float(form.get('position-latitude'))
-        except TypeError:
-            lon = lat = None
-        except ValueError:
-            lon = lat = None
-        position = form.get('position-text', '').strip()
-        if position:
-            # If we got this, then presumably javascript was disabled;
-            # it overrides the other form variables.
-            # The value should be something we can look up via the geocoder.
-            geo_tool = self.context.get_tool('portal_geocoder')
-            records = geo_tool.geocode(position)
-            if records:
-                lat = records[0]['lat']
-                lon = records[0]['lon']
-            else:
-                return None
-        return lat, lon
-
     def location_img_url(self):
-        """See IOCGeoView."""
+        """See IReadGeo."""
         geo = self._geo()
         if not geo.coords:
             return ''
@@ -77,13 +42,75 @@ class OCGeoView(BrowserView):
         return url
 
 
-class OCMemberareaGeoView(OCGeoView, BaseView):
+
+class WriteGeoView(ReadGeoView):
+
+    implements(interfaces.IWriteGeo)
+
+
+    security = ClassSecurityInfo()
+    security.declareProtected('Modify Portal Content', 'set_geolocation')
+    def set_geolocation(self, coords):
+        """See IWriteGeo."""
+        if coords and not None in coords:
+            geo = self._geo()
+            # XXX need to handle things other than a point!
+            lat, lon = coords[:2]
+            # Longitude first! Yes, really.
+            new_coords = (lon, lat, 0.0)
+            if new_coords != geo.coords:
+                geo.setGeoInterface('Point', new_coords)
+                return True
+        return False
+
+    def geocode_from_form(self, form=None):
+        """See IWriteGeo.
+
+        If no values are provided, return an empty sequence.
+
+        If position is provided but can't be geocoded, raise ValueError.
+
+        If latitude or longitude values are provided but no good, raise the
+        underlying ValueError or TypeError.
+        """
+        if form is None:
+            form = self.request.form
+        position = form.get('position-text', '').strip()
+        if position:
+            # If we got this, then presumably javascript was disabled;
+            # it overrides the other form variables.
+            # The value should be something we can look up via the geocoder.
+            geo_tool = self.context.get_tool('portal_geocoder')
+            records = geo_tool.geocode(position)
+            if records:
+                lat = records[0]['lat']
+                lon = records[0]['lon']
+                return lat, lon
+            else:
+                raise ValueError("Geocoding %r failed" % position)
+        else:
+            lon = form.get('position-longitude')
+            lat = form.get('position-latitude')
+            if lat is None or lon is None:
+                return ()
+            lon = float(lon)
+            lat = float(lat)
+            return (lat, lon)
+
+
+InitializeClass(WriteGeoView)
+
+class MemberareaReadGeoView(ReadGeoView, BaseView):
 
     # inheriting from BaseView is an excessive, lazy way to get at the
     # member. oh well.
 
     def _geo(self):
         return IGeoItemSimple(self.viewedmember())
+
+class MemberareaWriteGeoView(WriteGeoView, ReadGeoView):
+    pass
+
 
 def MemberFolderGeoItem(context):
     """Adapt a member's home folder to IGeoItemSimple.
@@ -98,7 +125,7 @@ def MemberFolderGeoItem(context):
 
 
 def _iso8601(dt_or_string):
-    # Use this to get something suitable for use in atom feeds.
+    # Use this to get a timestamp suitable for use in atom feeds.
     # Needed because Archetypes.ExtensibleMetadata date fields are sometimes
     # DateTime objects, and sometimes strings. omg wtf etc.
     dt = DateTime(dt_or_string)

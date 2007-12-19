@@ -1,18 +1,22 @@
 from Products.PleiadesGeocoder.interfaces.simple import *
 from zope.interface import Interface
 
-class IOCGeoView(Interface):
+class IReadGeo(Interface):
     """View for using OpenCore content with geocoding.
     """
 
-    def set_geolocation(coords):
-        """Store coordinates on the context (latitude first).
-        If a change is made, return True; else return False.
+    def get_geolocation():
+        """Get the current coordinates of the context.
+        Output as (longitude, latitude, z)"""
+
+    def location_img_url():
+        """
+        Used for non-ajax UI to get a static map image for the context's
+        location.
         """
 
-    def get_geolocation():
-        """Get the current coordinates on the context.
-        Output as (longitude, latitude, z)"""
+
+class IWriteGeo(Interface):
 
     def geocode_from_form(form=None):
         """Look up geocoding information as a (lat, lon) pair.
@@ -25,9 +29,11 @@ class IOCGeoView(Interface):
         If nothing works, returns None.
         """
 
-    def location_img_url():
+    def set_geolocation(coords):
+        """Store coordinates on the context (latitude first).
+        If a change is made, return True; else return False.
         """
-        Used for non-ajax UI to get a static map image for the context's
-        location.
-        """
-
+    
+class IOCGeoView(IReadGeo, IWriteGeo):
+    """both read + write.
+    """

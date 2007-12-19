@@ -17,49 +17,100 @@ Projects
 =========
 
 
-Projects can be adapted to our IOCGeoView which provides a simple
-API for everything we care about.
+Projects can be adapted to our IReadGeo and IWriteGeo which provide a simple
+API for everything we care about.  The read interface should be public::
 
+    >>> self.logout()
     >>> projects = self.portal.projects
     >>> proj = projects.p1
-    >>> geo = proj.restrictedTraverse('oc-geo-info')
-    >>> IOCGeoView.providedBy(geo)
+    >>> reader = proj.restrictedTraverse('oc-geo-read')
+    >>> IReadGeo.providedBy(reader)
     True
-    >>> print geo.get_geolocation()
+    >>> print reader.get_geolocation()
     None
-    >>> geo.set_geolocation((1, 2))  # XXX lat first, change that?
+    >>> reader.location_img_url()
+    ''
+
+The write interface should be restricted to project admins::
+
+    >>> self.logout()
+    >>> writer = proj.restrictedTraverse('oc-geo-write')
+    Traceback (most recent call last):
+    ...
+    Unauthorized: You are not allowed to access 'oc-geo-write' in this context
+    >>> self.login('m1')
+    >>> writer = proj.restrictedTraverse('oc-geo-write')
+    Traceback (most recent call last):
+    ...
+    Unauthorized: You are not allowed to access 'oc-geo-write' in this context
+    >>> self.login('m3')
+    >>> writer = proj.restrictedTraverse('oc-geo-write')
+    >>> IWriteGeo.providedBy(writer)
     True
-    >>> geo.get_geolocation()
+
+Now let's use it::
+
+    >>> writer.set_geolocation((1, 2))  # XXX lat first, change that?
+    True
+    >>> reader.get_geolocation()
     (2.0, 1.0, 0.0)
-    >>> geo.set_geolocation((1, 2))  # same as before, so False.
+    >>> reader.location_img_url()
+    'http://maps.google.com/...'
+    >>> writer.set_geolocation((1, 2))  # same as before, so False.
     False
-    >>> geo.geocode_from_form({'position-latitude': 5,
-    ...                        'position-longitude': '6'})
+    >>> writer.geocode_from_form({'position-latitude': 5,
+    ...                           'position-longitude': '6'})
     (5.0, 6.0)
-    >>> geo.get_geolocation()  # geocode_from_form has no side effects.
+    >>> reader.get_geolocation()  # geocode_from_form has no side effects.
     (2.0, 1.0, 0.0)
+
 
 
 People
 =======
 
-People can be adapted to our OCGeoView which provides a simple API for
-everything we care about.
+People can be adapted to our IReadGeo and IWriteGeo which provide a
+simple API for everything we care about. The read interface should be
+public::
 
-
+    >>> self.logout()
     >>> m1folder = self.portal.people.m1
-    >>> m1data = self.portal.portal_memberdata.m1
-    >>> geo = self.portal.people.m1.restrictedTraverse('oc-geo-info')
-    >>> IOCGeoView.providedBy(geo)
+    >>> reader = m1folder.restrictedTraverse('oc-geo-read')
+    >>> IReadGeo.providedBy(reader)
     True
-    >>> print geo.get_geolocation()
+    >>> print reader.get_geolocation()
     None
-    >>> geo.set_geolocation((-3, -4))  # XXX lat first, change that?
+    >>> reader.location_img_url()
+    ''
+
+But not the write interface, It works only for the actual member::
+
+    >>> m1data = self.portal.portal_memberdata.m1
+    >>> writer = m1folder.restrictedTraverse('oc-geo-write')
+    Traceback (most recent call last):
+    ...
+    Unauthorized: You are not allowed to access 'oc-geo-write' in this context
+    >>> self.login('m2')
+    >>> writer = m1folder.restrictedTraverse('oc-geo-write')
+    Traceback (most recent call last):
+    ...
+    Unauthorized: You are not allowed to access 'oc-geo-write' in this context
+
+    >>> self.login('m1')
+    >>> writer = m1folder.restrictedTraverse('oc-geo-write')    
+    >>> IWriteGeo.providedBy(writer)
     True
-    >>> geo.get_geolocation()
+
+Now let's use it::
+
+    >>> writer.set_geolocation((-3, -4))  # XXX lat first, change that?
+    True
+    >>> reader.get_geolocation()
     (-4.0, -3.0, 0.0)
-    >>> geo.geocode_from_form({'position-latitude': 16,
-    ...                        'position-longitude': '-44.0'})
+    >>> writer.geocode_from_form({'position-latitude': 16,
+    ...                           'position-longitude': '-44.0'})
     (16.0, -44.0)
-    >>> geo.get_geolocation()  # geocode_from_form has no side effects.
+    >>> reader.get_geolocation()  # geocode_from_form has no side effects.
     (-4.0, -3.0, 0.0)
+    >>> reader.location_img_url()
+    'http://...'

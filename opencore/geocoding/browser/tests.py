@@ -47,8 +47,8 @@ def test_suite():
     # Don't need to do setupPloneSite(products=['PleiadesGeocoder']) because
     # we'll use a mock instead.
     setup.setupPloneSite()
-    projname = 'p3'
-    admin = 'm1'
+    project_name = 'p3'
+    project_admin = 'm1'
     member = 'm2'
 
     def readme_setup(tc):

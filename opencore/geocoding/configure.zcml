@@ -12,25 +12,44 @@
        and then override it here, so everything works w/o geolocation
        installed. then we can make this package optional.
 
-       XXX don't really care about having a named view, but
-       i couldn't remember the right multi-adapter magic.
+       Note, we don't really care about these being pages, but in zope
+       2.9, security on browser:view seems to not work at all - you
+       can declare whatever you want, and if anonymous has View
+       permission on view.context, then he can traverse to and call
+       any method of the view. Yay!
 
-       XXX NEED TO RESTRICT PERMISSION  -->
-  <browser:view
+   -->
+  <browser:page
      for="zope.app.container.interfaces.IContainer"
-     name="oc-geo-info"
-     allowed_interface=".interfaces.IOCGeoView"
-     class=".view.OCGeoView"
+     name="oc-geo-read"
+     class=".view.ReadGeoView"
      permission="zope2.View"
+     allowed_interface=".interfaces.IReadGeo"
   />
-  <!-- Register a custom adapter for annotating member areas. -->
-  <browser:view
+  <browser:page
+     for="zope.app.container.interfaces.IContainer"
+     name="oc-geo-write"
+     class=".view.WriteGeoView"
+     permission="cmf.ModifyPortalContent"
+     allowed_interface=".interfaces.IWriteGeo"
+  />
+
+  <!-- Slightly different adapters for member areas. -->
+  <browser:page
      for="opencore.interfaces.IMemberFolder"
-     name="oc-geo-info"
-     allowed_interface=".interfaces.IOCGeoView"
-     class=".view.OCMemberareaGeoView"
+     name="oc-geo-read"
+     class=".view.MemberareaReadGeoView"
      permission="zope2.View"
+     allowed_interface=".interfaces.IReadGeo"
   />
+  <browser:page
+     for="opencore.interfaces.IMemberFolder"
+     name="oc-geo-write"
+     class=".view.MemberareaWriteGeoView"
+     permission="cmf.ModifyPortalContent"
+     allowed_interface=".interfaces.IWriteGeo"
+  />
+
  <!-- Register an adapter to integrate our member areas
       with PleiadesGeocoder and not need skins. -->
  <adapter

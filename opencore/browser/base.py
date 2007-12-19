@@ -309,7 +309,7 @@ class BaseView(BrowserView):
             result['position-latitude'] = ''
             result['position-longitude'] = ''
             if folder:
-                geo = folder.restrictedTraverse('oc-geo-info')
+                geo = folder.restrictedTraverse('oc-geo-read')
                 coords = geo.get_geolocation()
                 if coords is not None:
                     result['position-latitude'] = coords[1]
@@ -362,7 +362,7 @@ class BaseView(BrowserView):
                              location=proj.getLocation(),
                              obj=proj)
             proj_info['position-text'] = proj.getPositionText()
-            geo = proj.restrictedTraverse('oc-geo-info')  # XXX handle failures
+            geo = proj.restrictedTraverse('oc-geo-read')  # XXX handle failures
             coords = geo.get_geolocation()
             if coords:
                 # Yes, longitude first.
@@ -392,7 +392,7 @@ class BaseView(BrowserView):
     def _get_geo_info(self, context_info):
         # context_info would be eg. self.member_info or self.project_info.
         try:
-            geo = self.context.restrictedTraverse('oc-geo-info')
+            geo = self.context.restrictedTraverse('oc-geo-read')
             info = {'static_img_url': geo.location_img_url()}
         except:  # XXX except what?
             info = {'static_img_url': ''}
@@ -419,13 +419,15 @@ class BaseView(BrowserView):
             return default
         if form is None:
             form = self.request.form
+        geo = self.context.unrestrictedTraverse('oc-geo-write')
         try:
-            geo = self.context.restrictedTraverse('oc-geo-info')
             coords = geo.geocode_from_form(form)
-            return coords
-        except TypeError:
+        except (TypeError, ValueError):
             self.errors['position-text'] = _(u'psm_geocode_failed', u"Sorry, we were unable to find that address on the map")
             return default
+        else:
+            return coords
+            
 
     def set_geolocation(self, coords, context=None):
         """
@@ -435,11 +437,11 @@ class BaseView(BrowserView):
         if not self.has_geocoder:
             return False
         if context is None:
-            context = self.context
-        geo = context.restrictedTraverse('oc-geo-info')
+            context = self.context            
+        geo = context.restrictedTraverse('oc-geo-write')
         return geo.set_geolocation(coords)
 
-            
+
     # tool and view handling
 
     @view.memoize_contextless

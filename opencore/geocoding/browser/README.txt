@@ -7,10 +7,9 @@ Geocoding views of opencore content
 Preferences view for Projects
 ------------------------------
 
-
-    >>> self.login(admin)
+    >>> self.login(project_admin)
     >>> projects = portal.projects
-    >>> proj = projects[projname]
+    >>> proj = projects[project_name]
 
 Look for geolocation info, first when it's not set...
 
@@ -130,7 +129,7 @@ clean up...
 Create view for Projects
 ------------------------
 
-
+    >>> self.login(project_admin)
     >>> createview = projects.restrictedTraverse("create")
     >>> createview.request.form.update({'title': 'A geolocated project!',
     ...    'projid': 'testgeo', 'workflow_policy': 'medium_policy',
@@ -180,7 +179,7 @@ suitable for building a georss view.
     1
     >>> info['hasPolygon']
     0
-    >>> info['id'] == projname
+    >>> info['id'] == project_name
     True
     >>> print info['geometry']['coordinates']
     (-87.0, 12.0, 0.0)
@@ -222,7 +221,7 @@ You can also adapt to a view suitable for building kml::
     1
     >>> info['hasPolygon']
     0
-    >>> info['id'] == projname
+    >>> info['id'] == project_name
     True
     >>> info['properties']['title']
     'IGNORANCE IS STRENGTH'

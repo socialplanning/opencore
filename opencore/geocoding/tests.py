@@ -15,6 +15,7 @@ def test_suite():
     from pprint import pprint
     from Products.PleiadesGeocoder.interfaces import IGeoItemSimple
     from opencore.geocoding.interfaces import IGeoFolder, IOCGeoView, \
+         IReadGeo, IWriteGeo, \
          IGeoreferenceable, IGeoAnnotatableContent, IGeoserializable, \
          IGeoserializableMembersFolder
 
