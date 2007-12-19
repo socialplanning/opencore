@@ -104,8 +104,6 @@ class StatsView(BrowserView):
         return avg_active_length, i
 
 
-
-
     def get_mailing_lists(self):
         query = dict(portal_type='Open Mailing List')
         brains = self.catalog(**query)
@@ -130,5 +128,23 @@ class StatsView(BrowserView):
         
         return filtered_lists
 
+    def get_unused_mailing_lists(self):
+        # "unused" is defined as having never been used beyond the 
+        # first 24 hours after it was created
+        lists = self.get_mailing_lists()
+        filtered_lists = []
+        for lst in lists:
+            mail_catalog = queryUtility(ISearchableArchive, context=lst)
+            latest_date = 0
+            if mail_catalog:
+                query = dict(sort_on='date',
+                             sort_order='descending')
+                brains = mail_catalog(**query)
+                latest_date = brains[0].date
+            if lst.modified > latest_date:
+                latest_date = lst.modified
+            if (latest_date < self.expiry_date) and (latest_date - lst.created < 1):
+                filtered_lists.append(lst)
+        return filtered_lists
 
         

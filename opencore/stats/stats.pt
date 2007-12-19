@@ -37,6 +37,21 @@
 	<td tal:content="python: len(view.get_unused_projects())" />
       </tr>
     </table>
+    <h2>mailing lists</h2>
+    <table border="1" cellspacing="0">
+      <tr>
+        <td>total</td>
+	<td>active (in last <span tal:replace="view/expiry_days"/> days)</td>
+	<td>average lifespan</td>
+	<td>never used beyond first 24 hours</td>
+      </tr>
+      <tr>
+	<td tal:content="python: len(view.get_mailing_lists())" />
+	<td tal:content="python: len(view.get_active_mailing_lists())" />
+        <td tal:content="python: '%.1f days from %d projects' % view.get_project_stickiness()" />
+	<td tal:content="python: len(view.get_unused_mailing_lists())" />
+      </tr>
+    </table>
     <table tal:replace="nothing" border="1" cellspacing="0">
       <tr><td>member</td>
         <td>modified</td>
@@ -57,5 +72,14 @@
         <td tal:content="proj/created"/></tr>
     </table>
 
+    <table  border="1" cellspacing="0">
+      <tr><td>mailing list</td>
+        <td>modified</td>
+        <td>created</td></tr>
+      <tr tal:repeat="ml view/get_mailing_lists">
+        <td tal:content="ml/Title"/>
+        <td tal:content="ml/modified" />
+        <td tal:content="ml/created"/></tr>
+    </table>
   </body>
 </html>
