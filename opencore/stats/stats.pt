@@ -16,7 +16,7 @@
 	<td>never used beyond first 24 hours</td>
       </tr>
       <tr>
-	<td tal:content="python: len(view.members)" />
+	<td tal:content="python: len(view.get_members())" />
 	<td tal:content="python: len(view.get_active_members())" />
         <td tal:content="python: '%.1f days from %d members' % view.get_member_stickiness()" />
 	<td tal:content="python: len(view.get_unused_members())" />
@@ -31,7 +31,7 @@
 	<td>never used beyond first 24 hours</td>
       </tr>
       <tr>
-	<td tal:content="python: len(view.projects)" />
+	<td tal:content="python: len(view.get_projects())" />
 	<td tal:content="python: len(view.get_active_projects())" />
         <td tal:content="python: '%.1f days from %d projects' % view.get_project_stickiness()" />
 	<td tal:content="python: len(view.get_unused_projects())" />
@@ -46,7 +46,7 @@
 	<td>never used beyond first 24 hours</td>
       </tr>
       <tr>
-	<td tal:content="python: len(view.mailing_lists)" />
+	<td tal:content="python: len(view.get_mailing_lists())" />
 	<td tal:content="python: len(view.get_active_mailing_lists())" />
         <td tal:content="python: '%.1f days from %d projects' % view.get_project_stickiness()" />
 	<td tal:content="python: len(view.get_unused_mailing_lists())" />
@@ -56,7 +56,7 @@
       <tr><td>member</td>
         <td>modified</td>
         <td>created</td></tr>
-      <tr tal:repeat="mem view/members">
+      <tr tal:repeat="mem view/get_members">
         <td tal:content="mem/Title"/>
         <td tal:content="mem/modified" />
         <td tal:content="mem/created"/></tr>
@@ -66,7 +66,7 @@
       <tr><td>project</td>
         <td>modified</td>
         <td>created</td></tr>
-      <tr tal:repeat="proj view/projects">
+      <tr tal:repeat="proj view/get_projects">
         <td tal:content="proj/Title"/>
         <td tal:content="proj/modified" />
         <td tal:content="proj/created"/></tr>
@@ -76,7 +76,7 @@
       <tr><td>mailing list</td>
         <td>latest_date</td>
         <td>created</td></tr>
-      <tr tal:repeat="ml view/mailing_lists">
+      <tr tal:repeat="ml view/get_mailing_lists">
         <td tal:content="ml/Title"/>
         <td tal:content="ml/latest_date" />
         <td tal:content="ml/created"/></tr>

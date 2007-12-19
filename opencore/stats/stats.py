@@ -16,14 +16,21 @@ class StatsView(BrowserView):
         self.membrane_tool = getToolByName(self.context, 'membrane_tool')
         self.expiry_days = 30
         self.expiry_date = DateTime.now()-self.expiry_days
+        self.ran_queries = False
 
+    def _init_queries(self):
         # do initial catalog queries
+        if self.ran_queries:
+            return
+        else:
+            self.ran_queries = True
+
         query = dict()
         mem_brains = self.membrane_tool(**query)
-        self.members = mem_brains
+        self._members = mem_brains
         query = dict(portal_type='OpenProject')
         proj_brains = self.catalog(**query)
-        self.projects = proj_brains
+        self._projects = proj_brains
         query = dict(portal_type='Open Mailing List')
         ml_brains = self.catalog(**query)
         mailing_lists = ml_brains
@@ -41,13 +48,16 @@ class StatsView(BrowserView):
             mls.append({'Title':lst.Title,
                         'latest_date':latest_date,
                         'created':lst.created})
-        self.mailing_lists = mls
+        self._mailing_lists = mls
             
+    def get_members(self):
+        self._init_queries()
+        return self._members
 
     def get_active_members(self):    
         # "active" is defined as having logged in since expiry_date
         filtered_members = []
-        for mem in self.members:
+        for mem in self.get_members():
             if mem.modified > self.expiry_date:
                 filtered_members.append(mem)
         return filtered_members
@@ -55,7 +65,7 @@ class StatsView(BrowserView):
     def get_unused_members(self):    
         # "unused" is defined as never using the account beyond the first 24 hours
         filtered_members = []
-        for mem in self.members:
+        for mem in self.get_members():
             if (mem.modified - mem.created < 1) and (mem.modified < self.expiry_date):
                 filtered_members.append(mem)
         return filtered_members
@@ -66,7 +76,7 @@ class StatsView(BrowserView):
         # equals the average length of time a member is active
         active_length = 0
         i = 0
-        for mem in self.members:
+        for mem in self.get_members():
             if (mem.modified < self.expiry_date) and (mem.modified - mem.created >= 1):
                 i += 1
                 active_length += mem.modified - mem.created
@@ -77,6 +87,9 @@ class StatsView(BrowserView):
             avg_active_length = 0
         return avg_active_length, i
 
+    def get_projects(self):
+        self._init_queries()
+        return self._projects
 
     def get_active_projects(self):    
         # "active" is defined as having been modified since expiry_date
@@ -84,14 +97,14 @@ class StatsView(BrowserView):
         # this includes updating project prefs
         # does not include contents deletion
         # XXX what about including mailing list, tt, blog activity etc.
-        filtered_projects = [project for project in self.projects if project.modified > self.expiry_date]
+        filtered_projects = [project for project in self.get_projects() if project.modified > self.expiry_date]
         return filtered_projects
 
     def get_unused_projects(self):
         # "unused" is defined as having never been modified beyond the 
         # first 24 hours after it was created
         filtered_projects = []
-        for proj in self.projects:
+        for proj in self.get_projects():
             if (proj.modified < self.expiry_date) and (proj.modified - proj.created < 1):
                 filtered_projects.append(proj)
         return filtered_projects
@@ -103,7 +116,7 @@ class StatsView(BrowserView):
         # equals the average length of time a project is active
         active_length = 0
         i = 0
-        for proj in self.projects:
+        for proj in self.get_projects():
             if (proj.modified < self.expiry_date) and (proj.modified - proj.created >= 1):
                 i += 1
                 active_length += proj.modified - proj.created
@@ -114,11 +127,14 @@ class StatsView(BrowserView):
             avg_active_length = 0
         return avg_active_length, i
 
+    def get_mailing_lists(self):
+        self._init_queries()
+        return self._mailing_lists
 
     def get_active_mailing_lists(self):    
         # "active" is defined as having a message in the last 30 days
         filtered_lists = []
-        for lst in self.mailing_lists:
+        for lst in self.get_mailing_lists():
             if lst['latest_date'] > self.expiry_date:
                 filtered_lists.append(lst)
         return filtered_lists
@@ -127,7 +143,7 @@ class StatsView(BrowserView):
         # "unused" is defined as having never been used beyond the 
         # first 24 hours after it was created
         filtered_lists = []
-        for lst in self.mailing_lists:
+        for lst in self.get_mailing_lists():
             if (lst['latest_date'] < self.expiry_date) and (lst['latest_date'] - lst['created'] < 1):
                 filtered_lists.append(lst)
         return filtered_lists
