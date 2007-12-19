@@ -266,8 +266,6 @@ class ListEditView(ListenEditBaseView):
 
         list.setDescription(unicode(self.request.form.get('description','')))
 
-        list.mailto = mailto
-
         old_type = list.list_type        
         new_type = _workflow_to_ml_type[workflow]
             
