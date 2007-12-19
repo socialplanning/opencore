@@ -17,14 +17,36 @@ class StatsView(BrowserView):
         self.expiry_days = 30
         self.expiry_date = DateTime.now()-self.expiry_days
 
-    def get_members(self):
+        # do initial catalog queries
         query = dict()
         brains = self.membrane_tool(**query)
-        return brains
+        self.members = brains
+        query = dict(portal_type='OpenProject')
+        brains = self.catalog(**query)
+        self.projects = brains
+        query = dict(portal_type='Open Mailing List')
+        brains = self.catalog(**query)
+        mailing_lists = brains
+        mls = []
+        for lst in mailing_lists:
+            mail_catalog = queryUtility(ISearchableArchive, context=lst)
+            latest_date = 0
+            if mail_catalog:
+                query = dict(sort_on='date',
+                             sort_order='descending')
+                brains = mail_catalog(**query)
+                latest_date = brains[0].date
+            if lst.modified > latest_date:
+                latest_date = lst.modified
+            mls.append({'Title':lst.Title,
+                        'latest_date':latest_date,
+                        'created':lst.created})
+        self.mailing_lists = mls
+            
 
     def get_active_members(self):    
         # "active" is defined as having logged in since expiry_date
-        members = self.get_members()
+        members = self.members
         filtered_members = []
         for mem in members:
             if mem.modified > self.expiry_date:
@@ -33,7 +55,7 @@ class StatsView(BrowserView):
 
     def get_unused_members(self):    
         # "unused" is defined as never using the account beyond the first 24 hours
-        members = self.get_members()
+        members = self.members
         filtered_members = []
         for mem in members:
             if (mem.modified - mem.created < 1) and (mem.modified < self.expiry_date):
@@ -44,7 +66,7 @@ class StatsView(BrowserView):
         # for all non-active members who were at one time active
         # find AVG(last_login - creation_date)
         # equals the average length of time a member is active
-        members = self.get_members()
+        members = self.members
         active_length = 0
         i = 0
         for mem in members:
@@ -59,25 +81,20 @@ class StatsView(BrowserView):
         return avg_active_length, i
 
 
-    def get_projects(self):
-        query = dict(portal_type='OpenProject')
-        brains = self.catalog(**query)
-        return brains
-
     def get_active_projects(self):    
         # "active" is defined as having been modified since expiry_date
         # this includes wiki activity
         # this includes updating project prefs
         # does not include contents deletion
         # XXX what about including mailing list, tt, blog activity etc.
-        projects = self.get_projects()
+        projects = self.projects
         filtered_projects = [project for project in projects if project.modified > self.expiry_date]
         return filtered_projects
 
     def get_unused_projects(self):
         # "unused" is defined as having never been modified beyond the 
         # first 24 hours after it was created
-        projects = self.get_projects()
+        projects = self.projects
         filtered_projects = []
         for proj in projects:
             if (proj.modified < self.expiry_date) and (proj.modified - proj.created < 1):
@@ -89,7 +106,7 @@ class StatsView(BrowserView):
         # for all non-active projects which were at one time active
         # find AVG(modified - creation_date)
         # equals the average length of time a project is active
-        projects = self.get_projects()
+        projects = self.projects
         active_length = 0
         i = 0
         for proj in projects:
@@ -104,46 +121,20 @@ class StatsView(BrowserView):
         return avg_active_length, i
 
 
-    def get_mailing_lists(self):
-        query = dict(portal_type='Open Mailing List')
-        brains = self.catalog(**query)
-        return brains
-
     def get_active_mailing_lists(self):    
         # "active" is defined as having a message in the last 30 days
-        lists = self.get_mailing_lists()
         filtered_lists = []
-        for lst in lists:
-            mail_catalog = queryUtility(ISearchableArchive, context=lst)
-            latest_date = 0
-            if mail_catalog:
-                query = dict(sort_on='date',
-                             sort_order='descending')
-                brains = mail_catalog(**query)
-                latest_date = brains[0].date
-            if lst.modified > latest_date:
-                latest_date = lst.modified
-            if latest_date > self.expiry_date:
+        for lst in self.mailing_lists:
+            if lst['latest_date'] > self.expiry_date:
                 filtered_lists.append(lst)
-        
         return filtered_lists
 
     def get_unused_mailing_lists(self):
         # "unused" is defined as having never been used beyond the 
         # first 24 hours after it was created
-        lists = self.get_mailing_lists()
         filtered_lists = []
-        for lst in lists:
-            mail_catalog = queryUtility(ISearchableArchive, context=lst)
-            latest_date = 0
-            if mail_catalog:
-                query = dict(sort_on='date',
-                             sort_order='descending')
-                brains = mail_catalog(**query)
-                latest_date = brains[0].date
-            if lst.modified > latest_date:
-                latest_date = lst.modified
-            if (latest_date < self.expiry_date) and (latest_date - lst.created < 1):
+        for lst in self.mailing_lists:
+            if (lst['latest_date'] < self.expiry_date) and (lst['latest_date'] - lst.created < 1):
                 filtered_lists.append(lst)
         return filtered_lists
 
