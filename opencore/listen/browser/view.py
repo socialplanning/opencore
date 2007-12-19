@@ -46,6 +46,12 @@ _ml_type_to_workflow = {
 
 _workflow_to_ml_type = dict((y, x) for x, y in _ml_type_to_workflow.items())
 
+_list_error_fields = ['title', 'mailto']
+def oc_json_error(v):
+    return {'html': v,
+            'action': 'copy',
+            }
+
 class ListenBaseView(BaseView):
     @req_memoize
     def list_url(self):
@@ -162,9 +168,10 @@ class ListenBaseView(BaseView):
         elif not isValidPrefix(mailto):
             self.errors['mailto'] = _(u'list_invalid_prefix_error', u'Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)')
         else:
-            mailto = putils.normalizeString(mailto)
-            if hasattr(self.context, mailto):
-                self.errors['mailto'] = _(u'list_duplicate_error', u'The requested list prefix is already taken.')
+            if self.request.form.get('original_mailto') != mailto:
+                mailto = putils.normalizeString(mailto)
+                if hasattr(self.context, mailto):
+                    self.errors['mailto'] = _(u'list_create_duplicate_error', u'The requested list prefix is already taken.')
 
         # If we don't pass sanity checks by this point, abort and let the user correct their errors.
         if self.errors and not justValidate:
@@ -173,33 +180,23 @@ class ListenBaseView(BaseView):
         return title, workflow, archive, mailto, managers
 
 
-class ListAddView(ListenBaseView, OctopoLite):
-
-    template = ZopeTwoPageTemplateFile('create.pt')
-        
     @action('validate')
     def validate(self, target=None, fields=None):
         putils = getToolByName(self.context, 'plone_utils')
         result = self.validate_form(justValidate=True)
-        #fixme: should not be default, should be translated.
-        def oc_json_error(v):
-            return {'html': v.default,
-                    'action': 'copy',
-                    }
-        errors = dict (("oc-%s-error" % k, oc_json_error(v)) for k, v in self.errors.items())
+
+        errors = dict (("oc-%s-error" % k, oc_json_error('')) for k in _list_error_fields)
+        #fixme: should not be default, should be translated.        
+        errors.update(dict (("oc-%s-error" % k, oc_json_error(v.default)) for k, v in self.errors.items()))
+        
         mailto = self.request.form.get('mailto')
         mailto = putils.normalizeString(mailto)
-        
-        if not 'oc-mailto-error' in self.errors:
-            if self.context.has_key(mailto):
-                errors['oc-mailto-error'] = {
-                    'html': 'The requested list prefix is already taken.',
-                    'action': 'copy',
-                    'effects': 'highlight'
-                    }
 
         return errors
 
+class ListAddView(ListenBaseView, OctopoLite):
+
+    template = ZopeTwoPageTemplateFile('create.pt')
 
     @action('add')
     def handle_request(self, target=None, fields=None):
@@ -301,6 +298,8 @@ class ListEditView(ListenBaseView, OctopoLite):
 
     def mailto(self):
         return self.context.mailto.split("@")[0]
+
+
 
 # uh.. if you are going write meta factories you should write tests too
 # isn't this what super and mixins are is suppose to solve?

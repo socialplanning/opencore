@@ -51,6 +51,8 @@
 										<input type="text" name="mailto" id="mailto"
 										       class="oc-js-liveValidate"
 										       tal:attributes="value view/mailto | nothing" />
+										<input type="hidden" name="original_mailto" id="original_mailto"
+										       tal:attributes="value view/mailto | nothing" />
 										<span tal:replace="view/getSuffix" />
 									</td>
 									<td class="oc-form-help">
