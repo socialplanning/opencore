@@ -52,7 +52,7 @@ def oc_json_error(v):
             'action': 'copy',
             }
 
-class ListenBaseView(BaseView):
+class ListenBaseView(BaseView, OctopoLite):
     @req_memoize
     def list_url(self):
         obj = self.context
@@ -194,7 +194,7 @@ class ListenBaseView(BaseView):
 
         return errors
 
-class ListAddView(ListenBaseView, OctopoLite):
+class ListAddView(ListenBaseView):
 
     template = ZopeTwoPageTemplateFile('create.pt')
 
@@ -245,7 +245,7 @@ class ListAddView(ListenBaseView, OctopoLite):
         self.redirect(list.absolute_url())
 
 
-class ListEditView(ListenBaseView, OctopoLite):
+class ListEditView(ListenBaseView):
     template = ZopeTwoPageTemplateFile('edit.pt')
 
     @action('add')
