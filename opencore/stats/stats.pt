@@ -72,7 +72,7 @@
         <td tal:content="proj/created"/></tr>
     </table>
 
-    <table  border="1" cellspacing="0">
+    <table tal:replace="nothing" border="1" cellspacing="0">
       <tr><td>mailing list</td>
         <td>latest_date</td>
         <td>created</td></tr>
