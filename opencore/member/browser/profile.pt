@@ -29,7 +29,7 @@
                   <span tal:condition="view/viewingself" >
                     <a class="oc-actionLink"
                        href="profile-edit?field=location">Edit</a>
-                    <a href="profile-edit?field=XXX">Add position on map</a>
+                    <a href="profile-edit?field=map">Add position on map</a>
 		  </span>
                 </dt>
                 <dd class="adr" tal:condition="loc"><span class="locality" tal:content="loc" /></dd>
@@ -127,7 +127,6 @@
       </div><!-- end #oc-content-main -->
 
       <div id="oc-content-sidebar">
-        <p>fooo</p>
         <metal:status-messages use-macro="view/member_macros/macros/recent-activity" />
       </div><!-- end .oc-content-sidebar -->
     </div><!-- content-fill-slot -->

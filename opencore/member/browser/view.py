@@ -224,16 +224,19 @@ class ProfileEditView(ProfileView, OctopoLite):
         # handle geo stuff
         coords = self.geocode_from_form()
         locationchanged = False
+        form = self.request.form
         if self.set_geolocation(coords):
             locationchanged = True
-        elif member.getLocation() != self.request.form.get('location', ''):
+        elif member.getLocation() != form.get('location', ''):
             locationchanged = True
-        for key in ('position-latitude', 'position-longitude'):
-            if self.request.form.has_key(key):
-                del self.request.form[key]
+        if form.get('position-text'):
+            member.setPositionText(form['position-text'])
+        for key in ('position-latitude', 'position-longitude', 'position-text'):
+            if form.has_key(key):
+                del form[key]
 
         # now deal with the rest of the fields
-        for field, value in self.request.form.items():
+        for field, value in form.items():
             mutator = 'set%s' % field.capitalize()
             mutator = getattr(member, mutator, None)
             if mutator is not None:
