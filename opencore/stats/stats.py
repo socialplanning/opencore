@@ -134,7 +134,7 @@ class StatsView(BrowserView):
         # first 24 hours after it was created
         filtered_lists = []
         for lst in self.mailing_lists:
-            if (lst['latest_date'] < self.expiry_date) and (lst['latest_date'] - lst.created < 1):
+            if (lst['latest_date'] < self.expiry_date) and (lst['latest_date'] - lst['created'] < 1):
                 filtered_lists.append(lst)
         return filtered_lists
 
