@@ -148,4 +148,20 @@ class StatsView(BrowserView):
                 filtered_lists.append(lst)
         return filtered_lists
 
+    def get_mailing_list_stickiness(self):
+        # for all non-active lists which were at one time active
+        # find AVG(latest_date - creation_date)
+        # equals the average length of time a list is active
+        active_length = 0
+        i = 0
+        for lst in self.get_mailing_lists():
+            if (lst['latest_date'] < self.expiry_date) and (lst['latest_date'] - lst['created'] >= 1):
+                i += 1
+                active_length += lst['latest_date'] - lst['created']
+        
+        if i > 0:
+            avg_active_length = active_length / i
+        else:
+            avg_active_length = 0
+        return avg_active_length, i
         

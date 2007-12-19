@@ -48,7 +48,7 @@
       <tr>
 	<td tal:content="python: len(view.get_mailing_lists())" />
 	<td tal:content="python: len(view.get_active_mailing_lists())" />
-        <td tal:content="python: '%.1f days from %d projects' % view.get_project_stickiness()" />
+        <td tal:content="python: '%.1f days from %d lists' % view.get_mailing_list_stickiness()" />
 	<td tal:content="python: len(view.get_unused_mailing_lists())" />
       </tr>
     </table>
