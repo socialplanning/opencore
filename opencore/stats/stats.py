@@ -85,7 +85,7 @@ class StatsView(BrowserView):
             avg_active_length = active_length / i
         else:
             avg_active_length = 0
-        return avg_active_length, i
+        return i, avg_active_length
 
     def get_projects(self):
         self._init_queries()
@@ -125,7 +125,7 @@ class StatsView(BrowserView):
             avg_active_length = active_length / i
         else:
             avg_active_length = 0
-        return avg_active_length, i
+        return i, avg_active_length
 
     def get_mailing_lists(self):
         self._init_queries()
@@ -163,5 +163,5 @@ class StatsView(BrowserView):
             avg_active_length = active_length / i
         else:
             avg_active_length = 0
-        return avg_active_length, i
+        return i, avg_active_length
         
