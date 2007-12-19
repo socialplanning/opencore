@@ -51,8 +51,7 @@ def oc_json_error(v):
     return {'html': v,
             'action': 'copy',
             }
-
-class ListenBaseView(BaseView, OctopoLite):
+class ListenBaseView(BaseView):
     @req_memoize
     def list_url(self):
         obj = self.context
@@ -105,6 +104,8 @@ class ListenBaseView(BaseView, OctopoLite):
         ptool = getToolByName(site, 'portal_properties')
         ocprops = ptool._getOb('opencore_properties')
         return '@' + str(ocprops.getProperty('mailing_list_fqdn').strip())
+
+class ListenEditBaseView(ListenBaseView, OctopoLite):
 
     def validate_form(self, justValidate=False):
         putils = getToolByName(self.context, 'plone_utils')
@@ -168,10 +169,9 @@ class ListenBaseView(BaseView, OctopoLite):
         elif not isValidPrefix(mailto):
             self.errors['mailto'] = _(u'list_invalid_prefix_error', u'Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)')
         else:
-            if self.request.form.get('original_mailto') != mailto:
-                mailto = putils.normalizeString(mailto)
-                if hasattr(self.context, mailto):
-                    self.errors['mailto'] = _(u'list_create_duplicate_error', u'The requested list prefix is already taken.')
+            mailto = putils.normalizeString(mailto)
+            if hasattr(self.context, mailto):
+                self.errors['mailto'] = _(u'list_create_duplicate_error', u'The requested list prefix is already taken.')
 
         # If we don't pass sanity checks by this point, abort and let the user correct their errors.
         if self.errors and not justValidate:
@@ -194,7 +194,7 @@ class ListenBaseView(BaseView, OctopoLite):
 
         return errors
 
-class ListAddView(ListenBaseView):
+class ListAddView(ListenEditBaseView):
 
     template = ZopeTwoPageTemplateFile('create.pt')
 
@@ -245,7 +245,7 @@ class ListAddView(ListenBaseView):
         self.redirect(list.absolute_url())
 
 
-class ListEditView(ListenBaseView):
+class ListEditView(ListenEditBaseView):
     template = ZopeTwoPageTemplateFile('edit.pt')
 
     @action('add')
@@ -254,7 +254,7 @@ class ListEditView(ListenBaseView):
         if not result:
             return
 
-        title, workflow, archive, mailto = result
+        title, workflow, archive, mailto, managers = result
 
         list = self.context
 
@@ -277,7 +277,7 @@ class ListEditView(ListenBaseView):
 
         list.archived = archive
 
-        managers = map(unicode, self.request.form.get('managers', []))
+        managers = map(unicode, managers)
         current_user = unicode(self.loggedinmember.getId())
         if not current_user in managers:
             managers.append (current_user)
