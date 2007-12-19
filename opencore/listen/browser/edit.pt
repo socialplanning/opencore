@@ -48,17 +48,12 @@
 										<label i18n:translate="list_mailto_name" for="mailto">List Address Prefix</label>
 									</th>
 									<td class="oc-form-value oc-form-fieldBlock">
-										<input type="text" name="mailto" id="mailto"
-										       class="oc-js-liveValidate"
-										       tal:attributes="value view/mailto | nothing" />
-										<input type="hidden" name="original_mailto" id="original_mailto"
-										       tal:attributes="value view/mailto | nothing" />
-										<span tal:replace="view/getSuffix" />
+										<span tal:replace="context/mailto" />
+
 									</td>
 									<td class="oc-form-help">
 										<span class="oc-form-context"></span>
 										<span id="oc-mailto-validator" class="oc-form-validator"></span>
-										<span id="oc-mailto-error" class="oc-form-error" tal:content="view/errors/mailto | nothing" />
 									</td>
 								</tr>
 							</tbody>
