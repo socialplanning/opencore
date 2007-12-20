@@ -827,6 +827,12 @@ GENERIC: Elements
 .oc-hidden {
    display:none;
 }
+.oc-js-unhide {
+   /* use this for elements to reveal when oc-behaviors.js is loaded. 
+      so it's visually the inverse of <noscript> */
+   display:none;
+}
+
 .oc-hover {
    background: #fdffdd;
 }
@@ -1370,6 +1376,13 @@ li.oc-invite .oc-invite-content {
   width: 500px;
   height: 300px;
   margin: 10px 0 0 0;
+}
+
+.oc-sidebar-map {
+  width: 285px;
+  height: 285px;
+  margin: 10px 0 0 0;
+
 }
 
 /* @BEHAVIORS
