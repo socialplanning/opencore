@@ -163,15 +163,17 @@ class ListenEditBaseView(ListenBaseView, OctopoLite):
         if archive not in (0, 1, 2):
             self.errors['archive'] = _(u'list_invalid_archive_error', u'The mailing list archival method must be set to all, text-only, or none.')
 
-        mailto = self.request.form.get('mailto')
-        if not mailto:
-            self.errors['mailto'] = _(u'list_missing_prefix_error', u'The mailing list must have a list prefix.')
-        elif not isValidPrefix(mailto):
-            self.errors['mailto'] = _(u'list_invalid_prefix_error', u'Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)')
-        else:
-            mailto = putils.normalizeString(mailto)
-            if creation and hasattr(self.context, mailto):
-                self.errors['mailto'] = _(u'list_create_duplicate_error', u'The requested list prefix is already taken.')
+        mailto = None
+        if creation:
+            mailto = self.request.form.get('mailto')
+            if not mailto:
+                self.errors['mailto'] = _(u'list_missing_prefix_error', u'The mailing list must have a list prefix.')
+            elif not isValidPrefix(mailto):
+                self.errors['mailto'] = _(u'list_invalid_prefix_error', u'Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)')
+            else:
+                mailto = putils.normalizeString(mailto)
+                if hasattr(self.context, mailto):
+                    self.errors['mailto'] = _(u'list_create_duplicate_error', u'The requested list prefix is already taken.')
 
         # If we don't pass sanity checks by this point, abort and let the user correct their errors.
         if self.errors and not justValidate:

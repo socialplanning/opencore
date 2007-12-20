@@ -104,12 +104,12 @@
 									<td class="oc-form-value">
 										<p i18n:translate="list_managers_desc" class="oc-headingContext oc-smallText oc-js-memberList_description">A comma separated list of users with permissions to modify the list.</p>
 										<input type="text" id="managers" class="oc-autoFocus oc-js-memberList" name="managers"
-										       tal:attributes="value request/managers | view/loggedinmember | nothing" />
+										       tal:attributes="value request/managers | python:','.join(context.managers); | nothing" />
 									</td>
 									<td class="oc-form-help">
 										<span class="oc-form-context"></span>
 										<span id="oc-managers-validator" class="oc-form-validator"></span>
-										<span id="oc-error" class="oc-form-error" tal:content="view/errors/managers | nothing" />
+										<span id="oc-managers-error" class="oc-form-error" tal:content="view/errors/managers | nothing" />
 									</td>
 								</tr>
 							</tbody>
