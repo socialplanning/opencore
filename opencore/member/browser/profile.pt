@@ -3,6 +3,14 @@
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:${view/area/Title} on ${view/portal_title}" />
+    <metal:script fill-slot="script">
+       <script type="text/javascript"
+            tal:condition="view/has_geocoder"
+	    tal:attributes="src view/geo_info/maps_script_url"
+       ></script>
+       <script type="text/javascript">
+       </script>
+    </metal:script>
   </head>
   <body>
     <div metal:fill-slot="content">
@@ -29,7 +37,7 @@
                   <span tal:condition="view/viewingself" >
                     <a class="oc-actionLink"
                        href="profile-edit?field=location">Edit</a>
-                    <a href="profile-edit?field=map">Add position on map</a>
+                    <a  href="profile-edit">Add position on map</a>
 		  </span>
                 </dt>
                 <dd class="adr" tal:condition="loc"><span class="locality" tal:content="loc" /></dd>
@@ -127,6 +135,11 @@
       </div><!-- end #oc-content-main -->
 
       <div id="oc-content-sidebar">
+        <!-- @@ TODO: javascripty map here.  -->
+        <div class="oc-boxy" tal:condition="view/geo_info/static_img_url | nothing">
+           <img tal:attributes="src view/geo_info/static_img_url" class="oc-sidebar-map" />
+        </div>
+
         <metal:status-messages use-macro="view/member_macros/macros/recent-activity" />
       </div><!-- end .oc-content-sidebar -->
     </div><!-- content-fill-slot -->

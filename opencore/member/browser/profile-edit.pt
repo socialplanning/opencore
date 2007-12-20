@@ -11,6 +11,8 @@
   </head>
   <body>
     <div metal:fill-slot="content">
+     <form name="profile_form" id="profile_form" method="post" class="oc-member-edit" action="profile-edit" enctype="multipart/form-data">
+
       <div id="oc-content-main">
         <tal:first-login condition="request/first_login | nothing">
           <div class="oc-getstarted oc-js-closeable">
@@ -24,7 +26,6 @@
             </p>
           </div>
         </tal:first-login>
-        <form name="profile_form" id="profile_form" method="post" class="oc-member-edit" action="profile-edit" enctype="multipart/form-data">
           <div id="oc-member-badge" class="oc-boxy oc-clearAfter">
             <div class="oc-member-editimage">
               <div metal:use-macro="view/portrait_snippet/macros/portrait" />
@@ -40,26 +41,12 @@
                                     class python: request.form.get('field') == 'fullname' and default or nothing" />
                 </li>
                 <li>
-                  <label i18n:translate="profile-edit_location_label" for="location">Location</label><br />
+                  <label i18n:translate="profile-edit_location_label" for="location">Location</label> (example: "New York, NY" or "cloud nine") <br />
                   <input type="text" id="location" name="location"
                     class="oc-autoFocus"
                     tal:attributes="value request/location | memberdata/location;
                                     class python:request.form.get('field') == 'location' and default or nothing" />
                 </li>
-
-                <noscript>
-                  <!-- this is here because when there's no js it needs to be inside the form. -->
-                  <li>
-                   <label for="position-text-noscript">Position On Map</label><br />
-                    <input type="text" id="position-text-noscript" name="position-text"
-                           tal:attributes="value view/geo_info/position-text" />
-                  </li>
-                </noscript>
-
-                <input type="hidden" id="position-latitude" name="position-latitude"
-                       tal:attributes="value view/geo_info/position-latitude" />
-                <input type="hidden" id="position-longitude" name="position-longitude"
-                       tal:attributes="value view/geo_info/position-longitude | nothing" />
 
                 <li>
                   <label i18n:translate="profile-edit_website_label" for="website">Website</label><br />
@@ -125,28 +112,35 @@
               or <a i18n:translate="profile-edit_cancel" href="profile">Cancel</a>
             </li>
           </ul> 
-        </form>
       </div><!-- end #oc-content-main -->
 
       <div id="oc-content-sidebar">
+           <div class="oc-boxy">
+	   <label for="position-text">Find Address on Map:</label><br />
+           (example: "349 w 12th st, ny, ny")
+           <noscript>
+            <input type="text" id="position-text-noscript" name="position-text"
+               tal:attributes="value view/geo_info/position-text | nothing" />
 
-        <div id="oc-template-location.json" class="oc-js-template">
-          <table>
-           <tr id="oc-template-location.json" class="oc-form-row oc-js-template">
-             <th id="position-header" class="oc-hidden">
-                 <!-- the js needs a th with this id. -->
-             </th>
-             <td id="position-input" class="oc-form-value oc-form-fieldBlock">
-              <p tal:condition="view/geo_info/static_img_url | nothing">
-                 <img tal:attributes="src view/geo_info/static_img_url" class="oc-map" />
-              </p>
+             <div class="oc-sidebar-map" tal:condition="view/geo_info/static_img_url | nothing">
+              <img tal:attributes="src view/geo_info/static_img_url" />
+             </div>
+           </noscript>
 
-	    </td>
-          </tr>
-         </table>
-        </div>
+           <input type="hidden" id="position-latitude" name="position-latitude"
+               tal:attributes="value view/geo_info/position-latitude" />
+           <input type="hidden" id="position-longitude" name="position-longitude"
+               tal:attributes="value view/geo_info/position-longitude | nothing" />
+
+	   <span class="oc-js-unhide">
+              <input type="text" id="position-text" name="position-text"
+                 tal:attributes="value view/geo_info/position-text | nothing" />
+              <div id="position" class="oc-js-gmap oc-sidebar-map"></div>
+	   </span>
 
       </div><!-- end .oc-content-sidebar -->
+    </form>
+
     </div><!-- content-fill-slot -->
   </body>
 </html>

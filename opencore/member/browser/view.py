@@ -155,8 +155,11 @@ class ProfileView(BaseView):
         """geo information for display in forms;
         takes values from request, falls back to existing member info
         if possible."""
-        return self._get_geo_info(self.member_info)
-
+        info = self._get_geo_info(self.member_info)
+        geo = self.context.restrictedTraverse('oc-geo-read')
+        # Override the static map image size. Ugh, sucks to have this in code.
+        info['static_img_url'] = geo.location_img_url(width=285, height=285)
+        return info
 
 class ProfileEditView(ProfileView, OctopoLite):
 

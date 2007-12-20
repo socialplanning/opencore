@@ -13,6 +13,7 @@
     <a class="oc-js-expander_open oc-expanderLink" href="#">Add position on map</a>
     <div class="oc-js-expander-content oc-expander-content">
         Find on map:
+        <input type="text" id="position-text" name="position-text" />
         <div id="position" class="oc-js-gmap oc-map"></div>
     </div>
 </td>'

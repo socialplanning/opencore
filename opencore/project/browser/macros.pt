@@ -21,7 +21,7 @@
                        tal:attributes="value view/geo_info/position-longitude | nothing" />
                 <tr id="oc-template-location.json" class="oc-form-row oc-js-template">
                   <th id="position-header" class="oc-form-label" scope="row">
-                    <label for="position-text">Position On Map</label>
+                    <label for="position-text">Location On Map</label>
                   </th>
                   <td id="position-input" class="oc-form-value oc-form-fieldBlock">
                     <input type="text" id="position-text" name="position-text"

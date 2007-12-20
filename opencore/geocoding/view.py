@@ -22,7 +22,7 @@ class ReadGeoView(BrowserView):
         """See IReadGeo. Note the output is ordered as (lon, lat, z)."""
         return self._geo().coords
 
-    def location_img_url(self):
+    def location_img_url(self, width=500, height=300):
         """See IReadGeo."""
         geo = self._geo()
         if not geo.coords:
@@ -31,7 +31,7 @@ class ReadGeoView(BrowserView):
         # Don't know if order matters, so assume it does.
         params = (('latitude_e6', utils.google_e6_encode(lat)),
                   ('longitude_e6', utils.google_e6_encode(lon)),
-                  ('w', 500), ('h', 300), # XXX These must match our css.
+                  ('w', width), ('h', height), # XXX These must match our css.
                   ('zm', 9600),  # Initial zoom.
                   ('cc', ''), # No idea what this is.
                   )
