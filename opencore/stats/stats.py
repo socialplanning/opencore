@@ -15,7 +15,8 @@ class StatsView(BrowserView):
         self.catalog = getToolByName(self.context, 'portal_catalog')
         self.membrane_tool = getToolByName(self.context, 'membrane_tool')
         self.expiry_days = 30
-        self.expiry_date = DateTime.now()-self.expiry_days
+        self.report_date = DateTime.now()
+        self.expiry_date = self.report_date-self.expiry_days
         self.ran_queries = False
 
     def _init_queries(self):
@@ -25,15 +26,19 @@ class StatsView(BrowserView):
         else:
             self.ran_queries = True
 
+        r_date = getattr(self.request, 'report_date', None)
+        if r_date:
+            self.report_date = DateTime.DateTime(r_date)
+
         query = dict()
         mem_brains = self.membrane_tool(**query)
-        self._members = mem_brains
+        self._members = [brain for brain in mem_brains if brain.created <= self.report_date]
         query = dict(portal_type='OpenProject')
         proj_brains = self.catalog(**query)
-        self._projects = proj_brains
+        self._projects = [brain for brain in proj_brains if brain.created <= self.report_date]
         query = dict(portal_type='Open Mailing List')
         ml_brains = self.catalog(**query)
-        mailing_lists = ml_brains
+        mailing_lists = [brain for brain in ml_brains if brain.created <= self.report_date]
         mls = []
         for lst in mailing_lists:
             mail_catalog = queryUtility(ISearchableArchive, context=lst.getObject())
