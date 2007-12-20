@@ -1,6 +1,3 @@
-from AccessControl import ClassSecurityInfo #XXX
-from Globals import InitializeClass  #XXX
-
 from DateTime import DateTime
 from Products.Five import BrowserView
 from Products.PleiadesGeocoder.browser.info import get_coords
@@ -47,9 +44,6 @@ class WriteGeoView(ReadGeoView):
 
     implements(interfaces.IWriteGeo)
 
-
-    security = ClassSecurityInfo()
-    security.declareProtected('Modify Portal Content', 'set_geolocation')
     def set_geolocation(self, coords):
         """See IWriteGeo."""
         if coords and not None in coords:
@@ -97,8 +91,6 @@ class WriteGeoView(ReadGeoView):
             lat = float(lat)
             return (lat, lon)
 
-
-InitializeClass(WriteGeoView)
 
 class MemberareaReadGeoView(ReadGeoView, BaseView):
 
