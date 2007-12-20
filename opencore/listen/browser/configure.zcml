@@ -16,14 +16,6 @@
   <include package="plone.app.form" />
 
   <browser:page
-     name="opencore.add_mailinglist"
-     for="opencore.featurelets.interfaces.IListenContainer"
-     permission="listen.AddMailingList"
-     class=".view.NuiMailingListAddView"
-     template="listen_formlib.pt"
-     />
-
-  <browser:page
      name="create"
      for="opencore.featurelets.interfaces.IListenContainer"
      permission="listen.AddMailingList"
@@ -45,13 +37,6 @@
      name="listen_macros"
      permission="zope2.View"
      template="listen_macros.pt"
-     />
-
-  <adapter
-     for=".view.NuiMailingListAddView"
-     factory=".view.default_named_template_adapter"
-     name="default"
-     provides="zope.formlib.namedtemplate.INamedTemplate"
      />
 
    <browser:page

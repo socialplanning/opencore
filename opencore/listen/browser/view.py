@@ -105,9 +105,10 @@ class ListenBaseView(BaseView):
         ocprops = ptool._getOb('opencore_properties')
         return '@' + str(ocprops.getProperty('mailing_list_fqdn').strip())
 
+
 class ListenEditBaseView(ListenBaseView, OctopoLite):
 
-    def validate_form(self, justValidate=False):
+    def validate_form(self, justValidate=False, creation=False):
         putils = getToolByName(self.context, 'plone_utils')
         # Create an empty dictionary to hold any eventual errors.
         self.errors = {}
@@ -170,7 +171,7 @@ class ListenEditBaseView(ListenBaseView, OctopoLite):
             self.errors['mailto'] = _(u'list_invalid_prefix_error', u'Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)')
         else:
             mailto = putils.normalizeString(mailto)
-            if hasattr(self.context, mailto):
+            if creation and hasattr(self.context, mailto):
                 self.errors['mailto'] = _(u'list_create_duplicate_error', u'The requested list prefix is already taken.')
 
         # If we don't pass sanity checks by this point, abort and let the user correct their errors.
@@ -194,6 +195,31 @@ class ListenEditBaseView(ListenBaseView, OctopoLite):
 
         return errors
 
+
+    @action('validate-members')
+    def validate_members(self, target=None, fields=None):
+        # Check the list of members
+        form_members = self.request.form.get('members','')
+
+        members = []
+        bad_members = []
+        if not form_members:
+            return {
+                'rejects':'',
+                'valid':''
+            }
+        else:
+            for manager in form_members.split(','):
+                manager = manager.strip()
+                if not self.is_member(manager):
+                    bad_members.append(manager)
+                else:
+                    members.append(manager)
+        return {
+            'rejects':bad_members,
+            'valid':members
+        }
+
 class ListAddView(ListenEditBaseView):
 
     template = ZopeTwoPageTemplateFile('create.pt')
@@ -203,7 +229,7 @@ class ListAddView(ListenEditBaseView):
         # Get the tool used to normalize strings
         putils = getToolByName(self.context, 'plone_utils')
 
-        result = self.validate_form()
+        result = self.validate_form(creation=True)
         if not result:
             return
 
@@ -224,7 +250,6 @@ class ListAddView(ListenEditBaseView):
         list.setDescription(unicode(self.request.form.get('description','')))
 
         old_workflow_type = list.list_type
-        
         new_workflow_type = _workflow_to_ml_type[workflow]
             
         notify(ListTypeChanged(list,
@@ -266,19 +291,14 @@ class ListEditView(ListenEditBaseView):
 
         list.setDescription(unicode(self.request.form.get('description','')))
 
-        old_type = list.list_type        
-        new_type = _workflow_to_ml_type[workflow]
+        old_workflow_type = list.list_type
+        new_workflow_type = _workflow_to_ml_type[workflow]
             
         notify(ListTypeChanged(list,
-                               old_type.list_marker,
-                               new_type.list_marker))
+                               old_workflow_type.list_marker,
+                               new_workflow_type.list_marker))
 
         list.archived = archive
-
-        managers = map(unicode, managers)
-        current_user = unicode(self.loggedinmember.getId())
-        if not current_user in managers:
-            managers.append (current_user)
 
         list.managers = tuple(managers)
 
@@ -334,8 +354,6 @@ def make_nui_listen_view_class(ListenClass, set_errors=False, add_update=False):
 
 # prefixing everything is unnecessary
 NuiMailingListView = make_nui_listen_view_class(MailingListView)
-NuiMailingListAddView = make_nui_listen_view_class(MailingListAddForm, set_errors=True, add_update=True)
-NuiMailingListEditView = make_nui_listen_view_class(MailingListEditForm, set_errors=True, add_update=True)
 
 
 from Products.listen.interfaces import IMembershipPendingList

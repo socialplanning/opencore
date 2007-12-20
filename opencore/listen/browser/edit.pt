@@ -71,7 +71,7 @@
 									</th>
 									<td class="oc-form-value">
 										<p i18n:translate="list_workflow_desc" class="oc-headingContext oc-smallText">The policy that defines the behavior of the list.</p>
-										<fieldset tal:define="policy request/workflow_policy | string:policy_open">
+										<fieldset tal:define="policy request/workflow_policy | view/workflow_policy | string:policy_open">
 											<ul class="oc-plainList oc-form-fieldBlock">
 												<li>
 													<input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
@@ -104,8 +104,8 @@
 										<label i18n:translate="list_managers_name" for="managers">Managers</label>
 									</th>
 									<td class="oc-form-value">
-										<p i18n:translate="list_managers_desc" class="oc-headingContext oc-smallText">A comma seperated list of users with permissions to modify the list.</p>
-										<input type="text" id="managers" class="oc-autoFocus" name="managers"
+										<p i18n:translate="list_managers_desc" class="oc-headingContext oc-smallText oc-js-memberList_description">A comma separated list of users with permissions to modify the list.</p>
+										<input type="text" id="managers" class="oc-autoFocus oc-js-memberList" name="managers"
 										       tal:attributes="value request/managers | view/loggedinmember | nothing" />
 									</td>
 									<td class="oc-form-help">
