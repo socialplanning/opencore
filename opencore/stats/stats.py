@@ -36,7 +36,7 @@ class StatsView(BrowserView):
         mailing_lists = ml_brains
         mls = []
         for lst in mailing_lists:
-            mail_catalog = queryUtility(ISearchableArchive, context=lst)
+            mail_catalog = queryUtility(ISearchableArchive, context=lst.getObject())
             latest_date = 0
             if mail_catalog:
                 query = dict(sort_on='date',
