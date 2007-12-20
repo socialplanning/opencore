@@ -43,6 +43,15 @@
      allowed_attributes="menu_items"
      />
 
+  <!-- unhooked on purpose -- see export.py
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".export.ExportView"
+     permission="zope2.View"
+     name="export"
+     attribute="export"
+     /  -->
+
   <browser:page
      for="OFS.interfaces.IItem"
      class=".projectinfo.ProjectInfoView"
