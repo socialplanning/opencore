@@ -26,19 +26,20 @@ class StatsView(BrowserView):
         self.catalog = getToolByName(self.context, 'portal_catalog')
         self.membrane_tool = getToolByName(self.context, 'membrane_tool')
         self.expiry_days = 30
-        self.report_date = DateTime.now()
         self.ran_queries = False
+        r_date = getattr(self.request, 'report_date', None)
+        if r_date:
+            self.report_date = DateTime.DateTime(r_date)
+        else:
+            self.report_date = DateTime.now()
+
 
     def _init_queries(self):
         # do initial catalog queries
         if self.ran_queries:
             return
-        else:
-            self.ran_queries = True
 
-        r_date = getattr(self.request, 'report_date', None)
-        if r_date:
-            self.report_date = DateTime.DateTime(r_date)
+        self.ran_queries = True
         self.expiry_date = self.report_date-self.expiry_days        
 
         query = dict()
@@ -193,7 +194,7 @@ class StatsView(BrowserView):
             self.report_date = initial_report_date - i*30
             self.ran_queries = False
             self._init_queries()
-            data.append({'date':self.report_date.strftime('%Y-%m-%d'),
+            data.append({'date':self.report_date,
                          'members':len(self.get_active_members()),
                          'projects':len(self.get_active_projects()),
                          'mailing_lists':len(self.get_active_mailing_lists())})
