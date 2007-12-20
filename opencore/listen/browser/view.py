@@ -11,13 +11,12 @@ from Products.listen.browser.mail_message_views import ForumMailMessageView, Thr
 from Products.listen.browser.manage_membership import ManageMembersView
 from Products.listen.browser.moderation import ModerationView
 from Products.listen.content import ListTypeChanged
-from Products.listen.interfaces import IMailingList
 from Products.listen.interfaces.list_types import PublicListTypeDefinition, \
                                                   PostModeratedListTypeDefinition, \
                                                   MembershipModeratedListTypeDefinition
-from Products.listen.interfaces import IPublicList
-from Products.listen.interfaces import IMembershipModeratedList
-from Products.listen.interfaces import IPostModeratedList
+from Products.listen.interfaces import IMailingList, IMembershipModeratedList, \
+                                       IPostModeratedList, IPublicList, \
+                                       IWriteMembershipList
 from Products.listen.utilities.list_lookup import ListLookupView
 from lxml.html.clean import Cleaner
 from opencore.browser.formhandler import OctopoLite, action
@@ -259,6 +258,11 @@ class ListAddView(ListenEditBaseView):
         list.archived = archive
 
         self.template = None
+
+        #subscribe user to list
+        sub_list = IWriteMembershipList(list)
+        current_user = unicode(self.loggedinmember.getId())        
+        sub_list.subscribe(current_user)
 
         s_message_mapping = {'title': title}
         s_message = _(u'list_created',
