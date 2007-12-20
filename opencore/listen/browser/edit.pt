@@ -150,7 +150,7 @@
 							<li>
 								<input type="submit" 
 								       name="task|add" 
-								       value="Edit" 
+								       value="Save" 
 								       i18n:attributes="value edit_edit_button"
 								       class="oc-button oc-chooseThis" />
 							</li>
