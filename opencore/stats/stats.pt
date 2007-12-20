@@ -4,30 +4,44 @@
     <link rel="stylesheet" href="/++resource++css/themes/openplans.css" type="text/css" media="all" />
     <link rel="stylesheet" href="/++resource++css/opencore.css" type="text/css" media="all" />
     <title>Portal Stats</title>
+
+    <style>
+    ul {
+    list-style-image:none;
+    list-style-position:outside;
+    list-style-type:none;
+    margin:0;
+    padding:0;
+    }
+    li.total {
+    width:12em;
+    border-top: 1px dotted #332F2A;
+    }
+    </style>
   </head>  
   <body>
     <h1>Portal Stats</h1>
     <h2>members</h2>
-    <table>
-    <tr><td><span tal:replace="python: len(view.get_active_members())"/> logged in in last <span tal:replace="view/expiry_days"/> days</td></tr>
-    <tr><td><span tal:replace="python: '%d dormant after an average of %.1f days' % view.get_member_stickiness()"/></td></tr>
-    <tr><td><span tal:replace="python: len(view.get_unused_members())"/> unused after first 24 hours</td></tr>
-    <tr><td><span tal:replace="python: len(view.get_members())"/> total</td></tr>
-    </table>
+    <ul>
+    <li><span tal:replace="python: len(view.get_active_members())"/> logged in in last <span tal:replace="view/expiry_days"/> days</li>
+    <li><span tal:replace="python: '%d dormant after an average of %.1f days' % view.get_member_stickiness()"/></li>
+    <li><span tal:replace="python: len(view.get_unused_members())"/> unused after first 24 hours</li>
+    <li class="total"><span tal:replace="python: len(view.get_members())"/> total</li>
+    </ul>
     <h2>projects</h2>
-    <table>
-    <tr><td><span tal:replace="python: len(view.get_active_projects())"/> edited in last <span tal:replace="view/expiry_days"/> days</td></tr>
-    <tr><td><span tal:replace="python: '%d dormant after an average of %.1f days' % view.get_project_stickiness()"/></td></tr>
-    <tr><td><span tal:replace="python: len(view.get_unused_projects())"/> unused after first 24 hours</td></tr>
-    <tr><td><span tal:replace="python: len(view.get_projects())"/> total</td></tr>
-    </table>
+    <ul>
+    <li><span tal:replace="python: len(view.get_active_projects())"/> edited in last <span tal:replace="view/expiry_days"/> days</li>
+    <li><span tal:replace="python: '%d dormant after an average of %.1f days' % view.get_project_stickiness()"/></li>
+    <li><span tal:replace="python: len(view.get_unused_projects())"/> unused after first 24 hours</li>
+    <li class="total"><span tal:replace="python: len(view.get_projects())"/> total</li>
+    </ul>
     <h2>mailing lists</h2>
-    <table>
-    <tr><td><span tal:replace="python: len(view.get_active_mailing_lists())"/> active in last <span tal:replace="view/expiry_days"/> days</td></tr>
-    <tr><td><span tal:replace="python: '%d dormant after an average of %.1f days' % view.get_mailing_list_stickiness()"/></td></tr>
-    <tr><td><span tal:replace="python: len(view.get_unused_mailing_lists())"/> unused after first 24 hours</td></tr>
-    <tr><td><span tal:replace="python: len(view.get_mailing_lists())"/> total</td></tr>
-    </table>
+    <ul>
+    <li><span tal:replace="python: len(view.get_active_mailing_lists())"/> active in last <span tal:replace="view/expiry_days"/> days</li>
+    <li><span tal:replace="python: '%d dormant after an average of %.1f days' % view.get_mailing_list_stickiness()"/></li>
+    <li><span tal:replace="python: len(view.get_unused_mailing_lists())"/> unused after first 24 hours</li>
+    <li class="total"><span tal:replace="python: len(view.get_mailing_lists())"/> total</li>
+    </ul>
 
     <table tal:replace="nothing" border="1" cellspacing="0">
       <tr><td>member</td>
