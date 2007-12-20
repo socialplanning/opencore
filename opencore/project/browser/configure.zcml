@@ -43,7 +43,7 @@
      allowed_attributes="menu_items"
      />
 
-  <!-- unhooked on purpose -- see export.py
+  <!-- unhooked on purpose - see export.py
   <browser:page
      for="opencore.interfaces.IProject"
      class=".export.ExportView"
