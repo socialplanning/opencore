@@ -21,23 +21,25 @@
   </head>  
   <body>
     <h1>Portal Stats</h1>
+    <h2>on date <span tal:replace="view/get_report_date"></span></h2>
+
     <h2>members</h2>
     <ul>
-    <li><span tal:replace="python: len(view.get_active_members())"/> logged in in last <span tal:replace="view/expiry_days"/> days</li>
+    <li><span tal:replace="python: len(view.get_active_members())"/> logged in in previous <span tal:replace="view/expiry_days"/> days</li>
     <li><span tal:replace="python: '%d dormant after an average of %.1f days' % view.get_member_stickiness()"/></li>
     <li><span tal:replace="python: len(view.get_unused_members())"/> unused after first 24 hours</li>
     <li class="total"><span tal:replace="python: len(view.get_members())"/> total</li>
     </ul>
     <h2>projects</h2>
     <ul>
-    <li><span tal:replace="python: len(view.get_active_projects())"/> edited in last <span tal:replace="view/expiry_days"/> days</li>
+    <li><span tal:replace="python: len(view.get_active_projects())"/> edited in previous <span tal:replace="view/expiry_days"/> days</li>
     <li><span tal:replace="python: '%d dormant after an average of %.1f days' % view.get_project_stickiness()"/></li>
     <li><span tal:replace="python: len(view.get_unused_projects())"/> unused after first 24 hours</li>
     <li class="total"><span tal:replace="python: len(view.get_projects())"/> total</li>
     </ul>
     <h2>mailing lists</h2>
     <ul>
-    <li><span tal:replace="python: len(view.get_active_mailing_lists())"/> active in last <span tal:replace="view/expiry_days"/> days</li>
+    <li><span tal:replace="python: len(view.get_active_mailing_lists())"/> active in previous <span tal:replace="view/expiry_days"/> days</li>
     <li><span tal:replace="python: '%d dormant after an average of %.1f days' % view.get_mailing_list_stickiness()"/></li>
     <li><span tal:replace="python: len(view.get_unused_mailing_lists())"/> unused after first 24 hours</li>
     <li class="total"><span tal:replace="python: len(view.get_mailing_lists())"/> total</li>

@@ -16,7 +16,6 @@ class StatsView(BrowserView):
         self.membrane_tool = getToolByName(self.context, 'membrane_tool')
         self.expiry_days = 30
         self.report_date = DateTime.now()
-        self.expiry_date = self.report_date-self.expiry_days
         self.ran_queries = False
 
     def _init_queries(self):
@@ -29,6 +28,7 @@ class StatsView(BrowserView):
         r_date = getattr(self.request, 'report_date', None)
         if r_date:
             self.report_date = DateTime.DateTime(r_date)
+        self.expiry_date = self.report_date-self.expiry_days        
 
         query = dict()
         mem_brains = self.membrane_tool(**query)
@@ -55,6 +55,10 @@ class StatsView(BrowserView):
                         'created':lst.created})
         self._mailing_lists = mls
             
+    def get_report_date(self):
+        self._init_queries()
+        return self.report_date        
+
     def get_members(self):
         self._init_queries()
         return self._members
