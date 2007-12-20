@@ -147,7 +147,7 @@
 						<ul class="oc-actions">
 							<li>
 								<input type="submit" 
-								       name="task|add" 
+								       name="task|edit" 
 								       value="Save" 
 								       i18n:attributes="value edit_edit_button"
 								       class="oc-button oc-chooseThis" />

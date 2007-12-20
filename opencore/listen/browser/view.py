@@ -279,9 +279,10 @@ class ListAddView(ListenEditBaseView):
 class ListEditView(ListenEditBaseView):
     template = ZopeTwoPageTemplateFile('edit.pt')
 
-    @action('add')
+    @action('edit')
     def handle_request(self, target=None, fields=None):
         result = self.validate_form()
+
         if not result:
             return
 
@@ -289,12 +290,7 @@ class ListEditView(ListenEditBaseView):
 
         list = self.context
 
-        list.setTitle(title)
-
-        if self.errors:
-            self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
-            return 
-
+        list.setTitle(title)        
         list.setDescription(unicode(self.request.form.get('description','')))
 
         old_workflow_type = list.list_type
