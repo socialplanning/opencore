@@ -185,3 +185,19 @@ class StatsView(BrowserView):
             avg_active_length = 0
         return i, avg_active_length
         
+
+    def get_active_data(self):
+        data = []
+        initial_report_date = self.report_date
+        for i in range(11, -1, -1):
+            self.report_date = initial_report_date - i*30
+            self.ran_queries = False
+            self._init_queries()
+            data.append({'date':self.report_date.strftime('%Y-%m-%d'),
+                         'members':len(self.get_active_members()),
+                         'projects':len(self.get_active_projects()),
+                         'mailing_lists':len(self.get_active_mailing_lists())})
+
+        self.report_date = initial_report_date
+        self.ran_queries = False
+        return data

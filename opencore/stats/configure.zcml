@@ -9,6 +9,13 @@
     name="stats"
     template="stats.pt"
     />
+  <browser:page
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".stats.StatsView"
+    permission="cmf.ManagePortal"
+    name="stats_active"
+    template="active.pt"
+    />
 
 
 </configure>
