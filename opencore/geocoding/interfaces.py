@@ -15,6 +15,10 @@ class IReadGeo(Interface):
         location.
         """
 
+    def is_geocoded():
+        """Boolean. True if we can get coordinates, false otherwise.
+        """
+
 
 class IWriteGeo(Interface):
 

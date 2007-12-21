@@ -393,9 +393,10 @@ class BaseView(BrowserView):
         # context_info would be eg. self.member_info or self.project_info.
         try:
             geo = self.context.restrictedTraverse('oc-geo-read')
-            info = {'static_img_url': geo.location_img_url()}
+            info = {'static_img_url': geo.location_img_url(),
+                    'is_geocoded': geo.is_geocoded()}
         except:  # XXX except what?
-            info = {'static_img_url': ''}
+            info = {'static_img_url': '', 'is_geocoded': False}
         info['maps_script_url'] = self._maps_script_url()
         _marker = object()
         for key in ('position-text', 'location', 'position-latitude',

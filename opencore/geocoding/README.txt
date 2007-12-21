@@ -28,6 +28,8 @@ API for everything we care about.  The read interface should be public::
     True
     >>> print reader.get_geolocation()
     None
+    >>> print reader.is_geocoded()
+    False
     >>> reader.location_img_url()
     ''
 
@@ -51,6 +53,8 @@ The write interface should be restricted to project admins::
 Now let's use it::
 
     >>> writer.set_geolocation((1, 2))  # XXX lat first, change that?
+    True
+    >>> reader.is_geocoded()
     True
     >>> reader.get_geolocation()
     (2.0, 1.0, 0.0)

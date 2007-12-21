@@ -37,7 +37,6 @@
                   <span tal:condition="view/viewingself" >
                     <a class="oc-actionLink"
                        href="profile-edit?field=location">Edit</a>
-                    <a  href="profile-edit">Add position on map</a>
 		  </span>
                 </dt>
                 <dd class="adr" tal:condition="loc"><span class="locality" tal:content="loc" /></dd>
@@ -137,6 +136,14 @@
       <div id="oc-content-sidebar">
         <!-- @@ TODO: javascripty map here.  -->
         <div class="oc-boxy" tal:condition="view/geo_info/static_img_url | nothing">
+           <div tal:condition="view/viewingself">
+             <a class="oc-actionLink" href="profile-edit?field=map">
+               <span tal:condition="view/geo_info/is_geocoded">Edit</span>
+               <span tal:condition="not:view/geo_info/is_geocoded">Add</span>
+               position on map
+             </a>
+	   </div>
+
            <img tal:attributes="src view/geo_info/static_img_url" class="oc-sidebar-map" />
         </div>
 

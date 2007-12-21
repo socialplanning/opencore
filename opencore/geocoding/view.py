@@ -18,6 +18,11 @@ class ReadGeoView(BrowserView):
     def _geo(self):
         return IGeoItemSimple(self.context)
 
+    def is_geocoded(self):
+        """See IReadGeo."""
+        coords = self._geo().coords
+        return bool(coords and not None in coords)
+        
     def get_geolocation(self):
         """See IReadGeo. Note the output is ordered as (lon, lat, z)."""
         return self._geo().coords
