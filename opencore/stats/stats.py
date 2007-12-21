@@ -77,6 +77,7 @@ class StatsView(BrowserView):
 
     def get_active_members(self):    
         # "active" is defined as having logged in since expiry_date
+        # it does not include posts to or receipts from a mailing list
         filtered_members = []
         for mem in self.get_members():
             if mem.modified > self.expiry_date:
@@ -196,8 +197,11 @@ class StatsView(BrowserView):
             self._init_queries()
             data.append({'date':self.report_date,
                          'members':len(self.get_active_members()),
+                         'members_life':self.get_member_stickiness()[1],
                          'projects':len(self.get_active_projects()),
-                         'mailing_lists':len(self.get_active_mailing_lists())})
+                         'projects_life':self.get_project_stickiness()[1],
+                         'mailing_lists':len(self.get_active_mailing_lists()),
+                         'mailing_lists_life':self.get_mailing_list_stickiness()[1]})
 
         self.report_date = initial_report_date
         self.ran_queries = False

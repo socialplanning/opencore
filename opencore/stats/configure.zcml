@@ -13,7 +13,7 @@
     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
     class=".stats.StatsView"
     permission="cmf.ManagePortal"
-    name="stats_active"
+    name="stats_history"
     template="active.pt"
     />
 

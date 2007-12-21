@@ -9,15 +9,21 @@
     <h1>Active Objects</h1>
     <table tal:define="data view/get_active_data" border="1" cellspacing="0">
     <tr><td>date</td>
-      <td>members</td>
-      <td>projects</td>
-      <td>mailing lists</td>
+      <td>active members</td>
+      <td>members life</td>
+      <td>active projects</td>
+      <td>projects life</td>
+      <td>active mailing lists</td>
+      <td>mailing lists life</td>
     </tr>
     <tr tal:repeat="point data">
       <td tal:content="point/date">date</td>
       <td tal:content="point/members">members</td>
+      <td tal:content="point/members_life">members</td>
       <td tal:content="point/projects">projects</td>
+      <td tal:content="point/projects_life">projects</td>
       <td tal:content="point/mailing_lists">mailing lists</td>
+      <td tal:content="point/mailing_lists_life">mailing lists</td>
     </tr>
     </table>    
 
