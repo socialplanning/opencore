@@ -5,7 +5,7 @@ from zope.schema import ValidationError
 from zope.app.component.hooks import getSite
 
 from Products.CMFCore.utils import getToolByName
-from Products.listen.interfaces.mailinglist import check_mailto
+from Products.listen.interfaces.mailinglist import check_mailto, ManagerMailTo, InvalidMailTo
 
 _ = MessageFactory("opencore")
 
@@ -15,10 +15,15 @@ invalid_list_prefix_re = re.compile(r'[^\w.-]')
 def isValidPrefix(prefix):
     """
     Returns True if the prefix only contains valid email prefix chars,
-    raises an InvalidPrefix exception otherwise.
+    returns False otherwise
     """
     suffix = getSuffix()
-    check_mailto(prefix + suffix)
+    try:
+        check_mailto(prefix + suffix)
+    except InvalidMailTo:
+        return False
+    except ManagerMailTo:
+        return False
 
     match = invalid_list_prefix_re.search(prefix)
     if match is not None:
