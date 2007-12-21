@@ -15,11 +15,11 @@
     </tr>
     <tr><td></td>
       <td>active</td>
-      <td>avg life</td>
+      <td>avg life before dormancy</td>
       <td>active</td>
-      <td>avg life</td>
+      <td>avg life before dormancy</td>
       <td>active</td>
-      <td>avg life</td>
+      <td>avg life before dormancy</td>
     </tr>
     <tr tal:repeat="point data">
       <td tal:content="point/date">date</td>
