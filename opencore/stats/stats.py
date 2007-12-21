@@ -191,7 +191,7 @@ class StatsView(BrowserView):
     def get_active_data(self):
         data = []
         initial_report_date = self.report_date
-        for i in range(11, -1, -1):
+        for i in range(0, 18):
             self.report_date = initial_report_date - i*30
             self.ran_queries = False
             self._init_queries()
