@@ -1,3 +1,5 @@
+-*- mode: doctest ;-*-
+
 ======================
  opencore.project.browser
 ======================
@@ -24,7 +26,8 @@ The test setup should be ensuring that geocoding is disabled::
     >>> print view.geocode_from_form()
     ()
     >>> pprint(view.geo_info)
-    {'location': '',
+    {'is_geocoded': False,
+     'location': '',
      'maps_script_url': '',
      'position-latitude': '',
      'position-longitude': '',
@@ -282,7 +285,8 @@ nothing interesting::
     >>> print view.geocode_from_form()
     ()
     >>> pprint(view.geo_info)
-    {'location': '',
+    {'is_geocoded': False,
+     'location': '',
      'maps_script_url': '',
      'position-latitude': '',
      'position-longitude': '',

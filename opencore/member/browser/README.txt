@@ -1,3 +1,5 @@
+-*- mode: doctest ;-*-
+
 =========================
  opencore.member.browser
 =========================
@@ -570,7 +572,8 @@ this is inadequate, but hey, there were no tests of it before...
 There should always be some minimal geo info available::
 
     >>> pprint(editview.geo_info)
-    {'location': '',
+    {'is_geocoded': False,
+     'location': '',
      'maps_script_url': 'http://...',
      'position-latitude': '',
      'position-longitude': '',

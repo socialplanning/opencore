@@ -88,7 +88,9 @@ human-readable place name::
 The view includes a bunch of convenient geo-related stuff for UIs::
 
     >>> sorted(view.geo_info.keys())
-    ['location', 'maps_script_url', 'position-latitude', 'position-longitude', 'position-text', 'static_img_url']
+    ['is_geocoded', 'location', 'maps_script_url', 'position-latitude', 'position-longitude', 'position-text', 'static_img_url']
+    >>> view.geo_info['is_geocoded']
+    True
     >>> view.geo_info['location']
     'oceania'
     >>> round(view.geo_info['position-latitude'])
@@ -278,7 +280,8 @@ needed to build the UI::
     >>> view = m1.restrictedTraverse('@@profile-edit')
     >>> view.request.form.clear()
     >>> pprint(view.geo_info)
-    {'location': '',
+    {'is_geocoded': False,
+     'location': '',
      'maps_script_url': 'http://...',
      'position-latitude': '',
      'position-longitude': '',
@@ -291,7 +294,8 @@ Request values override geo_info::
     ...  'position-longitude': 0.0, 'location': 'somewhere', })
 
     >>> pprint(view.geo_info)
-    {'location': 'somewhere',
+    {'is_geocoded': False,
+     'location': 'somewhere',
      'maps_script_url': 'http://...',
      'position-latitude': 45.0,
      'position-longitude': 0.0,
@@ -304,7 +308,8 @@ Submitting the form updates everything, and we get a static image url now::
     >>> view.request.form.clear()
     >>> view = m1.restrictedTraverse('@@profile-edit')
     >>> pprint(view.geo_info)
-    {'location': 'somewhere',
+    {'is_geocoded': True,
+     'location': 'somewhere',
      'maps_script_url': 'http://...',
      'position-latitude': 45.0,
      'position-longitude': 0.0,
@@ -321,7 +326,8 @@ geocoder to be used::
     >>> redirected = view.handle_form()
     Called Products.PleiadesGeocoder.geocode.Geocoder.geocode('atlantis')
     >>> pprint(view.geo_info)
-    {'location': 'somewhere underwater',
+    {'is_geocoded': True,
+     'location': 'somewhere underwater',
      'maps_script_url': 'http://...',
      'position-latitude': 12.0,
      'position-longitude': -87.0,
