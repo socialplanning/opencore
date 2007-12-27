@@ -4,7 +4,7 @@
 # projname - name of the project under which the list will be created
 #
 go ${base_url}/projects/${projname}
-follow "Mailing lists"
+follow "Mailing Lists"
 follow "Add a mailing list" 
 find 'Archival method'
 notfind "Add a mailing list" 

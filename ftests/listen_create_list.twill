@@ -9,8 +9,8 @@
 # attach - attachment setting for the list
 #
 go ${base_url}/projects/${projname}
-follow "Mailing lists"
-follow "Add a mailing list" 
+follow "Mailing Lists"
+follow "Add a mailing list"
 find 'Managers.*${user}' s
 fv 2 form.title ${listtitle}
 fv 2 form.description ${listdesc}
