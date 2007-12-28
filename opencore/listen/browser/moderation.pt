@@ -26,7 +26,7 @@
               </tr>
               </thead>
               <tbody>
-                <tr tal:repeat="post pending_list">
+                <tr tal:repeat="post pending_list" tal:attributes="id string:post_${post/postid}">
                   <td style="width: 25%;" tal:content="post/user_name" /> 
                   <td style="width: 49%;">
                     <dl class="oc-plainList">
@@ -43,13 +43,14 @@
                       <input type="hidden" name="email" tal:attributes="value python: str(post['user'])" />
                       <ul class="oc-actions oc-dataTable-row-actions oc-js-liveEdit-value">
                         <li>
-                          <input class="oc-actionLink" type="submit" name="post_approve" i18n:attributes="value moderation_approve_button" value="Approve" title="Allow this message to be posted" />
+                          <a class="oc-actionLink oc-js-actionPost" tal:attributes="href string:moderation?post_approve=Approve&postid=${post/postid}&email=${post/user}" title="Allow this message to be posted">Approve</a>
                         </li>
                         <li>
-                          <input class="oc-actionLink" type="submit" name="post_discard" i18n:attributes="value moderation_discard_button" value="Discard (Spam)" title="Deny this message without notifying the sender" />
+                          <a class="oc-actionLink oc-js-actionPost" tal:attributes="href string: moderation?post_discard=moderation_discard_button&postid=${post/postid}&email=${post/user}" title="Deny this message without notifying the sender">Discard</a>
                         </li>
                         <li class="oc-js-liveEdit_showForm" tal:condition="python:is_post_moderated or is_membership_moderated">
-                          <a class="oc-actionLink" href="moderation#" title="Deny this message and notify the sender, message optional" i18n:attributes="value moderation_reject_button">Reject</a>
+                          <a class="oc-actionLink" href="moderation#" title="Deny this message and notify the sender, message optional">Reject</a>
+
                         </li>
                       </ul>
                       <div class="oc-js-liveEdit-editForm oc-liveEdit-editForm oc-form-fieldBlock" style="display: none;" tal:condition="python:is_post_moderated or is_membership_moderated">
@@ -57,7 +58,8 @@
                             <strong>Reason:</strong> <span class="oc-discreetText">(optional)</span>
                           </label>
                           <input id="message_reject_reason" name="reject_reason" type="text" />
-                          <input class="oc-actionLink" type="submit" name="post_reject" i18n:attributes="value moderation_reject_confirm_button" value="Reject" title="Deny this message and notify the sender, message optional"/> or <a href="#" class="oc-js-liveEdit_hideForm">Cancel</a>
+
+                          <input class="oc-actionLink oc-js-actionButton" name="post_reject" i18n:attributes="value moderation_reject_confirm_button"  type="submit" value="Reject"  title="Deny this message and notify the sender, message optional"/> or <a href="#" class="oc-js-liveEdit_hideForm">Cancel</a>
 
                       </div>
                     </form>

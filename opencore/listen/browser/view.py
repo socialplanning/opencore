@@ -9,14 +9,18 @@ from Products.listen.browser.mail_archive_views import ArchiveForumView, Archive
 from Products.listen.browser.mail_message_views import ForumMailMessageView, ThreadedMailMessageView, \
                                                        MessageReplyView, SearchDebugView
 from Products.listen.browser.manage_membership import ManageMembersView
-from Products.listen.browser.moderation import ModerationView
+from Products.listen.browser.moderation import ModerationView as BaseModerationView
+from Products.listen.config import PROJECTNAME
+from Products.listen.config import MODERATION_FAILED
 from Products.listen.content import ListTypeChanged
 from Products.listen.interfaces.list_types import PublicListTypeDefinition, \
                                                   PostModeratedListTypeDefinition, \
                                                   MembershipModeratedListTypeDefinition
 from Products.listen.interfaces import IMailingList, IMembershipModeratedList, \
                                        IPostModeratedList, IPublicList, \
-                                       IWriteMembershipList
+                                       IWriteMembershipList, IEmailPostPolicy, \
+                                       IUserEmailMembershipPolicy
+
 from Products.listen.utilities.list_lookup import ListLookupView
 from lxml.html.clean import Cleaner
 from opencore.browser.formhandler import OctopoLite, action
@@ -353,6 +357,70 @@ def make_nui_listen_view_class(ListenClass, set_errors=False, add_update=False):
             return body
     
     return NuiListenView
+
+
+class ModerationView(BaseModerationView):
+    """A view for moderating things """
+
+    def __call__(self):
+        #figure out request method
+        method = self.request.environ['REQUEST_METHOD']
+        if method == "GET":
+            return self.index()
+
+        d = self.request.form
+        self.errors = ''
+        post = email = None
+        action = ''
+        postid = None
+        reject_reason = ''
+
+        # first check if mass moderating all posts
+        if d.get('discard_all_posts', False):
+            action = 'discard'
+            policy = getAdapter(self.context, IEmailPostPolicy)
+            for post in self.get_pending_lists():
+                postid = post['postid']
+                email = post['user']
+                req = dict(action=action, email=email, postid=postid)
+                policy_result = policy.enforce(req)
+                if policy_result == MODERATION_FAILED:
+                    self.errors = _(u'Could not moderate!')
+                    break
+            return self.index()
+
+        for name, value in d.items():
+            if name.endswith('_approve') or \
+               name.endswith('_discard') or \
+               name.endswith('_reject'):
+                action = value.split('_')[-1]
+            elif name == 'postid':
+                postid = int(value)
+            elif name == 'email':
+                email = value
+            elif name == 'reject_reason':
+                reject_reason = value            
+
+        # having a post id specified means that we need to moderate posts
+        if postid is not None:
+            # using email post policy
+            # may have to try enforcing the ITTWPostPolicy as well on failure
+            policy = getAdapter(self.context, IEmailPostPolicy)
+            req = dict(action=action, email=email, postid=postid, reject_reason=reject_reason)
+            policy_result = policy.enforce(req)
+            if policy_result == MODERATION_FAILED:
+                self.errors = _(u'Could not moderate!')
+            return {'post_%s' % postid : {'action': 'delete'}}
+        else:
+            # same idea between membership policy
+            # may have to try the IUserTTWMembershipPolicy if the email policy fails
+            policy = getAdapter(self.context, IUserEmailMembershipPolicy)
+            req = dict(action=action, email=email, reject_reason=reject_reason)
+            policy_result = policy.enforce(req)
+            if policy_result == MODERATION_FAILED:
+                self.errors = _(u'Could not moderate!')
+            return {'member_%s' % postid : {'action': 'delete'}}
+
 
 # prefixing everything is unnecessary
 NuiMailingListView = make_nui_listen_view_class(MailingListView)
