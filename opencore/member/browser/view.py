@@ -80,6 +80,9 @@ class ProfileView(BaseView):
             except ValueError:
                 # this page brain must not be inside a project
                 d.update(project=None, projurl=None)
+            except KeyError:
+                # this page brain must not be inside a project
+                d.update(project=None, projurl=None)
 
             return d
 
