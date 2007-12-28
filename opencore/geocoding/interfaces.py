@@ -19,6 +19,17 @@ class IReadGeo(Interface):
         """Boolean. True if we can get coordinates, false otherwise.
         """
 
+    def geo_info():
+        """Returns a single dict containing all the interesting stuff.
+        XXX more doc
+        """
+
+    def has_geocoder():
+        """Boolean: Is a PleiadesGeocoder tool available?
+        """
+        
+        
+
 
 class IWriteGeo(Interface):
 
@@ -38,6 +49,6 @@ class IWriteGeo(Interface):
         If a change is made, return True; else return False.
         """
     
-class IOCGeoView(IReadGeo, IWriteGeo):
+class IReadWriteGeo(IReadGeo, IWriteGeo):
     """both read + write.
     """

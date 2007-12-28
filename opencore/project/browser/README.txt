@@ -21,8 +21,6 @@ The test setup should be ensuring that geocoding is disabled::
 
     >>> view.has_geocoder
     False
-    >>> view._maps_script_url()
-    ''
     >>> print view.geocode_from_form()
     ()
     >>> pprint(view.geo_info)
@@ -149,9 +147,6 @@ Maps url should work if the geocoder is available::
 
     >>> view = projects.restrictedTraverse('create')
     >>> view.has_geocoder = True
-    >>> view._maps_script_url()
-    'http://maps.google.com/maps?file=api...'
-
 
     
 Preference View
@@ -280,8 +275,6 @@ nothing interesting::
 
     >>> view.has_geocoder
     False
-    >>> view._maps_script_url()
-    ''
     >>> print view.geocode_from_form()
     ()
     >>> pprint(view.geo_info)
@@ -293,16 +286,6 @@ nothing interesting::
      'position-text': '',
      'static_img_url': ''}
 
-
-Maps url should work if the geocoder is available and a key is set::
-
-    >>> view.has_geocoder = True
-    >>> len(view.get_opencore_property('google_maps_key')) > 0
-    True
-    >>> view._maps_script_url()
-    'http://maps.google.com/maps?file=api...'
-    >>> view.geo_info['maps_script_url']
-    'http://maps.google.com/maps?file=api...'
 
 
 Team view

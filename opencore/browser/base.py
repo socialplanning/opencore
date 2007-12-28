@@ -8,6 +8,10 @@ from Products.CMFPlone.utils import transaction_note
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
+
+# XXX provide stub implementations if geocoding isn't available.
+from opencore.geocoding.view import getReadGeoViewWrapper, getWriteGeoViewWrapper
+
 from opencore.interfaces import IProject 
 from opencore.project.utils import project_path
 from zope.i18nmessageid import Message
@@ -309,7 +313,7 @@ class BaseView(BrowserView):
             result['position-latitude'] = ''
             result['position-longitude'] = ''
             if folder:
-                geo = folder.restrictedTraverse('oc-geo-read')
+                geo = getReadGeoViewWrapper(self)
                 coords = geo.get_geolocation()
                 if coords is not None:
                     result['position-latitude'] = coords[1]
@@ -362,7 +366,7 @@ class BaseView(BrowserView):
                              location=proj.getLocation(),
                              obj=proj)
             proj_info['position-text'] = proj.getPositionText()
-            geo = proj.restrictedTraverse('oc-geo-read')  # XXX handle failures
+            geo = getReadGeoViewWrapper(self)
             coords = geo.get_geolocation()
             if coords:
                 # Yes, longitude first.
@@ -371,7 +375,7 @@ class BaseView(BrowserView):
         return proj_info
 
     # hooks for geocoding stuff to work if installed. XXX move these
-    # to a separate view?
+    # into geocoding package.
 
     @view.memoizedproperty
     def has_geocoder(self):
@@ -379,36 +383,7 @@ class BaseView(BrowserView):
         """
         return getToolByName(self.context, 'portal_geocoder', None) is not None
 
-    def _maps_script_url(self):
-        if not self.has_geocoder:
-            return ''
-        key = self.get_opencore_property('google_maps_key')
-        if not key:
-            logger.warn("you need to set a google maps key in opencore_properties")
-            return ''
-        url = "http://maps.google.com/maps?file=api&v=2&key=%s" % key
-        return url
 
-    def _get_geo_info(self, context_info):
-        # context_info would be eg. self.member_info or self.project_info.
-        try:
-            geo = self.context.restrictedTraverse('oc-geo-read')
-            info = {'static_img_url': geo.location_img_url(),
-                    'is_geocoded': geo.is_geocoded()}
-        except:  # XXX except what?
-            info = {'static_img_url': '', 'is_geocoded': False}
-        info['maps_script_url'] = self._maps_script_url()
-        _marker = object()
-        for key in ('position-text', 'location', 'position-latitude',
-                    'position-longitude'):
-            if self.request.form.get(key, _marker) is not _marker:
-                info[key] = self.request.form[key]
-            elif context_info.get(key, _marker) is not _marker:
-                info[key] = context_info[key]
-            else:
-                info[key] = ''
-        return info
-        
     def geocode_from_form(self, form=None):
         """
         Inspect the values in the form in order to extract and return
@@ -420,7 +395,7 @@ class BaseView(BrowserView):
             return default
         if form is None:
             form = self.request.form
-        geo = self.context.unrestrictedTraverse('oc-geo-write')
+        geo = getWriteGeoViewWrapper(self)
         try:
             coords = geo.geocode_from_form(form)
         except (TypeError, ValueError):
@@ -435,11 +410,10 @@ class BaseView(BrowserView):
         Update the given context (or self.context) with the given coordinates
         (for now assume latitude, longitude).
         """
+        #XXX this isn't doing enough to justify existence
         if not self.has_geocoder:
             return False
-        if context is None:
-            context = self.context            
-        geo = context.restrictedTraverse('oc-geo-write')
+        geo = getWriteGeoViewWrapper(self, context)
         return geo.set_geolocation(coords)
 
 

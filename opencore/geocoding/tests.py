@@ -12,13 +12,16 @@ import warnings; warnings.filterwarnings("ignore")
 
 def test_suite():
     from Products.PloneTestCase import setup
+    from opencore.project.browser.view import ProjectBaseView
+    from opencore.member.browser.view import ProfileView
     from pprint import pprint
     from Products.PleiadesGeocoder.interfaces import IGeoItemSimple
-    from opencore.geocoding.interfaces import IGeoFolder, IOCGeoView, \
-         IReadGeo, IWriteGeo, \
+    from opencore.geocoding.interfaces import IGeoFolder, \
+         IReadGeo, IWriteGeo, IReadWriteGeo, \
          IGeoreferenceable, IGeoAnnotatableContent, IGeoserializable, \
          IGeoserializableMembersFolder
-
+    from opencore.geocoding.view import getReadGeoViewWrapper
+    from opencore.geocoding.view import getWriteGeoViewWrapper
     ZopeTestCase.installProduct('PleiadesGeocoder')
     setup.setupPloneSite()
 

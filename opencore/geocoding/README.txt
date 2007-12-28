@@ -17,13 +17,16 @@ Projects
 =========
 
 
-Projects can be adapted to our IReadGeo and IWriteGeo which provide a simple
-API for everything we care about.  The read interface should be public::
+Project views can be adapted to our IReadGeo and IWriteGeo which
+provide a simple API for everything we care about.  The read interface
+should be public::
 
     >>> self.logout()
     >>> projects = self.portal.projects
     >>> proj = projects.p1
-    >>> reader = proj.restrictedTraverse('oc-geo-read')
+    >>> view = ProjectBaseView(proj, proj.REQUEST)
+    >>> view.request.form.clear()
+    >>> reader = getReadGeoViewWrapper(view)
     >>> IReadGeo.providedBy(reader)
     True
     >>> print reader.get_geolocation()
@@ -36,19 +39,21 @@ API for everything we care about.  The read interface should be public::
 The write interface should be restricted to project admins::
 
     >>> self.logout()
-    >>> writer = proj.restrictedTraverse('oc-geo-write')
+    >>> writer = getWriteGeoViewWrapper(view)
+    >>> IWriteGeo.providedBy(writer)
+    True
+    >>> writer.geocode_from_form()
     Traceback (most recent call last):
     ...
     Unauthorized: You are not allowed to access 'oc-geo-write' in this context
     >>> self.login('m1')
-    >>> writer = proj.restrictedTraverse('oc-geo-write')
+    >>> writer.geocode_from_form()
     Traceback (most recent call last):
     ...
     Unauthorized: You are not allowed to access 'oc-geo-write' in this context
     >>> self.login('m3')
-    >>> writer = proj.restrictedTraverse('oc-geo-write')
-    >>> IWriteGeo.providedBy(writer)
-    True
+    >>> writer.geocode_from_form()
+    False
 
 Now let's use it::
 
@@ -79,7 +84,9 @@ public::
 
     >>> self.logout()
     >>> m1folder = self.portal.people.m1
-    >>> reader = m1folder.restrictedTraverse('oc-geo-read')
+    >>> view = ProfileView(m1folder, m1folder.REQUEST)
+    >>> view.request.form.clear()
+    >>> reader = getReadGeoViewWrapper(view)
     >>> IReadGeo.providedBy(reader)
     True
     >>> print reader.get_geolocation()
@@ -90,20 +97,22 @@ public::
 But not the write interface, It works only for the actual member::
 
     >>> m1data = self.portal.portal_memberdata.m1
-    >>> writer = m1folder.restrictedTraverse('oc-geo-write')
+    >>> writer = getWriteGeoViewWrapper(view)
+    >>> IWriteGeo.providedBy(writer)
+    True
+    >>> writer.geocode_from_form()
     Traceback (most recent call last):
     ...
     Unauthorized: You are not allowed to access 'oc-geo-write' in this context
     >>> self.login('m2')
-    >>> writer = m1folder.restrictedTraverse('oc-geo-write')
+    >>> writer.geocode_from_form()
     Traceback (most recent call last):
     ...
     Unauthorized: You are not allowed to access 'oc-geo-write' in this context
 
     >>> self.login('m1')
-    >>> writer = m1folder.restrictedTraverse('oc-geo-write')    
-    >>> IWriteGeo.providedBy(writer)
-    True
+    >>> writer.geocode_from_form()
+    False
 
 Now let's use it::
 

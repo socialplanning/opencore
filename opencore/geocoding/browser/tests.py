@@ -1,6 +1,5 @@
 from Products.Five.site.localsite import enableLocalSiteHook
 from Products.PleiadesGeocoder.geocode import Geocoder
-from Testing import ZopeTestCase
 from opencore.testing import dtfactory as dtf
 from opencore.testing import setup as oc_setup
 from opencore.testing.layer import OpencoreContent as test_layer
@@ -8,7 +7,7 @@ from zope.app.component.hooks import setSite, setHooks
 from zope.testing import doctest
 import unittest
 
-optionflags = doctest.ELLIPSIS
+optionflags = doctest.ELLIPSIS | doctest.REPORT_NDIFF
 
 import warnings; warnings.filterwarnings("ignore")
 

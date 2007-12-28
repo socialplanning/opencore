@@ -316,10 +316,10 @@ Submitting the form updates everything, and we get a static image url now::
      'position-text': '',
      'static_img_url': 'http://...'}
 
-
 Submitting the form with position-text should cause the (mock)
 geocoder to be used::
 
+    >>> view = m1.restrictedTraverse('@@profile-edit')
     >>> view.request.form.update({'position-text': 'atlantis',
     ...     'location': 'somewhere underwater', })
     ...
@@ -338,6 +338,7 @@ geocoder to be used::
 The public profile view should show the same data::
 
     >>> pview = m1.restrictedTraverse('@@profile')
+    >>> pview.request.form.clear()
     >>> pview.geo_info == view.geo_info
     True
 

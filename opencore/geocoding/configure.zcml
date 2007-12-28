@@ -19,6 +19,7 @@
        any method of the view. Yay!
 
    -->
+  <!-- XXX these pages are useless now? remove. -->
   <browser:page
      for="zope.app.container.interfaces.IContainer"
      name="oc-geo-read"
@@ -55,19 +56,19 @@
  <adapter
     for="opencore.interfaces.IMemberFolder"
     provides="Products.PleiadesGeocoder.interfaces.simple.IGeoItemSimple"
-    factory=".view.MemberFolderGeoItem"
+    factory=".adapters.MemberFolderGeoItem"
   />
 
  <!-- Use slightly special IGeoItemSimple implementations. -->
   <adapter
     for="opencore.member.interfaces.IOpenMember"
     provides="Products.PleiadesGeocoder.interfaces.simple.IGeoItemSimple"
-    factory=".view.MemberGeoItem"
+    factory=".adapters.MemberGeoItem"
     />
   <adapter
     for="opencore.interfaces.IProject"
     provides="Products.PleiadesGeocoder.interfaces.simple.IGeoItemSimple"
-    factory=".view.ProjectGeoItem"
+    factory=".adapters.ProjectGeoItem"
     />
 
 

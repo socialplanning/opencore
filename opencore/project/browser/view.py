@@ -1,13 +1,11 @@
 import logging
 import re
 import string
-import urllib
 
 from zope import event
 from zope.interface import implements
 from zope.component import getAdapters, queryAdapter
 from zope.component import getMultiAdapter
-from zope.component import getUtility
 from Acquisition import aq_parent
 
 from topp.featurelets.interfaces import IFeaturelet, IFeatureletSupporter
@@ -39,6 +37,7 @@ _marker = object()
 
 logger = logging.getLogger('opencore.project.browser')
 
+
 class ProjectBaseView(BaseView):
 
     proj_macros = ZopeTwoPageTemplateFile('macros.pt')
@@ -69,8 +68,11 @@ class ProjectBaseView(BaseView):
         """geo information for display in forms;
         takes values from request, falls back to existing project
         if possible."""
-        return self._get_geo_info(self.project_info)
-
+        ##geo = IReadWriteGeo(self) #XXX This fails in zope 2.9.
+        from opencore.geocoding.view import getReadGeoViewWrapper
+        geo = getReadGeoViewWrapper(self)
+        return geo.geo_info()
+    
 
 class ProjectContentsView(ProjectBaseView, OctopoLite):
 

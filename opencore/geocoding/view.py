@@ -1,35 +1,79 @@
-from DateTime import DateTime
-from Products.Five import BrowserView
-from Products.PleiadesGeocoder.browser.info import get_coords
-from Products.PleiadesGeocoder.geo import GeoItemSimple
+import Acquisition
+from Products.CMFCore.utils import getToolByName
 from Products.PleiadesGeocoder.interfaces.simple import IGeoItemSimple
-from opencore.browser.base import BaseView
-from opencore.content.member import member_path
-from opencore.member.interfaces import IOpenMember
+from zope.app.publisher.interfaces.browser import IBrowserView
+from zope.component import adapts
+from zope.component import provideAdapter
 from zope.interface import implements
 import interfaces
+import logging
 import urllib
 import utils
 
-class ReadGeoView(BrowserView):
+logger = logging.getLogger('opencore.geocoding')
+
+class ReadGeoView(Acquisition.Explicit):
+
+    """wraps an opencore view with geo functionality."""
 
     implements(interfaces.IReadGeo)
+    adapts(IBrowserView)
+    def __init__(self, view):
+        self.view = view
+        self.context = view.context
+        self.request = view.request
 
-    def _geo(self):
+    def geo_info(self):
+        """See IReadGeo"""
+        info = {'static_img_url': self.location_img_url(),
+                'is_geocoded': self.is_geocoded(),
+                'maps_script_url': self._maps_script_url()}
+        _marker = object()
+        if self.view.inmember:
+            context_info = self.view.viewed_member_info
+        else:
+            # assume project.
+            context_info = self.view.project_info
+        for key in ('position-text', 'location', 'position-latitude',
+                    'position-longitude'):
+            if self.view.request.form.get(key, _marker) is not _marker:
+                info[key] = self.view.request.form[key]
+            elif context_info.get(key, _marker) is not _marker:
+                info[key] = context_info[key]
+            else:
+                info[key] = ''
+        return info
+
+    def _get_geo_item(self):
         return IGeoItemSimple(self.context)
+
+    def _maps_script_url(self):
+        if not self.view.has_geocoder:
+            return ''
+        key = self.view.get_opencore_property('google_maps_key')
+        if not key:
+            logger.warn("you need to set a google maps key in opencore_properties")
+            return ''
+        url = "http://maps.google.com/maps?file=api&v=2&key=%s" % key
+        return url
+
+    def has_geocoder(self):
+        """See IReadGeo. Is a PleiadesGeocoder tool available?
+        """
+        return getToolByName(self.context, 'portal_geocoder', None) is not None
 
     def is_geocoded(self):
         """See IReadGeo."""
-        coords = self._geo().coords
+        coords = self._get_geo_item().coords
         return bool(coords and not None in coords)
         
     def get_geolocation(self):
         """See IReadGeo. Note the output is ordered as (lon, lat, z)."""
-        return self._geo().coords
+        return self._get_geo_item().coords
 
     def location_img_url(self, width=500, height=300):
         """See IReadGeo."""
-        geo = self._geo()
+        geo = self._get_geo_item()
         if not geo.coords:
             return ''
         lon, lat, z = geo.coords
@@ -44,15 +88,55 @@ class ReadGeoView(BrowserView):
         return url
 
 
+##     def _get_context_info(self):
+##         # Subclasses must implement.
+##         # It would be eg. BaseView.member_info or BaseView.project_info.
+##         raise NotImplementedError
+
+##     def _maps_script_url(self):
+##         if not self.has_geocoder:
+##             return ''
+##         key = self.get_opencore_property('google_maps_key')
+##         if not key:
+##             logger.warn("you need to set a google maps key in opencore_properties")
+##             return ''
+##         url = "http://maps.google.com/maps?file=api&v=2&key=%s" % key
+##         return url
+
+##     def geo_info(self):
+##         """See IReadGeo."""
+##         info = {'static_img_url': self.location_img_url(),
+##                 'is_geocoded': self.is_geocoded(),
+##                 'maps_script_url': self._maps_script_url()
+##         _marker = object()
+##         for key in ('position-text', 'location', 'position-latitude',
+##                     'position-longitude'):
+##             if self.request.form.get(key, _marker) is not _marker:
+##                 info[key] = self.request.form[key]
+##             elif context_info.get(key, _marker) is not _marker:
+##                 info[key] = context_info[key]
+##             else:
+##                 info[key] = ''
+##         return info
+        
+
 
 class WriteGeoView(ReadGeoView):
 
     implements(interfaces.IWriteGeo)
 
+    def __init__(self, view, context=None):
+        # Need optional context arg for when wrapping an add view
+        # and the context we care about is the thing to be added.
+        # XXX Cleaner way to do that?
+        self.view = view
+        self.context = context or view.context
+        self.request = view.request
+
     def set_geolocation(self, coords):
         """See IWriteGeo."""
         if coords and not None in coords:
-            geo = self._geo()
+            geo = self._get_geo_item()
             # XXX need to handle things other than a point!
             lat, lon = coords[:2]
             # Longitude first! Yes, really.
@@ -97,77 +181,51 @@ class WriteGeoView(ReadGeoView):
             return (lat, lon)
 
 
-class MemberareaReadGeoView(ReadGeoView, BaseView):
+class MemberareaReadGeoView(ReadGeoView):
 
-    # inheriting from BaseView is an excessive, lazy way to get at the
-    # member. oh well.
-
-    def _geo(self):
-        return IGeoItemSimple(self.viewedmember())
+    def _get_geo_item(self):
+        return IGeoItemSimple(self.view.viewedmember())
 
 class MemberareaWriteGeoView(WriteGeoView, ReadGeoView):
     pass
 
 
-def MemberFolderGeoItem(context):
-    """Adapt a member's home folder to IGeoItemSimple.
-    This allows us to treat remember members much the same as projects,
-    which is simpler than the extra stuff PleiadesGeocoder has to do
-    for normal Plone members.
-    """
-    member = getattr(context.portal_memberdata, context.getId(), None)
-    if IOpenMember.providedBy(member):
-        return IGeoItemSimple(member)
-    return None
 
 
-def _iso8601(dt_or_string):
-    # Use this to get a timestamp suitable for use in atom feeds.
-    # Needed because Archetypes.ExtensibleMetadata date fields are sometimes
-    # DateTime objects, and sometimes strings. omg wtf etc.
-    dt = DateTime(dt_or_string)
-    return dt.ISO8601()
-    
-class MemberGeoItem(GeoItemSimple):
 
-    @property
-    def __geo_interface__(self):
-        # Kinda guessing what info we want for members.
-        member = self.context
-        member_id = member.getId()
-        # there's surely a better way to get this url.
-        home_url = '%s/%s' % (member.portal_url(), member_path(member_id))
-        properties = {
-            'language': member.getProperty('language'),
-            'location': member.getProperty('location'),
-            # According to PleiadesGeocoder.browser.info comments,
-            # OpenLayers can't handle an empty descr or title.
-            'description': member.getProperty('description') or 'No description',
-            'title': member.getProperty('fullname') or 'No title',
-            'link': home_url,
-            'updated': _iso8601(member.ModificationDate()),
-            'created': _iso8601(member.CreationDate()),
-            }
-        
-        return {
-            'id': member_id,
-            'properties': properties,
-            'geometry': {'type': self.geom_type, 'coordinates': self.coords}
-            }
+# We'd like to be able to say IReadGeoView(some_view), but this doesn't
+# seem to work; The below is sufficient in zope 3.3, but not 2.9:
+from interfaces import IReadGeo, IWriteGeo, IReadWriteGeo
+provideAdapter(ReadGeoView, provides=IReadGeo)
+provideAdapter(WriteGeoView, provides=(IWriteGeo, IReadWriteGeo))
+provideAdapter(MemberareaReadGeoView, provides=IReadGeo)
+provideAdapter(MemberareaWriteGeoView, provides=(IWriteGeo, IReadWriteGeo))
+# So instead for now we'll use a factory function and not the
+# component architecture.
+from zope.app.container.interfaces import IContainer
+from opencore.interfaces import IMemberFolder
+def getReadGeoViewWrapper(view):
+    if IMemberFolder.providedBy(view.context):
+        wrapper = MemberareaReadGeoView(view)
+    elif IContainer.providedBy(view.context):
+        wrapper = ReadGeoView(view)
+    else:
+        raise TypeError("Couldn't adapt %r to IReadGeoView." % view)
+    return wrapper.__of__(view)
 
-class ProjectGeoItem(GeoItemSimple):
+# Ditto for WriteGeoView.
+def getWriteGeoViewWrapper(view, context=None):
+    context = context or view.context
+    if IMemberFolder.providedBy(context):
+        wrapper = MemberareaWriteGeoView(view, context)
+    elif IContainer.providedBy(context):
+        wrapper = WriteGeoView(view, context)
+    else:
+        raise TypeError("Couldn't adapt %r to IWriteGeoView." % view)
+    return wrapper.__of__(view)
 
-    @property
-    def __geo_interface__(self):
-        info = super(ProjectGeoItem, self).__geo_interface__
-        project = self.context
-        properties = {
-            # According to PleiadesGeocoder.browser.info comments,
-            # OpenLayers can't handle an empty descr or title.
-            'description': info['properties']['description'] or 'No description',
-            'title': info['properties']['title'] or 'No title',
-            'updated': _iso8601(project.ModificationDate()),
-            'created': _iso8601(project.CreationDate()),
-            }
-        info['properties'].update(properties)
-        return info
+# TO DO: To allow opencore to work without this package, put default
+# do-nothing IReadWriteGeo implementation in somewhere like
+# browser/base and the implementations here can override that.
+
+# XXX re-test security!
