@@ -19,16 +19,13 @@ Projects
 
 Project views can be adapted to our IReadGeo and IWriteGeo which
 provide a simple API for everything we care about.  The read interface
-should be public::
+looks like this and should be available with view permission::
 
-    >>> self.logout()
     >>> projects = self.portal.projects
     >>> proj = projects.p1
     >>> view = ProjectBaseView(proj, proj.REQUEST)
     >>> view.request.form.clear()
     >>> reader = getReadGeoViewWrapper(view)
-    >>> IReadGeo.providedBy(reader)
-    True
     >>> print reader.get_geolocation()
     None
     >>> print reader.is_geocoded()
@@ -36,27 +33,14 @@ should be public::
     >>> reader.location_img_url()
     ''
 
-The write interface should be restricted to project admins::
+Now let's try the writer::
 
-    >>> self.logout()
-    >>> writer = getWriteGeoViewWrapper(view)
-    >>> IWriteGeo.providedBy(writer)
-    True
-    >>> writer.geocode_from_form()
-    Traceback (most recent call last):
-    ...
-    Unauthorized: You are not allowed to access 'oc-geo-write' in this context
-    >>> self.login('m1')
-    >>> writer.geocode_from_form()
-    Traceback (most recent call last):
-    ...
-    Unauthorized: You are not allowed to access 'oc-geo-write' in this context
     >>> self.login('m3')
-    >>> writer.geocode_from_form()
+    >>> view = ProjectBaseView(proj, proj.REQUEST)
+    >>> view.request.form.clear()
+    >>> writer = getWriteGeoViewWrapper(view)
+    >>> writer.geocode_from_form()  # no change.
     False
-
-Now let's use it::
-
     >>> writer.set_geolocation((1, 2))  # XXX lat first, change that?
     True
     >>> reader.is_geocoded()
