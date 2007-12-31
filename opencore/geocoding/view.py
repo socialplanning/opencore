@@ -1,5 +1,6 @@
 from Products.CMFCore.utils import getToolByName
 from Products.PleiadesGeocoder.interfaces.simple import IGeoItemSimple
+from opencore.i18n import _
 from zope.app.publisher.interfaces.browser import IBrowserView
 from zope.component import adapts
 from zope.component import provideAdapter
@@ -119,8 +120,14 @@ class WriteGeoView(ReadGeoView):
         If latitude or longitude values are provided but no good, raise the
         underlying ValueError or TypeError.
         """
+        default = ()
+        if not self.view.has_geocoder:
+            return default
         if form is None:
             form = self.request.form
+        def error():
+            self.view.errors['position-text'] = _(u'psm_geocode_failed', u"Sorry, we were unable to find that address on the map")
+            return default
         position = form.get('position-text', '').strip()
         if position:
             # If we got this, then presumably javascript was disabled;
@@ -133,14 +140,17 @@ class WriteGeoView(ReadGeoView):
                 lon = records[0]['lon']
                 return lat, lon
             else:
-                raise ValueError("Geocoding %r failed" % position)
+                return error()
         else:
             lon = form.get('position-longitude')
             lat = form.get('position-latitude')
             if lat is None or lon is None:
                 return ()
-            lon = float(lon)
-            lat = float(lat)
+            try:
+                lon = float(lon)
+                lat = float(lat)
+            except TypeError:
+                return error()
             return (lat, lon)
 
 
@@ -153,15 +163,16 @@ class MemberareaWriteGeoView(WriteGeoView, ReadGeoView):
     pass
 
 
-# We'd like to be able to say IReadGeoView(some_view), but this doesn't
-# seem to work; The below is sufficient in zope 3.3, but not 2.9:
+# We'd like to be able to get these wrapper views by just saying
+# eg. IReadGeoView(some_view), but that doesn't seem to work; The
+# below is sufficient to make it work in zope 3.3, but not 2.9:
 from interfaces import IReadGeo, IWriteGeo, IReadWriteGeo
 provideAdapter(ReadGeoView, provides=IReadGeo)
 provideAdapter(WriteGeoView, provides=(IWriteGeo, IReadWriteGeo))
 provideAdapter(MemberareaReadGeoView, provides=IReadGeo)
 provideAdapter(MemberareaWriteGeoView, provides=(IWriteGeo, IReadWriteGeo))
 
-# So instead for now we'll use a factory function and not the
+# So instead for now we'll use factory functions and not the
 # component architecture.
 from zope.app.container.interfaces import IContainer
 from opencore.interfaces import IMemberFolder

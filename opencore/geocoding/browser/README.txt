@@ -17,8 +17,8 @@ Look for geolocation info, first when it's not set...
     >>> form = {}
     >>> view.has_geocoder
     True
-    >>> coords = view.geocode_from_form(form)
     >>> wrapper = getWriteGeoViewWrapper(view)
+    >>> coords = view.geocode_from_form(form)
     >>> wrapper.set_geolocation(coords)
     False
     >>> view.project_info.has_key('position-latitude')

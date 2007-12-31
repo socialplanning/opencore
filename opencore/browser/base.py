@@ -374,8 +374,7 @@ class BaseView(BrowserView):
                 proj_info['position-longitude'] = coords[0]
         return proj_info
 
-    # hooks for geocoding stuff to work if installed. XXX move these
-    # into geocoding package.
+    # Hooks for geocoding stuff to work, if installed.
 
     @view.memoizedproperty
     def has_geocoder(self):
@@ -387,22 +386,13 @@ class BaseView(BrowserView):
     def geocode_from_form(self, form=None):
         """
         Inspect the values in the form in order to extract and return
-        coordinates.  Will perform a lookup on a textual position if
-        necessary.  If any problems, adds a message to self.errors.
+        a sequence of coordinates.  Will perform a lookup on a textual
+        position if necessary.  If any problems, adds a message to
+        self.errors.
         """
-        default = ()
         if not self.has_geocoder:
-            return default
-        if form is None:
-            form = self.request.form
-        geo = getWriteGeoViewWrapper(self)
-        try:
-            coords = geo.geocode_from_form(form)
-        except (TypeError, ValueError):
-            self.errors['position-text'] = _(u'psm_geocode_failed', u"Sorry, we were unable to find that address on the map")
-            return default
-        else:
-            return coords
+            return ()
+        return getWriteGeoViewWrapper(self).geocode_from_form(form)
             
     # tool and view handling
 
