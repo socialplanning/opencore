@@ -18,9 +18,13 @@ class ReadGeoView(Acquisition.Explicit):
 
     implements(interfaces.IReadGeo)
     adapts(IBrowserView)
-    def __init__(self, view):
+
+    def __init__(self, view, context=None):
+        # Need optional context arg for when wrapping an add view
+        # and the context we care about is the thing to be added.
+        # XXX Cleaner way to do that?
         self.view = view
-        self.context = view.context
+        self.context = context or view.context
         self.request = view.request
 
     def geo_info(self):
@@ -77,7 +81,7 @@ class ReadGeoView(Acquisition.Explicit):
         if not geo.coords:
             return ''
         lon, lat, z = geo.coords
-        # Don't know if order matters, so assume it does.
+        # Don't know if order matters to Google; assume it does.
         params = (('latitude_e6', utils.google_e6_encode(lat)),
                   ('longitude_e6', utils.google_e6_encode(lon)),
                   ('w', width), ('h', height), # XXX These must match our css.
@@ -91,14 +95,6 @@ class ReadGeoView(Acquisition.Explicit):
 class WriteGeoView(ReadGeoView):
 
     implements(interfaces.IWriteGeo)
-
-    def __init__(self, view, context=None):
-        # Need optional context arg for when wrapping an add view
-        # and the context we care about is the thing to be added.
-        # XXX Cleaner way to do that?
-        self.view = view
-        self.context = context or view.context
-        self.request = view.request
 
     def set_geolocation(self, coords):
         """See IWriteGeo."""
