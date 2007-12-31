@@ -157,8 +157,13 @@ XXX Add tests for publically available views of projects.
 Feeds for Projects
 ------------------
 
+
+These are all anonymously viewable::
+
+    >>> self.logout()
+
 The Projects collection can be adapted to a sequence of dictionaries
-suitable for building a georss view.
+suitable for building a georss view::
 
     >>> view = projects.restrictedTraverse('@@geo')
     >>> info = list(view.forRSS())
@@ -277,6 +282,7 @@ needed to build the UI::
 
     >>> people = portal.people
     >>> m1 = people.m1
+    >>> self.login('m1')
     >>> view = m1.restrictedTraverse('@@profile-edit')
     >>> view.request.form.clear()
     >>> pprint(view.geo_info)
@@ -337,6 +343,7 @@ geocoder to be used::
 
 The public profile view should show the same data::
 
+    >>> self.logout()
     >>> pview = m1.restrictedTraverse('@@profile')
     >>> pview.request.form.clear()
     >>> pview.geo_info == view.geo_info
@@ -346,7 +353,7 @@ The public profile view should show the same data::
 Feeds for Members
 ------------------
 
-A bit of setup here to avoid depending on previous tests::
+A bit of setup here to avoid depending on previous tests, yuck::
 
     >>> self.login('m1')
     >>> edit = m1.restrictedTraverse('profile-edit')
