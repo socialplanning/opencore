@@ -1,4 +1,3 @@
-from Products.CMFCore import permissions
 from Products.CMFCore.utils import getToolByName
 from Products.PleiadesGeocoder.interfaces.simple import IGeoItemSimple
 from zope.app.publisher.interfaces.browser import IBrowserView
