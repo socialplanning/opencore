@@ -13,10 +13,9 @@ from topp.featurelets.interfaces import IFeaturelet, IFeatureletSupporter
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import DeleteObjects
-from plone.memoize.instance import memoize, memoizedproperty
-from plone.memoize.view import memoize_contextless
-from plone.memoize.view import memoize as req_memoize
+from plone.memoize.instance import memoizedproperty
 
+from opencore.geocoding.view import getWriteGeoViewWrapper
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.catalog import IMetadataDictionary 
 from opencore.interfaces.event import AfterProjectAddedEvent, \
@@ -479,7 +478,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             del self.request.form['logo'], new_form['logo']
 
         locationchanged = False
-        if self.set_geolocation(coords):
+        if getWriteGeoViewWrapper(self).set_geolocation(coords):
             locationchanged = True
         elif self.context.getLocation() != new_form.get('location', ''):
             locationchanged = True
@@ -639,7 +638,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
                 return
             del self.request.form['logo']
 
-        self.set_geolocation(coords, context=proj)
+        getWriteGeoViewWrapper(self, proj).set_geolocation(coords)
 
         self.template = None
         proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)

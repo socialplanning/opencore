@@ -18,7 +18,8 @@ Look for geolocation info, first when it's not set...
     >>> view.has_geocoder
     True
     >>> coords = view.geocode_from_form(form)
-    >>> view.set_geolocation(coords)
+    >>> wrapper = getWriteGeoViewWrapper(view)
+    >>> wrapper.set_geolocation(coords)
     False
     >>> view.project_info.has_key('position-latitude')
     False
@@ -28,7 +29,7 @@ Look for geolocation info, first when it's not set...
 
 You can set and then view coordinates::
 
-    >>> view.set_geolocation((11.1, -22.2))
+    >>> wrapper.set_geolocation((11.1, -22.2))
     True
 
     Clear the memoized stuff from the request to see the info.
@@ -41,7 +42,7 @@ You can set and then view coordinates::
 
 Calling again with the same points makes no change:
 
-    >>> view.set_geolocation((11.1, -22.2))
+    >>> wrapper.set_geolocation((11.1, -22.2))
     False
 
 
@@ -63,7 +64,7 @@ actually hit google on every test run::
         'address does not matter for mock results')
     >>> latlon
     (12.0, -87.0)
-    >>> view.set_geolocation(latlon)
+    >>> wrapper.set_geolocation(latlon)
     True
     >>> utils.clear_all_memos(view)
     >>> print view.project_info.get('position-latitude')

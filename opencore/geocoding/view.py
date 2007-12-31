@@ -165,11 +165,12 @@ provideAdapter(MemberareaWriteGeoView, provides=(IWriteGeo, IReadWriteGeo))
 # component architecture.
 from zope.app.container.interfaces import IContainer
 from opencore.interfaces import IMemberFolder
-def getReadGeoViewWrapper(view):
+def getReadGeoViewWrapper(view, context=None):
+    context = context or view.context
     if IMemberFolder.providedBy(view.context):
-        wrapper = MemberareaReadGeoView(view)
+        wrapper = MemberareaReadGeoView(view, context)
     elif IContainer.providedBy(view.context):
-        wrapper = ReadGeoView(view)
+        wrapper = ReadGeoView(view, context)
     else:
         raise TypeError("Couldn't adapt %r to IReadGeoView." % view)
     return wrapper.__of__(view.context)

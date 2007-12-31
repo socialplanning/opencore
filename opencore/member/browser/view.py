@@ -2,28 +2,22 @@ from App import config
 from DateTime import DateTime
 from Products.AdvancedQuery import Eq
 from Products.CMFCore.WorkflowCore import WorkflowException
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import transaction_note
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from datetime import datetime
 from datetime import timedelta
+from opencore.browser.base import BaseView, _
+from opencore.browser.formhandler import OctopoLite, action
+from opencore.geocoding.view import getReadGeoViewWrapper
+from opencore.geocoding.view import getWriteGeoViewWrapper
 from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.interfaces.event import JoinedProjectEvent
 from opencore.interfaces.event import LeftProjectEvent
 from opencore.interfaces.event import MemberEmailChangedEvent
-from opencore.interfaces.membership import IEmailInvites
-from opencore.browser.base import BaseView, _
-from opencore.browser.formhandler import OctopoLite, action
 from opencore.interfaces.message import ITransientMessage
-from opencore.project.utils import project_path
 from plone.memoize.view import memoize as req_memoize
-from time import gmtime
-from time import strftime
 from topp.utils.pretty_date import prettyDate
 from urlparse import urlsplit
-from urlparse import urlunsplit
 from zope.app.event.objectevent import ObjectModifiedEvent
-from zope.component import getUtility
 from zope.event import notify
 
 
@@ -155,7 +149,6 @@ class ProfileView(BaseView):
         """geo information for display in forms;
         takes values from request, falls back to existing member info
         if possible."""
-        from opencore.geocoding.view import getReadGeoViewWrapper
         geo = getReadGeoViewWrapper(self)
         info = geo.geo_info()
         # Override the static map image size. Ugh, sucks to have this in code.
@@ -229,7 +222,7 @@ class ProfileEditView(ProfileView, OctopoLite):
         coords = self.geocode_from_form()
         locationchanged = False
         form = self.request.form
-        if self.set_geolocation(coords):
+        if getWriteGeoViewWrapper(self).set_geolocation(coords):
             locationchanged = True
         elif member.getLocation() != form.get('location', ''):
             locationchanged = True

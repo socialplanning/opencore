@@ -313,7 +313,7 @@ class BaseView(BrowserView):
             result['position-latitude'] = ''
             result['position-longitude'] = ''
             if folder:
-                geo = getReadGeoViewWrapper(self)
+                geo = getReadGeoViewWrapper(self, folder)
                 coords = geo.get_geolocation()
                 if coords is not None:
                     result['position-latitude'] = coords[1]
@@ -366,7 +366,7 @@ class BaseView(BrowserView):
                              location=proj.getLocation(),
                              obj=proj)
             proj_info['position-text'] = proj.getPositionText()
-            geo = getReadGeoViewWrapper(self)
+            geo = getReadGeoViewWrapper(self, proj)
             coords = geo.get_geolocation()
             if coords:
                 # Yes, longitude first.
@@ -405,16 +405,16 @@ class BaseView(BrowserView):
             return coords
             
 
-    def set_geolocation(self, coords, context=None):
-        """
-        Update the given context (or self.context) with the given coordinates
-        (for now assume latitude, longitude).
-        """
-        #XXX this isn't doing enough to justify existence
-        if not self.has_geocoder:
-            return False
-        geo = getWriteGeoViewWrapper(self, context)
-        return geo.set_geolocation(coords)
+#     def set_geolocation(self, coords, context=None):
+#         """
+#         Update the given context (or self.context) with the given coordinates
+#         (for now assume latitude, longitude).
+#         """
+#         #XXX this isn't doing enough to justify existence
+#         if not self.has_geocoder:
+#             return False
+#         geo = getWriteGeoViewWrapper(self, context)
+#         return geo.set_geolocation(coords)
 
 
     # tool and view handling
