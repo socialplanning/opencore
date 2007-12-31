@@ -89,39 +89,6 @@ class ReadGeoView(Acquisition.Explicit):
         return url
 
 
-##     def _get_context_info(self):
-##         # Subclasses must implement.
-##         # It would be eg. BaseView.member_info or BaseView.project_info.
-##         raise NotImplementedError
-
-##     def _maps_script_url(self):
-##         if not self.has_geocoder:
-##             return ''
-##         key = self.get_opencore_property('google_maps_key')
-##         if not key:
-##             logger.warn("you need to set a google maps key in opencore_properties")
-##             return ''
-##         url = "http://maps.google.com/maps?file=api&v=2&key=%s" % key
-##         return url
-
-##     def geo_info(self):
-##         """See IReadGeo."""
-##         info = {'static_img_url': self.location_img_url(),
-##                 'is_geocoded': self.is_geocoded(),
-##                 'maps_script_url': self._maps_script_url()
-##         _marker = object()
-##         for key in ('position-text', 'location', 'position-latitude',
-##                     'position-longitude'):
-##             if self.request.form.get(key, _marker) is not _marker:
-##                 info[key] = self.request.form[key]
-##             elif context_info.get(key, _marker) is not _marker:
-##                 info[key] = context_info[key]
-##             else:
-##                 info[key] = ''
-##         return info
-        
-
-
 class WriteGeoView(ReadGeoView):
 
     implements(interfaces.IWriteGeo)
@@ -226,5 +193,3 @@ def getWriteGeoViewWrapper(view, context=None):
 # TO DO: To allow opencore to work without this package, put default
 # do-nothing IReadWriteGeo implementation in somewhere like
 # browser/base and the implementations here can override that.
-
-# XXX re-test security!
