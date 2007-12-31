@@ -7,7 +7,16 @@
 Add view
 ========
 
+The add view is restricted to authenticated members:
+
     >>> projects = self.portal.projects
+    >>> self.logout()
+    >>> view = projects.restrictedTraverse("create")
+    Traceback (innermost last):
+    ...
+    Unauthorized: ...
+
+    >>> self.login('test_user_1_')
     >>> view = projects.restrictedTraverse("create")
     >>> view
     <Products.Five.metaclass.ProjectAddView object at...>

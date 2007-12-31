@@ -562,6 +562,8 @@ First, make sure it's restricted to only this member::
     ...
     Unauthorized: ...
 
+Once logged in properly, you can use it::
+
     >>> self.login('m1')
     >>> editview = m1_folder.restrictedTraverse("profile-edit")
     >>> m1 = portal.portal_memberdata.m1
