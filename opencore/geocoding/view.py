@@ -1,4 +1,3 @@
-from AccessControl import ClassSecurityInfo
 from Products.CMFCore import permissions
 from Products.CMFCore.utils import getToolByName
 from Products.PleiadesGeocoder.interfaces.simple import IGeoItemSimple
@@ -7,7 +6,6 @@ from zope.component import adapts
 from zope.component import provideAdapter
 from zope.interface import implements
 import Acquisition
-import Globals
 import interfaces
 import logging
 import urllib
@@ -15,7 +13,7 @@ import utils
 
 logger = logging.getLogger('opencore.geocoding')
 
-class ReadGeoView(Acquisition.Implicit):
+class ReadGeoView(Acquisition.Explicit):
 
     """wraps an opencore view with geo functionality."""
 
@@ -26,9 +24,6 @@ class ReadGeoView(Acquisition.Implicit):
         self.context = view.context
         self.request = view.request
 
-    security = ClassSecurityInfo()
-
-    security.declareProtected(permissions.View, 'get_info')
     def geo_info(self):
         """See IReadGeo"""
         info = {'static_img_url': self.location_img_url(),
@@ -73,12 +68,10 @@ class ReadGeoView(Acquisition.Implicit):
         coords = self._get_geo_item().coords
         return bool(coords and not None in coords)
 
-    security.declareProtected(permissions.View, 'get_geolocation')
     def get_geolocation(self):
         """See IReadGeo. Note the output is ordered as (lon, lat, z)."""
         return self._get_geo_item().coords
 
-    security.declareProtected(permissions.View, 'location_img_url')
     def location_img_url(self, width=500, height=300):
         """See IReadGeo."""
         geo = self._get_geo_item()
@@ -133,8 +126,6 @@ class WriteGeoView(ReadGeoView):
 
     implements(interfaces.IWriteGeo)
 
-    security = ClassSecurityInfo()
-
     def __init__(self, view, context=None):
         # Need optional context arg for when wrapping an add view
         # and the context we care about is the thing to be added.
@@ -143,7 +134,6 @@ class WriteGeoView(ReadGeoView):
         self.context = context or view.context
         self.request = view.request
 
-    security.declareProtected(permissions.ModifyPortalContent, 'set_geolocation')
     def set_geolocation(self, coords):
         """See IWriteGeo."""
         if coords and not None in coords:
@@ -157,7 +147,6 @@ class WriteGeoView(ReadGeoView):
                 return True
         return False
 
-    security.declareProtected(permissions.ModifyPortalContent, 'geocode_from_form')
     def geocode_from_form(self, form=None):
         """See IWriteGeo.
 
@@ -200,12 +189,6 @@ class MemberareaReadGeoView(ReadGeoView):
 
 class MemberareaWriteGeoView(WriteGeoView, ReadGeoView):
     pass
-
-# Zope2-style security requires this.
-Globals.InitializeClass(ReadGeoView)
-Globals.InitializeClass(WriteGeoView)
-Globals.InitializeClass(MemberareaReadGeoView)
-Globals.InitializeClass(MemberareaWriteGeoView)
 
 
 # We'd like to be able to say IReadGeoView(some_view), but this doesn't
