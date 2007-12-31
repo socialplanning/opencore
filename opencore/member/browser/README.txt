@@ -547,9 +547,22 @@ Test the Member Profile Edit View
 ==================================
 
 this is inadequate, but hey, there were no tests of it before...
+First, make sure it's restricted to only this member::
+
+    >>> self.logout()
+    >>> m1_folder = self.portal.people.m1
+    >>> editview = m1_folder.restrictedTraverse("profile-edit")
+    Traceback (innermost last):
+    ...
+    Unauthorized: ...
+
+    >>> self.login('m3')
+    >>> editview = m1_folder.restrictedTraverse("profile-edit")
+    Traceback (innermost last):
+    ...
+    Unauthorized: ...
 
     >>> self.login('m1')
-    >>> m1_folder = self.portal.people.m1
     >>> editview = m1_folder.restrictedTraverse("profile-edit")
     >>> m1 = portal.portal_memberdata.m1
     >>> utils.clear_status_messages(editview)
