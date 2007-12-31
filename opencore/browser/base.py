@@ -404,19 +404,6 @@ class BaseView(BrowserView):
         else:
             return coords
             
-
-#     def set_geolocation(self, coords, context=None):
-#         """
-#         Update the given context (or self.context) with the given coordinates
-#         (for now assume latitude, longitude).
-#         """
-#         #XXX this isn't doing enough to justify existence
-#         if not self.has_geocoder:
-#             return False
-#         geo = getWriteGeoViewWrapper(self, context)
-#         return geo.set_geolocation(coords)
-
-
     # tool and view handling
 
     @view.memoize_contextless
