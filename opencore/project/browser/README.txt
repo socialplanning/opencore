@@ -32,16 +32,15 @@ The test setup should be ensuring that geocoding is disabled::
     False
     >>> print view.geocode_from_form()
     ()
-    >>> pprint(view.geo_info)
-    {'is_geocoded': False,
-     'location': '',
-     'maps_script_url': '',
-     'position-latitude': '',
-     'position-longitude': '',
-     'position-text': '',
-     'static_img_url': ''}
-    
 
+Looking up geo info on the add view doesn't make sense, because the project
+doesn't exist yet::
+
+    >>> pprint(view.geo_info)
+    Traceback (most recent call last):
+    ...
+    TypeError: ('Could not adapt', ...
+    
 Try setting some invalid titles::
     >>> view.request.form['title'] = ""
     >>> out = view.handle_request()
