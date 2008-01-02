@@ -134,17 +134,23 @@
       </div><!-- end #oc-content-main -->
 
       <div id="oc-content-sidebar">
-        <!-- @@ TODO: javascripty map here.  -->
-        <div class="oc-boxy" tal:condition="view/geo_info/static_img_url | nothing">
+        <div class="oc-boxy" tal:condition="view/has_geocoder | nothing">
            <div tal:condition="view/viewingself">
              <a class="oc-actionLink" href="profile-edit?field=map">
-               <span tal:condition="view/geo_info/is_geocoded">Edit</span>
-               <span tal:condition="not:view/geo_info/is_geocoded">Add</span>
+               <tal:verb condition="view/geo_info/is_geocoded">Edit</tal:verb>
+               <tal:verb condition="not:view/geo_info/is_geocoded">Add</tal:verb>
                position on map
              </a>
 	   </div>
+           <noscript>
+             <img class="oc-sidebar-map"
+                tal:attributes="src view/geo_info/static_img_url"
+                tal:condition="view/geo_info/is_geocoded" />
+	   </noscript>
+	   <span class="oc-js-unhide">
+              <div id="position" class="oc-js-gmap oc-sidebar-map"></div>
+	   </span>
 
-           <img tal:attributes="src view/geo_info/static_img_url" class="oc-sidebar-map" />
         </div>
 
         <metal:status-messages use-macro="view/member_macros/macros/recent-activity" />
