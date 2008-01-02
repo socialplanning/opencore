@@ -1,12 +1,11 @@
-from Products.wicked.browser.add import WickedAdd
 from Acquisition import aq_inner, aq_parent
+from Products.wicked.browser.add import WickedAdd
 from Products.wicked.lib.normalize import titleToNormalizedId as normalize
-
+from Products.wicked.utils import getFilter
 from opencore.browser.base import BaseView
 from opencore.browser.base import _
-from Products.wicked.utils import getFilter
-from zope.component import ComponentLookupError
 from zExceptions import Redirect
+from zope.component import ComponentLookupError
 import itertools
 
 

@@ -133,7 +133,6 @@ def set_method_aliases(portal):
         if new.has_key('(default)'):
             new['(Default)']=new['(default)']
             del new['(default)']
-            
         aliases.update(new)
         fti.setMethodAliases(aliases)
         logger.log(INFO, '%s' % str(aliases))
