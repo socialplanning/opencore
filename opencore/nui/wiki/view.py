@@ -19,7 +19,7 @@ __replace_meta_content_type = re.compile(
 
 from lxml.html.clean import Cleaner
 from opencore.interfaces.catalog import ILastModifiedAuthorId
-#from topp.utils.pretty_date import prettyDate
+from topp.utils.pretty_date import prettyDate
 
 
 class WikiBase(BaseView):
