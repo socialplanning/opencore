@@ -4,9 +4,10 @@ from opencore.browser.base import BaseView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser.formhandler import button, OctopoLite, action
 from opencore.interfaces import IAmExperimental
+from Acquisition import aq_inner
 from PIL import Image
 from StringIO import StringIO
-
+import simplejson
 
 from lxml import etree# no longer necessary after lxml.html trunk gets released
 from lxml.html import fromstring # no longer necessary after lxml.html trunk gets released
@@ -18,7 +19,8 @@ __replace_meta_content_type = re.compile(
 
 from lxml.html.clean import Cleaner
 from opencore.interfaces.catalog import ILastModifiedAuthorId
-from topp.utils.pretty_date import prettyDate
+#from topp.utils.pretty_date import prettyDate
+
 
 class WikiBase(BaseView):
 
@@ -71,7 +73,7 @@ class WikiView(WikiBase):
 
     view_attachments_snippet = ZopeTwoPageTemplateFile('attachment-view.pt')
 
-# XXX stoled from lxml.html to allow selection of encoding (fixed in lxml.html trunk; wait for a release and then delete me)
+# XXX stolen from lxml.html to allow selection of encoding (fixed in lxml.html trunk; wait for a release and then delete me)
 def tostring(doc, pretty_print=False, include_meta_content_type=False, encoding="utf-8"):
     """
     return HTML string representation of the document given 
@@ -509,15 +511,21 @@ class ImageManager(WikiEdit, OctopoLite):
 
 class InternalLink(WikiBase):
 
+    @property
+    def container(self):
+        return self.context.aq_inner.aq_parent
+
     def file_list(self):
-        path = '/'.join(self.context.aq_inner.aq_parent.getPhysicalPath())
+        path = '/'.join(aq_inner(self.container).getPhysicalPath())
         brains = self.catalog(portal_type='Document',
                               sort_on='sortable_title',
                               sort_order='ascending',
                               path=path,
                               )
-        return [{'url' : brain.getURL(),
-          'title' : brain.Title} for brain in brains]
+        return simplejson.dumps([{'url' : brain.getURL(),
+                                  'title' : brain.Title} for brain in brains])
+
+
 
 
 class WikiNewsEditView(WikiEdit):
