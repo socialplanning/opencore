@@ -15,6 +15,7 @@ from zope.app.component.hooks import setSite, setHooks
 import random
 import transaction as txn
 
+
 class MailHostMock(object):
     """
     mock up the send method so that emails do not actually get sent
