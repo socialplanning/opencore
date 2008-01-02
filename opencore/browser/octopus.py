@@ -83,9 +83,8 @@ class Octopus(object):
 
     def __preprocess(self):
         """
-        yanked from octopus
-        IE crap means we need to encode task in the key, not the value. so format will be
-        task:$TARGET:$ACTION
+        yanked from octopus IE crap means we need to encode task in
+        the key, not the value. so format will be task:$TARGET:$ACTION
         """
         task = None
         request = self._octopus_request()
