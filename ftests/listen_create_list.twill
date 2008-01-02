@@ -12,12 +12,12 @@ go ${base_url}/projects/${projname}
 follow "Mailing Lists"
 follow "Add a mailing list"
 find 'Managers.*${user}' s
-fv 2 form.title ${listtitle}
-fv 2 form.description ${listdesc}
-fv 2 form.mailto ${mailto}
-fv 2 form.list_type ${listtype}
-fv 2 form.archived ${attach}
-submit Add
+fv 2 title ${listtitle}
+fv 2 description ${listdesc}
+fv 2 mailto ${mailto}
+fv 2 workflow_policy ${listtype}
+fv 2 archival_policy ${attach}
+submit create_create_button
 notfind "site error" i
 go ${base_url}/projects/${projname}/lists/${listtitle}
 notfind "404"
