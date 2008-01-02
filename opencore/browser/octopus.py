@@ -125,9 +125,22 @@ class Octopus(object):
 
     def __delegate(self, action, objects, fields, raise_=False):
         """ delegate to the appropriate action method, if it exists."""
-        if action in self.actions:
-            return self.actions[action](self, objects, fields)
-        elif raise_:
+        
+        #check self and superclasses for appropriate action methods
+        bases = [self.__class__]
+        while bases:
+            base = bases[0]
+            if hasattr(base, 'actions'):
+                try:
+                    if action in base.actions:
+                        return base.actions[action](self, objects, fields)
+                except TypeError: #actions isn't a list
+                    pass
+
+            bases = bases[1:]
+            bases += list(base.__bases__)
+
+        if raise_:
             raise KeyError("No actions in request")
         elif self.actions.default is not None:
             return self.actions.default(self, objects, fields)

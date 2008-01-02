@@ -26,7 +26,7 @@
               tal:content="structure widget/error"
               class="oc-form-error" />
             <div class="oc-form-fieldBlock">
-              <input tal:replace="structure widget" />
+              <input tal:attributes="value python:widget.hasValidInput() and widget.getInputValue() or None" tal:replace="structure widget" />
             </div>
           </fieldset>
           <span class="oc-actions"
