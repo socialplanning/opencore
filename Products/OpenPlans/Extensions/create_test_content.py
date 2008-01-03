@@ -1,6 +1,8 @@
 import sys
 from Products.CMFCore.utils import getToolByName
 from opencore.project.handler import _initialize_project
+from zope.app.event.objectevent import ObjectCreatedEvent
+from zope.event import notify
 
 projects_map = {'p1':{'title':'Project One',},
                 'p2':{'title':'Project Two',},
@@ -103,6 +105,7 @@ def create_test_content(self, p_map=None, m_map=None):
         delattr(mem, 'isConfirmable')
 
         mem.reindexObject()
+        notify(ObjectCreatedEvent(mem))
 
         ms_tool.createMemberArea(mem.getId())
 
