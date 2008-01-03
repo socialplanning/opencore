@@ -52,6 +52,7 @@ class StatsView(BrowserView):
         ml_brains = self.catalog(**query)
         mailing_lists = [brain for brain in ml_brains if brain.created <= self.report_date]
         mls = []
+        self.mod_date_used = 0
         for lst in mailing_lists:
             mail_catalog = queryUtility(ISearchableArchive, context=lst.getObject())
             latest_date = 0
@@ -62,6 +63,7 @@ class StatsView(BrowserView):
                 latest_date = brains[0].date
             if lst.modified > latest_date:
                 latest_date = lst.modified
+                self.mod_date_used += 1
             mls.append({'Title':lst.Title,
                         'latest_date':latest_date,
                         'created':lst.created})
