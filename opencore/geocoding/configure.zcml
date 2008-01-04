@@ -51,15 +51,20 @@
      allowed_interface=".interfaces.IWriteGeo"
   />
 
- <!-- Register an adapter to integrate our member areas
-      with PleiadesGeocoder and not need skins. -->
+ <!-- Register a do-nothing adapter for content in general... -->
+ <adapter
+    for="*"
+    provides="Products.PleiadesGeocoder.interfaces.simple.IGeoItemSimple"
+    factory=".adapters.NullGeoItem"
+  />
+
+ <!-- Register adapters to integrate our members, member areas, and projects
+      with PleiadesGeocoder and not need PG's skins. -->
  <adapter
     for="opencore.interfaces.IMemberFolder"
     provides="Products.PleiadesGeocoder.interfaces.simple.IGeoItemSimple"
     factory=".adapters.MemberFolderGeoItem"
   />
-
- <!-- Use slightly special IGeoItemSimple implementations. -->
   <adapter
     for="opencore.member.interfaces.IOpenMember"
     provides="Products.PleiadesGeocoder.interfaces.simple.IGeoItemSimple"

@@ -64,3 +64,19 @@ class ProjectGeoItem(GeoItemSimple):
         return info
 
 
+class NullGeoItem:
+
+    """used when we don't have a working adapter for the context.
+    eg. the projects parent folder.
+    """
+
+    def __init__(self, context):
+        self.__geo_interface__ = {}
+        self.geom_type = ''
+        self.coords = ()
+    
+    def setGeoInterface(self, *args, **kw):
+        raise NotImplementedError
+
+    def isGeoreferenced(self):
+        return False
