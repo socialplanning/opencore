@@ -33,12 +33,12 @@ class ReadGeoView(Acquisition.Explicit):
         info = {'static_img_url': self.location_img_url(),
                 'is_geocoded': self.is_geocoded(),
                 'maps_script_url': self._maps_script_url()}
-        _marker = object()
         if self.view.inmember:
             context_info = self.view.viewed_member_info
         else:
             # assume project.
             context_info = self.view.project_info
+        _marker = object()
         for key in ('position-text', 'location', 'position-latitude',
                     'position-longitude'):
             if self.view.request.form.get(key, _marker) is not _marker:

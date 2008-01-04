@@ -14,7 +14,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import DeleteObjects
 from plone.memoize.instance import memoizedproperty
-
+from opencore.geocoding.view import getReadGeoViewWrapper
 from opencore.geocoding.view import getWriteGeoViewWrapper
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.catalog import IMetadataDictionary 
@@ -68,7 +68,6 @@ class ProjectBaseView(BaseView):
         takes values from request, falls back to existing project
         if possible."""
         ##geo = IReadWriteGeo(self) #XXX This fails in zope 2.9.
-        from opencore.geocoding.view import getReadGeoViewWrapper
         geo = getReadGeoViewWrapper(self)
         return geo.geo_info()
     
