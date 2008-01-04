@@ -55,15 +55,15 @@ class StatsView(BrowserView):
         self.mod_date_used = 0
         for lst in mailing_lists:
             mail_catalog = queryUtility(ISearchableArchive, context=lst.getObject())
-            latest_date = 0
+            latest_date = DateTime.DateTime(0)
             if mail_catalog:
                 query = dict(sort_on='date',
                              sort_order='descending')
                 brains = mail_catalog(**query)
                 latest_date = brains[0].date
-            if lst.modified > latest_date:
-                latest_date = lst.modified
-                self.mod_date_used += 1
+#             if lst.modified > latest_date:
+#                 latest_date = lst.modified
+#                 self.mod_date_used += 1
             mls.append({'Title':lst.Title,
                         'latest_date':latest_date,
                         'created':lst.created})
@@ -187,6 +187,7 @@ class StatsView(BrowserView):
             avg_active_length = active_length / i
         else:
             avg_active_length = 0
+
         return i, avg_active_length
         
 
