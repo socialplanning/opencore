@@ -117,7 +117,15 @@ class LatestActivityView(ProjectContentsView):
                                         DiscussionList(self._portal_type['lists'], self.project_path),
                                         ([self.catalog], {}),
                                          discussions2feed, ( [ self.memfolder_url ], {}) ),
-                                   )                                                             
+                                   )
+
+        self.logo_url = context.getLogo()
+        if self.logo_url:
+            self.logo_url = self.logo_url.absolute_url()
+        else:
+            self.logo_url = self.defaultProjLogoURL
+
+        
     def snippet(self, feed):
         snip = self.context.unrestrictedTraverse('latest-snippet')
         snip.feedtitle = feed.title

@@ -11,6 +11,7 @@
 
 	<!-- project metadata -->
 	<div class="oc-headingBlock">
+	  <img tal:attributes="src view/logo_url" /> 
 	  <h1 tal:content="view/area/Title">Title</h1>
 	  <p class="oc-headingContext">
 	    created on 
