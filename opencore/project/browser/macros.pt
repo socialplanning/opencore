@@ -16,7 +16,7 @@
                   </td>
                 </tr>
                 <input type="hidden" id="position-latitude" name="position-latitude"
-                       tal:attributes="value view/geo_info/position-latitude" />
+                       tal:attributes="value view/geo_info/position-latitude | nothing" />
                 <input type="hidden" id="position-longitude" name="position-longitude"
                        tal:attributes="value view/geo_info/position-longitude | nothing" />
                 <tr id="oc-template-location.json" class="oc-form-row oc-js-template">
