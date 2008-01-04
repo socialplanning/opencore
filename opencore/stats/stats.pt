@@ -43,7 +43,6 @@
     <li><span tal:replace="python: '%d dormant, after being active for an average of %.1f days' % view.get_mailing_list_stickiness()"/></li>
     <li><span tal:replace="python: len(view.get_unused_mailing_lists())"/> unused, after first 24 hours</li>
     <li class="total"><span tal:replace="python: len(view.get_mailing_lists())"/> total</li>
-    <li><span tal:replace="python: view.mod_date_used"/> mod_date_used</li>    
     </ul>
 
     <table tal:replace="nothing" border="1" cellspacing="0">
