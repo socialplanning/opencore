@@ -125,9 +125,6 @@ class WriteGeoView(ReadGeoView):
             return default
         if form is None:
             form = self.request.form
-        def error():
-            self.view.errors['position-text'] = _(u'psm_geocode_failed', u"Sorry, we were unable to find that address on the map")
-            return default
         position = form.get('position-text', '').strip()
         if position:
             # If we got this, then presumably javascript was disabled;
@@ -140,17 +137,23 @@ class WriteGeoView(ReadGeoView):
                 lon = records[0]['lon']
                 return lat, lon
             else:
-                return error()
+                self.view.errors['position-text'] = _(
+                    u'psm_geocode_failed',
+                    u"Sorry, we were unable to find that address on the map.")
+                return default
         else:
-            lon = form.get('position-longitude')
-            lat = form.get('position-latitude')
-            if lat is None or lon is None:
-                return ()
+            lon = form.get('position-longitude', '')
+            lat = form.get('position-latitude', '')
+            if lat == lon == '':
+                # We got nothing in the form, that's OK.
+                return default
             try:
-                lon = float(lon)
                 lat = float(lat)
-            except TypeError:
-                return error()
+                lon = float(lon)
+            except (TypeError, ValueError):
+                logger.error(
+                    "bad map info from oc-js? got %s" % str(lat, lon))
+                return default
             return (lat, lon)
 
 
@@ -184,7 +187,7 @@ def getReadGeoViewWrapper(view, context=None):
         wrapper = ReadGeoView(view, context)
     else:
         raise TypeError("Couldn't adapt %r to IReadGeoView." % view)
-    return wrapper.__of__(view.context)
+    return wrapper.__of__(context)
 
 # Ditto for WriteGeoView.
 def getWriteGeoViewWrapper(view, context=None):
@@ -195,7 +198,7 @@ def getWriteGeoViewWrapper(view, context=None):
         wrapper = WriteGeoView(view, context)
     else:
         raise TypeError("Couldn't adapt %r to IWriteGeoView." % view)
-    return wrapper.__of__(view.context)
+    return wrapper.__of__(context)
 
 # TO DO: To allow opencore to work without this package, put default
 # do-nothing IReadWriteGeo implementation in somewhere like
