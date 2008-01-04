@@ -29,6 +29,11 @@ class TransientMessage(object):
         return category_annot
 
     def store(self, mem_id, category, msg):
+        """
+        This takes an OBJECT and stores it on a per-user basis.
+        If we receive a string, we're going to see if it's a message id
+        and attempt to translate it.  If not, WE WILL LEAVE IT ALONE!!!
+        """
         cat = self._category_annot(mem_id, category)
         try:
             new_id = cat.maxKey() + 1
@@ -37,13 +42,15 @@ class TransientMessage(object):
 
         if isinstance(msg, Message):
             msg = translate(msg, context=self.site_root)
-        else:
+        elif isinstance(msg, basestring):
             msg = _(msg)
             
-        cleaner = Cleaner()
-        msg = cleaner.clean_html(msg)
-        if msg.startswith('<p>'):
-            msg = msg[3:-4]
+        if isinstance(msg, Message):
+            cleaner = Cleaner()
+            msg = cleaner.clean_html(msg)
+            if msg.startswith('<p>'):
+                msg = msg[3:-4]
+
         cat[new_id] = msg
         
     def get_msgs(self, mem_id, category):
