@@ -3,7 +3,6 @@ from Products.PleiadesGeocoder.interfaces.simple import IGeoItemSimple
 from opencore.i18n import _
 from zope.app.publisher.interfaces.browser import IBrowserView
 from zope.component import adapts
-from zope.component import provideAdapter
 from zope.interface import implements
 import Acquisition
 import interfaces
@@ -167,13 +166,10 @@ class MemberareaWriteGeoView(WriteGeoView, ReadGeoView):
 
 
 # We'd like to be able to get these wrapper views by just saying
-# eg. IReadGeoView(some_view), but that doesn't seem to work; The
-# below is sufficient to make it work in zope 3.3, but not 2.9:
-from interfaces import IReadGeo, IWriteGeo, IReadWriteGeo
-provideAdapter(ReadGeoView, provides=IReadGeo)
-provideAdapter(WriteGeoView, provides=(IWriteGeo, IReadWriteGeo))
-provideAdapter(MemberareaReadGeoView, provides=IReadGeo)
-provideAdapter(MemberareaWriteGeoView, provides=(IWriteGeo, IReadWriteGeo))
+# eg. IReadGeo(some_view), but that doesn't seem to work; The
+# below works in zope 3.3, but not 2.9:
+## from interfaces import IReadGeo
+## provideAdapter(ReadGeoView, provides=IReadGeo)
 
 # So instead for now we'll use factory functions and not the
 # component architecture.
