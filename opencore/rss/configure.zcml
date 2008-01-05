@@ -3,11 +3,6 @@
            >
 
   <five:implements
-     class="opencore.content.member.OpenMember"
-     interface="opencore.rss.interfaces.ICanFeed"
-     />
-
-  <five:implements
      class="Products.OpenPlans.content.project.OpenProject"
      interface="opencore.rss.interfaces.ICanFeed"
      />
