@@ -19,37 +19,6 @@
        any method of the view. Yay!
 
    -->
-  <!-- XXX these pages are useless now? remove. -->
-  <browser:page
-     for="zope.app.container.interfaces.IContainer"
-     name="oc-geo-read"
-     class=".view.ReadGeoView"
-     permission="zope2.View"
-     allowed_interface=".interfaces.IReadGeo"
-  />
-  <browser:page
-     for="zope.app.container.interfaces.IContainer"
-     name="oc-geo-write"
-     class=".view.WriteGeoView"
-     permission="cmf.ModifyPortalContent"
-     allowed_interface=".interfaces.IWriteGeo"
-  />
-
-  <!-- Slightly different adapters for member areas. -->
-  <browser:page
-     for="opencore.interfaces.IMemberFolder"
-     name="oc-geo-read"
-     class=".view.MemberareaReadGeoView"
-     permission="zope2.View"
-     allowed_interface=".interfaces.IReadGeo"
-  />
-  <browser:page
-     for="opencore.interfaces.IMemberFolder"
-     name="oc-geo-write"
-     class=".view.MemberareaWriteGeoView"
-     permission="cmf.ModifyPortalContent"
-     allowed_interface=".interfaces.IWriteGeo"
-  />
 
  <!-- Register a do-nothing adapter for content in general... -->
  <adapter
