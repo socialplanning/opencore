@@ -44,16 +44,4 @@
        name="listen"
        />
 
-   <adapter
-      for="opencore.featurelets.interfaces.IListenContainer"
-      provides="opencore.rss.interfaces.IFeedData"
-      factory=".rss.ListsFeedAdapter"
-      />
-
-   <adapter
-      for="opencore.listen.interfaces.IOpenMailingList"
-      provides="opencore.rss.interfaces.IFeedData"
-      factory=".rss.MailingListFeedAdapter"
-      />
-
 </configure>

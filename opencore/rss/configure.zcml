@@ -25,6 +25,18 @@
      factory=".member.PeopleFeedAdapter"
      />
 
+   <adapter
+      for="opencore.featurelets.interfaces.IListenContainer"
+      provides="opencore.rss.interfaces.IFeedData"
+      factory=".listen.ListsFeedAdapter"
+      />
+
+   <adapter
+      for="opencore.listen.interfaces.IOpenMailingList"
+      provides="opencore.rss.interfaces.IFeedData"
+      factory=".listen.MailingListFeedAdapter"
+      />
+
   <include package=".browser" />
 
 </configure>
