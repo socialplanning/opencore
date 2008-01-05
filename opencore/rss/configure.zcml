@@ -7,6 +7,11 @@
      interface="opencore.rss.interfaces.ICanFeed"
      />
 
+  <five:implements
+     class="opencore.content.page.OpenPage"
+     interface="opencore.rss.interfaces.ICanFeed"
+     />
+
   <adapter
      for="opencore.interfaces.IProject"
      provides="opencore.rss.interfaces.IFeedData"
@@ -35,6 +40,12 @@
       for="opencore.listen.interfaces.IOpenMailingList"
       provides="opencore.rss.interfaces.IFeedData"
       factory=".listen.MailingListFeedAdapter"
+      />
+
+   <adapter
+      for="opencore.interfaces.IOpenPage"
+      provides="opencore.rss.interfaces.IFeedData"
+      factory=".page.PageFeedAdapter"
       />
 
   <include package=".browser" />
