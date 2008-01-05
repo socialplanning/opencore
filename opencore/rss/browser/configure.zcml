@@ -1,6 +1,8 @@
-<configure xmlns="http://namespaces.zope.org/browser">
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           >
 
-  <page
+  <browser:page
      for="opencore.rss.interfaces.ICanFeed"
      name="rss"
      class=".view.RssView"
@@ -8,7 +10,7 @@
      permission="zope2.View"
      />
 
-  <page
+  <browser:page
      for="opencore.rss.interfaces.ICanFeed"
      name="atom"
      class=".view.RssView"
@@ -17,37 +19,17 @@
      />
 
   <!-- registrations for the topnav actions -->
-  <viewlet
-     name="10 Projects RSS"
+  <browser:viewlet
+     name="10 RSS"
      manager="opencore.browser.topnav.interfaces.ITopnavActions"
-     view="opencore.nui.main.search.ProjectsSearchView"
      for="opencore.rss.interfaces.ICanFeed"
      template="rss_action.pt"
      permission="zope2.View"
      />
 
-  <viewlet
-     name="10 People RSS"
+  <browser:viewlet
+     name="20 Atom"
      manager="opencore.browser.topnav.interfaces.ITopnavActions"
-     view="opencore.nui.main.search.PeopleSearchView"
-     for="opencore.rss.interfaces.ICanFeed"
-     template="rss_action.pt"
-     permission="zope2.View"
-     />
-
-  <viewlet
-     name="20 Projects Atom"
-     manager="opencore.browser.topnav.interfaces.ITopnavActions"
-     view="opencore.nui.main.search.ProjectsSearchView"
-     for="opencore.rss.interfaces.ICanFeed"
-     template="atom_action.pt"
-     permission="zope2.View"
-     />
-
-  <viewlet
-     name="20 People Atom"
-     manager="opencore.browser.topnav.interfaces.ITopnavActions"
-     view="opencore.nui.main.search.PeopleSearchView"
      for="opencore.rss.interfaces.ICanFeed"
      template="atom_action.pt"
      permission="zope2.View"

@@ -1,4 +1,16 @@
-<configure xmlns="http://namespaces.zope.org/zope">
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
+           >
+
+  <five:implements
+     class="opencore.content.member.OpenMember"
+     interface="opencore.rss.interfaces.ICanFeed"
+     />
+
+  <five:implements
+     class="Products.OpenPlans.content.project.OpenProject"
+     interface="opencore.rss.interfaces.ICanFeed"
+     />
 
   <include package=".browser" />
 

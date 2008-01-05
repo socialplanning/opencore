@@ -78,48 +78,4 @@
       sort_order="30"
       />
 
-  <!-- XXX create a class for the rss actions
-       so we can specify the class, instead of hard coding the template path
-       *wish* I could specify the template like
-       opencore.rss.browser.rss_action.pt" -->
-  <browser:viewlet
-     name="10 Lists Rss"
-     manager="opencore.browser.topnav.interfaces.ITopnavActions"
-     view=".view.ListsView"
-     for="opencore.rss.interfaces.ICanFeed"
-     template="../../rss/browser/rss_action.pt"
-     permission="zope2.View"
-     />
-
-  <browser:viewlet
-     name="20 Lists Atom"
-     manager="opencore.browser.topnav.interfaces.ITopnavActions"
-     view=".view.ListsView"
-     for="opencore.rss.interfaces.ICanFeed"
-     template="../../rss/browser/atom_action.pt"
-     permission="zope2.View"
-     />
-
-  <!-- XXX need to actually mark the archive of the list
-       for these to kick in
-       it makes sense too, because we wouldn't be able to see
-       messages if the mailing list had no archive either -->
-  <browser:viewlet
-     name="10 Mailing list Rss"
-     manager="opencore.browser.topnav.interfaces.ITopnavActions"
-     for="opencore.rss.interfaces.ICanFeed"
-     view=".view.ArchiveForumView"
-     template="../../rss/browser/rss_action.pt"
-     permission="zope2.View"
-     />
-
-  <browser:viewlet
-     name="20 Mailing list Atom"
-     manager="opencore.browser.topnav.interfaces.ITopnavActions"
-     for="opencore.rss.interfaces.ICanFeed"
-     view=".view.ArchiveForumView"
-     template="../../rss/browser/atom_action.pt"
-     permission="zope2.View"
-     />
-
 </configure>
