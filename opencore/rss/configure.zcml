@@ -7,6 +7,24 @@
      interface="opencore.rss.interfaces.ICanFeed"
      />
 
+  <adapter
+     for="opencore.interfaces.IProject"
+     provides="opencore.rss.interfaces.IFeedData"
+     factory=".project.ProjectFeedAdapter"
+     />
+
+  <adapter
+     for="opencore.interfaces.adding.IAddProject"
+     provides="opencore.rss.interfaces.IFeedData"
+     factory=".project.ProjectsFeedAdapter"
+     />
+
+  <adapter
+     for="opencore.interfaces.adding.IAmAPeopleFolder"
+     provides="opencore.rss.interfaces.IFeedData"
+     factory=".member.PeopleFeedAdapter"
+     />
+
   <include package=".browser" />
 
 </configure>

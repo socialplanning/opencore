@@ -30,18 +30,6 @@
      permission="openplans.ManageWorkflowPolicy"
      />
 
-  <adapter
-     for="opencore.interfaces.adding.IAddProject"
-     provides="opencore.rss.interfaces.IFeedData"
-     factory=".rss.ProjectsFeedAdapter"
-     />
-
-  <adapter
-     for="opencore.interfaces.IProject"
-     provides="opencore.rss.interfaces.IFeedData"
-     factory=".rss.ProjectFeedAdapter"
-     />
-
   <subscriber handler=".handler.handle_postcreation" />
   <subscriber handler=".handler.handle_subproject_redirection" />
   <subscriber handler=".deliver.handle_subproject_vhoster" />

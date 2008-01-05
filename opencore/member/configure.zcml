@@ -14,12 +14,6 @@
 	   provides="opencore.member.interfaces.ICreateMembers"
 	   factory="opencore.member.factory.MemberFactory" />
 
-  <adapter
-     for="opencore.interfaces.adding.IAmAPeopleFolder"
-     provides="opencore.rss.interfaces.IFeedData"
-     factory=".rss.PeopleFeedAdapter"
-     />
-
   <adapter factory="opencore.member.transient_messages.TransientMessage" />
   <adapter factory="opencore.member.pending_requests.PendingRequests" />
   <adapter factory="opencore.member.pending_requests.PendingRequestsForFolder" />
