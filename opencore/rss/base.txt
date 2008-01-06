@@ -1,19 +1,7 @@
 Test the base adapter used for rss adapters
 
 Create a stub context used for the base adapter
-    >>> class DummyContext(object):
-    ...     def Title(self):
-    ...         return 'Dummy title'
-    ...     def Description(self):
-    ...         return 'Dummy description'
-    ...     def absolute_url(self):
-    ...         return 'http://dummy/context/url'
-    ...     def modified(self):
-    ...         #XXX this will probably create problems
-    ...         from datetime import datetime
-    ...         return datetime.now()
-    ...     def Creator(self):
-    ...         return 'Dummy creator'
+    >>> from opencore.rss.tests import DummyContext
     >>> context = DummyContext()
 
 Instantiate the base feed adapter with the dummy context

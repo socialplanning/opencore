@@ -1,0 +1,53 @@
+Test the people adapter for rss use
+
+Create a stub context used for the people adapter
+    >>> from opencore.rss.tests import DummyContext
+    >>> context = DummyContext()
+
+And override the portal catalog search call
+to return a stub result
+    >>> class DummySearch(object):
+    ...     def __call__(self, **kw):
+    ...         return [StubResult()]
+    >>> context.portal_catalog = DummySearch()
+
+Stub a sample result
+    >>> from datetime import datetime
+    >>> class StubResult(object):
+    ...     Title='Dummy title'
+    ...     Description='Dummy description'
+    ...     created=datetime.now()
+    ...     def getURL(self):
+    ...         return 'http://dummy/portal_memberdata/url'
+
+Instantiate the people feed adapter with the dummy context
+    >>> from opencore.rss.member import PeopleFeedAdapter
+    >>> people_adapter = PeopleFeedAdapter(context)
+
+Test the items method
+    >>> items = people_adapter.items
+    >>> lst = list(items)
+    >>> len(lst)
+    1
+    >>> feed_item = lst[0]
+    >>> from opencore.rss.interfaces import IFeedItem
+    >>> IFeedItem.providedBy(feed_item)
+    True
+
+Verify the item returned conforms to the interface
+    >>> from zope.interface.verify import verifyObject
+    >>> verifyObject(IFeedItem, feed_item)
+    True
+
+And finally check the object
+    >>> feed_item.title
+    'Dummy title'
+    >>> feed_item.description
+    'Dummy description'
+    >>> feed_item.pubDate
+    datetime.datetime...
+
+Link should be modified to point to people instead of portal_memberdata
+with a "profile" added to it
+    >>> feed_item.link
+    'http://dummy/people/url/profile'

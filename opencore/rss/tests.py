@@ -1,9 +1,24 @@
 import doctest
 import unittest
 
+class DummyContext(object):
+    def Title(self):
+        return 'Dummy title'
+    def Description(self):
+        return 'Dummy description'
+    def absolute_url(self):
+        return 'http://dummy/context/url'
+    def modified(self):
+        from datetime import datetime
+        return datetime.now()
+    def Creator(self):
+        return 'Dummy creator'
+
 def test_suite():
-    suite = doctest.DocFileSuite('base.txt', optionflags=doctest.ELLIPSIS)
-    return unittest.TestSuite((suite,))
+    base_suite = doctest.DocFileSuite('base.txt', optionflags=doctest.ELLIPSIS)
+    people_suite = doctest.DocFileSuite('people.txt', optionflags=doctest.ELLIPSIS)
+    return unittest.TestSuite((base_suite, people_suite))
+
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')
