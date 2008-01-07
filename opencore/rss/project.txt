@@ -1,0 +1,50 @@
+Test the project adapter for rss use
+
+Create a stub context used for the project adapter
+    >>> from opencore.rss.tests import DummyContext
+    >>> context = DummyContext()
+
+And override the portal catalog search call
+to return a stub result
+    >>> class DummySearch(object):
+    ...     def __call__(self, **kw):
+    ...         return [StubResult()]
+    >>> context.portal_catalog = DummySearch()
+
+Stub a sample result
+    >>> from datetime import datetime
+    >>> class StubResult(object):
+    ...     Title='Dummy title'
+    ...     Description='Dummy description'
+    ...     modified=datetime.now()
+    ...     def getURL(self):
+    ...         return 'http://dummy/project/url'
+
+Instantiate the project feed adapter with the dummy context
+    >>> from opencore.rss.project import ProjectFeedAdapter
+    >>> project_adapter = ProjectFeedAdapter(context)
+
+Test the items method
+    >>> items = project_adapter.items
+    >>> lst = list(items)
+    >>> len(lst)
+    1
+    >>> feed_item = lst[0]
+    >>> from opencore.rss.interfaces import IFeedItem
+    >>> IFeedItem.providedBy(feed_item)
+    True
+
+Verify the item returned conforms to the interface
+    >>> from zope.interface.verify import verifyObject
+    >>> verifyObject(IFeedItem, feed_item)
+    True
+
+And finally check the object
+    >>> feed_item.title
+    'Dummy title'
+    >>> feed_item.description
+    'Dummy description'
+    >>> feed_item.pubDate
+    datetime.datetime...
+    >>> feed_item.link
+    'http://dummy/project/url'
