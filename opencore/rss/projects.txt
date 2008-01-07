@@ -20,7 +20,7 @@ Stub a sample result
     ...     def getURL(self):
     ...         return 'http://dummy/projects/url'
 
-Instantiate the people feed adapter with the dummy context
+Instantiate the projects feed adapter with the dummy context
     >>> from opencore.rss.projects import ProjectsFeedAdapter
     >>> projects_adapter = ProjectsFeedAdapter(context)
 
