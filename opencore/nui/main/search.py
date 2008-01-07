@@ -108,11 +108,6 @@ class SearchView(BaseView):
         self.search_results = None
         self.search_query = None
         
-    # is this used anywhere?
-    def project_url(self, project_brain):
-        return '%s/projects/%s' % (self.context.absolute_url(),
-                                   project_brain.getId)
-
     def _get_batch(self, brains, start=0):
         return Batch(brains,
                      size=10,
@@ -124,9 +119,16 @@ class SearchView(BaseView):
                      quantumleap=0,
                      b_start_str='b_start')
 
+    # is this used anywhere?
+    def project_url(self, project_brain):
+        return '%s/projects/%s' % (self.context.absolute_url(),
+                                   project_brain.getId)
+
+    # is this used anywhere?
     def add_class_to_img(self, imgdata, clss):
         tag = str(imgdata)
         return tag.replace('<img', '<img class="%s"' % clss)
+
 
 
 class ProjectsSearchView(SearchView):
