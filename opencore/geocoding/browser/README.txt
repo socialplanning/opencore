@@ -53,15 +53,14 @@ You can extract coordinates from the form::
     (10.0, -20.0)
 
 You can also pass in a string which overrides the coordinates, and
-uses a remote service to look them up.  Let's mock it so we don't
+uses a remote service to look them up.  We're using a mock so we don't
 actually hit google on every test run::
 
     >>> utils.clear_status_messages(view)
-    >>> text = "address does not matter for mock results"
+    >>> text = "mock address"
     >>> form['position-text'] = text
     >>> latlon = view.geocode_from_form(form)
-    Called ....geocode(
-        'address does not matter for mock results')
+    Called ....geocode('mock address')
     >>> latlon
     (12.0, -87.0)
     >>> wrapper.set_geolocation(latlon)
@@ -71,6 +70,8 @@ actually hit google on every test run::
     12.0
     >>> print view.project_info.get('position-longitude')
     -87.0
+    >>> view.project_info.get('position-text')  # isn't saved by the above.
+    ''
 
 
 We also now save the usual archetypes "location" field, for use as a
@@ -79,12 +80,17 @@ human-readable place name::
     >>> view = proj.restrictedTraverse('preferences')
     >>> utils.clear_status_messages(view)
     >>> view.request.form.update({'location': "oceania", 'update': True,
-    ...     'title': 'IGNORANCE IS STRENGTH'})
+    ...     'title': 'IGNORANCE IS STRENGTH',
+    ...     'position-text': 'mock address'})
     >>> view.handle_request()
+    Called ....geocode('mock address')
     >>> utils.get_status_messages(view)
     [...u'The location has been changed.'...]
     >>> view.context.getLocation()
     'oceania'
+    >>> utils.clear_all_memos(view)
+    >>> view.project_info.get('position-text')  # saved now.
+    'mock address'
 
 The view includes a bunch of convenient geo-related stuff for UIs::
 
@@ -99,7 +105,7 @@ The view includes a bunch of convenient geo-related stuff for UIs::
     >>> round(view.geo_info['position-longitude'])
     -87.0
     >>> view.geo_info['position-text']
-    ''
+    'mock address'
     >>> view.geo_info['static_img_url']
     'http://maps.google.com/mapdata?latitude_e6=12000000&longitude_e6=4207967296&w=500&h=300&zm=9600&cc='
     >>> view.geo_info['maps_script_url']
@@ -152,7 +158,8 @@ Clean that one up...
     >>> projects.manage_delObjects(['testgeo'])
     >>> view.request.form.clear()
 
-XXX Add tests for publically available views of projects.
+XXX Add tests for publically available views of projects,
+once they include geo info.
 
 
 Feeds for Projects
@@ -327,11 +334,12 @@ Submitting the form with position-text should cause the (mock)
 geocoder to be used::
 
     >>> view = m1.restrictedTraverse('@@profile-edit')
+    >>> view.request.form.clear()
     >>> view.request.form.update({'position-text': 'atlantis',
     ...     'location': 'somewhere underwater', })
     ...
     >>> redirected = view.handle_form()
-    Called Products.PleiadesGeocoder.geocode.Geocoder.geocode('atlantis')
+    Called ...geocode('atlantis')
     >>> pprint(view.geo_info)
     {'is_geocoded': True,
      'location': 'somewhere underwater',
