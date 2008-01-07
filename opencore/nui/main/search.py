@@ -118,6 +118,21 @@ class SearchView(BaseView):
                      pagerange=6,
                      quantumleap=0,
                      b_start_str='b_start')
+
+    def perform_search(self):
+        self.clear_search_query()
+
+        if self.letter_search:
+            self.search_results = self._get_batch(self.search_by_letter(self.letter_search, self.sort_by), self.start)
+            self.search_query = 'for %s starting with &ldquo;%s&rdquo;' % (self.noun, self.letter_search)
+        elif self.search_for:
+            self.search_results = self._get_batch(self.search_by_text(self.search_for, self.sort_by), self.start)
+            self.search_query = 'for &ldquo;%s&rdquo;' % self.search_for
+        else:
+            self.search_results = self._get_batch(self.search_by_letter('all', self.sort_by), self.start)
+            self.search_query = 'for all %s' % self.noun
+            
+        return self.index()
     
     noun = 'please define a plural noun in your subclass'
 
@@ -152,20 +167,8 @@ class ProjectsSearchView(SearchView):
     active_states = ['public', 'private']
 
     def __call__(self):
-        self.clear_search_query()
-        
-        if self.letter_search:
-            self.search_results = self._get_batch(self.search_by_letter(self.letter_search, self.sort_by), self.start)
-            self.search_query = 'for %s starting with &ldquo;%s&rdquo;' % (self.noun, self.letter_search)
-        elif self.search_for:
-            self.search_results = self._get_batch(self.search_by_text(self.search_for, self.sort_by), self.start)
-            self.search_query = 'for &ldquo;%s&rdquo;' % self.search_for
-        else:
-            self.search_results = self._get_batch(self.search_by_letter('all', self.sort_by), self.start)
-            self.search_query = 'for all %s' % self.noun
-            
-        return self.index()
-        
+        return self.perform_search()
+
     def search_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
 
@@ -264,20 +267,7 @@ class PeopleSearchView(SearchView):
         SearchView.__init__(self, context, request)
 
     def __call__(self):
-        self.clear_search_query()
-            
-        if self.letter_search:
-            self.search_results = self._get_batch(self.search_by_letter(self.letter_search, self.sort_by), self.start)
-            self.search_query = 'for %s starting with &ldquo;%s&rdquo;' % (self.noun, self.letter_search)
-        elif self.search_for:
-            self.search_results = self._get_batch(self.search_by_text(self.search_for, self.sort_by), self.start)
-            self.search_query = 'for &ldquo;%s&rdquo;' % self.search_for
-        else:
-            self.search_results = self._get_batch(self.search_by_letter('all', self.sort_by), self.start)
-            self.search_query = 'for all %s' % self.noun
-            
-        return self.index()
-
+        return self.perform_search()
 
     def search_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
@@ -325,22 +315,9 @@ class PeopleSearchView(SearchView):
 class SitewideSearchView(SearchView):
 
     noun = 'content'
+
     def __call__(self):
-        self.clear_search_query()
-
-        if self.letter_search:
-            self.search_results = self._get_batch(self.search_by_letter(self.letter_search, self.sort_by), self.start)
-            self.search_query = 'for %s starting with &ldquo;%s&rdquo;' % (self.noun, self.letter_search)
-        elif self.search_for:
-            self.search_results = self._get_batch(self.search_by_text(self.search_for, self.sort_by), self.start)
-            self.search_query = 'for &ldquo;%s&rdquo;' % self.search_for
-        else:
-            self.search_results = self._get_batch(self.search_by_letter('all', self.sort_by), self.start)
-            self.search_query = 'for all %s' % self.noun
-            
-        return self.index()
-    
-
+        return self.perform_search()
 
     def search_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
@@ -445,6 +422,7 @@ class SubProjectsSearchView(ProjectsSearchView):
 
 class HomeView(SearchView):
     """zpublisher"""
+
     def __init__(self, context, request):
         # redirect asap
         go_here = request.get('go_here', None)
