@@ -229,12 +229,13 @@ class ProfileEditView(ProfileView, OctopoLite):
         if form.get('position-text'):
             member.setPositionText(form['position-text'])
         for key in ('position-latitude', 'position-longitude', 'position-text'):
+            # these aren't handled by archetypes.
             if form.has_key(key):
                 del form[key]
 
-        # now deal with the rest of the fields
+        # now deal with the rest of the fields via archetypes mutators.
         for field, value in form.items():
-            mutator = 'set%s' % field.capitalize()
+            mutator = 'set%s' % field.capitalize() # Icky, fragile.
             mutator = getattr(member, mutator, None)
             if mutator is not None:
                 mutator(value)
