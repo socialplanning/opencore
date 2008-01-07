@@ -33,6 +33,58 @@ def clean_search_query(search_query):
         search_query = search_query.replace(char, '"%s"' % char)
     return search_query
 
+
+def _sort_by_id(brains):
+    """
+    This is a function, not a method, so it can be called from
+    assorted view classes.
+    """
+    return sorted(brains, key=lambda x: x.getId.lower() or x.Title.lower())
+
+def _sort_by_modified(brains):
+    return sorted(brains, key=lambda x: x.modified)
+
+def _sort_by_created(brains):
+    return sorted(brains, key=lambda x:x.created, reverse=True)
+
+# XXX should fall back on sorting by id here
+def _sort_by_portal_type(brains):
+    def cmp_portal_type(a, b):
+        if a.portal_type != b.portal_type:
+            return cmp(a.portal_type, b.portal_type)
+        return cmp(a.id, b.id)
+    
+    return sorted(brains, cmp=cmp_portal_type)
+
+def searchForPerson(mcat, search_for, sort_by=None):
+    """
+    This is a function, not a method, so it can be called from
+    assorted view classes.
+    """
+    person_query = clean_search_query(search_for)
+
+    if person_query == '*':
+        return []
+
+    if not person_query.endswith('*'):
+        person_query = person_query + '*'
+
+    if not sort_by or sort_by == 'relevancy':
+        rs = (RankByQueries_Sum((Eq('Title', person_query),32),
+                                (Eq('getId', person_query),16)),)
+    else:
+        rs = ((sort_by, 'asc'),)
+
+    people_brains = mcat.evalAdvancedQuery(
+        Eq('RosterSearchableText', person_query),
+        rs,
+        )
+
+    if sort_by == 'getId':
+        people_brains = _sort_by_id(people_brains)
+    return people_brains
+    
+
 class SearchView(BaseView):
     match = staticmethod(first_letter_match)
 
@@ -186,82 +238,6 @@ class ProjectsSearchView(SearchView):
         return adv_query
 
 
-class SubProjectsSearchView(ProjectsSearchView):
-
-    def subproject_paths(self):
-        info = redirect.get_info(self.context)
-        if info:
-            return list(info.values())
-        else:
-            return []
-
-    def all_subprojects(self):
-        query = dict(portal_type="OpenProject",
-                     sort_on='sortable_title')
-
-        self.apply_context_restrictions(query)
-
-        project_brains = self.catalog(**query)
-        return project_brains
-        
-    def apply_context_restrictions(self, query):
-        query['path'] = self.subproject_paths()
-
-    def adv_context_restrictions_applied(self, query):
-        return query & In('path', self.subproject_paths())
-
-
-def _sort_by_id(brains):
-    """
-    This is a function, not a method, so it can be called from
-    assorted view classes.
-    """
-    return sorted(brains, key=lambda x: x.getId.lower() or x.Title.lower())
-
-def _sort_by_modified(brains):
-    return sorted(brains, key=lambda x: x.modified)
-
-def _sort_by_created(brains):
-    return sorted(brains, key=lambda x:x.created, reverse=True)
-
-# XXX should fall back on sorting by id here
-def _sort_by_portal_type(brains):
-    def cmp_portal_type(a, b):
-        if a.portal_type != b.portal_type:
-            return cmp(a.portal_type, b.portal_type)
-        return cmp(a.id, b.id)
-    
-    return sorted(brains, cmp=cmp_portal_type)
-
-def searchForPerson(mcat, search_for, sort_by=None):
-    """
-    This is a function, not a method, so it can be called from
-    assorted view classes.
-    """
-    person_query = clean_search_query(search_for)
-
-    if person_query == '*':
-        return []
-
-    if not person_query.endswith('*'):
-        person_query = person_query + '*'
-
-    if not sort_by or sort_by == 'relevancy':
-        rs = (RankByQueries_Sum((Eq('Title', person_query),32),
-                                (Eq('getId', person_query),16)),)
-    else:
-        rs = ((sort_by, 'asc'),)
-
-    people_brains = mcat.evalAdvancedQuery(
-        Eq('RosterSearchableText', person_query),
-        rs,
-        )
-
-    if sort_by == 'getId':
-        people_brains = _sort_by_id(people_brains)
-    return people_brains
-    
-
 class PeopleSearchView(SearchView):
 
     def __init__(self, context, request):
@@ -324,68 +300,6 @@ class PeopleSearchView(SearchView):
         return _sort_by_created(brains)
 
 
-class HomeView(SearchView):
-    """zpublisher"""
-    def __init__(self, context, request):
-        # redirect asap
-        go_here = request.get('go_here', None)
-        if go_here:
-            raise Redirect, go_here        
-        SearchView.__init__(self, context, request)
-
-        self.projects_search = ProjectsSearchView(context, request)
-
-
-    def recently_updated_projects(self):
-        created_brains = self.recently_created_projects()
-        updated_brains = self.projects_search.recently_updated_projects(sort_limit=10)
-        out = []
-        count = 0
-        for ubrain in updated_brains:
-            not_redundant = 1
-            for cbrain in created_brains:
-                if ubrain.getId == cbrain.getId:
-                    not_redundant = 0
-                    
-            if not_redundant == 1:
-                out.append(ubrain)
-                count+=1
-            if count == 5:
-                return out
-            
-        return out
-
-    def recently_created_members(self):
-        query = dict(sort_on='created',
-                     sort_order='descending',
-                     sort_limit=5)
-        brains = self.membranetool(**query)
-        
-        return _sort_by_created(brains)
-
-    def n_project_members(self, proj_brain):
-        return self.projects_search.n_project_members(proj_brain)
-
-    def recently_created_projects(self):
-        rs = (('created', 'desc'),)
-            
-        query = Eq('portal_type', 'OpenProject') & (Eq('project_policy', 'open_policy') | Eq('project_policy', 'medium_policy'))
-        
-        project_brains = self.catalog.evalAdvancedQuery(query, rs)
-        return project_brains[:5]
-
-
-    def news(self):
-        news_path = '/'.join(self.context.portal.getPhysicalPath()) + '/news'
-        query = dict(portal_type='Document',
-                     sort_on='created',
-                     sort_order='descending',
-                     sort_limit=4,
-                     path=news_path
-                     )
-        brains = self.catalog(**query)
-        return brains
-    
 
 class SitewideSearchView(SearchView):
 
@@ -480,6 +394,93 @@ class SitewideSearchView(SearchView):
         if sort_by == 'getId':
             brains = _sort_by_id(brains)
 
+        return brains
+    
+class SubProjectsSearchView(ProjectsSearchView):
+
+    def subproject_paths(self):
+        info = redirect.get_info(self.context)
+        if info:
+            return list(info.values())
+        else:
+            return []
+
+    def all_subprojects(self):
+        query = dict(portal_type="OpenProject",
+                     sort_on='sortable_title')
+
+        self.apply_context_restrictions(query)
+
+        project_brains = self.catalog(**query)
+        return project_brains
+        
+    def apply_context_restrictions(self, query):
+        query['path'] = self.subproject_paths()
+
+    def adv_context_restrictions_applied(self, query):
+        return query & In('path', self.subproject_paths())
+
+
+class HomeView(SearchView):
+    """zpublisher"""
+    def __init__(self, context, request):
+        # redirect asap
+        go_here = request.get('go_here', None)
+        if go_here:
+            raise Redirect, go_here        
+        SearchView.__init__(self, context, request)
+
+        self.projects_search = ProjectsSearchView(context, request)
+
+
+    def recently_updated_projects(self):
+        created_brains = self.recently_created_projects()
+        updated_brains = self.projects_search.recently_updated_projects(sort_limit=10)
+        out = []
+        count = 0
+        for ubrain in updated_brains:
+            not_redundant = 1
+            for cbrain in created_brains:
+                if ubrain.getId == cbrain.getId:
+                    not_redundant = 0
+                    
+            if not_redundant == 1:
+                out.append(ubrain)
+                count+=1
+            if count == 5:
+                return out
+            
+        return out
+
+    def recently_created_members(self):
+        query = dict(sort_on='created',
+                     sort_order='descending',
+                     sort_limit=5)
+        brains = self.membranetool(**query)
+        
+        return _sort_by_created(brains)
+
+    def n_project_members(self, proj_brain):
+        return self.projects_search.n_project_members(proj_brain)
+
+    def recently_created_projects(self):
+        rs = (('created', 'desc'),)
+            
+        query = Eq('portal_type', 'OpenProject') & (Eq('project_policy', 'open_policy') | Eq('project_policy', 'medium_policy'))
+        
+        project_brains = self.catalog.evalAdvancedQuery(query, rs)
+        return project_brains[:5]
+
+
+    def news(self):
+        news_path = '/'.join(self.context.portal.getPhysicalPath()) + '/news'
+        query = dict(portal_type='Document',
+                     sort_on='created',
+                     sort_order='descending',
+                     sort_limit=4,
+                     path=news_path
+                     )
+        brains = self.catalog(**query)
         return brains
     
 
