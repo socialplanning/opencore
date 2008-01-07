@@ -167,19 +167,3 @@ class LatestActivityView(ProjectContentsView):
         assert len(team) == 1
         team = team[0]
         return [ self.member_info_for_member(member) for member in team.getMembers() ]
-        
-
-    def is_project_member(self):
-        """
-        doess the currently authenticated member belong to the project?
-        """
-        
-
-        # XXX this logic belongs at a higher level,
-        # maybe even its own view
-        team = self.context.getTeams()[0]
-        filter_states = tuple(team.getActiveStates()) + ('pending',)
-        return self.member_info.get('id') in team.getMemberIdsByStates(filter_states)
-
-
-
