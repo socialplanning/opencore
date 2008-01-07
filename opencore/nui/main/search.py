@@ -156,13 +156,13 @@ class ProjectsSearchView(SearchView):
         
         if self.letter_search:
             self.search_results = self._get_batch(self.search_by_letter(self.letter_search, self.sort_by), self.start)
-            self.search_query = 'for projects starting with &ldquo;%s&rdquo;' % self.letter_search
+            self.search_query = 'for %s starting with &ldquo;%s&rdquo;' % (self.noun, self.letter_search)
         elif self.search_for:
             self.search_results = self._get_batch(self.search_by_text(self.search_for, self.sort_by), self.start)
             self.search_query = 'for &ldquo;%s&rdquo;' % self.search_for
         else:
             self.search_results = self._get_batch(self.search_by_letter('all', self.sort_by), self.start)
-            self.search_query = 'for all projects'
+            self.search_query = 'for all %s' % self.noun
             
         return self.index()
         
@@ -268,13 +268,13 @@ class PeopleSearchView(SearchView):
             
         if self.letter_search:
             self.search_results = self._get_batch(self.search_by_letter(self.letter_search, self.sort_by), self.start)
-            self.search_query = 'for members starting with &ldquo;%s&rdquo;' % self.letter_search
+            self.search_query = 'for %s starting with &ldquo;%s&rdquo;' % (self.noun, self.letter_search)
         elif self.search_for:
             self.search_results = self._get_batch(self.search_by_text(self.search_for, self.sort_by), self.start)
             self.search_query = 'for &ldquo;%s&rdquo;' % self.search_for
         else:
             self.search_results = self._get_batch(self.search_by_letter('all', self.sort_by), self.start)
-            self.search_query = 'for all members'
+            self.search_query = 'for all %s' % self.noun
             
         return self.index()
 
@@ -330,13 +330,13 @@ class SitewideSearchView(SearchView):
 
         if self.letter_search:
             self.search_results = self._get_batch(self.search_by_letter(self.letter_search, self.sort_by), self.start)
-            self.search_query = 'for content starting with &ldquo;%s&rdquo;' % self.letter_search
+            self.search_query = 'for %s starting with &ldquo;%s&rdquo;' % (self.noun, self.letter_search)
         elif self.search_for:
             self.search_results = self._get_batch(self.search_by_text(self.search_for, self.sort_by), self.start)
             self.search_query = 'for &ldquo;%s&rdquo;' % self.search_for
         else:
             self.search_results = self._get_batch(self.search_by_letter('all', self.sort_by), self.start)
-            self.search_query = 'for all content'
+            self.search_query = 'for all %s' % self.noun
             
         return self.index()
     
