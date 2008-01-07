@@ -28,6 +28,10 @@
 	  <h2>Goal</h2>
 	  <p tal:content="view/project_info/description" />
 
+	  <span tal:condition="not: view/is_project_member">
+	    <a href="request-membership" class="oc-banana">Join</a>
+	  </span>
+
 	</div>
 	
 	<!-- feeds -->
