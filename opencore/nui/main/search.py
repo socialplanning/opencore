@@ -118,6 +118,8 @@ class SearchView(BaseView):
                      pagerange=6,
                      quantumleap=0,
                      b_start_str='b_start')
+    
+    noun = 'please define a plural noun in your subclass'
 
     def search_by_letter(self, letter, sort_by):
         """
@@ -146,6 +148,7 @@ class SearchView(BaseView):
 
 class ProjectsSearchView(SearchView):
 
+    noun = 'projects'
     active_states = ['public', 'private']
 
     def __call__(self):
@@ -256,6 +259,7 @@ class ProjectsSearchView(SearchView):
 
 class PeopleSearchView(SearchView):
 
+    noun = 'members'
     def __init__(self, context, request):
         SearchView.__init__(self, context, request)
 
@@ -273,6 +277,7 @@ class PeopleSearchView(SearchView):
             self.search_query = 'for all members'
             
         return self.index()
+
 
     def search_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
@@ -319,6 +324,7 @@ class PeopleSearchView(SearchView):
 
 class SitewideSearchView(SearchView):
 
+    noun = 'content'
     def __call__(self):
         self.clear_search_query()
 
