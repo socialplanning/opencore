@@ -21,7 +21,7 @@ Stub a sample result
     ...         return 'http://dummy/portal_memberdata/url'
 
 Instantiate the people feed adapter with the dummy context
-    >>> from opencore.rss.member import PeopleFeedAdapter
+    >>> from opencore.rss.people import PeopleFeedAdapter
     >>> people_adapter = PeopleFeedAdapter(context)
 
 Test the items method

@@ -27,7 +27,7 @@
   <adapter
      for="opencore.interfaces.adding.IAmAPeopleFolder"
      provides="opencore.rss.interfaces.IFeedData"
-     factory=".member.PeopleFeedAdapter"
+     factory=".people.PeopleFeedAdapter"
      />
 
    <adapter
