@@ -60,7 +60,7 @@ class ListsFeedAdapter(BaseFeedAdapter):
 
             # returning a dictionary would also work
             # this is just more formal
-            feed_item = type('ProjectFeedItem',
+            feed_item = type('MailFeedItem',
                              (object,),
                              dict(title=title,
                                   description=description,
@@ -116,7 +116,7 @@ class MailingListFeedAdapter(BaseFeedAdapter):
 
             # returning a dictionary would also work
             # this is just more formal
-            feed_item = type('ProjectFeedItem',
+            feed_item = type('MailFeedItem',
                              (object,),
                              dict(title=title,
                                   description=description,
