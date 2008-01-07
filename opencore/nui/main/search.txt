@@ -43,6 +43,7 @@ Test searching for projects that start with a letter::
 
 @@ sorting is a little unclear. is this accurate/correct behavior?
 what is relevance, how is it effected? why is Proj2 the most recently modified?
+egj supposes its reverse alphabetical
 
 Now try sorting the projects::
 
