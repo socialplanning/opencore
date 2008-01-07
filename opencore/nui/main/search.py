@@ -233,6 +233,7 @@ class ProjectsSearchView(SearchView):
         project_brains = self.catalog.evalAdvancedQuery(query, rs)
         return project_brains[:sort_limit]
 
+    # what is an n_project_member?
     def n_project_members(self, proj_brain):
         proj_id = proj_brain.getId
         tmtool = self.get_tool('portal_teams')
