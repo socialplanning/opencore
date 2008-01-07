@@ -249,6 +249,8 @@ class ProjectsSearchView(SearchView):
         """
         inserts additional query constraints into the
         query dict given based on context
+
+        whaaa?
         """
         pass
 
@@ -257,6 +259,8 @@ class ProjectsSearchView(SearchView):
         returns a new advanced query based on the
         query given with additional constraints based
         on context
+
+        whaa?
         """
         return adv_query
 
