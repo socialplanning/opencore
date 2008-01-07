@@ -4,6 +4,7 @@
            tal:content="string:Search People - ${view/portal_title}" />
   </head>
   <body>
+
     <div metal:fill-slot="content">              
 
       <div id="oc-content-main">
@@ -26,8 +27,7 @@
                                    ">
 
             <!-- display the number of results that came back -->
-            <div class="oc-directory-sorter" tal:define="many python: start!=end">
-              
+            <div class="oc-directory-sorter" tal:define="many python: start!=end">              
               <!-- pagination uses the batch macro -->
               <div metal:use-macro="here/@@nui_batch_macros/pagination"/>
               
@@ -36,7 +36,8 @@
               of <span tal:replace="sequence_length">376</span> sorted 
 
               <!-- when sorting, we post the action to distinguish between searching
-                   this was necessary because the batch macro reposts the request data, and we see problems when trying to reset to page when the sorting changes -->
+                   this was necessary because the batch macro reposts the request data,
+		   and we see problems when trying to reset to page when the sorting changes -->
               <form name="people_sort" action="." tal:attributes="action string:${context/portal_url}/people/searchresults">
                 <!-- FIXME This should not require a button to work. -->
                 <select class="oc-js-autoSelect" name="sort_by" tal:define="sorted_by python: request.get('sort_by')">
@@ -45,6 +46,8 @@
                   <option value="exact_getFullname" tal:attributes="selected python: sorted_by == 'exact_getFullname'">by name</option>
                 </select>
 
+
+
                 <!-- resend the current data when sorting -->
                 <input tal:condition="request/search_for | nothing" type="hidden" name="search_for"
                        tal:attributes="value request/search_for" />
@@ -52,9 +55,9 @@
                 <input tal:condition="request/letter_search | nothing" type="hidden" name="letter_search"
                        tal:attributes="value request/letter_search" />
                 <input type="submit" name="action_sort_people" value="sort" />
+
               </form>
             </div>
-
 
             <!-- the results are displayed here -->
             <ol class="oc-directory-list oc-clearAfter">
