@@ -15,9 +15,13 @@ class DummyContext(object):
         return 'Dummy creator'
 
 def test_suite():
-    base_suite = doctest.DocFileSuite('base.txt', optionflags=doctest.ELLIPSIS)
-    people_suite = doctest.DocFileSuite('people.txt', optionflags=doctest.ELLIPSIS)
-    return unittest.TestSuite((base_suite, people_suite))
+    base_suite = doctest.DocFileSuite('base.txt',
+                                      optionflags=doctest.ELLIPSIS)
+    people_suite = doctest.DocFileSuite('people.txt',
+                                        optionflags=doctest.ELLIPSIS)
+    projects_suite = doctest.DocFileSuite('projects.txt',
+                                          optionflags=doctest.ELLIPSIS)
+    return unittest.TestSuite((base_suite,people_suite, projects_suite))
 
 
 if __name__ == '__main__':
