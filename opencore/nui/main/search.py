@@ -36,6 +36,7 @@ def clean_search_query(search_query):
 class SearchView(BaseView):
     match = staticmethod(first_letter_match)
 
+    # is this used anywhere?
     def project_url(self, project_brain):
         return '%s/projects/%s' % (self.context.absolute_url(),
                                    project_brain.getId)
