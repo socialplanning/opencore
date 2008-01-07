@@ -48,6 +48,8 @@ class TransientMessage(object):
         if isinstance(msg, Message):
             cleaner = Cleaner()
             msg = cleaner.clean_html(msg)
+
+            # what is this for? does anyone know?
             if msg.startswith('<p>'):
                 msg = msg[3:-4]
 
