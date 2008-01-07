@@ -21,7 +21,7 @@
   <adapter
      for="opencore.interfaces.adding.IAddProject"
      provides="opencore.rss.interfaces.IFeedData"
-     factory=".project.ProjectsFeedAdapter"
+     factory=".projects.ProjectsFeedAdapter"
      />
 
   <adapter

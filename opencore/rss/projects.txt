@@ -21,7 +21,7 @@ Stub a sample result
     ...         return 'http://dummy/projects/url'
 
 Instantiate the people feed adapter with the dummy context
-    >>> from opencore.rss.project import ProjectsFeedAdapter
+    >>> from opencore.rss.projects import ProjectsFeedAdapter
     >>> projects_adapter = ProjectsFeedAdapter(context)
 
 Test the items method
@@ -48,4 +48,3 @@ And finally check the object
     datetime.datetime...
     >>> feed_item.link
     'http://dummy/projects/url'
-
