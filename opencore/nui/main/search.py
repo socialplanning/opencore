@@ -153,10 +153,10 @@ class ProjectsSearchView(SearchView):
         
         if self.letter_search:
             self.search_results = self._get_batch(self.search_by_letter(self.letter_search, self.sort_by), self.start)
-            self.search_query = 'for projects starting with &ldquo;%s&rdquo;' % letter_search
+            self.search_query = 'for projects starting with &ldquo;%s&rdquo;' % self.letter_search
         elif self.search_for:
             self.search_results = self._get_batch(self.search_by_text(self.search_for, self.sort_by), self.start)
-            self.search_query = 'for &ldquo;%s&rdquo;' % search_for
+            self.search_query = 'for &ldquo;%s&rdquo;' % self.search_for
         else:
             self.search_results = self._get_batch(self.search_by_letter('all', self.sort_by), self.start)
             self.search_query = 'for all projects'
