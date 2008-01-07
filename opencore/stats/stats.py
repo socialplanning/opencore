@@ -16,9 +16,6 @@ class StatsView(BrowserView):
     # If you had run the stats during that dormant period they would show
     # up as dormant.  The same goes for mailing lists and projects that go through
     # a dormant period and then become active again.
-    # However, I believe these are rare cases and should only have
-    # a negligible effect on the historical stats.  This, also, is the best
-    # we can do with the given bits of information.
 
     def __init__(self, context, request):
         self.context = context
@@ -188,6 +185,9 @@ class StatsView(BrowserView):
         
 
     def get_active_data(self):
+        # this is only useful for approximations of general trends in the past
+        # it is not a very accurate way to get historical stats
+
         data = []
         initial_report_date = self.report_date
         for i in range(0, 18):
