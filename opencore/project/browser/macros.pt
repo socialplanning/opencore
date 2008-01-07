@@ -3,11 +3,12 @@
               <tbody>
                 <tr class="oc-form-row">
                   <th class="oc-form-label" scope="row">
-                    <label for="location">Location</label>
+                    <label for="location"
+                        i18n:translate="project-edit_location_label">Location</label>
                   </th>
                   <td class="oc-form-value">
                     <input type="text" id="location" name="location"
-                           tal:attributes="value view/geo_info/location | nothing"/>
+                           tal:attributes="value view/geo_info/location | nothing"/>  (example: "New York, NY" or "cloud nine")
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
@@ -21,11 +22,12 @@
                        tal:attributes="value view/geo_info/position-longitude | nothing" />
                 <tr id="oc-template-location.json" class="oc-form-row oc-js-template">
                   <th id="position-header" class="oc-form-label" scope="row">
-                    <label for="position-text">Location On Map</label>
+                    <label for="position-text" i18n:translate="project-edit_address_label">
+                     Find Address on Map:</label>
                   </th>
                   <td id="position-input" class="oc-form-value oc-form-fieldBlock">
                     <input type="text" id="position-text" name="position-text"
-                           tal:attributes="value view/geo_info/position-text | nothing" />
+                           tal:attributes="value view/geo_info/position-text | nothing" />  (example: "349 w 12th st, ny, ny")
 		      <p tal:condition="view/geo_info/static_img_url | nothing">
 			<img tal:attributes="src view/geo_info/static_img_url" class="oc-map" />
 		      </p>
