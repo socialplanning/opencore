@@ -1,0 +1,56 @@
+Test the page adapter for rss use
+
+Create a stub context used for the page adapter
+    >>> from opencore.rss.tests import DummyContext
+    >>> context = DummyContext()
+
+And override the repository history call
+to return a stub result
+    >>> class DummyRepository(object):
+    ...     def getHistory(self, context, **kw):
+    ...         return [StubResult()]
+    >>> context.portal_repository = DummyRepository()
+
+Which returns a stub page
+    >>> from datetime import datetime
+    >>> class StubPage(object):
+    ...     def Title(self):
+    ...         return 'Dummy title'
+    ...     def modified(self):
+    ...         return datetime.now()
+    ...     def absolute_url(self):
+    ...         return 'http://dummy/page/url'
+
+Here's the sub result
+    >>> class StubResult(object):
+    ...     object = StubPage()
+    ...     comment='Dummy comment'
+
+Instantiate the page feed adapter with the dummy context
+    >>> from opencore.rss.page import PageFeedAdapter
+    >>> page_adapter = PageFeedAdapter(context)
+
+Test the items method
+    >>> items = page_adapter.items
+    >>> lst = list(items)
+    >>> len(lst)
+    1
+    >>> feed_item = lst[0]
+    >>> from opencore.rss.interfaces import IFeedItem
+    >>> IFeedItem.providedBy(feed_item)
+    True
+
+Verify the item returned conforms to the interface
+    >>> from zope.interface.verify import verifyObject
+    >>> verifyObject(IFeedItem, feed_item)
+    True
+
+And finally check the object
+    >>> feed_item.title
+    'Dummy title'
+    >>> feed_item.description
+    'Dummy comment'
+    >>> feed_item.pubDate
+    datetime.datetime...
+    >>> feed_item.link
+    'http://dummy/page/url'
