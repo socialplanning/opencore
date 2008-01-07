@@ -430,6 +430,7 @@ class HomeView(SearchView):
             raise Redirect, go_here        
         SearchView.__init__(self, context, request)
 
+        # don't do this!
         self.projects_search = ProjectsSearchView(context, request)
 
 
