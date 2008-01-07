@@ -119,6 +119,19 @@ class SearchView(BaseView):
                      quantumleap=0,
                      b_start_str='b_start')
 
+    def search_by_letter(self, letter, sort_by):
+        """
+        search for content by its initial letter.
+        a subclass needs to define this method
+        """
+        pass
+
+    def search_by_text(self, search_for, sort_by):
+        """
+        search for content by text query.
+        a subclass needs to define this method
+        """
+
     # is this used anywhere?
     def project_url(self, project_brain):
         return '%s/projects/%s' % (self.context.absolute_url(),
@@ -139,18 +152,18 @@ class ProjectsSearchView(SearchView):
         self.clear_search_query()
         
         if self.letter_search:
-            self.search_results = self._get_batch(self.search_for_project_by_letter(self.letter_search, self.sort_by), self.start)
+            self.search_results = self._get_batch(self.search_by_letter(self.letter_search, self.sort_by), self.start)
             self.search_query = 'for projects starting with &ldquo;%s&rdquo;' % letter_search
         elif self.search_for:
-            self.search_results = self._get_batch(self.search_for_project(self.search_for, self.sort_by), self.start)
+            self.search_results = self._get_batch(self.search_by_text(self.search_for, self.sort_by), self.start)
             self.search_query = 'for &ldquo;%s&rdquo;' % search_for
         else:
-            self.search_results = self._get_batch(self.search_for_project_by_letter('all', self.sort_by), self.start)
+            self.search_results = self._get_batch(self.search_by_letter('all', self.sort_by), self.start)
             self.search_query = 'for all projects'
             
         return self.index()
         
-    def search_for_project_by_letter(self, letter, sort_by=None):
+    def search_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
 
         if letter == 'num':
@@ -178,7 +191,8 @@ class ProjectsSearchView(SearchView):
 
         return project_brains
 
-    def search_for_project(self, project, sort_by=None):
+    def search_by_text(self, search_for, sort_by=None):
+        project = search_for
         proj_query = clean_search_query(project)
 
         if proj_query == '*':
@@ -249,18 +263,18 @@ class PeopleSearchView(SearchView):
         self.clear_search_query()
             
         if self.letter_search:
-            self.search_results = self._get_batch(self.search_for_person_by_letter(self.letter_search, self.sort_by), self.start)
+            self.search_results = self._get_batch(self.search_by_letter(self.letter_search, self.sort_by), self.start)
             self.search_query = 'for members starting with &ldquo;%s&rdquo;' % self.letter_search
         elif self.search_for:
-            self.search_results = self._get_batch(self.search_for_person(self.search_for, self.sort_by), self.start)
+            self.search_results = self._get_batch(self.search_by_text(self.search_for, self.sort_by), self.start)
             self.search_query = 'for &ldquo;%s&rdquo;' % self.search_for
         else:
-            self.search_results = self._get_batch(self.search_for_person_by_letter('all', self.sort_by), self.start)
+            self.search_results = self._get_batch(self.search_by_letter('all', self.sort_by), self.start)
             self.search_query = 'for all members'
             
         return self.index()
 
-    def search_for_person_by_letter(self, letter, sort_by=None):
+    def search_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
 
         if letter == 'num':
@@ -290,8 +304,8 @@ class PeopleSearchView(SearchView):
 
         return people_brains
 
-    def search_for_person(self, person, sort_by=None):
-        return searchForPerson(self.membranetool, person, sort_by)
+    def search_by_text(self, search_for, sort_by=None):
+        return searchForPerson(self.membranetool, search_for, sort_by)
 
     def recently_created_members(self, sort_limit=10):
         query = dict(sort_on='created',
@@ -312,7 +326,7 @@ class SitewideSearchView(SearchView):
             self.search_results = self._get_batch(self.search_by_letter(self.letter_search, self.sort_by), self.start)
             self.search_query = 'for content starting with &ldquo;%s&rdquo;' % self.letter_search
         elif self.search_for:
-            self.search_results = self._get_batch(self.search(self.search_for, self.sort_by), self.start)
+            self.search_results = self._get_batch(self.search_by_text(self.search_for, self.sort_by), self.start)
             self.search_query = 'for &ldquo;%s&rdquo;' % self.search_for
         else:
             self.search_results = self._get_batch(self.search_by_letter('all', self.sort_by), self.start)
@@ -370,7 +384,7 @@ class SitewideSearchView(SearchView):
                 
         return out_brains
 
-    def search(self, search_for, sort_by=None):
+    def search_by_text(self, search_for, sort_by=None):
         search_query = clean_search_query(search_for)
     
         if search_query == '*':
