@@ -36,6 +36,26 @@ def clean_search_query(search_query):
 class SearchView(BaseView):
     match = staticmethod(first_letter_match)
 
+    @property
+    def search_for(self):
+        return self.request.get('search_for', None)
+
+    @property
+    def letter_search(self):
+        return self.request.get('letter_search', None)
+
+    @property
+    def start(self):
+        return self.request.get('b_start', 0)
+
+    @property
+    def sort_by(self):
+        return self.request.get('sort_by', None)
+
+    def clear_search_query(self):        
+        self.search_results = None
+        self.search_query = None
+        
     # is this used anywhere?
     def project_url(self, project_brain):
         return '%s/projects/%s' % (self.context.absolute_url(),
@@ -62,21 +82,16 @@ class ProjectsSearchView(SearchView):
     active_states = ['public', 'private']
 
     def __call__(self):
-        search_for = self.request.get('search_for', None)
-        letter_search = self.request.get('letter_search', None)
-        start = self.request.get('b_start', 0)
-        sort_by = self.request.get('sort_by', None)
-        self.search_results = None
-        self.search_query = None
-            
-        if letter_search:
-            self.search_results = self._get_batch(self.search_for_project_by_letter(letter_search, sort_by), start)
+        self.clear_search_query()
+        
+        if self.letter_search:
+            self.search_results = self._get_batch(self.search_for_project_by_letter(self.letter_search, self.sort_by), self.start)
             self.search_query = 'for projects starting with &ldquo;%s&rdquo;' % letter_search
-        elif search_for:
-            self.search_results = self._get_batch(self.search_for_project(search_for, sort_by), start)
+        elif self.search_for:
+            self.search_results = self._get_batch(self.search_for_project(self.search_for, self.sort_by), self.start)
             self.search_query = 'for &ldquo;%s&rdquo;' % search_for
         else:
-            self.search_results = self._get_batch(self.search_for_project_by_letter('all', sort_by), start)
+            self.search_results = self._get_batch(self.search_for_project_by_letter('all', self.sort_by), self.start)
             self.search_query = 'for all projects'
             
         return self.index()
@@ -253,21 +268,16 @@ class PeopleSearchView(SearchView):
         SearchView.__init__(self, context, request)
 
     def __call__(self):
-        search_for = self.request.get('search_for', None)
-        letter_search = self.request.get('letter_search', None)
-        start = self.request.get('b_start', 0)
-        sort_by = self.request.get('sort_by', None)
-        self.search_results = None
-        self.search_query = None
+        self.clear_search_query()
             
-        if letter_search:
-            self.search_results = self._get_batch(self.search_for_person_by_letter(letter_search, sort_by), start)
-            self.search_query = 'for members starting with &ldquo;%s&rdquo;' % letter_search
-        elif search_for:
-            self.search_results = self._get_batch(self.search_for_person(search_for, sort_by), start)
-            self.search_query = 'for &ldquo;%s&rdquo;' % search_for
+        if self.letter_search:
+            self.search_results = self._get_batch(self.search_for_person_by_letter(self.letter_search, self.sort_by), self.start)
+            self.search_query = 'for members starting with &ldquo;%s&rdquo;' % self.letter_search
+        elif self.search_for:
+            self.search_results = self._get_batch(self.search_for_person(self.search_for, self.sort_by), self.start)
+            self.search_query = 'for &ldquo;%s&rdquo;' % self.search_for
         else:
-            self.search_results = self._get_batch(self.search_for_person_by_letter('all', sort_by), start)
+            self.search_results = self._get_batch(self.search_for_person_by_letter('all', self.sort_by), self.start)
             self.search_query = 'for all members'
             
         return self.index()
@@ -380,21 +390,16 @@ class HomeView(SearchView):
 class SitewideSearchView(SearchView):
 
     def __call__(self):
-        letter_search = self.request.get('letter_search', None)
-        search_for = self.request.get('search_for', None)
-        start = self.request.get('b_start', 0)
-        sort_by = self.request.get('sort_by', None)
-        self.search_results = None
-        self.search_query = None
-            
-        if letter_search:
-            self.search_results = self._get_batch(self.search_by_letter(letter_search, sort_by), start)
-            self.search_query = 'for content starting with &ldquo;%s&rdquo;' % letter_search
-        elif search_for:
-            self.search_results = self._get_batch(self.search(search_for, sort_by), start)
-            self.search_query = 'for &ldquo;%s&rdquo;' % search_for
+        self.clear_search_query()
+
+        if self.letter_search:
+            self.search_results = self._get_batch(self.search_by_letter(self.letter_search, self.sort_by), self.start)
+            self.search_query = 'for content starting with &ldquo;%s&rdquo;' % self.letter_search
+        elif self.search_for:
+            self.search_results = self._get_batch(self.search(self.search_for, self.sort_by), self.start)
+            self.search_query = 'for &ldquo;%s&rdquo;' % self.search_for
         else:
-            self.search_results = self._get_batch(self.search_by_letter('all', sort_by), start)
+            self.search_results = self._get_batch(self.search_by_letter('all', self.sort_by), self.start)
             self.search_query = 'for all content'
             
         return self.index()
