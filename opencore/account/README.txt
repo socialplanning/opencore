@@ -531,7 +531,7 @@ This is not the view
 
 This is the old skin which redirects to the login page.
 
-    >>> 'Please sign in to continue.' in output
+    >>> 'psm_please_sign_in' in output
     True
 
 Remove test_user_1_
