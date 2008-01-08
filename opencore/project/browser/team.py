@@ -272,6 +272,9 @@ class ProjectTeamView(TeamRelatedView):
         results = self.membranetool(**query)
         return self._get_batch(results, self.request.get('b_start', 0))
 
+    # this should not be a property:
+    # 1) it relies on state
+    # 2) it's probably expensive to calculate (it's a sort)
     @memoizedproperty
     def memberships(self):
         try:
