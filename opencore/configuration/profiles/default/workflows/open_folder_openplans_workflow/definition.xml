@@ -13,9 +13,41 @@
  <permission>CMFEditions: Revert to previous versions</permission>
  <permission>CMFEditions: Save new version</permission>
  <permission>Add RichDocument</permission>
- <state state_id="wiki" title="Open">
+ <permission>OpenPlans: Add OpenPage</permission>
+ <state state_id="wiki" title="Wiki">
   <exit-transition transition_id="makeTeamVisible"/>
   <exit-transition transition_id="hide"/>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>Member</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectContentMgr</permission-role>
+   <permission-role>ProjectMember</permission-role>
+   <permission-role>Reviewer</permission-role>
+  </permission-map>
+  <permission-map name="Add RichDocument"
+                  acquired="False">
+   <permission-role>Authenticated</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Member</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectContentMgr</permission-role>
+   <permission-role>ProjectMember</permission-role>
+   <permission-role>Reviewer</permission-role>
+  </permission-map>
+  <permission-map name="OpenPlans: Add OpenPage"
+                  acquired="False">
+   <permission-role>Authenticated</permission-role>
+   <permission-role>Manager</permission-role>
+   <permission-role>Member</permission-role>
+   <permission-role>Owner</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectMember</permission-role>
+   <permission-role>Reviewer</permission-role>
+  </permission-map>
   <permission-map name="Access contents information"
                   acquired="False">
    <permission-role>Anonymous</permission-role>
@@ -60,27 +92,6 @@
    <permission-role>Reviewer</permission-role>
   </permission-map>
   <permission-map name="List folder contents"
-                  acquired="False">
-   <permission-role>Authenticated</permission-role>
-   <permission-role>Manager</permission-role>
-   <permission-role>Member</permission-role>
-   <permission-role>Owner</permission-role>
-   <permission-role>ProjectAdmin</permission-role>
-   <permission-role>ProjectContentMgr</permission-role>
-   <permission-role>ProjectMember</permission-role>
-   <permission-role>Reviewer</permission-role>
-  </permission-map>
-  <permission-map name="Modify portal content"
-                  acquired="False">
-   <permission-role>Manager</permission-role>
-   <permission-role>Owner</permission-role>
-   <permission-role>Member</permission-role>
-   <permission-role>ProjectAdmin</permission-role>
-   <permission-role>ProjectContentMgr</permission-role>
-   <permission-role>ProjectMember</permission-role>
-   <permission-role>Reviewer</permission-role>
-  </permission-map>
-  <permission-map name="Add RichDocument"
                   acquired="False">
    <permission-role>Authenticated</permission-role>
    <permission-role>Manager</permission-role>
