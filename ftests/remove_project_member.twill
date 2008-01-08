@@ -14,7 +14,7 @@
 extend_with flunc.checkbox
 
 go ${base_url}/projects/${projname}
-follow "Manage Team"
+follow "Team"
 fv team-members checked:list ${membername}
 submit "task|batch_checked|remove-members"
 find "Member deactivated: ${membername}"

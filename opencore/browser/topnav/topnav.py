@@ -150,21 +150,22 @@ class ProjectMenuView(BaseView):
                  'selected': self.is_flet_selected(flet)
                  },
                 )
-
-        menudata += (
-            {'content': 'Team',
-             'href': team_url,
-             'selected': self.request.ACTUAL_URL == team_url,
-             },
-            )
-
         if can_manage:
             menudata += (
-                {'content': 'Manage team',
+                {'content': 'Team',
                  'href': manage_team_url,
-                 'selected': self.request.ACTUAL_URL == manage_team_url,
+                 'selected': self.request.ACTUAL_URL == manage_team_url or
+                 self.request.ACTUAL_URL == team_url,
                  },
                 )
+        else:
+            menudata += (
+                {'content': 'Team',
+                 'href': team_url,
+                 'selected': self.request.ACTUAL_URL == team_url,
+                 },
+                )
+
             
         menudata += (
             {'content': 'Contents',

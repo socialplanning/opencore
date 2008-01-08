@@ -161,16 +161,15 @@ class TestProjectMenu(OpenPlansTestCase):
         self.login(self.proj_admin_id)
         menudata = self.phome_view.menudata
         mdmap = self.make_menudata_map(menudata)
-        # add 'preferences' and 'manage team', remove 'join'
+        # add 'preferences', replace 'team' with link to manage-team, remove 'join'
 
-        self.failUnless(len(menudata) == 5)
+        self.failUnless(len(menudata) == 4)
         self.assertEqual(mdmap['wiki']['href'], self.proj.absolute_url() + '/project-home')
         self.failUnless(mdmap['wiki']['selected'])
         self.failIf(mdmap['contents']['selected'])
         self.failIf(mdmap['team']['selected'])
-        self.failIf(mdmap['manage team']['selected'])
         self.failIf(mdmap['preferences']['selected'])
-        self.failUnless(mdmap.has_key('manage team'))
+        self.failUnless(mdmap['team']['href'].endswith('manage-team'))
 
         orig_actual_url = self.request.ACTUAL_URL
 
@@ -181,12 +180,11 @@ class TestProjectMenu(OpenPlansTestCase):
         self.request.ACTUAL_URL = contents_url
         menudata = self.proj_view.menudata
         mdmap = self.make_menudata_map(menudata)
-        self.failUnless(len(menudata) == 5)
+        self.failUnless(len(menudata) == 4)
         self.assertEqual(mdmap['wiki']['href'], self.proj.absolute_url() + '/project-home')
         self.failIf(mdmap['wiki']['selected'])
         self.failUnless(mdmap['contents']['selected'])
         self.failIf(mdmap['team']['selected'])
-        self.failIf(mdmap['manage team']['selected'])
         self.failIf(mdmap['preferences']['selected'])
         
         self.clearMemoCache()
@@ -194,12 +192,11 @@ class TestProjectMenu(OpenPlansTestCase):
         self.request.ACTUAL_URL = team_url
         menudata = self.proj_view.menudata
         mdmap = self.make_menudata_map(menudata)
-        self.failUnless(len(menudata) == 5)
+        self.failUnless(len(menudata) == 4)
         self.assertEqual(menudata[0]['href'], self.proj.absolute_url() + '/project-home')
         self.failIf(mdmap['wiki']['selected'])
         self.failIf(mdmap['contents']['selected'])
         self.failUnless(mdmap['team']['selected'])
-        self.failIf(mdmap['manage team']['selected'])
         self.failIf(mdmap['preferences']['selected'])
 
         self.clearMemoCache()
@@ -207,12 +204,11 @@ class TestProjectMenu(OpenPlansTestCase):
         self.request.ACTUAL_URL = manage_url
         menudata = self.proj_view.menudata
         mdmap = self.make_menudata_map(menudata)
-        self.failUnless(len(menudata) == 5)
+        self.failUnless(len(menudata) == 4)
         self.assertEqual(menudata[0]['href'], self.proj.absolute_url() + '/project-home')
         self.failIf(mdmap['wiki']['selected'])
         self.failIf(mdmap['contents']['selected'])
-        self.failIf(mdmap['team']['selected'])
-        self.failUnless(mdmap['manage team']['selected'])
+        self.failUnless(mdmap['team']['selected'])
         self.failIf(mdmap['preferences']['selected'])
 
         self.clearMemoCache()
@@ -220,12 +216,11 @@ class TestProjectMenu(OpenPlansTestCase):
         self.request.ACTUAL_URL = prefs_url
         menudata = self.proj_view.menudata
         mdmap = self.make_menudata_map(menudata)
-        self.failUnless(len(menudata) == 5)
+        self.failUnless(len(menudata) == 4)
         self.assertEqual(mdmap['wiki']['href'], self.proj.absolute_url() + '/project-home')
         self.failIf(mdmap['wiki']['selected'])
         self.failIf(mdmap['contents']['selected'])
         self.failIf(mdmap['team']['selected'])
-        self.failIf(mdmap['manage team']['selected'])
         self.failUnless(mdmap['preferences']['selected'])
 
         self.request.ACTUAL_URL = orig_actual_url
