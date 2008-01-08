@@ -57,3 +57,52 @@ And finally check the object
     datetime.datetime...
     >>> feed_item.link
     'http://dummy/listen/url'
+
+And on the lists folder, we should get an aggregate
+of messages across lists
+
+We'll stub the calls to return the same result twice
+    >>> context = DummyContext()
+    >>> context.objectIds = lambda:['id1', 'id2']
+    >>> context._getOb = lambda id:None
+
+Instantiate the lists feed adapter with the dummy context
+    >>> from opencore.rss.listen import ListsFeedAdapter
+    >>> lists_adapter = ListsFeedAdapter(context)
+
+Test the items method
+    >>> items = lists_adapter.items
+    >>> lst = list(items)
+    >>> len(lst)
+    2
+    >>> feed_item1, feed_item2 = lst
+    >>> IFeedItem.providedBy(feed_item1)
+    True
+    >>> IFeedItem.providedBy(feed_item2)
+    True
+
+Verify the items returned conform to the interface
+    >>> verifyObject(IFeedItem, feed_item1)
+    True
+    >>> verifyObject(IFeedItem, feed_item2)
+    True
+
+And finally check the objects
+    >>> feed_item1.title
+    'Dummy title'
+    >>> feed_item1.description
+    'Dummy description'
+    >>> feed_item1.pubDate
+    datetime.datetime...
+    >>> feed_item1.link
+    'http://dummy/listen/url'
+
+And the second object
+    >>> feed_item2.title
+    'Dummy title'
+    >>> feed_item2.description
+    'Dummy description'
+    >>> feed_item2.pubDate
+    datetime.datetime...
+    >>> feed_item2.link
+    'http://dummy/listen/url'
