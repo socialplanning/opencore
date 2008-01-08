@@ -12,6 +12,11 @@
      interface="opencore.rss.interfaces.ICanFeed"
      />
 
+  <five:implements
+     class="opencore.listen.mailinglist.OpenMailingList"
+     interface="opencore.rss.interfaces.ICanFeed"
+     />
+
   <adapter
      for="opencore.interfaces.IProject"
      provides="opencore.rss.interfaces.IFeedData"
