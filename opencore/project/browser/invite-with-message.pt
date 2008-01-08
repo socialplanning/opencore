@@ -1,0 +1,59 @@
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:Manage Team - ${view/area/Title}" />
+  </head>
+  <body>
+    <div metal:fill-slot="content">
+    
+    <div class="oc-headingBlock">
+      <h1>Invite users</h1>
+    </div>
+    
+    <div id="oc-content-main">
+        <p class="oc-headingContext">Send an email to invite people to join</p>
+        <form id="oc-inviteByEmail" name="oc-inviteByEmail"
+              tal:attributes="action view/request/ACTUAL_URL"
+              method="POST">
+        <div class="oc-headingBlock">
+          <label for="email-invites">To:</label>
+        </div>
+
+          <textarea style="width: 90%;" rows="3" cols="20" id="email-invites" name="email-invites"
+                    tal:content="view/request/form/email-invites | nothing" />
+          <p class="oc-discreetText">Comma separated, or one-per-line</p>
+
+
+					<label for="subject">Subject:</label>
+          <input type="text" name="subject" i18n:attributes="value email_invite_email_subject" value="Invitation to join a project"><br>
+
+					From: <span tal:content="python: view.portal.getProperty('email_from_address')" /><br/>
+
+					<label for="message">Message:</label>
+          <textarea rows="20" cols="70"  name="message" i18n:translate="email_invite_email">
+<span i18n:name="inviter_name" tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" /> has invited you to join "<span i18n:name="project_title" tal:replace="view/area/Title" />" on <span i18n:name="portal_title" tal:replace="view/portal_title" />.
+ 
+ If you would like to get involved, set up an <span i18n:name="project_title" tal:replace="view/area/Title" /> account: <span i18n:name="join_url" tal:replace="view/area/absolute_url" />
+ 
+ <span i18n:name="project_title" tal:replace="view/area/Title" /> is a free toolset for social change. With <span i18n:name="project_title" tal:replace="view/area/Title" />, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks.
+ 
+ We hope you'll take <span i18n:name="portal_url" tal:replace="view/portal/absolute_url" /> for a spin.
+
+ Cheers,
+ The <span i18n:name="project_title" tal:replace="view/area/Title" /> Team
+          </textarea><br>
+
+This will be added to all messages:
+          <div style="background-color: light blue;">
+ This message was sent from  <span tal:replace="view/portal_url" />.
+</div>
+
+
+          <input type="submit" name="task|email-invites" value="Send"
+                 class="oc-button" />
+        </form>
+
+      </div>
+          
+    </div><!-- end content-fill-slot -->
+  </body>
+</html>
