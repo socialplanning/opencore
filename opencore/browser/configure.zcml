@@ -108,7 +108,7 @@
   <browser:page
      for="*"
      permission="zope.Public"
-     name="messages-only"
+     name="message"
      class=".base.BaseView"
      template="deadend-message.pt"
      />
