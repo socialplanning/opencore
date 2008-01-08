@@ -99,7 +99,7 @@ def create_test_content(self, p_map=projects_map, m_map=members_map):
         ms_tool.createMemberArea(mem.getId())
         out.append('Member %s added' % mem_id)
 
-        projdata = mem_data.get('projects', [])
+        projdata = mem_data.get('projects', {})
         for p_id, p_roles in projdata.items():
             team = tm_tool.getTeamById(p_id)
             team.addMember(mem_id)
