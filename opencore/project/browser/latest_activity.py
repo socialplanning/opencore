@@ -126,7 +126,6 @@ class LatestActivityView(ProjectContentsView):
             self.logo_url = self.logo_url.absolute_url()
         else:
             self.logo_url = self.defaultProjLogoURL
-
         
     def snippet(self, feed):
         snip = self.context.unrestrictedTraverse('latest-snippet')
