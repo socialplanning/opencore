@@ -12,6 +12,14 @@
 
   <browser:page
      for="opencore.interfaces.IProject"
+     permission="zope2.View"
+     name="badge"
+     template="badge.pt"
+     class="opencore.browser.base.BaseView"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
      class=".wf_policy_view.WorkflowPolicyView"
      permission="zope2.View"
      name="policy_support"
