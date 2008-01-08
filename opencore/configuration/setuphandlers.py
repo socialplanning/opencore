@@ -16,6 +16,7 @@ from opencore.content.membership import OpenMembership
 from opencore.interfaces import IAddProject
 from opencore.interfaces import IAmANewsFolder
 from opencore.interfaces import IAmAPeopleFolder
+from opencore.rss.interfaces import ICanFeed
 from opencore.interfaces.membership import IEmailInvites
 from opencore.interfaces.message import ITransientMessage
 from opencore.member.transient_messages import TransientMessage
@@ -223,6 +224,7 @@ def addProjectsFolder(portal, out):
 
     pfolder = portal._getOb('projects')
     alsoProvides(pfolder, IAddProject)
+    alsoProvides(pfolder, ICanFeed)
 
     # Add type restrictions
     print >> out, 'Restricting addable types in Projects Folder'
@@ -298,6 +300,10 @@ def setupPeopleFolder(portal, out):
     pf = getattr(portal, 'people')
     if not IAmAPeopleFolder.providedBy(pf):
         alsoProvides(pf, IAmAPeopleFolder)
+
+    # mark the people folder as able to provide rss
+    if not ICanFeed.providedBy(pf):
+        alsoProvides(pf, ICanFeed)
 
     # set the default layout
     has_index = pf._getOb('index_html', None)
