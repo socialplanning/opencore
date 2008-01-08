@@ -29,6 +29,10 @@ EMAIL_RE = re.compile(EMAIL_RE)
 TA_SPLIT = re.compile('\n|,')
 
 
+@req_memoize
+def _email_sender(view):
+    return EmailSender(view, mship_messages)
+
 class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     """
     View class for the team management screens.
@@ -119,11 +123,6 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             data = self.getMshipInfoFromBrain(brain)
             mships.append(data)
         return mships
-
-    @property
-    @req_memoize
-    def email_sender(self):
-        return EmailSender(self, mship_messages)
 
     def getMshipInfoFromBrain(self, brain):
         """
@@ -220,7 +219,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
             #XXX sending the email should go in an event subscriber
             try:
-                self.email_sender.sendEmail(mem_id, msg_id='request_approved',
+                _email_sender(self).sendEmail(mem_id, msg_id='request_approved',
                                             project_title=self.context.title,
                                             project_url=self.context.absolute_url())
             except MailHostError: 
@@ -284,7 +283,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         # copy targets list b/c manage_delObjects empties the list
         mem_ids = targets[:]
         self.doMshipWFAction('reject_by_admin', mem_ids)
-        sender = self.email_sender
+        sender = _email_sender(self)
         msg = sender.constructMailMessage('request_denied',
                                           project_title=self.context.title)
         for mem_id in mem_ids:
@@ -311,7 +310,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         wftool = self.get_tool('portal_workflow')
         pwft = getToolByName(self, 'portal_placeful_workflow')
         deletes = []
-        sender = self.email_sender
+        sender = _email_sender(self)
         msg = sender.constructMailMessage('invitation_retracted',
                                           project_title=self.context.title)
         ret = {}
@@ -351,7 +350,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         """
         mem_ids = targets
         project_title = self.context.title
-        sender = self.email_sender
+        sender = _email_sender(self)
         for mem_id in mem_ids:
             acct_url = self._getAccountURLForMember(mem_id)
             # XXX if member hasn't logged in yet, acct_url will be whack
@@ -368,11 +367,6 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             msg = "Reminder%s sent: %s" % (plural and 's' or '', ", ".join(mem_ids))
             self.add_status_message(msg)
 
-
-    ##################
-    #### EMAIL INVITATION BUTTON HANDLERS
-    ##################
-
     @formhandler.action('remove-email-invites')
     def remove_email_invites(self, targets, fields=None):
         """
@@ -381,7 +375,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         """
         addresses = [urllib.unquote(t) for t in targets]
 
-        sender = self.email_sender
+        sender = _email_sender(self)
         msg = sender.constructMailMessage('invitation_retracted',
                                           project_title=self.context.title)
 
@@ -405,7 +399,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         Sends an email reminder to the specified email invitees.
         """
         addresses = [urllib.unquote(t) for t in targets]
-        sender = self.email_sender
+        sender = _email_sender(self)
         project_title = self.context.title
         for address in addresses:
             # XXX if member hasn't logged in yet, acct_url will be whack
@@ -480,7 +474,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         """
         mem_ids = targets
         mems_removed = self.doMshipWFAction('deactivate', mem_ids, self.mship_only_admin)
-        sender = self.email_sender
+        sender = _email_sender(self)
         ret = {}
         #XXX sending an email should be in an event handler
         for mem_id in mems_removed:
@@ -639,10 +633,23 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                 'portal_name': self.portal.title,
                 'portal_url': self.portal.absolute_url(),
                 }
-        self.email_sender.sendEmail(mem_id, msg_id='invite_member',
+        _email_sender(self).sendEmail(mem_id, msg_id='invite_member',
                                     **msg_subs)
         self.add_status_message(u'You invited %s to join this project.' % mem_id)
 
+    @view.memoizedproperty
+    def invite_util(self):
+        return getUtility(IEmailInvites)
+        
+class InviteView(ManageTeamView):
+    ##################
+    #### EMAIL INVITATION BUTTON HANDLERS
+    ##################
+    invite_with_message = ZopeTwoPageTemplateFile('invite-with-message.pt')
+
+    @property
+    def template(self):
+        return self.invite_with_message
 
     ##################
     #### EMAIL INVITES BUTTON HANDLER
@@ -675,18 +682,14 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                         inviter_name=self.loggedinmember.getId()
                         )
         if email_confirmation():
-            self.email_sender.sendEmail(addy, msg_id='invite_email',
+            _email_sender(self).sendEmail(addy, msg_id='invite_email',
                                         **msg_subs)
         else:
-            msg = self.email_sender.constructMailMessage(msg_id='invite_email',
+            msg = _email_sender(self).constructMailMessage(msg_id='invite_email',
                                                          **msg_subs)
             log.info(msg)
         return key
 
-    @view.memoizedproperty
-    def invite_util(self):
-        return getUtility(IEmailInvites)
-        
     @formhandler.action('email-invites')
     def add_email_invites(self, targets=None, fields=None):
         invites = self.email_invites
@@ -768,7 +771,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                         }
 
                     if email_confirmation():
-                        self.email_sender.sendEmail(mem_id,
+                        _email_sender(self).sendEmail(mem_id,
                                                     msg_id='invite_member',
                                                     **msg_subs)
                     mem_invites.append(mem_id)

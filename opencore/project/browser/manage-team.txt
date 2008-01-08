@@ -355,12 +355,13 @@ Email Invitations
 Okay, now to deal with inviting people by email address.  First we try
 a couple of addresses that don't belong to any site members:
 
+    >>> inviteview = proj.restrictedTraverse('invite')
     >>> self.clearMemoCache()
-    >>> view.request.form.clear()
+    >>> inviteview.request.form.clear()
     >>> invites = 'doesnotexist@example.com, isnotthere@example.com'
-    >>> view.request.form.update({'task|email-invites': 'Send',
-    ...                           'email-invites': invites})
-    >>> view.add_email_invites()
+    >>> inviteview.request.form.update({'task|email-invites': 'Send',
+    ...                                 'email-invites': invites})
+    >>> inviteview.add_email_invites()
     >>> len(view.pending_invitations) # <- shouldn't change
     3
     >>> len(view.pending_email_invites)
@@ -378,9 +379,9 @@ in use by a site member who's not a project member:
 
     >>> self.clearMemoCache()
     >>> email = view.membertool.getMemberById('m3').getEmail()
-    >>> view.request.form.update({'task|email-invites': 'Send',
-    ...                           'email-invites': email})
-    >>> view.add_email_invites()
+    >>> inviteview.request.form.update({'task|email-invites': 'Send',
+    ...                                 'email-invites': email})
+    >>> inviteview.add_email_invites()
     >>> len(view.pending_invitations) # <- should go up by one
     3
     >>> len(view.pending_email_invites) # <- doesn't change
@@ -391,7 +392,7 @@ in use by a site member who's not a project member:
 Try the same one again, should have no result:
 
     >>> self.clearMemoCache()
-    >>> view.add_email_invites()
+    >>> inviteview.add_email_invites()
     >>> len(view.pending_invitations)
     3
     >>> len(view.pending_email_invites)
@@ -404,7 +405,7 @@ Verify we can send reminders to the email invitees:
     >>> self.clearMemoCache()
     >>> addys = [addy.strip() for addy in invites.split(',')]
     >>> view.remind_email_invites(addys)
-    >>> delattr(view, '_redirected')
+
     >>> view.portal_status_message
     [..., u'You invited m3 to join this project.', u'You invited m2 to join this project.', u'You invited m4 to join this project.', u'Email invitations: doesnotexist@example.com, isnotthere@example.com', u'Members invited: m3', u'Members for whom invitation failed: m3', u'Reminders sent: doesnotexist@example.com, isnotthere@example.com']
     >>> len(mailhost.messages) # <- increase by two

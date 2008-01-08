@@ -95,17 +95,8 @@
       
         <div class="oc-headingBlock">
           <h3>Invite by email address</h3>
-          <p class="oc-headingContext">Send an email to invite people to join</p>
+          <p class="oc-headingContext"><a href="invite">Send an email to invite people to join</a></p>
         </div>
-        <form id="oc-inviteByEmail" name="oc-inviteByEmail"
-              tal:attributes="action view/request/ACTUAL_URL"
-              method="POST">
-          <textarea style="width: 90%;" rows="3" cols="20" id="email-invites" name="email-invites"
-                    tal:content="view/request/form/email-invites | nothing" />
-          <p class="oc-discreetText">Comma separated, or one-per-line</p>
-          <input type="submit" name="task|email-invites" value="Send"
-                 class="oc-button" />
-        </form>
 
       </div>
       

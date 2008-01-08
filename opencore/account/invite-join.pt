@@ -17,10 +17,15 @@ need to combine with regular join form
 
             <h1 tal:content="string:Join ${view/portal_title}" />
 
+						<h2 tal:content="string: ${view/project/title}" />
+
+						<p tal:content="string: ${view/project/mission}" />
+
             <p i18n:translate="join_description" 
                tal:condition="not:fdata/getUser | request/__k | nothing">
               Registration is free and your email will not be
-              shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system.
+              shared with anyone, however, you will need to confirm 
+              your email address in order to avoid spam bots abusing this system.
             </p>
 
             <!-- on successful registration -->
@@ -209,6 +214,7 @@ need to combine with regular join form
           <h2 i18n:translate="join_already_member_heading">Already a member?</h2>
           <a i18n:translate="join_sign_in" href="login">Sign in</a>
         </div>
+
       </div><!-- end #oc-content-sidebar -->
 
     </div><!-- end content slot -->
