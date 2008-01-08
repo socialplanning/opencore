@@ -4,7 +4,7 @@
 
   <genericsetup:registerProfile
      name="default"
-     title="OpenCore site"
+     title="OpenCore default site"
      description="OpenCore default profile"
      directory="profiles/default"
      provides="Products.GenericSetup.interfaces.EXTENSION"
