@@ -39,7 +39,6 @@ class TeamRelatedView(SearchView):
         self.team = team = teams[0]
         self.team_path = '/'.join(team.getPhysicalPath())
         self.active_states = team.getActiveStates()
-        self.sort_by = None
 
 
 class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
@@ -201,7 +200,7 @@ class ProjectTeamView(TeamRelatedView):
     def handle_request(self):
         # this is what controls which sort method gets dispatched to
         # in the memberships property
-        self.sort_by = self.request.form.get('sort_by', None)
+        return 
 
     def handle_sort_membership_date(self):
         query = dict(portal_type='OpenMembership',
@@ -273,10 +272,11 @@ class ProjectTeamView(TeamRelatedView):
         results = self.membranetool(**query)
         return self._get_batch(results, self.request.get('b_start', 0))
 
-    @memoizedproperty
-    def memberships(self):
+    def memberships(self, sort_by=None):
+        if sort_by is None:
+            sort_by = self.sort_by
         try:
-            sort_fn = getattr(self, 'handle_sort_%s' % self.sort_by)
+            sort_fn = getattr(self, 'handle_sort_%s' % sort_by)
             return sort_fn()
         except (TypeError, AttributeError):
             return self.handle_sort_default()

@@ -17,7 +17,7 @@
 
       <div id="oc-content-main">
         <tal:set_var define="current_search_page string:people;
-                     form_action_url string:${context/portal_url}/people/searchresults">
+                     form_action_url string:${context/absolute_url}/searchresults">
         <div metal:use-macro="here/main_macros/search_widget" />
         </tal:set_var>
 

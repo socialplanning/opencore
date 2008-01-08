@@ -1,0 +1,33 @@
+<div class="oc-directory-list"
+     tal:define="default_logo string:++resource++img/default-projlogo-thumb.gif">
+  <div class="vcard" id="oc-member-badge">
+    <div class="oc-avatar">
+      <a tal:attributes="href string:${context/absolute_url}" 
+	 tal:define="logo context/getLogo;
+                     logo_url python:logo and ('%s/logo_thumb' % context.absolute_url()) or default_logo">
+          <img class="oc-project-logo" tal:attributes="src logo_url; alt context/Title; title context/Title" />
+      </a>
+    </div>
+    <div class="oc-directory-content">
+      <h3 class="fn nickname">
+	<a tal:attributes="href string:${context/absolute_url}"
+	   tal:content="context/Title" />
+      </h3> 
+      <p class="oc-feed-item-description" tal:define="desc context/Description" tal:condition="desc">
+        <span tal:replace="desc" />
+      </p>
+      <p><span tal:replace="python: len(context.getTeams()[0].getActiveMemberships())" /> members</p>
+      <p><span class="oc-feed-item-data oc-discreetText">
+          last updated
+          <tal:has_updated_author
+	     define="userid python:context.portal_catalog(getId=context.getId())[0].lastModifiedAuthor"
+	     condition="userid">
+            by
+            <a tal:attributes="href string:${context/portal_url}/people/${userid}/profile" tal:content="userid" />,
+          </tal:has_updated_author>
+          <span tal:content="python: view.pretty_date(context.ModificationDate())" />
+      </span>
+      </p>
+    </div>
+  </div>
+</div>

@@ -42,6 +42,9 @@
 
     <!-- allows for the insertion of javascript -->
     <metal:script-slot define-slot="script"/>
+
+    <!-- allows for the insertion of meta tags -->
+    <metal:script-slot define-slot="meta"/>
   </head>  
   <body>
     <div id="oc-page-container">

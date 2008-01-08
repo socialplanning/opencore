@@ -252,8 +252,7 @@ Set up the view::
 
 Sort by username::
 
-    >>> view.sort_by = 'username'
-    >>> results = view.memberships
+    >>> results = view.memberships('username')
     >>> brains = list(results)
     >>> len(brains)
     3
@@ -266,8 +265,7 @@ Clear the memoize from the request::
 
 Sorting by nothing should sort by username::
 
-    >>> view.sort_by = None
-    >>> results = view.memberships
+    >>> results = view.memberships(None)
     >>> brains = list(results)
     >>> len(brains)
     3
@@ -284,8 +282,7 @@ First however, we have to give some members locations
     ...     mem = getattr(self.portal.portal_memberdata, mem_id)
     ...     mem.location = location
     ...     mem.reindexObject(idxs=['getLocation'])
-    >>> view.sort_by = 'location'
-    >>> results = view.memberships
+    >>> results = view.memberships('location')
     >>> brains = list(results)
     >>> len(brains)
     3
@@ -313,8 +310,7 @@ Clear the memoize from the request::
 
 Let's sort based on the membership date::
 
-    >>> view.sort_by = 'membership_date'
-    >>> results = view.memberships
+    >>> results = view.memberships('membership_date')
     >>> mem_brains = list(results)
     >>> len(mem_brains)
     3
@@ -355,8 +351,7 @@ Clear the memoize from the request::
 
 Sort base on contributions, should get no results::
 
-    >>> view.sort_by = 'contributions'
-    >>> results = view.memberships
+    >>> results = view.memberships('contributions')
     >>> brains = list(results)
     >>> len(brains)
     0
