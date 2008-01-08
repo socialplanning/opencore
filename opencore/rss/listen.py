@@ -93,7 +93,7 @@ class MailingListFeedAdapter(BaseFeedAdapter):
         brains = []
         sa = getUtility(
             ISearchableArchive,
-            context=self.context._getOb(ml_id))
+            context=self.context)
         brains = sa.searchResults(sort_on='modification_date',
                                   sort_order='descending',
                                   sort_limit=10)

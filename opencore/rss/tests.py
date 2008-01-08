@@ -27,11 +27,14 @@ def test_suite():
                                          optionflags=doctest.ELLIPSIS)
     page_suite = doctest.DocFileSuite('page.txt',
                                       optionflags=doctest.ELLIPSIS)
+    listen_suite = doctest.DocFileSuite('listen.txt',
+                                        optionflags=doctest.ELLIPSIS)
     return unittest.TestSuite((base_suite,
                                people_suite,
                                projects_suite,
                                project_suite,
                                page_suite,
+                               listen_suite,
                                ))
 
 

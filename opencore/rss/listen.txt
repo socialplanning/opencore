@@ -1,0 +1,59 @@
+Test the listen adapters for rss use
+
+Create a stub context used for the listen adapters
+    >>> from opencore.rss.tests import DummyContext
+    >>> context = DummyContext()
+
+Create a fake search result utility
+to return a stub result
+    >>> from Products.listen.interfaces import ISearchableArchive
+    >>> from zope.interface import implements
+    >>> class DummySearch(object):
+    ...     implements(ISearchableArchive)
+    ...     def searchResults(self, **kw):
+    ...         return [StubResult()]
+
+Register the dummy search utility
+    >>> from zope.component import provideUtility
+    >>> dummy_search = DummySearch()
+    >>> provideUtility(dummy_search)
+
+Stub a sample result
+    >>> from datetime import datetime
+    >>> class StubResult(object):
+    ...     subject='Dummy title'
+    ...     body='Dummy description'
+    ...     modification_date=datetime.now()
+    ...     def getURL(self):
+    ...         return 'http://dummy/listen/url'
+    ...     def getObject(self):
+    ...         return self
+
+Instantiate the listen feed adapter with the dummy context
+    >>> from opencore.rss.listen import MailingListFeedAdapter
+    >>> listen_adapter = MailingListFeedAdapter(context)
+
+Test the items method
+    >>> items = listen_adapter.items
+    >>> lst = list(items)
+    >>> len(lst)
+    1
+    >>> feed_item = lst[0]
+    >>> from opencore.rss.interfaces import IFeedItem
+    >>> IFeedItem.providedBy(feed_item)
+    True
+
+Verify the item returned conforms to the interface
+    >>> from zope.interface.verify import verifyObject
+    >>> verifyObject(IFeedItem, feed_item)
+    True
+
+And finally check the object
+    >>> feed_item.title
+    'Dummy title'
+    >>> feed_item.description
+    'Dummy description'
+    >>> feed_item.pubDate
+    datetime.datetime...
+    >>> feed_item.link
+    'http://dummy/listen/url'
