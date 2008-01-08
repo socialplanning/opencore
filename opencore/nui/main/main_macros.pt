@@ -1,5 +1,5 @@
 <div i18n:domain="opencore" metal:define-macro="search_widget" class="oc-boxy oc-widget oc-widget-search oc-widget-multiSearch">    
-  <form name="search_form" action="." tal:attributes="action form_action_url"
+  <form name="search_form" tal:attributes="action form_action_url"
   tal:define="letter_search request/letter_search | string:; search_for request/search_for | string:">
      <label i18n:translate="main_macros_search_label" class="oc-label-heading oc-biggerText">Search</label>
         <a i18n:translate="main_macros_people_label" tal:condition="python:current_search_page!='people'" class="oc-search-people" tal:attributes="href string:${context/portal_url}/people/searchresults?letter_search=${letter_search}&search_for=${search_for}">People</a>

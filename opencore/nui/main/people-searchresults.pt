@@ -10,7 +10,7 @@
       <div id="oc-content-main">
         
         <tal:set_var define="current_search_page string:people;
-                             form_action_url string:${context/portal_url}/people/searchresults">
+                             form_action_url string:${context/absolute_url}/searchresults">
           <div metal:use-macro="here/main_macros/search_widget" />
         </tal:set_var>
         
@@ -38,7 +38,7 @@
               <!-- when sorting, we post the action to distinguish between searching
                    this was necessary because the batch macro reposts the request data,
 		   and we see problems when trying to reset to page when the sorting changes -->
-              <form name="people_sort" action="." tal:attributes="action string:${context/portal_url}/people/searchresults">
+              <form name="people_sort" tal:attributes="action string:${context/absolute_url}/searchresults">
                 <!-- FIXME This should not require a button to work. -->
                 <select class="oc-js-autoSelect" name="sort_by" tal:define="sorted_by python: request.get('sort_by')">
                   <option tal:condition="not: request/letter_search | nothing" value="relevancy" tal:attributes="selected python: sorted_by == 'relevancy'">by relevancy</option>
