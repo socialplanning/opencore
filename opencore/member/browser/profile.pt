@@ -142,14 +142,9 @@
                position on map
              </a>
 	   </div>
-           <noscript>
              <img class="oc-sidebar-map"
                 tal:attributes="src view/geo_info/static_img_url"
                 tal:condition="view/geo_info/is_geocoded" />
-	   </noscript>
-	   <span class="oc-js-unhide">
-              <div id="position" class="oc-js-gmap oc-sidebar-map"></div>
-	   </span>
 
         </div>
 
