@@ -107,3 +107,7 @@ def not_part_of_project(viewlet):
     if mem.getId() in team.getMemberIdsByStates(filter_states):
         return False
     return True
+
+def team_selected(viewlet):
+    return (viewlet.context.request.ACTUAL_URL.endswith('/team') or
+            viewlet.context.request.ACTUAL_URL.endswith('/manage-team'))

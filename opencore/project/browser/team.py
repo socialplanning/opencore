@@ -194,7 +194,13 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
 class ProjectTeamView(TeamRelatedView):
 
     admin_role = DEFAULT_ROLES[-1]
+    
+    def __call__(self):
 
+        if self.get_tool('portal_membership').checkPermission('TeamSpace: Manage team memberships', self.context):
+            self.redirect(self.context.absolute_url() + '/manage-team')
+        else:
+            return super(ProjectTeamView, self).__call__()
    
     @formhandler.button('sort')
     def handle_request(self):

@@ -136,15 +136,7 @@
      container="opencore.interfaces.IProject"
      item_url="team"
      sort_order="50"
-     />
-
-  <opencore:menuitem
-     name="Manage Team"
-     filter=".viewlet.contained_within"
-     container="opencore.interfaces.IProject"
-     item_url="manage-team"
-     sort_order="60"
-     permission="teamspace.ManageTeamMemberships"
+	   selected=".viewlet.team_selected"
      />
 
   <opencore:menuitem
