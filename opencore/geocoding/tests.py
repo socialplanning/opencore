@@ -30,7 +30,7 @@ def test_suite():
 
     config = dtf.ZopeDocFileSuite('configuration.txt',
                                   optionflags=optionflags,
-                                  package='opencore.geocoding.tests',
+                                  package='opencore.geocoding',
                                   test_class=OpenPlansTestCase,
                                   globs=globs,
                                   setUp=hook_setup,
