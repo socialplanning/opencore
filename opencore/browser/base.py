@@ -382,17 +382,6 @@ class BaseView(BrowserView):
         """
         return getToolByName(self.context, 'portal_geocoder', None) is not None
 
-
-    def geocode_from_form(self, form=None):
-        """
-        Inspect the values in the form in order to extract and return
-        a sequence of coordinates.  Will perform a lookup on a textual
-        position if necessary.  If any problems, adds a message to
-        self.errors.
-        """
-        if not self.has_geocoder:
-            return ()
-        return getWriteGeoViewWrapper(self).geocode_from_form(form)
             
     # tool and view handling
 

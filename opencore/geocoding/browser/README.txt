@@ -18,7 +18,7 @@ Look for geolocation info, first when it's not set...
     >>> view.has_geocoder
     True
     >>> wrapper = getWriteGeoViewWrapper(view)
-    >>> coords = view.geocode_from_form(form)
+    >>> coords = wrapper.geocode_from_form(form)
     >>> wrapper.set_geolocation(coords)
     False
     >>> view.project_info.has_key('position-latitude')
@@ -49,7 +49,7 @@ Calling again with the same points makes no change:
 You can extract coordinates from the form::
 
     >>> form = {'position-latitude': '10.0', 'position-longitude': '-20.0'}
-    >>> view.geocode_from_form(form)
+    >>> wrapper.geocode_from_form(form)
     (10.0, -20.0)
 
 You can also pass in a string which overrides the coordinates, and
@@ -59,7 +59,7 @@ actually hit google on every test run::
     >>> utils.clear_status_messages(view)
     >>> text = "mock address"
     >>> form['position-text'] = text
-    >>> latlon = view.geocode_from_form(form)
+    >>> latlon = wrapper.geocode_from_form(form)
     Called ....geocode('mock address')
     >>> latlon
     (12.0, -87.0)

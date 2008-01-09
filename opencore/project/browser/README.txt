@@ -30,8 +30,6 @@ The test setup should be ensuring that geocoding is disabled::
 
     >>> view.has_geocoder
     False
-    >>> print view.geocode_from_form()
-    ()
 
 Looking up geo info on the add view gives us nothing much useful,
 because the project doesn't exist yet::
@@ -281,8 +279,6 @@ nothing interesting::
 
     >>> view.has_geocoder
     False
-    >>> print view.geocode_from_form()
-    ()
     >>> pprint(view.geo_info)
     {'is_geocoded': False,
      'location': '',
