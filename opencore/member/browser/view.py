@@ -219,15 +219,10 @@ class ProfileEditView(ProfileView, OctopoLite):
             del self.request.form['portrait']
 
         # handle geo stuff
-        coords = self.geocode_from_form()
-        locationchanged = False
+        geo_writer = getWriteGeoViewWrapper(self)
+        new_info, locationchanged = geo_writer.set_geo_info_from_form()
         form = self.request.form
-        if getWriteGeoViewWrapper(self).set_geolocation(coords):
-            locationchanged = True
-        elif member.getLocation() != form.get('location', ''):
-            locationchanged = True
-        if form.get('position-text'):
-            member.setPositionText(form['position-text'])
+        member.setPositionText(new_info.get('position-text', ''))
         for key in ('position-latitude', 'position-longitude', 'position-text'):
             # these aren't handled by archetypes.
             if form.has_key(key):
@@ -239,7 +234,7 @@ class ProfileEditView(ProfileView, OctopoLite):
             mutator = getattr(member, mutator, None)
             if mutator is not None:
                 mutator(value)
-            self.user_updated()
+        self.user_updated()
 
         notify(ObjectModifiedEvent(member))
     

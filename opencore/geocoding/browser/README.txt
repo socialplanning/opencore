@@ -309,6 +309,7 @@ geocoder to be used::
     ...
     >>> redirected = view.handle_form()
     Called ...geocode('atlantis')
+    >>> utils.clear_all_memos(view)  # XXX Ugh, make this unnecessary.
     >>> pprint(view.geo_info)
     {'is_geocoded': True,
      'location': 'somewhere underwater',

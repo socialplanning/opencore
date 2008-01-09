@@ -98,10 +98,14 @@ class WriteGeoView(ReadGeoView):
     def get_geo_info_from_form(self, form=None, old_info=None):
         """Returns a dict and a list: (info, changed), Just like
         utils.update_info_from_form, but you don't have to pass
-        anything.
+        anything if you have enough context.
+
+        (You *can* optionally pass a form to override the
+        request.form, and/or pass old_info if you're writing an add
+        view and the content you're geocoding doesn't exist yet.)
 
         No side effects, just returns stuff.
-        XXX add to interface
+        XXX add to interface.
         """
         if form is None:
             form = self.request.form
@@ -121,6 +125,7 @@ class WriteGeoView(ReadGeoView):
         if lat == '': lat = None
         if lon == '': lon = None
         self.set_geolocation((lat, lon))
+        return new_info, changed
 
     def geocode_from_form(self, form=None):
         """See IWriteGeo.
