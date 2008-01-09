@@ -38,7 +38,7 @@
             <ul class="oc-feed-list">
               <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recently_created_projects">
                 <a tal:attributes="href python:view.project_url(project)">
-                  <tal:setvar define="logo view.logo_for_proj_brain(project);
+                  <tal:setvar define="logo python:view.logo_for_proj_brain(project);
                                     thumb_url python:logo and ('%s/logo_thumb' % project.getURL()) or view.defaultProjLogoURL">
                     <img class="oc-project-logo" tal:attributes="src thumb_url; alt project/Title; title project/Title" />
                   </tal:setvar>
