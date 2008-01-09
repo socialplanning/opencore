@@ -367,6 +367,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             msg = "Reminder%s sent: %s" % (plural and 's' or '', ", ".join(mem_ids))
             self.add_status_message(msg)
 
+        return self.redirect('manage-team')
+
     @formhandler.action('remove-email-invites')
     def remove_email_invites(self, targets, fields=None):
         """
@@ -707,6 +709,8 @@ class InviteView(ManageTeamView):
 
         msg = "Reminder%s sent: %s" % (plural and 's' or '',', '.join(addresses))
         self.add_status_message(msg)
+        return self.redirect('manage-team')
+
         
     @formhandler.action('email-invites')
     def add_email_invites(self, targets=None, fields=None):
@@ -727,7 +731,7 @@ class InviteView(ManageTeamView):
             self.add_status_message(u"Email invitations: %s"
                                         % ', '.join(psm['email_invites']))
         self._norender = True
-        self.redirect(self.request.ACTUAL_URL) # redirect clears form values
+        return self.redirect('manage-team')
         
     def _add_email_invites(self, invites):
         """
@@ -759,6 +763,7 @@ class InviteView(ManageTeamView):
         mem_failures = []
         email_invites = []
         already_invited = []
+
         for addy in invites:
             # first check to see if we're already a site member
             match = uSR(getEmail=addy)
