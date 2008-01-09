@@ -95,23 +95,26 @@ class WriteGeoView(ReadGeoView):
                 return True
         return False
 
-    def get_geo_info_from_form(self, form=None):
+    def get_geo_info_from_form(self, form=None, old_info=None):
         """Returns a dict and a list: (info, changed), Just like
         utils.update_info_from_form, but you don't have to pass
         anything.
+
+        No side effects, just returns stuff.
+        XXX add to interface
         """
         if form is None:
             form = self.request.form
+        if old_info is None:
+            old_info = self.geo_info()
         new_info, changed = utils.update_info_from_form(
             self.geo_info(), form, self.view.get_tool('portal_geocoder'))
         self.view.errors.update(new_info.get('errors', {}))
-##         new_info['coords'] = (new_info['position-latitude'],
-##                               new_info['position-longitude'])
         return new_info, changed
 
 
-    def set_geolocation_from_form(self, form=None):
-        """See IWriteGeo."""
+    def set_geo_info_from_form(self, form=None):
+        """XXX add to interface."""
         new_info, changed = self.get_geo_info_from_form(form)
         lat = new_info.get('position-latitude')
         lon = new_info.get('position-longitude')

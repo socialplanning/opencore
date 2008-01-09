@@ -450,7 +450,6 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         if not valid_project_title(title):
             self.errors['title'] = _(u'err_project_name', u'The project name must contain at least 2 characters with at least 1 letter or number.')
 
-        #coords = self.geocode_from_form()
         geowriter = getWriteGeoViewWrapper(self)
         geo_info, locationchanged = geowriter.get_geo_info_from_form()
         self.errors.update(geo_info.get('errors', {}))
@@ -481,7 +480,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             del self.request.form['logo'], new_form['logo']
 
         if locationchanged:
-            geowriter.set_geolocation_from_form()
+            geowriter.set_geo_info_from_form()
 
         #display change status of flet, security, title, description, logo...
         changed = {
@@ -612,7 +611,10 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             if self.context.has_key(id_):
                 self.errors['id'] = 'The requested url is already taken.'
 
-        coords = self.geocode_from_form()
+        geowriter = getWriteGeoViewWrapper(self)
+        geo_info, locationchanged = geowriter.get_geo_info_from_form(
+            old_info={})
+        self.errors.update(geo_info.get('errors', {}))
 
         # not calling validate because it explodes on "'" for project titles
         # XXX is no validation better than an occasional ugly error?
@@ -638,7 +640,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
                 return
             del self.request.form['logo']
 
-        getWriteGeoViewWrapper(self, proj).set_geolocation(coords)
+        getWriteGeoViewWrapper(self, proj).set_geo_info_from_form()
 
         self.template = None
         proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)
