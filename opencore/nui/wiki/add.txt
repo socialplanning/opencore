@@ -26,7 +26,7 @@ Id choosing
 ===========
 
 Currently, except for the managerial new interfaces, all adding is
-down via wicked links.  To gain control over the naming, we will
+done via wicked links.  To gain control over the naming, we will
 override the wicked adder. Eventually, this should be replaced with a
 proper add form::
 
