@@ -1,5 +1,6 @@
 from AccessControl import ClassSecurityInfo
 from Acquisition import aq_base, aq_parent, aq_inner
+from Products.Archetypes.Field import Image
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 from Products.Archetypes.ExtensibleMetadata import ExtensibleMetadata
 from Products.Archetypes.config import REFERENCE_CATALOG
@@ -18,6 +19,7 @@ from Products.TeamSpace.space import TeamSpace
 from Products.ZCTextIndex import ParseTree
 from ZODB.POSException import ConflictError
 from opencore.configuration import OC_REQ as OPENCORE
+from opencore.content.page import OpenPage
 from opencore.interfaces import IProject
 from topp.featurelets.config import MENU_ID
 from topp.featurelets.interfaces import IMenuSupporter
@@ -324,5 +326,13 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
                 for role in mship.getTeamRoles():
                     team_roles[role] = 1
         return team_roles.keys()
+
+
+    def getLogo(self):
+        """custom logo accessor in case project contains an OpenPage with id 'logo'"""
+        if hasattr(self, 'logo'):
+            if not isinstance(self.logo, Image):
+                return None
+            return self.logo
 
 registerType(OpenProject)

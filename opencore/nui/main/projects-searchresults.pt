@@ -61,10 +61,10 @@
             <!-- the results are displayed here -->
             <ol class="oc-feed-list">
               <li class="oc-feed-item oc-clearAfter" tal:repeat="item view/search_results">
-                  <a tal:attributes="href string:${context/portal_url}/projects/${item/getId}" >
-                    <!-- FIXME weird seek error without the | nothing -->
-                    <tal:setvar define="logo item/getObject/getLogo | nothing;
-                                        logo_url python:logo and ('%s/logo_thumb' % item.getURL()) or view.defaultProjLogoURL">
+                <a tal:define="proj_url python:view.project_url(item)"
+                   tal:attributes="href proj_url" >
+                    <tal:setvar define="logo python:view.logo_for_proj_brain(item);
+                                        logo_url python:logo and ('%s/logo_thumb' % proj_url) or view.defaultProjLogoURL">
                       <img class="oc-project-logo" tal:attributes="src logo_url; alt item/Title; title item/Title" />
                     </tal:setvar>
                   </a>

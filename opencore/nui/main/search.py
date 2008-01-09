@@ -36,6 +36,10 @@ def clean_search_query(search_query):
 class SearchView(BaseView):
     match = staticmethod(first_letter_match)
 
+    def logo_for_proj_brain(self, brain):
+        proj = brain.getObject()
+        return proj.getLogo()
+
     def project_url(self, project_brain):
         return '%s/projects/%s' % (self.context.absolute_url(),
                                    project_brain.getId)

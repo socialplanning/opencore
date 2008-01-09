@@ -21,8 +21,12 @@
           <h2 class="oc-feed-title">Recently updated projects</h2>
           <ul class="oc-feed-list oc-clearAfter">
             <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recently_updated_projects">
-              <a tal:attributes="href project/absolute_url">
-                <img class="oc-project-logo" src="++resource++img/default-projlogo-thumb.gif" tal:attributes="alt project/Title; title project/Title" />
+              <a tal:define="proj_url python:view.project_url(project)"
+                 tal:attributes="href proj_url" >
+                <tal:setvar define="logo python:view.logo_for_proj_brain(project);
+                                    logo_url python:logo and ('%s/logo_thumb' % proj_url) or view.defaultProjLogoURL">
+                  <img class="oc-project-logo" tal:attributes="src logo_url; alt project/Title; title project/Title" />
+                </tal:setvar>
               </a>
               <div class="oc-feed-item-content">
                 <h3 class="oc-feed-item-title">
