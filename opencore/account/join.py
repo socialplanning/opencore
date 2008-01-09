@@ -20,10 +20,14 @@ from zope.app.event.objectevent import ObjectCreatedEvent
 from zope.component import getUtility
 from zope.event import notify
 
+import urllib
 
 class JoinView(browser.AccountView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('join.pt')
+
+    def quote(self, txt):
+        return urllib.quote(txt)
 
     @anon_only(BaseView.siteURL)
     def handle_request(self):
