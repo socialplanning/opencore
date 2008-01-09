@@ -45,6 +45,12 @@ Now let's try the writer::
     True
     >>> writer.geocode_from_form()  # no change.
     ()
+    >>> info, changed = writer.get_geo_info_from_form()   # no change.
+    >>> info == writer.geo_info()
+    True
+    >>> changed
+    []
+
     >>> writer.set_geolocation((1, 2))  # XXX lat first, change that?
     True
     >>> reader.is_geocoded()
@@ -60,6 +66,32 @@ Now let's try the writer::
     (5.0, 6.0)
     >>> reader.get_geolocation()  # geocode_from_form has no side effects.
     (2.0, 1.0, 0.0)
+
+
+
+The request overrides the values returned by get_geo_info_from_form,
+but not geo_info:
+
+    >>> old_info = view.geo_info.copy()
+    >>> view.request.form.update({'location': 'nunya bizness',
+    ...     'position-latitude': 1.2, 'position-longitude': 3.4,
+    ...     'position-text': 'my house',  'static_img_url': 'IGNORED',
+    ...     'maps_script_url': 'IGNORED'})
+    >>> info, changed = writer.get_geo_info_from_form()
+    >>> info == old_info
+    False
+    >>> info['location']
+    'nunya bizness'
+    >>> print info['position-latitude']
+    1.2
+    >>> print info['position-longitude']
+    3.4
+    >>> info['position-text']
+    'my house'
+    >>> info['static_img_url']
+    'http://maps.google.com/mapdata?latitude_e6=1200000&longitude_e6=3400000&w=500&h=300&zm=9600&cc='
+    >>> info['maps_script_url']
+    'http://maps.google.com/maps?file=...'
 
 
 
@@ -90,6 +122,11 @@ Now try the writer::
     True
     >>> writer.geocode_from_form()
     ()
+    >>> info, changed = writer.get_geo_info_from_form()
+    >>> writer.geo_info() == info
+    True
+    >>> changed
+    []
     >>> writer.set_geolocation((-3, -4))  # XXX lat first, change that?
     True
     >>> reader.get_geolocation()
@@ -101,3 +138,41 @@ Now try the writer::
     (-4.0, -3.0, 0.0)
     >>> reader.location_img_url()
     'http://...'
+
+
+Request values override get_geo_info_from_form but not geo_info:
+
+    >>> old_info = view.geo_info.copy()
+    >>> view.request.form.update({'position-latitude': 45.0,
+    ...  'position-longitude': 0.0, 'location': 'somewhere', })
+
+    >>> view.geo_info == old_info
+    True
+    >>> info, changed = writer.get_geo_info_from_form()
+    >>> info == old_info
+    False
+    >>> sorted(changed)
+    ['location', 'position-latitude', 'position-longitude', 'static_img_url']
+    >>> pprint(info)
+    {'is_geocoded': True,
+     'location': 'somewhere',
+     'maps_script_url': 'http://...',
+     'position-latitude': 45.0,
+     'position-longitude': 0.0,
+     'position-text': '',
+     'static_img_url': 'http://maps...'}
+
+If form has an updated position-text and not updated coords, we geocode
+it and use the resulting coords::
+
+    >>> view.request.form.clear()
+    >>> form = old_info.copy()
+    >>> form.update({'position-text': 'albania'})
+    >>> info, changed = writer.get_geo_info_from_form(form)
+    Called Products.PleiadesGeocoder....geocode('albania')
+    >>> sorted(changed)
+    ['position-latitude', 'position-longitude', 'position-text', 'static_img_url']
+    >>> info['position-text']
+    'albania'
+    >>> print info['position-latitude'], info['position-longitude']
+    12.0 -87.0

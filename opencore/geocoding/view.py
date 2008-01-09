@@ -7,7 +7,6 @@ from zope.interface import implements
 import Acquisition
 import interfaces
 import logging
-import urllib
 import utils
 
 logger = logging.getLogger('opencore.geocoding')
@@ -37,15 +36,9 @@ class ReadGeoView(Acquisition.Explicit):
         else:
             # assume project.
             context_info = self.view.project_info
-        _marker = object()
         for key in ('position-text', 'location', 'position-latitude',
                     'position-longitude'):
-            if self.view.request.form.get(key, _marker) is not _marker:
-                info[key] = self.view.request.form[key]
-            elif context_info.get(key, _marker) is not _marker:
-                info[key] = context_info[key]
-            else:
-                info[key] = ''
+            info[key] = context_info.get(key, '')
         return info
 
     def _get_geo_item(self):
@@ -77,21 +70,14 @@ class ReadGeoView(Acquisition.Explicit):
 
     def location_img_url(self, width=500, height=300):
         """See IReadGeo."""
-        geo = self._get_geo_item()
-        if not geo.coords:
+        coords = self._get_geo_item().coords
+        if not coords:
             return ''
-        lon, lat, z = geo.coords
-        # Don't know if order matters to Google; assume it does.
-        params = (('latitude_e6', utils.google_e6_encode(lat)),
-                  ('longitude_e6', utils.google_e6_encode(lon)),
-                  ('w', width), ('h', height), # XXX These must match our css.
-                  ('zm', 9600),  # Initial zoom.
-                  ('cc', ''), # No idea what this is.
-                  )
-        url = 'http://maps.google.com/mapdata?' + urllib.urlencode(params)
-        return url
+        lon, lat = coords[:2]
+        return utils.location_img_url(lat, lon, width, height)
 
 
+    
 class WriteGeoView(ReadGeoView):
 
     implements(interfaces.IWriteGeo)
@@ -109,15 +95,21 @@ class WriteGeoView(ReadGeoView):
                 return True
         return False
 
+    def get_geo_info_from_form(self, form=None):
+        """Returns a dict and a list: (info, changed), Just like
+        utils.update_info_from_form, but you don't have to pass
+        anything.
+        """
+        if form is None:
+            form = self.request.form
+        new_info, changed = utils.update_info_from_form(
+            self.geo_info(), form, self.view.get_tool('portal_geocoder'))
+        self.view.errors.update(new_info.get('errors', {}))
+        return new_info, changed
+
+
     def geocode_from_form(self, form=None):
         """See IWriteGeo.
-
-        If no values are provided, return an empty sequence.
-
-        If position is provided but can't be geocoded, raise ValueError.
-
-        If latitude or longitude values are provided but no good, raise the
-        underlying ValueError or TypeError.
         """
         default = ()
         if not self.view.has_geocoder:
@@ -126,8 +118,7 @@ class WriteGeoView(ReadGeoView):
             form = self.request.form
         position = form.get('position-text', '').strip()
         if position:
-            # If we got this, then presumably javascript was disabled;
-            # it overrides the other form variables.
+            # If we got this, then it overrides the other form variables.
             # The value should be something we can look up via the geocoder.
             geo_tool = self.context.get_tool('portal_geocoder')
             records = geo_tool.geocode(position)

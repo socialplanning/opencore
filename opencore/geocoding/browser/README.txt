@@ -112,25 +112,6 @@ The view includes a bunch of convenient geo-related stuff for UIs::
     'http://maps.google.com/maps?file=api&v=2&key=...'
 
 
-Most of which can be overridden in the request::
-
-    >>> view.request.form.update({'location': 'nunya bizness',
-    ...     'position-latitude': 1.2, 'position-longitude': 3.4,
-    ...     'position-text': 'my house',  'static_img_url': 'IGNORED',
-    ...     'maps_script_url': 'IGNORED'})
-    >>> view.geo_info['location']
-    'nunya bizness'
-    >>> print view.geo_info['position-latitude']
-    1.2
-    >>> print view.geo_info['position-longitude']
-    3.4
-    >>> view.geo_info['position-text']
-    'my house'
-    >>> view.geo_info['static_img_url']
-    'http://maps.google.com/mapdata?latitude_e6=12000000&longitude_e6=4207967296&w=500&h=300&zm=9600&cc='
-    >>> view.geo_info['maps_script_url']
-    'http://maps.google.com/maps?file=...'
-
 
 clean up...
     >>> view.request.form.clear()
@@ -302,22 +283,10 @@ needed to build the UI::
      'position-text': '',
      'static_img_url': ''}
 
-Request values override geo_info::
+Submitting the form updates everything, and we get a static image url now::
 
     >>> view.request.form.update({'position-latitude': 45.0,
     ...  'position-longitude': 0.0, 'location': 'somewhere', })
-
-    >>> pprint(view.geo_info)
-    {'is_geocoded': False,
-     'location': 'somewhere',
-     'maps_script_url': 'http://...',
-     'position-latitude': 45.0,
-     'position-longitude': 0.0,
-     'position-text': '',
-     'static_img_url': ''}
-
-Submitting the form updates everything, and we get a static image url now::
-    
     >>> redirected = view.handle_form()
     >>> view.request.form.clear()
     >>> view = m1.restrictedTraverse('@@profile-edit')

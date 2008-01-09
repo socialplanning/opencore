@@ -1,9 +1,6 @@
-from Products.Five.site.localsite import enableLocalSiteHook
-from opencore.geocoding.testing import setup_mock_geocoder, restore_geocoder
+from opencore.geocoding.testing import readme_setup, readme_teardown
 from opencore.testing import dtfactory as dtf
-from opencore.testing import setup as oc_setup
 from opencore.testing.layer import OpencoreContent as test_layer
-from zope.app.component.hooks import setSite, setHooks
 from zope.testing import doctest
 import unittest
 
@@ -33,16 +30,6 @@ def test_suite():
     project_name = 'p3'
     project_admin = 'm1'
     member = 'm2'
-
-    def readme_setup(tc):
-        oc_setup.fresh_skin(tc)
-        enableLocalSiteHook(tc.portal)
-        setSite(tc.portal)
-        setHooks()
-        setup_mock_geocoder()
-
-    def readme_teardown(tc):
-        restore_geocoder()
 
     globs = locals()
     readme = dtf.FunctionalDocFileSuite(

@@ -1,5 +1,6 @@
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from Testing import ZopeTestCase
+from opencore.geocoding.testing import readme_setup, readme_teardown
 from opencore.testing import dtfactory as dtf
 from opencore.testing.layer import OpencoreContent as test_layer
 from opencore.testing.setup import hook_setup
@@ -41,7 +42,8 @@ def test_suite():
                                   package='opencore.geocoding',
                                   test_class=OpenPlansTestCase,
                                   globs = globs,
-                                  setUp=hook_setup,
+                                  setUp=readme_setup,
+                                  tearDown=readme_teardown,
                                   layer=test_layer
                                   )
     utilsunit = doctest.DocTestSuite('opencore.geocoding.utils',
