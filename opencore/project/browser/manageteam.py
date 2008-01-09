@@ -401,6 +401,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         #query_str = urllib.urlencode({'email': address})
         join_url = "%s/invite-join?%s" % (self.portal.absolute_url(),
                                           query_str)
+        return join_url
 
     @formhandler.action('remind-email-invites')
     def remind_email_invites(self, targets, fields=None):
@@ -674,6 +675,12 @@ class InviteView(ManageTeamView):
     def do_nonmember_invitation_email(self, addy, proj_id):
         # perform invitation
         msg_subs = dict(join_url=self.join_url(addy),
+                        #FIXME: spam-check this
+                        user_message=self.request.get('message', ''), 
+                        subject=self.request.get('subject', ''),
+                        project_title=self.context.Title(),
+                        site_contact_url=self.portal.absolute_url() + "/contact-site-admin",
+                        
                         )
         if email_confirmation():
             _email_sender(self).sendEmail(addy, msg_id='email_invite_static_body',
@@ -682,7 +689,7 @@ class InviteView(ManageTeamView):
             msg = _email_sender(self).constructMailMessage(msg_id='email_invite_static_body',
                                                          **msg_subs)
             log.info(msg)
-        return key
+
 
     @formhandler.action('email-invites')
     def add_email_invites(self, targets=None, fields=None):
