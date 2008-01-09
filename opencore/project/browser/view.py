@@ -450,7 +450,10 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         if not valid_project_title(title):
             self.errors['title'] = _(u'err_project_name', u'The project name must contain at least 2 characters with at least 1 letter or number.')
 
-        coords = self.geocode_from_form()
+        #coords = self.geocode_from_form()
+        geowriter = getWriteGeoViewWrapper(self)
+        geo_info, locationchanged = geowriter.get_geo_info_from_form()
+        self.errors.update(geo_info.get('errors', {}))
 
         if self.errors:
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
@@ -465,6 +468,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             if k in self.request.form:
                 new_form[k] = self.request.form[k]
 
+        
         reader = IReadWorkflowPolicySupport(self.context)
         old_workflow_policy = reader.getCurrentPolicyId()
 
@@ -476,19 +480,16 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             logochanged = True
             del self.request.form['logo'], new_form['logo']
 
-        locationchanged = False
-        if getWriteGeoViewWrapper(self).set_geolocation(coords):
-            locationchanged = True
-        elif self.context.getLocation() != new_form.get('location', ''):
-            locationchanged = True
+        if locationchanged:
+            geowriter.set_geolocation_from_form()
 
-        #display change status of flet, security, title, description, logo.
+        #display change status of flet, security, title, description, logo...
         changed = {
             _(u'psm_project_title_changed', u"The title has been changed.") : self.context.title != new_form.get('title', self.context.title),
             _(u'psm_project_desc_changed', u"The description has been changed.") : self.context.description != new_form.get('description', self.context.description),
             _(u'psm_project_logo_changed', u"The project image has been changed.") : logochanged,
             _(u'psm_security_changed', u"The security policy has been changed.") : old_workflow_policy != new_form.get('workflow_policy', old_workflow_policy),
-            _(u'psm_location_changed', u"The location has been changed."): locationchanged,
+            _(u'psm_location_changed', u"The location has been changed."): bool(locationchanged),
             }
 
         supporter = IFeatureletSupporter(self.context)

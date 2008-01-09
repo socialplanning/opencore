@@ -105,8 +105,19 @@ class WriteGeoView(ReadGeoView):
         new_info, changed = utils.update_info_from_form(
             self.geo_info(), form, self.view.get_tool('portal_geocoder'))
         self.view.errors.update(new_info.get('errors', {}))
+##         new_info['coords'] = (new_info['position-latitude'],
+##                               new_info['position-longitude'])
         return new_info, changed
 
+
+    def set_geolocation_from_form(self, form=None):
+        """See IWriteGeo."""
+        new_info, changed = self.get_geo_info_from_form(form)
+        lat = new_info.get('position-latitude')
+        lon = new_info.get('position-longitude')
+        if lat == '': lat = None
+        if lon == '': lon = None
+        self.set_geolocation((lat, lon))
 
     def geocode_from_form(self, form=None):
         """See IWriteGeo.
