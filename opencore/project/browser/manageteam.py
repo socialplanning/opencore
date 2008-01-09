@@ -394,9 +394,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         return ret
 
     @req_memoize    
-    def join_url(self, address):
-        # XXX if member hasn't logged in yet, acct_url will be whack
-        key = self.invite_util.getInvitesByEmailAddress(address).key
+    def join_url(self, address, key):
         query_str = urllib.urlencode(dict(email=address,__k=key))
         #query_str = urllib.urlencode({'email': address})
         join_url = "%s/invite-join?%s" % (self.portal.absolute_url(),
@@ -412,13 +410,14 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         sender = _email_sender(self)
         project_title = self.context.title
         for address in addresses:
+            key = self.invite_util.getInvitesByEmailAddress(address).key
             msg_subs = dict(project_title=self.context.title,
-                            join_url=self.join_url(address),
+                            join_url=self.join_url(address, key),
                             portal_url=self.siteURL,
                             portal_title=self.portal_title()
                             )
             
-            sender.sendEmail(address, msg_id='invite_email', **msg_subs)
+            sender.sendEmail(address, msg_id='remind_invitee', **msg_subs)
 
         plural = len(addresses) != 1
 
@@ -674,7 +673,10 @@ class InviteView(ManageTeamView):
 
     def do_nonmember_invitation_email(self, addy, proj_id):
         # perform invitation
-        msg_subs = dict(join_url=self.join_url(addy),
+
+        key = self.invite_util.addInvitation(addy, proj_id)
+        
+        msg_subs = dict(join_url=self.join_url(addy, key),
                         #FIXME: spam-check this
                         user_message=self.request.get('message', ''), 
                         subject=self.request.get('subject', ''),
