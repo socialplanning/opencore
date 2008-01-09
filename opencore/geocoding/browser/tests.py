@@ -1,5 +1,5 @@
 from Products.Five.site.localsite import enableLocalSiteHook
-from Products.PleiadesGeocoder.geocode import Geocoder
+from opencore.geocoding.testing import setup_mock_geocoder, restore_geocoder
 from opencore.testing import dtfactory as dtf
 from opencore.testing import setup as oc_setup
 from opencore.testing.layer import OpencoreContent as test_layer
@@ -11,22 +11,6 @@ optionflags = doctest.ELLIPSIS | doctest.REPORT_NDIFF
 
 import warnings; warnings.filterwarnings("ignore")
 
-
-def setup_mock_geocoder():
-    # XXX maybe move this to a layer.
-    from opencore.testing.minimock import Mock
-    if hasattr(Geocoder, '_orig_geocode'):
-        return
-    Geocoder._orig_geocode = Geocoder.geocode
-    Geocoder.geocode = Mock(
-        'Products.PleiadesGeocoder.geocode.Geocoder.geocode')
-    Geocoder.geocode.mock_returns = [{'place':  'mock place',
-                                      'lat': 12.0, 'lon': -87.0}]
-
-def restore_geocoder():
-    if hasattr(Geocoder, '_orig_geocode'):
-        Geocoder.geocode = Geocoder._orig_geocode
-        del(Geocoder._orig_geocode)
 
 def test_suite():
     from Products.CMFCore.utils import getToolByName

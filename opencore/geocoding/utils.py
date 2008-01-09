@@ -1,5 +1,9 @@
 from DateTime import DateTime
+from opencore.i18n import _
+import logging
 import urllib
+
+logger = logging.getLogger('geocoding.utils')
 
 def google_e6_encode(lat_or_lon):
     """Google makes life easy for themselves, and harder for us, by
@@ -74,3 +78,149 @@ def iso8601(dt_or_string=None):
     """
     dt = DateTime(dt_or_string)
     return dt.ISO8601()
+
+
+def update_info_from_form(orig_info, form, geocoder):
+    """Given a dict of old geo info, a form dictionary, and a geocoder
+    to use if needed, returns a dict and a list: (new_info, changed).
+
+    The new_info dict is just like the orig_info input, but merged
+    with any changes from the form, and does geocoding to get new
+    coords if necessary.
+
+    The changed list is a list of keys in the dict that are different
+    from the values in orig_info.
+
+    The geocoder must have a 'geocode' method that accepts a string
+    argument and returns a list of list results.  If geocoding fails,
+    we'll add an 'errors' key to the result dict, with a message.
+
+    A bit of test setup::
+
+    >>> orig = {'position-latitude': 0, 'position-longitude': 0,
+    ...         'position-text': 'ocean south of ghana',
+    ...         'location': 'very mysterious',
+    ...         'static_img_url': location_img_url(0, 0)}
+    >>> from opencore.geocoding.testing import MockGeocoder
+    >>> geocoder = MockGeocoder()
+    >>> from pprint import pprint
+
+    If empty form is passed, nothing changes::
+    >>> info, changed = update_info_from_form(orig, {}, geocoder)
+    >>> info == orig
+    True
+    >>> changed
+    []
+
+    If only text is passed, we use that for geocoding::
+
+    >>> form = {'position-text': 'aha'}
+    >>> info, changed = update_info_from_form(orig, form, geocoder)
+    Called Products.PleiadesGeocoder.geocode.Geocoder.geocode()
+    >>> info == orig
+    False
+    >>> sorted(changed)
+    ['position-latitude', 'position-longitude', 'position-text', 'static_img_url']
+    >>> print info['position-latitude']
+    12.0
+    >>> print info['position-longitude']
+    -87.0
+
+    If coordinates are passed, we use those instead. But you must pass both
+    or nothing happens::
+
+    >>> form = {'position-latitude': 5}
+    >>> info, changed = update_info_from_form(orig, form, geocoder)
+    >>> info == orig
+    True
+    >>> changed
+    []
+    >>> form['position-longitude'] = 6
+    >>> info, changed = update_info_from_form(orig, form, geocoder)
+    >>> info == orig
+    False
+    >>> info['position-latitude'] == form['position-latitude']
+    True
+    >>> info['position-longitude'] == form['position-longitude']
+    True
+    >>> sorted(changed)
+    ['position-latitude', 'position-longitude', 'static_img_url']
+
+    If text is passed but we get no results from the geocoder, we use
+    the old coordinates and put an errors dict in the 'errors'
+    key. This looks weird but it's convenient for our views::
+
+    >>> geocoder = MockGeocoder(returnval=[])
+    >>> form = {'position-text': 'blah'}
+    >>> info, changed = update_info_from_form(orig, form, geocoder)
+    Called Products.PleiadesGeocoder.geocode.Geocoder.geocode()
+    >>> info['errors']
+    {'position-text': u'psm_geocode_failed'}
+    >>> changed
+    ['errors']
+
+    If coordinates *and* text are passed, we use the coords::
+
+    >>> form = {'position-latitude': 8, 'position-longitude': 9,
+    ...         'position-text': 'stored but not used for geocoding'}
+    >>> info, changed = update_info_from_form(orig, form, geocoder)
+    >>> info['position-text'] == form['position-text']
+    True
+    >>> info['position-latitude'] == form['position-latitude']
+    True
+    >>> info['position-longitude'] == form['position-longitude']
+    True
+    >>> sorted(changed)
+    ['position-latitude', 'position-longitude', 'position-text', 'static_img_url']
+
+
+    """
+
+    orig_info = orig_info.copy()
+    new_info = orig_info.copy()
+    oldlat = orig_info['position-latitude']
+    newlat = form.get('position-latitude', '')
+    oldlon = orig_info['position-longitude']
+    newlon = form.get('position-longitude', '')
+    oldtext = orig_info['position-text']
+    newtext = form.get('position-text', '')
+    newloc = form.get('location', '')
+
+    if newloc and newloc != orig_info['location']:
+        new_info['location'] = form.get('location')
+    if newtext and newtext != oldtext:
+        new_info['position-text'] = newtext
+
+    if (newlat != '' and newlon != '') and (newlat != oldlat or
+                                            newlon != oldlon):
+        # If form has updated coords, always use them.
+        try:
+            newlat = float(newlat)
+            newlon = float(newlon)
+        except (TypeError, ValueError):
+            logger.error(
+                "bad values for lat & lon? got %s" % str(newlat, newlon))
+        else:
+            new_info['position-latitude'] = newlat
+            new_info['position-longitude'] = newlon
+    elif newtext and newtext != oldtext:
+        # If form has an updated position-text and NOT updated coords,
+        # geocode it and use the resulting coords.
+        records = geocoder.geocode(newtext)
+        if records:
+            newlat, newlon = (records[0]['lat'], records[0]['lon'])
+            new_info['position-latitude'] = newlat
+            new_info['position-longitude'] = newlon
+        else:
+            new_info['errors'] = {
+                'position-text': _(
+                u'psm_geocode_failed',
+                u"Sorry, we were unable to find that address on the map.")}
+            new_info['position-text'] = oldtext
+    changed = []
+    new_info['static_img_url'] = location_img_url(new_info['position-latitude'],
+                                                  new_info['position-longitude'])
+    for key in new_info.keys():
+        if new_info[key] != orig_info.get(key):
+            changed.append(key)
+    return new_info, changed
