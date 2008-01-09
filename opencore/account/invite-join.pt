@@ -12,15 +12,21 @@ need to combine with regular join form
         <form id="oc-join-form" name="edit_form" class="oc-boxy" method="post" 
               tal:attributes="action string:${context/absolute_url}/${view/name}"
               >
-          
+
+          <h1 tal:content="string:Join ${view/portal_title}" />
+          <p>Here's a list of projects that have invited you to join:</p>
           <fieldset>
+					  <tal:for repeat="project python:sorted(view.invite_map)"> 
+					
+  						<h2 tal:content="string: ${project/title}" />
 
-            <h1 tal:content="string:Join ${view/portal_title}" />
+  						<p tal:content="string: ${project/description}" />
 
-						<h2 tal:content="string: ${view/project/title}" />
-
-						<p tal:content="string: ${view/project/mission}" />
-
+							<span tal:condition="project/closed">This project is closed.  Only members
+can view project pages.</span>
+              <a tal:condition="not: project/closed" tal:attributes="href project/url">Learn more about <span tal:replace="project/title"/></a>
+						</tal:for>
+						<hr/>
             <p i18n:translate="join_description" 
                tal:condition="not:fdata/getUser | request/__k | nothing">
               Registration is free and your email will not be

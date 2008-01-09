@@ -98,12 +98,22 @@ class InviteJoinView(JoinView, ConfirmAccountView):
     @view.memoizedproperty
     def sorted_invites(self):
         return sorted(self.invites)
-
+    
     @view.memoizedproperty
     def invite_map(self):
         if self.invites:
-            return [dict(id=invite, title=self.proj_title(invite)) \
-                    for invite in self.invites]
+            imap = []
+            for invite in self.invites:
+                project = self.context.projects.get(invite)
+                if not project:
+                    continue
+                from opencore.interfaces.workflow import IReadWorkflowPolicySupport
+                closed =  IReadWorkflowPolicySupport(project).getCurrentPolicyId() == "closed_policy"
+                imap.append(dict(id=invite, title=project.Title(),
+                                 description=project.Description(),
+                                 url=project.absolute_url(),
+                                 closed=closed))
+            return imap
         return tuple()
 
     def validate_key(self):
@@ -137,6 +147,9 @@ class InviteJoinView(JoinView, ConfirmAccountView):
             if mship.aq_parent.getId() in self.proj_ids:
                 mship.do_transition('approve_public')
             notify(JoinedProjectEvent(mship))
+
+    def project(self, _id):
+        return self.context.projects.get(_id)
 
     def proj_title(self, invite):
         proj_obj = self.context.projects.get(invite)

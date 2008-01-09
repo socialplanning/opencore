@@ -620,6 +620,10 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     @view.memoizedproperty
     def invite_util(self):
         return getUtility(IEmailInvites)
+
+    @formhandler.action('remind-email-invites')
+    def remind_email_invites(self, targets, fields=None):
+        return self.redirect("invite?remind=True&email-invites=%s" % ",".join(targets))
         
 class InviteView(ManageTeamView):
     ##################
@@ -675,18 +679,29 @@ class InviteView(ManageTeamView):
         """
         Sends an email reminder to the specified email invitees.
         """
-        addresses = [urllib.unquote(t) for t in targets]
+        # perform reminder
+        invites = self.request.get('email-invites').split(",")
+        addresses = [urllib.unquote(t) for t in invites]
+
         sender = _email_sender(self)
         project_title = self.context.title
         for address in addresses:
             key = self.invite_util.getInvitesByEmailAddress(address).key
-            msg_subs = dict(project_title=self.context.title,
-                            join_url=self.join_url(address, key),
-                            portal_url=self.siteURL,
-                            portal_title=self.portal_title()
+            msg_subs = dict(join_url=self.join_url(address, key),
+                            #FIXME: spam-check this
+                            user_message=self.request.get('message', ''), 
+                            subject=self.request.get('subject', ''),
+                            project_title=self.context.Title(),
+                            site_contact_url=self.portal.absolute_url() + "/contact-site-admin",
                             )
-            
-            sender.sendEmail(address, msg_id='email_invite_static_body', **msg_subs)
+        
+            if email_confirmation():
+                sender.sendEmail(address, msg_id='email_invite_static_body',
+                                        **msg_subs)
+            else:
+                msg = sender.constructMailMessage(msg_id='email_invite_static_body',
+                                                  **msg_subs)
+                log.info(msg)
 
         plural = len(addresses) != 1
 
