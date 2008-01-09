@@ -97,10 +97,10 @@ def update_info_from_form(orig_info, form, geocoder):
 
     A bit of test setup::
 
-    >>> orig = {'position-latitude': 0, 'position-longitude': 0,
+    >>> orig = {'position-latitude': '', 'position-longitude': '',
     ...         'position-text': 'ocean south of ghana',
     ...         'location': 'very mysterious',
-    ...         'static_img_url': location_img_url(0, 0)}
+    ...         'static_img_url': ''}
     >>> from opencore.geocoding.testing import MockGeocoder
     >>> geocoder = MockGeocoder()
     >>> from pprint import pprint
@@ -125,6 +125,8 @@ def update_info_from_form(orig_info, form, geocoder):
     12.0
     >>> print info['position-longitude']
     -87.0
+    >>> print info['static_img_url']
+    http://maps.google...
 
     If coordinates are passed, we use those instead. But you must pass both
     or nothing happens::
@@ -203,6 +205,7 @@ def update_info_from_form(orig_info, form, geocoder):
         else:
             new_info['position-latitude'] = newlat
             new_info['position-longitude'] = newlon
+            new_info['static_img_url'] = location_img_url(newlat, newlon)
     elif newtext and newtext != oldtext:
         # If form has an updated position-text and NOT updated coords,
         # geocode it and use the resulting coords.
@@ -211,6 +214,7 @@ def update_info_from_form(orig_info, form, geocoder):
             newlat, newlon = (records[0]['lat'], records[0]['lon'])
             new_info['position-latitude'] = newlat
             new_info['position-longitude'] = newlon
+            new_info['static_img_url'] = location_img_url(newlat, newlon)
         else:
             new_info['errors'] = {
                 'position-text': _(
@@ -218,8 +222,6 @@ def update_info_from_form(orig_info, form, geocoder):
                 u"Sorry, we were unable to find that address on the map.")}
             new_info['position-text'] = oldtext
     changed = []
-    new_info['static_img_url'] = location_img_url(new_info['position-latitude'],
-                                                  new_info['position-longitude'])
     for key in new_info.keys():
         if new_info[key] != orig_info.get(key):
             changed.append(key)
