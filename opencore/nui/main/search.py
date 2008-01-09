@@ -88,6 +88,10 @@ def searchForPerson(mcat, search_for, sort_by=None):
 class SearchView(BaseView):
     match = staticmethod(first_letter_match)
 
+    def logo_for_proj_brain(self, brain):
+        proj = brain.getObject()
+        return proj.getLogo()
+
     @property
     def search_for(self):
         return self.request.get('search_for', None)
