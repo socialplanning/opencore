@@ -29,10 +29,10 @@
 					From: <span tal:content="python: view.portal.getProperty('email_from_address')" /><br/>
 
 					<label for="message">Message:</label>
-          <textarea rows="20" cols="70"  name="message" i18n:translate="email_invite_email">
+          <textarea rows="20" cols="70"  name="message" i18n:translate="email_invite_default_body">
 <span i18n:name="inviter_name" tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" /> has invited you to join "<span i18n:name="project_title" tal:replace="view/area/Title" />" on <span i18n:name="portal_title" tal:replace="view/portal_title" />.
  
- If you would like to get involved, set up an <span i18n:name="project_title" tal:replace="view/area/Title" /> account: <span i18n:name="join_url" tal:replace="view/area/absolute_url" />
+ If you would like to get involved, set up an <span i18n:name="project_title" tal:replace="view/area/Title" /> account: [this will be inserted]
  
  <span i18n:name="project_title" tal:replace="view/area/Title" /> is a free toolset for social change. With <span i18n:name="project_title" tal:replace="view/area/Title" />, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks.
  
@@ -43,9 +43,18 @@
           </textarea><br>
 
 This will be added to all messages:
-          <div style="background-color: light blue;">
- This message was sent from  <span tal:replace="view/portal_url" />.
-</div>
+<div style="background-color: light blue;">
+<pre i18n:translate="email_invite_static_body">
+
+To accept this invitation or learn more about the project, click here: 
+<span i18n:name="project_title">[url]</span>.
+
+This message was sent from <span i18n:name="portal_title"
+tal:replace="view/portal_title" />.  To contact <span
+i18n:name="portal_title" tal:replace="view/portal_title" />, go here:
+<span
+i18n:name="project_contact_url" tal:replace="string: ${view/portal/absolute_url}/contact-site-admin" />
+</pre> </div>
 
 
           <input type="submit" name="task|email-invites" value="Send"

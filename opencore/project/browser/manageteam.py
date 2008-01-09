@@ -393,6 +393,15 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         ret = dict([(target, {'action': 'delete'}) for target in targets])
         return ret
 
+    @req_memoize    
+    def join_url(self, address):
+        # XXX if member hasn't logged in yet, acct_url will be whack
+        key = self.invite_util.getInvitesByEmailAddress(address).key
+        query_str = urllib.urlencode(dict(email=address,__k=key))
+        #query_str = urllib.urlencode({'email': address})
+        join_url = "%s/invite-join?%s" % (self.portal.absolute_url(),
+                                          query_str)
+
     @formhandler.action('remind-email-invites')
     def remind_email_invites(self, targets, fields=None):
         """
@@ -402,14 +411,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         sender = _email_sender(self)
         project_title = self.context.title
         for address in addresses:
-            # XXX if member hasn't logged in yet, acct_url will be whack
-            key = self.invite_util.getInvitesByEmailAddress(address).key
-            query_str = urllib.urlencode(dict(email=address,__k=key))
-            #query_str = urllib.urlencode({'email': address})
-            join_url = "%s/invite-join?%s" % (self.portal.absolute_url(),
-                                              query_str)
             msg_subs = dict(project_title=self.context.title,
-                            join_url=join_url,
+                            join_url=self.join_url(address),
                             portal_url=self.siteURL,
                             portal_title=self.portal_title()
                             )
@@ -670,22 +673,13 @@ class InviteView(ManageTeamView):
 
     def do_nonmember_invitation_email(self, addy, proj_id):
         # perform invitation
-        key = self.invite_util.addInvitation(addy, proj_id)
-        query_str = urllib.urlencode(dict(email=addy,__k=key))
-        join_url = "%s/invite-join?%s" % (self.portal.absolute_url(),
-                                                      query_str)
-        msg_subs = dict(project_title=self.context.title,
-                        join_url=join_url,
-                        portal_url=self.siteURL,
-                        portal_title=self.portal_title(),
-                        project_url=self.context.absolute_url(),
-                        inviter_name=self.loggedinmember.getId()
+        msg_subs = dict(join_url=self.join_url(addy),
                         )
         if email_confirmation():
-            _email_sender(self).sendEmail(addy, msg_id='invite_email',
+            _email_sender(self).sendEmail(addy, msg_id='email_invite_static_body',
                                         **msg_subs)
         else:
-            msg = _email_sender(self).constructMailMessage(msg_id='invite_email',
+            msg = _email_sender(self).constructMailMessage(msg_id='email_invite_static_body',
                                                          **msg_subs)
             log.info(msg)
         return key
