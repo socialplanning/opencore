@@ -401,29 +401,6 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                                           query_str)
         return join_url
 
-    @formhandler.action('remind-email-invites')
-    def remind_email_invites(self, targets, fields=None):
-        """
-        Sends an email reminder to the specified email invitees.
-        """
-        addresses = [urllib.unquote(t) for t in targets]
-        sender = _email_sender(self)
-        project_title = self.context.title
-        for address in addresses:
-            key = self.invite_util.getInvitesByEmailAddress(address).key
-            msg_subs = dict(project_title=self.context.title,
-                            join_url=self.join_url(address, key),
-                            portal_url=self.siteURL,
-                            portal_title=self.portal_title()
-                            )
-            
-            sender.sendEmail(address, msg_id='remind_invitee', **msg_subs)
-
-        plural = len(addresses) != 1
-
-        msg = "Reminder%s sent: %s" % (plural and 's' or '',', '.join(addresses))
-        self.add_status_message(msg)
-
     def mship_only_admin(self, mship):
         mem_id = mship.getId()
         path = mship.getPhysicalPath()
@@ -693,6 +670,29 @@ class InviteView(ManageTeamView):
             log.info(msg)
 
 
+    @formhandler.action('remind-email-invites')
+    def remind_email_invites(self, targets, fields=None):
+        """
+        Sends an email reminder to the specified email invitees.
+        """
+        addresses = [urllib.unquote(t) for t in targets]
+        sender = _email_sender(self)
+        project_title = self.context.title
+        for address in addresses:
+            key = self.invite_util.getInvitesByEmailAddress(address).key
+            msg_subs = dict(project_title=self.context.title,
+                            join_url=self.join_url(address, key),
+                            portal_url=self.siteURL,
+                            portal_title=self.portal_title()
+                            )
+            
+            sender.sendEmail(address, msg_id='email_invite_static_body', **msg_subs)
+
+        plural = len(addresses) != 1
+
+        msg = "Reminder%s sent: %s" % (plural and 's' or '',', '.join(addresses))
+        self.add_status_message(msg)
+        
     @formhandler.action('email-invites')
     def add_email_invites(self, targets=None, fields=None):
         invites = self.email_invites

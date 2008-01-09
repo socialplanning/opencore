@@ -3,14 +3,17 @@
     <title metal:fill-slot="title" tal:content="string:Invite - ${view/area/Title}" />
   </head>
   <body>
-    <div metal:fill-slot="content">
+    <div metal:fill-slot="content" tal:define="remind request/remind | nothing">
     
     <div class="oc-headingBlock">
-      <h1>Invite users</h1>
+      <h1 tal:condition="remind">Remind users</h1>
+      <h1 tal:condition="not: remind">Invite users</h1>
     </div>
     
     <div id="oc-content-main">
-        <p class="oc-headingContext">Send an email to invite people to join</p>
+        <p class="oc-headingContext" tal:condition="remind">Send an email to remind people to join</p>
+
+        <p class="oc-headingContext" tal:condition="not: remind">Send an email to invite people to join</p>
         <form id="oc-inviteByEmail" name="oc-inviteByEmail"
               tal:attributes="action view/request/ACTUAL_URL"
               method="POST">
@@ -19,17 +22,36 @@
         </div>
 
           <textarea style="width: 90%;" rows="3" cols="20" id="email-invites" name="email-invites"
-                    tal:content="view/request/form/email-invites | nothing" />
-          <p class="oc-discreetText">Comma separated, or one-per-line</p>
+                    tal:content="request/form/email-invites | nothing" 
+										tal:attributes="readonly remind" />
+          <p class="oc-discreetText" tal:condition="remind">Comma separated, or one-per-line</p>
 
 
 					<label for="subject">Subject:</label>
-          <input type="text" name="subject" i18n:attributes="value email_invite_email_subject" value="Invitation to join a project"><br>
+          <input tal:condition="remind" type="text" name="subject" i18n:attributes="value email_remind_email_subject" value="Reminder: Invitation to join a project"><br>
+          <input tal:condition="not: remind" type="text" name="subject" i18n:attributes="value email_invite_email_subject" value="Invitation to join a project"><br>
 
 					From: <span tal:content="python: view.portal.getProperty('email_from_address')" /><br/>
 
 					<label for="message">Message:</label>
-          <textarea rows="20" cols="70"  name="message" i18n:translate="email_invite_default_body">
+
+<!-- default message for reminder -->
+          <textarea tal:condition="remind" rows="20" cols="70"  name="message" i18n:translate="email_remind_default_body">
+
+This is a reminder.
+
+<span i18n:name="inviter_name" tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" /> has invited you to join "<span i18n:name="project_title" tal:replace="view/area/Title" />" on <span i18n:name="portal_title" tal:replace="view/portal_title" />.
+ 
+<span i18n:name="project_title" tal:replace="view/area/Title" /> is a free toolset for social change. With <span i18n:name="project_title" tal:replace="view/area/Title" />, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks.
+ 
+We hope you'll take <span i18n:name="portal_url" tal:replace="view/portal/absolute_url" /> for a spin.
+
+Cheers,
+The <span i18n:name="project_title" tal:replace="view/area/Title" /> Team
+</textarea><br>
+
+<!-- default message for invite -->
+          <textarea tal:condition="not: remind" rows="20" cols="70"  name="message" i18n:translate="email_invite_default_body">
 <span i18n:name="inviter_name" tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" /> has invited you to join "<span i18n:name="project_title" tal:replace="view/area/Title" />" on <span i18n:name="portal_title" tal:replace="view/portal_title" />.
  
 <span i18n:name="project_title" tal:replace="view/area/Title" /> is a free toolset for social change. With <span i18n:name="project_title" tal:replace="view/area/Title" />, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks.
@@ -55,7 +77,12 @@ i18n:name="site_contact_url" tal:replace="string: ${view/portal/absolute_url}/co
 </pre> </div>
 
 
-          <input type="submit" name="task|email-invites" value="Send"
+          <input tal:condition="remind" type="submit" 
+                 name="task|remind-email-invites" value="Send"
+                 class="oc-button" />
+
+          <input tal:condition="not: remind" type="submit" 
+                 name="task|email-invites" value="Send"
                  class="oc-button" />
         </form>
 
