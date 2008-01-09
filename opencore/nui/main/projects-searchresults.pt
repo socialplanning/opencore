@@ -63,7 +63,8 @@
             <ol class="oc-feed-list">
               <li class="oc-feed-item oc-clearAfter" tal:repeat="item view/search_results">
                   <a tal:attributes="href string:${context/portal_url}/projects/${item/getId}" >
-                    <tal:setvar define="logo python:item.getObject().getLogo();
+                    <!-- FIXME weird seek error without the | nothing -->
+                    <tal:setvar define="logo item/getObject/getLogo | nothing;
                                         logo_url python:logo and ('%s/logo_thumb' % item.getURL()) or view.defaultProjLogoURL">
                       <img class="oc-project-logo" tal:attributes="src logo_url; alt item/Title; title item/Title" />
                     </tal:setvar>
