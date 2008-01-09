@@ -361,25 +361,6 @@ def initialize_project_btrees(portal):
         except AttributeError:
             pass
 
-def rename_logo_pages(portal):
-    """Now that projects/projid/logo points to the project's logo,
-    we must rename any existing wiki pages with id 'logo' (to 'logo-page')"""
-    from StringIO import StringIO
-    result = StringIO()
-    cat = getToolByName(portal, 'portal_catalog')
-    brains = cat(portal_type="Document", id="logo")
-    for brain in brains:
-        page = brain.getObject()
-        assert page.getId() == 'logo'
-        parent = page.aq_parent
-        result.write("renaming wiki page with name 'logo' in project '%s'\n" % parent.getId())
-        import pdb; pdb.set_trace()
-        parent.manage_delObjects(['logo'])
-        page.setId('logo-page')
-        parent['logo-page'] = page
-        assert getattr(parent, 'logo-page')
-    return result.getvalue()
-
 from Products.Archetypes.utils import OrderedDict
 
 # make rest of names readable  (maybe use config system)
@@ -418,7 +399,6 @@ nui_functions['Create auto discussion lists'] = create_auto_discussion_lists
 nui_functions['Fix up project home pages'] = fixup_project_homepages
 nui_functions['Make project home pages relative'] = make_proj_homepages_relative
 nui_functions['Initialize Project BTrees'] = initialize_project_btrees
-nui_functions['Rename wiki pages named logo to logo-page'] = rename_logo_pages
 
 def run_nui_setup(portal):
     pm = portal.portal_migration
