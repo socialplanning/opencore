@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2008-01-09 16:30+0000\n"
+"POT-Creation-Date: 2008-01-09 19:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -409,7 +409,7 @@ msgstr ""
 msgid "create_project_url"
 msgstr ""
 
-#: ./opencore/project/browser/manageteam.py:547
+#: ./opencore/project/browser/manageteam.py:524
 msgid "demote_to_member"
 msgstr ""
 
@@ -433,18 +433,13 @@ msgstr ""
 msgid "email_invitation_retracted"
 msgstr ""
 
-#. Default: "${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. If you would like to get involved, set up an ${project_title} account: [this will be inserted] ${project_title} is a free toolset for social change. With ${project_title}, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks. We hope you'll take ${portal_url} for a spin. Cheers, The ${project_title} Team"
-#: ./opencore/project/browser/invite-with-message.pt:42
+#. Default: "${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${project_title} is a free toolset for social change. With ${project_title}, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks. We hope you'll take ${portal_url} for a spin. Cheers, The ${project_title} Team"
+#: ./opencore/project/browser/invite-with-message.pt:62
 msgid "email_invite_default_body"
 msgstr ""
 
-#. Default: "Subject: ${portal_title} - Invitation to join ${project_title}\n\nYou have been invited to join \"${project_title}\" on ${portal_title}.\n\nIf you would like to get involved, set up an ${portal_title} account: ${join_url}\n\n${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks.\n\nWe hope you'll take ${portal_title} for a spin.\n\nCheers,\nThe ${portal_title} Team\n${portal_url}\n"
-#: ./opencore/project/browser/mship_messages.py:40
-msgid "email_invite_email"
-msgstr ""
-
 #. Default: "Invitation to join a project"
-#: ./opencore/project/browser/invite-with-message.pt:27
+#: ./opencore/project/browser/invite-with-message.pt:32
 msgid "email_invite_email_subject"
 msgstr ""
 
@@ -453,8 +448,8 @@ msgstr ""
 msgid "email_invite_member"
 msgstr ""
 
-#. Default: "To accept this invitation or learn more about the project, click here: ${project_title}. This message was sent from ${portal_title}.  To contact ${portal_title}, go here: ${project_contact_url}"
-#: ./opencore/project/browser/invite-with-message.pt:55
+#. Default: "${user_message} To accept this invitation or learn more about the project, click here: ${project_title}. This message was sent from ${portal_title}. To contact ${portal_title}, go here: ${site_contact_url}"
+#: ./opencore/project/browser/invite-with-message.pt:75
 msgid "email_invite_static_body"
 msgstr ""
 
@@ -469,6 +464,16 @@ msgstr ""
 
 #: ./opencore/project/browser/team_membership.py:62
 msgid "email_mship_request_message"
+msgstr ""
+
+#. Default: "This is a reminder. ${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${project_title} is a free toolset for social change. With ${project_title}, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks. We hope you'll take ${portal_url} for a spin. Cheers, The ${project_title} Team"
+#: ./opencore/project/browser/invite-with-message.pt:50
+msgid "email_remind_default_body"
+msgstr ""
+
+#. Default: "Reminder: Invitation to join a project"
+#: ./opencore/project/browser/invite-with-message.pt:31
+msgid "email_remind_email_subject"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Invitation to join ${project_title}\n\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.  Please visit your account page to accept or decline the invitation: ${account_url}\n"
@@ -1529,7 +1534,7 @@ msgstr ""
 msgid "projects_start_project_button"
 msgstr ""
 
-#: ./opencore/project/browser/manageteam.py:543
+#: ./opencore/project/browser/manageteam.py:520
 msgid "promote_to_admin"
 msgstr ""
 
