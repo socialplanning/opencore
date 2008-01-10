@@ -180,16 +180,20 @@ def update_info_from_form(orig_info, form, geocoder):
 
     orig_info = orig_info.copy()
     new_info = orig_info.copy()
-    oldlat = orig_info['position-latitude']
+    oldlat = orig_info.get('position-latitude', '')
     newlat = form.get('position-latitude', '')
-    oldlon = orig_info['position-longitude']
+
+    oldlon = orig_info.get('position-longitude', '')
     newlon = form.get('position-longitude', '')
-    oldtext = orig_info['position-text']
+
+    oldtext = orig_info.get('position-text', '')
     newtext = form.get('position-text', '')
+
+    oldloc = orig_info.get('location', '')
     newloc = form.get('location', '')
 
-    if newloc and newloc != orig_info['location']:
-        new_info['location'] = form.get('location')
+    if newloc and newloc != oldloc:
+        new_info['location'] = newloc
     if newtext and newtext != oldtext:
         new_info['position-text'] = newtext
 

@@ -32,13 +32,22 @@ class ReadGeoView(Acquisition.Explicit):
                 'is_geocoded': self.is_geocoded(),
                 'maps_script_url': self._maps_script_url()}
         if self.view.inmember:
-            context_info = self.view.viewed_member_info
+            viewedcontent = self.view.viewedmember()
+        elif self.view.inproject:
+            viewedcontent = self.view.area
         else:
-            # assume project.
-            context_info = self.view.project_info
-        for key in ('position-text', 'location', 'position-latitude',
-                    'position-longitude'):
-            info[key] = context_info.get(key, '')
+            logger.warn("only projects and members supported currently, not %r"
+                        % self.context)
+            return info
+        info['location'] = viewedcontent.getLocation()
+        info['position-text'] = viewedcontent.getPositionText()
+        coords = self.get_geolocation()
+        try:
+            lon, lat = coords[:2]
+        except (ValueError, TypeError):
+            lon, lat = '', ''
+        info['position-latitude'] = lat
+        info['position-longitude'] = lon
         return info
 
     def _get_geo_item(self):
@@ -96,16 +105,7 @@ class WriteGeoView(ReadGeoView):
         return False
 
     def get_geo_info_from_form(self, form=None, old_info=None):
-        """Returns a dict and a list: (info, changed), Just like
-        utils.update_info_from_form, but you don't have to pass
-        anything if you have enough context.
-
-        (You *can* optionally pass a form to override the
-        request.form, and/or pass old_info if you're writing an add
-        view and the content you're geocoding doesn't exist yet.)
-
-        No side effects, just returns stuff.
-        XXX add to interface.
+        """See IWriteGeo.
         """
         if form is None:
             form = self.request.form
@@ -118,7 +118,7 @@ class WriteGeoView(ReadGeoView):
 
 
     def set_geo_info_from_form(self, form=None):
-        """XXX add to interface."""
+        """See IWriteGeo."""
         new_info, changed = self.get_geo_info_from_form(form)
         lat = new_info.get('position-latitude')
         lon = new_info.get('position-longitude')

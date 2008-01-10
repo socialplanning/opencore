@@ -309,6 +309,7 @@ class BaseView(BrowserView):
                 favorites   = member.getFavorites(),
                 anon_email  = member.getUseAnonByDefault(),
                 )
+            # XXX Remove all geo info from here. YAGNI.
             result['position-text'] = member.getPositionText()
             result['position-latitude'] = ''
             result['position-longitude'] = ''
@@ -365,8 +366,9 @@ class BaseView(BrowserView):
                              featurelets=self.piv.featurelets,
                              location=proj.getLocation(),
                              obj=proj)
+            # XXX Remove all geo info from here. YAGNI.
             proj_info['position-text'] = proj.getPositionText()
-            geo = getReadGeoViewWrapper(self, proj)
+            geo = getReadGeoViewWrapper(self, proj) 
             coords = geo.get_geolocation()
             if coords:
                 # Yes, longitude first.

@@ -33,22 +33,29 @@ class IReadGeo(Interface):
 
 class IWriteGeo(Interface):
 
-    def geocode_from_form(form=None):
-        """Look up geocoding information as a (lat, lon) pair.
+    def get_geo_info_from_form(form=None, old_info=None):
+        """
+        Returns a dict and a list: (info, changed), Just like
+        utils.update_info_from_form, but you don't have to pass
+        anything if you have enough context.
 
-        The request (or optional passed-in mapping) should contain
-        either 'position-latitude' and 'position-longitude' keys, or a
-        'position-text' key that can be used to derive a latitude and
-        longitude.  The latter takes precedence.
+        (You *can* optionally pass a form to override the
+        request.form, and/or pass old_info if you're writing an add
+        view and the content you're geocoding doesn't exist yet.)
 
-        If nothing works, returns None.
+        No side effects, just returns stuff.
         """
 
     def set_geolocation(coords):
         """Store coordinates on the context (latitude first).
         If a change is made, return True; else return False.
         """
-    
+
+    def set_geo_info_from_form(form=None):
+        """Does a lookup just like get_geo_info_from_form,
+        and saves the resulting position-text and coordinates
+        if necessary."""
+
 class IReadWriteGeo(IReadGeo, IWriteGeo):
     """both read + write.
     """

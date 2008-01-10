@@ -43,8 +43,6 @@ Now let's try the writer::
     >>> writer = getWriteGeoViewWrapper(view)
     >>> IWriteGeo.providedBy(writer)
     True
-    >>> writer.geocode_from_form()  # no change.
-    ()
     >>> info, changed = writer.get_geo_info_from_form()   # no change.
     >>> info == writer.geo_info()
     True
@@ -61,10 +59,11 @@ Now let's try the writer::
     'http://maps.google.com/...'
     >>> writer.set_geolocation((1, 2))  # same as before, so False.
     False
-    >>> writer.geocode_from_form({'position-latitude': 5,
-    ...                           'position-longitude': '6'})
-    (5.0, 6.0)
-    >>> reader.get_geolocation()  # geocode_from_form has no side effects.
+    >>> info, changed = writer.get_geo_info_from_form({'position-latitude': 5,
+    ...     'position-longitude': '6'})
+    >>> print info['position-latitude'], info['position-longitude']
+    5.0 6.0
+    >>> reader.get_geolocation()  # get_geo_info_from_form has no side effects.
     (2.0, 1.0, 0.0)
 
 
@@ -82,10 +81,8 @@ but not geo_info:
     False
     >>> info['location']
     'nunya bizness'
-    >>> print info['position-latitude']
-    1.2
-    >>> print info['position-longitude']
-    3.4
+    >>> print info['position-latitude'], info['position-longitude']
+    1.2 3.4
     >>> info['position-text']
     'my house'
     >>> info['static_img_url']
@@ -120,8 +117,6 @@ Now try the writer::
     >>> writer = getWriteGeoViewWrapper(view)
     >>> IWriteGeo.providedBy(writer)
     True
-    >>> writer.geocode_from_form()
-    ()
     >>> info, changed = writer.get_geo_info_from_form()
     >>> writer.geo_info() == info
     True
@@ -131,9 +126,10 @@ Now try the writer::
     True
     >>> reader.get_geolocation()
     (-4.0, -3.0, 0.0)
-    >>> writer.geocode_from_form({'position-latitude': 16,
-    ...                           'position-longitude': '-44.0'})
-    (16.0, -44.0)
+    >>> info, changed = writer.get_geo_info_from_form({'position-latitude': 16,
+    ...     'position-longitude': '-44.0'})
+    >>> print info['position-latitude'], info['position-longitude']
+    16.0 -44.0
     >>> reader.get_geolocation()  # geocode_from_form has no side effects.
     (-4.0, -3.0, 0.0)
     >>> reader.location_img_url()
