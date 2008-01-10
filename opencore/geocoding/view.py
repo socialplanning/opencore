@@ -137,43 +137,6 @@ class WriteGeoView(ReadGeoView):
         self.set_geolocation((lat, lon))
         return new_info, changed
 
-    def geocode_from_form(self, form=None):
-        """See IWriteGeo.
-        """
-        default = ()
-        if not self.view.has_geocoder:
-            return default
-        if form is None:
-            form = self.request.form
-        position = form.get('position-text', '').strip()
-        if position:
-            # If we got this, then it overrides the other form variables.
-            # The value should be something we can look up via the geocoder.
-            geo_tool = self.context.get_tool('portal_geocoder')
-            records = geo_tool.geocode(position)
-            if records:
-                lat = records[0]['lat']
-                lon = records[0]['lon']
-                return lat, lon
-            else:
-                self.view.errors['position-text'] = _(
-                    u'psm_geocode_failed',
-                    u"Sorry, we were unable to find that address on the map.")
-                return default
-        else:
-            lon = form.get('position-longitude', '')
-            lat = form.get('position-latitude', '')
-            if lat == lon == '':
-                # We got nothing in the form, that's OK.
-                return default
-            try:
-                lat = float(lat)
-                lon = float(lon)
-            except (TypeError, ValueError):
-                logger.error(
-                    "bad map info from oc-js? got %s" % str(lat, lon))
-                return default
-            return (lat, lon)
 
 
 class MemberareaReadGeoView(ReadGeoView):

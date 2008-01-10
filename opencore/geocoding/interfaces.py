@@ -53,7 +53,7 @@ class IWriteGeo(Interface):
 
     def save_coords_from_form(form=None):
         """Does a lookup just like get_geo_info_from_form,
-        and saves the resulting position-text and coordinates
+        and saves the resulting coordinates
         if necessary."""
 
 class IReadWriteGeo(IReadGeo, IWriteGeo):

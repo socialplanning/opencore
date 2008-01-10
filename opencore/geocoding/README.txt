@@ -130,7 +130,7 @@ Now try the writer::
     ...     'position-longitude': '-44.0'})
     >>> print info['position-latitude'], info['position-longitude']
     16.0 -44.0
-    >>> reader.get_geolocation()  # geocode_from_form has no side effects.
+    >>> reader.get_geolocation()  # the above has no side effects.
     (-4.0, -3.0, 0.0)
     >>> reader.location_img_url()
     'http://...'
