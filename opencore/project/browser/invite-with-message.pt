@@ -19,6 +19,7 @@
               method="POST">
         <div class="oc-headingBlock">
           <label for="email-invites">To:</label>
+          <p class="oc-discreetText">Comma separated, or one-per-line</p>
         </div>
 
           <textarea style="width: 90%;" rows="3" cols="20" id="email-invites" name="email-invites"
@@ -31,7 +32,7 @@
           <input tal:condition="remind" type="text" name="subject" i18n:attributes="value email_remind_email_subject" value="Reminder: Invitation to join a project"><br>
           <input tal:condition="not: remind" type="text" name="subject" i18n:attributes="value email_invite_email_subject" value="Invitation to join a project"><br>
 
-					From: <span tal:content="python: view.portal.getProperty('email_from_address')" /><br/>
+					<label for="from">From:</label> <span tal:content="python: view.portal.getProperty('email_from_address')" /><br/>
 
 					<label for="message">Message:</label>
 
@@ -42,24 +43,26 @@ This is a reminder.
 
 <span i18n:name="inviter_name" tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" /> has invited you to join "<span i18n:name="project_title" tal:replace="view/area/Title" />" on <span i18n:name="portal_title" tal:replace="view/portal_title" />.
  
-<span i18n:name="project_title" tal:replace="view/area/Title" /> is a free toolset for social change. With <span i18n:name="project_title" tal:replace="view/area/Title" />, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks.
+<span i18n:name="portal_title" tal:replace="view/portal_title" /> is a free toolset for social change. With <span i18n:name="portal_title" tal:replace="view/portal_title" />, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks.
  
 We hope you'll take <span i18n:name="portal_url" tal:replace="view/portal/absolute_url" /> for a spin.
 
 Cheers,
-The <span i18n:name="project_title" tal:replace="view/area/Title" /> Team
+The <span i18n:name="portal_title" tal:replace="view/portal_title" /> Team
 </textarea><br>
 
 <!-- default message for invite -->
           <textarea tal:condition="not: remind" rows="20" cols="70"  name="message" i18n:translate="email_invite_default_body">
 <span i18n:name="inviter_name" tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" /> has invited you to join "<span i18n:name="project_title" tal:replace="view/area/Title" />" on <span i18n:name="portal_title" tal:replace="view/portal_title" />.
  
-<span i18n:name="project_title" tal:replace="view/area/Title" /> is a free toolset for social change. With <span i18n:name="project_title" tal:replace="view/area/Title" />, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks.
+<span i18n:name="portal_title" tal:replace="view/portal_title" /> is a free toolset for social change. With <span i18n:name="portal_title" tal:replace="view/portal_title" />, you can build collaborative 
+pages for organizing projects. You can also blog, set up mailing lists, store and share files, 
+and keep track of tasks.
  
 We hope you'll take <span i18n:name="portal_url" tal:replace="view/portal/absolute_url" /> for a spin.
 
 Cheers,
-The <span i18n:name="project_title" tal:replace="view/area/Title" /> Team
+The <span i18n:name="portal_title" tal:replace="view/portal_title" /> Team
 </textarea><br>
 
 This will be added to all messages:
