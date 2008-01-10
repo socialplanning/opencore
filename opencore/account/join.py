@@ -116,6 +116,7 @@ class InviteJoinView(JoinView, ConfirmAccountView):
                 imap.append(dict(id=invite, title=project.Title(),
                                  description=project.Description(),
                                  url=project.absolute_url(),
+                                 logo=project.getLogo(),
                                  closed=closed))
             return imap
         return tuple()
