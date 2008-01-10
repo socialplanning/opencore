@@ -9,9 +9,6 @@ from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
 
-# XXX provide stub implementations if geocoding isn't available.
-from opencore.geocoding.view import get_geo_reader, get_geo_writer
-
 from opencore.interfaces import IProject 
 from opencore.project.utils import project_path
 from zope.i18nmessageid import Message
@@ -309,16 +306,6 @@ class BaseView(BrowserView):
                 favorites   = member.getFavorites(),
                 anon_email  = member.getUseAnonByDefault(),
                 )
-            # XXX Remove all geo info from here. YAGNI.
-            result['position-text'] = member.getPositionText()
-            result['position-latitude'] = ''
-            result['position-longitude'] = ''
-            if folder:
-                geo = get_geo_reader(self, folder)
-                coords = geo.get_geolocation()
-                if coords is not None:
-                    result['position-latitude'] = coords[1]
-                    result['position-longitude'] = coords[0]
         else:
             # XXX TODO 
             # we're an old school member object, e.g. an admin user
@@ -327,7 +314,6 @@ class BaseView(BrowserView):
             for key in ('membersince', 'lastlogin','location',
                         'statement', 'affiliations', 'skills',
                         'background',  'url', 'favorites',
-                        'position-text', 'position-latitude', 'position-longitude',
                         ):
                 result[key] = ''
                 
@@ -366,18 +352,10 @@ class BaseView(BrowserView):
                              featurelets=self.piv.featurelets,
                              location=proj.getLocation(),
                              obj=proj)
-            # XXX Remove all geo info from here. YAGNI.
-            proj_info['position-text'] = proj.getPositionText()
-            geo = get_geo_reader(self, proj) 
-            coords = geo.get_geolocation()
-            if coords:
-                # Yes, longitude first.
-                proj_info['position-latitude'] = coords[1]
-                proj_info['position-longitude'] = coords[0]
         return proj_info
 
     # Hooks for geocoding stuff to work, if installed.
-
+    # XXX this doesn't merit living in the base view
     @view.memoizedproperty
     def has_geocoder(self):
         """Is a PleiadesGeocoder tool available?

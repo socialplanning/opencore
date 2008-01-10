@@ -17,39 +17,39 @@ Look for geolocation info, first when it's not set...
     >>> form = {}
     >>> view.has_geocoder
     True
-    >>> wrapper = get_geo_writer(view)
-    >>> info, changed = wrapper.save_coords_from_form(form)
+    >>> writer = get_geo_writer(view)
+    >>> info, changed = writer.save_coords_from_form(form)
     >>> changed
     []
-    >>> view.project_info.has_key('position-latitude')
-    False
-    >>> view.project_info.has_key('position-longitude')
-    False
+    >>> view.geo_info.get('position-latitude')
+    ''
+    >>> view.geo_info.get('position-longitude')
+    ''
 
 
 You can set and then view coordinates::
 
-    >>> wrapper.set_geolocation((11.1, -22.2))
+    >>> writer.set_geolocation((11.1, -22.2))
     True
 
     Clear the memoized stuff from the request to see the info.
 
     >>> utils.clear_all_memos(view)
-    >>> print view.project_info.get('position-latitude')
+    >>> print view.geo_info.get('position-latitude')
     11.1
-    >>> print view.project_info.get('position-longitude')
+    >>> print view.geo_info.get('position-longitude')
     -22.2
 
 Calling again with the same points makes no change:
 
-    >>> wrapper.set_geolocation((11.1, -22.2))
+    >>> writer.set_geolocation((11.1, -22.2))
     False
 
 
 You can extract stuff from the form::
 
     >>> form = {'position-latitude': '10.0', 'position-longitude': '-20.0'}
-    >>> info, changed = wrapper.get_geo_info_from_form(form)
+    >>> info, changed = writer.get_geo_info_from_form(form)
     >>> info['position-latitude'] == float(form['position-latitude'])
     True
     >>> info['position-longitude'] == float(form['position-longitude'])
@@ -63,7 +63,7 @@ actually hit google on every test run::
     >>> form.clear()
     >>> form['position-text'] = "mock address"
     >>> form['location'] = 'mars'
-    >>> info, changed = wrapper.save_coords_from_form(form)
+    >>> info, changed = writer.save_coords_from_form(form)
     Called ....geocode('mock address')
     >>> utils.clear_all_memos(view)  # XXX ugh, wish this wasn't necessary.
     >>> print view.geo_info.get('position-latitude')
@@ -74,7 +74,7 @@ actually hit google on every test run::
 But we let the content's own form handlers handle everything else; we
 might want to revisit this, it feels kind of schizo.  For now, this
 means that other things in the request aren't saved unless we invoke
-the form handler, not just the wrapper.
+the form handler, not just the write wrapper.
 
     >>> view.geo_info['position-text'] == form['position-text']
     False
@@ -96,7 +96,7 @@ human-readable place name::
     >>> view.context.getLocation()
     'oceania'
     >>> utils.clear_all_memos(view)
-    >>> view.project_info.get('position-text')  # saved now.
+    >>> view.geo_info.get('position-text')  # saved now.
     'mock address'
 
 The view includes a bunch of convenient geo-related stuff for UIs::
@@ -136,9 +136,9 @@ Create view for Projects
     {}
     >>> view = projects.restrictedTraverse('testgeo/preferences')
     >>> utils.clear_all_memos(view)
-    >>> print view.project_info['position-latitude']
+    >>> print view.geo_info['position-latitude']
     33.33
-    >>> print view.project_info['position-longitude']
+    >>> print view.geo_info['position-longitude']
     44.44
 
 Clean that one up...
