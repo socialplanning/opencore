@@ -19,20 +19,19 @@
               method="POST">
         <div class="oc-headingBlock">
           <label for="email-invites">To:</label>
-          <p class="oc-discreetText">Comma separated, or one-per-line</p>
+          <p class="oc-discreetText" tal:condition="not: remind">Comma separated, or one-per-line</p>
         </div>
 
           <textarea style="width: 90%;" rows="3" cols="20" id="email-invites" name="email-invites"
                     tal:content="request/form/email-invites | nothing" 
 										tal:attributes="readonly remind" />
-          <p class="oc-discreetText" tal:condition="remind">Comma separated, or one-per-line</p>
 
 
 					<label for="subject">Subject:</label>
           <input tal:condition="remind" type="text" name="subject" i18n:attributes="value email_remind_email_subject" value="Reminder: Invitation to join a project"><br>
           <input tal:condition="not: remind" type="text" name="subject" i18n:attributes="value email_invite_email_subject" value="Invitation to join a project"><br>
 
-					<label for="from">From:</label> <span tal:content="python: view.portal.getProperty('email_from_address')" /><br/>
+					<label for="from">From:</label> "<span tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" />" &lt;<span tal:replace="python: view.loggedinmember.email" />&gt;<br/>
 
 					<label for="message">Message:</label>
 

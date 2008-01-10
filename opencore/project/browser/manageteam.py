@@ -667,8 +667,9 @@ class InviteView(ManageTeamView):
                         site_contact_url=self.portal.absolute_url() + "/contact-site-admin",
                         
                         )
+
         if email_confirmation():
-            _email_sender(self).sendEmail(addy, msg_id='email_invite_static_body',
+            _email_sender(self).sendEmail(addy, msg_id='email_invite_static_body', mfrom=self.loggedinmember.id,
                                         **msg_subs)
         else:
             msg = _email_sender(self).constructMailMessage(msg_id='email_invite_static_body',
@@ -698,10 +699,10 @@ class InviteView(ManageTeamView):
                             )
         
             if email_confirmation():
-                sender.sendEmail(address, msg_id='email_invite_static_body',
+                sender.sendEmail(address, msg_id='email_invite_static_body', mfrom=self.loggedinmember.id,
                                         **msg_subs)
             else:
-                msg = sender.constructMailMessage(msg_id='email_invite_static_body',
+                msg = sender.constructMailMessage(msg_id='email_invite_static_body', mfrom=self.loggedinmember.id,
                                                   **msg_subs)
                 log.info(msg)
 
