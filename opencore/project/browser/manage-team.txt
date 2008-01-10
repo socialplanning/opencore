@@ -139,6 +139,7 @@ Make sure we can remove invitations; email notifier should be sent:
 
     >>> self.clearMemoCache()
     >>> res = view.remove_invitations(['m3'])
+		>>> del view._redirected
     >>> view.portal_status_message
     [u'Reminder sent: m3', u'Invitation removed: m3']
     >>> len(view.pending_invitations)
@@ -148,6 +149,7 @@ Make sure we can remove invitations; email notifier should be sent:
 
 Make sure we get a helpful PSM if we didn't select anyone to remind::
     >>> res = view.remind_invitations([])
+		>>> del view._redirected
     >>> print view.portal_status_message[0]
     Please select at least one person to send a reminder to.
 
@@ -400,20 +402,25 @@ Try the same one again, should have no result:
     >>> len(mailhost.messages)
     13
 
+    >>> view.portal_status_message
+    [..., u'You invited m3 to join this project.', u'You invited m2 to join this project.', u'You invited m4 to join this project.', u'Email invitations: doesnotexist@example.com, isnotthere@example.com', u'Members invited: m3', u'Members for whom invitation failed: m3']
+
 Verify we can send reminders to the email invitees:
 
     >>> self.clearMemoCache()
-    >>> addys = [addy.strip() for addy in invites.split(',')]
-    >>> view.remind_email_invites(addys)
+    >>> inviteview.request.form['email-invites'] = invites.replace(" ", "")
+    >>> inviteview.remind_email_invites()
+		>>> del inviteview._redirected
 
-    >>> view.portal_status_message
-    [..., u'You invited m3 to join this project.', u'You invited m2 to join this project.', u'You invited m4 to join this project.', u'Email invitations: doesnotexist@example.com, isnotthere@example.com', u'Members invited: m3', u'Members for whom invitation failed: m3', u'Reminders sent: doesnotexist@example.com, isnotthere@example.com']
+    >>> inviteview.portal_status_message
+    [u'Reminders sent: doesnotexist@example.com, isnotthere@example.com']
     >>> len(mailhost.messages) # <- increase by two
     15
 
 And that they can be removed:
 
     >>> self.clearMemoCache()
+		>>> addys = [addy.strip() for addy in invites.split(',')]
     >>> view.remove_email_invites(addys)
     {...doesnotexist@example.com...isnotthere@example.com...}
     >>> view.portal_status_message

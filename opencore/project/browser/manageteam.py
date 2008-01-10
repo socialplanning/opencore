@@ -361,13 +361,13 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             sender.sendEmail(mem_id, msg_id='remind_invitee', **msg_vars)
 
         if not mem_ids:
-            self.addPortalStatusMessage(_(u"remind_invite_none_selected"))
+            self.add_status_message(_(u"remind_invite_none_selected"))
         else:
             plural = len(mem_ids) != 1
             msg = "Reminder%s sent: %s" % (plural and 's' or '', ", ".join(mem_ids))
             self.add_status_message(msg)
 
-        return self.redirect('manage-team')
+        self.redirect(self.request.ACTUAL_URL)
 
     @formhandler.action('remove-email-invites')
     def remove_email_invites(self, targets, fields=None):
@@ -625,7 +625,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
     @formhandler.action('remind-email-invites')
     def remind_email_invites(self, targets, fields=None):
-        return self.redirect("invite?remind=True&email-invites=%s" % ",".join(targets))
+        self.redirect("invite?remind=True&email-invites=%s" % ",".join(targets))
         
 class InviteView(ManageTeamView):
     ##################
@@ -678,7 +678,7 @@ class InviteView(ManageTeamView):
 
 
     @formhandler.action('remind-email-invites')
-    def remind_email_invites(self, targets, fields=None):
+    def remind_email_invites(self, targets=None, fields=None):
         """
         Sends an email reminder to the specified email invitees.
         """
@@ -710,7 +710,7 @@ class InviteView(ManageTeamView):
 
         msg = "Reminder%s sent: %s" % (plural and 's' or '',', '.join(addresses))
         self.add_status_message(msg)
-        return self.redirect('manage-team')
+        self.redirect('manage-team')
 
         
     @formhandler.action('email-invites')
@@ -732,7 +732,7 @@ class InviteView(ManageTeamView):
             self.add_status_message(u"Email invitations: %s"
                                         % ', '.join(psm['email_invites']))
         self._norender = True
-        return self.redirect('manage-team')
+        self.redirect('manage-team')
         
     def _add_email_invites(self, invites):
         """
