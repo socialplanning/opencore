@@ -61,7 +61,7 @@ class TestWorkflowPolicy(OpenPlansTestCase):
                 }
         req = self.folder.REQUEST
         req.form = form
-        addview = ProjectAddView(self.portal.projects, req)
+        addview = ProjectAddView(self.folder, req)
         addview.handle_request()
         proj = self.folder._getOb('closed')
         wftool = getToolByName(self.folder, 'portal_workflow')
