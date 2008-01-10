@@ -25,7 +25,7 @@ looks like this::
     >>> proj = projects.p1
     >>> view = ProjectBaseView(proj, proj.REQUEST)
     >>> view.request.form.clear()
-    >>> reader = getReadGeoViewWrapper(view)
+    >>> reader = get_geo_reader(view)
     >>> IReadGeo.providedBy(reader)
     True
     >>> print reader.get_geolocation()
@@ -40,7 +40,7 @@ Now let's try the writer::
     >>> self.login('m3')
     >>> view = ProjectBaseView(proj, proj.REQUEST)
     >>> view.request.form.clear()
-    >>> writer = getWriteGeoViewWrapper(view)
+    >>> writer = get_geo_writer(view)
     >>> IWriteGeo.providedBy(writer)
     True
     >>> info, changed = writer.get_geo_info_from_form()   # no change.
@@ -103,7 +103,7 @@ interface::
     >>> m1folder = self.portal.people.m1
     >>> view = ProfileView(m1folder, m1folder.REQUEST)
     >>> view.request.form.clear()
-    >>> reader = getReadGeoViewWrapper(view)
+    >>> reader = get_geo_reader(view)
     >>> IReadGeo.providedBy(reader)
     True
     >>> print reader.get_geolocation()
@@ -114,7 +114,7 @@ interface::
 Now try the writer::
 
     >>> m1data = self.portal.portal_memberdata.m1
-    >>> writer = getWriteGeoViewWrapper(view)
+    >>> writer = get_geo_writer(view)
     >>> IWriteGeo.providedBy(writer)
     True
     >>> info, changed = writer.get_geo_info_from_form()

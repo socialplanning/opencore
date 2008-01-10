@@ -14,8 +14,8 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import DeleteObjects
 from plone.memoize.instance import memoizedproperty
-from opencore.geocoding.view import getReadGeoViewWrapper
-from opencore.geocoding.view import getWriteGeoViewWrapper
+from opencore.geocoding.view import get_geo_reader
+from opencore.geocoding.view import get_geo_writer
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.catalog import IMetadataDictionary 
 from opencore.interfaces.event import AfterProjectAddedEvent, \
@@ -68,7 +68,7 @@ class ProjectBaseView(BaseView):
         takes values from request, falls back to existing project
         if possible."""
         ##geo = IReadWriteGeo(self) #XXX This fails in zope 2.9.
-        geo = getReadGeoViewWrapper(self)
+        geo = get_geo_reader(self)
         return geo.geo_info()
     
 
@@ -450,7 +450,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         if not valid_project_title(title):
             self.errors['title'] = _(u'err_project_name', u'The project name must contain at least 2 characters with at least 1 letter or number.')
 
-        geowriter = getWriteGeoViewWrapper(self)
+        geowriter = get_geo_writer(self)
         geo_info, locationchanged = geowriter.get_geo_info_from_form()
         self.errors.update(geo_info.get('errors', {}))
 
@@ -611,7 +611,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             if self.context.has_key(id_):
                 self.errors['id'] = 'The requested url is already taken.'
 
-        geowriter = getWriteGeoViewWrapper(self)
+        geowriter = get_geo_writer(self)
         geo_info, locationchanged = geowriter.get_geo_info_from_form(
             old_info={})
         self.errors.update(geo_info.get('errors', {}))
@@ -640,7 +640,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
                 return
             del self.request.form['logo']
 
-        getWriteGeoViewWrapper(self, proj).save_coords_from_form()
+        get_geo_writer(self, proj).save_coords_from_form()
 
         self.template = None
         proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)

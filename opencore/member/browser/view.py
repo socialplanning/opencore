@@ -7,8 +7,8 @@ from datetime import datetime
 from datetime import timedelta
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
-from opencore.geocoding.view import getReadGeoViewWrapper
-from opencore.geocoding.view import getWriteGeoViewWrapper
+from opencore.geocoding.view import get_geo_reader
+from opencore.geocoding.view import get_geo_writer
 from opencore.interfaces.catalog import ILastWorkflowActor
 from opencore.interfaces.event import JoinedProjectEvent
 from opencore.interfaces.event import LeftProjectEvent
@@ -149,7 +149,7 @@ class ProfileView(BaseView):
         """geo information for display in forms;
         takes values from request, falls back to existing member info
         if possible."""
-        geo = getReadGeoViewWrapper(self)
+        geo = get_geo_reader(self)
         info = geo.geo_info()
         # Override the static map image size. Ugh, sucks to have this in code.
         info['static_img_url'] = geo.location_img_url(width=285, height=285)
@@ -219,7 +219,7 @@ class ProfileEditView(ProfileView, OctopoLite):
             del self.request.form['portrait']
 
         # handle geo stuff
-        geo_writer = getWriteGeoViewWrapper(self)
+        geo_writer = get_geo_writer(self)
         new_info, locationchanged = geo_writer.save_coords_from_form()
         form = self.request.form
         member.setPositionText(new_info.get('position-text', ''))

@@ -15,7 +15,7 @@ def test_suite():
     from Products.PloneTestCase import setup
     from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
     from Testing.ZopeTestCase import installProduct
-    from opencore.geocoding.view import getWriteGeoViewWrapper
+    from opencore.geocoding.view import get_geo_writer
     from opencore.testing import utils
     from pprint import pprint
     from zope.component import getUtility

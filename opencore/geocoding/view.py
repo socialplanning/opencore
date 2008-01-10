@@ -161,7 +161,7 @@ class MemberareaWriteGeoView(MemberareaReadGeoView, WriteGeoView):
 # component architecture.
 from zope.app.container.interfaces import IContainer
 from opencore.interfaces import IMemberFolder
-def getReadGeoViewWrapper(view, context=None):
+def get_geo_reader(view, context=None):
     context = context or view.context
     if IMemberFolder.providedBy(view.context):
         wrapper = MemberareaReadGeoView(view, context)
@@ -172,7 +172,7 @@ def getReadGeoViewWrapper(view, context=None):
     return wrapper.__of__(context)
 
 # Ditto for WriteGeoView.
-def getWriteGeoViewWrapper(view, context=None):
+def get_geo_writer(view, context=None):
     context = context or view.context
     if IMemberFolder.providedBy(context):
         wrapper = MemberareaWriteGeoView(view, context)

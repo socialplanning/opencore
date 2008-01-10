@@ -10,7 +10,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
 
 # XXX provide stub implementations if geocoding isn't available.
-from opencore.geocoding.view import getReadGeoViewWrapper, getWriteGeoViewWrapper
+from opencore.geocoding.view import get_geo_reader, get_geo_writer
 
 from opencore.interfaces import IProject 
 from opencore.project.utils import project_path
@@ -314,7 +314,7 @@ class BaseView(BrowserView):
             result['position-latitude'] = ''
             result['position-longitude'] = ''
             if folder:
-                geo = getReadGeoViewWrapper(self, folder)
+                geo = get_geo_reader(self, folder)
                 coords = geo.get_geolocation()
                 if coords is not None:
                     result['position-latitude'] = coords[1]
@@ -368,7 +368,7 @@ class BaseView(BrowserView):
                              obj=proj)
             # XXX Remove all geo info from here. YAGNI.
             proj_info['position-text'] = proj.getPositionText()
-            geo = getReadGeoViewWrapper(self, proj) 
+            geo = get_geo_reader(self, proj) 
             coords = geo.get_geolocation()
             if coords:
                 # Yes, longitude first.

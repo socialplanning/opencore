@@ -17,7 +17,7 @@ Look for geolocation info, first when it's not set...
     >>> form = {}
     >>> view.has_geocoder
     True
-    >>> wrapper = getWriteGeoViewWrapper(view)
+    >>> wrapper = get_geo_writer(view)
     >>> info, changed = wrapper.save_coords_from_form(form)
     >>> changed
     []
