@@ -11,7 +11,7 @@ on the content. then people could get to it by xinha, use it in
 documents, etc.
 
     >>> proj.getLogo()
-    ''
+
 
 Views
 =====
