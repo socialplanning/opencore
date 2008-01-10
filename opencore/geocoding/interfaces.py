@@ -51,7 +51,7 @@ class IWriteGeo(Interface):
         If a change is made, return True; else return False.
         """
 
-    def set_geo_info_from_form(form=None):
+    def save_coords_from_form(form=None):
         """Does a lookup just like get_geo_info_from_form,
         and saves the resulting position-text and coordinates
         if necessary."""

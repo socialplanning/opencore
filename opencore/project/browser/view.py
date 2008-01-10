@@ -480,7 +480,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             del self.request.form['logo'], new_form['logo']
 
         if locationchanged:
-            geowriter.set_geo_info_from_form()
+            geowriter.save_coords_from_form()
 
         #display change status of flet, security, title, description, logo...
         changed = {
@@ -640,7 +640,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
                 return
             del self.request.form['logo']
 
-        getWriteGeoViewWrapper(self, proj).set_geo_info_from_form()
+        getWriteGeoViewWrapper(self, proj).save_coords_from_form()
 
         self.template = None
         proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)

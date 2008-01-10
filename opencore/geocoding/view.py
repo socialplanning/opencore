@@ -1,6 +1,8 @@
 from Products.CMFCore.utils import getToolByName
 from Products.PleiadesGeocoder.interfaces.simple import IGeoItemSimple
 from opencore.i18n import _
+from opencore.interfaces import IProject
+from opencore.member.interfaces import IOpenMember
 from zope.app.publisher.interfaces.browser import IBrowserView
 from zope.component import adapts
 from zope.interface import implements
@@ -26,21 +28,30 @@ class ReadGeoView(Acquisition.Explicit):
         self.context = context or view.context
         self.request = view.request
 
+    def _get_viewedcontent(self):
+        # I tried to call self.view.piv.project and .inproject, et al. but
+        # for some reason those return None and False on a closed project.
+        # Instead, we walk the acquisition chain by hand. Yuck.
+        chain = self.context.aq_inner.aq_chain
+        for item in chain:
+            if IProject.providedBy(item):
+                return item
+            elif IOpenMember.providedBy(item):
+                return item
+        # If we get here, it typically means we're in eg. the projects
+        # folder because our view is an add view and the project doesn't
+        # exist yet. That's OK, we just won't have as much information.
+        logger.info("not in a project or member, but: %s" % self.context)
+        return None
+
     def geo_info(self):
         """See IReadGeo"""
         info = {'static_img_url': self.location_img_url(),
                 'is_geocoded': self.is_geocoded(),
                 'maps_script_url': self._maps_script_url()}
-        if self.view.inmember:
-            viewedcontent = self.view.viewedmember()
-        elif self.view.inproject:
-            viewedcontent = self.view.area
-        else:
-            logger.warn("only projects and members supported currently, not %r"
-                        % self.context)
-            return info
-        info['location'] = viewedcontent.getLocation()
-        info['position-text'] = viewedcontent.getPositionText()
+        content = self._get_viewedcontent()
+        info['location'] = content and content.getLocation() or ''
+        info['position-text'] = content and content.getPositionText() or ''
         coords = self.get_geolocation()
         try:
             lon, lat = coords[:2]
@@ -85,7 +96,6 @@ class ReadGeoView(Acquisition.Explicit):
         lon, lat = coords[:2]
         return utils.location_img_url(lat, lon, width, height)
 
-
     
 class WriteGeoView(ReadGeoView):
 
@@ -117,7 +127,7 @@ class WriteGeoView(ReadGeoView):
         return new_info, changed
 
 
-    def set_geo_info_from_form(self, form=None):
+    def save_coords_from_form(self, form=None):
         """See IWriteGeo."""
         new_info, changed = self.get_geo_info_from_form(form)
         lat = new_info.get('position-latitude')
@@ -171,7 +181,10 @@ class MemberareaReadGeoView(ReadGeoView):
     def _get_geo_item(self):
         return IGeoItemSimple(self.view.viewedmember())
 
-class MemberareaWriteGeoView(WriteGeoView, ReadGeoView):
+    def _get_viewedcontent(self):
+        return self.view.viewedmember()
+
+class MemberareaWriteGeoView(MemberareaReadGeoView, WriteGeoView):
     pass
 
 

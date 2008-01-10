@@ -220,7 +220,7 @@ class ProfileEditView(ProfileView, OctopoLite):
 
         # handle geo stuff
         geo_writer = getWriteGeoViewWrapper(self)
-        new_info, locationchanged = geo_writer.set_geo_info_from_form()
+        new_info, locationchanged = geo_writer.save_coords_from_form()
         form = self.request.form
         member.setPositionText(new_info.get('position-text', ''))
         for key in ('position-latitude', 'position-longitude', 'position-text'):

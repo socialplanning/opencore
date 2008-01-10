@@ -18,7 +18,7 @@ Look for geolocation info, first when it's not set...
     >>> view.has_geocoder
     True
     >>> wrapper = getWriteGeoViewWrapper(view)
-    >>> info, changed = wrapper.set_geo_info_from_form(form)
+    >>> info, changed = wrapper.save_coords_from_form(form)
     >>> changed
     []
     >>> view.project_info.has_key('position-latitude')
@@ -62,16 +62,24 @@ actually hit google on every test run::
     >>> utils.clear_status_messages(view)
     >>> form.clear()
     >>> form['position-text'] = "mock address"
-    >>> info, changed = wrapper.set_geo_info_from_form(form)
+    >>> form['location'] = 'mars'
+    >>> info, changed = wrapper.save_coords_from_form(form)
     Called ....geocode('mock address')
     >>> utils.clear_all_memos(view)  # XXX ugh, wish this wasn't necessary.
     >>> print view.geo_info.get('position-latitude')
     12.0
     >>> print view.geo_info.get('position-longitude')
     -87.0
-    >>> view.geo_info['position-text'] == form['position-text']
-    True
 
+But we let the content's own form handlers handle everything else; we
+might want to revisit this, it feels kind of schizo.  For now, this
+means that other things in the request aren't saved unless we invoke
+the form handler, not just the wrapper.
+
+    >>> view.geo_info['position-text'] == form['position-text']
+    False
+    >>> view.geo_info['location'] == form['location']
+    False
 
 We also now save the usual archetypes "location" field, for use as a
 human-readable place name::
