@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2008-01-09 19:02+0000\n"
+"POT-Creation-Date: 2008-01-10 16:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -409,7 +409,7 @@ msgstr ""
 msgid "create_project_url"
 msgstr ""
 
-#: ./opencore/project/browser/manageteam.py:524
+#: ./opencore/project/browser/manageteam.py:526
 msgid "demote_to_member"
 msgstr ""
 
@@ -429,32 +429,31 @@ msgid "email_forgot_password_subject"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Invitation to join  ${project_title}\n\nThe invitation extended to you to join \"${project_title}\" on ${portal_title} has been revoked.\n"
-#: ./opencore/project/browser/mship_messages.py:30
+#: ./opencore/project/browser/mship_messages.py:17
 msgid "email_invitation_retracted"
 msgstr ""
 
-#. Default: "${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${project_title} is a free toolset for social change. With ${project_title}, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks. We hope you'll take ${portal_url} for a spin. Cheers, The ${project_title} Team"
-#: ./opencore/project/browser/invite-with-message.pt:62
+#. Default: "${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks. We hope you'll take ${portal_url} for a spin. Cheers, The ${portal_title} Team"
+#: ./opencore/project/browser/invite-with-message.pt:67
 msgid "email_invite_default_body"
 msgstr ""
 
 #. Default: "Invitation to join a project"
-#: ./opencore/project/browser/invite-with-message.pt:32
+#: ./opencore/project/browser/invite-with-message.pt:33
 msgid "email_invite_email_subject"
 msgstr ""
 
-#. Default: "Subject: You've been invited to join \"${project_title}\"\n\nHi ${user_name},\n\nYou have been invited to join \"${project_title}\" by ${inviter_name}.\nPlease visit your account page to accept or decline the invitation: ${account_url}\n\nCheers,\nThe ${portal_name} Team\n${portal_url}\n"
 #: ./opencore/project/browser/mship_messages.py:3
 msgid "email_invite_member"
 msgstr ""
 
-#. Default: "${user_message} To accept this invitation or learn more about the project, click here: ${project_title}. This message was sent from ${portal_title}. To contact ${portal_title}, go here: ${site_contact_url}"
-#: ./opencore/project/browser/invite-with-message.pt:75
+#. Default: "${user_message} To accept this invitation or learn more about the project, click here: ${project_title}. --------------------------------------------------------------------- This message was sent from ${portal_title}. To contact ${portal_title}, go here: ${site_contact_url}"
+#: ./opencore/project/browser/invite-with-message.pt:82
 msgid "email_invite_static_body"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Membership deactivated for ${project_title}\n\nYou are no longer a member of \"${project_title}\" on ${portal_title}.\n"
-#: ./opencore/project/browser/mship_messages.py:35
+#: ./opencore/project/browser/mship_messages.py:22
 msgid "email_membership_deactivated"
 msgstr ""
 
@@ -466,28 +465,27 @@ msgstr ""
 msgid "email_mship_request_message"
 msgstr ""
 
-#. Default: "This is a reminder. ${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${project_title} is a free toolset for social change. With ${project_title}, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks. We hope you'll take ${portal_url} for a spin. Cheers, The ${project_title} Team"
-#: ./opencore/project/browser/invite-with-message.pt:50
+#. Default: "This is a reminder. ${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks. We hope you'll take ${portal_url} for a spin. Cheers, The ${portal_title} Team"
+#: ./opencore/project/browser/invite-with-message.pt:53
 msgid "email_remind_default_body"
 msgstr ""
 
 #. Default: "Reminder: Invitation to join a project"
-#: ./opencore/project/browser/invite-with-message.pt:31
+#: ./opencore/project/browser/invite-with-message.pt:32
 msgid "email_remind_email_subject"
 msgstr ""
 
-#. Default: "Subject: ${portal_title} - Invitation to join ${project_title}\n\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.  Please visit your account page to accept or decline the invitation: ${account_url}\n"
-#: ./opencore/project/browser/mship_messages.py:15
+#: ./opencore/project/browser/mship_messages.py:5
 msgid "email_remind_invitee"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Welcome to ${project_title}\n\nYour request to join \"${project_title}\" on ${portal_title} has been approved.  The project is accessible at the following address: ${project_url}\n"
-#: ./opencore/project/browser/mship_messages.py:20
+#: ./opencore/project/browser/mship_messages.py:7
 msgid "email_request_approved"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Your request to join ${project_title}\n\nYour request to join \"${project_title}\" on ${portal_title} has been denied.\n"
-#: ./opencore/project/browser/mship_messages.py:25
+#: ./opencore/project/browser/mship_messages.py:12
 msgid "email_request_denied"
 msgstr ""
 
@@ -730,42 +728,42 @@ msgid "invitations_invite"
 msgstr ""
 
 #. Default: "Invitations to Join"
-#: ./opencore/account/invite-join.pt:159
+#: ./opencore/account/invite-join.pt:165
 msgid "invite_join_invitations_label"
 msgstr ""
 
 #. Default: "Already a member?"
-#: ./opencore/account/invite-join.pt:214
+#: ./opencore/account/invite-join.pt:220
 msgid "join_already_member_heading"
 msgstr ""
 
 #. Default: "Join"
-#: ./opencore/account/invite-join.pt:191
+#: ./opencore/account/invite-join.pt:197
 msgid "join_button"
 msgstr ""
 
 #. Default: "Check your email to confirm registration"
-#: ./opencore/account/invite-join.pt:32
+#: ./opencore/account/invite-join.pt:38
 msgid "join_check_email"
 msgstr ""
 
 #. Default: "Confirm password"
-#: ./opencore/account/invite-join.pt:136
+#: ./opencore/account/invite-join.pt:142
 msgid "join_conf_password_label"
 msgstr ""
 
 #. Default: "Registration is free and your email will not be shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system."
-#: ./opencore/account/invite-join.pt:24
+#: ./opencore/account/invite-join.pt:30
 msgid "join_description"
 msgstr ""
 
 #. Default: "Email"
-#: ./opencore/account/invite-join.pt:87
+#: ./opencore/account/invite-join.pt:93
 msgid "join_email_label"
 msgstr ""
 
 #. Default: "Full Name"
-#: ./opencore/account/invite-join.pt:65
+#: ./opencore/account/invite-join.pt:71
 msgid "join_full_name_label"
 msgstr ""
 
@@ -785,17 +783,17 @@ msgid "join_page_title"
 msgstr ""
 
 #. Default: "Password"
-#: ./opencore/account/invite-join.pt:114
+#: ./opencore/account/invite-join.pt:120
 msgid "join_password_label"
 msgstr ""
 
 #. Default: "Sign in"
-#: ./opencore/account/invite-join.pt:215
+#: ./opencore/account/invite-join.pt:221
 msgid "join_sign_in"
 msgstr ""
 
 #. Default: "Username"
-#: ./opencore/account/invite-join.pt:43
+#: ./opencore/account/invite-join.pt:49
 msgid "join_username_label"
 msgstr ""
 
@@ -1534,7 +1532,7 @@ msgstr ""
 msgid "projects_start_project_button"
 msgstr ""
 
-#: ./opencore/project/browser/manageteam.py:520
+#: ./opencore/project/browser/manageteam.py:522
 msgid "promote_to_admin"
 msgstr ""
 
@@ -1719,7 +1717,7 @@ msgid "psm_signin_welcome"
 msgstr ""
 
 #. Default: "Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account."
-#: ./opencore/account/join.py:48
+#: ./opencore/account/join.py:52
 msgid "psm_thankyou_for_joining"
 msgstr ""
 

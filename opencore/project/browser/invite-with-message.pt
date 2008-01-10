@@ -43,7 +43,9 @@ This is a reminder.
 
 <span i18n:name="inviter_name" tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" /> has invited you to join "<span i18n:name="project_title" tal:replace="view/area/Title" />" on <span i18n:name="portal_title" tal:replace="view/portal_title" />.
  
-<span i18n:name="portal_title" tal:replace="view/portal_title" /> is a free toolset for social change. With <span i18n:name="portal_title" tal:replace="view/portal_title" />, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks.
+<span i18n:name="portal_title" tal:replace="view/portal_title" /> is a free toolset for social change. With <span i18n:name="portal_title" tal:replace="view/portal_title" />, you can build collaborative 
+pages for organizing projects. You can also blog, set up mailing lists, store and share files, 
+and keep track of tasks.
  
 We hope you'll take <span i18n:name="portal_url" tal:replace="view/portal/absolute_url" /> for a spin.
 
@@ -70,13 +72,14 @@ This will be added to all messages:
 <pre i18n:translate="email_invite_static_body">
 <span i18n:name="user_message"></span>
 To accept this invitation or learn more about the project, click here: 
-<span i18n:name="project_title">[url]</span>.
+<span i18n:name="project_title">${join_url}</span>.
+
+
+---------------------------------------------------------------------
 This message was sent from <span i18n:name="portal_title"
 tal:replace="view/portal_title" />.  
-
 To contact <span i18n:name="portal_title" tal:replace="view/portal_title" />, go here:
-<span
-i18n:name="site_contact_url" tal:replace="string: ${view/portal/absolute_url}/contact-site-admin" />
+<span i18n:name="site_contact_url" tal:replace="string: ${view/portal/absolute_url}/contact-site-admin" />
 </pre> </div>
 
 
