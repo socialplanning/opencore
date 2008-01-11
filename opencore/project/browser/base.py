@@ -1,16 +1,18 @@
-from opencore.browser.base import BaseView, _
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from opencore.browser.base import BaseView
 from opencore.geocoding.view import get_geo_reader
-from opencore.geocoding.view import get_geo_writer
-from opencore.project.utils import get_featurelets
-from plone.memoize.instance import memoize, memoizedproperty
-from topp.featurelets.interfaces import IFeatureletSupporter, IFeaturelet
-from zope.component import queryAdapter
 from opencore.project import LATEST_ACTIVITY
 from opencore.project import PROJ_HOME
+from opencore.project.utils import get_featurelets
+from plone.memoize.instance import memoizedproperty
+from topp.featurelets.interfaces import IFeatureletSupporter, IFeaturelet
 from topp.utils import text
+from zope.component import queryAdapter
 
 
 class ProjectBaseView(BaseView):
+
+    proj_macros = ZopeTwoPageTemplateFile('macros.pt')
 
     @memoizedproperty
     def has_mailing_lists(self):
