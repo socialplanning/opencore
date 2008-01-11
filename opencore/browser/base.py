@@ -8,7 +8,6 @@ from Products.CMFPlone.utils import transaction_note
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
-
 from opencore.interfaces import IProject 
 from opencore.project.utils import project_path
 from zope.i18nmessageid import Message
@@ -487,6 +486,18 @@ class BaseView(BrowserView):
     def inproject(self): # TODO
         return self.piv.inProject
 
+    def is_project_member(self, id=None):
+        """
+        doess the currently authenticated member belong to the project?
+        """
+        if id is None:
+            id = self.member_info.get('id')
+        
+        team = self.piv.project.getTeams()[0]
+        filter_states = tuple(team.getActiveStates()) + ('pending',)
+        return id in team.getMemberIdsByStates(filter_states)
+
+
     # unused??
     def projectFeaturelets(self):
         fletsupporter = IFeatureletSupporter(self.context)
@@ -510,6 +521,7 @@ class BaseView(BrowserView):
     def catalog(self):
         return self.get_tool('portal_catalog')
 
+    # XXX aliases are bad
     catalogtool = catalog
 
     @property

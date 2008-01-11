@@ -531,7 +531,7 @@ This is not the view
 
 This is the old skin which redirects to the login page.
 
-    >>> 'Please sign in to continue.' in output
+    >>> 'psm_please_sign_in' in output
     True
 
 Remove test_user_1_
@@ -541,6 +541,11 @@ Ensure test atomicity by removing the created user:
 
     >>> self.logout()
     >>> portal.portal_memberdata.manage_delObjects('test_user_1_')
+    Called httplib2.Http.request(
+        'http://nohost:wordpress/openplans-remove-user.php',
+        'POST',
+        body='username=test_user_1_&signature=...,
+        headers={...'application/x-www-form-urlencoded'...})
     >>> portal.people.manage_delObjects('test_user_1_')
 
 Is the member still in the catalog?

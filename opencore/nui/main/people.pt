@@ -17,9 +17,38 @@
 
       <div id="oc-content-main">
         <tal:set_var define="current_search_page string:people;
-                     form_action_url string:${context/portal_url}/people/searchresults">
+                     form_action_url string:${context/absolute_url}/searchresults">
         <div metal:use-macro="here/main_macros/search_widget" />
         </tal:set_var>
+
+        <div class="oc-homepage-column-33 oc-widget oc-widget-feed oc-widget-feed-home">
+          <h2 class="oc-feed-title">New Members</h2>
+          <ul class="oc-feed-list">
+            <li class="oc-feed-item oc-clearAfter"
+              tal:repeat="member_brain view/recently_created_members">
+              <tal:member_info define="member python:view.member_info_for_member(member_brain.getObject())">
+                <a tal:attributes="href string:${member/folder_url}/profile">
+                  <img class="oc-avatar photo" src="" tal:attributes="src member/portrait_thumb_url" />
+                </a>
+                <div class="oc-feed-item-content">
+                  <h3 class="oc-feed-item-title">
+                    <a tal:attributes="href string:${member/folder_url}/profile" tal:content="member/id">Username</a>
+                  </h3>
+                  <div class="n" tal:content="member/fullname">name</div>
+
+                <p class="oc-feed-item-data oc-discreetText"
+                  tal:define="loc member/location"
+                  tal:condition="loc"
+                  tal:content="member/location"
+                  />
+
+                </div>
+
+              </tal:member_info>
+            </li>
+          </ul>
+        </div>
+        
       </div>
 
     </div><!-- content-fill-slot -->

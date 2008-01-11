@@ -24,7 +24,7 @@ portal = context.portal_url.getPortalObject()
 
 if context.portal_membership.isAnonymousUser():
     plone_utils = getToolByName(portal, 'plone_utils')
-    plone_utils.addPortalMessage(utranslate('opencore', _(u'psm_please_sign_in', u'Please sign in to continue.')))
+    plone_utils.addPortalMessage(_(u'psm_please_sign_in', u'Please sign in to continue.'))
     referer = context.REQUEST.environ.get('HTTP_REFERER')
     if referer is not None:
         context.REQUEST.form['referer'] = referer

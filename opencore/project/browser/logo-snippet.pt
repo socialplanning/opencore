@@ -8,7 +8,7 @@
       tal:attributes="class python:expand and classes_opened or classes_closed"
       style="clear: left;">
       <legend class="oc-legend-label">
-        <a
+        <a href="#"
           tal:define="a_classes_closed python:'oc-js-expander_open oc-expanderLink';
           a_classes_opened python:a_classes_closed + ' oc-expanderLink-open'"
           tal:attributes="class python:expand and a_classes_opened or a_classes_closed">Change image</a>
@@ -26,6 +26,7 @@
           <input type="submit" name="task|oc-project-logo|remove"
             class="oc-js-actionButton" value="Remove" />
         </tal:haslogo>
+        <a href="#" class="oc-js-expander_close">Cancel</a>
       </div>
     </fieldset>
   </div>

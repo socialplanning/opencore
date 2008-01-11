@@ -1,0 +1,18 @@
+# attempt to add a new page without sufficient permission.
+#
+# expects: 
+#    project projname exists, project homepage has a link
+#    to pagename2, and pagename2 does not exist.
+
+
+# make sure it doesn't exist already...
+go ${base_url}/projects/${projname}/{pagename2}
+code 404
+
+go ${base_url}/projects/${projname}
+follow ${pagename2}
+url ${base_url}/.*/require_login?.*
+find "psm_please_sign_in"
+go ${base_url}/projects/${projname}/{pagename2}
+code 404
+logout

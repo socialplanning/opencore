@@ -11,9 +11,7 @@
     <implements
       interface="opencore.interfaces.IEditProject
                  zope.app.annotation.interfaces.IAttributeAnnotatable
-                 Products.ploneundelete.interfaces.IUndeleteContainer
-                "
-    />
+                 Products.ploneundelete.interfaces.IUndeleteContainer" />
   </content>
 
 
@@ -41,6 +39,7 @@
      handler="opencore.project.wf_policy_support.saveWFPolicy" />
 
   <subscriber handler="opencore.project.handler.save_featurelets" />
+  <subscriber handler="opencore.project.handler.unindex_project" />
 
   <utility component="opencore.project.deliver._global_vhoster_info" 
            provides="opencore.project.deliver.IVHosterInfo" />

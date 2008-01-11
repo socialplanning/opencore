@@ -5,7 +5,7 @@
 
   <browser:page
      for="opencore.interfaces.member.IMemberFolder"
-     class=".view.MemberAccountView"
+     class=".account.MemberAccountView"
      permission="cmf.ModifyPortalContent"
      name="account"
      />
@@ -42,7 +42,7 @@
 
   <browser:page
      for="opencore.interfaces.member.IMemberFolder"
-     class=".view.TourView"
+     class=".account.TourView"
      permission="cmf.ModifyPortalContent"
      name="tour"
      template="tour.pt"
@@ -50,7 +50,7 @@
 
   <browser:page
      for="opencore.interfaces.member.IMemberFolder"
-     class=".view.ProjectInvitationsView"
+     class=".account.ProjectInvitationsView"
      permission="cmf.ModifyPortalContent"
      name="invitations"
      template="invitations.pt"

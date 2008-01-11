@@ -21,8 +21,8 @@
      
   <!--image manager stuff-->
 
+  <!-- @@ these "backend" views are poorly named, they seem to be xinha-specific -->
   <browser:page
-
     for="opencore.interfaces.IOpenPage"
     name="backend"
     permission="zope2.View"
@@ -50,9 +50,8 @@
     for="opencore.interfaces.IOpenPage"
     name="internal-link"
     permission="zope2.View"
-    template="internal-link.pt"
+    attribute="file_list"
     />
-
 
   <!-- Wiki views  -->
   <browser:page
@@ -109,7 +108,13 @@
     permission="cmf.ManagePortal"
     />
 
-  <!-- placeholder views for lists & tasks -->
+  <!-- placeholder views for logo, lists & tasks -->
+  <browser:page
+     class="opencore.nui.wiki.add.IgnorableDummy"
+     for="opencore.interfaces.IProject"
+     permission="zope2.View"
+     name="logo"
+     />
   <browser:page
      class="opencore.nui.wiki.add.IgnorableDummy"
      for="opencore.interfaces.IProject"

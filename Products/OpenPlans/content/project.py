@@ -1,5 +1,6 @@
 from AccessControl import ClassSecurityInfo
 from Acquisition import aq_base, aq_parent, aq_inner
+from Products.Archetypes.Field import Image
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 from Products.Archetypes.public import *
 from Products.Archetypes.utils import shasattr
@@ -11,10 +12,12 @@ from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.CMFPlone.utils import _createObjectByType
 from Products.OpenPlans.permissions import CopyOrMove
 from Products.OpenPlans.permissions import ManageWorkflowPolicy
+from Products.TeamSpace.space import TeamSpaceMixin
 from Products.TeamSpace.space import TeamSpace
 from Products.ZCTextIndex import ParseTree
 from ZODB.POSException import ConflictError
 from opencore.configuration import OC_REQ as OPENCORE
+from opencore.content.page import OpenPage
 from opencore.interfaces import IProject
 from topp.featurelets.config import MENU_ID
 from topp.featurelets.interfaces import IMenuSupporter
@@ -150,7 +153,7 @@ project_menu_preferences = {'title': u'Project Preferences',
                             '_for': Interface,
                             }
 
-class OpenProject(BrowserDefaultMixin, TeamSpace):
+class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
     """
     A Project workspace.
     """
@@ -203,6 +206,10 @@ class OpenProject(BrowserDefaultMixin, TeamSpace):
         'visible'     : False,
          },
         )
+
+    def __init__(self, id, title=''):
+        BaseBTreeFolder.__init__(self, id)
+        self.title = title or self.meta_type
 
     def _createTeam(self):
         """
@@ -347,5 +354,13 @@ class OpenProject(BrowserDefaultMixin, TeamSpace):
                 for role in mship.getTeamRoles():
                     team_roles[role] = 1
         return team_roles.keys()
+
+
+    def getLogo(self):
+        """custom logo accessor in case project contains an OpenPage with id 'logo'"""
+        if hasattr(self, 'logo'):
+            if not isinstance(self.logo, Image):
+                return None
+            return self.logo
 
 registerType(OpenProject)

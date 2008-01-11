@@ -205,6 +205,8 @@ class SignedCookieAuthHelper(ExtendedCookieAuthHelper):
         cookiehash = credentials.get('hash')
         if cookiehash is not None and \
                cookiehash  == self.generateHash(login):
+            # block remote auth
+            credentials['opencore_auth_match'] = True
             return (login, login)
 
 InitializeClass(SignedCookieAuthHelper)

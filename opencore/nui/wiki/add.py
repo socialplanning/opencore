@@ -1,12 +1,11 @@
-from Products.wicked.browser.add import WickedAdd
 from Acquisition import aq_inner, aq_parent
+from Products.wicked.browser.add import WickedAdd
 from Products.wicked.lib.normalize import titleToNormalizedId as normalize
-
+from Products.wicked.utils import getFilter
 from opencore.browser.base import BaseView
 from opencore.browser.base import _
-from Products.wicked.utils import getFilter
-from zope.component import ComponentLookupError
 from zExceptions import Redirect
+from zope.component import ComponentLookupError
 import itertools
 
 
@@ -41,6 +40,8 @@ class NuiBaseAdd(WickedAdd, BaseView):
         # this is 2.5 specific and will need to be updated for new
         # wicked implementation (which is more modular)
         title = self.request.get('Title', title)
+        if title:
+            title = title.decode("utf-8")
         section = self.request.get('section', section)
         assert title, 'Must have a title to create content' 
         newcontentid=self.sanitize(title)

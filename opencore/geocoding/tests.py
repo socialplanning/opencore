@@ -14,7 +14,7 @@ import warnings; warnings.filterwarnings("ignore")
 
 def test_suite():
     from Products.PloneTestCase import setup
-    from opencore.project.browser.view import ProjectBaseView
+    from opencore.project.browser.base import ProjectBaseView
     from opencore.member.browser.view import ProfileView
     from pprint import pprint
     from Products.PleiadesGeocoder.interfaces import IGeoItemSimple

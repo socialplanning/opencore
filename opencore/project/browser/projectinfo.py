@@ -7,7 +7,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.TrustedExpression import getEngine
 from opencore.interfaces import IProject, IOpenTeam
-from memojito import memoizedproperty
+from plone.memoize.instance import memoizedproperty, memoize
 from interfaces import IProjectInfo
 from topp.featurelets.interfaces import IFeatureletSupporter
 from opencore.project.utils import get_featurelets

@@ -33,172 +33,6 @@ def clean_search_query(search_query):
         search_query = search_query.replace(char, '"%s"' % char)
     return search_query
 
-class SearchView(BaseView):
-    match = staticmethod(first_letter_match)
-
-    def project_url(self, project_brain):
-        return '%s/projects/%s' % (self.context.absolute_url(),
-                                   project_brain.getId)
-
-    def _get_batch(self, brains, start=0):
-        return Batch(brains,
-                     size=10,
-                     start=start,
-                     end=0,
-                     orphan=0,
-                     overlap=0,
-                     pagerange=6,
-                     quantumleap=0,
-                     b_start_str='b_start')
-
-    def add_class_to_img(self, imgdata, clss):
-        tag = str(imgdata)
-        return tag.replace('<img', '<img class="%s"' % clss)
-
-
-class ProjectsSearchView(SearchView):
-
-    active_states = ['public', 'private']
-
-    def __call__(self):
-        search_for = self.request.get('search_for', None)
-        letter_search = self.request.get('letter_search', None)
-        start = self.request.get('b_start', 0)
-        sort_by = self.request.get('sort_by', None)
-        self.search_results = None
-        self.search_query = None
-
-        # this resets pagination when the sort order is changed
-        if self.request.get('REQUEST_METHOD', None) == 'POST':
-            start = 0
-            self.request.set('b_start', 0)
-            
-        if letter_search:
-            self.search_results = self._get_batch(self.search_for_project_by_letter(letter_search, sort_by), start)
-            self.search_query = 'for projects starting with &ldquo;%s&rdquo;' % letter_search
-        elif search_for:
-            self.search_results = self._get_batch(self.search_for_project(search_for, sort_by), start)
-            self.search_query = 'for &ldquo;%s&rdquo;' % search_for
-        else:
-            self.search_results = self._get_batch(self.search_for_project_by_letter('all', sort_by), start)
-            self.search_query = 'for all projects'
-            
-        return self.index()
-        
-    def search_for_project_by_letter(self, letter, sort_by=None):
-        letter = letter.lower()
-
-        if letter == 'num':
-            search_for = '1* OR 2* OR 3* OR 4* OR 5* OR 6* OR 7* OR 8* OR 9* OR 0*'
-            query = dict(portal_type="OpenProject", Title=search_for)
-        elif letter == 'all':
-            query = dict(portal_type="OpenProject")
-        else:
-            search_for = letter + '*'
-            query = dict(portal_type="OpenProject", Title=search_for)
-
-        if sort_by is None:
-            sort_by = 'sortable_title'
-        query['sort_on'] = sort_by
-
-        self.apply_context_restrictions(query)
-
-        project_brains = self.catalog(**query)
-
-        if letter == 'all':
-            return project_brains
-
-        project_brains = [brain for brain in project_brains \
-                          if self.match(brain.Title.lower(), letter)]
-
-        return project_brains
-
-    def search_for_project(self, project, sort_by=None):
-        proj_query = clean_search_query(project)
-
-        if proj_query == '*':
-            return []
-        if not proj_query.endswith('*'):
-            proj_query = proj_query + '*'
-
-        if not sort_by or sort_by == 'relevancy':
-            rs = RankByQueries_Sum((Eq('Title', proj_query),32),
-                                   (Eq('getFull_name', proj_query),16)),
-        else:
-            # we can't sort by title
-            if sort_by == 'Title':
-                sort_by = 'sortable_title'
-            rs = ((sort_by, 'desc'),)
-
-        query = Eq('portal_type', 'OpenProject') & Eq('SearchableText', proj_query)
-
-        query = self.adv_context_restrictions_applied(query)
-        
-        project_brains = self.catalog.evalAdvancedQuery(query, rs)
-        return project_brains
-    
-    def recently_updated_projects(self, sort_limit=10):
-        
-        rs = (('modified', 'desc'),)
-            
-        query = Eq('portal_type', 'OpenProject') & (Eq('project_policy', 'open_policy') | Eq('project_policy', 'medium_policy'))
-
-        query = self.adv_context_restrictions_applied(query)
-        
-        project_brains = self.catalog.evalAdvancedQuery(query, rs)
-        return project_brains[:sort_limit]
-
-    def n_project_members(self, proj_brain):
-        proj_id = proj_brain.getId
-        tmtool = self.get_tool('portal_teams')
-        team_path = '/'.join(tmtool.getPhysicalPath())
-        team_path = '%s/%s' % (team_path, proj_id)
-        brains = self.catalog(portal_type='OpenMembership',
-                              path=team_path,
-                              review_state=self.active_states,
-                              )
-        return len(brains)
-
-    def apply_context_restrictions(self, query):
-        """
-        inserts additional query constraints into the
-        query dict given based on context
-        """
-        pass
-
-    def adv_context_restrictions_applied(self, adv_query):
-        """
-        returns a new advanced query based on the
-        query given with additional constraints based
-        on context
-        """
-        return adv_query
-
-
-class SubProjectsSearchView(ProjectsSearchView):
-
-    def subproject_paths(self):
-        info = redirect.get_info(self.context)
-        if info:
-            return list(info.values())
-        else:
-            return []
-
-    def all_subprojects(self):
-        query = dict(portal_type="OpenProject",
-                     sort_on='sortable_title')
-
-        self.apply_context_restrictions(query)
-
-        project_brains = self.catalog(**query)
-        return project_brains
-        
-    def apply_context_restrictions(self, query):
-        query['path'] = self.subproject_paths()
-
-    def adv_context_restrictions_applied(self, query):
-        return query & In('path', self.subproject_paths())
-
 
 def _sort_by_id(brains):
     """
@@ -251,37 +85,200 @@ def searchForPerson(mcat, search_for, sort_by=None):
     return people_brains
     
 
+class SearchView(BaseView):
+    match = staticmethod(first_letter_match)
+
+    def logo_for_proj_brain(self, brain):
+        proj = brain.getObject()
+        return proj.getLogo()
+
+    @property
+    def search_for(self):
+        return self.request.get('search_for', None)
+
+    @property
+    def letter_search(self):
+        return self.request.get('letter_search', None)
+
+    @property
+    def start(self):
+        return self.request.get('b_start', 0)
+
+    @property
+    def sort_by(self):
+        return self.request.get('sort_by', None)
+
+    def clear_search_query(self):        
+        self.search_results = None
+        self.search_query = None
+        
+    def _get_batch(self, brains, start=0):
+        return Batch(brains,
+                     size=10,
+                     start=start,
+                     end=0,
+                     orphan=0,
+                     overlap=0,
+                     pagerange=6,
+                     quantumleap=0,
+                     b_start_str='b_start')
+
+    def perform_search(self):
+        self.clear_search_query()
+
+        if self.letter_search:
+            self.search_results = self._get_batch(self.search_by_letter(self.letter_search, self.sort_by), self.start)
+            self.search_query = 'for %s starting with &ldquo;%s&rdquo;' % (self.noun, self.letter_search)
+        elif self.search_for:
+            self.search_results = self._get_batch(self.search_by_text(self.search_for, self.sort_by), self.start)
+            self.search_query = 'for &ldquo;%s&rdquo;' % self.search_for
+        else:
+            self.search_results = self._get_batch(self.search_by_letter('all', self.sort_by), self.start)
+            self.search_query = 'for all %s' % self.noun
+            
+        return self.index()
+    
+    noun = 'please define a plural noun in your subclass'
+
+    def search_by_letter(self, letter, sort_by):
+        """
+        search for content by its initial letter.
+        a subclass needs to define this method
+        """
+        pass
+
+    def search_by_text(self, search_for, sort_by):
+        """
+        search for content by text query.
+        a subclass needs to define this method
+        """
+
+    # is this used anywhere?
+    def project_url(self, project_brain):
+        return '%s/projects/%s' % (self.context.absolute_url(),
+                                   project_brain.getId)
+
+    # is this used anywhere?
+    def add_class_to_img(self, imgdata, clss):
+        tag = str(imgdata)
+        return tag.replace('<img', '<img class="%s"' % clss)
+
+
+
+class ProjectsSearchView(SearchView):
+
+    noun = 'projects'
+    active_states = ['public', 'private']
+
+    def __call__(self):
+        return self.perform_search()
+
+    def search_by_letter(self, letter, sort_by=None):
+        letter = letter.lower()
+
+        if letter == 'num':
+            search_for = '1* OR 2* OR 3* OR 4* OR 5* OR 6* OR 7* OR 8* OR 9* OR 0*'
+            query = dict(portal_type="OpenProject", Title=search_for)
+        elif letter == 'all':
+            query = dict(portal_type="OpenProject")
+        else:
+            search_for = letter + '*'
+            query = dict(portal_type="OpenProject", Title=search_for)
+
+        if sort_by is None:
+            sort_by = 'sortable_title'
+        query['sort_on'] = sort_by
+
+        self.apply_context_restrictions(query)
+
+        project_brains = self.catalog(**query)
+
+        if letter == 'all':
+            return project_brains
+
+        project_brains = [brain for brain in project_brains \
+                          if self.match(brain.Title.lower(), letter)]
+
+        return project_brains
+
+    def search_by_text(self, search_for, sort_by=None):
+        project = search_for
+        proj_query = clean_search_query(project)
+
+        if proj_query == '*':
+            return []
+        if not proj_query.endswith('*'):
+            proj_query = proj_query + '*'
+
+        if not sort_by or sort_by == 'relevancy':
+            rs = RankByQueries_Sum((Eq('Title', proj_query),32),
+                                   (Eq('getFull_name', proj_query),16)),
+        else:
+            # we can't sort by title
+            if sort_by == 'Title':
+                sort_by = 'sortable_title'
+            rs = ((sort_by, 'desc'),)
+
+        query = Eq('portal_type', 'OpenProject') & Eq('SearchableText', proj_query)
+
+        query = self.adv_context_restrictions_applied(query)
+        
+        project_brains = self.catalog.evalAdvancedQuery(query, rs)
+        return project_brains
+    
+    def recently_updated_projects(self, sort_limit=10):
+        
+        rs = (('modified', 'desc'),)
+            
+        query = Eq('portal_type', 'OpenProject') & (Eq('project_policy', 'open_policy') | Eq('project_policy', 'medium_policy'))
+
+        query = self.adv_context_restrictions_applied(query)
+        
+        project_brains = self.catalog.evalAdvancedQuery(query, rs)
+        return project_brains[:sort_limit]
+
+    # what is an n_project_member?
+    def n_project_members(self, proj_brain):
+        proj_id = proj_brain.getId
+        tmtool = self.get_tool('portal_teams')
+        team_path = '/'.join(tmtool.getPhysicalPath())
+        team_path = '%s/%s' % (team_path, proj_id)
+        brains = self.catalog(portal_type='OpenMembership',
+                              path=team_path,
+                              review_state=self.active_states,
+                              )
+        return len(brains)
+
+    def apply_context_restrictions(self, query):
+        """
+        inserts additional query constraints into the
+        query dict given based on context
+
+        whaaa?
+        """
+        pass
+
+    def adv_context_restrictions_applied(self, adv_query):
+        """
+        returns a new advanced query based on the
+        query given with additional constraints based
+        on context
+
+        whaa?
+        """
+        return adv_query
+
+
 class PeopleSearchView(SearchView):
 
+    noun = 'members'
     def __init__(self, context, request):
         SearchView.__init__(self, context, request)
 
     def __call__(self):
-        search_for = self.request.get('search_for', None)
-        letter_search = self.request.get('letter_search', None)
-        start = self.request.get('b_start', 0)
-        sort_by = self.request.get('sort_by', None)
-        self.search_results = None
-        self.search_query = None
+        return self.perform_search()
 
-        # this resets pagination when the sort order is changed
-        if self.request.get('REQUEST_METHOD', None) == 'POST':
-            start = 0
-            self.request.set('b_start', 0)
-            
-        if letter_search:
-            self.search_results = self._get_batch(self.search_for_person_by_letter(letter_search, sort_by), start)
-            self.search_query = 'for members starting with &ldquo;%s&rdquo;' % letter_search
-        elif search_for:
-            self.search_results = self._get_batch(self.search_for_person(search_for, sort_by), start)
-            self.search_query = 'for &ldquo;%s&rdquo;' % search_for
-        else:
-            self.search_results = self._get_batch(self.search_for_person_by_letter('all', sort_by), start)
-            self.search_query = 'for all members'
-            
-        return self.index()
-
-    def search_for_person_by_letter(self, letter, sort_by=None):
+    def search_by_letter(self, letter, sort_by=None):
         letter = letter.lower()
 
         if letter == 'num':
@@ -311,12 +308,130 @@ class PeopleSearchView(SearchView):
 
         return people_brains
 
-    def search_for_person(self, person, sort_by=None):
-        return searchForPerson(self.membranetool, person, sort_by)
+    def search_by_text(self, search_for, sort_by=None):
+        return searchForPerson(self.membranetool, search_for, sort_by)
+
+    def recently_created_members(self, sort_limit=10):
+        query = dict(sort_on='created',
+                     sort_order='descending',
+                     sort_limit=5)
+        brains = self.membranetool(**query)
+        
+        return _sort_by_created(brains)
+
+
+
+class SitewideSearchView(SearchView):
+
+    noun = 'content'
+
+    def __call__(self):
+        return self.perform_search()
+
+    def search_by_letter(self, letter, sort_by=None):
+        letter = letter.lower()
+        if letter == 'num':
+            search_for = '1* OR 2* OR 3* OR 4* OR 5* OR 6* OR 7* OR 8* OR 9* OR 0*'
+            catalog_query = (Eq('portal_type', 'OpenProject') & Eq('Title', search_for)) \
+                    | (Eq('portal_type', 'Document') & Eq('Title', search_for))
+            membrane_query = dict(portal_type="OpenMember",
+                                  RosterSearchableText=search_for)
+        elif letter == 'all':
+            catalog_query = Eq('portal_type', 'OpenProject') \
+                    | Eq('portal_type', 'Document')
+            membrane_query = dict(portal_type="OpenMember")
+        else:
+            search_for = letter + '*'
+            catalog_query = ((Eq('portal_type', 'OpenProject') & (Eq('Title', search_for))) \
+                    | (Eq('portal_type', 'Document') & (Eq('Title', search_for))))
+            membrane_query = dict(portal_type="OpenMember",
+                                  RosterSearchableText=search_for)
+
+
+        if not sort_by:
+            sort_by = 'getId'
+
+        brains = self.catalog.evalAdvancedQuery(catalog_query, ()) + \
+                 self.get_tool('membrane_tool')(membrane_query)
+
+        if sort_by == 'getId':
+            brains = _sort_by_id(brains)
+        elif sort_by == 'modified':
+            brains = _sort_by_modified(brains)
+        elif sort_by == 'portal_type':
+            brains = _sort_by_portal_type(brains)
+
+        if letter == 'all':
+            return brains
+        
+        out_brains = []
+        
+        for brain in brains:
+            if brain.portal_type in ('OpenProject', 'Document') and \
+                   self.match(brain.Title.lower(), letter):
+                out_brains.append(brain)
+            elif brain.portal_type == ('OpenMember') and \
+                    brain.getId.lower().startswith(letter):
+                out_brains.append(brain)
+                
+        return out_brains
+
+    def search_by_text(self, search_for, sort_by=None):
+        search_query = clean_search_query(search_for)
+    
+        if search_query == '*':
+            return []
+
+        if not search_query.endswith('*'):
+            search_query = search_query + '*'
+
+        if not sort_by or sort_by == 'relevancy':
+            rs = (RankByQueries_Sum((Eq('getId', search_query),32), (Eq('getFull_name', search_query),16)),)
+        else:
+            if sort_by == 'getId':
+                rs = ()
+            else:
+                rs = ((sort_by, 'desc'),)
+
+        query = (Eq('portal_type', 'OpenProject') \
+                | Eq('portal_type', 'Document') \
+                | Eq('portal_type', 'OpenMember')) \
+                & Eq('SearchableText', search_query)
+        brains = self.catalog.evalAdvancedQuery(query, rs)
+
+        if sort_by == 'getId':
+            brains = _sort_by_id(brains)
+
+        return brains
+    
+class SubProjectsSearchView(ProjectsSearchView):
+
+    def subproject_paths(self):
+        info = redirect.get_info(self.context)
+        if info:
+            return list(info.values())
+        else:
+            return []
+
+    def all_subprojects(self):
+        query = dict(portal_type="OpenProject",
+                     sort_on='sortable_title')
+
+        self.apply_context_restrictions(query)
+
+        project_brains = self.catalog(**query)
+        return project_brains
+        
+    def apply_context_restrictions(self, query):
+        query['path'] = self.subproject_paths()
+
+    def adv_context_restrictions_applied(self, query):
+        return query & In('path', self.subproject_paths())
 
 
 class HomeView(SearchView):
     """zpublisher"""
+
     def __init__(self, context, request):
         # redirect asap
         go_here = request.get('go_here', None)
@@ -324,6 +439,7 @@ class HomeView(SearchView):
             raise Redirect, go_here        
         SearchView.__init__(self, context, request)
 
+        # don't do this!
         self.projects_search = ProjectsSearchView(context, request)
 
 
@@ -375,112 +491,6 @@ class HomeView(SearchView):
                      path=news_path
                      )
         brains = self.catalog(**query)
-        return brains
-    
-
-class SitewideSearchView(SearchView):
-
-    def __call__(self):
-        letter_search = self.request.get('letter_search', None)
-        search_for = self.request.get('search_for', None)
-        start = self.request.get('b_start', 0)
-        sort_by = self.request.get('sort_by', None)
-        self.search_results = None
-        self.search_query = None
-
-        # this resets pagination when the sort order is changed
-        if self.request.get('REQUEST_METHOD', None) == 'POST':
-            start = 0
-            self.request.set('b_start', 0)
-            
-        if letter_search:
-            self.search_results = self._get_batch(self.search_by_letter(letter_search, sort_by), start)
-            self.search_query = 'for content starting with &ldquo;%s&rdquo;' % letter_search
-        elif search_for:
-            self.search_results = self._get_batch(self.search(search_for, sort_by), start)
-            self.search_query = 'for &ldquo;%s&rdquo;' % search_for
-        else:
-            self.search_results = self._get_batch(self.search_by_letter('all', sort_by), start)
-            self.search_query = 'for all content'
-            
-        return self.index()
-    
-
-
-    def search_by_letter(self, letter, sort_by=None):
-        letter = letter.lower()
-        if letter == 'num':
-            search_for = '1* OR 2* OR 3* OR 4* OR 5* OR 6* OR 7* OR 8* OR 9* OR 0*'
-            catalog_query = (Eq('portal_type', 'OpenProject') & Eq('Title', search_for)) \
-                    | (Eq('portal_type', 'Document') & Eq('Title', search_for))
-            membrane_query = dict(portal_type="OpenMember",
-                                  RosterSearchableText=search_for)
-        elif letter == 'all':
-            catalog_query = Eq('portal_type', 'OpenProject') \
-                    | Eq('portal_type', 'Document')
-            membrane_query = dict(portal_type="OpenMember")
-        else:
-            search_for = letter + '*'
-            catalog_query = ((Eq('portal_type', 'OpenProject') & (Eq('Title', search_for))) \
-                    | (Eq('portal_type', 'Document') & (Eq('Title', search_for))))
-            membrane_query = dict(portal_type="OpenMember",
-                                  RosterSearchableText=search_for)
-
-
-        if not sort_by:
-            sort_by = 'getId'
-
-        brains = self.catalog.evalAdvancedQuery(catalog_query, ()) + \
-                 self.get_tool('membrane_tool')(membrane_query)
-
-        if sort_by == 'getId':
-            brains = _sort_by_id(brains)
-        elif sort_by == 'modified':
-            brains = _sort_by_modified(brains)
-        elif sort_by == 'portal_type':
-            brains = _sort_by_portal_type(brains)
-
-        if letter == 'all':
-            return brains
-        
-        out_brains = []
-        
-        for brain in brains:
-            if brain.portal_type in ('OpenProject', 'Document') and \
-                   self.match(brain.Title.lower(), letter):
-                out_brains.append(brain)
-            elif brain.portal_type == ('OpenMember') and \
-                    brain.getId.lower().startswith(letter):
-                out_brains.append(brain)
-                
-        return out_brains
-
-    def search(self, search_for, sort_by=None):
-        search_query = clean_search_query(search_for)
-    
-        if search_query == '*':
-            return []
-
-        if not search_query.endswith('*'):
-            search_query = search_query + '*'
-
-        if not sort_by or sort_by == 'relevancy':
-            rs = (RankByQueries_Sum((Eq('getId', search_query),32), (Eq('getFull_name', search_query),16)),)
-        else:
-            if sort_by == 'getId':
-                rs = ()
-            else:
-                rs = ((sort_by, 'desc'),)
-
-        query = (Eq('portal_type', 'OpenProject') \
-                | Eq('portal_type', 'Document') \
-                | Eq('portal_type', 'OpenMember')) \
-                & Eq('SearchableText', search_query)
-        brains = self.catalog.evalAdvancedQuery(query, rs)
-
-        if sort_by == 'getId':
-            brains = _sort_by_id(brains)
-
         return brains
     
 

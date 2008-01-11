@@ -63,7 +63,7 @@ Exercise the Member Account Class
     >>> self.login('m1')
 
 Create a project with an international unicode title::
-    >>> from opencore.project.browser.view import ProjectAddView
+    >>> from opencore.project.browser.add import ProjectAddView
     >>> proj_add_view = ProjectAddView(self.portal.projects,
     ...                                self.portal.REQUEST)
     >>> request.form['projid'] = 'i18n'
@@ -90,7 +90,7 @@ insensitive sort::
     >>> apple_project = self.portal.projects.apples
     >>> apple_project
     <OpenProject at /plone/projects/apples>
-    >>> delattr(proj_add_view, '_redirected')  #XXX why?
+    >>> delattr(proj_add_view, '_redirected')  # XXX why?
 
 Check projects for user m1::
     >>> project_dicts = view.projects_for_user
@@ -339,7 +339,7 @@ And now if we were to receive an info message::
 
     Let's go ahead and kill the first one, the message is not so nice
     >>> sorted(view.close_msg_handler('0').keys())
-    ['0_close', 'num_updates']
+    ['close_info_message_0', 'num_updates']
 
     Poof, he's gone
     >>> self.clearMemoCache()

@@ -130,7 +130,7 @@
             <fieldset>
               <legend i18n:translate="create_project_home_page" class="oc-legend-subheading">Select the home page for your project:</legend>
               <ul class="oc-form-radiolist oc-form-fieldBlock">
-                <li tal:repeat="flet python:view.featurelets(include_wiki=True)">
+                <li tal:repeat="flet view/homepages">
                   <label tal:attributes="for string:home_${flet/id};
                                          id string:oc-js-togglee-${flet/id}">
                   <tal:radio-checked condition="flet/checked">

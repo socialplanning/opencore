@@ -361,9 +361,12 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                         }
             sender.sendEmail(mem_id, msg_id='remind_invitee', **msg_vars)
 
-        plural = len(mem_ids) != 1
-        msg = "Reminder%s sent: %s" % (plural and 's' or '', ", ".join(mem_ids))
-        self.add_status_message(msg)
+        if not mem_ids:
+            self.addPortalStatusMessage(_(u"remind_invite_none_selected"))
+        else:
+            plural = len(mem_ids) != 1
+            msg = "Reminder%s sent: %s" % (plural and 's' or '', ", ".join(mem_ids))
+            self.add_status_message(msg)
 
 
     ##################
@@ -537,15 +540,18 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                     commands[mem_id] = {'action': 'replace',
                                         'html': html,
                                         'effects': 'highlight'}
-                    transient_msg = (team.getHighestTeamRoleForMember(mem_id) == 'ProjectAdmin'
-                                     and 'You are now an admin of'
-                                     or 'You are no longer an admin of')
+                    promoted = team.getHighestTeamRoleForMember(mem_id) == 'ProjectAdmin'
+                    if promoted:
+                        transient_msg = 'You are now an admin of'
+                        status_msg = _(u'promote_to_admin',
+                                       mapping={'name': mem_id})
+                    else:
+                        transient_msg = 'You are no longer an admin of'
+                        status_msg = _(u'demote_to_member',
+                                       mapping={'name': mem_id})
                     self._add_transient_msg_for(mem_id, transient_msg)
-                        
-            plural = len(changes) != 1
-            msg = u'Role changed for the following member%s: %s' \
-                  % (plural and 's' or '', ', '.join(changes))
-            self.add_status_message(msg)
+                    self.add_status_message(status_msg)
+
             return commands
         else:
             msg = u"No roles changed"

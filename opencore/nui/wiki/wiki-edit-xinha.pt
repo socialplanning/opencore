@@ -22,12 +22,12 @@
 
     <title metal:fill-slot="title" tal:content="python:view.wiki_window_title(mode='edit')" />
     <metal:link-slot metal:fill-slot="link">
-<link type="text/css" rel="stylesheet" title="blue-look" href="/++resource++xinha/skins/blue-look/skin.css"/>
-<link type="text/css" rel="alternate stylesheet" title="green-look" href="/++resource++xinha/skins/green-look/skin.css"/>
-<link type="text/css" rel="alternate stylesheet" title="xp-blue" href="/++resource++xinha/skins/xp-blue/skin.css"/>
-<link type="text/css" rel="alternate stylesheet" title="xp-green" href="/++resource++xinha/skins/xp-green/skin.css"/>
-<link type="text/css" rel="alternate stylesheet" title="inditreuse" href="/++resource++xinha/skins/inditreuse/skin.css"/>
-<link type="text/css" rel="alternate stylesheet" title="blue-metallic" href="/++resource++xinha/skins/blue-metallic/skin.css"/>
+      <link type="text/css" rel="stylesheet" title="blue-look" href="/++resource++xinha/skins/blue-look/skin.css"/>
+      <link type="text/css" rel="alternate stylesheet" title="green-look" href="/++resource++xinha/skins/green-look/skin.css"/>
+      <link type="text/css" rel="alternate stylesheet" title="xp-blue" href="/++resource++xinha/skins/xp-blue/skin.css"/>
+      <link type="text/css" rel="alternate stylesheet" title="xp-green" href="/++resource++xinha/skins/xp-green/skin.css"/>
+      <link type="text/css" rel="alternate stylesheet" title="inditreuse" href="/++resource++xinha/skins/inditreuse/skin.css"/>
+      <link type="text/css" rel="alternate stylesheet" title="blue-metallic" href="/++resource++xinha/skins/blue-metallic/skin.css"/>
     </metal:link-slot>
     <metal:script-slot metal:fill-slot="script">
 <!-- xinha code below  -->
@@ -96,8 +96,19 @@ var _editor_lang = "en";
                   <label for="description">Description</label>
                   <textarea id="description" name="description" tal:content="context/Description" />
                 </tal:description>
+                <textarea id="rawtext" name="rawtext" style="visibility:hidden; overflow:hidden; display:none;" tal:content="view/rawtext"></textarea>
+                <script type="text/javascript">
+                  <!--
+                  document.write('                <textarea editor-type="wysiwyg" id="text" name="text" style="visibility:hidden; overflow:hidden;" rows="10" cols="80" width="800px" height="600px" base="advanced"><' + '/textarea>');
+                  elraw = document.getElementById("rawtext");
+                  eltxt = document.getElementById("text");
+                  eltxt.innerHTML = elraw.innerHTML;
+                  //-->
+                </script> 
+                <noscript>
+                  <textarea editor-type="wysiwyg" id="text" name="text" rows="10" cols="80" width="800px" height="600px" base="advanced" tal:content="view/rawtext"></textarea>
+                </noscript>
 
-                <textarea editor-type="wysiwyg" id="text" name="text" rows="10" cols="80" width="800px" height="600px" base="advanced" tal:content="view/rawtext"></textarea>
               </div><!-- end .oc-wiki-edit-content" --> 
  
               <div class="oc-js-expander oc-expander">

@@ -1,0 +1,29 @@
+<tal:global define="messages python:list(view.portal_status_message)">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/@@standard_macros/master"
+      i18n:domain="opencore">
+<head>
+<metal:title fill-slot="title">
+  <title tal:content="python:messages and messages[0] or default">
+  </title>
+</metal:title>
+</head>
+<body>
+
+  <metal:psm fill-slot="status-message-slot">
+    <!-- don't use the normal psm classes -->
+  </metal:psm>
+
+
+  <metal:psm fill-slot="content">
+    <div id="oc-deadend-message-container">
+      <div tal:repeat="status_msg messages"
+           tal:content="structure status_msg"
+           class="oc-statusMessage oc-js-closeable"/>
+    </div>
+  </metal:psm>
+
+</body>
+</html>
+</tal:global> 

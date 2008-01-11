@@ -6,7 +6,11 @@ from opencore.testing import dtfactory as dtf
 from opencore.testing.layer import OpencoreContent as test_layer
 from opencore.testing.setup import simple_setup
 from zope.testing import doctest
-import os, sys, unittest
+from opencore.browser import tal
+import os
+import sys
+import unittest
+
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
@@ -44,8 +48,8 @@ def test_suite():
                                        setUp=simple_setup,
                                        layer=test_layer
                                        )
-
-    return unittest.TestSuite((readme, member_info, octotest()))
+    tal_test = tal.test_suite()
+    return unittest.TestSuite((readme, member_info, octotest(), tal_test))
 
 
 if __name__ == '__main__':

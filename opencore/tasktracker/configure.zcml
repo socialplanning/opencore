@@ -7,4 +7,7 @@
       name="tasks"
       />
 
+   <!-- @@ viewlet reg -->
+   <include package=".browser" />
+
 </configure>

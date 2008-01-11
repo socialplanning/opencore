@@ -18,18 +18,18 @@
           <form 
              name="delete_form" 
              method="POST" 
-             class="enableUnloadProtection"
+             class="enableUnloadProtection oc-js-formConfirm"
              tal:attributes="action view/name">
             <fieldset class="oc-boxy">
               <legend class="oc-legend-heading oc-biggerText">Delete Project</legend>
               <button type="submit" 
                       name="delete:boolean" 
                       value="True" 
-                      class="oc-button oc-confirmProjectDelete">
+                      class="oc-button">
                 Delete Project
               </button>
               Remove this project from <span tal:replace="view/portal_title" />?
-              <span id="oc-project-delete-warning" class="oc-hidden oc-warning">
+              <span id="oc-project-delete-warning" class="oc-hidden oc-confirm oc-warning">
                 Removing your project is permanent, are you sure you want to continue?
               </span>
             </fieldset>

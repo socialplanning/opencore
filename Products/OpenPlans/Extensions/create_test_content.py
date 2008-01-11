@@ -1,6 +1,8 @@
 import sys
 from Products.CMFCore.utils import getToolByName
 from opencore.project.handler import _initialize_project
+from zope.app.event.objectevent import ObjectCreatedEvent
+from zope.event import notify
 
 projects_map = {'p1':{'title':'Project One',},
                 'p2':{'title':'Project Two',},
@@ -44,25 +46,15 @@ members_map = {'m1':{'fullname':'Member One',
 
 
 
-def create_test_content(self, p_map=None, m_map=None):
+def create_test_content(self, p_map=projects_map, m_map=members_map):
     """ populates an openplans site w/ dummy test content """
     portal = getToolByName(self, 'portal_url').getPortalObject()
-
-    # XXX this shouldn't be necessary, as its already set in install
-    # XXX this should probably be removed
-    # from Products.OpenPlans import config
-    # portal.manage_changeProperties(email_from_address=config.SITE_FROM_ADDRESS)
 
     mdc = getToolByName(self, 'portal_memberdata')
     mdc.unit_test_mode = True # suppress registration emails
     tm_tool = getToolByName(self, 'portal_teams')
     wf_tool = getToolByName(self, 'portal_workflow')
     ms_tool = getToolByName(self, 'portal_membership')
-
-    if p_map is None:
-        p_map = projects_map
-    if m_map is None:
-        m_map = members_map
     
     pcontainer = getattr(portal, 'projects', None)
     if pcontainer is None:
@@ -103,11 +95,12 @@ def create_test_content(self, p_map=None, m_map=None):
         delattr(mem, 'isConfirmable')
 
         mem.reindexObject()
-
+        notify(ObjectCreatedEvent(mem))
         ms_tool.createMemberArea(mem.getId())
-
         out.append('Member %s added' % mem_id)
-        for p_id, p_roles in mem_data['projects'].items():
+
+        projdata = mem_data.get('projects', {})
+        for p_id, p_roles in projdata.items():
             team = tm_tool.getTeamById(p_id)
             team.addMember(mem_id)
             out.append('-> added to project %s' % p_id)
@@ -119,3 +112,4 @@ def create_test_content(self, p_map=None, m_map=None):
 
     mdc.unit_test_mode = False
     return "\n".join(out)
+

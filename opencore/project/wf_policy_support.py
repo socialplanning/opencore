@@ -61,6 +61,10 @@ class WFPolicyWriteAdapter(WFPolicyReadAdapter):
     implements(IWriteWorkflowPolicySupport)
 
     def _getPolicyData(self):
+        return self.policy_data
+
+    @property
+    def policy_data(self):
         raise NotImplementedError
 
     def _perform_role_mappings_update(self):
@@ -116,8 +120,7 @@ class ProjectWFPolicyWriteAdapter(WFPolicyWriteAdapter):
 
     o triggers the team object to change its workflow policy
     """
-    def _getPolicyData(self):
-        return PLACEFUL_POLICIES
+    policy_data = PLACEFUL_POLICIES 
 
     def setPolicy(self, policy_in):
         count = WFPolicyWriteAdapter.setPolicy(self, policy_in)
@@ -143,8 +146,7 @@ class TeamWFPolicyWriteAdapter(WFPolicyWriteAdapter):
 
     o copies the w/f history for each contained membership object
     """
-    def _getPolicyData(self):
-        return MEMBERSHIP_PLACEFUL_POLICIES
+    policy_data = MEMBERSHIP_PLACEFUL_POLICIES 
 
     def setPolicy(self, policy_in):
         """

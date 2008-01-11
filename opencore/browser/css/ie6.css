@@ -1,5 +1,9 @@
 /* IE 6 hacks go here */
 
+#oc-content-container {
+  height: 420px;
+}
+
 #oc-content-sidebar {
   width: 32%;
 }

@@ -10,10 +10,10 @@
 extend_with flunc.checkbox
 
 go ${base_url}/projects/${projname}
-notfind "Mailing lists"
+notfind "Mailing lists" i
 follow "Preferences"
 #fv prefs_form featurelets:list 'listen'
 edit_checkbox prefs_form featurelets:list 'listen'
 submit update:boolean
-follow "Mailing lists" 
+follow "Mailing Lists"
 find "add a mailing list" i

@@ -1,7 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html><head><title>Image List</title>
-
-	
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<link href="++resource++xinha/plugins/ImageManager/assets/imagelist.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
@@ -49,10 +47,11 @@ _backend_url = "backend";
 /*]]>*/
 </script>
 <script type="text/javascript" src="++resource++xinha/plugins/ImageManager/assets/images.js"></script>
-<script type="text/javascript" src="++resource++xinha/plugins/ImageManager/assets/popup.js"></script></head><body>
-
+<script type="text/javascript" src="++resource++xinha/plugins/ImageManager/assets/popup.js"></script>
+</head>
+<body>
 <tal:for repeat="image view/images">
    <tal:macro metal:use-macro="view/attachment_snippet/macros/image" />
 </tal:for>
-	  
-</body></html>
+</body>
+</html>

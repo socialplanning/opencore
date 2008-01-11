@@ -4,7 +4,7 @@
 #
 
 go ${base_url}/projects
-follow 'all'
+follow 'projects.*all'
 fv projects_sort sort_by 'modified'
 submit
 find 'selected="selected">by date updated<'

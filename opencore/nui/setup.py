@@ -1,4 +1,5 @@
 from DateTime import DateTime
+from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
 from Products.OpenPlans.Extensions.setup import convertFunc
@@ -132,7 +133,6 @@ def set_method_aliases(portal):
         if new.has_key('(default)'):
             new['(Default)']=new['(default)']
             del new['(default)']
-            
         aliases.update(new)
         fti.setMethodAliases(aliases)
         logger.log(INFO, '%s' % str(aliases))
@@ -297,6 +297,7 @@ def create_auto_discussion_lists(portal):
         proj = brain.getObject()
         if IListenFeatureletInstalled.providedBy(proj):
             if not hasattr(proj, 'lists'):
+                # @@ log don't print :(
                 print '%s says that the featurelet is installed, but has no lists' % proj.id
                 continue
 
@@ -335,10 +336,36 @@ def make_proj_homepages_relative(portal):
         rel_url = by_slashes[-1]
         hp.home_page = rel_url
 
+def initialize_project_btrees(portal):
+    """
+    We've switched our OpenProjects to be BTreeFolder based, we need
+    to correctly populate the BTree data structures so they will work.
+    """
+    cat = getToolByName(portal, 'portal_catalog')
+    for brain in cat(portal_type="OpenProject"):
+        proj = aq_base(brain.getObject())
+        if proj._tree is None:
+            # only initialize the btrees if they aren't already there
+            proj._initBTrees()
+        obs = proj._objects # this is a tuple of dicts w/ info on each object
+        for ob in obs:
+            ob_id = ob.get('id')
+            # this should never fail, if it does something is hosed
+            ob = aq_base(getattr(proj, ob_id))
+            # let the BTreeFolder manage it's own internal data structures
+            proj._setOb(ob.getId(), ob)
+
+        # delete the obsolete _objects attribute once the migration is done
+        try:
+            del(proj._objects)
+        except AttributeError:
+            pass
+
 from Products.Archetypes.utils import OrderedDict
 
 # make rest of names readable  (maybe use config system)
 nui_functions = OrderedDict()
+nui_functions['Initialize Project BTrees'] = initialize_project_btrees
 nui_functions['Install borg.localrole PAS plug-in'] = setup_localrole_plugin
 nui_functions['Add Catalog Queue'] = convertFunc(addCatalogQueue)
 nui_functions['Move Blocking Content'] = move_blocking_content
@@ -372,6 +399,7 @@ nui_functions['Install OpenCore Remote Auth Plugin'] = \
 nui_functions['Create auto discussion lists'] = create_auto_discussion_lists
 nui_functions['Fix up project home pages'] = fixup_project_homepages
 nui_functions['Make project home pages relative'] = make_proj_homepages_relative
+
 
 def run_nui_setup(portal):
     pm = portal.portal_migration

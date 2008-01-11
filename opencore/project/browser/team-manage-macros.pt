@@ -260,8 +260,10 @@
                    num_items python:len(mships);
                    changeable python:num_items > 1">
 
-    <h2 class="oc-dataTable-heading" 
+    <h2 class="oc-dataTable-heading" tal:condition="python:num_items!=1"
         tal:content="string:Your team members ($num_items)" />
+    <h2 class="oc-dataTable-heading" tal:condition="python:num_items==1"
+        tal:content="string:Your team member" />
 
     <form name="team-members" id="team-members" method="POST"
           tal:attributes="action view/request/ACTUAL_URL">

@@ -11,7 +11,7 @@
 
 go ${base_url}/projects/${projname}
 follow "edit"
-fv edit_form text "((${pagename}))" 
+fv edit_form text "((${pagename})) ((${pagename2}))" 
 submit Save
 follow ${pagename}
 find "\"${pagename}\" has been created"

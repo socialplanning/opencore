@@ -14,18 +14,6 @@
      <form name="profile_form" id="profile_form" method="post" class="oc-member-edit" action="profile-edit" enctype="multipart/form-data">
 
       <div id="oc-content-main">
-        <tal:first-login condition="request/first_login | nothing">
-          <div class="oc-getstarted oc-js-closeable">
-            <h1 tal:content="string:Welcome to ${view/portal_title}!" />
-            <p tal:condition="view/has_invitations" i18n:translate="profile-edit_fill_in_invite" class="oc-bigText">
-              Please take a moment to fill out your profile, then proceed to your <a href="account">account</a> page
-              to join the project that invited you.
-            </p>
-            <p tal:condition="not:view/has_invitations" i18n:translate="profile-edit_fill_in" class="oc-bigText">
-              Please take a moment to fill out your profile, then proceed to your <a href="account">account</a> page.
-            </p>
-          </div>
-        </tal:first-login>
           <div id="oc-member-badge" class="oc-boxy oc-clearAfter">
             <div class="oc-member-editimage">
               <div metal:use-macro="view/portrait_snippet/macros/portrait" />

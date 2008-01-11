@@ -55,7 +55,9 @@ def send_to_wordpress(uri, username, params, context):
     params = urllib.urlencode(params)
 
     http = getUtility(IHTTPClient)
-    response, content = http.request(uri, 'POST', headers={'Content-type': 'application/x-www-form-urlencoded'}, body=params)
+    headers={'Content-type': 'application/x-www-form-urlencoded'}
+    response, content = http.request(uri, 'POST', headers=headers,
+                                     body=params)
 
     # @@ DWM: response codes mean something specific and this is a
     # generic function. Return the response and content, and this
@@ -123,3 +125,11 @@ def notify_wordress_user_left_project(mship, event):
             domain=team.getId(),
             )
     send_to_wordpress(uri, username, params, mship)
+
+def notify_wordress_user_removed(mem, event):
+    uri = 'openplans-remove-user.php'
+    username = mem.getId()
+    params = dict(
+            username=username,
+            )
+    send_to_wordpress(uri, username, params, mem)

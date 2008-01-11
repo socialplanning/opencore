@@ -4,11 +4,23 @@ from opencore.browser.base import BaseView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser.formhandler import button, OctopoLite, action
 from opencore.interfaces import IAmExperimental
+from Acquisition import aq_inner
 from PIL import Image
 from StringIO import StringIO
+import simplejson
+
+from lxml import etree# no longer necessary after lxml.html trunk gets released
+from lxml.html import fromstring # no longer necessary after lxml.html trunk gets released
+import copy # no longer necessary after lxml.html trunk gets release
+import re
+__replace_meta_content_type = re.compile(
+    r'<meta http-equiv="Content-Type".*?>').sub  # no longer necessary after lxml.html trunk gets release
+
+
 from lxml.html.clean import Cleaner
 from opencore.interfaces.catalog import ILastModifiedAuthorId
 from topp.utils.pretty_date import prettyDate
+
 
 class WikiBase(BaseView):
 
@@ -18,6 +30,9 @@ class WikiBase(BaseView):
                               path=path,
                               )
         return brains
+
+    def page_title(self):
+        return self.context.Title().decode("utf-8")
 
     def wiki_window_title(self, mode='view'):
         """see http://trac.openplans.org/openplans/ticket/588.
@@ -29,21 +44,23 @@ class WikiBase(BaseView):
 
         context = self.context
 
+        title = self.page_title()
+
         if self.inmember:
             vmi = self.viewed_member_info
 
             # if viewing member homepage
             if mode:
-                return '%s %s' % (context.Title(), mode)
+                return '%s %s' % (title, mode)
 
             if vmi['home_url'] == context.absolute_url():
                 return '%s on %s' % (vmi['id'], self.portal_title())
             else:
-                return '%s - %s on %s' % (context.Title(), vmi['id'],
+                return '%s - %s on %s' % (title, vmi['id'],
                                           self.portal_title())
 
         else:
-            return '%s %s- %s' % (context.Title(), mode, self.area.Title())
+            return '%s %s- %s' % (title, mode, self.area.Title())
 
     def lastModifiedTime(self):
         return prettyDate(self.context.ModificationDate())
@@ -55,6 +72,20 @@ class WikiView(WikiBase):
     displayLastModified = True # see wiki_macros.pt
 
     view_attachments_snippet = ZopeTwoPageTemplateFile('attachment-view.pt')
+
+# XXX stolen from lxml.html to allow selection of encoding (fixed in lxml.html trunk; wait for a release and then delete me)
+def tostring(doc, pretty_print=False, include_meta_content_type=False, encoding="utf-8"):
+    """
+    return HTML string representation of the document given 
+ 
+    note: this will create a meta http-equiv="Content" tag in the head
+    and may replace any that are present 
+    """
+    assert doc is not None
+    html = etree.tostring(doc, method="html", pretty_print=pretty_print, encoding=encoding)
+    if not include_meta_content_type:
+        html = __replace_meta_content_type('', html)
+    return html
 
 class WikiEdit(WikiBase, OctopoLite):
 
@@ -78,7 +109,7 @@ class WikiEdit(WikiBase, OctopoLite):
 #            return self.kupu_template
 
     def _clean_html(self, html):
-        """ delegate cleaning of html to lxml """
+        """ delegate cleaning of html to lxml .. sort of """
         ocprops = self.get_tool('portal_properties').opencore_properties
         whitelist = ocprops.getProperty('embed_whitelist') or []
         try:
@@ -86,9 +117,23 @@ class WikiEdit(WikiBase, OctopoLite):
         except TypeError:
             raise TypeError("Bad value for portal_properties.embed_whitelist: %r" % whitelist)
         cleaner = Cleaner(host_whitelist=whitelist)
-        new_html = cleaner.clean_html(html)
+
+        # stoled from lxml.html.clean
+        if isinstance(html, basestring):
+            return_string = True
+            doc = fromstring(html)
+        else:
+            return_string = False
+            doc = copy.deepcopy(html)
+        cleaner(doc)
+        if return_string:
+            return tostring(doc)
+        else:
+            return doc
+
+        #new_html = cleaner.clean_html(html)
         ## FIXME: we should have some way of notifying the user about tags that were removed
-        return new_html
+        #return new_html
 
     @action('save')
     def handle_save(self, target=None, fields=None):
@@ -466,15 +511,21 @@ class ImageManager(WikiEdit, OctopoLite):
 
 class InternalLink(WikiBase):
 
+    @property
+    def container(self):
+        return self.context.aq_inner.aq_parent
+
     def file_list(self):
-        path = '/'.join(self.context.aq_inner.aq_parent.getPhysicalPath())
+        path = '/'.join(aq_inner(self.container).getPhysicalPath())
         brains = self.catalog(portal_type='Document',
                               sort_on='sortable_title',
                               sort_order='ascending',
                               path=path,
                               )
-        return [{'url' : brain.getURL(),
-          'title' : brain.Title} for brain in brains]
+        return simplejson.dumps([{'url' : brain.getURL(),
+                                  'title' : brain.Title} for brain in brains])
+
+
 
 
 class WikiNewsEditView(WikiEdit):
