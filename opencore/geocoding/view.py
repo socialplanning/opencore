@@ -41,7 +41,6 @@ class ReadGeoView(Acquisition.Explicit):
         # If we get here, it typically means we're in eg. the projects
         # folder because our view is an add view and the project doesn't
         # exist yet. That's OK, we just won't have as much information.
-        logger.info("not in a project or member, but: %s" % self.context)
         return None
 
     def geo_info(self):
