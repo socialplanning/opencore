@@ -55,7 +55,8 @@ setup(
           'borg.localrole==1.0rc1',
           'wsseauth',
           'uuid',
-          'flunc>=0.1.2'
+          'flunc>=0.1.2',
+          'cabochonclient',
           ],
       extras_require=dict(ubuntu=['hprof']),
 

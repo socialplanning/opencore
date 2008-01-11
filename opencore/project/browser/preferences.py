@@ -65,6 +65,21 @@ def delete_team(proj, event=None):
 def handle_blog_delete(project, event=None):
     pass
 
+@adapter(IProject, IObjectRemovedEvent)
+def notify_cabochon(project, event=None):
+    pass
+#    #FIXME client to send messages to cabochon
+#    from Products.OpenPlans import client
+#
+#    # project info passed to cabochon
+#    id = project.getId()
+#
+#    #FIXME add uris to portal_properties
+#    cabochon_uri = 'http://localhost:10006/events/fire_by_name'
+#    event_name = 'project-deleted'
+#    uri = '%s/%s' % (cabochon_uri, event_name)
+#    client.send_message(dict(id=id), uri)
+
 class ProjectFeatureletSupporter(FeatureletSupporter):
     adapts(IProject)
     implements(IFeatureletSupporter)
