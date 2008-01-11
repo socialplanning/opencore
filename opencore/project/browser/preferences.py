@@ -39,7 +39,9 @@ class ProjectDeletionView(BaseView):
         proj_id = self.context.getId()
         proj_folder.manage_delObjects([proj_id])
         self.add_status_message("You have permanently deleted '%s' " %title)
-        self.redirect("%s/create" %proj_folder.absolute_url())
+        # link to account page
+        account_url = '%s/account' % self.member_info['folder_url']
+        self.redirect(account_url)
         return True
     handle_delete = formhandler.button('delete')(_handle_delete)
 
