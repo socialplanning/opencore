@@ -676,7 +676,7 @@ class InviteView(ManageTeamView):
     @property
     def email_invites(self):
         return [invite.strip() for invite \
-                in TA_SPLIT.split(self.request.form.get('email-invites'))]
+                in TA_SPLIT.split(self.request.form.get('email-invites')) if len(invite.strip())>0]
 
     def validate_email_invites(self, invites):
         bad = []
@@ -748,6 +748,7 @@ class InviteView(ManageTeamView):
     @formhandler.action('email-invites')
     def add_email_invites(self, targets=None, fields=None):
         invites = self.email_invites
+
         psm = self._add_email_invites(invites)
         if not psm:
             return
