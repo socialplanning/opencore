@@ -709,7 +709,7 @@ class InviteView(ManageTeamView):
             msg = _email_sender(self).constructMailMessage(msg_id='email_invite_static_body',
                                                          **msg_subs)
             log.info(msg)
-
+        return key
 
     @formhandler.action('remind-email-invites')
     def remind_email_invites(self, targets=None, fields=None):
