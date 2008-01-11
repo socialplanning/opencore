@@ -12,7 +12,7 @@
       <h1>Team management</h1>
       <p class="oc-headingContext"
          tal:define="nmembers python:len(view.active_mships);
-                     npending python:len(view.pending_mships);
+                     npending python:len(view.pending_mships) + len(view.pending_email_invites);
                      many_members python:nmembers != 1;
                      many_memberships python:npending !=1;"
                      >
