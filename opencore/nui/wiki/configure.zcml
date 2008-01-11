@@ -109,7 +109,13 @@
     permission="cmf.ManagePortal"
     />
 
-  <!-- placeholder views for logo, lists & tasks -->
+  <!-- placeholder views for blog, logo, lists & tasks -->
+  <browser:page
+     class="opencore.nui.wiki.add.Dummy"
+     for="opencore.interfaces.IProject"
+     permission="zope2.View"
+     name="blog"
+     />
   <browser:page
      class="opencore.nui.wiki.add.Dummy"
      for="opencore.interfaces.IProject"
