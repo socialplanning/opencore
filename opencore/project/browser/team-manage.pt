@@ -47,24 +47,14 @@
            </tal:pendingrequests>
 
         <tal:pendinginvitations
-           define="item_heading string:Pending membership invitations;
+           define="item_heading string:Pending invitations;
                    item_type string:invitation;
-                   item_collection view/pending_invitations;
+                   item_collection python: view.pending_invitations + view.pending_email_invites;
                    num_items python:len(item_collection);"
            condition="item_collection">
           <metal:pending
              use-macro="team_manage_macros/pendinglist" />
         </tal:pendinginvitations>
-
-        <tal:pendingemailinvites
-           define="item_heading string:Pending email invitations;
-                   item_type string:email-invite;
-                   item_collection view/pending_email_invites;
-                   num_items python:len(item_collection);"
-           condition="item_collection">
-          <metal:emailinvites
-             use-macro="team_manage_macros/pendinglist" />
-        </tal:pendingemailinvites>
 
         <tal:memberships>
           <metal:mshiplist use-macro="team_manage_macros/mshiplist" />

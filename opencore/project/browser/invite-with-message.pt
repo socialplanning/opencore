@@ -11,7 +11,7 @@
     </div>
     
     <div id="oc-content-main">
-        <p class="oc-headingContext" tal:condition="remind">Send an email to remind people to join</p>
+        <p class="oc-headingContext" tal:condition="remind">Customize email to remind email invites to join</p>
 
         <p class="oc-headingContext" tal:condition="not: remind">Send an email to invite people to join</p>
         <form id="oc-inviteByEmail" name="oc-inviteByEmail"

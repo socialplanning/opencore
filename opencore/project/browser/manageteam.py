@@ -306,7 +306,17 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         Deletes (or deactivates, if there's history to preserve) the
         membership objects.  Should send notifiers.
         """
-        mem_ids = targets
+        (mem_ids, emails) = self._split_targets(targets)
+        if not mem_ids and not emails:
+            self.add_status_message(_(u"remove_invite_none_selected", u"Please select at least one person to remove."))
+            return
+
+        if emails:
+            self.remove_email_invites(emails)
+
+        if not mem_ids:
+            return
+
         wftool = self.get_tool('portal_workflow')
         pwft = getToolByName(self, 'portal_placeful_workflow')
         deletes = []
@@ -337,10 +347,20 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             self.team.manage_delObjects(ids=deletes)
 
         plural = len(mem_ids) != 1
-        msg = u'Invitation%s removed: %s' % (plural and 's' or '', ', '.join(mem_ids))
+        msg = u'Member invitation%s removed: %s' % (plural and 's' or '', ', '.join(mem_ids))
         self.add_status_message(msg)
         return ret
 
+
+    def _split_targets(self, targets):
+        emails = []
+        mem_ids = []
+        for addy in targets:
+            if EMAIL_RE.match(urllib.unquote(addy)):
+                emails.append(addy)
+            else:
+                mem_ids.append(addy)
+        return (mem_ids, emails)
 
     @formhandler.action('remind-invitations')
     def remind_invitations(self, targets, fields=None):
@@ -348,7 +368,12 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         Sends an email reminder to the specified membership
         invitations.
         """
-        mem_ids = targets
+        (mem_ids, emails) = self._split_targets(targets)
+
+        if not mem_ids and not emails:
+            self.add_status_message(_(u"remind_invite_none_selected"))
+            return
+
         project_title = self.context.title
         sender = _email_sender(self)
         for mem_id in mem_ids:
@@ -360,14 +385,15 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                         }
             sender.sendEmail(mem_id, msg_id='remind_invitee', **msg_vars)
 
-        if not mem_ids:
-            self.add_status_message(_(u"remind_invite_none_selected"))
-        else:
+        if mem_ids:
             plural = len(mem_ids) != 1
-            msg = "Reminder%s sent: %s" % (plural and 's' or '', ", ".join(mem_ids))
+            msg = "Reminder%s sent to members: %s" % (plural and 's' or '', ", ".join(mem_ids))
             self.add_status_message(msg)
 
-        self.redirect(self.request.ACTUAL_URL)
+        if emails:
+            self.remind_email_invites(emails)
+        else:
+            self.redirect(self.request.ACTUAL_URL)
 
     @formhandler.action('remove-email-invites')
     def remove_email_invites(self, targets, fields=None):
@@ -376,7 +402,6 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         notifiers.
         """
         addresses = [urllib.unquote(t) for t in targets]
-
         sender = _email_sender(self)
         msg = sender.constructMailMessage('invitation_retracted',
                                           project_title=self.context.title)
@@ -626,6 +651,13 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     @formhandler.action('remind-email-invites')
     def remind_email_invites(self, targets, fields=None):
         self.redirect("invite?remind=True&email-invites=%s" % ",".join(targets))
+
+    def is_email(self, addy):
+        if isinstance(addy, dict):
+            return True
+        else:
+            return False
+        
         
 class InviteView(ManageTeamView):
     ##################
