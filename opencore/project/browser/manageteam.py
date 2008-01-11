@@ -194,7 +194,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     def approve_requests(self, targets, fields=None):
 
         if not targets:
-            self.add_status_message(u'Please select members to approve.')
+            self.add_status_message(_(u'psm_please_select_members', u'Please select members to approve.'))
             return {}
 
         mem_ids = targets
@@ -239,9 +239,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                                  'effects':  'fadeIn'}
 
         if napproved == 1:
-            self.add_status_message(u'You have added %s.' % mem_id)
+            self.add_status_message(_(u'psm_one_request_approved', u'You have added ${mem_id}.',
+                                      mapping={u'mem_id':mem_id}))
         else:
-            self.add_status_message(u'You have added %d members.' % napproved)
+            self.add_status_message(_(u'psm_many_requests_approved', u'You have added ${num_approved} members.'
+                                      , mapping={u'num_approved':napproved}))
             
         if napproved:
             self.team.reindexTeamSpaceSecurity()
@@ -258,7 +260,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         options with no explanation.
         """
         if not targets:
-            self.add_status_message(u'Please select members to discard.')
+            self.add_status_message(_(u'psm_select_members_discard',u'Please select members to discard.'))
             return {}
 
         # copy targets list b/c manage_delObjects empties the list
@@ -491,7 +493,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                 sender.sendEmail(mem_id, msg_id='membership_deactivated',
                                  project_title=self.context.title)
             except MailHostError:
-                self.add_status_message('Error sending mail to: %s' % mem_id)
+                self.add_status_message(_(u'psm_error_sending_mail_to_member', 'Error sending mail to: ${mem_id}', mapping={u'mem_id': mem_id}))
             self._add_transient_msg_for(mem_id, 'You have been deactivated from')
             ret[mem_id] = {'action': 'delete'}
 

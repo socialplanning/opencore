@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2008-01-10 16:37+0000\n"
-"PO-Revision-Date: 2008-01-10 11:48-0500\n"
+"POT-Creation-Date: 2008-01-11 20:34+0000\n"
+"PO-Revision-Date: 2008-01-11 15:34-0500\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
 "MIME-Version: 1.0\n"
@@ -14,76 +14,8 @@ msgstr ""
 "Language-Code: en\n"
 "Language-Name: English\n"
 
-#: opencore/browser/topnav/interfaces.py:54
-msgid "Button css class"
-msgstr "${user_message} To accept this invitation or learn more about the project, click here:/n${project_title}. /n/n/n---------------------------------------------------------------------/nThis message was sent from ${portal_title}./nTo contact ${portal_title}, go here:/n${site_contact_url}"
-
-#: opencore/browser/topnav/interfaces.py:48
-msgid "Containment Interface"
-msgstr ""
-
 #: opencore/listen/browser/view.py:388
 msgid "Could not moderate!"
-msgstr ""
-
-#: opencore/browser/topnav/interfaces.py:25
-msgid "Index used to determine viewlet order"
-msgstr ""
-
-#: opencore/browser/topnav/interfaces.py:49
-msgid "Interface required of container to display menu item"
-msgstr ""
-
-#: opencore/browser/topnav/interfaces.py:30
-msgid "Menu item text"
-msgstr ""
-
-#: opencore/browser/topnav/interfaces.py:68
-msgid "Menu item url"
-msgstr ""
-
-#: opencore/browser/topnav/interfaces.py:75
-msgid "Predicate function to check if menu item is selected"
-msgstr ""
-
-#: opencore/browser/topnav/interfaces.py:37
-msgid "Predicate function to filter inclusion in menu."
-msgstr ""
-
-#: opencore/browser/topnav/interfaces.py:61
-msgid "Relative item url"
-msgstr ""
-
-#: opencore/browser/topnav/interfaces.py:36
-msgid "Should viewlet render"
-msgstr ""
-
-#: opencore/browser/topnav/interfaces.py:24
-msgid "Sort index"
-msgstr ""
-
-#: opencore/browser/topnav/interfaces.py:74
-msgid "Test if selected"
-msgstr ""
-
-#: opencore/browser/topnav/interfaces.py:31
-msgid "Text that the menu item display. Defaults to name"
-msgstr "${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks. We hope you'll take ${portal_url} for a spin. Cheers, The ${project_title} Team"
-
-#: opencore/browser/topnav/interfaces.py:42
-msgid "Viewlet Class"
-msgstr ""
-
-#: opencore/browser/topnav/interfaces.py:43
-msgid "Viewlet class for topnav menu items."
-msgstr ""
-
-#: opencore/browser/topnav/interfaces.py:62
-msgid "When generating url, join this part of the url with thecontext"
-msgstr ""
-
-#: opencore/browser/topnav/interfaces.py:69
-msgid "Where the menu item links to"
 msgstr ""
 
 #. Default: "<h2>Get in touch</h2> <div class=\"vcard\"> <p style=\"font-weight: bold;\" class=\"fn org\"> <a class=\"url\" href=\"http://topp.openplans.org\">The Open Planning Project</a> </p> <dl class=\"oc-plainList\"> <dt>General Inquiries</dt> <dd> info<span style=\"display: none;\">NOSPAM</span>@openplans.org </dd> <dt>Help</dt> <dd> help<span style=\"display: none;\">NOSPAM</span>@openplans.org </dd> <dt>Employment</dt> <dd> <a href=\"http://topp.openplans.org/careers\">We're hiring!</a> </dd> <dt>Address</dt> <dd class=\"adr\"> <div class=\"street-address\">349 West 12<sup>th</sup> Street, #3</div> <span class=\"locality\">New York</span>, <span class=\"region\">NY</span> <span class=\"postal-code\">10014</span> <a href=\"http://maps.google.com/maps?f=q&hl=en&geocode=&q=349+W+12th+St,+New+York,+NY+10014&sll=40.737566,-74.007217&sspn=0.006568,0.01796&ie=UTF8&ll=40.738657,-74.007211&spn=0.006568,0.01796&t=k&z=16&iwloc=addr&om=1\">map</a> </dd> <dt>Phone</dt> <dd class=\"tel\">212.796.4220</dd> <dt>Fax</dt> <dd class=\"tel\">646.390.2624</dd> </dl> </div>"
@@ -406,7 +338,7 @@ msgstr ""
 msgid "create_project_url"
 msgstr ""
 
-#: opencore/project/browser/manageteam.py:526
+#: opencore/project/browser/manageteam.py:553
 msgid "demote_to_member"
 msgstr "${name} is no longer an administrator"
 
@@ -431,12 +363,12 @@ msgid "email_invitation_retracted"
 msgstr ""
 
 #. Default: "${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks. We hope you'll take ${portal_url} for a spin. Cheers, The ${portal_title} Team"
-#: opencore/project/browser/invite-with-message.pt:67
+#: opencore/project/browser/invite-with-message.pt:66
 msgid "email_invite_default_body"
 msgstr ""
 
 #. Default: "Invitation to join a project"
-#: opencore/project/browser/invite-with-message.pt:33
+#: opencore/project/browser/invite-with-message.pt:32
 msgid "email_invite_email_subject"
 msgstr ""
 
@@ -445,7 +377,7 @@ msgid "email_invite_member"
 msgstr ""
 
 #. Default: "${user_message} To accept this invitation or learn more about the project, click here: ${project_title}. --------------------------------------------------------------------- This message was sent from ${portal_title}. To contact ${portal_title}, go here: ${site_contact_url}"
-#: opencore/project/browser/invite-with-message.pt:82
+#: opencore/project/browser/invite-with-message.pt:81
 msgid "email_invite_static_body"
 msgstr ""
 "${user_message}\n"
@@ -482,12 +414,12 @@ msgstr ""
 "\"${member_message}\"\n"
 
 #. Default: "This is a reminder. ${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks. We hope you'll take ${portal_url} for a spin. Cheers, The ${portal_title} Team"
-#: opencore/project/browser/invite-with-message.pt:53
+#: opencore/project/browser/invite-with-message.pt:52
 msgid "email_remind_default_body"
 msgstr ""
 
 #. Default: "Reminder: Invitation to join a project"
-#: opencore/project/browser/invite-with-message.pt:32
+#: opencore/project/browser/invite-with-message.pt:31
 msgid "email_remind_email_subject"
 msgstr ""
 
@@ -691,10 +623,6 @@ msgstr ""
 msgid "forum_update_button"
 msgstr ""
 
-#: opencore/browser/topnav/interfaces.py:55
-msgid "function that returns css class to apply when buttonis selected"
-msgstr ""
-
 #. Default: "No results found."
 #: opencore/nui/main/home-searchresults.pt:107
 msgid "home-searchresults_no_results"
@@ -760,43 +688,48 @@ msgstr ""
 msgid "invitations_invite"
 msgstr ""
 
+#. Default: "Projects requesting your membership"
+#: opencore/account/invite-join.pt:17
+msgid "invite-join_proj_invites"
+msgstr ""
+
 #. Default: "Invitations to Join"
-#: opencore/account/invite-join.pt:165
+#: opencore/account/invite-join.pt:189
 msgid "invite_join_invitations_label"
 msgstr ""
 
 #. Default: "Already a member?"
-#: opencore/account/invite-join.pt:220
+#: opencore/account/invite-join.pt:244
 msgid "join_already_member_heading"
 msgstr ""
 
 #. Default: "Join"
-#: opencore/account/invite-join.pt:197
+#: opencore/account/invite-join.pt:221
 msgid "join_button"
 msgstr ""
 
 #. Default: "Check your email to confirm registration"
-#: opencore/account/invite-join.pt:38
+#: opencore/account/invite-join.pt:62
 msgid "join_check_email"
 msgstr ""
 
 #. Default: "Confirm password"
-#: opencore/account/invite-join.pt:142
+#: opencore/account/invite-join.pt:166
 msgid "join_conf_password_label"
 msgstr ""
 
 #. Default: "Registration is free and your email will not be shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system."
-#: opencore/account/invite-join.pt:30
+#: opencore/account/invite-join.pt:54
 msgid "join_description"
 msgstr ""
 
 #. Default: "Email"
-#: opencore/account/invite-join.pt:93
+#: opencore/account/invite-join.pt:117
 msgid "join_email_label"
 msgstr ""
 
 #. Default: "Full Name"
-#: opencore/account/invite-join.pt:71
+#: opencore/account/invite-join.pt:95
 msgid "join_full_name_label"
 msgstr ""
 
@@ -816,17 +749,17 @@ msgid "join_page_title"
 msgstr ""
 
 #. Default: "Password"
-#: opencore/account/invite-join.pt:120
+#: opencore/account/invite-join.pt:144
 msgid "join_password_label"
 msgstr ""
 
 #. Default: "Sign in"
-#: opencore/account/invite-join.pt:221
+#: opencore/account/invite-join.pt:245
 msgid "join_sign_in"
 msgstr ""
 
 #. Default: "Username"
-#: opencore/account/invite-join.pt:49
+#: opencore/account/invite-join.pt:73
 msgid "join_username_label"
 msgstr ""
 
@@ -1565,7 +1498,7 @@ msgstr ""
 msgid "projects_start_project_button"
 msgstr ""
 
-#: opencore/project/browser/manageteam.py:522
+#: opencore/project/browser/manageteam.py:549
 msgid "promote_to_admin"
 msgstr "${name} is now an administrator"
 
@@ -1619,6 +1552,11 @@ msgstr ""
 msgid "psm_enter_username_email"
 msgstr ""
 
+#. Default: "Error sending mail to: ${mem_id}"
+#: opencore/project/browser/manageteam.py:496
+msgid "psm_error_sending_mail_to_member"
+msgstr ""
+
 #. Default: "${flet} feature has been added."
 #: opencore/project/browser/preferences.py:150
 msgid "psm_featurelet_added"
@@ -1649,6 +1587,11 @@ msgstr ""
 msgid "psm_mailing_list_deletion_cancelled"
 msgstr ""
 
+#. Default: "You have added ${num_approved} members."
+#: opencore/project/browser/manageteam.py:245
+msgid "psm_many_requests_approved"
+msgstr ""
+
 #. Default: "Message sent."
 #: opencore/nui/main/contact.py:48
 msgid "psm_message_sent_to_admin"
@@ -1672,6 +1615,11 @@ msgstr ""
 #. Default: "You do not have sufficient permissions."
 #: Products/OpenPlans/skins/openplans_login_patches/insufficient_privileges.cpy:53
 msgid "psm_not_sufficient_perms"
+msgstr ""
+
+#. Default: "You have added ${mem_id}."
+#: opencore/project/browser/manageteam.py:242
+msgid "psm_one_request_approved"
 msgstr ""
 
 #. Default: "\"${pagetitle}\" has been created"
@@ -1702,6 +1650,11 @@ msgstr ""
 #. Default: "Please correct the specified errors."
 #: opencore/nui/main/contact.py:37
 msgid "psm_please_correct_errors"
+msgstr ""
+
+#. Default: "Please select members to approve."
+#: opencore/project/browser/manageteam.py:197
+msgid "psm_please_select_members"
 msgstr ""
 
 #. Default: "Please sign in to continue."
@@ -1739,6 +1692,11 @@ msgstr ""
 msgid "psm_security_changed"
 msgstr ""
 
+#. Default: "Please select members to discard."
+#: opencore/project/browser/manageteam.py:263
+msgid "psm_select_members_discard"
+msgstr ""
+
 #. Default: "You have signed out."
 #: opencore/account/login.py:122
 msgid "psm_signed_out"
@@ -1754,8 +1712,13 @@ msgstr ""
 msgid "psm_thankyou_for_joining"
 msgstr ""
 
-#: opencore/project/browser/manageteam.py:364
+#: opencore/project/browser/manageteam.py:376
 msgid "remind_invite_none_selected"
+msgstr "Please select at least one person to send a reminder to."
+
+#. Default: "Please select at least one person to remove."
+#: opencore/project/browser/manageteam.py:313
+msgid "remove_invite_none_selected"
 msgstr "Please select at least one person to send a reminder to."
 
 #. Default: "Reset password"
@@ -1892,4 +1855,20 @@ msgstr ""
 #: opencore/member/browser/tour.pt:26
 msgid "tour_start_projects_heading"
 msgstr ""
+
+#~ msgid "Button css class"
+#~ msgstr ""
+#~ "${user_message} To accept this invitation or learn more about the "
+#~ "project, click here:/n${project_title}. /n/n/"
+#~ "n---------------------------------------------------------------------/"
+#~ "nThis message was sent from ${portal_title}./nTo contact ${portal_title}, "
+#~ "go here:/n${site_contact_url}"
+#~ msgid "Text that the menu item display. Defaults to name"
+#~ msgstr ""
+#~ "${inviter_name} has invited you to join \"${project_title}\" on "
+#~ "${portal_title}. ${portal_title} is a free toolset for social change. "
+#~ "With ${portal_title}, you can build collaborative pages for organizing "
+#~ "projects. You can also blog, set up mailing lists, store and share files, "
+#~ "and keep track of tasks. We hope you'll take ${portal_url} for a spin. "
+#~ "Cheers, The ${project_title} Team"
 
