@@ -247,12 +247,13 @@ class MemberAccountView(BaseView, OctopoLite):
     # DWM: application specific term should be part of method names
     # probably indicate this needs to be behind an api
     def twirlip_uri(self):
-        cfg = config.getConfiguration().product_config.get('opencore.nui')
-        if cfg:
-            return cfg.get('twirlip_uri', '')
-        else:
-            #this will fail, but at least looking at the source, we'll know why.
+        ptool = getToolByName(self.context, 'portal_properties')
+        ocprops = ptool._getOb('opencore_properties')
+        uri = ocprops.getProperty('twirlip_uri').strip()
+        # return this if the twirlip uri is not set
+        if not uri:
             return 'http://twirlip.example.com'
+        return uri
 
     @property
     @req_memoize
