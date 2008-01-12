@@ -1,4 +1,3 @@
-from App import config
 from DateTime import DateTime
 from Products.AdvancedQuery import Eq
 from Products.CMFCore.WorkflowCore import WorkflowException
