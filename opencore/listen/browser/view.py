@@ -385,7 +385,7 @@ class ModerationView(BaseModerationView):
                 req = dict(action=action, email=email, postid=postid)
                 policy_result = policy.enforce(req)
                 if policy_result == MODERATION_FAILED:
-                    self.errors = _(u'Could not moderate!')
+                    self.errors = _(u'err_could_not_moderate', u'Could not moderate!')
                     break
             return self.index()
 
@@ -410,7 +410,7 @@ class ModerationView(BaseModerationView):
             req = dict(action=action, email=email, postid=postid, reject_reason=reject_reason)
             policy_result = policy.enforce(req)
             if policy_result == MODERATION_FAILED:
-                self.errors = _(u'Could not moderate!')
+                self.errors = _(u'err_could_not_moderate', u'Could not moderate!')
             json = {'post_%s' % postid : {'action': 'delete'}}
         else:
             # same idea between membership policy
@@ -419,7 +419,7 @@ class ModerationView(BaseModerationView):
             req = dict(action=action, email=email, reject_reason=reject_reason)
             policy_result = policy.enforce(req)
             if policy_result == MODERATION_FAILED:
-                self.errors = _(u'Could not moderate!')
+                self.errors = _(u'err_could_not_moderate', u'Could not moderate!')
             json = {'member_%s' % postid : {'action': 'delete'}}
         if 'mode' in self.request.keys() and self.request.mode == 'async':
             return json

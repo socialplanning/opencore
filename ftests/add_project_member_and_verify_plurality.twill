@@ -15,7 +15,7 @@
 # but we'll have to wait until tests can call each other in flunc
 # below is copied directly from the add_project_member test
 go ${base_url}/projects/${projname}
-follow "Manage Team"
+follow "Team"
 fv search-members search_for $membername
 submit
 fv search-members search_for $membername

@@ -10,7 +10,7 @@
 #
 
 go ${base_url}/projects/${projname}
-follow "Manage Team"
+follow "Team"
 fv search-members search_for $membername
 submit
 fv search-members search_for $membername

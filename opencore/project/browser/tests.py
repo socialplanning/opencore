@@ -34,6 +34,7 @@ def test_suite():
     from opencore.nui.indexing import authenticated_memberid
     from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
     from opencore.testing import utils
+    from opencore.testing.utils import get_status_messages
     from pprint import pprint
     from topp.clockqueue.interfaces import IClockQueue
     from topp.featurelets.interfaces import IFeatureletSupporter

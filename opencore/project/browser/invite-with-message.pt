@@ -1,0 +1,89 @@
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="string:Invite - ${view/area/Title}" />
+  </head>
+  <body>
+    <div metal:fill-slot="content" tal:define="remind request/remind | nothing">
+    
+    <div class="oc-headingBlock">
+      <h1 tal:condition="remind">Remind users</h1>
+      <h1 tal:condition="not: remind">Invite users</h1>
+    </div>
+    
+    <div id="oc-content-main">
+        <p class="oc-headingContext" tal:condition="remind">Send an email to remind people to join</p>
+
+        <p class="oc-headingContext" tal:condition="not: remind">Send an email to invite people to join</p>
+        <form id="oc-inviteByEmail" name="oc-inviteByEmail"
+              tal:attributes="action view/request/ACTUAL_URL"
+              method="POST">
+        <div class="oc-headingBlock">
+          <label for="email-invites">To:</label>
+          <p class="oc-discreetText" tal:condition="not: remind">Comma separated, or one-per-line</p>
+        </div>
+
+          <textarea style="width: 90%;" rows="2" cols="20" id="email-invites" name="email-invites"
+                    tal:content="request/form/email-invites | nothing" 
+										tal:attributes="readonly remind" />
+
+
+					<label for="subject">Subject:</label>
+          <input tal:condition="remind" type="text" name="subject" tal:attributes='value string:Reminder: Invitation to join "${view/area/Title}" on ${view/portal_title}'><br>
+          <input tal:condition="not: remind" type="text" name="subject" tal:attributes='value string:Invitation to join "${view/area/Title}" on ${view/portal_title}'><br>
+
+					<label for="from">From:</label> "<span tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" />" &lt;<span tal:replace="python: view.loggedinmember.email" />&gt;<br/>
+
+					<label for="message">Message:</label>
+
+<!-- default message for reminder -->
+          <textarea tal:condition="remind" rows="20" cols="70"  name="message" i18n:translate="email_remind_default_body">
+This is a reminder.
+
+<span i18n:name="inviter_name" tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" /> has invited you to join "<span i18n:name="project_title" tal:replace="view/area/Title" />" on <span i18n:name="portal_title" tal:replace="view/portal_title" />.
+ 
+<span i18n:name="portal_title" tal:replace="view/portal_title" /> is a free toolset for social change. With <span i18n:name="portal_title" tal:replace="view/portal_title" />, you can build collaborative 
+pages for organizing projects. You can also blog, set up mailing lists, store and share files, 
+and keep track of tasks.
+ 
+</textarea><br>
+
+<!-- default message for invite -->
+          <textarea tal:condition="not: remind" rows="10" cols="70"  name="message" i18n:translate="email_invite_default_body">
+<span i18n:name="inviter_name" tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" /> has invited you to join "<span i18n:name="project_title" tal:replace="view/area/Title" />" on <span i18n:name="portal_title" tal:replace="view/portal_title" />.
+ 
+<span i18n:name="portal_title" tal:replace="view/portal_title" /> is a free toolset for social change. With <span i18n:name="portal_title" tal:replace="view/portal_title" />, you can build collaborative 
+pages for organizing projects. You can also blog, set up mailing lists, store and share files, 
+and keep track of tasks.
+ 
+</textarea><br>
+
+This will be added to all messages:
+<div style="background-color: #ddddff;">
+<pre i18n:translate="email_invite_static_body">
+<span i18n:name="user_message"></span>
+To accept this invitation or learn more about the project, click here: 
+<span i18n:name="project_title">${join_url}</span>.
+
+
+---------------------------------------------------------------------
+This message was sent from <span i18n:name="portal_title"
+tal:replace="view/portal_title" />.  
+To contact <span i18n:name="portal_title" tal:replace="view/portal_title" />, go here:
+<span i18n:name="site_contact_url" tal:replace="string: ${view/portal/absolute_url}/contact-site-admin" />
+</pre> </div>
+
+
+          <input tal:condition="remind" type="submit" 
+                 name="task|remind-email-invites" value="Send"
+                 class="oc-button" />
+
+          <input tal:condition="not: remind" type="submit" 
+                 name="task|email-invites" value="Send"
+                 class="oc-button" />
+        </form>
+
+      </div>
+          
+    </div><!-- end content-fill-slot -->
+  </body>
+</html>

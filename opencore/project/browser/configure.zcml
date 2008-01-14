@@ -134,6 +134,14 @@
 
   <browser:page
      for="opencore.interfaces.IProject"
+     class=".manageteam.InviteView"
+     permission="teamspace.ManageTeamMemberships"
+     name="invite"
+     template="invite-with-message.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
      class=".manageteam.ManageTeamView"
      permission="teamspace.ManageTeamMemberships"
      name="manage-team"
