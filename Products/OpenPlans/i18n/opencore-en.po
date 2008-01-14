@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2008-01-11 20:34+0000\n"
-"PO-Revision-Date: 2008-01-11 15:34-0500\n"
+"POT-Creation-Date: 2008-01-14 16:02+0000\n"
+"PO-Revision-Date: 2008-01-14 11:03-0500\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
 "MIME-Version: 1.0\n"
@@ -13,10 +13,6 @@ msgstr ""
 "Domain: opencore\n"
 "Language-Code: en\n"
 "Language-Name: English\n"
-
-#: opencore/listen/browser/view.py:388
-msgid "Could not moderate!"
-msgstr ""
 
 #. Default: "<h2>Get in touch</h2> <div class=\"vcard\"> <p style=\"font-weight: bold;\" class=\"fn org\"> <a class=\"url\" href=\"http://topp.openplans.org\">The Open Planning Project</a> </p> <dl class=\"oc-plainList\"> <dt>General Inquiries</dt> <dd> info<span style=\"display: none;\">NOSPAM</span>@openplans.org </dd> <dt>Help</dt> <dd> help<span style=\"display: none;\">NOSPAM</span>@openplans.org </dd> <dt>Employment</dt> <dd> <a href=\"http://topp.openplans.org/careers\">We're hiring!</a> </dd> <dt>Address</dt> <dd class=\"adr\"> <div class=\"street-address\">349 West 12<sup>th</sup> Street, #3</div> <span class=\"locality\">New York</span>, <span class=\"region\">NY</span> <span class=\"postal-code\">10014</span> <a href=\"http://maps.google.com/maps?f=q&hl=en&geocode=&q=349+W+12th+St,+New+York,+NY+10014&sll=40.737566,-74.007217&sspn=0.006568,0.01796&ie=UTF8&ll=40.738657,-74.007211&spn=0.006568,0.01796&t=k&z=16&iwloc=addr&om=1\">map</a> </dd> <dt>Phone</dt> <dd class=\"tel\">212.796.4220</dd> <dt>Fax</dt> <dd class=\"tel\">646.390.2624</dd> </dl> </div>"
 #: opencore/nui/main/about.pt:43
@@ -338,7 +334,7 @@ msgstr ""
 msgid "create_project_url"
 msgstr ""
 
-#: opencore/project/browser/manageteam.py:553
+#: opencore/project/browser/manageteam.py:528
 msgid "demote_to_member"
 msgstr "${name} is no longer an administrator"
 
@@ -358,7 +354,7 @@ msgid "email_forgot_password_subject"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Invitation to join  ${project_title}\n\nThe invitation extended to you to join \"${project_title}\" on ${portal_title} has been revoked.\n"
-#: opencore/project/browser/mship_messages.py:17
+#: opencore/project/browser/mship_messages.py:31
 msgid "email_invitation_retracted"
 msgstr ""
 
@@ -372,6 +368,7 @@ msgstr ""
 msgid "email_invite_email_subject"
 msgstr ""
 
+#. Default: "Subject: You've been invited to join \"${project_title}\"\n\nHi ${user_name},\n\nYou have been invited to join \"${project_title}\" by ${inviter_name}.\nPlease visit your account page to accept or decline the invitation: ${account_url}\n\nCheers,\nThe ${portal_name} Team\n${portal_url}\n"
 #: opencore/project/browser/mship_messages.py:3
 msgid "email_invite_member"
 msgstr ""
@@ -391,7 +388,7 @@ msgstr ""
 "${site_contact_url}"
 
 #. Default: "Subject: ${portal_title} - Membership deactivated for ${project_title}\n\nYou are no longer a member of \"${project_title}\" on ${portal_title}.\n"
-#: opencore/project/browser/mship_messages.py:22
+#: opencore/project/browser/mship_messages.py:36
 msgid "email_membership_deactivated"
 msgstr ""
 
@@ -423,17 +420,18 @@ msgstr ""
 msgid "email_remind_email_subject"
 msgstr ""
 
-#: opencore/project/browser/mship_messages.py:5
+#. Default: "Subject: ${portal_title} - Invitation to join ${project_title}\n\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.\nPlease visit your account page to accept or decline the invitation: ${account_url}\n"
+#: opencore/project/browser/mship_messages.py:15
 msgid "email_remind_invitee"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Welcome to ${project_title}\n\nYour request to join \"${project_title}\" on ${portal_title} has been approved.  The project is accessible at the following address: ${project_url}\n"
-#: opencore/project/browser/mship_messages.py:7
+#: opencore/project/browser/mship_messages.py:21
 msgid "email_request_approved"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Your request to join ${project_title}\n\nYour request to join \"${project_title}\" on ${portal_title} has been denied.\n"
-#: opencore/project/browser/mship_messages.py:12
+#: opencore/project/browser/mship_messages.py:26
 msgid "email_request_denied"
 msgstr ""
 
@@ -457,6 +455,11 @@ msgstr ""
 "Cheers,\n"
 "The ${portal_title} Team\n"
 "${portal_url}"
+
+#. Default: "Could not moderate!"
+#: opencore/listen/browser/view.py:388
+msgid "err_could_not_moderate"
+msgstr ""
 
 #. Default: "The project name must contain at least 2 characters with at least 1 letter or number."
 #: opencore/project/browser/preferences.py:104
@@ -1498,7 +1501,7 @@ msgstr ""
 msgid "projects_start_project_button"
 msgstr ""
 
-#: opencore/project/browser/manageteam.py:549
+#: opencore/project/browser/manageteam.py:524
 msgid "promote_to_admin"
 msgstr "${name} is now an administrator"
 
@@ -1553,7 +1556,7 @@ msgid "psm_enter_username_email"
 msgstr ""
 
 #. Default: "Error sending mail to: ${mem_id}"
-#: opencore/project/browser/manageteam.py:496
+#: opencore/project/browser/manageteam.py:471
 msgid "psm_error_sending_mail_to_member"
 msgstr ""
 
@@ -1712,13 +1715,8 @@ msgstr ""
 msgid "psm_thankyou_for_joining"
 msgstr ""
 
-#: opencore/project/browser/manageteam.py:376
+#: opencore/project/browser/manageteam.py:366
 msgid "remind_invite_none_selected"
-msgstr "Please select at least one person to send a reminder to."
-
-#. Default: "Please select at least one person to remove."
-#: opencore/project/browser/manageteam.py:313
-msgid "remove_invite_none_selected"
 msgstr "Please select at least one person to send a reminder to."
 
 #. Default: "Reset password"
@@ -1856,6 +1854,8 @@ msgstr ""
 msgid "tour_start_projects_heading"
 msgstr ""
 
+#~ msgid "remove_invite_none_selected"
+#~ msgstr "Please select at least one person to send a reminder to."
 #~ msgid "Button css class"
 #~ msgstr ""
 #~ "${user_message} To accept this invitation or learn more about the "

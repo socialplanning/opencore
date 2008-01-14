@@ -26,11 +26,11 @@
           />
         <tal:many_memberships
           condition="many_memberships"
-          replace="string:${npending} pending memberships"
+          replace="string:${npending} pending invitations"
           />
         <tal:one_membership
           condition="not: many_memberships"
-          replace="string:1 pending membership"
+          replace="string:1 pending invitation"
           />
       </p>
     </div>
