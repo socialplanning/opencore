@@ -118,7 +118,7 @@ need to combine with regular join form
                   </th>
                   <td class="oc-form-value">
                     <input type="text" name="email" id="email"
-                           tal:attributes="value python:view.quote(request.email);
+                           tal:attributes="value request/email;
                                            type python:request.get('__k') and 'hidden' or 'text'" 
                            />
                     <strong id="email"
