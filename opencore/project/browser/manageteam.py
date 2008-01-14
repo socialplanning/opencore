@@ -627,7 +627,10 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
     @formhandler.action('remind-email-invites')
     def remind_email_invites(self, targets, fields=None):
-        self.redirect("invite?remind=True&email-invites=%s" % ",".join(targets))
+        if not targets:
+            self.add_status_message(_(u"remind_invite_none_selected"))
+        else:
+            self.redirect("invite?remind=True&email-invites=%s" % ",".join(targets))
         
 class InviteView(ManageTeamView):
     ##################
