@@ -248,11 +248,11 @@ class MemberAccountView(BaseView, OctopoLite):
     def twirlip_uri(self):
         ptool = getToolByName(self.context, 'portal_properties')
         ocprops = ptool._getOb('opencore_properties')
-        uri = ocprops.getProperty('twirlip_uri').strip()
+        uri = ocprops.getProperty('twirlip_uri')
         # return this if the twirlip uri is not set
         if not uri:
             return 'http://twirlip.example.com'
-        return uri
+        return uri.strip()
 
     @property
     @req_memoize
