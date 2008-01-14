@@ -140,7 +140,7 @@ Make sure we can remove invitations; email notifier should be sent:
     >>> self.clearMemoCache()
     >>> res = view.remove_invitations(['m3'])
     >>> get_status_messages(view)
-    [u'Reminder sent to members: m3', u'Member invitation removed: m3']
+    [u'Reminder sent: m3', u'Invitation removed: m3']
     >>> len(view.pending_invitations)
     0
     >>> len(mailhost.messages)
