@@ -8,13 +8,19 @@ need to combine with regular join form
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
-        <div>
+
+        <!-- join form -->
+        <form id="oc-join-form" name="edit_form" class="oc-boxy" method="post" 
+              tal:attributes="action string:${context/absolute_url}/${view/name}"
+              >
+
         <h1>Welcome</h1>
         <p>You've been invited to participate in projects on <span tal:replace="view/portal/title"/></p>
-        </div>
 
         <div class="oc-widget oc-widget-feed">
         <h2 i18n:translate="invite-join_proj_invites" class="oc-feed-title">Projects requesting your membership</h2>
+
+
           <ul class="oc-feed-list oc-clearAfter">
             <li class="oc-feed-item oc-clearAfter" tal:repeat="project python:sorted(view.invite_map)">
                <tal:setvar define="  proj_url project/url;
@@ -34,18 +40,20 @@ need to combine with regular join form
                 <p class="oc-feed-item-description" tal:define="desc project/description">
                   <span tal:condition="desc" tal:replace="desc" />
                 </p>
+                <p>
+                   <input type="checkbox"
+                          class="oc-input-typeCheck"
+                          name="invites:list"
+                          checked="true"
+                          tal:attributes="value project/id; id project/id"
+                             />
+                    <label tal:attributes="for project/id">Join <span tal:replace="project/title" /></label>.
+                </p>
               </div>
             </li>
         </ul>
         </div>
 
-
-
-
-        <!-- join form -->
-        <form id="oc-join-form" name="edit_form" class="oc-boxy" method="post" 
-              tal:attributes="action string:${context/absolute_url}/${view/name}"
-              >
 
           <h1 tal:content="string:Join ${view/portal_title}" />
 
@@ -181,38 +189,6 @@ need to combine with regular join form
                     </span>
                   </td>
                 </tr>
-                
-                <tal:invites condition="view/invite_map">
-                  <tr><td colspan=2><hr /></td></tr>
-                  <tr>
-                    <th class="oc-form-label">
-                        <label class="oc-form-label" i18n:translate="invite_join_invitations_label">
-                          Invitations to Join
-                        </label>
-                    </th>
-                    <td>
-                    </td>
-                    <tr>
-                      <td></td>
-                      <td align='left'>
-                        <ul class="oc-form-radiolist oc-form-fieldBlock">
-                          <tal:loop tal:repeat="invite python:sorted(view.invite_map)"> 
-                            <li tal:condition="invite/title">
-                              <input type="checkbox"
-                                     class="oc-input-typeCheck"
-                                     name="invites:list"
-                                     checked="true"
-                                     tal:attributes="value invite/id"
-                                     />
-                              <label tal:attributes="for invite/id"
-                                     tal:content="invite/title" />
-                            </li>
-                          </tal:loop>
-                        </ul>
-                      </td>
-                    </tr>
-                  <tr><td colspan=2><hr /></td></tr>
-                </tal:invites>
 
                 <tr class="oc-actions">
                   <th class="oc-form-label">
