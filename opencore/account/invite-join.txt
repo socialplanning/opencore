@@ -71,7 +71,7 @@ First, 'create_member' checks the key::
     ...
     ValueError: Bad confirmation key
 
-    >>> request.form['__k']=key
+    >>> request.form['__k']=str(key)
     >>> inv_join.validate_key()
     True
 
