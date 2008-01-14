@@ -121,6 +121,20 @@
 
 </metal:invitationbuttons>
 
+<metal:email-invitebuttons
+   define-macro="email-invitebuttons">
+
+  <li>
+    <input type="submit" name="task|batch_checked|remove-email-invites"
+           value="Remove" class="oc-button" />
+  </li>
+  <li>
+    <input type="submit" name="task|batch_checked|remind-email-invites"
+           value="Remind" class="oc-button" />
+  </li>
+
+</metal:email-invitebuttons>
+
 
 <metal:pendinglist define-macro="pendinglist">
   <div class="oc-widget oc-widget-dataTable">
@@ -136,7 +150,7 @@
         <thead>
           <tr>
             <th class="oc-dataTable-checkBoxColumn"><input type="checkbox" class="oc-checkAll" /></th>
-            <th scope="col"><!--a class="oc-columnSortable" href=""-->Username / Email<!--/a--></th>
+            <th scope="col"><!--a class="oc-columnSortable" href=""-->Username<!--/a--></th>
             <th scope="col"><!--a class="oc-columnSortable" href=""-->Status<!--/a--></th>
             <th scope="col"><!--a class="oc-columnSortable" href=""-->Date requested<!--/a--></th>
           </tr>
@@ -145,12 +159,7 @@
         <tbody>
 
           <tal:items repeat="item item_collection">
-            <tal:def condition="python: view.is_email(item)" define="item_type string:email-invite" >
-              <tr metal:use-macro="python:team_manage_macros.get('pending%s' % item_type)" />
-            </tal:def>
-            <tal:def condition="python: not view.is_email(item)" define="item_type string:invitation" >
-              <tr metal:use-macro="python:team_manage_macros.get('pending%s' % item_type)" />
-            </tal:def>
+            <tr metal:use-macro="python:team_manage_macros.get('pending%s' % item_type)" />
           </tal:items>
 
         </tbody>
@@ -158,7 +167,7 @@
       </table>
 
       <ul class="oc-actions oc-dataTable-actions">
-        <metal:buttons use-macro="python:team_manage_macros.get('invitationbuttons')" />
+        <metal:buttons use-macro="python:team_manage_macros.get('%sbuttons' % item_type)" />
       </ul>
     </form>
   </div> <!-- end .oc-widget-dataTable -->
