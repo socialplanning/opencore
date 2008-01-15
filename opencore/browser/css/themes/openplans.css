@@ -102,7 +102,7 @@ ul#oc-topnav-context li.oc-topnav-selected a {
 }
 .oc-getstarted h1 a,
 .oc-getstarted h2 a {
-  color: #fff;
+  color: #333;
 }
 .oc-getstarted p {
   margin: 0;
