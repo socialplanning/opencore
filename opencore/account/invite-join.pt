@@ -10,7 +10,7 @@ need to combine with regular join form
       <div id="oc-content-main">
 
         <!-- join form -->
-        <form id="oc-join-form" name="edit_form" class="oc-boxy" method="post" 
+        <form id="oc-join-form" name="edit_form" method="post" 
               tal:attributes="action string:${context/absolute_url}/${view/name}"
               >
           <div class="oc-headingBlock">
