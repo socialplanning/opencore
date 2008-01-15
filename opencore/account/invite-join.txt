@@ -49,7 +49,7 @@ We'll simulate the link and get the invite-join view. Let's logout::
     [{'closed': False,
       'description': '',
       'id': 'p1',
-      'logo': '',
+      'logo': None,
       'title': 'Project One',
       'url': 'http://nohost/plone/projects/p1'}]
 
