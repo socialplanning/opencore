@@ -46,9 +46,14 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
     def init_uri(self):
         return "%s/project/initialize/" % self.uri
 
+    # we're currently destroying projects, not uninitializing them
     @property
     def uninit_uri(self):
         return "%s/project/uninitialize/" % self.uri
+
+    @property
+    def destroy_uri(self):
+        return "%s/project/destroy/" % self.uri
 
     @memoizedproperty
     def http(self):
@@ -87,7 +92,8 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
             return
 
         header = {"X-Openplans-Tasktracker-Initialize":"True"}
-        response, content = self._makeHttpReqAsUser(self.uninit_uri, obj=obj, headers=header)
+        # not unintializing, but destroying projects currently
+        response, content = self._makeHttpReqAsUser(self.destroy_uri, obj=obj, headers=header)
         if response.status != 200:
             if raise_error:
                 raise AssertionError("Error removing tasktracker featurelet: %s" % content)
