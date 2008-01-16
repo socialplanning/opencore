@@ -1,3 +1,4 @@
+import os
 from OFS.SimpleItem import SimpleItem
 from Products.CMFCore.utils import getToolByName
 from cabochonclient import CabochonClient
@@ -27,9 +28,29 @@ class CabochonUtility(SimpleItem):
             raise ValueError('"cabochon_uri" no set in portal_properties')
         self.cabochon_uri = cabochon_uri = cabochon_uri.strip()
 
+        # get the cabochon username and password
+        cabochon_user_info_file = product_config('cabochon_user_info',
+                                                 'opencore.nui')
+        
+        if not cabochon_user_info_file:
+            raise ValueError('no cabochon_user_info file specified in zope.conf opencore.nui')
+
+        try:
+            f = open(cabochon_user_info_file)
+            self.username, self.password = f.read().strip().split(':', 1)
+            f.close()
+        except IOError:
+            raise ValueError('bad cabochon_user_info file specified in zope.conf opencore.nui')
+
         # get cabochon_messages filesystem location from configuration
         self.cabochon_messages_dir = product_config('cabochon_messages',
                                                     'opencore.nui')
+
+        if not self.cabochon_messages_dir:
+            raise ValueError('no cabochon_messages directory specified in zope.conf opencore.nui')
+
+        if not os.path.exists(self.cabochon_messages_dir):
+            raise ValueError('bad cabochon_messages directory specified in zope.conf opencore.nui')
 
     @property
     def client(self):
@@ -39,7 +60,10 @@ class CabochonUtility(SimpleItem):
 
         if cabochon_client is None:
             # initialize cabochon client
-            cabochon_client = CabochonClient(self.cabochon_messages_dir, self.cabochon_uri)
+            cabochon_client = CabochonClient(self.cabochon_messages_dir,
+                                             self.cabochon_uri,
+                                             self.username,
+                                             self.password)
 
             # initialize the thread
             sender = cabochon_client.sender()
