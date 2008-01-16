@@ -423,11 +423,11 @@ def register_local_utility(portal, out, iface, klass, factory_fn=None):
     if queryUtility(iface) is not None:
         return
     sm = portal.getSiteManager()
-    try:
-        if factory_fn is not None:
-            obj = factory_fn()
-        else:
-            obj = klass()
+    if factory_fn is not None:
+        obj = factory_fn()
+    else:
+        obj = klass()
+    try:            
         sm.registerUtility(iface, obj)
         print >> out, ('%s utility installed' %iface.__name__)
     except ValueError:
