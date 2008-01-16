@@ -1,6 +1,5 @@
 from Products.CMFCore.utils import getToolByName
 from Products.PleiadesGeocoder.interfaces.simple import IGeoItemSimple
-from opencore.i18n import _
 from opencore.interfaces import IProject
 from opencore.member.interfaces import IOpenMember
 from zope.app.publisher.interfaces.browser import IBrowserView
