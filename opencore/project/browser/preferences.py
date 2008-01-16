@@ -6,6 +6,7 @@ from Products.CMFCore.utils import getToolByName
 from opencore.browser.base import BaseView
 from Products.Five import BrowserView
 from Products.TeamSpace.interfaces import ITeamSpaceTeamRelation
+from opencore.cabochon.interfaces import ICabochonClient
 from opencore.interfaces import IProject
 from opencore.interfaces.adding import IAddProject
 from opencore.browser import formhandler
@@ -18,6 +19,7 @@ from topp.featurelets.supporter import FeatureletSupporter
 from topp.utils import zutils
 from zope.app.container.contained import IObjectRemovedEvent
 from zope.component import adapter, adapts
+from zope.component import getUtility
 from zope.interface import implements
 import inspect
 import logging
@@ -67,18 +69,11 @@ def handle_blog_delete(project, event=None):
 
 @adapter(IProject, IObjectRemovedEvent)
 def notify_cabochon(project, event=None):
-    pass
-#    #FIXME client to send messages to cabochon
-#    from Products.OpenPlans import client
-#
-#    # project info passed to cabochon
-#    id = project.getId()
-#
-#    #FIXME add uris to portal_properties
-#    cabochon_uri = 'http://localhost:10006/events/fire_by_name'
-#    event_name = 'project-deleted'
-#    uri = '%s/%s' % (cabochon_uri, event_name)
-#    client.send_message(dict(id=id), uri)
+    # project info passed to cabochon
+    id = project.getId()
+
+    cabochon_utility = getUtility(ICabochonClient)
+    cabochon_utility.notify_project_deleted(id)
 
 class ProjectFeatureletSupporter(FeatureletSupporter):
     adapts(IProject)
@@ -95,4 +90,3 @@ class ProjectFeatureletSupporter(FeatureletSupporter):
             else:
                 featurelet.removePackage(self.context)
             self.storage.pop(name)
-                

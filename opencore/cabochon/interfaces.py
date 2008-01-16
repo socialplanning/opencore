@@ -4,5 +4,5 @@ class ICabochonClient(Interface):
     def __init__(self, conf):
         pass
 
-    def queue(self, queue):
-        pass
+    def notify_project_deleted(self, id):
+        """send a project deleted message to cabochon"""
