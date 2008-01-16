@@ -16,60 +16,37 @@
   b) make local modifications to support the GeoServer team's requirements.
 </tal:comment>
 
-  <tal:b 
-    condition="python:request.RESPONSE.setHeader(
-		'Content-Type', 'application/atom+xml; charset=utf-8')" 
-    />
+<tal:dummy
+  condition="python:request.RESPONSE.setHeader(
+	'Content-Type', 'application/atom+xml; charset=utf-8')" 
+/>
 
-  <title tal:content="context/title_or_id">TITLE</title>
-  <link rel="self" tal:attributes="href furl"/>
-  <updated/>
-  <author/>
-  <id tal:content="furl">ID</id>
+<title tal:content="context/title_or_id">TITLE</title>
+<link rel="self" tal:attributes="href furl"/>
+<updated/>
+<author/>
+<id tal:content="furl">ID</id>
 
-  <entry 
-    tal:repeat="item python:item_iterator(maxitems)"
-    >
-    <title tal:content="item/properties/title">TITLE</title>
-    <link 
-      rel="alternate"
-      tal:attributes="href item/properties/link"
-      tal:content="item/properties/link"
-      >URL
-    </link>
-    <id tal:content="item/properties/link">ID</id>
-    <updated tal:content="item/properties/updated">yesterday</updated>
-    <!-- XXX need a created timestamp, but atom doesn't define one. -->
-    <summary
-      tal:content="python:item['properties']['description'] or 'None.'"
-      >ABOUT
-    </summary>
-    
-    <tal:b condition="item/hasPoint">
-    <georss:where>
-      <gml:Point>
-        <gml:pos tal:content="item/coords_georss">COORDS</gml:pos>
-      </gml:Point>
-    </georss:where>
-    </tal:b>
-    <tal:b condition="item/hasLineString">
-    <georss:where>
-      <gml:LineString>
-        <gml:posList tal:content="item/coords_georss">COORDS</gml:posList>
-      </gml:LineString>
-    </georss:where>
-    </tal:b>
-    <tal:b condition="item/hasPolygon">
-    <georss:where>
-      <gml:Polygon>
-        <gml:exterior>
-          <gml:LinearRing>
-            <gml:posList tal:content="item/coords_georss">COORDS</gml:posList>
-          </gml:LinearRing>
-        </gml:exterior>
-      </gml:Polygon> 
-    </georss:where>
-    </tal:b>
-  </entry>
+<entry tal:repeat="item python:item_iterator(maxitems)">
+ <title tal:content="item/properties/title">TITLE</title>
+  <link rel="alternate"
+    tal:attributes="href item/properties/link"
+    tal:content="item/properties/link">URL</link>
+  <id tal:content="item/properties/link">ID</id>
+  <updated tal:content="item/properties/updated">yesterday</updated>
+  <summary tal:content="python:item['properties']['description'] or 'None.'">
+     ABOUT</summary>
+  <georss:where tal:condition="item/hasPoint"><gml:Point>
+   <gml:pos tal:content="item/coords_georss">COORDS</gml:pos>
+  </gml:Point></georss:where>
+  <georss:where tal:condition="item/hasLineString"><gml:LineString>
+    <gml:posList tal:content="item/coords_georss">COORDS</gml:posList>
+  </gml:LineString></georss:where>
+  <georss:where tal:condition="item/hasPolygon">
+   <gml:Polygon><gml:exterior><gml:LinearRing>
+    <gml:posList tal:content="item/coords_georss">COORDS</gml:posList>
+   </gml:LinearRing></gml:exterior></gml:Polygon>
+  </georss:where>
+</entry>
+
 </feed>
-
