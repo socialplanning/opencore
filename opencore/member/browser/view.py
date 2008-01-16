@@ -251,7 +251,7 @@ class MemberAccountView(BaseView, OctopoLite):
         uri = ocprops.getProperty('twirlip_uri')
         # return this if the twirlip uri is not set
         if not uri:
-            return 'http://twirlip.example.com'
+            return 'http://twirlip.uri.not.set.example.com'
         return uri.strip()
 
     @property
