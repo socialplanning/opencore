@@ -11,9 +11,9 @@
 
   <browser:page
      for="Products.PleiadesGeocoder.interfaces.IGeoFolder"
-     class="Products.PleiadesGeocoder.browser.info.GeoInfosetView"
+     class=".feeds.GeoRssView"
      permission="zope2.View"
-     template="georss.pt"
+     attribute="georss"
      name="georss"
      />
 
