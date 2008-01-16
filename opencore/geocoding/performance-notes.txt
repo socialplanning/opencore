@@ -149,7 +149,7 @@ to wait ~ 20 seconds to get the first entry.
 
 Slightly more than marginal improvement, maybe 25% r.p.s.
 
-Clearly the bottleneck is iterating over all the objects.
+Clearly the bottleneck is loading and iterating over all the objects.
 
 
 Quick cache hack
