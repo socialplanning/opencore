@@ -20,14 +20,6 @@ class CabochonUtility(SimpleItem):
         """initialize cabochon utility with portal context"""
         self.context = context
 
-        # get cabochon_uri from portal properties
-        ptool = getToolByName(context, 'portal_properties')
-        ocprops = ptool._getOb('opencore_properties')
-        cabochon_uri = ocprops.getProperty('cabochon_uri')
-        if cabochon_uri is None:
-            raise ValueError('"cabochon_uri" no set in portal_properties')
-        self.cabochon_uri = cabochon_uri = cabochon_uri.strip()
-
         # get the cabochon username and password
         cabochon_user_info_file = product_config('cabochon_user_info',
                                                  'opencore.nui')
@@ -59,6 +51,18 @@ class CabochonUtility(SimpleItem):
         global cabochon_client
 
         if cabochon_client is None:
+
+            # get cabochon_uri from portal properties
+            # this has to happen here, because we need to have the cabochon_uri set
+            # which can't happen unless we already have a portal
+            # so we won't have it when we instantiate the cabochon client utility
+            ptool = getToolByName(self.context, 'portal_properties')
+            ocprops = ptool._getOb('opencore_properties')
+            cabochon_uri = ocprops.getProperty('cabochon_uri')
+            if cabochon_uri is None:
+                raise ValueError('"cabochon_uri" not set in portal_properties')
+            self.cabochon_uri = cabochon_uri.strip()
+
             # initialize cabochon client
             cabochon_client = CabochonClient(self.cabochon_messages_dir,
                                              self.cabochon_uri,
