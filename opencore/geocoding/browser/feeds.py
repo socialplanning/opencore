@@ -63,6 +63,8 @@ _rss_tail = '\n</feed>\n'
 
 class GeoRssView(GeoInfosetView):
 
+    cachehack = [] #XXX
+    
     def georss(self):
         """Stream a GeoRSS xml feed for this container.
         """
@@ -75,7 +77,14 @@ class GeoRssView(GeoInfosetView):
         headinfo = {'folder_url': self.context.absolute_url(),
                     'title': self.context.title_or_id(),
                     }
-        items = self.forRSS(maxitems)
+        if self.cachehack:
+            items = self.cachehack
+            print "XXXX CACHERAMA"
+            cacheappend = lambda x: None
+        else:
+            print "POPULATING THE CACHE"
+            items = self.forRSS(maxitems)
+            cacheappend = self.cachehack.append
         # Do streaming, old-school zserver & http 1.0 style.
         response._http_connection = 'close'
         response.http_chunk = 0
@@ -94,6 +103,7 @@ class GeoRssView(GeoInfosetView):
                     response.write(_rss_polygon % properties)
                 else:
                     pass
+                cacheappend(item) #XXX
         except:
             # Yuck. ZServer can't tolerate exceptions once you've
             # started streaming with response.write().
