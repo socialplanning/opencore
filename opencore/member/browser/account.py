@@ -90,7 +90,7 @@ class MemberAccountView(BaseView, OctopoLite):
                     role=role,
                     is_pending=is_pending,
                     proj_policy=proj_policy,
-                    description=project.description,
+                    description=project.Description(),
                     logo=project.getLogo(),
                     )
 

@@ -1226,7 +1226,8 @@ li.oc-feed-item {
   border: none;
 }
 li.oc-feed-item .oc-avatar,
-li.oc-feed-item .oc-project-logo {
+li.oc-feed-item .oc-project-logo,
+li.oc-invite .oc-project-logo {
   width: 80px;
   float: left;
   clear: none;
