@@ -47,7 +47,7 @@ class CabochonUtility(SimpleItem):
     @property
     def client(self):
         """return a reference to the global cached thread"""
-        #FIXME does this need to be cached?
+        #FIXME does this need to be locked?
         global cabochon_client
 
         if cabochon_client is None:
@@ -61,7 +61,10 @@ class CabochonUtility(SimpleItem):
             cabochon_uri = ocprops.getProperty('cabochon_uri')
             if cabochon_uri is None:
                 raise ValueError('"cabochon_uri" not set in portal_properties')
-            self.cabochon_uri = cabochon_uri.strip()
+	    cabochon_uri = cabochon_uri.strip()
+	    if not cabochon_uri:
+	        raise ValueError('invalid empty cabochon_uri')
+            self.cabochon_uri = cabochon_uri
 
             # initialize cabochon client
             cabochon_client = CabochonClient(self.cabochon_messages_dir,
@@ -80,6 +83,7 @@ class CabochonUtility(SimpleItem):
         return cabochon_client
 
     def notify_project_deleted(self, id):
+        client = self.client
         event_name = 'delete_project'
         uri = '%s/event/fire_by_name/%s' % (self.cabochon_uri, event_name)
-        self.client.send_message(dict(id=id), uri)
+        client.send_message(dict(id=id), uri)
