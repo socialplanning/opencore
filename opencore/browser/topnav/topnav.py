@@ -244,9 +244,17 @@ class AuthMenuView(BaseView):
         returns the number of transient messages currently stored
         for the logged in member
         """
+        mem_id = self.loggedinmember.getId()
         tm = ITransientMessage(self.portal)
-        msgs = tm.get_all_msgs(self.loggedinmember.getId())
-        return len(msgs)
+        t_msgs = tm.get_all_msgs(mem_id)
+
+        query = dict(portal_type='OpenMembership',
+                     getId=mem_id,
+                     )
+        mship_brains = self.catalogtool(**query)
+        proj_invites = [brain for brain in mship_brains if brain.review_state == 'pending' and brain.lastWorkflowActor != mem_id]
+        
+        return len(t_msgs) + len(proj_invites)
 
     @memoizedproperty
     def menudata(self):
