@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /*history
+Disallow: /*version
+Disallow: /*version_compare

@@ -3,6 +3,7 @@ from Products.Five import BrowserView
 from opencore.content.membership import OpenMembership
 from opencore.content.member import OpenMember
 
+
 class XMLView(BrowserView):
     def __init__(self, context, request):
         BrowserView.__init__(self, context, request)
@@ -15,6 +16,7 @@ class XMLView(BrowserView):
         the content exists response is 200, if not response is 404.
         """
         return ''
+
 
 class MemberInfoXML(XMLView):
     # XXX memoize?
@@ -52,3 +54,12 @@ class ProjectMembershipXML(XMLView):
                      path=team_path,
                      id=mem_ids)
         return brains
+
+
+class PlainTextView(BrowserView):
+    """
+    View class that sets text/plain as the content-type.
+    """
+    def __init__(self, context, request):
+        BrowserView.__init__(self, context, request)
+        request.RESPONSE.setHeader('Content-Type',"text/plain")
