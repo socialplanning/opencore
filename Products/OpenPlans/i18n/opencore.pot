@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2008-01-14 16:02+0000\n"
+"POT-Creation-Date: 2008-01-18 16:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,32 +33,32 @@ msgid "about_openplans"
 msgstr ""
 
 #. Default: "Cancel"
-#: ./opencore/member/browser/account.pt:149
+#: ./opencore/member/browser/account.pt:168
 msgid "account_cancel_change_pass"
 msgstr ""
 
 #. Default: "Cancel"
-#: ./opencore/member/browser/account.pt:123
+#: ./opencore/member/browser/account.pt:142
 msgid "account_cancel_hide_email"
 msgstr ""
 
 #. Default: "Change email"
-#: ./opencore/member/browser/account.pt:103
+#: ./opencore/member/browser/account.pt:122
 msgid "account_change_email"
 msgstr ""
 
 #. Default: "Change password"
-#: ./opencore/member/browser/account.pt:131
+#: ./opencore/member/browser/account.pt:150
 msgid "account_change_pass"
 msgstr ""
 
 #. Default: "Confirm new password"
-#: ./opencore/member/browser/account.pt:143
+#: ./opencore/member/browser/account.pt:162
 msgid "account_confirm_new_pass"
 msgstr ""
 
 #. Default: "Current password"
-#: ./opencore/member/browser/account.pt:135
+#: ./opencore/member/browser/account.pt:154
 msgid "account_current_pass"
 msgstr ""
 
@@ -68,12 +68,12 @@ msgid "account_description"
 msgstr ""
 
 #. Default: "Edit profile"
-#: ./opencore/member/browser/account.pt:99
+#: ./opencore/member/browser/account.pt:118
 msgid "account_edit_profile"
 msgstr ""
 
 #. Default: "Email"
-#: ./opencore/member/browser/account.pt:107
+#: ./opencore/member/browser/account.pt:126
 msgid "account_email_label"
 msgstr ""
 
@@ -82,8 +82,8 @@ msgstr ""
 msgid "account_heading"
 msgstr ""
 
-#. Default: "${project} has invited you to become a member"
-#: ./opencore/member/browser/account.pt:44
+#. Default: "${project} ${project} has invited you to become a member"
+#: ./opencore/member/browser/account.pt:56
 msgid "account_invite"
 msgstr ""
 
@@ -93,12 +93,12 @@ msgid "account_latest_updates"
 msgstr ""
 
 #. Default: "<p><strong>What does it mean to be &ldquo;listed&rdquo; on a project?</strong></p> <p>For your privacy, you can choose whether or not to be publicly listed as a member of a project.</p> <p>If you choose not to be listed then only fellow team members can see your affiliation. Those who are not members of the project will not see you listed in the team roster, nor will they see the project listed anywhere on your profile.</p> <p>However, any updates you make on a publicly viewable project could still display your username and a link to your profile.</p>"
-#: ./opencore/member/browser/account.pt:157
+#: ./opencore/member/browser/account.pt:176
 msgid "account_listed_explanation"
 msgstr ""
 
 #. Default: "New password"
-#: ./opencore/member/browser/account.pt:139
+#: ./opencore/member/browser/account.pt:158
 msgid "account_new_pass"
 msgstr ""
 
@@ -138,7 +138,7 @@ msgid "account_project_since_header"
 msgstr ""
 
 #. Default: "Account settings"
-#: ./opencore/member/browser/account.pt:98
+#: ./opencore/member/browser/account.pt:117
 msgid "account_settings"
 msgstr ""
 
@@ -361,14 +361,9 @@ msgstr ""
 msgid "email_invitation_retracted"
 msgstr ""
 
-#. Default: "${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks. We hope you'll take ${portal_url} for a spin. Cheers, The ${portal_title} Team"
-#: ./opencore/project/browser/invite-with-message.pt:66
+#. Default: "${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks."
+#: ./opencore/project/browser/invite-with-message.pt:75
 msgid "email_invite_default_body"
-msgstr ""
-
-#. Default: "Invitation to join a project"
-#: ./opencore/project/browser/invite-with-message.pt:32
-msgid "email_invite_email_subject"
 msgstr ""
 
 #. Default: "Subject: You've been invited to join \"${project_title}\"\n\nHi ${user_name},\n\nYou have been invited to join \"${project_title}\" by ${inviter_name}.\nPlease visit your account page to accept or decline the invitation: ${account_url}\n\nCheers,\nThe ${portal_name} Team\n${portal_url}\n"
@@ -376,8 +371,8 @@ msgstr ""
 msgid "email_invite_member"
 msgstr ""
 
-#. Default: "${user_message} To accept this invitation or learn more about the project, click here: ${project_title}. --------------------------------------------------------------------- This message was sent from ${portal_title}. To contact ${portal_title}, go here: ${site_contact_url}"
-#: ./opencore/project/browser/invite-with-message.pt:81
+#. Default: "${user_message} To accept this invitation or learn more about the project, click here: ${project_title}. --------------------------------------------------------------------- This message was sent from ${portal_title}. To contact ${portal_title}, visit: ${site_contact_url}"
+#: ./opencore/project/browser/invite-with-message.pt:96
 msgid "email_invite_static_body"
 msgstr ""
 
@@ -394,14 +389,9 @@ msgstr ""
 msgid "email_mship_request_message"
 msgstr ""
 
-#. Default: "This is a reminder. ${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks. We hope you'll take ${portal_url} for a spin. Cheers, The ${portal_title} Team"
-#: ./opencore/project/browser/invite-with-message.pt:52
+#. Default: "This is a reminder. ${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks."
+#: ./opencore/project/browser/invite-with-message.pt:67
 msgid "email_remind_default_body"
-msgstr ""
-
-#. Default: "Reminder: Invitation to join a project"
-#: ./opencore/project/browser/invite-with-message.pt:31
-msgid "email_remind_email_subject"
 msgstr ""
 
 #. Default: "Subject: ${portal_title} - Invitation to join ${project_title}\n\nThis is a reminder that you've been invited to join \"${project_title}\" on ${portal_title}.\nPlease visit your account page to accept or decline the invitation: ${account_url}\n"
@@ -624,12 +614,12 @@ msgid "home_opening_blurb"
 msgstr ""
 
 #. Default: "created ${creation_date}"
-#: ./opencore/nui/main/home.pt:52
+#: ./opencore/nui/main/home.pt:51
 msgid "home_project_created"
 msgstr ""
 
 #. Default: "last updated ${project_updated}"
-#: ./opencore/nui/main/home.pt:80
+#: ./opencore/nui/main/home.pt:79
 msgid "home_project_updated"
 msgstr ""
 
@@ -639,7 +629,7 @@ msgid "home_start_project"
 msgstr ""
 
 #. Default: "Updated projects"
-#: ./opencore/nui/main/home.pt:62
+#: ./opencore/nui/main/home.pt:61
 msgid "home_updated_projects"
 msgstr ""
 
@@ -659,42 +649,62 @@ msgid "invitations_invite"
 msgstr ""
 
 #. Default: "Projects requesting your membership"
-#: ./opencore/account/invite-join.pt:17
+#: ./opencore/account/invite-join.pt:21
 msgid "invite-join_proj_invites"
 msgstr ""
 
-#. Default: "Invitations to Join"
-#: ./opencore/account/invite-join.pt:189
-msgid "invite_join_invitations_label"
+#. Default: "Comma separated, or one per line"
+#: ./opencore/project/browser/invite-with-message.pt:32
+msgid "invite-w-m_comma"
+msgstr ""
+
+#. Default: "Customize an email to invite people to join"
+#: ./opencore/project/browser/invite-with-message.pt:12
+msgid "invite-w-m_invite_desc"
+msgstr ""
+
+#. Default: "Invite users"
+#: ./opencore/project/browser/invite-with-message.pt:10
+msgid "invite-w-m_invite_title"
+msgstr ""
+
+#. Default: "Customize an email to remind people to join"
+#: ./opencore/project/browser/invite-with-message.pt:11
+msgid "invite-w-m_remind_desc"
+msgstr ""
+
+#. Default: "Remind users"
+#: ./opencore/project/browser/invite-with-message.pt:9
+msgid "invite-w-m_remind_title"
 msgstr ""
 
 #. Default: "Already a member?"
-#: ./opencore/account/invite-join.pt:244
+#: ./opencore/account/invite-join.pt:205
 msgid "join_already_member_heading"
 msgstr ""
 
 #. Default: "Join"
-#: ./opencore/account/invite-join.pt:221
+#: ./opencore/account/invite-join.pt:181
 msgid "join_button"
 msgstr ""
 
 #. Default: "Check your email to confirm registration"
-#: ./opencore/account/invite-join.pt:62
+#: ./opencore/account/invite-join.pt:64
 msgid "join_check_email"
 msgstr ""
 
 #. Default: "Confirm password"
-#: ./opencore/account/invite-join.pt:166
+#: ./opencore/account/invite-join.pt:160
 msgid "join_conf_password_label"
 msgstr ""
 
 #. Default: "Registration is free and your email will not be shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system."
-#: ./opencore/account/invite-join.pt:54
+#: ./opencore/account/invite-join.pt:57
 msgid "join_description"
 msgstr ""
 
 #. Default: "Email"
-#: ./opencore/account/invite-join.pt:117
+#: ./opencore/account/invite-join.pt:115
 msgid "join_email_label"
 msgstr ""
 
@@ -719,17 +729,17 @@ msgid "join_page_title"
 msgstr ""
 
 #. Default: "Password"
-#: ./opencore/account/invite-join.pt:144
+#: ./opencore/account/invite-join.pt:140
 msgid "join_password_label"
 msgstr ""
 
 #. Default: "Sign in"
-#: ./opencore/account/invite-join.pt:245
+#: ./opencore/account/invite-join.pt:206
 msgid "join_sign_in"
 msgstr ""
 
 #. Default: "Username"
-#: ./opencore/account/invite-join.pt:73
+#: ./opencore/account/invite-join.pt:75
 msgid "join_username_label"
 msgstr ""
 
@@ -1444,7 +1454,7 @@ msgid "project_created"
 msgstr ""
 
 #. Default: "No results found."
-#: ./opencore/nui/main/projects-searchresults.pt:113
+#: ./opencore/nui/main/projects-searchresults.pt:114
 msgid "projects-searchresults_no_results"
 msgstr ""
 
@@ -1454,17 +1464,17 @@ msgid "projects_currently_serving"
 msgstr ""
 
 #. Default: "Can&rsquo;t find a project you are interested in? See a need that is not being met?"
-#: ./opencore/nui/main/projects.pt:53
+#: ./opencore/nui/main/projects.pt:57
 msgid "projects_get_started"
 msgstr ""
 
 #. Default: "Get started…"
-#: ./opencore/nui/main/projects.pt:52
+#: ./opencore/nui/main/projects.pt:56
 msgid "projects_get_started_heading"
 msgstr ""
 
 #. Default: "Start a new project"
-#: ./opencore/nui/main/projects.pt:55
+#: ./opencore/nui/main/projects.pt:59
 msgid "projects_start_project_button"
 msgstr ""
 
@@ -1478,12 +1488,12 @@ msgid "psm_account_not_activated"
 msgstr ""
 
 #. Default: "You cannot leave this project."
-#: ./opencore/member/browser/account.py:162
+#: ./opencore/member/browser/account.py:166
 msgid "psm_cannot_leave_project"
 msgstr ""
 
 #. Default: "Please check the old password you entered."
-#: ./opencore/member/browser/account.py:406
+#: ./opencore/member/browser/account.py:410
 msgid "psm_check_old_password"
 msgstr ""
 
@@ -1508,12 +1518,12 @@ msgid "psm_denied"
 msgstr ""
 
 #. Default: "Your email address has been changed."
-#: ./opencore/member/browser/account.py:444
+#: ./opencore/member/browser/account.py:448
 msgid "psm_email_changed"
 msgstr ""
 
 #. Default: "Please enter your new email address."
-#: ./opencore/member/browser/account.py:428
+#: ./opencore/member/browser/account.py:432
 msgid "psm_enter_new_email"
 msgstr ""
 
@@ -1543,7 +1553,7 @@ msgid "psm_forgot_login"
 msgstr ""
 
 #. Default: "You are the only remaining administrator of \"${proj_title}\". You can't leave this project without appointing another."
-#: ./opencore/member/browser/account.py:151
+#: ./opencore/member/browser/account.py:155
 msgid "psm_leave_project_admin"
 msgstr ""
 
@@ -1608,7 +1618,7 @@ msgid "psm_pass_reset_fail"
 msgstr ""
 
 #. Default: "Your password has been changed."
-#: ./opencore/member/browser/account.py:412
+#: ./opencore/member/browser/account.py:416
 msgid "psm_password_changed"
 msgstr ""
 
@@ -1706,6 +1716,11 @@ msgstr ""
 msgid "reset-password_username_label"
 msgstr ""
 
+#. Default: "Send an email to invite people to join"
+#: ./opencore/project/browser/team-manage.pt:98
+msgid "team-manage_send_email_invite"
+msgstr ""
+
 #. Default: "You are already a pending or active member of ${project_title}."
 #: ./opencore/project/browser/team.py:181
 msgid "team_already_proj_member"
@@ -1757,12 +1772,12 @@ msgid "title_required"
 msgstr ""
 
 #. Default: "${id} has declined your invitation to join <a href=\"${project_url}\">${proj_id}</a>"
-#: ./opencore/member/browser/account.py:336
+#: ./opencore/member/browser/account.py:340
 msgid "tmsg_decline_invite"
 msgstr ""
 
 #. Default: "${id} has joined <a href=\"${project_url}\">${proj_id}</a>"
-#: ./opencore/member/browser/account.py:283
+#: ./opencore/member/browser/account.py:287
 msgid "tmsg_joined_project"
 msgstr ""
 

@@ -6,10 +6,10 @@
     <div metal:fill-slot="content" tal:define="remind request/remind | nothing">
     
       <div class="oc-headingBlock">
-        <h1 tal:condition="remind">Remind users</h1>
-        <h1 tal:condition="not: remind">Invite users</h1>
-        <p class="oc-headingContext" tal:condition="remind">Customize an email to remind people to join</p>
-        <p class="oc-headingContext" tal:condition="not: remind">Customize an email to invite people to join</p>
+        <h1 i18n:translate="invite-w-m_remind_title" tal:condition="remind">Remind users</h1>
+        <h1 i18n:translate="invite-w-m_invite_title" tal:condition="not: remind">Invite users</h1>
+        <p i18n:translate="invite-w-m_remind_desc" class="oc-headingContext" tal:condition="remind">Customize an email to remind people to join</p>
+        <p i18n:translate="invite-w-m_invite_desc" class="oc-headingContext" tal:condition="not: remind">Customize an email to invite people to join</p>
       </div>
     
       <div id="oc-content-main">
@@ -29,7 +29,7 @@
                     tal:attributes="readonly remind" />
                 </td>
                 <td class="oc-form-help">
-                  <p class="oc-discreetText" tal:condition="not: remind">Comma separated, or one per line</p>
+                  <p i18n:translate="invite-w-m_comma" class="oc-discreetText" tal:condition="not: remind">Comma separated, or one per line</p>
                 </td>
               </tr>
               <tr class="oc-form-row">
