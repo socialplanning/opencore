@@ -1,0 +1,13 @@
+#
+# adds an email invite 
+#
+# projname - the project from which to invite
+#
+# expects: 
+#    that the project admin is logged in
+#
+#
+
+go ${base_url}/projects/${projname}/manage-team
+follow 'Send an email to invite people to join'
+;lkj
