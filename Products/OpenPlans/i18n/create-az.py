@@ -43,7 +43,7 @@ f2.write(line)
 for line in f1:
     if 'msgid' in line:
         msgid = line.split()[1]
-    if 'msgstr' in line:
+    if 'msgstr' in line and not line.startswith('#'):
         f2.write('msgstr ' + msgid)
     else:
         f2.write(line)
