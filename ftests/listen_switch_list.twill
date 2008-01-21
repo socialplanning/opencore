@@ -9,4 +9,4 @@ go ${base_url}/projects/${projname}/lists/${listtitle}/edit
 fv 2 workflow_policy $listtype
 submit "Save"
 notfind "site error" i
-find "Your changes have been saved."
+find 'list_preferences_updated'
