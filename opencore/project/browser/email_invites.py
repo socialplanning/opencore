@@ -73,7 +73,8 @@ class EmailInvites(SimpleItem):
     def removeAllInvitesForProject(self, proj_id):
         if not isinstance(proj_id, basestring):
             proj_id = proj_id.getId()
-        del self._by_project[proj_id]
+        if proj_id in self._by_project:
+            del self._by_project[proj_id]
 
     def convertInviteForMember(self, member, address, proj_id):
         tmtool = getToolByName(self, 'portal_teams')

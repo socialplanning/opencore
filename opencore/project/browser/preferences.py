@@ -17,6 +17,7 @@ from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from opencore.project.browser.base import ProjectBaseView
 from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
+from opencore.interfaces.membership import IEmailInvites
 from topp.clockqueue.interfaces import IClockQueue
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.supporter import FeatureletSupporter, IFeaturelet
@@ -26,6 +27,7 @@ from zope.app.container.contained import IObjectRemovedEvent
 from zope.component import adapter, adapts
 from zope.component import getAdapters, queryAdapter
 from zope.interface import implements
+from zope.component import getUtility
 import inspect
 import logging
 import traceback
@@ -222,6 +224,11 @@ def delete_team(proj, event=None):
     team_id = proj.getId()
     if pt.has_key(team_id):
         pt.manage_delObjects([team_id])
+
+@adapter(IProject, IObjectRemovedEvent)
+def delete_email_invites(proj, event=None):
+    invite_util = getUtility(IEmailInvites, context=proj)
+    invite_util.removeAllInvitesForProject(proj.getId())
 
 @adapter(IProject, IObjectWillBeRemovedEvent)
 def handle_blog_delete(project, event=None):
