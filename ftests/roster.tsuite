@@ -18,8 +18,8 @@ user_not_in_team(user=${u2_name})
 add_project_member_and_verify_plurality(membername=${u2_name})
 
 # invite an email address
-#add_email_invite
-#remind_remove_email_invite
+add_email_invite(email=${test_email})
+remind_remove_email_invite(email=${test_email})
 logout
 
 # u2 accepts

@@ -1,0 +1,25 @@
+#
+# reminds an email invite then removes it
+#
+# projname - the project from which to invite
+# email - the email to test with
+#
+# expects: 
+#    that the project admin is logged in
+#    that the email is already invited
+#
+#
+extend_with flunc.checkbox
+
+go ${base_url}/projects/${projname}/manage-team
+find ${email}
+check_group_values email-invite checked:list ${email}
+submit 'Remind'
+fv oc-inviteByEmail subject 'hi'
+submit
+find 'Reminder sent:'
+check_group_values email-invite checked:list ${email}
+submit 'Remove'
+find 'Email invitation removed:'
+go ${base_url}/projects/${projname}/manage-team
+notfind ${email}
