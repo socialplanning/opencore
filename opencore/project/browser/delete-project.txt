@@ -48,6 +48,29 @@ Gotta reinstall::
     Called...
 
 
+Add some invites
+======================
+
+    >>> mt_view = project.restrictedTraverse('manage-team')
+    >>> mt_view
+    <Products.Five.metaclass.ManageTeamView object at ...>
+    >>> team = project.getTeams()[0]
+    >>> team.manage_delObjects(ids=['m3']) # <-- remove to re-add
+    >>> team.addMember('m3')
+    <OpenMembership at ...m3>
+    >>> inviteview = project.restrictedTraverse('invite')
+    >>> self.clearMemoCache()
+    >>> inviteview.request.form.clear()
+    >>> invites = 'doesnotexist@example.com, isnotthere@example.com'
+    >>> inviteview.request.form.update({'task|email-invites': 'Send',
+    ...                                 'email-invites': invites})
+    >>> inviteview.add_email_invites()
+    >>> len(mt_view.pending_invitations)
+    1
+    >>> len(mt_view.pending_email_invites)
+    2
+
+
 Team removal
 ============
 
@@ -101,8 +124,14 @@ We should redirect to somewhere sensible... `start a project`?
     >>> print self.request.RESPONSE.headers['location']
     http://nohost/plone/projects/create
 
-What else? [test wp, tt, removal]
+Test to make sure invites have been deleted
+    >>> self.clearMemoCache()
+    >>> len(mt_view.pending_invitations)
+    0
+    >>> len(mt_view.pending_email_invites)
+    0
 
+What else? [test wp, tt, removal]
 
 
 
