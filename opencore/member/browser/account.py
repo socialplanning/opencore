@@ -308,6 +308,10 @@ class MemberAccountView(BaseView, OctopoLite):
         command.update({
                 elt_id: {'action':'delete'},
                 "num_updates": {'action': 'copy',
+                                'html': self.nupdates()},
+                "num_updates_menu": {'action': 'copy',
+                                'html': self.nupdates()},
+                "num_updates_top": {'action': 'copy',
                                 'html': self.nupdates()}
                 })
 
@@ -344,7 +348,12 @@ class MemberAccountView(BaseView, OctopoLite):
         elt_id = '%s_invitation' % proj_id
         return {elt_id: dict(action='delete'),
                 "num_updates": {'action': 'copy',
-                                'html': self.nupdates()}}
+                                'html': self.nupdates()},
+                "num_updates_menu": {'action': 'copy',
+                                'html': self.nupdates()},
+                "num_updates_top": {'action': 'copy',
+                                'html': self.nupdates()}
+                }
 
     # XXX is there any difference between ignore and deny?
     ## currently unused
@@ -358,6 +367,10 @@ class MemberAccountView(BaseView, OctopoLite):
         elt_id = '%s_invitation' % proj_id
         return {elt_id: dict(action='delete'),
                 "num_updates": {'action': 'copy',
+                                'html': self.nupdates()},
+                "num_updates_menu": {'action': 'copy',
+                                'html': self.nupdates()},
+                "num_updates_top": {'action': 'copy',
                                 'html': self.nupdates()}}
 
     @action('close')
@@ -377,7 +390,11 @@ class MemberAccountView(BaseView, OctopoLite):
             elt_id = 'close_info_message_%s' % idx
             return {elt_id: dict(action='delete'),
                     "num_updates": {'action': 'copy',
-                                    'html': self.nupdates()}}
+                                    'html': self.nupdates()},
+                "num_updates_menu": {'action': 'copy',
+                                'html': self.nupdates()},
+                "num_updates_top": {'action': 'copy',
+                                'html': self.nupdates()}}
 
     @property
     @req_memoize
