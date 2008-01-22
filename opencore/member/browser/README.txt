@@ -303,7 +303,7 @@ Let's accept our gracious invitation
 
     Now we can trigger them, we get the json response
     >>> sorted(view.accept_handler(['p4']).keys())
-    ['num_updates', 'p4_invitation', 'projinfos_for_user']
+    ['num_updates', 'num_updates_menu', 'num_updates_top', 'p4_invitation', 'projinfos_for_user']
 
     Now we can check that we got the event
     >>> len(self.events)
@@ -335,7 +335,7 @@ And now if we were to receive an info message::
 
     Let's go ahead and kill the first one, the message is not so nice
     >>> sorted(view.close_msg_handler('0').keys())
-    ['close_info_message_0', 'num_updates']
+    ['close_info_message_0', 'num_updates', 'num_updates_menu', 'num_updates_top']
 
     Poof, he's gone
     >>> self.clearMemoCache()
@@ -368,7 +368,7 @@ Let's also reject an invitation extended to us::
 
     Now we shove it back in the admin's face
     >>> sorted(view.deny_handler(['p2']).keys())
-    ['num_updates', 'p2_invitation']
+    ['num_updates', 'num_updates_menu', 'num_updates_top', 'p2_invitation']
 
     And we're not a part of that project, and no longer invited
     >>> self.clearMemoCache()
