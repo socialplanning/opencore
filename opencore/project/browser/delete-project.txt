@@ -38,7 +38,7 @@ Flet Removal
 
     >>> handle_flet_uninstall(project) 
     Called httplib2.Http.request(
-        'http://.../project/uninitialize/',
+        'http://.../project/destroy/',
         headers={...},
         method='POST')
 
@@ -97,7 +97,7 @@ Put it all together
 
     >>> deleting = view._handle_delete() 
     Called httplib2.Http.request(
-        'http://.../project/uninitialize/',
+        'http://.../project/destroy/',
         headers={...},
         method='POST')
 
