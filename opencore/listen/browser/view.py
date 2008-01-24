@@ -434,13 +434,29 @@ NuiMailingListView = make_nui_listen_view_class(MailingListView)
 from Products.listen.interfaces import IMembershipPendingList
 from zope.component import getAdapter
 
-class ArchiveForumView(make_nui_listen_view_class(ArchiveForumView)):
-    """puke a little, inherit"""
+class SubscriptionSnippetMixin:
     def subscription_snippet(self):
-        the_list = aq_inner(self.context).aq_parent
+        # fix #2049.
+        the_list = aq_inner(self.context)
+        while not IMailingList.providedBy(the_list):
+            the_list = the_list.aq_parent
         return the_list.restrictedTraverse("subscription_snippet")()
+    
+class ArchiveForumView(SubscriptionSnippetMixin,
+                       make_nui_listen_view_class(ArchiveForumView)):
+    """puke a little, inherit"""
 
-NuiArchiveDateView = make_nui_listen_view_class(ArchiveDateView)
+class NuiArchiveDateView(SubscriptionSnippetMixin,
+                         make_nui_listen_view_class(ArchiveDateView)):
+    """puke a little more"""
+
+class NuiSubFolderDateView(SubscriptionSnippetMixin,
+                           make_nui_listen_view_class(SubFolderDateView)):
+    """fun fun fun"""
+
+# XXX also, we really need flunc tests of all these views, there
+# aren't any. - PW
+
 NuiArchiveNewTopicView = make_nui_listen_view_class(ArchiveNewTopicView)
 NuiSubFolderDateView = make_nui_listen_view_class(SubFolderDateView)
 NuiThreadedMailMessageView = make_nui_listen_view_class(ThreadedMailMessageView)
