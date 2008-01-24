@@ -265,7 +265,7 @@ def annotate_last_modified_author(portal):
     all_documents = cat(portal_type='Document')
     all_documents = sorted(all_documents, key=lambda b:b.ModificationDate)
 
-    for page in all_documents:
+    for b in all_documents:
         try:
             page = b.getObject()
         except:
