@@ -414,10 +414,14 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             #query_str = urllib.urlencode({'email': address})
             join_url = "%s/invite-join?%s" % (self.portal.absolute_url(),
                                               query_str)
+            logged_in_mem = self.loggedinmember
+            logged_in_mem_name = logged_in_mem.getFullname() or logged_in_mem.id
             msg_subs = dict(project_title=self.context.title,
                             join_url=join_url,
                             portal_url=self.siteURL,
-                            portal_title=self.portal_title()
+                            portal_title=self.portal_title(),
+                            inviter_name=logged_in_mem_name,
+                            project_url=self.context.absolute_url()
                             )
             
             sender.sendEmail(address, msg_id='invite_email', **msg_subs)
