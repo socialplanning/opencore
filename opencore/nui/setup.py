@@ -265,8 +265,12 @@ def annotate_last_modified_author(portal):
     all_documents = cat(portal_type='Document')
     all_documents = sorted(all_documents, key=lambda b:b.ModificationDate)
 
-    for page in (b.getObject() for b in all_documents):
-
+    for page in all_documents:
+        try:
+            page = b.getObject()
+        except:
+            continue #this fails on one page, but one page is no big deal.
+        
         if not IOpenPage.providedBy(page): continue
 
         try:
