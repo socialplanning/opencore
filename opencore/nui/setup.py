@@ -10,7 +10,7 @@ from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans.content.project import OpenProject
 from Products.PortalTransforms.libtransforms.utils import MissingBinary
 from borg.localrole.utils import setup_localrole_plugin
-from logging import getLogger, INFO, DEBUG
+from logging import getLogger, INFO, WARNING
 from opencore.configuration.setuphandlers import addCatalogQueue
 from opencore.configuration.setuphandlers import createValidationMember
 from opencore.configuration.setuphandlers import install_cabochon_utility
@@ -278,7 +278,7 @@ def annotate_last_modified_author(portal):
         try:
             page = b.getObject()
         except Exception, e:
-            logger.log(WARNING, "annotating last modified author failed for page %s: %s" % (repr(b), e))
+            logger.log("WARNING", "annotating last modified author failed for page %s: %s" % (repr(b), e))
             continue #this fails on one page, but one page is no big deal.
         
         if not IOpenPage.providedBy(page): continue
