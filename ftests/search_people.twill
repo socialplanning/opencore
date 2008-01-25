@@ -9,6 +9,7 @@
 #
 
 go ${base_url}/people
+find 'New Members'
 fv search_form search_for $query
 submit 
 find 'Member'
