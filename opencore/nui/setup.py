@@ -278,7 +278,7 @@ def annotate_last_modified_author(portal):
         try:
             page = b.getObject()
         except Exception, e:
-            logger.log("WARNING", "annotating last modified author failed for page %s: %s" % (repr(b), e))
+            logger.log(WARNING, "annotating last modified author failed for page %s: %s" % (repr(b), e))
             continue #this fails on one page, but one page is no big deal.
         
         if not IOpenPage.providedBy(page): continue
