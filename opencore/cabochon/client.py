@@ -41,9 +41,6 @@ class CabochonUtility(SimpleItem):
         if not self.cabochon_messages_dir:
             raise ValueError('no cabochon_messages directory specified in zope.conf opencore.nui')
 
-        if not os.path.exists(self.cabochon_messages_dir):
-            raise ValueError('bad cabochon_messages directory specified in zope.conf opencore.nui')
-
     @property
     def client(self):
         """return a reference to the global cached thread"""
