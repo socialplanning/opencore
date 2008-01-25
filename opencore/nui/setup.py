@@ -10,7 +10,7 @@ from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans.content.project import OpenProject
 from Products.PortalTransforms.libtransforms.utils import MissingBinary
 from borg.localrole.utils import setup_localrole_plugin
-from logging import getLogger, INFO
+from logging import getLogger, INFO, DEBUG
 from opencore.configuration.setuphandlers import addCatalogQueue
 from opencore.configuration.setuphandlers import createValidationMember
 from opencore.configuration.setuphandlers import install_cabochon_utility
@@ -265,27 +265,44 @@ def annotate_last_modified_author(portal):
     all_documents = cat(portal_type='Document')
     all_documents = sorted(all_documents, key=lambda b:b.ModificationDate)
 
+    #XXX
+    CHUNK_SIZE = 2
+    from zope.app.annotation.interfaces import IAnnotations
+    from BTrees.OOBTree import OOBTree    
+    annot = IAnnotations(portal)
+    annot = annot.setdefault(ANNOT_KEY, OOBTree())
+    start_point = annot.get('what_page_we_are_up_to', 0)
+    all_documents = all_documents[start_point:start_point + CHUNK_SIZE]
+
     for b in all_documents:
         try:
             page = b.getObject()
-        except:
+        except Exception, e:
+            logger.log(WARNING, "annotating last modified author failed for page %s: %s" % (repr(b), e))
             continue #this fails on one page, but one page is no big deal.
         
         if not IOpenPage.providedBy(page): continue
-
+        #import pdb;pdb.set_trace()
         try:
             histories = pr.getHistory(page, countPurged=False)
             last_history = histories[0]
             last_author = last_history.sys_metadata.get('principal', None)
-            if last_author is None: continue
+            if last_author is None:
+                continue #we never hit this (I think)
 
-            _update_last_modified_author(page, user_id=last_author)
+            _update_last_modified_author(page, user_id='novalis')
+            #_update_last_modified_author(page, user_id=last_author)
 
         except ArchivistRetrieveError:
             # we get an error if there is no history
             # (like for our test content)
+            _update_last_modified_author(page, user_id='novalis')
+            #_update_last_modified_author(page, user_id=page.Creator())
             pass
 
+
+    annot['what_page_we_are_up_to'] = start_point + CHUNK_SIZE
+                       
 def markNewsItems(portal):
     cat = getToolByName(portal, 'portal_catalog')
     path = '/'.join([portal.absolute_url_path(), 'news'])
