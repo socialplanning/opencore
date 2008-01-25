@@ -273,7 +273,9 @@ def annotate_last_modified_author(portal):
     annot = annot.setdefault(ANNOT_KEY, OOBTree())
     start_point = annot.get('what_page_we_are_up_to', 0)
     all_documents = all_documents[start_point:start_point + CHUNK_SIZE]
-
+    if not len (all_documents):
+        logger.log(WARNING, "All done.")
+        
     for b in all_documents:
         try:
             page = b.getObject()
