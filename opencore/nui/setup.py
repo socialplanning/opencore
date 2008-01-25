@@ -292,14 +292,12 @@ def annotate_last_modified_author(portal):
             if last_author is None:
                 continue #we never hit this (I think)
 
-            _update_last_modified_author(page, user_id='novalis')
-            #_update_last_modified_author(page, user_id=last_author)
+            _update_last_modified_author(page, user_id=last_author)
 
         except ArchivistRetrieveError:
             # we get an error if there is no history
             # (like for our test content)
-            _update_last_modified_author(page, user_id='novalis')
-            #_update_last_modified_author(page, user_id=page.Creator())
+            _update_last_modified_author(page, user_id=page.Creator())
             pass
 
 
