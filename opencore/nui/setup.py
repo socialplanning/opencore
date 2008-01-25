@@ -265,7 +265,23 @@ def annotate_last_modified_author(portal):
     all_documents = cat(portal_type='Document')
     all_documents = sorted(all_documents, key=lambda b:b.ModificationDate)
 
-    #XXX
+    #XXX Do a batch of CHUNK_SIZE pages, and remember where
+    # we left off.  You'll have to run this multiple times until
+    # all pages are updated. 
+    #
+    # If anybody is wondering why this is so hacky:
+    # David T. first tried running this but got ConflictErrors since
+    # he was trying to modify all pages on the live site. 
+    # I (Paul W.) suggested doing a transaction.commit() after each
+    # page, but in this case that blows up in the ZEO cache code after
+    # only a few pages.
+    #
+    # I don't understand quite why that happens; normally transaction.commit()
+    # is fine, but inspecting the state where the assertion fails shows that
+    # we've hit a known bug in ZEO, fixed on ZODB 3.8 and trunk but not ZODB
+    # 3.7.  See https://bugs.launchpad.net/zope3/+bug/98275 
+    # Meanwhile David had come up with this batching workaround, and patiently
+    # hit reload until all the production data was fixed, so there you have it.
     CHUNK_SIZE = 100
     from zope.app.annotation.interfaces import IAnnotations
     from BTrees.OOBTree import OOBTree    
