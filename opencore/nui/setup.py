@@ -266,7 +266,7 @@ def annotate_last_modified_author(portal):
     all_documents = sorted(all_documents, key=lambda b:b.ModificationDate)
 
     #XXX
-    CHUNK_SIZE = 2
+    CHUNK_SIZE = 100
     from zope.app.annotation.interfaces import IAnnotations
     from BTrees.OOBTree import OOBTree    
     annot = IAnnotations(portal)
