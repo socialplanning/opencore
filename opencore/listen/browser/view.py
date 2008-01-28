@@ -393,7 +393,7 @@ class ModerationView(BaseModerationView):
             if name.endswith('_approve') or \
                name.endswith('_discard') or \
                name.endswith('_reject'):
-                action = value.split('_')[-1]
+                action = name.split('_')[-1]
             elif name == 'postid':
                 postid = int(value)
             elif name == 'email':
