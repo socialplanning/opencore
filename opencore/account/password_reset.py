@@ -1,5 +1,5 @@
 from opencore.browser.formhandler import button, post_only
-from opencore.account.browser import AccountView
+from opencore.account.browser import AccountView, _
 from zExceptions import Forbidden
 
 
