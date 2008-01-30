@@ -12,7 +12,7 @@
        tal:content="mem_id" />
 
     <tal:memid condition="not: mem_url"
-               replace="mem_id" />
+               replace="string: ${mem_id} (unconfirmed user)" />
   </div>
 </metal:memberlink>
 
