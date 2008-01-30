@@ -144,7 +144,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
     def getMemberURL(self, mem_id):
         mtool = self.get_tool('portal_membership')
-        return '%s/profile' % mtool.getHomeUrl(mem_id)
+        home_url = mtool.getHomeUrl(mem_id)
+        if home_url:
+            return '%s/profile' % home_url
+        else:
+            return None
 
     # XXX i kind of feel like this whole function is questionable    
     def doMshipWFAction(self, transition, mem_ids, pred=lambda mship:True):
