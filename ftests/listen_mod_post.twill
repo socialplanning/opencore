@@ -12,4 +12,4 @@ submit 3
 notfind $postsubject
 notfind 'Site error' i
 go ${base_url}/projects/${projname}/lists/${listtitle}/archive
-notfind $postsubject
+find $postsubject
