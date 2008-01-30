@@ -35,7 +35,7 @@ def test_suite():
     from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
     from opencore.listen.featurelet import ListenFeaturelet
 
-    # for delet-project
+    # for delete-project
     from topp.featurelets.interfaces import IFeatureletSupporter
     from topp.clockqueue.interfaces import IClockQueue
     import pdb

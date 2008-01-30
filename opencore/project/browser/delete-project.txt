@@ -27,20 +27,10 @@ Flet Removal
 
     >>> from opencore.project.browser.preferences import handle_flet_uninstall
 
-  << POST? shouldn't it be DELETE? egj? -- you think tasktracker is
-  remotely restful? :P actually, tho, it shouldn't be DELETE, because
-  it just flips a switch rather than really deleting any content. this
-  might not be what project deletion wants, but it suffices to make
-  the content unaccessible (until the next time that project's TT is
-  installed) (hmm, this will be a problem if a new project is allowed
-  to be created with the same name as the deleted one .. is that the
-  case?) -egj >>
+Tasks are now deleted from a project, and the message is sent through
+cabochon::
 
     >>> handle_flet_uninstall(project) 
-    Called httplib2.Http.request(
-        'http://.../project/uninitialize/',
-        headers={...},
-        method='POST')
 
 Gotta reinstall::    
 
@@ -72,11 +62,8 @@ Put it all together
     >>> view
     <...project/browser/delete.pt...>
 
-    >>> deleting = view._handle_delete() 
-    Called httplib2.Http.request(
-        'http://.../project/uninitialize/',
-        headers={...},
-        method='POST')
+    >>> deleting = view._handle_delete()
+    opencore.testing.utility.StubCabochonClient: uri: p1
 
     >>> deleting
     True
@@ -96,10 +83,10 @@ The team should also be gone::
     >>> sorted(self.portal.portal_teams.objectIds())
     ['.wf_policy_config', 'p2', 'p3']
 
-We should redirect to somewhere sensible... `start a project`?
+We redirect to the account page after project deletion::
 
     >>> print self.request.RESPONSE.headers['location']
-    http://nohost/plone/projects/create
+    /account
 
 What else? [test wp, tt, removal]
 

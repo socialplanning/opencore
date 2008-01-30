@@ -72,7 +72,10 @@ def notify_cabochon(project, event=None):
     # project info passed to cabochon
     id = project.getId()
 
-    cabochon_utility = getUtility(ICabochonClient)
+    # FIXME for some reason, on test tear down the getUtility fails
+    # without explicitly passing a context
+    portal = getToolByName(project, 'portal_url').getPortalObject()
+    cabochon_utility = getUtility(ICabochonClient, context=portal)
     cabochon_utility.notify_project_deleted(id)
 
 class ProjectFeatureletSupporter(FeatureletSupporter):

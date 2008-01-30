@@ -6,6 +6,7 @@ from Products.PloneTestCase.setup import setupPloneSite
 from Testing import ZopeTestCase
 from opencore.project.handler import add_redirection_hooks 
 from opencore.testing.utility import setup_mock_http
+from opencore.testing.utility import setup_cabochon_mock
 from opencore.utils import set_opencore_properties
 from topp.utils import introspection
 from topp.utils.testing import layer_factory
@@ -86,6 +87,7 @@ class OpenPlansLayer(SiteSetupLayer):
         portal.MailHost = MailHostMock()
 
         portal.browser_id_manager = BrowserIdManagerMock()
+        setup_cabochon_mock(portal)
         txn.commit()
 
     @classmethod
