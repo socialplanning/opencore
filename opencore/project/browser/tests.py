@@ -23,6 +23,7 @@ def test_suite():
     from Products.Five.utilities.marker import erase as noLongerProvides
     from Products.PloneTestCase import setup
     from Products.CMFCore.utils import getToolByName
+    from Products.listen.interfaces import IListLookup
     from Testing.ZopeTestCase import installProduct
     from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
     from pprint import pprint
@@ -156,12 +157,17 @@ def test_suite():
 ##                                          )    
 
 ##     suites = (contents, metadata, manage_team, request_membership, preferences)
-    suites = (contents, metadata, manage_team,
-              request_membership, homepage,
-              team_request_membership)
+
     unit = doctest.DocTestSuite('opencore.project.browser.view',
                                 optionflags=optionflags)
-    return unittest.TestSuite(suites + (readme, unit, delete))
+    suites = (contents, metadata, manage_team,
+              request_membership, homepage,
+              team_request_membership,
+              readme, delete,
+              unit
+              )
+    return unittest.TestSuite(suites)
+
 
 
 if __name__ == '__main__':
