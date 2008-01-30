@@ -54,11 +54,3 @@ class ListenFeaturelet(BaseFeaturelet):
         alsoProvides(container, IListenContainer)
         notify(ListenFeatureletCreatedEvent(obj))
         return self._info
-
-    def removePackage(self, obj):
-        ll = getUtility(IListLookup)
-        cat = getToolByName(obj, 'portal_catalog')
-        for brain in cat(portal_type=OpenMailingList.portal_type):
-            ml = brain.getObject()
-            ll.unregisterList(ml)
-        return BaseFeaturelet.removePackage(self, obj)

@@ -28,6 +28,7 @@ def test_suite():
     from Products.Five.utilities.marker import erase as noLongerProvides
     from Products.PloneTestCase import setup
     from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
+    from Products.listen.interfaces import IListLookup
     from Testing.ZopeTestCase import installProduct
     from opencore.interfaces.workflow import IReadWorkflowPolicySupport
     from opencore.listen.featurelet import ListenFeaturelet
@@ -38,6 +39,7 @@ def test_suite():
     from pprint import pprint
     from topp.clockqueue.interfaces import IClockQueue
     from topp.featurelets.interfaces import IFeatureletSupporter
+    
     from zope.component import getUtility
     from zope.interface import alsoProvides
     import pdb
@@ -162,8 +164,10 @@ def test_suite():
 
     suites = (contents, metadata, manage_team,
               request_membership, homepage,
-              team_request_membership, logo)
-    return unittest.TestSuite(suites + (readme, delete))
+              team_request_membership, logo,
+              readme, delete,
+              )
+    return unittest.TestSuite(suites)
 
 
 if __name__ == '__main__':

@@ -88,8 +88,28 @@ don't need for this test::
 Put it all together
 ===================
 
+First make sure some projects have mailing lists (for testing bug #2055)::
+
+    >>> IFeatureletSupporter(project).installFeaturelet(ListenFeaturelet(project))
+    >>> IFeatureletSupporter(p4_proj).installFeaturelet(ListenFeaturelet(p4_proj))
+    >>> ll = getUtility(IListLookup)
+    >>> project.lists.objectIds()
+    ['p1-discussion']
+    >>> p4_proj.lists.objectIds()
+    ['p4-discussion']
+    >>> pprint(ll.showAddressMapping())
+    [{'address': 'p1-discussion@...',
+      'path': '/plone/projects/p1/lists/p1-discussion'},
+     {'address': 'p4-discussion@...',
+      'path': '/plone/projects/p4/lists/p4-discussion'}]
+
+
+The project has a team::
+
     >>> project.getTeams()
     [<OpenTeam at /plone/portal_teams/p1>]
+
+Get the delete view and invoke it::
 
     >>> view = project.restrictedTraverse('delete')
     >>> view
@@ -130,6 +150,14 @@ Test to make sure invites have been deleted
     0
     >>> len(mt_view.pending_email_invites)
     0
+
+
+We should have nuked the project's lists from the list lookup utility,
+but NOT those of any other project (bug #2055)::
+
+    >>> pprint(ll.showAddressMapping())
+    [{'address': 'p4-discussion@...',
+      'path': '/plone/projects/p4/lists/p4-discussion'}]
 
 What else? [test wp, tt, removal]
 
