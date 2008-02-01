@@ -33,9 +33,6 @@ class TransientMessage(object):
         This takes an OBJECT and stores it on a per-user basis.
         If we receive a string, we're going to see if it's a message id
         and attempt to translate it.  If not, WE WILL LEAVE IT ALONE!!!
-
-        why are we ever storing objects as transient messages? this
-        seems like an odd overloading of the utility. -egj
         """
         cat = self._category_annot(mem_id, category)
         try:
@@ -47,15 +44,15 @@ class TransientMessage(object):
             msg = translate(msg, context=self.site_root)
         elif isinstance(msg, basestring):
             msg = _(msg)
-        
-        # commenting out test-breaking conditional cleaning
-        #if isinstance(msg, Message):
-        cleaner = Cleaner()
-        msg = cleaner.clean_html(msg)
+            
+        if isinstance(msg, Message) or isinstance(msg, basestring):
+            cleaner = Cleaner()
+            msg = cleaner.clean_html(msg)
 
-        # what is this for? does anyone know?
-        if msg.startswith('<p>'):
-            msg = msg[3:-4]
+            # clean_html wraps plain text messages in a paragraph tag.  If
+            # that has happened, we'll remove it to restore the original message.
+            if msg.startswith('<p>'):
+                msg = msg[3:-4]
 
         cat[new_id] = msg
         
