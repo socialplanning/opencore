@@ -203,6 +203,7 @@
   <subscriber handler=".preferences.handle_flet_uninstall" />
   <subscriber handler=".preferences.delete_team" />
   <subscriber handler=".preferences.delete_email_invites" />
+  <subscriber handler=".preferences.notify_cabochon" />
   <adapter factory=".preferences.ProjectFeatureletSupporter" />
 
   <adapter

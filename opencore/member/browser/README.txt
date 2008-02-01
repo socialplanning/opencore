@@ -42,7 +42,7 @@ Exercise the Member Account Class
 
     Instantiate the view::
 
-    >>> from opencore.member.browser.view import MemberAccountView
+    >>> from opencore.member.browser.account import MemberAccountView
     >>> request = self.app.REQUEST
     >>> request.form = {}
 

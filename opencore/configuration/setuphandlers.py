@@ -10,6 +10,8 @@ from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
 from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
 from Products.remember.utils import getAdderUtility
 from StringIO import StringIO
+from opencore.cabochon.client import CabochonUtility
+from opencore.cabochon.interfaces import ICabochonClient
 from opencore.configuration import OC_REQ as OPENCORE
 from opencore.content.member import OpenMember
 from opencore.content.membership import OpenMembership
@@ -416,13 +418,17 @@ def createValidationMember(portal, out):
     mem = OpenMember('validation_member')
     mdtool._validation_member = mem
 
-def register_local_utility(portal, out, iface, klass):
+def register_local_utility(portal, out, iface, klass, factory_fn=None):
     setSite(portal) # specify the portal as the local utility context
     if queryUtility(iface) is not None:
         return
     sm = portal.getSiteManager()
     try:
-        sm.registerUtility(iface, klass())
+        if factory_fn is not None:
+            obj = factory_fn()
+        else:
+            obj = klass()
+        sm.registerUtility(iface, obj)
         print >> out, ('%s utility installed' %iface.__name__)
     except ValueError:
         # re-register object
@@ -435,6 +441,11 @@ def register_local_utility(portal, out, iface, klass):
 @setuphandler
 def install_email_invites_utility(portal, out):
     register_local_utility(portal, out, IEmailInvites, EmailInvites)
+
+@setuphandler
+def install_cabochon_utility(portal, out):
+    factory_fn = lambda:CabochonUtility(portal)
+    register_local_utility(portal, out, ICabochonClient, CabochonUtility, factory_fn)
 
 @setuphandler
 def addCatalogQueue(portal, out):

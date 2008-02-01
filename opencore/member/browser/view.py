@@ -1,4 +1,3 @@
-from App import config
 from DateTime import DateTime
 from Products.AdvancedQuery import Eq
 from Products.CMFCore.utils import getToolByName
@@ -11,7 +10,6 @@ from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.interfaces.message import ITransientMessage
 from opencore.project.utils import project_path
-from opencore.member.browser.account import MemberAccountView
 from plone.memoize.view import memoize as req_memoize
 from time import gmtime
 from time import strftime

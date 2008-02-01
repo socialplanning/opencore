@@ -13,6 +13,7 @@ from borg.localrole.utils import setup_localrole_plugin
 from logging import getLogger, INFO
 from opencore.configuration.setuphandlers import addCatalogQueue
 from opencore.configuration.setuphandlers import createValidationMember
+from opencore.configuration.setuphandlers import install_cabochon_utility
 from opencore.configuration.setuphandlers import install_email_invites_utility
 from opencore.configuration.setuphandlers import install_remote_auth_plugin
 from opencore.configuration.setuphandlers import install_team_placeful_workflow_policies
@@ -399,6 +400,7 @@ nui_functions['Install OpenCore Remote Auth Plugin'] = \
 nui_functions['Create auto discussion lists'] = create_auto_discussion_lists
 nui_functions['Fix up project home pages'] = fixup_project_homepages
 nui_functions['Make project home pages relative'] = make_proj_homepages_relative
+nui_functions['Install Cabochon Client Utility'] = convertFunc(install_cabochon_utility)
 
 
 def run_nui_setup(portal):

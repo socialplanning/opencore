@@ -308,7 +308,7 @@ class BaseView(BrowserView):
 
             for key in 'membersince', 'lastlogin','location', \
                     'statement', 'affiliations', 'skills', \
-                    'background',  'url', 'favorites':
+                    'background',  'url', 'favorites', 'folder_url':
                 result[key] = ''
 
         folder = self.membertool.getHomeFolder(result['id'])

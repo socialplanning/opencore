@@ -12,6 +12,7 @@ from opencore.browser import tal
 from opencore.browser.base import _, BaseView
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.interfaces import IHomePage
+from opencore.cabochon.interfaces import ICabochonClient
 from opencore.interfaces import IProject
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
@@ -205,7 +206,9 @@ class ProjectDeletionView(BaseView):
         proj_id = self.context.getId()
         proj_folder.manage_delObjects([proj_id])
         self.add_status_message("You have permanently deleted '%s' " %title)
-        self.redirect("%s/create" %proj_folder.absolute_url())
+        # link to account page
+        account_url = '%s/account' % self.member_info['folder_url']
+        self.redirect(account_url)
         return True
     handle_delete = formhandler.button('delete')(_handle_delete)
 
@@ -234,6 +237,17 @@ def delete_email_invites(proj, event=None):
 def handle_blog_delete(project, event=None):
     pass
 
+@adapter(IProject, IObjectRemovedEvent)
+def notify_cabochon(project, event=None):
+    # project info passed to cabochon
+    id = project.getId()
+
+    # FIXME for some reason, on test tear down the getUtility fails
+    # without explicitly passing a context
+    portal = getToolByName(project, 'portal_url').getPortalObject()
+    cabochon_utility = getUtility(ICabochonClient, context=portal)
+    cabochon_utility.notify_project_deleted(id)
+
 class ProjectFeatureletSupporter(FeatureletSupporter):
     adapts(IProject)
     implements(IFeatureletSupporter)
@@ -249,4 +263,3 @@ class ProjectFeatureletSupporter(FeatureletSupporter):
             else:
                 featurelet.removePackage(self.context)
             self.storage.pop(name)
-                

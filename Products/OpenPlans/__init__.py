@@ -98,4 +98,25 @@ def initialize(context):
     import opencore.bbb
     do_aliases()
 
+    # initialize cabochon
+    #init_cabochon()
 
+#def init_cabochon():
+#    # for easy access to senders of cabochon messages
+#    # in the long term, this should probably be abstracted away
+#    # behind a utility
+#    global client
+#
+#    from cabochonclient import CabochonClient
+#    # FIXME: path
+#    client = CabochonClient("/usr/local/topp/stage.openplans.org/var/opencore/cabochon-messages", "http://url_of_cabochon_server")
+#    #or 
+#    #client = CabochonClient("directory to store messages", "http://url_of_cabochon_server", username=username, password=password)
+#    
+#    #start up a sender in the background.  Put this wherever it is convenient, so long as it is in the same process.  Keep in 
+#    #mind that messages are persistent across invocations, so don't worry about your application crashing.
+#    sender = client.sender()
+#    from threading import Thread
+#    t = Thread(target=sender.send_forever)
+#    t.setDaemon(True)
+#    t.start()
