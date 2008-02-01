@@ -1,0 +1,2 @@
+January 31, 2008 - David Turner <novalis@novalis.org> - Added setup
+    widget to delete old non-text versions of wiki pages.
