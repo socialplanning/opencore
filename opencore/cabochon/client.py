@@ -11,6 +11,9 @@ from zope.interface import implements
 # cache cabochon thread at module level
 cabochon_client = None
 
+class CabochonConfigError(Exception):
+    """Error in cabochon configuration"""
+
 class CabochonUtility(SimpleItem):
     """local utility to handle communications with cabochon"""
 
@@ -25,21 +28,21 @@ class CabochonUtility(SimpleItem):
                                                  'opencore.nui')
         
         if not cabochon_user_info_file:
-            raise ValueError('no cabochon_user_info file specified in zope.conf opencore.nui')
+            raise CabochonConfigError('no cabochon_user_info file specified in zope.conf opencore.nui')
 
         try:
             f = open(cabochon_user_info_file)
             self.username, self.password = f.read().strip().split(':', 1)
             f.close()
         except IOError:
-            raise ValueError('bad cabochon_user_info file specified in zope.conf opencore.nui')
+            raise CabochonConfigError('bad cabochon_user_info file specified in zope.conf opencore.nui')
 
         # get cabochon_messages filesystem location from configuration
         self.cabochon_messages_dir = product_config('cabochon_messages',
                                                     'opencore.nui')
 
         if not self.cabochon_messages_dir:
-            raise ValueError('no cabochon_messages directory specified in zope.conf opencore.nui')
+            raise CabochonConfigError('no cabochon_messages directory specified in zope.conf opencore.nui')
 
     @property
     def client(self):
@@ -57,10 +60,10 @@ class CabochonUtility(SimpleItem):
             ocprops = ptool._getOb('opencore_properties')
             cabochon_uri = ocprops.getProperty('cabochon_uri')
             if cabochon_uri is None:
-                raise ValueError('"cabochon_uri" not set in portal_properties')
+                raise CabochonConfigError('"cabochon_uri" not set in portal_properties')
 	    cabochon_uri = cabochon_uri.strip()
 	    if not cabochon_uri:
-	        raise ValueError('invalid empty cabochon_uri')
+	        raise CabochonConfigError('invalid empty cabochon_uri')
             self.cabochon_uri = cabochon_uri
 
             # initialize cabochon client
