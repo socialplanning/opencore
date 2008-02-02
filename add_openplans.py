@@ -18,9 +18,11 @@ if not site_id in app.objectIds():
     factory = app.manage_addProduct['CMFPlone'].addPloneSite
     factory(site_id, site_title, extension_ids=profiles)
 
-    if len(sys.argv) >= 3:
+    if len(sys.argv) > 4:
         oc_props = app.openplans.portal_properties.opencore_properties
         oc_props.wordpress_uri = sys.argv[1]
         oc_props.tasktracker_uri = sys.argv[2]
+        oc_props.cabochon_uri = sys.argv[3]
+        oc_props.twirlip_uri = sys.argv[4]
 
     transaction.commit()
