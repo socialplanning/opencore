@@ -8,7 +8,6 @@ from opencore.browser.topnav.interfaces import ITopnavMenuItems
 from opencore.interfaces.message import ITransientMessage
 from opencore.nui.contexthijack import HeaderHijackable
 from opencore.project.content import IProject
-from opencore.project import PROJ_HOME
 from opencore.content.page import OpenPage
 from operator import itemgetter
 from plone.memoize import view
@@ -105,20 +104,9 @@ class ProjectMenuView(BaseView):
     """
     Contains the info req'd by the topnav's project context menu
     """
-    @memoizedproperty
-    def atProjectHome(self):
-        result = False
-        proj = self.piv.project
-        if proj is not None:
-            proj_home = None
-            proj_home = proj._getOb(PROJ_HOM)
-            if self.context == proj_home:
-                result = True
-        return result
-
 
     def atProjectWiki(self):
-        return self.areaURL in self.request.ACTUAL_URL and \
+        return self.request.ACTUAL_URL.startswith(self.areaURL) and \
                isinstance(self.context, OpenPage)
 
     @memoizedproperty
