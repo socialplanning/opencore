@@ -1,4 +1,5 @@
 from AccessControl.SecurityManagement import newSecurityManager
+import sys
 import transaction
 from Testing.makerequest import makerequest
 app=makerequest(app)
@@ -17,5 +18,9 @@ if not site_id in app.objectIds():
     factory = app.manage_addProduct['CMFPlone'].addPloneSite
     factory(site_id, site_title, extension_ids=profiles)
 
-    transaction.commit()
+    if len(sys.argv) >= 3:
+        oc_props = app.openplans.portal_properties.opencore_properties
+        oc_props.wordpress_uri = sys.argv[1]
+        oc_props.tasktracker_uri = sys.argv[2]
 
+    transaction.commit()
