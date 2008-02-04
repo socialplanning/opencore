@@ -1,5 +1,6 @@
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.WorkflowCore import WorkflowException
+from Products.CMFCore.utils import getToolByName
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.interfaces.catalog import ILastWorkflowActor
