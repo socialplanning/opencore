@@ -307,15 +307,7 @@ class MemberAccountView(BaseView, OctopoLite):
 
         elt_id = '%s_invitation' % proj_id
         
-        command.update({
-                elt_id: {'action':'delete'},
-                "num_updates": {'action': 'copy',
-                                'html': self.nupdates()},
-                "num_updates_menu": {'action': 'copy',
-                                'html': self.nupdates()},
-                "num_updates_top": {'action': 'copy',
-                                'html': self.nupdates()}
-                })
+        command.update(ajax_update(elt_id, self.nupdates()))
 
         mship = team._getOb(id_)
         notify(JoinedProjectEvent(mship))
@@ -348,14 +340,7 @@ class MemberAccountView(BaseView, OctopoLite):
         transient_msgs.store(spurned_admin, "membership", msg)
 
         elt_id = '%s_invitation' % proj_id
-        return {elt_id: dict(action='delete'),
-                "num_updates": {'action': 'copy',
-                                'html': self.nupdates()},
-                "num_updates_menu": {'action': 'copy',
-                                'html': self.nupdates()},
-                "num_updates_top": {'action': 'copy',
-                                'html': self.nupdates()}
-                }
+        return ajax_update(elt_id, self.nupdates())
 
     # XXX is there any difference between ignore and deny?
     ## currently unused
@@ -367,13 +352,7 @@ class MemberAccountView(BaseView, OctopoLite):
         if not self._apply_transition_to(proj_id, 'reject_by_owner'):
             return {}
         elt_id = '%s_invitation' % proj_id
-        return {elt_id: dict(action='delete'),
-                "num_updates": {'action': 'copy',
-                                'html': self.nupdates()},
-                "num_updates_menu": {'action': 'copy',
-                                'html': self.nupdates()},
-                "num_updates_top": {'action': 'copy',
-                                'html': self.nupdates()}}
+        return ajax_update(elt_id, self.nupdates())
 
     @action('close')
     def close_msg_handler(self, targets, fields=None):
@@ -390,13 +369,7 @@ class MemberAccountView(BaseView, OctopoLite):
             return {}
         else:
             elt_id = 'close_info_message_%s' % idx
-            return {elt_id: dict(action='delete'),
-                    "num_updates": {'action': 'copy',
-                                    'html': self.nupdates()},
-                "num_updates_menu": {'action': 'copy',
-                                'html': self.nupdates()},
-                "num_updates_top": {'action': 'copy',
-                                'html': self.nupdates()}}
+            return ajax_update(elt_id, self.nupdates())
 
     @property
     @req_memoize
@@ -507,3 +480,18 @@ class ProjectInvitationsView(MemberAccountView):
     template = ZopeTwoPageTemplateFile('invitations.pt') # could change this
 
 
+def ajax_update(elt_id, nupdates):
+    """helper function to generate the ajax required to update the
+       account page"""
+    if nupdates <= 0:
+        num_updates_top = ''
+    else:
+        num_updates_top = '(%s)' % nupdates
+
+    return {elt_id: dict(action='delete'),
+            'num_updates': dict(action='copy',
+                                html=nupdates),
+            'num_updates_menu': dict(action='copy',
+                                     html=nupdates),
+            'num_updates_top': dict(action='copy',
+                                    html=num_updates_top)}
