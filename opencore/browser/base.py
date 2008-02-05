@@ -47,6 +47,7 @@ class BaseView(BrowserView):
 
     def debug(self):
         """@@ this should be calculated from conf"""
+        # i'm not sure i feel comfortable about this. what does it do? -egj
         return True
 
     # XXX only used by formlite in this fashion
