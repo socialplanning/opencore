@@ -9,7 +9,8 @@ First we do some silly setup which should move to the test setup::
 
 Now we've got the error view. It renders a different template based on
 the error type. 404s will render a different template::
-    >>> "Hey kid" in view(error_type='NotFound')
+    >>> "Hey there" in view(error_type='NotFound')
     True
-    >>> "Hey kid" in view(error_type='SomethingElse')
+    >>> "Hey there" in view(error_type='SomethingElse')
     False
+

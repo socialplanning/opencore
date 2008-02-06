@@ -13,10 +13,10 @@
 
   <div tal:condition="python:err_type=='NotFound'">
 
-    <h1>Hey kid, this isn't real</h1>
+    <h1>Hey there, this isn't real</h1>
 
     <p>
-      Hey, kid, you've tried to hit something that's not here.  Sorry about that!  Maybe it's our fault.
+      Shucks, you've tried to hit something that's not here.  Sorry about that!  Maybe it's our fault.
     </p>
 
     <div tal:define="query view/query">
