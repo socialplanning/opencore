@@ -11,38 +11,6 @@
                  err_value options/error_value|nothing;
                  err_traceback options/error_traceback|nothing;">
 
-  <div tal:condition="python:err_type=='NotFound'">
-
-    <h1 i18n:translate="error_heading">Our apologies...</h1>
-
-    <p i18n:translate="error_description_1">
-      The item you requested does not exist on this server or cannot be served.
-    </p>
-
-    <p i18n:translate="error_description_2">
-      Please double check the web address or use the search function on this page to find what you are looking for.
-    </p>
-
-    <p i18n:translate="error_description_3">
-      If you know you have the correct web address but are encountering an error, please
-      contact the <span i18n:name="site_admin">
-        <a href="#" 
-           i18n:translate="label_site_admin"
-           tal:attributes="href string:${view/siteURL}/contact-site-admin">Site Administration</a></span>.
-    </p>
-
-    <p i18n:translate="error_thank_you">
-      Thank you.
-    </p>
-
-    <code i18n:translate="error_404">
-      404 Not Found
-    </code>
-
-  </div>
-
-  <div tal:condition="python: err_type!='NotFound'">
-
     <h1 i18n:translate="error_site_heading">Site error</h1>
  
     <p i18n:translate="error_site_description">
@@ -87,8 +55,6 @@
         The time the error was encountered
       </dd>
     </dl>
-
-  </div>
 </div>
 
 </body>
