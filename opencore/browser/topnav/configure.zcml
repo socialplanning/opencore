@@ -136,7 +136,7 @@
      container="opencore.interfaces.IProject"
      item_url="team"
      sort_order="50"
-	   selected=".viewlet.team_selected"
+     selected=".viewlet.team_selected"
      />
 
   <opencore:menuitem
@@ -163,6 +163,14 @@
      item_url="request-membership"
      sort_order="90"
      css_class=".viewlet.join_css"
+     />
+
+  <opencore:menuitem
+     name="Summary"
+     filter=".viewlet.contained_within"
+     container="opencore.interfaces.IProject"
+     item_url="latest-activity"
+     sort_order="99"
      />
 
   <opencore:menuitem

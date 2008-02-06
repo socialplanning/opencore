@@ -58,10 +58,11 @@ class TestTopNav(OpenPlansTestCase):
         # Why this is true, I don't know, but now we can be sure!
         self.assert_(4 <= len(lis) and len(lis) <= 6)
 
-        # Only the last element should be selected
-        for li in lis[:-1]:
+        # Only the join element should be selected
+        for li in lis[:-2]:
             self.assertEqual(False, li['selected'])
-        self.assertEqual(u'oc-topnav-join', lis[-1]['selected'])
+        self.assertEqual(False, lis[-1]['selected'])
+        self.assertEqual(u'oc-topnav-join', lis[-2]['selected'])
 
         navigation = [link['name'] for link in links]
         self.assert_(u'Pages' in navigation)
@@ -71,6 +72,7 @@ class TestTopNav(OpenPlansTestCase):
         self.assert_(u'Team' in navigation)
         self.assert_(u'Contents' in navigation)
         self.assert_(u'Join Project' in navigation)
+        self.assert_(u'Summary' in navigation)
 
         self.clearMemoCache()
         memhome = self.memhome
@@ -95,9 +97,10 @@ class TestTopNav(OpenPlansTestCase):
 
         # Only the last element should be selected
         self.assert_(4 <= len(lis) and len(lis) <= 6)
-        for li in lis[:-1]:
+        for li in lis[:-2]:
             self.assertEqual(False, li['selected'])
-        self.assertEqual(u'oc-topnav-join', lis[-1]['selected'])
+        self.assertEqual(u'oc-topnav-join', lis[-2]['selected'])
+        self.assertEqual(False, lis[-1]['selected'])
 
         navigation = [link['name'] for link in links]
         self.assert_(u'Pages' in navigation)
@@ -107,6 +110,7 @@ class TestTopNav(OpenPlansTestCase):
         self.assert_(u'Team' in navigation)
         self.assert_(u'Contents' in navigation)
         self.assert_(u'Join Project' in navigation)
+        self.assert_(u'Summary' in navigation)
         del req.environ['X_OPENPLANS_PROJECT']
 
         # test switch to member context with
