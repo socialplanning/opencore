@@ -42,8 +42,17 @@ def test_suite():
                                   setUp=readme_setup,
                                   layer = test_layer                                  
                                   )
+    errors = dtf.ZopeDocFileSuite("error.txt",
+                                  optionflags=optionflags,
+                                  package='opencore.browser',
+                                  test_class=OpenPlansTestCase,
+                                  globs = globs,
+                                  setUp=readme_setup,
+                                  layer = test_layer
+                                  )
+
     tal_test = tal.test_suite()
-    return unittest.TestSuite((readme, octotest(), tal_test))
+    return unittest.TestSuite((readme, octotest(), tal_test, errors))
 
 
 if __name__ == '__main__':

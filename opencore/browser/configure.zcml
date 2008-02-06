@@ -11,10 +11,9 @@
 
   <browser:page
     for="*"
-    class="opencore.browser.base.BaseView"
+    class="opencore.browser.error.ErrorView"
     permission="zope.Public"
     name="error"
-    template="error.pt"
     />
 
   <browser:resourceDirectory

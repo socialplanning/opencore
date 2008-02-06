@@ -1,0 +1,15 @@
+=========================================
+Some basic tests for the site error views
+=========================================
+
+First we do some silly setup which should move to the test setup::
+    >>> from opencore.browser.error import ErrorView
+    >>> view = ErrorView(self.homepage, self.request)
+    >>> view = view.__of__(self.homepage)
+
+Now we've got the error view. It renders a different template based on
+the error type. 404s will render a different template::
+    >>> "Hey kid" in view(error_type='NotFound')
+    True
+    >>> "Hey kid" in view(error_type='SomethingElse')
+    False
