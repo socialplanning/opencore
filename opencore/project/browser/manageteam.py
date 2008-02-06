@@ -737,7 +737,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                    % (plural and 'es' or '', ', '.join(bad)))
             self.add_status_message(psm)
             return # don't do anything, just re-render the form
-        
+
         proj_id = self.context.getId()
         proj_title = self.context.title
         mbtool = self.membranetool
@@ -748,6 +748,10 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         already_invited = []
         for addy in invites:
             # first check to see if we're already a site member
+            addy = addy.strip()
+            if not addy:
+                continue
+
             match = uSR(getEmail=addy)
             if match:
                 # member already has this address

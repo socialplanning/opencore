@@ -357,7 +357,7 @@ a couple of addresses that don't belong to any site members:
 
     >>> self.clearMemoCache()
     >>> view.request.form.clear()
-    >>> invites = 'doesnotexist@example.com, isnotthere@example.com'
+    >>> invites = 'doesnotexist@example.com, isnotthere@example.com\n'
     >>> view.request.form.update({'task|email-invites': 'Send',
     ...                           'email-invites': invites})
     >>> view.add_email_invites()
