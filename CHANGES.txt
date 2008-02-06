@@ -1,2 +1,5 @@
+February 6, 2008 - Ethan Jucovy <egj@openplans.org> - Override 404
+    with friendlier error message and search results for similar content.
+
 January 31, 2008 - David Turner <novalis@novalis.org> - Added setup
     widget to delete old non-text versions of wiki pages.
