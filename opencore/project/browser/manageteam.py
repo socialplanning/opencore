@@ -323,7 +323,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         ret = {}
         for mem_id in mem_ids:
             mship = self.team.getMembershipByMemberId(mem_id)
-            config = pwft.getWorkflowPolicyConfig(self.team)
+            config = pwft.getWorkflowPolicyConfig(mship)
             if config is not None:
                 wf_ids = config.getPlacefulChainFor('OpenMembership')
                 wf_id = wf_ids[0]
@@ -382,7 +382,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         Retracts invitations sent to email addresses.  Should send
         notifiers.
         """
-        addresses = [urllib.unquote(t).strip() for t in targets]
+        addresses = [urllib.unquote(t) for t in targets]
 
         sender = _email_sender(self)
         msg = sender.constructMailMessage('invitation_retracted',
@@ -694,7 +694,7 @@ class InviteView(ManageTeamView):
         """
         # perform reminder
         invites = self.request.get('email-invites').split(",")
-        addresses = [urllib.unquote(t).strip() for t in invites]
+        addresses = [urllib.unquote(t) for t in invites]
 
         sender = _email_sender(self)
         project_title = self.context.title
@@ -766,7 +766,7 @@ class InviteView(ManageTeamView):
                    % (plural and 'es' or '', ', '.join(bad)))
             self.add_status_message(psm)
             return # don't do anything, just re-render the form
-
+        
         proj_id = self.context.getId()
         proj_title = self.context.title
         mbtool = self.membranetool
@@ -778,10 +778,6 @@ class InviteView(ManageTeamView):
 
         for addy in invites:
             # first check to see if we're already a site member
-            addy = addy.strip()
-            if not addy:
-                continue
-
             match = uSR(getEmail=addy)
             if match:
                 # member already has this address

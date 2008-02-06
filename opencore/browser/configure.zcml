@@ -121,11 +121,4 @@
      permission="zope2.View"
      />
 
-  <browser:page
-     for="opencore.interfaces.IOpenSiteRoot"
-     name="hello"
-     template="hello.pt"
-     permission="zope2.View"
-     />
-
 </configure>
