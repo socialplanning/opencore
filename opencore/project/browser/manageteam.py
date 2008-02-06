@@ -321,7 +321,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         ret = {}
         for mem_id in mem_ids:
             mship = self.team.getMembershipByMemberId(mem_id)
-            config = pwft.getWorkflowPolicyConfig(mship)
+            config = pwft.getWorkflowPolicyConfig(self.team)
             if config is not None:
                 wf_ids = config.getPlacefulChainFor('OpenMembership')
                 wf_id = wf_ids[0]
