@@ -43,8 +43,8 @@ class BaseView(BrowserView):
     truncate = staticmethod(truncate)
     txn_note = staticmethod(transaction_note)
     site_iface = IPloneSiteRoot
-    getToolByName=getToolByName
-
+    getToolByName = getToolByName
+    
     def debug(self):
         """@@ this should be calculated from conf"""
         # i'm not sure i feel comfortable about this. what does it do? -egj
@@ -268,7 +268,6 @@ class BaseView(BrowserView):
                 del mp_map[k]
 
         return mp_map
-
 
     def member_info_for_member(self, member):
         if member == None:
