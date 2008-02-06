@@ -95,7 +95,7 @@
 
   <opencore:menuitem
      name="Member Wiki"
-     text="Wiki"
+     text="Pages"
      filter=".viewlet.contained_within"
      container="opencore.interfaces.IMemberFolder"
      url=".viewlet.member_wiki_url"
@@ -122,7 +122,7 @@
 
   <opencore:menuitem
      name="Project Wiki"
-     text="Wiki"
+     text="Pages"
      filter=".viewlet.contained_within"
      container="opencore.interfaces.IProject"
      url=".viewlet.project_wiki_url"
