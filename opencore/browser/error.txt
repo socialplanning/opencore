@@ -29,7 +29,8 @@ Simulate an error, and check that an email was sent out::
     >>> from opencore.browser.error import ErrorReporter
     >>> view = ErrorReporter(self.homepage, self.request)
     >>> view = view.__of__(self.homepage)
-    >>> view.request.form.update({'oc-did': 'what i did',
+    >>> view.request.form.update({'error_submitted': 'Send',
+    ...                           'oc-did': 'what i did',
     ...                           'oc-expected': 'what i expected',
     ...                           'traceback': 'here is the traceback'})
     >>> html = view()
