@@ -1,0 +1,45 @@
+============================
+ configuration.utils tests
+============================
+
+   >>> from opencore.configuration import utils
+
+
+We can read stuff from zope.conf's product-config directives.
+
+   >>> print utils.product_config('email-confirmation', 'opencore.nui')
+   True
+
+If either the name or the namespace isn't in the config file,
+the default is returned::
+
+   >>> utils.product_config('foo', 'bar')
+   ''
+
+   >>> utils.product_config('foo', 'bar', 'default')
+   'default'
+   
+
+We can also read stuff from .ini files::
+
+
+   >>> utils.get_config('initest.ini', 'section1', 'name1',
+   ...    configdir=os.path.split(__file__)[0])
+   'value1'
+
+   >>> utils.get_config('initest.ini', 'section1', 'nosuchname',
+   ...    configdir=os.path.split(__file__)[0])
+   ''
+
+   >>> utils.get_config('initest.ini', 'nosuchsection', 'name1',
+   ...    configdir=os.path.split(__file__)[0])
+   ''
+
+
+If the file does not exist we get the default::
+
+   >>> utils.get_config('no-such-file.ini', 'foo', 'bar')
+   ''
+   >>> utils.get_config('no-such-file.ini', 'foo', 'bar', 'default')
+   'default'
+

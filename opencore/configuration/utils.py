@@ -1,16 +1,22 @@
 """
 config utils
 """
+
+from App import config
+from warnings import warn
+import ConfigParser
+import logging
+import os
+
+logger = logging.getLogger('opencore.configuration.utils')
+
 def product_config(variable, namespace, default=''):
     """
     get a variable from the product-config (etc/zope.conf)
     """
-    from App import config
-    
     try:
         cfg = config.getConfiguration().product_config.get(namespace)
     except AttributeError:
-        from warnings import warn
         warn("""Product configuration most likely not loaded""")
         return default
         
@@ -19,6 +25,27 @@ def product_config(variable, namespace, default=''):
     return default
 
 
+_parsers = {}  # Cache of ini file parsers.
+
+def get_config(inifile, section, option, default='', configdir=None):
+    """
+    Get the value of the given section & option from the ini file in
+    our standard config directory ($INSTANCE_HOME/etc/ini/ by
+    default).
+    """
+    if configdir is None:
+        home = config.getConfiguration().instancehome
+        configdir = os.path.join(home, 'etc', 'ini')
+    inifile = os.path.join(configdir, inifile)
+    parser = _parsers.get(inifile)
+    if not parser:
+        parser = _parsers[inifile] = ConfigParser.SafeConfigParser()
+        if not parser.read(inifile):
+            warn("config file %r could not be read" % inifile) 
+    try:
+        return parser.get(section, option)
+    except (ConfigParser.NoOptionError, ConfigParser.NoSectionError):
+        return default
 
 #
 # This stuff should be in a config file, but we won't be using kupu
