@@ -57,9 +57,6 @@ class ErrorReporter(BaseView):
 
             msg = ('On %(time)s, %(user_email)s went to the URL %(url)s.\n\n'
                    'Did: %(did)s\n\nExpected: %(expected)s\n\nTraceback: %(traceback)s' % locals())
-            print msg
-            #XXX lookup email address if logged in
-            #XXX if not logged in, throw in form field with email address
             email_sender.sendMail(mto, msg, '[site - write me] Site Error',
                                   user_email)
             self.add_status_message(u'Thanks for your feedback.')
