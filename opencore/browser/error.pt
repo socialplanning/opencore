@@ -20,11 +20,23 @@
     <form method="POST" action="." tal:attributes="action view/submit_url">
       <input type="hidden" name="traceback" value=""
              tal:attributes="value view/traceback" />
+      <input type="hidden" name="time" value=""
+             tal:attributes="value view/request_time" />
+      <input type="hidden" name="url" value=""
+             tal:attributes="value request/ACTUAL_URL" />
+
       <label for="oc-did">What did you do?</label>
       <textarea id="oc-did" name="oc-did"></textarea>
+
       <label for="oc-expected">What did you expect?</label>
       <textarea id="oc-expected" name="oc-expected"></textarea>
+
+      <label for="oc-user-email">
+	If you give us your email address, we can follow up with you on this issue if you'd like.</label>
+      <input type="text" id="oc-user-email" name="oc-user-email" tal:attributes="value view/user_email | nothing" />
+
       <input type="submit" name="error_submitted" value="Send" />
+
     </form>
 
 </div>
