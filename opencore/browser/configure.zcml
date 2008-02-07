@@ -121,4 +121,11 @@
      permission="zope2.View"
      />
 
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
+     name="submit-error-report"
+     class="opencore.browser.error.ErrorReporter"
+     permission="zope2.Public"
+     />
+
 </configure>

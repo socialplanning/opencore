@@ -1,4 +1,5 @@
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
+from Products.PasswordResetTool.tests.test_doctests import MockMailHostTestCase
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from Testing.ZopeTestCase import PortalTestCase 
@@ -45,7 +46,7 @@ def test_suite():
     errors = dtf.ZopeDocFileSuite("error.txt",
                                   optionflags=optionflags,
                                   package='opencore.browser',
-                                  test_class=OpenPlansTestCase,
+                                  test_class=MockMailHostTestCase,
                                   globs = globs,
                                   setUp=readme_setup,
                                   layer = test_layer

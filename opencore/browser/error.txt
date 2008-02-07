@@ -14,3 +14,24 @@ the error type. 404s will render a different template::
     >>> "Hey there" in view(error_type='SomethingElse')
     False
 
+On error, an email should get sent out.
+
+Get the mailhost::
+
+    >>> mh = self.portal.MailHost
+    >>> mh
+    <...MockMailHost at ...>
+    >>> len(mh.messages)
+    0
+
+Simulate an error, and check that an email was sent out::
+
+    >>> from opencore.browser.error import ErrorReporter
+    >>> view = ErrorReporter(self.homepage, self.request)
+    >>> view = view.__of__(self.homepage)
+    >>> view.request.form.update({'oc-did': 'what i did',
+    ...                           'oc-expected': 'what i expected',
+    ...                           'traceback': 'here is the traceback'})
+    >>> html = view()
+    >>> len(mh.messages)
+    1
