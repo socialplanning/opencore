@@ -44,9 +44,9 @@ Verify the contents of the email::
     >>> msg = mh.messages[0]
     >>> from pprint import pprint
     >>> pprint(msg.items())
-    [('To', ['greetings@rmarianski-wifi.openplans.org']),
+    [('To', ['greetings@...]),
      ('From', 'anonymous@example.com'),
-     ('Subject', '[site - write me] Site Error')]
+     ('Subject', '[OpenCore Site] site error report')]
     >>> print msg.get_payload()
     On 2000-01-01 01:02:03.123456, anonymous@example.com went to the URL http://nohost/plone/error/url.
     <BLANKLINE>

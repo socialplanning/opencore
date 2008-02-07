@@ -57,7 +57,8 @@ class ErrorReporter(BaseView):
 
             msg = ('On %(time)s, %(user_email)s went to the URL %(url)s.\n\n'
                    'Did: %(did)s\n\nExpected: %(expected)s\n\nTraceback: %(traceback)s' % locals())
-            email_sender.sendMail(mto, msg, '[site - write me] Site Error',
+            site = portal.getProperty('title', 'Untitled site')
+            email_sender.sendMail(mto, msg, '[%s] site error report' % site,
                                   user_email)
             self.add_status_message(u'Thanks for your feedback.')
         return self.redirect(portal.absolute_url())
