@@ -1,3 +1,6 @@
+February 7, 2008 - Ethan Jucovy <egj@openplans.org> - Override 500
+    with friendlier error message and form for submitting bug report feedback.
+
 February 6, 2008 - Ethan Jucovy <egj@openplans.org> - Override 404
     with friendlier error message and search results for similar content.
 
