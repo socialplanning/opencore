@@ -8,7 +8,7 @@
   <browser:page
      for="opencore.featurelets.interfaces.IListenContainer"
      name="mailing_lists"
-     class="opencore.browser.base.BaseView"
+     class=".view.ListsView"
      permission="zope2.View"
      template="mailing_lists.pt"
      />

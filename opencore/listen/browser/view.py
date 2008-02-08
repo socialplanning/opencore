@@ -1,4 +1,5 @@
 from Acquisition import aq_inner
+from Products.CMFCore.permissions import DeleteObjects
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import metaconfigure, pagetemplatefile
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
@@ -542,3 +543,9 @@ default_named_template_adapter = named_template_adapter(_template)
 _subpage_path = os.path.join(path_prefix, 'subpageform.pt')
 _subpage_template = pagetemplatefile.ViewPageTemplateFile(_subpage_path)
 default_subpage_template = named_template_adapter(_subpage_template)
+
+class ListsView(BaseView):
+
+    def can_delete_list(self):
+        return self.membertool.checkPermission(DeleteObjects,
+                                               self.context.aq_parent)

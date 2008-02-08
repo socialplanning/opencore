@@ -1,4 +1,5 @@
-<tal:vars define="can_add_lists python:view.membertool.checkPermission('Listen: Add list', here);">
+<tal:vars
+    define="can_add_lists python:view.membertool.checkPermission('Listen: Add list', here);">
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:Mailing Lists - ${view/area/Title}" />
@@ -69,7 +70,7 @@
                             action="confirm_delete_list"
                             tal:attributes="name string:${list_id}_form">
                           <tal:delete
-                             condition="can_add_lists">
+                             condition="view/can_delete_list">
                             <input type="hidden"
                                   name="list_id"
                                   value="LIST_ID"
