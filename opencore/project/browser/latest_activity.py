@@ -162,7 +162,10 @@ class LatestActivityView(ProjectContentsView):
 
     def team_manager(self):
         """returns whether the member has permission to manage the team"""
-        return False # XXX stub
+        mem_id = self.member_info.get('id')
+        if mem_id is None:
+            return False
+        return self.get_tool('portal_teams')._getOb(self.area.id).getHighestTeamRoleForMember(mem_id) == 'ProjectAdmin'
 
     def team_members(self):
         # XXX don't know if this is replicated elsewhere
