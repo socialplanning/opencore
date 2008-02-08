@@ -22,23 +22,22 @@ the default is returned::
 
 We can also read stuff from .ini files::
 
-
-   >>> utils.get_config('initest.ini', 'section1', 'name1',
-   ...    configdir=os.path.split(__file__)[0])
+   >>> pwd = os.path.split(__file__)[0]
+   >>> inifile = os.path.join(pwd, 'initest.ini')
+   >>> utils.get_config('section1', 'name1', inifile=inifile)
    'value1'
 
-   >>> utils.get_config('initest.ini', 'section1', 'nosuchname',
-   ...    configdir=os.path.split(__file__)[0])
+   >>> utils.get_config('section1', 'nosuchname', inifile=inifile)
    ''
 
-   >>> utils.get_config('initest.ini', 'nosuchsection', 'name1',
-   ...    configdir=os.path.split(__file__)[0])
+   >>> utils.get_config('nosuchsection', 'name1', inifile=inifile)
    ''
 
 
 If the file does not exist we get the default::
 
-   >>> utils.get_config('no-such-file.ini', 'foo', 'bar')
+   >>> nosuchfile = os.path.join(pwd, 'no-such-file.ini')
+   >>> utils.get_config('foo', 'bar', inifile=nosuchfile)
    ''
-   >>> utils.get_config('no-such-file.ini', 'foo', 'bar', 'default')
+   >>> utils.get_config('foo', 'bar', default='default', inifile=nosuchfile)
    'default'

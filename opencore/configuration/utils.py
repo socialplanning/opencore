@@ -27,16 +27,14 @@ def product_config(variable, namespace, default=''):
 
 _parsers = {}  # Cache of ini file parsers.
 
-def get_config(inifile, section, option, default='', configdir=None):
+def get_config(section, option, default='', inifile=None):
     """
-    Get the value of the given section & option from the ini file in
-    our standard config directory ($INSTANCE_HOME/etc/ini/ by
-    default).
+    Get the value of the given section & option from the given inifile.
+    Use fassembler's build.ini if inifile is not given.
+    Use default if option is not found.
     """
-    if configdir is None:
-        home = config.getConfiguration().instancehome
-        configdir = os.path.join(home, 'etc', 'ini')
-    inifile = os.path.join(configdir, inifile)
+    if inifile is None:
+        inifile = config.getConfiguration().product_config.get('build_ini_path')
     parser = _parsers.get(inifile)
     if not parser:
         parser = _parsers[inifile] = ConfigParser.SafeConfigParser()
