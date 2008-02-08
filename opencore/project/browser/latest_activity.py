@@ -160,6 +160,10 @@ class LatestActivityView(ProjectContentsView):
         g = self.context.unrestrictedTraverse('latest-snippet')
         foo = g()
 
+    def team_manager(self):
+        """returns whether the member has permission to manage the team"""
+        return False # XXX stub
+
     def team_members(self):
         # XXX don't know if this is replicated elsewhere
         team = self.area.getTeams()

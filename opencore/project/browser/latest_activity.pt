@@ -27,7 +27,9 @@
 	  </p>
 
 	  <!-- display project security settings -->
-	  <h2>Security <a href="preferences">EDIT</a></h2>
+	  <h2>Security 	    
+	    <a tal:condition="view/team_manager" href="preferences">EDIT</a>
+	  </h2>
 	  <p tal:condition="python:view.project_info['security'] == 'open_policy'">
 	    Anyone can view this project and
 	    any <span tal:replace="view/portal_title">site</span>
@@ -41,7 +43,9 @@
 	  </p>
 
 
-	  <h2>Goal <a href="preferences">EDIT</a></h2>
+	  <h2>Goal
+	    <a tal:condition="view/team_manager" href="preferences">EDIT</a>
+	  </h2>
 	  <p tal:content="view/project_info/description" />
 
 	  <span tal:condition="not: view/is_project_member">
@@ -75,7 +79,7 @@
 	  </p>
 	  <ul tal:repeat="member view/team_members">
 	    <a tal:attributes="href member/url">
-	      <img tal:attributes="src member/portrait_url"/>
+	      <img tal:attributes="src member/portrait_thumb_url"/>
 	    </a>
 	  </ul>
 	</div>
