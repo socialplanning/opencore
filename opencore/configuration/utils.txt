@@ -42,8 +42,3 @@ If the file does not exist we get the default::
    ''
    >>> utils.get_config('no-such-file.ini', 'foo', 'bar', 'default')
    'default'
-
-Deliberately fail to test buildbot.
-
-   >>> True == False
-   True
