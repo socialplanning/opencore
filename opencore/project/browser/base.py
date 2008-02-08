@@ -49,13 +49,13 @@ class ProjectBaseView(BaseView):
         return [ dict(id='wiki',
                       title='Wiki pages',
                       url=PROJ_HOME,
-                      checked=True,
+                      checked=False,
                       ),
                  
                  dict(id='latest-activity',
                       title='Latest activity',
                       url=LATEST_ACTIVITY,
-                      checked=False
+                      checked=True,
                       )
                  ]
 
