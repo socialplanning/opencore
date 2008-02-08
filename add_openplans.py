@@ -1,5 +1,5 @@
 from AccessControl.SecurityManagement import newSecurityManager
-from opencore.configuration import get_config
+from opencore.configuration.utils import get_config
 import sys
 import transaction
 from Testing.makerequest import makerequest
