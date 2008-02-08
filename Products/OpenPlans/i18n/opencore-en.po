@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2008-01-18 16:43+0000\n"
-"PO-Revision-Date: 2008-01-18 16:51-0500\n"
+"POT-Creation-Date: 2008-02-08 16:26+0000\n"
+"PO-Revision-Date: 2008-02-08 11:32-0500\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
 "MIME-Version: 1.0\n"
@@ -334,7 +334,7 @@ msgstr ""
 msgid "create_project_url"
 msgstr ""
 
-#: opencore/project/browser/manageteam.py:528
+#: opencore/project/browser/manageteam.py:533
 msgid "demote_to_member"
 msgstr "${name} is no longer an administrator"
 
@@ -447,73 +447,23 @@ msgstr ""
 "${portal_url}"
 
 #. Default: "Could not moderate!"
-#: opencore/listen/browser/view.py:388
+#: opencore/listen/browser/view.py:389
 msgid "err_could_not_moderate"
 msgstr ""
 
 #. Default: "The project name must contain at least 2 characters with at least 1 letter or number."
-#: opencore/project/browser/preferences.py:104
+#: opencore/project/browser/preferences.py:107
 msgid "err_project_name"
 msgstr ""
 
-#. Default: "404 Not Found"
-#: opencore/browser/error.pt:38
-msgid "error_404"
-msgstr ""
-
-#. Default: "The item you requested does not exist on this server or cannot be served."
-#: opencore/browser/error.pt:18
-msgid "error_description_1"
-msgstr ""
-
-#. Default: "Please double check the web address or use the search function on this page to find what you are looking for."
-#: opencore/browser/error.pt:22
-msgid "error_description_2"
-msgstr ""
-
-#. Default: "If you know you have the correct web address but are encountering an error, please contact the ${site_admin}."
-#: opencore/browser/error.pt:28
-msgid "error_description_3"
-msgstr ""
-
-#. Default: "Our apologies..."
+#. Default: "Something unexpected happened. If you tell us what you were doing, it will help us fix it faster."
 #: opencore/browser/error.pt:16
-msgid "error_heading"
-msgstr ""
-
-#. Default: "Error Message"
-#: opencore/browser/error.pt:63
-msgid "error_message"
-msgstr ""
-
-#. Default: "This site encountered an error trying to fulfill your request. The errors were:"
-#: opencore/browser/error.pt:48
 msgid "error_site_description"
 msgstr ""
 
-#. Default: "Site error"
-#: opencore/browser/error.pt:46
+#. Default: "Whoa!"
+#: opencore/browser/error.pt:14
 msgid "error_site_heading"
-msgstr ""
-
-#. Default: "Thank you."
-#: opencore/browser/error.pt:34
-msgid "error_thank_you"
-msgstr ""
-
-#. Default: "Request made at"
-#: opencore/browser/error.pt:82
-msgid "error_time"
-msgstr ""
-
-#. Default: "Error Type"
-#: opencore/browser/error.pt:54
-msgid "error_type"
-msgstr ""
-
-#. Default: "Error Value"
-#: opencore/browser/error.pt:73
-msgid "error_value"
 msgstr ""
 
 #. Default: "about"
@@ -527,8 +477,13 @@ msgid "footer_contact_link"
 msgstr ""
 
 #. Default: "&copy; 2007 <a href=\"http://topp.openplans.org/\">The Open Planning Project</a>"
-#: opencore/browser/footer.pt:15
+#: opencore/browser/footer.pt:16
 msgid "footer_copyright"
+msgstr ""
+
+#. Default: "help"
+#: opencore/browser/footer.pt:6
+msgid "footer_help_link"
 msgstr ""
 
 #. Default: "news"
@@ -537,12 +492,12 @@ msgid "footer_news_link"
 msgstr ""
 
 #. Default: "${num_people} people"
-#: opencore/browser/footer.pt:12
+#: opencore/browser/footer.pt:13
 msgid "footer_num_people"
 msgstr ""
 
 #. Default: "${num_projects} projects"
-#: opencore/browser/footer.pt:13
+#: opencore/browser/footer.pt:14
 msgid "footer_num_projects"
 msgstr ""
 
@@ -791,58 +746,53 @@ msgstr ""
 msgid "label_send"
 msgstr ""
 
-#. Default: "Site Administration"
-#: opencore/browser/error.pt:29
-msgid "label_site_admin"
-msgstr ""
-
 #. Default: "The requested list prefix is already taken."
-#: opencore/listen/browser/view.py:180
+#: opencore/listen/browser/view.py:181
 msgid "list_create_duplicate_error"
 msgstr ""
 
 #. Default: "\"${title}\" has been created."
-#: opencore/listen/browser/view.py:274
+#: opencore/listen/browser/view.py:275
 msgid "list_created"
 msgstr ""
 
 #. Default: "The mailing list archival method must be set to all, text-only, or none."
-#: opencore/listen/browser/view.py:168
+#: opencore/listen/browser/view.py:169
 msgid "list_invalid_archive_error"
 msgstr ""
 
 #. Default: "The following managers are not members of this site: ${managers}"
-#: opencore/listen/browser/view.py:152
+#: opencore/listen/browser/view.py:153
 msgid "list_invalid_managers_error"
 msgstr ""
 
 #. Default: "Only the following characters are allowed in list address prefixes: alpha-numerics, underscores, hyphens, and periods (i.e. A-Z, a-z, 0-9, and _-. symbols)"
-#: opencore/listen/browser/view.py:176
+#: opencore/listen/browser/view.py:177
 msgid "list_invalid_prefix_error"
 msgstr ""
 
 #. Default: "The mailing list must have a title."
-#: opencore/listen/browser/view.py:130
+#: opencore/listen/browser/view.py:131
 msgid "list_invalid_title"
 msgstr ""
 
 #. Default: "The mailing list security must be set to open, moderated, or closed."
-#: opencore/listen/browser/view.py:159
+#: opencore/listen/browser/view.py:160
 msgid "list_invalid_workflow_error"
 msgstr ""
 
 #. Default: "The mailing list must have a list prefix."
-#: opencore/listen/browser/view.py:174
+#: opencore/listen/browser/view.py:175
 msgid "list_missing_prefix_error"
 msgstr ""
 
 #. Default: "The mailing list must have at least one manager."
-#: opencore/listen/browser/view.py:141
+#: opencore/listen/browser/view.py:142
 msgid "list_no_managers_error"
 msgstr ""
 
 #. Default: "Your changes have been saved."
-#: opencore/listen/browser/view.py:313
+#: opencore/listen/browser/view.py:314
 msgid "list_preferences_updated"
 msgstr ""
 
@@ -977,37 +927,37 @@ msgid "lookup_view_purge_button"
 msgstr ""
 
 #. Default: "Actions"
-#: opencore/listen/browser/mailing_lists.pt:30
+#: opencore/listen/browser/mailing_lists.pt:31
 msgid "mailing_lists_actions"
 msgstr ""
 
 #. Default: "Mailing list"
-#: opencore/listen/browser/mailing_lists.pt:28
+#: opencore/listen/browser/mailing_lists.pt:29
 msgid "mailing_lists_column_header"
 msgstr ""
 
 #. Default: "created by ${list_creator}"
-#: opencore/listen/browser/mailing_lists.pt:55
+#: opencore/listen/browser/mailing_lists.pt:56
 msgid "mailing_lists_created_by"
 msgstr ""
 
 #. Default: "View<span> or manage exisiting</span> mailing lists<span> or <a href=\"${DYNAMIC_CONTENT}\">add a new mailing list</a></span>."
-#: opencore/listen/browser/mailing_lists.pt:18
+#: opencore/listen/browser/mailing_lists.pt:19
 msgid "mailing_lists_description"
 msgstr ""
 
 #. Default: "Mailing lists"
-#: opencore/listen/browser/mailing_lists.pt:16
+#: opencore/listen/browser/mailing_lists.pt:17
 msgid "mailing_lists_heading"
 msgstr ""
 
 #. Default: "Last activity"
-#: opencore/listen/browser/mailing_lists.pt:29
+#: opencore/listen/browser/mailing_lists.pt:30
 msgid "mailing_lists_last_activity"
 msgstr ""
 
 #. Default: "There are currently no mailing lists for this project."
-#: opencore/listen/browser/mailing_lists.pt:98
+#: opencore/listen/browser/mailing_lists.pt:99
 msgid "mailing_lists_no_lists"
 msgstr ""
 
@@ -1511,7 +1461,7 @@ msgstr ""
 msgid "projects_start_project_button"
 msgstr ""
 
-#: opencore/project/browser/manageteam.py:524
+#: opencore/project/browser/manageteam.py:529
 msgid "promote_to_admin"
 msgstr "${name} is now an administrator"
 
@@ -1521,12 +1471,12 @@ msgid "psm_account_not_activated"
 msgstr ""
 
 #. Default: "You cannot leave this project."
-#: opencore/member/browser/account.py:166
+#: opencore/member/browser/account.py:168
 msgid "psm_cannot_leave_project"
 msgstr ""
 
 #. Default: "Please check the old password you entered."
-#: opencore/member/browser/account.py:410
+#: opencore/member/browser/account.py:402
 msgid "psm_check_old_password"
 msgstr ""
 
@@ -1536,12 +1486,12 @@ msgid "psm_check_username_password"
 msgstr ""
 
 #. Default: "Please choose an image in gif, jpeg, png, or bmp format."
-#: opencore/member/browser/view.py:172
+#: opencore/member/browser/view.py:170
 msgid "psm_choose_image"
 msgstr ""
 
 #. Default: "Please correct the errors indicated below."
-#: opencore/listen/browser/view.py:184
+#: opencore/listen/browser/view.py:185
 msgid "psm_correct_errors_below"
 msgstr ""
 
@@ -1551,12 +1501,12 @@ msgid "psm_denied"
 msgstr ""
 
 #. Default: "Your email address has been changed."
-#: opencore/member/browser/account.py:448
+#: opencore/member/browser/account.py:440
 msgid "psm_email_changed"
 msgstr ""
 
 #. Default: "Please enter your new email address."
-#: opencore/member/browser/account.py:432
+#: opencore/member/browser/account.py:424
 msgid "psm_enter_new_email"
 msgstr ""
 
@@ -1566,17 +1516,17 @@ msgid "psm_enter_username_email"
 msgstr ""
 
 #. Default: "Error sending mail to: ${mem_id}"
-#: opencore/project/browser/manageteam.py:471
+#: opencore/project/browser/manageteam.py:476
 msgid "psm_error_sending_mail_to_member"
 msgstr ""
 
 #. Default: "${flet} feature has been added."
-#: opencore/project/browser/preferences.py:150
+#: opencore/project/browser/preferences.py:153
 msgid "psm_featurelet_added"
 msgstr ""
 
 #. Default: "${flet} feature has been removed."
-#: opencore/project/browser/preferences.py:155
+#: opencore/project/browser/preferences.py:158
 msgid "psm_featurelet_removed"
 msgstr ""
 
@@ -1586,7 +1536,7 @@ msgid "psm_forgot_login"
 msgstr ""
 
 #. Default: "You are the only remaining administrator of \"${proj_title}\". You can't leave this project without appointing another."
-#: opencore/member/browser/account.py:155
+#: opencore/member/browser/account.py:157
 msgid "psm_leave_project_admin"
 msgstr ""
 
@@ -1601,7 +1551,7 @@ msgid "psm_mailing_list_deletion_cancelled"
 msgstr ""
 
 #. Default: "You have added ${num_approved} members."
-#: opencore/project/browser/manageteam.py:245
+#: opencore/project/browser/manageteam.py:250
 msgid "psm_many_requests_approved"
 msgstr ""
 
@@ -1631,7 +1581,7 @@ msgid "psm_not_sufficient_perms"
 msgstr ""
 
 #. Default: "You have added ${mem_id}."
-#: opencore/project/browser/manageteam.py:242
+#: opencore/project/browser/manageteam.py:247
 msgid "psm_one_request_approved"
 msgstr ""
 
@@ -1651,7 +1601,7 @@ msgid "psm_pass_reset_fail"
 msgstr ""
 
 #. Default: "Your password has been changed."
-#: opencore/member/browser/account.py:416
+#: opencore/member/browser/account.py:408
 msgid "psm_password_changed"
 msgstr ""
 
@@ -1666,7 +1616,7 @@ msgid "psm_please_correct_errors"
 msgstr ""
 
 #. Default: "Please select members to approve."
-#: opencore/project/browser/manageteam.py:197
+#: opencore/project/browser/manageteam.py:202
 msgid "psm_please_select_members"
 msgstr ""
 
@@ -1676,17 +1626,17 @@ msgid "psm_please_sign_in"
 msgstr ""
 
 #. Default: "Project home page set to: <a href=\"${hp_url}\">${homepage}</a>"
-#: opencore/project/browser/preferences.py:169
+#: opencore/project/browser/preferences.py:172
 msgid "psm_proj_homepage_change"
 msgstr ""
 
 #. Default: "The description has been changed."
-#: opencore/project/browser/preferences.py:134
+#: opencore/project/browser/preferences.py:137
 msgid "psm_project_desc_changed"
 msgstr ""
 
 #. Default: "The project image has been changed."
-#: opencore/project/browser/preferences.py:135
+#: opencore/project/browser/preferences.py:138
 msgid "psm_project_logo_changed"
 msgstr ""
 
@@ -1696,17 +1646,17 @@ msgid "psm_project_name_reserved"
 msgstr ""
 
 #. Default: "The title has been changed."
-#: opencore/project/browser/preferences.py:133
+#: opencore/project/browser/preferences.py:136
 msgid "psm_project_title_changed"
 msgstr ""
 
 #. Default: "The security policy has been changed."
-#: opencore/project/browser/preferences.py:136
+#: opencore/project/browser/preferences.py:139
 msgid "psm_security_changed"
 msgstr ""
 
 #. Default: "Please select members to discard."
-#: opencore/project/browser/manageteam.py:263
+#: opencore/project/browser/manageteam.py:268
 msgid "psm_select_members_discard"
 msgstr ""
 
@@ -1725,7 +1675,7 @@ msgstr ""
 msgid "psm_thankyou_for_joining"
 msgstr ""
 
-#: opencore/project/browser/manageteam.py:366
+#: opencore/project/browser/manageteam.py:371
 msgid "remind_invite_none_selected"
 msgstr "Please select at least one person to send a reminder to."
 
@@ -1805,12 +1755,12 @@ msgid "title_required"
 msgstr ""
 
 #. Default: "${id} has declined your invitation to join <a href=\"${project_url}\">${proj_id}</a>"
-#: opencore/member/browser/account.py:340
+#: opencore/member/browser/account.py:338
 msgid "tmsg_decline_invite"
 msgstr ""
 
 #. Default: "${id} has joined <a href=\"${project_url}\">${proj_id}</a>"
-#: opencore/member/browser/account.py:287
+#: opencore/member/browser/account.py:289
 msgid "tmsg_joined_project"
 msgstr ""
 
