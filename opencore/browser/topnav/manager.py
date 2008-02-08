@@ -23,7 +23,7 @@ class TopnavManager(ViewletManagerBase):
            the ordering"""
         return sorted(
             viewlets,
-            lambda x, y: cmp(aq_base(x[1].sort_order), aq_base(y[1].sort_order)))
+            key=lambda x:int(x[1].sort_order))
 
     @classmethod
     def create_topnav_viewlet(cls, name, sort_order,

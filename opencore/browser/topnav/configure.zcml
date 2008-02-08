@@ -125,7 +125,7 @@
      filter=".viewlet.contained_within"
      container="opencore.interfaces.IProject"
      item_url="latest-activity"
-     sort_order="0"
+     sort_order="5"
      />
 
   <opencore:menuitem
