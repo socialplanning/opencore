@@ -34,7 +34,7 @@ def get_config(section, option, default='', inifile=None):
     Use default if option is not found.
     """
     if inifile is None:
-        inifile = config.getConfiguration().product_config.get('build_ini_path')
+        inifile = config.getConfiguration().product_config['opencore.nui']['build_ini_path']
     parser = _parsers.get(inifile)
     if not parser:
         parser = _parsers[inifile] = ConfigParser.SafeConfigParser()
