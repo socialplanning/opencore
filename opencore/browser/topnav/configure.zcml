@@ -121,6 +121,14 @@
      />
 
   <opencore:menuitem
+     name="Summary"
+     filter=".viewlet.contained_within"
+     container="opencore.interfaces.IProject"
+     item_url="latest-activity"
+     sort_order="0"
+     />
+
+  <opencore:menuitem
      name="Project Wiki"
      text="Pages"
      filter=".viewlet.contained_within"
@@ -163,14 +171,6 @@
      item_url="request-membership"
      sort_order="90"
      css_class=".viewlet.join_css"
-     />
-
-  <opencore:menuitem
-     name="Summary"
-     filter=".viewlet.contained_within"
-     container="opencore.interfaces.IProject"
-     item_url="latest-activity"
-     sort_order="99"
      />
 
   <opencore:menuitem
