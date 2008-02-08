@@ -396,7 +396,10 @@ def remove_old_bogus_versions(portal):
     happened. The final phrases -- exemplar and advisor to the
     present, and the future's counselor -- are brazenly pragmatic.
     """
+    return #DO NOT REMOVE THIS.  RUNNING THIS PRESENTLY BREAKS THE SITE A BIT.
     pr = getToolByName(portal, 'portal_repository')
+    pa = getToolByName(portal, 'portal_archivist')
+    pu = getToolByName(portal, 'portal_uidhandler')
     cat = getToolByName(portal, 'portal_catalog')
 
     # sort all pages in ascending order so project updates
@@ -431,13 +434,17 @@ def remove_old_bogus_versions(portal):
 
                 if known_binary_re.match(text):
                     #shortcut for docs we know are not OK: pdf, word, jpeg, etc.
-                    history.object.setText("[deleted version]")
+                    history_id = pu.queryUid(page, None)
+                    pa.purge(selector=history.version_id, history_id=history_id, metadata = dict(sys_metadata=history.sys_metadata))
+                    #import pdb;pdb.set_trace()
 
                 else:
                     try:
                         text.decode('utf-8')
                     except UnicodeError:
-                        history.object.setText("[deleted version]")
+                        history_id = pu.queryUid(page, None)
+                        pa.purge(selector=history.version_id, history_id=history_id, metadata = dict(sys_metadata=history.sys_metadata))
+                        #import pdb;pdb.set_trace()
 
             transaction.commit()
         except ArchivistRetrieveError:
