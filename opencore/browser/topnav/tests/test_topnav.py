@@ -98,12 +98,16 @@ class TestTopNav(OpenPlansTestCase):
         html = topnav.contextmenu
         lis, links = parse_topnav_context_menu(html)
 
-        # Only the last element should be selected
         self.assert_(4 <= len(lis) and len(lis) <= 6)
-        for li in lis[:-2]:
-            self.assertEqual(False, li['selected'])
-        self.assertEqual(u'oc-topnav-join', lis[-2]['selected'])
-        self.assertEqual(False, lis[-1]['selected'])
+
+        # Only the join element should be selected
+        flag = False
+        for li in lis:
+            if li['selected'] != False:                
+                self.assertEqual(u'oc-topnav-join', li['selected'])
+                flag = True
+        # ensure join element is selected
+        self.assertEqual(True, flag)
 
         navigation = [link['name'] for link in links]
         self.assert_(u'Pages' in navigation)
