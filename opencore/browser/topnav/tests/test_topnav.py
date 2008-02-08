@@ -62,7 +62,7 @@ class TestTopNav(OpenPlansTestCase):
         flag = False
         for li in lis:
             if li['selected'] != False:                
-                self.assertEqual(u'oc-topnav-join, li['selected'])
+                self.assertEqual(u'oc-topnav-join', li['selected'])
                 flag = True
         # ensure join element is selected
         self.assertEqual(True, flag)
