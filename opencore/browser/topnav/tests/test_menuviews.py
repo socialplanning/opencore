@@ -29,7 +29,7 @@ class TestMemberMenu(OpenPlansTestCase):
         other_mem = mtool.getMemberById(other_mem_id)
         mtool.createMemberArea(other_mem_id)
         self.other_mf = mtool.getHomeFolder(other_mem_id)
-        self.other_mhome = self.other_mf._getOb(self.other_mf.getDefaultPage())
+        self.other_mhome = self.other_mf._getOb('m2-home')
         self.logout()
 
         mem_id = self.mem_id = 'm1'
@@ -37,7 +37,7 @@ class TestMemberMenu(OpenPlansTestCase):
         mem = mtool.getMemberById(mem_id)
         mtool.createMemberArea(mem_id)
         self.mf = mtool.getHomeFolder(mem_id)
-        self.mhome = self.mf._getOb(self.mf.getDefaultPage())
+        self.mhome = self.mf._getOb('m1-home')
 
     def test_menudata(self):
         # preserve the orignal URL

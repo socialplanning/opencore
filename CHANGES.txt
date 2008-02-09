@@ -1,3 +1,6 @@
+February 8, 2008 - Robert Marianski <rmarianski@openplans.org> - people folder view
+    /people/foo is the view for the profile page.
+
 February 7, 2008 - Ethan Jucovy <egj@openplans.org> - Override 500
     with friendlier error message and form for submitting bug report feedback.
 
