@@ -453,6 +453,16 @@ def remove_old_bogus_versions(portal):
             pass
 
 
+def make_profile_default_member_page(portal):
+    """iterate through all member areas, and make the default page the
+       profile page instead of the member wiki page"""
+    peepz = portal.people
+    for mf_id in peepz.objectIds():
+        mf = peepz._getOb(mf_id)
+        mf.setDefaultPage(None)
+        mf.setLayout('profile')
+                                        
+
 from Products.Archetypes.utils import OrderedDict
 
 # make rest of names readable  (maybe use config system)
@@ -493,6 +503,7 @@ nui_functions['Fix up project home pages'] = fixup_project_homepages
 nui_functions['Make project home pages relative'] = make_proj_homepages_relative
 nui_functions['Install Cabochon Client Utility'] = convertFunc(install_cabochon_utility)
 nui_functions['Remove old bogus versions'] = remove_old_bogus_versions
+nui_functions['Make profile default member page'] = make_profile_default_member_page
 
 def run_nui_setup(portal):
     pm = portal.portal_migration
