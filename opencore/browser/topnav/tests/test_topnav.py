@@ -87,8 +87,8 @@ class TestTopNav(OpenPlansTestCase):
         self.assertEqual(2, len(lis))
         self.assertEqual(False, lis[0]['selected'])
         self.assertEqual(False, lis[1]['selected'])
-        self.assertEqual(u'Pages', links[0]['name'])
-        self.assertEqual(u'Profile', links[1]['name'])
+        self.assertEqual(u'Profile', links[0]['name'])
+        self.assertEqual(u'Pages', links[1]['name'])
 
         # test switch to project context with
         # X-OpenPlans-Project header set
@@ -130,8 +130,8 @@ class TestTopNav(OpenPlansTestCase):
         self.assertEqual(2, len(lis))
         self.assertEqual(False, lis[0]['selected'])
         self.assertEqual(False, lis[1]['selected'])
-        self.assertEqual(u'Pages', links[0]['name'])
-        self.assertEqual(u'Profile', links[1]['name'])
+        self.assertEqual(u'Profile', links[0]['name'])
+        self.assertEqual(u'Pages', links[1]['name'])
         del req.environ['X_OPENPLANS_PERSON']
 
         # test X-OpenPlans-Person overrides
@@ -145,8 +145,8 @@ class TestTopNav(OpenPlansTestCase):
         self.assertEqual(2, len(lis))
         self.assertEqual(False, lis[0]['selected'])
         self.assertEqual(False, lis[1]['selected'])
-        self.assertEqual(u'Pages', links[0]['name'])
-        self.assertEqual(u'Profile', links[1]['name'])
+        self.assertEqual(u'Profile', links[0]['name'])
+        self.assertEqual(u'Pages', links[1]['name'])
         del req.environ['X_OPENPLANS_PERSON']
         del req.environ['X_OPENPLANS_PROJECT']
 
@@ -177,11 +177,11 @@ class TestTopNav(OpenPlansTestCase):
         html = topnav.contextmenu
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(3, len(lis))
-        self.assertEqual(False, lis[0]['selected'])
-        self.assertEqual('oc-topnav-selected', lis[1]['selected'])
+        self.assertEqual('oc-topnav-selected', lis[0]['selected'])
+        self.assertEqual(False, lis[1]['selected'])
         self.assertEqual(False, lis[2]['selected'])
-        self.assertEqual(u'Pages', links[0]['name'])
-        self.assertEqual(u'Profile', links[1]['name'])
+        self.assertEqual(u'Profile', links[0]['name'])
+        self.assertEqual(u'Pages', links[1]['name'])
         self.assertEqual(u'Account', links[2]['name'])
 
         self.clearMemoCache()
@@ -190,10 +190,10 @@ class TestTopNav(OpenPlansTestCase):
         html = topnav.contextmenu
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(2, len(lis))
-        self.assertEqual(False, lis[0]['selected'])
-        self.assertEqual(u'oc-topnav-selected', lis[1]['selected'])
-        self.assertEqual(u'Pages', links[0]['name'])
-        self.assertEqual(u'Profile', links[1]['name'])
+        self.assertEqual(u'oc-topnav-selected', lis[0]['selected'])
+        self.assertEqual(False, lis[1]['selected'])
+        self.assertEqual(u'Profile', links[0]['name'])
+        self.assertEqual(u'Pages', links[1]['name'])
 
 
 def test_suite():

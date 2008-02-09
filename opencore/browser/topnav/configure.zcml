@@ -94,20 +94,20 @@
      />
 
   <opencore:menuitem
+     name="Profile"
+     filter=".viewlet.contained_within"
+     container="opencore.interfaces.IMemberFolder"
+     item_url="profile"
+     sort_order="10"
+     />
+
+  <opencore:menuitem
      name="Member Wiki"
      text="Pages"
      filter=".viewlet.contained_within"
      container="opencore.interfaces.IMemberFolder"
      url=".viewlet.member_wiki_url"
      selected=".viewlet.openpage_provided"
-     sort_order="10"
-     />
-
-  <opencore:menuitem
-     name="Profile"
-     filter=".viewlet.contained_within"
-     container="opencore.interfaces.IMemberFolder"
-     item_url="profile"
      sort_order="20"
      />
 

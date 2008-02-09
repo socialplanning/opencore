@@ -56,10 +56,10 @@ class TestMemberMenu(OpenPlansTestCase):
         html = manager.render()
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 3)
-        self.assertEqual('%s/m1-home' % self.mf.absolute_url(),
+        self.assertEqual('%s/profile' % self.mf.absolute_url(),
                          links[0]['href'])
-        self.assertEqual(lis[0]['selected'], u'oc-topnav-selected')
-        self.failIf(lis[1]['selected'])
+        self.failIf(lis[0]['selected'])
+        self.assertEqual(lis[1]['selected'], u'oc-topnav-selected')
         self.failIf(lis[2]['selected'])
 
         # test to see if the 'Profile' is highlighted
@@ -76,9 +76,9 @@ class TestMemberMenu(OpenPlansTestCase):
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 3)
         self.assertEqual('%s/m1-home' % self.mf.absolute_url(),
-                         links[0]['href'])
-        self.failIf(lis[0]['selected'])
-        self.assertEqual(lis[1]['selected'], u'oc-topnav-selected')
+                         links[1]['href'])
+        self.assertEqual(lis[0]['selected'], u'oc-topnav-selected')
+        self.failIf(lis[1]['selected'])
         self.failIf(lis[2]['selected'])
 
         # test to see if 'Account' is highlighted
@@ -93,7 +93,7 @@ class TestMemberMenu(OpenPlansTestCase):
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 3)
         self.assertEqual('%s/m1-home' % self.mf.absolute_url(),
-                         links[0]['href'])
+                         links[1]['href'])
         self.failIf(lis[0]['selected'])
         self.failIf(lis[1]['selected'])
         self.assertEqual(lis[2]['selected'], u'oc-topnav-selected')
@@ -111,9 +111,9 @@ class TestMemberMenu(OpenPlansTestCase):
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 2)
         self.assertEqual('%s/m2-home' % self.other_mf.absolute_url(),
-                         links[0]['href'])
-        self.failIf(lis[0]['selected'])
-        self.assertEqual(lis[1]['selected'], u'oc-topnav-selected')
+                         links[1]['href'])
+        self.assertEqual(lis[0]['selected'], u'oc-topnav-selected')
+        self.failIf(lis[1]['selected'])
 
         # XXX this may not be necessary, but it's safer just in case
         self.request.ACTUAL_URL = orig_actual_url
