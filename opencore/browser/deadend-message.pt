@@ -20,7 +20,7 @@
     <div id="oc-deadend-message-container">
       <div tal:repeat="status_msg messages"
            tal:content="structure status_msg"
-           class="oc-statusMessage oc-js-closeable"/>
+           class="oc-deadend"/>
     </div>
   </metal:psm>
 

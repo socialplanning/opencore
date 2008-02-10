@@ -936,6 +936,14 @@ a.oc-banana {
 .oc-message-error {
   background: pink;
 }
+.oc-deadend {
+  font-size: 1.5em;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #6ba12a;
+  background-color: #d8f385;
+  padding: 1.5em;
+}
 
 /* @FORM Stuff */
 fieldset .oc-legend-heading,
