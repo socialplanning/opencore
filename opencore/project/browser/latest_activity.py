@@ -38,7 +38,7 @@ class DiscussionList(ListFromCatalog):
         items.sort(date_cmp)
         if number is None:
             number = len(items)
-        return items
+        return items[:number]
 
 class Feed(object):
     """a rediculously stupid class for feeds.
@@ -111,8 +111,8 @@ class LatestActivityView(ProjectContentsView):
                                               'project-home')),
                                     'MORE PAGES',
                                     ListFromCatalog(self._portal_type['pages'], self.project_path),
-                                    ([self.catalog], {}),
-                                    project2feed, ( [ self.memfolder_url ], {}) ),
+                                    ([self.catalog], dict(number=3)),
+                                    project2feed, ( [ self.memfolder_url ], {}), ),
                                )
 
         if self.has_mailing_lists:
@@ -121,8 +121,8 @@ class LatestActivityView(ProjectContentsView):
                                                   self._get_featurelet('listen')['url'])),
                                         'MORE THREADS',
                                         DiscussionList(self._portal_type['lists'], self.project_path),
-                                        ([self.catalog], {}),
-                                         discussions2feed, ( [ self.memfolder_url ], {}) ),
+                                        ([self.catalog], dict(number=3)),
+                                         discussions2feed, ( [ self.memfolder_url ], {}),),
                                    )
 
         # XXX this logic should live at a higher level
