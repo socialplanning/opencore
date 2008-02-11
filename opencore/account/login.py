@@ -7,6 +7,7 @@ from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import button, post_only, anon_only
 from opencore.interfaces.event import FirstLoginEvent
 from opencore.interfaces.membership import IEmailInvites
+from opencore.configuration.utils import get_config
 from opencore.nui.email_sender import EmailSender
 from plone.memoize import instance
 from smtplib import SMTPRecipientsRefused
@@ -18,6 +19,14 @@ import logging
 import urllib
 
 logger = logging.getLogger("opencore.account.login")
+
+def _url_same_source(left, right):
+    """Compare the protocol and host of the two urls, and return True
+    if they are the same"""
+    from urlparse import urlsplit
+    left_proto, left_host = urlsplit(left)[0:2]
+    right_proto, right_host = urlsplit(right)[0:2]
+    return left_proto == right_proto and left_host == right_host
 
 class LoginView(AccountView):
 
@@ -105,14 +114,26 @@ class LoginView(AccountView):
         else:
             default_redirect = '%s/account' % self.memfolder_url()
             referer = self.request.get('http_referer')
-            if not referer or not referer.startswith(self.portal_url()):
-                return default_redirect
-            if referer in self.boring_urls:
+            if not self.should_redirect_back(referer):
                 return default_redirect
             anchor = self.request.get('came_from_anchor')
             if anchor:
                 referer = '%s#%s' % (referer, anchor)
             return referer
+
+    def should_redirect_back(self, url):
+        # We need a valid url in order to perform further tests
+        if not url:
+            return False
+        if url.startswith(self.portal_url()) and not referer in self.boring_urls:
+            return True
+        raw_list = get_config('applications', 'opencore_vacuum_whitelist', default='').split(',')
+        vacuum_whitelist = [x for x in raw_list if x.strip()]
+        
+        for safe_host in vacuum_whitelist:
+            if _url_same_source(url, safe_host):
+                return True
+        return False
 
     def logout(self, redirect=None):
         logout = self.cookie_logout
