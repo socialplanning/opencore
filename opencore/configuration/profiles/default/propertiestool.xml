@@ -20,6 +20,8 @@
     <element value="greetings@openplans.org" />
   </property>
 
+  <property name="vacuum_whitelist" type="string"></property>
+
   <property name="wordpress_uri" type="string"></property>
   <property name="wordpress_external_uri" type="string">blog</property>
 
