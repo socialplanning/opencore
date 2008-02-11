@@ -21,7 +21,7 @@
         <div metal:use-macro="here/main_macros/search_widget" />
         </tal:set_var>
 
-        <div class="oc-homepage-column-33 oc-widget oc-widget-feed oc-widget-feed-home">
+        <div class="oc-widget oc-widget-feed oc-widget-feed-home">
           <h2 class="oc-feed-title">New Members</h2>
           <ul class="oc-feed-list">
             <li class="oc-feed-item oc-clearAfter"
