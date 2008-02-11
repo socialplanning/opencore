@@ -1,7 +1,7 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" 
-	   tal:content="string:Latest Activity - ${view/area/Title}">
+     tal:content="string:Latest Activity - ${view/area/Title}">
       Latest Activity
     </title>
   </head>
@@ -9,78 +9,78 @@
     <div metal:fill-slot="content">
       <div id="oc-content-main" class="oc-content-main">
 
-	<!-- project metadata -->
-	<div class="oc-headingBlock"> 
-	  <h1 tal:content="view/area/Title">Title</h1>
-	  <p class="oc-headingContext">
-	    created on 
-	    <span tal:define="date view/area/CreationDate"
-		  tal:content="python:view.pretty_date(date)">
-	      September 26
-	    </span>,
-	    last updated
-	    <span tal:define="date view/area/ModificationDate"
-		  tal:content="python:view.pretty_date(date)">
-	      yesterday
-	    </span>
-	  </p>
-	  <img tal:attributes="src view/logo_url" />
+  <!-- project metadata -->
+  <div class="oc-headingBlock"> 
+    <h1 tal:content="view/area/Title">Title</h1>
+    <p class="oc-headingContext">
+      created on 
+      <span tal:define="date view/area/CreationDate"
+      tal:content="python:view.pretty_date(date)">
+        September 26
+      </span>,
+      last updated
+      <span tal:define="date view/area/ModificationDate"
+      tal:content="python:view.pretty_date(date)">
+        yesterday
+      </span>
+    </p>
+    <img tal:attributes="src view/logo_url" />
 
 
-	  <h2>Goal
-	    <a tal:condition="view/team_manager" href="preferences">EDIT</a>
-	  </h2>
-	  <p tal:content="view/project_info/description" />
+    <h2>Goal
+      <a tal:condition="view/team_manager" href="preferences">EDIT</a>
+    </h2>
+    <p tal:content="view/project_info/description" />
 
-	  <span tal:condition="not: view/is_project_member">
-	    <a href="request-membership" class="oc-banana">Join</a>
-	  </span>
+    <span tal:condition="not: view/is_project_member">
+      <a href="request-membership" class="oc-banana">Join</a>
+    </span>
 
-	</div>
-	
-	<!-- feeds -->
-	<div tal:repeat="feed view/feeds" >
-	  <span tal:replace="structure python:feed" />
-	</div>
+  </div>
+  
+  <!-- feeds -->
+  <div tal:repeat="feed view/feeds" >
+    <span tal:replace="structure python:feed" />
+  </div>
 
-	<span tal:replace="view/activity"/>
+  <span tal:replace="view/activity"/>
 
       </div><!-- content-main -->     
 
       <div id="oc-content-sidebar">
-	
-	<!-- Location -->
-	<!-- TODO -->
+  
+  <!-- Location -->
+  <!-- TODO -->
 
-	<!-- Team -->
-	<div tal:define="members view/team_members">
-	  <h1>Team</h1>
-	  <p class="oc-headingContext">
-	    <span tal:replace="python:len(members)">12</span> 
-	    <span tal:condition="python:len(members) >  1">members</span>
-	    <span tal:condition="python:len(members) == 1">member</span>
+  <!-- Team -->
+  <div tal:define="members view/team_members">
+    <h1>Team</h1>
+    <p class="oc-headingContext">
+      <span tal:replace="python:len(members)">12</span> 
+      <span tal:condition="python:len(members) >  1">members</span>
+      <span tal:condition="python:len(members) == 1">member</span>
 
-	  </p>
-	  <ul tal:repeat="member view/team_members">
-	    <a tal:attributes="href member/url">
-	      <img tal:attributes="src member/portrait_thumb_url"/>
-	    </a>
-	  </ul>
-	</div>
-	
-	  <!-- display project security settings -->
-	  <h2>Security <a href="preferences">EDIT</a></h2>
-	  <p tal:condition="python:view.project_info['security'] == 'open_policy'">
-	    Anyone can view this project and
-	    any <span tal:replace="view/portal_title">site</span>
-	    member can contribute to it
-	  </p>
-	  <p tal:condition="python:view.project_info['security'] == 'medium_policy'">
-	    Anyone can view this project but only team members can contribute to it
-	  </p>
-	  <p tal:condition="python:view.project_info['security'] == 'close_policy'">
-	    Only team members can view, contribute, or search for this project
-	  </p>
+    </p>
+    <ul tal:repeat="member view/team_members">
+      <a tal:attributes="href member/url">
+        <img tal:attributes="src member/portrait_thumb_url"/>
+      </a>
+    </ul>
+  </div>
+  
+    <!-- display project security settings -->
+    <h2>Security <a href="preferences">EDIT</a></h2>
+    <p tal:condition="python:view.project_info['security'] == 'open_policy'">
+      Anyone can view this project and
+      any <span tal:replace="view/portal_title">site</span>
+      member can contribute to it
+    </p>
+    <p tal:condition="python:view.project_info['security'] == 'medium_policy'">
+      Anyone can view this project but only team members can contribute to it
+    </p>
+    <p tal:condition="python:view.project_info['security'] == 'close_policy'">
+      Only team members can view, contribute, or search for this project
+    </p>
 
       </div><!-- content-sidebar -->
 
