@@ -35,5 +35,8 @@ class StubCabochonClient(SimpleItem):
     """stub class used to monkey patch cabochon for unit tests"""
     implements(ICabochonClient)
 
-    def notify_project_deleted(self, uri):
-        print 'opencore.testing.utility.StubCabochonClient: uri: %s' % uri
+    def _stub(self, *args):
+        print 'opencore.testing.utility.StubCabochonClient: args: %s' % (args,)
+
+    notify_project_created = _stub
+    notify_project_deleted = _stub

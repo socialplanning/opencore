@@ -88,6 +88,8 @@ Create a project that starts with a number::
     >>> proj_view = self.portal.projects.restrictedTraverse("create")
     >>> proj_view.request.form.update(form_vars)
     >>> out = proj_view.handle_request()
+    opencore.testing.utility.StubCabochonClient: args: ('cl0sed', <MemberData at /plone/portal_memberdata/whatever>)
+
 
 Now search again::
 

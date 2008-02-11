@@ -8,6 +8,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser import formhandler
 from opencore.browser.base import _
 from opencore.browser.formhandler import OctopoLite, action
+from opencore.cabochon.interfaces import ICabochonClient
 from opencore.interfaces import IHomePage
 from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
 from opencore.nui.wiki.add import get_view_names
@@ -18,7 +19,7 @@ from plone.memoize.view import memoize_contextless
 from topp.featurelets.interfaces import IFeatureletSupporter, IFeaturelet
 from topp.utils import text
 from zope import event
-from zope.component import getAdapters
+from zope.component import getAdapters, getUtility
 from zope.interface import implements
 import logging
 
@@ -106,6 +107,10 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         self.context.portal_factory.doCreate(proj, id_)
         proj = self.context._getOb(id_)
         self.notify(proj)
+
+        # tell cabochon that the project has been created
+        cabochon_utility = getUtility(ICabochonClient, context=self.context)
+        cabochon_utility.notify_project_created(id_, self.loggedinmember)
 
         logo = self.request.form.get('logo')
         if logo:

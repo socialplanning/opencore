@@ -82,6 +82,12 @@ class CabochonUtility(SimpleItem):
 
         return cabochon_client
 
+    def notify_project_created(self, id, creator):
+        client = self.client
+        event_name = 'create_project'
+        uri = '%s/event/fire_by_name/%s' % (self.cabochon_uri, event_name)
+        client.send_message(dict(id=id, creator=creator), uri)
+
     def notify_project_deleted(self, id):
         client = self.client
         event_name = 'delete_project'
