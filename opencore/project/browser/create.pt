@@ -97,57 +97,6 @@
               </ul>
             </fieldset>
           </fieldset>
-
-          <fieldset class="oc-boxy">
-            <legend i18n:translate="create_project_step_3" class="oc-legend-heading oc-biggerText">Step 3: Tools</legend>
-
-            <fieldset>
-              <legend i18n:translate="create_project_step_3_desc" class="oc-legend-subheading">Choose which tools you want for your project:</legend>
-              <ul class="oc-form-radiolist oc-form-fieldBlock" >
-                <li tal:repeat="flet view/featurelets">
-                  <input type="checkbox"
-                         class="oc-input-typeCheck oc-js-toggler"
-                         name="featurelets:list"
-                         checked="true"
-                         tal:attributes="id string:oc-js-toggler-${flet/id};
-                                         value flet/id"
-                         />
-                  <label tal:attributes="for string:oc-js-toggler-${flet/id}"
-                         tal:content="flet/title"
-                         />
-                </li>
-              </ul>
-            </fieldset>
-
-            <fieldset>
-              <legend i18n:translate="create_project_home_page" class="oc-legend-subheading">Select the home page for your project:</legend>
-              <ul class="oc-form-radiolist oc-form-fieldBlock">
-                <li tal:repeat="flet view/homepages">
-                  <label tal:attributes="for string:home_${flet/id};
-                                         id string:oc-js-togglee-${flet/id}">
-                  <tal:radio-checked condition="flet/checked">
-                      <input type="radio"
-                             class="oc-input-typeRadio"
-                             name="home-page"
-                             checked="true"
-                             tal:attributes="id string:home_${flet/id};
-                                             value flet/url"
-                             />
-                  </tal:radio-checked>
-                  <tal:radio-not-checked condition="not:flet/checked">
-                      <input type="radio"
-                             class="oc-input-typeRadio"
-                             name="home-page"
-                             tal:attributes="id string:home_${flet/id};
-                                             value flet/url"
-                             />
-                  </tal:radio-not-checked>
-                  <span tal:replace="flet/title" />
-                  </label>
-                </li>
-              </ul>
-            </fieldset>
-          </fieldset>
           
           <fieldset>
             <ul class="oc-actions">

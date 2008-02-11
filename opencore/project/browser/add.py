@@ -91,6 +91,10 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return
 
+        from pprint import pprint
+
+        self.request.form['featurelets'] = [f['id'] for f in self.featurelets()]
+
         proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
         # not calling validate because it explodes on "'" for project titles
         # XXX is no validation better than an occasional ugly error?
@@ -120,10 +124,6 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
 
         self.template = None
         proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)
-
-        home_page = self.request.form.get('home-page', None)
-        if home_page is not None:
-            IHomePage(proj).home_page = home_page
 
         s_message_mapping = {'title': title, 'proj_edit_url': proj_edit_url}
 

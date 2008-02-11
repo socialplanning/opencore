@@ -12,7 +12,7 @@ Add view
 
     >>> form_vars = dict(projid='test1', __initialize_project__=True,
     ...                  workflow_policy='medium_policy',
-    ...                  add=True, featurelets = ['listen'], set_flets=1)
+    ...                  add=True)
     >>> view.request.form.update(form_vars)
 
 Try setting some invalid titles::
@@ -87,7 +87,7 @@ in a test::
     >>> view = projects.restrictedTraverse("create")
     >>> form_vars = dict(projid='test1', __initialize_project__=True,
     ...                  workflow_policy='closed_policy',
-    ...                  add=True, featurelets = [], set_flets=1)
+    ...                  add=True)
     >>> view.request.form.update(form_vars)
     >>> view.request.form['title'] = 'testing 1341'
     >>> view.request.form['projid'] = 'test1341'
@@ -138,9 +138,7 @@ Preference View
     >>> view.project_info['security']
     'medium_policy'
 
-    >>> view.project_info['featurelets']
-    [{'url': u'lists', 'name': 'listen', 'title': u'Mailing lists'}]
-
+    Remove all featurelets
     >>> form_vars = dict(workflow_policy='closed_policy',
     ...                  update=True,
     ...                  featurelets=[],
@@ -172,7 +170,7 @@ Now set a valid title::
     >>> view.handle_request()
     >>> del view._redirected 
     >>> view.portal_status_message
-    [u'The security policy has been changed.', u'The title has been changed.', u'Mailing lists feature has been removed.']
+    [u'The security policy has been changed.', u'The title has been changed.']
 
     >>> view.errors
     {}
