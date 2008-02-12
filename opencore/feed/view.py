@@ -7,6 +7,8 @@ def date_cmp(entry1, entry2):
     return cmp(parse(entry1.date), parse(entry2.date))
 
 class FeedView(BaseView):
+    """view to render a feed in OC style"""
+    
     def handle_request(self):
 
         # these could be handled in a unified way
