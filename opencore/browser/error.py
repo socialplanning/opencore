@@ -19,7 +19,7 @@ class ErrorView(BaseView):
         name = self.find_name()
         cat = getToolByName(self.context, 'portal_catalog')
         results = cat(path='/'.join(self.context.getPhysicalPath()), SearchableText=name)
-        return results
+        return results[:10]
 
     def user_email(self):
         membertool = getToolByName(self.context, 'portal_membership')

@@ -25,7 +25,7 @@
 
     <div tal:define="query view/query">
        <div tal:condition="query">
-     	 Maybe you'd like to try one of these lovely pages instead?
+     	 Were you trying to find one of these pages?
          <ul>
           <li tal:repeat="page query">
 	    <a tal:attributes="href page/getURL"
@@ -33,11 +33,15 @@
 	    </a>
 	  </li>
          </ul>
+         If you don't see what you're looking for:
        </div>
        <div tal:condition="not:query">
          I'm trying to figure out what page you're looking for, but I'm stumped. You're on your own, kid.
+       </div>
+    </div>
+    
          <ul>
-           <li>Check to make sure you typed the url correctly</li>
+           <li>Please check to make sure you typed the url correctly</li>
            <li>Or, search again:</li>
            <form name="searchform" id="oc-sitesearch"
                  tal:attributes="action string:${view/portal/absolute_url}/sitesearch"
@@ -48,9 +52,7 @@
              <input type="submit" value="Search" />
            </form>
          </ul>
-       </div>
-    </div>
-    
+
     <p>
       If you know you have the correct web address, please contact the
         <a href="#" 
