@@ -12,7 +12,7 @@ class FeedView(BaseView):
         # these could be handled in a unified way
         # (except maybe uri)
         uri = self.request.get('uri')
-        n = self.request.get('n', 3)
+        n = self.request.get('n', 5)
         
         
         if uri:
