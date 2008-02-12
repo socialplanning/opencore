@@ -17,10 +17,10 @@
 
   <div tal:condition="python:err_type=='NotFound'">
 
-    <h1>Hey there, this isn't real</h1>
+    <h1>Whoops!</h1>
 
     <p>
-      Shucks, you've tried to hit something that's not here.  Sorry about that!  Maybe it's our fault.
+      You've tried to find something that's not here.  Sorry about that!
     </p>
 
     <div tal:define="query view/query">
@@ -36,12 +36,23 @@
        </div>
        <div tal:condition="not:query">
          I'm trying to figure out what page you're looking for, but I'm stumped. You're on your own, kid.
+         <ul>
+           <li>Check to make sure you typed the url correctly</li>
+           <li>Or, search again:</li>
+           <form name="searchform" id="oc-sitesearch"
+                 tal:attributes="action string:${view/portal/absolute_url}/sitesearch"
+                 onsubmit="return liveSearchSubmit()">
+             <input id="searchGadget" name="search_for"
+                    type="text" size="20" title="Search site"
+                    accesskey="4" class="oc-input-typeText" />
+             <input type="submit" value="Search" />
+           </form>
+         </ul>
        </div>
     </div>
     
     <p>
-      If you know you have the correct web address but are encountering an error, please
-      contact the
+      If you know you have the correct web address, please contact the
         <a href="#" 
            tal:attributes="href string:${view/siteURL}/contact-site-admin">Site Administration</a>.
     </p>
