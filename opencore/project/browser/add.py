@@ -122,7 +122,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             del self.request.form['logo']
 
         hpcontext = IHomePage(proj)
-        hpcontext.home_page = 'latest-activity'
+        hpcontext.home_page = 'summary'
 
         self.template = None
         proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)
