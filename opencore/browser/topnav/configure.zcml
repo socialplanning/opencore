@@ -124,7 +124,7 @@
      name="Summary"
      filter=".viewlet.contained_within"
      container="opencore.interfaces.IProject"
-     item_url="latest-activity"
+     item_url="summary"
      sort_order="5"
      />
 
