@@ -3,6 +3,10 @@
       metal:use-macro="here/@@standard_macros/master"
       >
 
+<head>
+<title metal:fill-slot="title">Not Found</title>
+</head>
+
 <body>
 <div metal:fill-slot="content"
      tal:define="err_type options/error_type|nothing;

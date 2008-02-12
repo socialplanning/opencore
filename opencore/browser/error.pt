@@ -3,6 +3,10 @@
       metal:use-macro="here/@@standard_macros/master"
       i18n:domain="opencore">
 
+<head>
+<title metal:fill-slot="title">Error</title>
+</head>
+
 <body>
 <div metal:fill-slot="content"
      tal:define="err_type options/error_type|nothing;
