@@ -53,7 +53,7 @@ Now, a valid title and id::
     >>> view.request.form['title'] = 'now a valid title!'
     >>> view.request.form['projid'] = 'test1'
     >>> out = view.handle_request()
-    opencore.testing.utility.StubCabochonClient: args: ('test1', <OpenMember at /plone/portal_memberdata/test_user_1_>)
+    opencore.testing.utility.StubCabochonClient: args: ('test1', 'test_user_1_')
     >>> view.errors
     {}
     >>> proj = projects.test1
@@ -92,7 +92,7 @@ in a test::
     >>> view.request.form['title'] = 'testing 1341'
     >>> view.request.form['projid'] = 'test1341'
     >>> out = view.handle_request()
-    opencore.testing.utility.StubCabochonClient: args: ('test1341', <OpenMember at /plone/portal_memberdata/m2>)
+    opencore.testing.utility.StubCabochonClient: args: ('test1341', 'm2')
     >>> proj = projects.test1341
     >>> self.logout()
 

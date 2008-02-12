@@ -70,7 +70,7 @@ This is some japanese that I found::
     >>> request.form['workflow_policy'] = 'medium_policy'
     >>> request.form['__initialize_project__'] = True
     >>> html = proj_add_view.handle_request()
-    opencore.testing.utility.StubCabochonClient: args: ('apples', <OpenMember at /plone/portal_memberdata/m1 used for /plone/acl_users>)
+    opencore.testing.utility.StubCabochonClient: args: ('i18n', 'm1')
     >>> japanese_project = self.portal.projects.i18n
     >>> japanese_project
     <OpenProject at /plone/projects/i18n>
@@ -85,7 +85,7 @@ insensitive sort::
     >>> request.form['workflow_policy'] = 'medium_policy'
     >>> request.form['__initialize_project__'] = True
     >>> html = proj_add_view.handle_request()
-    opencore.testing.utility.StubCabochonClient: args: ('apples', <OpenMember at /plone/portal_memberdata/m1 used for /plone/acl_users>)
+    opencore.testing.utility.StubCabochonClient: args: ('apples', 'm1')
     >>> apple_project = self.portal.projects.apples
     >>> apple_project
     <OpenProject at /plone/projects/apples>
