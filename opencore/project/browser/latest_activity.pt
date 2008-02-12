@@ -1,7 +1,7 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" 
-     tal:content="string:Latest Activity - ${view/area/Title}">
+     tal:content="string:Summary - ${view/area/Title}">
       Latest Activity
     </title>
   </head>
