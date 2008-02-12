@@ -15,10 +15,11 @@
                  err_value options/error_value|nothing;
                  err_traceback options/error_traceback|nothing;">
 
-    <h1 i18n:translate="error_site_heading">Whoa!</h1>
+    <h1 i18n:translate="error_site_heading">Oops!</h1>
+    <h2>Something unexpected happened.</h2>
  
     <p i18n:translate="error_site_description">
-      Something unexpected happened. If you tell us what you were doing, it will help us fix it faster.
+      Chances are, we're already on it. But, if you tell us what you were trying to do, it will help us fix the problem faster.
     </p>
 
     <form method="POST" action="." tal:attributes="action view/submit_url">
@@ -29,15 +30,15 @@
       <input type="hidden" name="url" value=""
              tal:attributes="value request/ACTUAL_URL" />
 
-      <label for="oc-did">What did you do?</label>
+      <label for="oc-did">What were you doing?</label>
       <textarea id="oc-did" name="oc-did"></textarea>
 
       <label for="oc-expected">What did you expect?</label>
       <textarea id="oc-expected" name="oc-expected"></textarea>
 
       <label for="oc-user-email">
-	If you give us your email address, we can follow up with you on this issue if you'd like.</label>
-      <input type="text" id="oc-user-email" name="oc-user-email" tal:attributes="value view/user_email | nothing" />
+	If you give us your email address, we will let you know when this problem is fixed.</label><br />
+      <input type="text" id="oc-user-email" name="oc-user-email" size="30" tal:attributes="value view/user_email | nothing" />
 
       <input type="submit" name="error_submitted" value="Send" />
 
