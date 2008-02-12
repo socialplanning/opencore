@@ -125,7 +125,7 @@ class LoginView(AccountView):
         # We need a valid url in order to perform further tests
         if not url:
             return False
-        if url.startswith(self.portal_url()) and not referer in self.boring_urls:
+        if url.startswith(self.portal_url()) and url not in self.boring_urls:
             return True
         raw_list = get_config('applications', 'opencore_vacuum_whitelist', default='').split(',')
         vacuum_whitelist = [x for x in raw_list if x.strip()]
