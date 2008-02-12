@@ -47,13 +47,13 @@ class ProjectBaseView(BaseView):
         # XXX maybe this should just be a list?
         # @@ maybe this should just be an ini?
         return [ dict(id='wiki',
-                      title='Wiki pages',
+                      title='Pages',
                       url=PROJ_HOME,
                       checked=False,
                       ),
                  
                  dict(id='latest-activity',
-                      title='Latest activity',
+                      title='Summary',
                       url=LATEST_ACTIVITY,
                       checked=True,
                       )
