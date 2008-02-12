@@ -111,7 +111,7 @@ class LatestActivityView(ProjectContentsView):
                                               'project-home')),
                                     'MORE PAGES',
                                     ListFromCatalog(self._portal_type['pages'], self.project_path),
-                                    ([self.catalog], dict(number=3)),
+                                    ([self.catalog], dict(number=5)),
                                     project2feed, ( [ self.memfolder_url ], {}), ),
                                )
 
@@ -121,7 +121,7 @@ class LatestActivityView(ProjectContentsView):
                                                   self._get_featurelet('listen')['url'])),
                                         'MORE THREADS',
                                         DiscussionList(self._portal_type['lists'], self.project_path),
-                                        ([self.catalog], dict(number=3)),
+                                        ([self.catalog], dict(number=5)),
                                          discussions2feed, ( [ self.memfolder_url ], {}),),
                                    )
 
