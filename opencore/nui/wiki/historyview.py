@@ -1,13 +1,20 @@
-from zExceptions import Redirect
+from BTrees.OOBTree import OOBTree
+from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
-from opencore.browser.base import BaseView
-from opencore.nui.wiki import htmldiff2
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from DateTime import DateTime
-from topp.utils.pretty_date import prettyDate
+from opencore.browser.base import BaseView
+from opencore.interfaces.catalog import ILastModifiedAuthorId, ILastModifiedComment
+from opencore.nui.wiki import htmldiff2
+from opencore.nui.wiki.interfaces import IWikiHistory
 from plone.memoize import instance
+from topp.utils.pretty_date import prettyDate
 from view import WikiBase
+from zExceptions import Redirect
+from zope.app.annotation.interfaces import IAnnotations
+from zope.app.event.objectevent import ObjectModifiedEvent
+from zope.event import notify
+from zope.interface import implements
 
 
 # XXX i18n 
@@ -27,7 +34,8 @@ class WikiVersionView(WikiBase):
         """
         Returns a list of versions on the object.
         """
-        return self.pr.getHistory(self.context, countPurged=False)
+        return IWikiHistory(self.context)
+        #return self.pr.getHistory(self.context, countPurged=False)
 
     def get_version(self, version_id):
         version_id = int(version_id)
@@ -57,7 +65,14 @@ class WikiVersionView(WikiBase):
             return version_id + 1
             
     def pretty_mod_date(self, version):
-        return prettyDate(DateTime(version.sys_metadata['timestamp']))
+        if isinstance(version, dict):
+            value = version['modification_date']
+        else:
+            try:
+                value = DateTime(version.sys_metadata['timestamp'])
+            except AttributeError:
+                value = version
+        return prettyDate(value)
 
     def can_revert(self):
         return self.get_tool('portal_membership').checkPermission('CMFEditions: Revert to previous versions', self)
@@ -152,7 +167,64 @@ class WikiVersionRevert(WikiVersionView):
         if self.pr.supportsPolicy(self.context, 'version_on_revert'):
             self.pr.save(obj=self.context, comment=message)
 
+        notify(ObjectModifiedEvent(self.context))
 
         # send user to the view page 
         self.addPortalStatusMessage(message)
         self.request.RESPONSE.redirect(view_url)
+
+def wiki_page_edited(page, event):
+    IWikiHistory(page).new_history_item()
+
+annot_key = 'opencore.nui.wiki.wikihistory'
+
+class AnnotationCachedWikiHistory(object):
+    """adapter for wiki pages to provide history information
+
+       The data is stored on the current version of each page. When a new
+       version is created (edit is made), the cache information is copied from
+       the previous version to the current one"""
+
+    implements(IWikiHistory)
+
+    def __init__(self, context):
+        self.context = context
+        annot = IAnnotations(context)
+        wiki_annot = annot.get(annot_key, None)
+        if wiki_annot is None:
+            wiki_annot = OOBTree()
+            annot[annot_key] = wiki_annot
+        self.annot = wiki_annot
+
+    def __iter__(self):
+        for version in self.annot.itervalues():
+            yield version
+
+    def __len__(self):
+        return len(self.annot.keys())
+
+    def __getitem__(self, version_id):
+        return self.annot[version_id]
+
+    def new_history_item(self):
+        page = self.context
+
+        try:
+            repo = getToolByName(page, 'portal_repository')
+            first_item = repo.getHistory(page, countPurged=False)[0]
+        except ArchivistRetrieveError:
+            new_version_id = 0
+        else:
+            new_version_id = first_item.version_id + 1
+            history = IWikiHistory(first_item.object)
+            self.annot.update(dict(history.annot))
+            history.annot.clear()
+
+        new_history_item = dict(
+            version_id=new_version_id,
+            comment=ILastModifiedComment(page).getValue(),
+            author=ILastModifiedAuthorId(page),
+            modification_date=page.modified(),
+            )
+
+        self.annot[new_version_id] = new_history_item

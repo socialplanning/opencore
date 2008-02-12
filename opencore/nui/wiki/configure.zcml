@@ -2,6 +2,17 @@
    xmlns:browser="http://namespaces.zope.org/browser"
    xmlns:five="http://namespaces.zope.org/five">
 
+  <adapter
+    for="opencore.interfaces.IOpenPage"
+    factory="opencore.nui.wiki.historyview.AnnotationCachedWikiHistory"
+    />
+
+  <subscriber
+    for="opencore.interfaces.IOpenPage
+         zope.app.event.interfaces.IObjectModifiedEvent"
+    handler=".historyview.wiki_page_edited"
+    />
+
   <!-- macros -->
   <browser:page
      class="opencore.browser.base.BaseView"
