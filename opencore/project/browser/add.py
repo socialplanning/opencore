@@ -112,10 +112,8 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         proj = self.context._getOb(id_)
         self.notify(proj)
 
-        # this notify is causing a failure, and we don't need to do it here yet
-        # tell cabochon that the project has been created
-        #cabochon_utility = getUtility(ICabochonClient, context=self.context)
-        #cabochon_utility.notify_project_created(id_, self.loggedinmember)
+        cabochon_utility = getUtility(ICabochonClient, context=self.context)
+        cabochon_utility.notify_project_created(id_, self.loggedinmember.id)
 
         logo = self.request.form.get('logo')
         if logo:
