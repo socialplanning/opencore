@@ -178,4 +178,14 @@ class LatestActivityView(ProjectContentsView):
         team = self.area.getTeams()
         assert len(team) == 1
         team = team[0]
-        return [ self.member_info_for_member(member) for member in team.getMembers() ]
+        team = [ self.member_info_for_member(member) for member in team.getMembers() ]
+        def team_sort(x, y):
+            """sorting function for member display on project latest activity page"""
+            # could also sort by admin-ness, lastlogin, etc
+            portrait = [ x['portrait_url'], y['portrait_url'] ]
+            default = '++resource++img/default-portrait.gif'
+            portrait = [ int(i != default) for i in portrait ]
+            return cmp(portrait[0], portrait[0])
+
+        team.sort(team_sort)
+        return team
