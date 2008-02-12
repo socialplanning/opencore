@@ -59,7 +59,7 @@
       <span tal:condition="python:len(members) == 1">member</span>
 
     </p>
-    <ul tal:repeat="member view/team_members">
+    <ul tal:repeat="member python: view.team_members()[:16]">
       <a tal:attributes="href member/url">
         <img tal:attributes="src member/portrait_thumb_url"/>
       </a>
