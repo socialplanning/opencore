@@ -18,16 +18,16 @@
               <tbody>
                 <tr class="oc-form-row">
                   <th class="oc-form-label" scope="row">
-                    <label i18n:translate="create_project_name" for="title">Name</label>
+                    <label i18n:translate="create_project_name" for="project_title">Name</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" id="title" class="oc-autoFocus" name="title"
-                           tal:attributes="value request/title | nothing" />
+                    <input type="text" id="project_title" class="oc-autoFocus" name="project_title"
+                           tal:attributes="value request/project_title | nothing" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
-                    <span id="oc-title-validator" class="oc-form-validator"></span>
-                    <span id="oc-error" class="oc-form-error" tal:content="view/errors/title | nothing" />
+                    <span id="oc-project_title-validator" class="oc-form-validator"></span>
+                    <span id="oc-error" class="oc-form-error" tal:content="view/errors/project_title | nothing" />
                   </td>
                 </tr>
                 <tr class="oc-form-row">

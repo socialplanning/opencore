@@ -70,13 +70,13 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         self.request.set('__initialize_project__', True)
 
         self.errors = {}
-        title = self.request.form.get('title')
+        title = self.request.form.get('project_title')
         title = text.strip_extra_whitespace(title)
         if not isinstance(title, unicode):
             title = unicode(title, 'utf-8')
-        self.request.form['title'] = title
+        self.request.form['project_title'] = title
         if not self.valid_title(title):
-            self.errors['title'] = 'The project name must contain ' \
+            self.errors['project_title'] = 'The project name must contain ' \
               'at least 2 characters with at least 1 letter or number.'
 
         id_ = self.request.form.get('projid')
