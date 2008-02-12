@@ -27,9 +27,7 @@
     <img tal:attributes="src view/logo_url" />
 
 
-    <h2>Goal
-      <a tal:condition="view/team_manager" href="preferences">EDIT</a>
-    </h2>
+    <a tal:condition="view/team_manager" href="preferences">EDIT</a>      
     <p tal:content="view/project_info/description" />
 
     <span tal:condition="not: view/is_project_member">
@@ -69,7 +67,7 @@
   </div>
   
     <!-- display project security settings -->
-    <h2>Security <a href="preferences">EDIT</a></h2>
+    <h2>Security <a tal:condition="view/team_manager" href="preferences">EDIT</a></h2>
     <p tal:condition="python:view.project_info['security'] == 'open_policy'">
       Anyone can view this project and
       any <span tal:replace="view/portal_title">site</span>
