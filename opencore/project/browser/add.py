@@ -33,7 +33,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
     valid_title = staticmethod(text.valid_title)
     
     def reserved_names(self):
-        return list(get_view_names(self.context)) + ['people', 'projects']
+        return list(get_view_names(self.context)) + ['people', 'projects', 'unique']
 
     @action('validate')
     def validate(self, target=None, fields=None):
