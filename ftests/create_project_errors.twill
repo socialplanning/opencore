@@ -17,7 +17,7 @@ follow "Start a project"
 
 # check blank title
 fv create_form projid $projid
-fv create_form title ""
+fv create_form project_title ""
 fv create_form workflow_policy $projpolicy
 submit
 
@@ -27,7 +27,7 @@ find 'project name must contain'
 
 # check invalid title
 fv create_form projid $projname
-fv create_form title "'"
+fv create_form project_title "'"
 fv create_form workflow_policy $projpolicy
 submit
 
@@ -37,7 +37,7 @@ find 'project name must contain' i
 
 # check blank id
 fv create_form projid ''
-fv create_form title $projfullname
+fv create_form project_title $projfullname
 fv create_form workflow_policy $projpolicy
 submit
 

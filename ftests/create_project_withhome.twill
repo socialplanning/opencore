@@ -17,12 +17,12 @@ extend_with flunc.checkbox
 go ${base_url}
 follow "Start a project"
 fv create_form projid $projname
-fv create_form title $projfullname
+fv create_form project_title $projfullname
 fv create_form workflow_policy $projpolicy
 submit
 follow "Preferences"
 fv prefs_form home-page $homepage
-submit update
+submit update:boolean
 find psm_proj_homepage_change
 notfind 'Project preferences'
 
