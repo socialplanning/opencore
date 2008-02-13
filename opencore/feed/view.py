@@ -5,6 +5,7 @@ from opencore.browser.base import BaseView
 def date_cmp(entry1, entry2):
     """compare feed entries by date"""
     return cmp(parse(entry1.date), parse(entry2.date))
+        
 
 class FeedView(BaseView):
     """view to render a feed in OC style"""
