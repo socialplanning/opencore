@@ -66,7 +66,7 @@ Create a project with an international unicode title::
     >>> request.form['projid'] = 'i18n'
 
 This is some japanese that I found::
-    >>> request.form['title'] = u'\u65e5\u8a9e'
+    >>> request.form['project_title'] = u'\u65e5\u8a9e'
     >>> request.form['workflow_policy'] = 'medium_policy'
     >>> request.form['__initialize_project__'] = True
     >>> html = proj_add_view.handle_request()
@@ -81,7 +81,7 @@ insensitive sort::
     >>> proj_add_view = ProjectAddView(self.portal.projects,
     ...                                self.portal.REQUEST)
     >>> request.form['projid'] = 'apples'
-    >>> request.form['title'] = 'apples are good'
+    >>> request.form['project_title'] = 'apples are good'
     >>> request.form['workflow_policy'] = 'medium_policy'
     >>> request.form['__initialize_project__'] = True
     >>> html = proj_add_view.handle_request()

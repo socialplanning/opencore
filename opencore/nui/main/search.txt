@@ -82,7 +82,7 @@ Searching for projects starting with a number::
 
 Create a project that starts with a number::
     >>> form_vars = dict(projid='5test', __initialize_project__=True,
-    ...                  title='5test',
+    ...                  project_title='5test',
     ...                  workflow_policy='medium_policy',
     ...                  add=True, featurelets = [], set_flets=1)
     >>> proj_view = self.portal.projects.restrictedTraverse("create")
