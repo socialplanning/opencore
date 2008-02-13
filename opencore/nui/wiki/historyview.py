@@ -213,6 +213,9 @@ class AnnotationCachedWikiHistory(object):
             repo = getToolByName(page, 'portal_repository')
             first_item = repo.getHistory(page, countPurged=False)[0]
         except ArchivistRetrieveError:
+            if not page.getText():
+                # @@ hack for portal factory :(
+                return
             new_version_id = 0
         else:
             new_version_id = first_item.version_id + 1
