@@ -19,7 +19,6 @@ follow "Start a project"
 fv create_form projid $projid
 fv create_form title ""
 fv create_form workflow_policy $projpolicy
-check_group_values create_form featurelets:list $projfeaturelets
 submit
 
 notfind 'site error' i
@@ -30,7 +29,6 @@ find 'project name must contain'
 fv create_form projid $projname
 fv create_form title "'"
 fv create_form workflow_policy $projpolicy
-check_group_values create_form featurelets:list $projfeaturelets
 submit
 
 notfind 'site error' i
@@ -41,7 +39,6 @@ find 'project name must contain' i
 fv create_form projid ''
 fv create_form title $projfullname
 fv create_form workflow_policy $projpolicy
-check_group_values create_form featurelets:list $projfeaturelets
 submit
 
 notfind 'site error' i

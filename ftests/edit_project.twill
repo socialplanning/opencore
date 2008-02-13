@@ -12,7 +12,7 @@
 #
 
 
-go ${base_url}/projects/${projname}
+go ${base_url}/projects/${projname}/project-home
 follow edit
 fv edit_form title $projfullname
 fv edit_form text ${projbody}${pagelink}
