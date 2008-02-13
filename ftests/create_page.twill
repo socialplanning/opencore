@@ -9,7 +9,7 @@
 #    project projname exists, page pagename does not
 #
 
-go ${base_url}/projects/${projname}
+go ${base_url}/projects/${projname}/project-home
 follow "edit"
 fv edit_form text "((${pagename})) ((${pagename2}))" 
 submit Save

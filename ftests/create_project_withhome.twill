@@ -19,9 +19,12 @@ follow "Start a project"
 fv create_form projid $projname
 fv create_form title $projfullname
 fv create_form workflow_policy $projpolicy
-fv create_form home-page $homepage
 submit
-find "Preferences"
+follow "Preferences"
+fv prefs_form home-page $homepage
+submit update
+find psm_proj_homepage_change
+notfind 'Project preferences'
 
 # verify project appears in newly created projects list
 go ${base_url}
