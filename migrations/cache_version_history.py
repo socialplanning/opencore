@@ -46,6 +46,13 @@ def cache_history(page):
     
 for brain in pc(portal_type="Document"):
     app._p_jar.sync()
-    page = brain.getObject()
+    try:
+        page = brain.getObject()
+    except AttributeError:
+        # kill ghost
+        pc.uncatalog_object(brain.getPath())
+        txn.commit()
+        continue
+        
     cache_history(page)
 
