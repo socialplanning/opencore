@@ -100,23 +100,28 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
 
     @formhandler.button('update')
     def handle_request(self):
-        title = self.request.form.get('title')
+        title = self.request.form.get('project_title', self.request.form.get('title'))
         title = text.strip_extra_whitespace(title)
-        self.request.form['title'] = title
+        self.request.form['project_title'] = title
         if not self.valid_title(title):
-            self.errors['title'] = _(u'err_project_name', u'The project name must contain at least 2 characters with at least 1 letter or number.')
+            self.errors['project_title'] = _(u'err_project_name', u'The project name must contain at least 2 characters with at least 1 letter or number.')
 
         if self.errors:
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return
 
         allowed_params = set(['__initialize_project__', 'update', 'set_flets',
-                              'title', 'description', 'logo', 'workflow_policy',
+                              'project_title', 'description', 'logo', 'workflow_policy',
                               'featurelets', 'home-page'])
         new_form = {}
         for k in allowed_params:
             if k in self.request.form:
-                new_form[k] = self.request.form[k]
+                if 'project_title' == k:
+                    # Aarrgghh!! #*!&% plone snoops into the request, and reads the form variables directly,
+                    # so we have to set the form variables with the same names as the schema
+                    new_form['title'] = self.request.form[k]
+                else:
+                    new_form[k] = self.request.form[k]
 
         reader = IReadWorkflowPolicySupport(self.context)
         old_workflow_policy = reader.getCurrentPolicyId()
@@ -133,7 +138,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
 
         #store change status of flet, security, title, description, logo
         changed = {
-            _(u'psm_project_title_changed', u"The title has been changed.") : self.context.title != self.request.form.get('title', self.context.title),
+            _(u'psm_project_title_changed', u"The title has been changed.") : self.context.title != self.request.form.get('project_title', self.context.title),
             _(u'psm_project_desc_changed', u"The description has been changed.") : self.context.description != self.request.form.get('description', self.context.description),
             _(u'psm_project_logo_changed', u"The project image has been changed.") : logochanged,
             _(u'psm_security_changed', u"The security policy has been changed.") : old_workflow_policy != self.request.form['workflow_policy'],            

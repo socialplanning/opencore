@@ -16,26 +16,26 @@ Add view
     >>> view.request.form.update(form_vars)
 
 Try setting some invalid titles::
-    >>> view.request.form['title'] = ""
+    >>> view.request.form['project_title'] = ""
     >>> out = view.handle_request()
     >>> view.errors
-    {'title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
+    {'project_title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
     >>> view.errors = {}
 
-    >>> view.request.form['title'] = "1"
+    >>> view.request.form['project_title'] = "1"
     >>> out = view.handle_request()
     >>> view.errors
-    {'title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
+    {'project_title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
     >>> view.errors = {}
 
-    >>> view.request.form['title'] = "!@#$%"
+    >>> view.request.form['project_title'] = "!@#$%"
     >>> out = view.handle_request()
     >>> view.errors
-    {'title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
+    {'project_title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
     >>> view.errors = {}
 
 How about an invalid id?::
-    >>> view.request.form['title'] = "valid title"
+    >>> view.request.form['project_title'] = "valid title"
     >>> view.request.form['projid'] = ''
     >>> out = view.handle_request()
     >>> view.errors
@@ -50,7 +50,7 @@ And, another invalid id::
     >>> view.errors = {}
 
 Now, a valid title and id::
-    >>> view.request.form['title'] = 'now a valid title!'
+    >>> view.request.form['project_title'] = 'now a valid title!'
     >>> view.request.form['projid'] = 'test1'
     >>> out = view.handle_request()
     opencore.testing.utility.StubCabochonClient: args: ('test1', 'test_user_1_')
@@ -89,7 +89,7 @@ in a test::
     ...                  workflow_policy='closed_policy',
     ...                  add=True)
     >>> view.request.form.update(form_vars)
-    >>> view.request.form['title'] = 'testing 1341'
+    >>> view.request.form['project_title'] = 'testing 1341'
     >>> view.request.form['projid'] = 'test1341'
     >>> out = view.handle_request()
     opencore.testing.utility.StubCabochonClient: args: ('test1341', 'm2')
@@ -153,10 +153,10 @@ Preference View
     >>> view.request.set('flet_recurse_flag', None)
 
 Try setting a bogus title::
-    >>> view.request.form['title'] = '?'
+    >>> view.request.form['project_title'] = '?'
     >>> out = view.handle_request()
     >>> view.errors
-    {'title': u'err_project_name'}
+    {'project_title': u'err_project_name'}
     >>> view.errors = {}
 
 Clear old PSMs
@@ -166,7 +166,7 @@ Clear old PSMs
 
 
 Now set a valid title::
-    >>> view.request.form['title'] = 'new full name'
+    >>> view.request.form['project_title'] = 'new full name'
     >>> view.handle_request()
     >>> del view._redirected 
     >>> view.portal_status_message

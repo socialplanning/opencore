@@ -91,9 +91,11 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return
 
-        from pprint import pprint
-
         self.request.form['featurelets'] = [f['id'] for f in self.featurelets()]
+
+        # Aarrgghh!! #*!&% plone snoops into the request, and reads the form variables directly,
+        # so we have to set the form variables with the same names as the schema
+        self.request.form['title'] = title
 
         proj = self.context.restrictedTraverse('portal_factory/OpenProject/%s' %id_)
         # not calling validate because it explodes on "'" for project titles
