@@ -158,4 +158,37 @@ Check that when logging back in as m1, m3 is still the last modified author
      >>> ILastModifiedAuthorId(proj)
      'm3'
 
+Let's try some reversions. First lets Verify that version caching for
+ui has registered the changes.  We've made 4 edits and should have 4
+versions w/ no comments (no blank initialization version)::
+
+     >>> history = IWikiHistory(page)
+     >>> len(history.annot)
+     4
+
+     >>> pprint(sorted(item for item in history.annot.items()))
+     [(0,
+       {'author': 'portal_owner',
+        'comment': '',
+        'modification_date': DateTime(...),
+        'version_id': 0}),
+      (1,
+       {'author': 'portal_owner',
+        'comment': '',
+        'modification_date': DateTime(...),
+        'version_id': 1}),
+      (2,
+       {'author': 'portal_owner',
+        'comment': '',
+        'modification_date': DateTime(...),
+        'version_id': 2}),
+      (3,
+       {'author': 'm1',
+        'comment': '',
+        'modification_date': DateTime(...),
+        'version_id': 3})]
+
+
+
+
 
