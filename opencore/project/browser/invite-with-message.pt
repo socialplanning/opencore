@@ -24,7 +24,7 @@
                   <label for="email-invites">To:</label>
                 </th>
                 <td class="oc-form-value">
-                  <textarea style="width: 95%;" rows="2" cols="20" id="email-invites" name="email-invites"
+                  <textarea style="height: auto" rows="2" cols="20" id="email-invites" name="email-invites"
                     tal:content="request/form/email-invites | nothing" 
                     tal:attributes="readonly remind" />
                 </td>
