@@ -454,7 +454,7 @@ dl.oc-plainList dd {
 }
 .oc-columnGroup,
 .oc-home-columnGroup {
-  width: 100%;
+  width: auto;
 }
 .oc-column,
 .oc-home-column {

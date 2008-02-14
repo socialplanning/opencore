@@ -153,7 +153,6 @@ ul#oc-topnav-context li.oc-topnav-selected a {
 /* Form Boxes */
 
 .oc-boxy legend.oc-legend-heading{
-  margin: 0;
 }
 #oc-join-form fieldset.oc-boxy,
 #oc-login-form fieldset.oc-boxy {
