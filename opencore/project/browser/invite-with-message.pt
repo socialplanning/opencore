@@ -79,22 +79,20 @@ This is a reminder.
                 <td class="oc-form-help">
                 </td>
               </tr>
-              <tr class="oc-form-row" style="display: none;">
+              <tr class="oc-form-row">
                 <th class="oc-form-label" scope="row">
-                  This will be added to all messages:
                 </th>
-                <td class="oc-form-value">
-                  <pre i18n:translate="email_invite_static_body">
+                <td class="oc-form-value oc-discreetText" i18n:translate="email_invite_static_body">
                     <span i18n:name="user_message"></span>
                     To accept this invitation or learn more about the project, click here: 
                     <span i18n:name="project_title">${join_url}</span>.
-                    
+
                     ---------------------------------------------------------------------
+
                     This message was sent from <span i18n:name="portal_title"
                     tal:replace="view/portal_title" />.  
                     To contact <span i18n:name="portal_title" tal:replace="view/portal_title" />, visit:
                     <span i18n:name="site_contact_url" tal:replace="string:${view/portal/absolute_url}/contact-site-admin" />
-                  </pre>
                 </td>
                 <td class="oc-form-help">
                 </td>
