@@ -1,11 +1,8 @@
-import os
 from OFS.SimpleItem import SimpleItem
-from Products.CMFCore.utils import getToolByName
 from cabochonclient import CabochonClient
 from opencore.cabochon.interfaces import ICabochonClient
-from opencore.configuration.utils import product_config
+from opencore.configuration.utils import product_config, get_config
 from threading import Thread
-from zope.component import getUtility
 from zope.interface import implements
 
 # cache cabochon thread at module level
@@ -51,19 +48,23 @@ class CabochonUtility(SimpleItem):
         global cabochon_client
 
         if cabochon_client is None:
+            # get cabochon_uri from configuration.
+            # This used to need to happen here, because we used to
+            # read it from portal_properties which can't happen unless
+            # we already have a portal so we won't have it when we
+            # instantiate the cabochon client utility.
 
-            # get cabochon_uri from portal properties
-            # this has to happen here, because we need to have the cabochon_uri set
-            # which can't happen unless we already have a portal
-            # so we won't have it when we instantiate the cabochon client utility
-            ptool = getToolByName(self.context, 'portal_properties')
-            ocprops = ptool._getOb('opencore_properties')
-            cabochon_uri = ocprops.getProperty('cabochon_uri')
+            # XXX Now that we read the config from the filesystem,
+            # where should this go? Based on the above comment, I
+            # tried moving it to __init__ but then I get an
+            # AttributeError: 'NoneType' object has no attribute
+            # 'send_message'.
+            cabochon_uri = get_config('applications', 'cabochon uri', None)
             if cabochon_uri is None:
-                raise CabochonConfigError('"cabochon_uri" not set in portal_properties')
+                raise CabochonConfigError('"cabochon uri" not set in build.ini')
 	    cabochon_uri = cabochon_uri.strip()
 	    if not cabochon_uri:
-	        raise CabochonConfigError('invalid empty cabochon_uri')
+	        raise CabochonConfigError('invalid empty cabochon uri')
             self.cabochon_uri = cabochon_uri
 
             # initialize cabochon client
