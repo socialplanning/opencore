@@ -48,7 +48,7 @@
                 </tr>
                 <tr class="oc-form-row">
                   <th class="oc-form-label" scope="row">
-                    <label i18n:translate="create_project_goals" for="description">Goals</label>
+                    <label i18n:translate="create_project_goals" for="description">Description</label>
                   </th>
                   <td class="oc-form-value">
                     <textarea name="description" id="description" rows="3" cols="40" tal:content="request/description | nothing"/>
