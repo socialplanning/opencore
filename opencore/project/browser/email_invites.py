@@ -32,7 +32,9 @@ class EmailInvites(SimpleItem):
         if by_addy is not None:
             return by_addy
         key = utils.make_key()
-        return KeyedMap(key=key)
+        map = KeyedMap(key=key)
+        self._by_address[address]=map
+        return map
     getInvitesByEmailAddress = utils.bbb_keymap(wrap=True)(getInvitesByEmailAddress)
 
     def getInvitesByProject(self, proj_id):
