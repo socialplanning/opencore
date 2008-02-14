@@ -1,0 +1,8 @@
+===================
+ version lifecycle
+===================
+
+we need to test the ui and version state since the ui is maintained in
+an annotation via events.
+
+
