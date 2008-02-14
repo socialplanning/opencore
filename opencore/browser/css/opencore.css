@@ -461,7 +461,7 @@ dl.oc-plainList dd {
   float: left;
   margin: 0 1%;
   clear: none;
-  width: 48%;
+  width: 47%;
 }
 #oc-home-news h2 {
 	background: #6BA12A;
@@ -1229,6 +1229,9 @@ height: 1em; */
   display: inline;
   line-height: 0;
   border: none;
+}
+.oc-feed-cluster li.oc-feed-item a {
+  text-decoration: none;
 }
 .oc-feed-cluster li.oc-feed-item a img {
   margin: 0;
