@@ -179,3 +179,7 @@ I'm gonna call YAGNI for now and wait to see if the requirements change; eg.
 if we need more control of which projects in what order, the catalog would be
 a more natural solution. Don't know yet.
  
+
+
+I didn't touch the KML feeds yet.
+

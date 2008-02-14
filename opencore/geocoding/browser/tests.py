@@ -4,7 +4,7 @@ from opencore.testing.layer import OpencoreContent as test_layer
 from zope.testing import doctest
 import unittest
 
-optionflags = doctest.ELLIPSIS | doctest.REPORT_NDIFF
+optionflags = doctest.ELLIPSIS
 
 import warnings; warnings.filterwarnings("ignore")
 
@@ -30,6 +30,21 @@ def test_suite():
     project_name = 'p3'
     project_admin = 'm1'
     member = 'm2'
+
+    def get_response_output(view):
+        """quick hack to be able to test output of views that call
+        response.write or otherwise don't just return string data.
+
+        Note that you get HTTP headers as well as the body - but ONLY
+        on the first call in a doctest - I think because the request &
+        response objects are re-used? This sucks, but I don't know how
+        to hack around it right now, except to expect this in tests...
+        """
+        from cStringIO import StringIO
+        response = view.request.RESPONSE
+        response.stdout = StringIO()
+        view()
+        return response.stdout.getvalue()
 
     globs = locals()
     readme = dtf.FunctionalDocFileSuite(

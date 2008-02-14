@@ -233,17 +233,19 @@ The projects georss view is exposed by a separate view that generates
 xml.
 
     >>> feedview = projects.restrictedTraverse('@@georss')
-    >>> xml = feedview()
+    >>> xml = get_response_output(feedview)
     >>> lines = [s.strip() for s in xml.split('\n') if s.strip()]
     >>> print '\n'.join(lines)
+    Status: 200 OK...
     <?xml...
-    <feed xmlns="http://www.w3.org/2005/Atom"...
+    <feed
+    ...xmlns="http://www.w3.org/2005/Atom"...
     <title>Projects</title>
     <link rel="self" href="http://nohost/plone/projects"/>...
     <entry>
     <title>IGNORANCE IS STRENGTH</title>...
     <id>http://nohost/plone/projects/p3</id>...
-    <gml:Point>
+    <georss:where><gml:Point>
     <gml:pos>12.000000 -87.000000</gml:pos>
     </gml:Point>...
 
@@ -388,7 +390,7 @@ And similar info for generating kml::
 Now the actual georss xml feed::
 
     >>> feedview = portal.people.restrictedTraverse('@@georss')
-    >>> xml = feedview()
+    >>> xml = get_response_output(feedview)
     >>> lines = [s.strip() for s in xml.split('\n') if s.strip()]
     >>> print '\n'.join(lines)
     <?xml version="1.0"...
@@ -398,7 +400,7 @@ Now the actual georss xml feed::
     <entry>
     <title>Member One</title>...
     <updated>...-...-...T...:...:...</updated>...
-    <gml:Point>
+    <georss:where><gml:Point>
     <gml:pos>-66.000000 55.000000</gml:pos>
     </gml:Point>...
 
