@@ -1,4 +1,8 @@
-from zope.interface import Interface
+from zope.interface import Interface, Attribute
+
+class IReversionEvent(Interface):
+    """marker for a reversion event"""
+    reversion_message=Attribute('reversion message')
 
 class IWikiHistory(Interface):
     """api to retrieve cache of history data for performance"""

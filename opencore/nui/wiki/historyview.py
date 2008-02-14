@@ -6,7 +6,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser.base import BaseView
 from opencore.interfaces.catalog import ILastModifiedAuthorId, ILastModifiedComment
 from opencore.nui.wiki import htmldiff2
-from opencore.nui.wiki.interfaces import IWikiHistory
+from opencore.nui.wiki.interfaces import IWikiHistory, IReversionEvent
 from plone.memoize import instance
 from topp.utils.pretty_date import prettyDate
 from view import WikiBase
@@ -14,7 +14,7 @@ from zExceptions import Redirect
 from zope.app.annotation.interfaces import IAnnotations
 from zope.app.event.objectevent import ObjectModifiedEvent
 from zope.event import notify
-from zope.interface import implements
+from zope.interface import alsoProvides, implements
 
 
 # XXX i18n 
@@ -147,11 +147,12 @@ class WikiVersionRevert(WikiVersionView):
         view_url = self.context.absolute_url()
         
         try:
+            curr_id = self.current_id()
             version_id = int(self.request.form.get('version_id'))
-            if version_id < 0 or version_id >= self.current_id():
-                req_error = 'Please choose a valid version.'
-        except:
-            req_error = 'Please choose a valid version.'
+            if version_id < 0 or version_id >= curr_id:
+                req_error = 'Please choose a valid version. chosen %s: current %s' %(version_id, self.current_id())
+        except Exception, e:
+            req_error = 'Please choose a valid version. %s' %e
 
         # bail out on error 
         if req_error is not None:
@@ -166,15 +167,23 @@ class WikiVersionRevert(WikiVersionView):
 
         if self.pr.supportsPolicy(self.context, 'version_on_revert'):
             self.pr.save(obj=self.context, comment=message)
-
-        notify(ObjectModifiedEvent(self.context))
+            
+        event = ObjectModifiedEvent(self.context)
+        alsoProvides(event, IReversionEvent)
+        event.reversion_message = message
+        event.version_id = curr_id + 1
+        notify(event)
 
         # send user to the view page 
         self.addPortalStatusMessage(message)
         self.request.RESPONSE.redirect(view_url)
 
 def wiki_page_edited(page, event):
-    IWikiHistory(page).new_history_item()
+    history = IWikiHistory(page)
+    if IReversionEvent.providedBy(event):
+        history.new_history_item(message=event.reversion_message,
+                                 new_version_id=event.version_id)
+    return IWikiHistory(page).new_history_item()
 
 annot_key = 'opencore.nui.wiki.wikihistory'
 
@@ -206,7 +215,7 @@ class AnnotationCachedWikiHistory(object):
     def __getitem__(self, version_id):
         return self.annot[version_id]
 
-    def new_history_item(self):
+    def new_history_item(self, message=None, new_version_id=None):
         page = self.context
 
         try:
@@ -218,14 +227,18 @@ class AnnotationCachedWikiHistory(object):
                 return
             new_version_id = 0
         else:
-            new_version_id = first_item.version_id + 1
+            if new_version_id is None:
+                new_version_id = first_item.version_id + 1
             history = IWikiHistory(first_item.object)
             self.annot.update(dict(history.annot))
             history.annot.clear()
 
+        if message is None:
+            message = ILastModifiedComment(page).getValue()
+            
         new_history_item = dict(
             version_id=new_version_id,
-            comment=ILastModifiedComment(page).getValue(),
+            comment=message,
             author=ILastModifiedAuthorId(page),
             modification_date=page.modified(),
             )

@@ -1,14 +1,14 @@
+=========
  wiki ui
 =========
 
-    >>> page_id = 'project-home'
-    >>> page = getattr(self.portal.projects.p1, page_id)
 
 Registrations
 =============
 
 Test wiki page registrations::
 
+    >>> page = getattr(self.portal.projects.p1, page_id)
     >>> page.restrictedTraverse('@@view')
     <...SimpleViewClass from ...wiki/wiki-view.pt object at ...>
     
@@ -253,132 +253,6 @@ and delete it
 boy, those 
 
 
-
-VERSION COMPARE
-===============
-
-Now let's exercise some version compare stuff
-
-Verify that a redirect is raised on invalid input
-
-Set up the right view
-     >>> view = self.portal.unrestrictedTraverse('projects/p1/project-home/version_compare')
-     >>> view
-     <Products.Five.metaclass.SimpleViewClass from ...wiki-version-compare.pt object at ...>
-
-Call it with no arguments
-     >>> response = view()
-     Traceback (most recent call last):
-     ...
-     Redirect: http://nohost/plone/projects/p1/project-home/history
-     >>> view.portal_status_message
-     [u'Please choose the two versions you would like to compare.']
-
-Reset the request
-     >>> request = view.request.form = {}
-
-Try it with just one argument
-     >>> request['version_id'] = '0'
-     >>> response = view()
-     Traceback (most recent call last):
-     ...
-     Redirect: http://nohost/plone/projects/p1/project-home/history
-     >>> view.portal_status_message
-     [u'Please choose the two versions you would like to compare.']
-
-Try with 2 arguments, but the versions don't exist
-     >>> request['version_id'] = ['0', '1']
-     >>> response = view()
-     Traceback (most recent call last):
-     ...
-     Redirect: http://nohost/plone/projects/p1/project-home/history
-     >>> view.portal_status_message
-     [u'Please choose a valid version.']
-
-Try with more than 2 versions
-     >>> request['version_id'] = ['0', '1', '2']
-     >>> response = view()
-     Traceback (most recent call last):
-     ...
-     Redirect: http://nohost/plone/projects/p1/project-home/history
-     >>> view.portal_status_message
-     [u'Please choose only two versions to compare.']
-
-Now edit 2 pages, so we can try a valid compare later
-     >>> request['version_id'] = ['0', '1']
-     >>> repo = view.get_tool('portal_repository')
-     >>> page.processForm(values=dict(text='some new text'))
-     >>> repo.save(page, comment='new comment')
-     >>> page.processForm(values=dict(text='some even newer text'))
-     >>> repo.save(page, comment='newest comment')
-
-Now we should get a valid response
-     >>> view.loggedinmember.getId = lambda *a:'whatever'
-     >>> response = view()
-
-Test that we can create a page via wicked
-     >>> view = page.restrictedTraverse('@@add-page')
-     >>> view
-     <Products.Five.metaclass.NuiPageAdd object at ...>
-
-     >>> request = self.portal.REQUEST 
-     >>> request.form = {'Title' : 'newpage', 'section' : 'text'}
-     >>> view()
-     'http://...projects/p1/newpage/edit...'
-
-Login as different users, each time checking the last modified author
-     >>> self.logout()
-     >>> self.login('m1')
-     >>> view = page.restrictedTraverse('@@edit')
-     >>> view
-     <Products.Five.metaclass.WikiEdit object at ...>
-
-Now start changing the page
-     >>> request = view.request.form
-     >>> request['text'] = u'<p>foo<br>\n\u2255baz</p>'.encode('utf-8')
-     >>> request['title'] = 'bar'
-     >>> view.handle_save()
-
-Verify the last modified author and text changes took place
-     >>> proj = self.portal.projects.p1
-     >>> from opencore.interfaces.catalog import ILastModifiedAuthorId
-     >>> ILastModifiedAuthorId(page)
-     'm1'
-     >>> ILastModifiedAuthorId(proj)
-     'm1'
-
-     >>> page.text.raw
-     u'<p>foo<br>\n&#8789;baz</p>'
-
-     >>> self.logout()
-     >>> self.login('m3')
-     >>> view = page.restrictedTraverse('@@edit')
-     >>> request = view.request.form
-     >>> request['text'] = 'bar'
-     >>> view.handle_save()
-     >>> ILastModifiedAuthorId(page)
-     'm3'
-     >>> ILastModifiedAuthorId(proj)
-     'm3'
-
-Check that when logging back in as m1, m3 is still the last modified author
-     >>> ILastModifiedAuthorId(page)
-     'm3'
-     >>> ILastModifiedAuthorId(proj)
-     'm3'
-
-Experimental marking should no longer control which template is used
-     >>> from opencore.interfaces import IAmExperimental
-     >>> IAmExperimental.providedBy(proj)
-     False
-
-Check for xinha
-     >>> html = view.template()
-     >>> 'kupu' in html
-     False
-     >>> 'xinha' in html
-     True
-
 News Edit View
 ==============
 
@@ -399,6 +273,7 @@ Now that we have a new news item, let's simulate an edit
      >>> request.update(dict(
      ...   title='news title',
      ...   description='news description',
+     ...   text='news'
      ...   ))
      >>> view.handle_save()
      >>> view.request.response.getHeader('location')
