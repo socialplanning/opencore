@@ -189,6 +189,57 @@ versions w/ no comments (no blank initialization version)::
         'version_id': 3})]
 
 
+     >>> rview = page.restrictedTraverse('revert')
+     >>> rview.request.environ['REQUEST_METHOD']='POST'
+
+Can't revert to current::
+
+     >>> rview.rollback_version(version_id='3')
+     Traceback (most recent call last):
+     ...
+     Redirect: http://nohost/plone/projects/p1/project-home
+
+Try version 1::
+
+     >>> request['version_id'] = '4'
+     >>> rview.rollback_version(version_id='0')
+     >>> history = IWikiHistory(page)
+     >>> len(history.annot)
+     5
+
+     >>> pprint(sorted(item for item in history.annot.items()))
+     [(0,
+       {'author': 'portal_owner',
+        'comment': '',
+        'modification_date': DateTime(...),
+        'version_id': 0}),
+      (1,
+       {'author': 'portal_owner',
+        'comment': '',
+        'modification_date': DateTime(...),
+        'version_id': 1}),
+      (2,
+       {'author': 'portal_owner',
+        'comment': '',
+        'modification_date': DateTime(...),
+        'version_id': 2}),
+      (3,
+       {'author': 'm1',
+        'comment': '',
+        'modification_date': DateTime(...),
+        'version_id': 3}),
+      (4,
+       {'author': 'portal_owner',
+        'comment': 'Rolled back to Initial Version',
+        'modification_date': DateTime(...),
+        'version_id': 4})]
+
+
+
+
+
+
+
 
 
 

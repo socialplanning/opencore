@@ -188,9 +188,10 @@
      />
 
   <browser:page
-     class=".historyview.WikiVersionRevert"
+     class=".historyview.WikiVersionView"
      for="opencore.interfaces.IOpenPage"
      name="revert"
+     attribute="rollback_version"
      permission="cmf.ModifyPortalContent"
      />
 
