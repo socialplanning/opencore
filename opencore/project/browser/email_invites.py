@@ -31,9 +31,8 @@ class EmailInvites(SimpleItem):
         by_addy = self._by_address.get(address)
         if by_addy is not None:
             return by_addy
-        key = utils.make_key()
-        map = KeyedMap(key=key)
-        self._by_address[address]=map
+        invitekey = utils.make_key()
+        map = KeyedMap(key=invitekey)
         return map
     getInvitesByEmailAddress = utils.bbb_keymap(wrap=True)(getInvitesByEmailAddress)
 
@@ -45,16 +44,16 @@ class EmailInvites(SimpleItem):
 
     def addInvitation(self, address, proj_id):
         now = DateTime.now()
-        by_address = self.getInvitesByEmailAddress(address)
-        if proj_id not in by_address:
-            by_address[proj_id] = now
-            self._by_address[address] = by_address
+        invitekeymap = self.getInvitesByEmailAddress(address)
+        if proj_id not in invitekeymap:
+            invitekeymap[proj_id] = now
+            self._by_address[address] = invitekeymap
 
         by_project = self.getInvitesByProject(proj_id)
         if address not in by_project:
             by_project[address] = now
             self._by_project[proj_id] = by_project
-        return by_address.key
+        return invitekeymap.key
 
     def removeInvitation(self, address, proj_id):
         by_email = self.getInvitesByEmailAddress(address)
