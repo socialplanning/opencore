@@ -79,7 +79,8 @@ class WikiVersionView(WikiBase):
 
     @post_only(raise_=True)
     def rollback_version(self, version_id=None):
-        assert self.request.environ['REQUEST_METHOD'] == 'POST'
+        if version_id is None:
+            version_id=self.request.get('version_id')
         
         # error check parameters
         req_error = None
