@@ -5,6 +5,9 @@ need to combine with regular join form
                   global pending view/if_pending_user;" />
 
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title">Sign up for <span tal:replace="view/portal_title" /></title>
+  </head>
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">

@@ -110,10 +110,10 @@ Should get the member folder url for a confirmed member::
     >>> pview.memfolder_url()
     'http://nohost/plone/people/test_user_1_'
 
-Get homepage url (coming soon)::
+Get homepage url::
 
     >>> pview.memhome_url()
-    'http://nohost/plone/people/test_user_1_/None'
+    'http://nohost/plone/people/test_user_1_/test_user_1_-home'
 
 
 

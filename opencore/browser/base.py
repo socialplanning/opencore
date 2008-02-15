@@ -458,10 +458,14 @@ class BaseView(BrowserView):
             return folder.absolute_url()
 
     def memhome_url(self, id_=None):
+        if id_ is None:
+            if not self.loggedin:
+                return None
+            id_ = self.member_info['id']
         folder = self.memfolder(id_)
         if folder is not None:
-            return '%s/%s' % (folder.absolute_url(),
-                              folder.getDefaultPage())
+            return '%s/%s-home' % (folder.absolute_url(),
+                                   id_)
 
     @property
     def loggedin(self):
@@ -480,9 +484,8 @@ class BaseView(BrowserView):
 
     # properties and methods associated with objects
 
-    # XXX move to topnav
     @property
-    def inproject(self): # TODO
+    def inproject(self):
         return self.piv.inProject
 
     def is_project_member(self, id=None):

@@ -815,8 +815,10 @@ class InviteView(ManageTeamView):
                                                     **msg_subs)
                     mem_invites.append(mem_id)
                 else:
-                    # invitation attempt failed
-                    mem_failures.append(mem_id)
+                    # invitation attempt failed; fail silently if
+                    # member is already active on the team (see #2117)
+                    if mem_id not in self.context.projectMemberIds():
+                        mem_failures.append(mem_id)
             else:
                 # not a member
                 if addy in self.invite_util.getInvitesByProject(proj_id):
