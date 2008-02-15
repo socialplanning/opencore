@@ -5,7 +5,7 @@
     <div metal:fill-slot="content">
       <div id="oc-content-main">
 	<p>
-	  <form name="resend_email_form" method="post">
+	  <form name="resend_email_form" method="post" tal:attributes="action request/ACTUAL_URL">
             <input type="hidden" name="key" id="key" 
                    tal:condition="view/request/key | nothing" 
                    tal:attributes="value view/request/key" />
