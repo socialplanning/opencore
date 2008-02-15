@@ -34,7 +34,7 @@ class DiscussionList(ListFromCatalog):
             for year in mlist.getObject().archive.values():
                 for month in year.values():
                     items.extend(month.values())
-        date_cmp = lambda x, y: cmp(x.date, y.date)
+        date_cmp = lambda x, y: cmp(y.date, x.date) # reverse date compare
         items.sort(date_cmp)
         if number is None:
             number = len(items)
