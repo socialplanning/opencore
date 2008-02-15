@@ -3,6 +3,7 @@
 create_user
 login
 create_project
+disable_listen
 enable_listen
 
 #public list tests

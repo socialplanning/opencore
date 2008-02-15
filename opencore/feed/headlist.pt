@@ -33,7 +33,7 @@
 
 	<!-- display the summary for the first item -->
 	<p tal:condition="repeat/feeditem/start"
-	   tal:content="feeditem/summary">
+	   tal:content="structure feeditem/summary">
 	  Lorem ipsum dolor
 	</p>
       </div>

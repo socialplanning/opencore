@@ -8,21 +8,21 @@ from Products.CMFPlone.utils import transaction_note
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
-from opencore.interfaces import IProject 
-from opencore.project.utils import project_path
-from zope.i18nmessageid import Message
+from lxml.html.clean import Cleaner
 from opencore.i18n import i18n_domain, _
 from opencore.i18n import translate
+from opencore.interfaces import IProject 
+from opencore.project.utils import project_path
 from opencore.utils import get_opencore_property
 from plone.memoize import instance
 from plone.memoize import view 
 from time import strptime
 from topp.featurelets.interfaces import IFeatureletSupporter
+from topp.utils import zutils
 from topp.utils.pretty_date import prettyDate
 from topp.utils.pretty_text import truncate
 from zope.component import getMultiAdapter, adapts, adapter
-from lxml.html.clean import Cleaner
-
+from zope.i18nmessageid import Message
 import DateTime
 import cgi
 import datetime
@@ -44,10 +44,11 @@ class BaseView(BrowserView):
     truncate = staticmethod(truncate)
     txn_note = staticmethod(transaction_note)
     site_iface = IPloneSiteRoot
-    getToolByName=getToolByName
-
+    getToolByName = getToolByName
+    
     def debug(self):
         """@@ this should be calculated from conf"""
+        # i'm not sure i feel comfortable about this. what does it do? -egj
         return True
 
     # XXX only used by formlite in this fashion
@@ -269,7 +270,6 @@ class BaseView(BrowserView):
 
         return mp_map
 
-
     def member_info_for_member(self, member):
         if member == None:
             # Not logged in.
@@ -310,10 +310,9 @@ class BaseView(BrowserView):
             # we're an old school member object, e.g. an admin user
             result.update(fullname=member.fullname)
 
-            for key in ('membersince', 'lastlogin','location',
-                        'statement', 'affiliations', 'skills',
-                        'background',  'url', 'favorites',
-                        ):
+            for key in 'membersince', 'lastlogin','location', \
+                    'statement', 'affiliations', 'skills', \
+                    'background',  'url', 'favorites', 'folder_url':
                 result[key] = ''
                 
         result['portrait_url'] = self.defaultPortraitURL
@@ -615,12 +614,6 @@ class BaseView(BrowserView):
         <base href="%s/" />
                 <!--[if IE 6]><![endif]><![endif]-->""" % base_url
 
-try:
-    from topp.utils import zutils
-    aq_iface = zutils.aq_iface
-except ImportError:
-    def aq_iface(obj, iface):
-        obj = aq_inner(obj)
-        while obj is not None and not iface.providedBy(obj):
-            obj = aq_parent(obj)
-        return obj
+
+aq_iface = zutils.aq_iface
+

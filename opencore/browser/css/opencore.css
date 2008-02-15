@@ -932,6 +932,14 @@ a.oc-banana {
 .oc-message-error {
   background: pink;
 }
+.oc-deadend {
+  font-size: 1.5em;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #6ba12a;
+  background-color: #d8f385;
+  padding: 1.5em;
+}
 
 /* @FORM Stuff */
 fieldset .oc-legend-heading,
@@ -1207,12 +1215,20 @@ height: 1em; */
 	padding: 0.25em;
   margin: 0;
 }
-.oc-feed-list {
+.oc-feed-list, .oc-feed-cluster {
   list-style: none;
   margin: 0;
   padding: 0;
   border-top: 2px solid #332F2A;
   border-bottom: 2px solid #332F2A;
+}
+.oc-feed-cluster li.oc-feed-item {
+  display: inline;
+  line-height: 0;
+  border: none;
+}
+.oc-feed-cluster li.oc-feed-item a img {
+  margin: 0;
 }
 li.oc-feed-item {
   margin: 0.5em 0 0;
@@ -1223,7 +1239,8 @@ li.oc-feed-item {
   border: none;
 }
 li.oc-feed-item .oc-avatar,
-li.oc-feed-item .oc-project-logo {
+li.oc-feed-item .oc-project-logo,
+li.oc-invite .oc-project-logo {
   width: 80px;
   float: left;
   clear: none;
@@ -1487,7 +1504,6 @@ h2, .oc-biggerText,
 #oc-content-sidebar h1 {
   font-size: 18px;
   line-height: 1em;
-  letter-spacing: -0.0325em;
 }
 h3, .oc-bigText,
 #oc-content-sidebar h2 {

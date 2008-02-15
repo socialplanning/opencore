@@ -97,5 +97,3 @@ def initialize(context):
     # bbb
     import opencore.bbb
     do_aliases()
-
-

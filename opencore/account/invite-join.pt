@@ -8,199 +8,195 @@ need to combine with regular join form
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
+
         <!-- join form -->
-        <form id="oc-join-form" name="edit_form" class="oc-boxy" method="post" 
+        <form id="oc-join-form" name="edit_form" method="post" 
               tal:attributes="action string:${context/absolute_url}/${view/name}"
               >
-          
-          <fieldset>
-
-            <h1 tal:content="string:Join ${view/portal_title}" />
-
-            <p i18n:translate="join_description" 
-               tal:condition="not:fdata/getUser | request/__k | nothing">
-              Registration is free and your email will not be
-              shared with anyone, however, you will need to confirm your email address in order to avoid spam bots abusing this system.
-            </p>
-
-            <!-- on successful registration -->
-            <p i18n:translate="join_check_email" tal:condition="fdata/getUser | nothing">
-              Check your email to confirm registration 
-            </p>
-
-            <table class="oc-form" 
-                   tal:condition="not:fdata/getUser | nothing">
-              <thead></thead>
-              <tbody>
-            
-                <tr class="oc-form-row">
-                  <th class="oc-form-label">
-                    <label i18n:translate="join_username_label" for="id">Username</label>
-                  </th>
-                  <td class="oc-form-value">
-                    <input type="text" name="id" id="id" class="oc-autoFocus oc-js-liveValidate"
-                           tal:attributes="value request/id | nothing" />
-                  </td>
-                  <td class="oc-form-help">
-                    <span class="oc-form-context">
-                      
-                    </span>
-                    <span id="oc-id-validator" class="oc-form-validator">
-                      
-                    </span>
-                    <span id="oc-id-error" class="oc-form-error"
-                          tal:content="view/errors/id | nothing">
-
-                    </span>
-                  </td>           
-                </tr>
-
-                <tr>
-                  <th class="oc-form-label">
-                    <label i18n:translate="join_full_name_label" for="fullname">Full Name</label>
-                  </th>
-                  <td class="oc-form-value">
-                    <input type="text" name="fullname" id="fullname" class=""
-                           tal:attributes="value request/fullname | nothing" />
-                  </td>
-                  <td class="oc-form-help">
-                    <span class="oc-form-context">
-                      (optional)
-                    </span>
-                    <span id="oc-fullname-validator" class="oc-form-validator">
-                      
-                    </span>
-                    <span id="oc-fullname-error" class="oc-form-error"
-                          tal:content="view/errors/fullname | nothing">
-
-                    </span>
-                  </td>
-                </tr>
-
-                <tr>
-                  <th class="oc-form-label">
-                    <label i18n:translate="join_email_label" for="email">Email</label>
-                  </th>
-                  <td class="oc-form-value">
-                    <input type="text" name="email" id="email"
-                           tal:attributes="value request/email | nothing;
-                                           type python:request.get('__k') and 'hidden' or 'text'" 
-                           />
-                    <strong id="email"
-                           tal:content="request/email" 
-                           tal:condition="request/__k"/>
-                  </td>
-                  <td class="oc-form-help">
-                    <span class="oc-form-context">
-                      
-                    </span>
-                    <span id="oc-email-validator" class="oc-form-validator">
-                      
-                    </span>
-                    <span id="oc-email-error" class="oc-form-error"
-                          tal:content="view/errors/email | nothing">
-
-                    </span>
-                  </td>
-                </tr>
-
-                <tr>
-                  <th class="oc-form-label">
-                    <label i18n:translate="join_password_label" for="password">Password</label>
-                  </th>
-                  <td class="oc-form-value">
-                    <input type="password" name="password" id="password" class=""
-                           />
-                  </td>
-                  <td class="oc-form-help">
-                    <span class="oc-form-context">
-                      
-                    </span>
-                    <span id="oc-password-validator" class="oc-form-validator">
-                      
-                    </span>
-                    <span id="oc-password-error" class="oc-form-error"
-                          tal:content="view/errors/password | nothing">
-
-                    </span>
-                  </td>
-                </tr>
-                
-                <tr>
-                  <th class="oc-form-label">
-                    <label i18n:translate="join_conf_password_label" for="confirm_password">Confirm password</label>
-                  </th>
-                  <td class="oc-form-value">
-                    <input type="password" name="confirm_password" id="confirm_password" />  
-                  </td>
-                  <td class="oc-form-help">
-                    <span class="oc-form-context">
-                      
-                    </span>
-                    <span id="oc-confirm_password-validator" class="oc-form-validator">
-                      
-                    </span>
-                    <span id="oc-confirm_password-error" class="oc-form-error"
-                          tal:content="view/errors/confirm_password | nothing">
-
-                    </span>
-                  </td>
-                </tr>
-                
-                <tal:invites condition="view/invite_map">
-                  <tr><td colspan=2><hr /></td></tr>
-                  <tr>
+          <div class="oc-headingBlock">
+            <h1>Welcome</h1>
+            <p class="oc-headingContext">You've been invited to participate in projects on <span tal:replace="view/portal/title"/></p>
+          </div>
+          <div class="oc-widget oc-widget-feed">
+            <h2 i18n:translate="invite-join_proj_invites" class="oc-feed-title">Projects requesting your membership</h2>
+            <ul class="oc-feed-list oc-clearAfter">
+              <li class="oc-feed-item oc-clearAfter" tal:repeat="project python:sorted(view.invite_map)">
+                 <tal:setvar define="  proj_url project/url;
+                                       logo project/logo;
+                                       logo_url python:logo and ('%s/logo_thumb' % proj_url) or view.defaultProjLogoURL">
+                   <a tal:attributes="href proj_url"
+                      tal:condition="not: project/closed" >
+                       <img class="oc-project-logo" tal:attributes="src logo_url; alt project/title; title project/title" />
+                   </a>
+                       <img class="oc-project-logo" tal:condition="project/closed" tal:attributes="src view/defaultProjLogoURL; alt project/title; title project/title" />
+                 </tal:setvar>
+                <div class="oc-feed-item-content">
+                  <h3 class="oc-feed-item-title">
+                    <a tal:condition="not: project/closed" tal:attributes="href project/url" tal:content="project/title">Project Title</a>
+                    <span tal:condition="project/closed" tal:content="string: ${project/title} (closed project)" />
+                  </h3>
+                  <p class="oc-feed-item-description" tal:define="desc project/description">
+                    <span tal:condition="desc" tal:replace="desc" />
+                  </p>
+                  <p>
+                     <input type="checkbox"
+                            class="oc-input-typeCheck"
+                            name="invites:list"
+                            checked="true"
+                            tal:attributes="value project/id; id project/id"
+                               />
+                      <label tal:attributes="for project/id">Join <span tal:replace="project/title" /></label>.
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="oc-boxy">
+            <h2 tal:content="string:Join ${view/portal_title}" />
+            <fieldset>
+              <p i18n:translate="join_description" 
+                 tal:condition="not:fdata/getUser | request/__k | nothing">
+                Registration is free and your email will not be
+                shared with anyone, however, you will need to confirm 
+                your email address in order to avoid spam bots abusing this system.
+              </p>
+              <!-- on successful registration -->
+              <p i18n:translate="join_check_email" tal:condition="fdata/getUser | nothing">
+                Check your email to confirm registration 
+              </p>
+  
+              <table class="oc-form" 
+                     tal:condition="not:fdata/getUser | nothing">
+                <thead></thead>
+                <tbody>
+              
+                  <tr class="oc-form-row">
                     <th class="oc-form-label">
-                        <label class="oc-form-label" i18n:translate="invite_join_invitations_label" for="confirm_password">
-                          Invitations to Join
-                        </label>
+                      <label i18n:translate="join_username_label" for="id">Username</label>
                     </th>
-                    <td>
+                    <td class="oc-form-value">
+                      <input type="text" name="id" id="id" class="oc-autoFocus oc-js-liveValidate"
+                             tal:attributes="value request/id | nothing" />
                     </td>
-                    <tr>
-                      <td></td>
-                      <td align='left'>
-                        <ul class="oc-form-radiolist oc-form-fieldBlock">
-                          <tal:loop tal:repeat="invite python:sorted(view.invite_map)"> 
-                            <li tal:condition="invite/title">
-                              <input type="checkbox"
-                                     class="oc-input-typeCheck"
-                                     name="invites:list"
-                                     checked="true"
-                                     tal:attributes="value invite/id"
-                                     />
-                              <label tal:attributes="for invite/id"
-                                     tal:content="invite/title" />
-                            </li>
-                          </tal:loop>
-                        </ul>
-                      </td>
-                    </tr>
-                  <tr><td colspan=2><hr /></td></tr>
-                </tal:invites>
-
-                <tr class="oc-actions">
-                  <th class="oc-form-label">
-                  </th>
-                  <td class="oc-form-value">
-                    <input type="submit" name="task|join" 
-                           i18n:attributes="value join_button" 
-                           value="Join" />
-                  </td>
-                  <td class="oc-form-help">
-                    <span class="oc-form-context">
-                      
-                    </span>
-                    <span class="oc-form-validator">
-                      
-                    </span>
-                  </td>
-                </tr>
-                
-              </tbody>
-            </table>            
-          </fieldset>
-          <input type="hidden" name="__k" tal:attributes="value request/__k"/>
+                    <td class="oc-form-help">
+                      <span class="oc-form-context">
+                        
+                      </span>
+                      <span id="oc-id-validator" class="oc-form-validator">
+                        
+                      </span>
+                      <span id="oc-id-error" class="oc-form-error"
+                            tal:content="view/errors/id | nothing">
+                      </span>
+                    </td>
+                  </tr>
+                  <tr class="oc-form-row">
+                    <th class="oc-form-label">
+                      <label i18n:translate="join_full_name_label" for="fullname">Full Name</label>
+                    </th>
+                    <td class="oc-form-value">
+                      <input type="text" name="fullname" id="fullname" class=""
+                             tal:attributes="value request/fullname | nothing" />
+                    </td>
+                    <td class="oc-form-help">
+                      <span class="oc-form-context">
+                        (optional)
+                      </span>
+                      <span id="oc-fullname-validator" class="oc-form-validator">
+                        
+                      </span>
+                      <span id="oc-fullname-error" class="oc-form-error"
+                            tal:content="view/errors/fullname | nothing">
+                      </span>
+                    </td>
+                  </tr>
+                  <tr class="oc-form-row">
+                    <th class="oc-form-label">
+                      <label i18n:translate="join_email_label" for="email">Email</label>
+                    </th>
+                    <td class="oc-form-value">
+                      <input type="text" name="email" id="email"
+                             tal:attributes="value request/email;
+                                             type python:request.get('__k') and 'hidden' or 'text'" 
+                             />
+                      <strong id="email"
+                             tal:content="request/email" 
+                             tal:condition="request/__k"/>
+                    </td>
+                    <td class="oc-form-help">
+                      <span class="oc-form-context">
+                        
+                      </span>
+                      <span id="oc-email-validator" class="oc-form-validator">
+                        
+                      </span>
+                      <span id="oc-email-error" class="oc-form-error"
+                            tal:content="view/errors/email | nothing">
+                      </span>
+                    </td>
+                  </tr>
+                  <tr class="oc-form-row">
+                    <th class="oc-form-label">
+                      <label i18n:translate="join_password_label" for="password">Password</label>
+                    </th>
+                    <td class="oc-form-value">
+                      <input type="password" name="password" id="password" class=""
+                             />
+                    </td>
+                    <td class="oc-form-help">
+                      <span class="oc-form-context">
+                        
+                      </span>
+                      <span id="oc-password-validator" class="oc-form-validator">
+                        
+                      </span>
+                      <span id="oc-password-error" class="oc-form-error"
+                            tal:content="view/errors/password | nothing">
+                      </span>
+                    </td>
+                  </tr>
+                  <tr class="oc-form-row">
+                    <th class="oc-form-label">
+                      <label i18n:translate="join_conf_password_label" for="confirm_password">Confirm password</label>
+                    </th>
+                    <td class="oc-form-value">
+                      <input type="password" name="confirm_password" id="confirm_password" />  
+                    </td>
+                    <td class="oc-form-help">
+                      <span class="oc-form-context">
+                        
+                      </span>
+                      <span id="oc-confirm_password-validator" class="oc-form-validator">
+                        
+                      </span>
+                      <span id="oc-confirm_password-error" class="oc-form-error"
+                            tal:content="view/errors/confirm_password | nothing">
+                      </span>
+                    </td>
+                  </tr>
+                  <tr class="oc-actions">
+                    <th class="oc-form-label">
+                    </th>
+                    <td class="oc-form-value">
+                      <input type="submit" name="task|join" 
+                             i18n:attributes="value join_button" 
+                             value="Join" />
+                    </td>
+                    <td class="oc-form-help">
+                      <span class="oc-form-context">
+                        
+                      </span>
+                      <span class="oc-form-validator">
+                        
+                      </span>
+                    </td>
+                  </tr>
+                  
+                </tbody>
+              </table>            
+            </fieldset>
+            <input type="hidden" name="__k" tal:attributes="value request/__k"/>
+          </div>
         </form>
       </div><!-- end #oc-content-main -->
       
@@ -209,6 +205,7 @@ need to combine with regular join form
           <h2 i18n:translate="join_already_member_heading">Already a member?</h2>
           <a i18n:translate="join_sign_in" href="login">Sign in</a>
         </div>
+
       </div><!-- end #oc-content-sidebar -->
 
     </div><!-- end content slot -->

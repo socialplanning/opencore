@@ -68,7 +68,16 @@ def test_suite():
                                          layer=MockHTTPWithContent
                                          )
 
-    return unittest.TestSuite((readme, transient, pending, pending_multi))
+    subscribers = dtf.ZopeDocFileSuite("subscribers.txt",
+                                       optionflags=optionflags,
+                                       package='opencore.member',
+                                       test_class=OpenPlansTestCase,
+                                       globs = globs,
+                                       layer=MockHTTPWithContent
+                                       )
+
+    return unittest.TestSuite((readme, transient, pending, pending_multi,
+                               subscribers))
 
 
 if __name__ == '__main__':

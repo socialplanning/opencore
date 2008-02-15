@@ -1,12 +1,14 @@
 from AccessControl.SecurityManagement import newSecurityManager
+from opencore.configuration.utils import get_config
+import sys
 import transaction
 from Testing.makerequest import makerequest
 app=makerequest(app)
 
-# XXX these should come from config
-admin_id = 'admin'
-site_id = 'openplans'
-site_title = 'Site'
+admin_file = get_config('general', 'admin_info_filename', default='admin')
+admin_id = open(admin_file).read().split(':')[0]
+site_id = get_config('general', 'opencore_site_id', default='openplans')
+site_title = get_config('general', 'opencore_site_title', default='OpenCore Site')
 
 if not site_id in app.objectIds():
     user = app.acl_users.getUser(admin_id)
@@ -18,4 +20,3 @@ if not site_id in app.objectIds():
     factory(site_id, site_title, extension_ids=profiles)
 
     transaction.commit()
-

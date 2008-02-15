@@ -11,7 +11,7 @@
 #
 
 
-go ${base_url}/projects/${projname}
+go ${base_url}/projects/${projname}/project-home
 follow "add-page"
 find "new page"
 fv edit_form text ${anotherbody}${homelink}

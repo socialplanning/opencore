@@ -1,4 +1,5 @@
 from Acquisition import aq_inner
+from Products.CMFCore.permissions import DeleteObjects
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import metaconfigure, pagetemplatefile
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
@@ -385,7 +386,7 @@ class ModerationView(BaseModerationView):
                 req = dict(action=action, email=email, postid=postid)
                 policy_result = policy.enforce(req)
                 if policy_result == MODERATION_FAILED:
-                    self.errors = _(u'Could not moderate!')
+                    self.errors = _(u'err_could_not_moderate', u'Could not moderate!')
                     break
             return self.index()
 
@@ -393,7 +394,7 @@ class ModerationView(BaseModerationView):
             if name.endswith('_approve') or \
                name.endswith('_discard') or \
                name.endswith('_reject'):
-                action = value.split('_')[-1]
+                action = name.split('_')[-1]
             elif name == 'postid':
                 postid = int(value)
             elif name == 'email':
@@ -410,7 +411,7 @@ class ModerationView(BaseModerationView):
             req = dict(action=action, email=email, postid=postid, reject_reason=reject_reason)
             policy_result = policy.enforce(req)
             if policy_result == MODERATION_FAILED:
-                self.errors = _(u'Could not moderate!')
+                self.errors = _(u'err_could_not_moderate', u'Could not moderate!')
             json = {'post_%s' % postid : {'action': 'delete'}}
         else:
             # same idea between membership policy
@@ -419,7 +420,7 @@ class ModerationView(BaseModerationView):
             req = dict(action=action, email=email, reject_reason=reject_reason)
             policy_result = policy.enforce(req)
             if policy_result == MODERATION_FAILED:
-                self.errors = _(u'Could not moderate!')
+                self.errors = _(u'err_could_not_moderate', u'Could not moderate!')
             json = {'member_%s' % postid : {'action': 'delete'}}
         if 'mode' in self.request.keys() and self.request.mode == 'async':
             return json
@@ -434,13 +435,29 @@ NuiMailingListView = make_nui_listen_view_class(MailingListView)
 from Products.listen.interfaces import IMembershipPendingList
 from zope.component import getAdapter
 
-class ArchiveForumView(make_nui_listen_view_class(ArchiveForumView)):
-    """puke a little, inherit"""
+class SubscriptionSnippetMixin:
     def subscription_snippet(self):
-        the_list = aq_inner(self.context).aq_parent
+        # fix #2049.
+        the_list = aq_inner(self.context)
+        while not IMailingList.providedBy(the_list):
+            the_list = the_list.aq_parent
         return the_list.restrictedTraverse("subscription_snippet")()
+    
+class ArchiveForumView(SubscriptionSnippetMixin,
+                       make_nui_listen_view_class(ArchiveForumView)):
+    """puke a little, inherit"""
 
-NuiArchiveDateView = make_nui_listen_view_class(ArchiveDateView)
+class NuiArchiveDateView(SubscriptionSnippetMixin,
+                         make_nui_listen_view_class(ArchiveDateView)):
+    """puke a little more"""
+
+class NuiSubFolderDateView(SubscriptionSnippetMixin,
+                           make_nui_listen_view_class(SubFolderDateView)):
+    """fun fun fun"""
+
+# XXX also, we really need flunc tests of all these views, there
+# aren't any. - PW
+
 NuiArchiveNewTopicView = make_nui_listen_view_class(ArchiveNewTopicView)
 NuiSubFolderDateView = make_nui_listen_view_class(SubFolderDateView)
 NuiThreadedMailMessageView = make_nui_listen_view_class(ThreadedMailMessageView)
@@ -526,3 +543,9 @@ default_named_template_adapter = named_template_adapter(_template)
 _subpage_path = os.path.join(path_prefix, 'subpageform.pt')
 _subpage_template = pagetemplatefile.ViewPageTemplateFile(_subpage_path)
 default_subpage_template = named_template_adapter(_subpage_template)
+
+class ListsView(BaseView):
+
+    def can_delete_list(self):
+        return self.membertool.checkPermission(DeleteObjects,
+                                               self.context.aq_parent)

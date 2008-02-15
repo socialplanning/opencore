@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /*history
+Disallow: /*version
+Disallow: /*version_compare
+Crawl-delay: 5

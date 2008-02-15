@@ -12,12 +12,14 @@ from opencore.browser import tal
 from opencore.browser.base import _, BaseView
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.interfaces import IHomePage
+from opencore.cabochon.interfaces import ICabochonClient
 from opencore.interfaces import IProject
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from opencore.geocoding.view import get_geo_writer
 from opencore.project.browser.base import ProjectBaseView
 from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
+from opencore.interfaces.membership import IEmailInvites
 from topp.clockqueue.interfaces import IClockQueue
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.supporter import FeatureletSupporter, IFeaturelet
@@ -27,6 +29,7 @@ from zope.app.container.contained import IObjectRemovedEvent
 from zope.component import adapter, adapts
 from zope.component import getAdapters, queryAdapter
 from zope.interface import implements
+from zope.component import getUtility
 import inspect
 import logging
 import traceback
@@ -98,11 +101,11 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
 
     @formhandler.button('update')
     def handle_request(self):
-        title = self.request.form.get('title')
+        title = self.request.form.get('project_title', self.request.form.get('title'))
         title = text.strip_extra_whitespace(title)
-        self.request.form['title'] = title
+        self.request.form['project_title'] = title
         if not self.valid_title(title):
-            self.errors['title'] = _(u'err_project_name', u'The project name must contain at least 2 characters with at least 1 letter or number.')
+            self.errors['project_title'] = _(u'err_project_name', u'The project name must contain at least 2 characters with at least 1 letter or number.')
 
         geowriter = get_geo_writer(self)
         geo_info, locationchanged = geowriter.get_geo_info_from_form()
@@ -113,13 +116,18 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
             return
 
         allowed_params = set(['__initialize_project__', 'update', 'set_flets',
-                              'title', 'description', 'logo', 'workflow_policy',
+                              'project_title', 'description', 'logo', 'workflow_policy',
                               'featurelets', 'home-page',
                               'location', 'position-text'])
         new_form = {}
         for k in allowed_params:
             if k in self.request.form:
-                new_form[k] = self.request.form[k]
+                if 'project_title' == k:
+                    # Aarrgghh!! #*!&% plone snoops into the request, and reads the form variables directly,
+                    # so we have to set the form variables with the same names as the schema
+                    new_form['title'] = self.request.form[k]
+                else:
+                    new_form[k] = self.request.form[k]
 
         reader = IReadWorkflowPolicySupport(self.context)
         old_workflow_policy = reader.getCurrentPolicyId()
@@ -139,7 +147,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
 
         #store change status of flet, security, title, description, logo...
         changed = {
-            _(u'psm_project_title_changed', u"The title has been changed.") : self.context.title != self.request.form.get('title', self.context.title),
+            _(u'psm_project_title_changed', u"The title has been changed.") : self.context.title != self.request.form.get('project_title', self.context.title),
             _(u'psm_project_desc_changed', u"The description has been changed.") : self.context.description != self.request.form.get('description', self.context.description),
             _(u'psm_project_logo_changed', u"The project image has been changed.") : logochanged,
             _(u'psm_security_changed', u"The security policy has been changed.") : old_workflow_policy != self.request.form.get('workflow_policy'),
@@ -213,7 +221,9 @@ class ProjectDeletionView(BaseView):
         proj_id = self.context.getId()
         proj_folder.manage_delObjects([proj_id])
         self.add_status_message("You have permanently deleted '%s' " %title)
-        self.redirect("%s/create" %proj_folder.absolute_url())
+        # link to account page
+        account_url = '%s/account' % self.member_info['folder_url']
+        self.redirect(account_url)
         return True
     handle_delete = formhandler.button('delete')(_handle_delete)
 
@@ -233,11 +243,26 @@ def delete_team(proj, event=None):
     if pt.has_key(team_id):
         pt.manage_delObjects([team_id])
 
+@adapter(IProject, IObjectRemovedEvent)
+def delete_email_invites(proj, event=None):
+    invite_util = getUtility(IEmailInvites, context=proj)
+    invite_util.removeAllInvitesForProject(proj.getId())
+
 
 @adapter(IProject, IObjectWillBeRemovedEvent)
 def handle_blog_delete(project, event=None):
     pass
 
+@adapter(IProject, IObjectRemovedEvent)
+def notify_cabochon(project, event=None):
+    # project info passed to cabochon
+    id = project.getId()
+
+    # FIXME for some reason, on test tear down the getUtility fails
+    # without explicitly passing a context
+    portal = getToolByName(project, 'portal_url').getPortalObject()
+    cabochon_utility = getUtility(ICabochonClient, context=portal)
+    cabochon_utility.notify_project_deleted(id)
 
 class ProjectFeatureletSupporter(FeatureletSupporter):
     adapts(IProject)
@@ -254,4 +279,3 @@ class ProjectFeatureletSupporter(FeatureletSupporter):
             else:
                 featurelet.removePackage(self.context)
             self.storage.pop(name)
-                

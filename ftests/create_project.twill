@@ -16,12 +16,14 @@ extend_with flunc.checkbox
 go ${base_url}
 follow "Start a project"
 fv create_form projid $projname
-fv create_form title $projfullname
+fv create_form project_title $projfullname
 fv create_form workflow_policy $projpolicy
-check_group_values create_form featurelets:list '-listen, -tasks, -blog'
-check_group_values create_form featurelets:list $projfeaturelets
 submit
 find "Preferences"
+follow "Preferences"
+check_group_values prefs_form featurelets:list '-listen, -tasks, -blog'
+check_group_values prefs_form featurelets:list $projfeaturelets
+submit
 
 # verify project appears in newly created projects list
 go ${base_url}

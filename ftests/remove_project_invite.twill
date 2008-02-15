@@ -1,0 +1,21 @@
+#
+# removes a member invite from a project 
+#
+# projname - the project to remove the member from 
+# membername - the member to remove 
+#
+# expects: 
+#    project exists, member exists, logged in as project admin, 
+#    member is a part of the project 
+#
+#
+
+
+extend_with flunc.checkbox
+
+go ${base_url}/projects/${projname}
+follow "Team"
+check_group_values invitation checked:list '+${membername}'
+submit 
+find "Invitation removed: ${membername}"
+

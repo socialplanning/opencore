@@ -2,4 +2,4 @@
 Run this script once via zopectl run and you should be good to go.
 """
 
-print "yay, I did nothing"
+print "successfully did nothing"

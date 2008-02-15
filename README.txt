@@ -9,6 +9,7 @@ of action upon common causes.
 Currently, opencore powers the community action site `Open Plans
 <http://www.openplans.org>`_.
 
+
 License
 =======
 

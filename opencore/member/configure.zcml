@@ -18,4 +18,10 @@
   <adapter factory="opencore.member.pending_requests.PendingRequests" />
   <adapter factory="opencore.member.pending_requests.PendingRequestsForFolder" />
 
+  <subscriber
+    for="opencore.member.interfaces.IOpenMember
+         zope.app.container.interfaces.IObjectRemovedEvent"
+    handler=".subscribers.remove_member_folder"
+    />
+
 </configure>

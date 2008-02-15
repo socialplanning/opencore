@@ -31,6 +31,7 @@ def test_suite():
     from Products.Five.utilities.marker import erase as noLongerProvides
     from Products.PloneTestCase import setup
     from Products.PloneTestCase.PloneTestCase import FunctionalTestCase
+    from Products.listen.interfaces import IListLookup
     from Testing.ZopeTestCase import installProduct
     from opencore.interfaces.workflow import IReadWorkflowPolicySupport
     from opencore.listen.featurelet import ListenFeaturelet
@@ -39,9 +40,15 @@ def test_suite():
 
     # for delete-project
     from opencore.testing import utils
+    from opencore.testing.utils import clear_status_messages
+    from opencore.testing.utils import get_status_messages
     from pprint import pprint
     from topp.clockqueue.interfaces import IClockQueue
+    from opencore.listen.featurelet import ListenFeaturelet
+
+    # for delete-project
     from topp.featurelets.interfaces import IFeatureletSupporter
+    
     from zope.component import getUtility
     from zope.interface import alsoProvides
 

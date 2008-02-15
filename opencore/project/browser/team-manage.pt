@@ -1,7 +1,7 @@
 <tal:vars define="global proj view/project_info;
                   global team_manage_macros view/team_manage_macros/macros" />
 
-<html metal:use-macro="here/@@standard_macros/master">
+<html  i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:Manage Team - ${view/area/Title}" />
   </head>
@@ -12,7 +12,7 @@
       <h1>Team management</h1>
       <p class="oc-headingContext"
          tal:define="nmembers python:len(view.active_mships);
-                     npending python:len(view.pending_mships);
+                     npending python:len(view.pending_mships) + len(view.pending_email_invites);
                      many_members python:nmembers != 1;
                      many_memberships python:npending !=1;"
                      >
@@ -26,11 +26,11 @@
           />
         <tal:many_memberships
           condition="many_memberships"
-          replace="string:${npending} pending memberships"
+          replace="string:${npending} pending invitations"
           />
         <tal:one_membership
           condition="not: many_memberships"
-          replace="string:1 pending membership"
+          replace="string:1 pending invitation"
           />
       </p>
     </div>
@@ -95,17 +95,8 @@
       
         <div class="oc-headingBlock">
           <h3>Invite by email address</h3>
-          <p class="oc-headingContext">Send an email to invite people to join</p>
+          <p class="oc-headingContext"><a i18n:translate="team-manage_send_email_invite" href="invite">Send an email to invite people to join</a></p>
         </div>
-        <form id="oc-inviteByEmail" name="oc-inviteByEmail"
-              tal:attributes="action view/request/ACTUAL_URL"
-              method="POST">
-          <textarea style="width: 90%;" rows="3" cols="20" id="email-invites" name="email-invites"
-                    tal:content="view/request/form/email-invites | nothing" />
-          <p class="oc-discreetText">Comma separated, or one-per-line</p>
-          <input type="submit" name="task|email-invites" value="Send"
-                 class="oc-button" />
-        </form>
 
       </div>
       

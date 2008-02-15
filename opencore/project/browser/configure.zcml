@@ -139,6 +139,14 @@
 
   <browser:page
      for="opencore.interfaces.IProject"
+     class=".manageteam.InviteView"
+     permission="teamspace.ManageTeamMemberships"
+     name="invite"
+     template="invite-with-message.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
      class=".manageteam.ManageTeamView"
      permission="teamspace.ManageTeamMemberships"
      name="manage-team"
@@ -163,7 +171,7 @@
      for="opencore.interfaces.IProject"
      class=".latest_activity.LatestActivityView"
      permission="zope2.View"
-     name="latest-activity"
+     name="summary"
      template="latest_activity.pt"
      />
 
@@ -199,6 +207,8 @@
   <!-- deletion subscribers -->
   <subscriber handler=".preferences.handle_flet_uninstall" />
   <subscriber handler=".preferences.delete_team" />
+  <subscriber handler=".preferences.delete_email_invites" />
+  <subscriber handler=".preferences.notify_cabochon" />
   <adapter factory=".preferences.ProjectFeatureletSupporter" />
 
   <adapter

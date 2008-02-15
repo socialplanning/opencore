@@ -4,7 +4,7 @@
            >
 
   <opencore:menuitem
-     name="Task Tracker"
+     name="Tasks"
      filter="opencore.browser.topnav.viewlet.contained_within"
      container="opencore.featurelets.interfaces.ITaskTrackerFeatureletInstalled"
      item_url="tasks"

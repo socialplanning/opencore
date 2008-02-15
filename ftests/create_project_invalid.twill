@@ -16,10 +16,8 @@ extend_with flunc.checkbox
 go ${base_url}
 follow "Start a project"
 fv create_form projid $projname
-fv create_form title $projfullname
+fv create_form project_title $projfullname
 fv create_form workflow_policy $projpolicy
-check_group_values create_form featurelets:list '-listen, -tasks, -blog'
-check_group_values create_form featurelets:list $projfeaturelets
 submit
 
 find 'psm_project_name_reserved'

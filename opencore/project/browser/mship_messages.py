@@ -14,7 +14,8 @@ ${portal_url}
 
 remind_invitee = _(u'email_remind_invitee', u"""Subject: ${portal_title} - Invitation to join ${project_title}
 
-This is a reminder that you've been invited to join "${project_title}" on ${portal_title}.  Please visit your account page to accept or decline the invitation: ${account_url}
+This is a reminder that you've been invited to join "${project_title}" on ${portal_title}.
+Please visit your account page to accept or decline the invitation: ${account_url}
 """)
 
 request_approved = _(u'email_request_approved', u"""Subject: ${portal_title} - Welcome to ${project_title}
@@ -37,17 +38,4 @@ membership_deactivated = _(u'email_membership_deactivated', u"""Subject: ${porta
 You are no longer a member of "${project_title}" on ${portal_title}.
 """)
 
-invite_email = _(u'email_invite_email', u"""Subject: ${portal_title} - Invitation to join ${project_title}
-
-You have been invited to join "${project_title}" on ${portal_title}.
-
-If you would like to get involved, set up an ${portal_title} account: ${join_url}
-
-${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks.
-
-We hope you'll take ${portal_title} for a spin.
-
-Cheers,
-The ${portal_title} Team
-${portal_url}
-""")
+email_invite_static_body = _(u'email_invite_static_body')

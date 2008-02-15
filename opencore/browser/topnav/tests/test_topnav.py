@@ -46,7 +46,7 @@ class TestTopNav(OpenPlansTestCase):
         html = topnav.contextmenu
 
         # lis is the set of li tags (list items) contained in this menu
-        # In this case, it is the tages for the features (e.g. wiki, blog,
+        # In this case, it is the tages for the features (e.g. pages, blog,
         # mailing lists, etc.)
         lis, links = parse_topnav_context_menu(html)
 
@@ -58,19 +58,24 @@ class TestTopNav(OpenPlansTestCase):
         # Why this is true, I don't know, but now we can be sure!
         self.assert_(4 <= len(lis) and len(lis) <= 6)
 
-        # Only the last element should be selected
-        for li in lis[:-1]:
-            self.assertEqual(False, li['selected'])
-        self.assertEqual(u'oc-topnav-join', lis[-1]['selected'])
+        # Only the join element should be selected
+        flag = False
+        for li in lis:
+            if li['selected'] != False:                
+                self.assertEqual(u'oc-topnav-join', li['selected'])
+                flag = True
+        # ensure join element is selected
+        self.assertEqual(True, flag)
 
         navigation = [link['name'] for link in links]
-        self.assert_(u'Wiki' in navigation)
+        self.assert_(u'Pages' in navigation)
         # Optional
         #self.assert_(u'Blog' in navigation)
         #self.assert_(u'Mailing Lists' in navigation)
         self.assert_(u'Team' in navigation)
         self.assert_(u'Contents' in navigation)
         self.assert_(u'Join Project' in navigation)
+        self.assert_(u'Summary' in navigation)
 
         self.clearMemoCache()
         memhome = self.memhome
@@ -82,8 +87,8 @@ class TestTopNav(OpenPlansTestCase):
         self.assertEqual(2, len(lis))
         self.assertEqual(False, lis[0]['selected'])
         self.assertEqual(False, lis[1]['selected'])
-        self.assertEqual(u'Wiki', links[0]['name'])
-        self.assertEqual(u'Profile', links[1]['name'])
+        self.assertEqual(u'Profile', links[0]['name'])
+        self.assertEqual(u'Pages', links[1]['name'])
 
         # test switch to project context with
         # X-OpenPlans-Project header set
@@ -93,20 +98,26 @@ class TestTopNav(OpenPlansTestCase):
         html = topnav.contextmenu
         lis, links = parse_topnav_context_menu(html)
 
-        # Only the last element should be selected
         self.assert_(4 <= len(lis) and len(lis) <= 6)
-        for li in lis[:-1]:
-            self.assertEqual(False, li['selected'])
-        self.assertEqual(u'oc-topnav-join', lis[-1]['selected'])
+
+        # Only the join element should be selected
+        flag = False
+        for li in lis:
+            if li['selected'] != False:                
+                self.assertEqual(u'oc-topnav-join', li['selected'])
+                flag = True
+        # ensure join element is selected
+        self.assertEqual(True, flag)
 
         navigation = [link['name'] for link in links]
-        self.assert_(u'Wiki' in navigation)
+        self.assert_(u'Pages' in navigation)
         # Optional
         #self.assert_(u'Blog' in navigation)
         #self.assert_(u'Mailing Lists' in navigation)
         self.assert_(u'Team' in navigation)
         self.assert_(u'Contents' in navigation)
         self.assert_(u'Join Project' in navigation)
+        self.assert_(u'Summary' in navigation)
         del req.environ['X_OPENPLANS_PROJECT']
 
         # test switch to member context with
@@ -119,8 +130,8 @@ class TestTopNav(OpenPlansTestCase):
         self.assertEqual(2, len(lis))
         self.assertEqual(False, lis[0]['selected'])
         self.assertEqual(False, lis[1]['selected'])
-        self.assertEqual(u'Wiki', links[0]['name'])
-        self.assertEqual(u'Profile', links[1]['name'])
+        self.assertEqual(u'Profile', links[0]['name'])
+        self.assertEqual(u'Pages', links[1]['name'])
         del req.environ['X_OPENPLANS_PERSON']
 
         # test X-OpenPlans-Person overrides
@@ -134,8 +145,8 @@ class TestTopNav(OpenPlansTestCase):
         self.assertEqual(2, len(lis))
         self.assertEqual(False, lis[0]['selected'])
         self.assertEqual(False, lis[1]['selected'])
-        self.assertEqual(u'Wiki', links[0]['name'])
-        self.assertEqual(u'Profile', links[1]['name'])
+        self.assertEqual(u'Profile', links[0]['name'])
+        self.assertEqual(u'Pages', links[1]['name'])
         del req.environ['X_OPENPLANS_PERSON']
         del req.environ['X_OPENPLANS_PROJECT']
 
@@ -166,11 +177,11 @@ class TestTopNav(OpenPlansTestCase):
         html = topnav.contextmenu
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(3, len(lis))
-        self.assertEqual(False, lis[0]['selected'])
-        self.assertEqual('oc-topnav-selected', lis[1]['selected'])
+        self.assertEqual('oc-topnav-selected', lis[0]['selected'])
+        self.assertEqual(False, lis[1]['selected'])
         self.assertEqual(False, lis[2]['selected'])
-        self.assertEqual(u'Wiki', links[0]['name'])
-        self.assertEqual(u'Profile', links[1]['name'])
+        self.assertEqual(u'Profile', links[0]['name'])
+        self.assertEqual(u'Pages', links[1]['name'])
         self.assertEqual(u'Account', links[2]['name'])
 
         self.clearMemoCache()
@@ -179,10 +190,10 @@ class TestTopNav(OpenPlansTestCase):
         html = topnav.contextmenu
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(2, len(lis))
-        self.assertEqual(False, lis[0]['selected'])
-        self.assertEqual(u'oc-topnav-selected', lis[1]['selected'])
-        self.assertEqual(u'Wiki', links[0]['name'])
-        self.assertEqual(u'Profile', links[1]['name'])
+        self.assertEqual(u'oc-topnav-selected', lis[0]['selected'])
+        self.assertEqual(False, lis[1]['selected'])
+        self.assertEqual(u'Profile', links[0]['name'])
+        self.assertEqual(u'Pages', links[1]['name'])
 
 
 def test_suite():

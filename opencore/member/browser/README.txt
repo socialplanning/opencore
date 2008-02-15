@@ -45,7 +45,7 @@ Exercise the Member Account Class
 
     Instantiate the view::
 
-    >>> from opencore.member.browser.view import MemberAccountView
+    >>> from opencore.member.browser.account import MemberAccountView
     >>> request = self.app.REQUEST
     >>> request.form = {}
 
@@ -69,10 +69,11 @@ Create a project with an international unicode title::
     >>> request.form['projid'] = 'i18n'
 
 This is some japanese that I found::
-    >>> request.form['title'] = u'\u65e5\u8a9e'
+    >>> request.form['project_title'] = u'\u65e5\u8a9e'
     >>> request.form['workflow_policy'] = 'medium_policy'
     >>> request.form['__initialize_project__'] = True
     >>> html = proj_add_view.handle_request()
+    opencore.testing.utility.StubCabochonClient: args: ('i18n', 'm1')
     >>> japanese_project = self.portal.projects.i18n
     >>> japanese_project
     <OpenProject at /plone/projects/i18n>
@@ -83,10 +84,11 @@ insensitive sort::
     >>> proj_add_view = ProjectAddView(self.portal.projects,
     ...                                self.portal.REQUEST)
     >>> request.form['projid'] = 'apples'
-    >>> request.form['title'] = 'apples are good'
+    >>> request.form['project_title'] = 'apples are good'
     >>> request.form['workflow_policy'] = 'medium_policy'
     >>> request.form['__initialize_project__'] = True
     >>> html = proj_add_view.handle_request()
+    opencore.testing.utility.StubCabochonClient: args: ('apples', 'm1')
     >>> apple_project = self.portal.projects.apples
     >>> apple_project
     <OpenProject at /plone/projects/apples>
@@ -307,7 +309,7 @@ Let's accept our gracious invitation
 
     Now we can trigger them, we get the json response
     >>> sorted(view.accept_handler(['p4']).keys())
-    ['num_updates', 'p4_invitation', 'projinfos_for_user']
+    ['num_updates', 'num_updates_menu', 'num_updates_top', 'p4_invitation', 'projinfos_for_user']
 
     Now we can check that we got the event
     >>> len(self.events)
@@ -339,7 +341,7 @@ And now if we were to receive an info message::
 
     Let's go ahead and kill the first one, the message is not so nice
     >>> sorted(view.close_msg_handler('0').keys())
-    ['close_info_message_0', 'num_updates']
+    ['close_info_message_0', 'num_updates', 'num_updates_menu', 'num_updates_top']
 
     Poof, he's gone
     >>> self.clearMemoCache()
@@ -372,7 +374,7 @@ Let's also reject an invitation extended to us::
 
     Now we shove it back in the admin's face
     >>> sorted(view.deny_handler(['p2']).keys())
-    ['num_updates', 'p2_invitation']
+    ['num_updates', 'num_updates_menu', 'num_updates_top', 'p2_invitation']
 
     And we're not a part of that project, and no longer invited
     >>> self.clearMemoCache()

@@ -11,10 +11,9 @@
 
   <browser:page
     for="*"
-    class="opencore.browser.base.BaseView"
+    class="opencore.browser.error.ErrorView"
     permission="zope.Public"
     name="error"
-    template="error.pt"
     />
 
   <browser:resourceDirectory
@@ -120,6 +119,13 @@
      class=".versions.OpencoreVersionView"
      template="versions.pt"
      permission="zope2.View"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
+     name="submit-error-report"
+     class="opencore.browser.error.ErrorReporter"
+     permission="zope2.Public"
      />
 
 </configure>

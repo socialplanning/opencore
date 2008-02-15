@@ -31,12 +31,7 @@ class HeaderHijackable(BaseView):
 
     @property
     def context_from_headers(self):
-        if self.person_folder_from_headers:
-            return self.person_folder_from_headers
-        elif self.project_from_headers:
-            return self.project_from_headers
-        else:
-            return None
+        return self.person_folder_from_headers or self.project_from_headers
 
     @property
     def project_from_headers(self):
@@ -44,14 +39,9 @@ class HeaderHijackable(BaseView):
         if not name:
             return None
 
-        search = getToolByName(self.original_context,
-                               'portal_catalog')
-        
-        objs = search(id=name, portal_type='OpenProject')
-        if len(objs) == 1:
-            return objs[0].getObject()
-
-        return None
+        portal = getToolByName(self.original_context,
+                               'portal_url').getPortalObject()
+        return getattr(portal.projects, name, None)
 
     @property
     def person_folder_from_headers(self):

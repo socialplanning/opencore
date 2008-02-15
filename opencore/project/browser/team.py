@@ -24,6 +24,7 @@ from zope.component import getUtility
 from zope.i18nmessageid import Message
 import re
 import urllib
+from opencore.account.login import LoginView
 
 
 class TeamRelatedView(SearchView):
@@ -41,7 +42,7 @@ class TeamRelatedView(SearchView):
         self.active_states = team.getActiveStates()
 
 
-class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
+class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
     """
     View class to handle join project requests.
     """
@@ -145,6 +146,8 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
         """
         Delegates to the team object and handles destination.
         """
+        if self.login_pending_member(): return
+
         joined = False
         ac_name = self.request.form.get("__ac_name")
         id_ = self.request.form.get("id")
@@ -194,7 +197,13 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite):
 class ProjectTeamView(TeamRelatedView):
 
     admin_role = DEFAULT_ROLES[-1]
+    
+    def __call__(self):
 
+        if self.get_tool('portal_membership').checkPermission('TeamSpace: Manage team memberships', self.context):
+            self.redirect(self.context.absolute_url() + '/manage-team')
+        else:
+            return super(ProjectTeamView, self).__call__()
    
     @formhandler.button('sort')
     def handle_request(self):

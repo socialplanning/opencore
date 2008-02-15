@@ -1,2 +1,2 @@
 PROJ_HOME = 'project-home'
-LATEST_ACTIVITY = 'latest-activity'
+LATEST_ACTIVITY = 'summary'

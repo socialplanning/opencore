@@ -38,7 +38,7 @@ class DiscussionList(ListFromCatalog):
         items.sort(date_cmp)
         if number is None:
             number = len(items)
-        return items
+        return items[:number]
 
 class Feed(object):
     """a rediculously stupid class for feeds.
@@ -67,21 +67,27 @@ class Feed(object):
 
 def project2feed(project_brains, args):
     member_url = args[0][0] # this is a hack for a quick checkin :(
-    author = project_brains.lastModifiedAuthor
+    author = project_brains.lastModifiedAuthor    
+    if author:
+        author = { 'home': member_url(author), 'userid': author }
+    else:
+        author = { 'home': '', 'userid': '' }
     return { 'title': project_brains.Title,
              'url': project_brains.getURL(),
-             'author': { 'home': member_url(author),
-                         'userid': author },
+             'author': author,
              'date': project_brains.ModificationDate,
              }
 
 def discussions2feed(message, args):
     member_url = args[0][0]
     author = message.getOwner().getUserName()
+    if author:
+        author = { 'home': member_url(author), 'userid': author }
+    else:
+        author = { 'home': '', 'userid': '' }
     return { 'title': message.Title,
              'url': message.absolute_url(),
-             'author': { 'home': member_url(author),
-                         'userid': author },
+             'author': author,
              'date': message.date
              }
 
@@ -105,8 +111,8 @@ class LatestActivityView(ProjectContentsView):
                                               'project-home')),
                                     'MORE PAGES',
                                     ListFromCatalog(self._portal_type['pages'], self.project_path),
-                                    ([self.catalog], {}),
-                                    project2feed, ( [ self.memfolder_url ], {}) ),
+                                    ([self.catalog], dict(number=5)),
+                                    project2feed, ( [ self.memfolder_url ], {}), ),
                                )
 
         if self.has_mailing_lists:
@@ -115,8 +121,8 @@ class LatestActivityView(ProjectContentsView):
                                                   self._get_featurelet('listen')['url'])),
                                         'MORE THREADS',
                                         DiscussionList(self._portal_type['lists'], self.project_path),
-                                        ([self.catalog], {}),
-                                         discussions2feed, ( [ self.memfolder_url ], {}) ),
+                                        ([self.catalog], dict(number=5)),
+                                         discussions2feed, ( [ self.memfolder_url ], {}),),
                                    )
 
         # XXX this logic should live at a higher level
@@ -160,9 +166,26 @@ class LatestActivityView(ProjectContentsView):
         g = self.context.unrestrictedTraverse('latest-snippet')
         foo = g()
 
+    def team_manager(self):
+        """returns whether the member has permission to manage the team"""
+        mem_id = self.member_info.get('id')
+        if mem_id is None:
+            return False
+        return self.get_tool('portal_teams')._getOb(self.area.id).getHighestTeamRoleForMember(mem_id) == 'ProjectAdmin'
+
     def team_members(self):
         # XXX don't know if this is replicated elsewhere
         team = self.area.getTeams()
         assert len(team) == 1
         team = team[0]
-        return [ self.member_info_for_member(member) for member in team.getMembers() ]
+        team = [ self.member_info_for_member(member) for member in team.getMembers() ]
+        def team_sort(x, y):
+            """sorting function for member display on project latest activity page"""
+            # could also sort by admin-ness, lastlogin, etc
+            portrait = [ x['portrait_url'], y['portrait_url'] ]
+            default = '++resource++img/default-portrait.gif'
+            portrait = [ int(i != default) for i in portrait ]
+            return cmp(portrait[0], portrait[0])
+
+        team.sort(team_sort)
+        return team

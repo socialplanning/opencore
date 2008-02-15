@@ -82,12 +82,14 @@ Searching for projects starting with a number::
 
 Create a project that starts with a number::
     >>> form_vars = dict(projid='5test', __initialize_project__=True,
-    ...                  title='5test',
+    ...                  project_title='5test',
     ...                  workflow_policy='medium_policy',
     ...                  add=True, featurelets = [], set_flets=1)
     >>> proj_view = self.portal.projects.restrictedTraverse("create")
     >>> proj_view.request.form.update(form_vars)
     >>> out = proj_view.handle_request()
+    opencore.testing.utility.StubCabochonClient: args: ('5test', 'test_user_1_')
+
 
 Now search again::
 
@@ -374,6 +376,7 @@ Create a closed project::
     >>> proj_view = self.portal.projects.restrictedTraverse("create")
     >>> proj_view.request.form.update(form_vars)
     >>> out = proj_view.handle_request()
+    opencore.testing.utility.StubCabochonClient: args: ('cl0sed', 'portal_owner')
 
 And ensure that the closed project does not come up::
    >>> view = search.HomeView(self.portal, request)

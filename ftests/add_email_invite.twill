@@ -1,0 +1,17 @@
+#
+# adds an email invite 
+#
+# projname - the project from which to invite
+# email - the email to test with
+#
+# expects: 
+#    that the project admin is logged in
+#
+#
+
+go ${base_url}/projects/${projname}/manage-team
+follow 'team-manage_send_email_invite'
+find invite-w-m_invite_title
+fv oc-inviteByEmail email-invites ${email}
+submit
+find ${email}

@@ -16,6 +16,10 @@ user_not_in_team(user=${u2_name})
 # member in the project currently to test the plurality
 # of some strings
 add_project_member_and_verify_plurality(membername=${u2_name})
+
+# invite an email address
+add_email_invite(email=${test_email})
+remind_remove_email_invite(email=${test_email})
 logout
 
 # u2 accepts

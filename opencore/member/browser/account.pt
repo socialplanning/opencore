@@ -29,34 +29,53 @@
            status info messages,
            projects inviting user -->
       <!-- invitations -->
+
+
       <ul tal:define="invitations view/invitations"
           tal:condition="invitations"
           class="oc-invite-list">
         <form name="invitation-form" action="account">
-          <tal:for repeat="projinfo invitations">
-            <li class="oc-invite oc-boxy oc-clearAfter"
-                tal:define="proj_id projinfo/proj_id"
-                tal:attributes="id string:${proj_id}_invitation">
-              <!-- <div  tal:omit-tag="" class="oc-avatar">
-                <img src="" />
-              </div> -->
-              <p i18n:translate="account_invite" class="oc-invite-content">
-                <a i18n:name="project" href="" tal:attributes="href string:${view/portal_url}/projects/${proj_id}" tal:content="projinfo/title">Animal Campaign</a> 
-                has invited you to become a member
-              </p>
-              <ul class="oc-actions oc-invite-actions oc-actionClose"
-                  tal:define="url request/ACTUAL_URL">
-                <li tal:repeat="action view/invitation_actions">
-                  <a tal:attributes="href string:${url}?task|${proj_id}|${action}Invitation=${action};
+             <tal:rep repeat="project invitations">
+             <tal:setvar 
+                         define=" proj_url string:${view/portal_url}/projects/${project/proj_id};
+                                       logo project/logo;
+                                       proj_id project/proj_id;
+                                       closed python:project['proj_policy']=='closed_policy';
+                                       logo_url python:logo and ('%s/logo_thumb' % proj_url) or view.defaultProjLogoURL">
+                 <li class="oc-invite oc-boxy oc-clearAfter" tal:attributes="id string:${proj_id}_invitation">
+                   <a tal:attributes="href proj_url"
+                      tal:condition="not: closed" >
+                       <img class="oc-project-logo" tal:attributes="src logo_url; alt project/title; title project/title" />
+                   </a>
+                       <img class="oc-project-logo" tal:condition="closed" tal:attributes="src view/defaultProjLogoURL; alt project/title; title project/title" />
+
+                <div class="oc-feed-item-content">
+                  <h3 class="oc-feed-item-title">
+                    <span i18n:translate="account_invite">
+                      <a i18n:name="project" tal:condition="not: closed" tal:attributes="href proj_url" tal:content="project/title">Project Title</a>
+                      <span i18n:name="project" tal:condition="closed" tal:content="string: ${project/title} (closed project)" />
+                      has invited you to become a member
+                    </span>
+                  </h3>
+                  <p class="oc-feed-item-description" tal:define="desc project/description">
+                    <span tal:condition="desc" tal:replace="desc" />
+                  </p>
+                </div>
+                <ul class="oc-actions oc-invite-actions oc-actionClose"
+                    tal:define="url request/ACTUAL_URL">
+                  <li tal:repeat="action view/invitation_actions">
+                    <a tal:attributes="href string:${url}?task|${proj_id}|${action}Invitation=${action};
                                      class string:oc-actionLink oc-js-actionLink oc-choose${action}"
-                     tal:content="action"
-                     />
-                </li>
-              </ul>
-            </li>
-          </tal:for>
-        </form>
+                                     tal:content="action" />
+                  </li>
+               </ul>
+             </li>
+           </tal:setvar>
+           </tal:rep> 
+         </form>
       </ul>
+
+
       <!-- info messages -->
       <ul tal:define="infomsgs view/infomsgs"
           tal:condition="infomsgs"

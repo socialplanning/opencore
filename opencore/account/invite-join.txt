@@ -15,12 +15,12 @@ the aforementioned address.
 The process loop
 ================
 
-Invites start in opencore.project.browser.manageteams.ManageTeamView::
+Invites start in opencore.project.browser.manageteam.InviteView::
 
     >>> from Testing.makerequest import makerequest
     >>> self.portal = makerequest(self.portal); request = self.portal.REQUEST
-    >>> mt = self.portal.projects.p1.unrestrictedTraverse("manage-team")
-    >>> key=mt.do_nonmember_invitation_email('bob@bob.com', 'p1')
+    >>> inv = self.portal.projects.p1.unrestrictedTraverse("invite")
+    >>> key=inv.do_nonmember_invitation_email('bob@bob.com', 'p1')
 
 It is stored in the invite_utils in a keyed map::
 
@@ -46,7 +46,12 @@ We'll simulate the link and get the invite-join view. Let's logout::
     {'p1': DateTime('...')}
 
     >>> pprint(inv_join.invite_map)
-    [{'id': 'p1', 'title': 'Project One'}]
+    [{'closed': False,
+      'description': '',
+      'id': 'p1',
+      'logo': None,
+      'title': 'Project One',
+      'url': 'http://nohost/plone/projects/p1'}]
 
 
 Saving
@@ -66,7 +71,7 @@ First, 'create_member' checks the key::
     ...
     ValueError: Bad confirmation key
 
-    >>> request.form['__k']=key
+    >>> request.form['__k']=str(key)
     >>> inv_join.validate_key()
     True
 

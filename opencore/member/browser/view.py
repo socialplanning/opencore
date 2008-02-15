@@ -1,4 +1,3 @@
-from App import config
 from DateTime import DateTime
 from Products.AdvancedQuery import Eq
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
@@ -9,7 +8,6 @@ from opencore.browser.formhandler import OctopoLite, action
 from opencore.geocoding.view import get_geo_reader
 from opencore.geocoding.view import get_geo_writer
 from opencore.interfaces.message import ITransientMessage
-from opencore.member.browser.account import MemberAccountView
 from plone.memoize.view import memoize as req_memoize
 from topp.utils.pretty_date import prettyDate
 from urlparse import urlsplit

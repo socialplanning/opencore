@@ -20,10 +20,14 @@ from zope.app.event.objectevent import ObjectCreatedEvent
 from zope.component import getUtility
 from zope.event import notify
 
+import urllib
 
 class JoinView(browser.AccountView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('join.pt')
+
+    def quote(self, txt):
+        return urllib.quote(txt)
 
     @anon_only(BaseView.siteURL)
     def handle_request(self):
@@ -46,7 +50,7 @@ class JoinView(browser.AccountView, OctopoLite):
                                               url=url)
             
                 self.addPortalStatusMessage(_(u'psm_thankyou_for_joining',
-                                              u'Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account.',
+                                              u'Thanks for joining ${portal_title}, ${mem_id}!<br/>\nA confirmation email has been sent to you with instructions on activating your account.',
                                               mapping={u'mem_id':mem.getId(),
                                                        u'portal_title':self.portal_title()}))
                 self.redirect(self.portal_url() + '/message')
@@ -98,12 +102,23 @@ class InviteJoinView(JoinView, ConfirmAccountView):
     @view.memoizedproperty
     def sorted_invites(self):
         return sorted(self.invites)
-
+    
     @view.memoizedproperty
     def invite_map(self):
         if self.invites:
-            return [dict(id=invite, title=self.proj_title(invite)) \
-                    for invite in self.invites]
+            imap = []
+            for invite in self.invites:
+                project = self.context.projects.get(invite)
+                if not project:
+                    continue
+                from opencore.interfaces.workflow import IReadWorkflowPolicySupport
+                closed =  IReadWorkflowPolicySupport(project).getCurrentPolicyId() == "closed_policy"
+                imap.append(dict(id=invite, title=project.Title(),
+                                 description=project.Description(),
+                                 url=project.absolute_url(),
+                                 logo=project.getLogo(),
+                                 closed=closed))
+            return imap
         return tuple()
 
     def validate_key(self):
@@ -111,7 +126,7 @@ class InviteJoinView(JoinView, ConfirmAccountView):
         import zExceptions
         if not key:
             raise zExceptions.BadRequest("Must present proper validation")
-        if key != self.invites.key:
+        if key != str(self.invites.key):
             raise ValueError('Bad confirmation key')
         return True
 
@@ -137,6 +152,9 @@ class InviteJoinView(JoinView, ConfirmAccountView):
             if mship.aq_parent.getId() in self.proj_ids:
                 mship.do_transition('approve_public')
             notify(JoinedProjectEvent(mship))
+
+    def project(self, _id):
+        return self.context.projects.get(_id)
 
     def proj_title(self, invite):
         proj_obj = self.context.projects.get(invite)

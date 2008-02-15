@@ -25,7 +25,6 @@ def handle_postcreation(event):
     instance._initProjectHomeMenuItem()
 
     # add the featurelets, if any
-    #save_featurelets(instance, request=request)    
     request.set('__initialize_project__', None)
 
     # Fetch the values from request and store them.

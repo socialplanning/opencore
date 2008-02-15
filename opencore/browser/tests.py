@@ -1,4 +1,5 @@
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
+from Products.PasswordResetTool.tests.test_doctests import MockMailHostTestCase
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from Testing.ZopeTestCase import PortalTestCase 
@@ -30,6 +31,12 @@ def test_suite():
     from opencore.i18n import _
     
     setup.setupPloneSite()
+    def readme_setup(tc): # XXX duplicates simple_setup?
+        tc._refreshSkinData()
+        tc.request = tc.app.REQUEST
+        tc.response = tc.request.RESPONSE
+        tc.homepage = getattr(tc.portal, 'site-home')
+        tc.projects = tc.portal.projects
 
     globs = locals()
     readme = dtf.ZopeDocFileSuite("README.txt",
@@ -37,19 +44,20 @@ def test_suite():
                                   package='opencore.browser',
                                   test_class=OpenPlansTestCase,
                                   globs=globs,
-                                  setUp=simple_setup,
+                                  setUp=readme_setup,
                                   layer=test_layer
                                   )
-    member_info = dtf.ZopeDocFileSuite("member_info_test.txt",
-                                       optionflags=optionflags,
-                                       package='opencore.browser',
-                                       test_class=OpenPlansTestCase,
-                                       globs=globs,
-                                       setUp=simple_setup,
-                                       layer=test_layer
-                                       )
+    errors = dtf.ZopeDocFileSuite("error.txt",
+                                  optionflags=optionflags,
+                                  package='opencore.browser',
+                                  test_class=MockMailHostTestCase,
+                                  globs = globs,
+                                  setUp=readme_setup,
+                                  layer = test_layer
+                                  )
+
     tal_test = tal.test_suite()
-    return unittest.TestSuite((readme, member_info, octotest(), tal_test))
+    return unittest.TestSuite((readme, octotest(), tal_test, errors))
 
 
 if __name__ == '__main__':

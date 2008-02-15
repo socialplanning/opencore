@@ -25,6 +25,9 @@
 
   <property name="tasktracker_uri" type="string"></property>
   <property name="tasktracker_external_uri" type="string">tasks</property>
+  <property name="cabochon_uri" type="string"></property>
+  <property name="twirlip_uri" type="string"></property>
+
   <property name="google_maps_key" type="string">ABQIAAAACgq_R1LiJejH1-2eRRyQvBTwM0brOpm-All5BF6PoaKBxRWWERRkYcknpt7YAYi-YjtUb5J69-e2Hg</property>
 
  </object>

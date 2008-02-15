@@ -46,9 +46,14 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
     def init_uri(self):
         return "%s/project/initialize/" % self.uri
 
+    # we're currently destroying projects, not uninitializing them
     @property
     def uninit_uri(self):
         return "%s/project/uninitialize/" % self.uri
+
+    @property
+    def destroy_uri(self):
+        return "%s/project/destroy/" % self.uri
 
     @memoizedproperty
     def http(self):
@@ -81,16 +86,5 @@ class TaskTrackerFeaturelet(BaseFeaturelet):
         return BaseFeaturelet.deliverPackage(self, obj)
 
     def removePackage(self, obj, raise_error=True):
-        if not self.active:
-            # we don't have a TT URI set, don't do anything
-            log.info('Failed to remove TaskTracker featurelet: no TT URI set')
-            return
-
-        header = {"X-Openplans-Tasktracker-Initialize":"True"}
-        response, content = self._makeHttpReqAsUser(self.uninit_uri, obj=obj, headers=header)
-        if response.status != 200:
-            if raise_error:
-                raise AssertionError("Error removing tasktracker featurelet: %s" % content)
-            else:
-                log.info('Error removing TaskTracker: %s' % content)
-        return BaseFeaturelet.removePackage(self, obj)
+        # sending message to tasktracker happens through cabochonclient now
+        return

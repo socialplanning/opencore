@@ -175,7 +175,7 @@ def initializeMemberArea(mtool, request, member_id=None):
     page_id = "%s-home" % member_id
     title = "%s Home" % member_id
     folder.invokeFactory('Document', page_id, title=title)
-    folder.setDefaultPage(page_id)
+    folder.setLayout('profile')
 
     page = getattr(folder, page_id)
     # XXX acquisition, ugh @@ huh?

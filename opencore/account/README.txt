@@ -546,7 +546,6 @@ Ensure test atomicity by removing the created user:
         'POST',
         body='username=test_user_1_&signature=...,
         headers={...'application/x-www-form-urlencoded'...})
-    >>> portal.people.manage_delObjects('test_user_1_')
 
 Is the member still in the catalog?
 

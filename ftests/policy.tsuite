@@ -112,6 +112,8 @@ destroy_project
 login(user=${u1_name})
 create_closed_project
 add_project_member(membername=${u2_name})
+remove_project_invite(membername=${u2_name})
+add_project_member(membername=${u2_name})
 logout 
 
 # u2 has to approve membership

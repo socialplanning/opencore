@@ -87,7 +87,7 @@ human-readable place name::
     >>> view = proj.restrictedTraverse('preferences')
     >>> utils.clear_status_messages(view)
     >>> view.request.form.update({'location': "oceania", 'update': True,
-    ...     'title': 'IGNORANCE IS STRENGTH',
+    ...     'project_title': 'IGNORANCE IS STRENGTH',
     ...     'position-text': 'mock address'})
     >>> view.handle_request()
     Called ....geocode('mock address')
@@ -128,10 +128,11 @@ Create view for Projects
 
     >>> self.login(project_admin)
     >>> createview = projects.restrictedTraverse("create")
-    >>> createview.request.form.update({'title': 'A geolocated project!',
+    >>> createview.request.form.update({'project_title': 'A geolocated project!',
     ...    'projid': 'testgeo', 'workflow_policy': 'medium_policy',
     ...    'position-latitude': '33.33', 'position-longitude': '44.44'})
     >>> out = createview.handle_request()
+    opencore.testing.utility.StubCabochonClient: args: ('testgeo', 'm1')
     >>> createview.errors
     {}
     >>> view = projects.restrictedTraverse('testgeo/preferences')
@@ -144,6 +145,7 @@ Create view for Projects
 Clean that one up...
 
     >>> projects.manage_delObjects(['testgeo'])
+    opencore.testing.utility.StubCabochonClient: args: ('testgeo',)
     >>> view.request.form.clear()
 
 XXX Add tests for publically available views of projects,

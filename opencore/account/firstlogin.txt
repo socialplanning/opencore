@@ -37,11 +37,11 @@ It provides the proper interface::
 
 The member homepage uses the proper layout::
 
-    >>> defpage = getattr(folder, folder.getDefaultPage())
-    >>> defpage.getLayout()
-    'profile.html'
+    >>> folder.getLayout()
+    'profile'
 
-And is marked with the proper interface::
+The member wiki page is marked with the proper interface::
 
+    >>> defpage = getattr(folder, 'm1-home')
     >>> IMemberHomePage.providedBy(defpage)
     True
