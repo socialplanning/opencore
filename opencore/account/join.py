@@ -172,7 +172,7 @@ class InviteJoinView(JoinView, ConfirmAccountView):
         import zExceptions
         if not key:
             raise zExceptions.BadRequest("Must present proper validation")
-        if int(key) != self.invites.key:
+        if key != str(self.invites.key):
             raise ValueError('Bad confirmation key')
         
         email = self.request.form.get("email")
