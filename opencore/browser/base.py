@@ -473,9 +473,8 @@ class BaseView(BrowserView):
 
     # properties and methods associated with objects
 
-    # XXX move to topnav
     @property
-    def inproject(self): # TODO
+    def inproject(self):
         return self.piv.inProject
 
     def is_project_member(self, id=None):

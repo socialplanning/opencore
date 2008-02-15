@@ -4,6 +4,7 @@ from opencore.browser.base import BaseView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser.formhandler import button, OctopoLite, action
 from opencore.interfaces import IAmExperimental
+from opencore.interfaces import IHomePage
 from Acquisition import aq_inner
 from PIL import Image
 from StringIO import StringIO
@@ -48,17 +49,20 @@ class WikiBase(BaseView):
 
         if self.inmember:
             vmi = self.viewed_member_info
-
-            # if viewing member homepage
-            if mode:
-                return '%s %s' % (title, mode)
-
-            if vmi['home_url'] == context.absolute_url():
-                return '%s on %s' % (vmi['id'], self.portal_title())
+            if not mode and vmi['home_url'] == context.absolute_url():
+                # viewing member homepage
+                return '%s on %s' % (vmi['id'], self.portal.Title())
             else:
-                return '%s - %s on %s' % (title, vmi['id'],
-                                          self.portal_title())
-
+                return '%s %s- %s on %s' % (title, mode, vmi['id'],
+                                            self.portal_title())
+        elif self.inproject:
+            project = self.piv.project
+            if not mode and self.context.getId() == IHomePage(project).home_page:
+                # viewing project home page
+                return '%s - %s' % (project.Title(), self.portal.Title())
+            else:
+                return '%s %s- %s - %s' % (title, mode, project.Title(),
+                                           self.portal.Title())
         else:
             return '%s %s- %s' % (title, mode, self.area.Title())
 
