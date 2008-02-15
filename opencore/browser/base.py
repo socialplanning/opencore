@@ -27,10 +27,11 @@ import DateTime
 import cgi
 import datetime
 import urllib
+import logging
 
 view.memoizedproperty = lambda func: property(view.memoize(func))
 view.mcproperty = lambda func: property(view.memoize_contextless(func))
-
+logger = logging.getLogger("opencore.browser.base")
 
 class BaseView(BrowserView):
     """Base view for general use for nui templates and as an abstract base"""
@@ -273,16 +274,19 @@ class BaseView(BrowserView):
         if member == None:
             # Not logged in.
             return {}
-        result = {}
+        id = member.getId()
+        result = {'id': id}
+        folder = self.membertool.getHomeFolder(id)
+        if folder:
+            result['url'] = folder.absolute_url()
+        
         if IReMember.providedBy(member):
-            id = member.getId()
-
             logintime = member.getLogin_time()
             if logintime == DateTime.DateTime('2000/01/01'): # XXX hack around zope
                 logintime = 'never'
             else:
                 logintime = logintime and prettyDate(logintime) or 'member.getLogin_time() is None?'
-            
+
             result.update(
                 id          = id,
                 fullname    = member.getFullname(),
@@ -304,16 +308,12 @@ class BaseView(BrowserView):
         else:
             # XXX TODO 
             # we're an old school member object, e.g. an admin user
-            result.update(id=member.id, fullname=member.fullname)
+            result.update(fullname=member.fullname)
 
             for key in 'membersince', 'lastlogin','location', \
                     'statement', 'affiliations', 'skills', \
                     'background',  'url', 'favorites', 'folder_url':
                 result[key] = ''
-
-        folder = self.membertool.getHomeFolder(result['id'])
-        if folder:
-            result['url'] = folder.absolute_url()
                 
         result['portrait_url'] = self.defaultPortraitURL
         portrait = member.getProperty('portrait', None)
@@ -327,6 +327,7 @@ class BaseView(BrowserView):
 
         return result
 
+    # XXX  Why is this in BaseView? move to project?
     @view.mcproperty
     def project_info(self):
         """
@@ -347,9 +348,19 @@ class BaseView(BrowserView):
                              url=proj.absolute_url(),
                              description=proj.Description(),
                              featurelets=self.piv.featurelets,
+                             location=proj.getLocation(),
                              obj=proj)
         return proj_info
 
+    # Hooks for geocoding stuff to work, if installed.
+    # XXX this doesn't merit living in the base view
+    @view.memoizedproperty
+    def has_geocoder(self):
+        """Is a PleiadesGeocoder tool available?
+        """
+        return getToolByName(self.context, 'portal_geocoder', None) is not None
+
+            
     # tool and view handling
 
     @view.memoize_contextless

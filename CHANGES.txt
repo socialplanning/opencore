@@ -1,4 +1,7 @@
-Frbruary 11, 2008 - David Turner <novalis@novalis.org> - Remove featurelets from project add view.
+February 15, 2008 - Paul Winkler <pw@openplans.org> - Add support for
+    geocoding members and projects. #1529
+
+February 11, 2008 - David Turner <novalis@novalis.org> - Remove featurelets from project add view.
 
 February 8, 2008 - Robert Marianski <rmarianski@openplans.org> - people folder view
     /people/foo is the view for the profile page now.

@@ -1,23 +1,17 @@
 from DateTime import DateTime
 from Products.AdvancedQuery import Eq
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import transaction_note
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from datetime import datetime
 from datetime import timedelta
-from opencore.interfaces.membership import IEmailInvites
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
+from opencore.geocoding.view import get_geo_reader
+from opencore.geocoding.view import get_geo_writer
 from opencore.interfaces.message import ITransientMessage
-from opencore.project.utils import project_path
 from plone.memoize.view import memoize as req_memoize
-from time import gmtime
-from time import strftime
 from topp.utils.pretty_date import prettyDate
 from urlparse import urlsplit
-from urlparse import urlunsplit
 from zope.app.event.objectevent import ObjectModifiedEvent
-from zope.component import getUtility
 from zope.event import notify
 
 
@@ -148,6 +142,16 @@ class ProfileView(BaseView):
 
         return addressable_msgs
 
+    @property
+    def geo_info(self):
+        """geo information for display in forms;
+        takes values from request, falls back to existing member info
+        if possible."""
+        geo = get_geo_reader(self)
+        info = geo.geo_info()
+        # Override the static map image size. Ugh, sucks to have this in code.
+        info['static_img_url'] = geo.location_img_url(width=285, height=285)
+        return info
 
 class ProfileEditView(ProfileView, OctopoLite):
 
@@ -212,13 +216,23 @@ class ProfileEditView(ProfileView, OctopoLite):
                 return
             del self.request.form['portrait']
 
-        # now deal with the rest of the fields
-        for field, value in self.request.form.items():
-            mutator = 'set%s' % field.capitalize()
+        # handle geo stuff
+        geo_writer = get_geo_writer(self)
+        new_info, locationchanged = geo_writer.save_coords_from_form()
+        form = self.request.form
+        member.setPositionText(new_info.get('position-text', ''))
+        for key in ('position-latitude', 'position-longitude', 'position-text'):
+            # we've already handled these, leave the rest for archetypes.
+            if form.has_key(key):
+                del form[key]
+
+        # now deal with the rest of the fields via archetypes mutators.
+        for field, value in form.items():
+            mutator = 'set%s' % field.capitalize() # Icky, fragile.
             mutator = getattr(member, mutator, None)
             if mutator is not None:
                 mutator(value)
-            self.user_updated()
+        self.user_updated()
 
         notify(ObjectModifiedEvent(member))
     

@@ -1,0 +1,19 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="zope"
+    >
+
+  <!-- We do NOT want to use the more complex member-folder-specific
+       view that Pleiades registers. Could write a setup profile that
+       removes the marker interface they added, but this is easier. -->
+
+  <browser:page  
+    for="Products.PleiadesGeocoder.interfaces.IGeoserializableMembersFolder"
+    name="geo"
+    class="Products.PleiadesGeocoder.browser.info.GeoInfosetView"
+    permission="zope.Public"
+    allowed_interface="Products.PleiadesGeocoder.browser.info.IGeoInfosetView"
+    />
+
+</configure>

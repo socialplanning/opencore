@@ -2,8 +2,6 @@ from AccessControl import ClassSecurityInfo
 from Acquisition import aq_base, aq_parent, aq_inner
 from Products.Archetypes.Field import Image
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
-from Products.Archetypes.ExtensibleMetadata import ExtensibleMetadata
-from Products.Archetypes.config import REFERENCE_CATALOG
 from Products.Archetypes.public import *
 from Products.Archetypes.utils import shasattr
 from Products.CMFCore.WorkflowCore import WorkflowException
@@ -61,6 +59,36 @@ ProjectSchema += Schema((
             description_msgid='help_logo',
             i18n_domain='plone',
             ),
+          ),
+        StringField(
+          'location',
+          mode='rw',
+          read_permission=View,
+          write_permission=ModifyPortalContent,
+          widget=StringWidget(
+            label='Location',
+            label_msgid='label_location',
+            description="Your location - either city and country - or in a company setting, where your office is located.",
+            description_msgid='help_location',
+            i18n_domain='plone',
+            ),
+          searchable=True,
+          ),
+        StringField(
+          'position-text',
+          accessor='getPositionText',
+          mutator='setPositionText',
+          mode='rw',
+          read_permission=View,
+          write_permission=ModifyPortalContent,
+          widget=StringWidget(
+            label='Position on map',
+            label_msgid='position_on_map',
+            description="Your address on a map.",
+            description_msgid='help_position_on_map',
+            i18n_domain='plone',
+            ),
+          searchable=True,
           ),
         ))
 

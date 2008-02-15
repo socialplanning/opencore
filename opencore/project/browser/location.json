@@ -1,0 +1,21 @@
+{
+    'position-header':{
+        'action':'replace',
+        'effects':'',
+        'html':
+'<th></th>'
+},
+    'position-input':{
+        'action':'replace',
+        'effects':'',
+        'html':
+'<td class="oc-js-expander">
+    <a class="oc-js-expander_open oc-expanderLink" href="#">Add position on map</a>
+    <div class="oc-js-expander-content oc-expander-content">
+        Find address on map:
+	<br />(example: "349 w 12th st, ny, ny")<br />
+        <input type="text" id="position-text" name="position-text" />
+        <div id="position" class="oc-js-gmap oc-map"></div>
+    </div>
+</td>'
+}}
