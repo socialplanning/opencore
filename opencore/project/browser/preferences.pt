@@ -9,10 +9,6 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:Preferences - ${view/area/Title}" />
-    <script metal:fill-slot="script"
-            tal:condition="view/has_geocoder"
-	    tal:attributes="src view/geo_info/maps_script_url"
-	    type="text/javascript"></script>
   </head>
   <body>
     <div metal:fill-slot="content">
@@ -21,7 +17,7 @@
       </div>
       <div id="oc-content-main" class="oc-content-main-fullWidth">
         <form 
-           name="prefs_form"
+           name="prefs_form" 
            method="post" 
            class="enableUnloadProtection"
            tal:attributes="action view/name" 
@@ -112,11 +108,6 @@
                 </tr>
               </tbody>
             </table>
-          </fieldset>
-
-          <fieldset class="oc-boxy">
-            <legend class="oc-legend-heading oc-biggerText">Location</legend>
-            <metal:location use-macro="view/proj_macros/macros/location_form" />
           </fieldset>
 
           <fieldset class="oc-boxy">

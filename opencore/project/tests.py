@@ -29,7 +29,6 @@ def test_suite():
     from zope.interface import alsoProvides
 
     setup.setupPloneSite()
-
     def hook_setup(tc):
         tc._refreshSkinData()
         enableLocalSiteHook(tc.portal)

@@ -34,7 +34,6 @@ setup(
                         'https://svn.openplans.org/svn/oc-js/trunk/#egg=oc-js-dev',
                         'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.1.2',
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
-                        'https://svn.openplans.org/svn/vendor/geopy/openplans/dist',
                         ],
 
       install_requires=[
@@ -55,7 +54,6 @@ setup(
           'borg.localrole==1.0rc1',
           'wsseauth',
           'uuid',
-          'geopy==0.93-20071130',  # forces our vendor branch.
           'flunc>=0.1.2',
           'cabochonclient',
           ],

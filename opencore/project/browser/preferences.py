@@ -16,7 +16,6 @@ from opencore.cabochon.interfaces import ICabochonClient
 from opencore.interfaces import IProject
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
-from opencore.geocoding.view import get_geo_writer
 from opencore.project.browser.base import ProjectBaseView
 from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
 from opencore.interfaces.membership import IEmailInvites
@@ -107,18 +106,13 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         if not self.valid_title(title):
             self.errors['project_title'] = _(u'err_project_name', u'The project name must contain at least 2 characters with at least 1 letter or number.')
 
-        geowriter = get_geo_writer(self)
-        geo_info, locationchanged = geowriter.get_geo_info_from_form()
-        self.errors.update(geo_info.get('errors', {}))
-
         if self.errors:
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return
 
         allowed_params = set(['__initialize_project__', 'update', 'set_flets',
                               'project_title', 'description', 'logo', 'workflow_policy',
-                              'featurelets', 'home-page',
-                              'location', 'position-text'])
+                              'featurelets', 'home-page'])
         new_form = {}
         for k in allowed_params:
             if k in self.request.form:
@@ -142,16 +136,12 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                 pass
             del self.request.form['logo']
 
-        if locationchanged:
-            geowriter.save_coords_from_form()
-
-        #store change status of flet, security, title, description, logo...
+        #store change status of flet, security, title, description, logo
         changed = {
             _(u'psm_project_title_changed', u"The title has been changed.") : self.context.title != self.request.form.get('project_title', self.context.title),
             _(u'psm_project_desc_changed', u"The description has been changed.") : self.context.description != self.request.form.get('description', self.context.description),
             _(u'psm_project_logo_changed', u"The project image has been changed.") : logochanged,
-            _(u'psm_security_changed', u"The security policy has been changed.") : old_workflow_policy != self.request.form.get('workflow_policy'),
-            _(u'psm_location_changed', u"The location has been changed."): bool(locationchanged),
+            _(u'psm_security_changed', u"The security policy has been changed.") : old_workflow_policy != self.request.form['workflow_policy'],            
             }
         
         supporter = IFeatureletSupporter(self.context)
@@ -247,7 +237,6 @@ def delete_team(proj, event=None):
 def delete_email_invites(proj, event=None):
     invite_util = getUtility(IEmailInvites, context=proj)
     invite_util.removeAllInvitesForProject(proj.getId())
-
 
 @adapter(IProject, IObjectWillBeRemovedEvent)
 def handle_blog_delete(project, event=None):

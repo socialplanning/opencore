@@ -1,5 +1,3 @@
--*- mode: doctest ;-*-
-
 ======================
  opencore.project.browser
 ======================
@@ -7,16 +5,7 @@
 Add view
 ========
 
-The add view is restricted to authenticated members:
-
     >>> projects = self.portal.projects
-    >>> self.logout()
-    >>> view = projects.restrictedTraverse("create")
-    Traceback (innermost last):
-    ...
-    Unauthorized: ...
-
-    >>> self.login('test_user_1_')
     >>> view = projects.restrictedTraverse("create")
     >>> view
     <Products.Five.metaclass.ProjectAddView object at...>
@@ -26,17 +15,6 @@ The add view is restricted to authenticated members:
     ...                  add=True)
     >>> view.request.form.update(form_vars)
 
-The test setup should be ensuring that geocoding is disabled::
-
-    >>> view.has_geocoder
-    False
-
-Looking up geo info on the add view gives us nothing much useful,
-because the project doesn't exist yet::
-
-    >>> view.geo_info['is_geocoded']
-    False
-    
 Try setting some invalid titles::
     >>> view.request.form['project_title'] = ""
     >>> out = view.handle_request()
@@ -148,12 +126,6 @@ Make sure he can't access wiki pages in his project, too::
 
     >>> self.logout()
     >>> self.login('test_user_1_')
-
-Maps url should work if the geocoder is available::
-
-    >>> view = projects.restrictedTraverse('create')
-    >>> view.has_geocoder = True
-
     
 Preference View
 ===============
@@ -167,13 +139,6 @@ Preference View
     'medium_policy'
 
     Remove all featurelets
-
-    The test setup should have disabled geocoding::
-
-    >>> view = proj.restrictedTraverse('preferences')
-    >>> view.has_geocoder
-    False
-
     >>> form_vars = dict(workflow_policy='closed_policy',
     ...                  update=True,
     ...                  featurelets=[],
@@ -196,13 +161,15 @@ Try setting a bogus title::
 
 Clear old PSMs
 
-    >>> utils.clear_status_messages(view)
+    >>> view.portal_status_message
+    [...]
 
 
 Now set a valid title::
     >>> view.request.form['project_title'] = 'new full name'
     >>> view.handle_request()
-    >>> utils.get_status_messages(view)
+    >>> del view._redirected 
+    >>> view.portal_status_message
     [u'The security policy has been changed.', u'The title has been changed.']
 
     >>> view.errors
@@ -224,11 +191,11 @@ Now set a valid title::
     []
 
 #re-add mailing lists
-    >>> utils.clear_status_messages(view)
     >>> view.request.set('flet_recurse_flag', None)
     >>> view.request.form['featurelets'] = ['listen']
     >>> view.handle_request()
-    >>> utils.get_status_messages(view)
+    >>> del view._redirected 
+    >>> view.portal_status_message
     [u'Mailing lists feature has been added.']
 
 
@@ -272,23 +239,6 @@ Make sure we can install a TaskTracker featurelet too::
     Now we can see it again
     >>> proj.restrictedTraverse('preferences')
     <...SimpleViewClass ...preferences...>
-
-
-If the geocoding tool is not available, these methods successfully do
-nothing interesting::
-
-    >>> view.has_geocoder
-    False
-    >>> pprint(view.geo_info)
-    {'is_geocoded': False,
-     'location': '',
-     'maps_script_url': '',
-     'position-latitude': '',
-     'position-longitude': '',
-     'position-text': '',
-     'static_img_url': ''}
-
-
 
 Team view
 =========

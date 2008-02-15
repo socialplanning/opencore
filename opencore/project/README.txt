@@ -106,4 +106,3 @@ as a parent::
 
     >>> pinfo.values()
     ['/plone/projects/handroll']
-

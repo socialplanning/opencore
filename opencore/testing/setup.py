@@ -1,9 +1,8 @@
 """
 some basic opencore setups
 """
-from Products.Five.site.localsite import enableLocalSiteHook
 from opencore.testing import utils
-from zope.app.component.hooks import setSite, setHooks
+from zope.app.component.hooks import setSite
 
 def simple_setup(tc):
     tc._refreshSkinData()
@@ -29,9 +28,3 @@ def fresh_skin(tc):
 
 def set_portal_as_site(tc):
     setSite(tc.portal)
-
-def hook_setup(tc):
-    fresh_skin(tc)
-    enableLocalSiteHook(tc.portal)
-    set_portal_as_site(tc)
-    setHooks()

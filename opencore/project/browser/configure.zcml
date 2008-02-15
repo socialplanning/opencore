@@ -85,11 +85,6 @@
      permission="openplans.AddOpenProject"
      />
 
-  <browser:resource
-     name="location.json"
-     file="location.json"
-     />
-
   <browser:page
      for="opencore.interfaces.adding.IAddSubProject"
      name="create_project"
@@ -216,5 +211,6 @@
       provides="opencore.interfaces.pending_requests.IRequestMembership"
       factory="opencore.project.browser.team_membership.RequestMembershipWithEmail"
       />
+
 
 </configure>

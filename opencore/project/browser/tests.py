@@ -1,9 +1,9 @@
+from opencore.account import utils
+utils.turn_confirmation_on()
 from Products.Five.site.localsite import enableLocalSiteHook
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase
-from opencore.account import utils
-from opencore.browser.base import BaseView
 from opencore.configuration import OC_REQ
 from opencore.featurelets.interfaces import IListenContainer
 from opencore.testing import dtfactory as dtf
@@ -14,12 +14,9 @@ from zope.app.component.hooks import setSite, setHooks
 from zope.interface import alsoProvides
 from zope.testing import doctest
 import os
-import pkg_resources as pkgr
 import sys
 import unittest
-
-utils.turn_confirmation_on()
-
+import pkg_resources as pkgr
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
@@ -37,10 +34,7 @@ def test_suite():
     from opencore.listen.featurelet import ListenFeaturelet
     from opencore.nui.indexing import authenticated_memberid
     from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
-
-    # for delete-project
     from opencore.testing import utils
-    from opencore.testing.utils import clear_status_messages
     from opencore.testing.utils import get_status_messages
     from pprint import pprint
     from topp.clockqueue.interfaces import IClockQueue
@@ -51,9 +45,8 @@ def test_suite():
     
     from zope.component import getUtility
     from zope.interface import alsoProvides
-
     import pdb
-
+        
     setup.setupPloneSite()
 
     def contents_content(tc):
@@ -81,14 +74,6 @@ def test_suite():
         enableLocalSiteHook(tc.portal)
         setSite(tc.portal)
         setHooks()
-        # Force geocoding off for these tests.
-        # (ie. even if it's installed, act like it isn't.)
-        BaseView._old_has_geocoder = BaseView.has_geocoder
-        BaseView.has_geocoder = False
-
-    def readme_teardown(tc):
-        BaseView.has_geocoder = BaseView._old_has_geocoder
-        
 
     def tasktracker_setup(tc):
         oc_setup.extended_tt_setup(tc)
@@ -98,34 +83,32 @@ def test_suite():
 
     test_file = pkgr.resource_stream(OC_REQ, 'opencore/project/browser/test.png')
     globs = locals()
-
     readme = dtf.ZopeDocFileSuite("README.txt", 
-                                  optionflags=optionflags,
-                                  package='opencore.project.browser',
-                                  test_class=FunctionalTestCase,
-                                  globs = globs,
-                                  setUp=readme_setup,
-                                  tearDown=readme_teardown,
-                                  layer = MockHTTPWithContent,
-                                  )
+                                    optionflags=optionflags,
+                                    package='opencore.project.browser',
+                                    test_class=FunctionalTestCase,
+                                    globs = globs,
+                                    setUp=readme_setup,
+                                    layer = MockHTTPWithContent                                       
+                                    )
 
     logo = dtf.FunctionalDocFileSuite("logo.txt",
-                                      optionflags=optionflags,
-                                      package='opencore.project.browser',
-                                      test_class=OpenPlansTestCase,
-                                      globs=globs,
-                                      setUp=tasktracker_setup,
-                                      layer=MockHTTPWithContent                                       
-                                      )
+                                optionflags=optionflags,
+                                package='opencore.project.browser',
+                                test_class=OpenPlansTestCase,
+                                globs=globs,
+                                setUp=tasktracker_setup,
+                                layer=MockHTTPWithContent                                       
+                                )
 
     delete = dtf.ZopeDocFileSuite("delete-project.txt",
-                                  optionflags=optionflags,
-                                  package='opencore.project.browser',
-                                  test_class=OpenPlansTestCase,
-                                  globs=globs,
-                                  setUp=tasktracker_setup,
-                                  layer=MockHTTPWithContent                                       
-                                  )
+                                    optionflags=optionflags,
+                                    package='opencore.project.browser',
+                                    test_class=OpenPlansTestCase,
+                                    globs=globs,
+                                    setUp=tasktracker_setup,
+                                    layer=MockHTTPWithContent                                       
+                                    )
     
     metadata = dtf.ZopeDocFileSuite("metadata.txt", 
                                     optionflags=optionflags,
@@ -146,22 +129,22 @@ def test_suite():
                                     )
 
     manage_team = dtf.ZopeDocFileSuite("manage-team.txt",
-                                       optionflags=optionflags,
-                                       package='opencore.project.browser',
-                                       test_class=OpenPlansTestCase,
-                                       globs = globs, 
-                                       setUp=oc_setup.set_portal_as_site,
-                                       layer=OpencoreContent                                                 
-                                       )
+                                         optionflags=optionflags,
+                                         package='opencore.project.browser',
+                                         test_class=OpenPlansTestCase,
+                                         globs = globs, 
+                                         setUp=oc_setup.set_portal_as_site,
+                                         layer=OpencoreContent                                                 
+                                         )
 
     request_membership = dtf.ZopeDocFileSuite("request-membership.txt",
-                                              optionflags=optionflags,
-                                              package='opencore.project.browser',
-                                              test_class=OpenPlansTestCase,
-                                              globs = globs, 
-                                              setUp=oc_setup.set_portal_as_site,
-                                              layer=OpencoreContent                                                        
-                                              )
+                                                optionflags=optionflags,
+                                                package='opencore.project.browser',
+                                                test_class=OpenPlansTestCase,
+                                                globs = globs, 
+                                                setUp=oc_setup.set_portal_as_site,
+                                                layer=OpencoreContent                                                        
+                                                )
 
     homepage = dtf.ZopeDocFileSuite("homepage.txt",
                                     optionflags=optionflags,
@@ -180,13 +163,12 @@ def test_suite():
                                                          setUp=oc_setup.set_portal_as_site,
                                                          layer=OpencoreContent                                                 
                                                          )
+    
 
-    utilsunit = doctest.DocTestSuite('opencore.project.browser.utils',  # XXX no tests in there?
-                                     optionflags=optionflags)
     suites = (contents, metadata, manage_team,
               request_membership, homepage,
               team_request_membership, logo,
-              readme, utilsunit, delete,
+              readme, delete,
               )
     return unittest.TestSuite(suites)
 

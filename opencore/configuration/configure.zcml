@@ -18,7 +18,6 @@
   <include package="opencore.wordpress" />
   <include package="opencore.redirect" />
   <include package="opencore.utility" />
-  <include package="opencore.geocoding" />
   <include package="topp.featurelets" />
   <include package="opencore.stats" />
 </configure>
