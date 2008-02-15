@@ -41,7 +41,7 @@ def try_to_send_to_wordpress(uri, username, params, context):
     if not wp_uri:
         # either None or empty value mean do nothing
         log.info('Failed to connect to WordPress: no WP URI set')
-        return 400, 'Failed to connect to WordPress: no WP URI set'
+        return 200, 'Failed to connect to WordPress: no WP URI set'
         
     uri = '%s/%s' % (wp_uri, uri)
     acl_users = context.acl_users
