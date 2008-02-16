@@ -12,12 +12,9 @@ class FeedView(BaseView):
     
     def handle_request(self):
 
-        # these could be handled in a unified way
-        # (except maybe uri)
         uri = self.request.get('uri')
         n = self.request.get('n', 5)
-        
-        
+                
         if uri:
             self.feed = feedparser.parse(uri)
 
