@@ -1,6 +1,6 @@
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title" tal:content="python:view.wiki_window_title(mode='history')" />
+    <title metal:fill-slot="title" tal:content="python:view.window_title(mode='history')" />
   </head>
   <body>
 

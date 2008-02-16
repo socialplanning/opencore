@@ -1,8 +1,9 @@
 <tal:vars define="proj view/project_info">
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
-	<head>
-	<title metal:fill-slot="title" tal:content="string:Contents - ${view/area/Title}" />
-	</head>
+  <head>
+    <title metal:fill-slot="title"
+           tal:content="string:Contents - ${view/window_title}" />
+  </head>
 	<body>
 	<div metal:fill-slot="content">
 		<div class="oc-headingBlock">

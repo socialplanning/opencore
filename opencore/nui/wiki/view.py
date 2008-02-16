@@ -35,37 +35,6 @@ class WikiBase(BaseView):
     def page_title(self):
         return self.context.Title().decode("utf-8")
 
-    def wiki_window_title(self, mode='view'):
-        """see http://trac.openplans.org/openplans/ticket/588.
-        mode should be one of: 'view', 'edit', or 'history'."""
-        if mode == 'view':
-            mode = ''
-        else:
-            mode = '(%s) ' % mode
-
-        context = self.context
-
-        title = self.page_title()
-
-        if self.inmember:
-            vmi = self.viewed_member_info
-            if not mode and vmi['home_url'] == context.absolute_url():
-                # viewing member homepage
-                return '%s on %s' % (vmi['id'], self.portal.Title())
-            else:
-                return '%s %s- %s on %s' % (title, mode, vmi['id'],
-                                            self.portal_title())
-        elif self.inproject:
-            project = self.piv.project
-            if not mode and self.context.getId() == IHomePage(project).home_page:
-                # viewing project home page
-                return '%s - %s' % (project.Title(), self.portal.Title())
-            else:
-                return '%s %s- %s - %s' % (title, mode, project.Title(),
-                                           self.portal.Title())
-        else:
-            return '%s %s- %s' % (title, mode, self.area.Title())
-
     def lastModifiedTime(self):
         return prettyDate(self.context.ModificationDate())
 

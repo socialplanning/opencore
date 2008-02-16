@@ -13,7 +13,9 @@
       <base href="" tal:attributes="href string:${context/absolute_url}/" />
     </metal:base>
 
-    <metal:title-slot define-slot="title" />
+    <metal:title-slot define-slot="title">
+      <title tal:content="view/window_title | view/portal/Title" />
+    </metal:title-slot>
 
     <link rel="stylesheet" href="/++resource++css/opencore.css" type="text/css" media="all" />
     <!--[if IE]>
