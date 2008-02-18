@@ -12,10 +12,30 @@ The ${portal_name} Team
 ${portal_url}
 """)
 
+invite_pending_member = _(u'email_invite_pending_member', u"""Subject: You've been invited to join "${project_title}"
+
+Hi ${user_name},
+
+You have been invited to join "${project_title}" by ${inviter_name}.
+Please first confirm your email address at the following address: ${conf_url}
+and then you can accept or decline the invitation.
+
+Cheers,
+The ${portal_name} Team
+${portal_url}
+""")
+
 remind_invitee = _(u'email_remind_invitee', u"""Subject: ${portal_title} - Invitation to join ${project_title}
 
 This is a reminder that you've been invited to join "${project_title}" on ${portal_title}.
 Please visit your account page to accept or decline the invitation: ${account_url}
+""")
+
+remind_pending_invitee = _(u'email_remind_pending_invitee', u"""Subject: ${portal_title} - Invitation to join ${project_title}
+
+This is a reminder that you've been invited to join "${project_title}" on ${portal_title}.
+Please first confirm your email address at the following address: ${conf_url}
+and then you can accept or decline the invitation.
 """)
 
 request_approved = _(u'email_request_approved', u"""Subject: ${portal_title} - Welcome to ${project_title}
