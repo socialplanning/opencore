@@ -85,7 +85,8 @@ def discussions2feed(message, args):
         author = { 'home': member_url(author), 'userid': author }
     else:
         author = { 'home': '', 'userid': '' }
-    return { 'title': message.Title,
+
+    return { 'title': message.subject,
              'url': message.absolute_url(),
              'author': author,
              'date': message.date
