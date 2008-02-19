@@ -12,7 +12,6 @@ import os
 import sys
 import unittest
 
-
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
 
@@ -43,9 +42,9 @@ def test_suite():
                                   optionflags=optionflags,
                                   package='opencore.browser',
                                   test_class=OpenPlansTestCase,
-                                  globs=globs,
+                                  globs = globs,
                                   setUp=readme_setup,
-                                  layer=test_layer
+                                  layer = test_layer                                  
                                   )
     errors = dtf.ZopeDocFileSuite("error.txt",
                                   optionflags=optionflags,

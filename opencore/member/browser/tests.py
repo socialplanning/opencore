@@ -4,9 +4,11 @@ from zope.testing import doctest
 from Testing import ZopeTestCase
 from opencore.testing.layer import OpencoreContent 
 from zope.app.component.hooks import setSite
+from Testing.ZopeTestCase import FunctionalDocFileSuite
 from opencore.testing.layer import MockHTTPWithContent as test_layer
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from opencore.testing import dtfactory as dtf
+from opencore.testing.setup import simple_setup
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
@@ -44,7 +46,17 @@ def test_suite():
                                   setUp = setup,
                                   )
 
-    return unittest.TestSuite((readme,))
+    member_info = dtf.ZopeDocFileSuite("member_info_test.txt",
+                                       optionflags=optionflags,
+                                       package='opencore.member.browser',
+                                       test_class=OpenPlansTestCase,
+                                       globs=globs,
+                                       setUp=simple_setup,
+                                       layer=OpencoreContent
+                                       )
+
+
+    return unittest.TestSuite((readme, member_info))
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')

@@ -25,6 +25,7 @@
 
   <property name="tasktracker_uri" type="string"></property>
   <property name="tasktracker_external_uri" type="string">tasks</property>
+
   <property name="cabochon_uri" type="string"></property>
   <property name="twirlip_uri" type="string"></property>
 

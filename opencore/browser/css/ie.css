@@ -62,3 +62,7 @@ h2.oc-dataTable-heading {
   padding: 0;
   margin: 0;
 }
+
+.oc-wiki-content pre {
+  padding: 1.75em;
+}

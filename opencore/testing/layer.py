@@ -57,12 +57,14 @@ class SiteSetupLayer(PloneSite):
     @classmethod
     def setUp(cls):
         portal = get_portal()
+
         zinstall_products()
         ZopeTestCase.installProduct('OpenPlans')
         ZopeTestCase.installProduct('PleiadesGeocoder')
         enableLocalSiteHook(portal)
         setSite(portal)
         setHooks()
+
         txn.commit()
 
     @classmethod

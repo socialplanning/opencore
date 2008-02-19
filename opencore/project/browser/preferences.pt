@@ -22,7 +22,7 @@
       </div>
       <div id="oc-content-main" class="oc-content-main-fullWidth">
         <form 
-           name="prefs_form"
+           name="prefs_form" 
            method="post" 
            class="enableUnloadProtection"
            tal:attributes="action view/name" 

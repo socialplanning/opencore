@@ -2,6 +2,8 @@ from AccessControl import ClassSecurityInfo
 from Acquisition import aq_base, aq_parent, aq_inner
 from Products.Archetypes.Field import Image
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
+from Products.Archetypes.ExtensibleMetadata import ExtensibleMetadata
+from Products.Archetypes.config import REFERENCE_CATALOG
 from Products.Archetypes.public import *
 from Products.Archetypes.utils import shasattr
 from Products.CMFCore.WorkflowCore import WorkflowException

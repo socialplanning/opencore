@@ -4,7 +4,6 @@
  opencore.member.browser
 =========================
 
-
 Test registration of member related views::
 
     >>> m1_folder = self.portal.people.test_user_1_
@@ -14,7 +13,7 @@ Test registration of member related views::
 
     >>> m1_folder.restrictedTraverse("profile")
     <...SimpleViewClass ...profile.pt object...>
-
+    
     >>> m1_folder.restrictedTraverse("account")
     <Products.Five.metaclass.MemberAccountView object at ...>
 

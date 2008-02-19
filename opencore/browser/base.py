@@ -341,7 +341,7 @@ class BaseView(BrowserView):
                 logintime = 'never'
             else:
                 logintime = logintime and prettyDate(logintime) or 'member.getLogin_time() is None?'
-
+            
             result.update(
                 id          = id,
                 fullname    = member.getFullname(),
@@ -369,6 +369,10 @@ class BaseView(BrowserView):
                     'statement', 'affiliations', 'skills', \
                     'background',  'url', 'favorites', 'folder_url':
                 result[key] = ''
+
+        folder = self.membertool.getHomeFolder(result['id'])
+        if folder:
+            result['url'] = folder.absolute_url()
                 
         result['portrait_url'] = self.defaultPortraitURL
         portrait = member.getProperty('portrait', None)

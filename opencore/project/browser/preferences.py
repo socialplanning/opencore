@@ -248,7 +248,6 @@ def delete_email_invites(proj, event=None):
     invite_util = getUtility(IEmailInvites, context=proj)
     invite_util.removeAllInvitesForProject(proj.getId())
 
-
 @adapter(IProject, IObjectWillBeRemovedEvent)
 def handle_blog_delete(project, event=None):
     pass

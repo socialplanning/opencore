@@ -34,10 +34,8 @@
 
               <tal:location tal:define="loc memberdata/location" tal:condition="python:loc or view.viewingself()">
                 <dt><tal:label i18n:translate="profile_location">Location</tal:label>
-                  <span tal:condition="view/viewingself" >
-                    <a class="oc-actionLink"
-                       href="profile-edit?field=location">Edit</a>
-		  </span>
+                  <a tal:condition="view/viewingself" class="oc-actionLink"
+                    href="profile-edit?field=location">Edit</a>
                 </dt>
                 <dd class="adr" tal:condition="loc"><span class="locality" tal:content="loc" /></dd>
                 <dd class="oc-discreetText" tal:condition="not:loc" tal:content="string:N/A" />
