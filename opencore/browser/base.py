@@ -181,6 +181,8 @@ class BaseView(BrowserView):
             return self.piv.project
         elif self.wiki_container is not None:
             return self.wiki_container
+        else:
+            return self.portal
 
     def window_title(self, mode='view'):
         """see http://trac.openplans.org/openplans/ticket/588.  mode
