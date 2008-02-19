@@ -20,7 +20,7 @@
         <base tal:replace="structure view/render_base_tag" />
       </metal:base>
 
-    <title metal:fill-slot="title" tal:content="python:view.wiki_window_title(mode='edit')" />
+    <title metal:fill-slot="title" tal:content="python:view.window_title(mode='edit')" />
     <metal:link-slot metal:fill-slot="link">
       <link type="text/css" rel="stylesheet" title="blue-look" href="/++resource++xinha/skins/blue-look/skin.css"/>
       <link type="text/css" rel="alternate stylesheet" title="green-look" href="/++resource++xinha/skins/green-look/skin.css"/>

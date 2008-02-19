@@ -23,5 +23,13 @@
      template="headlist.pt"
      />
 
+  <!-- wordpress feed with comments -->
+  <browser:page
+     for="*"
+     class="opencore.feed.wordpressview.WordPressFeedView"
+     permission="zope.Public"
+     name="wordpressfeed"
+     template="wordpressfeed.pt"
+     />
 
 </configure>

@@ -42,7 +42,7 @@
     
          <ul>
            <li>Please check to make sure you typed the url correctly</li>
-           <li>Or, search again:</li>
+           <li>Or, search:</li>
            <form name="searchform" id="oc-sitesearch"
                  tal:attributes="action string:${view/portal/absolute_url}/sitesearch"
                  onsubmit="return liveSearchSubmit()">

@@ -1,7 +1,7 @@
 """
 some base class for opencore ui work!
 """
-from Acquisition import aq_inner, aq_parent
+from Acquisition import aq_inner, aq_parent, aq_chain
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFPlone.utils import transaction_note
@@ -12,6 +12,7 @@ from lxml.html.clean import Cleaner
 from opencore.i18n import i18n_domain, _
 from opencore.i18n import translate
 from opencore.interfaces import IProject 
+from opencore.interfaces import IHomePage
 from opencore.project.utils import project_path
 from opencore.utils import get_opencore_property
 from plone.memoize import instance
@@ -28,6 +29,11 @@ import cgi
 import datetime
 import urllib
 import logging
+
+try:
+    from opencore.streetswiki.interfaces import IWikiContainer
+except ImportError:
+    IWikiContainer = None
 
 view.memoizedproperty = lambda func: property(view.memoize(func))
 view.mcproperty = lambda func: property(view.memoize_contextless(func))
@@ -155,15 +161,64 @@ class BaseView(BrowserView):
         if self.transcluded:
             return self.renderTranscluderLink(viewname)
         return self.get_view(viewname)()
-    
+
+    @view.memoizedproperty
+    def wiki_container(self):
+        """
+        Check aq_chain for IWikiContainer objects, return if exists.
+        """
+        if IWikiContainer is None: # streetswiki isn't installed
+            return
+        chain = aq_chain(aq_inner(self.context))
+        for item in chain:
+            if IWikiContainer.providedBy(item):
+                return item
+
     @view.memoizedproperty
     def area(self):
         if self.inmember:
             return self.miv.member_folder
         elif self.piv.inProject:
             return self.piv.project
+        elif self.wiki_container is not None:
+            return self.wiki_container
         else:
             return self.portal
+
+    def window_title(self, mode='view'):
+        """see http://trac.openplans.org/openplans/ticket/588.  mode
+        should be one of: 'view', 'edit', or 'history'."""
+        if mode == 'view':
+            mode = ''
+        else:
+            mode = '(%s) ' % mode
+
+        context = self.context
+        title = context.Title().decode("utf-8")
+
+        if self.inmember:
+            vmi = self.viewed_member_info
+            if not mode and vmi['home_url'] == context.absolute_url():
+                # viewing member homepage
+                return '%s on %s' % (vmi['id'], self.portal.Title())
+            else:
+                return '%s %s- %s on %s' % (title, mode, vmi['id'],
+                                            self.portal.Title())
+        elif self.inproject:
+            project = self.piv.project
+            if not mode and self.context.getId() == IHomePage(project).home_page:
+                # viewing project home page
+                return '%s - %s' % (project.Title(), self.portal.Title())
+            elif self.context != project:
+                return '%s %s- %s - %s' % (title, mode, project.Title(),
+                                           self.portal.Title())
+        elif self.wiki_container is not None \
+                 and context != self.wiki_container:
+            return '%s %s- %s - %s' % (title, mode, self.area.Title(),
+                                       self.portal.Title())
+
+        # safe catch-all for any case not specifically covered above
+        return '%s %s- %s' % (title, mode, self.portal.Title())
 
     # XXX only used in topnav
     @instance.memoizedproperty

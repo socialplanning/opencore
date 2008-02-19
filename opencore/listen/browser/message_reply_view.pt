@@ -1,8 +1,5 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" i18n:domain="opencore"
       metal:use-macro="here/@@standard_macros/master" tal:define="ml view/getMailingList">
-  <head>
-    <title metal:fill-slot="title" tal:content="string:${view/context/Title} - ${view/area/Title}" />
-  </head>
   <body>
     <div metal:fill-slot="content">
       <div metal:use-macro="here/@@listen_macros/bcrumb"/>

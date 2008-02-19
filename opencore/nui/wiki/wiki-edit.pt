@@ -11,7 +11,7 @@
 
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title" tal:content="python:view.wiki_window_title(mode='edit')" />
+    <title metal:fill-slot="title" tal:content="python:view.window_title(mode='edit')" />
     <metal:link-slot metal:fill-slot="link">
       <link rel="stylesheet" href="/++resource++kupu/css/kupustyles.css" media="all"/>
       <link rel="stylesheet" href="/++resource++kupu/css/kupuplone.css" media="all"/>

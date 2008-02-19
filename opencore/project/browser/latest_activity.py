@@ -85,7 +85,8 @@ def discussions2feed(message, args):
         author = { 'home': member_url(author), 'userid': author }
     else:
         author = { 'home': '', 'userid': '' }
-    return { 'title': message.Title,
+
+    return { 'title': message.subject,
              'url': message.absolute_url(),
              'author': author,
              'date': message.date
@@ -131,7 +132,7 @@ class LatestActivityView(ProjectContentsView):
         if self.logo_url:
             self.logo_url = self.logo_url.absolute_url()
         else:
-            self.logo_url = self.defaultProjLogoURL
+            self.logo_url = self.defaultProjLogoThumbURL
         
     def snippet(self, feed):
         snip = self.context.unrestrictedTraverse('latest-snippet')
@@ -147,14 +148,13 @@ class LatestActivityView(ProjectContentsView):
 
             # add parameters to the request
             self.request['uri'] = '/'.join((self.context.absolute_url(),
-                                            self._get_featurelet('blog')['url'],
-                                            'feed'))
+                                            self._get_featurelet('blog')['url']))
             self.request['title'] = 'Blog'
             self.request['subtitle'] = 'MORE POSTS'
             
 
             # render the view
-            blogfeed = self.context.unrestrictedTraverse('feedlist+')
+            blogfeed = self.context.restrictedTraverse('wordpressfeed')
             feeds.append(blogfeed())
 
         # extend (legacy) feeds

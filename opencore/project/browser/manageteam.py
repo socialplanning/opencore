@@ -17,6 +17,7 @@ from opencore.interfaces.membership import IEmailInvites
 from opencore.project.browser.team import TeamRelatedView
 from plone.memoize.view import memoize as req_memoize
 from opencore.project.browser import mship_messages
+from opencore.account.browser import AccountView
 from zope.component import getUtility
 from zope.event import notify
 import logging
@@ -33,7 +34,7 @@ TA_SPLIT = re.compile('\n|,')
 def _email_sender(view):
     return EmailSender(view, mship_messages)
 
-class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
+class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
     """
     View class for the team management screens.
     """
@@ -360,12 +361,22 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         sender = _email_sender(self)
         for mem_id in mem_ids:
             acct_url = self._getAccountURLForMember(mem_id)
-            # XXX if member hasn't logged in yet, acct_url will be whack
-            #     probably okay b/c account creation auto-logs you in
+            mdtool = getToolByName(self.context, 'portal_memberdata')
+            mdtoolpath = '/'.join(mdtool.getPhysicalPath())
+            mem_path = '%s/%s' % (mdtoolpath, mem_id) 
+            mem_metadata = self.catalogtool.getMetadataForUID(mem_path) 
+            mem_user_name = mem_metadata['getFullname'] or mem_metadata['id']
+
             msg_vars = {'project_title': project_title,
                         'account_url': acct_url,
                         }
-            sender.sendEmail(mem_id, msg_id='remind_invitee', **msg_vars)
+
+            if mem_metadata['review_state'] == 'pending':
+                mem = mdtool.get(mem_id)
+                msg_vars['conf_url'] = self._confirmation_url(mem)
+                sender.sendEmail(mem_id, msg_id='remind_pending_invitee', **msg_vars)
+            else:
+                sender.sendEmail(mem_id, msg_id='remind_invitee', **msg_vars)
 
         if not mem_ids:
             self.add_status_message(_(u"remind_invite_none_selected"))
@@ -675,7 +686,6 @@ class InviteView(ManageTeamView):
                         subject=self.request.get('subject', ''),
                         project_title=self.context.Title(),
                         site_contact_url=self.portal.absolute_url() + "/contact-site-admin",
-                        
                         )
 
         if email_confirmation():
@@ -686,6 +696,23 @@ class InviteView(ManageTeamView):
                                                          **msg_subs)
             log.info(msg)
         return key
+
+    def invite_email_boiler(self):
+        # this is a hack to massage the email_invite_static_body text to look good on
+        # the screen for presentation purposes; it is used in its virgin form in the email
+        msg_subs = dict(user_message='',
+                        join_url=self.join_url('', ''),
+                        portal_title=self.portal_title(),
+                        site_contact_url=self.portal.absolute_url() + "/contact-site-admin",
+                        )
+        msg = (self.translate(_(u'email_invite_static_body', mapping=msg_subs)))
+        msg = msg.replace('\n\n', '<br>')
+        msg = msg.replace('\n', '<br>')
+        if msg.startswith('<br>'):
+            msg = msg[4:]
+            
+        return msg
+
 
     @formhandler.action('remind-email-invites')
     def remind_email_invites(self, targets=None, fields=None):
@@ -810,7 +837,14 @@ class InviteView(ManageTeamView):
                         }
 
                     if email_confirmation():
-                        _email_sender(self).sendEmail(mem_id,
+                        if mem_metadata['review_state'] == 'pending':
+                            mem = mdtool.get(mem_id)
+                            msg_subs['conf_url'] = self._confirmation_url(mem)
+                            _email_sender(self).sendEmail(mem_id,
+                                                    msg_id='invite_pending_member',
+                                                    **msg_subs)
+                        else:
+                            _email_sender(self).sendEmail(mem_id,
                                                     msg_id='invite_member',
                                                     **msg_subs)
                     mem_invites.append(mem_id)

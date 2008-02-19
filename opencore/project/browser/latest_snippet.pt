@@ -16,8 +16,8 @@
           by
           </span>
           <a tal:attributes="href feeditem/author/home"
-             tal:content="feeditem/author/userid" />
-            on <span tal:define="date feeditem/date"
+             tal:content="feeditem/author/userid" />,
+             <span tal:define="date feeditem/date"
                      tal:replace="python:view.pretty_date(date)"/>
         </p>
     </li>
