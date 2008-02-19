@@ -1,3 +1,5 @@
+-*- mode: doctest ;-*-
+
 =========================
  opencore.member.browser
 =========================
@@ -74,7 +76,7 @@ This is some japanese that I found::
     >>> japanese_project = self.portal.projects.i18n
     >>> japanese_project
     <OpenProject at /plone/projects/i18n>
-    >>> delattr(proj_add_view, '_redirected')
+    >>> delattr(proj_add_view, '_redirected')  #XXX why?
 
 Create a project starting with a capital letter to test case
 insensitive sort::
@@ -89,7 +91,7 @@ insensitive sort::
     >>> apple_project = self.portal.projects.apples
     >>> apple_project
     <OpenProject at /plone/projects/apples>
-    >>> delattr(proj_add_view, '_redirected')
+    >>> delattr(proj_add_view, '_redirected')  # XXX why?
 
 Check projects for user m1::
     >>> project_dicts = view.projects_for_user
@@ -110,6 +112,7 @@ XXXX Notice that the project title here isn't properly unicode for some reason. 
     we should get a portal status message back and a False return
     >>> self.logout()
     >>> self.login('test_user_1_')
+    >>> utils.clear_status_messages(view)
     >>> view.leave_project('p2')
     False
     >>> view.portal_status_message
@@ -539,3 +542,56 @@ have the ProjectAdmin role::
     Now let's call the view simulating the request:
     XXX member areas need to be created first though for m1
     or we can't traverse to view (or get people folder)
+
+
+Test the Member Profile Edit View
+==================================
+
+this is inadequate, but hey, there were no tests of it before...
+First, make sure it's restricted to only this member::
+
+    >>> self.logout()
+    >>> m1_folder = self.portal.people.m1
+    >>> editview = m1_folder.restrictedTraverse("profile-edit")
+    Traceback (innermost last):
+    ...
+    Unauthorized: ...
+
+    >>> self.login('m3')
+    >>> editview = m1_folder.restrictedTraverse("profile-edit")
+    Traceback (innermost last):
+    ...
+    Unauthorized: ...
+
+Once logged in properly, you can use it::
+
+    >>> self.login('m1')
+    >>> editview = m1_folder.restrictedTraverse("profile-edit")
+    >>> m1 = portal.portal_memberdata.m1
+    >>> utils.clear_status_messages(editview)
+    >>> editview.has_invitations()
+    False
+    >>> editview.check_portrait(m1, '<xml>definitely not an image</xml>')
+    False
+    >>> utils.get_status_messages(editview)
+    [u'Please choose an image in ... format.']
+    >>> editview.remove_portrait()
+    {...}
+    >>> m1.getPortrait()
+    ''
+    >>> editview.check_portrait(m1, portrait)
+    True
+    >>> m1.getPortrait()
+    <Image at .../m1/portrait>
+
+
+There should always be some minimal geo info available::
+
+    >>> pprint(editview.geo_info)
+    {'is_geocoded': False,
+     'location': '',
+     'maps_script_url': 'http://...',
+     'position-latitude': '',
+     'position-longitude': '',
+     'position-text': '',
+     'static_img_url': ''}

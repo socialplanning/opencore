@@ -59,8 +59,8 @@ class SiteSetupLayer(PloneSite):
         portal = get_portal()
 
         zinstall_products()
-        # install OpenPlans into ZTC
         ZopeTestCase.installProduct('OpenPlans')
+        ZopeTestCase.installProduct('PleiadesGeocoder')
         enableLocalSiteHook(portal)
         setSite(portal)
         setHooks()

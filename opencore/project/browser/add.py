@@ -8,6 +8,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser import formhandler
 from opencore.browser.base import _
 from opencore.browser.formhandler import OctopoLite, action
+from opencore.geocoding.view import get_geo_writer
 from opencore.cabochon.interfaces import ICabochonClient
 from opencore.interfaces import IHomePage
 from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
@@ -87,6 +88,11 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             if self.context.has_key(id_):
                 self.errors['id'] = 'The requested url is already taken.'
 
+        geowriter = get_geo_writer(self)
+        geo_info, locationchanged = geowriter.get_geo_info_from_form(
+            old_info={})
+        self.errors.update(geo_info.get('errors', {}))
+
         if self.errors:
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return
@@ -122,6 +128,8 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             if not self.check_logo(proj, logo):
                 return
             del self.request.form['logo']
+
+        get_geo_writer(self, proj).save_coords_from_form()
 
         hpcontext = IHomePage(proj)
         hpcontext.home_page = 'summary'
@@ -181,6 +189,9 @@ class SubProjectAddView(ProjectAddView):
 
     def find_project_container(self, obj, request):
         cur = obj
+        # This will raise a NameError: IAddProject, which we would
+        # have noticed if we actually had subprojects.
+        # Can we just delete this whole view?
         while cur is not None and not IAddProject.providedBy(cur):
             cur = aq_parent(obj)
         return cur

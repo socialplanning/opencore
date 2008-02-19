@@ -110,7 +110,7 @@ email notifier:
     >>> self.login('m1')
     >>> res = view.reject_requests(['m4'])
     >>> get_status_messages(view)
-    [u'You have added m4.', u'Request discarded: m4', u'Request denied: m4']
+    [u'Request denied: m4', u'Request discarded: m4', u'You have added m4.']
     >>> len(view.pending_requests)
     0
     >>> len(view.active_mships)
@@ -134,13 +134,15 @@ Verify that invitation reminders go out:
     >>> res = view.remind_invitations(['m3'])
     >>> len(mailhost.messages)
     3
+    >>> get_status_messages(view)
+    [u'Reminder sent: m3']
 
 Make sure we can remove invitations; email notifier should be sent:
 
     >>> self.clearMemoCache()
     >>> res = view.remove_invitations(['m3'])
     >>> get_status_messages(view)
-    [u'Reminder sent: m3', u'Invitation removed: m3']
+    [u'Invitation removed: m3']
     >>> len(view.pending_invitations)
     0
     >>> len(mailhost.messages)
@@ -288,6 +290,9 @@ Demotions should also yield transient messages
     >>> html = view.set_roles(['m3'], [dict(role='ProjectMember')])
     >>> list(tm.get_msgs('m3', view.msg_category))[-1]
     (2, 'You are no longer an admin of <a href="http://nohost/plone/projects/p3">Project Three</a>')
+    >>> get_status_messages(view)
+    [u'm3 is no longer an administrator']
+
 
 Now test member search.  We should be getting results on members w/o
 team memberships, and inactive team memberships, but not on those that
@@ -356,6 +361,8 @@ Okay, now to deal with inviting people by email address.  First we try
 a couple of addresses that don't belong to any site members:
 
     >>> inviteview = proj.restrictedTraverse('invite')
+    >>> clear_status_messages(view)
+    >>> clear_status_messages(inviteview)
     >>> self.clearMemoCache()
     >>> inviteview.request.form.clear()
     >>> invites = 'doesnotexist@example.com, isnotthere@example.com\n'
@@ -400,8 +407,10 @@ Try the same one again, should have no result:
     >>> len(mailhost.messages)
     13
 
-    >>> get_status_messages(view)
-    [..., u'You invited m3 to join this project.', u'You invited m2 to join this project.', u'You invited m4 to join this project.', u'Email invitations: doesnotexist@example.com, isnotthere@example.com', u'Members invited: m3', u'Members for whom invitation failed: m3']
+    >>> pprint(get_status_messages(view))
+    [u'Email invitations: doesnotexist@example.com, isnotthere@example.com',
+     u'Members for whom invitation failed: m3',
+     u'Members invited: m3']
 
 Verify we can send reminders to the email invitees:
 

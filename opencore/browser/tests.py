@@ -5,6 +5,7 @@ from Testing.ZopeTestCase import FunctionalDocFileSuite
 from Testing.ZopeTestCase import PortalTestCase 
 from opencore.testing import dtfactory as dtf
 from opencore.testing.layer import OpencoreContent as test_layer
+from opencore.testing.setup import simple_setup
 from zope.testing import doctest
 from opencore.browser import tal
 import os
@@ -25,9 +26,11 @@ def test_suite():
     from zope.interface import alsoProvides
     from pprint import pprint
     from opencore.browser.formhandler import test_suite as octotest
-
+    from opencore.browser.base import BaseView
+    from opencore.i18n import _
+    
     setup.setupPloneSite()
-    def readme_setup(tc):
+    def readme_setup(tc): # XXX duplicates simple_setup?
         tc._refreshSkinData()
         tc.request = tc.app.REQUEST
         tc.response = tc.request.RESPONSE

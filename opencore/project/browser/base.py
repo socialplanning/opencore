@@ -1,14 +1,18 @@
-from opencore.browser.base import BaseView, _
-from opencore.project.utils import get_featurelets
-from plone.memoize.instance import memoize, memoizedproperty
-from topp.featurelets.interfaces import IFeatureletSupporter, IFeaturelet
-from zope.component import queryAdapter
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from opencore.browser.base import BaseView
+from opencore.geocoding.view import get_geo_reader
 from opencore.project import LATEST_ACTIVITY
 from opencore.project import PROJ_HOME
+from opencore.project.utils import get_featurelets
+from plone.memoize.instance import memoizedproperty
+from topp.featurelets.interfaces import IFeatureletSupporter, IFeaturelet
 from topp.utils import text
+from zope.component import queryAdapter
 
 
 class ProjectBaseView(BaseView):
+
+    proj_macros = ZopeTwoPageTemplateFile('macros.pt')
 
     @memoizedproperty
     def has_mailing_lists(self):
@@ -37,6 +41,15 @@ class ProjectBaseView(BaseView):
         if flet_adapter is None:
             return False
         return flet_adapter.installed
+
+    @property
+    def geo_info(self):
+        """geo information for display in forms;
+        takes values from request, falls back to existing project
+        if possible."""
+        ##geo = IReadWriteGeo(self) #XXX This fails in zope 2.9.
+        geo = get_geo_reader(self)
+        return geo.geo_info()
 
     #@@ wiki should just be another featurelet
     @staticmethod

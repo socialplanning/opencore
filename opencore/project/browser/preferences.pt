@@ -10,6 +10,10 @@
   <head>
     <title metal:fill-slot="title"
            tal:content="string:Preferences - ${view/window_title}" />
+    <script metal:fill-slot="script"
+            tal:condition="view/has_geocoder"
+	    tal:attributes="src view/geo_info/maps_script_url"
+	    type="text/javascript"></script>
   </head>
   <body>
     <div metal:fill-slot="content">
@@ -109,6 +113,11 @@
                 </tr>
               </tbody>
             </table>
+          </fieldset>
+
+          <fieldset class="oc-boxy">
+            <legend class="oc-legend-heading oc-biggerText">Location</legend>
+            <metal:location use-macro="view/proj_macros/macros/location_form" />
           </fieldset>
 
           <fieldset class="oc-boxy">

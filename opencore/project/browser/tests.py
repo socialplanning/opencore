@@ -4,6 +4,7 @@ from Products.Five.site.localsite import enableLocalSiteHook
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import PortalTestCase
+from opencore.browser.base import BaseView
 from opencore.configuration import OC_REQ
 from opencore.featurelets.interfaces import IListenContainer
 from opencore.testing import dtfactory as dtf
@@ -14,9 +15,10 @@ from zope.app.component.hooks import setSite, setHooks
 from zope.interface import alsoProvides
 from zope.testing import doctest
 import os
+import pkg_resources as pkgr
 import sys
 import unittest
-import pkg_resources as pkgr
+
 
 #optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 optionflags = doctest.ELLIPSIS
@@ -34,7 +36,10 @@ def test_suite():
     from opencore.listen.featurelet import ListenFeaturelet
     from opencore.nui.indexing import authenticated_memberid
     from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
+
+    # for delete-project
     from opencore.testing import utils
+    from opencore.testing.utils import clear_status_messages
     from opencore.testing.utils import get_status_messages
     from pprint import pprint
     from topp.clockqueue.interfaces import IClockQueue
@@ -74,6 +79,14 @@ def test_suite():
         enableLocalSiteHook(tc.portal)
         setSite(tc.portal)
         setHooks()
+        # Force geocoding off for these tests.
+        # (ie. even if it's installed, act like it isn't.)
+        BaseView._old_has_geocoder = BaseView.has_geocoder
+        BaseView.has_geocoder = False
+
+    def readme_teardown(tc):
+        BaseView.has_geocoder = BaseView._old_has_geocoder
+        
 
     def tasktracker_setup(tc):
         oc_setup.extended_tt_setup(tc)
@@ -89,7 +102,8 @@ def test_suite():
                                     test_class=FunctionalTestCase,
                                     globs = globs,
                                     setUp=readme_setup,
-                                    layer = MockHTTPWithContent                                       
+                                    tearDown=readme_teardown,
+                                    layer = MockHTTPWithContent,
                                     )
 
     logo = dtf.FunctionalDocFileSuite("logo.txt",
@@ -165,10 +179,12 @@ def test_suite():
                                                          )
     
 
+    utilsunit = doctest.DocTestSuite('opencore.project.browser.utils',  # XXX no tests in there?
+                                     optionflags=optionflags)
     suites = (contents, metadata, manage_team,
               request_membership, homepage,
               team_request_membership, logo,
-              readme, delete,
+              readme, utilsunit, delete,
               )
     return unittest.TestSuite(suites)
 

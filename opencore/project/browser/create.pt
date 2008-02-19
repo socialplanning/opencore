@@ -1,6 +1,9 @@
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:Start a Project - ${view/portal_title}" />
+    <script metal:fill-slot="script" tal:condition="view/has_geocoder"
+            tal:attributes="src view/geo_info/maps_script_url"
+            type="text/javascript"></script>
   </head>
   <body>
     <div metal:fill-slot="content">
@@ -13,7 +16,7 @@
 	            class="enableUnloadProtection" tal:attributes="action view/name">
           <input type="hidden" name="set_flets" value="1"/>
           <fieldset class="oc-boxy">
-            <legend i18n:translate="create_project_step_1" class="oc-legend-heading oc-biggerText">Step 1: Basics</legend>
+            <legend i18n:translate="create_project_step_basics" class="oc-legend-heading oc-biggerText">Step 1: Basics</legend>
             <table class="oc-form">
               <tbody>
                 <tr class="oc-form-row">
@@ -74,8 +77,13 @@
           </fieldset>
 
           <fieldset class="oc-boxy">
-            <legend i18n:translate="create_project_step_2" class="oc-legend-heading oc-biggerText">Step 2: Security</legend>
-            <p i18n:translate="create_project_step_2_desc" class="oc-headingContext oc-smallText">Decide who can see and contribute to this project.  You will create your team on the next page.</p>
+            <legend i18n:translate="create_project_step_location" class="oc-legend-heading oc-biggerText">Step 2: Location</legend>
+            <metal:location use-macro="view/proj_macros/macros/location_form" />
+          </fieldset>
+
+          <fieldset class="oc-boxy">
+            <legend i18n:translate="create_project_step_security" class="oc-legend-heading oc-biggerText">Step 3: Security</legend>
+            <p i18n:translate="create_project_step_security_desc" class="oc-headingContext oc-smallText">Decide who can see and contribute to this project.  You will create your team on the next page.</p>
             <fieldset>
               <ul class="oc-form-radiolist oc-form-fieldBlock">
                 <li>

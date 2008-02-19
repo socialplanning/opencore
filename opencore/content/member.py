@@ -141,6 +141,22 @@ nuischema = Schema((
                         size=50,
                         ),
                       ),
+                    StringField(
+                      'position-text',
+                      accessor='getPositionText',
+                      mutator='setPositionText',
+                      mode='rw',
+                      read_permission=View,
+                      write_permission=ModifyPortalContent,
+                      widget=StringWidget(
+                        label='Position on map',
+                        label_msgid='position_on_map',
+                        description="Your address on a map.",
+                        description_msgid='help_position_on_map',
+                        i18n_domain='plone',
+                        ),
+                      searchable=True,
+                      ),
                     ))
 
 content_schema += nuischema
@@ -175,6 +191,16 @@ content_schema += atapi.Schema((
     ))
 
 content_schema.moveField('useAnonByDefault', after='email')
+
+# Support for PleiadesGeocoder, which out-of-the-box assumes
+# non-remember members.
+geo_schema =  atapi.Schema((
+    StringField('geometryType', searchable=0),
+    StringField('spatialCoordinates', searchable=0),
+    ))
+
+content_schema += geo_schema
+
 
 actions = bfti[0].copy()['actions']
 for action in actions:
