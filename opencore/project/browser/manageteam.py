@@ -686,7 +686,6 @@ class InviteView(ManageTeamView):
                         subject=self.request.get('subject', ''),
                         project_title=self.context.Title(),
                         site_contact_url=self.portal.absolute_url() + "/contact-site-admin",
-                        
                         )
 
         if email_confirmation():
@@ -697,6 +696,23 @@ class InviteView(ManageTeamView):
                                                          **msg_subs)
             log.info(msg)
         return key
+
+    def invite_email_boiler(self):
+        # this is a hack to massage the email_invite_static_body text to look good on
+        # the screen for presentation purposes; it is used in its virgin form in the email
+        msg_subs = dict(user_message='',
+                        join_url=self.join_url('', ''),
+                        portal_title=self.portal_title(),
+                        site_contact_url=self.portal.absolute_url() + "/contact-site-admin",
+                        )
+        msg = (self.translate(_(u'email_invite_static_body', mapping=msg_subs)))
+        msg = msg.replace('\n\n', '<br>')
+        msg = msg.replace('\n', '<br>')
+        if msg.startswith('<br>'):
+            msg = msg[4:]
+            
+        return msg
+
 
     @formhandler.action('remind-email-invites')
     def remind_email_invites(self, targets=None, fields=None):

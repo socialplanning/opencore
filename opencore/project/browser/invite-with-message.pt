@@ -82,18 +82,7 @@ This is a reminder.
               <tr class="oc-form-row">
                 <th class="oc-form-label" scope="row">
                 </th>
-                <td class="oc-form-value oc-discreetText" i18n:translate="email_invite_static_body">
-                    <span i18n:name="user_message"></span>
-                    To accept this invitation or learn more about the project, click here: 
-                    <span i18n:name="project_title">${join_url}</span>.
-
-                    ---------------------------------------------------------------------
-
-                    This message was sent from <span i18n:name="portal_title"
-                    tal:replace="view/portal_title" />.  
-                    To contact <span i18n:name="portal_title" tal:replace="view/portal_title" />, visit:
-                    <span i18n:name="site_contact_url" tal:replace="string:${view/portal/absolute_url}/contact-site-admin" />
-                </td>
+                <td class="oc-form-value oc-discreetText" tal:content="structure view/invite_email_boiler"/>
                 <td class="oc-form-help">
                 </td>
               </tr>
