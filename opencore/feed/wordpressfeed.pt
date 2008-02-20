@@ -3,10 +3,8 @@
 <div class="oc-widget oc-widget-feed oc-home-column"
      tal:condition="view/feed | nothing">
   <h2 class="oc-feed-title">
-    <span tal:replace="view/title">Feed Title</span>
     <a tal:attributes="href view/feed/feed/link"
-       tal:content="view/subtitle">
-      MORE ITEMS
+       tal:content="view/title">
     </a>
   </h2>
   <!-- view/feed/link -->
@@ -15,7 +13,6 @@
 	tal:repeat="feeditem
 		    view/feed/entries">
       <div tal:define="author feeditem/author;">
-
 	
 	<img tal:attributes="src feeditem/author_portrait" />
 	<h3 class="oc-feed-item-title">
