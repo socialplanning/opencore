@@ -178,7 +178,8 @@ class LatestActivityView(ProjectContentsView):
         team = self.area.getTeams()
         assert len(team) == 1
         team = team[0]
-        team = [ self.member_info_for_member(member) for member in team.getMembers() ]
+        team = [ self.member_info_for_member(member)
+                 for member in team.getActiveMembers() ]
         def team_sort(x, y):
             """sorting function for member display on project latest activity page"""
             # could also sort by admin-ness, lastlogin, etc
