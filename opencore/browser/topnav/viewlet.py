@@ -71,11 +71,17 @@ def portal_people_or_projects(viewlet):
             return True
     return False
 
+def url_ends_with(url, ending):
+    """helper function to check if url has a particular ending, ignoring
+       trailing slashes on both"""
+    return url.rstrip('/').endswith(ending.rstrip('/'))
+
 def if_projects_selected(viewlet):
     """if we don't check that the viewed url ends with create, then the
        projects folder will be displayed as well (also in projects folder)"""
-    return (IAddProject.providedBy(viewlet.context)
-            and not viewlet.context.request.ACTUAL_URL.endswith('/create'))
+    return (IAddProject.providedBy(viewlet.context) and
+            not url_ends_with(viewlet.context.request.ACTUAL_URL,
+                              '/create'))
 
 def openpage_provided(viewlet):
     """return True if the viewlet context is a wiki page"""
@@ -109,5 +115,5 @@ def not_part_of_project(viewlet):
     return True
 
 def team_selected(viewlet):
-    return (viewlet.context.request.ACTUAL_URL.endswith('/team') or
+    return (url_ends_with(viewlet.context.request.ACTUAL_URL, '/team') or
             viewlet.context.request.ACTUAL_URL.endswith('/manage-team'))
