@@ -71,6 +71,7 @@ class ReadGeoView(Acquisition.Explicit):
         url = self.request['ACTUAL_URL']
         # In python 2.5, this could be written as urlparse(url).hostname
         hostname = urlparse(url)[1].split(':')[0]
+        # We have a map key for each possible hostname in build.ini.
         key = get_config('google_maps_keys', hostname)
         if not key:
             warnings.warn("need a google maps key for %r" % hostname)
