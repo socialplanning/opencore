@@ -1,7 +1,9 @@
 from Products.CMFCore.utils import getToolByName
 from Products.PleiadesGeocoder.interfaces.simple import IGeoItemSimple
+from opencore.configuration.utils import get_config
 from opencore.interfaces import IProject
 from opencore.member.interfaces import IOpenMember
+from urlparse import urlparse
 from zope.app.publisher.interfaces.browser import IBrowserView
 from zope.component import adapts
 from zope.interface import implements
@@ -9,6 +11,7 @@ import Acquisition
 import interfaces
 import logging
 import utils
+import warnings
 
 logger = logging.getLogger('opencore.geocoding')
 
@@ -65,9 +68,12 @@ class ReadGeoView(Acquisition.Explicit):
     def _maps_script_url(self):
         if not self.view.has_geocoder:
             return ''
-        key = self.view.get_opencore_property('google_maps_key')
+        url = self.request['ACTUAL_URL']
+        # In python 2.5, this could be written as urlparse(url).hostname
+        hostname = urlparse(url)[1].split(':')[0]
+        key = get_config('google_maps_keys', hostname)
         if not key:
-            logger.warn("you need to set a google maps key in opencore_properties")
+            warnings.warn("need a google maps key for %r" % hostname)
             return ''
         url = "http://maps.google.com/maps?file=api&v=2&key=%s" % key
         return url
