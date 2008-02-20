@@ -186,7 +186,7 @@ class LatestActivityView(ProjectContentsView):
             portrait = [ x['portrait_url'], y['portrait_url'] ]
             default = '++resource++img/default-portrait.gif'
             portrait = [ int(i != default) for i in portrait ]
-            return cmp(portrait[0], portrait[0])
+            return cmp(*portrait)
 
-        team.sort(team_sort)
+        team.sort(team_sort, reverse=True)
         return team
