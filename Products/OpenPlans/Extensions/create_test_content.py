@@ -86,6 +86,10 @@ def create_test_content(self, p_map=projects_map, m_map=members_map):
                 out.append('-> project roles granted: %s' % str(p_roles))
 
     mdc.unit_test_mode = False
+
+    # force w/f security updating
+    wftool = getToolByName(self, 'portal_workflow')
+    wftool.updateRoleMappings()
     return "\n".join(out)
 
 def create_member(context, mem_id, out=None, **mem_data):
@@ -106,14 +110,15 @@ def create_member(context, mem_id, out=None, **mem_data):
     mem.setEmail(mem_data['email'])
     mem.setFullname(mem_data['fullname'])
 
-    #and confirm it.
+    # and confirm it.
 
     # need to set/delete the attribute for the workflow guards
     setattr(mem, 'isConfirmable', True)
-    wf_tool = getToolByName(context, 'portal_workflow')
-    status = wf_tool.getStatusOf('openplans_member_workflow', mem)
+    wftool = getToolByName(context, 'portal_workflow')
+    wf_id = 'openplans_member_workflow'
+    status = wftool.getStatusOf(wf_id, mem)
     status['review_state'] = 'public'
-    wf_tool.setStatusOf('openplans_member_workflow', mem, status)
+    wftool.setStatusOf(wf_id, mem, status)
     delattr(mem, 'isConfirmable')
 
     mem.reindexObject()
