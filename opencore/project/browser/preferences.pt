@@ -10,10 +10,6 @@
   <head>
     <title metal:fill-slot="title"
            tal:content="string:Preferences - ${view/window_title}" />
-    <script metal:fill-slot="script"
-            tal:condition="view/has_geocoder"
-	    tal:attributes="src view/geo_info/maps_script_url"
-	    type="text/javascript"></script>
   </head>
   <body>
     <div metal:fill-slot="content">
