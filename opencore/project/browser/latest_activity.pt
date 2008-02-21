@@ -53,9 +53,16 @@
           </div>
           <ul class="oc-feed-cluster">
             <li class="oc-feed-item" tal:repeat="member python: view.team_members()[:12]">
-              <a tal:attributes="href member/url">
+	    <div tal:define="member_url string:${member/url}/profile">
+	      <p>
+              <a tal:attributes="href member_url">
                 <img tal:attributes="src member/portrait_thumb_url; alt member/id; title member/id"/>
               </a>
+	      </p>
+	      <p>
+	      	 <a tal:attributes="href member_url" tal:content="member/id" />
+	      </p>	      
+	      </div>	      
             </li>
           </ul>
         </div>
