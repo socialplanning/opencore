@@ -1,8 +1,11 @@
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.project.browser.latest_snippet import LatestSnippet
 from opencore.project.browser.contents import ProjectContentsView
 from opencore.project.utils import get_featurelets
-
+from Products.CMFCore.utils import getToolByName
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from Products.listen.interfaces import ISearchableArchive
+from Products.listen.lib.browser_utils import messageStructure
+from zope.component import getUtility
 
 class ListFromCatalog(object):
     """
@@ -31,11 +34,22 @@ class DiscussionList(ListFromCatalog):
         lists = catalog(**self.base_query)
         items = []
         for mlist in lists:
-            for year in mlist.getObject().archive.values():
-                for month in year.values():
-                    items.extend(month.values())
-        date_cmp = lambda x, y: cmp(y.date, x.date) # reverse date compare
-        items.sort(date_cmp)
+            mlist = mlist.getObject()
+            archive = getUtility(ISearchableArchive, context=mlist)
+            messages = archive.getToplevelMessages()
+            messages = [ dict(message=message,
+                              structure=messageStructure(message, sub_mgr=mlist))
+                         for message in messages ]
+            for message in messages:
+                message['structure']['list'] = mlist.title
+            items.extend(messages)
+#            import pdb;  pdb.set_trace()
+#            for year in mlist.getObject().archive.values():
+#                for month in year.values():
+#                    items.extend(month.values())
+        date_cmp = lambda x, y: cmp(x['message'].modification_date,
+                                    y['message'].modification_date) 
+        items.sort(date_cmp, reverse=True) # reverse date compare
         if number is None:
             number = len(items)
         return items[:number]
@@ -81,17 +95,18 @@ def project2feed(project_brains, args):
 
 def discussions2feed(message, args):
     member_url = args[0][0]
-    author = message.getOwner().getUserName()
+#    author = message.getOwner().getUserName()
+    author = message['structure']['from_id']
     if author:
         author_url = member_url(author).rstrip('/') + '/profile'
         author = { 'home': author_url, 'userid': author }
-    else:
-        author = { 'home': '', 'userid': '' }
+    else:        
+        author = { 'home': '', 'userid': message['structure']['mail_from'] }
 
-    return { 'title': message.subject,
-             'url': message.absolute_url(),
+    return { 'title': message['message'].subject,
+             'url': message['structure']['url'],
              'author': author,
-             'date': message.date
+             'date': message['message'].modification_date
              }
 
 class LatestActivityView(ProjectContentsView):
@@ -107,7 +122,7 @@ class LatestActivityView(ProjectContentsView):
 
     def __init__(self, context, request):                
         ProjectContentsView.__init__(self, context, request)
-
+#        globals()['mtool'] = getToolByName(self.context, 'portal_membership')
         self.feed_types = []
         self.feed_types.append(Feed('Pages',
                                     '/'.join((self.area.absolute_url(),

@@ -167,6 +167,7 @@
      template="tour.pt"
      />
 
+  <!-- views for latest-activity/project-summary -->
   <browser:page
      for="opencore.interfaces.IProject"
      class=".latest_activity.LatestActivityView"
