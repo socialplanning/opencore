@@ -74,12 +74,7 @@
           </fieldset>
 
           <fieldset class="oc-boxy">
-            <legend i18n:translate="create_project_step_location" class="oc-legend-heading oc-biggerText">Step 2: Location</legend>
-            <metal:location use-macro="view/proj_macros/macros/location_form" />
-          </fieldset>
-
-          <fieldset class="oc-boxy">
-            <legend i18n:translate="create_project_step_security" class="oc-legend-heading oc-biggerText">Step 3: Security</legend>
+            <legend i18n:translate="create_project_step_security" class="oc-legend-heading oc-biggerText">Step 2: Security</legend>
             <p i18n:translate="create_project_step_security_desc" class="oc-headingContext oc-smallText">Decide who can see and contribute to this project.  You will create your team on the next page.</p>
             <fieldset>
               <ul class="oc-form-radiolist oc-form-fieldBlock">
