@@ -12,9 +12,11 @@
     <li class="oc-feed-item oc-clearAfter" 
 	tal:repeat="feeditem
 		    view/feed/entries">
-      <div tal:define="author feeditem/author;">
-	
+      <div tal:define="author feeditem/author; 
+      profile python:view.memfolder_url(author) + '/profile';" >
+	<a tal:attributes="href profile">
 	<img tal:attributes="src feeditem/author_portrait" />
+	</a>	
 	<h3 class="oc-feed-item-title">
 	  <a tal:attributes="href feeditem/link"
 	     tal:content="feeditem/title" />	  
@@ -32,7 +34,7 @@
 	   <span tal:replace="feeditem/byline | default">
 	     by
 	   </span>	   
-	   <a tal:attributes="href python:view.memhome_url(author)"
+	   <a tal:attributes="href profile"
 	      tal:content="author" />,
 	   <span tal:define="date feeditem/date"
 		 tal:replace="python:view.pretty_date(date)" />   

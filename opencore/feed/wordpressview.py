@@ -47,7 +47,7 @@ class WordPressFeedView(BaseView):
             # annote members onto the entries
             membrane_tool = self.get_tool('membrane_tool')
             for entry in self.feed.entries:
-                members = membrane_tool(id=self.feed.entries[0].author)
+                members = membrane_tool(getId=entry.author)
                 if len(members) == 1:
                     entry.member = members[0].getObject() # XXX necessary to keep track of these?
                     entry.author_portrait = self.member_info_for_member(entry.member)['portrait_thumb_url']
