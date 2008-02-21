@@ -1,8 +1,20 @@
 from opencore.browser.base import BaseView, _
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from opencore.configuration.utils import get_config
 from opencore.member.interfaces import IHandleMemberWorkflow
 from opencore.utility.interfaces import IEmailSender
+from topp.utils.uri import uri_same_source
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
+
+def in_vacuum_whitelist(url):
+    # We need a valid url in order to perform further tests
+    raw_list = get_config('applications', 'opencore_vacuum_whitelist', default='').split(',')
+    vacuum_whitelist = [x.strip() for x in raw_list if x.strip()]
+    
+    for safe_host in vacuum_whitelist:
+        if uri_same_source(url, safe_host):
+            return True
+    return False
 
 class AccountView(BaseView):
     """
@@ -40,7 +52,11 @@ class AccountView(BaseView):
         (We use a callback so client knows when this script has loaded.)
         """
         info = self.member_info
-        if info:
+        referrer = self.request.get('HTTP_REFERER')
+        if in_vacuum_whitelist(referrer) and info:
+            # In order for the HTML to pass as a javascript multi-line string, we have to prefix each
+            # newline with a backslash character
+            info['topnav'] = self.context.restrictedTraverse('topnav-auth-user-menu')().replace('\n','\\\n')
             return """
             OpenCore.prepareform({
             loggedin: true,
@@ -49,7 +65,8 @@ class AccountView(BaseView):
             profileurl: '%(url)s/profile',
             memberurl: '%(url)s',
             website: '%(website)s',
-            email: '%(email)s'
+            email: '%(email)s',
+            topnav: '%(topnav)s'
             });
             """ % info
         else:
