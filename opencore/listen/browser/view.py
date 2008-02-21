@@ -459,7 +459,8 @@ class NuiSubFolderDateView(SubscriptionSnippetMixin,
 # aren't any. - PW
 
 NuiArchiveNewTopicView = make_nui_listen_view_class(ArchiveNewTopicView)
-NuiSubFolderDateView = make_nui_listen_view_class(SubFolderDateView)
+# if you don't know where you are, you don't know anything at all!
+#NuiSubFolderDateView = make_nui_listen_view_class(SubFolderDateView)
 NuiThreadedMailMessageView = make_nui_listen_view_class(ThreadedMailMessageView)
 NuiForumMailMessageView = make_nui_listen_view_class(ForumMailMessageView)
 NuiMessageReplyView = make_nui_listen_view_class(MessageReplyView)
