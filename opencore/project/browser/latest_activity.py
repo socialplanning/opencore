@@ -69,7 +69,8 @@ def project2feed(project_brains, args):
     member_url = args[0][0] # this is a hack for a quick checkin :(
     author = project_brains.lastModifiedAuthor    
     if author:
-        author = { 'home': member_url(author), 'userid': author }
+        author_url = member_url(author).rstrip('/') + '/profile'
+        author = { 'home': author_url, 'userid': author }
     else:
         author = { 'home': '', 'userid': '' }
     return { 'title': project_brains.Title,
@@ -82,7 +83,8 @@ def discussions2feed(message, args):
     member_url = args[0][0]
     author = message.getOwner().getUserName()
     if author:
-        author = { 'home': member_url(author), 'userid': author }
+        author_url = member_url(author).rstrip('/') + '/profile'
+        author = { 'home': author_url, 'userid': author }
     else:
         author = { 'home': '', 'userid': '' }
 

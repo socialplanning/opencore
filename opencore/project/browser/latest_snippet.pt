@@ -6,7 +6,7 @@
     <li class="oc-feed-item oc-clearAfter" 
         tal:repeat="feeditem
         view/items">
-<!--      <img tal:attributes="src feeditem/icon" /> -->
+
         <h3 class="oc-feed-item-title">
           <a tal:attributes="href feeditem/url"
              tal:content="feeditem/title" />    
