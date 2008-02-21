@@ -4,10 +4,6 @@
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title" tal:content="string:${view/area/Title} on ${view/portal_title}" />
-    <script metal:fill-slot="script"
-            tal:condition="view/has_geocoder"
-	    tal:attributes="src view/geo_info/maps_script_url"
-	    type="text/javascript"></script>
   </head>
   <body>
     <div metal:fill-slot="content">
@@ -103,28 +99,6 @@
       </div><!-- end #oc-content-main -->
 
       <div id="oc-content-sidebar">
-           <div class="oc-boxy">
-	   <label for="position-text" i18n:translate="profile-edit_address_label">
-           Find Address on Map:</label><br />
-           (example: "349 w 12th st, ny, ny")
-           <input type="text" id="position-text" name="position-text"
-              tal:attributes="value view/geo_info/position-text | nothing" />
-
-           <noscript>
-             <div class="oc-sidebar-map" tal:condition="view/geo_info/static_img_url | nothing">
-              <img tal:attributes="src view/geo_info/static_img_url" />
-             </div>
-           </noscript>
-
-           <input type="hidden" id="position-latitude" name="position-latitude"
-               tal:attributes="value view/geo_info/position-latitude" />
-           <input type="hidden" id="position-longitude" name="position-longitude"
-               tal:attributes="value view/geo_info/position-longitude | nothing" />
-
-	   <span class="oc-js-unhide">
-              <div id="position" class="oc-js-gmap oc-sidebar-map"></div>
-	   </span>
-
       </div><!-- end .oc-content-sidebar -->
     </form>
 
