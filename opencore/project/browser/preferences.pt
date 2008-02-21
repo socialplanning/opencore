@@ -112,11 +112,6 @@
           </fieldset>
 
           <fieldset class="oc-boxy">
-            <legend class="oc-legend-heading oc-biggerText">Location</legend>
-            <metal:location use-macro="view/proj_macros/macros/location_form" />
-          </fieldset>
-
-          <fieldset class="oc-boxy">
             <legend class="oc-legend-heading oc-biggerText">Security</legend>
             <fieldset>
               <ul class="oc-form-radiolist oc-form-fieldBlock">
