@@ -7,21 +7,22 @@ from opencore.browser.base import BaseView
 def date_cmp(entry1, entry2):
     """compare feed entries by date"""
     return cmp(parse(entry1.date), parse(entry2.date))
-        
+
 
 class WordPressFeedView(BaseView):
     """a view for wordpress's feeds"""
     # XXX this should probably go back in latest_activity ::sigh::
 
-
     def handle_request(self):
 
         uri = self.request.get('uri').rstrip('/') # the base uri of wordpress
         n = self.request.get('n', 5)
-        
+
         if uri:
-            self.feed = feedparser.parse('%s/feed' % uri)
-            comments = feedparser.parse('%s/comments/feed' % uri)
+
+            # without the trailing slash, one gets different results!
+            # ssee http://trac.openplans.org/openplans/ticket/2197#comment:3
+            self.feed = feedparser.parse('%s/feed/' % uri)
 
             # these could be handled in a unified way
             try:
@@ -31,11 +32,9 @@ class WordPressFeedView(BaseView):
                 delattr(self, 'feed')
                 return
             self.title = self.request.get('title', title)
-            self.subtitle = self.request.get('subtitle', self.title)            
-
+            self.subtitle = self.request.get('subtitle', self.title)
 
             # sort comments to entries
- #           entry_urls = {}
             for entry in self.feed.entries:
 
                 # parse the whole page
@@ -43,16 +42,6 @@ class WordPressFeedView(BaseView):
 
                 # find the comment id element
                 entry.comment_string = element.xpath(".//*[@id='comments']")[0].text.strip()
- #               entry.comment_links = []
- #               entry_urls[entry.link] = entry             
- #           for comment in comments.entries:
- #               url = comment.link.rsplit('#comment',1)[0] # horrible hack
- #               try:
- #                   entry_urls[url].comment_links.append(url)
- #               except KeyError:
- #                   from pprint import pprint
- #                   import pdb;  pdb.set_trace()
-
 
 
             # annote members onto the entries
