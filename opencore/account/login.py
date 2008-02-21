@@ -11,6 +11,7 @@ from opencore.configuration.utils import get_config
 from opencore.nui.email_sender import EmailSender
 from plone.memoize import instance
 from smtplib import SMTPRecipientsRefused
+from topp.utils.uri import uri_same_source
 from zExceptions import Redirect, Unauthorized
 from zope.component import getUtility
 from zope.event import notify
@@ -19,14 +20,6 @@ import logging
 import urllib
 
 logger = logging.getLogger("opencore.account.login")
-
-def _url_same_source(left, right):
-    """Compare the protocol and host of the two urls, and return True
-    if they are the same"""
-    from urlparse import urlsplit
-    left_proto, left_host = urlsplit(left)[0:2]
-    right_proto, right_host = urlsplit(right)[0:2]
-    return left_proto == right_proto and left_host == right_host
 
 class LoginView(AccountView):
 
@@ -128,10 +121,10 @@ class LoginView(AccountView):
         if url.startswith(self.portal_url()) and url not in self.boring_urls:
             return True
         raw_list = get_config('applications', 'opencore_vacuum_whitelist', default='').split(',')
-        vacuum_whitelist = [x for x in raw_list if x.strip()]
+        vacuum_whitelist = [x.strip() for x in raw_list if x.strip()]
         
         for safe_host in vacuum_whitelist:
-            if _url_same_source(url, safe_host):
+            if uri_same_source(url, safe_host):
                 return True
         return False
 
