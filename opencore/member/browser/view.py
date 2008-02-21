@@ -18,9 +18,11 @@ from time import strftime
 from topp.utils.pretty_date import prettyDate
 from urlparse import urlsplit
 from urlparse import urlunsplit
+from zope.app.content_types import guess_content_type
 from zope.app.event.objectevent import ObjectModifiedEvent
 from zope.component import getUtility
 from zope.event import notify
+from Products.MimetypesRegistry.mime_types import magic
 
 
 class ProfileView(BaseView):
@@ -34,6 +36,20 @@ class ProfileView(BaseView):
         BaseView.__init__(self, context, request)
         self.public_projects = []
         self.private_projects = []
+
+    def portrait(self):
+        """Provides a single location to pull the user's portrait from."""
+        member_portrait = self.viewedmember().getPortrait()
+        if member_portrait:
+            data = member_portrait.data
+        else:
+            file = open(self.context.restrictedTraverse(self.defaultPortraitURL).context.path, 'rb')
+            data = file.read()
+            file.close()
+
+        content_type = magic.guessMime(data)
+        self.response.setHeader('Content-Type', content_type)
+        return data
 
     def populate_project_lists(self):
         mship_proj_map = self.mship_proj_map()

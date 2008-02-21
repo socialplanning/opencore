@@ -5,6 +5,11 @@ create_user(user=${u1_name}, fullname=${u1_fullname}, email=${u1_email})
 create_user(user=${u2_name}, fullname=${u2_fullname}, email=${u2_email})
 create_user(user=${u3_name}, fullname=${u3_fullname}, email=${u3_email})
 
+# Add a portrait to a user
+login(user=${u1_name})
+add_user_portrait(user=${u1_name}, fullname=${u1_fullname}, email=${u1_email})
+logout
+
 # u1 creates a project 
 login(user=${u1_name})
 create_project

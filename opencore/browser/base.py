@@ -177,7 +177,7 @@ class BaseView(BrowserView):
     @view.memoizedproperty
     def area(self):
         if self.inmember:
-            return self.miv.member_folder
+            return self.miv.member
         elif self.piv.inProject:
             return self.piv.project
         elif self.wiki_container is not None:
