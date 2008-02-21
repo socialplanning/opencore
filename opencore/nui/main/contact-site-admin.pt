@@ -102,6 +102,10 @@
       <span class="oc-discreetText" title="Required"
             i18n:attributes="title title_required;"
             i18n:translate="label_required">(Required)</span>
+      <span class="oc-discreetText">
+        Please do not include your password or any other sensitive information.
+      </span>
+
       
       <div tal:content="error" class="oc-form-error">Validation error output</div>            
       

@@ -33,7 +33,7 @@
 	<tr>
 	  <th class="oc-form-label" style="width: 200px;"><label for="oc-did">What were you doing?</label></th>
 	 <td class="oc-form-value"><textarea id="oc-did" name="oc-did" style="width:350px; height: 70px;"></textarea></td>
-	  <td class="oc-form-help"></td>
+	  <td class="oc-form-help">Please do not include your password or any other sensitive information.</td>
 	</tr>
 	<tr>
 	  <th class="oc-form-label"><label for="oc-expected">What did you expect?</label></th>
