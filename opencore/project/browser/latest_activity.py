@@ -1,3 +1,5 @@
+import re
+
 from opencore.project.browser.latest_snippet import LatestSnippet
 from opencore.project.browser.contents import ProjectContentsView
 from opencore.project.utils import get_featurelets
@@ -42,6 +44,7 @@ class DiscussionList(ListFromCatalog):
                          for message in messages ]
             for message in messages:
                 message['structure']['list'] = mlist.title
+                message['structure']['list_url'] = mlist.absolute_url()
             items.extend(messages)
 #            import pdb;  pdb.set_trace()
 #            for year in mlist.getObject().archive.values():
@@ -100,13 +103,23 @@ def discussions2feed(message, args):
     if author:
         author_url = member_url(author).rstrip('/') + '/profile'
         author = { 'home': author_url, 'userid': author }
-    else:        
-        author = { 'home': '', 'userid': message['structure']['mail_from'] }
+    else:
+        userid = message['structure']['mail_from'] 
+        match = re.match(r' *"(.*)" *<.*@.*>', userid)
+        if match:
+            userid = match.groups()[0]
+        author = { 'home': '', 'userid': userid }
+
+    responses = message['message'].responses
 
     return { 'title': message['message'].subject,
              'url': message['structure']['url'],
              'author': author,
-             'date': message['message'].modification_date
+             'date': message['message'].modification_date,
+             'context': { 'title': message['structure']['list'],
+                          'url': message['structure']['list_url'], },
+             'responses': { 'number': responses,
+                            'url': message['structure']['url'], }
              }
 
 class LatestActivityView(ProjectContentsView):

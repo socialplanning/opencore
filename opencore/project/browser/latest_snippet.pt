@@ -11,15 +11,36 @@
           <a tal:attributes="href feeditem/url"
              tal:content="feeditem/title" />    
         </h3>
-        <p class="oc-feed-item-data oc-discreetText">
+	<span tal:condition="feeditem/responses/number | nothing"
+	      tal:define="number feeditem/responses/number | nothing">
+	<a tal:omit-tag="not:feeditem/responses/url"
+	   tal:attributes="href feeditem/responses/url"
+	   tal:define="messages python: number == 1 and 'message' or 'messages'"
+>
+	   <span tal:replace="string: ${number} ${messages}" />
+	</a>	   
+	</span>
+
+        <div class="oc-feed-item-data oc-discreetText">
           <span tal:replace="feeditem/byline | default">
           by
           </span>
-          <a tal:attributes="href feeditem/author/home"
+          <a tal:omit-tag="not:feeditem/author/home"
+	     tal:attributes="href feeditem/author/home"
              tal:content="feeditem/author/userid" />,
              <span tal:define="date feeditem/date"
                      tal:replace="python:view.pretty_date(date)"/>
-        </p>
+
+	  <div tal:condition="feeditem/context | nothing">
+	     from
+	     <a tal:omit-tag="not:feeditem/context/url"
+		tal:attributes="href feeditem/context/url"
+	        tal:content="feeditem/context/title">
+		This Context
+	     </a>
+          </div>
+
+        </div>
     </li>
   </ul>
 </div>
