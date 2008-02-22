@@ -96,19 +96,30 @@ class LastModifiedComment(object):
         self.pr = getToolByName(self.context, 'portal_repository')
 
     def getValue(self):
+        # @@ check the request, could possibly conflict, but we only have
+        # 1 comment field and it's way faster than checking pr
+        comment = self.context.REQUEST.get('comment', None)
+        if comment is not None:
+            return comment
+
+        # @@ check history cache TO BE IMPLEMENTED
+        return ''
+
+        # @@ DWM not sure what this crap is.
+        # @@ as was left, should have just been removed
         # XXX nulling out this method b/c the last_history lookup is causing
         #     ConflictErrors and TransactionFailedErrors EVEN THOUGH WE'RE
         #     EXPLICITLY CATCHING THEM!  :-(
-        return ''
-        try:
-            histories = self.pr.getHistory(self.context, countPurged=False)
-            # most recent history versions are at the front of the list
-            last_history = histories[0]
-            revision_note = last_history.comment
-            return revision_note
-        except (IndexError, ArchivistRetrieveError, ConflictError,
-                TransactionFailedError):
-            return ''
+        
+##         try:
+##             histories = self.pr.getHistory(self.context, countPurged=False)
+##             # most recent history versions are at the front of the list
+##             last_history = histories[0]
+##             revision_note = last_history.comment
+##             return revision_note
+##         except (IndexError, ArchivistRetrieveError, ConflictError,
+##                 TransactionFailedError):
+##             return ''
 
 class ImageIndexer(object):
     """base class for image adapters to share code"""
