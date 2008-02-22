@@ -21,6 +21,7 @@ from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorI
      IHighestTeamRole, ILastModifiedComment, \
      IImageWidthHeight, IImageSize, IIsImage
 from opencore.interfaces import IOpenMembership, IOpenPage
+from opencore.nui.wiki.interfaces import IWikiHistory
 
 from zope.component import adapter, queryUtility, adapts
 from zope.interface import Interface
@@ -98,11 +99,21 @@ class LastModifiedComment(object):
     def getValue(self):
         # @@ check the request, could possibly conflict, but we only have
         # 1 comment field and it's way faster than checking pr
-        comment = self.context.REQUEST.get('comment', None)
-        if comment is not None:
+        if self.context.REQUEST.form.has_key('comment'):
+            comment = self.context.REQUEST.get('comment', None)
             return comment
 
-        # @@ check history cache TO BE IMPLEMENTED
+        # outside of the form, it's most efficient to consult the wiki
+        # history cache.  This logic is tenuous if a change like
+        # rollback doesn't manage it's own comment
+        history = IWikiHistory(self.context)
+        if len(history):
+            last_entry = history[len(history) - 1]
+            return last_entry['comment']
+
+        # @@ we could do a 3rd rollover, but is probably not necessary
+
+        # finally, return an empty string
         return ''
 
         # @@ DWM not sure what this crap is.
