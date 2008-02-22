@@ -27,6 +27,7 @@ from utils import kupu_resource_map
 from zope.app.component.hooks import setSite
 from zope.component import queryUtility
 from zope.interface import alsoProvides
+import traceback
 import os
 import pkg_resources
 import socket
@@ -41,6 +42,8 @@ MEM_DEPS = ('membrane', 'remember')
 DEPS = ('wicked', 'TeamSpace', 'CMFPlacefulWorkflow', 'RichDocument',
         'listen', 'CMFDiffTool', 'CMFEditions')
 
+logger = None
+
 def setuphandler(fn):
     """
     Decorator that turns QI functions into setuphandlers.
@@ -54,7 +57,8 @@ def setuphandler(fn):
         portal = context.getSite()
         out = StringIO()
         fn(portal, out)
-        logger = context.getLogger('OpenCore setuphandlers')
+        global logger
+        logger = context.getLogger('opencore.configuration.setuphandlers')
         logger.info(out.getvalue())
     execute_handler.orig = fn
     return execute_handler
@@ -448,7 +452,7 @@ def install_cabochon_utility(portal, out):
     try:
         register_local_utility(portal, out, ICabochonClient, CabochonUtility, factory_fn)
     except ValueError:
-        pass
+        logger.info(traceback.print_exc())
 
 @setuphandler
 def addCatalogQueue(portal, out):
