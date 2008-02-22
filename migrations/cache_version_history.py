@@ -1,11 +1,7 @@
 from pprint import pprint 
 from AccessControl.SecurityManagement import newSecurityManager
 from AccessControl.SpecialUsers import system
-from opencore.nui.wiki.interfaces import IWikiHistory
-from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
-from opencore.interfaces import IOpenPage
-from DateTime.DateTime import DateTime
-
+from opencore.nui.wiki import utils
 import sys
 import transaction as txn
 
@@ -19,6 +15,10 @@ except IndexError:
 portal = getattr(app, portal)
 pc = portal.portal_catalog
 pr = portal.portal_repository
+path = '/'.join(portal.getPhysicalPath() + ('projects',))
+brains = pc(portal_type="Document", path=path)
+
+print "\nattempting to migrate %s @ %s" %(len(brains), path)
 
 def count():
     x = 0
@@ -27,53 +27,52 @@ def count():
         yield x
         
 counter = count()
-def cache_history(page):
-    if not IOpenPage.providedBy(page):
-        return
-
-    if getattr(page, '__HISTORY_MIGRATED__', False):
-        #print "skip %s" %page
-        return
-    
-    try:
-        history = pr.getHistory(page, countPurged=False)
-    except ArchivistRetrieveError, e:
-        print "!!! ERROR: %s" %e
-        return
-
-    history_cache = IWikiHistory(page)
-
-    # clear any old history ui info
-    history_cache.annot.clear()
-    for vd in history:
-        new_history_item = dict(
-            version_id=vd.version_id,
-            comment=vd.comment,
-            author=vd.sys_metadata['principal'],
-            modification_date=DateTime(vd.sys_metadata['timestamp']),
-            )
-        history_cache.annot[vd.version_id] = new_history_item
-        page.__HISTORY_MIGRATED__=True
-        page._p_changed=True
-    txn.commit()
-    counter.next()
-
+skipcounter = count()
 _ghosts = []
+entries = 0
 
 try:
-    for brain in pc(portal_type="Document"):
+    for brain in brains:
         try:
             page = brain.getObject()
-            page._p_jar.sync()
         except AttributeError:
             # kill ghost
+            skipcounter.next()
             _ghosts.append(brain.getPath())
             pc.uncatalog_object(brain.getPath())
             txn.commit()
             continue
-        cache_history(page)
-except KeyboardInterrupt:
-    print "%s ghosts removed" %len(_ghosts)
-    if _ghosts:
-        pprint(_ghosts)
-    print "Total migrated: %s" %(counter.next() - 2)
+        
+        page._p_jar.sync()
+        if getattr(page, '__HISTORY_MIGRATED__', False):
+            skipcounter.next()
+            continue
+
+        result = utils.cache_history(page, pr)
+        mcount = scount = 0
+        
+        if result:
+            txn.commit()
+            mcount = counter.next()
+            entries += result
+        elif result is False:
+            scount = skipcounter.next()
+        elif result == 0:
+            print "no history: %s" %brain.getPath()
+            
+        i = mcount + scount
+        if i and not i % 100:
+            print "%s docs migrated" %i
+            
+except KeyboardInterrupt, e:
+    print e
+
+print ""
+print "Total pages migrated: % 3s" %(counter.next() - 1)
+print "Total entries migrated: % 1s" %(entries) 
+print "Total skipped: % 10s" %(skipcounter.next() - 1)
+print "Total ghosts removed: % 3s" %len(_ghosts)
+if _ghosts:
+    pprint(_ghosts)
+
+
