@@ -131,7 +131,7 @@ Verify that version caching for ui has registered the changes::
 
 Verify the last modified author and text changes took place::
      >>> proj = self.portal.projects.p1
-     >>> from opencore.interfaces.catalog import ILastModifiedAuthorId
+     >>> from opencore.interfaces.catalog import ILastModifiedAuthorId, ILastModifiedComment
      >>> ILastModifiedAuthorId(page)
      'm1'
      >>> ILastModifiedAuthorId(proj)
@@ -145,6 +145,7 @@ Verify the last modified author and text changes took place::
      >>> view = page.restrictedTraverse('@@edit')
      >>> request = view.request.form
      >>> request['text'] = 'bar'
+     >>> request['comment'] = 'this is a bar version'
      >>> view.handle_save()
      >>> ILastModifiedAuthorId(page)
      'm3'
@@ -155,8 +156,14 @@ Check that when logging back in as m1, m3 is still the last modified author
      >>> self.login('m1')
      >>> ILastModifiedAuthorId(page)
      'm3'
+
      >>> ILastModifiedAuthorId(proj)
      'm3'
+
+Check the version comment::
+
+     >>> print  ILastModifiedComment(page).getValue()
+     this is a bar version
 
 Let's try some reversions. First lets Verify that version caching for
 ui has registered the changes.  We've made 4 edits and should have 4
@@ -184,7 +191,7 @@ versions w/ no comments (no blank initialization version)::
         'version_id': 2}),
       (3,
        {'author': 'm1',
-        'comment': '',
+        'comment': 'this is a bar version',
         'modification_date': DateTime(...),
         'version_id': 3})]
 
@@ -225,7 +232,7 @@ Try version 1::
         'version_id': 2}),
       (3,
        {'author': 'm1',
-        'comment': '',
+        'comment': 'this is a bar version',
         'modification_date': DateTime(...),
         'version_id': 3}),
       (4,
