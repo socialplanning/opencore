@@ -195,6 +195,14 @@
      permission="cmf.ModifyPortalContent"
      />
 
+  <browser:page
+     class=".historyview.WikiPageVersionMigrate"
+     for="opencore.interfaces.IOpenPage"
+     name="migrate-history"
+     attribute="migrate"
+     permission="cmf.ModifyPortalContent"
+     />
+
   <!-- attachments -->
   <browser:page
      attribute="updateAtt"

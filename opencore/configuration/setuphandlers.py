@@ -445,7 +445,10 @@ def install_email_invites_utility(portal, out):
 @setuphandler
 def install_cabochon_utility(portal, out):
     factory_fn = lambda:CabochonUtility(portal)
-    register_local_utility(portal, out, ICabochonClient, CabochonUtility, factory_fn)
+    try:
+        register_local_utility(portal, out, ICabochonClient, CabochonUtility, factory_fn)
+    except ValueError:
+        pass
 
 @setuphandler
 def addCatalogQueue(portal, out):

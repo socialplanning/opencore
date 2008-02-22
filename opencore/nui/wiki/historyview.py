@@ -2,11 +2,13 @@ from BTrees.OOBTree import OOBTree
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
+from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser.base import BaseView
 from opencore.browser.formhandler import post_only
 from opencore.interfaces.catalog import ILastModifiedAuthorId, ILastModifiedComment
 from opencore.nui.wiki import htmldiff2
+from opencore.nui.wiki import utils
 from opencore.nui.wiki.interfaces import IWikiHistory, IReversionEvent
 from plone.memoize import instance
 from topp.utils.pretty_date import prettyDate
@@ -254,3 +256,14 @@ class AnnotationCachedWikiHistory(object):
             )
 
         self.annot[new_version_id] = new_history_item
+
+
+class WikiPageVersionMigrate(BrowserView):
+    @post_only(raise_=True)
+    def migrate(self):
+        pr = getToolByName(self, 'portal_repository')
+        result = utils.cache_history(self.context, pr)
+        if result:
+            return "%s entries migrated" %result
+        else:
+            return "Nothing migrated: result is %s" %result
