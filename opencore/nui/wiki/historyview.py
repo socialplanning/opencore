@@ -245,8 +245,6 @@ class AnnotationCachedWikiHistory(object):
 
         if message is None:
             message = ILastModifiedComment(page).getValue()
-##         else:
-##             import pdb;pdb.set_trace()
             
         new_history_item = dict(
             version_id=new_version_id,
