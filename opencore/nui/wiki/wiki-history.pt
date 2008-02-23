@@ -28,10 +28,10 @@
     <h2>All versions of &ldquo;<span tal:replace="here/title_or_id">page</span>&rdquo;</h2>
     <span class="oc-headingContext oc-discreetText">
      <span tal:replace="python:len(history)"/> versions total. Last edit performed by 
-      <a tal:define="author lastChange/sys_metadata/principal" 
+      <a tal:define="author lastChange/author" 
                      tal:attributes="href string:${people_url}/${author}" 
                      tal:content="author">author</a>, 
-      <abbr tal:attributes="title python:lastChange.object.ModificationDate()">
+      <abbr tal:attributes="title python:lastChange['modification_date']">
        <span tal:replace="python: view.pretty_mod_date(lastChange)" />. 
       </abbr>
     </span>
@@ -54,10 +54,10 @@
       </div>
       
         <ul class="oc-lineup-list">
-          <tal:block repeat="version python: history">
+          <tal:block repeat="version history">
           <li class="oc-wiki-history-item oc-lineup-item"
         tal:define="version_id version/version_id;
-                                      version_title python:view.version_title(version_id)">
+                    version_title python: view.version_title(version_id)">
            <tal:if condition="python:len(history) > 1">
            <input type="checkbox" name="version_id"
                                tal:attributes="value version_id;
@@ -69,15 +69,16 @@
            check when you follow the link. use a title on the 
            checkbox instead. --> 
       <h3>
-      <!-- FIXME should this be absolute ?? --> 
-      <a tal:attributes="href string:version?version_id=${version_id}"><tal:span replace="version_title" /></a>
+        <a tal:attributes="href string:${here/absolute_url}/version?version_id=${version_id}">
+          <tal:span replace="version_title" />
+        </a>
       </h3>
       by 
-      <a tal:define="author version/sys_metadata/principal" 
+      <a tal:define="author version/author" 
                            tal:attributes="href string:${people_url}/${author}/profile" 
                            tal:content="author">author</a>, 
-      <abbr tal:attributes="title python:version.object.ModificationDate()">
-        <span tal:replace="python: view.pretty_mod_date(version)" />
+      <abbr tal:attributes="title version/modification_date">
+        <span tal:replace="python: view.pretty_mod_date(version['modification_date'])" />
       </abbr>
       <p class="oc-wiki-history-item-context oc-discreetText">
         <span tal:replace="version/comment">comment</span>

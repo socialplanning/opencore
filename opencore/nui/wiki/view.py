@@ -148,18 +148,15 @@ class WikiEdit(WikiBase, OctopoLite):
         if description is not None:
             self.context.setDescription(description)
 
+        # this updates things like last modified author on a wiki page
+        # it's important to do this before the repo saves the new version
+        notify(objectevent.ObjectModifiedEvent(self.context))
+
         repo = self.context.portal.portal_repository
         repo.save(self.context, comment = self.request.form.get('comment', ''))
         self.context.reindexObject()
         self.addPortalStatusMessage(u'Your changes have been saved.')
 
-        # this updates things like last modified author on a wiki page
-        notify(objectevent.ObjectModifiedEvent(self.context))
-
-        # XXX is setting the template to None necessary?
-        # it causes problems because it's more convenient to make template
-        # a property now, which can't be set to None
-        # self.template = None
         self.redirect(self.context.absolute_url())
 
     def _handle_createAtt(self):

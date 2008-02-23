@@ -21,6 +21,7 @@ from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorI
      IHighestTeamRole, ILastModifiedComment, \
      IImageWidthHeight, IImageSize, IIsImage
 from opencore.interfaces import IOpenMembership, IOpenPage
+from opencore.nui.wiki.interfaces import IWikiHistory
 
 from zope.component import adapter, queryUtility, adapts
 from zope.interface import Interface
@@ -96,19 +97,48 @@ class LastModifiedComment(object):
         self.pr = getToolByName(self.context, 'portal_repository')
 
     def getValue(self):
+        # @@ check the request, could possibly conflict, but we only have
+        # 1 comment field and it's way faster than checking pr
+        if self.context.REQUEST.form.has_key('comment'):
+            comment = self.context.REQUEST.get('comment', None)
+            return comment
+
+        # outside of the form, it's most efficient to consult the wiki
+        # history cache.  This logic is tenuous if a change like
+        # rollback doesn't manage it's own comment
+        history = IWikiHistory(self.context)
+        if len(history):
+            # @@ hack
+            # on reverts, the object rolled back to becomes the
+            # reindexed context before the history cache get cleaned
+            # up. in this case, return nada (as another indexing will
+            # happen later)
+            try:
+                last_entry = history[len(history) - 1]
+                return last_entry['comment']
+            except KeyError:
+                return ''
+
+        # @@ we could do a 3rd rollover, but is probably not necessary
+
+        # finally, return an empty string
+        return ''
+
+        # @@ DWM not sure what this crap is.
+        # @@ as was left, should have just been removed
         # XXX nulling out this method b/c the last_history lookup is causing
         #     ConflictErrors and TransactionFailedErrors EVEN THOUGH WE'RE
         #     EXPLICITLY CATCHING THEM!  :-(
-        return ''
-        try:
-            histories = self.pr.getHistory(self.context, countPurged=False)
-            # most recent history versions are at the front of the list
-            last_history = histories[0]
-            revision_note = last_history.comment
-            return revision_note
-        except (IndexError, ArchivistRetrieveError, ConflictError,
-                TransactionFailedError):
-            return ''
+        
+##         try:
+##             histories = self.pr.getHistory(self.context, countPurged=False)
+##             # most recent history versions are at the front of the list
+##             last_history = histories[0]
+##             revision_note = last_history.comment
+##             return revision_note
+##         except (IndexError, ArchivistRetrieveError, ConflictError,
+##                 TransactionFailedError):
+##             return ''
 
 class ImageIndexer(object):
     """base class for image adapters to share code"""
