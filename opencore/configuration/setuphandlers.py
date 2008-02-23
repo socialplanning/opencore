@@ -10,7 +10,7 @@ from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
 from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
 from Products.remember.utils import getAdderUtility
 from StringIO import StringIO
-from opencore.cabochon.client import CabochonUtility
+from opencore.cabochon.client import CabochonConfigError, CabochonUtility
 from opencore.cabochon.interfaces import ICabochonClient
 from opencore.configuration import OC_REQ as OPENCORE
 from opencore.content.member import OpenMember
@@ -27,6 +27,7 @@ from utils import kupu_resource_map
 from zope.app.component.hooks import setSite
 from zope.component import queryUtility
 from zope.interface import alsoProvides
+import traceback
 import os
 import pkg_resources
 import socket
@@ -43,6 +44,8 @@ DEPS = ('wicked', 'TeamSpace', 'CMFPlacefulWorkflow', 'RichDocument',
         'PleiadesGeocoder'
        )
 
+logger = None
+
 def setuphandler(fn):
     """
     Decorator that turns QI functions into setuphandlers.
@@ -56,7 +59,8 @@ def setuphandler(fn):
         portal = context.getSite()
         out = StringIO()
         fn(portal, out)
-        logger = context.getLogger('OpenCore setuphandlers')
+        global logger
+        logger = context.getLogger('opencore.configuration.setuphandlers')
         logger.info(out.getvalue())
     execute_handler.orig = fn
     return execute_handler
@@ -446,9 +450,14 @@ def install_email_invites_utility(portal, out):
 
 @setuphandler
 def install_cabochon_utility(portal, out):
-    factory_fn = lambda:CabochonUtility(portal)
-    register_local_utility(portal, out, ICabochonClient, CabochonUtility, factory_fn)
-
+    try:
+        factory_fn = lambda:CabochonUtility(portal)
+        register_local_utility(portal, out, ICabochonClient, CabochonUtility, factory_fn)
+    except ValueError:
+        logger.info(traceback.print_exc())
+    except CabochonConfigError:
+        logger.info(traceback.print_exc())
+        
 @setuphandler
 def addCatalogQueue(portal, out):
     q_id = 'portal_catalog_queue'
