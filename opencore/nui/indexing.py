@@ -108,8 +108,16 @@ class LastModifiedComment(object):
         # rollback doesn't manage it's own comment
         history = IWikiHistory(self.context)
         if len(history):
-            last_entry = history[len(history) - 1]
-            return last_entry['comment']
+            # @@ hack
+            # on reverts, the object rolled back to becomes the
+            # reindexed context before the history cache get cleaned
+            # up. in this case, return nada (as another indexing will
+            # happen later)
+            try:
+                last_entry = history[len(history) - 1]
+                return last_entry['comment']
+            except KeyError:
+                return ''
 
         # @@ we could do a 3rd rollover, but is probably not necessary
 
