@@ -35,6 +35,7 @@ setup(
                         'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.1.2',
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         'https://svn.openplans.org/svn/vendor/geopy/openplans/dist',
+                        'https://svn.openplans.org/svn/topp.utils/trunk#egg=topp.utils-dev'
                         ],
 
       install_requires=[
@@ -45,7 +46,7 @@ setup(
           'decorator',
           'feedparser',
           'topp.featurelets>=0.2.2',
-          'topp.utils>=0.3.0',
+          'topp.utils>=0.3.1dev,==dev',
           'OpencoreRedirect',
           'httplib2',
           'plone.memoize',
