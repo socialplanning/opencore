@@ -58,7 +58,6 @@ setup(
           'geopy==0.93-20071130',  # forces our vendor branch.
           'flunc>=0.1.2',
           'cabochonclient',
-          'geopy'
           ],
       extras_require=dict(ubuntu=['hprof']),
 
