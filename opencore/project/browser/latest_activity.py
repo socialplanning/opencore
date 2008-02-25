@@ -93,6 +93,10 @@ def project2feed(project_brains, args):
              'date': project_brains.ModificationDate,
              }
 
+# regular expression to strip names from an email
+# address in standard format
+email_re = re.compile(r' *"(.*)" *<.*@.*>')
+
 def discussions2feed(message, args):
     member_url = args[0][0]
 #    author = message.getOwner().getUserName()
@@ -102,7 +106,7 @@ def discussions2feed(message, args):
         author = { 'home': author_url, 'userid': author }
     else:
         userid = message['structure']['mail_from'] 
-        match = re.match(r' *"(.*)" *<.*@.*>', userid)
+        match = re.match(email_re, userid)
         if match:
             userid = match.groups()[0]
         author = { 'home': '', 'userid': userid }
