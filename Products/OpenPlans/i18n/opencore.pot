@@ -1781,3 +1781,6 @@ msgstr ""
 msgid "tour_start_projects_heading"
 msgstr ""
 
+msgid "password_send_warning"
+msgstr ""
+

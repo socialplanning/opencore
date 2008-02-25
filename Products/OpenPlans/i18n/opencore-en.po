@@ -1831,3 +1831,6 @@ msgstr ""
 #~ "and keep track of tasks. We hope you'll take ${portal_url} for a spin. "
 #~ "Cheers, The ${project_title} Team"
 
+msgid "password_send_warning"
+msgstr "Please do not include your password or any other sensitive information."
+
