@@ -42,14 +42,11 @@ class DiscussionList(ListFromCatalog):
             messages = [ dict(message=message,
                               structure=messageStructure(message, sub_mgr=mlist))
                          for message in messages ]
-            for message in messages:
-                message['structure']['list'] = mlist.title
-                message['structure']['list_url'] = mlist.absolute_url()
+            if len(lists) > 1:
+                for message in messages:
+                    message['structure']['list'] = mlist.title
+                    message['structure']['list_url'] = mlist.absolute_url()
             items.extend(messages)
-#            import pdb;  pdb.set_trace()
-#            for year in mlist.getObject().archive.values():
-#                for month in year.values():
-#                    items.extend(month.values())
         date_cmp = lambda x, y: cmp(x['message'].modification_date,
                                     y['message'].modification_date) 
         items.sort(date_cmp, reverse=True) # reverse date compare
@@ -111,16 +108,20 @@ def discussions2feed(message, args):
         author = { 'home': '', 'userid': userid }
 
     responses = message['message'].responses
+    
+    retval = { 'title': message['message'].subject,
+               'url': message['structure']['url'],
+               'author': author,
+               'date': message['message'].modification_date,
+               'responses': { 'number': responses,
+                              'url': message['structure']['url'], }
+               }
 
-    return { 'title': message['message'].subject,
-             'url': message['structure']['url'],
-             'author': author,
-             'date': message['message'].modification_date,
-             'context': { 'title': message['structure']['list'],
-                          'url': message['structure']['list_url'], },
-             'responses': { 'number': responses,
-                            'url': message['structure']['url'], }
-             }
+    if message['structure'].has_key('list'):
+        retval['context'] = { 'title': message['structure']['list'],
+                              'url': message['structure']['list_url'], }
+
+    return retval
 
 class LatestActivityView(ProjectContentsView):
     """
