@@ -39,20 +39,33 @@ class DiscussionList(ListFromCatalog):
             mlist = mlist.getObject()
             archive = getUtility(ISearchableArchive, context=mlist)
             messages = archive.getToplevelMessages()
-            messages = [ dict(message=message,
-                              structure=messageStructure(message, sub_mgr=mlist))
+
+            def thread_end(message):
+                """given a message, get the last message in the thread"""
+                # XXX this should really go in listen
+                prev = next = message
+                while next:
+                    if next.date > prev.date:
+                        prev = next
+                    next = archive.getNextInThread(next.message_id)
+                return prev
+            messages = [ dict(message=message, reply=thread_end(message), mlist=mlist)
                          for message in messages ]
             if len(lists) > 1:
                 for message in messages:
                     message['structure']['list'] = mlist.title
                     message['structure']['list_url'] = mlist.absolute_url()
             items.extend(messages)
-        date_cmp = lambda x, y: cmp(x['message'].modification_date,
-                                    y['message'].modification_date) 
+        date_cmp = lambda x, y: cmp(x['reply'].modification_date,
+                                    y['reply'].modification_date) 
         items.sort(date_cmp, reverse=True) # reverse date compare
         if number is None:
             number = len(items)
-        return items[:number]
+        items = items[:number]
+        for item in items:
+            item['structure'] = messageStructure(item['message'], sub_mgr=item['mlist'])
+            item['reply_structure'] = messageStructure(item['reply'], sub_mgr=item['mlist'])
+        return items
 
 class Feed(object):
     """a rediculously stupid class for feeds.
@@ -98,14 +111,13 @@ def project2feed(project_brains, args):
 email_re = re.compile(r' *"(.*)" *<.*@.*>')
 
 def discussions2feed(message, args):
-    member_url = args[0][0]
-#    author = message.getOwner().getUserName()
-    author = message['structure']['from_id']
+    member_url = args[0][0] # XXX hack; to be fixed
+    author = message['reply_structure']['from_id']
     if author:
         author_url = member_url(author).rstrip('/') + '/profile'
         author = { 'home': author_url, 'userid': author }
     else:
-        userid = message['structure']['mail_from'] 
+        userid = message['reply_structure']['mail_from'] 
         match = re.match(email_re, userid)
         if match:
             userid = match.groups()[0]
@@ -114,14 +126,17 @@ def discussions2feed(message, args):
     responses = message['message'].responses
 
     message_url = '%s/forum_view' % message['structure']['url'].rstrip('/')
+    reply_url = '%s#%s' % ( message_url, message['reply_structure']['id'] )
     
     retval = { 'title': message['message'].subject,
                'url': message_url,
                'author': author,
-               'date': message['message'].modification_date,
+               'date': message['reply'].date,
                'responses': { 'number': responses,
-                              'url': message['structure']['url'], }
+                              'url': reply_url, }
                }
+    if responses:
+        retval['byline'] = 'latest by'
 
     if message['structure'].has_key('list'):
         retval['context'] = { 'title': message['structure']['list'],
