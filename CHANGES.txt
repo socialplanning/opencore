@@ -6,6 +6,8 @@
 
 February 15, 2008 - Paul Winkler <pw@openplans.org> - Add support for
     geocoding members and projects. #1529
+    migration: need to run portal_quickinstaller to add:
+      /openplans/portal_quickinstaller - install PleiadesGeocoder
 
 February 11, 2008 - David Turner <novalis@novalis.org> - Remove featurelets from project add view.
 
