@@ -4,10 +4,14 @@
  	migration view.  Moves rendering of version information to read an
 	annotation maintained by events.
 
-February 15, 2008 - Paul Winkler <pw@openplans.org> - Add support for
-    geocoding members and projects. #1529
-    migration: need to run portal_quickinstaller to add:
-      /openplans/portal_quickinstaller - install PleiadesGeocoder
+2008-02-25  Paul Winkler  <pw@openplans.org>
+
+	* Add support for geocoding members and projects. #1529
+	Migration: 
+ 	1) Update your opencore-bundle (rerun fassembler:opencore
+	or just manually get https://svn.openplans.org/eggs/openplans-bundle-opencore-plone25-20080215.tar.bz2
+	2) Run portal_quickinstaller to add the geocoder tool:
+	/openplans/portal_quickinstaller - install PleiadesGeocoder
 
 February 11, 2008 - David Turner <novalis@novalis.org> - Remove featurelets from project add view.
 
