@@ -112,9 +112,11 @@ def discussions2feed(message, args):
         author = { 'home': '', 'userid': userid }
 
     responses = message['message'].responses
+
+    message_url = '%s/forum_view' % message['structure']['url'].rstrip('/')
     
     retval = { 'title': message['message'].subject,
-               'url': message['structure']['url'],
+               'url': message_url,
                'author': author,
                'date': message['message'].modification_date,
                'responses': { 'number': responses,
