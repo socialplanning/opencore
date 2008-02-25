@@ -138,7 +138,7 @@ Verify the last modified author and text changes took place::
      'm1'
 
      >>> page.text.raw
-     u'<p>foo<br>\n&#8789;baz</p>'
+     u'<p>foo<br>\n\u2255baz</p>'
 
      >>> self.logout()
      >>> self.login('m3')
