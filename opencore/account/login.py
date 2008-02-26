@@ -270,12 +270,12 @@ class ForgotLoginView(AccountView):
 
         try:
             pwt = self.get_tool("portal_password_reset")
-            mail_text = _(u'email_forgot_password', u'You requested a password reminder for your ${portal_title} account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}',
+            mail_text = _(u'email_forgot_password', u'You requested a password reset for your ${portal_title} account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}',
                           mapping={u'url':self.reset_url})
             sender = EmailSender(self, secureSend=True)
             sender.sendEmail(mto=email, 
                         msg=mail_text,
-                        subject=_(u'email_forgot_password_subject', u'%s - Password reminder' % self.portal_title()))
+                        subject=_(u'email_forgot_password_subject', u'%s - Password reset' % self.portal_title()))
         except SMTPRecipientsRefused:
             # Don't disclose email address on failure
             # XXX is this needed?
