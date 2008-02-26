@@ -5,7 +5,7 @@
       i18n:domain="opencore">
 <head>
 <metal:title fill-slot="title">
-  <title tal:content="python:messages and messages[0] or default">
+  <title tal:content="string:${view/portal_title}">
   </title>
 </metal:title>
 </head>
