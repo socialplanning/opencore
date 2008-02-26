@@ -34,6 +34,7 @@ class TopnavManager(ViewletManagerBase):
                               container,
                               css_class,
                               selected,
+                              application_header,
                               template,
                               **kw
                               ):
@@ -50,6 +51,7 @@ class TopnavManager(ViewletManagerBase):
                      container=container,
                      css_class=css_class,
                      selected=selected,
+                     application_header=application_header,
                      render=template,
                      )
         return type(klass_name, (ViewletBase,), attrs)                
@@ -64,6 +66,7 @@ def oc_menuitem_directive(_context, name, sort_order,
                           container=IPloneSiteRoot,
                           css_class=default_css,
                           selected=if_request_starts_with_url,
+                          application_header=None,
                           template=None,
                           **kw):
     """create a class specific for viewlet, and register it"""
@@ -82,6 +85,7 @@ def oc_menuitem_directive(_context, name, sort_order,
         container,
         css_class,
         selected,
+        application_header,
         template,
         )
     new_keyword_args['class_'] = viewlet_factory
