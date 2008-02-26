@@ -14,4 +14,4 @@ follow "$title"
 find "$body"
 go ${base_url}
 find $title
-find "${base_url}/news#${id}"
+find "${base_url}/news/${id}"
