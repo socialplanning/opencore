@@ -12,8 +12,8 @@
 
     <!-- for login redirection -->
     <input type="hidden" name="http_referer" id="http_referer"
-	   tal:condition="view/request/HTTP_REFERER | nothing"
-	   tal:attributes="value view/request/HTTP_REFERER" />
+	   tal:condition="view/request/http_referer | view/request/HTTP_REFERER | nothing"
+	   tal:attributes="value view/request/http_referer | view/request/HTTP_REFERER" />
 
     <input type="hidden" name="came_from_anchor" id="came_from_anchor"
 	   tal:condition="view/request/came_from_anchor | nothing"
