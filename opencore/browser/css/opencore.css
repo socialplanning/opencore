@@ -1254,10 +1254,11 @@ li.oc-feed-item {
 li.oc-feed-item .oc-avatar,
 li.oc-feed-item .oc-project-logo,
 li.oc-invite .oc-project-logo {
-  width: 80px;
+  width: 64px;
   float: left;
   clear: none;
   margin-right: 1em;
+  padding: 8px;
 }
 li.oc-feed-item .oc-feed-item-content {
   float: left;
