@@ -192,8 +192,15 @@ def authenticated_memberid(context):
     from opencore.project.browser.metadata import ANNOT_KEY
     from Missing import Value as MissingValue
     annot = IAnnotations(context)
-    annot = annot.get(ANNOT_KEY, OOBTree())
-    return annot.get('lastModifiedAuthor', MissingValue)
+    annot = annot.get(ANNOT_KEY, {})
+
+    val = annot.get('lastModifiedAuthor')
+    if val:
+        return val
+
+    # @@ adapters must return something or code must expect component
+    # errors
+    return MissingValue
 
 @adapter(AbstractCatalogBrain)
 @implementer(IMetadataDictionary)
