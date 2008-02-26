@@ -121,7 +121,6 @@ class ProjectMenuView(BaseView):
         manage_team_url = "%s/manage-team" % proj_url
         can_manage = self.membertool.checkPermission(ManageTeamMembership,
                                                      proj)
-
         menudata = (
             {'content': 'Wiki',
              'href': wiki_url,
@@ -198,7 +197,7 @@ class ProjectMenuView(BaseView):
             return header == 'tasktracker'
         elif flet == 'blog':
             header = self.request.get_header('X-Openplans-Application')
-            return header == 'blog'
+            return header == 'wordpress'
         return False
 
 class AnonMenuView(BaseView):
