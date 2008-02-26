@@ -12,6 +12,13 @@ try:
 except IndexError:
     portal = 'openplans'
 
+try:
+    noskip = sys.argv[2]
+    if noskip == '--noskip':
+        noskip = True
+except IndexError:
+    noskip = False
+
 portal = getattr(app, portal)
 pc = portal.portal_catalog
 pr = portal.portal_repository
@@ -44,7 +51,7 @@ try:
             continue
         
         page._p_jar.sync()
-        if getattr(page, '__HISTORY_MIGRATED__', False):
+        if getattr(page, '__HISTORY_MIGRATED__', False) and not noskip:
             skipcounter.next()
             continue
 
