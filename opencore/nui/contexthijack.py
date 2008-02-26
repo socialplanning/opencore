@@ -24,7 +24,10 @@ class HeaderHijackable(BaseView):
         BaseView.__init__(self, context, request)
 
     def _get_context(self):
+        if self.request.get_header('HTTP_X_OPENPLANS_APPLICATION') == 'zope':
+            return self.original_context
         return self.context_from_headers or self.original_context
+    
     def _set_context(self, ctx):
         self.original_context = ctx
     context = property(_get_context, _set_context)
