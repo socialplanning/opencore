@@ -398,11 +398,13 @@ class BaseView(BrowserView):
 
         calculated once
         """
+
         from opencore.interfaces.workflow import IReadWorkflowPolicySupport
         proj_info = {}
         if self.piv.inProject:
             proj = aq_inner(self.piv.project)
             security = IReadWorkflowPolicySupport(proj).getCurrentPolicyId()
+
             proj_info.update(navname=proj.Title(),
                              fullname=proj.getFull_name(),
                              title=proj.Title(),
@@ -412,6 +414,7 @@ class BaseView(BrowserView):
                              featurelets=self.piv.featurelets,
                              location=proj.getLocation(),
                              obj=proj)
+
         return proj_info
 
     # Hooks for geocoding stuff to work, if installed.
