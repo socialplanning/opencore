@@ -9,6 +9,8 @@
      container="opencore.featurelets.interfaces.ITaskTrackerFeatureletInstalled"
      item_url="tasks"
      sort_order="40"
+     selected="opencore.browser.topnav.viewlet.is_in_external_application"
+     application_header="tasktracker"
      />
 
 </configure>
