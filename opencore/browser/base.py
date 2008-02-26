@@ -218,7 +218,10 @@ class BaseView(BrowserView):
                                        self.portal.Title())
 
         # safe catch-all for any case not specifically covered above
-        return '%s %s- %s' % (title, mode, self.portal.Title())
+        if title == self.portal.Title():
+            return '%s %s' % (title, mode)
+        else:
+            return '%s %s- %s' % (title, mode, self.portal.Title())
 
     # XXX only used in topnav
     @instance.memoizedproperty
