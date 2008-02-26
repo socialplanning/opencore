@@ -19,7 +19,7 @@
     <h2>Something unexpected happened.</h2>
  
     <p i18n:translate="error_site_description">
-      Chances are, we're already on it. But, if you tell us what you were trying to do, it will help us fix the problem faster.
+      Chances are, we're already on it. But, if you would please tell us what you were trying to do, it will help us fix the problem faster.  Thank you.
     </p>
 
     <form method="POST" action="." tal:attributes="action view/submit_url">
