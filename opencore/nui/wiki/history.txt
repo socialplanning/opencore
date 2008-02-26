@@ -130,6 +130,7 @@ Verify that version caching for ui has registered the changes::
         'version_id': 2})]
 
 Verify the last modified author and text changes took place::
+
      >>> proj = self.portal.projects.p1
      >>> from opencore.interfaces.catalog import ILastModifiedAuthorId, ILastModifiedComment
      >>> ILastModifiedAuthorId(page)
@@ -236,11 +237,26 @@ Try version 1::
         'modification_date': DateTime(...),
         'version_id': 3}),
       (4,
-       {'author': 'portal_owner',
+       {'author': 'm1',
         'comment': 'Rolled back to Initial Version',
-        'modification_date': DateTime(...),
+        'modification_date': DateTime('...'),
         'version_id': 4})]
 
+Status message should reflect the rollback (we get it this way since
+the view is redirected and the psm haven't been cleared)::
+
+     >>> del rview._redirected
+     >>> print rview.portal_status_message.pop()
+     Rolled back to Initial Version
+
+Iterating over the history should give us the initial version first
+(now the 'current' version)::
+
+     >>> pprint(iter(history).next())
+     {'author': 'm1',
+      'comment': 'Rolled back to Initial Version',
+      'modification_date': DateTime('...'),
+      'version_id': 4}
 
 
 
