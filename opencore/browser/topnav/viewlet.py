@@ -62,6 +62,17 @@ def if_request_starts_with_url(viewlet):
        selected"""
     return viewlet.request.ACTUAL_URL.startswith(viewlet.url())
 
+def is_in_external_application(viewlet):
+    """
+    return true if the X-Openplans-Application header matches the current viewlet's
+    concept of what it should be
+    """
+    expected_header = viewlet.application_header
+    if expected_header is None:
+        return False
+    print viewlet.request.get_header("HTTP_X_OPENPLANS_APPLICATION")
+    return viewlet.request.get_header("HTTP_X_OPENPLANS_APPLICATION") == expected_header
+
 def portal_people_or_projects(viewlet):
     """a particular set of viewlets get rendered when viewing the
        portal, people folder, or projects folder"""
