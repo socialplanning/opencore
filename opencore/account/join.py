@@ -19,6 +19,7 @@ from opencore.member.interfaces import ICreateMembers
 from zope.app.event.objectevent import ObjectCreatedEvent
 from zope.component import getUtility
 from zope.event import notify
+import zExceptions
 
 import urllib
 
@@ -125,7 +126,6 @@ class InviteJoinView(JoinView, ConfirmAccountView):
 
     def validate_key(self):
         key = self.request.form.get('__k')
-        import zExceptions
         if not key:
             raise zExceptions.BadRequest("Must present proper validation")
         if key != str(self.invites.key):
