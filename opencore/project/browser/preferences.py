@@ -148,7 +148,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         #store change status of flet, security, title, description, logo...
         changed = {
             _(u'psm_project_title_changed') : self.context.title != self.request.form.get('project_title', self.context.title),
-            _(u'psm_project_desc_changed') : self.context.Description() != self.request.form.get('description', self.context.description),
+            _(u'psm_project_desc_changed') : self.context.Description() != self.request.form.get('description', self.context.Description()),
             _(u'psm_project_logo_changed') : logochanged,
             _(u'psm_security_changed') : old_workflow_policy != self.request.form.get('workflow_policy'),
             _(u'psm_location_changed'): bool(locationchanged),
