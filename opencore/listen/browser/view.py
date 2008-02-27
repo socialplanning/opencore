@@ -550,3 +550,12 @@ class ListsView(BaseView):
     def can_delete_list(self):
         return self.membertool.checkPermission(DeleteObjects,
                                                self.context.aq_parent)
+
+    def __call__(self):
+        """if there is only one list and the user is not an admin,
+           we automatically redirect to the mailing list"""
+        list_ids = self.context.objectIds()
+        if not self.can_delete_list() and len(list_ids) == 1:
+            ml = getattr(self.context, list_ids[0])
+            return self.redirect(ml.absolute_url())
+        return self.index()
