@@ -59,17 +59,18 @@ class ProjectBaseView(BaseView):
         """
         # XXX maybe this should just be a list?
         # @@ maybe this should just be an ini?
-        return [ dict(id='wiki',
-                      title='Pages',
-                      url=PROJ_HOME,
-                      checked=False,
-                      ),
-                 
+        return [
                  dict(id='latest-activity',
                       title='Summary',
                       url=LATEST_ACTIVITY,
                       checked=True,
-                      )
+                      ),
+
+                 dict(id='wiki',
+                      title='Pages',
+                      url=PROJ_HOME,
+                      checked=False,
+                      ),
                  ]
 
     valid_id = staticmethod(text.valid_id)
