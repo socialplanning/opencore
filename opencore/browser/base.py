@@ -9,6 +9,7 @@ from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
 from lxml.html.clean import Cleaner
+from opencore.configuration.utils import get_config
 from opencore.i18n import i18n_domain, _
 from opencore.i18n import translate
 from opencore.interfaces import IProject 
@@ -56,6 +57,9 @@ class BaseView(BrowserView):
         """@@ this should be calculated from conf"""
         # i'm not sure i feel comfortable about this. what does it do? -egj
         return True
+
+    def get_config(self, section, option, default='', inifile=None):
+        return get_config(section,option,default,inifile)
 
     # XXX only used by formlite in this fashion
     main_macros = ZopeTwoPageTemplateFile('main_macros.pt')
