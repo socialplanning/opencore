@@ -78,8 +78,10 @@ class JoinView(browser.AccountView, OctopoLite):
 
 
 class InviteJoinView(JoinView, ConfirmAccountView):
-    """a preconfirmed join view that also introspects any invitation a
-    perspective member has"""
+    """
+    a preconfirmed join view that also introspects any invitation a
+    prospective member has
+    """
 
     template = ZopeTwoPageTemplateFile('invite-join.pt')
 
