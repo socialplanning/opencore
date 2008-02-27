@@ -652,11 +652,8 @@ class InviteView(ManageTeamView):
     ##################
     #### EMAIL INVITATION BUTTON HANDLERS
     ##################
-    invite_with_message = ZopeTwoPageTemplateFile('invite-with-message.pt')
 
-    @property
-    def template(self):
-        return self.invite_with_message
+    template = ZopeTwoPageTemplateFile('invite-with-message.pt')
 
     ##################
     #### EMAIL INVITES BUTTON HANDLER
