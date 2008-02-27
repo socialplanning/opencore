@@ -1,6 +1,6 @@
 """
 Migration to fix some schizo workflow permissions.
-Run this after updating to opencore rXXX
+Run this after updating to opencore r13795
 """
 
 from AccessControl.SecurityManagement import newSecurityManager
