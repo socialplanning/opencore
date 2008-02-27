@@ -169,14 +169,12 @@ class InviteJoinView(JoinView, ConfirmAccountView):
         member by redirecting to the confirm-account view.
         """
         key = self.request.get('__k')
-        import zExceptions
-        if not key:
-            raise zExceptions.BadRequest("Must present proper validation")
-        if key != str(self.invites.key):
-            raise ValueError('Bad confirmation key')
         
-        email = self.request.form.get("email")
-        if self.is_pending(getEmail=email):
+        if (not key) or (key != str(self.invites.key)):
+            self.addPortalStatusMessage(_(u'psm_denied', u'Denied -- bad key'))
+            return self.redirect("%s/%s" %(self.siteURL, 'login'))
+        
+        if self.is_pending(getEmail=self.email):
             return self.redirect(self._confirmation_url(member))
 
         return None
