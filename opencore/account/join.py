@@ -35,10 +35,17 @@ class JoinView(browser.AccountView, OctopoLite):
         """ redirect logged in users """
 
     def _create_member(self, targets=None, fields=None, confirmed=False):
+        """
+        tries to create a member object based on the request.
+
+        returns the newly created member, or an error dictionary on failure.
+        """
         factory = ICreateMembers(self.portal)
 
         self.errors = factory.validate(self.request.form)
         if self.errors:
+            # XXX let's raise something instead of returning.
+            # it's ugly to overload function return values to signal errors.
             return self.errors
 
         mem = factory.create(self.request.form)
@@ -60,6 +67,8 @@ class JoinView(browser.AccountView, OctopoLite):
         return mem
 
     create_member = action('join', apply=post_only(raise_=False))(_create_member)
+    # the fact that we need to separate the decorated (user-facing) and undecorated methods here
+    # suggests to me that we can refactor some functionality out of the view here. -egj
 
     @action('validate')
     def validate(self, targets=None, fields=None):
@@ -137,7 +146,7 @@ class InviteJoinView(JoinView, ConfirmAccountView):
         self.validate_key()
         # do all the member making stuff
         member = super(InviteJoinView, self)._create_member(targets, fields, confirmed=True)
-        if isinstance(member, dict):
+        if isinstance(member, dict): # yuck
             # return errors 
             return member
 
