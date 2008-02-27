@@ -1534,6 +1534,11 @@ msgstr ""
 msgid "psm_leave_project_admin"
 msgstr ""
 
+#. Default: "The location has been changed."
+#: ./opencore/project/browser/preferences.py:77777
+msgid "psm_location_changed"
+msgstr "The location has been changed."
+
 #. Default: "Mailing list deleted."
 #: opencore/featurelets/browser/listen.py:53
 msgid "psm_mailing_list_deleted"
@@ -1627,12 +1632,12 @@ msgstr ""
 #. Default: "The description has been changed."
 #: opencore/project/browser/preferences.py:142
 msgid "psm_project_desc_changed"
-msgstr ""
+msgstr "The description has been changed."
 
 #. Default: "The project image has been changed."
 #: opencore/project/browser/preferences.py:143
 msgid "psm_project_logo_changed"
-msgstr ""
+msgstr "The project image has been changed."
 
 #. Default: "The name \"${project_name}\" is reserved. Please try a different name."
 #: opencore/project/browser/add.py:108
@@ -1642,12 +1647,12 @@ msgstr ""
 #. Default: "The title has been changed."
 #: opencore/project/browser/preferences.py:141
 msgid "psm_project_title_changed"
-msgstr ""
+msgstr "The title has been changed."
 
 #. Default: "The security policy has been changed."
 #: opencore/project/browser/preferences.py:144
 msgid "psm_security_changed"
-msgstr ""
+msgstr "The security policy has been changed."
 
 #. Default: "Please select members to discard."
 #: opencore/project/browser/manageteam.py:269

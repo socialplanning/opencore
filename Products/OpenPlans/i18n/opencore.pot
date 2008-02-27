@@ -1502,6 +1502,11 @@ msgstr ""
 msgid "psm_leave_project_admin"
 msgstr ""
 
+#. Default: "The location has been changed."
+#: ./opencore/project/browser/preferences.py:77777
+msgid "psm_location_changed"
+msgstr ""
+
 #. Default: "Mailing list deleted."
 #: ./opencore/featurelets/browser/listen.py:53
 msgid "psm_mailing_list_deleted"
