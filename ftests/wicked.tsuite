@@ -11,7 +11,10 @@ logout
 
 # Verify that non-members cannot create wiki pages on medium-policy
 # projects.
-#create_user(user=${notprojmember}, email=${notprojemail})
-#login(user=${notprojmember})
-#no_create_page_as_nonmember(pagename=${pagename2})
-#logout
+create_user(user=${notprojmember}, email=${notprojemail})
+login(user=${notprojmember})
+no_create_page_as_nonmember(pagename=${pagename2})
+logout
+
+# Same for anonymous.
+no_create_page_as_nonmember(pagename=${pagename2})

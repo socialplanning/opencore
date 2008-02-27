@@ -37,6 +37,8 @@ class NuiBaseAdd(WickedAdd, BaseView):
             pass
         
     def add_content(self, title=None, section=None):
+        # XXX rename, we're not adding any old content, it's a wiki page.
+
         # this is 2.5 specific and will need to be updated for new
         # wicked implementation (which is more modular)
         title = self.request.get('Title', title)

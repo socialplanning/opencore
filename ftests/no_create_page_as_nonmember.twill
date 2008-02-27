@@ -1,18 +1,21 @@
 # attempt to add a new page without sufficient permission.
 #
-# expects: 
-#    project projname exists, project homepage has a link
-#    to pagename2, and pagename2 does not exist.
+# expects:
+#    project projname exists, the project does not have a page named
+#    $pagename2, and we are either logged out or logged in NOT as a
+#    member of the project.
+
 
 
 # make sure it doesn't exist already...
 go ${base_url}/projects/${projname}/{pagename2}
 code 404
 
-go ${base_url}/projects/${projname}
-follow ${pagename2}
-url ${base_url}/.*/require_login?.*
-find "psm_please_sign_in"
-go ${base_url}/projects/${projname}/{pagename2}
+# Fail to create it...
+go ${base_url}/projects/${projname}/project-home/@@add-page?Title=${pagename2}&section=text
+
+##url ${base_url}/.*/require_login?.*
+find 'psm_please_sign_in|You do not have sufficient permissions.'
+
+go ${base_url}/projects/${projname}/${pagename2}
 code 404
-logout

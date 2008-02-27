@@ -90,7 +90,7 @@
   <browser:page
      class="opencore.nui.wiki.add.NuiContainerAdd"
      for="opencore.interfaces.IProject"
-     permission="cmf.AddPortalContent"
+     permission="openplans.AddOpenPage"
      name="add-page"
      attribute="add_content"
      />
@@ -98,7 +98,7 @@
   <browser:page
      class="opencore.nui.wiki.add.NuiPageAdd"
      for="opencore.interfaces.IOpenPage"
-     permission="cmf.AddPortalContent"
+     permission="openplans.AddOpenPage"
      name="add-page"
      attribute="add_content"
      />
