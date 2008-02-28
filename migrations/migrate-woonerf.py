@@ -27,6 +27,7 @@ woonerf_migrations = [
     'Make project home pages relative',
     'Install Cabochon Client Utility',
     'Make profile default member page',
+    'annotate last modified author',
 ]
 
 for migration in woonerf_migrations:
