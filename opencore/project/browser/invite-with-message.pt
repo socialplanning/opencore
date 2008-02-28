@@ -58,6 +58,7 @@
                   <label for="message">Message:</label>
                 </th>
                 <td class="oc-form-value">
+                <div class="oc-boxy">
 <!-- default message for reminder -->
 <textarea tal:condition="remind" rows="9" cols="70"  name="message" i18n:translate="email_remind_default_body">
 This is a reminder.
@@ -75,14 +76,8 @@ This is a reminder.
 <span i18n:name="portal_title" tal:replace="view/portal_title" /> is a free toolset for social change. With <span i18n:name="portal_title" tal:replace="view/portal_title" />, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks.
 
 </textarea>
-                </td>
-                <td class="oc-form-help">
-                </td>
-              </tr>
-              <tr class="oc-form-row">
-                <th class="oc-form-label" scope="row">
-                </th>
-                <td class="oc-form-value oc-discreetText" tal:content="structure view/invite_email_boiler"/>
+                <span tal:replace="structure view/invite_email_boiler"/>
+                </div>
                 <td class="oc-form-help">
                 </td>
               </tr>

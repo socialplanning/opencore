@@ -705,8 +705,6 @@ class InviteView(ManageTeamView):
         msg = (self.translate(_(u'email_invite_static_body', mapping=msg_subs)))
         msg = msg.replace('\n\n', '<br>')
         msg = msg.replace('\n', '<br>')
-        if msg.startswith('<br>'):
-            msg = msg[4:]
             
         return msg
 
