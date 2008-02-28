@@ -11,6 +11,10 @@ class ErrorView(BaseView):
     notfound = ZopeTwoPageTemplateFile('notfound.pt')
     error = ZopeTwoPageTemplateFile('error.pt')
 
+    # these are the portal types that can show up in the 404 search results
+    notfound_portal_types = ['Document', 'Open Mailing List', 'OpenProject',
+                             'FileAttachment']
+
     def find_name(self):
         """ this is really dumb. there must be a better way. """
         return self.request.getURL().split('/')[-1]
@@ -18,7 +22,9 @@ class ErrorView(BaseView):
     def query(self):
         name = self.find_name()
         cat = getToolByName(self.context, 'portal_catalog')
-        results = cat(path='/'.join(self.context.getPhysicalPath()), SearchableText=name)
+        results = cat(path='/'.join(self.context.getPhysicalPath()),
+                      SearchableText=name,
+                      portal_type=self.notfound_portal_types)
         return results[:10]
 
     def user_email(self):
