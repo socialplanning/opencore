@@ -91,7 +91,7 @@ class AccountView(BaseView):
         code = mem.getUserConfirmationCode()
         return "%s/confirm-account?key=%s" % (self.siteURL, code)
 
-    def _sendmail_to_pendinguser(self, user_name, email, url):
+    def _send_mail_to_pending_user(self, user_name, email, url):
         """ send a mail to a pending user """
         # TODO only send mail if in the pending workflow state
 

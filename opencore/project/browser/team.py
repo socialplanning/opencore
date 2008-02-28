@@ -74,7 +74,7 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
         return False
 
     # XXX get rid of this!
-    def _sendmail_to_pendinguser(self, id, email, url):
+    def _send_mail_to_pending_user(self, id, email, url):
         """ send a mail to a pending user """
         # TODO only send mail if in the pending workflow state
         mailhost_tool = self.get_tool("MailHost")
@@ -132,9 +132,9 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
         code = mem.getUserConfirmationCode()
         url = "%s/confirm-account?key=%s" % (self.siteURL, code)
 
-        self._sendmail_to_pendinguser(id=mem_id,
-                                      email=self.request.get('email'),
-                                      url=url)
+        self._send_mail_to_pending_user(id=mem_id,
+                                        email=self.request.get('email'),
+                                        url=url)
         self.addPortalStatusMessage(_('psm_thankyou_for_joining',
                                       u'Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account. After you have activated your account, your request to join the project will be sent to the project administrators.',
                                       mapping={u'mem_id':mem_id,

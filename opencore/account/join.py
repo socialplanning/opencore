@@ -53,9 +53,9 @@ class JoinView(browser.AccountView, OctopoLite):
         url = self._confirmation_url(mem)
         if utils.email_confirmation():
             if not confirmed:
-                self._sendmail_to_pendinguser(user_name=mem_name,
-                                              email=self.request.get('email'),
-                                              url=url)
+                self._send_mail_to_pending_user(user_name=mem_name,
+                                                email=self.request.get('email'),
+                                                url=url)
             
                 self.addPortalStatusMessage(_(u'psm_thankyou_for_joining',
                                               u'Thanks for joining ${portal_title}, ${mem_id}!<br/>\nA confirmation email has been sent to you with instructions on activating your account.',

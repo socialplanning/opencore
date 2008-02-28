@@ -609,6 +609,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
         state).  The member id is specified in the request form, as
         the value for the 'invite-member' button.
         """
+
         mem_id = targets[0] # should only be one
         if not self._doInviteMember(mem_id):
             self.add_status_message(u'You cannot reinvite %s to join this project yet.' % mem_id)
@@ -633,6 +634,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
                 'portal_name': self.portal.title,
                 'portal_url': self.portal.absolute_url(),
                 }
+
         _email_sender(self).sendEmail(mem_id, msg_id='invite_member',
                                     **msg_subs)
         self.add_status_message(u'You invited %s to join this project.' % mem_id)
