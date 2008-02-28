@@ -530,7 +530,10 @@ def parse_html(html, cleanup=True):
     if cleanup:
         # This removes any extra markup or structure like <head>:
         html = cleanup_html(html)
-    html = '<html><head></head><body><div>%s</div></body></html>' % html
+    if isinstance(html, unicode):
+        html = u'<html><head></head><body><div>%s</div></body></html>' % html
+    else:
+        html = '<html><head></head><body><div>%s</div></body></html>' % html
     doc = etree.HTML(html)
     if doc is None:
         raise ValueError('HTML is malformed: %r' % html)
