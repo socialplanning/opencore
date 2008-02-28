@@ -176,7 +176,7 @@
 										</tal:setvar>
 										</td>
 
-										<td tal:condition="item_collection/editable">
+										<td tal:condition="item_collection/editable | nothing">
 										<ul class="oc-actions oc-dataTable-row-actions" tal:condition="editable | item_collection/editable">
 											<li>
 
