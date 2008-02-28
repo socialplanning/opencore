@@ -51,7 +51,8 @@
 							<tal:if condition="item_collection/editable">
 								<thead tal:attributes="id string:oc-${item_type}-thead" >
 								<tr>
-									<th class="oc-dataTable-checkBoxColumn">
+									<th class="oc-dataTable-checkBoxColumn" 
+                      tal:condition="item_collection/editable">
 									<input type="checkbox" class="oc-checkAll" />
 									</th>
 									<th scope="col"
@@ -87,7 +88,7 @@
 													myvalue string:obj_date">
 									<metal:do use-macro="view/template/macros/sortable_header" />
 									</th>
-									<th>Actions</th>
+									<th tal:condition="item_collection/editable">Actions</th>
 								</tr>
 								</thead>
 							</tal:if>
@@ -95,6 +96,10 @@
 							<tal:if condition="not:item_collection/editable">
 								<thead tal:attributes="id string:oc-${item_type}-thead" >
 								<tr>
+									<th scope="col"
+										tal:condition="python:item_type=='lists'">
+                    
+									</th>
 									<th scope="col"
 										tal:define="myname string:Title;
 													myvalue string:title">
@@ -116,6 +121,10 @@
 										tal:define="myname item_date_author_header;
 													myvalue string:obj_date">
 									<metal:do use-macro="view/template/macros/sortable_header" />
+									</th>
+									<th scope="col"
+										tal:condition="python:item_type=='lists'">
+                    Actions
 									</th>
 								</tr>
 								</thead>
