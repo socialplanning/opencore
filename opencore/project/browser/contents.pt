@@ -135,7 +135,7 @@
 										tal:attributes="id item/id"
 										tal:define="item item | options/item;
 													item_type item_type | options/item_type;
-													editable python: not item.get('uneditable');
+													editable python: not item.get('uneditable', True);
                                                                                                         editable options/editable | editable;
 													deletable not:item/undeletable | nothing">
 										<td tal:condition="python:editable or item_collection.editable">
@@ -167,7 +167,7 @@
 										</tal:setvar>
 										</td>
 
-										<td>
+										<td tal:condition="item_collection/editable">
 										<ul class="oc-actions oc-dataTable-row-actions" tal:condition="editable | item_collection/editable">
 											<li>
 
