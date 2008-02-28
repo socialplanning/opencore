@@ -1,3 +1,9 @@
+=========================
+ Team Membership Request
+=========================
+
+@@ needs more narrative DWM
+
 Make sure the RequestMembershipWithEmail adapter is hooked up::
     >>> team = portal.portal_teams.p1
     >>> from opencore.interfaces.pending_requests import IRequestMembership
