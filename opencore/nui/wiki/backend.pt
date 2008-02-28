@@ -6,7 +6,7 @@
 	
   <script type="text/javascript">
     // temporary. An ImageManager rewrite will take care of this kludge.
-    _backend_url = "backend?__plugin=ImageManager&backend_config=a%3A7%3A%7Bs%3A10%3A%22images_dir%22%3Bs%3A40%3A%22%2Fwww%2Fstreetsblog.org%2Fwp-content%2Fuploads%2F%22%3Bs%3A10%3A%22images_url%22%3Bs%3A20%3A%22%2Fwp-content%2Fuploads%2F%22%3Bs%3A9%3A%22safe_mode%22%3Bb%3A0%3Bs%3A13%3A%22allow_new_dir%22%3Bb%3A1%3Bs%3A12%3A%22allow_upload%22%3Bb%3A1%3Bs%3A15%3A%22thumbnail_width%22%3Bi%3A96%3Bs%3A16%3A%22thumbnail_height%22%3Bi%3A96%3B%7D&backend_config_hash=773e8785b2a025af8d4e4f34193daf2ecec6d938&backend_config_secret_key_location=Xinha%3AImageManager&";
+    _backend_url = "backend";
     _resized_prefix = ".resized";
     _resized_dir = ".resized";
   </script>
