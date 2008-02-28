@@ -31,6 +31,8 @@ from opencore.configuration import PROHIBITED_MEMBER_PREFIXES
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utils import get_opencore_property
 
+regex = re.compile(EMAIL_RE)
+
 member_schema = id_schema + contact_schema + plone_schema + \
                 security_schema + login_info_schema
 content_schema = member_schema.copy() # copy before editing
@@ -393,7 +395,6 @@ class OpenMember(FolderishMember):
         if form.has_key('email') and not form['email']:
             return self.translate('Input is required but no input given.',
                                   default='You did not enter an email address.')
-        regex = re.compile(EMAIL_RE)
         if regex.match(email) is None:
             msg = "That email address is invalid."
             return self.translate(msg, default=msg)
