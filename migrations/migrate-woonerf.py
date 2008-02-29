@@ -40,7 +40,7 @@ ps.setImportContext(context_id=context_id)
 # the true means to run dependencies
 print 'importing selected steps'
 ps.runImportStep('propertiestool', run_dependencies=1)
-ps.runImportStep('workflow', run_dependencies=1)
+result = ps.runImportStep('workflow', run_dependencies=1)
 print 'done importing selected steps'
 
 woonerf_migrations = [
@@ -63,3 +63,19 @@ wft.updateRoleMappings()
 print 'done updating role mappings'
 
 transaction.commit()
+
+
+## XXX from update_wiki_permissions.py
+print "Import status messages:"
+for key, val in result['messages'].items():
+    print "%s\n%s" % (key, "=" * len(key))
+    print val or "(no messages)"
+    print
+
+# This is one honking big transaction...
+print "Updating permissions, might take a loong time ..."
+wft.updateRoleMappings()
+
+print "Comitting transaction..."
+transaction.commit()
+print "OK!"
