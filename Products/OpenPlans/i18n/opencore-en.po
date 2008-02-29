@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
 "POT-Creation-Date: 2008-02-18 20:18+0000\n"
-"PO-Revision-Date: 2008-02-19 14:10-0500\n"
+"PO-Revision-Date: 2008-02-29 15:47-0500\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
 "MIME-Version: 1.0\n"
@@ -1562,7 +1562,7 @@ msgstr ""
 #. Default: "A new activation email has been sent to ${email} from ${mfrom}. <br />Please follow the link in the email to activate this account."
 #: opencore/account/confirmation.py:100
 msgid "psm_new_activation"
-msgstr ""
+msgstr "A new activation email has been sent to ${email} from ${mfrom}. <br />Please follow the link in the email to activate your account."
 
 #. Default: "Please select items to delete."
 #: opencore/project/browser/contents.py:155
@@ -1818,6 +1818,9 @@ msgstr ""
 msgid "tour_start_projects_heading"
 msgstr ""
 
+msgid "password_send_warning"
+msgstr "Please do not include your password or any other sensitive information."
+
 #~ msgid "remove_invite_none_selected"
 #~ msgstr "Please select at least one person to send a reminder to."
 #~ msgid "Button css class"
@@ -1835,7 +1838,4 @@ msgstr ""
 #~ "projects. You can also blog, set up mailing lists, store and share files, "
 #~ "and keep track of tasks. We hope you'll take ${portal_url} for a spin. "
 #~ "Cheers, The ${project_title} Team"
-
-msgid "password_send_warning"
-msgstr "Please do not include your password or any other sensitive information."
 
