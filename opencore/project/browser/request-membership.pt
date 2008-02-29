@@ -9,7 +9,7 @@
           <h1>Join</h1>
           <p class="oc-headingContext">Request membership to &ldquo;<span tal:replace="view/area/Title" />&rdquo;.</p>
         </div>
-        <form method="POST" id="request-membership"
+        <form method="POST" id="request-membership" name="request-membership"
               tal:attributes="action view/request/ACTUAL_URL">
           <div class="oc-boxy oc-columnGroup oc-clearAfter" tal:condition="not:view/loggedin">
           
