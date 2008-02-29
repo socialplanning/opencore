@@ -149,7 +149,9 @@ def discussions2feed(message, args):
     return retval
 
 def team_sort(x, y):
-    """sorting function for member display on project latest activity page"""
+    """
+    sorting function for member display on project latest activity page
+    """
     # could also sort by admin-ness, lastlogin, etc
     portrait = [ x['portrait_url'], y['portrait_url'] ]
     default = '++resource++img/default-portrait.gif'
@@ -165,6 +167,10 @@ class LatestActivityView(ProjectContentsView):
     """
 
     # XXX this is necessary because the ProjectContentsView stupidly overrides template
+
+    # end-user views are really not intended to be extended. if a view has functionality you need,
+    # that is probably a good indication that the functionality should be moved out of the view
+    # altogether and into an object adapter, utility, or function ASAP -egj
     template = ZopeTwoPageTemplateFile('latest_activity.pt')    
 
     def __init__(self, context, request):                
@@ -231,7 +237,9 @@ class LatestActivityView(ProjectContentsView):
         foo = g()
 
     def team_manager(self):
-        """returns whether the member has permission to manage the team"""
+        """
+        returns whether the member has permission to manage the team
+        """
         mem_id = self.member_info.get('id')
         if mem_id is None:
             return False
