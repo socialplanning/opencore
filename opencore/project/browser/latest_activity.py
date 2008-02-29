@@ -30,7 +30,9 @@ class ListFromCatalog(object):
         return items[:number]
 
 class DiscussionList(ListFromCatalog):
-    """rediculously bad class to get mail"""
+    """
+    ridiculously bad class to get mail
+    """
 
     def __call__(self, catalog, number=None):
         lists = catalog(**self.base_query)
@@ -68,8 +70,10 @@ class DiscussionList(ListFromCatalog):
         return items
 
 class Feed(object):
-    """a rediculously stupid class for feeds.
-    should be redone"""
+    """
+    a ridiculously stupid class for feeds.
+    should be redone
+    """
     def __init__(self, title, link, linktitle, listgetter, listgetterargs,
                  tofeed, tofeedargs=None):
         self.title = title
