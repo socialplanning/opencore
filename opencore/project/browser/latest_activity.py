@@ -14,10 +14,8 @@ class ListFromCatalog(object):
     return the latest items from a catalog
     """
 
-    keys = [ 'portal_type', 'path' ]
-
     def __init__(self, portal_type, path):
-        self.base_query = dict([(key, locals()[key]) for key in self.keys])
+        self.base_query = dict(portal_type=portal_type, path=path)
 
     def query(self):        
         return dict(sort_order='descending',
