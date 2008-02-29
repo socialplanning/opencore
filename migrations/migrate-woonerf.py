@@ -5,6 +5,7 @@ user = user.__of__(app.acl_users)
 newSecurityManager(app, user)
 from Testing.makerequest import makerequest
 app=makerequest(app)
+request = app.REQUEST
 import transaction
 
 n = app.openplans
@@ -21,6 +22,27 @@ portal = n
 
 from opencore.nui.setup import nui_functions
 
+# first, let's set up the default profile
+
+# here's where we get the id of the profile site configuration
+ps = n.portal_setup
+
+context_infos = [x['id'] for x in ps.listContextInfos()
+                 if 'opencore' in x['id'].lower()]
+context_infos = [x for x in context_infos if 'default' not in x]
+assert len(context_infos) == 1
+context_id = context_infos[0]
+
+# now we set it as the default profile
+ps.setImportContext(context_id=context_id)
+
+# and we can import the right steps now
+# the true means to run dependencies
+print 'importing selected steps'
+ps.runImportStep('propertiestool', run_dependencies=1)
+ps.runImportStep('workflow', run_dependencies=1)
+print 'done importing selected steps'
+
 woonerf_migrations = [
     'Initialize Project BTrees',
     'Fix up project home pages',
@@ -35,5 +57,9 @@ for migration in woonerf_migrations:
     print 'running migration:', migration
     migration_fn(portal)
     print 'successfully ran migration:', migration
+
+print 'updating role mappings'
+wft.updateRoleMappings()
+print 'done updating role mappings'
 
 transaction.commit()
