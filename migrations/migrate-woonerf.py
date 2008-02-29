@@ -71,11 +71,6 @@ print 'updating role mappings'
 wft.updateRoleMappings()
 print 'done updating role mappings'
 
-# This is one honking big transaction...
-print "Updating permissions, might take a loong time ..."
-wft.updateRoleMappings()
-print "Done updating permissions"
-
 print "Comitting transaction..."
 transaction.commit()
 print "All migrations done"
