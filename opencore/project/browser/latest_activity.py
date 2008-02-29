@@ -148,6 +148,14 @@ def discussions2feed(message, args):
 
     return retval
 
+def team_sort(x, y):
+    """sorting function for member display on project latest activity page"""
+    # could also sort by admin-ness, lastlogin, etc
+    portrait = [ x['portrait_url'], y['portrait_url'] ]
+    default = '++resource++img/default-portrait.gif'
+    portrait = [ int(i != default) for i in portrait ]
+    return cmp(*portrait)
+
 class LatestActivityView(ProjectContentsView):
     """
     displays latest activity for a project.
@@ -236,13 +244,6 @@ class LatestActivityView(ProjectContentsView):
         team = team[0]
         team = [ self.member_info_for_member(member)
                  for member in team.getActiveMembers() ]
-        def team_sort(x, y):
-            """sorting function for member display on project latest activity page"""
-            # could also sort by admin-ness, lastlogin, etc
-            portrait = [ x['portrait_url'], y['portrait_url'] ]
-            default = '++resource++img/default-portrait.gif'
-            portrait = [ int(i != default) for i in portrait ]
-            return cmp(*portrait)
 
         team.sort(team_sort, reverse=True)
         return team
