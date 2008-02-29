@@ -90,6 +90,11 @@ set_method_aliases(portal)
 print "done"
 
 
+print "Installing portal_geocoder"
+qi = portal.portal_quickinstaller
+qi.installProducts(['PleiadesGeocoder'])
+print "done"
+
 
 print "Comitting transaction..."
 transaction.commit()
