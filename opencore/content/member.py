@@ -371,7 +371,7 @@ class OpenMember(FolderishMember):
                       "in use or is not valid. Please choose another."
                 return self.translate(msg, default=msg)
 
-    security.declarePrivate('_id_exists_remotely')  # is this a typo?
+    security.declarePrivate('_email_exists_remotely')
     def _email_exists_remotely(self, email):
         """
         Checks all of the servers in the remote_auth_sites property to
