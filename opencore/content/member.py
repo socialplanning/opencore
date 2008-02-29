@@ -47,7 +47,8 @@ content_schema['location'].index = \
 content_schema['title'].write_permission = 'Manage users'
 content_schema['title'].widget.visible= {'view': 'invisible'}
 
-content_schema['wysiwyg_editor'].default = 'Kupu'
+content_schema['wysiwyg_editor'].default = 'Kupu'  # this looks suspiciously crufty
+
 content_schema['wysiwyg_editor'].write_permission = 'Manage site'
 content_schema['wysiwyg_editor'].widget.visible = {'edit':'invisible',
                                                    'view':'invisible'}
@@ -370,7 +371,7 @@ class OpenMember(FolderishMember):
                       "in use or is not valid. Please choose another."
                 return self.translate(msg, default=msg)
 
-    security.declarePrivate('_id_exists_remotely')
+    security.declarePrivate('_id_exists_remotely')  # is this a typo?
     def _email_exists_remotely(self, email):
         """
         Checks all of the servers in the remote_auth_sites property to
