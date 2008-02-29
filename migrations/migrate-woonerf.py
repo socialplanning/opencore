@@ -5,8 +5,9 @@ user = user.__of__(app.acl_users)
 newSecurityManager(app, user)
 from Testing.makerequest import makerequest
 app=makerequest(app)
-request = app.REQUEST
 import transaction
+from opencore.streetswiki.utils import add_wiki
+from opencore.nui.setup import set_method_aliases
 
 def print_status_messages(import_result_dict):
     print "Import status messages:"
@@ -44,7 +45,6 @@ context_id = context_infos[0]
 ps.setImportContext(context_id=context_id)
 
 # and we can import the right steps now
-# the true means to run dependencies
 print 'importing selected steps'
 result = ps.runImportStep('propertiestool', run_dependencies=1)
 print_status_messages(result)
@@ -80,6 +80,16 @@ email_from_address = 'greetings@yourstreets.org'
 print 'setting email from address to "%s"' % email_from_address
 n.manage_changeProperties(email_from_address=email_from_address)
 print 'set email from address'
+
+print "Adding streetswiki folder"
+add_wiki(portal, 'streetswiki', id_='streetswiki')
+print "streetswiki folder added"
+print
+print "Running set_method_aliases widget"
+set_method_aliases(portal)
+print "done"
+
+
 
 print "Comitting transaction..."
 transaction.commit()
