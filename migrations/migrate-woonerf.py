@@ -71,7 +71,7 @@ print 'updating role mappings'
 wft.updateRoleMappings()
 print 'done updating role mappings'
 
-new_site_title = 'Your Streets'
+new_site_title = u'Your Streets'
 print 'updating the site title to ... "%s"' % new_site_title
 n.setTitle(new_site_title)
 print 'site title updated'
