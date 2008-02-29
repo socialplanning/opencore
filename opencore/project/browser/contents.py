@@ -81,8 +81,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
         if item['id'] == PROJ_HOME:
             item['uneditable'] = True
             item['undeletable'] = True
-        if not show_deletes:
-            item['undeletable'] = True
+        item['uneditable'] = not show_deletes 
         return item
 
     def _sorted_items(self, item_type, sort_by=None, sort_order='ascending'):
