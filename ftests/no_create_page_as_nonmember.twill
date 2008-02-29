@@ -2,20 +2,20 @@
 #
 # expects:
 #    project projname exists, the project does not already have a page named
-#    $pagename2.
+#    $new_page.
 
 
 # make sure it doesn't exist already...
-go ${base_url}/projects/${projname}/{pagename2}
+go ${base_url}/projects/${projname}/${new_page}
 code 404
 
 # Fail to create it...
-go ${base_url}/projects/${projname}/project-home/@@add-page?Title=${pagename2}&section=text
+go ${base_url}/projects/${projname}/project-home/@@add-page?Title=${new_page}&section=text
 
 ##url ${base_url}/.*/require_login?.*
 find 'psm_please_sign_in|You do not have sufficient permissions.'
 
-go ${base_url}/projects/${projname}/${pagename2}
+go ${base_url}/projects/${projname}/${new_page}
 code 404
 
 
@@ -26,8 +26,8 @@ find 'psm_please_sign_in|You do not have sufficient permissions.'
 find 'psm_please_sign_in|You do not have sufficient permissions.'
 
 
-go ${base_url}/projects/${projname}/project-home/@@wickedadd?Title=${pagename2}&section=text
+go ${base_url}/projects/${projname}/project-home/@@wickedadd?Title=${new_page}&section=text
 find 'psm_please_sign_in|You do not have sufficient permissions.'
 
-go ${base_url}/projects/${projname}/${pagename2}
+go ${base_url}/projects/${projname}/${new_page}
 code 404
