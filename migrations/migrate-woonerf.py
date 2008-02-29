@@ -8,6 +8,13 @@ app=makerequest(app)
 request = app.REQUEST
 import transaction
 
+def print_status_messages(import_result_dict):
+    print "Import status messages:"
+    for key, val in import_result_dict['messages'].items():
+        print "%s\n%s" % (key, "=" * len(key))
+        print val or "(no messages)"
+        print
+
 n = app.openplans
 md = n.portal_memberdata
 ms = n.portal_membership
@@ -39,8 +46,10 @@ ps.setImportContext(context_id=context_id)
 # and we can import the right steps now
 # the true means to run dependencies
 print 'importing selected steps'
-ps.runImportStep('propertiestool', run_dependencies=1)
+result = ps.runImportStep('propertiestool', run_dependencies=1)
+print_status_messages(result)
 result = ps.runImportStep('workflow', run_dependencies=1)
+print_status_messages(result)
 print 'done importing selected steps'
 
 woonerf_migrations = [
@@ -62,20 +71,11 @@ print 'updating role mappings'
 wft.updateRoleMappings()
 print 'done updating role mappings'
 
-transaction.commit()
-
-
-## XXX from update_wiki_permissions.py
-print "Import status messages:"
-for key, val in result['messages'].items():
-    print "%s\n%s" % (key, "=" * len(key))
-    print val or "(no messages)"
-    print
-
 # This is one honking big transaction...
 print "Updating permissions, might take a loong time ..."
 wft.updateRoleMappings()
+print "Done updating permissions"
 
 print "Comitting transaction..."
 transaction.commit()
-print "OK!"
+print "All migrations done"
