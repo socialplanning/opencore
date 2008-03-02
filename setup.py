@@ -36,6 +36,7 @@ setup(
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         'https://svn.openplans.org/svn/vendor/geopy/openplans/dist',
                         'https://svn.openplans.org/svn/topp.utils/trunk#egg=topp.utils-dev'
+                        'https://svn.openplans.org/svn/oc-cab/trunk#egg=oc-cab-dev'
                         ],
 
       install_requires=[
@@ -58,7 +59,7 @@ setup(
           'uuid',
           'geopy==0.93-20071130',  # forces our vendor branch.
           'flunc>=0.1.2',
-          'cabochonclient',
+          'oc-cab==dev',
           ],
       extras_require=dict(ubuntu=['hprof']),
 
