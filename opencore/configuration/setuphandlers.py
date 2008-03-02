@@ -25,7 +25,6 @@ from utils import kupu_resource_map
 from zope.app.component.hooks import setSite
 from zope.component import queryUtility
 from zope.interface import alsoProvides
-import traceback
 import os
 import pkg_resources
 import socket
