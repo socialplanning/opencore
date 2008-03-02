@@ -11,9 +11,9 @@ from Products.OpenPlans.content.project import OpenProject
 from Products.PortalTransforms.libtransforms.utils import MissingBinary
 from borg.localrole.utils import setup_localrole_plugin
 from logging import getLogger, INFO, WARNING
+from opencore.cabochon.configuration.setuphandlers import install_cabochon_utility
 from opencore.configuration.setuphandlers import addCatalogQueue
 from opencore.configuration.setuphandlers import createValidationMember
-from opencore.configuration.setuphandlers import install_cabochon_utility
 from opencore.configuration.setuphandlers import install_email_invites_utility
 from opencore.configuration.setuphandlers import install_remote_auth_plugin
 from opencore.configuration.setuphandlers import install_team_placeful_workflow_policies

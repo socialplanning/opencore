@@ -10,8 +10,6 @@ from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
 from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
 from Products.remember.utils import getAdderUtility
 from StringIO import StringIO
-from opencore.cabochon.client import CabochonConfigError, CabochonUtility
-from opencore.cabochon.interfaces import ICabochonClient
 from opencore.configuration import OC_REQ as OPENCORE
 from opencore.content.member import OpenMember
 from opencore.content.membership import OpenMembership
@@ -447,16 +445,6 @@ def register_local_utility(portal, out, iface, klass, factory_fn=None):
 @setuphandler
 def install_email_invites_utility(portal, out):
     register_local_utility(portal, out, IEmailInvites, EmailInvites)
-
-@setuphandler
-def install_cabochon_utility(portal, out):
-    try:
-        factory_fn = lambda:CabochonUtility(portal)
-        register_local_utility(portal, out, ICabochonClient, CabochonUtility, factory_fn)
-    except ValueError:
-        logger.info(traceback.print_exc())
-    except CabochonConfigError:
-        logger.info(traceback.print_exc())
         
 @setuphandler
 def addCatalogQueue(portal, out):
