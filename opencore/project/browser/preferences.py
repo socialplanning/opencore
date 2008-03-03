@@ -227,6 +227,8 @@ class ProjectDeletionView(BaseView):
     handle_delete = formhandler.button('delete')(_handle_delete)
 
 
+## XXX event subscribers do *not* belong in a browser module
+
 @adapter(IProject, IObjectWillBeRemovedEvent)
 def handle_flet_uninstall(project, event=None):
     supporter = IFeatureletSupporter(project)
@@ -251,6 +253,7 @@ def delete_email_invites(proj, event=None):
 def handle_blog_delete(project, event=None):
     pass
 
+## XXX --end complaint
 
 class ProjectFeatureletSupporter(FeatureletSupporter):
     adapts(IProject)
