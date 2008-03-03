@@ -1,11 +1,14 @@
-from pprint import pprint 
 from AccessControl.SecurityManagement import newSecurityManager
-from AccessControl.SpecialUsers import system
+from itertools import count
 from opencore.nui.wiki import utils
+from pprint import pprint 
 import sys
 import transaction as txn
 
-newSecurityManager(None, system)
+username = 'admin'
+user = app.acl_users.getUser(username)
+user = user.__of__(app.acl_users)
+newSecurityManager(app, user)
 
 try:
     portal = sys.argv[1]
@@ -14,12 +17,12 @@ except IndexError:
 
 try:
     noskip = sys.argv[2]
-    if noskip == '--noskip':
-        noskip = True
+    noskip = noskip == '--noskip'
 except IndexError:
     noskip = False
 
 portal = getattr(app, portal)
+
 pc = portal.portal_catalog
 pr = portal.portal_repository
 path = '/'.join(portal.getPhysicalPath() + ('projects',))
@@ -27,12 +30,6 @@ brains = pc(portal_type="Document", path=path)
 
 print "\nattempting to migrate %s @ %s" %(len(brains), path)
 
-def count():
-    x = 0
-    while True:
-        x += 1
-        yield x
-        
 counter = count()
 skipcounter = count()
 _ghosts = []
@@ -74,12 +71,10 @@ try:
 except KeyboardInterrupt, e:
     print e
 
-print ""
+print
 print "Total pages migrated: % 3s" %(counter.next() - 1)
 print "Total entries migrated: % 1s" %(entries) 
 print "Total skipped: % 10s" %(skipcounter.next() - 1)
 print "Total ghosts removed: % 3s" %len(_ghosts)
 if _ghosts:
     pprint(_ghosts)
-
-
