@@ -613,7 +613,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
         mem_id = targets[0] # should only be one
         if not self._doInviteMember(mem_id):
             self.add_status_message(u'You cannot reinvite %s to join this project yet.' % mem_id)
-            raise Redirect('%s/manage-team' % self.context.absolute_url())
+            self.redirect('%s/manage-team' % self.context.absolute_url())
 
         acct_url = self._getAccountURLForMember(mem_id)
         logged_in_mem = self.loggedinmember
