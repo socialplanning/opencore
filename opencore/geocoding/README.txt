@@ -152,7 +152,7 @@ Request values override get_geo_info_from_form but not geo_info:
     >>> pprint(info)
     {'is_geocoded': True,
      'location': 'somewhere',
-     'maps_script_url': 'http://...',
+     'maps_script_url': '...',
      'position-latitude': 45.0,
      'position-longitude': 0.0,
      'position-text': '',
