@@ -590,7 +590,7 @@ There should always be some minimal geo info available::
     >>> pprint(editview.geo_info)
     {'is_geocoded': False,
      'location': '',
-     'maps_script_url': 'http://...',
+     'maps_script_url': '...',
      'position-latitude': '',
      'position-longitude': '',
      'position-text': '',
