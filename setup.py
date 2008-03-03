@@ -36,7 +36,7 @@ setup(
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         'https://svn.openplans.org/svn/vendor/geopy/openplans/dist',
                         'https://svn.openplans.org/svn/topp.utils/trunk#egg=topp.utils-dev',
-                        'https://svn.openplans.org/svn/oc-cab/trunk#egg=oc-cab-dev'
+                        'https://svn.openplans.org/svn/oc-cab/trunk#egg=oc-cab-dev',
                         ],
 
       install_requires=[
