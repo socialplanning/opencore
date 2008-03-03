@@ -120,8 +120,8 @@ All-but-disabling this particular assertion for now, since it relies
 on external configuration (should be mockable)::
     >>> view.geo_info['maps_script_url']
     '...'
-(We were really expecting http://maps.google.com/maps?file=api&v=2&key=...')
 
+We were really expecting http://maps.google.com/maps?file=api&v=2&key=...'
 
 
 clean up...
