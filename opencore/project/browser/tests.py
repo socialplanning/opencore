@@ -187,15 +187,15 @@ def test_suite():
                                                          layer=OpencoreContent                                                 
                                                          )
     
-    suites = (#contents,
-              #metadata,
-              #manage_team,
-              #request_membership,
-              #homepage,
-              #team_request_membership,
-              #logo,
+    suites = (contents,
+              metadata,
+              manage_team,
+              request_membership,
+              homepage,
+              team_request_membership,
+              logo,
               readme,
-              #delete,
+              delete,
               team_view)
 
     return unittest.TestSuite(suites)
