@@ -12,7 +12,6 @@ from opencore.browser import tal
 from opencore.browser.base import _, BaseView
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.interfaces import IHomePage
-from opencore.cabochon.interfaces import ICabochonClient
 from opencore.interfaces import IProject
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
@@ -252,16 +251,6 @@ def delete_email_invites(proj, event=None):
 def handle_blog_delete(project, event=None):
     pass
 
-@adapter(IProject, IObjectRemovedEvent)
-def notify_cabochon(project, event=None):
-    # project info passed to cabochon
-    id = project.getId()
-
-    # FIXME for some reason, on test tear down the getUtility fails
-    # without explicitly passing a context
-    portal = getToolByName(project, 'portal_url').getPortalObject()
-    cabochon_utility = getUtility(ICabochonClient, context=portal)
-    cabochon_utility.notify_project_deleted(id)
 
 class ProjectFeatureletSupporter(FeatureletSupporter):
     adapts(IProject)
