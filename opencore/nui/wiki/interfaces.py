@@ -2,7 +2,9 @@ from zope.interface import Interface, Attribute
 
 class IReversionEvent(Interface):
     """marker for a reversion event"""
-    reversion_message=Attribute('reversion message')
+    reversion_message = Attribute('reversion message')
+    old_history = Attribute('history of former head object')
+    rollback_author = Attribute('user id of user doing rollback')
 
 class IWikiHistory(Interface):
     """api to retrieve cache of history data for performance"""

@@ -99,6 +99,9 @@
  </index>
  <index name="startendrange" meta_type="DateRangeIndex" since_field="start"
     until_field="end"/>
+ <index name="project_ids" meta_type="KeywordIndex" />
+ <column value="portrait_thumb_url"/>
+ <column value="project_ids"/>
  <column value="CreationDate"/>
  <column value="EffectiveDate"/>
  <column value="ExpiresDate"/>

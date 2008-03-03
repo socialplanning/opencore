@@ -22,8 +22,7 @@
                                    start batch/start | nothing;
                                    end batch/end | nothing;
                                    sequence_length batch/sequence_length | nothing;
-                                   many python: start != end
-            ">
+                                   many python: start != end">
             <div class="oc-headingBlock">
               <h1>Team members</h1>
               <p class="oc-headingContext"><span tal:replace="sequence_length">N</span> member<tal:plural condition="many">s</tal:plural>. <span tal:condition="python: view.membertool.checkPermission('TeamSpace: Manage team memberships', context)"><a href="manage-team">Add or remove members</a>.</span></p>
@@ -57,67 +56,73 @@
 
           <!-- the results are displayed here -->
           <ol class="oc-roster oc-clearAfter">
-            <li class="oc-clearAfter oc-boxy vcard" tal:repeat="membrain view/memberships">
-              <tal:member-result define="mem membrain/getObject">
-                <div class="oc-avatar" tal:define="memdata python:view.member_info_for_member(mem)">
-                  <a href="" tal:attributes="href string:${context/portal_url}/people/${memdata/id}/profile">
-                    <img class="photo" tal:attributes="src memdata/portrait_thumb_url" />
+            <li class="oc-clearAfter oc-boxy vcard" tal:repeat="member_record view/membership_records">
+              <!-- getting object for each member is slow -->
+              <!-- tal:member-result define="mem membrain/getObject" -->
+                <div class="oc-avatar">
+                  <a href="" tal:attributes="href string:${context/portal_url}/people/${member_record/id}/profile">
+                    <img class="photo" tal:attributes="src member_record/portrait_thumb_url" />
                   </a>
                 </div>
                 <div class="oc-roster-content">
                   <div class="oc-headingBlock">
                   <h3>
                     <a href=""
-                       tal:attributes="href string:${context/portal_url}/people/${mem/getId}/profile"
+                       tal:attributes="href string:${context/portal_url}/people/${member_record/id}/profile"
                        class="fn nickname"
-                       tal:content="mem/getId"
+                       tal:content="member_record/id"
                        />
-                    <span class="oc-discreetText" tal:condition="python: view.is_admin(mem.getId())">
+                    <span class="oc-discreetText" tal:condition="python: view.is_admin(path('member_record/id'))">
                       (Administrator)
                     </span>
                   </h3>
-                  <p class="oc-headingContext oc-discreetText"
-                       tal:define="memship python: view.membership_info_for(mem)">
-                    team member since <span tal:replace="memship/activation">January 1, 2000</span>
+                  <p class="oc-headingContext oc-discreetText">
+                    team member since <span tal:replace="member_record/activation">January 1, 2000</span>
                   </p>
                   </div>
                   <dl class="oc-plainList">
-                    <tal:fullname tal:condition="mem/getFullname">
+                    <tal:fullname 
+                       tal:define="fullname member_record/fullname|nothing"
+                       tal:condition="fullname">
                       <dt>Name:</dt>
-                      <dd class="n" tal:content="mem/getFullname" />
+                      <dd class="n" tal:content="fullname" />
                     </tal:fullname>
-                    <tal:email tal:condition="python: view.get_tool('portal_membership').checkPermission('OpenPlans: View emails', context)">
+                    <tal:email tal:condition="view/can_view_email">
                       <dt>Email:</dt>
-                      <dd class="email" tal:content="mem/getEmail" />
+                      <dd class="email" tal:content="member_record/email" />
                     </tal:email>
-                    <tal:location tal:define="loc mem/getLocation" tal:condition="loc">
+                    <tal:location tal:define="location member_record/location|nothing" tal:condition="location">
                       <dt>Location:</dt>
-                      <dd class="adr"><span class="locality" tal:content="loc" /></dd>
+                      <dd class="adr">
+                        <span class="locality" tal:content="location" />
+                      </dd>
                     </tal:location>
-                    <tal:projects tal:define="projects python: view.projects_for_member(mem);
-                                     nprojects python: view.num_projects_for_member(mem)"
-                                     >
+                    <tal:projects tal:define="pids member_record/project_ids;
+                                              nprojects python:len(pids)">
                       <dt class="oc-roster-projects">
                         Projects (<span tal:replace="nprojects">N</span>):
                       </dt>
                       <dd>
                         <ul class="oc-inlineList">
-                          <li tal:repeat="project projects">
-                            <!-- isprivate setting -->
-                            <a href="" tal:attributes="href project/absolute_url" tal:define="isprivate nothing">
-                              <span tal:content="project/Title" 
-                              /><span tal:condition="isprivate" class="oc-discreetText"> (private)</span></a></li>
+                          <li tal:repeat="pid python: pids[:10]" tal:define="project_info view/project_info">
+                            <tal:project define="project python: project_info[pid]">
+                              <!-- isprivate setting @@ !!!this appears to do nothing!!! DWM -->
+                              <a href="" tal:attributes="href project/getPath">
+                                <span tal:content="project/Title" />
+                                <!-- span tal:condition="isprivate" class="oc-discreetText"> (private)</span -->
+                              </a>
+                            </tal:project>
+                          </li>
                           <li tal:condition="python: nprojects > 10">
-                            <a tal:attributes="href string:${here/portal_url}/people/${mem/getId}/profile">
+                            <a tal:attributes="href string:${here/portal_url}/people/${member_record/id}/profile">
                                (view all&hellip;)</a>
-                               
                           </li>
                         </ul>
                       </dd>
                     </tal:projects>
                   </dl>
                 </div>
-              </tal:member-result>
+              <!-- /tal:member-result -->
             </li>
           </ol>
           <div class="oc-searchresults-nresults" tal:define="many python: start!=end">

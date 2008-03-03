@@ -2,18 +2,18 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.MailHost.MailHost import MailHostError
 from Products.validation.validators.BaseValidators import EMAIL_RE
-from zope.event import notify
-from opencore.interfaces.event import ChangedTeamRolesEvent
-from opencore.configuration import DEFAULT_ROLES
-from opencore.content.membership import OpenMembership
+from opencore.account.login import LoginView
 from opencore.browser import formhandler
 from opencore.browser.base import _
+from opencore.configuration import DEFAULT_ROLES
+from opencore.content.membership import OpenMembership
+from opencore.interfaces.event import ChangedTeamRolesEvent
+from opencore.interfaces.membership import IEmailInvites
+from opencore.interfaces.message import ITransientMessage
 from opencore.nui.email_sender import EmailSender
 from opencore.nui.main import SearchView
 from opencore.nui.main.search import searchForPerson
-from opencore.interfaces.message import ITransientMessage
 from opencore.project.browser import mship_messages
-from opencore.interfaces.membership import IEmailInvites
 from opencore.utility.interfaces import IEmailSender
 from operator import attrgetter
 from plone.memoize.instance import memoize, memoizedproperty
@@ -21,10 +21,11 @@ from plone.memoize.view import memoize as req_memoize
 from plone.memoize.view import memoize_contextless
 from topp.utils.detag import detag
 from zope.component import getUtility
+from zope.event import notify
 from zope.i18nmessageid import Message
+import itertools
 import re
 import urllib
-from opencore.account.login import LoginView
 
 
 class TeamRelatedView(SearchView):
@@ -195,11 +196,15 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
 
 
 class ProjectTeamView(TeamRelatedView):
-
+    
     admin_role = DEFAULT_ROLES[-1]
+
+    def __init__(self, context, request):
+        super(ProjectTeamView, self).__init__(context, request)
+        results = None
     
     def __call__(self):
-
+        # @@ why is this redirect here? DWM
         if self.get_tool('portal_membership').checkPermission('TeamSpace: Manage team memberships', self.context):
             self.redirect(self.context.absolute_url() + '/manage-team')
         else:
@@ -233,10 +238,11 @@ class ProjectTeamView(TeamRelatedView):
         query = dict(portal_type='OpenMember',
                      getId=mem_ids,
                      )
-        member_brains = self.membranetool(**query)
+
+        # @@ DRY
+        member_brains = self.result = self.membranetool(**query)
         lookup_dict = dict((b.getId, b) for b in member_brains if b.getId)
-        batch_dict = [lookup_dict.get(b.getId) for b in membership_brains]
-        batch_dict = filter(None, batch_dict)
+        batch_dict = [lookup_dict.get(b.getId) for b in membership_brains if lookup_dict.has_key(b.getId)]
         return self._get_batch(batch_dict, self.request.get('b_start', 0))
 
     def handle_sort_location(self):
@@ -259,9 +265,9 @@ class ProjectTeamView(TeamRelatedView):
             if yloc < xloc: return 1
             return cmp(x.getId.lower(), y.getId.lower())
 
-        results = sorted(results, cmp=sort_location_then_name)
-        
-        return self._get_batch(results, self.request.get('b_start', 0))
+        # @@ DRY
+        self.results = sorted(results, cmp=sort_location_then_name)
+        return self._get_batch(self.results, self.request.get('b_start', 0))
 
     def handle_sort_contributions(self):
         return self._get_batch([], self.request.get('b_start', 0))
@@ -278,8 +284,10 @@ class ProjectTeamView(TeamRelatedView):
                      getId=ids,
                      sort_on='getId',
                      )
-        results = self.membranetool(**query)
-        return self._get_batch(results, self.request.get('b_start', 0))
+        
+        # @@ DRY
+        self.results = self.membranetool(**query)
+        return self._get_batch(self.results, self.request.get('b_start', 0))
 
     def memberships(self, sort_by=None):
         if sort_by is None:
@@ -290,20 +298,65 @@ class ProjectTeamView(TeamRelatedView):
         except (TypeError, AttributeError):
             return self.handle_sort_default()
             
-    def projects_for_member(self, member):
-        # XXX these should be brains
-        projects = self._projects_for_member(member)
-        # only return max 10 results
-        return projects[:10]
+##     def projects_for_member(self, member):
+##         # XXX these should be brains
+##         projects = self._projects_for_member(member)
+##         # only return max 10 results
+##         return projects[:10]
 
-    def num_projects_for_member(self, member):
-        projects = self._projects_for_member(member)
-        return len(projects)
+##     def num_projects_for_member(self, member):
+##         projects = self._projects_for_member(member)
+##         return len(projects)
 
-    @memoize_contextless
-    def _projects_for_member(self, member):
-        return member.getProjects()
+##     @memoize_contextless
+##     def _projects_for_member(self, member):
+##         return member.getProjects()
 
+    def _membership_record(self, brain):
+        mem_id = brain['getId']
+        project = self.context
+        project_id = project.getId()
+        team = self.team
+        membership = team._getOb(mem_id)
+
+        contributions = 'XXX'
+        activation = self.pretty_date(membership.made_active_date)
+        modification = self.pretty_date(membership.ModificationDate())
+        project_ids = brain.project_ids        
+        return dict(activation=activation,
+                    contributions=contributions,
+                    email=brain.getEmail,
+                    fullname=brain.getFullname,
+                    id=mem_id,
+                    location=brain.getLocation,
+                    modification=modification,
+                    portrait_thumb_url=brain.portrait_thumb_url,
+                    project_ids = project_ids,                    
+                    )
+    
+    def _project_info(self, mem_brains):
+        """
+        concatenates a series of project ids for a collection of
+        member brains and looks up the project brains
+        """
+        proj_ids = set(itertools.chain(*[sorted(brain.project_ids)[:10] for brain in mem_brains]))
+
+        # @@ DWM: matching on id not as good as matching on UID
+        pbrains = self.get_tool('portal_catalog')(getId=list(proj_ids), portal_type='OpenProject')
+        return dict([(b.getId, b) for b in pbrains])
+
+    @memoizedproperty
+    def project_info(self):
+        return self._project_info(self.results)
+
+    def membership_records(self):
+        for membrain in self.memberships():
+            yield self._membership_record(membrain)
+
+    def can_view_email(self):
+        return self.get_tool('portal_membership').checkPermission('OpenPlans: View emails', self.context)
+
+    # remove
     def membership_info_for(self, member):
         mem_id = member.getId()
         project = self.context
@@ -322,5 +375,5 @@ class ProjectTeamView(TeamRelatedView):
     def is_admin(self, mem_id):
         return self.team.getHighestTeamRoleForMember(mem_id) == self.admin_role
         
-
+# requires a reindex
 

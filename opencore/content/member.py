@@ -253,7 +253,20 @@ class OpenMember(FolderishMember):
             for space in team.getTeamSpaces():
                 if mtool.checkPermission(View, space):
                     projects[space] = None
-        return projects.keys()            
+        return projects.keys()
+    
+    security.declareProtected(View, 'project_ids')
+    def project_ids(self):
+        return [x.getId() for x in self.getProjectListing()]
+
+    security.declareProtected(View, 'portrait_thumb_url')
+    def portrait_thumb_url(self):
+        portrait = self.getProperty('portrait', None)
+        if portrait:
+            return "%s_thumb" %portrait.absolute_url()
+        else:
+            # @@ DWM: should come from config
+            return '++resource++img/default-portrait-thumb.gif'
 
     # XXX is this used?
     security.declareProtected(View, 'projectBrains')

@@ -1,13 +1,22 @@
+2008-02-25  whit  <whit@openplans.org>
+
+	* Reverse iterator for wiki history to match old display. 
+
+	* Rollbacks now record proper actor (fixed test too).
+	  
+
 2008-02-22  whit  <whit@openplans.org>
 
 	* Wiki history optimization and history migration script and
- 	migration view.  Moves rendering of version information to read an
-	annotation maintained by events.
+	  migration view.  Moves rendering of version information to read
+	  an annotation maintained by events.
 
 2008-02-25  Paul Winkler  <pw@openplans.org>
 
 	* Add support for geocoding members and projects. #1529
+
 	Migration: 
+	
  	1) Update your opencore-bundle (rerun fassembler:opencore
 	or just manually get https://svn.openplans.org/eggs/openplans-bundle-opencore-plone25-20080215.tar.bz2
 	2) Run portal_quickinstaller to add the geocoder tool:

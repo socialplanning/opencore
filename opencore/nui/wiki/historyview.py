@@ -1,4 +1,4 @@
-from BTrees.OOBTree import OOBTree
+from BTrees.IOBTree import IOBTree
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
@@ -10,6 +10,7 @@ from opencore.interfaces.catalog import ILastModifiedAuthorId, ILastModifiedComm
 from opencore.nui.wiki import htmldiff2
 from opencore.nui.wiki import utils
 from opencore.nui.wiki.interfaces import IWikiHistory, IReversionEvent
+from opencore.project.browser.metadata import get_member
 from plone.memoize import instance
 from topp.utils.pretty_date import prettyDate
 from view import WikiBase
@@ -43,10 +44,10 @@ class WikiVersionView(WikiBase):
         version_id = int(version_id)
         return self.pr.retrieve(self.context, version_id)
 
-    def version_title(self, version_id): 
+    def version_title(self, version_id, rollback=False): 
         if version_id == 0:
             return "Initial Version"
-        elif version_id == self.current_id():
+        elif version_id == self.current_id() and not rollback:
             return "Current Version"
         else: 
             return "Version %d" % (version_id + 1)
@@ -107,14 +108,16 @@ class WikiVersionView(WikiBase):
         # actually do the revert
         self.pr.revert(self.context, version_id)
 
-        message = "Rolled back to %s" % self.version_title(version_id)
+        message = "Rolled back to %s" % self.version_title(version_id, rollback=True)
         if self.pr.supportsPolicy(self.context, 'version_on_revert'):
             self.pr.save(obj=self.context, comment=message)
-            
+        reverter = get_member(self.context)
         event = ObjectModifiedEvent(self.context)
         alsoProvides(event, IReversionEvent)
-        event.reversion_message = message
-        event.old_history = old_history.annot
+        reversion_info = dict(reversion_message=message,
+                              old_history=old_history.annot,
+                              rollback_author=reverter)
+        event.__dict__.update(reversion_info)
         notify(event)
 
         # send user to the view page 
@@ -186,7 +189,8 @@ def wiki_page_edited(page, event):
     if IReversionEvent.providedBy(event):
         return history.new_history_item(message=event.reversion_message,
                                         history=event.old_history,
-                                        reversion=True)
+                                        reversion=True,
+                                        author=event.rollback_author)
     return IWikiHistory(page).new_history_item()
 
 annot_key = 'opencore.nui.wiki.wikihistory'
@@ -205,13 +209,13 @@ class AnnotationCachedWikiHistory(object):
         annot = IAnnotations(context)
         wiki_annot = annot.get(annot_key, None)
         if wiki_annot is None:
-            wiki_annot = OOBTree()
+            wiki_annot = IOBTree()
             annot[annot_key] = wiki_annot
         self.annot = wiki_annot
 
     def __iter__(self):
-        for version in self.annot.itervalues():
-            yield version
+        for version_id in reversed(self.annot.keys()):
+            yield self.annot[version_id]
 
     def __len__(self):
         return len(self.annot.keys())
@@ -219,7 +223,7 @@ class AnnotationCachedWikiHistory(object):
     def __getitem__(self, version_id):
         return self.annot[version_id]
 
-    def new_history_item(self, message=None, reversion=False, history=None):
+    def new_history_item(self, message=None, reversion=False, history=None, author=None):
         """reversion might be called 'after'"""
         page = self.context
 
@@ -245,11 +249,14 @@ class AnnotationCachedWikiHistory(object):
 
         if message is None:
             message = ILastModifiedComment(page).getValue()
+
+        if author is None:
+            author = ILastModifiedAuthorId(page)
             
         new_history_item = dict(
             version_id=new_version_id,
             comment=message,
-            author=ILastModifiedAuthorId(page),
+            author=author,
             modification_date=page.modified(),
             )
 

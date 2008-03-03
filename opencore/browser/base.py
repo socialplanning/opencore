@@ -41,15 +41,19 @@ logger = logging.getLogger("opencore.browser.base")
 
 class BaseView(BrowserView):
     """Base view for general use for nui templates and as an abstract base"""
+
+    # @@ DWM: following should go in configuration
     logoURL = '++resource++img/logo.gif'
     defaultPortraitURL = '++resource++img/default-portrait.gif'
     defaultPortraitThumbURL = '++resource++img/default-portrait-thumb.gif'
     defaultProjLogoURL = '++resource++img/default-projlogo.gif'
     defaultProjLogoThumbURL = '++resource++img/default-projlogo-thumb.gif'
     windowTitleSeparator = ' :: '
+    site_iface = IPloneSiteRoot
+
+    # 
     truncate = staticmethod(truncate)
     txn_note = staticmethod(transaction_note)
-    site_iface = IPloneSiteRoot
     getToolByName = getToolByName
     
     def debug(self):
@@ -118,6 +122,8 @@ class BaseView(BrowserView):
 
     @property
     def portal_status_message(self):
+        # @@ consider moving to a function
+        
         # Note, showPortalMessages returns AND CLEARS them.
         # Hence this oddity: we don't want to clear them
         # if this view is redirecting, because then nobody would
@@ -373,7 +379,8 @@ class BaseView(BrowserView):
         folder = self.membertool.getHomeFolder(result['id'])
         if folder:
             result['url'] = folder.absolute_url()
-                
+
+        # @@ DWM: should be in an adapter or on the member object
         result['portrait_url'] = self.defaultPortraitURL
         portrait = member.getProperty('portrait', None)
         if portrait:
