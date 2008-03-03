@@ -35,7 +35,7 @@ setup(
                         'https://svn.openplans.org/svn/flunc/trunk#egg=flunc-0.1.2',
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         'https://svn.openplans.org/svn/vendor/geopy/openplans/dist',
-                        'https://svn.openplans.org/svn/topp.utils/trunk#egg=topp.utils-dev'
+                        'https://svn.openplans.org/svn/topp.utils/trunk#egg=topp.utils-dev',
                         'https://svn.openplans.org/svn/oc-cab/trunk#egg=oc-cab-dev'
                         ],
 
