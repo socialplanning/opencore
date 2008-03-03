@@ -71,6 +71,13 @@ And, another invalid id::
     {'id': 'The project url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'}
     >>> view.errors = {}
 
+And an id with a reserved name also produces an error::
+    >>> view.request.form['projid'] = 'summary'
+    >>> out = view.handle_request()
+    >>> view.errors
+    {'id': 'Name reserved'}
+    >>> view.errors = {}
+
 Now, a valid title and id::
     >>> view.request.form['project_title'] = 'now a valid title!'
     >>> view.request.form['projid'] = 'test1'

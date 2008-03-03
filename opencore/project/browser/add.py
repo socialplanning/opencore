@@ -34,7 +34,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
     valid_title = staticmethod(text.valid_title)
     
     def reserved_names(self):
-        return list(get_view_names(self.context)) + ['people', 'projects', 'unique']
+        return list(get_view_names(self.context)) + ['people', 'projects', 'unique', 'summary']
 
     @action('validate')
     def validate(self, target=None, fields=None):
@@ -67,6 +67,8 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
 
     @action('add')
     def handle_request(self, target=None, fields=None):
+        #XXX all of the errors that are reported back here are not going
+        # through the translation machinery
         putils = getToolByName(self.context, 'plone_utils')
         self.request.set('__initialize_project__', True)
 
@@ -111,9 +113,9 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return 
         if id_ in self.reserved_names():
+            self.errors['id'] = 'Name reserved'
             self.add_status_message(_(u'psm_project_name_reserved', u'The name "${project_name}" is reserved. Please try a different name.',
                                       mapping={u'project_name':id_}))
-            self.redirect('%s/create' % self.context.absolute_url())
             return
 
         self.context.portal_factory.doCreate(proj, id_)
