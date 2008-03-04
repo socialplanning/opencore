@@ -316,7 +316,7 @@ class ListEditView(ListenEditBaseView):
         
         self.add_status_message(s_message)
 
-        self.redirect(list.absolute_url())
+        self.redirect('%s/summary' % list.absolute_url())
 
     def workflow_policy(self):
         return _ml_type_to_workflow[self.context.list_type]
