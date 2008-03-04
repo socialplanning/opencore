@@ -11,6 +11,7 @@ from zope.interface import alsoProvides
 from zope.testing.cleanup import cleanUp
 from opencore.testing.layer import MockHTTPWithContent
 from opencore.testing.setup import base_tt_setup
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 
 def clean_CA(tc):
     return cleanUp()
@@ -27,6 +28,7 @@ def test_suite():
     readme = ztc.FunctionalDocFileSuite('README.txt',
                                         package='opencore.tasktracker',
                                         optionflags=optionflags,
+                                        test_class=OpenPlansTestCase,
                                         setUp=base_tt_setup,
                                         globs=locals())
     

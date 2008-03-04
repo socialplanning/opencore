@@ -48,3 +48,26 @@ to tasktracker::
         headers={'X-Openplans-Project': 'p1', 'Cookie': '__ac=...'},
         method='POST')
     (<...MockResponse object at ...>, 'Mock request succeeded!')
+
+Install a tasktracker featurelet
+================================
+
+Make sure we can install a TaskTracker featurelet too::
+    >>> self.loginAsPortalOwner()
+    >>> form_vars = dict(title='new full name',
+    ...                  workflow_policy='closed_policy',
+    ...                  update=True,
+    ...                  featurelets=['tasks'],
+    ...                  set_flets=1,
+    ...                  __initialize_project__=False)
+
+    >>> proj = self.portal.projects.p3
+    >>> view = proj.restrictedTraverse('preferences')
+    >>> view.request.set('flet_recurse_flag', None)
+    >>> view.request.form.update(form_vars)
+    >>> view.handle_request()
+    Called ...
+
+    >>> from opencore.project.utils import get_featurelets
+    >>> get_featurelets(proj)
+    [{'url': 'tasks', 'name': 'tasks', 'title': u'Tasks'}]
