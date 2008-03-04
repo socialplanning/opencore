@@ -84,8 +84,8 @@ brains for every project who's data needs to be displayed::
      'p3': <Products.ZCatalog.Catalog.mybrains object at ...>,
      'p4': <Products.ZCatalog.Catalog.mybrains object at ...>}
 
-Note... we don't cull
-
+Note, project order is done on id. this matter because projects are
+limited to first 10
 
 Clear the memoize from the request::
 
