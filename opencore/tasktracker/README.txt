@@ -71,3 +71,20 @@ Make sure we can install a TaskTracker featurelet too::
     >>> from opencore.project.utils import get_featurelets
     >>> get_featurelets(proj)
     [{'url': 'tasks', 'name': 'tasks', 'title': u'Tasks'}]
+
+Featurelet removal (stolen from
+opencore/project/browser/delete-project.txt)
+============================================
+
+    >>> from opencore.project.browser.preferences import handle_flet_uninstall
+
+Tasks are now deleted from a project, and the message is sent through
+cabochon::
+
+    >>> handle_flet_uninstall(project) 
+
+Gotta reinstall::    
+
+    >>> from topp.featurelets.interfaces import IFeatureletSupporter
+    >>> IFeatureletSupporter(project).installFeaturelet(TaskTrackerFeaturelet(project))
+    Called...

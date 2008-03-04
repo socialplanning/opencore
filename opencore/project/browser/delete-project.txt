@@ -13,30 +13,7 @@ First, let's test our deletion handlers directly::
 Let's add some featurelets::
 
     >>> self.loginAsPortalOwner() #@@ this should be the project owner
-
-    >>> IFeatureletSupporter(project).installFeaturelet(TaskTrackerFeaturelet(project))
-    Called httplib2.Http.request(
-        'http://nohost:tasktracker/project/initialize/',
-        headers={'X-Openplans-Project': 'p1', 'X-Openplans-Tasktracker-Initialize': 'True', 'Cookie': '__ac=...'},
-        method='POST')
-
     >>> IFeatureletSupporter(project).installFeaturelet(ListenFeaturelet(project))
-
-Flet Removal
-============
-
-    >>> from opencore.project.browser.preferences import handle_flet_uninstall
-
-Tasks are now deleted from a project, and the message is sent through
-cabochon::
-
-    >>> handle_flet_uninstall(project) 
-
-Gotta reinstall::    
-
-    >>> IFeatureletSupporter(project).installFeaturelet(TaskTrackerFeaturelet(project))
-    Called...
-
 
 Add some invites
 ======================
@@ -91,7 +68,6 @@ Let's give the project a list featurelet too::
     >>> pprint(ll.showAddressMapping())
     [{'address': 'p1-discussion@...',
       'path': '/plone/projects/p1/lists/p1-discussion'}]
-
 
 Get the delete view and invoke it::
 
