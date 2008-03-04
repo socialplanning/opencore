@@ -51,10 +51,6 @@ class DiscussionList(ListFromCatalog):
                 return prev
             messages = [ dict(message=message, reply=thread_end(message), mlist=mlist)
                          for message in messages ]
-            if len(lists) > 1:
-                for message in messages:
-                    message['structure']['list'] = mlist.title
-                    message['structure']['list_url'] = mlist.absolute_url()
             items.extend(messages)
         date_cmp = lambda x, y: cmp(x['reply'].modification_date,
                                     y['reply'].modification_date) 
@@ -63,8 +59,13 @@ class DiscussionList(ListFromCatalog):
             number = len(items)
         items = items[:number]
         for item in items:
-            item['structure'] = messageStructure(item['message'], sub_mgr=item['mlist'])
-            item['reply_structure'] = messageStructure(item['reply'], sub_mgr=item['mlist'])
+            mlist = item['mlist']
+            item['structure'] = messageStructure(item['message'], sub_mgr=mlist)
+            item['reply_structure'] = messageStructure(item['reply'], sub_mgr=mlist)
+            if len(lists) > 1:
+                item['structure']['list'] = mlist.title
+                item['structure']['list_url'] = mlist.absolute_url()
+
         return items
 
 class Feed(object):
