@@ -9,7 +9,6 @@ from opencore.browser import formhandler
 from opencore.browser.base import _
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.geocoding.view import get_geo_writer
-from opencore.cabochon.interfaces import ICabochonClient
 from opencore.interfaces import IHomePage
 from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
 from opencore.nui.wiki.add import get_view_names
@@ -121,9 +120,6 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         self.context.portal_factory.doCreate(proj, id_)
         proj = self.context._getOb(id_)
         self.notify(proj)
-
-        cabochon_utility = getUtility(ICabochonClient, context=self.context)
-        cabochon_utility.notify_project_created(id_, self.loggedinmember.id)
 
         logo = self.request.form.get('logo')
         if logo:
