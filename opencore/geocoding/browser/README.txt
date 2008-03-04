@@ -136,7 +136,6 @@ Create view for Projects
     ...    'projid': 'testgeo', 'workflow_policy': 'medium_policy',
     ...    'position-latitude': '33.33', 'position-longitude': '44.44'})
     >>> out = createview.handle_request()
-    opencore.testing.utility.StubCabochonClient: args: ('testgeo', 'm1')
     >>> createview.errors
     {}
     >>> view = projects.restrictedTraverse('testgeo/preferences')
