@@ -13,7 +13,7 @@ logout
 # projects.
 create_user(user=${notprojmember}, email=${notprojemail})
 login(user=${notprojmember})
-no_create_page_as_nonmember(new_page=${pagename2})
+no_create_page_as_proj_nonmember(new_page=${pagename2})
 logout
 
 # Same for anonymous.
