@@ -148,7 +148,9 @@ Create view for Projects
 Clean that one up...
 
     >>> projects.manage_delObjects(['testgeo'])
-    opencore.testing.utility.StubCabochonClient: args: ('testgeo',)
+
+##    "opencore.testing.utility.StubCabochonClient: args: ('testgeo',)"
+
     >>> view.request.form.clear()
 
 XXX Add tests for publically available views of projects,

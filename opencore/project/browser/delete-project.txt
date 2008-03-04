@@ -100,7 +100,8 @@ Get the delete view and invoke it::
     <...project/browser/delete.pt...>
 
     >>> deleting = view._handle_delete()
-    opencore.testing.utility.StubCabochonClient: args: ('p1',)
+
+##    opencore.testing.utility.StubCabochonClient: args: ('p1',)
 
     >>> deleting
     True
