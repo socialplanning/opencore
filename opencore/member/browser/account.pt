@@ -37,11 +37,11 @@
         <form name="invitation-form" action="account">
              <tal:rep repeat="project invitations">
              <tal:setvar 
-                         define=" proj_url string:${view/portal_url}/projects/${project/proj_id};
-                                       logo project/logo;
-                                       proj_id project/proj_id;
-                                       closed python:project['proj_policy']=='closed_policy';
-                                       logo_url python:logo and ('%s/logo_thumb' % proj_url) or view.defaultProjLogoURL">
+                         define="logo project/logo;
+                                 proj_id project/proj_id;
+                                 proj_url python:view.project_url(proj_id);
+                                 closed python:project['proj_policy']=='closed_policy';
+                                 logo_url python:logo and ('%s/logo_thumb' % proj_url) or view.defaultProjLogoURL">
                  <li class="oc-invite oc-boxy oc-clearAfter" tal:attributes="id string:${proj_id}_invitation">
                    <a tal:attributes="href proj_url"
                       tal:condition="not: closed" >
