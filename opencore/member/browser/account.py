@@ -148,8 +148,6 @@ class MemberAccountView(BaseView, OctopoLite):
 
     def leave_project(self, proj_id):
         """ remove membership by marking the membership object as inactive """
-        import pdb; pdb.set_trace()
-        
         if not self._can_leave(proj_id): return False
 
         if self._is_only_admin(proj_id):

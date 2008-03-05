@@ -111,10 +111,16 @@ XXXX Notice that the project title here isn't properly unicode for some reason. 
     >>> self.logout()
     >>> self.login('test_user_1_')
     >>> utils.clear_status_messages(view)
+
+    And first set the word for projects that we'll see in subsequent psms:
+    >>> utils.monkey_proj_noun('hive of scum and villainy')
     >>> view.leave_project('p2')
     False
+
+We should have a PSM and it should respect the configured name for projects:
+
     >>> view.portal_status_message
-    [u'You cannot leave this project.']
+    [u'You cannot leave this hive of scum and villainy.']
 
     We have to login as m1 to get the modify portal content permission,
     giving us access to the workflow transition
@@ -271,10 +277,14 @@ it, and return an appropriate portal status message
     >>> proj_team.removeMember('portal_owner')
 
     Now we can try to leave the project
+    >>> utils.monkey_proj_noun('banana')  # should be seen in following psms
     >>> view.leave_project('p3')
     False
+
+We should have a psm, and it should respect the setting of project_noun.
+
     >>> view.portal_status_message
-    [u'You are the only remaining administrator ... leave this project without appointing another.']
+    [u'You are the only remaining administrator ... leave this banana without appointing another.']
 
     Even if we are in the private state
     >>> view.change_visibility('p3')
@@ -282,7 +292,7 @@ it, and return an appropriate portal status message
     >>> view.leave_project('p3')
     False
     >>> view.portal_status_message
-    [u'You are the only remaining administrator ... leave this project without appointing another.']
+    [u'You are the only remaining administrator ... leave this banana without appointing another.']
 
     >>> project_dicts = view.invitations()
     >>> [d['proj_id'] for d in project_dicts]

@@ -144,3 +144,21 @@ def newuser():
 def zinstall_products():
     for product in Z_DEPS + DEPS:
         ZopeTestCase.installProduct(product)
+
+
+def monkey_proj_noun(newname='project'):
+    """temporarily switch the word we use for 'project' or 'group' or ..."""
+    from opencore.browser import base
+    from opencore.project import utils
+    if not hasattr(utils, '_old_project_noun'):
+        utils._old_project_noun = utils.project_noun
+    utils.project_noun = base.project_noun = lambda: newname
+
+def unmonkey_proj_noun():
+    """temporarily switch the word we use for 'project' or 'group' or ..."""
+    from opencore.browser import base
+    from opencore.project import utils
+    if hasattr(utils, '_old_project_noun'):
+        utils.project_noun = base.project_noun = utils._old_project_noun
+        del( utils._old_project_noun)
+        
