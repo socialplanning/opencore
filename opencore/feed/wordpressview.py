@@ -4,10 +4,8 @@ import urllib2
 from dateutil.parser import parse
 from opencore.browser.base import BaseView
 
-def date_cmp(entry1, entry2):
-    """compare feed entries by date"""
-    return cmp(parse(entry1.date), parse(entry2.date))
-
+def date_key(entry):
+    return parse(entry.date)
 
 class WordPressFeedView(BaseView):
     """a view for wordpress's feeds"""
@@ -42,6 +40,7 @@ class WordPressFeedView(BaseView):
 
                 # find the comment id element
                 entry.comment_string = element.xpath(".//*[@id='comments']")[0].text.strip()
+ 
 
 
             # annote members onto the entries
@@ -55,6 +54,6 @@ class WordPressFeedView(BaseView):
                     entry.member = None
                     entry.author_portrait = '++resource++img/default-portrait-thumb.gif'                
 
-#            self.feed.entries.sort(cmp=date_cmp) # they appeared sorted already?
+#            self.feed.entries.sort(key=date_key) # they appeared sorted already?
             self.feed.entries = self.feed.entries[:n] # XXX could do earlier?
 
