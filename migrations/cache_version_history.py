@@ -26,7 +26,7 @@ portal = getattr(app, portal)
 pc = portal.portal_catalog
 pr = portal.portal_repository
 path = '/'.join(portal.getPhysicalPath() + ('projects',))
-brains = pc(portal_type="Document", path=path)
+brains = pc.unrestrictedSearchResults(portal_type="Document", path=path)
 
 print "\nattempting to migrate %s @ %s" %(len(brains), path)
 
