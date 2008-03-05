@@ -44,15 +44,14 @@
 						<metal:thead define-macro="item_thead_snippet">
 							<tal:setvar define="item_type item_type | options/item_type;
 												item_date_author_header item_date_author_header | options/item_date_author_header;
-												sort_on options/sort_on | string:title;
-												sort_order options/sort_order | string:descending;
+												sort_on sort_on | options/sort_on | string:title;
+												sort_order sort_order | options/sort_order | string:descending;
 												item_collection item_collection | options/item_collection;
 												">
 							<tal:if condition="item_collection/editable">
 								<thead tal:attributes="id string:oc-${item_type}-thead" >
 								<tr>
-									<th class="oc-dataTable-checkBoxColumn" 
-                      tal:condition="item_collection/editable">
+									<th class="oc-dataTable-checkBoxColumn">
 									<input type="checkbox" class="oc-checkAll" />
 									</th>
 									<th scope="col"
@@ -88,7 +87,7 @@
 													myvalue string:obj_date">
 									<metal:do use-macro="view/template/macros/sortable_header" />
 									</th>
-									<th tal:condition="item_collection/editable">Actions</th>
+									<th>Actions</th>
 								</tr>
 								</thead>
 							</tal:if>
@@ -96,10 +95,6 @@
 							<tal:if condition="not:item_collection/editable">
 								<thead tal:attributes="id string:oc-${item_type}-thead" >
 								<tr>
-									<th scope="col"
-										tal:condition="python:item_type=='lists'">
-                    
-									</th>
 									<th scope="col"
 										tal:define="myname string:Title;
 													myvalue string:title">
@@ -122,10 +117,6 @@
 													myvalue string:obj_date">
 									<metal:do use-macro="view/template/macros/sortable_header" />
 									</th>
-									<th scope="col"
-										tal:condition="python:item_type=='lists'">
-                    Actions
-									</th>
 								</tr>
 								</thead>
 							</tal:if>
@@ -144,10 +135,9 @@
 										tal:attributes="id item/id"
 										tal:define="item item | options/item;
 													item_type item_type | options/item_type;
-													editable python: not item.get('uneditable', True);
-                                                                                                        editable options/editable | editable;
-													deletable not:item/undeletable | nothing">
-										<td tal:condition="python:editable or item_collection.editable">
+													item_editable  editable | options/editable | not:item/readonly | not:default;
+													deletable not:item/nodelete | nothing">
+										<td tal:condition="item_collection/editable">
 											<input tal:condition="not:deletable" type="checkbox" class="oc-js-checkAll-never" name="deletes:list"
 												 tal:attributes="value item/id" 
 												 disabled="True" />
@@ -158,7 +148,7 @@
 										<div class="oc-js-liveEdit-value">
 											<a tal:attributes="href item/url" tal:content="item/title" />
 										</div>
-										<div tal:condition="editable"
+										<div tal:condition="item_editable"
 											 class="oc-js-liveEdit-editForm oc-liveEdit-editForm">
 											<input type="text" 
 													 tal:attributes="name string:${item/id}_title; value item/title" />
@@ -176,8 +166,8 @@
 										</tal:setvar>
 										</td>
 
-										<td tal:condition="item_collection/editable | nothing">
-										<ul class="oc-actions oc-dataTable-row-actions" tal:condition="editable | item_collection/editable">
+										<td tal:condition="item_collection/editable">
+										<ul class="oc-actions oc-dataTable-row-actions" tal:condition="item_editable">
 											<li>
 
 											<a href="#" class="oc-js-liveEdit_showForm oc-actionLink">Rename</a></li>
@@ -197,8 +187,10 @@
 
 							<tal:if condition="not:item_collection/editable">
 								<tbody tal:attributes="id string:oc-${item_type}-tbody" >
+                                <!-- The view/template default below is necessary for rendering the template
+                                      directly from code. -->
 								<tal:for repeat="item item_collection">
-									<tal:macro metal:use-macro="template/macros/item_row" />
+									<tal:macro metal:use-macro="template/macros/item_row | view/template/macros/item_row" />
 								</tal:for>
 								</tbody>	
 							</tal:if>

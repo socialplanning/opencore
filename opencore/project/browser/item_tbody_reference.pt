@@ -1,1 +1,0 @@
-<tal:macro metal:use-macro="view/template/macros/item_tbody_snippet" />

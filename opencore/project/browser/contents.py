@@ -79,9 +79,10 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
         if show_deletes is None:
             show_deletes = self.show_deletes()
         if item['id'] == PROJ_HOME:
-            item['uneditable'] = True
-            item['undeletable'] = True
-        item['uneditable'] = not show_deletes 
+            item['readonly'] = True
+            item['nodelete'] = True
+        if not show_deletes:
+            item['nodelete'] = True
         return item
 
     def _sorted_items(self, item_type, sort_by=None, sort_order='ascending'):
@@ -227,16 +228,22 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
         else:
             sort_order = 'ascending'
 
-        thead_obj = {'html': self.thead_snippet(item_type=item_type,
-                                                     item_date_author_header=(item_type=='pages' and "Last Modified" or "Created"),
-                                                     sort_on=sort_by,
-                                                     sort_order=sort_order,
-                                                     item_collection=items
-                                                     ),
+        thead_macro = self.template.macros['item_thead_snippet']
+        thead_data = dict(item_type=item_type,
+                          item_date_author_header=(item_type=='pages' and "Last Modified" or "Created"),
+                          sort_on=sort_by,
+                          sort_order=sort_order,
+                          item_collection=items)
+        thead_context = tal.create_tal_context(self, **thead_data)
+        thead_obj = {'html': tal.render_tal(thead_macro, thead_context),
                      'effects': '',
                      'action': 'replace'
                      }
-        tbody_obj = {'html': self.tbody_snippet(item_collection=items),
+
+        tbody_macro = self.template.macros['item_tbody_snippet']
+        tbody_data = dict(item_collection=items)
+        tbody_context = tal.create_tal_context(self, **tbody_data)
+        tbody_obj = {'html': tal.render_tal(tbody_macro, tbody_context, macros=self.template.macros),
                      'effects': 'highlight',
                      'action': 'replace'
                      }
@@ -286,7 +293,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
 
             data = dict(item=self._make_dict_and_translate(page, self.needed_values[item_type]),
                         item_type=item_type,
-                        options=dict(editable=self.needed_values[item_type].editable),
+                        item_collection=dict(editable=self.needed_values[item_type].editable),
                         )
             
             tal_context = tal.create_tal_context(self, **data)
