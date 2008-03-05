@@ -78,13 +78,14 @@ class BaseView(BrowserView):
         distracted thinking of a good API for that. We can revisit
         later.)
         """
-        parts = [self.siteURL, self.project_noun() + 's']
+        parts = [self.siteURL, self.project_noun + 's']
         if project:
             parts.append(project)
         if page:
             parts.append(page)
         return '/'.join(parts)
 
+    @property
     def project_noun(self):
         """Do we call them 'projects' or 'groups' or... ?
         """
