@@ -32,16 +32,29 @@ class WordPressFeedView(BaseView):
             self.title = self.request.get('title', title)
             self.subtitle = self.request.get('subtitle', self.title)
 
+            # maybe this should be done after comments?
+#            self.feed.entries.sort(key=date_key) # they appeared sorted already?
+            self.feed.entries = self.feed.entries[:n]
+
             # sort comments to entries
             for entry in self.feed.entries:
+                import pdb;  pdb.set_trace()
+                comment_feed = '%scomments/feed/' % entry.link
+                comments = feedparser.parse(comment_feed)
 
+                entry.n_comments = len(comments.entries)
+
+                if entry.n_comments == 1:
+                    entry.comment_string = '1 comment'
+                else:
+                    entry.comment_string = '%s comments' % entry.n_comments
+                
                 # parse the whole page
-                element =  lxml.etree.parse(urllib2.urlopen(entry.link), lxml.etree.HTMLParser())
+#                element =  lxml.etree.parse(urllib2.urlopen(entry.link), lxml.etree.HTMLParser())
 
                 # find the comment id element
-                entry.comment_string = element.xpath(".//*[@id='comments']")[0].text.strip()
+#                entry.comment_string = element.xpath(".//*[@id='comments']")[0].text.strip()
  
-
 
             # annote members onto the entries
             membrane_tool = self.get_tool('membrane_tool')
@@ -54,6 +67,4 @@ class WordPressFeedView(BaseView):
                     entry.member = None
                     entry.author_portrait = '++resource++img/default-portrait-thumb.gif'                
 
-#            self.feed.entries.sort(key=date_key) # they appeared sorted already?
-            self.feed.entries = self.feed.entries[:n] # XXX could do earlier?
 
