@@ -14,7 +14,7 @@ from opencore.i18n import i18n_domain, _
 from opencore.i18n import translate
 from opencore.interfaces import IProject 
 from opencore.interfaces import IHomePage
-from opencore.project.utils import project_spelling
+from opencore.project.utils import project_noun
 from opencore.utils import get_opencore_property
 from plone.memoize import instance
 from plone.memoize import view 
@@ -78,12 +78,17 @@ class BaseView(BrowserView):
         distracted thinking of a good API for that. We can revisit
         later.)
         """
-        parts = [self.siteURL, project_spelling() + 's']
+        parts = [self.siteURL, self.project_noun() + 's']
         if project:
             parts.append(project)
         if page:
             parts.append(page)
         return '/'.join(parts)
+
+    def project_noun(self):
+        """Do we call them 'projects' or 'groups' or... ?
+        """
+        return project_noun()
 
     def __init__(self, context, request):
         self.context      = context

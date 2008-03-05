@@ -255,8 +255,8 @@ respect the global configuration, let's confirm by patching that:
    >>> view = BaseView(self.homepage, self.request).__of__(self.homepage)
 
    >>> from opencore.browser import base
-   >>> _old_ps = base.project_spelling
-   >>> base.project_spelling = lambda: 'project'  # XXX we may have to do this patching in our base test layer?
+   >>> _old_ps = base.project_noun
+   >>> base.project_noun = lambda: 'project'  # XXX we may have to do this patching in our base test layer?
 
    >>> view.project_url()
    'http://nohost/plone/projects'
@@ -270,10 +270,10 @@ respect the global configuration, let's confirm by patching that:
    'http://nohost/plone/projects/proj2/another'
  
 
-   >>> base.project_spelling = lambda: 'monkey'
+   >>> base.project_noun = lambda: 'monkey'
    >>> view.project_url()
    'http://nohost/plone/monkeys'
    >>> view.project_url('proj1')
    'http://nohost/plone/monkeys/proj1'
 
-   >>> base.project_spelling = _old_ps  # undo the patch
+   >>> base.project_noun = _old_ps  # undo the patch

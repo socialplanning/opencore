@@ -24,7 +24,7 @@ def get_featurelets(project):
             )
     return result
 
-def project_spelling():
+def project_noun():
     """Returns our global config's projtxt setting, which should be
     used everywhere we refer to 'projects'.
     """
@@ -40,7 +40,7 @@ def project_path(proj_id=None):
     warnings.warn(DeprecationWarning(
         "project_path should go away; either use BaseView.project_url() or... "
         "um... some traversal api we need to create"))
-    projects_url= project_spelling() + 's'
+    projects_url= project_noun() + 's'
     if proj_id is None:
         return projects_url
     return "%s/%s" % (projects_url, proj_id)
