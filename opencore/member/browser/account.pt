@@ -10,7 +10,7 @@
 
 <div class="oc-headingBlock">
   <h1 i18n:translate="account_heading">Your account</h1>
-  <p i18n:translate="account_description" class="oc-headingContext">View and manage your project memberships and account settings.</p>
+  <p i18n:translate="account_description" class="oc-headingContext">View and manage your memberships and account settings.</p>
 </div>
   
 <div id="oc-content-main">
@@ -174,10 +174,11 @@
   </div>
   
   <div i18n:translate="account_listed_explanation" class="oc-plainList oc-boxy">
-    <p><strong>What does it mean to be &ldquo;listed&rdquo; on a project?</strong></p>
-    <p>For your privacy, you can choose whether or not to be publicly listed as a member of a project.</p>
-    <p>If you choose not to be listed then only fellow team members can see your affiliation. Those who are not members of the project will not see you listed in the team roster, nor will they see the project listed anywhere on your profile.</p>
-    <p>However, any updates you make on a publicly viewable project could still display your username and a link to your profile.</p>
+    <p><strong>What does it mean to be &ldquo;listed&rdquo; on a
+        <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>?</strong></p>
+    <p>For your privacy, you can choose whether or not to be publicly listed as a member of a <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>.</p>
+    <p>If you choose not to be listed then only fellow team members can see your affiliation. Those who are not members of the team will not see you listed in the team roster, nor will they see the <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> listed anywhere on your profile.</p>
+    <p>However, any updates you make on a publicly viewable <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> could still display your username and a link to your profile.</p>
   </div>
   
 </div><!-- end #oc-content-sidebar -->
