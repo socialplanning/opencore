@@ -46,8 +46,8 @@
     <tal:no_updates condition="not: projinfos">
       <div i18n:translate="account_project_no_projects" id="project_table">
         <h2>You don't belong to any projects.</h2>
-        <p>Why not <a tal:attributes="href python:view.url_for('projects')">look for a project to join</a> or
-        <a tal:attributes="href python:view.url_for('project_create')">start your own</a>?</p>
+        <p>Why not <a tal:attributes="href python:view.project_url()">look for a project to join</a> or
+        <a tal:attributes="href python:view.project_url(page='create')">start your own</a>?</p>
       </div>
     </tal:no_updates>
 

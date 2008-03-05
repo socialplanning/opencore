@@ -285,7 +285,7 @@ class MemberAccountView(BaseView, OctopoLite):
         admin_ids = team.get_admin_ids()
         transient_msgs = ITransientMessage(self.portal)
         id_ = self.loggedinmember.getId()
-        project_url = '/'.join((self.url_for('projects'), proj_id))
+        project_url = self.project_url(proj_id)
         msg = _(u'tmsg_joined_project', u'${id} has joined <a href="${project_url}">${proj_id}</a>',
                 mapping={u'id':id_, u'project_url':project_url, u'proj_id':proj_id})
         for mem_id in admin_ids:
@@ -334,7 +334,7 @@ class MemberAccountView(BaseView, OctopoLite):
         
         transient_msgs = ITransientMessage(self.portal)
 
-        project_url = '/'.join((self.url_for('projects'), proj_id))
+        project_url = self.project_url(proj_id)
         msg = _(u'tmsg_decline_invite', u'${id} has declined your invitation to join <a href="${project_url}">${proj_id}</a>',
                 mapping={u'id':id_, u'project_url':project_url, u'proj_id':proj_id})
         transient_msgs.store(spurned_admin, "membership", msg)

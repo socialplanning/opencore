@@ -1,3 +1,4 @@
+from opencore.configuration.utils import get_config
 from topp.featurelets.interfaces import IFeatureletSupporter
 
 def get_featurelets(project):
@@ -23,13 +24,23 @@ def get_featurelets(project):
             )
     return result
 
+def project_spelling():
+    """Returns our global config's projtxt setting, which should be
+    used everywhere we refer to 'projects'.
+    """
+    return get_config('general', 'projtxt', default='project')
+
 def project_path(proj_id=None):
     """
     Returns the specified project's home folder path relative to the
     site root.
     """
-    projects_url='projects'
+    # XXX this function should go away.
+    import warnings
+    warnings.warn(DeprecationWarning(
+        "project_path should go away; either use BaseView.project_url() or... "
+        "um... some traversal api we need to create"))
+    projects_url= project_spelling() + 's'
     if proj_id is None:
         return projects_url
-    
     return "%s/%s" % (projects_url, proj_id)
