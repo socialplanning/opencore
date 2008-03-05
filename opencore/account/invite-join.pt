@@ -18,10 +18,10 @@ need to combine with regular join form
               >
           <div class="oc-headingBlock">
             <h1>Welcome</h1>
-            <p class="oc-headingContext">You've been invited to participate in projects on <span tal:replace="view/portal/title"/></p>
+            <p class="oc-headingContext">You've been invited to participate in <span tal:replace="view/project_noun">project</span>s on <span tal:replace="view/portal/title"/></p>
           </div>
           <div class="oc-widget oc-widget-feed">
-            <h2 i18n:translate="invite-join_proj_invites" class="oc-feed-title">Projects requesting your membership</h2>
+            <h2 i18n:translate="invite-join_proj_invites" class="oc-feed-title"><span i18n:name="project_noun" tal:replace="python:view.project_noun.title()">project</span>s requesting your membership</h2>
             <ul class="oc-feed-list oc-clearAfter">
               <li class="oc-feed-item oc-clearAfter" tal:repeat="project python:sorted(view.invite_map)">
                  <tal:setvar define="  proj_url project/url;

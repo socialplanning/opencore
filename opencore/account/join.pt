@@ -165,8 +165,8 @@
         <div class="oc-boxy">
           <h2 i18n:translate="join_get_started">Becoming a member means&hellip;</h2>
           <ul i18n:translate="join_get_started_list" style="padding-left: 1em;">
-            <li>You can join and participate in existing projects</li>
-            <li>You can create your own project and invite others to join</li>
+            <li>You can join and participate in existing <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s</li>
+            <li>You can create your own <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> and invite others to join</li>
             <li>You can share information about yourself</li>
           </ul>
         </div>
