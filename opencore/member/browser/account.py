@@ -148,14 +148,17 @@ class MemberAccountView(BaseView, OctopoLite):
 
     def leave_project(self, proj_id):
         """ remove membership by marking the membership object as inactive """
+        import pdb; pdb.set_trace()
+        
         if not self._can_leave(proj_id): return False
 
         if self._is_only_admin(proj_id):
             proj = self.portal.projects[proj_id]
             proj_title = unicode(proj.Title(), 'utf-8') # accessor always will return ascii
 
-            only_admin_msg = _(u'psm_leave_project_admin', u'You are the only remaining administrator of "${proj_title}". You can\'t leave this project without appointing another.',
-                               mapping={u'proj_title':proj_title})
+            only_admin_msg = _(u'psm_leave_project_admin', u'You are the only remaining administrator of "${proj_title}". You can\'t leave this ${project_noun} without appointing another.',
+                               mapping={u'proj_title':proj_title,
+                                        u'project_noun':self.project_noun})
             
             self.addPortalStatusMessage(only_admin_msg)
             return False
@@ -165,7 +168,10 @@ class MemberAccountView(BaseView, OctopoLite):
             notify(LeftProjectEvent(mship))
             return True
         else:
-            self.addPortalStatusMessage(_(u'psm_cannot_leave_project', u'You cannot leave this project.'))
+            msg = _(u'psm_cannot_leave_project',
+                    u'You cannot leave this ${project_noun}.',
+                    mapping={u'project_noun': self.project_noun})
+            self.addPortalStatusMessage(msg)
             return False
 
     def change_visibility(self, proj_id, to=None):
