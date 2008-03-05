@@ -2,7 +2,15 @@
   <h2 class="oc-feed-title">
     <a tal:attributes="href view/link" tal:content="view/feedtitle">Feed Title</a>     
   </h2>
-  <ul class="oc-feed-list">
+  <div tal:condition="not: view/items">
+    <p>
+       There are currently no 
+       <span tal:replace="python:view.feedtitle.lower()">items</span>
+    </p>
+
+  </div>
+
+  <ul class="oc-feed-list" tal:condition="view/items">
     <li class="oc-feed-item oc-clearAfter" 
         tal:repeat="feeditem
         view/items">
