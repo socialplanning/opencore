@@ -25,8 +25,3 @@ portal = getattr(app, portal)
 path = '/'.join(portal.getPhysicalPath() + ('projects',))
 
 print utils.migrate_history(portal, path, noskip=noskip).getvalue()
-
-
-
-
-
