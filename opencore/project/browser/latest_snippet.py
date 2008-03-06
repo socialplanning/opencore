@@ -12,7 +12,6 @@ class LatestSnippet(BrowserView):
 
         self.feedtitle = 'title'
         self.link = 'http://www.google.com'
-        self.linktitle = 'link title'
         self.items = []
 
     def pretty_date(self, date):

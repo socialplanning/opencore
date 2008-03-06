@@ -73,11 +73,10 @@ class Feed(object):
     a ridiculously stupid class for feeds.
     should be redone
     """
-    def __init__(self, title, link, linktitle, listgetter, listgetterargs,
+    def __init__(self, title, link, listgetter, listgetterargs,
                  tofeed, tofeedargs=None):
         self.title = title
         self.link = link
-        self.linktitle = linktitle
         self.listgetter = listgetter
         if listgetterargs is None:
             listgetterargs = ( [], {} )
@@ -155,6 +154,17 @@ def team_sort(x, y):
     portrait = [ int(i != default) for i in portrait ]
     return cmp(*portrait)
 
+def NewFeed(BrowserView): # To be retitled Feed, once it works
+    def __init__(self, title, link):
+        self.title = title
+        self.link = link
+        self.items = []
+
+    def pretty_date(self, date):
+        # XXX this is copy/pasted
+        return prettyDate(date)
+
+
 class LatestActivityView(ProjectContentsView):
     """
     displays latest activity for a project.
@@ -177,7 +187,6 @@ class LatestActivityView(ProjectContentsView):
         self.feed_types.append(Feed('Pages',
                                     '/'.join((self.area.absolute_url(),
                                               'project-home')),
-                                    'MORE PAGES',
                                     ListFromCatalog(self._portal_type['pages'], self.project_path),
                                     ([self.catalog], dict(number=5)),
                                     project2feed, ( [ self.memfolder_url ], {}), ),
@@ -187,7 +196,6 @@ class LatestActivityView(ProjectContentsView):
             self.feed_types.append(Feed('Discussions',
                                         '/'.join((self.area.absolute_url(),
                                                   self._get_featurelet('listen')['url'])),
-                                        'MORE THREADS',
                                         DiscussionList(self._portal_type['lists'], self.project_path),
                                         ([self.catalog], dict(number=5)),
                                          discussions2feed, ( [ self.memfolder_url ], {}),),
@@ -205,7 +213,6 @@ class LatestActivityView(ProjectContentsView):
         snip = self.context.unrestrictedTraverse('latest-snippet')
         snip.feedtitle = feed.title
         snip.link = feed.link
-        snip.linktitle = feed.linktitle
         snip.items = feed.getfeeds()
         return snip()
 
