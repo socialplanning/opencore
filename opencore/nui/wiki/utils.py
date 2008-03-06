@@ -37,7 +37,7 @@ def cache_history(page, pr):
     return len(history)
 
 
-def migrate_history(portal, path=None, out=None, save=True, noskip=False, chatty=1):
+def migrate_history(portal, path=[], out=None, save=True, noskip=False, chatty=1, reverse=False):
     """
     * save   = commit transactions incrementally 
     * path   = path to constrain migration
@@ -61,6 +61,8 @@ def migrate_history(portal, path=None, out=None, save=True, noskip=False, chatty
     entries = 0
 
     try:
+        if reverse:
+            brains = reversed(brains)
         for brain in brains:
             try:
                 page = brain.getObject()
