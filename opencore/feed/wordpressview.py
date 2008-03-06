@@ -38,7 +38,6 @@ class WordPressFeedView(BaseView):
 
             # sort comments to entries
             for entry in self.feed.entries:
-                import pdb;  pdb.set_trace()
                 comment_feed = '%scomments/feed/' % entry.link
                 comments = feedparser.parse(comment_feed)
 
