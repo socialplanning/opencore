@@ -89,12 +89,6 @@ def test_suite():
         BaseView.has_geocoder = BaseView._old_has_geocoder
         
 
-    def tasktracker_setup(tc):
-        extended_tt_setup(tc)
-        enableLocalSiteHook(tc.portal)
-        setSite(tc.portal)
-        setHooks()
-
     test_file = pkgr.resource_stream(OC_REQ, 'opencore/project/browser/test.png')
     globs = locals()
     readme = dtf.ZopeDocFileSuite("README.txt", 
