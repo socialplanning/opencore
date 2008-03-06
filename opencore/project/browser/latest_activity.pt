@@ -78,7 +78,7 @@
         <p tal:condition="python:view.project_info['security'] == 'medium_policy'">
           Anyone can view this project but only team members can contribute to it
         </p>
-        <p tal:condition="python:view.project_info['security'] == 'close_policy'">
+        <p tal:condition="python:view.project_info['security'] == 'closed_policy'">
           Only team members can view, contribute, or search for this project
         </p>
       </div><!-- content-sidebar -->
