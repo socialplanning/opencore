@@ -11,6 +11,7 @@ from opencore.browser.base import _
 from opencore.interfaces import IOpenTeam
 from opencore.interfaces import IOpenSiteRoot
 from opencore.interfaces.pending_requests import IRequestMembership
+from opencore.project.utils import project_noun
 from opencore.utility.interfaces import IEmailSender
 from opencore.project.utils import project_noun
 

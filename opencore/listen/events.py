@@ -7,11 +7,12 @@ from zope.event import notify
 from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IWriteMembershipList
 from Products.listen.interfaces import IListLookup
-from opencore.i18n import _, translate
+from opencore.i18n import _
 from opencore.listen.mailinglist import OpenMailingList
 from opencore.project.utils import get_featurelets
 from utils import getSuffix
 from opencore.project.utils import project_noun 
+from zope.i18n import translate
 
 # make sure that modification date gets updated
 # when new messages are sent to list

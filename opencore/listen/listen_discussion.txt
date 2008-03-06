@@ -8,13 +8,16 @@ Login as an opencore member
 Create a new project
     >>> request = self.portal.REQUEST
     >>> request.form['title'] = u'testproj'
+
     >>> self.portal.projects.invokeFactory('OpenProject', 'testproj')
     'testproj'
     >>> proj = self.portal.projects._getOb('testproj')
 
-Add the mailing list featurelet to the project
+Add the mailing list featurelet to the project...
+
     >>> from topp.featurelets.interfaces import IFeatureletSupporter
     >>> from opencore.listen.featurelet import ListenFeaturelet
+    >>> monkey_proj_noun('BLEEP')  # so we can verify project_noun is used
     >>> IFeatureletSupporter(proj).installFeaturelet(ListenFeaturelet(proj))
 
 And verify that the mailing list automatically gets added
@@ -25,7 +28,8 @@ And verify that the mailing list automatically gets added
 
 Verify description is set
     >>> ml.Description()
-    'Discussion list for this project, consisting of all project members.'
+    'Discussion list for this BLEEP, consisting of all BLEEP members.'
+
 
 And, it should already have the current user subscribed
     >>> from Products.listen.interfaces import IMembershipList
