@@ -51,6 +51,21 @@ class ProfileView(BaseView):
         self.response.setHeader('Content-Type', content_type)
         return data
 
+    def portrait_thumb(self):
+        """Provides a single location to pull the user's portrait from.
+        Same as above, but returns the thumbnail."""
+        member_portrait_thumb = self.viewedmember().portrait_thumb
+        if member_portrait_thumb:
+            data = member_portrait_thumb.data
+        else:
+            file = open(self.context.restrictedTraverse(self.defaultPortraitThumbURL).context.path, 'rb')
+            data = file.read()
+            file.close()
+
+        content_type = magic.guessMime(data)
+        self.response.setHeader('Content-Type', content_type)
+        return data
+
     def populate_project_lists(self):
         mship_proj_map = self.mship_proj_map()
         for (_, m) in mship_proj_map.items():

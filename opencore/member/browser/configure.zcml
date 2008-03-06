@@ -20,6 +20,14 @@
 
   <browser:page
      for="opencore.interfaces.member.IMemberFolder"
+     class=".view.ProfileView"
+     permission="zope2.View"
+     attribute="portrait_thumb"
+     name="portrait_thumb"
+     />
+
+  <browser:page
+     for="opencore.interfaces.member.IMemberFolder"
      class=".view.ProfileEditView"
      permission="cmf.ModifyPortalContent"
      name="profile-edit"
