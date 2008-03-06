@@ -1,11 +1,13 @@
-from pprint import pprint 
 from AccessControl.SecurityManagement import newSecurityManager
-from AccessControl.SpecialUsers import system
 from opencore.nui.wiki import utils
 import sys
 import transaction as txn
 
-newSecurityManager(None, system)
+username = 'admin'
+user = app.acl_users.getUser(username)
+user = user.__of__(app.acl_users)
+newSecurityManager(app, user)
+
 
 try:
     portal = sys.argv[1]
