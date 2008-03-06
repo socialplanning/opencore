@@ -108,13 +108,14 @@ def test_suite():
                                     )
 
     logo = dtf.FunctionalDocFileSuite("logo.txt",
-                                optionflags=optionflags,
-                                package='opencore.project.browser',
-                                test_class=OpenPlansTestCase,
-                                globs=globs,
-                                setUp=tasktracker_setup,
-                                layer=MockHTTPWithContent                                       
-                                )
+                                      optionflags=optionflags,
+                                      package='opencore.project.browser',
+                                      test_class=OpenPlansTestCase,
+                                      globs=globs,
+                                      setUp=readme_setup,
+                                      tearDown=readme_teardown,
+                                      layer=MockHTTPWithContent                                       
+                                      )
 
     delete = dtf.ZopeDocFileSuite("delete-project.txt",
                                     optionflags=optionflags,
