@@ -31,7 +31,6 @@ def cache_history(page, pr):
             modification_date=DateTime(vd.sys_metadata['timestamp']),
             )
         history_cache.annot[vd.version_id] = new_history_item
-        print vd.version_id
         page.__HISTORY_MIGRATED__=True
         page._p_changed=True
         
