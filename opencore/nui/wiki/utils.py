@@ -1,12 +1,12 @@
+from DateTime.DateTime import DateTime
+from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
+from StringIO import StringIO
+from itertools import count
+from opencore.interfaces import IOpenPage
 from opencore.interfaces import IOpenPage
 from opencore.nui.wiki.interfaces import IWikiHistory
-from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
-from opencore.interfaces import IOpenPage
-from DateTime.DateTime import DateTime
-from StringIO import StringIO
+from pprint import pprint
 import transaction as txn
-from itertools import count
-
 
 def cache_history(page, pr):
     if not IOpenPage.providedBy(page):
