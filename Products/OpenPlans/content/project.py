@@ -28,6 +28,7 @@ from zope.app.annotation.interfaces import IAttributeAnnotatable
 from zope.interface import Interface, implements
 import os.path
 import pkg_resources
+from opencore.project.utils import project_noun
 
 ProjectSchema = TeamSpace.schema.copy()
 # Prevent bug 1689 from affecting projects too.
@@ -133,8 +134,8 @@ ProjectSchema.moveField('space_teams', pos='bottom')
 # XXX these should probably live elsewhere, maybe in 
 # _initProjectHomeMenuItem
 
-project_menu_item = {'title': u'Project Home',
-                     'description': u'Project Home',
+project_menu_item = {'title': u'%s Home' % project_noun().title(),
+                     'description': u'%s Home' % project_noun().title(),
                      'action': '',
                      'extra': None,
                      'order': 0,
@@ -144,8 +145,8 @@ project_menu_item = {'title': u'Project Home',
                      '_for': Interface,
                      }
 
-project_menu_preferences = {'title': u'Project Preferences',
-                            'description': u'Project Preferences',
+project_menu_preferences = {'title': u'%s Preferences' % project_noun().title(),
+                            'description': u'%s Preferences' % project_noun().title(),
                             'action': 'base_edit',
                             'extra': None,
                             'order': 0,
@@ -170,7 +171,7 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
     content_icon = 'openproject_icon.png'
 
     home_page_id = 'project-home'
-    home_page_title = 'Project Home'
+    home_page_title = '%s Home' % project_noun().title()
     home_page_file = 'project_index.html'
 
     _at_rename_after_creation = True
@@ -189,7 +190,7 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
     # Rename the edit action for consistency
     actions = ({
         'id'          : 'edit',
-        'name'        : 'Project Preferences',
+        'name'        : '%s Preferences' % project_noun().title(),
         'action'      : 'string:${object_url}/base_edit',
         'permissions' : (ModifyPortalContent,),
         'visible'     : False,
@@ -251,8 +252,8 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
         self.invokeFactory('Document', self.home_page_id,
                            title=self.home_page_title)
         page = self._getOb(self.home_page_id)
-        page_file = pkg_resources.resource_stream(OPENCORE, 'copy/%s' %self.home_page_file)
-        page.setText(page_file.read())
+        page_file = pkg_resources.resource_stream(OPENCORE, 'copy/%s' % self.home_page_file)
+        page.setText(page_file.read().replace('${project_noun}', project_noun()))
 
     def _initProjectHomeMenuItem(self):
         """
