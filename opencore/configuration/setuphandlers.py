@@ -514,3 +514,11 @@ def setupKupu(portal, out):
     
     if out:
         print >> out, "Kupu setup completed"
+
+@setuphandler
+def install_cabochon_utility(portal, out):
+    try:
+        import opencore.cabochon
+        return opencore.cabochon.configuration.setuphandlers._install_cabochon_utility(portal, out)
+    except ImportError:
+        return

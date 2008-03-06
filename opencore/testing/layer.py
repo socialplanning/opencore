@@ -5,7 +5,6 @@ from Products.PloneTestCase.layer import PloneSite, ZCML
 from Products.PloneTestCase.setup import setupPloneSite
 from Testing import ZopeTestCase
 from opencore.project.handler import add_redirection_hooks 
-from opencore.cabochon.testing.utility import setup_cabochon_mock
 from opencore.testing.utility import setup_mock_http
 from opencore.utils import set_opencore_properties
 from topp.utils import introspection
@@ -16,6 +15,10 @@ from zope.app.component.hooks import setSite, setHooks
 import random
 import transaction as txn
 
+try:
+    from opencore.cabochon.testing.utility import setup_cabochon_mock
+except ImportError:
+    setup_cabochon_mock = lambda *args: None
 
 class MailHostMock(object):
     """
