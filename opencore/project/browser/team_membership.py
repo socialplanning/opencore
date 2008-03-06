@@ -51,6 +51,7 @@ class RequestMembershipWithEmail(object):
         email_msg = _(u'email_membership_requested',
                       mapping = {'member_id': member_string,
                                  'project_title': team.title,
+                                 'project_noun': self.project_noun,
                                  'team_manage_url': team_manage_url,
                                  }
                       )

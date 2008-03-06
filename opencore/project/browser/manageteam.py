@@ -694,6 +694,7 @@ class InviteView(ManageTeamView):
         msg_subs = dict(user_message='',
                         join_url=self.join_url('', ''),
                         portal_title=self.portal_title(),
+                        project_noun=self.project_noun,
                         site_contact_url=self.portal.absolute_url() + "/contact-site-admin",
                         )
         msg = (self.translate(_(u'email_invite_static_body', mapping=msg_subs)))

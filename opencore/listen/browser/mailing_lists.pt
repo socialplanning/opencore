@@ -94,7 +94,7 @@
           </tal:listing>
   
           <p tal:condition="not: mailing_lists" i18n:translate="mailing_lists_no_lists" class="oc-boxy oc-discreetText">
-            There are currently no mailing lists for this project.
+            There are currently no mailing lists for this <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>.
           </p>
   
         </tal:foldercontents>

@@ -11,6 +11,7 @@ from opencore.i18n import _, translate
 from opencore.listen.mailinglist import OpenMailingList
 from opencore.project.utils import get_featurelets
 from utils import getSuffix
+from opencore.project.utils import project_noun 
 
 # make sure that modification date gets updated
 # when new messages are sent to list
@@ -86,7 +87,8 @@ def listen_featurelet_installed(proj, event):
     ms_tool = getToolByName(proj, 'portal_membership')
     cur_mem_id = unicode(ms_tool.getAuthenticatedMember().getId())
     ml.managers = (cur_mem_id,)
-    ml.setDescription(translate(_(u'discussion_list_desc', u'Discussion list for this project, consisting of all project members.')))
+    ml.setDescription(translate(_(u'discussion_list_desc', u'Discussion list for this ${project_noun}, consisting of all ${project_noun} members.',
+                                  mapping={'project_noun':project_noun()})))
     notify(ObjectCreatedEvent(ml))
 
     memlist = IWriteMembershipList(ml)
