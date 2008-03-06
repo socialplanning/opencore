@@ -41,19 +41,19 @@ Try setting some invalid titles::
     >>> view.request.form['project_title'] = ""
     >>> out = view.handle_request()
     >>> view.errors
-    {'project_title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
+    {'project_title': 'The name must contain at least 2 characters with at least 1 letter or number.'}
     >>> view.errors = {}
 
     >>> view.request.form['project_title'] = "1"
     >>> out = view.handle_request()
     >>> view.errors
-    {'project_title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
+    {'project_title': 'The name must contain at least 2 characters with at least 1 letter or number.'}
     >>> view.errors = {}
 
     >>> view.request.form['project_title'] = "!@#$%"
     >>> out = view.handle_request()
     >>> view.errors
-    {'project_title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
+    {'project_title': 'The name must contain at least 2 characters with at least 1 letter or number.'}
     >>> view.errors = {}
 
 How about an invalid id?::
@@ -61,14 +61,14 @@ How about an invalid id?::
     >>> view.request.form['projid'] = ''
     >>> out = view.handle_request()
     >>> view.errors
-    {'id': 'The project url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'}
+    {'id': 'The url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'}
     >>> view.errors = {}
 
 And, another invalid id::
     >>> view.request.form['projid'] = 'abcd1-_+'
     >>> out = view.handle_request()
     >>> view.errors
-    {'id': 'The project url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'}
+    {'id': 'The url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'}
     >>> view.errors = {}
 
 And an id with a reserved name also produces an error::

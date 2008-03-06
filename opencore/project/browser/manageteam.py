@@ -226,8 +226,10 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
             #XXX sending the email should go in an event subscriber
             try:
                 _email_sender(self).sendEmail(mem_id, msg_id='request_approved',
-                                            project_title=self.context.title,
-                                            project_url=self.context.absolute_url())
+                                              project_title=self.context.title,
+                                              project_url=self.context.absolute_url(),
+                                              project_noun=self.project_noun,
+                                              )
             except MailHostError: 
                 pass
             self._add_transient_msg_for(mem_id, 'You have been accepted to')
@@ -612,7 +614,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
 
         mem_id = targets[0] # should only be one
         if not self._doInviteMember(mem_id):
-            self.add_status_message(u'You cannot reinvite %s to join this project yet.' % mem_id)
+            # XXX when does this happen?
+            self.add_status_message(u'You cannot reinvite %s to join this %s yet.' % (mem_id, self.project_noun))
             self.redirect('%s/manage-team' % self.context.absolute_url())
 
         acct_url = self._getAccountURLForMember(mem_id)
@@ -637,7 +640,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
 
         _email_sender(self).sendEmail(mem_id, msg_id='invite_member',
                                     **msg_subs)
-        self.add_status_message(u'You invited %s to join this project.' % mem_id)
+        self.add_status_message(u'You invited %s to join' % mem_id)
 
     @view.memoizedproperty
     def invite_util(self):

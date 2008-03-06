@@ -1,12 +1,12 @@
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title" tal:content="string:Start a Project - ${view/portal_title}" />
+    <title metal:fill-slot="title" tal:content="string:Start a ${view/project_noun/title} - ${view/portal_title}" />
   </head>
   <body>
     <div metal:fill-slot="content">
       <div class="oc-headingBlock">
-        <h1 i18n:translate="create_project_heading">Start a project</h1>
-        <p i18n:translate="create_project_desc" class="oc-headingContext">Each project is a toolbox to help you get things done. Using your project you can team up with others, sketch out your plans, and keep track of your progress.</p>
+        <h1 i18n:translate="create_project_heading">Start a <span i18n:name="project_noun" tal:replace="view/project_noun">project</span></h1>
+        <p i18n:translate="create_project_desc" class="oc-headingContext">Each <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> is a toolbox to help you get things done. Using your <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> you can team up with others, sketch out your plans, and keep track of your progress.</p>
       </div>
       <div id="oc-content-main" class="oc-content-main-fullWidth">
         <form name="create_form" id="oc-project-create" method="post" enctype="multipart/form-data"
@@ -75,24 +75,24 @@
 
           <fieldset class="oc-boxy">
             <legend i18n:translate="create_project_step_security" class="oc-legend-heading oc-biggerText">Step 2: Security</legend>
-            <p i18n:translate="create_project_step_security_desc" class="oc-headingContext oc-smallText">Decide who can see and contribute to this project.  You will create your team on the next page.</p>
+            <p i18n:translate="create_project_step_security_desc" class="oc-headingContext oc-smallText">Decide who can see and contribute to this <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>.  You will create your team on the next page.</p>
             <fieldset>
               <ul class="oc-form-radiolist oc-form-fieldBlock">
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
                   value="open_policy" />
                   <label i18n:translate="create_project_open_policy" for="workflow_policy_open">
-                  Anyone can view this project and any <span i18n:name="portal_title" tal:replace="view/portal_title"/> member can contribute to it</label>
+                  Anyone can view this <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> and any <span i18n:name="portal_title" tal:replace="view/portal_title"/> member can contribute to it</label>
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
                   value="medium_policy" checked="checked"/>
-                  <label i18n:translate="create_project_medium_policy" for="workflow_policy_medium">Anyone can view this project but only team members can contribute to it</label>
+                  <label i18n:translate="create_project_medium_policy" for="workflow_policy_medium">Anyone can view this <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> but only team members can contribute to it</label>
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
                   value="closed_policy" />
-                  <label i18n:translate="create_project_closed_policy" for="workflow_policy_closed">Only team members can view, contribute, or search for this project</label>
+                  <label i18n:translate="create_project_closed_policy" for="workflow_policy_closed">Only team members can view, contribute, or search for this <span i18n:name="project_noun" tal:replace="view/project_noun">project</span></label>
                 </li>
               </ul>
             </fieldset>

@@ -98,7 +98,7 @@
                                      nprojects python: view.num_projects_for_member(mem)"
                                      >
                       <dt class="oc-roster-projects">
-                        Projects (<span tal:replace="nprojects">N</span>):
+                        <span tal:replace="view/project_noun/title">Project</span>s (<span tal:replace="nprojects">N</span>):
                       </dt>
                       <dd>
                         <ul class="oc-inlineList">

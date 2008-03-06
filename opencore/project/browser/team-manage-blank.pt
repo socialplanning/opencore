@@ -23,8 +23,9 @@
     <div id="oc-content-main">
 
       <div id="oc-congrats" class="oc-getstarted">
-        <h2>Congratulations on your new project!</h2>
-        <p tal:content="string:You should now create a team for your project by adding existing ${view/portal_title} members.">
+        <h2>Congratulations on your new <span tal:replace="view/project_noun">project</span>!</h2>
+        <p>You should now create a team for your <span tal:replace="view/project_noun">project</span> 
+           by adding existing <span tal:replace="view/portal_title" /> members.
         </p>
         <p>
           You will always be able to add new members and manage your team
@@ -37,8 +38,10 @@
         
         <div id="oc-search-members" class="oc-widget oc-widget-search oc-boxy">
           <h2>Search for members</h2>
-          <p class="oc-headingContext"
-             tal:content="string:Search the ${view/portal_title} directory to find users you know and invite them to join your project.">
+          <p class="oc-headingContext">
+             Search the <span tal:replace="view/portal_title" />
+             directory to find users you know and invite them to join your
+             <span tal:replace="view/project_noun">project</span>.
           </p>
           <fieldset class="oc-form-fieldBlock" style="margin-bottom: 1em;">
             <input class="oc-input-typeText" type="text" name="search_for" />
@@ -60,12 +63,13 @@
         <h3>About Teams</h3>
         <p>
           A team is a group of registered members that are active
-          participants in your project.
+          participants in your <span tal:replace="view/project_noun">project</span>.
         </p>
         <p>
-          If your project is open, anyone else can edit your content, but
-          they will not show up on the list of project team members, and
-          the project will not show up on the members' project lists.
+          If your <span tal:replace="view/project_noun">project</span> is open, anyone else can edit your content, but
+          they will not show up on the list of team members, and
+          the <span tal:replace="view/project_noun">project</span> will not show up on the members'
+          <span tal:replace="view/project_noun">project</span> lists.
         </p>
   
         <h3>About Roles</h3>
