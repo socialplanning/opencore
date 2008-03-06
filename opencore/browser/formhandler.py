@@ -155,8 +155,10 @@ class OctopoLite(opencore.browser.octopus.Octopus):
         Returns either the rendered template attribute, or None if the
         self.template is None.
         """
-        if self.template is not None:
+        if getattr(self, 'template', None) is not None:
             return self.template()
+        if getattr(self, 'index', None) is not None:
+            return self.index()
 
     def _octopus_async_postprocess(self, ret):
         #self.response.setHeader('Content-Type', "application/javascript;charset=utf-8")
