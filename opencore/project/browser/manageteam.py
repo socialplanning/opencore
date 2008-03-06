@@ -39,7 +39,6 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
     View class for the team management screens.
     """
     team_manage = ZopeTwoPageTemplateFile('team-manage.pt')
-    team_manage_blank = ZopeTwoPageTemplateFile('team-manage-blank.pt')
     team_manage_macros = ZopeTwoPageTemplateFile('team-manage-macros.pt')
 
     mship_type = OpenMembership.portal_type
@@ -59,18 +58,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
     @property
     def template(self):
         """
-        Different template for brand new teams, before any members are added.
-
-        XXX Deferred until immediately after the initial NUI launch.
+        Team management
         """
-        #mem_ids = self.team.getMemberIds()
-        #if getattr(self, '_norender', None):
-        #    return
-        #if len(mem_ids) == 1:
-        #    # the one team member is most likely the project creator
-        #    return self.team_manage_blank
-        #return self.team_manage
-
         return self.team_manage
 
     def id_is_loggedin(self, item):
