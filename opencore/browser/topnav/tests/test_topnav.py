@@ -38,7 +38,7 @@ class TestTopNav(OpenPlansTestCase):
         people, projects, start = [l['name'] for l in links]
         self.assertEqual(people, u'People')
         self.assertEqual(projects, project_noun().title() + u's')
-        self.assertEqual(start, u'Start a %s' % project_noun().title())
+        self.assertEqual(start, u'Start A %s' % project_noun().title())
 
         self.clearMemoCache()
         proj = self.portal.projects.p1
@@ -164,7 +164,7 @@ class TestTopNav(OpenPlansTestCase):
         people, projects, start = [l['name'] for l in links]
         self.assertEqual(people, u'People')
         self.assertEqual(projects, project_noun().title() + u's')
-        self.assertEqual(start, u'Start a %s' % project_noun().title())
+        self.assertEqual(start, u'Start A %s' % project_noun().title())
         del req.environ['X_OPENPLANS_PERSON']
         del req.environ['X_OPENPLANS_PROJECT']
 
