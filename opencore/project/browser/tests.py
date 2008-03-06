@@ -7,6 +7,7 @@ from Testing.ZopeTestCase import PortalTestCase
 from opencore.browser.base import BaseView
 from opencore.configuration import OC_REQ
 from opencore.featurelets.interfaces import IListenContainer
+from opencore.tasktracker.testing.setup import extended_tt_setup
 from opencore.testing import dtfactory as dtf
 from opencore.testing import setup as oc_setup
 from opencore.testing.layer import MockHTTPWithContent
@@ -89,7 +90,7 @@ def test_suite():
         
 
     def tasktracker_setup(tc):
-        oc_setup.extended_tt_setup(tc)
+        extended_tt_setup(tc)
         enableLocalSiteHook(tc.portal)
         setSite(tc.portal)
         setHooks()
