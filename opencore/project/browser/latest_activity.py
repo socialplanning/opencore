@@ -91,12 +91,11 @@ class Feed(object):
         return self.listgetter(*self.listgetterargs[0], **self.listgetterargs[1])
 
     def getfeeds(self):
-        return [ self.tofeed(source, self.tofeedargs) for source in self.getlist() ]
+        return [ self.tofeed(source, *self.tofeedargs[0], **self.tofeedargs[1]) for source in self.getlist() ]
 
 
 
-def project2feed(project_brains, args):
-    member_url = args[0][0] # this is a hack for a quick checkin :(
+def project2feed(project_brains, member_url):
     author = project_brains.lastModifiedAuthor    
     if author:
         author_url = member_url(author).rstrip('/') + '/profile'
@@ -114,7 +113,6 @@ def project2feed(project_brains, args):
 email_re = re.compile(r' *"(.*)" *<.*@.*>')
 
 def discussions2feed(message, args):
-    member_url = args[0][0] # XXX hack; to be fixed
     author = message['reply_structure']['from_id']
     if author:
         author_url = member_url(author).rstrip('/') + '/profile'
