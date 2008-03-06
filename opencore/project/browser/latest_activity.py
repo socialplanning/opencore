@@ -52,9 +52,9 @@ class DiscussionList(ListFromCatalog):
             messages = [ dict(message=message, reply=thread_end(message), mlist=mlist)
                          for message in messages ]
             items.extend(messages)
-        date_cmp = lambda x, y: cmp(x['reply'].modification_date,
-                                    y['reply'].modification_date) 
-        items.sort(date_cmp, reverse=True) # reverse date compare
+        date = lambda x: x['reply'].modification_date
+                                    
+        items.sort(key=date, reverse=True) # reverse date compare
         if number is None:
             number = len(items)
         items = items[:number]
@@ -112,7 +112,7 @@ def project2feed(project_brains, member_url):
 # address in standard format
 email_re = re.compile(r' *"(.*)" *<.*@.*>')
 
-def discussions2feed(message, args):
+def discussions2feed(message, member_url):
     author = message['reply_structure']['from_id']
     if author:
         author_url = member_url(author).rstrip('/') + '/profile'
