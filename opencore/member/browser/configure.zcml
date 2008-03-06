@@ -12,7 +12,7 @@
 
   <browser:page
      for="opencore.interfaces.member.IMemberFolder"
-     class=".view.ProfileView"
+     class=".portraits.PortraitView"
      permission="zope2.View"
      attribute="portrait"
      name="portrait"
@@ -20,7 +20,7 @@
 
   <browser:page
      for="opencore.interfaces.member.IMemberFolder"
-     class=".view.ProfileView"
+     class=".portraits.PortraitView"
      permission="zope2.View"
      attribute="portrait_thumb"
      name="portrait_thumb"
