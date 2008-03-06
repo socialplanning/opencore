@@ -9,7 +9,7 @@ from Products.CMFCore.utils import getToolByName
 from opencore.browser.topnav.tests import parse_topnav_context_menu
 from opencore.testing.layer import OpencoreContent
 from opencore.interfaces.member import IMemberFolder
-
+from opencore.project.utils import project_noun
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase, \
      makeContent
 
@@ -37,8 +37,8 @@ class TestTopNav(OpenPlansTestCase):
             self.assertEqual(False, li['selected'])
         people, projects, start = [l['name'] for l in links]
         self.assertEqual(people, u'People')
-        self.assertEqual(projects, u'Projects')
-        self.assertEqual(start, u'Start A Project')
+        self.assertEqual(projects, project_noun().title() + u's')
+        self.assertEqual(start, u'Start a %s' % project_noun().title())
 
         self.clearMemoCache()
         proj = self.portal.projects.p1
@@ -74,7 +74,7 @@ class TestTopNav(OpenPlansTestCase):
         #self.assert_(u'Mailing Lists' in navigation)
         self.assert_(u'Team' in navigation)
         self.assert_(u'Contents' in navigation)
-        self.assert_(u'Join Project' in navigation)
+        self.assert_(u'Join %s' % project_noun().title() in navigation)
         self.assert_(u'Summary' in navigation)
 
         self.clearMemoCache()
@@ -116,7 +116,7 @@ class TestTopNav(OpenPlansTestCase):
         #self.assert_(u'Mailing Lists' in navigation)
         self.assert_(u'Team' in navigation)
         self.assert_(u'Contents' in navigation)
-        self.assert_(u'Join Project' in navigation)
+        self.assert_(u'Join %s' % project_noun().title() in navigation)
         self.assert_(u'Summary' in navigation)
         del req.environ['X_OPENPLANS_PROJECT']
 
@@ -163,8 +163,8 @@ class TestTopNav(OpenPlansTestCase):
             self.assertEqual(False, li['selected'])
         people, projects, start = [l['name'] for l in links]
         self.assertEqual(people, u'People')
-        self.assertEqual(projects, u'Projects')
-        self.assertEqual(start, u'Start A Project')
+        self.assertEqual(projects, project_noun().title() + u's')
+        self.assertEqual(start, u'Start a %s' % project_noun().title())
         del req.environ['X_OPENPLANS_PERSON']
         del req.environ['X_OPENPLANS_PROJECT']
 

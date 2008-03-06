@@ -12,11 +12,11 @@
 
   <li>
     <a tal:attributes="href string:${view/siteURL}/projects"
-       tal:content="string:Projects" />
+       tal:content="python:view.project_noun.title() + 's'" />
   </li>
 
   <li>
     <a tal:attributes="href string:${view/siteURL}/projects/create"
-       tal:content="string:Start a project" />
+       tal:content="python:'Start a %s' % view.project_noun" />
   </li>
 </ul>
