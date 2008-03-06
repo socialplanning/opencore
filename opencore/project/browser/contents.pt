@@ -7,9 +7,10 @@
 	<body>
 	<div metal:fill-slot="content">
 		<div class="oc-headingBlock">
-		<h1 i18n:translate="contents_heading">Project contents</h1>
+		<h1 i18n:translate="contents_heading"><span i18n:name="project_noun" tal:replace="python:view.project_noun.title()">Project</span> contents</h1>
 		<p i18n:translate="contents_desc" 
-			 class="oc-headingContext">At-a-glance view of all documents within this project.</p>
+			 class="oc-headingContext">At-a-glance view of all documents within this
+		<span i18n:name="project_noun" tal:replace="view/project_noun">project</span>.</p>
 		</div>
 		
 		<div id="oc-content-main" class="oc-content-main-fullWidth">
