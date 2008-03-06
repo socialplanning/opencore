@@ -8,9 +8,9 @@
         
        |
       
-      <a i18n:translate="main_macros_projects_label" tal:condition="python:current_search_page!='projects'" class="oc-search-projects" tal:attributes="href string:${context/portal_url}/projects/searchresults?letter_search=${letter_search}&search_for=${search_for}">Projects</a>
+      <a i18n:translate="main_macros_projects_label" tal:content="python:view.project_noun.title()" tal:condition="python:current_search_page!='projects'" class="oc-search-projects" tal:attributes="href string:${context/portal_url}/projects/searchresults?letter_search=${letter_search}&search_for=${search_for}">Projects</a>
       
-      <strong i18n:translate="main_macros_projects_label" tal:condition="python:current_search_page=='projects'">Projects</strong>
+      <strong i18n:translate="main_macros_projects_label" tal:content="python:view.project_noun.title()" tal:condition="python:current_search_page=='projects'">Projects</strong>
       
       |
         <a i18n:translate="main_macros_everything_label" tal:condition="python:current_search_page!='sitesearch'" class="oc-search-everything" tal:attributes="href string:${context/portal_url}/sitesearch?letter_search=${letter_search}&search_for=${search_for}">Everything</a>      

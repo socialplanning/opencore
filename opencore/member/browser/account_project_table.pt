@@ -29,7 +29,7 @@
         </table>
         <ul class="oc-actions oc-dataTable-actions">
           <li>
-            <input type="submit" name="task|batch_check|leave" value="Leave projects"
+            <input type="submit" name="task|batch_check|leave" tal:attributes="value string:Leave ${view/project_noun}s"
                    class="oc-button oc-chooseThis oc-js-actionButton" />
           </li>
           <noscript>

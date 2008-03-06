@@ -30,6 +30,7 @@ from opencore.configuration import PROHIBITED_MEMBER_PREFIXES
 
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utils import get_opencore_property
+from opencore.project.utils import project_noun
 
 regex = re.compile(EMAIL_RE)
 
@@ -184,9 +185,9 @@ content_schema += atapi.Schema((
                         read_permission=View,
                         expression='context.getProjectListing()',
                         widget=atapi.ComputedWidget(
-                            label="Projects",
+                            label= project_noun().title() + "s",
                             label_msgid='label_projects',
-                            description="Projects this user is a member of.",
+                            description="%ss this user is a member of." % project_noun().title(),
                             description_msgid='help_projects',
                             macro='member_projects',
                             ),

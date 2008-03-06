@@ -53,7 +53,7 @@
                   <h3 class="oc-feed-item-title">
                     <span i18n:translate="account_invite">
                       <a i18n:name="project" tal:condition="not: closed" tal:attributes="href proj_url" tal:content="project/title">Project Title</a>
-                      <span i18n:name="project" tal:condition="closed" tal:content="string: ${project/title} (closed project)" />
+                      <span i18n:name="project" tal:condition="closed" tal:content="string: ${project/title} (closed ${view/project_noun})" />
                       has invited you to become a member
                     </span>
                   </h3>
