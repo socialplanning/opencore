@@ -17,7 +17,6 @@ from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from opencore.geocoding.view import get_geo_writer
 from opencore.project.browser.base import ProjectBaseView
-from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
 from opencore.interfaces.membership import IEmailInvites
 from topp.clockqueue.interfaces import IClockQueue
 from topp.featurelets.interfaces import IFeatureletSupporter
