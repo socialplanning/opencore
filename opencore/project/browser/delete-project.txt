@@ -8,7 +8,8 @@ all the memberships.
 
 First, let's test our deletion handlers directly::
 
-    >>> project = self.projects.p1
+    >>> projects_folder = self.portal.projects
+    >>> project = projects_folder.p1
 
 Let's add some featurelets::
 
@@ -46,7 +47,7 @@ Team removal
 Make sure delete_team does what it's supposed to; we'll kill a team we
 don't need for this test::
 
-    >>> p4_proj = self.projects.p4
+    >>> p4_proj = projects_folder.p4
     >>> delete_team(p4_proj)
     >>> sorted(self.portal.portal_teams.objectIds())
     ['.wf_policy_config', 'p1', 'p2', 'p3']
@@ -78,14 +79,9 @@ Get the delete view and invoke it::
     >>> view._handle_delete()
     True
 
-Free up the references::
-
-    >>> del project
-    >>> del view
-
 p1 should be gone::
 
-    >>> sorted(self.projects.objectIds())
+    >>> sorted(projects_folder.objectIds())
     ['.wf_policy_config', 'p2', 'p3', 'p4']
 
 The team should also be gone::
@@ -95,8 +91,13 @@ The team should also be gone::
 
 We redirect to the account page after project deletion::
 
-    >>> print self.request.RESPONSE.headers['location']
+    >>> print view.request.RESPONSE.headers['location']
     /account
+
+Free up the references::
+
+    >>> del project
+    >>> del view
 
 The invites have been deleted::
 
