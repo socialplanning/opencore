@@ -3,7 +3,7 @@
 		<div metal:fill-slot="content">
 			<div class="oc-headingBlock">
 				<h1 i18n:translate="create_list_heading">Create new mailing list</h1>
-				<p i18n:translate="create_list_desc" class="oc-headingContext">Email based mailing lists are used to have discussions and distribute information about the project.</p>
+				<p i18n:translate="create_list_desc" class="oc-headingContext">Email based mailing lists are used to have discussions and distribute information about the <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>.</p>
 			</div>
 
 			<div id="oc-content-main" class="oc-content-main-fullWidth">
