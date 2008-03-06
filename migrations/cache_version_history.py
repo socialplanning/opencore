@@ -23,7 +23,8 @@ except IndexError:
 
 portal = getattr(app, portal)
 
-path = '/'.join(portal.getPhysicalPath() + ('projects',))
+prt_pth = portal.getPhysicalPath()
+path = ['/'.join(prt_pth + (seg ,)) for seg in 'people', 'projects',]
 
 print utils.migrate_history(portal, path, noskip=noskip).getvalue()
 
