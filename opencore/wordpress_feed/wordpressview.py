@@ -1,6 +1,4 @@
 import feedparser
-import lxml.etree
-import urllib2
 from dateutil.parser import parse
 from opencore.browser.base import BaseView
 
