@@ -5,7 +5,19 @@
 	  and add to the [general] section:  projtxt = project
           ... or re-run fassembler:opencore to do this automatically.
 
+
+2008-02-25  Paul Winkler  <pw@openplans.org>
+
+	* Add support for geocoding members and projects. #1529
+
+	Migration: 
 	
+ 	1) Update your opencore-bundle (rerun fassembler:opencore
+	or just manually get https://svn.openplans.org/eggs/openplans-bundle-opencore-plone25-20080215.tar.bz2
+	2) Run portal_quickinstaller to add the geocoder tool:
+	/openplans/portal_quickinstaller - install PleiadesGeocoder
+
+
 2008-02-25  whit  <whit@openplans.org>
 
 	* Reverse iterator for wiki history to match old display. 
@@ -19,34 +31,34 @@
 	  migration view.  Moves rendering of version information to read
 	  an annotation maintained by events.
 
-2008-02-25  Paul Winkler  <pw@openplans.org>
 
-	* Add support for geocoding members and projects. #1529
+2008-02-11  David Turner <novalis@novalis.org>
+	   
+	   * Remove featurelets from project add view.
 	  This is not exposed on any pages yet.
 
-	Migration: 
-	
- 	1) Update your opencore-bundle (rerun fassembler:opencore
-	or just manually get https://svn.openplans.org/eggs/openplans-bundle-opencore-plone25-20080215.tar.bz2
-	2) Run portal_quickinstaller to add the geocoder tool:
-	/openplans/portal_quickinstaller - install PleiadesGeocoder
+2008-02-08  Robert Marianski <rmarianski@openplans.org> 
 
-February 11, 2008 - David Turner <novalis@novalis.org> - Remove featurelets from project add view.
-
-February 8, 2008 - Robert Marianski <rmarianski@openplans.org> - people folder view
+	  * people folder view
 	/people/foo is the view for the profile page now.  migration to
 	update existing users member folder: "Make profile default member
 	page"
 
-February 7, 2008 - Ethan Jucovy <egj@openplans.org> - Override 500
+2008-02-07  Ethan Jucovy <egj@openplans.org> 
+
+	  * Override 500
 	with friendlier error message and form for submitting bug report
 	feedback.
 
-February 6, 2008 - Ethan Jucovy <egj@openplans.org> - Override 404
+2008-02-06   Ethan Jucovy <egj@openplans.org> 
+
+	    *  Override 404
 	with friendlier error message and search results for similar
 	content.
 
-January 31, 2008 - David Turner <novalis@novalis.org> - Added setup
-	widget to delete old non-text versions of wiki pages.
+2008-01-31  David Turner <novalis@novalis.org> 
+
+	    *  Added setup 
+	    widget to delete old non-text versions of wiki pages.
 
 
