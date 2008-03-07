@@ -97,22 +97,19 @@
                         <span class="locality" tal:content="location" />
                       </dd>
                     </tal:location>
-                    <tal:projects tal:define="pids member_record/project_ids;
-                                              nprojects python:len(pids)">
+                    <tal:projects tal:define="pbrains member_record/project_brains;
+                                              num_projects member_record/num_projects">
                       <dt class="oc-roster-projects">
-                        Projects (<span tal:replace="nprojects">N</span>):
+                        Projects (<span tal:replace="num_projects">N</span>):
                       </dt>
                       <dd>
                         <ul class="oc-inlineList">
-                          <li tal:repeat="pid python: sorted(pids)[:10]" 
-                              tal:define="project_info view/project_info">
-                            <tal:project define="project python: project_info[pid]">
-                              <a tal:attributes="href project/getPath">
-                                <span tal:content="project/Title" />
-                              </a>
-                            </tal:project>
+                          <li tal:repeat="project pbrains">
+                            <a tal:attributes="href project/getPath">
+                              <span tal:content="project/Title" />
+                            </a>
                           </li>
-                          <li tal:condition="python: nprojects > 10">
+                          <li tal:condition="python: num_projects > 10">
                             <a tal:attributes="href string:${here/portal_url}/people/${member_record/id}/profile">
                                (view all&hellip;)</a>
                           </li>
