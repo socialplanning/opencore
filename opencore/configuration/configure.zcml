@@ -1,6 +1,7 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:zcml="http://namespaces.zope.org/zcml"
            xmlns:topp="http://namespaces.openplans.org/topp">
+  <include package="topp.zcmlloader" file="meta.zcml" />
   <include file="permissions.zcml" />
   <include file="profiles.zcml" />
   <include package="opencore.account" />
