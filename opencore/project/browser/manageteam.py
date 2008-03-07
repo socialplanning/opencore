@@ -676,6 +676,7 @@ class InviteView(ManageTeamView):
                         user_message=self.request.get('message', ''), 
                         subject=self.request.get('subject', ''),
                         project_title=self.context.Title(),
+                        project_noun=self.project_noun,
                         site_contact_url=self.portal.absolute_url() + "/contact-site-admin",
                         )
 
@@ -722,6 +723,7 @@ class InviteView(ManageTeamView):
                             user_message=self.request.get('message', ''), 
                             subject=self.request.get('subject', ''),
                             project_title=self.context.Title(),
+                            project_noun=self.project_noun,
                             site_contact_url=self.portal.absolute_url() + "/contact-site-admin",
                             )
         
