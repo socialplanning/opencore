@@ -37,7 +37,7 @@ setup(
                         'https://svn.openplans.org/svn/vendor/geopy/openplans/dist',
                         'https://svn.openplans.org/svn/topp.utils/trunk#egg=topp.utils-dev',
                         'https://svn.openplans.org/svn/oc-cab/trunk#egg=oc-cab',
-                        'https://svn.openplans.org/svn/oc-tt/trunk#egg=oc-tt',
+                        'https://svn.openplans.org/svn/oc-tt/trunk#egg=oc-tt-dev',
                         'https://svn.openplans.org/svn/oc-feed/trunk#egg=oc-feed',
                         ],
 
@@ -63,7 +63,7 @@ setup(
           'geopy==0.93-20071130',  # forces our vendor branch.
           'flunc>=0.1.2',
           'oc-cab',
-          'oc-tt==dev',
+          'oc-tt>=0.1.dev-r14072,==dev',
           ],
       extras_require=dict(ubuntu=['hprof']),
 
