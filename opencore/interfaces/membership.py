@@ -1,5 +1,7 @@
 # @@ maybe these should go in a team.py
-from zope.interface import Interface
+from zope.interface import Interface, Attribute
+from zope.interface import implements
+
 
 class IOpenMembership(Interface):
     """
@@ -8,6 +10,22 @@ class IOpenMembership(Interface):
     XXX: TeamSpace needs to be updated to use Z3 interfaces so we can
     subclass from those.
     """
+
+
+class IMembershipTransitionEvent(Interface):
+    """
+    A membership object has made a workflow transition to a new state 
+    """
+    transition = Attribute('name of the transition')
+    obj = Attribute('object that made said transition')
+
+
+class MembershipTransitionEvent(object):
+    implements(IMembershipTransitionEvent)
+    def __init__(self, obj, transition):
+        self.obj = obj
+        self.transition = transition
+
 
 class IEmailInvites(Interface):
     """
