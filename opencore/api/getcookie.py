@@ -27,6 +27,5 @@ class GetCookie(BrowserView):
         if not member.verifyCredentials(dict(login=mem_id, password=pw)):
             self.request.response.setStatus(400)
             return
-        auth.updateCredentials(self.request, self.request.response, mem_id, None)
 
-        return
+        return auth.generateCookie(mem_id)

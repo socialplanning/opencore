@@ -31,9 +31,7 @@ the cookie remotely::
     ...
     ... __ac_password=testy''')
     HTTP/1.1 200 OK...
-    ...
-    Set-Cookie: __ac="..."; Path=/
-    ...
+    __ac=...
 
 It is only accessible by POST, to protect the user::
     >>> print http(r'''
@@ -54,3 +52,17 @@ does not contain the user's valid password::
     ...
     ... __ac_password=wrong''')
     HTTP/1.1 400 Bad Request...
+
+Sanity checks for the returned hash::
+    >>> view = self.portal.people.m1.restrictedTraverse('get-hash')
+    >>> #view.request = type("DummyRequest", (object,), {'environ':{}, 'form':{}})
+    >>> view.request.environ = {'REQUEST_METHOD': "POST"}
+    >>> view.request.form = {}
+    >>> view.request.form['__ac_password'] = "testy"
+    >>> content = view.get_cookie_hash()
+    >>> type(content)
+    <type 'str'>
+    >>> content.startswith("__ac=")
+    True
+    >>> content.endswith("%0A")
+    False
