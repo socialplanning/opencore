@@ -63,7 +63,7 @@ setup(
           'geopy==0.93-20071130',  # forces our vendor branch.
           'flunc>=0.1.2',
           'oc-cab',
-          'oc-tt',
+          'oc-tt>=r14072',
           ],
       extras_require=dict(ubuntu=['hprof']),
 
