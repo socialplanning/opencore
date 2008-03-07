@@ -6,6 +6,19 @@ Javascript functionality for Vacuum
     ...      return '\n'.join([li.strip() for li in astring.split('\n')]).strip()
 
 
+The member needs to have a 'legitimate' email address::
+
+    >>> member = portal.membrane_tool(getUserName='test_user_1_')[0].getObject()
+    >>> member
+    <OpenMember at /plone/portal_memberdata/test_user_1_>
+    >>> member.setEmail('test_emailer_1_@example.com')
+
+    >>> self.logout()
+    >>> view = portal.restrictedTraverse('@@login')
+    >>> view.request.form['__ac_name'] = 'foobar'
+    >>> view.request.form['__ac_password'] = 'testy'
+    >>> output = view()
+
 Logged out user:
 
     >>> self.logout()
