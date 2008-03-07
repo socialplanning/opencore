@@ -37,11 +37,13 @@ setup(
                         'https://svn.openplans.org/svn/vendor/geopy/openplans/dist',
                         'https://svn.openplans.org/svn/topp.utils/trunk#egg=topp.utils-dev',
                         'https://svn.openplans.org/svn/oc-tt/trunk#egg=oc-tt',
+                        'https://svn.openplans.org/svn/oc-feed/trunk#egg=oc-feed',
                         ],
 
       install_requires=[
           # -*- Extra requirements: -*-
-          "oc-js==dev,>=0.0",    
+          "oc-js==dev,>=0.0",
+          "oc-feed",
           "ClockQueue==dev,>=0.0",
           'simplejson',
           'decorator',
