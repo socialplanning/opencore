@@ -1,3 +1,11 @@
+2008-03-06  Paul Winkler  <pw@openplans.org>
+
+	* Configurable name for "projects". #2409
+          Existing installations will need to update the build.ini
+	  and add to the [general] section:  projtxt = project
+          ... or re-run fassembler:opencore to do this automatically.
+
+	
 2008-02-25  whit  <whit@openplans.org>
 
 	* Reverse iterator for wiki history to match old display. 
@@ -14,6 +22,7 @@
 2008-02-25  Paul Winkler  <pw@openplans.org>
 
 	* Add support for geocoding members and projects. #1529
+	  This is not exposed on any pages yet.
 
 	Migration: 
 	
