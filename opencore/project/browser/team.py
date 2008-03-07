@@ -211,6 +211,7 @@ class ProjectTeamView(TeamRelatedView):
     
     def __call__(self):
         # @@ why is this redirect here? DWM
+        # these view represent different functions
         if self.get_tool('portal_membership').checkPermission('TeamSpace: Manage team memberships', self.context):
             self.redirect(self.context.absolute_url() + '/manage-team')
         else:
@@ -292,20 +293,6 @@ class ProjectTeamView(TeamRelatedView):
             sort_by = self.sort_by
         sort_fn = getattr(self, 'handle_sort_%s' % sort_by, self.handle_sort_default)
         return sort_fn()
-            
-##     def projects_for_member(self, member):
-##         # XXX these should be brains
-##         projects = self._projects_for_member(member)
-##         # only return max 10 results
-##         return projects[:10]
-
-##     def num_projects_for_member(self, member):
-##         projects = self._projects_for_member(member)
-##         return len(projects)
-
-##     @memoize_contextless
-##     def _projects_for_member(self, member):
-##         return member.getProjects()
 
     def _membership_record(self, brain):
         mem_id = brain['getId']
@@ -320,10 +307,11 @@ class ProjectTeamView(TeamRelatedView):
 
         # filter against search returns to insure private projects not
         # included unless view user also a member
-        # @@ could be made better by return the brain list sorted
-        project_ids = [id_ for id_ in brain.project_ids \
+        project_ids = [self.project_info[id_] for id_ in brain.project_ids \
                        if self.project_info.has_key(id_)]
-        
+
+        # sort then truncate
+        ten_projects = sorted(project_ids, key=lambda x: x.Title)[:10]
         return dict(activation=activation,
                     contributions=contributions,
                     email=brain.getEmail,
@@ -332,7 +320,8 @@ class ProjectTeamView(TeamRelatedView):
                     location=brain.getLocation,
                     modification=modification,
                     portrait_thumb_url=brain.portrait_thumb_url,
-                    project_ids=project_ids,                    
+                    project_brains=ten_projects,
+                    num_projects=len(project_ids)
                     )
     
     def _project_info(self, mem_brains):
@@ -340,11 +329,12 @@ class ProjectTeamView(TeamRelatedView):
         concatenates a series of project ids for a collection of
         member brains and looks up the project brains
         """
-        proj_ids = set(itertools.chain(*[sorted(brain.project_ids)[:10] for brain in mem_brains]))
+        proj_ids = set(itertools.chain(*[sorted(brain.project_ids) for brain in mem_brains]))
 
         # @@ DWM: matching on id not as good as matching on UID
-        pbrains = self.get_tool('portal_catalog')(getId=list(proj_ids), portal_type='OpenProject')
-        return dict([(b.getId, b) for b in pbrains])
+        cat = self.get_tool('portal_catalog')
+        pbrains = cat(getId=list(proj_ids), portal_type='OpenProject')
+        return dict((b.getId, b) for b in pbrains)
 
     @memoizedproperty
     def project_info(self):
@@ -357,24 +347,7 @@ class ProjectTeamView(TeamRelatedView):
     def can_view_email(self):
         return self.get_tool('portal_membership').checkPermission('OpenPlans: View emails', self.context)
 
-##     # remove
-##     def membership_info_for(self, member):
-##         mem_id = member.getId()
-##         project = self.context
-##         project_id = project.getId()
-##         team = self.team
-##         membership = team._getOb(mem_id)
-
-##         contributions = 'XXX'
-##         activation = self.pretty_date(membership.made_active_date)
-##         modification = self.pretty_date(membership.ModificationDate())
-##         return dict(contributions=contributions,
-##                     activation=activation,
-##                     modification=modification,
-##                     )
-
     def is_admin(self, mem_id):
         return self.team.getHighestTeamRoleForMember(mem_id) == self.admin_role
         
-# requires a reindex
 
