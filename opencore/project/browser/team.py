@@ -33,15 +33,21 @@ class TeamRelatedView(SearchView):
     Base class for views on the project that are actually related to
     the team and team memberships.
     """
-    def __init__(self, context, request):
-        SearchView.__init__(self, context, request)
-        project = self.context
-        teams = project.getTeams()
-        assert len(teams) == 1, "%d teams. 1 expected" %len(teams)
-        self.team = team = teams[0]
-        self.team_path = '/'.join(team.getPhysicalPath())
-        self.active_states = team.getActiveStates()
 
+    @property
+    def team_path(self):
+        return '/'.join(self.team.getPhysicalPath())
+
+    @memoizedproperty
+    def active_states(self):
+        return self.team.getActiveStates()
+    
+    @memoizedproperty
+    def team(self):
+        teams = self.context.getTeams()
+        assert len(teams) == 1, "%d teams. 1 expected" %len(teams)
+        return teams[0]
+        
 
 class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
     """
@@ -217,19 +223,11 @@ class ProjectTeamView(TeamRelatedView):
         return 
 
     def handle_sort_membership_date(self):
-        query = dict(portal_type='OpenMembership',
-                 path=self.team_path,
-                 review_state=self.active_states,
-                 sort_on='made_active_date',
-                 sort_order='descending',
-                 )
-
-        membership_brains = self.catalog(**query)
         # XXX for some reason, the descending sort is not working properly
         # seems to only want to be ascending
         # so let's just use python sort to sort the results ourselves
         membership_brains = sorted(
-            membership_brains,
+            self.membership_brains,
             key=attrgetter('made_active_date'),
             reverse=True)
 
@@ -239,49 +237,49 @@ class ProjectTeamView(TeamRelatedView):
                      getId=mem_ids,
                      )
 
-        # @@ DRY
         member_brains = self.result = self.membranetool(**query)
         lookup_dict = dict((b.getId, b) for b in member_brains if b.getId)
         batch_dict = [lookup_dict.get(b.getId) for b in membership_brains if lookup_dict.has_key(b.getId)]
         return self._get_batch(batch_dict, self.request.get('b_start', 0))
 
-    def handle_sort_location(self):
+    @staticmethod
+    def sort_location_then_name(x, y):
+        # XXX sort manually here, because it doesn't look like the catalog
+        # has the ability to sort on multiple fields
+        # @@ use advanced query???
+        xloc, yloc = x.getLocation.lower(), y.getLocation.lower()
+        if xloc < yloc: return -1
+        if yloc < xloc: return 1
+        return cmp(x.getId.lower(), y.getId.lower())
+
+    @memoizedproperty
+    def membership_brains(self):
         query = dict(portal_type='OpenMembership',
                  path=self.team_path,
                  review_state=self.active_states,
                  )
-        mem_brains = self.catalog(**query)
-        mem_ids = [mem_brain.getId for mem_brain in mem_brains]
+        return self.catalog(**query)
+
+    def handle_sort_location(self):
+        #mem_ids = [mem_brain.getId for mem_brain in self.membership_brains]
         query = dict(sort_on='sortableLocation',
-                     getId=mem_ids,
+                     #getId=mem_ids,
+                     project_ids=[self.team.getId()],
                      )
-        # XXX these are member brains, not membership brains
         results = self.membranetool(**query)
-        # XXX sort manually here, because it doesn't look like the catalog
-        # has the ability to sort on multiple fields
-        def sort_location_then_name(x, y):
-            xloc, yloc = x.getLocation.lower(), y.getLocation.lower()
-            if xloc < yloc: return -1
-            if yloc < xloc: return 1
-            return cmp(x.getId.lower(), y.getId.lower())
 
         # @@ DRY
-        self.results = sorted(results, cmp=sort_location_then_name)
+        self.results = sorted(results, cmp=self.sort_location_then_name)
         return self._get_batch(self.results, self.request.get('b_start', 0))
 
     def handle_sort_contributions(self):
         return self._get_batch([], self.request.get('b_start', 0))
 
     def handle_sort_default(self):
-        query = dict(portal_type='OpenMembership',
-                     path=self.team_path,
-                     review_state=self.active_states,
-                     )
-        mem_brains = self.catalog(**query)
-
-        ids = [b.getId for b in mem_brains]
+        #mem_ids = [mem_brain.getId for mem_brain in self.membership_brains]
         query = dict(portal_type='OpenMember',
-                     getId=ids,
+                     #getId=mem_ids,
+                     project_ids=[self.team.getId()],
                      sort_on='getId',
                      )
         
@@ -292,11 +290,8 @@ class ProjectTeamView(TeamRelatedView):
     def memberships(self, sort_by=None):
         if sort_by is None:
             sort_by = self.sort_by
-        try:
-            sort_fn = getattr(self, 'handle_sort_%s' % sort_by)
-            return sort_fn()
-        except (TypeError, AttributeError):
-            return self.handle_sort_default()
+        sort_fn = getattr(self, 'handle_sort_%s' % sort_by, self.handle_sort_default)
+        return sort_fn()
             
 ##     def projects_for_member(self, member):
 ##         # XXX these should be brains
