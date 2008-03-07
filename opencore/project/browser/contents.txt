@@ -123,7 +123,7 @@ _sorted_items and might ought to merge with it. It is called
 by the resort() method (bound to a view at resort_contents) to
 render a resorted contents table::
     >>> [o['title'] for o in view._resort('pages', 'title')]
-    ['new title', 'Project Home']
+    ['Home', 'new title']
     >>> [o['id'] for o in view._resort('pages', 'id')]
     ['new1', 'project-home']
     >>> [o['id'] for o in view._resort('pages', 'id', 'descending')]
