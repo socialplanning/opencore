@@ -518,7 +518,7 @@ def setupKupu(portal, out):
 @setuphandler
 def install_cabochon_utility(portal, out):
     try:
-        import opencore.cabochon
-        return opencore.cabochon.configuration.setuphandlers._install_cabochon_utility(portal, out)
+        from opencore.cabochon.configuration import setuphandlers
+        return setuphandlers._install_cabochon_utility(portal, out)
     except ImportError:
         return
