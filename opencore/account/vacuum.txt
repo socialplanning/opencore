@@ -1,10 +1,6 @@
 Javascript functionality for Vacuum
 ===================================
 
-    >>> def normalize_whitespace(astring):
-    ...      # just a little helper to avoid caring about indentation.
-    ...      return '\n'.join([li.strip() for li in astring.split('\n')]).strip()
-
 
 The member needs to have a 'legitimate' email address::
 

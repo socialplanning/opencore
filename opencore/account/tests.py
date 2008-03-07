@@ -45,6 +45,19 @@ class StubMemberWorkflow:
     def getId(self):
         return self.id
 
+def normalize_whitespace(astring):
+    # just a little helper to avoid caring about indentation.
+    return '\n'.join([li.strip() for li in astring.split('\n')]).strip()
+
+def readme_setup(tc):
+    setSite(tc.portal)
+    tc._refreshSkinData()
+    member = tc.portal.portal_membership.getAuthenticatedMember()
+    member = IHandleMemberWorkflow(member)
+    if member.is_unconfirmed():
+        member.confirm()
+    setSite(tc.portal)
+
 
 def test_suite():
     from Products.Five.utilities.marker import erase as noLongerProvides
@@ -61,18 +74,12 @@ def test_suite():
     from zope.component import getUtility
     from pprint import pprint
     fired = []
-    globs = locals()
-    globs['StubMemberWorkflow'] = StubMemberWorkflow
 
     setup.setupPloneSite()
-    def readme_setup(tc):
-        setSite(tc.portal)
-        tc._refreshSkinData()
-        member = tc.portal.portal_membership.getAuthenticatedMember()
-        member = IHandleMemberWorkflow(member)
-        if member.is_unconfirmed():
-            member.confirm()
-        setSite(tc.portal)
+
+    globs = locals()
+    globs.update({'StubMemberWorkflow': StubMemberWorkflow,
+                  'normalize_whitespace': normalize_whitespace})
 
     readme = dtf.ZopeDocFileSuite("README.txt",
                                         optionflags=optionflags,
@@ -82,7 +89,7 @@ def test_suite():
                                         setUp=readme_setup,
                                         layer=MockHTTPWithContent
                                         )
-
+    # XXX vacuum probably doesn't need the MockMailHost stuff?
     vacuum = dtf.ZopeDocFileSuite("vacuum.txt",
                                   optionflags=optionflags,
                                   package='opencore.account',
