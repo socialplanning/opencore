@@ -257,6 +257,7 @@ class OpenMember(FolderishMember):
     
     security.declareProtected(View, 'project_ids')
     def project_ids(self):
+        """ids of active teams. this attr is indexed"""
         return [x.getId() for x in self.getProjectListing()]
 
     security.declareProtected(View, 'portrait_thumb_url')
