@@ -6,4 +6,4 @@
 #
 
 go ${base_url}
-find 'oc-topnav-context.*People.*Projects.*Start A Project.*oc-usermenu-explore.*Home.*People.*Projects.*Start a project.*oc-topnav-usermenu.*Sign in.*Create account' s
+find 'oc-topnav-context.*People.*${projtxt}s.*Start A ${projtxt}.*oc-usermenu-explore.*Home.*People.*${projtxt}s.*Start a ${projtxt}.*oc-topnav-usermenu.*Sign in.*Create account' si
