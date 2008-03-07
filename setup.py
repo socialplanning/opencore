@@ -36,9 +36,8 @@ setup(
                         'http://feedparser.googlecode.com/files/feedparser-4.1.zip',
                         'https://svn.openplans.org/svn/vendor/geopy/openplans/dist',
                         'https://svn.openplans.org/svn/topp.utils/trunk#egg=topp.utils-dev',
-                        'https://svn.openplans.org/svn/oc-cab/trunk#egg=oc-cab',
-                        'https://svn.openplans.org/svn/oc-tt/trunk#egg=oc-tt-dev',
                         'https://svn.openplans.org/svn/oc-feed/trunk#egg=oc-feed',
+                        'https://svn.openplans.org/svn/ZCMLLoader/trunk#egg=ZCMLLoader',
                         ],
 
       install_requires=[
@@ -62,8 +61,7 @@ setup(
           'uuid',
           'geopy==0.93-20071130',  # forces our vendor branch.
           'flunc>=0.1.2',
-          'oc-cab',
-          'oc-tt>=0.1.dev-r14072,==dev',
+          'zcmlloader',
           ],
       extras_require=dict(ubuntu=['hprof']),
 
