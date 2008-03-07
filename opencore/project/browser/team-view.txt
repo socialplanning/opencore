@@ -12,7 +12,6 @@ Set up the view::
 
 Sort by username::
 
-    >>> ignore = [m.getObject().reindexObject() for m in self.portal.membrane_tool()]
     >>> results = view.memberships('username')
     >>> brains = list(results)
     >>> len(brains)
