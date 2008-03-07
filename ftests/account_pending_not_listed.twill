@@ -10,5 +10,6 @@
 
 go ${base_url}/people/${user}/account
 url 'account'
+find ${projtxt}
 find "${projtitle}.*waiting approval.*today.*leave" s
 notfind "${projtitle}.*waiting approval.*today.*<select.*leave" s

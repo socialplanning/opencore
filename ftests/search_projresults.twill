@@ -12,7 +12,7 @@
 fv search_form search_for $query
 submit
 find $query
-find 'project'
+find '${projtxt}'
 find 'of\s+\d+'
 find 'sorted'
 notfind 'No results found.'

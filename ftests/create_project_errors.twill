@@ -13,7 +13,7 @@
 extend_with flunc.checkbox
 
 go ${base_url}
-follow "Start a project"
+follow "Start a ${projtxt}"
 
 # check blank title
 fv create_form projid $projid
@@ -23,7 +23,7 @@ submit
 
 notfind 'site error' i
 find 'psm_correct_errors_below'
-find 'project name must contain' 
+find 'name must contain' 
 
 # check invalid title
 fv create_form projid $projname
@@ -33,7 +33,7 @@ submit
 
 notfind 'site error' i
 find 'psm_correct_errors_below'
-find 'project name must contain' i
+find 'name must contain'
 
 # check blank id
 fv create_form projid ''
@@ -43,4 +43,4 @@ submit
 
 notfind 'site error' i
 find 'psm_correct_errors_below'
-find 'project url may contain' i
+find 'url may contain' i

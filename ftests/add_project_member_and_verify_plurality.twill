@@ -25,7 +25,7 @@ submit 3
 # to avoid matching the logged in user
 find "Pending membership invitations.*${membername}" s
 # and the psm
-find "You invited ${membername} to join this project"
+find "You invited ${membername} to join this ${projtxt}"
 # end copied test
 
 # Here we should verify that there is exactly one membership
