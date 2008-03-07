@@ -83,6 +83,15 @@ def test_suite():
                                         layer=MockHTTPWithContent
                                         )
 
+    vacuum = dtf.ZopeDocFileSuite("vacuum.txt",
+                                  optionflags=optionflags,
+                                  package='opencore.account',
+                                  test_class=MockMailHostTestCase,
+                                  globs = globs,
+                                  setUp=readme_setup,
+                                  layer=MockHTTPWithContent
+                                  )
+
     invite = dtf.ZopeDocFileSuite("invite-join.txt",
                                   optionflags=optionflags,
                                   package='opencore.account',
@@ -110,8 +119,7 @@ def test_suite():
                                        layer = OpencoreContent
                                        )
 
-    return unittest.TestSuite((readme, invite, confirm, first_login))
-
+    return unittest.TestSuite((readme, invite, confirm, first_login, vacuum))
 
 
 if __name__ == '__main__':

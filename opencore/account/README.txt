@@ -394,58 +394,6 @@ Login [to be done]
 due to the fact that PAS isn't called.  Deal with this later]
 
 
-Javascript functionality for Vacuum
-===================================
-
-    >>> def normalize_whitespace(astring):
-    ...      # just a little helper to avoid caring about indentation.
-    ...      return '\n'.join([li.strip() for li in astring.split('\n')]).strip()
-
-
-Logged out user:
-
-    >>> self.logout()
-    >>> jsview = portal.restrictedTraverse('@@user.js')
-    >>> output = jsview()
-    >>> print normalize_whitespace(output)
-    OpenCore.prepareform({
-    loggedin: false
-    });
-
-Logged in user:
-
-    >>> from opencore.configuration.utils import get_config
-    >>> raw_list = get_config('applications', 'opencore_vacuum_whitelist', default='').split(',')
-    >>> vacuum_whitelist = [x.strip() for x in raw_list if x.strip()]
-    >>> view.request['HTTP_REFERER'] = vacuum_whitelist[0]
-    >>> self.login()
-    >>> output = jsview()
-    >>> print normalize_whitespace(output)
-    OpenCore.prepareform({
-    loggedin: true,
-    id: 'test_user_1_',
-    name: '',
-    profileurl: 'http://nohost/plone/people/test_user_1_/profile',
-    memberurl: 'http://nohost/plone/people/test_user_1_',
-    website: '',
-    email: 'test_emailer_1_@example.com',
-    topnav: '\
-    <ul id="oc-topnav-usermenu" class="oc-dropdown-list">\
-    \
-    \
-    \
-    <li>\
-    <a href="http://nohost/plone/login">Sign in</a>\
-    </li>\
-    <li>\
-    <a href="http://nohost/plone/join">Create account</a>\
-    </li>\
-    \
-    </ul>\
-    '
-    });
-
-
 Verify initial login converts email invites to mship invites
 ============================================================
 
