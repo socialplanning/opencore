@@ -19,7 +19,7 @@ class WordPressFeedView(BaseView):
         if uri:
 
             # without the trailing slash, one gets different results!
-            # ssee http://trac.openplans.org/openplans/ticket/2197#comment:3
+            # see http://trac.openplans.org/openplans/ticket/2197#comment:3
             self.feed = feedparser.parse('%s/feed/' % uri)
 
             # these could be handled in a unified way
@@ -40,8 +40,7 @@ class WordPressFeedView(BaseView):
             for entry in self.feed.entries:
                 comment_feed = '%scomments/feed/' % entry.link                
                 comments = feedparser.parse(comment_feed)
-
-                entry.n_comments = len(comments.entries)
+                entry.n_comments = int(entry['slash_comments'])
 
                 if entry.n_comments == 1:
                     entry.comment_string = '1 comment'
