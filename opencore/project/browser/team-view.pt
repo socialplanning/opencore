@@ -104,12 +104,11 @@
                       </dt>
                       <dd>
                         <ul class="oc-inlineList">
-                          <li tal:repeat="pid python: sorted(pids)[:10]" tal:define="project_info view/project_info">
+                          <li tal:repeat="pid python: sorted(pids)[:10]" 
+                              tal:define="project_info view/project_info">
                             <tal:project define="project python: project_info[pid]">
-                              <!-- isprivate setting @@ !!!this appears to do nothing!!! DWM -->
-                              <a href="" tal:attributes="href project/getPath">
+                              <a tal:attributes="href project/getPath">
                                 <span tal:content="project/Title" />
-                                <!-- span tal:condition="isprivate" class="oc-discreetText"> (private)</span -->
                               </a>
                             </tal:project>
                           </li>
