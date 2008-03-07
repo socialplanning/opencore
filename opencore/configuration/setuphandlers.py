@@ -16,7 +16,7 @@ from opencore.content.membership import OpenMembership
 from opencore.interfaces import IAddProject
 from opencore.interfaces import IAmANewsFolder
 from opencore.interfaces import IAmAPeopleFolder
-from opencore.rss.interfaces import ICanFeed
+from opencore.feed.interfaces import ICanFeed
 from opencore.interfaces.membership import IEmailInvites
 from opencore.interfaces.message import ITransientMessage
 from opencore.member.transient_messages import TransientMessage
@@ -301,7 +301,7 @@ def setupPeopleFolder(portal, out):
     if not IAmAPeopleFolder.providedBy(pf):
         alsoProvides(pf, IAmAPeopleFolder)
 
-    # mark the people folder as able to provide rss
+    # mark the people folder as able to provide feeds
     if not ICanFeed.providedBy(pf):
         alsoProvides(pf, ICanFeed)
 

@@ -363,7 +363,7 @@ def initialize_project_btrees(portal):
             pass
 
 def mark_rss_folders(portal):
-    from opencore.rss.interfaces import ICanFeed
+    from opencore.feed.interfaces import ICanFeed
 
     # mark people and projects folders
     if not ICanFeed.providedBy(portal.people):

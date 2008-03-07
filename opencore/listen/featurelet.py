@@ -4,7 +4,7 @@ from opencore.featurelets.interfaces import IListenFeatureletInstalled
 from opencore.interfaces import IProject
 from opencore.interfaces.event import ListenFeatureletCreatedEvent
 from opencore.listen.mailinglist import OpenMailingList
-from opencore.rss.interfaces import ICanFeed
+from opencore.feed.interfaces import ICanFeed
 from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import IListLookup
 from topp.featurelets.base import BaseFeaturelet
