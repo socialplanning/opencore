@@ -10,21 +10,21 @@
      name="account"
      />
 
-  <browser:page
-     for="opencore.interfaces.member.IMemberFolder"
-     class=".portraits.PortraitView"
-     permission="zope2.View"
-     attribute="portrait"
-     name="portrait"
-     />
+<!--   <browser:page -->
+<!--      for="opencore.interfaces.member.IMemberFolder" -->
+<!--      class=".portraits.PortraitView" -->
+<!--      permission="zope2.View" -->
+<!--      attribute="portrait" -->
+<!--      name="portrait" -->
+<!--      /> -->
 
-  <browser:page
-     for="opencore.interfaces.member.IMemberFolder"
-     class=".portraits.PortraitView"
-     permission="zope2.View"
-     attribute="portrait_thumb"
-     name="portrait_thumb"
-     />
+<!--   <browser:page -->
+<!--      for="opencore.interfaces.member.IMemberFolder" -->
+<!--      class=".portraits.PortraitView" -->
+<!--      permission="zope2.View" -->
+<!--      attribute="portrait_thumb" -->
+<!--      name="portrait_thumb" -->
+<!--      /> -->
 
   <browser:page
      for="opencore.interfaces.member.IMemberFolder"
