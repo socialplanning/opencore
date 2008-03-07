@@ -8,6 +8,8 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.Five.viewlet.manager import ViewletManagerBase
 from Products.Five.viewlet.metaconfigure import viewletDirective
 from Products.Five.viewlet.viewlet import ViewletBase
+from opencore.project.utils import project_noun
+
 
 class TopnavManager(ViewletManagerBase):
     """custom menu viewlet manager for opencore topnav"""
@@ -42,6 +44,10 @@ class TopnavManager(ViewletManagerBase):
            based on configuration"""
         # set the name to help when getting a repr on the object"""
         klass_name = "%s-%s" % (ViewletBase.__name__, str(name))
+
+        # replaces 'project' text with the dynamic project_noun that comes from base.ini
+        text = text.replace('Project', project_noun().title()).replace('project', project_noun())
+
         attrs = dict(name=name,
                      text=text,
                      sort_order=sort_order,

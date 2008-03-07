@@ -20,10 +20,10 @@
                     <a class="oc-banana" i18n:translate="home_learn_more" tal:attributes="href string:${context/portal_url}/about">Learn more</a>
                   </li>
                   <li tal:condition="view/loggedin">
-                    <a class="oc-banana" i18n:translate="home_find_projects" tal:attributes="href string:${context/portal_url}/projects">Find projects</a>
+                    <a class="oc-banana" i18n:translate="home_find_projects" tal:attributes="href string:${context/portal_url}/projects">Find <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s</a>
                   </li>
                   <li tal:condition="view/loggedin">
-                    <a class="oc-banana" i18n:translate="home_start_project" tal:attributes="href string:${context/portal_url}/projects/create">Start a project</a>
+                    <a class="oc-banana" i18n:translate="home_start_project" tal:attributes="href string:${context/portal_url}/projects/create">Start a <span i18n:name="project_noun" tal:replace="view/project_noun">project</span></a>
                   </li>
             </ul>
             <div>
@@ -34,7 +34,7 @@
         
         <div class="oc-home-columnGroup oc-clearAfter">
           <div class="oc-widget oc-widget-feed oc-home-column">
-            <h2 i18n:translate="home_newest_projects" class="oc-feed-title">Newest projects</h2>
+            <h2 i18n:translate="home_newest_projects" class="oc-feed-title">Newest <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s</h2>
             <ul class="oc-feed-list">
               <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recently_created_projects">
                 <a tal:attributes="href python:view.project_url(project)">
@@ -58,7 +58,7 @@
           </div>
           
           <div class="oc-widget oc-widget-feed oc-home-column">
-            <h2 i18n:translate="home_updated_projects" class="oc-feed-title">Updated projects</h2>
+            <h2 i18n:translate="home_updated_projects" class="oc-feed-title">Updated <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s</h2>
             <ul class="oc-feed-list">
               <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recently_updated_projects">
               <!-- FIXME optimization potential -->
@@ -95,7 +95,7 @@
                     <p class="oc-discreetText">or <a tal:attributes="href string:${context/portal_url}/login">log in</a>.</p>
                   </li>
                   <li>
-                    <h3><a tal:attributes="href string:${context/portal_url}/projects">Find projects</a></h3>  
+                    <h3><a tal:attributes="href string:${context/portal_url}/projects">Find <span tal:replace="view/project_noun">project</span>s</a></h3>  
                   </li>
                   <li>
                     <h3><a tal:attributes="href string:${context/portal_url}/people">Find people</a></h3>

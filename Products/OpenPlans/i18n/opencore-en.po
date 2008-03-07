@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: opencore\n"
-"POT-Creation-Date: 2008-02-18 20:18+0000\n"
-"PO-Revision-Date: 2008-02-29 15:47-0500\n"
+"POT-Creation-Date: 2008-03-07 00:45+0000\n"
+"PO-Revision-Date: 2008-03-06 19:45-0500\n"
 "Last-Translator: \n"
 "Language-Team: The Open Planning Project <opencore-dev@lists.openplans.org>\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "about_let_us_know"
 msgstr ""
 
-#. Default: "<p>OpenPlans is a platform for social activism.</p> <p>Whether your group is mobilizing voters, planning a protest, or growing a garden, OpenPlans can help you become more effective. OpenPlans is about greasing the wheels of democracy.</p> <p>With our collaborative wiki pages and other tools, you and your group can:</p> <ul class=\"oc-smallText\"> <li>Make projects</li> <li>Share to-do lists</li> <li>Upload photos</li> <li>Publicize your cause</li> <li>Create and use mailing lists</li> <li>Store and share files</li> <li>and more…</li> </ul> <p>If you don't see something you need, please <a href=\"${DYNAMIC_CONTENT}\">let us know</a>. Chances are, it's just around the bend.</p> <p>If you are a developer who wants to get involved, visit the <a href=\"${DYNAMIC_CONTENT}\">OpenCore Software</a> project.</p> <h1>About The Open Planning Project</h1> <p>OpenPlans is developed by <a href=\"http://topp.openplans.org\"><acronym title=\"The Open Planning Project\">TOPP</acronym></a>. We are a dot-org: a non-profit building technology to enhance civic participation. We care about what we build, and we're open source through and through.</p> <p>We created OpenPlans for social change groups, to help them save time and become more effective. These groups often have a lot of passion and smarts, but not a lot of extra people power or time.</p> <p>OpenPlans is our third initiative. We also founded <a href=\"http://geoserver.org/\">GeoServer</a>, a platform for sharing geographic information, and we are collaborators in the <a href=\"http://nycsr.org/\">New York City Streets Renaissance</a>, a campaign for lively public space in NYC.</p> <p>TOPP was born in 2000.</p>"
+#. Default: "<p>OpenPlans is a platform for social activism.</p> <p>Whether your group is mobilizing voters, planning a protest, or growing a garden, OpenPlans can help you become more effective. OpenPlans is about greasing the wheels of democracy.</p> <p>With our collaborative wiki pages and other tools, you and your group can:</p> <ul class=\"oc-smallText\"> <li>Make ${DYNAMIC_CONTENT}s</li> <li>Share to-do lists</li> <li>Upload photos</li> <li>Publicize your cause</li> <li>Create and use mailing lists</li> <li>Store and share files</li> <li>and more…</li> </ul> <p>If you don't see something you need, please <a href=\"${DYNAMIC_CONTENT}\">let us know</a>. Chances are, it's just around the bend.</p> <p>If you are a developer who wants to get involved, visit the <a href=\"${DYNAMIC_CONTENT}\">OpenCore Software</a> project.</p> <h1>About The Open Planning Project</h1> <p>OpenPlans is developed by <a href=\"http://topp.openplans.org\"><acronym title=\"The Open Planning Project\">TOPP</acronym></a>. We are a dot-org: a non-profit building technology to enhance civic participation. We care about what we build, and we're open source through and through.</p> <p>We created OpenPlans for social change groups, to help them save time and become more effective. These groups often have a lot of passion and smarts, but not a lot of extra people power or time.</p> <p>OpenPlans is our third initiative. We also founded <a href=\"http://geoserver.org/\">GeoServer</a>, a platform for sharing geographic information, and we are collaborators in the <a href=\"http://nycsr.org/\">New York City Streets Renaissance</a>, a campaign for lively public space in NYC.</p> <p>TOPP was born in 2000.</p>"
 #: opencore/nui/main/about.pt:29
 msgid "about_openplans"
 msgstr ""
@@ -59,7 +59,7 @@ msgstr ""
 msgid "account_current_pass"
 msgstr ""
 
-#. Default: "View and manage your project memberships and account settings."
+#. Default: "View and manage your memberships and account settings."
 #: opencore/member/browser/account.pt:13
 msgid "account_description"
 msgstr ""
@@ -89,8 +89,8 @@ msgstr ""
 msgid "account_latest_updates"
 msgstr ""
 
-#. Default: "<p><strong>What does it mean to be &ldquo;listed&rdquo; on a project?</strong></p> <p>For your privacy, you can choose whether or not to be publicly listed as a member of a project.</p> <p>If you choose not to be listed then only fellow team members can see your affiliation. Those who are not members of the project will not see you listed in the team roster, nor will they see the project listed anywhere on your profile.</p> <p>However, any updates you make on a publicly viewable project could still display your username and a link to your profile.</p>"
-#: opencore/member/browser/account.pt:176
+#. Default: "<p><strong>What does it mean to be &ldquo;listed&rdquo; on a ${project_noun}?</strong></p> <p>For your privacy, you can choose whether or not to be publicly listed as a member of a ${project_noun}.</p> <p>If you choose not to be listed then only fellow team members can see your affiliation. Those who are not members of the team will not see you listed in the team roster, nor will they see the ${project_noun} listed anywhere on your profile.</p> <p>However, any updates you make on a publicly viewable ${project_noun} could still display your username and a link to your profile.</p>"
+#: opencore/member/browser/account.pt:181
 msgid "account_listed_explanation"
 msgstr ""
 
@@ -104,7 +104,7 @@ msgstr ""
 msgid "account_project_actions_header"
 msgstr ""
 
-#. Default: "Projects you belong to (${num_projects})"
+#. Default: "${project_noun}s you belong to (${num_projects})"
 #: opencore/member/browser/account_project_table.pt:8
 msgid "account_project_belong_to"
 msgstr ""
@@ -114,12 +114,12 @@ msgstr ""
 msgid "account_project_listed_header"
 msgstr ""
 
-#. Default: "<h2>You don't belong to any projects.</h2> <p>Why not <a href=\"${DYNAMIC_CONTENT}\">look for a project to join</a> or <a href=\"${DYNAMIC_CONTENT}\">start your own</a>?</p>"
+#. Default: "<h2>You don't belong to any ${project_noun}s.</h2> <p>Why not <a href=\"${DYNAMIC_CONTENT}\">look for one to join</a> or <a href=\"${DYNAMIC_CONTENT}\">start your own</a>?</p>"
 #: opencore/member/browser/account_project_table.pt:50
 msgid "account_project_no_projects"
 msgstr ""
 
-#. Default: "Project"
+#. Default: "${project_noun}"
 #: opencore/member/browser/account_project_table.pt:15
 msgid "account_project_project_header"
 msgstr ""
@@ -229,18 +229,18 @@ msgstr ""
 msgid "contact-site-admin_label_subject"
 msgstr ""
 
-#. Default: "At-a-glance view of all documents within this project."
-#: opencore/project/browser/contents.pt:11
+#. Default: "At-a-glance view of all documents within this ${project_noun}."
+#: opencore/project/browser/contents.pt:13
 msgid "contents_desc"
 msgstr ""
 
-#. Default: "Project contents"
+#. Default: "${project_noun} contents"
 #: opencore/project/browser/contents.pt:10
 msgid "contents_heading"
 msgstr ""
 
 #. Default: "View tasklists"
-#: opencore/project/browser/contents.pt:246
+#: opencore/project/browser/contents.pt:256
 msgid "contents_view_tasks"
 msgstr ""
 
@@ -259,12 +259,12 @@ msgstr ""
 msgid "create_project_clear_logo"
 msgstr ""
 
-#. Default: "Only team members can view, contribute, or search for this project"
+#. Default: "Only team members can view, contribute, or search for this ${project_noun}"
 #: opencore/project/browser/create.pt:95
 msgid "create_project_closed_policy"
 msgstr ""
 
-#. Default: "Each project is a toolbox to help you get things done. Using your project you can team up with others, sketch out your plans, and keep track of your progress."
+#. Default: "Each ${project_noun} is a toolbox to help you get things done. Using your ${project_noun} you can team up with others, sketch out your plans, and keep track of your progress."
 #: opencore/project/browser/create.pt:9
 msgid "create_project_desc"
 msgstr ""
@@ -274,7 +274,7 @@ msgstr ""
 msgid "create_project_goals"
 msgstr ""
 
-#. Default: "Start a project"
+#. Default: "Start a ${project_noun}"
 #: opencore/project/browser/create.pt:8
 msgid "create_project_heading"
 msgstr ""
@@ -284,7 +284,7 @@ msgstr ""
 msgid "create_project_image"
 msgstr ""
 
-#. Default: "Anyone can view this project but only team members can contribute to it"
+#. Default: "Anyone can view this ${project_noun} but only team members can contribute to it"
 #: opencore/project/browser/create.pt:90
 msgid "create_project_medium_policy"
 msgstr ""
@@ -294,24 +294,24 @@ msgstr ""
 msgid "create_project_name"
 msgstr ""
 
-#. Default: "Anyone can view this project and any ${portal_title} member can contribute to it"
+#. Default: "Anyone can view this ${project_noun} and any ${portal_title} member can contribute to it"
 #: opencore/project/browser/create.pt:85
 msgid "create_project_open_policy"
 msgstr ""
 
 #. Default: "Step 1: Basics"
 #: opencore/project/browser/create.pt:16
-msgid "create_project_step_1"
+msgid "create_project_step_basics"
 msgstr ""
 
 #. Default: "Step 2: Security"
 #: opencore/project/browser/create.pt:77
-msgid "create_project_step_2"
+msgid "create_project_step_security"
 msgstr ""
 
-#. Default: "Decide who can see and contribute to this project.  You will create your team on the next page."
+#. Default: "Decide who can see and contribute to this ${project_noun}.  You will create your team on the next page."
 #: opencore/project/browser/create.pt:78
-msgid "create_project_step_2_desc"
+msgid "create_project_step_security_desc"
 msgstr ""
 
 #. Default: "URL"
@@ -319,22 +319,22 @@ msgstr ""
 msgid "create_project_url"
 msgstr ""
 
-#: opencore/project/browser/manageteam.py:544
+#: opencore/project/browser/manageteam.py:535
 msgid "demote_to_member"
 msgstr "${name} is no longer an administrator"
 
-#. Default: "Discussion list for this project, consisting of all project members."
-#: opencore/listen/events.py:89
+#. Default: "Discussion list for this ${project_noun}, consisting of all ${project_noun} members."
+#: opencore/listen/events.py:91
 msgid "discussion_list_desc"
 msgstr ""
 
-#. Default: "You requested a password reminder for your ${portal_title} account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}"
-#: opencore/account/login.py:280
+#. Default: "You requested a password reset for your ${portal_title} account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}"
+#: opencore/account/login.py:273
 msgid "email_forgot_password"
 msgstr ""
 
-#. Default: "%s - Password reminder"
-#: opencore/account/login.py:285
+#. Default: "%s - Password reset"
+#: opencore/account/login.py:278
 msgid "email_forgot_password_subject"
 msgstr ""
 
@@ -343,8 +343,8 @@ msgstr ""
 msgid "email_invitation_retracted"
 msgstr ""
 
-#. Default: "${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks."
-#: opencore/project/browser/invite-with-message.pt:75
+#. Default: "${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing ${project_noun}s. You can also blog, set up mailing lists, store and share files, and keep track of tasks."
+#: opencore/project/browser/invite-with-message.pt:76
 msgid "email_invite_default_body"
 msgstr ""
 
@@ -358,12 +358,11 @@ msgstr ""
 msgid "email_invite_pending_member"
 msgstr ""
 
-#. Default: "${user_message} To accept this invitation or learn more about the project, click here: ${project_title}. --------------------------------------------------------------------- This message was sent from ${portal_title}. To contact ${portal_title}, visit: ${site_contact_url}"
-#: opencore/project/browser/invite-with-message.pt:95
+#: opencore/project/browser/manageteam.py:700
 msgid "email_invite_static_body"
 msgstr ""
 "${user_message}\n"
-"To accept this invitation or learn more about the project, click here:\n"
+"To accept this invitation or learn more about the ${project_noun}, click here:\n"
 "${join_url}. \n"
 "\n"
 "---------------------------------------------------------------------\n"
@@ -376,16 +375,16 @@ msgstr ""
 msgid "email_membership_deactivated"
 msgstr ""
 
-#: opencore/project/browser/team_membership.py:51
+#: opencore/project/browser/team_membership.py:53
 msgid "email_membership_requested"
 msgstr ""
 "Subject: ${portal_title} - Request to join ${project_title}\n"
 "\n"
 "${member_id} would like to get involved with \"${project_title}\".\n"
 "\n"
-"To approve or deny this request please visit the project's team management screen: ${team_manage_url}\n"
+"To approve or deny this request please visit the ${project_noun}'s team management screen: ${team_manage_url}\n"
 
-#: opencore/project/browser/team_membership.py:62
+#: opencore/project/browser/team_membership.py:65
 msgid "email_mship_request_message"
 msgstr ""
 "\n"
@@ -394,8 +393,8 @@ msgstr ""
 "\n"
 "\"${member_message}\"\n"
 
-#. Default: "This is a reminder. ${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks."
-#: opencore/project/browser/invite-with-message.pt:67
+#. Default: "This is a reminder. ${inviter_name} has invited you to join \"${project_title}\" on ${portal_title}. ${portal_title} is a free toolset for social change. With ${portal_title}, you can build collaborative pages for organizing ${project_noun}s. You can also blog, set up mailing lists, store and share files, and keep track of tasks."
+#: opencore/project/browser/invite-with-message.pt:68
 msgid "email_remind_default_body"
 msgstr ""
 
@@ -409,7 +408,7 @@ msgstr ""
 msgid "email_remind_pending_invitee"
 msgstr ""
 
-#. Default: "Subject: ${portal_title} - Welcome to ${project_title}\n\nYour request to join \"${project_title}\" on ${portal_title} has been approved.  The project is accessible at the following address: ${project_url}\n"
+#. Default: "Subject: ${portal_title} - Welcome to ${project_title}\n\nYour request to join \"${project_title}\" on ${portal_title} has been approved.  The ${project_noun} is accessible at the following address: ${project_url}\n"
 #: opencore/project/browser/mship_messages.py:41
 msgid "email_request_approved"
 msgstr ""
@@ -419,7 +418,7 @@ msgstr ""
 msgid "email_request_denied"
 msgstr ""
 
-#: opencore/account/browser.py:81
+#: opencore/account/browser.py:98
 msgid "email_to_pending_user"
 msgstr ""
 "Subject: Welcome to ${portal_title}! - Please confirm your email address\n"
@@ -445,12 +444,12 @@ msgstr ""
 msgid "err_could_not_moderate"
 msgstr ""
 
-#. Default: "The project name must contain at least 2 characters with at least 1 letter or number."
+#. Default: "The name must contain at least 2 characters with at least 1 letter or number."
 #: opencore/project/browser/preferences.py:107
 msgid "err_project_name"
 msgstr ""
 
-#. Default: "Chances are, we're already on it. But, if you tell us what you were trying to do, it will help us fix the problem faster."
+#. Default: "Chances are, we're already on it. But, if you would please tell us what you were trying to do, it will help us fix the problem faster.  Thank you."
 #: opencore/browser/error.pt:21
 msgid "error_site_description"
 msgstr ""
@@ -490,7 +489,7 @@ msgstr ""
 msgid "footer_num_people"
 msgstr ""
 
-#. Default: "${num_projects} projects"
+#. Default: "${num_projects} ${project_noun}s"
 #: opencore/browser/footer.pt:14
 msgid "footer_num_projects"
 msgstr ""
@@ -570,7 +569,7 @@ msgstr ""
 msgid "home-searchresults_no_results"
 msgstr ""
 
-#. Default: "Find projects"
+#. Default: "Find ${project_noun}s"
 #: opencore/nui/main/home.pt:23
 msgid "home_find_projects"
 msgstr ""
@@ -585,7 +584,7 @@ msgstr ""
 msgid "home_learn_more"
 msgstr ""
 
-#. Default: "Newest projects"
+#. Default: "Newest ${project_noun}s"
 #: opencore/nui/main/home.pt:37
 msgid "home_newest_projects"
 msgstr ""
@@ -605,12 +604,12 @@ msgstr ""
 msgid "home_project_updated"
 msgstr ""
 
-#. Default: "Start a project"
+#. Default: "Start a ${project_noun}"
 #: opencore/nui/main/home.pt:26
 msgid "home_start_project"
 msgstr ""
 
-#. Default: "Updated projects"
+#. Default: "Updated ${project_noun}s"
 #: opencore/nui/main/home.pt:61
 msgid "home_updated_projects"
 msgstr ""
@@ -630,7 +629,7 @@ msgstr ""
 msgid "invitations_invite"
 msgstr ""
 
-#. Default: "Projects requesting your membership"
+#. Default: "${project_noun}s requesting your membership"
 #: opencore/account/invite-join.pt:24
 msgid "invite-join_proj_invites"
 msgstr ""
@@ -700,8 +699,8 @@ msgstr ""
 msgid "join_get_started"
 msgstr ""
 
-#. Default: "<li>You can join and participate in existing projects</li> <li>You can create your own project and invite others to join</li> <li>You can share information about yourself</li>"
-#: opencore/account/join.pt:167
+#. Default: "<li>You can join and participate in existing ${project_noun}s</li> <li>You can create your own ${project_noun} and invite others to join</li> <li>You can share information about yourself</li>"
+#: opencore/account/join.pt:169
 msgid "join_get_started_list"
 msgstr ""
 
@@ -736,7 +735,7 @@ msgid "label_required"
 msgstr ""
 
 #. Default: "Send"
-#: opencore/nui/main/contact-site-admin.pt:119
+#: opencore/nui/main/contact-site-admin.pt:121
 msgid "label_send"
 msgstr ""
 
@@ -950,8 +949,8 @@ msgstr ""
 msgid "mailing_lists_last_activity"
 msgstr ""
 
-#. Default: "There are currently no mailing lists for this project."
-#: opencore/listen/browser/mailing_lists.pt:96
+#. Default: "There are currently no mailing lists for this ${project_noun}."
+#: opencore/listen/browser/mailing_lists.pt:97
 msgid "mailing_lists_no_lists"
 msgstr ""
 
@@ -1058,11 +1057,6 @@ msgstr ""
 #. Default: "People"
 #: opencore/nui/main/main_macros.pt:5
 msgid "main_macros_people_label"
-msgstr ""
-
-#. Default: "Projects"
-#: opencore/nui/main/main_macros.pt:11
-msgid "main_macros_projects_label"
 msgstr ""
 
 #. Default: "Search"
@@ -1291,24 +1285,28 @@ msgid "no_password"
 msgstr ""
 
 #. Default: "There is no member named \"${user_id}\"."
-#: opencore/browser/base.py:634
+#: opencore/browser/base.py:678
 msgid "password_no_member_error"
 msgstr ""
 
 #. Default: "You must enter a password."
-#: opencore/browser/base.py:640
+#: opencore/browser/base.py:684
 msgid "password_no_password_error"
 msgstr ""
 
 #. Default: "You need to enter your username."
-#: opencore/browser/base.py:629
+#: opencore/browser/base.py:673
 msgid "password_no_username_error"
 msgstr ""
 
 #. Default: "Please make sure that both password fields are the same."
-#: opencore/browser/base.py:643
+#: opencore/browser/base.py:687
 msgid "password_not_same_error"
 msgstr ""
+
+#: opencore/browser/error.pt:36
+msgid "password_send_warning"
+msgstr "Please do not include your password or any other sensitive information."
 
 #. Default: "Or enter a new address where you would like to receive the activation email for this account again"
 #: opencore/account/pending.pt:24
@@ -1356,32 +1354,32 @@ msgid "portrait-snippet_change_image"
 msgstr ""
 
 #. Default: "About"
-#: opencore/member/browser/profile-edit.pt:54
+#: opencore/member/browser/profile-edit.pt:47
 msgid "profile-edit_about_label"
 msgstr ""
 
 #. Default: "Cancel"
-#: opencore/member/browser/profile-edit.pt:109
+#: opencore/member/browser/profile-edit.pt:96
 msgid "profile-edit_cancel"
 msgstr ""
 
 #. Default: "Interests"
-#: opencore/member/browser/profile-edit.pt:63
+#: opencore/member/browser/profile-edit.pt:53
 msgid "profile-edit_interests_label"
 msgstr ""
 
 #. Default: "Location"
-#: opencore/member/browser/profile-edit.pt:30
+#: opencore/member/browser/profile-edit.pt:28
 msgid "profile-edit_location_label"
 msgstr ""
 
 #. Default: "Name"
-#: opencore/member/browser/profile-edit.pt:20
+#: opencore/member/browser/profile-edit.pt:21
 msgid "profile-edit_name_label"
 msgstr ""
 
 #. Default: "Website"
-#: opencore/member/browser/profile-edit.pt:40
+#: opencore/member/browser/profile-edit.pt:36
 msgid "profile-edit_website_label"
 msgstr ""
 
@@ -1391,12 +1389,12 @@ msgid "profile_edit"
 msgstr ""
 
 #. Default: "Location"
-#: opencore/member/browser/profile.pt:27
+#: opencore/member/browser/profile.pt:28
 msgid "profile_location"
 msgstr ""
 
 #. Default: "Member home"
-#: opencore/member/browser/profile.pt:61
+#: opencore/member/browser/profile.pt:63
 msgid "profile_member_home"
 msgstr ""
 
@@ -1405,28 +1403,23 @@ msgstr ""
 msgid "profile_name"
 msgstr ""
 
-#. Default: "Projects"
-#: opencore/member/browser/profile.pt:34
-msgid "profile_projects"
-msgstr ""
-
 #. Default: "visible to all:"
-#: opencore/member/browser/profile.pt:42
+#: opencore/member/browser/profile.pt:44
 msgid "profile_visible_all"
 msgstr ""
 
 #. Default: "visible only to team members:"
-#: opencore/member/browser/profile.pt:50
+#: opencore/member/browser/profile.pt:52
 msgid "profile_visible_team"
 msgstr ""
 
 #. Default: "Website"
-#: opencore/member/browser/profile.pt:68
+#: opencore/member/browser/profile.pt:70
 msgid "profile_website"
 msgstr ""
 
-#. Default: "\"${title}\" has been created. Create a team by searching for other members to invite to your project, then <a href=\"${proj_edit_url}\">edit your project home page</a>."
-#: opencore/project/browser/add.py:135
+#. Default: "\"${title}\" has been created. Create a team by searching for other members to invite to your ${project_noun}, then <a href=\"${proj_edit_url}\">edit your ${project_noun} home page</a>."
+#: opencore/project/browser/add.py:142
 msgid "project_created"
 msgstr ""
 
@@ -1435,12 +1428,12 @@ msgstr ""
 msgid "projects-searchresults_no_results"
 msgstr ""
 
-#. Default: "Currently serving ${num_projects} projects"
+#. Default: "Currently serving ${num_projects} ${project_noun}s"
 #: opencore/nui/main/projects.pt:10
 msgid "projects_currently_serving"
 msgstr ""
 
-#. Default: "Can&rsquo;t find a project you are interested in? See a need that is not being met?"
+#. Default: "Can&rsquo;t find a ${project_noun} you are interested in? See a need that is not being met?"
 #: opencore/nui/main/projects.pt:57
 msgid "projects_get_started"
 msgstr ""
@@ -1450,37 +1443,37 @@ msgstr ""
 msgid "projects_get_started_heading"
 msgstr ""
 
-#. Default: "Start a new project"
+#. Default: "Start a new ${project_noun}"
 #: opencore/nui/main/projects.pt:59
 msgid "projects_start_project_button"
 msgstr ""
 
-#: opencore/project/browser/manageteam.py:540
+#: opencore/project/browser/manageteam.py:531
 msgid "promote_to_admin"
 msgstr "${name} is now an administrator"
 
 #. Default: "Your account has not yet been activated. An email was sent to ${user} from ${email_from_address} containing a link to activate your account."
-#: opencore/account/login.py:55
+#: opencore/account/login.py:48
 msgid "psm_account_not_activated"
 msgstr ""
 
-#. Default: "You cannot leave this project."
-#: opencore/member/browser/account.py:168
+#. Default: "You cannot leave this ${project_noun}."
+#: opencore/member/browser/account.py:169
 msgid "psm_cannot_leave_project"
 msgstr ""
 
 #. Default: "Please check the old password you entered."
-#: opencore/member/browser/account.py:402
+#: opencore/member/browser/account.py:406
 msgid "psm_check_old_password"
 msgstr ""
 
 #. Default: "Please check your username and password. If you still have trouble, you can <a href=\"forgot\">retrieve your sign in information</a>."
-#: opencore/account/login.py:91
+#: opencore/account/login.py:84
 msgid "psm_check_username_password"
 msgstr ""
 
 #. Default: "Please choose an image in gif, jpeg, png, or bmp format."
-#: opencore/member/browser/view.py:170
+#: opencore/member/browser/view.py:198
 msgid "psm_choose_image"
 msgstr ""
 
@@ -1495,47 +1488,51 @@ msgid "psm_denied"
 msgstr ""
 
 #. Default: "Your email address has been changed."
-#: opencore/member/browser/account.py:440
+#: opencore/member/browser/account.py:444
 msgid "psm_email_changed"
 msgstr ""
 
 #. Default: "Please enter your new email address."
-#: opencore/member/browser/account.py:424
+#: opencore/member/browser/account.py:428
 msgid "psm_enter_new_email"
 msgstr ""
 
 #. Default: "Please enter your username or email address."
-#: opencore/account/login.py:295
+#: opencore/account/login.py:288
 msgid "psm_enter_username_email"
 msgstr ""
 
 #. Default: "Error sending mail to: ${mem_id}"
-#: opencore/project/browser/manageteam.py:487
+#: opencore/project/browser/manageteam.py:478
 msgid "psm_error_sending_mail_to_member"
 msgstr ""
 
 #. Default: "${flet} feature has been added."
-#: opencore/project/browser/preferences.py:158
+#: opencore/project/browser/preferences.py:167
 msgid "psm_featurelet_added"
 msgstr ""
 
 #. Default: "${flet} feature has been removed."
-#: opencore/project/browser/preferences.py:163
+#: opencore/project/browser/preferences.py:172
 msgid "psm_featurelet_removed"
 msgstr ""
 
 #. Default: "Your username is ${user_id}.  If you would like to reset your password, please check your email account for further instructions."
-#: opencore/account/login.py:243
+#: opencore/account/login.py:236
 msgid "psm_forgot_login"
 msgstr ""
 
-#. Default: "You are the only remaining administrator of \"${proj_title}\". You can't leave this project without appointing another."
+#. Default: "Sorry, we were unable to find that address on the map."
+#: opencore/geocoding/utils.py:224
+msgid "psm_geocode_failed"
+msgstr ""
+
+#. Default: "You are the only remaining administrator of \"${proj_title}\". You can't leave this ${project_noun} without appointing another."
 #: opencore/member/browser/account.py:157
 msgid "psm_leave_project_admin"
 msgstr ""
 
-#. Default: "The location has been changed."
-#: ./opencore/project/browser/preferences.py:77777
+#: opencore/project/browser/preferences.py:153
 msgid "psm_location_changed"
 msgstr "The location has been changed."
 
@@ -1550,7 +1547,7 @@ msgid "psm_mailing_list_deletion_cancelled"
 msgstr ""
 
 #. Default: "You have added ${num_approved} members."
-#: opencore/project/browser/manageteam.py:251
+#: opencore/project/browser/manageteam.py:242
 msgid "psm_many_requests_approved"
 msgstr ""
 
@@ -1559,13 +1556,12 @@ msgstr ""
 msgid "psm_message_sent_to_admin"
 msgstr ""
 
-#. Default: "A new activation email has been sent to ${email} from ${mfrom}. <br />Please follow the link in the email to activate this account."
 #: opencore/account/confirmation.py:100
 msgid "psm_new_activation"
 msgstr "A new activation email has been sent to ${email} from ${mfrom}. <br />Please follow the link in the email to activate your account."
 
 #. Default: "Please select items to delete."
-#: opencore/project/browser/contents.py:155
+#: opencore/project/browser/contents.py:154
 msgid "psm_no_items_to_delete"
 msgstr ""
 
@@ -1580,12 +1576,12 @@ msgid "psm_not_sufficient_perms"
 msgstr ""
 
 #. Default: "You have added ${mem_id}."
-#: opencore/project/browser/manageteam.py:248
+#: opencore/project/browser/manageteam.py:239
 msgid "psm_one_request_approved"
 msgstr ""
 
 #. Default: "\"${pagetitle}\" has been created"
-#: opencore/nui/wiki/add.py:53
+#: opencore/nui/wiki/add.py:55
 msgid "psm_page_created"
 msgstr ""
 
@@ -1600,7 +1596,7 @@ msgid "psm_pass_reset_fail"
 msgstr ""
 
 #. Default: "Your password has been changed."
-#: opencore/member/browser/account.py:408
+#: opencore/member/browser/account.py:412
 msgid "psm_password_changed"
 msgstr ""
 
@@ -1615,66 +1611,62 @@ msgid "psm_please_correct_errors"
 msgstr ""
 
 #. Default: "Please select members to approve."
-#: opencore/project/browser/manageteam.py:203
+#: opencore/project/browser/manageteam.py:192
 msgid "psm_please_select_members"
 msgstr ""
 
 #. Default: "Please sign in to continue."
-#: Products/OpenPlans/skins/openplans_login_patches/require_login.py:27
+#: Products/OpenPlans/skins/openplans_login_patches/require_login.py:31
 msgid "psm_please_sign_in"
 msgstr ""
 
-#. Default: "Project home page set to: <a href=\"${hp_url}\">${homepage}</a>"
-#: opencore/project/browser/preferences.py:177
+#. Default: "${project_noun} home page set to: <a href=\"${hp_url}\">${homepage}</a>"
+#: opencore/project/browser/preferences.py:186
 msgid "psm_proj_homepage_change"
 msgstr ""
 
-#. Default: "The description has been changed."
-#: opencore/project/browser/preferences.py:142
+#: opencore/project/browser/preferences.py:150
 msgid "psm_project_desc_changed"
 msgstr "The description has been changed."
 
-#. Default: "The project image has been changed."
-#: opencore/project/browser/preferences.py:143
+#: opencore/project/browser/preferences.py:151
 msgid "psm_project_logo_changed"
 msgstr "The project image has been changed."
 
 #. Default: "The name \"${project_name}\" is reserved. Please try a different name."
-#: opencore/project/browser/add.py:108
+#: opencore/project/browser/add.py:116
 msgid "psm_project_name_reserved"
 msgstr ""
 
-#. Default: "The title has been changed."
-#: opencore/project/browser/preferences.py:141
+#: opencore/project/browser/preferences.py:149
 msgid "psm_project_title_changed"
 msgstr "The title has been changed."
 
-#. Default: "The security policy has been changed."
-#: opencore/project/browser/preferences.py:144
+#: opencore/project/browser/preferences.py:152
 msgid "psm_security_changed"
 msgstr "The security policy has been changed."
 
 #. Default: "Please select members to discard."
-#: opencore/project/browser/manageteam.py:269
+#: opencore/project/browser/manageteam.py:260
 msgid "psm_select_members_discard"
 msgstr ""
 
 #. Default: "You have signed out."
-#: opencore/account/login.py:143
+#: opencore/account/login.py:136
 msgid "psm_signed_out"
 msgstr ""
 
 #. Default: "Welcome! You have signed in."
-#: opencore/account/login.py:68
+#: opencore/account/login.py:61
 msgid "psm_signin_welcome"
 msgstr ""
 
 #. Default: "Thanks for joining ${portal_title}, ${mem_id}!<br/>\nA confirmation email has been sent to you with instructions on activating your account."
-#: opencore/account/join.py:52
+#: opencore/account/join.py:60
 msgid "psm_thankyou_for_joining"
 msgstr ""
 
-#: opencore/project/browser/manageteam.py:382
+#: opencore/project/browser/manageteam.py:373
 msgid "remind_invite_none_selected"
 msgstr "Please select at least one person to send a reminder to."
 
@@ -1704,17 +1696,17 @@ msgid "team-manage_send_email_invite"
 msgstr ""
 
 #. Default: "You are already a pending or active member of ${project_title}."
-#: opencore/project/browser/team.py:184
+#: opencore/project/browser/team.py:187
 msgid "team_already_proj_member"
 msgstr ""
 
-#. Default: "You are already a member of this project."
+#. Default: "You are already a member of this ${project_noun}."
 #: opencore/project/browser/team.py:55
 msgid "team_already_project_member"
 msgstr ""
 
 #. Default: "Your request to join \"${project_title}\" has been sent to the project administrator(s)."
-#: opencore/account/login.py:214
+#: opencore/account/login.py:207
 msgid "team_proj_join_request_sent"
 msgstr ""
 
@@ -1754,12 +1746,12 @@ msgid "title_required"
 msgstr ""
 
 #. Default: "${id} has declined your invitation to join <a href=\"${project_url}\">${proj_id}</a>"
-#: opencore/member/browser/account.py:338
+#: opencore/member/browser/account.py:342
 msgid "tmsg_decline_invite"
 msgstr ""
 
 #. Default: "${id} has joined <a href=\"${project_url}\">${proj_id}</a>"
-#: opencore/member/browser/account.py:289
+#: opencore/member/browser/account.py:293
 msgid "tmsg_joined_project"
 msgstr ""
 
@@ -1778,7 +1770,7 @@ msgstr ""
 msgid "tour_heading"
 msgstr ""
 
-#. Default: "We hope you will use this website to plan events, start projects, and improve your communities. Now you can…"
+#. Default: "We hope you will use this website to plan events, start ${project_noun}s, and improve your communities. Now you can…"
 #: opencore/member/browser/tour.pt:12
 msgid "tour_heading_desc"
 msgstr ""
@@ -1793,33 +1785,30 @@ msgstr ""
 msgid "tour_invite_heading"
 msgstr ""
 
-#. Default: "Found something you're interested in? Want to volunteer an hour of your time? Join a project and help someone's vision become a reality."
+#. Default: "Found something you're interested in? Want to volunteer an hour of your time? Join a ${project_noun} and help someone's vision become a reality."
 #: opencore/member/browser/tour.pt:22
 msgid "tour_join_projects_desc"
 msgstr ""
 
-#. Default: "<a href=\"${DYNAMIC_CONTENT}\">Join a project and help it succeed</a>"
+#. Default: "<a href=\"${DYNAMIC_CONTENT}\">Join a ${project_noun} and help it succeed</a>"
 #: opencore/member/browser/tour.pt:21
 msgid "tour_join_projects_heading"
 msgstr ""
 
-#. Default: "Projects you belong to:"
+#. Default: "${project_noun}s you belong to:"
 #: opencore/member/browser/tour.pt:61
 msgid "tour_projects_belong"
 msgstr ""
 
-#. Default: "Is there something you'd like to do? Install bike parking? Create a community garden? Throw a block party? Start your own project and use our toolkit to stay organized."
+#. Default: "Is there something you'd like to do? Install bike parking? Create a community garden? Throw a block party? Start your own ${project_noun} and use our toolkit to stay organized."
 #: opencore/member/browser/tour.pt:27
 msgid "tour_start_projects_desc"
 msgstr ""
 
-#. Default: "<a href=\"${DYNAMIC_CONTENT}\">Start your own project</a>"
+#. Default: "<a href=\"${DYNAMIC_CONTENT}\">Start your own ${project_noun}</a>"
 #: opencore/member/browser/tour.pt:26
 msgid "tour_start_projects_heading"
 msgstr ""
-
-msgid "password_send_warning"
-msgstr "Please do not include your password or any other sensitive information."
 
 #~ msgid "remove_invite_none_selected"
 #~ msgstr "Please select at least one person to send a reminder to."

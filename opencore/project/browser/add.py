@@ -78,12 +78,12 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             title = unicode(title, 'utf-8')
         self.request.form['project_title'] = title
         if not self.valid_title(title):
-            self.errors['project_title'] = 'The project name must contain ' \
+            self.errors['project_title'] = 'The name must contain ' \
               'at least 2 characters with at least 1 letter or number.'
 
         id_ = self.request.form.get('projid')
         if not self.valid_id(id_):
-            self.errors['id'] = 'The project url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'
+            self.errors['id'] = 'The url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'
         else:
             id_ = putils.normalizeString(id_)
             if self.context.has_key(id_):
@@ -135,11 +135,12 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         self.template = None
         proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)
 
-        s_message_mapping = {'title': title, 'proj_edit_url': proj_edit_url}
+        s_message_mapping = {'title': title, 'proj_edit_url': proj_edit_url,
+                             'project_noun': self.project_noun,}
 
 
         s_message = _(u'project_created',
-                      u'"${title}" has been created. Create a team by searching for other members to invite to your project, then <a href="${proj_edit_url}">edit your project home page</a>.',
+                      u'"${title}" has been created. Create a team by searching for other members to invite to your ${project_noun}, then <a href="${proj_edit_url}">edit your ${project_noun} home page</a>.',
                       mapping=s_message_mapping)
         
 #        self.add_status_message(s_message)

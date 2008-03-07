@@ -39,7 +39,6 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
     View class for the team management screens.
     """
     team_manage = ZopeTwoPageTemplateFile('team-manage.pt')
-    team_manage_blank = ZopeTwoPageTemplateFile('team-manage-blank.pt')
     team_manage_macros = ZopeTwoPageTemplateFile('team-manage-macros.pt')
 
     mship_type = OpenMembership.portal_type
@@ -59,18 +58,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
     @property
     def template(self):
         """
-        Different template for brand new teams, before any members are added.
-
-        XXX Deferred until immediately after the initial NUI launch.
+        Team management
         """
-        #mem_ids = self.team.getMemberIds()
-        #if getattr(self, '_norender', None):
-        #    return
-        #if len(mem_ids) == 1:
-        #    # the one team member is most likely the project creator
-        #    return self.team_manage_blank
-        #return self.team_manage
-
         return self.team_manage
 
     def id_is_loggedin(self, item):
@@ -226,8 +215,10 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
             #XXX sending the email should go in an event subscriber
             try:
                 _email_sender(self).sendEmail(mem_id, msg_id='request_approved',
-                                            project_title=self.context.title,
-                                            project_url=self.context.absolute_url())
+                                              project_title=self.context.title,
+                                              project_url=self.context.absolute_url(),
+                                              project_noun=self.project_noun,
+                                              )
             except MailHostError: 
                 pass
             self._add_transient_msg_for(mem_id, 'You have been accepted to')
@@ -612,7 +603,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
 
         mem_id = targets[0] # should only be one
         if not self._doInviteMember(mem_id):
-            self.add_status_message(u'You cannot reinvite %s to join this project yet.' % mem_id)
+            # XXX when does this happen?
+            self.add_status_message(u'You cannot reinvite %s to join this %s yet.' % (mem_id, self.project_noun))
             self.redirect('%s/manage-team' % self.context.absolute_url())
 
         acct_url = self._getAccountURLForMember(mem_id)
@@ -637,7 +629,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
 
         _email_sender(self).sendEmail(mem_id, msg_id='invite_member',
                                     **msg_subs)
-        self.add_status_message(u'You invited %s to join this project.' % mem_id)
+        self.add_status_message(u'You invited %s to join this %s' % (mem_id, self.project_noun))
 
     @view.memoizedproperty
     def invite_util(self):
@@ -702,6 +694,7 @@ class InviteView(ManageTeamView):
         msg_subs = dict(user_message='',
                         join_url=self.join_url('', ''),
                         portal_title=self.portal_title(),
+                        project_noun=self.project_noun,
                         site_contact_url=self.portal.absolute_url() + "/contact-site-admin",
                         )
         msg = (self.translate(_(u'email_invite_static_body', mapping=msg_subs)))

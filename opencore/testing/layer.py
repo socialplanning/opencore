@@ -11,6 +11,7 @@ from topp.utils import introspection
 from topp.utils.testing import layer_factory
 from utils import get_portal, get_portal_as_owner, create_test_content
 from utils import zinstall_products
+from utils import monkey_proj_noun
 from zope.app.component.hooks import setSite, setHooks
 import random
 import transaction as txn
@@ -107,6 +108,11 @@ class OpencoreContent(OpenPlansLayer):
     @classmethod
     def setUp(cls):
         portal = get_portal_as_owner()
+        # Many things depend on the word for project being 'project'.
+        # Here's a hack to ensure that works at content creation time,
+        # regardless of your config.
+        # It's OK for other tests to override this...
+        monkey_proj_noun('project')
         create_test_content(portal)
         add_redirection_hooks(portal.projects)
         txn.commit()

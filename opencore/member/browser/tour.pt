@@ -9,7 +9,7 @@
       <div id="oc-content-main">
         <div class="oc-headingBlock">
           <h1 i18n:translate="tour_heading">Welcome to <span i18n:name="portal_title" tal:replace="string:${view/portal_title}" />!</h1>
-          <p i18n:translate="tour_heading_desc" class="oc-headingContext">We hope you will use this website to plan events, start projects, and improve your communities. Now you can&hellip;</p>
+          <p i18n:translate="tour_heading_desc" class="oc-headingContext">We hope you will use this website to plan events, start <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s, and improve your communities. Now you can&hellip;</p>
         </div>
         
         <div class="oc-getstarted">
@@ -18,13 +18,13 @@
         </div>
         
         <div class="oc-getstarted">
-          <h2 i18n:translate="tour_join_projects_heading"><a tal:attributes="href string:${view/portal_url}/projects">Join a project and help it succeed</a></h2>
-          <p i18n:translate="tour_join_projects_desc">Found something you're interested in? Want to volunteer an hour of your time? Join a project and help someone's vision become a reality.</p>
+          <h2 i18n:translate="tour_join_projects_heading"><a tal:attributes="href string:${view/portal_url}/projects">Join a <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> and help it succeed</a></h2>
+          <p i18n:translate="tour_join_projects_desc">Found something you're interested in? Want to volunteer an hour of your time? Join a <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> and help someone's vision become a reality.</p>
         </div>
         
         <div class="oc-getstarted">
-          <h2 i18n:translate="tour_start_projects_heading"><a tal:attributes="href string:${view/portal_url}/projects/create">Start your own project</a></h2>
-          <p i18n:translate="tour_start_projects_desc">Is there something you'd like to do? Install bike parking? Create a community garden? Throw a block party? Start your own project and use our toolkit to stay organized.</p>
+          <h2 i18n:translate="tour_start_projects_heading"><a tal:attributes="href string:${view/portal_url}/projects/create">Start your own <span i18n:name="project_noun" tal:replace="view/project_noun">project</span></a></h2>
+          <p i18n:translate="tour_start_projects_desc">Is there something you'd like to do? Install bike parking? Create a community garden? Throw a block party? Start your own <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> and use our toolkit to stay organized.</p>
         </div>
       </div><!-- end #oc-content-main -->
 
@@ -58,7 +58,7 @@
         </div>
         <div class="oc-widget oc-widget-feed" tal:define="projects view/project_brains"
               tal:condition="projects">
-          <h2 i18n:translate="tour_projects_belong" class="oc-feed-title">Projects you belong to:</h2>
+          <h2 i18n:translate="tour_projects_belong" class="oc-feed-title"><span i18n:name="project_noun" tal:replace="python:view.project_noun.title()">Project</span>s you belong to:</h2>
           <ul class="oc-feed-list oc-bigText oc-clearAfter">
             <li class="oc-feed-item oc-clearAfter" tal:repeat="project projects">
                 <a tal:attributes="href project/getURL" tal:content="project/Title" />

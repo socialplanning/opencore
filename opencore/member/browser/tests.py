@@ -36,6 +36,9 @@ def test_suite():
         """
         setSite(tc.portal)
 
+    def teardown(tc):
+        utils.unmonkey_proj_noun()
+        
     globs = locals()
     readme = dtf.ZopeDocFileSuite("README.txt",
                                   optionflags=optionflags,

@@ -17,6 +17,7 @@ optionflags = doctest.REPORT_ONLY_FIRST_FAILURE | doctest.ELLIPSIS
 
 import warnings; warnings.filterwarnings("ignore")
 
+
 def test_suite():
     from Products.Five.utilities.marker import erase as noLongerProvides
     from Products.PloneTestCase import setup
@@ -53,7 +54,6 @@ def test_suite():
                                              setUp=simple_setup,
                                              layer=test_layer
                                              )
-    
     return unittest.TestSuite((readme, wftest()))
 
 

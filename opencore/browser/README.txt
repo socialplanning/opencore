@@ -244,3 +244,33 @@ The base url must be set properly in the html for relate links to work
    False
    >>> '<base href="http://nohost/plone/" />' in html
    True
+
+
+Project-related URLs
+--------------------
+
+These should all be looked up via the project_url method.  They
+respect the global configuration, let's confirm by patching that:
+
+   >>> view = BaseView(self.homepage, self.request).__of__(self.homepage)
+
+   >>> from opencore.testing import utils
+   >>> utils.monkey_proj_noun('project')
+
+   >>> view.project_url()
+   'http://nohost/plone/projects'
+   >>> view.project_url('proj1')
+   'http://nohost/plone/projects/proj1'
+   >>> view.project_url(project='proj1')
+   'http://nohost/plone/projects/proj1'
+   >>> view.project_url(page='somepage')
+   'http://nohost/plone/projects/somepage'
+   >>> view.project_url(project='proj2', page='another')
+   'http://nohost/plone/projects/proj2/another'
+ 
+
+   >>> utils.monkey_proj_noun('monkey')
+   >>> view.project_url()
+   'http://nohost/plone/monkeys'
+   >>> view.project_url('proj1')
+   'http://nohost/plone/monkeys/proj1'

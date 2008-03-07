@@ -65,7 +65,7 @@ This is a reminder.
 
 <span i18n:name="inviter_name" tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" /> has invited you to join "<span i18n:name="project_title" tal:replace="view/area/Title" />" on <span i18n:name="portal_title" tal:replace="view/portal_title" />.
  
-<span i18n:name="portal_title" tal:replace="view/portal_title" /> is a free toolset for social change. With <span i18n:name="portal_title" tal:replace="view/portal_title" />, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks.
+<span i18n:name="portal_title" tal:replace="view/portal_title" /> is a free toolset for social change. With <span i18n:name="portal_title" tal:replace="view/portal_title" />, you can build collaborative pages for organizing <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s. You can also blog, set up mailing lists, store and share files, and keep track of tasks.
 
 </textarea>
 
@@ -73,7 +73,7 @@ This is a reminder.
 <textarea tal:condition="not: remind" rows="9" cols="70"  name="message" i18n:translate="email_invite_default_body">
 <span i18n:name="inviter_name" tal:replace="python: view.loggedinmember.getFullname() or view.loggedinmember.id" /> has invited you to join "<span i18n:name="project_title" tal:replace="view/area/Title" />" on <span i18n:name="portal_title" tal:replace="view/portal_title" />.
  
-<span i18n:name="portal_title" tal:replace="view/portal_title" /> is a free toolset for social change. With <span i18n:name="portal_title" tal:replace="view/portal_title" />, you can build collaborative pages for organizing projects. You can also blog, set up mailing lists, store and share files, and keep track of tasks.
+<span i18n:name="portal_title" tal:replace="view/portal_title" /> is a free toolset for social change. With <span i18n:name="portal_title" tal:replace="view/portal_title" />, you can build collaborative pages for organizing <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s. You can also blog, set up mailing lists, store and share files, and keep track of tasks.
 
 </textarea>
                 <span tal:replace="structure view/invite_email_boiler"/>

@@ -103,7 +103,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         title = text.strip_extra_whitespace(title)
         self.request.form['project_title'] = title
         if not self.valid_title(title):
-            self.errors['project_title'] = _(u'err_project_name', u'The project name must contain at least 2 characters with at least 1 letter or number.')
+            self.errors['project_title'] = _(u'err_project_name', u'The name must contain at least 2 characters with at least 1 letter or number.')
 
         geowriter = get_geo_writer(self)
         geo_info, locationchanged = geowriter.get_geo_info_from_form()
@@ -182,8 +182,10 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         if home_page is not None:
             if hpcontext.home_page != home_page:
                 hp_url = '%s/%s' % (self.context.absolute_url(), home_page)
-                self.add_status_message(_(u'psm_proj_homepage_change', u'Project home page set to: <a href="${hp_url}">${homepage}</a>',
-                                        mapping={u'homepage':home_page, u'hp_url':hp_url}))
+                self.add_status_message(_(u'psm_proj_homepage_change', u'${project_noun} home page set to: <a href="${hp_url}">${homepage}</a>',
+                                        mapping={u'homepage':home_page, u'hp_url':hp_url,
+                                                 u'project_noun':self.project_noun.title(),
+                                                 }))
                 hpcontext.home_page = home_page
 
 

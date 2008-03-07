@@ -144,3 +144,31 @@ def newuser():
 def zinstall_products():
     for product in Z_DEPS + DEPS:
         ZopeTestCase.installProduct(product)
+
+
+def monkey_proj_noun(newname='project'):
+    """temporarily switch the word we use for 'project' or 'group' or ..."""
+    # XXX Need a better way to do this, it's horrible to patch an
+    # ever-growing list of modules.  The function should be a utility
+    # and we just swap out an implementation?
+    from opencore.browser import base
+    from opencore.project import utils
+    from opencore.listen import events
+    from Products.OpenPlans.content import project
+    if not hasattr(utils, '_old_project_noun'):
+        utils._old_project_noun = utils.project_noun
+    project_noun = lambda: newname
+    for module in (utils, base, events, project):
+        module.project_noun = project_noun
+
+def unmonkey_proj_noun():
+    """temporarily switch the word we use for 'project' or 'group' or ..."""
+    from opencore.browser import base
+    from opencore.project import utils
+    from opencore.listen import events
+    from Products.OpenPlans.content import project
+    if hasattr(utils, '_old_project_noun'):
+        for module in (base, utils, events, project):
+            module.project_noun = utils._old_project_noun
+        del( utils._old_project_noun)
+        
