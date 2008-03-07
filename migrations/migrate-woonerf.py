@@ -76,15 +76,20 @@ print 'updating role mappings'
 wft.updateRoleMappings()
 print 'done updating role mappings'
 
-new_site_title = u'Your Streets'
+new_site_title = u'Livable Streets'
 print 'updating the site title to "%s"' % new_site_title
 n.setTitle(new_site_title)
 print 'site title updated'
 
-email_from_address = 'greetings@yourstreets.org'
-print 'setting email from address to "%s"' % email_from_address
+email_from_address = 'greetings@livablestreets.com'
+print 'setting email_from_address to "%s"' % email_from_address
 n.manage_changeProperties(email_from_address=email_from_address)
-print 'set email from address'
+print 'done'
+
+mailing_list_fqdn = 'lists.livablestreets.com'
+print 'setting mailing_list_fqdn to "%s"' % mailing_list_fqdn
+n.portal_properties.opencore_properties.mailing_list_fqdn = mailing_list_fqdn
+print 'done'
 
 print "Adding streetswiki folder"
 add_wiki(portal, 'streetswiki', id_='streetswiki')
