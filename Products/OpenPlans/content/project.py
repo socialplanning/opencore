@@ -171,7 +171,6 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
     content_icon = 'openproject_icon.png'
 
     home_page_id = 'project-home'
-    home_page_title = '%s Home' % project_noun().title()
     home_page_file = 'project_index.html'
 
     _at_rename_after_creation = True
@@ -249,8 +248,9 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
         """
         Create the project index page from the specified file.
         """
+        home_page_title = '%s Home' % project_noun().title()
         self.invokeFactory('Document', self.home_page_id,
-                           title=self.home_page_title)
+                           title=home_page_title)
         page = self._getOb(self.home_page_id)
         page_file = pkg_resources.resource_stream(OPENCORE, 'copy/%s' % self.home_page_file)
         page.setText(page_file.read().replace('${project_noun}', project_noun()))
