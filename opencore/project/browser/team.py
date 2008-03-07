@@ -317,7 +317,13 @@ class ProjectTeamView(TeamRelatedView):
         contributions = 'XXX'
         activation = self.pretty_date(membership.made_active_date)
         modification = self.pretty_date(membership.ModificationDate())
-        project_ids = brain.project_ids        
+
+        # filter against search returns to insure private projects not
+        # included unless view user also a member
+        # @@ could be made better by return the brain list sorted
+        project_ids = [id_ for id_ in brain.project_ids \
+                       if self.project_info.has_key(id_)]
+        
         return dict(activation=activation,
                     contributions=contributions,
                     email=brain.getEmail,
@@ -326,7 +332,7 @@ class ProjectTeamView(TeamRelatedView):
                     location=brain.getLocation,
                     modification=modification,
                     portrait_thumb_url=brain.portrait_thumb_url,
-                    project_ids = project_ids,                    
+                    project_ids=project_ids,                    
                     )
     
     def _project_info(self, mem_brains):
@@ -351,21 +357,21 @@ class ProjectTeamView(TeamRelatedView):
     def can_view_email(self):
         return self.get_tool('portal_membership').checkPermission('OpenPlans: View emails', self.context)
 
-    # remove
-    def membership_info_for(self, member):
-        mem_id = member.getId()
-        project = self.context
-        project_id = project.getId()
-        team = self.team
-        membership = team._getOb(mem_id)
+##     # remove
+##     def membership_info_for(self, member):
+##         mem_id = member.getId()
+##         project = self.context
+##         project_id = project.getId()
+##         team = self.team
+##         membership = team._getOb(mem_id)
 
-        contributions = 'XXX'
-        activation = self.pretty_date(membership.made_active_date)
-        modification = self.pretty_date(membership.ModificationDate())
-        return dict(contributions=contributions,
-                    activation=activation,
-                    modification=modification,
-                    )
+##         contributions = 'XXX'
+##         activation = self.pretty_date(membership.made_active_date)
+##         modification = self.pretty_date(membership.ModificationDate())
+##         return dict(contributions=contributions,
+##                     activation=activation,
+##                     modification=modification,
+##                     )
 
     def is_admin(self, mem_id):
         return self.team.getHighestTeamRoleForMember(mem_id) == self.admin_role
