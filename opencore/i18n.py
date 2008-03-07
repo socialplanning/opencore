@@ -9,7 +9,7 @@ def translate(msgid, domain=i18n_domain, mapping=None, context=None,
               target_language=None, default=None):
     """
     Wrapper around Plone's utranslate method that defaults to the
-    our standard domain.  Returns instance of unicode type.
+    our standard domain.  Returns instance of unicode type. 
     """
     kw = dict(mapping=mapping, context=context,
               target_language=target_language, default=default)
