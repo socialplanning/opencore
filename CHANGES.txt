@@ -1,3 +1,9 @@
+2008-03-06  Jeff Hammel  <jhammel@openplans.org>
+
+	    * add infrastructure to adapt anything to a feed of
+	      configurable format.  in oc-feed, which opencore
+	      now depends on.  Not user facing at this point.
+
 2008-03-06  Paul Winkler  <pw@openplans.org>
 
 	* Configurable name for "projects". #2409
