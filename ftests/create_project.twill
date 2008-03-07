@@ -21,7 +21,7 @@ fv create_form workflow_policy $projpolicy
 submit
 find "Preferences"
 follow "Preferences"
-check_group_values prefs_form featurelets:list '-listen, -tasks, -blog'
+check_group_values prefs_form featurelets:list '-listen, -blog'
 check_group_values prefs_form featurelets:list $projfeaturelets
 submit
 
