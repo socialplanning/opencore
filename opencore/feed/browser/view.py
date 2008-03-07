@@ -1,4 +1,4 @@
-from opencore.rss.interfaces import IFeedData
+from opencore.feed.interfaces import IFeedData
 from Products.Five import BrowserView
 
 class RssView(BrowserView):

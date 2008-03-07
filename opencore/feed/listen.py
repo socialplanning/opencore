@@ -2,9 +2,9 @@ from Products.CMFCore.utils import getToolByName
 from Products.listen.interfaces import ISearchableArchive
 from opencore.featurelets.interfaces import IListenContainer
 from opencore.listen.interfaces import IOpenMailingList
-from opencore.rss.base import BaseFeedAdapter
-from opencore.rss.interfaces import IFeedData
-from opencore.rss.interfaces import IFeedItem
+from opencore.feed.base import BaseFeedAdapter
+from opencore.feed.interfaces import IFeedData
+from opencore.feed.interfaces import IFeedItem
 from zope.component import adapts
 from zope.component import getUtility
 from zope.interface import alsoProvides

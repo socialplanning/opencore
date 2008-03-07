@@ -1,7 +1,7 @@
-Test the listen adapters for rss use
+Test the listen adapters for feed use
 
 Create a stub context used for the listen adapters
-    >>> from opencore.rss.tests import DummyContext
+    >>> from opencore.feed.tests import DummyContext
     >>> context = DummyContext()
 
 Create a fake search result utility
@@ -30,7 +30,7 @@ Stub a sample result
     ...         return self
 
 Instantiate the listen feed adapter with the dummy context
-    >>> from opencore.rss.listen import MailingListFeedAdapter
+    >>> from opencore.feed.listen import MailingListFeedAdapter
     >>> listen_adapter = MailingListFeedAdapter(context)
 
 Test the items method
@@ -39,7 +39,7 @@ Test the items method
     >>> len(lst)
     1
     >>> feed_item = lst[0]
-    >>> from opencore.rss.interfaces import IFeedItem
+    >>> from opencore.feed.interfaces import IFeedItem
     >>> IFeedItem.providedBy(feed_item)
     True
 
@@ -67,7 +67,7 @@ We'll stub the calls to return the same result twice
     >>> context._getOb = lambda id:None
 
 Instantiate the lists feed adapter with the dummy context
-    >>> from opencore.rss.listen import ListsFeedAdapter
+    >>> from opencore.feed.listen import ListsFeedAdapter
     >>> lists_adapter = ListsFeedAdapter(context)
 
 Test the items method

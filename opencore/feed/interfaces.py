@@ -6,7 +6,7 @@ from zope.schema import Text
 from zope.schema import TextLine
 
 class ICanFeed(Interface):
-    """Marker interface to mean that component can create rss feeds"""
+    """Marker interface to mean that component can create feeds"""
 
 class IFeedData(Interface):
     """interface to expose necessary data for feed creation"""

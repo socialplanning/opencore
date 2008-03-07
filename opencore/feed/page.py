@@ -1,14 +1,14 @@
 from Products.CMFCore.utils import getToolByName
 from opencore.interfaces import IOpenPage
-from opencore.rss.base import BaseFeedAdapter
-from opencore.rss.interfaces import IFeedData
-from opencore.rss.interfaces import IFeedItem
+from opencore.feed.base import BaseFeedAdapter
+from opencore.feed.interfaces import IFeedData
+from opencore.feed.interfaces import IFeedItem
 from zope.component import adapts
 from zope.interface import alsoProvides
 from zope.interface import implements
 
 class PageFeedAdapter(BaseFeedAdapter):
-    """rss for wiki page modifications"""
+    """feed for wiki page modifications"""
     
     implements(IFeedData)
     adapts(IOpenPage)

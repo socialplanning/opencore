@@ -3,7 +3,7 @@
            >
 
   <browser:page
-     for="opencore.rss.interfaces.ICanFeed"
+     for="opencore.feed.interfaces.ICanFeed"
      name="rss"
      class=".view.RssView"
      template="rss.pt"
@@ -11,7 +11,7 @@
      />
 
   <browser:page
-     for="opencore.rss.interfaces.ICanFeed"
+     for="opencore.feed.interfaces.ICanFeed"
      name="atom"
      class=".view.RssView"
      template="atom.pt"
@@ -22,7 +22,7 @@
   <browser:viewlet
      name="10 RSS"
      manager="opencore.browser.topnav.interfaces.ITopnavActions"
-     for="opencore.rss.interfaces.ICanFeed"
+     for="opencore.feed.interfaces.ICanFeed"
      template="rss_action.pt"
      permission="zope2.View"
      />
@@ -30,7 +30,7 @@
   <browser:viewlet
      name="20 Atom"
      manager="opencore.browser.topnav.interfaces.ITopnavActions"
-     for="opencore.rss.interfaces.ICanFeed"
+     for="opencore.feed.interfaces.ICanFeed"
      template="atom_action.pt"
      permission="zope2.View"
      />

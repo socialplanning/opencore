@@ -4,52 +4,52 @@
 
   <five:implements
      class="Products.OpenPlans.content.project.OpenProject"
-     interface="opencore.rss.interfaces.ICanFeed"
+     interface="opencore.feed.interfaces.ICanFeed"
      />
 
   <five:implements
      class="opencore.content.page.OpenPage"
-     interface="opencore.rss.interfaces.ICanFeed"
+     interface="opencore.feed.interfaces.ICanFeed"
      />
 
   <five:implements
      class="opencore.listen.mailinglist.OpenMailingList"
-     interface="opencore.rss.interfaces.ICanFeed"
+     interface="opencore.feed.interfaces.ICanFeed"
      />
 
   <adapter
      for="opencore.interfaces.IProject"
-     provides="opencore.rss.interfaces.IFeedData"
+     provides="opencore.feed.interfaces.IFeedData"
      factory=".project.ProjectFeedAdapter"
      />
 
   <adapter
      for="opencore.interfaces.adding.IAddProject"
-     provides="opencore.rss.interfaces.IFeedData"
+     provides="opencore.feed.interfaces.IFeedData"
      factory=".projects.ProjectsFeedAdapter"
      />
 
   <adapter
      for="opencore.interfaces.adding.IAmAPeopleFolder"
-     provides="opencore.rss.interfaces.IFeedData"
+     provides="opencore.feed.interfaces.IFeedData"
      factory=".people.PeopleFeedAdapter"
      />
 
    <adapter
       for="opencore.featurelets.interfaces.IListenContainer"
-      provides="opencore.rss.interfaces.IFeedData"
+      provides="opencore.feed.interfaces.IFeedData"
       factory=".listen.ListsFeedAdapter"
       />
 
    <adapter
       for="opencore.listen.interfaces.IOpenMailingList"
-      provides="opencore.rss.interfaces.IFeedData"
+      provides="opencore.feed.interfaces.IFeedData"
       factory=".listen.MailingListFeedAdapter"
       />
 
    <adapter
       for="opencore.interfaces.IOpenPage"
-      provides="opencore.rss.interfaces.IFeedData"
+      provides="opencore.feed.interfaces.IFeedData"
       factory=".page.PageFeedAdapter"
       />
 

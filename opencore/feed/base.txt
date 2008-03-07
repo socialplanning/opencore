@@ -1,11 +1,11 @@
-Test the base adapter used for rss adapters
+Test the base adapter used for feed adapters
 
 Create a stub context used for the base adapter
-    >>> from opencore.rss.tests import DummyContext
+    >>> from opencore.feed.tests import DummyContext
     >>> context = DummyContext()
 
 Instantiate the base feed adapter with the dummy context
-    >>> from opencore.rss.base import BaseFeedAdapter
+    >>> from opencore.feed.base import BaseFeedAdapter
     >>> base_adapter = BaseFeedAdapter(context)
 
 Test the dummy adapter methods

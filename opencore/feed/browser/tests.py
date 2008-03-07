@@ -51,7 +51,7 @@ def test_suite():
     globs = locals()
     readme = dtf.ZopeDocFileSuite("README.txt", 
                                   optionflags=optionflags,
-                                  package='opencore.rss.browser',
+                                  package='opencore.feed.browser',
                                   test_class=FunctionalTestCase,
                                   globs = globs,
                                   setUp=readme_setup,

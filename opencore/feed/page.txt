@@ -1,7 +1,7 @@
-Test the page adapter for rss use
+Test the page adapter for feed use
 
 Create a stub context used for the page adapter
-    >>> from opencore.rss.tests import DummyContext
+    >>> from opencore.feed.tests import DummyContext
     >>> context = DummyContext()
 
 And override the repository history call
@@ -27,7 +27,7 @@ Here's the sub result
     ...     comment='Dummy comment'
 
 Instantiate the page feed adapter with the dummy context
-    >>> from opencore.rss.page import PageFeedAdapter
+    >>> from opencore.feed.page import PageFeedAdapter
     >>> page_adapter = PageFeedAdapter(context)
 
 Test the items method
@@ -36,7 +36,7 @@ Test the items method
     >>> len(lst)
     1
     >>> feed_item = lst[0]
-    >>> from opencore.rss.interfaces import IFeedItem
+    >>> from opencore.feed.interfaces import IFeedItem
     >>> IFeedItem.providedBy(feed_item)
     True
 
