@@ -134,8 +134,8 @@ ProjectSchema.moveField('space_teams', pos='bottom')
 # XXX these should probably live elsewhere, maybe in 
 # _initProjectHomeMenuItem
 
-project_menu_item = {'title': u'%s Home' % project_noun().title(),
-                     'description': u'%s Home' % project_noun().title(),
+project_menu_item = {'title': u'Home',
+                     'description': u'Home',
                      'action': '',
                      'extra': None,
                      'order': 0,
@@ -248,7 +248,7 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
         """
         Create the project index page from the specified file.
         """
-        home_page_title = '%s Home' % project_noun().title()
+        home_page_title = 'Home'
         self.invokeFactory('Document', self.home_page_id,
                            title=home_page_title)
         page = self._getOb(self.home_page_id)
