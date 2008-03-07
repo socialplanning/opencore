@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2008-03-06 21:06+0000\n"
+"POT-Creation-Date: 2008-03-07 00:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -322,12 +322,12 @@ msgstr ""
 msgid "create_project_url"
 msgstr ""
 
-#: ./opencore/project/browser/manageteam.py:546
+#: ./opencore/project/browser/manageteam.py:535
 msgid "demote_to_member"
 msgstr ""
 
 #. Default: "Discussion list for this ${project_noun}, consisting of all ${project_noun} members."
-#: ./opencore/listen/events.py:90
+#: ./opencore/listen/events.py:91
 msgid "discussion_list_desc"
 msgstr ""
 
@@ -361,7 +361,7 @@ msgstr ""
 msgid "email_invite_pending_member"
 msgstr ""
 
-#: ./opencore/project/browser/manageteam.py:711
+#: ./opencore/project/browser/manageteam.py:700
 msgid "email_invite_static_body"
 msgstr ""
 
@@ -370,11 +370,11 @@ msgstr ""
 msgid "email_membership_deactivated"
 msgstr ""
 
-#: ./opencore/project/browser/team_membership.py:51
+#: ./opencore/project/browser/team_membership.py:53
 msgid "email_membership_requested"
 msgstr ""
 
-#: ./opencore/project/browser/team_membership.py:63
+#: ./opencore/project/browser/team_membership.py:65
 msgid "email_mship_request_message"
 msgstr ""
 
@@ -1416,7 +1416,7 @@ msgstr ""
 msgid "projects_start_project_button"
 msgstr ""
 
-#: ./opencore/project/browser/manageteam.py:542
+#: ./opencore/project/browser/manageteam.py:531
 msgid "promote_to_admin"
 msgstr ""
 
@@ -1471,7 +1471,7 @@ msgid "psm_enter_username_email"
 msgstr ""
 
 #. Default: "Error sending mail to: ${mem_id}"
-#: ./opencore/project/browser/manageteam.py:489
+#: ./opencore/project/browser/manageteam.py:478
 msgid "psm_error_sending_mail_to_member"
 msgstr ""
 
@@ -1515,7 +1515,7 @@ msgid "psm_mailing_list_deletion_cancelled"
 msgstr ""
 
 #. Default: "You have added ${num_approved} members."
-#: ./opencore/project/browser/manageteam.py:253
+#: ./opencore/project/browser/manageteam.py:242
 msgid "psm_many_requests_approved"
 msgstr ""
 
@@ -1544,7 +1544,7 @@ msgid "psm_not_sufficient_perms"
 msgstr ""
 
 #. Default: "You have added ${mem_id}."
-#: ./opencore/project/browser/manageteam.py:250
+#: ./opencore/project/browser/manageteam.py:239
 msgid "psm_one_request_approved"
 msgstr ""
 
@@ -1579,7 +1579,7 @@ msgid "psm_please_correct_errors"
 msgstr ""
 
 #. Default: "Please select members to approve."
-#: ./opencore/project/browser/manageteam.py:203
+#: ./opencore/project/browser/manageteam.py:192
 msgid "psm_please_select_members"
 msgstr ""
 
@@ -1615,7 +1615,7 @@ msgid "psm_security_changed"
 msgstr ""
 
 #. Default: "Please select members to discard."
-#: ./opencore/project/browser/manageteam.py:271
+#: ./opencore/project/browser/manageteam.py:260
 msgid "psm_select_members_discard"
 msgstr ""
 
@@ -1634,7 +1634,7 @@ msgstr ""
 msgid "psm_thankyou_for_joining"
 msgstr ""
 
-#: ./opencore/project/browser/manageteam.py:384
+#: ./opencore/project/browser/manageteam.py:373
 msgid "remind_invite_none_selected"
 msgstr ""
 
