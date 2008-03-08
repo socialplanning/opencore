@@ -127,7 +127,7 @@ def remove_tasktracker_markings(portal):
 print 'removing tasktracker featurelet installation markers'
 projs_mark_rem, projs_mark_norem = remove_tasktracker_markings(n)
 print 'removed markings from %d projects' % len(projs_mark_rem)
-print 'did not remove markings from %d projects' % len(projs_mark_norem)
+print '%d projects did not have tasktracker installed' % len(projs_mark_norem)
 
 print "Comitting transaction..."
 transaction.commit()
