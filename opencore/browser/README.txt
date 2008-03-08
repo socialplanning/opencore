@@ -268,9 +268,10 @@ respect the global configuration, let's confirm by patching that:
    >>> view.project_url(project='proj2', page='another')
    'http://nohost/plone/projects/proj2/another'
  
-
+XXX For now, the project url should not respect the project noun. We still need
+generated urls to contain the word ``project`` in them::
    >>> utils.monkey_proj_noun('monkey')
    >>> view.project_url()
-   'http://nohost/plone/monkeys'
+   'http://nohost/plone/projects'
    >>> view.project_url('proj1')
-   'http://nohost/plone/monkeys/proj1'
+   'http://nohost/plone/projects/proj1'

@@ -78,10 +78,14 @@ class BaseView(BrowserView):
         distracted thinking of a good API for that. We can revisit
         later.)
         """
-        parts = [self.siteURL, self.project_noun + 's']
-        if project:
+        #XXX we need to currently use project for all urls
+        # and *not* what's in the project noun, because we'll link
+        # to things like /groups, which doesn't currently exist
+        #parts = [self.siteURL, self.project_noun + 's']
+        parts = [self.siteURL, 'projects']
+        if project is not None:
             parts.append(project)
-        if page:
+        if page is not None:
             parts.append(page)
         return '/'.join(parts)
 
