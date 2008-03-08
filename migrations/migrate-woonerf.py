@@ -82,6 +82,11 @@ print 'updating the site title to "%s"' % new_site_title
 n.setTitle(new_site_title)
 print 'site title updated'
 
+oc_prop_title = 'opencore properties sheet'
+print 'setting title of opencore property sheet to %s' % oc_prop_title
+n.portal_properties.opencore_properties.setTitle(oc_prop_title)
+print 'set opencore properties sheet title'
+
 email_from_address = 'greetings@livablestreets.com'
 print 'setting email_from_address to "%s"' % email_from_address
 n.manage_changeProperties(email_from_address=email_from_address)
