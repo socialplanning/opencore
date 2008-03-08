@@ -21,9 +21,10 @@ Logged in user:
     >>> member = portal.membrane_tool(getUserName='test_user_1_')[0].getObject()
     >>> member.setEmail('test_emailer_1_@example.com')
 
-    I have no idea why this login form nonsense is necessary for
-    the jsview test to work; I cargo-culted it from README.txt where these
-    tests used to live. - slinkp
+    I have no idea why this login view nonsense is necessary for the
+    jsview test to work; I cargo-culted it from README.txt where these
+    tests used to live. You'd think that self.login() would be enough,
+    but it's evidently not.  - slinkp
 
     >>> view = portal.restrictedTraverse('@@login')
     >>> output = view()
