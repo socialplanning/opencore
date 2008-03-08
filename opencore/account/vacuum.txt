@@ -26,8 +26,6 @@ Logged in user:
     tests used to live. - slinkp
 
     >>> view = portal.restrictedTraverse('@@login')
-    >>> view.request.form['__ac_name'] = 'foobar'
-    >>> view.request.form['__ac_password'] = 'testy'
     >>> output = view()
 
     >>> from opencore.configuration.utils import get_config #XXX needs mocking
