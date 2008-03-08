@@ -21,7 +21,8 @@ from opencore.configuration.setuphandlers import \
      migrateATDocToOpenPage, \
      setupProjectLayout, setCookieDomain, installCookieAuth, \
      setupPeopleFolder, setupProjectLayout, setupHomeLayout, \
-     installNewsFolder, setProjectFolderPermissions
+     installNewsFolder, setProjectFolderPermissions, \
+     migrate_listen_member_lookup
 
 out = StringIO()
 def convertFunc(func):
@@ -45,15 +46,6 @@ def reinstallWorkflowPolicies(portal):
     pwftool.manage_delObjects(ids=list(deletes))
     # have to unwrap it from the setuphandler decorator
     convertFunc(installWorkflowPolicies)(portal)
-
-def migrate_listen_member_lookup(portal):
-    from Products.listen.interfaces import IMemberLookup
-    from zope.component import getUtility
-    from opencore.listen.utility_overrides import OpencoreMemberLookup
-    portal.utilities.manage_delObjects(['IMemberLookup'])
-    opencore_memberlookup = OpencoreMemberLookup(portal)
-    sm = portal.getSiteManager()
-    sm.registerUtility(IMemberLookup, opencore_memberlookup)
 
 def setup_nui(portal):
     """ this will call all the  nui setup functions """
@@ -139,7 +131,6 @@ topp_functions = dict(
     migrateATDocToOpenPage = convertFunc(migrateATDocToOpenPage),
     setCookieDomain = convertFunc(setCookieDomain),
     installCookieAuth=convertFunc(installCookieAuth),
-    migrate_listen_member_lookup=migrate_listen_member_lookup,
     setupPeopleFolder=convertFunc(setupPeopleFolder),
     migrate_teams_to_projects=migrate_teams_to_projects,
     migrate_membership_roles=migrate_membership_roles,
@@ -148,8 +139,9 @@ topp_functions = dict(
     migrate_redirection=migrate_redirection,
     )
 
-topp_functions["NUI Setup"]=setup_nui
+topp_functions["NUI Setup"] = setup_nui
 topp_functions["Fix membership object ownership"] = fixMembershipOwnership
+topp_functions["Migrate listen member lookup"] = convertFunc(migrate_listen_member_lookup)
 
 class TOPPSetup(SetupWidget):
     """ OpenPlans Setup Bucket Brigade  """

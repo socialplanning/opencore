@@ -51,6 +51,7 @@ def setuphandler(fn):
         stepname = fn.__name__
         handlers = context.readDataFile('setuphandlers.txt')
         #@@ DWM: this limits reuse of decorated functions
+        #@@ RJM: it's supposed to
         if handlers is None or stepname not in handlers:
             return
         portal = context.getSite()
@@ -421,10 +422,13 @@ def createValidationMember(portal, out):
     mem = OpenMember('validation_member')
     mdtool._validation_member = mem
 
-def register_local_utility(portal, out, iface, klass, factory_fn=None):
+def register_local_utility(portal, out, iface, klass, factory_fn=None,
+                           replace=False):
     setSite(portal) # specify the portal as the local utility context
     if queryUtility(iface) is not None:
-        return
+        if not replace:
+            return
+        portal.utilities.manage_delObjects(iface.__name__)
     sm = portal.getSiteManager()
     try:
         if factory_fn is not None:
@@ -444,7 +448,16 @@ def register_local_utility(portal, out, iface, klass, factory_fn=None):
 @setuphandler
 def install_email_invites_utility(portal, out):
     register_local_utility(portal, out, IEmailInvites, EmailInvites)
-        
+
+@setuphandler
+def migrate_listen_member_lookup(portal, out):
+    from Products.listen.interfaces import IMemberLookup
+    from opencore.listen.utility_overrides import OpencoreMemberLookup
+    def LookupFactory():
+        return OpencoreMemberLookup(portal)
+    register_local_utility(portal, out, IMemberLookup, OpencoreMemberLookup,
+                           factory_fn=LookupFactory, replace=True)
+
 @setuphandler
 def addCatalogQueue(portal, out):
     q_id = 'portal_catalog_queue'

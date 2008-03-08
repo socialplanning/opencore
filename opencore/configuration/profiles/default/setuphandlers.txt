@@ -24,3 +24,4 @@ setupPeopleFolder
 setupProjectLayout
 setupTeamTool
 setupVersioning
+migrate_listen_member_lookup

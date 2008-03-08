@@ -268,4 +268,14 @@
     <dependency step="install_dependencies" />
   </import-step>
 
+  <import-step
+     version="20071109-01"
+     id="migrate_listen_member_lookup"
+     handler="opencore.configuration.setuphandlers.migrate_listen_member_lookup"
+     title="Migrate listen member lookup utility">
+    Replace listen's member lookup utility with one that uses the 
+    member catalog.
+    <dependency step="install_dependencies" />
+  </import-step>
+
 </import-steps>
