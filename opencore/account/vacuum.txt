@@ -2,19 +2,6 @@ Javascript functionality for Vacuum
 ===================================
 
 
-The member needs to have a 'legitimate' email address::
-
-    >>> member = portal.membrane_tool(getUserName='test_user_1_')[0].getObject()
-    >>> member
-    <OpenMember at /plone/portal_memberdata/test_user_1_>
-    >>> member.setEmail('test_emailer_1_@example.com')
-
-    >>> self.logout()
-    >>> view = portal.restrictedTraverse('@@login')
-    >>> view.request.form['__ac_name'] = 'foobar'
-    >>> view.request.form['__ac_password'] = 'testy'
-    >>> output = view()
-
 Logged out user:
 
     >>> self.logout()
@@ -25,13 +12,32 @@ Logged out user:
     loggedin: false
     });
 
+
+
 Logged in user:
 
-    >>> from opencore.configuration.utils import get_config
+    We want the member to have an email address::
+
+    >>> member = portal.membrane_tool(getUserName='test_user_1_')[0].getObject()
+    >>> member.setEmail('test_emailer_1_@example.com')
+
+    I have no idea why this login form nonsense is necessary for
+    the jsview test to work; I cargo-culted it from README.txt where these
+    tests used to live. - slinkp
+
+    >>> view = portal.restrictedTraverse('@@login')
+    >>> view.request.form['__ac_name'] = 'foobar'
+    >>> view.request.form['__ac_password'] = 'testy'
+    >>> output = view()
+
+    >>> from opencore.configuration.utils import get_config #XXX needs mocking
     >>> raw_list = get_config('applications', 'opencore_vacuum_whitelist', default='').split(',')
     >>> vacuum_whitelist = [x.strip() for x in raw_list if x.strip()]
-    >>> view.request['HTTP_REFERER'] = vacuum_whitelist[0]
+    >>> jsview.request['HTTP_REFERER'] = vacuum_whitelist[0]
     >>> self.login()
+
+    Finally, test the view::
+
     >>> output = jsview()
     >>> print normalize_whitespace(output)
     OpenCore.prepareform({
