@@ -16,6 +16,7 @@ from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
 from utils import setupKupu, reinstallSubskins
 from zLOG import INFO, ERROR
+from zope.interface import alsoProvides
 from opencore.configuration.setuphandlers import \
      installWorkflowPolicies, securityTweaks, \
      migrateATDocToOpenPage, \
@@ -46,6 +47,24 @@ def reinstallWorkflowPolicies(portal):
     pwftool.manage_delObjects(ids=list(deletes))
     # have to unwrap it from the setuphandler decorator
     convertFunc(installWorkflowPolicies)(portal)
+
+def migrate_listen_container_to_feed(portal):
+    from opencore.feed.interfaces import ICanFeed
+    out = []
+    cat = getToolByName(portal, 'portal_catalog')
+    proj_brains = cat(Type='OpenProject')
+    for brain in proj_brains:
+        proj = brain.getObject()
+        container = getattr(proj, 'lists')
+        if container:
+            name = repr(container)
+            if ICanFeed.providedBy(list):
+                out.append('%s already provides ICanFeed' % name)
+            else:
+                alsoProvides(container, ICanFeed)
+                out.append('%s migrated -> ICanFeed' % name)
+
+    return '\n'.join(out)
 
 def setup_nui(portal):
     """ this will call all the  nui setup functions """
@@ -131,6 +150,7 @@ topp_functions = dict(
     migrateATDocToOpenPage = convertFunc(migrateATDocToOpenPage),
     setCookieDomain = convertFunc(setCookieDomain),
     installCookieAuth=convertFunc(installCookieAuth),
+    migrate_listen_container_to_feed=migrate_listen_container_to_feed,
     setupPeopleFolder=convertFunc(setupPeopleFolder),
     migrate_teams_to_projects=migrate_teams_to_projects,
     migrate_membership_roles=migrate_membership_roles,
