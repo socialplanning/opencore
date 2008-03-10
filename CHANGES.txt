@@ -7,10 +7,10 @@
 2008-03-06  Paul Winkler  <pw@openplans.org>
 
 	* Configurable name for "projects". #2409
-          Existing installations will need to update the build.ini
+	  Note this doesn't impact folder names or URLs, just text on pages.
+	  Existing installations will need to update the build.ini
 	  and add to the [general] section:  projtxt = project
-          ... or re-run fassembler:opencore to do this automatically.
-
+	  ... or re-run fassembler:opencore to do this automatically.
 
 2008-02-25  Paul Winkler  <pw@openplans.org>
 
