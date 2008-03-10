@@ -36,9 +36,7 @@ class WordPressFeedView(BaseView):
 
             # sort comments to entries
             for entry in self.feed.entries:
-                comment_feed = '%scomments/feed/' % entry.link                
-                comments = feedparser.parse(comment_feed)
-                entry.n_comments = int(entry['slash_comments'])
+                entry.n_comments = int(entry.get('slash_comments', 0)) # could brute force it at this point
 
                 if entry.n_comments == 1:
                     entry.comment_string = '1 comment'
