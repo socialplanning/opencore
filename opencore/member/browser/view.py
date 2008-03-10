@@ -55,7 +55,7 @@ class ProfileView(BaseView):
         """Returns a list of dicts describing each of the `max` most recently
         modified wiki pages for the viewed user."""
         memberid = self.viewed_member_info['id']
-        query = Eq('Creator', memberid) | Eq('lastModifiedAuthor', memberid)
+        query =  Eq('lastModifiedAuthor', memberid)
         query &= Eq('portal_type', 'Document') #| Eq('portal_type', 'OpenProject')
         brains = self.catalog.evalAdvancedQuery(query, (('modified', 'desc'),)) # sort by most recent first ('desc' means descending)
         brains = brains[:max] # there appears to be no way to specify the max in the query
