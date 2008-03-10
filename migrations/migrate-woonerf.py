@@ -111,29 +111,6 @@ qi = portal.portal_quickinstaller
 qi.installProducts(['PleiadesGeocoder'])
 print "done"
 
-def remove_tasktracker_markings(portal):
-    try:
-        from opencore.featurelets.interfaces import ITaskTrackerFeatureletInstalled
-    except ImportError:
-        print 'ERROR. Must have ITaskTrackerFeatureletInstalled marker available in'
-        print 'opencore.featurelet.interfaces'
-        sys.exit(1)
-    projs_with_marks_removed = []
-    projs_with_no_mark = []
-    for pbrain in portal.portal_catalog(portal_type='OpenProject'):
-        proj = pbrain.getObject()
-        if ITaskTrackerFeatureletInstalled.providedBy(proj):
-            noLongerProvides(proj, ITaskTrackerFeatureletInstalled)
-            projs_with_marks_removed.append(proj.id)
-        else:
-            projs_with_no_mark.append(proj.id)
-    return projs_with_marks_removed, projs_with_no_mark
-
-print 'removing tasktracker featurelet installation markers'
-projs_mark_rem, projs_mark_norem = remove_tasktracker_markings(n)
-print 'removed markings from %d projects' % len(projs_mark_rem)
-print '%d projects did not have tasktracker installed' % len(projs_mark_norem)
-
 print "Comitting transaction..."
 transaction.commit()
 print "All migrations done"
