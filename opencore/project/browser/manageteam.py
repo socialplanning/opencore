@@ -29,7 +29,7 @@ log = logging.getLogger('opencore.project.manageteam')
 EMAIL_RE = re.compile(EMAIL_RE)
 TA_SPLIT = re.compile('\n|,')
 
-
+# change to use utility
 @req_memoize
 def _email_sender(view):
     return EmailSender(view, mship_messages)
@@ -641,6 +641,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
             self.add_status_message(_(u"remind_invite_none_selected"))
         else:
             self.redirect("invite?remind=True&email-invites=%s" % ",".join(targets))
+
         
 class InviteView(ManageTeamView):
     ##################
