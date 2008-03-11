@@ -761,6 +761,13 @@ class InviteView(ManageTeamView):
         if psm['email_invites']:
             self.add_status_message(u"Email invitations: %s"
                                         % ', '.join(psm['email_invites']))
+        if psm['mem_already_member']:
+            if len(psm['mem_already_member']) > 1:
+                self.add_status_message(u"%s are already members of this project."
+                                        % ', '.join(psm['mem_already_member']))
+            else:
+                self.add_status_message(u"%s is already a member of this project."
+                                        % ', '.join(psm['mem_already_member']))
         self._norender = True
         self.redirect('manage-team')
         
@@ -792,6 +799,7 @@ class InviteView(ManageTeamView):
         uSR = mbtool.unrestrictedSearchResults
         mem_invites = []
         mem_failures = []
+        mem_already_member = []
         email_invites = []
         already_invited = []
 
@@ -841,10 +849,11 @@ class InviteView(ManageTeamView):
                                                     **msg_subs)
                     mem_invites.append(mem_id)
                 else:
-                    # invitation attempt failed; fail silently if
-                    # member is already active on the team (see #2117)
+                    # invitation attempt failed
                     if mem_id not in self.context.projectMemberIds():
                         mem_failures.append(mem_id)
+                    else:
+                        mem_already_member.append(mem_id)
             else:
                 # not a member
                 if addy in self.invite_util.getInvitesByProject(proj_id):
@@ -856,6 +865,7 @@ class InviteView(ManageTeamView):
         return dict(mem_invites=mem_invites,
                     mem_failures=mem_failures,
                     email_invites=email_invites,
-                    already_invited=already_invited)
+                    already_invited=already_invited,
+                    mem_already_member=mem_already_member)
 
 
