@@ -5,6 +5,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser.formhandler import button, OctopoLite, action
 from opencore.interfaces import IAmExperimental
 from opencore.interfaces import IHomePage
+from opencore.nui.wiki.utils import unescape
 from Acquisition import aq_inner
 from PIL import Image
 from StringIO import StringIO
@@ -22,6 +23,25 @@ from lxml.html.clean import Cleaner
 from opencore.interfaces.catalog import ILastModifiedAuthorId
 from topp.utils.pretty_date import prettyDate
 
+
+def xinha_to_wicked(html):
+    """
+    Takes an html document returned from Xinha (with the text inside of Wicked links
+    properly escaped for HTML) and unescapes Wicked links so that they'll be treated
+    well by Wicked.
+    """
+    def treat_link_text(match):
+        link_text = match.group()
+        return unescape(link_text)
+    # The following is a regex designed to capture the text inside of a Wicked link
+    wicked_link_text = re.compile(r"""
+        (?<=  \(\(   )   # The opening (( of the Wicked link "(?<=" prevents the prefix from returning with the match
+        [^)]*            # The initial text (no closing parentheses) of the wicked link
+        ( \) [^)]+ )*    # Any amount of single closing parentheses with trailing text.
+                         # If there is no trailing text, this is not a single parentheses
+        (?=\)\))         # The closing )) of the Wicked link, "?=" prevents the suffix from returning with the match
+    """, re.VERBOSE)
+    return re.sub(wicked_link_text, treat_link_text, html)
 
 class WikiBase(BaseView):
 
@@ -144,7 +164,7 @@ class WikiEdit(WikiBase, OctopoLite):
         clean_text = self._clean_html(page_text)
 
         self.context.setTitle(page_title)
-        self.context.setText(clean_text)
+        self.context.setText(xinha_to_wicked(clean_text))
         if description is not None:
             self.context.setDescription(description)
 

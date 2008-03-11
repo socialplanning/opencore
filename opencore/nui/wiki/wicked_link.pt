@@ -9,7 +9,7 @@
   <span tal:condition="not: view/howmany" tal:omit-tag=''>
     <a class="wickedadd"
        tal:define="here_url here/absolute_url"
-       tal:attributes="href string:$here_url/@@add-page?Title=${view/chunk}&section=${view/section}">
+       tal:attributes="href view/add_link">
       <span tal:replace="view/chunk" >A CHUNK</span>+</a>
   </span>
 </tal:wicked_link>
