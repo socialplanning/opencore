@@ -2,13 +2,13 @@ from opencore.browser.base import BaseView, _
 from opencore.configuration.utils import get_config
 from opencore.member.interfaces import IHandleMemberWorkflow
 from opencore.utility.interfaces import IEmailSender
+from opencore.utility.interfaces import IProvideSiteConfig
 from topp.utils.uri import uri_same_source
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-
+from zope.component import getUtility
 
 def in_vacuum_whitelist(url):
-    # We need a valid url in order to perform further tests
-    raw_list = get_config('applications', 'opencore_vacuum_whitelist', default='').split(',')
+    raw_list = getUtility(IProvideSiteConfig).get("vacuum_whitelist")
     vacuum_whitelist = [x.strip() for x in raw_list if x.strip()]
     
     for safe_host in vacuum_whitelist:
