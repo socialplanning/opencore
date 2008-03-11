@@ -1,4 +1,4 @@
-from minimock import HTTPMock
+from minimock import HTTPMock, ConfigMock
 from minimock import Mock
 from opencore.testing import alsoProvides
 from opencore.utility.interfaces import IHTTPClient
@@ -19,5 +19,5 @@ def setup_mock_http():
     provideUtility(http, provides=IHTTPClient)
 
 def setup_mock_config():
-    config = mock_utility('config', IProvideSiteConfig, cls=Mock)
+    config = mock_utility('config', IProvideSiteConfig, cls=ConfigMock)
     provideUtility(config, provides=IProvideSiteConfig)
