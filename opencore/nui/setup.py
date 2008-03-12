@@ -6,6 +6,7 @@ from Products.OpenPlans.Extensions.setup import convertFunc
 from Products.OpenPlans.Extensions.setup import installNewsFolder
 from Products.OpenPlans.Extensions.setup import reinstallWorkflowPolicies 
 from Products.OpenPlans.Extensions.setup import securityTweaks
+from Products.OpenPlans.Extensions.setup import migrate_listen_container_to_feed
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
 from Products.OpenPlans.content.project import OpenProject
 from Products.PortalTransforms.libtransforms.utils import MissingBinary
@@ -506,6 +507,7 @@ nui_functions['Fix up project home pages'] = fixup_project_homepages
 nui_functions['Make project home pages relative'] = make_proj_homepages_relative
 nui_functions['Remove old bogus versions'] = remove_old_bogus_versions
 nui_functions['Make profile default member page'] = make_profile_default_member_page
+nui_functions['migrate_listen_container_to_feed'] = migrate_listen_container_to_feed
 
 def run_nui_setup(portal):
     pm = portal.portal_migration

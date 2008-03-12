@@ -2,7 +2,7 @@ from AccessControl.SecurityManagement import newSecurityManager
 from Testing.makerequest import makerequest
 from Products.Five.utilities.marker import erase as noLongerProvides
 from itertools import count
-from opencore.nui.setup import set_method_aliases
+from opencore.nui.setup import nui_functions, set_method_aliases
 from opencore.nui.wiki import utils
 from opencore.streetswiki.utils import add_wiki
 from pprint import pprint 
@@ -34,8 +34,6 @@ tmt = n.portal_teams
 # to make it clearer below
 portal = n
 
-from opencore.nui.setup import nui_functions
-
 # first, let's set up the default profile
 
 # here's where we get the id of the profile site configuration
@@ -64,6 +62,7 @@ woonerf_migrations = [
     'Make project home pages relative',
     'Make profile default member page',
     'annotate last modified author',
+    'migrate_listen_container_to_feed',
 ]
 
 for migration in woonerf_migrations:
