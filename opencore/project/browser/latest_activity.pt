@@ -51,7 +51,7 @@
         <!-- TODO: Location -->
       
         <!-- Team -->
-        <div class="oc-widget oc-widget-feed" tal:define="members view/team_members">
+        <div class="oc-widget oc-widget-feed">
 
 	  <div tal:replace="structure view/team_feed">
 	    Feed for project team members
