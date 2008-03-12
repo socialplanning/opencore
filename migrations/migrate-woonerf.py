@@ -62,7 +62,6 @@ woonerf_migrations = [
     'Initialize Project BTrees',
     'Fix up project home pages',
     'Make project home pages relative',
-    'Install Cabochon Client Utility',
     'Make profile default member page',
     'annotate last modified author',
 ]
