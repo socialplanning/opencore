@@ -16,7 +16,10 @@ member m4 is not on team::
     >>> team.join()
     True
     >>> self.login('m1')
-    >>> team.manage_delObjects(ids=['m3']) # <-- remove to re-add
+
+remove member 'm3' to re-add::
+
+    >>> team.manage_delObjects(ids=['m3']) 
     >>> team.addMember('m3')
     <OpenMembership at ...m3>
     >>> view = proj.restrictedTraverse('manage-team')
@@ -73,13 +76,13 @@ First we need to clear out the memoized cache:
     >>> len(view.active_mships)
     4
 
-Verify that the notifying email went out:
+Verify that the notifying email went out::
 
     >>> mailhost = view.get_tool('MailHost')
     >>> len(mailhost.messages)
     1
 
-Also verify that the transient messages were saved
+Also verify that the transient messages were saved::
 
     >>> from opencore.interfaces.message import ITransientMessage
     >>> tm = ITransientMessage(self.portal)
@@ -87,7 +90,7 @@ Also verify that the transient messages were saved
     [(0, 'You have been accepted to <a href="http://nohost/plone/projects/p3">Project Three</a>')]
 
 Next we recreate the request and test discarding; no add'l email
-should be sent:
+should be sent::
 
     >>> self.clearMemoCache()
     >>> team.manage_delObjects(ids=['m4'])
@@ -106,7 +109,7 @@ should be sent:
     1
 
 Try again, this time reject instead of discard, should generate an
-email notifier:
+email notifier::
 
     >>> self.clearMemoCache()
     >>> self.login('m4')
@@ -125,7 +128,7 @@ email notifier:
     >>> len(mailhost.messages)
     2
 
-And we should also have some rejection msgs for the user
+And we should also have some rejection msgs for the user::
 
     >>> msgs = list(tm.get_msgs('m4', view.msg_category))
     >>> msgs[0]
@@ -133,7 +136,7 @@ And we should also have some rejection msgs for the user
     >>> msgs[1]
     (1, 'You have been denied membership to <a href="http://nohost/plone/projects/p3">Project Three</a>')
 
-Verify that invitation reminders go out:
+Verify that invitation reminders go out::
 
     >>> self.clearMemoCache()
     >>> res = view.remind_invitations(['m3'])
@@ -142,7 +145,7 @@ Verify that invitation reminders go out:
     >>> get_status_messages(view)
     [u'Reminder sent: m3']
 
-Make sure we can remove invitations; email notifier should be sent:
+Make sure we can remove invitations; email notifier should be sent::
 
     >>> self.clearMemoCache()
     >>> res = view.remove_invitations(['m3'])
@@ -160,7 +163,7 @@ Make sure we get a helpful PSM if we didn't select anyone to remind::
 
 Test membership removal.  We set the HTTP_REFERER on the request
 because the octopus decorator requires (and returns) it.  Notifier
-should be sent:
+should be sent::
 
     >>> self.clearMemoCache()
     >>> self.clear_events()
@@ -341,7 +344,7 @@ with a member that is not on the team.  Notifier should go out:
     >>> len(mailhost.messages)
     8
 
-Now try to reinvite an inactive member:
+Now try to reinvite an inactive member::
 
     >>> self.clearMemoCache()
     >>> res = view.invite_member(['m2'])
@@ -350,7 +353,7 @@ Now try to reinvite an inactive member:
     >>> len(mailhost.messages)
     9
 
-And last we reinvite m4, who was rejected_by_admin:
+And last we reinvite m4, who was rejected_by_admin::
 
     >>> self.clearMemoCache()
     >>> res = view.invite_member(['m4'])
@@ -373,8 +376,19 @@ a couple of addresses that don't belong to any site members:
     >>> invites = 'doesnotexist@example.com, isnotthere@example.com\n'
     >>> inviteview.request.form.update({'task|email-invites': 'Send',
     ...                                 'email-invites': invites})
+
+let's test some of the helper methods.  'join_url' creates the url the
+invitee will use to join the project, and if not currently a user, the
+website.
+
+    >>> print inviteview.join_url('email@mail.com', 'KEY', 'PROJECT_ID')
+    http://nohost/plone/invite-join?project=PROJECT_ID&email=email%40mail.com&__k=KEY
+
     >>> inviteview.add_email_invites()
-    >>> len(view.pending_invitations) # <- shouldn't change
+
+# of pending invitations shouldn't change::
+
+    >>> len(view.pending_invitations) 
     3
     >>> len(view.pending_email_invites)
     2
@@ -401,7 +415,7 @@ in use by a site member who's not a project member:
     >>> len(mailhost.messages) # <- increase by one
     13
 
-Try the same one again, should have no result:
+Try the same one again, should have no result::
 
     >>> self.clearMemoCache()
     >>> inviteview.add_email_invites()
@@ -417,7 +431,7 @@ Try the same one again, should have no result:
      u'Members for whom invitation failed: m3',
      u'Members invited: m3']
 
-Verify we can send reminders to the email invitees:
+Verify we can send reminders to the email invitees::
 
     >>> self.clearMemoCache()
     >>> inviteview.request.form['email-invites'] = invites.replace(" ", "")
@@ -428,7 +442,7 @@ Verify we can send reminders to the email invitees:
     >>> len(mailhost.messages) # <- increase by two
     15
 
-And that they can be removed:
+And that they can be removed::
 
     >>> self.clearMemoCache()
     >>> addys = [addy.strip() for addy in invites.split(',')]
