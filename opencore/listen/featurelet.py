@@ -1,6 +1,7 @@
 import logging
 from opencore.featurelets.interfaces import IListenContainer
 from opencore.featurelets.interfaces import IListenFeatureletInstalled
+from opencore.feed.interfaces import ICanFeed
 from opencore.interfaces import IProject
 from opencore.interfaces.event import ListenFeatureletCreatedEvent
 from opencore.listen.mailinglist import OpenMailingList
@@ -52,5 +53,6 @@ class ListenFeaturelet(BaseFeaturelet):
         container = obj._getOb(self._info['content'][0]['id'])
         container.setLayout('mailing_lists')
         alsoProvides(container, IListenContainer)
+        alsoProvides(container, ICanFeed)
         notify(ListenFeatureletCreatedEvent(obj))
         return self._info

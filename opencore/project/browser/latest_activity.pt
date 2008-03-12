@@ -6,6 +6,7 @@
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
+
         <!-- project metadata -->
         <div class="oc-headingBlock oc-clearAfter">
           <img style="float: left; width: 80px; margin: 0 1em 0.5em 0; border: 1px solid #EEE;" tal:attributes="src view/logo_url" />
@@ -13,29 +14,42 @@
           <p class="oc-headingContext oc-discreetText">
             created 
             <span tal:define="date view/area/CreationDate"
-            tal:content="python:view.pretty_date(date)">
+		  tal:content="python:view.pretty_date(date)">
               September 26
             </span>,
             last updated
             <span tal:define="date view/area/ModificationDate"
-            tal:content="python:view.pretty_date(date)">
+		  tal:content="python:view.pretty_date(date)">
               yesterday
             </span>
             <a tal:condition="not: view/is_project_member"  href="request-membership" class="oc-actionLink">Join</a>
           </p>
-	<a class="oc-actionLink" tal:condition="view/team_manager" href="preferences">EDIT</a>
+	  <a class="oc-actionLink" tal:condition="view/team_manager" href="preferences">EDIT</a>
           <p tal:condition="view/project_info/description" tal:content="view/project_info/description" />
         </div>
-        
-        <!-- feeds -->
-          <div class="oc-columnGroup">
-            <div tal:repeat="feed view/feeds" >
-              <span tal:replace="structure python:feed" />
-            </div>
-            <span tal:replace="view/activity"/>
-        </div>
-      </div><!-- content-main -->     
 
+        <!-- feeds -->      
+	<div class="oc-columnGroup">
+
+	  <div tal:replace="structure view/blog_feed">
+	    Feed for the blog
+	  </div>
+	
+	  <div tal:replace="structure view/wiki_feed">
+	    Feed for wiki pages
+	  </div>
+	
+	  <div tal:replace="structure view/discussions_feed">
+	    Feed for mailing list discussions
+	  </div>
+
+	  <div tal:replace="structure view/team_feed">
+	    Feed for project team members
+	  </div>
+
+	</div>
+      </div><!-- content-main -->     	
+      
       <div id="oc-content-sidebar">  
         <!-- Location -->
         <!-- TODO -->

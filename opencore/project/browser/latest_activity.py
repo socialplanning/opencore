@@ -210,13 +210,38 @@ class LatestActivityView(ProjectContentsView):
             self.logo_url = self.defaultProjLogoThumbURL
         
     def snippet(self, feed):
+        # XXX obselete
         snip = self.context.unrestrictedTraverse('latest-snippet')
         snip.feedtitle = feed.title
         snip.link = feed.link
         snip.items = feed.getfeeds()
         return snip()
 
+    ### methods to obtain feed snippets
+    ### TODO: use viewlets
+
+    def feed(self, path):
+        snip = self.context.unrestrictedTraverse(path)
+        return snip()        
+
+    def blog_feed(self):
+        if self.has_blog:
+            return self.feed('blogfeed')
+        return ''
+
+    def wiki_feed(self):
+        return self.feed('blank-slate-feed')
+
+    def discussions_feed(self):
+        if self.has_mailing_lists:
+            return self.feed('lists/blank-slate-feed')
+        return ''
+
+    def team_feed(self):
+        return self.feed('teamfeed')
+
     def feeds(self):
+        # XXX obselete
         feeds = []
         if self.has_blog:
 

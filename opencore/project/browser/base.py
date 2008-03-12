@@ -14,6 +14,8 @@ class ProjectBaseView(BaseView):
 
     proj_macros = ZopeTwoPageTemplateFile('macros.pt')
 
+    # XXX to move to project
+
     @memoizedproperty
     def has_mailing_lists(self):
         return self._has_featurelet('listen')
