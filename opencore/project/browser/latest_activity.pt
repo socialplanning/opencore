@@ -43,43 +43,20 @@
 	    Feed for mailing list discussions
 	  </div>
 
-	  <div tal:replace="structure view/team_feed">
-	    Feed for project team members
-	  </div>
-
 	</div>
       </div><!-- content-main -->     	
       
       <div id="oc-content-sidebar">  
-        <!-- Location -->
-        <!-- TODO -->
+
+        <!-- TODO: Location -->
       
         <!-- Team -->
         <div class="oc-widget oc-widget-feed" tal:define="members view/team_members">
-          <div class="oc-headingBlock">
-            <h2>
-              <a href="team">Team</a>
-            </h2>
-            <p class="oc-headingContext">
-              <span tal:replace="python:len(members)">12</span> 
-              <span tal:condition="python:len(members) >  1">members</span>
-              <span tal:condition="python:len(members) == 1">member</span>
-            </p>
-          </div>
-          <ul class="oc-feed-cluster">
-            <li class="oc-feed-item" tal:repeat="member python: view.team_members()[:12]">
-	    <div tal:define="member_url string:${member/url}/profile">
-	      <p>
-              <a tal:attributes="href member_url">
-                <img tal:attributes="src member/portrait_thumb_url; alt member/id; title member/id"/>
-              </a>
-	      </p>
-	      <p>
-	      	 <a tal:attributes="href member_url" tal:content="member/id" />
-	      </p>	      
-	      </div>	      
-            </li>
-          </ul>
+
+	  <div tal:replace="structure view/team_feed">
+	    Feed for project team members
+	  </div>
+
         </div>
         
         <!-- display project security settings -->
