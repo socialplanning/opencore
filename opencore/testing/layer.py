@@ -17,6 +17,10 @@ from zope.app.component.hooks import setSite, setHooks
 import random
 import transaction as txn
 
+# i can't think of a better way to guarantee that the opencore tests
+# will never use a live cabochonutility. ideally oc-cab would take
+# care of mocking its utility for all tests, but i don't know how
+# we could do that.
 try:
     from opencore.cabochon.testing.utility import setup_cabochon_mock
 except ImportError:
