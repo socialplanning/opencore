@@ -6,9 +6,16 @@ v0.9.x and below
 
 2008-03-06  Jeff Hammel  <jhammel@openplans.org>
 
-	    * add infrastructure to adapt anything to a feed of
-	      configurable format.  in oc-feed, which opencore
-	      now depends on.  Not user facing at this point.
+    * add infrastructure to adapt anything to a feed of
+      configurable format.  in oc-feed, which opencore
+      now depends on.  Not user facing at this point.
+
+  Addendum:  2008-03-12  Josh Bronson  <jab@openplans.org>
+
+      Requires running the Products.OpenPlans.Extensions
+      .setup.migrate_listen_container_to_feed migration 
+      on existing data.
+
 
 2008-03-06  Paul Winkler  <pw@openplans.org>
 
