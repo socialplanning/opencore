@@ -5,9 +5,14 @@
 First we set a project up w/ a membership invitation and a membership
 request so we've got some more useful data.
 
-    >>> proj = self.portal.projects.p3 # <-- m1 is ProjectAdmin
+member 'm1' is ProjectAdmin of project 'p3'::
+
+    >>> proj = self.portal.projects.p3 
     >>> team = proj.getTeams()[0]
-    >>> self.login('m4') # <-- m4 not on team
+
+member m4 is not on team::
+
+    >>> self.login('m4')
     >>> team.join()
     True
     >>> self.login('m1')
