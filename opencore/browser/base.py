@@ -589,7 +589,13 @@ class BaseView(BrowserView):
         if id is None:
             id = self.member_info.get('id')
         
-        team = self.piv.project.getTeams()[0]
+        # if somebody calls this function in a template without first checking
+        # if were in a project, then we get a failure if we don't check if
+        # the project is None
+        proj = self.piv.project
+        if proj is None:
+            return False
+        team = proj.getTeams()[0]
         filter_states = tuple(team.getActiveStates()) + ('pending',)
         return id in team.getMemberIdsByStates(filter_states)
 
