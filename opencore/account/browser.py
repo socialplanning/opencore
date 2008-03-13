@@ -6,6 +6,7 @@ from opencore.utility.interfaces import IProvideSiteConfig
 from topp.utils.uri import uri_same_source
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from zope.component import getUtility
+import re
 
 def in_vacuum_whitelist(url):
     raw_list = getUtility(IProvideSiteConfig).get("vacuum_whitelist")
@@ -15,6 +16,11 @@ def in_vacuum_whitelist(url):
         if uri_same_source(url, safe_host):
             return True
     return False
+
+def js_string(data):
+    """Takes a repr string (which is an escaped version of a python string), and removes the characters
+    that don't map to a javascript string."""
+    return re.sub(r"^u","",re.sub(r"\\U[0-9A-Fa-f]{8}",r"\uFFFD",repr(data)))
 
 class AccountView(BaseView):
     """
@@ -54,9 +60,10 @@ class AccountView(BaseView):
         info = self.member_info
         referrer = self.request.get('HTTP_REFERER')
         if in_vacuum_whitelist(referrer) and info:
-            # In order for the HTML to pass as a javascript multi-line string, we have to prefix each
-            # newline with a backslash character
-            info['topnav'] = self.context.restrictedTraverse('topnav-auth-user-menu')().replace('\n','\\\n')
+            # In order for the HTML to pass as javascript, we have to properly escape the string.
+            # The same is true for names
+            info['topnav'] = js_string(self.context.restrictedTraverse('topnav-auth-user-menu')())
+            info['fullname'] = js_string(info['fullname'])
             return """
             OpenCore.prepareform({
             loggedin: true,
@@ -66,7 +73,7 @@ class AccountView(BaseView):
             memberurl: '%(url)s',
             website: '%(website)s',
             email: '%(email)s',
-            topnav: '%(topnav)s'
+            topnav: %(topnav)s
             });
             """ % info
         else:
