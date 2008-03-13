@@ -356,20 +356,26 @@ class OpenMember(FolderishMember):
                                   default='You did not enter a login name.')
         elif self.getId() and id != self.getId():
             # we only validate if we're changing the id
-            allowed = True
             mbtool = getToolByName(self, 'membrane_tool')
-            if len(mbtool.unrestrictedSearchResults(getUserName=id)) > 0 or \
-                   not ALLOWED_MEMBER_ID_PATTERN.match(id):
-                allowed = False
-            if allowed:
+            msg = None
+            if len(mbtool.unrestrictedSearchResults(getUserName=id)) > 0L:
+                msg = "The login name you selected is already " + \
+                    "in use. Please choose another." 
+            elif not ALLOWED_MEMBER_ID_PATTERN.match(id):
+                msg = "The login name you selected is not valid. " + \
+                    "Usernames must start with a letter and consist " + \
+                    "only of letters, numbers, and underscores.  Please " +\
+                    "choose another."
+            else:
                 for prefix in PROHIBITED_MEMBER_PREFIXES:
                     if id.lower().startswith(prefix):
-                        allowed = False
-            if allowed and self._id_exists_remotely(id):
-                allowed = False
-            if not allowed:
+                        msg = ("The login name you selected is not valid " + 
+                            "because it starts with %s. Please choose " + 
+                            "another.") % prefix
+            if not msg and self._id_exists_remotely(id):
                 msg = "The login name you selected is already " + \
-                      "in use or is not valid. Please choose another."
+                    "in use. Please choose another."
+            if msg:
                 return self.translate(msg, default=msg)
 
     security.declarePrivate('_email_exists_remotely')
