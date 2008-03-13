@@ -95,13 +95,14 @@ print 'setting mailing_list_fqdn to "%s"' % mailing_list_fqdn
 n.portal_properties.opencore_properties.mailing_list_fqdn = mailing_list_fqdn
 print 'done'
 
-print "Adding streetswiki folder"
-add_wiki(portal, 'streetswiki', id_='streetswiki')
-print "streetswiki folder added"
-print
-print "Running set_method_aliases widget"
-set_method_aliases(portal)
-print "done"
+## StreetsWiki deferred from Woonerf release
+#print "Adding streetswiki folder"
+#add_wiki(portal, 'streetswiki', id_='streetswiki')
+#print "streetswiki folder added"
+#print
+#print "Running set_method_aliases widget"
+#set_method_aliases(portal)
+#print "done"
 
 
 print "Installing portal_geocoder"
