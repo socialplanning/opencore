@@ -14,7 +14,11 @@ except IndexError:
 assert hasattr(app, portal), NameError("No portal %s exists" %portal)
 portal = getattr(app, portal)
 
+print "updating membrane catalog"
 portal.portal_setup.manage_updateToolProperties("profile-opencore.configuration:default", app.REQUEST.RESPONSE)
 portal.portal_setup.runImportStep('membranetool')
-portal.portal_setup.runImportStep('catalog')
+portal.portal_setup.runImportStep('membranetool_again')
+
+print "reindexing membranetool"
+portal.membrane_tool.refreshCatalog()
 transaction.commit()
