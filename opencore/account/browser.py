@@ -68,7 +68,7 @@ class AccountView(BaseView):
             OpenCore.prepareform({
             loggedin: true,
             id: '%(id)s',
-            name: '%(fullname)s',
+            name: %(fullname)s,
             profileurl: '%(url)s/profile',
             memberurl: '%(url)s',
             website: '%(website)s',
