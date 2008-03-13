@@ -1,0 +1,1 @@
+<tal:nav-menu repeat="item options/viewlets" content="structure item/render" />
