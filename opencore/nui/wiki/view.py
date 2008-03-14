@@ -315,7 +315,7 @@ class WikiEdit(WikiBase, OctopoLite):
         if rawtext:
             return rawtext
         else:
-            return "Please enter some text for your page"
+            return "<p>Please enter some text for your page</p>"
 
 
 class AttachmentView(BaseView):
