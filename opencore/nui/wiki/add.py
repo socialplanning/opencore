@@ -4,7 +4,7 @@ from Products.wicked.lib.normalize import titleToNormalizedId as normalize
 from Products.wicked.utils import getFilter
 from opencore.browser.base import BaseView
 from opencore.browser.base import _
-from zExceptions import Redirect
+from zExceptions import Redirect, BadRequest
 from zope.component import ComponentLookupError
 import itertools
 
@@ -48,8 +48,17 @@ class NuiBaseAdd(WickedAdd, BaseView):
         assert title, 'Must have a title to create content' 
         newcontentid=self.sanitize(title)
         container = self.get_container()
-        container.invokeFactory(self.type_name, id=newcontentid,
+        try:
+            container.invokeFactory(self.type_name, id=newcontentid,
                              title=title)
+        except BadRequest, e:
+            self.add_status_message(_(u'psm_page_create-failed',
+                                      u'Creating "${pagetitle}" has failed because ${reason}',
+                                      mapping={'pagetitle': title, 'reason' : str(e)})
+                                    )
+            referrer = self.context.absolute_url()
+            return self.redirect(referrer)
+
         newcontent = getattr(self.context, newcontentid)
         self.do_wicked(newcontent, title, section)
         self.add_status_message(_(u'psm_page_created',
