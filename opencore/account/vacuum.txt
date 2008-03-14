@@ -51,18 +51,5 @@ hosts to redirect to::
     memberurl: 'http://nohost/plone/people/test_user_1_',
     website: '',
     email: 'test_emailer_1_@example.com',
-    topnav: '\
-    <ul id="oc-topnav-usermenu" class="oc-dropdown-list">\
-    \
-    \
-    \
-    <li>\
-    <a href="http://nohost/plone/login">Sign in</a>\
-    </li>\
-    <li>\
-    <a href="http://nohost/plone/join">Create account</a>\
-    </li>\
-    \
-    </ul>\
-    '
+    topnav: '...http://nohost/plone/login...http://nohost/plone/join...'
     });
