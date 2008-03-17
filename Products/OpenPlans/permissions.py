@@ -7,11 +7,16 @@ from Products.listen.permissions import AddMailingList, SubscribeSelf, \
 import Products.Archetypes.public as atapi
 import config
 
+# XXX These permissions are partially redundant with definitions in
+# opencore/configuration/permissions.zcml ...  D.R.Y.
+
 CopyOrMove = "Copy or Move"
 
 MakeContentVisible = "OpenPlans: Make content visible"
 ManageWorkflowPolicy = "OpenPlans: Manage workflow policy"
 ViewEmails = 'OpenPlans: View emails'
+
+AddOpenPage = 'OpenPlans: Add OpenPage ' # XXX add defaults for this below.
 
 DEFAULT_PERMISSIONS_DATA = (
     (['Manager', 'Owner', 'ProjectAdmin', 'ProjectMember', 'Reviewer'],

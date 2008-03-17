@@ -33,7 +33,7 @@
                 <dd class="oc-discreetText" tal:condition="not:loc" tal:content="string:N/A" />
               </tal:location>
 
-              <dt><tal:label i18n:translate="profile_projects">Projects</tal:label>
+              <dt><tal:label tal:content="python:view.project_noun.title() + 's'">Projects</tal:label>
                 <a tal:condition="view/viewingself" class="oc-actionLink" 
                    href="account">Manage</a>
               </dt>

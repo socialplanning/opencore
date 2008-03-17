@@ -1,0 +1,55 @@
+Javascript functionality for Vacuum
+===================================
+
+
+Logged out user:
+
+    >>> self.logout()
+    >>> jsview = portal.restrictedTraverse('@@user.js')
+    >>> output = jsview()
+    >>> print normalize_whitespace(output)
+    OpenCore.prepareform({
+    loggedin: false
+    });
+
+
+
+Logged in user:
+
+    We want the member to have an email address::
+
+    >>> member = portal.membrane_tool(getUserName='test_user_1_')[0].getObject()
+    >>> member.setEmail('test_emailer_1_@example.com')
+
+    I have no idea why this login view nonsense is necessary for the
+    jsview test to work; I cargo-culted it from README.txt where these
+    tests used to live. You'd think that self.login() would be enough,
+    but it's evidently not.  - slinkp
+
+    >>> view = portal.restrictedTraverse('@@login')
+    >>> output = view()
+
+Inject a mock configuration option for the vacuum_whitelist of allowed
+hosts to redirect to::
+    >>> from opencore.utility.interfaces import IProvideSiteConfig
+    >>> from zope.component import getUtility
+    >>> vacuum_whitelist = ["http://vacuum.example.com"]
+    >>> getUtility(IProvideSiteConfig)._set(vacuum_whitelist)
+
+    >>> jsview.request['HTTP_REFERER'] = vacuum_whitelist[0]
+    >>> self.login()
+
+    Finally, test the view::
+
+    >>> output = jsview()
+    >>> print normalize_whitespace(output)
+    OpenCore.prepareform({
+    loggedin: true,
+    id: 'test_user_1_',
+    name: '',
+    profileurl: 'http://nohost/plone/people/test_user_1_/profile',
+    memberurl: 'http://nohost/plone/people/test_user_1_',
+    website: '',
+    email: 'test_emailer_1_@example.com',
+    topnav: '...http://nohost/plone/login...http://nohost/plone/join...'
+    });

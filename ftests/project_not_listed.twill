@@ -6,7 +6,7 @@
 #
 
 go ${base_url}
-follow "Projects" 
+follow "${projtxt}s" 
 notfind $projtitle
 
 go ${base_url}/projects/${projname}

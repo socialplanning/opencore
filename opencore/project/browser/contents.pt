@@ -7,9 +7,10 @@
 	<body>
 	<div metal:fill-slot="content">
 		<div class="oc-headingBlock">
-		<h1 i18n:translate="contents_heading">Project contents</h1>
+		<h1 i18n:translate="contents_heading"><span i18n:name="project_noun" tal:replace="python:view.project_noun.title()">Project</span> contents</h1>
 		<p i18n:translate="contents_desc" 
-			 class="oc-headingContext">At-a-glance view of all documents within this project.</p>
+			 class="oc-headingContext">At-a-glance view of all documents within this
+		<span i18n:name="project_noun" tal:replace="view/project_noun">project</span>.</p>
 		</div>
 		
 		<div id="oc-content-main" class="oc-content-main-fullWidth">
@@ -44,8 +45,8 @@
 						<metal:thead define-macro="item_thead_snippet">
 							<tal:setvar define="item_type item_type | options/item_type;
 												item_date_author_header item_date_author_header | options/item_date_author_header;
-												sort_on options/sort_on | string:title;
-												sort_order options/sort_order | string:descending;
+												sort_on sort_on | options/sort_on | string:title;
+												sort_order sort_order | options/sort_order | string:descending;
 												item_collection item_collection | options/item_collection;
 												">
 							<tal:if condition="item_collection/editable">
@@ -135,10 +136,9 @@
 										tal:attributes="id item/id"
 										tal:define="item item | options/item;
 													item_type item_type | options/item_type;
-													editable python: not item.get('uneditable');
-                                                                                                        editable options/editable | editable;
-													deletable not:item/undeletable | nothing">
-										<td tal:condition="python:editable or item_collection.editable">
+													item_editable  editable | options/editable | not:item/readonly | not:default;
+													deletable not:item/nodelete | nothing">
+										<td tal:condition="item_collection/editable">
 											<input tal:condition="not:deletable" type="checkbox" class="oc-js-checkAll-never" name="deletes:list"
 												 tal:attributes="value item/id" 
 												 disabled="True" />
@@ -149,7 +149,7 @@
 										<div class="oc-js-liveEdit-value">
 											<a tal:attributes="href item/url" tal:content="item/title" />
 										</div>
-										<div tal:condition="editable"
+										<div tal:condition="item_editable"
 											 class="oc-js-liveEdit-editForm oc-liveEdit-editForm">
 											<input type="text" 
 													 tal:attributes="name string:${item/id}_title; value item/title" />
@@ -167,8 +167,8 @@
 										</tal:setvar>
 										</td>
 
-										<td>
-										<ul class="oc-actions oc-dataTable-row-actions" tal:condition="editable | item_collection/editable">
+										<td tal:condition="item_collection/editable">
+										<ul class="oc-actions oc-dataTable-row-actions" tal:condition="item_editable">
 											<li>
 
 											<a href="#" class="oc-js-liveEdit_showForm oc-actionLink">Rename</a></li>
@@ -188,8 +188,10 @@
 
 							<tal:if condition="not:item_collection/editable">
 								<tbody tal:attributes="id string:oc-${item_type}-tbody" >
+                                <!-- The view/template default below is necessary for rendering the template
+                                      directly from code. -->
 								<tal:for repeat="item item_collection">
-									<tal:macro metal:use-macro="template/macros/item_row" />
+									<tal:macro metal:use-macro="template/macros/item_row | view/template/macros/item_row" />
 								</tal:for>
 								</tbody>	
 							</tal:if>

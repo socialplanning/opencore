@@ -10,7 +10,7 @@
 
 <div class="oc-headingBlock">
   <h1 i18n:translate="account_heading">Your account</h1>
-  <p i18n:translate="account_description" class="oc-headingContext">View and manage your project memberships and account settings.</p>
+  <p i18n:translate="account_description" class="oc-headingContext">View and manage your memberships and account settings.</p>
 </div>
   
 <div id="oc-content-main">
@@ -37,11 +37,11 @@
         <form name="invitation-form" action="account">
              <tal:rep repeat="project invitations">
              <tal:setvar 
-                         define=" proj_url string:${view/portal_url}/projects/${project/proj_id};
-                                       logo project/logo;
-                                       proj_id project/proj_id;
-                                       closed python:project['proj_policy']=='closed_policy';
-                                       logo_url python:logo and ('%s/logo_thumb' % proj_url) or view.defaultProjLogoURL">
+                         define="logo project/logo;
+                                 proj_id project/proj_id;
+                                 proj_url python:view.project_url(proj_id);
+                                 closed python:project['proj_policy']=='closed_policy';
+                                 logo_url python:logo and ('%s/logo_thumb' % proj_url) or view.defaultProjLogoURL">
                  <li class="oc-invite oc-boxy oc-clearAfter" tal:attributes="id string:${proj_id}_invitation">
                    <a tal:attributes="href proj_url"
                       tal:condition="not: closed" >
@@ -53,7 +53,7 @@
                   <h3 class="oc-feed-item-title">
                     <span i18n:translate="account_invite">
                       <a i18n:name="project" tal:condition="not: closed" tal:attributes="href proj_url" tal:content="project/title">Project Title</a>
-                      <span i18n:name="project" tal:condition="closed" tal:content="string: ${project/title} (closed project)" />
+                      <span i18n:name="project" tal:condition="closed" tal:content="string: ${project/title} (closed ${view/project_noun})" />
                       has invited you to become a member
                     </span>
                   </h3>
@@ -174,10 +174,11 @@
   </div>
   
   <div i18n:translate="account_listed_explanation" class="oc-plainList oc-boxy">
-    <p><strong>What does it mean to be &ldquo;listed&rdquo; on a project?</strong></p>
-    <p>For your privacy, you can choose whether or not to be publicly listed as a member of a project.</p>
-    <p>If you choose not to be listed then only fellow team members can see your affiliation. Those who are not members of the project will not see you listed in the team roster, nor will they see the project listed anywhere on your profile.</p>
-    <p>However, any updates you make on a publicly viewable project could still display your username and a link to your profile.</p>
+    <p><strong>What does it mean to be &ldquo;listed&rdquo; on a
+        <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>?</strong></p>
+    <p>For your privacy, you can choose whether or not to be publicly listed as a member of a <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>.</p>
+    <p>If you choose not to be listed then only fellow team members can see your affiliation. Those who are not members of the team will not see you listed in the team roster, nor will they see the <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> listed anywhere on your profile.</p>
+    <p>However, any updates you make on a publicly viewable <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> could still display your username and a link to your profile.</p>
   </div>
   
 </div><!-- end #oc-content-sidebar -->

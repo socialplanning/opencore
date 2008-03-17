@@ -30,4 +30,9 @@
      title="TeamSpace: Manage team memberships"
      />
 
+  <permission
+     id="openplans.AddOpenPage"
+     title="OpenPlans: Add OpenPage"
+     />
+
 </configure>

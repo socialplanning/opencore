@@ -435,3 +435,25 @@ And that they can be removed:
     0
     >>> len(mailhost.messages) # <- increase by two
     17
+
+Make sure that email invites to existing project members are reported correctly:
+
+    >>> team.removeMember('m4')
+    >>> self.login('m4') # <-- m4 not on team
+    >>> team.join()
+    True
+    >>> self.login('m1')
+    >>> res = view.approve_requests(['m4'])
+    >>> 'm4' in mship.getActiveMemberIds()
+    True
+    >>> email = view.membertool.getMemberById('m4').getEmail()
+    >>> inviteview.request.form.update({'task|email-invites': 'Send',
+    ...                                 'email-invites': email})
+    >>> len(mailhost.messages)
+    18
+    >>> self.clearMemoCache()
+    >>> inviteview.add_email_invites()
+    >>> len(mailhost.messages)
+    18
+    >>> pprint(get_status_messages(view))
+    [u'You have added m4.', u'm4 is already a member of this project.']

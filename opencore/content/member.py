@@ -30,6 +30,9 @@ from opencore.configuration import PROHIBITED_MEMBER_PREFIXES
 
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utils import get_opencore_property
+from opencore.project.utils import project_noun
+
+regex = re.compile(EMAIL_RE)
 
 member_schema = id_schema + contact_schema + plone_schema + \
                 security_schema + login_info_schema
@@ -45,7 +48,8 @@ content_schema['location'].index = \
 content_schema['title'].write_permission = 'Manage users'
 content_schema['title'].widget.visible= {'view': 'invisible'}
 
-content_schema['wysiwyg_editor'].default = 'Kupu'
+content_schema['wysiwyg_editor'].default = 'Kupu'  # this looks suspiciously crufty
+
 content_schema['wysiwyg_editor'].write_permission = 'Manage site'
 content_schema['wysiwyg_editor'].widget.visible = {'edit':'invisible',
                                                    'view':'invisible'}
@@ -181,9 +185,9 @@ content_schema += atapi.Schema((
                         read_permission=View,
                         expression='context.getProjectListing()',
                         widget=atapi.ComputedWidget(
-                            label="Projects",
+                            label= project_noun().title() + "s",
                             label_msgid='label_projects',
-                            description="Projects this user is a member of.",
+                            description="%ss this user is a member of." % project_noun().title(),
                             description_msgid='help_projects',
                             macro='member_projects',
                             ),
@@ -366,23 +370,29 @@ class OpenMember(FolderishMember):
                                   default='You did not enter a login name.')
         elif self.getId() and id != self.getId():
             # we only validate if we're changing the id
-            allowed = True
             mbtool = getToolByName(self, 'membrane_tool')
-            if len(mbtool.unrestrictedSearchResults(getUserName=id)) > 0 or \
-                   not ALLOWED_MEMBER_ID_PATTERN.match(id):
-                allowed = False
-            if allowed:
+            msg = None
+            if len(mbtool.unrestrictedSearchResults(getUserName=id)) > 0L:
+                msg = "The login name you selected is already " + \
+                    "in use. Please choose another." 
+            elif not ALLOWED_MEMBER_ID_PATTERN.match(id):
+                msg = "The login name you selected is not valid. " + \
+                    "Usernames must start with a letter and consist " + \
+                    "only of letters, numbers, and underscores.  Please " +\
+                    "choose another."
+            else:
                 for prefix in PROHIBITED_MEMBER_PREFIXES:
                     if id.lower().startswith(prefix):
-                        allowed = False
-            if allowed and self._id_exists_remotely(id):
-                allowed = False
-            if not allowed:
+                        msg = ("The login name you selected is not valid " + 
+                            "because it starts with %s. Please choose " + 
+                            "another.") % prefix
+            if not msg and self._id_exists_remotely(id):
                 msg = "The login name you selected is already " + \
-                      "in use or is not valid. Please choose another."
+                    "in use. Please choose another."
+            if msg:
                 return self.translate(msg, default=msg)
 
-    security.declarePrivate('_id_exists_remotely')
+    security.declarePrivate('_email_exists_remotely')
     def _email_exists_remotely(self, email):
         """
         Checks all of the servers in the remote_auth_sites property to
@@ -407,7 +417,6 @@ class OpenMember(FolderishMember):
         if form.has_key('email') and not form['email']:
             return self.translate('Input is required but no input given.',
                                   default='You did not enter an email address.')
-        regex = re.compile(EMAIL_RE)
         if regex.match(email) is None:
             msg = "That email address is invalid."
             return self.translate(msg, default=msg)

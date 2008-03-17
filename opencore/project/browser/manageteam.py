@@ -39,7 +39,6 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
     View class for the team management screens.
     """
     team_manage = ZopeTwoPageTemplateFile('team-manage.pt')
-    team_manage_blank = ZopeTwoPageTemplateFile('team-manage-blank.pt')
     team_manage_macros = ZopeTwoPageTemplateFile('team-manage-macros.pt')
 
     mship_type = OpenMembership.portal_type
@@ -59,18 +58,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
     @property
     def template(self):
         """
-        Different template for brand new teams, before any members are added.
-
-        XXX Deferred until immediately after the initial NUI launch.
+        Team management
         """
-        #mem_ids = self.team.getMemberIds()
-        #if getattr(self, '_norender', None):
-        #    return
-        #if len(mem_ids) == 1:
-        #    # the one team member is most likely the project creator
-        #    return self.team_manage_blank
-        #return self.team_manage
-
         return self.team_manage
 
     def id_is_loggedin(self, item):
@@ -226,8 +215,10 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
             #XXX sending the email should go in an event subscriber
             try:
                 _email_sender(self).sendEmail(mem_id, msg_id='request_approved',
-                                            project_title=self.context.title,
-                                            project_url=self.context.absolute_url())
+                                              project_title=self.context.title,
+                                              project_url=self.context.absolute_url(),
+                                              project_noun=self.project_noun,
+                                              )
             except MailHostError: 
                 pass
             self._add_transient_msg_for(mem_id, 'You have been accepted to')
@@ -609,10 +600,12 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
         state).  The member id is specified in the request form, as
         the value for the 'invite-member' button.
         """
+
         mem_id = targets[0] # should only be one
         if not self._doInviteMember(mem_id):
-            self.add_status_message(u'You cannot reinvite %s to join this project yet.' % mem_id)
-            raise Redirect('%s/manage-team' % self.context.absolute_url())
+            # XXX when does this happen?
+            self.add_status_message(u'You cannot reinvite %s to join this %s yet.' % (mem_id, self.project_noun))
+            self.redirect('%s/manage-team' % self.context.absolute_url())
 
         acct_url = self._getAccountURLForMember(mem_id)
         logged_in_mem = self.loggedinmember
@@ -633,9 +626,10 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
                 'portal_name': self.portal.title,
                 'portal_url': self.portal.absolute_url(),
                 }
+
         _email_sender(self).sendEmail(mem_id, msg_id='invite_member',
                                     **msg_subs)
-        self.add_status_message(u'You invited %s to join this project.' % mem_id)
+        self.add_status_message(u'You invited %s to join this %s' % (mem_id, self.project_noun))
 
     @view.memoizedproperty
     def invite_util(self):
@@ -652,11 +646,8 @@ class InviteView(ManageTeamView):
     ##################
     #### EMAIL INVITATION BUTTON HANDLERS
     ##################
-    invite_with_message = ZopeTwoPageTemplateFile('invite-with-message.pt')
 
-    @property
-    def template(self):
-        return self.invite_with_message
+    template = ZopeTwoPageTemplateFile('invite-with-message.pt')
 
     ##################
     #### EMAIL INVITES BUTTON HANDLER
@@ -684,6 +675,7 @@ class InviteView(ManageTeamView):
                         user_message=self.request.get('message', ''), 
                         subject=self.request.get('subject', ''),
                         project_title=self.context.Title(),
+                        project_noun=self.project_noun,
                         site_contact_url=self.portal.absolute_url() + "/contact-site-admin",
                         )
 
@@ -703,13 +695,12 @@ class InviteView(ManageTeamView):
         msg_subs = dict(user_message='',
                         join_url=self.join_url('', ''),
                         portal_title=self.portal_title(),
+                        project_noun=self.project_noun,
                         site_contact_url=self.portal.absolute_url() + "/contact-site-admin",
                         )
         msg = (self.translate(_(u'email_invite_static_body', mapping=msg_subs)))
         msg = msg.replace('\n\n', '<br>')
         msg = msg.replace('\n', '<br>')
-        if msg.startswith('<br>'):
-            msg = msg[4:]
             
         return msg
 
@@ -732,6 +723,7 @@ class InviteView(ManageTeamView):
                             user_message=self.request.get('message', ''), 
                             subject=self.request.get('subject', ''),
                             project_title=self.context.Title(),
+                            project_noun=self.project_noun,
                             site_contact_url=self.portal.absolute_url() + "/contact-site-admin",
                             )
         
@@ -769,6 +761,13 @@ class InviteView(ManageTeamView):
         if psm['email_invites']:
             self.add_status_message(u"Email invitations: %s"
                                         % ', '.join(psm['email_invites']))
+        if psm['mem_already_member']:
+            if len(psm['mem_already_member']) > 1:
+                self.add_status_message(u"%s are already members of this project."
+                                        % ', '.join(psm['mem_already_member']))
+            else:
+                self.add_status_message(u"%s is already a member of this project."
+                                        % ', '.join(psm['mem_already_member']))
         self._norender = True
         self.redirect('manage-team')
         
@@ -800,6 +799,7 @@ class InviteView(ManageTeamView):
         uSR = mbtool.unrestrictedSearchResults
         mem_invites = []
         mem_failures = []
+        mem_already_member = []
         email_invites = []
         already_invited = []
 
@@ -849,10 +849,11 @@ class InviteView(ManageTeamView):
                                                     **msg_subs)
                     mem_invites.append(mem_id)
                 else:
-                    # invitation attempt failed; fail silently if
-                    # member is already active on the team (see #2117)
+                    # invitation attempt failed
                     if mem_id not in self.context.projectMemberIds():
                         mem_failures.append(mem_id)
+                    else:
+                        mem_already_member.append(mem_id)
             else:
                 # not a member
                 if addy in self.invite_util.getInvitesByProject(proj_id):
@@ -864,6 +865,7 @@ class InviteView(ManageTeamView):
         return dict(mem_invites=mem_invites,
                     mem_failures=mem_failures,
                     email_invites=email_invites,
-                    already_invited=already_invited)
+                    already_invited=already_invited,
+                    mem_already_member=mem_already_member)
 
 

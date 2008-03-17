@@ -159,8 +159,8 @@ class WikiVersionCompare(WikiVersionView):
         self.new_version_id, self.new_version = self.versions['new']
         old_page = self.get_page(self.old_version_id)
         new_page = self.get_page(self.new_version_id)
-        self.html_diff = htmldiff2.htmldiff(old_page.EditableBody(), 
-                                            new_page.EditableBody())
+        self.html_diff = htmldiff2.htmldiff(unicode(old_page.EditableBody(), 'utf-8'), 
+                                            unicode(new_page.EditableBody(), 'utf-8'))
 
         self.old_next_enabled = self.old_version_id + 1 < self.new_version_id
         self.old_prev_enabled = self.old_version_id > 0

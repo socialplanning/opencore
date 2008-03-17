@@ -6,16 +6,25 @@ from Products.PloneTestCase.setup import setupPloneSite
 from Testing import ZopeTestCase
 from opencore.project.handler import add_redirection_hooks 
 from opencore.testing.utility import setup_mock_http
-from opencore.testing.utility import setup_cabochon_mock
+from opencore.testing.utility import setup_mock_config
 from opencore.utils import set_opencore_properties
 from topp.utils import introspection
 from topp.utils.testing import layer_factory
 from utils import get_portal, get_portal_as_owner, create_test_content
 from utils import zinstall_products
+from utils import monkey_proj_noun
 from zope.app.component.hooks import setSite, setHooks
 import random
 import transaction as txn
 
+# i can't think of a better way to guarantee that the opencore tests
+# will never use a live cabochonutility. ideally oc-cab would take
+# care of mocking its utility for all tests, but i don't know how
+# we could do that.
+try:
+    from opencore.cabochon.testing.utility import setup_cabochon_mock
+except ImportError:
+    setup_cabochon_mock = lambda *args: None
 
 class MailHostMock(object):
     """
@@ -89,6 +98,7 @@ class OpenPlansLayer(SiteSetupLayer):
 
         portal.browser_id_manager = BrowserIdManagerMock()
         setup_cabochon_mock(portal)
+        setup_mock_config()
         txn.commit()
 
     @classmethod
@@ -104,6 +114,11 @@ class OpencoreContent(OpenPlansLayer):
     @classmethod
     def setUp(cls):
         portal = get_portal_as_owner()
+        # Many things depend on the word for project being 'project'.
+        # Here's a hack to ensure that works at content creation time,
+        # regardless of your config.
+        # It's OK for other tests to override this...
+        monkey_proj_noun('project')
         create_test_content(portal)
         add_redirection_hooks(portal.projects)
         txn.commit()

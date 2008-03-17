@@ -24,16 +24,17 @@ class HeaderHijackable(BaseView):
         BaseView.__init__(self, context, request)
 
     def _get_context(self):
-        return self.context_from_headers or self.original_context
+        if self.request.get_header('HTTP_X_OPENPLANS_APPLICATION') == 'zope':
+            return self.original_context
+        return self.context_from_headers() or self.original_context
+    
     def _set_context(self, ctx):
         self.original_context = ctx
     context = property(_get_context, _set_context)
 
-    @property
     def context_from_headers(self):
-        return self.person_folder_from_headers or self.project_from_headers
+        return self.person_folder_from_headers() or self.project_from_headers()
 
-    @property
     def project_from_headers(self):
         name = self.request.get_header(OP_PROJECT_HEADER)
         if not name:
@@ -43,7 +44,6 @@ class HeaderHijackable(BaseView):
                                'portal_url').getPortalObject()
         return getattr(portal.projects, name, None)
 
-    @property
     def person_folder_from_headers(self):
         name = self.request.get_header(OP_PERSON_HEADER)
 

@@ -100,7 +100,7 @@
                     <tal:projects tal:define="pbrains member_record/project_brains;
                                               num_projects member_record/num_projects">
                       <dt class="oc-roster-projects">
-                        Projects (<span tal:replace="num_projects">N</span>):
+                        <span tal:replace="view/project_noun/title">Project</span>s (<span tal:replace="num_projects">N</span>):
                       </dt>
                       <dd>
                         <ul class="oc-inlineList">

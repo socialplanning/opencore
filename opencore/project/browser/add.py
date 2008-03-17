@@ -9,7 +9,6 @@ from opencore.browser import formhandler
 from opencore.browser.base import _
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.geocoding.view import get_geo_writer
-from opencore.cabochon.interfaces import ICabochonClient
 from opencore.interfaces import IHomePage
 from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
 from opencore.nui.wiki.add import get_view_names
@@ -34,7 +33,7 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
     valid_title = staticmethod(text.valid_title)
     
     def reserved_names(self):
-        return list(get_view_names(self.context)) + ['people', 'projects', 'unique']
+        return list(get_view_names(self.context)) + ['people', 'projects', 'unique', 'summary']
 
     @action('validate')
     def validate(self, target=None, fields=None):
@@ -67,6 +66,8 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
 
     @action('add')
     def handle_request(self, target=None, fields=None):
+        #XXX all of the errors that are reported back here are not going
+        # through the translation machinery
         putils = getToolByName(self.context, 'plone_utils')
         self.request.set('__initialize_project__', True)
 
@@ -77,12 +78,12 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             title = unicode(title, 'utf-8')
         self.request.form['project_title'] = title
         if not self.valid_title(title):
-            self.errors['project_title'] = 'The project name must contain ' \
+            self.errors['project_title'] = 'The name must contain ' \
               'at least 2 characters with at least 1 letter or number.'
 
         id_ = self.request.form.get('projid')
         if not self.valid_id(id_):
-            self.errors['id'] = 'The project url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'
+            self.errors['id'] = 'The url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'
         else:
             id_ = putils.normalizeString(id_)
             if self.context.has_key(id_):
@@ -111,17 +112,14 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
             self.add_status_message(_(u'psm_correct_errors_below', u'Please correct the errors indicated below.'))
             return 
         if id_ in self.reserved_names():
+            self.errors['id'] = 'Name reserved'
             self.add_status_message(_(u'psm_project_name_reserved', u'The name "${project_name}" is reserved. Please try a different name.',
                                       mapping={u'project_name':id_}))
-            self.redirect('%s/create' % self.context.absolute_url())
             return
 
         self.context.portal_factory.doCreate(proj, id_)
         proj = self.context._getOb(id_)
         self.notify(proj)
-
-        cabochon_utility = getUtility(ICabochonClient, context=self.context)
-        cabochon_utility.notify_project_created(id_, self.loggedinmember.id)
 
         logo = self.request.form.get('logo')
         if logo:
@@ -137,11 +135,12 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         self.template = None
         proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)
 
-        s_message_mapping = {'title': title, 'proj_edit_url': proj_edit_url}
+        s_message_mapping = {'title': title, 'proj_edit_url': proj_edit_url,
+                             'project_noun': self.project_noun,}
 
 
         s_message = _(u'project_created',
-                      u'"${title}" has been created. Create a team by searching for other members to invite to your project, then <a href="${proj_edit_url}">edit your project home page</a>.',
+                      u'"${title}" has been created. Create a team by searching for other members to invite to your ${project_noun}, then <a href="${proj_edit_url}">edit your ${project_noun} home page</a>.',
                       mapping=s_message_mapping)
         
 #        self.add_status_message(s_message)

@@ -45,9 +45,9 @@
           <p>
             We are here for you. If you could use some help, don't hesitate
             to email <span tal:replace="python:view.spamProtect('help@openplans.org')" />
-            or visit the <a style="" href="http://www.openplans.org/projects/openplans-help/">OpenPlans Help and Documentation</a> project.
+            or visit the <a style="" href="http://www.openplans.org/projects/openplans-help/">OpenPlans Help and Documentation</a> <span tal:replace="view/project_noun">project</span>.
             If you have technical knowledge and want to get involved, 
-            visit the <a style="" href="http://www.openplans.org/projects/opencore/">OpenCore Software</a> project for more information.
+            visit the <a style="" href="http://www.openplans.org/projects/opencore/">OpenCore Software</a> <span tal:replace="view/project_noun">project</span> for more information.
           </p>
         </div>
       </div>

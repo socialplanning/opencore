@@ -62,8 +62,12 @@ def iso8601(dt_or_string=None):
     >>> iso8601('2007/01/01 01:00 GMT')
     '2007-01-01T01:00:00+00:00'
 
+    It should work on dates in any timezone, regardless of the local zone::
+
     >>> iso8601(DateTime('2001/01/01 12:00 PM EST'))
     '2001-01-01T12:00:00-05:00'
+    >>> iso8601(DateTime('2001/01/01 12:00 PM PST'))
+    '2001-01-01T12:00:00-08:00'
 
     With None or no args, you get 'now':
     >>> iso8601() == iso8601(None) == DateTime().ISO8601()
@@ -76,7 +80,12 @@ def iso8601(dt_or_string=None):
     SyntaxError: bogus!
 
     """
-    dt = DateTime(dt_or_string)
+    if isinstance(dt_or_string, DateTime):
+        # we have to care because of a zope bug, see
+        # https://bugs.launchpad.net/zope2/+bug/200007
+        dt = dt_or_string
+    else:
+        dt = DateTime(dt_or_string)
     return dt.ISO8601()
 
 

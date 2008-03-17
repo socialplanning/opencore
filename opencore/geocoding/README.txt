@@ -88,7 +88,7 @@ but not geo_info:
     >>> info['static_img_url']
     'http://maps.google.com/mapdata?latitude_e6=1200000&longitude_e6=3400000&w=500&h=300&zm=9600&cc='
     >>> info['maps_script_url']
-    'http://maps.google.com/maps?file=...'
+    '...'
 
 
 
@@ -152,7 +152,7 @@ Request values override get_geo_info_from_form but not geo_info:
     >>> pprint(info)
     {'is_geocoded': True,
      'location': 'somewhere',
-     'maps_script_url': 'http://...',
+     'maps_script_url': '...',
      'position-latitude': 45.0,
      'position-longitude': 0.0,
      'position-text': '',

@@ -13,7 +13,7 @@ extend_with flunc.checkbox
 setlocal projpolicy closed_policy
 
 go ${base_url}
-follow "Start a project"
+follow "Start a ${projtxt}"
 fv create_form projid $projname
 fv create_form title $projfullname
 fv create_form workflow_policy $projpolicy
@@ -22,4 +22,4 @@ find "Preferences"
 
 # verify project appears in newly created projects list
 go ${base_url}
-notfind 'Newest projects.*${projname}.*Updated projects' s
+notfind 'Newest ${projtxt}s.*${projname}.*Updated ${projtxt}s' s

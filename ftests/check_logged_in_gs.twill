@@ -6,5 +6,5 @@
 #
 
 go ${base_url}
-notfind 'oc-home-getstarted.*Get started!.*Become a member.*Sign in.*Find projects.*Find people' s
-find 'oc-home-getstarted.*Get started!.*Find projects.*Find people' s
+notfind 'oc-home-getstarted.*Get started!.*Become a member.*Sign in.*Find ${projtxt}s.*Find people' s
+find 'oc-home-getstarted.*Get started!.*Find ${projtxt}s.*Find people' s

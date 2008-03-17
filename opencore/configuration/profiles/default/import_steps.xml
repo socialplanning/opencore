@@ -220,16 +220,6 @@
 
   <import-step
      version="20071029-01"
-     id="install_cabochon_utility"
-     handler="opencore.configuration.setuphandlers.install_cabochon_utility"
-     title="OpenCore install cabochon utility">
-    Installs a local utility which keeps track of sending messages to cabochon
-    that have been extended.
-    <dependency step="install_dependencies" />
-  </import-step>
-
-  <import-step
-     version="20071029-01"
      id="addCatalogQueue"
      handler="opencore.configuration.setuphandlers.addCatalogQueue"
      title="OpenCore add catalog queue">
@@ -265,6 +255,16 @@
      handler="opencore.configuration.setuphandlers.setupKupu"
      title="OpenCore setup kupu libraries">
     Tweak the library settings in the kupu drawers.
+    <dependency step="install_dependencies" />
+  </import-step>
+
+  <import-step
+     version="20071109-01"
+     id="migrate_listen_member_lookup"
+     handler="opencore.configuration.setuphandlers.migrate_listen_member_lookup"
+     title="Migrate listen member lookup utility">
+    Replace listen's member lookup utility with one that uses the 
+    member catalog.
     <dependency step="install_dependencies" />
   </import-step>
 

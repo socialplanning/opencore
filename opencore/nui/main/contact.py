@@ -12,8 +12,6 @@ class ContactView(BaseView, formhandler.OctopoLite):
     form_fields = ['sender_fullname', 'sender_from_address', 'subject',
                    'message']
 
-    template = ZopeTwoPageTemplateFile('contact-site-admin.pt')
-
     @property
     @req_memoize
     def email_sender(self):
@@ -39,12 +37,15 @@ class ContactView(BaseView, formhandler.OctopoLite):
             return
         form = self.request.form
         mto = self.portal.getProperty('email_from_address')
-        msg = form.get('message')
+        if form.get('question'):
+            msg = form.get('question') + "\n\n--------------------\n[Message]:\n\n" + form.get('message')
+        else:
+            msg = form.get('message')
         subject = form.get('subject')
         mfrom = form.get('sender_from_address')
         # XXX we require sender_fullname but we ignore it! duh.
         self.email_sender.sendEmail(mto, msg=msg, subject=subject,
                                     mfrom=mfrom)
         self.addPortalStatusMessage(_(u'psm_message_sent_to_admin', u'Message sent.'))
-        self.template = None
-        self.redirect(self.request.ACTUAL_URL)
+        self.index = None
+        self.redirect(self.portal.absolute_url())

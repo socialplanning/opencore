@@ -90,6 +90,7 @@
      name="opencore.topnavmenu"
      provides=".interfaces.ITopnavMenuItems"
      class=".manager.TopnavManager"
+     template="manager_topnav.pt"
      permission="zope2.View"
      />
 

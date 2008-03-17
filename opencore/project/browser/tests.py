@@ -35,7 +35,6 @@ def test_suite():
     from opencore.interfaces.workflow import IReadWorkflowPolicySupport
     from opencore.listen.featurelet import ListenFeaturelet
     from opencore.nui.indexing import authenticated_memberid
-    from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
 
     # for delete-project
     from opencore.testing import utils
@@ -87,12 +86,6 @@ def test_suite():
     def readme_teardown(tc):
         BaseView.has_geocoder = BaseView._old_has_geocoder
 
-    def tasktracker_setup(tc):
-        oc_setup.extended_tt_setup(tc)
-        enableLocalSiteHook(tc.portal)
-        setSite(tc.portal)
-        setHooks()
-
     test_file = pkgr.resource_stream(OC_REQ, 'opencore/project/browser/test.png')
     globs = locals()
     readme = dtf.ZopeDocFileSuite("README.txt", 
@@ -116,22 +109,24 @@ def test_suite():
                                     )
 
     logo = dtf.FunctionalDocFileSuite("logo.txt",
-                                optionflags=optionflags,
-                                package='opencore.project.browser',
-                                test_class=OpenPlansTestCase,
-                                globs=globs,
-                                setUp=tasktracker_setup,
-                                layer=MockHTTPWithContent                                       
-                                )
+                                      optionflags=optionflags,
+                                      package='opencore.project.browser',
+                                      test_class=OpenPlansTestCase,
+                                      globs=globs,
+                                      setUp=readme_setup,
+                                      tearDown=readme_teardown,
+                                      layer=MockHTTPWithContent                                       
+                                      )
 
     delete = dtf.ZopeDocFileSuite("delete-project.txt",
-                                    optionflags=optionflags,
-                                    package='opencore.project.browser',
-                                    test_class=OpenPlansTestCase,
-                                    globs=globs,
-                                    setUp=tasktracker_setup,
-                                    layer=MockHTTPWithContent                                       
-                                    )
+                                  optionflags=optionflags,
+                                  package='opencore.project.browser',
+                                  test_class=OpenPlansTestCase,
+                                  globs=globs,
+                                  setUp=readme_setup,
+                                  tearDown=readme_teardown,
+                                  layer=MockHTTPWithContent                                       
+                                  )
     
     metadata = dtf.ZopeDocFileSuite("metadata.txt", 
                                     optionflags=optionflags,

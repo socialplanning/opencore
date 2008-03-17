@@ -5,7 +5,7 @@ from opencore.project.browser.base import ProjectBaseView
 from zExceptions import Redirect
 
 HOME_PAGE_ID = PROJ_HOME
-HOME_PAGE_TITLE = 'Project Home'
+HOME_PAGE_TITLE = 'Home'
 HOME_PAGE_FILE = 'project_index.html'
 
 class RedirectView(BrowserView):

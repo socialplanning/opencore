@@ -761,6 +761,7 @@ a.wickedadd {
 }
 .oc-listen-message pre.oc-listen-message-body {
   width: 100%;
+  overflow: auto;
 }
 .oc-listen-message-child {
   border-top: 1px solid #ccc;
@@ -1047,7 +1048,7 @@ fieldset .oc-heading-context {
 .oc-fieldBlock-focused textarea, 
 textarea.oc-fieldBlock-focused,
 input.oc-fieldBlock-focused {
-  border-color: orange;
+  border-color: #97CA00;
   background: #fffff9;
 }
 .oc-fieldBlock-error textarea, 
@@ -1254,10 +1255,11 @@ li.oc-feed-item {
 li.oc-feed-item .oc-avatar,
 li.oc-feed-item .oc-project-logo,
 li.oc-invite .oc-project-logo {
-  width: 80px;
+  width: 64px;
   float: left;
   clear: none;
   margin-right: 1em;
+  padding: 8px;
 }
 li.oc-feed-item .oc-feed-item-content {
   float: left;

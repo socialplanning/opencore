@@ -18,8 +18,9 @@ from opencore import configuration as config
 from opencore.auth import remoteauthplugin
 from opencore.bbb.module_alias import do_aliases
 from opencore.nui import indexing
+from opencore.utility.interfaces import IProvideSiteConfig
 from permissions import initialize as initialize_permissions
-from zope.component import getUtility
+from zope.component import getUtility, queryUtility, ComponentLookupError
 import monkey
 
 GLOBALS = globals()
@@ -97,3 +98,14 @@ def initialize(context):
     # bbb
     import opencore.bbb
     do_aliases()
+
+    # note to future generations: as far as I can tell doing a component lookup here is brittle.
+    # the opencore configuration should consistently be loaded before this method is run
+    # but that is only because the OpenPlans product is alphabetically after the Five product and
+    # so Zope loads it after loading Five; Five in turn installs opencore's configuration.
+    if not queryUtility(IProvideSiteConfig):
+        raise ComponentLookupError("""No utility was found to provide IProvideSiteConfig. """
+                                   """You really should not start your site without one. """
+                                   """If you built your stack with Fassembler, just """
+                                   """`easy_install https://svn.openplans.org/svn/fassembler/configparser` """
+                                   """in your opencore environment to install Fassembler's configuration provider.""")

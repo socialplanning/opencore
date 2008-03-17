@@ -12,6 +12,7 @@
  <permission>CMFEditions: Apply version control</permission>
  <permission>CMFEditions: Revert to previous versions</permission>
  <permission>Add RichDocument</permission>
+ <permission>OpenPlans: Add OpenPage</permission>
  <state state_id="team_visible" title="Mgmt Only">
   <exit-transition transition_id="lockAsTeamVisible"/>
   <exit-transition transition_id="makeVisible"/>
@@ -23,6 +24,8 @@
    <permission-role>ProjectContentMgr</permission-role>
   </permission-map>
   <permission-map name="Add RichDocument" acquired="True">
+  </permission-map>
+  <permission-map name="OpenPlans: Add OpenPage" acquired="True">
   </permission-map>
   <permission-map name="CMFEditions: Access previous versions"
                   acquired="False">
@@ -79,6 +82,8 @@
   </permission-map>
   <permission-map name="Add RichDocument" acquired="True">
   </permission-map>
+  <permission-map name="OpenPlans: Add OpenPage" acquired="True">
+  </permission-map>
   <permission-map name="CMFEditions: Access previous versions"
                   acquired="False">
    <permission-role>Manager</permission-role>
@@ -131,6 +136,11 @@
    <permission-role>Reviewer</permission-role>
   </permission-map>
   <permission-map name="Add RichDocument" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>ProjectAdmin</permission-role>
+   <permission-role>ProjectMember</permission-role>
+  </permission-map>
+  <permission-map name="OpenPlans: Add OpenPage" acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>ProjectAdmin</permission-role>
    <permission-role>ProjectMember</permission-role>
@@ -198,6 +208,8 @@
    <permission-role>Reviewer</permission-role>
   </permission-map>
   <permission-map name="Add RichDocument" acquired="True">
+  </permission-map>
+  <permission-map name="OpenPlans: Add OpenPage" acquired="True">
   </permission-map>
   <permission-map name="CMFEditions: Access previous versions"
                   acquired="False">

@@ -60,7 +60,8 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
         # if already a part of the team, redirect to project home page
         if self.member_info.get('id') in self.team.getActiveMemberIds():
             self.add_status_message(_(u'team_already_project_member',
-                                        u'You are already a member of this project.'))
+                                      u'You are already a member of this ${project_noun}.',
+                                      mapping={u'project_noun': self.project_noun}))
             self.redirect('%s?came_from=%s' % (self.context.absolute_url(), self.request.ACTUAL_URL))
         return super(RequestMembershipView, self).__call__()
 
@@ -81,7 +82,7 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
         return False
 
     # XXX get rid of this!
-    def _sendmail_to_pendinguser(self, id, email, url):
+    def _send_mail_to_pending_user(self, id, email, url):
         """ send a mail to a pending user """
         # TODO only send mail if in the pending workflow state
         mailhost_tool = self.get_tool("MailHost")
@@ -139,13 +140,15 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
         code = mem.getUserConfirmationCode()
         url = "%s/confirm-account?key=%s" % (self.siteURL, code)
 
-        self._sendmail_to_pendinguser(id=mem_id,
-                                      email=self.request.get('email'),
-                                      url=url)
+        self._send_mail_to_pending_user(id=mem_id,
+                                        email=self.request.get('email'),
+                                        url=url)
         self.addPortalStatusMessage(_('psm_thankyou_for_joining',
-                                      u'Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account. After you have activated your account, your request to join the project will be sent to the project administrators.',
+                                      u'Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account. After you have activated your account, your request to join the ${project_noun} will be sent to the ${project_noun} administrators.',
                                       mapping={u'mem_id':mem_id,
-                                               u'portal_title':self.portal_title()}))
+                                               u'portal_title':self.portal_title(),
+                                               u'project_noun': self.project_noun,
+                                               }))
         return mdc._getOb(mem_id)
 
     @formhandler.action('request-membership')
@@ -195,8 +198,9 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
             return
 
         self.add_status_message(_(u'team_proj_join_request_sent',
-                                  u'Your request to join "${project_title}" has been sent to the project administrator(s).',
-                                  mapping={'project_title':self.context.Title()}))
+                                  u'Your request to join "${project_title}" has been sent to the ${project_noun} administrator(s).',
+                                  mapping={u'project_title':self.context.Title(),
+                                           u'project_noun': self.project_noun}))
         self.template = None # don't render the form before the redirect
         self.redirect(self.context.absolute_url())
 

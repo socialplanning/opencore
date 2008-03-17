@@ -28,6 +28,7 @@ def test_suite():
     from opencore.browser.formhandler import test_suite as octotest
     from opencore.browser.base import BaseView
     from opencore.i18n import _
+    from opencore.testing import utils
     
     setup.setupPloneSite()
     def readme_setup(tc): # XXX duplicates simple_setup?
@@ -37,6 +38,9 @@ def test_suite():
         tc.homepage = getattr(tc.portal, 'site-home')
         tc.projects = tc.portal.projects
 
+    def teardown(tc):
+        utils.unmonkey_proj_noun()
+
     globs = locals()
     readme = dtf.ZopeDocFileSuite("README.txt",
                                   optionflags=optionflags,
@@ -44,7 +48,8 @@ def test_suite():
                                   test_class=OpenPlansTestCase,
                                   globs = globs,
                                   setUp=readme_setup,
-                                  layer = test_layer                                  
+                                  tearDown=teardown,
+                                  layer = test_layer
                                   )
     errors = dtf.ZopeDocFileSuite("error.txt",
                                   optionflags=optionflags,

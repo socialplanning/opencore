@@ -41,19 +41,19 @@ Try setting some invalid titles::
     >>> view.request.form['project_title'] = ""
     >>> out = view.handle_request()
     >>> view.errors
-    {'project_title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
+    {'project_title': 'The name must contain at least 2 characters with at least 1 letter or number.'}
     >>> view.errors = {}
 
     >>> view.request.form['project_title'] = "1"
     >>> out = view.handle_request()
     >>> view.errors
-    {'project_title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
+    {'project_title': 'The name must contain at least 2 characters with at least 1 letter or number.'}
     >>> view.errors = {}
 
     >>> view.request.form['project_title'] = "!@#$%"
     >>> out = view.handle_request()
     >>> view.errors
-    {'project_title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
+    {'project_title': 'The name must contain at least 2 characters with at least 1 letter or number.'}
     >>> view.errors = {}
 
 How about an invalid id?::
@@ -61,21 +61,27 @@ How about an invalid id?::
     >>> view.request.form['projid'] = ''
     >>> out = view.handle_request()
     >>> view.errors
-    {'id': 'The project url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'}
+    {'id': 'The url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'}
     >>> view.errors = {}
 
 And, another invalid id::
     >>> view.request.form['projid'] = 'abcd1-_+'
     >>> out = view.handle_request()
     >>> view.errors
-    {'id': 'The project url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'}
+    {'id': 'The url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'}
+    >>> view.errors = {}
+
+And an id with a reserved name also produces an error::
+    >>> view.request.form['projid'] = 'summary'
+    >>> out = view.handle_request()
+    >>> view.errors
+    {'id': 'Name reserved'}
     >>> view.errors = {}
 
 Now, a valid title and id::
     >>> view.request.form['project_title'] = 'now a valid title!'
     >>> view.request.form['projid'] = 'test1'
     >>> out = view.handle_request()
-    opencore.testing.utility.StubCabochonClient: args: ('test1', 'test_user_1_')
     >>> view.errors
     {}
     >>> proj = projects.test1
@@ -114,7 +120,6 @@ in a test::
     >>> view.request.form['project_title'] = 'testing 1341'
     >>> view.request.form['projid'] = 'test1341'
     >>> out = view.handle_request()
-    opencore.testing.utility.StubCabochonClient: args: ('test1341', 'm2')
     >>> proj = projects.test1341
     >>> self.logout()
 
@@ -230,21 +235,6 @@ Now set a valid title::
     >>> view.handle_request()
     >>> utils.get_status_messages(view)
     [u'Mailing lists feature has been added.']
-
-
-Make sure we can install a TaskTracker featurelet too::
-    >>> form_vars = dict(title='new full name',
-    ...                  workflow_policy='closed_policy',
-    ...                  update=True,
-    ...                  featurelets=['tasks'],
-    ...                  set_flets=1,
-    ...                  __initialize_project__=False)
-    >>> view.request.set('flet_recurse_flag', None)
-    >>> view.request.form.update(form_vars)
-    >>> view.handle_request()
-    Called ...
-    >>> get_featurelets(proj)
-    [{'url': 'tasks', 'name': 'tasks', 'title': u'Tasks'}]
 
     Verify who we are logged in as
     >>> getToolByName(self.portal, 'portal_membership').getAuthenticatedMember().getId()

@@ -67,4 +67,12 @@ class IEmailSender(Interface):
     def sendMail():
         """Sends an email."""
        
-        
+class IProvideSiteConfig(Interface):
+    """
+    A global utility for providing site-wide configuration settings
+    """
+
+    def get(self, option):
+        """
+        return the value of a particular configuration option
+        """

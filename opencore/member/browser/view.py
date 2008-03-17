@@ -22,7 +22,6 @@ from zope.app.content_types import guess_content_type
 from zope.app.event.objectevent import ObjectModifiedEvent
 from zope.component import getUtility
 from zope.event import notify
-from Products.MimetypesRegistry.mime_types import magic
 
 
 class ProfileView(BaseView):
@@ -36,20 +35,6 @@ class ProfileView(BaseView):
         BaseView.__init__(self, context, request)
         self.public_projects = []
         self.private_projects = []
-
-    def portrait(self):
-        """Provides a single location to pull the user's portrait from."""
-        member_portrait = self.viewedmember().getPortrait()
-        if member_portrait:
-            data = member_portrait.data
-        else:
-            file = open(self.context.restrictedTraverse(self.defaultPortraitURL).context.path, 'rb')
-            data = file.read()
-            file.close()
-
-        content_type = magic.guessMime(data)
-        self.response.setHeader('Content-Type', content_type)
-        return data
 
     def populate_project_lists(self):
         mship_proj_map = self.mship_proj_map()
@@ -70,7 +55,7 @@ class ProfileView(BaseView):
         """Returns a list of dicts describing each of the `max` most recently
         modified wiki pages for the viewed user."""
         memberid = self.viewed_member_info['id']
-        query = Eq('Creator', memberid) | Eq('lastModifiedAuthor', memberid)
+        query =  Eq('lastModifiedAuthor', memberid)
         query &= Eq('portal_type', 'Document') #| Eq('portal_type', 'OpenProject')
         brains = self.catalog.evalAdvancedQuery(query, (('modified', 'desc'),)) # sort by most recent first ('desc' means descending)
         brains = brains[:max] # there appears to be no way to specify the max in the query

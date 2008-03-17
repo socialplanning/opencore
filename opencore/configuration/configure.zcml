@@ -1,5 +1,7 @@
 <configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:zcml="http://namespaces.zope.org/zcml">
+           xmlns:zcml="http://namespaces.zope.org/zcml"
+           xmlns:topp="http://namespaces.openplans.org/topp">
+  <include package="topp.zcmlloader" file="meta.zcml" />
   <include file="permissions.zcml" />
   <include file="profiles.zcml" />
   <include package="opencore.account" />
@@ -10,16 +12,16 @@
   <include package="opencore.content" />
   <include package="opencore.featurelets.browser" />
   <include package="opencore.feed" />
+  <include package="opencore.wordpress_feed" />
   <include package="opencore.member" />
   <include package="opencore.nui" />
   <include package="opencore.project" />
   <include package="opencore.listen" />
-  <include package="opencore.tasktracker" />
   <include package="opencore.wordpress" />
   <include package="opencore.redirect" />
   <include package="opencore.utility" />
   <include package="opencore.geocoding" />
   <include package="topp.featurelets" />
   <include package="opencore.stats" />
+  <topp:includePlugins target="opencore" />
 </configure>
- 

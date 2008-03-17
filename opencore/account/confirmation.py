@@ -93,12 +93,11 @@ class PendingView(AccountView):
         mem_name = mem_name or member.getId()
 
         if email:
-            self._sendmail_to_pendinguser(mem_name,
-                                          email,
-                                          self._confirmation_url(member))
+            self._send_mail_to_pending_user(mem_name,
+                                            email,
+                                            self._confirmation_url(member))
             mfrom = self.portal.getProperty('email_from_address')
-            msg = _(u'psm_new_activation', u'A new activation email has been sent to ${email} from ${mfrom}. <br />Please follow the link in the email to activate this account.',
-                    mapping={u'email':email, u'mfrom':mfrom})
+            msg = _(u'psm_new_activation', mapping={u'email':email, u'mfrom':mfrom})
 
         self.addPortalStatusMessage(msg)
 
@@ -118,10 +117,12 @@ class ResendConfirmationView(AccountView):
             return
         mem_name = member.getFullname()
         mem_name = mem_name or member.getId()
-        self._sendmail_to_pendinguser(mem_name,
-                                      member.getEmail(),
-                                      self._confirmation_url(member))
-        self.add_status_message('A new activation email has been sent to the email address provided for %s.' % name)
+        email = member.getEmail()
+        mfrom = self.portal.getProperty('email_from_address')
+        self._send_mail_to_pending_user(mem_name,
+                                        email,
+                                        self._confirmation_url(member))
+        self.addPortalStatusMessage(_(u'psm_new_activation', mapping={u'email':email, u'mfrom':mfrom}))
         self.redirect("%s/login" %self.siteURL)
 
 

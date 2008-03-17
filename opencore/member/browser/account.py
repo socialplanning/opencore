@@ -154,8 +154,9 @@ class MemberAccountView(BaseView, OctopoLite):
             proj = self.portal.projects[proj_id]
             proj_title = unicode(proj.Title(), 'utf-8') # accessor always will return ascii
 
-            only_admin_msg = _(u'psm_leave_project_admin', u'You are the only remaining administrator of "${proj_title}". You can\'t leave this project without appointing another.',
-                               mapping={u'proj_title':proj_title})
+            only_admin_msg = _(u'psm_leave_project_admin', u'You are the only remaining administrator of "${proj_title}". You can\'t leave this ${project_noun} without appointing another.',
+                               mapping={u'proj_title':proj_title,
+                                        u'project_noun':self.project_noun})
             
             self.addPortalStatusMessage(only_admin_msg)
             return False
@@ -165,7 +166,10 @@ class MemberAccountView(BaseView, OctopoLite):
             notify(LeftProjectEvent(mship))
             return True
         else:
-            self.addPortalStatusMessage(_(u'psm_cannot_leave_project', u'You cannot leave this project.'))
+            msg = _(u'psm_cannot_leave_project',
+                    u'You cannot leave this ${project_noun}.',
+                    mapping={u'project_noun': self.project_noun})
+            self.addPortalStatusMessage(msg)
             return False
 
     def change_visibility(self, proj_id, to=None):
@@ -285,7 +289,7 @@ class MemberAccountView(BaseView, OctopoLite):
         admin_ids = team.get_admin_ids()
         transient_msgs = ITransientMessage(self.portal)
         id_ = self.loggedinmember.getId()
-        project_url = '/'.join((self.url_for('projects'), proj_id))
+        project_url = self.project_url(proj_id)
         msg = _(u'tmsg_joined_project', u'${id} has joined <a href="${project_url}">${proj_id}</a>',
                 mapping={u'id':id_, u'project_url':project_url, u'proj_id':proj_id})
         for mem_id in admin_ids:
@@ -334,7 +338,7 @@ class MemberAccountView(BaseView, OctopoLite):
         
         transient_msgs = ITransientMessage(self.portal)
 
-        project_url = '/'.join((self.url_for('projects'), proj_id))
+        project_url = self.project_url(proj_id)
         msg = _(u'tmsg_decline_invite', u'${id} has declined your invitation to join <a href="${project_url}">${proj_id}</a>',
                 mapping={u'id':id_, u'project_url':project_url, u'proj_id':proj_id})
         transient_msgs.store(spurned_admin, "membership", msg)

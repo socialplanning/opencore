@@ -23,19 +23,19 @@
       You've tried to find something that's not here.  Sorry about that!
     </p>
 
-    <div tal:define="query view/query">
-       <div tal:condition="query">
+    <div tal:define="results view/query">
+       <div tal:condition="results">
      	 Were you trying to find one of these pages?
          <ul>
-          <li tal:repeat="page query">
-	    <a tal:attributes="href page/getURL"
-	       tal:content="page/getId">
+          <li tal:repeat="result results">
+	    <a tal:attributes="href result/getURL"
+	       tal:content="result/Title">
 	    </a>
 	  </li>
          </ul>
          If you don't see what you're looking for:
        </div>
-       <div tal:condition="not:query">
+       <div tal:condition="not:results">
          I'm trying to figure out what page you're looking for, but I'm stumped. You're on your own, kid.
        </div>
     </div>

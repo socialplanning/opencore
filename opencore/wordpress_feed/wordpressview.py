@@ -1,13 +1,9 @@
 import feedparser
-import lxml.etree
-import urllib2
 from dateutil.parser import parse
 from opencore.browser.base import BaseView
 
-def date_cmp(entry1, entry2):
-    """compare feed entries by date"""
-    return cmp(parse(entry1.date), parse(entry2.date))
-
+def date_key(entry):
+    return parse(entry.date)
 
 class WordPressFeedView(BaseView):
     """a view for wordpress's feeds"""
@@ -21,7 +17,7 @@ class WordPressFeedView(BaseView):
         if uri:
 
             # without the trailing slash, one gets different results!
-            # ssee http://trac.openplans.org/openplans/ticket/2197#comment:3
+            # see http://trac.openplans.org/openplans/ticket/2197#comment:3
             self.feed = feedparser.parse('%s/feed/' % uri)
 
             # these could be handled in a unified way
@@ -34,16 +30,19 @@ class WordPressFeedView(BaseView):
             self.title = self.request.get('title', title)
             self.subtitle = self.request.get('subtitle', self.title)
 
+            # maybe this should be done after comments?
+            # self.feed.entries.sort(key=date_key) # they appeared sorted already?
+            self.feed.entries = self.feed.entries[:n]
+
             # sort comments to entries
             for entry in self.feed.entries:
+                entry.n_comments = int(entry.get('slash_comments', 0)) # could brute force it at this point
 
-                # parse the whole page
-                element =  lxml.etree.parse(urllib2.urlopen(entry.link), lxml.etree.HTMLParser())
-
-                # find the comment id element
-                entry.comment_string = element.xpath(".//*[@id='comments']")[0].text.strip()
-
-
+                if entry.n_comments == 1:
+                    entry.comment_string = '1 comment'
+                else:
+                    entry.comment_string = '%s comments' % entry.n_comments
+                
             # annote members onto the entries
             membrane_tool = self.get_tool('membrane_tool')
             for entry in self.feed.entries:
@@ -55,6 +54,4 @@ class WordPressFeedView(BaseView):
                     entry.member = None
                     entry.author_portrait = '++resource++img/default-portrait-thumb.gif'                
 
-#            self.feed.entries.sort(cmp=date_cmp) # they appeared sorted already?
-            self.feed.entries = self.feed.entries[:n] # XXX could do earlier?
 

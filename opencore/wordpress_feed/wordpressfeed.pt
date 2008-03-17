@@ -23,9 +23,9 @@
 	</h3>
 
 	<div tal:omit-tag tal:condition="not:repeat/feeditem/start">
-	  <a tal:condition="python: feeditem.comment_string != 'No Comments'" 
+	  <a tal:condition="feeditem/n_comments"
 	     tal:attributes="href feeditem/comments"
-	     tal:content="feeditem/comment_string">
+             tal:content="feeditem/comment_string">
 	    12 comments
 	  </a>
 	</div>
@@ -46,12 +46,13 @@
 	     tal:content="structure feeditem/summary">
 	    Lorem ipsum dolor
 	  </p>
-	  <p tal:condition="python: feeditem.comment_string != 'No Comments'">
-	    <a tal:attributes="href feeditem/comments"
-	       tal:content="feeditem/comment_string">
-	      12 comments
-	    </a>
-	  </p>
+	  <p>
+	  <a tal:condition="feeditem/n_comments"
+	     tal:attributes="href feeditem/comments"
+             tal:content="feeditem/comment_string">
+	    12 comments
+	  </a>
+          </p>
 	</div>
 	
       </div>

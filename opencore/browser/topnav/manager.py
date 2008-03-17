@@ -8,6 +8,8 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.Five.viewlet.manager import ViewletManagerBase
 from Products.Five.viewlet.metaconfigure import viewletDirective
 from Products.Five.viewlet.viewlet import ViewletBase
+from opencore.project.utils import project_noun
+
 
 class TopnavManager(ViewletManagerBase):
     """custom menu viewlet manager for opencore topnav"""
@@ -34,6 +36,7 @@ class TopnavManager(ViewletManagerBase):
                               container,
                               css_class,
                               selected,
+                              application_header,
                               template,
                               **kw
                               ):
@@ -41,6 +44,10 @@ class TopnavManager(ViewletManagerBase):
            based on configuration"""
         # set the name to help when getting a repr on the object"""
         klass_name = "%s-%s" % (ViewletBase.__name__, str(name))
+
+        # replaces 'project' text with the dynamic project_noun that comes from base.ini
+        text = text.replace('Project', project_noun().title()).replace('project', project_noun())
+
         attrs = dict(name=name,
                      text=text,
                      sort_order=sort_order,
@@ -50,6 +57,7 @@ class TopnavManager(ViewletManagerBase):
                      container=container,
                      css_class=css_class,
                      selected=selected,
+                     application_header=application_header,
                      render=template,
                      )
         return type(klass_name, (ViewletBase,), attrs)                
@@ -64,6 +72,7 @@ def oc_menuitem_directive(_context, name, sort_order,
                           container=IPloneSiteRoot,
                           css_class=default_css,
                           selected=if_request_starts_with_url,
+                          application_header=None,
                           template=None,
                           **kw):
     """create a class specific for viewlet, and register it"""
@@ -82,6 +91,7 @@ def oc_menuitem_directive(_context, name, sort_order,
         container,
         css_class,
         selected,
+        application_header,
         template,
         )
     new_keyword_args['class_'] = viewlet_factory

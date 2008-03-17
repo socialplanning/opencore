@@ -14,6 +14,16 @@ the error type. 404s will render a different template::
     >>> "Something unexpected" in view(error_type='SomethingElse')
     True
 
+On a 404, we should search the results, and only get the expected portal types
+in return::
+    >>> self.request.URL = 'http://nohost/plone/m1'
+    >>> view = ErrorView(self.portal, self.request)
+    >>> results = view.query()
+    >>> len(results)
+    1
+    >>> results[0].getURL()
+    'http://nohost/plone/people/m1/m1-home'
+
 On error, an email should get sent out.
 
 Get the mailhost::

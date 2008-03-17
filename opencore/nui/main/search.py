@@ -47,14 +47,8 @@ def _sort_by_modified(brains):
 def _sort_by_created(brains):
     return sorted(brains, key=lambda x:x.created, reverse=True)
 
-# XXX should fall back on sorting by id here
 def _sort_by_portal_type(brains):
-    def cmp_portal_type(a, b):
-        if a.portal_type != b.portal_type:
-            return cmp(a.portal_type, b.portal_type)
-        return cmp(a.id, b.id)
-    
-    return sorted(brains, cmp=cmp_portal_type)
+    return sorted(brains, key=lambda b: (b.portal_type, b.id))
 
 def searchForPerson(mcat, search_for, sort_by=None):
     """

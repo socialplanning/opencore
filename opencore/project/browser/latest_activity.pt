@@ -6,6 +6,7 @@
   <body>
     <div metal:fill-slot="content">
       <div id="oc-content-main">
+
         <!-- project metadata -->
         <div class="oc-headingBlock oc-clearAfter">
           <img style="float: left; width: 80px; margin: 0 1em 0.5em 0; border: 1px solid #EEE;" tal:attributes="src view/logo_url" />
@@ -13,73 +14,65 @@
           <p class="oc-headingContext oc-discreetText">
             created 
             <span tal:define="date view/area/CreationDate"
-            tal:content="python:view.pretty_date(date)">
+		  tal:content="python:view.pretty_date(date)">
               September 26
             </span>,
             last updated
             <span tal:define="date view/area/ModificationDate"
-            tal:content="python:view.pretty_date(date)">
+		  tal:content="python:view.pretty_date(date)">
               yesterday
             </span>
             <a tal:condition="not: view/is_project_member"  href="request-membership" class="oc-actionLink">Join</a>
           </p>
-	<a class="oc-actionLink" tal:condition="view/team_manager" href="preferences">EDIT</a>
+	  <a class="oc-actionLink" tal:condition="view/team_manager" href="preferences">EDIT</a>
           <p tal:condition="view/project_info/description" tal:content="view/project_info/description" />
         </div>
-        
-        <!-- feeds -->
-          <div class="oc-columnGroup">
-            <div tal:repeat="feed view/feeds" >
-              <span tal:replace="structure python:feed" />
-            </div>
-            <span tal:replace="view/activity"/>
-        </div>
-      </div><!-- content-main -->     
 
+        <!-- feeds -->      
+	<div class="oc-columnGroup">
+
+	  <div tal:replace="structure view/blog_feed">
+	    Feed for the blog
+	  </div>
+	
+	  <div tal:replace="structure view/wiki_feed">
+	    Feed for wiki pages
+	  </div>
+	
+	  <div tal:replace="structure view/discussions_feed">
+	    Feed for mailing list discussions
+	  </div>
+
+	</div>
+      </div><!-- content-main -->     	
+      
       <div id="oc-content-sidebar">  
-        <!-- Location -->
-        <!-- TODO -->
+
+        <!-- TODO: Location -->
       
         <!-- Team -->
-        <div class="oc-widget oc-widget-feed" tal:define="members view/team_members">
-          <div class="oc-headingBlock">
-            <h2>
-              <a href="team">Team</a>
-            </h2>
-            <p class="oc-headingContext">
-              <span tal:replace="python:len(members)">12</span> 
-              <span tal:condition="python:len(members) >  1">members</span>
-              <span tal:condition="python:len(members) == 1">member</span>
-            </p>
-          </div>
-          <ul class="oc-feed-cluster">
-            <li class="oc-feed-item" tal:repeat="member python: view.team_members()[:12]">
-	    <div tal:define="member_url string:${member/url}/profile">
-	      <p>
-              <a tal:attributes="href member_url">
-                <img tal:attributes="src member/portrait_thumb_url; alt member/id; title member/id"/>
-              </a>
-	      </p>
-	      <p>
-	      	 <a tal:attributes="href member_url" tal:content="member/id" />
-	      </p>	      
-	      </div>	      
-            </li>
-          </ul>
+        <div class="oc-widget oc-widget-feed">
+
+	  <div tal:replace="structure view/team_feed">
+	    Feed for project team members
+	  </div>
+
         </div>
         
         <!-- display project security settings -->
         <h2>Security <a class="oc-actionLink" tal:condition="view/team_manager" href="preferences">EDIT</a></h2>
         <p tal:condition="python:view.project_info['security'] == 'open_policy'">
-          Anyone can view this project and
+          Anyone can view this <span tal:replace="view/project_noun">project</span> and
           any <span tal:replace="view/portal_title">site</span>
           member can contribute to it
         </p>
         <p tal:condition="python:view.project_info['security'] == 'medium_policy'">
-          Anyone can view this project but only team members can contribute to it
+          Anyone can view this <span tal:replace="view/project_noun">project</span>
+          but only team members can contribute to it
         </p>
-        <p tal:condition="python:view.project_info['security'] == 'close_policy'">
-          Only team members can view, contribute, or search for this project
+        <p tal:condition="python:view.project_info['security'] == 'closed_policy'">
+          Only team members can view, contribute, or search for this
+          <span tal:replace="view/project_noun">project</span>
         </p>
       </div><!-- content-sidebar -->
 

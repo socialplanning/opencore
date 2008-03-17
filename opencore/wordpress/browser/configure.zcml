@@ -18,6 +18,8 @@
      container="opencore.wordpress.interfaces.IWordPressFeatureletInstalled"
      item_url="blog"
      sort_order="20"
+     selected="opencore.browser.topnav.viewlet.is_in_external_application"
+     application_header="wordpress"
      />
 
 </configure>

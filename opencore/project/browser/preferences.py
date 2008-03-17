@@ -12,13 +12,11 @@ from opencore.browser import tal
 from opencore.browser.base import _, BaseView
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.interfaces import IHomePage
-from opencore.cabochon.interfaces import ICabochonClient
 from opencore.interfaces import IProject
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from opencore.geocoding.view import get_geo_writer
 from opencore.project.browser.base import ProjectBaseView
-from opencore.tasktracker.featurelet import TaskTrackerFeaturelet
 from opencore.interfaces.membership import IEmailInvites
 from topp.clockqueue.interfaces import IClockQueue
 from topp.featurelets.interfaces import IFeatureletSupporter
@@ -105,7 +103,7 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         title = text.strip_extra_whitespace(title)
         self.request.form['project_title'] = title
         if not self.valid_title(title):
-            self.errors['project_title'] = _(u'err_project_name', u'The project name must contain at least 2 characters with at least 1 letter or number.')
+            self.errors['project_title'] = _(u'err_project_name', u'The name must contain at least 2 characters with at least 1 letter or number.')
 
         geowriter = get_geo_writer(self)
         geo_info, locationchanged = geowriter.get_geo_info_from_form()
@@ -147,11 +145,11 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
 
         #store change status of flet, security, title, description, logo...
         changed = {
-            _(u'psm_project_title_changed', u"The title has been changed.") : self.context.title != self.request.form.get('project_title', self.context.title),
-            _(u'psm_project_desc_changed', u"The description has been changed.") : self.context.description != self.request.form.get('description', self.context.description),
-            _(u'psm_project_logo_changed', u"The project image has been changed.") : logochanged,
-            _(u'psm_security_changed', u"The security policy has been changed.") : old_workflow_policy != self.request.form.get('workflow_policy'),
-            _(u'psm_location_changed', u"The location has been changed."): bool(locationchanged),
+            _(u'psm_project_title_changed') : self.context.title != self.request.form.get('project_title', self.context.title),
+            _(u'psm_project_desc_changed') : self.context.Description() != self.request.form.get('description', self.context.Description()),
+            _(u'psm_project_logo_changed') : logochanged,
+            _(u'psm_security_changed') : old_workflow_policy != self.request.form.get('workflow_policy'),
+            _(u'psm_location_changed'): bool(locationchanged),
             }
         
         supporter = IFeatureletSupporter(self.context)
@@ -184,8 +182,10 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         if home_page is not None:
             if hpcontext.home_page != home_page:
                 hp_url = '%s/%s' % (self.context.absolute_url(), home_page)
-                self.add_status_message(_(u'psm_proj_homepage_change', u'Project home page set to: <a href="${hp_url}">${homepage}</a>',
-                                        mapping={u'homepage':home_page, u'hp_url':hp_url}))
+                self.add_status_message(_(u'psm_proj_homepage_change', u'${project_noun} home page set to: <a href="${hp_url}">${homepage}</a>',
+                                        mapping={u'homepage':home_page, u'hp_url':hp_url,
+                                                 u'project_noun':self.project_noun.title(),
+                                                 }))
                 hpcontext.home_page = home_page
 
 
@@ -228,6 +228,8 @@ class ProjectDeletionView(BaseView):
     handle_delete = formhandler.button('delete')(_handle_delete)
 
 
+## XXX event subscribers do *not* belong in a browser module
+
 @adapter(IProject, IObjectWillBeRemovedEvent)
 def handle_flet_uninstall(project, event=None):
     supporter = IFeatureletSupporter(project)
@@ -252,16 +254,7 @@ def delete_email_invites(proj, event=None):
 def handle_blog_delete(project, event=None):
     pass
 
-@adapter(IProject, IObjectRemovedEvent)
-def notify_cabochon(project, event=None):
-    # project info passed to cabochon
-    id = project.getId()
-
-    # FIXME for some reason, on test tear down the getUtility fails
-    # without explicitly passing a context
-    portal = getToolByName(project, 'portal_url').getPortalObject()
-    cabochon_utility = getUtility(ICabochonClient, context=portal)
-    cabochon_utility.notify_project_deleted(id)
+## XXX --end complaint
 
 class ProjectFeatureletSupporter(FeatureletSupporter):
     adapts(IProject)

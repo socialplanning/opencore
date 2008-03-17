@@ -75,5 +75,11 @@ class ITopnavMenuItemSchema(Interface):
         required=False,
         )
 
+    application_header = TextLine(
+        title=u'Application header',
+        description=u"Check if the application header matches (none if the viewlet doesn't care",
+        required=False,
+        )
+
 # this allows extra fields in configure to get passed through
 ITopnavMenuItemSchema.setTaggedValue('keyword_arguments', True)

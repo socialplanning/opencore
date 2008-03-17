@@ -11,7 +11,6 @@ submit
 
 # We should now be on the messages-only page.
 url ${base_url}/message
-title "psm_thankyou_for_joining"
 find "psm_thankyou_for_joining"
 
 
