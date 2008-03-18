@@ -247,7 +247,7 @@ class OpenMember(FolderishMember):
         Returns a list of teams on which the member is active.
         """
         tmtool = getToolByName(self, 'portal_teams')
-        return tmtool.getTeamsByMemberId(self.getId(), active=True)
+        return tmtool.getTeamsForMember(self, active=True)
 
     security.declareProtected(View, 'getProjectListing')
     def getProjectListing(self):
