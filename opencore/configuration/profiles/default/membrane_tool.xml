@@ -102,7 +102,7 @@
  <index name="project_ids" meta_type="KeywordIndex">
   <indexed_attr value="project_ids"/>
  </index>
- <column value="portrait_thumb_url"/>
+ <column value="has_portrait"/>
  <column value="project_ids"/>
  <column value="CreationDate"/>
  <column value="EffectiveDate"/>

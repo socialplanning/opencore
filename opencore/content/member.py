@@ -264,14 +264,13 @@ class OpenMember(FolderishMember):
         """ids of active teams. this attr is indexed"""
         return [x.getId() for x in self.getProjectListing()]
 
-    security.declareProtected(View, 'portrait_thumb_url')
-    def portrait_thumb_url(self):
+    security.declareProtected(View, 'has_portrait')
+    def has_portrait(self):
         portrait = self.getProperty('portrait', None)
         if portrait:
-            return "%s_thumb" %portrait.absolute_url()
+            return True
         else:
-            # @@ DWM: should come from config
-            return '++resource++img/default-portrait-thumb.gif'
+            return False
 
     # XXX is this used?
     security.declareProtected(View, 'projectBrains')

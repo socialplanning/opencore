@@ -316,6 +316,13 @@ class ProjectTeamView(TeamRelatedView):
 
         # sort then truncate
         ten_projects = sorted(project_ids, key=lambda x: x.Title)[:10]
+
+        # calculate the portrait thumbnail URL
+        # XXX: default URL should come from config
+        portrait_thumb_url = '++resource++img/default-portrait-thumb.gif'
+        if brain.has_portrait:
+            portrait_thumb_url = '%s/portrait_thumb' % brain.getURL()
+        
         return dict(activation=activation,
                     contributions=contributions,
                     email=brain.getEmail,
@@ -323,7 +330,7 @@ class ProjectTeamView(TeamRelatedView):
                     id=mem_id,
                     location=brain.getLocation,
                     modification=modification,
-                    portrait_thumb_url=brain.portrait_thumb_url,
+                    portrait_thumb_url=portrait_thumb_url,
                     project_brains=ten_projects,
                     num_projects=len(project_ids)
                     )
