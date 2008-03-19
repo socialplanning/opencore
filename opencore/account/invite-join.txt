@@ -34,7 +34,7 @@ We'll simulate the link and get the invite-join view. Let's logout::
 
     >>> request.form['__k']=key
     >>> request.form['email']='bob@bob.com'
-    >>> inv_join = self.portal.projects.p1.unrestrictedTraverse("invite-join")
+    >>> inv_join = self.portal.unrestrictedTraverse("invite-join")
     >>> inv_join
     <...InviteJoinView ...>
 
@@ -63,7 +63,7 @@ if these doctests are bad tests they are at least decent docs.
     >>> request.form['project'] = 'p1'
     >>> request.form['invites'] = ['p1']
 
-    >>> inv_join = self.portal.projects.p1.unrestrictedTraverse("invite-join")
+    >>> inv_join = self.portal.unrestrictedTraverse("invite-join")
     >>> inv_join.proj_ids
     ['p1']
 
