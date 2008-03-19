@@ -119,10 +119,11 @@ class InviteJoinView(JoinView, ConfirmAccountView):
     def invite_map(self):
         if self.invites:
             imap = []
-            for invite in self.invites:
+            invite = self.request.get('project')
+            if invite in self.invites:
                 project = self.context.projects.get(invite)
                 if not project:
-                    continue
+                    return tuple()
                 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
                 closed =  IReadWorkflowPolicySupport(project).getCurrentPolicyId() == "closed_policy"
                 imap.append(dict(id=invite, title=project.Title(),
