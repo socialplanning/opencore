@@ -3,7 +3,7 @@ from OFS.SimpleItem import SimpleItem
 from Products.CMFCore.utils import getToolByName
 from opencore.project.browser import utils
 from opencore.interfaces.membership import IEmailInvites
-from topp.utils.persistence import OOBTreeBag, KeyedMap
+from topp.utils.persistence import KeyedMap
 from zope.app.annotation import IAnnotations
 from zope.interface import implements
 import DateTime

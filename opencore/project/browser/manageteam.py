@@ -29,7 +29,7 @@ log = logging.getLogger('opencore.project.manageteam')
 EMAIL_RE = re.compile(EMAIL_RE)
 TA_SPLIT = re.compile('\n|,')
 
-
+#@@ change to use utility
 @req_memoize
 def _email_sender(view):
     return EmailSender(view, mship_messages)
@@ -405,12 +405,12 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
         return ret
 
     @req_memoize    
-    def join_url(self, address, key):
-        query_str = urllib.urlencode(dict(email=address,__k=key))
-        #query_str = urllib.urlencode({'email': address})
-        join_url = "%s/invite-join?%s" % (self.portal.absolute_url(),
-                                          query_str)
-        return join_url
+    def join_url(self, address, key, project):
+        args = dict(email=address, project=project, __k=key)
+        query_str = urllib.urlencode(args)
+        portal_url = self.portal.absolute_url()
+        url = "%s/invite-join?%s" % (portal_url, query_str)
+        return url
 
     def mship_only_admin(self, mship):
         mem_id = mship.getId()
@@ -641,6 +641,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
             self.add_status_message(_(u"remind_invite_none_selected"))
         else:
             self.redirect("invite?remind=True&email-invites=%s" % ",".join(targets))
+
         
 class InviteView(ManageTeamView):
     ##################
@@ -670,7 +671,7 @@ class InviteView(ManageTeamView):
         # perform invitation
 
         key = self.invite_util.addInvitation(addy, proj_id)
-        msg_subs = dict(join_url=self.join_url(addy, key),
+        msg_subs = dict(join_url=self.join_url(addy, key, proj_id),
                         #FIXME: spam-check this
                         user_message=self.request.get('message', ''), 
                         subject=self.request.get('subject', ''),
@@ -693,15 +694,15 @@ class InviteView(ManageTeamView):
         # to look good on the screen for presentation purposes; it is
         # used in its virgin form in the email
         msg_subs = dict(user_message='',
-                        join_url=self.join_url('', ''),
+                        join_url=self.join_url('', '', ''),
                         portal_title=self.portal_title(),
                         project_noun=self.project_noun,
                         site_contact_url=self.portal.absolute_url() + "/contact-site-admin",
                         )
+        
         msg = (self.translate(_(u'email_invite_static_body', mapping=msg_subs)))
         msg = msg.replace('\n\n', '<br>')
         msg = msg.replace('\n', '<br>')
-            
         return msg
 
 
@@ -715,10 +716,11 @@ class InviteView(ManageTeamView):
         addresses = [urllib.unquote(t).strip() for t in invites]
 
         sender = _email_sender(self)
-        project_title = self.context.title
+        project_title = self.context.Title()
+        proj_id = self.context.getId()
         for address in addresses:
             key = self.invite_util.getInvitesByEmailAddress(address).key
-            msg_subs = dict(join_url=self.join_url(address, key),
+            msg_subs = dict(join_url=self.join_url(address, key, proj_id),
                             #FIXME: spam-check this
                             user_message=self.request.get('message', ''), 
                             subject=self.request.get('subject', ''),

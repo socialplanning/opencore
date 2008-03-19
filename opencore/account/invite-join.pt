@@ -41,7 +41,7 @@ need to combine with regular join form
                   <p class="oc-feed-item-description" tal:define="desc project/description">
                     <span tal:condition="desc" tal:replace="desc" />
                   </p>
-                  <p>
+                  <p class="oc-hidden">
                      <input type="checkbox"
                             class="oc-input-typeCheck"
                             name="invites:list"
