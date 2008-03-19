@@ -15,10 +15,14 @@ assert hasattr(app, portal), NameError("No portal %s exists" %portal)
 portal = getattr(app, portal)
 
 print "updating membrane catalog"
-portal.portal_setup.manage_updateToolProperties("profile-opencore.configuration:default", app.REQUEST.RESPONSE)
-portal.portal_setup.runImportStep('membranetool')
-portal.portal_setup.runImportStep('membranetool_again')
+setup_tool = portal.portal_setup
+setup_tool.manage_updateToolProperties("profile-opencore.configuration:default",
+                                       app.REQUEST.RESPONSE)
+setup_tool.runImportStep('membranetool')
+transaction.get().note('Run membrane_tool profile import step')
+transaction.commit()
 
 print "reindexing membranetool"
 portal.membrane_tool.refreshCatalog()
+transaction.get().note('Reindex membrane_tool ZCatalog')
 transaction.commit()
