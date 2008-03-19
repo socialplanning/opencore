@@ -213,7 +213,6 @@ class InitialLogin(BaseView):
         # Go to the user's Profile Page in Edit Mode
         default_redirect = "%s/%s" % (self.memfolder_url(), 'tour')
         redirect_url = self.request.form.get('go_to', default_redirect)
-        print redirect_url
         return self.redirect(redirect_url)
 
 class ForgotLoginView(AccountView):
