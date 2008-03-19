@@ -153,17 +153,25 @@ class InviteJoinView(JoinView, ConfirmAccountView):
 
         self.confirm(member)
         self.login(member.getId())
-        self.do_invite_joins(member)
-        return self.redirect("%s/init-login" %self.siteURL)
+        auto_joined_list = self.do_invite_joins(member)
+        go_to = ''
+        if auto_joined_list:
+            redirect_to_project = auto_joined_list[0]
+            go_to = '?go_to=%s' % self.project_url(redirect_to_project)
+        return self.redirect("%s/init-login%s" % (self.siteURL, go_to))
 
     def do_invite_joins(self, member):
         """do the joins and activations"""
         mships = self.invite_util.convertInvitesForMember(member)
+        auto_joined_list = []
         for mship in mships:
             mship._v_self_approved = True
-            if mship.aq_parent.getId() in self.proj_ids:
+            mship_id = mship.aq_parent.getId()
+            if mship_id in self.proj_ids:
                 mship.do_transition('approve_public')
+                auto_joined_list.append(mship_id)
             notify(JoinedProjectEvent(mship))
+        return auto_joined_list
 
     def project(self, _id):
         return self.context.projects.get(_id)
