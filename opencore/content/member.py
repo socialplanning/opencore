@@ -247,7 +247,7 @@ class OpenMember(FolderishMember):
         Returns a list of teams on which the member is active.
         """
         tmtool = getToolByName(self, 'portal_teams')
-        return tmtool.getTeamsByMemberId(self.getId(), active=True)
+        return tmtool.getTeamsForMember(self, active=True)
 
     security.declareProtected(View, 'getProjectListing')
     def getProjectListing(self):
@@ -257,7 +257,20 @@ class OpenMember(FolderishMember):
             for space in team.getTeamSpaces():
                 if mtool.checkPermission(View, space):
                     projects[space] = None
-        return projects.keys()            
+        return projects.keys()
+    
+    security.declareProtected(View, 'project_ids')
+    def project_ids(self):
+        """ids of active teams. this attr is indexed"""
+        return [x.getId() for x in self.getProjectListing()]
+
+    security.declareProtected(View, 'has_portrait')
+    def has_portrait(self):
+        portrait = self.getProperty('portrait', None)
+        if portrait:
+            return True
+        else:
+            return False
 
     # XXX is this used?
     security.declareProtected(View, 'projectBrains')
@@ -356,20 +369,26 @@ class OpenMember(FolderishMember):
                                   default='You did not enter a login name.')
         elif self.getId() and id != self.getId():
             # we only validate if we're changing the id
-            allowed = True
             mbtool = getToolByName(self, 'membrane_tool')
-            if len(mbtool.unrestrictedSearchResults(getUserName=id)) > 0 or \
-                   not ALLOWED_MEMBER_ID_PATTERN.match(id):
-                allowed = False
-            if allowed:
+            msg = None
+            if len(mbtool.unrestrictedSearchResults(getUserName=id)) > 0L:
+                msg = "The login name you selected is already " + \
+                    "in use. Please choose another." 
+            elif not ALLOWED_MEMBER_ID_PATTERN.match(id):
+                msg = "The login name you selected is not valid. " + \
+                    "Usernames must start with a letter and consist " + \
+                    "only of letters, numbers, and underscores.  Please " +\
+                    "choose another."
+            else:
                 for prefix in PROHIBITED_MEMBER_PREFIXES:
                     if id.lower().startswith(prefix):
-                        allowed = False
-            if allowed and self._id_exists_remotely(id):
-                allowed = False
-            if not allowed:
+                        msg = ("The login name you selected is not valid " + 
+                            "because it starts with %s. Please choose " + 
+                            "another.") % prefix
+            if not msg and self._id_exists_remotely(id):
                 msg = "The login name you selected is already " + \
-                      "in use or is not valid. Please choose another."
+                    "in use. Please choose another."
+            if msg:
                 return self.translate(msg, default=msg)
 
     security.declarePrivate('_email_exists_remotely')

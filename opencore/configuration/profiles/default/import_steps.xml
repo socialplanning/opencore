@@ -220,16 +220,6 @@
 
   <import-step
      version="20071029-01"
-     id="install_cabochon_utility"
-     handler="opencore.configuration.setuphandlers.install_cabochon_utility"
-     title="OpenCore install cabochon utility">
-    Installs a local utility which keeps track of sending messages to cabochon
-    that have been extended.
-    <dependency step="install_dependencies" />
-  </import-step>
-
-  <import-step
-     version="20071029-01"
      id="addCatalogQueue"
      handler="opencore.configuration.setuphandlers.addCatalogQueue"
      title="OpenCore add catalog queue">

@@ -305,10 +305,10 @@ class PeopleSearchView(SearchView):
     def search_by_text(self, search_for, sort_by=None):
         return searchForPerson(self.membranetool, search_for, sort_by)
 
-    def recently_created_members(self, sort_limit=10):
+    def recently_created_members(self, sort_limit=5):
         query = dict(sort_on='created',
                      sort_order='descending',
-                     sort_limit=5)
+                     sort_limit=sort_limit)
         brains = self.membranetool(**query)
         
         return _sort_by_created(brains)

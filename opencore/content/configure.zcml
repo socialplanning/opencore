@@ -9,6 +9,8 @@
       interface="Products.ploneundelete.interfaces.ICanBeUndeleted" />
   </content>
 
+  <subscriber handler=".membership.post_wf_transition" />
+
   <subscriber
      for="opencore.interfaces.IOpenMembership
           zope.app.container.interfaces.IObjectAddedEvent"

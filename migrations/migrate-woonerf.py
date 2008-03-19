@@ -2,7 +2,7 @@ from AccessControl.SecurityManagement import newSecurityManager
 from Testing.makerequest import makerequest
 from Products.Five.utilities.marker import erase as noLongerProvides
 from itertools import count
-from opencore.nui.setup import set_method_aliases
+from opencore.nui.setup import nui_functions, set_method_aliases
 from opencore.nui.wiki import utils
 from opencore.streetswiki.utils import add_wiki
 from pprint import pprint 
@@ -34,8 +34,6 @@ tmt = n.portal_teams
 # to make it clearer below
 portal = n
 
-from opencore.nui.setup import nui_functions
-
 # first, let's set up the default profile
 
 # here's where we get the id of the profile site configuration
@@ -62,9 +60,9 @@ woonerf_migrations = [
     'Initialize Project BTrees',
     'Fix up project home pages',
     'Make project home pages relative',
-    'Install Cabochon Client Utility',
     'Make profile default member page',
     'annotate last modified author',
+    'migrate_listen_container_to_feed',
 ]
 
 for migration in woonerf_migrations:
@@ -82,11 +80,6 @@ print 'updating the site title to "%s"' % new_site_title
 n.setTitle(new_site_title)
 print 'site title updated'
 
-oc_prop_title = 'opencore properties sheet'
-print 'setting title of opencore property sheet to %s' % oc_prop_title
-n.portal_properties.opencore_properties.setTitle(oc_prop_title)
-print 'set opencore properties sheet title'
-
 email_from_address = 'greetings@livablestreets.com'
 print 'setting email_from_address to "%s"' % email_from_address
 n.manage_changeProperties(email_from_address=email_from_address)
@@ -97,13 +90,14 @@ print 'setting mailing_list_fqdn to "%s"' % mailing_list_fqdn
 n.portal_properties.opencore_properties.mailing_list_fqdn = mailing_list_fqdn
 print 'done'
 
-print "Adding streetswiki folder"
-add_wiki(portal, 'streetswiki', id_='streetswiki')
-print "streetswiki folder added"
-print
-print "Running set_method_aliases widget"
-set_method_aliases(portal)
-print "done"
+## StreetsWiki deferred from Woonerf release
+#print "Adding streetswiki folder"
+#add_wiki(portal, 'streetswiki', id_='streetswiki')
+#print "streetswiki folder added"
+#print
+#print "Running set_method_aliases widget"
+#set_method_aliases(portal)
+#print "done"
 
 
 print "Installing portal_geocoder"

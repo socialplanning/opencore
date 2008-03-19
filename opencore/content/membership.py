@@ -2,10 +2,14 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.public import registerType
 from Products.CMFCore.permissions import ManagePortal
 from Products.CMFCore.utils import getToolByName
-from opencore.configuration import PROJECTNAME, DEFAULT_ROLES
 from Products.TeamSpace.membership import TeamMembership
 from Products.TeamSpace.permissions import ManageTeamMembership
+from opencore.configuration import PROJECTNAME, DEFAULT_ROLES
+from opencore.interfaces.membership import IMembershipTransitionEvent
 from opencore.interfaces.membership import IOpenMembership
+from opencore.interfaces.membership import MembershipTransitionEvent
+from zope import event 
+from zope.component import adapter
 from zope.interface import implements
 
 
@@ -21,14 +25,14 @@ class OpenMembership(TeamMembership):
 
     intended_visibility = 'public'
 
-    apply_after_transition = dict(deactivate = lambda self: self.editTeamRoles(DEFAULT_ROLES[:-1]))
-
     def do_transition(self, transition):
         wftool = getToolByName(self, 'portal_workflow')
         wftool.doActionFor(self, transition)
-        after_transition = self.apply_after_transition.get(transition)
-        if after_transition:
-            after_transition(self)
+        event.notify(MembershipTransitionEvent(self, transition))
+        
+##         after_transition = self.apply_after_transition.get(transition)
+##         if after_transition:
+##             after_transition(self)
 
     def getTeamRoles(self):
         """
@@ -162,3 +166,12 @@ def fixupOwnership(obj, event):
     if user is not None:
         obj.changeOwnership(user)
         obj.manage_setLocalRoles(mem_id, ('Owner',))
+
+
+@adapter(IMembershipTransitionEvent)
+def post_wf_transition(event=None):
+    if event.transition == 'deactivate':
+        event.obj.editTeamRoles(DEFAULT_ROLES[:-1])
+    # reindex the member
+    event.obj.getMember().reindexObject()
+

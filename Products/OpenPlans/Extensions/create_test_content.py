@@ -80,7 +80,7 @@ def create_test_content(self, p_map=projects_map, m_map=members_map):
             
             out.append('-> added to project %s' % p_id)
             mship = team.getMembershipByMemberId(mem_id)
-            wf_tool.doActionFor(mship, 'approve_public')
+            mship.do_transition('approve_public')
             if p_roles:
                 mship.editTeamRoles(p_roles)
                 out.append('-> project roles granted: %s' % str(p_roles))

@@ -157,7 +157,7 @@
 			 singlelink
 			 links
 			 count"
-     class="Products.wicked.browser.link.BasicFiveLink"
+     class=".wicked.LinkRenderer"
      />
 
 

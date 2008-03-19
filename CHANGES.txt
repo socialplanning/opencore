@@ -1,8 +1,21 @@
+v0.10 (unreleased)
+==================
+
+v0.9.x and below
+================
+
 2008-03-06  Jeff Hammel  <jhammel@openplans.org>
 
-	    * add infrastructure to adapt anything to a feed of
-	      configurable format.  in oc-feed, which opencore
-	      now depends on.  Not user facing at this point.
+    * add infrastructure to adapt anything to a feed of
+      configurable format.  in oc-feed, which opencore
+      now depends on.  Not user facing at this point.
+
+  Addendum:  2008-03-12  Josh Bronson  <jab@openplans.org>
+
+      Requires running the Products.OpenPlans.Extensions
+      .setup.migrate_listen_container_to_feed migration 
+      on existing data.
+
 
 2008-03-06  Paul Winkler  <pw@openplans.org>
 
@@ -11,6 +24,7 @@
 	  Existing installations will need to update the build.ini
 	  and add to the [general] section:  projtxt = project
 	  ... or re-run fassembler:opencore to do this automatically.
+
 
 2008-02-25  Paul Winkler  <pw@openplans.org>
 
@@ -43,6 +57,7 @@
 	   * Remove featurelets from project add view.
 	  This is not exposed on any pages yet.
 
+
 2008-02-08  Robert Marianski <rmarianski@openplans.org> 
 
 	  * people folder view
@@ -50,17 +65,20 @@
 	update existing users member folder: "Make profile default member
 	page"
 
+
 2008-02-07  Ethan Jucovy <egj@openplans.org> 
 
 	  * Override 500
 	with friendlier error message and form for submitting bug report
 	feedback.
 
+
 2008-02-06   Ethan Jucovy <egj@openplans.org> 
 
 	    *  Override 404
 	with friendlier error message and search results for similar
 	content.
+
 
 2008-01-31  David Turner <novalis@novalis.org> 
 

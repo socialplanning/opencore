@@ -73,6 +73,12 @@ class JoinView(browser.AccountView, OctopoLite):
     @action('validate')
     def validate(self, targets=None, fields=None):
         """ this is really dumb. """
+
+        #a special case for when the user has not yet entered a password confirmation:
+        #pretend that they have
+        if not self.request.form.get('confirm_password'):
+            self.request.form['confirm_password'] = self.request.form.get('password', '')
+
         errors = ICreateMembers(self.portal).validate(self.request.form)
 
         erase = [error for error in errors if error not in self.request.form]
@@ -84,6 +90,7 @@ class JoinView(browser.AccountView, OctopoLite):
             ret['oc-%s-error' % e] = {
                 'html': str(errors[e]),
                 'action': 'copy', 'effects': 'highlight'}
+
         return ret
 
 

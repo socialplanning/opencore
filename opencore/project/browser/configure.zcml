@@ -178,14 +178,6 @@
 
   <browser:page
      for="opencore.interfaces.IProject"
-     class=".latest_snippet.LatestSnippet"
-     permission="zope2.View"
-     name="latest-snippet"
-     template="latest_snippet.pt"
-     />
-
-  <browser:page
-     for="opencore.interfaces.IProject"
      class="opencore.project.browser.RedirectView"
      permission="zope2.View"
      name="view"
@@ -217,6 +209,5 @@
       provides="opencore.interfaces.pending_requests.IRequestMembership"
       factory="opencore.project.browser.team_membership.RequestMembershipWithEmail"
       />
-
 
 </configure>

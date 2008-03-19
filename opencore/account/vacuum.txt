@@ -29,9 +29,13 @@ Logged in user:
     >>> view = portal.restrictedTraverse('@@login')
     >>> output = view()
 
-    >>> from opencore.configuration.utils import get_config #XXX needs mocking
-    >>> raw_list = get_config('applications', 'opencore_vacuum_whitelist', default='').split(',')
-    >>> vacuum_whitelist = [x.strip() for x in raw_list if x.strip()]
+Inject a mock configuration option for the vacuum_whitelist of allowed
+hosts to redirect to::
+    >>> from opencore.utility.interfaces import IProvideSiteConfig
+    >>> from zope.component import getUtility
+    >>> vacuum_whitelist = ["http://vacuum.example.com"]
+    >>> getUtility(IProvideSiteConfig)._set(vacuum_whitelist)
+
     >>> jsview.request['HTTP_REFERER'] = vacuum_whitelist[0]
     >>> self.login()
 
@@ -47,18 +51,5 @@ Logged in user:
     memberurl: 'http://nohost/plone/people/test_user_1_',
     website: '',
     email: 'test_emailer_1_@example.com',
-    topnav: '\
-    <ul id="oc-topnav-usermenu" class="oc-dropdown-list">\
-    \
-    \
-    \
-    <li>\
-    <a href="http://nohost/plone/login">Sign in</a>\
-    </li>\
-    <li>\
-    <a href="http://nohost/plone/join">Create account</a>\
-    </li>\
-    \
-    </ul>\
-    '
+    topnav: '...http://nohost/plone/login...http://nohost/plone/join...'
     });

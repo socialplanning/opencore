@@ -306,7 +306,7 @@ Ensure that you can't join the site with another foobar::
 
     >>> clear_status_messages(view)
     >>> view()
-    u'...The login name you selected is already in use or is not valid. Please choose another...'
+    u'...The login name you selected is already in use. Please choose another...'
     
 You also shouldn't be able to join with case-variants::
 
@@ -317,7 +317,7 @@ You also shouldn't be able to join with case-variants::
     ...             confirm_password='testy')
     >>> view.request.form.update(form)
     >>> view()
-    u'...The login name you selected is already in use or is not valid. Please choose another...'
+    u'...The login name you selected is already in use. Please choose another...'
 
 Email address are also unique::
 
