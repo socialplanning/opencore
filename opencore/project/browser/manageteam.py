@@ -670,7 +670,6 @@ class InviteView(ManageTeamView):
         # perform invitation
 
         key = self.invite_util.addInvitation(addy, proj_id)
-        
         msg_subs = dict(join_url=self.join_url(addy, key),
                         #FIXME: spam-check this
                         user_message=self.request.get('message', ''), 
@@ -690,8 +689,9 @@ class InviteView(ManageTeamView):
         return key
 
     def invite_email_boiler(self):
-        # this is a hack to massage the email_invite_static_body text to look good on
-        # the screen for presentation purposes; it is used in its virgin form in the email
+        # this is a hack to massage the email_invite_static_body text
+        # to look good on the screen for presentation purposes; it is
+        # used in its virgin form in the email
         msg_subs = dict(user_message='',
                         join_url=self.join_url('', ''),
                         portal_title=self.portal_title(),

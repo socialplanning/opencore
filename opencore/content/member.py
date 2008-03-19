@@ -247,7 +247,7 @@ class OpenMember(FolderishMember):
         Returns a list of teams on which the member is active.
         """
         tmtool = getToolByName(self, 'portal_teams')
-        return tmtool.getTeamsByMemberId(self.getId(), active=True)
+        return tmtool.getTeamsForMember(self, active=True)
 
     security.declareProtected(View, 'getProjectListing')
     def getProjectListing(self):
@@ -257,7 +257,20 @@ class OpenMember(FolderishMember):
             for space in team.getTeamSpaces():
                 if mtool.checkPermission(View, space):
                     projects[space] = None
-        return projects.keys()            
+        return projects.keys()
+    
+    security.declareProtected(View, 'project_ids')
+    def project_ids(self):
+        """ids of active teams. this attr is indexed"""
+        return [x.getId() for x in self.getProjectListing()]
+
+    security.declareProtected(View, 'has_portrait')
+    def has_portrait(self):
+        portrait = self.getProperty('portrait', None)
+        if portrait:
+            return True
+        else:
+            return False
 
     # XXX is this used?
     security.declareProtected(View, 'projectBrains')

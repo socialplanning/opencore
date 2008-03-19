@@ -85,7 +85,6 @@ def test_suite():
 
     def readme_teardown(tc):
         BaseView.has_geocoder = BaseView._old_has_geocoder
-        
 
     test_file = pkgr.resource_stream(OC_REQ, 'opencore/project/browser/test.png')
     globs = locals()
@@ -97,6 +96,16 @@ def test_suite():
                                     setUp=readme_setup,
                                     tearDown=readme_teardown,
                                     layer = MockHTTPWithContent,
+                                    )
+    
+    team_view = dtf.ZopeDocFileSuite("team-view.txt", 
+                                    optionflags=optionflags,
+                                    package='opencore.project.browser',
+                                    test_class=FunctionalTestCase,
+                                    globs = globs,
+                                    setUp=readme_setup,
+                                    tearDown=readme_teardown,
+                                    layer = OpencoreContent,
                                     )
 
     logo = dtf.FunctionalDocFileSuite("logo.txt",
@@ -173,16 +182,18 @@ def test_suite():
                                                          layer=OpencoreContent                                                 
                                                          )
     
+    suites = (contents,
+              metadata,
+              manage_team,
+              request_membership,
+              homepage,
+              team_request_membership,
+              logo,
+              readme,
+              delete,
+              team_view)
 
-    utilsunit = doctest.DocTestSuite('opencore.project.browser.utils',  # XXX no tests in there?
-                                     optionflags=optionflags)
-    suites = (contents, metadata, manage_team,
-              request_membership, homepage,
-              team_request_membership, logo,
-              readme, utilsunit, delete,
-              )
     return unittest.TestSuite(suites)
-
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')

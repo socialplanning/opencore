@@ -18,7 +18,8 @@ def test_suite():
     from Testing.ZopeTestCase import FunctionalDocFileSuite, installProduct
     from pprint import pprint
     from zope.interface import alsoProvides
-
+    import pdb
+    
     setup.setupPloneSite()
     def readme_setup(tc):
         tc._refreshSkinData()
