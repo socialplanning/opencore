@@ -101,8 +101,12 @@ class LoginView(AccountView):
             # in order for insufficient_privileges to redirect correctly
             referer = self.request.form.get('referer')
             if referer is not None:
-                destination = '%s?referer=%s' % (destination, 
-                                                 urllib.quote(referer))
+                if '?' in destination:
+                    destination = '%s&referer=%s' % (destination, 
+                                                     urllib.quote(referer))
+                else:
+                    destination = '%s?referer=%s' % (destination, 
+                                                     urllib.quote(referer))
             return destination
         else:
             default_redirect = '%s/account' % self.memfolder_url()
