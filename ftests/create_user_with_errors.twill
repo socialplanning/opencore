@@ -9,7 +9,7 @@ fv edit_form password 'a'
 fv edit_form confirm_password 'a'
 submit
 
-find 'The login name you selected is already in use or is not valid. Please choose another.'
+find 'The login name you selected is not valid. Usernames must start with a letter and consist only of letters, numbers, and underscores.  Please choose another.'
 find '(optional)'
 find 'That email address is invalid.'
 find 'Passwords must contain at least 5 characters.'

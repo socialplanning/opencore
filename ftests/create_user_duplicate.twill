@@ -17,7 +17,7 @@ fv edit_form email $email
 fv edit_form password $password
 fv edit_form confirm_password $password
 submit
-find 'The login name you selected is already in use or is not valid.  *Please choose another.'
+find 'The login name you selected is already in use. Please choose another.'
 find 'That email address is already in use.  *Please choose another.'
 
 # confirm first user
@@ -38,5 +38,5 @@ fv edit_form email $email
 fv edit_form password $password
 fv edit_form confirm_password $password
 submit
-find 'The login name you selected is already in use or is not valid.  *Please choose another.'
+find 'The login name you selected is already in use. Please choose another.'
 find 'That email address is already in use.  *Please choose another.'
