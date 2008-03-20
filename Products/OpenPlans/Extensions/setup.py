@@ -55,8 +55,8 @@ def migrate_listen_container_to_feed(portal):
     proj_brains = cat(Type='OpenProject')
     for brain in proj_brains:
         proj = brain.getObject()
-        container = getattr(proj, 'lists')
-        if container:
+        container = proj._getOb('lists', None)
+        if container is not None:
             name = repr(container)
             if ICanFeed.providedBy(list):
                 out.append('%s already provides ICanFeed' % name)
