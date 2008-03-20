@@ -93,14 +93,16 @@ class EmailInvites(SimpleItem):
             wf_status['actor'] = 'admin'
             mship.from_email_invite = True
             mship.reindexObject()
-        self.removeInvitation(address, proj_id)
-        return mship
+            self.removeInvitation(address, proj_id)
+            return mship
+        else:
+            return None
 
     def convertInvitesForMember(self, member):
         address = member.getEmail()
         invites = self.getInvitesByEmailAddress(address)
         mships = [self.convertInviteForMember(member, address, proj_id) for proj_id in invites]
-        return mships
+        return filter(bool, mships)
                 
 
 
