@@ -82,21 +82,21 @@ class EmailInvites(SimpleItem):
         wftool = getToolByName(self, 'portal_workflow')
         tm = tmtool.getTeamById(proj_id)
 
-        if tm is not None:
-            mship = tm._createMembership(member)
-            # bad touch, we have to make it look like someone
-            # other than the actual user made the request, so
-            # it'll be treated as an invitation :-(
-            wf_id = wftool.getChainFor(mship)[0]
-            wf_hist = mship.workflow_history.get(wf_id)
-            wf_status = wf_hist[-1]
-            wf_status['actor'] = 'admin'
-            mship.from_email_invite = True
-            mship.reindexObject()
-            self.removeInvitation(address, proj_id)
-            return mship
-        else:
+        if tm is None:
             return None
+
+        mship = tm._createMembership(member)
+        # bad touch, we have to make it look like someone
+        # other than the actual user made the request, so
+        # it'll be treated as an invitation :-(
+        wf_id = wftool.getChainFor(mship)[0]
+        wf_hist = mship.workflow_history.get(wf_id)
+        wf_status = wf_hist[-1]
+        wf_status['actor'] = 'admin'
+        mship.from_email_invite = True
+        mship.reindexObject()
+        self.removeInvitation(address, proj_id)
+        return mship
 
     def convertInvitesForMember(self, member):
         address = member.getEmail()
