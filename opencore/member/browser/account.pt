@@ -107,7 +107,9 @@
     </tal:no_updates>
   </div><!-- end .widget-invitations -->
 
-  <a tal:attributes="href string:${view/twirlip_uri}/user/watchlist" rel="include"></a>
+  <a rel="include"
+     tal:condition="view/twirlip_uri"
+     tal:attributes="href string:${view/twirlip_uri}/user/watchlist"/>
   <metal:do use-macro="view/project_table/macros/project_table" />
 
 </div><!-- end #oc-content-main -->
@@ -170,7 +172,9 @@
         </ul>
       </fieldset>
     </form>
-  <a tal:attributes="href string:${view/twirlip_uri}/user/preferences" rel="include"></a>
+  <a rel="include"
+     tal:condition="view/twirlip_uri"
+     tal:attributes="href string:${view/twirlip_uri}/user/preferences"/>
   </div>
   
   <div i18n:translate="account_listed_explanation" class="oc-plainList oc-boxy">
