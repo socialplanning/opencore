@@ -191,7 +191,7 @@ def wiki_page_edited(page, event):
                                         history=event.old_history,
                                         reversion=True,
                                         author=event.rollback_author)
-    return IWikiHistory(page).new_history_item()
+    return history.new_history_item(author=get_member(page))
 
 annot_key = 'opencore.nui.wiki.wikihistory'
 
