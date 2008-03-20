@@ -201,7 +201,8 @@ class InviteJoinView(JoinView, ConfirmAccountView):
             self.addPortalStatusMessage(_(u'psm_denied', u'Denied -- bad key'))
             return self.redirect("%s/%s" %(self.siteURL, 'login'))
         
-        if self.is_pending(getEmail=self.email):
+        member = self.is_pending(getEmail=self.email)
+        if member:
             return self.redirect(self._confirmation_url(member))
 
         return None
