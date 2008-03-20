@@ -1,6 +1,14 @@
 v0.10 (unreleased)
 ==================
 
+2008-03-19  Rob Miller <robm@openplans.org>
+
+    * merged whit-team-speedup branch back to trunk; overhauls the
+      'team' template in projects so that all info is retrieved from
+      the member catalog, no need to get the member or membership
+      objects.
+
+
 v0.9.x and below
 ================
 
