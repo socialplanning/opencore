@@ -9,7 +9,7 @@ from zope.component import getUtility
 import re
 
 def in_vacuum_whitelist(url):
-    raw_list = getUtility(IProvideSiteConfig).get("vacuum_whitelist")
+    raw_list = getUtility(IProvideSiteConfig).get("vacuum_whitelist").split(',')
     vacuum_whitelist = [x.strip() for x in raw_list if x.strip()]
     
     for safe_host in vacuum_whitelist:

@@ -33,10 +33,10 @@ Inject a mock configuration option for the vacuum_whitelist of allowed
 hosts to redirect to::
     >>> from opencore.utility.interfaces import IProvideSiteConfig
     >>> from zope.component import getUtility
-    >>> vacuum_whitelist = ["http://vacuum.example.com"]
+    >>> vacuum_whitelist = "http://vacuum.example.com,http://make.this.a.comma.separated.list"
     >>> getUtility(IProvideSiteConfig)._set(vacuum_whitelist)
 
-    >>> jsview.request['HTTP_REFERER'] = vacuum_whitelist[0]
+    >>> jsview.request['HTTP_REFERER'] = "http://vacuum.example.com"
     >>> self.login()
 
     Finally, test the view::
