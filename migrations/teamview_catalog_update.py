@@ -1,3 +1,4 @@
+import sys
 import transaction
 from AccessControl.SecurityManagement import newSecurityManager
 from AccessControl.SpecialUsers import system
