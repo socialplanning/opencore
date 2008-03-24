@@ -6,7 +6,6 @@ from opencore.nui.setup import nui_functions, set_method_aliases
 from opencore.nui.wiki import utils
 from opencore.streetswiki.utils import add_wiki
 from pprint import pprint 
-from teamview_catalog_update import teamview_catalog_update
 import sys
 import transaction
 
@@ -121,7 +120,5 @@ transaction.commit()
 print "Reindexing membrane catalog"
 portal.membrane_tool.refreshCatalog()
 transaction.get().note('membrane_tool reindexed')
-
-teamview_catalog_update(commit=False)
 
 transaction.commit()
