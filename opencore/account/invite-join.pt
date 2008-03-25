@@ -17,11 +17,10 @@ need to combine with regular join form
               tal:attributes="action string:${context/absolute_url}/${view/name}"
               >
           <div class="oc-headingBlock">
-            <h1>Welcome</h1>
-            <p class="oc-headingContext">You've been invited to participate in <span tal:replace="view/project_noun">project</span>s on <span tal:replace="view/portal/title"/></p>
+            <h1>Welcome to <span tal:replace="view/portal/title" /></h1>
+            <p class="oc-headingContext">You've been invited to participate in the following <span tal:replace="view/project_noun">project</span></p>
           </div>
           <div class="oc-widget oc-widget-feed">
-            <h2 i18n:translate="invite-join_proj_invites" class="oc-feed-title"><span i18n:name="project_noun" tal:replace="python:view.project_noun.title()">project</span>s requesting your membership</h2>
             <ul class="oc-feed-list oc-clearAfter">
               <li class="oc-feed-item oc-clearAfter" tal:repeat="project python:sorted(view.invite_map)">
                  <tal:setvar define="  proj_url project/url;
@@ -39,8 +38,9 @@ need to combine with regular join form
                     <span tal:condition="project/closed" tal:content="string: ${project/title} (closed project)" />
                   </h3>
                   <p class="oc-feed-item-description" tal:define="desc project/description">
-                    <span tal:condition="desc" tal:replace="desc" />
+                    <span tal:condition="desc" tal:replace="python:view.truncate(desc, 255)" />
                   </p>
+                  <p tal:condition="not: project/closed"><a tal:attributes="href project/url">learn more</a></p>
                   <p class="oc-hidden">
                      <input type="checkbox"
                             class="oc-input-typeCheck"
@@ -207,6 +207,24 @@ need to combine with regular join form
         <div class="oc-boxy">
           <h2 i18n:translate="join_already_member_heading">Already a member?</h2>
           <a i18n:translate="join_sign_in" href="login">Sign in</a>
+        </div>
+<tal:comment tal:replace="nothing">
+[TODO] This is probably something we should consider extracting so that other templates can include it (the similar version from join.pt seems like a great candidate for using identical copy)
+</tal:comment>
+        <div id="oc-joining-explanation" class="oc-boxy">
+          <h2>What joining will do</h2>
+          <ul i18n:translate="join_get_started_list">
+	          <li>You can join and participate in existing <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s</li>
+            <li>You can create your own <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> and invite people to participate</li>
+            <li>You can share information about yourself</li>
+	        </ul>
+	        <ul class="oc-join-icons clearAfter">
+		        <li><img src="/++resource++img/touricons/team.gif" alt="Team icon" /><p>Team</p></li>
+		        <li><img src="/++resource++img/touricons/portrait.gif" alt="Profile icon" /><p>Profile</p></li>
+		        <li><img src="/++resource++img/touricons/wiki.gif" alt="Pages icon" /><p>Pages</p></li>
+		        <li><img src="/++resource++img/touricons/mailinglist.gif" alt="Mailing Lists icon" /><p>Discussions</p></li>
+		        <li><img src="/++resource++img/touricons/blog.gif" alt="Blogs icon" /><p>Blogs</p></li>
+		      </ul>
         </div>
 
       </div><!-- end #oc-content-sidebar -->
