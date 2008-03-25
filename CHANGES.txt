@@ -8,6 +8,12 @@ v0.10 (unreleased)
       the member catalog, no need to get the member or membership
       objects.
 
+  Addendum:  2008-03-25  Josh Bronson  <jab@openplans.org>
+
+      This change also requires updating the TeamSpace product for an
+      existing build (svn up opencore-bundle/TeamSpace), as well as
+      running the opencore.migrations.teamview_catalog_update
+      migration on existing data.
 
 v0.9.x and below
 ================
