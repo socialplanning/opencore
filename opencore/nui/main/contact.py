@@ -5,12 +5,20 @@ from opencore.browser.base import BaseView, _
 from opencore.browser import formhandler
 from opencore.nui.email_sender import EmailSender
 
+#XXX this would be easier if moved to formlib
 class ContactView(BaseView, formhandler.OctopoLite):
     """
     View for the site admin contact form.
     """
     form_fields = ['sender_fullname', 'sender_from_address', 'subject',
                    'message']
+
+    questions = [
+        u"I'm experiencing trouble with the website",
+        u"I'd like to request a new feature or tool",
+        u"I'd like to report a bug",
+        u"I have a non-technical question",
+        ]
 
     @property
     @req_memoize
@@ -22,7 +30,7 @@ class ContactView(BaseView, formhandler.OctopoLite):
         for field in self.form_fields:
             if not req.form.get(field):
                 self.errors[field] = 'Input required'
-    
+
     @formhandler.action('send')
     def send(self, targets=None, fields=None):
         """
