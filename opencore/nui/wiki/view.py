@@ -109,9 +109,10 @@ class WikiEdit(WikiBase, OctopoLite):
             whitelist = [x for x in whitelist if x.strip()]
         except TypeError:
             raise TypeError("Bad value for portal_properties.embed_whitelist: %r" % whitelist)
-        cleaner = Cleaner(host_whitelist=whitelist)
 
-        # stoled from lxml.html.clean
+        cleaner = Cleaner(host_whitelist=whitelist, safe_attrs_only=False)
+
+        # stolen from lxml.html.clean
         if isinstance(html, basestring):
             return_string = True
             doc = fromstring(html)
@@ -160,7 +161,7 @@ class WikiEdit(WikiBase, OctopoLite):
                 page_text = page_text.decode('utf-8')
             except UnicodeDecodeError:
                 pass
-            
+
         clean_text = self._clean_html(page_text)
 
         self.context.setTitle(page_title)
