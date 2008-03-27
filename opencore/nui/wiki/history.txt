@@ -124,7 +124,7 @@ Verify that version caching for ui has registered the changes::
         'modification_date': DateTime(...),
         'version_id': 1}),
       (2,
-       {'author': 'portal_owner',
+       {'author': 'm1',
         'comment': '',
         'modification_date': DateTime(...),
         'version_id': 2})]
@@ -186,12 +186,12 @@ versions w/ no comments (no blank initialization version)::
         'modification_date': DateTime(...),
         'version_id': 1}),
       (2,
-       {'author': 'portal_owner',
+       {'author': 'm1',
         'comment': '',
         'modification_date': DateTime(...),
         'version_id': 2}),
       (3,
-       {'author': 'm1',
+       {'author': 'm3',
         'comment': 'this is a bar version',
         'modification_date': DateTime(...),
         'version_id': 3})]
@@ -227,12 +227,12 @@ Try version 1::
         'modification_date': DateTime(...),
         'version_id': 1}),
       (2,
-       {'author': 'portal_owner',
+       {'author': 'm1',
         'comment': '',
         'modification_date': DateTime(...),
         'version_id': 2}),
       (3,
-       {'author': 'm1',
+       {'author': 'm3',
         'comment': 'this is a bar version',
         'modification_date': DateTime(...),
         'version_id': 3}),
@@ -257,12 +257,3 @@ Iterating over the history should give us the initial version first
       'comment': 'Rolled back to Initial Version',
       'modification_date': DateTime('...'),
       'version_id': 4}
-
-
-
-
-
-
-
-
-
