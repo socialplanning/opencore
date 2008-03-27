@@ -16,6 +16,7 @@ need to combine with regular join form
         <form id="oc-join-form" name="edit_form" method="post" 
               tal:attributes="action string:${context/absolute_url}/${view/name}"
               >
+          <input type="hidden" name="project" tal:attributes="value request/project" />
           <div class="oc-headingBlock">
             <h1>Welcome to <span tal:replace="view/portal/title" /></h1>
             <p class="oc-headingContext">You've been invited to participate in the following <span tal:replace="view/project_noun">project</span></p>
