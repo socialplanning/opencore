@@ -69,6 +69,7 @@ woonerf_migrations = [
     'Make profile default member page',
     'annotate last modified author',
     'migrate_listen_container_to_feed',
+    'Add has_portrait membrane_tool index',
 ]
 
 for migration in woonerf_migrations:
