@@ -1,6 +1,16 @@
 v0.10 (unreleased)
 ==================
 
+2008-03-27  Robert Marianski <rmarianski@openplans.org>
+
+    * added new index to membrane_tool "has_portrait"
+      You can use this index to query on members that have set/not set
+      their member portrait.
+
+    Migration:
+      This requires that a setup widget be run to add this new index:
+      "Add has_portrait membrane_tool index"
+
 2008-03-19  Rob Miller <robm@openplans.org>
 
     * merged whit-team-speedup branch back to trunk; overhauls the
