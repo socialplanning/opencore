@@ -31,15 +31,6 @@ _marker = object()
 
 PROJECT_POLICY='project_policy'
 
-mem_idxs = (('FieldIndex', 'exact_getFullname',
-             {'indexed_attrs': 'getFullname'}),
-            ('ZCTextIndex', 'RosterSearchableText',
-             {'index_type': 'Okapi BM25 Rank',
-              'lexicon_id': 'lexicon'}),
-            ('FieldIndex', 'sortableLocation',
-             {'indexed_attrs': 'getLocation'}),
-             )
-
 class LastWorkflowActor(object):
     """
     populates the 'lastWorkflowActor' metadata column for
@@ -236,9 +227,6 @@ class MailingListThreadCount(object):
             return 0
         else:
             return len(util.getToplevelMessages())
-
-def createMemIndexes(portal, out):
-    createIndexes(portal, out, idxs=mem_idxs, tool='membrane_tool')
 
 def registerInterfaceIndexer(idx, iface, method=None, default=None):
     """
