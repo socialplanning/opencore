@@ -13,6 +13,7 @@ from opencore.interfaces import IProject
 from opencore.interfaces import IOpenPage
 from opencore.interfaces.catalog import ILastModifiedAuthorId
 from opencore.interfaces.catalog import IIndexingGhost
+from opencore.interfaces.event import IAfterProjectAddedEvent
 from Missing import MV
 
 from Products.listen.interfaces import ISearchableMessage, ISearchableArchive, IMailMessage, IMailingList
@@ -142,4 +143,11 @@ def proxy(attrs):
     obj = type('metadata proxy', (object,), attrs)()
     return obj
 
-
+# not sure if this belongs here, but it's a catalog update
+@adapter(IAfterProjectAddedEvent)
+def reindex_project_ids_for_project_creator(evt):
+    proj = evt.project
+    mtool = getToolByName(proj, 'portal_membership')
+    mem = mtool.getAuthenticatedMember()
+    assert mem is not None, "anonymous user created a project?"
+    mem.reindexObject(idxs=['project_ids'])

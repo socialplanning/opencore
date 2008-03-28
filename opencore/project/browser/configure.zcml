@@ -192,6 +192,11 @@
   <subscriber handler=".metadata.updateThreadCount" />
 
   <subscriber
+    for="opencore.interfaces.event.IAfterProjectAddedEvent"
+    handler=".metadata.reindex_project_ids_for_project_creator"
+    />
+
+  <subscriber
      for="opencore.interfaces.IOpenPage
          zope.app.event.interfaces.IObjectModifiedEvent"
      handler=".metadata.update_last_modified_author"
