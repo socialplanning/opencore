@@ -36,6 +36,7 @@ Get the mailhost::
 
 Simulate an error, and check that an email was sent out::
 
+    >>> email_from_address = portal.manage_changeProperties(email_from_address='bogus@example.com')
     >>> from opencore.browser.error import ErrorReporter
     >>> view = ErrorReporter(self.homepage, self.request)
     >>> view = view.__of__(self.homepage)
@@ -54,7 +55,7 @@ Verify the contents of the email::
     >>> msg = mh.messages[0]
     >>> from pprint import pprint
     >>> pprint(msg.items())
-    [('To', ['greetings@...]),
+    [('To', ['bogus@example.com']),
      ('From', 'anonymous@example.com'),
      ('Subject', '[OpenCore Site] site error report')]
     >>> print msg.get_payload()
