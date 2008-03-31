@@ -5,6 +5,7 @@ from Testing.ZopeTestCase import FunctionalDocFileSuite
 from Testing.ZopeTestCase import PortalTestCase 
 from opencore.testing import dtfactory as dtf
 from opencore.testing.layer import MockHTTPWithContent
+from opencore.testing.layer import OpencoreContent
 from zope.testing import doctest
 from zope.app.component.hooks import setSite
 import os
@@ -21,7 +22,6 @@ def test_suite():
     from Products.PloneTestCase import setup
     from opencore import redirect
     from opencore.interfaces.membership import IEmailInvites
-    from opencore.interfaces.message import ITransientMessage
     from opencore.interfaces.message import ITransientMessage
     from opencore.interfaces.pending_requests import IPendingRequests
     from opencore.testing import alsoProvides, noLongerProvides
@@ -50,6 +50,7 @@ def test_suite():
                                      package='opencore.member',
                                      test_class=OpenPlansTestCase,
                                      globs=globs,
+                                     layer=OpencoreContent
                                      )
 
     pending = dtf.ZopeDocFileSuite("pending_requests.txt",

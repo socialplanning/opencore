@@ -338,13 +338,13 @@ Let's accept our gracious invitation
 And now if we were to receive an info message::
 
     Let's stick some phony messages in there first
-    >>> tm = ITransientMessage(self.portal)
-    >>> tm.store('m1', view.msg_category, 'All your base are belong to us')
-    >>> tm.store('m1', view.msg_category, 'You were just acceped to Move Zig')
+    >>> tm1 = ITransientMessage(self.portal.people.m1)
+    >>> tm1.store(view.msg_category, 'All your base are belong to us')
+    >>> tm1.store(view.msg_category, 'You were just accepted to Move Zig')
 
     And now we should be able to view those messages
     >>> list(view.infomsgs)
-    [(0, 'All your base are belong to us'), (1, 'You were just acceped to Move Zig')]
+    [(0, 'All your base are belong to us'), (1, 'You were just accepted to Move Zig')]
 
     Let's go ahead and kill the first one, the message is not so nice
     >>> sorted(view.close_msg_handler('0').keys())
@@ -353,7 +353,7 @@ And now if we were to receive an info message::
     Poof, he's gone
     >>> self.clearMemoCache()
     >>> list(view.infomsgs)
-    [(1, 'You were just acceped to Move Zig')]
+    [(1, 'You were just accepted to Move Zig')]
 
     And if we try to axe something that isn't there ...
     We get zilch back

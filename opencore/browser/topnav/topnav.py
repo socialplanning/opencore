@@ -232,8 +232,12 @@ class AuthMenuView(BaseView):
         for the logged in member
         """
         mem_id = self.loggedinmember.getId()
-        tm = ITransientMessage(self.portal)
-        t_msgs = tm.get_all_msgs(mem_id)
+        member_folder = self.memfolder()
+        import pdb; pdb.set_trace()
+        tm = ITransientMessage(member_folder)
+        t_msgs = tm.get_all_msgs()
+
+        msg_count = sum([len(value) for key,value in t_msgs.iteritems() if not key == 'Trackback'])
 
         query = dict(portal_type='OpenMembership',
                      getId=mem_id,
@@ -241,7 +245,7 @@ class AuthMenuView(BaseView):
         mship_brains = self.catalogtool(**query)
         proj_invites = [brain for brain in mship_brains if brain.review_state == 'pending' and brain.lastWorkflowActor != mem_id]
         
-        return len(t_msgs) + len(proj_invites)
+        return msg_count + len(proj_invites)
 
     @memoizedproperty
     def menudata(self):

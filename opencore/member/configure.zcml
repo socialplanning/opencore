@@ -14,7 +14,10 @@
 	   provides="opencore.member.interfaces.ICreateMembers"
 	   factory="opencore.member.factory.MemberFactory" />
 
-  <adapter factory="opencore.member.transient_messages.TransientMessage" />
+  <adapter for="opencore.interfaces.IMemberFolder"
+	   provides="opencore.interfaces.message.ITransientMessage"
+	   factory="opencore.member.transient_messages.TransientMessage" />
+
   <adapter factory="opencore.member.pending_requests.PendingRequests" />
   <adapter factory="opencore.member.pending_requests.PendingRequestsForFolder" />
 

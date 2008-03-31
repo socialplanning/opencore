@@ -1,5 +1,7 @@
 from DateTime import DateTime
 from Acquisition import aq_base
+from BTrees.IOBTree import IOBTree
+from BTrees.OOBTree import OOBTree
 from Products.CMFCore.utils import getToolByName
 from Products.CMFEditions.interfaces.IArchivist import ArchivistRetrieveError
 from Products.OpenPlans.Extensions.setup import convertFunc
@@ -30,6 +32,7 @@ from pprint import pprint
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.interfaces import IFeatureletSupporter, IFeatureletRegistry
 from topp.utils import config
+from zope.app.annotation import IAnnotations
 from zope.component import getUtility
 from zope.interface import alsoProvides
 import os
@@ -466,6 +469,27 @@ def make_profile_default_member_page(portal):
         mf.setDefaultPage(None)
         mf.setLayout('profile')
 
+def move_transient_messages_to_members(portal):
+    """Takes the transient messages stored on the site root as annotations
+       and moves those belonging to each member to annotations on their folder"""
+    site_annot = IAnnotations(portal)
+    tm = site_annot.get('transient-message')
+    if not tm:
+        # This migrations has already been run
+        return
+
+    for member in tm:
+        # Create a new, per-member transient message store
+        new_tm = IAnnotations(portal.people[member]).setdefault('opencore.transientmessage',OOBTree())
+
+        for category in tm[member]:
+            cat_store = new_tm.setdefault(category,IOBTree())
+            cat_store.update(tm[member][category])
+
+    # Remove the old store so that this migration won't run again
+    del site_annot['transient-message']
+
+                                        
 def add_has_portrait_membrane_tool_index(portal):
     """add a new has_portrait index to the membrane catalog which lets us query
        on users that have a portrait set"""
@@ -520,6 +544,7 @@ nui_functions['Make project home pages relative'] = make_proj_homepages_relative
 nui_functions['Remove old bogus versions'] = remove_old_bogus_versions
 nui_functions['Make profile default member page'] = make_profile_default_member_page
 nui_functions['migrate_listen_container_to_feed'] = migrate_listen_container_to_feed
+nui_functions['Move transient messages to their respective owners'] = move_transient_messages_to_members
 nui_functions['Add has_portrait membrane_tool index'] = add_has_portrait_membrane_tool_index
 
 def run_nui_setup(portal):

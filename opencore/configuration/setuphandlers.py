@@ -17,7 +17,6 @@ from opencore.interfaces import IAddProject
 from opencore.interfaces import IAmANewsFolder
 from opencore.interfaces import IAmAPeopleFolder
 from opencore.interfaces.membership import IEmailInvites
-from opencore.interfaces.message import ITransientMessage
 from opencore.member.transient_messages import TransientMessage
 from opencore.project.browser.email_invites import EmailInvites
 from utils import kupu_libraries

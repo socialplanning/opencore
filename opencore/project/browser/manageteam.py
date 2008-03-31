@@ -167,10 +167,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
         if homeurl is not None:
             return "%s/account" % homeurl
 
-    @property
-    @req_memoize
-    def transient_msgs(self):
-        return ITransientMessage(self.portal)
+    def transient_msgs(self, mem_id):
+        return ITransientMessage(self.memfolder(mem_id))
 
     def _add_transient_msg_for(self, mem_id, msg):
         # XXX not happy about generating the html for this here
@@ -178,7 +176,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
         proj_url = self.context.absolute_url()
         title = self.context.title
         msg = '%(msg)s <a href="%(proj_url)s">%(title)s</a>' % locals()
-        self.transient_msgs.store(mem_id, self.msg_category, msg)
+        self.transient_msgs(mem_id).store(self.msg_category, msg)
 
 
     ##################

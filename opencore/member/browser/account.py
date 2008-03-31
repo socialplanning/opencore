@@ -287,13 +287,16 @@ class MemberAccountView(BaseView, OctopoLite):
         team.reindexTeamSpaceSecurity()
 
         admin_ids = team.get_admin_ids()
-        transient_msgs = ITransientMessage(self.portal)
         id_ = self.loggedinmember.getId()
         project_url = self.project_url(proj_id)
         msg = _(u'tmsg_joined_project', u'${id} has joined <a href="${project_url}">${proj_id}</a>',
                 mapping={u'id':id_, u'project_url':project_url, u'proj_id':proj_id})
         for mem_id in admin_ids:
-            transient_msgs.store(mem_id, "membership", msg)
+            member_folder = self.memfolder(mem_id)
+            if not member_folder:
+                continue
+            transient_msgs = ITransientMessage(member_folder)
+            transient_msgs.store("membership", msg)
         
         projinfos = self.projects_for_user
         if len(projinfos) > 1:
@@ -336,12 +339,13 @@ class MemberAccountView(BaseView, OctopoLite):
         wf_history = mship.workflow_history.get(wf_id)
         spurned_admin = [i for i in wf_history if i['review_state'] == 'pending'][-1]['actor']
         
-        transient_msgs = ITransientMessage(self.portal)
+        member_folder = self.memfolder()
+        transient_msgs = ITransientMessage(member_folder)
 
         project_url = self.project_url(proj_id)
         msg = _(u'tmsg_decline_invite', u'${id} has declined your invitation to join <a href="${project_url}">${proj_id}</a>',
                 mapping={u'id':id_, u'project_url':project_url, u'proj_id':proj_id})
-        transient_msgs.store(spurned_admin, "membership", msg)
+        transient_msgs.store("membership", msg)
 
         elt_id = '%s_invitation' % proj_id
         return ajax_update(elt_id, self.nupdates())
@@ -365,10 +369,10 @@ class MemberAccountView(BaseView, OctopoLite):
         idx = int(idx)
         # XXX explicit context shouldn't be req'd, but lookup fails
         # in the tests w/o it  :(
-        tm = ITransientMessage(self.portal)
         mem_id = self.viewed_member_info['id']
+        tm = ITransientMessage(self.memfolder(mem_id))
         try:
-            tm.pop(mem_id, self.msg_category, idx)
+            tm.pop(self.msg_category, idx)
         except KeyError:
             return {}
         else:
@@ -384,9 +388,9 @@ class MemberAccountView(BaseView, OctopoLite):
            so that they can be popped by the user"""
         # XXX explicit context shouldn't be req'd, but lookup fails
         # in the tests w/o it  :(
-        tm = ITransientMessage(self.portal)
         mem_id = self.viewed_member_info['id']
-        msgs = tm.get_msgs(mem_id, self.msg_category)
+        tm = ITransientMessage(self.memfolder(mem_id))
+        msgs = tm.get_msgs(self.msg_category)
         return msgs
 
     @action("change-password")

@@ -9,39 +9,38 @@ from zope.app.annotation import IAnnotations
 from zope.i18nmessageid import Message
 from zope.interface import implements
 from zope.component import adapts
-from opencore.interfaces import IOpenSiteRoot
+from opencore.interfaces import IMemberFolder
 
 
 class TransientMessage(object):
-    adapts(IOpenSiteRoot)
+    adapts(IMemberFolder)
     implements(ITransientMessage)
     
-    key = 'transient-message'
+    key = 'opencore.transientmessage'
 
-    def __init__(self, site_root):
-        self.site_root = site_root
-        self.annot = IAnnotations(site_root)
+    def __init__(self, context):
+        self.member_folder = context
+        self.annot = IAnnotations(context)
 
-    def _category_annot(self, mem_id, category):
+    def _category_annot(self, category):
         tm_annot = self.annot.setdefault(self.key, OOBTree())
-        mem_annot = tm_annot.setdefault(mem_id, OOBTree())
-        category_annot = mem_annot.setdefault(category, IOBTree())
+        category_annot = tm_annot.setdefault(category, IOBTree())
         return category_annot
 
-    def store(self, mem_id, category, msg):
+    def store(self, category, msg):
         """
         This takes an OBJECT and stores it on a per-user basis.
         If we receive a string, we're going to see if it's a message id
         and attempt to translate it.  If not, WE WILL LEAVE IT ALONE!!!
         """
-        cat = self._category_annot(mem_id, category)
+        cat = self._category_annot(category)
         try:
             new_id = cat.maxKey() + 1
         except ValueError:
             new_id = 0
 
         if isinstance(msg, Message):
-            msg = translate(msg, context=self.site_root)
+            msg = translate(msg, context=self.member_folder)
         elif isinstance(msg, basestring):
             msg = _(msg)
             
@@ -56,19 +55,19 @@ class TransientMessage(object):
 
         cat[new_id] = msg
         
-    def get_msgs(self, mem_id, category):
-        cat = self._category_annot(mem_id, category)
+    def get_msgs(self, category):
+        cat = self._category_annot(category)
         return cat.items()
 
-    def get_all_msgs(self, mem_id):
+    def get_all_msgs(self):
         tm_annot = self.annot.setdefault(self.key, OOBTree())
-        mem_annot = tm_annot.setdefault(mem_id, OOBTree())
-        cats = [cat[0] for cat in mem_annot.items()]
-        items = []
-        for cat in cats:
-            items.extend(list(self.get_msgs(mem_id, cat)))
+
+        items = dict(tm_annot)
+        for key in items.iterkeys():
+            items[key] = dict(items[key])
+
         return items            
 
-    def pop(self, mem_id, category, idx):
-        cat = self._category_annot(mem_id, category)
+    def pop(self, category, idx):
+        cat = self._category_annot(category)
         return cat.pop(idx)

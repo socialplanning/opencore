@@ -42,6 +42,7 @@ def test_suite():
         utils.unmonkey_proj_noun()
 
     globs = locals()
+    import pdb; pdb.set_trace()
     readme = dtf.ZopeDocFileSuite("README.txt",
                                   optionflags=optionflags,
                                   package='opencore.browser',

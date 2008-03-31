@@ -107,25 +107,25 @@ class ProfileView(BaseView):
     def trackbacks(self):
         self.msg_category = 'Trackback'
 
-        tm = ITransientMessage(self.portal)
         mem_id = self.viewed_member_info['id']
-        msgs = tm.get_msgs(mem_id, self.msg_category)
+        tm = ITransientMessage(self.memfolder(mem_id))
+        msgs = tm.get_msgs(self.msg_category)
 
         timediff = datetime.now() - timedelta(days=60)
         old_messages = [(idx, value) for (idx, value) in msgs if value['time'] < timediff]
         for (idx, value) in old_messages:
-            tm.pop(mem_id, self.msg_category, idx)
+            tm.pop(self.msg_category, idx)
         if old_messages:
             # We've removed messages, so we should refresh the list
-            msgs = tm.get_msgs(mem_id, self.msg_category)
+            msgs = tm.get_msgs(self.msg_category)
 
         # We want to insert the indexes into the values so that we can properly address them for deletion
         addressable_msgs = []
         for (idx, value) in msgs:
             if 'excerpt' not in value.keys():
-                tm.pop(mem_id, self.msg_category, idx)
+                tm.pop(self.msg_category, idx)
                 value['excerpt'] = ''
-                tm.store(mem_id, self.msg_category, value)
+                tm.store(self.msg_category, value)
 
                 # XXX TODO: We don't want to display escaped HTML entities,
                 # eg. if the comment text contains "I paid &#8364;20
@@ -264,7 +264,7 @@ class TrackbackView(BaseView):
         # Add a trackback and return a javascript callback
         # so client script knows when it's done and whether it succeeded.
         mem_id = self.viewed_member_info['id']
-        tm = ITransientMessage(self.portal)
+        tm = ITransientMessage(self.memfolder(mem_id))
 
         if self.viewedmember() != self.loggedinmember:
             return 'OpenCore.submitstatus(false, "Permission denied");'
@@ -283,7 +283,7 @@ class TrackbackView(BaseView):
             if title != excerpt:
                 title += '...'
 
-        tm.store(mem_id, self.msg_category, {'url':url, 'title':title, 'blog_name':blog_name, 'excerpt':comment, 'time':datetime.now()})
+        tm.store(self.msg_category, {'url':url, 'title':title, 'blog_name':blog_name, 'excerpt':comment, 'time':datetime.now()})
         return 'OpenCore.submitstatus(true);'
 
 
@@ -310,8 +310,8 @@ class TrackbackView(BaseView):
             return 'No index specified'
 
         # Do the delete
-        tm = ITransientMessage(self.portal)
-        tm.pop(mem_id, self.msg_category, int(index))
+        tm = ITransientMessage(self.memfolder(mem_id))
+        tm.pop(self.msg_category, int(index))
         # TODO: Make sure this is an AJAX request before sending an AJAX response
         #       by using octopus/octopolite
         return {'trackback_%s' % index: {'action': 'delete'}}

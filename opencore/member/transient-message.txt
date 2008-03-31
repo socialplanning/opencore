@@ -5,24 +5,31 @@ opencore.member.transient_messages
 Check storing and retrieving transient messages
 
     Let's begin by instantiating our utility, always a good start
-    >>> from opencore.member.transient_messages import TransientMessage
-    >>> app = self.app
-    >>> tm = TransientMessage(app)
-    >>> tm
+    >>> from opencore.member.transient_messages import ITransientMessage
+    >>> from opencore.interfaces import IMemberFolder
+    >>> self.login('m1')
+    >>> tm1 = ITransientMessage(self.portal.people.m1)
+    >>> tm2 = ITransientMessage(self.portal.people.m2)
+    >>> tm3 = ITransientMessage(self.portal.people.m3)
+    >>> tm1
+    <opencore.member.transient_messages.TransientMessage object at ...>
+    >>> tm2
+    <opencore.member.transient_messages.TransientMessage object at ...>
+    >>> tm3
     <opencore.member.transient_messages.TransientMessage object at ...>
 
     Now, we can start to store all kinds of messages
-    >>> tm.store('m1', 'ghosts', 'there is only zul')
-    >>> tm.store('m1', 'ghosts', 'all hail vigor')
-    >>> tm.store('m1', 'foo', 'bar')
-    >>> tm.store('m2', 'ghosts', 'stay puff <a src="marshmellow.html">marshmallow</a> man')
-    >>> tm.store('m1', 'ghosts', 'do not cross the streams')
+    >>> tm1.store('ghosts', 'there is only zul')
+    >>> tm1.store('ghosts', 'all hail vigor')
+    >>> tm1.store('foo', 'bar')
+    >>> tm2.store('ghosts', 'stay puff <a src="marshmellow.html">marshmallow</a> man')
+    >>> tm1.store('ghosts', 'do not cross the streams')
     >>> from opencore.i18n import _
-    >>> tm.store('m1', 'trythis', _(u'test_transient_msg', u'So <strong>this html</strong> should not be stripped, but ${strip_html}should be stripped',
+    >>> tm1.store('trythis', _(u'test_transient_msg', u'So <strong>this html</strong> should not be stripped, but ${strip_html}should be stripped',
     ... mapping={u'strip_html':u'<script src="virus.html">this script tag</script>'}))
 
     And what good would messages be if we couldn't retrieve them
-    >>> msgs = tm.get_msgs('m1', 'ghosts')
+    >>> msgs = tm1.get_msgs('ghosts')
     >>> msgs
     <IOBTreeItems object at ...>
 
@@ -31,52 +38,52 @@ Check storing and retrieving transient messages
     [(0, 'there is only zul'), (1, 'all hail vigor'), (2, 'do not cross the streams')]
 
     Let's check to make sure the rest of our msgs are playing nice
-    >>> list(tm.get_msgs('m1', 'foo'))
+    >>> list(tm1.get_msgs('foo'))
     [(0, 'bar')]
-    >>> list(tm.get_msgs('m2', 'ghosts'))
+    >>> list(tm2.get_msgs('ghosts'))
     [(0, 'stay puff <a src="marshmellow.html">marshmallow</a> man')]
-    >>> list(tm.get_msgs('m1', 'trythis'))
+    >>> list(tm1.get_msgs('trythis'))
     [(0, 'So <strong>this html</strong> should not be stripped, but should be stripped')]
 
 Can we get all messages across all categories? Yes, but this is not
 efficient, since it dereferences all the messages upon generation::
-    >>> len(tm.get_all_msgs('m1'))
+    >>> sum([len(value) for value in tm1.get_all_msgs().itervalues()])
     5
 
     And if we try to get messages for non existent members/categories,
     we just get nothing back
-    >>> msgs = tm.get_msgs('m3', 'whatever-man')
+    >>> msgs = tm3.get_msgs('whatever-man')
     >>> msgs
     <IOBTreeItems object at ...>
     >>> list(msgs)
     []
-    >>> list(tm.get_msgs('m2', 'spud'))
+    >>> list(tm2.get_msgs('spud'))
     []
 
     And we can also pop these guys off according to their index
-    >>> tm.pop('m1', 'ghosts', 1)
+    >>> tm1.pop('ghosts', 1)
     'all hail vigor'
-    >>> tm.pop('m2', 'ghosts', 0)
+    >>> tm2.pop('ghosts', 0)
     'stay puff <a src="marshmellow.html">marshmallow</a> man'
 
     And poof, they are gone from the list
-    >>> list(tm.get_msgs('m1', 'ghosts'))
+    >>> list(tm1.get_msgs('ghosts'))
     [(0, 'there is only zul'), (2, 'do not cross the streams')]
-    >>> list(tm.get_msgs('m2', 'ghosts'))
+    >>> list(tm2.get_msgs('ghosts'))
     []
 
     If we try to pop an invalid index, we get a KeyError
-    >>> tm.pop('m1', 'ghosts', 17)
+    >>> tm1.pop('ghosts', 17)
     Traceback (most recent call last):
     ...
     KeyError: 17
 
     And if we add a new msg, it should get the highest id
-    >>> tm.store('m1', 'ghosts', 'gatekeeper and keymaster')
-    >>> list(tm.get_msgs('m1', 'ghosts'))
+    >>> tm1.store('ghosts', 'gatekeeper and keymaster')
+    >>> list(tm1.get_msgs('ghosts'))
     [(0, 'there is only zul'), (2, 'do not cross the streams'), (3, 'gatekeeper and keymaster')]
 
     Get the adapter!
     >>> from opencore.interfaces.message import ITransientMessage
-    >>> ITransientMessage(self.portal)
+    >>> ITransientMessage(self.portal.people.m1)
     <opencore.member.transient_messages.TransientMessage object at ...>
