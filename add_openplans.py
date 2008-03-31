@@ -19,4 +19,5 @@ if not site_id in app.objectIds():
     factory = app.manage_addProduct['CMFPlone'].addPloneSite
     factory(site_id, site_title, extension_ids=profiles)
 
+    transaction.get().note('Adding openplans site')
     transaction.commit()

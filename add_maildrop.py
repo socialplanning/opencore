@@ -28,6 +28,7 @@ factory(mh_id)
 # Nothing else to configure; MaildropHost reads most of its config from
 # the filesystem.
 
+transaction.get().note('Replacing old MailHost with a Maildrop Host')
 transaction.commit()
 print "successfully added MaildropHost at", \
       '/'.join(site[mh_id].getPhysicalPath())
