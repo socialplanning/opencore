@@ -1,8 +1,8 @@
 from AccessControl.SecurityManagement import newSecurityManager
-from opencore.configuration.utils import get_config
-import sys
-import transaction
 from Testing.makerequest import makerequest
+from opencore.configuration.utils import get_config
+import transaction
+
 app=makerequest(app)
 
 admin_file = get_config('general', 'admin_info_filename', default='admin')
