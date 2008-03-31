@@ -63,10 +63,11 @@ class TransientMessage(object):
     def get_all_msgs(self, mem_id):
         tm_annot = self.annot.setdefault(self.key, OOBTree())
         mem_annot = tm_annot.setdefault(mem_id, OOBTree())
-        cats = [cat[0] for cat in mem_annot.items()]
-        items = []
-        for cat in cats:
-            items.extend(list(self.get_msgs(mem_id, cat)))
+
+        items = dict(mem_annot)
+        for category in items.iterkeys():
+            items[category] = dict(items[category])
+
         return items            
 
     def pop(self, mem_id, category, idx):

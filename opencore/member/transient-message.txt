@@ -40,7 +40,7 @@ Check storing and retrieving transient messages
 
 Can we get all messages across all categories? Yes, but this is not
 efficient, since it dereferences all the messages upon generation::
-    >>> len(tm.get_all_msgs('m1'))
+    >>> sum([len(value) for value in tm.get_all_msgs('m1').itervalues()])
     5
 
     And if we try to get messages for non existent members/categories,
