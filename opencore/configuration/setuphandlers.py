@@ -535,16 +535,7 @@ def fix_safe_html_transform(portal, out):
     tfm_tool = getToolByName(portal, 'portal_transforms')
     tfm = getattr(tfm_tool, 'safe_html', None)
     if tfm is not None:
-        valid_tags = tfm.get_parameter_value('valid_tags')
-        valid_tags['iframe'] = '0'  # <-- '0' means filter js 'on*' events
-        vt_keys, vt_vals = zip(*valid_tags.items())
-        # if we don't set nasty_tags, we lose the setting... :-(
-        nasty_tags = tfm.get_parameter_value('nasty_tags')
-        nt_keys, nt_vals = zip(*nasty_tags.items())
-        tfm.set_parameters(valid_tags_key=list(vt_keys),
-                           valid_tags_value=[str(val) for val in vt_vals],
-                           nasty_tags_key=list(nt_keys),
-                           nasty_tags_value=[str(val) for val in nt_vals],
-                           )
-
+        # slight bad touch, but the API sucks
+        tfm._config['valid_tags']['iframe'] = 0
+        tfm._p_changed = True
         print >> out, "Fixed safe_html transform"
