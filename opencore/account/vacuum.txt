@@ -53,3 +53,37 @@ hosts to redirect to::
     email: 'test_emailer_1_@example.com',
     topnav: '...http://nohost/plone/login...http://nohost/plone/join...'
     });
+
+Test the logout javascript API:
+
+    #######################################################
+    #######################################################
+    #
+    #  These tests are currently disabled until we can
+    #  figure out how to test logging in.
+    #
+    #######################################################
+    #######################################################
+    Use the form based login to not break things
+    >>> self.logout()
+    >>> from zope.component import getMultiAdapter
+    >>> view = getMultiAdapter((portal, self.request), name='login')
+    >>> view.request.form['__ac_name'] = 'm1'
+    >>> view.request.form['__ac_password'] = 'testy'
+    >>> output = view()
+
+    Make sure we're currently logged in::
+
+    Setup a view to be used to test whether or not the use is logged in
+    >>> from opencore.browser.base import BaseView
+    >>> lview = BaseView(self.homepage, self.request)
+    >>> lview = view.__of__(self.homepage)
+
+    >>> response = view.loggedin
+
+    The logout API returns a comment without any useful JS
+    >>> view = getMultiAdapter((portal, self.request), name='logout.js')
+    >>> output = view()
+
+    Make sure logout worked
+    >>> response = lview.loggedin

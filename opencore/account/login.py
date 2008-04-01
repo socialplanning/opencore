@@ -144,6 +144,19 @@ class LoginView(AccountView):
             
         self.redirect("%s" %redirect)
 
+    def logout_js(self):
+        """Javascript exposure of the logout API.  People can use this anyway, by attaching
+        the /logout URL as a script tag, this just removes the javascript error"""
+        # This is a nasty plone magic hack, since plone sneaks a look into the request object
+        # and decides to redirect if it finds a referrer.  We don't want that kind of magic.
+        self.request['HTTP_REFERER'] = None
+        logout = self.cookie_logout
+
+        self.invalidate_session()
+            
+        # We return the signout message as a JS comment.
+        return u"// %r" % _(u'psm_signed_out', u"You have signed out.")
+
     @property
     def cookie_logout(self):
         self.context.acl_users.logout(self.request)
@@ -155,9 +168,12 @@ class LoginView(AccountView):
         
     def invalidate_session(self):
         # Invalidate existing sessions, but only if they exist.
-        sdm = self.get_tool('session_data_manager')
-        if sdm is not None:
-            session = sdm.getSessionData(create=0)
+        try:
+            sdm = self.get_tool('session_data_manager')
+        except AttributeError:
+            return
+
+        session = sdm.getSessionData(create=0)
         if session is not None:
             session.invalidate()
 

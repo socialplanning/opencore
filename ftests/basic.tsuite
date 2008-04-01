@@ -17,4 +17,8 @@ disable_listen
 enable_listen
 search_user
 logout
+check_not_logged_in_topnav
+login
+logout_js
+check_not_logged_in_topnav
 check_footer

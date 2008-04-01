@@ -1,4 +1,5 @@
 from Products.PasswordResetTool.tests.test_doctests import MockMailHostTestCase
+from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from Testing import ZopeTestCase
 from Testing.ZopeTestCase import FunctionalDocFileSuite
 from Testing.ZopeTestCase import PortalTestCase 
@@ -52,6 +53,8 @@ def normalize_whitespace(astring):
 def readme_setup(tc):
     setSite(tc.portal)
     tc._refreshSkinData()
+    tc.homepage = getattr(tc.portal, 'site-home')
+    tc.request = tc.app.REQUEST
     member = tc.portal.portal_membership.getAuthenticatedMember()
     member = IHandleMemberWorkflow(member)
     if member.is_unconfirmed():
@@ -93,7 +96,7 @@ def test_suite():
     vacuum = dtf.ZopeDocFileSuite("vacuum.txt",
                                   optionflags=optionflags,
                                   package='opencore.account',
-                                  test_class=MockMailHostTestCase,
+                                  test_class=OpenPlansTestCase,
                                   globs = globs,
                                   setUp=readme_setup,
                                   layer=MockHTTPWithContent
