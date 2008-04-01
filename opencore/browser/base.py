@@ -243,9 +243,9 @@ class BaseView(BrowserView):
             project = self.piv.project
             if not mode and self.context.getId() == IHomePage(project).home_page:
                 # viewing project home page
-                return '%s - %s' % (project.Title(), self.portal.Title())
+                return '%s - %s' % (project.Title().decode('utf-8'), self.portal.Title())
             elif self.context != project:
-                return '%s %s- %s - %s' % (title, mode, project.Title(),
+                return '%s %s- %s - %s' % (title, mode, project.Title().decode('utf-8'),
                                            self.portal.Title())
         elif self.wiki_container is not None \
                  and context != self.wiki_container:
