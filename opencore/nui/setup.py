@@ -458,7 +458,6 @@ def remove_old_bogus_versions(portal):
             # then there's no pages we need to erase.
             pass
 
-
 def make_profile_default_member_page(portal):
     """iterate through all member areas, and make the default page the
        profile page instead of the member wiki page"""
@@ -467,18 +466,6 @@ def make_profile_default_member_page(portal):
         mf = peepz._getOb(mf_id)
         mf.setDefaultPage(None)
         mf.setLayout('profile')
-
-def add_has_portrait_membrane_tool_index(portal):
-    """add a new has_portrait index to the membrane catalog which lets us query
-       on users that have a portrait set"""
-    # this here adds the index
-    portal.membrane_tool.addIndex('has_portrait', 'FieldIndex', extra=dict(value='has_portrait'))
-
-    # here we also reindex all member objects with this new index
-    # we don't need the entire member object, so we just reindex the new index
-    for mem_brain in portal.membrane_tool():
-        mem_obj = mem_brain.getObject()
-        mem_obj.reindexObject(idxs=['has_portrait'])
 
 
 from Products.Archetypes.utils import OrderedDict
@@ -522,7 +509,6 @@ nui_functions['Make project home pages relative'] = make_proj_homepages_relative
 nui_functions['Remove old bogus versions'] = remove_old_bogus_versions
 nui_functions['Make profile default member page'] = make_profile_default_member_page
 nui_functions['migrate_listen_container_to_feed'] = migrate_listen_container_to_feed
-nui_functions['Add has_portrait membrane_tool index'] = add_has_portrait_membrane_tool_index
 nui_functions['Fix safe_html portal transform'] = convertFunc(fix_safe_html_transform)
 
 def run_nui_setup(portal):

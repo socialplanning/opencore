@@ -69,7 +69,6 @@ woonerf_migrations = [
     'Make profile default member page',
     'annotate last modified author',
     'migrate_listen_container_to_feed',
-    'Add has_portrait membrane_tool index',
     'Fix safe_html portal transform',
 ]
 
@@ -113,7 +112,7 @@ transaction.get().note('wiki history migrated')
 transaction.commit()
 print "migrate_history transaction done"
 
-print "Updating membrane catalog for 'team' view optimizations"
+print "Updating membrane catalog"
 run_import_step(ps, 'membranetool')
 print "done"
 transaction.get().note('membrane_tool reconfigured')
