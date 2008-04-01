@@ -18,7 +18,9 @@ from opencore.configuration.setuphandlers import install_email_invites_utility
 from opencore.configuration.setuphandlers import install_remote_auth_plugin
 from opencore.configuration.setuphandlers import install_team_placeful_workflow_policies
 from opencore.configuration.setuphandlers import setupPeopleFolder
-from opencore.configuration.setuphandlers import setupProjectLayout, setupHomeLayout
+from opencore.configuration.setuphandlers import setupProjectLayout
+from opencore.configuration.setuphandlers import setupHomeLayout
+from opencore.configuration.setuphandlers import fix_safe_html_transform
 from opencore.featurelets.interfaces import IListenFeatureletInstalled
 from opencore.interfaces import IOpenPage, INewsItem, IHomePage
 from opencore.listen.events import listen_featurelet_installed
@@ -521,6 +523,7 @@ nui_functions['Remove old bogus versions'] = remove_old_bogus_versions
 nui_functions['Make profile default member page'] = make_profile_default_member_page
 nui_functions['migrate_listen_container_to_feed'] = migrate_listen_container_to_feed
 nui_functions['Add has_portrait membrane_tool index'] = add_has_portrait_membrane_tool_index
+nui_functions['Fix safe_html portal transform'] = convertFunc(fix_safe_html_transform)
 
 def run_nui_setup(portal):
     pm = portal.portal_migration

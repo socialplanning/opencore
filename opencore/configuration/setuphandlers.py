@@ -17,15 +17,12 @@ from opencore.interfaces import IAddProject
 from opencore.interfaces import IAmANewsFolder
 from opencore.interfaces import IAmAPeopleFolder
 from opencore.interfaces.membership import IEmailInvites
-from opencore.interfaces.message import ITransientMessage
-from opencore.member.transient_messages import TransientMessage
 from opencore.project.browser.email_invites import EmailInvites
 from utils import kupu_libraries
 from utils import kupu_resource_map
 from zope.app.component.hooks import setSite
 from zope.component import queryUtility
 from zope.interface import alsoProvides
-import os
 import pkg_resources
 import socket
 
@@ -527,3 +524,27 @@ def setupKupu(portal, out):
     
     if out:
         print >> out, "Kupu setup completed"
+
+@setuphandler
+def fix_safe_html_transform(portal, out):
+    """
+    Tweaks the safe_html portal transform (which filters all of the wiki page
+    html) to our liking.
+    """
+    # allow iframes
+    tfm_tool = getToolByName(portal, 'portal_transforms')
+    tfm = getattr(tfm_tool, 'safe_html', None)
+    if tfm is not None:
+        valid_tags = tfm.get_parameter_value('valid_tags')
+        valid_tags['iframe'] = '0'  # <-- '0' means filter js 'on*' events
+        vt_keys, vt_vals = zip(*valid_tags.items())
+        # if we don't set nasty_tags, we lose the setting... :-(
+        nasty_tags = tfm.get_parameter_value('nasty_tags')
+        nt_keys, nt_vals = zip(*nasty_tags.items())
+        tfm.set_parameters(valid_tags_key=list(vt_keys),
+                           valid_tags_value=[str(val) for val in vt_vals],
+                           nasty_tags_key=list(nt_keys),
+                           nasty_tags_value=[str(val) for val in nt_vals],
+                           )
+
+        print >> out, "Fixed safe_html transform"

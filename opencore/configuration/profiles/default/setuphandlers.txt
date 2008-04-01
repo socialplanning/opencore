@@ -24,3 +24,4 @@ setupProjectLayout
 setupTeamTool
 setupVersioning
 migrate_listen_member_lookup
+fix_safe_html_transform

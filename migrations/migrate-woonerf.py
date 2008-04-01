@@ -70,6 +70,7 @@ woonerf_migrations = [
     'annotate last modified author',
     'migrate_listen_container_to_feed',
     'Add has_portrait membrane_tool index',
+    'Fix safe_html portal transform',
 ]
 
 for migration in woonerf_migrations:
