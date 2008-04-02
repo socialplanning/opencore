@@ -1,3 +1,4 @@
 setglobal admin      'admin'
 setglobal adminpw    'admin'
 setglobal projtxt    'project'
+setglobal projprefs  'Preferences'
