@@ -268,12 +268,4 @@
     <dependency step="install_dependencies" />
   </import-step>
 
-  <import-step
-     version="20080331-01"
-     id="fix_safe_html_transform"
-     handler="opencore.configuration.setuphandlers.fix_safe_html_transform"
-     title="Fix safe_html portal transform">
-    Tweak the settings on the safe_html portal transform.
-    <dependency step="install_dependencies" />
-  </import-step>
 </import-steps>

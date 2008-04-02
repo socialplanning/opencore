@@ -69,7 +69,6 @@ woonerf_migrations = [
     'Make profile default member page',
     'annotate last modified author',
     'migrate_listen_container_to_feed',
-    'Fix safe_html portal transform',
 ]
 
 for migration in woonerf_migrations:

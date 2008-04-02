@@ -8,8 +8,6 @@ from Products.OpenPlans.Extensions.setup import reinstallWorkflowPolicies
 from Products.OpenPlans.Extensions.setup import securityTweaks
 from Products.OpenPlans.Extensions.setup import migrate_listen_container_to_feed
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
-from Products.OpenPlans.content.project import OpenProject
-from Products.PortalTransforms.libtransforms.utils import MissingBinary
 from borg.localrole.utils import setup_localrole_plugin
 from logging import getLogger, INFO, WARNING
 from opencore.configuration.setuphandlers import addCatalogQueue
@@ -20,17 +18,14 @@ from opencore.configuration.setuphandlers import install_team_placeful_workflow_
 from opencore.configuration.setuphandlers import setupPeopleFolder
 from opencore.configuration.setuphandlers import setupProjectLayout
 from opencore.configuration.setuphandlers import setupHomeLayout
-from opencore.configuration.setuphandlers import fix_safe_html_transform
 from opencore.featurelets.interfaces import IListenFeatureletInstalled
 from opencore.interfaces import IOpenPage, INewsItem, IHomePage
 from opencore.listen.events import listen_featurelet_installed
 from opencore.nui.wiki.add import get_view_names
 from opencore.project.browser.metadata import _update_last_modified_author
 from opencore.project import PROJ_HOME
-from persistent import mapping
-from pprint import pprint
 from topp.featurelets.interfaces import IFeatureletSupporter
-from topp.featurelets.interfaces import IFeatureletSupporter, IFeatureletRegistry
+from topp.featurelets.interfaces import IFeatureletRegistry
 from topp.utils import config
 from zope.component import getUtility
 from zope.interface import alsoProvides
@@ -259,7 +254,6 @@ def fix_case_on_featurelets(portal):
             flet_supporter.storage['tasks']=tt_storage
 
 def annotate_last_modified_author(portal):
-    from opencore.project.browser.metadata import ANNOT_KEY
     pr = getToolByName(portal, 'portal_repository')
     cat = getToolByName(portal, 'portal_catalog')
 
@@ -509,7 +503,6 @@ nui_functions['Make project home pages relative'] = make_proj_homepages_relative
 nui_functions['Remove old bogus versions'] = remove_old_bogus_versions
 nui_functions['Make profile default member page'] = make_profile_default_member_page
 nui_functions['migrate_listen_container_to_feed'] = migrate_listen_container_to_feed
-nui_functions['Fix safe_html portal transform'] = convertFunc(fix_safe_html_transform)
 
 def run_nui_setup(portal):
     pm = portal.portal_migration

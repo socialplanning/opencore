@@ -524,18 +524,3 @@ def setupKupu(portal, out):
     
     if out:
         print >> out, "Kupu setup completed"
-
-@setuphandler
-def fix_safe_html_transform(portal, out):
-    """
-    Tweaks the safe_html portal transform (which filters all of the wiki page
-    html) to our liking.
-    """
-    # allow iframes
-    tfm_tool = getToolByName(portal, 'portal_transforms')
-    tfm = getattr(tfm_tool, 'safe_html', None)
-    if tfm is not None:
-        # slight bad touch, but the API sucks
-        tfm._config['valid_tags']['iframe'] = 0
-        tfm._p_changed = True
-        print >> out, "Fixed safe_html transform"
