@@ -45,7 +45,7 @@ class LatestActivityView(ProjectContentsView):
     ### TODO: use viewlets
 
     def feed(self, path):
-        snip = self.context.unrestrictedTraverse(path)
+        snip = self.context.restrictedTraverse(path)
         return snip()        
 
     def blog_feed(self):
