@@ -1,23 +1,26 @@
 """
 login views
 """
+import logging
 from opencore.account.browser import AccountView
 from opencore.account.utils import email_confirmation
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import button, post_only, anon_only
+from opencore.interfaces import IPendingRequests
 from opencore.interfaces.event import FirstLoginEvent
 from opencore.interfaces.membership import IEmailInvites
+from opencore.interfaces.pending_requests import IRequestMembership
 from opencore.configuration.utils import get_config
 from opencore.nui.email_sender import EmailSender
 from plone.memoize import instance
 from smtplib import SMTPRecipientsRefused
 from topp.utils.uri import uri_same_source
-from zExceptions import Redirect, Unauthorized
+import urllib
+from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.event import notify
+from zExceptions import Redirect, Unauthorized
 from DateTime import DateTime
-import logging
-import urllib
 
 logger = logging.getLogger("opencore.account.login")
 
@@ -199,9 +202,6 @@ class InitialLogin(BaseView):
         member.setLogin_time(DateTime())
 
         # first check for any pending requests which are also email invites
-        from zope.component import getMultiAdapter
-        from opencore.interfaces import IPendingRequests
-        from opencore.interfaces.pending_requests import IRequestMembership
         mship_bucket = getMultiAdapter((member, self.portal.projects), IPendingRequests)
         email_invites_bucket = getUtility(IEmailInvites)
 
