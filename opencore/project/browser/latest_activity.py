@@ -35,6 +35,8 @@ class LatestActivityView(ProjectContentsView):
         """
         returns whether the member has permission to manage the team
         """
+        # XXX this method is deprecated
+        return context.isProjectAdmin()
         mem_id = self.member_info.get('id')
         if mem_id is None:
             return False
