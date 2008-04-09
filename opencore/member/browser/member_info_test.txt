@@ -37,7 +37,7 @@ Member info - authenticated
      'favorites': '',
      'folder_url': 'http://nohost/plone/people/test_user_1_',
      'fullname': '',
-     'home_url': 'http://nohost/plone/people/test_user_1_/None',
+     'home_url': 'http://nohost/plone/people/test_user_1_/test_user_1_-home',
      'id': 'test_user_1_',
      'lastlogin': 'never',
      'location': '',

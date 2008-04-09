@@ -10,7 +10,7 @@
 
 go ${base_url}/projects
 follow $letter
-find 'project'
+find '${projtxt}'
 find 'of\s+\d+'
 find 'sorted'
 notfind 'No results found.'

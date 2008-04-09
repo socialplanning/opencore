@@ -8,6 +8,7 @@
 go ${base_url}/projects/${projname}/contents
 notfind 'different page name'
 fv pages_contents new-page_title 'different page name'
-submit Save
+fv pages_contents task|new-page|update 'Save'
+submit
 find 'different page name'
 follow Delete

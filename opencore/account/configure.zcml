@@ -20,6 +20,9 @@
     <page name="logout"
 	  attribute="logout"
 	  />
+    <page name="logout.js"
+	  attribute="logout_js"
+	  />
   </browser:pages>
 
   <browser:page

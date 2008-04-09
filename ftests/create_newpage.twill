@@ -6,7 +6,7 @@
 #    $pagename is linked to be created in the project home page
 #
 
-go ${base_url}/projects/${projname}
+go ${base_url}/projects/${projname}/project-home
 follow edit
 fv edit_form text '((${pagename}))'
 submit task|save

@@ -9,7 +9,7 @@
 #    project projname and page pagename exist
 #
 
-go ${base_url}/projects/${projname}
+go ${base_url}/projects/${projname}/project-home
 find "last modified <abbr[^>]*>today</abbr>\s+by" s
 follow "edit"
 notfind "last modified <abbr[^>]*>today</abbr>\s+by" s

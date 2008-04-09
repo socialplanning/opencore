@@ -1,22 +1,21 @@
-import re
+from Products.CMFCore.utils import getToolByName
+from Products.validation.validators.BaseValidators import EMAIL_RE
+from opencore.i18n import _
+from opencore.i18n import i18n_domain
+from opencore.i18n import translate
+from opencore.interfaces import IOpenSiteRoot
+from opencore.project.browser import mship_messages
+from opencore.utility.interfaces import IEmailSender
 from types import StringTypes
-
-from zope.interface import implements
 from zope.component import adapts
 from zope.i18nmessageid import Message
+from zope.interface import implements
+from pprint import pprint
+import re
+import sys
 
-from Products.CMFCore.utils import getToolByName
-
-from Products.validation.validators.BaseValidators import EMAIL_RE
 regex = re.compile(EMAIL_RE)
 
-from opencore.i18n import translate
-from opencore.i18n import i18n_domain
-from opencore.i18n import _
-from opencore.interfaces import IOpenSiteRoot
-from opencore.utility.interfaces import IEmailSender
-
-from opencore.project.browser import mship_messages
 
 class EmailSender(object):
     """
@@ -25,6 +24,8 @@ class EmailSender(object):
     """
     implements(IEmailSender)
     adapts(IOpenSiteRoot)
+    debug = False
+    #debug = True    
 
     def __init__(self, context):
         self.context = context
@@ -33,8 +34,13 @@ class EmailSender(object):
     def _mailhost(self):
         return getToolByName(self.context, "MailHost")
 
+    def debug_send(self, *args, **kw):
+        pprint(locals(), sys.stderr)
+
     @property
     def _send(self):
+        if self.debug:
+            return self.debug_send
         return self._mailhost.send
 
     def _to_email_address(self, addr_token):

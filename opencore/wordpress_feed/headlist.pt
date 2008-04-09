@@ -1,0 +1,43 @@
+<tal:vars define="global fdata view/handle_request;" />
+
+<div class="oc-widget oc-widget-feed oc-home-column"
+     tal:condition="view/feed | nothing">
+  <h2 class="oc-feed-title">
+    <span tal:replace="view/title">Feed Title</span>
+    <a tal:attributes="href view/feed/feed/link"
+       tal:content="view/subtitle">
+      MORE ITEMS
+    </a>
+  </h2>
+  <!-- view/feed/link -->
+  <ul class="oc-feed-list">
+    <li class="oc-feed-item oc-clearAfter" 
+	tal:repeat="feeditem
+		    view/feed/entries">
+<!--      <img tal:attributes="src feeditem/icon" /> -->
+      <div>
+	<h3 class="oc-feed-item-title">
+	  <a tal:attributes="href feeditem/link"
+	     tal:content="feeditem/title" />	  
+	</h3>
+	<p class="oc-feed-item-data oc-discreetText">
+	   <span tal:replace="feeditem/byline | default">
+	     by
+	   </span>	   
+	   <a tal:define="author feeditem/author"
+	      tal:attributes="href python:view.memhome_url(author)"
+	      tal:content="author" />
+	   on <span tal:define="date feeditem/date"
+		    tal:replace="python:view.pretty_date(date)" />   
+	</p>
+
+	<!-- display the summary for the first item -->
+	<p tal:condition="repeat/feeditem/start"
+	   tal:content="structure feeditem/summary">
+	  Lorem ipsum dolor
+	</p>
+      </div>
+    </li>
+  </ul>
+</div>
+

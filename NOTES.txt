@@ -1,0 +1,24 @@
+=======
+ Notes
+=======
+
+transient implementation notes
+
+wiki history caching
+====================
+
+	* merging opencore-wiki-history branch and adding a migration.
+
+	Files touched (will remove after all patchs and testing is done)
+
+        0       ?            migrations <added>
+        0       ?              migrations/README.txt <added>
+        0       ?              migrations/cache_version_history.py <added>
+	?              ?            opencore.egg-info
+	M  13378 12722 novalis          opencore/configuration/setuphandlers.py
+	M  13378 11136 rob                opencore/nui/wiki/README.txt
+	M  13378 12575 jab                opencore/nui/wiki/configure.zcml
+	M  13378 10906 whit               opencore/nui/wiki/historyview.py
+	A         9654 rmarianski         opencore/nui/wiki/interfaces.py
+	M  13378 10906 whit               opencore/nui/wiki/view.py
+	M  13378 10906 whit               opencore/nui/wiki/wiki-history.pt

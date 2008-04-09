@@ -29,7 +29,7 @@ class TestMemberMenu(OpenPlansTestCase):
         other_mem = mtool.getMemberById(other_mem_id)
         mtool.createMemberArea(other_mem_id)
         self.other_mf = mtool.getHomeFolder(other_mem_id)
-        self.other_mhome = self.other_mf._getOb(self.other_mf.getDefaultPage())
+        self.other_mhome = self.other_mf._getOb('m2-home')
         self.logout()
 
         mem_id = self.mem_id = 'm1'
@@ -37,7 +37,7 @@ class TestMemberMenu(OpenPlansTestCase):
         mem = mtool.getMemberById(mem_id)
         mtool.createMemberArea(mem_id)
         self.mf = mtool.getHomeFolder(mem_id)
-        self.mhome = self.mf._getOb(self.mf.getDefaultPage())
+        self.mhome = self.mf._getOb('m1-home')
 
     def test_menudata(self):
         # preserve the orignal URL
@@ -56,10 +56,10 @@ class TestMemberMenu(OpenPlansTestCase):
         html = manager.render()
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 3)
-        self.assertEqual('%s/m1-home' % self.mf.absolute_url(),
+        self.assertEqual('%s/profile' % self.mf.absolute_url(),
                          links[0]['href'])
-        self.assertEqual(lis[0]['selected'], u'oc-topnav-selected')
-        self.failIf(lis[1]['selected'])
+        self.failIf(lis[0]['selected'])
+        self.assertEqual(lis[1]['selected'], u'oc-topnav-selected')
         self.failIf(lis[2]['selected'])
 
         # test to see if the 'Profile' is highlighted
@@ -76,9 +76,9 @@ class TestMemberMenu(OpenPlansTestCase):
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 3)
         self.assertEqual('%s/m1-home' % self.mf.absolute_url(),
-                         links[0]['href'])
-        self.failIf(lis[0]['selected'])
-        self.assertEqual(lis[1]['selected'], u'oc-topnav-selected')
+                         links[1]['href'])
+        self.assertEqual(lis[0]['selected'], u'oc-topnav-selected')
+        self.failIf(lis[1]['selected'])
         self.failIf(lis[2]['selected'])
 
         # test to see if 'Account' is highlighted
@@ -93,7 +93,7 @@ class TestMemberMenu(OpenPlansTestCase):
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 3)
         self.assertEqual('%s/m1-home' % self.mf.absolute_url(),
-                         links[0]['href'])
+                         links[1]['href'])
         self.failIf(lis[0]['selected'])
         self.failIf(lis[1]['selected'])
         self.assertEqual(lis[2]['selected'], u'oc-topnav-selected')
@@ -111,9 +111,9 @@ class TestMemberMenu(OpenPlansTestCase):
         lis, links = parse_topnav_context_menu(html)
         self.assertEqual(len(lis), 2)
         self.assertEqual('%s/m2-home' % self.other_mf.absolute_url(),
-                         links[0]['href'])
-        self.failIf(lis[0]['selected'])
-        self.assertEqual(lis[1]['selected'], u'oc-topnav-selected')
+                         links[1]['href'])
+        self.assertEqual(lis[0]['selected'], u'oc-topnav-selected')
+        self.failIf(lis[1]['selected'])
 
         # XXX this may not be necessary, but it's safer just in case
         self.request.ACTUAL_URL = orig_actual_url
@@ -161,16 +161,15 @@ class TestProjectMenu(OpenPlansTestCase):
         self.login(self.proj_admin_id)
         menudata = self.phome_view.menudata
         mdmap = self.make_menudata_map(menudata)
-        # add 'preferences' and 'manage team', remove 'join'
+        # add 'preferences', replace 'team' with link to manage-team, remove 'join'
 
-        self.failUnless(len(menudata) == 5)
+        self.failUnless(len(menudata) == 4)
         self.assertEqual(mdmap['wiki']['href'], self.proj.absolute_url() + '/project-home')
         self.failUnless(mdmap['wiki']['selected'])
         self.failIf(mdmap['contents']['selected'])
         self.failIf(mdmap['team']['selected'])
-        self.failIf(mdmap['manage team']['selected'])
         self.failIf(mdmap['preferences']['selected'])
-        self.failUnless(mdmap.has_key('manage team'))
+        self.failUnless(mdmap['team']['href'].endswith('manage-team'))
 
         orig_actual_url = self.request.ACTUAL_URL
 
@@ -181,12 +180,11 @@ class TestProjectMenu(OpenPlansTestCase):
         self.request.ACTUAL_URL = contents_url
         menudata = self.proj_view.menudata
         mdmap = self.make_menudata_map(menudata)
-        self.failUnless(len(menudata) == 5)
+        self.failUnless(len(menudata) == 4)
         self.assertEqual(mdmap['wiki']['href'], self.proj.absolute_url() + '/project-home')
         self.failIf(mdmap['wiki']['selected'])
         self.failUnless(mdmap['contents']['selected'])
         self.failIf(mdmap['team']['selected'])
-        self.failIf(mdmap['manage team']['selected'])
         self.failIf(mdmap['preferences']['selected'])
         
         self.clearMemoCache()
@@ -194,12 +192,11 @@ class TestProjectMenu(OpenPlansTestCase):
         self.request.ACTUAL_URL = team_url
         menudata = self.proj_view.menudata
         mdmap = self.make_menudata_map(menudata)
-        self.failUnless(len(menudata) == 5)
+        self.failUnless(len(menudata) == 4)
         self.assertEqual(menudata[0]['href'], self.proj.absolute_url() + '/project-home')
         self.failIf(mdmap['wiki']['selected'])
         self.failIf(mdmap['contents']['selected'])
         self.failUnless(mdmap['team']['selected'])
-        self.failIf(mdmap['manage team']['selected'])
         self.failIf(mdmap['preferences']['selected'])
 
         self.clearMemoCache()
@@ -207,12 +204,11 @@ class TestProjectMenu(OpenPlansTestCase):
         self.request.ACTUAL_URL = manage_url
         menudata = self.proj_view.menudata
         mdmap = self.make_menudata_map(menudata)
-        self.failUnless(len(menudata) == 5)
+        self.failUnless(len(menudata) == 4)
         self.assertEqual(menudata[0]['href'], self.proj.absolute_url() + '/project-home')
         self.failIf(mdmap['wiki']['selected'])
         self.failIf(mdmap['contents']['selected'])
-        self.failIf(mdmap['team']['selected'])
-        self.failUnless(mdmap['manage team']['selected'])
+        self.failUnless(mdmap['team']['selected'])
         self.failIf(mdmap['preferences']['selected'])
 
         self.clearMemoCache()
@@ -220,12 +216,11 @@ class TestProjectMenu(OpenPlansTestCase):
         self.request.ACTUAL_URL = prefs_url
         menudata = self.proj_view.menudata
         mdmap = self.make_menudata_map(menudata)
-        self.failUnless(len(menudata) == 5)
+        self.failUnless(len(menudata) == 4)
         self.assertEqual(mdmap['wiki']['href'], self.proj.absolute_url() + '/project-home')
         self.failIf(mdmap['wiki']['selected'])
         self.failIf(mdmap['contents']['selected'])
         self.failIf(mdmap['team']['selected'])
-        self.failIf(mdmap['manage team']['selected'])
         self.failUnless(mdmap['preferences']['selected'])
 
         self.request.ACTUAL_URL = orig_actual_url

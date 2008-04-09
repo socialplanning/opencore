@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml
+  xmlns="http://earth.google.com/kml/2.1"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  tal:define="items view/forKML"
+  >
+<tal:comment replace="nothing">
+  This is copy of a skin script originally from:
+  PleiadesGeocoder/skins/PleiadesGeocoder/georss.pt
+  We copied it here so we could a) avoid depending on skins, and
+  b) make local modifications to support the GeoServer team's requirements.
+</tal:comment>
+  <tal:b 
+    condition="python:request.RESPONSE.setHeader(
+		'Content-Type', 'application/vnd.google-earth.kml+xml; charset=utf-8')" 
+    />
+
+  <Document>
+    <Style id="defaultStyle">
+      <LineStyle>
+        <color>ffff0000</color>
+        <width>2</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>33ff0000</color>
+      </PolyStyle>
+    </Style>
+    <name tal:content="context/Title">TITLE</name>
+    <visibility>0</visibility>
+    <open>0</open>
+    <Placemark tal:repeat="item items">
+      <name tal:content="item/properties/title">TITLE</name>
+      <description>
+        <span tal:replace="structure string:&lt;![CDATA[" />
+          <div>
+            <p tal:content="item/properties/description">ITEM DESCRIPTION</p>
+            <p>URL: 
+              <a 
+                tal:attributes="href item/properties/link" 
+                tal:content="item/properties/link"
+                >ITEM URL
+              </a>
+            </p>
+          </div>
+        <span tal:replace="structure string:]]&gt;" />
+      </description>
+      <styleUrl>#defaultStyle</styleUrl>
+      <Point tal:condition="item/hasPoint">
+        <coordinates tal:content="item/coords_kml">
+          COORDINATE LIST
+        </coordinates>
+      </Point>
+      <LineString tal:condition="item/hasLineString">
+        <coordinates tal:content="item/coords_kml">
+          COORDINATE LIST
+        </coordinates>
+      </LineString>
+      <Polygon tal:condition="item/hasPolygon">
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates tal:content="item/coords_kml">
+              COORDINATE LIST
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+  </Document>
+</kml>
+

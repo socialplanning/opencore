@@ -8,14 +8,14 @@
 
       <div id="oc-content-main">
         <div class="oc-headingBlock">
-          <h1>Congratulations on starting your project.</h1>
+          <h1>Congratulations on starting your <span tal:replace="view/project_noun">project</span>.</h1>
           <p class="oc-headingContext"> Now you can&hellip;</p>
         </div>
 
         <div class="oc-boxy">
           <div class="oc-headingBlock">
             <h2>Communicate</h2>
-            <p class="oc-headingContext">Announce your project.</p>
+            <p class="oc-headingContext">Announce your <span tal:replace="view/project_noun">project</span>.</p>
           </div>
 
           <div>
@@ -57,7 +57,7 @@
               <h3>Manage your team</h3>
             </a>
             <ul class="oc-discreetText oc-plainList">
-              <li>Invite people to join this project</li>
+              <li>Invite people to join this <span tal:replace="view/project_noun">project</span></li>
               <li>Build momentum</li>
               <li>Find collaborators</li>
             </ul>
@@ -90,8 +90,8 @@
         </div>
 
   <p class="oc-smallText">
-    Want to add or remove tools from your project? Change your <a tal:attributes="href
-           string:${context/absolute_url}/preferences">project preferences</a>.
+    Want to add or remove tools from your <span tal:replace="view/project_noun">project</span>? Change your <a tal:attributes="href
+           string:${context/absolute_url}/preferences">preferences</a>.
   </p>
 
       </div><!-- end #oc-content-main -->

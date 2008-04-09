@@ -40,7 +40,7 @@ def bbb_keymap(wrap=True):
             keymap = func(*args, **kwargs)
             if not isinstance(keymap, KeyedMap):
                 address = args[1]
-                key = utils.make_key()
+                key = make_key()
                 return KeyedMap(btree=keymap, key=key)
             return keymap
         return wrap

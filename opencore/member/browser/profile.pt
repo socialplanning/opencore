@@ -23,6 +23,7 @@
                 <dd class="n" tal:condition="fn" tal:content="fn" />
                 <dd class="oc-discreetText" tal:condition="not:fn" tal:content="string:N/A" />
               </tal:fullname>
+
               <tal:location tal:define="loc memberdata/location" tal:condition="python:loc or view.viewingself()">
                 <dt><tal:label i18n:translate="profile_location">Location</tal:label>
                   <a tal:condition="view/viewingself" class="oc-actionLink"
@@ -31,7 +32,8 @@
                 <dd class="adr" tal:condition="loc"><span class="locality" tal:content="loc" /></dd>
                 <dd class="oc-discreetText" tal:condition="not:loc" tal:content="string:N/A" />
               </tal:location>
-              <dt><tal:label i18n:translate="profile_projects">Projects</tal:label>
+
+              <dt><tal:label tal:content="python:view.project_noun.title() + 's'">Projects</tal:label>
                 <a tal:condition="view/viewingself" class="oc-actionLink" 
                    href="account">Manage</a>
               </dt>

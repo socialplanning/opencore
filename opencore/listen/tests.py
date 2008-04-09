@@ -22,6 +22,7 @@ def test_suite():
     from zope.interface import alsoProvides
     from pprint import pprint
     from opencore.browser.formhandler import test_suite as octotest
+    from opencore.testing.utils import monkey_proj_noun, unmonkey_proj_noun
     from zope.component import getUtility
     from Products.listen.interfaces import IListLookup
     
@@ -43,6 +44,9 @@ def test_suite():
     def listen_featurelet_setup(tc):
         set_site(tc)
 
+    def teardown(tc):
+        unmonkey_proj_noun()
+
     globs = locals()
     listen_discussion = FunctionalDocFileSuite("listen_discussion.txt",
                                     optionflags=optionflags,
@@ -50,6 +54,7 @@ def test_suite():
                                     test_class=OpenPlansTestCase,
                                     globs = globs,
                                     setUp=listen_discussion_setup,
+                                    tearDown=teardown,
                                     )
 
     listen_featurelet = FunctionalDocFileSuite("listen_featurelet.txt",

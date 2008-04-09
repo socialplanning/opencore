@@ -35,4 +35,10 @@ error_page=error_page_view(error_type=error_type,
                            error_tb=error_tb,
                            error_value=error_value)
 
+# Force the error page content type to text/html.  We *sometimes* were
+# getting 'application/xml', which is wrong; and if/when we have
+# invalid markup in that page, it causes firefox to display useless
+# (to the average user) xml parse errors instead of our error page.
+context.REQUEST.RESPONSE.setHeader('Content-Type', 'text/html; charset=utf8')
+
 return error_page

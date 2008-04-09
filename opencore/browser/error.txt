@@ -1,0 +1,68 @@
+=========================================
+Some basic tests for the site error views
+=========================================
+
+First we do some silly setup which should move to the test setup::
+    >>> from opencore.browser.error import ErrorView
+    >>> view = ErrorView(self.homepage, self.request)
+    >>> view = view.__of__(self.homepage)
+
+Now we've got the error view. It renders a different template based on
+the error type. 404s will render a different template::
+    >>> "not here" in view(error_type='NotFound')
+    True
+    >>> "Something unexpected" in view(error_type='SomethingElse')
+    True
+
+On a 404, we should search the results, and only get the expected portal types
+in return::
+    >>> self.request.URL = 'http://nohost/plone/m1'
+    >>> view = ErrorView(self.portal, self.request)
+    >>> results = view.query()
+    >>> len(results)
+    1
+    >>> results[0].getURL()
+    'http://nohost/plone/people/m1/m1-home'
+
+On error, an email should get sent out.
+
+Get the mailhost::
+
+    >>> mh = self.portal.MailHost
+    >>> mh
+    <...MockMailHost at ...>
+    >>> len(mh.messages)
+    0
+
+Simulate an error, and check that an email was sent out::
+
+    >>> email_from_address = portal.manage_changeProperties(email_from_address='bogus@example.com')
+    >>> from opencore.browser.error import ErrorReporter
+    >>> view = ErrorReporter(self.homepage, self.request)
+    >>> view = view.__of__(self.homepage)
+    >>> view.request.form.update({'error_submitted': 'Send',
+    ...                           'oc-did': 'what i did',
+    ...                           'oc-expected': 'what i expected',
+    ...                           'time': '2000-01-01 01:02:03.123456',
+    ...                           'url': 'http://nohost/plone/error/url',
+    ...                           'traceback': 'here is the traceback'})
+    >>> html = view()
+    >>> len(mh.messages)
+    1
+
+Verify the contents of the email::
+
+    >>> msg = mh.messages[0]
+    >>> from pprint import pprint
+    >>> pprint(msg.items())
+    [('To', ['bogus@example.com']),
+     ('From', 'anonymous@example.com'),
+     ('Subject', '[OpenCore Site] site error report')]
+    >>> print msg.get_payload()
+    On 2000-01-01 01:02:03.123456, anonymous@example.com went to the URL http://nohost/plone/error/url.
+    <BLANKLINE>
+    Did: what i did
+    <BLANKLINE>
+    Expected: what i expected
+    <BLANKLINE>
+    Traceback: here is the traceback

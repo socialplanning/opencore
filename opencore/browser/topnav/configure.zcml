@@ -90,17 +90,8 @@
      name="opencore.topnavmenu"
      provides=".interfaces.ITopnavMenuItems"
      class=".manager.TopnavManager"
+     template="manager_topnav.pt"
      permission="zope2.View"
-     />
-
-  <opencore:menuitem
-     name="Member Wiki"
-     text="Wiki"
-     filter=".viewlet.contained_within"
-     container="opencore.interfaces.IMemberFolder"
-     url=".viewlet.member_wiki_url"
-     selected=".viewlet.openpage_provided"
-     sort_order="10"
      />
 
   <opencore:menuitem
@@ -108,6 +99,16 @@
      filter=".viewlet.contained_within"
      container="opencore.interfaces.IMemberFolder"
      item_url="profile"
+     sort_order="10"
+     />
+
+  <opencore:menuitem
+     name="Member Wiki"
+     text="Pages"
+     filter=".viewlet.contained_within"
+     container="opencore.interfaces.IMemberFolder"
+     url=".viewlet.member_wiki_url"
+     selected=".viewlet.openpage_provided"
      sort_order="20"
      />
 
@@ -121,8 +122,16 @@
      />
 
   <opencore:menuitem
+     name="Summary"
+     filter=".viewlet.contained_within"
+     container="opencore.interfaces.IProject"
+     item_url="summary"
+     sort_order="5"
+     />
+
+  <opencore:menuitem
      name="Project Wiki"
-     text="Wiki"
+     text="Pages"
      filter=".viewlet.contained_within"
      container="opencore.interfaces.IProject"
      url=".viewlet.project_wiki_url"
@@ -136,15 +145,7 @@
      container="opencore.interfaces.IProject"
      item_url="team"
      sort_order="50"
-     />
-
-  <opencore:menuitem
-     name="Manage Team"
-     filter=".viewlet.contained_within"
-     container="opencore.interfaces.IProject"
-     item_url="manage-team"
-     sort_order="60"
-     permission="teamspace.ManageTeamMemberships"
+     selected=".viewlet.team_selected"
      />
 
   <opencore:menuitem

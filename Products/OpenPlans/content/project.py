@@ -1,5 +1,6 @@
 from AccessControl import ClassSecurityInfo
 from Acquisition import aq_base, aq_parent, aq_inner
+from Products.Archetypes.Field import Image
 from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
 from Products.Archetypes.ExtensibleMetadata import ExtensibleMetadata
 from Products.Archetypes.config import REFERENCE_CATALOG
@@ -18,6 +19,7 @@ from Products.TeamSpace.space import TeamSpace
 from Products.ZCTextIndex import ParseTree
 from ZODB.POSException import ConflictError
 from opencore.configuration import OC_REQ as OPENCORE
+from opencore.content.page import OpenPage
 from opencore.interfaces import IProject
 from topp.featurelets.config import MENU_ID
 from topp.featurelets.interfaces import IMenuSupporter
@@ -26,6 +28,7 @@ from zope.app.annotation.interfaces import IAttributeAnnotatable
 from zope.interface import Interface, implements
 import os.path
 import pkg_resources
+from opencore.project.utils import project_noun
 
 ProjectSchema = TeamSpace.schema.copy()
 # Prevent bug 1689 from affecting projects too.
@@ -59,6 +62,36 @@ ProjectSchema += Schema((
             description_msgid='help_logo',
             i18n_domain='plone',
             ),
+          ),
+        StringField(
+          'location',
+          mode='rw',
+          read_permission=View,
+          write_permission=ModifyPortalContent,
+          widget=StringWidget(
+            label='Location',
+            label_msgid='label_location',
+            description="Your location - either city and country - or in a company setting, where your office is located.",
+            description_msgid='help_location',
+            i18n_domain='plone',
+            ),
+          searchable=True,
+          ),
+        StringField(
+          'position-text',
+          accessor='getPositionText',
+          mutator='setPositionText',
+          mode='rw',
+          read_permission=View,
+          write_permission=ModifyPortalContent,
+          widget=StringWidget(
+            label='Position on map',
+            label_msgid='position_on_map',
+            description="Your address on a map.",
+            description_msgid='help_position_on_map',
+            i18n_domain='plone',
+            ),
+          searchable=True,
           ),
         ))
 
@@ -101,8 +134,8 @@ ProjectSchema.moveField('space_teams', pos='bottom')
 # XXX these should probably live elsewhere, maybe in 
 # _initProjectHomeMenuItem
 
-project_menu_item = {'title': u'Project Home',
-                     'description': u'Project Home',
+project_menu_item = {'title': u'Home',
+                     'description': u'Home',
                      'action': '',
                      'extra': None,
                      'order': 0,
@@ -112,8 +145,8 @@ project_menu_item = {'title': u'Project Home',
                      '_for': Interface,
                      }
 
-project_menu_preferences = {'title': u'Project Preferences',
-                            'description': u'Project Preferences',
+project_menu_preferences = {'title': u'%s Preferences' % project_noun().title(),
+                            'description': u'%s Preferences' % project_noun().title(),
                             'action': 'base_edit',
                             'extra': None,
                             'order': 0,
@@ -138,7 +171,6 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
     content_icon = 'openproject_icon.png'
 
     home_page_id = 'project-home'
-    home_page_title = 'Project Home'
     home_page_file = 'project_index.html'
 
     _at_rename_after_creation = True
@@ -157,7 +189,7 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
     # Rename the edit action for consistency
     actions = ({
         'id'          : 'edit',
-        'name'        : 'Project Preferences',
+        'name'        : '%s Preferences' % project_noun().title(),
         'action'      : 'string:${object_url}/base_edit',
         'permissions' : (ModifyPortalContent,),
         'visible'     : False,
@@ -216,11 +248,12 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
         """
         Create the project index page from the specified file.
         """
+        home_page_title = 'Home'
         self.invokeFactory('Document', self.home_page_id,
-                           title=self.home_page_title)
+                           title=home_page_title)
         page = self._getOb(self.home_page_id)
-        page_file = pkg_resources.resource_stream(OPENCORE, 'copy/%s' %self.home_page_file)
-        page.setText(page_file.read())
+        page_file = pkg_resources.resource_stream(OPENCORE, 'copy/%s' % self.home_page_file)
+        page.setText(page_file.read().replace('${project_noun}', project_noun()))
 
     def _initProjectHomeMenuItem(self):
         """
@@ -324,5 +357,13 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
                 for role in mship.getTeamRoles():
                     team_roles[role] = 1
         return team_roles.keys()
+
+
+    def getLogo(self):
+        """custom logo accessor in case project contains an OpenPage with id 'logo'"""
+        if hasattr(self, 'logo'):
+            if not isinstance(self.logo, Image):
+                return None
+            return self.logo
 
 registerType(OpenProject)

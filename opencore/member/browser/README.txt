@@ -1,3 +1,5 @@
+-*- mode: doctest ;-*-
+
 =========================
  opencore.member.browser
 =========================
@@ -42,7 +44,7 @@ Exercise the Member Account Class
 
     Instantiate the view::
 
-    >>> from opencore.member.browser.view import MemberAccountView
+    >>> from opencore.member.browser.account import MemberAccountView
     >>> request = self.app.REQUEST
     >>> request.form = {}
 
@@ -66,28 +68,28 @@ Create a project with an international unicode title::
     >>> request.form['projid'] = 'i18n'
 
 This is some japanese that I found::
-    >>> request.form['title'] = u'\u65e5\u8a9e'
+    >>> request.form['project_title'] = u'\u65e5\u8a9e'
     >>> request.form['workflow_policy'] = 'medium_policy'
     >>> request.form['__initialize_project__'] = True
     >>> html = proj_add_view.handle_request()
     >>> japanese_project = self.portal.projects.i18n
     >>> japanese_project
     <OpenProject at /plone/projects/i18n>
-    >>> delattr(proj_add_view, '_redirected')
+    >>> delattr(proj_add_view, '_redirected')  #XXX why?
 
 Create a project starting with a capital letter to test case
 insensitive sort::
     >>> proj_add_view = ProjectAddView(self.portal.projects,
     ...                                self.portal.REQUEST)
     >>> request.form['projid'] = 'apples'
-    >>> request.form['title'] = 'apples are good'
+    >>> request.form['project_title'] = 'apples are good'
     >>> request.form['workflow_policy'] = 'medium_policy'
     >>> request.form['__initialize_project__'] = True
     >>> html = proj_add_view.handle_request()
     >>> apple_project = self.portal.projects.apples
     >>> apple_project
     <OpenProject at /plone/projects/apples>
-    >>> delattr(proj_add_view, '_redirected')
+    >>> delattr(proj_add_view, '_redirected')  # XXX why?
 
 Check projects for user m1::
     >>> project_dicts = view.projects_for_user
@@ -110,10 +112,17 @@ some reason. I feel like this might be a problem::
     we should get a portal status message back and a False return
     >>> self.logout()
     >>> self.login('test_user_1_')
+    >>> utils.clear_status_messages(view)
+
+    And first set the word for projects that we'll see in subsequent psms:
+    >>> utils.monkey_proj_noun('hive of scum and villainy')
     >>> view.leave_project('p2')
     False
+
+We should have a PSM and it should respect the configured name for projects:
+
     >>> view.portal_status_message
-    [u'You cannot leave this project.']
+    [u'You cannot leave this hive of scum and villainy.']
 
     We have to login as m1 to get the modify portal content permission,
     giving us access to the workflow transition
@@ -268,10 +277,14 @@ it, and return an appropriate portal status message
     >>> proj_team.removeMember('portal_owner')
 
     Now we can try to leave the project
+    >>> utils.monkey_proj_noun('banana')  # should be seen in following psms
     >>> view.leave_project('p3')
     False
+
+We should have a psm, and it should respect the setting of project_noun.
+
     >>> view.portal_status_message
-    [u'You are the only remaining administrator ... leave this project without appointing another.']
+    [u'You are the only remaining administrator ... leave this banana without appointing another.']
 
     Even if we are in the private state
     >>> view.change_visibility('p3')
@@ -279,7 +292,7 @@ it, and return an appropriate portal status message
     >>> view.leave_project('p3')
     False
     >>> view.portal_status_message
-    [u'You are the only remaining administrator ... leave this project without appointing another.']
+    [u'You are the only remaining administrator ... leave this banana without appointing another.']
 
     >>> project_dicts = view.invitations()
     >>> [d['proj_id'] for d in project_dicts]
@@ -303,7 +316,7 @@ Let's accept our gracious invitation
 
     Now we can trigger them, we get the json response
     >>> sorted(view.accept_handler(['p4']).keys())
-    ['num_updates', 'p4_invitation', 'projinfos_for_user']
+    ['num_updates', 'num_updates_menu', 'num_updates_top', 'p4_invitation', 'projinfos_for_user']
 
     Now we can check that we got the event
     >>> from opencore.interfaces.event import IJoinedProjectEvent
@@ -333,7 +346,7 @@ And now if we were to receive an info message::
 
     Let's go ahead and kill the first one, the message is not so nice
     >>> sorted(view.close_msg_handler('0').keys())
-    ['close_info_message_0', 'num_updates']
+    ['close_info_message_0', 'num_updates', 'num_updates_menu', 'num_updates_top']
 
     Poof, he's gone
     >>> self.clearMemoCache()
@@ -366,7 +379,7 @@ Let's also reject an invitation extended to us::
 
     Now we shove it back in the admin's face
     >>> sorted(view.deny_handler(['p2']).keys())
-    ['num_updates', 'p2_invitation']
+    ['num_updates', 'num_updates_menu', 'num_updates_top', 'p2_invitation']
 
     And we're not a part of that project, and no longer invited
     >>> self.clearMemoCache()
@@ -535,3 +548,56 @@ have the ProjectAdmin role::
     Now let's call the view simulating the request:
     XXX member areas need to be created first though for m1
     or we can't traverse to view (or get people folder)
+
+
+Test the Member Profile Edit View
+==================================
+
+this is inadequate, but hey, there were no tests of it before...
+First, make sure it's restricted to only this member::
+
+    >>> self.logout()
+    >>> m1_folder = self.portal.people.m1
+    >>> editview = m1_folder.restrictedTraverse("profile-edit")
+    Traceback (innermost last):
+    ...
+    Unauthorized: ...
+
+    >>> self.login('m3')
+    >>> editview = m1_folder.restrictedTraverse("profile-edit")
+    Traceback (innermost last):
+    ...
+    Unauthorized: ...
+
+Once logged in properly, you can use it::
+
+    >>> self.login('m1')
+    >>> editview = m1_folder.restrictedTraverse("profile-edit")
+    >>> m1 = portal.portal_memberdata.m1
+    >>> utils.clear_status_messages(editview)
+    >>> editview.has_invitations()
+    False
+    >>> editview.check_portrait(m1, '<xml>definitely not an image</xml>')
+    False
+    >>> utils.get_status_messages(editview)
+    [u'Please choose an image in ... format.']
+    >>> editview.remove_portrait()
+    {...}
+    >>> m1.getPortrait()
+    ''
+    >>> editview.check_portrait(m1, portrait)
+    True
+    >>> m1.getPortrait()
+    <Image at .../m1/portrait>
+
+
+There should always be some minimal geo info available::
+
+    >>> pprint(editview.geo_info)
+    {'is_geocoded': False,
+     'location': '',
+     'maps_script_url': '...',
+     'position-latitude': '',
+     'position-longitude': '',
+     'position-text': '',
+     'static_img_url': ''}

@@ -9,6 +9,14 @@
 
   <browser:page
      for="opencore.interfaces.IProject"
+     permission="zope2.View"
+     name="badge"
+     template="badge.pt"
+     class="opencore.browser.base.BaseView"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
      class=".wf_policy_view.WorkflowPolicyView"
      permission="zope2.View"
      name="policy_support"
@@ -40,6 +48,15 @@
      allowed_attributes="menu_items"
      />
 
+  <!-- unhooked on purpose - see export.py
+  <browser:page
+     for="opencore.interfaces.IProject"
+     class=".export.ExportView"
+     permission="zope2.View"
+     name="export"
+     attribute="export"
+     /  -->
+
   <browser:page
      for="OFS.interfaces.IItem"
      class=".projectinfo.ProjectInfoView"
@@ -65,6 +82,11 @@
      name="create"
      class=".add.ProjectAddView"
      permission="openplans.AddOpenProject"
+     />
+
+  <browser:resource
+     name="location.json"
+     file="location.json"
      />
 
   <browser:page
@@ -116,6 +138,14 @@
 
   <browser:page
      for="opencore.interfaces.IProject"
+     class=".manageteam.InviteView"
+     permission="teamspace.ManageTeamMemberships"
+     name="invite"
+     template="invite-with-message.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IProject"
      class=".manageteam.ManageTeamView"
      permission="teamspace.ManageTeamMemberships"
      name="manage-team"
@@ -136,20 +166,13 @@
      template="tour.pt"
      />
 
+  <!-- views for latest-activity/project-summary -->
   <browser:page
      for="opencore.interfaces.IProject"
      class=".latest_activity.LatestActivityView"
      permission="zope2.View"
-     name="latest-activity"
+     name="summary"
      template="latest_activity.pt"
-     />
-
-  <browser:page
-     for="opencore.interfaces.IProject"
-     class=".latest_snippet.LatestSnippet"
-     permission="zope2.View"
-     name="latest-snippet"
-     template="latest_snippet.pt"
      />
 
   <browser:page
@@ -168,6 +191,11 @@
   <subscriber handler=".metadata.updateThreadCount" />
 
   <subscriber
+    for="opencore.interfaces.event.IAfterProjectAddedEvent"
+    handler=".metadata.reindex_project_ids_for_project_creator"
+    />
+
+  <subscriber
      for="opencore.interfaces.IOpenPage
          zope.app.event.interfaces.IObjectModifiedEvent"
      handler=".metadata.update_last_modified_author"
@@ -176,6 +204,8 @@
   <!-- deletion subscribers -->
   <subscriber handler=".preferences.handle_flet_uninstall" />
   <subscriber handler=".preferences.delete_team" />
+  <subscriber handler=".preferences.delete_email_invites" />
+
   <adapter factory=".preferences.ProjectFeatureletSupporter" />
 
   <adapter
@@ -183,6 +213,5 @@
       provides="opencore.interfaces.pending_requests.IRequestMembership"
       factory="opencore.project.browser.team_membership.RequestMembershipWithEmail"
       />
-
 
 </configure>

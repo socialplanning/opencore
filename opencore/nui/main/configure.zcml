@@ -135,6 +135,7 @@
   <browser:page
      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      class=".contact.ContactView"
+     template="contact-site-admin.pt"
      permission="zope2.View"
      name="contact-site-admin"
      />

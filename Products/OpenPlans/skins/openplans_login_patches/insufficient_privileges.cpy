@@ -15,9 +15,9 @@ _ = zope.i18nmessageid.MessageFactory('opencore')
 
 portal = context.portal_url.getPortalObject()
 dummy_referer = context.portal_url()
-referer = context.REQUEST.environ.get('HTTP_REFERER', 
-                                      dummy_referer)
-came_from = context.REQUEST.form.get('came_from', '')
+request = context.REQUEST
+referer = request.environ.get('HTTP_REFERER', dummy_referer)
+came_from = request.form.get('came_from', '')
 
 #XXX This should all be refactored!
 #XXX maybe put this in a view somewhere

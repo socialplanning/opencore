@@ -1,18 +1,17 @@
 from Products.CMFCore.utils import getToolByName
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from plone.memoize.instance import memoize, memoizedproperty
 from opencore.interfaces import IProject
 from opencore.utility.interfaces import IHTTPClient
 from opencore.utils import get_opencore_property
 from opencore.wordpress.interfaces import IWordPressFeatureletInstalled
+from plone.memoize.instance import memoizedproperty
 from topp.featurelets.base import BaseFeaturelet
 from topp.featurelets.interfaces import IFeaturelet
 from zope.component import getUtility
 from zope.interface import implements
 import hmac
+import logging
 import sha
 import urllib
-import logging
 
 log = logging.getLogger('opencore.wordpress')
 
@@ -34,8 +33,6 @@ class WordPressFeaturelet(BaseFeaturelet):
                              },
                             ),
              }
-
-    #creation_command = ZopeTwoPageTemplateFile("create_blog.pt")
 
     @memoizedproperty
     def http(self):
@@ -93,8 +90,9 @@ class WordPressFeaturelet(BaseFeaturelet):
 
         #post = self.creation_command(**params)
         post = urllib.urlencode(params)
-
-        response, content = self.http.request(uri, 'POST', headers={'Content-type': 'application/x-www-form-urlencoded'}, body=post)
+        headers={'Content-type': 'application/x-www-form-urlencoded'}
+        response, content = self.http.request(uri, 'POST', headers=headers,
+                                              body=post)
         if response.status != 200:
             raise AssertionError('Failed to add blog: %s' % content)
         
@@ -119,8 +117,9 @@ class WordPressFeaturelet(BaseFeaturelet):
 
         params['title'] = obj.Title()
         post = urllib.urlencode(params)
-
-        response, content = self.http.request(uri, 'POST', headers={'Content-type': 'application/x-www-form-urlencoded'}, body=post)
+        headers={'Content-type': 'application/x-www-form-urlencoded'}
+        response, content = self.http.request(uri, 'POST', headers=headers,
+                                              body=post)
 
         if response.status != 200:
             if raise_error:

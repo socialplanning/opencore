@@ -8,7 +8,7 @@
   <browser:page
      for="opencore.featurelets.interfaces.IListenContainer"
      name="mailing_lists"
-     class="opencore.browser.base.BaseView"
+     class=".view.ListsView"
      permission="zope2.View"
      template="mailing_lists.pt"
      />
@@ -17,19 +17,19 @@
   <include package="plone.app.form" />
 
   <browser:page
-     name="opencore.add_mailinglist"
+     name="create"
      for="opencore.featurelets.interfaces.IListenContainer"
      permission="listen.AddMailingList"
-     class=".view.NuiMailingListAddView"
-     template="listen_formlib.pt"
+     class=".view.ListAddView"
+     template="create.pt"
      />
 
   <browser:page
      name="edit"
      for="opencore.listen.interfaces.IOpenMailingList"
      permission="listen.EditMailingList"
-     class=".view.NuiMailingListEditView"
-     template="listen_formlib.pt"
+     class=".view.ListEditView"
+     template="edit.pt"
      />
 
   <browser:page
@@ -38,13 +38,6 @@
      name="listen_macros"
      permission="zope2.View"
      template="listen_macros.pt"
-     />
-
-  <adapter
-     for=".view.NuiMailingListAddView"
-     factory=".view.default_named_template_adapter"
-     name="default"
-     provides="zope.formlib.namedtemplate.INamedTemplate"
      />
 
    <browser:page
@@ -71,11 +64,11 @@
      />
 
   <opencore:menuitem
-      name="Mailing Lists"
-      filter="opencore.browser.topnav.viewlet.contained_within"
-      container="opencore.interfaces.IProject"
-      item_url="lists"
-      sort_order="30"
-      />
+     name="Mailing Lists"
+     filter="opencore.browser.topnav.viewlet.contained_within"
+     container="opencore.featurelets.interfaces.IListenFeatureletInstalled"
+     item_url="lists"
+     sort_order="30"
+     />
 
 </configure>

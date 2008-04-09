@@ -30,11 +30,11 @@ Get the list of projects that were recently updated::
 
 Test searching for projects that start with a letter::
 
-   >>> brains = view.search_for_project_by_letter('X')
+   >>> brains = view.search_by_letter('X')
    >>> [p.Title for p in brains]
    []
 
-   >>> brains = view.search_for_project_by_letter('P')
+   >>> brains = view.search_by_letter('P')
    >>> titles = [p.Title for p in brains]
    >>> titles.sort()
    >>> titles
@@ -43,16 +43,17 @@ Test searching for projects that start with a letter::
 
 @@ sorting is a little unclear. is this accurate/correct behavior?
 what is relevance, how is it effected? why is Proj2 the most recently modified?
+egj supposes its reverse alphabetical
 
 Now try sorting the projects::
 
-   >>> brains = view.search_for_project_by_letter('P', sort_by='modified')
+   >>> brains = view.search_by_letter('P', sort_by='modified')
    >>> [b.Title for b in brains]
    ['Project Two', 'Project Three', 'Project One', 'Project Four']
 
 Explicitly sort on name::
 
-   >>> brains = view.search_for_project_by_letter('P', sort_by='sortable_title')
+   >>> brains = view.search_by_letter('P', sort_by='sortable_title')
    >>> titles = [p.Title for p in brains]
    >>> titles
    ['Project Four', 'Project One', 'Project Three', 'Project Two']
@@ -60,28 +61,28 @@ Explicitly sort on name::
 
 Searching for a letter that doesn't match any projects::
 
-   >>> brains = view.search_for_project_by_letter('X')
+   >>> brains = view.search_by_letter('X')
    >>> titles = [p.Title for p in brains]
    >>> titles
    []
 
 Searching for all projects::
 
-   >>> brains = view.search_for_project_by_letter('all')
+   >>> brains = view.search_by_letter('all')
    >>> titles = [p.Title for p in brains]
    >>> titles
    ['Project Four', 'Project One', 'Project Three', 'Project Two']
 
 Searching for projects starting with a number::
 
-   >>> brains = view.search_for_project_by_letter('num')
+   >>> brains = view.search_by_letter('num')
    >>> titles = [p.Title for p in brains]
    >>> titles
    []
 
 Create a project that starts with a number::
     >>> form_vars = dict(projid='5test', __initialize_project__=True,
-    ...                  title='5test',
+    ...                  project_title='5test',
     ...                  workflow_policy='medium_policy',
     ...                  add=True, featurelets = [], set_flets=1)
     >>> proj_view = self.portal.projects.restrictedTraverse("create")
@@ -90,14 +91,14 @@ Create a project that starts with a number::
 
 Now search again::
 
-   >>> brains = view.search_for_project_by_letter('num')
+   >>> brains = view.search_by_letter('num')
    >>> titles = [p.Title for p in brains]
    >>> titles
    ['5test']
 
 Search for a project by string::
 
-   >>> brains = view.search_for_project('Three')
+   >>> brains = view.search_by_text('Three')
    >>> len(brains)
    1
    >>> brains[0].Title
@@ -105,7 +106,7 @@ Search for a project by string::
 
 Try a substring search::
 
-   >>> brains = view.search_for_project('Proj')
+   >>> brains = view.search_by_text('Proj')
    >>> titles = [b.Title for b in brains]
    >>> titles.sort()
    >>> titles
@@ -113,7 +114,7 @@ Try a substring search::
 
 Try irregular chars::
 
-   >>> brains = view.search_for_project('Pr(oj')
+   >>> brains = view.search_by_text('Pr(oj')
    >>> titles = [b.Title for b in brains]
    >>> titles
    []
@@ -122,7 +123,7 @@ And now sort them by creation time::
 
 @@ I'm getting some irregular failures here. dwm.
 
-   >>> brains = view.search_for_project('Proj', sort_by='created')
+   >>> brains = view.search_by_text('Proj', sort_by='created')
    >>> [b.Title for b in brains]
    ['Project Four', 'Project One', 'Project Three', 'Project Two']
 
@@ -148,7 +149,7 @@ Instantiate a new projects view::
 
 Get the list of people matching the search::
 
-   >>> people = view.search_for_person('m4')
+   >>> people = view.search_by_text('m4')
    >>> people[0].getId
    'm4'
    >>> len(people)
@@ -156,21 +157,21 @@ Get the list of people matching the search::
 
 Search for people starting with a letter::
 
-   >>> people = view.search_for_person_by_letter('M')
+   >>> people = view.search_by_letter('M')
    >>> names = [p.getId for p in people]
    >>> names
    ['m1', 'm2', 'm3', 'm4']
 
 Search for people starting with a number::
 
-   >>> people = view.search_for_person_by_letter('num')
+   >>> people = view.search_by_letter('num')
    >>> names = [p.getId for p in people]
    >>> names
    []
 
 Search for all people::
 
-   >>> people = view.search_for_person_by_letter('all')
+   >>> people = view.search_by_letter('all')
    >>> names = [p.getId for p in people]
 
 test_user_1 shows up here, and I don't know if anyone's entirely sure
@@ -180,27 +181,27 @@ whether that's a good or a bad thing, but let's let the test pass::
 
 Search for a particular user::
 
-   >>> people = view.search_for_person('m1')
+   >>> people = view.search_by_text('m1')
    >>> names = [p.getId for p in people]
    >>> names
    ['m1']
 
 Try irregular chars::
 
-   >>> people = view.search_for_person('m(1')
+   >>> people = view.search_by_text('m(1')
    >>> people
    []
 
 Search for members starting with a letter, only sort the results::
 
-   >>> people = view.search_for_person_by_letter('M', sort_by='getId')
+   >>> people = view.search_by_letter('M', sort_by='getId')
    >>> names = [p.getId for p in people]
    >>> names
    ['m1', 'm2', 'm3', 'm4']
 
 Search for members, explicitly specifying full name sort::
 
-   >>> people = view.search_for_person_by_letter('M', sort_by='exact_getFullname')
+   >>> people = view.search_by_letter('M', sort_by='exact_getFullname')
    >>> names = [p.getFullname for p in people]
    >>> names
    ['Member Four', 'Member One', 'Member Three', 'Member Two']
@@ -279,18 +280,28 @@ Sitewide Search
 ===============
 
    >>> view = search.SitewideSearchView(self.portal.projects, request)
-   >>> brains = view.search('Proj')
-   >>> len(brains)
-   9
+   >>> brains = view.search_by_text('Proj')
+   >>> len(brains) > 0
+   True
+   >>> set(['p1', 'p2', 'p3', 'p4']).issubset(set([b.getId for b in brains]))
+   True
+
    >>> brains = view.search_by_letter('p')
-   >>> len(brains)
-   9
+   >>> len(brains) > 0
+   True
+   >>> set(['p1', 'p2', 'p3', 'p4']).issubset(set([b.getId for b in brains]))
+   True
+   >>> len(brains) == len([b.getId for b in brains if b.getId.startswith('p')])
+   True
+
    >>> brains = view.search_by_letter('m', sort_by='getId')
-   >>> [b.getId for b in brains]
-   ['m1', 'm1-home', 'm2', 'm2-home', 'm3', 'm3-home', 'm4', 'm4-home']
+   >>> len(brains) > 0
+   True
+   >>> len(brains) == len([b.getId for b in brains if b.getId.startswith('m')])
+   True
 
 Try irregular char::
-   >>> brains = view.search('Pr(oj')
+   >>> brains = view.search_by_text('Pr(oj')
    >>> len(brains)
    0
 
@@ -334,10 +345,10 @@ And if we sort by modification date
 
 How about portal type
    >>> brains = view.search_by_letter('P', sort_by='portal_type')
-   >>> len(brains)
-   9
-   >>> [b.getId for b in brains]
-   ['project-home', 'project-home', 'project-home', 'project-home', 'project-home', 'p1', 'p2', 'p3', 'p4']
+   >>> len(brains) > 1
+   True
+   >>> set(['p1', 'p2', 'p3', 'p4']).issubset([b.getId for b in brains])
+   True
 
 
 Bug 1689: Searching sitewide for a member id should give matches to
@@ -348,7 +359,7 @@ name - this always worked::
 
    >>> m4.setFullname('')
    >>> m4.reindexObject()
-   >>> brains = view.search('m4')
+   >>> brains = view.search_by_text('m4')
    >>> sorted([(b.getId, b.getFullname) for b in brains])
    [('m4', ''), ('m4-home', Missing.Value)]
 
@@ -356,7 +367,7 @@ Now let's check for a member who has a full name. This was the bug::
 
    >>> m4.setFullname('Captain Potato')
    >>> m4.reindexObject()
-   >>> brains = view.search('m4')
+   >>> brains = view.search_by_text('m4')
    >>> sorted([(b.getId, b.getFullname) for b in brains])
    [('m4', 'Captain Potato'), ('m4-home', Missing.Value)]
 

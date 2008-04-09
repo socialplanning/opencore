@@ -15,12 +15,12 @@ the aforementioned address.
 The process loop
 ================
 
-Invites start in opencore.project.browser.manageteams.ManageTeamView::
+Invites start in opencore.project.browser.manageteam.InviteView::
 
     >>> from Testing.makerequest import makerequest
     >>> self.portal = makerequest(self.portal); request = self.portal.REQUEST
-    >>> mt = self.portal.projects.p1.unrestrictedTraverse("manage-team")
-    >>> key=mt.do_nonmember_invitation_email('bob@bob.com', 'p1')
+    >>> inv = self.portal.projects.p1.unrestrictedTraverse("invite")
+    >>> key=inv.do_nonmember_invitation_email('bob@bob.com', 'p1')
 
 It is stored in the invite_utils in a keyed map::
 
@@ -30,12 +30,11 @@ It is stored in the invite_utils in a keyed map::
 
 We'll simulate the link and get the invite-join view. Let's logout::
 
-
     >>> self.logout()
 
     >>> request.form['__k']=key
     >>> request.form['email']='bob@bob.com'
-    >>> inv_join = self.portal.projects.p1.unrestrictedTraverse("invite-join")
+    >>> inv_join = self.portal.unrestrictedTraverse("invite-join")
     >>> inv_join
     <...InviteJoinView ...>
 
@@ -45,8 +44,36 @@ We'll simulate the link and get the invite-join view. Let's logout::
     >>> inv_join.invites
     {'p1': DateTime('...')}
 
+The proj_ids property on the view returns the id of every project
+which has been rendered in the template. Since we did not pass in
+any project id when we traversed to the view, this should be empty::
+    >>> inv_join.proj_ids
+    []
+
+But if we traverse to the view with a valid id for a project we've
+been invited to, it will be reflected in the property.
+
+We can't prove this for real, because the proj_ids property just reads
+a variable passed in from the request. In the wild, this is generated
+in a form in the template based on the 'project' key and is passed in
+to the view when the form is submitted. So we'll just mock this up
+very dumbly, in a way which mimics the actual behavior, so that even
+if these doctests are bad tests they are at least decent docs.
+
+    >>> request.form['project'] = 'p1'
+    >>> request.form['invites'] = ['p1']
+
+    >>> inv_join = self.portal.unrestrictedTraverse("invite-join")
+    >>> inv_join.proj_ids
+    ['p1']
+
     >>> pprint(inv_join.invite_map)
-    [{'id': 'p1', 'title': 'Project One'}]
+    [{'closed': False,
+      'description': '',
+      'id': 'p1',
+      'logo': None,
+      'title': 'Project One',
+      'url': 'http://nohost/plone/projects/p1'}]
 
 
 Saving
@@ -66,7 +93,7 @@ First, 'create_member' checks the key::
     ...
     ValueError: Bad confirmation key
 
-    >>> request.form['__k']=key
+    >>> request.form['__k']=str(key)
     >>> inv_join.validate_key()
     True
 
@@ -128,7 +155,9 @@ Rig up the dummy subscriber
     >>> from zope.component import provideHandler
     >>> provideHandler(dummy_subscriber)
 
+The do_invite_joins method returns a list of projects that were joined::
     >>> inv_join.do_invite_joins(member)
+    ['p1']
     >>> mbship = self.portal.portal_teams.p1['bob']
     >>> mbship
     <OpenMembership at /plone/portal_teams/p1/bob>

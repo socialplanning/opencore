@@ -1,5 +1,6 @@
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.CMFCore.WorkflowCore import WorkflowException
+from Products.CMFCore.utils import getToolByName
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.interfaces.catalog import ILastWorkflowActor
@@ -24,12 +25,13 @@ class MemberAccountView(BaseView, OctopoLite):
     # DWM: application specific term should be part of method names
     # probably indicate this needs to be behind an api
     def twirlip_uri(self):
-        cfg = config.getConfiguration().product_config.get('opencore.nui')
-        if cfg:
-            return cfg.get('twirlip_uri', '')
-        else:
-            #this will fail, but at least looking at the source, we'll know why.
+        ptool = getToolByName(self.context, 'portal_properties')
+        ocprops = ptool._getOb('opencore_properties')
+        uri = ocprops.getProperty('twirlip_uri')
+        # return this if the twirlip uri is not set
+        if not uri:
             return 'http://twirlip.example.com'
+        return uri.strip()
 
     @property
     @req_memoize
@@ -66,6 +68,7 @@ class MemberAccountView(BaseView, OctopoLite):
         proj_title = project_info['Title']
         proj_id = project_info['getId']
         proj_policy = project_info['project_policy']
+        project = self.portal.projects[proj_id]
 
         review_state = brain.review_state
         is_pending = review_state == 'pending'
@@ -89,7 +92,10 @@ class MemberAccountView(BaseView, OctopoLite):
                     role=role,
                     is_pending=is_pending,
                     proj_policy=proj_policy,
+                    description=project.Description(),
+                    logo=project.getLogo(),
                     )
+
 
     def _projects_satisfying(self, pred):
         brains = filter(pred, self._mship_brains)
@@ -148,8 +154,9 @@ class MemberAccountView(BaseView, OctopoLite):
             proj = self.portal.projects[proj_id]
             proj_title = unicode(proj.Title(), 'utf-8') # accessor always will return ascii
 
-            only_admin_msg = _(u'psm_leave_project_admin', u'You are the only remaining administrator of "${proj_title}". You can\'t leave this project without appointing another.',
-                               mapping={u'proj_title':proj_title})
+            only_admin_msg = _(u'psm_leave_project_admin', u'You are the only remaining administrator of "${proj_title}". You can\'t leave this ${project_noun} without appointing another.',
+                               mapping={u'proj_title':proj_title,
+                                        u'project_noun':self.project_noun})
             
             self.addPortalStatusMessage(only_admin_msg)
             return False
@@ -159,7 +166,10 @@ class MemberAccountView(BaseView, OctopoLite):
             notify(LeftProjectEvent(mship))
             return True
         else:
-            self.addPortalStatusMessage(_(u'psm_cannot_leave_project', u'You cannot leave this project.'))
+            msg = _(u'psm_cannot_leave_project',
+                    u'You cannot leave this ${project_noun}.',
+                    mapping={u'project_noun': self.project_noun})
+            self.addPortalStatusMessage(msg)
             return False
 
     def change_visibility(self, proj_id, to=None):
@@ -279,7 +289,7 @@ class MemberAccountView(BaseView, OctopoLite):
         admin_ids = team.get_admin_ids()
         transient_msgs = ITransientMessage(self.portal)
         id_ = self.loggedinmember.getId()
-        project_url = '/'.join((self.url_for('projects'), proj_id))
+        project_url = self.project_url(proj_id)
         msg = _(u'tmsg_joined_project', u'${id} has joined <a href="${project_url}">${proj_id}</a>',
                 mapping={u'id':id_, u'project_url':project_url, u'proj_id':proj_id})
         for mem_id in admin_ids:
@@ -301,11 +311,7 @@ class MemberAccountView(BaseView, OctopoLite):
 
         elt_id = '%s_invitation' % proj_id
         
-        command.update({
-                elt_id: {'action':'delete'},
-                "num_updates": {'action': 'copy',
-                                'html': self.nupdates()}
-                })
+        command.update(ajax_update(elt_id, self.nupdates()))
 
         mship = team._getOb(id_)
         notify(JoinedProjectEvent(mship))
@@ -332,15 +338,13 @@ class MemberAccountView(BaseView, OctopoLite):
         
         transient_msgs = ITransientMessage(self.portal)
 
-        project_url = '/'.join((self.url_for('projects'), proj_id))
+        project_url = self.project_url(proj_id)
         msg = _(u'tmsg_decline_invite', u'${id} has declined your invitation to join <a href="${project_url}">${proj_id}</a>',
                 mapping={u'id':id_, u'project_url':project_url, u'proj_id':proj_id})
         transient_msgs.store(spurned_admin, "membership", msg)
 
         elt_id = '%s_invitation' % proj_id
-        return {elt_id: dict(action='delete'),
-                "num_updates": {'action': 'copy',
-                                'html': self.nupdates()}}
+        return ajax_update(elt_id, self.nupdates())
 
     # XXX is there any difference between ignore and deny?
     ## currently unused
@@ -352,9 +356,7 @@ class MemberAccountView(BaseView, OctopoLite):
         if not self._apply_transition_to(proj_id, 'reject_by_owner'):
             return {}
         elt_id = '%s_invitation' % proj_id
-        return {elt_id: dict(action='delete'),
-                "num_updates": {'action': 'copy',
-                                'html': self.nupdates()}}
+        return ajax_update(elt_id, self.nupdates())
 
     @action('close')
     def close_msg_handler(self, targets, fields=None):
@@ -371,9 +373,7 @@ class MemberAccountView(BaseView, OctopoLite):
             return {}
         else:
             elt_id = 'close_info_message_%s' % idx
-            return {elt_id: dict(action='delete'),
-                    "num_updates": {'action': 'copy',
-                                    'html': self.nupdates()}}
+            return ajax_update(elt_id, self.nupdates())
 
     @property
     @req_memoize
@@ -484,3 +484,18 @@ class ProjectInvitationsView(MemberAccountView):
     template = ZopeTwoPageTemplateFile('invitations.pt') # could change this
 
 
+def ajax_update(elt_id, nupdates):
+    """helper function to generate the ajax required to update the
+       account page"""
+    if nupdates <= 0:
+        num_updates_top = ''
+    else:
+        num_updates_top = '(%s)' % nupdates
+
+    return {elt_id: dict(action='delete'),
+            'num_updates': dict(action='copy',
+                                html=nupdates),
+            'num_updates_menu': dict(action='copy',
+                                     html=nupdates),
+            'num_updates_top': dict(action='copy',
+                                    html=num_updates_top)}

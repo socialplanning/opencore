@@ -1,11 +1,16 @@
 from Acquisition import aq_inner, aq_parent
+#from Products.wicked.browser.add import WickedAdd
+#from Products.wicked.lib.normalize import titleToNormalizedId as normalize
 from opencore.browser.base import BaseView
 from opencore.browser.base import _
 from opencore.browser.naming import get_view_names
+
 from wicked.at.link import ATWickedAdd as WickedAdd
 from wicked.normalize import titleToNormalizedId as normalize
+
 from wicked.utils import getWicked
-from zExceptions import Redirect
+
+from zExceptions import BadRequest
 from zope.component import ComponentLookupError
 
 
@@ -36,15 +41,28 @@ class NuiBaseAdd(WickedAdd, BaseView):
             pass
         
     def add_content(self, title=None, section=None):
+        # XXX rename, we're not adding any old content, it's a wiki page.
+
         # this is 2.5 specific and will need to be updated for new
         # wicked implementation (which is more modular)
         title = self.request.get('Title', title)
+        if title:
+            title = title.decode("utf-8")
         section = self.request.get('section', section)
         assert title, 'Must have a title to create content' 
         newcontentid=self.sanitize(title)
         container = self.get_container()
-        container.invokeFactory(self.type_name, id=newcontentid,
+        try:
+            container.invokeFactory(self.type_name, id=newcontentid,
                              title=title)
+        except BadRequest, e:
+            self.add_status_message(_(u'psm_page_create-failed',
+                                      u'Creating "${pagetitle}" has failed because ${reason}',
+                                      mapping={'pagetitle': title, 'reason' : str(e)})
+                                    )
+            referrer = self.context.absolute_url()
+            return self.redirect(referrer)
+
         newcontent = getattr(self.context, newcontentid)
         self.do_wicked(newcontent, title, section)
         self.add_status_message(_(u'psm_page_created',
@@ -71,9 +89,4 @@ class NuiPageAdd(NuiBaseAdd):
 
     def get_container(self):
         return aq_parent(aq_inner(self.context))
-
-
-
-    
-    
 

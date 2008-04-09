@@ -1,0 +1,94 @@
+-*- mode: doctest ;-*-
+
+GEOLOCATION CONFIG
+===================
+
+This is stuff that client code doesn't need to care about;
+we're just verifying that everything's wired up correctly.
+
+
+Projects
+=========
+
+
+
+    Projects are marked as geolocatable.
+
+    >>> projects = self.portal.projects
+    >>> proj = projects.p1
+    >>> IGeoreferenceable.providedBy(proj)
+    True
+
+    They're also marked as able to use Pleiades' default annotation
+    adapter, so we can mark them with geolocation info.
+
+    >>> IGeoAnnotatableContent.providedBy(proj)
+    True
+
+    And marked as serializable.
+
+    >>> IGeoserializable.providedBy(proj)
+    True
+
+    The projects folder is marked as a serializable container.
+
+    >>> IGeoserializable.providedBy(projects)
+    True
+    >>> IGeoFolder.providedBy(projects)
+    True
+
+
+    Projects can be adapted to IGeoItemSimple, and coordinates set on them.
+    WARNING TO GEO NOOBS: This is an (x, y, z) point where x is longitude.
+    Yes, longitude goes first.
+
+    >>> geo = IGeoItemSimple(proj)
+    >>> print geo.coords
+    None
+    >>> coordinates = (10.0, -20.0, 0.0)
+    >>> geo.setGeoInterface('Point', coordinates)
+    >>> geo.coords
+    (10.0, -20.0, 0.0)
+
+
+People
+=======
+
+   This is a little more complex than I'd like due to the schism between
+   member areas (people/foo) and member data (portal_memberdata/foo).
+
+   The people folder is marked as a special folder interface.
+
+    >>> people = self.portal.people
+    >>> IGeoserializableMembersFolder.providedBy(people)
+    True
+
+    A member area is marked with the same interfaces as a project.
+
+    >>> m1folder = self.portal.people.m1
+    >>> IGeoserializable.providedBy(m1folder)
+    True
+    >>> IGeoreferenceable.providedBy(m1folder)
+    True
+    >>> IGeoAnnotatableContent.providedBy(m1folder)
+    True
+
+    The actual data is stored on the remember member::
+
+    >>> m1data = self.portal.portal_memberdata.m1
+    >>> IGeoAnnotatableContent.providedBy(m1data)
+    True
+    >>> IGeoreferenceable.providedBy(m1data)
+    True
+
+    People folders can be adapted to IGeoItemSimple, and coordinates set on them.
+
+    >>> geo = IGeoItemSimple(m1folder)
+    >>> print geo.coords
+    None
+    >>> coordinates = (1, -2, 3)
+    >>> geo.setGeoInterface('Point', coordinates)
+    >>> geo = IGeoItemSimple(m1folder)
+    >>> geo.coords
+    (1.0, -2.0, 3.0)
+

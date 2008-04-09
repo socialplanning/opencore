@@ -1,3 +1,5 @@
+-*- mode: doctest ;-*- @@ wtf? dwm
+
 ======================
  opencore.project.browser
 ======================
@@ -5,52 +7,79 @@
 Add view
 ========
 
+The add view is restricted to authenticated members:
+
     >>> projects = self.portal.projects
+    >>> self.logout()
+    >>> view = projects.restrictedTraverse("create")
+    Traceback (innermost last):
+    ...
+    Unauthorized: ...
+
+    >>> self.login('test_user_1_')
     >>> view = projects.restrictedTraverse("create")
     >>> view
     <Products.Five.metaclass.ProjectAddView object at...>
 
     >>> form_vars = dict(projid='test1', __initialize_project__=True,
     ...                  workflow_policy='medium_policy',
-    ...                  add=True, featurelets = ['listen'], set_flets=1)
+    ...                  add=True)
     >>> view.request.form.update(form_vars)
 
+The test setup should be ensuring that geocoding is disabled::
+
+    >>> view.has_geocoder
+    False
+
+Looking up geo info on the add view gives us nothing much useful,
+because the project doesn't exist yet::
+
+    >>> view.geo_info['is_geocoded']
+    False
+    
 Try setting some invalid titles::
-    >>> view.request.form['title'] = ""
+    >>> view.request.form['project_title'] = ""
     >>> out = view.handle_request()
     >>> view.errors
-    {'title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
+    {'project_title': 'The name must contain at least 2 characters with at least 1 letter or number.'}
     >>> view.errors = {}
 
-    >>> view.request.form['title'] = "1"
+    >>> view.request.form['project_title'] = "1"
     >>> out = view.handle_request()
     >>> view.errors
-    {'title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
+    {'project_title': 'The name must contain at least 2 characters with at least 1 letter or number.'}
     >>> view.errors = {}
 
-    >>> view.request.form['title'] = "!@#$%"
+    >>> view.request.form['project_title'] = "!@#$%"
     >>> out = view.handle_request()
     >>> view.errors
-    {'title': 'The project name must contain at least 2 characters with at least 1 letter or number.'}
+    {'project_title': 'The name must contain at least 2 characters with at least 1 letter or number.'}
     >>> view.errors = {}
 
 How about an invalid id?::
-    >>> view.request.form['title'] = "valid title"
+    >>> view.request.form['project_title'] = "valid title"
     >>> view.request.form['projid'] = ''
     >>> out = view.handle_request()
     >>> view.errors
-    {'id': 'The project url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'}
+    {'id': 'The url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'}
     >>> view.errors = {}
 
 And, another invalid id::
     >>> view.request.form['projid'] = 'abcd1-_+'
     >>> out = view.handle_request()
     >>> view.errors
-    {'id': 'The project url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'}
+    {'id': 'The url may contain only letters, numbers, hyphens, or underscores and must have at least 1 letter or number.'}
+    >>> view.errors = {}
+
+And an id with a reserved name also produces an error::
+    >>> view.request.form['projid'] = 'summary'
+    >>> out = view.handle_request()
+    >>> view.errors
+    {'id': 'Name reserved'}
     >>> view.errors = {}
 
 Now, a valid title and id::
-    >>> view.request.form['title'] = 'now a valid title!'
+    >>> view.request.form['project_title'] = 'now a valid title!'
     >>> view.request.form['projid'] = 'test1'
     >>> out = view.handle_request()
     >>> view.errors
@@ -86,9 +115,9 @@ in a test::
     >>> view = projects.restrictedTraverse("create")
     >>> form_vars = dict(projid='test1', __initialize_project__=True,
     ...                  workflow_policy='closed_policy',
-    ...                  add=True, featurelets = [], set_flets=1)
+    ...                  add=True)
     >>> view.request.form.update(form_vars)
-    >>> view.request.form['title'] = 'testing 1341'
+    >>> view.request.form['project_title'] = 'testing 1341'
     >>> view.request.form['projid'] = 'test1341'
     >>> out = view.handle_request()
     >>> proj = projects.test1341
@@ -124,6 +153,12 @@ Make sure he can't access wiki pages in his project, too::
 
     >>> self.logout()
     >>> self.login('test_user_1_')
+
+Maps url should work if the geocoder is available::
+
+    >>> view = projects.restrictedTraverse('create')
+    >>> view.has_geocoder = True
+
     
 Preference View
 ===============
@@ -136,8 +171,13 @@ Preference View
     >>> view.project_info['security']
     'medium_policy'
 
-    >>> view.project_info['featurelets']
-    [{'url': u'lists', 'name': 'listen', 'title': u'Mailing lists'}]
+    Remove all featurelets
+
+    The test setup should have disabled geocoding::
+
+    >>> view = proj.restrictedTraverse('preferences')
+    >>> view.has_geocoder
+    False
 
     >>> form_vars = dict(workflow_policy='closed_policy',
     ...                  update=True,
@@ -153,24 +193,22 @@ Preference View
     >>> view.request.set('flet_recurse_flag', None)
 
 Try setting a bogus title::
-    >>> view.request.form['title'] = '?'
+    >>> view.request.form['project_title'] = '?'
     >>> out = view.handle_request()
     >>> view.errors
-    {'title': u'err_project_name'}
+    {'project_title': u'err_project_name'}
     >>> view.errors = {}
 
 Clear old PSMs
 
-    >>> view.portal_status_message
-    [...]
+    >>> utils.clear_status_messages(view)
 
 
 Now set a valid title::
-    >>> view.request.form['title'] = 'new full name'
+    >>> view.request.form['project_title'] = 'new full name'
     >>> view.handle_request()
-    >>> del view._redirected 
-    >>> view.portal_status_message
-    [u'The security policy has been changed.', u'The title has been changed.', u'Mailing lists feature has been removed.']
+    >>> utils.get_status_messages(view)
+    [u'The security policy has been changed.', u'The title has been changed.']
 
     >>> view.errors
     {}
@@ -191,27 +229,12 @@ Now set a valid title::
     []
 
 #re-add mailing lists
+    >>> utils.clear_status_messages(view)
     >>> view.request.set('flet_recurse_flag', None)
     >>> view.request.form['featurelets'] = ['listen']
     >>> view.handle_request()
-    >>> del view._redirected 
-    >>> view.portal_status_message
+    >>> utils.get_status_messages(view)
     [u'Mailing lists feature has been added.']
-
-
-Make sure we can install a TaskTracker featurelet too::
-    >>> form_vars = dict(title='new full name',
-    ...                  workflow_policy='closed_policy',
-    ...                  update=True,
-    ...                  featurelets=['tasks'],
-    ...                  set_flets=1,
-    ...                  __initialize_project__=False)
-    >>> view.request.set('flet_recurse_flag', None)
-    >>> view.request.form.update(form_vars)
-    >>> view.handle_request()
-    Called ...
-    >>> get_featurelets(proj)
-    [{'url': 'tasks', 'name': 'tasks', 'title': u'Tasks'}]
 
     Verify who we are logged in as
     >>> getToolByName(self.portal, 'portal_membership').getAuthenticatedMember().getId()
@@ -240,10 +263,6 @@ Make sure we can install a TaskTracker featurelet too::
     >>> proj.restrictedTraverse('preferences')
     <...SimpleViewClass ...preferences...>
 
-Team view
-=========
-
-Set up the view::
 
     >>> from opencore.project.browser.team import ProjectTeamView
     >>> request = self.portal.REQUEST
@@ -363,20 +382,22 @@ Sort base on contributions, should get no results::
 
 And check that getting membership roles works
     >>> view.is_admin('m1')
+
+If the geocoding tool is not available, these methods successfully do
+nothing interesting::
+
+    >>> view.has_geocoder
     False
-    >>> view.is_admin('m3')
-    True
+    >>> pprint(view.geo_info)
+    {'is_geocoded': False,
+     'location': '',
+     'maps_script_url': '',
+     'position-latitude': '',
+     'position-longitude': '',
+     'position-text': '',
+     'static_img_url': ''}
 
-Clear the memoize from the request::
-    >>> utils.clear_all_memos(view)
 
-Verify that traversing to the url gives us the expected class::
 
-    >>> view = projects.p1.restrictedTraverse('team')
-    >>> view
-    <Products.Five.metaclass.SimpleViewClass from ...team-view.pt object at ...>
 
-Call the view to make sure there are no exceptions::
-
-    >>> out = view()
 

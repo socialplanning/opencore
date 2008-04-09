@@ -20,6 +20,7 @@ submit update
 notfind 'site error' i
 find "my fullname"
 find $location
+find ${projtxt} i
 follow Edit
 fv profile_form fullname $fullname
 submit update

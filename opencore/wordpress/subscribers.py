@@ -33,14 +33,15 @@ def project_contains_blog(f, mship_obj, event):
         return
     f(mship_obj, event)
 
-def send_to_wordpress(uri, username, params, context):
+def try_to_send_to_wordpress(uri, username, params, context):
     """Send some data (params) to wordpress with the given user.
-       The context is used to find the secret"""
+       The context is used to find the secret.  If this fails,
+       return the error"""
     wp_uri = get_opencore_property('wordpress_uri')
     if not wp_uri:
         # either None or empty value mean do nothing
         log.info('Failed to connect to WordPress: no WP URI set')
-        return
+        return 200, 'Failed to connect to WordPress: no WP URI set'
         
     uri = '%s/%s' % (wp_uri, uri)
     acl_users = context.acl_users
@@ -55,14 +56,18 @@ def send_to_wordpress(uri, username, params, context):
     params = urllib.urlencode(params)
 
     http = getUtility(IHTTPClient)
-    response, content = http.request(uri, 'POST', headers={'Content-type': 'application/x-www-form-urlencoded'}, body=params)
+    headers={'Content-type': 'application/x-www-form-urlencoded'}
+    response, content = http.request(uri, 'POST', headers=headers,
+                                     body=params)
 
-    # @@ DWM: response codes mean something specific and this is a
-    # generic function. Return the response and content, and this
-    # function will be much more useful.  If a raise is necessary, do
-    # it in the caller not here.
-    if response.status != 200:
-        raise AssertionError('Failed to update wordpress: %s %s' % (response.status, content))
+    return response.status, content
+
+def send_to_wordpress(uri, username, params, context):
+    """Send some data to wordpress with the given user.  Assume that this
+    is going to work, and raise an assertion if it does not."""
+    error_code, error_message = try_to_send_to_wordpress(uri, username, params, context)
+    if error_code != 200:
+        raise AssertionError('Failed to update wordpress: %s %s' % (error_code, error_message))
 
 def notify_wordpress_user_created(mem, event):
     uri = "openplans-create-user.php"
@@ -77,7 +82,11 @@ def notify_wordpress_user_created(mem, event):
             email=mem.getEmail(),
             home_page=home_page,
             )
-    send_to_wordpress(uri, username, params, mem)
+    error_code, error_message = try_to_send_to_wordpress(uri, username, params, mem)
+    if error_code == 400 and error_message == ("User with name %s already exists!" % username):
+        return
+    elif error_code != 200:
+        raise AssertionError('Failed to update wordpress: %s %s' % (error_code, error_message))
 
 @project_contains_blog
 def notify_wordpress_user_joined_project(mship, event):

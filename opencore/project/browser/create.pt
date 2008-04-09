@@ -1,33 +1,33 @@
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title" tal:content="string:Start a Project - ${view/portal_title}" />
+    <title metal:fill-slot="title" tal:content="string:Start a ${view/project_noun/title} - ${view/portal_title}" />
   </head>
   <body>
     <div metal:fill-slot="content">
       <div class="oc-headingBlock">
-        <h1 i18n:translate="create_project_heading">Start a project</h1>
-        <p i18n:translate="create_project_desc" class="oc-headingContext">Each project is a toolbox to help you get things done. Using your project you can team up with others, sketch out your plans, and keep track of your progress.</p>
+        <h1 i18n:translate="create_project_heading">Start a <span i18n:name="project_noun" tal:replace="view/project_noun">project</span></h1>
+        <p i18n:translate="create_project_desc" class="oc-headingContext">Each <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> is a toolbox to help you get things done. Using your <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> you can team up with others, sketch out your plans, and keep track of your progress.</p>
       </div>
       <div id="oc-content-main" class="oc-content-main-fullWidth">
         <form name="create_form" id="oc-project-create" method="post" enctype="multipart/form-data"
 	            class="enableUnloadProtection" tal:attributes="action view/name">
           <input type="hidden" name="set_flets" value="1"/>
           <fieldset class="oc-boxy">
-            <legend i18n:translate="create_project_step_1" class="oc-legend-heading oc-biggerText">Step 1: Basics</legend>
+            <legend i18n:translate="create_project_step_basics" class="oc-legend-heading oc-biggerText">Step 1: Basics</legend>
             <table class="oc-form">
               <tbody>
                 <tr class="oc-form-row">
                   <th class="oc-form-label" scope="row">
-                    <label i18n:translate="create_project_name" for="title">Name</label>
+                    <label i18n:translate="create_project_name" for="project_title">Name</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" id="title" class="oc-autoFocus" name="title"
-                           tal:attributes="value request/title | nothing" />
+                    <input type="text" id="project_title" class="oc-autoFocus" name="project_title"
+                           tal:attributes="value request/project_title | nothing" />
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
-                    <span id="oc-title-validator" class="oc-form-validator"></span>
-                    <span id="oc-error" class="oc-form-error" tal:content="view/errors/title | nothing" />
+                    <span id="oc-project_title-validator" class="oc-form-validator"></span>
+                    <span id="oc-error" class="oc-form-error" tal:content="view/errors/project_title | nothing" />
                   </td>
                 </tr>
                 <tr class="oc-form-row">
@@ -48,7 +48,7 @@
                 </tr>
                 <tr class="oc-form-row">
                   <th class="oc-form-label" scope="row">
-                    <label i18n:translate="create_project_goals" for="description">Goals</label>
+                    <label i18n:translate="create_project_goals" for="description">Description</label>
                   </th>
                   <td class="oc-form-value">
                     <textarea name="description" id="description" rows="3" cols="40" tal:content="request/description | nothing"/>
@@ -74,76 +74,25 @@
           </fieldset>
 
           <fieldset class="oc-boxy">
-            <legend i18n:translate="create_project_step_2" class="oc-legend-heading oc-biggerText">Step 2: Security</legend>
-            <p i18n:translate="create_project_step_2_desc" class="oc-headingContext oc-smallText">Decide who can see and contribute to this project.  You will create your team on the next page.</p>
+            <legend i18n:translate="create_project_step_security" class="oc-legend-heading oc-biggerText">Step 2: Security</legend>
+            <p i18n:translate="create_project_step_security_desc" class="oc-headingContext oc-smallText">Decide who can see and contribute to this <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>.  You will create your team on the next page.</p>
             <fieldset>
               <ul class="oc-form-radiolist oc-form-fieldBlock">
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
                   value="open_policy" />
                   <label i18n:translate="create_project_open_policy" for="workflow_policy_open">
-                  Anyone can view this project and any <span i18n:name="portal_title" tal:replace="view/portal_title"/> member can contribute to it</label>
+                  Anyone can view this <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> and any <span i18n:name="portal_title" tal:replace="view/portal_title"/> member can contribute to it</label>
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
                   value="medium_policy" checked="checked"/>
-                  <label i18n:translate="create_project_medium_policy" for="workflow_policy_medium">Anyone can view this project but only team members can contribute to it</label>
+                  <label i18n:translate="create_project_medium_policy" for="workflow_policy_medium">Anyone can view this <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> but only team members can contribute to it</label>
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
                   value="closed_policy" />
-                  <label i18n:translate="create_project_closed_policy" for="workflow_policy_closed">Only team members can view, contribute, or search for this project</label>
-                </li>
-              </ul>
-            </fieldset>
-          </fieldset>
-
-          <fieldset class="oc-boxy">
-            <legend i18n:translate="create_project_step_3" class="oc-legend-heading oc-biggerText">Step 3: Tools</legend>
-
-            <fieldset>
-              <legend i18n:translate="create_project_step_3_desc" class="oc-legend-subheading">Choose which tools you want for your project:</legend>
-              <ul class="oc-form-radiolist oc-form-fieldBlock" >
-                <li tal:repeat="flet view/featurelets">
-                  <input type="checkbox"
-                         class="oc-input-typeCheck oc-js-toggler"
-                         name="featurelets:list"
-                         checked="true"
-                         tal:attributes="id string:oc-js-toggler-${flet/id};
-                                         value flet/id"
-                         />
-                  <label tal:attributes="for string:oc-js-toggler-${flet/id}"
-                         tal:content="flet/title"
-                         />
-                </li>
-              </ul>
-            </fieldset>
-
-            <fieldset>
-              <legend i18n:translate="create_project_home_page" class="oc-legend-subheading">Select the home page for your project:</legend>
-              <ul class="oc-form-radiolist oc-form-fieldBlock">
-                <li tal:repeat="flet view/homepages">
-                  <label tal:attributes="for string:home_${flet/id};
-                                         id string:oc-js-togglee-${flet/id}">
-                  <tal:radio-checked condition="flet/checked">
-                      <input type="radio"
-                             class="oc-input-typeRadio"
-                             name="home-page"
-                             checked="true"
-                             tal:attributes="id string:home_${flet/id};
-                                             value flet/url"
-                             />
-                  </tal:radio-checked>
-                  <tal:radio-not-checked condition="not:flet/checked">
-                      <input type="radio"
-                             class="oc-input-typeRadio"
-                             name="home-page"
-                             tal:attributes="id string:home_${flet/id};
-                                             value flet/url"
-                             />
-                  </tal:radio-not-checked>
-                  <span tal:replace="flet/title" />
-                  </label>
+                  <label i18n:translate="create_project_closed_policy" for="workflow_policy_closed">Only team members can view, contribute, or search for this <span i18n:name="project_noun" tal:replace="view/project_noun">project</span></label>
                 </li>
               </ul>
             </fieldset>

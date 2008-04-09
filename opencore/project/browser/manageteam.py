@@ -17,6 +17,7 @@ from opencore.interfaces.membership import IEmailInvites
 from opencore.project.browser.team import TeamRelatedView
 from plone.memoize.view import memoize as req_memoize
 from opencore.project.browser import mship_messages
+from opencore.account.browser import AccountView
 from zope.component import getUtility
 from zope.event import notify
 import logging
@@ -28,13 +29,16 @@ log = logging.getLogger('opencore.project.manageteam')
 EMAIL_RE = re.compile(EMAIL_RE)
 TA_SPLIT = re.compile('\n|,')
 
+#@@ change to use utility
+@req_memoize
+def _email_sender(view):
+    return EmailSender(view, mship_messages)
 
-class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
+class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
     """
     View class for the team management screens.
     """
     team_manage = ZopeTwoPageTemplateFile('team-manage.pt')
-    team_manage_blank = ZopeTwoPageTemplateFile('team-manage-blank.pt')
     team_manage_macros = ZopeTwoPageTemplateFile('team-manage-macros.pt')
 
     mship_type = OpenMembership.portal_type
@@ -54,18 +58,8 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     @property
     def template(self):
         """
-        Different template for brand new teams, before any members are added.
-
-        XXX Deferred until immediately after the initial NUI launch.
+        Team management
         """
-        #mem_ids = self.team.getMemberIds()
-        #if getattr(self, '_norender', None):
-        #    return
-        #if len(mem_ids) == 1:
-        #    # the one team member is most likely the project creator
-        #    return self.team_manage_blank
-        #return self.team_manage
-
         return self.team_manage
 
     def id_is_loggedin(self, item):
@@ -120,11 +114,6 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
             mships.append(data)
         return mships
 
-    @property
-    @req_memoize
-    def email_sender(self):
-        return EmailSender(self, mship_messages)
-
     def getMshipInfoFromBrain(self, brain):
         """
         Return a formatted dictionary of information from a membership
@@ -144,7 +133,12 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
     def getMemberURL(self, mem_id):
         mtool = self.get_tool('portal_membership')
-        return '%s/profile' % mtool.getHomeUrl(mem_id)
+        home_url = mtool.getHomeUrl(mem_id)
+        if home_url:
+            return '%s/profile' % home_url
+        else:
+            return None
+
 
     # XXX i kind of feel like this whole function is questionable    
     def doMshipWFAction(self, transition, mem_ids, pred=lambda mship:True):
@@ -195,7 +189,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     def approve_requests(self, targets, fields=None):
 
         if not targets:
-            self.add_status_message(u'Please select members to approve.')
+            self.add_status_message(_(u'psm_please_select_members', u'Please select members to approve.'))
             return {}
 
         mem_ids = targets
@@ -220,9 +214,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
             #XXX sending the email should go in an event subscriber
             try:
-                self.email_sender.sendEmail(mem_id, msg_id='request_approved',
-                                            project_title=self.context.title,
-                                            project_url=self.context.absolute_url())
+                _email_sender(self).sendEmail(mem_id, msg_id='request_approved',
+                                              project_title=self.context.title,
+                                              project_url=self.context.absolute_url(),
+                                              project_noun=self.project_noun,
+                                              )
             except MailHostError: 
                 pass
             self._add_transient_msg_for(mem_id, 'You have been accepted to')
@@ -240,9 +236,11 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                                  'effects':  'fadeIn'}
 
         if napproved == 1:
-            self.add_status_message(u'You have added %s.' % mem_id)
+            self.add_status_message(_(u'psm_one_request_approved', u'You have added ${mem_id}.',
+                                      mapping={u'mem_id':mem_id}))
         else:
-            self.add_status_message(u'You have added %d members.' % napproved)
+            self.add_status_message(_(u'psm_many_requests_approved', u'You have added ${num_approved} members.'
+                                      , mapping={u'num_approved':napproved}))
             
         if napproved:
             self.team.reindexTeamSpaceSecurity()
@@ -259,7 +257,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         options with no explanation.
         """
         if not targets:
-            self.add_status_message(u'Please select members to discard.')
+            self.add_status_message(_(u'psm_select_members_discard',u'Please select members to discard.'))
             return {}
 
         # copy targets list b/c manage_delObjects empties the list
@@ -284,7 +282,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         # copy targets list b/c manage_delObjects empties the list
         mem_ids = targets[:]
         self.doMshipWFAction('reject_by_admin', mem_ids)
-        sender = self.email_sender
+        sender = _email_sender(self)
         msg = sender.constructMailMessage('request_denied',
                                           project_title=self.context.title)
         for mem_id in mem_ids:
@@ -311,13 +309,13 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         wftool = self.get_tool('portal_workflow')
         pwft = getToolByName(self, 'portal_placeful_workflow')
         deletes = []
-        sender = self.email_sender
+        sender = _email_sender(self)
         msg = sender.constructMailMessage('invitation_retracted',
                                           project_title=self.context.title)
         ret = {}
         for mem_id in mem_ids:
             mship = self.team.getMembershipByMemberId(mem_id)
-            config = pwft.getWorkflowPolicyConfig(mship)
+            config = pwft.getWorkflowPolicyConfig(self.team)
             if config is not None:
                 wf_ids = config.getPlacefulChainFor('OpenMembership')
                 wf_id = wf_ids[0]
@@ -351,27 +349,34 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         """
         mem_ids = targets
         project_title = self.context.title
-        sender = self.email_sender
+        sender = _email_sender(self)
         for mem_id in mem_ids:
             acct_url = self._getAccountURLForMember(mem_id)
-            # XXX if member hasn't logged in yet, acct_url will be whack
-            #     probably okay b/c account creation auto-logs you in
+            mdtool = getToolByName(self.context, 'portal_memberdata')
+            mdtoolpath = '/'.join(mdtool.getPhysicalPath())
+            mem_path = '%s/%s' % (mdtoolpath, mem_id) 
+            mem_metadata = self.catalogtool.getMetadataForUID(mem_path) 
+            mem_user_name = mem_metadata['getFullname'] or mem_metadata['id']
+
             msg_vars = {'project_title': project_title,
                         'account_url': acct_url,
                         }
-            sender.sendEmail(mem_id, msg_id='remind_invitee', **msg_vars)
+
+            if mem_metadata['review_state'] == 'pending':
+                mem = mdtool.get(mem_id)
+                msg_vars['conf_url'] = self._confirmation_url(mem)
+                sender.sendEmail(mem_id, msg_id='remind_pending_invitee', **msg_vars)
+            else:
+                sender.sendEmail(mem_id, msg_id='remind_invitee', **msg_vars)
 
         if not mem_ids:
-            self.addPortalStatusMessage(_(u"remind_invite_none_selected"))
+            self.add_status_message(_(u"remind_invite_none_selected"))
         else:
             plural = len(mem_ids) != 1
             msg = "Reminder%s sent: %s" % (plural and 's' or '', ", ".join(mem_ids))
             self.add_status_message(msg)
 
-
-    ##################
-    #### EMAIL INVITATION BUTTON HANDLERS
-    ##################
+        self.redirect(self.request.ACTUAL_URL)
 
     @formhandler.action('remove-email-invites')
     def remove_email_invites(self, targets, fields=None):
@@ -379,9 +384,9 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         Retracts invitations sent to email addresses.  Should send
         notifiers.
         """
-        addresses = [urllib.unquote(t) for t in targets]
+        addresses = [urllib.unquote(t).strip() for t in targets]
 
-        sender = self.email_sender
+        sender = _email_sender(self)
         msg = sender.constructMailMessage('invitation_retracted',
                                           project_title=self.context.title)
 
@@ -399,33 +404,13 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         ret = dict([(target, {'action': 'delete'}) for target in targets])
         return ret
 
-    @formhandler.action('remind-email-invites')
-    def remind_email_invites(self, targets, fields=None):
-        """
-        Sends an email reminder to the specified email invitees.
-        """
-        addresses = [urllib.unquote(t) for t in targets]
-        sender = self.email_sender
-        project_title = self.context.title
-        for address in addresses:
-            # XXX if member hasn't logged in yet, acct_url will be whack
-            key = self.invite_util.getInvitesByEmailAddress(address).key
-            query_str = urllib.urlencode(dict(email=address,__k=key))
-            #query_str = urllib.urlencode({'email': address})
-            join_url = "%s/invite-join?%s" % (self.portal.absolute_url(),
-                                              query_str)
-            msg_subs = dict(project_title=self.context.title,
-                            join_url=join_url,
-                            portal_url=self.siteURL,
-                            portal_title=self.portal_title()
-                            )
-            
-            sender.sendEmail(address, msg_id='invite_email', **msg_subs)
-
-        plural = len(addresses) != 1
-
-        msg = "Reminder%s sent: %s" % (plural and 's' or '',', '.join(addresses))
-        self.add_status_message(msg)
+    @req_memoize    
+    def join_url(self, address, key, project):
+        args = dict(email=address, project=project, __k=key)
+        query_str = urllib.urlencode(args)
+        portal_url = self.portal.absolute_url()
+        url = "%s/invite-join?%s" % (portal_url, query_str)
+        return url
 
     def mship_only_admin(self, mship):
         mem_id = mship.getId()
@@ -480,7 +465,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         """
         mem_ids = targets
         mems_removed = self.doMshipWFAction('deactivate', mem_ids, self.mship_only_admin)
-        sender = self.email_sender
+        sender = _email_sender(self)
         ret = {}
         #XXX sending an email should be in an event handler
         for mem_id in mems_removed:
@@ -490,7 +475,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                 sender.sendEmail(mem_id, msg_id='membership_deactivated',
                                  project_title=self.context.title)
             except MailHostError:
-                self.add_status_message('Error sending mail to: %s' % mem_id)
+                self.add_status_message(_(u'psm_error_sending_mail_to_member', 'Error sending mail to: ${mem_id}', mapping={u'mem_id': mem_id}))
             self._add_transient_msg_for(mem_id, 'You have been deactivated from')
             ret[mem_id] = {'action': 'delete'}
 
@@ -615,10 +600,12 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         state).  The member id is specified in the request form, as
         the value for the 'invite-member' button.
         """
+
         mem_id = targets[0] # should only be one
         if not self._doInviteMember(mem_id):
-            self.add_status_message(u'You cannot reinvite %s to join this project yet.' % mem_id)
-            raise Redirect('%s/manage-team' % self.context.absolute_url())
+            # XXX when does this happen?
+            self.add_status_message(u'You cannot reinvite %s to join this %s yet.' % (mem_id, self.project_noun))
+            self.redirect('%s/manage-team' % self.context.absolute_url())
 
         acct_url = self._getAccountURLForMember(mem_id)
         logged_in_mem = self.loggedinmember
@@ -639,10 +626,29 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                 'portal_name': self.portal.title,
                 'portal_url': self.portal.absolute_url(),
                 }
-        self.email_sender.sendEmail(mem_id, msg_id='invite_member',
-                                    **msg_subs)
-        self.add_status_message(u'You invited %s to join this project.' % mem_id)
 
+        _email_sender(self).sendEmail(mem_id, msg_id='invite_member',
+                                    **msg_subs)
+        self.add_status_message(u'You invited %s to join this %s' % (mem_id, self.project_noun))
+
+    @view.memoizedproperty
+    def invite_util(self):
+        return getUtility(IEmailInvites)
+
+    @formhandler.action('remind-email-invites')
+    def remind_email_invites(self, targets, fields=None):
+        if not targets:
+            self.add_status_message(_(u"remind_invite_none_selected"))
+        else:
+            self.redirect("invite?remind=True&email-invites=%s" % ",".join(targets))
+
+        
+class InviteView(ManageTeamView):
+    ##################
+    #### EMAIL INVITATION BUTTON HANDLERS
+    ##################
+
+    template = ZopeTwoPageTemplateFile('invite-with-message.pt')
 
     ##################
     #### EMAIL INVITES BUTTON HANDLER
@@ -651,7 +657,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
     @property
     def email_invites(self):
         return [invite.strip() for invite \
-                in TA_SPLIT.split(self.request.form.get('email-invites'))]
+                in TA_SPLIT.split(self.request.form.get('email-invites')) if len(invite.strip())>0]
 
     def validate_email_invites(self, invites):
         bad = []
@@ -663,33 +669,85 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
 
     def do_nonmember_invitation_email(self, addy, proj_id):
         # perform invitation
+
         key = self.invite_util.addInvitation(addy, proj_id)
-        query_str = urllib.urlencode(dict(email=addy,__k=key))
-        join_url = "%s/invite-join?%s" % (self.portal.absolute_url(),
-                                                      query_str)
-        msg_subs = dict(project_title=self.context.title,
-                        join_url=join_url,
-                        portal_url=self.siteURL,
-                        portal_title=self.portal_title(),
-                        project_url=self.context.absolute_url(),
-                        inviter_name=self.loggedinmember.getId()
+        msg_subs = dict(join_url=self.join_url(addy, key, proj_id),
+                        #FIXME: spam-check this
+                        user_message=self.request.get('message', ''), 
+                        subject=self.request.get('subject', ''),
+                        project_title=self.context.Title(),
+                        project_noun=self.project_noun,
+                        site_contact_url=self.portal.absolute_url() + "/contact-site-admin",
                         )
+
         if email_confirmation():
-            self.email_sender.sendEmail(addy, msg_id='invite_email',
+            _email_sender(self).sendEmail(addy, msg_id='email_invite_static_body', mfrom=self.loggedinmember.id,
                                         **msg_subs)
         else:
-            msg = self.email_sender.constructMailMessage(msg_id='invite_email',
+            msg = _email_sender(self).constructMailMessage(msg_id='email_invite_static_body',
                                                          **msg_subs)
             log.info(msg)
         return key
 
-    @view.memoizedproperty
-    def invite_util(self):
-        return getUtility(IEmailInvites)
+    def invite_email_boiler(self):
+        # this is a hack to massage the email_invite_static_body text
+        # to look good on the screen for presentation purposes; it is
+        # used in its virgin form in the email
+        msg_subs = dict(user_message='',
+                        join_url=self.join_url('', '', ''),
+                        portal_title=self.portal_title(),
+                        project_noun=self.project_noun,
+                        site_contact_url=self.portal.absolute_url() + "/contact-site-admin",
+                        )
+        
+        msg = (self.translate(_(u'email_invite_static_body', mapping=msg_subs)))
+        msg = msg.replace('\n\n', '<br>')
+        msg = msg.replace('\n', '<br>')
+        return msg
+
+
+    @formhandler.action('remind-email-invites')
+    def remind_email_invites(self, targets=None, fields=None):
+        """
+        Sends an email reminder to the specified email invitees.
+        """
+        # perform reminder
+        invites = self.request.get('email-invites').split(",")
+        addresses = [urllib.unquote(t).strip() for t in invites]
+
+        sender = _email_sender(self)
+        project_title = self.context.Title()
+        proj_id = self.context.getId()
+        for address in addresses:
+            key = self.invite_util.getInvitesByEmailAddress(address).key
+            msg_subs = dict(join_url=self.join_url(address, key, proj_id),
+                            #FIXME: spam-check this
+                            user_message=self.request.get('message', ''), 
+                            subject=self.request.get('subject', ''),
+                            project_title=self.context.Title(),
+                            project_noun=self.project_noun,
+                            site_contact_url=self.portal.absolute_url() + "/contact-site-admin",
+                            )
+        
+            if email_confirmation():
+                sender.sendEmail(address, msg_id='email_invite_static_body', mfrom=self.loggedinmember.id,
+                                        **msg_subs)
+            else:
+                msg = sender.constructMailMessage(msg_id='email_invite_static_body', mfrom=self.loggedinmember.id,
+                                                  **msg_subs)
+                log.info(msg)
+
+        plural = len(addresses) != 1
+
+        msg = "Reminder%s sent: %s" % (plural and 's' or '',', '.join(addresses))
+        self.add_status_message(msg)
+        self.redirect('manage-team')
+
         
     @formhandler.action('email-invites')
     def add_email_invites(self, targets=None, fields=None):
         invites = self.email_invites
+
         psm = self._add_email_invites(invites)
         if not psm:
             return
@@ -705,8 +763,15 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         if psm['email_invites']:
             self.add_status_message(u"Email invitations: %s"
                                         % ', '.join(psm['email_invites']))
+        if psm['mem_already_member']:
+            if len(psm['mem_already_member']) > 1:
+                self.add_status_message(u"%s are already members of this project."
+                                        % ', '.join(psm['mem_already_member']))
+            else:
+                self.add_status_message(u"%s is already a member of this project."
+                                        % ', '.join(psm['mem_already_member']))
         self._norender = True
-        self.redirect(self.request.ACTUAL_URL) # redirect clears form values
+        self.redirect('manage-team')
         
     def _add_email_invites(self, invites):
         """
@@ -729,17 +794,23 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                    % (plural and 'es' or '', ', '.join(bad)))
             self.add_status_message(psm)
             return # don't do anything, just re-render the form
-        
+
         proj_id = self.context.getId()
         proj_title = self.context.title
         mbtool = self.membranetool
         uSR = mbtool.unrestrictedSearchResults
         mem_invites = []
         mem_failures = []
+        mem_already_member = []
         email_invites = []
         already_invited = []
+
         for addy in invites:
             # first check to see if we're already a site member
+            addy = addy.strip()
+            if not addy:
+                continue
+
             match = uSR(getEmail=addy)
             if match:
                 # member already has this address
@@ -768,13 +839,23 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
                         }
 
                     if email_confirmation():
-                        self.email_sender.sendEmail(mem_id,
+                        if mem_metadata['review_state'] == 'pending':
+                            mem = mdtool.get(mem_id)
+                            msg_subs['conf_url'] = self._confirmation_url(mem)
+                            _email_sender(self).sendEmail(mem_id,
+                                                    msg_id='invite_pending_member',
+                                                    **msg_subs)
+                        else:
+                            _email_sender(self).sendEmail(mem_id,
                                                     msg_id='invite_member',
                                                     **msg_subs)
                     mem_invites.append(mem_id)
                 else:
                     # invitation attempt failed
-                    mem_failures.append(mem_id)
+                    if mem_id not in self.context.projectMemberIds():
+                        mem_failures.append(mem_id)
+                    else:
+                        mem_already_member.append(mem_id)
             else:
                 # not a member
                 if addy in self.invite_util.getInvitesByProject(proj_id):
@@ -786,6 +867,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite):
         return dict(mem_invites=mem_invites,
                     mem_failures=mem_failures,
                     email_invites=email_invites,
-                    already_invited=already_invited)
+                    already_invited=already_invited,
+                    mem_already_member=mem_already_member)
 
 

@@ -62,6 +62,17 @@ def if_request_starts_with_url(viewlet):
        selected"""
     return viewlet.request.ACTUAL_URL.startswith(viewlet.url())
 
+def is_in_external_application(viewlet):
+    """
+    return true if the X-Openplans-Application header matches the current viewlet's
+    concept of what it should be
+    """
+    expected_header = viewlet.application_header
+    if expected_header is None:
+        return False
+    print viewlet.request.get_header("HTTP_X_OPENPLANS_APPLICATION")
+    return viewlet.request.get_header("HTTP_X_OPENPLANS_APPLICATION") == expected_header
+
 def portal_people_or_projects(viewlet):
     """a particular set of viewlets get rendered when viewing the
        portal, people folder, or projects folder"""
@@ -71,11 +82,17 @@ def portal_people_or_projects(viewlet):
             return True
     return False
 
+def url_ends_with(url, ending):
+    """helper function to check if url has a particular ending, ignoring
+       trailing slashes on both"""
+    return url.rstrip('/').endswith(ending.rstrip('/'))
+
 def if_projects_selected(viewlet):
     """if we don't check that the viewed url ends with create, then the
        projects folder will be displayed as well (also in projects folder)"""
-    return (IAddProject.providedBy(viewlet.context)
-            and not viewlet.context.request.ACTUAL_URL.endswith('/create'))
+    return (IAddProject.providedBy(viewlet.context) and
+            not url_ends_with(viewlet.context.request.ACTUAL_URL,
+                              '/create'))
 
 def openpage_provided(viewlet):
     """return True if the viewlet context is a wiki page"""
@@ -107,3 +124,7 @@ def not_part_of_project(viewlet):
     if mem.getId() in team.getMemberIdsByStates(filter_states):
         return False
     return True
+
+def team_selected(viewlet):
+    return (url_ends_with(viewlet.context.request.ACTUAL_URL, '/team') or
+            viewlet.context.request.ACTUAL_URL.endswith('/manage-team'))

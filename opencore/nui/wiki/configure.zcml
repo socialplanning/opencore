@@ -2,6 +2,17 @@
    xmlns:browser="http://namespaces.zope.org/browser"
    xmlns:five="http://namespaces.zope.org/five">
 
+  <adapter
+    for="opencore.interfaces.IOpenPage"
+    factory="opencore.nui.wiki.historyview.AnnotationCachedWikiHistory"
+    />
+
+  <subscriber
+    for="opencore.interfaces.IOpenPage
+         zope.app.event.interfaces.IObjectModifiedEvent"
+    handler=".historyview.wiki_page_edited"
+    />
+
   <!-- macros -->
   <browser:page
      class="opencore.browser.base.BaseView"
@@ -50,9 +61,8 @@
     for="opencore.interfaces.IOpenPage"
     name="internal-link"
     permission="zope2.View"
-    template="internal-link.pt"
+    attribute="file_list"
     />
-
 
   <!-- Wiki views  -->
   <browser:page
@@ -80,7 +90,7 @@
   <browser:page
      class="opencore.nui.wiki.add.NuiContainerAdd"
      for="opencore.interfaces.IProject"
-     permission="cmf.AddPortalContent"
+     permission="openplans.AddOpenPage"
      name="add-page"
      attribute="add_content"
      />
@@ -88,7 +98,7 @@
   <browser:page
      class="opencore.nui.wiki.add.NuiPageAdd"
      for="opencore.interfaces.IOpenPage"
-     permission="cmf.AddPortalContent"
+     permission="openplans.AddOpenPage"
      name="add-page"
      attribute="add_content"
      />
@@ -109,7 +119,19 @@
     permission="cmf.ManagePortal"
     />
 
-  <!-- placeholder views for lists & tasks -->
+  <!-- placeholder views for blog, logo, lists & tasks -->
+  <browser:page
+     class="opencore.browser.naming.IgnorableDummy"
+     for="opencore.interfaces.IProject"
+     permission="zope2.View"
+     name="blog"
+     />
+  <browser:page
+     class="opencore.browser.naming.IgnorableDummy"
+     for="opencore.interfaces.IProject"
+     permission="zope2.View"
+     name="logo"
+     />
   <browser:page
      class="opencore.browser.naming.IgnorableDummy"
      for="opencore.interfaces.IProject"
@@ -135,7 +157,7 @@
 			 singlelink
 			 links
 			 count"
-     class="wicked.at.link.BasicFiveLink"
+     class=".linkrenderer.LinkRenderer"
      />
 
 
@@ -165,9 +187,18 @@
      />
 
   <browser:page
-     class=".historyview.WikiVersionRevert"
+     class=".historyview.WikiVersionView"
      for="opencore.interfaces.IOpenPage"
      name="revert"
+     attribute="rollback_version"
+     permission="cmf.ModifyPortalContent"
+     />
+
+  <browser:page
+     class=".historyview.WikiPageVersionMigrate"
+     for="opencore.interfaces.IOpenPage"
+     name="migrate-history"
+     attribute="migrate"
      permission="cmf.ModifyPortalContent"
      />
 

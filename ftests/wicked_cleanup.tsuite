@@ -1,3 +1,4 @@
 # cleans up artifacts of the basic suite, normally run with -c basic 
 destroy_project
 destroy_user
+destroy_user(user=${notprojmember})

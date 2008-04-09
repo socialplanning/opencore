@@ -8,12 +8,13 @@
    define="proj view/project_info">
 <html metal:use-macro="here/@@standard_macros/master">
   <head>
-    <title metal:fill-slot="title" tal:content="string:Preferences - ${view/area/Title}" />
+    <title metal:fill-slot="title"
+           tal:content="string:Preferences - ${view/window_title}" />
   </head>
   <body>
     <div metal:fill-slot="content">
       <div class="oc-headingBlock">
-        <h1>Project preferences</h1>
+        <h1><span tal:replace="view/project_noun/title">Project</span> preferences</h1>
       </div>
       <div id="oc-content-main" class="oc-content-main-fullWidth">
         <form 
@@ -29,16 +30,16 @@
               <tbody>
                 <tr class="oc-form-row">
                   <th class="oc-form-label" scope="row">
-                    <label for="title">Name</label>
+                    <label for="project_title">Name</label>
                   </th>
                   <td class="oc-form-value">
-                    <input type="text" id="title" name="title"
-                           tal:attributes="value request/title | proj/title "/>
+                    <input type="text" id="project_title" name="project_title"
+                           tal:attributes="value python:request.get('project_title') or view.project_info['title'] "/>
                   </td>
                   <td class="oc-form-help">
                     <span class="oc-form-context"></span>
-                    <span id="oc-title-validator" class="oc-form-validator"></span>
-                    <span id="oc-error" class="oc-form-error" tal:content="view/errors/title | nothing" />
+                    <span id="oc-project_title-validator" class="oc-form-validator"></span>
+                    <span id="oc-error" class="oc-form-error" tal:content="view/errors/project_title | nothing" />
                   </td>
                 </tr>
                 <tr class="oc-form-row">
@@ -54,7 +55,7 @@
                 </tr>
                 <tr class="oc-form-row">
                   <th class="oc-form-label" scope="row">
-                    <label for="description">Goal</label>
+                    <label for="description">Description</label>
                   </th>
                   <td class="oc-form-value">
                     <textarea name="description" id="description" tal:content="request/description | proj/description" rows="3" cols="40" />
@@ -118,17 +119,17 @@
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_open" name="workflow_policy"
                          value="open_policy" tal:attributes="checked python:proj['security']=='open_policy' and 'checked' or ''"/>
                   <label for="workflow_policy_open"
-                         tal:content="string:Anyone can view this project and any ${view/portal_title} member can contribute to it" />
+                         tal:content="string:Anyone can view this ${view/project_noun} and any ${view/portal_title} member can contribute to it" />
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_medium" name="workflow_policy"
                          value="medium_policy" tal:attributes="checked python:proj['security']=='medium_policy' and 'checked' or ''"/>
-                  <label for="workflow_policy_medium">Anyone can view this project but only team members can contribute to it</label>
+                  <label for="workflow_policy_medium">Anyone can view this <span tal:replace="view/project_noun">project</span> but only team members can contribute to it</label>
                 </li>
                 <li>
                   <input type="radio" class="oc-input-typeRadio" id="workflow_policy_closed" name="workflow_policy"
                          value="closed_policy" tal:attributes="checked python:proj['security']=='closed_policy' and 'checked' or ''"/>
-                  <label for="workflow_policy_closed">Only team members can view, contribute, or search for this project</label>
+                  <label for="workflow_policy_closed">Only team members can view, contribute, or search for this <span tal:replace="view/project_noun">project</span></label>
                 </li>
               </ul>
             </fieldset>
@@ -161,7 +162,7 @@
             </fieldset>
             
             <fieldset>
-              <legend  class="oc-legend-label">Select the home page for your project:</legend>
+              <legend  class="oc-legend-label">Select the home page for your <span tal:replace="view/project_noun">project</span>:</legend>
 
               <ul class="oc-form-radiolist oc-form-fieldBlock">
                 <li tal:repeat="flet view/homepages">
@@ -193,9 +194,9 @@
           </fieldset>
                 <!-- Delete Project -->
           <fieldset class="oc-boxy">
-            <legend class="oc-legend-heading oc-biggerText">Delete Project</legend>
+            <legend class="oc-legend-heading oc-biggerText">Delete <span tal:replace="view/project_noun/title">Project</span></legend>
             <a tal:attributes="href string:${context/absolute_url}/delete">
-              Remove this project from <span tal:replace="view/portal_title" />?
+              Remove this <span tal:replace="view/project_noun">project</span> from <span tal:replace="view/portal_title" />?
             </a>
           </fieldset>    
           <ul class="oc-actions">

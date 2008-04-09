@@ -5,5 +5,7 @@
            i18n_domain="opencore">
 
   <include package="opencore.listen.browser" file="overrides.zcml" />
+  <include package="opencore.geocoding" file="overrides.zcml" />
+  <include package="opencore.nui.wiki" file="overrides.zcml" />
 
 </configure>

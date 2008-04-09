@@ -69,6 +69,15 @@ class Mock(object):
             self.mock_attrs[attr] = self.__class__(new_name)
         return self.mock_attrs[attr]
 
+class ConfigMock(Mock):
+    _dummy_value = None
+
+    def _set(self, value):
+        self.__class__._dummy_value = value
+
+    def get(self, option):
+        return self._dummy_value or ''
+
 class HTTPMock(Mock):
     """ 
     A mock object for simulating httplib2.Http objects

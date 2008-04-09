@@ -4,16 +4,16 @@
   </head>
   <body>
     <div metal:fill-slot="content">
-      <div id="oc-content-main">
+      <div id="oc-content-main" class="oc-content-main-fullWidth">
         <div class="oc-headingBlock">
-          <h1>Join <span tal:replace="view/area/Title" /></h1>
-          <p class="oc-headingContext">Request membership to this project.</p>
+          <h1>Join</h1>
+          <p class="oc-headingContext">Request membership to &ldquo;<span tal:replace="view/area/Title" />&rdquo;.</p>
         </div>
-        <form method="POST" id="request-membership"
+        <form method="POST" id="request-membership" name="request-membership"
               tal:attributes="action view/request/ACTUAL_URL">
           <div class="oc-boxy oc-columnGroup oc-clearAfter" tal:condition="not:view/loggedin">
           
-              <fieldset class="oc-column">
+              <fieldset class="oc-boxy oc-column">
                 <legend class="oc-legend-heading oc-biggerText" i18n:translate="login_snippet_header">Already a member? Sign in</legend> 
                 <table class="oc-form">
                   <tbody>
@@ -39,7 +39,7 @@
               
             <fieldset class="oc-column">
   
-              <legend class="oc-legend-heading oc-biggerText" tal:content="string:Create an account on ${view/portal_title}" />
+              <legend class="oc-legend-heading oc-biggerText" tal:content="string:Or, create an account on ${view/portal_title}" />
               <!-- on successful registration -->
               <p i18n:translate="join_check_email" tal:condition="fdata/getUser | nothing">
                 Check your email to confirm registration 
@@ -142,7 +142,7 @@
             </fieldset>
           </div>
   
-          <fieldset class="">
+          <fieldset>
               <label for="request-message">Message for &ldquo;<span tal:replace="view/area/Title" />&rdquo;</label>
               <span class="oc-discreetText">(optional)</span>
               <textarea rows="4" cols="80" 
@@ -151,23 +151,23 @@
                         id="request-message"
                         ><tal:dummy replace="request/request-message | nothing"/></textarea>
           </fieldset>
-          <fieldset class="oc-actions">
-            <input type="submit" name="task|request-membership" value="Join" class="oc-button oc-chooseThis" />
-            or
-            <a tal:attributes="href context/absolute_url">Cancel</a>
+          <fieldset>
+            <ul class="oc-actions">
+            <li><input type="submit" name="task|request-membership" value="Join" class="oc-button oc-chooseThis" /> </li>
+            <li>or <a tal:attributes="href context/absolute_url">Cancel</a></li>
           </fieldset>
         </form>
       </div><!--end oc-content-main -->
       <div id="oc-content-sidebar">
-        <div class="oc-boxy"
+        <!-- <div class="oc-boxy"
                tal:define="mission context/Description"
                tal:condition="mission">
           <h2>About &ldquo;<span tal:replace="view/area/Title" />&rdquo;</h2>
           <dl class="oc-plainList">
-            <dt>Goals</dt>
+            <dt>Description</dt>
             <dd tal:content="mission">Project mission statement</dd>
           </dl>
-        </div>
+        </div> -->
       </div>
     
     </div><!-- end content-fill-slot -->

@@ -12,7 +12,7 @@
 extend_with flunc.checkbox 
 
 go ${base_url}/projects/${projname}
-follow "Manage team"
+follow "Team"
 fv search-members search_for $membername
 submit
 fv search-members search_for $membername

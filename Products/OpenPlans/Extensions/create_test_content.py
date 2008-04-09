@@ -1,6 +1,7 @@
-import sys
 from Products.CMFCore.utils import getToolByName
 from opencore.project.handler import _initialize_project
+from zope.app.event.objectevent import ObjectCreatedEvent
+from zope.event import notify
 
 projects_map = {'p1':{'title':'Project One',},
                 'p2':{'title':'Project Two',},
@@ -44,25 +45,15 @@ members_map = {'m1':{'fullname':'Member One',
 
 
 
-def create_test_content(self, p_map=None, m_map=None):
+def create_test_content(self, p_map=projects_map, m_map=members_map):
     """ populates an openplans site w/ dummy test content """
     portal = getToolByName(self, 'portal_url').getPortalObject()
-
-    # XXX this shouldn't be necessary, as its already set in install
-    # XXX this should probably be removed
-    # from Products.OpenPlans import config
-    # portal.manage_changeProperties(email_from_address=config.SITE_FROM_ADDRESS)
 
     mdc = getToolByName(self, 'portal_memberdata')
     mdc.unit_test_mode = True # suppress registration emails
     tm_tool = getToolByName(self, 'portal_teams')
     wf_tool = getToolByName(self, 'portal_workflow')
     ms_tool = getToolByName(self, 'portal_membership')
-
-    if p_map is None:
-        p_map = projects_map
-    if m_map is None:
-        m_map = members_map
     
     pcontainer = getattr(portal, 'projects', None)
     if pcontainer is None:
@@ -78,44 +69,59 @@ def create_test_content(self, p_map=None, m_map=None):
         _initialize_project(getattr(pcontainer, p_id), request)
         out.append('Project %s added' % p_id)
 
-    pf = mdc.portal_factory
-
     for mem_id, mem_data in m_map.items():
-        id_ = mem_id
-        mem_folder = pf._getTempFolder('OpenMember')
-        mem = mem_folder.restrictedTraverse(id_)
-        
-        # now we have mem, a temp member. create it for real.
-        mem = pf.doCreate(mem, mem_id)
-        result = mem.processForm()
-        mem.setUserConfirmationCode()
-        mem._setPassword(mem_data['password'])
-        mem.setEmail(mem_data['email'])
-        mem.setFullname(mem_data['fullname'])
-
-        #and confirm it.
-        
-        # need to set/delete the attribute for the workflow guards
-        setattr(mem, 'isConfirmable', True)
-        status = wf_tool.getStatusOf('openplans_member_workflow', mem)
-        status ['review_state'] = 'public'
-        wf_tool.setStatusOf('openplans_member_workflow', mem, status)
-        delattr(mem, 'isConfirmable')
-
-        mem.reindexObject()
-
-        ms_tool.createMemberArea(mem.getId())
-
+        member = create_member(self, mem_id, **mem_data)
         out.append('Member %s added' % mem_id)
-        for p_id, p_roles in mem_data['projects'].items():
+        projdata = mem_data.get('projects', {})
+        for p_id, p_roles in projdata.items():
             team = tm_tool.getTeamById(p_id)
             team.addMember(mem_id)
+            
             out.append('-> added to project %s' % p_id)
             mship = team.getMembershipByMemberId(mem_id)
-            wf_tool.doActionFor(mship, 'approve_public')
+            mship.do_transition('approve_public')
             if p_roles:
                 mship.editTeamRoles(p_roles)
                 out.append('-> project roles granted: %s' % str(p_roles))
 
     mdc.unit_test_mode = False
+
+    # force w/f security updating
+    wftool = getToolByName(self, 'portal_workflow')
+    wftool.updateRoleMappings()
     return "\n".join(out)
+
+def create_member(context, mem_id, out=None, **mem_data):
+    """creates and confirms a member"""
+    mdc = getToolByName(context, 'portal_memberdata')
+
+    # create temp member
+    pf = mdc.portal_factory
+    id_ = mem_id
+    mem_folder = pf._getTempFolder('OpenMember')
+    mem = mem_folder.restrictedTraverse('%s' % id_)
+    
+    # create it for real.
+    mem = pf.doCreate(mem, mem_id)
+    result = mem.processForm()
+    mem.setUserConfirmationCode()
+    mem._setPassword(mem_data['password'])
+    mem.setEmail(mem_data['email'])
+    mem.setFullname(mem_data['fullname'])
+
+    # and confirm it.
+
+    # need to set/delete the attribute for the workflow guards
+    setattr(mem, 'isConfirmable', True)
+    wftool = getToolByName(context, 'portal_workflow')
+    wf_id = 'openplans_member_workflow'
+    status = wftool.getStatusOf(wf_id, mem)
+    status['review_state'] = 'public'
+    wftool.setStatusOf(wf_id, mem, status)
+    delattr(mem, 'isConfirmable')
+
+    mem.reindexObject()
+    notify(ObjectCreatedEvent(mem))
+    ms_tool = getToolByName(context, 'portal_membership')
+    ms_tool.createMemberArea(mem.getId())
+    return mem

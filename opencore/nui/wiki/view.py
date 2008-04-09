@@ -4,11 +4,44 @@ from opencore.browser.base import BaseView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser.formhandler import button, OctopoLite, action
 from opencore.interfaces import IAmExperimental
+from opencore.interfaces import IHomePage
+from opencore.nui.wiki.utils import unescape
+from Acquisition import aq_inner
 from PIL import Image
 from StringIO import StringIO
+import simplejson
+
+from lxml import etree# no longer necessary after lxml.html trunk gets released
+from lxml.html import fromstring # no longer necessary after lxml.html trunk gets released
+import copy # no longer necessary after lxml.html trunk gets release
+import re
+__replace_meta_content_type = re.compile(
+    r'<meta http-equiv="Content-Type".*?>').sub  # no longer necessary after lxml.html trunk gets release
+
+
 from lxml.html.clean import Cleaner
 from opencore.interfaces.catalog import ILastModifiedAuthorId
 from topp.utils.pretty_date import prettyDate
+
+
+def xinha_to_wicked(html):
+    """
+    Takes an html document returned from Xinha (with the text inside of Wicked links
+    properly escaped for HTML) and unescapes Wicked links so that they'll be treated
+    well by Wicked.
+    """
+    def treat_link_text(match):
+        link_text = match.group()
+        return unescape(link_text)
+    # The following is a regex designed to capture the text inside of a Wicked link
+    wicked_link_text = re.compile(r"""
+        (?<=  \(\(   )   # The opening (( of the Wicked link "(?<=" prevents the prefix from returning with the match
+        [^)]*            # The initial text (no closing parentheses) of the wicked link
+        ( \) [^)]+ )*    # Any amount of single closing parentheses with trailing text.
+                         # If there is no trailing text, this is not a single parentheses
+        (?=\)\))         # The closing )) of the Wicked link, "?=" prevents the suffix from returning with the match
+    """, re.VERBOSE)
+    return re.sub(wicked_link_text, treat_link_text, html)
 
 class WikiBase(BaseView):
 
@@ -19,31 +52,8 @@ class WikiBase(BaseView):
                               )
         return brains
 
-    def wiki_window_title(self, mode='view'):
-        """see http://trac.openplans.org/openplans/ticket/588.
-        mode should be one of: 'view', 'edit', or 'history'."""
-        if mode == 'view':
-            mode = ''
-        else:
-            mode = '(%s) ' % mode
-
-        context = self.context
-
-        if self.inmember:
-            vmi = self.viewed_member_info
-
-            # if viewing member homepage
-            if mode:
-                return '%s %s' % (context.Title(), mode)
-
-            if vmi['home_url'] == context.absolute_url():
-                return '%s on %s' % (vmi['id'], self.portal_title())
-            else:
-                return '%s - %s on %s' % (context.Title(), vmi['id'],
-                                          self.portal_title())
-
-        else:
-            return '%s %s- %s' % (context.Title(), mode, self.area.Title())
+    def page_title(self):
+        return self.context.Title().decode("utf-8")
 
     def lastModifiedTime(self):
         return prettyDate(self.context.ModificationDate())
@@ -55,6 +65,20 @@ class WikiView(WikiBase):
     displayLastModified = True # see wiki_macros.pt
 
     view_attachments_snippet = ZopeTwoPageTemplateFile('attachment-view.pt')
+
+# XXX stolen from lxml.html to allow selection of encoding (fixed in lxml.html trunk; wait for a release and then delete me)
+def tostring(doc, pretty_print=False, include_meta_content_type=False, encoding="utf-8"):
+    """
+    return HTML string representation of the document given 
+ 
+    note: this will create a meta http-equiv="Content" tag in the head
+    and may replace any that are present 
+    """
+    assert doc is not None
+    html = etree.tostring(doc, method="html", pretty_print=pretty_print, encoding=encoding)
+    if not include_meta_content_type:
+        html = __replace_meta_content_type('', html)
+    return html
 
 class WikiEdit(WikiBase, OctopoLite):
 
@@ -78,17 +102,32 @@ class WikiEdit(WikiBase, OctopoLite):
 #            return self.kupu_template
 
     def _clean_html(self, html):
-        """ delegate cleaning of html to lxml """
+        """ delegate cleaning of html to lxml .. sort of """
         ocprops = self.get_tool('portal_properties').opencore_properties
         whitelist = ocprops.getProperty('embed_whitelist') or []
         try:
             whitelist = [x for x in whitelist if x.strip()]
         except TypeError:
             raise TypeError("Bad value for portal_properties.embed_whitelist: %r" % whitelist)
-        cleaner = Cleaner(host_whitelist=whitelist)
-        new_html = cleaner.clean_html(html)
+
+        cleaner = Cleaner(host_whitelist=whitelist, safe_attrs_only=False)
+
+        # stolen from lxml.html.clean
+        if isinstance(html, basestring):
+            return_string = True
+            doc = fromstring(html)
+        else:
+            return_string = False
+            doc = copy.deepcopy(html)
+        cleaner(doc)
+        if return_string:
+            return tostring(doc)
+        else:
+            return doc
+
+        #new_html = cleaner.clean_html(html)
         ## FIXME: we should have some way of notifying the user about tags that were removed
-        return new_html
+        #return new_html
 
     @action('save')
     def handle_save(self, target=None, fields=None):
@@ -122,26 +161,23 @@ class WikiEdit(WikiBase, OctopoLite):
                 page_text = page_text.decode('utf-8')
             except UnicodeDecodeError:
                 pass
-            
+
         clean_text = self._clean_html(page_text)
 
         self.context.setTitle(page_title)
-        self.context.setText(clean_text)
+        self.context.setText(xinha_to_wicked(clean_text))
         if description is not None:
             self.context.setDescription(description)
+
+        # this updates things like last modified author on a wiki page
+        # it's important to do this before the repo saves the new version
+        notify(objectevent.ObjectModifiedEvent(self.context))
 
         repo = self.context.portal.portal_repository
         repo.save(self.context, comment = self.request.form.get('comment', ''))
         self.context.reindexObject()
         self.addPortalStatusMessage(u'Your changes have been saved.')
 
-        # this updates things like last modified author on a wiki page
-        notify(objectevent.ObjectModifiedEvent(self.context))
-
-        # XXX is setting the template to None necessary?
-        # it causes problems because it's more convenient to make template
-        # a property now, which can't be set to None
-        # self.template = None
         self.redirect(self.context.absolute_url())
 
     def _handle_createAtt(self):
@@ -280,7 +316,7 @@ class WikiEdit(WikiBase, OctopoLite):
         if rawtext:
             return rawtext
         else:
-            return "Please enter some text for your page"
+            return "<p>Please enter some text for your page</p>"
 
 
 class AttachmentView(BaseView):
@@ -466,15 +502,21 @@ class ImageManager(WikiEdit, OctopoLite):
 
 class InternalLink(WikiBase):
 
+    @property
+    def container(self):
+        return self.context.aq_inner.aq_parent
+
     def file_list(self):
-        path = '/'.join(self.context.aq_inner.aq_parent.getPhysicalPath())
+        path = '/'.join(aq_inner(self.container).getPhysicalPath())
         brains = self.catalog(portal_type='Document',
                               sort_on='sortable_title',
                               sort_order='ascending',
                               path=path,
                               )
-        return [{'url' : brain.getURL(),
-          'title' : brain.Title} for brain in brains]
+        return simplejson.dumps([{'url' : brain.getURL(),
+                                  'title' : brain.Title} for brain in brains])
+
+
 
 
 class WikiNewsEditView(WikiEdit):

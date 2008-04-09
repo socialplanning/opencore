@@ -1,0 +1,90 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:meta="http://namespaces.zope.org/meta"
+    i18n_domain="zope"
+    >
+
+  <!-- View to abstract geocoding api on our content.
+       TO DO: move the interface into opencore,
+       and register a default do-nothing implementation,
+       and then override it here, so everything works w/o geolocation
+       installed. then we can make this package optional.
+
+       Note, we don't really care about these being pages, but in zope
+       2.9, security on browser:view seems to not work at all - you
+       can declare whatever you want, and if anonymous has View
+       permission on view.context, then he can traverse to and call
+       any method of the view. Yay!
+
+   -->
+
+ <!-- Register a do-nothing adapter for content in general... -->
+ <adapter
+    for="*"
+    provides="Products.PleiadesGeocoder.interfaces.simple.IGeoItemSimple"
+    factory=".adapters.NullGeoItem"
+  />
+
+ <!-- Register adapters to integrate our members, member areas, and projects
+      with PleiadesGeocoder and not need PG's skins. -->
+ <adapter
+    for="opencore.interfaces.IMemberFolder"
+    provides="Products.PleiadesGeocoder.interfaces.simple.IGeoItemSimple"
+    factory=".adapters.MemberFolderGeoItem"
+  />
+  <adapter
+    for="opencore.member.interfaces.IOpenMember"
+    provides="Products.PleiadesGeocoder.interfaces.simple.IGeoItemSimple"
+    factory=".adapters.MemberGeoItem"
+    />
+  <adapter
+    for="opencore.interfaces.IProject"
+    provides="Products.PleiadesGeocoder.interfaces.simple.IGeoItemSimple"
+    factory=".adapters.ProjectGeoItem"
+    />
+
+
+ <!-- Mark members as annotatable, to enable the above. -->
+  <class class="opencore.content.member.OpenMember">
+    <implements
+      interface="Products.PleiadesGeocoder.interfaces.IGeoAnnotatableContent
+                 Products.PleiadesGeocoder.interfaces.IGeoreferenceable
+                "
+      />
+  </class>
+
+  <!-- Mark our projects folder as providing georss & kml feeds. -->
+  <class class="Products.ATContentTypes.content.folder.ATBTreeFolder">
+    <implements
+      interface="Products.PleiadesGeocoder.interfaces.IGeoserializable
+                 Products.PleiadesGeocoder.interfaces.IGeoFolder"
+      />
+  </class>
+
+  <!-- Mark projects as serializable to georss & kml.  -->
+  <class class="Products.OpenPlans.content.project.OpenProject">
+    <implements
+      interface="Products.PleiadesGeocoder.interfaces.IGeoreferenceable
+                 Products.PleiadesGeocoder.interfaces.IGeoAnnotatableContent
+                 Products.PleiadesGeocoder.interfaces.IGeoserializable
+                "
+    />
+  </class>
+
+  <!-- Mark member info folders
+       (and while we're at it all other ATFolders.)
+    -->
+  <class class="Products.ATContentTypes.content.folder.ATFolder">
+    <implements
+      interface="Products.PleiadesGeocoder.interfaces.IGeoAnnotatableContent
+                 Products.PleiadesGeocoder.interfaces.IGeoreferenceable
+                "
+    />
+  </class>
+
+
+  <include package=".browser" />
+
+</configure>

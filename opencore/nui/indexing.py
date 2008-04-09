@@ -21,6 +21,7 @@ from opencore.interfaces.catalog import ILastWorkflowActor, ILastModifiedAuthorI
      IHighestTeamRole, ILastModifiedComment, \
      IImageWidthHeight, IImageSize, IIsImage
 from opencore.interfaces import IOpenMembership, IOpenPage
+from opencore.nui.wiki.interfaces import IWikiHistory
 
 from zope.component import adapter, queryUtility, adapts
 from zope.interface import Interface
@@ -29,15 +30,6 @@ from zope.interface import implements, implementer
 _marker = object()
 
 PROJECT_POLICY='project_policy'
-
-mem_idxs = (('FieldIndex', 'exact_getFullname',
-             {'indexed_attrs': 'getFullname'}),
-            ('ZCTextIndex', 'RosterSearchableText',
-             {'index_type': 'Okapi BM25 Rank',
-              'lexicon_id': 'lexicon'}),
-            ('FieldIndex', 'sortableLocation',
-             {'indexed_attrs': 'getLocation'}),
-             )
 
 class LastWorkflowActor(object):
     """
@@ -96,19 +88,48 @@ class LastModifiedComment(object):
         self.pr = getToolByName(self.context, 'portal_repository')
 
     def getValue(self):
+        # @@ check the request, could possibly conflict, but we only have
+        # 1 comment field and it's way faster than checking pr
+        if self.context.REQUEST.form.has_key('comment'):
+            comment = self.context.REQUEST.get('comment', None)
+            return comment
+
+        # outside of the form, it's most efficient to consult the wiki
+        # history cache.  This logic is tenuous if a change like
+        # rollback doesn't manage it's own comment
+        history = IWikiHistory(self.context)
+        if len(history):
+            # @@ hack
+            # on reverts, the object rolled back to becomes the
+            # reindexed context before the history cache get cleaned
+            # up. in this case, return nada (as another indexing will
+            # happen later)
+            try:
+                last_entry = history[len(history) - 1]
+                return last_entry['comment']
+            except KeyError:
+                return ''
+
+        # @@ we could do a 3rd rollover, but is probably not necessary
+
+        # finally, return an empty string
+        return ''
+
+        # @@ DWM not sure what this crap is.
+        # @@ as was left, should have just been removed
         # XXX nulling out this method b/c the last_history lookup is causing
         #     ConflictErrors and TransactionFailedErrors EVEN THOUGH WE'RE
         #     EXPLICITLY CATCHING THEM!  :-(
-        return ''
-        try:
-            histories = self.pr.getHistory(self.context, countPurged=False)
-            # most recent history versions are at the front of the list
-            last_history = histories[0]
-            revision_note = last_history.comment
-            return revision_note
-        except (IndexError, ArchivistRetrieveError, ConflictError,
-                TransactionFailedError):
-            return ''
+        
+##         try:
+##             histories = self.pr.getHistory(self.context, countPurged=False)
+##             # most recent history versions are at the front of the list
+##             last_history = histories[0]
+##             revision_note = last_history.comment
+##             return revision_note
+##         except (IndexError, ArchivistRetrieveError, ConflictError,
+##                 TransactionFailedError):
+##             return ''
 
 class ImageIndexer(object):
     """base class for image adapters to share code"""
@@ -162,8 +183,15 @@ def authenticated_memberid(context):
     from opencore.project.browser.metadata import ANNOT_KEY
     from Missing import Value as MissingValue
     annot = IAnnotations(context)
-    annot = annot.get(ANNOT_KEY, OOBTree())
-    return annot.get('lastModifiedAuthor', MissingValue)
+    annot = annot.get(ANNOT_KEY, {})
+
+    val = annot.get('lastModifiedAuthor')
+    if val:
+        return val
+
+    # @@ adapters must return something or code must expect component
+    # errors
+    return MissingValue
 
 @adapter(AbstractCatalogBrain)
 @implementer(IMetadataDictionary)
@@ -199,9 +227,6 @@ class MailingListThreadCount(object):
             return 0
         else:
             return len(util.getToplevelMessages())
-
-def createMemIndexes(portal, out):
-    createIndexes(portal, out, idxs=mem_idxs, tool='membrane_tool')
 
 def registerInterfaceIndexer(idx, iface, method=None, default=None):
     """

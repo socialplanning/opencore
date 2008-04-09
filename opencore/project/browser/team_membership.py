@@ -11,7 +11,9 @@ from opencore.browser.base import _
 from opencore.interfaces import IOpenTeam
 from opencore.interfaces import IOpenSiteRoot
 from opencore.interfaces.pending_requests import IRequestMembership
+from opencore.project.utils import project_noun
 from opencore.utility.interfaces import IEmailSender
+from opencore.project.utils import project_noun
 
 class RequestMembershipWithEmail(object):
     """
@@ -51,6 +53,7 @@ class RequestMembershipWithEmail(object):
         email_msg = _(u'email_membership_requested',
                       mapping = {'member_id': member_string,
                                  'project_title': team.title,
+                                 'project_noun': project_noun(),
                                  'team_manage_url': team_manage_url,
                                  }
                       )

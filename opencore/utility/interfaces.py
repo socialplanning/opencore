@@ -6,22 +6,22 @@ class IHTTPClient(Interface):
     ETags, compression, HTTPS, Basic, Digest, WSSE, etc.
     """
       
-    def __init__(self, cache=None, timeout=None):
+    def __init__(cache=None, timeout=None):
         """init"""
       
-    def add_certificate(self, key, cert, domain):
+    def add_certificate(key, cert, domain):
         """Add a key and cert that will be used
         any time a request requires authentication."""
       
-    def add_credentials(self, name, password, domain=''):
+    def add_credentials(name, password, domain=''):
           """Add a name and password that will be used
           any time a request requires authentication."""
       
-    def clear_credentials(self):
+    def clear_credentials():
           """Remove all the names and passwords
           that are used for authentication"""
       
-    def request(self, uri, method='GET', body=None, headers=None, redirections=5):
+    def request(uri, method='GET', body=None, headers=None, redirections=5):
         """
         Performs a single HTTP request.
         The 'uri' is the URI of the HTTP resource and can begin 
@@ -67,4 +67,12 @@ class IEmailSender(Interface):
     def sendMail():
         """Sends an email."""
        
-        
+class IProvideSiteConfig(Interface):
+    """
+    A global utility for providing site-wide configuration settings
+    """
+
+    def get(self, option):
+        """
+        return the value of a particular configuration option
+        """

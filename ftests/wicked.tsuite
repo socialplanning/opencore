@@ -6,4 +6,15 @@ create_page(pagename=${pagename}) # this creates the configured link
 wicked_check_last_modified
 delete_page(item=${pagename})
 no_delete_homepage(item=${homepage})
+change_project_policy(projpolicy='medium_policy')
 logout
+
+# Verify that non-members cannot create wiki pages on medium-policy
+# projects.
+create_user(user=${notprojmember}, email=${notprojemail})
+login(user=${notprojmember})
+no_create_page_as_proj_nonmember(new_page=${pagename2})
+logout
+
+# Same for anonymous.
+no_create_page_as_nonmember(new_page=${pagename2})

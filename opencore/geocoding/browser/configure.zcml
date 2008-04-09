@@ -1,0 +1,29 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:meta="http://namespaces.zope.org/meta"
+    i18n_domain="zope"
+    >
+
+ <!-- geolocation views, overriding the ones that PleiadesGeocoder
+      provides as skin templates. -->
+
+  <browser:page
+     for="Products.PleiadesGeocoder.interfaces.IGeoFolder"
+     class=".feeds.GeoRssView"
+     permission="zope2.View"
+     attribute="georss"
+     name="georss"
+     />
+
+  <browser:page
+     for="Products.PleiadesGeocoder.interfaces.IGeoFolder"
+     class="Products.PleiadesGeocoder.browser.info.GeoInfosetView"
+     permission="zope2.View"
+     template="kml.pt"
+     name="kml"
+     />
+
+
+</configure>

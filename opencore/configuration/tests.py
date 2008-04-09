@@ -28,7 +28,8 @@ def test_suite():
 
     class Utility(SimpleItem):
         implements(INumberOne)
-    
+
+    import os
     globs = locals()
 
     def setup(tc):
@@ -42,4 +43,10 @@ def test_suite():
                                              layer=test_layer,
                                              setUp=setup
                                              )
-    return unittest.TestSuite((local_utility_reg,))
+    utils_tests = doctest.DocFileSuite("utils.txt",
+                                       optionflags=optionflags,
+                                       package='opencore.configuration',
+                                       globs=globs,
+                                       )
+    
+    return unittest.TestSuite((local_utility_reg, utils_tests))

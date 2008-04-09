@@ -454,14 +454,14 @@ dl.oc-plainList dd {
 }
 .oc-columnGroup,
 .oc-home-columnGroup {
-  width: 100%;
+  width: auto;
 }
 .oc-column,
 .oc-home-column {
   float: left;
   margin: 0 1%;
   clear: none;
-  width: 48%;
+  width: 47%;
 }
 #oc-home-news h2 {
 	background: #6BA12A;
@@ -761,6 +761,7 @@ a.wickedadd {
 }
 .oc-listen-message pre.oc-listen-message-body {
   width: 100%;
+  overflow: auto;
 }
 .oc-listen-message-child {
   border-top: 1px solid #ccc;
@@ -839,6 +840,12 @@ GENERIC: Elements
 .oc-hidden {
    display:none;
 }
+.oc-js-unhide {
+   /* use this for elements to reveal when oc-behaviors.js is loaded. 
+      so it's visually the inverse of <noscript> */
+   display:none;
+}
+
 .oc-hover {
    background: #fdffdd;
 }
@@ -935,6 +942,14 @@ a.oc-banana {
 }
 .oc-message-error {
   background: pink;
+}
+.oc-deadend {
+  font-size: 1.5em;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #6ba12a;
+  background-color: #d8f385;
+  padding: 1.5em;
 }
 
 /* @FORM Stuff */
@@ -1033,7 +1048,7 @@ fieldset .oc-heading-context {
 .oc-fieldBlock-focused textarea, 
 textarea.oc-fieldBlock-focused,
 input.oc-fieldBlock-focused {
-  border-color: orange;
+  border-color: #97CA00;
   background: #fffff9;
 }
 .oc-fieldBlock-error textarea, 
@@ -1072,6 +1087,7 @@ height: 1em; */
 .oc-expanderLink {
   background: url("/++resource++img/expander-nub-closed.gif") 0 3px no-repeat;
   padding-left: 12px;
+  cursor: pointer;
 }
 .oc-expanderLink.oc-expanderLink-open {
   background: url("/++resource++img/expander-nub-open.gif") 0 3px no-repeat;
@@ -1210,12 +1226,23 @@ height: 1em; */
 	padding: 0.25em;
   margin: 0;
 }
-.oc-feed-list {
+.oc-feed-list, .oc-feed-cluster {
   list-style: none;
   margin: 0;
   padding: 0;
   border-top: 2px solid #332F2A;
   border-bottom: 2px solid #332F2A;
+}
+.oc-feed-cluster li.oc-feed-item {
+  display: inline;
+  line-height: 0;
+  border: none;
+}
+.oc-feed-cluster li.oc-feed-item a {
+  text-decoration: none;
+}
+.oc-feed-cluster li.oc-feed-item a img {
+  margin: 0;
 }
 li.oc-feed-item {
   margin: 0.5em 0 0;
@@ -1226,11 +1253,13 @@ li.oc-feed-item {
   border: none;
 }
 li.oc-feed-item .oc-avatar,
-li.oc-feed-item .oc-project-logo {
-  width: 80px;
+li.oc-feed-item .oc-project-logo,
+li.oc-invite .oc-project-logo {
+  width: 64px;
   float: left;
   clear: none;
   margin-right: 1em;
+  padding: 8px;
 }
 li.oc-feed-item .oc-feed-item-content {
   float: left;
@@ -1375,6 +1404,21 @@ li.oc-invite .oc-invite-content {
   line-height: normal;
 }
 
+/* Map control */
+
+.oc-map {
+  width: 500px;
+  height: 300px;
+  margin: 10px 0 0 0;
+}
+
+.oc-sidebar-map {
+  width: 285px;
+  height: 285px;
+  margin: 10px 0 0 0;
+
+}
+
 /* @BEHAVIORS
 --------------------------*/
 
@@ -1475,7 +1519,6 @@ h2, .oc-biggerText,
 #oc-content-sidebar h1 {
   font-size: 18px;
   line-height: 1em;
-  letter-spacing: -0.0325em;
 }
 h3, .oc-bigText,
 #oc-content-sidebar h2 {
@@ -1576,10 +1619,6 @@ input,
 button,
 textarea {
   padding: 0.25em;
-}
-textarea#text{ 
-  visibility: hidden;
-  overflow: hidden;
 }
 textarea {
   display: block;

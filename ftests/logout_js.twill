@@ -1,0 +1,14 @@
+#
+# logs out the current user 
+#
+# expects: 
+#   logged in as someone 
+#
+
+go $base_url
+
+notfind '<a href="http://.*/login">Sign in</a>' i
+notfind '<a href="http://.*/openplans/join">Join</a>' i
+
+go ${base_url}/logout.js
+

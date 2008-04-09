@@ -3,6 +3,7 @@
 create_user
 login
 create_project
+disable_listen
 enable_listen
 
 #public list tests
@@ -13,7 +14,7 @@ listen_unsubscribe
 listen_post_message(postsubject='post subject', postbody='post body')
 
 #post-mod list tests
-listen_switch_list(listtype='Announce List')
+listen_switch_list(listtype='policy_moderated')
 listen_subscribe
 listen_pm_post_message(postsubject='i am ten ninjas')
 listen_mod_post(postsubject='i am ten ninjas')
@@ -24,7 +25,7 @@ listen_discard_all(look_for="ghostbusters")
 listen_pm_post_message(postsubject='i am twelve ninjas')
 
 #mem-mod list tests
-listen_switch_list(listtype='Members List')
+listen_switch_list(listtype='policy_closed')
 listen_check_for_post(postsubject='i am twelve ninjas')
 listen_post_message(postsubject='peanuts!')
 listen_unsubscribe

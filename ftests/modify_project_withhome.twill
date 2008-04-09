@@ -23,8 +23,8 @@ notfind 'site error' i
 #
 
 go ${base_url}
-notfind 'Updated projects.*${projtitle}' s
 find 'home_newest_projects.*${projtitle}' s
+notfind 'Updated ${projtxt}s.*${projtitle}' s
 go ${base_url}/projects
-find 'updated projects.*${projtitle}.*(1|2)\s*members?,\s*last updated today' s
+find 'updated ${projtxt}s.*${projtitle}.*(1|2)\s*members?,\s*last updated today' s
 

@@ -6,15 +6,14 @@ from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.remember.interfaces import IReMember
-from opencore.interfaces.member import IMemberFolder, IMemberHomePage
-from opencore.interfaces.member import IMemberInfo
-from opencore.interfaces.event import IFirstLoginEvent
-from plone.memoize.instance import memoize, memoizedproperty
 from opencore import redirect 
 from opencore.interfaces import IProject, IConsumeNewMembers
+from opencore.interfaces.event import IFirstLoginEvent
+from opencore.interfaces.member import IMemberFolder, IMemberHomePage
+from opencore.interfaces.member import IMemberInfo
+from plone.memoize.instance import memoizedproperty
 from topp.utils.pretty_date import prettyDate
-from zope.component import getMultiAdapter, adapts, adapter
-from zope.event import notify
+from zope.component import getMultiAdapter, adapter
 from zope.interface import implements, alsoProvides
 
 
@@ -175,7 +174,7 @@ def initializeMemberArea(mtool, request, member_id=None):
     page_id = "%s-home" % member_id
     title = "%s Home" % member_id
     folder.invokeFactory('Document', page_id, title=title)
-    folder.setDefaultPage(page_id)
+    folder.setLayout('profile')
 
     page = getattr(folder, page_id)
     # XXX acquisition, ugh @@ huh?

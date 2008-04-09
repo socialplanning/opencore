@@ -1,28 +1,32 @@
 <html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
   <head>
     <title metal:fill-slot="title"
-           tal:content="string:Projects - ${view/portal_title}" />
+           tal:content="string:${view/project_noun/title}s - ${view/portal_title}" />
   </head>
   <body>
     <div metal:fill-slot="content">              
       <div class="oc-headingBlock">
-        <h1 tal:content="string:Projects on ${view/portal_title}" />
-        <p i18n:translate="projects_currently_serving" class="oc-headingContext">Currently serving <span i18n:name="num_projects" tal:replace="view/projects_served_count"/> projects</p>
+        <h1 tal:content="string:${view/project_noun/title}s on ${view/portal_title}" />
+        <p i18n:translate="projects_currently_serving" class="oc-headingContext">Currently serving <span i18n:name="num_projects" tal:replace="view/projects_served_count"/> <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s</p>
       </div>
       <div id="oc-content-main">
         
         <tal:set_var define="current_search_page string:projects;
-           form_action_url string:${context/portal_url}/projects/searchresults">
+           form_action_url string:${context/absolute_url}/searchresults">
           <div metal:use-macro="here/main_macros/search_widget" />
         </tal:set_var>
 
         <!-- list of recently updated projects. XXX maybe create a macro out of this? Generic for recent content? -->
         <div class="oc-widget oc-widget-feed">
-          <h2 class="oc-feed-title">Recently updated projects</h2>
+          <h2 class="oc-feed-title">Recently updated <span tal:replace="view/project_noun">project</span>s</h2>
           <ul class="oc-feed-list oc-clearAfter">
             <li class="oc-feed-item oc-clearAfter" tal:repeat="project view/recently_updated_projects">
-              <a tal:attributes="href project/absolute_url">
-                <img class="oc-project-logo" src="++resource++img/default-projlogo-thumb.gif" tal:attributes="alt project/Title; title project/Title" />
+               <a tal:define="proj_url python:view.project_url(project)"
+                  tal:attributes="href proj_url" >
+                 <tal:setvar define="logo python:view.logo_for_proj_brain(project);
+                                     logo_url python:logo and ('%s/logo_thumb' % proj_url) or view.defaultProjLogoURL">
+                   <img class="oc-project-logo" tal:attributes="src logo_url; alt project/Title; title project/Title" />
+                 </tal:setvar>
               </a>
               <div class="oc-feed-item-content">
                 <h3 class="oc-feed-item-title">
@@ -50,9 +54,9 @@
       <div id="oc-content-sidebar">
         <div class="oc-getstarted" tal:condition="view/loggedin">
           <h2 i18n:translate="projects_get_started_heading">Get started&hellip;</h2>
-          <p i18n:translate="projects_get_started">Can&rsquo;t find a project you are interested in? See a need that is not being met?
+          <p i18n:translate="projects_get_started">Can&rsquo;t find a <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> you are interested in? See a need that is not being met?
           </p>
-           <a i18n:translate="projects_start_project_button" tal:attributes="href string:${view/siteURL}/projects/create" class="oc-banana">Start a new project</a>
+           <a i18n:translate="projects_start_project_button" tal:attributes="href string:${view/siteURL}/projects/create" class="oc-banana">Start a new <span i18n:name="project_noun" tal:replace="view/project_noun">project</span></a>
         </div>
       </div>
     </div><!-- content-fill-slot -->

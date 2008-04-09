@@ -64,7 +64,7 @@ def remove_form_controller_overrides(portal, actions):
     # Use the private method because the public one does a redirect
     fc._delFormActions(fc.actions,fake_req)
 
-def get_project(context):
+def get_project(context):  #XXX unused??
     """Given a context, return the nearest/parent openplans project
     """
     from opencore.interfaces import IProject

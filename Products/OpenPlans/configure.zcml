@@ -4,4 +4,5 @@
   <include package="Products.listen" file="permissions.zcml" />
   <include package="borg.localrole" />
   <include package="opencore.configuration" />
+  <include package="Products.PleiadesGeocoder" />
 </configure>

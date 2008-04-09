@@ -24,6 +24,9 @@ import Products.Archetypes.public as atapi
 import random
 import re
 import sys
+from opencore.project.utils import project_noun
+
+regex = re.compile(EMAIL_RE)
 
 member_schema = id_schema + contact_schema + plone_schema + \
                 security_schema + login_info_schema
@@ -39,7 +42,8 @@ content_schema['location'].index = \
 content_schema['title'].write_permission = 'Manage users'
 content_schema['title'].widget.visible= {'view': 'invisible'}
 
-content_schema['wysiwyg_editor'].default = 'Kupu'
+content_schema['wysiwyg_editor'].default = 'Kupu'  # this looks suspiciously crufty
+
 content_schema['wysiwyg_editor'].write_permission = 'Manage site'
 content_schema['wysiwyg_editor'].widget.visible = {'edit':'invisible',
                                                    'view':'invisible'}
@@ -135,6 +139,22 @@ nuischema = Schema((
                         size=50,
                         ),
                       ),
+                    StringField(
+                      'position-text',
+                      accessor='getPositionText',
+                      mutator='setPositionText',
+                      mode='rw',
+                      read_permission=View,
+                      write_permission=ModifyPortalContent,
+                      widget=StringWidget(
+                        label='Position on map',
+                        label_msgid='position_on_map',
+                        description="Your address on a map.",
+                        description_msgid='help_position_on_map',
+                        i18n_domain='plone',
+                        ),
+                      searchable=True,
+                      ),
                     ))
 
 content_schema += nuischema
@@ -159,9 +179,9 @@ content_schema += atapi.Schema((
                         read_permission=View,
                         expression='context.getProjectListing()',
                         widget=atapi.ComputedWidget(
-                            label="Projects",
+                            label= project_noun().title() + "s",
                             label_msgid='label_projects',
-                            description="Projects this user is a member of.",
+                            description="%ss this user is a member of." % project_noun().title(),
                             description_msgid='help_projects',
                             macro='member_projects',
                             ),
@@ -169,6 +189,16 @@ content_schema += atapi.Schema((
     ))
 
 content_schema.moveField('useAnonByDefault', after='email')
+
+# Support for PleiadesGeocoder, which out-of-the-box assumes
+# non-remember members.
+geo_schema =  atapi.Schema((
+    StringField('geometryType', searchable=0),
+    StringField('spatialCoordinates', searchable=0),
+    ))
+
+content_schema += geo_schema
+
 
 actions = bfti[0].copy()['actions']
 for action in actions:
@@ -216,7 +246,7 @@ class OpenMember(FolderishMember):
         Returns a list of teams on which the member is active.
         """
         tmtool = getToolByName(self, 'portal_teams')
-        return tmtool.getTeamsByMemberId(self.getId(), active=True)
+        return tmtool.getTeamsForMember(self, active=True)
 
     security.declareProtected(View, 'getProjectListing')
     def getProjectListing(self):
@@ -226,7 +256,20 @@ class OpenMember(FolderishMember):
             for space in team.getTeamSpaces():
                 if mtool.checkPermission(View, space):
                     projects[space] = None
-        return projects.keys()            
+        return projects.keys()
+    
+    security.declareProtected(View, 'project_ids')
+    def project_ids(self):
+        """ids of active teams. this attr is indexed"""
+        return [x.getId() for x in self.getProjectListing()]
+
+    security.declareProtected(View, 'has_portrait')
+    def has_portrait(self):
+        portrait = self.getProperty('portrait', None)
+        if portrait:
+            return True
+        else:
+            return False
 
     # XXX is this used?
     security.declareProtected(View, 'projectBrains')
@@ -325,23 +368,29 @@ class OpenMember(FolderishMember):
                                   default='You did not enter a login name.')
         elif self.getId() and id != self.getId():
             # we only validate if we're changing the id
-            allowed = True
             mbtool = getToolByName(self, 'membrane_tool')
-            if len(mbtool.unrestrictedSearchResults(getUserName=id)) > 0 or \
-                   not ALLOWED_MEMBER_ID_PATTERN.match(id):
-                allowed = False
-            if allowed:
+            msg = None
+            if len(mbtool.unrestrictedSearchResults(getUserName=id)) > 0L:
+                msg = "The login name you selected is already " + \
+                    "in use. Please choose another." 
+            elif not ALLOWED_MEMBER_ID_PATTERN.match(id):
+                msg = "The login name you selected is not valid. " + \
+                    "Usernames must start with a letter and consist " + \
+                    "only of letters, numbers, and underscores.  Please " +\
+                    "choose another."
+            else:
                 for prefix in PROHIBITED_MEMBER_PREFIXES:
                     if id.lower().startswith(prefix):
-                        allowed = False
-            if allowed and self._id_exists_remotely(id):
-                allowed = False
-            if not allowed:
+                        msg = ("The login name you selected is not valid " + 
+                            "because it starts with %s. Please choose " + 
+                            "another.") % prefix
+            if not msg and self._id_exists_remotely(id):
                 msg = "The login name you selected is already " + \
-                      "in use or is not valid. Please choose another."
+                    "in use. Please choose another."
+            if msg:
                 return self.translate(msg, default=msg)
 
-    security.declarePrivate('_id_exists_remotely')
+    security.declarePrivate('_email_exists_remotely')
     def _email_exists_remotely(self, email):
         """
         Checks all of the servers in the remote_auth_sites property to
@@ -366,7 +415,6 @@ class OpenMember(FolderishMember):
         if form.has_key('email') and not form['email']:
             return self.translate('Input is required but no input given.',
                                   default='You did not enter an email address.')
-        regex = re.compile(EMAIL_RE)
         if regex.match(email) is None:
             msg = "That email address is invalid."
             return self.translate(msg, default=msg)

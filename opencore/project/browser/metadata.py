@@ -13,6 +13,7 @@ from opencore.interfaces import IProject
 from opencore.interfaces import IOpenPage
 from opencore.interfaces.catalog import ILastModifiedAuthorId
 from opencore.interfaces.catalog import IIndexingGhost
+from opencore.interfaces.event import IAfterProjectAddedEvent
 from Missing import MV
 
 from Products.listen.interfaces import ISearchableMessage, ISearchableArchive, IMailMessage, IMailingList
@@ -97,16 +98,21 @@ def update_last_modified_author(page, event):
     # delegate to other method to allow setup widget to also call
     _update_last_modified_author(page)
 
+# @@ move somewhere more reusable
+def get_member(context):
+    mtool = getToolByName(context, 'portal_membership')
+    logged_in_user = mtool.getAuthenticatedMember()
+    if logged_in_user is not None:
+        user_id = logged_in_user.getId()
+    else:
+        user_id = 'anonymous'
+    return user_id
+       
 def _update_last_modified_author(page, user_id=None):
     # check if user_id needs to be set
     if user_id is None:
         # find last logged in user
-        mtool = getToolByName(page, 'portal_membership')
-        logged_in_user = mtool.getAuthenticatedMember()
-        if logged_in_user is not None:
-            user_id = logged_in_user.getId()
-        else:
-            user_id = 'anonymous'
+        user_id = get_member(page)
 
     # annotate page object with it
     page_annot = IAnnotations(page)
@@ -137,4 +143,11 @@ def proxy(attrs):
     obj = type('metadata proxy', (object,), attrs)()
     return obj
 
-
+# not sure if this belongs here, but it's a catalog update
+@adapter(IAfterProjectAddedEvent)
+def reindex_project_ids_for_project_creator(evt):
+    proj = evt.project
+    mtool = getToolByName(proj, 'portal_membership')
+    mem = mtool.getAuthenticatedMember()
+    assert mem is not None, "anonymous user created a project?"
+    mem.reindexObject(idxs=['project_ids'])

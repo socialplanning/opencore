@@ -306,7 +306,7 @@ Ensure that you can't join the site with another foobar::
 
     >>> clear_status_messages(view)
     >>> view()
-    u'...The login name you selected is already in use or is not valid. Please choose another...'
+    u'...The login name you selected is already in use. Please choose another...'
     
 You also shouldn't be able to join with case-variants::
 
@@ -317,7 +317,7 @@ You also shouldn't be able to join with case-variants::
     ...             confirm_password='testy')
     >>> view.request.form.update(form)
     >>> view()
-    u'...The login name you selected is already in use or is not valid. Please choose another...'
+    u'...The login name you selected is already in use. Please choose another...'
 
 Email address are also unique::
 
@@ -392,40 +392,6 @@ Login [to be done]
 
 [Output should really be the user's homepage.  but it isn't
 due to the fact that PAS isn't called.  Deal with this later]
-
-
-Javascript functionality for Vacuum
-===================================
-
-    >>> def normalize_whitespace(astring):
-    ...      # just a little helper to avoid caring about indentation.
-    ...      return '\n'.join([li.strip() for li in astring.split('\n')]).strip()
-
-
-Logged out user:
-
-    >>> self.logout()
-    >>> jsview = portal.restrictedTraverse('@@user.js')
-    >>> output = jsview()
-    >>> print normalize_whitespace(output)
-    OpenCore.prepareform({
-    loggedin: false
-    });
-
-Logged in user:
-
-    >>> self.login()
-    >>> output = jsview()
-    >>> print normalize_whitespace(output)
-    OpenCore.prepareform({
-    loggedin: true,
-    id: 'test_user_1_',
-    name: '',
-    profileurl: 'http://nohost/plone/people/test_user_1_/profile',
-    memberurl: 'http://nohost/plone/people/test_user_1_',
-    website: '',
-    email: 'test_emailer_1_@example.com'
-    });
 
 
 Verify initial login converts email invites to mship invites
@@ -531,7 +497,7 @@ This is not the view
 
 This is the old skin which redirects to the login page.
 
-    >>> 'Please sign in to continue.' in output
+    >>> 'psm_please_sign_in' in output
     True
 
 Remove test_user_1_
@@ -545,8 +511,7 @@ Ensure test atomicity by removing the created user:
         'http://nohost:wordpress/openplans-remove-user.php',
         'POST',
         body='username=test_user_1_&signature=...,
-        headers={'Content-type': 'application/x-www-form-urlencoded'})
-    >>> portal.people.manage_delObjects('test_user_1_')
+        headers={...'application/x-www-form-urlencoded'...})
 
 Is the member still in the catalog?
 
@@ -559,8 +524,8 @@ Bug #1711. Member creation message should use the portal title.
     >>> mh = view.get_tool('MailHost')
     >>> mh
     <...MockMailHost ...>
-    >>> view._sendmail_to_pendinguser('unused id', '1711@example.com',
-    ...                               'http://confirm-url.com')
+    >>> view._send_mail_to_pending_user('unused id', '1711@example.com',
+    ...                                 'http://confirm-url.com')
     >>> emailtext = mh.messages[-1].get_payload()
     >>> view.portal_title() in emailtext
     True

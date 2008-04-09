@@ -18,14 +18,15 @@ import warnings; warnings.filterwarnings("ignore")
 def test_suite():
     # these imports are needed inside the doctests
     from Products.CMFCore.utils import getToolByName
-    from zope.interface import alsoProvides
-    from zope.component import getUtility
     from opencore.interfaces import IMemberFolder
-    from opencore.interfaces.pending_requests import IPendingRequests
-    from opencore.interfaces.message import ITransientMessage
     from opencore.interfaces.membership import IEmailInvites
+    from opencore.interfaces.message import ITransientMessage
+    from opencore.interfaces.pending_requests import IPendingRequests
+    from opencore.testing import utils
     from pprint import pprint
-    
+    from zope.component import getUtility
+    from zope.interface import alsoProvides
+
     img = os.path.join(os.path.dirname(__file__), 'test-portrait.jpg')
     portrait = open(img)
 
@@ -35,6 +36,9 @@ def test_suite():
         """
         setSite(tc.portal)
 
+    def teardown(tc):
+        utils.unmonkey_proj_noun()
+        
     globs = locals()
     readme = dtf.ZopeDocFileSuite("README.txt",
                                   optionflags=optionflags,

@@ -1,16 +1,17 @@
 from Products.CMFCore.utils import getToolByName
 from Products.listen.utilities.token_to_email import MemberToEmail
+from Products.membrane.config import TOOLNAME as MBTOOLNAME
 
 class OpencoreMemberLookup(MemberToEmail):
     """ override searches to use the membrane tool """
 
     def __init__(self, context):
         self.context = context
-        self.mbtool = getToolByName(context, 'membrane_tool')
 
     def _search(self, query_dict, prop):
         """ generic search method """
-        brains = self.mbtool(**query_dict)
+        mbtool = getToolByName(self.context, MBTOOLNAME)
+        brains = mbtool(**query_dict)
         if brains:
             # assert we only got one result?
             brain = brains[0]

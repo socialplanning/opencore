@@ -8,44 +8,35 @@ all the memberships.
 
 First, let's test our deletion handlers directly::
 
-    >>> project = self.projects.p1
+    >>> projects_folder = self.portal.projects
+    >>> project = projects_folder.p1
 
 Let's add some featurelets::
 
     >>> self.loginAsPortalOwner() #@@ this should be the project owner
-
-    >>> IFeatureletSupporter(project).installFeaturelet(TaskTrackerFeaturelet(project))
-    Called httplib2.Http.request(
-        'http://nohost:tasktracker/project/initialize/',
-        headers={'X-Openplans-Project': 'p1', 'X-Openplans-Tasktracker-Initialize': 'True', 'Cookie': '__ac=...'},
-        method='POST')
-
     >>> IFeatureletSupporter(project).installFeaturelet(ListenFeaturelet(project))
 
-Flet Removal
-============
+Add some invites
+======================
 
-    >>> from opencore.project.browser.preferences import handle_flet_uninstall
-
-  << POST? shouldn't it be DELETE? egj? -- you think tasktracker is
-  remotely restful? :P actually, tho, it shouldn't be DELETE, because
-  it just flips a switch rather than really deleting any content. this
-  might not be what project deletion wants, but it suffices to make
-  the content unaccessible (until the next time that project's TT is
-  installed) (hmm, this will be a problem if a new project is allowed
-  to be created with the same name as the deleted one .. is that the
-  case?) -egj >>
-
-    >>> handle_flet_uninstall(project) 
-    Called httplib2.Http.request(
-        'http://.../project/uninitialize/',
-        headers={...},
-        method='POST')
-
-Gotta reinstall::    
-
-    >>> IFeatureletSupporter(project).installFeaturelet(TaskTrackerFeaturelet(project))
-    Called...
+    >>> mt_view = project.restrictedTraverse('manage-team')
+    >>> mt_view
+    <Products.Five.metaclass.ManageTeamView object at ...>
+    >>> team = project.getTeams()[0]
+    >>> team.manage_delObjects(ids=['m3']) # <-- remove to re-add
+    >>> team.addMember('m3')
+    <OpenMembership at ...m3>
+    >>> inviteview = project.restrictedTraverse('invite')
+    >>> self.clearMemoCache()
+    >>> inviteview.request.form.clear()
+    >>> invites = 'doesnotexist@example.com, isnotthere@example.com'
+    >>> inviteview.request.form.update({'task|email-invites': 'Send',
+    ...                                 'email-invites': invites})
+    >>> inviteview.add_email_invites()
+    >>> len(mt_view.pending_invitations)
+    1
+    >>> len(mt_view.pending_email_invites)
+    2
 
 
 Team removal
@@ -56,7 +47,7 @@ Team removal
 Make sure delete_team does what it's supposed to; we'll kill a team we
 don't need for this test::
 
-    >>> p4_proj = self.projects.p4
+    >>> p4_proj = projects_folder.p4
     >>> delete_team(p4_proj)
     >>> sorted(self.portal.portal_teams.objectIds())
     ['.wf_policy_config', 'p1', 'p2', 'p3']
@@ -65,30 +56,32 @@ don't need for this test::
 Put it all together
 ===================
 
+
+The project has a team::
+
     >>> project.getTeams()
     [<OpenTeam at /plone/portal_teams/p1>]
+
+Let's give the project a list featurelet too::
+
+    >>> IFeatureletSupporter(project).installFeaturelet(ListenFeaturelet(project))
+    >>> ll = getUtility(IListLookup)
+    >>> pprint(ll.showAddressMapping())
+    [{'address': 'p1-discussion@...',
+      'path': '/plone/projects/p1/lists/p1-discussion'}]
+
+Get the delete view and invoke it::
 
     >>> view = project.restrictedTraverse('delete')
     >>> view
     <...project/browser/delete.pt...>
 
-    >>> deleting = view._handle_delete() 
-    Called httplib2.Http.request(
-        'http://.../project/uninitialize/',
-        headers={...},
-        method='POST')
-
-    >>> deleting
+    >>> view._handle_delete()
     True
-
-Free up the references::
-
-    >>> del project
-    >>> del view
 
 p1 should be gone::
 
-    >>> sorted(self.projects.objectIds())
+    >>> sorted(projects_folder.objectIds())
     ['.wf_policy_config', 'p2', 'p3', 'p4']
 
 The team should also be gone::
@@ -96,17 +89,28 @@ The team should also be gone::
     >>> sorted(self.portal.portal_teams.objectIds())
     ['.wf_policy_config', 'p2', 'p3']
 
-We should redirect to somewhere sensible... `start a project`?
+We redirect to the account page after project deletion::
 
-    >>> print self.request.RESPONSE.headers['location']
-    http://nohost/plone/projects/create
+    >>> print view.request.RESPONSE.headers['location']
+    /account
+
+Free up the references::
+
+    >>> del project
+    >>> del view
+
+The invites have been deleted::
+
+    >>> self.clearMemoCache()
+    >>> len(mt_view.pending_invitations)
+    0
+    >>> len(mt_view.pending_email_invites)
+    0
+
+
+The project's lists are gone from the list lookup utility too::
+
+    >>> pprint(ll.showAddressMapping())
+    []
 
 What else? [test wp, tt, removal]
-
-
-
-
-
-
-
-

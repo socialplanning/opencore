@@ -13,7 +13,9 @@
       <base href="" tal:attributes="href string:${context/absolute_url}/" />
     </metal:base>
 
-    <metal:title-slot define-slot="title" />
+    <metal:title-slot define-slot="title">
+      <title tal:content="view/window_title | view/portal/Title" />
+    </metal:title-slot>
 
     <link rel="stylesheet" href="/++resource++css/opencore.css" type="text/css" media="all" />
     <!--[if IE]>
@@ -36,13 +38,15 @@
     <link rel="stylesheet" type="text/css" href="/++resource++ext/resources/css/xtheme-opencore.css" />
     
     <script type="text/javascript" src="/++resource++oc-js/oc-behaviors.js" ></script>
-    <script tal:condition="view/debug" type="text/javascript" src="/++resource++firebug/firebug.js" ></script>
 
     <!-- allows for the insertion of css and other linked features -->
     <metal:link-slot define-slot="link"/>   
 
     <!-- allows for the insertion of javascript -->
     <metal:script-slot define-slot="script"/>
+
+    <!-- allows for the insertion of meta tags -->
+    <metal:script-slot define-slot="meta"/>
   </head>  
   <body>
     <div id="oc-page-container">

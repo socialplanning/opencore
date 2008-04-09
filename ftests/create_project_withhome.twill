@@ -15,15 +15,16 @@
 extend_with flunc.checkbox
 
 go ${base_url}
-follow "Start a project"
+follow "Start a ${projtxt}"
 fv create_form projid $projname
-fv create_form title $projfullname
+fv create_form project_title $projfullname
 fv create_form workflow_policy $projpolicy
-check_group_values create_form featurelets:list '-listen, -tasks, -blog'
-check_group_values create_form featurelets:list $projfeaturelets
-fv create_form home-page $homepage
 submit
-find "Preferences"
+follow "Preferences"
+fv prefs_form home-page $homepage
+submit update:boolean
+find psm_proj_homepage_change
+notfind '${projtxt} preferences' i
 
 # verify project appears in newly created projects list
 go ${base_url}

@@ -4,7 +4,7 @@
 #
 
 go ${base_url}/projects
-follow 'projects.*all'
+follow 'all'
 fv projects_sort sort_by 'modified'
 submit
 find 'selected="selected">by date updated<'
@@ -13,7 +13,7 @@ submit
 find 'selected="selected">by date created<'
 fv projects_sort sort_by 'sortable_title'
 submit
-find 'selected="selected">by project name<'
+find 'selected="selected">by ${projtxt} name<'
 fv projects_sort sort_by 'Creator'
 submit
-find 'selected="selected">by project creator<'
+find 'selected="selected">by ${projtxt} creator<'

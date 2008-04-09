@@ -6,32 +6,32 @@ from Products.OpenPlans.Extensions.setup import convertFunc
 from Products.OpenPlans.Extensions.setup import installNewsFolder
 from Products.OpenPlans.Extensions.setup import reinstallWorkflowPolicies 
 from Products.OpenPlans.Extensions.setup import securityTweaks
+from Products.OpenPlans.Extensions.setup import migrate_listen_container_to_feed
 from Products.OpenPlans.Extensions.utils import reinstallSubskins
-from Products.OpenPlans.content.project import OpenProject
-from Products.PortalTransforms.libtransforms.utils import MissingBinary
 from borg.localrole.utils import setup_localrole_plugin
-from logging import getLogger, INFO
+from logging import getLogger, INFO, WARNING
 from opencore.configuration.setuphandlers import addCatalogQueue
 from opencore.configuration.setuphandlers import createValidationMember
 from opencore.configuration.setuphandlers import install_email_invites_utility
 from opencore.configuration.setuphandlers import install_remote_auth_plugin
 from opencore.configuration.setuphandlers import install_team_placeful_workflow_policies
 from opencore.configuration.setuphandlers import setupPeopleFolder
-from opencore.configuration.setuphandlers import setupProjectLayout, setupHomeLayout
+from opencore.configuration.setuphandlers import setupProjectLayout
+from opencore.configuration.setuphandlers import setupHomeLayout
 from opencore.featurelets.interfaces import IListenFeatureletInstalled
 from opencore.interfaces import IOpenPage, INewsItem, IHomePage
 from opencore.listen.events import listen_featurelet_installed
 from opencore.browser.naming import get_view_names
 from opencore.project.browser.metadata import _update_last_modified_author
 from opencore.project import PROJ_HOME
-from persistent import mapping
-from pprint import pprint
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.interfaces import IFeatureletRegistry
 from topp.utils import config
 from zope.component import getUtility
 from zope.interface import alsoProvides
 import os
+import re
+import transaction
 
 logger = getLogger('opencore.nui.setup')
 
@@ -133,7 +133,6 @@ def set_method_aliases(portal):
         if new.has_key('(default)'):
             new['(Default)']=new['(default)']
             del new['(default)']
-            
         aliases.update(new)
         fti.setMethodAliases(aliases)
         logger.log(INFO, '%s' % str(aliases))
@@ -255,7 +254,6 @@ def fix_case_on_featurelets(portal):
             flet_supporter.storage['tasks']=tt_storage
 
 def annotate_last_modified_author(portal):
-    from opencore.project.browser.metadata import ANNOT_KEY
     pr = getToolByName(portal, 'portal_repository')
     cat = getToolByName(portal, 'portal_catalog')
 
@@ -264,8 +262,12 @@ def annotate_last_modified_author(portal):
     all_documents = cat(portal_type='Document')
     all_documents = sorted(all_documents, key=lambda b:b.ModificationDate)
 
-    for page in (b.getObject() for b in all_documents):
-
+    for b in all_documents:
+        try:
+            page = b.getObject()
+        except AttributeError:
+            logger.log(WARNING, 'entry for non-existant page %s' % b.getPath())
+            continue 
         if not IOpenPage.providedBy(page): continue
 
         try:
@@ -362,6 +364,104 @@ def initialize_project_btrees(portal):
         except AttributeError:
             pass
 
+def remove_old_bogus_versions(portal):
+    """
+    This function removes certain old versions from the history of every
+    OpenPage.  These versions are word documents, images, etc, which were
+    uploaded under the old regime.  They break things under the new
+    regime which says that all things are wiki documents.  Now, here
+    is a quote from Borges which struck me as interesting in context:
+    
+    It is a revolution to compare the Don Quixote of Pierre Menard
+    with that of Miguel de Cervantes. Cervantes, for example, wrote
+    the following (Part I, Chapter IX):
+
+        ...truth, whose mother is history, rival of our time,
+        depository of deeds, witness of the past, exemplar and adviser
+        to the present, and the future’s counselor.
+
+    This catalog of attributes, written in the seventeenth century,
+    and written by the "ingenious layman" Miguel de Cervantes, is
+    mere rhetorical praise of history. Menard, on the other hand,
+    writes:
+
+        ...truth, whose mother is history, rival of our time,
+        depository of deeds, witness of the past, exemplar and adviser
+        to the present, and the future’s counselor.
+
+    History, the mother of truth! -- the idea is staggering. Menard, a
+    contemporary of William James, defines history not as delving into
+    reality but as the very fount of reality. Historical truth, for
+    Menard, is not "what happened"; it is what we believe
+    happened. The final phrases -- exemplar and advisor to the
+    present, and the future's counselor -- are brazenly pragmatic.
+    """
+    return #DO NOT REMOVE THIS.  RUNNING THIS PRESENTLY BREAKS THE SITE A BIT.
+    pr = getToolByName(portal, 'portal_repository')
+    pa = getToolByName(portal, 'portal_archivist')
+    pu = getToolByName(portal, 'portal_uidhandler')
+    cat = getToolByName(portal, 'portal_catalog')
+
+    # sort all pages in ascending order so project updates
+    # will make sense
+    all_documents = cat(portal_type='Document')
+    all_documents = sorted(all_documents, key=lambda b:b.ModificationDate)
+    known_binary_re = re.compile("""%PDF|
+                                 \xD0\xCF\x11\xE0\xA1\xB1\x1A\xE1|
+                                 \xff\xd8\xff\xe0|
+                                 \xff\xd8\xff\xe1|
+                                 GIF8[79]|
+                                 PK\x03\x04|
+                                 BM.{12}\\(""", re.X)
+                
+    for b in all_documents:
+        try:
+            page = b.getObject()
+        except Exception, e:
+            logger.log(WARNING, "getObject failed when removing old bogus versions for page %s: %s" % (repr(b), e))
+            continue #These pages give 404s anyway.
+        
+        if not IOpenPage.providedBy(page): continue
+
+        try:
+            histories = pr.getHistory(page, countPurged=False)
+            for history in histories:
+                if hasattr(history.object, 'text'):
+                    text = history.object.text()
+                else:
+                    # It's probably an ATDocument
+                    text = history.object.getText()
+
+                if known_binary_re.match(text):
+                    #shortcut for docs we know are not OK: pdf, word, jpeg, etc.
+                    history_id = pu.queryUid(page, None)
+                    pa.purge(selector=history.version_id, history_id=history_id, metadata = dict(sys_metadata=history.sys_metadata))
+                    #import pdb;pdb.set_trace()
+
+                else:
+                    try:
+                        text.decode('utf-8')
+                    except UnicodeError:
+                        history_id = pu.queryUid(page, None)
+                        pa.purge(selector=history.version_id, history_id=history_id, metadata = dict(sys_metadata=history.sys_metadata))
+                        #import pdb;pdb.set_trace()
+
+            transaction.commit()
+        except ArchivistRetrieveError:
+            # we get an error if there is no history, and that's OK, because
+            # then there's no pages we need to erase.
+            pass
+
+def make_profile_default_member_page(portal):
+    """iterate through all member areas, and make the default page the
+       profile page instead of the member wiki page"""
+    peepz = portal.people
+    for mf_id in peepz.objectIds():
+        mf = peepz._getOb(mf_id)
+        mf.setDefaultPage(None)
+        mf.setLayout('profile')
+
+
 from Products.Archetypes.utils import OrderedDict
 
 # make rest of names readable  (maybe use config system)
@@ -400,7 +500,9 @@ nui_functions['Install OpenCore Remote Auth Plugin'] = \
 nui_functions['Create auto discussion lists'] = create_auto_discussion_lists
 nui_functions['Fix up project home pages'] = fixup_project_homepages
 nui_functions['Make project home pages relative'] = make_proj_homepages_relative
-
+nui_functions['Remove old bogus versions'] = remove_old_bogus_versions
+nui_functions['Make profile default member page'] = make_profile_default_member_page
+nui_functions['migrate_listen_container_to_feed'] = migrate_listen_container_to_feed
 
 def run_nui_setup(portal):
     pm = portal.portal_migration

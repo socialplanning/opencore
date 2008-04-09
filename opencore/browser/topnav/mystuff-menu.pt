@@ -20,8 +20,10 @@
        >
        Account
        <span class="oc-mystuff-messagecount"
-             tal:condition="has_msgs"
-             tal:content="string:(${msgs} ${msgs_str})" />
+             tal:condition="has_msgs">
+           (<span id="num_updates_menu" tal:content="string:${msgs}" />
+           <span tal:content="string:${msgs_str}" />)
+       </span>
     </a>
   </li>
 

@@ -1,21 +1,26 @@
 """
 login views
 """
+import logging
 from opencore.account.browser import AccountView
 from opencore.account.utils import email_confirmation
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import button, post_only, anon_only
+from opencore.interfaces import IPendingRequests
 from opencore.interfaces.event import FirstLoginEvent
 from opencore.interfaces.membership import IEmailInvites
+from opencore.interfaces.pending_requests import IRequestMembership
+from opencore.configuration.utils import get_config
 from opencore.nui.email_sender import EmailSender
 from plone.memoize import instance
 from smtplib import SMTPRecipientsRefused
-from zExceptions import Redirect, Unauthorized
+from topp.utils.uri import uri_same_source
+import urllib
+from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.event import notify
+from zExceptions import Redirect, Unauthorized
 from DateTime import DateTime
-import logging
-import urllib
 
 logger = logging.getLogger("opencore.account.login")
 
@@ -99,20 +104,36 @@ class LoginView(AccountView):
             # in order for insufficient_privileges to redirect correctly
             referer = self.request.form.get('referer')
             if referer is not None:
-                destination = '%s?referer=%s' % (destination, 
-                                                 urllib.quote(referer))
+                if '?' in destination:
+                    destination = '%s&referer=%s' % (destination, 
+                                                     urllib.quote(referer))
+                else:
+                    destination = '%s?referer=%s' % (destination, 
+                                                     urllib.quote(referer))
             return destination
         else:
             default_redirect = '%s/account' % self.memfolder_url()
             referer = self.request.get('http_referer')
-            if not referer or not referer.startswith(self.portal_url()):
-                return default_redirect
-            if referer in self.boring_urls:
+            if not self.should_redirect_back(referer):
                 return default_redirect
             anchor = self.request.get('came_from_anchor')
             if anchor:
                 referer = '%s#%s' % (referer, anchor)
             return referer
+
+    def should_redirect_back(self, url):
+        # We need a valid url in order to perform further tests
+        if not url:
+            return False
+        if url.startswith(self.portal_url()) and url not in self.boring_urls:
+            return True
+        raw_list = get_config('applications', 'opencore_vacuum_whitelist', default='').split(',')
+        vacuum_whitelist = [x.strip() for x in raw_list if x.strip()]
+        
+        for safe_host in vacuum_whitelist:
+            if uri_same_source(url, safe_host):
+                return True
+        return False
 
     def logout(self, redirect=None):
         logout = self.cookie_logout
@@ -126,6 +147,19 @@ class LoginView(AccountView):
             
         self.redirect("%s" %redirect)
 
+    def logout_js(self):
+        """Javascript exposure of the logout API.  People can use this anyway, by attaching
+        the /logout URL as a script tag, this just removes the javascript error"""
+        # This is a nasty plone magic hack, since plone sneaks a look into the request object
+        # and decides to redirect if it finds a referrer.  We don't want that kind of magic.
+        self.request['HTTP_REFERER'] = None
+        logout = self.cookie_logout
+
+        self.invalidate_session()
+            
+        # We return the signout message as a JS comment.
+        return u"// %r" % _(u'psm_signed_out', u"You have signed out.")
+
     @property
     def cookie_logout(self):
         self.context.acl_users.logout(self.request)
@@ -137,9 +171,12 @@ class LoginView(AccountView):
         
     def invalidate_session(self):
         # Invalidate existing sessions, but only if they exist.
-        sdm = self.get_tool('session_data_manager')
-        if sdm is not None:
-            session = sdm.getSessionData(create=0)
+        try:
+            sdm = self.get_tool('session_data_manager')
+        except AttributeError:
+            return
+
+        session = sdm.getSessionData(create=0)
         if session is not None:
             session.invalidate()
 
@@ -165,9 +202,6 @@ class InitialLogin(BaseView):
         member.setLogin_time(DateTime())
 
         # first check for any pending requests which are also email invites
-        from zope.component import getMultiAdapter
-        from opencore.interfaces import IPendingRequests
-        from opencore.interfaces.pending_requests import IRequestMembership
         mship_bucket = getMultiAdapter((member, self.portal.projects), IPendingRequests)
         email_invites_bucket = getUtility(IEmailInvites)
 
@@ -191,13 +225,15 @@ class InitialLogin(BaseView):
         converted = mship_bucket.convertRequests()
         for proj_title in converted:
             self.add_status_message(_(u'team_proj_join_request_sent',
-                                      u'Your request to join "${project_title}" has been sent to the project administrator(s).',
-                                      mapping={'project_title':proj_title}))
+                                      u'Your request to join "${project_title}" has been sent to the ${project_noun} administrator(s).',
+                                      mapping={'project_title':proj_title,
+                                               'project_noun':self.project_noun}))
 
         baseurl = self.memfolder_url()
         # Go to the user's Profile Page in Edit Mode
-        return self.redirect("%s/%s" % (self.memfolder_url(),
-                                        'tour'))
+        default_redirect = "%s/%s" % (self.memfolder_url(), 'tour')
+        redirect_url = self.request.form.get('go_to', default_redirect)
+        return self.redirect(redirect_url)
 
 class ForgotLoginView(AccountView):
 
@@ -256,12 +292,12 @@ class ForgotLoginView(AccountView):
 
         try:
             pwt = self.get_tool("portal_password_reset")
-            mail_text = _(u'email_forgot_password', u'You requested a password reminder for your ${portal_title} account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}',
+            mail_text = _(u'email_forgot_password', u'You requested a password reset for your ${portal_title} account. If you did not request this information, please ignore this message.\n\nTo change your password, please visit the following URL: ${url}',
                           mapping={u'url':self.reset_url})
             sender = EmailSender(self, secureSend=True)
             sender.sendEmail(mto=email, 
                         msg=mail_text,
-                        subject=_(u'email_forgot_password_subject', u'%s - Password reminder' % self.portal_title()))
+                        subject=_(u'email_forgot_password_subject', u'%s - Password reset' % self.portal_title()))
         except SMTPRecipientsRefused:
             # Don't disclose email address on failure
             # XXX is this needed?

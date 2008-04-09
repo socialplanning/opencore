@@ -5,7 +5,6 @@
 opencore.browser.base
 =================
 
-    >>> from opencore.browser.base import BaseView
     >>> view = BaseView(self.homepage, self.request)
     >>> view = view.__of__(self.homepage)
     >>> view.get_portal()
@@ -111,10 +110,10 @@ Should get the member folder url for a confirmed member::
     >>> pview.memfolder_url()
     'http://nohost/plone/people/test_user_1_'
 
-Get homepage url (coming soon)::
+Get homepage url::
 
     >>> pview.memhome_url()
-    'http://nohost/plone/people/test_user_1_/None'
+    'http://nohost/plone/people/test_user_1_/test_user_1_-home'
 
 
 
@@ -163,7 +162,6 @@ plone_utils tool and those passed into the request.
     >>> view.portal_status_message
     ['I am a banana!&lt;script&gt;escape this&lt;/script&gt;']
     
-    >>> from opencore.i18n import _
     >>> msg = _(u'psm_test', u'This is a <strong>test</strong> portal status message.  ${this} should be stripped of the script tag.',
     ... mapping={u'this':u'<script>strip this</script>This html'})
     >>> view.add_status_message(msg)
@@ -246,3 +244,34 @@ The base url must be set properly in the html for relate links to work
    False
    >>> '<base href="http://nohost/plone/" />' in html
    True
+
+
+Project-related URLs
+--------------------
+
+These should all be looked up via the project_url method.  They
+respect the global configuration, let's confirm by patching that:
+
+   >>> view = BaseView(self.homepage, self.request).__of__(self.homepage)
+
+   >>> from opencore.testing import utils
+   >>> utils.monkey_proj_noun('project')
+
+   >>> view.project_url()
+   'http://nohost/plone/projects'
+   >>> view.project_url('proj1')
+   'http://nohost/plone/projects/proj1'
+   >>> view.project_url(project='proj1')
+   'http://nohost/plone/projects/proj1'
+   >>> view.project_url(page='somepage')
+   'http://nohost/plone/projects/somepage'
+   >>> view.project_url(project='proj2', page='another')
+   'http://nohost/plone/projects/proj2/another'
+ 
+XXX For now, the project url should not respect the project noun. We still need
+generated urls to contain the word ``project`` in them::
+   >>> utils.monkey_proj_noun('monkey')
+   >>> view.project_url()
+   'http://nohost/plone/projects'
+   >>> view.project_url('proj1')
+   'http://nohost/plone/projects/proj1'

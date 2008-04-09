@@ -17,15 +17,12 @@ from opencore.interfaces import IAddProject
 from opencore.interfaces import IAmANewsFolder
 from opencore.interfaces import IAmAPeopleFolder
 from opencore.interfaces.membership import IEmailInvites
-from opencore.interfaces.message import ITransientMessage
-from opencore.member.transient_messages import TransientMessage
 from opencore.project.browser.email_invites import EmailInvites
 from utils import kupu_libraries
 from utils import kupu_resource_map
 from zope.app.component.hooks import setSite
 from zope.component import queryUtility
 from zope.interface import alsoProvides
-import os
 import pkg_resources
 import socket
 import logging
@@ -39,7 +36,11 @@ Z_DEPS = ('PlacelessTranslationService', 'Five', 'membrane', 'remember',
 MEM_DEPS = ('membrane', 'remember')
 
 DEPS = ('wicked', 'TeamSpace', 'CMFPlacefulWorkflow', 'RichDocument',
-        'listen', 'CMFDiffTool', 'CMFEditions')
+        'listen', 'CMFDiffTool', 'CMFEditions',
+        'PleiadesGeocoder'
+       )
+
+logger = None
 
 def setuphandler(fn):
     """
@@ -49,12 +50,14 @@ def setuphandler(fn):
         stepname = fn.__name__
         handlers = context.readDataFile('setuphandlers.txt')
         #@@ DWM: this limits reuse of decorated functions
+        #@@ RJM: it's supposed to
         if handlers is None or stepname not in handlers:
             return
         portal = context.getSite()
         out = StringIO()
         fn(portal, out)
-        logger = context.getLogger('OpenCore setuphandlers')
+        global logger
+        logger = context.getLogger('opencore.configuration.setuphandlers')
         logger.info(out.getvalue())
     execute_handler.orig = fn
     return execute_handler
@@ -421,15 +424,28 @@ def createValidationMember(portal, out):
     mem.getField('password').write_permission = EDIT_SECURITY_PERMISSION
     mdtool._validation_member = mem
 
-#@@ for completeness, add name to sig??
-def register_local_utility(portal, out, iface, klass=None):
+def register_local_utility(portal, out, iface, klass, factory_fn=None,
+                           replace=False):
     setSite(portal) # specify the portal as the local utility context
+    if queryUtility(iface) is not None:
+        if not replace:
+            return
+        portal.utilities.manage_delObjects(iface.__name__)
     sm = portal.getSiteManager()
-    assert klass, ValueError('You must provide a class if not re-registering')
-    if sm.queryUtility((), iface):
-        return 
-    sm.registerUtility(klass(), iface)
-    print >> out, ('%s utility installed' %iface.__name__)
+    try:
+        if factory_fn is not None:
+            obj = factory_fn()
+        else:
+            obj = klass()
+        sm.registerUtility(iface, obj)
+        print >> out, ('%s utility installed' %iface.__name__)
+    except ValueError:
+        # re-register object
+        old_utility = aq_inner(getattr(portal.utilities, iface.__name__))
+        portal.utilities._delObject(iface.__name__, suppress_events=True)
+        alsoProvides(old_utility, iface)
+        sm.registerUtility(iface, old_utility)
+        print >> out, ('%s utility interface updated' %iface.__name__)
 
 def migrate_local_utility_iface(portal, out, iface, old_iface=None, klass=None):
     """re-register object w/ an iface of same name"""
@@ -461,6 +477,15 @@ def retrieve_orphaned_iface(new_iface, reg):
 @setuphandler
 def install_email_invites_utility(portal, out):
     register_local_utility(portal, out, IEmailInvites, EmailInvites)
+
+@setuphandler
+def migrate_listen_member_lookup(portal, out):
+    from Products.listen.interfaces import IMemberLookup
+    from opencore.listen.utility_overrides import OpencoreMemberLookup
+    def LookupFactory():
+        return OpencoreMemberLookup(portal)
+    register_local_utility(portal, out, IMemberLookup, OpencoreMemberLookup,
+                           factory_fn=LookupFactory, replace=True)
 
 @setuphandler
 def addCatalogQueue(portal, out):

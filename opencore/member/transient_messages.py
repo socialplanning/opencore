@@ -29,6 +29,11 @@ class TransientMessage(object):
         return category_annot
 
     def store(self, mem_id, category, msg):
+        """
+        This takes an OBJECT and stores it on a per-user basis.
+        If we receive a string, we're going to see if it's a message id
+        and attempt to translate it.  If not, WE WILL LEAVE IT ALONE!!!
+        """
         cat = self._category_annot(mem_id, category)
         try:
             new_id = cat.maxKey() + 1
@@ -37,13 +42,18 @@ class TransientMessage(object):
 
         if isinstance(msg, Message):
             msg = translate(msg, context=self.site_root)
-        else:
+        elif isinstance(msg, basestring):
             msg = _(msg)
             
-        cleaner = Cleaner()
-        msg = cleaner.clean_html(msg)
-        if msg.startswith('<p>'):
-            msg = msg[3:-4]
+        if isinstance(msg, Message) or isinstance(msg, basestring):
+            cleaner = Cleaner()
+            msg = cleaner.clean_html(msg)
+
+            # clean_html wraps plain text messages in a paragraph tag.  If
+            # that has happened, we'll remove it to restore the original message.
+            if msg.startswith('<p>'):
+                msg = msg[3:-4]
+
         cat[new_id] = msg
         
     def get_msgs(self, mem_id, category):
@@ -53,10 +63,11 @@ class TransientMessage(object):
     def get_all_msgs(self, mem_id):
         tm_annot = self.annot.setdefault(self.key, OOBTree())
         mem_annot = tm_annot.setdefault(mem_id, OOBTree())
-        cats = [cat[0] for cat in mem_annot.items()]
-        items = []
-        for cat in cats:
-            items.extend(list(self.get_msgs(mem_id, cat)))
+
+        items = dict(mem_annot)
+        for category in items.iterkeys():
+            items[category] = dict(items[category])
+
         return items            
 
     def pop(self, mem_id, category, idx):

@@ -19,21 +19,33 @@ from opencore.member.interfaces import ICreateMembers
 from zope.app.event.objectevent import ObjectCreatedEvent
 from zope.component import getUtility
 from zope.event import notify
+import zExceptions
 
+import urllib
 
 class JoinView(browser.AccountView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('join.pt')
+
+    def quote(self, txt):
+        return urllib.quote(txt)
 
     @anon_only(BaseView.siteURL)
     def handle_request(self):
         """ redirect logged in users """
 
     def _create_member(self, targets=None, fields=None, confirmed=False):
+        """
+        tries to create a member object based on the request.
+
+        returns the newly created member, or an error dictionary on failure.
+        """
         factory = ICreateMembers(self.portal)
 
         self.errors = factory.validate(self.request)
         if self.errors:
+            # XXX let's raise something instead of returning.
+            # it's ugly to overload function return values to signal errors.
             return self.errors
 
         mem = factory.create(self.request.form)
@@ -41,24 +53,32 @@ class JoinView(browser.AccountView, OctopoLite):
         url = self._confirmation_url(mem)
         if utils.email_confirmation():
             if not confirmed:
-                self._sendmail_to_pendinguser(user_name=mem_name,
-                                              email=self.request.get('email'),
-                                              url=url)
+                self._send_mail_to_pending_user(user_name=mem_name,
+                                                email=self.request.get('email'),
+                                                url=url)
             
                 self.addPortalStatusMessage(_(u'psm_thankyou_for_joining',
-                                              u'Thanks for joining ${portal_title}, ${mem_id}!\nA confirmation email has been sent to you with instructions on activating your account.',
+                                              u'Thanks for joining ${portal_title}, ${mem_id}!<br/>\nA confirmation email has been sent to you with instructions on activating your account.',
                                               mapping={u'mem_id':mem.getId(),
                                                        u'portal_title':self.portal_title()}))
-                self.redirect(self.portal_url() + '/messages-only')
+                self.redirect(self.portal_url() + '/message')
             return mem
         self.redirect(url)
         return mem
 
     create_member = action('join', apply=post_only(raise_=False))(_create_member)
+    # the fact that we need to separate the decorated (user-facing) and undecorated methods here
+    # suggests to me that we can refactor some functionality out of the view here. -egj
 
     @action('validate')
     def validate(self, targets=None, fields=None):
         """ this is really dumb. """
+
+        #a special case for when the user has not yet entered a password confirmation:
+        #pretend that they have
+        if not self.request.form.get('confirm_password'):
+            self.request.form['confirm_password'] = self.request.form.get('password', '')
+
         errors = ICreateMembers(self.portal).validate(self.request.form)
 
         erase = [error for error in errors if error not in self.request.form]
@@ -70,12 +90,15 @@ class JoinView(browser.AccountView, OctopoLite):
             ret['oc-%s-error' % e] = {
                 'html': str(errors[e]),
                 'action': 'copy', 'effects': 'highlight'}
+
         return ret
 
 
 class InviteJoinView(JoinView, ConfirmAccountView):
-    """a preconfirmed join view that also introspects any invitation a
-    perspective member has"""
+    """
+    a preconfirmed join view that also introspects any invitation a
+    prospective member has
+    """
 
     template = ZopeTwoPageTemplateFile('invite-join.pt')
 
@@ -98,20 +121,31 @@ class InviteJoinView(JoinView, ConfirmAccountView):
     @view.memoizedproperty
     def sorted_invites(self):
         return sorted(self.invites)
-
+    
     @view.memoizedproperty
     def invite_map(self):
         if self.invites:
-            return [dict(id=invite, title=self.proj_title(invite)) \
-                    for invite in self.invites]
+            imap = []
+            invite = self.request.get('project')
+            if invite in self.invites:
+                project = self.context.projects.get(invite)
+                if not project:
+                    return tuple()
+                from opencore.interfaces.workflow import IReadWorkflowPolicySupport
+                closed =  IReadWorkflowPolicySupport(project).getCurrentPolicyId() == "closed_policy"
+                imap.append(dict(id=invite, title=project.Title(),
+                                 description=project.Description(),
+                                 url=project.absolute_url(),
+                                 logo=project.getLogo(),
+                                 closed=closed))
+            return imap
         return tuple()
 
     def validate_key(self):
         key = self.request.form.get('__k')
-        import zExceptions
         if not key:
             raise zExceptions.BadRequest("Must present proper validation")
-        if key != self.invites.key:
+        if key != str(self.invites.key):
             raise ValueError('Bad confirmation key')
         return True
 
@@ -120,23 +154,34 @@ class InviteJoinView(JoinView, ConfirmAccountView):
         self.validate_key()
         # do all the member making stuff
         member = super(InviteJoinView, self)._create_member(targets, fields, confirmed=True)
-        if isinstance(member, dict):
+        if isinstance(member, dict): # yuck
             # return errors 
             return member
 
         self.confirm(member)
         self.login(member.getId())
-        self.do_invite_joins(member)
-        return self.redirect("%s/init-login" %self.siteURL)
+        auto_joined_list = self.do_invite_joins(member)
+        go_to = ''
+        if auto_joined_list:
+            redirect_to_project = auto_joined_list[0]
+            go_to = '?go_to=%s' % self.project_url(redirect_to_project)
+        return self.redirect("%s/init-login%s" % (self.siteURL, go_to))
 
     def do_invite_joins(self, member):
         """do the joins and activations"""
         mships = self.invite_util.convertInvitesForMember(member)
+        auto_joined_list = []
         for mship in mships:
             mship._v_self_approved = True
-            if mship.aq_parent.getId() in self.proj_ids:
+            mship_id = mship.aq_parent.getId()
+            if mship_id in self.proj_ids:
                 mship.do_transition('approve_public')
+                auto_joined_list.append(mship_id)
             notify(JoinedProjectEvent(mship))
+        return auto_joined_list
+
+    def project(self, _id):
+        return self.context.projects.get(_id)
 
     def proj_title(self, invite):
         proj_obj = self.context.projects.get(invite)
@@ -151,14 +196,13 @@ class InviteJoinView(JoinView, ConfirmAccountView):
         member by redirecting to the confirm-account view.
         """
         key = self.request.get('__k')
-        import zExceptions
-        if not key:
-            raise zExceptions.BadRequest("Must present proper validation")
-        if int(key) != self.invites.key:
-            raise ValueError('Bad confirmation key')
         
-        email = self.request.form.get("email")
-        if self.is_pending(getEmail=email):
+        if (not key) or (key != str(self.invites.key)):
+            self.addPortalStatusMessage(_(u'psm_denied', u'Denied -- bad key'))
+            return self.redirect("%s/%s" %(self.siteURL, 'login'))
+        
+        member = self.is_pending(getEmail=self.email)
+        if member:
             return self.redirect(self._confirmation_url(member))
 
         return None

@@ -5,7 +5,7 @@
 <metal:bcrumb define-macro="bcrumb">
 <ul class="oc-headingBlock oc-wiki-headingBlock oc-bcrumb">
   <li>
-    <h1 class="oc-bcrumb-current" tal:content="view/context/Title" />
+    <h1 class="oc-bcrumb-current" tal:content="view/page_title" />
   </li>
 </ul>
 <tal:lastmod condition="view/displayLastModified | nothing"

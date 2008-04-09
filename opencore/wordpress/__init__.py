@@ -1,3 +1,3 @@
 #
-LOG = "opencore.tasktracker"
+LOG = "opencore.wordpress"
 

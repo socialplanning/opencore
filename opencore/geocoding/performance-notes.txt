@@ -1,0 +1,185 @@
+Quick & dirty benchmarks of fetching georss for projects
+=========================================================
+
+It's really slow for large amounts of data...
+
+fetching http://localhost:8080/openplans/projects/georss
+
+projects created via my "lotsaprojects" script
+
+All "ab" tests were run with zope "warm", i.e. at least one hit to the feed
+was made before calling ab. So these are best-case tests under load.
+The wget "cold" tests are made just after zope reports it's ready to
+handle requests, so they represent worst-case.
+
+SUMMARY	
+--------
+
+Above 100 projects or so, performance degrades linearly.
+
+
+12 PROJECTS
+------------
+
+code as of r12567
+
+ Payload xml size: 8040 bytes
+
+ wget, zope COLD: ~ 1.8 seconds
+ wget, zope WARM:  ~ 0.6 seconds
+
+ ab -c 20 -n 200:
+
+  Requests per second:    16.09 [#/sec] (mean)
+  Time per request:       1242.734 [ms] (mean)
+  Time per request:       62.137 [ms] (mean, across all concurrent requests)
+  Transfer rate:          129.87 [Kbytes/sec] received
+
+
+100 PROJECTS
+------------
+
+code as of r12567
+
+ 32M     zeo/var/Data.fs
+
+ Payload xml size: 79186 bytes
+
+ wget, zope COLD: ~ 11.35 seconds
+ wget, zope WARM:  ~ 0.7 seconds
+
+ ab -c 20 -n 200:
+
+  Requests per second:    2.60 [#/sec] (mean)
+  Time per request:       7689.226 [ms] (mean)
+  Time per request:       384.461 [ms] (mean, across all concurrent requests)
+  Transfer rate:          201.71 [Kbytes/sec] received
+
+
+500 PROJECTS
+------------
+
+code as of r12567
+
+ 181M     zeo/var/Data.fs
+
+ Payload xml size: 401786 bytes
+
+ wget, zope COLD: ~ 27.54 sec
+ wget, zope WARM:  ~ 2 to 3 sec
+
+ ab -c 20 -n 200:
+
+  Requests per second:    0.53 [#/sec] (mean)
+  Time per request:       37424.227 [ms] (mean)
+  Time per request:       1871.211 [ms] (mean, across all concurrent requests)
+  Transfer rate:          209.81 [Kbytes/sec] received
+
+
+
+1000 PROJECTS
+-------------
+
+code as of r12567
+
+ 420M     zeo/var/Data.fs
+
+ Payload xml size: 806844 bytes
+
+ wget, zope COLD: ~ 48 sec
+ wget, zope WARM:  ~ 3.6 - 6.5 sec
+
+ ab -c 20 -n 100 (I couldn't get it to do any more):
+
+  Requests per second:    0.26 [#/sec] (mean)
+  Time per request:       76084.227 [ms] (mean)
+  Time per request:       3804.212 [ms] (mean, across all concurrent requests)
+  Transfer rate:          207.18 [Kbytes/sec] received
+
+
+
+
+MITIGATION
+==========
+
+all with 1000 projects
+----------------------
+
+Some Whitespace removed from zpt
+--------------------------------
+
+committed as r12735
+
+ Payload xml size: 675830 bytes
+
+ wget, zope COLD: ~ 57 sec
+ wget, zope WARM:  ~ 3.5 - 6.4 sec
+
+ ab -c 20 -n 40:
+
+  Requests per second:    0.27 [#/sec] (mean)
+  Time per request:       73739.289 [ms] (mean)
+  Time per request:       3686.964 [ms] (mean, across all concurrent requests)
+  Transfer rate:          179.06 [Kbytes/sec] received
+
+Really marginal improvement.
+
+
+Use a python view that calls response.write() instead of ZPT
+------------------------------------------------------------
+
+committed r12736
+
+also no leading whitespace.
+
+This may also be more responsive if the client uses a streaming xml
+parser like expat (firefox does).  When zope is cold, you still have
+to wait ~ 20 seconds to get the first entry.
+
+ wget, zope COLD: ~ 53 sec
+ wget, zope WARM:  ~ 2.25 sec
+
+ ab -c 20 -n 40:
+
+  Requests per second:    0.34 [#/sec] (mean)
+  Time per request:       59164.055 [ms] (mean)
+  Time per request:       2958.203 [ms] (mean, across all concurrent requests)
+  Transfer rate:          213.26 [Kbytes/sec] received
+
+
+Slightly more than marginal improvement, maybe 25% r.p.s.
+
+Clearly the bottleneck is loading and iterating over all the objects.
+
+
+Quick cache hack
+-----------------
+
+Committed as r12357, undone in r12358
+
+Wanted to see a theoretical lower bound if we don't have to wake up
+all the project objects. I added a class-level list to feeds.py, and
+during the initial iteration, populate it with a copy of the geo item
+dictionaries.  On all subsequent requests I use that list instead of
+forRSS().  Confirmed that the returned data is identical.
+
+ wget, zope WARM:  ~ 0.14 sec
+
+ ab -c 20 -n 40:
+
+  Requests per second:    11.37 [#/sec] (mean)
+  Time per request:       1759.681 [ms] (mean)
+  Time per request:       87.984 [ms] (mean, across all concurrent requests)
+  Transfer rate:          7170.33 [Kbytes/sec] received
+
+Left off here.  Whit suggested using object modified events to update a btree
+on the projects folder that stores the geo info, so we only have to walk that
+btree.  Or we could use the catalog and add the necessary info to metadata.
+I'm gonna call YAGNI for now and wait to see if the requirements change; eg.
+if we need more control of which projects in what order, the catalog would be
+a more natural solution. Don't know yet.
+ 
+
+
+I didn't touch the KML feeds yet.
+

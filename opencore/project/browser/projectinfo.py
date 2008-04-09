@@ -7,11 +7,9 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import getEngine
 from opencore.interfaces import IProject, IOpenTeam
-from plone.memoize.instance import memoize, memoizedproperty
 from interfaces import IProjectInfo
-from topp.featurelets.interfaces import IFeatureletSupporter
 from opencore.project.utils import get_featurelets
-from plone.memoize import instance, view
+from plone.memoize import view
 
 view.memoizedproperty = lambda func: property(view.memoize(func))
 

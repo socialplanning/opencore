@@ -102,6 +102,8 @@
       <span class="oc-discreetText" title="Required"
             i18n:attributes="title title_required;"
             i18n:translate="label_required">(Required)</span>
+
+      <span class="oc-discreetText" i18n:translate="password_send_warning" />
       
       <div tal:content="error" class="oc-form-error">Validation error output</div>            
       

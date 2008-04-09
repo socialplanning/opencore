@@ -15,7 +15,7 @@
 # but we'll have to wait until tests can call each other in flunc
 # below is copied directly from the add_project_member test
 go ${base_url}/projects/${projname}
-follow "Manage team"
+follow "Team"
 fv search-members search_for $membername
 submit
 fv search-members search_for $membername
@@ -23,9 +23,9 @@ submit 3
 
 # finds membername somewhere below "Pending membership"
 # to avoid matching the logged in user
-find "Pending membership.*${membername}" s
+find "Pending membership invitations.*${membername}" s
 # and the psm
-find "You invited ${membername} to join this project"
+find "You invited ${membername} to join this ${projtxt}"
 # end copied test
 
 # Here we should verify that there is exactly one membership
@@ -33,4 +33,4 @@ find "You invited ${membername} to join this project"
 # these may be brittle if the text changes, but the important
 # thing is that they test plurality correctly
 find "1 member,"
-find "1 pending membership\b"
+find "1 pending invitation\b"

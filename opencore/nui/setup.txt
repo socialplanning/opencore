@@ -28,7 +28,7 @@ A plain dummy view will block a path name::
 
 An ignorable dummy will block a name, but not trigger a renaming::
 
-    >>> from opencore.nui.wiki.add import IgnorableDummy
+    >>> from opencore.browser.naming import IgnorableDummy
     >>> view = proj.restrictedTraverse('lists')
     >>> isinstance(view, IgnorableDummy)
     True
