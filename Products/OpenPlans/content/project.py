@@ -359,7 +359,7 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
 
     def isProjectAdmin(self, mem_id=None):
         if mem_id is None:
-            membertool = getToolByName(project, 'portal_membership')
+            membertool = getToolByName(self, 'portal_membership')
             mem_id = membertool.getAuthenticatedMember().getId()
         if not mem_id:
             return False
