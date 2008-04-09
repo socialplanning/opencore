@@ -128,4 +128,14 @@
      permission="zope2.Public"
      />
 
+  <!-- theme for deliverance -->
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
+     name="theme.html"
+     class=".base.BaseView"
+     template="theme.pt"
+     permission="zope2.Public"
+     />
+
+
 </configure>
