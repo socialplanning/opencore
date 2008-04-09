@@ -427,17 +427,19 @@ def createValidationMember(portal, out):
 def register_local_utility(portal, out, iface, klass, factory_fn=None,
                            replace=False):
     setSite(portal) # specify the portal as the local utility context
-    if queryUtility(iface) is not None:
+    sm = portal.getSiteManager()
+    util = queryUtility(iface)
+    if  util is not None:
         if not replace:
             return
-        portal.utilities.manage_delObjects(iface.__name__)
-    sm = portal.getSiteManager()
+        sm.unregisterUtility(component=util, provided=iface)
+        #portal.utilities.manage_delObjects(iface.__name__)
     try:
         if factory_fn is not None:
             obj = factory_fn()
         else:
             obj = klass()
-        sm.registerUtility(iface, obj)
+        sm.registerUtility(obj, iface)
         print >> out, ('%s utility installed' %iface.__name__)
     except ValueError:
         # re-register object
