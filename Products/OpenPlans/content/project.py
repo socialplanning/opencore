@@ -18,7 +18,7 @@ from Products.TeamSpace.space import TeamSpaceMixin
 from Products.TeamSpace.space import TeamSpace
 from Products.ZCTextIndex import ParseTree
 from ZODB.POSException import ConflictError
-from opencore.configruation import DEFAULT_ROLES
+from opencore.configuration import DEFAULT_ROLES
 from opencore.configuration import OC_REQ as OPENCORE
 from opencore.content.page import OpenPage
 from opencore.interfaces import IProject
