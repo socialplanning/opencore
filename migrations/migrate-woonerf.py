@@ -1,11 +1,8 @@
 from AccessControl.SecurityManagement import newSecurityManager
 from Testing.makerequest import makerequest
-from Products.Five.utilities.marker import erase as noLongerProvides
-from itertools import count
 from opencore.nui.setup import nui_functions, set_method_aliases
 from opencore.nui.wiki import utils
-from opencore.streetswiki.utils import add_wiki
-from pprint import pprint 
+#from opencore.streetswiki.utils import add_wiki
 import sys
 import transaction
 
