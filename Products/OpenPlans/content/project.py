@@ -357,6 +357,15 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
                     team_roles[role] = 1
         return team_roles.keys()
 
+    def isProjectAdmin(self, mem_id=None):
+        if mem_id is None:
+            membertool = getToolByName(project, 'portal_membership')
+            mem_id = membertool.getAuthenticatedMember().getId()
+        if not mem_id:
+            return False
+        
+        team = self.getTeams()[0]
+        return team.getHighestTeamRoleForMember(mem_id) == DEFAULT_ROLES[-1] 
 
     def getLogo(self):
         """custom logo accessor in case project contains an OpenPage with id 'logo'"""
