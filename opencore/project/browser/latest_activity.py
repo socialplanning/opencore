@@ -38,7 +38,7 @@ class LatestActivityView(ProjectContentsView):
         mem_id = self.member_info.get('id')
         if mem_id is None:
             return False
-        return self.get_tool('portal_teams')._getOb(self.area.id).getHighestTeamRoleForMember(mem_id) == 'ProjectAdmin'
+        return mem_id in self.context.projectMemberIds(admin_only=True)
 
         
     ### methods to obtain feed snippets

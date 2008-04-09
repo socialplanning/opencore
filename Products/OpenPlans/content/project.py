@@ -318,12 +318,13 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
         """
         members = set()
         teams = self.getTeams()
-        if admin_only:
-            # XXX we need this
-            pass
-        else:
-            for team in teams:
-                members.update(set(team.getActiveMemberIds()))
+        for team in teams:
+            ids = team.getActiveMemberIds()
+            if admin_only:
+                ids = [ i for i in ids
+                        if team.getHighestTeamRoleForMember(i) == 'ProjectAdmin' ]
+            members.update(set(ids))
+
         return tuple(members)
 
     security.declareProtected(View, 'projectMembers')
@@ -331,15 +332,12 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
         """Compute all the members of this project in a nice way
         """
         members = []
-        if admin_only:
-            pass
-        else:
-            # We don't have a contact with members that says they have
-            # to support __hash__ so we do this...
-            member_ids = self.projectMemberIds()
-            pm_tool = getToolByName(self, 'portal_membership')
-            for mid in member_ids:
-                members.append(pm_tool.getMemberById(mid))
+        # We don't have a contract with members that says they have
+        # to support __hash__ so we do this...
+        member_ids = self.projectMemberIds(admin_only=admin_only)
+        pm_tool = getToolByName(self, 'portal_membership')
+        for mid in member_ids:
+            members.append(pm_tool.getMemberById(mid))
         return tuple(members)
 
     security.declareProtected(View, 'getTeamRolesForAuthMember')
