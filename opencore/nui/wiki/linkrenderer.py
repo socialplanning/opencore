@@ -1,5 +1,5 @@
 from Acquisition import aq_inner
-from Products.wicked.browser.link import BasicFiveLink
+from wicked.at.link import BasicFiveLink
 from plone.memoize.instance import memoize
 import urllib
 
