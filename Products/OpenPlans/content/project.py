@@ -18,6 +18,7 @@ from Products.TeamSpace.space import TeamSpaceMixin
 from Products.TeamSpace.space import TeamSpace
 from Products.ZCTextIndex import ParseTree
 from ZODB.POSException import ConflictError
+from opencore.configruation import DEFAULT_ROLES
 from opencore.configuration import OC_REQ as OPENCORE
 from opencore.content.page import OpenPage
 from opencore.interfaces import IProject
@@ -322,7 +323,7 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
             ids = team.getActiveMemberIds()
             if admin_only:
                 ids = [ i for i in ids
-                        if team.getHighestTeamRoleForMember(i) == 'ProjectAdmin' ]
+                        if team.getHighestTeamRoleForMember(i) == DEFAULT_ROLES[-1] ]
             members.update(set(ids))
 
         return tuple(members)
