@@ -93,10 +93,13 @@
         </div>
 
         <dl class="oc-member-info"
-          tal:define="skills python: memberdata['skills']      #instead use the following when tagger is ready: view.viewed_member_profile_tags('skills');
-                      affils python: memberdata['affiliations']#instead use the following when tagger is ready: view.viewed_member_profile_tags('affiliations');
-                      favs   python: memberdata['favorites']   #instead use the following when tagger is ready: view.viewed_member_profile_tags('favorites');">
-
+          tal:define="skills python: memberdata['skills'];
+                      affils python: memberdata['affiliations'];
+                      favs   python: memberdata['favorites'];">
+          <tal:comment replace="nothing">
+            When tagger is ready the above memberdata[key] references should
+            be replaced by view.viewed_member_profile_tags(key)
+          </tal:comment>
           <span tal:replace="structure python:
             view.field_snippet(title='About',
                                value=memberdata.get('statement'),
