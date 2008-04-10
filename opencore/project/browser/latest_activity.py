@@ -1,11 +1,7 @@
 import re
+from opencore.project.browser.base import ProjectBaseView
 
-from opencore.project.browser.contents import ProjectContentsView
-from opencore.project.utils import get_featurelets
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-
-
-class LatestActivityView(ProjectContentsView):
+class LatestActivityView(ProjectBaseView):
     """
     displays latest activity for a project.
     This is a concept class (sandbox) for the time being
@@ -13,23 +9,12 @@ class LatestActivityView(ProjectContentsView):
     emerge from playing with it
     """
 
-    # XXX this is necessary because the ProjectContentsView stupidly overrides template
-
-    # end-user views are really not intended to be extended. if a view has functionality you need,
-    # that is probably a good indication that the functionality should be moved out of the view
-    # altogether and into an object adapter, utility, or function ASAP -egj
-    template = ZopeTwoPageTemplateFile('latest_activity.pt')    
-
-    def __init__(self, context, request):                
-        ProjectContentsView.__init__(self, context, request)
-
-        # XXX this logic should live at a higher level
-        # maybe project base view
-        self.logo_url = context.getLogo()
-        if self.logo_url:
-            self.logo_url = self.logo_url.absolute_url()
+    def logo_url(self):
+        logo = self.context.getLogo()
+        if logo:
+            return logo.absolute_url()
         else:
-            self.logo_url = self.defaultProjLogoThumbURL
+            return self.defaultProjLogoThumbURL
 
     def team_manager(self):
         """
