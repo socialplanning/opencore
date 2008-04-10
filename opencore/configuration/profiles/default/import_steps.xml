@@ -254,7 +254,7 @@
      handler="opencore.configuration.setuphandlers.activate_wicked"
      title="Turn on wicked in plone 3 for usage by opencore"> 
     Plone 3 ships with wicked turned off. We need to turn it on,
-     because we use it 
+    because we use it 
     <dependency step="install_dependencies" />
   </import-step>
 
@@ -265,15 +265,6 @@
      title="Migrate listen member lookup utility">
     Replace listen's member lookup utility with one that uses the 
     member catalog.
-    <dependency step="install_dependencies" />
-  </import-step>
-
-  <import-step
-     version="20080409-1"
-     id="activate_wicked"
-     handler="opencore.configuration.setuphandlers.activate_wicked"
-     title="Activate wicked's wiki linking features">
-    Wicked ships w/ Plone 3, but wiki linking is not turned on by default.
     <dependency step="install_dependencies" />
   </import-step>
 
