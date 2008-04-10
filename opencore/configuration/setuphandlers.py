@@ -329,7 +329,8 @@ def setSiteIndexPage(portal, out):
         print >> out, '-> creating site index page'
         portal.invokeFactory('Document', index_id, title=index_title)
         page = portal._getOb(index_id)
-        page_file = pkg_resources.resource_stream(OPENCORE, 'copy/%s' %'site_index.html')
+        page_file = pkg_resources.resource_stream(OPENCORE,
+                                                  'copy/site_index.html')
         page.setText(page_file.read())
         portal.setDefaultPage(index_id)
 
