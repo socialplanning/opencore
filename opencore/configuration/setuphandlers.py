@@ -10,6 +10,7 @@ from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
 from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
 from Products.remember.utils import getAdderUtility
 from StringIO import StringIO
+from plone.app.controlpanel.markup import IMarkupSchema
 from opencore.configuration import OC_REQ as OPENCORE
 from opencore.content.member import OpenMember
 from opencore.content.membership import OpenMembership
@@ -18,8 +19,6 @@ from opencore.interfaces import IAmANewsFolder
 from opencore.interfaces import IAmAPeopleFolder
 from opencore.interfaces.membership import IEmailInvites
 from opencore.project.browser.email_invites import EmailInvites
-from utils import kupu_libraries
-from utils import kupu_resource_map
 from zope.app.component.hooks import setSite
 from zope.component import queryUtility
 from zope.interface import alsoProvides
@@ -48,10 +47,8 @@ def setuphandler(fn):
     """
     def execute_handler(context):
         stepname = fn.__name__
-        handlers = context.readDataFile('setuphandlers.txt')
-        #@@ DWM: this limits reuse of decorated functions
-        #@@ RJM: it's supposed to
-        if handlers is None or stepname not in handlers:
+        handlers = context.readDataFile('opencore.txt')
+        if handlers is None:
             return
         portal = context.getSite()
         out = StringIO()
@@ -524,5 +521,13 @@ def local_fqdn_return_address(portal, out):
         portal.manage_changeProperties(email_from_address=addy)
 
 @setuphandler
-def activate_wicked(site, out):
-    pass
+def activate_wicked(portal, out):
+    """
+    Turn on wicked's wiki linking.
+    """
+    # we don't use Plone's allowable types infrastructure, so we
+    # just set any type to turn on the wiki linking
+    markup_ctrl = IMarkupSchema(portal)
+    if not markup_ctrl.allowed_types:
+        print >> out, "Activating wicked linking"
+        markup_ctrl.allowed_types = ['Page']

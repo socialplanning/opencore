@@ -268,4 +268,13 @@
     <dependency step="install_dependencies" />
   </import-step>
 
+  <import-step
+     version="20080409-1"
+     id="activate_wicked"
+     handler="opencore.configuration.setuphandlers.activate_wicked"
+     title="Activate wicked's wiki linking features">
+    Wicked ships w/ Plone 3, but wiki linking is not turned on by default.
+    <dependency step="install_dependencies" />
+  </import-step>
+
 </import-steps>
