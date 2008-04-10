@@ -531,6 +531,6 @@ def activate_wicked(portal, out):
     if markup_ctrl is None:
         setSite(portal) # <-- req'd when called via 'zopectl run'
         markup_ctrl = IMarkupSchema(portal)
-    if not markup_ctrl.allowed_types:
+    if not markup_ctrl.wiki_enabled_types:
         print >> out, "Activating wicked linking"
-        markup_ctrl.allowed_types = ['Page']
+        markup_ctrl.wiki_enabled_types = ['Page']
