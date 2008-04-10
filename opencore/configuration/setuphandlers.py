@@ -527,7 +527,10 @@ def activate_wicked(portal, out):
     """
     # we don't use Plone's allowable types infrastructure, so we
     # just set any type to turn on the wiki linking
-    markup_ctrl = IMarkupSchema(portal)
+    markup_ctrl = IMarkupSchema(portal, None)
+    if markup_ctrl is None:
+        setSite(portal) # <-- req'd when called via 'zopectl run'
+        markup_ctrl = IMarkupSchema(portal)
     if not markup_ctrl.allowed_types:
         print >> out, "Activating wicked linking"
         markup_ctrl.allowed_types = ['Page']

@@ -1,7 +1,9 @@
 from AccessControl.SecurityManagement import newSecurityManager
+from opencore.utility.interfaces import IProvideSiteConfig
 from Testing.makerequest import makerequest
-from opencore.nui.setup import nui_functions
+from zope.component import getUtility
 import transaction
+
 
 username = 'admin'
 user = app.acl_users.getUser(username)
@@ -16,7 +18,10 @@ def print_status_messages(import_result_dict):
         print val or "(no messages)"
         print
 
-n = app.openplans
+configparser = getUtility(IProvideSiteConfig)
+portal_id = configparser.get('opencore_site_id')
+
+n = app._getOb(portal_id)
 md = n.portal_memberdata
 ms = n.portal_membership
 uf = n.acl_users
@@ -57,14 +62,13 @@ transaction.get().note('Ran import steps: %s' % ', '.join(step_ids))
 transaction.commit()
 
 
-migrations = [
-]
+# XXX should be populated, key = migration id, value = callable
+migrations = dict()
 
-for migration in migrations:
-    migration_fn = nui_functions[migration]
-    print 'running migration:', migration
-    migration_fn(portal)
-    print 'successfully ran migration:', migration
+for mig_id in migrations:
+    print 'running migration:', mig_id
+    migrations[mig_id](portal)
+    print 'successfully ran migration:', mig_id
 
-transaction.get().note('Ran migration setup widgets')
+transaction.get().note('Ran migration functions')
 transaction.commit()

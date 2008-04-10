@@ -2,29 +2,26 @@
 for setup widgets for those annoying little tasks that
 only need to happen occasionally
 """
+from DateTime import DateTime
 from logging import getLogger
-
-from Products.CMFCore import permissions as CMFCorePermissions
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import MigrationTool
 from Products.CMFPlone.setup.SetupBase import SetupWidget
 from Products.OpenPlans.workflows import PLACEFUL_POLICIES
 from cStringIO import StringIO
-from logging import getLogger
 from migrate_membership_roles import migrate_membership_roles
 from migrate_teams_to_projects import migrate_teams_to_projects
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from opencore.interfaces.workflow import IWriteWorkflowPolicySupport
-from utils import setupKupu, reinstallSubskins
-from zLOG import INFO, ERROR
+from opencore.nui.setup import nui_functions
+from utils import setupKupu
+from zLOG import INFO
 from zope.interface import alsoProvides
 from opencore.configuration.setuphandlers import \
      installWorkflowPolicies, securityTweaks, \
-     migrateATDocToOpenPage, \
-     setupProjectLayout, setCookieDomain, installCookieAuth, \
-     setupPeopleFolder, setupProjectLayout, setupHomeLayout, \
-     installNewsFolder, setProjectFolderPermissions, \
-     migrate_listen_member_lookup
+     migrateATDocToOpenPage,  setupProjectLayout, setCookieDomain, \
+     installCookieAuth, setupPeopleFolder, \
+     setProjectFolderPermissions, migrate_listen_member_lookup
 
 out = StringIO()
 def convertFunc(func):
@@ -197,11 +194,9 @@ class TOPPSetup(SetupWidget):
 
 class NuiSetup(TOPPSetup):
     """ OpenPlans NUI Setup Bucket Brigade  """
-
-    from opencore.nui.setup import nui_functions as functions
     type = 'NUI Setup'
     description = ' utillity methods for NUI site setup '
-    #functions = nui_functions
+    functions = nui_functions
 
     
 MigrationTool.registerSetupWidget(TOPPSetup)
