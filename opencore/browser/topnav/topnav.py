@@ -10,6 +10,7 @@ from opencore.nui.contexthijack import HeaderHijackable
 from opencore.project.content import IProject
 from opencore.content.page import OpenPage
 from operator import itemgetter
+from plone.memoize import instance
 from plone.memoize import view
 from zope.component import getMultiAdapter
 
@@ -53,6 +54,11 @@ class MemberMenuView(BaseView):
     """
     Contains the information req'd by the topnav's member context menu
     """
+
+    @instance.memoizedproperty
+    def areaURL(self):
+        return self.area.absolute_url()
+
     @memoizedproperty
     def profile_url(self):
         return '%s/profile' % self.areaURL

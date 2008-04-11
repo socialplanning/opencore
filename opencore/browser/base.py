@@ -229,11 +229,6 @@ class BaseView(BrowserView):
         else:
             return '%s %s- %s' % (title, mode, self.portal.Title())
 
-    # XXX only used in topnav
-    @instance.memoizedproperty
-    def areaURL(self):
-        return self.area.absolute_url()
-
     # XXX cache more rigorously
     @view.memoize_contextless
     def nusers(self): 
