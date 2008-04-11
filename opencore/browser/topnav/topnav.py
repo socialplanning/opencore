@@ -17,7 +17,14 @@ from zope.component import getMultiAdapter
 memoizedproperty = lambda func: property(view.memoize(func))
 
 
-class TopNavView(HeaderHijackable):
+class BaseMenuView(BaseView):
+
+    @instance.memoizedproperty
+    def areaURL(self):
+        return self.area.absolute_url()
+
+
+class TopNavView(HeaderHijackable, BaseMenuView):
     """
     Provides req'd information for rendering top nav in any context.
     """
@@ -49,13 +56,6 @@ class TopNavView(HeaderHijackable):
         urn = '/'.join((self.siteURL, urn))
         return '<li%s><a href="%s">%s</a></li>' % (css, urn, name)
 
-
-
-class BaseMenuView(BaseView):
-
-    @instance.memoizedproperty
-    def areaURL(self):
-        return self.area.absolute_url()
 
 
 class MemberMenuView(BaseMenuView):
