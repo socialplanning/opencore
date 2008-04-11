@@ -5,21 +5,17 @@ project and subproject adding
 """
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from opencore.browser import formhandler
 from opencore.browser.base import _
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.geocoding.view import get_geo_writer
 from opencore.interfaces import IHomePage
-from opencore.interfaces.event import AfterProjectAddedEvent, AfterSubProjectAddedEvent
+from opencore.interfaces.event import AfterProjectAddedEvent
 from opencore.nui.wiki.add import get_view_names
 from opencore.project.browser.base import ProjectBaseView
-from plone.memoize.instance import memoize, memoizedproperty
-from plone.memoize.view import memoize as req_memoize
-from plone.memoize.view import memoize_contextless
 from topp.featurelets.interfaces import IFeatureletSupporter, IFeaturelet
 from topp.utils import text
 from zope import event
-from zope.component import getAdapters, getUtility
+from zope.component import getAdapters
 from zope.interface import implements
 import logging
 
@@ -178,24 +174,3 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
 class DummyFeatureletSupporter(object):
     implements(IFeatureletSupporter)
 
-
-class SubProjectAddView(ProjectAddView):
-
-    def __init__(self, context, request):
-        self.parent_project = context
-        fake_ctx = self.find_project_container(context, request)
-        ProjectAddView.__init__(self, fake_ctx, request)
-
-    def find_project_container(self, obj, request):
-        cur = obj
-        # This will raise a NameError: IAddProject, which we would
-        # have noticed if we actually had subprojects.
-        # Can we just delete this whole view?
-        while cur is not None and not IAddProject.providedBy(cur):
-            cur = aq_parent(obj)
-        return cur
-    
-    def notify(self, project): 
-        event.notify(AfterSubProjectAddedEvent(project,
-                                               self.parent_project,
-                                               self.request))
