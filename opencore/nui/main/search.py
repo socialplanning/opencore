@@ -505,7 +505,7 @@ class NewsView(SearchView):
         return self.membertool.checkPermission('Manage Portal', self.context)
 
     def subpoena_free(self):
-        delta = zopedatetime() - self.dob_datetime
+        delta = zopedatetime() - self.portal.created()
         return int(delta)
 
     def _get_new_id(self):

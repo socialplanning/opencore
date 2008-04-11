@@ -10,9 +10,6 @@ opencore.browser.base
     >>> view.portal
     <PloneSite at /plone>
     
-    >>> view.dob_datetime
-    DateTime('...')
-
     >>> view.dob
     'today'
     

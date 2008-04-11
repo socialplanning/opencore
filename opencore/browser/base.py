@@ -409,15 +409,9 @@ class BaseView(BrowserView):
     def miv(self):
         return self.get_view('member_info')
 
-    # XXX move to main.search
-    @property
-    def dob_datetime(self):
-        return self.portal.created()
-
-    # XXX move to main.search
     @property
     def dob(self):
-        return prettyDate(self.dob_datetime)
+        return prettyDate(self.portal.created())
 
     @property
     def siteURL(self):
