@@ -50,14 +50,18 @@ class TopNavView(HeaderHijackable):
         return '<li%s><a href="%s">%s</a></li>' % (css, urn, name)
 
 
-class MemberMenuView(BaseView):
-    """
-    Contains the information req'd by the topnav's member context menu
-    """
+
+class BaseMenuView(BaseView):
 
     @instance.memoizedproperty
     def areaURL(self):
         return self.area.absolute_url()
+
+
+class MemberMenuView(BaseMenuView):
+    """
+    Contains the information req'd by the topnav's member context menu
+    """
 
     @memoizedproperty
     def profile_url(self):
@@ -106,7 +110,7 @@ class MemberMenuView(BaseView):
         return menudata
 
 
-class ProjectMenuView(BaseView):
+class ProjectMenuView(BaseMenuView):
     """
     Contains the info req'd by the topnav's project context menu
     """
