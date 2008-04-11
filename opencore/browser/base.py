@@ -4,7 +4,6 @@ some base class for opencore ui work!
 from Acquisition import aq_inner, aq_parent, aq_chain
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.CMFPlone.utils import transaction_note
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
@@ -52,15 +51,20 @@ class BaseView(BrowserView):
     windowTitleSeparator = ' :: '
     site_iface = IPloneSiteRoot
 
-    # 
     truncate = staticmethod(truncate)
-    txn_note = staticmethod(transaction_note)
-    
-    def get_config(self, section, option, default='', inifile=None):
-        return get_config(section,option,default,inifile)
 
     # XXX only used by formlite in this fashion
     main_macros = ZopeTwoPageTemplateFile('main_macros.pt')
+
+    def __init__(self, context, request):
+        self.context      = context
+        self.request      = request
+        self.transcluded  = request.get_header('X-transcluded')
+        self.errors = {}
+        self.response = self.request.RESPONSE
+    
+    def get_config(self, section, option, default='', inifile=None):
+        return get_config(section,option,default,inifile)
 
     def project_url(self, project=None, page=None):
         """This should be the canonical way for views to get a url
@@ -87,13 +91,6 @@ class BaseView(BrowserView):
         """Do we call them 'projects' or 'groups' or... ?
         """
         return project_noun()
-
-    def __init__(self, context, request):
-        self.context      = context
-        self.request      = request
-        self.transcluded  = request.get_header('X-transcluded')
-        self.errors = {}
-        self.response = self.request.RESPONSE
 
     def redirect(self, *args, **kwargs):
         self._redirected = True
