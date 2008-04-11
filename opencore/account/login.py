@@ -33,7 +33,8 @@ class LoginView(AccountView):
         back to after login because they are boring.
         """
         urls = [self.siteURL,]
-        more_urls = [self.url_for(x) for x in ("login", "forgot", "join")]
+        more_urls = ['%s/%s' % (self.siteURL, screen)
+                     for screen in ("login", "forgot", "join")]
         urls += more_urls
         return urls
 

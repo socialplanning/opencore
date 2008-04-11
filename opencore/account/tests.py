@@ -1,17 +1,12 @@
 from Products.PasswordResetTool.tests.test_doctests import MockMailHostTestCase
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
-from Testing import ZopeTestCase
-from Testing.ZopeTestCase import FunctionalDocFileSuite
-from Testing.ZopeTestCase import PortalTestCase 
-from opencore.account.utils import email_confirmation, turn_confirmation_on
+from opencore.account.utils import turn_confirmation_on
 from opencore.member.interfaces import IHandleMemberWorkflow
 from opencore.testing import dtfactory as dtf
 from opencore.testing.layer import MockHTTPWithContent, OpencoreContent
 from zope.app.component.hooks import setSite
 from zope.interface import implements
 from zope.testing import doctest
-import os
-import sys
 import unittest
 
 #import warnings; warnings.filterwarnings("ignore")
