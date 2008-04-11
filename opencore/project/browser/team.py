@@ -1,4 +1,5 @@
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import transaction_note
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.MailHost.MailHost import MailHostError
 from Products.validation.validators.BaseValidators import EMAIL_RE
@@ -128,10 +129,9 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
         # now we have mem, a temp member. create him for real.
         mem_id = self.request.form.get('id')
         mem = pf.doCreate(mem, mem_id)
-        self.txn_note('Created %s with id %s in %s' % \
-                      (mem.getTypeInfo().getId(),
-                       mem_id,
-                       self.context.absolute_url()))
+        transaction_note('Created %s with id %s in %s' %
+                         (mem.getTypeInfo().getId(), mem_id,
+                          self.context.absolute_url()))
         result = mem.processForm()
         from zope.app.event.objectevent import ObjectCreatedEvent
         notify(ObjectCreatedEvent(mem))

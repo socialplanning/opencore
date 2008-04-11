@@ -55,23 +55,12 @@ class BaseView(BrowserView):
     # 
     truncate = staticmethod(truncate)
     txn_note = staticmethod(transaction_note)
-    getToolByName = getToolByName
     
-    def debug(self):
-        """@@ this should be calculated from conf"""
-        # i'm not sure i feel comfortable about this. what does it do? -egj
-        return True
-
     def get_config(self, section, option, default='', inifile=None):
         return get_config(section,option,default,inifile)
 
     # XXX only used by formlite in this fashion
     main_macros = ZopeTwoPageTemplateFile('main_macros.pt')
-
-    # XXX only used once, move into member/view
-    _url_for = dict(login="login", forgot="forgot", join="join")
-    def url_for(self, screen):
-        return '%s/%s' % (self.siteURL, self._url_for[screen])
 
     def project_url(self, project=None, page=None):
         """This should be the canonical way for views to get a url
@@ -123,7 +112,6 @@ class BaseView(BrowserView):
     def get_opencore_property(self, prop):
         return get_opencore_property(prop, aq_inner(self.context))
 
-    #XXX only used once, move into project.view
     def render_macro(self, macro, extra_context={}):
         """
         Returns a rendered page template which contains nothing but a
