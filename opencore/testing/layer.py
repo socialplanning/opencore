@@ -1,4 +1,5 @@
 from Testing import ZopeTestCase
+from Products.Five.site.localsite import enableLocalSiteHook
 from Products.PloneTestCase.layer import PloneSite, ZCML
 from Products.PloneTestCase.setup import setupPloneSite
 from opencore.project.handler import add_redirection_hooks 
@@ -71,6 +72,7 @@ class Install(ZCML):
         ZopeTestCase.installPackage('borg.localrole')
         make_objectmanager_site(ZopeTestCase.app())
         ZopeTestCase.installProduct('PleiadesGeocoder')
+        portal = get_portal_as_owner()
         enableLocalSiteHook(portal)
         setSite(portal)
         setHooks()
