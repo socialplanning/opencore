@@ -1,7 +1,7 @@
 """
 some base class for opencore ui work!
 """
-from Acquisition import aq_inner, aq_parent, aq_chain
+from Acquisition import aq_inner, aq_chain
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.Five import BrowserView
@@ -11,21 +11,17 @@ from lxml.html.clean import Cleaner
 from opencore.configuration.utils import get_config
 from opencore.i18n import i18n_domain, _
 from opencore.i18n import translate
-from opencore.interfaces import IProject 
 from opencore.interfaces import IHomePage
 from opencore.project.utils import project_noun
 from plone.memoize import instance
 from plone.memoize import view 
-from time import strptime
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.utils import zutils
 from topp.utils.pretty_date import prettyDate
-from zope.component import getMultiAdapter, adapts, adapter
+from zope.component import getMultiAdapter
 from zope.i18nmessageid import Message
 import DateTime
 import cgi
-import datetime
-import urllib
 import logging
 
 try:
