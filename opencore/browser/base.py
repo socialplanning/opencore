@@ -256,7 +256,6 @@ class BaseView(BrowserView):
         """
         return self.member_info_for_member(self.loggedinmember)
 
-    # XXX move to member.view
     @instance.memoizedproperty
     def viewed_member_info(self):
         """
@@ -264,25 +263,6 @@ class BaseView(BrowserView):
         viewed member for easy template access.
         """
         return self.member_info_for_member(self.viewedmember())
-
-    # XXX move to member.view
-    def viewed_member_profile_tags(self, field):
-        return self.member_profile_tags(self.viewedmember(), field)
-
-    # XXX move to member.view
-    def member_profile_tags(self, member, field):
-        """
-        Returns a list of dicts mapping each tag in the given field of the
-        given member's profile to a url corresponding to a search for that tag.
-        """
-        if IReMember.providedBy(member):
-            tags = getattr(member, 'get%s' % field.title())()
-            tags = tags.split(',')
-            tags = [tag.strip() for tag in tags if tag.strip()]
-            tagsearchurl = 'http://www.openplans.org/tagsearch/' # TODO
-            urls = [tagsearchurl + urllib.quote(tag) for tag in tags]
-            return [{'tag': tag, 'url': url} for tag, url in zip(tags, urls)]
-        return []
 
     def mship_brains_for(self, member):
         teamtool = getToolByName(self.context, 'portal_teams')

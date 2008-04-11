@@ -3,6 +3,7 @@ from Products.AdvancedQuery import Eq
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import transaction_note
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from Products.remember.interfaces import IReMember
 from datetime import datetime
 from datetime import timedelta
 from opencore.interfaces.membership import IEmailInvites
@@ -22,12 +23,13 @@ from zope.app.content_types import guess_content_type
 from zope.app.event.objectevent import ObjectModifiedEvent
 from zope.component import getUtility
 from zope.event import notify
-
+import urllib
 
 class ProfileView(BaseView):
 
     field_snippet = ZopeTwoPageTemplateFile('field_snippet.pt')
     member_macros = ZopeTwoPageTemplateFile('member_macros.pt') 
+
 
     # XXX this seems to be called twice when i hit /user/profile 
     #     or /user/profile/edit ... why is that?
@@ -156,11 +158,30 @@ class ProfileView(BaseView):
         """geo information for display in forms;
         takes values from request, falls back to existing member info
         if possible."""
+        # XXX Remove this, all geo stuff should be in opencore.geocoding.
         geo = get_geo_reader(self)
         info = geo.geo_info()
         # Override the static map image size. Ugh, sucks to have this in code.
         info['static_img_url'] = geo.location_img_url(width=285, height=285)
         return info
+
+    def viewed_member_profile_tags(self, field):
+        return self.member_profile_tags(self.viewedmember(), field)
+
+    def member_profile_tags(self, member, field):
+        """
+        Returns a list of dicts mapping each tag in the given field of the
+        given member's profile to a url corresponding to a search for that tag.
+        """
+        if IReMember.providedBy(member):
+            tags = getattr(member, 'get%s' % field.title())()
+            tags = tags.split(',')
+            tags = [tag.strip() for tag in tags if tag.strip()]
+            tagsearchurl = 'http://www.openplans.org/tagsearch/' # TODO
+            urls = [tagsearchurl + urllib.quote(tag) for tag in tags]
+            return [{'tag': tag, 'url': url} for tag, url in zip(tags, urls)]
+        return []
+
 
 class ProfileEditView(ProfileView, OctopoLite):
 
