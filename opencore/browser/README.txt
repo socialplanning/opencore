@@ -19,7 +19,7 @@ opencore.browser.base
     >>> view.siteURL
     'http://nohost/plone'
 
-    >>> view.sitetitle
+    >>> view.portal_title()
     'OpenCore Site'
 
 

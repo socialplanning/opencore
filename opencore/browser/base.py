@@ -434,10 +434,6 @@ class BaseView(BrowserView):
         return self.request.get('came_from') or self.siteURL
 
     @property
-    def sitetitle(self):
-        return self.portal.Title()
-
-    @property
     def name(self):
         return self.__name__
 
