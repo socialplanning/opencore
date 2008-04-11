@@ -127,7 +127,7 @@ def monkeyAppAsSite():
     from Products.Five.site.localsite import FiveSite
 
     from zope.interface import classImplements
-    from zope.app.component.interfaces import IPossibleSite, ISite
+    from zope.app.component.interfaces import IPossibleSite
     classSiteHook(OFS.Application.Application, FiveSite)
     classImplements(OFS.Application.Application, IPossibleSite)
 
