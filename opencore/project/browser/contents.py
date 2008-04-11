@@ -8,6 +8,7 @@ from opencore.nui import indexing
 from opencore.project import PROJ_HOME
 from opencore.project.browser.base import ProjectBaseView
 from opencore.project.browser.utils import vdict
+from opencore.utils import get_opencore_property
 from plone.memoize.instance import memoize, memoizedproperty
 from opencore.browser import tal
 
@@ -62,7 +63,7 @@ class ProjectContentsView(ProjectBaseView, OctopoLite):
     def tasktracker_url(self): 
         # XXX todo all this logic prob ought be in opencore.tasktracker.
 
-        loc = self.get_opencore_property('tasktracker_external_uri')
+        loc = get_opencore_property('tasktracker_external_uri')
 
         if loc.startswith('http://'): # XXX todo this is dumb
             return loc
