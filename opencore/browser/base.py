@@ -282,33 +282,6 @@ class BaseView(BrowserView):
     def project_brains(self):
         return self.project_brains_for(self.loggedinmember)
 
-    def mship_proj_map(self):
-        """map from team/project id's to {'mship': mship brain, 'proj': project brain}
-        maps. relies on the 1-to-1 mapping of team ids and project ids."""
-        mships = self.mship_brains_for(self.viewedmember())
-        mp_map = {}
-        for mship in mships:
-            team = mship.getPath().split('/')[-2]
-            mp_map[team] = dict(mship=mship)
-
-        projects = self.project_brains_for(self.viewedmember())
-        for proj in projects:
-            mp_map[proj.getId]['proj'] = proj
-
-        # XXX
-        # the mship and the corresponding project should have the same visibility
-        # permissions, such that the two queries yield len(projects) == len(mships).
-        # there could be a discrepancy, however (caused by not putting placeful
-        # workflow on the teams). the following will filter out items in the map
-        # for which the logged in member cannot view both the mship and the corresponding
-        # project of the viewed member.
-        mp_copy = dict(mp_map)
-        for (k, v) in mp_copy.items():
-            if not v.has_key('proj'):
-                del mp_map[k]
-
-        return mp_map
-
     def member_info_for_member(self, member):
         if member == None:
             # Not logged in.
