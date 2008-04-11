@@ -7,7 +7,7 @@ opencore.browser.base
 
     >>> view = BaseView(self.homepage, self.request)
     >>> view = view.__of__(self.homepage)
-    >>> view.get_portal()
+    >>> view.portal
     <PloneSite at /plone>
     
     >>> view.dob_datetime
