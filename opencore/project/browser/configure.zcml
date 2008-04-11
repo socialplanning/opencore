@@ -215,4 +215,12 @@
       factory="opencore.project.browser.team_membership.RequestMembershipWithEmail"
       />
 
+  <browser:viewletManager
+     name="opencore.feed_summaries"
+     provides=".interfaces.ISummaryFeeds"
+     class=".manager.SummaryManager"
+     template="summary.pt"
+     permission="zope2.View"
+     />
+
 </configure>

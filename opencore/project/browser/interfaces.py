@@ -1,4 +1,5 @@
 from zope.interface import Interface, Attribute
+from zope.viewlet.interfaces import IViewletManager
 
 class IProjectInfo(Interface):
     """
@@ -16,3 +17,6 @@ class IProjectListingAllow(Interface):
         """
         return project in a path in alphabetical order
         """
+
+class ISummaryFeeds(IViewletManager):
+    """Feeds for the summary page"""
