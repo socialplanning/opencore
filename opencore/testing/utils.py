@@ -1,7 +1,6 @@
 from AccessControl.SecurityManagement import newSecurityManager
-from Products.OpenPlans.Extensions.create_test_content import create_test_content
-from Products.PloneTestCase.setup import portal_name
 from Products.PloneTestCase.setup import portal_owner
+from Products.PloneTestCase.setup import portal_name
 from Testing import ZopeTestCase
 from plone.memoize import view, instance
 from zope.app.annotation.interfaces import IAnnotations
@@ -9,13 +8,11 @@ from zope.publisher.browser import TestRequest
 from zope.testing.cleanup import cleanUp
 from opencore.configuration.setuphandlers import Z_DEPS, DEPS
 
-
 def login_portal_owner(app=None):
     if app is None:
         app = ZopeTestCase.app()
     user = app.acl_users.getUser(portal_owner)
     newSecurityManager(app, user)
-
 
 def get_portal(app=None, portal_name=portal_name):
     if app is None:
