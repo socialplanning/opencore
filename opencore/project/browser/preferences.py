@@ -23,7 +23,7 @@ from topp.utils import zutils
 from zope.app.container.contained import IObjectRemovedEvent
 from zope.component import adapter, adapts
 from zope.interface import implements
-from zope.component import getUtility
+from zope.component import getUtility, getAdapters
 import inspect
 import logging
 
