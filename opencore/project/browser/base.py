@@ -1,5 +1,6 @@
+from Acquisition import aq_inner
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from opencore.browser.base import BaseView
+from opencore.browser.base import BaseView, view
 from opencore.geocoding.view import get_geo_reader
 from opencore.project import LATEST_ACTIVITY
 from opencore.project import PROJ_HOME
@@ -77,3 +78,31 @@ class ProjectBaseView(BaseView):
 
     valid_id = staticmethod(text.valid_id)
     valid_title = staticmethod(text.valid_title)
+
+    @view.mcproperty
+    def project_info(self):
+        """
+        Returns a dict containing information about the
+        currently-viewed project for easy template access.
+
+        calculated once
+        """
+
+        from opencore.interfaces.workflow import IReadWorkflowPolicySupport
+        proj_info = {}
+        if self.piv.inProject:
+            proj = aq_inner(self.piv.project)
+            security = IReadWorkflowPolicySupport(proj).getCurrentPolicyId()
+
+            proj_info.update(navname=proj.Title(),
+                             fullname=proj.getFull_name(),
+                             title=proj.Title(),
+                             security=security,
+                             url=proj.absolute_url(),
+                             description=proj.Description(),
+                             featurelets=self.piv.featurelets,
+                             location=proj.getLocation(),
+                             obj=proj)
+
+        return proj_info
+
