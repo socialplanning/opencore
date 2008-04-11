@@ -34,9 +34,8 @@ Z_DEPS = ('PlacelessTranslationService', 'Five', 'membrane', 'remember',
 
 MEM_DEPS = ('membrane', 'remember')
 
-DEPS = ('wicked', 'TeamSpace', 'CMFPlacefulWorkflow', 'RichDocument',
-        'listen', 'CMFDiffTool', 'CMFEditions',
-        'PleiadesGeocoder'
+DEPS = ('TeamSpace', 'CMFPlacefulWorkflow', 'RichDocument', 'listen',
+        'CMFDiffTool', 'CMFEditions', 'PleiadesGeocoder'
        )
 
 logger = None
