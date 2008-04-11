@@ -50,7 +50,6 @@ class BaseView(BrowserView):
     windowTitleSeparator = ' :: '
     site_iface = IPloneSiteRoot
 
-    # XXX only used by formlite in this fashion
     main_macros = ZopeTwoPageTemplateFile('main_macros.pt')
 
     def __init__(self, context, request):
