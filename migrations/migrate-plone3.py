@@ -33,8 +33,9 @@ tmt = n.portal_teams
 # to make it clearer below
 portal = n
 
-step_ids = ['activate_wicked',
-            ]
+steps = {'activate_wicked': dict(),
+         'typeinfo': dict(purge_old=True),
+         }
 
 # get the custom profile id by assuming that it's the one that
 # has 'opencore' in the name but is not 'default'  :-P
@@ -46,19 +47,23 @@ assert len(context_infos) == 1
 profile_id = context_infos[0]
 
 # helpful callable
-def run_import_step(setup_tool, step_id, run_deps=False):
+def run_import_step(setup_tool, step_id, run_deps=False, purge_old=None):
     """ run an import step via the setup tool """
     result = setup_tool.runImportStepFromProfile(profile_id,
                                                  step_id,
-                                                 run_dependencies=run_deps)
+                                                 run_dependencies=run_deps,
+                                                 purge_old=purge_old,
+                                                 )
     print_status_messages(result)
 
 # iterate through the steps
 print 'importing selected steps'
-for step_id in step_ids:
-    run_import_step(ps, step_id)
-print 'done importing selected steps'
-transaction.get().note('Ran import steps: %s' % ', '.join(step_ids))
+for step_id in steps:
+    purge = steps.get(step_id).get('purge_old', None)
+    run_import_step(ps, step_id, purge_old=purge)
+ran_steps = ', '.join(steps.keys())
+print 'done importing selected steps: %s' % ran_steps
+transaction.get().note('Ran import steps: %s' % ran_steps)
 transaction.commit()
 
 
