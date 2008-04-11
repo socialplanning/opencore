@@ -4,9 +4,7 @@ Preference view
 from DateTime import DateTime
 from OFS.interfaces import IObjectWillBeRemovedEvent
 from Products.CMFCore.utils import getToolByName
-from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from Products.TeamSpace.interfaces import ITeamSpaceTeamRelation
 from opencore.browser import formhandler
 from opencore.browser import tal
 from opencore.browser.base import _, BaseView
@@ -18,20 +16,16 @@ from opencore.interfaces.workflow import IReadWorkflowPolicySupport
 from opencore.geocoding.view import get_geo_writer
 from opencore.project.browser.base import ProjectBaseView
 from opencore.interfaces.membership import IEmailInvites
-from topp.clockqueue.interfaces import IClockQueue
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.supporter import FeatureletSupporter, IFeaturelet
 from topp.utils import text
 from topp.utils import zutils
 from zope.app.container.contained import IObjectRemovedEvent
 from zope.component import adapter, adapts
-from zope.component import getAdapters, queryAdapter
 from zope.interface import implements
 from zope.component import getUtility
 import inspect
 import logging
-import traceback
-import zExceptions
 
 
 log = logging.getLogger('opencore.project.browser.preferences')
