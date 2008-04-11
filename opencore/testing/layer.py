@@ -1,21 +1,23 @@
+from Acquisition import aq_chain
 from Testing import ZopeTestCase
-from Products.Five.site.localsite import enableLocalSiteHook
+from Testing import makerequest
+from Products.OpenPlans.Extensions.create_test_content import create_test_content
 from Products.PloneTestCase.layer import PloneSite, ZCML
 from Products.PloneTestCase.setup import setupPloneSite
+from five.localsitemanager import make_objectmanager_site
+from opencore.configuration.setuphandlers import DEPS
 from opencore.project.handler import add_redirection_hooks 
 from opencore.testing.utility import setup_mock_http
 from opencore.testing.utility import setup_mock_mailhost
 from opencore.testing.utility import teardown_mock_mailhost
 from opencore.testing.utility import setup_mock_config
 from opencore.utils import set_opencore_properties
-from utils import get_portal_as_owner, create_test_content
+from sys import stdout
+from utils import get_portal_as_owner
 from utils import zinstall_products
 from utils import monkey_proj_noun
-from zope.app.component.hooks import setSite, setHooks
 import random
 import transaction as txn
-from opencore.configuration.setuphandlers import DEPS
-from five.localsitemanager import make_objectmanager_site
 
 # i can't think of a better way to guarantee that the opencore tests
 # will never use a live cabochonutility. ideally oc-cab would take
@@ -25,6 +27,28 @@ try:
     from opencore.cabochon.testing.utility import setup_cabochon_mock
 except ImportError:
     setup_cabochon_mock = lambda *args: None
+
+def makerequest_decorator(orig_fn, obj):
+    def new_fn(app, stdout=stdout, environ=None):
+        app = orig_fn(app, stdout, environ)
+        req = app.REQUEST
+        chain = aq_chain(obj)
+        req['PARENTS'] = chain
+        return app
+    return new_fn
+
+def monkeypatch_makerequest(obj):
+    """
+    Monkey patches the makerequest function to add a PARENTS value
+    so PTS translations won't throw an error.
+    """
+    makerequest.orig_makerequest = makerequest.makerequest
+    makerequest.makerequest = makerequest_decorator(makerequest.makerequest,
+                                                    obj)
+
+def unmonkey_makerequest():
+    makerequest.makerequest = makerequest.orig_makerequest
+
 
 class MailHostMock(object):
     """
@@ -59,7 +83,6 @@ class BrowserIdManagerMock(object):
             return str(random.random())
 
 
-# XXX Do we use the 'Install' layer at all? (ra)
 class Install(ZCML):
     setupPloneSite(
         products = ('OpenPlans',) + DEPS,
@@ -72,10 +95,6 @@ class Install(ZCML):
         ZopeTestCase.installPackage('borg.localrole')
         make_objectmanager_site(ZopeTestCase.app())
         ZopeTestCase.installProduct('PleiadesGeocoder')
-        portal = get_portal_as_owner()
-        enableLocalSiteHook(portal)
-        setSite(portal)
-        setHooks()
 
         txn.commit()
         
@@ -98,12 +117,14 @@ class OpenPlansLayer(Install, PloneSite):
         portal.browser_id_manager = BrowserIdManagerMock()
         setup_cabochon_mock(portal)
         setup_mock_config()
+        monkeypatch_makerequest(portal)
         txn.commit()
 
     @classmethod
     def tearDown(cls):
         portal = get_portal_as_owner()
         teardown_mock_mailhost(portal)
+        unmonkey_makerequest()
         del portal.browser_id_manager
 
 class OpencoreContent(OpenPlansLayer):
