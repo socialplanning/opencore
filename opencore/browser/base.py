@@ -21,7 +21,6 @@ from time import strptime
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.utils import zutils
 from topp.utils.pretty_date import prettyDate
-from topp.utils.pretty_text import truncate
 from zope.component import getMultiAdapter, adapts, adapter
 from zope.i18nmessageid import Message
 import DateTime
@@ -50,8 +49,6 @@ class BaseView(BrowserView):
     defaultProjLogoThumbURL = '++resource++img/default-projlogo-thumb.gif'
     windowTitleSeparator = ' :: '
     site_iface = IPloneSiteRoot
-
-    truncate = staticmethod(truncate)
 
     # XXX only used by formlite in this fashion
     main_macros = ZopeTwoPageTemplateFile('main_macros.pt')

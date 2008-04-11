@@ -19,6 +19,7 @@ from opencore.member.interfaces import ICreateMembers
 from zope.app.event.objectevent import ObjectCreatedEvent
 from zope.component import getUtility
 from zope.event import notify
+from topp.utils.pretty_text import truncate
 import zExceptions
 
 import urllib
@@ -101,6 +102,8 @@ class InviteJoinView(JoinView, ConfirmAccountView):
     """
 
     template = ZopeTwoPageTemplateFile('invite-join.pt')
+
+    truncate = staticmethod(truncate)
 
     @property
     def proj_ids(self):
