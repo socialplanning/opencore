@@ -192,8 +192,8 @@ class BaseView(BrowserView):
             return self.portal
 
     def window_title(self, mode='view'):
-        """see http://trac.openplans.org/openplans/ticket/588.  mode
-        should be one of: 'view', 'edit', or 'history'."""
+        """see http://trac.openplans.org/openplans/ticket/588.
+        mode should be one of: 'view', 'edit', or 'history'."""
         if mode == 'view':
             mode = ''
         else:
