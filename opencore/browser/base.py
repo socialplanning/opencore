@@ -387,15 +387,13 @@ class BaseView(BrowserView):
         """
         return getToolByName(self.context, name)
 
-    # XXX move to project view
-    def get_portal(self):
+    @view.mcproperty
+    def portal(self):
         return aq_iface(self.context, self.site_iface)
 
     def portal_title(self):
         return self.portal.Title()
     
-    portal = property(view.memoize_contextless(get_portal))
-
     # XXX move to topnav
     @view.memoize
     def get_view(self, name):
