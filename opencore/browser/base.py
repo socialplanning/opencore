@@ -168,12 +168,6 @@ class BaseView(BrowserView):
 
     addPortalStatusMessage = add_status_message
 
-    # XXX not used
-    def include(self, viewname):
-        if self.transcluded:
-            return self.renderTranscluderLink(viewname)
-        return self.get_view(viewname)()
-
     @view.memoizedproperty
     def wiki_container(self):
         """
