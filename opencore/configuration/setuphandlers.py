@@ -430,7 +430,6 @@ def register_local_utility(portal, out, iface, klass, factory_fn=None,
         if not replace:
             return
         sm.unregisterUtility(component=util, provided=iface)
-        #portal.utilities.manage_delObjects(iface.__name__)
     try:
         if factory_fn is not None:
             obj = factory_fn()
