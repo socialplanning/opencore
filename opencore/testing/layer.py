@@ -16,6 +16,7 @@ from sys import stdout
 from utils import get_portal_as_owner
 from utils import zinstall_products
 from utils import monkey_proj_noun
+from zope.app.component.hooks import setSite
 import random
 import transaction as txn
 
@@ -49,24 +50,6 @@ def monkeypatch_makerequest(obj):
 def unmonkey_makerequest():
     makerequest.makerequest = makerequest.orig_makerequest
 
-
-class MailHostMock(object):
-    """
-    mock up the send method so that emails do not actually get sent
-    during automated tests
-    """
-    def __init__(self):
-        self.messages = []
-    def send(self, msg, mto=None, mfrom=None, subject=None):
-        msg = {'msg': msg,
-               'mto': mto,
-               'mfrom': mfrom,
-               'subject': subject,
-               }
-        self.messages.append(msg)
-    secureSend = send
-    def validateSingleEmailAddress(self, email):
-        return True
 
 class BrowserIdManagerMock(object):
     """
@@ -133,6 +116,7 @@ class OpencoreContent(OpenPlansLayer):
         portal = get_portal_as_owner()
         portal.clearCurrentSkin()
         portal.setupCurrentSkin(portal.REQUEST)
+        setSite(portal)
 
         # Many things depend on the word for project being 'project'.
         # Here's a hack to ensure that works at content creation time,
