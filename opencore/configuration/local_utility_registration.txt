@@ -49,7 +49,7 @@ the original)::
 Next, we will::
 
     >>> out = StringIO()
-    >>> register_local_utility(self.portal, out, INumberOne, Utility)
+    >>> register_local_utility(self.portal, out, INumberOne, Utility, replace=True)
     >>> out.getvalue()
     'INumberOne utility installed\n'
 
