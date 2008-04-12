@@ -1,3 +1,4 @@
+from Acquisition import Implicit
 from minimock import HTTPMock, ConfigMock
 from minimock import Mock
 from opencore.testing import alsoProvides
@@ -6,7 +7,7 @@ from opencore.utility.interfaces import IProvideSiteConfig
 from zope.component import provideUtility
 from Products.MailHost.interfaces import IMailHost
 
-class MailHostMock(object):
+class MailHostMock(Implicit):
     """
     mock up the send method so that emails do not actually get sent
     during automated tests
