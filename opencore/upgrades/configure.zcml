@@ -1,0 +1,12 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
+
+  <genericsetup:upgradeSteps
+     profile="profile-opencore.configuration:default"
+     source="0.10"
+     destination="1.0b1"
+     sortkey="10">
+
+  </genericsetup:upgradeSteps>
+
+</configure>

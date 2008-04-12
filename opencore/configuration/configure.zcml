@@ -21,6 +21,7 @@
   <include package="opencore.redirect" />
   <include package="opencore.utility" />
   <include package="opencore.geocoding" />
+  <include package="opencore.upgrades" />
   <include package="topp.featurelets" />
   <include package="opencore.stats" />
   <topp:includePlugins target="opencore" />
