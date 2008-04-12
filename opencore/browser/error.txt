@@ -28,9 +28,11 @@ On error, an email should get sent out.
 
 Get the mailhost::
 
-    >>> mh = self.portal.MailHost
+    >>> from zope.component import getUtility
+    >>> from Products.MailHost.interfaces import IMailHost
+    >>> mh = getUtility(IMailHost)
     >>> mh
-    <...MockMailHost at ...>
+    <...MailHostMock...at ...>
     >>> len(mh.messages)
     0
 
@@ -54,15 +56,11 @@ Verify the contents of the email::
 
     >>> msg = mh.messages[0]
     >>> from pprint import pprint
-    >>> pprint(msg.items())
-    [('To', ['bogus@example.com']),
-     ('From', 'anonymous@example.com'),
-     ('Subject', '[OpenCore Site] site error report')]
-    >>> print msg.get_payload()
-    On 2000-01-01 01:02:03.123456, anonymous@example.com went to the URL http://nohost/plone/error/url.
-    <BLANKLINE>
-    Did: what i did
-    <BLANKLINE>
-    Expected: what i expected
-    <BLANKLINE>
-    Traceback: here is the traceback
+    >>> items = msg.items()
+    >>> items.sort()
+    >>> pprint(items)
+    [('mfrom', 'anonymous@example.com'),
+     ('msg',
+      'On 2000-01-01 01:02:03.123456, anonymous@example.com went to the URL http://nohost/plone/error/url.\n\nDid: what i did\n\nExpected: what i expected\n\nTraceback: here is the traceback'),
+     ('mto', ['bogus@example.com']),
+     ('subject', '[OpenCore Site] site error report')]

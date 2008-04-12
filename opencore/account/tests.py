@@ -1,17 +1,11 @@
-from Products.PasswordResetTool.tests.test_doctests import MockMailHostTestCase
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
-from Testing import ZopeTestCase
-from Testing.ZopeTestCase import FunctionalDocFileSuite
-from Testing.ZopeTestCase import PortalTestCase 
-from opencore.account.utils import email_confirmation, turn_confirmation_on
+from opencore.account.utils import turn_confirmation_on
 from opencore.member.interfaces import IHandleMemberWorkflow
 from opencore.testing import dtfactory as dtf
 from opencore.testing.layer import MockHTTPWithContent, OpencoreContent
 from zope.app.component.hooks import setSite
 from zope.interface import implements
 from zope.testing import doctest
-import os
-import sys
 import unittest
 
 #import warnings; warnings.filterwarnings("ignore")
@@ -85,14 +79,13 @@ def test_suite():
                   'normalize_whitespace': normalize_whitespace})
 
     readme = dtf.ZopeDocFileSuite("README.txt",
-                                        optionflags=optionflags,
-                                        package='opencore.account',
-                                        test_class=MockMailHostTestCase,
-                                        globs = globs,
-                                        setUp=readme_setup,
-                                        layer=MockHTTPWithContent
-                                        )
-    # XXX vacuum probably doesn't need the MockMailHost stuff?
+                                  optionflags=optionflags,
+                                  package='opencore.account',
+                                  test_class=OpenPlansTestCase,
+                                  globs = globs,
+                                  setUp=readme_setup,
+                                  layer=MockHTTPWithContent
+                                  )
     vacuum = dtf.ZopeDocFileSuite("vacuum.txt",
                                   optionflags=optionflags,
                                   package='opencore.account',
@@ -105,7 +98,7 @@ def test_suite():
     invite = dtf.ZopeDocFileSuite("invite-join.txt",
                                   optionflags=optionflags,
                                   package='opencore.account',
-                                  test_class=MockMailHostTestCase,
+                                  test_class=OpenPlansTestCase,
                                   globs = globs,
                                   setUp=readme_setup,
                                   layer=MockHTTPWithContent
