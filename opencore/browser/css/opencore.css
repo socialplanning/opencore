@@ -463,6 +463,12 @@ dl.oc-plainList dd {
   clear: none;
   width: 47%;
 }
+/* columns should be full-width and unfloated when in the sidebar */
+#oc-content-sidebar .oc-column {
+  float:none;
+  width:auto;
+}
+
 #oc-home-news h2 {
 	background: #6BA12A;
 }
@@ -1226,6 +1232,13 @@ height: 1em; */
 	padding: 0.25em;
   margin: 0;
 }
+.oc-feed-title a:link,
+.oc-feed-title a:visited {
+	color: #fff;
+}
+.oc-feed-title a:hover {
+	color: #eb852b;
+}
 .oc-feed-list, .oc-feed-cluster {
   list-style: none;
   margin: 0;
@@ -1284,6 +1297,9 @@ li.oc-feed-item .oc-feed-item-data.oc-actions {
   padding: 0.25em;
   text-transform: uppercase;
   font-weight: bold;
+}
+.oc-blankSlate img {
+  float:right;
 }
 
 /* Invitations Widget */
