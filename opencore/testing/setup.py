@@ -1,7 +1,6 @@
 """
 some basic opencore setups
 """
-from Products.Five.site.localsite import enableLocalSiteHook
 from zope.app.component.hooks import setSite, setHooks
 
 def simple_setup(tc):

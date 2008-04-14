@@ -1,4 +1,3 @@
-from Products.Five.site.localsite import enableLocalSiteHook
 from Products.PleiadesGeocoder.geocode import Geocoder
 from opencore.testing import setup as oc_setup
 from opencore.testing.minimock import Mock
