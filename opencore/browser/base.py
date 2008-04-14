@@ -447,11 +447,10 @@ class BaseView(BrowserView):
     def loggedin(self):
         return not self.membertool.isAnonymousUser()
 
-    #egj: this feels very convoluted, do we need to do it this way?
-    # XXX move to member.view
     @view.memoize
     def viewedmember(self):
         """Returns the user found in the context's acquisition chain, if any."""
+        #egj: this feels very convoluted, do we need to do it this way?
         return self.miv.member
 
     @view.memoizedproperty
