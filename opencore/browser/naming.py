@@ -6,7 +6,6 @@ see: setup.txt and wiki/add.txt for usage
 from zope.interface import providedBy
 from zope.app.apidoc.component import getRequiredAdapters as get_required
 from zope.publisher.interfaces import IRequest
-from opencore.browser.formhandler import button, post_only, anon_only, octopus
 from zExceptions import Redirect
 from opencore.browser.base import BaseView
 import itertools
