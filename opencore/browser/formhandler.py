@@ -3,6 +3,9 @@
 import logging
 import opencore.browser.octopus
 
+# pw: dunno why, but lots of things import action from here instead of
+# from browser.octopus.
+from opencore.browser.octopus import action
 from zExceptions import Forbidden
 
 log = logging.getLogger('opencore.browser.formhandler')
