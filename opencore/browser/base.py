@@ -394,6 +394,8 @@ class BaseView(BrowserView):
 
     @property
     def came_from(self):
+        # pw: as of 2008/04/14, not much uses this base class implementation,
+        # but formhandler.anon_only requires all views to have it.
         return self.request.get('came_from') or self.siteURL
 
     @property
