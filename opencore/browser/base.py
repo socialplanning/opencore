@@ -411,10 +411,6 @@ class BaseView(BrowserView):
     def handle_request(self):
         raise NotImplementedError
 
-    # XXX remove, unused
-    def projectobj(self): # TODO
-        return self.piv.project
-
     # properties and methods associated with members
 
     @property
