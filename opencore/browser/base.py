@@ -411,11 +411,6 @@ class BaseView(BrowserView):
     def handle_request(self):
         raise NotImplementedError
 
-    # XXX remove unused
-    @staticmethod
-    def renderTranscluderLink(viewname):
-        return '<a href="@@%s" rel="include">%s</a>\n' % (viewname, viewname)
-
     # XXX remove, unused
     def projectobj(self): # TODO
         return self.piv.project
