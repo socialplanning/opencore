@@ -400,6 +400,9 @@ class BaseView(BrowserView):
 
     @property
     def name(self):
+        """The name this view is registered for. We sometimes use this
+        for constructing a link to the current view (for
+        eg. self-posting forms"""
         return self.__name__
 
     # remove (should be part of a form base class)
