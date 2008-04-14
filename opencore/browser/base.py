@@ -405,7 +405,9 @@ class BaseView(BrowserView):
         eg. self-posting forms"""
         return self.__name__
 
-    # remove (should be part of a form base class)
+    # This is only here for documentation purposes; a lot of our form
+    # handlers have a handle_request implementation.  Should it be
+    # defined on some interface instead?
     def handle_request(self):
         raise NotImplementedError
 
