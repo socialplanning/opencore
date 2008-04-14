@@ -456,13 +456,6 @@ class BaseView(BrowserView):
 
     # properties and methods associated with objects
 
-    # unused??
-    def projectFeaturelets(self):
-        fletsupporter = IFeatureletSupporter(self.context)
-        featurelet_ids = fletsupporter.getInstalledFeatureletIds()
-        featurelets = [{'name': id, 'url' : fletsupporter.getFeatureletDescriptor(id)['content'][0]['id']} for id in featurelet_ids]
-        return featurelets
-
     @property
     def membranetool(self):
         return self.get_tool('membrane_tool')
