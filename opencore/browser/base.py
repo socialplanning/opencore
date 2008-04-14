@@ -178,7 +178,7 @@ class BaseView(BrowserView):
 
     @view.memoizedproperty
     def area(self):
-        if self.inmember:
+        if self.miv.inMemberArea or self.miv.inMemberObject:
             return self.miv.member_folder or self.miv.member_object
         elif self.piv.inProject:
             return self.piv.project
@@ -198,7 +198,7 @@ class BaseView(BrowserView):
         context = self.context
         title = context.Title().decode("utf-8")
 
-        if self.inmember:
+        if self.miv.inMemberArea or self.miv.inMemberObject:
             vmi = self.viewed_member_info
             if not mode and vmi['home_url'] == context.absolute_url():
                 # viewing member homepage
@@ -206,7 +206,7 @@ class BaseView(BrowserView):
             else:
                 return '%s %s- %s on %s' % (title, mode, vmi['id'],
                                             self.portal.Title())
-        elif self.inproject:
+        elif self.piv.inProject:
             project = self.piv.project
             if not mode and self.context.getId() == IHomePage(project).home_page:
                 # viewing project home page
@@ -453,15 +453,8 @@ class BaseView(BrowserView):
         #egj: this feels very convoluted, do we need to do it this way?
         return self.miv.member
 
-    @view.memoizedproperty
-    def inmember(self):
-        return (self.miv.inMemberArea or self.miv.inMemberObject)
 
     # properties and methods associated with objects
-
-    @property
-    def inproject(self):
-        return self.piv.inProject
 
     def is_project_member(self, id=None):
         """
