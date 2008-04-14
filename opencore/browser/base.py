@@ -418,7 +418,6 @@ class BaseView(BrowserView):
         if self.loggedin:
             return self.membertool.getAuthenticatedMember()
 
-    # XXX move to topnav
     @view.memoize
     def memfolder(self, id_=None):
         if id_ is None:
