@@ -456,24 +456,6 @@ class BaseView(BrowserView):
 
     # properties and methods associated with objects
 
-    def is_project_member(self, id=None):
-        """
-        doess the currently authenticated member belong to the project?
-        """
-        if id is None:
-            id = self.member_info.get('id')
-        
-        # if somebody calls this function in a template without first checking
-        # if were in a project, then we get a failure if we don't check if
-        # the project is None
-        proj = self.piv.project
-        if proj is None:
-            return False
-        team = proj.getTeams()[0]
-        filter_states = tuple(team.getActiveStates()) + ('pending',)
-        return id in team.getMemberIdsByStates(filter_states)
-
-
     # unused??
     def projectFeaturelets(self):
         fletsupporter = IFeatureletSupporter(self.context)
