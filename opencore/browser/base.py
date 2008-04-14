@@ -351,6 +351,10 @@ class BaseView(BrowserView):
             
     # tool and view handling
 
+    # PW: I don't know what motivated caching tool lookups; I did some
+    # quick timeit benchmarks and determined that this saves maybe
+    # 0.00001 seconds per lookup, so I really doubt there will ever be
+    # a bottleneck here.
     @view.memoize_contextless
     def get_tool(self, name):
         """
@@ -415,7 +419,7 @@ class BaseView(BrowserView):
 
     def is_project_member(self, id=None):
         """
-        doess the currently authenticated member belong to the project?
+        does the currently authenticated member belong to the project?
         """
         if id is None:
             id = self.member_info.get('id')
@@ -429,7 +433,6 @@ class BaseView(BrowserView):
         team = proj.getTeams()[0]
         filter_states = tuple(team.getActiveStates()) + ('pending',)
         return id in team.getMemberIdsByStates(filter_states)
-
 
     @property
     def loggedinmember(self):
@@ -483,10 +486,6 @@ class BaseView(BrowserView):
         return self.get_tool('portal_membership')
     
     @property
-    def memberdatatool(self):
-        return self.get_tool('portal_memberdata')
-
-    @property
     def catalog(self):
         return self.get_tool('portal_catalog')
 
@@ -520,7 +519,7 @@ class BaseView(BrowserView):
     
 
     def is_member(self, id):
-        return self.memberdatatool.get(id) is not None
+        return self.get_tool('portal_memberdata').get(id) is not None
 
     # XXX move to a form base class
     def authenticator(self):
