@@ -1,12 +1,9 @@
 """Decorators for working with form submission"""
-import sys
+
 import logging
-from zExceptions import Forbidden
-
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-
 import opencore.browser.octopus
-from opencore.browser.octopus import action
+
+from zExceptions import Forbidden
 
 log = logging.getLogger('opencore.browser.formhandler')
 
@@ -196,13 +193,13 @@ class FormLite(object):
             return self.actions.default(self)
 
     
-import os, sys, unittest, doctest
-from zope.testing import doctest
 
-flags = doctest.ELLIPSIS | doctest.REPORT_ONLY_FIRST_FAILURE
 
 def test_suite():
+    from zope.testing import doctest
+    flags = doctest.ELLIPSIS | doctest.REPORT_ONLY_FIRST_FAILURE
     return doctest.DocFileSuite('octopolite.txt', optionflags=flags)
 
 if __name__ == '__main__':
+    import unittest
     unittest.TextTestRunner().run(test_suite())
