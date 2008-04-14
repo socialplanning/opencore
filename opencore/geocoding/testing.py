@@ -41,7 +41,6 @@ def restore_geocoder():
 
 def readme_setup(tc):
     oc_setup.fresh_skin(tc)
-    enableLocalSiteHook(tc.portal)
     setSite(tc.portal)
     setHooks()
     setup_mock_geocoder()
