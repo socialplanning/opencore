@@ -366,9 +366,9 @@ class BaseView(BrowserView):
     def portal_title(self):
         return self.portal.Title()
     
-    # XXX move to topnav
     @view.memoize
     def get_view(self, name):
+        # as of 2008/04/14, this is only used by this class and topnav
         view = getMultiAdapter((self.context, self.request), name=name)
         return view.__of__(aq_inner(self.context))
 
@@ -387,6 +387,9 @@ class BaseView(BrowserView):
 
     @property
     def siteURL(self):
+        # pw: This is used all over the place, but many of those are
+        # hardcoded paths relative to the site and should probably instead
+        # be some_object.absolute_url()
         return aq_inner(self.portal).absolute_url()
 
     @property
