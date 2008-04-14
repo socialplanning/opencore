@@ -17,6 +17,7 @@ from opencore.interfaces.membership import IEmailInvites
 from opencore.project.browser.team import TeamRelatedView
 from plone.memoize.view import memoize as req_memoize
 from opencore.project.browser import mship_messages
+from opencore.project.browser.base import ProjectBaseView
 from opencore.account.browser import AccountView
 from zope.component import getUtility
 from zope.event import notify
@@ -34,7 +35,8 @@ TA_SPLIT = re.compile('\n|,')
 def _email_sender(view):
     return EmailSender(view, mship_messages)
 
-class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView):
+class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
+                     ProjectBaseView):
     """
     View class for the team management screens.
     """
