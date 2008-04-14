@@ -1,3 +1,4 @@
+import re
 from opencore.project.browser.base import ProjectBaseView
 
 class LatestActivityView(ProjectBaseView):
@@ -49,22 +50,4 @@ class LatestActivityView(ProjectBaseView):
 
     def team_feed(self):
         return self.feed('teamfeed')
-
-    def is_project_member(self, id=None):
-        """
-        doess the currently authenticated member belong to the project?
-        """
-        if id is None:
-            id = self.member_info.get('id')
-        
-        # if somebody calls this function in a template without first checking
-        # if we're in a project, then we get a failure if we don't check if
-        # the project is None
-        proj = self.piv.project
-        if proj is None:
-            return False
-        team = proj.getTeams()[0]
-        filter_states = tuple(team.getActiveStates()) + ('pending',)
-        return id in team.getMemberIdsByStates(filter_states)
-
 
