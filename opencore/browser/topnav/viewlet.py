@@ -32,18 +32,18 @@ def contained_item_url(viewlet):
 
 def people_url(viewlet):
     """return url of the people folder"""
-    portal = getToolByName(viewlet.context, 'portal_url').getPortalObject()
-    return '%s/people' % portal.absolute_url()
+    portal_url = getToolByName(viewlet.context, 'portal_url')()
+    return '%s/people' % portal_url
 
 def projects_url(viewlet):
     """return url of the projects folder"""
-    portal = getToolByName(viewlet.context, 'portal_url').getPortalObject()
-    return '%s/projects' % portal.absolute_url()
+    portal_url = getToolByName(viewlet.context, 'portal_url')()
+    return '%s/projects' % portal_url
 
 def project_create_url(viewlet):
     """return the url of the project creation page"""
-    portal = getToolByName(viewlet.context, 'portal_url').getPortalObject()
-    return '%s/projects/create' % portal.absolute_url()
+    portal_url = getToolByName(viewlet.context, 'portal_url')()
+    return '%s/projects/create' % portal_url
 
 def member_wiki_url(viewlet):
     """return the url to the viewed user's wiki home page"""
