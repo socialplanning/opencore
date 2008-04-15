@@ -21,9 +21,9 @@ from opencore.configuration.setuphandlers import setupHomeLayout
 from opencore.featurelets.interfaces import IListenFeatureletInstalled
 from opencore.interfaces import IOpenPage, INewsItem, IHomePage
 from opencore.listen.events import listen_featurelet_installed
-from opencore.browser.naming import get_view_names
 from opencore.project.browser.metadata import _update_last_modified_author
 from opencore.project import PROJ_HOME
+from opencore.upgrade.utils import move_blocking_content
 from topp.featurelets.interfaces import IFeatureletSupporter
 from topp.featurelets.interfaces import IFeatureletRegistry
 from topp.utils import config
@@ -37,23 +37,6 @@ logger = getLogger('opencore.nui.setup')
 
 HERE = os.path.dirname(__file__)
 ALIASES = os.path.join(HERE, 'aliases.cfg')
-
-
-def move_blocking_content(portal):
-    try:
-        proj = portal.projects[portal.projects.objectIds()[1]]
-    except IndexError:
-        return
-    names = get_view_names(proj, ignore_dummy=True)
-    projects_path = '/'.join(portal.projects.getPhysicalPath())
-    blockers = portal.portal_catalog(getId=list(names), path=projects_path)
-    for blocker in blockers:
-        obj = blocker.getObject()
-        parent = obj.aq_parent
-        id_ = obj.getId()
-        if parent != portal.projects:
-            new_id = "%s-page" % id_
-            parent.manage_renameObjects([obj.getId()], [new_id])
 
 def reindex_membrane_tool(portal):
     # XXX this should trigger the GS import step to be run if it's ever
