@@ -366,7 +366,7 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
         teams = self.getTeams()
         for team in teams:
             filter_states = tuple(team.getActiveStates()) + ('pending',)
-            if id in team.getMemberIdsByStates(filter_states):
+            if mem_id in team.getMemberIdsByStates(filter_states):
                 return True
         return False
 
