@@ -1,9 +1,21 @@
+from opencore.i18n import _
 from opencore.interfaces import IOpenPage
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.adding import IAmAPeopleFolder
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from topp.utils import zutils
+from Products.Five.viewlet.viewlet import ViewletBase
+
+class TopnavViewletBase(ViewletBase):
+    """Base viewlet class that delegates to BaseView to perform the translation"""
+
+    @property
+    def text(self):
+        """create a message object and delegate to the BaseView translate"""
+        message = _(self._text)
+        view = self.__parent__
+        return view.translate(message)
 
 # all viewlet methods used for the menuitem registration
 # can be found below
