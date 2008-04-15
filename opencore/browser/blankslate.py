@@ -15,12 +15,15 @@ class BlankSlateViewlet(ViewletBase):
         # and an is_blank function
         assert self.is_blank
 
-        self.context = getAdapter(self.context, IFeedData, self.adapter_name)
+        self.context = self.adapt()
 
         if self.is_blank():
             return self.blank_template()
         else:
             return self.template()
+
+    def adapt(self):
+        return getAdapter(self.context, IFeedData, self.adapter_name)
 
     def pretty_date(self, date):
         # XXX this is copy/pasted
