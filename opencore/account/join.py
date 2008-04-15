@@ -26,9 +26,6 @@ import zExceptions
 
 import urllib
 
-def bzorch(view):
-    return view.context.portal_url()
-    
 class JoinView(browser.AccountView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('join.pt')
