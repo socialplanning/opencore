@@ -1,8 +1,5 @@
-import os, sys, unittest
+import unittest
 from zope.testing import doctest
-from Testing import ZopeTestCase
-from Testing.ZopeTestCase import PortalTestCase 
-from Testing.ZopeTestCase import FunctionalDocFileSuite
 from opencore.testing.layer import OpencoreContent as test_layer
 from Products.OpenPlans.tests.openplanstestcase import OpenPlansTestCase
 from opencore.testing import dtfactory as dtf

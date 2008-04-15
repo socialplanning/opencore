@@ -1,8 +1,6 @@
-import os, sys, unittest
+import unittest
 from zope.testing import doctest
 from zope.app.component.hooks import setSite, setHooks
-from Products.Five.site.localsite import enableLocalSiteHook
-from Testing import ZopeTestCase
 from opencore.testing import dtfactory
 from opencore.testing.layer import OpencoreContent, OpenPlansLayer
 
@@ -37,7 +35,6 @@ def test_suite():
 
     def setup_search(tc):
         setup(tc)
-        enableLocalSiteHook(tc.portal)
         setSite(tc.portal)
         setHooks()
         
