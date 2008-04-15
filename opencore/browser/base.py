@@ -394,6 +394,8 @@ class BaseView(BrowserView):
         # pw: This is used all over the place, but many of those are
         # hardcoded paths relative to the site and should probably instead
         # be some_object.absolute_url()
+        # XXX And why do we need yet another nonstandard spelling
+        # of context.portal_url()? 
         return aq_inner(self.portal).absolute_url()
 
     @property
@@ -471,10 +473,6 @@ class BaseView(BrowserView):
     @property
     def catalog(self):
         return self.get_tool('portal_catalog')
-
-    @property
-    def portal_url(self):
-        return self.get_tool('portal_url')
 
     @instance.clearbefore
     def _clear_instance_memos(self):

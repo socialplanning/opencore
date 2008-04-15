@@ -4,6 +4,8 @@ Join Views
 * normal join view
 * separate pre-confirmed view for folks already invited to a project
 """
+
+from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.account import browser
 from opencore.account import utils
@@ -62,7 +64,8 @@ class JoinView(browser.AccountView, OctopoLite):
                                               u'Thanks for joining ${portal_title}, ${mem_id}!<br/>\nA confirmation email has been sent to you with instructions on activating your account.',
                                               mapping={u'mem_id':mem.getId(),
                                                        u'portal_title':self.portal_title()}))
-                self.redirect(self.portal_url() + '/message')
+                portal_url = getToolByName(self.context, 'portal_url')()
+                self.redirect(portal_url + '/message')
             return mem
         self.redirect(url)
         return mem

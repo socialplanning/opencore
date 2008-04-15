@@ -2,6 +2,7 @@
 login views
 """
 import logging
+from Products.CMFCore.utils import getToolByName
 from opencore.account.browser import AccountView
 from opencore.account.utils import email_confirmation
 from opencore.browser.base import BaseView, _
@@ -126,7 +127,8 @@ class LoginView(AccountView):
         # We need a valid url in order to perform further tests
         if not url:
             return False
-        if url.startswith(self.portal_url()) and url not in self.boring_urls:
+        if url.startswith(getToolByName(self.context, 'portal_url')()) and \
+               url not in self.boring_urls:
             return True
         raw_list = get_config('applications', 'opencore_vacuum_whitelist', default='').split(',')
         vacuum_whitelist = [x.strip() for x in raw_list if x.strip()]

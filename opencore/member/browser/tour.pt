@@ -18,12 +18,12 @@
         </div>
         
         <div class="oc-getstarted">
-          <h2 i18n:translate="tour_join_projects_heading"><a tal:attributes="href string:${view/portal_url}/projects">Join a <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> and help it succeed</a></h2>
+          <h2 i18n:translate="tour_join_projects_heading"><a tal:attributes="href string:${context/portal_url}/projects">Join a <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> and help it succeed</a></h2>
           <p i18n:translate="tour_join_projects_desc">Found something you're interested in? Want to volunteer an hour of your time? Join a <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> and help someone's vision become a reality.</p>
         </div>
         
         <div class="oc-getstarted">
-          <h2 i18n:translate="tour_start_projects_heading"><a tal:attributes="href string:${view/portal_url}/projects/create">Start your own <span i18n:name="project_noun" tal:replace="view/project_noun">project</span></a></h2>
+          <h2 i18n:translate="tour_start_projects_heading"><a tal:attributes="href string:${context/portal_url}/projects/create">Start your own <span i18n:name="project_noun" tal:replace="view/project_noun">project</span></a></h2>
           <p i18n:translate="tour_start_projects_desc">Is there something you'd like to do? Install bike parking? Create a community garden? Throw a block party? Start your own <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> and use our toolkit to stay organized.</p>
         </div>
       </div><!-- end #oc-content-main -->
@@ -39,7 +39,7 @@
                     tal:define="proj_id projinfo/proj_id"
                     tal:attributes="id string:${proj_id}_invitation"> 
                   <p i18n:translate="tour_invite" class="oc-invite-content">
-                    <a href="" i18n:name="project" tal:attributes="href string:${view/portal_url}/projects/${proj_id}" tal:content="projinfo/title">Animal Campaign</a> 
+                    <a href="" i18n:name="project" tal:attributes="href string:${context/portal_url}/projects/${proj_id}" tal:content="projinfo/title">Animal Campaign</a> 
                     has invited you to become a member
                   </p>
                   <ul class="oc-actions oc-invite-actions oc-actionClose"

@@ -2,6 +2,7 @@
 can work with.
 """
 
+from Products.CMFCore.utils import getToolByName
 from Products.PleiadesGeocoder.geo import GeoItemSimple
 from Products.PleiadesGeocoder.interfaces.simple import IGeoItemSimple
 from opencore.member.interfaces import IOpenMember
@@ -27,7 +28,8 @@ class MemberGeoItem(GeoItemSimple):
         member = self.context
         member_id = member.getId()
         # there's surely a better way to get this url.
-        home_url = '%s/%s' % (member.portal_url(), member_path(member_id))
+        portal_url = getToolByName(member, 'portal_url')()
+        home_url = '%s/%s' % (portal_url, member_path(member_id))
         properties = {
             'language': member.getProperty('language'),
             'location': member.getProperty('location'),
