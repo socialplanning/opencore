@@ -363,8 +363,7 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
             mem_id = membertool.getAuthenticatedMember().getId()
         if not mem_id:
             return False
-        teams = self.getTeams()
-        for team in teams:
+        for team in self.getTeams():
             filter_states = tuple(team.getActiveStates()) + ('pending',)
             if mem_id in team.getMemberIdsByStates(filter_states):
                 return True
@@ -376,7 +375,7 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
             mem_id = membertool.getAuthenticatedMember().getId()
         if not mem_id:
             return False
-        
+
         team = self.getTeams()[0]
         return team.getHighestTeamRoleForMember(mem_id) == DEFAULT_ROLES[-1] 
 
