@@ -357,6 +357,19 @@ class OpenProject(BrowserDefaultMixin, TeamSpaceMixin, BaseBTreeFolder):
                     team_roles[role] = 1
         return team_roles.keys()
 
+    def isProjectMember(self, mem_id=None):
+        if mem_id is None:
+            membertool = getToolByName(self, 'portal_membership')
+            mem_id = membertool.getAuthenticatedMember().getId()
+        if not mem_id:
+            return False
+        teams = self.getTeams()
+        for team in teams:
+            filter_states = tuple(team.getActiveStates()) + ('pending',)
+            if id in team.getMemberIdsByStates(filter_states):
+                return True
+        return False
+
     def isProjectAdmin(self, mem_id=None):
         if mem_id is None:
             membertool = getToolByName(self, 'portal_membership')
