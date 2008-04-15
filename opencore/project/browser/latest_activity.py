@@ -21,12 +21,8 @@ class LatestActivityView(ProjectBaseView):
         returns whether the member has permission to manage the team
         """
         # XXX this method is deprecated
+        # should be replaced with below v
         return self.context.isProjectAdmin()
-        mem_id = self.member_info.get('id')
-        if mem_id is None:
-            return False
-        return mem_id in self.context.projectMemberIds(admin_only=True)
-
         
     ### methods to obtain feed snippets
     ### TODO: use viewlets
@@ -46,3 +42,5 @@ class LatestActivityView(ProjectBaseView):
     def team_feed(self):
         return self.feed('teamfeed')
 
+
+    
