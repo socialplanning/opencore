@@ -87,16 +87,6 @@ def test_suite():
                                         setUp=readme_setup,
                                         layer=MockHTTPWithContent
                                         )
-    # XXX vacuum probably doesn't need the MockMailHost stuff?
-    vacuum = dtf.ZopeDocFileSuite("vacuum.txt",
-                                  optionflags=optionflags,
-                                  package='opencore.account',
-                                  test_class=OpenPlansTestCase,
-                                  globs = globs,
-                                  setUp=readme_setup,
-                                  layer=MockHTTPWithContent
-                                  )
-
     invite = dtf.ZopeDocFileSuite("invite-join.txt",
                                   optionflags=optionflags,
                                   package='opencore.account',
@@ -124,7 +114,7 @@ def test_suite():
                                        layer = OpencoreContent
                                        )
 
-    return unittest.TestSuite((readme, invite, confirm, first_login, vacuum))
+    return unittest.TestSuite((readme, invite, confirm, first_login))
 
 
 if __name__ == '__main__':

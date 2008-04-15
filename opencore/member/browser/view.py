@@ -1,27 +1,14 @@
 from DateTime import DateTime
 from Products.AdvancedQuery import Eq
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import transaction_note
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
-from datetime import datetime
-from datetime import timedelta
-from opencore.interfaces.membership import IEmailInvites
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
 from opencore.geocoding.view import get_geo_reader
 from opencore.geocoding.view import get_geo_writer
-from opencore.interfaces.message import ITransientMessage
-from opencore.project.utils import project_path
 from plone.memoize.view import memoize as req_memoize
-from time import gmtime
-from time import strftime
 from topp.utils.pretty_date import prettyDate
-from urlparse import urlsplit
-from urlparse import urlunsplit
-from zope.app.content_types import guess_content_type
 from zope.app.event.objectevent import ObjectModifiedEvent
-from zope.component import getUtility
 from zope.event import notify
 import urllib
 
@@ -132,53 +119,6 @@ class ProfileView(BaseView):
             return portrait_url
         timestamp = str(DateTime()).replace(' ', '_')
         return '%s?%s' % (portrait_url, timestamp)
-
-    def trackbacks(self):
-        self.msg_category = 'Trackback'
-
-        tm = ITransientMessage(self.portal)
-        mem_id = self.viewed_member_info['id']
-        msgs = tm.get_msgs(mem_id, self.msg_category)
-
-        timediff = datetime.now() - timedelta(days=60)
-        old_messages = [(idx, value) for (idx, value) in msgs if value['time'] < timediff]
-        for (idx, value) in old_messages:
-            tm.pop(mem_id, self.msg_category, idx)
-        if old_messages:
-            # We've removed messages, so we should refresh the list
-            msgs = tm.get_msgs(mem_id, self.msg_category)
-
-        # We want to insert the indexes into the values so that we can properly address them for deletion
-        addressable_msgs = []
-        for (idx, value) in msgs:
-            if 'excerpt' not in value.keys():
-                tm.pop(mem_id, self.msg_category, idx)
-                value['excerpt'] = ''
-                tm.store(mem_id, self.msg_category, value)
-
-                # XXX TODO: We don't want to display escaped HTML entities,
-                # eg. if the comment text contains "I paid &#8364;20
-                # for mine" we want the user to see the euro symbol,
-                # not the entity code.  But we don't want to just
-                # throw them away either.  We could leave the data
-                # alone and use "structure" in the template; but then
-                # we're assuming the data is safe, and it's only as
-                # trustworthy as the openplans user.  Below is some
-                # code that just throws the entities (and all HTML)
-                # away.  Maybe we could convert entities to unicode
-                # prior to or instead of calling detag?  Can do that
-                # using Beautiful Soup, see: http://tinyurl.com/28ugnq
-
-#             from topp.utils.detag import detag
-#             for k, v in value.items():
-#                 if isinstance(v, basestring):
-#                     value[k] = detag(v)
-            value['idx'] = 'trackback_%d' % idx
-            value['close_url'] = 'trackback-delete?idx=%d' % idx
-            value['pub_date']    = prettyDate(value['time'])
-            addressable_msgs.append(value)
-
-        return addressable_msgs
 
     @property
     def geo_info(self):
@@ -301,66 +241,4 @@ class ProfileEditView(ProfileView, OctopoLite):
         """callback to tell taggerstore a user updated (possibly) taggifiable
         fields. something like a POST to /taggerstore/."""
         pass
-
-
-class TrackbackView(BaseView):
-    """handle trackbacks"""
-
-    msg_category = 'Trackback'
-
-    def __call__(self):
-        # Add a trackback and return a javascript callback
-        # so client script knows when it's done and whether it succeeded.
-        mem_id = self.viewed_member_info['id']
-        tm = ITransientMessage(self.portal)
-
-        if self.viewedmember() != self.loggedinmember:
-            return 'OpenCore.submitstatus(false, "Permission denied");'
-
-        # check for all variables
-        url = self.request.form.get('commenturl')
-        title = self.request.form.get('title')
-        blog_name = self.request.form.get('blog_name', 'an unnamed blog')
-        comment = self.request.form.get('comment')
-        if None in (url, comment):
-            msg = (url == None) and "url not provided" or "comment not provided"
-            return 'OpenCore.submitstatus(false, "%s")' % msg
-        if not title:
-            excerpt = comment.split('.')[0]
-            title = excerpt[:100]
-            if title != excerpt:
-                title += '...'
-
-        tm.store(mem_id, self.msg_category, {'url':url, 'title':title, 'blog_name':blog_name, 'excerpt':comment, 'time':datetime.now()})
-        return 'OpenCore.submitstatus(true);'
-
-
-    def delete(self):
-        mem_id = self.viewed_member_info['id']
-
-        if urlsplit(self.request['HTTP_REFERER'])[1] != urlsplit(self.siteURL)[1]:
-            self.request.response.setStatus(403)
-            return 'Cross site deletes not allowed!'
-
-        # XXX todo 
-        #     a) move this to @nui.formhandler.post_only 
-        #     b) use that
-        if self.request['REQUEST_METHOD'] != 'POST':
-            self.request.response.setStatus(405)
-            return 'Not Post'
-        if self.viewedmember() != self.loggedinmember:
-            self.request.response.setStatus(403)
-            return 'You must be logged in to modify your posts!'
-
-        index = self.request.form.get('idx')
-        if index is None:
-            self.request.response.setStatus(400)
-            return 'No index specified'
-
-        # Do the delete
-        tm = ITransientMessage(self.portal)
-        tm.pop(mem_id, self.msg_category, int(index))
-        # TODO: Make sure this is an AJAX request before sending an AJAX response
-        #       by using octopus/octopolite
-        return {'trackback_%s' % index: {'action': 'delete'}}
 

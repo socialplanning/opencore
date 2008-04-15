@@ -1,26 +1,7 @@
 from opencore.browser.base import BaseView, _
-from opencore.configuration.utils import get_config
 from opencore.member.interfaces import IHandleMemberWorkflow
 from opencore.utility.interfaces import IEmailSender
-from opencore.utility.interfaces import IProvideSiteConfig
-from topp.utils.uri import uri_same_source
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from zope.component import getUtility
-import re
-
-def in_vacuum_whitelist(url):
-    raw_list = getUtility(IProvideSiteConfig).get("vacuum_whitelist").split(',')
-    vacuum_whitelist = [x.strip() for x in raw_list if x.strip()]
-    
-    for safe_host in vacuum_whitelist:
-        if uri_same_source(url, safe_host):
-            return True
-    return False
-
-def js_string(data):
-    """Takes a repr string (which is an escaped version of a python string), and removes the characters
-    that don't map to a javascript string."""
-    return re.sub(r"^u","",re.sub(r"\\U[0-9A-Fa-f]{8}",r"\uFFFD",repr(data)))
 
 class AccountView(BaseView):
     """
@@ -52,37 +33,6 @@ class AccountView(BaseView):
     @property
     def login_url(self):
         return "%s/login" % self.context.absolute_url()
-
-    def logged_in_user_js(self):
-        """Get info about the current member (if any), as javascript.
-        (We use a callback so client knows when this script has loaded.)
-        """
-        info = self.member_info
-        referrer = self.request.get('HTTP_REFERER')
-        if in_vacuum_whitelist(referrer) and info:
-            # In order for the HTML to pass as javascript, we have to properly escape the string.
-            # The same is true for names
-            info['topnav'] = js_string(self.context.restrictedTraverse('topnav-auth-user-menu')())
-            info['fullname'] = js_string(info['fullname'])
-            return """
-            OpenCore.prepareform({
-            loggedin: true,
-            id: '%(id)s',
-            name: %(fullname)s,
-            profileurl: '%(url)s/profile',
-            memberurl: '%(url)s',
-            website: '%(website)s',
-            email: '%(email)s',
-            topnav: %(topnav)s
-            });
-            """ % info
-        else:
-            # Not logged in.
-            return """
-            OpenCore.prepareform({
-            loggedin: false
-            });
-            """
 
     ### methods to deal with pending members
 

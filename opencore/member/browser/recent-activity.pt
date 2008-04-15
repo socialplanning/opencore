@@ -1,0 +1,3 @@
+<tal:recent-viewlets repeat="viewlet view/viewlets">
+  <tal:viewlet replace="structure viewlet" />
+</tal:recent-viewlets>
