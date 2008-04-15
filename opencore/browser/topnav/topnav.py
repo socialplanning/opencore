@@ -246,7 +246,7 @@ class AuthMenuView(BaseView):
         query = dict(portal_type='OpenMembership',
                      getId=mem_id,
                      )
-        mship_brains = self.catalogtool(**query)
+        mship_brains = self.catalog(**query)
         proj_invites = [brain for brain in mship_brains if brain.review_state == 'pending' and brain.lastWorkflowActor != mem_id]
         
         return msg_count + len(proj_invites)

@@ -357,7 +357,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
             mdtool = getToolByName(self.context, 'portal_memberdata')
             mdtoolpath = '/'.join(mdtool.getPhysicalPath())
             mem_path = '%s/%s' % (mdtoolpath, mem_id) 
-            mem_metadata = self.catalogtool.getMetadataForUID(mem_path) 
+            mem_metadata = self.catalog.getMetadataForUID(mem_path) 
             mem_user_name = mem_metadata['getFullname'] or mem_metadata['id']
 
             msg_vars = {'project_title': project_title,
@@ -445,7 +445,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
 
         portal_path = '/'.join(self.portal.getPhysicalPath())
         team_path = '/'.join([portal_path, 'portal_teams', proj_id])
-        project_admins = self.catalogtool(
+        project_admins = self.catalog(
             highestTeamRole='ProjectAdmin',
             portal_type='OpenMembership',
             review_state=self.active_states,
@@ -616,7 +616,7 @@ class ManageTeamView(TeamRelatedView, formhandler.OctopoLite, AccountView,
         mdtool = getToolByName(self.context, 'portal_memberdata')
         mdtoolpath = '/'.join(mdtool.getPhysicalPath())
         mem_path = '%s/%s' % (mdtoolpath, mem_id) 
-        mem_metadata = self.catalogtool.getMetadataForUID(mem_path) 
+        mem_metadata = self.catalog.getMetadataForUID(mem_path) 
         mem_user_name = mem_metadata['getFullname'] or mem_metadata['id']
 
         # XXX if member hasn't logged in yet, acct_url will be whack
@@ -828,7 +828,7 @@ class InviteView(ManageTeamView):
                     mdtool = getToolByName(self.context, 'portal_memberdata')
                     mdtoolpath = '/'.join(mdtool.getPhysicalPath())
                     mem_path = '%s/%s' % (mdtoolpath, mem_id) 
-                    mem_metadata = self.catalogtool.getMetadataForUID(mem_path) 
+                    mem_metadata = self.catalog.getMetadataForUID(mem_path) 
                     mem_user_name = mem_metadata['getFullname'] or mem_metadata['id']
 
                     msg_subs = {

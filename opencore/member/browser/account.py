@@ -41,7 +41,7 @@ class MemberAccountView(BaseView, OctopoLite):
                      getId=user_id,
                      )
         query.update(extra)
-        mship_brains = self.catalogtool(**query)
+        mship_brains = self.catalog(**query)
         return mship_brains
 
     def _project_metadata_for(self, project_id):
@@ -50,9 +50,7 @@ class MemberAccountView(BaseView, OctopoLite):
         projects_folder = 'projects'
         path = [portal_path, projects_folder, project_id]
         path = '/'.join(path)
-
-        cat = self.catalogtool
-        project_info = cat.getMetadataForUID(path)
+        project_info = self.catalog.getMetadataForUID(path)
         return project_info
 
     def _project_id_from(self, brain):
@@ -207,7 +205,7 @@ class MemberAccountView(BaseView, OctopoLite):
         query = dict(portal_type='OpenMembership',
                      getId=user_id,
                      )
-        mship_brains = self.catalogtool(**query)
+        mship_brains = self.catalog(**query)
         mship_brains = map(self._create_project_dict,
                            filter(is_user_project, mship_brains))
         mship_brains = [i for i in mship_brains if i['proj_id'] == proj_id]

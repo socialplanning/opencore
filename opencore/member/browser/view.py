@@ -159,9 +159,8 @@ class ProfileEditView(ProfileView, OctopoLite):
         """check whether the member has any pending project
         invitations to manage"""
         member = self.loggedinmember
-        cat = self.catalogtool
-        pending_mships = cat(portal_type='OpenMembership',
-                             review_state='pending')
+        pending_mships = self.catalog(portal_type='OpenMembership',
+                                      review_state='pending')
         return bool(pending_mships)
 
     def check_portrait(self, member, portrait):
