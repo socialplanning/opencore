@@ -1,3 +1,4 @@
+from Products.CMFCore.utils import getToolByName
 from opencore.browser.base import BaseView, _
 from opencore.member.interfaces import IHandleMemberWorkflow
 from opencore.utility.interfaces import IEmailSender
@@ -46,16 +47,17 @@ class AccountView(BaseView):
 
     def _confirmation_url(self, mem):
         code = mem.getUserConfirmationCode()
-        return "%s/confirm-account?key=%s" % (self.siteURL, code)
+        root = getToolByName(self.context, 'portal_url')()
+        return "%s/confirm-account?key=%s" % (root, code)
 
     def _send_mail_to_pending_user(self, user_name, email, url):
         """ send a mail to a pending user """
         # TODO only send mail if in the pending workflow state
-
+        root = getToolByName(self.context, 'portal_url')()
         message = _(u'email_to_pending_user',
                     mapping={u'user_name':user_name,
                              u'url':url,
-                             u'portal_url':self.siteURL,
+                             u'portal_url':root,
                              u'portal_title':self.portal_title()})
         
         sender = IEmailSender(self.portal)

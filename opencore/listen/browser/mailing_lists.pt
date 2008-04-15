@@ -51,7 +51,7 @@
                                 class="oc-discreetText">
                             created by
                             <a href="#"
-                               tal:attributes="href string:${view/siteURL}/people/${list_creator}"
+                               tal:attributes="href string:${context/portal_url}/people/${list_creator}"
                                tal:content="list_creator"
                                tal:omit-tag="not:list_creator"
                                i18n:name="list_creator">

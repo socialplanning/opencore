@@ -163,7 +163,7 @@
 										<span tal:replace="item/obj_date" />
 										<tal:setvar define="author item/obj_author" condition="author">
 											by
-											<a tal:attributes="href string:${view/siteURL}/people/${author}/profile" tal:content="author" />
+											<a tal:attributes="href string:${context/portal_url}/people/${author}/profile" tal:content="author" />
 										</tal:setvar>
 										</td>
 

@@ -13,9 +13,6 @@ opencore.browser.base
     >>> view.dob
     'today'
     
-    >>> view.siteURL
-    'http://nohost/plone'
-
     >>> view.portal_title()
     'OpenCore Site'
 

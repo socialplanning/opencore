@@ -1,3 +1,4 @@
+from Products.CMFCore.utils import getToolByName
 from opencore.browser.formhandler import button, post_only
 from opencore.account.browser import AccountView, _
 from zExceptions import Forbidden
@@ -19,21 +20,23 @@ class PasswordResetView(AccountView):
             return False
         userid = member.getId()
 
-        pw_tool = self.get_tool("portal_password_reset")
+        pw_tool = getToolByName(self.context, "portal_password_reset")
         try:
             pw_tool.resetPassword(userid, randomstring, password)
         except 'InvalidRequestError':
             # XXX TODO redirect to 404 instead
             msg = _(u'psm_pass_reset_fail', u'Password reset attempt failed. Did you mistype your username or password?')
             self.addPortalStatusMessage(msg)
-            return self.redirect(self.siteURL)
+            site_url = getToolByName(self.context, 'portal_url')()
+            return self.redirect(site_url)
         except 'ExpiredRequestError':
             msg = _(u'psm_pass_reset_expired', u'Your password reset request has expired. '
                     'You can <a href="login">sign in</a> again using '
                     'your old username and password or '
                     '<a href="forgot">request a new password</a> again.')
             self.addPortalStatusMessage(msg)
-            return self.redirect("%s/login" % self.siteURL)
+            site_url = getToolByName(self.context, 'portal_url')()
+            return self.redirect("%s/login" % self.site_url)
 
         # Automatically log the user in
         self.login(userid)

@@ -56,7 +56,7 @@
           <h2 i18n:translate="projects_get_started_heading">Get started&hellip;</h2>
           <p i18n:translate="projects_get_started">Can&rsquo;t find a <span i18n:name="project_noun" tal:replace="view/project_noun">project</span> you are interested in? See a need that is not being met?
           </p>
-           <a i18n:translate="projects_start_project_button" tal:attributes="href string:${view/siteURL}/projects/create" class="oc-banana">Start a new <span i18n:name="project_noun" tal:replace="view/project_noun">project</span></a>
+           <a i18n:translate="projects_start_project_button" tal:attributes="href string:${context/portal_url}/projects/create" class="oc-banana">Start a new <span i18n:name="project_noun" tal:replace="view/project_noun">project</span></a>
         </div>
       </div>
     </div><!-- content-fill-slot -->

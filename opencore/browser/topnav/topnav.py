@@ -1,6 +1,7 @@
 """
 TopNav view classes.
 """
+from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.TeamSpace.permissions import ManageTeamMembership
 from opencore.browser.base import BaseView
@@ -53,7 +54,8 @@ class TopNavView(HeaderHijackable, BaseMenuView):
         here = self.request.ACTUAL_URL.split('/')[-1]
         selected = urn.split('/')[-1] == here
         css = selected and ' class="oc-topnav-selected"' or ''
-        urn = '/'.join((self.siteURL, urn))
+        site_url = getToolByName(self.context, 'portal_url')()
+        urn = '/'.join((site_url, urn))
         return '<li%s><a href="%s">%s</a></li>' % (css, urn, name)
 
 
@@ -213,14 +215,16 @@ class AnonMenuView(BaseView):
     """
     @memoizedproperty
     def menudata(self):
+        site_url = getToolByName(self.context, 'portal_url')()
+
         menudata = (
 
             {'content': 'Sign in',
-             'href': '%s/login' % self.siteURL,
+             'href': '%s/login' % site_url,
              },
 
             {'content': 'Create account',
-             'href': '%s/join' % self.siteURL,
+             'href': '%s/join' % site_url,
              },
 
             )
@@ -254,11 +258,11 @@ class AuthMenuView(BaseView):
     @memoizedproperty
     def menudata(self):
         mem_data = self.member_info
-        
+        site_url = getToolByName(self.context, 'portal_url')()
         menudata = (
 
             {'content': 'Sign out',
-             'href': '%s/logout' % self.siteURL,
+             'href': '%s/logout' % site_url,
              },
 
             )

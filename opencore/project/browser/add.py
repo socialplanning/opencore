@@ -129,7 +129,8 @@ class ProjectAddView(ProjectBaseView, OctopoLite):
         hpcontext.home_page = 'summary'
 
         self.template = None
-        proj_edit_url = '%s/projects/%s/project-home/edit' % (self.siteURL, id_)
+        site_url = getToolByName(self.context, 'portal_url')()
+        proj_edit_url = '%s/projects/%s/project-home/edit' % (site_url, id_)
 
         s_message_mapping = {'title': title, 'proj_edit_url': proj_edit_url,
                              'project_noun': self.project_noun,}

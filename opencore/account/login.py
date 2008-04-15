@@ -33,8 +33,9 @@ class LoginView(AccountView):
         a list of urls which should not be redirected
         back to after login because they are boring.
         """
-        urls = [self.siteURL,]
-        more_urls = ['%s/%s' % (self.siteURL, screen)
+        site_url = getToolByName(self.context, 'portal_url')()
+        urls = [site_url,]
+        more_urls = ['%s/%s' % (site_url, screen)
                      for screen in ("login", "forgot", "join")]
         urls += more_urls
         return urls
@@ -88,7 +89,7 @@ class LoginView(AccountView):
 
         self.addPortalStatusMessage(_(u'psm_check_username_password', u'Please check your username and password. If you still have trouble, you can <a href="forgot">retrieve your sign in information</a>.'))
 
-    @anon_only(BaseView.siteURL)
+    @anon_only(lambda view: view.context.portal_url())
     def handle_request(self):
         """ redirect logged in users """
         
@@ -232,15 +233,16 @@ class ForgotLoginView(AccountView):
     # catatlogue queries are done for the same user
     # which can't be good
 
-    @anon_only(BaseView.siteURL)
+    @anon_only(lambda view: view.context.portal_url())
     @button('send')
     @post_only(raise_=False)
     def handle_request(self):
+        site_url = getToolByName(self.context, 'portal_url')()
         userid = self.userid
         if userid:
 
             if self.is_pending(getUserName=userid):
-                self.redirect('%s/resend-confirmation?member=%s' % (self.siteURL, userid))
+                self.redirect('%s/resend-confirmation?member=%s' % (site_url, userid))
                 return
             
             if email_confirmation():
@@ -265,8 +267,8 @@ class ForgotLoginView(AccountView):
 
     @property
     def reset_url(self):
-
-        return '%s/reset-password?key=%s' % (self.siteURL, self.randomstring)
+        site_url = getToolByName(self.context, 'portal_url')()
+        return '%s/reset-password?key=%s' % (site_url, self.randomstring)
     
     def _mailPassword(self, forgotten_userid):
         if not self.membertool.checkPermission('Mail forgotten password', self):

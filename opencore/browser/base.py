@@ -69,8 +69,7 @@ class BaseView(BrowserView):
         #XXX we need to currently use project for all urls
         # and *not* what's in the project noun, because we'll link
         # to things like /groups, which doesn't currently exist
-        #parts = [self.siteURL, self.project_noun + 's']
-        parts = [self.siteURL, 'projects']
+        parts = [self.portal.projects.absolute_url()]
         if project is not None:
             parts.append(project)
         if page is not None:
@@ -390,19 +389,11 @@ class BaseView(BrowserView):
         return prettyDate(self.portal.created())
 
     @property
-    def siteURL(self):
-        # pw: This is used all over the place, but many of those are
-        # hardcoded paths relative to the site and should probably instead
-        # be some_object.absolute_url()
-        # XXX And why do we need yet another nonstandard spelling
-        # of context.portal_url()? 
-        return aq_inner(self.portal).absolute_url()
-
-    @property
     def came_from(self):
         # pw: as of 2008/04/14, not much uses this base class implementation,
         # but formhandler.anon_only requires all views to have it.
-        return self.request.get('came_from') or self.siteURL
+        came_from = self.request.get('came_from')
+        return came_from or getToolByName(self.context, 'portal_url')()
 
     @property
     def name(self):

@@ -87,11 +87,11 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
         """ send a mail to a pending user """
         # TODO only send mail if in the pending workflow state
         mailhost_tool = self.get_tool("MailHost")
-
+        site_url = getToolByName(self.context, 'portal_url')()
         message = _(u'email_to_pending_user',
                     mapping={u'user_name':id,
                              u'url':url,
-                             u'portal_url':self.siteURL,
+                             u'portal_url': site_url,
                              u'portal_title':self.portal_title()})
         
         sender = IEmailSender(self.portal)
@@ -138,7 +138,8 @@ class RequestMembershipView(TeamRelatedView, formhandler.OctopoLite, LoginView):
         mem.setUserConfirmationCode()
 
         code = mem.getUserConfirmationCode()
-        url = "%s/confirm-account?key=%s" % (self.siteURL, code)
+        site_url = getToolByName(self.context, 'portal_url')()
+        url = "%s/confirm-account?key=%s" % (site_url, code)
 
         self._send_mail_to_pending_user(id=mem_id,
                                         email=self.request.get('email'),

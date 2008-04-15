@@ -26,6 +26,9 @@ import zExceptions
 
 import urllib
 
+def bzorch(view):
+    return view.context.portal_url()
+    
 class JoinView(browser.AccountView, OctopoLite):
 
     template = ZopeTwoPageTemplateFile('join.pt')
@@ -33,7 +36,7 @@ class JoinView(browser.AccountView, OctopoLite):
     def quote(self, txt):
         return urllib.quote(txt)
 
-    @anon_only(BaseView.siteURL)
+    @anon_only(lambda view: view.context.portal_url())
     def handle_request(self):
         """ redirect logged in users """
 
@@ -171,7 +174,8 @@ class InviteJoinView(JoinView, ConfirmAccountView):
         if auto_joined_list:
             redirect_to_project = auto_joined_list[0]
             go_to = '?go_to=%s' % self.project_url(redirect_to_project)
-        return self.redirect("%s/init-login%s" % (self.siteURL, go_to))
+        root = getToolByName(self.context, 'portal_url')()
+        return self.redirect("%s/init-login%s" % (root, go_to))
 
     def do_invite_joins(self, member):
         """do the joins and activations"""
@@ -202,10 +206,10 @@ class InviteJoinView(JoinView, ConfirmAccountView):
         member by redirecting to the confirm-account view.
         """
         key = self.request.get('__k')
-        
+        root = getToolByName(self.context, 'portal_url')()
         if (not key) or (key != str(self.invites.key)):
             self.addPortalStatusMessage(_(u'psm_denied', u'Denied -- bad key'))
-            return self.redirect("%s/%s" %(self.siteURL, 'login'))
+            return self.redirect("%s/%s" % (root, 'login'))
         
         member = self.is_pending(getEmail=self.email)
         if member:
