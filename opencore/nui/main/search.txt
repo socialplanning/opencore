@@ -1,3 +1,5 @@
+-*- mode: doctest ;-*-
+
 ====================
 views for main pages
 ====================
