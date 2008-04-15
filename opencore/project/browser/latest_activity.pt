@@ -22,7 +22,7 @@
 		  tal:content="python:view.pretty_date(date)">
               yesterday
             </span>
-            <a tal:condition="not: view/piv/project/isProjectMember"  href="request-membership" class="oc-actionLink">Join</a>
+            <a tal:condition="not: context/isProjectMember"  href="request-membership" class="oc-actionLink">Join</a>
           </p>
 	  <a class="oc-actionLink" tal:condition="view/team_manager" href="preferences">EDIT</a>
           <p tal:condition="view/project_info/description" tal:content="view/project_info/description" />

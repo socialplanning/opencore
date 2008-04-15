@@ -35,11 +35,6 @@ class LatestActivityView(ProjectBaseView):
         snip = self.context.restrictedTraverse(path)
         return snip()        
 
-    def blog_feed(self):
-        if self.has_blog:
-            return self.feed('blogfeed')
-        return ''
-
     def wiki_feed(self):
         return self.feed('blank-slate-feed')
 
