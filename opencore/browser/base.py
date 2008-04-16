@@ -485,22 +485,20 @@ class BaseView(BrowserView):
                 css_class = 'oc-notallowed'
 
         return css_class
-    
 
-    def is_member(self, id):
-        return self.get_tool('portal_memberdata').get(id) is not None
+    def render_base_tag(self):
+        """return the html that main template uses to fix relative links
 
-    # XXX move to a form base class
-    def authenticator(self):
-        return self.get_tool('browser_id_manager').getBrowserId(create=True)
+        turning it off in the base template conditionally fails
+        because the tal doesn't get rendered"""
+        base_url = self.context.absolute_url()
+        return """\
+                <!--[if IE 6]><![if !IE 6]><![endif]-->
+        <base href="%s/" />
+                <!--[if IE 6]><![endif]><![endif]-->""" % base_url
 
-    # XXX move to a form base class
-    def authenticator_input(self):
-        return '<input type="hidden" name="authenticator" value="%s" />' % self.authenticator()
 
-    # XXX move to a form base class
     def validate_password_form(self, password, password2, member):
-
         messages = []
         def exit_function():
             """bridge code to going forward. use this instead of return"""
@@ -537,17 +535,5 @@ class BaseView(BrowserView):
             return exit_function()
         return exit_function() # XXX redundant, leaving for now
 
-    def render_base_tag(self):
-        """return the html that main template uses to fix relative links
-
-        turning it off in the base template conditionally fails
-        because the tal doesn't get rendered"""
-        base_url = self.context.absolute_url()
-        return """\
-                <!--[if IE 6]><![if !IE 6]><![endif]-->
-        <base href="%s/" />
-                <!--[if IE 6]><![endif]><![endif]-->""" % base_url
-
 
 aq_iface = zutils.aq_iface
-
