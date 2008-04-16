@@ -13,7 +13,7 @@ from opencore.interfaces import IHomePage
 from opencore.interfaces import IProject
 from opencore.interfaces.adding import IAddProject
 from opencore.interfaces.workflow import IReadWorkflowPolicySupport
-from opencore.geocoding.view import get_geo_writer
+from opencore.geotagging.view import get_geo_writer
 from opencore.project.browser.base import ProjectBaseView
 from opencore.interfaces.membership import IEmailInvites
 from topp.featurelets.interfaces import IFeatureletSupporter

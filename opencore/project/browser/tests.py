@@ -78,7 +78,7 @@ def test_suite():
         enableLocalSiteHook(tc.portal)
         setSite(tc.portal)
         setHooks()
-        # Force geocoding off for these tests.
+        # Force geotagging off for these tests.
         # (ie. even if it's installed, act like it isn't.)
         BaseView._old_has_geocoder = BaseView.has_geocoder
         BaseView.has_geocoder = False

@@ -7,7 +7,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser.base import _
 from opencore.browser.formhandler import OctopoLite, action
-from opencore.geocoding.view import get_geo_writer
+from opencore.geotagging.view import get_geo_writer
 from opencore.interfaces import IHomePage
 from opencore.interfaces.event import AfterProjectAddedEvent
 from opencore.nui.wiki.add import get_view_names

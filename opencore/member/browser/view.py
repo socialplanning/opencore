@@ -4,8 +4,8 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.remember.interfaces import IReMember
 from opencore.browser.base import BaseView, _
 from opencore.browser.formhandler import OctopoLite, action
-from opencore.geocoding.view import get_geo_reader
-from opencore.geocoding.view import get_geo_writer
+from opencore.geotagging.view import get_geo_reader
+from opencore.geotagging.view import get_geo_writer
 from plone.memoize.view import memoize as req_memoize
 from topp.utils.pretty_date import prettyDate
 from zope.app.event.objectevent import ObjectModifiedEvent
@@ -125,7 +125,7 @@ class ProfileView(BaseView):
         """geo information for display in forms;
         takes values from request, falls back to existing member info
         if possible."""
-        # XXX Remove this, all geo stuff should be in opencore.geocoding.
+        # XXX Remove this, all geo stuff should be in opencore.geotagging.
         geo = get_geo_reader(self)
         info = geo.geo_info()
         # Override the static map image size. Ugh, sucks to have this in code.

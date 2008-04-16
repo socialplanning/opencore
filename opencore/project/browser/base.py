@@ -1,7 +1,7 @@
 from Acquisition import aq_inner
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser.base import BaseView, view
-from opencore.geocoding.view import get_geo_reader
+from opencore.geotagging.view import get_geo_reader
 from opencore.project import LATEST_ACTIVITY
 from opencore.project import PROJ_HOME
 from opencore.project.utils import get_featurelets
