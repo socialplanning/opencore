@@ -1,4 +1,4 @@
--*- mode: doctest ;-*- @@ wtf? dwm
+-*- mode: doctest ;-*-
 
 ======================
  opencore.project.browser
@@ -271,8 +271,8 @@ Now set a valid title::
 
 Sort by username::
 
-    >>> view.sort_by = 'username'
-    >>> results = view.memberships
+    >>> request.set('sort_by', 'username')
+    >>> results = view.memberships()
     >>> brains = list(results)
     >>> len(brains)
     3
@@ -285,8 +285,8 @@ Clear the memoize from the request::
 
 Sorting by nothing should sort by username::
 
-    >>> view.sort_by = None
-    >>> results = view.memberships
+    >>> request.set('sort_by', 'None')
+    >>> results = view.memberships()
     >>> brains = list(results)
     >>> len(brains)
     3
@@ -301,10 +301,10 @@ Now try sorting by location::
 First however, we have to give some members locations
     >>> for mem_id, location in zip(['m1', 'm4', 'm3'], ['ny', 'ny', 'FL']):
     ...     mem = getattr(self.portal.portal_memberdata, mem_id)
-    ...     mem.location = location
+    ...     mem.setLocation(location)
     ...     mem.reindexObject(idxs=['getLocation'])
-    >>> view.sort_by = 'location'
-    >>> results = view.memberships
+    >>> request.set('sort_by', 'location')
+    >>> results = view.memberships()
     >>> brains = list(results)
     >>> len(brains)
     3
@@ -312,19 +312,9 @@ First however, we have to give some members locations
 Verify that the locations were set
     >>> for b in brains: assert b.getLocation
 
-They should be sorted according to id, by location
+They should be sorted by location, then id
     >>> [b.getId for b in brains]
-    ['m1', 'm3', 'm4']
-
-Test the projects for members work::
-    >>> mem = self.portal.portal_memberdata.m4
-    >>> mem_projects = view.projects_for_member(mem)
-    >>> mem_proj_ids = [mem_project.getId() for mem_project in mem_projects]
-    >>> mem_proj_ids.sort()
-    >>> mem_proj_ids
-    ['p1', 'p2', 'p4']
-    >>> view.num_projects_for_member(brains[0].getObject())
-    3
+    ['m3', 'm1', 'm4']
 
 Clear the memoize from the request::
 
@@ -332,8 +322,8 @@ Clear the memoize from the request::
 
 Let's sort based on the membership date::
 
-    >>> view.sort_by = 'membership_date'
-    >>> results = view.memberships
+    >>> request.set('sort_by', 'membership_date')
+    >>> results = view.memberships()
     >>> mem_brains = list(results)
     >>> len(mem_brains)
     3
@@ -374,30 +364,12 @@ Clear the memoize from the request::
 
 Sort base on contributions, should get no results::
 
-    >>> view.sort_by = 'contributions'
-    >>> results = view.memberships
+    >>> request.set('sort_by', 'contributions')
+    >>> results = view.memberships()
     >>> brains = list(results)
     >>> len(brains)
     0
 
 And check that getting membership roles works
     >>> view.is_admin('m1')
-
-If the geocoding tool is not available, these methods successfully do
-nothing interesting::
-
-    >>> view.has_geocoder
     False
-    >>> pprint(view.geo_info)
-    {'is_geocoded': False,
-     'location': '',
-     'maps_script_url': '',
-     'position-latitude': '',
-     'position-longitude': '',
-     'position-text': '',
-     'static_img_url': ''}
-
-
-
-
-
