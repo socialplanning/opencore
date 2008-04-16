@@ -1,3 +1,5 @@
+-*- mode: doctest ;-*-
+
 ===================
  version lifecycle
 ===================
@@ -83,7 +85,7 @@ Let's make sure the ui bits are updated also::
         'version_id': 1})]
 
 Now we should get a valid response
-     >>> view.loggedinmember.getId = lambda *a:'whatever'
+
      >>> response = view()
 
 Test that we can create a page via wicked #@@ (put somewhere else??)
