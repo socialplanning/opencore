@@ -37,13 +37,17 @@ def test_suite():
         setup(tc)
         setSite(tc.portal)
         setHooks()
-        
+
+    def teardown_search(tc):
+        # search leaves a mailing list as the site
+        setSite(tc.portal)
         
     search = dtfactory.ZopeDocFileSuite("search.txt",
                                         optionflags=optionflags,
                                         package='opencore.nui.main',
                                         test_class=FunctionalTestCase,
                                         setUp=setup_search,
+                                        tearDown=teardown_search,
                                         globs=globs,
                                         layer=OpencoreContent
                                         )
