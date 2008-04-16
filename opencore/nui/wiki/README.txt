@@ -1,3 +1,5 @@
+-*- mode: doctest ;-*-
+
 =========
  wiki ui
 =========
@@ -71,7 +73,6 @@ Test logged in user::
     >>> self.loginAsPortalOwner()
     >>> from opencore.browser.base import BaseView
     >>> view = BaseView(self.portal, self.portal.REQUEST)
-    >>> view.loggedinmember.getId = lambda *a:'whatever'
 
 Test wiki page registrations (logged in)::
 
