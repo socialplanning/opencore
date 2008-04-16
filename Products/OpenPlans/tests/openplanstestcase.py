@@ -61,6 +61,15 @@ class OpenPlansTestCase(ArcheSiteTestCase):
     def clear_events(self):
         self.events[:] = []
 
+    def event_fired(self, iface):
+        """
+        returns True if one or more of the fired events provides
+        the specified interface
+        """
+        for mship, event in self.events:
+            if iface.providedBy(event):
+                return True
+
     def tearDown(self):
         # avoid any premature tearing down
         PortalTestCase.tearDown(self)
