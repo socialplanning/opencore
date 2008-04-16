@@ -1,6 +1,4 @@
 from Acquisition import aq_inner, aq_parent
-#from Products.wicked.browser.add import WickedAdd
-#from Products.wicked.lib.normalize import titleToNormalizedId as normalize
 from opencore.browser.base import BaseView
 from opencore.browser.base import _
 from opencore.browser.naming import get_view_names
