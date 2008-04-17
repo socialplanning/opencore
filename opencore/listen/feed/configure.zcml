@@ -19,11 +19,6 @@
       factory=".listen.ListsFeedAdapter"
       />
 
-  <five:implements
-     class="opencore.featurelets.interfaces.IListenContainer"
-     interface="opencore.feed.interfaces.ICanFeed"
-     />
-
    <adapter
       for="opencore.listen.interfaces.IOpenMailingList"
       provides="opencore.feed.interfaces.IFeedData"
