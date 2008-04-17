@@ -208,4 +208,12 @@
      permission="zope2.View"
      />
 
+
+  <browser:viewletManager
+     name="opencore.proj_prefs"
+     provides=".interfaces.IProjectPrefs"
+     class=".manager.ProjectPrefsManager"
+     permission="zope2.View"
+     />
+
 </configure>
