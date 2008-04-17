@@ -1,5 +1,4 @@
 from plone.memoize.view import memoize as req_memoize
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 from opencore.browser.base import BaseView, _
 from opencore.browser import formhandler
