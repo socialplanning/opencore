@@ -84,7 +84,7 @@ class BaseView(BrowserView):
 
     def redirect(self, *args, **kwargs):
         self._redirected = True
-        return self.response.redirect(*args, **kwargs)
+        return self.request.response.redirect(*args, **kwargs)
 
     def spamProtect(self, mailaddress, mailname=None):
         """
