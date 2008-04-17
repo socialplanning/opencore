@@ -1,11 +1,10 @@
 <configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:five="http://namespaces.zope.org/five"
-           xmlns:browser="http://namespaces.zope.org/browser"
-           xmlns:i18n="http://namespaces.zope.org/i18n"
+           xmlns:zcml="http://namespaces.zope.org/zcml"
            i18n_domain="opencore">
 
   <include package="opencore.listen.browser" file="overrides.zcml" />
-  <include package="opencore.geotagging" file="overrides.zcml" />
+  <include package="opencore.geotagging" file="overrides.zcml" 
+      zcml:condition="installed opencore.geotagging" />
   <include package="opencore.nui.wiki" file="overrides.zcml" />
 
 </configure>
