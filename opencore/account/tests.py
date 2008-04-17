@@ -14,11 +14,6 @@ turn_confirmation_on() # should maybe go in the layer
 
 optionflags = doctest.ELLIPSIS
  
-# event handler used in the tests
-events_fired = []
-def dummy_handler(obj, event):
-    events_fired.append((obj, event))
-
 class StubMemberWorkflow:
     """A stub to avoid depending on real members in some account tests.
     XXX Not sure where this should live? Move it if you have an idea.
