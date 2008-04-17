@@ -1,0 +1,116 @@
+Test the listen adapters for feed use
+
+Create a stub context used for the listen adapters
+    >>> from opencore.feed.tests import DummyContext
+    >>> context = DummyContext()
+
+Create a fake search result utility
+to return a stub result
+    >>> from Products.listen.interfaces import ISearchableArchive
+    >>> from zope.interface import implements
+    >>> class DummySearch(object):    
+    ...     implements(ISearchableArchive)
+    ...     def getToplevelMessages(self):
+    ...	        return [] # make more robust
+    ...     def searchResults(self, **kw):
+    ...         return [StubResult()]
+
+Register the dummy search utility
+    >>> from zope.component import provideUtility
+    >>> dummy_search = DummySearch()
+    >>> provideUtility(dummy_search)
+
+Register the actual factory used (simple enough)
+   >>> from opencore.feed.factory import feedItemFactory
+   >>> provideUtility(feedItemFactory, name='opencore.feed.feeditem')
+
+Stub a sample result
+    >>> from datetime import datetime
+    >>> class StubResult(object):
+    ...     subject='Dummy title'
+    ...     body='Dummy description'
+    ...     modification_date=datetime.now()
+    ...	    date = modification_date
+    ...	    owner_info = lambda x: dict(id='Whoever')
+    ...     def getURL(self):
+    ...         return 'http://dummy/listen/url'
+    ...     def getObject(self):
+    ...         return self
+
+Instantiate the listen feed adapter with the dummy context
+    >>> from opencore.listen.feed.listen import MailingListFeedAdapter
+    >>> listen_adapter = MailingListFeedAdapter(context)
+
+Test the items method
+    >>> items = listen_adapter.items
+    >>> lst = list(items)
+    >>> len(lst)
+    1
+    >>> feed_item = lst[0]
+    >>> from opencore.feed.interfaces import IFeedItem
+    >>> IFeedItem.providedBy(feed_item)
+    True
+
+Verify the item returned conforms to the interface
+    >>> from zope.interface.verify import verifyObject
+    >>> verifyObject(IFeedItem, feed_item)
+    True
+
+And finally check the object
+    >>> feed_item.title
+    'Dummy title'
+    >>> feed_item.description
+    'Dummy description'
+    >>> feed_item.pubDate
+    datetime.datetime...
+    >>> feed_item.link
+    'http://dummy/listen/url'
+
+And on the lists folder, we should get an aggregate
+of messages across lists
+
+We'll stub the calls to return the same result twice
+    >>> context = DummyContext()
+    >>> context.objectIds = lambda:['id1', 'id2']
+    >>> context._getOb = lambda id:None
+
+Instantiate the lists feed adapter with the dummy context
+    >>> from opencore.listen.feed.listen import ListsFeedAdapter
+    >>> lists_adapter = ListsFeedAdapter(context)
+
+# TODO: stub out these so that the tests pass 
+#Test the items method
+#    >>> lst = lists_adapter.items
+#    >>> len(lst)
+#    2
+#    >>> feed_item1, feed_item2 = lst
+#    >>> IFeedItem.providedBy(feed_item1)
+#    True
+#    >>> IFeedItem.providedBy(feed_item2)
+#    True
+
+#Verify the items returned conform to the interface
+#    >>> verifyObject(IFeedItem, feed_item1)
+#    True
+#    >>> verifyObject(IFeedItem, feed_item2)
+#    True
+
+#And finally check the objects
+#    >>> feed_item1.title
+#    'Dummy title'
+#    >>> feed_item1.description
+#    'Dummy description'
+#    >>> feed_item1.pubDate
+#    datetime.datetime...
+#    >>> feed_item1.link
+#    'http://dummy/listen/url'
+
+#And the second object
+#    >>> feed_item2.title
+#    'Dummy title'
+#    >>> feed_item2.description
+#    'Dummy description'
+#    >>> feed_item2.pubDate
+#    datetime.datetime...
+#    >>> feed_item2.link
+#    'http://dummy/listen/url'
