@@ -6,6 +6,7 @@ from zope.app.event.objectevent import ObjectCreatedEvent
 from AccessControl.SecurityManagement import getSecurityManager
 from AccessControl.SecurityManagement import newSecurityManager
 from AccessControl.SecurityManagement import setSecurityManager
+from AccessControl.SpecialUsers import system as system_user
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import transaction_note
 
@@ -65,10 +66,8 @@ class MemberFactory(object):
         # XXX we temporarily become a Manager user b/c we have to have
         # write privs on a field before AT will perform the validation
         orig_sec_mgr = getSecurityManager()
-        mgr_userid = 'admin' # <-- XXX get this from config
         app = validation_member.getPhysicalRoot()
-        user = app.acl_users.getUserById(mgr_userid)
-        user = user.__of__(app.acl_users)
+        user = system_user
         newSecurityManager(request, user)
         errors = {}
         request = _FakeRequest(request.form) # why fake request? (ra)
