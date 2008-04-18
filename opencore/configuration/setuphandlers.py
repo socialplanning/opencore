@@ -226,6 +226,12 @@ def addProjectsFolder(portal, out):
 
     pfolder = portal._getOb('projects')
     alsoProvides(pfolder, IAddProject)
+    try:
+        from opencore.feed.interfaces import ICanFeed
+        if not ICanFeed.providedBy(pfolder):
+            alsoProvides(pfolder, ICanFeed)
+    except ImportError:
+        pass
 
     # Add type restrictions
     print >> out, 'Restricting addable types in Projects Folder'
@@ -301,6 +307,12 @@ def setupPeopleFolder(portal, out):
     pf = getattr(portal, 'people')
     if not IAmAPeopleFolder.providedBy(pf):
         alsoProvides(pf, IAmAPeopleFolder)
+    try:
+        from opencore.feed.interfaces import ICanFeed
+        if not ICanFeed.providedBy(pf):
+            alsoProvides(pf, ICanFeed)
+    except ImportError:
+        pass
 
     # set the default layout
     has_index = pf._getOb('index_html', None)
