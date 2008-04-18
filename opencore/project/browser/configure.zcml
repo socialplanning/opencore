@@ -216,4 +216,12 @@
      permission="zope2.View"
      />
 
+   <adapter
+      provides="zope.contentprovider.interfaces.IContentProvider"
+      factory=".extra_feeds.TeamFeed"
+      for="zope.interface.Interface
+           zope.publisher.interfaces.browser.IDefaultBrowserLayer
+           zope.interface.Interface"
+      />
+
 </configure>
