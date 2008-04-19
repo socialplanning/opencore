@@ -160,6 +160,8 @@
      class=".linkrenderer.LinkRenderer"
      />
 
+  <!-- wicked scope -->
+  <adapter factory=".scope.ProjectScope" />
 
   <!-- versioning -->
   <browser:page
