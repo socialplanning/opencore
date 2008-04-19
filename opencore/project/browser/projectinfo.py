@@ -9,27 +9,16 @@ from Products.Five.browser.pagetemplatefile import getEngine
 from opencore.interfaces import IProject, IOpenTeam
 from interfaces import IProjectInfo
 from opencore.project.utils import get_featurelets
-from plone.memoize import view
+from plone.memoize import instance
 
-view.memoizedproperty = lambda func: property(view.memoize(func))
 
-# assumption here is that all instances of a piv in a request will be
-# for the same project. if this changes, we will memoize differently
-# view.mcproperty = lambda func: property(view.memoize_contextless(func))
-#
-# this doesn't work when the main request is not for a project
-# but there is a need for a project info view of some project 
-# eg when the topnav is contextualized by http headers.
-
-class ProjectInfoView(BrowserView):
+class ProjectInfo(object):
     implements(IProjectInfo)
 
-    def __init__(self, context, request):
+    def __init__(self, context):
         self.context = context
-        self._context = (context,)
-        self.request = request
 
-    @view.memoizedproperty
+    @instance.memoizedproperty
     def project(self):
         if IOpenTeam.providedBy(self.context):
             # get the related project
@@ -43,11 +32,9 @@ class ProjectInfoView(BrowserView):
     @property
     def inProject(self):
         inside = self.project is not None
-        # XXX is this needed any more?
-        self.request.set('inProject', inside)
         return inside
 
-    @view.memoizedproperty
+    @instance.memoizedproperty
     def projectMembership(self):
         pm = getToolByName(self.context, 'portal_membership')
         if pm.isAnonymousUser():
@@ -62,7 +49,7 @@ class ProjectInfoView(BrowserView):
             
         return False
 
-    @view.memoizedproperty
+    @instance.memoizedproperty
     def featurelets(self):
         flets = []
         if self.project is not None:
@@ -70,8 +57,20 @@ class ProjectInfoView(BrowserView):
         return flets
 
 
+
+# assumption here is that all instances of a piv in a request will be
+# for the same project. if this changes, we will memoize differently
+#
+# this doesn't work when the main request is not for a project
+# but there is a need for a project info view of some project 
+# eg when the topnav is contextualized by http headers.
+
+class ProjectInfoView(ProjectInfo, BrowserView):
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+
 engine = getEngine()
 evaluate = lambda text, ec: engine.compile(text)(ec)
 getContext = lambda data: engine.getContext(data)
-
-

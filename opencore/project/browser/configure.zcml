@@ -57,6 +57,11 @@
      attribute="export"
      /  -->
 
+  <adapter for="OFS.interfaces.IItem"
+           provides=".interfaces.IProjectInfo"
+           factory=".projectinfo.ProjectInfo"
+           />
+
   <browser:page
      for="OFS.interfaces.IItem"
      class=".projectinfo.ProjectInfoView"
