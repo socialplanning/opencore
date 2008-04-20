@@ -1,58 +1,78 @@
-from plone.memoize.view import memoize as req_memoize
+from Products.CMFCore.utils import getToolByName
 
 from opencore.browser.base import BaseView, _
-from opencore.browser import formhandler
 from opencore.nui.email_sender import EmailSender
 
-#XXX this would be easier if moved to formlib
-class ContactView(BaseView, formhandler.OctopoLite):
+from zope.app.form.browser.textwidgets import TextWidget
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.Five.formlib.formbase import form
+from Products.Five.formlib.formbase import PageForm
+from zope import schema
+
+class ContactHiddenWidget(TextWidget):
+    """the value gets dynamically inserted by the create_hidden_widget function
+       below"""
+    type = 'hidden'
+
+    def _getFormValue(self):
+        #the value gets dynamically inserted at runtime by the
+        # create_hidden_widget function
+        return self.value
+
+def create_hidden_widget(value):
+    return type('HiddenWidget', (ContactHiddenWidget,), dict(value=value))
+
+class ContactView(PageForm, BaseView):
     """
     View for the site admin contact form.
     """
-    form_fields = ['sender_fullname', 'sender_from_address', 'subject',
-                   'message']
 
-    questions = [
-        u"I'm experiencing trouble with the website",
-        u"I'd like to request a new feature or tool",
-        u"I'd like to report a bug",
-        u"I have a non-technical question",
-        ]
+    form_fields = form.FormFields(
+        schema.TextLine(title=u'Fullname', description=u'Full name of sender', __name__='sender_fullname', required=False),
+        schema.TextLine(title=u'Email', description=u'Email address of sender', __name__='sender_from_address', required=True),
+        schema.TextLine(title=u'Subject', description=u'Subject of email', __name__='subject', required=True),
+        schema.Choice(title=u'Question', description=u'Inquiry question', __name__='question', required=True,
+                      values=[
+                            u"I'm experiencing trouble with the website",
+                            u"I'd like to request a new feature or tool",
+                            u"I'd like to report a bug",
+                            u"I have a non-technical question",
+                            ]),
+        schema.Text(title=u'Message', description=u'Content of email inquiry', __name__='message', required=True))
 
-    @property
-    @req_memoize
-    def email_sender(self):
-        return EmailSender(self)
+    prefix = u''
+    label = u'Contact the site administrator'
 
-    def validate(self):
-        req = self.request
-        for field in self.form_fields:
-            if not req.form.get(field):
-                self.errors[field] = 'Input required'
+    template = ViewPageTemplateFile('contact-site-admin.pt')
 
-    @formhandler.action('send')
-    def send(self, targets=None, fields=None):
+    def setUpWidgets(self, ignore_request=False):
+        # we have special logic here if the user is authenticated
+        # we convert the fullname and email address widgets into hidden fields
+        mstool = getToolByName(self.context, 'portal_membership')
+        if not mstool.isAnonymousUser():
+            mem = mstool.getAuthenticatedMember()
+            self.form_fields['sender_fullname'].custom_widget = (
+                create_hidden_widget(mem.fullname))
+            self.form_fields['sender_from_address'].custom_widget = (
+                create_hidden_widget(mem.email))
+        return super(ContactView, self).setUpWidgets(ignore_request=ignore_request)
+
+    @form.action(u'Send', prefix=u'')
+    def send(self, action, data):
         """
         Send an email to the site administrator with the text from the
         request form.
         """
-        self.validate()
-        if self.errors:
-            # don't send, just return and render the page
-            self.addPortalStatusMessage(_(u'psm_please_correct_errors',
-                                          u'Please correct the specified errors.'))
-            return
-        form = self.request.form
+        fullname = data['sender_fullname']
+        mfrom = data['sender_from_address']
+        subject = data['subject']
+        question = data['question']
+        message = data['message']
         mto = self.portal.getProperty('email_from_address')
-        if form.get('question'):
-            msg = form.get('question') + "\n\n--------------------\n[Message]:\n\n" + form.get('message')
-        else:
-            msg = form.get('message')
-        subject = form.get('subject')
-        mfrom = form.get('sender_from_address')
-        # XXX we require sender_fullname but we ignore it! duh.
-        self.email_sender.sendEmail(mto, msg=msg, subject=subject,
-                                    mfrom=mfrom)
+
+        msg = ('Name -> %(name)s\nQuestion -> %(question)s\n\n%(message)s' %
+               dict(name=fullname, question=question, message=message))
+
+        EmailSender(self).sendEmail(mto, msg=msg, subject=subject, mfrom=mfrom)
         self.addPortalStatusMessage(_(u'psm_message_sent_to_admin', u'Message sent.'))
-        self.index = None
         self.redirect(self.portal.absolute_url())
