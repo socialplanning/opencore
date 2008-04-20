@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<object name="portal_actions" meta_type="Plone Actions Tool">
+
+ <action-provider name="portal_actions">
+  <action title="OpenPlans Home" action_id="index_html" category="portal_tabs"
+     condition_expr="" url_expr="string:${globals_view/navigationRootUrl}"
+     visible="False">
+   <permission>View</permission>
+  </action>
+  <action title="Projects" action_id="projects" category="portal_tabs"
+     condition_expr="python:True" url_expr="string:${portal_url}/projects"
+     visible="True">
+   <permission>View</permission>
+  </action>
+  <action title="Start a Project" action_id="add_project"
+     category="portal_tabs" condition_expr=""
+     url_expr="string:${portal_url}/projects/add_project" visible="True">
+   <permission>View</permission>
+  </action>
+  <action title="People" action_id="people" category="portal_tabs"
+     condition_expr="python:True" url_expr="string:${portal_url}/people"
+     visible="True">
+   <permission>View</permission>
+  </action>
+  <action title="Change State" action_id="change_state"
+     category="folder_buttons"
+     condition_expr="python:checkPermission(&quot;Modify portal content&quot;, object) or checkPermission(&quot;Review portal content&quot;, object)"
+     url_expr="string:content_status_history:method" visible="False">
+   <permission>View</permission>
+  </action>
+  <action title="Toggle full screen mode" action_id="full_screen"
+     category="document_actions" condition_expr="python:member is not None"
+     url_expr="string:javascript:toggleFullScreenMode();" visible="False">
+   <permission>View</permission>
+  </action>
+  <action title="Contents" action_id="folderContents" category="object"
+     condition_expr="object/displayContentsTab"
+     url_expr="string:${globals_view/getCurrentFolderUrl}/folder_contents"
+     visible="False">
+   <permission>List folder contents</permission>
+  </action>
+  <action title="Undelete" action_id="project_default_undelete"
+     category="object"
+     condition_expr="python: (object.isDefaultPageInFolder() and path('folder/@@undelete_view/listDeleted|nothing')) or (object is folder and path('object/@@undelete_view/listDeleted|nothing'))"
+     url_expr="string:$folder_url/undelete_view" visible="True">
+   <permission>CMFEditions: Revert to previous versions</permission>
+  </action>
+ </action-provider>
+
+ <action-provider name="portal_membership">
+  <action title="My Preferences" action_id="preferences" category="user"
+     condition_expr="python:member is not None"
+     url_expr="string:${portal_url}/portal_memberdata/${member/id}/edit"
+     visible="False">
+   <permission>View</permission>
+  </action>
+ </action-provider>
+
+ <action-provider name="portal_teams">
+  <action title="My Teams" action_id="myteamspaces" category="user"
+     condition_expr="python: member and portal.portal_membership.getHomeFolder()"
+     url_expr="python:portal.portal_membership.getHomeUrl()+&quot;/ts_my_teamspaces&quot;"
+     visible="False">
+   <permission>View</permission>
+  </action>
+ </action-provider>
+
+ <action-provider name="portal_undo">
+  <action title="Undo" action_id="undo" category="user"
+     condition_expr="python:member is not None"
+     url_expr="string:${portal_url}/undo_form" visible="False">
+   <permission>List undoable changes</permission>
+  </action>
+ </action-provider>
+
+</object>

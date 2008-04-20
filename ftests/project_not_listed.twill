@@ -1,0 +1,13 @@
+#
+# asserts that a project is not listed from the 
+# openplans "Projects" page 
+#
+# projtitle - the title of the project to check for 
+#
+
+go ${base_url}
+follow "${projtxt}s" 
+notfind $projtitle
+
+go ${base_url}/projects/${projname}
+find 'psm_please_sign_in|You do not have sufficient permissions.'

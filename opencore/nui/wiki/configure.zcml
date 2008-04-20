@@ -1,0 +1,246 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   xmlns:five="http://namespaces.zope.org/five">
+
+  <adapter
+    for="opencore.interfaces.IOpenPage"
+    factory="opencore.nui.wiki.historyview.AnnotationCachedWikiHistory"
+    />
+
+  <subscriber
+    for="opencore.interfaces.IOpenPage
+         zope.app.event.interfaces.IObjectModifiedEvent"
+    handler=".historyview.wiki_page_edited"
+    />
+
+  <!-- macros -->
+  <browser:page
+     class="opencore.browser.base.BaseView"
+     for="opencore.interfaces.IOpenPage"
+     name="wiki_macros"
+     permission="zope2.View"
+     template="wiki_macros.pt"
+     />
+
+  <browser:view
+    allowed_interface="zope.interface.common.mapping.IItemMapping"
+    class=".macros.WikiMacros"
+    for="*"
+    name="wiki_macros"
+    permission="zope2.View"
+    />
+     
+  <!--image manager stuff-->
+
+  <!-- @@ these "backend" views are poorly named, they seem to be xinha-specific -->
+  <browser:page
+    for="opencore.interfaces.IOpenPage"
+    name="backend"
+    permission="zope2.View"
+    template="backend.pt"
+    />
+
+  <browser:page
+    class=".view.ImageManager"
+    for="opencore.interfaces.IOpenPage"
+    name="backend-images"
+    permission="zope2.View"
+    template="backend-images.pt"
+    />
+
+  <browser:page
+    class=".view.ImageManager"
+    for="opencore.interfaces.IOpenPage"
+    name="backend-upload"
+    permission="zope2.View"
+    template="backend-images.pt"
+    />
+
+  <browser:page
+    class=".view.InternalLink"
+    for="opencore.interfaces.IOpenPage"
+    name="internal-link"
+    permission="zope2.View"
+    attribute="file_list"
+    />
+
+  <!-- Wiki views  -->
+  <browser:page
+    class=".view.WikiView"
+    for="opencore.interfaces.IOpenPage"
+    name="view"
+    permission="zope2.View"
+    template="wiki-view.pt"
+    />
+
+  <browser:page
+    class="opencore.nui.wiki.view.WikiEdit"
+    for="opencore.interfaces.IOpenPage"
+    name="update"
+    permission="cmf.ModifyPortalContent"
+    />
+
+  <browser:page
+    class="opencore.nui.wiki.view.WikiEdit"
+    for="opencore.interfaces.IOpenPage"
+    name="edit"
+    permission="cmf.ModifyPortalContent"
+    />
+
+  <browser:page
+     class="opencore.nui.wiki.add.NuiContainerAdd"
+     for="opencore.interfaces.IProject"
+     permission="openplans.AddOpenPage"
+     name="add-page"
+     attribute="add_content"
+     />
+
+  <browser:page
+     class="opencore.nui.wiki.add.NuiPageAdd"
+     for="opencore.interfaces.IOpenPage"
+     permission="openplans.AddOpenPage"
+     name="add-page"
+     attribute="add_content"
+     />
+
+  <!-- News view -->
+  <browser:page
+    class=".view.WikiView"
+    for="opencore.interfaces.INewsItem"
+    name="view"
+    permission="zope2.View"
+    template="wiki-view.pt"
+    />
+
+  <browser:page
+    class="opencore.nui.wiki.view.WikiNewsEditView"
+    for="opencore.interfaces.INewsItem"
+    name="edit"
+    permission="cmf.ManagePortal"
+    />
+
+  <!-- placeholder views for blog, logo, lists & tasks -->
+  <browser:page
+     class="opencore.nui.wiki.add.IgnorableDummy"
+     for="opencore.interfaces.IProject"
+     permission="zope2.View"
+     name="blog"
+     />
+  <browser:page
+     class="opencore.nui.wiki.add.IgnorableDummy"
+     for="opencore.interfaces.IProject"
+     permission="zope2.View"
+     name="logo"
+     />
+  <browser:page
+     class="opencore.nui.wiki.add.IgnorableDummy"
+     for="opencore.interfaces.IProject"
+     permission="zope2.View"
+     name="lists"
+     />
+  <browser:page
+     class="opencore.nui.wiki.add.Dummy"
+     for="opencore.interfaces.IProject"
+     permission="zope2.View"
+     name="tasks"
+     />
+
+  <!-- link renderer -->
+  <browser:page
+     for="opencore.interfaces.IOpenPage"
+     name="link_renderer"
+     permission="zope2.View"
+     template="wicked_link.pt"
+     allowed_attributes="howmany
+			 multiple
+			 chunk
+			 singlelink
+			 links
+			 count"
+     class=".wicked.LinkRenderer"
+     />
+
+
+  <!-- versioning -->
+  <browser:page
+     class=".historyview.WikiVersionView"
+     for="opencore.interfaces.IOpenPage"
+     name="history"
+     permission="zope2.View"
+     template="wiki-history.pt"
+     />
+
+  <browser:page
+     class=".historyview.WikiVersionView"
+     for="opencore.interfaces.IOpenPage"
+     name="version"
+     permission="zope2.View"
+     template="wiki-previous-version.pt"
+     />
+
+  <browser:page
+     class=".historyview.WikiVersionCompare"
+     for="opencore.interfaces.IOpenPage"
+     name="version_compare"
+     permission="zope2.View"
+     template="wiki-version-compare.pt"
+     />
+
+  <browser:page
+     class=".historyview.WikiVersionView"
+     for="opencore.interfaces.IOpenPage"
+     name="revert"
+     attribute="rollback_version"
+     permission="cmf.ModifyPortalContent"
+     />
+
+  <browser:page
+     class=".historyview.WikiPageVersionMigrate"
+     for="opencore.interfaces.IOpenPage"
+     name="migrate-history"
+     attribute="migrate"
+     permission="cmf.ModifyPortalContent"
+     />
+
+  <!-- attachments -->
+  <browser:page
+     attribute="updateAtt"
+     class=".view.AttachmentView"
+     for="opencore.interfaces.IOpenPage"
+     name="updateAtt"
+     permission="cmf.ModifyPortalContent"
+     />
+
+  <browser:page
+     attribute="createAtt"
+     class=".view.AttachmentView"
+     for="opencore.interfaces.IOpenPage"
+     name="createAtt"
+     permission="cmf.ModifyPortalContent"
+     />
+
+  <browser:page
+     attribute="attachmentSnippet"
+     class=".view.AttachmentView"
+     for="opencore.interfaces.IOpenPage"
+     name="attachmentSnippet"
+     permission="cmf.ModifyPortalContent"
+     />
+
+  <browser:page
+     attribute="deleteAtt"
+     class=".view.AttachmentView"
+     for="opencore.interfaces.IOpenPage"
+     name="deleteAtt"
+     permission="cmf.ModifyPortalContent"
+     />
+
+  <browser:page
+     attribute="thumb"
+     class=".view.ImageManager"
+     for="Products.RichDocument.FileAttachment.FileAttachment"
+     name="thumb"
+     permission="zope2.View"
+     />
+
+</configure>

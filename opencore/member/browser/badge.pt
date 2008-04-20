@@ -1,0 +1,23 @@
+<div class="oc-directory-list">
+  <div class="vcard" id="oc-member-badge"
+     tal:define="mem view/get_member">
+  <div class="oc-avatar"
+       tal:define="memdata python:view.member_info_for_member(mem)">
+    <a tal:attributes="href string:${context/absolute_url}/profile">
+      <img class="photo" tal:attributes="src memdata/portrait_thumb_url" />
+    </a>
+  </div>
+  <div class="oc-directory-content">
+    <h3 class="fn nickname">
+      <a tal:attributes="href string:${context/absolute_url}/profile"
+         tal:content="mem/getId" />
+    </h3>
+    <div class="n" tal:content="mem/getFullname">name</div>
+    <div class="oc-discreetText adr"
+	 tal:define="loc mem/getLocation"
+	 tal:condition="loc">
+      <span class="locality" tal:content="loc" />
+    </div>
+  </div>
+  </div>
+</div>

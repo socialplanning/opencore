@@ -1,0 +1,11 @@
+
+go ${base_url}/projects/${projname}
+follow edit
+fv edit_form title $projfullname
+fv edit_form text ${projoldbody}${pagelink}
+submit 'Save'
+notfind 404
+notfind 'site error' i
+find $projfullname
+find $projoldbody
+

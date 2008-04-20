@@ -1,0 +1,43 @@
+<metal:login-info define-macro="login-info">
+  <div class="oc-headingBlock">
+    <h1 class="fn nickname" tal:content="memberdata/id" />
+    <p class="oc-headingContext oc-discreetText">
+      member since
+      <span tal:replace="memberdata/membersince" />,
+
+      last login
+      <span tal:replace="memberdata/lastlogin" />
+    </p>
+  </div>
+</metal:login-info>
+
+
+<metal:recent-activity define-macro="recent-activity">
+  <div i18n:domain="opencore" class="oc-boxy">
+    <h2 i18n:translate="member_macros_recent_activity">Recent activity</h2>
+    <div class="oc-widget oc-widget-lastModified">
+      <div class="oc-headingBlock">
+        <h3 i18n:translate="member_macros_pages_modified">Pages last modified by <span i18n:name="member" tal:replace="memberdata/id" /></h3>
+      </div><!-- end .oc-headingBlock -->
+      <table class="oc-dataTable" cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th i18n:translate="member_macros_date_header" scope="col">Date</th>
+            <th i18n:translate="member_macros_page_header" scope="col">Page</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr tal:repeat="item view/activity">
+            <td tal:content="item/date" class="oc-lastModified-date" />
+            <td class="oc-lastModified-title"><a tal:attributes="href item/url" tal:content="item/title" />
+              <tal:inproj condition="item/project">
+                in <a tal:attributes="href item/projurl" tal:content="item/project" />
+              </tal:inproj>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <tal:recent-plugins tal:replace="structure provider:opencore.member.recentactivity" />
+    </div><!-- end .oc-widget-lastModified -->
+  </div><!-- end .oc-boxy -->
+</metal:recent-activity>

@@ -1,0 +1,55 @@
+<tal:macro i18n:domain="opencore" metal:define-macro="project_table">
+  <tal:projects_table define="projinfos view/projects_for_user">
+    <div id="project_table"
+         class="oc-widget oc-widget-dataTable oc-clearAfter"
+         tal:condition="projinfos"
+         >
+      <h2 i18n:translate="account_project_belong_to" class="oc-toggleFold oc-dataTable-heading">
+        <span i18n:name="project_noun" tal:replace="python:view.project_noun.title()">Project</span>s you belong to (<span i18n:name="num_projects" id="num_projs" tal:content="python: len(projinfos)" />)
+      </h2>      
+      <form class="" action="account">
+        <table id="" class="oc-dataTable" cellpadding="0" cellspacing="0">
+          <thead>
+            <tr>
+              <th class="" style="width: 10px;" scope="col"><input class="oc-checkAll" type="checkbox" /></th>
+              <th i18n:translate="account_project_project_header" class="oc-columnSortable" style="width: 200px;" scope="col"><span i18n:name="project_noun" tal:replace="python:view.project_noun.title()">Project</span> </th>
+              <th i18n:translate="account_project_role_header" class="oc-columnSortable" scope="col">Role</th>
+              <th i18n:translate="account_project_since_header" class="oc-columnSortable" scope="col">Since</th>
+              <th i18n:translate="account_project_listed_header" class="oc-columnSortable" scope="col">Listed</th>
+              <th i18n:translate="account_project_actions_header" class="oc-columnAction" scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="projinfos_for_user">
+            <tal:for repeat="projinfo projinfos">
+              <tal:var define="proj_id projinfo/proj_id">
+                <tal:macro metal:use-macro="view/project_row/macros/project_row" />
+              </tal:var>
+            </tal:for>
+          </tbody>
+        </table>
+        <ul class="oc-actions oc-dataTable-actions">
+          <li>
+            <input type="submit" name="task|batch_check|leave" tal:attributes="value string:Leave ${view/project_noun}s"
+                   class="oc-button oc-chooseThis oc-js-actionButton" />
+          </li>
+          <noscript>
+            <li>
+              <input type="submit" name="task|batch_check|change-listing" value="Change listing"
+                     class="oc-button" />
+            </li>
+          </noscript>
+        </ul>
+      </form>
+    
+    <!-- end .widget-table --></div>
+
+    <tal:no_updates condition="not: projinfos">
+      <div i18n:translate="account_project_no_projects" id="project_table">
+        <h2>You don't belong to any <span i18n:name="project_noun" tal:replace="view/project_noun">project</span>s.</h2>
+        <p>Why not <a tal:attributes="href python:view.project_url()">look for one to join</a> or
+        <a tal:attributes="href python:view.project_url(page='create')">start your own</a>?</p>
+      </div>
+    </tal:no_updates>
+
+  </tal:projects_table>
+</tal:macro>

@@ -1,0 +1,19 @@
+#
+# searches openplans projects from a search result page
+#
+# query - project query string to search with
+# expect - string to check for in results page
+#
+# expects: 
+#    projects already exist to search for
+#    you are already on a page with the search form
+#
+
+fv search_form search_for $query
+submit
+find $query
+find '${projtxt}'
+find 'of\s+\d+'
+find 'sorted'
+notfind 'No results found.'
+find '<a href="${base_url}/projects/.*${expect}.*</a>'

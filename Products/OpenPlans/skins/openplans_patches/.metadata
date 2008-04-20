@@ -1,0 +1,12 @@
+[Default]
+title:string=
+
+[Objects]
+arrowDownAlternative.gif:Image
+banner_header:Page Template
+base_properties:Folder
+breadcrumb_personalbar:Page Template
+folder_icon.gif:Image
+main_template:Page Template
+ploneCustom.css:DTML Method
+portlets.css:DTML Method

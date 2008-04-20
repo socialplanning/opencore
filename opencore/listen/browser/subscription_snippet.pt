@@ -1,0 +1,5 @@
+<tal:vars define="can_subscribe view/canSubscribe;
+                        subscribed view/isSubscribed;
+                        isAnon not: view/loggedin">
+  <div metal:use-macro="here/@@listen_macros/subscribe"/>
+</tal:vars>

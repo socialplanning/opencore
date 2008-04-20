@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><title>Insert Image</title>
+
+
+
+	
+  <script type="text/javascript">
+    // temporary. An ImageManager rewrite will take care of this kludge.
+    _backend_url = "backend";
+    _resized_prefix = ".resized";
+    _resized_dir = ".resized";
+  </script>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link href="++resource++xinha/plugins/ImageManager/assets/manager.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="++resource++xinha/plugins/ImageManager/assets/popup.js"></script>
+<script type="text/javascript" src="++resource++xinha/popups/popup.js"></script>
+<script type="text/javascript" src="++resource++xinha/plugins/ImageManager/assets/dialog.js"></script>
+<script type="text/javascript">
+/*<![CDATA[*/
+	if(window.opener)
+		HTMLArea = window.opener.HTMLArea;
+
+	var thumbdir = ".thumbs";
+	var components = document.location.href.split("/");
+	var base_url = components.slice(0, components.length - 2).join("/");
+/*]]>*/
+</script>
+<script type="text/javascript" src="++resource++xinha/plugins/ImageManager/assets/manager.js"></script></head><body>
+<div class="title">Insert Image</div>
+<form target="imgManager" id="uploadForm" method="post" enctype="multipart/form-data" tal:attributes="action string:${here/absolute_url}/backend-upload">
+
+<fieldset>
+  <legend>Image Manager</legend>
+  <table width="100%">
+    <tbody>
+            <tr>
+          <th align="left">Upload:</th>
+          <td colspan="2">
+            <input name="attachmentFile" id="attachmentFile" type="file">
+            <input type="submit" name="task|upload-attachment-manager" class="oc-js-actionButton" value="Upload" /> or <a href="#" class="oc-js-expander_close">Cancel</a>
+          </td>
+        </tr>
+        
+  </tbody></table>
+
+  <div id="messages" style="display: none;"><span id="message">Uploading</span><img src="++resource++xinha/plugins/ImageManager/img/dots.gif/dots.gif" alt="..." height="12" width="22"></div>
+
+  <iframe src="backend-images" name="imgManager" id="imgManager" class="imageFrame" title="Image Selection" frameborder="0" scrolling="auto"></iframe>
+
+</fieldset>
+
+<!-- image properties -->
+
+<table border="0" cellpadding="0" cellspacing="0">
+  <tbody><tr>
+    <th align="left">Description:</th>
+    <td colspan="6">
+      <input id="f_alt" style="width: 100%;" type="text">
+    </td>
+  </tr>
+
+  <tr>
+    <th align="left">Width:</th>
+    <td>
+      <input id="f_width" name="f_width" size="4" onchange="javascript:checkConstrains('width');" type="text">
+    </td>
+    <td rowspan="2">
+      <div style="position: relative;">
+        <img src="++resource++img/locked.gif" id="imgLock" alt="Constrained Proportions" valign="middle" height="32" width="25"><input id="constrain_prop" checked="checked" onclick="javascript:toggleConstrains(this);" style="position: absolute; top: 8px; left: 0px;" type="checkbox">
+      </div>
+    </td>
+    <th align="left">Margin:</th>
+    <td colspan="3">
+      <input name="f_margin" id="f_margin" size="3" type="text">
+      px </td>
+  </tr>
+
+  <tr>
+    <th align="left">Height:</th>
+    <td>
+      <input name="f_height" id="f_height" size="4" type="text">
+    </td>
+    <th align="left">Padding:</th>
+    <td>
+      <input name="f_padding" id="f_padding" size="3" type="text">
+      px </td>
+  </tr>
+
+
+  <tr>
+    <th align="left">Align:</th>
+    <td colspan="2">
+      <select size="1" id="f_align" title="Positioning of this image">
+        <option value="">Not set</option>
+        <option value="left">Left</option>
+        <option value="right">Right</option>
+        <option value="texttop">Texttop</option>
+        <option value="absmiddle">Absmiddle</option>
+        <option value="baseline" selected="selected">Baseline</option>
+        <option value="absbottom">Absbottom</option>
+        <option value="bottom">Bottom</option>
+        <option value="middle">Middle</option>
+        <option value="top">Top</option>
+      </select>
+    </td>
+    <th align="left">Border:</th>
+    <td>
+      <input name="f_border" id="f_border" size="3" type="text">
+      px </td>
+
+  </tr>
+
+</tbody></table>
+
+<div style="text-align: right;">
+  <hr>
+  <button type="button" class="buttons" onclick="return refresh();">Refresh</button>
+  <button type="button" class="buttons" onclick="return onOK();">OK</button>
+  <button type="button" class="buttons" onclick="return onCancel();">Cancel</button>
+</div>
+
+<!--// image properties -->
+<input id="orginal_width" type="hidden">
+<input id="orginal_height" type="hidden">
+<input id="f_url" class="largelWidth" value="" type="hidden">
+</form>
+<div></div></body></html>

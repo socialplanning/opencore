@@ -1,0 +1,12 @@
+#
+# disables task tracker for a project
+#
+# projname - the id of the project 
+#
+go ${base_url}/projects/${projname}
+follow 'Preferences'
+fv edit_form featurelets '-tasks'
+submit
+notfind 'tasks'
+go ${base_url}/projects/${projname}/tasks
+find 'This ${projtxt} has not installed a task tracker'

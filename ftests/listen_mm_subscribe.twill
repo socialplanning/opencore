@@ -1,0 +1,11 @@
+# subscribes to a membership-moderated list
+#
+# projname - name of the project under which the list resides
+# listtitle - title of the list
+#
+
+go ${base_url}/projects/${projname}/lists/${listtitle}
+find "mailinglist_view_not_subscribed"
+fv subscription-form subscribe_member Subscribe
+submit
+find "Your subscription request is pending moderation by the list manager."

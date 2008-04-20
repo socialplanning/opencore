@@ -1,0 +1,11 @@
+#
+# tests the search box
+#
+# expects: 
+#    user exists
+#
+
+go ${base_url}
+fv searchform search_for ${user}
+submit
+find '${user}.*member since\s*today' s

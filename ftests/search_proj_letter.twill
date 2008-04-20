@@ -1,0 +1,17 @@
+#
+# searches openplans projects
+#
+# letter - letter to click on
+# expect - string to check for in results page
+#
+# expects:
+#    projects already exist to search for
+#
+
+go ${base_url}/projects
+follow $letter
+find '${projtxt}'
+find 'of\s+\d+'
+find 'sorted'
+notfind 'No results found.'
+find '<a href="${base_url}/projects/.*${expect}.*</a>'

@@ -1,0 +1,199 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:opencore="http://namespaces.openplans.org/opencore"
+    >
+
+  <!-- topnav -->
+  <browser:page
+     for="*"
+     class=".topnav.TopNavView"
+     permission="zope2.View"
+     name="oc-topnav"
+     template="topnav.pt"
+     />
+
+  <!-- topnav-project-menu -->
+  <browser:page
+     for="*"
+     class=".topnav.ProjectMenuView"
+     permission="zope2.View"
+     name="topnav-project-menu"
+     template="context-menu.pt"
+     />
+
+  <!-- topnav-member-menu -->
+  <browser:page
+     for="*"
+     class=".topnav.MemberMenuView"
+     permission="zope2.View"
+     name="topnav-member-menu"
+     template="context-menu.pt"
+     />
+
+  <!-- topnav-default-menu -->
+  <browser:page
+     for="*"
+     class=".topnav.TopNavView"
+     permission="zope2.View"
+     name="topnav-default-menu"
+     template="default-menu.pt"
+     />
+
+  <!-- topnav-auth-user-menu -->
+  <browser:page
+     for="*"
+     class=".topnav.AuthMenuView"
+     permission="zope2.View"
+     name="topnav-auth-user-menu"
+     template="user-menu.pt"
+     />
+
+  <!-- topnav-anon-user-menu -->
+  <browser:page
+     for="*"
+     class=".topnav.AnonMenuView"
+     permission="zope2.View"
+     name="topnav-anon-user-menu"
+     template="user-menu.pt"
+     />
+
+  <!-- topnav-explore-menu -->
+  <browser:page
+     for="*"
+     class="opencore.browser.base.BaseView"
+     permission="zope2.View"
+     name="topnav-explore-menu"
+     template="explore-menu.pt"
+     />
+
+  <!-- topnav-explore-menu -->
+  <browser:page
+     for="*"
+     class=".topnav.AuthMenuView"
+     permission="zope2.View"
+     name="topnav-mystuff-menu"
+     template="mystuff-menu.pt"
+     />
+
+  <!-- topnav-accessibility -->
+  <browser:page
+     for="*"
+     class=".topnav.TopNavView"
+     permission="zope2.View"
+     name="oc-topnav-accessibility"
+     template="historical/topnav-accessibility.pt"
+     />
+
+  <!-- topnav context menu is handled through viewlets -->
+  <browser:viewletManager
+     name="opencore.topnavmenu"
+     provides=".interfaces.ITopnavMenuItems"
+     class=".manager.TopnavManager"
+     template="manager_topnav.pt"
+     permission="zope2.View"
+     />
+
+  <opencore:menuitem
+     name="Profile"
+     filter=".viewlet.contained_within"
+     container="opencore.interfaces.IMemberFolder"
+     item_url="profile"
+     sort_order="10"
+     />
+
+  <opencore:menuitem
+     name="Member Wiki"
+     text="Pages"
+     filter=".viewlet.contained_within"
+     container="opencore.interfaces.IMemberFolder"
+     url=".viewlet.member_wiki_url"
+     selected=".viewlet.openpage_provided"
+     sort_order="20"
+     />
+
+  <opencore:menuitem
+     name="Account"
+     filter=".viewlet.contained_within"
+     container="opencore.interfaces.IMemberFolder"
+     item_url="account"
+     sort_order="30"
+     permission="cmf.ModifyPortalContent"
+     />
+
+  <opencore:menuitem
+     name="Summary"
+     filter=".viewlet.contained_within"
+     container="opencore.interfaces.IProject"
+     item_url="summary"
+     sort_order="5"
+     />
+
+  <opencore:menuitem
+     name="Project Wiki"
+     text="Pages"
+     filter=".viewlet.contained_within"
+     container="opencore.interfaces.IProject"
+     url=".viewlet.project_wiki_url"
+     selected=".viewlet.openpage_provided"
+     sort_order="10"
+     />
+
+  <opencore:menuitem
+     name="Team"
+     filter=".viewlet.contained_within"
+     container="opencore.interfaces.IProject"
+     item_url="team"
+     sort_order="50"
+     selected=".viewlet.team_selected"
+     />
+
+  <opencore:menuitem
+     name="Contents"
+     filter=".viewlet.contained_within"
+     container="opencore.interfaces.IProject"
+     item_url="contents"
+     sort_order="70"
+     />
+
+  <opencore:menuitem
+     name="Preferences"
+     filter=".viewlet.contained_within"
+     container="opencore.interfaces.IProject"
+     item_url="preferences"
+     sort_order="80"
+     permission="teamspace.ManageTeamMemberships"
+     />
+
+  <opencore:menuitem
+     name="Join Project"
+     filter=".viewlet.not_part_of_project"
+     container="opencore.interfaces.IProject"
+     item_url="request-membership"
+     sort_order="90"
+     css_class=".viewlet.join_css"
+     />
+
+  <opencore:menuitem
+     name="People"
+     filter=".viewlet.portal_people_or_projects"
+     url=".viewlet.people_url"
+     sort_order="10"
+     />
+
+  <opencore:menuitem
+     name="Projects"
+     filter=".viewlet.portal_people_or_projects"
+     url=".viewlet.projects_url"
+     selected=".viewlet.if_projects_selected"
+     sort_order="20"
+     />
+
+  <opencore:menuitem
+     name="Start A Project"
+     filter=".viewlet.portal_people_or_projects"
+     url=".viewlet.project_create_url"
+     sort_order="30"
+     />
+
+</configure>

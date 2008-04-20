@@ -1,0 +1,20 @@
+#
+# creates a news item
+#
+# id - the id of the document
+# title - the title of the item
+# body - the body of the item
+# revision - the revision text
+
+extend_with flunc.zope_create_doc
+
+create_doc 'news' $admin $adminpw $id $title $body $revision
+
+# XXX we cannot login as admin and add normally ttw
+#go ${base_url}/news
+#follow 'Add news item'
+#url 'news'
+#fv edit_form title $title
+#fv edit_form text $body
+#fv edit_form comment $revision
+#submit 'task|save'

@@ -1,0 +1,30 @@
+==================
+ Project Homepage
+==================
+
+@@ describe what is going on
+
+Get an instance to a test project
+    >>> proj = self.portal.projects.p1
+    >>> from opencore.interfaces import IProject
+    >>> IProject.providedBy(proj)
+    True
+
+Get the adapter for it
+    >>> from opencore.interfaces import IHomePage
+    >>> hp = IHomePage(proj)
+    >>> IHomePage.providedBy(hp)
+    True
+
+Get the default home page on it
+    >>> url = hp.home_page
+    >>> url
+    'project-home'
+
+Now set the home page to something else, say the mailing lists
+    >>> url = url.replace('project-home', 'lists')
+    >>> hp.home_page = url
+
+And check that the page got set
+    >>> hp.home_page
+    'lists'

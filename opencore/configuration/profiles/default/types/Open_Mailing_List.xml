@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<object name="Open Mailing List" meta_type="Factory-based Type Information"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <property name="title"></property>
+ <property
+    name="description">A mailing list manages user subscriptions and processes incoming mail</property>
+ <property name="content_icon">mailboxer_icon.png</property>
+ <property name="content_meta_type">OpenMailingList</property>
+ <property name="product">OpenPlans</property>
+ <property name="factory">addOpenMailingList</property>
+ <property name="immediate_view">edit</property>
+ <property name="global_allow">True</property>
+ <property name="filter_content_types">True</property>
+ <property name="allowed_content_types"/>
+ <property name="allow_discussion">False</property>
+ <alias from="(Default)" to="mailinglist_view"/>
+ <alias from="edit" to="@@edit"/>
+ <alias from="index.html" to="mailinglist_view"/>
+ <alias from="sharing" to="folder_localrole_form"/>
+ <alias from="subscribers" to="@@editAllSubscribers"/>
+ <alias from="view" to="mailinglist_view"/>
+ <action title="View" action_id="view" category="object" condition_expr=""
+    url_expr="string:${object_url}" visible="True">
+  <permission value="View"/>
+ </action>
+ <action title="Edit" action_id="edit" category="object"
+    condition_expr="python:portal.portal_membership.checkPermission(&quot;Modify portal content&quot;, object)"
+    url_expr="string:${object_url}/edit" visible="True">
+  <permission value="Listen: Edit mailing list"/>
+ </action>
+ <action title="Search" action_id="search_archive" category="object"
+    condition_expr="" url_expr="string:${object_url}/archive/search_archive"
+    visible="True">
+  <permission value="View"/>
+ </action>
+ <action title="Archive" action_id="archive" category="object"
+    condition_expr="" url_expr="string:${object_url}/archive" visible="True">
+  <permission value="View"/>
+ </action>
+ <action title="Membership" action_id="membership" category="object"
+    condition_expr="" url_expr="string:${object_url}/manage_membership"
+    visible="True">
+  <permission value="Listen: Edit mailing list"/>
+ </action>
+ <action title="Moderation" action_id="moderation" category="object"
+    condition_expr="" url_expr="string:${object_url}/moderation"
+    visible="True">
+  <permission value="Listen: Edit mailing list"/>
+ </action>
+ <action title="Edit" action_id="grey_edit" category="object"
+    condition_expr="python:not portal.portal_membership.checkPermission(&quot;Modify portal content&quot;, object)"
+    url_expr="string:${object_url}/edit" visible="True">
+  <permission value="View"/>
+ </action>
+</object>

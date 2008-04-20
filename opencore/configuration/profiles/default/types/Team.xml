@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<object name="Team" meta_type="Factory-based Type Information"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <property name="title">Team</property>
+ <property name="description">A Collection of Members</property>
+ <property name="content_icon">team_icon.png</property>
+ <property name="content_meta_type">Team</property>
+ <property name="product">TeamSpace</property>
+ <property name="factory">addTeam</property>
+ <property name="immediate_view">base_edit</property>
+ <property name="global_allow">False</property>
+ <property name="filter_content_types">True</property>
+ <property name="allowed_content_types"/>
+ <property name="allow_discussion">False</property>
+ <alias from="(Default)" to="ts_team_list_view"/>
+ <alias from="view" to="ts_team_list_view"/>
+ <action title="Member List" action_id="view" category="object"
+    condition_expr="" url_expr="string:${object_url}/ts_team_list_view"
+    visible="True">
+  <permission value="View"/>
+ </action>
+ <action title="Member Mgmt" action_id="membership" category="object"
+    condition_expr=""
+    url_expr="string:${object_url}/ts_team_manage_memberships" visible="True">
+  <permission value="TeamSpace: Manage team memberships"/>
+ </action>
+ <action title="Member Roles" action_id="member_roles" category="object"
+    condition_expr="" url_expr="string:${object_url}/ts_team_manage_roles"
+    visible="True">
+  <permission value="TeamSpace: Manage team"/>
+ </action>
+ <action title="Edit" action_id="edit" category="object"
+    condition_expr="python:portal.portal_membership.checkPermission(&quot;Modify portal content&quot;, object)"
+    url_expr="string:${object_url}/base_edit" visible="True">
+  <permission value="TeamSpace: Manage team"/>
+ </action>
+ <action title="Properties" action_id="metadata" category="object"
+    condition_expr="" url_expr="string:${object_url}/base_metadata"
+    visible="False">
+  <permission value="TeamSpace: Manage team"/>
+ </action>
+ <action title="Edit" action_id="grey_edit" category="object"
+    condition_expr="python:not portal.portal_membership.checkPermission(&quot;Modify portal content&quot;, object)"
+    url_expr="string:${object_url}/edit" visible="True">
+  <permission value="View"/>
+ </action>
+</object>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<object name="portal_properties" meta_type="Plone Properties Tool">
+
+ <object name="site_properties" meta_type="Plone Property Sheet">
+  <property name="typesUseViewActionInListings" type="lines">
+   <element value="Image"/>
+   <element value="File"/>
+   <element value="FileAttachment"/>
+   <element value="ImageAttachment"/>
+   <element value="OpenMember"/>
+  </property>
+ </object>
+
+ <object name="opencore_properties" meta_type="Plone Property Sheet">
+  <property name="remote_auth_sites" type="lines"></property>
+  <property name="mailing_list_fqdn" type="string">lists.openplans.org</property>
+  <property name="embed_whitelist" type="lines"></property>
+
+  <property name="email_blacklist" type="lines">
+    <element value="greetings@openplans.org" />
+  </property>
+
+  <property name="wordpress_uri" type="string"></property>
+  <property name="wordpress_external_uri" type="string">blog</property>
+
+  <property name="tasktracker_uri" type="string"></property>
+  <property name="tasktracker_external_uri" type="string">tasks</property>
+
+  <property name="cabochon_uri" type="string"></property>
+  <property name="twirlip_uri" type="string"></property>
+ </object>
+
+</object>

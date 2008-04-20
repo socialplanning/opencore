@@ -1,0 +1,12 @@
+# checks to make sure a post is in the archive
+#
+# projname - name of the project under which the list resides
+# listtitle - title of the list
+# postsubject - the subject of the post being checked for
+# 
+
+go ${base_url}/projects/${projname}/lists/${listtitle}/archive
+find $postsubject
+follow $postsubject
+notfind 'site error' i
+find $postsubject

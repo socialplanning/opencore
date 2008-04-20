@@ -1,0 +1,4 @@
+# cleans up artifacts of the project_homepageredirect  suite
+destroy_project(projname='home_wiki')
+destroy_project(projname='home_lists')
+destroy_user

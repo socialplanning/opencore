@@ -1,0 +1,14 @@
+#
+# verifies that the homepage on a project redirects appropriately
+#
+# projname - the id of the project 
+# homepage - the name of the page in the project url that the
+#            project page should redirect to
+# 
+# expects: 
+#    logged in
+#    project is already created and home page set appropriately
+#
+
+go ${base_url}/projects/${projname}
+url ${base_url}/projects/${projname}/${homepage}

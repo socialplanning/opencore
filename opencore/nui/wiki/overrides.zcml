@@ -1,0 +1,31 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:meta="http://namespaces.zope.org/meta"
+    i18n_domain="zope"
+    >
+
+ <!-- Out of paranoia, disable the default wicked add views,
+      so we don't have to worry about their permissions.
+      This might become a problem if we need to run wicked tests
+      and they test these permissions... but it works as of 2/27/08.
+   -->
+
+  <browser:pages
+     for="Products.wicked.interfaces.IAmWicked"
+     class='Products.wicked.browser.add.WickedAdd'
+     permission='zope2.Private'>
+
+    <browser:page
+       name='wickedadd'
+       attribute='addContent'
+       />
+
+    <browser:page
+       name='wickedaddmenu'
+       attribute='addMenu'
+       />
+  </browser:pages>
+
+</configure>

@@ -1,0 +1,68 @@
+#oc-topnav { 
+  width: 78em;
+}	
+#oc-content-container {
+  width: 78em;
+}
+
+
+.oc-clearAfter { height: 1%; }
+		
+#oc-topnav-global { height: 1%; }
+
+#oc-content-main-container { height: 1%; }
+
+fieldset.oc-boxy {
+  border-top: none;
+}
+fieldset.oc-boxy legend {
+	  margin: 0;
+	  padding: .5em 0;
+	  top: 0;	
+	  left: 0;
+	  float: left; /* makes it so border shows up around legend */
+}
+.oc-statusMessage {
+  position: static; /* avoids overlapping the topnav menu */
+}
+.oc-statusMessage .oc-close {
+  display: none;
+}
+.oc-statusMessage .oc-closeButton { /* overridden in IE6.css */
+  width: 7px;
+  top: 0px;
+  right: 1px;
+}
+
+/* weird that IE is getting this selector wrong... */
+.oc-tabs .oc-wiki-history-item.oc-selected {
+  background: none;
+  border: none;
+}
+
+h2.oc-dataTable-heading {
+	margin: 0;
+	/* SEE IE6.css for additional hacks */
+}
+
+.oc-tabs {
+  margin-left: 0;
+}
+
+
+.oc-feed-list {
+  padding-top: .5em;
+}
+
+.oc-widget-search form {
+  margin: 0;
+}
+
+.oc-widget-alphabet {
+  padding: 0;
+  margin: 0;
+}
+
+.oc-wiki-content pre {
+  padding: 1.75em;
+}

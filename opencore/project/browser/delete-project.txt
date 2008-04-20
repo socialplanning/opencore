@@ -1,0 +1,116 @@
+===================
+ Project deletions
+===================
+
+Project deletion cascades a number of other events: external and
+internal app deletion and the removal of the corresponding team and
+all the memberships.
+
+First, let's test our deletion handlers directly::
+
+    >>> projects_folder = self.portal.projects
+    >>> project = projects_folder.p1
+
+Let's add some featurelets::
+
+    >>> self.loginAsPortalOwner() #@@ this should be the project owner
+    >>> IFeatureletSupporter(project).installFeaturelet(ListenFeaturelet(project))
+
+Add some invites
+======================
+
+    >>> mt_view = project.restrictedTraverse('manage-team')
+    >>> mt_view
+    <Products.Five.metaclass.ManageTeamView object at ...>
+    >>> team = project.getTeams()[0]
+    >>> team.manage_delObjects(ids=['m3']) # <-- remove to re-add
+    >>> team.addMember('m3')
+    <OpenMembership at ...m3>
+    >>> inviteview = project.restrictedTraverse('invite')
+    >>> self.clearMemoCache()
+    >>> inviteview.request.form.clear()
+    >>> invites = 'doesnotexist@example.com, isnotthere@example.com'
+    >>> inviteview.request.form.update({'task|email-invites': 'Send',
+    ...                                 'email-invites': invites})
+    >>> inviteview.add_email_invites()
+    >>> len(mt_view.pending_invitations)
+    1
+    >>> len(mt_view.pending_email_invites)
+    2
+
+
+Team removal
+============
+
+    >>> from opencore.project.browser.preferences import delete_team
+
+Make sure delete_team does what it's supposed to; we'll kill a team we
+don't need for this test::
+
+    >>> p4_proj = projects_folder.p4
+    >>> delete_team(p4_proj)
+    >>> sorted(self.portal.portal_teams.objectIds())
+    ['.wf_policy_config', 'p1', 'p2', 'p3']
+
+
+Put it all together
+===================
+
+
+The project has a team::
+
+    >>> project.getTeams()
+    [<OpenTeam at /plone/portal_teams/p1>]
+
+Let's give the project a list featurelet too::
+
+    >>> IFeatureletSupporter(project).installFeaturelet(ListenFeaturelet(project))
+    >>> ll = getUtility(IListLookup)
+    >>> pprint(ll.showAddressMapping())
+    [{'address': 'p1-discussion@...',
+      'path': '/plone/projects/p1/lists/p1-discussion'}]
+
+Get the delete view and invoke it::
+
+    >>> view = project.restrictedTraverse('delete')
+    >>> view
+    <...project/browser/delete.pt...>
+
+    >>> view._handle_delete()
+    True
+
+p1 should be gone::
+
+    >>> sorted(projects_folder.objectIds())
+    ['.wf_policy_config', 'p2', 'p3', 'p4']
+
+The team should also be gone::
+
+    >>> sorted(self.portal.portal_teams.objectIds())
+    ['.wf_policy_config', 'p2', 'p3']
+
+We redirect to the account page after project deletion::
+
+    >>> print view.request.RESPONSE.headers['location']
+    /account
+
+Free up the references::
+
+    >>> del project
+    >>> del view
+
+The invites have been deleted::
+
+    >>> self.clearMemoCache()
+    >>> len(mt_view.pending_invitations)
+    0
+    >>> len(mt_view.pending_email_invites)
+    0
+
+
+The project's lists are gone from the list lookup utility too::
+
+    >>> pprint(ll.showAddressMapping())
+    []
+
+What else? [test wp, tt, removal]

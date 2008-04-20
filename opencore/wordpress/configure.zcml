@@ -1,0 +1,50 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <subscriber
+    for="Products.remember.interfaces.IReMember
+         zope.app.event.interfaces.IObjectCreatedEvent"
+    handler=".subscribers.notify_wordpress_user_created"
+    />
+
+  <subscriber
+    for="opencore.interfaces.membership.IOpenMembership
+         opencore.interfaces.event.IJoinedProjectEvent"
+    handler=".subscribers.notify_wordpress_user_joined_project"
+    />
+
+  <subscriber
+    for="Products.remember.interfaces.IReMember
+         opencore.interfaces.event.IMemberEmailChangedEvent"
+    handler=".subscribers.notify_wordpress_email_changed"
+    />
+
+  <subscriber
+    for="opencore.interfaces.membership.IOpenMembership
+         opencore.interfaces.event.IChangedTeamRolesEvent"
+    handler=".subscribers.notify_wordpress_role_changed"
+    />
+
+  <subscriber
+    for="opencore.interfaces.membership.IOpenMembership
+         opencore.interfaces.event.ILeftProjectEvent"
+    handler=".subscribers.notify_wordress_user_left_project"
+    />
+
+  <!-- member deletion events -->
+  <!-- project deletion happens in wordpress featurelet removePackage -->
+  <subscriber
+    for="opencore.member.interfaces.IOpenMember
+         zope.app.container.interfaces.IObjectRemovedEvent"
+    handler=".subscribers.notify_wordress_user_removed"
+    />
+
+  <adapter
+      for="topp.featurelets.interfaces.IFeatureletSupporter"
+      provides="topp.featurelets.interfaces.IFeaturelet"
+      factory=".featurelet.WordPressFeaturelet"
+      name="blog"
+      />
+
+  <include package=".browser" />
+
+</configure>

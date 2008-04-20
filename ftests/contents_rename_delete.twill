@@ -1,0 +1,14 @@
+#
+# renames then deletes a piece of content
+#
+# expects:
+#    project already exist 
+#
+
+go ${base_url}/projects/${projname}/contents
+notfind 'different page name'
+fv pages_contents new-page_title 'different page name'
+fv pages_contents task|new-page|update 'Save'
+submit
+find 'different page name'
+follow Delete

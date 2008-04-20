@@ -1,0 +1,130 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:i18n="http://namespaces.zope.org/i18n"
+           i18n_domain="opencore">
+
+  <browser:page
+     for="Products.listen.interfaces.IListArchive"
+     name="forum_view"
+     class=".view.ArchiveForumView"
+     permission="zope2.View"
+     template="archive_forum_view.pt"
+     />
+
+  <browser:page
+     for="Products.listen.interfaces.IListArchive"
+     name="date_view"
+     class=".view.NuiArchiveDateView"
+     permission="zope2.View"
+     template="archive_date_view.pt"
+     />
+  
+  <browser:page
+     for="Products.listen.interfaces.IListArchive"
+     name="new_topic"
+     class=".view.NuiArchiveNewTopicView"
+     permission="zope2.View"
+     template="new_topic_view.pt"
+     />
+  
+  <browser:defaultView
+     for="Products.listen.interfaces.IListArchive"
+     name="forum_view"
+     />
+
+  <browser:page
+    for="Products.listen.interfaces.IMailMessage"
+    name="forum_view"
+    class=".view.NuiForumMailMessageView"
+    permission="zope2.View"
+    template="forum_message_view.pt"
+    />
+
+  <browser:page
+    for="Products.listen.interfaces.IListArchiveSubFolder"
+    name="by_thread"
+    class=".view.NuiSubFolderDateView"
+    permission="zope2.View"
+    template="archive_thread_messages.pt"
+    />
+
+  <browser:page
+    for="Products.listen.interfaces.IMailMessage"
+    name="threaded_view"
+    class=".view.NuiThreadedMailMessageView"
+    permission="zope2.View"
+    template="threaded_message.pt"
+    />
+
+  <browser:page
+    for="Products.listen.interfaces.IListArchiveSubFolder"
+    name="by_date"
+    class=".view.NuiSubFolderDateView"
+    permission="zope2.View"
+    template="archive_date_messages.pt"
+    />
+
+  <browser:page
+    for="Products.listen.interfaces.IMailMessage"
+    name="message_macros"
+    permission="zope2.View"
+    template="message_macros.pt"
+    />
+
+  <browser:page
+    for="Products.listen.interfaces.IListArchiveSubFolder"
+    name="message_macros"
+    permission="zope2.View"
+    template="message_macros.pt"
+    />
+
+  <browser:page
+    for="Products.listen.interfaces.IMailMessage"
+    name="message_reply"
+    class=".view.NuiMessageReplyView"
+    permission="zope2.View"
+    template="message_reply_view.pt"
+    />
+
+  <browser:page
+    for="Products.listen.interfaces.IListLookup"
+    name="lookup_view"
+    class=".view.NuiListLookupView"
+    permission="zope2.View"
+    template="lookup_view.pt"
+    />
+
+  <browser:page
+    for="Products.listen.interfaces.IHaveSubscribers"
+    name="manage_membership"
+    class=".view.NuiManageMembersView"
+    permission="listen.EditMailingList"
+    template="manage_membership.pt"
+    />
+
+  <browser:page
+    name="moderation"
+    for="Products.listen.interfaces.IMailingList"
+    permission="listen.EditMailingList"
+    class=".view.NuiModerationView"
+    template="moderation.pt"
+    />
+
+  <browser:page
+    for="Products.listen.interfaces.IMailMessage"
+    class=".view.NuiSearchDebugView"
+    name="search_debug_view"
+    template="search_debug_view.pt"
+    permission="zope2.View"
+    />
+
+  <browser:page
+    for="Products.listen.interfaces.IListArchive"
+    name="search_archive"
+    class=".view.NuiArchiveSearchView"
+    permission="zope2.View"
+    template="search.pt"
+    />
+
+</configure>

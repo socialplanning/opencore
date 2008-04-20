@@ -1,0 +1,87 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five">
+
+  <five:implements
+    class="Products.CMFPlone.Portal.PloneSite"
+    interface="opencore.interfaces.IOpenSiteRoot" />
+
+  <five:implements
+    class="Products.OpenPlans.content.project.OpenProject"
+    interface="opencore.interfaces.IOpenSiteRoot" />
+
+  <browser:pages
+     class=".login.LoginView"
+     for="opencore.interfaces.IOpenSiteRoot"
+     permission="zope.Public">
+    <page name="login"
+	  template="login.pt"
+	  />
+    <page name="logout"
+	  attribute="logout"
+	  />
+  </browser:pages>
+
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
+     class=".password_reset.PasswordResetView"
+     permission="zope.Public"
+     name="reset-password"
+     template="reset-password.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
+     class=".confirmation.ConfirmAccountView"
+     permission="zope.Public"
+     attribute="handle_confirmation"
+     name="confirm-account"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
+     class=".login.InitialLogin"
+     attribute="first_login"
+     permission="zope.Public"
+     name="init-login"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
+     class=".login.ForgotLoginView"
+     permission="zope.Public"
+     name="forgot"
+     template="forgot.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
+     class=".join.JoinView"
+     permission="zope.Public"
+     name="join"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
+     class=".join.InviteJoinView"
+     permission="zope.Public"
+     name="invite-join"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
+     class=".confirmation.PendingView"
+     permission="zope.Public"
+     name="pending"
+     template="pending.pt"
+     />
+
+  <browser:page
+     for="opencore.interfaces.IOpenSiteRoot"
+     class=".confirmation.ResendConfirmationView"
+     attribute="handle_request"
+     permission="zope.Public"
+     name="resend-confirmation"
+     />
+
+</configure>

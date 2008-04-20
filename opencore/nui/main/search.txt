@@ -1,0 +1,411 @@
+====================
+views for main pages
+====================
+
+Projects
+========
+
+Instantiate a new projects view::
+
+   >>> from opencore.nui.main import search
+   >>> request = self.portal.REQUEST
+   >>> view = search.ProjectsSearchView(self.portal.projects, request)
+
+Acquistion wrap it::
+
+   >>> view = view.__of__(self.portal.projects)
+
+Test for aq issues::
+
+   >>> view.portal
+   <PloneSite at /plone>
+
+Get the list of projects that were recently updated::
+
+   >>> recent_projects = view.recently_updated_projects()
+   >>> recent_titles = [p.Title for p in recent_projects]
+   >>> recent_titles.sort()
+   >>> recent_titles
+   ['Project Four', 'Project One', 'Project Three', 'Project Two']
+
+Test searching for projects that start with a letter::
+
+   >>> brains = view.search_by_letter('X')
+   >>> [p.Title for p in brains]
+   []
+
+   >>> brains = view.search_by_letter('P')
+   >>> titles = [p.Title for p in brains]
+   >>> titles.sort()
+   >>> titles
+   ['Project Four', 'Project One', 'Project Three', 'Project Two']
+
+
+@@ sorting is a little unclear. is this accurate/correct behavior?
+what is relevance, how is it effected? why is Proj2 the most recently modified?
+egj supposes its reverse alphabetical
+
+Now try sorting the projects::
+
+   >>> brains = view.search_by_letter('P', sort_by='modified')
+   >>> [b.Title for b in brains]
+   ['Project Two', 'Project Three', 'Project One', 'Project Four']
+
+Explicitly sort on name::
+
+   >>> brains = view.search_by_letter('P', sort_by='sortable_title')
+   >>> titles = [p.Title for p in brains]
+   >>> titles
+   ['Project Four', 'Project One', 'Project Three', 'Project Two']
+
+
+Searching for a letter that doesn't match any projects::
+
+   >>> brains = view.search_by_letter('X')
+   >>> titles = [p.Title for p in brains]
+   >>> titles
+   []
+
+Searching for all projects::
+
+   >>> brains = view.search_by_letter('all')
+   >>> titles = [p.Title for p in brains]
+   >>> titles
+   ['Project Four', 'Project One', 'Project Three', 'Project Two']
+
+Searching for projects starting with a number::
+
+   >>> brains = view.search_by_letter('num')
+   >>> titles = [p.Title for p in brains]
+   >>> titles
+   []
+
+Create a project that starts with a number::
+    >>> form_vars = dict(projid='5test', __initialize_project__=True,
+    ...                  project_title='5test',
+    ...                  workflow_policy='medium_policy',
+    ...                  add=True, featurelets = [], set_flets=1)
+    >>> proj_view = self.portal.projects.restrictedTraverse("create")
+    >>> proj_view.request.form.update(form_vars)
+    >>> out = proj_view.handle_request()
+
+Now search again::
+
+   >>> brains = view.search_by_letter('num')
+   >>> titles = [p.Title for p in brains]
+   >>> titles
+   ['5test']
+
+Search for a project by string::
+
+   >>> brains = view.search_by_text('Three')
+   >>> len(brains)
+   1
+   >>> brains[0].Title
+   'Project Three'
+
+Try a substring search::
+
+   >>> brains = view.search_by_text('Proj')
+   >>> titles = [b.Title for b in brains]
+   >>> titles.sort()
+   >>> titles
+   ['Project Four', 'Project One', 'Project Three', 'Project Two']
+
+Try irregular chars::
+
+   >>> brains = view.search_by_text('Pr(oj')
+   >>> titles = [b.Title for b in brains]
+   >>> titles
+   []
+
+And now sort them by creation time::
+
+@@ I'm getting some irregular failures here. dwm.
+
+   >>> brains = view.search_by_text('Proj', sort_by='created')
+   >>> [b.Title for b in brains]
+   ['Project Four', 'Project One', 'Project Three', 'Project Two']
+
+   old: ['Proj2', 'Proj3', 'Proj1', 'Proj4']
+
+Traversing to the url should yield the same class::
+
+   >>> view = self.portal.projects.unrestrictedTraverse('@@view')
+   >>> view
+   <Products.Five.metaclass.SimpleViewClass from ...projects.pt object at...>
+
+Render the view to see if there are any errors::
+
+   >>> response = view()
+
+People Page
+===========
+
+Instantiate a new projects view::
+
+   >>> request = self.portal.REQUEST
+   >>> view = search.PeopleSearchView(self.portal.people, request)
+
+Get the list of people matching the search::
+
+   >>> people = view.search_by_text('m4')
+   >>> people[0].getId
+   'm4'
+   >>> len(people)
+   1
+
+Search for people starting with a letter::
+
+   >>> people = view.search_by_letter('M')
+   >>> names = [p.getId for p in people]
+   >>> names
+   ['m1', 'm2', 'm3', 'm4']
+
+Search for people starting with a number::
+
+   >>> people = view.search_by_letter('num')
+   >>> names = [p.getId for p in people]
+   >>> names
+   []
+
+Search for all people::
+
+   >>> people = view.search_by_letter('all')
+   >>> names = [p.getId for p in people]
+
+test_user_1 shows up here, and I don't know if anyone's entirely sure
+whether that's a good or a bad thing, but let's let the test pass::
+   >>> sorted(names)
+   ['m1', 'm2', 'm3', 'm4', 'test_user_1_']
+
+Search for a particular user::
+
+   >>> people = view.search_by_text('m1')
+   >>> names = [p.getId for p in people]
+   >>> names
+   ['m1']
+
+Try irregular chars::
+
+   >>> people = view.search_by_text('m(1')
+   >>> people
+   []
+
+Search for members starting with a letter, only sort the results::
+
+   >>> people = view.search_by_letter('M', sort_by='getId')
+   >>> names = [p.getId for p in people]
+   >>> names
+   ['m1', 'm2', 'm3', 'm4']
+
+Search for members, explicitly specifying full name sort::
+
+   >>> people = view.search_by_letter('M', sort_by='exact_getFullname')
+   >>> names = [p.getFullname for p in people]
+   >>> names
+   ['Member Four', 'Member One', 'Member Three', 'Member Two']
+
+Traversing to the correct people search url should yield the same class
+XXX currently is a name, because we don't have a special interface for
+the people folder::
+
+   >>> view = self.portal.people.unrestrictedTraverse('@@view')
+   >>> view
+   <Products.Five.metaclass.SimpleViewClass from ...people.pt object at...>
+
+Render the view to see if there are any errors::
+
+   >>> response = view()
+
+Navigating to the portal home should not produce any errors::
+
+   >>> view = self.portal.unrestrictedTraverse('@@view')
+   >>> view
+   <Products.Five.metaclass.SimpleViewClass from ...home.pt object at...>
+
+Render the view to see if there are any errors::
+
+   >>> response = view()
+
+Render the projects search results view with no search::
+
+   >>> view = self.portal.projects.unrestrictedTraverse('searchresults')
+   >>> response = view()
+
+Render the people search results view with no search::
+
+   >>> view = self.portal.people.unrestrictedTraverse('searchresults')
+   >>> response = view()
+
+Test the news view::
+
+   >>> view = self.portal.news.unrestrictedTraverse('@@view')
+   >>> view
+   <Products.Five.metaclass.SimpleViewClass from ...news.pt object at...>
+
+   >>> view.news_items()
+   []
+
+We shouldn't have an add link because we're not the admin
+   >>> result = view()
+   >>> 'Add news item...' in result
+   False
+
+When we login as admin, we should have the link
+   >>> self.logout()
+   >>> self.loginAsPortalOwner()
+   >>> view.loggedinmember.getId = lambda *a:'whatever'
+   >>> result = view()
+   >>> 'Add news item...' in result
+   True
+
+Now that we have permission to add a new news item, let's do so
+   >>> view.add_new_news_item()
+   >>> view.request.response.getHeader('location')
+   'http://nohost/plone/news/.../edit'
+
+And we have a news item now
+   >>> news_items = view.news_items()
+   >>> assert len(news_items) == 1
+
+It should implement the INewsItem interface
+   >>> ni = news_items[0].getObject()
+   >>> from opencore.interfaces import INewsItem
+   >>> INewsItem.providedBy(ni)
+   True
+
+
+Sitewide Search
+===============
+
+   >>> view = search.SitewideSearchView(self.portal.projects, request)
+   >>> brains = view.search_by_text('Proj')
+   >>> len(brains) > 0
+   True
+   >>> set(['p1', 'p2', 'p3', 'p4']).issubset(set([b.getId for b in brains]))
+   True
+
+   >>> brains = view.search_by_letter('p')
+   >>> len(brains) > 0
+   True
+   >>> set(['p1', 'p2', 'p3', 'p4']).issubset(set([b.getId for b in brains]))
+   True
+   >>> len(brains) == len([b.getId for b in brains if b.getId.startswith('p')])
+   True
+
+   >>> brains = view.search_by_letter('m', sort_by='getId')
+   >>> len(brains) > 0
+   True
+   >>> len(brains) == len([b.getId for b in brains if b.getId.startswith('m')])
+   True
+
+Try irregular char::
+   >>> brains = view.search_by_text('Pr(oj')
+   >>> len(brains)
+   0
+
+Search for everything::
+   >>> brains = view.search_by_letter('all', sort_by='getId')
+   >>> len(brains)
+   22
+
+Search for things starting with a number::
+   >>> brains = view.search_by_letter('num')
+   >>> ids = [b.getId for b in brains]
+   >>> len(ids)
+   2
+   >>> '5test' in ids
+   True
+
+Check that searching by letter matches on the id as well
+   >>> m4 = self.portal.portal_memberdata.m4
+   >>> m4.setFullname('foo fighter')
+   >>> m4.reindexObject()
+
+Check globbing for members (advanced query globbing has index issue)::
+   >>> brains = view.search_by_letter('M')
+   >>> [b.getId for b in brains]
+   ['m1', 'm1-home', 'm2', 'm2-home', 'm3', 'm3-home', 'm4', 'm4-home']
+
+Members should not match based on name
+   >>> brains = view.search_by_letter('F')
+   >>> [b.getId for b in brains]
+   []
+
+And if we sort by modification date
+   >>> brains = view.search_by_letter('M', sort_by='modified')
+   >>> len(brains)
+   8
+   >>> mod_dates = [b.modified for b in brains]
+   >>> for i in range(3): mod_dates[i] < mod_dates[i+1]
+   True
+   True
+   True
+
+How about portal type
+   >>> brains = view.search_by_letter('P', sort_by='portal_type')
+   >>> len(brains) > 1
+   True
+   >>> set(['p1', 'p2', 'p3', 'p4']).issubset([b.getId for b in brains])
+   True
+
+
+Bug 1689: Searching sitewide for a member id should give matches to
+the member, not just the member home, regardless of whether the member
+has a full name or not. First let's check for a member who has no full
+name - this always worked::
+
+
+   >>> m4.setFullname('')
+   >>> m4.reindexObject()
+   >>> brains = view.search_by_text('m4')
+   >>> sorted([(b.getId, b.getFullname) for b in brains])
+   [('m4', ''), ('m4-home', Missing.Value)]
+
+Now let's check for a member who has a full name. This was the bug::
+
+   >>> m4.setFullname('Captain Potato')
+   >>> m4.reindexObject()
+   >>> brains = view.search_by_text('m4')
+   >>> sorted([(b.getId, b.getFullname) for b in brains])
+   [('m4', 'Captain Potato'), ('m4-home', Missing.Value)]
+
+
+
+Homepage View
+=============
+
+Create a closed project::
+    >>> form_vars = dict(projid='cl0sed', __initialize_project__=True,
+    ...                  title='cl0sed',
+    ...                  workflow_policy='closed_policy',
+    ...                  add=True, featurelets = [], set_flets=1)
+    >>> proj_view = self.portal.projects.restrictedTraverse("create")
+    >>> proj_view.request.form.update(form_vars)
+    >>> out = proj_view.handle_request()
+
+And ensure that the closed project does not come up::
+   >>> view = search.HomeView(self.portal, request)
+   >>> brains = view.recently_created_projects()
+   >>> [b.getId for b in brains]
+   ['5test', 'p4', 'p1', 'p3', 'p2']
+   >>> for i in range(len(brains)-1):
+   ...
+   ...     brains[i].CreationDate >= brains[i+1].CreationDate
+   True
+   True
+   True
+   True
+
+Check that the project url method works
+   >>> brain = brains[-1]
+   >>> view.project_url(brain)
+   'http://nohost/plone/projects/p2'
+   >>> view.n_project_members(brain)
+   4
+
+flex the recently_created_members list
+   >>> brains = view.recently_created_members()
+   >>> brains[0].created >= brains[1].created >= brains[2].created >= brains[3].created >= brains[4].created
+   True

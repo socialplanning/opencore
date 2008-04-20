@@ -1,0 +1,56 @@
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,"open",,,,"medium",,,,"closed",,,
+,"anon","auth","pm","pa","anon","auth","pm","pa","anon","auth","pm","pa"
+"#Wiki Page",,,,,,,,,,,,
+"view page","y","y","y","y","y","y","y","y","n","n","y","y"
+"view attachment","y","y","y","y","y","y","y","y","n","n","y","y"
+"edit page","n","y","y","y","n","n","y","y","n","n","y","y"
+"edit page with revision note","n","y","y","y","n","n","y","y","n","n","y","y"
+"view history","y","y","y","y","y","y","y","y","n","n","y","y"
+"compare previous versions","y","y","y","y","y","y","y","y","n","n","y","y"
+"view previous version","y","y","y","y","y","y","y","y","n","n","y","y"
+"revert to previous version","n","y","y","y","n","n","y","y","n","n","y","y"
+"add attachment","n","y","y","y","n","n","y","y","n","n","y","y"
+"delete attachment","n","y","y","y","n","n","y","y","n","n","y","y"
+"rename attachment","n","y","y","y","n","n","y","y","n","n","y","y"
+"rename page","n","y","y","y","n","n","y","y","n","n","y","y"
+,,,,,,,,,,,,
+"#Team Page",,,,,,,,,,,,
+"View team page","y","y","y","y","y","y","y","y","n","n","y","y"
+"View team manage page","n","n","n","y","n","n","n","y","n","n","n","y"
+"View unlisted memberships on team page","n","n","n","y","n","n","n","y","n","n","n","y"
+"Remove project member","n","n","n","y","n","n","n","y","n","n","n","y"
+"Invite openplans member","n","n","y","y","n","n","y","y","n","n","y","y"
+"Invite by email","n","n","y","y","n","n","y","y","n","n","y","y"
+"Remove pending member","n","n","n","y","n","n","n","y","n","n","n","y"
+"Remove actual member","n","n","n","y","n","n","n","y","n","n","n","y"
+"Remove admin","n","n","n","y","n","n","n","y","n","n","n","y"
+"Promote someone to admin","n","n","n","y","n","n","n","y","n","n","n","y"
+"Demote an admin","n","n","n","y","n","n","n","y","n","n","n","y"
+"Accept request to join","n","n","n","y","n","n","n","y","n","n","n","y"
+"Discard request to join","n","n","n","y","n","n","n","y","n","n","n","y"
+"Deny request to join","n","n","n","y","n","n","n","y","n","n","n","y"
+,,,,,,,,,,,,
+"#Account Page",,,,,,,,,,,,
+"Project is listed","n","n","n","y","n","n","n","y","n","n","n","y"
+"#Project Preferences",,,,,,,,,,,,
+"View project content","y","y","y","y","y","y","y","y","n","n","y","y"
+"View project preferences","n","n","y","y","n","n","y","y","n","n","y","y"
+"Change project security settings","n","n","n","y","n","n","n","y","n","n","n","y"
+"Change project title","n","n","n","y","n","n","n","y","n","n","n","y"
+"Change mission statement","n","n","n","y","n","n","n","y","n","n","n","y"
+"Add Listen","n","n","n","y","n","n","n","y","n","n","n","y"
+"Remove Listen","n","n","n","y","n","n","n","y","n","n","n","y"
+"Add TaskTracker","n","n","n","y","n","n","n","y","n","n","n","y"
+"Remove TaskTracker","n","n","n","y","n","n","n","y","n","n","n","y"
+,,,,,,,,,,,,
+"#TT",,,,,,,,,,,,
+"View list of task lists","y","y","y","y","y","y","y","y","n","n","y","y"
+"#see TT grid",,,,,,,,,,,,
+,,,,,,,,,,,,
+"#Listen",,,,,,,,,,,,
+"View list of mailing lists","y","y","y","y","y","y","y","y","n","n","y","y"
+"delete a mailing list","n","n","y","y","n","n","y","y","n","n","y","y"
+"add a mailing list","n","n","y","y","n","n","y","y","n","n","y","y"

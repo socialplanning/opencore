@@ -1,0 +1,14 @@
+#
+# requests membership to a project
+#
+# projname - the project for which to request membership
+#
+# expects: 
+#    project exists, user exists, user is logged in,
+#    user is not a member of the project
+#
+
+go ${base_url}/projects/${projname}/request-membership
+url 'request-membership'
+follow 'Cancel'
+url "${base_url}/projects/${projname}"

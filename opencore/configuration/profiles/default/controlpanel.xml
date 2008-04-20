@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<object name="portal_controlpanel" meta_type="Plone Control Panel Tool">
+ <configlet title="Add/Remove Products" action_id="QuickInstaller"
+    appId="QuickInstaller" category="Plone" condition_expr=""
+    url_expr="string:${portal_url}/prefs_install_products_form"
+    visible="True">
+  <permission>Manage portal</permission>
+ </configlet>
+ <configlet title="Portal Settings" action_id="PloneReconfig" appId="Plone"
+    category="Plone" condition_expr=""
+    url_expr="string:${portal_url}/reconfig_form" visible="True">
+  <permission>Manage portal</permission>
+ </configlet>
+ <configlet title="Users and Groups Administration" action_id="UsersGroups"
+    appId="UsersGroups" category="Plone" condition_expr=""
+    url_expr="string:${portal_url}/prefs_users_overview" visible="True">
+  <permission>Manage portal</permission>
+ </configlet>
+ <configlet title="Users and Groups Administration" action_id="UsersGroups2"
+    appId="UsersGroups" category="Plone" condition_expr=""
+    url_expr="string:${portal_url}/prefs_groups_overview" visible="False">
+  <permission>Manage portal</permission>
+ </configlet>
+ <configlet title="Mail Settings" action_id="MailHost" appId="MailHost"
+    category="Plone" condition_expr=""
+    url_expr="string:${portal_url}/prefs_mailhost_form" visible="True">
+  <permission>Manage portal</permission>
+ </configlet>
+ <configlet title="Skins" action_id="PortalSkin" appId="PortalSkin"
+    category="Plone" condition_expr=""
+    url_expr="string:${portal_url}/prefs_portalskin_form" visible="True">
+  <permission>Manage portal</permission>
+ </configlet>
+ <configlet title="Error Log" action_id="errorLog" appId="ErrorLog"
+    category="Plone" condition_expr=""
+    url_expr="string:${portal_url}/prefs_error_log_form" visible="True">
+  <permission>Manage portal</permission>
+ </configlet>
+ <configlet title="Zope Management Interface" action_id="ZMI" appId="ZMI"
+    category="Plone" condition_expr=""
+    url_expr="string:${portal_url}/manage_main" visible="True">
+  <permission>Manage portal</permission>
+ </configlet>
+ <configlet title="Search Settings" action_id="SearchSettings" appId="Plone"
+    category="Plone" condition_expr=""
+    url_expr="string:${portal_url}/prefs_search_form" visible="True">
+  <permission>Manage portal</permission>
+ </configlet>
+ <configlet title="Navigation Settings" action_id="NavigationSettings"
+    appId="Plone" category="Plone" condition_expr=""
+    url_expr="string:${portal_url}/prefs_navigation_form" visible="True">
+  <permission>Manage portal</permission>
+ </configlet>
+ <configlet title="Smart Folder Settings" action_id="portal_atct"
+    appId="ATContentTypes" category="Plone" condition_expr=""
+    url_expr="string:${portal_url}/portal_atct/atct_manageTopicIndex"
+    visible="True">
+  <permission>Manage portal</permission>
+ </configlet>
+ <configlet title="Placeful Workflow" action_id="placefulworkflow"
+    appId="Placeful Workflow" category="Products" condition_expr=""
+    url_expr="string:$portal_url/prefs_workflow_localpolicies_form"
+    visible="True">
+  <permission>Manage portal</permission>
+ </configlet>
+ <configlet title="Kupu visual editor" action_id="kupu" appId="Kupu"
+    category="Products" condition_expr=""
+    url_expr="string:${portal_url}/kupu_library_tool/kupu_config"
+    visible="True">
+  <permission>Manage portal</permission>
+ </configlet>
+ <configlet title="Personal Preferences" action_id="MemberPrefs" appId="Plone"
+    category="Member" condition_expr="" url_expr="string:${portal/prefs_url}"
+    visible="True">
+  <permission>Set own properties</permission>
+ </configlet>
+ <configlet title="Change Password" action_id="MemberPassword" appId="Plone"
+    category="Member" condition_expr=""
+    url_expr="string:${portal_url}/password_form" visible="True">
+  <permission>Set own password</permission>
+ </configlet>
+ <configlet title="Remember Settings" action_id="RememberSettings"
+    appId="remember" category="Products" condition_expr=""
+    url_expr="string:$portal_url/prefs_remember_settings" visible="True">
+  <permission>Manager users</permission>
+ </configlet>
+ <configlet title="TeamSpace teams" action_id="TeamSpacePrefs"
+    appId="TeamSpace" category="Products" condition_expr=""
+    url_expr="string:${portal_url}/portal_teams/" visible="True">
+  <permission>Manage portal</permission>
+ </configlet>
+ <configlet title="Versioning" action_id="versioning" appId="CMFEditions"
+    category="Products" condition_expr=""
+    url_expr="string:${portal_url}/portal_repository/versioning_config_form"
+    visible="True">
+  <permission>Manage portal</permission>
+ </configlet>
+</object>

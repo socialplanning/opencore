@@ -1,0 +1,20 @@
+#
+# Add a portrait to a user
+#
+# expects: 
+#   logged in as user 
+#
+
+
+go ${base_url}
+follow $user 
+follow Profile
+follow Edit
+find $fullname
+formfile profile_form portrait ${test_path}/portrait.gif
+submit 'task|oc-profile-avatar|uploadAndUpdate'
+follow 'Profile'
+find "portal_memberdata/${user}/portrait"
+notfind 'site error' i
+go ${base_url}/people/${user}/portrait
+code 200

@@ -1,0 +1,41 @@
+<html i18n:domain="opencore" metal:use-macro="here/@@standard_macros/master">
+  <body>
+    <div metal:fill-slot="content">
+      <div metal:use-macro="here/@@listen_macros/bcrumb"/>
+      <div metal:use-macro="here/@@listen_macros/tabs"/>
+      <div id="oc-content-main">
+        <div class="oc-headingBlock">
+          <h2 tal:content="view/Title" />
+          <div i18n:translate="archive_date_view_by" class="oc-headingContext oc-smallText">View by <a href="forum_view">conversation</a> or <strong>date</strong></div>
+        </div>
+        <div tal:define="dates view/getAvailableDates; template_id string:date_view;">
+          <ul id="archive-folders" class="oc-listen-archive-dateview">
+            <li tal:repeat="year dates" >
+              <div class="oc-headingBlock">
+                <h2 tal:content="year/title" />
+                  <a i18n:translate="archive_date_view_all" href="." tal:attributes="href year/url">view all</a>
+              </div>
+              <ul tal:condition="year/children" class="oc-plainList">
+                <li tal:repeat="month year/children">
+                  <a href="."
+                    tal:attributes="href month/url"
+                    tal:content="python: month['title'] or default">
+                    (No Subject)
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+
+          <p tal:condition="not: dates"
+            i18n:translate="archive_no_posts">
+            There are currently no posts in this archive.
+          </p>
+        </div>
+      </div><!-- content-main -->
+      <div id="oc-content-sidebar">
+        <div metal:use-macro="here/@@listen_macros/about"/>
+      </div><!-- content-sidebar -->
+    </div><!-- content-container -->
+  </body>
+</html>

@@ -1,0 +1,35 @@
+#
+# edits a given project 
+#
+# projname - the id of the project to edit 
+# projtitle - the title to set for the project
+# projdesc - the description to set for the project 
+# projbody - the body text of the home page to set 
+# pagelink - this is always added to the end of the project body
+# 
+# expects: 
+#   project exists
+#
+
+
+go ${base_url}/projects/${projname}
+follow edit
+fv edit_form title $projfullname
+fv edit_form text ${projbody}${pagelink}
+submit 'Save'
+notfind 404
+notfind 'site error' i
+find $projfullname
+find $projbody
+
+#put it back
+go ${base_url}/projects/${projname}
+follow edit
+fv edit_form title $projfullname
+fv edit_form text ${projoldbody}${pagelink}
+submit 'Save'
+notfind 404
+notfind 'site error' i
+find $projfullname
+find $projoldbody
+

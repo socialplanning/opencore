@@ -1,0 +1,169 @@
+<tal:vars tal:define="attachments view/fileAttachments;
+                      Iterator python:modules['Products.CMFPlone'].IndexIterator;
+                      lockable python:hasattr(here, 'wl_isLocked');
+                      errors view/errors;
+                      isLocked python:lockable and here.wl_isLocked();
+                      member python:here.portal_membership.getAuthenticatedMember();
+                      portal python:context.portal_url.getPortalObject();
+                      portal_url here/portal_url;
+                      tabindex python:Iterator(pos=7000);
+                      ">
+
+<html metal:use-macro="here/@@standard_macros/master">
+  <head>
+    <title metal:fill-slot="title" tal:content="python:view.window_title(mode='edit')" />
+    <metal:link-slot metal:fill-slot="link">
+      <link rel="stylesheet" href="/++resource++kupu/css/kupustyles.css" media="all"/>
+      <link rel="stylesheet" href="/++resource++kupu/css/kupuplone.css" media="all"/>
+      <link rel="stylesheet" href="/++resource++kupu/css/kupudrawerstyles.css" media="all"/>
+    </metal:link-slot>
+    <metal:script-slot metal:fill-slot="script">
+      <script src="/++resource++kupu/javascript/sarissa.js"></script>
+      <script src="/++resource++kupu/javascript/sarissa_ieemu_xpath.js"></script>
+      <script src="/++resource++kupu/javascript/kupunoi18n.js"></script>
+      <script src="/++resource++kupu/javascript/kupuhelpers.js"></script>
+      <script src="/++resource++kupu/javascript/kupueditor.js"></script>
+      <script src="/++resource++kupu/javascript/kupubasetools.js"></script>
+      <script src="/++resource++kupu/javascript/kupuloggers.js"></script>
+      <script src="/++resource++kupu/javascript/kupucontentfilters.js"></script>
+      <script src="/++resource++kupu/javascript/kupucontextmenu.js"></script>
+      <script src="/++resource++kupu/javascript/kupuploneeditor.js"></script>
+      <script src="/++resource++kupu/javascript/kupuploneinit.js"></script>
+      <script src="/++resource++kupu/javascript/kupusourceedit.js"></script>
+      <script src="/++resource++kupu/javascript/kupudrawers.js"></script>
+      <script src="/++resource++kupu/javascript/toggle_editor.js"></script>
+    </metal:script-slot>
+  </head>
+  <body>
+    <div metal:fill-slot="content">
+
+      <div id="oc-content-main" class="oc-content-main-fullWidth">
+
+        <div class="oc-wiki">
+
+          <form name="edit_form"
+            method="post"
+            enctype="multipart/form-data"
+            class="enableUnloadProtection"
+            tal:attributes="action string:${here/absolute_url}/edit">
+            
+              <ul class="oc-headingBlock oc-wiki-headingBlock oc-bcrumb">
+                <li class="oc-js-liveEdit">
+                  <div class="oc-js-liveEdit-value"
+                       tal:define="title context/Title">
+                    <h1 tal:condition="title" class="oc-bcrumb-current" tal:content="title" />
+                    <h1 tal:condition="not: title" class="oc-bcrumb-current" tal:content="context/id" />
+                    &nbsp;<a href="#" class="oc-js-liveEdit_showForm oc-actionLink">RENAME</a>
+                  </div>
+                  <div class="oc-js-liveEdit-editForm oc-liveEdit-editForm">
+                    <input name="title" type="text" tal:attributes="value string:${context/Title}" /> 
+                    <!--<a href="#" class="oc-js-liveEdit_hideForm">Cancel</a>-->
+                  </div>
+                </li>
+              </ul>
+
+            <div metal:use-macro="here/@@wiki_macros/tabs"/>
+
+            <div class="oc-wiki-edit" >
+
+              <div class="oc-wiki-edit-content">
+                <input type="hidden" name="submitted" value="1"/>
+
+                <tal:comment replace="nothing">
+                  News items get an extra description field
+                </tal:comment>
+                <tal:description
+                  define="news_interface python:modules['opencore.interfaces'].INewsItem"
+                  condition="python:news_interface.providedBy(context)">
+                  <label for="description">Description</label>
+                  <textarea id="description" name="description" tal:content="context/Description" />
+                </tal:description>
+                <p class="oc-discreetText oc-boxy"><strong>Tip:</strong> To create a new page, wrap the title of the new page in double parentheses.  For example, ((A New Page)). Once you click "Save" you will see a link to your new page.  If a page with that name already exists it will instead link to that existing page.
+                </p>
+                <metal:fieldMacro use-macro="python:here.widget('text', mode='edit')"/>
+              </div><!-- end .oc-wiki-edit-content" -->
+
+              <div class="oc-js-expander oc-expander">
+                <h2 class="oc-bigText"><a href="#oc-wiki-comment" class="oc-js-expander_open oc-expanderLink">Revision note</a></h2>
+                <!--<a href="#" class="oc-js-expander_close oc-expander-close" style="display:none;">X</a>-->
+                <div class="oc-js-expander-content">
+                  <textarea name="comment" id="comment" rows="3" cols="60"></textarea>
+                </div><!-- end expander-content -->
+              </div><!-- end expander -->
+              
+            <div class="oc-js-expander oc-expander">
+              <h2 class="oc-bigText"><a href="#oc-wiki-manageAttachments" class="oc-js-expander_open oc-expanderLink">Manage attachments</a></h2>
+
+              <div class="oc-js-expander-content">
+                
+                  <h3>Current attachments:</h3>
+                  <ol class="oc-attachments" id="oc-wiki-attachments">
+                      <tal:repeat repeat="attachment attachments">
+                        <tal:macro metal:use-macro="view/attachment_snippet/macros/attachment" />
+                      </tal:repeat>
+                  </ol>
+                
+  
+                <fieldset>
+                  <legend class="oc-legend-heading oc-bigText">Upload a new file:</legend>
+                  <input type="hidden" name="oc-target" value="oc-wiki-attachments" />
+  
+                  <table class="oc-form">
+                    <thead></thead>
+                    <tbody>
+                      <tr class="oc-form-row">
+                        <th class="oc-form-label"><label for="attachmentFile">Locate file</label></th>
+                        <td class="oc-form-value"><input type="file"           
+                            id="attachmentFile"
+                            name="attachmentFile"
+                            size="30" 
+                            tabindex="" 
+                            tal:attributes="tabindex tabindex/next;
+                            value request/attachmentFile/filename | nothing"
+                            /></td>
+                        <td class="oc-form-help"></td>
+                      </tr>
+                      <tr class="oc-table-row">
+                        <th class="oc-form-label"><label for="attachmentTitle">Title</label></th>
+                        <td class="oc-form-value"><input type="text" 
+                            id="attachmentTitle" 
+                            name="attachmentTitle" 
+                            size="30" 
+                            tabindex=""
+                            tal:attributes="tabindex tabindex/next;"
+                            value=""/></td>
+                        <td class="oc-form-help">
+                          <span class="oc-form-context">(optional)</span>
+                          <span class="oc-table-validator"></span>
+                        </td>
+                      </tr>
+                      <tr class="oc-options">
+                        <th class="oc-form-label"></th>
+                        <td class="oc-form-value">  
+                          <span class="oc-indicator" id="indicator|upload-attachment"><img src="++resource++img/indicator-bounce-eee.gif" alt="Loading..." /></span> 
+                          <input type="submit" name="task|upload-attachment" class="oc-js-actionButton oc-has-indicator" value="Upload" /> or <a href="#" class="oc-js-expander_close">Cancel</a></td>
+                        <td class="oc-form-help"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </fieldset>
+  
+              </div><!-- end expander-content -->
+            </div><!-- end expander -->
+            
+              <ul class="oc-actions oc-wiki-actions">
+                <li><input type="submit" name="task|save" value="Save" class="oc-button oc-chooseThis" /></li>
+                <li>or <a href="" tal:attributes="href context/absolute_url">Cancel</a></li>
+              </ul>  
+              
+            </div><!-- end .oc-wiki-edit -->
+
+          </form>
+        </div><!-- end .oc-wiki -->
+
+      </div><!-- end #oc-content-main -->        
+    </div><!-- end content slot -->
+  </body>
+</html>
+
+</tal:vars>

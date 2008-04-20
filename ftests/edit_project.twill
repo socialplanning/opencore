@@ -1,0 +1,38 @@
+#
+# edits a given project 
+#
+# projname - the id of the project to edit 
+# projtitle - the title to set for the project
+# projdesc - the description to set for the project 
+# projbody - the body text of the home page to set 
+# pagelink - this is always added to the end of the project body
+# 
+# expects: 
+#   project exists
+#
+
+
+go ${base_url}/projects/${projname}/project-home
+follow edit
+fv edit_form title $projfullname
+fv edit_form text ${projbody}${pagelink}
+submit 'Save'
+notfind 404
+notfind 'site error' i
+find $projfullname
+find $projbody
+
+
+#
+# because we don't want new projects showing up in both the newest and
+# the recently update lists, and all of the projects that we exercise
+# are projects that we've created, we need to verify that our project
+# appears in newest projects list, NOT the updated list
+#
+
+go ${base_url}
+notfind 'home_updated_projects.*${projtitle}' s
+find 'home_newest_projects.*${projtitle}' s
+go ${base_url}/projects
+find 'updated ${projtxt}s.*${projtitle}.*(1|2)\s*members?,\s*last updated today' s
+

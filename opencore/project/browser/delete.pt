@@ -1,0 +1,41 @@
+<tal:handle-delete 
+   replace="nothing" 
+   define="global deleting view/handle_delete"> 
+  This handles deleting and set the signal flag to not render any of
+  the rest of the page
+</tal:handle-delete>
+<tal:vars 
+   define="proj view/project_info" 
+   condition="not: deleting">
+  <html metal:use-macro="here/@@standard_macros/master">
+    <head>
+      <title metal:fill-slot="title" tal:content="string:Preferences - ${view/area/Title}" />
+    </head>
+    <body>
+      <div metal:fill-slot="content">
+        <div id="oc-content-main" 
+             class="oc-content-main-fullWidth">
+          <form 
+             name="delete_form" 
+             method="POST" 
+             class="enableUnloadProtection oc-js-formConfirm"
+             tal:attributes="action view/name">
+            <fieldset class="oc-boxy">
+              <legend class="oc-legend-heading oc-biggerText">Delete <span tal:replace="view/project_noun/title">Project</span></legend>
+              <button type="submit" 
+                      name="delete:boolean" 
+                      value="True" 
+                      class="oc-button">
+                Delete <span tal:replace="view/project_noun/title">Project</span>
+              </button>
+              Remove this <span tal:replace="view/project_noun">project</span> from <span tal:replace="view/portal_title" />?
+              <span id="oc-project-delete-warning" class="oc-hidden oc-confirm oc-warning">
+                Removing is permanent, are you sure you want to continue?
+              </span>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </body>
+  </html>
+</tal:vars>

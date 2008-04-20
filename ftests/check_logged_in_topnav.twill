@@ -1,0 +1,9 @@
+#
+# makes sure topnav is correct when logged in
+#
+# expects: 
+#    logged in
+#
+
+go ${base_url}
+find 'oc-topnav-context.*People.*${projtxt}s.*Start A ${projtxt}.*oc-usermenu-explore.*Home.*People.*${projtxt}s.*Start a ${projtxt}.*oc-topnav-usermenu.*${user}.*oc-usermenu-mystuff.*Profile.*Wiki.*Account.*Sign out' si

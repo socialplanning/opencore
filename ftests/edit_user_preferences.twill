@@ -1,0 +1,28 @@
+#
+# edit user preferences 
+#
+# fullname - changes users full name to this  
+# location - changes users location to this 
+#
+# expects: 
+#   logged in as user 
+#
+
+
+go ${base_url}
+follow $user 
+follow Profile
+follow Edit
+find $fullname
+fv profile_form fullname "my fullname"
+fv profile_form location $location
+submit update
+notfind 'site error' i
+find "my fullname"
+find $location
+find ${projtxt} i
+follow Edit
+fv profile_form fullname $fullname
+submit update
+find $fullname
+find $location

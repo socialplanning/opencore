@@ -1,0 +1,22 @@
+#
+# adds a new page by creating a wicked link and following it 
+# (destroys project home page body)
+# 
+# $projname   - the project to add the page in 
+# $pagename   - the page to add 
+#
+# expects: 
+#    project projname exists, page pagename does not
+#
+
+go ${base_url}/projects/${projname}/project-home
+follow "edit"
+fv edit_form text "((${pagename})) ((${pagename2}))" 
+submit Save
+follow ${pagename}
+find "psm_page_created"
+find ${pagename}
+fv edit_form text "This is the new page ${pagename}."
+submit Save
+find "This is the new page ${pagename}."
+find "Your changes have been saved" i

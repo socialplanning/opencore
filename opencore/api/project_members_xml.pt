@@ -1,0 +1,6 @@
+<members>
+ <member tal:repeat="mship view/members">
+  <id tal:content="mship/getId" />
+  <role tal:content="mship/highestTeamRole" />
+ </member>
+</members>
