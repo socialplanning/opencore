@@ -4,11 +4,10 @@
       i18n:domain="opencore">
 
 <body>
-<div metal:fill-slot="content"
-     tal:define="portal view/portal">
+<div metal:fill-slot="content">
 
 <div class="oc-headingBlock">
-  <h1 tal:content="string:Contact ${view/portal_title}" />     
+  <h1 tal:content="string:Contact ${view/portal/Title}" />     
   <p class="oc-headingContext"
      i18n:translate="contact-site-admin_description">
     Fill in the form
@@ -20,117 +19,43 @@
       action=""
       method="post"
       tal:define="errors view/errors"
-      tal:attributes="action string:${context/absolute_url}/${view/name}">
+      tal:attributes="action request/URL">
 
-  <fieldset>
-    <tal:feedbackForm condition="not: view/loggedin">
-      <div class="oc-form-fieldBlock"
-           tal:define="error errors/sender_fullname|nothing"
-           tal:attributes="class python:error and 'oc-fieldBlock-error' or 'oc-fieldBlock'">
-        <label for="sender_fullname" i18n:translate="contact-site-admin_label_sender_fullname">
-          Name
-        </label>
-
-        <div tal:content="error" class="oc-form-error">Validation error output</div>
-
-        <input type="text" 
-               id="sender_fullname" 
-               name="sender_fullname" 
-               size="40" 
-               value="" 
-               tabindex="" 
-               tal:attributes="value request/sender_fullname|nothing"
-               />
-      </div>
-      <div class="oc-form-fieldBlock"
-           tal:define="error errors/sender_from_address|nothing"
-           tal:attributes="class python:error and 'oc-fieldBlock-error' or 'oc-fieldBlock'">
-        <label for="sender_from_address" i18n:translate="contact-site-admin_label_sender_from_address">
-          E-Mail
-        </label>
-        <span class="oc-discreetText" title="Required"
-              i18n:attributes="title title_required;"
-              i18n:translate="contact-site-admin_label_required">(Required)</span>
-        
-        <div tal:content="error" class="oc-form-error">Validation error output</div>            
-
-        <input type="text" 
-               id="sender_from_address" 
-               name="sender_from_address" 
-               size="40" 
-               value="" 
-               tabindex="" 
-               tal:attributes="value request/sender_from_address|nothing"
-               />
-      </div>
-    </tal:feedbackForm>
-    <tal:feedbackForm condition="view/loggedin">
-      <tal:feedbackDefines define="member_info view/member_info;
-                                   fullname view/loggedinmember/Title;
-                                   email python:member_info.get('email','');">
-        <input type="hidden" name="sender_fullname" value="fullname" tal:attributes="value fullname" />
-        <input type="hidden" name="sender_from_address" value="email" tal:attributes="value email" />
-      </tal:feedbackDefines>
-    </tal:feedbackForm>
-    <div class="oc-form-fieldBlock"
-         tal:define="error errors/subject|nothing"
-         tal:attributes="class python:error and 'oc-fieldBlock-error' or 'oc-fieldBlock'">
-      <label for="subject" i18n:translate="contact-site-admin_label_subject">
-        Subject
-      </label>
-      <span class="oc-discreetText" title="Required"
-            i18n:attributes="title title_required;"
-            i18n:translate="contact-site-admin_label_required">(Required)</span>
-      
-      <div tal:content="error" class="oc-form-error">Validation error output</div>            
-
-      <input type="text" 
-             id="subject" 
-             name="subject" 
-             size="40" 
-             value="" 
-             tabindex="" 
-             tal:attributes="value request/subject|nothing"
-             />
-    </div>
-    <div class="oc-form-fieldBlock"
-         tal:define="error errors/message|nothing"
-         tal:attributes="class python:error and 'oc-fieldBlock-error' or 'oc-fieldBlock'">
-      <label for="message" i18n:translate="contact-site-admin_label_message">
-        Message
-      </label>
-      <span class="oc-discreetText" title="Required"
-            i18n:attributes="title title_required;"
-            i18n:translate="label_required">(Required)</span>
-
-      <span class="oc-discreetText" i18n:translate="password_send_warning" />
-      
-      <div tal:content="error" class="oc-form-error">Validation error output</div>            
-      
-      <textarea name="message"
-                id="message"
-                rows="5"
-                cols="80"
-                tabindex=""
-                tal:content="request/message|nothing"
-                > </textarea>
-    </div>
-    
+  <fieldset class="oc-boxy">
+    <table class="oc-form">
+      <tbody>
+        <tal:widget repeat="widget view/widgets">
+          <tr class="oc-form-row"
+               tal:define="error widget/error"
+               tal:attributes="class python:error and 'oc-fieldBlock-error' or default"
+               >
+            <th class="oc-form-label">
+              <label tal:content="widget/label"
+                     i18n:translate="widget/label"
+                     tal:attributes="for widget/name" />
+              <span class="oc-discreetText" title="Required"
+                    tal:condition="widget/required"
+                    i18n:attributes="title title_required;"
+                    i18n:translate="label_required">(Required)</span>
+            </th>
+            <td class="oc-form-value">
+              <div class="oc-form-error"
+                   tal:condition="error"
+                   tal:content="error" />
+              <tal:widget-contents replace="structure widget" />
+            </td>
+          </tr>
+        </tal:widget>
+      </tbody>
+    </table>
     <div class="oc-actions">
-
       <input class="context"
              tabindex=""
              type="submit"
-             name="task|send"
+             name="label_send"
              value="Send"
-             i18n:attributes="value label_send;"/>
-
+             i18n:attributes="value label_send" />
     </div>
-
-  </fieldset>
-
-  <input type="hidden" name="form.submitted" value="1" />
-
 </form>
 
 </div>

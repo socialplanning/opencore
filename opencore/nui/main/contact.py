@@ -3,15 +3,17 @@ from Products.CMFCore.utils import getToolByName
 from opencore.browser.base import BaseView, _
 from opencore.nui.email_sender import EmailSender
 
-from zope.app.form.browser.textwidgets import TextWidget
+from zope.app.form.browser import TextWidget
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.Five.formlib.formbase import form
 from Products.Five.formlib.formbase import PageForm
 from zope import schema
 
 class ContactHiddenWidget(TextWidget):
-    """the value gets dynamically inserted by the create_hidden_widget function
-       below"""
+    """Custom widget that displays itself as a hidden widget
+       with the class level 'value' as the input value"""
+    
+    #the value gets dynamically inserted by the hidden_widget factory function
     type = 'hidden'
 
     def _getFormValue(self):
@@ -19,8 +21,8 @@ class ContactHiddenWidget(TextWidget):
         # create_hidden_widget function
         return self.value
 
-def create_hidden_widget(value):
-    return type('HiddenWidget', (ContactHiddenWidget,), dict(value=value))
+def hidden_widget(value):
+    return type('ContactWidget', (ContactHiddenWidget,), dict(value=value))
 
 class ContactView(PageForm, BaseView):
     """
@@ -28,17 +30,32 @@ class ContactView(PageForm, BaseView):
     """
 
     form_fields = form.FormFields(
-        schema.TextLine(title=u'Fullname', description=u'Full name of sender', __name__='sender_fullname', required=False),
-        schema.TextLine(title=u'Email', description=u'Email address of sender', __name__='sender_from_address', required=True),
-        schema.TextLine(title=u'Subject', description=u'Subject of email', __name__='subject', required=True),
-        schema.Choice(title=u'Question', description=u'Inquiry question', __name__='question', required=True,
+        schema.TextLine(title=_(u'contact-site-admin_label_sender_fullname', u'Name'),
+                        description=u'Full name of sender',
+                        __name__='sender_fullname',
+                        required=False),
+        schema.TextLine(title=_(u'contact-site-admin_label_sender_from_address', u'Email'),
+                        description=u'Email address of sender',
+                        __name__='sender_from_address',
+                        required=True),
+        schema.TextLine(title=_(u'contact-site-admin_label_subject', u'Subject'),
+                        description=u'Subject of email',
+                        __name__='subject',
+                        required=True),
+        schema.Choice(title=_(u'contact-site-admin_label_question', u'Question'),
+                      description=u'Inquiry question',
+                      __name__='question',
+                      required=True,
                       values=[
                             u"I'm experiencing trouble with the website",
                             u"I'd like to request a new feature or tool",
                             u"I'd like to report a bug",
                             u"I have a non-technical question",
                             ]),
-        schema.Text(title=u'Message', description=u'Content of email inquiry', __name__='message', required=True))
+        schema.Text(title=_(u'contact-site-admin_label_message', u'Message'),
+                    description=u'Content of email inquiry',
+                    __name__='message',
+                    required=True))
 
     prefix = u''
     label = u'Contact the site administrator'
@@ -52,12 +69,12 @@ class ContactView(PageForm, BaseView):
         if not mstool.isAnonymousUser():
             mem = mstool.getAuthenticatedMember()
             self.form_fields['sender_fullname'].custom_widget = (
-                create_hidden_widget(mem.fullname))
+                hidden_widget(mem.fullname))
             self.form_fields['sender_from_address'].custom_widget = (
-                create_hidden_widget(mem.email))
+                hidden_widget(mem.email))
         return super(ContactView, self).setUpWidgets(ignore_request=ignore_request)
 
-    @form.action(u'Send', prefix=u'')
+    @form.action(_(u'label_send', u'Send'), prefix=u'')
     def send(self, action, data):
         """
         Send an email to the site administrator with the text from the
