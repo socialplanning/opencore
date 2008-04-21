@@ -222,6 +222,7 @@
       for="zope.interface.Interface
            zope.publisher.interfaces.browser.IDefaultBrowserLayer
            zope.interface.Interface"
+      name="opencore.extra_feeds"
       />
 
 </configure>

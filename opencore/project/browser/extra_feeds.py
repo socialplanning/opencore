@@ -5,7 +5,13 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 class TeamFeed(object):
     implements(IContentProvider)
 
+    def __init__(self, context, request, view):
+        self.context = context
+        self.request = request
+        self.view = view
+
     def update(self):
         pass
 
-    render = ZopeTwoPageTemplateFile('extra_feeds.pt')
+    def render(self):
+        return self.context.restrictedTraverse('teamfeed')()
