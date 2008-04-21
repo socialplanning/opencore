@@ -1,7 +1,6 @@
 from Acquisition import aq_inner
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from opencore.browser.base import BaseView, view
-from opencore.geotagging.view import get_geo_reader
 from opencore.project import LATEST_ACTIVITY
 from opencore.project import PROJ_HOME
 from opencore.project.utils import get_featurelets
@@ -42,15 +41,6 @@ class ProjectBaseView(BaseView):
         if flet_adapter is None:
             return False
         return flet_adapter.installed
-
-    @property
-    def geo_info(self):
-        """geo information for display in forms;
-        takes values from request, falls back to existing project
-        if possible."""
-        ##geo = IReadWriteGeo(self) #XXX This fails in zope 2.9.
-        geo = get_geo_reader(self)
-        return geo.geo_info()
 
     #@@ wiki should just be another featurelet
     @staticmethod

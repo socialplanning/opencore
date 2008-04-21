@@ -137,5 +137,15 @@
      permission="zope2.Public"
      />
 
+  <!-- a place for plugins to insert geo-related scripts.
+       Should this be generalized to any sort of javascript? -->
+  <browser:viewletManager
+     name="opencore.geo_scripts"
+     provides=".interfaces.IJSViewlets"
+     class=".viewletmanagers.SortedViewletManager"
+     permission="zope2.View"
+     />
+
+
 
 </configure>
