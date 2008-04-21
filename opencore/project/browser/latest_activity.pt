@@ -45,7 +45,8 @@
         <!-- Team -->
         <div class="oc-widget oc-widget-feed">
 
-          <tal:extra_feeds replace="structure provider:opencore.extra_feeds" />
+          <p>Team feed coming back soon</p>
+          <!--tal:extra_feeds replace="structure provider:opencore.extra_feeds" /-->
 
         </div>
         
