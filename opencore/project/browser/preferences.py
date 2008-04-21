@@ -23,12 +23,14 @@ from topp.utils import zutils
 from zope.app.container.contained import IObjectRemovedEvent
 from zope.component import adapter, adapts
 from zope.interface import implements
-from zope.component import getUtility, getAdapters
+from zope.component import getUtility, getAdapters, getMultiAdapter
+from zope.viewlet.interfaces import IViewlet
+
 import inspect
 import logging
 
-
 log = logging.getLogger('opencore.project.browser.preferences')
+
 
 class ProjectPreferencesView(ProjectBaseView, OctopoLite):
 
@@ -98,6 +100,14 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
         self.request.form['project_title'] = title
         if not self.valid_title(title):
             self.errors['project_title'] = _(u'err_project_name', u'The name must contain at least 2 characters with at least 1 letter or number.')
+        viewlet_mgr = getMultiAdapter((self.context, self.request, self),
+                                      name='opencore.proj_prefs')
+        viewlets = getAdapters((self.context, self.request, self, viewlet_mgr),
+                               IViewlet)
+
+        for name, viewlet in viewlets:
+            if hasattr(viewlet, 'validate'):
+                self.errors.update(viewlet.validate())
 
 ##         geowriter = get_geo_writer(self)
 ##         geo_info, locationchanged = geowriter.get_geo_info_from_form()
@@ -134,6 +144,13 @@ class ProjectPreferencesView(ProjectBaseView, OctopoLite):
                 pass
             del self.request.form['logo']
 
+        # Give viewlets a chance to save data
+        for name, viewlet in viewlets:
+            # XXX maybe this should be another method?
+            # update is implicitly called on page render, so this gets called
+            # twice...
+            viewlet.update()
+        
 ##         if locationchanged:
 ##             geowriter.save_coords_from_form()
 
